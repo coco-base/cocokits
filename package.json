@@ -1,12 +1,37 @@
 {
   "name": "coco-kits",
   "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {},
+  "description": "A design system adn UI kits workspace focused on providing themes across Angular, React, Web Components, and HTML/CSS.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "clean-pnpm": "tsx tools/scripts/clean-pnpm.ts",
+    "reset": "pnpm run clean-pnpm && pnpm i"
+  },
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@nx/js": "18.3.3",
-    "nx": "18.3.3"
+    "@types/node": "^20.12.7",
+    "nx": "18.3.3",
+    "tsx": "^4.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-kits/coco-kits.git"
+  },
+  "keywords": [
+    "design-system",
+    "themes",
+    "angular",
+    "react",
+    "web-components",
+    "html",
+    "css"
+  ],
+  "author": "Milad Faghihi <miladfm@gmail.com>",
+  "engines": {
+    "pnpm": "^9.0.0",
+    "node": "18.13.0 || ^20.9.0",
+    "typescript": ">=5.2.0 <5.4.0",
+    "rxjs": "^6.5.3 || ^7.4.0"
   }
 }
