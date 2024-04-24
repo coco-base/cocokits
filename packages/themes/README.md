@@ -12,9 +12,8 @@ Each theme package within this folder adheres to a specific folder structure, de
 ### Token
 Located under the `token` folder, these files define non-outputting SCSS tokens like font sizes, color definitions, and more.
 - `color-palette.scss`: Defines SCSS color palette variables. For example:
-```css
+```sass
 $color-blue-100: var(--color-blue-100)
-...
 ```
 - `color.scss`: Sets SCSS color aliases or brand variables.
 - `gradient.scss`
@@ -41,7 +40,6 @@ This includes CSS variable registrations to ensure easy theming and overrides.
 ```css
 :where(html) {
     --color-blue-100: #d0ebff;
-    ...
 }
 ```
 
@@ -51,10 +49,10 @@ Houses the actual stylesheets for basic HTML elements and utilities, ensuring ba
 - `elements.scss`: Redefines default browser styling for HTML elements. such as `h1`, `a`, etc.
 - `utils.scss`: Provides utility classes for broad use across components and layouts. Such as `cck-hiden` 
 - `components/`: Contains specific styles for UI components like buttons, where css selectors imports from the theme-core package. Example for `components/button.scss`:
-```css
-@use [PATH TO theme-core] as *
+```scss
+@use '...' as *;
     
-// A wraper element for button component
+// A wrapper element for button component
 .#{$button-wrapper} {
     ...
 }

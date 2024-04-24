@@ -1,0 +1,5 @@
+{
+  "*.ts": ["prettier --write", "nx affected:lint --fix --files"],
+  "*.scss": ["prettier --write", "npx stylelint --fix"],
+  "*.json": ["prettier --write"]
+}

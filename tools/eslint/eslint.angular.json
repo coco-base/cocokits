@@ -1,0 +1,26 @@
+{
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "plugins": ["@angular-eslint"],
+      "extends": ["./eslint.base.json"],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": ["attribute", "element"],
+            "prefix": "cck"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "cck",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    }
+  ]
+}

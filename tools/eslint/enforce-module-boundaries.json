@@ -1,0 +1,47 @@
+{
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": ["type:theme", "type:ui", "type:utils"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["type:theme", "type:ui", "type:utils"]
+              },
+              {
+                "sourceTag": "type:theme",
+                "onlyDependOnLibsWithTags": ["type:theme"]
+              },
+              {
+                "sourceTag": "framework:angular",
+                "onlyDependOnLibsWithTags": ["framework:angular", "framework:shared"]
+              },
+              {
+                "sourceTag": "framework:react",
+                "onlyDependOnLibsWithTags": ["framework:react", "framework:shared"]
+              },
+              {
+                "sourceTag": "framework:web",
+                "onlyDependOnLibsWithTags": ["framework:web", "framework:shared"],
+                "bannedExternalImports": ["@angular/*", "react"]
+              },
+              {
+                "sourceTag": "framework:shared",
+                "onlyDependOnLibsWithTags": ["framework:shared"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
