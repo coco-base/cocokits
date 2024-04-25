@@ -1,0 +1,9 @@
+{
+  "name": "react-kit-doc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/react-kit-doc/src",
+  "projectType": "application",
+  "tags": ["type:app", "framework:react"],
+  "// targets": "to see all targets run: nx show project react-kit-doc --web",
+  "targets": {}
+}
