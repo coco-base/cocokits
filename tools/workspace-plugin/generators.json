@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "theme": {
+      "factory": "./src/generators/theme/generator",
+      "schema": "./src/generators/theme/schema.json",
+      "description": "Create a theme package with default configurations"
+    }
+  }
+}

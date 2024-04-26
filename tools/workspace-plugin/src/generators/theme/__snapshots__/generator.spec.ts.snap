@@ -1,0 +1,6 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`theme generator > should run successfully 1`] = `
+"const variable = 'test';
+"
+`;

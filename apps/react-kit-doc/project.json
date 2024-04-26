@@ -5,5 +5,9 @@
   "projectType": "application",
   "tags": ["type:app", "framework:react"],
   "// targets": "to see all targets run: nx show project react-kit-doc --web",
-  "targets": {}
+  "targets": {
+    "eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
 }

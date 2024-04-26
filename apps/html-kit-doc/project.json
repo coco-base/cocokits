@@ -5,5 +5,9 @@
   "sourceRoot": "apps/html-kit-doc/src",
   "tags": ["type:app", "framework:web"],
   "// targets": "to see all targets run: nx show project html-kit-doc --web",
-  "targets": {}
+  "targets": {
+    "eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
 }

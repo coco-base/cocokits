@@ -62,7 +62,7 @@
         "buildTarget": "angular-kit-doc:build"
       }
     },
-    "lint": {
+    "eslint": {
       "executor": "@nx/eslint:lint"
     }
   }
