@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "scss-builder": {
+      "implementation": "./src/executors/scss-builder/executor",
+      "schema": "./src/executors/scss-builder/schema.json",
+      "description": "Build style package and generate css and source map files from scss "
+    }
+  }
+}
