@@ -1,0 +1,6 @@
+@use '../../../../../themes/finalui/src/settings';
+
+:where(html[cck-theme='finalui']) {
+  @include settings.color-palette-blue;
+  @import '../../../../../themes/finalui/src/styles';
+}

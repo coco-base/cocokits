@@ -1,0 +1,22 @@
+{
+  "name": "finalui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/themes/finalui/src",
+  "projectType": "library",
+  "tags": ["type:theme"],
+  "targets": {
+    "build": {
+      "executor": "@coco-kit/workspace-plugin:scss-builder",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/themes/finalui",
+        "sourceMap": true,
+        "css": ["packages/themes/finalui/src/index.scss"],
+        "min": ["packages/themes/finalui/src/index.scss"]
+      }
+    },
+    "eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -9,7 +9,6 @@ export default async function runExecutor(options: ScssBuilderExecutorSchema) {
     Logger.header('Style build has been started');
 
     cleanOutputPath(options.outputPath);
-    // await buildStyles(options);
 
     Logger.divider('CSS');
     for (const path of options.css) {

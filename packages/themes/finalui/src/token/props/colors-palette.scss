@@ -1,0 +1,5 @@
+@use '../../tools/token-mixin/colors-palette.mixin';
+
+:where(html) {
+  @include colors-palette.color-palette-blue;
+}

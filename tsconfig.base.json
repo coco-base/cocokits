@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@coco-kit/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
+      "@coco-kit/workspace-plugin": ["tools/workspace-plugin/src/index.ts"],
+      "@coco-kit/storybook-core": ["packages/internal/storybook-core/src/index.ts"],
+      "@coco-kit/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

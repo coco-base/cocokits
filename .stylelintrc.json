@@ -2,5 +2,7 @@
   "extends": ["stylelint-config-standard", "stylelint-config-standard-scss"],
   "ignoreFiles": ["node_modules/**", "dist/**"],
   "plugins": ["stylelint-scss"],
-  "rules": {}
+  "rules": {
+    "no-invalid-position-at-import-rule": null
+  }
 }

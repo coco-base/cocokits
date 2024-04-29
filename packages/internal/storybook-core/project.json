@@ -1,0 +1,12 @@
+{
+  "name": "storybook-core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/internal/storybook-core/src",
+  "projectType": "library",
+  "tags": ["type:utils", "platform:shared"],
+  "targets": {
+    "eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
