@@ -3,11 +3,7 @@ import { webpackConfigBase } from '@coco-kit/storybook-core';
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: [
-    // '@coco-kit/storybook-theme-switcher',
-    // '../../../packages/internal/storybook-theme-switcher',
-    ...webpackConfigBase.addons,
-  ],
+  addons: [...webpackConfigBase.addons],
   framework: {
     name: '@storybook/html-webpack5',
     options: {

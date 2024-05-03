@@ -31,8 +31,7 @@
               },
               {
                 "sourceTag": "framework:web",
-                "onlyDependOnLibsWithTags": ["framework:web", "framework:shared"],
-                "bannedExternalImports": ["@angular/*", "react"]
+                "onlyDependOnLibsWithTags": ["framework:web", "framework:shared"]
               },
               {
                 "sourceTag": "framework:shared",

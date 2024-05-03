@@ -6,62 +6,6 @@
   "sourceRoot": "apps/angular-kit-doc/src",
   "tags": ["type:app", "framework:angular"],
   "targets": {
-    "build": {
-      "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/apps/angular-kit-doc",
-        "index": "apps/angular-kit-doc/src/index.html",
-        "browser": "apps/angular-kit-doc/src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "apps/angular-kit-doc/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": ["apps/angular-kit-doc/src/favicon.ico", "apps/angular-kit-doc/src/assets"],
-        "styles": ["apps/angular-kit-doc/src/styles.scss"],
-        "scripts": []
-      },
-      "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "4kb"
-            }
-          ],
-          "outputHashing": "all"
-        },
-        "development": {
-          "optimization": false,
-          "extractLicenses": false,
-          "sourceMap": true
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "angular-kit-doc:build:production"
-        },
-        "development": {
-          "buildTarget": "angular-kit-doc:build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "angular-kit-doc:build"
-      }
-    },
     "eslint": {
       "executor": "@nx/eslint:lint"
     }

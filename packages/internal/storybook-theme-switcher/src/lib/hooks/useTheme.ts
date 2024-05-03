@@ -1,6 +1,7 @@
-import { DEFAULT_THEME, GLOBAL_THEME_KEY, GlobalArgs, Theme, THEMES } from '../config/constants';
 import { useGlobals } from '@storybook/manager-api';
 import { useMemo } from 'react';
+
+import { DEFAULT_THEME, GLOBAL_THEME_KEY, GlobalArgs, Theme, THEMES } from '../config/constants';
 
 export const useTheme = () => {
   const [{ [GLOBAL_THEME_KEY]: selectedId }, updateGlobal] = useGlobals() as unknown as [

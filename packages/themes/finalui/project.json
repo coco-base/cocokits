@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/themes/finalui/src",
   "projectType": "library",
-  "tags": ["type:theme"],
+  "tags": ["type:theme", "framework:shared"],
   "targets": {
     "build": {
       "executor": "@coco-kit/workspace-plugin:scss-builder",

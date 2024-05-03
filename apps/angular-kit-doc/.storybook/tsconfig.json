@@ -1,7 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "jsx": "react"
   },
   "exclude": ["../**/*.spec.ts"],
   "include": [
@@ -10,7 +11,8 @@
     "../src/**/*.stories.jsx",
     "../src/**/*.stories.tsx",
     "../src/**/*.stories.mdx",
-    "*.js",
-    "*.ts"
+    "./*.js",
+    "./*.ts",
+    "../../../packages/internal/storybook-theme-switcher/**/*.ts"
   ]
 }

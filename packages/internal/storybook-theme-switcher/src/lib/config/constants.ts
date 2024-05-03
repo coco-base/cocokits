@@ -14,12 +14,13 @@ export interface GlobalArgs {
   [GLOBAL_THEME_KEY]: ThemeId;
 }
 
-export const PREFIX = 'cck-';
-
 /**
  * Addon ID will be use in internal combinations
  */
 export const ADDON_ID = '@coco-kit/storybook-theme-switcher';
+
+export const THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/theme-changed`;
+export const DOCUMENT_THEM_ATTR = `cck-theme`;
 
 /**
  * Will be use as global state, and it will be visible at url query params

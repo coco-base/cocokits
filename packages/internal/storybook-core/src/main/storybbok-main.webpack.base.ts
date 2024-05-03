@@ -1,7 +1,8 @@
 import * as path from 'path';
-import { registerTsPaths } from '../utils/register-ts-paths';
 import { Configuration } from 'webpack';
+
 import { configBase } from './storybook-main.base';
+import { registerTsPaths } from '../utils/register-ts-paths';
 
 export const webpackConfigBase = {
   addons: [
@@ -17,9 +18,9 @@ export const webpackConfigBase = {
             test: /\.css$/,
             sideEffects: true,
             use: [
-              require.resolve('style-loader'),
+              'style-loader',
               {
-                loader: require.resolve('css-loader'),
+                loader: 'css-loader',
                 options: {},
               },
             ],
@@ -28,19 +29,19 @@ export const webpackConfigBase = {
             test: /\.s[ac]ss$/,
             sideEffects: true,
             use: [
-              require.resolve('style-loader'),
+              'style-loader',
               {
-                loader: require.resolve('css-loader'),
+                loader: 'css-loader',
                 options: {
                   importLoaders: 2,
                 },
               },
-              require.resolve('resolve-url-loader'),
+              'resolve-url-loader',
               {
-                loader: require.resolve('sass-loader'),
+                loader: 'sass-loader',
                 options: {
                   // Want to add more Sass options? Read more here: https://webpack.js.org/loaders/sass-loader/#options
-                  implementation: require.resolve('sass'),
+                  implementation: 'sass',
                   sourceMap: true,
                   sassOptions: {},
                 },

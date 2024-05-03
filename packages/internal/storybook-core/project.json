@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/internal/storybook-core/src",
   "projectType": "library",
-  "tags": ["type:utils", "platform:shared"],
+  "tags": ["type:utils", "framework:shared"],
   "targets": {
     "eslint": {
       "executor": "@nx/eslint:lint"

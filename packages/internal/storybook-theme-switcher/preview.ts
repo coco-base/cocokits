@@ -1,8 +1,8 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
+
+// import './src/lib/styles/themes.scss';
 import { withGlobals } from './src/lib/componenets/withGlobals';
 import { GLOBAL_THEME_KEY } from './src/lib/config/constants';
-
-import './src/lib/styles/themes.scss';
 
 export const preview: ProjectAnnotations<Renderer> = {
   decorators: [withGlobals],

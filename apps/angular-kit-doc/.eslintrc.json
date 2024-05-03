@@ -9,7 +9,23 @@
         "plugin:@angular-eslint/template/process-inline-templates",
         "../../tools/eslint/eslint.angular.json"
       ],
-      "rules": {}
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": ["attribute", "element"],
+            "prefix": "story"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "story",
+            "style": "kebab-case"
+          }
+        ]
+      }
     },
     {
       "files": ["*.html"],
