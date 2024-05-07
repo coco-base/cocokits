@@ -1,6 +1,6 @@
-import { svgIconMap } from '@coco-kit/finalui';
+import { SvgIcon, svgIconMap } from '@coco-kit/finalui';
 
-export const themeIconSvg: Record<string, Record<string, { name: string; content: string; viewBox: string }>> = {
+export const themeIconSvg: Record<string, Record<string, SvgIcon>> = {
   finalui: svgIconMap,
   finalui2: svgIconMap,
 };

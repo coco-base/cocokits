@@ -1,4 +1,6 @@
-export const svgIconMap: Record<string, { name: string; content: string; viewBox: string }> = {
+import { SvgIcon } from './svg-icon.model';
+
+export const svgIconMap: Record<string, SvgIcon> = {
   'caret-tr': {
     name: 'caret-tr',
     content: '<path d="M352 160v192L160 160z" />',
