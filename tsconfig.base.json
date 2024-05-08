@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@coco-kit/angular-icon": ["packages/angular/icon/src/index.ts"],
       "@coco-kit/finalui": ["packages/themes/finalui/src/index.ts"],
       "@coco-kit/storybook-core": ["packages/internal/storybook-core/src/index.ts"],
       "@coco-kit/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],

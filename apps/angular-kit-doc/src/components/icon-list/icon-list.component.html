@@ -1,3 +1,8 @@
 @for (item of iconsMap$ | async | keyvalue; track item.key) {
-  <div>{{item.value.name}}</div>
+
+  <div class="icon-list-item ">
+    {{item.value.name}}
+    <cck-svg-icon [icon]="item.value" style="width: 200px"></cck-svg-icon>
+  </div>
+
 }
