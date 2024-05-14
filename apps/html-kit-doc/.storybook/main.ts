@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/html-webpack5';
-import { webpackConfigBase } from '@coco-kit/storybook-core';
+import { webpackConfigBase } from '@coco-kits/storybook-core';
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)'],

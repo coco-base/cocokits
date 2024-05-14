@@ -59,7 +59,7 @@
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [["^@angular", "^@react"], ["^@", "^(?!@|\\.)"], ["^@coco-kit/*"], ["^\\./", "^\\.\\./"]]
+            "groups": [["^@angular", "^@react"], ["^@", "^(?!@|\\.)"], ["^@coco-kits/*"], ["^\\./", "^\\.\\./"]]
           }
         ]
       }

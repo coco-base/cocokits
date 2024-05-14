@@ -17,7 +17,7 @@ export interface GlobalArgs {
 /**
  * Addon ID will be use in internal combinations
  */
-export const ADDON_ID = '@coco-kit/storybook-theme-switcher';
+export const ADDON_ID = '@coco-kits/storybook-theme-switcher';
 
 export const THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/theme-changed`;
 export const DOCUMENT_THEM_ATTR = `cck-theme`;
@@ -30,4 +30,4 @@ export const GLOBAL_THEME_KEY = 'cck-theme';
 /**
  * ID of custom element, that will be visible at screen (For example toolbar)
  */
-export const TOOL_ID = '@coco-kit/storybook-theme-switcher:tool-id';
+export const TOOL_ID = '@coco-kits/storybook-theme-switcher:tool-id';

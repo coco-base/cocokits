@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { SvgIcon } from '@coco-kit/finalui';
+import { SvgIcon } from '@coco-kits/finalui';
 
 @Component({
   selector: 'cck-svg-icon',

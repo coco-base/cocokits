@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, inject, NgZone } from '@angular/cor
 
 import { Observable, OperatorFunction } from 'rxjs';
 
-import { themeChanged$ } from '@coco-kit/storybook-theme-switcher';
+import { themeChanged$ } from '@coco-kits/storybook-theme-switcher';
 
-import { SvgIconComponent } from '@coco-kit/angular-icon';
+import { SvgIconComponent } from '@coco-kits/angular-icon';
 
 export function runInsideNgZone<T>(zone = inject(NgZone)): OperatorFunction<T, T> {
   return (source) =>

@@ -1,6 +1,6 @@
 import { BehaviorSubject, filter } from 'rxjs';
 
-import { SvgIcon } from '@coco-kit/finalui';
+import { SvgIcon } from '@coco-kits/finalui';
 
 // THEME_CHANGED_EVENT_NAME
 

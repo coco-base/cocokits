@@ -6,7 +6,7 @@
   "tags": ["type:theme", "framework:shared"],
   "targets": {
     "build": {
-      "executor": "@coco-kit/workspace-plugin:scss-builder",
+      "executor": "@coco-kits/workspace-plugin:scss-builder",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/themes/finalui",
