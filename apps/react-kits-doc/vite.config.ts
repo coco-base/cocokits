@@ -1,11 +1,11 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
-
+import react from '@vitejs/plugin-react-swc';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/apps/html-kit-doc',
+  cacheDir: '../../node_modules/.vite/apps/react-kits-doc',
 
   server: {
     port: 4200,
@@ -17,7 +17,7 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [nxViteTsPaths()],
+  plugins: [react(), nxViteTsPaths()],
 
   // Uncomment this if you are using workers.
   // worker: {
@@ -25,25 +25,14 @@ export default defineConfig({
   // },
 
   build: {
-    outDir: '../../dist/apps/html-kit-doc',
+    outDir: '../../dist/apps/react-kits-doc',
     reportCompressedSize: true,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
   },
 
-  test: {
-    globals: true,
-    cache: {
-      dir: '../../node_modules/.vitest',
-    },
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '../../coverage/apps/html-kit-doc',
-      provider: 'v8',
-    },
+  define: {
+    'import.meta.vitest': undefined,
   },
 });

@@ -5,7 +5,7 @@ export function App() {
     <div>
       <h1>
         <span> Hello there, </span>
-        Welcome react-kit-doc 👋
+        Welcome react-kits-doc 👋
       </h1>
     </div>
   );

@@ -1,9 +1,9 @@
 {
-  "name": "angular-kit-doc",
+  "name": "angular-kits-doc",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/angular-kit-doc/src",
+  "sourceRoot": "apps/angular-kits-doc/src",
   "tags": ["type:app", "framework:angular"],
   "targets": {
     "eslint": {
