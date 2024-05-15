@@ -1,0 +1,23 @@
+{
+  "name": "coco-kits",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "list": {
+      "executor": "@coco-kits/workspace-plugin:pnpm-workspace-list",
+      "options": {
+        "details": false
+      },
+      "configurations": {
+        "details": {
+          "details": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run-many --all --target=lint --parallel --maxParallel=4 --exclude=coco-kits"
+      }
+    }
+  }
+}

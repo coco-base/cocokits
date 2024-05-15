@@ -1,5 +1,5 @@
 {
-  "name": "finalui",
+  "name": "theme-finalui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/themes/finalui/src",
   "projectType": "library",

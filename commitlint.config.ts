@@ -49,7 +49,9 @@ module.exports = {
           if (!isScopeValid) {
             return [
               false,
-              `Commit scope '${parsed.scope}' is not a valid scope. Here is all valid scopes: ${packagesList}`,
+              `Commit scope '${parsed.scope}' is not a valid scope. Here is all valid scopes: \n${packagesList.join(
+                '\n'
+              )}\n`,
             ];
           }
 

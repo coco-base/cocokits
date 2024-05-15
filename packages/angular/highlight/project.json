@@ -1,8 +1,8 @@
 {
-  "name": "angular-icon",
+  "name": "angular-highlight",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/angular/icon/src",
-  "prefix": "lib",
+  "sourceRoot": "packages/angular/highlight/src",
+  "prefix": "cck",
   "projectType": "library",
   "tags": ["type:ui", "framework:angular"],
   "targets": {
@@ -10,14 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "packages/angular/icon/ng-package.json"
+        "project": "packages/angular/highlight/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "packages/angular/icon/tsconfig.lib.prod.json"
+          "tsConfig": "packages/angular/highlight/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "packages/angular/icon/tsconfig.lib.json"
+          "tsConfig": "packages/angular/highlight/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"

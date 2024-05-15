@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "pnpm-workspace-list executor",
+  "description": "The pnpm-workspace-list executor lists the names of all packages in a pnpm workspace. It provides a quick and easy way to view all package names within your Nx workspace.",
+  "type": "object",
+  "properties": {
+    "details": {
+      "type": "boolean",
+      "description": "Print the details of each packages",
+      "default": false
+    }
+  },
+  "required": []
+}

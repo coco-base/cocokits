@@ -1,4 +1,10 @@
 :host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.icon-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
@@ -13,11 +19,9 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 16px;
-  transition: 0.3s ease;
   cursor: pointer;
+}
 
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
-  }
+.icon-list-item--selected {
+  border: 1px solid blue;
 }

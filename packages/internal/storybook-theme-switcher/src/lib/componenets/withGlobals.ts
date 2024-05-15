@@ -1,9 +1,10 @@
 import { useEffect, useGlobals, useMemo } from '@storybook/preview-api';
 import { PartialStoryFn as StoryFunction, Renderer } from '@storybook/types';
 
+import { themeChangedSubject$ } from '@coco-kits/theme-core';
+
 import { DEFAULT_THEME, DOCUMENT_THEM_ATTR, GLOBAL_THEME_KEY, GlobalArgs, THEMES } from '../config/constants';
 import { themeIconSvg } from '../styles/icons';
-import { themeChangedSubject$ } from '../utils/theme-changed';
 
 export const withGlobals = (StoryFn: StoryFunction<Renderer>) => {
   // The `useTheme` hook cannot be utilized in this context because this component is rendered as a decorator.
@@ -23,7 +24,10 @@ export const withGlobals = (StoryFn: StoryFunction<Renderer>) => {
   useEffect(() => {
     document.documentElement.setAttribute(DOCUMENT_THEM_ATTR, selectedTheme.id);
     window.localStorage.setItem(GLOBAL_THEME_KEY, selectedTheme.id);
-    themeChangedSubject$.next(themeIconSvg[selectedTheme.id]);
+    themeChangedSubject$.next({
+      name: selectedTheme.name,
+      iconList: themeIconSvg[selectedTheme.id],
+    });
     // window.dispatchEvent(new CustomEvent('update-json', { detail: themeIconSvg[selectedTheme.id] }));
   }, [selectedTheme]);
 

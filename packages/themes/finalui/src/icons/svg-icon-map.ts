@@ -1,4 +1,4 @@
-import { SvgIcon } from './svg-icon.model';
+import { SvgIcon } from '@coco-kits/theme-core';
 
 export const svgIconMap: Record<string, SvgIcon> = {
   'caret-tr': {

@@ -1,1 +1,1 @@
-export * from './lib/utils/theme-changed';
+export * from '../../../themes/core/src/lib/theme-changed';

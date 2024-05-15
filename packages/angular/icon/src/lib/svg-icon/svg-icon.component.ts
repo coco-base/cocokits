@@ -1,7 +1,7 @@
 import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { SvgIcon } from '@coco-kits/finalui';
+import { SvgIcon } from '@coco-kits/theme-core';
 
 @Component({
   selector: 'cck-svg-icon',

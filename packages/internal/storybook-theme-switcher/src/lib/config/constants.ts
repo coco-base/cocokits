@@ -1,4 +1,8 @@
-export const THEMES: Theme[] = [{ id: 'finalui', name: 'Finalui', icon: 'finalui-logo.png' }];
+export const THEMES: Theme[] = [
+  { id: 'finalui', name: 'Finalui', icon: 'finalui-logo.png' },
+  { id: 'finalui2', name: 'Finalui2', icon: 'finalui-logo.png' },
+  { id: 'finalui3', name: 'Finalui3', icon: 'finalui-logo.png' },
+];
 
 export const DEFAULT_THEME = THEMES[0];
 

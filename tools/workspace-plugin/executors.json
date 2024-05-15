@@ -4,6 +4,11 @@
       "implementation": "./src/executors/scss-builder/executor",
       "schema": "./src/executors/scss-builder/schema.json",
       "description": "Build style package and generate css and source map files from scss "
+    },
+    "pnpm-workspace-list": {
+      "implementation": "./src/executors/pnpm-workspace-list/executor",
+      "schema": "./src/executors/pnpm-workspace-list/schema.json",
+      "description": "The pnpm-workspace-list executor lists the names of all packages in a pnpm workspace. It provides a quick and easy way to view all package names within your Nx workspace."
     }
   }
 }
