@@ -3,6 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/themes/core/src",
   "projectType": "library",
-  "tags": ["type:theme", "framework:shared"],
+  "tags": ["type:utils", "framework:shared"],
   "targets": {}
 }
