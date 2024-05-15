@@ -1,0 +1,19 @@
+{
+  "name": "common-utils",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/common/utils/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/common/utils",
+        "main": "packages/common/utils/src/index.ts",
+        "tsConfig": "packages/common/utils/tsconfig.lib.json",
+        "assets": ["packages/common/utils/*.md"]
+      }
+    }
+  }
+}

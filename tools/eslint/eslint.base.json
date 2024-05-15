@@ -63,6 +63,23 @@
           }
         ]
       }
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "complexity": "off",
+        "dot-notation": "off",
+        "max-lines-per-function": ["off"],
+        "no-empty-function": ["off"],
+        "@typescript-eslint/ban-ts-comment": ["off"],
+        "@typescript-eslint/no-empty-function": ["off"],
+        "max-nested-callbacks": ["off"],
+        "max-lines": ["off"],
+        "max-statements": ["off"]
+      }
     }
   ]
 }
