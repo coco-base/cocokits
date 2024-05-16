@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/schema",
-  "$id": "Library",
+  "$id": "UtilLibrary",
   "title": "",
   "type": "object",
   "properties": {
@@ -16,23 +16,18 @@
     "framework": {
       "type": "string",
       "description": "The framework of library",
-      "enum": ["angular", "react", "web", "html", "shared"],
+      "enum": ["angular", "react", "web", "shared"],
       "$default": {
         "$source": "argv",
         "index": 1
       },
       "x-prompt": "Select the framework of library"
     },
-    "type": {
+    "directory": {
       "type": "string",
-      "description": "The type of library",
-      "enum": ["app", "ui", "theme", "util"],
-      "$default": {
-        "$source": "argv",
-        "index": 2
-      },
-      "x-prompt": "Select the type of library"
+      "description": "The directory of library",
+      "x-prompt": "what is the directory of library"
     }
   },
-  "required": ["name", "framework", "type"]
+  "required": ["name", "framework", "directory"]
 }

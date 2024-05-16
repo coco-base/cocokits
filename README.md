@@ -23,7 +23,6 @@ These constraints ensure that dependencies within the workspace are managed syst
 | angular    | Angular-based projects. Libraries specific to Angular applications.       | `framework:angular` `framework:shared` |
 | react      | React-based projects. Libraries specific to React applications.           | `framework:react` `framework:shared`   |
 | web        | Libraries using standard web components.                                  | `framework:web` `framework:shared`     |
-| html       | Libraries that strictly use HTML, CSS, and JavaScript without frameworks. | `framework:shared`                     |
 | shared     | Shared libraries that can be used across different frameworks.            | `framework:shared`                     |
 
 

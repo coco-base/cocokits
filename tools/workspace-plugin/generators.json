@@ -5,10 +5,15 @@
       "schema": "./src/generators/theme/schema.json",
       "description": "Create a theme package with default configurations"
     },
-    "library": {
-      "factory": "./src/generators/library/generator",
-      "schema": "./src/generators/library/schema.json",
-      "description": "Create a library in coco-kits"
+    "ui-library": {
+      "factory": "./src/generators/library/ui/generator",
+      "schema": "./src/generators/library/ui/schema.json",
+      "description": "create an ui library in coco-kits"
+    },
+    "util-library": {
+      "factory": "./src/generators/library/util/generator",
+      "schema": "./src/generators/library/util/schema.json",
+      "description": "create an util library in coco-kits"
     }
   }
 }
