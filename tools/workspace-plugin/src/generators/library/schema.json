@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Library",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "framework": {
+      "type": "string",
+      "description": "The framework of library",
+      "enum": ["angular", "react", "web", "html", "shared"],
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "Select the framework of library"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of library",
+      "enum": ["app", "ui", "theme", "util"],
+      "$default": {
+        "$source": "argv",
+        "index": 2
+      },
+      "x-prompt": "Select the type of library"
+    }
+  },
+  "required": ["name", "framework", "type"]
+}

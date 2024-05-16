@@ -4,6 +4,11 @@
       "factory": "./src/generators/theme/generator",
       "schema": "./src/generators/theme/schema.json",
       "description": "Create a theme package with default configurations"
+    },
+    "library": {
+      "factory": "./src/generators/library/generator",
+      "schema": "./src/generators/library/schema.json",
+      "description": "Create a library in coco-kits"
     }
   }
 }
