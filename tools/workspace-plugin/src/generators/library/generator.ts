@@ -1,10 +1,111 @@
-import { Tree } from '@nx/devkit';
-import { LibraryGeneratorSchema } from './schema';
+import { generateFiles, names, Tree } from '@nx/devkit';
+import { LibraryGeneratorOptions, LibraryGeneratorSchema } from './schema';
+import { CckLibraryFramework, CckLibraryType } from './library-generator.model';
+import type { Schema as NgSchema } from '@nx/angular/src/generators/library/schema';
+import { Linter } from '@nx/eslint';
+import { libraryGenerator as ngLibraryGenerator, UnitTestRunner } from '@nx/angular/generators';
+import * as path from 'path';
 
-export async function libraryGenerator(tree: Tree, options: LibraryGeneratorSchema) {
-  console.log('options.name', options.name);
-  console.log('options.type', options.type);
-  console.log('options.framework', options.framework);
+export default async function libraryGenerator(tree: Tree, options: LibraryGeneratorSchema) {
+  const libraryOptions: LibraryGeneratorOptions = {
+    ...options,
+    ...names(options.name),
+  };
+
+  switch (options.framework) {
+    case CckLibraryFramework.Angular:
+      await angularLibraryGenerator(tree, libraryOptions);
+      break;
+
+    case CckLibraryFramework.React:
+      await reactLibraryGenerator(tree, libraryOptions);
+      break;
+
+    case CckLibraryFramework.Web:
+      await webLibraryGenerator(tree, libraryOptions);
+      break;
+
+    case CckLibraryFramework.Html:
+      await htmlLibraryGenerator(tree, libraryOptions);
+      break;
+
+    case CckLibraryFramework.Shared:
+      await angularLibraryGenerator(tree, libraryOptions);
+      await reactLibraryGenerator(tree, libraryOptions);
+      await webLibraryGenerator(tree, libraryOptions);
+      await htmlLibraryGenerator(tree, libraryOptions);
+      break;
+  }
 }
 
-export default libraryGenerator;
+async function angularLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+  const ngSchema: NgSchema = {
+    name: options.name,
+    directory: getNxLibraryDirectory(options),
+    buildable: false,
+    publishable: false,
+    importPath: getNxImportPath(options),
+    flat: false,
+    tags: getNxTags(options),
+    linter: Linter.EsLint,
+    skipPackageJson: true,
+    unitTestRunner: UnitTestRunner.None,
+    compilationMode: 'partial',
+    skipModule: true,
+    skipTests: true,
+    standalone: true,
+    skipSelector: true,
+  };
+
+  const libPath = `${ngSchema.directory}/${ngSchema.name}`;
+
+  await ngLibraryGenerator(tree, ngSchema);
+  tree.delete(`${libPath}/src/lib`);
+  tree.delete(`${libPath}/src/lib`);
+  tree.delete(`.eslintrc.base.json`);
+  generateFiles(tree, path.join(__dirname, 'templates', 'angular'), path.join(libPath), {
+    baseEslintDir: 'test',
+  });
+}
+
+async function reactLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+  console.log('library generator for react is not implemented.');
+}
+
+async function webLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+  console.log('library generator for web is not implemented.');
+}
+
+async function htmlLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+  console.log('library generator for html is not implemented.');
+}
+
+function getNxTags(options: LibraryGeneratorOptions) {
+  return `type:${options.type}, framework:${options.framework}`;
+}
+
+function getNxImportPath(options: LibraryGeneratorOptions) {
+  switch (options.type) {
+    case CckLibraryType.Theme:
+      return `@coco-kits/theme-${options.fileName}`;
+    case CckLibraryType.App:
+      return `@coco-kits/app-${options.fileName}`;
+    case CckLibraryType.Ui:
+      return `@coco-kits/${options.framework}-${options.fileName}`;
+    case CckLibraryType.Util:
+      return `@coco-kits/${options.framework}-utils-${options.fileName}`;
+  }
+}
+
+function getNxLibraryDirectory(options: LibraryGeneratorOptions) {
+  switch (options.type) {
+    case CckLibraryType.Theme:
+      return `packages/themes`;
+    case CckLibraryType.App:
+      return `apps`;
+    case CckLibraryType.Ui:
+      return `packages/${options.framework}`;
+    case CckLibraryType.Util:
+      return `packages/${options.framework}/utils`;
+  }
+}

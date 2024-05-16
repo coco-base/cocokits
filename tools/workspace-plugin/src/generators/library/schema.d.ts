@@ -5,3 +5,10 @@ export interface LibraryGeneratorSchema {
   type: CckLibraryType;
   framework: CckLibraryFramework;
 }
+
+export interface LibraryGeneratorOptions extends LibraryGeneratorSchema {
+  className: string;
+  propertyName: string;
+  constantName: string;
+  fileName: string;
+}
