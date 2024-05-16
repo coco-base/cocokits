@@ -1,5 +1,3 @@
-import { UiLibraryGeneratorSchema } from './ui/schema';
-
 export enum LibraryFramework {
   Angular = 'angular',
   React = 'react',
