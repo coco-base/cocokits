@@ -42,29 +42,24 @@ async function angularLibraryGenerator(tree: Tree, options: LibraryGeneratorOpti
   const ngSchema: NgSchema = {
     name: options.name,
     directory: getNxLibraryDirectory(options),
-    buildable: false,
-    publishable: false,
+    buildable: true,
+    publishable: true,
     importPath: getNxImportPath(options),
-    flat: false,
     tags: getNxTags(options),
-    linter: Linter.EsLint,
-    skipPackageJson: true,
+    linter: Linter.None,
     unitTestRunner: UnitTestRunner.None,
-    compilationMode: 'partial',
     skipModule: true,
     skipTests: true,
-    standalone: true,
-    skipSelector: true,
+    standalone: false,
   };
 
   const libPath = `${ngSchema.directory}/${ngSchema.name}`;
+  const eslintPath = `tools/eslint`;
+  const relativePathToEslint = path.relative(libPath, eslintPath);
 
   await ngLibraryGenerator(tree, ngSchema);
-  tree.delete(`${libPath}/src/lib`);
-  tree.delete(`${libPath}/src/lib`);
-  tree.delete(`.eslintrc.base.json`);
   generateFiles(tree, path.join(__dirname, 'templates', 'angular'), path.join(libPath), {
-    baseEslintDir: 'test',
+    baseEslintDir: relativePathToEslint,
   });
 }
 
