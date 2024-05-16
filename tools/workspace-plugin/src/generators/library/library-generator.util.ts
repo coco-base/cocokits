@@ -3,8 +3,6 @@ import type { Schema as NgSchema } from '@nx/angular/src/generators/library/sche
 import { Linter } from '@nx/eslint';
 import { libraryGenerator as ngLibraryGenerator, UnitTestRunner } from '@nx/angular/generators';
 import * as path from 'path';
-import type { Schema as ReactSchema } from '@nx/react/src/generators/library/schema';
-import { libraryGenerator as rjsLibraryGenerator } from '@nx/react';
 import { LibraryFramework, LibraryGeneratorOptions, LibraryType } from './libarary-generator.model';
 
 export async function angularLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
@@ -36,28 +34,30 @@ export async function angularLibraryGenerator(tree: Tree, options: LibraryGenera
 }
 
 export async function reactLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
-  const reactSchema: ReactSchema = {
-    name: options.name,
-    directory: options.directory,
-    buildable: true,
-    publishable: true,
-    importPath: getNxImportPath(options),
-    tags: getNxTags(options),
-    linter: Linter.None,
-    unitTestRunner: UnitTestRunner.None,
-    style: 'scss',
-  };
-
-  const libPath = `${reactSchema.directory}/${reactSchema.name}`;
-  const eslintPath = `tools/eslint`;
-  const relativePathToEslint = path.relative(libPath, eslintPath);
-  const relativePathToEslintrc = path.relative(libPath, '');
-
-  await rjsLibraryGenerator(tree, reactSchema);
-  generateFiles(tree, path.join(__dirname, 'templates', 'react'), path.join(libPath), {
-    baseEslintDir: relativePathToEslint,
-    eslintrcDir: relativePathToEslintrc,
-  });
+  console.log('library generator for react is disabled.');
+  //
+  // const reactSchema: ReactSchema = {
+  //   name: options.name,
+  //   directory: options.directory,
+  //   buildable: true,
+  //   publishable: true,
+  //   importPath: getNxImportPath(options),
+  //   tags: getNxTags(options),
+  //   linter: Linter.None,
+  //   unitTestRunner: UnitTestRunner.None,
+  //   style: 'scss',
+  // };
+  //
+  // const libPath = `${reactSchema.directory}/${reactSchema.name}`;
+  // const eslintPath = `tools/eslint`;
+  // const relativePathToEslint = path.relative(libPath, eslintPath);
+  // const relativePathToEslintrc = path.relative(libPath, '');
+  //
+  // await rjsLibraryGenerator(tree, reactSchema);
+  // generateFiles(tree, path.join(__dirname, 'templates', 'react'), path.join(libPath), {
+  //   baseEslintDir: relativePathToEslint,
+  //   eslintrcDir: relativePathToEslintrc,
+  // });
 }
 
 export async function webLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
