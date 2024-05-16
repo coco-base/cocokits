@@ -2,9 +2,11 @@ import { generateFiles, names, Tree } from '@nx/devkit';
 import { LibraryGeneratorOptions, LibraryGeneratorSchema } from './schema';
 import { CckLibraryFramework, CckLibraryType } from './library-generator.model';
 import type { Schema as NgSchema } from '@nx/angular/src/generators/library/schema';
+import type { Schema as ReactSchema } from '@nx/react/src/generators/library/schema';
 import { Linter } from '@nx/eslint';
 import { libraryGenerator as ngLibraryGenerator, UnitTestRunner } from '@nx/angular/generators';
 import * as path from 'path';
+import { libraryGenerator as rjsLibraryGenerator } from '@nx/react';
 
 export default async function libraryGenerator(tree: Tree, options: LibraryGeneratorSchema) {
   const libraryOptions: LibraryGeneratorOptions = {
@@ -56,15 +58,38 @@ async function angularLibraryGenerator(tree: Tree, options: LibraryGeneratorOpti
   const libPath = `${ngSchema.directory}/${ngSchema.name}`;
   const eslintPath = `tools/eslint`;
   const relativePathToEslint = path.relative(libPath, eslintPath);
+  const relativePathToEslintrc = path.relative(libPath, '');
 
   await ngLibraryGenerator(tree, ngSchema);
   generateFiles(tree, path.join(__dirname, 'templates', 'angular'), path.join(libPath), {
     baseEslintDir: relativePathToEslint,
+    eslintrcDir: relativePathToEslintrc,
   });
 }
 
 async function reactLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
-  console.log('library generator for react is not implemented.');
+  const reactSchema: ReactSchema = {
+    name: options.name,
+    directory: getNxLibraryDirectory(options),
+    buildable: true,
+    publishable: true,
+    importPath: getNxImportPath(options),
+    tags: getNxTags(options),
+    linter: Linter.None,
+    unitTestRunner: UnitTestRunner.None,
+    style: 'scss',
+  };
+
+  const libPath = `${reactSchema.directory}/${reactSchema.name}`;
+  const eslintPath = `tools/eslint`;
+  const relativePathToEslint = path.relative(libPath, eslintPath);
+  const relativePathToEslintrc = path.relative(libPath, '');
+
+  await rjsLibraryGenerator(tree, reactSchema);
+  generateFiles(tree, path.join(__dirname, 'templates', 'react'), path.join(libPath), {
+    baseEslintDir: relativePathToEslint,
+    eslintrcDir: relativePathToEslintrc,
+  });
 }
 
 async function webLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
