@@ -1,0 +1,1 @@
+TODO: Write s shor description for svg icon component  

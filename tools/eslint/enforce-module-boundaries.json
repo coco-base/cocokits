@@ -7,7 +7,7 @@
           "error",
           {
             "enforceBuildableLibDependency": false,
-            "allow": [],
+            "allow": [".*/dist/compodoc/.*"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",

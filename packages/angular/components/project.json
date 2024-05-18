@@ -1,0 +1,59 @@
+{
+  "name": "@coco-kits/angular-components",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/angular/components/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:angular"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "packages/angular/components/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/angular/components/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/angular/components/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "storybook": {
+      "options": {
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-components",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    },
+    "build-storybook": {
+      "options": {
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-components",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    }
+  }
+}

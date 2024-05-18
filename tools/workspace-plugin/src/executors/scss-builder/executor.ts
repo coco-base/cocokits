@@ -44,6 +44,7 @@ export default async function runExecutor(options: ScssBuilderExecutorSchema) {
     Logger.header('Style build has been successfully completed');
     return { success: true };
   } catch (e) {
+    Logger.error(e);
     return { success: false };
   }
 }

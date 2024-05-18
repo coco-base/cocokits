@@ -1,5 +1,5 @@
 {
-  "name": "common-angular-utils",
+  "name": "@coco-kits/common-angular-utils",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/common/angular-utils/src",
   "prefix": "cck",

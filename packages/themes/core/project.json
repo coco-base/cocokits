@@ -1,5 +1,5 @@
 {
-  "name": "theme-core",
+  "name": "@coco-kits/theme-core",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/themes/core/src",
   "projectType": "library",

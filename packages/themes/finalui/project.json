@@ -1,5 +1,5 @@
 {
-  "name": "theme-finalui",
+  "name": "@coco-kits/theme-finalui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/themes/finalui/src",
   "projectType": "library",
@@ -11,8 +11,8 @@
       "options": {
         "outputPath": "dist/packages/themes/finalui",
         "sourceMap": true,
-        "css": ["packages/themes/finalui/src/index.scss"],
-        "min": ["packages/themes/finalui/src/index.scss"]
+        "css": ["packages/themes/finalui/src/styles.scss", "packages/themes/finalui/src/token.scss"],
+        "min": ["packages/themes/finalui/src/styles.scss", "packages/themes/finalui/src/token.scss"]
       }
     },
     "eslint": {

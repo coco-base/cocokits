@@ -1,21 +1,20 @@
-import { Component, inject, Input, ViewEncapsulation } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { SvgIcon } from '@coco-kits/theme-core';
+import { TrustHtmlPipe } from '@coco-kits/common-angular-utils';
+import type { SvgIcon } from '@coco-kits/theme-core';
 
 @Component({
   selector: 'cck-svg-icon',
   standalone: true,
   templateUrl: './svg-icon.component.html',
   styleUrl: './svg-icon.component.scss',
-  encapsulation: ViewEncapsulation.None,
+  imports: [TrustHtmlPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SvgIconComponent {
-  @Input({ required: true }) icon!: SvgIcon;
-
-  private sanitizer = inject(DomSanitizer);
-
-  protected get iconContent() {
-    return this.sanitizer.bypassSecurityTrustHtml(this.icon.content);
-  }
+  /**
+   * Input property that requires an SVG icon configuration.
+   * @requires
+   */
+  public icon = input.required<SvgIcon>();
 }

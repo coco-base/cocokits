@@ -2,17 +2,18 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "exclude": ["../**/*.spec.ts"],
   "include": [
-    "../src/**/*.stories.ts",
-    "../src/**/*.stories.js",
-    "../src/**/*.stories.jsx",
-    "../src/**/*.stories.tsx",
-    "../src/**/*.stories.mdx",
+    "../stories/**/*.stories.ts",
+    "../stories/**/*.stories.js",
+    "../stories/**/*.stories.jsx",
+    "../stories/**/*.stories.tsx",
+    "../stories/**/*.stories.mdx",
     "./*.js",
     "./*.ts",
-    "../../../packages/internal/storybook-theme-switcher/**/*.ts"
+    "../../../packages/internal/storybook-theme-switcher/**/*.ts",
+    "../../../packages/angular/**/index.stories.ts"
   ]
 }

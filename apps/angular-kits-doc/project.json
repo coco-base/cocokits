@@ -1,5 +1,5 @@
 {
-  "name": "angular-kits-doc",
+  "name": "@coco-kits/angular-kits-doc",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
@@ -8,7 +8,36 @@
   "targets": {
     "storybook": {
       "options": {
-        "styles": ["packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss"]
+        "docs": true,
+        "styles": ["packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss"],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-kits-doc",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    },
+    "build-storybook": {
+      "options": {
+        "docs": true,
+        "styles": ["packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss"],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-kits-doc",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
       }
     },
     "eslint": {

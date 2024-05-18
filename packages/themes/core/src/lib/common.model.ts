@@ -3,8 +3,3 @@ export interface SvgIcon {
   content: string;
   viewBox: string;
 }
-
-export interface ThemeChangedEvent {
-  name: string;
-  iconList: Record<string, SvgIcon>;
-}

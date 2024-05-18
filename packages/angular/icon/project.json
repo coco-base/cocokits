@@ -1,5 +1,5 @@
 {
-  "name": "angular-icon",
+  "name": "@coco-kits/angular-icon",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/angular/icon/src",
   "prefix": "lib",
@@ -24,6 +24,36 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "storybook": {
+      "options": {
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-icon",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    },
+    "build-storybook": {
+      "options": {
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-icon",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
     }
   }
 }

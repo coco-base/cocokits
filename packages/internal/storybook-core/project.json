@@ -1,5 +1,5 @@
 {
-  "name": "storybook-core",
+  "name": "@coco-kits/storybook-core",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/internal/storybook-core/src",
   "projectType": "library",

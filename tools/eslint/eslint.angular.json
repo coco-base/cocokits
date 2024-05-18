@@ -21,6 +21,28 @@
           }
         ]
       }
+    },
+    {
+      "files": ["**/stories/**/*.ts"],
+      "plugins": ["@angular-eslint"],
+      "extends": ["./eslint.base.json"],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": ["attribute", "element"],
+            "prefix": "story"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "story",
+            "style": "kebab-case"
+          }
+        ]
+      }
     }
   ]
 }

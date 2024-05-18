@@ -1,11 +1,10 @@
 import { IconButton, TooltipLinkList, WithTooltip} from '@storybook/components';
 import { CheckIcon as StorybookCheckIcon } from "@storybook/icons";
 import {styled} from '@storybook/theming';
-import React, {memo} from 'react';
+import React, { memo } from 'react';
 
 import {THEMES,} from "../config/constants";
 import {useTheme} from "../hooks/useTheme";
-
 
 
 
@@ -21,12 +20,10 @@ const CheckIcon = styled(StorybookCheckIcon)(
 );
 
 
+// eslint-disable-next-line max-lines-per-function
 export const ToolThemeSwitcher = memo(function MyAddonSelector() {
 
-
-  console.log('---- ToolThemeSwitcher ---- ');
   const { selectedTheme, updateTheme } = useTheme();
-
 
   return (
     <WithTooltip

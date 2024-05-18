@@ -1,5 +1,5 @@
 {
-  "name": "common-utils",
+  "name": "@coco-kits/common-utils",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/common/utils/src",
   "projectType": "library",

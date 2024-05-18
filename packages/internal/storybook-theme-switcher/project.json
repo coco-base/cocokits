@@ -1,10 +1,20 @@
 {
-  "name": "storybook-theme-switcher",
+  "name": "@coco-kits/storybook-theme-switcher",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/internal/storybook-theme-switcher/src",
   "projectType": "library",
   "tags": ["type:utils", "framework:shared"],
   "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/internal/storybook-theme-switcher",
+        "main": "packages/internal/storybook-theme-switcher/src/index.ts",
+        "tsConfig": "packages/internal/storybook-theme-switcher/tsconfig.lib.json",
+        "assets": []
+      }
+    },
     "eslint": {
       "executor": "@nx/eslint:lint"
     }

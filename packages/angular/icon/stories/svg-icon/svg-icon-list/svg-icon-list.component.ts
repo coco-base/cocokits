@@ -6,21 +6,22 @@ import { FormsModule } from '@angular/forms';
 import { debounceTime, map, Observable, switchMap, tap } from 'rxjs';
 
 import { HighlightComponent } from '@coco-kits/angular-highlight';
-import { SvgIconComponent } from '@coco-kits/angular-icon';
 import { runInsideNgZone } from '@coco-kits/common-angular-utils';
 import { fuzzysearch, skipNullish } from '@coco-kits/common-utils';
 import { themeChanged$ } from '@coco-kits/storybook-theme-switcher';
 import { SvgIcon } from '@coco-kits/theme-core';
 
+import { SvgIconComponent } from '../../../src';
+
 @Component({
   standalone: true,
-  selector: 'story-icon-list',
+  selector: 'story-svg-icon-list',
   imports: [AsyncPipe, KeyValuePipe, SvgIconComponent, FormsModule, HighlightComponent],
-  templateUrl: './icon-list.component.html',
-  styleUrl: './icon-list.component.scss',
+  templateUrl: './svg-icon-list.component.html',
+  styleUrl: './svg-icon-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IconListComponent {
+export class SvgIconListComponent {
   protected searchInput = signal('');
   private themeChanged = toSignal(themeChanged$);
 
