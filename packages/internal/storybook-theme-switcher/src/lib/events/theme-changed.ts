@@ -1,7 +1,9 @@
-import { fromEventPattern } from 'rxjs';
 import { addons } from '@storybook/preview-api';
-import { THEME_CHANGED_EVENT_NAME } from '../config/constants';
+import { fromEventPattern } from 'rxjs';
+
 import { SvgIcon } from '@coco-kits/theme-core';
+
+import { THEME_CHANGED_EVENT_NAME } from '../config/constants';
 
 export interface ThemeChangedEvent {
   name: string;

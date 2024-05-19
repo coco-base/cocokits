@@ -25,7 +25,7 @@ const COMMIT_TYPE_SCOPE: Record<CommitType, boolean> = {
 };
 
 const packagesJson = spawnSync('pnpm', ['nx', 'show', 'projects', '--json'], { encoding: 'utf8' }).stdout;
-const packagesList = JSON.parse(packagesJson);
+const packagesList = (JSON.parse(packagesJson) as string[]).map((name) => name.replace('@coco-kits/', ''));
 
 module.exports = {
   extends: ['@commitlint/config-conventional'],
