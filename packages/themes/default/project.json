@@ -1,7 +1,7 @@
 {
-  "name": "@coco-kits/theme-finalui",
+  "name": "@coco-kits/theme-default",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/themes/finalui/src",
+  "sourceRoot": "packages/themes/default/src",
   "projectType": "library",
   "tags": ["type:theme", "framework:shared"],
   "targets": {
@@ -9,10 +9,10 @@
       "executor": "@coco-kits/workspace-plugin:scss-builder",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/themes/finalui",
+        "outputPath": "dist/packages/themes/default",
         "sourceMap": true,
-        "css": ["packages/themes/finalui/src/styles.scss", "packages/themes/finalui/src/token.scss"],
-        "min": ["packages/themes/finalui/src/styles.scss", "packages/themes/finalui/src/token.scss"]
+        "css": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token.scss"],
+        "min": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token.scss"]
       }
     },
     "eslint": {

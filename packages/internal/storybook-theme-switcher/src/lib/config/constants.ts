@@ -1,7 +1,7 @@
 export const THEMES: Theme[] = [
-  { id: 'finalui', name: 'Finalui', icon: 'finalui-logo.png' },
-  { id: 'finalui2', name: 'Finalui2', icon: 'finalui-logo.png' },
-  { id: 'finalui3', name: 'Finalui3', icon: 'finalui-logo.png' },
+  { id: 'default', name: 'Default', icon: 'default-logo.png' },
+  { id: 'default2', name: 'Default-2', icon: 'default-logo.png' },
+  { id: 'default3', name: 'Default-3', icon: 'default-logo.png' },
 ];
 
 export const DEFAULT_THEME = THEMES[0];

@@ -1,6 +1,6 @@
-@use '../../../../../themes/finalui/src/settings';
+@use '../../../../../themes/default/src/settings';
 
-:where(html[cck-theme='finalui']) {
+:where(html[cck-theme='default']) {
   @include settings.color-palette-blue;
-  @import '../../../../../themes/finalui/src/styles';
+  @import '../../../../../themes/default/src/styles';
 }
