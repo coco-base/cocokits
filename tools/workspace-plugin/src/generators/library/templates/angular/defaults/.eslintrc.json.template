@@ -1,5 +1,5 @@
 {
-  "extends": ["../../../.eslintrc.json"],
+  "extends": ["<%- offsetFromRoom %>.eslintrc.json"],
   "ignorePatterns": ["!**/*", "storybook-static"],
   "overrides": [
     {
@@ -7,7 +7,7 @@
       "extends": [
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "<%- baseEslintDir %>/eslint.angular.json"
+        "<%- offsetFromRoom %>tools/eslint/eslint.angular.json"
       ]
     },
     {

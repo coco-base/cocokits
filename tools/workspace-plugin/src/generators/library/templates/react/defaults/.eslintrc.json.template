@@ -1,12 +1,12 @@
 {
-  "extends": ["<%- eslintrcDir %>/.eslintrc.json"],
+  "extends": ["<%- offsetFromRoom %>.eslintrc.json"],
   "ignorePatterns": ["!**/*", "storybook-static"],
   "overrides": [
     {
       "files": ["*.ts"],
       "extends": [
         "plugin:@nx/react",
-        "<%- baseEslintDir %>/eslint.react.json"
+        "<%- offsetFromRoom %>tools/eslint/eslint.react.json"
       ]
     }
   ]

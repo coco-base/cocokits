@@ -27,6 +27,12 @@
       "type": "string",
       "description": "The directory of library",
       "x-prompt": "what is the directory of library"
+    },
+    "storybook": {
+      "type": "boolean",
+      "description": "Whether generate storybook for library or not",
+      "x-prompt": "Is the library has storybook?",
+      "default": true
     }
   },
   "required": ["name", "framework", "directory"]

@@ -1,0 +1,5 @@
+import { setCompodocJson } from '@storybook/addon-docs/angular';
+
+import * as docJson from '<%- storybookOffsetFromRoot %>dist/compodoc/<%- libraryRelativeName %>/documentation.json';
+
+setCompodocJson(docJson);

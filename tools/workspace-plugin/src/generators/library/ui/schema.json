@@ -22,6 +22,12 @@
         "index": 1
       },
       "x-prompt": "Select the framework of library"
+    },
+    "storybook": {
+      "type": "boolean",
+      "description": "Whether generate storybook for library or not",
+      "x-prompt": "Is the library has storybook?",
+      "default": true
     }
   },
   "required": ["name", "framework"]

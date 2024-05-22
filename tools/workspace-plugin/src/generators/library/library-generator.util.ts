@@ -1,4 +1,4 @@
-import { generateFiles, Tree } from '@nx/devkit';
+import { generateFiles, offsetFromRoot, Tree, workspaceRoot } from '@nx/devkit';
 import type { Schema as NgSchema } from '@nx/angular/src/generators/library/schema';
 import { Linter } from '@nx/eslint';
 import { libraryGenerator as ngLibraryGenerator, UnitTestRunner } from '@nx/angular/generators';
@@ -20,17 +20,17 @@ export async function angularLibraryGenerator(tree: Tree, options: LibraryGenera
     standalone: false,
   };
 
-  const libPath = `${ngSchema.directory}/${ngSchema.name}`;
-  const eslintPath = `tools/eslint`;
-  const relativePathToEslint = path.relative(libPath, eslintPath);
-  const relativePathToEslintrc = path.relative(libPath, '');
+  const libPath = `${options.directory}/${options.name}`;
 
   await ngLibraryGenerator(tree, ngSchema);
 
-  generateFiles(tree, path.join(__dirname, 'templates', 'angular'), path.join(libPath), {
-    baseEslintDir: relativePathToEslint,
-    eslintrcDir: relativePathToEslintrc,
+  generateFiles(tree, path.join(__dirname, 'templates', 'angular', 'defaults'), path.join(libPath), {
+    offsetFromRoom: offsetFromRoot(libPath),
   });
+
+  if (options.storybook) {
+    await AngularStorybookGenerator(tree, options);
+  }
 }
 
 export async function reactLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
@@ -67,19 +67,33 @@ export async function sharedLibraryGenerator(tree: Tree, options: LibraryGenerat
   console.log('library generator for shared is not implemented.');
 }
 
+export async function AngularStorybookGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+  const libPath = `${options.directory}/${options.name}`;
+  const storybookPath = `${libPath}/.storybook`;
+
+  generateFiles(tree, path.join(__dirname, 'templates', 'angular', 'storybook'), path.join(libPath), {
+    storybookOffsetFromRoot: `${offsetFromRoot(storybookPath)}`,
+    libraryRelativeName: getLibraryRelativeName(options),
+  });
+}
+
 function getNxTags(options: LibraryGeneratorOptions) {
   return `type:${options.type}, framework:${options.framework}`;
 }
 
 function getNxImportPath(options: LibraryGeneratorOptions) {
+  return `@coco-kits/${getLibraryRelativeName(options)}`;
+}
+
+function getLibraryRelativeName(options: LibraryGeneratorOptions) {
   switch (options.type) {
     case LibraryType.Ui:
-      return `@coco-kits/${options.framework}-${options.fileName}`;
+      return `${options.framework}-${options.fileName}`;
     case LibraryType.Util:
       if (options.framework === LibraryFramework.Shared) {
-        return `@coco-kits/utils-${options.fileName}`;
+        return `utils-${options.fileName}`;
       } else {
-        return `@coco-kits/${options.framework}-utils-${options.fileName}`;
+        return `${options.framework}-utils-${options.fileName}`;
       }
   }
 }

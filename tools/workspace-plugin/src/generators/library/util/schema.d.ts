@@ -4,4 +4,5 @@ export interface UtilLibraryGeneratorSchema {
   name: string;
   framework: LibraryFramework;
   directory: string;
+  storybook: boolean;
 }

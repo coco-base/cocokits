@@ -19,4 +19,5 @@ export interface LibraryGeneratorOptions {
   framework: LibraryFramework;
   type: LibraryType;
   directory: string;
+  storybook: boolean;
 }
