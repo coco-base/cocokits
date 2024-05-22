@@ -1,8 +1,9 @@
-import { generateFiles, offsetFromRoot, Tree, workspaceRoot } from '@nx/devkit';
-import type { Schema as NgSchema } from '@nx/angular/src/generators/library/schema';
-import { Linter } from '@nx/eslint';
 import { libraryGenerator as ngLibraryGenerator, UnitTestRunner } from '@nx/angular/generators';
+import type { Schema as NgSchema } from '@nx/angular/src/generators/library/schema';
+import { generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
+import { Linter } from '@nx/eslint';
 import * as path from 'path';
+
 import { LibraryFramework, LibraryGeneratorOptions, LibraryType } from './libarary-generator.model';
 
 export async function angularLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
@@ -33,7 +34,7 @@ export async function angularLibraryGenerator(tree: Tree, options: LibraryGenera
   }
 }
 
-export async function reactLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+export async function reactLibraryGenerator(_tree: Tree, _options: LibraryGeneratorOptions) {
   console.log('library generator for react is disabled.');
   //
   // const reactSchema: ReactSchema = {
@@ -60,10 +61,10 @@ export async function reactLibraryGenerator(tree: Tree, options: LibraryGenerato
   // });
 }
 
-export async function webLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+export async function webLibraryGenerator(_tree: Tree, _options: LibraryGeneratorOptions) {
   console.log('library generator for web is not implemented.');
 }
-export async function sharedLibraryGenerator(tree: Tree, options: LibraryGeneratorOptions) {
+export async function sharedLibraryGenerator(_tree: Tree, _options: LibraryGeneratorOptions) {
   console.log('library generator for shared is not implemented.');
 }
 

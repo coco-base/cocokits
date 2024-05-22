@@ -4,15 +4,10 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
+      "extends": ["../../tools/eslint/eslint.base.json"],
+      "rules": {
+        "no-console": ["off"]
+      }
     },
     {
       "files": ["*.json"],

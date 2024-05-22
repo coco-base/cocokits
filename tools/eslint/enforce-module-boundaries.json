@@ -7,7 +7,7 @@
           "error",
           {
             "enforceBuildableLibDependency": false,
-            "allow": [".*/dist/compodoc/.*"],
+            "allow": [".*/dist/compodoc/.*", ".*/tools/scripts/storybook/.*"],
             "depConstraints": [
               {
                 "sourceTag": "type:app",

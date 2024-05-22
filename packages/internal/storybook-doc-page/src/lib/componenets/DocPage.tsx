@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import {
   ArgTypes,
   Description,
@@ -9,10 +8,13 @@ import {
   Subtitle,
   Title,
 } from '@storybook/addon-docs';
-import { Toc } from './Toc';
-import { useStyles } from './DocPage.style';
-import { storyNameToHash } from '../utils/storybook.utils';
+import React, { useContext } from 'react';
+
 import { SelectThemeSwitcher } from '@coco-kits/storybook-theme-switcher';
+
+import { useStyles } from './DocPage.style';
+import { Toc } from './Toc';
+import { storyNameToHash } from '../utils/doc-page.utils';
 
 
 export const DocPage = () => {

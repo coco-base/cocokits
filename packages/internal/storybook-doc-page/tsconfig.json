@@ -9,7 +9,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "files": [],
   "include": [],

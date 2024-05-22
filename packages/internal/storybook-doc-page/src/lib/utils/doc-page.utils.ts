@@ -1,5 +1,5 @@
-import { addons } from '@storybook/preview-api';
 import { NAVIGATE_URL } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 
 export const storyNameToHash = (id: string): string => id.toLowerCase().replace(/[^a-z0-9]/gi, '-');
 

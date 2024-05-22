@@ -11,7 +11,7 @@ const config: StorybookConfig = {
       },
     },
   },
-  staticDirs: ['../../../packages/internal/storybook-core/src/assets'],
+  staticDirs: ['../../../packages/internal/storybook-theme-switcher/src/assets'],
 };
 
 export default config;

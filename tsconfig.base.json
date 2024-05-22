@@ -24,8 +24,8 @@
       "@coco-kits/angular-icon": ["packages/angular/icon/src/index.ts"],
       "@coco-kits/common-angular-utils": ["packages/common/angular-utils/src/index.ts"],
       "@coco-kits/common-utils": ["packages/common/utils/src/index.ts"],
-      "@coco-kits/storybook-core": ["packages/internal/storybook-core/src/index.ts"],
       "@coco-kits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
+      "@coco-kits/storybook-doc-page": ["packages/internal/storybook-doc-page/src/index.ts"],
       "@coco-kits/theme-core": ["packages/themes/core/src/index.ts"],
       "@coco-kits/theme-default": ["packages/themes/default/src/index.ts"],
       "@coco-kits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]

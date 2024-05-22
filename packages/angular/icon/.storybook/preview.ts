@@ -1,18 +1,11 @@
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 import { Preview } from '@storybook/angular';
 
-import { DocPage } from '@coco-kits/storybook-core';
-
-import * as docJson from '../../../../dist/compodoc/angular-icon/documentation.json';
-
+// This file will be available after first build, Just to skip the IDE error we use `require` instead of `import`
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const docJson = require('../../../../dist/compodoc/angular-icon/documentation.json');
 setCompodocJson(docJson);
 
-const preview: Preview = {
-  parameters: {
-    docs: {
-      page: DocPage,
-    },
-  },
-};
+const preview: Preview = {};
 
 export default preview;

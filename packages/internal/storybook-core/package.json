@@ -1,9 +1,0 @@
-{
-  "name": "@coco-kits/storybook-core",
-  "version": "0.0.0",
-  "private": true,
-  "main": "src/index.ts",
-  "dependencies": {
-    "@coco-kits/common-utils": "workspace:*"
-  }
-}

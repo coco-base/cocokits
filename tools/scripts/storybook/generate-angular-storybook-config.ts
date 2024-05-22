@@ -2,12 +2,8 @@ import type { StorybookConfig } from '@storybook/angular';
 import * as path from 'path';
 
 /**
- * Issue: Storybook does not use our project's tsconfig for compiling `main.js`.
- * 'main.ts` will be executed in node environment with storybook ts configuration. As a result,
- * the alias `@coco-kits/...` is unrecognized in these configurations, leading to a module resolution error:
- * Error: No "exports" main defined in /packages/internal/storybook-core/node_modules/@coco-kits/.../package.json.
- * Note: Our tsconfig paths are effective only post-compilation of `main.ts`, thus usable within stories and components but not in initial configuration files.
- * And since the `@coco-kits/...` is a buildable package we can not link 'main' file to `index.ts`
+ * `main.ts` will be executed in node environment with storybook ts configuration.
+ * As a result, the alias `@coco-kits/...` is unrecognized in these configurations
  */
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { deepMerge } from '../../../packages/common/utils/src';
@@ -25,16 +21,16 @@ export function generateAngularStorybookConfig(
       addons: [
         '@storybook/addon-essentials',
         path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher'),
+        path.relative(options.callerPath, 'packages/internal/storybook-doc-page'),
       ],
       framework: {
         name: '@storybook/angular',
         options: {},
       },
       docs: {
-        autodocs: true,
         defaultName: 'Docs',
       },
-      staticDirs: [path.relative(options.callerPath, 'packages/internal/storybook-core/src/assets')],
+      staticDirs: [path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher/src/assets')],
     },
     libConfig
   );

@@ -1,0 +1,22 @@
+{
+  "name": "@coco-kits/storybook-doc-page",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/internal/storybook-doc-page/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/internal/storybook-doc-page",
+        "main": "packages/internal/storybook-doc-page/src/index.ts",
+        "tsConfig": "packages/internal/storybook-doc-page/tsconfig.lib.json",
+        "assets": []
+      }
+    },
+    "eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

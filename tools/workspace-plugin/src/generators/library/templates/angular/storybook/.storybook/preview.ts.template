@@ -1,5 +1,6 @@
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 
-import * as docJson from '<%- storybookOffsetFromRoot %>dist/compodoc/<%- libraryRelativeName %>/documentation.json';
-
+// This file will be available after first build, Just to skip the IDE error we use `require` instead of `import`
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const docJson = require('<%- storybookOffsetFromRoot %>dist/compodoc/<%- libraryRelativeName %>/documentation.json');
 setCompodocJson(docJson);

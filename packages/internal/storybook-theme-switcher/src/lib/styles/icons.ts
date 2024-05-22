@@ -1,5 +1,5 @@
-import { svgIconMap } from '@coco-kits/theme-default';
 import { SvgIcon } from '@coco-kits/theme-core';
+import { svgIconMap } from '@coco-kits/theme-default';
 
 export const themeIconSvg: Record<string, Record<string, SvgIcon>> = {
   default: svgIconMap,

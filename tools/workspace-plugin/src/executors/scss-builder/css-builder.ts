@@ -1,11 +1,12 @@
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import * as fs from 'fs';
+import * as path from 'path';
+import postcss from 'postcss';
 import * as sass from 'sass';
 import { OutputStyle } from 'sass/types/options';
-import postcss from 'postcss';
-import * as autoprefixer from 'autoprefixer';
-import * as cssnano from 'cssnano';
-import * as path from 'path';
+
 import { Logger } from '../../utils/logger';
-import * as fs from 'fs';
 
 interface CssBuilderOptions {
   outputStyle: OutputStyle;
@@ -13,6 +14,7 @@ interface CssBuilderOptions {
   outputPath: string;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export async function cssBuilder(
   scssPath: string,
   options: CssBuilderOptions
