@@ -1,2 +1,3 @@
-export { THEME_CHANGED_EVENT_NAME } from './lib/config/constants';
-export * from './lib/events/theme-changed';
+export * from './lib/config/constants';
+export * from './lib/utils/theme-changed';
+export * from './lib/componenets/SelectThemeSwitcher';

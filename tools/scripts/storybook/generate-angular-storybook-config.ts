@@ -2,16 +2,15 @@ import type { StorybookConfig } from '@storybook/angular';
 import * as path from 'path';
 
 /**
- * TODO: Implement a workaround to utilize the `@coco-kits/common-utils` alias instead of a relative path.
  * Issue: Storybook does not use our project's tsconfig for compiling `main.js`.
  * 'main.ts` will be executed in node environment with storybook ts configuration. As a result,
- * the alias `@coco-kits/storybook-core` is unrecognized in these configurations, leading to a module resolution error:
- * Error: No "exports" main defined in /packages/internal/storybook-core/node_modules/@coco-kits/common-utils/package.json.
+ * the alias `@coco-kits/...` is unrecognized in these configurations, leading to a module resolution error:
+ * Error: No "exports" main defined in /packages/internal/storybook-core/node_modules/@coco-kits/.../package.json.
  * Note: Our tsconfig paths are effective only post-compilation of `main.ts`, thus usable within stories and components but not in initial configuration files.
- * And since the `@coco-kits/common-utils` is a buildable package we can not link 'main' file to `index.ts`
+ * And since the `@coco-kits/...` is a buildable package we can not link 'main' file to `index.ts`
  */
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { deepMerge } from '../../../../common/utils/src';
+import { deepMerge } from '../../../packages/common/utils/src';
 
 interface AngularStorybookConfigOptions {
   callerPath: string;

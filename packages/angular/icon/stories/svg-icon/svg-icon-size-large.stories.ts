@@ -2,8 +2,8 @@ import type { StoryObj } from '@storybook/angular';
 
 import { SvgIconComponent } from '../../src';
 
-export const Default: StoryObj<SvgIconComponent> = {
-  name: 'Default',
+export const SizeLarge: StoryObj<SvgIconComponent> = {
+  name: 'Size: Large',
   parameters: {
     docs: {
       description: {
@@ -14,7 +14,7 @@ export const Default: StoryObj<SvgIconComponent> = {
   render: () => ({
     template: `
       <div style="border: 1px solid; height: 200px">
-        Size story
+        Size Large story
       </div>
     `,
   }),

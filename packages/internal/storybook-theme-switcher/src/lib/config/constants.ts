@@ -1,3 +1,5 @@
+import { SvgIcon } from '@coco-kits/theme-core';
+
 export const THEMES: Theme[] = [
   { id: 'default', name: 'Default', icon: 'default-logo.png' },
   { id: 'default2', name: 'Default-2', icon: 'default-logo.png' },
@@ -6,16 +8,20 @@ export const THEMES: Theme[] = [
 
 export const DEFAULT_THEME = THEMES[0];
 
-export type ThemeId = string;
-
 export interface Theme {
-  id: ThemeId;
+  id: string;
   name: string;
   icon: string;
 }
 
+export interface ThemeChangedEvent {
+  id: string;
+  name: string;
+  iconList: Record<string, SvgIcon>;
+}
+
 export interface GlobalArgs {
-  [GLOBAL_THEME_KEY]: ThemeId;
+  [GLOBAL_THEME_ID]: string;
 }
 
 /**
@@ -24,12 +30,13 @@ export interface GlobalArgs {
 export const ADDON_ID = '@coco-kits/storybook-theme-switcher';
 
 export const THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/theme-changed`;
-export const DOCUMENT_THEM_ATTR = `cck-theme`;
+export const SET_THEME_BY_ID_EVENT_NAME = `cck-storybook-theme-switcher/set-theme-by-id`;
+export const DOCUMENT_THEME_ATTR = `cck-theme`;
 
 /**
  * Will be use as global state, and it will be visible at url query params
  */
-export const GLOBAL_THEME_KEY = 'cck-theme';
+export const GLOBAL_THEME_ID = 'cck-theme-switcher-selected-id';
 
 /**
  * ID of custom element, that will be visible at screen (For example toolbar)

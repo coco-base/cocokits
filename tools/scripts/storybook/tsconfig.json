@@ -9,13 +9,10 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx"
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"]
   },
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
-  ]
+  "include": ["*.ts", "*.tsx"],
+  "exclude": ["*.spec.ts", "*.test.ts"]
 }

@@ -3,8 +3,7 @@ import { CheckIcon as StorybookCheckIcon } from "@storybook/icons";
 import {styled} from '@storybook/theming';
 import React, { memo } from 'react';
 
-import {THEMES,} from "../config/constants";
-import {useTheme} from "../hooks/useTheme";
+import {useManagerTheme} from "../hooks/useManagerTheme";
 
 
 
@@ -20,10 +19,9 @@ const CheckIcon = styled(StorybookCheckIcon)(
 );
 
 
-// eslint-disable-next-line max-lines-per-function
-export const ToolThemeSwitcher = memo(function MyAddonSelector() {
+export const ToolThemeSwitcher = memo(() => {
 
-  const { selectedTheme, updateTheme } = useTheme();
+  const { selectedTheme, updateTheme, themes } = useManagerTheme();
 
   return (
     <WithTooltip
@@ -34,16 +32,16 @@ export const ToolThemeSwitcher = memo(function MyAddonSelector() {
       tooltip={({ onHide }) => {
         return (
           <TooltipLinkList
-            links={THEMES.map((theme) => ({
-              id: theme.name,
+            links={themes.map((theme) => ({
+              id: theme.id,
               title: theme.name,
-              active: selectedTheme.name === theme.name,
+              active: theme.id === selectedTheme.id,
               onClick: () => {
-                updateTheme(theme);
+                updateTheme(theme.id);
                 onHide();
               },
               icon: <img width="14px" src={theme.icon} alt={theme.name}/>,
-              right: selectedTheme.name === theme.name ? <CheckIcon/> : undefined
+              right: theme.id === selectedTheme.id ? <CheckIcon/> : undefined
             }))}
           />
         );

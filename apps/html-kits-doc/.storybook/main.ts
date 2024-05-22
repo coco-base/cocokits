@@ -1,9 +1,8 @@
 import type { StorybookConfig } from '@storybook/html-webpack5';
-import { webpackConfigBase } from '@coco-kits/storybook-core';
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-  addons: [...webpackConfigBase.addons],
+  addons: [],
   framework: {
     name: '@storybook/html-webpack5',
     options: {
@@ -13,7 +12,6 @@ const config: StorybookConfig = {
     },
   },
   staticDirs: ['../../../packages/internal/storybook-core/src/assets'],
-  webpackFinal: webpackConfigBase.webpackFinal,
 };
 
 export default config;
