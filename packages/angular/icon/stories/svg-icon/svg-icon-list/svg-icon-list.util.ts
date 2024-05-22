@@ -32,7 +32,7 @@ export function getIconSourceCode(themeChangedEvent: ThemeChangedEvent | undefin
   }
 
   return `
-import { svgIconMap } from '@coco-kits/${themeChangedEvent.name.toLowerCase()}';
+import { svgIconMap } from '@coco-kits/theme-${themeChangedEvent.name.toLowerCase()}';
 import { SvgIconComponent } from '@coco-kits/angular-icon';
 
 @Component({

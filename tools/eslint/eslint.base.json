@@ -65,6 +65,12 @@
       }
     },
     {
+      "files": ["*.tsx", "*.jsx"],
+      "rules": {
+        "max-lines-per-function": ["error", { "max": 80, "skipComments": true }]
+      }
+    },
+    {
       "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "env": {
         "jest": true
