@@ -1,7 +1,7 @@
-import { SvgIcon } from '@coco-kits/theme-core';
+import type { ThemeSvgIcon } from '@coco-kits/common-types';
 import { svgIconMap } from '@coco-kits/theme-default';
 
-export const themeIconSvg: Record<string, Record<string, SvgIcon>> = {
+export const themeIconSvg: Record<string, Record<string, ThemeSvgIcon>> = {
   default: svgIconMap,
   default2: {
     'caret-alt-to-right-2': {

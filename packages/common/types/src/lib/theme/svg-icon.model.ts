@@ -1,4 +1,4 @@
-export interface SvgIcon {
+export interface ThemeSvgIcon {
   name: string;
   content: string;
   viewBox: string;

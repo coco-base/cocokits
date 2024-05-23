@@ -7,9 +7,9 @@ import { Observable, tap } from 'rxjs';
 
 import { HighlightComponent } from '@coco-kits/angular-highlight';
 import { runInsideNgZone } from '@coco-kits/common-angular-utils';
+import type { ThemeSvgIcon } from '@coco-kits/common-types';
 import { skipNullish } from '@coco-kits/common-utils';
 import { themeChanged$ } from '@coco-kits/storybook-theme-switcher';
-import { SvgIcon } from '@coco-kits/theme-core';
 
 import { filterIconsBySearchInput, getIconSourceCode } from './svg-icon-list.util';
 import { SvgIconComponent } from '../../../src';
@@ -25,7 +25,7 @@ import { SvgIconComponent } from '../../../src';
 export class SvgIconListComponent {
   protected searchInput = signal('');
 
-  protected iconsMap$: Observable<SvgIcon[]> = themeChanged$.pipe(
+  protected iconsMap$: Observable<ThemeSvgIcon[]> = themeChanged$.pipe(
     tap(() => this.reset()),
     skipNullish(),
     filterIconsBySearchInput(this.searchInput),
@@ -37,7 +37,7 @@ export class SvgIconListComponent {
   private themeChanged = toSignal(themeChanged$);
   protected sourceCode = computed(() => getIconSourceCode(this.themeChanged(), this.selectedIconName()));
 
-  protected onIconClick(icon: SvgIcon) {
+  protected onIconClick(icon: ThemeSvgIcon) {
     this.selectedIconName.set(icon.name);
   }
 

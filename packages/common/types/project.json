@@ -1,0 +1,19 @@
+{
+  "name": "@coco-kits/common-types",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/common/types/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/common/types",
+        "main": "packages/common/types/src/index.ts",
+        "tsConfig": "packages/common/types/tsconfig.lib.json",
+        "assets": ["packages/common/types/*.md"]
+      }
+    }
+  }
+}

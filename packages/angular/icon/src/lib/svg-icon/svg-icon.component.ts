@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { TrustHtmlPipe } from '@coco-kits/common-angular-utils';
-import type { SvgIcon } from '@coco-kits/theme-core';
+import type { ThemeSvgIcon } from '@coco-kits/common-types';
 
 @Component({
   selector: 'cck-svg-icon',
@@ -16,5 +16,5 @@ export class SvgIconComponent {
    * Input property that requires an SVG icon configuration.
    * @requires
    */
-  public icon = input.required<SvgIcon>();
+  public icon = input.required<ThemeSvgIcon>();
 }

@@ -1,4 +1,4 @@
-import { SvgIcon } from '@coco-kits/theme-core';
+import type { ThemeSvgIcon } from '@coco-kits/common-types';
 
 export const THEMES: Theme[] = [
   { id: 'default', name: 'Default', icon: 'default-logo.png' },
@@ -17,7 +17,7 @@ export interface Theme {
 export interface ThemeChangedEvent {
   id: string;
   name: string;
-  iconList: Record<string, SvgIcon>;
+  iconList: Record<string, ThemeSvgIcon>;
 }
 
 export interface GlobalArgs {
@@ -30,7 +30,6 @@ export interface GlobalArgs {
 export const ADDON_ID = '@coco-kits/storybook-theme-switcher';
 
 export const THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/theme-changed`;
-export const SET_THEME_BY_ID_EVENT_NAME = `cck-storybook-theme-switcher/set-theme-by-id`;
 export const DOCUMENT_THEME_ATTR = `cck-theme`;
 
 /**

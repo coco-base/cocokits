@@ -3,13 +3,13 @@ import { toObservable } from '@angular/core/rxjs-interop';
 
 import { debounceTime, map, Observable, pipe, startWith, switchMap } from 'rxjs';
 
+import type { ThemeSvgIcon } from '@coco-kits/common-types';
 import { fuzzysearch } from '@coco-kits/common-utils';
 import { ThemeChangedEvent } from '@coco-kits/storybook-theme-switcher';
-import { SvgIcon } from '@coco-kits/theme-core';
 
 export function filterIconsBySearchInput(
   searchInput: Signal<string>
-): (source: Observable<ThemeChangedEvent>) => Observable<SvgIcon[]> {
+): (source: Observable<ThemeChangedEvent>) => Observable<ThemeSvgIcon[]> {
   const searchInput$ = toObservable(searchInput);
   return pipe(
     switchMap((themeChangeEvent) =>

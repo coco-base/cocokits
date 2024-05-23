@@ -1,6 +1,6 @@
-import { SvgIcon } from '@coco-kits/theme-core';
+import type { ThemeSvgIcon } from '@coco-kits/common-types';
 
-export const svgIconMap: Record<string, SvgIcon> = {
+export const svgIconMap: Record<string, ThemeSvgIcon> = {
   'caret-tr': {
     name: 'caret-tr',
     content: '<path d="M352 160v192L160 160z" />',
