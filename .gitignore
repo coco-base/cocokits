@@ -42,4 +42,5 @@ Thumbs.db
 
 
 storybook-static
+migration-storybook.log
 .angular

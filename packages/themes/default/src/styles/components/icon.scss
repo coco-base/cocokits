@@ -1,0 +1,67 @@
+@use '../../token/variables/colors-palette' as *;
+
+// region Size
+.cck-icon__size--xs {
+  width: 16px;
+  height: 16px;
+}
+
+.cck-icon__size--sm {
+  width: 20px;
+  height: 20px;
+}
+
+.cck-icon__size--default,
+.cck-icon__size--md {
+  width: 24px;
+  height: 24px;
+}
+
+.cck-icon__size--lg {
+  width: 28px;
+  height: 28px;
+}
+
+.cck-icon__size--xl {
+  width: 32px;
+  height: 32px;
+}
+
+.cck-icon__size--2xl {
+  width: 48px;
+  height: 48px;
+}
+
+// endregion
+
+// region Color
+.cck-icon__color--brand {
+  fill: #0ba6ed;
+}
+
+.cck-icon__color--info {
+  fill: #ee46bc;
+}
+
+.cck-icon__color--warning {
+  fill: #eaaa08;
+}
+
+.cck-icon__color--error {
+  fill: #ff4450;
+}
+
+.cck-icon__color--h-contrast {
+  fill: #292929;
+}
+
+.cck-icon__color--default,
+.cck-icon__size--m-contrast {
+  fill: #a5a5a5;
+}
+
+.cck-icon__size--l-contrast {
+  fill: #e4e4e4;
+}
+
+// endregion

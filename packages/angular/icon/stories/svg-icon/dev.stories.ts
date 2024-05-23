@@ -1,16 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 
+import { BaseColor, IconSize } from '@coco-kits/common-types';
+
+import { templateIcon } from './template-svg-icon';
 import { SvgIconComponent } from '../../src';
 
 const meta: Meta = {
   component: SvgIconComponent,
-  title: 'SvgIcon',
+  title: 'Dev/SvgIcon',
   tags: ['!autodocs'],
+  argTypes: {
+    color: { control: 'select', options: Object.values(BaseColor) },
+    size: { control: 'select', options: Object.values(IconSize) },
+  },
 };
 export default meta;
 
 export const Default: StoryObj<SvgIconComponent> = {
   args: {
-    icon: JSON.parse('{"name":"caret-tr","content":"<path d=\\"M352 160v192L160 160z\\" />","viewBox":"0 0 512 512"}'),
+    color: BaseColor.Default as any,
+    size: IconSize.XXL as any,
+    icon: templateIcon as any,
   },
 };
