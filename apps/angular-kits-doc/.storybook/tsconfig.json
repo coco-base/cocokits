@@ -4,7 +4,7 @@
     "emitDecoratorMetadata": true,
     "jsx": "react-jsx"
   },
-  "exclude": ["../**/*.spec.ts"],
+  "exclude": ["../**/*.spec.ts", "node_modules", "../../../**/node_modules"],
   "include": [
     "../stories/**/*.stories.ts",
     "../stories/**/*.stories.js",
@@ -14,6 +14,7 @@
     "./*.js",
     "./*.ts",
     "../../../packages/internal/storybook-theme-switcher/**/*.ts",
+    "../../../packages/internal/storybook-doc-page/**/*.ts",
     "../../../packages/angular/**/index.stories.ts"
   ]
 }

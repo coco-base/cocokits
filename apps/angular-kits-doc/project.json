@@ -8,7 +8,6 @@
   "targets": {
     "storybook": {
       "options": {
-        "docs": true,
         "styles": ["packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss"],
         "compodoc": true,
         "compodocArgs": [
@@ -25,7 +24,6 @@
     },
     "build-storybook": {
       "options": {
-        "docs": true,
         "styles": ["packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss"],
         "compodoc": true,
         "compodocArgs": [

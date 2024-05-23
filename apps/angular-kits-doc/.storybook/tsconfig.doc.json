@@ -1,0 +1,6 @@
+{
+  "//": "compodoc typescript configuration",
+  "extends": "../tsconfig.json",
+  "include": ["../src/**/*.ts", "../../../packages/angular/**/*.component.ts"],
+  "exclude": ["node_modules", "../../../**/node_modules"]
+}
