@@ -1,0 +1,19 @@
+{
+  "name": "@coco-kits/theme-core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/theme/core/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/theme/core",
+        "main": "packages/theme/core/src/index.ts",
+        "tsConfig": "packages/theme/core/tsconfig.lib.json",
+        "assets": ["packages/theme/core/*.md"]
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
   [attr.viewBox]="icon().viewBox"
-  [class]="classNames()"
+  [class]="[colorClassName(), 'svg-icon']"
   [innerHtml]="icon().content | trustHtml">
 </svg>

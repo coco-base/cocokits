@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import { execSync } from 'child_process';
 
 const printError = (message: string, err: any): void => {
-    if (!`${err}`.includes('No such file or directory')) {
-        console.error(`${err}`);
-    }
-}
+  if (!`${err}`.includes('No such file or directory')) {
+    console.error(`${err}`);
+  }
+};
 
 // Read the pnpm-workspace.yaml file
 const workspaceConfig: string = fs.readFileSync('pnpm-workspace.yaml', 'utf8');
@@ -17,54 +17,46 @@ const packagePatternRegex: RegExp = /-\s*'([^']+)'/g;
 let match: RegExpExecArray | null;
 const packagePatterns: string[] = [];
 while ((match = packagePatternRegex.exec(workspaceConfig)) !== null) {
-    packagePatterns.push(match[1]);
+  packagePatterns.push(match[1]);
 }
 
 // Function to delete node_modules directory
 const deleteNodeModules = (path: string): void => {
-    console.log(`Deleting node_modules in ${path}`);
-    try {
-        execSync(`rm -rf ${path}/node_modules`);
-    } catch (error) {
-        printError(`Error deleting node_modules in ${path}`, error)
-    }
+  console.log(`Deleting node_modules in ${path}`);
+  try {
+    execSync(`rm -rf ${path}/node_modules`);
+  } catch (error) {
+    printError(`Error deleting node_modules in ${path}`, error);
+  }
 };
 
-// Delete pnpm-lock.yaml
-console.log(`Deleting pnpm-lock.yaml`);
+const staticFile = ['tmp', 'dist', 'package-lock.json', '.nx', 'pnpm-lock.yaml', '.angular'];
+
 try {
-    execSync(`rm pnpm-lock.yaml`);
+  staticFile.forEach((path) => {
+    console.log(`Deleting ${path}`);
+    execSync(`rm -rf ${path}`);
+  });
 } catch (error) {
-    printError(`Error deleting pnpm-lock.yaml`, error)
+  printError(`Error by deleting`, error);
 }
-
-console.log('');
-
-// Delete root node_modules
-deleteNodeModules('./');
 
 // Iterate over each package and delete its node_modules
 packagePatterns.forEach((packagePattern: string) => {
-    const packagePath: string = packagePattern.replace('*', '');
-    if (!fs.existsSync(packagePath)) {
-        console.log(`No such directory exists. Skip cleaning for this directory: ${packagePath}`)
-        return;
-    }
+  const packagePath: string = packagePattern.replace('**', '');
+  if (!fs.existsSync(packagePath)) {
+    console.log(`No such directory exists. Skip cleaning for this directory: ${packagePath}`);
+    return;
+  }
 
-    const directories: string[] = fs.readdirSync(packagePath, { withFileTypes: true })
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => `${packagePath}${dirent.name}`);
+  const directories: string[] = fs
+    .readdirSync(packagePath, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => `${packagePath}${dirent.name}`);
 
-    directories.forEach(deleteNodeModules);
+  directories.forEach(deleteNodeModules);
 });
 
 console.log('');
-
-console.log(`Deleting dist folder`);
-try {
-    execSync(`rm -rf ./dist`);
-} catch (error) {
-    printError(`Error deleting dist`, error)
-}
 
 console.log('\nWorkspace has been cleaned.\nNow you can run `pnpm i`\n');

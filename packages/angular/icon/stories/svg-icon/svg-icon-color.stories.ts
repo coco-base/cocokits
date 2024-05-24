@@ -9,7 +9,7 @@ export const Color: StoryObj<SvgIconComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add Color story description',
+        story: `This scenario demonstrates the range of color options available from the BaseColor enum for the SvgIconComponent. Observe how different colors modify the appearance of the icons, enhancing visual integration with your application's design palette.`,
       },
     },
   },

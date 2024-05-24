@@ -9,7 +9,8 @@ export const Size: StoryObj<SvgIconComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add size story description',
+        story:
+          'This scenario displays the SvgIconComponent in all predefined sizes from the IconSize enum. Experience how each size option enhances icon visibility and aesthetics across your user interface.',
       },
     },
   },

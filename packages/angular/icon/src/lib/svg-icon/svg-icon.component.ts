@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, InputSignal } from
 
 import { TrustHtmlPipe } from '@coco-kits/common-angular-utils';
 import { BaseColor, IconSize, ThemeSvgIcon } from '@coco-kits/common-types';
+import { getIconColorClass, getIconSizeClass } from '@coco-kits/theme-core';
 
 @Component({
   selector: 'cck-svg-icon',
@@ -10,6 +11,9 @@ import { BaseColor, IconSize, ThemeSvgIcon } from '@coco-kits/common-types';
   styleUrl: './svg-icon.component.scss',
   imports: [TrustHtmlPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class]': 'sizeClassName()',
+  },
 })
 export class SvgIconComponent {
   /**
@@ -33,53 +37,6 @@ export class SvgIconComponent {
    */
   public color: InputSignal<BaseColor | null> = input<BaseColor | null>(BaseColor.Default);
 
-  private sizeClassName = computed(() => getIconSizeClass(this.size()));
-  private colorClassName = computed(() => getIconColorClass(this.color()));
-  protected classNames = computed(() => [this.sizeClassName(), this.colorClassName()]);
-}
-
-// TODO: Move this function to theme-core library
-function getIconSizeClass(size: IconSize | null): string | null {
-  switch (size) {
-    case IconSize.Default:
-      return 'cck-icon__size--default';
-    case IconSize.XS:
-      return 'cck-icon__size--xs';
-    case IconSize.Sm:
-      return 'cck-icon__size--sm';
-    case IconSize.Md:
-      return 'cck-icon__size--md';
-    case IconSize.Lg:
-      return 'cck-icon__size--lg';
-    case IconSize.XL:
-      return 'cck-icon__size--xl';
-    case IconSize.XXL:
-      return 'cck-icon__size--2xl';
-    default:
-      return null;
-  }
-}
-
-// TODO: Move this function to theme-core library
-function getIconColorClass(color: BaseColor | null): string | null {
-  switch (color) {
-    case BaseColor.Default:
-      return 'cck-icon__color--default';
-    case BaseColor.Brand:
-      return 'cck-icon__color--brand';
-    case BaseColor.Info:
-      return 'cck-icon__color--info';
-    case BaseColor.Warning:
-      return 'cck-icon__color--warning';
-    case BaseColor.Error:
-      return 'cck-icon__color--error';
-    case BaseColor.HighContrast:
-      return 'cck-icon__color--h-contrast';
-    case BaseColor.MediumContrast:
-      return 'cck-icon__size--m-contrast';
-    case BaseColor.LowContrast:
-      return 'cck-icon__size--l-contrast';
-    default:
-      return null;
-  }
+  protected sizeClassName = computed(() => getIconSizeClass(this.size()));
+  protected colorClassName = computed(() => getIconColorClass(this.color()));
 }
