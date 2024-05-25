@@ -2,5 +2,6 @@
 
 :where(html[cck-theme='default']) {
   @include settings.color-palette-blue;
+  @include settings.sizes;
   @import '../../../../../themes/default/src/styles';
 }

@@ -1,42 +1,47 @@
-@use '../../token/variables/colors-palette' as *;
+@use '../../token/variables/sizes' as *;
 
 // region Size
+
+.cck-icon__size--default {
+  width: $size-icon-md;
+  height: $size-icon-md;
+}
+
 .cck-icon__size--xs {
-  width: 16px;
-  height: 16px;
+  width: $size-icon-xs;
+  height: $size-icon-xs;
 }
 
 .cck-icon__size--sm {
-  width: 20px;
-  height: 20px;
+  width: $size-icon-sm;
+  height: $size-icon-sm;
 }
 
-.cck-icon__size--default,
 .cck-icon__size--md {
-  width: 24px;
-  height: 24px;
+  width: $size-icon-md;
+  height: $size-icon-md;
 }
 
 .cck-icon__size--lg {
-  width: 28px;
-  height: 28px;
+  width: $size-icon-lg;
+  height: $size-icon-lg;
 }
 
 .cck-icon__size--xl {
-  width: 32px;
-  height: 32px;
+  width: $size-icon-xl;
+  height: $size-icon-xl;
 }
 
 .cck-icon__size--2xl {
-  width: 48px;
-  height: 48px;
+  width: $size-icon-xxl;
+  height: $size-icon-xxl;
 }
 
 // endregion
 
 // region Color
 .cck-icon__color--brand {
-  fill: #0ba6ed;
+  fill: $size-icon-xxl;
 }
 
 .cck-icon__color--info {

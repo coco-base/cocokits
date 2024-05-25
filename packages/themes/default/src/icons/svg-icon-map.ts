@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import type { ThemeSvgIcon } from '@coco-kits/common-types';
 
 export const svgIconMap: Record<string, ThemeSvgIcon> = {
