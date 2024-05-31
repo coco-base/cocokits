@@ -1,0 +1,21 @@
+import { Meta, type StoryObj } from '@storybook/angular';
+
+import descriptionMd from './<%- fileName %>-description.md';
+import { <%- className %>Component } from '../../src/<%- componentImportPath %>';
+
+const meta: Meta = {
+  component: <%- className %>Component,
+  title: '<%- className %>Component',
+  tags: ['autodocs'],
+  decorators: [],
+  parameters: {
+    docs: {
+      description: {
+        component: [descriptionMd].join('\n'),
+      },
+    },
+  },
+};
+export default meta;
+
+export const Default: StoryObj<<%- className %>Component> = {};

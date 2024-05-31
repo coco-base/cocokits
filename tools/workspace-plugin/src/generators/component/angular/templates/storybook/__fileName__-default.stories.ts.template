@@ -1,0 +1,14 @@
+import type { StoryObj } from '@storybook/angular';
+import { <%- className %>Component } from '../../src/<%- componentImportPath %>';
+
+export const Default: StoryObj<<%- className %>Component> = {
+  name: 'Default',
+  parameters: {
+    docs: {
+      description: {
+        story: 'TODO: Add size story description',
+      },
+    },
+  },
+  render: (args) => ({}),
+};

@@ -8,12 +8,17 @@
     "ui-library": {
       "factory": "./src/generators/library/ui/generator",
       "schema": "./src/generators/library/ui/schema.json",
-      "description": "create an ui library in coco-kits"
+      "description": "Create an ui library in coco-kits"
     },
     "util-library": {
       "factory": "./src/generators/library/util/generator",
       "schema": "./src/generators/library/util/schema.json",
-      "description": "create an util library in coco-kits"
+      "description": "Create an util library in coco-kits"
+    },
+    "angular-component": {
+      "factory": "./src/generators/component/angular/generator",
+      "schema": "./src/generators/component/angular/schema.json",
+      "description": "Create an angular component in coco-kits project"
     }
   }
 }
