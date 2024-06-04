@@ -3,8 +3,16 @@
   "ignoreFiles": ["node_modules/**", "dist/**"],
   "plugins": ["stylelint-scss"],
   "rules": {
+    "scss/dollar-variable-pattern": "[a-zA-Z0-9-_]*",
+    "scss/at-mixin-pattern": "[a-zA-Z0-9-_]*",
     "no-invalid-position-at-import-rule": null,
     "no-empty-source": null,
+    "custom-property-pattern": [
+      "[a-zA-Z0-9-_]*",
+      {
+        "message": "Expected custom property name have only `a-z`, `A-Z`, `0-9`, `-` or `_`"
+      }
+    ],
     "selector-class-pattern": [
       "^[a-z0-9\\-]+(__[a-z0-9\\-]+)?(--[a-z0-9\\-]+){0,2}$",
       {

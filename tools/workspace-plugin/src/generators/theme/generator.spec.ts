@@ -3,6 +3,7 @@ import { Tree, readProjectConfiguration } from '@nx/devkit';
 
 import { themeGenerator } from './generator';
 import { ThemeGeneratorSchema } from './schema';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('theme generator', () => {
   let tree: Tree;

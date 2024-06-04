@@ -10,6 +10,10 @@
             "allow": ["@coco-kits/common-types", ".*/dist/compodoc/.*", ".*/tools/scripts/storybook/.*"],
             "depConstraints": [
               {
+                "sourceTag": "workspace",
+                "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
                 "sourceTag": "type:app",
                 "onlyDependOnLibsWithTags": ["type:theme", "type:ui", "type:utils"]
               },

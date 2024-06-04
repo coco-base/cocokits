@@ -1,0 +1,257 @@
+{
+  "hierarchical grid-sm": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 2,
+        "offset": "0px"
+      }
+    ]
+  },
+  "hierarchical grid-2xl": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 18,
+        "offset": "0px"
+      }
+    ]
+  },
+  "hierarchical grid-md": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 4,
+        "offset": "0px"
+      }
+    ]
+  },
+  "hierarchical grid-lg": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 8,
+        "offset": "0px"
+      }
+    ]
+  },
+  "hierarchical grid-xl": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 12,
+        "offset": "0px"
+      }
+    ]
+  },
+  "column grid-sm": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 2,
+        "offset": "{Spacing.space-8}"
+      }
+    ]
+  },
+  "column grid-md": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 4,
+        "offset": "{Spacing.space-8}"
+      }
+    ]
+  },
+  "column grid-lg": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 8,
+        "offset": "{Spacing.space-12}"
+      }
+    ]
+  },
+  "column grid-xl": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 12,
+        "offset": "{Spacing.space-18}"
+      }
+    ]
+  },
+  "column grid-2xl": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 18,
+        "offset": "{Spacing.space-23}"
+      }
+    ]
+  },
+  "modular grid-sm": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 2,
+        "offset": "{Spacing.space-8}"
+      },
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "min",
+        "color": "#fecdd340",
+        "gutterSize": "{Spacing.space-8}",
+        "count": null,
+        "offset": "{Spacing.space-8}"
+      }
+    ]
+  },
+  "modular grid-md": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-8}",
+        "count": 4,
+        "offset": "{Spacing.space-8}"
+      },
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "min",
+        "color": "#fecdd340",
+        "gutterSize": "{Spacing.space-8}",
+        "count": null,
+        "offset": "{Spacing.space-8}"
+      }
+    ]
+  },
+  "modular grid-lg": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 8,
+        "offset": "{Spacing.space-10}"
+      },
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "min",
+        "color": "#fecdd340",
+        "gutterSize": "{Spacing.space-10}",
+        "count": null,
+        "offset": "{Spacing.space-10}"
+      }
+    ]
+  },
+  "modular grid-xl": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 12,
+        "offset": "{Spacing.space-18}"
+      },
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "min",
+        "color": "#fecdd340",
+        "gutterSize": "{Spacing.space-10}",
+        "count": null,
+        "offset": "{Spacing.space-10}"
+      }
+    ]
+  },
+  "modular grid-2xl": {
+    "$type": "grid",
+    "$value": [
+      {
+        "pattern": "columns",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#fecdd380",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 18,
+        "offset": "{Spacing.space-23}"
+      },
+      {
+        "pattern": "rows",
+        "visible": true,
+        "alignment": "stretch",
+        "color": "#ff00001a",
+        "gutterSize": "{Spacing.space-10}",
+        "count": 18,
+        "offset": "0px"
+      }
+    ]
+  }
+}

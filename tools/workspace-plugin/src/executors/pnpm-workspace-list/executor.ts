@@ -1,6 +1,7 @@
+import { spawnSync } from 'child_process';
+
 import { PnpmPackageInfo, PnpmWorkspaceListExecutorSchema } from './schema';
 import { Logger } from '../../utils/logger';
-import { spawnSync } from 'child_process';
 
 export default async function runExecutor(options: PnpmWorkspaceListExecutorSchema) {
   Logger.header('---- coco-kits packages list ----');

@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 function logGreen(message: string) {
   console.log(chalk.green(message));

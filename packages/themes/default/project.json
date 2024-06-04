@@ -15,6 +15,25 @@
         "min": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token.scss"]
       }
     },
+    "scssify-token": {
+      "executor": "@coco-kits/workspace-plugin:scssify-token",
+      "outputs": ["{options.outputPath}"],
+      "configurations": {
+        "designTokensManager": {
+          "files": ["packages/themes/default/json-token/manifest.json"],
+          "exclude": [
+            "packages/themes/default/json-token/grid.styles.tokens.json",
+            "packages/themes/default/json-token/Breakpoints.Desktop.tokens.json",
+            "packages/themes/default/json-token/Breakpoints.Tablet.tokens.json",
+            "packages/themes/default/json-token/Breakpoints.Mobile.tokens.json"
+          ],
+          "parser": "design-tokens-manager",
+          "skipTokenTypes": ["gradient"],
+          "outputDir": "packages/themes/default/src/token",
+          "themeName": "default"
+        }
+      }
+    },
     "eslint": {
       "executor": "@nx/eslint:lint"
     }

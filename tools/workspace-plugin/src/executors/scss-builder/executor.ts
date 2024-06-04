@@ -1,7 +1,7 @@
-import { ScssBuilderExecutorSchema } from './schema';
 import { cleanOutputPath } from './clean';
-import { Logger } from '../../utils/logger';
 import { cssBuilder } from './css-builder';
+import { ScssBuilderExecutorSchema } from './schema';
+import { Logger } from '../../utils/logger';
 
 export default async function runExecutor(options: ScssBuilderExecutorSchema) {
   try {

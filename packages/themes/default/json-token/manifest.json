@@ -1,0 +1,48 @@
+{
+  "name": "Design Tokens",
+  "collections": {
+    "Sizing": {
+      "modes": {
+        "Compact": ["Sizing.Compact.tokens.json"],
+        "Spacious": ["Sizing.Spacious.tokens.json"]
+      }
+    },
+    "Color Theme": {
+      "modes": {
+        "Theme A": ["Color Theme.Theme A.tokens.json"],
+        "Theme B": ["Color Theme.Theme B.tokens.json"]
+      }
+    },
+    "Color Mode": {
+      "modes": {
+        "Light": ["Color Mode.Light.tokens.json"],
+        "Dark": ["Color Mode.Dark.tokens.json"]
+      }
+    },
+    "Breakpoints": {
+      "modes": {
+        "Desktop": ["Breakpoints.Desktop.tokens.json"],
+        "Tablet": ["Breakpoints.Tablet.tokens.json"],
+        "Mobile": ["Breakpoints.Mobile.tokens.json"]
+      }
+    },
+    "Radius": {
+      "modes": {
+        "Default": ["Radius.Default.tokens.json"],
+        "Rounded": ["Radius.Rounded.tokens.json"]
+      }
+    },
+    "Typography": {
+      "modes": {
+        "Font A": ["Typography.Font A.tokens.json"],
+        "Font B": ["Typography.Font B.tokens.json"]
+      }
+    }
+  },
+  "styles": {
+    "text": ["text.styles.tokens.json"],
+    "effect": ["effect.styles.tokens.json"],
+    "color": ["color.styles.tokens.json"],
+    "grid": ["grid.styles.tokens.json"]
+  }
+}

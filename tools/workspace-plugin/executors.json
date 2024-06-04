@@ -9,6 +9,11 @@
       "implementation": "./src/executors/pnpm-workspace-list/executor",
       "schema": "./src/executors/pnpm-workspace-list/schema.json",
       "description": "The pnpm-workspace-list executor lists the names of all packages in a pnpm workspace. It provides a quick and easy way to view all package names within your Nx workspace."
+    },
+    "scssify-token": {
+      "implementation": "./src/executors/scssify-token/executor",
+      "schema": "./src/executors/scssify-token/schema.json",
+      "description": "convert JSON-based design tokens into SCSS variables, streamlining the integration of design systems into stylesheets."
     }
   }
 }
