@@ -46,8 +46,8 @@ function getFileContent(collectionName: string, themeName: string) {
 
 @use '../${MIXINS_FOLDER_NAME}/${collectionName}.mixin' as *;
 
-:where(.theme-${themeName}__${cssSelectorName}),
-:where([data-theme-${themeName}__${cssSelectorName}]) {
+:where(.cck-theme-${themeName}__${cssSelectorName}),
+:where([data-cck-theme*='${themeName}__${cssSelectorName}']) {
   @include ${mixinName};
 }
 `;

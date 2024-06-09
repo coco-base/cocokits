@@ -1,7 +1,11 @@
-@use '../../../../../themes/default/src/settings';
-
-:where(html[cck-theme='default']) {
-  @include settings.color-palette-blue;
-  @include settings.sizes;
-  @import '../../../../../themes/default/src/styles';
-}
+@import '../../../../../themes/default/src/token/css-variables/color-mode.dark';
+@import '../../../../../themes/default/src/token/css-variables/color-mode.light';
+@import '../../../../../themes/default/src/token/css-variables/color-theme.theme-a';
+@import '../../../../../themes/default/src/token/css-variables/color-theme.theme-b';
+@import '../../../../../themes/default/src/token/css-variables/global';
+@import '../../../../../themes/default/src/token/css-variables/radius.default';
+@import '../../../../../themes/default/src/token/css-variables/radius.rounded';
+@import '../../../../../themes/default/src/token/css-variables/sizing.compact';
+@import '../../../../../themes/default/src/token/css-variables/sizing.spacious';
+@import '../../../../../themes/default/src/token/css-variables/typography.font-a';
+@import '../../../../../themes/default/src/token/css-variables/typography.font-b';

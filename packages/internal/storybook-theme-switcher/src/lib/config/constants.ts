@@ -30,7 +30,7 @@ export interface GlobalArgs {
 export const ADDON_ID = '@coco-kits/storybook-theme-switcher';
 
 export const THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/theme-changed`;
-export const DOCUMENT_THEME_ATTR = `cck-theme`;
+export const DOCUMENT_THEME_ATTR = `data-cck-theme`;
 
 /**
  * Will be use as global state, and it will be visible at url query params
