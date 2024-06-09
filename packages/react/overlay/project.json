@@ -1,0 +1,9 @@
+{
+  "name": "@coco-kits/react-overlay",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react/overlay/src",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:react"],
+  "// targets": "to see all targets run: nx show project overlay --web",
+  "targets": {}
+}
