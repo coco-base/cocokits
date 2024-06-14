@@ -20,8 +20,10 @@ export function generateAngularStorybookConfig(
       stories: [],
       addons: [
         '@storybook/addon-essentials',
-        path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher'),
-        path.relative(options.callerPath, 'packages/internal/storybook-doc-page'),
+        '@coco-kits/storybook-theme-switcher',
+        '@coco-kits/storybook-doc-page',
+        // path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher'),
+        // path.relative(options.callerPath, 'packages/internal/storybook-doc-page'),
       ],
       framework: {
         name: '@storybook/angular',

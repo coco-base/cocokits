@@ -30,7 +30,7 @@ const deleteNodeModules = (path: string): void => {
   }
 };
 
-const staticFile = ['tmp', 'dist', 'package-lock.json', '.nx', 'pnpm-lock.yaml', '.angular'];
+const staticFile = ['tmp', 'dist', 'package-lock.json', '.nx', 'pnpm-lock.yaml', '.angular', 'node_modules'];
 
 try {
   staticFile.forEach((path) => {
