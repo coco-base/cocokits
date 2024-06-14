@@ -1,4 +1,4 @@
-import { DesignTokenType } from '../../token.model';
+import { CollectionName, DesignTokenType } from '../../token.model';
 
 // regionParser
 export type CollectionFlatName = string; // `sizing.compact` or `sizing.spacious'`
@@ -21,8 +21,7 @@ export type CollectionDTMTokenMap = Record<CollectionFlatName, DTMTokenGroup>;
 // endregion
 
 // region Design Token Manager
-export type DTMCollectionName = string; // `sizing` or `compact`
-export type DTMPaths = Record<DTMCollectionName, string[]>;
+export type DTMPaths = Record<CollectionName, string[]>;
 
 export interface DTMManifest {
   name: string;

@@ -20,6 +20,7 @@ export function parseDesignTokensManager(options: ScssifyTokenExecutorSchema): P
     collectionsJson,
     options.skipTokenTypes
   );
+
   const tokenDefinitionMap = getTokenDefinitionMap(collectionPathMap, collectionsJson);
 
   logEndParsing();

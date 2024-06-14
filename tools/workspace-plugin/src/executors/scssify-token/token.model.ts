@@ -1,3 +1,18 @@
+export type CollectionName = string;
+export type ModeName = string;
+export type ModeGroupName = string;
+export type CSSVariableName = string; // color-palette-steel-gray-200 (ModeGroupName-TokenName)
+export type CollectionWithModeName = string;
+export type CssVariableNamesWithModeMap = Map<CSSVariableName, Set<ModeName>>;
+export type TsStringVariableName = string; // 'colorPalette.cyan.950' -> CamelCase each group and joined by '.'
+export type TsVariableNamesWithModeAndValueMap = Map<TsStringVariableName, { modes: Set<ModeName>; value: string }>;
+export type TsVariableNamesWithValueMap = Map<TsStringVariableName, string>;
+
+// { colorPalette: { cyan: { 950: '#000' } } }
+export interface TsVariableMap {
+  [key: string]: TsVariableMap | string;
+}
+
 export enum DesignTokenType {
   Border = 'border',
   Clamp = 'clamp',
@@ -12,8 +27,8 @@ export enum DesignTokenType {
 }
 
 interface DesignTokenDependency {
-  source: string[];
-  dependOn: string[];
+  source: string[]; // [ 'blue', '50' ]
+  dependOn: string[]; // [ 'colors', 'blue', '50' ]
 }
 
 export interface ParserResult {
@@ -21,7 +36,7 @@ export interface ParserResult {
   tokenDefinitionMap: TokenDefinitionMap;
 }
 
-export type DesignTokenDependencyMap = Record<string, DesignTokenDependency[]>;
+export type DesignTokenDependencyMap = Record<CollectionWithModeName, DesignTokenDependency[]>;
 
 export interface CompilerResult {
   transformedTokens: TransformedDesignTokenCollectionMap;
@@ -35,10 +50,31 @@ export interface CompilerResult {
  *   colors: [ 'color-mode.light', 'color-mode.dark' ]
  * }
  */
-export type TokenDefinitionMap = Record<string, string[]>;
+export type TokenDefinitionMap = Record<CollectionName, CollectionWithModeName[]>;
 
-export type DesignTokenCollectionMap = Record<string, DesignToken[]>;
-export type TransformedDesignTokenCollectionMap = Record<string, TransformedDesignToken[]>;
+/**
+ * Example:
+ * {
+ *   color-mode.light: [
+ *     { namePath: [ 'blue', '50' ], value: "#ffffff", type: 'color' },
+ *     { namePath: [ 'blue', '100' ], value: "#ffffff", type: 'color' },
+ *   ],
+ *   ...
+ * }
+ */
+export type DesignTokenCollectionMap = Record<CollectionWithModeName, DesignToken[]>;
+
+/**
+ * Example:
+ * {
+ *   color-mode.light: [
+ *     { namePath: [ 'blue', '50' ], value: "#ffffff", type: 'color', isAlias:: false },
+ *     { namePath: [ 'blue', '100' ], value: "#ffffff", type: 'color', isAlias:: false },
+ *   ],
+ *   ...
+ * }
+ */
+export type TransformedDesignTokenCollectionMap = Record<CollectionWithModeName, TransformedDesignToken[]>;
 
 export type DesignToken =
   | DesignTokenBorder
@@ -53,7 +89,7 @@ export type DesignToken =
   | DesignTokenShadow;
 
 export interface DesignTokenBase {
-  namePath: string[];
+  namePath: string[]; // [ 'blue', '50' ]
   type: DesignTokenType;
   value: unknown;
   description?: string;

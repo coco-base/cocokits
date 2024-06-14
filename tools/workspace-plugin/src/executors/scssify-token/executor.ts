@@ -7,6 +7,8 @@ import { ScssifyTokenParser } from './model';
 import { parseDesignTokensManager } from './parsers/design-tokens-manager/design-tokens-manager';
 import { ScssifyTokenExecutorSchema } from './schema';
 import { Logger } from '../../utils/logger';
+import { buildTsCssVariables } from './builder/build-ts-css-variables';
+import { buildTsVariables } from './builder/build-ts-variables';
 
 export default async function runExecutor(options: ScssifyTokenExecutorSchema) {
   Logger.header(`Running scssify token with ${options.parser} parser`);
@@ -16,6 +18,8 @@ export default async function runExecutor(options: ScssifyTokenExecutorSchema) {
   buildScssMixins(compilerResult, options);
   buildCssVariables(compilerResult, options);
   buildScssVariables(compilerResult, options);
+  buildTsCssVariables(compilerResult, options);
+  buildTsVariables(compilerResult, options);
 
   runPrettier(options.outputDir);
 

@@ -5,7 +5,16 @@ import { clearDir, sanitizeCSSVariableName, SCSS_VARIABLES_FOLDER_NAME } from '.
 import { logEndParsing, logFileHasGenerated, logStartParsing } from './logger';
 import { Logger } from '../../../utils/logger';
 import { ScssifyTokenExecutorSchema } from '../schema';
-import { CompilerResult, TransformedDesignTokenCollectionMap } from '../token.model';
+import {
+  CollectionName,
+  CollectionWithModeName,
+  CompilerResult,
+  CSSVariableName,
+  ModeName,
+  TokenDefinitionMap,
+  TransformedDesignTokenCollectionMap,
+  CssVariableNamesWithModeMap,
+} from '../token.model';
 import { recordForEach } from '../utils/record-for-each';
 import { recordReduceDeepMerge } from '../utils/reduce-merge';
 
@@ -20,29 +29,29 @@ export function buildScssVariables(compilerResult: CompilerResult, options: Scss
   const scssVariablesDir = path.join(options.outputDir, SCSS_VARIABLES_FOLDER_NAME);
   clearDir(scssVariablesDir);
 
-  const originalCollectionMap = getOriginalCollectionMap(compilerResult.transformedTokens);
+  const collectionMap = getCollectionMap(compilerResult.transformedTokens);
 
-  recordForEach(originalCollectionMap, (collectionNames, originalCollectionName) => {
+  recordForEach(collectionMap, (collectionWithModeNames, collectionName) => {
     const variableNamesWithCollectionModeMap = getVariableNamesWithModesMap(
-      collectionNames,
+      collectionWithModeNames,
       compilerResult.transformedTokens
     );
-    const scssVariablesContent = getScssVariablesContent(collectionNames, variableNamesWithCollectionModeMap);
+    const scssVariablesContent = getScssVariablesContent(collectionWithModeNames, variableNamesWithCollectionModeMap);
     const content = getFileContent(scssVariablesContent);
-    const filePath = writeContentToFile(content, originalCollectionName, scssVariablesDir);
+    const filePath = writeContentToFile(content, collectionName, scssVariablesDir);
     logFileHasGenerated(filePath);
   });
 
-  const indexFilePath = generateIndexFile(originalCollectionMap, scssVariablesDir);
+  const indexFilePath = generateIndexFile(collectionMap, scssVariablesDir);
   logFileHasGenerated(indexFilePath);
 
   logEndParsing('SCSS-Variables');
 }
 
-function generateIndexFile(originalCollectionMap: Record<string, string[]>, scssVariablesDir: string) {
+function generateIndexFile(collectionMap: TokenDefinitionMap, scssVariablesDir: string) {
   let content = '';
-  recordForEach(originalCollectionMap, (collectionNames, originalCollectionName) => {
-    content += `@import './${originalCollectionName}';`;
+  recordForEach(collectionMap, (collectionWithModeNames, collectionName) => {
+    content += `@import './${collectionName}';`;
   });
 
   const indexFilePath = path.join(scssVariablesDir, `index.scss`);
@@ -63,18 +72,18 @@ ${scssVariables}
 }
 
 function getScssVariablesContent(
-  collectionNames: string[],
-  variableNamesWithModesMap: Map<string, Set<string>>
+  collectionWithModeNames: CollectionWithModeName[],
+  variableNamesWithCollectionModeMap: CssVariableNamesWithModeMap
 ): string {
   let scssVariables = '';
 
-  variableNamesWithModesMap.forEach((modesSet, cssVariableName) => {
-    const tokenModes = Array.from(modesSet.values());
-    const totalCollectionModes = collectionNames.length;
+  variableNamesWithCollectionModeMap.forEach((modesNameSet, cssVariableName) => {
+    const tokenModes = Array.from(modesNameSet.values());
+    const totalCollectionModes = collectionWithModeNames.length;
 
     if (tokenModes.length > 0 && tokenModes.length !== totalCollectionModes) {
       Logger.warning(
-        `\n- WARNING: Skip scss variable: '${cssVariableName}' must be included in '${collectionNames.join(
+        `\n- WARNING: Skip scss variable: '${cssVariableName}' must be included in '${collectionWithModeNames.join(
           ', '
         )}' modes, but it's only included in '${tokenModes.join(',')}' mode.\n`
       );
@@ -87,43 +96,43 @@ function getScssVariablesContent(
   return scssVariables;
 }
 
-function getOriginalCollectionMap(transformedTokens: TransformedDesignTokenCollectionMap) {
-  const originalCollectionMap = recordReduceDeepMerge(transformedTokens, (_, collectionName) => {
-    const [collection] = collectionName.split('.');
-    return { [collection]: [collectionName] };
+function getCollectionMap(transformedTokens: TransformedDesignTokenCollectionMap): TokenDefinitionMap {
+  const collectionMap = recordReduceDeepMerge(transformedTokens, (_, collectionWithModeName) => {
+    const [collection] = collectionWithModeName.split('.');
+    return { [collection]: [collectionWithModeName] };
   });
 
-  return originalCollectionMap;
+  return collectionMap;
 }
 
 function getVariableNamesWithModesMap(
-  collectionNames: string[],
+  collectionWithModeNames: CollectionWithModeName[],
   transformedTokens: TransformedDesignTokenCollectionMap
-) {
-  const variableNamesWithCollectionMode = new Map<string, Set<string>>();
+): CssVariableNamesWithModeMap {
+  const variableNamesWithModeMap = new Map<CSSVariableName, Set<ModeName>>();
 
-  collectionNames.forEach((collectionName) => {
-    const tokens = transformedTokens[collectionName];
+  collectionWithModeNames.forEach((collectionWithModeName) => {
+    const tokens = transformedTokens[collectionWithModeName];
 
     tokens.forEach((token) => {
-      const tokenMode = collectionName.split('.')[1];
-      const cssVariableName = sanitizeCSSVariableName(token.namePath);
+      const modeName: ModeName = collectionWithModeName.split('.')[1];
+      const cssVariableName: CSSVariableName = sanitizeCSSVariableName(token.namePath);
 
-      const modesSet = variableNamesWithCollectionMode.get(cssVariableName) ?? new Set();
+      const modesSet: Set<ModeName> = variableNamesWithModeMap.get(cssVariableName) ?? new Set();
 
-      if (tokenMode) {
-        modesSet.add(tokenMode);
+      if (modeName) {
+        modesSet.add(modeName);
       }
 
-      variableNamesWithCollectionMode.set(cssVariableName, modesSet);
+      variableNamesWithModeMap.set(cssVariableName, modesSet);
     });
   });
 
-  return variableNamesWithCollectionMode;
+  return variableNamesWithModeMap;
 }
 
-function writeContentToFile(content: string, originalCollectionName: string, scssVariablesDir: string) {
-  const filePath = path.join(scssVariablesDir, `_${originalCollectionName}.scss`);
+function writeContentToFile(content: string, collectionName: CollectionName, scssVariablesDir: string) {
+  const filePath = path.join(scssVariablesDir, `_${collectionName}.scss`);
   fs.mkdirSync(scssVariablesDir, { recursive: true });
   fs.writeFileSync(filePath, content);
 

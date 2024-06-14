@@ -18,7 +18,7 @@ export function getTokenDefinitionMap(
   // e.g: { spacing: ['sizing.compact', 'sizing.spacious'], colors: ['color-mode.light', 'color-mode.dark'] }
   const tokenDefinitionMap: TokenDefinitionMap = recordReduceDeepMerge(
     collectionPathMap,
-    (tokenPaths, collectionName) => {
+    (tokenPaths, collectionWithModeName) => {
       // e.g: { sizing: ['sizing.compact', 'sizing.spacious'] }
       const singleCollectionTokenDefinitionMap: TokenDefinitionMap = reduceDeepMerge(tokenPaths, (tokenPath) => {
         const token = collectionsJson[tokenPath];
@@ -28,7 +28,7 @@ export function getTokenDefinitionMap(
         const singleTokenFileDefinitionMap: TokenDefinitionMap = reduceDeepMerge(
           tokenVariableNames,
           (tokenVariableName) => {
-            return { [tokenVariableName]: [collectionName] };
+            return { [tokenVariableName]: [collectionWithModeName] };
           }
         );
 

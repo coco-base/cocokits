@@ -3,6 +3,7 @@ import path from 'path';
 import { CollectionPathMap, DTMManifest } from './design-tokens-manager.model';
 import { ScssifyTokenExecutorSchema } from '../../schema';
 import { recordReduceMerge } from '../../utils/reduce-merge';
+import { CollectionName, ModeName } from '../../token.model';
 
 /**
  * Extracts token paths from the manifest and saves them in a flat map to avoid handling deeply nested token paths.
@@ -17,12 +18,12 @@ import { recordReduceMerge } from '../../utils/reduce-merge';
  *
  */
 export function getCollectionPathMap(manifest: DTMManifest, options: ScssifyTokenExecutorSchema): CollectionPathMap {
-  const globalCollectionPathMap = getGlobalCollectionPathMap(manifest, options);
+  const localStyleCollectionPathMap = getLocalStyleCollectionPathMap(manifest, options);
   const customCollectionsPathMap = getCustomCollectionPathMap(manifest, options);
 
   return {
     ...customCollectionsPathMap,
-    ...globalCollectionPathMap,
+    ...localStyleCollectionPathMap,
   };
 }
 
@@ -34,9 +35,9 @@ export function getCollectionPathMap(manifest: DTMManifest, options: ScssifyToke
  * }
  *
  */
-function getGlobalCollectionPathMap(manifest: DTMManifest, options: ScssifyTokenExecutorSchema): CollectionPathMap {
+function getLocalStyleCollectionPathMap(manifest: DTMManifest, options: ScssifyTokenExecutorSchema): CollectionPathMap {
   const pathMap: Record<string, string[]> = {
-    global: Object.values(manifest.styles).flatMap((tokenFiles) => toTokenPaths(tokenFiles, options)),
+    'local-style.default': Object.values(manifest.styles).flatMap((tokenFiles) => toTokenPaths(tokenFiles, options)),
   };
 
   return pathMap;
@@ -75,8 +76,8 @@ function toCollectionModePaths({
   options,
 }: {
   paths: string[];
-  modeName: string;
-  collectionName: string;
+  modeName: ModeName;
+  collectionName: CollectionName;
   options: ScssifyTokenExecutorSchema;
 }) {
   return { [`${toName(collectionName)}.${toName(modeName)}`]: toTokenPaths(paths, options) };

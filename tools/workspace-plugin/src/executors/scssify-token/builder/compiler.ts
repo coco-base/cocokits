@@ -1,5 +1,6 @@
 import { ScssifyTokenExecutorSchema } from '../schema';
 import {
+  CollectionWithModeName,
   CompilerResult,
   DesignToken,
   DesignTokenDependencyMap,
@@ -16,8 +17,8 @@ import { recordReduceDeepMerge, reduceDeepMerge } from '../utils/reduce-merge';
 export function compileDesignToken(parserResult: ParserResult, options: ScssifyTokenExecutorSchema): CompilerResult {
   const compilerResult: CompilerResult = recordReduceDeepMerge(
     parserResult.designTokenCollections,
-    (tokens, collectionName) => {
-      return transformTokens(tokens, collectionName, options);
+    (tokens, collectionWithModeName) => {
+      return transformTokens(tokens, collectionWithModeName, options);
     }
   );
 
@@ -28,7 +29,11 @@ export function compileDesignToken(parserResult: ParserResult, options: ScssifyT
  * Compiles a single design token from the parser result into a format suitable for generating CSS files.
  * This function also converts token values to CSS values and returns a dependency graph to analyze dependencies between token collections.
  */
-function transformTokens(tokens: DesignToken[], collectionName: string, options: ScssifyTokenExecutorSchema) {
+function transformTokens(
+  tokens: DesignToken[],
+  collectionWithModeName: CollectionWithModeName,
+  options: ScssifyTokenExecutorSchema
+) {
   const initializeTransformant: CompilerResult = {
     transformedTokens: {},
     newDependencies: {},
@@ -43,12 +48,14 @@ function transformTokens(tokens: DesignToken[], collectionName: string, options:
       }
 
       const transformedTokens: TransformedDesignTokenCollectionMap = {
-        [collectionName]: [{ ...token, value: transformedValue.value, isAlias: transformedValue.dependOn.length > 0 }],
+        [collectionWithModeName]: [
+          { ...token, value: transformedValue.value, isAlias: transformedValue.dependOn.length > 0 },
+        ],
       };
 
       const newDependencies: DesignTokenDependencyMap =
         transformedValue.dependOn.length > 0
-          ? { [collectionName]: [{ source: token.namePath, dependOn: transformedValue.dependOn }] }
+          ? { [collectionWithModeName]: [{ source: token.namePath, dependOn: transformedValue.dependOn }] }
           : {};
 
       return { transformedTokens, newDependencies };
