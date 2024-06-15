@@ -17,7 +17,7 @@
   },
   "exports": {
     ".": "./package.json",
-    "./preview": "./preview.ts",
-    "./manager": "./manager.ts"
+    "./preview": "./src/preset/preview.ts",
+    "./manager": "./src/preset/manager.ts"
   }
 }

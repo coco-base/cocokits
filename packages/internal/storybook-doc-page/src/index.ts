@@ -1,1 +1,1 @@
-export * from './lib/componenets/DocPage';
+export * from './lib/componenets/doc-page/DocPage';

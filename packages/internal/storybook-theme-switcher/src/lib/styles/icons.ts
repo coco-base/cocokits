@@ -2,8 +2,8 @@ import type { ThemeSvgIcon } from '@coco-kits/common-types';
 import { svgIconMap } from '@coco-kits/theme-default';
 
 export const themeIconSvg: Record<string, Record<string, ThemeSvgIcon>> = {
-  default: svgIconMap,
-  default2: {
+  Default: svgIconMap,
+  FrameX: {
     'caret-alt-to-right-2': {
       name: 'caret-alt-to-right-2',
       content: '<path d="m128 128 192 128-192 128zm224 256V128h-32v256z" />',
@@ -15,5 +15,5 @@ export const themeIconSvg: Record<string, Record<string, ThemeSvgIcon>> = {
       viewBox: '0 0 512 512',
     },
   },
-  default3: {},
+  Theme3: {},
 };

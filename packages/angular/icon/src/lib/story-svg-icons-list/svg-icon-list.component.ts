@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 
 import { runInsideNgZone } from 'packages/common/angular-utils/src';
 import { IconSize, ThemeSvgIcon } from 'packages/common/types/src';
-import { themeChanged$, ThemeChangedEvent } from 'packages/internal/storybook-theme-switcher/src';
 import { debounceTime, map, Observable, pipe, startWith, switchMap, tap } from 'rxjs';
 
 import { fuzzysearch, skipNullish } from '@coco-kits/common-utils';
+import { CckThemeChangedEvent, themeChanged$ } from '@coco-kits/storybook-theme-switcher';
 
 import { SvgIconComponent } from '../../../src';
 
@@ -38,7 +38,7 @@ export class SvgIconListComponent {
 
 function filterIconsBySearchInput(
   searchInput: Signal<string>
-): (source: Observable<ThemeChangedEvent>) => Observable<ThemeSvgIcon[]> {
+): (source: Observable<CckThemeChangedEvent>) => Observable<ThemeSvgIcon[]> {
   const searchInput$ = toObservable(searchInput);
   return pipe(
     switchMap((themeChangeEvent) =>

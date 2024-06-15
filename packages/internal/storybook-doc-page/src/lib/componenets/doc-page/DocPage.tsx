@@ -1,7 +1,7 @@
 import {
-  ArgTypes,
-  Description,
-  DocsContext,
+  ArgTypes, Canvas,
+  Description, DocsContainer,
+  DocsContext, DocsContextProps, DocsStory,
   HeaderMdx,
   Primary,
   Stories,
@@ -10,11 +10,17 @@ import {
 } from '@storybook/addon-docs';
 import React, { useContext } from 'react';
 
-import { SelectThemeSwitcher } from '@coco-kits/storybook-theme-switcher';
+// import { DocCocoKitsThemeSwitcher } from '@coco-kits/storybook-theme-switcher';
 
 import { useStyles } from './DocPage.style';
-import { Toc } from './Toc';
-import { storyNameToHash } from '../utils/doc-page.utils';
+import { Toc } from '../toc/Toc';
+import { storyNameToHash } from '../../utils/doc-page.utils';
+import { Code } from '@storybook/components';
+import {
+  DocCckThemeSwitcher,
+  DocCocoKitsThemeSwitcher, LOCALSTORAGE_STORYBOOK_THEME, STORYBOOK_THEME_CHANGED_EVENT_NAME,
+  StorybookThemeChangedEvent,
+} from '@coco-kits/storybook-theme-switcher';
 
 
 export const DocPage = () => {
@@ -32,7 +38,8 @@ export const DocPage = () => {
 
         <div className={styles.docContent}>
 
-          <SelectThemeSwitcher/>
+          <DocCckThemeSwitcher />
+          <DocCocoKitsThemeSwitcher/>
           <Subtitle />
 
           <div className={styles.docDescription}>
@@ -41,12 +48,9 @@ export const DocPage = () => {
 
           <hr className={styles.divider} />
 
-          <HeaderMdx as="h3" id={storyNameToHash(primaryStory.name)}>
-            {primaryStory.name}
-          </HeaderMdx>
-          <Primary />
+          <DocsStory of={primaryStory.moduleExport} />
           <ArgTypes />
-          <Stories includePrimary={false}/>
+          <Stories includePrimary={false} />
         </div>
 
         <div className={styles.sidebarNav}>

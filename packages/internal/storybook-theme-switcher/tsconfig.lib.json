@@ -6,6 +6,6 @@
     "esModuleInterop": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "./src/preset/manager.ts", "./src/preset/preview.ts"],
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
 }
