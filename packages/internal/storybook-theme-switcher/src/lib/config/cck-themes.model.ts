@@ -4,18 +4,22 @@ export type CckThemeName = 'Default' | 'FrameX' | 'Theme2';
 
 export interface CckTheme {
   name: CckThemeName;
-  iconPath: string;
+  iconPathLight: string;
+  iconPathDark: string;
   collections: Record<string, string[]>;
 }
 
 export interface CckThemeChangedEvent {
   name: CckThemeName;
-  iconPath: string;
+  iconPathLight: string;
+  iconPathDark: string;
   iconList: Record<string, ThemeSvgIcon>;
   selectedModes: Record<string, string>;
 }
 
-export interface CckThemeLocalstorage {
+export interface CckSelectedTheme {
   name: CckThemeName;
   selectedModes: Record<string, string>;
 }
+
+export type CckThemeLocalstorage = CckSelectedTheme;

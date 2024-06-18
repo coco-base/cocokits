@@ -23,8 +23,8 @@ function listenToThemeChangeEvent() {
     window.localStorage.setItem(LOCALSTORAGE_STORYBOOK_THEME, themeName);
     addons.setConfig({ theme });
 
-    document.documentElement.classList.remove('storybook-dark-theme', 'storybook-light-theme');
-    document.documentElement.classList.add(`storybook-${themeName}-theme`);
+    document.documentElement.classList.remove('cck-storybook-dark-theme', 'cck-storybook-light-theme');
+    document.documentElement.classList.add(`cck-storybook-${themeName}-theme`);
   });
 }
 

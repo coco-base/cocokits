@@ -1,7 +1,9 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
 
+import { withStorybookThemeSwitcher } from '../lib/componenets/withStorybookThemeSwitcher';
+
 export const preview: ProjectAnnotations<Renderer> = {
-  decorators: [],
+  decorators: [withStorybookThemeSwitcher],
 };
 
 export default preview;

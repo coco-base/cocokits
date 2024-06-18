@@ -32,7 +32,10 @@ export function generateAngularStorybookConfig(
       docs: {
         defaultName: 'Docs',
       },
-      staticDirs: [path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher/src/assets')],
+      staticDirs: [
+        path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher/src/assets'),
+        path.relative(options.callerPath, 'packages/internal/storybook-doc-page/src/assets'),
+      ],
     },
     libConfig
   );

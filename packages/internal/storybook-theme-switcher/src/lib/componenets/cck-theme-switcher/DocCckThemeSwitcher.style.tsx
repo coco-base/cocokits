@@ -5,18 +5,24 @@ export const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '12px',
+    gap: 'var(--size-6)',
     backgroundColor: 'transparent',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
+    border: '1px solid var(--color-border-alpha-default)',
     outline: 'none',
-    padding: '8px 18px 8px 10px',
+    padding: 'var(--size-5) var(--size-7) var(--size-5) var(--size-6)',
     cursor: 'pointer',
-    borderRadius: '4px',
+    font: 'var(--text-sm-medium)',
+    borderRadius: 'var(--size-3)',
+    color: 'var(--color-font-contrast-4)',
     transition: 'background-color 300ms, border-color 300ms',
 
     ':hover': {
-      border: '1px solid rgba( 0, 0, 0 , 0.2)',
-      backgroundColor: 'rgba( 0, 0, 0 , 0.1 )'
+      border: '1px solid var(--color-border-alpha-5)',
+      backgroundColor: 'var(--color-bg-body-inverse-alpha-4)',
     },
-  }
+  },
+
+  arrowDownIcon: {
+    fill: 'var(--color-font-contrast-2)',
+  },
 });

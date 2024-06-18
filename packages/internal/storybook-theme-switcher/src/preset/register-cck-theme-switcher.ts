@@ -7,7 +7,7 @@ import {
   CCK_THEME_CHANGED_EVENT_NAME,
   CCK_THEME_DOCUMENT_ATTR,
   CCK_THEME_SWITCHER_TOOL_ID,
-  CckThemeChangedEvent,
+  CckSelectedTheme,
   CckThemeLocalstorage,
   DEFAULT_SELECTED_CCK_THEME_MODES,
   DEFAULT_SELECTED_CCK_THEME_NAME,
@@ -18,9 +18,8 @@ import {
   SelectThemeDialogData,
   SelectThemeDialogResult,
 } from '../lib/componenets/cck-theme-dialog/CckThemeDialog';
-import { TooCckThemeSwitcher } from '../lib/componenets/cck-theme-switcher/TooCckThemeSwitcher';
-import { CCK_THEMES } from '../lib/config/cck-theme.config';
-import { themeIconSvg } from '../lib/styles/icons';
+import { ToolCckThemeSwitcher } from '../lib/componenets/cck-theme-switcher/ToolCckThemeSwitcher';
+import { generateCckThemeChangeEventData } from '../lib/componenets/theme-switcher.utils';
 
 export function registerCckThemeSwitcher() {
   listenToOpenDialogEvent();
@@ -53,7 +52,7 @@ function listenToOpenDialogEvent() {
   });
 }
 
-function changeTheme({ name, selectedModes }: CckThemeLocalstorage) {
+function changeTheme({ name, selectedModes }: CckSelectedTheme) {
   const channel = addons.getChannel();
 
   document.documentElement.setAttribute(CCK_THEME_DOCUMENT_ATTR, name);
@@ -63,12 +62,7 @@ function changeTheme({ name, selectedModes }: CckThemeLocalstorage) {
     JSON.stringify({ name, selectedModes } satisfies CckThemeLocalstorage)
   );
 
-  channel.emit(CCK_THEME_CHANGED_EVENT_NAME, {
-    name,
-    iconPath: CCK_THEMES[name].iconPath,
-    iconList: themeIconSvg[name],
-    selectedModes,
-  } satisfies CckThemeChangedEvent);
+  channel.emit(CCK_THEME_CHANGED_EVENT_NAME, generateCckThemeChangeEventData({ name, selectedModes }));
 }
 
 function dispatchDefaultThemEvent() {
@@ -95,6 +89,6 @@ function addToolbarIcon() {
     type: types.TOOL,
     title: 'CCK Theme Switcher',
     match: ({ tabId, viewMode }) => !tabId && viewMode === 'story',
-    render: TooCckThemeSwitcher,
+    render: ToolCckThemeSwitcher,
   });
 }

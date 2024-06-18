@@ -5,16 +5,18 @@ import React, { memo, useEffect, useState } from 'react';
 import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,
   CCK_THEME_CHANGED_EVENT_NAME,
-  CckThemeChangedEvent,
+  CckThemeChangedEvent, STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent, StorybookThemeName,
 } from '@coco-kits/storybook-theme-switcher';
 
 
-export const TooCckThemeSwitcher = memo(() => {
+export const ToolCckThemeSwitcher = memo(() => {
 
-  const [selectedTheme, setSelectedTheme] = useState<Pick<CckThemeChangedEvent, 'name' | 'iconPath'>>();
+  const [selectedTheme, setSelectedTheme] = useState<Pick<CckThemeChangedEvent, 'name' | 'iconPathLight' | 'iconPathDark'>>();
+  const [selectedStorybookTheme, setSelectedStorybookTheme] = useState<StorybookThemeName>();
 
   const emit = useChannel({
     [CCK_THEME_CHANGED_EVENT_NAME]: (event: CckThemeChangedEvent) => setSelectedTheme(event),
+    [STORYBOOK_THEME_CHANGED_EVENT_NAME]: (event: StorybookThemeChangedEvent) => setSelectedStorybookTheme(event.themeName)
   });
 
 
@@ -37,7 +39,10 @@ export const TooCckThemeSwitcher = memo(() => {
       {
         selectedTheme
           ? <>
-            <img width="16px" src={selectedTheme.iconPath} alt={selectedTheme.name} />
+            <img
+              width="16px"
+              src={selectedStorybookTheme === 'dark' ? selectedTheme.iconPathDark : selectedTheme.iconPathLight}
+              alt={selectedTheme.name} />
             <div>{selectedTheme.name}</div>
           </>
           : <div>Select Theme</div>

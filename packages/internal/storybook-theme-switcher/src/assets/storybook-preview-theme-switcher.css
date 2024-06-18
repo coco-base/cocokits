@@ -1,0 +1,16 @@
+/* storybook-preview-theme-switcher */
+
+* {
+    box-sizing: border-box;
+}
+
+/* Remove default padding of doc page wrapper */
+.sbdocs.sbdocs-wrapper {
+    padding: 0;
+    background: var(--color-bg-body-alpha-10);
+}
+
+/* Remove default max-width of doc page content */
+.sbdocs.sbdocs-content {
+    max-width: unset;
+}

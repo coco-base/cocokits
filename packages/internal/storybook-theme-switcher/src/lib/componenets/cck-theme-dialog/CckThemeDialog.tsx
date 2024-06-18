@@ -2,7 +2,7 @@ import { mergeClasses } from '@griffel/react';
 import React, { useMemo, useState } from 'react';
 
 import { OverlayRef } from '@coco-kits/react-overlay';
-import { CCK_THEMES, CckThemeName } from '@coco-kits/storybook-theme-switcher';
+import { CCK_THEMES, CckThemeName, useDocSelectedStorybookTheme } from '@coco-kits/storybook-theme-switcher';
 
 import { useStyles } from './CckThemeDialog.style';
 
@@ -28,12 +28,13 @@ const DUMMY_RESULT: SelectThemeDialogResult = {
 
 export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData, SelectThemeDialogResult>) => {
   const styles = useStyles();
-  const [selectedThemeName, setSelectedThemeName] = useState<CckThemeName>(data.selectedThemeName);
+  const [selectedCckThemeName, setSelectedCckThemeName] = useState<CckThemeName>(data.selectedThemeName);
+  const selectedStorybookTheme = useDocSelectedStorybookTheme();
 
   const selectedCollections = useMemo(() => {
-    const theme = CCK_THEMES[selectedThemeName];
+    const theme = CCK_THEMES[selectedCckThemeName];
     return theme ? Object.entries(theme.collections) : null;
-  }, [selectedThemeName, data.themeNames]);
+  }, [selectedCckThemeName, data.themeNames]);
 
   return (
     <div className={styles.wrapper}>
@@ -49,12 +50,15 @@ export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData
             key={themeName}
             className={mergeClasses(
               styles.themeItem,
-              selectedThemeName === themeName && styles.themeItemSelected)}
+              selectedCckThemeName === themeName && styles.themeItemSelected)}
             onClick={() => {
-              setSelectedThemeName(themeName);
+              setSelectedCckThemeName(themeName);
             }}
           >
-            <img className={styles.themeIcon} src={CCK_THEMES[themeName].iconPath} alt={themeName} />
+            <img
+              className={styles.themeIcon}
+              src={selectedStorybookTheme === 'dark' ? CCK_THEMES[themeName].iconPathDark : CCK_THEMES[themeName].iconPathLight}
+              alt={themeName} />
             <div className={styles.themeName}>{themeName}</div>
           </div>,
         )}

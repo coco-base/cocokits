@@ -1,0 +1,199 @@
+/* storybook-manager-theme-switcher */
+
+/* region ---------- LAYOUT ---------- */
+* {
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p, html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* First div element. It a layout for sidenav, draggable and main content */
+#root > div:first-child {
+    grid-template-columns: minmax(0, var(--size-22)) minmax(100px, 1fr) minmax(0, 400px);
+}
+
+/* First wrapper of sidenav. Sibling of main content at root layout element*/
+#root > div:first-child > div:last-child {
+    border-right: none;
+}
+
+/* Draggable element to resize the sidenav */
+#root > div:first-child > div:last-child > div:first-child{
+    display: none;
+}
+
+/*
+* Override the sidenav background. This color is also defined in storybook them,
+* But because of media-query of storybook, it will switch to bg color.
+*/
+.container.sidebar-container {
+    background: var(--color-bg-body-inverse-alpha-1);
+    border-right: 1px solid var(--color-border-alpha-default);
+    /* padding is 24px, But one of the child has also padding, So we have to reduce our padding from the storybook padding  */
+    padding: 12px 8px 12px 4px;
+}
+/* endregion */
+
+
+/* region ---------- SIDENAV - SEARCH ---------- */
+/* Search input field */
+.search-field input {
+    border-radius: 500px;
+    padding-left: var(--size-12);
+}
+
+/* Search Icon */
+.search-field > div:first-child {
+    left: var(--size-7);
+}
+
+/* Search shortcut code. (Will be visible when the input is NOT focused) */
+.search-field > code {
+    right: var(--size-7);
+    color: var(--color-font-contrast-1);
+}
+
+/* Search clear button. (Will be visible when the input has focused) */
+.search-field > input + div {
+    right: var(--size-7);
+}
+/* endregion */
+
+/* region ---------- SIDENAV - GENERAL  ---------- */
+/* Sidenav items wrapper */
+#storybook-explorer-menu {
+    margin-top: var(--size-8);
+}
+/* endregion */
+
+/* region ---------- SIDENAV - FIRST TITLE (UI Components) ---------- */
+/* Sidenav fist level title. (e.g. Frameworks, UI Components) */
+#storybook-explorer-menu .sidebar-subheading {
+    margin-top: var(--size-6);
+    font: var(--text-sm-medium);
+    color: var(--color-font-contrast-4);
+    gap: var(--size-6);
+    text-transform: unset;
+    letter-spacing: unset;
+    margin-bottom: var(--size-5);
+}
+
+/* Sidenav fist level title. (e.g. Frameworks, UI Components) */
+#storybook-explorer-menu .sidebar-subheading > button:first-child {
+    flex: 1;
+    gap: var(--size-5);
+    height: var(--size-11);
+    border-radius: var(--size-5);
+}
+
+/* Sidenav fist level title -> Arrow down wrapper at left to collapse */
+#storybook-explorer-menu .sidebar-subheading > button:first-child > div:first-child {
+    transform: rotateZ(90deg) scale(1.2);
+}
+
+/* Sidenav fist level title -> Arrow down at left to collapse */
+#storybook-explorer-menu .sidebar-subheading > button:first-child path {
+    fill: var(--color-font-contrast-4);
+}
+
+/* Sidenav fist level title -> collapse icon at right. */
+#storybook-explorer-menu .sidebar-subheading-action {
+    display: none;
+}
+/* endregion */
+
+/* region ---------- SIDENAV - FIRST ITEM (SvgIcon, Avatar) ---------- */
+/* Sidenav fist level item after title. (e.g. SvgIcon, Avatar) */
+#storybook-explorer-menu button.sidebar-item {
+    font: var(--text-sm-regular);
+    color: var(--color-font-contrast-2);
+    gap: var(--size-5);
+    height: var(--size-11);
+    border-radius: var(--size-5);
+    margin: var(--size-2) var(--size-0);
+    align-items: center;
+    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-7);
+}
+#storybook-explorer-menu button.sidebar-item:focus {
+    background: transparent;
+}
+#storybook-explorer-menu button.sidebar-item:hover {
+    background: transparent;
+}
+
+/* Sidenav fist level item after title -> Item icon at left side between text and Arrow icon (e.g. Folder icon for group) */
+#storybook-explorer-menu button.sidebar-item > div:first-child > svg {
+    display: none;
+}
+
+/* Sidenav fist level item after title -> Arrow down wrapper at left to collapse */
+#storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child {
+    transform: rotateZ(90deg) scale(1.2);
+}
+
+/* Sidenav fist level item after title -> Arrow down at left to collapse */
+#storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child path {
+    fill: var(--color-font-contrast-2);
+}
+/* endregion */
+
+/* region ---------- SIDENAV - SECOND ITEM (Docs, Default, Size) ---------- */
+/* Sidenav second level item after title. (e.g. Docs, Default, Size) */
+#storybook-explorer-menu div.sidebar-item {
+    font: var(--text-sm-regular);
+    color: var(--color-font-contrast-2);
+    gap: var(--size-5);
+    height: var(--size-11);
+    border-radius: var(--size-5);
+    margin: var(--size-2) var(--size-0);
+    align-items: center;
+    transition: color 300ms;
+}
+#storybook-explorer-menu div.sidebar-item:focus {
+    background: transparent;
+}
+#storybook-explorer-menu div.sidebar-item:hover:not([data-selected="true"]) {
+    color: var(--color-font-contrast-4);
+    background: transparent;
+}
+#storybook-explorer-menu div.sidebar-item[data-selected="true"] {
+    background-color: var(--color-bg-body-inverse-alpha-3);
+    color: var(--color-font-contrast-4);
+}
+#storybook-explorer-menu div.sidebar-item[data-selected="true"]:before {
+    content: '';
+    position: absolute;
+    width: var(--size-5);
+    height: var(--size-5);
+    border-radius: 50%;
+    background-color: var(--color-brand-default);
+    left: var(--size-6);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#storybook-explorer-menu div.sidebar-item > a {
+    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-11);
+}
+
+/* Sidenav second level item after title -> Item icon at left side (e.g. Doc, Bookmark) */
+#storybook-explorer-menu div.sidebar-item > a > div:first-child {
+    display: none;
+}
+/* endregion */
+
+
+/* region ---------- TOOLBAR ---------- */
+/* Hide toolbar */
+.sb-bar {
+    display: none;
+}
+/* endregion */
+
+/* Hide setting icon at sidenav */
+.sidebar-header > div:last-child {
+    display: none;
+}

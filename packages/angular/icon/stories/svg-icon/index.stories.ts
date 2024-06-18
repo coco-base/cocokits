@@ -10,7 +10,7 @@ export { Color } from './svg-icon-color.stories';
 
 const meta: Meta = {
   component: SvgIconComponent,
-  title: 'Components/Icon/SvgIcon',
+  title: 'UI Components/SvgIcon',
   tags: ['autodocs'],
   decorators: [componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`)],
   parameters: {

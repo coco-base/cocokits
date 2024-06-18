@@ -102,7 +102,7 @@ function getTsVariablesContent(
 
     const taNamePath = tsStringVariableName.split('.');
     const currentTsVariableMap = buildTsVariableMap(taNamePath, value);
-    deepMerge(tsVariablesMap, currentTsVariableMap);
+    tsVariablesMap = deepMerge(tsVariablesMap, currentTsVariableMap);
   });
 
   return JSON.stringify(tsVariablesMap, null, 2);
@@ -139,7 +139,7 @@ function getVariableNamePathsWithModesAndValueMap(
 
       variableNamesPathsWithModeAndValue.set(tsStringVariableName, {
         modes: modesSet,
-        value: `var(--${cssVariableName}`,
+        value: `var(--${cssVariableName})`,
       });
     });
   });

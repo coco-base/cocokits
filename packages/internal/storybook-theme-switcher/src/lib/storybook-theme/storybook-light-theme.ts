@@ -1,47 +1,47 @@
 import { create } from '@storybook/theming/create';
 
-import { Token } from '@coco-kits/theme-default';
+import { themeLight } from '../token/ts-variables';
 
 export const light = create({
   base: 'light',
   brandTitle: 'Coco-Kits',
 
-  brandUrl: 'https://github.com/miladfm/elemix',
+  brandUrl: 'https://github.com/coco-kits/coco-kits',
   // brandImage: logo,
 
-  colorPrimary: '#8c40ef',
-  colorSecondary: '#8c40ef',
+  colorPrimary: themeLight.color.brand.default,
+  colorSecondary: themeLight.color.brand.default,
 
   // UI
-  appBg: Token.globalDefault.colorPalette.darkOrange['200'],
-  appContentBg: '#ffffff',
-  appBorderColor: '#e9eaeb',
+  appBg: themeLight.color.bg.body.alpha['10'],
+  appContentBg: themeLight.color.bg.bodyInverse.alpha['2'],
+  appBorderColor: themeLight.color.border.alpha.default,
 
   // Text colors
-  textColor: '#3f4250',
-  textInverseColor: '#ffffff',
+  textColor: themeLight.color.font.contrast4,
+  textInverseColor: themeLight.color.font.contrast4,
 
   // Toolbar default and active colors
-  barTextColor: '#727683',
-  barSelectedColor: '#8d40ee', // Selected controller tab
-  barBg: '#f9f9fa',
+  barTextColor: themeLight.color.font.contrast2,
+  barSelectedColor: themeLight.color.brand.default, // Selected controller tab
+  barBg: themeLight.color.bg.bodyInverse.alpha['2'],
 
-  buttonBg: '#ffffff',
-  buttonBorder: '#d9dadd',
+  buttonBg: themeLight.color.bg.button.primary,
+  buttonBorder: themeLight.color.border.button.primary,
 
   // BIZARRE
   booleanBg: '#ffffff',
-  booleanSelectedBg: '#f1eefc',
+  booleanSelectedBg: themeLight.color.brand.default,
 
   // Form colors
-  inputBg: '#ffffff',
-  inputBorder: '#d9dadd',
-  inputTextColor: '#3f4250',
+  inputBg: themeLight.color.bg.bodyInverse.alpha['1'],
+  inputBorder: themeLight.color.border.alpha.default,
+  inputTextColor: themeLight.color.font.contrast1,
   inputBorderRadius: 4,
-  appPreviewBg: 'transparent', // The default value of the story background and will be overridden after the Theme has applied
+  appPreviewBg: themeLight.color.bg.body.alpha['10'], // The default value of the story background and will be overridden after the Theme has applied
   appBorderRadius: 4, // Toolbar menu overlay radius
-  fontBase: 'Nunito Sans, sans-serif',
-  fontCode: 'Nunito Sans, sans-serif',
-  textMutedColor: '#798186', // Font color of sidenav title and search box text
-  barHoverColor: '#8c40ef',
+  fontBase: 'Inter, sans-serif',
+  fontCode: 'Inter, sans-serif',
+  textMutedColor: themeLight.color.font.contrast2, // Font color of sidenav title and search box text
+  barHoverColor: themeLight.color.bg.bodyInverse.alpha['6'],
 });

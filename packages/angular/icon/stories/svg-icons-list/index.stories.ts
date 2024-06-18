@@ -5,7 +5,7 @@ import { SvgIconListComponent } from '../../src/lib/story-svg-icons-list/svg-ico
 
 const meta: Meta = {
   component: SvgIconListComponent,
-  title: 'Components/Icon/SvgIconList',
+  title: 'UI Components/SvgIconList',
   tags: ['autodocs'],
   decorators: [],
   parameters: {

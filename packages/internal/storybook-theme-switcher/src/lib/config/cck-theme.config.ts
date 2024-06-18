@@ -38,17 +38,20 @@ const DummyFrameXCollections = {
 export const CCK_THEMES: Record<CckThemeName, CckTheme> = {
   Theme2: {
     name: 'Theme2',
-    iconPath: '/default-logo.png',
+    iconPathLight: '/default-logo.png',
+    iconPathDark: '/default-logo.png',
     collections: DummyTheme2Collections,
   },
   Default: {
     name: 'Default',
-    iconPath: '/default-logo.png',
+    iconPathLight: '/default-logo.png',
+    iconPathDark: '/default-logo.png',
     collections: collections,
   },
   FrameX: {
     name: 'FrameX',
-    iconPath: '/default-logo.png',
+    iconPathLight: '/frameX-logo-dark.svg',
+    iconPathDark: '/frameX-logo-light.svg',
     collections: DummyFrameXCollections,
   },
 };

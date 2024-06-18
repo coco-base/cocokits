@@ -1,6 +1,5 @@
 import { Observable, Subscriber } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { isArray } from './ensure';
 import { toArray } from './array';
 
 export type IntersectionObserverConfig = IntersectionObserverInit;
@@ -9,7 +8,7 @@ export interface IntersectionObserverChanges {
   observer: IntersectionObserver;
 }
 
-export function intersectionObserver$(elems: HTMLElement | HTMLElement[], config?: IntersectionObserverConfig) {
+export function intersectionObserver$(elems: Element | Element[], config?: IntersectionObserverConfig) {
   const elemsList = toArray(elems);
   const onObserverChanges = (subscriber: Subscriber<IntersectionObserverChanges>) => {
     const callBack: IntersectionObserverCallback = (entries, observer) => {

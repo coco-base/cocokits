@@ -1,4 +1,10 @@
-import { CollectionDTMTokenMap, CollectionPathMap, DTMTokenGroup, DTMValue } from './design-tokens-manager.model';
+import {
+  CollectionDTMTokenMap,
+  CollectionPathMap,
+  DTMGroupOrValue,
+  DTMTokenGroup,
+  DTMValue,
+} from './design-tokens-manager.model';
 import { DesignToken, DesignTokenCollectionMap, DesignTokenType } from '../../token.model';
 import { recordReduceMerge } from '../../utils/reduce-merge';
 
@@ -13,7 +19,7 @@ export function getStandardDesignTokenCollectionsMap(
 ): DesignTokenCollectionMap {
   const designTokenCollections: DesignTokenCollectionMap = recordReduceMerge(
     collectionPathMap,
-    (tokenPaths, collectionFlatName) => {
+    (tokenPaths, collectionWithModeName) => {
       const designTokens = tokenPaths.flatMap((tokenPath) => {
         const token = collectionsJson[tokenPath];
         const tokens = Object.entries(token).flatMap(([name, tokenGroup]) =>
@@ -22,18 +28,14 @@ export function getStandardDesignTokenCollectionsMap(
         return tokens;
       });
 
-      return designTokens.length !== 0 ? { [collectionFlatName]: designTokens } : {};
+      return designTokens.length !== 0 ? { [collectionWithModeName]: designTokens } : {};
     }
   );
 
   return designTokenCollections;
 }
 
-function toStandardToken(
-  tokenName: string,
-  token: DTMTokenGroup | DTMValue,
-  skipTokenTypes: DesignTokenType[]
-): DesignToken[] {
+function toStandardToken(tokenName: string, token: DTMGroupOrValue, skipTokenTypes: DesignTokenType[]): DesignToken[] {
   if (hasTokenValue(token)) {
     if (skipTokenTypes.includes(token.$type)) {
       return [];
