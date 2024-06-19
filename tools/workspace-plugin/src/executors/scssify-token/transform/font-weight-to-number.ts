@@ -33,11 +33,9 @@ const fontWeightsNames: { [key: string]: number } = {
   thin: 100,
   hairline: 100,
 
-  'Extra Light': 200,
   'extra light': 200,
   'extra-light': 200,
   'ultra-light': 200,
-  extraLight: 200,
   extralight: 200,
   ultralight: 200,
 
@@ -52,7 +50,6 @@ const fontWeightsNames: { [key: string]: number } = {
   'semi bold': 600,
   'semi-bold': 600,
   'demi-bold': 600,
-  semiBold: 600,
   semibold: 600,
   demibold: 600,
 
@@ -71,7 +68,6 @@ const fontWeightsNames: { [key: string]: number } = {
   'extra black': 950,
   'extra-black': 950,
   'ultra-black': 950,
-  extraBlack: 950,
   extrablack: 950,
   ultrablack: 950,
 };
