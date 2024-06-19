@@ -1,7 +1,8 @@
 import type { ThemeSvgIcon } from '@coco-kits/common-types';
 import { svgIconMap } from '@coco-kits/theme-default';
+import { CckThemeName } from '@coco-kits/storybook-theme-switcher';
 
-export const themeIconSvg: Record<string, Record<string, ThemeSvgIcon>> = {
+export const themeIconSvg: Record<CckThemeName, Record<string, ThemeSvgIcon>> = {
   Default: svgIconMap,
   FrameX: {
     'caret-alt-to-right-2': {
@@ -15,5 +16,5 @@ export const themeIconSvg: Record<string, Record<string, ThemeSvgIcon>> = {
       viewBox: '0 0 512 512',
     },
   },
-  Theme3: {},
+  Theme2: {},
 };
