@@ -5,6 +5,10 @@
 The `Theme` folder contains all theme-related packages for our workspace. Each package is meticulously structured to facilitate the implementation and management of design systems across projects.
 This includes defining design tokens and variables, and setting up CSS and SCSS implementations.
 
+## Token Anatomy
+![Token Anatomy](./core/images/token-anatomy.png)
+
+
 ## Structure
 
 Each theme package within this folder adheres to a specific folder structure, designed to streamline theme development and ensure consistency:
