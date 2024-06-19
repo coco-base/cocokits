@@ -1,12 +1,24 @@
 {
   "Display-2xl": {
+    "Light": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "72px",
+        "fontWeight": 300,
+        "letterSpacing": "0%",
+        "lineHeight": "90px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
     "Regular": {
       "$type": "typography",
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "72px",
         "fontWeight": 400,
-        "letterSpacing": "-2%",
+        "letterSpacing": "0%",
         "lineHeight": "90px",
         "textTransform": "none",
         "textDecoration": "none"
@@ -18,7 +30,7 @@
         "fontFamily": "Inter",
         "fontSize": "72px",
         "fontWeight": 500,
-        "letterSpacing": "-2%",
+        "letterSpacing": "0%",
         "lineHeight": "90px",
         "textTransform": "none",
         "textDecoration": "none"
@@ -29,8 +41,8 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "72px",
-        "fontWeight": 700,
-        "letterSpacing": "-2%",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
         "lineHeight": "90px",
         "textTransform": "none",
         "textDecoration": "none"
@@ -42,19 +54,7 @@
         "fontFamily": "Inter",
         "fontSize": "72px",
         "fontWeight": 700,
-        "letterSpacing": "-2%",
-        "lineHeight": "90px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Light": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "72px",
-        "fontWeight": 300,
-        "letterSpacing": "-2%",
+        "letterSpacing": "0%",
         "lineHeight": "90px",
         "textTransform": "none",
         "textDecoration": "none"
@@ -62,37 +62,13 @@
     }
   },
   "Display-xl": {
-    "Bold": {
+    "Light": {
       "$type": "typography",
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "60px",
-        "fontWeight": 700,
-        "letterSpacing": "-2%",
-        "lineHeight": "72px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Semibold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "60px",
-        "fontWeight": 700,
-        "letterSpacing": "-2%",
-        "lineHeight": "72px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Medium": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "60px",
-        "fontWeight": 500,
-        "letterSpacing": "-2%",
+        "fontWeight": 300,
+        "letterSpacing": "0%",
         "lineHeight": "72px",
         "textTransform": "none",
         "textDecoration": "none"
@@ -104,19 +80,43 @@
         "fontFamily": "Inter",
         "fontSize": "60px",
         "fontWeight": 400,
-        "letterSpacing": "-2%",
+        "letterSpacing": "0%",
         "lineHeight": "72px",
         "textTransform": "none",
         "textDecoration": "none"
       }
     },
-    "Light": {
+    "Medium": {
       "$type": "typography",
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "60px",
-        "fontWeight": 300,
-        "letterSpacing": "-2%",
+        "fontWeight": 500,
+        "letterSpacing": "0%",
+        "lineHeight": "72px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Semibold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "60px",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
+        "lineHeight": "72px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Bold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "60px",
+        "fontWeight": 700,
+        "letterSpacing": "0%",
         "lineHeight": "72px",
         "textTransform": "none",
         "textDecoration": "none"
@@ -130,8 +130,8 @@
         "fontFamily": "Inter",
         "fontSize": "48px",
         "fontWeight": 300,
-        "letterSpacing": "-2%",
-        "lineHeight": "60px",
+        "letterSpacing": "0%",
+        "lineHeight": "64px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -142,8 +142,8 @@
         "fontFamily": "Inter",
         "fontSize": "48px",
         "fontWeight": 400,
-        "letterSpacing": "-2%",
-        "lineHeight": "60px",
+        "letterSpacing": "0%",
+        "lineHeight": "64px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -154,8 +154,8 @@
         "fontFamily": "Inter",
         "fontSize": "48px",
         "fontWeight": 500,
-        "letterSpacing": "-2%",
-        "lineHeight": "60px",
+        "letterSpacing": "0%",
+        "lineHeight": "64px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -165,9 +165,9 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "48px",
-        "fontWeight": 700,
-        "letterSpacing": "-2%",
-        "lineHeight": "60px",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
+        "lineHeight": "64px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -178,8 +178,8 @@
         "fontFamily": "Inter",
         "fontSize": "48px",
         "fontWeight": 700,
-        "letterSpacing": "-2%",
-        "lineHeight": "60px",
+        "letterSpacing": "0%",
+        "lineHeight": "64px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -193,7 +193,7 @@
         "fontSize": "36px",
         "fontWeight": 300,
         "letterSpacing": "-2%",
-        "lineHeight": "44px",
+        "lineHeight": "60px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -205,7 +205,7 @@
         "fontSize": "36px",
         "fontWeight": 400,
         "letterSpacing": "-2%",
-        "lineHeight": "44px",
+        "lineHeight": "60px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -217,7 +217,7 @@
         "fontSize": "36px",
         "fontWeight": 500,
         "letterSpacing": "-2%",
-        "lineHeight": "44px",
+        "lineHeight": "60px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -227,9 +227,9 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "36px",
-        "fontWeight": 700,
+        "fontWeight": 600,
         "letterSpacing": "-2%",
-        "lineHeight": "44px",
+        "lineHeight": "60px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -241,61 +241,13 @@
         "fontSize": "36px",
         "fontWeight": 700,
         "letterSpacing": "-2%",
-        "lineHeight": "44px",
+        "lineHeight": "60px",
         "textTransform": "none",
         "textDecoration": "none"
       }
     }
   },
   "Display-sm": {
-    "Bold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "30px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "38px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Semibold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "30px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "38px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Medium": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "30px",
-        "fontWeight": 500,
-        "letterSpacing": "0%",
-        "lineHeight": "38px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Regular": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "30px",
-        "fontWeight": 400,
-        "letterSpacing": "0%",
-        "lineHeight": "38px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
     "Light": {
       "$type": "typography",
       "$value": {
@@ -303,7 +255,55 @@
         "fontSize": "30px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "38px",
+        "lineHeight": "44px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Regular": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "30px",
+        "fontWeight": 400,
+        "letterSpacing": "0%",
+        "lineHeight": "44px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Medium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "30px",
+        "fontWeight": 500,
+        "letterSpacing": "0%",
+        "lineHeight": "44px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Semibold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "30px",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
+        "lineHeight": "44px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Bold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "30px",
+        "fontWeight": 700,
+        "letterSpacing": "0%",
+        "lineHeight": "44px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -317,7 +317,7 @@
         "fontSize": "24px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "32px",
+        "lineHeight": "38px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -329,7 +329,7 @@
         "fontSize": "24px",
         "fontWeight": 400,
         "letterSpacing": "0%",
-        "lineHeight": "32px",
+        "lineHeight": "38px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -341,7 +341,7 @@
         "fontSize": "24px",
         "fontWeight": 500,
         "letterSpacing": "0%",
-        "lineHeight": "32px",
+        "lineHeight": "38px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -351,9 +351,9 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "24px",
-        "fontWeight": 700,
+        "fontWeight": 600,
         "letterSpacing": "0%",
-        "lineHeight": "32px",
+        "lineHeight": "38px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -365,61 +365,13 @@
         "fontSize": "24px",
         "fontWeight": 700,
         "letterSpacing": "0%",
-        "lineHeight": "32px",
+        "lineHeight": "38px",
         "textTransform": "none",
         "textDecoration": "none"
       }
     }
   },
   "Text-xl": {
-    "Bold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "20px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "30px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Semibold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "20px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "30px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Medium": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "20px",
-        "fontWeight": 500,
-        "letterSpacing": "0%",
-        "lineHeight": "30px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Regular": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "20px",
-        "fontWeight": 400,
-        "letterSpacing": "0%",
-        "lineHeight": "30px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
     "Light": {
       "$type": "typography",
       "$value": {
@@ -427,7 +379,55 @@
         "fontSize": "20px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "30px",
+        "lineHeight": "32px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Regular": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "20px",
+        "fontWeight": 400,
+        "letterSpacing": "0%",
+        "lineHeight": "32px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Medium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "20px",
+        "fontWeight": 500,
+        "letterSpacing": "0%",
+        "lineHeight": "32px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Semibold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "20px",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
+        "lineHeight": "32px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Bold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "20px",
+        "fontWeight": 700,
+        "letterSpacing": "0%",
+        "lineHeight": "32px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -441,7 +441,7 @@
         "fontSize": "18px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "28px",
+        "lineHeight": "30px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -453,7 +453,7 @@
         "fontSize": "18px",
         "fontWeight": 400,
         "letterSpacing": "0%",
-        "lineHeight": "28px",
+        "lineHeight": "30px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -465,7 +465,7 @@
         "fontSize": "18px",
         "fontWeight": 500,
         "letterSpacing": "0%",
-        "lineHeight": "28px",
+        "lineHeight": "30px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -475,9 +475,9 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "18px",
-        "fontWeight": 700,
+        "fontWeight": 600,
         "letterSpacing": "0%",
-        "lineHeight": "28px",
+        "lineHeight": "30px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -489,61 +489,13 @@
         "fontSize": "18px",
         "fontWeight": 700,
         "letterSpacing": "0%",
-        "lineHeight": "28px",
+        "lineHeight": "30px",
         "textTransform": "none",
         "textDecoration": "none"
       }
     }
   },
   "Text-md": {
-    "Bold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "16px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "24px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Semibold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "16px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "24px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Medium": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "16px",
-        "fontWeight": 500,
-        "letterSpacing": "0%",
-        "lineHeight": "24px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Regular": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "16px",
-        "fontWeight": 400,
-        "letterSpacing": "0%",
-        "lineHeight": "24px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
     "Light": {
       "$type": "typography",
       "$value": {
@@ -551,7 +503,55 @@
         "fontSize": "16px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "24px",
+        "lineHeight": "28px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Regular": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "16px",
+        "fontWeight": 400,
+        "letterSpacing": "0%",
+        "lineHeight": "28px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Medium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "16px",
+        "fontWeight": 500,
+        "letterSpacing": "0%",
+        "lineHeight": "28px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Semibold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "16px",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
+        "lineHeight": "28px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Bold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "16px",
+        "fontWeight": 700,
+        "letterSpacing": "0%",
+        "lineHeight": "28px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -565,7 +565,7 @@
         "fontSize": "14px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "20px",
+        "lineHeight": "24px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -577,7 +577,7 @@
         "fontSize": "14px",
         "fontWeight": 400,
         "letterSpacing": "0%",
-        "lineHeight": "20px",
+        "lineHeight": "24px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -589,7 +589,7 @@
         "fontSize": "14px",
         "fontWeight": 500,
         "letterSpacing": "0%",
-        "lineHeight": "20px",
+        "lineHeight": "24px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -599,9 +599,9 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "14px",
-        "fontWeight": 700,
+        "fontWeight": 600,
         "letterSpacing": "0%",
-        "lineHeight": "20px",
+        "lineHeight": "24px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -613,7 +613,7 @@
         "fontSize": "14px",
         "fontWeight": 700,
         "letterSpacing": "0%",
-        "lineHeight": "20px",
+        "lineHeight": "24px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -627,7 +627,7 @@
         "fontSize": "12px",
         "fontWeight": 700,
         "letterSpacing": "0%",
-        "lineHeight": "18px",
+        "lineHeight": "20px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -637,9 +637,9 @@
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "12px",
-        "fontWeight": 700,
+        "fontWeight": 600,
         "letterSpacing": "0%",
-        "lineHeight": "18px",
+        "lineHeight": "20px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -651,7 +651,7 @@
         "fontSize": "12px",
         "fontWeight": 500,
         "letterSpacing": "0%",
-        "lineHeight": "18px",
+        "lineHeight": "20px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -663,7 +663,7 @@
         "fontSize": "12px",
         "fontWeight": 400,
         "letterSpacing": "0%",
-        "lineHeight": "18px",
+        "lineHeight": "20px",
         "textTransform": "none",
         "textDecoration": "none"
       }
@@ -675,7 +675,7 @@
         "fontSize": "12px",
         "fontWeight": 300,
         "letterSpacing": "0%",
-        "lineHeight": "18px",
+        "lineHeight": "20px",
         "textTransform": "none",
         "textDecoration": "none"
       }
