@@ -17,6 +17,20 @@
     },
     "eslint": {
       "executor": "@nx/eslint:lint"
+    },
+    "scssify-token": {
+      "executor": "@coco-kits/workspace-plugin:scssify-token",
+      "outputs": ["{options.outputPath}"],
+      "configurations": {
+        "designTokensManager": {
+          "files": ["packages/internal/storybook-theme-switcher/src/lib/json-token/manifest.json"],
+          "exclude": [],
+          "parser": "design-tokens-manager",
+          "skipTokenTypes": [],
+          "outputDir": "packages/internal/storybook-theme-switcher/src/lib/token",
+          "themeName": "cck-storybook-theme"
+        }
+      }
     }
   }
 }

@@ -1,0 +1,278 @@
+{
+  "Color": {
+    "Bg": {
+      "Body": {
+        "Alpha": {
+          "0": {
+            "$type": "color",
+            "$value": "#ffffff00"
+          },
+          "1": {
+            "$type": "color",
+            "$value": "#ffffff05"
+          },
+          "2": {
+            "$type": "color",
+            "$value": "#ffffff0a"
+          },
+          "3": {
+            "$type": "color",
+            "$value": "#ffffff0f"
+          },
+          "4": {
+            "$type": "color",
+            "$value": "#ffffff14"
+          },
+          "5": {
+            "$type": "color",
+            "$value": "#ffffff1a"
+          },
+          "6": {
+            "$type": "color",
+            "$value": "#ffffff33"
+          },
+          "7": {
+            "$type": "color",
+            "$value": "#ffffff66"
+          },
+          "8": {
+            "$type": "color",
+            "$value": "#ffffff99"
+          },
+          "9": {
+            "$type": "color",
+            "$value": "#ffffffcc"
+          },
+          "10": {
+            "$type": "color",
+            "$value": "#ffffff"
+          }
+        }
+      },
+      "Body-Inverse": {
+        "Alpha": {
+          "0": {
+            "$type": "color",
+            "$value": "#000c1d00"
+          },
+          "1": {
+            "$type": "color",
+            "$value": "#000c1d05"
+          },
+          "2": {
+            "$type": "color",
+            "$value": "#000c1d0a"
+          },
+          "3": {
+            "$type": "color",
+            "$value": "#000c1d0f"
+          },
+          "4": {
+            "$type": "color",
+            "$value": "#000c1d14"
+          },
+          "5": {
+            "$type": "color",
+            "$value": "#000c1d1a"
+          },
+          "6": {
+            "$type": "color",
+            "$value": "#000c1d33"
+          },
+          "7": {
+            "$type": "color",
+            "$value": "#000c1d66"
+          },
+          "8": {
+            "$type": "color",
+            "$value": "#000c1d99"
+          },
+          "9": {
+            "$type": "color",
+            "$value": "#000c1dcc"
+          },
+          "10": {
+            "$type": "color",
+            "$value": "#000c1d"
+          }
+        }
+      },
+      "Button": {
+        "Primary": {
+          "$type": "color",
+          "$value": "{Color.Brand.Alpha-5}"
+        },
+        "Primary-hover": {
+          "$type": "color",
+          "$value": "{Color.Brand.Alpha-6}"
+        }
+      },
+      "Table": {
+        "Even": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.1}"
+        }
+      },
+      "Overlay": {
+        "Backdrop": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.6}"
+        },
+        "Shadow-1": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.5}"
+        },
+        "Shadow-2": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.4}"
+        },
+        "Surface": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body.Alpha.10}"
+        }
+      },
+      "Card": {
+        "Surface": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.1}"
+        }
+      }
+    },
+    "Brand": {
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#129c6905"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#129c690a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#129c690f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#129c6914"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#129c691a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#129c6933"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#129c6966"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#129c6999"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#129c69cc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#129c69e5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#129c69"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color.Brand.Alpha-10}"
+      }
+    },
+    "Font": {
+      "Contrast-1": {
+        "$type": "color",
+        "$value": "{Color.Bg.Body-Inverse.Alpha.7}"
+      },
+      "Contrast-2": {
+        "$type": "color",
+        "$value": "{Color.Bg.Body-Inverse.Alpha.8}"
+      },
+      "Contrast-3": {
+        "$type": "color",
+        "$value": "{Color.Bg.Body-Inverse.Alpha.9}"
+      },
+      "Contrast-4": {
+        "$type": "color",
+        "$value": "{Color.Bg.Body-Inverse.Alpha.10}"
+      }
+    },
+    "Border": {
+      "Card": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.4}"
+        }
+      },
+      "Alpha": {
+        "0": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.0}"
+        },
+        "1": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.1}"
+        },
+        "2": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.2}"
+        },
+        "3": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.3}"
+        },
+        "4": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.4}"
+        },
+        "5": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.5}"
+        },
+        "6": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.6}"
+        },
+        "7": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.7}"
+        },
+        "8": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.8}"
+        },
+        "9": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.9}"
+        },
+        "10": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.10}"
+        },
+        "Default": {
+          "$type": "color",
+          "$value": "{Color.Bg.Body-Inverse.Alpha.5}"
+        }
+      },
+      "Button": {
+        "Primary": {
+          "$type": "color",
+          "$value": "{Color.Brand.Alpha-6}"
+        },
+        "Primary-Hover": {
+          "$type": "color",
+          "$value": "{Color.Brand.Alpha-9}"
+        }
+      }
+    }
+  }
+}
