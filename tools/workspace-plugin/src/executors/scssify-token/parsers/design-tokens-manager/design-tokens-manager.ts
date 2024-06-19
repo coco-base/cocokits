@@ -6,6 +6,7 @@ import { getManifest } from './manifest.util';
 import { getTokenDefinitionMap } from './token-definition';
 import { ScssifyTokenExecutorSchema } from '../../schema';
 import { DesignTokenCollectionMap, ParserResult } from '../../token.model';
+import { getCollectionsMapWithMode } from './get-collections-map-with-mode';
 
 export function parseDesignTokensManager(options: ScssifyTokenExecutorSchema): ParserResult {
   const manifest = getManifest(options.files);
@@ -22,8 +23,9 @@ export function parseDesignTokensManager(options: ScssifyTokenExecutorSchema): P
   );
 
   const tokenDefinitionMap = getTokenDefinitionMap(collectionPathMap, collectionsJson);
+  const collectionsMapWithMode = getCollectionsMapWithMode(manifest);
 
   logEndParsing();
 
-  return { designTokenCollections, tokenDefinitionMap };
+  return { designTokenCollections, tokenDefinitionMap, collectionsMapWithMode };
 }

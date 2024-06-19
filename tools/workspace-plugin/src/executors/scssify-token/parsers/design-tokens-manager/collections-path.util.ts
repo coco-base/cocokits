@@ -5,6 +5,9 @@ import { ScssifyTokenExecutorSchema } from '../../schema';
 import { recordReduceMerge } from '../../utils/reduce-merge';
 import { CollectionName, ModeName } from '../../token.model';
 
+export const LOCAL_STYLE_KEY_NAME = 'local-style';
+export const LOCAL_STYLE_MODE_NAME = 'default';
+
 /**
  * Extracts token paths from the manifest and saves them in a flat map to avoid handling deeply nested token paths.
  * @return CollectionPathMap
@@ -37,7 +40,9 @@ export function getCollectionPathMap(manifest: DTMManifest, options: ScssifyToke
  */
 function getLocalStyleCollectionPathMap(manifest: DTMManifest, options: ScssifyTokenExecutorSchema): CollectionPathMap {
   const pathMap: Record<string, string[]> = {
-    'local-style.default': Object.values(manifest.styles).flatMap((tokenFiles) => toTokenPaths(tokenFiles, options)),
+    [`${LOCAL_STYLE_KEY_NAME}.${LOCAL_STYLE_MODE_NAME}`]: Object.values(manifest.styles).flatMap((tokenFiles) =>
+      toTokenPaths(tokenFiles, options)
+    ),
   };
 
   return pathMap;
@@ -95,6 +100,6 @@ function toTokenPaths(paths: string[], options: ScssifyTokenExecutorSchema) {
 /**
  * Converts a name of collection or mode to a sanitized format by replacing spaces with hyphens and converting to lowercase.
  */
-function toName(name: string): string {
+export function toName(name: string): string {
   return name.replaceAll(' ', '-').toLowerCase().trim();
 }

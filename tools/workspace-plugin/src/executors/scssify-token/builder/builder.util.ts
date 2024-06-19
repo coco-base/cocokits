@@ -33,6 +33,12 @@ export const TS_CSS_VARIABLES_FOLDER_NAME = 'ts-css-variables';
 export const TS_VARIABLES_FOLDER_NAME = 'ts-variables';
 
 /**
+ * Name of the folder containing ts css-variables.
+ * The final result will be: `collections.ts` at ${outputDir}
+ */
+export const COLLECTION_MAP_WITH_MODE_FILENAME = 'collections.ts';
+
+/**
  * Remove all files and folder in specified directory.
  */
 export function clearDir(dirPath: string) {

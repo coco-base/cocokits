@@ -34,6 +34,7 @@ interface DesignTokenDependency {
 export interface ParserResult {
   designTokenCollections: DesignTokenCollectionMap;
   tokenDefinitionMap: TokenDefinitionMap;
+  collectionsMapWithMode: CollectionsMapWithMode;
 }
 
 export type DesignTokenDependencyMap = Record<CollectionWithModeName, DesignTokenDependency[]>;
@@ -42,6 +43,16 @@ export interface CompilerResult {
   transformedTokens: TransformedDesignTokenCollectionMap;
   newDependencies: DesignTokenDependencyMap;
 }
+
+/**
+ * Example:
+ * {
+ *   "color-mode": ["dark", "light"],
+ *   "radius": ["default", "rounded"],
+ *   "local-style": ["default"]
+ * }
+ */
+export type CollectionsMapWithMode = Record<CollectionName, ModeName[]>;
 
 /**
  * Example:
