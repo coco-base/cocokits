@@ -73,7 +73,7 @@ code {
     border: 1px solid var(--color-border-card-default);
     border-radius: 4px;
     padding: 1px 6px;
-    background-color: var(--color-bg-card-default);
+    background-color: var(--color-bg-card-surface);
 }
 /* endregion */
 
@@ -81,7 +81,7 @@ code {
 
 .shiki {
     font: var(--text-sm-regular);
-    background-color: var(--color-bg-card-default) !important;
+    background-color: var(--color-bg-card-surface) !important;
     border: var(--size-1) solid var(--color-border-card-default);
     padding: var(--size-16) var(--size-20);
     border-radius: var(--size-6);
@@ -109,7 +109,7 @@ code {
 
 /* Story preview wrapper */
 .sbdocs.sbdocs-preview {
-    background-color: var(--color-bg-card-default);
+    background-color: var(--color-bg-card-surface);
     border: var(--size-1) solid var(--color-border-card-default);
     box-shadow: none;
 }

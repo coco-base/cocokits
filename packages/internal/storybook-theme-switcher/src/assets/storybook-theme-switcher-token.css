@@ -59,7 +59,7 @@
     --color-palette-scorpion-gray-50: #f7f7f7;
     --color-palette-scorpion-gray-100: #ededed;
     --color-palette-scorpion-gray-200: #e0e0e0;
-    --color-palette-scorpion-gray-300: #ccc;
+    --color-palette-scorpion-gray-300: #cccccc;
     --color-palette-scorpion-gray-400: #a6a6a6;
     --color-palette-scorpion-gray-500: #7a7a7a;
     --color-palette-scorpion-gray-600: #575757;
@@ -407,7 +407,7 @@
     --text-xs-light: 300 12px / 20px Inter;
     --text-xs-regular: 400 12px / 20px Inter;
     --text-xs-medium: 500 12px / 20px Inter;
-    --text-xs-semibold: 700 12px / 20px Inter;
+    --text-xs-semibold: 600 12px / 20px Inter;
     --text-xs-bold: 700 12px / 20px Inter;
 }
 
@@ -437,11 +437,11 @@
     --color-bg-button-primary: var(--color-brand-alpha-5);
     --color-bg-button-primary-hover: var(--color-brand-alpha-6);
     --color-bg-table-even: var(--color-bg-body-inverse-alpha-3);
-    --color-bg-overlay-backdrop: var(--color-bg-body-inverse-alpha-1);
+    --color-bg-overlay-backdrop: var(--color-bg-body-alpha-6);
     --color-bg-overlay-shadow-1: var(--color-bg-body-inverse-alpha-1);
     --color-bg-overlay-shadow-2: var(--color-bg-body-inverse-alpha-1);
-    --color-bg-overlay-default: var(--color-bg-body-alpha-10);
-    --color-bg-card-default: var(--color-bg-body-inverse-alpha-3);
+    --color-bg-overlay-surface: var(--color-bg-body-alpha-10);
+    --color-bg-card-surface: var(--color-bg-body-inverse-alpha-3);
     --color-brand-alpha-0: #1bbf8205;
     --color-brand-alpha-1: #1bbf820a;
     --color-brand-alpha-2: #1bbf820f;
@@ -523,8 +523,8 @@
     --color-bg-overlay-backdrop: var(--color-bg-body-inverse-alpha-6);
     --color-bg-overlay-shadow-1: var(--color-bg-body-inverse-alpha-5);
     --color-bg-overlay-shadow-2: var(--color-bg-body-inverse-alpha-4);
-    --color-bg-overlay-default: var(--color-bg-body-alpha-10);
-    --color-bg-card-default: var(--color-bg-body-inverse-alpha-1);
+    --color-bg-overlay-surface: var(--color-bg-body-alpha-10);
+    --color-bg-card-surface: var(--color-bg-body-inverse-alpha-1);
     --color-brand-alpha-0: #129c6905;
     --color-brand-alpha-1: #129c690a;
     --color-brand-alpha-2: #129c690f;
