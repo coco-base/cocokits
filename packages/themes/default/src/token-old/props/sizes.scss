@@ -1,5 +1,0 @@
-@use '../../tools/token-mixin/sizes';
-
-:where(html) {
-  @include sizes.sizes;
-}
