@@ -35,24 +35,49 @@ const DummyFrameXCollections = {
   typography: ['font-a', 'font-b'],
   'local-style': ['default'],
 };
-export const CCK_THEMES: Record<CckThemeName, CckTheme> = {
-  Theme2: {
-    name: 'Theme2',
-    iconPathLight: '/default-logo.png',
-    iconPathDark: '/default-logo.png',
-    collections: DummyTheme2Collections,
-  },
+export const CCK_THEMES_MAP: Record<CckThemeName, CckTheme> = {
   Default: {
     name: 'Default',
+    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr',
     iconPathLight: '/default-logo.png',
     iconPathDark: '/default-logo.png',
     collections: collections,
+    defaultSelectedModes: {
+      global: 'default',
+      'local-style': 'default',
+    },
   },
   FrameX: {
     name: 'FrameX',
+    description:
+      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et. Lorem ipsum dolor sit',
     iconPathLight: '/frameX-logo-dark.svg',
     iconPathDark: '/frameX-logo-light.svg',
     collections: DummyFrameXCollections,
+    defaultSelectedModes: {
+      'color-mode': 'dark',
+      'color-theme': 'theme-b',
+      radius: 'rounded',
+      sizing: 'compact',
+      typography: 'font-b',
+      'local-style': 'default',
+    },
+  },
+  Theme2: {
+    name: 'Theme2',
+    description:
+      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.',
+    iconPathLight: '/default-logo.png',
+    iconPathDark: '/default-logo.png',
+    collections: DummyTheme2Collections,
+    defaultSelectedModes: {
+      'color-palette': 'light',
+      brand: 'default',
+      radius: 'full-rounded',
+      sizing: 'compact',
+      typography: 'poppins',
+      'local-style': 'default',
+    },
   },
 };
 // endregion

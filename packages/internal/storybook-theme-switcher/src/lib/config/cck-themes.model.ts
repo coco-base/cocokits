@@ -4,9 +4,11 @@ export type CckThemeName = 'Default' | 'FrameX' | 'Theme2';
 
 export interface CckTheme {
   name: CckThemeName;
+  description: string;
   iconPathLight: string;
   iconPathDark: string;
   collections: Record<string, string[]>;
+  defaultSelectedModes: Record<string, string>;
 }
 
 export interface CckThemeChangedEvent {

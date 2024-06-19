@@ -1,8 +1,8 @@
-import { addons, useEffect as useEffect2, useState as useState2 } from '@storybook/preview-api';
+import { addons } from '@storybook/preview-api';
 
-import { LOCALSTORAGE_STORYBOOK_THEME, STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
-import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
 import { getSelectedStorybookTheme } from '../componenets/theme-switcher.utils';
+import { STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
+import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
 
 interface UseSelectedStorybookThemeProps {
   useState:

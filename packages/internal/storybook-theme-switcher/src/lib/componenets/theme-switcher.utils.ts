@@ -1,16 +1,16 @@
 import { addons } from '@storybook/preview-api';
 
-import { CCK_THEME_CHANGED_EVENT_NAME, CCK_THEMES, LOCALSTORAGE_CCK_THEME } from '../config/cck-theme.config';
+import { CCK_THEME_CHANGED_EVENT_NAME, CCK_THEMES_MAP, LOCALSTORAGE_CCK_THEME } from '../config/cck-theme.config';
 import { CckSelectedTheme, CckThemeChangedEvent, CckThemeLocalstorage } from '../config/cck-themes.model';
 import { LOCALSTORAGE_STORYBOOK_THEME, STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
 import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
 import { themeIconSvg } from '../styles/icons';
 
-export function generateCckThemeChangeEventData({ name, selectedModes }: CckSelectedTheme) {
+export function generateCckThemeChangeEventData({ name, selectedModes }: CckSelectedTheme): CckThemeChangedEvent {
   return {
     name,
-    iconPathLight: CCK_THEMES[name].iconPathLight,
-    iconPathDark: CCK_THEMES[name].iconPathDark,
+    iconPathLight: CCK_THEMES_MAP[name].iconPathLight,
+    iconPathDark: CCK_THEMES_MAP[name].iconPathDark,
     iconList: themeIconSvg[name],
     selectedModes,
   };

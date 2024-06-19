@@ -1,4 +1,4 @@
-import { OverLay, OverlayAnimationType, OverlayConfig, OverlayProps, OverlayRef } from '@coco-kits/react-overlay';
+import { Overlay, OverlayAnimationType, OverlayConfig, OverlayProps, OverlayRef } from '@coco-kits/react-overlay';
 import React, { FC } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { ScrollLocker } from '@coco-kits/common-utils';
@@ -7,7 +7,6 @@ import { ScrollLocker } from '@coco-kits/common-utils';
 const DEFAULT_CONFIG: OverlayConfig<any> = {
   animationType: OverlayAnimationType.None,
   disableBackdropClose: false,
-  backdropOpacity: 0.4,
   parentElement: document.body,
   data: null
 }
@@ -48,7 +47,7 @@ export function openOverlay<TData = unknown, TResult = unknown>(componentRef: FC
     }
 
     root.render(
-      <OverLay {...overlayProps}/>
+      <Overlay {...overlayProps}/>
   );
   })
 }

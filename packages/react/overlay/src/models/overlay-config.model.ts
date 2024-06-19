@@ -1,7 +1,6 @@
 export interface OverlayConfig<TData = unknown> {
   animationType: OverlayAnimationType;
   disableBackdropClose: boolean; // Default is false
-  backdropOpacity: number; // Default is 0.4
   parentElement: HTMLElement; // Default is body
   data: TData;
 }

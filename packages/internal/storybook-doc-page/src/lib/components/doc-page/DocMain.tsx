@@ -30,7 +30,7 @@ export function DocMain() {
 
         {storiesWithoutPrimary.length > 0 && <StyledDivider />}
 
-        {storiesWithoutPrimary.map(story => <DocStory story={story} />)}
+        {storiesWithoutPrimary.map(story => <DocStory key={story.id} story={story} />)}
 
       </StyledMain>
       <DocToc/>

@@ -44,7 +44,7 @@ export const DocArgTypes = () => {
       </thead>
       <tbody>
         {argTypesList.map(argType => (
-          <StyledTr>
+          <StyledTr key={argType.name}>
 
             <StyledTd>{argType.name}</StyledTd>
 

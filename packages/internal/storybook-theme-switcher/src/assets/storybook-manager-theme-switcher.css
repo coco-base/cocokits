@@ -35,8 +35,12 @@ h1, h2, h3, h4, h5, h6, p, html, body {
     /* padding is 24px, But one of the child has also padding, So we have to reduce our padding from the storybook padding  */
     padding: 12px 8px 12px 4px;
 }
-/* endregion */
 
+/* Hide setting icon at sidenav */
+.sidebar-header > div:last-child {
+    display: none;
+}
+/* endregion */
 
 /* region ---------- SIDENAV - SEARCH ---------- */
 /* Search input field */
@@ -185,15 +189,9 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 }
 /* endregion */
 
-
 /* region ---------- TOOLBAR ---------- */
 /* Hide toolbar */
 .sb-bar {
     display: none;
 }
 /* endregion */
-
-/* Hide setting icon at sidenav */
-.sidebar-header > div:last-child {
-    display: none;
-}

@@ -7,7 +7,12 @@
           "error",
           {
             "enforceBuildableLibDependency": false,
-            "allow": ["@coco-kits/common-types", ".*/dist/compodoc/.*", ".*/tools/scripts/storybook/.*"],
+            "allow": [
+              "@coco-kits/common-types",
+              "@coco-kits/storybook-theme-switcher",
+              ".*/dist/compodoc/.*",
+              ".*/tools/scripts/storybook/.*"
+            ],
             "depConstraints": [
               {
                 "sourceTag": "workspace",
@@ -36,6 +41,10 @@
               {
                 "sourceTag": "framework:web",
                 "onlyDependOnLibsWithTags": ["framework:web", "framework:shared"]
+              },
+              {
+                "sourceTag": "framework:storybook",
+                "onlyDependOnLibsWithTags": ["framework:storybook", "framework:react", "framework:shared"]
               },
               {
                 "sourceTag": "framework:shared",

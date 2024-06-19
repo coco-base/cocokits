@@ -5,9 +5,9 @@ import { openOverlay, OverlayAnimationType } from '@coco-kits/react-overlay';
 import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,
   CCK_THEME_CHANGED_EVENT_NAME,
-  CCK_THEME_DOCUMENT_ATTR,
   CCK_THEME_SWITCHER_TOOL_ID,
   CckSelectedTheme,
+  CckThemeChangedEvent,
   CckThemeLocalstorage,
   DEFAULT_SELECTED_CCK_THEME_MODES,
   DEFAULT_SELECTED_CCK_THEME_NAME,
@@ -27,17 +27,15 @@ export function registerCckThemeSwitcher() {
   addToolbarIcon();
 }
 
-const DUMMY_DIALOG_DATA: SelectThemeDialogData = {
-  selectedThemeName: 'FrameX',
-  themeNames: ['Default', 'FrameX', 'Theme2'],
-};
-
 function listenToOpenDialogEvent() {
   const channel = addons.getChannel();
 
   channel.on(CCK_OPEN_THEME_SELECTION_EVENT_NAME, async () => {
+    const lastEvent: CckThemeChangedEvent[] | undefined = channel.last(CCK_THEME_CHANGED_EVENT_NAME);
     const result = await openOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
-      data: DUMMY_DIALOG_DATA,
+      data: {
+        selectedThemeName: lastEvent?.[0].name ?? 'Default',
+      },
       animationType: OverlayAnimationType.CenterTopToBottom,
     });
 
@@ -54,9 +52,6 @@ function listenToOpenDialogEvent() {
 
 function changeTheme({ name, selectedModes }: CckSelectedTheme) {
   const channel = addons.getChannel();
-
-  document.documentElement.setAttribute(CCK_THEME_DOCUMENT_ATTR, name);
-
   window.localStorage.setItem(
     LOCALSTORAGE_CCK_THEME,
     JSON.stringify({ name, selectedModes } satisfies CckThemeLocalstorage)
