@@ -66,7 +66,7 @@ export const DocArgTypes = () => {
 // region ---------------- STYLES ----------------
 const StyledTable = styled.table`
     border: var(--size-1) solid var(--color-bg-body-inverse-alpha-5);
-    border-radius: var(--size-4);
+    border-radius: var(--size-6);
     border-spacing: 0;
     
     & p {
@@ -78,7 +78,7 @@ const StyledTable = styled.table`
 const StyledTr = styled.tr`
     font: var(--text-sm-medium);
     color: var(--color-font-contrast-4);
-    padding: var(--size-6) var(--size-9);
+    padding: var(--size-12) var(--size-24);
     
     &:nth-child(even) {
         background-color: var(--color-bg-table-even);
@@ -87,17 +87,22 @@ const StyledTr = styled.tr`
 const StyledTd = styled.td`
     font: var(--text-sm-regular);
     color: var(--color-font-contrast-2);
-    padding: var(--size-6) var(--size-9);
+    padding: var(--size-12) var(--size-24);
     border-top: var(--size-1) solid var(--color-border-alpha-default);
     
     &:first-child {
         font: var(--text-sm-medium);
         color: var(--color-font-contrast-4);
     }
+
+    & code {
+        font: var(--text-xs-regular);
+        padding: var(--size-2) var(--size-6);
+    }
 `;
 const StyledTh = styled.th`
     font: var(--text-sm-medium);
     color: var(--color-font-contrast-4);
-    padding: var(--size-6) var(--size-9);
+    padding: var(--size-12) var(--size-24);
 `;
 // endregion

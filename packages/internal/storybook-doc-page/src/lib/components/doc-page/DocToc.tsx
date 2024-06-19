@@ -49,9 +49,9 @@ const StyledContainer = styled.div`
     width: var();
     height: 100%;
     position: sticky;
-    top: var(--size-16);
-    margin-top: var(--size-17);
-    margin-left: var(--size-14);
+    top: var(--size-80);
+    margin-top: var(--size-96);
+    margin-left: var(--size-64);
 `;
 
 const StyledOl = styled.ol`
@@ -59,16 +59,16 @@ const StyledOl = styled.ol`
     list-style-type: none;
     margin-left: 0;
     margin-top: 0;
-    padding-inline-start: var(--size-8);
+    padding-inline-start: var(--size-20);
 
     &:before {
         content: "";
         position: absolute;
         left: 0;
         height: 100%;
-        width: var(--size-3);
+        width: var(--size-4);
         background-color: var(--color-bg-body-inverse-alpha-4);
-        border-radius: var(--size-3);
+        border-radius: var(--size-4);
     }
 `;
 
@@ -89,12 +89,12 @@ const StyledLi = styled.li<{ selected: boolean }>`
         &:after {
             content: '';
             position: absolute;
-            left: calc(-1 * var(--size-8));
+            left: calc(-1 * var(--size-20));
             top: 0;
             bottom: 0;
-            width: var(--size-3);
+            width: var(--size-4);
             background-color: var(--color-brand-default);
-            border-radius: var(--size-3);
+            border-radius: var(--size-4);
         }
         &:hover {
             color: var(--color-brand-default);

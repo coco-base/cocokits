@@ -42,7 +42,7 @@ export function DocMain() {
 const StyledWrapper = styled.div`
     display: flex;
     position: relative;
-    max-width: var(--size-30);
+    max-width: var(--size-1280);
     margin: auto;
 `;
 
@@ -50,17 +50,17 @@ const StyledMain = styled.main`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: var(--size-14) var(--size-11) var(--size-18) var(--size-11);
+    padding: var(--size-64) var(--size-32) var(--size-128) var(--size-32);
     margin: 0 auto;
     z-index: 1;
-    gap: var(--size-13);
+    gap: var(--size-48);
 `;
 
 
 const StyledCategory = styled.p`
     font: var(--text-xs-medium);
     color: var(--color-brand-default);
-    margin-bottom: var(--size-5);
+    margin-bottom: var(--size-8);
 `;
 
 const StyledDivider = styled.div`

@@ -141,15 +141,15 @@ export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData
 };
 
 const StyledWrapper = styled.div`
-    width: var(--size-26);
-    height: var(--size-27);
+    width: var(--size-560);
+    height: var(--size-640);
     display: flex;
     flex-direction: column;
-    padding: var(--size-9);
+    padding: var(--size-24);
 `;
 
 const StyledHeader = styled.div`
-    height: var(--size-11);
+    height: var(--size-32);
 `;
 
 const StyledCckThemeSelection = styled(CckThemeSelection)`
@@ -160,5 +160,5 @@ const StyledCckModeSelection = styled(CckModeSelection)`
 `;
 
 const StyledFooter = styled.div`
-    height: var(--size-11);
+    height: var(--size-32);
 `;

@@ -45,8 +45,8 @@ export const DocStory = ({ story, expanded = true }: DocStoryProps) => {
 // region ---------------- STYLES ----------------
 const StyledA = styled.a`
     float: left;
-    width: var(--size-10);
-    margin-left: calc(-1 * var(--size-10));
+    width: var(--size-28);
+    margin-left: calc(-1 * var(--size-28));
     color: inherit;
     visibility: hidden;
     cursor: pointer;

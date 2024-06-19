@@ -25,7 +25,7 @@ export function DocBgEffect() {
 
 // region ---------------- STYLES ----------------
 const Wrapper = styled.div`
-    height: var(--size-25);
+    height: var(--size-480);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,9 +49,9 @@ const BoxWrapper = styled.div`
     position: absolute;
     display: flex;
     align-items: baseline;
-    gap: var(--size-9);
+    gap: var(--size-24);
     height: 100%;
-    width: var(--size-30);
+    width: var(--size-1280);
 `;
 
 const Box = styled.div`
@@ -62,14 +62,14 @@ const Box = styled.div`
     border-width: 0 var(--size-1) 0 var(--size-1);
     border-style: solid;
     border-color: var(--color-border-alpha-4);
-    border-radius: var(--size-9);
+    border-radius: var(--size-24);
     background: var(--effect-gradient-doc-page-header-box);
     transform: rotate(45deg);
 `;
 
 const SharkEffect = styled.div`
     position: absolute;
-    inset: calc(-1 * var(--size-10)) calc(-1 * var(--size-9));;
+    inset: calc(-1 * var(--size-28)) calc(-1 * var(--size-24));;
     opacity: 0.2;
     z-index: 0;
 `;

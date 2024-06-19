@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 
 /* First div element. It a layout for sidenav, draggable and main content */
 #root > div:first-child {
-    grid-template-columns: minmax(0, var(--size-22)) minmax(100px, 1fr) minmax(0, 400px);
+    grid-template-columns: minmax(0, var(--size-256)) minmax(100px, 1fr) minmax(0, 400px);
 }
 
 /* First wrapper of sidenav. Sibling of main content at root layout element*/
@@ -46,51 +46,51 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 /* Search input field */
 .search-field input {
     border-radius: 500px;
-    padding-left: var(--size-12);
+    padding-left: var(--size-40);
 }
 
 /* Search Icon */
 .search-field > div:first-child {
-    left: var(--size-7);
+    left: var(--size-16);
 }
 
 /* Search shortcut code. (Will be visible when the input is NOT focused) */
 .search-field > code {
-    right: var(--size-7);
+    right: var(--size-16);
     color: var(--color-font-contrast-1);
 }
 
 /* Search clear button. (Will be visible when the input has focused) */
 .search-field > input + div {
-    right: var(--size-7);
+    right: var(--size-16);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - GENERAL  ---------- */
 /* Sidenav items wrapper */
 #storybook-explorer-menu {
-    margin-top: var(--size-8);
+    margin-top: var(--size-20);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - FIRST TITLE (UI Components) ---------- */
 /* Sidenav fist level title. (e.g. Frameworks, UI Components) */
 #storybook-explorer-menu .sidebar-subheading {
-    margin-top: var(--size-6);
+    margin-top: var(--size-12);
     font: var(--text-sm-medium);
     color: var(--color-font-contrast-4);
-    gap: var(--size-6);
+    gap: var(--size-12);
     text-transform: unset;
     letter-spacing: unset;
-    margin-bottom: var(--size-5);
+    margin-bottom: var(--size-8);
 }
 
 /* Sidenav fist level title. (e.g. Frameworks, UI Components) */
 #storybook-explorer-menu .sidebar-subheading > button:first-child {
     flex: 1;
-    gap: var(--size-5);
-    height: var(--size-11);
-    border-radius: var(--size-5);
+    gap: var(--size-8);
+    height: var(--size-32);
+    border-radius: var(--size-8);
 }
 
 /* Sidenav fist level title -> Arrow down wrapper at left to collapse */
@@ -114,12 +114,12 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 #storybook-explorer-menu button.sidebar-item {
     font: var(--text-sm-regular);
     color: var(--color-font-contrast-2);
-    gap: var(--size-5);
-    height: var(--size-11);
-    border-radius: var(--size-5);
+    gap: var(--size-8);
+    height: var(--size-32);
+    border-radius: var(--size-8);
     margin: var(--size-2) var(--size-0);
     align-items: center;
-    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-7);
+    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-16);
 }
 #storybook-explorer-menu button.sidebar-item:focus {
     background: transparent;
@@ -149,9 +149,9 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 #storybook-explorer-menu div.sidebar-item {
     font: var(--text-sm-regular);
     color: var(--color-font-contrast-2);
-    gap: var(--size-5);
-    height: var(--size-11);
-    border-radius: var(--size-5);
+    gap: var(--size-8);
+    height: var(--size-32);
+    border-radius: var(--size-8);
     margin: var(--size-2) var(--size-0);
     align-items: center;
     transition: color 300ms;
@@ -170,17 +170,17 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 #storybook-explorer-menu div.sidebar-item[data-selected="true"]:before {
     content: '';
     position: absolute;
-    width: var(--size-5);
-    height: var(--size-5);
+    width: var(--size-8);
+    height: var(--size-8);
     border-radius: 50%;
     background-color: var(--color-brand-default);
-    left: var(--size-6);
+    left: var(--size-12);
     top: 50%;
     transform: translateY(-50%);
 }
 
 #storybook-explorer-menu div.sidebar-item > a {
-    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-11);
+    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-32);
 }
 
 /* Sidenav second level item after title -> Item icon at left side (e.g. Doc, Bookmark) */

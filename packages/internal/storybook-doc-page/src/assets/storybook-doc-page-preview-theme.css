@@ -13,43 +13,43 @@ html, body {
 h1 {
     font: var(--display-sm-semibold);
     color: var(--color-font-contrast-4);
-    margin: 0 0 var(--size-10) 0;
+    margin: 0 0 var(--size-28) 0;
 }
 
 h2 {
     font: var(--text-xl-medium);
     color: var(--color-font-contrast-4);
-    margin: var(--size-6) 0;
+    margin: var(--size-12) 0;
 }
 
 h3 {
     font: var(--text-lg-medium);
     color: var(--color-font-contrast-4);
-    margin: var(--size-6) 0;
+    margin: var(--size-12) 0;
 }
 
 h4 {
     font: var(--text-md-medium);
     color: var(--color-font-contrast-4);
-    margin: var(--size-6) 0;
+    margin: var(--size-12) 0;
 }
 
 h5 {
     font: var(--text-sm-medium);
     color: var(--color-font-contrast-4);
-    margin: var(--size-6) 0;
+    margin: var(--size-12) 0;
 }
 
 h6 {
     font: var(--text-xs-medium);
     color: var(--color-font-contrast-4);
-    margin: var(--size-6) 0;
+    margin: var(--size-12) 0;
 }
 
 p {
     font: var(--text-sm-regular);
     color: var(--color-font-contrast-3);
-    margin: 0 0 var(--size-7) 0;
+    margin: 0 0 var(--size-16) 0;
 }
 
 ul {
@@ -58,11 +58,11 @@ ul {
 }
 
 li {
-    margin: 0 0 var(--size-7) 0;
+    margin: 0 0 var(--size-16) 0;
 }
 
 pre {
-    margin: var(--size-10) 0;
+    margin: var(--size-28) 0;
 }
 
 strong {
@@ -83,8 +83,8 @@ code {
     font: var(--text-sm-regular);
     background-color: var(--color-bg-card-default) !important;
     border: var(--size-1) solid var(--color-border-card-default);
-    padding: var(--size-7) var(--size-8);
-    border-radius: var(--size-4);
+    padding: var(--size-16) var(--size-20);
+    border-radius: var(--size-6);
     overflow: auto;
 }
 
@@ -117,7 +117,7 @@ code {
 /* Story content preview. Sibling of bottom action with `Show code` button */
 .docs-story > div:nth-child(1) {
     /* padding button must be height of `.docs-story > div:nth-child(2)` */
-    padding: 30px 20px  var(--size-12) 20px;
+    padding: 30px 20px  var(--size-40) 20px;
 }
 
 /* endregion */
@@ -134,9 +134,9 @@ code {
 /* Story preview footer wrapper. (It's contains `Show code` button) */
 .docs-story > div:nth-child(2) {
     width: 100%;
-    height: var(--size-12);
+    height: var(--size-40);
     border-top: var(--size-1) solid var(--color-border-card-default);
-    padding: 0 var(--size-6);
+    padding: 0 var(--size-12);
     display: flex;
     justify-content: end;
     align-items: center;
@@ -158,7 +158,7 @@ code {
 /* `Show code` button selected */
 .docblock-code-toggle--expanded:after {
     content: '';
-    margin-left: var(--size-6);
+    margin-left: var(--size-12);
     width: 12px;
     height: 9px;
     background-repeat: no-repeat;
@@ -281,7 +281,7 @@ code {
 /*.docblock-argstable td {*/
 /*    font: var(--text-sm-medium) !important;*/
 /*    color: var(--color-font-contrast-4) !important;*/
-/*    padding: var(--size-6) var(--size-9) !important;*/
+/*    padding: var(--size-12) var(--size-24) !important;*/
 /*}*/
 
 /*.docblock-argstable tbody {*/
