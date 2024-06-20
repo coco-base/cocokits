@@ -620,36 +620,12 @@
     }
   },
   "Text-xs": {
-    "Bold": {
+    "Light": {
       "$type": "typography",
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "12px",
-        "fontWeight": 700,
-        "letterSpacing": "0%",
-        "lineHeight": "20px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Semibold": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "12px",
-        "fontWeight": 600,
-        "letterSpacing": "0%",
-        "lineHeight": "20px",
-        "textTransform": "none",
-        "textDecoration": "none"
-      }
-    },
-    "Medium": {
-      "$type": "typography",
-      "$value": {
-        "fontFamily": "Inter",
-        "fontSize": "12px",
-        "fontWeight": 500,
+        "fontWeight": 300,
         "letterSpacing": "0%",
         "lineHeight": "20px",
         "textTransform": "none",
@@ -668,12 +644,36 @@
         "textDecoration": "none"
       }
     },
-    "Light": {
+    "Medium": {
       "$type": "typography",
       "$value": {
         "fontFamily": "Inter",
         "fontSize": "12px",
-        "fontWeight": 300,
+        "fontWeight": 500,
+        "letterSpacing": "0%",
+        "lineHeight": "20px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Semibold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "12px",
+        "fontWeight": 600,
+        "letterSpacing": "0%",
+        "lineHeight": "20px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "Bold": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Inter",
+        "fontSize": "12px",
+        "fontWeight": 700,
         "letterSpacing": "0%",
         "lineHeight": "20px",
         "textTransform": "none",

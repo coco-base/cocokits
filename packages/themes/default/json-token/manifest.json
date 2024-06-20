@@ -1,9 +1,20 @@
 {
   "name": "Design Tokens",
   "collections": {
-    "global": {
+    "Global": {
       "modes": {
-        "Default": ["global.Default.tokens.json"]
+        "Default": ["Global.Default.tokens.json"]
+      }
+    },
+    "Components Size": {
+      "modes": {
+        "Default": ["Components Size.Default.tokens.json"]
+      }
+    },
+    "Brand Color 1": {
+      "modes": {
+        "Light": ["Brand Color 1.Light.tokens.json"],
+        "Dark": ["Brand Color 1.Dark.tokens.json"]
       }
     }
   },

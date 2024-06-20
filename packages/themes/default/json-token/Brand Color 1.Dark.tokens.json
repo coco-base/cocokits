@@ -1,0 +1,108 @@
+{
+  "Color": {
+    "Brand": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Phlox.600}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Phlox.700}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Phlox.900}"
+      }
+    },
+    "Info": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Blue.400}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Blue.600}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Blue.800}"
+      }
+    },
+    "Warning": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Orange-peel.300}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Orange-peel.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Orange-peel.600}"
+      }
+    },
+    "Error": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Imperial-red.400}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Imperial-red.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Imperial-red.600}"
+      }
+    },
+    "H-Contrast": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.50}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.200}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.400}"
+      }
+    },
+    "M-Contrast": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.300}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.700}"
+      }
+    },
+    "L-Contrast": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.50}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.200}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.400}"
+      }
+    },
+    "Body": {
+      "background": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.400}"
+      }
+    }
+  }
+}

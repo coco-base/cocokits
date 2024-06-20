@@ -1,5 +1,95 @@
 {
   "Color-Palette": {
+    "Black": {
+      "50": {
+        "$type": "color",
+        "$value": "#292929"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#1f1f1f"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#141414"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#0a0a0a"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#000000"
+      }
+    },
+    "White": {
+      "50": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#fcfcfc"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#fafafa"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#f7f7f7"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#f5f5f5"
+      }
+    },
+    "Gray": {
+      "50": {
+        "$type": "color",
+        "$value": "#ededed"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#e6e6e6"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#dbdbdb"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#d1d1d1"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#bfbfbf"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#ababab"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#969696"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#787878"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#666666"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#595959"
+      },
+      "950": {
+        "$type": "color",
+        "$value": "#3d3d3d"
+      }
+    },
     "Steel-gray": {
       "50": {
         "$type": "color",
@@ -1381,7 +1471,7 @@
       "$value": "1920px"
     }
   },
-  "alpha": {
+  "Alpha": {
     "0": {
       "$type": "dimension",
       "$value": "0px"
@@ -1427,7 +1517,7 @@
       "$value": "100px"
     }
   },
-  "blur": {
+  "Blur": {
     "0": {
       "$type": "dimension",
       "$value": "0px"
