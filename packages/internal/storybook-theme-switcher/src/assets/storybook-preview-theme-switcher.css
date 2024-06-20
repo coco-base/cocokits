@@ -7,7 +7,7 @@
 /* Remove default padding of doc page wrapper */
 .sbdocs.sbdocs-wrapper {
     padding: 0;
-    background: var(--color-bg-body-alpha-10);
+    background: var(--cck-storybook-color-bg-body-alpha-10);
 }
 
 /* Remove default max-width of doc page content */

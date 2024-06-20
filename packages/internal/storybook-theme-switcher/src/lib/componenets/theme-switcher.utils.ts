@@ -6,12 +6,13 @@ import { LOCALSTORAGE_STORYBOOK_THEME, STORYBOOK_THEME_CHANGED_EVENT_NAME } from
 import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
 import { themeIconSvg } from '../styles/icons';
 
-export function generateCckThemeChangeEventData({ name, selectedModes }: CckSelectedTheme): CckThemeChangedEvent {
+export function generateCckThemeChangeEventData({ id, selectedModes }: CckSelectedTheme): CckThemeChangedEvent {
   return {
-    name,
-    iconPathLight: CCK_THEMES_MAP[name].iconPathLight,
-    iconPathDark: CCK_THEMES_MAP[name].iconPathDark,
-    iconList: themeIconSvg[name],
+    id,
+    name: CCK_THEMES_MAP[id].name,
+    iconPathLight: CCK_THEMES_MAP[id].iconPathLight,
+    iconPathDark: CCK_THEMES_MAP[id].iconPathDark,
+    iconList: themeIconSvg[id],
     selectedModes,
   };
 }

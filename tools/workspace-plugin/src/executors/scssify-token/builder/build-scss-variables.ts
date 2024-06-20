@@ -36,7 +36,11 @@ export function buildScssVariables(compilerResult: CompilerResult, options: Scss
       collectionWithModeNames,
       compilerResult.transformedTokens
     );
-    const scssVariablesContent = getScssVariablesContent(collectionWithModeNames, variableNamesWithCollectionModeMap);
+    const scssVariablesContent = getScssVariablesContent(
+      collectionWithModeNames,
+      variableNamesWithCollectionModeMap,
+      options.prefix
+    );
     const content = getFileContent(scssVariablesContent);
     const filePath = writeContentToFile(content, collectionName, scssVariablesDir);
     logFileHasGenerated(filePath);
@@ -83,7 +87,8 @@ ${scssVariables}
 
 function getScssVariablesContent(
   collectionWithModeNames: CollectionWithModeName[],
-  variableNamesWithCollectionModeMap: CssVariableNamesWithModeMap
+  variableNamesWithCollectionModeMap: CssVariableNamesWithModeMap,
+  prefix: string
 ): string {
   let scssVariables = '';
 
@@ -100,7 +105,7 @@ function getScssVariablesContent(
       return;
     }
 
-    scssVariables += `\n$${cssVariableName}: var(--${cssVariableName});`;
+    scssVariables += `\n$${prefix}${cssVariableName}: var(--${prefix}${cssVariableName});`;
   });
 
   return scssVariables;

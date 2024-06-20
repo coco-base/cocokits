@@ -1,75 +1,72 @@
-/* stylelint-disable no-empty-source */
-/* stylelint-disable scss/comment-no-empty */
+@use '../../token/scss-variables' as *;
 
-// @use '../../token-old/variables/sizes' as *;
-//
-// // region Size
-//
-// .cck-icon__size--default {
-//   width: $size-icon-md;
-//   height: $size-icon-md;
-// }
-//
-// .cck-icon__size--xs {
-//   width: $size-icon-xs;
-//   height: $size-icon-xs;
-// }
-//
-// .cck-icon__size--sm {
-//   width: $size-icon-sm;
-//   height: $size-icon-sm;
-// }
-//
-// .cck-icon__size--md {
-//   width: $size-icon-md;
-//   height: $size-icon-md;
-// }
-//
-// .cck-icon__size--lg {
-//   width: $size-icon-lg;
-//   height: $size-icon-lg;
-// }
-//
-// .cck-icon__size--xl {
-//   width: $size-icon-xl;
-//   height: $size-icon-xl;
-// }
-//
-// .cck-icon__size--2xl {
-//   width: $size-icon-xxl;
-//   height: $size-icon-xxl;
-// }
-//
-// // endregion
-//
-// // region Color
-// .cck-icon__color--brand {
-//   fill: $size-icon-xxl;
-// }
-//
-// .cck-icon__color--info {
-//   fill: #ee46bc;
-// }
-//
-// .cck-icon__color--warning {
-//   fill: #eaaa08;
-// }
-//
-// .cck-icon__color--error {
-//   fill: #ff4450;
-// }
-//
-// .cck-icon__color--h-contrast {
-//   fill: #292929;
-// }
-//
-// .cck-icon__color--default,
-// .cck-icon__size--m-contrast {
-//   fill: #a5a5a5;
-// }
-//
-// .cck-icon__size--l-contrast {
-//   fill: #e4e4e4;
-// }
-//
-// // endregion
+// region ------------- Size -------------
+
+.cck-icon__size--default {
+  width: $size-icon-md;
+  height: $size-icon-md;
+}
+
+.cck-icon__size--xs {
+  width: $size-icon-xs;
+  height: $size-icon-xs;
+}
+
+.cck-icon__size--sm {
+  width: $size-icon-sm;
+  height: $size-icon-sm;
+}
+
+.cck-icon__size--md {
+  width: $size-icon-md;
+  height: $size-icon-md;
+}
+
+.cck-icon__size--lg {
+  width: $size-icon-lg;
+  height: $size-icon-lg;
+}
+
+.cck-icon__size--xl {
+  width: $size-icon-xl;
+  height: $size-icon-xl;
+}
+
+.cck-icon__size--2xl {
+  width: $size-icon-2xl;
+  height: $size-icon-2xl;
+}
+
+// endregion
+
+// region ------------- Color -------------
+.cck-icon__color--brand {
+  fill: $color-brand-default;
+}
+
+.cck-icon__color--info {
+  fill: $color-info-default;
+}
+
+.cck-icon__color--warning {
+  fill: $color-warning-default;
+}
+
+.cck-icon__color--error {
+  fill: $color-error-default;
+}
+
+.cck-icon__color--h-contrast {
+  fill: $color-h-contrast-default;
+}
+
+.cck-icon__color--default,
+.cck-icon__size--m-contrast {
+  fill: $color-m-contrast-default;
+}
+
+.cck-icon__size--l-contrast {
+  fill: $color-l-contrast-default;
+}
+
+// endregion

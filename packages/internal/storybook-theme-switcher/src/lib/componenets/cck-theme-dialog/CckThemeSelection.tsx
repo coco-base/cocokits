@@ -3,17 +3,17 @@ import { css, styled } from 'styled-components';
 
 import { ReactDivAttr } from './CckThemeDialog.model';
 import { CCK_THEMES_MAP } from '../../config/cck-theme.config';
-import { CckTheme, CckThemeName } from '../../config/cck-themes.model';
+import { CckTheme, CckThemeId } from '../../config/cck-themes.model';
 import { useDocSelectedStorybookTheme } from '../../hooks/useDocSelectedStorybookTheme';
 
 
 interface CckThemeSelectionProps {
-  selectedThemeName: CckThemeName;
+  selectedThemeId: CckThemeId;
   onThemeClick: (theme: CckTheme) => void;
 }
 
 export const CckThemeSelection: FC<CckThemeSelectionProps & ReactDivAttr> =
-  ({ selectedThemeName, onThemeClick, ...props }) => {
+  ({ selectedThemeId, onThemeClick, ...props }) => {
     const storybookTheme = useDocSelectedStorybookTheme();
 
     return (
@@ -25,8 +25,8 @@ export const CckThemeSelection: FC<CckThemeSelectionProps & ReactDivAttr> =
         <StyledThemeWrapper>
           {Object.values(CCK_THEMES_MAP).map(theme => (
             <StyledTheme
-              key={theme.name}
-              selected={selectedThemeName === theme.name}
+              key={theme.id}
+              selected={selectedThemeId === theme.id}
               onClick={() => onThemeClick(theme)}>
               <StyledThemeLogo src={storybookTheme === 'dark' ? theme.iconPathDark : theme.iconPathLight} />
               <StyledThemeName>{theme.name}</StyledThemeName>
@@ -45,15 +45,15 @@ const StyledWrapper = styled.div<ReactDivAttr>`
 `;
 
 const StyledHeader = styled.div`
-    font: var(--display-sm-semibold);
-    color: var(--color-font-contrast-4);
-    margin-bottom: var(--size-24);
+    font: var(--cck-storybook-display-sm-semibold);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin-bottom: var(--cck-storybook-size-24);
 `;
 
 const StyledDescription = styled.div`
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-3);
-    margin-bottom: var(--size-16);
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-3);
+    margin-bottom: var(--cck-storybook-size-16);
 `;
 
 const StyledThemeWrapper = styled.div`
@@ -64,31 +64,31 @@ const StyledThemeWrapper = styled.div`
 `;
 
 const StyledTheme = styled.div<{ selected: boolean }>`
-    width: var(--size-128);
-    height: var(--size-128);
+    width: var(--cck-storybook-size-128);
+    height: var(--cck-storybook-size-128);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 12px;
-    border: 1px solid var(--color-border-alpha-default);
-    border-radius: var(--size-6);
-    background-color: var(--color-bg-body-inverse-alpha-2);
+    border: 1px solid var(--cck-storybook-color-border-alpha-default);
+    border-radius: var(--cck-storybook-size-6);
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-2);
     cursor: pointer;
 
     ${props => props.selected && css`
-        border: 1px solid var(--color-brand-default);
-        background-color: var(--color-brand-alpha-4);
+        border: 1px solid var(--cck-storybook-color-brand-default);
+        background-color: var(--cck-storybook-color-brand-alpha-4);
     `},
 `;
 
 const StyledThemeLogo = styled.img`
-    width: var(--size-40);
-    height: var(--size-40);
+    width: var(--cck-storybook-size-40);
+    height: var(--cck-storybook-size-40);
 `;
 
 const StyledThemeName = styled.div`
-    font: var(--text-md-medium);
-    color: var(--color-font-contrast-4);
+    font: var(--cck-storybook-text-md-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
 `;
 // endregion

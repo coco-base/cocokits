@@ -45,7 +45,8 @@ export function buildTsCssVariables(compilerResult: CompilerResult, options: Scs
   recordForEach(collectionMap, (collectionWithModeNames, collectionName) => {
     const variableNamesWithCollectionModeMap = getVariableNamePathsWithModesAndValueMap(
       collectionWithModeNames,
-      compilerResult.transformedTokens
+      compilerResult.transformedTokens,
+      options.prefix
     );
     const tsVariablesContent = getTsVariablesContent(collectionWithModeNames, variableNamesWithCollectionModeMap);
     const content = getFileContent(tsVariablesContent, collectionName);
@@ -130,7 +131,8 @@ function getCollectionMap(transformedTokens: TransformedDesignTokenCollectionMap
 
 function getVariableNamePathsWithModesAndValueMap(
   collectionWithModeNames: CollectionWithModeName[],
-  transformedTokens: TransformedDesignTokenCollectionMap
+  transformedTokens: TransformedDesignTokenCollectionMap,
+  prefix: string
 ): TsVariableNamesWithModeAndValueMap {
   const variableNamesPathsWithModeAndValue = new Map<TsStringVariableName, { modes: Set<ModeName>; value: string }>();
 
@@ -150,7 +152,7 @@ function getVariableNamePathsWithModesAndValueMap(
 
       variableNamesPathsWithModeAndValue.set(tsStringVariableName, {
         modes: modesSet,
-        value: `var(--${cssVariableName})`,
+        value: `var(--${prefix}${cssVariableName})`,
       });
     });
   });

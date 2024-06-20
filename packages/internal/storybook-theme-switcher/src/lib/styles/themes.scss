@@ -1,1 +1,5 @@
 @import '../../../../../themes/default/src/token/css-variables';
+
+[data-cck-theme-name='default'] {
+  @import '../../../../../themes/default/src/styles';
+}

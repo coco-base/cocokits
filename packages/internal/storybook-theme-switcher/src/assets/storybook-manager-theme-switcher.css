@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 
 /* First div element. It a layout for sidenav, draggable and main content */
 #root > div:first-child {
-    grid-template-columns: minmax(0, var(--size-256)) minmax(100px, 1fr) minmax(0, 400px);
+    grid-template-columns: minmax(0, var(--cck-storybook-size-256)) minmax(100px, 1fr) minmax(0, 400px);
 }
 
 /* First wrapper of sidenav. Sibling of main content at root layout element*/
@@ -30,8 +30,8 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 * But because of media-query of storybook, it will switch to bg color.
 */
 .container.sidebar-container {
-    background: var(--color-bg-body-inverse-alpha-1);
-    border-right: 1px solid var(--color-border-alpha-default);
+    background: var(--cck-storybook-color-bg-body-inverse-alpha-1);
+    border-right: 1px solid var(--cck-storybook-color-border-alpha-default);
     /* padding is 24px, But one of the child has also padding, So we have to reduce our padding from the storybook padding  */
     padding: 12px 8px 12px 4px;
 }
@@ -46,51 +46,51 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 /* Search input field */
 .search-field input {
     border-radius: 500px;
-    padding-left: var(--size-40);
+    padding-left: var(--cck-storybook-size-40);
 }
 
 /* Search Icon */
 .search-field > div:first-child {
-    left: var(--size-16);
+    left: var(--cck-storybook-size-16);
 }
 
 /* Search shortcut code. (Will be visible when the input is NOT focused) */
 .search-field > code {
-    right: var(--size-16);
-    color: var(--color-font-contrast-1);
+    right: var(--cck-storybook-size-16);
+    color: var(--cck-storybook-color-font-contrast-1);
 }
 
 /* Search clear button. (Will be visible when the input has focused) */
 .search-field > input + div {
-    right: var(--size-16);
+    right: var(--cck-storybook-size-16);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - GENERAL  ---------- */
 /* Sidenav items wrapper */
 #storybook-explorer-menu {
-    margin-top: var(--size-20);
+    margin-top: var(--cck-storybook-size-20);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - FIRST TITLE (UI Components) ---------- */
 /* Sidenav fist level title. (e.g. Frameworks, UI Components) */
 #storybook-explorer-menu .sidebar-subheading {
-    margin-top: var(--size-12);
-    font: var(--text-sm-medium);
-    color: var(--color-font-contrast-4);
-    gap: var(--size-12);
+    margin-top: var(--cck-storybook-size-12);
+    font: var(--cck-storybook-text-sm-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
+    gap: var(--cck-storybook-size-12);
     text-transform: unset;
     letter-spacing: unset;
-    margin-bottom: var(--size-8);
+    margin-bottom: var(--cck-storybook-size-8);
 }
 
 /* Sidenav fist level title. (e.g. Frameworks, UI Components) */
 #storybook-explorer-menu .sidebar-subheading > button:first-child {
     flex: 1;
-    gap: var(--size-8);
-    height: var(--size-32);
-    border-radius: var(--size-8);
+    gap: var(--cck-storybook-size-8);
+    height: var(--cck-storybook-size-32);
+    border-radius: var(--cck-storybook-size-8);
 }
 
 /* Sidenav fist level title -> Arrow down wrapper at left to collapse */
@@ -100,7 +100,7 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 
 /* Sidenav fist level title -> Arrow down at left to collapse */
 #storybook-explorer-menu .sidebar-subheading > button:first-child path {
-    fill: var(--color-font-contrast-4);
+    fill: var(--cck-storybook-color-font-contrast-4);
 }
 
 /* Sidenav fist level title -> collapse icon at right. */
@@ -112,14 +112,14 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 /* region ---------- SIDENAV - FIRST ITEM (SvgIcon, Avatar) ---------- */
 /* Sidenav fist level item after title. (e.g. SvgIcon, Avatar) */
 #storybook-explorer-menu button.sidebar-item {
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-2);
-    gap: var(--size-8);
-    height: var(--size-32);
-    border-radius: var(--size-8);
-    margin: var(--size-2) var(--size-0);
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-2);
+    gap: var(--cck-storybook-size-8);
+    height: var(--cck-storybook-size-32);
+    border-radius: var(--cck-storybook-size-8);
+    margin: var(--cck-storybook-size-2) var(--cck-storybook-size-0);
     align-items: center;
-    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-16);
+    padding: var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-16);
 }
 #storybook-explorer-menu button.sidebar-item:focus {
     background: transparent;
@@ -140,19 +140,19 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 
 /* Sidenav fist level item after title -> Arrow down at left to collapse */
 #storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child path {
-    fill: var(--color-font-contrast-2);
+    fill: var(--cck-storybook-color-font-contrast-2);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - SECOND ITEM (Docs, Default, Size) ---------- */
 /* Sidenav second level item after title. (e.g. Docs, Default, Size) */
 #storybook-explorer-menu div.sidebar-item {
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-2);
-    gap: var(--size-8);
-    height: var(--size-32);
-    border-radius: var(--size-8);
-    margin: var(--size-2) var(--size-0);
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-2);
+    gap: var(--cck-storybook-size-8);
+    height: var(--cck-storybook-size-32);
+    border-radius: var(--cck-storybook-size-8);
+    margin: var(--cck-storybook-size-2) var(--cck-storybook-size-0);
     align-items: center;
     transition: color 300ms;
 }
@@ -160,27 +160,27 @@ h1, h2, h3, h4, h5, h6, p, html, body {
     background: transparent;
 }
 #storybook-explorer-menu div.sidebar-item:hover:not([data-selected="true"]) {
-    color: var(--color-font-contrast-4);
+    color: var(--cck-storybook-color-font-contrast-4);
     background: transparent;
 }
 #storybook-explorer-menu div.sidebar-item[data-selected="true"] {
-    background-color: var(--color-bg-body-inverse-alpha-3);
-    color: var(--color-font-contrast-4);
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
+    color: var(--cck-storybook-color-font-contrast-4);
 }
 #storybook-explorer-menu div.sidebar-item[data-selected="true"]:before {
     content: '';
     position: absolute;
-    width: var(--size-8);
-    height: var(--size-8);
+    width: var(--cck-storybook-size-8);
+    height: var(--cck-storybook-size-8);
     border-radius: 50%;
-    background-color: var(--color-brand-default);
-    left: var(--size-12);
+    background-color: var(--cck-storybook-color-brand-default);
+    left: var(--cck-storybook-size-12);
     top: 50%;
     transform: translateY(-50%);
 }
 
 #storybook-explorer-menu div.sidebar-item > a {
-    padding: var(--size-0) var(--size-0) var(--size-0) var(--size-32);
+    padding: var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-32);
 }
 
 /* Sidenav second level item after title -> Item icon at left side (e.g. Doc, Bookmark) */

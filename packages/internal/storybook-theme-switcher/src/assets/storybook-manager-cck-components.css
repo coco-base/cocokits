@@ -1,12 +1,12 @@
 /* storybook-manager-cck-components.css */
 .cck-overlay__backdrop {
-    background-color: var(--color-bg-overlay-backdrop);
+    background-color: var(--cck-storybook-color-bg-overlay-backdrop);
     backdrop-filter: blur(2px);
 }
 
 .cck-overlay__content {
-    background-color: var(--color-bg-overlay-surface);
-    border-radius: var(--size-16);
-    border: 1px solid var(--color-border-alpha-5);
-    box-shadow: 0 1px 3px 0 var(--color-bg-overlay-shadow-1), 0 4px 8px 3px var(--color-bg-overlay-shadow-2);
+    background-color: var(--cck-storybook-color-bg-overlay-surface);
+    border-radius: var(--cck-storybook-size-16);
+    border: 1px solid var(--cck-storybook-color-border-alpha-5);
+    box-shadow: 0 1px 3px 0 var(--cck-storybook-color-bg-overlay-shadow-1), 0 4px 8px 3px var(--cck-storybook-color-bg-overlay-shadow-2);
 }

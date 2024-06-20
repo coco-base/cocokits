@@ -9,8 +9,8 @@ import {
   CckSelectedTheme,
   CckThemeChangedEvent,
   CckThemeLocalstorage,
+  DEFAULT_SELECTED_CCK_THEME_ID,
   DEFAULT_SELECTED_CCK_THEME_MODES,
-  DEFAULT_SELECTED_CCK_THEME_NAME,
   LOCALSTORAGE_CCK_THEME,
 } from '../index';
 import {
@@ -34,7 +34,7 @@ function listenToOpenDialogEvent() {
     const lastEvent: CckThemeChangedEvent[] | undefined = channel.last(CCK_THEME_CHANGED_EVENT_NAME);
     const result = await openOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
       data: {
-        selectedThemeName: lastEvent?.[0].name ?? 'Default',
+        selectedThemeId: lastEvent?.[0].id ?? 'default',
       },
       animationType: OverlayAnimationType.CenterTopToBottom,
     });
@@ -44,20 +44,20 @@ function listenToOpenDialogEvent() {
     }
 
     changeTheme({
-      name: result.themeName,
+      id: result.themeId,
       selectedModes: result.selectedModes,
     });
   });
 }
 
-function changeTheme({ name, selectedModes }: CckSelectedTheme) {
+function changeTheme({ id, selectedModes }: CckSelectedTheme) {
   const channel = addons.getChannel();
   window.localStorage.setItem(
     LOCALSTORAGE_CCK_THEME,
-    JSON.stringify({ name, selectedModes } satisfies CckThemeLocalstorage)
+    JSON.stringify({ id, selectedModes } satisfies CckThemeLocalstorage)
   );
 
-  channel.emit(CCK_THEME_CHANGED_EVENT_NAME, generateCckThemeChangeEventData({ name, selectedModes }));
+  channel.emit(CCK_THEME_CHANGED_EVENT_NAME, generateCckThemeChangeEventData({ id, selectedModes }));
 }
 
 function dispatchDefaultThemEvent() {
@@ -66,14 +66,14 @@ function dispatchDefaultThemEvent() {
   if (localstorageTheme) {
     const selectedTheme = JSON.parse(localstorageTheme) as CckThemeLocalstorage;
     changeTheme({
-      name: selectedTheme.name,
+      id: selectedTheme.id,
       selectedModes: selectedTheme.selectedModes,
     });
     return;
   }
 
   changeTheme({
-    name: DEFAULT_SELECTED_CCK_THEME_NAME,
+    id: DEFAULT_SELECTED_CCK_THEME_ID,
     selectedModes: DEFAULT_SELECTED_CCK_THEME_MODES,
   });
 }

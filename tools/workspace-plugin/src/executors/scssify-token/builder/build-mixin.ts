@@ -30,7 +30,7 @@ export function buildScssMixins(compilerResult: CompilerResult, options: Scssify
   clearDir(mixinDir);
 
   recordForEach(compilerResult.transformedTokens, (tokens, collectionWithModeName) => {
-    const content = getFileContent(tokens, collectionWithModeName);
+    const content = getFileContent(tokens, collectionWithModeName, options.prefix);
     const mixinFilePath = writeContentToFile(content, collectionWithModeName, mixinDir);
     logFileHasGenerated(mixinFilePath);
   });
@@ -69,11 +69,15 @@ function writeContentToFile(content: string, collectionWithModeName: CollectionW
   return filePath;
 }
 
-function getFileContent(tokens: TransformedDesignToken[], collectionWithModeName: CollectionWithModeName) {
+function getFileContent(
+  tokens: TransformedDesignToken[],
+  collectionWithModeName: CollectionWithModeName,
+  prefix: string
+) {
   const variables = tokens.reduce((previousValue, token) => {
     const variableName = sanitizeCSSVariableName(token.namePath);
     const value = sanitizeValue(token.value, token.isAlias);
-    return `${previousValue}\n--${variableName}: ${value};`;
+    return `${previousValue}\n--${prefix}${variableName}: ${value};`;
   }, '');
 
   const content = `

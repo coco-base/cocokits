@@ -15,7 +15,7 @@ interface CckModeSelectionProps {
 export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
   ({ selectedTheme, onModeChanged, ...props }) => {
 
-    const [selectedModes, setSelectedModes] = useState<SelectedThemeModes>(CCK_THEMES_MAP[selectedTheme.name].defaultSelectedModes);
+    const [selectedModes, setSelectedModes] = useState<SelectedThemeModes>(CCK_THEMES_MAP[selectedTheme.id].defaultSelectedModes);
     const storybookTheme = useDocSelectedStorybookTheme();
 
     const _onModeChanged = (collectionName: string, mode: string) => {
@@ -71,26 +71,26 @@ const StyledWrapper = styled.div<ReactDivAttr>`
 `;
 
 const StyledHeader = styled.div`
-    font: var(--display-sm-semibold);
-    color: var(--color-font-contrast-4);
+    font: var(--cck-storybook-display-sm-semibold);
+    color: var(--cck-storybook-color-font-contrast-4);
 `;
 
 const StyledDescription = styled.div`
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-3);
-    margin-bottom: var(--size-16);
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-3);
+    margin-bottom: var(--cck-storybook-size-16);
 `;
 
 const StyledLogo = styled.img`
-    width: var(--size-32);
-    height: var(--size-32);
+    width: var(--cck-storybook-size-32);
+    height: var(--cck-storybook-size-32);
 `;
 
 const StyledHeaderWrapper = styled.div<ReactDivAttr>`
     display: flex;
     align-items: center;
-    gap: var(--size-24);
-    margin-bottom: var(--size-24);
+    gap: var(--cck-storybook-size-24);
+    margin-bottom: var(--cck-storybook-size-24);
 `;
 
 const StyledModesList = styled.div`
@@ -98,7 +98,7 @@ const StyledModesList = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: var(--size-24);
+    margin-top: var(--cck-storybook-size-24);
 `;
 
 const StyledModesWrapper = styled.div`
@@ -106,31 +106,31 @@ const StyledModesWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    min-height: var(--size-48);
+    min-height: var(--cck-storybook-size-48);
 
     &:not(:first-of-type) {
-        border-top: 1px solid var(--color-border-alpha-default);
+        border-top: 1px solid var(--cck-storybook-color-border-alpha-default);
     }
 `;
 
 const StyledCollectionName = styled.div`
-    width: var(--size-128);
-    font: var(--text-md-medium);
-    color: var(--color-font-contrast-4);
+    width: var(--cck-storybook-size-128);
+    font: var(--cck-storybook-text-md-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
 `;
 
 const StyledModeLabel = styled.label<{ selected: boolean }>`
-    width: var(--size-128);
+    width: var(--cck-storybook-size-128);
     display: flex;
     align-items: center;
-    gap: var(--size-6);
-    font: var(--text-md-regular);
-    color: var(--color-font-contrast-2);
+    gap: var(--cck-storybook-size-6);
+    font: var(--cck-storybook-text-md-regular);
+    color: var(--cck-storybook-color-font-contrast-2);
     cursor: pointer;
 
     ${props => props.selected && css`
-        color: var(--color-brand-default);
-        font: var(--text-md-medium);
+        color: var(--cck-storybook-color-brand-default);
+        font: var(--cck-storybook-text-md-medium);
     `},
 `;
 // endregion

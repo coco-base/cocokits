@@ -25,21 +25,21 @@ export function DocBgEffect() {
 
 // region ---------------- STYLES ----------------
 const Wrapper = styled.div`
-    height: var(--size-480);
+    height: var(--cck-storybook-size-480);
     display: flex;
     justify-content: center;
     align-items: center;
     
     position: absolute;
-    left: var(--size-0);
-    right: var(--size-0);
-    top: var(--size-0);
+    left: var(--cck-storybook-size-0);
+    right: var(--cck-storybook-size-0);
+    top: var(--cck-storybook-size-0);
 
     overflow: hidden;
 `;
 
 const BrandGradiant = styled.div`
-    background: var(--effect-gradient-doc-page-header-brand);
+    background: var(--cck-storybook-effect-gradient-doc-page-header-brand);
     height: 100%;
     position: absolute;
     width: 100%;
@@ -49,9 +49,9 @@ const BoxWrapper = styled.div`
     position: absolute;
     display: flex;
     align-items: baseline;
-    gap: var(--size-24);
+    gap: var(--cck-storybook-size-24);
     height: 100%;
-    width: var(--size-1280);
+    width: var(--cck-storybook-size-1280);
 `;
 
 const Box = styled.div`
@@ -59,17 +59,17 @@ const Box = styled.div`
     aspect-ratio: 1 / 1;
     flex: 1;
     
-    border-width: 0 var(--size-1) 0 var(--size-1);
+    border-width: 0 var(--cck-storybook-size-1) 0 var(--cck-storybook-size-1);
     border-style: solid;
-    border-color: var(--color-border-alpha-4);
-    border-radius: var(--size-24);
-    background: var(--effect-gradient-doc-page-header-box);
+    border-color: var(--cck-storybook-color-border-alpha-4);
+    border-radius: var(--cck-storybook-size-24);
+    background: var(--cck-storybook-effect-gradient-doc-page-header-box);
     transform: rotate(45deg);
 `;
 
 const SharkEffect = styled.div`
     position: absolute;
-    inset: calc(-1 * var(--size-28)) calc(-1 * var(--size-24));;
+    inset: calc(-1 * var(--cck-storybook-size-28)) calc(-1 * var(--cck-storybook-size-24));;
     opacity: 0.2;
     z-index: 0;
 `;
@@ -79,7 +79,7 @@ const SharkEffectImg = styled.img`
 `;
 
 const Overlay = styled.div`
-    background: var(--effect-gradient-doc-page-header-overlay);
+    background: var(--cck-storybook-effect-gradient-doc-page-header-overlay);
     inset: -5px -18px -20px;
     position: absolute;
 `;

@@ -28,7 +28,8 @@
           "parser": "design-tokens-manager",
           "skipTokenTypes": [],
           "outputDir": "packages/internal/storybook-theme-switcher/src/lib/token",
-          "themeName": "cck-storybook-theme"
+          "themeName": "cck-storybook-theme",
+          "prefix": "cck-storybook-"
         }
       }
     }

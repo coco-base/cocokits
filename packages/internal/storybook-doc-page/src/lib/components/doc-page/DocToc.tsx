@@ -49,9 +49,9 @@ const StyledContainer = styled.div`
     width: var();
     height: 100%;
     position: sticky;
-    top: var(--size-80);
-    margin-top: var(--size-96);
-    margin-left: var(--size-64);
+    top: var(--cck-storybook-size-80);
+    margin-top: var(--cck-storybook-size-96);
+    margin-left: var(--cck-storybook-size-64);
 `;
 
 const StyledOl = styled.ol`
@@ -59,45 +59,45 @@ const StyledOl = styled.ol`
     list-style-type: none;
     margin-left: 0;
     margin-top: 0;
-    padding-inline-start: var(--size-20);
+    padding-inline-start: var(--cck-storybook-size-20);
 
     &:before {
         content: "";
         position: absolute;
         left: 0;
         height: 100%;
-        width: var(--size-4);
-        background-color: var(--color-bg-body-inverse-alpha-4);
-        border-radius: var(--size-4);
+        width: var(--cck-storybook-size-4);
+        background-color: var(--cck-storybook-color-bg-body-inverse-alpha-4);
+        border-radius: var(--cck-storybook-size-4);
     }
 `;
 
 const StyledLi = styled.li<{ selected: boolean }>`
     text-decoration-line: none;
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-2);
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-2);
     cursor: pointer;
 
     &:hover {
-        color: var(--color-font-contrast-4);
+        color: var(--cck-storybook-color-font-contrast-4);
     }
 
     ${props => props.selected && css`
         position: relative;
-        color: var(--color-brand-default);
+        color: var(--cck-storybook-color-brand-default);
 
         &:after {
             content: '';
             position: absolute;
-            left: calc(-1 * var(--size-20));
+            left: calc(-1 * var(--cck-storybook-size-20));
             top: 0;
             bottom: 0;
-            width: var(--size-4);
-            background-color: var(--color-brand-default);
-            border-radius: var(--size-4);
+            width: var(--cck-storybook-size-4);
+            background-color: var(--cck-storybook-color-brand-default);
+            border-radius: var(--cck-storybook-size-4);
         }
         &:hover {
-            color: var(--color-brand-default);
+            color: var(--cck-storybook-color-brand-default);
         }
     `},
 `;

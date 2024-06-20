@@ -50,4 +50,9 @@ export interface ScssifyTokenExecutorSchema {
    * This helps in identifying different themes within your project configurations.
    */
   themeName: string;
+
+  /**
+   * A prefix for each token. It's help to create an uniq token name
+   */
+  prefix: string;
 }

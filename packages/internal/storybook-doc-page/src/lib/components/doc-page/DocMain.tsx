@@ -42,7 +42,7 @@ export function DocMain() {
 const StyledWrapper = styled.div`
     display: flex;
     position: relative;
-    max-width: var(--size-1280);
+    max-width: var(--cck-storybook-size-1280);
     margin: auto;
 `;
 
@@ -50,21 +50,21 @@ const StyledMain = styled.main`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: var(--size-64) var(--size-32) var(--size-128) var(--size-32);
+    padding: var(--cck-storybook-size-64) var(--cck-storybook-size-32) var(--cck-storybook-size-128) var(--cck-storybook-size-32);
     margin: 0 auto;
     z-index: 1;
-    gap: var(--size-48);
+    gap: var(--cck-storybook-size-48);
 `;
 
 
 const StyledCategory = styled.p`
-    font: var(--text-xs-medium);
-    color: var(--color-brand-default);
-    margin-bottom: var(--size-8);
+    font: var(--cck-storybook-text-xs-medium);
+    color: var(--cck-storybook-color-brand-default);
+    margin-bottom: var(--cck-storybook-size-8);
 `;
 
 const StyledDivider = styled.div`
-    height: var(--size-1);
-    background-color: var(--color-border-alpha-default);
+    height: var(--cck-storybook-size-1);
+    background-color: var(--cck-storybook-color-border-alpha-default);
 `;
 // endregion

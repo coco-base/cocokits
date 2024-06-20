@@ -7,7 +7,7 @@
 
 export const collections = {
   'local-style': ['default'],
-  Global: ['default'],
-  'Components Size': ['default'],
-  'Brand Color 1': ['light', 'dark'],
+  global: ['default'],
+  'components-size': ['default'],
+  'brand-color-1': ['light', 'dark'],
 };

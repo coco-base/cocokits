@@ -11,58 +11,58 @@ html, body {
 }
 
 h1 {
-    font: var(--display-sm-semibold);
-    color: var(--color-font-contrast-4);
-    margin: 0 0 var(--size-28) 0;
+    font: var(--cck-storybook-display-sm-semibold);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin: 0 0 var(--cck-storybook-size-28) 0;
 }
 
 h2 {
-    font: var(--text-xl-medium);
-    color: var(--color-font-contrast-4);
-    margin: var(--size-12) 0;
+    font: var(--cck-storybook-text-xl-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin: var(--cck-storybook-size-12) 0;
 }
 
 h3 {
-    font: var(--text-lg-medium);
-    color: var(--color-font-contrast-4);
-    margin: var(--size-12) 0;
+    font: var(--cck-storybook-text-lg-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin: var(--cck-storybook-size-12) 0;
 }
 
 h4 {
-    font: var(--text-md-medium);
-    color: var(--color-font-contrast-4);
-    margin: var(--size-12) 0;
+    font: var(--cck-storybook-text-md-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin: var(--cck-storybook-size-12) 0;
 }
 
 h5 {
-    font: var(--text-sm-medium);
-    color: var(--color-font-contrast-4);
-    margin: var(--size-12) 0;
+    font: var(--cck-storybook-text-sm-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin: var(--cck-storybook-size-12) 0;
 }
 
 h6 {
-    font: var(--text-xs-medium);
-    color: var(--color-font-contrast-4);
-    margin: var(--size-12) 0;
+    font: var(--cck-storybook-text-xs-medium);
+    color: var(--cck-storybook-color-font-contrast-4);
+    margin: var(--cck-storybook-size-12) 0;
 }
 
 p {
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-3);
-    margin: 0 0 var(--size-16) 0;
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-3);
+    margin: 0 0 var(--cck-storybook-size-16) 0;
 }
 
 ul {
-    font: var(--text-sm-regular);
-    color: var(--color-font-contrast-3);
+    font: var(--cck-storybook-text-sm-regular);
+    color: var(--cck-storybook-color-font-contrast-3);
 }
 
 li {
-    margin: 0 0 var(--size-16) 0;
+    margin: 0 0 var(--cck-storybook-size-16) 0;
 }
 
 pre {
-    margin: var(--size-28) 0;
+    margin: var(--cck-storybook-size-28) 0;
 }
 
 strong {
@@ -70,21 +70,21 @@ strong {
 }
 
 code {
-    border: 1px solid var(--color-border-card-default);
+    border: 1px solid var(--cck-storybook-color-border-card-default);
     border-radius: 4px;
     padding: 1px 6px;
-    background-color: var(--color-bg-card-surface);
+    background-color: var(--cck-storybook-color-bg-card-surface);
 }
 /* endregion */
 
 /* region ---------- CODE HIGHLIGHTER ---------- */
 
 .shiki {
-    font: var(--text-sm-regular);
-    background-color: var(--color-bg-card-surface) !important;
-    border: var(--size-1) solid var(--color-border-card-default);
-    padding: var(--size-16) var(--size-20);
-    border-radius: var(--size-6);
+    font: var(--cck-storybook-text-sm-regular);
+    background-color: var(--cck-storybook-color-bg-card-surface) !important;
+    border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-card-default);
+    padding: var(--cck-storybook-size-16) var(--cck-storybook-size-20);
+    border-radius: var(--cck-storybook-size-6);
     overflow: auto;
 }
 
@@ -100,7 +100,7 @@ code {
 }
 
 .cck-storybook-light-theme .shiki {
-    color: var(--color-font-contrast-2) !important;
+    color: var(--cck-storybook-color-font-contrast-2) !important;
 }
 
 /* endregion */
@@ -109,15 +109,15 @@ code {
 
 /* Story preview wrapper */
 .sbdocs.sbdocs-preview {
-    background-color: var(--color-bg-card-surface);
-    border: var(--size-1) solid var(--color-border-card-default);
+    background-color: var(--cck-storybook-color-bg-card-surface);
+    border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-card-default);
     box-shadow: none;
 }
 
 /* Story content preview. Sibling of bottom action with `Show code` button */
 .docs-story > div:nth-child(1) {
     /* padding button must be height of `.docs-story > div:nth-child(2)` */
-    padding: 30px 20px  var(--size-40) 20px;
+    padding: 30px 20px 70px 20px;
 }
 
 /* endregion */
@@ -134,9 +134,9 @@ code {
 /* Story preview footer wrapper. (It's contains `Show code` button) */
 .docs-story > div:nth-child(2) {
     width: 100%;
-    height: var(--size-40);
-    border-top: var(--size-1) solid var(--color-border-card-default);
-    padding: 0 var(--size-12);
+    height: var(--cck-storybook-size-40);
+    border-top: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-card-default);
+    padding: 0 var(--cck-storybook-size-12);
     display: flex;
     justify-content: end;
     align-items: center;
@@ -146,19 +146,19 @@ code {
 /* `Show code` button */
 .docs-story .docblock-code-toggle {
     border-radius: 4px;
-    background-color: var(--color-bg-body-inverse-alpha-3);
-    color: var(--color-font-contrast-2);
-    border: 1px solid var(--color-border-alpha-3);
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
+    color: var(--cck-storybook-color-font-contrast-2);
+    border: 1px solid var(--cck-storybook-color-border-alpha-3);
 }
 .docs-story .docblock-code-toggle:focus {
-    background-color: var(--color-bg-body-inverse-alpha-3);
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
     box-shadow: none;
 }
 
 /* `Show code` button selected */
 .docblock-code-toggle--expanded:after {
     content: '';
-    margin-left: var(--size-12);
+    margin-left: var(--cck-storybook-size-12);
     width: 12px;
     height: 9px;
     background-repeat: no-repeat;
@@ -272,16 +272,16 @@ code {
 
 /* region ---------- ARG TYPE TABLE ---------- */
 /*.docblock-argstable {*/
-/*    border: 1px solid var(--color-bg-body-inverse-alpha-5);*/
+/*    border: 1px solid var(--cck-storybook-color-bg-body-inverse-alpha-5);*/
 /*    border-radius: 6px;*/
 /*    border-spacing: 0 !important;*/
 /*}*/
 
 /*.docblock-argstable th,*/
 /*.docblock-argstable td {*/
-/*    font: var(--text-sm-medium) !important;*/
-/*    color: var(--color-font-contrast-4) !important;*/
-/*    padding: var(--size-12) var(--size-24) !important;*/
+/*    font: var(--cck-storybook-text-sm-medium) !important;*/
+/*    color: var(--cck-storybook-color-font-contrast-4) !important;*/
+/*    padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24) !important;*/
 /*}*/
 
 /*.docblock-argstable tbody {*/
@@ -293,6 +293,6 @@ code {
 /*}*/
 
 /*.docblock-argstable tr:nth-child(even) {*/
-/*    background: var(--color-bg-table-even);*/
+/*    background: var(--cck-storybook-color-bg-table-even);*/
 /*}*/
 /* endregion */

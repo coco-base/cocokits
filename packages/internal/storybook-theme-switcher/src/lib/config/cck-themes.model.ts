@@ -1,8 +1,10 @@
 import type { ThemeSvgIcon } from '@coco-kits/common-types';
 
 export type CckThemeName = 'Default' | 'FrameX' | 'Theme2';
+export type CckThemeId = 'default' | 'frame-x' | 'theme2';
 
 export interface CckTheme {
+  id: CckThemeId;
   name: CckThemeName;
   description: string;
   iconPathLight: string;
@@ -12,6 +14,7 @@ export interface CckTheme {
 }
 
 export interface CckThemeChangedEvent {
+  id: CckThemeId;
   name: CckThemeName;
   iconPathLight: string;
   iconPathDark: string;
@@ -20,7 +23,7 @@ export interface CckThemeChangedEvent {
 }
 
 export interface CckSelectedTheme {
-  name: CckThemeName;
+  id: CckThemeId;
   selectedModes: Record<string, string>;
 }
 
