@@ -14,6 +14,11 @@
       "implementation": "./src/executors/scssify-token/executor",
       "schema": "./src/executors/scssify-token/schema.json",
       "description": "convert JSON-based design tokens into SCSS variables, streamlining the integration of design systems into stylesheets."
+    },
+    "figma-to-image": {
+      "implementation": "./src/executors/figma-to-image/executor",
+      "schema": "./src/executors/figma-to-image/schema.json",
+      "description": "figma-to-image executor"
     }
   }
 }

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "FigmaNodeToImage executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "figmaLinkUrl": {
+      "type": "string",
+      "description": "The URL of the Figma file containing the node to be exported. It includes the file ID and node ID in the query parameters."
+    },
+    "format": {
+      "type": "string",
+      "enum": ["png", "svg"],
+      "description": "The desired image format for the exported file. Can be either 'png' or 'svg'.",
+      "default": "png"
+    },
+    "outputPath": {
+      "type": "string",
+      "description": "The file path where the exported image will be saved."
+    }
+  },
+  "required": ["figmaLinkUrl", "format", "outputPath"]
+}
