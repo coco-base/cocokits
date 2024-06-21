@@ -1,11 +1,11 @@
+import { build } from './builder/build';
 import { compileDesignToken } from './builder/compiler';
 import { runPrettier } from './builder/prettier';
 import { ScssifyTokenParser } from './model';
 import { parseDesignTokensManager } from './parsers/design-tokens-manager/design-tokens-manager';
 import { ScssifyTokenExecutorSchema } from './schema';
-import { Logger } from '../../utils/logger';
-import { build } from './builder/build';
 import { ParserResult } from './token.model';
+import { Logger } from '../../utils/logger';
 
 export default async function runExecutor(options: ScssifyTokenExecutorSchema) {
   Logger.header(`Running scssify token with ${options.parser} parser`);

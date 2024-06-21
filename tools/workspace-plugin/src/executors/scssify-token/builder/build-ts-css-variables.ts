@@ -70,7 +70,7 @@ function generateIndexFile(collectionMap: TokenDefinitionMap, tsVariablesDir: st
  */
  
   `;
-  recordForEach(collectionMap, (collectionWithModeNames, collectionName) => {
+  recordForEach(collectionMap, (_collectionWithModeNames, collectionName) => {
     content += `export * from './${collectionName}';`;
   });
 

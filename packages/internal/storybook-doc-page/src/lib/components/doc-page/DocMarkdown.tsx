@@ -24,7 +24,7 @@ export const DocMarkdown = ({children}: DocMarkdownProps) => {
         themes: [ shikiLightPlus, shikiMaterialThemeOcean],
         langs: [shikiJavascript, shikiTypescript, shikiShell],
         loadWasm: shikiWasm
-      }) as unknown as HighlighterGeneric<any, any>
+      }) as unknown as HighlighterGeneric<any, any>;
 
       const md = new MarkdownIt();
 
@@ -39,10 +39,10 @@ export const DocMarkdown = ({children}: DocMarkdownProps) => {
       setHtml(result);
     }
 
-    renderMarkdown();
+    renderMarkdown().then();
   }, [children]);
 
   return (
     <div dangerouslySetInnerHTML={{ __html: html }}/>
   );
-}
+};

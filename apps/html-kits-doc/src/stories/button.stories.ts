@@ -36,7 +36,7 @@ export const Normal: Story = {
   },
 };
 
-function renderElement(text: string, secondaryText: string) {
+function renderElement(_text: string, _secondaryText: string) {
   const wrapper = document.createElement('div');
 
   const handleJsonUpdate = (event: unknown) => {

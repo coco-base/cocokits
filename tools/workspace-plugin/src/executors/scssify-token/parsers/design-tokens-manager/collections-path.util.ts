@@ -2,8 +2,8 @@ import path from 'path';
 
 import { CollectionPathMap, DTMManifest } from './design-tokens-manager.model';
 import { ScssifyTokenExecutorSchema } from '../../schema';
-import { recordReduceMerge } from '../../utils/reduce-merge';
 import { CollectionName, ModeName } from '../../token.model';
+import { recordReduceMerge } from '../../utils/reduce-merge';
 
 export const LOCAL_STYLE_KEY_NAME = 'local-style';
 export const LOCAL_STYLE_MODE_NAME = 'default';

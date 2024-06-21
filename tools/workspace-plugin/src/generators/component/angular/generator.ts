@@ -1,14 +1,14 @@
 import { formatFiles, generateFiles, names, Tree } from '@nx/devkit';
+import path from 'path';
 
 import { AngularComponentGeneratorSchema } from './schema';
+import { ComponentFramework, ComponentGeneratorOptions } from '../component-generator.model';
 import {
   getComponentImportPath,
   getComponentSelector,
   getProjectRoot,
   updateIndexFile,
 } from '../component-generator.util';
-import { ComponentFramework, ComponentGeneratorOptions } from '../component-generator.model';
-import path from 'path';
 
 export default async function angularComponentGenerator(tree: Tree, options: AngularComponentGeneratorSchema) {
   const componentGeneratorOptions: ComponentGeneratorOptions = {

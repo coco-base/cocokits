@@ -3,6 +3,8 @@ type LockChangeCallback = (isLock: boolean) => void;
 export class ScrollLocker {
   private static instance: ScrollLocker;
 
+  private callbacks = new Set<LockChangeCallback>();
+
   public static globalInstance() {
     if (!ScrollLocker.instance) {
       ScrollLocker.instance = new ScrollLocker();
@@ -10,8 +12,6 @@ export class ScrollLocker {
 
     return ScrollLocker.instance;
   }
-
-  private callbacks = new Set<LockChangeCallback>();
 
   public get isLocked() {
     return document.documentElement.style.position === 'fixed';

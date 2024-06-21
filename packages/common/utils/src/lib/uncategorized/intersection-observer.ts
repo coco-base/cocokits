@@ -1,5 +1,6 @@
 import { Observable, Subscriber } from 'rxjs';
 import { share } from 'rxjs/operators';
+
 import { toArray } from './array';
 
 export type IntersectionObserverConfig = IntersectionObserverInit;

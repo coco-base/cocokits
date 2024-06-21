@@ -30,7 +30,7 @@ export async function getImageUrl({
     const imageUrl = data.images[imageId];
 
     return imageUrl;
-  } catch (error) {
+  } catch (_error) {
     throw new Error('Failed to retrieve image URL from Figma. Please check the provided parameters and try again.');
   }
 }

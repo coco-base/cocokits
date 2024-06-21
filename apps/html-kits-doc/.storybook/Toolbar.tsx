@@ -1,5 +1,5 @@
-import * as React from "react"
+import * as React from "react";
 
 export const ToolBar = () => {
-  return (<span>TOOL BAR</span>)
-}
+  return (<span>TOOL BAR</span>);
+};

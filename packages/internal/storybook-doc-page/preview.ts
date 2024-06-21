@@ -1,7 +1,7 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
 
-import { DocPageContainer } from './src/lib/components/doc-page-container/DocPageContainer';
 import { DocPage } from './src/lib/components/doc-page/DocPage';
+import { DocPageContainer } from './src/lib/components/doc-page-container/DocPageContainer';
 
 /**
  * The `Preview` type is not globally exported and must be imported from a specific framework path (e.g., `@storybook/angular`).

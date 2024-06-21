@@ -25,7 +25,7 @@ export function buildCssVariables(compilerResult: CompilerResult, options: Scssi
 
   clearDir(cssVariablesDir);
 
-  recordForEach(compilerResult.transformedTokens, (tokens, collectionWithModeName) => {
+  recordForEach(compilerResult.transformedTokens, (_tokens, collectionWithModeName) => {
     const content = getFileContent(collectionWithModeName, options.themeName);
     const mixinFilePath = writeContentToFile(content, collectionWithModeName, cssVariablesDir);
     logFileHasGenerated(mixinFilePath);

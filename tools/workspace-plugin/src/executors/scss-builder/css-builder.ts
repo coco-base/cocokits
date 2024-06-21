@@ -14,7 +14,6 @@ interface CssBuilderOptions {
   outputPath: string;
 }
 
-// eslint-disable-next-line max-lines-per-function
 export async function cssBuilder(
   scssPath: string,
   options: CssBuilderOptions

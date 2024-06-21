@@ -62,7 +62,7 @@ function generateIndexFile(collectionMap: TokenDefinitionMap, scssVariablesDir: 
  */
  
   `;
-  recordForEach(collectionMap, (collectionWithModeNames, collectionName) => {
+  recordForEach(collectionMap, (_collectionWithModeNames, collectionName) => {
     content += `@import './${collectionName}';`;
   });
 

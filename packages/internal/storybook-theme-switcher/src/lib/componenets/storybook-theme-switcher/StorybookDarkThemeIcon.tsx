@@ -1,7 +1,7 @@
+import { mergeClasses } from '@griffel/react';
 import React from 'react';
 
 import { useStyles } from './StorybookThemeIcon.style';
-import { mergeClasses } from '@griffel/react';
 
 interface StorybookDarkThemeIconProps {
   size?: 'small';

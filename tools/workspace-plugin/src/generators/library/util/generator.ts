@@ -1,11 +1,12 @@
 import { formatFiles, names, Tree } from '@nx/devkit';
+
 import { UtilLibraryGeneratorSchema } from './schema';
 import { LibraryFramework, LibraryGeneratorOptions, LibraryType } from '../libarary-generator.model';
 import {
   angularLibraryGenerator,
   reactLibraryGenerator,
-  webLibraryGenerator,
   sharedLibraryGenerator,
+  webLibraryGenerator,
 } from '../library-generator.util';
 
 export default async function utilLibraryGenerator(tree: Tree, options: UtilLibraryGeneratorSchema) {

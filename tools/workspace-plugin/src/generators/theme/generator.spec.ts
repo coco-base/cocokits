@@ -1,9 +1,9 @@
+import { readProjectConfiguration, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { Tree, readProjectConfiguration } from '@nx/devkit';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { themeGenerator } from './generator';
 import { ThemeGeneratorSchema } from './schema';
-import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('theme generator', () => {
   let tree: Tree;

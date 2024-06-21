@@ -1,7 +1,7 @@
 import { readProjectConfiguration, Tree } from '@nx/devkit';
-import { ComponentFramework, ComponentGeneratorOptions } from './component-generator.model';
-import { join } from 'path';
 import path from 'path';
+
+import { ComponentFramework, ComponentGeneratorOptions } from './component-generator.model';
 
 export function getProjectRoot(tree: Tree, projectName: string, componentFramework: ComponentFramework): string {
   const projectJson = readProjectConfiguration(tree, projectName);
@@ -27,7 +27,7 @@ export function updateIndexFile(tree: Tree, componentOptions: ComponentGenerator
   const originalSourceStr = tree.read(indexFile, 'utf-8');
   const componentExportStr = `export * from './${getComponentImportPath(componentOptions)}';`;
   const newSourceStr = `${originalSourceStr}\n${componentExportStr}`;
-  tree.write(join(indexFile), newSourceStr);
+  tree.write(path.join(indexFile), newSourceStr);
 }
 
 export function getComponentImportPath(componentOptions: ComponentGeneratorOptions) {

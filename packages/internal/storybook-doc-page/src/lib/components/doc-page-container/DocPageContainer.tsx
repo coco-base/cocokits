@@ -32,8 +32,6 @@ interface DocPageContainerProps {
 
 export const DocPageContainer = (props: DocPageContainerProps) => {
 
-  console.log('context', props.context, props.context.componentStories());
-
   const docPageContext: DocsPageContextProps = {
     category: getContextCategory(props.context),
     title: getContextTitle(props.context),

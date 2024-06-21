@@ -1,5 +1,6 @@
 import { addProjectConfiguration, formatFiles, generateFiles, Tree } from '@nx/devkit';
 import * as path from 'path';
+
 import { ThemeGeneratorSchema } from './schema';
 
 export async function themeGenerator(tree: Tree, options: ThemeGeneratorSchema) {

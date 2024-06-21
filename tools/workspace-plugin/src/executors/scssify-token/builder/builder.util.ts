@@ -1,6 +1,7 @@
 import { execSync } from 'child_process';
-import { CSSVariableName, TsStringVariableName, TsVariableMap } from '../token.model';
 import * as _ from 'lodash';
+
+import { CSSVariableName, TsStringVariableName, TsVariableMap } from '../token.model';
 
 /**
  * Name of the folder containing mixins.
