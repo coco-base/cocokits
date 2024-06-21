@@ -13,6 +13,7 @@
       "@coco-kits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/"],
       "@coco-kits/theme-core": ["packages/themes/core/src/"],
       "@coco-kits/theme-default": ["packages/themes/default/src/"],
+      "@coco-kits/theme-frame-x": ["packages/themes/frame-x/src/"],
       "@coco-kits/workspace-plugin": ["tools/workspace-plugin/src/"]
     }
   }

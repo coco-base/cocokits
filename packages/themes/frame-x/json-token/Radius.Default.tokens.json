@@ -1,0 +1,46 @@
+{
+  "radi-0": {
+    "$type": "dimension",
+    "$value": "0px"
+  },
+  "radi-1": {
+    "$type": "dimension",
+    "$value": "2px"
+  },
+  "radi-2": {
+    "$type": "dimension",
+    "$value": "4px"
+  },
+  "radi-3": {
+    "$type": "dimension",
+    "$value": "6px"
+  },
+  "radi-4": {
+    "$type": "dimension",
+    "$value": "8px"
+  },
+  "radi-5": {
+    "$type": "dimension",
+    "$value": "10px"
+  },
+  "radi-6": {
+    "$type": "dimension",
+    "$value": "12px"
+  },
+  "radi-7": {
+    "$type": "dimension",
+    "$value": "16px"
+  },
+  "radi-8": {
+    "$type": "dimension",
+    "$value": "22px"
+  },
+  "radi-9": {
+    "$type": "dimension",
+    "$value": "28px"
+  },
+  "radi-10": {
+    "$type": "dimension",
+    "$value": "1000px"
+  }
+}

@@ -1,7 +1,7 @@
 import type { ThemeSvgIcon } from '@coco-kits/common-types';
 
-export type CckThemeName = 'Default' | 'FrameX' | 'Theme2';
-export type CckThemeId = 'default' | 'frame-x' | 'theme2';
+export type CckThemeName = 'Default' | 'FrameX';
+export type CckThemeId = 'default' | 'frame-x';
 
 export interface CckTheme {
   id: CckThemeId;

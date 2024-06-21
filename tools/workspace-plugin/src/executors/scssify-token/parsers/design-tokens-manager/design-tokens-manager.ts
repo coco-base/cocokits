@@ -1,12 +1,12 @@
 import { getCollectionDTMTokenMap } from './collection-dtm-token';
 import { getCollectionPathMap } from './collections-path.util';
 import { getStandardDesignTokenCollectionsMap } from './collections-token';
+import { getCollectionsMapWithMode } from './get-collections-map-with-mode';
 import { logEndParsing, logStartParsing } from './logger';
 import { getManifest } from './manifest.util';
 import { getTokenDefinitionMap } from './token-definition';
 import { ScssifyTokenExecutorSchema } from '../../schema';
 import { DesignTokenCollectionMap, ParserResult } from '../../token.model';
-import { getCollectionsMapWithMode } from './get-collections-map-with-mode';
 
 export function parseDesignTokensManager(options: ScssifyTokenExecutorSchema): ParserResult {
   const manifest = getManifest(options.files);

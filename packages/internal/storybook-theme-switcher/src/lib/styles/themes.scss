@@ -1,5 +1,10 @@
 @import '../../../../../themes/default/src/token/css-variables';
+@import '../../../../../themes/frame-x/src/token/css-variables';
 
 [data-cck-theme-name='default'] {
   @import '../../../../../themes/default/src/styles';
+}
+
+[data-cck-theme-name='frame-x'] {
+  @import '../../../../../themes/frame-x/src/styles';
 }

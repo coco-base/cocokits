@@ -1,4 +1,5 @@
-import { collections } from '@coco-kits/theme-default';
+import { collections as collectionsDefaultTheme } from '@coco-kits/theme-default';
+import { collections as collectionsFrameXTheme } from '@coco-kits/theme-frame-x';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
 
@@ -20,22 +21,6 @@ export const DEFAULT_SELECTED_CCK_THEME_MODES = {
 
 // endregion
 // region THEMES
-const DummyTheme2Collections = {
-  'color-palette': ['dark', 'light'],
-  brand: ['default'],
-  radius: ['default', 'rounded', 'full-rounded'],
-  sizing: ['large', 'compact', 'spacious'],
-  typography: ['inter', 'roboto', 'poppins'],
-  'local-style': ['default'],
-};
-const DummyFrameXCollections = {
-  'color-mode': ['dark', 'light'],
-  'color-theme': ['theme-a', 'theme-b'],
-  radius: ['default', 'rounded'],
-  sizing: ['compact', 'spacious'],
-  typography: ['font-a', 'font-b'],
-  'local-style': ['default'],
-};
 export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
   default: {
     id: 'default',
@@ -43,7 +28,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr',
     iconPathLight: '/default-logo.png',
     iconPathDark: '/default-logo.png',
-    collections: collections,
+    collections: collectionsDefaultTheme,
     defaultSelectedModes: {
       global: 'default',
       'local-style': 'default',
@@ -58,31 +43,14 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et. Lorem ipsum dolor sit',
     iconPathLight: '/frameX-logo-dark.svg',
     iconPathDark: '/frameX-logo-light.svg',
-    collections: DummyFrameXCollections,
+    collections: collectionsFrameXTheme,
     defaultSelectedModes: {
+      'local-style': 'default',
+      sizing: 'compact',
+      'color-theme': 'theme-a',
       'color-mode': 'dark',
-      'color-theme': 'theme-b',
       radius: 'rounded',
-      sizing: 'compact',
-      typography: 'font-b',
-      'local-style': 'default',
-    },
-  },
-  theme2: {
-    id: 'theme2',
-    name: 'Theme2',
-    description:
-      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.',
-    iconPathLight: '/default-logo.png',
-    iconPathDark: '/default-logo.png',
-    collections: DummyTheme2Collections,
-    defaultSelectedModes: {
-      'color-palette': 'light',
-      brand: 'default',
-      radius: 'full-rounded',
-      sizing: 'compact',
-      typography: 'poppins',
-      'local-style': 'default',
+      typography: 'font-a',
     },
   },
 };

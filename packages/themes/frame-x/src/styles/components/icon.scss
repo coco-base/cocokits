@@ -1,0 +1,67 @@
+@use '../../token/scss-variables' as *;
+
+// region ------------- Size -------------
+
+.cck-icon__size--default {
+  // TODO: ...
+}
+
+.cck-icon__size--xs {
+  // TODO: ...
+  width: $icon-icon-xs;
+  height: $icon-icon-xs;
+}
+
+.cck-icon__size--sm {
+  // TODO: ...
+}
+
+.cck-icon__size--md {
+  // TODO: ...
+}
+
+.cck-icon__size--lg {
+  // TODO: ...
+}
+
+.cck-icon__size--xl {
+  // TODO: ...
+}
+
+.cck-icon__size--2xl {
+  // TODO: ...
+}
+
+// endregion
+
+// region ------------- Color -------------
+.cck-icon__color--brand {
+  // TODO: ...
+}
+
+.cck-icon__color--info {
+  // TODO: ...
+}
+
+.cck-icon__color--warning {
+  // TODO: ...
+}
+
+.cck-icon__color--error {
+  // TODO: ...
+}
+
+.cck-icon__color--h-contrast {
+  // TODO: ...
+}
+
+.cck-icon__color--default,
+.cck-icon__size--m-contrast {
+  // TODO: ...
+}
+
+.cck-icon__size--l-contrast {
+  // TODO: ...
+}
+
+// endregion

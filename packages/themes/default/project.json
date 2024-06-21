@@ -21,14 +21,9 @@
       "configurations": {
         "designTokensManager": {
           "files": ["packages/themes/default/json-token/manifest.json"],
-          "exclude": [
-            "packages/themes/default/json-token/grid.styles.tokens.json",
-            "packages/themes/default/json-token/Breakpoints.Desktop.tokens.json",
-            "packages/themes/default/json-token/Breakpoints.Tablet.tokens.json",
-            "packages/themes/default/json-token/Breakpoints.Mobile.tokens.json"
-          ],
+          "exclude": [],
           "parser": "design-tokens-manager",
-          "skipTokenTypes": ["gradient"],
+          "skipTokenTypes": [],
           "outputDir": "packages/themes/default/src/token",
           "themeName": "default"
         }

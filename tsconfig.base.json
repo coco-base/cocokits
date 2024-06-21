@@ -30,6 +30,7 @@
       "@coco-kits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
       "@coco-kits/theme-core": ["packages/themes/core/src/index.ts"],
       "@coco-kits/theme-default": ["packages/themes/default/src/index.ts"],
+      "@coco-kits/theme-frame-x": ["packages/themes/frame-x/src/index.ts"],
       "@coco-kits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
     }
   },

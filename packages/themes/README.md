@@ -9,6 +9,17 @@ This includes defining design tokens and variables, and setting up CSS and SCSS 
 ![Token Anatomy](./core/images/token-anatomy.png)
 
 
+## Add new theme
+- Create a new theme library
+- Copy Json token
+- Run parser to generate scss tokens
+- Make sure the following paths are updated correctly
+  - `tsconfig.storybook-manager-paths.json`
+  - `tsconfig.base.json`
+- Update `CCK_THEMES_MAP` from `packages/internal/storybook-theme-switcher/src/lib/config/cck-theme.config.ts`
+- Update `CckThemeName` and `CckThemeId` from `packages/internal/storybook-theme-switcher/src/lib/config/cck-themes.model.ts`
+- Update `packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss`
+
 ## Structure
 
 Each theme package within this folder adheres to a specific folder structure, designed to streamline theme development and ensure consistency:
