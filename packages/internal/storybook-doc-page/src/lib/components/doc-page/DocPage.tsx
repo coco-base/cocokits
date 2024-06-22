@@ -1,27 +1,40 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { DocBgEffect } from './DocBgEffect';
 import { DocHeader } from './DocHeader';
-import { DocMain } from './DocMain';
 
+interface DocPageProps {
+  children: ReactNode;
+  hideCckThemeSwitcher?: boolean;
+}
 
-export const DocPage = () => {
+export const DocPage = ({children, hideCckThemeSwitcher = false}: DocPageProps) => {
 
   return (
     // sb-unstyled: Remove default storybook styles
     <StyledWrapper className="sb-unstyled">
       <DocBgEffect></DocBgEffect>
-      <DocHeader></DocHeader>
-      <DocMain></DocMain>
+      <DocHeader hideCckThemeSwitcher={hideCckThemeSwitcher}></DocHeader>
+      <StyledContentWrapper>
+        {children}
+      </StyledContentWrapper>
     </StyledWrapper>
   );
 };
 
 // region ---------------- STYLES ----------------
-const StyledWrapper = styled.div`
+export const StyledWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+`;
+
+const StyledContentWrapper = styled.div`
+    display: flex;
+    position: relative;
+    width: 100%;
+    max-width: var(--cck-storybook-size-1280);
+    margin: auto;
 `;
 // endregion

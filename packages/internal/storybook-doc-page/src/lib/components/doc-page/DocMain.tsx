@@ -6,6 +6,8 @@ import { DocMarkdown } from './DocMarkdown';
 import { DocStory } from './DocStory';
 import { DocToc } from './DocToc';
 import { DocsPageContext } from '../doc-page-container/DocPageContainer';
+import { DocCategory } from './DocCategory';
+
 
 export function DocMain() {
 
@@ -16,19 +18,19 @@ export function DocMain() {
       <StyledMain>
 
         <div>
-          <StyledCategory>{category}</StyledCategory>
+          <DocCategory>{category}</DocCategory>
           <h1>{title}</h1>
           <DocMarkdown>{metaDescription}</DocMarkdown>
         </div>
 
-        <StyledDivider />
+        <hr/>
 
         <div>
           <DocStory story={primaryStory} expanded={true} />
           <DocArgTypes />
         </div>
 
-        {storiesWithoutPrimary.length > 0 && <StyledDivider />}
+        {storiesWithoutPrimary.length > 0 && <hr />}
 
         {storiesWithoutPrimary.map(story => <DocStory key={story.id} story={story} />)}
 
@@ -42,8 +44,9 @@ export function DocMain() {
 const StyledWrapper = styled.div`
     display: flex;
     position: relative;
-    max-width: var(--cck-storybook-size-1280);
+    width: 100%;
     margin: auto;
+    overflow: hidden;
 `;
 
 const StyledMain = styled.main`
@@ -53,18 +56,5 @@ const StyledMain = styled.main`
     padding: var(--cck-storybook-size-64) var(--cck-storybook-size-32) var(--cck-storybook-size-128) var(--cck-storybook-size-32);
     margin: 0 auto;
     z-index: 1;
-    gap: var(--cck-storybook-size-48);
-`;
-
-
-const StyledCategory = styled.p`
-    font: var(--cck-storybook-text-xs-medium);
-    color: var(--cck-storybook-color-brand-default);
-    margin-bottom: var(--cck-storybook-size-8);
-`;
-
-const StyledDivider = styled.div`
-    height: var(--cck-storybook-size-1);
-    background-color: var(--cck-storybook-color-border-alpha-default);
 `;
 // endregion

@@ -6,11 +6,7 @@ import { generateAngularStorybookConfig } from '../../../../tools/scripts/storyb
 
 const config = generateAngularStorybookConfig(
   {
-    stories: [
-      '../stories/**/*.stories.mdx',
-      '../stories/**/index.stories.@(ts|tsx)',
-      '../stories/**/dev.stories.@(ts|tsx)',
-    ],
+    stories: ['../stories/**/*.mdx', '../stories/**/index.stories.@(ts|tsx)', '../stories/**/dev.stories.@(ts|tsx)'],
   },
   {
     callerPath: __dirname,

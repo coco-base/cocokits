@@ -7,6 +7,7 @@ import {
   getContextMetaDescription,
   getContextPrimaryStory, getContextStories, getContextStoriesWithoutPrimary,
   getContextTitle,
+  getDocPageContent,
 } from './doc-page-context.util';
 
 
@@ -32,19 +33,22 @@ interface DocPageContainerProps {
 
 export const DocPageContainer = (props: DocPageContainerProps) => {
 
-  const docPageContext: DocsPageContextProps = {
-    category: getContextCategory(props.context),
-    title: getContextTitle(props.context),
-    metaDescription: getContextMetaDescription(props.context),
-    primaryStory: getContextPrimaryStory(props.context),
-    storiesWithoutPrimary: getContextStoriesWithoutPrimary(props.context),
-    stories: getContextStories(props.context)
-  };
+  const docPageContext = getDocPageContent(props.context);
 
+  // Stories DocPage
+  if(docPageContext) {
+    return (
+      <DocsPageContext.Provider value={docPageContext}>
+        <DocsContainer context={props.context}>{props.children}</DocsContainer>
+      </DocsPageContext.Provider>
+    );
+  }
+
+  // MDX DocPage
   return (
-    <DocsPageContext.Provider value={docPageContext}>
-      <DocsContainer context={props.context}>{props.children}</DocsContainer>
-    </DocsPageContext.Provider>
-  );
+    <DocsContainer context={props.context}>{props.children}</DocsContainer>
+  )
+
+
 };
 // endregion

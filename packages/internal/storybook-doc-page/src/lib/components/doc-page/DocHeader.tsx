@@ -3,10 +3,14 @@ import styled from 'styled-components';
 import { DocCckStorybookThemeSwitcher, DocCckThemeSwitcher } from '@coco-kits/storybook-theme-switcher';
 
 
-export const DocHeader = () => {
+interface DocHeaderProps {
+  hideCckThemeSwitcher?: boolean;
+}
+
+export const DocHeader = ({hideCckThemeSwitcher = false}: DocHeaderProps) => {
   return (
     <Nav>
-      <DocCckThemeSwitcher></DocCckThemeSwitcher>
+      { !hideCckThemeSwitcher && <DocCckThemeSwitcher></DocCckThemeSwitcher> }
       <FlexSpacer></FlexSpacer>
       <DocCckStorybookThemeSwitcher></DocCckStorybookThemeSwitcher>
     </Nav>

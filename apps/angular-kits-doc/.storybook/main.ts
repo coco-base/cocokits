@@ -8,10 +8,14 @@ import { getPackageStories } from '../../../tools/scripts/storybook/get-package-
 const config = generateAngularStorybookConfig(
   {
     stories: [
-      '../stories/**/*.stories.mdx',
+      '../stories/**/*.mdx',
       '../stories/**/*.stories.@(ts|tsx)',
       ...getPackageStories({
         packageName: '@coco-kits/angular-components',
+        callerPath: __dirname,
+      }),
+      ...getPackageStories({
+        packageName: '@coco-kits/theme-core',
         callerPath: __dirname,
       }),
     ],

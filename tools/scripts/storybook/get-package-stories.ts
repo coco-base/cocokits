@@ -35,7 +35,7 @@ export function getPackageStories({
   const result = packages
     .filter((pkgName) => pkgName.startsWith('@coco-kits/') && !excludePackages.includes(pkgName))
     .flatMap((pkgName) => {
-      const storiesGlob = '**/@(index.stories.@(ts|tsx)|*.stories.mdx)';
+      const storiesGlob = '**/@(index.stories.@(ts|tsx)|*.mdx)';
       const pkgMetadata = getMetadata(pkgName, projects);
 
       // Make sure the package contains stories. For example '@coco-kits/common-utils' don't have any story

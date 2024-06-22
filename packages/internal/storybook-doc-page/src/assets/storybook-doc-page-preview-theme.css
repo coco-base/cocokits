@@ -69,6 +69,13 @@ strong {
     font-weight: 600;
 }
 
+hr {
+    height: var(--cck-storybook-size-1);
+    background-color: var(--cck-storybook-color-brand-alpha-5);
+    border: none;
+    margin: var(--cck-storybook-size-48) 0;
+}
+
 code {
     border: 1px solid var(--cck-storybook-color-border-card-default);
     border-radius: 4px;
@@ -150,6 +157,7 @@ code {
     color: var(--cck-storybook-color-font-contrast-2);
     border: 1px solid var(--cck-storybook-color-border-alpha-3);
 }
+
 .docs-story .docblock-code-toggle:focus {
     background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
     box-shadow: none;
@@ -184,6 +192,7 @@ code {
     --color-storybook-source-cyan2: #2B91AF;
     --color-storybook-source-blue1: #0000ff;
     --color-storybook-source-blue2: #00009f;
+    --color-storybook-source-unset: #2E3438;
 }
 
 .cck-storybook-dark-theme {
@@ -197,75 +206,151 @@ code {
     --color-storybook-source-cyan2: #FFFFB6;
     --color-storybook-source-blue1: #B474DD;
     --color-storybook-source-blue2: #00009f;
+    --color-storybook-source-unset: #BABED8;
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.string {
+/* Wrapper */
+pre .docblock-source {
+    background-color: var(--cck-storybook-color-bg-card-surface);
+    border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-card-default);
+    box-shadow: none;
+    color: var(--color-storybook-source-unset);
+    border-radius: var(--cck-storybook-size-6);
+}
+
+/* Copy Code Button */
+pre .docblock-source > div:nth-child(2) {
+    background-color: transparent;
+}
+pre .docblock-source > div:nth-child(2) button {
+    border-radius: 4px;
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
+    color: var(--cck-storybook-color-font-contrast-2);
+    border: 1px solid var(--cck-storybook-color-border-alpha-3);
+    margin: 0 var(--cck-storybook-size-4) var(--cck-storybook-size-4) 0;
+}
+pre .docblock-source > div:nth-child(2) button:focus {
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
+    box-shadow: none;
+}
+
+pre .docblock-source .prismjs .token.string,
+.sbdocs.sbdocs-preview .prismjs .token.string {
     color: var(--color-storybook-source-red1);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.deleted {
+pre .docblock-source .prismjs .token.deleted,
+.sbdocs.sbdocs-preview .prismjs .token.deleted {
     color: var(--color-storybook-source-red2);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.selector,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.tag {
+
+pre .docblock-source .prismjs .token.selector,
+pre .docblock-source .prismjs .token.tag,
+
+.sbdocs.sbdocs-preview .prismjs .token.selector,
+.sbdocs.sbdocs-preview .prismjs .token.tag {
     color: var(--color-storybook-source-red3);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.attr-name,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.property,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.regex,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.entity {
+pre .docblock-source .prismjs .token.attr-name,
+pre .docblock-source .prismjs .token.property,
+pre .docblock-source .prismjs .token.regex,
+pre .docblock-source .prismjs .token.entity,
+
+pre .docblock-source .prismjs .token.attr-name,
+pre .docblock-source .prismjs .token.property,
+pre .docblock-source .prismjs .token.regex,
+pre .docblock-source .prismjs .token.entity,
+
+.sbdocs.sbdocs-preview .prismjs .token.attr-name,
+.sbdocs.sbdocs-preview .prismjs .token.property,
+.sbdocs.sbdocs-preview .prismjs .token.regex,
+.sbdocs.sbdocs-preview .prismjs .token.entity {
     color: var(--color-storybook-source-red4);
 }
 
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.comment,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.prolog,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.doctype,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.cdata {
+pre .docblock-source .prismjs .token.comment,
+pre .docblock-source .prismjs .token.prolog,
+pre .docblock-source .prismjs .token.doctype,
+pre .docblock-source .prismjs .token.cdata,
+
+.sbdocs.sbdocs-preview .prismjs .token.comment,
+.sbdocs.sbdocs-preview .prismjs .token.prolog,
+.sbdocs.sbdocs-preview .prismjs .token.doctype,
+.sbdocs.sbdocs-preview .prismjs .token.cdata {
     color: var(--color-storybook-source-green1);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.url,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.symbol,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.number,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.boolean,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.variable,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.constant,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.inserted {
+
+pre .docblock-source .prismjs .token.url,
+pre .docblock-source .prismjs .token.symbol,
+pre .docblock-source .prismjs .token.number,
+pre .docblock-source .prismjs .token.boolean,
+pre .docblock-source .prismjs .token.variable,
+pre .docblock-source .prismjs .token.constant,
+pre .docblock-source .prismjs .token.inserted,
+
+.sbdocs.sbdocs-preview .prismjs .token.url,
+.sbdocs.sbdocs-preview .prismjs .token.symbol,
+.sbdocs.sbdocs-preview .prismjs .token.number,
+.sbdocs.sbdocs-preview .prismjs .token.boolean,
+.sbdocs.sbdocs-preview .prismjs .token.variable,
+.sbdocs.sbdocs-preview .prismjs .token.constant,
+.sbdocs.sbdocs-preview .prismjs .token.inserted {
     color: var(--color-storybook-source-cyan1);
 }
 
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.class-name {
+pre .docblock-source .prismjs .token.class-name,
+.sbdocs.sbdocs-preview .prismjs .token.class-name {
     color: var(--color-storybook-source-cyan2);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.atrule,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.keyword,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.attr-value {
+
+pre .docblock-source .prismjs .token.atrule,
+pre .docblock-source .prismjs .token.keyword,
+pre .docblock-source .prismjs .token.attr-value,
+
+.sbdocs.sbdocs-preview .prismjs .token.atrule,
+.sbdocs.sbdocs-preview .prismjs .token.keyword,
+.sbdocs.sbdocs-preview .prismjs .token.attr-value {
     color: var(--color-storybook-source-blue1);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.punctuation,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.operator,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.function {
+
+pre .docblock-source .prismjs .token.punctuation,
+pre .docblock-source .prismjs .token.operator,
+pre .docblock-source .prismjs .token.function,
+
+.sbdocs.sbdocs-preview .prismjs .token.punctuation,
+.sbdocs.sbdocs-preview .prismjs .token.operator,
+.sbdocs.sbdocs-preview .prismjs .token.function {
     color: var(--color-storybook-source-gray1);
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.comment,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.cdata,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.prolog,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.doctype,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.cdata,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.italic {
+pre .docblock-source .prismjs .token.comment,
+pre .docblock-source .prismjs .token.cdata,
+pre .docblock-source .prismjs .token.prolog,
+pre .docblock-source .prismjs .token.doctype,
+pre .docblock-source .prismjs .token.cdata,
+pre .docblock-source .prismjs .token.italic,
+
+.sbdocs.sbdocs-preview .prismjs .token.comment,
+.sbdocs.sbdocs-preview .prismjs .token.cdata,
+.sbdocs.sbdocs-preview .prismjs .token.prolog,
+.sbdocs.sbdocs-preview .prismjs .token.doctype,
+.sbdocs.sbdocs-preview .prismjs .token.cdata,
+.sbdocs.sbdocs-preview .prismjs .token.italic {
     font-style: italic;
 }
 
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.important,
-.sbdocs.sbdocs-preview > div:nth-child(2) .token.bold
-{
+pre .docblock-source .prismjs .token.important,
+pre .docblock-source .prismjs .token.bold,
+
+.sbdocs.sbdocs-preview .prismjs .token.important,
+.sbdocs.sbdocs-preview .prismjs .token.bold {
     font-weight: bold;
 }
 /* endregion */
