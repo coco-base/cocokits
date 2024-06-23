@@ -12,7 +12,7 @@ runs:
     - uses: pnpm/action-setup@v2
       name: Install pnpm
       with:
-        version: 8
+        version: 9
 
     - name: Get pnpm store directory
       shell: bash
