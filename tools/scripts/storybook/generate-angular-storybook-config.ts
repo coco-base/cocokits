@@ -36,6 +36,14 @@ export function generateAngularStorybookConfig(
         path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher/src/assets'),
         path.relative(options.callerPath, 'packages/internal/storybook-doc-page/src/assets'),
       ],
+      env: (env) => {
+        return {
+          NODE_ENV: env?.['NODE_ENV'] ?? '',
+          NODE_PATH: env?.['NODE_PATH'] ?? '',
+          STORYBOOK: env?.['STORYBOOK'] ?? '',
+          PUBLIC_URL: env?.['PUBLIC_URL'] ?? '',
+        };
+      },
     },
     libConfig
   );
