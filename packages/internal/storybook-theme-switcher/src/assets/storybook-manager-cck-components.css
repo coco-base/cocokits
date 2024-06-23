@@ -2,6 +2,7 @@
 .cck-overlay__backdrop {
     background-color: var(--cck-storybook-color-bg-overlay-backdrop);
     backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .cck-overlay__content {

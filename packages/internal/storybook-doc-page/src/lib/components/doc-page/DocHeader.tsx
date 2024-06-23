@@ -29,6 +29,7 @@ const Nav = styled.nav`
     padding: var(--cck-storybook-size-0) var(--cck-storybook-size-24);
     background-color: var(--cck-storybook-color-bg-body-alpha-6);
     backdrop-filter: blur(var(--cck-storybook-blur-4));
+    -webkit-backdrop-filter: blur(var(--cck-storybook-blur-4)); // Safari 
     border-bottom: 1px solid var(--cck-storybook-color-brand-alpha-5);
 `;
 
