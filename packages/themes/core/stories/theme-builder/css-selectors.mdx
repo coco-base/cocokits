@@ -1,103 +1,29 @@
 import { Meta } from '@storybook/addon-docs';
-import { MdxDocPage } from '../../../../internal/storybook-doc-page/src/index';
+import { MdxDocPage, MdxCssSelectorTable } from '../../../../internal/storybook-doc-page/src/index';
+
 
 <Meta title='Theme Builder/Css Selectors'/>
 
-
 <MdxDocPage groupTitle='Theme Builder'>
-  # Getting Started
+  # CSS Selectors for Theme Implementation
 
-  Welcome! Whether you're a designer or a developer, this guide will help you get started and connect you to the essential resources you need.
+  This documentation provides a detailed overview of the CSS selectors used in our components.
+  Each selector is crucial for ensuring that the themes defined in our library are implemented consistently and effectively.
 
-  ## Table of Contents
+  This document serves as a reference for designers and developers, detailing how each selector should be utilized and integrated within the theme.
+  By following the guidelines provided here, you can ensure that the design system is accurately represented in the source code, maintaining visual consistency across all components.
+  This resource is essential for understanding the relationship between our design system and its corresponding CSS implementations.
 
-  - [Design Resources](#design-resources)
-  - [Figma](#figma)
-  - [UI/UX Design Guidelines](#uiux-design-guidelines)
-  - [Design Assets](#design-assets)
+  Each selector is associated with specific properties and a usage context that explains when and how the selector is applied to the DOM.
+  The table below lists each CSS selector along with its description, properties, and activation context.
+  This information helps developers understand the specific scenarios in which these selectors will be available or applied to DOM elements.
 
-  - [Development Resources](#development-resources)
-  - [Coding Standards](#coding-standards)
-  - [Version Control](#version-control)
-  - [Development Tools](#development-tools)
-
-  ---
-
-  ```html
-  <div class="flex gap-24">
-    <cck-svg-icon
-      [icon]="icon"
-      [size]="IconSize.Md"
-      [color]="BaseColor.Brand"
-    ></cck-svg-icon>
-    <cck-svg-icon
-      [icon]="icon"
-      [size]="IconSize.Lg"
-      [color]="BaseColor.Info"
-    ></cck-svg-icon>
-    <cck-svg-icon
-      [icon]="icon"
-      [size]="IconSize.XL"
-      [color]="BaseColor.HighContrast"
-    ></cck-svg-icon>
-  </div>
-  ```
-
-  ```typescript
-  import { svgIconMap } from '@coco-kits/theme-YOUR_THEME_NAME'; // <-- Replace YOUR_THEME_NAME with yout theme name
-  import { SvgIconComponent } from '@coco-kits/angular-icon';
-
-  @Component({
-  standalone: true,
-  imports: [SvgIconComponent],
-  template: `
-    <cck-svg-icon [icon]="svgIconMap['NAME_OF_ICON']" /> // <-- Replace NAME_OF_ICON with your icon name
-  `
-  })
-    export class HighlightComponent {
-    protected readonly svgIconMap = svgIconMap;
-  }
-  ```
-
-  ## Design Resources
-
-  ### Figma
-
-  [Figma](https://www.figma.com/) is a collaborative design and prototyping tool. It's the heart of the design process, allowing designers to work together seamlessly.
-
-  - **Get Access**: If you're not already part of the Figma project, request access from the project lead or manager.
-
-  ### UI/UX Design Guidelines
-
-  Before you dive into designing, familiarize yourself with our UI/UX design guidelines. They provide valuable insights into our design philosophy and standards.
-
-  - [UI/UX Guidelines Document](https://your-design-guidelines-link.com)
-
-  ### Design Assets
-
-  All the essential design assets like logos, icons, and brand guidelines can be found in the Figma project. Ensure you have access and familiarize yourself with these assets for consistency.
+  - **Selector:** The specific CSS class that will be appended to the component.
+  - **Properties:** Suggested CSS properties associated with the selector. This list is a guideline and represents the minimum design requirements. You can add other CSS properties to the class to modify the appearance as needed. For example, if background-color is suggested, you can also use background to achieve the same result.
+  - **Description:** A brief explanation of the selector's purpose and the conditions under which it will be applied to the DOM.
 
   ---
 
-  ## Development Resources
+  <MdxCssSelectorTable></MdxCssSelectorTable>
 
-  ### Coding Standards
-
-  Maintaining a consistent code style is essential for collaborative development. Our coding standards document will guide you on best practices.
-
-  - [Coding Standards Document](https://your-coding-standards-link.com)
-
-  ### Version Control
-
-  We use Git for version control. Make sure you have Git installed and are familiar with its basics.
-
-  ### Development Tools
-
-  Your development environment is critical. Here are some tools and resources to help you set up your workspace:
-
-  - **Code Editor**: We recommend using [Visual Studio Code](https://code.visualstudio.com/) for development. It's highly customizable and supports a wide range of extensions.
-
-  - **Package Manager**: [npm](https://www.npmjs.com/) is the package manager we use for JavaScript projects. Install it to manage project dependencies.
-
-  ---
 </MdxDocPage>

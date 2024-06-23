@@ -458,6 +458,7 @@
     --cck-storybook-color-font-contrast-2: var(--cck-storybook-color-bg-body-inverse-alpha-8);
     --cck-storybook-color-font-contrast-3: var(--cck-storybook-color-bg-body-inverse-alpha-9);
     --cck-storybook-color-font-contrast-4: var(--cck-storybook-color-bg-body-inverse-alpha-10);
+    --cck-storybook-color-font-link: var(--cck-storybook-color-palette-blue-400);
     --cck-storybook-color-border-card-default: var(--cck-storybook-color-border-alpha-5);
     --cck-storybook-color-border-alpha-0: var(--cck-storybook-color-bg-body-inverse-alpha-0);
     --cck-storybook-color-border-alpha-1: var(--cck-storybook-color-bg-body-inverse-alpha-1);
@@ -541,6 +542,7 @@
     --cck-storybook-color-font-contrast-2: var(--cck-storybook-color-bg-body-inverse-alpha-8);
     --cck-storybook-color-font-contrast-3: var(--cck-storybook-color-bg-body-inverse-alpha-9);
     --cck-storybook-color-font-contrast-4: var(--cck-storybook-color-bg-body-inverse-alpha-10);
+    --cck-storybook-color-font-link: var(--cck-storybook-color-palette-blue-500);
     --cck-storybook-color-border-card-default: var(--cck-storybook-color-border-alpha-4);
     --cck-storybook-color-border-alpha-0: var(--cck-storybook-color-bg-body-inverse-alpha-0);
     --cck-storybook-color-border-alpha-1: var(--cck-storybook-color-bg-body-inverse-alpha-1);

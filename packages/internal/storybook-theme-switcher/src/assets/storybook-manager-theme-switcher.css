@@ -94,8 +94,11 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 }
 
 /* Sidenav fist level title -> Arrow down wrapper at left to collapse */
-#storybook-explorer-menu .sidebar-subheading > button:first-child > div:first-child {
+#storybook-explorer-menu .sidebar-subheading > button:first-child[aria-expanded=true] > div:first-child {
     transform: rotateZ(90deg) scale(1.2);
+}
+#storybook-explorer-menu .sidebar-subheading > button:first-child > div:first-child {
+    transform: rotateZ(0deg) scale(1.2);
 }
 
 /* Sidenav fist level title -> Arrow down at left to collapse */
@@ -134,8 +137,11 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 }
 
 /* Sidenav fist level item after title -> Arrow down wrapper at left to collapse */
-#storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child {
+#storybook-explorer-menu button.sidebar-item[aria-expanded=true] > div:first-child > div:first-child {
     transform: rotateZ(90deg) scale(1.2);
+}
+#storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child {
+    transform: rotateZ(0deg) scale(1.2);
 }
 
 /* Sidenav fist level item after title -> Arrow down at left to collapse */
