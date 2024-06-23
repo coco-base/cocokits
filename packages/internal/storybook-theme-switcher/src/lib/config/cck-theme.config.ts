@@ -12,14 +12,7 @@ export const CCK_THEME_DOCUMENT_ATTR = `data-cck-theme`;
 export const CCK_THEME_NAME_DOCUMENT_ATTR = `data-cck-theme-name`;
 
 // endregion
-// region DEFAULT THEME
-export const DEFAULT_SELECTED_CCK_THEME_ID: CckThemeId = 'default';
-export const DEFAULT_SELECTED_CCK_THEME_MODES = {
-  global: 'default',
-  'local-style': 'default',
-};
 
-// endregion
 // region THEMES
 export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
   default: {
@@ -54,4 +47,10 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     },
   },
 };
+// endregion
+
+// region DEFAULT THEME
+export const DEFAULT_SELECTED_CCK_THEME_ID: CckThemeId = CCK_THEMES_MAP.default.id;
+export const DEFAULT_SELECTED_CCK_THEME_MODES = CCK_THEMES_MAP.default.defaultSelectedModes;
+
 // endregion
