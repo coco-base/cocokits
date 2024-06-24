@@ -1,6 +1,6 @@
 import { addons, types } from '@storybook/manager-api';
 
-import { openOverlay, OverlayAnimationType } from '@coco-kits/react-overlay';
+import { openOverlay, OverlayAnimationType } from '@cocokits/react-overlay';
 
 import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,

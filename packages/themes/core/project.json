@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/theme-core",
+  "name": "@cocokits/theme-core",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/theme/core/src",
   "projectType": "library",
@@ -16,10 +16,10 @@
       }
     },
     "figma-to-image": {
-      "executor": "@coco-kits/workspace-plugin:figma-to-image",
+      "executor": "@cocokits/workspace-plugin:figma-to-image",
       "configurations": {
         "token-anatomy": {
-          "figmaLinkUrl": "https://www.figma.com/design/zek9W2S3h5qJ5AxZNx19LN/Coco-Kits-Design-System?node-id=58-2481&t=ZEYUulgF2sdjgANS-4",
+          "figmaLinkUrl": "https://www.figma.com/design/zek9W2S3h5qJ5AxZNx19LN/cocokits-Design-System?node-id=58-2481&t=ZEYUulgF2sdjgANS-4",
           "format": "png",
           "outputPath": "packages/themes/core/images/token-anatomy.png"
         }

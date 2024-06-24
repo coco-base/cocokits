@@ -1,10 +1,10 @@
-import { collections as collectionsDefaultTheme } from '@coco-kits/theme-default';
-import { collections as collectionsFrameXTheme } from '@coco-kits/theme-frame-x';
+import { collections as collectionsDefaultTheme } from '@cocokits/theme-default';
+import { collections as collectionsFrameXTheme } from '@cocokits/theme-frame-x';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
 
 // region ---------------- CONFIG ----------------
-export const CCK_THEME_SWITCHER_TOOL_ID = '@coco-kits/storybook-theme-switcher:cck-tool-id';
+export const CCK_THEME_SWITCHER_TOOL_ID = '@cocokits/storybook-theme-switcher:cck-tool-id';
 export const CCK_THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/cck-theme-changed`;
 export const CCK_OPEN_THEME_SELECTION_EVENT_NAME = `cck-storybook-theme-switcher/cck-open-theme-selection`;
 export const LOCALSTORAGE_CCK_THEME = 'cck-theme-switcher-selected';

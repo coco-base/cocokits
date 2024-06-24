@@ -1,4 +1,4 @@
-import type { ThemeSvgIcon } from '@coco-kits/common-types';
+import type { ThemeSvgIcon } from '@cocokits/common-types';
 
 export type CckThemeName = 'Default' | 'FrameX';
 export type CckThemeId = 'default' | 'frame-x';

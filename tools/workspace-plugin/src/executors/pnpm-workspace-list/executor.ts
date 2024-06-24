@@ -4,7 +4,7 @@ import { PnpmPackageInfo, PnpmWorkspaceListExecutorSchema } from './schema';
 import { Logger } from '../../utils/logger';
 
 export default async function runExecutor(options: PnpmWorkspaceListExecutorSchema) {
-  Logger.header('---- coco-kits packages list ----');
+  Logger.header('---- cocokits packages list ----');
 
   const packagesString = spawnSync('pnpm', ['list', '--recursive', '--depth=-1', '--json'], {
     encoding: 'utf-8',

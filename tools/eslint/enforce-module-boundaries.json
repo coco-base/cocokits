@@ -8,8 +8,8 @@
           {
             "enforceBuildableLibDependency": false,
             "allow": [
-              "@coco-kits/common-types",
-              "@coco-kits/storybook-theme-switcher",
+              "@cocokits/common-types",
+              "@cocokits/storybook-theme-switcher",
               ".*/dist/compodoc/.*",
               ".*/tools/scripts/storybook/.*"
             ],

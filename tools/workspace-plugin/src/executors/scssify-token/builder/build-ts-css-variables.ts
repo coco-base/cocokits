@@ -2,7 +2,7 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 
-import { deepMerge } from '@coco-kits/common-utils';
+import { deepMerge } from '@cocokits/common-utils';
 
 import {
   buildTsVariableMap,

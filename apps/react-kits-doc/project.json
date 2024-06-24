@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/react-kits-doc",
+  "name": "@cocokits/react-kits-doc",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/react-kits-doc/src",
   "projectType": "application",

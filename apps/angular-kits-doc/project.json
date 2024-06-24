@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/angular-kits-doc",
+  "name": "@cocokits/angular-kits-doc",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
@@ -31,7 +31,7 @@
       "options": {
         "outputDir": "dist/angular-kits-doc",
         "configDir": "apps/angular-kits-doc/.storybook",
-        "browserTarget": "@coco-kits/angular-kits-doc:build-storybook",
+        "browserTarget": "@cocokits/angular-kits-doc:build-storybook",
         "styles": [
           "packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss",
           "tools/scripts/storybook/storybook-global.scss"

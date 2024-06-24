@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/workspace-plugin",
+  "name": "@cocokits/workspace-plugin",
   "version": "0.0.1",
   "dependencies": {
     "@nx/devkit": "18.3.3",

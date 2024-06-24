@@ -83,7 +83,7 @@ function getNxTags(options: LibraryGeneratorOptions) {
 }
 
 function getNxImportPath(options: LibraryGeneratorOptions) {
-  return `@coco-kits/${getLibraryRelativeName(options)}`;
+  return `@cocokits/${getLibraryRelativeName(options)}`;
 }
 
 function getLibraryRelativeName(options: LibraryGeneratorOptions) {

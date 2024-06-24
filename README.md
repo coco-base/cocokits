@@ -1,4 +1,4 @@
-# coco-kits
+# CocoKits
 
 ## Nx tags
 This documentation describes the tags used in the Nx library within your workspace, detailing the types of libraries and frameworks.

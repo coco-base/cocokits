@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/angular-highlight",
+  "name": "@cocokits/angular-highlight",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/angular/highlight/src",
   "prefix": "cck",

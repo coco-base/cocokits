@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/react-overlay",
+  "name": "@cocokits/react-overlay",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react/overlay/src",
   "projectType": "library",

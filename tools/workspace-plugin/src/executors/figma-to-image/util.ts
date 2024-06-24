@@ -16,7 +16,7 @@ export function getFigmaToken(): string {
 
 /**
  * Extracts the file ID and node ID from a Figma link URL.
- * Example of URL: https://www.figma.com/file/zek9W2S3h5qJ5AxZNx19LN/Coco-Kits-Design-System?node-id=58-2481&t=ZEYUulgF2sdjgANS-4
+ * Example of URL: https://www.figma.com/file/zek9W2S3h5qJ5AxZNx19LN/CocoKits-Design-System?node-id=58-2481&t=ZEYUulgF2sdjgANS-4
  */
 export function extractNodeIdAndFileId(figmaLinkUrl: string) {
   const fileIdPattern = /file|design\/([\w\d]+)/;

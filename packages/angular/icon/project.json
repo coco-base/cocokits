@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/angular-icon",
+  "name": "@cocokits/angular-icon",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/angular/icon/src",
   "prefix": "lib",

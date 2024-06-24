@@ -1,12 +1,12 @@
 {
-  "name": "@coco-kits/theme-default",
+  "name": "@cocokits/theme-default",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/themes/default/src",
   "projectType": "library",
   "tags": ["type:theme", "framework:shared"],
   "targets": {
     "build": {
-      "executor": "@coco-kits/workspace-plugin:scss-builder",
+      "executor": "@cocokits/workspace-plugin:scss-builder",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/themes/default",
@@ -16,7 +16,7 @@
       }
     },
     "scssify-token": {
-      "executor": "@coco-kits/workspace-plugin:scssify-token",
+      "executor": "@cocokits/workspace-plugin:scssify-token",
       "outputs": ["{options.outputPath}"],
       "configurations": {
         "designTokensManager": {

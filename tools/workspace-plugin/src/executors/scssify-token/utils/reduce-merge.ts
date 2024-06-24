@@ -1,4 +1,4 @@
-import { deepMerge } from '@coco-kits/common-utils';
+import { deepMerge } from '@cocokits/common-utils';
 
 /**
  * Reduces an object by merging the results of a callback function into a single object.

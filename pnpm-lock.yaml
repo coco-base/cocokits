@@ -391,10 +391,10 @@ importers:
       '@angular/core':
         specifier: ^17.3.0
         version: 17.3.11(rxjs@7.8.1)(zone.js@0.14.7)
-      '@coco-kits/angular-highlight':
+      '@cocokits/angular-highlight':
         specifier: workspace:*
         version: link:../highlight
-      '@coco-kits/angular-icon':
+      '@cocokits/angular-icon':
         specifier: workspace:*
         version: link:../icon
       tslib:
@@ -424,10 +424,10 @@ importers:
       '@angular/core':
         specifier: ^17.3.0
         version: 17.3.11(rxjs@7.8.1)(zone.js@0.14.7)
-      '@coco-kits/common-angular-utils':
+      '@cocokits/common-angular-utils':
         specifier: workspace:*
         version: link:../../common/angular-utils
-      '@coco-kits/common-utils':
+      '@cocokits/common-utils':
         specifier: workspace:*
         version: link:../../common/utils
       tslib:

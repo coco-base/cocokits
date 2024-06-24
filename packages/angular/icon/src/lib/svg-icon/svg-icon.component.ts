@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, InputSignal } from '@angular/core';
 
-import { TrustHtmlPipe } from '@coco-kits/common-angular-utils';
-import { BaseColor, IconSize, ThemeSvgIcon } from '@coco-kits/common-types';
-import { getIconColorClass, getIconSizeClass } from '@coco-kits/theme-core';
+import { TrustHtmlPipe } from '@cocokits/common-angular-utils';
+import { BaseColor, IconSize, ThemeSvgIcon } from '@cocokits/common-types';
+import { getIconColorClass, getIconSizeClass } from '@cocokits/theme-core';
 
 @Component({
   selector: 'cck-svg-icon',

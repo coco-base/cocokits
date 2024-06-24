@@ -33,7 +33,7 @@ export function getPackageStories({
   const packages = [packageName, ...Object.keys(dependencies)];
 
   const result = packages
-    .filter((pkgName) => pkgName.startsWith('@coco-kits/') && !excludePackages.includes(pkgName))
+    .filter((pkgName) => pkgName.startsWith('@cocokits/') && !excludePackages.includes(pkgName))
     .flatMap((pkgName) => {
       const storiesGlob = '**/@(index.stories.@(ts|tsx)|*.mdx)';
       const pkgMetadata = getMetadata(pkgName, projects);

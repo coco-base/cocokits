@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { DocCckStorybookThemeSwitcher, DocCckThemeSwitcher } from '@coco-kits/storybook-theme-switcher';
+import { DocCckStorybookThemeSwitcher, DocCckThemeSwitcher } from '@cocokits/storybook-theme-switcher';
 
 
 interface DocHeaderProps {

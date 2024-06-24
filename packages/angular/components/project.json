@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/angular-components",
+  "name": "@cocokits/angular-components",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/angular/components/src",
   "prefix": "lib",

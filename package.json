@@ -1,5 +1,5 @@
 {
-  "name": "coco-kits",
+  "name": "cocokits",
   "version": "0.0.0",
   "description": "A design system adn UI kits workspace focused on providing themes across Angular, React, Web Components, and HTML/CSS.",
   "license": "Apache-2.0",
@@ -116,7 +116,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/coco-kits/coco-kits.git"
+    "url": "https://github.com/cocokits/cocokits.git"
   },
   "keywords": [
     "design-system",
