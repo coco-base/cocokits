@@ -1,4 +1,4 @@
-import { BaseColor, IconSize } from '@coco-kits/common-types';
+import { BaseColor, IconSize } from '@cocokits/common-types';
 
 export function getIconSizeClass(size: IconSize | null): string | null {
   switch (size) {

@@ -1,7 +1,7 @@
 import { addons, useEffect } from '@storybook/preview-api';
 import { PartialStoryFn as StoryFunction, Renderer } from '@storybook/types';
 
-import { STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent } from '@coco-kits/storybook-theme-switcher';
+import { STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent } from '@cocokits/storybook-theme-switcher';
 
 import { getSelectedStorybookTheme } from './theme-switcher.utils';
 

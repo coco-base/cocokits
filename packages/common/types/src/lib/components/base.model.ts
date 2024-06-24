@@ -1,7 +1,7 @@
 export enum BaseColor {
   /**
    * The default color defined by each theme as the base for other colors.
-   * In some themes, such as the 'coco-kits' theme, it is equivalent to 'HighContrast'.
+   * In some themes, such as the 'cocokits' theme, it is equivalent to 'HighContrast'.
    * For more info, check the documentation of your theme.
    */
   Default = 'default',

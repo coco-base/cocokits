@@ -1,1 +1,1 @@
-export const ADDON_ID = '@coco-kits/storybook-theme-switcher';
+export const ADDON_ID = '@cocokits/storybook-theme-switcher';

@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/storybook-theme-switcher",
+  "name": "@cocokits/storybook-theme-switcher",
   "version": "0.0.1",
   "dependencies": {
     "@storybook/components": "^8.0.8",

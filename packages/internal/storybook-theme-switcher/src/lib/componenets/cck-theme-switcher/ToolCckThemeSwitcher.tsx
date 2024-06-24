@@ -6,7 +6,7 @@ import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,
   CCK_THEME_CHANGED_EVENT_NAME,
   CckThemeChangedEvent, STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent, StorybookThemeName,
-} from '@coco-kits/storybook-theme-switcher';
+} from '@cocokits/storybook-theme-switcher';
 
 
 export const ToolCckThemeSwitcher = memo(() => {

@@ -4,8 +4,8 @@ Find you icon and the send the icon object to the `SvgIcon` component
 For example:
 
 ```typescript
-import { svgIconMap } from '@coco-kits/theme-YOUR_THEME_NAME'; // <-- Replace YOUR_THEME_NAME with yout theme name
-import { SvgIconComponent } from '@coco-kits/angular-icon';
+import { svgIconMap } from '@cocokits/theme-YOUR_THEME_NAME'; // <-- Replace YOUR_THEME_NAME with yout theme name
+import { SvgIconComponent } from '@cocokits/angular-icon';
 
 @Component({
   standalone: true,

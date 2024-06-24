@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 
-import { OverlayRef } from '@coco-kits/react-overlay';
-import { CCK_THEMES_MAP, CckTheme, CckThemeId } from '@coco-kits/storybook-theme-switcher';
+import { OverlayRef } from '@cocokits/react-overlay';
+import { CCK_THEMES_MAP, CckTheme, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
 import { CckModeSelection } from './CckModeSelection';
 import { SelectedThemeModes } from './CckThemeDialog.model';

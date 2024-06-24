@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { intersectionObserver$ } from '@coco-kits/common-utils';
+import { intersectionObserver$ } from '@cocokits/common-utils';
 
 import { useStyles } from './Toc.style';
 import { storybookNavigateTo } from '../../utils/doc-page.utils';

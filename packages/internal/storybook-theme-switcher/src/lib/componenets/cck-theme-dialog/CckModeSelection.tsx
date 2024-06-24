@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, useState } from 'react';
 import { css, styled } from 'styled-components';
 
-import { CCK_THEMES_MAP, CckTheme, useDocSelectedStorybookTheme } from '@coco-kits/storybook-theme-switcher';
+import { CCK_THEMES_MAP, CckTheme, useDocSelectedStorybookTheme } from '@cocokits/storybook-theme-switcher';
 
 import { SelectedThemeModes } from './CckThemeDialog.model';
 

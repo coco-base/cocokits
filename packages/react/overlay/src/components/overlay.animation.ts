@@ -1,5 +1,5 @@
 import { OverlayAnimationType, OverlayConfig } from '../models/overlay-config.model';
-import { ScrollLocker } from '@coco-kits/common-utils';
+import { ScrollLocker } from '@cocokits/common-utils';
 
 interface AnimationProps {
   config: OverlayConfig;

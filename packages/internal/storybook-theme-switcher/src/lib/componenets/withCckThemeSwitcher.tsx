@@ -7,7 +7,7 @@ import {
   CckThemeChangedEvent,
   DEFAULT_SELECTED_CCK_THEME_ID,
   DEFAULT_SELECTED_CCK_THEME_MODES,
-} from '@coco-kits/storybook-theme-switcher';
+} from '@cocokits/storybook-theme-switcher';
 
 import { generateCckThemeChangeEventData, getSelectedCckTheme } from './theme-switcher.utils';
 

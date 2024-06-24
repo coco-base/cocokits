@@ -1,4 +1,4 @@
-The `SvgIconComponent` from `@coco-kits` allows for the dynamic embedding of SVG icons within your Angular applications.
+The `SvgIconComponent` from `@cocokits` allows for the dynamic embedding of SVG icons within your Angular applications.
 This standalone component is versatile, supporting icons defined in all themes.
 
 

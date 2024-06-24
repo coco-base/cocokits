@@ -1,7 +1,7 @@
 import { addons } from '@storybook/preview-api';
 import React, { useEffect, useState } from 'react';
 
-import { STORYBOOK_THEME_CHANGED_EVENT_NAME } from '@coco-kits/storybook-theme-switcher';
+import { STORYBOOK_THEME_CHANGED_EVENT_NAME } from '@cocokits/storybook-theme-switcher';
 
 import { useStyles } from './DocStorybookThemeSwitcher.style';
 import { StorybookDarkThemeIcon } from './StorybookDarkThemeIcon';

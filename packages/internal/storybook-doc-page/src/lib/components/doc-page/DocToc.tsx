@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { intersectionObserver$ } from '@coco-kits/common-utils';
+import { intersectionObserver$ } from '@cocokits/common-utils';
 
 import { scrollToStoryById } from './doc-page.util';
 import { DocsPageContext } from '../doc-page-container/DocPageContainer';

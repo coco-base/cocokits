@@ -1,2 +1,2 @@
-export * from '@coco-kits/angular-highlight';
-export * from '@coco-kits/angular-icon';
+export * from '@cocokits/angular-highlight';
+export * from '@cocokits/angular-icon';

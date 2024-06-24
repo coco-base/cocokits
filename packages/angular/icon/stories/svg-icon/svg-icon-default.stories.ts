@@ -1,5 +1,6 @@
-import { BaseColor, IconSize } from '@coco-kits/common-types';
 import type { StoryObj } from '@storybook/angular';
+
+import { BaseColor, IconSize } from '@cocokits/common-types';
 
 import { SvgIconComponent } from '../../src';
 

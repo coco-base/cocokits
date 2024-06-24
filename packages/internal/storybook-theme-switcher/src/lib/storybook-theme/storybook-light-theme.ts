@@ -4,9 +4,9 @@ import { themeLight } from '../token/ts-variables';
 
 export const light = create({
   base: 'light',
-  brandTitle: 'Coco-Kits',
+  brandTitle: 'cocokits',
 
-  brandUrl: 'https://github.com/coco-kits/coco-kits',
+  brandUrl: 'https://github.com/cocokits/cocokits',
   // brandImage: logo,
 
   colorPrimary: themeLight.color.brand.default,

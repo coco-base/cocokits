@@ -1,7 +1,7 @@
-import type { ThemeSvgIcon } from '@coco-kits/common-types';
-import { CckThemeId } from '@coco-kits/storybook-theme-switcher';
-import { svgIconMap as svgIconMapDefaultTheme } from '@coco-kits/theme-default';
-import { svgIconMap as svgIconMapFrameXTheme } from '@coco-kits/theme-frame-x';
+import type { ThemeSvgIcon } from '@cocokits/common-types';
+import { CckThemeId } from '@cocokits/storybook-theme-switcher';
+import { svgIconMap as svgIconMapDefaultTheme } from '@cocokits/theme-default';
+import { svgIconMap as svgIconMapFrameXTheme } from '@cocokits/theme-frame-x';
 
 export const themeIconSvg: Record<CckThemeId, Record<string, ThemeSvgIcon>> = {
   default: svgIconMapDefaultTheme,

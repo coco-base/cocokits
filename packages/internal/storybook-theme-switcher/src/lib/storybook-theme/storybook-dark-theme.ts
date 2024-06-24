@@ -4,9 +4,9 @@ import { themeDark } from '../token/ts-variables';
 
 export const dark = create({
   base: 'dark',
-  brandTitle: 'Coco-Kits',
+  brandTitle: 'cocokits',
 
-  brandUrl: 'https://github.com/coco-kits/coco-kits',
+  brandUrl: 'https://github.com/cocokits/cocokits',
   // brandImage: logo,
 
   colorPrimary: themeDark.color.brand.default,

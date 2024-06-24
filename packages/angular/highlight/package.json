@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/angular-highlight",
+  "name": "@cocokits/angular-highlight",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^17.3.0",

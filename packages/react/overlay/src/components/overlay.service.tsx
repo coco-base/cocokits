@@ -1,7 +1,7 @@
-import { Overlay, OverlayAnimationType, OverlayConfig, OverlayProps, OverlayRef } from '@coco-kits/react-overlay';
+import { Overlay, OverlayAnimationType, OverlayConfig, OverlayProps, OverlayRef } from '@cocokits/react-overlay';
 import React, { FC } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { ScrollLocker } from '@coco-kits/common-utils';
+import { ScrollLocker } from '@cocokits/common-utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_CONFIG: OverlayConfig<any> = {

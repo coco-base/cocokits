@@ -38,7 +38,7 @@ export function getPackageStories({
       const storiesGlob = '**/@(index.stories.@(ts|tsx)|*.mdx)';
       const pkgMetadata = getMetadata(pkgName, projects);
 
-      // Make sure the package contains stories. For example '@coco-kits/common-utils' don't have any story
+      // Make sure the package contains stories. For example '@cocokits/common-utils' don't have any story
       if (fs.existsSync(path.resolve(workspaceRoot, pkgMetadata.root, 'stories'))) {
         return `${rootOffset}${pkgMetadata.root}/stories/${storiesGlob}`;
       }

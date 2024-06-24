@@ -1,5 +1,5 @@
 {
-  "name": "@coco-kits/angular-icon",
+  "name": "@cocokits/angular-icon",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^17.3.0",
@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@coco-kits/common-angular-utils": "workspace:*",
-    "@coco-kits/common-utils": "workspace:*"
+    "@cocokits/common-angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*"
   },
   "devDependencies": {},
   "sideEffects": false

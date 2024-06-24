@@ -6,7 +6,7 @@ import React, { memo, useEffect, useState } from 'react';
 
 import {
   STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent, StorybookThemeName,
-} from '@coco-kits/storybook-theme-switcher';
+} from '@cocokits/storybook-theme-switcher';
 
 import { StorybookDarkThemeIcon } from './StorybookDarkThemeIcon';
 import { StorybookLightThemeIcon } from './StorybookLightThemeIcon';
