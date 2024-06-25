@@ -1,14 +1,8 @@
 import { DocsContainer } from '@storybook/addon-docs';
 import { DocsContextProps, PreparedStory } from '@storybook/types';
-import { createContext, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
-import {
-  getContextCategory,
-  getContextMetaDescription,
-  getContextPrimaryStory, getContextStories, getContextStoriesWithoutPrimary,
-  getContextTitle,
-  getDocPageContent,
-} from './doc-page-context.util';
+import { getDocPageContent } from './doc-page-context.util';
 
 
 // region ---------------- CONTEXT ----------------

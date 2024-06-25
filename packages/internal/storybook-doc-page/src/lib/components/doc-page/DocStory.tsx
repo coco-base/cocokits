@@ -1,3 +1,4 @@
+import React from 'react';
 import { Canvas } from '@storybook/addon-docs';
 import { PreparedStory } from '@storybook/types';
 import styled from 'styled-components';

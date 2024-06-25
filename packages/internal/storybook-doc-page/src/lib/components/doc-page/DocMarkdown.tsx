@@ -1,3 +1,4 @@
+import React from 'react';
 import { HighlighterGeneric } from '@shikijs/core/types';
 import { fromHighlighter } from '@shikijs/markdown-it';
 import MarkdownIt from 'markdown-it';

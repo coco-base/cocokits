@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 
 import { cssSelectorsMap } from '../../../../../../themes/core/src/lib/css-selectors/css-selectors-map';
