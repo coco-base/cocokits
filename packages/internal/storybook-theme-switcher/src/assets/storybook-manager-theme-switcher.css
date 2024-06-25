@@ -11,17 +11,17 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 }
 
 /* First div element. It a layout for sidenav, draggable and main content */
-#root > div:first-child {
+.cck-storybook-theme #root > div:first-child {
     grid-template-columns: minmax(0, var(--cck-storybook-size-256)) minmax(100px, 1fr) minmax(0, 400px);
 }
 
 /* First wrapper of sidenav. Sibling of main content at root layout element*/
-#root > div:first-child > div:last-child {
+.cck-storybook-theme #root > div:first-child > div:last-child {
     border-right: none;
 }
 
 /* Draggable element to resize the sidenav */
-#root > div:first-child > div:last-child > div:first-child{
+.cck-storybook-theme #root > div:first-child > div:last-child > div:first-child{
     display: none;
 }
 
@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 * Override the sidenav background. This color is also defined in storybook them,
 * But because of media-query of storybook, it will switch to bg color.
 */
-.container.sidebar-container {
+.cck-storybook-theme .container.sidebar-container {
     background: var(--cck-storybook-color-bg-body-inverse-alpha-1);
     border-right: 1px solid var(--cck-storybook-color-border-alpha-default);
     /* padding is 24px, But one of the child has also padding, So we have to reduce our padding from the storybook padding  */
@@ -37,167 +37,114 @@ h1, h2, h3, h4, h5, h6, p, html, body {
 }
 
 /* Hide setting icon at sidenav */
-.sidebar-header > div:last-child {
+.cck-storybook-theme .sidebar-header > div:last-child {
     display: none;
 }
 /* endregion */
 
 /* region ---------- SIDENAV - SEARCH ---------- */
 /* Search input field */
-.search-field input {
+.cck-storybook-theme .search-field input {
     border-radius: 500px;
     padding-left: var(--cck-storybook-size-40);
 }
 
 /* Search Icon */
-.search-field > div:first-child {
+.cck-storybook-theme .search-field > div:first-child {
     left: var(--cck-storybook-size-16);
 }
 
 /* Search shortcut code. (Will be visible when the input is NOT focused) */
-.search-field > code {
+.cck-storybook-theme .search-field > code {
     right: var(--cck-storybook-size-16);
     color: var(--cck-storybook-color-font-contrast-1);
 }
 
 /* Search clear button. (Will be visible when the input has focused) */
-.search-field > input + div {
+.cck-storybook-theme .search-field > input + div {
     right: var(--cck-storybook-size-16);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - GENERAL  ---------- */
 /* Sidenav items wrapper */
-#storybook-explorer-menu {
+.cck-storybook-theme #storybook-explorer-menu {
     margin-top: var(--cck-storybook-size-20);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - FIRST TITLE (UI Components) ---------- */
 /* Sidenav fist level title. (e.g. Frameworks, UI Components) */
-#storybook-explorer-menu .sidebar-subheading {
-    margin-top: var(--cck-storybook-size-12);
-    font: var(--cck-storybook-text-sm-medium);
-    color: var(--cck-storybook-color-font-contrast-4);
-    gap: var(--cck-storybook-size-12);
-    text-transform: unset;
-    letter-spacing: unset;
-    margin-bottom: var(--cck-storybook-size-8);
+.cck-storybook-theme .sidebar-subheading {
+    margin: 0;
 }
 
 /* Sidenav fist level title. (e.g. Frameworks, UI Components) */
-#storybook-explorer-menu .sidebar-subheading > button:first-child {
+.cck-storybook-theme #storybook-explorer-menu .sidebar-subheading > button:first-child {
     flex: 1;
-    gap: var(--cck-storybook-size-8);
-    height: var(--cck-storybook-size-32);
-    border-radius: var(--cck-storybook-size-8);
+    height: unset;
+    padding: 0;
+}
+.cck-storybook-theme #storybook-explorer-menu .sidebar-subheading > button:first-child:hover,
+.cck-storybook-theme #storybook-explorer-menu .sidebar-subheading > button:first-child:focus {
+    background: transparent;
 }
 
-/* Sidenav fist level title -> Arrow down wrapper at left to collapse */
-#storybook-explorer-menu .sidebar-subheading > button:first-child[aria-expanded=true] > div:first-child {
-    transform: rotateZ(90deg) scale(1.2);
-}
-#storybook-explorer-menu .sidebar-subheading > button:first-child > div:first-child {
-    transform: rotateZ(0deg) scale(1.2);
+/* Sidenav fist level title -> Arrow down icon at left side of item to collapse the sidenav group */
+.cck-storybook-theme #storybook-explorer-menu .sidebar-subheading > button:first-child > div:first-child {
+    display: none;
 }
 
-/* Sidenav fist level title -> Arrow down at left to collapse */
-#storybook-explorer-menu .sidebar-subheading > button:first-child path {
-    fill: var(--cck-storybook-color-font-contrast-4);
-}
-
-/* Sidenav fist level title -> collapse icon at right. */
-#storybook-explorer-menu .sidebar-subheading-action {
+/* Sidenav fist level title -> collapse icon at right of root item. */
+.cck-storybook-theme #storybook-explorer-menu .sidebar-subheading-action {
     display: none;
 }
 /* endregion */
 
 /* region ---------- SIDENAV - FIRST ITEM (SvgIcon, Avatar) ---------- */
 /* Sidenav fist level item after title. (e.g. SvgIcon, Avatar) */
-#storybook-explorer-menu button.sidebar-item {
-    font: var(--cck-storybook-text-sm-regular);
-    color: var(--cck-storybook-color-font-contrast-2);
-    gap: var(--cck-storybook-size-8);
-    height: var(--cck-storybook-size-32);
-    border-radius: var(--cck-storybook-size-8);
-    margin: var(--cck-storybook-size-2) var(--cck-storybook-size-0);
-    align-items: center;
-    padding: var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-16);
+.cck-storybook-theme #storybook-explorer-menu button.sidebar-item {
+    padding: 0;
+    background-color: transparent;
 }
-#storybook-explorer-menu button.sidebar-item:focus {
-    background: transparent;
-}
-#storybook-explorer-menu button.sidebar-item:hover {
+.cck-storybook-theme #storybook-explorer-menu button.sidebar-item:hover,
+.cck-storybook-theme #storybook-explorer-menu button.sidebar-item:focus {
     background: transparent;
 }
 
-/* Sidenav fist level item after title -> Item icon at left side between text and Arrow icon (e.g. Folder icon for group) */
-#storybook-explorer-menu button.sidebar-item > div:first-child > svg {
+/* Sidenav fist level item after root -> Item icon at left side (e.g. ArrowDown & Folder icon for group) */
+.cck-storybook-theme #storybook-explorer-menu button.sidebar-item > div:first-child {
     display: none;
-}
-
-/* Sidenav fist level item after title -> Arrow down wrapper at left to collapse */
-#storybook-explorer-menu button.sidebar-item[aria-expanded=true] > div:first-child > div:first-child {
-    transform: rotateZ(90deg) scale(1.2);
-}
-#storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child {
-    transform: rotateZ(0deg) scale(1.2);
-}
-
-/* Sidenav fist level item after title -> Arrow down at left to collapse */
-#storybook-explorer-menu button.sidebar-item > div:first-child > div:first-child path {
-    fill: var(--cck-storybook-color-font-contrast-2);
 }
 /* endregion */
 
 /* region ---------- SIDENAV - SECOND ITEM (Docs, Default, Size) ---------- */
 /* Sidenav second level item after title. (e.g. Docs, Default, Size) */
-#storybook-explorer-menu div.sidebar-item {
-    font: var(--cck-storybook-text-sm-regular);
-    color: var(--cck-storybook-color-font-contrast-2);
-    gap: var(--cck-storybook-size-8);
-    height: var(--cck-storybook-size-32);
-    border-radius: var(--cck-storybook-size-8);
-    margin: var(--cck-storybook-size-2) var(--cck-storybook-size-0);
-    align-items: center;
-    transition: color 300ms;
+.cck-storybook-theme #storybook-explorer-menu div.sidebar-item {
+    padding: 0;
 }
-#storybook-explorer-menu div.sidebar-item:focus {
+.cck-storybook-theme #storybook-explorer-menu div.sidebar-item:hover,
+.cck-storybook-theme #storybook-explorer-menu div.sidebar-item:focus {
     background: transparent;
 }
-#storybook-explorer-menu div.sidebar-item:hover:not([data-selected="true"]) {
-    color: var(--cck-storybook-color-font-contrast-4);
-    background: transparent;
-}
-#storybook-explorer-menu div.sidebar-item[data-selected="true"] {
-    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-3);
-    color: var(--cck-storybook-color-font-contrast-4);
-}
-#storybook-explorer-menu div.sidebar-item[data-selected="true"]:before {
-    content: '';
-    position: absolute;
-    width: var(--cck-storybook-size-8);
-    height: var(--cck-storybook-size-8);
-    border-radius: 50%;
-    background-color: var(--cck-storybook-color-brand-default);
-    left: var(--cck-storybook-size-12);
-    top: 50%;
-    transform: translateY(-50%);
+.cck-storybook-theme #storybook-explorer-menu div.sidebar-item[data-selected="true"] {
+    background-color: transparent;
+    color: unset;
 }
 
-#storybook-explorer-menu div.sidebar-item > a {
-    padding: var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-0) var(--cck-storybook-size-32);
+.cck-storybook-theme #storybook-explorer-menu div.sidebar-item > a {
+    padding: 0;
 }
 
 /* Sidenav second level item after title -> Item icon at left side (e.g. Doc, Bookmark) */
-#storybook-explorer-menu div.sidebar-item > a > div:first-child {
+.cck-storybook-theme #storybook-explorer-menu div.sidebar-item > a > div:first-child {
     display: none;
 }
 /* endregion */
 
 /* region ---------- TOOLBAR ---------- */
 /* Hide toolbar */
-.sb-bar {
+.cck-storybook-theme.cck-storybook-theme--remove-toolbar .sb-bar {
     display: none;
 }
 /* endregion */

@@ -1,9 +1,11 @@
-import { Meta, type StoryObj } from '@storybook/angular';
+import { type StoryObj } from '@storybook/angular';
+
+import { AngularStoriesMeta } from '@cocokits/common-types';
 
 import descriptionMd from './<%- fileName %>-description.md';
 import { <%- className %>Component } from '../../src/<%- componentImportPath %>';
 
-const meta: Meta = {
+const meta: AngularStoriesMeta = {
   component: <%- className %>Component,
   title: '<%- className %>Component',
   tags: ['autodocs'],

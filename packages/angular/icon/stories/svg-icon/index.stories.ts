@@ -1,4 +1,6 @@
-import { componentWrapperDecorator, Meta } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
+
+import { AngularStoriesMeta } from '@cocokits/common-types';
 
 import descriptionMd from './svg-icon-description.md';
 import { templateIcon } from './template-svg-icon';
@@ -8,7 +10,7 @@ export { Default } from './svg-icon-default.stories';
 export { Size } from './svg-icon-size.stories';
 export { Color } from './svg-icon-color.stories';
 
-const meta: Meta = {
+const meta: AngularStoriesMeta = {
   component: SvgIconComponent,
   title: 'UI Components/SvgIcon',
   tags: ['autodocs'],

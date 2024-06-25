@@ -1,9 +1,11 @@
-import { Meta, type StoryObj } from '@storybook/angular';
+import { type StoryObj } from '@storybook/angular';
+
+import { AngularStoriesMeta } from '@cocokits/common-types';
 
 import descriptionMd from './svg-icon-description.md';
 import { SvgIconListComponent } from '../../src/lib/story-svg-icons-list/svg-icon-list.component';
 
-const meta: Meta = {
+const meta: AngularStoriesMeta = {
   component: SvgIconListComponent,
   title: 'UI Components/SvgIconList',
   tags: ['autodocs'],
