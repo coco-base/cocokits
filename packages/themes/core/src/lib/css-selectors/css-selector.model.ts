@@ -6,7 +6,6 @@ export type CssSelectorProperty = string; // e.g. 'color'
 
 export type CssSelectorVariantMap = Record<CssSelectorName, ThemeStyleValidation>;
 export type CssSelectorComponentMap = Record<CssSelectorVariant, CssSelectorVariantMap>;
-export type CssSelectorMap = Record<CssSelectorComponent, CssSelectorComponentMap>;
 
 /**
  * TODO: Maybe we can add also the following data:

@@ -4,72 +4,72 @@ import styled, { css } from 'styled-components';
 import { cssSelectorsMap } from '../../../../../../themes/core/src/lib/css-selectors/css-selectors-map';
 import { DocMarkdown } from '../doc-page/DocMarkdown';
 
-export function MdxCssSelectorTable() {
 
+export function MdxCssSelectorTable({ componentName }: { componentName: keyof typeof cssSelectorsMap}) {
+
+  const componentMap = cssSelectorsMap[componentName];
+  const toc = Object.keys(componentMap).filter(variantName => !variantName.startsWith('_'));
 
   return (
     <>
-      <h2>Table of Contents</h2>
-      <ul>
-        {Object.keys(cssSelectorsMap).map((componentName) => {
-          return (
-            <li>
-              <StyledA href={'#' + componentName} target="_self">{componentName}</StyledA>
-            </li>
-          );
-        })}
-      </ul>
-
-      <hr/>
-
-      {Object.entries(cssSelectorsMap).map(([componentName, componentMap]) => {
-        return (
-          <>
-            <StyledH2 id={componentName}>{componentName}</StyledH2>
-            {Object.entries(componentMap).map(([variantName, variantMap]) => {
+      {
+        toc.length > 0 &&
+        <>
+          <h2>Table of Contents</h2>
+          <ul>
+            {toc.map((variantName) => {
               return (
-                <>
-                  {!variantName.startsWith('_') &&
-                    <StyledH4 id={componentName + '_' + variantName}>{variantName}</StyledH4>}
-                  <StyledTable>
-                    <thead>
-                      <tr>
-                        <StyledTh>Selector</StyledTh>
-                        <StyledTh>Properties</StyledTh>
-                        <StyledTh>Description</StyledTh>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Object.values(variantMap).map(({ selector, properties, description, renderCondition }) => {
-                        return (
-                          <StyledTr key={selector}>
-
-                            <StyledTd noWrap={true}>{selector}</StyledTd>
-
-                            <StyledTd noWrap={true}>
-                              <ul>
-                                {/* eslint-disable-next-line max-nested-callbacks */}
-                                {properties.map(property => {
-                                  return (
-                                    <li>
-                                      <code>{property}</code>
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                            </StyledTd>
-                            <StyledTd>
-                              <DocMarkdown>{description}</DocMarkdown>
-                              <DocMarkdown>**Render Condition:** {renderCondition}</DocMarkdown>
-                            </StyledTd>
-                          </StyledTr>
-                        );
-                      })}
-                    </tbody>
-                  </StyledTable>
-                </>
+                <li>
+                  <StyledA href={'#' + componentName + '_' + variantName} target="_self">{variantName}</StyledA>
+                </li>
               );
             })}
+          </ul>
+
+          <hr />
+        </>
+      }
+
+      {Object.entries(componentMap).map(([variantName, variantMap]) => {
+        return (
+          <>
+            { !variantName.startsWith('_') && <StyledH2 id={componentName + '_' + variantName}>{variantName}</StyledH2>}
+            <StyledTable>
+              <thead>
+              <tr>
+                <StyledTh>Selector</StyledTh>
+                <StyledTh>Properties</StyledTh>
+                <StyledTh>Description</StyledTh>
+              </tr>
+              </thead>
+              <tbody>
+              {Object.values(variantMap).map(({ selector, properties, description, renderCondition }) => {
+                return (
+                  <StyledTr key={selector}>
+
+                    <StyledTd noWrap={true}>{selector}</StyledTd>
+
+                    <StyledTd noWrap={true}>
+                      <ul>
+                        {/* eslint-disable-next-line max-nested-callbacks */}
+                        {properties.map(property => {
+                          return (
+                            <li>
+                              <code>{property}</code>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </StyledTd>
+                    <StyledTd>
+                      <DocMarkdown>{description}</DocMarkdown>
+                      <DocMarkdown>**Render Condition:** {renderCondition}</DocMarkdown>
+                    </StyledTd>
+                  </StyledTr>
+                );
+              })}
+              </tbody>
+            </StyledTable>
           </>
         );
       })}
@@ -79,7 +79,7 @@ export function MdxCssSelectorTable() {
 }
 
 const StyledA = styled.a`
-  color: var(--cck-storybook-color-font-link);
+    color: var(--cck-storybook-color-font-link);
 `;
 
 const StyledH2 = styled.h2`
@@ -111,15 +111,15 @@ const StyledTr = styled.tr`
         background-color: var(--cck-storybook-color-bg-table-even);
     }
 `;
-const StyledTd = styled.td<{noWrap?: boolean}>`
+const StyledTd = styled.td<{ noWrap?: boolean }>`
     font: var(--cck-storybook-text-sm-regular);
     color: var(--cck-storybook-color-font-contrast-2);
     padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24);
     border-top: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-alpha-default);
+
     ${props => props.noWrap && css`
         white-space: nowrap;
     `}
-
     &:first-child {
         font: var(--cck-storybook-text-sm-medium);
         color: var(--cck-storybook-color-font-contrast-4);

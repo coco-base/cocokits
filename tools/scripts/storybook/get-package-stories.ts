@@ -35,12 +35,19 @@ export function getPackageStories({
   const result = packages
     .filter((pkgName) => pkgName.startsWith('@cocokits/') && !excludePackages.includes(pkgName))
     .flatMap((pkgName) => {
-      const storiesGlob = '**/@(index.stories.@(ts|tsx)|*.mdx)';
+      /**
+       * Glob pattern for selecting specific files in a project.
+       *
+       * Matches:
+       * 1. Any 'index.stories.ts' or 'index.stories.tsx' files located anywhere in the `stories` folder.
+       * 2. Any '.mdx' files located anywhere in the `stories` folder, excluding those that begin with an `_`.
+       */
+      const storiesGlob = 'stories/**/@(index.stories.@(ts|tsx)|**/[^_]*.mdx)';
       const pkgMetadata = getMetadata(pkgName, projects);
 
       // Make sure the package contains stories. For example '@cocokits/common-utils' don't have any story
       if (fs.existsSync(path.resolve(workspaceRoot, pkgMetadata.root, 'stories'))) {
-        return `${rootOffset}${pkgMetadata.root}/stories/${storiesGlob}`;
+        return `${rootOffset}${pkgMetadata.root}/${storiesGlob}`;
       }
 
       return [];
