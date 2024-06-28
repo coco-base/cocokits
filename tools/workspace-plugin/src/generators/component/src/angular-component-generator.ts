@@ -9,12 +9,14 @@ export function angularComponentGenerator(tree: Tree, options: ComponentGenerato
   generateFiles(tree, path.join(__dirname, '../files/angular-component'), options.absoluteComponentDirectory, options);
 
   // Update index.ts
-  const componentDirectoryFromSrc = path.relative(
-    path.join(options.libraryRoot, 'src'),
-    options.absoluteComponentDirectory
-  );
-  const exportComponent = `export * from './${componentDirectoryFromSrc}/${options.fileName}.component';`;
-  updateTextFile(tree, path.join(options.libraryRoot, 'src/index.ts'), (content) => `${content}\n${exportComponent}`);
+  if (options.export) {
+    const componentDirectoryFromSrc = path.relative(
+      path.join(options.libraryRoot, 'src'),
+      options.absoluteComponentDirectory
+    );
+    const exportComponent = `export * from './${componentDirectoryFromSrc}/${options.fileName}.component';`;
+    updateTextFile(tree, path.join(options.libraryRoot, 'src/index.ts'), (content) => `${content}\n${exportComponent}`);
+  }
 
   // Generate story
   if (options.story) {

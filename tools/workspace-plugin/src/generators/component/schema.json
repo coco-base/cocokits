@@ -17,6 +17,11 @@
       "description": "Whether generate story of the component for storybook",
       "default": true
     },
+    "export": {
+      "type": "boolean",
+      "description": "Whether the component should be exported from the library",
+      "default": true
+    },
     "directory": {
       "type": "string",
       "description": "The directory for creating the generator file is determined by the `--directoryFormat` option. If set to `as-provided`, the path is relative to the current working directory. Otherwise, it is relative to the library root.",

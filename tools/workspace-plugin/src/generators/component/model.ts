@@ -8,6 +8,7 @@ export interface ComponentGeneratorOptions {
   fileName: string; // `my-name` or `myName` -> `my-name`,
   framework: LibraryFramework;
   story: boolean;
+  export: boolean;
   libraryRoot: string;
   absoluteComponentDirectory: string; // packages/angular/icon/src/lib/svg-icon
   relativeComponentDirectory: string; // src/lib/svg-icon

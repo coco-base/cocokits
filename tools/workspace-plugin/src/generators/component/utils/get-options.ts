@@ -15,6 +15,7 @@ export function getOptions(tree: Tree, schema: ComponentGeneratorSchema): Compon
     ...names(schema.name),
     framework: getLibraryFrameworkByName(tree, schema.project),
     story: schema.story,
+    export: schema.export,
     libraryRoot,
     absoluteComponentDirectory,
     relativeComponentDirectory: getRelativeComponentDirectory(absoluteComponentDirectory, libraryRoot),
