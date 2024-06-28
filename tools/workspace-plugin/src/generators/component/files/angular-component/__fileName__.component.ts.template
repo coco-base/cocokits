@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   standalone: true,
   imports: [],
-  selector: '<%= selector %>',
+  selector: 'cck-<%= fileName %>',
   templateUrl: './<%= fileName %>.component.html',
   styleUrls: ['./<%= fileName %>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

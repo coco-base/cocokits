@@ -1,10 +1,5 @@
 {
   "generators": {
-    "angular-component": {
-      "factory": "./src/generators/component/angular/generator",
-      "schema": "./src/generators/component/angular/schema.json",
-      "description": "Create an angular component in cocokits project"
-    },
     "library": {
       "factory": "./src/generators/library/generator",
       "schema": "./src/generators/library/schema.json",
@@ -14,6 +9,11 @@
       "factory": "./src/generators/setup-storybook/generator",
       "schema": "./src/generators/setup-storybook/schema.json",
       "description": "Setup storybook for a library"
+    },
+    "component": {
+      "factory": "./src/generators/component/generator",
+      "schema": "./src/generators/component/schema.json",
+      "description": "Create a new component in CocoKits project"
     }
   }
 }

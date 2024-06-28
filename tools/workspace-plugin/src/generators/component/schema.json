@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Component",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the component."
+    },
+    "project": {
+      "type": "string",
+      "description": "The project where the component will be located."
+    },
+    "story": {
+      "type": "boolean",
+      "description": "Whether generate story of the component for storybook",
+      "default": true
+    },
+    "directory": {
+      "type": "string",
+      "description": "The directory for creating the generator file is determined by the `--directoryFormat` option. If set to `as-provided`, the path is relative to the current working directory. Otherwise, it is relative to the library root.",
+      "default": "/"
+    },
+    "directoryFormat": {
+      "type": "string",
+      "description": "Directory configuration. When set to `as-provided`, the generator file is created in the given directory, relative to the current working directory, independent of the project structure. If set to `root`, the file is created relative to the library root, incorporating the project structure.",
+      "enum": ["as-provided", "root"],
+      "default": "as-provided"
+    }
+  },
+  "required": ["name", "project"]
+}

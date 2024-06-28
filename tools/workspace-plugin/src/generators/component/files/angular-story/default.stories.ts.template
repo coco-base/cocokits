@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/angular';
-import { <%- className %>Component } from '../../src/<%- componentImportPath %>';
+import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 export const Default: StoryObj<<%- className %>Component> = {
   name: 'Default',
@@ -10,5 +10,12 @@ export const Default: StoryObj<<%- className %>Component> = {
       },
     },
   },
-  render: (args) => ({}),
+  render: (args) => ({
+    props: {
+        ...args,
+    },
+    template: `
+        <cck-<%- fileName %>></cck-<%- fileName %>>
+    `
+  }),
 };

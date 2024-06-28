@@ -33,7 +33,7 @@
     },
     "directory": {
       "type": "string",
-      "description": "The directory for creating the generator file is determined by the `--directoryFormat` option. If set to `as-provided`, the path is relative to the current working directory. If set to `default`, it defaults to a directory based on the type and framework. Otherwise, it is relative to the workspace root.",
+      "description": "The directory for creating the generator file is determined by the `--directoryFormat` option. If set to `as-provided`, the path is relative to the current working directory. Otherwise, it is relative to the workspace root.",
       "default": "/"
     },
     "directoryFormat": {

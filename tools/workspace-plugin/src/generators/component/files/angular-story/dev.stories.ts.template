@@ -1,0 +1,24 @@
+import { type StoryObj } from '@storybook/angular';
+
+import { AngularStoriesMeta } from '@cocokits/common-types';
+
+import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+
+
+const meta: AngularStoriesMeta = {
+  component: <%- className %>Component,
+  title: 'Dev/<%- className %>',
+  tags: ['!autodocs'],
+  argTypes: {
+    // color: { control: 'select', options: Object.values(BaseColor) },
+  },
+};
+
+export default meta;
+
+
+export const Default: StoryObj<<%- className %>Component> = {
+  args: {
+    // color: BaseColor.Default as any,
+  },
+};

@@ -1,0 +1,23 @@
+import { componentWrapperDecorator } from '@storybook/angular';
+
+import { AngularStoriesMeta } from '@cocokits/common-types';
+
+import descriptionMd from './-description.md';
+import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+
+export { Default } from './default.stories';
+
+const meta: AngularStoriesMeta = {
+  component: <%- className %>Component,
+  title: '<%- className %>',
+  tags: ['autodocs'],
+  decorators: [componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`)],
+  parameters: {
+    docs: {
+      description: {
+        component: [descriptionMd].join('\n'),
+      },
+    },
+  },
+};
+export default meta;
