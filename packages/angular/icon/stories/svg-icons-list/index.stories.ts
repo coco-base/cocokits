@@ -2,8 +2,8 @@ import { type StoryObj } from '@storybook/angular';
 
 import { AngularStoriesMeta } from '@cocokits/common-types';
 
+import { SvgIconListComponent } from './component/svg-icon-list.component';
 import descriptionMd from './svg-icon-description.md';
-import { SvgIconListComponent } from '../../src/lib/story-svg-icons-list/svg-icon-list.component';
 
 const meta: AngularStoriesMeta = {
   component: SvgIconListComponent,
