@@ -1,24 +1,19 @@
 {
   "generators": {
-    "theme": {
-      "factory": "./src/generators/theme/generator",
-      "schema": "./src/generators/theme/schema.json",
-      "description": "Create a theme package with default configurations"
-    },
-    "ui-library": {
-      "factory": "./src/generators/library/ui/generator",
-      "schema": "./src/generators/library/ui/schema.json",
-      "description": "Create an ui library in cocokits"
-    },
-    "util-library": {
-      "factory": "./src/generators/library/util/generator",
-      "schema": "./src/generators/library/util/schema.json",
-      "description": "Create an util library in cocokits"
-    },
     "angular-component": {
       "factory": "./src/generators/component/angular/generator",
       "schema": "./src/generators/component/angular/schema.json",
       "description": "Create an angular component in cocokits project"
+    },
+    "library": {
+      "factory": "./src/generators/library/generator",
+      "schema": "./src/generators/library/schema.json",
+      "description": "Create an library in CocoKits workspace"
+    },
+    "setup-storybook": {
+      "factory": "./src/generators/setup-storybook/generator",
+      "schema": "./src/generators/setup-storybook/schema.json",
+      "description": "Setup storybook for a library"
     }
   }
 }

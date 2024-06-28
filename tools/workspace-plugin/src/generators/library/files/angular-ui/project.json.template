@@ -1,0 +1,29 @@
+{
+  "name": "<%= importPath %>",
+  "$schema": "<%= offsetPathToRoot %>/node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "<%= libraryRoot %>/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:angular"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "<%= libraryRoot %>/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "<%= libraryRoot %>/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "<%= libraryRoot %>/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

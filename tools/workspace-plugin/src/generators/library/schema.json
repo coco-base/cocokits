@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "Library",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of library. Note: 'theme' requires 'shared' as the framework. 'storybook' framework only allows 'utils' type.",
+      "enum": ["ui", "utils", "theme"],
+      "x-prompt": "Select the type of library"
+    },
+    "framework": {
+      "type": "string",
+      "description": "The framework for the library. Note: 'angular' and 'react' cannot have 'theme' as a type. 'shared' cannot be used with 'ui' type. 'storybook' framework must use 'utils' type.",
+      "enum": ["angular", "react", "shared", "storybook"],
+      "x-prompt": "Select the framework of library"
+    },
+    "storybook": {
+      "type": "boolean",
+      "description": "Whether generate storybook for library or not.",
+      "x-prompt": "Is the library has storybook?",
+      "default": true
+    },
+    "directory": {
+      "type": "string",
+      "description": "The directory for creating the generator file is determined by the `--directoryFormat` option. If set to `as-provided`, the path is relative to the current working directory. If set to `default`, it defaults to a directory based on the type and framework. Otherwise, it is relative to the workspace root.",
+      "default": "/"
+    },
+    "directoryFormat": {
+      "type": "string",
+      "description": "Directory configuration. When set to `as-provided`, the generator file is created in the given directory, relative to the current working directory, independent of the project structure ([Working Directory]/[DIRECTORY]). If set to `root`, the file is created relative to the workspace root, incorporating the project structure ([ROOT Directory]/[DIRECTORY]).",
+      "enum": ["as-provided", "root"],
+      "default": "as-provided"
+    },
+    "publishable": {
+      "type": "boolean",
+      "description": "Generate a publishable library.",
+      "default": true
+    },
+    "importPath": {
+      "type": "string",
+      "description": "The library name used to import it, like `@cocokits/angular-components`. Must be a valid npm name. The default is `@cocokits/[FRAMEWORK]-[NAME]`",
+      "default": ""
+    }
+  },
+  "required": ["name", "type", "framework"]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "SetupStorybook",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Project for which to generate Storybook configuration."
+    }
+  },
+  "required": ["project"]
+}
