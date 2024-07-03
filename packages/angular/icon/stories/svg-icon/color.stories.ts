@@ -1,6 +1,6 @@
 import type { StoryObj } from '@storybook/angular';
 
-import { BaseColor, IconSize } from '@cocokits/common-types';
+import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { SvgIconComponent } from '../../src';
 
@@ -11,22 +11,23 @@ export const Color: StoryObj<SvgIconComponent> = {
       description: {
         story: `This scenario demonstrates the range of color options available from the BaseColor enum for the SvgIconComponent. Observe how different colors modify the appearance of the icons, enhancing visual integration with your application's design palette.`,
       },
+      source: {
+        code: `<cck-svg-icon [icon]="..." color="..."></cck-svg-icon>`,
+      },
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      BaseColor: BaseColor,
-      IconSize: IconSize,
+      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.Brand"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.Info"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.Warning"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.Error"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.HighContrast"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.MediumContrast"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.LowContrast"></cck-svg-icon>
+      @for (color of uiComponentConfig?.svgIcon.color?.values; track color) {
+        <div class="flex-col flex-center gap-12">
+          <cck-svg-icon [icon]="icon" [color]="color"></cck-svg-icon>
+          <span class="p-sm-regular-2">{{color}}</span>
+        </div>
+      }
     `,
   }),
 };

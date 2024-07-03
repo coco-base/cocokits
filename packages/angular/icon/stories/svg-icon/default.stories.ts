@@ -1,6 +1,6 @@
 import type { StoryObj } from '@storybook/angular';
 
-import { BaseColor, IconSize } from '@cocokits/common-types';
+import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { SvgIconComponent } from '../../src';
 
@@ -11,18 +11,18 @@ export const Default: StoryObj<SvgIconComponent> = {
       description: {
         story: 'TODO: Add size story description',
       },
+      source: {
+        code: `<cck-svg-icon [icon]="..." size="..." color="..."></cck-svg-icon>`,
+      },
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      BaseColor: BaseColor,
-      IconSize: IconSize,
+      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Md" [color]="BaseColor.Brand"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Lg" [color]="BaseColor.Info"></cck-svg-icon>
-      <cck-svg-icon [icon]="icon" [size]="IconSize.XL" [color]="BaseColor.HighContrast"></cck-svg-icon>
+      <cck-svg-icon [icon]="icon" [size]="uiComponentConfig?.svgIcon.size?.values.at(-1)"></cck-svg-icon>
     `,
   }),
 };

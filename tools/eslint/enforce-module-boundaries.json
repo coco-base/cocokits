@@ -28,7 +28,7 @@
               },
               {
                 "sourceTag": "type:theme",
-                "onlyDependOnLibsWithTags": ["type:theme"]
+                "onlyDependOnLibsWithTags": ["type:theme", "type:utils"]
               },
               {
                 "sourceTag": "framework:angular",

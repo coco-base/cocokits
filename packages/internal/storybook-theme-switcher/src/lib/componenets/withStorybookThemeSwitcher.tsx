@@ -8,6 +8,8 @@ import { getSelectedStorybookTheme } from './theme-switcher.utils';
 
 export const withStorybookThemeSwitcher = (StoryFn: StoryFunction<Renderer>) => {
 
+  document.documentElement.classList.add(`cck-storybook`);
+
   const setSelectedStorybookTheme = ({ themeName }: StorybookThemeChangedEvent) => {
     document.documentElement.classList.remove('cck-storybook-dark-theme', 'cck-storybook-light-theme');
     document.documentElement.classList.add(`cck-storybook-${themeName}-theme`);

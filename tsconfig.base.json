@@ -29,6 +29,7 @@
       "@cocokits/storybook-doc-page": ["packages/internal/storybook-doc-page/src/index.ts"],
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
       "@cocokits/theme-core": ["packages/themes/core/src/index.ts"],
+      "@cocokits/theme-core/angular": ["packages/themes/core/src/lib/angular/index.ts"],
       "@cocokits/theme-default": ["packages/themes/default/src/index.ts"],
       "@cocokits/theme-frame-x": ["packages/themes/frame-x/src/index.ts"],
       "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]

@@ -9,3 +9,4 @@ export * from './lib/uncategorized/deep-merge';
 export * from './lib/uncategorized/deep-clone';
 export * from './lib/uncategorized/intersection-observer';
 export * from './lib/uncategorized/mutation-observer';
+export * from './lib/uncategorized/string';

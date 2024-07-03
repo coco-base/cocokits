@@ -4,11 +4,13 @@
 
 // direction
 .flex-row {
+  display: flex;
   flex-direction: row;
 }
 
 .flex-col {
-  flex-direction: row;
+  display: flex;
+  flex-direction: column;
 }
 
 // justify-content
@@ -46,11 +48,55 @@
   flex-wrap: nowrap;
 }
 
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
 // gap
 .gap-12 {
   gap: 12px;
 }
 
+.gap-16 {
+  gap: 16px;
+}
+
 .gap-24 {
-  gap: 12px;
+  gap: 24px;
+}
+
+.gap-32 {
+  gap: 32px;
+}
+
+// size - font-weight - color
+.p-sm-regular-4 {
+  font: var(--cck-storybook-text-sm-regular);
+  color: var(--cck-storybook-color-font-contrast-4);
+}
+
+.p-md-regular-4 {
+  font: var(--cck-storybook-text-md-regular);
+  color: var(--cck-storybook-color-font-contrast-4);
+}
+
+.p-sm-regular-3 {
+  font: var(--cck-storybook-text-sm-regular);
+  color: var(--cck-storybook-color-font-contrast-3);
+}
+
+.p-md-regular-3 {
+  font: var(--cck-storybook-text-md-regular);
+  color: var(--cck-storybook-color-font-contrast-3);
+}
+
+.p-sm-regular-2 {
+  font: var(--cck-storybook-text-sm-regular);
+  color: var(--cck-storybook-color-font-contrast-2);
+}
+
+.p-md-regular-2 {
+  font: var(--cck-storybook-text-md-regular);
+  color: var(--cck-storybook-color-font-contrast-2);
 }

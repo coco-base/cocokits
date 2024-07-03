@@ -1,5 +1,13 @@
-import { collections as collectionsDefaultTheme } from '@cocokits/theme-default';
-import { collections as collectionsFrameXTheme } from '@cocokits/theme-frame-x';
+import {
+  cocokitsUIComponentConfig,
+  collections as collectionsDefaultTheme,
+  svgIconMap as svgIconMapDefaultTheme,
+} from '@cocokits/theme-default';
+import {
+  collections as collectionsFrameXTheme,
+  frameXUIComponentConfig,
+  svgIconMap as svgIconMapFrameXTheme,
+} from '@cocokits/theme-frame-x';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
 
@@ -28,6 +36,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
       'components-size': 'default',
       'brand-color-1': 'dark',
     },
+    uiComponentConfig: cocokitsUIComponentConfig,
+    svgIconMap: svgIconMapDefaultTheme,
   },
   'frame-x': {
     id: 'frame-x',
@@ -45,6 +55,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
       radius: 'rounded',
       typography: 'font-a',
     },
+    uiComponentConfig: frameXUIComponentConfig,
+    svgIconMap: svgIconMapFrameXTheme,
   },
 };
 // endregion

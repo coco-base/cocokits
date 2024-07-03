@@ -1,7 +1,10 @@
 {
   "name": "@cocokits/common-angular-utils",
   "version": "0.0.1",
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@angular/common": "^17.3.0",
+    "@angular/core": "^17.3.0"
+  },
   "dependencies": {},
   "sideEffects": false
 }

@@ -1,21 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { intersectionObserver$ } from '@cocokits/common-utils';
 
 import { scrollToStoryById } from './doc-page.util';
-import { DocsPageContext } from '../doc-page-container/DocPageContainer';
 
-export const DocToc = () => {
-  const { stories } = useContext(DocsPageContext);
+interface DocTocProps {
+  items: {id: string, name: string}[]
+}
+
+export const DocToc = ({items}: DocTocProps) => {
   const [selected, setSelected] = useState('');
 
   useEffect(() => {
 
-    const storiesElement = stories
-      .flatMap<Element>(story => document.querySelector(`#${story.id}`) ?? []);
+    const itemsElement = items
+      .flatMap<Element>(item => document.querySelector(`#${item.id}`) ?? []);
 
-    const subscriber = intersectionObserver$(storiesElement, { threshold: [0.5] })
+    const subscriber = intersectionObserver$(itemsElement, { threshold: [0.5] })
       .subscribe(event => {
         for (const { intersectionRatio, target } of event.entries) {
           if (intersectionRatio >= 0.5) {
@@ -32,11 +34,11 @@ export const DocToc = () => {
     <StyledContainer>
       <h5>On this page</h5>
       <StyledOl>
-        {stories.map(story => (
+        {items.map(item => (
           <StyledLi
-            selected={story.id === selected} key={story.id}
-            onClick={() => scrollToStoryById(story.id)}>
-            {story.name}
+            selected={item.id === selected} key={item.id}
+            onClick={() => scrollToStoryById(item.id)}>
+            {item.name}
           </StyledLi>
         ))}
       </StyledOl>

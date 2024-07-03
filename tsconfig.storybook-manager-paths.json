@@ -12,6 +12,7 @@
       "@cocokits/storybook-doc-page": ["packages/internal/storybook-doc-page/src/"],
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/"],
       "@cocokits/theme-core": ["packages/themes/core/src/"],
+      "@cocokits/theme-core/angular": ["packages/themes/core/src/lib/angular/index.ts"],
       "@cocokits/theme-default": ["packages/themes/default/src/"],
       "@cocokits/theme-frame-x": ["packages/themes/frame-x/src/"],
       "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/"]

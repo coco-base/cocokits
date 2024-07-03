@@ -1,4 +1,5 @@
 import type { ThemeSvgIcon } from '@cocokits/common-types';
+import { ThemeUIComponentsConfig } from '@cocokits/theme-core';
 
 export type CckThemeName = 'Default' | 'FrameX';
 export type CckThemeId = 'default' | 'frame-x';
@@ -11,6 +12,8 @@ export interface CckTheme {
   iconPathDark: string;
   collections: Record<string, string[]>;
   defaultSelectedModes: Record<string, string>;
+  uiComponentConfig: ThemeUIComponentsConfig;
+  svgIconMap: Record<string, ThemeSvgIcon>;
 }
 
 export interface CckThemeChangedEvent {
@@ -18,8 +21,9 @@ export interface CckThemeChangedEvent {
   name: CckThemeName;
   iconPathLight: string;
   iconPathDark: string;
-  iconList: Record<string, ThemeSvgIcon>;
   selectedModes: Record<string, string>;
+  uiComponentConfig: ThemeUIComponentsConfig;
+  svgIconMap: Record<string, ThemeSvgIcon>;
 }
 
 export interface CckSelectedTheme {

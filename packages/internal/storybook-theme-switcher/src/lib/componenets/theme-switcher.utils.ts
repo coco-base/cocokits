@@ -4,7 +4,6 @@ import { CCK_THEME_CHANGED_EVENT_NAME, CCK_THEMES_MAP, LOCALSTORAGE_CCK_THEME } 
 import { CckSelectedTheme, CckThemeChangedEvent, CckThemeLocalstorage } from '../config/cck-themes.model';
 import { LOCALSTORAGE_STORYBOOK_THEME, STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
 import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
-import { themeIconSvg } from '../styles/icons';
 
 export function generateCckThemeChangeEventData({ id, selectedModes }: CckSelectedTheme): CckThemeChangedEvent {
   return {
@@ -12,13 +11,15 @@ export function generateCckThemeChangeEventData({ id, selectedModes }: CckSelect
     name: CCK_THEMES_MAP[id].name,
     iconPathLight: CCK_THEMES_MAP[id].iconPathLight,
     iconPathDark: CCK_THEMES_MAP[id].iconPathDark,
-    iconList: themeIconSvg[id],
     selectedModes,
+    uiComponentConfig: CCK_THEMES_MAP[id].uiComponentConfig,
+    svgIconMap: CCK_THEMES_MAP[id].svgIconMap,
   };
 }
 
 export function getSelectedCckTheme(): CckThemeChangedEvent | null {
   /**
+   * TODO: Check it one more them. I changed `dispatchDefaultThemEvent` function to dispatch the first event after the storybook is ready.
    * Initialized themeName:
    *
    * The source event is initialized in the manager file and the initialized value is dispatched from the manager.
@@ -50,6 +51,7 @@ export function getSelectedCckTheme(): CckThemeChangedEvent | null {
 
 export function getSelectedStorybookTheme(): StorybookThemeName {
   /**
+   * TODO: Check it one more them. I changed `dispatchDefaultThemEvent` function to dispatch the first event after the storybook is ready.
    * Initialized themeName:
    *
    * The source event is initialized in the manager file and the initialized value is dispatched from the manager.

@@ -41,7 +41,7 @@ export const DocPageContainer = (props: DocPageContainerProps) => {
   // MDX DocPage
   return (
     <DocsContainer context={props.context}>{props.children}</DocsContainer>
-  )
+  );
 
 
 };

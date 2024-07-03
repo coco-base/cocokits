@@ -1,41 +1,70 @@
+import { Canvas } from '@storybook/addon-docs';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+
 import { DocArgTypes } from './DocArgTypes';
+import { DocCategory } from './DocCategory';
 import { DocMarkdown } from './DocMarkdown';
-import { DocStory } from './DocStory';
+import { DocSection } from './DocSection';
 import { DocToc } from './DocToc';
 import { DocsPageContext } from '../doc-page-container/DocPageContainer';
-import { DocCategory } from './DocCategory';
+
+const API_DESCRIPTION =
+  'Please verify that the `FrameX` theme is also applied to your project to ensure consistency,' +
+  'or change the theme of this document page to align with your project settings.' +
+  'Mismatches between the theme of this document and your project can result in discrepancies in `type`' +
+  'definitions and `default` values,' +
+  'as themes may vary in their specifications.';
 
 
 export function DocMain() {
 
-  const { title, metaDescription, category, primaryStory, storiesWithoutPrimary } = useContext(DocsPageContext);
+  const { title, metaDescription, category, primaryStory, stories, ...rest } = useContext(DocsPageContext);
+  const cckTheme = useDocSelectedCckTheme();
+
+  const tokItems = stories.map(story => ({ id: story.id, name: story.name }));
+  const API_SECTION = { id: `${primaryStory.componentId}--api`, name: 'API' };
+  tokItems.push(API_SECTION);
+
+  if (!cckTheme) {
+    return;
+  }
+
 
   return (
     <StyledWrapper>
       <StyledMain>
 
+        {/* HEADER */}
         <div>
           <DocCategory>{category}</DocCategory>
           <h1>{title}</h1>
           <DocMarkdown>{metaDescription}</DocMarkdown>
         </div>
 
-        <hr/>
+        <hr />
 
-        <div>
-          <DocStory story={primaryStory} expanded={true} />
-          <DocArgTypes />
-        </div>
+        {/* STORIES */}
+        {stories.map(story => (
+          <DocSection
+            id={story.id}
+            title={story.name}
+            description={story.parameters['docs']?.description?.story}>
+            <Canvas of={story.moduleExport} withToolbar={false} />
+          </DocSection>
+        ))}
 
-        {storiesWithoutPrimary.length > 0 && <hr />}
+        <hr />
 
-        {storiesWithoutPrimary.map(story => <DocStory key={story.id} story={story} />)}
+        {/* API */}
+        <DocSection id={API_SECTION.id} title={API_SECTION.name} description={API_DESCRIPTION}>
+          <DocArgTypes uiComponentsConfig={cckTheme.uiComponentConfig} />
+        </DocSection>
 
       </StyledMain>
-      <DocToc/>
+      <DocToc items={tokItems} />
     </StyledWrapper>
   );
 }
@@ -46,7 +75,6 @@ const StyledWrapper = styled.div`
     position: relative;
     width: 100%;
     margin: auto;
-    overflow: hidden;
 `;
 
 const StyledMain = styled.main`

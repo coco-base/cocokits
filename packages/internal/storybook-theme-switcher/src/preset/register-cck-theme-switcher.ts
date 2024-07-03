@@ -1,3 +1,4 @@
+import events from '@storybook/core-events';
 import { addons, types } from '@storybook/manager-api';
 
 import { openOverlay, OverlayAnimationType } from '@cocokits/react-overlay';
@@ -61,20 +62,24 @@ function changeTheme({ id, selectedModes }: CckSelectedTheme) {
 }
 
 function dispatchDefaultThemEvent() {
-  const localstorageTheme = window.localStorage.getItem(LOCALSTORAGE_CCK_THEME);
+  // Make sure the first story has rendered, before dispatch the default value.
+  // Otherwise, the stories will miss the first event and the value will be undefined.
+  addons.getChannel().once(events.CURRENT_STORY_WAS_SET, () => {
+    const localstorageTheme = window.localStorage.getItem(LOCALSTORAGE_CCK_THEME);
 
-  if (localstorageTheme) {
-    const selectedTheme = JSON.parse(localstorageTheme) as CckThemeLocalstorage;
+    if (localstorageTheme) {
+      const selectedTheme = JSON.parse(localstorageTheme) as CckThemeLocalstorage;
+      changeTheme({
+        id: selectedTheme.id,
+        selectedModes: selectedTheme.selectedModes,
+      });
+      return;
+    }
+
     changeTheme({
-      id: selectedTheme.id,
-      selectedModes: selectedTheme.selectedModes,
+      id: DEFAULT_SELECTED_CCK_THEME_ID,
+      selectedModes: DEFAULT_SELECTED_CCK_THEME_MODES,
     });
-    return;
-  }
-
-  changeTheme({
-    id: DEFAULT_SELECTED_CCK_THEME_ID,
-    selectedModes: DEFAULT_SELECTED_CCK_THEME_MODES,
   });
 }
 

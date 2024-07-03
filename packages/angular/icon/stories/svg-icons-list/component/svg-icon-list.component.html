@@ -16,7 +16,7 @@
 <div class="icon-list">
   @for (icon of iconsMap$ | async; track icon.name) {
     <div class="icon-list-item">
-      <cck-svg-icon [icon]="icon" [size]="IconSize.Md" [color]="null" />
+      <cck-svg-icon class="svg-icon" [icon]="icon" [size]="null" [color]="null" />
       {{ icon.name }}
     </div>
   } @empty {

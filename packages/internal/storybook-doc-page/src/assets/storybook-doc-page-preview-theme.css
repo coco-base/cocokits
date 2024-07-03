@@ -76,11 +76,21 @@ hr {
     margin: var(--cck-storybook-size-48) 0;
 }
 
+.cck-storybook code,
 code {
+    display: inline-block;
     border: 1px solid var(--cck-storybook-color-border-card-default);
     border-radius: 4px;
-    padding: 1px 6px;
+    padding: 0 6px;
     background-color: var(--cck-storybook-color-bg-card-surface);
+    font: inherit;
+    color: inherit;
+}
+
+.cck-storybook a,
+a {
+    font: inherit;
+    color: var(--cck-storybook-color-font-link);
 }
 /* endregion */
 

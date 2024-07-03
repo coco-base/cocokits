@@ -1,6 +1,8 @@
-import type { StoryObj } from '@storybook/angular';
+import { moduleMetadata, StoryObj } from '@storybook/angular';
 
-import { AngularStoriesMeta, BaseColor, IconSize } from '@cocokits/common-types';
+import { AngularStoriesMeta } from '@cocokits/common-types';
+import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { UIComponentConfig } from '@cocokits/theme-core/angular';
 
 import { templateIcon } from './template-svg-icon';
 import { SvgIconComponent } from '../../src';
@@ -9,17 +11,26 @@ const meta: AngularStoriesMeta = {
   component: SvgIconComponent,
   title: 'Dev/SvgIcon',
   tags: ['!autodocs'],
+  decorators: [
+    moduleMetadata({
+      providers: [
+        {
+          provide: UIComponentConfig,
+          useValue: getSelectedCckTheme()?.uiComponentConfig,
+        },
+      ],
+    }),
+  ],
   argTypes: {
-    color: { control: 'select', options: Object.values(BaseColor) },
-    size: { control: 'select', options: Object.values(IconSize) },
+    type: { control: 'text' },
+    color: { control: 'text' },
+    size: { control: 'text' },
   },
 };
 export default meta;
 
 export const Default: StoryObj<SvgIconComponent> = {
   args: {
-    color: BaseColor.Default as any,
-    size: IconSize.XXL as any,
     icon: templateIcon as any,
   },
 };

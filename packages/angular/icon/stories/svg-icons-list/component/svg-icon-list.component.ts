@@ -4,7 +4,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
 import { runInsideNgZone } from 'packages/common/angular-utils/src';
-import { IconSize, ThemeSvgIcon } from 'packages/common/types/src';
+import { ThemeSvgIcon } from 'packages/common/types/src';
 import { debounceTime, map, Observable, pipe, startWith, switchMap, tap } from 'rxjs';
 
 import { fuzzysearch, skipNullish } from '@cocokits/common-utils';
@@ -29,8 +29,6 @@ export class SvgIconListComponent {
     runInsideNgZone()
   );
 
-  protected readonly IconSize = IconSize;
-
   private reset() {
     this.searchInput.set('');
   }
@@ -45,11 +43,11 @@ function filterIconsBySearchInput(
       searchInput$.pipe(
         debounceTime(300),
         map((inputSearch) =>
-          Object.values(themeChangeEvent.iconList).filter((icon) =>
+          Object.values(themeChangeEvent.svgIconMap).filter((icon) =>
             fuzzysearch(inputSearch.toLowerCase().trim(), icon.name.toLowerCase())
           )
         ),
-        startWith(Object.values(themeChangeEvent.iconList))
+        startWith(Object.values(themeChangeEvent.svgIconMap))
       )
     )
   );

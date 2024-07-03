@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { DocPage } from './DocPage';
+
 import { DocCategory } from './DocCategory';
+import { DocPage } from './DocPage';
 
 interface DocPageProps {
   children: ReactNode;
@@ -12,7 +13,7 @@ export const MdxDocPage = ({children, groupTitle}: DocPageProps) => {
 
   return (
     <>
-      <DocPage hideCckThemeSwitcher={true}>
+      <DocPage hideCckThemeSwitcher={false}>
         <StyledWrapper>
           {groupTitle && <DocCategory>{groupTitle}</DocCategory>}
           {children}
