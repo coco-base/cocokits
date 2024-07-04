@@ -28,9 +28,9 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
     type: null,
     color: {
       name: 'color',
-      values: ['brand', 'info', 'success', 'error'],
+      values: ['test'],
       require: false,
-      default: 'brand',
+      default: 'test',
       description: '',
     },
     size: {

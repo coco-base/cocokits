@@ -2,66 +2,51 @@
 
 // region ------------- Size -------------
 
-.cck-icon__size--default {
-  // TODO: ...
-}
-
-.cck-icon__size--xs {
-  // TODO: ...
+.cck-svg-icon__size--xs {
   width: $icon-icon-xs;
   height: $icon-icon-xs;
 }
 
-.cck-icon__size--sm {
-  // TODO: ...
+.cck-svg-icon__size--sm {
+  width: $icon-icon-sm;
+  height: $icon-icon-sm;
 }
 
-.cck-icon__size--md {
-  // TODO: ...
+.cck-svg-icon__size--md {
+  width: $icon-icon-md;
+  height: $icon-icon-md;
 }
 
-.cck-icon__size--lg {
-  // TODO: ...
+.cck-svg-icon__size--lg {
+  width: $icon-icon-lg;
+  height: $icon-icon-lg;
 }
 
-.cck-icon__size--xl {
-  // TODO: ...
+.cck-svg-icon__size--xl {
+  width: $icon-icon-xl;
+  height: $icon-icon-xl;
 }
 
-.cck-icon__size--2xl {
-  // TODO: ...
+.cck-svg-icon__size--2xl {
+  width: $icon-icon-2xl;
+  height: $icon-icon-2xl;
+}
+
+.cck-svg-icon__size--3xl {
+  width: $icon-icon-3xl;
+  height: $icon-icon-3xl;
+}
+
+.cck-svg-icon__size--4xl {
+  width: $icon-icon-4xl;
+  height: $icon-icon-4xl;
 }
 
 // endregion
 
 // region ------------- Color -------------
-.cck-icon__color--brand {
-  // TODO: ...
-}
-
-.cck-icon__color--info {
-  // TODO: ...
-}
-
-.cck-icon__color--warning {
-  // TODO: ...
-}
-
-.cck-icon__color--error {
-  // TODO: ...
-}
-
-.cck-icon__color--h-contrast {
-  // TODO: ...
-}
-
-.cck-icon__color--default,
-.cck-icon__size--m-contrast {
-  // TODO: ...
-}
-
-.cck-icon__size--l-contrast {
-  // TODO: ...
+.cck-svg-icon__color--test {
+  fill: $colors-blue-500;
 }
 
 // endregion
