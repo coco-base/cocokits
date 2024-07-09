@@ -7,7 +7,10 @@
     "@angular/core": "^17.3.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@cocokits/common-angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/theme-core": "workspace:*"
   },
   "devDependencies": {},
   "sideEffects": false

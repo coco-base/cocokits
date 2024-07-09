@@ -2,12 +2,12 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 
+import { recordForEach, reduceDeepMerge } from '@cocokits/common-utils';
+
 import { buildTsVariableMap, clearDir, sanitizeTsVariableName, TS_VARIABLES_FOLDER_NAME } from './builder.util';
 import { logEndParsing, logFileHasGenerated, logStartParsing } from './logger';
 import { ScssifyTokenExecutorSchema } from '../schema';
 import { CollectionWithModeName, CompilerResult, TransformedDesignToken } from '../token.model';
-import { recordForEach } from '../utils/record-for-each';
-import { reduceDeepMerge } from '../utils/reduce-merge';
 
 /**
  * Builds SCSS variables from the compiler result and save them.

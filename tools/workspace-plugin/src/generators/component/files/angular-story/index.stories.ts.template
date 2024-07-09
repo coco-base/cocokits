@@ -4,7 +4,7 @@ import { AngularStoriesMeta } from '@cocokits/common-types';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 import { UIComponentConfig } from '@cocokits/theme-core/angular';
 
-import descriptionMd from './-description.md';
+import descriptionMd from './description.md';
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 export { Default } from './default.stories';
@@ -32,9 +32,8 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    types: { table: { disable: true } },
-    sizes: { table: { disable: true } },
-    colors: { table: { disable: true } },
+  },
+  args: {
   },
 };
 export default meta;

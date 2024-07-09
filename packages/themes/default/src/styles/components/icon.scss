@@ -2,39 +2,34 @@
 
 // region ------------- Size -------------
 
-.cck-svg-icon__size--default {
-  width: $size-icon-md;
-  height: $size-icon-md;
-}
-
 .cck-svg-icon__size--xs {
-  width: $size-icon-xs;
-  height: $size-icon-xs;
+  width: $icon-size-xs;
+  height: $icon-size-xs;
 }
 
 .cck-svg-icon__size--sm {
-  width: $size-icon-sm;
-  height: $size-icon-sm;
+  width: $icon-size-sm;
+  height: $icon-size-sm;
 }
 
 .cck-svg-icon__size--md {
-  width: $size-icon-md;
-  height: $size-icon-md;
+  width: $icon-size-md;
+  height: $icon-size-md;
 }
 
 .cck-svg-icon__size--lg {
-  width: $size-icon-lg;
-  height: $size-icon-lg;
+  width: $icon-size-lg;
+  height: $icon-size-lg;
 }
 
 .cck-svg-icon__size--xl {
-  width: $size-icon-xl;
-  height: $size-icon-xl;
+  width: $icon-size-xl;
+  height: $icon-size-xl;
 }
 
 .cck-svg-icon__size--2xl {
-  width: $size-icon-2xl;
-  height: $size-icon-2xl;
+  width: $icon-size-2xl;
+  height: $icon-size-2xl;
 }
 
 // endregion
@@ -60,7 +55,6 @@
   fill: $color-h-contrast-default;
 }
 
-.cck-svg-icon__color--default .cck-svg-icon__svg,
 .cck-svg-icon__color--m-contrast .cck-svg-icon__svg {
   fill: $color-m-contrast-default;
 }

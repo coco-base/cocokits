@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import { recordForEach } from '@cocokits/common-utils';
+
 import {
   clearDir,
   MIXINS_FOLDER_NAME,
@@ -16,7 +18,6 @@ import {
   TransformedDesignToken,
   TransformedDesignTokenCollectionMap,
 } from '../token.model';
-import { recordForEach } from '../utils/record-for-each';
 
 /**
  * Builds variables mixins from the compiler result and save them.

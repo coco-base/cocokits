@@ -6,9 +6,9 @@
         "Default": ["Global.Default.tokens.json"]
       }
     },
-    "Components Size": {
+    "Components": {
       "modes": {
-        "Default": ["Components Size.Default.tokens.json"]
+        "Default": ["Components.Default.tokens.json"]
       }
     },
     "Brand Color 1": {

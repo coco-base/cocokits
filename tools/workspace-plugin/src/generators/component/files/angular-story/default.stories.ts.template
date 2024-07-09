@@ -1,10 +1,9 @@
-import type { StoryObj } from '@storybook/angular';
-
+import { AngularStoryObj } from '@cocokits/common-types';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
-export const Default: StoryObj<<%- className %>Component> = {
+export const Default: AngularStoryObj<<%- className %>Component> = {
   name: 'Default',
   parameters: {
     docs: {

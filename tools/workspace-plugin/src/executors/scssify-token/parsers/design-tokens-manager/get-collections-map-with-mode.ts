@@ -1,7 +1,8 @@
+import { recordReduceMerge } from '@cocokits/common-utils';
+
 import { LOCAL_STYLE_KEY_NAME, LOCAL_STYLE_MODE_NAME, toName } from './collections-path.util';
 import { DTMManifest } from './design-tokens-manager.model';
 import { CollectionsMapWithMode } from '../../token.model';
-import { recordReduceMerge } from '../../utils/reduce-merge';
 
 export function getCollectionsMapWithMode(manifest: DTMManifest): CollectionsMapWithMode {
   const localStyle = {

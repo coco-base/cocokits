@@ -1,4 +1,4 @@
-import { deepMerge } from '@cocokits/common-utils';
+import { deepMerge } from './deep-merge';
 
 /**
  * Reduces an object by merging the results of a callback function into a single object.
@@ -9,7 +9,7 @@ import { deepMerge } from '@cocokits/common-utils';
  * @param initValue - The initial value for the reduction. Default is {}
  * @returns The result of merging all callback results.
  */
-export function recordReduceMerge<TSource, TResult>(
+export function recordReduceMerge<TSource extends { [key: string | number | symbol]: any }, TResult>(
   source: TSource,
   callback: (value: TSource[keyof TSource], key: string) => Partial<TResult> | null,
   initValue: Partial<TResult> = {}
@@ -31,7 +31,7 @@ export function recordReduceMerge<TSource, TResult>(
  * @param initValue - The initial value for the reduction. Default is {}
  * @returns The result of deeply merging all callback results.
  */
-export function recordReduceDeepMerge<TSource, TResult>(
+export function recordReduceDeepMerge<TSource extends { [key: string | number | symbol]: any }, TResult>(
   source: TSource,
   callback: (value: TSource[keyof TSource], key: string) => Partial<TResult> | null,
   initValue: Partial<TResult> = {}

@@ -1,6 +1,6 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
 
-import { StoryDocPage } from './src/lib/components/doc-page/StoryDocPage';
+import { StoryAutoDocPage } from './src/lib/components/doc-page/StoryAutoDocPage';
 import { DocPageContainer } from './src/lib/components/doc-page-container/DocPageContainer';
 
 /**
@@ -15,7 +15,7 @@ export const preview: Preview = {
   parameters: {
     docs: {
       container: DocPageContainer,
-      page: StoryDocPage,
+      page: StoryAutoDocPage,
     },
   },
 };

@@ -1,3 +1,5 @@
+import { recordReduceDeepMerge, reduceDeepMerge } from '@cocokits/common-utils';
+
 import { ScssifyTokenExecutorSchema } from '../schema';
 import {
   CollectionWithModeName,
@@ -8,7 +10,6 @@ import {
   TransformedDesignTokenCollectionMap,
 } from '../token.model';
 import { transformTokenValue } from '../transform/tranform';
-import { recordReduceDeepMerge, reduceDeepMerge } from '../utils/reduce-merge';
 
 /**
  * Compiles design tokens map from the parser result into a format suitable for generating CSS files.

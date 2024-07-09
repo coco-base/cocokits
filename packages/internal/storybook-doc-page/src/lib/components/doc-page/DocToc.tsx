@@ -51,6 +51,7 @@ const StyledContainer = styled.div`
     width: var();
     height: 100%;
     position: sticky;
+    flex-shrink: 0;
     top: var(--cck-storybook-size-80);
     margin-top: var(--cck-storybook-size-96);
     margin-left: var(--cck-storybook-size-64);

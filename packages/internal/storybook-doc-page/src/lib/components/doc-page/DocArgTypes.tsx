@@ -1,35 +1,22 @@
-import _ from 'lodash';
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import { ThemeUIComponentsConfig, UIComponentsName, UIComponentsPropName } from '@cocokits/theme-core';
+import { ThemeUIComponentPropValue } from '@cocokits/theme-core';
 
 import { DocMarkdown } from './DocMarkdown';
-import { DocsPageContext } from '../doc-page-container/DocPageContainer';
 
-interface DocArgTypesProps {
-  uiComponentsConfig: ThemeUIComponentsConfig
+export interface DocArgTypesList {
+  name: string;
+  description: string | undefined;
+  defaultValue: ThemeUIComponentPropValue | undefined;
+  type: ThemeUIComponentPropValue[] | (string | undefined)[];
 }
 
-export const DocArgTypes = ({uiComponentsConfig}: DocArgTypesProps) => {
-  const { primaryStory, title } = useContext(DocsPageContext);
-  const componentName = _.camelCase(title) as UIComponentsName;
-  const uiComponentConfig = uiComponentsConfig[componentName]
+interface DocArgTypesProps {
+  argTypesList: DocArgTypesList[]
+}
 
-  const argTypesList = Object.values(primaryStory.argTypes)
-    .filter(argType => !argType.table?.disable ?? true)
-    .map((argType) => {
-
-      const themeUIComponentProps = uiComponentConfig[argType.name as UIComponentsPropName];
-
-      return {
-        name: argType.name,
-        description: argType.description,
-        category: argType.table?.category,
-        defaultValue: themeUIComponentProps?.default ?? getValueWithoutSignal(argType.table?.defaultValue?.summary),
-        type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],
-      };
-    });
+export const DocArgTypes = ({argTypesList}: DocArgTypesProps) => {
 
   if (argTypesList.length === 0) {
     return;
@@ -54,7 +41,7 @@ export const DocArgTypes = ({uiComponentsConfig}: DocArgTypesProps) => {
             <StyledTd>
               <StyledTypeWrapper>
                 {
-                  argType.type.map(type => <code>{type}</code>)
+                  argType.type.map(type => <code>{type?.toString()}</code>)
                 }
               </StyledTypeWrapper>
             </StyledTd>
@@ -63,7 +50,7 @@ export const DocArgTypes = ({uiComponentsConfig}: DocArgTypesProps) => {
               {argType.description && <DocMarkdown>{argType.description}</DocMarkdown>}
             </StyledTd>
             <StyledTd>
-              {argType.defaultValue && <code>{argType.defaultValue}</code>}
+              {argType.defaultValue !== null && <code>{argType.defaultValue?.toString()}</code>}
             </StyledTd>
           </StyledTr>
         ))}
@@ -122,31 +109,4 @@ const StyledTypeWrapper = styled.div`
     flex-wrap: wrap;
     gap: 8px;
 `;
-// endregion
-
-
-// region ---------------- UTILS ----------------
-
-/**
- * Quick fix: get the real default value from angular signal.
- * Example: `input<BaseColor | null>(BaseColor.Default)` -> `BaseColor.Default`
- * TODO: remove this quick fix, after compoDoc return the value of signal.
- */
-function getValueWithoutSignal(value: string | undefined) {
-  if (value?.startsWith('input<')) {
-    const match = value.match(/\(([^)]+)\)/);
-    if (match) {
-      return match[1];
-    }
-  }
-
-  if (value?.startsWith('InputSignal<')) {
-    const match = value.match(/<([^)]+)>/);
-    if (match) {
-      return match[1];
-    }
-  }
-
-  return value;
-}
 // endregion

@@ -5,7 +5,7 @@
  * @param source - The source record to iterate over.
  * @param callback - The function to call for each key-value pair. It receives the value and key as arguments.
  */
-export function recordForEach<TSource>(
+export function recordForEach<TSource extends { [key: string | number | symbol]: any }>(
   source: TSource,
   callback: (value: TSource[keyof TSource], key: string) => void
 ): void {

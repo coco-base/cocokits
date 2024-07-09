@@ -1,0 +1,52 @@
+@use '../../token/scss-variables' as *;
+
+.cck-icon-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  border: none;
+  outline: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.cck-icon-button .cck-svg-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.cck-icon-button .cck-svg-icon__svg {
+  fill: inherit;
+}
+
+.cck-icon-button__rounded--false {
+  border-radius: 4px;
+}
+
+.cck-icon-button__rounded--true {
+  border-radius: 50%;
+}
+
+// region ------------- Size -------------
+
+.cck-icon-button__size--sm {
+  width: 28px;
+  height: 28px;
+  padding: 6px;
+}
+
+.cck-icon-button__size--md {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+}
+
+.cck-icon-button__size--lg {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
+// endregion

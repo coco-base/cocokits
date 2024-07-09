@@ -1,6 +1,7 @@
+import { recordReduceDeepMerge, reduceDeepMerge } from '@cocokits/common-utils';
+
 import { CollectionDTMTokenMap, CollectionPathMap } from './design-tokens-manager.model';
 import { TokenDefinitionMap } from '../../token.model';
-import { recordReduceDeepMerge, reduceDeepMerge } from '../../utils/reduce-merge';
 
 /**
  * Generates a map that links token group names to their corresponding definitions from a collection and mode.

@@ -1,7 +1,8 @@
 import fs from 'fs';
 
+import { reduceMerge } from '@cocokits/common-utils';
+
 import { CollectionDTMTokenMap, CollectionPathMap, DTMTokenGroup } from './design-tokens-manager.model';
-import { reduceMerge } from '../../utils/reduce-merge';
 
 /**
  * Reads token JSON files and returns a map where the key is the token path

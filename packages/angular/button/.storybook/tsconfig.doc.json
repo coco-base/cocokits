@@ -1,0 +1,6 @@
+{
+  "//": "compodoc typescript configuration",
+  "extends": "../tsconfig.json",
+  "include": ["../src/**/*.ts"],
+  "exclude": []
+}

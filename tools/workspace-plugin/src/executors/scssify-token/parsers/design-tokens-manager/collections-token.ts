@@ -1,3 +1,5 @@
+import { recordReduceMerge } from '@cocokits/common-utils';
+
 import {
   CollectionDTMTokenMap,
   CollectionPathMap,
@@ -6,7 +8,6 @@ import {
   DTMValue,
 } from './design-tokens-manager.model';
 import { DesignToken, DesignTokenCollectionMap, DesignTokenType } from '../../token.model';
-import { recordReduceMerge } from '../../utils/reduce-merge';
 
 /**
  * Converts tokens from `Design Token Manager` format to our workspace standard design token format

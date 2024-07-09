@@ -8,6 +8,7 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@cocokits/angular-icon": "workspace:*",
+    "@cocokits/angular-button": "workspace:*",
     "@cocokits/angular-highlight": "workspace:*"
   },
   "devDependencies": {},

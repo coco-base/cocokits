@@ -15,7 +15,8 @@
       "@cocokits/theme-core/angular": ["packages/themes/core/src/lib/angular/index.ts"],
       "@cocokits/theme-default": ["packages/themes/default/src/"],
       "@cocokits/theme-frame-x": ["packages/themes/frame-x/src/"],
-      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/"]
+      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/"],
+      "@cocokits/angular-button": ["packages/angular/button/src/"]
     }
   }
 }

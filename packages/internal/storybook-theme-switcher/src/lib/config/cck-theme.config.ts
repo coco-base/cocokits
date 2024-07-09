@@ -34,6 +34,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
       global: 'default',
       'local-style': 'default',
       'components-size': 'default',
+      components: 'default',
       'brand-color-1': 'dark',
     },
     uiComponentConfig: cocokitsUIComponentConfig,

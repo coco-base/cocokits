@@ -1,12 +1,13 @@
 import React from 'react';
-import { DocMain } from './DocMain';
+
+import { AutoDocMain } from './AutoDocMain';
 import { DocPage } from './DocPage';
 
-export const StoryDocPage = () => {
+export const StoryAutoDocPage = () => {
 
   return (
     <DocPage hideCckThemeSwitcher={false}>
-      <DocMain></DocMain>
+      <AutoDocMain></AutoDocMain>
     </DocPage>
   );
 };

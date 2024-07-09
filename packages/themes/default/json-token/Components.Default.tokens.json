@@ -1,0 +1,62 @@
+{
+  "Icon": {
+    "size": {
+      "default": {
+        "$type": "dimension",
+        "$value": "{Icon.size.xs}"
+      },
+      "xs": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.28}"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{Size.32}"
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "{Size.48}"
+      }
+    }
+  },
+  "Button": {
+    "primary": {
+      "height": {
+        "sm": {
+          "$type": "dimension",
+          "$value": "{Size.28}"
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{Size.32}"
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{Size.40}"
+        }
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "#ffffff"
+        }
+      }
+    }
+  }
+}

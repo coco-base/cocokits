@@ -1,3 +1,5 @@
+import { buttonLayoutClassNamesConfig } from './button-class-names';
+import { iconButtonLayoutClassNamesConfig } from './icon-button-class-names';
 import { svgIconLayoutClassNamesConfig } from './icon-class-names';
 
 /**
@@ -17,8 +19,6 @@ import { svgIconLayoutClassNamesConfig } from './icon-class-names';
 
 export const layoutClassNamesConfig = {
   svgIcon: svgIconLayoutClassNamesConfig,
-  button: {
-    prefix: 'cck-button',
-    elements: {},
-  },
+  button: buttonLayoutClassNamesConfig,
+  iconButton: iconButtonLayoutClassNamesConfig,
 };

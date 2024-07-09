@@ -2,7 +2,7 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 
-import { deepMerge } from '@cocokits/common-utils';
+import { deepMerge, recordForEach, recordReduceDeepMerge } from '@cocokits/common-utils';
 
 import {
   buildTsVariableMap,
@@ -26,8 +26,6 @@ import {
   TsVariableMap,
   TsVariableNamesWithModeAndValueMap,
 } from '../token.model';
-import { recordForEach } from '../utils/record-for-each';
-import { recordReduceDeepMerge } from '../utils/reduce-merge';
 
 /**
  * Builds SCSS variables from the compiler result and save them.

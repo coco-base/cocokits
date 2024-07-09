@@ -11,7 +11,7 @@ import {
 import { logEndParsing, logFileHasGenerated, logStartParsing } from './logger';
 import { ScssifyTokenExecutorSchema } from '../schema';
 import { CollectionWithModeName, CompilerResult, TransformedDesignTokenCollectionMap } from '../token.model';
-import { recordForEach } from '../utils/record-for-each';
+import { recordForEach } from '@cocokits/common-utils';
 
 /**
  * Builds CSS variables from the compiler result and save them.

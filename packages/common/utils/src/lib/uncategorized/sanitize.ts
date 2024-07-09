@@ -1,3 +1,5 @@
+import { isNotNullish } from './ensure';
+
 /**
  * Sanitizes the input value by converting specific string representations to their corresponding types.
  *
@@ -12,13 +14,31 @@
  * sanitizeString('hello'); // 'hello'
  * sanitizeString(null); // null
  * sanitizeString(undefined); // undefined
+ * sanitizeString('true'); // true
+ * sanitizeString('false'); // false
+ * sanitizeString('1.2'); // 1.2
+ * sanitizeString('1x'); // '1x'
  */
-export function sanitizeString(value: string | null | undefined): string | null | undefined {
+export function sanitizeValue(
+  value: string | number | boolean | null | undefined
+): string | number | boolean | null | undefined {
   if (value === 'null') {
     return null;
   }
   if (value === 'undefined' || value === '') {
     return undefined;
+  }
+
+  if (value === 'true') {
+    return true;
+  }
+
+  if (value === 'false') {
+    return false;
+  }
+
+  if (!isNaN(Number(value)) && isNotNullish(value)) {
+    return Number(value);
   }
   return value;
 }

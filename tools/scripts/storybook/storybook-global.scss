@@ -100,3 +100,27 @@
   font: var(--cck-storybook-text-md-regular);
   color: var(--cck-storybook-color-font-contrast-2);
 }
+
+.story-variant-table {
+  border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
+  border-radius: var(--cck-storybook-size-6);
+  border-spacing: 0;
+}
+
+.story-variant-table td,
+.story-variant-table th {
+  font: var(--cck-storybook-text-sm-medium);
+  color: var(--cck-storybook-color-font-contrast-4);
+  padding: var(--cck-storybook-size-16) var(--cck-storybook-size-24);
+  text-align: center;
+}
+
+.story-variant-table thead th {
+  border-bottom: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
+}
+
+.story-variant-table tbody td:first-child {
+  font: var(--cck-storybook-text-sm-medium);
+  color: var(--cck-storybook-color-font-contrast-3);
+  border-right: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
+}

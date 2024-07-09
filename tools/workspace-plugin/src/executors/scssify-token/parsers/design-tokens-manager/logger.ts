@@ -1,6 +1,7 @@
+import { recordForEach } from '@cocokits/common-utils';
+
 import { CollectionPathMap } from './design-tokens-manager.model';
 import { Logger } from '../../../../utils/logger';
-import { recordForEach } from '../../utils/record-for-each';
 
 export function logStartParsing(collectionPathMap: CollectionPathMap) {
   Logger.log(`Start parsing following files`);

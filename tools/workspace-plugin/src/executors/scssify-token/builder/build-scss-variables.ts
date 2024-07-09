@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import { recordForEach, recordReduceDeepMerge } from '@cocokits/common-utils';
+
 import { clearDir, sanitizeCSSVariableName, SCSS_VARIABLES_FOLDER_NAME } from './builder.util';
 import { logEndParsing, logFileHasGenerated, logStartParsing } from './logger';
 import { Logger } from '../../../utils/logger';
@@ -15,8 +17,6 @@ import {
   TokenDefinitionMap,
   TransformedDesignTokenCollectionMap,
 } from '../token.model';
-import { recordForEach } from '../utils/record-for-each';
-import { recordReduceDeepMerge } from '../utils/reduce-merge';
 
 /**
  * Builds SCSS variables from the compiler result and save them.

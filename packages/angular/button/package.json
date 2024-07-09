@@ -1,0 +1,18 @@
+{
+  "name": "@cocokits/angular-button",
+  "version": "0.0.1",
+  "private": false,
+  "peerDependencies": {
+    "@angular/common": "^17.3.0",
+    "@angular/core": "^17.3.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@cocokits/angular-icon": "workspace:*",
+    "@cocokits/common-angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/theme-core": "workspace:*"
+  },
+  "devDependencies": {},
+  "sideEffects": false
+}
