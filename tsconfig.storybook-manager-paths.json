@@ -16,7 +16,8 @@
       "@cocokits/theme-default": ["packages/themes/default/src/"],
       "@cocokits/theme-frame-x": ["packages/themes/frame-x/src/"],
       "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/"],
-      "@cocokits/angular-button": ["packages/angular/button/src/"]
+      "@cocokits/angular-button": ["packages/angular/button/src/"],
+      "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/"]
     }
   }
 }
