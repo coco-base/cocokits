@@ -1,11 +1,11 @@
-import type { StoryObj } from '@storybook/angular';
-
+import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
-export const Type: StoryObj<ButtonComponent> = {
+export const Type: AngularStoryObj<ButtonComponent> = {
   name: 'Type',
+  tags: ['uiComponentName:button', 'uiComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -23,11 +23,11 @@ export const Type: StoryObj<ButtonComponent> = {
     },
     template: `
         @for (type of uiComponentConfig?.button.type?.values; track type) {
-        <div class="flex-col flex-center gap-12">
-          <button cck-button [type]="type">button</button>
-          <span class="p-sm-regular-2">{{type}}</span>
-        </div>
-      }
+          <div class="flex-col flex-center gap-12">
+            <button cck-button [type]="type">button</button>
+            <span class="p-sm-regular-2">{{type}}</span>
+          </div>
+        }
     `,
   }),
 };

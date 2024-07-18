@@ -1,11 +1,11 @@
-import type { StoryObj } from '@storybook/angular';
-
+import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
-export const Size: StoryObj<ButtonComponent> = {
+export const Size: AngularStoryObj<ButtonComponent> = {
   name: 'Size',
+  tags: ['uiComponentName:button', 'uiComponentPropName:size'],
   parameters: {
     docs: {
       description: {

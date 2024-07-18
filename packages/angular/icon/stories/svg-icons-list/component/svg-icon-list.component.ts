@@ -3,11 +3,11 @@ import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/cor
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
-import { runInsideNgZone } from 'packages/common/angular-utils/src';
-import { ThemeSvgIcon } from 'packages/common/types/src';
 import { debounceTime, map, Observable, pipe, startWith, switchMap, tap } from 'rxjs';
 
+import { runInsideNgZone } from '@cocokits/common-angular-utils';
 import { fuzzysearch, skipNullish } from '@cocokits/common-utils';
+import { ThemeSvgIcon } from '@cocokits/core';
 import { CckThemeChangedEvent, themeChanged$ } from '@cocokits/storybook-theme-switcher';
 
 import { SvgIconComponent } from '../../../src';

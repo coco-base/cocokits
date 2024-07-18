@@ -3,8 +3,8 @@ import _ from 'lodash';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import { UIComponentsName } from '@cocokits/core';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { UIComponentsName } from '@cocokits/theme-core';
 
 import { DocArgTypes } from './DocArgTypes';
 import { DocCategory } from './DocCategory';
@@ -12,6 +12,7 @@ import { DocMarkdown } from './DocMarkdown';
 import { DocSection } from './DocSection';
 import { DocToc } from './DocToc';
 import {
+  filterStoryByScenario,
   filterStoryByThemeTag,
   getApiDescription,
   getThemeApiDescription,
@@ -64,40 +65,33 @@ export function AutoDocMain() {
         <hr />
 
         {/* STORIES */}
-        {stories.filter(story => filterStoryByThemeTag(story, cckTheme.id)).map((story) => {
+        {stories
+          .filter(story => filterStoryByThemeTag(story, cckTheme.id))
+          .filter(story => filterStoryByScenario(story, cckTheme))
+          .map((story) => {
 
-          const themeTags = story.tags.filter(tag => tag.startsWith('theme'));
-          const canShowStory = themeTags.length === 0
-            ? true
-            : themeTags.includes(`theme:${cckTheme.id}`);
+            return (
+              <DocSection
+                id={story.id}
+                title={story.name}
+                description={story.parameters['docs']?.description?.story}>
+                <Canvas of={story.moduleExport} withToolbar={false} />
+              </DocSection>
+            );
 
-          if(!canShowStory) {
-            return;
-          }
-
-          return (
-            <DocSection
-              id={story.id}
-              title={story.name}
-              description={story.parameters['docs']?.description?.story}>
-              <Canvas of={story.moduleExport} withToolbar={false} />
-            </DocSection>
-          );
-
-        })}
+          })
+        }
 
         <hr />
 
         {/* API */}
-        {
-          apiArgTypeList.length > 0 &&
-          <DocSection id={API_SECTION.id} title={API_SECTION.name} description={getApiDescription(cckTheme.name)}>
-            <DocArgTypes argTypesList={apiArgTypeList} />
-          </DocSection>
-        }
+        <DocSection id={API_SECTION.id} title={API_SECTION.name} description={getApiDescription(cckTheme.name)}>
+          <DocArgTypes argTypesList={apiArgTypeList.props} header='Props' />
+          <DocArgTypes argTypesList={apiArgTypeList.events} header='Events' hideDefault={true} />
+          <DocArgTypes argTypesList={apiArgTypeList.methods} header='methods' hideDefault={true}/>
+        </DocSection>
 
         {
-          apiArgTypeList.length > 0 &&
           themeApiArgTypeList &&
           themeApiArgTypeList.length > 0 &&
           <StyledSpacer />

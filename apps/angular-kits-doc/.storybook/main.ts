@@ -15,7 +15,7 @@ const config = generateAngularStorybookConfig(
         callerPath: __dirname,
       }),
       ...getPackageStories({
-        packageName: '@cocokits/theme-core',
+        packageName: '@cocokits/core',
         callerPath: __dirname,
       }),
     ],

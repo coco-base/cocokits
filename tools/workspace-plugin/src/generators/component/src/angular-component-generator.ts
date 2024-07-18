@@ -30,10 +30,8 @@ export function angularComponentGenerator(tree: Tree, options: ComponentGenerato
   Logger.log(
     `[] Generate '${options.fileName}-class-names.ts' in 'packages/themes/core/src/lib/class-names' directory`
   );
+  Logger.log(`[] export '${options.fileName}-class-names.ts' from 'packages/themes/core/src/index.ts'`);
   Logger.log(`[] Update 'UIComponentsName' from 'packages/themes/core/src/lib/model/ui-component.model.ts'`);
-  Logger.log(
-    `[] Update 'layoutClassNamesConfig' from 'packages/themes/core/src/lib/class-names/layout-class-names-config.ts'`
-  );
   Logger.log(
     `[] Update 'layoutClassNamesConfig' from 'packages/themes/core/src/lib/class-names/layout-class-names-config.ts'`
   );

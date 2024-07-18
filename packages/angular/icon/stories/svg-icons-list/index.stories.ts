@@ -1,8 +1,8 @@
-import { moduleMetadata, type StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/common-types';
+import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
+import { UIComponentConfig } from '@cocokits/core/angular';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
 
 import { SvgIconListComponent } from './component/svg-icon-list.component';
 import descriptionMd from './description.md';
@@ -31,4 +31,4 @@ const meta: AngularStoriesMeta = {
 };
 export default meta;
 
-export const Default: StoryObj<SvgIconListComponent> = {};
+export const Default: AngularStoryObj<SvgIconListComponent> = {};

@@ -1,11 +1,11 @@
-import type { StoryObj } from '@storybook/angular';
-
+import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
-export const Color: StoryObj<ButtonComponent> = {
+export const Color: AngularStoryObj<ButtonComponent> = {
   name: 'Color',
+  tags: ['uiComponentName:button', 'uiComponentPropName:color'],
   parameters: {
     docs: {
       description: {

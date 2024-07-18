@@ -1,0 +1,10 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.cck-checkbox__backdrop {
+  position: absolute;
+  display: none;
+}

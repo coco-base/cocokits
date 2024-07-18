@@ -1,8 +1,8 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/common-types';
+import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
+import { UIComponentConfig } from '@cocokits/core/angular';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
@@ -32,7 +32,7 @@ const meta: AngularStoriesMeta = {
 export default meta;
 
 
-export const Default: StoryObj<<%- className %>Component> = {
+export const Default: AngularStoryObj<<%- className %>Component> = {
   args: {
     // color: 'brand',
   },

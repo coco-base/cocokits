@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncaps
 
 import { fromAttr } from '@cocokits/common-angular-utils';
 // TODO: Generate 'get<%= className %>ClassNames' function
-import { get<%= className %>ClassNames, ThemeUIComponentPropValue } from '@cocokits/theme-core';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
+import { get<%= className %>ClassNames, ThemeUIComponentPropValue } from '@cocokits/core';
+import { UIComponentConfig } from '@cocokits/core/angular';
 
 @Component({
   standalone: true,

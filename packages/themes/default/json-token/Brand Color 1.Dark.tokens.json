@@ -549,6 +549,20 @@
         "$type": "color",
         "$value": "#000000"
       }
+    },
+    "Disabled": {
+      "Font": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.700}"
+      },
+      "Surface": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.950}"
+      },
+      "Border": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.900}"
+      }
     }
   }
 }

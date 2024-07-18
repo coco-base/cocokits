@@ -11,8 +11,8 @@ import {
 
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { fromAttr } from '@cocokits/common-angular-utils';
-import { getIconButtonClassNames, ThemeUIComponentPropValue } from '@cocokits/theme-core';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
+import { getIconButtonClassNames, ThemeUIComponentPropValue } from '@cocokits/core';
+import { UIComponentConfig } from '@cocokits/core/angular';
 
 @Component({
   standalone: true,

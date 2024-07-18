@@ -124,3 +124,7 @@
   color: var(--cck-storybook-color-font-contrast-3);
   border-right: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
 }
+
+.story-variant-table.story-variant-table--no-col-header tbody td:first-child {
+  border-right: none;
+}

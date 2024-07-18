@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+import { cssSelectorRender, layoutClassNamesConfig,UIComponentsName } from '@cocokits/core';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { cssSelectorRender, layoutClassNamesConfig, UIComponentsName } from '@cocokits/theme-core';
 
 import { DocMarkdown } from '../doc-page/DocMarkdown';
 
@@ -17,7 +17,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
 
   // const themeComponentConfig = selectedCck
   // Theme.uiComponentConfig[componentName];
-  const {additional, ...restProp} = selectedCckTheme.uiComponentConfig[componentName];
+  const {additional, component, ...restProp} = selectedCckTheme.uiComponentConfig[componentName];
 
   return (
     <>

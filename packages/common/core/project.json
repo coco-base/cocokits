@@ -1,0 +1,29 @@
+{
+  "name": "@cocokits/core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/common/core/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/common/core",
+        "main": "packages/common/core/src/index.ts",
+        "tsConfig": "packages/common/core/tsconfig.lib.json",
+        "assets": ["packages/common/core/*.md"]
+      }
+    },
+    "figma-to-image": {
+      "executor": "@cocokits/workspace-plugin:figma-to-image",
+      "configurations": {
+        "token-anatomy": {
+          "figmaLinkUrl": "https://www.figma.com/design/zek9W2S3h5qJ5AxZNx19LN/cocokits-Design-System?node-id=58-2481&t=ZEYUulgF2sdjgANS-4",
+          "format": "png",
+          "outputPath": "packages/themes/core/images/token-anatomy.png"
+        }
+      }
+    }
+  }
+}

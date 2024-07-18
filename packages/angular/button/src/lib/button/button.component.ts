@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
 import { fromAttr } from '@cocokits/common-angular-utils';
-import { getButtonClassNames, ThemeUIComponentPropValue } from '@cocokits/theme-core';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
+import { getButtonClassNames, ThemeUIComponentPropValue } from '@cocokits/core';
+import { UIComponentConfig } from '@cocokits/core/angular';
 
 @Component({
   standalone: true,

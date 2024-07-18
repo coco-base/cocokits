@@ -2,8 +2,9 @@ import { NAVIGATE_URL } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { PreparedStory } from '@storybook/types';
 
-import { CckThemeId } from '@cocokits/storybook-theme-switcher';
-import { ThemeUIComponentsConfig, UIComponentsName, UIComponentsPropName } from '@cocokits/theme-core';
+import { reduceDeepMerge } from '@cocokits/common-utils';
+import { ThemeUIComponentsConfig, UIComponentsName, UIComponentsPropName } from '@cocokits/core';
+import { CckThemeChangedEvent, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
 import { DocArgTypesList } from '../components/doc-page/DocArgTypes';
 
@@ -55,23 +56,69 @@ export function useArgTypesApiList(
   componentName: UIComponentsName,
   primaryStory: PreparedStory,
   uiComponentsConfig: ThemeUIComponentsConfig
-): DocArgTypesList[] {
+): {
+  props: DocArgTypesList[];
+  events: DocArgTypesList[];
+  methods: DocArgTypesList[];
+} {
   const uiComponentConfig = uiComponentsConfig[componentName];
+  const order = ['type', 'color', 'size'];
 
-  const argTypesList = Object.values(primaryStory.argTypes)
-    .filter((argType) => !argType.table?.disable ?? true)
-    .map((argType) => {
+  const argTypesList = Object.values(primaryStory.argTypes).filter((argType) => !argType.table?.disable ?? true);
+
+  const result = reduceDeepMerge(
+    argTypesList,
+    (argType) => {
       const themeUIComponentProps = uiComponentConfig[argType.name as UIComponentsPropName];
 
-      return {
-        name: argType.name,
-        description: argType.description,
-        defaultValue: themeUIComponentProps?.default ?? getValueWithoutSignal(argType.table?.defaultValue?.summary),
-        type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],
-      };
-    });
+      if (order.includes(argType.name) && !themeUIComponentProps) {
+        return {};
+      }
 
-  return argTypesList;
+      const keyName =
+        argType.table?.category === 'methods' ? 'methods' : argType.table?.category === 'outputs' ? 'events' : 'props';
+
+      const defaultValue =
+        keyName === 'props'
+          ? themeUIComponentProps?.default ?? getValueWithoutSignal(argType.table?.defaultValue?.summary)
+          : undefined;
+
+      return {
+        [keyName]: {
+          name: argType.name,
+          description: argType.description,
+          defaultValue,
+          type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],
+        },
+      };
+    },
+    {
+      props: [] as DocArgTypesList[],
+      events: [] as DocArgTypesList[],
+      methods: [] as DocArgTypesList[],
+    }
+  );
+
+  result.props = result.props.sort((a, b) => {
+    const aIndex = order.indexOf(a.name);
+    const bIndex = order.indexOf(b.name);
+
+    if (aIndex !== -1 && bIndex !== -1) {
+      return aIndex - bIndex;
+    }
+
+    if (aIndex !== -1) {
+      return -1;
+    }
+
+    if (bIndex !== -1) {
+      return 1;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
+
+  return result;
 }
 
 export function useArgTypesThemeApiList(
@@ -124,4 +171,39 @@ export function filterStoryByThemeTag(story: PreparedStory, selectedThemeId: Cck
   const canShowStory = themeTags.length === 0 ? true : themeTags.includes(`theme:${selectedThemeId}`);
 
   return canShowStory;
+}
+
+export function filterStoryByScenario(story: PreparedStory, theme: CckThemeChangedEvent): boolean {
+  const uiComponentNameTags = story.tags.filter((tag) => tag.startsWith('uiComponentName:'));
+
+  // use story, when no 'uiComponentName' tag has defined.
+  if (uiComponentNameTags.length === 0) {
+    return true;
+  }
+
+  // throw an error when multi 'uiComponentName' exist in story tags
+  if (uiComponentNameTags.length > 1) {
+    throw new Error(`A story can not have multi 'uiComponentName' tag. The current tags is ${story.tags.join(', ')}`);
+  }
+
+  const uiComponentPropNameTags = story.tags.filter((tag) => tag.startsWith('uiComponentPropName:'));
+
+  // use story, when no 'uiComponentPropNameTags' tag has defined.
+  if (uiComponentPropNameTags.length === 0) {
+    return true;
+  }
+
+  // throw an error when multi 'uiComponentName' exist in story tags
+  if (uiComponentPropNameTags.length > 1) {
+    throw new Error(
+      `A story can not have multi 'uiComponentPropNameTags' tag. The current tags is ${story.tags.join(', ')}`
+    );
+  }
+
+  const uiComponentName = uiComponentNameTags[0].replace('uiComponentName:', '') as UIComponentsName;
+  const uiComponentPropName = uiComponentPropNameTags[0].replace('uiComponentPropName:', '') as UIComponentsPropName;
+
+  const themePropConfig = theme.uiComponentConfig[uiComponentName][uiComponentPropName];
+
+  return !!themePropConfig;
 }

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import type { ThemeSvgIcon } from '@cocokits/common-types';
+import type { ThemeSvgIcon } from '@cocokits/core';
 
 export const svgIconMap: Record<string, ThemeSvgIcon> = {
   Placeholder: {

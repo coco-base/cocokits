@@ -9,7 +9,7 @@
     "highlight.js": "^11.9.0",
     "tslib": "^2.3.0",
     "@cocokits/common-utils": "workspace:*",
-    "@cocokits/theme-core": "workspace:*"
+    "@cocokits/core": "workspace:*"
   },
   "sideEffects": false
 }

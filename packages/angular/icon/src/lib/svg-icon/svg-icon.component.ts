@@ -10,9 +10,8 @@ import {
 } from '@angular/core';
 
 import { fromAttr, TrustHtmlPipe } from '@cocokits/common-angular-utils';
-import { ThemeSvgIcon } from '@cocokits/common-types';
-import { getSvgIconClassNames, ThemeUIComponentPropValue } from '@cocokits/theme-core';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
+import { getSvgIconClassNames, ThemeSvgIcon, ThemeUIComponentPropValue } from '@cocokits/core';
+import { UIComponentConfig } from '@cocokits/core/angular';
 
 @Component({
   selector: 'cck-svg-icon',

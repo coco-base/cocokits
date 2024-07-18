@@ -1,5 +1,4 @@
-import type { ThemeSvgIcon } from '@cocokits/common-types';
-import { ThemeUIComponentsConfig } from '@cocokits/theme-core';
+import type { ThemeSvgIcon, ThemeUIComponentsConfig } from '@cocokits/core';
 
 export type CckThemeName = 'Default' | 'FrameX';
 export type CckThemeId = 'default' | 'frame-x';

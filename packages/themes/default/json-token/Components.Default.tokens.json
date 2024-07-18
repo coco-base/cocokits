@@ -58,5 +58,27 @@
         }
       }
     }
+  },
+  "Checkbox": {
+    "Color": {
+      "checkmark": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.50}"
+      }
+    },
+    "Size": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      }
+    }
   }
 }

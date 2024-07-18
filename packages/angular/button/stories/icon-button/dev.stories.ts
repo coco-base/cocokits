@@ -1,8 +1,8 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/common-types';
+import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
+import { UIComponentConfig } from '@cocokits/core/angular';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { UIComponentConfig } from '@cocokits/theme-core/angular';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 

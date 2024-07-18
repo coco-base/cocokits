@@ -1,11 +1,11 @@
-import type { StoryObj } from '@storybook/angular';
-
+import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { SvgIconComponent } from '../../src';
 
-export const Color: StoryObj<SvgIconComponent> = {
+export const Color: AngularStoryObj<SvgIconComponent> = {
   name: 'Color',
+  tags: ['uiComponentName:svgIcon', 'uiComponentPropName:color'],
   parameters: {
     docs: {
       description: {

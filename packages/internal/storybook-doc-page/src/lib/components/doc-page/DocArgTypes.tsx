@@ -1,66 +1,79 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ThemeUIComponentPropValue } from '@cocokits/theme-core';
+import { ThemeUIComponentPropValue } from '@cocokits/core';
 
 import { DocMarkdown } from './DocMarkdown';
 
-export interface DocArgTypesList {
-  name: string;
-  description: string | undefined;
-  defaultValue: ThemeUIComponentPropValue | undefined;
-  type: ThemeUIComponentPropValue[] | (string | undefined)[];
-}
-
-interface DocArgTypesProps {
-  argTypesList: DocArgTypesList[]
-}
-
-export const DocArgTypes = ({argTypesList}: DocArgTypesProps) => {
+export const DocArgTypes = ({argTypesList, hideDefault = false, header}: DocArgTypesProps) => {
 
   if (argTypesList.length === 0) {
     return;
   }
 
   return (
-    <StyledTable>
-      <thead>
-        <tr>
-          <StyledTh>Name</StyledTh>
-          <StyledTh>Type</StyledTh>
-          <StyledTh>Description</StyledTh>
-          <StyledTh>Default</StyledTh>
-        </tr>
-      </thead>
-      <tbody>
-        {argTypesList.map(argType => (
-          <StyledTr key={argType.name}>
+    <>
+      { header && <StyledH4>{header}</StyledH4> }
+      <StyledTable>
+        <thead>
+          <tr>
+            <StyledTh>Name</StyledTh>
+            <StyledTh>Type</StyledTh>
+            <StyledTh>Description</StyledTh>
+            { !hideDefault && <StyledTh>Default</StyledTh> }
+          </tr>
+        </thead>
+        <tbody>
+          {argTypesList.map(argType => (
+            <StyledTr key={argType.name}>
 
-            <StyledTd>{argType.name}</StyledTd>
+              <StyledTd>{argType.name}</StyledTd>
 
-            <StyledTd>
-              <StyledTypeWrapper>
-                {
-                  argType.type.map(type => <code>{type?.toString()}</code>)
-                }
-              </StyledTypeWrapper>
-            </StyledTd>
+              <StyledTd>
+                <StyledTypeWrapper>
+                  {
+                    argType.type.map(type => <code>{type?.toString()}</code>)
+                  }
+                </StyledTypeWrapper>
+              </StyledTd>
 
-            <StyledTd>
-              {argType.description && <DocMarkdown>{argType.description}</DocMarkdown>}
-            </StyledTd>
-            <StyledTd>
-              {argType.defaultValue !== null && <code>{argType.defaultValue?.toString()}</code>}
-            </StyledTd>
-          </StyledTr>
-        ))}
+              <StyledTd>
+                {argType.description && <DocMarkdown>{argType.description}</DocMarkdown>}
+              </StyledTd>
 
-      </tbody>
-    </StyledTable>
-  );
+              {
+                !hideDefault &&
+                <StyledTd>
+                  {argType.defaultValue !== null && <code>{argType.defaultValue?.toString()}</code>}
+                </StyledTd>
+              }
+
+            </StyledTr>
+          ))}
+
+        </tbody>
+      </StyledTable>
+    </>
+);
 };
 
+export interface DocArgTypesList {
+  name: string;
+  description: string | undefined;
+  defaultValue?: ThemeUIComponentPropValue;
+  type: ThemeUIComponentPropValue[] | (string | undefined)[];
+}
+
+interface DocArgTypesProps {
+  argTypesList: DocArgTypesList[],
+  hideDefault?: boolean,
+  header?: string
+}
+
 // region ---------------- STYLES ----------------
+const StyledH4 = styled.h4`
+  margin-top: 24px;
+`;
 const StyledTable = styled.table`
     border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
     border-radius: var(--cck-storybook-size-6);

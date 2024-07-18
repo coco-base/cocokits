@@ -11,7 +11,7 @@
     "@cocokits/angular-icon": "workspace:*",
     "@cocokits/common-angular-utils": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
-    "@cocokits/theme-core": "workspace:*"
+    "@cocokits/core": "workspace:*"
   },
   "devDependencies": {},
   "sideEffects": false

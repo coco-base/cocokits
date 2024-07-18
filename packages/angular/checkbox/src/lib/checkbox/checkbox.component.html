@@ -1,0 +1,27 @@
+<div [class]="classNames().wrapper">
+
+  <div [class]="classNames().inputWrapper">
+    <input
+      #input
+      type="checkbox"
+      [class]="classNames().input"
+      [attr.name]="name()"
+      [attr.value]="value()"
+      [checked]="checked()"
+      [indeterminate]="indeterminate()"
+      [disabled]="disabled()"
+      [id]="id()"
+      (blur)="_onBlur()"
+      (click)="_onInputClick()"
+      (change)="_onInteractionEvent($event)"/>
+
+    <div [class]="classNames().backdrop"></div>
+    <div [class]="classNames().background" [innerHtml]="uiComponentConfig.checkbox.component.checkmarkIcon | trustHtml"></div>
+
+  </div>
+
+  <label [class]="classNames().label" [for]="id()">
+    <ng-content></ng-content>
+  </label>
+
+</div>
