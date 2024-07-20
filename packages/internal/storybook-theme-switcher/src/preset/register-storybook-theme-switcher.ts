@@ -7,6 +7,7 @@ import {
   StorybookThemeChangedEvent,
 } from '../index';
 import { ToolStorybookThemeSwitcher } from '../lib/componenets/storybook-theme-switcher/ToolStorybookThemeSwitcher';
+import { getSelectedStorybookTheme } from '../lib/componenets/theme-switcher.utils';
 import { dark } from '../lib/storybook-theme/storybook-dark-theme';
 import { light } from '../lib/storybook-theme/storybook-light-theme';
 
@@ -30,7 +31,7 @@ function listenToThemeChangeEvent() {
 
 function dispatchDefaultThemEvent() {
   const channel = addons.getChannel();
-  const defaultStorybookThemeName = 'dark';
+  const defaultStorybookThemeName = getSelectedStorybookTheme() ?? 'dark';
   channel.emit(STORYBOOK_THEME_CHANGED_EVENT_NAME, { themeName: defaultStorybookThemeName });
 }
 
