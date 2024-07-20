@@ -9,7 +9,7 @@ export type ThemeUIComponentProps = Partial<Record<UIComponentsPropName, ThemeUI
 export type ThemeUIComponentConfig = Record<UIComponentsPropName, ThemeUIComponentPropsConfig | null> & {
   additional?: Record<string, ThemeUIComponentPropsConfig>;
   component?: {
-    checkmarkIcon?: string;
+    checkboxCheckmark?: string;
   };
 };
 

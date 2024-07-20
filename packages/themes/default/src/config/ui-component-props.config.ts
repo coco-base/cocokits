@@ -28,7 +28,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       description: '',
     },
     component: {
-      checkmarkIcon: `
+      checkboxCheckmark: `
         <svg class="cck-checkbox__checkmark" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="cck-checkbox__checkmark-path"></path>
         </svg>
