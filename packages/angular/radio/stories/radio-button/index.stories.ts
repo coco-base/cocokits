@@ -11,7 +11,7 @@ export { Default } from './default.stories';
 
 const meta: AngularStoriesMeta = {
   component: RadioButtonComponent,
-  title: 'RadioButton',
+  title: 'UI Components/RadioButton',
   tags: ['autodocs'],
   decorators: [
     componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),

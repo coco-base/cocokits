@@ -10,6 +10,7 @@ export type ThemeUIComponentConfig = Record<UIComponentsPropName, ThemeUICompone
   additional?: Record<string, ThemeUIComponentPropsConfig>;
   component?: {
     checkboxCheckmark?: string;
+    radioCheckmark?: string;
   };
 };
 

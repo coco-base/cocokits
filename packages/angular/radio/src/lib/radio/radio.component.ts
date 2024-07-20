@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { fromAttr } from '@cocokits/common-angular-utils';
+import { fromAttr, TrustHtmlPipe } from '@cocokits/common-angular-utils';
 import { getRadioButtonClassNames, getRadioGroupClassNames, ThemeUIComponentPropValue } from '@cocokits/core';
 import { UIComponentConfig } from '@cocokits/core/angular';
 
@@ -108,7 +108,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
   public name = input<string>(`cck-radio-group-${nextUniqueId++}`);
 
   /** The currently selected radio button */
-  public selected = input<T>();
+  public selected = model<T>();
 
   /** Whether the radio group is disabled */
   public disabled = input<boolean>();
@@ -145,6 +145,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
 
   public _setSelectedRadio(radio: RadioButtonComponent<T>) {
     this.selectedRadio.set(radio);
+    this.selected.set(radio.value());
   }
 
   /**
@@ -197,7 +198,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
 
 @Component({
   standalone: true,
-  imports: [],
+  imports: [TrustHtmlPipe],
   selector: 'cck-radio-button',
   templateUrl: './radio-button.component.html',
   styleUrls: ['./radio-button.component.scss'],
@@ -208,7 +209,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
   },
 })
 export class RadioButtonComponent<T = unknown> {
-  private uiComponentConfig = inject(UIComponentConfig);
+  protected uiComponentConfig = inject(UIComponentConfig);
 
   /**
    * The type of radio-button.
@@ -310,13 +311,13 @@ export class RadioButtonComponent<T = unknown> {
   protected hostClassNames = computed(() => {
     const classNames = [...this.classNames().host];
 
-    if (this.checked()) {
+    if (this.effectedChecked()) {
       classNames.push(...this.classNames().checked);
     } else {
       classNames.push(...this.classNames().unchecked);
     }
 
-    if (this.disabled()) {
+    if (this.effectedDisabled()) {
       classNames.push(...this.classNames().disabled);
     }
 

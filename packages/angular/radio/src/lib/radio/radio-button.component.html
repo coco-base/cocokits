@@ -12,8 +12,7 @@
       (change)="_onInputChange($event)">
 
     <div [class]="classNames().backdrop"></div>
-    <div [class]="classNames().background">
-    </div>
+    <div [class]="classNames().background" [innerHtml]="uiComponentConfig.radioButton.component.radioCheckmark | trustHtml"></div>
 
   </div>
   <label [class]="classNames().label" [for]="id()">

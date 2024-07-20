@@ -3,13 +3,43 @@ import { ThemeUIComponentsConfig } from '@cocokits/core';
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
   radioGroup: {
     type: null,
-    color: null,
-    size: null,
+    color: {
+      name: 'color',
+      values: ['brand', 'info', 'warning', 'error'],
+      require: false,
+      default: 'brand',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
   },
   radioButton: {
     type: null,
-    color: null,
-    size: null,
+    color: {
+      name: 'color',
+      values: ['brand', 'info', 'warning', 'error'],
+      require: false,
+      default: 'brand',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+    component: {
+      radioCheckmark: `
+        <div class="cck-checkbox__background--outer-circle"></div>
+        <div class="cck-checkbox__background--inner-circle"></div>
+      `,
+    },
   },
   checkbox: {
     type: null,
