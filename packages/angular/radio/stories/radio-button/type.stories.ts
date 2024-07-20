@@ -24,19 +24,15 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
     template: `
       <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (type of uiComponentConfig?.checkbox.type?.values; track type) {
+          @for (type of uiComponentConfig?.radioButton.type?.values; track type) {
             <th>{{type}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (type of uiComponentConfig?.checkbox.type?.values; track type) {
+            @for (type of uiComponentConfig?.radioButton.type?.values; track type) {
               <td>
-                <cck-radio-group [type]="type" [selected]="1">
-                  <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                  <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                  <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-                </cck-radio-group>
+                <cck-radio-button [type]="type" [value]="1">Radio Button</cck-radio-button>
               </td>
             }
           </tr>

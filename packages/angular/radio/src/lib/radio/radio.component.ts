@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  contentChildren,
   effect,
   ElementRef,
   forwardRef,
@@ -129,8 +128,6 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
     }
   });
 
-  private radios = contentChildren<RadioButtonComponent>(forwardRef(() => RadioButtonComponent));
-
   protected classNames = computed(() =>
     getRadioGroupClassNames(
       {
@@ -143,6 +140,10 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
     )
   );
 
+  /**
+   * Will be called by radioButton component to set the selected.
+   * @internal
+   */
   public _setSelectedRadio(radio: RadioButtonComponent<T>) {
     this.selectedRadio.set(radio);
     this.selected.set(radio.value());
@@ -156,14 +157,17 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
     // Do nothing
   };
 
-  /** The method to be called in order to update ngModel */
+  /**
+   * The method to be called in order to update ngModel
+   * @internal
+   */
   _controlValueAccessorChangeFn: (value: any) => void = () => {
     // Do nothing
   };
 
   /**
    * Sets the model value. Implemented as part of ControlValueAccessor.
-   * @param value
+   * @internal
    */
   writeValue(_value: any) {
     // Do nothing
@@ -173,6 +177,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
    * Registers a callback to be triggered when the model value changes.
    * Implemented as part of ControlValueAccessor.
    * @param fn Callback to be registered.
+   * @internal
    */
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
@@ -182,6 +187,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
    * Registers a callback to be triggered when the control is touched.
    * Implemented as part of ControlValueAccessor.
    * @param fn Callback to be registered.
+   * @internal
    */
   registerOnTouched(fn: any) {
     this.onTouched = fn;
@@ -190,6 +196,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
   /**
    * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
    * @param isDisabled Whether the control should be disabled.
+   * @internal
    */
   setDisabledState(_isDisabled: boolean) {
     // Do nothing
@@ -218,8 +225,6 @@ export class RadioButtonComponent<T = unknown> {
    * This allows for more flexible styling options if the desired size is not available in the selected theme.
    */
   public type = input<string>();
-
-  private effectedType = computed(() => this.type() ?? this.radioGroup?.type());
 
   /**
    * The size of radio-button.
@@ -301,7 +306,7 @@ export class RadioButtonComponent<T = unknown> {
   protected classNames = computed(() =>
     getRadioButtonClassNames(
       {
-        type: this.effectedType(),
+        type: this.type(),
         size: this.effectedSize(),
         color: this.effectedColor(),
         additional: this.effectedAdditional(),
@@ -325,11 +330,6 @@ export class RadioButtonComponent<T = unknown> {
 
     return classNames;
   });
-
-  /** Focuses the radio button. */
-  public focus(options?: FocusOptions): void {
-    this.inputElement()?.nativeElement.focus(options);
-  }
 
   /** Triggered when the radio button receives an interaction from the user. */
   protected _onInputChange(event: Event) {

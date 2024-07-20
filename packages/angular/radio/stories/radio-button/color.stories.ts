@@ -24,19 +24,15 @@ export const Color: AngularStoryObj<RadioButtonComponent> = {
     template: `
       <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (color of uiComponentConfig?.checkbox.color?.values; track color) {
+          @for (color of uiComponentConfig?.radioButton.color?.values; track color) {
             <th>{{color}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (color of uiComponentConfig?.checkbox.color?.values; track color) {
+            @for (color of uiComponentConfig?.radioButton.color?.values; track color) {
               <td>
-                <cck-radio-group [color]="color" [selected]="1">
-                  <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                  <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                  <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-                </cck-radio-group>
+                <cck-radio-button [color]="color" [checked]="true" [value]="1">Radio Button</cck-radio-button>
               </td>
             }
           </tr>

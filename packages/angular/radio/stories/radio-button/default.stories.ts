@@ -29,9 +29,9 @@ export const Default: AngularStoryObj<RadioButtonComponent> = {
         </thead>
         <tbody>
           <tr>
-            <td><cck-radio-button [value]="1">Radio Button 1</cck-radio-button></td>
-            <td><cck-radio-button [disabled]="true" [value]="1">Radio Button 1</cck-radio-button></td>
-            <td><cck-radio-button [disabled]="true" [checked]="true" [value]="1">Radio Button 1</cck-radio-button></td>
+            <td><cck-radio-button [value]="1">Radio Button</cck-radio-button></td>
+            <td><cck-radio-button [disabled]="true" [value]="1">Radio Button</cck-radio-button></td>
+            <td><cck-radio-button [disabled]="true" [checked]="true" [value]="1">Radio Button</cck-radio-button></td>
           </tr>
         </tbody>
       </table>
