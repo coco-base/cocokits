@@ -1,4 +1,4 @@
-export type UIComponentsName = 'checkbox' | 'button' | 'iconButton' | 'svgIcon';
+export type UIComponentsName = 'radioButton' | 'radioGroup' | 'checkbox' | 'button' | 'iconButton' | 'svgIcon';
 
 export type UIComponentsPropName = 'type' | 'color' | 'size';
 

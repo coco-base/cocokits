@@ -2,6 +2,8 @@ import { buttonLayoutClassNamesConfig } from './button-class-names';
 import { checkboxLayoutClassNamesConfig } from './checkbox-class-names';
 import { iconButtonLayoutClassNamesConfig } from './icon-button-class-names';
 import { svgIconLayoutClassNamesConfig } from './icon-class-names';
+import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
+import { radioButtonLayoutClassNamesConfig } from './radio-button-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -23,4 +25,6 @@ export const layoutClassNamesConfig = {
   button: buttonLayoutClassNamesConfig,
   iconButton: iconButtonLayoutClassNamesConfig,
   checkbox: checkboxLayoutClassNamesConfig,
+  radioGroup: radioGroupLayoutClassNamesConfig,
+  radioButton: radioButtonLayoutClassNamesConfig,
 };

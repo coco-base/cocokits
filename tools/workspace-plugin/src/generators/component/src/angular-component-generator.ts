@@ -27,24 +27,24 @@ export function angularComponentGenerator(tree: Tree, options: ComponentGenerato
 
   Logger.note(`Manually Check list`);
   Logger.note(`Theme Core`);
+  Logger.log(`1- Update 'UIComponentsName' from 'packages/common/core/src/lib/model/ui-component.model.ts'`);
   Logger.log(
-    `[] Generate '${options.fileName}-class-names.ts' in 'packages/themes/core/src/lib/class-names' directory`
+    `2- Generate '${options.fileName}-class-names.ts' in 'packages/common/core/src/lib/class-names' directory`
   );
-  Logger.log(`[] export '${options.fileName}-class-names.ts' from 'packages/themes/core/src/index.ts'`);
-  Logger.log(`[] Update 'UIComponentsName' from 'packages/themes/core/src/lib/model/ui-component.model.ts'`);
+  Logger.log(`3- export '${options.fileName}-class-names.ts' from 'packages/common/core/src/index.ts'`);
   Logger.log(
-    `[] Update 'layoutClassNamesConfig' from 'packages/themes/core/src/lib/class-names/layout-class-names-config.ts'`
+    `4- Update 'layoutClassNamesConfig' from 'packages/common/core/src/lib/class-names/layout-class-names-config.ts'`
   );
   Logger.note(`Theme Default`);
   Logger.log(
-    `[] Update theme 'cocokitsUIComponentConfig' from 'packages/themes/default/src/config/ui-component-props.config.ts'`
+    `1- Update theme 'cocokitsUIComponentConfig' from 'packages/themes/default/src/config/ui-component-props.config.ts'`
   );
-  Logger.log(`[] generate '${options.fileName}.scss' in 'packages/themes/default/src/styles/components' directory`);
-  Logger.log(`[] Update export list from 'packages/themes/default/src/styles.scss'`);
+  Logger.log(`2- generate '${options.fileName}.scss' in 'packages/themes/default/src/styles/components' directory`);
+  Logger.log(`3- Update export list from 'packages/themes/default/src/styles.scss'`);
   Logger.note(`Theme FrameX`);
   Logger.log(
-    `[] Update theme 'frameXUIComponentConfig' from 'packages/themes/frame-x/src/config/ui-component-props.config.ts'`
+    `1- Update theme 'frameXUIComponentConfig' from 'packages/themes/frame-x/src/config/ui-component-props.config.ts'`
   );
-  Logger.log(`[] generate '${options.fileName}.scss' in 'packages/themes/frame-x/src/styles/components' directory`);
-  Logger.log(`[] Update export list from 'packages/themes/frame-x/src/styles.scss'`);
+  Logger.log(`2- generate '${options.fileName}.scss' in 'packages/themes/frame-x/src/styles/components' directory`);
+  Logger.log(`3- Update export list from 'packages/themes/frame-x/src/styles.scss'`);
 }

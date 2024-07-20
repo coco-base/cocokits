@@ -1,6 +1,16 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
+  radioGroup: {
+    type: null,
+    color: null,
+    size: null,
+  },
+  radioButton: {
+    type: null,
+    color: null,
+    size: null,
+  },
   checkbox: {
     type: null,
     color: null,
