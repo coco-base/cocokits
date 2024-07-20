@@ -70,26 +70,26 @@
   border-color: $color-disabled-border;
 }
 
-.cck-checkbox--indeterminate.cck-checkbox__color--brand .cck-checkbox__background,
-.cck-checkbox--checked.cck-checkbox__color--brand .cck-checkbox__background {
+.cck-checkbox--indeterminate.cck-checkbox__color--brand:not(.cck-checkbox--disabled) .cck-checkbox__background,
+.cck-checkbox--checked.cck-checkbox__color--brand:not(.cck-checkbox--disabled) .cck-checkbox__background {
   background-color: $color-brand-default;
   border-color: $color-brand-default;
 }
 
-.cck-checkbox--indeterminate.cck-checkbox__color--info .cck-checkbox__background,
-.cck-checkbox--checked.cck-checkbox__color--info .cck-checkbox__background {
+.cck-checkbox--indeterminate.cck-checkbox__color--info:not(.cck-checkbox--disabled) .cck-checkbox__background,
+.cck-checkbox--checked.cck-checkbox__color--info:not(.cck-checkbox--disabled) .cck-checkbox__background {
   background-color: $color-info-default;
   border-color: $color-info-default;
 }
 
-.cck-checkbox--indeterminate.cck-checkbox__color--warning .cck-checkbox__background,
-.cck-checkbox--checked.cck-checkbox__color--warning .cck-checkbox__background {
+.cck-checkbox--indeterminate.cck-checkbox__color--warning:not(.cck-checkbox--disabled) .cck-checkbox__background,
+.cck-checkbox--checked.cck-checkbox__color--warning:not(.cck-checkbox--disabled) .cck-checkbox__background {
   background-color: $color-warning-default;
   border-color: $color-warning-default;
 }
 
-.cck-checkbox--indeterminate.cck-checkbox__color--error .cck-checkbox__background,
-.cck-checkbox--checked.cck-checkbox__color--error .cck-checkbox__background {
+.cck-checkbox--indeterminate.cck-checkbox__color--error:not(.cck-checkbox--disabled) .cck-checkbox__background,
+.cck-checkbox--checked.cck-checkbox__color--error:not(.cck-checkbox--disabled) .cck-checkbox__background {
   background-color: $color-error-default;
   border-color: $color-error-default;
 }
