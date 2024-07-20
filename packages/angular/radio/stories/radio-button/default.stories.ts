@@ -21,7 +21,20 @@ export const Default: AngularStoryObj<RadioButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <cck-radio-button></cck-radio-button>
+      <table class="story-variant-table story-variant-table--no-col-header">
+        <thead>
+          <th>Default</th>
+          <th>Disabled</th>
+          <th>Disabled - Checked</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><cck-radio-button [value]="1">Radio Button 1</cck-radio-button></td>
+            <td><cck-radio-button [disabled]="true" [value]="1">Radio Button 1</cck-radio-button></td>
+            <td><cck-radio-button [disabled]="true" [checked]="true" [value]="1">Radio Button 1</cck-radio-button></td>
+          </tr>
+        </tbody>
+      </table>
     `,
   }),
 };

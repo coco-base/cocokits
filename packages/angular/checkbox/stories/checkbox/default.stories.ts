@@ -25,7 +25,7 @@ export const Default: AngularStoryObj<CheckboxComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
+      <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
           <th>Default</th>
           <th>Disabled</th>

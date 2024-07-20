@@ -5,9 +5,12 @@ import { UIComponentConfig } from '@cocokits/core/angular';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
-import { RadioButtonComponent } from '../../src/lib/radio/radio.component';
+import { RadioButtonComponent, RadioGroupComponent } from '../../src/lib/radio/radio.component';
 
 export { Default } from './default.stories';
+export { Type } from './type.stories';
+export { Size } from './size.stories';
+export { Color } from './color.stories';
 
 const meta: AngularStoriesMeta = {
   component: RadioButtonComponent,
@@ -16,6 +19,7 @@ const meta: AngularStoriesMeta = {
   decorators: [
     componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
+      imports: [RadioGroupComponent],
       providers: [
         {
           provide: UIComponentConfig,

@@ -1,18 +1,7 @@
 @use '../../token/scss-variables' as *;
 
-// .cck-radio-group
-// .cck-radio-group--disabled
-// .cck-radio-group__color--brand
-// .cck-radio-group__color--info
-// .cck-radio-group__color--warning
-// .cck-radio-group__color--error
-// .cck-radio-group__size--sm
-// .cck-radio-group__size--md
-// .cck-radio-group__size--lg
-
 .cck-radio-group {
   display: flex;
   flex-direction: column;
-  margin: 14px 0; // TODO: Token
   align-items: flex-start;
 }
