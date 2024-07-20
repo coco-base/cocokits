@@ -80,5 +80,35 @@
         "$value": "{Size.24}"
       }
     }
+  },
+  "Radio": {
+    "Padding-Input": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      }
+    },
+    "Size": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      }
+    }
   }
 }
