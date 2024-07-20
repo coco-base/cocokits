@@ -1,1 +1,22 @@
-<p>cck-radio-button works !!</p>
+<div [class]="classNames().wrapper">
+  <div [class]="classNames().inputWrapper">
+    <input
+      #input
+      [class]="classNames().input"
+      type="radio"
+      [id]="id()"
+      [checked]="effectedChecked()"
+      [disabled]="effectedDisabled()"
+      [attr.name]="effectedName()"
+      [attr.value]="value()"
+      (change)="_onInputChange($event)">
+
+    <div [class]="classNames().backdrop"></div>
+    <div [class]="classNames().background">
+    </div>
+
+  </div>
+  <label [class]="classNames().label" [for]="id()">
+    <ng-content></ng-content>
+  </label>
+</div>
