@@ -10,7 +10,8 @@
     "@cocokits/angular-icon": "workspace:*",
     "@cocokits/angular-button": "workspace:*",
     "@cocokits/angular-highlight": "workspace:*",
-    "@cocokits/angular-checkbox": "workspace:*"
+    "@cocokits/angular-checkbox": "workspace:*",
+    "@cocokits/angular-radio": "workspace:*"
   },
   "devDependencies": {},
   "sideEffects": false
