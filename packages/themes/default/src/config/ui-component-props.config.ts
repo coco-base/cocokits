@@ -2,7 +2,13 @@ import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
   radioGroup: {
-    type: null,
+    type: {
+      name: 'type',
+      values: ['column', 'row'],
+      require: false,
+      default: 'column',
+      description: '',
+    },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
