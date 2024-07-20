@@ -273,7 +273,9 @@ export class RadioButtonComponent<T = unknown> {
   /** Whether this radio button is checked. */
   public checked = model<boolean>();
 
-  protected effectedChecked = computed(() => this.checked() || this.radioGroup?.selected() === this.value());
+  protected effectedChecked = computed(() =>
+    this.radioGroup ? this.radioGroup.selected() === this.value() : this.checked()
+  );
 
   /** The value of this radio button. */
   public value = input.required<T>();
@@ -338,5 +340,6 @@ export class RadioButtonComponent<T = unknown> {
 
     this.change.emit({ source: this, value: this.value() });
     this.radioGroup?._setSelectedRadio(this);
+    this.checked.set(true);
   }
 }
