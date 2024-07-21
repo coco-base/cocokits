@@ -110,7 +110,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
   public selected = model<T>();
 
   /** Whether the radio group is disabled */
-  public disabled = input<boolean>();
+  public disabled = model<boolean>();
 
   /**
    * Event emitted when the group value changes.
@@ -147,6 +147,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
   public _setSelectedRadio(radio: RadioButtonComponent<T>) {
     this.selectedRadio.set(radio);
     this.selected.set(radio.value());
+    this._controlValueAccessorChangeFn(radio.value());
   }
 
   /**
@@ -169,8 +170,8 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
    * Sets the model value. Implemented as part of ControlValueAccessor.
    * @internal
    */
-  writeValue(_value: any) {
-    // Do nothing
+  writeValue(value: T) {
+    this.selected.set(value);
   }
 
   /**
@@ -198,8 +199,8 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
    * @param isDisabled Whether the control should be disabled.
    * @internal
    */
-  setDisabledState(_isDisabled: boolean) {
-    // Do nothing
+  setDisabledState(isDisabled: boolean) {
+    this.disabled.set(isDisabled);
   }
 }
 

@@ -1,3 +1,5 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta } from '@cocokits/core';
@@ -11,6 +13,8 @@ export { Default } from './default.stories';
 export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
+export { NgModel } from './ng-model.stories';
+export { ReactiveForm } from './reactive-form.stories';
 
 const meta: AngularStoriesMeta = {
   component: RadioGroupComponent,
@@ -19,7 +23,7 @@ const meta: AngularStoriesMeta = {
   decorators: [
     componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
-      imports: [RadioButtonComponent],
+      imports: [RadioButtonComponent, FormsModule, ReactiveFormsModule],
       providers: [
         {
           provide: UIComponentConfig,
