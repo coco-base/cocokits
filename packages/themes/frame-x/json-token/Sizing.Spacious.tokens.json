@@ -1,172 +1,172 @@
 {
-  "Spacing": {
-    "space-0": {
+  "spacing": {
+    "0": {
       "$type": "dimension",
       "$value": "0px"
     },
-    "space-1": {
+    "1": {
       "$type": "dimension",
       "$value": "2px"
     },
-    "space-2": {
+    "2": {
       "$type": "dimension",
       "$value": "4px"
     },
-    "space-3": {
+    "3": {
       "$type": "dimension",
       "$value": "8px"
     },
-    "space-4": {
+    "4": {
       "$type": "dimension",
       "$value": "10px"
     },
-    "space-5": {
+    "5": {
       "$type": "dimension",
       "$value": "12px"
     },
-    "space-6": {
+    "6": {
       "$type": "dimension",
       "$value": "14px"
     },
-    "space-7": {
+    "7": {
       "$type": "dimension",
       "$value": "16px"
     },
-    "space-8": {
+    "8": {
       "$type": "dimension",
       "$value": "20px"
     },
-    "space-9": {
+    "9": {
       "$type": "dimension",
       "$value": "24px"
     },
-    "space-10": {
+    "10": {
       "$type": "dimension",
       "$value": "28px"
     },
-    "space-11": {
+    "11": {
       "$type": "dimension",
       "$value": "32px"
     },
-    "space-12": {
+    "12": {
       "$type": "dimension",
       "$value": "36px"
     },
-    "space-13": {
+    "13": {
       "$type": "dimension",
       "$value": "40px"
     },
-    "space-14": {
+    "14": {
       "$type": "dimension",
       "$value": "44px"
     },
-    "space-15": {
+    "15": {
       "$type": "dimension",
       "$value": "48px"
     },
-    "space-16": {
+    "16": {
       "$type": "dimension",
       "$value": "56px"
     },
-    "space-17": {
+    "17": {
       "$type": "dimension",
       "$value": "64px"
     },
-    "space-18": {
+    "18": {
       "$type": "dimension",
       "$value": "76px"
     },
-    "space-19": {
+    "19": {
       "$type": "dimension",
       "$value": "88px"
     },
-    "space-20": {
+    "20": {
       "$type": "dimension",
       "$value": "96px"
     },
-    "space-21": {
+    "21": {
       "$type": "dimension",
       "$value": "112px"
     },
-    "space-22": {
+    "22": {
       "$type": "dimension",
       "$value": "120px"
     },
-    "space-23": {
+    "23": {
       "$type": "dimension",
       "$value": "128px"
     },
-    "space-24": {
+    "24": {
       "$type": "dimension",
       "$value": "144px"
     },
-    "space-25": {
+    "25": {
       "$type": "dimension",
       "$value": "160px"
     },
-    "space-26": {
+    "26": {
       "$type": "dimension",
       "$value": "192px"
     },
-    "space-27": {
+    "27": {
       "$type": "dimension",
       "$value": "208px"
     },
-    "space-28": {
+    "28": {
       "$type": "dimension",
       "$value": "224px"
     },
-    "space-29": {
+    "29": {
       "$type": "dimension",
       "$value": "256px"
     },
-    "space-30": {
+    "30": {
       "$type": "dimension",
       "$value": "288px"
     },
-    "space-31": {
+    "31": {
       "$type": "dimension",
       "$value": "320px"
     },
-    "space-32": {
+    "32": {
       "$type": "dimension",
       "$value": "384px"
     },
-    "space-33": {
+    "33": {
       "$type": "dimension",
       "$value": "420px"
     }
   },
-  "Icon": {
-    "icon-xs": {
+  "icon": {
+    "xs": {
       "$type": "dimension",
       "$value": "14px"
     },
-    "icon-sm": {
+    "sm": {
       "$type": "dimension",
       "$value": "18px"
     },
-    "icon-md": {
+    "md": {
       "$type": "dimension",
       "$value": "22px"
     },
-    "icon-lg": {
+    "lg": {
       "$type": "dimension",
       "$value": "26px"
     },
-    "icon-xl": {
+    "xl": {
       "$type": "dimension",
       "$value": "30px"
     },
-    "icon-2xl": {
+    "2xl": {
       "$type": "dimension",
       "$value": "34px"
     },
-    "icon-3xl": {
+    "3xl": {
       "$type": "dimension",
       "$value": "42px"
     },
-    "icon-4xl": {
+    "4xl": {
       "$type": "dimension",
       "$value": "46px"
     }

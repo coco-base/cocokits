@@ -1,4 +1,5 @@
 import type { ThemeSvgIcon, ThemeUIComponentsConfig } from '@cocokits/core';
+import { TokenDictionary } from '@cocokits/workspace-plugin';
 
 export type CckThemeName = 'Default' | 'FrameX';
 export type CckThemeId = 'default' | 'frame-x';
@@ -9,7 +10,7 @@ export interface CckTheme {
   description: string;
   iconPathLight: string;
   iconPathDark: string;
-  collections: Record<string, string[]>;
+  tokenDictionary: TokenDictionary;
   defaultSelectedModes: Record<string, string>;
   uiComponentConfig: ThemeUIComponentsConfig;
   svgIconMap: Record<string, ThemeSvgIcon>;

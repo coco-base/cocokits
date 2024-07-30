@@ -1,0 +1,104 @@
+{
+  "fill$": {
+    "50": {
+      "$type": "color",
+      "$value": "{colors.gray.50}"
+    },
+    "100": {
+      "$type": "color",
+      "$value": "{colors.gray.100}"
+    },
+    "200": {
+      "$type": "color",
+      "$value": "{colors.gray.200}"
+    },
+    "300": {
+      "$type": "color",
+      "$value": "{colors.gray.300}"
+    },
+    "400": {
+      "$type": "color",
+      "$value": "{colors.gray.400}"
+    },
+    "600": {
+      "$type": "color",
+      "$value": "{colors.gray.600}"
+    },
+    "00": {
+      "$type": "color",
+      "$value": "{colors.alpha.light.900}"
+    }
+  },
+  "state$": {
+    "base": {
+      "background": {
+        "$type": "color",
+        "$value": "{colors.gray.50}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{colors.gray.200}"
+      },
+      "disabled": {
+        "$type": "color",
+        "$value": "{colors.alpha.dark.200}"
+      }
+    },
+    "primary": {
+      "active": {
+        "$type": "color",
+        "$value": "{colors.blue.600}"
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{colors.blue.500}"
+      },
+      "selected": {
+        "$type": "color",
+        "$value": "{colors.blue.300}"
+      }
+    },
+    "destructive": {
+      "active": {
+        "$type": "color",
+        "$value": "{colors.red.600}"
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{colors.red.400}"
+      },
+      "selected": {
+        "$type": "color",
+        "$value": "{colors.red.200}"
+      }
+    },
+    "highlight": {
+      "active": {
+        "$type": "color",
+        "$value": "{colors.orange.600}"
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{colors.orange.400}"
+      },
+      "selected": {
+        "$type": "color",
+        "$value": "{colors.orange.200}"
+      }
+    },
+    "success": {
+      "active": {
+        "$type": "color",
+        "$value": "{colors.green.600}"
+      },
+      "hover": {
+        "$type": "color",
+        "$value": "{colors.green.400}"
+      },
+      "selected": {
+        "$type": "color",
+        "$value": "{colors.green.300}"
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{font-size.base}",
         "count": 2,
         "offset": "0px"
       }
@@ -21,7 +21,7 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{font-size.base}",
         "count": 18,
         "offset": "0px"
       }
@@ -35,7 +35,7 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{font-size.lg}",
         "count": 4,
         "offset": "0px"
       }
@@ -49,7 +49,7 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 8,
         "offset": "0px"
       }
@@ -63,7 +63,7 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 12,
         "offset": "0px"
       }
@@ -77,9 +77,9 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{spacing.8}",
         "count": 2,
-        "offset": "{Spacing.space-8}"
+        "offset": "{spacing.8}"
       }
     ]
   },
@@ -91,9 +91,9 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{spacing.8}",
         "count": 4,
-        "offset": "{Spacing.space-8}"
+        "offset": "{spacing.8}"
       }
     ]
   },
@@ -105,9 +105,9 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 8,
-        "offset": "{Spacing.space-12}"
+        "offset": "{spacing.12}"
       }
     ]
   },
@@ -119,9 +119,9 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 12,
-        "offset": "{Spacing.space-18}"
+        "offset": "{spacing.18}"
       }
     ]
   },
@@ -133,9 +133,9 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 18,
-        "offset": "{Spacing.space-23}"
+        "offset": "{spacing.23}"
       }
     ]
   },
@@ -147,18 +147,18 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{spacing.8}",
         "count": 2,
-        "offset": "{Spacing.space-8}"
+        "offset": "{spacing.8}"
       },
       {
         "pattern": "rows",
         "visible": true,
         "alignment": "min",
         "color": "#fecdd340",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{spacing.8}",
         "count": null,
-        "offset": "{Spacing.space-8}"
+        "offset": "{spacing.8}"
       }
     ]
   },
@@ -170,18 +170,18 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{spacing.8}",
         "count": 4,
-        "offset": "{Spacing.space-8}"
+        "offset": "{spacing.8}"
       },
       {
         "pattern": "rows",
         "visible": true,
         "alignment": "min",
         "color": "#fecdd340",
-        "gutterSize": "{Spacing.space-8}",
+        "gutterSize": "{spacing.8}",
         "count": null,
-        "offset": "{Spacing.space-8}"
+        "offset": "{spacing.8}"
       }
     ]
   },
@@ -193,18 +193,18 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 8,
-        "offset": "{Spacing.space-10}"
+        "offset": "{spacing.10}"
       },
       {
         "pattern": "rows",
         "visible": true,
         "alignment": "min",
         "color": "#fecdd340",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": null,
-        "offset": "{Spacing.space-10}"
+        "offset": "{spacing.10}"
       }
     ]
   },
@@ -216,18 +216,18 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 12,
-        "offset": "{Spacing.space-18}"
+        "offset": "{spacing.18}"
       },
       {
         "pattern": "rows",
         "visible": true,
         "alignment": "min",
         "color": "#fecdd340",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": null,
-        "offset": "{Spacing.space-10}"
+        "offset": "{spacing.10}"
       }
     ]
   },
@@ -239,16 +239,16 @@
         "visible": true,
         "alignment": "stretch",
         "color": "#fecdd380",
-        "gutterSize": "{Spacing.space-10}",
+        "gutterSize": "{spacing.10}",
         "count": 18,
-        "offset": "{Spacing.space-23}"
+        "offset": "{spacing.23}"
       },
       {
         "pattern": "rows",
         "visible": true,
         "alignment": "stretch",
-        "color": "#ff00001a",
-        "gutterSize": "{Spacing.space-10}",
+        "color": "#fecdd340",
+        "gutterSize": "{spacing.10}",
         "count": 18,
         "offset": "0px"
       }

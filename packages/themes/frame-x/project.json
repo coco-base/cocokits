@@ -15,23 +15,16 @@
         "min": ["packages/themes/frame-x/src/styles.scss", "packages/themes/frame-x/src/token.scss"]
       }
     },
-    "scssify-token": {
-      "executor": "@cocokits/workspace-plugin:scssify-token",
+    "token-generator": {
+      "executor": "@cocokits/workspace-plugin:token-generator",
       "outputs": ["{options.outputPath}"],
-      "configurations": {
-        "designTokensManager": {
-          "files": ["packages/themes/frame-x/json-token/manifest.json"],
-          "exclude": [
-            "packages/themes/frame-x/json-token/grid.styles.tokens.json",
-            "packages/themes/frame-x/json-token/Breakpoints.Desktop.tokens.json",
-            "packages/themes/frame-x/json-token/Breakpoints.Tablet.tokens.json",
-            "packages/themes/frame-x/json-token/Breakpoints.Mobile.tokens.json"
-          ],
-          "parser": "design-tokens-manager",
-          "skipTokenTypes": ["gradient"],
-          "outputDir": "packages/themes/frame-x/src/token",
-          "themeName": "frame-x"
-        }
+      "options": {
+        "files": ["packages/themes/frame-x/json-token/manifest.json"],
+        "excludeCollections": ["Breakpoints"],
+        "fontWeightPattern": "font-weight/*",
+        "parser": "design-tokens-manager",
+        "outputDir": "packages/themes/frame-x/src/token",
+        "themeName": "frame-x"
       }
     },
     "eslint": {

@@ -40,17 +40,17 @@ export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
 
         <StyledModesList>
           {
-            Object.entries(selectedTheme.collections).map(([collectionName, modes]) => (
+            Object.entries(selectedTheme.tokenDictionary.collectionModeNames).map(([collectionName, modes]) => (
               <StyledModesWrapper key={collectionName}>
                 <StyledCollectionName>{collectionName}</StyledCollectionName>
                 {
                   modes.map(mode => (
                     <StyledModeLabel
-                      key={mode}
-                      selected={selectedModes[collectionName] === mode}
-                      onChange={() => _onModeChanged(collectionName, mode)}>
-                      <input type="radio" name={collectionName} value={mode} defaultChecked={selectedModes[collectionName] === mode}/>
-                      {mode}
+                      key={mode.name}
+                      selected={selectedModes[collectionName] === mode.name}
+                      onChange={() => _onModeChanged(collectionName, mode.name)}>
+                      <input type="radio" name={collectionName} value={mode.name} defaultChecked={selectedModes[collectionName] === mode.name}/>
+                      {mode.name}
                     </StyledModeLabel>
                   ))
                 }

@@ -1,0 +1,166 @@
+{
+  "font-weight": {
+    "extra-light": {
+      "$type": "string",
+      "$value": "Regular"
+    },
+    "light": {
+      "$type": "string",
+      "$value": "Regular"
+    },
+    "regular": {
+      "$type": "string",
+      "$value": "Medium"
+    },
+    "medium": {
+      "$type": "string",
+      "$value": "Medium"
+    },
+    "semi-bold": {
+      "$type": "string",
+      "$value": "Semi Bold"
+    },
+    "bold": {
+      "$type": "string",
+      "$value": "Semi Bold"
+    },
+    "extra-bold": {
+      "$type": "string",
+      "$value": "Bold"
+    }
+  },
+  "font-family": {
+    "$type": "string",
+    "$value": "Lora"
+  },
+  "font-size": {
+    "xs": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "14px"
+    },
+    "base": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "18px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "20px"
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "24px"
+    },
+    "3xl": {
+      "$type": "dimension",
+      "$value": "30px"
+    },
+    "4xl": {
+      "$type": "dimension",
+      "$value": "36px"
+    },
+    "5xl": {
+      "$type": "dimension",
+      "$value": "48px"
+    },
+    "6xl": {
+      "$type": "dimension",
+      "$value": "60px"
+    },
+    "7xl": {
+      "$type": "dimension",
+      "$value": "72px"
+    },
+    "8xl": {
+      "$type": "dimension",
+      "$value": "96px"
+    },
+    "9xl": {
+      "$type": "dimension",
+      "$value": "128px"
+    }
+  },
+  "line-height": {
+    "xs": {
+      "$type": "dimension",
+      "$value": "18px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "22px"
+    },
+    "base": {
+      "$type": "dimension",
+      "$value": "24px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "28px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "32px"
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "38px"
+    },
+    "3xl": {
+      "$type": "dimension",
+      "$value": "42px"
+    },
+    "4xl": {
+      "$type": "dimension",
+      "$value": "52px"
+    },
+    "5xl": {
+      "$type": "dimension",
+      "$value": "64px"
+    },
+    "6xl": {
+      "$type": "dimension",
+      "$value": "86px"
+    },
+    "7xl": {
+      "$type": "dimension",
+      "$value": "108px"
+    },
+    "8xl": {
+      "$type": "dimension",
+      "$value": "144px"
+    },
+    "9xl": {
+      "$type": "dimension",
+      "$value": "192px"
+    }
+  },
+  "letter-spacing": {
+    "base": {
+      "$type": "dimension",
+      "$value": "0px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "0.8px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "1.4px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "2.2px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "3.2px"
+    }
+  }
+}

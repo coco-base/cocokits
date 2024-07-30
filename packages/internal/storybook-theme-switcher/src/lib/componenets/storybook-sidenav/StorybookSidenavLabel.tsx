@@ -27,7 +27,7 @@ export const StorybookSidenavLabel = (item: API_HashEntry) => {
       <span>{item.name}</span>
     </StyledWrapper>
   );
-}
+};
 
 
 // region ---------------- STYLES ----------------

@@ -9,6 +9,7 @@
             "enforceBuildableLibDependency": false,
             "allow": [
               "@cocokits/core",
+              "@cocokits/workspace-plugin",
               "@cocokits/storybook-theme-switcher",
               ".*/dist/compodoc/.*",
               ".*/tools/scripts/storybook/.*"

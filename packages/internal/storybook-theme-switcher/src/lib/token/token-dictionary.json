@@ -1,0 +1,2803 @@
+{
+  "collectionNames": [
+    {
+      "name": "theme",
+      "rawName": "Theme"
+    }
+  ],
+  "collectionModeNames": {
+    "theme": [
+      {
+        "rawName": "Light",
+        "name": "light"
+      },
+      {
+        "rawName": "Dark",
+        "name": "dark"
+      }
+    ]
+  },
+  "tokenMap": {
+    "color__bg__body__alpha__0": {
+      "id": "color__bg__body__alpha__0",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "0"],
+      "namePath": ["color", "bg", "body", "alpha", "0"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff00",
+          "value": "#ffffff00",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d00",
+          "value": "#05030d00",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-0",
+        "css": "var(--cck-storybook-color-bg-body-alpha-0)",
+        "scss": "$cck-storybook-color-bg-body-alpha-0"
+      }
+    },
+    "color__bg__body__alpha__1": {
+      "id": "color__bg__body__alpha__1",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "1"],
+      "namePath": ["color", "bg", "body", "alpha", "1"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff05",
+          "value": "#ffffff05",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d05",
+          "value": "#05030d05",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-1",
+        "css": "var(--cck-storybook-color-bg-body-alpha-1)",
+        "scss": "$cck-storybook-color-bg-body-alpha-1"
+      }
+    },
+    "color__bg__body__alpha__2": {
+      "id": "color__bg__body__alpha__2",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "2"],
+      "namePath": ["color", "bg", "body", "alpha", "2"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff0a",
+          "value": "#ffffff0a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d0a",
+          "value": "#05030d0a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-2",
+        "css": "var(--cck-storybook-color-bg-body-alpha-2)",
+        "scss": "$cck-storybook-color-bg-body-alpha-2"
+      }
+    },
+    "color__bg__body__alpha__3": {
+      "id": "color__bg__body__alpha__3",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "3"],
+      "namePath": ["color", "bg", "body", "alpha", "3"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff0f",
+          "value": "#ffffff0f",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d0f",
+          "value": "#05030d0f",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-3",
+        "css": "var(--cck-storybook-color-bg-body-alpha-3)",
+        "scss": "$cck-storybook-color-bg-body-alpha-3"
+      }
+    },
+    "color__bg__body__alpha__4": {
+      "id": "color__bg__body__alpha__4",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "4"],
+      "namePath": ["color", "bg", "body", "alpha", "4"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff14",
+          "value": "#ffffff14",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d14",
+          "value": "#05030d14",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-4",
+        "css": "var(--cck-storybook-color-bg-body-alpha-4)",
+        "scss": "$cck-storybook-color-bg-body-alpha-4"
+      }
+    },
+    "color__bg__body__alpha__5": {
+      "id": "color__bg__body__alpha__5",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "5"],
+      "namePath": ["color", "bg", "body", "alpha", "5"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff1a",
+          "value": "#ffffff1a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d1a",
+          "value": "#05030d1a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-5",
+        "css": "var(--cck-storybook-color-bg-body-alpha-5)",
+        "scss": "$cck-storybook-color-bg-body-alpha-5"
+      }
+    },
+    "color__bg__body__alpha__6": {
+      "id": "color__bg__body__alpha__6",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "6"],
+      "namePath": ["color", "bg", "body", "alpha", "6"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff33",
+          "value": "#ffffff33",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d33",
+          "value": "#05030d33",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-6",
+        "css": "var(--cck-storybook-color-bg-body-alpha-6)",
+        "scss": "$cck-storybook-color-bg-body-alpha-6"
+      }
+    },
+    "color__bg__body__alpha__7": {
+      "id": "color__bg__body__alpha__7",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "7"],
+      "namePath": ["color", "bg", "body", "alpha", "7"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff66",
+          "value": "#ffffff66",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d66",
+          "value": "#05030d66",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-7",
+        "css": "var(--cck-storybook-color-bg-body-alpha-7)",
+        "scss": "$cck-storybook-color-bg-body-alpha-7"
+      }
+    },
+    "color__bg__body__alpha__8": {
+      "id": "color__bg__body__alpha__8",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "8"],
+      "namePath": ["color", "bg", "body", "alpha", "8"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff99",
+          "value": "#ffffff99",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d99",
+          "value": "#05030d99",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-8",
+        "css": "var(--cck-storybook-color-bg-body-alpha-8)",
+        "scss": "$cck-storybook-color-bg-body-alpha-8"
+      }
+    },
+    "color__bg__body__alpha__9": {
+      "id": "color__bg__body__alpha__9",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "9"],
+      "namePath": ["color", "bg", "body", "alpha", "9"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffffcc",
+          "value": "#ffffffcc",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030dcc",
+          "value": "#05030dcc",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-9",
+        "css": "var(--cck-storybook-color-bg-body-alpha-9)",
+        "scss": "$cck-storybook-color-bg-body-alpha-9"
+      }
+    },
+    "color__bg__body__alpha__10": {
+      "id": "color__bg__body__alpha__10",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body", "Alpha", "10"],
+      "namePath": ["color", "bg", "body", "alpha", "10"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#ffffff",
+          "value": "#ffffff",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#05030d",
+          "value": "#05030d",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-alpha-10",
+        "css": "var(--cck-storybook-color-bg-body-alpha-10)",
+        "scss": "$cck-storybook-color-bg-body-alpha-10"
+      }
+    },
+    "color__bg__body-inverse__alpha__0": {
+      "id": "color__bg__body-inverse__alpha__0",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "0"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "0"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d00",
+          "value": "#000c1d00",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff00",
+          "value": "#ffffff00",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-0",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-0)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-0"
+      }
+    },
+    "color__bg__body-inverse__alpha__1": {
+      "id": "color__bg__body-inverse__alpha__1",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "1"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d05",
+          "value": "#000c1d05",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff05",
+          "value": "#ffffff05",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-1",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-1"
+      }
+    },
+    "color__bg__body-inverse__alpha__2": {
+      "id": "color__bg__body-inverse__alpha__2",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "2"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "2"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d0a",
+          "value": "#000c1d0a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff0a",
+          "value": "#ffffff0a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-2",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-2)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-2"
+      }
+    },
+    "color__bg__body-inverse__alpha__3": {
+      "id": "color__bg__body-inverse__alpha__3",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "3"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d0f",
+          "value": "#000c1d0f",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff0f",
+          "value": "#ffffff0f",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-3",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-3)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-3"
+      }
+    },
+    "color__bg__body-inverse__alpha__4": {
+      "id": "color__bg__body-inverse__alpha__4",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "4"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d14",
+          "value": "#000c1d14",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff14",
+          "value": "#ffffff14",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-4",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-4)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-4"
+      }
+    },
+    "color__bg__body-inverse__alpha__5": {
+      "id": "color__bg__body-inverse__alpha__5",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "5"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d1a",
+          "value": "#000c1d1a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff1a",
+          "value": "#ffffff1a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-5",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-5)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-5"
+      }
+    },
+    "color__bg__body-inverse__alpha__6": {
+      "id": "color__bg__body-inverse__alpha__6",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "6"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d33",
+          "value": "#000c1d33",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff33",
+          "value": "#ffffff33",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-6",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-6)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-6"
+      }
+    },
+    "color__bg__body-inverse__alpha__7": {
+      "id": "color__bg__body-inverse__alpha__7",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "7"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d66",
+          "value": "#000c1d66",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff66",
+          "value": "#ffffff66",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-7",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-7)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-7"
+      }
+    },
+    "color__bg__body-inverse__alpha__8": {
+      "id": "color__bg__body-inverse__alpha__8",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "8"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d99",
+          "value": "#000c1d99",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff99",
+          "value": "#ffffff99",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-8",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-8)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-8"
+      }
+    },
+    "color__bg__body-inverse__alpha__9": {
+      "id": "color__bg__body-inverse__alpha__9",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "9"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1dcc",
+          "value": "#000c1dcc",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffffcc",
+          "value": "#ffffffcc",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-9",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-9)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-9"
+      }
+    },
+    "color__bg__body-inverse__alpha__10": {
+      "id": "color__bg__body-inverse__alpha__10",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Body-Inverse", "Alpha", "10"],
+      "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#000c1d",
+          "value": "#000c1d",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#ffffff",
+          "value": "#ffffff",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-body-inverse-alpha-10",
+        "css": "var(--cck-storybook-color-bg-body-inverse-alpha-10)",
+        "scss": "$cck-storybook-color-bg-body-inverse-alpha-10"
+      }
+    },
+    "color__bg__button__primary": {
+      "id": "color__bg__button__primary",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Button", "Primary"],
+      "namePath": ["color", "bg", "button", "primary"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Brand.Alpha-5}",
+          "value": "var(--cck-storybook-color-brand-alpha-5)",
+          "aliasTokenId": "color__brand__alpha-5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-5"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Brand.Alpha-5}",
+          "value": "var(--cck-storybook-color-brand-alpha-5)",
+          "aliasTokenId": "color__brand__alpha-5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-5"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-button-primary",
+        "css": "var(--cck-storybook-color-bg-button-primary)",
+        "scss": "$cck-storybook-color-bg-button-primary"
+      }
+    },
+    "color__bg__button__primary-hover": {
+      "id": "color__bg__button__primary-hover",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Button", "Primary-hover"],
+      "namePath": ["color", "bg", "button", "primary-hover"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Brand.Alpha-6}",
+          "value": "var(--cck-storybook-color-brand-alpha-6)",
+          "aliasTokenId": "color__brand__alpha-6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Brand.Alpha-6}",
+          "value": "var(--cck-storybook-color-brand-alpha-6)",
+          "aliasTokenId": "color__brand__alpha-6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-button-primary-hover",
+        "css": "var(--cck-storybook-color-bg-button-primary-hover)",
+        "scss": "$cck-storybook-color-bg-button-primary-hover"
+      }
+    },
+    "color__bg__table__even": {
+      "id": "color__bg__table__even",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Table", "Even"],
+      "namePath": ["color", "bg", "table", "even"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.1}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__1",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.3}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-3)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__3",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-table-even",
+        "css": "var(--cck-storybook-color-bg-table-even)",
+        "scss": "$cck-storybook-color-bg-table-even"
+      }
+    },
+    "color__bg__overlay__backdrop": {
+      "id": "color__bg__overlay__backdrop",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Overlay", "Backdrop"],
+      "namePath": ["color", "bg", "overlay", "backdrop"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.6}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-6)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body.Alpha.6}",
+          "value": "var(--cck-storybook-color-bg-body-alpha-6)",
+          "aliasTokenId": "color__bg__body__alpha__6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body__alpha__6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body", "alpha", "6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body__alpha__6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body", "alpha", "6"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-overlay-backdrop",
+        "css": "var(--cck-storybook-color-bg-overlay-backdrop)",
+        "scss": "$cck-storybook-color-bg-overlay-backdrop"
+      }
+    },
+    "color__bg__overlay__shadow-1": {
+      "id": "color__bg__overlay__shadow-1",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Overlay", "Shadow-1"],
+      "namePath": ["color", "bg", "overlay", "shadow-1"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.5}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-5)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.1}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__1",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-overlay-shadow-1",
+        "css": "var(--cck-storybook-color-bg-overlay-shadow-1)",
+        "scss": "$cck-storybook-color-bg-overlay-shadow-1"
+      }
+    },
+    "color__bg__overlay__shadow-2": {
+      "id": "color__bg__overlay__shadow-2",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Overlay", "Shadow-2"],
+      "namePath": ["color", "bg", "overlay", "shadow-2"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.4}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-4)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__4",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.1}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__1",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-overlay-shadow-2",
+        "css": "var(--cck-storybook-color-bg-overlay-shadow-2)",
+        "scss": "$cck-storybook-color-bg-overlay-shadow-2"
+      }
+    },
+    "color__bg__overlay__surface": {
+      "id": "color__bg__overlay__surface",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Overlay", "Surface"],
+      "namePath": ["color", "bg", "overlay", "surface"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body.Alpha.10}",
+          "value": "var(--cck-storybook-color-bg-body-alpha-10)",
+          "aliasTokenId": "color__bg__body__alpha__10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body__alpha__10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body", "alpha", "10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body__alpha__10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body", "alpha", "10"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body.Alpha.10}",
+          "value": "var(--cck-storybook-color-bg-body-alpha-10)",
+          "aliasTokenId": "color__bg__body__alpha__10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body__alpha__10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body", "alpha", "10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body__alpha__10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body", "alpha", "10"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-overlay-surface",
+        "css": "var(--cck-storybook-color-bg-overlay-surface)",
+        "scss": "$cck-storybook-color-bg-overlay-surface"
+      }
+    },
+    "color__bg__card__surface": {
+      "id": "color__bg__card__surface",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Bg", "Card", "Surface"],
+      "namePath": ["color", "bg", "card", "surface"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.1}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__1",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.3}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-3)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__3",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-bg-card-surface",
+        "css": "var(--cck-storybook-color-bg-card-surface)",
+        "scss": "$cck-storybook-color-bg-card-surface"
+      }
+    },
+    "color__brand__alpha-0": {
+      "id": "color__brand__alpha-0",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-0"],
+      "namePath": ["color", "brand", "alpha-0"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c6905",
+          "value": "#129c6905",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf8205",
+          "value": "#1bbf8205",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-0",
+        "css": "var(--cck-storybook-color-brand-alpha-0)",
+        "scss": "$cck-storybook-color-brand-alpha-0"
+      }
+    },
+    "color__brand__alpha-1": {
+      "id": "color__brand__alpha-1",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-1"],
+      "namePath": ["color", "brand", "alpha-1"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c690a",
+          "value": "#129c690a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf820a",
+          "value": "#1bbf820a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-1",
+        "css": "var(--cck-storybook-color-brand-alpha-1)",
+        "scss": "$cck-storybook-color-brand-alpha-1"
+      }
+    },
+    "color__brand__alpha-2": {
+      "id": "color__brand__alpha-2",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-2"],
+      "namePath": ["color", "brand", "alpha-2"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c690f",
+          "value": "#129c690f",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf820f",
+          "value": "#1bbf820f",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-2",
+        "css": "var(--cck-storybook-color-brand-alpha-2)",
+        "scss": "$cck-storybook-color-brand-alpha-2"
+      }
+    },
+    "color__brand__alpha-3": {
+      "id": "color__brand__alpha-3",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-3"],
+      "namePath": ["color", "brand", "alpha-3"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c6914",
+          "value": "#129c6914",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf8214",
+          "value": "#1bbf8214",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-3",
+        "css": "var(--cck-storybook-color-brand-alpha-3)",
+        "scss": "$cck-storybook-color-brand-alpha-3"
+      }
+    },
+    "color__brand__alpha-4": {
+      "id": "color__brand__alpha-4",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-4"],
+      "namePath": ["color", "brand", "alpha-4"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c691a",
+          "value": "#129c691a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf821a",
+          "value": "#1bbf821a",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-4",
+        "css": "var(--cck-storybook-color-brand-alpha-4)",
+        "scss": "$cck-storybook-color-brand-alpha-4"
+      }
+    },
+    "color__brand__alpha-5": {
+      "id": "color__brand__alpha-5",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-5"],
+      "namePath": ["color", "brand", "alpha-5"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c6933",
+          "value": "#129c6933",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf8233",
+          "value": "#1bbf8233",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-5",
+        "css": "var(--cck-storybook-color-brand-alpha-5)",
+        "scss": "$cck-storybook-color-brand-alpha-5"
+      }
+    },
+    "color__brand__alpha-6": {
+      "id": "color__brand__alpha-6",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-6"],
+      "namePath": ["color", "brand", "alpha-6"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c6966",
+          "value": "#129c6966",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf8266",
+          "value": "#1bbf8266",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-6",
+        "css": "var(--cck-storybook-color-brand-alpha-6)",
+        "scss": "$cck-storybook-color-brand-alpha-6"
+      }
+    },
+    "color__brand__alpha-7": {
+      "id": "color__brand__alpha-7",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-7"],
+      "namePath": ["color", "brand", "alpha-7"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c6999",
+          "value": "#129c6999",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf8299",
+          "value": "#1bbf8299",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-7",
+        "css": "var(--cck-storybook-color-brand-alpha-7)",
+        "scss": "$cck-storybook-color-brand-alpha-7"
+      }
+    },
+    "color__brand__alpha-8": {
+      "id": "color__brand__alpha-8",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-8"],
+      "namePath": ["color", "brand", "alpha-8"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c69cc",
+          "value": "#129c69cc",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf82cc",
+          "value": "#1bbf82cc",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-8",
+        "css": "var(--cck-storybook-color-brand-alpha-8)",
+        "scss": "$cck-storybook-color-brand-alpha-8"
+      }
+    },
+    "color__brand__alpha-9": {
+      "id": "color__brand__alpha-9",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-9"],
+      "namePath": ["color", "brand", "alpha-9"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c69e5",
+          "value": "#129c69e5",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf82e5",
+          "value": "#1bbf82e5",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-9",
+        "css": "var(--cck-storybook-color-brand-alpha-9)",
+        "scss": "$cck-storybook-color-brand-alpha-9"
+      }
+    },
+    "color__brand__alpha-10": {
+      "id": "color__brand__alpha-10",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Alpha-10"],
+      "namePath": ["color", "brand", "alpha-10"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "#129c69",
+          "value": "#129c69",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        },
+        "dark": {
+          "rawValue": "#1bbf82",
+          "value": "#1bbf82",
+          "aliasTokenId": null,
+          "aliasHierarchy": null
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-alpha-10",
+        "css": "var(--cck-storybook-color-brand-alpha-10)",
+        "scss": "$cck-storybook-color-brand-alpha-10"
+      }
+    },
+    "color__brand__default": {
+      "id": "color__brand__default",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Brand", "Default"],
+      "namePath": ["color", "brand", "default"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Brand.Alpha-10}",
+          "value": "var(--cck-storybook-color-brand-alpha-10)",
+          "aliasTokenId": "color__brand__alpha-10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-10"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Brand.Alpha-10}",
+          "value": "var(--cck-storybook-color-brand-alpha-10)",
+          "aliasTokenId": "color__brand__alpha-10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-10"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-brand-default",
+        "css": "var(--cck-storybook-color-brand-default)",
+        "scss": "$cck-storybook-color-brand-default"
+      }
+    },
+    "color__font__contrast-1": {
+      "id": "color__font__contrast-1",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Font", "Contrast-1"],
+      "namePath": ["color", "font", "contrast-1"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.7}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-7)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__7",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.7}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-7)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__7",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-font-contrast-1",
+        "css": "var(--cck-storybook-color-font-contrast-1)",
+        "scss": "$cck-storybook-color-font-contrast-1"
+      }
+    },
+    "color__font__contrast-2": {
+      "id": "color__font__contrast-2",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Font", "Contrast-2"],
+      "namePath": ["color", "font", "contrast-2"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.8}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-8)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__8",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.8}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-8)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__8",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-font-contrast-2",
+        "css": "var(--cck-storybook-color-font-contrast-2)",
+        "scss": "$cck-storybook-color-font-contrast-2"
+      }
+    },
+    "color__font__contrast-3": {
+      "id": "color__font__contrast-3",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Font", "Contrast-3"],
+      "namePath": ["color", "font", "contrast-3"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.9}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-9)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__9",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.9}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-9)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__9",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-font-contrast-3",
+        "css": "var(--cck-storybook-color-font-contrast-3)",
+        "scss": "$cck-storybook-color-font-contrast-3"
+      }
+    },
+    "color__font__contrast-4": {
+      "id": "color__font__contrast-4",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Font", "Contrast-4"],
+      "namePath": ["color", "font", "contrast-4"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.10}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-10)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.10}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-10)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-font-contrast-4",
+        "css": "var(--cck-storybook-color-font-contrast-4)",
+        "scss": "$cck-storybook-color-font-contrast-4"
+      }
+    },
+    "color__border__card__default": {
+      "id": "color__border__card__default",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Card", "Default"],
+      "namePath": ["color", "border", "card", "default"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.4}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-4)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__4",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Border.Alpha.5}",
+          "value": "var(--cck-storybook-color-border-alpha-5)",
+          "aliasTokenId": "color__border__alpha__5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__border__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "border", "alpha", "5"],
+                "type": "color"
+              },
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__border__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "border", "alpha", "5"],
+                "type": "color"
+              },
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__border__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "border", "alpha", "5"],
+                "type": "color"
+              },
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__border__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "border", "alpha", "5"],
+                "type": "color"
+              },
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-card-default",
+        "css": "var(--cck-storybook-color-border-card-default)",
+        "scss": "$cck-storybook-color-border-card-default"
+      }
+    },
+    "color__border__alpha__0": {
+      "id": "color__border__alpha__0",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "0"],
+      "namePath": ["color", "border", "alpha", "0"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.0}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-0)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__0",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__0",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "0"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__0",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "0"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.0}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-0)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__0",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__0",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "0"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__0",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "0"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-0",
+        "css": "var(--cck-storybook-color-border-alpha-0)",
+        "scss": "$cck-storybook-color-border-alpha-0"
+      }
+    },
+    "color__border__alpha__1": {
+      "id": "color__border__alpha__1",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "1"],
+      "namePath": ["color", "border", "alpha", "1"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.1}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__1",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.1}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-1)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__1",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__1",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "1"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-1",
+        "css": "var(--cck-storybook-color-border-alpha-1)",
+        "scss": "$cck-storybook-color-border-alpha-1"
+      }
+    },
+    "color__border__alpha__2": {
+      "id": "color__border__alpha__2",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "2"],
+      "namePath": ["color", "border", "alpha", "2"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.2}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-2)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__2",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__2",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "2"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__2",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "2"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.2}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-2)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__2",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__2",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "2"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__2",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "2"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-2",
+        "css": "var(--cck-storybook-color-border-alpha-2)",
+        "scss": "$cck-storybook-color-border-alpha-2"
+      }
+    },
+    "color__border__alpha__3": {
+      "id": "color__border__alpha__3",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "3"],
+      "namePath": ["color", "border", "alpha", "3"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.3}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-3)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__3",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.3}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-3)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__3",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__3",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "3"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-3",
+        "css": "var(--cck-storybook-color-border-alpha-3)",
+        "scss": "$cck-storybook-color-border-alpha-3"
+      }
+    },
+    "color__border__alpha__4": {
+      "id": "color__border__alpha__4",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "4"],
+      "namePath": ["color", "border", "alpha", "4"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.4}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-4)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__4",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.4}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-4)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__4",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__4",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "4"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-4",
+        "css": "var(--cck-storybook-color-border-alpha-4)",
+        "scss": "$cck-storybook-color-border-alpha-4"
+      }
+    },
+    "color__border__alpha__5": {
+      "id": "color__border__alpha__5",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "5"],
+      "namePath": ["color", "border", "alpha", "5"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.5}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-5)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.5}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-5)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-5",
+        "css": "var(--cck-storybook-color-border-alpha-5)",
+        "scss": "$cck-storybook-color-border-alpha-5"
+      }
+    },
+    "color__border__alpha__6": {
+      "id": "color__border__alpha__6",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "6"],
+      "namePath": ["color", "border", "alpha", "6"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.6}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-6)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.6}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-6)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "6"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-6",
+        "css": "var(--cck-storybook-color-border-alpha-6)",
+        "scss": "$cck-storybook-color-border-alpha-6"
+      }
+    },
+    "color__border__alpha__7": {
+      "id": "color__border__alpha__7",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "7"],
+      "namePath": ["color", "border", "alpha", "7"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.7}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-7)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__7",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.7}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-7)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__7",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__7",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "7"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-7",
+        "css": "var(--cck-storybook-color-border-alpha-7)",
+        "scss": "$cck-storybook-color-border-alpha-7"
+      }
+    },
+    "color__border__alpha__8": {
+      "id": "color__border__alpha__8",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "8"],
+      "namePath": ["color", "border", "alpha", "8"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.8}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-8)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__8",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.8}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-8)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__8",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__8",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "8"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-8",
+        "css": "var(--cck-storybook-color-border-alpha-8)",
+        "scss": "$cck-storybook-color-border-alpha-8"
+      }
+    },
+    "color__border__alpha__9": {
+      "id": "color__border__alpha__9",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "9"],
+      "namePath": ["color", "border", "alpha", "9"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.9}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-9)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__9",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.9}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-9)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__9",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__9",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "9"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-9",
+        "css": "var(--cck-storybook-color-border-alpha-9)",
+        "scss": "$cck-storybook-color-border-alpha-9"
+      }
+    },
+    "color__border__alpha__10": {
+      "id": "color__border__alpha__10",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "10"],
+      "namePath": ["color", "border", "alpha", "10"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.10}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-10)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.10}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-10)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__10",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__10",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "10"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-10",
+        "css": "var(--cck-storybook-color-border-alpha-10)",
+        "scss": "$cck-storybook-color-border-alpha-10"
+      }
+    },
+    "color__border__alpha__default": {
+      "id": "color__border__alpha__default",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Alpha", "Default"],
+      "namePath": ["color", "border", "alpha", "default"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.5}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-5)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Bg.Body-Inverse.Alpha.5}",
+          "value": "var(--cck-storybook-color-bg-body-inverse-alpha-5)",
+          "aliasTokenId": "color__bg__body-inverse__alpha__5",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__bg__body-inverse__alpha__5",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "bg", "body-inverse", "alpha", "5"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-alpha-default",
+        "css": "var(--cck-storybook-color-border-alpha-default)",
+        "scss": "$cck-storybook-color-border-alpha-default"
+      }
+    },
+    "color__border__button__primary": {
+      "id": "color__border__button__primary",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Button", "Primary"],
+      "namePath": ["color", "border", "button", "primary"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Brand.Alpha-6}",
+          "value": "var(--cck-storybook-color-brand-alpha-6)",
+          "aliasTokenId": "color__brand__alpha-6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Brand.Alpha-6}",
+          "value": "var(--cck-storybook-color-brand-alpha-6)",
+          "aliasTokenId": "color__brand__alpha-6",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-6",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-6"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-button-primary",
+        "css": "var(--cck-storybook-color-border-button-primary)",
+        "scss": "$cck-storybook-color-border-button-primary"
+      }
+    },
+    "color__border__button__primary-hover": {
+      "id": "color__border__button__primary-hover",
+      "collectionName": "theme",
+      "rawNamePath": ["Color", "Border", "Button", "Primary-Hover"],
+      "namePath": ["color", "border", "button", "primary-hover"],
+      "type": "color",
+      "modes": {
+        "light": {
+          "rawValue": "{Color.Brand.Alpha-9}",
+          "value": "var(--cck-storybook-color-brand-alpha-9)",
+          "aliasTokenId": "color__brand__alpha-9",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-9",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-9"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-9",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-9"],
+                "type": "color"
+              }
+            ]
+          ]
+        },
+        "dark": {
+          "rawValue": "{Color.Brand.Alpha-9}",
+          "value": "var(--cck-storybook-color-brand-alpha-9)",
+          "aliasTokenId": "color__brand__alpha-9",
+          "aliasHierarchy": [
+            [
+              {
+                "tokenId": "color__brand__alpha-9",
+                "collectionName": "theme",
+                "modeName": "light",
+                "namePath": ["color", "brand", "alpha-9"],
+                "type": "color"
+              }
+            ],
+            [
+              {
+                "tokenId": "color__brand__alpha-9",
+                "collectionName": "theme",
+                "modeName": "dark",
+                "namePath": ["color", "brand", "alpha-9"],
+                "type": "color"
+              }
+            ]
+          ]
+        }
+      },
+      "variable": {
+        "name": "cck-storybook-color-border-button-primary-hover",
+        "css": "var(--cck-storybook-color-border-button-primary-hover)",
+        "scss": "$cck-storybook-color-border-button-primary-hover"
+      }
+    }
+  },
+  "collectionGroupHierarchy": {
+    "theme": {
+      "color": {
+        "bg": {
+          "body": {
+            "alpha": [
+              "color__bg__body__alpha__0",
+              "color__bg__body__alpha__1",
+              "color__bg__body__alpha__2",
+              "color__bg__body__alpha__3",
+              "color__bg__body__alpha__4",
+              "color__bg__body__alpha__5",
+              "color__bg__body__alpha__6",
+              "color__bg__body__alpha__7",
+              "color__bg__body__alpha__8",
+              "color__bg__body__alpha__9",
+              "color__bg__body__alpha__10"
+            ]
+          },
+          "body-inverse": {
+            "alpha": [
+              "color__bg__body-inverse__alpha__0",
+              "color__bg__body-inverse__alpha__1",
+              "color__bg__body-inverse__alpha__2",
+              "color__bg__body-inverse__alpha__3",
+              "color__bg__body-inverse__alpha__4",
+              "color__bg__body-inverse__alpha__5",
+              "color__bg__body-inverse__alpha__6",
+              "color__bg__body-inverse__alpha__7",
+              "color__bg__body-inverse__alpha__8",
+              "color__bg__body-inverse__alpha__9",
+              "color__bg__body-inverse__alpha__10"
+            ]
+          },
+          "button": ["color__bg__button__primary", "color__bg__button__primary-hover"],
+          "table": ["color__bg__table__even"],
+          "overlay": [
+            "color__bg__overlay__backdrop",
+            "color__bg__overlay__shadow-1",
+            "color__bg__overlay__shadow-2",
+            "color__bg__overlay__surface"
+          ],
+          "card": ["color__bg__card__surface"]
+        },
+        "brand": [
+          "color__brand__alpha-0",
+          "color__brand__alpha-1",
+          "color__brand__alpha-2",
+          "color__brand__alpha-3",
+          "color__brand__alpha-4",
+          "color__brand__alpha-5",
+          "color__brand__alpha-6",
+          "color__brand__alpha-7",
+          "color__brand__alpha-8",
+          "color__brand__alpha-9",
+          "color__brand__alpha-10",
+          "color__brand__default"
+        ],
+        "font": [
+          "color__font__contrast-1",
+          "color__font__contrast-2",
+          "color__font__contrast-3",
+          "color__font__contrast-4"
+        ],
+        "border": {
+          "card": ["color__border__card__default"],
+          "alpha": [
+            "color__border__alpha__0",
+            "color__border__alpha__1",
+            "color__border__alpha__2",
+            "color__border__alpha__3",
+            "color__border__alpha__4",
+            "color__border__alpha__5",
+            "color__border__alpha__6",
+            "color__border__alpha__7",
+            "color__border__alpha__8",
+            "color__border__alpha__9",
+            "color__border__alpha__10",
+            "color__border__alpha__default"
+          ],
+          "button": ["color__border__button__primary", "color__border__button__primary-hover"]
+        }
+      }
+    }
+  }
+}

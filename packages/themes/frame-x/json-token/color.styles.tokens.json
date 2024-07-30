@@ -2,7 +2,7 @@
   "blue": {
     "50": {
       "$type": "color",
-      "$value": "{Colors.blue.50}"
+      "$value": "#f2f7ff"
     },
     "100": {
       "$type": "color",
@@ -840,137 +840,85 @@
     }
   },
   "gradient": {
-    "fade [light] <-": {
+    "fade-right": {
       "$type": "gradient",
       "$value": {
         "type": "linear",
         "angle": 270,
         "stops": [
           {
-            "color": "#ffffff",
+            "color": "{colors.alpha.dark.900}",
             "position": 0
           },
           {
-            "color": "#ffffff00",
+            "color": "{colors.alpha.dark.600}",
+            "position": 0.5
+          },
+          {
+            "color": "{colors.alpha.dark.50}",
             "position": 1
           }
         ]
       }
     },
-    "fade [light] ->": {
+    "fade-left": {
       "$type": "gradient",
       "$value": {
         "type": "linear",
         "angle": 90,
         "stops": [
           {
-            "color": "#ffffff",
+            "color": "{colors.alpha.dark.900}",
             "position": 0
           },
           {
-            "color": "#ffffff00",
+            "color": "{colors.alpha.dark.600}",
+            "position": 0.5
+          },
+          {
+            "color": "{colors.alpha.dark.50}",
             "position": 1
           }
         ]
       }
     },
-    "fade [light] ↓": {
+    "fade-bot": {
+      "$type": "gradient",
+      "$value": {
+        "type": "linear",
+        "angle": 1,
+        "stops": [
+          {
+            "color": "{colors.alpha.dark.900}",
+            "position": 0
+          },
+          {
+            "color": "{colors.alpha.dark.600}",
+            "position": 0.5
+          },
+          {
+            "color": "{colors.alpha.dark.50}",
+            "position": 1
+          }
+        ]
+      }
+    },
+    "fade-top": {
       "$type": "gradient",
       "$value": {
         "type": "linear",
         "angle": 180,
         "stops": [
           {
-            "color": "#ffffff",
+            "color": "{colors.alpha.dark.900}",
             "position": 0
           },
           {
-            "color": "#ffffff00",
-            "position": 1
-          }
-        ]
-      }
-    },
-    "fade [light] ↑": {
-      "$type": "gradient",
-      "$value": {
-        "type": "linear",
-        "angle": 360,
-        "stops": [
-          {
-            "color": "#ffffff",
-            "position": 0
+            "color": "{colors.alpha.dark.600}",
+            "position": 0.5
           },
           {
-            "color": "#ffffff00",
-            "position": 1
-          }
-        ]
-      }
-    },
-    "fade [dark] <-": {
-      "$type": "gradient",
-      "$value": {
-        "type": "linear",
-        "angle": 270,
-        "stops": [
-          {
-            "color": "#1a1a1a",
-            "position": 0
-          },
-          {
-            "color": "#1a1a1a14",
-            "position": 1
-          }
-        ]
-      }
-    },
-    "fade [dark] ->": {
-      "$type": "gradient",
-      "$value": {
-        "type": "linear",
-        "angle": 90,
-        "stops": [
-          {
-            "color": "#1a1a1a",
-            "position": 0
-          },
-          {
-            "color": "#1a1a1a14",
-            "position": 1
-          }
-        ]
-      }
-    },
-    "fade [dark] ↑": {
-      "$type": "gradient",
-      "$value": {
-        "type": "linear",
-        "angle": 360,
-        "stops": [
-          {
-            "color": "#1a1a1a",
-            "position": 0
-          },
-          {
-            "color": "#1a1a1a14",
-            "position": 1
-          }
-        ]
-      }
-    },
-    "fade [dark] ↓": {
-      "$type": "gradient",
-      "$value": {
-        "type": "linear",
-        "angle": 180,
-        "stops": [
-          {
-            "color": "#1a1a1a",
-            "position": 0
-          },
-          {
-            "color": "#1a1a1a14",
+            "color": "{colors.alpha.dark.50}",
             "position": 1
           }
         ]

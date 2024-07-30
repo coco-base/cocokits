@@ -5,6 +5,7 @@
   "rules": {
     "scss/dollar-variable-pattern": "[a-zA-Z0-9-_]*",
     "scss/at-mixin-pattern": "[a-zA-Z0-9-_]*",
+    "scss/load-no-partial-leading-underscore": null,
     "no-invalid-position-at-import-rule": null,
     "no-empty-source": null,
     "custom-property-pattern": [

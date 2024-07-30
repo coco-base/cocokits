@@ -48,8 +48,10 @@
         }
       },
       "radius": {
-        "$type": "dimension",
-        "$value": "{Size.4}"
+        "default": {
+          "$type": "dimension",
+          "$value": "{Size.4}"
+        }
       },
       "border": {
         "default": {

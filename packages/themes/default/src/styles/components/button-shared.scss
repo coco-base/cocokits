@@ -1,4 +1,4 @@
-@use '../../token/scss-variables' as *;
+@use '../../token/scss' as *;
 
 .cck-button {
   display: inline-flex;
@@ -16,7 +16,7 @@
 .cck-button__size--sm {
   font: $text-sm-medium;
   padding: 0 16px;
-  height: 28px;
+  height: $button-primary-height-sm;
   gap: 8px;
 }
 

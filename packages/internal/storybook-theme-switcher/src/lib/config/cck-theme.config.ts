@@ -1,13 +1,15 @@
+import { recordReduceMerge } from '@cocokits/common-utils';
 import {
   cocokitsUIComponentConfig,
-  collections as collectionsDefaultTheme,
   svgIconMap as svgIconMapDefaultTheme,
+  tokenDictionary as tokenDictionaryDefaultTheme,
 } from '@cocokits/theme-default';
 import {
-  collections as collectionsFrameXTheme,
   frameXUIComponentConfig,
   svgIconMap as svgIconMapFrameXTheme,
+  tokenDictionary as tokenDictionaryFrameXTheme,
 } from '@cocokits/theme-frame-x';
+import { TokenDictionary } from '@cocokits/workspace-plugin';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
 
@@ -22,6 +24,12 @@ export const CCK_THEME_NAME_DOCUMENT_ATTR = `data-cck-theme-name`;
 // endregion
 
 // region THEMES
+function getDefaultSelectedModes(tokenDictionary: TokenDictionary) {
+  return recordReduceMerge(tokenDictionary.collectionModeNames, (modeNames, collectionName) => {
+    return { [collectionName]: modeNames[0].name };
+  });
+}
+
 export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
   default: {
     id: 'default',
@@ -29,14 +37,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr',
     iconPathLight: '/default-logo.png',
     iconPathDark: '/default-logo.png',
-    collections: collectionsDefaultTheme,
-    defaultSelectedModes: {
-      global: 'default',
-      'local-style': 'default',
-      'components-size': 'default',
-      components: 'default',
-      'brand-color-1': 'dark',
-    },
+    tokenDictionary: tokenDictionaryDefaultTheme,
+    defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryDefaultTheme),
     uiComponentConfig: cocokitsUIComponentConfig,
     svgIconMap: svgIconMapDefaultTheme,
   },
@@ -47,15 +49,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
       'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et. Lorem ipsum dolor sit',
     iconPathLight: '/frameX-logo-dark.svg',
     iconPathDark: '/frameX-logo-light.svg',
-    collections: collectionsFrameXTheme,
-    defaultSelectedModes: {
-      'local-style': 'default',
-      sizing: 'compact',
-      'color-theme': 'theme-a',
-      'color-mode': 'dark',
-      radius: 'rounded',
-      typography: 'font-a',
-    },
+    tokenDictionary: tokenDictionaryFrameXTheme,
+    defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryFrameXTheme),
     uiComponentConfig: frameXUIComponentConfig,
     svgIconMap: svgIconMapFrameXTheme,
   },

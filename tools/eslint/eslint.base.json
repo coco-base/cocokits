@@ -45,7 +45,7 @@
         "max-lines": ["error", { "max": 250, "skipBlankLines": true, "skipComments": true }],
         "max-lines-per-function": ["error", { "max": 80, "skipComments": true }],
         "max-nested-callbacks": ["error", 3],
-        "max-params": ["error", 3],
+        "max-params": ["error", 4],
         "max-statements": ["error", 21],
         "no-alert": ["error"],
         "no-console": ["error"],

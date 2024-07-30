@@ -7,10 +7,10 @@
         "Spacious": ["Sizing.Spacious.tokens.json"]
       }
     },
-    "Color Theme": {
+    "Theme": {
       "modes": {
-        "Theme A": ["Color Theme.Theme A.tokens.json"],
-        "Theme B": ["Color Theme.Theme B.tokens.json"]
+        "Theme A": ["Theme.Theme A.tokens.json"],
+        "Theme B": ["Theme.Theme B.tokens.json"]
       }
     },
     "Color Mode": {
@@ -34,7 +34,8 @@
     },
     "Typography": {
       "modes": {
-        "Font A": ["Typography.Font A.tokens.json"]
+        "Font A": ["Typography.Font A.tokens.json"],
+        "Font B": ["Typography.Font B.tokens.json"]
       }
     }
   },
