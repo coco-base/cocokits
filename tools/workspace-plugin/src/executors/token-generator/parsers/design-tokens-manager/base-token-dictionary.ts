@@ -28,7 +28,7 @@ import {
  * The following properties in tokens are empty and has to be fill out later
  *
  *  - value
- *  - aliasHierarchy
+ *  - aliasHierarchies
  *  - variables
  */
 export function getBaseTokenDictionary(manifest: DTMManifest, options: TokenGeneratorExecutorSchema): TokenDictionary {
@@ -166,6 +166,7 @@ function dtmTokenGroupToStandardTokenGroup({
         collectionName: collectionName,
         options,
       });
+
       return {
         tokenMap: { [token.id]: token },
         groupHierarchy: generateNestedTokenGroup(tokenRawGroupNamePath, token.id),
@@ -183,6 +184,14 @@ function dtmTokenGroupToStandardTokenGroup({
 }
 
 function generateNestedTokenGroup(tokenRawGroupNamePath: TokenRawGroupNamePath, tokenId: TokenId): GroupOrTokenIds {
+  // A collection have tokens without any group. But our interface need each collection to have at list one group.
+  // Because of that we crete an empty group to follow our structure
+  if (tokenRawGroupNamePath.length === 0) {
+    return {
+      __emptyGroup: [tokenId],
+    };
+  }
+
   const nestedObject: GroupOrTokenIds = {};
   let currentLevel: GroupOrTokenIds | TokenId[] = nestedObject;
 
@@ -224,7 +233,7 @@ function dtmTokenToStandardToken({
         rawValue: toRawValue(dtmTokenValue, namePath, options),
         value: null,
         aliasTokenId: isAliasValue(dtmTokenValue.$value) ? getTokenIdFromAliasValue(dtmTokenValue.$value) : null,
-        aliasHierarchy: null,
+        aliasHierarchies: null,
       },
     },
     variable: {

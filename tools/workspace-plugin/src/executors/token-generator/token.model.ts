@@ -161,7 +161,7 @@ export interface Token {
        * The alias hierarchies of the token with all sub aliases values, describing its ancestry and final resolved value
        * For non-alias token it will be null.
        */
-      aliasHierarchy: AliasHierarchies | null;
+      aliasHierarchies: AliasHierarchies | null;
     }
   >;
   variable: {

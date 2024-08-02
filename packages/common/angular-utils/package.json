@@ -2,7 +2,7 @@
   "name": "@cocokits/common-angular-utils",
   "version": "0.0.1",
   "peerDependencies": {
-    "@cocokits/common-utils": "0.0.1"
+    "@cocokits/common-utils": "workspace:*"
   },
   "dependencies": {},
   "sideEffects": false

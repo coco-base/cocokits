@@ -1,4 +1,4 @@
-import { fillAliasHierarchyTokenDictionary } from './alias-hierarchy-token-dictionary';
+import { fillAliasHierarchiesTokenDictionary } from './alias-hierarchies-token-dictionary';
 import { getBaseTokenDictionary } from './base-token-dictionary';
 import { readManifest, validateUniqGroupNameInCollections } from './util';
 import { fillValueTokenDictionary } from './value-token-doctinary';
@@ -13,7 +13,7 @@ export function parseDesignTokensManager(options: TokenGeneratorExecutorSchema):
   validateUniqGroupNameInCollections(tokenDictionary);
 
   fillVariableTokenDictionary(tokenDictionary, options);
-  fillAliasHierarchyTokenDictionary(tokenDictionary);
+  fillAliasHierarchiesTokenDictionary(tokenDictionary);
   fillValueTokenDictionary(tokenDictionary);
 
   return tokenDictionary;

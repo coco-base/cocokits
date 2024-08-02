@@ -21,6 +21,7 @@ export interface CckThemeChangedEvent {
   name: CckThemeName;
   iconPathLight: string;
   iconPathDark: string;
+  tokenDictionary: TokenDictionary;
   selectedModes: Record<string, string>;
   uiComponentConfig: ThemeUIComponentsConfig;
   svgIconMap: Record<string, ThemeSvgIcon>;

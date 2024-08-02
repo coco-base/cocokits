@@ -29,6 +29,5 @@ export const StyledWrapper = styled.div`
     width: 100%;
     margin: auto;
     padding: var(--cck-storybook-size-64) var(--cck-storybook-size-32) var(--cck-storybook-size-128) var(--cck-storybook-size-32);
-    overflow: hidden;
 `;
 // endregion

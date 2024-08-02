@@ -2,15 +2,15 @@ import { recordForEach } from '@cocokits/common-utils';
 
 import { AliasHierarchy, TokenDictionary, TokenId, TokenMap } from '../../token.model';
 
-export function fillAliasHierarchyTokenDictionary(tokenDictionary: TokenDictionary) {
+export function fillAliasHierarchiesTokenDictionary(tokenDictionary: TokenDictionary) {
   recordForEach(tokenDictionary.tokenMap, (token) => {
     Object.values(token.modes).forEach((tokenValues) => {
       if (!tokenValues.aliasTokenId) {
         return;
       }
 
-      const aliasHierarchy = getAliasHierarchies(tokenValues.aliasTokenId, tokenDictionary.tokenMap);
-      tokenValues.aliasHierarchy = aliasHierarchy;
+      const aliasHierarchies = getAliasHierarchies(tokenValues.aliasTokenId, tokenDictionary.tokenMap);
+      tokenValues.aliasHierarchies = aliasHierarchies;
     });
   });
 }

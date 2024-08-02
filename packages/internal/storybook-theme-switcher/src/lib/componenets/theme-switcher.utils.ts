@@ -11,6 +11,7 @@ export function generateCckThemeChangeEventData({ id, selectedModes }: CckSelect
     name: CCK_THEMES_MAP[id].name,
     iconPathLight: CCK_THEMES_MAP[id].iconPathLight,
     iconPathDark: CCK_THEMES_MAP[id].iconPathDark,
+    tokenDictionary: CCK_THEMES_MAP[id].tokenDictionary,
     selectedModes,
     uiComponentConfig: CCK_THEMES_MAP[id].uiComponentConfig,
     svgIconMap: CCK_THEMES_MAP[id].svgIconMap,
