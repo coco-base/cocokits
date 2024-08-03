@@ -12,7 +12,7 @@ export const StorybookSidenavLabel = (item: API_HashEntry) => {
   const isSelectable = item.type === 'docs' || item.type === 'story';
 
   return (
-    <StyledWrapper data-cck-storybook-sidenav-item root={item.depth === 0} deep={item.depth}>
+    <StyledWrapper deep={item.depth} data-cck-storybook-sidenav-item>
 
       {
         isCollapsable &&
@@ -31,7 +31,7 @@ export const StorybookSidenavLabel = (item: API_HashEntry) => {
 
 
 // region ---------------- STYLES ----------------
-const StyledWrapper = styled.div<{ root: boolean, deep: number }>`
+const StyledWrapper = styled.div<{ deep: number }>`
     width: 100%;
     position: relative;
     display: flex;
@@ -47,16 +47,13 @@ const StyledWrapper = styled.div<{ root: boolean, deep: number }>`
     transition: color 300ms, fill 300ms;
 
     // Deep 0 (Root)
-    ${props => props.root && css`
-        margin-top: var(--cck-storybook-size-12);
-    `};
-    
     // Deep 1
-    ${props => props.root && css`
+    ${props => props.deep === 0 && css`
+        margin-top: var(--cck-storybook-size-12);
         font: var(--cck-storybook-text-sm-medium);
         color: var(--cck-storybook-color-font-contrast-4);
     `};
-
+    
     // Deep 2
     ${props => props.deep === 1 && css`
         padding-left: var(--cck-storybook-size-16);
