@@ -7,12 +7,15 @@ import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,
   CCK_THEME_CHANGED_EVENT_NAME,
   CCK_THEME_SWITCHER_TOOL_ID,
+  CCK_THEMES_MAP,
   CckSelectedTheme,
   CckThemeChangedEvent,
   CckThemeLocalstorage,
   DEFAULT_SELECTED_CCK_THEME_ID,
   DEFAULT_SELECTED_CCK_THEME_MODES,
   LOCALSTORAGE_CCK_THEME,
+  STORYBOOK_THEME_CHANGED_EVENT_NAME,
+  StorybookThemeChangedEvent,
 } from '../index';
 import {
   CckThemeDialog,
@@ -23,9 +26,33 @@ import { ToolCckThemeSwitcher } from '../lib/componenets/cck-theme-switcher/Tool
 import { generateCckThemeChangeEventData } from '../lib/componenets/theme-switcher.utils';
 
 export function registerCckThemeSwitcher() {
+  listenToStorybookThemeChangeEvent();
   listenToOpenDialogEvent();
   dispatchDefaultThemEvent();
   addToolbarIcon();
+}
+
+function listenToStorybookThemeChangeEvent() {
+  const channel = addons.getChannel();
+  channel.on(STORYBOOK_THEME_CHANGED_EVENT_NAME, ({ themeName }: StorybookThemeChangedEvent) => {
+    const lastCckThemeChangeEvent: CckThemeChangedEvent[] | undefined = channel.last(CCK_THEME_CHANGED_EVENT_NAME);
+
+    if (!lastCckThemeChangeEvent || lastCckThemeChangeEvent.length === 0) {
+      return;
+    }
+
+    const partialCckSelectedModes =
+      themeName === 'light'
+        ? CCK_THEMES_MAP[lastCckThemeChangeEvent[0].id].lightCollectionModes
+        : CCK_THEMES_MAP[lastCckThemeChangeEvent[0].id].darkCollectionModes;
+
+    const selectedModes = {
+      ...lastCckThemeChangeEvent[0].selectedModes,
+      ...partialCckSelectedModes,
+    };
+
+    changeTheme({ id: lastCckThemeChangeEvent[0].id, selectedModes });
+  });
 }
 
 function listenToOpenDialogEvent() {

@@ -41,6 +41,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryDefaultTheme),
     uiComponentConfig: cocokitsUIComponentConfig,
     svgIconMap: svgIconMapDefaultTheme,
+    lightCollectionModes: { 'brand-color-1': 'light' },
+    darkCollectionModes: { 'brand-color-1': 'dark' },
   },
   'frame-x': {
     id: 'frame-x',
@@ -53,6 +55,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryFrameXTheme),
     uiComponentConfig: frameXUIComponentConfig,
     svgIconMap: svgIconMapFrameXTheme,
+    lightCollectionModes: { 'color-mode': 'light' },
+    darkCollectionModes: { 'color-mode': 'dark' },
   },
 };
 // endregion
