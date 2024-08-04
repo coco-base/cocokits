@@ -1,0 +1,17 @@
+{
+  "name": "@cocokits/angular-overlay",
+  "version": "0.0.1",
+  "private": false,
+  "peerDependencies": {
+    "@angular/common": "^17.3.0",
+    "@angular/core": "^17.3.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@cocokits/common-angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/core": "workspace:*"
+  },
+  "devDependencies": {},
+  "sideEffects": false
+}

@@ -24,6 +24,7 @@
       "@cocokits/angular-components": ["packages/angular/components/src/index.ts"],
       "@cocokits/angular-highlight": ["packages/angular/highlight/src/index.ts"],
       "@cocokits/angular-icon": ["packages/angular/icon/src/index.ts"],
+      "@cocokits/angular-overlay": ["packages/angular/overlay/src/index.ts"],
       "@cocokits/angular-radio": ["packages/angular/radio/src/index.ts"],
       "@cocokits/common-angular-utils": ["packages/common/angular-utils/src/index.ts"],
       "@cocokits/common-utils": ["packages/common/utils/src/index.ts"],
