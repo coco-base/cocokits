@@ -407,6 +407,30 @@ importers:
         specifier: ^2.3.0
         version: 2.6.3
 
+  packages/angular/cdk:
+    dependencies:
+      '@angular/common':
+        specifier: ^17.3.0
+        version: 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
+      '@angular/core':
+        specifier: ^17.3.0
+        version: 17.3.12(rxjs@7.8.1)(zone.js@0.14.8)
+      '@cocokits/angular-overlay':
+        specifier: workspace:*
+        version: link:../overlay
+      '@cocokits/common-angular-utils':
+        specifier: workspace:*
+        version: link:../../common/angular-utils
+      '@cocokits/common-utils':
+        specifier: workspace:*
+        version: link:../../common/utils
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../common/core
+      tslib:
+        specifier: ^2.3.0
+        version: 2.6.3
+
   packages/angular/checkbox:
     dependencies:
       '@angular/common':
@@ -490,6 +514,27 @@ importers:
       '@cocokits/common-utils':
         specifier: workspace:*
         version: link:../../common/utils
+      tslib:
+        specifier: ^2.3.0
+        version: 2.6.3
+
+  packages/angular/overlay:
+    dependencies:
+      '@angular/common':
+        specifier: ^17.3.0
+        version: 17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.8))(rxjs@7.8.1)
+      '@angular/core':
+        specifier: ^17.3.0
+        version: 17.3.12(rxjs@7.8.1)(zone.js@0.14.8)
+      '@cocokits/common-angular-utils':
+        specifier: workspace:*
+        version: link:../../common/angular-utils
+      '@cocokits/common-utils':
+        specifier: workspace:*
+        version: link:../../common/utils
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../common/core
       tslib:
         specifier: ^2.3.0
         version: 2.6.3

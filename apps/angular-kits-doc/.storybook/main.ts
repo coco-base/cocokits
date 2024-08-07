@@ -15,6 +15,10 @@ const config = generateAngularStorybookConfig(
         callerPath: __dirname,
       }),
       ...getPackageStories({
+        packageName: '@cocokits/angular-cdk',
+        callerPath: __dirname,
+      }),
+      ...getPackageStories({
         packageName: '@cocokits/core',
         callerPath: __dirname,
       }),

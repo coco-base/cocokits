@@ -69,9 +69,10 @@ export function useArgTypesApiList(
   const result = reduceDeepMerge(
     argTypesList,
     (argType) => {
-      const themeUIComponentProps = uiComponentConfig[argType.name as UIComponentsPropName];
+      const themeUIComponentProps = uiComponentConfig?.[argType.name as UIComponentsPropName];
 
-      if (order.includes(argType.name) && !themeUIComponentProps) {
+      // Not all component has uiComponentConfig (such as CDK) or there are no part of 'uiComponentsConfig'
+      if (!themeUIComponentProps && order.includes(argType.name)) {
         return {};
       }
 
@@ -127,7 +128,8 @@ export function useArgTypesThemeApiList(
 ): DocArgTypesList[] | null {
   const uiComponentConfig = uiComponentsConfig[componentName];
 
-  if (!uiComponentConfig.additional) {
+  // Not all component has uiComponentConfig (such as CDK) or additional configs
+  if (!uiComponentConfig?.additional) {
     return null;
   }
 

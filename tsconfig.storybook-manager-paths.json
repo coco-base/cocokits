@@ -18,7 +18,8 @@
       "@cocokits/angular-button": ["packages/angular/button/src/"],
       "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/"],
       "@cocokits/angular-radio": ["packages/angular/radio/src/"],
-      "@cocokits/angular-overlay": ["packages/angular/overlay/src/"]
+      "@cocokits/angular-overlay": ["packages/angular/overlay/src/"],
+      "@cocokits/angular-cdk": ["packages/angular/cdk/src/"]
     }
   }
 }

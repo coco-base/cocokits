@@ -20,6 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@cocokits/angular-button": ["packages/angular/button/src/index.ts"],
+      "@cocokits/angular-cdk": ["packages/angular/cdk/src/index.ts"],
       "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/index.ts"],
       "@cocokits/angular-components": ["packages/angular/components/src/index.ts"],
       "@cocokits/angular-highlight": ["packages/angular/highlight/src/index.ts"],

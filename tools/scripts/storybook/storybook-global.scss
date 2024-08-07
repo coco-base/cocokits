@@ -90,6 +90,29 @@
   background-color: var(--cck-storybook-color-border-alpha-5);
 }
 
+.story-overlay-example {
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-card {
+  background-color: var(--cck-storybook-color-bg-body-alpha-10);
+  border: 1px solid var(--cck-storybook-color-border-alpha-default);
+  padding: 24px;
+}
+
+.story-input {
+  border: 1px solid var(--cck-storybook-color-border-alpha-default);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font: var(--cck-storybook-text-sm-regular);
+  color: var(--cck-storybook-color-font-contrast-4);
+  background-color: var(--cck-storybook-color-bg-body-inverse-alpha-1);
+  outline: none;
+}
+
 .story-button {
   display: flex;
   justify-content: center;
@@ -169,3 +192,22 @@
 .story-variant-table.story-variant-table--no-col-header tbody td:first-child {
   border-right: none;
 }
+
+// region Overlay
+.cck-overlay__backdrop {
+  background-color: var(--cck-storybook-color-bg-overlay-backdrop);
+}
+
+.story-overlay-red-backdrop .cck-overlay__backdrop {
+  background-color: rgb(255 0 0 / 30%);
+}
+
+.story-overlay-transparent-backdrop .cck-overlay__backdrop {
+  background-color: rgb(0 0 0 / 0%);
+}
+
+.story-overlay-container-ref .cck-overlay {
+  position: absolute;
+}
+
+// endregion

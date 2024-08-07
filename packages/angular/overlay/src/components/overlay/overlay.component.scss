@@ -1,0 +1,46 @@
+.cck-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.cck-overlay--top-alignment {
+  align-items: flex-start;
+}
+
+.cck-overlay--right-alignment {
+  justify-content: flex-end;
+}
+
+.cck-overlay--bottom-alignment {
+  align-items: flex-end;
+}
+
+.cck-overlay--left-alignment {
+  justify-content: flex-start;
+}
+
+.cck-overlay__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.cck-overlay__content-wrapper {
+  position: relative;
+  overflow: hidden;
+
+  // top: 0;
+  // left: 0;
+  // transition: transform 200ms;
+}
