@@ -1,6 +1,7 @@
 import { ComponentRef, ViewContainerRef } from '@angular/core';
 
-import { OverlayComponent, OverlayRef } from '../components/overlay/overlay.component';
+import { OverlayComponent } from '../components/overlay/overlay.component';
+import { OverlayRef } from '../services/overlay-ref';
 
 export interface RenderedOverlay<TData, TResult> {
   overlayComponentRef: ComponentRef<OverlayComponent>;
@@ -40,6 +41,25 @@ export interface OverlayConfig<TData = unknown> {
   positionStrategy: OverlayPositionStrategy; // Default is 'auto
 
   /**
+   * The fix size of overlay, if not provided it will take the size of children elements
+   */
+  size?: {
+    height?: string; // px or %
+    maxHeight?: string; // px or %
+    maxWidth?: string; // px or %
+    minHeight?: string; // px or %
+    minWidth?: string; // px or %
+    width?: string; // px or %
+  };
+  // Size
+  //  - height: number | string
+  //  - maxHeight: number | string
+  //  - maxWidth: number | string
+  //  - minHeight: number | string
+  //  - minWidth: number | string
+  //  - width: number | string
+
+  /**
    * Any data that you want to send to your custom component
    */
   data: TData;
@@ -51,14 +71,6 @@ export interface OverlayConfig<TData = unknown> {
   //  - close: Close the overlay as soon as the user scrolls
   //  - noop: Do nothing on scroll.
   //  - reposition: Update the overlay's position on scroll.
-
-  // Size
-  //  - height: number | string
-  //  - maxHeight: number | string
-  //  - maxWidth: number | string
-  //  - minHeight: number | string
-  //  - minWidth: number | string
-  //  - width: number | string
 
   // positionStrategy
   //  - fixed

@@ -166,6 +166,14 @@ export class OverlayComponent<TData = any, TResult = any> implements OnInit {
       contentWrapperElem.style.transition = TRANSITION;
       contentWrapperElem.style.transform = transformEnd;
     });
+
+    this.animationState = {
+      value: true,
+      params: {
+        transformStart,
+        transformEnd,
+      },
+    };
   }
 }
 

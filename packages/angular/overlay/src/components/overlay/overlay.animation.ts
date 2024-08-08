@@ -16,9 +16,28 @@ function content() {
 
 function overlay() {
   return trigger('overlayAnim', [
-    // Enter animation: Must be with css, because we need to calculate the position of wrapper element, when overlay is connected to other element
+    transition(
+      ':enter',
+      [
+        group([
+          // Backdrop - Enter Animation
+          query('@overlayAnimBackdrop', [style({ opacity: 0 }), animate(BACKDROP_DURATION, style({ opacity: '*' }))], {
+            optional: true,
+          }),
 
-    // Leave Animation: Must be with angular, to keep the component alive until the exist animation has done, otherwise we can not dispatch the close event
+          // Content - Enter Animation
+          // Must be with css, because we need to calculate the position of wrapper element, when overlay is connected to other element
+        ]),
+      ],
+      {
+        // Default Params
+        params: {
+          transformStart: FROM_BOTTOM_TO_CENTER_TRANSFORM_START_ANIM,
+          transformEnd: FROM_BOTTOM_TO_CENTER_TRANSFORM_END_ANIM,
+        },
+      }
+    ),
+
     transition(
       ':leave',
       [
@@ -29,6 +48,7 @@ function overlay() {
           }),
 
           // Content - Leave Animation
+          // Must be with angular, to keep the component alive until the exist animation has done, otherwise we can not dispatch the close event
           query(
             '@overlayAnimContent',
             [
