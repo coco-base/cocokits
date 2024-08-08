@@ -137,6 +137,11 @@ a {
     padding: 30px 20px 70px 20px;
 }
 
+/* The content of story must not be visible outside of story preview. Otherwise the animation don't look like good */
+.docs-story > div:nth-child(1) > div:nth-child(1) {
+    overflow: hidden;
+}
+
 /* endregion */
 
 /* region ---------- SOURCE CODE ---------- */

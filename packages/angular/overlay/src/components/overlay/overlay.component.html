@@ -1,0 +1,21 @@
+<!-- BACKDROP -->
+@if(overlayRef.config.hasBackdrop) {
+  <div [@overlayAnimBackdrop]="animationState" class="cck-overlay__backdrop" (click)="onBackdropClick()"></div>
+}
+
+<!-- CONTENT -->
+<div
+  #contentWrapper
+  [@overlayAnimContent]="animationState"
+  class="cck-overlay__content-wrapper"
+
+  [style.width]="overlayRef.config.size?.width"
+  [style.min-width]="overlayRef.config.size?.minWidth"
+  [style.max-width]="overlayRef.config.size?.maxWidth"
+
+  [style.height]="overlayRef.config.size?.height"
+  [style.min-height]="overlayRef.config.size?.minHeight"
+  [style.max-height]="overlayRef.config.size?.maxHeight"
+>
+  <ng-container #contentViewContainerRef></ng-container>
+</div>
