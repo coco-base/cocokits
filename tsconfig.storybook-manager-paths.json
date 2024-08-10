@@ -19,7 +19,9 @@
       "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/"],
       "@cocokits/angular-radio": ["packages/angular/radio/src/"],
       "@cocokits/angular-overlay": ["packages/angular/overlay/src/"],
-      "@cocokits/angular-cdk": ["packages/angular/cdk/src/"]
+      "@cocokits/angular-cdk": ["packages/angular/cdk/src/"],
+      "@cocokits/angular-form-field": ["packages/angular/form-field/src/"],
+      "@cocokits/angular-input": ["packages/angular/input/src/"]
     }
   }
 }
