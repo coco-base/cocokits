@@ -1,0 +1,25 @@
+@use '../../token/scss' as *;
+
+$color-font-alpha-6: #0006;
+$color-font-alpha-5: #0003;
+
+.cck-input {
+  border: none;
+  outline: none;
+  flex: 1;
+  background-color: transparent;
+  font: $text-md-regular;
+  color: $color-font-default;
+}
+
+.cck-input::placeholder {
+  color: $color-font-alpha-6;
+}
+
+.cck-input:disabled::placeholder {
+  color: $color-font-alpha-5;
+}
+
+.cck-input:disabled {
+  color: $color-font-alpha-6;
+}

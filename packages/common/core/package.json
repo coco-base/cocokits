@@ -2,12 +2,13 @@
   "name": "@cocokits/core",
   "version": "0.0.1",
   "dependencies": {
-    "@swc/helpers": "~0.5.2",
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
+    "@swc/helpers": "~0.5.2"
   },
   "type": "commonjs",
-  "devDependencies": {},
+  "devDependencies": {
+    "@storybook/angular": "~8.0.9",
+    "@storybook/addon-docs": "~8.0.9"
+  },
   "exports": {
     ".": "./lib/index.js",
     "./angular": "./lib/angular/index.js"

@@ -1,7 +1,7 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
+import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
-import { UIComponentConfig } from '@cocokits/core/angular';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';

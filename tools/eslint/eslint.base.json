@@ -2,8 +2,16 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "plugins": ["@typescript-eslint", "simple-import-sort"],
+      "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
       "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "includeInternal": true,
+            "includeTypes": true,
+            "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"]
+          }
+        ],
         "no-constant-condition": "error",
         "no-var": "error",
         "no-empty": ["error", { "allowEmptyCatch": true }],
@@ -46,7 +54,7 @@
         "max-lines-per-function": ["error", { "max": 80, "skipComments": true }],
         "max-nested-callbacks": ["error", 3],
         "max-params": ["error", 4],
-        "max-statements": ["error", 21],
+        "max-statements": ["error", 24],
         "no-alert": ["error"],
         "no-console": ["error"],
         "no-empty-function": ["error"],

@@ -66,7 +66,7 @@ export const radioButtonLayoutClassNamesConfig = {
 export function getRadioButtonClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-) {
+): Record<keyof typeof radioButtonLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'radioButton',
     componentProps,

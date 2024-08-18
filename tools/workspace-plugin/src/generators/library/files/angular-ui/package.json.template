@@ -3,15 +3,19 @@
   "version": "0.0.1",
   "private": <%= !publishable %>,
   "peerDependencies": {
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@cocokits/common-angular-utils": "workspace:*",
+    "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@storybook/angular": "~8.0.9",
+    "@storybook/addon-docs": "~8.0.9"
+  },
   "sideEffects": false
 }

@@ -1,8 +1,8 @@
 import { action } from '@storybook/addon-actions';
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
+import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
-import { UIComponentConfig } from '@cocokits/core/angular';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { RadioButtonComponent, RadioGroupComponent } from '../../src/lib/radio/radio.component';

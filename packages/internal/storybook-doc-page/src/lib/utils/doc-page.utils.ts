@@ -6,7 +6,7 @@ import { reduceDeepMerge } from '@cocokits/common-utils';
 import { ThemeUIComponentsConfig, UIComponentsName, UIComponentsPropName } from '@cocokits/core';
 import { CckThemeChangedEvent, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
-import { DocArgTypesList } from '../components/doc-page/DocArgTypes';
+import { DocArgTypesList } from '../components/doc-page/DocArgTypesTable';
 
 export const storyNameToHash = (id: string): string => id.toLowerCase().replace(/[^a-z0-9]/gi, '-');
 
@@ -34,7 +34,11 @@ export const getThemeApiDescription = (themeName: string) =>
  * Example: `input<BaseColor | null>(BaseColor.Default)` -> `BaseColor.Default`
  * TODO: remove this quick fix, after compoDoc return the value of signal.
  */
-export function getValueWithoutSignal(value: string | undefined) {
+export function getValueWithoutSignal(value: unknown) {
+  if (typeof value !== 'string') {
+    return value;
+  }
+
   if (value?.startsWith('input<')) {
     const match = value.match(/\(([^)]+)\)/);
     if (match) {
@@ -54,7 +58,7 @@ export function getValueWithoutSignal(value: string | undefined) {
 
 export function useArgTypesApiList(
   componentName: UIComponentsName,
-  primaryStory: PreparedStory,
+  argTypes: PreparedStory['argTypes'],
   uiComponentsConfig: ThemeUIComponentsConfig
 ): {
   props: DocArgTypesList[];
@@ -64,15 +68,17 @@ export function useArgTypesApiList(
   const uiComponentConfig = uiComponentsConfig[componentName];
   const order = ['type', 'color', 'size'];
 
-  const argTypesList = Object.values(primaryStory.argTypes).filter((argType) => !argType.table?.disable ?? true);
+  const argTypesList = Object.values(argTypes).filter((argType) => !argType.table?.disable ?? true);
 
   const result = reduceDeepMerge(
     argTypesList,
     (argType) => {
       const themeUIComponentProps = uiComponentConfig?.[argType.name as UIComponentsPropName];
 
-      // Not all component has uiComponentConfig (such as CDK) or there are no part of 'uiComponentsConfig'
-      if (!themeUIComponentProps && order.includes(argType.name)) {
+      // Skip from ArgsTypeTable when the component has no uiComponentConfig in selected Theme,
+      // and it's not force to take from component API
+      // eslint-disable-next-line dot-notation
+      if (!themeUIComponentProps && order.includes(argType.name) && !argType.table?.['useComponentApi']) {
         return {};
       }
 
@@ -85,12 +91,14 @@ export function useArgTypesApiList(
           : undefined;
 
       return {
-        [keyName]: {
-          name: argType.name,
-          description: argType.description,
-          defaultValue,
-          type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],
-        },
+        [keyName]: [
+          {
+            name: argType.name,
+            description: argType.description,
+            defaultValue,
+            type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],
+          },
+        ],
       };
     },
     {
@@ -135,7 +143,7 @@ export function useArgTypesThemeApiList(
 
   const argTypesList = Object.values(uiComponentConfig.additional).map((value) => {
     return {
-      name: value.name,
+      name: `data-cck-${value.name}`,
       description: value.description,
       defaultValue: value.default ?? '',
       type: value.values,

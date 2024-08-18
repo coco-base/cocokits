@@ -1,0 +1,99 @@
+@use '../../token/scss' as *;
+
+// form-field/color/
+$form-field-color-border: #d0d5dd;
+$form-field-color-icon-light: #98a2b3;
+$form-field-color-icon: #667085;
+$form-field-color-error: $color-error-default;
+
+// form-field/size/
+$form-field-size-radius: 6px;
+$form-field-size-height-sm: 34px;
+$form-field-size-height-md: 40px;
+$form-field-size-height-lg: 46px;
+
+// form-field/spacing/
+$form-field-spacing-input-wrapper-h-padding: 12px;
+$form-field-spacing-input-wrapper-v-padding: 8px;
+$form-field-spacing-input-wrapper-gap: 8px;
+$form-field-spacing-host-gap: 4px;
+$form-field-spacing-trailing-gap: 2px;
+$form-field-spacing-balance-alignment-margin: 2px;
+$form-field-padding-input: 8px;
+
+.cck-form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $form-field-spacing-host-gap;
+}
+
+.cck-form-field--disabled {
+  opacity: 0.5;
+}
+
+.cck-form-field__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  border-radius: $form-field-size-radius;
+}
+
+.cck-form-field__size--sm .cck-form-field__wrapper {
+  height: $form-field-size-height-sm;
+}
+
+.cck-form-field__size--md .cck-form-field__wrapper {
+  height: $form-field-size-height-md;
+}
+
+.cck-form-field__size--lg .cck-form-field__wrapper {
+  height: $form-field-size-height-lg;
+}
+
+.cck-form-field .cck-label {
+  margin-left: $form-field-spacing-balance-alignment-margin;
+}
+
+.cck-form-field__feedback-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-left: $form-field-spacing-balance-alignment-margin;
+}
+
+.cck-form-field__wrapper > *:first-child {
+  border-top-left-radius: $form-field-size-radius;
+  border-bottom-left-radius: $form-field-size-radius;
+}
+
+.cck-form-field__wrapper > *:last-child {
+  border-top-right-radius: $form-field-size-radius;
+  border-bottom-right-radius: $form-field-size-radius;
+}
+
+.cck-form-field__wrapper:has(input:disabled) {
+  background-color: var(--color-surface-inverse-alpha-3);
+}
+
+.cck-form-field__input-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $form-field-spacing-input-wrapper-gap;
+  border: 1px solid $form-field-color-border;
+  padding: 0 $form-field-spacing-input-wrapper-h-padding;
+}
+
+.cck-form-field--focused .cck-form-field__input-wrapper {
+  border: 1px solid $color-brand-default;
+  box-shadow: inset 0 0 0 1px $color-brand-default;
+}
+
+.cck-form-field--error .cck-form-field__input-wrapper {
+  border: 1px solid $form-field-color-error;
+}
+
+.cck-form-field--focused.cck-form-field--error .cck-form-field__input-wrapper {
+  box-shadow: inset 0 0 0 1px $form-field-color-error;
+}

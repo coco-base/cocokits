@@ -1,0 +1,64 @@
+@use '../../token/scss' as *;
+
+$form-field-color-border: #d0d5dd;
+$form-field-spacing-input-wrapper-h-padding: 12px;
+$form-field-color-icon-light: #98a2b3;
+$form-field-color-icon: #667085;
+
+.cck-leading {
+  flex-grow: 0;
+  color: $color-font-alpha-7;
+  border: 1px solid $form-field-color-border;
+  border-right: none;
+  padding: 0 $form-field-spacing-input-wrapper-h-padding;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.cck-leading__regular {
+  font: $text-sm-regular;
+}
+
+.cck-leading__medium {
+  font: $text-sm-medium;
+}
+
+.cck-leading--clickable {
+  cursor: pointer;
+  transition: background-color 100ms;
+}
+
+.cck-leading .cck-svg-icon.cck-svg-icon--default-size {
+  width: $icon-size-xs;
+  height: $icon-size-xs;
+}
+
+.cck-leading__color--transparent {
+  background-color: transparent;
+}
+
+.cck-leading__color--transparent.cck-leading--clickable:active {
+  background-color: $color-surface-inverse-alpha-4;
+}
+
+.cck-leading__color--transparent.cck-leading--clickable:hover:not(:active) {
+  background-color: $color-surface-inverse-alpha-1;
+}
+
+.cck-leading__color--grey {
+  background-color: $color-surface-inverse-alpha-1;
+}
+
+.cck-leading__color--grey.cck-leading--clickable:active {
+  background-color: $color-surface-inverse-alpha-4;
+}
+
+.cck-leading__color--grey.cck-leading--clickable:hover:not(:active) {
+  background-color: $color-surface-inverse-alpha-3;
+}
+
+.cck-leading .cck-svg-icon.cck-svg-icon--default-color .cck-svg-icon__svg {
+  fill: $form-field-color-icon;
+}

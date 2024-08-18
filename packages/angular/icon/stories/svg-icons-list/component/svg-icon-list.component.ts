@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { debounceTime, map, Observable, pipe, startWith, switchMap, tap } from 'rxjs';
 
-import { runInsideNgZone } from '@cocokits/common-angular-utils';
+import { runInsideNgZone } from '@cocokits/angular-utils';
 import { fuzzysearch, skipNullish } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
 import { CckThemeChangedEvent, themeChanged$ } from '@cocokits/storybook-theme-switcher';

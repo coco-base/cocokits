@@ -1,6 +1,57 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+  input: { type: null, size: null, color: null },
+  label: { type: null, size: null, color: null },
+  error: { type: null, size: null, color: null },
+  hint: { type: null, size: null, color: null },
+  prefix: { type: null, size: null, color: null },
+  suffix: { type: null, size: null, color: null },
+  trailing: {
+    type: {
+      name: 'type',
+      values: ['regular', 'medium'],
+      require: false,
+      default: 'medium',
+      description: '',
+    },
+    size: null,
+    color: {
+      name: 'color',
+      values: ['transparent', 'grey'],
+      require: false,
+      default: 'transparent',
+      description: '',
+    },
+  },
+  leading: {
+    type: {
+      name: 'type',
+      values: ['regular', 'medium'],
+      require: false,
+      default: 'medium',
+      description: '',
+    },
+    size: null,
+    color: {
+      name: 'color',
+      values: ['transparent', 'grey'],
+      require: false,
+      default: 'transparent',
+      description: '',
+    },
+  },
+  formField: {
+    type: null,
+    color: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+  },
   radioGroup: {
     type: {
       name: 'type',

@@ -21,7 +21,7 @@ export const svgIconLayoutClassNamesConfig = {
 export function getSvgIconClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-) {
+): Record<keyof typeof svgIconLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'svgIcon',
     componentProps,

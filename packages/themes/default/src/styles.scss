@@ -1,7 +1,11 @@
 @import './styles/elements';
 @import './styles/normalize';
 @import './styles/utils';
+
+// icon
 @import './styles/components/icon';
+
+// button
 @import './styles/components/button-basic';
 @import './styles/components/button-light';
 @import './styles/components/button-outline';
@@ -12,6 +16,21 @@
 @import './styles/components/icon-button-outline';
 @import './styles/components/icon-button-primary';
 @import './styles/components/icon-button-shared';
+
+// checkbox
 @import './styles/components/checkbox';
+
+// radio
 @import './styles/components/radio-group';
 @import './styles/components/radio-button';
+
+// form-field
+@import './styles/components/form-field';
+@import './styles/components/label';
+@import './styles/components/error';
+@import './styles/components/hint';
+@import './styles/components/prefix';
+@import './styles/components/suffix';
+@import './styles/components/trailing';
+@import './styles/components/leading';
+@import './styles/components/input';

@@ -5,9 +5,7 @@
       "@cocokits/angular-components": ["packages/angular/components/src/"],
       "@cocokits/angular-highlight": ["packages/angular/highlight/src/"],
       "@cocokits/angular-icon": ["packages/angular/icon/src/"],
-      "@cocokits/common-angular-utils": ["packages/common/angular-utils/src/"],
       "@cocokits/core": ["packages/common/core/src/lib/angular/"],
-      "@cocokits/core/angular": ["packages/common/core/src/"],
       "@cocokits/common-utils": ["packages/common/utils/src/"],
       "@cocokits/react-overlay": ["packages/react/overlay/src/"],
       "@cocokits/storybook-doc-page": ["packages/internal/storybook-doc-page/src/"],
@@ -21,7 +19,8 @@
       "@cocokits/angular-overlay": ["packages/angular/overlay/src/"],
       "@cocokits/angular-cdk": ["packages/angular/cdk/src/"],
       "@cocokits/angular-form-field": ["packages/angular/form-field/src/"],
-      "@cocokits/angular-input": ["packages/angular/input/src/"]
+      "@cocokits/angular-utils": ["packages/angular/utils/src/"],
+      "@cocokits/angular-core": ["packages/angular/core/src/"]
     }
   }
 }

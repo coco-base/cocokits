@@ -23,7 +23,7 @@ export const iconButtonLayoutClassNamesConfig = {
 export function getIconButtonClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-) {
+): Record<keyof typeof iconButtonLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'iconButton',
     componentProps,

@@ -1,4 +1,28 @@
-export type UIComponentsName = 'radioButton' | 'radioGroup' | 'checkbox' | 'button' | 'iconButton' | 'svgIcon';
+export type UIComponentsName =
+  // form-field
+  | 'formField'
+  | 'label'
+  | 'error'
+  | 'hint'
+  | 'prefix'
+  | 'suffix'
+  | 'trailing'
+  | 'leading'
+  | 'input'
+
+  // radio
+  | 'radioButton'
+  | 'radioGroup'
+
+  // checkbox
+  | 'checkbox'
+
+  // button
+  | 'button'
+  | 'iconButton'
+
+  // icon
+  | 'svgIcon';
 
 export type UIComponentsPropName = 'type' | 'color' | 'size';
 

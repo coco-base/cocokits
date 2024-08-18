@@ -78,6 +78,10 @@
   gap: 32px;
 }
 
+.m-t-36 {
+  margin-top: 36px;
+}
+
 .hr-v {
   width: 100%;
   height: 1px;
@@ -104,7 +108,7 @@
 }
 
 .story-input {
-  border: 1px solid var(--cck-storybook-color-border-alpha-default);
+  border: 1px dashed var(--cck-storybook-color-border-alpha-default);
   border-radius: 4px;
   padding: 4px 12px;
   font: var(--cck-storybook-text-sm-regular);
@@ -191,6 +195,10 @@
 
 .story-variant-table.story-variant-table--no-col-header tbody td:first-child {
   border-right: none;
+}
+
+.story-variant-table.story-variant-table--center-header tbody td:first-child {
+  vertical-align: middle;
 }
 
 // region Overlay

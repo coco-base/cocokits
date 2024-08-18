@@ -1,125 +1,119 @@
-import React from 'react';
+import { useOf } from '@storybook/addon-docs';
+import { PreparedStory } from '@storybook/types';
+import * as _ from 'lodash';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
-import { ThemeUIComponentPropValue } from '@cocokits/core';
+import { ClassRef, UIComponentsName } from '@cocokits/core';
+import { CckThemeChangedEvent } from '@cocokits/storybook-theme-switcher';
 
-import { DocMarkdown } from './DocMarkdown';
+import { DocArgTypesTable } from './DocArgTypesTable';
+import { useArgTypesApiList, useArgTypesThemeApiList } from '../../utils/doc-page.utils';
+import { DocsPageContext } from '../doc-page-container/DocPageContainer';
 
-export const DocArgTypes = ({argTypesList, hideDefault = false, header}: DocArgTypesProps) => {
+interface DocArgTypesProps {
+  cckTheme: CckThemeChangedEvent
+}
 
-  if (argTypesList.length === 0) {
+interface DocArgTypeProps {
+  componentName: UIComponentsName,
+  argTypes: PreparedStory['argTypes'],
+  cckTheme: CckThemeChangedEvent,
+  hideComponentName: boolean
+}
+
+export function DocArgTypes({cckTheme}: DocArgTypesProps) {
+  const resolved = useOf('meta');
+  if(resolved.type !== 'meta') {
     return;
+  }
+
+  const { title } = useContext(DocsPageContext);
+
+  const { argTypes, subcomponents } = resolved.preparedMeta;
+  const primaryComponentName = _.camelCase(title) as UIComponentsName;
+  const hasSubcomponents = !!subcomponents && Object.keys(subcomponents).length > 0;
+
+  return (
+    <>
+      <DocArgType componentName={primaryComponentName} argTypes={argTypes} cckTheme={cckTheme} hideComponentName={false}/>
+
+      {
+        hasSubcomponents &&
+        Object.values(subcomponents).map((subcomponent) => {
+          const isComponentRef =  typeof subcomponent === 'function' && !!subcomponent.prototype && subcomponent.prototype.constructor === subcomponent;
+
+          if(!isComponentRef) {
+            return ;
+          }
+
+          const componentRef = subcomponent as ClassRef;
+          const componentName = componentRef.name.replace(/component$/i, '') as UIComponentsName;
+
+          // Private component such as '_UiBaseComponent'
+          if(componentName.startsWith('_')) {
+            return;
+          }
+
+          const subcomponentTypes = resolved.preparedMeta.parameters['docs'].extractArgTypes(componentRef);
+
+          return (
+            <DocArgType componentName={componentName} argTypes={subcomponentTypes} cckTheme={cckTheme} hideComponentName={false}/>
+          );
+        })
+      }
+    </>
+  );
+
+}
+
+export function DocArgType({componentName, argTypes, cckTheme, hideComponentName}: DocArgTypeProps) {
+  const apiArgTypeList = useArgTypesApiList(componentName, argTypes, cckTheme.uiComponentConfig);
+  const themeApiArgTypeList = useArgTypesThemeApiList(componentName, cckTheme.uiComponentConfig);
+
+  const isApiListEmpty =
+    apiArgTypeList.props.length === 0 &&
+    apiArgTypeList.methods.length === 0 &&
+    apiArgTypeList.events.length === 0;
+
+  const isThemApiListEmpty = themeApiArgTypeList ? themeApiArgTypeList?.length === 0 : true;
+
+  if(isApiListEmpty && isThemApiListEmpty) {
+    return (
+      <>
+        <StyledSpacer/>
+        {!hideComponentName && <h3>{_.capitalize(componentName)} Component API</h3>}
+        <StyledText>This components has no API configuration</StyledText>
+      </>
+    );
   }
 
   return (
     <>
-      { header && <StyledH4>{header}</StyledH4> }
-      <StyledTable>
-        <thead>
-          <tr>
-            <StyledTh>Name</StyledTh>
-            <StyledTh>Type</StyledTh>
-            <StyledTh>Description</StyledTh>
-            { !hideDefault && <StyledTh>Default</StyledTh> }
-          </tr>
-        </thead>
-        <tbody>
-          {argTypesList.map(argType => (
-            <StyledTr key={argType.name}>
+      <StyledSpacer/>
+      {!hideComponentName && <h3>{_.capitalize(componentName)} Component API</h3>}
+      <DocArgTypesTable argTypesList={apiArgTypeList.props} header='Props' />
+      <DocArgTypesTable argTypesList={apiArgTypeList.events} header='Events' hideDefault={true} />
+      <DocArgTypesTable argTypesList={apiArgTypeList.methods} header='methods' hideDefault={true}/>
 
-              <StyledTd>{argType.name}</StyledTd>
-
-              <StyledTd>
-                <StyledTypeWrapper>
-                  {
-                    argType.type.map(type => <code>{type?.toString()}</code>)
-                  }
-                </StyledTypeWrapper>
-              </StyledTd>
-
-              <StyledTd>
-                {argType.description && <DocMarkdown>{argType.description}</DocMarkdown>}
-              </StyledTd>
-
-              {
-                !hideDefault &&
-                <StyledTd>
-                  {argType.defaultValue !== null && <code>{argType.defaultValue?.toString()}</code>}
-                </StyledTd>
-              }
-
-            </StyledTr>
-          ))}
-
-        </tbody>
-      </StyledTable>
+      {
+        themeApiArgTypeList && themeApiArgTypeList.length > 0 &&
+        <>
+          <StyledSpacer/>
+          {!hideComponentName && <h3>{_.capitalize(componentName)} {cckTheme.name} Theme API</h3>}
+          <DocArgTypesTable argTypesList={themeApiArgTypeList} />
+        </>
+      }
     </>
-);
-};
-
-export interface DocArgTypesList {
-  name: string;
-  description: string | undefined;
-  defaultValue?: ThemeUIComponentPropValue;
-  type: ThemeUIComponentPropValue[] | (string | undefined)[];
+  );
 }
 
-interface DocArgTypesProps {
-  argTypesList: DocArgTypesList[],
-  hideDefault?: boolean,
-  header?: string
-}
-
-// region ---------------- STYLES ----------------
-const StyledH4 = styled.h4`
-  margin-top: 24px;
-`;
-const StyledTable = styled.table`
-    border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
-    border-radius: var(--cck-storybook-size-6);
-    border-spacing: 0;
-
-    & p {
-        color: inherit;
-        font: inherit;
-    }
+const StyledSpacer = styled.div`
+    height: 1px;
+    margin-top: 48px;
 `;
 
-const StyledTr = styled.tr`
-    font: var(--cck-storybook-text-sm-medium);
-    color: var(--cck-storybook-color-font-contrast-4);
-    padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24);
-
-    &:nth-child(even) {
-        background-color: var(--cck-storybook-color-bg-table-even);
-    }
-`;
-const StyledTd = styled.td`
+const StyledText = styled.div`
     font: var(--cck-storybook-text-sm-regular);
     color: var(--cck-storybook-color-font-contrast-2);
-    padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24);
-    border-top: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-alpha-default);
-
-    &:first-child {
-        font: var(--cck-storybook-text-sm-medium);
-        color: var(--cck-storybook-color-font-contrast-4);
-    }
-
-    & code {
-        white-space: nowrap;
-        font: var(--cck-storybook-text-xs-regular);
-        padding: var(--cck-storybook-size-0) var(--cck-storybook-size-6);
-    }
-`;
-const StyledTh = styled.th`
-    font: var(--cck-storybook-text-sm-medium);
-    color: var(--cck-storybook-color-font-contrast-4);
-    padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24);
-`;
-
-const StyledTypeWrapper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-`;
-// endregion
+`

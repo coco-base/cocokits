@@ -14,14 +14,13 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { fromAttr, TrustHtmlPipe } from '@cocokits/common-angular-utils';
-import { getCheckboxClassNames, ThemeUIComponentPropValue } from '@cocokits/core';
-import { UIComponentConfig } from '@cocokits/core/angular';
+import { _UiBaseComponent } from '@cocokits/angular-core';
+import { TrustHtmlPipe } from '@cocokits/angular-utils';
 
 import { CheckboxChange } from './checkbox.model';
 
 // Increasing integer for generating unique ids for checkbox components.
-let nextUniqueId = 1;
+let NEXT_ID = 1;
 
 const CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -43,38 +42,29 @@ const CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
     '(click)': '_preventBubblingFromLabel($event)',
   },
 })
-export class CheckboxComponent implements ControlValueAccessor {
-  // region ---------------- DEPENDENCY INJECTION ----------------
-  protected uiComponentConfig = inject(UIComponentConfig);
+export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements ControlValueAccessor {
+  protected readonly componentName = 'checkbox';
+  protected extraHostElementClass = computed(() => {
+    const classNames = [];
+
+    if (this.indeterminate()) {
+      classNames.push(...this.classNames().indeterminate);
+    } else if (this.checked()) {
+      classNames.push(...this.classNames().checked);
+    } else {
+      classNames.push(...this.classNames().unchecked);
+    }
+
+    if (this.disabled()) {
+      classNames.push(...this.classNames().disabled);
+    }
+
+    return classNames;
+  });
+
   private _cd = inject(ChangeDetectorRef);
-  // endregion
 
   // region ---------------- INPUTS ----------------
-
-  /**
-   * The type of checkbox.
-   *
-   * When set to `null`, no specific type is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public type = input<string>();
-
-  /**
-   * The size of checkbox.
-   *
-   * When set to `null`, no specific size is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public size = input<string>();
-
-  /**
-   * The color of checkbox.
-   *
-   * When set to `null`, no specific color is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public color = input<string>();
-
   /**
    * Whether the checkbox is checked.
    * @type {model<boolean>}
@@ -96,100 +86,38 @@ export class CheckboxComponent implements ControlValueAccessor {
   /**
    * A unique id for the checkbox input. If none is supplied, it will be auto-generated.
    */
-  public id = input(`cck-checkbox-${nextUniqueId++}`);
+  public id = input(`cck-checkbox-${NEXT_ID++}`);
 
   /** The value attribute of the native input element */
   public value = input('');
 
   /** Name value will be applied to the input element if present */
   public name = input<string | null>(null);
-
   // endregion
 
   // region ---------------- OUTPUTS ----------------
-
   /** Event emitted when the checkbox's `checked` value changes. */
-  readonly change = output<CheckboxChange>();
+  public readonly change = output<CheckboxChange>();
 
   /** Event emitted when the checkbox's `indeterminate` value changes. */
-  public indeterminateChange = output<boolean>();
-
+  public readonly indeterminateChange = output<boolean>();
   // endregion
 
-  // region ---------------- HELPERS ----------------
-
-  /**
-   * A signal for attributes starting with `data-cck`.
-   *
-   * This allows each theme to define its own unique properties or configurations not shared globally across all themes.
-   * For example, "rounded", "variant", and other custom properties.
-   * Developers should use `data-cck-*` attributes on the component. This generates an object where each key is the attribute name and the value is what the developer specifies.
-   * Based on this object, all necessary class names are created and appended to the host class, allowing the theme to easily select and style elements.
-   *
-   * @example
-   * <cck-component [attr.data-cck-rounded]="roundedValue" [attr.data-cck-variant]="variantValue"/>
-   *
-   * additional = {
-   *   rounded: roundedValue,
-   *   variant: variantValue
-   * }
-   *
-   * @internal
-   */
-  public additional = fromAttr<Record<string, ThemeUIComponentPropValue>>({ prefix: 'data-cck-' });
-
-  protected classNames = computed(() =>
-    getCheckboxClassNames(
-      {
-        type: this.type(),
-        size: this.size(),
-        color: this.color(),
-        additional: this.additional(),
-      },
-      this.uiComponentConfig
-    )
-  );
-
-  protected hostClassNames = computed(() => {
-    const classNames = [...this.classNames().host];
-
-    if (this.indeterminate()) {
-      classNames.push(...this.classNames().indeterminate);
-    } else if (this.checked()) {
-      classNames.push(...this.classNames().checked);
-    } else {
-      classNames.push(...this.classNames().unchecked);
-    }
-
-    if (this.disabled()) {
-      classNames.push(...this.classNames().disabled);
-    }
-
-    return classNames;
-  });
-
+  // region ---------------- PRIVATE PROPERTIES ----------------
   /** The native `<input type="checkbox">` element */
   private _inputElement = viewChild<ElementRef<HTMLInputElement>>('input');
 
   /** The native `<label>` element */
   private _labelElement = viewChild<ElementRef<HTMLInputElement>>('label');
-
   // endregion
 
   // region ---------------- PUBLIC METHODS ----------------
-
-  /** Focuses the checkbox. */
-  public focus() {
-    this._inputElement()?.nativeElement.focus();
-  }
-
   /** Toggles the `checked` state of the checkbox. */
-  toggle(): void {
+  public toggle(): void {
     this._updateCheck(!this.checked());
     this._controlValueAccessorChangeFn(this.checked());
     this._updateIndeterminate(false);
   }
-
   // endregion
 
   // region ---------------- PRIVATE METHODS ----------------

@@ -2,7 +2,7 @@ import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { UIComponentConfig } from '@cocokits/core/angular';
+import { UIComponentConfig } from '@cocokits/angular-core';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 

@@ -1,0 +1,17 @@
+@use '../../token/scss' as *;
+
+$form-field-color-icon-light: #98a2b3;
+$form-field-color-icon: #667085;
+
+.cck-prefix {
+  flex-grow: 0;
+}
+
+.cck-prefix .cck-svg-icon.cck-svg-icon--default-size {
+  width: $icon-size-xs;
+  height: $icon-size-xs;
+}
+
+.cck-prefix .cck-svg-icon.cck-svg-icon--default-color .cck-svg-icon__svg {
+  fill: $form-field-color-icon;
+}

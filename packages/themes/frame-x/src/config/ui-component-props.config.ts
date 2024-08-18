@@ -1,6 +1,15 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
+  input: { type: null, size: null, color: null },
+  label: { type: null, size: null, color: null },
+  error: { type: null, size: null, color: null },
+  hint: { type: null, size: null, color: null },
+  prefix: { type: null, size: null, color: null },
+  suffix: { type: null, size: null, color: null },
+  trailing: { type: null, size: null, color: null },
+  leading: { type: null, size: null, color: null },
+  formField: { type: null, color: null, size: null },
   radioGroup: {
     type: null,
     color: null,

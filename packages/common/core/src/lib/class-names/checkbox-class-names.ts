@@ -71,7 +71,7 @@ export const checkboxLayoutClassNamesConfig = {
 export function getCheckboxClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-) {
+): Record<keyof typeof checkboxLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'checkbox',
     componentProps,

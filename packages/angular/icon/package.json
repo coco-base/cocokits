@@ -2,14 +2,20 @@
   "name": "@cocokits/angular-icon",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/forms": "^18.2.0",
+    "rxjs": "~7.8.0"
   },
   "dependencies": {
     "tslib": "^2.3.0",
-    "@cocokits/common-angular-utils": "workspace:*",
+    "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
     "@cocokits/common-utils": "workspace:*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@storybook/angular": "~8.0.9",
+    "@storybook/addon-docs": "~8.0.9"
+  },
   "sideEffects": false
 }

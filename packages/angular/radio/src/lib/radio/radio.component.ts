@@ -3,28 +3,25 @@ import {
   Component,
   computed,
   effect,
-  ElementRef,
   forwardRef,
   inject,
   input,
   model,
   output,
   signal,
-  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { fromAttr, TrustHtmlPipe } from '@cocokits/common-angular-utils';
-import { getRadioButtonClassNames, getRadioGroupClassNames, ThemeUIComponentPropValue } from '@cocokits/core';
-import { UIComponentConfig } from '@cocokits/core/angular';
+import { _UiBaseComponent } from '@cocokits/angular-core';
+import { TrustHtmlPipe } from '@cocokits/angular-utils';
 
 /**
  * To avoid get cycle dependencies, we have to create radio-group and radio-button in a single file.
  */
 
 // Increasing integer for generating unique ids for checkbox components.
-let nextUniqueId = 1;
+let NEXT_ID = 1;
 
 export interface RadioChange<T> {
   /** The radio button that emits the change event. */
@@ -56,55 +53,12 @@ export const RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
     '[class]': 'classNames().host',
   },
 })
-export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
-  private uiComponentConfig = inject(UIComponentConfig);
-
-  /**
-   * The type of radio-group.
-   *
-   * When set to `null`, no specific type is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public type = input<string>();
-
-  /**
-   * The size of radio-group.
-   *
-   * When set to `null`, no specific size is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public size = input<string>();
-
-  /**
-   * The color of radio-group.
-   *
-   * When set to `null`, no specific color is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public color = input<string>();
-
-  /**
-   * A signal for attributes starting with `data-cck`.
-   *
-   * This allows each theme to define its own unique properties or configurations not shared globally across all themes.
-   * For example, "rounded", "variant", and other custom properties.
-   * Developers should use `data-cck-*` attributes on the component. This generates an object where each key is the attribute name and the value is what the developer specifies.
-   * Based on this object, all necessary class names are created and appended to the host class, allowing the theme to easily select and style elements.
-   *
-   * @example
-   * <cck-component [attr.data-cck-rounded]="roundedValue" [attr.data-cck-variant]="variantValue"/>
-   *
-   * additional = {
-   *   rounded: roundedValue,
-   *   variant: variantValue
-   * }
-   *
-   * @internal
-   */
-  public additional = fromAttr<Record<string, ThemeUIComponentPropValue>>({ prefix: 'data-cck-' });
+export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGroup'> implements ControlValueAccessor {
+  protected readonly componentName = 'radioGroup';
+  protected extraHostElementClass = computed(() => []);
 
   /** Name of the radio button group. All radio buttons inside this group will use this name. */
-  public name = input<string>(`cck-radio-group-${nextUniqueId++}`);
+  public name = input<string>(`cck-radio-group-${NEXT_ID++}`);
 
   /** The currently selected radio button */
   public selected = model<T>();
@@ -127,18 +81,6 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
       this.change.emit({ source: selectedRadio, value: selectedRadio.value() });
     }
   });
-
-  protected classNames = computed(() =>
-    getRadioGroupClassNames(
-      {
-        type: this.type(),
-        size: this.size(),
-        color: this.color(),
-        additional: this.additional(),
-      },
-      this.uiComponentConfig
-    )
-  );
 
   /**
    * Will be called by radioButton component to set the selected.
@@ -204,6 +146,7 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
   }
 }
 
+// To avoid circular dependency, we need to define both components in a single file.
 @Component({
   standalone: true,
   imports: [TrustHtmlPipe],
@@ -216,60 +159,29 @@ export class RadioGroupComponent<T = unknown> implements ControlValueAccessor {
     '[class]': 'hostClassNames()',
   },
 })
-export class RadioButtonComponent<T = unknown> {
-  protected uiComponentConfig = inject(UIComponentConfig);
+export class RadioButtonComponent<T = unknown> extends _UiBaseComponent<'radioButton'> {
+  protected readonly componentName = 'radioButton';
+  protected extraHostElementClass = computed(() => {
+    const classNames = [];
 
-  /**
-   * The type of radio-button.
-   *
-   * When set to `null`, no specific type is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public type = input<string>();
+    if (this.effectedChecked()) {
+      classNames.push(...this.classNames().checked);
+    } else {
+      classNames.push(...this.classNames().unchecked);
+    }
 
-  /**
-   * The size of radio-button.
-   *
-   * When set to `null`, no specific size is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public size = input<string>();
+    if (this.effectedDisabled()) {
+      classNames.push(...this.classNames().disabled);
+    }
 
-  private effectedSize = computed(() => this.size() ?? this.radioGroup?.size());
-
-  /**
-   * The color of radio-button.
-   *
-   * When set to `null`, no specific color is applied (Not event the default value).
-   * This allows for more flexible styling options if the desired size is not available in the selected theme.
-   */
-  public color = input<string>();
-
-  private effectedColor = computed(() => this.color() ?? this.radioGroup?.color());
-
-  /**
-   * A signal for attributes starting with `data-cck`.
-   *
-   * This allows each theme to define its own unique properties or configurations not shared globally across all themes.
-   * For example, "rounded", "variant", and other custom properties.
-   * Developers should use `data-cck-*` attributes on the component. This generates an object where each key is the attribute name and the value is what the developer specifies.
-   * Based on this object, all necessary class names are created and appended to the host class, allowing the theme to easily select and style elements.
-   *
-   * @example
-   * <cck-component [attr.data-cck-rounded]="roundedValue" [attr.data-cck-variant]="variantValue"/>
-   *
-   * additional = {
-   *   rounded: roundedValue,
-   *   variant: variantValue
-   * }
-   *
-   * @internal
-   */
-  public additional = fromAttr<Record<string, ThemeUIComponentPropValue>>({ prefix: 'data-cck-' });
-
-  private effectedAdditional = computed(() => ({ ...this.additional(), ...this.radioGroup?.additional() }));
+    return classNames;
+  });
 
   private radioGroup = inject(RadioGroupComponent<T>, { optional: true });
+
+  private effectedSize = computed(() => this.size() ?? this.radioGroup?.size());
+  private effectedColor = computed(() => this.color() ?? this.radioGroup?.color());
+  private effectedAdditional = computed(() => ({ ...this.additional(), ...this.radioGroup?.additional() }));
 
   /** Analog to HTML 'name' attribute used to group radios for unique selection. */
   public name = input<string>();
@@ -292,7 +204,7 @@ export class RadioButtonComponent<T = unknown> {
   protected effectedDisabled = computed(() => this.disabled() || this.radioGroup?.disabled());
 
   /** The unique ID for the radio button. If none is supplied, it will be auto-generated. */
-  public id = input(`cck-radio-${nextUniqueId++}`);
+  public id = input(`cck-radio-${NEXT_ID++}`);
 
   /**
    * Event emitted when the group value changes.
@@ -301,41 +213,10 @@ export class RadioButtonComponent<T = unknown> {
    */
   readonly change = output<RadioChange<T>>();
 
-  /** The native `<input type="radio">` element */
-  private inputElement = viewChild<ElementRef<HTMLInputElement>>('input');
-
-  protected classNames = computed(() =>
-    getRadioButtonClassNames(
-      {
-        type: this.type(),
-        size: this.effectedSize(),
-        color: this.effectedColor(),
-        additional: this.effectedAdditional(),
-      },
-      this.uiComponentConfig
-    )
-  );
-
-  protected hostClassNames = computed(() => {
-    const classNames = [...this.classNames().host];
-
-    if (this.effectedChecked()) {
-      classNames.push(...this.classNames().checked);
-    } else {
-      classNames.push(...this.classNames().unchecked);
-    }
-
-    if (this.effectedDisabled()) {
-      classNames.push(...this.classNames().disabled);
-    }
-
-    return classNames;
-  });
-
   /** Triggered when the radio button receives an interaction from the user. */
   protected _onInputChange(event: Event) {
     // We always have to stop propagation on the change event.
-    // Otherwise the change event, from the input element, will bubble up and
+    // Otherwise, the change event, from the input element, will bubble up and
     // emit its event object to the `change` output.
     event.stopPropagation();
 

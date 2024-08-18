@@ -2,8 +2,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
+import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/core';
-import { UIComponentConfig } from '@cocokits/core/angular';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';

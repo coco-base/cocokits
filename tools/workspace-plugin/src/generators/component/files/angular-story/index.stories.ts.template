@@ -1,5 +1,5 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-import { UIComponentConfig } from '@cocokits/core/angular';
+import { UIComponentConfig } from '@cocokits/angular-core';
 
 import { AngularStoriesMeta } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
@@ -32,6 +32,8 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
+    // Example of: using component API insteadof Theme API or Disable from ArgTable
+    // type: { table: { useComponentApi: true, disable: true } },
   },
   args: {
   },

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { cssSelectorRender, layoutClassNamesConfig,UIComponentsName } from '@cocokits/core';
+import { cssSelectorRender, layoutClassNamesConfig, UIComponentsName } from '@cocokits/core';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { DocMarkdown } from '../doc-page/DocMarkdown';
@@ -18,6 +18,9 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
   // const themeComponentConfig = selectedCck
   // Theme.uiComponentConfig[componentName];
   const {additional, component, ...restProp} = selectedCckTheme.uiComponentConfig[componentName];
+  const hasVariants =
+    Object.values(restProp).filter(Boolean).length > 0 ||
+    Object.values(additional ?? {}).filter(Boolean).length > 0;
 
   return (
     <>
@@ -48,69 +51,25 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
       </StyledTable>
 
 
-      <StyledH2>Variants</StyledH2>
-      <p><strong>Render Condition:</strong> These selectors will be added to the DOM when the corresponding variant
-        group is added to the component.</p>
-
       {
-        Object.entries(restProp).map(([key, config]) => {
-          if (!config) {
-            return;
-          }
-
-
-          return (
-            <>
-              <StyledH3>{key}</StyledH3>
-              <p>Selectors in this group act as <code>{key}</code> variants and are applied to specific layout elements.
-              </p>
-              {config.description && <DocMarkdown>{config.description}</DocMarkdown>}
-
-              <StyledTable>
-                <thead>
-                  <tr>
-                    <StyledTh>Selector</StyledTh>
-                    <StyledTh>Package</StyledTh>
-                    <StyledTh>Element</StyledTh>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    Object.values(config.values).map(value => (
-                      <StyledTr key={value.toString()}>
-                        <StyledTd noWrap={true}>
-                          {
-                            key === 'type' ? cssSelectorRender(coreClassNames.prefix, value) : cssSelectorRender(coreClassNames.prefix, key, value)
-                          }
-                        </StyledTd>
-                        <StyledTd>{selectedCckTheme.name}</StyledTd>
-                        <StyledTd noWrap={true}>Host Element</StyledTd>
-                      </StyledTr>
-                    ))
-                  }
-                </tbody>
-              </StyledTable>
-            </>
-          );
-        })
-      }
-
-      {
-        additional &&
+        hasVariants &&
         <>
-          <StyledH2>Theme Variants</StyledH2>
+          <StyledH2>Variants</StyledH2>
           <p><strong>Render Condition:</strong> These selectors will be added to the DOM when the corresponding variant
-          group is added to the component.</p>
+            group is added to the component.</p>
 
           {
-            Object.entries(additional).map(([key, config]) => {
+            Object.entries(restProp).map(([key, config]) => {
               if (!config) {
                 return;
               }
 
+
               return (
                 <>
                   <StyledH3>{key}</StyledH3>
+                  <p>Selectors in this group act as <code>{key}</code> variants and are applied to specific layout elements.
+                  </p>
                   {config.description && <DocMarkdown>{config.description}</DocMarkdown>}
 
                   <StyledTable>
@@ -122,12 +81,24 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
                       </tr>
                     </thead>
                     <tbody>
+
+                      {/* default-type, default-color, default-size */}
+                      <StyledTr key={config.name + 'default'}>
+                        <StyledTd noWrap={true}>
+                          { cssSelectorRender({ block: coreClassNames.prefix, modifier: `default-${config.name}` })}
+                        </StyledTd>
+                        <StyledTd>{selectedCckTheme.name}</StyledTd>
+                        <StyledTd noWrap={false}>
+                          {`Applied to the Host Element when no ${config.name} is defined within the component, defaulting to the selected theme's ${config.name}.`}
+                        </StyledTd>
+                      </StyledTr>
+
                       {
                         Object.values(config.values).map(value => (
                           <StyledTr key={value.toString()}>
                             <StyledTd noWrap={true}>
                               {
-                                key === 'type' ? cssSelectorRender(coreClassNames.prefix, value) : cssSelectorRender(coreClassNames.prefix, key, value)
+                                key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({block: coreClassNames.prefix, element: key, modifier: value})
                               }
                             </StyledTd>
                             <StyledTd>{selectedCckTheme.name}</StyledTd>
@@ -140,6 +111,55 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
                 </>
               );
             })
+          }
+
+          {
+            additional &&
+            <>
+              <StyledH2>Theme Variants</StyledH2>
+              <p><strong>Render Condition:</strong> These selectors will be added to the DOM when the corresponding variant
+                group is added to the component.</p>
+
+              {
+                Object.entries(additional).map(([key, config]) => {
+                  if (!config) {
+                    return;
+                  }
+
+                  return (
+                    <>
+                      <StyledH3>{key}</StyledH3>
+                      {config.description && <DocMarkdown>{config.description}</DocMarkdown>}
+
+                      <StyledTable>
+                        <thead>
+                          <tr>
+                            <StyledTh>Selector</StyledTh>
+                            <StyledTh>Package</StyledTh>
+                            <StyledTh>Element</StyledTh>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            Object.values(config.values).map(value => (
+                              <StyledTr key={value.toString()}>
+                                <StyledTd noWrap={true}>
+                                  {
+                                    key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({ block: coreClassNames.prefix, element: key, modifier: value})
+                                  }
+                                </StyledTd>
+                                <StyledTd>{selectedCckTheme.name}</StyledTd>
+                                <StyledTd noWrap={true}>Host Element</StyledTd>
+                              </StyledTr>
+                            ))
+                          }
+                        </tbody>
+                      </StyledTable>
+                    </>
+                  );
+                })
+              }
+            </>
           }
         </>
       }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { recordForEach } from '@cocokits/common-utils';
@@ -53,7 +53,6 @@ export function MdxTokenTable() {
         const currentGroupNames = groupOrTokenIdsKey.startsWith("__")
           ? groupNames + '/'
           : groupNames + groupOrTokenIdsKey + '/';
-        console.log('groupOrTokenIdsKey', groupOrTokenIdsKey, currentGroupNames);
         result.push(...getTokenList(childGroupOrTokenIds, currentGroupNames));
       }
     });

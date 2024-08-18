@@ -21,7 +21,7 @@ export const radioGroupLayoutClassNamesConfig = {
 export function getRadioGroupClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-) {
+): Record<keyof typeof radioGroupLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'radioGroup',
     componentProps,
