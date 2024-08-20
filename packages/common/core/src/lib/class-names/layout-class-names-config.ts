@@ -13,6 +13,7 @@ import { radioButtonLayoutClassNamesConfig } from './radio-button-class-names';
 import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
 import { trailingLayoutClassNamesConfig } from './trailing-class-names';
+import { textareaClassNamesConfig } from './textarea-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -50,4 +51,5 @@ export const layoutClassNamesConfig = {
   trailing: trailingLayoutClassNamesConfig,
   leading: leadingLayoutClassNamesConfig,
   input: inputLayoutClassNamesConfig,
+  textarea: textareaClassNamesConfig,
 };

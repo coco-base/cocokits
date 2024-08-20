@@ -22,6 +22,7 @@ import {
   UIComponentsName,
 } from '../model/ui-component.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
+import { getTextareaClassNames } from './textarea-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -34,6 +35,7 @@ export const CLASS_NAMES_FN_MAP = {
   trailing: getTrailingClassNames,
   leading: getLeadingClassNames,
   input: getInputClassNames,
+  textarea: getTextareaClassNames,
 
   // radio
   radioButton: getRadioButtonClassNames,

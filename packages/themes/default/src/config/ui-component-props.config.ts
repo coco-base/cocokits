@@ -1,6 +1,7 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+  textarea: { type: null, size: null, color: null },
   input: { type: null, size: null, color: null },
   label: { type: null, size: null, color: null },
   error: { type: null, size: null, color: null },

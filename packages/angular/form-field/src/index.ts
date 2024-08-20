@@ -8,3 +8,5 @@ export * from './lib/suffix/suffix.component';
 export * from './lib/prefix/prefix.component';
 export * from './lib/form-field.store';
 export * from './lib/input/input.component';
+
+export * from './lib/textarea/textarea.component';

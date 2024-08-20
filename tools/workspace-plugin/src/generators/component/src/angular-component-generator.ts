@@ -31,9 +31,8 @@ export function angularComponentGenerator(tree: Tree, options: ComponentGenerato
   Logger.log(
     `2- Generate '${options.fileName}-class-names.ts' in 'packages/common/core/src/lib/class-names' directory`
   );
-  Logger.log(`3- export '${options.fileName}-class-names.ts' from 'packages/common/core/src/index.ts'`);
   Logger.log(
-    `4- Update 'layoutClassNamesConfig' from 'packages/common/core/src/lib/class-names/layout-class-names-config.ts'`
+    `3- Update 'layoutClassNamesConfig' from 'packages/common/core/src/lib/class-names/layout-class-names-config.ts'`
   );
   Logger.note(`Theme Default`);
   Logger.log(

@@ -9,6 +9,7 @@ export type UIComponentsName =
   | 'trailing'
   | 'leading'
   | 'input'
+  | 'textarea'
 
   // radio
   | 'radioButton'
