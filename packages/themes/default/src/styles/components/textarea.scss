@@ -21,6 +21,8 @@ $form-field-spacing-host-gap: 4px;
 $form-field-spacing-trailing-gap: 2px;
 $form-field-spacing-balance-alignment-margin: 2px;
 $form-field-padding-input: 8px;
+$color-font-alpha-6: #0006;
+$color-font-alpha-5: #0003;
 
 .cck-textarea {
   border: none;
@@ -30,6 +32,10 @@ $form-field-padding-input: 8px;
   font: $text-md-regular;
   color: $color-font-default;
   padding: 0;
+}
+
+.cck-textarea::placeholder {
+  color: $color-font-alpha-6;
 }
 
 .cck-textarea::-webkit-resizer {

@@ -22,8 +22,12 @@ export const Default: AngularStoryObj<FormFieldComponent> = {
     },
     template: `
         <cck-form-field>
-          <cck-label>Email</cck-label>
-          <input cckInput placeholder="Write your Email"/>
+          <cck-label>Input</cck-label>
+          <input cckInput placeholder="Placeholder"/>
+        </cck-form-field>
+        <cck-form-field>
+          <cck-label>Textarea</cck-label>
+          <textarea cckTextarea placeholder="Placeholder"></textarea>
         </cck-form-field>
     `,
   }),

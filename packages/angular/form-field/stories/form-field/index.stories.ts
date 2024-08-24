@@ -16,6 +16,7 @@ import {
   LeadingComponent,
   PrefixComponent,
   SuffixComponent,
+  TextareaComponent,
   TrailingComponent,
 } from '../../src';
 import { FormFieldComponent } from '../../src/lib/form-field/form-field.component';
@@ -56,6 +57,7 @@ const meta: AngularStoriesMeta = {
         LeadingComponent,
         TrailingComponent,
         SvgIconComponent,
+        TextareaComponent,
       ],
       providers: [
         {
