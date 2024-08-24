@@ -10,6 +10,7 @@ export type UIComponentsName =
   | 'leading'
   | 'input'
   | 'textarea'
+  | 'select'
 
   // radio
   | 'radioButton'

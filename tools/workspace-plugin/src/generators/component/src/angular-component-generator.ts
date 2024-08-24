@@ -34,6 +34,7 @@ export function angularComponentGenerator(tree: Tree, options: ComponentGenerato
   Logger.log(
     `3- Update 'layoutClassNamesConfig' from 'packages/common/core/src/lib/class-names/layout-class-names-config.ts'`
   );
+  Logger.log(`4- Update 'CLASS_NAMES_FN_MAP' from 'packages/common/core/src/lib/class-names/class-names.ts'`);
   Logger.note(`Theme Default`);
   Logger.log(
     `1- Update theme 'cocokitsUIComponentConfig' from 'packages/themes/default/src/config/ui-component-props.config.ts'`

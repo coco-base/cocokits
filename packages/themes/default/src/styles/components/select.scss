@@ -1,0 +1,24 @@
+@use '../../token/scss' as *;
+
+// form-field/color/
+$form-field-color-border: #d0d5dd;
+$form-field-color-icon-light: #98a2b3;
+$form-field-color-icon: #667085;
+$form-field-color-error: $color-error-default;
+
+// form-field/size/
+$form-field-size-radius: 6px;
+$form-field-size-height-sm: 34px;
+$form-field-size-height-md: 40px;
+$form-field-size-height-lg: 46px;
+
+// form-field/spacing/
+$form-field-spacing-input-wrapper-h-padding: 12px;
+$form-field-spacing-input-wrapper-v-padding: 8px;
+$form-field-spacing-input-wrapper-gap: 8px;
+$form-field-spacing-host-gap: 4px;
+$form-field-spacing-trailing-gap: 2px;
+$form-field-spacing-balance-alignment-margin: 2px;
+$form-field-padding-input: 8px;
+$color-font-alpha-6: #0006;
+$color-font-alpha-5: #0003;

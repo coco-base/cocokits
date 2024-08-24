@@ -11,9 +11,10 @@ import { leadingLayoutClassNamesConfig } from './leading-class-names';
 import { prefixLayoutClassNamesConfig } from './prefix-class-names';
 import { radioButtonLayoutClassNamesConfig } from './radio-button-class-names';
 import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
+import { selectLayoutClassNamesConfig } from './select-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
-import { trailingLayoutClassNamesConfig } from './trailing-class-names';
 import { textareaClassNamesConfig } from './textarea-class-names';
+import { trailingLayoutClassNamesConfig } from './trailing-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -52,4 +53,5 @@ export const layoutClassNamesConfig = {
   leading: leadingLayoutClassNamesConfig,
   input: inputLayoutClassNamesConfig,
   textarea: textareaClassNamesConfig,
+  select: selectLayoutClassNamesConfig,
 };
