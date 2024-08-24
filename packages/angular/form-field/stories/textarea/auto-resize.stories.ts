@@ -3,8 +3,8 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { TextareaComponent } from '../../src/lib/textarea/textarea.component';
 
-export const Default: AngularStoryObj<TextareaComponent> = {
-  name: 'Default',
+export const AutoResize: AngularStoryObj<TextareaComponent> = {
+  name: 'AutoResize',
   parameters: {
     docs: {
       description: {
@@ -22,8 +22,8 @@ export const Default: AngularStoryObj<TextareaComponent> = {
     },
     template: `
         <cck-form-field>
-          <cck-label>Label</cck-label>
-          <textarea cckTextarea></textarea>
+          <cck-label>AutoResize</cck-label>
+          <textarea cckTextarea [autoResize]="true"></textarea>
         </cck-form-field>
     `,
   }),

@@ -29,7 +29,7 @@ let NEXT_ID = 1;
 })
 export class ErrorComponent extends _UiBaseComponent<'error'> implements OnInit, OnDestroy {
   protected readonly componentName = 'error';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 
   protected store = injectFormFieldStore();
 

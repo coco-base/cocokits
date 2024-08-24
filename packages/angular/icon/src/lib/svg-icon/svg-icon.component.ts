@@ -18,7 +18,7 @@ import { ThemeSvgIcon } from '@cocokits/core';
 })
 export class SvgIconComponent extends _UiBaseComponent<'svgIcon'> {
   protected readonly componentName = 'svgIcon';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 
   /**
    * Input property that requires an SVG icon configuration.

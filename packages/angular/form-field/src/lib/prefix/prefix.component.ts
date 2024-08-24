@@ -16,5 +16,5 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 })
 export class PrefixComponent extends _UiBaseComponent<'prefix'> {
   protected readonly componentName = 'prefix';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 }

@@ -10,6 +10,17 @@ export const textareaClassNamesConfig = {
       selectors: ['cck-textarea'],
       description: 'It will add to the host element of textarea component.',
     },
+    disabled: {
+      name: 'Host Element',
+      selectors: ['cck-textarea--disabled'],
+      description: 'It will add to the host element of textarea component, the component is disabled',
+    },
+    autoResize: {
+      name: 'Host Element',
+      selectors: ['cck-textarea--auto-resize'],
+      description:
+        'It will add to the host element of textarea component, the the height of textarea will automatically change base on content',
+    },
   },
 };
 
@@ -28,5 +39,7 @@ export function getTextareaClassNames(
       ...textareaClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(textareaClassNamesConfig.prefix, options),
     ],
+    disabled: [...textareaClassNamesConfig.elements.disabled.selectors],
+    autoResize: [...textareaClassNamesConfig.elements.autoResize.selectors],
   };
 }

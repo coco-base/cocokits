@@ -16,5 +16,5 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 })
 export class HintComponent extends _UiBaseComponent<'hint'> {
   protected readonly componentName = 'hint';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 }

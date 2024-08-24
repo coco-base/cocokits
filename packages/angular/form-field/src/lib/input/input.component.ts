@@ -24,7 +24,6 @@ import { injectFormFieldStore } from '../form-field.store';
   styleUrls: ['./input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [],
   host: {
     '[class]': 'hostClassNames()',
     '[disabled]': 'store.state.disabled()',
@@ -35,7 +34,9 @@ import { injectFormFieldStore } from '../form-field.store';
 })
 export class InputComponent extends _UiBaseComponent<'input'> implements OnInit {
   protected readonly componentName = 'input';
-  protected extraHostElementClass = computed(() => (this.store.state.disabled() ? this.classNames().disabled : []));
+  protected extraHostElementClassConditions = computed(() => [
+    { if: this.store.state.disabled(), classes: this.classNames().disabled },
+  ]);
 
   protected store = injectFormFieldStore();
   private ngControl = inject(NgControl, { optional: true, self: true });

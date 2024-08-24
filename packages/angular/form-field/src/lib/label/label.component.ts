@@ -18,7 +18,7 @@ import { injectFormFieldStore } from '../form-field.store';
 })
 export class LabelComponent extends _UiBaseComponent<'label'> {
   protected readonly componentName = 'label';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 
   protected store = injectFormFieldStore();
 }

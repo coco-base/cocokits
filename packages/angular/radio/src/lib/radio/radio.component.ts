@@ -55,7 +55,7 @@ export const RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGroup'> implements ControlValueAccessor {
   protected readonly componentName = 'radioGroup';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 
   /** Name of the radio button group. All radio buttons inside this group will use this name. */
   public name = input<string>(`cck-radio-group-${NEXT_ID++}`);
@@ -161,21 +161,11 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
 })
 export class RadioButtonComponent<T = unknown> extends _UiBaseComponent<'radioButton'> {
   protected readonly componentName = 'radioButton';
-  protected extraHostElementClass = computed(() => {
-    const classNames = [];
-
-    if (this.effectedChecked()) {
-      classNames.push(...this.classNames().checked);
-    } else {
-      classNames.push(...this.classNames().unchecked);
-    }
-
-    if (this.effectedDisabled()) {
-      classNames.push(...this.classNames().disabled);
-    }
-
-    return classNames;
-  });
+  protected extraHostElementClassConditions = computed(() => [
+    { if: this.effectedChecked(), classes: this.classNames().checked },
+    { if: !this.effectedChecked(), classes: this.classNames().unchecked },
+    { if: this.effectedDisabled(), classes: this.classNames().disabled },
+  ]);
 
   private radioGroup = inject(RadioGroupComponent<T>, { optional: true });
 

@@ -13,6 +13,18 @@ export class FormFieldStoreService {
     components: signal([]),
   };
 
+  public textarea: {
+    disabled: Signal<boolean | null | undefined> | null;
+    control: AbstractControlSignalStates | null;
+    required: Signal<boolean | null | undefined> | null;
+    focused: WritableSignal<boolean | null | undefined> | null;
+  } = {
+      disabled: null,
+      control: null,
+      required: null,
+      focused: null,
+    };
+
   public input: {
     disabled: Signal<boolean | null | undefined> | null;
     control: AbstractControlSignalStates | null;
@@ -35,18 +47,38 @@ export class FormFieldStoreService {
       hideRequiredMarker: null,
     };
 
+  private disabled = computed(
+    () =>
+      this.input.disabled?.() ??
+      this.textarea.disabled?.() ??
+      this.formField.disable?.() ??
+      this.input.control?.disabled() ??
+      this.textarea.control?.disabled() ??
+      false
+  );
+
   public state = {
-    disabled: computed(
-      () => this.input.disabled?.() ?? this.formField.disable?.() ?? this.input.control?.disabled() ?? false
-    ),
+    disabled: this.disabled,
+    hasInput: computed(() => this.input.disabled !== null),
+    hasTextarea: computed(() => this.textarea.disabled !== null),
     hideRequiredMarker: computed(() => this.formField.hideRequiredMarker?.() ?? false),
-    required: computed(() => this.input.required?.() ?? this.input.control?.required() ?? false),
+    required: computed(
+      () =>
+        this.input.required?.() ??
+        this.textarea.required?.() ??
+        this.input.control?.required() ??
+        this.textarea.control?.required() ??
+        false
+    ),
     focused: computed(() => {
-      const disable = this.input.disabled?.() ?? this.formField.disable?.() ?? false;
-      return disable ? false : this.input.focused?.();
+      return this.disabled() ? false : this.input.focused?.() ?? this.textarea.focused?.();
     }),
     hasError: computed(() => {
       if (this.input.control?.invalid() && this.input.control?.dirty() && this.input.control?.touched()) {
+        return true;
+      }
+
+      if (this.textarea.control?.invalid() && this.textarea.control?.dirty() && this.textarea.control?.touched()) {
         return true;
       }
 

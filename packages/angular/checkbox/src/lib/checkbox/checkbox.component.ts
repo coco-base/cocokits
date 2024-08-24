@@ -44,23 +44,12 @@ const CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements ControlValueAccessor {
   protected readonly componentName = 'checkbox';
-  protected extraHostElementClass = computed(() => {
-    const classNames = [];
-
-    if (this.indeterminate()) {
-      classNames.push(...this.classNames().indeterminate);
-    } else if (this.checked()) {
-      classNames.push(...this.classNames().checked);
-    } else {
-      classNames.push(...this.classNames().unchecked);
-    }
-
-    if (this.disabled()) {
-      classNames.push(...this.classNames().disabled);
-    }
-
-    return classNames;
-  });
+  protected extraHostElementClassConditions = computed(() => [
+    { if: this.indeterminate(), classes: this.classNames().indeterminate },
+    { if: this.checked() && !this.indeterminate(), classes: this.classNames().checked },
+    { if: !this.checked() && !this.indeterminate(), classes: this.classNames().unchecked },
+    { if: this.disabled(), classes: this.classNames().disabled },
+  ]);
 
   private _cd = inject(ChangeDetectorRef);
 

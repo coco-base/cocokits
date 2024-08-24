@@ -11,10 +11,10 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
     host: {
-      '[class]': 'classNames().host'
+      '[class]': 'hostClassNames()'
     }
 })
 export class <%= className %>Component extends _UiBaseComponent<'<%= fileName %>'> {
   protected readonly componentName = '<%= fileName %>';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 }

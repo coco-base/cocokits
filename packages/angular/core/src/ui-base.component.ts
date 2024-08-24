@@ -8,7 +8,10 @@ import { UIComponentConfig } from './tokens';
 @Directive()
 export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> {
   protected abstract readonly componentName: ComponentsName;
-  protected abstract extraHostElementClass: Signal<string[]>;
+  // When the `if` condition is true, then the class list will be added to the host element
+  protected abstract extraHostElementClassConditions: Signal<
+    { if: boolean | undefined | null | any; classes: string[] }[]
+  >;
 
   protected uiComponentConfig = inject(UIComponentConfig);
 
@@ -69,7 +72,10 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
     )
   );
 
-  protected hostClassNames = computed(() => [...this.classNames().host, ...this.extraHostElementClass()]);
+  protected hostClassNames = computed(() => [
+    ...this.classNames().host,
+    ...this.extraHostElementClassConditions().flatMap((condition) => (condition.if ? condition.classes : [])),
+  ]);
 
   protected baseClassOptions = {
     skipType: false,

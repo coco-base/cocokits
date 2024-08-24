@@ -25,13 +25,7 @@ export class LeadingComponent extends _UiBaseComponent<'leading'> {
    */
   public clickable = input(false);
 
-  protected extraHostElementClass = computed(() => {
-    const classNames: string[] = [];
-
-    if (this.clickable() && !this.store.state.disabled()) {
-      classNames.push(...this.classNames().clickable);
-    }
-
-    return classNames;
-  });
+  protected override extraHostElementClassConditions = computed(() => [
+    { if: this.clickable() && !this.store.state.disabled(), classes: this.classNames().clickable },
+  ]);
 }

@@ -21,15 +21,9 @@ export class TrailingComponent extends _UiBaseComponent<'trailing'> {
 
   private store = injectFormFieldStore();
 
-  protected extraHostElementClass = computed(() => {
-    const classNames: string[] = [];
-
-    if (this.clickable() && !this.store.state.disabled()) {
-      classNames.push(...this.classNames().clickable);
-    }
-
-    return classNames;
-  });
+  protected extraHostElementClassConditions = computed(() => [
+    { if: this.clickable() && !this.store.state.disabled(), classes: this.classNames().clickable },
+  ]);
 
   /**
    * Whether the component is clickable.

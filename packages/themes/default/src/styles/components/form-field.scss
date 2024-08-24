@@ -39,15 +39,19 @@ $form-field-padding-input: 8px;
   border-radius: $form-field-size-radius;
 }
 
-.cck-form-field__size--sm .cck-form-field__wrapper {
+.cck-form-field__wrapper:has(input:disabled) {
+  background-color: var(--color-surface-inverse-alpha-3);
+}
+
+.cck-form-field--with-input.cck-form-field__size--sm .cck-form-field__wrapper {
   height: $form-field-size-height-sm;
 }
 
-.cck-form-field__size--md .cck-form-field__wrapper {
+.cck-form-field--with-input.cck-form-field__size--md .cck-form-field__wrapper {
   height: $form-field-size-height-md;
 }
 
-.cck-form-field__size--lg .cck-form-field__wrapper {
+.cck-form-field--with-input.cck-form-field__size--lg .cck-form-field__wrapper {
   height: $form-field-size-height-lg;
 }
 
@@ -72,17 +76,20 @@ $form-field-padding-input: 8px;
   border-bottom-right-radius: $form-field-size-radius;
 }
 
-.cck-form-field__wrapper:has(input:disabled) {
-  background-color: var(--color-surface-inverse-alpha-3);
-}
-
 .cck-form-field__input-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: $form-field-spacing-input-wrapper-gap;
   border: 1px solid $form-field-color-border;
+}
+
+.cck-form-field--with-input .cck-form-field__input-wrapper {
   padding: 0 $form-field-spacing-input-wrapper-h-padding;
+}
+
+.cck-form-field--with-textarea .cck-form-field__input-wrapper {
+  padding: 8px;
 }
 
 .cck-form-field--focused .cck-form-field__input-wrapper {

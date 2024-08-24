@@ -16,5 +16,5 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 })
 export class SuffixComponent extends _UiBaseComponent<'suffix'> {
   protected readonly componentName = 'suffix';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 }

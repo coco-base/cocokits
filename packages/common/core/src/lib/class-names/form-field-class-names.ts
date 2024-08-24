@@ -76,6 +76,18 @@ export const formFieldLayoutClassNamesConfig = {
       description:
         'It will add to the host element of FormField component, when the value of input is invalid, touched and dirty or error component is present',
     },
+    withInput: {
+      name: 'Host Element',
+      selectors: ['cck-form-field--with-input'],
+      description:
+        'It will add to the host element of FormField component, when the formFiled component contains input component',
+    },
+    withTextarea: {
+      name: 'Host Element',
+      selectors: ['cck-form-field--with-textarea'],
+      description:
+        'It will add to the host element of FormField component, when the formFiled component contains textarea component',
+    },
   },
 };
 
@@ -107,5 +119,7 @@ export function getFormFieldClassNames(
     invalid: [...formFieldLayoutClassNamesConfig.elements.invalid.selectors],
     pending: [...formFieldLayoutClassNamesConfig.elements.pending.selectors],
     error: [...formFieldLayoutClassNamesConfig.elements.error.selectors],
+    withInput: [...formFieldLayoutClassNamesConfig.elements.withInput.selectors],
+    withTextarea: [...formFieldLayoutClassNamesConfig.elements.withTextarea.selectors],
   };
 }

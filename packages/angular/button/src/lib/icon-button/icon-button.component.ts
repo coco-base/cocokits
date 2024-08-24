@@ -16,5 +16,5 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 })
 export class IconButtonComponent extends _UiBaseComponent<'iconButton'> {
   protected readonly componentName = 'iconButton';
-  protected extraHostElementClass = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => []);
 }
