@@ -8,7 +8,9 @@ export * from './lib/suffix/suffix.component';
 export * from './lib/prefix/prefix.component';
 export * from './lib/form-field.store';
 export * from './lib/input/input.component';
-
 export * from './lib/textarea/textarea.component';
-
 export * from './lib/select/select.component';
+export * from './lib/option/option.component';
+export * from './lib/option-group/option-group.component';
+export * from './lib/option-group/option-group.component';
+export * from './lib/select-preview/select-preview.component';

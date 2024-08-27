@@ -1,6 +1,9 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
+  selectPreview: { type: null, size: null, color: null },
+  optionGroup: { type: null, size: null, color: null },
+  option: { type: null, size: null, color: null },
   select: { type: null, size: null, color: null },
   textarea: { type: null, size: null, color: null },
   input: { type: null, size: null, color: null },

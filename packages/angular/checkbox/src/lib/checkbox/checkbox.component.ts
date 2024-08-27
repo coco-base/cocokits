@@ -3,13 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  ElementRef,
   forwardRef,
   inject,
   input,
   model,
   output,
-  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -92,14 +90,6 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
   public readonly indeterminateChange = output<boolean>();
   // endregion
 
-  // region ---------------- PRIVATE PROPERTIES ----------------
-  /** The native `<input type="checkbox">` element */
-  private _inputElement = viewChild<ElementRef<HTMLInputElement>>('input');
-
-  /** The native `<label>` element */
-  private _labelElement = viewChild<ElementRef<HTMLInputElement>>('label');
-  // endregion
-
   // region ---------------- PUBLIC METHODS ----------------
   /** Toggles the `checked` state of the checkbox. */
   public toggle(): void {
@@ -160,9 +150,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
    *  bubbles when the label is clicked.
    */
   protected _preventBubblingFromLabel(event: MouseEvent) {
-    if (!!event.target && this._labelElement()?.nativeElement.contains(event.target as HTMLElement)) {
-      event.stopPropagation();
-    }
+    event.stopPropagation();
   }
 
   /**

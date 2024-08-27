@@ -7,4 +7,4 @@ The following CocoKits components are designed to work inside a `FormField`:
 - `<input cck-input>` or `<input cckInput>`
 - `<textarea cck-textarea>` or `<textarea cckTextarea>`
 - `<cck-select>`
-- `<cck--chip-list>`
+- `<cck-chip-list>`

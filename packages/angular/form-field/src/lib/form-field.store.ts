@@ -1,4 +1,5 @@
 import { computed, inject, InjectionToken, Signal, signal, WritableSignal } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
 import { AbstractControlSignalStates } from '@cocokits/angular-utils';
 
@@ -9,30 +10,37 @@ export function injectFormFieldStore() {
 }
 
 export class FormFieldStoreService {
+  public ngControl: AbstractControl | null = null;
+  public control: AbstractControlSignalStates | null = null;
+
   public error: { components: WritableSignal<{ id: string; force: Signal<boolean> }[]> } = {
     components: signal([]),
   };
 
+  public select: {
+    disabled: Signal<boolean | null | undefined> | null;
+    required: Signal<boolean | null | undefined> | null;
+  } = {
+      disabled: null,
+      required: null,
+    };
+
   public textarea: {
     disabled: Signal<boolean | null | undefined> | null;
-    control: AbstractControlSignalStates | null;
     required: Signal<boolean | null | undefined> | null;
     focused: WritableSignal<boolean | null | undefined> | null;
   } = {
       disabled: null,
-      control: null,
       required: null,
       focused: null,
     };
 
   public input: {
     disabled: Signal<boolean | null | undefined> | null;
-    control: AbstractControlSignalStates | null;
     required: Signal<boolean | null | undefined> | null;
     focused: WritableSignal<boolean | null | undefined> | null;
   } = {
       disabled: null,
-      control: null,
       required: null,
       focused: null,
     };
@@ -41,19 +49,21 @@ export class FormFieldStoreService {
     hasFormField: boolean;
     disable: Signal<boolean | null | undefined> | null;
     hideRequiredMarker: Signal<boolean | null | undefined> | null;
+    wrapperElem: HTMLElement | null;
   } = {
       hasFormField: false,
       disable: null,
       hideRequiredMarker: null,
+      wrapperElem: null,
     };
 
   private disabled = computed(
     () =>
       this.input.disabled?.() ??
       this.textarea.disabled?.() ??
+      this.select.disabled?.() ??
       this.formField.disable?.() ??
-      this.input.control?.disabled() ??
-      this.textarea.control?.disabled() ??
+      this.control?.disabled() ??
       false
   );
 
@@ -61,24 +71,21 @@ export class FormFieldStoreService {
     disabled: this.disabled,
     hasInput: computed(() => this.input.disabled !== null),
     hasTextarea: computed(() => this.textarea.disabled !== null),
+    hasSelect: computed(() => this.select.disabled !== null),
     hideRequiredMarker: computed(() => this.formField.hideRequiredMarker?.() ?? false),
     required: computed(
       () =>
         this.input.required?.() ??
         this.textarea.required?.() ??
-        this.input.control?.required() ??
-        this.textarea.control?.required() ??
+        this.select.required?.() ??
+        this.control?.required() ??
         false
     ),
     focused: computed(() => {
       return this.disabled() ? false : this.input.focused?.() ?? this.textarea.focused?.();
     }),
     hasError: computed(() => {
-      if (this.input.control?.invalid() && this.input.control?.dirty() && this.input.control?.touched()) {
-        return true;
-      }
-
-      if (this.textarea.control?.invalid() && this.textarea.control?.dirty() && this.textarea.control?.touched()) {
+      if (this.control?.invalid() && this.control?.dirty() && this.control?.touched()) {
         return true;
       }
 

@@ -85,7 +85,7 @@
       }
     },
     {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx", "*.stories.ts"],
       "env": {
         "jest": true
       },

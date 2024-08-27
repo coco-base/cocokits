@@ -58,7 +58,7 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
           const subcomponentTypes = resolved.preparedMeta.parameters['docs'].extractArgTypes(componentRef);
 
           return (
-            <DocArgType componentName={componentName} argTypes={subcomponentTypes} cckTheme={cckTheme} hideComponentName={false}/>
+            <DocArgType key={subcomponent.toString()} componentName={componentName} argTypes={subcomponentTypes} cckTheme={cckTheme} hideComponentName={false}/>
           );
         })
       }

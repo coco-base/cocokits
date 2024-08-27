@@ -1,10 +1,5 @@
 @use '../../token/scss' as *;
 
-$form-field-color-border: #d0d5dd;
-$form-field-spacing-input-wrapper-h-padding: 12px;
-$form-field-color-icon-light: #98a2b3;
-$form-field-color-icon: #667085;
-
 .cck-leading {
   flex-grow: 0;
   color: $color-font-alpha-7;
@@ -15,6 +10,11 @@ $form-field-color-icon: #667085;
   justify-content: center;
   align-items: center;
   user-select: none;
+}
+
+.cck-leading .cck-select {
+  color: currentcolor;
+  font: inherit;
 }
 
 .cck-leading__regular {

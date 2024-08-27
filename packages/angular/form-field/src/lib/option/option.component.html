@@ -1,0 +1,20 @@
+@if(selectStore.isMultiple()) {
+  <div [class]="classNames().multipleWrapper">
+    <cck-checkbox [checked]="isSelected()" (change)="onCheckboxClick($event.checked)"></cck-checkbox>
+  </div>
+
+}
+
+<div [class]="classNames().contentWrapper">
+  <ng-content></ng-content>
+</div>
+
+
+
+@if(isSelected()) {
+  <div [class]="classNames().selectedCheckmark">
+    @if(uiComponentConfig.option.component.optionSelectedIcon) {
+      <cck-svg-icon [icon]="uiComponentConfig.option.component.optionSelectedIcon"></cck-svg-icon>
+    }
+  </div>
+}

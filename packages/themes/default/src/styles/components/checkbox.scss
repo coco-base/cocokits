@@ -1,12 +1,14 @@
 @use '../../token/scss' as *;
 
-// .cck-checkbox { }
+.cck-checkbox {
+  display: flex;
+}
 
 .cck-checkbox__wrapper {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-  gap: 8px;
+  gap: 12px;
 }
 
 .cck-checkbox__input-wrapper {
@@ -166,13 +168,18 @@
 .cck-checkbox__label {
   margin-left: 0;
   margin-right: auto;
-  padding-left: 4px;
+  padding-left: 0;
   padding-right: 0;
   order: 0;
   text-align: left;
   font: $text-sm-medium;
   color: $color-font-default;
   cursor: pointer;
+}
+
+// Apply the gap only when the label element has content
+.cck-checkbox__label:empty {
+  display: none;
 }
 
 .cck-checkbox--disabled .cck-checkbox__label {

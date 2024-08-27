@@ -88,6 +88,12 @@ export const formFieldLayoutClassNamesConfig = {
       description:
         'It will add to the host element of FormField component, when the formFiled component contains textarea component',
     },
+    withSelect: {
+      name: 'Host Element',
+      selectors: ['cck-form-field--with-select'],
+      description:
+        'It will add to the host element of FormField component, when the formFiled component contains select component',
+    },
   },
 };
 
@@ -121,5 +127,6 @@ export function getFormFieldClassNames(
     error: [...formFieldLayoutClassNamesConfig.elements.error.selectors],
     withInput: [...formFieldLayoutClassNamesConfig.elements.withInput.selectors],
     withTextarea: [...formFieldLayoutClassNamesConfig.elements.withTextarea.selectors],
+    withSelect: [...formFieldLayoutClassNamesConfig.elements.withSelect.selectors],
   };
 }

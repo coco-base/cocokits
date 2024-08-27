@@ -28,6 +28,23 @@ export const ThemeDefaultPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
     template: `
           <table class="story-variant-table story-variant-table--center-header">
           <tbody>
+            <tr>
+              <td></td>
+              <td>
+                <cck-form-field class="story-w-200">
+                  <cck-label>Select</cck-label>
+                  <cck-prefix>
+                    <cck-svg-icon [icon]="emailIcon"></cck-svg-icon>  
+                  </cck-prefix>
+                  <cck-select [placeholder]="'Select you food'">
+                    <cck-option [value]="'Steak'">Steak</cck-option>
+                    <cck-option [value]="'Pizza'">Pizza</cck-option>
+                    <cck-option [value]="'Burger'">Burger</cck-option>
+                  </cck-select>
+                </cck-form-field>
+              </td>
+            </tr>
+          
             <!-- Prefix -->
             <tr>
               <td>Prefix</td>

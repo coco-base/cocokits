@@ -1,8 +1,5 @@
 @use '../../token/scss' as Tokens;
 
-// label/spacing/
-$label-spacing-required-marker-padding-left: 4px;
-
 .cck-label {
   display: flex;
 }
@@ -15,5 +12,5 @@ $label-spacing-required-marker-padding-left: 4px;
 .cck-label__required-marker {
   font: Tokens.$text-sm-medium;
   color: Tokens.$color-brand-default;
-  margin-left: $label-spacing-required-marker-padding-left;
+  margin-left: Tokens.$label-spacing-required-marker-padding-left;
 }

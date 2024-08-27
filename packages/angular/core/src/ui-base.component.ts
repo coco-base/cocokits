@@ -59,14 +59,22 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    */
   public additional = fromAttrWithPrefix<Record<string, ThemeUIComponentPropValue>>('data-cck-');
 
+  // All effected properties can be overridden by the parent class to set the final value.
+  // For example: the size of `RadioComponent` depends on 2 values,
+  // first try to get the size from `RadioComponent` and if is not present the take it from `RadioGroupComponent`
+  public _effectedType = computed(() => this.type());
+  public _effectedSize = computed(() => this.size());
+  public _effectedColor = computed(() => this.color());
+  public _effectedAdditional = computed(() => this.additional());
+
   protected classNames = computed(() =>
     getClassNames<ComponentsName>(
       this.componentName,
       {
-        type: this.baseClassOptions.skipType ? null : this.type(),
-        size: this.baseClassOptions.skipSize ? null : this.size(),
-        color: this.baseClassOptions.skipColor ? null : this.color(),
-        additional: this.baseClassOptions.skipAdditional ? undefined : this.additional(),
+        type: this.baseClassOptions.skipType ? null : this._effectedType(),
+        size: this.baseClassOptions.skipSize ? null : this._effectedSize(),
+        color: this.baseClassOptions.skipColor ? null : this._effectedColor(),
+        additional: this.baseClassOptions.skipAdditional ? undefined : this._effectedAdditional(),
       },
       this.uiComponentConfig
     )

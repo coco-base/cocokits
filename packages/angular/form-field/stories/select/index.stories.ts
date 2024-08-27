@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
@@ -8,19 +9,43 @@ import { AngularStoriesMeta } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
-import { ErrorComponent, FormFieldComponent, LabelComponent } from '../../src';
+import {
+  ErrorComponent,
+  FormFieldComponent,
+  LabelComponent,
+  OptionComponent,
+  OptionGroupComponent,
+  SelectPreviewComponent,
+} from '../../src';
 import { SelectComponent } from '../../src/lib/select/select.component';
 
 export { Default } from './default.stories';
+export { Size } from './size.stories';
+export { CustomPreview } from './custom-preview.stories';
+export { OptionGroup } from './option-group.stories';
+export { NgModel } from './ng-model.stories';
+export { ReactiveForm } from './reactive-form.stories';
 
 const meta: AngularStoriesMeta = {
   component: SelectComponent,
+  subcomponents: [OptionGroupComponent, OptionComponent, SelectPreviewComponent],
   title: 'UI Components/Select',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
+    componentWrapperDecorator((story) => `<div class="flex gap-24 align-start story-min-h-300">${story}</div>`),
     moduleMetadata({
-      imports: [FormFieldComponent, LabelComponent, ErrorComponent, CommonModule, FormsModule, ReactiveFormsModule],
+      imports: [
+        FormFieldComponent,
+        LabelComponent,
+        ErrorComponent,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        OptionComponent,
+        OptionGroupComponent,
+        SelectPreviewComponent,
+        BrowserAnimationsModule,
+      ],
       providers: [
         {
           provide: UIComponentConfig,

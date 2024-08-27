@@ -1,3 +1,5 @@
+import { ThemeSvgIcon } from './theme-svg-icon.model';
+
 export type UIComponentsName =
   // form-field
   | 'formField'
@@ -11,6 +13,9 @@ export type UIComponentsName =
   | 'input'
   | 'textarea'
   | 'select'
+  | 'option'
+  | 'optionGroup'
+  | 'selectPreview'
 
   // radio
   | 'radioButton'
@@ -35,8 +40,10 @@ export type ThemeUIComponentProps = Partial<Record<UIComponentsPropName, ThemeUI
 export type ThemeUIComponentConfig = Record<UIComponentsPropName, ThemeUIComponentPropsConfig | null> & {
   additional?: Record<string, ThemeUIComponentPropsConfig>;
   component?: {
-    checkboxCheckmark?: string;
-    radioCheckmark?: string;
+    checkboxCheckmark?: string; // Optional
+    radioCheckmark?: string; // Optional
+    dropdownIcon?: ThemeSvgIcon; // Require
+    optionSelectedIcon?: ThemeSvgIcon; // Optional
   };
 };
 

@@ -52,6 +52,7 @@ export function AutoDocMain() {
 
             return (
               <DocSection
+                key={story.id}
                 id={story.id}
                 title={story.name}
                 description={story.parameters['docs']?.description?.story}>

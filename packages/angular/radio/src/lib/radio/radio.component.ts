@@ -169,9 +169,9 @@ export class RadioButtonComponent<T = unknown> extends _UiBaseComponent<'radioBu
 
   private radioGroup = inject(RadioGroupComponent<T>, { optional: true });
 
-  private effectedSize = computed(() => this.size() ?? this.radioGroup?.size());
-  private effectedColor = computed(() => this.color() ?? this.radioGroup?.color());
-  private effectedAdditional = computed(() => ({ ...this.additional(), ...this.radioGroup?.additional() }));
+  override _effectedSize = computed(() => this.size() ?? this.radioGroup?.size());
+  override _effectedColor = computed(() => this.color() ?? this.radioGroup?.color());
+  override _effectedAdditional = computed(() => ({ ...this.additional(), ...this.radioGroup?.additional() }));
 
   /** Analog to HTML 'name' attribute used to group radios for unique selection. */
   public name = input<string>();

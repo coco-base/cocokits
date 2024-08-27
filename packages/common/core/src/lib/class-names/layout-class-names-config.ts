@@ -15,6 +15,9 @@ import { selectLayoutClassNamesConfig } from './select-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
 import { textareaClassNamesConfig } from './textarea-class-names';
 import { trailingLayoutClassNamesConfig } from './trailing-class-names';
+import { optionLayoutClassNamesConfig } from './option-class-names';
+import { optionGroupLayoutClassNamesConfig } from './option-group-class-names';
+import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -54,4 +57,7 @@ export const layoutClassNamesConfig = {
   input: inputLayoutClassNamesConfig,
   textarea: textareaClassNamesConfig,
   select: selectLayoutClassNamesConfig,
+  option: optionLayoutClassNamesConfig,
+  optionGroup: optionGroupLayoutClassNamesConfig,
+  selectPreview: selectPreviewLayoutClassNamesConfig,
 };

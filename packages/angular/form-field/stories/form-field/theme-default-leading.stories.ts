@@ -40,6 +40,24 @@ export const ThemeDefaultLeading: AngularStoryObj<FormFieldComponent> = {
               </td>
             </tr>
             
+            <tr>
+              <td></td>
+              <td>
+                <cck-form-field>
+                  <cck-label>Phone</cck-label>
+                  <cck-leading [type]="'medium'" [color]="'grey'">
+                    <cck-select [size]="'sm'" [value]="'US'" style="width: 45px">
+                      <cck-option [value]="'AT'">AT</cck-option>
+                      <cck-option [value]="'IR'">IR</cck-option>
+                      <cck-option [value]="'US'">US</cck-option>
+                    </cck-select>
+                  </cck-leading>
+                  <input cckInput placeholder="+1 (555) 000-0000"/>
+                  
+                </cck-form-field>
+              </td>
+            </tr>
+            
             <!-- Medium -->
             <tr>
               <td>Medium</td>  

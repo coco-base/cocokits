@@ -1,3 +1,5 @@
+export * from './lib/differs/array-like-differs';
+
 export * from './lib/search/fuzzysearch';
 
 export * from './lib/rxjs/once-replay-subject';
@@ -17,3 +19,5 @@ export * from './lib/uncategorized/for-each';
 export * from './lib/uncategorized/reduce';
 export * from './lib/uncategorized/sanitize';
 export * from './lib/uncategorized/textarea';
+export * from './lib/uncategorized/selection';
+export * from './lib/uncategorized/event-listner';

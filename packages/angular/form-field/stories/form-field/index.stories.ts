@@ -14,7 +14,9 @@ import {
   InputComponent,
   LabelComponent,
   LeadingComponent,
+  OptionComponent,
   PrefixComponent,
+  SelectComponent,
   SuffixComponent,
   TextareaComponent,
   TrailingComponent,
@@ -44,7 +46,7 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/FormField',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
+    componentWrapperDecorator((story) => `<div class="flex gap-24 story-min-h-300">${story}</div>`),
     moduleMetadata({
       imports: [
         BrowserAnimationsModule,
@@ -58,6 +60,8 @@ const meta: AngularStoriesMeta = {
         TrailingComponent,
         SvgIconComponent,
         TextareaComponent,
+        SelectComponent,
+        OptionComponent,
       ],
       providers: [
         {

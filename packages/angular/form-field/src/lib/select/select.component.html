@@ -1,1 +1,28 @@
-<p>cck-select works !!</p>
+
+<div [class]="classNames().triggerWrapper">
+
+  @if(selectStore.isEmpty()) {
+    <div [class]="classNames().placeholder">{{placeholder()}}</div>
+
+  } @else {
+    <div [class]="classNames().triggerValue">
+
+      @if(customTrigger()) {
+        <ng-content select="cck-select-preview"></ng-content>
+      } @else {
+        {{triggerValue()}}
+      }
+    </div>
+  }
+
+</div>
+
+<div [class]="classNames().dropdownIconWrapper">
+  <cck-svg-icon [icon]="dropdownIcon"></cck-svg-icon>
+</div>
+
+<ng-template #optionsTemp>
+  <div [class]="classNames().optionsWrapper">
+    <ng-content></ng-content>
+  </div>
+</ng-template>

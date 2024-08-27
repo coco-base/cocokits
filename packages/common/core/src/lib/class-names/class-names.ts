@@ -24,6 +24,10 @@ import {
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 import { getTextareaClassNames } from './textarea-class-names';
 import { getSelectClassNames } from './select-class-names';
+import { getOptionClassNames } from './option-class-names';
+import { getOptionGroupClassNames } from './option-group-class-names';
+import { getSelectPreviewClassNames } from './select-preview-class-names';
+import { getButtonClassNames } from './button-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -38,6 +42,9 @@ export const CLASS_NAMES_FN_MAP = {
   input: getInputClassNames,
   textarea: getTextareaClassNames,
   select: getSelectClassNames,
+  option: getOptionClassNames,
+  optionGroup: getOptionGroupClassNames,
+  selectPreview: getSelectPreviewClassNames,
 
   // radio
   radioButton: getRadioButtonClassNames,
@@ -47,7 +54,7 @@ export const CLASS_NAMES_FN_MAP = {
   checkbox: getCheckboxClassNames,
 
   // button
-  button: getRadioButtonClassNames,
+  button: getButtonClassNames,
   iconButton: getIconButtonClassNames,
 
   // icon
