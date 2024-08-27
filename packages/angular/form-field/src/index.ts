@@ -14,3 +14,7 @@ export * from './lib/option/option.component';
 export * from './lib/option-group/option-group.component';
 export * from './lib/option-group/option-group.component';
 export * from './lib/select-preview/select-preview.component';
+
+export * from './lib/chip/chip.component';
+
+export * from './lib/chip-list/chip-list.component';

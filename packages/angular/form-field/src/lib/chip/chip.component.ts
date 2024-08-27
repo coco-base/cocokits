@@ -5,16 +5,16 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 @Component({
   standalone: true,
   imports: [],
-  selector: 'cck-<%= fileName %>',
-  templateUrl: './<%= fileName %>.component.html',
-  styleUrls: ['./<%= fileName %>.component.scss'],
+  selector: 'cck-chip',
+  templateUrl: './chip.component.html',
+  styleUrls: ['./chip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-    host: {
-      '[class]': 'hostClassNames()'
-    }
+  host: {
+    '[class]': 'hostClassNames()',
+  },
 })
-export class <%= className %>Component extends _UiBaseComponent<'<%= propertyName %>'> {
-  protected readonly componentName = '<%= propertyName %>';
+export class ChipComponent extends _UiBaseComponent<'chip'> {
+  protected readonly componentName = 'chip';
   protected extraHostElementClassConditions = computed(() => []);
 }

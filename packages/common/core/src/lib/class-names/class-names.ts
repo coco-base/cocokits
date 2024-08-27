@@ -28,6 +28,8 @@ import { getOptionClassNames } from './option-class-names';
 import { getOptionGroupClassNames } from './option-group-class-names';
 import { getSelectPreviewClassNames } from './select-preview-class-names';
 import { getButtonClassNames } from './button-class-names';
+import { getChipClassNames } from './chip-class-names';
+import { getChipListClassNames } from './chip-list-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -45,6 +47,8 @@ export const CLASS_NAMES_FN_MAP = {
   option: getOptionClassNames,
   optionGroup: getOptionGroupClassNames,
   selectPreview: getSelectPreviewClassNames,
+  chip: getChipClassNames,
+  chipList: getChipListClassNames,
 
   // radio
   radioButton: getRadioButtonClassNames,

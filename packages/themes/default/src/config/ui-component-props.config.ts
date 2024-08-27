@@ -1,6 +1,8 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+  chipList: { type: null, size: null, color: null },
+  chip: { type: null, size: null, color: null },
   selectPreview: { type: null, size: null, color: null },
   optionGroup: {
     type: null,

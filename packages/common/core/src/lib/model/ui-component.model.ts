@@ -16,6 +16,8 @@ export type UIComponentsName =
   | 'option'
   | 'optionGroup'
   | 'selectPreview'
+  | 'chip'
+  | 'chipList'
 
   // radio
   | 'radioButton'

@@ -18,6 +18,8 @@ import { trailingLayoutClassNamesConfig } from './trailing-class-names';
 import { optionLayoutClassNamesConfig } from './option-class-names';
 import { optionGroupLayoutClassNamesConfig } from './option-group-class-names';
 import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
+import { chipLayoutClassNamesConfig } from './chip-class-names';
+import { chipListLayoutClassNamesConfig } from './chip-list-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -60,4 +62,6 @@ export const layoutClassNamesConfig = {
   option: optionLayoutClassNamesConfig,
   optionGroup: optionGroupLayoutClassNamesConfig,
   selectPreview: selectPreviewLayoutClassNamesConfig,
+  chip: chipLayoutClassNamesConfig,
+  chipList: chipListLayoutClassNamesConfig,
 };
