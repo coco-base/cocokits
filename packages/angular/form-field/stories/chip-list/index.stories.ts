@@ -10,6 +10,7 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
 import {
+  ChipComponent,
   ErrorComponent,
   FormFieldComponent,
   LabelComponent,
@@ -20,6 +21,7 @@ import {
 import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
 
 export { Default } from './default.stories';
+export { Size } from './size.stories';
 
 const meta: AngularStoriesMeta = {
   component: ChipListComponent,
@@ -39,6 +41,7 @@ const meta: AngularStoriesMeta = {
         OptionGroupComponent,
         SelectPreviewComponent,
         BrowserAnimationsModule,
+        ChipComponent,
       ],
       providers: [
         {

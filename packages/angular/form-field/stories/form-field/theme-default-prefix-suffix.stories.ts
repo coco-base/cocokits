@@ -29,7 +29,19 @@ export const ThemeDefaultPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
           <table class="story-variant-table story-variant-table--center-header">
           <tbody>
             <tr>
-              <td></td>
+              <td>ChipList</td>
+              <td>
+                <cck-form-field class="story-w-500">
+                  <cck-label>ChipList</cck-label>
+                  <cck-prefix>
+                    <cck-svg-icon [icon]="emailIcon"></cck-svg-icon>  
+                  </cck-prefix>
+                  <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'" [addOnBlur]="true"/>
+                </cck-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>Select</td>
               <td>
                 <cck-form-field class="story-w-200">
                   <cck-label>Select</cck-label>

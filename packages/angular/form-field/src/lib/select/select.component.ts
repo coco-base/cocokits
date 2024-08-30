@@ -4,13 +4,13 @@ import {
   Component,
   computed,
   contentChild,
-  DestroyRef,
   ElementRef,
   forwardRef,
   inject,
   Injector,
   Input,
   input,
+  OnDestroy,
   OnInit,
   output,
   TemplateRef,
@@ -23,12 +23,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/for
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
-import { fromAttrByNameToBoolean, fromControl } from '@cocokits/angular-utils';
+import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 import { isNullish } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
 
 import { injectFormFieldStore } from '../form-field.store';
-import { FormFieldComponent } from '../form-field/form-field.component';
 import { injectSelectStore, SelectStore, SelectStoreService, SelectTriggerSource } from '../select.store';
 import { SelectPreviewComponent } from '../select-preview/select-preview.component';
 
@@ -58,7 +57,10 @@ const SELECT_CONTROL_VALUE_ACCESSOR: any = {
     '(click)': 'onHostClick($event)',
   },
 })
-export class SelectComponent<T = any> extends _UiBaseComponent<'select'> implements OnInit, ControlValueAccessor {
+export class SelectComponent<T = any>
+  extends _UiBaseComponent<'select'>
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
   protected readonly componentName = 'select';
   protected extraHostElementClassConditions = computed(() => [
     { if: this.formFieldStore.state.disabled(), classes: this.classNames().disabled },
@@ -66,7 +68,7 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
     { if: !this.selectStore.isMultiple(), classes: this.classNames().single },
   ]);
 
-  override _effectedSize = computed(() => this.size() ?? this.formFieldComp?.size());
+  override _effectedSize = computed(() => this.size() ?? this.formFieldStore.formField.size?.());
 
   protected formFieldStore = injectFormFieldStore();
   protected selectStore = injectSelectStore<T>();
@@ -75,10 +77,8 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
   private cd = inject(ChangeDetectorRef);
   private elemRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private overlay = inject(OverlayService);
-  private formFieldComp = inject(FormFieldComponent, { optional: true });
   private ngControl: NgControl | null = null;
   private injector = inject(Injector);
-  private destroyRef = inject(DestroyRef);
 
   /**
    * Whether the input is disabled.
@@ -88,7 +88,7 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
   /**
    * Whether the component is required.
    */
-  private required = fromAttrByNameToBoolean('required');
+  public _required = fromAttrByNameToBoolean('required');
 
   /**
    * Whether the user should be allowed to select multiple options.
@@ -151,10 +151,6 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
       }
     });
 
-  // private __onInputValueChanged = effect(() => {
-  //   this.selectStore.setSelection(this.value() ?? []);
-  // });
-
   constructor() {
     super();
 
@@ -164,22 +160,15 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
       throw new Error('`dropdownIcon` has not defined in `uiComponentConfig` of selected theme');
     }
     this.dropdownIcon = dropdownIcon;
+
+    this.formFieldStore.registerComponent('select', this, this.cd);
   }
 
   ngOnInit() {
     this.ngControl = this.injector.get<NgControl | null>(NgControl, null);
 
-    this.formFieldStore.select.disabled = this.disabled;
-    this.formFieldStore.select.required = this.required;
-
     if (this.ngControl?.control) {
-      this.formFieldStore.ngControl = this.ngControl.control;
-      this.formFieldStore.control = fromControl(this.ngControl.control, { destroyRef: this.destroyRef });
-
-      // Call change detection, when the control has changes outside of component
-      this.ngControl.control.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((_) => {
-        this.cd.markForCheck();
-      });
+      this.formFieldStore.setController(this.ngControl.control);
     }
   }
 
@@ -195,8 +184,7 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
       throw new Error(`No options available for select component`);
     }
 
-    const connectTo = this.formFieldStore.formField.wrapperElem ?? this.elemRef.nativeElement;
-    // const connectTo = this.elemRef.nativeElement;
+    const connectTo = this.formFieldStore.formField.wrapperElem?.()?.nativeElement ?? this.elemRef.nativeElement;
 
     this.selectStore.renderedOverlay = this.overlay.open<void, T>(optionsTemp, {
       panelClass: this.classNames().overlay,
@@ -215,6 +203,10 @@ export class SelectComponent<T = any> extends _UiBaseComponent<'select'> impleme
     this._onTouched();
     await this.selectStore.renderedOverlay.afterClose;
     this.openedChange.emit(false);
+  }
+
+  ngOnDestroy() {
+    this.formFieldStore.unregisterComponent(this, this.cd);
   }
 
   // region ---------------- ControlValueAccessor ----------------

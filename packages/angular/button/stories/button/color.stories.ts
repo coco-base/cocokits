@@ -40,7 +40,6 @@ export const Color: AngularStoryObj<ButtonComponent> = {
               }
             </tr>
           }
-         
         </tbody>
       </table>
     `,

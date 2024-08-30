@@ -10,6 +10,16 @@ export const chipListLayoutClassNamesConfig = {
       selectors: ['cck-chip-list'],
       description: 'It will add to the host element of ChipList component.',
     },
+    disabled: {
+      name: 'Host Element',
+      selectors: ['cck-chip-list--disabled'],
+      description: 'Applied to the host element of the ChipList component, when the the ChipList is disabled',
+    },
+    input: {
+      name: 'Host Element',
+      selectors: ['cck-chip-list__input'],
+      description: 'Applied to the input element of the ChipList component, to write and add new chip',
+    },
   },
 };
 
@@ -28,5 +38,7 @@ export function getChipListClassNames(
       ...chipListLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(chipListLayoutClassNamesConfig.prefix, options),
     ],
+    disabled: [...chipListLayoutClassNamesConfig.elements.disabled.selectors],
+    input: [...chipListLayoutClassNamesConfig.elements.input.selectors],
   };
 }

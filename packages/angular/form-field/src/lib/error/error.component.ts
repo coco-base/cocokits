@@ -41,10 +41,10 @@ export class ErrorComponent extends _UiBaseComponent<'error'> implements OnInit,
   public force: InputSignal<boolean> = input(false);
 
   ngOnInit() {
-    this.store.error.components.update((components) => [...components, { id: this.id, force: this.force }]);
+    this.store.registerErrorComponent(this);
   }
 
   ngOnDestroy() {
-    this.store.error.components.update((components) => components.filter((component) => component.id !== this.id));
+    this.store.unregisterErrorComponent(this);
   }
 }

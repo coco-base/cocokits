@@ -82,6 +82,11 @@ export function useArgTypesApiList(
         return {};
       }
 
+      // Skip public methods or properties that start with `_`.
+      if (argType.name.startsWith('_')) {
+        return {};
+      }
+
       const keyName =
         argType.table?.category === 'methods' ? 'methods' : argType.table?.category === 'outputs' ? 'events' : 'props';
 

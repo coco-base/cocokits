@@ -94,6 +94,12 @@ export const formFieldLayoutClassNamesConfig = {
       description:
         'It will add to the host element of FormField component, when the formFiled component contains select component',
     },
+    withChipList: {
+      name: 'Host Element',
+      selectors: ['cck-form-field--with-chip-list'],
+      description:
+        'It will add to the host element of FormField component, when the formFiled component contains ChipList component',
+    },
   },
 };
 
@@ -128,5 +134,6 @@ export function getFormFieldClassNames(
     withInput: [...formFieldLayoutClassNamesConfig.elements.withInput.selectors],
     withTextarea: [...formFieldLayoutClassNamesConfig.elements.withTextarea.selectors],
     withSelect: [...formFieldLayoutClassNamesConfig.elements.withSelect.selectors],
+    withChipList: [...formFieldLayoutClassNamesConfig.elements.withChipList.selectors],
   };
 }

@@ -3,18 +3,17 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  DestroyRef,
   inject,
   input,
+  OnDestroy,
   OnInit,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { fromAttrByNameToBoolean, fromControl } from '@cocokits/angular-utils';
+import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
 
@@ -34,7 +33,7 @@ import { injectFormFieldStore } from '../form-field.store';
     '(blur)': 'onBlur()',
   },
 })
-export class InputComponent extends _UiBaseComponent<'input'> implements OnInit {
+export class InputComponent extends _UiBaseComponent<'input'> implements OnInit, OnDestroy {
   protected readonly componentName = 'input';
   protected extraHostElementClassConditions = computed(() => [
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
@@ -43,10 +42,9 @@ export class InputComponent extends _UiBaseComponent<'input'> implements OnInit 
   protected cd = inject(ChangeDetectorRef);
   protected store = injectFormFieldStore();
   private ngControl = inject(NgControl, { optional: true, self: true });
-  private destroyRef = inject(DestroyRef);
 
-  private required = fromAttrByNameToBoolean('required');
-  private focused = signal(false);
+  public _required = fromAttrByNameToBoolean('required');
+  public _focused = signal(false);
 
   /**
    * Input type of the element.
@@ -61,29 +59,24 @@ export class InputComponent extends _UiBaseComponent<'input'> implements OnInit 
   constructor() {
     super();
     this.baseClassOptions.skipType = true;
+    this.store.registerComponent('input', this, this.cd);
   }
 
   ngOnInit() {
-    this.store.input.disabled = this.disabled;
-    this.store.input.required = this.required;
-    this.store.input.focused = this.focused;
-
     if (this.ngControl?.control) {
-      this.store.ngControl = this.ngControl.control;
-      this.store.control = fromControl(this.ngControl.control, { destroyRef: this.destroyRef });
-
-      // Call change detection, when the control has changes outside of component
-      this.ngControl.control.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((_) => {
-        this.cd.markForCheck();
-      });
+      this.store.setController(this.ngControl.control);
     }
   }
 
   protected onFocus() {
-    this.focused.set(true);
+    this._focused.set(true);
   }
 
   protected onBlur() {
-    this.focused.set(false);
+    this._focused.set(false);
+  }
+
+  ngOnDestroy() {
+    this.store.unregisterComponent(this, this.cd);
   }
 }

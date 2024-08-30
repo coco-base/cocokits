@@ -1,1 +1,15 @@
-<p>cck-chip-list works !!</p>
+@for (chip of selectionStore.selectedItems(); track displayBy(chip)) {
+  <cck-chip [removable]="true" [size]="_effectedSize()" (remove)="onChipRemove(chip)" (click)="onChipClick($event)">
+    {{displayBy(chip)}}
+  </cck-chip>
+}
+
+<input
+  #input
+  type="text"
+  [disabled]="formFieldStore.state.disabled()"
+  [class]="classNames().input"
+  [placeholder]="placeholder()"
+  (keyup)="onKeyup($event)"
+  (blur)="onInputBlur()"
+/>

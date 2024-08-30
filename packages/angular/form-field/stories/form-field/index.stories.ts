@@ -9,6 +9,7 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
 import {
+  ChipListComponent,
   ErrorComponent,
   HintComponent,
   InputComponent,
@@ -62,6 +63,7 @@ const meta: AngularStoriesMeta = {
         TextareaComponent,
         SelectComponent,
         OptionComponent,
+        ChipListComponent,
       ],
       providers: [
         {

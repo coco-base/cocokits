@@ -46,6 +46,7 @@ export type ThemeUIComponentConfig = Record<UIComponentsPropName, ThemeUICompone
     radioCheckmark?: string; // Optional
     dropdownIcon?: ThemeSvgIcon; // Require
     optionSelectedIcon?: ThemeSvgIcon; // Optional
+    chipRemoveIcon?: ThemeSvgIcon; // Require
   };
 };
 

@@ -3,18 +3,14 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  DestroyRef,
-  effect,
   ElementRef,
   inject,
   input,
   model,
   OnDestroy,
-  OnInit,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
@@ -38,13 +34,10 @@ import { FormFieldStore, FormFieldStoreService, injectFormFieldStore } from '../
     '[class]': 'hostClassNames()',
   },
 })
-export class FormFieldComponent extends _UiBaseComponent<'formField'> implements OnInit, OnDestroy {
+export class FormFieldComponent extends _UiBaseComponent<'formField'> implements OnDestroy {
   protected readonly componentName = 'formField';
   protected store = injectFormFieldStore();
   private cd = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
-
-  public hasError = this.store.state.hasError;
 
   /**
    * Whether the required marker should be hidden.
@@ -59,41 +52,28 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   protected extraHostElementClassConditions = computed(() => [
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
     { if: this.store.state.focused(), classes: this.classNames().focused },
-    { if: this.store.control?.untouched(), classes: this.classNames().untouched },
-    { if: this.store.control?.touched(), classes: this.classNames().touched },
-    { if: this.store.control?.pristine(), classes: this.classNames().pristine },
-    { if: this.store.control?.dirty(), classes: this.classNames().dirty },
-    { if: this.store.control?.valid(), classes: this.classNames().valid },
-    { if: this.store.control?.invalid(), classes: this.classNames().invalid },
-    { if: this.store.control?.pending(), classes: this.classNames().pending },
     { if: this.store.state.hasError(), classes: this.classNames().error },
     { if: this.store.state.hasInput(), classes: this.classNames().withInput },
     { if: this.store.state.hasTextarea(), classes: this.classNames().withTextarea },
     { if: this.store.state.hasSelect(), classes: this.classNames().withSelect },
+    { if: this.store.state.hasChipList(), classes: this.classNames().withChipList },
+    { if: this.store.control.untouched(), classes: this.classNames().untouched },
+    { if: this.store.control.touched(), classes: this.classNames().touched },
+    { if: this.store.control.pristine(), classes: this.classNames().pristine },
+    { if: this.store.control.dirty(), classes: this.classNames().dirty },
+    { if: this.store.control.valid(), classes: this.classNames().valid },
+    { if: this.store.control.invalid(), classes: this.classNames().invalid },
+    { if: this.store.control.pending(), classes: this.classNames().pending },
   ]);
 
-  public wrapperElemRef = viewChild<ElementRef<HTMLElement>>('wrapperElem');
+  public wrapperElemRef = viewChild.required<ElementRef<HTMLElement>>('wrapperElem');
 
-  private __setStoreWrapperElemRef = effect(() => {
-    const wrapperElemRef = this.wrapperElemRef();
-
-    if (wrapperElemRef) {
-      this.store.formField.wrapperElem = wrapperElemRef.nativeElement;
-    }
-  });
-
-  ngOnInit() {
-    this.store.formField.disable = this.disabled;
-    this.store.formField.hideRequiredMarker = this.hideRequiredMarker;
-    this.store.formField.hasFormField = true;
-
-    // Call change detection, when the control has changes outside of component
-    this.store.ngControl?.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((_) => {
-      this.cd.markForCheck();
-    });
+  constructor() {
+    super();
+    this.store.registerComponent('formField', this, this.cd);
   }
 
   ngOnDestroy() {
-    this.store.formField.hasFormField = false;
+    this.store.unregisterComponent(this, this.cd);
   }
 }

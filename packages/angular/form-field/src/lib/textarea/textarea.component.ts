@@ -3,20 +3,19 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
-  DestroyRef,
   effect,
   ElementRef,
   inject,
   input,
+  OnDestroy,
   OnInit,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { fromAttrByNameToBoolean, fromControl } from '@cocokits/angular-utils';
+import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 import { autoResizeTextarea } from '@cocokits/common-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
@@ -36,7 +35,7 @@ import { injectFormFieldStore } from '../form-field.store';
     '(blur)': 'onBlur()',
   },
 })
-export class TextareaComponent extends _UiBaseComponent<'textarea'> implements OnInit {
+export class TextareaComponent extends _UiBaseComponent<'textarea'> implements OnInit, OnDestroy {
   protected readonly componentName = 'textarea';
   protected extraHostElementClassConditions = computed(() => [
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
@@ -44,13 +43,12 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   ]);
 
   private cd = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
   protected store = injectFormFieldStore();
   private ngControl = inject(NgControl, { optional: true, self: true });
   private elemRef = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
 
-  private required = fromAttrByNameToBoolean('required');
-  private focused = signal(false);
+  public _required = fromAttrByNameToBoolean('required');
+  public _focused = signal(false);
 
   /**
    * Whether autoResize is enabled or not
@@ -83,6 +81,7 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   constructor() {
     super();
     this.baseClassOptions.skipType = true;
+    this.store.registerComponent('textarea', this, this.cd);
   }
 
   /**
@@ -93,26 +92,20 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   };
 
   ngOnInit() {
-    this.store.textarea.disabled = this.disabled;
-    this.store.textarea.required = this.required;
-    this.store.textarea.focused = this.focused;
-
     if (this.ngControl?.control) {
-      this.store.ngControl = this.ngControl.control;
-      this.store.control = fromControl(this.ngControl.control, { destroyRef: this.destroyRef });
-
-      // Call change detection, when the control has changes outside of component
-      this.ngControl.control.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((_) => {
-        this.cd.markForCheck();
-      });
+      this.store.setController(this.ngControl.control);
     }
   }
 
   protected onFocus() {
-    this.focused.set(true);
+    this._focused.set(true);
   }
 
   protected onBlur() {
-    this.focused.set(false);
+    this._focused.set(false);
+  }
+
+  ngOnDestroy() {
+    this.store.unregisterComponent(this, this.cd);
   }
 }

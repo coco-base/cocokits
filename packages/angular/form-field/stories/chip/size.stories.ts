@@ -3,8 +3,8 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ChipComponent } from '../../src/lib/chip/chip.component';
 
-export const Default: AngularStoryObj<ChipComponent> = {
-  name: 'Default',
+export const Size: AngularStoryObj<ChipComponent> = {
+  name: 'Size',
   parameters: {
     docs: {
       description: {
@@ -23,21 +23,17 @@ export const Default: AngularStoryObj<ChipComponent> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          <th>Default</th>
-          <th>Removable</th>
-          <th>Disabled</th>
+           @for (size of uiComponentConfig?.chip.size?.values; track size) {
+            <th>{{size}}</th>
+          }
         </thead>
         <tbody>
           <tr>
+           @for (size of uiComponentConfig?.chip.size?.values; track size) {
               <td>
-                <cck-chip>Default</cck-chip>
+                <cck-chip [size]="size">Chip Value</cck-chip>
               </td>
-              <td>
-                <cck-chip [removable]="true">Removable</cck-chip>
-              </td>
-              <td>
-                <cck-chip disabled="">Disabled</cck-chip>
-              </td>
+            }
           </tr>
         </tbody>
       </table>

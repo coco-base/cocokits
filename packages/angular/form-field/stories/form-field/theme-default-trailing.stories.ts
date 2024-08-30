@@ -28,6 +28,16 @@ export const ThemeDefaultTrailing: AngularStoryObj<FormFieldComponent> = {
     template: `
           <table class="story-variant-table story-variant-table--center-header">
           <tbody>
+            <tr>
+              <td>ChipList</td>
+              <td>
+                <cck-form-field class="story-w-500">
+                  <cck-label>ChipList</cck-label>
+                  <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'" [addOnBlur]="true"/>
+                  <cck-trailing [type]="'regular'">.com</cck-trailing>
+                </cck-form-field>
+              </td>
+            </tr>
             <!-- Regular -->
             <tr>
               <td>Regular</td>

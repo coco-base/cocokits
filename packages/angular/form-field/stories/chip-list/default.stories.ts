@@ -3,7 +3,7 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
 
-export const Default: AngularStoryObj<ChipListComponent> = {
+export const Default: AngularStoryObj<ChipListComponent<string>> = {
   name: 'Default',
   parameters: {
     docs: {
@@ -19,9 +19,14 @@ export const Default: AngularStoryObj<ChipListComponent> = {
     props: {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      chips: ['Steak', 'Pizza', 'Burger'],
     },
     template: `
-        <cck-chip-list></cck-chip-list>
+        <cck-form-field>
+          <cck-label>Chip List</cck-label>
+          <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
+          </cck-chip-list>
+        </cck-form-field>
     `,
   }),
 };

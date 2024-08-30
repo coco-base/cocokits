@@ -1,1 +1,11 @@
-<p>cck-chip works !!</p>
+<div [class]="classNames().contentWrapper">
+  <ng-content></ng-content>
+</div>
+
+@if(removable()) {
+  <div [class]="classNames().removeIconWrapper">
+    <button cck-icon-button type="null" size="null" color="null" (click)="onRemoveBtnClick()">
+      <cck-svg-icon [icon]="removeIcon"></cck-svg-icon>
+    </button>
+  </div>
+}

@@ -20,6 +20,7 @@ import {
 import { ChipComponent } from '../../src/lib/chip/chip.component';
 
 export { Default } from './default.stories';
+export { Size } from './size.stories';
 
 const meta: AngularStoriesMeta = {
   component: ChipComponent,
