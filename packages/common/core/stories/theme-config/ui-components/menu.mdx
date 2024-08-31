@@ -1,0 +1,28 @@
+import { Meta } from '@storybook/addon-docs';
+import Overview from './_overview.mdx';
+import OverrideStyles from './_override-styles.mdx';
+import { MdxDocPage, MdxCssSelectorTable } from '../../../../../internal/storybook-doc-page/src';
+
+<Meta title='Theme Config/UI Components/Menu'/>
+
+<MdxDocPage groupTitle='Theme Config'>
+
+  # Styling Menu
+
+  <Overview/>
+
+  <h1>Menu</h1>
+  <MdxCssSelectorTable componentName={'menu'}/>
+  <hr/>
+
+  <h1>MenuItem</h1>
+  <MdxCssSelectorTable componentName={'menuItem'}/>
+  <hr/>
+
+  <h1>MenuGroup</h1>
+  <MdxCssSelectorTable componentName={'menuGroup'}/>
+  <hr/>
+
+  <OverrideStyles/>
+
+</MdxDocPage>

@@ -11,7 +11,9 @@
     "@cocokits/angular-button": "workspace:*",
     "@cocokits/angular-checkbox": "workspace:*",
     "@cocokits/angular-radio": "workspace:*",
-    "@cocokits/angular-form-field": "workspace:*"
+    "@cocokits/angular-form-field": "workspace:*",
+    "@cocokits/angular-divider": "workspace:*",
+    "@cocokits/angular-menu": "workspace:*"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

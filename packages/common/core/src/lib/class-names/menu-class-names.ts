@@ -18,7 +18,7 @@ export function getMenuClassNames(
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof menuLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
-    componentName: 'chip',
+    componentName: 'menu',
     componentProps,
     uiComponentsConfig,
   };

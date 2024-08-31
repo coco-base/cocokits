@@ -8,10 +8,13 @@ import descriptionMd from './description.md';
 import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 export { Default } from './default.stories';
+export { Type } from './type.stories';
+export { Size } from './size.stories';
+export { Color } from './color.stories';
 
 const meta: AngularStoriesMeta = {
   component: DividerComponent,
-  title: 'Divider',
+  title: 'UI Components/Divider',
   tags: ['autodocs'],
   decorators: [
     componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),

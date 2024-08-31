@@ -1,0 +1,43 @@
+import { AngularStoryObj } from '@cocokits/core';
+import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+
+import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+
+export const Type: AngularStoryObj<<%- className %>Component> = {
+  name: 'Type',
+  parameters: {
+    docs: {
+      description: {
+        story: 'TODO: Add story description',
+      },
+      source: {
+        code: `TODO: Add source code of story`,
+      },
+    },
+  },
+  render: (args) => ({
+    props: {
+      ...args,
+      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+    },
+    template: `
+        <table class="story-variant-table story-variant-table--no-col-header">
+        <thead>
+          @for (type of uiComponentConfig?.divider.type?.values; track type) {
+            <th>{{type}}</th>
+          }
+        </thead>
+        <tbody>
+          <tr>
+            @for (type of uiComponentConfig?.divider.type?.values; track type) {
+              <td>
+                <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
+              </td>
+            }
+          </tr>
+         
+        </tbody>
+      </table>
+    `,
+  }),
+};

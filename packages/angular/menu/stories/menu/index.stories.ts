@@ -1,20 +1,17 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-import { UIComponentConfig } from '@cocokits/angular-core';
 
+import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
-import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+import { MenuComponent } from '../../src/lib/menu/menu.component';
 
 export { Default } from './default.stories';
-export { Type } from './type.stories';
-export { Size } from './size.stories';
-export { Color } from './color.stories';
 
 const meta: AngularStoriesMeta = {
-  component: <%- className %>Component,
-  title: '<%- className %>',
+  component: MenuComponent,
+  title: 'UI Components/Menu',
   tags: ['autodocs'],
   decorators: [
     componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
@@ -22,10 +19,10 @@ const meta: AngularStoriesMeta = {
       providers: [
         {
           provide: UIComponentConfig,
-          useValue: getSelectedCckTheme()?.uiComponentConfig
-        }
+          useValue: getSelectedCckTheme()?.uiComponentConfig,
+        },
       ],
-    })
+    }),
   ],
   parameters: {
     docs: {
@@ -38,7 +35,6 @@ const meta: AngularStoriesMeta = {
     // Example of: using component API insteadof Theme API or Disable from ArgTable
     // type: { table: { useComponentApi: true, disable: true } },
   },
-  args: {
-  },
+  args: {},
 };
 export default meta;

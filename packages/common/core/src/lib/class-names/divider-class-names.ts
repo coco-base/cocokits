@@ -18,7 +18,7 @@ export function getDividerClassNames(
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof dividerLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
-    componentName: 'chip',
+    componentName: 'divider',
     componentProps,
     uiComponentsConfig,
   };

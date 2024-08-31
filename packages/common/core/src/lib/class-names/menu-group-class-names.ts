@@ -23,7 +23,7 @@ export function getMenuGroupClassNames(
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof menuGroupLayoutClassNamesConfig.elements, string[]> {
   const options: ThemeUIComponentsOptions = {
-    componentName: 'chip',
+    componentName: 'menuGroup',
     componentProps,
     uiComponentsConfig,
   };

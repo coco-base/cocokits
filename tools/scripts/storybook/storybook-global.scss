@@ -96,6 +96,10 @@
   background-color: var(--cck-storybook-color-border-alpha-5);
 }
 
+.story-margin-auto {
+  margin: auto;
+}
+
 .story-min-h-300 {
   min-height: 300px;
 }
@@ -122,6 +126,26 @@
 
 .story-w-600 {
   width: 600px;
+}
+
+.story-h-200 {
+  height: 200px;
+}
+
+.story-h-300 {
+  height: 300px;
+}
+
+.story-h-400 {
+  height: 400px;
+}
+
+.story-h-500 {
+  height: 500px;
+}
+
+.story-h-600 {
+  height: 600px;
 }
 
 .story-overlay-example {
