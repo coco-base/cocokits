@@ -1,11 +1,11 @@
 import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
-import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+import { MenuComponent } from '../../src';
 
-export const Color: AngularStoryObj<<%- className %>Component> = {
-  name: 'Color',
-  tags: ['uiComponentName:<'<%= propertyName %>', 'uiComponentPropName:color'],
+export const Size: AngularStoryObj<MenuComponent> = {
+  name: 'Size',
+  tags: ['uiComponentName:menu', 'uiComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -24,15 +24,21 @@ export const Color: AngularStoryObj<<%- className %>Component> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (color of uiComponentConfig?.divider.color?.values; track color) {
-            <th>{{color}}</th>
+          @for (size of uiComponentConfig?.menu.size?.values; track size) {
+            <th>{{size}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (color of uiComponentConfig?.divider.color?.values; track color) {
+            @for (size of uiComponentConfig?.menu.size?.values; track size) {
               <td>
-                <cck-<%- fileName %> [color]="color"></cck-<%- fileName %>>
+                <cck-menu class="story-w-200" [size]="size">
+                  <cck-menu-item>Edit</cck-menu-item>
+                  <cck-menu-item>Duplicate</cck-menu-item>
+                  <cck-divider></cck-divider>
+                  <cck-menu-item>Archive</cck-menu-item>
+                  <cck-menu-item>Move</cck-menu-item>
+                </cck-menu>
               </td>
             }
           </tr>

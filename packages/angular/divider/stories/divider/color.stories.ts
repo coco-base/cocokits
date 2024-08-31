@@ -5,6 +5,7 @@ import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 export const Color: AngularStoryObj<DividerComponent> = {
   name: 'Color',
+  tags: ['uiComponentName:divider', 'uiComponentPropName:color'],
   parameters: {
     docs: {
       description: {

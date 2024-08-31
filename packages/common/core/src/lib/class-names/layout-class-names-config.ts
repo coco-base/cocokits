@@ -22,7 +22,6 @@ import { chipLayoutClassNamesConfig } from './chip-class-names';
 import { chipListLayoutClassNamesConfig } from './chip-list-class-names';
 import { menuLayoutClassNamesConfig } from './menu-class-names';
 import { menuItemLayoutClassNamesConfig } from './menu-item-class-names';
-import { menuGroupLayoutClassNamesConfig } from './menu-group-class-names';
 import { dividerLayoutClassNamesConfig } from './divider-class-names';
 
 /**
@@ -71,7 +70,6 @@ export const layoutClassNamesConfig = {
   // menu
   menu: menuLayoutClassNamesConfig,
   menuItem: menuItemLayoutClassNamesConfig,
-  menuGroup: menuGroupLayoutClassNamesConfig,
   // divider
   divider: dividerLayoutClassNamesConfig,
 };

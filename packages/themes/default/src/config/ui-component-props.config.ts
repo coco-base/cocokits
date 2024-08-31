@@ -3,7 +3,13 @@ import { ThemeUIComponentsConfig } from '@cocokits/core';
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
   menu: {
     type: null,
-    size: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
     color: null,
   },
   menuItem: {
@@ -15,18 +21,13 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       default: 'md',
       description: '',
     },
-    color: null,
-  },
-  menuGroup: {
-    type: null,
-    size: {
-      name: 'size',
-      values: ['sm', 'md', 'lg'],
+    color: {
+      name: 'color',
+      values: ['default', 'error'],
       require: false,
-      default: 'md',
+      default: 'default',
       description: '',
     },
-    color: null,
   },
   divider: {
     type: {

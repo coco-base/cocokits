@@ -10,6 +10,11 @@ export const menuLayoutClassNamesConfig = {
       selectors: ['cck-menu'],
       description: 'It will add to the host element of Menu component.',
     },
+    overlay: {
+      name: 'Menu Overlay Element',
+      selectors: ['cck-menu__overlay'],
+      description: 'It will add to the overlay element, when the the menu is opened',
+    },
   },
 };
 
@@ -28,5 +33,6 @@ export function getMenuClassNames(
       ...menuLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(menuLayoutClassNamesConfig.prefix, options),
     ],
+    overlay: [...menuLayoutClassNamesConfig.elements.overlay.selectors],
   };
 }

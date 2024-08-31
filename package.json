@@ -22,7 +22,7 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@commitlint/types": "^19.0.3",
-    "@compodoc/compodoc": "^1.1.24",
+    "@compodoc/compodoc": "^1.1.25",
     "@griffel/react": "^1.5.22",
     "@nx/angular": "19.6.0",
     "@nx/devkit": "18.3.4",

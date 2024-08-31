@@ -1,5 +1,5 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-import { UIComponentConfig } from '@cocokits/angular-core';
+import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
 
 import { AngularStoriesMeta } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
@@ -14,6 +14,9 @@ export { Color } from './color.stories';
 
 const meta: AngularStoriesMeta = {
   component: <%- className %>Component,
+  subcomponents: [
+    _UiBaseComponent,
+  ],
   title: '<%- className %>',
   tags: ['autodocs'],
   decorators: [

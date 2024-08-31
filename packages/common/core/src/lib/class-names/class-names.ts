@@ -1,7 +1,11 @@
 import { isNotNullish, recordForEach } from '@cocokits/common-utils';
 
+import { getButtonClassNames } from './button-class-names';
 import { getCheckboxClassNames } from './checkbox-class-names';
+import { getChipClassNames } from './chip-class-names';
+import { getChipListClassNames } from './chip-list-class-names';
 import { cssSelectorRender } from './css-selector-render';
+import { getDividerClassNames } from './divider-class-names';
 import { getErrorClassNames } from './error-class-names';
 import { getFormFieldClassNames } from './form-field-class-names';
 import { getHintClassNames } from './hint-class-names';
@@ -10,10 +14,17 @@ import { getSvgIconClassNames } from './icon-class-names';
 import { getInputClassNames } from './input-class-names';
 import { getLabelClassNames } from './label-class-names';
 import { getLeadingClassNames } from './leading-class-names';
+import { getMenuClassNames } from './menu-class-names';
+import { getMenuItemClassNames } from './menu-item-class-names';
+import { getOptionClassNames } from './option-class-names';
+import { getOptionGroupClassNames } from './option-group-class-names';
 import { getPrefixClassNames } from './prefix-class-names';
 import { getRadioButtonClassNames } from './radio-button-class-names';
 import { getRadioGroupClassNames } from './radio-group-class-names';
+import { getSelectClassNames } from './select-class-names';
+import { getSelectPreviewClassNames } from './select-preview-class-names';
 import { getSuffixClassNames } from './suffix-class-names';
+import { getTextareaClassNames } from './textarea-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
 import {
   ThemeUIComponentProps,
@@ -22,18 +33,6 @@ import {
   UIComponentsName,
 } from '../model/ui-component.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
-import { getTextareaClassNames } from './textarea-class-names';
-import { getSelectClassNames } from './select-class-names';
-import { getOptionClassNames } from './option-class-names';
-import { getOptionGroupClassNames } from './option-group-class-names';
-import { getSelectPreviewClassNames } from './select-preview-class-names';
-import { getButtonClassNames } from './button-class-names';
-import { getChipClassNames } from './chip-class-names';
-import { getChipListClassNames } from './chip-list-class-names';
-import { getMenuClassNames } from './menu-class-names';
-import { getMenuItemClassNames } from './menu-item-class-names';
-import { getMenuGroupClassNames } from './menu-group-class-names';
-import { getDividerClassNames } from './divider-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -57,7 +56,6 @@ export const CLASS_NAMES_FN_MAP = {
   // menu
   menu: getMenuClassNames,
   menuItem: getMenuItemClassNames,
-  menuGroup: getMenuGroupClassNames,
 
   // divider
   divider: getDividerClassNames,

@@ -5,6 +5,7 @@ import { ChipComponent } from '../../src/lib/chip/chip.component';
 
 export const Size: AngularStoryObj<ChipComponent> = {
   name: 'Size',
+  tags: ['uiComponentName:chip', 'uiComponentPropName:size'],
   parameters: {
     docs: {
       description: {

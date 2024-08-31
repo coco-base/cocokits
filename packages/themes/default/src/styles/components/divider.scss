@@ -1,13 +1,17 @@
 @use '../../token/scss' as *;
 
 .cck-divider {
-  flex: 1;
   display: block;
   background-color: $divider-color-bg;
+  flex-shrink: 0;
+}
+
+.cck-divider__horizontal {
+  width: 100%;
+  margin: $divider-spacing-margin 0;
 }
 
 .cck-divider__horizontal.cck-divider__size--md {
-  width: 100%;
   height: 1px;
 }
 
@@ -16,12 +20,15 @@
   height: 2px;
 }
 
+.cck-divider__vertical {
+  height: 100%;
+  margin: 0 $divider-spacing-margin;
+}
+
 .cck-divider__vertical.cck-divider__size--md {
   width: 1px;
-  height: 100%;
 }
 
 .cck-divider__vertical.cck-divider__size--lg {
   width: 2px;
-  height: 100%;
 }

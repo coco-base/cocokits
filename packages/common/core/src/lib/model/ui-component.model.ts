@@ -22,7 +22,6 @@ export type UIComponentsName =
   // menu
   | 'menu'
   | 'menuItem'
-  | 'menuGroup'
 
   // divider
   | 'divider'

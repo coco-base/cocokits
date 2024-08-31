@@ -5,6 +5,7 @@ import { <%- className %>Component } from '../../<%- relativeComponentDirectory 
 
 export const Type: AngularStoryObj<<%- className %>Component> = {
   name: 'Type',
+  tags: ['uiComponentName:<'<%= propertyName %>', 'uiComponentPropName:type'],
   parameters: {
     docs: {
       description: {

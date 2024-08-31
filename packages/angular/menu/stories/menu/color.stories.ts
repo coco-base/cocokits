@@ -1,11 +1,11 @@
 import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
-import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+import { MenuComponent } from '../../src';
 
-export const Color: AngularStoryObj<<%- className %>Component> = {
+export const Color: AngularStoryObj<MenuComponent> = {
   name: 'Color',
-  tags: ['uiComponentName:<'<%= propertyName %>', 'uiComponentPropName:color'],
+  tags: ['uiComponentName:menu', 'uiComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -24,15 +24,15 @@ export const Color: AngularStoryObj<<%- className %>Component> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (color of uiComponentConfig?.divider.color?.values; track color) {
+          @for (color of uiComponentConfig?.color.color?.values; track color) {
             <th>{{color}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (color of uiComponentConfig?.divider.color?.values; track color) {
+            @for (color of uiComponentConfig?.color.color?.values; track color) {
               <td>
-                <cck-<%- fileName %> [color]="color"></cck-<%- fileName %>>
+                <cck-menu [color]="color"></cck-menu>
               </td>
             }
           </tr>

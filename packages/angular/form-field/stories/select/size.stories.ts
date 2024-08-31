@@ -5,6 +5,7 @@ import { SelectComponent } from '../../src/lib/select/select.component';
 
 export const Size: AngularStoryObj<SelectComponent> = {
   name: 'Size',
+  tags: ['uiComponentName:select', 'uiComponentPropName:size'],
   parameters: {
     docs: {
       description: {

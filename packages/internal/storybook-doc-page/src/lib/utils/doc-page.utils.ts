@@ -65,6 +65,15 @@ export function useArgTypesApiList(
   events: DocArgTypesList[];
   methods: DocArgTypesList[];
 } {
+  // Not all components/Directive has argTypes. For example `MenuTriggerDirective`
+  if (!argTypes) {
+    return {
+      props: [] as DocArgTypesList[],
+      events: [] as DocArgTypesList[],
+      methods: [] as DocArgTypesList[],
+    };
+  }
+
   const uiComponentConfig = uiComponentsConfig[componentName];
   const order = ['type', 'color', 'size'];
 

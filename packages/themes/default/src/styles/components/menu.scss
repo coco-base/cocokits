@@ -1,1 +1,20 @@
 @use '../../token/scss' as *;
+
+.cck-menu {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $menu-color-border;
+  border-radius: $menu-size-radius;
+  padding: $menu-spacing-v-padding $menu-spacing-h-padding;
+  box-shadow: 0 8px 10px -6px #0d10170a, 0 18px 22px -4px #0d101714;
+  margin: 4px 0;
+  background-color: $color-surface-default;
+}
+
+// .cck-menu__size--sm {}
+// .cck-menu__size--md {}
+// .cck-menu__size--lg {}
+
+.cck-menu__overlay .cck-overlay__backdrop {
+  background-color: rgb(0 0 0 / 0%);
+}
