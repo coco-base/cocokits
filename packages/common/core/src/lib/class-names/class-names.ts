@@ -30,6 +30,10 @@ import { getSelectPreviewClassNames } from './select-preview-class-names';
 import { getButtonClassNames } from './button-class-names';
 import { getChipClassNames } from './chip-class-names';
 import { getChipListClassNames } from './chip-list-class-names';
+import { getMenuClassNames } from './menu-class-names';
+import { getMenuItemClassNames } from './menu-item-class-names';
+import { getMenuGroupClassNames } from './menu-group-class-names';
+import { getDividerClassNames } from './divider-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -49,6 +53,14 @@ export const CLASS_NAMES_FN_MAP = {
   selectPreview: getSelectPreviewClassNames,
   chip: getChipClassNames,
   chipList: getChipListClassNames,
+
+  // menu
+  menu: getMenuClassNames,
+  menuItem: getMenuItemClassNames,
+  menuGroup: getMenuGroupClassNames,
+
+  // divider
+  divider: getDividerClassNames,
 
   // radio
   radioButton: getRadioButtonClassNames,

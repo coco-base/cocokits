@@ -19,6 +19,14 @@ export type UIComponentsName =
   | 'chip'
   | 'chipList'
 
+  // menu
+  | 'menu'
+  | 'menuItem'
+  | 'menuGroup'
+
+  // divider
+  | 'divider'
+
   // radio
   | 'radioButton'
   | 'radioGroup'

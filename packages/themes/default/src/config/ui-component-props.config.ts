@@ -1,6 +1,50 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+  menu: {
+    type: null,
+    size: null,
+    color: null,
+  },
+  menuItem: {
+    type: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+    color: null,
+  },
+  menuGroup: {
+    type: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+    color: null,
+  },
+  divider: {
+    type: {
+      name: 'type',
+      values: ['horizontal', 'vertical'],
+      require: false,
+      default: 'horizontal',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+    color: null,
+  },
   chipList: {
     type: null,
     size: {

@@ -1,0 +1,72 @@
+{
+  "name": "@cocokits/angular-menu",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/angular/menu/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:angular"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "packages/angular/menu/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/angular/menu/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/angular/menu/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "storybook": {
+      "options": {
+        "styles": [
+          "packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss",
+          "tools/scripts/storybook/storybook-global.scss"
+        ],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/packages/angular/menu",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    },
+    "storybook-build": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputDir": "dist/storybook/packages/angular/menu",
+        "configDir": "packages/angular/menu/.storybook",
+        "browserTarget": "@cocokits/angular-menu:build-storybook",
+        "styles": [
+          "packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss",
+          "tools/scripts/storybook/storybook-global.scss"
+        ],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/packages/angular/menu",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    }
+  }
+}

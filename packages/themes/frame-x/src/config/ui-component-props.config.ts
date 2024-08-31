@@ -1,6 +1,10 @@
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
+  menu: { type: null, size: null, color: null },
+  menuItem: { type: null, size: null, color: null },
+  menuGroup: { type: null, size: null, color: null },
+  divider: { type: null, size: null, color: null },
   chipList: { type: null, size: null, color: null },
   chip: { type: null, size: null, color: null },
   selectPreview: { type: null, size: null, color: null },

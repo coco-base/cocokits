@@ -1,0 +1,72 @@
+{
+  "name": "@cocokits/angular-divider",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/angular/divider/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:angular"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "packages/angular/divider/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/angular/divider/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/angular/divider/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "storybook": {
+      "options": {
+        "styles": [
+          "packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss",
+          "tools/scripts/storybook/storybook-global.scss"
+        ],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/packages/angular/divider",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    },
+    "storybook-build": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputDir": "dist/storybook/packages/angular/divider",
+        "configDir": "packages/angular/divider/.storybook",
+        "browserTarget": "@cocokits/angular-divider:build-storybook",
+        "styles": [
+          "packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss",
+          "tools/scripts/storybook/storybook-global.scss"
+        ],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/packages/angular/divider",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      }
+    }
+  }
+}

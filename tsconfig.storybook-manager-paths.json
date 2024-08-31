@@ -20,7 +20,9 @@
       "@cocokits/angular-cdk": ["packages/angular/cdk/src/"],
       "@cocokits/angular-form-field": ["packages/angular/form-field/src/"],
       "@cocokits/angular-utils": ["packages/angular/utils/src/"],
-      "@cocokits/angular-core": ["packages/angular/core/src/"]
+      "@cocokits/angular-core": ["packages/angular/core/src/"],
+      "@cocokits/angular-menu": ["packages/angular/menu/src/"],
+      "@cocokits/angular-divider": ["packages/angular/divider/src/"]
     }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "name": "@cocokits/angular-divider",
+  "version": "0.0.1",
+  "private": false,
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@storybook/angular": "~8.0.9",
+    "@storybook/addon-docs": "~8.0.9"
+  },
+  "sideEffects": false
+}

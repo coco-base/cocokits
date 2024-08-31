@@ -20,6 +20,10 @@ import { optionGroupLayoutClassNamesConfig } from './option-group-class-names';
 import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
 import { chipLayoutClassNamesConfig } from './chip-class-names';
 import { chipListLayoutClassNamesConfig } from './chip-list-class-names';
+import { menuLayoutClassNamesConfig } from './menu-class-names';
+import { menuItemLayoutClassNamesConfig } from './menu-item-class-names';
+import { menuGroupLayoutClassNamesConfig } from './menu-group-class-names';
+import { dividerLayoutClassNamesConfig } from './divider-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -64,4 +68,10 @@ export const layoutClassNamesConfig = {
   selectPreview: selectPreviewLayoutClassNamesConfig,
   chip: chipLayoutClassNamesConfig,
   chipList: chipListLayoutClassNamesConfig,
+  // menu
+  menu: menuLayoutClassNamesConfig,
+  menuItem: menuItemLayoutClassNamesConfig,
+  menuGroup: menuGroupLayoutClassNamesConfig,
+  // divider
+  divider: dividerLayoutClassNamesConfig,
 };
