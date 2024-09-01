@@ -2,7 +2,7 @@ import { ChangeDetectorRef, computed, inject, InjectionToken, signal } from '@an
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControlStatus, ValidationErrors, Validators } from '@angular/forms';
 
-import { map, Observable, Subject, switchMap } from 'rxjs';
+import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 
 import { toDeepSignal } from '@cocokits/angular-utils';
 import { recordReduceMerge } from '@cocokits/common-utils';
@@ -56,6 +56,7 @@ export class FormFieldStoreService<T = unknown> {
 
   private changeDetectorRefs = new Set<ChangeDetectorRef>();
 
+  private ngControl?: AbstractControl<T> | undefined;
   private controllerReadySubject$ = new Subject<AbstractControl<T>>();
 
   private __markForCheckOnControlStatusChange = this.controllerReadySubject$
@@ -68,7 +69,7 @@ export class FormFieldStoreService<T = unknown> {
     });
 
   public controlStatus$: Observable<DeepNullable<ControllerStore<T>>> = this.controllerReadySubject$.pipe(
-    switchMap((control) => control.events),
+    switchMap((control) => control.events.pipe(startWith({ source: this.ngControl }))),
     map((event) => {
       const control = event.source as AbstractControl<T>;
       return {
@@ -186,6 +187,7 @@ export class FormFieldStoreService<T = unknown> {
 
   // Control
   public setController(ngControl: AbstractControl<T>) {
+    this.ngControl = ngControl;
     this.controllerReadySubject$.next(ngControl);
   }
 
