@@ -26,6 +26,9 @@ export type UIComponentsName =
   // divider
   | 'divider'
 
+  // toggle
+  | 'toggle'
+
   // radio
   | 'radioButton'
   | 'radioGroup'

@@ -23,6 +23,7 @@ import { chipListLayoutClassNamesConfig } from './chip-list-class-names';
 import { menuLayoutClassNamesConfig } from './menu-class-names';
 import { menuItemLayoutClassNamesConfig } from './menu-item-class-names';
 import { dividerLayoutClassNamesConfig } from './divider-class-names';
+import { toggleLayoutClassNamesConfig } from './toggle-class-names';
 
 /**
  * TODO: Add type definitions:
@@ -72,4 +73,6 @@ export const layoutClassNamesConfig = {
   menuItem: menuItemLayoutClassNamesConfig,
   // divider
   divider: dividerLayoutClassNamesConfig,
+  // toggle
+  toggle: toggleLayoutClassNamesConfig,
 };

@@ -1,6 +1,24 @@
+/* eslint-disable max-lines */
 import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+  toggle: {
+    type: null,
+    color: {
+      name: 'color',
+      values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
+      require: false,
+      default: 'brand',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+  },
   menu: {
     type: null,
     size: {

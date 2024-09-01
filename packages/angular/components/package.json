@@ -13,7 +13,8 @@
     "@cocokits/angular-radio": "workspace:*",
     "@cocokits/angular-form-field": "workspace:*",
     "@cocokits/angular-divider": "workspace:*",
-    "@cocokits/angular-menu": "workspace:*"
+    "@cocokits/angular-menu": "workspace:*",
+    "@cocokits/angular-toggle": "workspace:*"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

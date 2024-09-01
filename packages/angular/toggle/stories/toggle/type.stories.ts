@@ -1,11 +1,11 @@
 import { AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
-import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
+import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
-export const Type: AngularStoryObj<<%- className %>Component> = {
+export const Type: AngularStoryObj<ToggleComponent> = {
   name: 'Type',
-  tags: ['uiComponentName:<%= propertyName %>', 'uiComponentPropName:type'],
+  tags: ['uiComponentName:toggle', 'uiComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -32,7 +32,7 @@ export const Type: AngularStoryObj<<%- className %>Component> = {
           <tr>
             @for (type of uiComponentConfig?.divider.type?.values; track type) {
               <td>
-                <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
+                <cck-toggle [type]="type"></cck-toggle>
               </td>
             }
           </tr>

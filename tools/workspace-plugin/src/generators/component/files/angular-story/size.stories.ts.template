@@ -5,7 +5,7 @@ import { <%- className %>Component } from '../../<%- relativeComponentDirectory 
 
 export const Size: AngularStoryObj<<%- className %>Component> = {
   name: 'Size',
-  tags: ['uiComponentName:<'<%= propertyName %>', 'uiComponentPropName:size'],
+  tags: ['uiComponentName:<%= propertyName %>', 'uiComponentPropName:size'],
   parameters: {
     docs: {
       description: {

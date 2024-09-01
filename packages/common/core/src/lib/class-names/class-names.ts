@@ -33,6 +33,7 @@ import {
   UIComponentsName,
 } from '../model/ui-component.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
+import { getToggleClassNames } from './toggle-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -59,6 +60,9 @@ export const CLASS_NAMES_FN_MAP = {
 
   // divider
   divider: getDividerClassNames,
+
+  // toggle
+  toggle: getToggleClassNames,
 
   // radio
   radioButton: getRadioButtonClassNames,
