@@ -38,7 +38,7 @@ const CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
   providers: [CHECKBOX_CONTROL_VALUE_ACCESSOR],
   host: {
     '[class]': 'hostClassNames()',
-    '(click)': '_preventBubblingFromLabel($event)',
+    '(click)': 'preventBubblingFromLabel($event)',
   },
 })
 export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements ControlValueAccessor {
@@ -50,7 +50,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
     { if: this.disabled(), classes: this.classNames().disabled },
   ]);
 
-  private _cd = inject(ChangeDetectorRef);
+  private cd = inject(ChangeDetectorRef);
 
   // region ---------------- INPUTS ----------------
   /**
@@ -95,15 +95,15 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
   // region ---------------- PUBLIC METHODS ----------------
   /** Toggles the `checked` state of the checkbox. */
   public toggle(): void {
-    this._updateCheck(!this.checked());
+    this.updateCheck(!this.checked());
     this._controlValueAccessorChangeFn(this.checked());
-    this._updateIndeterminate(false);
+    this.updateIndeterminate(false);
   }
   // endregion
 
   // region ---------------- PRIVATE METHODS ----------------
 
-  private _updateCheck(checked: boolean) {
+  private updateCheck(checked: boolean) {
     const hasChanged = this.checked() !== checked;
     this.checked.set(checked);
 
@@ -112,7 +112,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
     }
   }
 
-  private _updateIndeterminate(indeterminate: boolean) {
+  private updateIndeterminate(indeterminate: boolean) {
     const hasChanged = this.indeterminate() !== indeterminate;
     this.indeterminate.set(indeterminate);
 
@@ -121,18 +121,18 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
     }
   }
 
-  protected _onInputClick() {
+  protected onInputClick() {
     this.toggle();
   }
 
-  protected _onInteractionEvent(event: Event) {
+  protected onInteractionEvent(event: Event) {
     // We always have to stop propagation on the change event.
     // Otherwise, the change event, from the input element, will bubble up and
     // emit its event object to the `change` output.
     event.stopPropagation();
   }
 
-  protected _onBlur() {
+  protected onBlur() {
     // When a focused element becomes disabled, the browser *immediately* fires a blur event.
     // Angular does not expect events to be raised during change detection, so any state change
     // (such as a form control's 'ng-touched') will cause a changed-after-checked error.
@@ -140,7 +140,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
     // telling the form control it has been touched until the next tick.
     Promise.resolve().then(() => {
       this._onTouched();
-      this._cd.markForCheck();
+      this.cd.markForCheck();
     });
   }
 
@@ -151,7 +151,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
    *  `<input/>`. By preventing clicks on the label by bubbling, we ensure only one click event
    *  bubbles when the label is clicked.
    */
-  protected _preventBubblingFromLabel(event: MouseEvent) {
+  protected preventBubblingFromLabel(event: MouseEvent) {
     event.stopPropagation();
   }
 

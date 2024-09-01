@@ -24,13 +24,13 @@ export const Color: AngularStoryObj<<%- className %>Component> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (color of uiComponentConfig?.divider.color?.values; track color) {
+          @for (color of uiComponentConfig?.<%= propertyName %>.color?.values; track color) {
             <th>{{color}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (color of uiComponentConfig?.divider.color?.values; track color) {
+            @for (color of uiComponentConfig?.<%= propertyName %>.color?.values; track color) {
               <td>
                 <cck-<%- fileName %> [color]="color"></cck-<%- fileName %>>
               </td>

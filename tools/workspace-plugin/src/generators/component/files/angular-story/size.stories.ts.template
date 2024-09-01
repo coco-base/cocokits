@@ -24,13 +24,13 @@ export const Size: AngularStoryObj<<%- className %>Component> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (size of uiComponentConfig?.divider.size?.values; track size) {
+          @for (size of uiComponentConfig?.<%= propertyName %>.size?.values; track size) {
             <th>{{size}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (size of uiComponentConfig?.divider.size?.values; track size) {
+            @for (size of uiComponentConfig?.<%= propertyName %>.size?.values; track size) {
               <td>
                 <cck-<%- fileName %> [size]="size"></cck-<%- fileName %>>
               </td>

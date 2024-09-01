@@ -1,1 +1,207 @@
 @use '../../token/scss' as *;
+
+.cck-toggle {
+  user-select: none;
+
+  &:not(.cck-toggle--disabled) {
+    cursor: pointer;
+  }
+}
+
+.cck-toggle__label {
+  display: flex;
+  align-items: center;
+  gap: $toggle-spacing-gap;
+  font: $text-sm-regular;
+
+  &:not(.cck-toggle--disabled) {
+    cursor: pointer;
+  }
+}
+
+.cck-toggle--label-before {
+  .cck-toggle__label {
+    flex-direction: row-reverse;
+  }
+}
+
+.cck-toggle__slider-wrapper {
+  position: relative;
+  border-radius: 100px;
+  width: $toggle-size-width-sm;
+}
+
+.cck-toggle__input {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.cck-toggle__thumb {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 0;
+  border: 2px solid $toggle-color-thumb-border;
+  background-color: $toggle-color-thumb;
+  border-radius: 100px;
+  transform: translate(0%, -50%);
+  transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+}
+
+.cck-toggle__backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: $toggle-color-backdrop-unselected;
+  transition: 0.3s ease all;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border-radius: 100px;
+}
+
+.cck-toggle--disabled {
+  cursor: default;
+  color: $color-disabled-font;
+  pointer-events: none;
+
+  .cck-toggle__thumb {
+    background-color: $toggle-color-thumb-disabled;
+  }
+}
+
+.cck-toggle--checked .cck-toggle__thumb {
+  left: 100%;
+  transform: translate(-100%, -50%);
+}
+
+.cck-toggle--checked:active .cck-toggle__thumb {
+  margin-left: -($toggle-size-bounce / 2);
+}
+
+.cck-toggle--unchecked:active .cck-toggle__thumb {
+  margin-left: ($toggle-size-bounce / 2);
+}
+
+// Color - brand
+.cck-toggle__color--brand:not(.cck-toggle--disabled) {
+  &.cck-toggle--checked .cck-toggle__backdrop {
+    background-color: $color-brand-default;
+  }
+
+  &:hover .cck-toggle__thumb {
+    border-color: $color-brand-default;
+  }
+}
+
+// Color - info
+.cck-toggle__color--info:not(.cck-toggle--disabled) {
+  &.cck-toggle--checked .cck-toggle__backdrop {
+    background-color: $color-info-default;
+  }
+
+  &:hover .cck-toggle__thumb {
+    border-color: $color-info-default;
+  }
+}
+
+// Color - warning
+.cck-toggle__color--warning:not(.cck-toggle--disabled) {
+  &.cck-toggle--checked .cck-toggle__backdrop {
+    background-color: $color-warning-default;
+  }
+
+  &:hover .cck-toggle__thumb {
+    border-color: $color-warning-default;
+  }
+}
+
+// Color - error
+.cck-toggle__color--error:not(.cck-toggle--disabled) {
+  &.cck-toggle--checked .cck-toggle__backdrop {
+    background-color: $color-error-default;
+  }
+
+  &:hover .cck-toggle__thumb {
+    border-color: $color-error-default;
+  }
+}
+
+// Color - h-contrast
+.cck-toggle__color--h-contrast:not(.cck-toggle--disabled) {
+  &.cck-toggle--checked .cck-toggle__backdrop {
+    background-color: $color-h-contrast-default;
+  }
+
+  &:hover .cck-toggle__thumb {
+    border-color: $color-h-contrast-default;
+  }
+}
+
+// Size - sm
+.cck-toggle__size--sm {
+  .cck-toggle__slider-wrapper {
+    width: $toggle-size-width-sm;
+  }
+
+  .cck-toggle__thumb {
+    width: $toggle-size-thumb-sm;
+    height: $toggle-size-thumb-sm;
+  }
+
+  .cck-toggle__backdrop {
+    width: $toggle-size-width-sm - $toggle-size-thumb-sm;
+    height: $toggle-size-backdrop-sm;
+  }
+
+  &:active .cck-toggle__thumb {
+    width: $toggle-size-thumb-sm + $toggle-size-bounce;
+  }
+}
+
+// Size - md
+.cck-toggle__size--md {
+  .cck-toggle__slider-wrapper {
+    width: $toggle-size-width-md;
+  }
+
+  .cck-toggle__backdrop {
+    width: $toggle-size-width-md - $toggle-size-thumb-md;
+    height: $toggle-size-backdrop-md;
+  }
+
+  .cck-toggle__thumb {
+    width: $toggle-size-thumb-md;
+    height: $toggle-size-thumb-md;
+  }
+
+  &:active .cck-toggle__thumb {
+    width: $toggle-size-thumb-md + $toggle-size-bounce;
+  }
+}
+
+// Size - lg
+.cck-toggle__size--lg {
+  .cck-toggle__slider-wrapper {
+    width: $toggle-size-width-lg;
+  }
+
+  .cck-toggle__backdrop {
+    width: $toggle-size-width-lg - $toggle-size-thumb-lg;
+    height: $toggle-size-backdrop-lg;
+  }
+
+  .cck-toggle__thumb {
+    width: $toggle-size-thumb-lg;
+    height: $toggle-size-thumb-lg;
+  }
+
+  &:active .cck-toggle__thumb {
+    width: $toggle-size-thumb-lg + $toggle-size-bounce;
+  }
+}

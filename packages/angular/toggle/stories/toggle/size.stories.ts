@@ -24,15 +24,15 @@ export const Size: AngularStoryObj<ToggleComponent> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (size of uiComponentConfig?.divider.size?.values; track size) {
+          @for (size of uiComponentConfig?.toggle.size?.values; track size) {
             <th>{{size}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (size of uiComponentConfig?.divider.size?.values; track size) {
+            @for (size of uiComponentConfig?.toggle.size?.values; track size) {
               <td>
-                <cck-toggle [size]="size"></cck-toggle>
+                <cck-toggle checked="true" [size]="size"></cck-toggle>
               </td>
             }
           </tr>

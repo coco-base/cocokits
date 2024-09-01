@@ -17,7 +17,7 @@ export const toggleLayoutClassNamesConfig = {
     },
     label: {
       name: 'Label Element',
-      selectors: ['cck-toggle'],
+      selectors: ['cck-toggle__label'],
       description: 'Applied to the `label` element, containing the label or description of the toggle.',
     },
     checked: {
@@ -30,15 +30,25 @@ export const toggleLayoutClassNamesConfig = {
       selectors: ['cck-toggle--unchecked'],
       description: 'Applied to the host element of the Toggle component, when the the toggle is unchecked',
     },
+    labelBefore: {
+      name: 'Host Element',
+      selectors: ['cck-toggle--label-before'],
+      description: 'Applied to the host element of the Toggle component, when the the label position is `before`',
+    },
+    sliderWrapper: {
+      name: 'Slider Wrapper Element',
+      selectors: ['cck-toggle__slider-wrapper'],
+      description: 'It will add to the slider-wrapper element which contains input, thumb and backdrop.',
+    },
     input: {
       name: 'Input element',
       selectors: ['cck-toggle__input'],
       description: 'It will add to the input element with typeof checkbox, to track if the toggle is selected or not.',
     },
-    knobs: {
+    thumb: {
       name: 'Knobs Element',
-      selectors: ['cck-toggle__knobs'],
-      description: 'It will add to the knobs element to style the knobs of toggle.',
+      selectors: ['cck-toggle__thumb'],
+      description: 'It will add to the thumb element to style the thumb of toggle.',
     },
     backdrop: {
       name: 'Backdrop Element',
@@ -67,8 +77,10 @@ export function getToggleClassNames(
     label: [...toggleLayoutClassNamesConfig.elements.label.selectors],
     checked: [...toggleLayoutClassNamesConfig.elements.checked.selectors],
     unchecked: [...toggleLayoutClassNamesConfig.elements.unchecked.selectors],
+    labelBefore: [...toggleLayoutClassNamesConfig.elements.labelBefore.selectors],
+    sliderWrapper: [...toggleLayoutClassNamesConfig.elements.sliderWrapper.selectors],
     input: [...toggleLayoutClassNamesConfig.elements.input.selectors],
-    knobs: [...toggleLayoutClassNamesConfig.elements.knobs.selectors],
+    thumb: [...toggleLayoutClassNamesConfig.elements.thumb.selectors],
     backdrop: [...toggleLayoutClassNamesConfig.elements.backdrop.selectors],
   };
 }

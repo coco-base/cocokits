@@ -21,7 +21,26 @@ export const Default: AngularStoryObj<ToggleComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <cck-toggle></cck-toggle>
+        <table class="story-variant-table story-variant-table--no-col-header story-variant-table--bottom-align">
+        <thead>
+          <th>Default</th>
+          <th>Label Before</th>
+          <th>Disabled</th>
+        </thead>
+        <tbody>
+          <tr>
+              <td>
+                <cck-toggle checked="true">Slide me!</cck-toggle>
+              </td>
+              <td>
+                <cck-toggle checked="true" [labelPosition]="'before'">Slide me!</cck-toggle>
+              </td>
+              <td>
+                <cck-toggle checked="true" disabled="true">Slide me!</cck-toggle>
+              </td>
+          </tr>
+        </tbody>
+      </table>
     `,
   }),
 };

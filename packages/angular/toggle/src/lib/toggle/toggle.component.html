@@ -1,1 +1,18 @@
-<p>cck-toggle works !!</p>
+<label [class]="classNames().label" [for]="id()">
+  <div [class]="classNames().sliderWrapper">
+    <input
+      type="checkbox"
+      [class]="classNames().input"
+      [checked]="checked()"
+      [disabled]="disabled()"
+      [id]="id()"
+      (blur)="onBlur()"
+      (click)="onInputClick()"
+      (change)="onInteractionEvent($event)" />
+
+    <div [class]="classNames().thumb"></div>
+    <div [class]="classNames().backdrop"></div>
+  </div>
+
+  <ng-content></ng-content>
+</label>

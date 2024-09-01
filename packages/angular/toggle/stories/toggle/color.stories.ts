@@ -24,15 +24,15 @@ export const Color: AngularStoryObj<ToggleComponent> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (color of uiComponentConfig?.divider.color?.values; track color) {
+          @for (color of uiComponentConfig?.toggle.color?.values; track color) {
             <th>{{color}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (color of uiComponentConfig?.divider.color?.values; track color) {
+            @for (color of uiComponentConfig?.toggle.color?.values; track color) {
               <td>
-                <cck-toggle [color]="color"></cck-toggle>
+                <cck-toggle checked="true" [color]="color"></cck-toggle>
               </td>
             }
           </tr>

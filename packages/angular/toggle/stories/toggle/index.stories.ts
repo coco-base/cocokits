@@ -1,3 +1,5 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
@@ -11,6 +13,9 @@ export { Default } from './default.stories';
 export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
+export { ThemeDefaultBox } from './theme-default-box.stories';
+export { NgModel } from './ng-model.stories';
+export { ReactiveForm } from './reactive-form.stories';
 
 const meta: AngularStoriesMeta = {
   component: ToggleComponent,
@@ -20,6 +25,7 @@ const meta: AngularStoriesMeta = {
   decorators: [
     componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
+      imports: [FormsModule, ReactiveFormsModule],
       providers: [
         {
           provide: UIComponentConfig,

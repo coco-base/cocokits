@@ -152,6 +152,29 @@
   height: 600px;
 }
 
+.story-theme-default-toggle-box {
+  padding: 12px 24px;
+  margin: 24px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: 0.3s ease border;
+
+  &:hover {
+    border-color: var(--color-brand-default);
+    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-2);
+  }
+}
+
+.story-theme-default-toggle-box__title {
+  font: var(--cck-storybook-text-sm-medium);
+  color: var(--cck-storybook-color-font-contrast-4);
+}
+
+.story-theme-default-toggle-box__text {
+  font: var(--cck-storybook-text-sm-regular);
+  color: var(--cck-storybook-color-font-contrast-3);
+}
+
 .story-overlay-example {
   min-height: 500px;
   display: flex;

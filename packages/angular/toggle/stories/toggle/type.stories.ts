@@ -24,13 +24,13 @@ export const Type: AngularStoryObj<ToggleComponent> = {
     template: `
         <table class="story-variant-table story-variant-table--no-col-header">
         <thead>
-          @for (type of uiComponentConfig?.divider.type?.values; track type) {
+          @for (type of uiComponentConfig?.toggle.type?.values; track type) {
             <th>{{type}}</th>
           }
         </thead>
         <tbody>
           <tr>
-            @for (type of uiComponentConfig?.divider.type?.values; track type) {
+            @for (type of uiComponentConfig?.toggle.type?.values; track type) {
               <td>
                 <cck-toggle [type]="type"></cck-toggle>
               </td>
