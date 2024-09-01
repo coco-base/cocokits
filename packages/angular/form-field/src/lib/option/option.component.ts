@@ -25,14 +25,13 @@ import { SelectComponent } from '../select/select.component';
 export class OptionComponent<T = any> extends _UiBaseComponent<'option'> {
   protected readonly componentName = 'option';
   protected extraHostElementClassConditions = computed(() => [
-    { if: this.effectedDisabled(), classes: this.classNames().disabled },
+    { if: this.disabled(), classes: this.classNames().disabled },
     { if: this.isSelected(), classes: this.classNames().selected },
     { if: this.selectStore.isMultiple(), classes: this.classNames().multiple },
     { if: !this.selectStore.isMultiple(), classes: this.classNames().single },
   ]);
 
-  override _effectedSize = computed(() => this.size() ?? this.selectComp?._effectedSize());
-  protected effectedDisabled = computed(() => this.disabled() ?? this.optionGroupComp?.disabled() ?? false);
+  override size = computed(() => this._size() ?? this.selectComp?.size());
 
   private optionGroupComp = inject(OptionGroupComponent, { optional: true });
   private selectComp = inject(SelectComponent, { optional: true });
@@ -41,7 +40,8 @@ export class OptionComponent<T = any> extends _UiBaseComponent<'option'> {
   /**
    * Whether the input is disabled.
    */
-  public disabled = input(null, { transform: toBooleanOrPresent });
+  public _disabled = input(undefined, { alias: 'disabled', transform: toBooleanOrPresent });
+  protected disabled = computed(() => this._disabled() ?? this.optionGroupComp?.disabled() ?? false);
 
   /**
    * Value of the select control.
@@ -56,7 +56,7 @@ export class OptionComponent<T = any> extends _UiBaseComponent<'option'> {
   protected onHostClick(e: Event) {
     e.stopPropagation();
 
-    if (this.effectedDisabled()) {
+    if (this.disabled()) {
       return;
     }
 

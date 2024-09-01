@@ -28,14 +28,14 @@ export class MenuItemComponent extends _UiBaseComponent<'menuItem'> {
   private menuComp = inject(MenuComponent, { optional: true });
   private overlayRef = inject(OverlayRef, { optional: true });
 
-  override _effectedType = computed(() => this.type() ?? this.menuComp?.type());
-  override _effectedSize = computed(() => this.size() ?? this.menuComp?.size());
-  override _effectedColor = computed(() => this.color() ?? this.menuComp?.color());
+  override type = computed(() => this._type() ?? this.menuComp?._type());
+  override size = computed(() => this._size() ?? this.menuComp?._size());
+  override color = computed(() => this._color() ?? this.menuComp?._color());
 
   /**
    * Whether the menu item is disabled.
    */
-  disabled = input(null, { transform: toBooleanOrPresent });
+  disabled = input(undefined, { transform: toBooleanOrPresent });
 
   protected onHostClick() {
     if (this.menuComp?.closeOnSelectItem()) {

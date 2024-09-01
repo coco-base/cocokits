@@ -12,9 +12,9 @@ import {
 } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { FormFieldStore, FormFieldStoreService, injectFormFieldStore } from '../form-field.store';
-import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -47,7 +47,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   /**
    * Whether the control is disabled.
    */
-  public disabled = input(null, { transform: toBooleanOrPresent });
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   protected extraHostElementClassConditions = computed(() => [
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
@@ -66,7 +66,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
     { if: this.store.control.pending(), classes: this.classNames().pending },
   ]);
 
-  public wrapperElemRef = viewChild.required<ElementRef<HTMLElement>>('wrapperElem');
+  public _wrapperElemRef = viewChild.required<ElementRef<HTMLElement>>('wrapperElem');
 
   constructor() {
     super();

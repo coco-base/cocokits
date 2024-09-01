@@ -159,3 +159,8 @@
 .cck-radio-button--disabled .cck-radio-button__label {
   color: $color-disabled-font;
 }
+
+.cck-radio-button--disabled .cck-radio-button__input-wrapper,
+.cck-radio-button--disabled .cck-radio-button__label {
+  cursor: default;
+}

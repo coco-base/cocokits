@@ -14,9 +14,9 @@ import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
-import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -50,12 +50,12 @@ export class InputComponent extends _UiBaseComponent<'input'> implements OnInit,
   /**
    * Input type of the element.
    */
-  public override type = input<string | null>();
+  public override _type = input<string | null | undefined>(undefined, { alias: 'type' });
 
   /**
    * Whether the input is disabled.
    */
-  public disabled = input(null, { transform: toBooleanOrPresent });
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   constructor() {
     super();

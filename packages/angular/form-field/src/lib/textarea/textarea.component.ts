@@ -68,7 +68,7 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   /**
    * Whether the textarea is disabled.
    */
-  public disabled = input(null, { transform: toBooleanOrPresent });
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   private __onAutoResizeChanged = effect((onCleanup) => {
     if (this.autoResize()) {

@@ -164,36 +164,31 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
 export class RadioButtonComponent<T = unknown> extends _UiBaseComponent<'radioButton'> {
   protected readonly componentName = 'radioButton';
   protected extraHostElementClassConditions = computed(() => [
-    { if: this.effectedChecked(), classes: this.classNames().checked },
-    { if: !this.effectedChecked(), classes: this.classNames().unchecked },
-    { if: this.effectedDisabled(), classes: this.classNames().disabled },
+    { if: this.checked(), classes: this.classNames().checked },
+    { if: !this.checked(), classes: this.classNames().unchecked },
+    { if: this.disabled(), classes: this.classNames().disabled },
   ]);
 
   private radioGroup = inject(RadioGroupComponent<T>, { optional: true });
 
-  override _effectedSize = computed(() => this.size() ?? this.radioGroup?.size());
-  override _effectedColor = computed(() => this.color() ?? this.radioGroup?.color());
-  override _effectedAdditional = computed(() => ({ ...this.additional(), ...this.radioGroup?.additional() }));
+  override size = computed(() => this._size() ?? this.radioGroup?.size());
+  override color = computed(() => this._color() ?? this.radioGroup?.color());
+  override additional = computed(() => ({ ...this._additional(), ...this.radioGroup?.additional() }));
 
   /** Analog to HTML 'name' attribute used to group radios for unique selection. */
-  public name = input<string>();
-
-  protected effectedName = computed(() => this.name() || this.radioGroup?.name());
+  public _name = input<string | null | undefined>(undefined, { alias: 'name' });
+  protected name = computed(() => this._name() || this.radioGroup?.name());
 
   /** Whether this radio button is checked. */
-  public checked = model<boolean>();
-
-  protected effectedChecked = computed(() =>
-    this.radioGroup ? this.radioGroup.selected() === this.value() : this.checked()
-  );
+  public _checked = model<boolean | null | undefined>(undefined, { alias: 'checked' });
+  protected checked = computed(() => (this.radioGroup ? this.radioGroup.selected() === this.value() : this._checked()));
 
   /** The value of this radio button. */
   public value = input.required<T>();
 
   /** Whether the radio button is disabled. */
-  public disabled = input<boolean>();
-
-  protected effectedDisabled = computed(() => this.disabled() || this.radioGroup?.disabled());
+  public _disabled = input<boolean | null | undefined>(undefined, { alias: 'disabled' });
+  protected disabled = computed(() => this._disabled() ?? this.radioGroup?.disabled());
 
   /** The unique ID for the radio button. If none is supplied, it will be auto-generated. */
   public id = input(`cck-radio-${NEXT_ID++}`);
@@ -214,6 +209,6 @@ export class RadioButtonComponent<T = unknown> extends _UiBaseComponent<'radioBu
 
     this.change.emit({ source: this, value: this.value() });
     this.radioGroup?._setSelectedRadio(this);
-    this.checked.set(true);
+    this._checked.set(true);
   }
 }

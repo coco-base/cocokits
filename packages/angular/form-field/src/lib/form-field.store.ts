@@ -117,7 +117,7 @@ export class FormFieldStoreService<T = unknown> {
 
   public chipList = {
     disabled: computed(() => (this.has.chipList() && this.compRef.chipList ? this.compRef.chipList.disabled() : null)),
-    size: computed(() => (this.has.chipList() && this.compRef.chipList ? this.compRef.chipList.size() : null)),
+    size: computed(() => (this.has.chipList() && this.compRef.chipList ? this.compRef.chipList._size() : null)),
   };
 
   public select = {
@@ -145,9 +145,9 @@ export class FormFieldStoreService<T = unknown> {
       this.has.formField() && this.compRef.formField ? this.compRef.formField.hideRequiredMarker() : null
     ),
     wrapperElem: computed(() =>
-      this.has.formField() && this.compRef.formField ? this.compRef.formField.wrapperElemRef() : null
+      this.has.formField() && this.compRef.formField ? this.compRef.formField._wrapperElemRef() : null
     ),
-    size: computed(() => (this.has.formField() && this.compRef.formField ? this.compRef.formField.size() : null)),
+    size: computed(() => (this.has.formField() && this.compRef.formField ? this.compRef.formField._size() : null)),
   };
 
   private disabled = computed(

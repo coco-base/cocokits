@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { SelectComponent } from '../select/select.component';
-import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -23,14 +23,14 @@ export class OptionGroupComponent extends _UiBaseComponent<'optionGroup'> {
     { if: this.disabled() ?? false, classes: this.classNames().disabled },
   ]);
 
-  override _effectedSize = computed(() => this.size() ?? this.selectComp?._effectedSize());
+  override size = computed(() => this._size() ?? this.selectComp?.size());
 
   private selectComp = inject(SelectComponent, { optional: true });
 
   /**
    * Whether the input is disabled.
    */
-  public disabled = input(null, { transform: toBooleanOrPresent });
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   /**
    * Label for the option group.

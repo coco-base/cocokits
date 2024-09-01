@@ -5,9 +5,9 @@
       [class]="classNames().input"
       type="radio"
       [id]="id()"
-      [checked]="effectedChecked()"
-      [disabled]="effectedDisabled()"
-      [attr.name]="effectedName()"
+      [checked]="checked()"
+      [disabled]="disabled()"
+      [attr.name]="name()"
       [attr.value]="value()"
       (change)="_onInputChange($event)">
 

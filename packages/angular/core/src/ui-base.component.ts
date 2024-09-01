@@ -21,7 +21,7 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    * When set to `null`, no specific type is applied (Not event the default value).
    * This allows for more flexible styling options if the desired size is not available in the selected theme.
    */
-  public type: InputSignal<string | undefined | null> = input<string | null>();
+  public _type: InputSignal<string | undefined | null> = input<string | null | undefined>(undefined, { alias: 'type' });
 
   /**
    * The size of form-field.
@@ -29,7 +29,7 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    * When set to `null`, no specific size is applied (Not event the default value).
    * This allows for more flexible styling options if the desired size is not available in the selected theme.
    */
-  public size: InputSignal<string | undefined | null> = input<string | null>();
+  public _size: InputSignal<string | undefined | null> = input<string | null | undefined>(undefined, { alias: 'size' });
 
   /**
    * The color of form-field.
@@ -37,7 +37,9 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    * When set to `null`, no specific color is applied (Not event the default value).
    * This allows for more flexible styling options if the desired size is not available in the selected theme.
    */
-  public color: InputSignal<string | undefined | null> = input<string | null>();
+  public _color: InputSignal<string | undefined | null> = input<string | null | undefined>(undefined, {
+    alias: 'color',
+  });
 
   /**
    * A signal for attributes starting with `data-cck`.
@@ -57,28 +59,40 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    *
    * @internal
    */
-  public additional = fromAttrWithPrefix<Record<string, ThemeUIComponentPropValue>>('data-cck-');
+  public _additional = fromAttrWithPrefix<Record<string, ThemeUIComponentPropValue>>('data-cck-');
 
-  // All effected properties can be overridden by the parent class to set the final value.
+  // All following properties can be overridden by the parent class to set the final value.
   // For example: the size of `RadioComponent` depends on 2 values,
   // first try to get the size from `RadioComponent` and if is not present the take it from `RadioGroupComponent`
-  public _effectedType = computed(() => this.type());
-  public _effectedSize = computed(() => this.size());
-  public _effectedColor = computed(() => this.color());
-  public _effectedAdditional = computed(() => this.additional());
+  /**
+   * @internal
+   */
+  public type = computed(() => this._type());
+  /**
+   * @internal
+   */
+  public size = computed(() => this._size());
+  /**
+   * @internal
+   */
+  public color = computed(() => this._color());
+  /**
+   * @internal
+   */
+  public additional = computed(() => this._additional());
 
-  protected classNames = computed(() =>
-    getClassNames<ComponentsName>(
+  protected classNames = computed(() => {
+    return getClassNames<ComponentsName>(
       this.componentName,
       {
-        type: this.baseClassOptions.skipType ? null : this._effectedType(),
-        size: this.baseClassOptions.skipSize ? null : this._effectedSize(),
-        color: this.baseClassOptions.skipColor ? null : this._effectedColor(),
-        additional: this.baseClassOptions.skipAdditional ? undefined : this._effectedAdditional(),
+        type: this.baseClassOptions.skipType ? null : this.type(),
+        size: this.baseClassOptions.skipSize ? null : this.size(),
+        color: this.baseClassOptions.skipColor ? null : this.color(),
+        additional: this.baseClassOptions.skipAdditional ? undefined : this.additional(),
       },
       this.uiComponentConfig
-    )
-  );
+    );
+  });
 
   protected hostClassNames = computed(() => [
     ...this.classNames().host,

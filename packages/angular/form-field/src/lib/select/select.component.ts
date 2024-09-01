@@ -68,7 +68,7 @@ export class SelectComponent<T = any>
     { if: !this.selectStore.isMultiple(), classes: this.classNames().single },
   ]);
 
-  override _effectedSize = computed(() => this.size() ?? this.formFieldStore.formField.size?.());
+  override size = computed(() => this._size() ?? this.formFieldStore.formField.size?.());
 
   protected formFieldStore = injectFormFieldStore();
   protected selectStore = injectSelectStore<T>();
@@ -83,7 +83,7 @@ export class SelectComponent<T = any>
   /**
    * Whether the input is disabled.
    */
-  public disabled = input(null, { transform: toBooleanOrPresent });
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   /**
    * Whether the component is required.
@@ -105,7 +105,6 @@ export class SelectComponent<T = any>
   /**
    * Value of the select control.
    */
-  // public value = input(null);
   @Input() set value(value: T) {
     this.selectStore.setSelection(value);
   }

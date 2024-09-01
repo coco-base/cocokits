@@ -76,23 +76,30 @@ export function useArgTypesApiList(
 
   const uiComponentConfig = uiComponentsConfig[componentName];
   const order = ['type', 'color', 'size'];
+  const nameTransformMap: Record<string, string> = {
+    _type: 'type',
+    _size: 'size',
+    _color: 'color',
+  };
 
   const argTypesList = Object.values(argTypes).filter((argType) => !argType.table?.disable ?? true);
 
   const result = reduceDeepMerge(
     argTypesList,
     (argType) => {
-      const themeUIComponentProps = uiComponentConfig?.[argType.name as UIComponentsPropName];
+      const name = nameTransformMap[argType.name] ?? argType.name;
+      const themeUIComponentProps = uiComponentConfig?.[name as UIComponentsPropName];
 
       // Skip from ArgsTypeTable when the component has no uiComponentConfig in selected Theme,
       // and it's not force to take from component API
+      // Example of force: the type of input component is not our custom config, it's the native type of input such as 'number' or 'date'
       // eslint-disable-next-line dot-notation
-      if (!themeUIComponentProps && order.includes(argType.name) && !argType.table?.['useComponentApi']) {
+      if (!themeUIComponentProps && order.includes(name) && !argType.table?.['useComponentApi']) {
         return {};
       }
 
       // Skip public methods or properties that start with `_`.
-      if (argType.name.startsWith('_')) {
+      if (name.startsWith('_')) {
         return {};
       }
 
@@ -107,7 +114,7 @@ export function useArgTypesApiList(
       return {
         [keyName]: [
           {
-            name: argType.name,
+            name: name,
             description: argType.description,
             defaultValue,
             type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],

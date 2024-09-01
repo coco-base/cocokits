@@ -16,7 +16,7 @@
  * toBooleanOrPresent('yes') => true;
  *
  * Angular:
- * disabled = input(null, {transform: toBooleanOrPresent})
+ * disabled = input(undefined, {transform: toBooleanOrPresent})
  * @Input({transform: toBooleanOrPresent}) disabled: boolean;
  *
  *
@@ -29,5 +29,5 @@
  *
  */
 export function toBooleanOrPresent(value: any): boolean {
-  return value !== null && `${value}`.toLowerCase() !== 'false';
+  return value !== null && value !== undefined && `${value}`.toLowerCase() !== 'false';
 }

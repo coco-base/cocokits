@@ -47,7 +47,7 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
     { if: this.formFieldStore.state.disabled(), classes: this.classNames().disabled },
   ]);
 
-  override _effectedSize = computed(() => this.size() ?? this.formFieldStore.formField.size?.());
+  override size = computed(() => this._size() ?? this.formFieldStore.formField.size?.());
 
   protected formFieldStore = injectFormFieldStore();
   protected selectionStore = inject(SelectStore);
@@ -61,7 +61,7 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
   }
   addOnBlur = input(true);
   placeholder = input<string>();
-  disabled = input(null, { transform: toBooleanOrPresent });
+  disabled = input(undefined, { transform: toBooleanOrPresent });
 
   change = output<T[]>();
   remove = output<T>();

@@ -14,9 +14,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { TrustHtmlPipe } from '@cocokits/angular-utils';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { CheckboxChange } from './checkbox.model';
-import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 // Increasing integer for generating unique ids for checkbox components.
 let NEXT_ID = 1;
@@ -47,7 +47,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
     { if: this.indeterminate(), classes: this.classNames().indeterminate },
     { if: this.checked() && !this.indeterminate(), classes: this.classNames().checked },
     { if: !this.checked() && !this.indeterminate(), classes: this.classNames().unchecked },
-    { if: this.effectedDisabled(), classes: this.classNames().disabled },
+    { if: this.disabled(), classes: this.classNames().disabled },
   ]);
 
   private _cd = inject(ChangeDetectorRef);
@@ -61,9 +61,8 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
   public checked = model<boolean>();
 
   /** Whether the checkbox is disabled. */
-  public disabled = model<boolean>();
-
-  protected effectedDisabled = computed(() => toBooleanOrPresent(this.disabled()));
+  public _disabled = model<boolean | null | undefined>(undefined, { alias: 'disabled' });
+  protected disabled = computed(() => toBooleanOrPresent(this._disabled()));
 
   /**
    * Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
@@ -197,7 +196,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
    * @internal
    */
   setDisabledState(isDisabled: boolean) {
-    this.disabled.set(isDisabled);
+    this._disabled.set(isDisabled);
   }
 
   // endregion
