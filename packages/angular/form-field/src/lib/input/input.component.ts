@@ -16,6 +16,7 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -54,7 +55,7 @@ export class InputComponent extends _UiBaseComponent<'input'> implements OnInit,
   /**
    * Whether the input is disabled.
    */
-  public disabled = fromAttrByNameToBoolean('disabled');
+  public disabled = input(null, { transform: toBooleanOrPresent });
 
   constructor() {
     super();

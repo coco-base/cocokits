@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 
 import { SelectComponent } from '../select/select.component';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -30,7 +30,7 @@ export class OptionGroupComponent extends _UiBaseComponent<'optionGroup'> {
   /**
    * Whether the input is disabled.
    */
-  public disabled = fromAttrByNameToBoolean('disabled');
+  public disabled = input(null, { transform: toBooleanOrPresent });
 
   /**
    * Label for the option group.

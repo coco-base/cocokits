@@ -8,6 +8,8 @@ export * from './lib/rxjs/skip-nullish';
 
 export * from './lib/scroll/scroll-locker';
 
+export * from './lib/transform/to-boolean-or-present';
+
 export * from './lib/uncategorized/event-listener';
 export * from './lib/uncategorized/ensure';
 export * from './lib/uncategorized/deep-merge';

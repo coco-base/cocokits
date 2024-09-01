@@ -3,10 +3,10 @@ import { ChangeDetectionStrategy, Component, computed, input, output, ViewEncaps
 import { IconButtonComponent } from '@cocokits/angular-button';
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
 
 import { injectFormFieldStore } from '../form-field.store';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -32,7 +32,7 @@ export class ChipComponent extends _UiBaseComponent<'chip'> {
   protected removeIcon: ThemeSvgIcon;
 
   removable = input<boolean>();
-  disabled = fromAttrByNameToBoolean('disabled');
+  disabled = input(null, { transform: toBooleanOrPresent });
 
   remove = output();
 

@@ -16,7 +16,7 @@ import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
-import { autoResizeTextarea } from '@cocokits/common-utils';
+import { autoResizeTextarea, toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
 
@@ -68,7 +68,7 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   /**
    * Whether the textarea is disabled.
    */
-  public disabled = fromAttrByNameToBoolean('disabled');
+  public disabled = input(null, { transform: toBooleanOrPresent });
 
   private __onAutoResizeChanged = effect((onCleanup) => {
     if (this.autoResize()) {

@@ -3,8 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncaps
 import { CheckboxComponent } from '@cocokits/angular-checkbox';
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
-import { isNotNullish, isNullish } from '@cocokits/common-utils';
+import { isNotNullish, isNullish, toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { OptionGroupComponent } from '../option-group/option-group.component';
 import { injectSelectStore, SelectTriggerSource } from '../select.store';
@@ -42,7 +41,7 @@ export class OptionComponent<T = any> extends _UiBaseComponent<'option'> {
   /**
    * Whether the input is disabled.
    */
-  public disabled = fromAttrByNameToBoolean('disabled');
+  public disabled = input(null, { transform: toBooleanOrPresent });
 
   /**
    * Value of the select control.

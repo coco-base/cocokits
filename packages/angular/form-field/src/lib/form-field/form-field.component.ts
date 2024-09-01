@@ -6,7 +6,6 @@ import {
   ElementRef,
   inject,
   input,
-  model,
   OnDestroy,
   viewChild,
   ViewEncapsulation,
@@ -15,6 +14,7 @@ import {
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
 import { FormFieldStore, FormFieldStoreService, injectFormFieldStore } from '../form-field.store';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 @Component({
   standalone: true,
@@ -47,7 +47,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   /**
    * Whether the control is disabled.
    */
-  public disabled = model<boolean>();
+  public disabled = input(null, { transform: toBooleanOrPresent });
 
   protected extraHostElementClassConditions = computed(() => [
     { if: this.store.state.disabled(), classes: this.classNames().disabled },

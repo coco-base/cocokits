@@ -16,8 +16,7 @@ import {
 } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
-import { hasValue } from '@cocokits/common-utils';
+import { hasValue, toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { ChipComponent } from '../chip/chip.component';
 import { injectFormFieldStore } from '../form-field.store';
@@ -62,7 +61,7 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
   }
   addOnBlur = input(true);
   placeholder = input<string>();
-  disabled = fromAttrByNameToBoolean('disabled');
+  disabled = input(null, { transform: toBooleanOrPresent });
 
   change = output<T[]>();
   remove = output<T>();

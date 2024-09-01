@@ -15,6 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { TrustHtmlPipe } from '@cocokits/angular-utils';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 /**
  * To avoid get cycle dependencies, we have to create radio-group and radio-button in a single file.
@@ -64,7 +65,8 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
   public selected = model<T>();
 
   /** Whether the radio group is disabled */
-  public disabled = model<boolean>();
+  public _disabled = model<boolean | null>(null, { alias: 'disabled' });
+  public disabled = computed(() => toBooleanOrPresent(this._disabled()));
 
   /**
    * Event emitted when the group value changes.
@@ -142,7 +144,7 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
    * @internal
    */
   setDisabledState(isDisabled: boolean) {
-    this.disabled.set(isDisabled);
+    this._disabled.set(isDisabled);
   }
 }
 

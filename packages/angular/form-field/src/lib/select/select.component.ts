@@ -24,7 +24,7 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
 import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
-import { isNullish } from '@cocokits/common-utils';
+import { isNullish, toBooleanOrPresent } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
 
 import { injectFormFieldStore } from '../form-field.store';
@@ -83,7 +83,7 @@ export class SelectComponent<T = any>
   /**
    * Whether the input is disabled.
    */
-  public disabled = fromAttrByNameToBoolean('disabled');
+  public disabled = input(null, { transform: toBooleanOrPresent });
 
   /**
    * Whether the component is required.

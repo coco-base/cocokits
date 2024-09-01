@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { OverlayRef } from '@cocokits/angular-overlay';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
+import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { MenuComponent } from '../menu/menu.component';
 
@@ -35,7 +35,7 @@ export class MenuItemComponent extends _UiBaseComponent<'menuItem'> {
   /**
    * Whether the menu item is disabled.
    */
-  disabled = fromAttrByNameToBoolean('disabled');
+  disabled = input(null, { transform: toBooleanOrPresent });
 
   protected onHostClick() {
     if (this.menuComp?.closeOnSelectItem()) {
