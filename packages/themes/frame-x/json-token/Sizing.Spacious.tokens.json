@@ -137,36 +137,62 @@
       "$value": "420px"
     }
   },
-  "icon": {
+  "stroke": {
     "xs": {
       "$type": "dimension",
-      "$value": "14px"
+      "$value": "0.5px"
     },
     "sm": {
       "$type": "dimension",
-      "$value": "18px"
+      "$value": "1px"
     },
     "md": {
       "$type": "dimension",
-      "$value": "22px"
+      "$value": "1.5px"
     },
     "lg": {
       "$type": "dimension",
-      "$value": "26px"
+      "$value": "2px"
     },
     "xl": {
       "$type": "dimension",
-      "$value": "30px"
+      "$value": "3px"
     },
     "2xl": {
       "$type": "dimension",
+      "$value": "4px"
+    }
+  },
+  "icon": {
+    "xxs": {
+      "$type": "dimension",
+      "$value": "14px"
+    },
+    "xs": {
+      "$type": "dimension",
+      "$value": "18px"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "22px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "26px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "30px"
+    },
+    "xl": {
+      "$type": "dimension",
       "$value": "34px"
     },
-    "3xl": {
+    "2xl": {
       "$type": "dimension",
       "$value": "42px"
     },
-    "4xl": {
+    "3xl": {
       "$type": "dimension",
       "$value": "46px"
     }

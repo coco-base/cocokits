@@ -37,6 +37,16 @@
         "Font A": ["Typography.Font A.tokens.json"],
         "Font B": ["Typography.Font B.tokens.json"]
       }
+    },
+    "┈┈┈┈┈┈┈┈┈": {
+      "modes": {
+        "Mode 1": ["┈┈┈┈┈┈┈┈┈.Mode 1.tokens.json"]
+      }
+    },
+    "Components": {
+      "modes": {
+        "Mode 1": ["Components.Mode 1.tokens.json"]
+      }
     }
   },
   "styles": {

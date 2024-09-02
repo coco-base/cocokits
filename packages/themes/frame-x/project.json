@@ -20,7 +20,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "files": ["packages/themes/frame-x/json-token/manifest.json"],
-        "excludeCollections": ["Breakpoints"],
+        "excludeCollections": ["Breakpoints", "┈┈┈┈┈┈┈┈┈", "Components"],
         "fontWeightPattern": "font-weight/*",
         "parser": "design-tokens-manager",
         "outputDir": "packages/themes/frame-x/src/token",

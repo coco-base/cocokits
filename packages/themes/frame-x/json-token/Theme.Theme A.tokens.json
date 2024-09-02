@@ -1,50 +1,44 @@
 {
-  "fill$": {
-    "50": {
+  "base$": {
+    "surface-1": {
+      "$type": "color",
+      "$value": "{colors.alpha.light.900}"
+    },
+    "surface-2": {
       "$type": "color",
       "$value": "{colors.gray.50}"
     },
-    "100": {
+    "fill-1": {
       "$type": "color",
       "$value": "{colors.gray.100}"
     },
-    "200": {
+    "fill-2": {
       "$type": "color",
       "$value": "{colors.gray.200}"
     },
-    "300": {
+    "fill-3": {
       "$type": "color",
       "$value": "{colors.gray.300}"
     },
-    "400": {
+    "fill-4": {
       "$type": "color",
       "$value": "{colors.gray.400}"
     },
-    "600": {
+    "fill-5": {
       "$type": "color",
       "$value": "{colors.gray.600}"
     },
-    "00": {
+    "border": {
       "$type": "color",
-      "$value": "{colors.alpha.light.900}"
+      "$value": "{colors.gray.200}"
+    },
+    "disabled": {
+      "$type": "color",
+      "$value": "{colors.alpha.dark.200}"
     }
   },
   "state$": {
-    "base": {
-      "background": {
-        "$type": "color",
-        "$value": "{colors.gray.50}"
-      },
-      "border": {
-        "$type": "color",
-        "$value": "{colors.gray.200}"
-      },
-      "disabled": {
-        "$type": "color",
-        "$value": "{colors.alpha.dark.200}"
-      }
-    },
-    "primary": {
+    "brand": {
       "active": {
         "$type": "color",
         "$value": "{colors.blue.600}"
@@ -58,7 +52,7 @@
         "$value": "{colors.blue.300}"
       }
     },
-    "destructive": {
+    "danger": {
       "active": {
         "$type": "color",
         "$value": "{colors.red.600}"
@@ -87,7 +81,7 @@
       }
     },
     "success": {
-      "active": {
+      "primary": {
         "$type": "color",
         "$value": "{colors.green.600}"
       },

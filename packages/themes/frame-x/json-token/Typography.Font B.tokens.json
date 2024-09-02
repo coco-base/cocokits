@@ -31,7 +31,7 @@
   },
   "font-family": {
     "$type": "string",
-    "$value": "Lora"
+    "$value": "PT Serif"
   },
   "font-size": {
     "xs": {

@@ -1,0 +1,6 @@
+{
+  "count": {
+    "$type": "dimension",
+    "$value": "0px"
+  }
+}

@@ -11,8 +11,8 @@
       "options": {
         "outputPath": "dist/packages/themes/default",
         "sourceMap": true,
-        "css": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token.scss"],
-        "min": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token.scss"]
+        "css": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token/scss/index.scss"],
+        "min": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token/scss/index.scss"]
       }
     },
     "token-generator": {

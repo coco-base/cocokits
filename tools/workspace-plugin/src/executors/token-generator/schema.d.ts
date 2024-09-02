@@ -1,4 +1,4 @@
-import { Path, TokenParser, TokenType } from './token.model';
+import { Path, TokenParser } from './token.model';
 
 export interface TokenGeneratorExecutorSchema {
   /**

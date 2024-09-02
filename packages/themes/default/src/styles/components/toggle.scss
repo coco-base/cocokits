@@ -1,4 +1,5 @@
 @use '../../token/scss' as *;
+@use 'sass:math';
 
 .cck-toggle {
   user-select: none;
@@ -81,11 +82,11 @@
 }
 
 .cck-toggle--checked:active .cck-toggle__thumb {
-  margin-left: -($toggle-size-bounce / 2);
+  margin-left: math.div($toggle-size-bounce, 2) * -1;
 }
 
 .cck-toggle--unchecked:active .cck-toggle__thumb {
-  margin-left: ($toggle-size-bounce / 2);
+  margin-left: math.div($toggle-size-bounce, 2);
 }
 
 // Color - brand
