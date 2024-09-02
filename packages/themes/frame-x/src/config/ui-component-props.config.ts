@@ -7,6 +7,7 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
   divider: { type: null, size: null, color: null },
   chipList: { type: null, size: null, color: null },
   chip: { type: null, size: null, color: null },
+
   selectPreview: { type: null, size: null, color: null },
   optionGroup: { type: null, size: null, color: null },
   option: { type: null, size: null, color: null },
@@ -20,25 +21,59 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
   suffix: { type: null, size: null, color: null },
   trailing: { type: null, size: null, color: null },
   leading: { type: null, size: null, color: null },
-  formField: { type: null, color: null, size: null },
-  radioGroup: {
+  formField: {
     type: null,
     color: null,
-    size: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
+  },
+  radioGroup: {
+    type: {
+      name: 'type',
+      values: ['column', 'row'],
+      require: false,
+      default: 'column',
+      description: '',
+    },
+    color: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
   },
   radioButton: {
     type: null,
     color: null,
-    size: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
   },
   checkbox: {
     type: null,
     color: null,
-    size: null,
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      require: false,
+      default: 'md',
+      description: '',
+    },
     component: {
       checkboxCheckmark: `
-        <svg class="cck-checkbox__checkmark" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="cck-checkbox__checkmark-path"></path>
+        <svg class="cck-checkbox__checkmark" focusable="false" viewBox="0 0 16 16" aria-hidden="true">
+          <path class="cck-checkbox__checkmark-path" d="M5.6,10.1l7.7-7.7c0.6-0.6,1.6-0.6,2.3,0c0.6,0.6,0.6,1.6,0,2.3l-8.8,8.8c-0.6,0.6-1.6,0.6-2.3,0l-4-4 c-0.6-0.6-0.6-1.6,0-2.3s1.6-0.6,2.3,0L5.6,10.1z"/>
         </svg>
         <div class="cck-checkbox__mixedmark"></div>
       `,
@@ -47,21 +82,21 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
   iconButton: {
     type: {
       name: 'type',
-      values: ['primary'],
+      values: ['default', 'secondary', 'ghost'],
       require: false,
-      default: 'primary',
+      default: 'default',
       description: '',
     },
     color: {
       name: 'color',
-      values: ['brand'],
+      values: ['brand', 'highlight', 'success', 'danger'],
       require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
-      values: ['sm'],
+      values: ['sm', 'md', 'lg'],
       require: false,
       default: 'md',
       description: '',
@@ -70,23 +105,23 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
   button: {
     type: {
       name: 'type',
-      values: [],
+      values: ['default', 'secondary', 'ghost'],
       require: true,
-      default: '',
+      default: 'default',
       description: '',
     },
     color: {
       name: 'color',
-      values: [],
+      values: ['brand', 'highlight', 'success', 'danger'],
       require: false,
-      default: '',
+      default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
-      values: [],
+      values: ['sm', 'md', 'lg'],
       require: false,
-      default: '',
+      default: 'md',
       description: '',
     },
   },
@@ -94,14 +129,14 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
     type: null,
     color: {
       name: 'color',
-      values: ['test'],
+      values: ['grey', 'brand', 'highlight', 'success', 'danger'],
       require: false,
-      default: 'test',
+      default: 'grey',
       description: '',
     },
     size: {
       name: 'size',
-      values: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'],
+      values: ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
       require: false,
       default: 'md',
       description: '',

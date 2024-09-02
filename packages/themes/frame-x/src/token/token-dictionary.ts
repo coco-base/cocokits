@@ -5041,11 +5041,11 @@ export const tokenDictionary: TokenDictionary = {
         scss: '$state-highlight-selected',
       },
     },
-    state__success__primary: {
-      id: 'state__success__primary',
+    state__success__active: {
+      id: 'state__success__active',
       collectionName: 'theme',
-      rawNamePath: ['state$', 'success', 'primary'],
-      namePath: ['state', 'success', 'primary'],
+      rawNamePath: ['state$', 'success', 'active'],
+      namePath: ['state', 'success', 'active'],
       type: 'color',
       modes: {
         'theme-a': {
@@ -5100,9 +5100,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'state-success-primary',
-        css: 'var(--state-success-primary)',
-        scss: '$state-success-primary',
+        name: 'state-success-active',
+        css: 'var(--state-success-active)',
+        scss: '$state-success-active',
       },
     },
     state__success__hover: {
@@ -13126,7 +13126,7 @@ export const tokenDictionary: TokenDictionary = {
         brand: ['state__brand__active', 'state__brand__hover', 'state__brand__selected'],
         danger: ['state__danger__active', 'state__danger__hover', 'state__danger__selected'],
         highlight: ['state__highlight__active', 'state__highlight__hover', 'state__highlight__selected'],
-        success: ['state__success__primary', 'state__success__hover', 'state__success__selected'],
+        success: ['state__success__active', 'state__success__hover', 'state__success__selected'],
       },
     },
     'color-mode': {

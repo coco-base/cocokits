@@ -1,52 +1,65 @@
 @use '../../token/scss' as *;
 
-// region ------------- Size -------------
+.cck-svg-icon__size {
+  &--xxs {
+    width: $icon-xxs;
+    height: $icon-xxs;
+  }
 
-.cck-svg-icon__size--xs {
-  width: $icon-xs;
-  height: $icon-xs;
+  &--xs {
+    width: $icon-xs;
+    height: $icon-xs;
+  }
+
+  &--sm {
+    width: $icon-sm;
+    height: $icon-sm;
+  }
+
+  &--md {
+    width: $icon-md;
+    height: $icon-md;
+  }
+
+  &--lg {
+    width: $icon-lg;
+    height: $icon-lg;
+  }
+
+  &--xl {
+    width: $icon-xl;
+    height: $icon-xl;
+  }
+
+  &--2xl {
+    width: $icon-2xl;
+    height: $icon-2xl;
+  }
+
+  &--3xl {
+    width: $icon-3xl;
+    height: $icon-3xl;
+  }
 }
 
-.cck-svg-icon__size--sm {
-  width: $icon-sm;
-  height: $icon-sm;
+.cck-svg-icon__color {
+  &--grey {
+    fill: $base-fill-4;
+  }
+
+  &--brand {
+    fill: $state-brand-active;
+  }
+
+  &--highlight {
+    fill: $state-highlight-active;
+  }
+
+  &--success {
+    fill: $state-success-active;
+  }
+
+  &--danger {
+    fill: $state-danger-active;
+  }
 }
-
-.cck-svg-icon__size--md {
-  width: $icon-md;
-  height: $icon-md;
-}
-
-.cck-svg-icon__size--lg {
-  width: $icon-lg;
-  height: $icon-lg;
-}
-
-.cck-svg-icon__size--xl {
-  width: $icon-xl;
-  height: $icon-xl;
-}
-
-.cck-svg-icon__size--2xl {
-  width: $icon-2xl;
-  height: $icon-2xl;
-}
-
-.cck-svg-icon__size--3xl {
-  width: $icon-3xl;
-  height: $icon-3xl;
-}
-
-.cck-svg-icon__size--4xl {
-  // width: $icon-4xl;
-  // height: $icon-4xl;
-}
-
-// endregion
-
-// region ------------- Color -------------
-.cck-svg-icon__color--test {
-  fill: $colors-blue-500;
-}
-
-// endregion
