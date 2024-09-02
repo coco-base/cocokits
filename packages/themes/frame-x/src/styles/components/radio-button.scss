@@ -1,0 +1,144 @@
+@use '../../token/scss' as *;
+
+.cck-radio-button {
+  cursor: pointer;
+  color: $text-dark-primary;
+
+  &.cck-radio-button--disabled {
+    cursor: default;
+    pointer-events: none;
+
+    .cck-radio-button__input-wrapper {
+      background-color: $base-disabled;
+      border-color: transparent;
+    }
+  }
+
+  &:hover {
+    .cck-radio-button__input-wrapper {
+      box-shadow: 0 0 0 3px $state-brand-selected;
+    }
+  }
+}
+
+.cck-radio-button__wrapper {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.cck-radio-button__input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  position: relative;
+  background-color: $base-fill-1;
+  border: 2px solid $base-border;
+}
+
+.cck-radio-button__input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  cursor: inherit;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.cck-radio-button__background {
+  opacity: 0;
+  background-color: $base-surface-1;
+  border-radius: 50%;
+}
+
+.cck-radio-button--checked {
+  .cck-radio-button__input-wrapper {
+    background-color: $state-brand-active;
+    border-color: $state-brand-active;
+  }
+
+  .cck-radio-button__background {
+    opacity: 1;
+  }
+}
+
+.cck-radio-button__size {
+  &--sm {
+    font: $text-sm-font-medium;
+
+    .cck-radio-button__wrapper {
+      gap: $spacing-7;
+    }
+
+    .cck-radio-button__input-wrapper {
+      width: 22px;
+      height: 22px;
+    }
+
+    .cck-radio-button__background {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &--md {
+    font: $text-base-font-medium;
+
+    .cck-radio-button__wrapper {
+      gap: $spacing-7;
+    }
+
+    .cck-radio-button__input-wrapper {
+      width: 24px;
+      height: 24px;
+    }
+
+    .cck-radio-button__background {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &--lg {
+    font: $text-lg-font-medium;
+
+    .cck-radio-button__wrapper {
+      gap: $spacing-8;
+    }
+
+    .cck-radio-button__input-wrapper {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cck-radio-button__background {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &--xl {
+    font: $text-xl-font-medium;
+
+    .cck-radio-button__wrapper {
+      gap: $spacing-8;
+    }
+
+    .cck-radio-button__input-wrapper {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cck-radio-button__background {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

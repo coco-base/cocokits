@@ -28,6 +28,7 @@ export const Color: AngularStoryObj<ButtonComponent> = {
           @for (color of uiComponentConfig?.button.color?.values; track color) {
             <th>{{color}}</th>
           }
+          <th>Disabled</th>
         </thead>
         <tbody>
           @for (type of uiComponentConfig?.button.type?.values; track type) {
@@ -38,6 +39,9 @@ export const Color: AngularStoryObj<ButtonComponent> = {
                   <button cck-button [type]="type" [color]="color">button</button>
                 </td>
               }
+              <td>
+                  <button cck-button [type]="type" [color]="color" disabled>button</button>
+                </td>
             </tr>
           }
         </tbody>

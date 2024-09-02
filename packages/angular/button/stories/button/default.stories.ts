@@ -22,6 +22,7 @@ export const Default: AngularStoryObj<ButtonComponent> = {
     },
     template: `
         <button cck-button>Default Button</button>
+        <button cck-button disabled>Disabled Button</button>
     `,
   }),
 };
