@@ -1,5 +1,4 @@
-import type { ThemeSvgIcon, ThemeUIComponentsConfig } from '@cocokits/core';
-import { TokenDictionary } from '@cocokits/workspace-plugin';
+import type { ThemeSvgIcon, ThemeUIComponentsConfig, TokenDictionary } from '@cocokits/core';
 
 export type CckThemeName = 'Default' | 'FrameX';
 export type CckThemeId = 'default' | 'frame-x';

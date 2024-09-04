@@ -3,10 +3,10 @@ import styled, { css } from 'styled-components';
 
 import { recordForEach } from '@cocokits/common-utils';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { GroupOrTokenIds, Token, TokenId } from '@cocokits/workspace-plugin';
 
 import { TokenInfo } from './token-info/TokenInfo';
 import { TokenTag } from './token-info/TokenTag';
+import { TokenGroupOrTokenIds, Token, TokenId } from '@cocokits/core';
 
 export function MdxTokenTable() {
   const selectedCckTheme = useDocSelectedCckTheme();
@@ -34,7 +34,7 @@ export function MdxTokenTable() {
 
   const modes = tokenDictionary.collectionModeNames[selectedCollection].map(mode => mode.name);
 
-  const getTokenList = (groupOrTokenIds: GroupOrTokenIds, groupNames = '') => {
+  const getTokenList = (groupOrTokenIds: TokenGroupOrTokenIds, groupNames = '') => {
     const result: (Token | string)[] = [];
 
     recordForEach(groupOrTokenIds, (childGroupOrTokenIds, groupOrTokenIdsKey) => {

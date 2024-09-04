@@ -6,7 +6,8 @@ import { buildMixins } from './build-mixins';
 import { buildScss } from './build-scss';
 import { buildTokenDictionary } from './build-token-dictionary';
 import { TokenGeneratorExecutorSchema } from '../schema';
-import { TokenDictionary } from '../token.model';
+
+import { TokenDictionary } from '@cocokits/core';
 
 export function builder(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
   execSync(`rm -rf ${options.outputDir}`);

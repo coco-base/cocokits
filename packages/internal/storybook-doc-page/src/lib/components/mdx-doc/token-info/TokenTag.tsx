@@ -1,10 +1,9 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { TokenType } from '@cocokits/workspace-plugin';
-
 import { TokenColorIcon, TokenDimensionIcon, TokenEffectIcon, TokenTextIcon } from './TokenIcons';
 import { TokenValueHierarchy } from './TokenValues';
+import { TokenType } from '@cocokits/core';
 
 type TokenTagProp = TokenValueHierarchy & {
   compact?: boolean

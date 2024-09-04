@@ -1,9 +1,10 @@
 import { TokenGeneratorExecutorSchema } from './schema';
 import { runPrettier } from './utils/prettier';
 import { Logger } from '../../utils/logger';
-import { TokenDictionary, TokenParser } from './token.model';
+import { TokenParser } from './token.model';
 import { parseDesignTokensManager } from './parsers/design-tokens-manager/parser';
 import { builder } from './builder/builder';
+import { TokenDictionary } from '@cocokits/core';
 
 export default async function runExecutor(options: TokenGeneratorExecutorSchema) {
   Logger.header(`Running token generator with ${options.parser} parser`);

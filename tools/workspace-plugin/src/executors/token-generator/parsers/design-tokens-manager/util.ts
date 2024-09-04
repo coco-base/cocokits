@@ -6,14 +6,14 @@ import { DTMManifest, DTMTokenGroup, DTMTokenValue } from './design-tokens-manag
 import { fontWeightToNumber } from './font-weight-to-number';
 import { TokenGeneratorExecutorSchema } from '../../schema';
 import {
-  GroupsNameCollectionName,
+  TokenGroupsNameCollectionName,
   TokenCollectionName,
   TokenDictionary,
   TokenId,
   TokenMap,
   TokenNamePath,
   TokenType,
-} from '../../token.model';
+} from '@cocokits/core';
 
 /**
  * Reads a manifest file from the given file paths and returns the parsed DTMManifest object.
@@ -114,7 +114,7 @@ export function hasDTMTokenValue(token: DTMTokenGroup | DTMTokenValue): token is
 }
 
 export function validateUniqGroupNameInCollections(tokenDictionary: TokenDictionary): void {
-  const groupsNameCollectionName: GroupsNameCollectionName = {};
+  const groupsNameCollectionName: TokenGroupsNameCollectionName = {};
 
   recordForEach(tokenDictionary.collectionGroupHierarchy, (groups, collectionName: TokenCollectionName) => {
     Object.keys(groups).forEach((groupName: TokenCollectionName) => {

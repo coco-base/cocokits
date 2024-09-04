@@ -1,4 +1,5 @@
-import { Path, TokenCollectionName } from '../../token.model';
+import { Path } from '../../token.model';
+import { TokenCollectionName } from '@cocokits/core';
 
 // regionParser
 // export type CollectionFlatName = string; // `sizing.compact` or `sizing.spacious'`

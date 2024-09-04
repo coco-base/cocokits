@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-import { TokenDictionary } from '@cocokits/workspace-plugin';
+import { TokenDictionary } from '@cocokits/core';
 
 /**
  * Do not edit directly

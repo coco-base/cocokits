@@ -1,5 +1,5 @@
 import { MIXIN_FOLDER_NAME } from './builder.config';
-import { TokenCollectionName, TokenModeName } from '../token.model';
+import { TokenCollectionName, TokenModeName } from '@cocokits/core';
 
 // tokenDictionary
 export function getTokenDictionaryFileHeader() {

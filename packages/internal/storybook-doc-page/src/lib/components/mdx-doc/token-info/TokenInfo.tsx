@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Token, TokenMap } from '@cocokits/workspace-plugin';
-
 import { TokenSection } from './TokenSection';
 import { TokenValuePreview } from './TokenValuePreview';
 import { TokenValues } from './TokenValues';
 import { hasTokenPreview } from './utils';
+import { Token, TokenMap } from '@cocokits/core';
 
 interface TokenInfoProp {
   token: Token;

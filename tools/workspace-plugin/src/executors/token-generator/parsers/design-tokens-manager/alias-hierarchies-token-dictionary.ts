@@ -1,6 +1,6 @@
 import { recordForEach } from '@cocokits/common-utils';
 
-import { AliasHierarchy, TokenDictionary, TokenId, TokenMap } from '../../token.model';
+import { TokenAliasHierarchy, TokenDictionary, TokenId, TokenMap } from '@cocokits/core';
 
 export function fillAliasHierarchiesTokenDictionary(tokenDictionary: TokenDictionary) {
   recordForEach(tokenDictionary.tokenMap, (token) => {
@@ -15,7 +15,7 @@ export function fillAliasHierarchiesTokenDictionary(tokenDictionary: TokenDictio
   });
 }
 
-function getAliasHierarchies(aliasTokenId: TokenId, tokenMap: TokenMap): AliasHierarchy[][] {
+function getAliasHierarchies(aliasTokenId: TokenId, tokenMap: TokenMap): TokenAliasHierarchy[][] {
   const aliasToken = tokenMap[aliasTokenId];
 
   if (!aliasToken) {
@@ -23,7 +23,7 @@ function getAliasHierarchies(aliasTokenId: TokenId, tokenMap: TokenMap): AliasHi
   }
 
   return Object.entries(aliasToken.modes).reduce((prev, [modeName, tokenValues]) => {
-    const currentHierarchy: AliasHierarchy = {
+    const currentHierarchy: TokenAliasHierarchy = {
       tokenId: aliasToken.id,
       collectionName: aliasToken.collectionName,
       modeName,
@@ -42,5 +42,5 @@ function getAliasHierarchies(aliasTokenId: TokenId, tokenMap: TokenMap): AliasHi
     ]);
 
     return [...prev, ...aliasTokenHierarchyWithCurrentToken];
-  }, [] as AliasHierarchy[][]);
+  }, [] as TokenAliasHierarchy[][]);
 }

@@ -6,7 +6,7 @@ import { recordForEach, recordReduceMerge, reduceMerge } from '@cocokits/common-
 import { MIXIN_FOLDER_NAME } from './builder.config';
 import { getIndexFileHeader, getMixinFileHeader, getMixinFileName } from './utils';
 import { TokenGeneratorExecutorSchema } from '../schema';
-import { TokenCollectionName, TokenDictionary } from '../token.model';
+import { TokenCollectionName, TokenDictionary } from '@cocokits/core';
 
 /**
  * Builds CSS variables from the compiler result and save them.

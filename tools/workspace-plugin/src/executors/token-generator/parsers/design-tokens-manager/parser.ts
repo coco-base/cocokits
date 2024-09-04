@@ -4,7 +4,8 @@ import { readManifest, validateUniqGroupNameInCollections } from './util';
 import { fillValueTokenDictionary } from './value-token-doctinary';
 import { fillVariableTokenDictionary } from './variable-token-dictionary';
 import { TokenGeneratorExecutorSchema } from '../../schema';
-import { TokenDictionary } from '../../token.model';
+
+import { TokenDictionary } from '@cocokits/core';
 
 export function parseDesignTokensManager(options: TokenGeneratorExecutorSchema): TokenDictionary {
   const manifest = readManifest(options);

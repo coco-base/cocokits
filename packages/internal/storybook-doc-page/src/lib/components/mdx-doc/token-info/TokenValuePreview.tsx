@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Token, TokenMap, TokenModeName } from '@cocokits/workspace-plugin';
+import { Token, TokenMap, TokenModeName } from '@cocokits/core';
 
 interface TokenValuePreviewProp {
   token: Token;

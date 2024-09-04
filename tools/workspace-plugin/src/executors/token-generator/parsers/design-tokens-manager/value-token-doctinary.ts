@@ -13,7 +13,7 @@ import {
 } from './design-tokens-manager.model';
 import { hasUnit, toAliasOrTokenValue } from './util';
 import { Logger } from '../../../../utils/logger';
-import { TokenDictionary, TokenMap, TokenType } from '../../token.model';
+import { TokenDictionary, TokenMap, TokenType } from '@cocokits/core';
 
 const TRANSFORM_FN: Record<TokenType, (tokenRawValue: DTMTokenRawValue, tokenMap: TokenMap) => string> = {
   color: getColorValue,

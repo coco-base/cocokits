@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
+import { TokenArrowDownIcon, TokenArrowHeadLeftIcon, TokenArrowHeadRightIcon } from './TokenIcons';
+import { TokenTag } from './TokenTag';
 import {
-  AliasHierarchy,
+  TokenAliasHierarchy,
   Token,
   TokenCollectionName,
   TokenId,
   TokenMap,
   TokenModeName,
   TokenType,
-} from '@cocokits/workspace-plugin';
-
-import { TokenArrowDownIcon, TokenArrowHeadLeftIcon, TokenArrowHeadRightIcon } from './TokenIcons';
-import { TokenTag } from './TokenTag';
+} from '@cocokits/core';
 
 interface TokenValuesProp {
   token: Token,
@@ -27,7 +26,7 @@ export interface TokenValueHierarchy {
   text: string;
 }
 
-function toTokenValueHierarchy(aliasHierarchy: AliasHierarchy): TokenValueHierarchy {
+function toTokenValueHierarchy(aliasHierarchy: TokenAliasHierarchy): TokenValueHierarchy {
   return {
     tokenId: aliasHierarchy.tokenId,
     type: aliasHierarchy.type,

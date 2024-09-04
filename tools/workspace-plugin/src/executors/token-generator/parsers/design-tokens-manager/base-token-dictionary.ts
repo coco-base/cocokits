@@ -7,8 +7,8 @@ import { DTMGroupOrValue, DTMManifest, DTMTokenGroup, DTMTokenValue } from './de
 import { getTokenIdFromAliasValue, hasDTMTokenValue, isAliasValue, toName, toRawValue, toTokenId } from './util';
 import { TokenGeneratorExecutorSchema } from '../../schema';
 import {
-  CollectionGroupHierarchy,
-  GroupOrTokenIds,
+  TokenCollectionGroupHierarchy,
+  TokenGroupOrTokenIds,
   Token,
   TokenCollectionModeNames,
   TokenCollectionName,
@@ -21,7 +21,7 @@ import {
   TokenRawGroupOrName,
   TokenRawModeName,
   TokenRawName,
-} from '../../token.model';
+} from '@cocokits/core';
 
 /**
  * Generates the base token dictionary from the provided manifest and options.
@@ -106,7 +106,7 @@ function getCollectionGroupsAndTokenMap(manifest: DTMManifest, options: TokenGen
     typeof manifest.collections,
     {
       tokenMap: TokenMap;
-      collectionGroupHierarchy: CollectionGroupHierarchy;
+      collectionGroupHierarchy: TokenCollectionGroupHierarchy;
     }
   >(collectionsWithLocalStyle, (collection, collectionRawName) => {
     const collectionName: TokenCollectionName = toName(collectionRawName);
@@ -115,7 +115,7 @@ function getCollectionGroupsAndTokenMap(manifest: DTMManifest, options: TokenGen
       typeof collection.modes,
       {
         tokenMap: Record<TokenId, Token>;
-        groupHierarchy: GroupOrTokenIds;
+        groupHierarchy: TokenGroupOrTokenIds;
       }
     >(collection.modes, (modePaths, modeRawName) => {
       const jsonPath = path.join(path.dirname(options.files[0]), modePaths[0]);
@@ -151,7 +151,7 @@ function dtmTokenGroupToStandardTokenGroup({
   tokenRawGroupNamePath?: TokenRawGroupNamePath;
 }): {
   tokenMap: Record<TokenId, Token>;
-  groupHierarchy: GroupOrTokenIds;
+  groupHierarchy: TokenGroupOrTokenIds;
 } {
   // Loop to collection modes tokens
   return recordReduceDeepMerge(dtmTokenGroup, (groupOrValue, groupOrTokenName: TokenRawGroupOrName) => {
@@ -183,7 +183,10 @@ function dtmTokenGroupToStandardTokenGroup({
   });
 }
 
-function generateNestedTokenGroup(tokenRawGroupNamePath: TokenRawGroupNamePath, tokenId: TokenId): GroupOrTokenIds {
+function generateNestedTokenGroup(
+  tokenRawGroupNamePath: TokenRawGroupNamePath,
+  tokenId: TokenId
+): TokenGroupOrTokenIds {
   // A collection have tokens without any group. But our interface need each collection to have at list one group.
   // Because of that we crete an empty group to follow our structure
   if (tokenRawGroupNamePath.length === 0) {
@@ -192,8 +195,8 @@ function generateNestedTokenGroup(tokenRawGroupNamePath: TokenRawGroupNamePath, 
     };
   }
 
-  const nestedObject: GroupOrTokenIds = {};
-  let currentLevel: GroupOrTokenIds | TokenId[] = nestedObject;
+  const nestedObject: TokenGroupOrTokenIds = {};
+  let currentLevel: TokenGroupOrTokenIds | TokenId[] = nestedObject;
 
   tokenRawGroupNamePath.forEach((tokenRawGroupName, index) => {
     const tokenGroupName = toName(tokenRawGroupName);

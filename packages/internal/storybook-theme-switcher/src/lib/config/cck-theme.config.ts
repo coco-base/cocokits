@@ -9,9 +9,9 @@ import {
   svgIconMap as svgIconMapFrameXTheme,
   tokenDictionary as tokenDictionaryFrameXTheme,
 } from '@cocokits/theme-frame-x';
-import { TokenDictionary } from '@cocokits/workspace-plugin';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
+import { TokenDictionary } from '@cocokits/core';
 
 // region ---------------- CONFIG ----------------
 export const CCK_THEME_SWITCHER_TOOL_ID = '@cocokits/storybook-theme-switcher:cck-tool-id';
