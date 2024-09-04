@@ -14,6 +14,9 @@
         "tsConfig": "packages/common/utils/tsconfig.lib.json",
         "assets": ["packages/common/utils/*.md"]
       }
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
     }
   }
 }

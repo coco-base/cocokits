@@ -22,7 +22,7 @@
       },
       "defaultConfiguration": "production"
     },
-    "lint": {
+    "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     }
   }

@@ -6,7 +6,7 @@
   "tags": ["type:app", "framework:web"],
   "// targets": "to see all targets run: nx show project html-kits-doc --web",
   "targets": {
-    "eslint": {
+    "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     }
   }

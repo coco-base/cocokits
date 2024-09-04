@@ -11,7 +11,7 @@
         "config": "tools/workspace-plugin/vite.config.ts"
       }
     },
-    "eslint": {
+    "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     }
   }

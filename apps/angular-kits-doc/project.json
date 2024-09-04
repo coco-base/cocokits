@@ -49,7 +49,7 @@
         ]
       }
     },
-    "eslint": {
+    "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     }
   }
