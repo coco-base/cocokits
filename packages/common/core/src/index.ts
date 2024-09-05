@@ -1,6 +1,5 @@
 export * from './lib/model/common.model';
 export * from './lib/model/design-token.model';
-export * from './lib/model/storybook-meta.model';
 export * from './lib/model/theme-svg-icon.model';
 export * from './lib/model/ui-component.model';
 

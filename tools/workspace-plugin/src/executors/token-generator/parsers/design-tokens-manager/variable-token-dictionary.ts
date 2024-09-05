@@ -1,7 +1,7 @@
 import { recordForEach } from '@cocokits/common-utils';
+import { TokenDictionary } from '@cocokits/core';
 
 import { TokenGeneratorExecutorSchema } from '../../schema';
-import { TokenDictionary } from '@cocokits/core';
 
 export function fillVariableTokenDictionary(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
   recordForEach(tokenDictionary.tokenMap, (token) => {

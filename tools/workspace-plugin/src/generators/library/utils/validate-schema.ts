@@ -1,6 +1,6 @@
+import { LibraryFramework } from '../../generator.model';
 import { LibraryType } from '../model';
 import { LibraryGeneratorSchema } from '../schema';
-import { LibraryFramework } from '../../generator.model';
 
 export function validateSchema(options: LibraryGeneratorSchema): void {
   // 'theme' requires 'shared' as the framework

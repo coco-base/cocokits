@@ -1,4 +1,4 @@
-import { AngularStoryObj } from '@cocokits/core';
+import { AngularStoryObj } from '@cocokits/internal-model';
 
 import { OverlayComponent } from '../../src/components/overlay/overlay.component';
 

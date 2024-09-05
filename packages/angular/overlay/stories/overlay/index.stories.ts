@@ -2,7 +2,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/core';
+import { AngularStoriesMeta } from '@cocokits/internal-model';
 
 import { AnimationOverlayStoryComponent } from './components/animation-overlay-story.component';
 import { BasicOverlayStoryComponent } from './components/basic-overlay-story.component';

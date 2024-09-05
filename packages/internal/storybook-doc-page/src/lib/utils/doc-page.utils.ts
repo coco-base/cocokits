@@ -56,6 +56,7 @@ export function getValueWithoutSignal(value: unknown) {
   return value;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function useArgTypesApiList(
   componentName: UIComponentsName,
   argTypes: PreparedStory['argTypes'],

@@ -16,7 +16,7 @@
     "quick-fix-eslint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx run-many --all --target=quick-fix-eslint --parallel --maxParallel=4 --exclude=cocokits"
+        "command": "nx run-many --all --target=quick-fix-eslint --parallel --maxParallel=4 --exclude=cocokits ----exclude=@cocokits/html-kits-doc"
       }
     }
   }

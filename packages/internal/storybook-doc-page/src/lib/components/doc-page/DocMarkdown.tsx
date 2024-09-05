@@ -1,8 +1,7 @@
-import React from 'react';
 import { HighlighterGeneric } from '@shikijs/core/types';
 import { fromHighlighter } from '@shikijs/markdown-it';
 import MarkdownIt from 'markdown-it';
-import { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { getHighlighterCore } from 'shiki/core';
 import shikiJavascript from 'shiki/langs/javascript.mjs';
 import shikiShell from 'shiki/langs/shell.mjs';

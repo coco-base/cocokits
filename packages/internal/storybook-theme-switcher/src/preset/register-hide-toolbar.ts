@@ -1,5 +1,5 @@
-import { API } from '@storybook/manager-api';
 import events from '@storybook/core-events';
+import { API } from '@storybook/manager-api';
 import { StoryId, ViewMode } from '@storybook/types';
 
 export function registerHideToolbar(api: API) {

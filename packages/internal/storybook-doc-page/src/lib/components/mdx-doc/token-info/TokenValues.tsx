@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { TokenArrowDownIcon, TokenArrowHeadLeftIcon, TokenArrowHeadRightIcon } from './TokenIcons';
-import { TokenTag } from './TokenTag';
 import {
-  TokenAliasHierarchy,
   Token,
+  TokenAliasHierarchy,
   TokenCollectionName,
   TokenId,
   TokenMap,
   TokenModeName,
   TokenType,
 } from '@cocokits/core';
+
+import { TokenArrowDownIcon, TokenArrowHeadLeftIcon, TokenArrowHeadRightIcon } from './TokenIcons';
+import { TokenTag } from './TokenTag';
 
 interface TokenValuesProp {
   token: Token,
@@ -36,6 +37,7 @@ function toTokenValueHierarchy(aliasHierarchy: TokenAliasHierarchy): TokenValueH
   };
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function TokenValues({ token, tokenMap }: TokenValuesProp) {
 
   const [selectedIndex, setSelectedIndex] = useState(0);

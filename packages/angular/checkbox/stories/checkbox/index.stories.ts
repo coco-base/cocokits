@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
-import { AngularStoriesMeta } from '@cocokits/core';
+import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { CheckboxIndeterminateComponent } from './components/checkbox-indeterminate/checkbox-indeterminate.component';

@@ -1,7 +1,7 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
+import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { MenuComponent } from '../../src/lib/menu/menu.component';

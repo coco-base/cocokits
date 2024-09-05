@@ -1,7 +1,9 @@
+// eslint-disable-next-line camelcase
 import { API_HashEntry } from '@storybook/types';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+// eslint-disable-next-line camelcase
 export const StorybookSidenavLabel = (item: API_HashEntry) => {
 
   // To get item status from story tag

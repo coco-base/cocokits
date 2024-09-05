@@ -116,4 +116,4 @@ const StyledSpacer = styled.div`
 const StyledText = styled.div`
     font: var(--cck-storybook-text-sm-regular);
     color: var(--cck-storybook-color-font-contrast-2);
-`
+`;

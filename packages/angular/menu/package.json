@@ -9,6 +9,10 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/angular-overlay": "workspace:*",
+    "@cocokits/angular-button": "workspace:*",
+    "@cocokits/angular-divider": "workspace:*",
+    "@cocokits/angular-icon": "workspace:*",
     "@cocokits/angular-core": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*"

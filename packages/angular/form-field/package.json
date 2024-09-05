@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "tslib": "^2.3.0",
+    "@cocokits/angular-button": "workspace:*",
+    "@cocokits/angular-icon": "workspace:*",
+    "@cocokits/angular-checkbox": "workspace:*",
+    "@cocokits/angular-overlay": "workspace:*",
     "@cocokits/angular-utils": "workspace:*",
     "@cocokits/angular-core": "workspace:*",
     "@cocokits/common-utils": "workspace:*",

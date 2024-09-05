@@ -1,6 +1,6 @@
 import { FormControl, Validators } from '@angular/forms';
 
-import { AngularStoryObj } from '@cocokits/core';
+import { AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { InputComponent } from '../../src';

@@ -1,9 +1,10 @@
-import { MIXIN_FOLDER_NAME } from './builder.config';
 import { TokenCollectionName, TokenModeName } from '@cocokits/core';
+
+import { MIXIN_FOLDER_NAME } from './builder.config';
 
 // tokenDictionary
 export function getTokenDictionaryFileHeader() {
-  return `/* eslint-disable max-lines */
+  return `/* eslint-disable */
   
 import { TokenDictionary } from '@cocokits/workspace-plugin';  
 
@@ -25,7 +26,7 @@ export function getMixinName(collectionName: TokenCollectionName, modeName: Toke
 }
 
 export function getMixinFileHeader(collectionName: TokenCollectionName, modeName: TokenModeName) {
-  return `/* eslint-disable max-lines */
+  return `/* eslint-disable */
 
 /**
  * Do not edit directly
@@ -42,7 +43,7 @@ export function getCssFileName(collectionName: TokenCollectionName, modeName: To
 }
 
 export function getCssFileHeader(collectionName: TokenCollectionName, modeName: TokenModeName) {
-  return `/* eslint-disable max-lines */
+  return `/* eslint-disable */
 
 /**
  * Do not edit directly
@@ -55,7 +56,7 @@ export function getCssFileHeader(collectionName: TokenCollectionName, modeName: 
 }
 
 export function getIndexFileHeader() {
-  return `/* eslint-disable max-lines */
+  return `/* eslint-disable */
 
 /**
  * Do not edit directly
@@ -70,7 +71,7 @@ export function getScssFileName(collectionName: TokenCollectionName) {
 }
 
 export function getScssFileHeader() {
-  return `/* eslint-disable max-lines */
+  return `/* eslint-disable */
 
 /**
  * Do not edit directly

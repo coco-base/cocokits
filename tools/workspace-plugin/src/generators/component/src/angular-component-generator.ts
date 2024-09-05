@@ -1,9 +1,9 @@
 import { generateFiles, Tree } from '@nx/devkit';
 import path from 'path';
 
+import { Logger } from '../../../utils/logger';
 import { updateTextFile } from '../../generator.utils';
 import { ComponentGeneratorOptions } from '../model';
-import { Logger } from '../../../utils/logger';
 
 export function angularComponentGenerator(tree: Tree, options: ComponentGeneratorOptions) {
   // Generate component

@@ -26,7 +26,6 @@
       "@cocokits/angular-core": ["packages/angular/core/src/index.ts"],
       "@cocokits/angular-divider": ["packages/angular/divider/src/index.ts"],
       "@cocokits/angular-form-field": ["packages/angular/form-field/src/index.ts"],
-      "@cocokits/angular-highlight": ["packages/angular/highlight/src/index.ts"],
       "@cocokits/angular-icon": ["packages/angular/icon/src/index.ts"],
       "@cocokits/angular-menu": ["packages/angular/menu/src/index.ts"],
       "@cocokits/angular-overlay": ["packages/angular/overlay/src/index.ts"],
@@ -40,7 +39,8 @@
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
       "@cocokits/theme-default": ["packages/themes/default/src/index.ts"],
       "@cocokits/theme-frame-x": ["packages/themes/frame-x/src/index.ts"],
-      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
+      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"],
+      "@cocokits/internal-model": ["packages/internal/internal-model/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]

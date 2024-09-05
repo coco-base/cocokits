@@ -1,0 +1,18 @@
+{
+  "extends": ["../../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*", "storybook-static"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["../../../tools/eslint/eslint.base.json"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    },
+    {
+      "files": ["*.tsx", "*.jsx"],
+      "extends": ["../../../tools/eslint/eslint.base.json"],
+      "rules": {}
+    }
+  ]
+}

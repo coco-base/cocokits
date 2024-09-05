@@ -11,8 +11,7 @@
     "tslib": "^2.3.0",
     "@cocokits/angular-utils": "workspace:*",
     "@cocokits/angular-core": "workspace:*",
-    "@cocokits/common-utils": "workspace:*",
-    "@cocokits/core": "workspace:*"
+    "@cocokits/common-utils": "workspace:*"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

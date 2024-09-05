@@ -1,19 +1,18 @@
 import fs from 'fs';
 
 import { recordForEach } from '@cocokits/common-utils';
+import {
+  TokenCollectionName,
+  TokenDictionary,
+  TokenGroupsNameCollectionName,
+  TokenId,
+  TokenMap,
+  TokenNamePath,
+} from '@cocokits/core';
 
 import { DTMManifest, DTMTokenGroup, DTMTokenValue } from './design-tokens-manager.model';
 import { fontWeightToNumber } from './font-weight-to-number';
 import { TokenGeneratorExecutorSchema } from '../../schema';
-import {
-  TokenGroupsNameCollectionName,
-  TokenCollectionName,
-  TokenDictionary,
-  TokenId,
-  TokenMap,
-  TokenNamePath,
-  TokenType,
-} from '@cocokits/core';
 
 /**
  * Reads a manifest file from the given file paths and returns the parsed DTMManifest object.

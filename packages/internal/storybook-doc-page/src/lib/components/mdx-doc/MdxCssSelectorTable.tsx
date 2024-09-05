@@ -6,6 +6,7 @@ import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { DocMarkdown } from '../doc-page/DocMarkdown';
 
+// eslint-disable-next-line max-lines-per-function
 export function MdxCssSelectorTable({ componentName }: { componentName: UIComponentsName }) {
 
   const coreClassNames = layoutClassNamesConfig[componentName];

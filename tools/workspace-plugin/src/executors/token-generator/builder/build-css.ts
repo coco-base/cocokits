@@ -2,11 +2,11 @@ import fs from 'fs';
 import path from 'path';
 
 import { recordForEach, recordReduceMerge, reduceMerge } from '@cocokits/common-utils';
+import { TokenCollectionName, TokenDictionary } from '@cocokits/core';
 
 import { CSS_FOLDER_NAME } from './builder.config';
 import { getCssFileHeader, getCssFileName, getIndexFileHeader, getMixinName } from './utils';
 import { TokenGeneratorExecutorSchema } from '../schema';
-import { TokenCollectionName, TokenDictionary } from '@cocokits/core';
 
 /**
  * Builds CSS variables from the compiler result and save them.

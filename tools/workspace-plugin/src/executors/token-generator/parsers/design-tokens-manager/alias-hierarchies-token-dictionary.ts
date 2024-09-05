@@ -1,5 +1,4 @@
 import { recordForEach } from '@cocokits/common-utils';
-
 import { TokenAliasHierarchy, TokenDictionary, TokenId, TokenMap } from '@cocokits/core';
 
 export function fillAliasHierarchiesTokenDictionary(tokenDictionary: TokenDictionary) {

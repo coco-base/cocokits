@@ -2,18 +2,14 @@ import fs from 'fs';
 import path from 'path';
 
 import { recordReduceDeepMerge } from '@cocokits/common-utils';
-
-import { DTMGroupOrValue, DTMManifest, DTMTokenGroup, DTMTokenValue } from './design-tokens-manager.model';
-import { getTokenIdFromAliasValue, hasDTMTokenValue, isAliasValue, toName, toRawValue, toTokenId } from './util';
-import { TokenGeneratorExecutorSchema } from '../../schema';
 import {
-  TokenCollectionGroupHierarchy,
-  TokenGroupOrTokenIds,
   Token,
+  TokenCollectionGroupHierarchy,
   TokenCollectionModeNames,
   TokenCollectionName,
   TokenCollectionNames,
   TokenDictionary,
+  TokenGroupOrTokenIds,
   TokenId,
   TokenMap,
   TokenModeName,
@@ -22,6 +18,10 @@ import {
   TokenRawModeName,
   TokenRawName,
 } from '@cocokits/core';
+
+import { DTMGroupOrValue, DTMManifest, DTMTokenGroup, DTMTokenValue } from './design-tokens-manager.model';
+import { getTokenIdFromAliasValue, hasDTMTokenValue, isAliasValue, toName, toRawValue, toTokenId } from './util';
+import { TokenGeneratorExecutorSchema } from '../../schema';
 
 /**
  * Generates the base token dictionary from the provided manifest and options.
@@ -62,13 +62,13 @@ function getCollectionModeNames(manifest: DTMManifest) {
   const initializeCollectionModeNames: TokenCollectionModeNames =
     Object.keys(manifest.styles).length > 0
       ? {
-          [LOCAL_STYLE_KEY_NAME]: [
-            {
-              rawName: LOCAL_STYLE_MODE_NAME,
-              name: LOCAL_STYLE_MODE_NAME,
-            },
-          ],
-        }
+        [LOCAL_STYLE_KEY_NAME]: [
+          {
+            rawName: LOCAL_STYLE_MODE_NAME,
+            name: LOCAL_STYLE_MODE_NAME,
+          },
+        ],
+      }
       : {};
   return recordReduceDeepMerge<typeof manifest.collections, TokenCollectionModeNames>(
     manifest.collections,
@@ -91,16 +91,16 @@ function getCollectionGroupsAndTokenMap(manifest: DTMManifest, options: TokenGen
   const collectionsWithLocalStyle: typeof manifest.collections =
     Object.keys(manifest.styles).length > 0
       ? {
-          [LOCAL_STYLE_KEY_NAME]: {
-            modes: {
-              [LOCAL_STYLE_MODE_NAME]: Object.values(manifest.styles).flatMap((paths) => paths),
-            },
+        [LOCAL_STYLE_KEY_NAME]: {
+          modes: {
+            [LOCAL_STYLE_MODE_NAME]: Object.values(manifest.styles).flatMap((paths) => paths),
           },
-          ...manifest.collections,
-        }
+        },
+        ...manifest.collections,
+      }
       : {
-          ...manifest.collections,
-        };
+        ...manifest.collections,
+      };
 
   return recordReduceDeepMerge<
     typeof manifest.collections,

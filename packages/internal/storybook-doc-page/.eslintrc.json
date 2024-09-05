@@ -11,13 +11,6 @@
       "files": ["*.tsx", "*.jsx"],
       "extends": ["../../../tools/eslint/eslint.base.json"],
       "rules": {}
-    },
-    {
-      "files": ["*.json"],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nx/dependency-checks": "error"
-      }
     }
   ]
 }

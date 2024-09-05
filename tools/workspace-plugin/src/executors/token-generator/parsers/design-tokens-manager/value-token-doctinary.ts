@@ -1,6 +1,7 @@
 import { parseToRgba, rgba, toHex } from 'color2k';
 
 import { recordForEach } from '@cocokits/common-utils';
+import { TokenDictionary, TokenMap, TokenType } from '@cocokits/core';
 
 import {
   DTMRawColorTokenValue,
@@ -13,7 +14,6 @@ import {
 } from './design-tokens-manager.model';
 import { hasUnit, toAliasOrTokenValue } from './util';
 import { Logger } from '../../../../utils/logger';
-import { TokenDictionary, TokenMap, TokenType } from '@cocokits/core';
 
 const TRANSFORM_FN: Record<TokenType, (tokenRawValue: DTMTokenRawValue, tokenMap: TokenMap) => string> = {
   color: getColorValue,

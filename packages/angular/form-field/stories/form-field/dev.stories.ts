@@ -4,7 +4,7 @@ import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
+import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import {

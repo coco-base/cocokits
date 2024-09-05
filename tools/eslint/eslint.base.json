@@ -1,7 +1,7 @@
 {
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx", "!**/vite.config.ts"],
       "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
       "rules": {
         "import/no-extraneous-dependencies": [
@@ -9,7 +9,15 @@
           {
             "includeInternal": true,
             "includeTypes": true,
-            "devDependencies": ["**/*.stories.*", "**/.storybook/**/*.*"]
+            "devDependencies": [
+              "**/*.stories.*",
+              "**/.storybook/**/*.*",
+              "**/*.spec.ts",
+              "**/*.test.ts",
+              "**/vite.config.ts",
+              "*/vite.config.ts",
+              "vite.config.ts"
+            ]
           }
         ],
         "no-constant-condition": "error",

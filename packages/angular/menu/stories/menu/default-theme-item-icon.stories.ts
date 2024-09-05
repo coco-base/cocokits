@@ -1,4 +1,4 @@
-import { AngularStoryObj } from '@cocokits/core';
+import { AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { MenuComponent } from '../../src/lib/menu/menu.component';

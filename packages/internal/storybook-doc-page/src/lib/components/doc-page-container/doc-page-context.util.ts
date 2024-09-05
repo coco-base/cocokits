@@ -1,4 +1,5 @@
 import { DocsContextProps, PreparedStory } from '@storybook/types';
+
 import { DocsPageContextProps } from './DocPageContainer';
 
 export function getDocPageContent(context: DocsContextProps): DocsPageContextProps | null {

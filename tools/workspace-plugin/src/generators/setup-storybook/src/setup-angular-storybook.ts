@@ -1,10 +1,12 @@
 import { generateFiles, Tree, updateJson } from '@nx/devkit';
-import { SetupStorybookOption } from '../model';
 import path from 'path';
+
 import { deepMerge } from '@cocokits/common-utils';
-import { getTsconfigJsonChanges, getTsconfigLibJsonChanges } from '../utils/get-tsconfig-changes';
-import { getAngularProjectJsonChanges } from '../utils/get-project-json-changes';
+
+import { SetupStorybookOption } from '../model';
 import { getEslintrcChanges } from '../utils/get-eslintrc-changes';
+import { getAngularProjectJsonChanges } from '../utils/get-project-json-changes';
+import { getTsconfigJsonChanges, getTsconfigLibJsonChanges } from '../utils/get-tsconfig-changes';
 
 export function setupAngularStorybook(tree: Tree, options: SetupStorybookOption) {
   // Generate `.storybook` folder

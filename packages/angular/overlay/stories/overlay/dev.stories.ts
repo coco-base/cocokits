@@ -1,6 +1,6 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
+import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
 
 import { OverlayComponent } from '../../src/components/overlay/overlay.component';
 

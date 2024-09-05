@@ -14,7 +14,7 @@ import { SvgIconComponent } from '@cocokits/angular-icon';
     <cck-svg-icon [icon]="svgIconMap['NAME_OF_ICON']" /> // <-- Replace NAME_OF_ICON with your icon name
   `
 })
-export class HighlightComponent {
+export class Component {
   protected readonly svgIconMap = svgIconMap;
 }
 ```

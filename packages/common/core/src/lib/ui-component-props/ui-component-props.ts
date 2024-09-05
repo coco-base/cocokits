@@ -8,6 +8,7 @@ import {
   UIComponentsPropName,
 } from '../model/ui-component.model';
 
+// eslint-disable-next-line max-lines-per-function
 export function validateUiComponentProps({
   componentName,
   componentProps,

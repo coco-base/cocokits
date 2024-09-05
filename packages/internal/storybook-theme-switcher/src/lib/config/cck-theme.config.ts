@@ -1,4 +1,5 @@
 import { recordReduceMerge } from '@cocokits/common-utils';
+import { TokenDictionary } from '@cocokits/core';
 import {
   cocokitsUIComponentConfig,
   svgIconMap as svgIconMapDefaultTheme,
@@ -11,7 +12,6 @@ import {
 } from '@cocokits/theme-frame-x';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
-import { TokenDictionary } from '@cocokits/core';
 
 // region ---------------- CONFIG ----------------
 export const CCK_THEME_SWITCHER_TOOL_ID = '@cocokits/storybook-theme-switcher:cck-tool-id';

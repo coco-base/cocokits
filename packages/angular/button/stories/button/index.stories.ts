@@ -1,7 +1,7 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
-import { AngularStoriesMeta } from '@cocokits/core';
+import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';

@@ -2,12 +2,13 @@ import React, { useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { recordForEach } from '@cocokits/common-utils';
+import { Token, TokenGroupOrTokenIds, TokenId } from '@cocokits/core';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { TokenInfo } from './token-info/TokenInfo';
 import { TokenTag } from './token-info/TokenTag';
-import { TokenGroupOrTokenIds, Token, TokenId } from '@cocokits/core';
 
+// eslint-disable-next-line max-lines-per-function
 export function MdxTokenTable() {
   const selectedCckTheme = useDocSelectedCckTheme();
   if (!selectedCckTheme) {

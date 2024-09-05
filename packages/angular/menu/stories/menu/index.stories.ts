@@ -6,7 +6,7 @@ import { IconButtonComponent } from '@cocokits/angular-button';
 import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
 import { DividerComponent } from '@cocokits/angular-divider';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AngularStoriesMeta } from '@cocokits/core';
+import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
