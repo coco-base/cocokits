@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/core",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "dependencies": {
     "@swc/helpers": "~0.5.2",
     "@cocokits/common-utils": "workspace:*"
@@ -12,5 +12,8 @@
     "vitest": "^1.6.0",
     "vite": "~5.0.0",
     "@nx/vite": "18.3.5"
+  },
+  "publishConfig": {
+    "directory": "../../../dist/packages/common/core"
   }
 }

@@ -6,13 +6,30 @@
   "tags": ["type:theme", "framework:shared"],
   "targets": {
     "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/themes/default",
+        "main": "packages/themes/frame-x/src/index.ts",
+        "tsConfig": "packages/themes/frame-x/tsconfig.lib.json",
+        "assets": [
+          "packages/themes/frame-x/*.md",
+          "packages/themes/frame-x/**/*.scss",
+          "packages/themes/frame-x/**/*.css"
+        ]
+      },
+      "dependsOn": ["build-css", "^build"]
+    },
+    "build-css": {
       "executor": "@cocokits/workspace-plugin:scss-builder",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/themes/frame-x",
-        "sourceMap": true,
-        "css": ["packages/themes/frame-x/src/styles.scss", "packages/themes/frame-x/src/token.scss"],
-        "min": ["packages/themes/frame-x/src/styles.scss", "packages/themes/frame-x/src/token.scss"]
+        "files": [
+          {
+            "path": "packages/themes/frame-x/src/styles/css/components.scss",
+            "output": "packages/themes/frame-x/src/styles/css"
+          }
+        ]
       }
     },
     "token-generator": {

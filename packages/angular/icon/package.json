@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/angular-icon",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
@@ -18,5 +18,8 @@
     "@storybook/angular": "~8.0.9",
     "@storybook/addon-docs": "~8.0.9"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "directory": "../../../dist/packages/angular/icon"
+  }
 }

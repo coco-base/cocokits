@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/angular-form-field",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "private": false,
   "peerDependencies": {
     "@angular/common": "^18.2.0",
@@ -23,5 +23,8 @@
     "@storybook/angular": "~8.0.9",
     "@storybook/addon-docs": "~8.0.9"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "publishConfig": {
+    "directory": "../../../dist/packages/angular/form-field"
+  }
 }

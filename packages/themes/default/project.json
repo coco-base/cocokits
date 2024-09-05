@@ -6,13 +6,30 @@
   "tags": ["type:theme", "framework:shared"],
   "targets": {
     "build": {
-      "executor": "@cocokits/workspace-plugin:scss-builder",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/themes/default",
-        "sourceMap": true,
-        "css": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token/scss/index.scss"],
-        "min": ["packages/themes/default/src/styles.scss", "packages/themes/default/src/token/scss/index.scss"]
+        "main": "packages/themes/default/src/index.ts",
+        "tsConfig": "packages/themes/default/tsconfig.lib.json",
+        "assets": [
+          "packages/themes/default/*.md",
+          "packages/themes/default/**/*.scss",
+          "packages/themes/default/**/*.css"
+        ]
+      },
+      "dependsOn": ["build-css", "^build"]
+    },
+    "build-css": {
+      "executor": "@cocokits/workspace-plugin:scss-builder",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": [
+          {
+            "path": "packages/themes/default/src/styles/css/components.scss",
+            "output": "packages/themes/default/src/styles/css"
+          }
+        ]
       }
     },
     "token-generator": {

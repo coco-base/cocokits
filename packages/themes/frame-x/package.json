@@ -1,5 +1,5 @@
 {
-  "name": "@cocokits/theme-default",
+  "name": "@cocokits/theme-frame-x",
   "version": "0.0.0",
   "dependencies": {
     "@swc/helpers": "~0.5.2",
@@ -8,6 +8,6 @@
   "type": "commonjs",
   "devDependencies": {},
   "publishConfig": {
-    "directory": "../../../dist/packages/themes/default"
+    "directory": "../../../dist/packages/themes/frame-x"
   }
 }

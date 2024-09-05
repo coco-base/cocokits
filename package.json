@@ -28,7 +28,7 @@
     "@nx/devkit": "18.3.4",
     "@nx/eslint": "18.4.0-canary.20240418-e549ea2",
     "@nx/eslint-plugin": "18.3.4",
-    "@nx/js": "18.4.0-canary.20240418-e549ea2",
+    "@nx/js": "19.0.8",
     "@nx/plugin": "18.3.4",
     "@nx/react": "18.3.4",
     "@nx/storybook": "18.3.4",
