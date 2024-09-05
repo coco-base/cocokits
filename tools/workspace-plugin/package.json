@@ -6,21 +6,21 @@
     "@nx/devkit": "18.3.3",
     "@swc/helpers": "~0.5.2",
     "autoprefixer": "^10.4.19",
+    "chalk": "^4.1.2",
+    "color2k": "^2.0.3",
     "cssnano": "^7.0.1",
     "postcss": "^8.4.38",
-    "sass": "^1.75.0",
-    "chalk": "^4.1.2",
-    "color2k": "^2.0.3"
+    "postcss-discard-comments": "^7.0.3",
+    "sass": "^1.75.0"
   },
   "devDependencies": {
-    "vitest": "^1.6.0",
+    "@nx/vite": "18.3.5",
     "vite": "~5.0.0",
-    "@nx/vite": "18.3.5"
+    "vitest": "^1.6.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
-  "private": true,
   "generators": "./generators.json",
   "executors": "./executors.json"
 }

@@ -5,30 +5,24 @@
   "description": "",
   "type": "object",
   "properties": {
-    "outputPath": {
-      "type": "string",
-      "description": "The output path of the generated files."
-    },
-    "sourceMap": {
-      "type": "boolean",
-      "description": "Flag to determine if source maps should be generated.",
-      "default": false
-    },
-    "css": {
+    "files": {
       "type": "array",
-      "description": "Array of paths for CSS files.",
+      "description": "Array of file paths and output locations",
       "items": {
-        "type": "string"
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "The file path of the SCSS file"
+          },
+          "output": {
+            "type": "string",
+            "description": "The output path of the generated CSS file"
+          }
+        },
+        "required": ["path", "output"]
       }
-    },
-    "min": {
-      "type": "array",
-      "description": "Optional array of paths for minified files.",
-      "items": {
-        "type": "string"
-      },
-      "default": []
     }
   },
-  "required": ["outputPath", "css"]
+  "required": ["files"]
 }
