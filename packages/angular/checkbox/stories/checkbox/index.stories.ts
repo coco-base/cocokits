@@ -28,7 +28,7 @@ const meta: AngularStoriesMeta = {
       providers: [
         {
           provide: UIComponentConfig,
-          useValue: getSelectedCckTheme()?.uiComponentConfig,
+          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
         },
       ],
     }),
