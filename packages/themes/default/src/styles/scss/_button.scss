@@ -1,0 +1,14 @@
+@use '../../token/scss' as *;
+@use './variants/button-basic' as *;
+@use './variants/button-light' as *;
+@use './variants/button-outline' as *;
+@use './variants/button-primary' as *;
+@use './variants/button-shared' as *;
+
+@mixin button {
+  @include button-shared;
+  @include button-basic;
+  @include button-light;
+  @include button-outline;
+  @include button-primary;
+}

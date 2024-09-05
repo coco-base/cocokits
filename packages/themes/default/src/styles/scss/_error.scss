@@ -1,0 +1,8 @@
+@use '../../token/scss/index' as *;
+
+@mixin error {
+  .cck-error {
+    font: $text-sm-regular;
+    color: $color-error-default;
+  }
+}

@@ -1,0 +1,37 @@
+@use '../../token/scss/index' as *;
+
+@mixin option-group {
+  .cck-option-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cck-option-group--label {
+    display: flex;
+    align-items: center;
+    font: $text-sm-medium;
+    color: $color-font-default;
+    padding: 0 $option-spacing-item-h-padding;
+  }
+
+  .cck-option-group--disabled .cck-option-group--label {
+    color: $color-disabled-font;
+    user-select: none;
+  }
+
+  .cck-option-group .cck-option {
+    padding: 0 ($option-spacing-item-h-padding * 2);
+  }
+
+  .cck-option-group__size--sm .cck-option-group--label {
+    height: $option-size-height-sm;
+  }
+
+  .cck-option-group__size--md .cck-option-group--label {
+    height: $option-size-height-md;
+  }
+
+  .cck-option-group__size--lg .cck-option-group--label {
+    height: $option-size-height-lg;
+  }
+}

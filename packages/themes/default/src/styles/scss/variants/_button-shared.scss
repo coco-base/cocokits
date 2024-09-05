@@ -1,0 +1,35 @@
+@use '../../../token/scss/index' as *;
+
+@mixin button-shared {
+  .cck-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border: none;
+    outline: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .cck-button__size--sm {
+    font: $text-sm-medium;
+    padding: 0 16px;
+    height: $button-primary-height-sm;
+    gap: 8px;
+  }
+
+  .cck-button__size--md {
+    font: $text-sm-medium;
+    padding: 0 20px;
+    height: 32px;
+    gap: 8px;
+  }
+
+  .cck-button__size--lg {
+    font: $text-md-medium;
+    padding: 0 24px;
+    height: 40px;
+    gap: 10px;
+  }
+}

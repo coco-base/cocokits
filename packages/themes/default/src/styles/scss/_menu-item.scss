@@ -1,0 +1,62 @@
+@use '../../token/scss/index' as *;
+
+@mixin menu-item {
+  .cck-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font: $text-sm-regular;
+    padding: $menu-item-spacing-v-padding $menu-item-spacing-h-padding;
+    gap: $menu-item-spacing-gap;
+    border-radius: 6px;
+    margin: 0 4px;
+  }
+
+  .cck-menu-item:not(.cck-menu-item--disabled) {
+    cursor: pointer;
+  }
+
+  .cck-menu-item--disabled {
+    opacity: 0.6;
+  }
+
+  .cck-menu-item--disabled,
+  .cck-menu-item--disabled .cck-svg-icon.cck-svg-icon--default-color {
+    color: $color-disabled-font;
+  }
+
+  .cck-menu-item:not(.cck-menu-item--disabled):hover {
+    background-color: $color-surface-inverse-alpha-1;
+  }
+
+  .cck-menu-item__color--default:not(.cck-menu-item--disabled),
+  .cck-menu-item__color--default:not(.cck-menu-item--disabled) .cck-svg-icon.cck-svg-icon--default-color {
+    color: $color-font-default;
+  }
+
+  .cck-menu-item__color--error:not(.cck-menu-item--disabled),
+  .cck-menu-item__color--error:not(.cck-menu-item--disabled) .cck-svg-icon.cck-svg-icon--default-color {
+    color: $color-error-default;
+  }
+
+  .cck-menu-item__size--sm {
+    height: $menu-item-size-height-sm;
+  }
+
+  .cck-menu-item__size--md {
+    height: $menu-item-size-height-md;
+  }
+
+  .cck-menu-item__size--lg {
+    height: $menu-item-size-height-lg;
+  }
+
+  .cck-menu-item .cck-svg-icon.cck-svg-icon--default-size {
+    width: $icon-size-xs;
+    height: $icon-size-xs;
+  }
+
+  .cck-menu-item .cck-svg-icon.cck-svg-icon--default-color .cck-svg-icon__svg {
+    fill: currentcolor;
+  }
+}

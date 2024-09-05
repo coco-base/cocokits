@@ -1,0 +1,30 @@
+@use '../../token/scss/index' as *;
+
+@mixin chip-list {
+  .cck-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  // .cck-chip-list--disabled {}
+
+  .cck-chip-list__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font: $text-sm-regular;
+
+    &::placeholder {
+      color: $color-font-alpha-6;
+      transition: color 100ms ease-in;
+    }
+
+    &:not(:focus)::placeholder {
+      color: transparent;
+    }
+  }
+}

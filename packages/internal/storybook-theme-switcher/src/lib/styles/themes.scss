@@ -1,10 +1,12 @@
+@use '../../../../../themes/default/src/styles' as defaultTheme;
+@use '../../../../../themes/frame-x/src/styles' as frameXTheme;
 @import '../../../../../themes/default/src/token/css';
 @import '../../../../../themes/frame-x/src/token/css';
 
 [data-cck-theme-name='default'] {
-  @import '../../../../../themes/default/src/styles';
+  @include defaultTheme.components_all;
 }
 
 [data-cck-theme-name='frame-x'] {
-  @import '../../../../../themes/frame-x/src/styles';
+  @include frameXTheme.components_all;
 }

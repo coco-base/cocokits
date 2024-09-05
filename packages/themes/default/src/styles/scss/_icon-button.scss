@@ -1,0 +1,14 @@
+@use '../../token/scss' as *;
+@use './variants/icon-button-basic' as *;
+@use './variants/icon-button-light' as *;
+@use './variants/icon-button-outline' as *;
+@use './variants/icon-button-primary' as *;
+@use './variants/icon-button-shared' as *;
+
+@mixin icon-button {
+  @include icon-button-shared;
+  @include icon-button-basic;
+  @include icon-button-light;
+  @include icon-button-outline;
+  @include icon-button-primary;
+}

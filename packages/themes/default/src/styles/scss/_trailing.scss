@@ -1,0 +1,67 @@
+@use '../../token/scss/index' as *;
+
+@mixin trailing {
+  .cck-trailing {
+    flex-grow: 0;
+    color: $color-font-alpha-7;
+    border: 1px solid $form-field-color-border;
+    border-left: none;
+    gap: $form-field-spacing-trailing-gap;
+    padding: 0 $form-field-spacing-input-wrapper-h-padding;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+  }
+
+  .cck-trailing .cck-select {
+    color: currentcolor;
+    font: inherit;
+  }
+
+  .cck-trailing__regular {
+    font: $text-sm-regular;
+  }
+
+  .cck-trailing__medium {
+    font: $text-sm-medium;
+  }
+
+  .cck-trailing--clickable {
+    cursor: pointer;
+    transition: background-color 100ms;
+  }
+
+  .cck-trailing .cck-svg-icon.cck-svg-icon--default-size {
+    width: $icon-size-xs;
+    height: $icon-size-xs;
+  }
+
+  .cck-trailing__color--transparent {
+    background-color: transparent;
+  }
+
+  .cck-trailing__color--transparent.cck-trailing--clickable:active {
+    background-color: $color-surface-inverse-alpha-4;
+  }
+
+  .cck-trailing__color--transparent.cck-trailing--clickable:hover:not(:active) {
+    background-color: $color-surface-inverse-alpha-1;
+  }
+
+  .cck-trailing__color--grey {
+    background-color: $color-surface-inverse-alpha-1;
+  }
+
+  .cck-trailing__color--grey.cck-trailing--clickable:active {
+    background-color: $color-surface-inverse-alpha-4;
+  }
+
+  .cck-trailing__color--grey.cck-trailing--clickable:hover:not(:active) {
+    background-color: $color-surface-inverse-alpha-3;
+  }
+
+  .cck-trailing .cck-svg-icon.cck-svg-icon--default-color .cck-svg-icon__svg {
+    fill: $form-field-color-icon;
+  }
+}

@@ -1,0 +1,44 @@
+@use '../../token/scss/index' as *;
+
+@mixin select {
+  .cck-select {
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font: $text-sm-regular;
+    color: $color-font-default;
+  }
+
+  .cck-select.cck-select--disabled {
+    cursor: initial;
+    user-select: none;
+  }
+
+  .cck-select__placeholder {
+    color: $color-font-alpha-6;
+  }
+
+  .cck-select__trigger-wrapper {
+    overflow: hidden;
+    flex: 1;
+    color: currentcolor;
+    text-align: start;
+    padding-right: 8px;
+  }
+
+  .cck-select__trigger-value {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .cck-select__overlay .cck-overlay__backdrop {
+    background-color: rgb(0 0 0 / 0%);
+  }
+
+  .cck-select__dropdown-icon-wrapper .cck-svg-icon {
+    width: $icon-size-sm;
+    height: $icon-size-sm;
+  }
+}

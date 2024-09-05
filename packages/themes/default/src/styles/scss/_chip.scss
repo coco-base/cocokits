@@ -1,0 +1,63 @@
+@use '../../token/scss/index' as *;
+
+@mixin chip {
+  .cck-chip {
+    border-radius: 6px;
+    border: 1px solid $chip-color-border;
+    display: flex;
+    align-items: center;
+    font: $text-sm-medium;
+    color: $color-font-default;
+    padding: 0 $chip-spacing-overlay-h-padding;
+    gap: 4px;
+    cursor: default;
+  }
+
+  .cck-chip.cck-chip--disabled {
+    border: 1px solid $chip-color-border-disabled;
+    color: $color-disabled-font;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .cck-chip.cck-chip--removable {
+    padding: 0 2px 0 $chip-spacing-overlay-h-padding;
+  }
+
+  .cck-chip__size--sm {
+    height: $chip-size-height-sm;
+  }
+
+  .cck-chip__size--md {
+    height: $chip-size-height-md;
+  }
+
+  .cck-chip__size--lg {
+    height: $chip-size-height-lg;
+  }
+
+  .cck-chip__content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cck-chip__remove-icon-wrapper .cck-icon-button {
+    background-color: transparent;
+    color: $color-font-alpha-7;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+  }
+
+  .cck-chip__remove-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cck-chip__remove-icon-wrapper .cck-icon-button:hover {
+    background-color: var(--color-h-contrast-alpha-2);
+  }
+}

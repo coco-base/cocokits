@@ -1,3 +1,3 @@
 export * from './token/token-dictionary';
-export * from './icons/svg-icon-map';
-export * from './config/ui-component-props.config';
+export * from './lib/svg-icon-map';
+export * from './lib/ui-component-props.config';
