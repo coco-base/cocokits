@@ -6,6 +6,7 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
 import { ButtonComponent } from '../../src/lib/button/button.component';
+import { ENVIRONMENT_INITIALIZER } from '@angular/core';
 
 export { Default } from './default.stories';
 export { Type } from './type.stories';

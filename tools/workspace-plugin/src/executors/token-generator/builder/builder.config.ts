@@ -1,10 +1,10 @@
-export const TOKEN_DICTIONARY_FILE_NAME = 'token-dictionary.ts';
+export const TOKEN_DICTIONARY_FOLDER_NAME = 'dictionary';
 
 /**
- * Name of the folder containing mixins.
- * The final result will be: `${outputDir}/mixins
+ * Name of the folder containing core style (css variable and values).
+ * The final result will be: `${outputDir}/core
  */
-export const MIXIN_FOLDER_NAME = 'mixins';
+export const CORE_FOLDER_NAME = 'core';
 
 /**
  * Name of the folder containing css variables.

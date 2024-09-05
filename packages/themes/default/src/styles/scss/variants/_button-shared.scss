@@ -1,4 +1,4 @@
-@use '../../../token/scss/index' as *;
+@use '../../../token/scss' as *;
 
 @mixin button-shared {
   .cck-button {
@@ -13,21 +13,21 @@
   }
 
   .cck-button__size--sm {
-    font: $text-sm-medium;
+    // font: $text-sm-medium;
     padding: 0 16px;
     height: $button-primary-height-sm;
     gap: 8px;
   }
 
   .cck-button__size--md {
-    font: $text-sm-medium;
+    // font: $text-sm-medium;
     padding: 0 20px;
     height: 32px;
     gap: 8px;
   }
 
   .cck-button__size--lg {
-    font: $text-md-medium;
+    // font: $text-md-medium;
     padding: 0 24px;
     height: 40px;
     gap: 10px;

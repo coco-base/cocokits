@@ -15,6 +15,10 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
 
   protected uiComponentConfig = inject(UIComponentConfig);
 
+  constructor() {
+    console.log(this.uiComponentConfig.button.type?.values);
+  }
+
   /**
    * The type of component.
    *

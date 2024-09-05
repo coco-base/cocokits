@@ -5,8 +5,9 @@ import { recordForEach, recordReduceMerge, reduceMerge } from '@cocokits/common-
 import { TokenCollectionName, TokenDictionary } from '@cocokits/core';
 
 import { SCSS_FOLDER_NAME } from './builder.config';
-import { getIndexFileHeader, getScssFileHeader, getScssFileName } from './utils';
+import { getDefaultFileHeader, getImportFileName, getScssFileName } from './utils';
 import { TokenGeneratorExecutorSchema } from '../schema';
+import { Logger } from '../../../utils/logger';
 
 /**
  * Builds CSS variables from the compiler result and save them.
@@ -20,7 +21,7 @@ export function buildScss(tokenDictionary: TokenDictionary, options: TokenGenera
     (modeNames, collectionName: TokenCollectionName) => {
       return reduceMerge(modeNames, () => {
         return {
-          [getScssFileName(collectionName)]: getScssFileHeader(),
+          [getScssFileName(collectionName)]: getDefaultFileHeader(),
         };
       });
     }
@@ -37,13 +38,16 @@ export function buildScss(tokenDictionary: TokenDictionary, options: TokenGenera
     const filePath = path.join(scssDir, fileName);
     fs.mkdirSync(scssDir, { recursive: true });
     fs.writeFileSync(filePath, content);
+    Logger.success(`✔ [CREATED]: ${filePath}`);
   });
 
   // Build index file
-  let indexFileContent = getIndexFileHeader();
+  let indexFileContent = getDefaultFileHeader();
   recordForEach(fileContent, (_, fileName) => {
-    indexFileContent += `@import './${fileName.replace('.scss', '')}';\n`;
+    indexFileContent += `@import './${getImportFileName(fileName)}';\n`;
   });
-  const filePath = path.join(scssDir, 'index.scss');
+  const filePath = path.join(scssDir, '_index.scss');
   fs.writeFileSync(filePath, indexFileContent);
+
+  Logger.success(`✔ [CREATED]: ${filePath}`);
 }

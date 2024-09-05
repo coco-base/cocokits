@@ -14,7 +14,7 @@ export default async function runExecutor(options: TokenGeneratorExecutorSchema)
   const tokenDictionary = getTokenDictionary(options);
 
   // Builder
-  builder(tokenDictionary, options);
+  await builder(tokenDictionary, options);
 
   runPrettier(options.outputDir);
 

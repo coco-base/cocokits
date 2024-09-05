@@ -1,48 +1,39 @@
 import fs from 'fs';
 import path from 'path';
 
-import { recordForEach, recordReduceMerge, reduceMerge } from '@cocokits/common-utils';
-import { TokenCollectionName, TokenDictionary } from '@cocokits/core';
-
 import { CSS_FOLDER_NAME } from './builder.config';
-import { getCssFileHeader, getCssFileName, getIndexFileHeader, getMixinName } from './utils';
+import { getDefaultFileHeader } from './utils';
 import { TokenGeneratorExecutorSchema } from '../schema';
+import runCssBuilderExecutor from '../../scss-builder/executor';
+import { Logger } from '../../../utils/logger';
 
 /**
  * Builds CSS variables from the compiler result and save them.
  */
-export function buildCss(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
+export async function buildCss(options: TokenGeneratorExecutorSchema) {
   const cssDir = path.join(options.outputDir, CSS_FOLDER_NAME);
 
   // Generate header and @mixin for each modes
-  const fileContent = recordReduceMerge(
-    tokenDictionary.collectionModeNames,
-    (modeNames, collectionName: TokenCollectionName) => {
-      return reduceMerge(modeNames, (modeName) => {
-        const content = `${getCssFileHeader(collectionName, modeName.name)}
-      :where(.cck-theme-${options.themeName}__${collectionName}--${modeName.name}),
-      :where([data-cck-theme*='${options.themeName}__${collectionName}--${modeName.name}']) {
-        @include ${getMixinName(collectionName, modeName.name)};
-       }`;
-        return {
-          [getCssFileName(collectionName, modeName.name)]: content,
-        };
-      });
-    }
-  );
+  const fileContent = `
+    ${getDefaultFileHeader()}
+    @use "../core" as cck-tokens;
+
+    @include cck-tokens.use_all;
+  `;
 
   // Save files
-  recordForEach(fileContent, (content, fileName) => {
-    const filePath = path.join(cssDir, fileName);
-    fs.mkdirSync(cssDir, { recursive: true });
-    fs.writeFileSync(filePath, content);
-  });
+  const filePath = path.join(cssDir, 'tokens.scss');
+  fs.mkdirSync(cssDir, { recursive: true });
+  fs.writeFileSync(filePath, fileContent);
+  Logger.success(`✔ [CREATED]: ${filePath}`);
 
-  // Build index file
-  let indexFileContent = getIndexFileHeader();
-  recordForEach(fileContent, (_, fileName) => {
-    indexFileContent += `@import './${fileName.replace('.scss', '')}';\n`;
+  await runCssBuilderExecutor({
+    files: [
+      {
+        path: filePath,
+        output: cssDir,
+      },
+    ],
+    disableLog: true,
   });
-  const indexFilePath = path.join(cssDir, 'index.scss');
-  fs.writeFileSync(indexFilePath, indexFileContent);
 }

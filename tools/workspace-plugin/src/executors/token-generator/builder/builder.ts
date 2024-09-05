@@ -3,18 +3,18 @@ import fs from 'fs';
 
 import { TokenDictionary } from '@cocokits/core';
 
+import { buildCore } from './build-core';
 import { buildCss } from './build-css';
-import { buildMixins } from './build-mixins';
 import { buildScss } from './build-scss';
 import { buildTokenDictionary } from './build-token-dictionary';
 import { TokenGeneratorExecutorSchema } from '../schema';
 
-export function builder(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
+export async function builder(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
   execSync(`rm -rf ${options.outputDir}`);
   fs.mkdirSync(options.outputDir, { recursive: true });
 
   buildTokenDictionary(tokenDictionary, options);
-  buildMixins(tokenDictionary, options);
-  buildCss(tokenDictionary, options);
+  buildCore(tokenDictionary, options);
+  await buildCss(options);
   buildScss(tokenDictionary, options);
 }

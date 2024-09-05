@@ -1,4 +1,4 @@
-@use '../../token/scss/index' as Tokens;
+@use '../../token/scss' as *;
 
 @mixin label {
   .cck-label {
@@ -6,13 +6,13 @@
   }
 
   .cck-label__label-tag {
-    font: Tokens.$text-sm-medium;
-    color: Tokens.$color-font-default;
+    font: $text-sm-medium;
+    color: $color-font-default;
   }
 
   .cck-label__required-marker {
-    font: Tokens.$text-sm-medium;
-    color: Tokens.$color-brand-default;
-    margin-left: Tokens.$label-spacing-required-marker-padding-left;
+    font: $text-sm-medium;
+    color: $color-brand-default;
+    margin-left: $label-spacing-required-marker-padding-left;
   }
 }

@@ -1,5 +1,5 @@
-@use '../../token/scss' as *;
 @use './variants/button-disable' as *;
+@use '../../token/scss' as *;
 
 @mixin button {
   .cck-button {
