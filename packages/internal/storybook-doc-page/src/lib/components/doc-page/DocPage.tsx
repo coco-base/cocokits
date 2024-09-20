@@ -6,14 +6,15 @@ import { DocHeader } from './DocHeader';
 
 interface DocPageProps {
   children: ReactNode;
+  utilsPage?: boolean;
   hideCckThemeSwitcher?: boolean;
 }
 
-export const DocPage = ({children, hideCckThemeSwitcher = false}: DocPageProps) => {
+export const DocPage = ({children, hideCckThemeSwitcher = false, utilsPage = false}: DocPageProps) => {
 
   return (
     // sb-unstyled: Remove default storybook styles
-    <StyledWrapper className="sb-unstyled">
+    <StyledWrapper className={`sb-unstyled ${utilsPage ? 'utils-doc-page' : ''}`}>
       <DocBgEffect></DocBgEffect>
       <DocHeader hideCckThemeSwitcher={hideCckThemeSwitcher}></DocHeader>
       <StyledContentWrapper>

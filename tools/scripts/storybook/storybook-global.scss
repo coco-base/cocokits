@@ -346,7 +346,7 @@
     }
 
     & code {
-      white-space: nowrap;
+      white-space: break-spaces;
       font: var(--cck-storybook-text-xs-regular);
       padding: var(--cck-storybook-size-0) var(--cck-storybook-size-6);
     }
@@ -357,5 +357,28 @@
     color: var(--cck-storybook-color-font-contrast-4);
     padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24);
     text-align: left;
+  }
+}
+
+.utils-doc-page {
+  pre {
+    margin: 0;
+
+    pre.prismjs {
+      padding: 12px;
+    }
+  }
+
+  pre .docblock-source {
+    margin: 0 0 24px;
+  }
+
+  // Copy source code button
+  pre .docblock-source > div:nth-child(2) {
+    display: none;
+  }
+
+  table {
+    margin-bottom: 24px;
   }
 }

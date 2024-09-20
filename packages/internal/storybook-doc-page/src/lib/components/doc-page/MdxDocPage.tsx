@@ -8,14 +8,15 @@ import { DocToc, DocTocProps } from './DocToc';
 interface DocPageProps {
   children: ReactNode;
   groupTitle?: string;
+  utilsPage?: boolean;
   toc?: DocTocProps['items']
 }
 
-export const MdxDocPage = ({children, groupTitle, toc}: DocPageProps) => {
+export const MdxDocPage = ({children, groupTitle, toc, utilsPage}: DocPageProps) => {
 
   return (
     <>
-      <DocPage hideCckThemeSwitcher={false}>
+      <DocPage hideCckThemeSwitcher={false} utilsPage={utilsPage}>
         <StyledWrapper>
           <StyledMain>
             {groupTitle && <DocCategory>{groupTitle}</DocCategory>}

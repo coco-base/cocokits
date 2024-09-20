@@ -23,7 +23,7 @@ h2 {
 }
 
 h3 {
-    font: var(--cck-storybook-text-lg-medium);
+    font: var(--cck-storybook-text-md-medium);
     color: var(--cck-storybook-color-font-contrast-4);
     margin: var(--cck-storybook-size-12) 0;
 }
