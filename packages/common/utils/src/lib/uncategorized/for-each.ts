@@ -1,3 +1,5 @@
+/** @module common */
+
 /**
  * Helper function to iterate over each key-value pair in a record.
  * It's only a helper function to avoid writing a lot of code for iterating over a record.

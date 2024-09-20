@@ -1,3 +1,5 @@
+/** @module differs */
+
 type TrackByFunction<T = any> = (item: T) => any;
 type ArrayLikeValue<T> = T[] | readonly T[] | Set<T>;
 

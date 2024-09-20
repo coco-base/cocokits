@@ -1,5 +1,7 @@
-import { EventListener } from './event-listner';
+/** @module selection */
+
 import { ArrayLikeDiff } from '../differs/array-like-differs';
+import { CustomEventListener } from '../event-listener/custom-event-listener';
 
 type TrackByFunction<T = any> = (item: T) => any;
 type ChangesCallback<T> = (changes: SelectionChange<T>) => void;
@@ -30,7 +32,7 @@ export interface SelectionUpdateConfig {
 }
 
 export class Selection<T = any> {
-  private events = new EventListener<SelectionChange<T>>();
+  private events = new CustomEventListener<SelectionChange<T>>();
   private isMultiple: boolean;
   private readonly selectionSet: Set<T>;
 

@@ -1,3 +1,5 @@
+/** @module rxjs */
+
 import { ReplaySubject } from 'rxjs';
 
 export class OnceReplaySubject<T> extends ReplaySubject<T> {

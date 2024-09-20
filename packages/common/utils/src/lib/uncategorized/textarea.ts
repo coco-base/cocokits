@@ -1,3 +1,5 @@
+/** @module common */
+
 export function autoResizeTextarea(textarea: HTMLTextAreaElement, minRow = 1, maxRow = 5) {
   const parent = textarea.parentElement ?? document;
 

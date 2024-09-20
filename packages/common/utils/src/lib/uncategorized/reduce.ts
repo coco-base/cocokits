@@ -1,3 +1,5 @@
+/** @module common */
+
 import { deepMerge, deepMergeWithIdCustomizer } from './deep-merge';
 
 /**

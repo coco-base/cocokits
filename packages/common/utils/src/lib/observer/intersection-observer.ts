@@ -1,7 +1,9 @@
+/** @module observer */
+
 import { Observable, Subscriber } from 'rxjs';
 import { share } from 'rxjs/operators';
 
-import { toArray } from './array';
+import { toArray } from '../transform/to-array';
 
 export type IntersectionObserverConfig = IntersectionObserverInit;
 export interface IntersectionObserverChanges {

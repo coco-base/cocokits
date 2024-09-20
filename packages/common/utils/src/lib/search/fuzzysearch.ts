@@ -1,3 +1,5 @@
+/** @module search */
+
 /**
  * https://github.com/bevacqua/fuzzysearch
  * The library has no typescript export, therefore we copy the source code into our project.

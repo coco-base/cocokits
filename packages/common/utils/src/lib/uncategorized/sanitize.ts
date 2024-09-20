@@ -1,4 +1,6 @@
-import { isNotNullish } from './ensure';
+/** @module common */
+
+import { isNotNullish } from '../ensure/ensure-nullish';
 
 /**
  * Sanitizes the input value by converting specific string representations to their corresponding types.

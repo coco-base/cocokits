@@ -1,3 +1,5 @@
+/** @module scroll */
+
 type LockChangeCallback = (isLock: boolean) => void;
 
 export class ScrollLocker {

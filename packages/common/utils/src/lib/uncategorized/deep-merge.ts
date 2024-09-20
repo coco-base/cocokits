@@ -1,3 +1,5 @@
+/** @module common */
+
 import _ from 'lodash';
 
 export function deepMerge<T, U>(target: T, source: U, customizer = deepMergeDefaultCustomize): T & U {

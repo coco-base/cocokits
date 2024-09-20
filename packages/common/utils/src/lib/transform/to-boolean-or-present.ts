@@ -1,3 +1,5 @@
+/** @module transform */
+
 /**
  * Converts a potentially undefined, null, or string value to a boolean.
  * Specifically, it treats the attribute presence (like `disabled` with no value)

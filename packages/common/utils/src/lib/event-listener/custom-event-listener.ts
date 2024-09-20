@@ -1,12 +1,15 @@
+/** @module event-listener */
+
 type EventListenerCallback<T> = (event: T) => void;
 
-export class EventListener<T> {
+export class CustomEventListener<T> {
   private callbacks = new Set<EventListenerCallback<T>>();
 
   private _lastValue: T | undefined;
   public get lastValue(): T | undefined {
     return this._lastValue;
   }
+
   private set lastValue(value: T) {
     this._lastValue = value;
   }

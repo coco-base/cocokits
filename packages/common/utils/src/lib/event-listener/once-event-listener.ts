@@ -1,3 +1,5 @@
+/** @module event-listener */
+
 export function onceEventListener<K extends keyof HTMLElementEventMap>(
   element: HTMLElement,
   eventName: K,

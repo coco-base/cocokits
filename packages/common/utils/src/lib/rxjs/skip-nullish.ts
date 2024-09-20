@@ -1,3 +1,5 @@
+/** @module rxjs */
+
 import { filter, Observable, pipe } from 'rxjs';
 
 export function skipNullish<T>(): (source: Observable<T>) => Observable<NonNullable<T>> {
