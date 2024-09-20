@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "BuildTypedoc executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "typeDocConfig": {
+      "type": "string",
+      "description": "The path to the type-doc configuration file"
+    }
+  },
+  "required": ["typeDocConfig"]
+}

@@ -19,6 +19,11 @@
       "implementation": "./src/executors/token-generator/executor",
       "schema": "./src/executors/token-generator/schema.json",
       "description": "token-generator executor"
+    },
+    "build-typedoc": {
+      "implementation": "./src/executors/build-typedoc/executor",
+      "schema": "./src/executors/build-typedoc/schema.json",
+      "description": "Build the storybook mdx doc page from the utils source code with help of typeDoc"
     }
   }
 }
