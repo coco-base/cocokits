@@ -1,0 +1,22 @@
+{
+  "name": "@cocokits/typedoc-storybook-theme",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/internal/typedoc-storybook-theme/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/internal/typedoc-storybook-theme",
+        "main": "packages/internal/typedoc-storybook-theme/src/index.ts",
+        "tsConfig": "packages/internal/typedoc-storybook-theme/tsconfig.lib.json",
+        "assets": ["packages/internal/typedoc-storybook-theme/*.md"]
+      }
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

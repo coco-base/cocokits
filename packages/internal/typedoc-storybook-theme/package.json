@@ -1,0 +1,13 @@
+{
+  "name": "@cocokits/typedoc-storybook-theme",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "typedoc-plugin-markdown": "4.2.7",
+    "@nx/devkit": "18.3.4"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "typedoc": "0.26.6"
+  }
+}
