@@ -1,5 +1,33 @@
 /** @module common */
 
+/**
+ * Automatically resizes a textarea element based on its content, adjusting its height between the minimum and maximum number of rows.
+ *
+ * This function listens for user input and dynamically adjusts the height of the textarea as the content changes. It respects
+ * the minimum and maximum row constraints, ensuring the textarea doesn't exceed these limits. It also provides methods to
+ * recalculate sizes, manually update the height, and destroy the event listeners.
+ *
+ * @param textarea The `HTMLTextAreaElement` that will be resized based on its content.
+ * @param minRow The minimum number of rows the textarea should display. Defaults to 1.
+ * @param maxRow The maximum number of rows the textarea should display. Defaults to 5.
+ *
+ * @returns An object with methods to `recalculateValues`, manually `update` the height, and `destroy` the event listeners.
+ *
+ * @example
+ * ```typescript
+ * const textarea = document.querySelector('textarea');
+ * const resizer = autoResizeTextarea(textarea, 2, 8);
+ *
+ * // Manually update the textarea size
+ * resizer.update();
+ *
+ * // Recalculate values after a layout change
+ * resizer.recalculateValues();
+ *
+ * // Destroy the auto-resize functionality
+ * resizer.destroy();
+ * ```
+ */
 export function autoResizeTextarea(textarea: HTMLTextAreaElement, minRow = 1, maxRow = 5) {
   const parent = textarea.parentElement ?? document;
 

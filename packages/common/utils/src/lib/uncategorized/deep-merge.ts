@@ -2,6 +2,29 @@
 
 import _ from 'lodash';
 
+/**
+ * Deeply merges two objects, `target` and `source`, with optional customization for merging arrays.
+ * If no customizer function is provided, the `deepMergeDefaultCustomize` function is used, which combines arrays without duplication.
+ *
+ * @template T The type of the target object.
+ * @template U The type of the source object.
+ *
+ * @param target The target object to merge into.
+ * @param source The source object to merge from.
+ * @param customizer An optional function to customize the merging behavior (especially for arrays).
+ *
+ * @returns A new object that is the result of deeply merging the `target` and `source` objects.
+ *
+ * @example
+ * ```typescript
+ * const target = { a: [1, 2], b: { name: 'John' } };
+ * const source = { a: [2, 3], b: { age: 30 } };
+ *
+ * const result = deepMerge(target, source);
+ * console.log(result);
+ * // Outputs: { a: [1, 2, 3], b: { name: 'John', age: 30 } }
+ * ```
+ */
 export function deepMerge<T, U>(target: T, source: U, customizer = deepMergeDefaultCustomize): T & U {
   return _.mergeWith(target, source, customizer);
 }
@@ -17,9 +40,6 @@ export function deepMergeDefaultCustomize(obj: unknown, src: unknown) {
     return Array.from(set);
   }
 
-  // if (_.isArray(obj)) {
-  //   return obj.concat(src);
-  // }
   return;
 }
 
@@ -32,8 +52,8 @@ export function deepMergeDefaultCustomize(obj: unknown, src: unknown) {
  * the same `id` are found in both arrays, their properties will be merged into a single object. If not, the
  * new object from the source array will be added to the target array as a separate item.
  *
- * Example:
- *
+ * @example:
+ *```
  * target: {
  *   list1: [{id: 1, name: 'milad1'}, {id: 2, name: 'milad2'}],
  *   mode: 'mode1'
@@ -53,6 +73,7 @@ export function deepMergeDefaultCustomize(obj: unknown, src: unknown) {
  *   ],
  *   mode: 'mode2'
  * }
+ * ```
  *
  * Explanation:
  * - The `list1` array in the target contains objects with `id` values 1 and 2.

@@ -6,8 +6,23 @@ import { CustomEventListener } from '../event-listener/custom-event-listener';
 type TrackByFunction<T = any> = (item: T) => any;
 type ChangesCallback<T> = (changes: SelectionChange<T>) => void;
 
+/**
+ * Configuration options for creating and updating a `Selection` instance.
+ *
+ * @template T The type of the items being selected.
+ */
 export interface SelectionOptions<T> {
+  /**
+   * Whether multiple values can be selected at once.
+   * If set to `true`, the selection can hold multiple items. If set to `false` or omitted, only one item can be selected at a time.
+   */
   multiple: boolean;
+
+  /**
+   * A custom function to track items by a specific property or value.
+   * This function is used to compare items for equality when managing selections. Typically, this tracks by IDs or unique object properties.
+   * If omitted, the default comparison is by reference equality.
+   */
   trackBy: TrackByFunction<T>;
 }
 
@@ -26,11 +41,52 @@ export interface SelectionChange<T> {
   removed: T[];
 }
 
+/**
+ * Configuration options for updating the selection, such as skipping event emission.
+ */
 export interface SelectionUpdateConfig {
+  /**
+   * Whether to skip emitting the changes event after updating the selection.
+   *
+   * If set to `true`, no event will be emitted when the selection is updated. This is useful when you need to make multiple changes
+   * in quick succession without notifying listeners for each change.
+   */
   skipEmitEvent?: boolean;
+
+  /**
+   * A custom string used to identify the source of changes.
+   * This can be useful for distinguishing between different sources of selection changes (e.g., user interaction, form control, etc.).
+   */
   triggerSource?: string;
 }
 
+/**
+ * A class for managing a selection of values with support for multiple selections and event listeners for changes.
+ * This is a utility for powering selection of one or more options from a list and can be used in components such as the selection list, table selections and chip lists.
+ *
+ * The `Selection` class allows you to select, deselect, and manage a list of selected items. You can track changes,
+ * restrict selection to a single item or multiple items, and emit events whenever the selection changes.
+ *
+ * @template T The type of the items being selected.
+ *
+ * @example
+ * ```typescript
+ * // Creating a new selection instance with multiple values allowed
+ * const selection = new Selection<string>([], { multiple: true });
+ *
+ * // Selecting a single value
+ * selection.select('apple');
+ * console.log(selection.getSelected()); // ['apple']
+ *
+ * // Selecting multiple values
+ * selection.select(['banana', 'orange']);
+ * console.log(selection.getSelected()); // ['apple', 'banana', 'orange']
+ *
+ * // Deselecting a value
+ * selection.deselect('banana');
+ * console.log(selection.getSelected()); // ['apple', 'orange']
+ * ```
+ */
 export class Selection<T = any> {
   private events = new CustomEventListener<SelectionChange<T>>();
   private isMultiple: boolean;
@@ -38,6 +94,15 @@ export class Selection<T = any> {
 
   private differs: ArrayLikeDiff<T>;
 
+  /**
+   * Creates a new `Selection` instance.
+   *
+   * @param selectedValues The initial values to be selected. Defaults to an empty array if no values are provided.
+   * @param options An optional object to configure the selection behavior.
+   *
+   * - `multiple`: If `true`, allows multiple items to be selected. If `false` or omitted, only one item can be selected.
+   * - `trackBy`: A function to customize how items are compared. By default, items are compared by reference.
+   */
   constructor(selectedValues: T[] = [], options: Partial<SelectionOptions<T>> = {}) {
     this.isMultiple = options.multiple ?? false;
     this.selectionSet = new Set<T>(selectedValues);
@@ -59,26 +124,74 @@ export class Selection<T = any> {
     }
   }
 
+  /**
+   * Updates the selection options (such as enabling or disabling multiple selections).
+   *
+   * @param options Partial selection options to update.
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<number>([1]);
+   * selection.updateOptions({ multiple: true });
+   * selection.select([2, 3, 4]);
+   * console.log(selection.getSelected()); // [1, 2, 3, 4]
+   * ```
+   */
   public updateOptions(options: Partial<SelectionOptions<T>>) {
     this.isMultiple = options.multiple ?? this.isMultiple;
     this.verifyValueAssignment(Array.from(this.selectionSet));
     this.differs = new ArrayLikeDiff(this.selectionSet, { trackBy: options.trackBy });
   }
 
+  /**
+   * Adds an event listener that is triggered when the selection changes.
+   *
+   * @param callback The callback function to be executed on selection change.
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<string>();
+   * selection.addChangeEventListener(({ added, removed }) => {
+   *   console.log('Added:', added);
+   *   console.log('Removed:', removed);
+   * });
+   *
+   * selection.select('apple'); // Logs: Added: ['apple'], Removed: []
+   * selection.deselect('apple'); // Logs: Added: [], Removed: ['apple']
+   * ```
+   */
   public addChangeEventListener(callback: ChangesCallback<T>) {
     this.events.addEventListener(callback);
   }
 
+  /**
+   * Removes a previously added event listener for selection changes.
+   *
+   * @param callback The listener to remove.
+   */
   public removeChangeEventListener(callback: ChangesCallback<T>) {
     this.events.removeEventListener(callback);
   }
 
+  /**
+   * Removes all event listeners for selection changes.
+   */
   public removeAllChangeEventListener() {
     this.events.removeAllEventListener();
   }
 
   /**
-   * Determines whether a value is selected.
+   * Determines whether a specific value is selected.
+   *
+   * @param value The value to check.
+   * @returns `true` if the value is selected, otherwise `false`.
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<number>([1, 2]);
+   * console.log(selection.isSelected(1)); // true
+   * console.log(selection.isSelected(3)); // false
+   * ```
    */
   isSelected(value: T): boolean {
     return this.selectionSet.has(value);
@@ -92,8 +205,9 @@ export class Selection<T = any> {
   }
 
   /**
-   * Clears all of the selected values.
-   * @param skipEmitEvent Whether to skip emitting the changes event.
+   * Clears all selected values.
+   *
+   * @param config Optional configuration for clearing the selection (e.g., skip emitting events).
    */
   clear(config?: SelectionUpdateConfig): void {
     this.selectionSet.clear();
@@ -102,8 +216,16 @@ export class Selection<T = any> {
 
   /**
    * Selects a value or an array of values.
-   * @param values The values to select
-   * @param skipEmitEvent Whether to skip emitting the changes event.
+   *
+   * @param values The values to select.
+   * @param config Optional configuration for selecting the values (e.g., skip emitting events).
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<number>();
+   * selection.select([1, 2, 3]);
+   * console.log(selection.getSelected()); // [1, 2, 3]
+   * ```
    */
   select(values: T | T[], config?: SelectionUpdateConfig): void {
     const valuesArray = Array.isArray(values) ? values : [values];
@@ -120,8 +242,16 @@ export class Selection<T = any> {
 
   /**
    * Deselects a value or an array of values.
-   * @param values The values to deselect
-   * @param skipEmitEvent Whether to skip emitting the changes event.
+   *
+   * @param values The values to deselect.
+   * @param config Optional configuration for deselecting the values (e.g., skip emitting events).
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<number>([1, 2, 3]);
+   * selection.deselect([2, 3]);
+   * console.log(selection.getSelected()); // [1]
+   * ```
    */
   deselect(values: T | T[], config?: SelectionUpdateConfig): void {
     const valuesArray = Array.isArray(values) ? values : [values];
@@ -132,9 +262,17 @@ export class Selection<T = any> {
   }
 
   /**
-   * Sets the selected values
-   * @param values The new selected values
-   * @param skipEmitEvent Whether to skip emitting the changes event.
+   * Sets the selected values, replacing any existing selection.
+   *
+   * @param values The new selected values.
+   * @param config Optional configuration for setting the values (e.g., skip emitting events).
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<number>([1, 2, 3, 4]);
+   * selection.setSelection([5, 6, 7]);
+   * console.log(selection.getSelected()); // [5, 6, 7]
+   * ```
    */
   setSelection(values: T | T[], config?: SelectionUpdateConfig): boolean | void {
     const valuesArray = Array.isArray(values) ? values : [values];
@@ -148,8 +286,19 @@ export class Selection<T = any> {
 
   /**
    * Toggles a value between selected and deselected.
-   * @param value The value to toggle
-   * @param skipEmitEvent Whether to skip emitting the changes event.
+   *
+   * @param value The value to toggle.
+   * @param config Optional configuration for toggling the value (e.g., skip emitting events).
+   *
+   * @example
+   * ```typescript
+   * const selection = new Selection<string>(['apple']);
+   * selection.toggle('banana');
+   * console.log(selection.getSelected()); // ['apple', 'banana']
+   *
+   * selection.toggle('apple');
+   * console.log(selection.getSelected()); // ['banana']
+   * ```
    */
   toggle(value: T, config?: SelectionUpdateConfig): void {
     return this.isSelected(value) ? this.deselect(value, config) : this.select(value, config);
