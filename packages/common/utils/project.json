@@ -15,6 +15,12 @@
         "assets": ["packages/common/utils/*.md"]
       }
     },
+    "build-typedoc": {
+      "executor": "@cocokits/workspace-plugin:build-typedoc",
+      "options": {
+        "typeDocConfig": "packages/common/utils/typedoc.config.mjs"
+      }
+    },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     }

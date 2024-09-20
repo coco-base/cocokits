@@ -92,6 +92,7 @@ const StyledMain = styled.main`
     padding: var(--cck-storybook-size-64) var(--cck-storybook-size-32) var(--cck-storybook-size-128) var(--cck-storybook-size-32);
     margin: 0 auto;
     z-index: 1;
+    min-width: 0;
 `;
 
 // endregion

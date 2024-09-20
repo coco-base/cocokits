@@ -144,6 +144,7 @@
     "@angular/router": "18.2.0",
     "@shikijs/markdown-it": "^1.6.5",
     "@storybook/addon-actions": "~8.0.9",
+    "@storybook/addon-interactions": "^8.2.8",
     "@storybook/components": "~8.0.9",
     "@storybook/icons": "^1.2.9",
     "markdown-it": "^14.1.0",
@@ -152,12 +153,17 @@
     "rxjs": "~7.8.0",
     "shiki": "^1.6.5",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3",
-    "@storybook/addon-interactions": "^8.2.8"
+    "typedoc-plugin-markdown": "4.2.7",
+    "typedoc-plugin-merge-modules": "^6.0.0",
+    "zone.js": "~0.14.3"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@storybook/builder-manager@8.0.10": "patches/@storybook__builder-manager@8.0.10.patch"
+      "@storybook/builder-manager@8.0.10": "patches/@storybook__builder-manager@8.0.10.patch",
+      "typedoc-plugin-markdown@4.2.7": "patches/typedoc-plugin-markdown@4.2.7.patch"
     }
+  },
+  "peerDependencies": {
+    "typedoc": "^0.26.7"
   }
 }

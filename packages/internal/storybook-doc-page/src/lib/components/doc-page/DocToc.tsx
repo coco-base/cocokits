@@ -5,7 +5,7 @@ import { intersectionObserver$ } from '@cocokits/common-utils';
 
 import { scrollToStoryById } from './doc-page.util';
 
-interface DocTocProps {
+export interface DocTocProps {
   items: {id: string, name: string}[]
 }
 
@@ -48,8 +48,8 @@ export const DocToc = ({items}: DocTocProps) => {
 
 // region ---------------- STYLES ----------------
 const StyledContainer = styled.div`
-    width: var();
-    height: 100%;
+    overflow-y: auto;
+    height: calc(100vh - var(--cck-storybook-size-80));
     position: sticky;
     flex-shrink: 0;
     top: var(--cck-storybook-size-80);
