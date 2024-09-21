@@ -26,6 +26,10 @@ const config = generateAngularStorybookConfig(
         packageName: '@cocokits/common-utils',
         callerPath: __dirname,
       }),
+      ...getPackageStories({
+        packageName: '@cocokits/angular-utils',
+        callerPath: __dirname,
+      }),
     ],
     docs: {
       docsMode: true,

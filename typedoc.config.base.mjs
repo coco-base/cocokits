@@ -52,6 +52,9 @@ export function getTypedocBaseConfig(packagePath)  {
     propertyMembersFormat: 'htmlTable',
     propertiesFormat: 'htmlTable',
 
+    excludeNotDocumented: true,
+    excludeNotDocumentedKinds: ["ConstructorSignature"],
+
     useCodeBlocks: true,
     disableSources: true,
     useHTMLAnchors: false, // Will add 'a' tag for each group

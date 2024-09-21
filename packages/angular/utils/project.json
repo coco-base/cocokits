@@ -22,6 +22,12 @@
       },
       "defaultConfiguration": "production"
     },
+    "build-typedoc": {
+      "executor": "@cocokits/workspace-plugin:build-typedoc",
+      "options": {
+        "typeDocConfig": "packages/angular/utils/typedoc.config.mjs"
+      }
+    },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     },

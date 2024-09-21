@@ -1,11 +1,18 @@
+/** @module signal */
 import { DestroyRef, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControlStatus, ValidationErrors, Validators } from '@angular/forms';
 
+/**
+ * Options for configuring the behavior of the `fromControl` function, including
+ * a reference for managing component lifecycle and clean-up.
+ */
 export interface FromControlOption {
+  /** Optional angular `DestroyRef` reference. */
   destroyRef?: DestroyRef;
 }
 
+/** @ignore */
 export interface AbstractControlSignalStates<T = unknown> {
   value: WritableSignal<T>;
   dirty: WritableSignal<boolean>;
@@ -22,6 +29,27 @@ export interface AbstractControlSignalStates<T = unknown> {
   required: WritableSignal<boolean>;
 }
 
+/**
+ * Converts an `AbstractControl` into a set of reactive signals that represent its state and status.
+ * The function returns various control states as writable signals, allowing you to reactively track
+ * the form control's state like value, validity, and interaction statuses.
+ *
+ * The state is updated automatically whenever the control emits changes.
+ *
+ * @template T The type of the control's value.
+ * @param control The `AbstractControl` instance to convert into signals.
+ * @param options Additional configuration options like lifecycle management.
+ * @returns An object containing writable signals for the control's state and status.
+ *
+ * @example
+ * ```typescript
+ * const control = new FormControl('test');
+ * const signals = fromControl(control);
+ *
+ * console.log(signals.value());  // Logs the current control value
+ * console.log(signals.valid());  // Logs the control's validity
+ * ```
+ */
 export function fromControl<T = unknown>(
   control: AbstractControl,
   options: FromControlOption = {}
