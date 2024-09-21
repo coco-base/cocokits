@@ -57,7 +57,7 @@ export const DocArgTypesTable = ({argTypesList, hideDefault = false, header}: Do
               {
                 !hideDefault &&
                 <td>
-                  {argType.defaultValue !== null && <code>{argType.defaultValue?.toString()}</code>}
+                  {argType.defaultValue !== null && argType.defaultValue !== '' && <code>{argType.defaultValue?.toString()}</code>}
                 </td>
               }
 

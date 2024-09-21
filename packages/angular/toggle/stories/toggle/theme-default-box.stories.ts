@@ -9,7 +9,8 @@ export const ThemeDefaultBox: AngularStoryObj<ToggleComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'An advanced example of the toggle component featuring a custom implementation and design that incorporates toggle functionality within box selections, enhancing interactivity and visual presentation.',
       },
       source: {
         code: `

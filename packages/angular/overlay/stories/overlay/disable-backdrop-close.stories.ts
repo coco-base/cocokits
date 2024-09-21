@@ -7,7 +7,8 @@ export const DisableBackdropClose: AngularStoryObj<OverlayComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'Demonstrates the overlay component configured to prevent closure when the backdrop is clicked, ensuring that the overlay can only be closed programmatically by invoking the close method.',
       },
       source: {
         code: `TODO: Add source code of story`,

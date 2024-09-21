@@ -9,7 +9,7 @@ export const Color: AngularStoryObj<ButtonComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
       source: {
         code: `<button cck-button [color]="..."></button>`,

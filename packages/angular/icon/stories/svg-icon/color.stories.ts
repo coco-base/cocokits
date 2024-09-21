@@ -9,7 +9,7 @@ export const Color: AngularStoryObj<SvgIconComponent> = {
   parameters: {
     docs: {
       description: {
-        story: `This scenario demonstrates the range of color options available from the BaseColor enum for the SvgIconComponent. Observe how different colors modify the appearance of the icons, enhancing visual integration with your application's design palette.`,
+        story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
       source: {
         code: `<cck-svg-icon [icon]="..." color="..."></cck-svg-icon>`,

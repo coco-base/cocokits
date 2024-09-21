@@ -10,7 +10,7 @@ export const ThemeDefaultLeading: AngularStoryObj<FormFieldComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Shows the formField component with a leading element, demonstrating how icons or labels can be integrated at the start to enhance functionality and user interaction.`,
       },
       source: {
         code: `TODO: Add source code of story`,

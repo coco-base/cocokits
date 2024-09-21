@@ -8,7 +8,7 @@ export const NgModel: AngularStoryObj<RadioButtonComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Demonstrates how to use Angular's NgModel for two-way data binding, enabling automatic synchronization between the UI element and the model.`,
       },
       source: {
         code: `

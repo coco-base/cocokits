@@ -15,10 +15,6 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
 
   protected uiComponentConfig = inject(UIComponentConfig);
 
-  constructor() {
-    console.log(this.uiComponentConfig.button.type?.values);
-  }
-
   /**
    * The type of component.
    *
@@ -28,7 +24,7 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
   public _type: InputSignal<string | undefined | null> = input<string | null | undefined>(undefined, { alias: 'type' });
 
   /**
-   * The size of form-field.
+   * The size of component.
    *
    * When set to `null`, no specific size is applied (Not event the default value).
    * This allows for more flexible styling options if the desired size is not available in the selected theme.
@@ -36,7 +32,7 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
   public _size: InputSignal<string | undefined | null> = input<string | null | undefined>(undefined, { alias: 'size' });
 
   /**
-   * The color of form-field.
+   * The color of component.
    *
    * When set to `null`, no specific color is applied (Not event the default value).
    * This allows for more flexible styling options if the desired size is not available in the selected theme.
@@ -68,21 +64,13 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
   // All following properties can be overridden by the parent class to set the final value.
   // For example: the size of `RadioComponent` depends on 2 values,
   // first try to get the size from `RadioComponent` and if is not present the take it from `RadioGroupComponent`
-  /**
-   * @internal
-   */
+  /** @internal */
   public type = computed(() => this._type());
-  /**
-   * @internal
-   */
+  /** @internal */
   public size = computed(() => this._size());
-  /**
-   * @internal
-   */
+  /** @internal */
   public color = computed(() => this._color());
-  /**
-   * @internal
-   */
+  /** @internal */
   public additional = computed(() => this._additional());
 
   protected classNames = computed(() => {

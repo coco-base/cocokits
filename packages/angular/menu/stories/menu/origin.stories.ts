@@ -9,7 +9,7 @@ export const Origin: AngularStoryObj<MenuComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Explores how the menu overlay's position can be adjusted relative to the target element, demonstrating how different origin points like top-left affect where the menu appears upon activation.`,
       },
       source: {
         code: `TODO: Add source code of story`,

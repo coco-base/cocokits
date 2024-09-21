@@ -8,7 +8,7 @@ export const OptionGroup: AngularStoryObj<SelectComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Shows the select component with grouped options, demonstrating how different options can be organized together for improved categorization and user experience.`,
       },
       source: {
         code: `TODO: Add source code of story`,

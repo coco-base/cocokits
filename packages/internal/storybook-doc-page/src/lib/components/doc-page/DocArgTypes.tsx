@@ -31,6 +31,8 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
   const { title } = useContext(DocsPageContext);
 
   const { argTypes, subcomponents } = resolved.preparedMeta;
+
+  console.log('argTypes', argTypes, argTypes);
   const primaryComponentName = _.camelCase(title) as UIComponentsName;
   const hasSubcomponents = !!subcomponents && Object.keys(subcomponents).length > 0;
 

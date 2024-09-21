@@ -7,8 +7,7 @@ export const PanelClass: AngularStoryObj<OverlayComponent> = {
   parameters: {
     docs: {
       description: {
-        story:
-          'TODO: Add story description. (Opacity and transform is part of animation, so dont define them in your custom class)',
+        story: `Displays the overlay with a custom CSS class so you can change its default styles. Do not use opacity or transform in your custom class because it can cause the overlay's animation and position to work incorrectly.`,
       },
       source: {
         code: `TODO: Add source code of story`,

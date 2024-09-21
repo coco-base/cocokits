@@ -1,1 +1,3 @@
-# TODO: Add Description for ButtonComponent
+A button in the context of UI is an interactive element that allows users to perform an action.
+
+The `ButtonComponent` from `@cocokits` provides a flexible, customizable button element within Angular applications. This standalone component is compatible with multiple design system themes and allows for various configurations, including different button types, colors, and sizes.

@@ -7,7 +7,8 @@ export const NoBackdrop: AngularStoryObj<OverlayComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'Shows the overlay component without a backdrop, allowing the underlying content to remain fully visible. Ideal for use cases like menus or other overlays where transparency is needed.',
       },
       source: {
         code: `TODO: Add source code of story`,

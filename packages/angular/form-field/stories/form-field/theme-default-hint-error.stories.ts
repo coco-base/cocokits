@@ -10,7 +10,7 @@ export const ThemeDefaultHintError: AngularStoryObj<FormFieldComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Displays the formField component in states with hints and error messages, illustrating how the component visually handles guidance and validation feedback to enhance user interaction.`,
       },
       source: {
         code: `TODO: Add source code of story`,

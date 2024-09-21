@@ -10,11 +10,11 @@ export const ReactiveForm: AngularStoryObj<CheckboxComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Illustrates integration within Angular's Reactive Forms, focusing on form control, validation, and efficient state management.`,
       },
       source: {
         code: `
-          TODO: ...
+          <cck-checkbox [formControl]="control">Checkbox Label</cck-checkbox>
         `,
       },
     },

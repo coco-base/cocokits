@@ -9,10 +9,15 @@ export const ThemeDefaultRounded: AngularStoryObj<IconButtonComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          "This story presents the IconButtonComponent in its rounded form, showcasing how the button's appearance can be customized to provide a softer, circular style",
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+        <button cck-icon-button data-cck-rounded="true">
+          <cck-svg-icon [icon]="..."></cck-svg-icon>
+        </button>
+        `,
       },
     },
   },

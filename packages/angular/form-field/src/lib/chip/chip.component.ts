@@ -31,10 +31,14 @@ export class ChipComponent extends _UiBaseComponent<'chip'> {
 
   protected removeIcon: ThemeSvgIcon;
 
+  /** Determines whether or not the chip displays the remove styling and emits (removed) events. */
   removable = input<boolean>();
+
+  /** Whether the chip is disabled. */
   disabled = input(undefined, { transform: toBooleanOrPresent });
 
-  remove = output();
+  /** Emitted when a chip is to be removed. */
+  remove = output<void>();
 
   constructor() {
     super();

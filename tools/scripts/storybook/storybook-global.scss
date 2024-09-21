@@ -341,6 +341,7 @@
     border-top: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-alpha-default);
 
     &:first-child {
+      white-space: nowrap;
       font: var(--cck-storybook-text-sm-medium);
       color: var(--cck-storybook-color-font-contrast-4);
     }

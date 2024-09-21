@@ -7,7 +7,8 @@ export const Animation: AngularStoryObj<OverlayComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: ...',
+        story:
+          'Demonstrates the overlay component with opening and closing animations, showcasing smooth transitions that enhance the user experience through visually engaging interactions.',
       },
       source: {
         code: `TODO: Add source code of story`,

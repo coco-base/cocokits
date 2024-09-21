@@ -10,7 +10,7 @@ export const ReactiveForm: AngularStoryObj<ToggleComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Illustrates integration within Angular's Reactive Forms, focusing on form control, validation, and efficient state management.`,
       },
       source: {
         code: `

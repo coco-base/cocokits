@@ -295,7 +295,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
         values: [true, false],
         require: false,
         default: false,
-        description: 'TODO: ....',
+        description: 'Specifies whether the button should have rounded corners, giving it a circular appearance.',
       },
     },
   },

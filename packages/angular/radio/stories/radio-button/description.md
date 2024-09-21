@@ -1,1 +1,1 @@
-# TODO: Add Description for RadioButtonComponent
+The `RadioButtonComponent` from `@cocokits` is a fundamental UI element that enables users to select one option from a predefined set of mutually exclusive choices. Radio buttons are commonly used in forms and settings where users must choose a single option from a group. This component is designed to integrate seamlessly with multiple design system themes, ensuring consistency and clarity across various application styles.

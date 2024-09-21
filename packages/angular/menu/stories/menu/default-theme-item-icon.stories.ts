@@ -10,7 +10,7 @@ export const ItemIconColor: AngularStoryObj<MenuComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Opens an overlay with menu options that feature different icons and colors, illustrating how iconography and color variations enhance the menu's visual appeal and usability.`,
       },
       source: {
         code: `TODO: Add source code of story`,

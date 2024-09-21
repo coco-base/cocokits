@@ -8,7 +8,7 @@ export const CustomPreview: AngularStoryObj<SelectComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Displays the select component with a customized view for the selected item, enabling more complex and visually rich representations instead of just plain text.`,
       },
       source: {
         code: `TODO: Add source code of story`,

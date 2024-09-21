@@ -9,7 +9,8 @@ export const Size: AngularStoryObj<ButtonComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
         code: `<button cck-button [size]="..."></button>`,

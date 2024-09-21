@@ -9,7 +9,8 @@ export const Type: AngularStoryObj<ButtonComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
       source: {
         code: `<button cck-button [type]="..."></button>`,

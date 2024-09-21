@@ -39,14 +39,10 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   protected store = injectFormFieldStore();
   private cd = inject(ChangeDetectorRef);
 
-  /**
-   * Whether the required marker should be hidden.
-   */
+  /** Whether the required marker should be hidden. */
   public hideRequiredMarker = input<boolean>();
 
-  /**
-   * Whether the control is disabled.
-   */
+  /** Whether the control is disabled. */
   public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   protected extraHostElementClassConditions = computed(() => [

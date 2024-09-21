@@ -10,7 +10,7 @@ export const Size: AngularStoryObj<SvgIconComponent> = {
     docs: {
       description: {
         story:
-          'This scenario displays the SvgIconComponent in all predefined sizes from the IconSize enum. Experience how each size option enhances icon visibility and aesthetics across your user interface.',
+          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
         code: `<cck-svg-icon [icon]="..." size="..."></cck-svg-icon>`,

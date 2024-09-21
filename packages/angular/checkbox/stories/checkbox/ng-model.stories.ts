@@ -8,11 +8,11 @@ export const NgModel: AngularStoryObj<CheckboxComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Demonstrates how to use Angular's NgModel for two-way data binding, enabling automatic synchronization between the UI element and the model.`,
       },
       source: {
         code: `
-          TODO: ...
+          <cck-checkbox [(ngModel)]="modelValue">Checkbox Label</cck-checkbox>
         `,
       },
     },

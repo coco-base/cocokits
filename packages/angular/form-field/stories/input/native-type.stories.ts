@@ -9,7 +9,7 @@ export const NativeType: AngularStoryObj<FormFieldComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Illustrates the component's support for various native HTML input types, highlighting how each type behaves and integrates within the user interface.`,
       },
       source: {
         code: `TODO:...`,

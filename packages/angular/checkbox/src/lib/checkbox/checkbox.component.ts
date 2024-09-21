@@ -6,6 +6,7 @@ import {
   forwardRef,
   inject,
   input,
+  InputSignal,
   model,
   output,
   ViewEncapsulation,
@@ -53,11 +54,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
   private cd = inject(ChangeDetectorRef);
 
   // region ---------------- INPUTS ----------------
-  /**
-   * Whether the checkbox is checked.
-   * @type {model<boolean>}
-   * @default false
-   */
+  /** Whether the checkbox is checked. */
   public checked = model<boolean>();
 
   /** Whether the checkbox is disabled. */
@@ -78,7 +75,7 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
   public id = input(`cck-checkbox-${NEXT_ID++}`);
 
   /** The value attribute of the native input element */
-  public value = input('');
+  public value = input<any>('');
 
   /** Name value will be applied to the input element if present */
   public name = input<string | null>(null);

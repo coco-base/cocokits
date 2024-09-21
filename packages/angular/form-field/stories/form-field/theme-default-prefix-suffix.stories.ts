@@ -10,7 +10,7 @@ export const ThemeDefaultPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Demonstrates the formField component with prefix and suffix elements, highlighting how additional text or icons can be added before or after the input to provide context or functionality.`,
       },
       source: {
         code: `TODO: Add source code of story`,

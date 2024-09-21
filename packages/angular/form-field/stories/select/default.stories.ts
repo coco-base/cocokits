@@ -8,7 +8,8 @@ export const Default: AngularStoryObj<SelectComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
         code: `TODO: Add source code of story`,

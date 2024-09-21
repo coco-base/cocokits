@@ -8,10 +8,14 @@ export const Default: AngularStoryObj<IconButtonComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story:
+          'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <button cck-icon-button>
+            <cck-svg-icon [icon]="..."></cck-svg-icon>
+          </button>`,
       },
     },
   },

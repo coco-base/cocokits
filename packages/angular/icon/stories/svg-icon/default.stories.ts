@@ -8,7 +8,8 @@ export const Default: AngularStoryObj<SvgIconComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add size story description',
+        story:
+          'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
         code: `<cck-svg-icon [icon]="..." size="..." color="..."></cck-svg-icon>`,

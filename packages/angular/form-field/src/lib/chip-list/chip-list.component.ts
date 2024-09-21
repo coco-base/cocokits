@@ -55,16 +55,32 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
 
   private readonly separatorKeysCodes = ['Enter'];
 
+  /** A function to determine the display value of each chip item. */
   @Input() displayBy: (item: T) => any = (item) => item;
+
+  /**
+   * Sets the list of chips to be displayed in the component.
+   * When this input is updated, the selection store is updated with the new chips.
+   */
   @Input() set chips(chips: T[]) {
     this.selectionStore.setSelection(chips);
   }
+  /** Determines whether a chip should be added when the input loses focus. */
   addOnBlur = input(true);
+
+  /** The placeholder text displayed in the input field. */
   placeholder = input<string>();
+
+  /** Disables the chip list, preventing user interaction. */
   disabled = input(undefined, { transform: toBooleanOrPresent });
 
+  /** Emits the current list of selected chips whenever a change occurs. */
   change = output<T[]>();
+
+  /** Emits the chip item that has been removed from the list. */
   remove = output<T>();
+
+  /** Emits the chip item that has been added to the list. */
   add = output<T>();
 
   private inputRef = viewChild.required<ElementRef<HTMLInputElement>>('input');

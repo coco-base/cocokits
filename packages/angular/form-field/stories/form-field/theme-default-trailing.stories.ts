@@ -10,7 +10,7 @@ export const ThemeDefaultTrailing: AngularStoryObj<FormFieldComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Displays the formField component with a trailing element, illustrating the inclusion of icons or actions at the end to improve usability and interface design.`,
       },
       source: {
         code: `TODO: Add source code of story`,

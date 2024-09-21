@@ -8,7 +8,7 @@ export const AutoResize: AngularStoryObj<TextareaComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'TODO: Add story description',
+        story: `Automatically adjusts the height of the textarea as text is entered, ensuring optimal visibility and a seamless user input experience.`,
       },
       source: {
         code: `TODO: Add source code of story`,
