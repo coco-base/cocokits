@@ -9,14 +9,15 @@ interface DocPageProps {
   children: ReactNode;
   groupTitle?: string;
   utilsPage?: boolean;
-  toc?: DocTocProps['items']
+  toc?: DocTocProps['items'],
+  hideCckThemeSwitcher?: boolean
 }
 
-export const MdxDocPage = ({children, groupTitle, toc, utilsPage}: DocPageProps) => {
+export const MdxDocPage = ({children, groupTitle, toc, utilsPage, hideCckThemeSwitcher = false}: DocPageProps) => {
 
   return (
     <>
-      <DocPage hideCckThemeSwitcher={false} utilsPage={utilsPage}>
+      <DocPage hideCckThemeSwitcher={hideCckThemeSwitcher} utilsPage={utilsPage}>
         <StyledWrapper>
           <StyledMain>
             {groupTitle && <DocCategory>{groupTitle}</DocCategory>}

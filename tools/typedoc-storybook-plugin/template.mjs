@@ -24,7 +24,7 @@ import { MdxDocPage } from '${storybookDocPageImportPath}';
 export const tocItems = ${JSON.stringify(tocItems)};
 
 <Meta title='${STORYBOOK_GROUP_NAME}/${title}'/>
-<MdxDocPage groupTitle='${STORYBOOK_GROUP_NAME}' toc={tocItems} utilsPage={true}>
+<MdxDocPage groupTitle='${STORYBOOK_GROUP_NAME}' toc={tocItems} utilsPage={true} hideCckThemeSwitcher={true}>
 # ${title}
 
 ${contents}
