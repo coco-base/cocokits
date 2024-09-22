@@ -160,7 +160,8 @@
   "pnpm": {
     "patchedDependencies": {
       "@storybook/builder-manager@8.0.10": "patches/@storybook__builder-manager@8.0.10.patch",
-      "typedoc-plugin-markdown@4.2.7": "patches/typedoc-plugin-markdown@4.2.7.patch"
+      "typedoc-plugin-markdown@4.2.7": "patches/typedoc-plugin-markdown@4.2.7.patch",
+      "@compodoc/compodoc": "patches/@compodoc__compodoc.patch"
     }
   },
   "peerDependencies": {
