@@ -134,13 +134,9 @@ a {
 /* Story content preview. Sibling of bottom action with `Show code` button */
 .docs-story > div:nth-child(1) {
     /* padding button must be height of `.docs-story > div:nth-child(2)` */
-    padding: 30px 20px 70px 20px;
+    padding: 12px;
 }
 
-/* The content of story must not be visible outside of story preview. Otherwise the animation don't look like good */
-.docs-story > div:nth-child(1) > div:nth-child(1) {
-    overflow: hidden;
-}
 
 /* endregion */
 
@@ -163,6 +159,7 @@ a {
     justify-content: end;
     align-items: center;
     background: transparent;
+    position: initial;
 }
 
 /* `Show code` button */

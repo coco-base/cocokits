@@ -20,6 +20,7 @@ export const Color: AngularStoryObj<ButtonComponent> = {
     props: {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeName: getSelectedCckTheme()?.name,
     },
     template: `
       <table class="story-variant-table">
@@ -32,7 +33,7 @@ export const Color: AngularStoryObj<ButtonComponent> = {
         </thead>
         <tbody>
           @for (type of uiComponentConfig?.button.type?.values; track type) {
-            <tr>
+            <tr [class.hidden]="themeName === 'FrameX' && type === 'secondary'">
               <td>{{type}}</td>
               @for (color of uiComponentConfig?.button.color?.values; track color) {
                 <td>

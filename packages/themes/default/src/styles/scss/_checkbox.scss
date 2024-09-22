@@ -176,6 +176,7 @@
     font: $text-sm-medium;
     color: $color-font-default;
     cursor: pointer;
+    white-space: nowrap;
   }
 
   // Apply the gap only when the label element has content

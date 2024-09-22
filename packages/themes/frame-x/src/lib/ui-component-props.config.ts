@@ -100,7 +100,7 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
   iconButton: {
     type: {
       name: 'type',
-      values: ['default', 'ghost'],
+      values: ['default', 'secondary', 'ghost'],
       require: false,
       default: 'default',
       description: '',
@@ -114,7 +114,7 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
     },
     size: {
       name: 'size',
-      values: ['sm', 'md', 'lg'],
+      values: ['sm', 'md', 'lg', 'xl'],
       require: false,
       default: 'md',
       description: '',
@@ -123,7 +123,7 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
   button: {
     type: {
       name: 'type',
-      values: ['default', 'ghost'],
+      values: ['default', 'secondary', 'ghost'],
       require: false,
       default: 'default',
       description: '',
@@ -137,7 +137,7 @@ export const frameXUIComponentConfig: ThemeUIComponentsConfig = {
     },
     size: {
       name: 'size',
-      values: ['sm', 'md', 'lg'],
+      values: ['sm', 'md', 'lg', 'xl'],
       require: false,
       default: 'md',
       description: '',

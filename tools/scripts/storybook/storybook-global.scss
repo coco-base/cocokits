@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .flex {
   display: flex;
 }
@@ -180,6 +184,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  transform: scale(1); // To make overlay with fix position stay inside of this element.
 }
 
 .story-card {

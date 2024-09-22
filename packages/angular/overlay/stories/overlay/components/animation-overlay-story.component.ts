@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewContainerRef } from '@angular/core';
 
 import { BasicOverlayExampleComponent } from './basic-overlay-example.component';
 import { OverlayAnimationType } from '../../../src/models/overlay-config.model';
@@ -60,6 +60,7 @@ import { OverlayService } from '../../../src/services/overlay.service';
 export class AnimationOverlayStoryComponent {
   private overlay = inject(OverlayService);
   protected readonly OverlayAnimationType = OverlayAnimationType;
+  private containerRef = inject(ViewContainerRef);
 
   async onOpenClick(animationType: OverlayAnimationType) {
     this.overlay.open(BasicOverlayExampleComponent, {
@@ -67,6 +68,7 @@ export class AnimationOverlayStoryComponent {
         type: 'auto',
         animationType,
       },
+      viewContainerRef: this.containerRef,
     });
   }
 }

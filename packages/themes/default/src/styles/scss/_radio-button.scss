@@ -153,6 +153,7 @@
     font: $text-sm-regular;
     color: $color-font-default;
     cursor: pointer;
+    white-space: nowrap;
   }
 
   .cck-radio-button--disabled .cck-radio-button__label {

@@ -10,8 +10,6 @@
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
-
-    // gap depends on size
   }
 
   .cck-checkbox__input-wrapper {
@@ -138,6 +136,7 @@
     text-align: left;
     color: $text-dark-primary;
     cursor: pointer;
+    white-space: nowrap;
 
     &:empty {
       display: none;

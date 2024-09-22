@@ -95,6 +95,29 @@
     }
   }
 
+  .cck-icon-button__secondary {
+    background-color: $base-surface-2;
+    color: $text-dark-primary;
+    border: 1px solid $base-border;
+    outline: 1px solid transparent;
+
+    &:hover {
+      background-color: $base-fill-2;
+      border: 1px solid $base-fill-2;
+    }
+
+    &:active {
+      background-color: $base-fill-1;
+      border: 1px solid $base-border;
+    }
+
+    &:disabled {
+      @include button-disable;
+
+      border: none;
+    }
+  }
+
   .cck-icon-button__ghost {
     background-color: $base-surface-1;
     outline: 1px solid transparent;
@@ -190,9 +213,6 @@
     &--sm {
       width: 36px;
       height: 36px;
-      gap: $spacing-3;
-      padding: $spacing-0 $spacing-7;
-      font: $text-sm-font-semibold;
 
       .cck-svg-icon--default-size {
         width: $icon-sm;
@@ -203,9 +223,6 @@
     &--md {
       width: 44px;
       height: 44px;
-      gap: $spacing-5;
-      padding: $spacing-0 $spacing-8;
-      font: $text-base-font-semibold;
 
       .cck-svg-icon--default-size {
         width: $icon-md;
@@ -214,11 +231,18 @@
     }
 
     &--lg {
+      width: 44px;
+      height: 44px;
+
+      .cck-svg-icon--default-size {
+        width: $icon-lg;
+        height: $icon-lg;
+      }
+    }
+
+    &--xl {
       width: 58px;
       height: 58px;
-      gap: $spacing-7;
-      padding: $spacing-0 $spacing-10;
-      font: $text-xl-font-semibold;
 
       .cck-svg-icon--default-size {
         width: $icon-xl;

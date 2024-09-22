@@ -26,7 +26,7 @@ export const ThemeDefaultBox: AngularStoryObj<ToggleComponent> = {
       modelValue: true,
     },
     template: `
-          <cck-toggle [(ngModel)]="modelValue" labelPosition="before" class="story-theme-default-toggle-box">
+          <cck-toggle [(ngModel)]="modelValue" labelPosition="after" class="story-theme-default-toggle-box">
             <div class="flex-col">
               <span class="story-theme-default-toggle-box__title">Enable early access</span>
               <span class="story-theme-default-toggle-box__text">Get access to new features before they are released.</span>

@@ -59,6 +59,10 @@
     border-radius: 50%;
   }
 
+  .cck-radio-button__label {
+    white-space: nowrap;
+  }
+
   .cck-radio-button--checked {
     .cck-radio-button__input-wrapper {
       background-color: $state-brand-active;

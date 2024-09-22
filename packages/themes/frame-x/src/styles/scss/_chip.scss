@@ -10,29 +10,11 @@
     cursor: default;
     background-color: $base-surface-2;
     transition: all 100ms;
-
-    &:hover {
-      background-color: $base-fill-1;
-
-      .cck-chip__remove-icon-wrapper .cck-icon-button {
-        color: $base-fill-5;
-      }
-    }
-
-    &:active {
-      color: $text-light-primary;
-      background-color: $state-brand-active;
-      border-color: $state-brand-active;
-
-      .cck-chip__remove-icon-wrapper .cck-icon-button {
-        color: $base-surface-1;
-      }
-    }
   }
 
   .cck-chip--disabled {
     border: 1px solid transparent;
-    background-color: $base-disabled;
+    background-color: $base-fill-1;
     color: $base-disabled;
     pointer-events: none;
     user-select: none;
@@ -57,6 +39,10 @@
       width: 24px;
       height: 24px;
       padding: 0;
+
+      &:hover {
+        background-color: $base-fill-1;
+      }
 
       .cck-svg-icon {
         width: 100%;
