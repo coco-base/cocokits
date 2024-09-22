@@ -57,7 +57,17 @@
           "--disablePrivate",
           "--disableInternal"
         ]
-      }
+      },
+      "dependsOn": [
+        {
+          "projects": ["@cocokits/common-utils"],
+          "target": "build-typedoc"
+        },
+        {
+          "projects": ["@cocokits/angular-utils"],
+          "target": "build-typedoc"
+        }
+      ]
     },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
