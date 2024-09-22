@@ -6,6 +6,12 @@ import { reduceDeepMerge } from '@cocokits/common-utils';
 import { ThemeUIComponentsConfig, UIComponentsName, UIComponentsPropName } from '@cocokits/core';
 import { CckThemeChangedEvent, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
+import {
+  transformArgTypeCategory,
+  transformArgTypeDefaultValue,
+  transformArgTypeName,
+  transformArgTypeType,
+} from './args-type-tranform.utils';
 import { DocArgTypesList } from '../components/doc-page/DocArgTypesTable';
 
 export const storyNameToHash = (id: string): string => id.toLowerCase().replace(/[^a-z0-9]/gi, '-');
@@ -34,9 +40,9 @@ export const getThemeApiDescription = (themeName: string) =>
  * Example: `input<BaseColor | null>(BaseColor.Default)` -> `BaseColor.Default`
  * TODO: remove this quick fix, after compoDoc return the value of signal.
  */
-export function getValueWithoutSignal(value: unknown) {
+export function getValueWithoutSignal(value: any): string {
   if (typeof value !== 'string') {
-    return value;
+    return value as string;
   }
 
   if (value?.startsWith('input<')) {
@@ -45,15 +51,18 @@ export function getValueWithoutSignal(value: unknown) {
       return match[1];
     }
   }
+  if (value?.startsWith('input(undefined, { transform:')) {
+    return '';
+  }
 
-  if (value?.startsWith('InputSignal<')) {
+  if (value?.startsWith('InputSignal<') || value?.startsWith('ModelSignal<')) {
     const match = value.match(/<([^)]+)>/);
     if (match) {
       return match[1];
     }
   }
 
-  return value;
+  return value.toString();
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -77,18 +86,21 @@ export function useArgTypesApiList(
 
   const uiComponentConfig = uiComponentsConfig[componentName];
   const order = ['type', 'color', 'size'];
-  const nameTransformMap: Record<string, string> = {
-    _type: 'type',
-    _size: 'size',
-    _color: 'color',
-  };
 
   const argTypesList = Object.values(argTypes).filter((argType) => !argType.table?.disable ?? true);
 
   const result = reduceDeepMerge(
     argTypesList,
     (argType) => {
-      const name = nameTransformMap[argType.name] ?? argType.name;
+      const name = transformArgTypeName(argType);
+      /**
+       * Because of out custom structure in storybook argTypes to show all argsTypes and not only the compodoc types,
+       * sometimes the argType is subcomponent object and the name wil be 'undefined'.
+       * In that case we have to skip it from argTypes table
+       */
+      if (!name) {
+        return {};
+      }
       const themeUIComponentProps = uiComponentConfig?.[name as UIComponentsPropName];
 
       // Skip from ArgsTypeTable when the component has no uiComponentConfig in selected Theme,
@@ -104,21 +116,17 @@ export function useArgTypesApiList(
         return {};
       }
 
-      const keyName =
-        argType.table?.category === 'methods' ? 'methods' : argType.table?.category === 'outputs' ? 'events' : 'props';
-
-      const defaultValue =
-        keyName === 'props'
-          ? themeUIComponentProps?.default ?? getValueWithoutSignal(argType.table?.defaultValue?.summary)
-          : undefined;
+      const category = transformArgTypeCategory(argType);
+      const defaultValue = transformArgTypeDefaultValue(category, themeUIComponentProps, argType);
+      const type = transformArgTypeType(themeUIComponentProps, argType);
 
       return {
-        [keyName]: [
+        [category]: [
           {
             name: name,
             description: argType.description,
             defaultValue,
-            type: themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)],
+            type,
           },
         ],
       };

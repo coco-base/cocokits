@@ -9,8 +9,10 @@ import {
   inject,
   Input,
   input,
+  InputSignal,
   OnDestroy,
   output,
+  OutputEmitterRef,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -47,43 +49,16 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
     { if: this.formFieldStore.state.disabled(), classes: this.classNames().disabled },
   ]);
 
+  /** @ignore */
   override size = computed(() => this._size() ?? this.formFieldStore.formField.size?.());
+
+  private inputRef = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
   protected formFieldStore = injectFormFieldStore();
   protected selectionStore = inject(SelectStore);
   private cd = inject(ChangeDetectorRef);
 
   private readonly separatorKeysCodes = ['Enter'];
-
-  /** A function to determine the display value of each chip item. */
-  @Input() displayBy: (item: T) => any = (item) => item;
-
-  /**
-   * Sets the list of chips to be displayed in the component.
-   * When this input is updated, the selection store is updated with the new chips.
-   */
-  @Input() set chips(chips: T[]) {
-    this.selectionStore.setSelection(chips);
-  }
-  /** Determines whether a chip should be added when the input loses focus. */
-  addOnBlur = input(true);
-
-  /** The placeholder text displayed in the input field. */
-  placeholder = input<string>();
-
-  /** Disables the chip list, preventing user interaction. */
-  disabled = input(undefined, { transform: toBooleanOrPresent });
-
-  /** Emits the current list of selected chips whenever a change occurs. */
-  change = output<T[]>();
-
-  /** Emits the chip item that has been removed from the list. */
-  remove = output<T>();
-
-  /** Emits the chip item that has been added to the list. */
-  add = output<T>();
-
-  private inputRef = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
   __onFormFieldWrapperClick = effect((onCleanup) => {
     const callback = () => this.onHostClick();
@@ -94,6 +69,42 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
       this.formFieldStore.formField.wrapperElem()?.nativeElement.removeEventListener('click', callback);
     });
   });
+
+  // region ---------------- INPUTS ----------------
+  /** A function to determine the display value of each chip item. */
+  @Input() displayBy: (item: T) => any = (item) => item;
+
+  /**
+   * Sets the list of chips to be displayed in the component.
+   * When this input is updated, the selection store is updated with the new chips.
+   */
+  @Input() set chips(chips: T[]) {
+    this.selectionStore.setSelection(chips);
+  }
+
+  /** Determines whether a chip should be added when the input loses focus. */
+  addOnBlur: InputSignal<boolean> = input(true);
+
+  /** The placeholder text displayed in the input field. */
+  placeholder: InputSignal<string> = input<string>('');
+
+  /**
+   * Disables the chip list, preventing user interaction.
+   * @storybook argType will be overridden by storybook
+   */
+  disabled = input(undefined, { transform: toBooleanOrPresent });
+  // endregion
+
+  // region ---------------- OUTPUTS ----------------
+  /** Emits the chip item that has been removed from the list. */
+  chipRemove: OutputEmitterRef<T> = output<T>();
+
+  /** Emits the current list of selected chips whenever a change occurs. */
+  chipsChange: OutputEmitterRef<T[]> = output<T[]>();
+
+  /** Emits the chip item that has been added to the list. */
+  chipAdd: OutputEmitterRef<T> = output<T>();
+  // endregion
 
   constructor() {
     super();

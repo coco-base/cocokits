@@ -40,7 +40,9 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    type: { table: { useComponentApi: true } },
+    _type: { table: { useComponentApi: true, type: { summary: 'string' }, defaultValue: { summary: '' } } },
+    disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    _required: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
   },
   args: {},
 };

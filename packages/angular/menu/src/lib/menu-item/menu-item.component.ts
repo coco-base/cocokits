@@ -28,12 +28,18 @@ export class MenuItemComponent extends _UiBaseComponent<'menuItem'> {
   private menuComp = inject(MenuComponent, { optional: true });
   private overlayRef = inject(OverlayRef, { optional: true });
 
+  /** @ignore */
   override type = computed(() => this._type() ?? this.menuComp?._type());
+
+  /** @ignore */
   override size = computed(() => this._size() ?? this.menuComp?._size());
+
+  /** @ignore */
   override color = computed(() => this._color() ?? this.menuComp?._color());
 
   /**
    * Whether the menu item is disabled.
+   * @storybook argType will be overridden by storybook
    */
   disabled = input(undefined, { transform: toBooleanOrPresent });
 

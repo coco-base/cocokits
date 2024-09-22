@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, InputSignal, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
@@ -28,5 +28,5 @@ export class TrailingComponent extends _UiBaseComponent<'trailing'> {
   /**
    * Whether the component is clickable.
    */
-  public clickable = input(false);
+  public clickable: InputSignal<boolean> = input(false);
 }

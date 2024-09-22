@@ -10,6 +10,7 @@ import { CckThemeChangedEvent } from '@cocokits/storybook-theme-switcher';
 import { DocArgTypesTable } from './DocArgTypesTable';
 import { useArgTypesApiList, useArgTypesThemeApiList } from '../../utils/doc-page.utils';
 import { DocsPageContext } from '../doc-page-container/DocPageContainer';
+import { deepMerge } from '@cocokits/common-utils';
 
 interface DocArgTypesProps {
   cckTheme: CckThemeChangedEvent
@@ -32,7 +33,6 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
 
   const { argTypes, subcomponents } = resolved.preparedMeta;
 
-  console.log('argTypes', argTypes, argTypes);
   const primaryComponentName = _.camelCase(title) as UIComponentsName;
   const hasSubcomponents = !!subcomponents && Object.keys(subcomponents).length > 0;
 
@@ -50,14 +50,73 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
           }
 
           const componentRef = subcomponent as ClassRef;
-          const componentName = componentRef.name.replace(/component$/i, '') as UIComponentsName;
+          const componentName = _.camelCase(componentRef.name.replace(/component$/i, '')) as UIComponentsName;
 
           // Private component such as '_UiBaseComponent'
           if(componentName.startsWith('_')) {
             return;
           }
 
-          const subcomponentTypes = resolved.preparedMeta.parameters['docs'].extractArgTypes(componentRef);
+          /**
+           * `extractArgTypes` is defined in compodoc, and it's only extract the component config and skip the storybook argTypes.
+           * To fix that we created a custom structure in storybook argsType with then name of component and the args table.
+           * ```
+           * argTypes: {
+           *     MenuTriggerDirective: {
+           *       menuOpen: { table: { defaultValue: { summary: 'false' } } }
+           *     }
+           *   },
+           * ```
+           * We will merge the compodoc types with our custom structure types to use both types at the sme time
+           */
+          const subcomponentTypes = deepMerge(
+            resolved.preparedMeta.parameters['docs'].extractArgTypes(componentRef),
+            resolved.preparedMeta.argTypes['_' + componentRef.prototype.constructor.name] ?? {}
+          );
+
+          /**
+           * all storybook argTypes has a fix structure and the 'name' property exist for all of them.
+           * ```
+           *  {
+           *     name: 'size',
+           *     description: '...'
+           *     table: {...},
+           *     type: {...}
+           *  }
+           * ```
+           * but because of our custom structure, the storybook will generate a type object with only name like this:
+           * MenuTriggerDirective: {
+           *  name: "MenuTriggerDirective",
+           *  menuOpen: {...}
+           * }
+           * ```
+           *
+           * in this case the 'name' property in not a type definition, and it's only to detect the subcomponent argType.
+           * So we have to remove it, otherwise the other part of the code, consider it as a artType,
+           * and try to parse it to show the result as API table
+           *
+           * Summery:
+           * Convert this structure
+           * ```
+           *   {
+           *     name: 'THE NAME OF SUBCOMPONENT',
+           *     type: {...},
+           *     size: {...},
+           *     color: {...},
+           *     ...
+           *   }
+           * ```
+           * to this:
+           * ```
+           *   {
+           *     type: {...},
+           *     size: {...},
+           *     color: {...},
+           *     ...
+           *   }
+           * ```
+           */
+          delete subcomponentTypes.name;
 
           return (
             <DocArgType key={subcomponent.toString()} componentName={componentName} argTypes={subcomponentTypes} cckTheme={cckTheme} hideComponentName={false}/>

@@ -5,6 +5,7 @@
     "../src/**/*.ts",
     "../../../packages/angular/**/*.component.ts",
     "../../../packages/angular/**/*.directive.ts",
+    "../../../packages/angular/**/*.service.ts",
     "../../../packages/common/**/*.ts"
   ],
   "exclude": ["node_modules", "../../../**/node_modules"]

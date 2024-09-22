@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  InputSignal,
   OnDestroy,
   OnInit,
   signal,
@@ -15,7 +16,6 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 import { autoResizeTextarea, toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
@@ -47,26 +47,32 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   private ngControl = inject(NgControl, { optional: true, self: true });
   private elemRef = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
 
-  public _required = fromAttrByNameToBoolean('required');
   public _focused = signal(false);
+
+  /**
+   * Whether textarea is required.
+   * @storybook argType will be overridden by storybook
+   */
+  public _required = input(undefined, { transform: toBooleanOrPresent, alias: 'required' });
 
   /**
    * Whether autoResize is enabled or not
    */
-  public autoResize = input<boolean>(false);
+  public autoResize: InputSignal<boolean> = input<boolean>(false);
 
   /**
    * Minimum amount of rows in the textarea. Will be skipped when the `autoResize` is false
    */
-  public minRows = input<number>(2);
+  public minRows: InputSignal<number> = input<number>(2);
 
   /**
    * Maximum amount of rows in the textarea. Will be skipped when the `autoResize` is false
    */
-  public maxRows = input<number>(5);
+  public maxRows: InputSignal<number> = input<number>(5);
 
   /**
    * Whether the textarea is disabled.
+   * @storybook argType will be overridden by storybook
    */
   public disabled = input(undefined, { transform: toBooleanOrPresent });
 

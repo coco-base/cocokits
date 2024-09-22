@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, InputSignal, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
@@ -18,5 +18,8 @@ export class MenuComponent extends _UiBaseComponent<'menu'> {
   protected readonly componentName = 'menu';
   protected extraHostElementClassConditions = computed(() => [{ if: true, classes: this.classNames().overlay }]);
 
-  closeOnSelectItem = input(false);
+  /**
+   * Close the menu on click any menu options.
+   */
+  closeOnSelectItem: InputSignal<boolean> = input(false);
 }

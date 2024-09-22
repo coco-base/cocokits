@@ -7,8 +7,11 @@ import {
   forwardRef,
   inject,
   input,
+  InputSignal,
   model,
+  ModelSignal,
   output,
+  OutputEmitterRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -57,20 +60,21 @@ export class ToggleComponent extends _UiBaseComponent<'toggle'> implements Contr
   /**
    * A unique id for the slide-toggle input. If none is supplied, it will be auto-generated.
    */
-  id = input(`TOGGLE_${NEXT_ID++}`);
+  id: InputSignal<string> = input(`TOGGLE_${NEXT_ID++}`);
 
   /**
    * Whether the label should appear after or before the slide-toggle. Defaults to 'after'.
    */
-  labelPosition = input<'before' | 'after'>('after');
+  labelPosition: InputSignal<'before' | 'after'> = input<'before' | 'after'>('after');
 
   /**
    * Whether the slide-toggle element is checked or not.
    */
-  checked = model(false);
+  checked: ModelSignal<boolean> = model(false);
 
   /**
    * Whether the slide toggle is disabled.
+   * @storybook argType will be overridden by storybook
    */
   public _disabled = model<boolean | null | undefined>(undefined, { alias: 'disabled' });
   protected disabled = computed(() => toBooleanOrPresent(this._disabled()));
@@ -78,7 +82,7 @@ export class ToggleComponent extends _UiBaseComponent<'toggle'> implements Contr
   /**
    * An event will be dispatched each time the slide-toggle changes its value.
    */
-  change = output<CckToggleChange>();
+  change: OutputEmitterRef<CckToggleChange> = output<CckToggleChange>();
 
   /**
    * Toggles the checked state of the slide-toggle.

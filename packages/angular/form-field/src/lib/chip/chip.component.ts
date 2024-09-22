@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, input, output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { IconButtonComponent } from '@cocokits/angular-button';
 import { _UiBaseComponent } from '@cocokits/angular-core';
@@ -31,14 +40,21 @@ export class ChipComponent extends _UiBaseComponent<'chip'> {
 
   protected removeIcon: ThemeSvgIcon;
 
+  // region ---------------- INPUTS ----------------
   /** Determines whether or not the chip displays the remove styling and emits (removed) events. */
-  removable = input<boolean>();
+  removable: InputSignal<boolean | undefined> = input<boolean>();
 
-  /** Whether the chip is disabled. */
+  /**
+   * Whether the chip is disabled.
+   * @storybook argType will be overridden by storybook
+   */
   disabled = input(undefined, { transform: toBooleanOrPresent });
+  // endregion
 
+  // region ---------------- OUTPUTS ----------------
   /** Emitted when a chip is to be removed. */
-  remove = output<void>();
+  remove: OutputEmitterRef<void> = output<void>();
+  // endregion
 
   constructor() {
     super();

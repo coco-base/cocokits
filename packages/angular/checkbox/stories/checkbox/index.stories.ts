@@ -41,14 +41,7 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    id: { table: { type: { summary: 'string' }, defaultValue: { summary: 'Unique id' } } },
-    indeterminate: { table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } } },
-    name: { table: { type: { summary: 'string' }, defaultValue: { summary: 'Unique name' } } },
-    checked: { table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } } },
-    value: { table: { type: { summary: 'any' }, defaultValue: { summary: '' } } },
-
-    change: { table: { type: { summary: 'CheckboxChange' } } },
-    indeterminateChange: { table: { type: { summary: 'boolean' } } },
+    _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
   },
   args: {},
 };

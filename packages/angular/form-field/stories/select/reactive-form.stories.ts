@@ -40,7 +40,7 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
                 <cck-option [value]="'Burger'">Burger</cck-option>
               </cck-select>
               
-              @if(formFieldSingle.hasError() && controlSingle.errors?.required) {
+              @if(controlSingle.hasError() && controlSingle.errors?.required) {
                 <cck-error>This field is required</cck-error>
               }
             </cck-form-field>
@@ -66,7 +66,7 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
                 <cck-option [value]="'Burger'">Burger</cck-option>
               </cck-select>
               
-              @if(formFieldMulti.hasError() && controlMulti.errors?.required) {
+              @if(controlMulti.hasError() && controlMulti.errors?.required) {
                 <cck-error>This field is required</cck-error>
               }
             </cck-form-field>

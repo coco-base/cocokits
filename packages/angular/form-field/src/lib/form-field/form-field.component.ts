@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   input,
+  InputSignal,
   OnDestroy,
   viewChild,
   ViewEncapsulation,
@@ -39,12 +40,6 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   protected store = injectFormFieldStore();
   private cd = inject(ChangeDetectorRef);
 
-  /** Whether the required marker should be hidden. */
-  public hideRequiredMarker = input<boolean>();
-
-  /** Whether the control is disabled. */
-  public disabled = input(undefined, { transform: toBooleanOrPresent });
-
   protected extraHostElementClassConditions = computed(() => [
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
     { if: this.store.state.focused(), classes: this.classNames().focused },
@@ -63,6 +58,15 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   ]);
 
   public _wrapperElemRef = viewChild.required<ElementRef<HTMLElement>>('wrapperElem');
+
+  /** Whether the required marker should be hidden. */
+  public hideRequiredMarker: InputSignal<boolean | undefined> = input<boolean>();
+
+  /**
+   * Whether the control is disabled.
+   * @storybook argType will be overridden by storybook
+   */
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   constructor() {
     super();

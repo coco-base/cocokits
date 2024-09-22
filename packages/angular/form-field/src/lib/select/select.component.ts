@@ -10,9 +10,11 @@ import {
   Injector,
   Input,
   input,
+  InputSignal,
   OnDestroy,
   OnInit,
   output,
+  OutputEmitterRef,
   TemplateRef,
   viewChild,
   ViewEncapsulation,
@@ -23,7 +25,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/for
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 import { isNullish, toBooleanOrPresent } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
 
@@ -68,64 +69,23 @@ export class SelectComponent<T = any>
     { if: !this.selectStore.isMultiple(), classes: this.classNames().single },
   ]);
 
+  /** @ignore */
   override size = computed(() => this._size() ?? this.formFieldStore.formField.size?.());
 
   protected formFieldStore = injectFormFieldStore();
   protected selectStore = injectSelectStore<T>();
-  protected dropdownIcon: ThemeSvgIcon;
-
   private cd = inject(ChangeDetectorRef);
   private elemRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private overlay = inject(OverlayService);
-  private ngControl: NgControl | null = null;
   private injector = inject(Injector);
 
-  /**
-   * Whether the input is disabled.
-   */
-  public disabled = input(undefined, { transform: toBooleanOrPresent });
-
-  /**
-   * Whether the component is required.
-   */
-  public _required = fromAttrByNameToBoolean('required');
-
-  /**
-   * Whether the user should be allowed to select multiple options.
-   */
-  @Input() set multiple(multiple: boolean) {
-    this.selectStore.resetWithOption({ multiple });
-  }
-
-  /**
-   * The max-height of options overlay when it's open. If set to `null` there is no max-height, and it takes the height of content
-   */
-  public maxOptionsHeight = input<number | null>(220);
-
-  /**
-   * Value of the select control.
-   */
-  @Input() set value(value: T) {
-    this.selectStore.setSelection(value);
-  }
-
-  /**
-   * Placeholder to be shown if no value has been selected.
-   */
-  public placeholder = input('');
-
-  /**
-   * Event emitted when the select panel has been toggled.
-   */
-  public openedChange = output<boolean>();
-
-  /**
-   * Event emitted when the selected value has been changed by the user.
-   */
-  public selectionChange = output<T[]>();
+  protected dropdownIcon: ThemeSvgIcon;
+  private ngControl: NgControl | null = null;
 
   protected customTrigger = contentChild(SelectPreviewComponent);
+
   protected optionsTemp = viewChild('optionsTemp', { read: TemplateRef });
+
   protected triggerValue = computed(() => this.selectStore.selectedItems().join(', '));
 
   /**
@@ -149,6 +109,58 @@ export class SelectComponent<T = any>
         this.selectionChange.emit(selected);
       }
     });
+  // region ---------------- INPUTS ----------------
+
+  /**
+   * Whether the input is disabled.
+   * @storybook argType will be overridden by storybook
+   */
+  public disabled = input(undefined, { transform: toBooleanOrPresent });
+
+  /**
+   * Whether the component is required.
+   * @storybook argType will be overridden by storybook
+   */
+  public _required = input(undefined, { transform: toBooleanOrPresent, alias: 'required' });
+
+  /**
+   * Whether the user should be allowed to select multiple options.
+   */
+  @Input() set multiple(multiple: boolean) {
+    this.selectStore.resetWithOption({ multiple });
+  }
+
+  /**
+   * The max-height of options overlay when it's open. If set to `null` there is no max-height, and it takes the height of content
+   */
+  public maxOptionsHeight: InputSignal<number> = input<number>(220);
+
+  /**
+   * Value of the select control.
+   */
+  @Input() set value(value: T) {
+    this.selectStore.setSelection(value);
+  }
+
+  /**
+   * Placeholder to be shown if no value has been selected.
+   */
+  public placeholder: InputSignal<string> = input('');
+
+  // endregion
+  // region ---------------- OUTPUTS ----------------
+
+  /**
+   * Event emitted when the select panel has been toggled.
+   */
+  public openedChange: OutputEmitterRef<boolean> = output<boolean>();
+
+  /**
+   * Event emitted when the selected value has been changed by the user.
+   */
+  public selectionChange: OutputEmitterRef<T[]> = output<T[]>();
+
+  // endregion
 
   constructor() {
     super();

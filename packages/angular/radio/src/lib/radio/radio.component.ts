@@ -6,8 +6,11 @@ import {
   forwardRef,
   inject,
   input,
+  InputSignal,
   model,
+  ModelSignal,
   output,
+  OutputEmitterRef,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
@@ -58,14 +61,20 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
   protected readonly componentName = 'radioGroup';
   protected extraHostElementClassConditions = computed(() => []);
 
+  private selectedRadio = signal<RadioButtonComponent<T> | null>(null);
+
   /** Name of the radio button group. All radio buttons inside this group will use this name. */
-  public name = input<string>(`cck-radio-group-${NEXT_ID++}`);
+  public name: InputSignal<string> = input<string>(`cck-radio-group-${NEXT_ID++}`);
 
   /** The currently selected radio button */
-  public selected = model<T>();
+  public selected: ModelSignal<T | undefined> = model<T>();
+  /**
+   * Whether the radio group is disabled
+   * @storybook argType will be overridden by storybook
+   */
+  public _disabled: ModelSignal<boolean | null> = model<boolean | null>(null, { alias: 'disabled' });
 
-  /** Whether the radio group is disabled */
-  public _disabled = model<boolean | null>(null, { alias: 'disabled' });
+  /** @ignore */
   public disabled = computed(() => toBooleanOrPresent(this._disabled()));
 
   /**
@@ -73,9 +82,7 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
    * Change events are only emitted when the value changes due to user interaction with
    * a radio button (the same behavior as `<input type-"radio">`).
    */
-  public readonly change = output<RadioChange<T>>();
-
-  private selectedRadio = signal<RadioButtonComponent<T> | null>(null);
+  public readonly change: OutputEmitterRef<RadioChange<T>> = output<RadioChange<T>>();
 
   private __onSelectedRadioChanged = effect(() => {
     const selectedRadio = this.selectedRadio();
@@ -171,34 +178,44 @@ export class RadioButtonComponent<T = unknown> extends _UiBaseComponent<'radioBu
 
   private radioGroup = inject(RadioGroupComponent<T>, { optional: true });
 
+  /** @ignore */
   override size = computed(() => this._size() ?? this.radioGroup?.size());
+
+  /** @ignore */
   override color = computed(() => this._color() ?? this.radioGroup?.color());
+
+  /** @ignore */
   override additional = computed(() => ({ ...this._additional(), ...this.radioGroup?.additional() }));
 
   /** Analog to HTML 'name' attribute used to group radios for unique selection. */
-  public _name = input<string | null | undefined>(undefined, { alias: 'name' });
+  public _name: InputSignal<string | null | undefined> = input<string | null | undefined>(undefined, { alias: 'name' });
   protected name = computed(() => this._name() || this.radioGroup?.name());
 
   /** Whether this radio button is checked. */
-  public _checked = model<boolean | null | undefined>(undefined, { alias: 'checked' });
+  public _checked: ModelSignal<boolean | null | undefined> = model<boolean | null | undefined>(undefined, {
+    alias: 'checked',
+  });
   protected checked = computed(() => (this.radioGroup ? this.radioGroup.selected() === this.value() : this._checked()));
 
   /** The value of this radio button. */
-  public value = input.required<T>();
+  public value: InputSignal<T> = input.required<T>();
 
-  /** Whether the radio button is disabled. */
+  /**
+   * Whether the radio button is disabled.
+   * @storybook argType will be overridden by storybook
+   */
   public _disabled = input<boolean | null | undefined>(undefined, { alias: 'disabled' });
   protected disabled = computed(() => this._disabled() ?? this.radioGroup?.disabled());
 
   /** The unique ID for the radio button. If none is supplied, it will be auto-generated. */
-  public id = input(`cck-radio-${NEXT_ID++}`);
+  public id: InputSignal<string> = input(`cck-radio-${NEXT_ID++}`);
 
   /**
    * Event emitted when the group value changes.
    * Change events are only emitted when the value changes due to user interaction with
    * a radio button (the same behavior as `<input type-"radio">`).
    */
-  readonly change = output<RadioChange<T>>();
+  readonly change: OutputEmitterRef<RadioChange<T>> = output<RadioChange<T>>();
 
   /** Triggered when the radio button receives an interaction from the user. */
   protected _onInputChange(event: Event) {

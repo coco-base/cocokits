@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, InputSignal, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
@@ -23,7 +23,7 @@ export class LeadingComponent extends _UiBaseComponent<'leading'> {
   /**
    * Whether the component is clickable.
    */
-  public clickable = input(false);
+  public clickable: InputSignal<boolean> = input(false);
 
   protected override extraHostElementClassConditions = computed(() => [
     { if: this.clickable() && !this.store.state.disabled(), classes: this.classNames().clickable },

@@ -13,7 +13,6 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { fromAttrByNameToBoolean } from '@cocokits/angular-utils';
 import { toBooleanOrPresent } from '@cocokits/common-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
@@ -44,18 +43,27 @@ export class InputComponent extends _UiBaseComponent<'input'> implements OnInit,
   protected store = injectFormFieldStore();
   private ngControl = inject(NgControl, { optional: true, self: true });
 
-  public _required = fromAttrByNameToBoolean('required');
   public _focused = signal(false);
 
+  // region ---------------- INPUTS ----------------
   /**
    * Input type of the element.
+   * @storybook argType will be overridden by storybook
    */
   public override _type = input<string | null | undefined>(undefined, { alias: 'type' });
 
   /**
+   * Whether the input is required.
+   * @storybook argType will be overridden by storybook
+   */
+  public _required = input(undefined, { transform: toBooleanOrPresent, alias: 'required' });
+
+  /**
    * Whether the input is disabled.
+   * @storybook argType will be overridden by storybook
    */
   public disabled = input(undefined, { transform: toBooleanOrPresent });
+  // endregion
 
   constructor() {
     super();

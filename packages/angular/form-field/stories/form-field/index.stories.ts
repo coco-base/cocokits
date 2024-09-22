@@ -82,10 +82,6 @@ const meta: AngularStoriesMeta = {
   },
   argTypes: {
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-    hideRequiredMarker: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-    clickable: {
-      table: { category: 'LeadingComponent', subcategory: 'LeadingComponent', type: { summary: 'boolean' } },
-    },
   },
   args: {},
 };

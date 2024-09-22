@@ -8,7 +8,9 @@ import {
   input,
   InputSignal,
   model,
+  ModelSignal,
   output,
+  OutputEmitterRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -55,9 +57,12 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
 
   // region ---------------- INPUTS ----------------
   /** Whether the checkbox is checked. */
-  public checked = model<boolean>();
+  public checked: ModelSignal<boolean | undefined> = model<boolean>();
 
-  /** Whether the checkbox is disabled. */
+  /**
+   * Whether the checkbox is disabled.
+   * @storybook argType will be overridden by storybook
+   */
   public _disabled = model<boolean | null | undefined>(undefined, { alias: 'disabled' });
   protected disabled = computed(() => toBooleanOrPresent(this._disabled()));
 
@@ -67,26 +72,26 @@ export class CheckboxComponent extends _UiBaseComponent<'checkbox'> implements C
    * checkable items. Note that whenever checkbox is manually clicked, indeterminate is immediately
    * set to false.
    */
-  public indeterminate = model<boolean>();
+  public indeterminate: ModelSignal<boolean | undefined> = model<boolean>();
 
   /**
    * A unique id for the checkbox input. If none is supplied, it will be auto-generated.
    */
-  public id = input(`cck-checkbox-${NEXT_ID++}`);
+  public id: InputSignal<string> = input<string>(`cck-checkbox-${NEXT_ID++}`);
 
   /** The value attribute of the native input element */
-  public value = input<any>('');
+  public value: InputSignal<any> = input<any>('');
 
   /** Name value will be applied to the input element if present */
-  public name = input<string | null>(null);
+  public name: InputSignal<string | null> = input<string | null>(null);
   // endregion
 
   // region ---------------- OUTPUTS ----------------
   /** Event emitted when the checkbox's `checked` value changes. */
-  public readonly change = output<CheckboxChange>();
+  public readonly change: OutputEmitterRef<CheckboxChange> = output<CheckboxChange>();
 
   /** Event emitted when the checkbox's `indeterminate` value changes. */
-  public readonly indeterminateChange = output<boolean>();
+  public readonly indeterminateChange: OutputEmitterRef<boolean> = output<boolean>();
   // endregion
 
   // region ---------------- PUBLIC METHODS ----------------

@@ -55,6 +55,11 @@ export class OverlayComponent<TData = any, TResult = any> implements OnInit {
     this.overlayRef.config.positionStrategy.animationType === OverlayAnimationType.None;
 
   private closeAnimationDoneSubject$ = new OnceSubject<TResult | undefined>();
+
+  /**
+   * Emit an event when the overlay close animation has done and the component has been destroyed
+   * @storybook argType will be overridden by storybook
+   */
   public closeAnimationDone$ = this.closeAnimationDoneSubject$.asObservable();
 
   protected get isTopAlignment() {
@@ -116,10 +121,10 @@ export class OverlayComponent<TData = any, TResult = any> implements OnInit {
   ngOnInit() {
     isTemplateRef(this.overlayRef.componentOrTemplate)
       ? this.contentViewContainerRef().createEmbeddedView(
-        this.overlayRef.componentOrTemplate,
-        {},
-        { injector: this.injector }
-      )
+          this.overlayRef.componentOrTemplate,
+          {},
+          { injector: this.injector }
+        )
       : this.contentViewContainerRef().createComponent(this.overlayRef.componentOrTemplate);
 
     if (this.overlayRef.config.positionStrategy.type === 'connectToElement') {

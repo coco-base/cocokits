@@ -58,9 +58,6 @@ const meta: AngularStoriesMeta = {
   },
   argTypes: {
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-    removable: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-
-    remove: { table: { type: { summary: 'void' }, defaultValue: { summary: '' } } },
   },
   args: {},
 };

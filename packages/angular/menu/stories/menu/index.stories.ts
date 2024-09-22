@@ -52,8 +52,15 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    // Example of: using component API insteadof Theme API or Disable from ArgTable
-    // type: { table: { useComponentApi: true, disable: true } },
+    _MenuItemComponent: {
+      disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    },
+    _MenuTriggerDirective: {
+      menuOpen: { table: { defaultValue: { summary: 'false' } } },
+      menuSizes: { table: { type: { summary: 'OverlayConfig["size"]' }, defaultValue: { summary: '' } } },
+      menuOpened: { table: { category: 'outputs' } },
+      menuClosed: { table: { category: 'outputs' } },
+    },
   },
   args: {},
 };

@@ -62,8 +62,17 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    // Example of: using component API insteadof Theme API or Disable from ArgTable
-    // type: { table: { useComponentApi: true, disable: true } },
+    disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    _required: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    selectionChange: { table: { category: 'outputs' } },
+
+    _OptionComponent: {
+      _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    },
+
+    _OptionGroupComponent: {
+      disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    },
   },
   args: {},
 };

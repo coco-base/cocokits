@@ -1,4 +1,16 @@
-import { computed, Directive, ElementRef, inject, input, output, signal, TemplateRef } from '@angular/core';
+import {
+  computed,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+  Signal,
+  signal,
+  TemplateRef,
+} from '@angular/core';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
 import { OverlayConfig, OverlayConnectElemOrigin, OverlayService, RenderedOverlay } from '@cocokits/angular-overlay';
@@ -21,26 +33,35 @@ export class MenuTriggerDirective {
   /**
    * Readonly signal that present, whether the menu is open.
    */
-  public menuOpen = computed(() => this.renderedOverlay() !== null);
+  public menuOpen: Signal<boolean> = computed(() => this.renderedOverlay() !== null);
 
   /**
    * The size of menu overlay, if not provided it will take the size of children elements
+   * @storybook argType will be overridden by storybook
    */
   public menuSizes = input<OverlayConfig['size']>();
 
-  public menuOrigin = input<OverlayConnectElemOrigin>(OverlayConnectElemOrigin.BottomRight);
+  /**
+   * The origin of menu position related to the target element
+   */
+  public menuOrigin: InputSignal<OverlayConnectElemOrigin> = input<OverlayConnectElemOrigin>(
+    OverlayConnectElemOrigin.BottomRight
+  );
 
-  public menuTemplate = input.required<TemplateRef<any>>({ alias: 'cckMenuTrigger' });
+  /**
+   * References the menu instance ('ng-template') that contains the menu component.
+   */
+  public menuTemplate: InputSignal<TemplateRef<any>> = input.required<TemplateRef<any>>({ alias: 'cckMenuTrigger' });
 
   /**
    * Event emitted when the associated menu is opened.
    */
-  menuOpened = output<void>();
+  menuOpened: OutputEmitterRef<void> = output<void>();
 
   /**
    * Event emitted when the associated menu is closed.
    */
-  menuClosed = output<void>();
+  menuClosed: OutputEmitterRef<void> = output<void>();
 
   protected onHostClick() {
     this.openMenu();

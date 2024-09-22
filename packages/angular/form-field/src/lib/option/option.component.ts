@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  InputSignal,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { CheckboxComponent } from '@cocokits/angular-checkbox';
 import { _UiBaseComponent } from '@cocokits/angular-core';
@@ -31,14 +39,22 @@ export class OptionComponent<T = any> extends _UiBaseComponent<'option'> {
     { if: !this.selectStore.isMultiple(), classes: this.classNames().single },
   ]);
 
+  /** @ignore */
   override size = computed(() => this._size() ?? this.selectComp?.size());
+
+  protected isSelected = computed(() => {
+    const value = this.value();
+    return isNotNullish(value) ? this.selectStore.isSelected(value)() : false;
+  });
 
   private optionGroupComp = inject(OptionGroupComponent, { optional: true });
   private selectComp = inject(SelectComponent, { optional: true });
   protected selectStore = injectSelectStore<T>();
 
+  // region ---------------- INPUTS ----------------
   /**
    * Whether the input is disabled.
+   * @storybook argType will be overridden by storybook
    */
   public _disabled = input(undefined, { alias: 'disabled', transform: toBooleanOrPresent });
   protected disabled = computed(() => this._disabled() ?? this.optionGroupComp?.disabled() ?? false);
@@ -46,12 +62,8 @@ export class OptionComponent<T = any> extends _UiBaseComponent<'option'> {
   /**
    * Value of the select control.
    */
-  public value = input<T>();
-
-  protected isSelected = computed(() => {
-    const value = this.value();
-    return isNotNullish(value) ? this.selectStore.isSelected(value)() : false;
-  });
+  public value: InputSignal<T | undefined> = input<T>();
+  // endregion
 
   protected onHostClick(e: Event) {
     e.stopPropagation();

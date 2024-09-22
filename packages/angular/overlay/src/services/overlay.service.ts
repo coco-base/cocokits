@@ -29,6 +29,9 @@ const DEFAULT_CONFIG: OverlayConfig<any> = {
 export class OverlayService {
   private applicationRef = inject(ApplicationRef);
 
+  /**
+   * Open an overlay with given component or template
+   */
   public open<TData, TResult = unknown>(
     componentOrTemplate: Type<any> | TemplateRef<any>,
     partialConfig: Partial<OverlayConfig<TData>> = {}

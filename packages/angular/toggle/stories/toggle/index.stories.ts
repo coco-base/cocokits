@@ -42,8 +42,7 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    // Example of: using component API insteadof Theme API or Disable from ArgTable
-    // type: { table: { useComponentApi: true, disable: true } },
+    _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
   },
   args: {},
 };

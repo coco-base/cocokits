@@ -11,6 +11,7 @@ import { DefaultOverlayStoryComponent } from './components/default-overlay-story
 import { SizeOverlayStoryComponent } from './components/size-overlay-story.component';
 import descriptionMd from './description.md';
 import { OverlayComponent } from '../../src/components/overlay/overlay.component';
+import { OverlayService } from '../../src';
 
 export { Default } from './default.stories';
 export { NoBackdrop } from './no-backdrop.stories';
@@ -24,6 +25,7 @@ export { ConnectToElement } from './connect-to-element.stories';
 const meta: AngularStoriesMeta = {
   component: OverlayComponent,
   title: 'CDK/Overlay',
+  subcomponents: [OverlayService],
   tags: ['autodocs'],
   decorators: [
     componentWrapperDecorator((story) => `<div class="story-overlay-example">${story}</div>`),
@@ -45,7 +47,9 @@ const meta: AngularStoriesMeta = {
       },
     },
   },
-  argTypes: {},
+  argTypes: {
+    closeAnimationDone$: { table: { category: 'outputs', type: { summary: 'Observable<TResult | undefined>' } } },
+  },
   args: {},
 };
 export default meta;

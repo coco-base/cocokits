@@ -39,7 +39,10 @@ const meta: AngularStoriesMeta = {
       },
     },
   },
-  argTypes: {},
+  argTypes: {
+    _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    change: { table: { category: 'outputs' } },
+  },
   args: {},
 };
 export default meta;

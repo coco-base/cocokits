@@ -59,14 +59,8 @@ const meta: AngularStoriesMeta = {
     },
   },
   argTypes: {
-    addOnBlur: { table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } } },
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-    placeholder: { table: { type: { summary: 'string' }, defaultValue: { summary: '' } } },
-    chips: { table: { type: { summary: 'T[]' }, defaultValue: { summary: '[]' } } },
-
-    change: { table: { type: { summary: 'T[]' } } },
-    add: { table: { type: { summary: 'T' } } },
-    remove: { table: { type: { summary: 'T' } } },
+    chipsChange: { table: { category: 'outputs' } },
   },
   args: {},
 };

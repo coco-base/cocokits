@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  InputSignal,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { toBooleanOrPresent } from '@cocokits/common-utils';
@@ -29,11 +37,12 @@ export class OptionGroupComponent extends _UiBaseComponent<'optionGroup'> {
 
   /**
    * Whether the input is disabled.
+   * @storybook argType will be overridden by storybook
    */
   public disabled = input(undefined, { transform: toBooleanOrPresent });
 
   /**
    * Label for the option group.
    */
-  public label = input<string>();
+  public label: InputSignal<string | undefined> = input<string>();
 }
