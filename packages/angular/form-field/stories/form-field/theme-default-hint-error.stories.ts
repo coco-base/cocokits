@@ -6,7 +6,7 @@ import { copyIcon, emailIcon, infoIcon } from '../template-svg-icon';
 
 export const ThemeDefaultHintError: AngularStoryObj<FormFieldComponent> = {
   name: 'Theme Default: Hint & Error',
-  tags: ['theme:default'],
+  tags: ['theme:default', 'theme:frame-x'],
   parameters: {
     docs: {
       description: {
@@ -47,7 +47,7 @@ export const ThemeDefaultHintError: AngularStoryObj<FormFieldComponent> = {
                  <cck-form-field>
                   <cck-label>Label</cck-label>
                   <input cckInput/>
-                  <cck-error [force]="true" (click)="showError1 = false">This is an error text</cck-error>
+                  <cck-error [force]="true">This is an error text</cck-error>
                 </cck-form-field>
               </td>
             </tr>

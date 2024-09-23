@@ -6,7 +6,7 @@ import { copyIcon, emailIcon, infoIcon } from '../template-svg-icon';
 
 export const ThemeDefaultPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
   name: 'Theme Default: Prefix & Suffix',
-  tags: ['theme:default'],
+  tags: ['theme:default', 'theme:frame-x'],
   parameters: {
     docs: {
       description: {

@@ -1,4 +1,6 @@
 @use '../../token/scss' as *;
 
 @mixin leading {
+  background-color: $base-surface-2;
+  padding: 0 16px;
 }

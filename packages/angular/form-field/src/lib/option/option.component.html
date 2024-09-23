@@ -11,7 +11,7 @@
 
 
 
-@if(isSelected()) {
+@if(isSelected() && !selectStore.isMultiple() && uiComponentConfig.option.component.optionSelectedIcon) {
   <div [class]="classNames().selectedCheckmark">
     @if(uiComponentConfig.option.component.optionSelectedIcon) {
       <cck-svg-icon [icon]="uiComponentConfig.option.component.optionSelectedIcon"></cck-svg-icon>

@@ -1,4 +1,13 @@
 @use '../../token/scss' as *;
 
 @mixin label {
+  .cck-label {
+    display: flex;
+    font: $text-base-font-regular;
+    color: $text-dark-secondary;
+  }
+
+  .cck-label__required-marker {
+    margin-left: 4px;
+  }
 }

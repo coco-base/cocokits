@@ -1,4 +1,12 @@
 @use '../../token/scss' as *;
 
 @mixin prefix {
+  .cck-prefix {
+    flex-grow: 0;
+  }
+
+  .cck-prefix .cck-svg-icon.cck-svg-icon--default-size {
+    width: $icon-sm;
+    height: $icon-sm;
+  }
 }

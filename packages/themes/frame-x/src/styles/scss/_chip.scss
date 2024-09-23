@@ -52,7 +52,7 @@
   }
 
   .cck-chip__size {
-    &--xs {
+    &--sm {
       height: 32px;
       gap: $spacing-4;
       padding: 0 $spacing-7;
@@ -63,7 +63,7 @@
       }
     }
 
-    &--sm {
+    &--md {
       height: 36px;
       gap: $spacing-4;
       padding: 0 $spacing-8;
@@ -74,22 +74,11 @@
       }
     }
 
-    &--md {
+    &--lg {
       height: 44px;
       gap: $spacing-6;
       padding: 0 $spacing-9;
       font: $text-lg-font-medium;
-
-      &.cck-chip--removable {
-        padding: 0 $spacing-8 0 $spacing-9;
-      }
-    }
-
-    &--lg {
-      height: 58px;
-      gap: $spacing-7;
-      padding: 0 $spacing-9;
-      font: $text-xl-font-medium;
 
       &.cck-chip--removable {
         padding: 0 $spacing-8 0 $spacing-9;

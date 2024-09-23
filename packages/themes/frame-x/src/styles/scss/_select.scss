@@ -1,4 +1,46 @@
 @use '../../token/scss' as *;
 
 @mixin select {
+  .cck-select {
+    display: flex;
+    align-items: center;
+    border-radius: $radi-6;
+    cursor: pointer;
+    font: $text-base-font-medium;
+    color: $text-dark-primary;
+  }
+
+  .cck-select--disabled {
+    cursor: initial;
+    user-select: none;
+    color: $base-disabled;
+  }
+
+  .cck-select__placeholder {
+    color: $text-dark-tertiary;
+  }
+
+  .cck-select__trigger-wrapper {
+    overflow: hidden;
+    flex: 1;
+    color: currentcolor;
+    text-align: start;
+    padding-right: 8px;
+  }
+
+  .cck-select__trigger-value {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .cck-select__overlay .cck-overlay__backdrop {
+    background-color: rgb(0 0 0 / 0%);
+  }
+
+  .cck-select__dropdown-icon-wrapper .cck-svg-icon {
+    width: $icon-md;
+    height: $icon-md;
+    fill: currentcolor;
+  }
 }

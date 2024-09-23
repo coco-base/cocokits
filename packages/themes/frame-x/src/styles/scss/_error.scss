@@ -1,4 +1,8 @@
 @use '../../token/scss' as *;
 
 @mixin error {
+  .cck-error {
+    font: $text-sm-font-medium;
+    color: $state-danger-active;
+  }
 }

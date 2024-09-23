@@ -1,4 +1,36 @@
 @use '../../token/scss' as *;
 
 @mixin divider {
+  .cck-divider {
+    display: block;
+    background-color: $base-border;
+    flex-shrink: 0;
+  }
+
+  .cck-divider__horizontal {
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  .cck-divider__horizontal.cck-divider__size--sm {
+    height: 1px;
+  }
+
+  .cck-divider__horizontal.cck-divider__size--md {
+    width: 100%;
+    height: 2px;
+  }
+
+  .cck-divider__vertical {
+    height: 100%;
+    margin: 0 4px;
+  }
+
+  .cck-divider__vertical.cck-divider__size--sm {
+    width: 1px;
+  }
+
+  .cck-divider__vertical.cck-divider__size--md {
+    width: 2px;
+  }
 }

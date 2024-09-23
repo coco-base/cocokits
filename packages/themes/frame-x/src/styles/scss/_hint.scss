@@ -1,4 +1,8 @@
 @use '../../token/scss' as *;
 
 @mixin hint {
+  .cck-hint {
+    font: $text-sm-font-medium;
+    color: $text-dark-secondary;
+  }
 }

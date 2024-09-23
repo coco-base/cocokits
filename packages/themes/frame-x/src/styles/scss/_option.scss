@@ -1,4 +1,66 @@
 @use '../../token/scss' as *;
 
 @mixin option {
+  .cck-select__options-wrapper {
+    max-height: inherit;
+    height: inherit;
+    overflow: auto;
+    margin-top: 6px;
+    background-color: $base-surface-1;
+    border: 1px solid $base-border;
+    border-radius: $radi-6;
+  }
+
+  .cck-option__content-wrapper {
+    flex: 1;
+  }
+
+  .cck-option {
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    font: $text-base-font-medium;
+    color: $text-dark-secondary;
+    gap: 8px;
+  }
+
+  .cck-option:not(.cck-option--disabled) {
+    cursor: pointer;
+  }
+
+  .cck-option--disabled {
+    color: $base-disabled;
+    user-select: none;
+  }
+
+  .cck-option:not(.cck-option--disabled):hover {
+    background-color: $base-fill-1;
+  }
+
+  .cck-option .cck-checkbox__input-wrapper {
+    width: 22px;
+    height: 22px;
+  }
+
+  .cck-option--single.cck-option--selected {
+    color: $state-brand-active;
+  }
+
+  .cck-option__size--sm {
+    height: 40px;
+  }
+
+  .cck-option__size--md {
+    height: 48px;
+  }
+
+  .cck-option__size--lg {
+    height: 58px;
+  }
+
+  .cck-option__selected-checkmark .cck-svg-icon {
+    width: $icon-sm;
+    height: $icon-sm;
+    fill: currentcolor;
+  }
 }

@@ -1,4 +1,20 @@
 @use '../../token/scss' as *;
 
 @mixin input {
+  .cck-input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font: $text-base-font-medium;
+    color: $text-dark-primary;
+    text-overflow: ellipsis;
+  }
+
+  .cck-input::placeholder {
+    color: $text-dark-tertiary;
+  }
+
+  .cck-input:disabled {
+    color: $base-disabled;
+  }
 }

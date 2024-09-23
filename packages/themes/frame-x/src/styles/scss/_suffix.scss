@@ -1,4 +1,12 @@
 @use '../../token/scss' as *;
 
 @mixin suffix {
+  .cck-suffix {
+    flex-grow: 0;
+  }
+
+  .cck-suffix .cck-svg-icon.cck-svg-icon--default-size {
+    width: $icon-sm;
+    height: $icon-sm;
+  }
 }
