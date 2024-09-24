@@ -33,12 +33,22 @@ h1, h2, h3, h4, h5, h6, p, html, body {
     background: var(--cck-storybook-color-bg-body-inverse-alpha-1);
     border-right: 1px solid var(--cck-storybook-color-border-alpha-default);
     /* padding is 24px, But one of the child has also padding, So we have to reduce our padding from the storybook padding  */
-    padding: 12px 8px 12px 4px;
+    padding: 0 8px 12px 4px;
 }
 
 /* Hide setting icon at sidenav */
 .cck-storybook-theme .sidebar-header > div:last-child {
     display: none;
+}
+
+/* The parent element that contains color has padding, and this style remove the storybook padding of parent
+ * So the this style make the logo align to the toolbar
+ */
+.cck-storybook-theme .sidebar-header {
+    margin-top: -4px !important;
+}
+.cck-storybook-theme .sidebar-header img {
+    max-width: 150px;
 }
 /* endregion */
 
