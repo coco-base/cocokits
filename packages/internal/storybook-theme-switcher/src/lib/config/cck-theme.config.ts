@@ -34,7 +34,8 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
   default: {
     id: 'default',
     name: 'Default',
-    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr',
+    description:
+      'This is the default theme for the library, designed by the CocoKits team to provide a balanced and consistent look for all components, ensuring a smooth and cohesive user experience.',
     iconPathLight: '/cocokits-icon-dark.svg',
     iconPathDark: '/cocokits-icon-light.svg',
     tokenDictionary: tokenDictionaryDefaultTheme,
@@ -48,7 +49,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     id: 'frame-x',
     name: 'FrameX',
     description:
-      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et. Lorem ipsum dolor sit',
+      'This theme brings a modern and innovative style to component design. It enhances the visual experience with a fresh and unique approach, perfect for projects seeking a distinctive look.',
     iconPathLight: '/frameX-logo-dark.svg',
     iconPathDark: '/frameX-logo-light.svg',
     tokenDictionary: tokenDictionaryFrameXTheme,

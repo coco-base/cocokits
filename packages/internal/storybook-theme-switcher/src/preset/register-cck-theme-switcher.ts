@@ -63,6 +63,7 @@ function listenToOpenDialogEvent() {
     const result = await openOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
       data: {
         selectedThemeId: lastEvent?.[0].id ?? 'default',
+        selectedThemeModes: lastEvent?.[0].selectedModes ?? {},
       },
       animationType: OverlayAnimationType.CenterTopToBottom,
     });
