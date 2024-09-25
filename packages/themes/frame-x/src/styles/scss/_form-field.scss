@@ -30,16 +30,15 @@
     .cck-form-field__wrapper {
       border: 1px solid $state-brand-active;
       outline: 1px solid $state-brand-active;
-
-      &:hover {
-        background-color: $base-fill-1;
-      }
+      background-color: $base-surface-2;
     }
   }
 
   .cck-form-field--disabled {
     .cck-form-field__wrapper {
       background-color: $base-fill-1;
+      user-select: none;
+      pointer-events: none;
     }
   }
 
@@ -51,7 +50,8 @@
     border-radius: $radi-6;
     border: 1px solid $base-border;
     outline: 1px solid transparent;
-    padding: 0 $spacing-7 0 $spacing-8;
+    overflow: hidden;
+    background-color: $base-surface-1;
   }
 
   .cck-form-field__size {
@@ -62,6 +62,12 @@
           height: 36px;
         }
       }
+
+      .cck-input,
+      .cck-leading,
+      .cck-trailing {
+        font: $text-sm-font-medium;
+      }
     }
 
     &--md {
@@ -71,6 +77,12 @@
           height: 44px;
         }
       }
+
+      .cck-input,
+      .cck-leading,
+      .cck-trailing {
+        font: $text-base-font-medium;
+      }
     }
 
     &--lg {
@@ -79,6 +91,12 @@
         .cck-form-field__wrapper {
           height: 58px;
         }
+      }
+
+      .cck-input,
+      .cck-leading,
+      .cck-trailing {
+        font: $text-lg-font-medium;
       }
     }
   }
@@ -116,6 +134,30 @@
   .cck-form-field--with-textarea {
     .cck-form-field__wrapper {
       padding: 10px 10px 10px 16px;
+
+      &:hover:not(:has(textarea:focus-visible)) {
+        background-color: $base-fill-1;
+      }
+    }
+  }
+
+  .cck-form-field--with-select {
+    .cck-form-field__wrapper {
+      padding: 0 $spacing-6 0 $spacing-7;
+
+      &:hover {
+        background-color: $base-fill-1;
+      }
+    }
+  }
+
+  .cck-form-field--with-input {
+    .cck-form-field__input-wrapper {
+      padding: 0 $spacing-6 0 $spacing-7;
+
+      &:hover:not(:has(input:focus-visible)) {
+        background-color: $base-fill-1;
+      }
     }
   }
 }

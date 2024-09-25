@@ -38,9 +38,17 @@
     background-color: rgb(0 0 0 / 0%);
   }
 
+  .cck-select__dropdown-icon-wrapper {
+    transition: 300ms transform;
+  }
+
   .cck-select__dropdown-icon-wrapper .cck-svg-icon {
     width: $icon-md;
     height: $icon-md;
     fill: currentcolor;
+  }
+
+  .cck-select--opened .cck-select__dropdown-icon-wrapper {
+    transform: rotate(180deg);
   }
 }

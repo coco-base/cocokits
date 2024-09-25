@@ -20,6 +20,17 @@ export const selectLayoutClassNamesConfig = {
       selectors: ['cck-select--multiple'],
       description: 'It will add to the host element of Select component, when the selection is multi',
     },
+    opened: {
+      name: 'Host Element',
+      selectors: ['cck-select--opened'],
+      description:
+        'It will add to the host element of Select component, when overlay to select an option has been opened',
+    },
+    closed: {
+      name: 'Host Element',
+      selectors: ['cck-select--closed'],
+      description: 'It will add to the host element of Select component, when overlay to select an option is closed',
+    },
     single: {
       name: 'Host Element',
       selectors: ['cck-select--single'],
@@ -74,6 +85,8 @@ export function getSelectClassNames(
       ...getHostClassNames(selectLayoutClassNamesConfig.prefix, options),
     ],
     disabled: [...selectLayoutClassNamesConfig.elements.disabled.selectors],
+    opened: [...selectLayoutClassNamesConfig.elements.opened.selectors],
+    closed: [...selectLayoutClassNamesConfig.elements.closed.selectors],
     multiple: [...selectLayoutClassNamesConfig.elements.multiple.selectors],
     single: [...selectLayoutClassNamesConfig.elements.single.selectors],
     placeholder: [...selectLayoutClassNamesConfig.elements.placeholder.selectors],

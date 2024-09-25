@@ -15,6 +15,7 @@ import {
   OnInit,
   output,
   OutputEmitterRef,
+  signal,
   TemplateRef,
   viewChild,
   ViewEncapsulation,
@@ -31,6 +32,7 @@ import { ThemeSvgIcon } from '@cocokits/core';
 import { injectFormFieldStore } from '../form-field.store';
 import { injectSelectStore, SelectStore, SelectStoreService, SelectTriggerSource } from '../select.store';
 import { SelectPreviewComponent } from '../select-preview/select-preview.component';
+import { firstValueFrom } from 'rxjs';
 
 const SELECT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -67,6 +69,8 @@ export class SelectComponent<T = any>
     { if: this.formFieldStore.state.disabled(), classes: this.classNames().disabled },
     { if: this.selectStore.isMultiple(), classes: this.classNames().multiple },
     { if: !this.selectStore.isMultiple(), classes: this.classNames().single },
+    { if: this.isOpened(), classes: this.classNames().opened },
+    { if: !this.isOpened(), classes: this.classNames().closed },
   ]);
 
   /** @ignore */
@@ -109,6 +113,12 @@ export class SelectComponent<T = any>
         this.selectionChange.emit(selected);
       }
     });
+
+  /**
+   * Whether the overlay to select an options is opened.
+   * @storybook argType will be overridden by storybook
+   */
+  public isOpened = signal(false);
   // region ---------------- INPUTS ----------------
 
   /**
@@ -210,10 +220,13 @@ export class SelectComponent<T = any>
       },
     });
 
+    this.isOpened.set(true);
     this.openedChange.emit(true);
     this._onTouched();
-    await this.selectStore.renderedOverlay.afterClose;
+    // await this.selectStore.renderedOverlay.afterClose;
+    await firstValueFrom(this.selectStore.renderedOverlay.overlayRef.close$);
     this.openedChange.emit(false);
+    this.isOpened.set(false);
   }
 
   ngOnDestroy() {

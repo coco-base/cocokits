@@ -63,6 +63,7 @@ const meta: AngularStoriesMeta = {
   },
   argTypes: {
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    isOpened: { table: { type: { summary: 'boolean' } } },
     _required: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
     selectionChange: { table: { category: 'outputs' } },
 

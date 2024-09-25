@@ -16,8 +16,10 @@
   }
 
   .cck-textarea::-webkit-resizer {
-    width: 16px;
-    height: 16px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%238897AE"><path d="M2.4,12.6c-0.3-0.3-0.3-0.7-0.1-0.9l9.4-9.4c0.2-0.2,0.6-0.1,0.9,0.1s0.3,0.7,0.1,0.9l-9.4,9.4C3.1,12.9,2.7,12.8,2.4,12.6z M7.1,12.8c-0.3-0.3-0.3-0.6-0.2-0.8L12,6.9c0.2-0.2,0.5-0.1,0.8,0.2c0.3,0.3,0.3,0.6,0.2,0.8L7.8,13C7.7,13.1,7.3,13,7.1,12.8z"/></svg>');
+    width: 9px;
+    height: 9px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M4 4L7.2929 0.707105C7.92286 0.0771402 9 0.523309 9 1.41421V6C9 7.65685 7.65685 9 6 9H1.41421C0.523309 9 0.077142 7.92286 0.707107 7.29289L4 4Z" fill="%23A1A1AA"/></svg>');
+    background-repeat: no-repeat;
+    background-position: bottom right;
   }
 }

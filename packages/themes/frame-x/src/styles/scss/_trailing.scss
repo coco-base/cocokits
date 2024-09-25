@@ -1,6 +1,16 @@
 @use '../../token/scss' as *;
 
 @mixin trailing {
-  background-color: $base-surface-2;
-  padding: 0 16px;
+  .cck-trailing {
+    background-color: $base-surface-2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: $text-base-font-medium;
+    color: $text-dark-tertiary;
+    gap: $spacing-4;
+    padding: 0 $spacing-7;
+    cursor: default;
+    user-select: none;
+  }
 }
