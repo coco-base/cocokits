@@ -90,19 +90,19 @@ export function TokenValues({ token, tokenMap }: TokenValuesProp) {
 
   return (
     <StylesContainer>
-      <StylesWrapper selectedIndex={selectedIndex}>
+      <StylesWrapper $selectedIndex={selectedIndex}>
         {
-          hierarchies.map((hierarchy) => (
-            <StylesHierarchyWrapper>
+          hierarchies.map((hierarchy, i) => (
+            <StylesHierarchyWrapper key={i}>
               {
                 hierarchy.map((h, index) => (
-                  <>
+                  <React.Fragment key={index}>
                     <TokenTag {...h}></TokenTag>
                     {
                       (index !== (hierarchy.length - 1)) &&
                       <TokenArrowDownIcon/>
                     }
-                  </>
+                  </React.Fragment>
                 ))
               }
             </StylesHierarchyWrapper>
@@ -114,7 +114,7 @@ export function TokenValues({ token, tokenMap }: TokenValuesProp) {
       {
         selectedIndex > minIndex &&
         <StylesButton
-          position="left"
+          $position="left"
           onClick={() => setSelectedIndex(Math.max(selectedIndex - 1, minIndex))}>
           <TokenArrowHeadLeftIcon/>
         </StylesButton>
@@ -124,7 +124,7 @@ export function TokenValues({ token, tokenMap }: TokenValuesProp) {
       {
         selectedIndex < maxIndex &&
         <StylesButton
-          position="right"
+          $position="right"
           onClick={() => setSelectedIndex(Math.min(selectedIndex + 1, maxIndex))}>
           <TokenArrowHeadRightIcon/>
         </StylesButton>
@@ -140,7 +140,7 @@ const StylesContainer = styled.div`
     position: relative;
 `;
 
-const StylesButton = styled.div<{ position: 'left' | 'right' }>`
+const StylesButton = styled.div<{ $position: 'left' | 'right' }>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -158,21 +158,21 @@ const StylesButton = styled.div<{ position: 'left' | 'right' }>`
         background-color: var(--cck-storybook-color-border-alpha-2);
     }
 
-    ${props => props.position === 'left' && css`
+    ${props => props.$position === 'left' && css`
         left: 0px;
     `}
 
-    ${props => props.position === 'right' && css`
+    ${props => props.$position === 'right' && css`
         right: 0px;
     `}
 `;
 
-const StylesWrapper = styled.div<{ selectedIndex: number }>`
+const StylesWrapper = styled.div<{ $selectedIndex: number }>`
     width: 100%;
     display: flex;
     transition: transform 300ms;
 
-    transform: ${({ selectedIndex }) => `translateX(-${selectedIndex}00%)`};;
+    transform: ${({ $selectedIndex }) => `translateX(-${$selectedIndex}00%)`};;
 `;
 
 const StylesHierarchyWrapper = styled.div`

@@ -12,7 +12,7 @@ type TokenTagProp = TokenValueHierarchy & {
 
 export function TokenTag({ type, text, collectionName, modeName, compact = false }: TokenTagProp) {
   return (
-    <StylesWrapper hasGap={!!collectionName || !!modeName} compact={compact}>
+    <StylesWrapper $hasGap={!!collectionName || !!modeName} $compact={compact}>
 
       <StyledValueWrapper>
         {getTokenIconType(type)}
@@ -60,7 +60,7 @@ function getTokenIconType(type: TokenType) {
   }
 }
 
-const StylesWrapper = styled.div<{hasGap: boolean, compact: boolean}>`
+const StylesWrapper = styled.div<{$hasGap: boolean, $compact: boolean}>`
     width: fit-content;
     display: flex;
     flex-direction: column;
@@ -70,11 +70,11 @@ const StylesWrapper = styled.div<{hasGap: boolean, compact: boolean}>`
     padding: 6px 12px;
     border-radius: 6px;
 
-    ${props => props.compact && css`
+    ${props => props.$compact && css`
         padding: 2px 12px;
     `}
     
-    ${props => props.hasGap && css`
+    ${props => props.$hasGap && css`
         gap: 12px;
     `}
 `;

@@ -14,7 +14,7 @@ export function DocBgEffect() {
       </BoxWrapper>
 
       <SharkEffect>
-        {/* packages/internal/storybook-doc-page/src/assets/doc-page-header-effect-shark.png */}
+        {/* packages/internal/storybook-theme-switcher/src/assets/doc-page-header-effect-shark.png */}
         <SharkEffectImg src="/doc-page-header-effect-shark.png"/>
       </SharkEffect>
 

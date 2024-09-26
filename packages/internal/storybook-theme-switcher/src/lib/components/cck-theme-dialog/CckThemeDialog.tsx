@@ -42,14 +42,14 @@ export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData
         { selectedTabIndex === 1 &&
           <StyledBackButton onClick={() => setSelectedTabIndex(0)}>
             <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 11L1 6L6 1" stroke-opacity="0.8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6 11L1 6L6 1" strokeOpacity="0.8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             Back
           </StyledBackButton>
         }
         <StyledCloseButton onClick={() => close()}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 1L1 13M1 1L13 13" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13 1L1 13M1 1L13 13" strokeOpacity="0.6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </StyledCloseButton>
       </StyledHeader>

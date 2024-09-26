@@ -6,8 +6,8 @@ import {
   STORYBOOK_THEME_SWITCHER_TOOL_ID,
   StorybookThemeChangedEvent,
 } from '../index';
-import { ToolStorybookThemeSwitcher } from '../lib/componenets/storybook-theme-switcher/ToolStorybookThemeSwitcher';
-import { getSelectedStorybookTheme } from '../lib/componenets/theme-switcher.utils';
+import { ToolStorybookThemeSwitcher } from '../lib/components/storybook-theme-switcher/ToolStorybookThemeSwitcher';
+import { getSelectedStorybookTheme } from '../lib/components/theme-switcher.utils';
 import { dark } from '../lib/storybook-theme/storybook-dark-theme';
 import { light } from '../lib/storybook-theme/storybook-light-theme';
 

@@ -43,7 +43,7 @@ function getContentData(app, event) {
 
   const storybookDocPageImportPath = path.join(
     path.relative(app.options.getValue('out'), workspaceRoot),
-    'packages/internal/storybook-doc-page/src'
+    'packages/internal/storybook-theme-switcher/src'
   );
 
   const tocItems = contents

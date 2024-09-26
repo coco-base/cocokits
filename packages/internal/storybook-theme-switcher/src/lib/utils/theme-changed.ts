@@ -1,7 +1,7 @@
 import { addons } from '@storybook/preview-api';
 import { distinctUntilChanged, fromEventPattern, shareReplay, startWith } from 'rxjs';
 
-import { getSelectedCckTheme } from '../componenets/theme-switcher.utils';
+import { getSelectedCckTheme } from '../components/theme-switcher.utils';
 import { CCK_THEME_CHANGED_EVENT_NAME } from '../config/cck-theme.config';
 import { CckThemeChangedEvent } from '../config/cck-themes.model';
 

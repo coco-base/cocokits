@@ -42,8 +42,8 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
           {
             Object.entries(coreClassNames.elements).map(([key, value]) => (
               <StyledTr key={key}>
-                <StyledTd noWrap={true}>{value.selectors}</StyledTd>
-                <StyledTd noWrap={true}>{key}</StyledTd>
+                <StyledTd $noWrap={true}>{value.selectors}</StyledTd>
+                <StyledTd $noWrap={true}>{key}</StyledTd>
                 <StyledTd><DocMarkdown>{value.description}</DocMarkdown></StyledTd>
               </StyledTr>
             ))
@@ -67,7 +67,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
 
 
               return (
-                <>
+                <React.Fragment key={key}>
                   <StyledH3>{key}</StyledH3>
                   <p>Selectors in this group act as <code>{key}</code> variants and are applied to specific layout elements.
                   </p>
@@ -85,11 +85,11 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
 
                       {/* default-type, default-color, default-size */}
                       <StyledTr key={config.name + 'default'}>
-                        <StyledTd noWrap={true}>
+                        <StyledTd $noWrap={true}>
                           { cssSelectorRender({ block: coreClassNames.prefix, modifier: `default-${config.name}` })}
                         </StyledTd>
                         <StyledTd>{selectedCckTheme.name}</StyledTd>
-                        <StyledTd noWrap={false}>
+                        <StyledTd $noWrap={false}>
                           {`Applied to the Host Element when no ${config.name} is defined within the component, defaulting to the selected theme's ${config.name}.`}
                         </StyledTd>
                       </StyledTr>
@@ -97,19 +97,19 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
                       {
                         Object.values(config.values).map(value => (
                           <StyledTr key={value.toString()}>
-                            <StyledTd noWrap={true}>
+                            <StyledTd $noWrap={true}>
                               {
                                 key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({block: coreClassNames.prefix, element: key, modifier: value})
                               }
                             </StyledTd>
                             <StyledTd>{selectedCckTheme.name}</StyledTd>
-                            <StyledTd noWrap={true}>Host Element</StyledTd>
+                            <StyledTd $noWrap={true}>Host Element</StyledTd>
                           </StyledTr>
                         ))
                       }
                     </tbody>
                   </StyledTable>
-                </>
+                </React.Fragment>
               );
             })
           }
@@ -128,7 +128,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
                   }
 
                   return (
-                    <>
+                    <React.Fragment key={key}>
                       <StyledH3>{key}</StyledH3>
                       {config.description && <DocMarkdown>{config.description}</DocMarkdown>}
 
@@ -144,19 +144,19 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
                           {
                             Object.values(config.values).map(value => (
                               <StyledTr key={value.toString()}>
-                                <StyledTd noWrap={true}>
+                                <StyledTd $noWrap={true}>
                                   {
                                     key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({ block: coreClassNames.prefix, element: key, modifier: value})
                                   }
                                 </StyledTd>
                                 <StyledTd>{selectedCckTheme.name}</StyledTd>
-                                <StyledTd noWrap={true}>Host Element</StyledTd>
+                                <StyledTd $noWrap={true}>Host Element</StyledTd>
                               </StyledTr>
                             ))
                           }
                         </tbody>
                       </StyledTable>
-                    </>
+                    </React.Fragment>
                   );
                 })
               }
@@ -168,7 +168,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
   );
 }
 
-// region ----------------  ----------------
+// region ---------------- STYLES ----------------
 const StyledH2 = styled.h2`
     margin-top: var(--cck-storybook-size-48)
 `;
@@ -200,13 +200,13 @@ const StyledTr = styled.tr`
         background-color: var(--cck-storybook-color-bg-table-even);
     }
 `;
-const StyledTd = styled.td<{ noWrap?: boolean }>`
+const StyledTd = styled.td<{ $noWrap?: boolean }>`
     font: var(--cck-storybook-text-sm-regular);
     color: var(--cck-storybook-color-font-contrast-2);
     padding: var(--cck-storybook-size-12) var(--cck-storybook-size-24);
     border-top: var(--cck-storybook-size-1) solid var(--cck-storybook-color-border-alpha-default);
 
-    ${props => props.noWrap && css`
+    ${props => props.$noWrap && css`
         white-space: nowrap;
     `}
     &:first-child {

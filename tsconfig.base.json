@@ -36,7 +36,6 @@
       "@cocokits/core": ["packages/common/core/src/index.ts"],
       "@cocokits/internal-model": ["packages/internal/internal-model/src/index.ts"],
       "@cocokits/react-overlay": ["packages/react/overlay/src/index.ts"],
-      "@cocokits/storybook-doc-page": ["packages/internal/storybook-doc-page/src/index.ts"],
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
       "@cocokits/theme-default": ["packages/themes/default/src/index.ts"],
       "@cocokits/theme-frame-x": ["packages/themes/frame-x/src/index.ts"],

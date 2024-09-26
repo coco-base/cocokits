@@ -1,6 +1,6 @@
 import { addons } from '@storybook/preview-api';
 
-import { getSelectedStorybookTheme } from '../componenets/theme-switcher.utils';
+import { getSelectedStorybookTheme } from '../components/theme-switcher.utils';
 import { STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
 import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
 

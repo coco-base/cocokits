@@ -3,6 +3,7 @@ import { DocsContextProps, PreparedStory } from '@storybook/types';
 import React, { createContext, ReactNode } from 'react';
 
 import { getDocPageContent } from './doc-page-context.util';
+import { storybookThemeListener } from './storybook-theme-listener';
 
 
 // region ---------------- CONTEXT ----------------
@@ -28,6 +29,8 @@ interface DocPageContainerProps {
 export const DocPageContainer = (props: DocPageContainerProps) => {
 
   const docPageContext = getDocPageContent(props.context);
+
+  storybookThemeListener(props.context);
 
   // Stories DocPage
   if(docPageContext) {

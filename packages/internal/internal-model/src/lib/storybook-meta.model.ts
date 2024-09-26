@@ -6,7 +6,7 @@ import type { UIComponentsName, UIComponentsPropName } from '@cocokits/core';
 // 'status:beta' // Sidenav label status
 export type CckStorybookSidenavItemStatus = '';
 
-// Will be used in 'packages/internal/storybook-doc-page/src/lib/components/doc-page/AutoDocMain.tsx'
+// Will be used in 'packages/internal/storybook-theme-switcher/src/lib/components/doc-page/AutoDocMain.tsx'
 export type CckStoryTheme =
   | 'theme:default' // Story will this tag, will be rendered only if the 'Default' theme is selected.
   | 'theme:frame-x'; // Story will this tag, will be rendered only if the 'FrameX' theme is selected.

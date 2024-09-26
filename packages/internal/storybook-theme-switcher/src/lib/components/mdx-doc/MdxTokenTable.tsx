@@ -73,7 +73,8 @@ export function MdxTokenTable() {
           {
             tokenDictionary.collectionNames.map(collectionName =>
               <StyledCollection
-                selected={selectedCollection === collectionName.name}
+                key={collectionName.name}
+                $selected={selectedCollection === collectionName.name}
                 onClick={() => setSelectedCollection(collectionName.name)}>
                 <span>{collectionName.name}</span>
               </StyledCollection>
@@ -85,7 +86,7 @@ export function MdxTokenTable() {
           <thead>
             <tr className='header'>
               <th>Name</th>
-              { modes.map(mode => <th>{mode}</th>) }
+              { modes.map(mode => <th key={mode}>{mode}</th>) }
             </tr>
           </thead>
 
@@ -94,14 +95,14 @@ export function MdxTokenTable() {
               tokenList.map(tokenOrGroupName => {
                 if(typeof tokenOrGroupName === 'string') {
                   return (
-                    <tr className='group'>
+                    <tr key={tokenOrGroupName} className='group'>
                       <td colSpan={modes.length  +1}>{tokenOrGroupName}</td>
                     </tr>
                   );
                 }
 
                 return (
-                  <tr className={selectedToken?.id === tokenOrGroupName.id ? 'selected' : ''} onClick={() => setSelectedToken(tokenDictionary.tokenMap[tokenOrGroupName.id])}>
+                  <tr key={tokenOrGroupName.id} className={selectedToken?.id === tokenOrGroupName.id ? 'selected' : ''} onClick={() => setSelectedToken(tokenDictionary.tokenMap[tokenOrGroupName.id])}>
                     <td><StyledTableName>{tokenOrGroupName.namePath.at(-1)}</StyledTableName></td>
                     {
                       modes.map(mode => {
@@ -109,14 +110,14 @@ export function MdxTokenTable() {
                         if(aliasTokenId) {
                           const aliasToken = tokenDictionary.tokenMap[aliasTokenId];
                           return (
-                            <td>
+                            <td key={aliasToken.id}>
                               <TokenTag tokenId={aliasToken.id} type={aliasToken.type} text={aliasToken.namePath.join(' / ')} compact={true}/>
                             </td>
                           );
                         }
 
                         return (
-                          <td>
+                          <td key={tokenOrGroupName.id}>
                             <TokenTag tokenId={tokenOrGroupName.id} type={tokenOrGroupName.type} text={tokenOrGroupName.modes[mode].value} compact={true}/>
                           </td>
                         );
@@ -159,7 +160,7 @@ const StyledCollectionWrapper = styled.div`
     gap: 12px;
 `;
 
-const StyledCollection = styled.div<{selected: boolean}>`
+const StyledCollection = styled.div<{$selected: boolean}>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -173,7 +174,7 @@ const StyledCollection = styled.div<{selected: boolean}>`
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    ${props => props.selected && css`
+    ${props => props.$selected && css`
         background-color: var(--cck-storybook-color-brand-alpha-6);
         border: 1px solid var(--cck-storybook-color-brand-default);
     `}

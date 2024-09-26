@@ -36,7 +36,7 @@ export const DocToc = ({items}: DocTocProps) => {
       <StyledOl>
         {items.map(item => (
           <StyledLi
-            selected={item.id === selected} key={item.id}
+            $selected={item.id === selected} key={item.id}
             onClick={() => scrollToStoryById(item.id)}>
             {item.name}
           </StyledLi>
@@ -75,7 +75,7 @@ const StyledOl = styled.ol`
     }
 `;
 
-const StyledLi = styled.li<{ selected: boolean }>`
+const StyledLi = styled.li<{ $selected: boolean }>`
     text-decoration-line: none;
     font: var(--cck-storybook-text-sm-regular);
     color: var(--cck-storybook-color-font-contrast-2);
@@ -85,7 +85,7 @@ const StyledLi = styled.li<{ selected: boolean }>`
         color: var(--cck-storybook-color-font-contrast-4);
     }
 
-    ${props => props.selected && css`
+    ${props => props.$selected && css`
         position: relative;
         color: var(--cck-storybook-color-brand-default);
 

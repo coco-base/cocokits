@@ -5,6 +5,8 @@ import { DocPage } from './DocPage';
 
 export const StoryAutoDocPage = () => {
 
+  console.log('StoryAutoDocPage');
+
   return (
     <DocPage hideCckThemeSwitcher={false}>
       <AutoDocMain></AutoDocMain>

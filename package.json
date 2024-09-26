@@ -144,7 +144,7 @@
     "@angular/router": "18.2.0",
     "@shikijs/markdown-it": "^1.6.5",
     "@storybook/addon-actions": "~8.0.9",
-    "@storybook/addon-interactions": "^8.2.8",
+    "@storybook/addon-interactions": "~8.0.9",
     "@storybook/components": "~8.0.9",
     "@storybook/icons": "^1.2.9",
     "markdown-it": "^14.1.0",

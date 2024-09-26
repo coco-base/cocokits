@@ -33,15 +33,15 @@ export function TokenValuePreview({token, tokenMap}: TokenValuePreviewProp) {
 
   if(token.type === 'color') {
     return (
-      <StylesWrapper gridSize={gridSize}>
-        { itemsValue.map(bgColor => <StylesColorItem bg={bgColor}/>) }
+      <StylesWrapper $gridSize={gridSize}>
+        { itemsValue.map(bgColor => <StylesColorItem $bg={bgColor}/>) }
       </StylesWrapper>
     );
   }
 
   if(token.type === 'dimension') {
     return (
-      <StylesWrapper gridSize={gridSize}>
+      <StylesWrapper $gridSize={gridSize}>
         { itemsValue.map(dimension => <StylesDimensionItem>{dimension}</StylesDimensionItem>) }
       </StylesWrapper>
     );
@@ -50,18 +50,18 @@ export function TokenValuePreview({token, tokenMap}: TokenValuePreviewProp) {
   return;
 }
 
-const StylesWrapper = styled.div<{gridSize: number}>`
+const StylesWrapper = styled.div<{$gridSize: number}>`
     width: 100px;
     display: grid;
-    grid-template-columns: ${({ gridSize }) => `repeat(${gridSize}, 1fr)`};
-    grid-template-rows: ${({ gridSize }) => `repeat(${gridSize}, 1fr)`};
+    grid-template-columns: ${({ $gridSize }) => `repeat(${$gridSize}, 1fr)`};
+    grid-template-rows: ${({ $gridSize }) => `repeat(${$gridSize}, 1fr)`};
     gap: 4px;
 `;
 
-const StylesColorItem = styled.div<{bg: string}>`
+const StylesColorItem = styled.div<{$bg: string}>`
     aspect-ratio: 1 / 1;
     border-radius: 6px;
-    background-color: ${({ bg }) => `${bg}`};
+    background-color: ${({ $bg }) => `${$bg}`};
     border: 1px solid var(--cck-storybook-color-border-alpha-default);
 `;
 

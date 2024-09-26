@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import { css, styled } from 'styled-components';
 
+import { TokenDictionary } from '@cocokits/core';
+import { tokenDictionary } from '@cocokits/theme-default';
+
 import { ReactDivAttr } from './CckThemeDialog.model';
 import { CCK_THEMES_MAP } from '../../config/cck-theme.config';
 import { CckTheme, CckThemeId } from '../../config/cck-themes.model';
 import { useDocSelectedStorybookTheme } from '../../hooks/useDocSelectedStorybookTheme';
-import { tokenDictionary } from '@cocokits/theme-default';
-import { TokenDictionary } from '@cocokits/core';
 
 
 interface CckThemeSelectionProps {
@@ -35,10 +36,10 @@ export const CckThemeSelection: FC<CckThemeSelectionProps & ReactDivAttr> =
           {Object.values(CCK_THEMES_MAP).map(theme => (
             <StyledTheme
               key={theme.id}
-              selected={selectedThemeId === theme.id}
+              $selected={selectedThemeId === theme.id}
               onClick={() => onThemeClick(theme)}>
               <StyledThemeBannerWrapper>
-                <StyledThemeTag selected={selectedThemeId === theme.id}>Free</StyledThemeTag>
+                <StyledThemeTag $selected={selectedThemeId === theme.id}>Free</StyledThemeTag>
                 <StyledThemeLogo src={storybookTheme === 'dark' ? theme.iconPathDark : theme.iconPathLight} />
               </StyledThemeBannerWrapper>
 
@@ -81,7 +82,7 @@ const StyledThemeWrapper = styled.div`
     gap: 48px;
 `;
 
-const StyledTheme = styled.div<{ selected: boolean }>`
+const StyledTheme = styled.div<{ $selected: boolean }>`
     flex: 1;
     height: var(--cck-storybook-size-224);
     display: flex;
@@ -92,7 +93,7 @@ const StyledTheme = styled.div<{ selected: boolean }>`
     background-color: var(--cck-storybook-color-bg-body-inverse-alpha-2);
     cursor: pointer;
 
-    ${props => props.selected && css`
+    ${props => props.$selected && css`
         border: 2px solid var(--cck-storybook-color-brand-default);
         //background-color: var(--cck-storybook-color-brand-alpha-4);
     `},
@@ -110,7 +111,7 @@ const StyledThemeBannerWrapper = styled.div`
     overflow: hidden;
 `;
 
-const StyledThemeTag = styled.div<{ selected: boolean }>`
+const StyledThemeTag = styled.div<{ $selected: boolean }>`
     position: absolute;
     top: 8px;
     right: 8px;
@@ -123,7 +124,7 @@ const StyledThemeTag = styled.div<{ selected: boolean }>`
     border-radius: 100px;
     background-color: var(--cck-storybook-color-brand-alpha-4);
     
-    ${props => props.selected && css`
+    ${props => props.$selected && css`
         background-color: var(--cck-storybook-color-brand-alpha-6);
     `},
 `;

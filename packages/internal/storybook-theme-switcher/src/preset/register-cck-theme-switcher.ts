@@ -21,9 +21,9 @@ import {
   CckThemeDialog,
   SelectThemeDialogData,
   SelectThemeDialogResult,
-} from '../lib/componenets/cck-theme-dialog/CckThemeDialog';
-import { ToolCckThemeSwitcher } from '../lib/componenets/cck-theme-switcher/ToolCckThemeSwitcher';
-import { generateCckThemeChangeEventData } from '../lib/componenets/theme-switcher.utils';
+} from '../lib/components/cck-theme-dialog/CckThemeDialog';
+import { ToolCckThemeSwitcher } from '../lib/components/cck-theme-switcher/ToolCckThemeSwitcher';
+import { generateCckThemeChangeEventData } from '../lib/components/theme-switcher.utils';
 
 export function registerCckThemeSwitcher() {
   listenToStorybookThemeChangeEvent();

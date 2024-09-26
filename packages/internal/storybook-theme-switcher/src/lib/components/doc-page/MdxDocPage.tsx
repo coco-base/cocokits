@@ -15,6 +15,7 @@ interface DocPageProps {
 
 export const MdxDocPage = ({children, groupTitle, toc, utilsPage, hideCckThemeSwitcher = false}: DocPageProps) => {
 
+  console.log('MdxDocPage');
   return (
     <>
       <DocPage hideCckThemeSwitcher={hideCckThemeSwitcher} utilsPage={utilsPage}>
