@@ -8,6 +8,11 @@ setCompodocJson(docJson);
 
 export const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: ['Getting Started', ['Welcome']],
+      },
+    },
     controls: {
       disable: true,
       expanded: true,
