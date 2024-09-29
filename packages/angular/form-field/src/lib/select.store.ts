@@ -1,4 +1,4 @@
-import { inject, InjectionToken, OnDestroy, Signal, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, InjectionToken, OnDestroy, Signal, signal, WritableSignal } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -16,6 +16,7 @@ export function injectSelectStore<T>(): SelectStoreService<T> {
   return inject(SelectStore, { optional: true }) ?? new SelectStoreService<T>();
 }
 
+@Injectable()
 export class SelectStoreService<T> implements OnDestroy {
   private selection = new Selection<T>();
   private selectionSignalMap = new Map<T, WritableSignal<boolean>>();

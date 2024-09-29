@@ -2,9 +2,11 @@
   "name": "@cocokits/angular-cdk",
   "version": "0.0.0",
   "private": false,
-  "peerDependencies": {},
-  "dependencies": {
+  "peerDependencies": {
     "@cocokits/angular-overlay": "workspace:*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

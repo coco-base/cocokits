@@ -14,6 +14,8 @@ export * from './lib/config/storybook-theme.model';
 export { MdxDocPage } from './lib/components/doc-page/MdxDocPage';
 export { DocMarkdown } from './lib/components/doc-page/DocMarkdown';
 export { MdxCssSelectorTable } from './lib/components/mdx-doc/MdxCssSelectorTable';
+export { MdxDocTabCode } from './lib/components/mdx-doc/MdxDocTabCode';
+export { MdxDocWithTheme } from './lib/components/mdx-doc/MdxDocWithTheme';
 export { MdxTokenTable } from './lib/components/mdx-doc/MdxTokenTable';
 
 export { getSelectedCckTheme } from './lib/components/theme-switcher.utils';

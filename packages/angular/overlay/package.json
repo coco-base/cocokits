@@ -6,12 +6,12 @@
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
     "@angular/animations": "^18.2.0",
-    "rxjs": "~7.8.0"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0",
+    "rxjs": "~7.8.0",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

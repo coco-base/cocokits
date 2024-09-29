@@ -9,7 +9,7 @@
       "require": "./index.js"
     }
   },
-  "dependencies": {
+  "peerDependencies": {
     "@cocokits/common-utils": "workspace:*"
   },
   "publishConfig": {

@@ -1,9 +1,7 @@
 {
   "name": "@cocokits/angular-components",
   "version": "0.0.0",
-  "peerDependencies": {},
-  "dependencies": {
-    "tslib": "^2.3.0",
+  "peerDependencies": {
     "@cocokits/angular-icon": "workspace:*",
     "@cocokits/angular-button": "workspace:*",
     "@cocokits/angular-checkbox": "workspace:*",
@@ -12,6 +10,9 @@
     "@cocokits/angular-divider": "workspace:*",
     "@cocokits/angular-menu": "workspace:*",
     "@cocokits/angular-toggle": "workspace:*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

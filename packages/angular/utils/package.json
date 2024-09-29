@@ -7,9 +7,7 @@
     "@angular/core": "^18.2.0",
     "@angular/platform-browser": "^18.2.0",
     "@angular/forms": "^18.2.0",
-    "rxjs": "~7.8.0"
-  },
-  "dependencies": {
+    "rxjs": "~7.8.0",
     "@cocokits/common-utils": "workspace:*"
   },
   "devDependencies": {

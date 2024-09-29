@@ -16,7 +16,7 @@
       (change)="onInteractionEvent($event)"/>
 
     <div [class]="classNames().backdrop"></div>
-    <div [class]="classNames().background" [innerHtml]="uiComponentConfig.checkbox.component.checkboxCheckmark | trustHtml"></div>
+    <div [class]="classNames().background" [innerHtml]="uiComponentConfig.checkbox.component?.checkboxCheckmark | trustHtml"></div>
 
   </div>
 

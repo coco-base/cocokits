@@ -1,12 +1,13 @@
 {
   "name": "@cocokits/theme-default",
   "version": "0.0.0",
-  "dependencies": {
-    "@swc/helpers": "~0.5.2",
+  "devDependencies": {
     "@cocokits/core": "workspace:*"
   },
+  "dependencies": {
+    "@swc/helpers": "~0.5.2"
+  },
   "type": "commonjs",
-  "devDependencies": {},
   "publishConfig": {
     "directory": "../../../dist/packages/themes/default"
   }

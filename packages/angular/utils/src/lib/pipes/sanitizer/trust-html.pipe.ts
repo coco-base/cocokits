@@ -20,7 +20,7 @@ export class TrustHtmlPipe implements PipeTransform {
   private sanitizer = inject(DomSanitizer);
 
   /** @ignore */
-  transform(htmlString: string): unknown {
-    return this.sanitizer.bypassSecurityTrustHtml(htmlString);
+  transform(htmlString: string | undefined): unknown {
+    return htmlString ? this.sanitizer.bypassSecurityTrustHtml(htmlString) : '';
   }
 }

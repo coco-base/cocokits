@@ -1,9 +1,11 @@
 {
   "name": "@cocokits/core",
   "version": "0.0.0",
-  "dependencies": {
-    "@swc/helpers": "~0.5.2",
+  "peerDependencies": {
     "@cocokits/common-utils": "workspace:*"
+  },
+  "dependencies": {
+    "@swc/helpers": "~0.5.2"
   },
   "type": "commonjs",
   "devDependencies": {

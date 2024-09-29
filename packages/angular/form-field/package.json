@@ -6,10 +6,7 @@
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
     "@angular/forms": "^18.2.0",
-    "rxjs": "^7.8.0"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0",
+    "rxjs": "^7.8.0",
     "@cocokits/angular-button": "workspace:*",
     "@cocokits/angular-icon": "workspace:*",
     "@cocokits/angular-checkbox": "workspace:*",
@@ -18,6 +15,9 @@
     "@cocokits/angular-core": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@storybook/angular": "~8.0.9",

@@ -1,14 +1,37 @@
 import { Meta } from '@storybook/addon-docs';
-import { MdxDocPage } from '../../../packages/internal/storybook-theme-switcher/src';
+import { MdxDocPage, MdxDocTabCode, getSelectedCckTheme, MdxDocWithTheme } from '../../../packages/internal/storybook-theme-switcher/src';
+
+
 
 <Meta title='Getting Started/Install'/>
 
 <MdxDocPage groupTitle='Getting Started'>
 
   # Install
+  This guide explains how to install `cocokits` to your project with you favorite theme.
+  It includes information on prerequisites, installation, and optionally displaying a sample component in your application to verify your setup.
 
-  ## TODO
+  ## Basic Installation
 
-  ### Multiple packages
-  CocoKits is divided into multiple packages, so you can install only the components you need.
+  ### Step 1
+  <MdxDocWithTheme fn={theme => `Install \`CocoKits\` components and \`${theme.name}\` theme`}/>
+
+  <MdxDocWithTheme fn={theme => {
+    return (
+      <MdxDocTabCode codeTabs={{
+        'npm': `npm i @cocokits/components @cocokits/${theme.id}`,
+        'yarn': `yarn add @cocokits/components @cocokits/${theme.id}`,
+        'pnpm': `pnpm add @cocokits/components @cocokits/${theme.id}`
+      }}/>
+    )
+  }}/>
+
+
+  ### Step 2
+  Add styles to your project
+  ```
+    TODO: ...
+  ```
+
+
 </MdxDocPage>
