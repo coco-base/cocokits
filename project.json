@@ -24,6 +24,14 @@
       "options": {
         "command": "nx run-many --all --target=build --parallel --maxParallel=4 --exclude=cocokits ----exclude=@cocokits/html-kits-doc --exclude=@cocokits/react-overlay --exclude=@cocokits/react-kits-doc"
       }
+    },
+    "local-registry": {
+      "executor": "@nx/js:verdaccio",
+      "options": {
+        "port": 4873,
+        "config": ".verdaccio/config.yml",
+        "storage": "tmp/local-registry/storage"
+      }
     }
   }
 }
