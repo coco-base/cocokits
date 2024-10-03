@@ -36,7 +36,7 @@ export const Color: AngularStoryObj<IconButtonComponent> = {
         </thead>
         <tbody>
           @for (type of uiComponentConfig?.iconButton.type?.values; track type) {
-            <tr [class.hidden]="themeName === 'FrameX' && type === 'secondary'">
+            <tr [class.hidden]="themeName === 'Frames X' && type === 'secondary'">
               <td>{{type}}</td>
               @for (color of uiComponentConfig?.iconButton.color?.values; track color) {
                 <td>

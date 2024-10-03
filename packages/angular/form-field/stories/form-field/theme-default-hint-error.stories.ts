@@ -6,7 +6,7 @@ import { copyIcon, emailIcon, infoIcon } from '../template-svg-icon';
 
 export const ThemeDefaultHintError: AngularStoryObj<FormFieldComponent> = {
   name: 'Theme Default: Hint & Error',
-  tags: ['theme:default', 'theme:frame-x'],
+  tags: ['theme:default', 'theme:frames-x'],
   parameters: {
     docs: {
       description: {

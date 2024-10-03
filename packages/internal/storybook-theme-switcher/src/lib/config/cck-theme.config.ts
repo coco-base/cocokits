@@ -6,10 +6,10 @@ import {
   tokenDictionary as tokenDictionaryDefaultTheme,
 } from '@cocokits/theme-default';
 import {
-  frameXUIComponentConfig,
-  svgIconMap as svgIconMapFrameXTheme,
-  tokenDictionary as tokenDictionaryFrameXTheme,
-} from '@cocokits/theme-frame-x';
+  framesXUIComponentConfig,
+  svgIconMap as svgIconMapFramesXTheme,
+  tokenDictionary as tokenDictionaryFramesXTheme,
+} from '@cocokits/theme-frames-x';
 
 import { CckTheme, CckThemeId } from './cck-themes.model';
 
@@ -45,17 +45,17 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     lightCollectionModes: { 'brand-color-1': 'light' },
     darkCollectionModes: { 'brand-color-1': 'dark' },
   },
-  'frame-x': {
-    id: 'frame-x',
-    name: 'FrameX',
+  'frames-x': {
+    id: 'frames-x',
+    name: 'Frames X',
     description:
       'This theme brings a modern and innovative style to component design. It enhances the visual experience with a fresh and unique approach, perfect for projects seeking a distinctive look.',
-    iconPathLight: '/frameX-logo-dark.svg',
-    iconPathDark: '/frameX-logo-light.svg',
-    tokenDictionary: tokenDictionaryFrameXTheme,
-    defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryFrameXTheme),
-    uiComponentConfig: frameXUIComponentConfig,
-    svgIconMap: svgIconMapFrameXTheme,
+    iconPathLight: '/framesX-logo-dark.svg',
+    iconPathDark: '/framesX-logo-light.svg',
+    tokenDictionary: tokenDictionaryFramesXTheme,
+    defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryFramesXTheme),
+    uiComponentConfig: framesXUIComponentConfig,
+    svgIconMap: svgIconMapFramesXTheme,
     lightCollectionModes: { 'color-mode': 'light' },
     darkCollectionModes: { 'color-mode': 'dark' },
   },

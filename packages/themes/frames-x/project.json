@@ -1,0 +1,51 @@
+{
+  "name": "@cocokits/theme-frames-x",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/themes/frames-x/src",
+  "projectType": "library",
+  "tags": ["type:theme", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/themes/frames-x",
+        "main": "packages/themes/frames-x/src/index.ts",
+        "tsConfig": "packages/themes/frames-x/tsconfig.lib.json",
+        "assets": [
+          "packages/themes/frames-x/*.md",
+          "packages/themes/frames-x/**/*.scss",
+          "packages/themes/frames-x/**/*.css"
+        ]
+      },
+      "dependsOn": ["build-css", "^build"]
+    },
+    "build-css": {
+      "executor": "@cocokits/workspace-plugin:scss-builder",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": [
+          {
+            "path": "packages/themes/frames-x/src/styles/css/components.scss",
+            "output": "packages/themes/frames-x/src/styles/css"
+          }
+        ]
+      }
+    },
+    "token-generator": {
+      "executor": "@cocokits/workspace-plugin:token-generator",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": ["packages/themes/frames-x/json-token/manifest.json"],
+        "excludeCollections": ["Breakpoints", "┈┈┈┈┈┈┈┈┈", "Components"],
+        "fontWeightPattern": "font-weight/*",
+        "parser": "design-tokens-manager",
+        "outputDir": "packages/themes/frames-x/src/token",
+        "themeName": "frames-x"
+      }
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

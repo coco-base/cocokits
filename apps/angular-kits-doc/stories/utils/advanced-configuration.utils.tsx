@@ -99,13 +99,13 @@ import {
   deepMerge,
 } from '@cocokits/angular-components';
 import { defaultUIComponentConfig } from '@cocokits/theme-default';
-import { frameXUIComponentConfig } from '@cocokits/theme-frame-x';
+import { framesXUIComponentConfig } from '@cocokits/theme-frames-x';
 
 const customUIComponentConfig = deepMerge(defaultUIComponentConfig, {
-  button: frameXUIComponentConfig.button,
-  iconButton: frameXUIComponentConfig.iconButton,
-  radioGroup: frameXUIComponentConfig.radioGroup,
-  radioButton: frameXUIComponentConfig.radioButton,
+  button: framesXUIComponentConfig.button,
+  iconButton: framesXUIComponentConfig.iconButton,
+  radioGroup: framesXUIComponentConfig.radioGroup,
+  radioButton: framesXUIComponentConfig.radioButton,
 } as DeepPartial<ThemeUIComponentsConfig>);
 
 bootstrapApplication(AppComponent, {
@@ -122,13 +122,13 @@ export function getMergeThemesStep3Scss() {
   return code(`scss
   
 @use "@cocokits/theme-default/styles-core" as Default;
-@use "@cocokits/theme-frame-x/styles-core" as FrameX;
+@use "@cocokits/theme-frames-x/styles-core" as FramesX;
 
-// Import styles from FrameX theme
-@include FrameX.components_button;
-@include FrameX.components_icon_button;
-@include FrameX.components_radio_button;
-@include FrameX.components_radio_group;
+// Import styles from Frames X theme
+@include FramesX.components_button;
+@include FramesX.components_icon_button;
+@include FramesX.components_radio_button;
+@include FramesX.components_radio_group;
 
 // Import styles from Default theme
 @include Default.components_checkbox;
@@ -220,8 +220,8 @@ export function getUseOnlyOneModeOption1code(theme: CckThemeChangedEvent) {
 
 // region ---------------- Change Token Selectors ----------------
 export function getChangeTokenSelectorsItems(theme: CckThemeChangedEvent) {
-  const lightFrom = theme.id === 'frame-x' ? '.cck-theme-frame-x__color-mode--light' : '.cck-theme-default__brand-color-1--light';
-  const darkFrom = theme.id === 'frame-x' ? '.cck-theme-frame-x__color-mode--dark' : '.cck-theme-default__brand-color-1--dark';
+  const lightFrom = theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--light' : '.cck-theme-default__brand-color-1--light';
+  const darkFrom = theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--dark' : '.cck-theme-default__brand-color-1--dark';
 
   return `
 - ${backtick(lightFrom)} -> ${backtick('.cck-theme-light')}
@@ -230,10 +230,10 @@ export function getChangeTokenSelectorsItems(theme: CckThemeChangedEvent) {
 }
 
 export function getChangeTokenSelectorsStep1Code(theme: CckThemeChangedEvent) {
-  const lightMixin = theme.id === 'frame-x' ? 'FrameX.variables_color_mode_light' : 'Default.cck-theme-default__brand-color-1--light';
-  const darkMixin = theme.id === 'frame-x' ? 'FrameX.variables_color_mode_dark' : 'Default.cck-theme-default__brand-color-1--dark';
+  const lightMixin = theme.id === 'frames-x' ? 'FramesX.variables_color_mode_light' : 'Default.cck-theme-default__brand-color-1--light';
+  const darkMixin = theme.id === 'frames-x' ? 'FramesX.variables_color_mode_dark' : 'Default.cck-theme-default__brand-color-1--dark';
 
-  const collectionNameWithLightAndDark = theme.id === 'frame-x' ? 'color-mode' : 'brand-color-1';
+  const collectionNameWithLightAndDark = theme.id === 'frames-x' ? 'color-mode' : 'brand-color-1';
 
   const otherMixins = Object.entries(theme.selectedModes)
     .filter(([collection]) => collection !== collectionNameWithLightAndDark)

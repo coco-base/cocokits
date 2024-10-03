@@ -9,7 +9,7 @@ export type CckStorybookSidenavItemStatus = '';
 // Will be used in 'packages/internal/storybook-theme-switcher/src/lib/components/doc-page/AutoDocMain.tsx'
 export type CckStoryTheme =
   | 'theme:default' // Story will this tag, will be rendered only if the 'Default' theme is selected.
-  | 'theme:frame-x'; // Story will this tag, will be rendered only if the 'FrameX' theme is selected.
+  | 'theme:frames-x'; // Story will this tag, will be rendered only if the 'Frames X' theme is selected.
 
 export type CckStoryUiComponentName = `uiComponentName:${UIComponentsName}`;
 export type CckStoryUiComponentPropName = `uiComponentPropName:${UIComponentsPropName}`;

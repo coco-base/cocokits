@@ -96,7 +96,7 @@ export function getStep4IndexHtmlAttrSelector(theme: CckThemeChangedEvent) {
 
 export function getStep4IndexHtmlSelectorExample(theme: CckThemeChangedEvent) {
 
-  const collection = theme.id === 'frame-x' ? 'sizing' : 'brand-color-1';
+  const collection = theme.id === 'frames-x' ? 'sizing' : 'brand-color-1';
   const firstMode = theme.selectedModes[collection];
 
   return `

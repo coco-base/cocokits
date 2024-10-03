@@ -7,7 +7,7 @@
     "@cocokits/core": "workspace:*",
     "@cocokits/react-overlay": "workspace:*",
     "@cocokits/theme-default": "workspace:*",
-    "@cocokits/theme-frame-x": "workspace:*",
+    "@cocokits/theme-frames-x": "workspace:*",
     "@griffel/react": "^1.5.22",
     "@shikijs/markdown-it": "^1.6.5",
     "@storybook/addon-docs": "~8.0.9",
