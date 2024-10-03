@@ -1,45 +1,15 @@
 import { CckThemeChangedEvent } from '../../../../packages/internal/storybook-theme-switcher/src';
 import { camelCase } from 'lodash';
-import { backtick, code, header } from './markdown.util';
+import { backtick, code } from './markdown.util';
 
 export const tocItems = [
-  {"id":"step-1","name":"Step 1"},
-  {"id":"step-2","name":"Step 2"},
-  {"id":"step-3","name":"Step 3"},
-  {"id":"step-4","name":"Step 4"},
-  {"id":"step-5","name":"Step 5"},
-  {"id":"step-6","name":"Step 6"},
+  {"id":"step-1-install-packages","name":"Step 1"},
+  {"id":"step-2-provide-theme-configuration","name":"Step 2"},
+  {"id":"step-3-add-component-styles","name":"Step 3"},
+  {"id":"step-4-apply-theme-modes","name":"Step 4"},
+  {"id":"step-5-basic-usage-of-components","name":"Step 5"},
+  {"id":"step-6-use-tokens-in-your-component-styles","name":"Step 6"},
 ];
-
-
-export function getStep1Description(theme: CckThemeChangedEvent) {
-  return `Install the ${backtick('CocoKits')} Angular components and the ${backtick(theme.name)} theme:
-
-`;
-}
-
-export function getStep2Description(theme: CckThemeChangedEvent) {
-  return `Provide the ${backtick(theme.name)} theme configuration in the root of your application.`;
-}
-
-export function getStep3Description() {
-  return 'Add the component styles to your `angular.json` or `project.json` file';
-}
-
-export function getStep4Description() {
-  return [
-    'To ensure that your application uses the correct styles, you need to include at least one mode for each collection in the theme. This can be done by adding CSS classes to the `<html>` tag in your index.html file.',
-    'You can choose different modes for each collection based on your preferences.'
-  ].join('\n')
-}
-
-export function getStep5Description() {
-  return ``;
-}
-
-export function getStep6Description() {
-  return `You can use theme tokens in your component styles to maintain consistency across your application.`;
-}
 
 
 export function getStep2StandaloneApp(theme: CckThemeChangedEvent) {
@@ -96,38 +66,45 @@ export function getStep3AngularJson(theme: CckThemeChangedEvent) {
   return code(tsCodes);
 }
 
-export function getStep4IndexHtml(theme: CckThemeChangedEvent) {
+export function getStep4IndexHtmlCssSelector(theme: CckThemeChangedEvent) {
+  const selectors = Object.entries(theme.selectedModes)
+    .map(([collection, mode]) => `cck-theme-${theme.id}__${collection}--${mode}`)
+    .join(' ');
+
+  const html = `html
+<html class="${selectors}">
+...
+</html>
+  `;
+
+  return code(html);
+}
+
+export function getStep4IndexHtmlAttrSelector(theme: CckThemeChangedEvent) {
   const selectors = Object.entries(theme.selectedModes)
     .map(([collection, mode]) => `${theme.id}__${collection}--${mode}`)
+    .join(' ');
 
-  const classSelectorCode = `html
-<html class="${selectors.map(selector => `cck-theme-${selector}`).join(' ')}">
+  const html = `html
+<html data-cck-theme="${selectors}">
 ...
 </html>
   `;
 
-  const attrSelectorCode = `html
-<html data-cck-theme="${selectors.join(' ')}">
-...
-</html>
-  `;
+  return code(html);
+}
 
-  const firstCollection = theme.tokenDictionary.collectionNames[1] ?? theme.tokenDictionary.collectionNames[0];
-  const firstMode = theme.selectedModes[firstCollection.name];
+export function getStep4IndexHtmlSelectorExample(theme: CckThemeChangedEvent) {
 
-  return [
-    code(classSelectorCode),
-    'Alternatively, you can use the data-cck-theme attribute:',
-    code(attrSelectorCode),
-    '**Note:** You must include at least one mode for each collection to ensure all styles are properly applied in your app. Otherwise, some tokens may not be defined.',
-    header(3, 'Collection and Mode Naming Convention'),
-    'We use the following naming convention for collections and modes:',
-    code('cck-theme-[THEME_NAME]__[COLLECTION_NAME]--[MODE_NAME]', false),
-    `For example, to set the sizing mode to ${backtick(firstMode)} in the ${backtick(theme.name)} theme:`,
-    `- **Collection Name:** ${backtick(firstCollection.name)}`,
-    `- **Mode Name:** ${backtick(firstMode)}`,
-    `- **CSS Class:** ${backtick(`cck-theme-${theme.id}__${firstCollection.name}--${firstMode}`)}`,
-  ];
+  const collection = theme.id === 'frame-x' ? 'sizing' : 'brand-color-1';
+  const firstMode = theme.selectedModes[collection];
+
+  return `
+For example, to set the ${backtick(firstMode)} mode from ${backtick(collection)}:
+  - **Collection Name:** ${backtick(collection)}
+  - **Mode Name:** ${backtick(firstMode)}
+  - **CSS Class:** ${backtick(`cck-theme-${theme.id}__${collection}--${firstMode}`)}
+    `;
 }
 
 export function getStep4CollectionModesTable(theme: CckThemeChangedEvent) {
@@ -163,12 +140,7 @@ export function getStep4CollectionModesTable(theme: CckThemeChangedEvent) {
     </table>
   )
 
-  return [
-    header(3, 'Available Collections and Modes'),
-    `Here is a list of all collections, modes, and their corresponding CSS selectors for the ${theme.name} design system:`,
-    table,
-    `**Note:** Adjust the collections and modes based on the actual theme options available.`
-  ]
+  return table;
 }
 
 export function getStep5HelloComponent() {
@@ -189,10 +161,7 @@ import { ButtonComponent, CheckboxComponent } from '@cocokits/angular-components
 export class HelloComponent {}
 `
 
-  return [
-    code(tsCodes),
-    'For more examples and configuration options, check the documentation page of each component.'
-  ];
+  return code(tsCodes);
 }
 
 export function getStep6Token(theme: CckThemeChangedEvent) {
@@ -205,9 +174,5 @@ export function getStep6Token(theme: CckThemeChangedEvent) {
 }
 `
 
-  return [
-    code(tsCodes),
-    '**Note:** Replace `YOUR_TOKEN_NAME` with the desired token name.',
-    'You can find all tokens with their names and values in the `Theme Config / Tokens` page of the documentation.'
-  ];
+  return code(tsCodes);
 }
