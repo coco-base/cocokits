@@ -8,8 +8,7 @@
     font: $text-base-font-medium;
     padding: $spacing-6 $spacing-5;
     gap: $spacing-6;
-    border-radius: $radi-6;
-    margin: 0 4px;
+    color: $text-dark-secondary;
   }
 
   .cck-menu-item:not(.cck-menu-item--disabled) {
