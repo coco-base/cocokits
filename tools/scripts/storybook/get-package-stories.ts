@@ -13,6 +13,7 @@ interface PackageJson {
   name: string;
   version: string;
   dependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
 }
 
 export function getPackageStories({
@@ -27,7 +28,10 @@ export function getPackageStories({
     fs.readFileSync(path.resolve(workspaceRoot, projectMetadata.root, 'package.json'), 'utf-8')
   );
 
-  const dependencies = { ...(packageJson.dependencies ?? {}) };
+  const dependencies = {
+    ...(packageJson.dependencies ?? {}),
+    ...(packageJson.peerDependencies ?? {}),
+  };
   const rootOffset = offsetFromRoot(callerPath.replace(workspaceRoot, ''));
 
   const packages = [packageName, ...Object.keys(dependencies)];
