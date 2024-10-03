@@ -2,6 +2,10 @@
   "name": "@cocokits/angular-components",
   "version": "0.0.0",
   "peerDependencies": {
+    "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/core": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
     "@cocokits/angular-icon": "workspace:*",
     "@cocokits/angular-button": "workspace:*",
     "@cocokits/angular-checkbox": "workspace:*",
