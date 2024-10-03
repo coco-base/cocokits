@@ -9,7 +9,7 @@
       "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/themes/default",
+        "outputPath": "dist/packages/themes/frame-x",
         "main": "packages/themes/frame-x/src/index.ts",
         "tsConfig": "packages/themes/frame-x/tsconfig.lib.json",
         "assets": [

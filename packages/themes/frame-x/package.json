@@ -11,5 +11,23 @@
   "devDependencies": {},
   "publishConfig": {
     "directory": "../../../dist/packages/themes/frame-x"
-  }
+  },
+  "exports": {
+    "./styles.css": "./src/styles/css/components.css",
+    "./styles.min.css": "./src/styles/css/components.min.css",
+    "./tokens.css": "./src/token/css/tokens.css",
+    "./tokens.min.css": "./src/token/css/tokens.min.css",
+    "./tokens": {
+      "sass": "./_tokens.scss"
+    },
+    "./styles-core": {
+      "sass": "./_styles-core.scss"
+    },
+    "./tokens-core": {
+      "sass": "./_tokens-core.scss"
+    }
+  },
+  "module": "./index.js",
+  "main": "./index.js",
+  "types": "./src/index.ts"
 }
