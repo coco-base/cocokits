@@ -25,7 +25,7 @@ export const Type: AngularStoryObj<ButtonComponent> = {
     template: `
         @for (type of uiComponentConfig?.button.type?.values; track type) {
           <div class="flex-col flex-center gap-12">
-            <button cck-button [type]="type">button</button>
+            <button cck-button [type]="type">Button</button>
             <span class="p-sm-regular-2">{{type}}</span>
           </div>
         }

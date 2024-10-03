@@ -36,7 +36,7 @@ export const Size: AngularStoryObj<ButtonComponent> = {
               <td>{{type}}</td>
               @for (size of uiComponentConfig?.button.size?.values; track size) {
                 <td>
-                  <button cck-button [type]="type" [size]="size">button</button>
+                  <button cck-button [type]="type" [size]="size">Button</button>
                 </td>
               }
             </tr>

@@ -37,11 +37,11 @@ export const Color: AngularStoryObj<ButtonComponent> = {
               <td>{{type}}</td>
               @for (color of uiComponentConfig?.button.color?.values; track color) {
                 <td>
-                  <button cck-button [type]="type" [color]="color">button</button>
+                  <button cck-button [type]="type" [color]="color">Button</button>
                 </td>
               }
               <td>
-                  <button cck-button [type]="type" [color]="color" disabled>button</button>
+                  <button cck-button [type]="type" [color]="color" disabled>Button</button>
                 </td>
             </tr>
           }
