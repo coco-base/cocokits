@@ -52,7 +52,6 @@ export function getSelectedCckTheme(): CckThemeChangedEvent | null {
 
 export function getSelectedStorybookTheme(): StorybookThemeName {
   /**
-   * TODO: Check it one more them. I changed `dispatchDefaultThemEvent` function to dispatch the first event after the storybook is ready.
    * Initialized themeName:
    *
    * The source event is initialized in the manager file and the initialized value is dispatched from the manager.
@@ -70,6 +69,7 @@ export function getSelectedStorybookTheme(): StorybookThemeName {
   const lastEvents: StorybookThemeChangedEvent[] | undefined = addons
     .getChannel()
     .last(STORYBOOK_THEME_CHANGED_EVENT_NAME);
+
   if (lastEvents && lastEvents.length > 0) {
     return lastEvents[0].themeName;
   }

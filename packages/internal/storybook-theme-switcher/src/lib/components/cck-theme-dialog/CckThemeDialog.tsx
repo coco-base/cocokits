@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { styled } from 'styled-components';
 
 import { OverlayRef } from '@cocokits/react-overlay';
-import { CCK_THEMES_MAP, CckTheme, CckThemeId } from '@cocokits/storybook-theme-switcher';
+import { CCK_THEMES_MAP, CckTheme, CckThemeId, StorybookThemeName } from '@cocokits/storybook-theme-switcher';
 
 import { CckModeSelection } from './CckModeSelection';
 import { SelectedThemeModes } from './CckThemeDialog.model';
@@ -12,11 +12,13 @@ import { CckThemeSelection } from './CckThemeSelection';
 export interface SelectThemeDialogData {
   selectedThemeId: CckThemeId;
   selectedThemeModes: Record<string, string>;
+  storybookThemeName: StorybookThemeName
 }
 
 export interface SelectThemeDialogResult {
   themeId: CckThemeId,
-  selectedModes: SelectedThemeModes
+  selectedModes: SelectedThemeModes;
+  changeStorybookTheme: boolean;
 }
 
 export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData, SelectThemeDialogResult>) => {
@@ -34,6 +36,29 @@ export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData
 
   const onModeChanged = (newSelectedModes: SelectedThemeModes) => {
     setSelectedModes(newSelectedModes);
+  };
+
+  const onCloseClick = () => {
+    const lightDarkCollectionModes = data.storybookThemeName === 'light' ? CCK_THEMES_MAP[selectedTheme.id].lightCollectionModes : CCK_THEMES_MAP[selectedTheme.id].darkCollectionModes;
+    const hasMismatchLightheartedMode = Object.entries(lightDarkCollectionModes).some(([collection, mode]) => {
+      return selectedModes[collection] ? selectedModes[collection] !== mode : false;
+    });
+
+    if(hasMismatchLightheartedMode) {
+      // eslint-disable-next-line no-alert
+      const changeStorybookTheme = confirm(`The documentation page is currently in ${data.storybookThemeName} mode, but you've selected the ${data.storybookThemeName === 'light' ? 'dark' : 'light'} mode for the theme. Some components might not display correctly. Would you like to change the documentation page theme to ${data.storybookThemeName === 'light' ? 'dark' : 'light'} mode as well?`);
+      close({
+        themeId: selectedTheme.id,
+        selectedModes,
+        changeStorybookTheme
+      });
+    }
+
+    close({
+      themeId: selectedTheme.id,
+      selectedModes,
+      changeStorybookTheme: false
+    });
   };
 
   return (
@@ -64,6 +89,7 @@ export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData
         selectedTabIndex === 1 &&
         <StyledCckModeSelection
           selectedTheme={selectedTheme}
+          storybookThemeName={data.storybookThemeName}
           defaultSelectedThemeModes={data.selectedThemeModes}
           onModeChanged={onModeChanged} />
       }
@@ -71,12 +97,7 @@ export const CckThemeDialog = ({ data, close }: OverlayRef<SelectThemeDialogData
       <StyledFooter>
         {
           selectedTabIndex === 1 &&
-          <StyledSaveButton onClick={() => {
-            close({
-              themeId: selectedTheme.id,
-              selectedModes
-            });
-          }}>
+          <StyledSaveButton onClick={onCloseClick}>
             Save
           </StyledSaveButton>
         }

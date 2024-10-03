@@ -1,7 +1,8 @@
-import React, { FC, HTMLAttributes, useState } from 'react';
-import { css, styled } from 'styled-components';
+import React, { FC, HTMLAttributes, useEffect, useState } from 'react';
+import { styled } from 'styled-components';
 
-import { CCK_THEMES_MAP, CckTheme, useDocSelectedStorybookTheme } from '@cocokits/storybook-theme-switcher';
+import { recordReduceMerge } from '@cocokits/common-utils';
+import { CCK_THEMES_MAP, CckTheme, StorybookThemeName } from '@cocokits/storybook-theme-switcher';
 
 import { SelectedThemeModes } from './CckThemeDialog.model';
 
@@ -9,15 +10,23 @@ type ReactDivAttr = HTMLAttributes<HTMLDivElement>;
 
 interface CckModeSelectionProps {
   selectedTheme: CckTheme;
-  defaultSelectedThemeModes: Record<string, string>
+  defaultSelectedThemeModes: Record<string, string>;
+  storybookThemeName: StorybookThemeName;
   onModeChanged: (selectedModes: SelectedThemeModes) => void;
 }
 
 export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
-  ({ selectedTheme, defaultSelectedThemeModes, onModeChanged, ...props }) => {
+  ({ selectedTheme, defaultSelectedThemeModes, storybookThemeName, onModeChanged, ...props }) => {
 
-    const [selectedModes, setSelectedModes] = useState<SelectedThemeModes>(CCK_THEMES_MAP[selectedTheme.id].defaultSelectedModes);
-    const storybookTheme = useDocSelectedStorybookTheme();
+    const lightDarkCollectionModes = storybookThemeName === 'light' ? CCK_THEMES_MAP[selectedTheme.id].lightCollectionModes : CCK_THEMES_MAP[selectedTheme.id].darkCollectionModes;
+    const defaultSelectedModes =  recordReduceMerge(CCK_THEMES_MAP[selectedTheme.id].defaultSelectedModes, (mode, collection) => {
+      const modeValue = lightDarkCollectionModes[collection] ?? mode;
+      return {[collection]: modeValue};
+    });
+
+
+    const [selectedModes, setSelectedModes] = useState<SelectedThemeModes>(defaultSelectedModes);
+
 
     const _onModeChanged = (collectionName: string, mode: string) => {
       const newSelectedModes = {
@@ -29,12 +38,17 @@ export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
       onModeChanged(newSelectedModes);
     };
 
+    useEffect(() => {
+      onModeChanged(selectedModes);
+    }, [selectedModes]);
+
+
     return (
       <StyledWrapper {...props}>
 
         <StyledHeaderWrapper>
           <StyledLogo
-            src={storybookTheme === 'dark' ? selectedTheme.iconPathDark : selectedTheme.iconPathLight}></StyledLogo>
+            src={storybookThemeName === 'light' ? selectedTheme.iconPathDark : selectedTheme.iconPathLight}></StyledLogo>
           <StyledHeader>{selectedTheme.name}</StyledHeader>
         </StyledHeaderWrapper>
 
@@ -46,17 +60,13 @@ export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
               <StyledModesWrapper key={collectionName}>
                 <StyledCollectionName>{collectionName}</StyledCollectionName>
                 {
-                  modes.map((mode, index) => (
+                  modes.map((mode) => (
                     <RadioWrapper key={mode.name}>
                       <input
                         type="radio"
                         id={mode.name}
                         name={collectionName}
-                        defaultChecked={
-                          defaultSelectedThemeModes[collectionName]
-                            ? defaultSelectedThemeModes[collectionName] === mode.name
-                            : index === 0
-                        }
+                        defaultChecked={defaultSelectedModes[collectionName] === mode.name}
                         onChange={() => _onModeChanged(collectionName, mode.name)} />
                       <label htmlFor={mode.name}>
                         {mode.name}

@@ -60,10 +60,15 @@ function listenToOpenDialogEvent() {
 
   channel.on(CCK_OPEN_THEME_SELECTION_EVENT_NAME, async () => {
     const lastEvent: CckThemeChangedEvent[] | undefined = channel.last(CCK_THEME_CHANGED_EVENT_NAME);
+    const lastStorybookThemeName: StorybookThemeChangedEvent[] | undefined = channel.last(
+      STORYBOOK_THEME_CHANGED_EVENT_NAME
+    );
+    const storybookThemeName = lastStorybookThemeName?.[0].themeName ?? 'dark';
     const result = await openOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
       data: {
         selectedThemeId: lastEvent?.[0].id ?? 'default',
         selectedThemeModes: lastEvent?.[0].selectedModes ?? {},
+        storybookThemeName: storybookThemeName,
       },
       animationType: OverlayAnimationType.CenterTopToBottom,
     });
@@ -76,6 +81,13 @@ function listenToOpenDialogEvent() {
       id: result.themeId,
       selectedModes: result.selectedModes,
     });
+
+    if (result.changeStorybookTheme) {
+      const storybookThemeChangeEventData: StorybookThemeChangedEvent = {
+        themeName: storybookThemeName === 'light' ? 'dark' : 'light',
+      };
+      channel.emit(STORYBOOK_THEME_CHANGED_EVENT_NAME, storybookThemeChangeEventData);
+    }
   });
 }
 

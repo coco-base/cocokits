@@ -31,7 +31,7 @@ export const ToolStorybookThemeSwitcher = memo(() => {
     [STORYBOOK_THEME_CHANGED_EVENT_NAME]: ({ themeName }: StorybookThemeChangedEvent) => setSelectedThemeName(themeName)
   });
 
-  const updateTheme = (themeName: 'light' | 'dark') => {
+  const updateTheme = (themeName: StorybookThemeName) => {
     emit(STORYBOOK_THEME_CHANGED_EVENT_NAME, { themeName });
   };
 
