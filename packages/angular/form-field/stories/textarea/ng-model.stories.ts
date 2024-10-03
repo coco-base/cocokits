@@ -29,7 +29,7 @@ export const NgModel: AngularStoryObj<InputComponent> = {
         <div class="flex-col">
           <cck-form-field>
             <cck-label>ngModel</cck-label>
-            <textarea cckTextarea [(ngModel)]="modelValue"></textarea>
+            <textarea cckTextarea [(ngModel)]="modelValue" placeholder="Placeholder"></textarea>
           </cck-form-field>
         </div>
         

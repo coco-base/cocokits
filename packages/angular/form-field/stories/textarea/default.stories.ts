@@ -24,7 +24,7 @@ export const Default: AngularStoryObj<TextareaComponent> = {
     template: `
         <cck-form-field>
           <cck-label>Label</cck-label>
-          <textarea cckTextarea></textarea>
+          <textarea cckTextarea placeholder="Placeholder"></textarea>
         </cck-form-field>
     `,
   }),

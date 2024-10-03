@@ -23,7 +23,7 @@ export const AutoResize: AngularStoryObj<TextareaComponent> = {
     template: `
         <cck-form-field>
           <cck-label>AutoResize</cck-label>
-          <textarea cckTextarea [autoResize]="true"></textarea>
+          <textarea cckTextarea [autoResize]="true" placeholder="Placeholder"></textarea>
         </cck-form-field>
     `,
   }),
