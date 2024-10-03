@@ -13,6 +13,8 @@
     "../stories/**/*.stories.mdx",
     "./*.js",
     "./*.ts",
+    "../stories/**/*.ts",
+    "../stories/**/*.tsx",
     "../../../packages/internal/storybook-theme-switcher/**/*.ts",
     "../../../packages/internal/storybook-theme-switcher/**/*.tsx",
     "../../../packages/angular/**/index.stories.ts"

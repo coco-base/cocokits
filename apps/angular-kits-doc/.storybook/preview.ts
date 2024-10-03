@@ -10,7 +10,14 @@ export const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        order: ['Getting Started', ['Welcome']],
+        order: [
+          'Getting Started',
+          ['Welcome', 'Install', 'Advanced Install'],
+          'UI Components',
+          'Theme Config',
+          'CDK',
+          'Utils',
+        ],
       },
     },
     controls: {

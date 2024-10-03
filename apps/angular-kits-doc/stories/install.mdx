@@ -1,37 +1,70 @@
 import { Meta } from '@storybook/addon-docs';
-import { MdxDocPage, MdxDocTabCode, getSelectedCckTheme, MdxDocWithTheme } from '../../../packages/internal/storybook-theme-switcher/src';
-
+import { MdxDocPage, MdxDocTabCode,  MdxDocWithTheme } from '../../../packages/internal/storybook-theme-switcher/src';
+import {
+  getStep1Description,
+  tocItems,
+  getStep2Description,
+  getStep2StandaloneApp,
+  getStep2ModuleApp,
+  getStep3Description,
+  getStep3AngularJson,
+  getStep4Description,
+  getStep4IndexHtml,
+  getStep4CollectionModesTable, getStep5Description, getStep5HelloComponent, getStep6Description, getStep6Token,
+} from './utils/install.utils';
+import { bold, header } from './utils/markdown.util';
 
 
 <Meta title='Getting Started/Install'/>
 
-<MdxDocPage groupTitle='Getting Started'>
+<MdxDocPage groupTitle='Getting Started' toc={tocItems} utilsPage={true}>
 
-  # Install
-  This guide explains how to install `cocokits` to your project with you favorite theme.
-  It includes information on prerequisites, installation, and optionally displaying a sample component in your application to verify your setup.
+  # Installation Guide
 
-  ## Basic Installation
+  This guide explains how to install `CocoKits` into your project with your preferred theme.
+  It includes information on prerequisites, installation, and how to display a sample component in your application to verify your setup.
 
-  ### Step 1
-  <MdxDocWithTheme fn={theme => `Install \`CocoKits\` components and \`${theme.name}\` theme`}/>
-
-  <MdxDocWithTheme fn={theme => {
-    return (
-      <MdxDocTabCode codeTabs={{
-        'npm': `npm i @cocokits/components @cocokits/${theme.id}`,
-        'yarn': `yarn add @cocokits/components @cocokits/${theme.id}`,
-        'pnpm': `pnpm add @cocokits/components @cocokits/${theme.id}`
-      }}/>
-    )
-  }}/>
+  ## Before you start
+  make sure you select the theme that you want to install along with your preferred mode from each collection.
 
 
-  ### Step 2
-  Add styles to your project
-  ```
-    TODO: ...
-  ```
-
+  <MdxDocWithTheme fn={theme => [
+    header(2, 'Step 1: Install Packages'),
+    getStep1Description(theme),
+    <MdxDocTabCode codeTabs={{
+      'npm': `npm i @cocokits/angular-components @cocokits/theme-${theme.id}`,
+      'yarn': `yarn add @cocokits/angular-components @cocokits/theme-${theme.id}`,
+      'pnpm': `pnpm add @cocokits/angular-components @cocokits/theme-${theme.id}`
+    }}/>
+    ,
+    header(2, 'Step 2: Provide Theme Configuration'),
+    getStep2Description(theme),
+    header(3, 'For Standalone Applications')
+    ,
+    bold('main.ts'),
+    getStep2StandaloneApp(theme),
+    header(3, 'For Module-Based Applications'),
+    bold('app.module.ts'),
+    getStep2ModuleApp(theme)
+    ,
+    header(2, 'Step 3: Add Component Styles'),
+    getStep3Description(),
+    getStep3AngularJson(theme)
+    ,
+    header(2, 'Step 4: Apply Theme Modes'),
+    getStep4Description(),
+    header(3, 'index.html'),
+    ...getStep4IndexHtml(theme),
+    ...getStep4CollectionModesTable(theme)
+    ,
+    header(2, 'Step 5: Basic Usage of Components'),
+    getStep5Description(),
+    ...getStep5HelloComponent()
+    ,
+    header(2, 'Step 6: Use Tokens in Your Component Styles'),
+    getStep6Description(),
+    header(3, 'app.component.scss'),
+    ...getStep6Token(theme)
+  ]}/>
 
 </MdxDocPage>

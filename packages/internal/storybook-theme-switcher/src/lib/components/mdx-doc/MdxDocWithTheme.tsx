@@ -5,7 +5,9 @@ import { CckThemeChangedEvent } from '../../config/cck-themes.model';
 import { useDocSelectedCckTheme } from '../../hooks/useDocSelectedCckTheme';
 
 
-export const MdxDocWithTheme = ({ fn }: { fn: (theme: CckThemeChangedEvent) => string | JSX.Element }) => {
+export const MdxDocWithTheme = ({ fn }: {
+  fn: (theme: CckThemeChangedEvent) => string | JSX.Element | (string | JSX.Element)[]
+}) => {
 
   const cckTheme = useDocSelectedCckTheme();
 
@@ -21,6 +23,20 @@ export const MdxDocWithTheme = ({ fn }: { fn: (theme: CckThemeChangedEvent) => s
         {children.trim()}
       </Markdown>
     );
+  }
+
+  if (Array.isArray(children)) {
+    return children.map(child => {
+      if (typeof child === 'string') {
+        return (
+          <Markdown>
+            {child.trim()}
+          </Markdown>
+        );
+      }
+
+      return child;
+    });
   }
 
   return children;
