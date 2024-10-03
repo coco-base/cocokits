@@ -16,5 +16,8 @@
   },
   "publishConfig": {
     "directory": "../../../dist/packages/common/utils"
-  }
+  },
+  "module": "./index.js",
+  "main": "./index.js",
+  "types": "./src/index.ts"
 }
