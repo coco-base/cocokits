@@ -22,7 +22,7 @@
     "build-all": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx run-many --all --target=build --parallel --maxParallel=4 --exclude=cocokits ----exclude=@cocokits/html-kits-doc --exclude=@cocokits/react-overlay --exclude=@cocokits/react-kits-doc"
+        "command": "nx run-many --all --target=build --parallel --maxParallel=4"
       }
     },
     "local-registry": {
