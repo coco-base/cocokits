@@ -39,7 +39,10 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     iconPathLight: '/cocokits-icon-dark.svg',
     iconPathDark: '/cocokits-icon-light.svg',
     tokenDictionary: tokenDictionaryDefaultTheme,
-    defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryDefaultTheme),
+    defaultSelectedModes: {
+      ...getDefaultSelectedModes(tokenDictionaryDefaultTheme),
+      'brand-color-1': 'dark',
+    },
     uiComponentConfig: cocokitsUIComponentConfig,
     svgIconMap: svgIconMapDefaultTheme,
     lightCollectionModes: { 'brand-color-1': 'light' },
