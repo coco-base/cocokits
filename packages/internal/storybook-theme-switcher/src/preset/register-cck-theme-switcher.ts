@@ -10,10 +10,6 @@ import {
   CCK_THEMES_MAP,
   CckSelectedTheme,
   CckThemeChangedEvent,
-  CckThemeLocalstorage,
-  DEFAULT_SELECTED_CCK_THEME_ID,
-  DEFAULT_SELECTED_CCK_THEME_MODES,
-  LOCALSTORAGE_CCK_THEME,
   STORYBOOK_THEME_CHANGED_EVENT_NAME,
   StorybookThemeChangedEvent,
 } from '../index';
@@ -24,6 +20,7 @@ import {
 } from '../lib/components/cck-theme-dialog/CckThemeDialog';
 import { ToolCckThemeSwitcher } from '../lib/components/cck-theme-switcher/ToolCckThemeSwitcher';
 import { generateCckThemeChangeEventData } from '../lib/components/theme-switcher.utils';
+import { LocalStorage } from '../lib/utils/local-storage';
 
 export function registerCckThemeSwitcher() {
   listenToStorybookThemeChangeEvent();
@@ -93,10 +90,7 @@ function listenToOpenDialogEvent() {
 
 function changeTheme({ id, selectedModes }: CckSelectedTheme) {
   const channel = addons.getChannel();
-  window.localStorage.setItem(
-    LOCALSTORAGE_CCK_THEME,
-    JSON.stringify({ id, selectedModes } satisfies CckThemeLocalstorage)
-  );
+  LocalStorage.setCckTheme({ id, selectedModes });
 
   channel.emit(CCK_THEME_CHANGED_EVENT_NAME, generateCckThemeChangeEventData({ id, selectedModes }));
 }
@@ -105,21 +99,8 @@ function dispatchDefaultThemEvent() {
   // Make sure the first story has rendered, before dispatch the default value.
   // Otherwise, the stories will miss the first event and the value will be undefined.
   addons.getChannel().once(events.CURRENT_STORY_WAS_SET, () => {
-    const localstorageTheme = window.localStorage.getItem(LOCALSTORAGE_CCK_THEME);
-
-    if (localstorageTheme) {
-      const selectedTheme = JSON.parse(localstorageTheme) as CckThemeLocalstorage;
-      changeTheme({
-        id: selectedTheme.id,
-        selectedModes: selectedTheme.selectedModes,
-      });
-      return;
-    }
-
-    changeTheme({
-      id: DEFAULT_SELECTED_CCK_THEME_ID,
-      selectedModes: DEFAULT_SELECTED_CCK_THEME_MODES,
-    });
+    const cckThemeOrDefault = LocalStorage.getCckThemeOrDefault();
+    changeTheme(cckThemeOrDefault);
   });
 }
 

@@ -10,6 +10,7 @@ import { ToolStorybookThemeSwitcher } from '../lib/components/storybook-theme-sw
 import { getSelectedStorybookTheme } from '../lib/components/theme-switcher.utils';
 import { dark } from '../lib/storybook-theme/storybook-dark-theme';
 import { light } from '../lib/storybook-theme/storybook-light-theme';
+import { LocalStorage } from '../lib/utils/local-storage';
 
 export function registerStorybookThemeSwitcher() {
   listenToThemeChangeEvent();
@@ -21,7 +22,7 @@ function listenToThemeChangeEvent() {
   const channel = addons.getChannel();
   channel.on(STORYBOOK_THEME_CHANGED_EVENT_NAME, ({ themeName }: StorybookThemeChangedEvent) => {
     const theme = themeName === 'light' ? light : dark;
-    window.localStorage.setItem(LOCALSTORAGE_STORYBOOK_THEME, themeName);
+    LocalStorage.setStorybookTheme(themeName);
     addons.setConfig({ theme });
 
     document.documentElement.classList.remove('cck-storybook-dark-theme', 'cck-storybook-light-theme');

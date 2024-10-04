@@ -1,9 +1,10 @@
 import { addons } from '@storybook/preview-api';
 
-import { CCK_THEME_CHANGED_EVENT_NAME, CCK_THEMES_MAP, LOCALSTORAGE_CCK_THEME } from '../config/cck-theme.config';
-import { CckSelectedTheme, CckThemeChangedEvent, CckThemeLocalstorage } from '../config/cck-themes.model';
-import { LOCALSTORAGE_STORYBOOK_THEME, STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
+import { CCK_THEME_CHANGED_EVENT_NAME, CCK_THEMES_MAP } from '../config/cck-theme.config';
+import { CckSelectedTheme, CckThemeChangedEvent } from '../config/cck-themes.model';
+import { STORYBOOK_THEME_CHANGED_EVENT_NAME } from '../config/storybook-theme.config';
 import { StorybookThemeChangedEvent, StorybookThemeName } from '../config/storybook-theme.model';
+import { LocalStorage } from '../utils/local-storage';
 
 export function generateCckThemeChangeEventData({ id, selectedModes }: CckSelectedTheme): CckThemeChangedEvent {
   return {
@@ -40,14 +41,8 @@ export function getSelectedCckTheme(): CckThemeChangedEvent | null {
     return lastEvents[0];
   }
 
-  const localstorageThemeString = window.localStorage.getItem(LOCALSTORAGE_CCK_THEME);
-
-  if (localstorageThemeString) {
-    const localstorageTheme = JSON.parse(localstorageThemeString) as CckThemeLocalstorage;
-    return generateCckThemeChangeEventData(localstorageTheme);
-  }
-
-  return null;
+  const cckTheme = LocalStorage.getCckThemeOrDefault();
+  return generateCckThemeChangeEventData(cckTheme);
 }
 
 export function getSelectedStorybookTheme(): StorybookThemeName {
@@ -74,6 +69,5 @@ export function getSelectedStorybookTheme(): StorybookThemeName {
     return lastEvents[0].themeName;
   }
 
-  const localstorageThemeString = window.localStorage.getItem(LOCALSTORAGE_STORYBOOK_THEME) as StorybookThemeName;
-  return localstorageThemeString;
+  return LocalStorage.getStorybookThemeOrDefault();
 }

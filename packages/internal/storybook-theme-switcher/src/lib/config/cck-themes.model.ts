@@ -3,6 +3,8 @@ import type { ThemeSvgIcon, ThemeUIComponentsConfig, TokenDictionary } from '@co
 export type CckThemeName = 'Default' | 'Frames X';
 export type CckThemeId = 'default' | 'frames-x';
 
+export const CCK_THEME_IDS_LIST = ['default', 'frames-x'] as const;
+
 export interface CckTheme {
   id: CckThemeId;
   name: CckThemeName;
