@@ -23,7 +23,7 @@
   }
 
   .cck-option:not(.cck-option--disabled):hover {
-    background-color: $color-surface-inverse-alpha-1;
+    background-color: $option-color-item-hover;
   }
 
   .cck-option .cck-checkbox__input-wrapper {
@@ -52,7 +52,7 @@
     height: inherit;
     overflow: auto;
     margin-top: $option-spacing-overlay-margin-top;
-    background-color: $color-surface-default;
+    background-color: $option-color-overlay-bg;
     border: 1px solid $option-color-overlay-border;
     padding: $option-spacing-overlay-h-padding $option-spacing-overlay-v-padding;
     border-radius: $option-size-overlay-radius;

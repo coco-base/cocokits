@@ -19,19 +19,19 @@
   .cck-radio-button__size--sm .cck-radio-button__input-wrapper {
     width: $radio-size-sm;
     height: $radio-size-sm;
-    padding: $radio-padding-input-sm;
+    padding: $radio-spacing-padding-input-sm;
   }
 
   .cck-radio-button__size--md .cck-radio-button__input-wrapper {
     width: $radio-size-md;
     height: $radio-size-md;
-    padding: $radio-padding-input-md;
+    padding: $radio-spacing-padding-input-md;
   }
 
   .cck-radio-button__size--lg .cck-radio-button__input-wrapper {
     width: $radio-size-lg;
     height: $radio-size-lg;
-    padding: $radio-padding-input-lg;
+    padding: $radio-spacing-padding-input-lg;
   }
 
   .cck-radio-button__input {

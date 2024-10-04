@@ -75,6 +75,10 @@
     .cck-toggle__thumb {
       background-color: $toggle-color-thumb-disabled;
     }
+
+    .cck-toggle__backdrop {
+      background-color: $toggle-color-backdrop-disabled;
+    }
   }
 
   .cck-toggle--checked .cck-toggle__thumb {
@@ -83,11 +87,11 @@
   }
 
   .cck-toggle--checked:active .cck-toggle__thumb {
-    margin-left: math.div($toggle-size-bounce, 2) * -1;
+    margin-left: calc($toggle-size-bounce / 2 * -1);
   }
 
   .cck-toggle--unchecked:active .cck-toggle__thumb {
-    margin-left: math.div($toggle-size-bounce, 2);
+    margin-left: calc($toggle-size-bounce / 2);
   }
 
   // Color - brand
@@ -157,12 +161,12 @@
     }
 
     .cck-toggle__backdrop {
-      width: $toggle-size-width-sm - $toggle-size-thumb-sm;
+      width: calc($toggle-size-width-sm - $toggle-size-thumb-sm);
       height: $toggle-size-backdrop-sm;
     }
 
     &:active .cck-toggle__thumb {
-      width: $toggle-size-thumb-sm + $toggle-size-bounce;
+      width: calc($toggle-size-thumb-sm + $toggle-size-bounce);
     }
   }
 
@@ -173,7 +177,7 @@
     }
 
     .cck-toggle__backdrop {
-      width: $toggle-size-width-md - $toggle-size-thumb-md;
+      width: calc($toggle-size-width-md - $toggle-size-thumb-md);
       height: $toggle-size-backdrop-md;
     }
 
@@ -183,7 +187,7 @@
     }
 
     &:active .cck-toggle__thumb {
-      width: $toggle-size-thumb-md + $toggle-size-bounce;
+      width: calc($toggle-size-thumb-md + $toggle-size-bounce);
     }
   }
 
@@ -194,7 +198,7 @@
     }
 
     .cck-toggle__backdrop {
-      width: $toggle-size-width-lg - $toggle-size-thumb-lg;
+      width: calc($toggle-size-width-lg - $toggle-size-thumb-lg);
       height: $toggle-size-backdrop-lg;
     }
 
@@ -204,7 +208,7 @@
     }
 
     &:active .cck-toggle__thumb {
-      width: $toggle-size-thumb-lg + $toggle-size-bounce;
+      width: calc($toggle-size-thumb-lg + $toggle-size-bounce);
     }
   }
 }

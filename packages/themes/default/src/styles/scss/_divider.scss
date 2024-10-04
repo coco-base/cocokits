@@ -3,7 +3,6 @@
 @mixin divider {
   .cck-divider {
     display: block;
-    background-color: $divider-color-bg;
     flex-shrink: 0;
   }
 
@@ -32,5 +31,19 @@
 
   .cck-divider__vertical.cck-divider__size--lg {
     width: 2px;
+  }
+
+  .cck-divider__color {
+    &--light {
+      background-color: $divider-color-light;
+    }
+
+    &--default {
+      background-color: $divider-color-default;
+    }
+
+    &--dark {
+      background-color: $divider-color-dark;
+    }
   }
 }

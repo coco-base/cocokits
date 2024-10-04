@@ -62,7 +62,13 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       default: 'md',
       description: '',
     },
-    color: null,
+    color: {
+      name: 'color',
+      values: ['light', 'default', 'dark'],
+      require: false,
+      default: 'default',
+      description: '',
+    },
   },
   chipList: {
     type: null,

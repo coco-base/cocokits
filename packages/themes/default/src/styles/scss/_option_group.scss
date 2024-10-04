@@ -20,7 +20,7 @@
   }
 
   .cck-option-group .cck-option {
-    padding: 0 ($option-spacing-item-h-padding * 2);
+    padding: 0 calc($option-spacing-item-h-padding * 2);
   }
 
   .cck-option-group__size--sm .cck-option-group--label {

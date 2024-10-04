@@ -511,6 +511,14 @@
         "$type": "color",
         "$value": "{Color-Palette.Black.400}"
       },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#00000033"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#00000066"
+      },
       "Alpha-7": {
         "$type": "color",
         "$value": "#00000099"
@@ -562,6 +570,20 @@
       "Border": {
         "$type": "color",
         "$value": "{Color-Palette.Gray.300}"
+      }
+    },
+    "Border": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Steel-gray.200}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Steel-gray.300}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Steel-gray.400}"
       }
     }
   }
