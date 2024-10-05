@@ -58,10 +58,10 @@ export class LocalStorage {
       return false;
     }
 
-    const hasInvalidSelectedModes = Object.entries(localstorageTheme.selectedModes).some(([collection, mode]) => {
+    const isSelectedModesValid = Object.entries(localstorageTheme.selectedModes).every(([collection, mode]) => {
       return originalCollectionModeNames[collection].map((modeNames) => modeNames.name).includes(mode);
     });
 
-    return !hasInvalidSelectedModes;
+    return isSelectedModesValid;
   }
 }
