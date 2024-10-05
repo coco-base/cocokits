@@ -1,10 +1,11 @@
-import { recordReduceMerge } from '@cocokits/common-utils';
-import { TokenDictionary } from '@cocokits/core';
 import {
   cocokitsUIComponentConfig,
-  svgIconMap as svgIconMapDefaultTheme,
-  tokenDictionary as tokenDictionaryDefaultTheme,
-} from '@cocokits/theme-default';
+  svgIconMap as svgIconMapCocokitsTheme,
+  tokenDictionary as tokenDictionaryCocokitsTheme,
+} from '@cocokits/theme-cocokits';
+
+import { recordReduceMerge } from '@cocokits/common-utils';
+import { TokenDictionary } from '@cocokits/core';
 import {
   framesXUIComponentConfig,
   svgIconMap as svgIconMapFramesXTheme,
@@ -31,20 +32,20 @@ function getDefaultSelectedModes(tokenDictionary: TokenDictionary) {
 }
 
 export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
-  default: {
-    id: 'default',
-    name: 'Default',
+  cocokits: {
+    id: 'cocokits',
+    name: 'Cocokits',
     description:
-      'This is the default theme for the library, designed by the CocoKits team to provide a balanced and consistent look for all components, ensuring a smooth and cohesive user experience.',
+      'This is the Cocokits theme for the library, designed by the CocoKits team to provide a balanced and consistent look for all components, ensuring a smooth and cohesive user experience.',
     iconPathLight: '/cocokits-icon-dark.svg',
     iconPathDark: '/cocokits-icon-light.svg',
-    tokenDictionary: tokenDictionaryDefaultTheme,
+    tokenDictionary: tokenDictionaryCocokitsTheme,
     defaultSelectedModes: {
-      ...getDefaultSelectedModes(tokenDictionaryDefaultTheme),
+      ...getDefaultSelectedModes(tokenDictionaryCocokitsTheme),
       'brand-color-1': 'dark',
     },
     uiComponentConfig: cocokitsUIComponentConfig,
-    svgIconMap: svgIconMapDefaultTheme,
+    svgIconMap: svgIconMapCocokitsTheme,
     lightCollectionModes: { 'brand-color-1': 'light' },
     darkCollectionModes: { 'brand-color-1': 'dark' },
   },
@@ -66,7 +67,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
 // endregion
 
 // region DEFAULT THEME
-export const DEFAULT_SELECTED_CCK_THEME_ID: CckThemeId = CCK_THEMES_MAP.default.id;
-export const DEFAULT_SELECTED_CCK_THEME_MODES = CCK_THEMES_MAP.default.defaultSelectedModes;
+export const DEFAULT_SELECTED_CCK_THEME_ID: CckThemeId = CCK_THEMES_MAP.cocokits.id;
+export const DEFAULT_SELECTED_CCK_THEME_MODES = CCK_THEMES_MAP.cocokits.defaultSelectedModes;
 
 // endregion

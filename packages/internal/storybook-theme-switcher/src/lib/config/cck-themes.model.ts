@@ -1,9 +1,9 @@
 import type { ThemeSvgIcon, ThemeUIComponentsConfig, TokenDictionary } from '@cocokits/core';
 
-export type CckThemeName = 'Default' | 'Frames X';
-export type CckThemeId = 'default' | 'frames-x';
+export type CckThemeName = 'Cocokits' | 'Frames X';
+export type CckThemeId = 'cocokits' | 'frames-x';
 
-export const CCK_THEME_IDS_LIST = ['default', 'frames-x'] as const;
+export const CCK_THEME_IDS_LIST = ['cocokits', 'frames-x'] as const;
 
 export interface CckTheme {
   id: CckThemeId;

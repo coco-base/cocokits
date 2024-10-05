@@ -18,7 +18,7 @@ export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
 export { Origin } from './origin.stories';
-export { ItemIconColor } from './default-theme-item-icon.stories';
+export { ThemeCocokitsItemIconColor } from './theme-cocokits-item-icon.stories';
 
 const meta: AngularStoriesMeta = {
   component: MenuComponent,

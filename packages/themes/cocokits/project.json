@@ -1,0 +1,50 @@
+{
+  "name": "@cocokits/theme-cocokits",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/themes/cocokits/src",
+  "projectType": "library",
+  "tags": ["type:theme", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/themes/cocokits",
+        "main": "packages/themes/cocokits/src/index.ts",
+        "tsConfig": "packages/themes/cocokits/tsconfig.lib.json",
+        "assets": [
+          "packages/themes/cocokits/*.md",
+          "packages/themes/cocokits/**/*.scss",
+          "packages/themes/cocokits/**/*.css"
+        ]
+      },
+      "dependsOn": ["build-css", "^build"]
+    },
+    "build-css": {
+      "executor": "@cocokits/workspace-plugin:scss-builder",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": [
+          {
+            "path": "packages/themes/cocokits/src/styles/css/components.scss",
+            "output": "packages/themes/cocokits/src/styles/css"
+          }
+        ]
+      }
+    },
+    "token-generator": {
+      "executor": "@cocokits/workspace-plugin:token-generator",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": ["packages/themes/cocokits/json-token/manifest.json"],
+        "excludeCollections": [],
+        "parser": "design-tokens-manager",
+        "outputDir": "packages/themes/cocokits/src/token",
+        "themeName": "cocokits"
+      }
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

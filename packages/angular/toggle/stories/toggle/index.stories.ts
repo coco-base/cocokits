@@ -13,7 +13,7 @@ export { Default } from './default.stories';
 export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
-export { ThemeDefaultBox } from './theme-default-box.stories';
+export { ThemeCocokitsBox } from './theme-cocokits-box.stories';
 export { NgModel } from './ng-model.stories';
 export { ReactiveForm } from './reactive-form.stories';
 

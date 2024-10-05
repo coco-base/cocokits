@@ -6,7 +6,7 @@
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*",
     "@cocokits/react-overlay": "workspace:*",
-    "@cocokits/theme-default": "workspace:*",
+    "@cocokits/theme-cocokits": "workspace:*",
     "@cocokits/theme-frames-x": "workspace:*",
     "@griffel/react": "^1.5.22",
     "@shikijs/markdown-it": "^1.6.5",

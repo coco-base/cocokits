@@ -27,10 +27,10 @@ import { FormFieldComponent } from '../../src/lib/form-field/form-field.componen
 export { Default } from './default.stories';
 export { Color } from './color.stories';
 export { Size } from './size.stories';
-export { ThemeDefaultHintError } from './theme-default-hint-error.stories';
-export { ThemeDefaultPrefixSuffix } from './theme-default-prefix-suffix.stories';
-export { ThemeDefaultLeading } from './theme-default-leading.stories';
-export { ThemeDefaultTrailing } from './theme-default-trailing.stories';
+export { ThemeCocokitsHintError } from './theme-cocokits-hint-error.stories';
+export { ThemeCocokitsPrefixSuffix } from './theme-cocokits-prefix-suffix.stories';
+export { ThemeCocokitsLeading } from './theme-cocokits-leading.stories';
+export { ThemeCocokitsTrailing } from './theme-cocokits-trailing.stories';
 export { ThemeFramesXLeadingTrailing } from './theme-frames-x-leading-trailing.stories';
 
 const meta: AngularStoriesMeta = {

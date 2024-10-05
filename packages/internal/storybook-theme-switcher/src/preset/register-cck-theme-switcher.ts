@@ -63,7 +63,7 @@ function listenToOpenDialogEvent() {
     const storybookThemeName = lastStorybookThemeName?.[0].themeName ?? 'dark';
     const result = await openOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
       data: {
-        selectedThemeId: lastEvent?.[0].id ?? 'default',
+        selectedThemeId: lastEvent?.[0].id ?? 'cocokits',
         selectedThemeModes: lastEvent?.[0].selectedModes ?? {},
         storybookThemeName: storybookThemeName,
       },

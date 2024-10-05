@@ -12,9 +12,9 @@ import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.compo
 export { Default } from './default.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
-export { ThemeDefaultRounded } from './theme-default-rounded.stories';
-export { ThemeDefaultRoundedSize } from './theme-default-rounded-size.stories';
-export { ThemeDefaultRoundedColor } from './theme-default-rounded-color.stories';
+export { ThemeCocokitsRounded } from './theme-cocokits-rounded.stories';
+export { ThemeCocokitsRoundedSize } from './theme-cocokits-rounded-size.stories';
+export { ThemeCocokitsRoundedColor } from './theme-cocokits-rounded-color.stories';
 
 const meta: AngularStoriesMeta = {
   component: IconButtonComponent,

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { css, styled } from 'styled-components';
 
 import { TokenDictionary } from '@cocokits/core';
-import { tokenDictionary } from '@cocokits/theme-default';
+import { tokenDictionary } from 'packages/themes/cocokits';
 
 import { ReactDivAttr } from './CckThemeDialog.model';
 import { CCK_THEMES_MAP } from '../../config/cck-theme.config';
