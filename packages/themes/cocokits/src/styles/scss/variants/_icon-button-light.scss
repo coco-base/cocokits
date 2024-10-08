@@ -2,7 +2,7 @@
 
 @mixin icon-button-light {
   // Brand
-  .cck-icon-button__light.cck-icon-button__color--brand {
+  .cck-icon-button__light.cck-icon-button__color--brand:not(:disabled) {
     background-color: $color-brand-alpha-5;
     fill: $color-brand-default;
   }
@@ -11,17 +11,8 @@
     box-shadow: 0 0 0 3px var(--color-brand-alpha-7);
   }
 
-  .cck-icon-button__light.cck-icon-button__color--brand:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--brand:hover:not(:disabled) {
-    background-color: $color-brand-alpha-6;
-  }
-
   // Info
-  .cck-icon-button__light.cck-icon-button__color--info {
+  .cck-icon-button__light.cck-icon-button__color--info:not(:disabled) {
     background-color: $color-info-alpha-5;
     fill: $color-info-default;
   }
@@ -30,17 +21,8 @@
     box-shadow: 0 0 0 3px var(--color-info-alpha-7);
   }
 
-  .cck-icon-button__light.cck-icon-button__color--info:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--info:hover:not(:disabled) {
-    background-color: $color-info-alpha-6;
-  }
-
   // Warning
-  .cck-icon-button__light.cck-icon-button__color--warning {
+  .cck-icon-button__light.cck-icon-button__color--warning:not(:disabled) {
     background-color: $color-warning-alpha-5;
     fill: $color-warning-default;
   }
@@ -49,17 +31,8 @@
     box-shadow: 0 0 0 3px var(--color-warning-alpha-7);
   }
 
-  .cck-icon-button__light.cck-icon-button__color--warning:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--warning:hover:not(:disabled) {
-    background-color: $color-warning-alpha-6;
-  }
-
   // Error
-  .cck-icon-button__light.cck-icon-button__color--error {
+  .cck-icon-button__light.cck-icon-button__color--error:not(:disabled) {
     background-color: $color-error-alpha-5;
     fill: $color-error-default;
   }
@@ -68,69 +41,13 @@
     box-shadow: 0 0 0 3px var(--color-error-alpha-7);
   }
 
-  .cck-icon-button__light.cck-icon-button__color--error:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--error:hover:not(:disabled) {
-    background-color: $color-error-alpha-6;
-  }
-
   // h-contrast
-  .cck-icon-button__light.cck-icon-button__color--h-contrast {
+  .cck-icon-button__light.cck-icon-button__color--h-contrast:not(:disabled) {
     background-color: $color-h-contrast-alpha-5;
     fill: $color-h-contrast-default;
   }
 
   .cck-icon-button__light.cck-icon-button__color--h-contrast:focus-visible {
     box-shadow: 0 0 0 3px var(--color-h-contrast-alpha-7);
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--h-contrast:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--h-contrast:hover:not(:disabled) {
-    background-color: $color-h-contrast-alpha-6;
-  }
-
-  // m-contrast
-  .cck-icon-button__light.cck-icon-button__color--m-contrast {
-    background-color: $color-m-contrast-alpha-5;
-    fill: $color-m-contrast-default;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--m-contrast:focus-visible {
-    box-shadow: 0 0 0 3px var(--color-m-contrast-alpha-7);
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--m-contrast:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--m-contrast:hover:not(:disabled) {
-    background-color: $color-m-contrast-alpha-6;
-  }
-
-  // l-contrast
-  .cck-icon-button__light.cck-icon-button__color--l-contrast {
-    background-color: $color-l-contrast-alpha-5;
-    fill: $color-l-contrast-default;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--l-contrast:focus-visible {
-    box-shadow: 0 0 0 3px var(--color-l-contrast-alpha-7);
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--l-contrast:disabled {
-    background-color: #f1f2f4;
-    fill: #94979e;
-  }
-
-  .cck-icon-button__light.cck-icon-button__color--l-contrast:hover:not(:disabled) {
-    background-color: $color-l-contrast-alpha-6;
   }
 }

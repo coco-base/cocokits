@@ -6,7 +6,7 @@
   }
 
   // Brand
-  .cck-button__basic.cck-button__color--brand {
+  .cck-button__basic.cck-button__color--brand:not(:disabled) {
     background-color: transparent;
     color: $color-brand-default;
   }
@@ -15,17 +15,8 @@
     box-shadow: 0 0 0 3px var(--color-brand-alpha-5);
   }
 
-  .cck-button__basic.cck-button__color--brand:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--brand:hover:not(:disabled) {
-    background-color: $color-brand-alpha-2;
-  }
-
   // Info
-  .cck-button__basic.cck-button__color--info {
+  .cck-button__basic.cck-button__color--info:not(:disabled) {
     background-color: transparent;
     color: $color-info-default;
   }
@@ -34,17 +25,8 @@
     box-shadow: 0 0 0 3px var(--color-info-alpha-5);
   }
 
-  .cck-button__basic.cck-button__color--info:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--info:hover:not(:disabled) {
-    background-color: $color-info-alpha-2;
-  }
-
   // Warning
-  .cck-button__basic.cck-button__color--warning {
+  .cck-button__basic.cck-button__color--warning:not(:disabled) {
     background-color: transparent;
     color: $color-warning-default;
   }
@@ -53,17 +35,8 @@
     box-shadow: 0 0 0 3px var(--color-warning-alpha-5);
   }
 
-  .cck-button__basic.cck-button__color--warning:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--warning:hover:not(:disabled) {
-    background-color: $color-warning-alpha-2;
-  }
-
   // Error
-  .cck-button__basic.cck-button__color--error {
+  .cck-button__basic.cck-button__color--error:not(:disabled) {
     background-color: transparent;
     color: $color-error-default;
   }
@@ -72,69 +45,13 @@
     box-shadow: 0 0 0 3px var(--color-error-alpha-5);
   }
 
-  .cck-button__basic.cck-button__color--error:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--error:hover:not(:disabled) {
-    background-color: $color-error-alpha-2;
-  }
-
   // h-contrast
-  .cck-button__basic.cck-button__color--h-contrast {
+  .cck-button__basic.cck-button__color--h-contrast:not(:disabled) {
     background-color: transparent;
     color: $color-h-contrast-default;
   }
 
   .cck-button__basic.cck-button__color--h-contrast:focus-visible {
     box-shadow: 0 0 0 3px var(--color-h-contrast-alpha-5);
-  }
-
-  .cck-button__basic.cck-button__color--h-contrast:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--h-contrast:hover:not(:disabled) {
-    background-color: $color-h-contrast-alpha-2;
-  }
-
-  // m-contrast
-  .cck-button__basic.cck-button__color--m-contrast {
-    background-color: transparent;
-    color: $color-m-contrast-default;
-  }
-
-  .cck-button__basic.cck-button__color--m-contrast:focus-visible {
-    box-shadow: 0 0 0 3px var(--color-m-contrast-alpha-5);
-  }
-
-  .cck-button__basic.cck-button__color--m-contrast:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--m-contrast:hover:not(:disabled) {
-    background-color: $color-m-contrast-alpha-2;
-  }
-
-  // l-contrast
-  .cck-button__basic.cck-button__color--l-contrast {
-    background-color: transparent;
-    color: $color-l-contrast-default;
-  }
-
-  .cck-button__basic.cck-button__color--l-contrast:focus-visible {
-    box-shadow: 0 0 0 3px var(--color-l-contrast-alpha-5);
-  }
-
-  .cck-button__basic.cck-button__color--l-contrast:disabled {
-    background-color: #f1f2f4;
-    color: #94979e;
-  }
-
-  .cck-button__basic.cck-button__color--l-contrast:hover:not(:disabled) {
-    background-color: $color-l-contrast-alpha-2;
   }
 }

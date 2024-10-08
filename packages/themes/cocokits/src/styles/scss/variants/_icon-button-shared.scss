@@ -11,6 +11,12 @@
     cursor: pointer;
     box-sizing: border-box;
     flex-shrink: 0;
+
+    &:disabled {
+      background-color: $color-disabled-surface;
+      fill: $color-disabled-font;
+      cursor: default;
+    }
   }
 
   .cck-icon-button .cck-svg-icon {

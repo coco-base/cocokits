@@ -10,6 +10,13 @@
     outline: transparent;
     cursor: pointer;
     box-sizing: border-box;
+
+    &:disabled {
+      background-color: $color-disabled-surface;
+      fill: $color-disabled-font;
+      cursor: default;
+      user-select: none;
+    }
   }
 
   .cck-button__size--sm {
