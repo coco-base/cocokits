@@ -22,26 +22,18 @@ export const Default: AngularStoryObj<ChipComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          <th>Default</th>
-          <th>Removable</th>
-          <th>Disabled</th>
-        </thead>
-        <tbody>
-          <tr>
-              <td>
-                <cck-chip>Default</cck-chip>
-              </td>
-              <td>
-                <cck-chip [removable]="true">Removable</cck-chip>
-              </td>
-              <td>
-                <cck-chip disabled="">Disabled</cck-chip>
-              </td>
-          </tr>
-        </tbody>
-      </table>
+      <story-table
+        [headers]="['Default', 'Removable', 'Disabled']">
+        <story-table-cell row="0" col="0">
+          <cck-chip>Default</cck-chip>
+        </story-table-cell>
+        <story-table-cell row="0" col="1">
+          <cck-chip [removable]="true">Removable</cck-chip>
+        </story-table-cell>
+        <story-table-cell row="0" col="2">
+          <cck-chip disabled="">Disabled</cck-chip>
+        </story-table-cell>
+      </story-table>
     `,
   }),
 };

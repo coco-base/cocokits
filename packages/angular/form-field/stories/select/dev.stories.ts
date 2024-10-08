@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
@@ -15,7 +15,6 @@ const meta: AngularStoriesMeta = {
   title: 'Dev/Select',
   tags: ['!autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       imports: [FormFieldComponent, LabelComponent, ErrorComponent, CommonModule, FormsModule, ReactiveFormsModule],
       providers: [

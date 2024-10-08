@@ -24,8 +24,8 @@ export const NgModel: AngularStoryObj<SelectComponent> = {
       modelValue: 'Default Value',
     },
     template: `
-      <div class="flex-col w-200 justify-center">
-      
+      <story-columns>
+        <story-column>
           <cck-form-field class="story-w-200">
             <cck-label>NgModel</cck-label>
             <cck-select [(ngModel)]="modelValue" [placeholder]="'Select you food'">
@@ -34,15 +34,13 @@ export const NgModel: AngularStoryObj<SelectComponent> = {
               <cck-option [value]="'Burger'">Burger</cck-option>
             </cck-select>
           </cck-form-field>
+        </story-column>
         
-        <div class="hr-v"></div>
-        
-        <div class="flex-col gap-24 align-center">
+        <story-column>
           <div class="p-sm-regular-3">NgModel Value: {{modelValue}}</div>
           <input class="story-input" [(ngModel)]="modelValue"/>
-        </div>
-      </div>
-      
+        </story-column>
+      </story-columns>
     `,
   }),
 };

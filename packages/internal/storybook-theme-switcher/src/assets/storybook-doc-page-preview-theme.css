@@ -134,7 +134,15 @@ a {
 /* Story content preview. Sibling of bottom action with `Show code` button */
 .docs-story > div:nth-child(1) {
     /* padding button must be height of `.docs-story > div:nth-child(2)` */
-    padding: 12px;
+    padding: 0;
+}
+
+/* Wrapper of story has border with transparent color.
+ * We have to remove all white-spaces from the prent story elements, inorder to the scrollbar inside the story
+ * has fix padding and the scroll don't until end of the element
+*/
+.sbdocs-preview .docs-story .innerZoomElementWrapper > * {
+    border: none !important;
 }
 
 

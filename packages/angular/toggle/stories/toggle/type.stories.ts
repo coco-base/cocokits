@@ -23,23 +23,14 @@ export const Type: AngularStoryObj<ToggleComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (type of uiComponentConfig?.toggle.type?.values; track type) {
-            <th>{{type}}</th>
-          }
-        </thead>
-        <tbody>
-          <tr>
-            @for (type of uiComponentConfig?.toggle.type?.values; track type) {
-              <td>
-                <cck-toggle [type]="type"></cck-toggle>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+      <story-table
+        [headers]="uiComponentConfig?.toggle.type?.values">
+        @for (type of uiComponentConfig?.toggle.type?.values; let i = $index; track type) {
+          <story-table-cell row="0" [col]="i">
+            <cck-toggle [type]="type"></cck-toggle>
+          </story-table-cell>
+        }
+      </story-table>
     `,
   }),
 };

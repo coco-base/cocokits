@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { IconButtonComponent } from '@cocokits/angular-button';
 import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
@@ -26,7 +26,6 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/Menu',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       imports: [
         BrowserAnimationsModule,

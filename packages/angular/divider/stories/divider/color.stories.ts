@@ -22,23 +22,18 @@ export const Color: AngularStoryObj<DividerComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.divider.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.divider.color?.values"
+        [rowHeaders]="uiComponentConfig?.divider.type?.values ?? []"
+        [cellHeight]="'100px'">
+        @for (type of uiComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.divider.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-divider [style.margin]="'0 auto'" [type]="type" [color]="color"></cck-divider>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.divider.color?.values; track color) {
-              <td>
-                <cck-divider [color]="color"></cck-divider>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table> 
     `,
   }),
 };

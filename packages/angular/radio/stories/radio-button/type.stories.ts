@@ -23,23 +23,14 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (type of uiComponentConfig?.radioButton.type?.values; track type) {
-            <th>{{type}}</th>
-          }
-        </thead>
-        <tbody>
-          <tr>
-            @for (type of uiComponentConfig?.radioButton.type?.values; track type) {
-              <td>
-                <cck-radio-button [type]="type" [value]="1">Radio Button</cck-radio-button>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+      <story-table
+        [headers]="uiComponentConfig?.radioButton.type?.values">
+        @for (type of uiComponentConfig?.radioButton.type?.values; let i = $index; track type) {
+          <story-table-cell row="0" [col]="i">
+            <cck-radio-button [type]="type" [value]="1">Radio Button</cck-radio-button>
+          </story-table-cell>
+        }
+      </story-table>
     `,
   }),
 };

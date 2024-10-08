@@ -21,7 +21,12 @@ export const Default: AngularStoryObj<<%- className %>Component> = {
         uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <cck-<%- fileName %>></cck-<%- fileName %>>
+      <story-table [headers]="['Default']">
+        <!-- Default -->
+        <story-table-cell row="0" col="0">
+          <cck-<%- fileName %>></cck-<%- fileName %>>
+        </story-table-cell>
+      </story-table>
     `
   }),
 };

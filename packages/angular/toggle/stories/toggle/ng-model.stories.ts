@@ -24,21 +24,17 @@ export const NgModel: AngularStoryObj<ToggleComponent> = {
       modelValue: true,
     },
     template: `
-      <div class="flex-row w-100 justify-around">
-      
-        <div class="flex-col">
+      <story-columns>
+        <story-column>
           <cck-toggle [(ngModel)]="modelValue"></cck-toggle>
-        </div>
+        </story-column>
         
-        <div class="hr-h"></div>
-        
-        <div class="flex-col gap-24 align-center">
+        <story-column>
           <div class="p-sm-regular-3">NgModel Value: {{modelValue}}</div>
           <button class="story-button" (click)="modelValue = false">Set To False</button>
           <button class="story-button" (click)="modelValue = true">Set To True</button>
-        </div>
-      </div>
-      
+        </story-column>
+      </story-columns>
     `,
   }),
 };

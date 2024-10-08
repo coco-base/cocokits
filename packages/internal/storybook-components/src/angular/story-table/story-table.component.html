@@ -1,0 +1,45 @@
+<table
+  class="story-table"
+  [class.full-width]="fullWidth()">
+  @if (headers().length) {
+    <thead>
+    <tr>
+      @if (hasRowHeader()) {
+        <th></th>
+      }
+      @for (header of headers(); track header) {
+        <th>
+          <div [ngClass]="['header-cell', 'header-cell__v-align--' + headerCellVAlign(), 'header-cell__h-align--' + headerCellHAlign() ]">
+            {{ header }}
+          </div>
+        </th>
+      }
+    </tr>
+    </thead>
+  }
+
+  <tbody>
+    @for (row of content(); track row) {
+      <tr>
+        @for (col of row; let i = $index; track col) {
+          <td [style.height]="cellHeight()" [attr.colSpan]="col.colSpan">
+              @switch (col.type) {
+                @case ('header') {
+                  <div [ngClass]="['row-header-cell', 'row-header-cell__v-align--' + rowHeaderCellVAlign(), 'row-header-cell__h-align--' + rowHeaderCellHAlign() ]">
+                    {{col.content}}
+                  </div>
+                }
+                @case ('cell') {
+                  <div
+                    [ngClass]="['row-body-cell', 'row-body-cell__v-align--' + cellVAlign(), 'row-body-cell__h-align--' + cellHAlign() ]">
+                    <ng-container [ngTemplateOutlet]="col.content" />
+                  </div>
+                }
+              }
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
+

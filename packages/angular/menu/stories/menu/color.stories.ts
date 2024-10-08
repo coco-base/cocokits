@@ -22,23 +22,23 @@ export const Color: AngularStoryObj<MenuComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.color.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.menu.color?.values"
+        [rowHeaders]="uiComponentConfig?.menu.type?.values ?? []">
+        @for (type of uiComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.menu.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-menu class="story-w-200" [color]="color" [type]="type">
+                <cck-menu-item>Edit</cck-menu-item>
+                <cck-menu-item>Duplicate</cck-menu-item>
+                <cck-divider></cck-divider>
+                <cck-menu-item>Archive</cck-menu-item>
+                <cck-menu-item>Move</cck-menu-item>
+              </cck-menu>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.color.color?.values; track color) {
-              <td>
-                <cck-menu [color]="color"></cck-menu>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>  
     `,
   }),
 };

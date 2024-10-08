@@ -3,7 +3,6 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { FormFieldComponent } from '../../src';
 import { copyIcon, emailIcon, infoIcon } from '../template-svg-icon';
-import { ThemeCocokitsLeading } from './theme-cocokits-leading.stories';
 
 export const ThemeCocokitsHintError: AngularStoryObj<FormFieldComponent> = {
   name: 'Theme Cocokits: Hint & Error',
@@ -27,33 +26,27 @@ export const ThemeCocokitsHintError: AngularStoryObj<FormFieldComponent> = {
       copyIcon,
     },
     template: `
-          <table class="story-variant-table story-variant-table--center-header">
-          <tbody>
-            <!-- Hint -->
-            <tr>
-              <td>Hint</td>
-              <td>
-                <cck-form-field>
-                  <cck-label>Label</cck-label>
-                  <input cckInput/>
-                  <cck-hint>This is a hint text</cck-hint>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Error -->
-            <tr>
-              <td>Error</td>  
-              <td>
-                 <cck-form-field>
-                  <cck-label>Label</cck-label>
-                  <input cckInput/>
-                  <cck-error [force]="true">This is an error text</cck-error>
-                </cck-form-field>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <story-table [headers]="['Hint', 'Error']">
+        
+        <!-- Hint -->
+        <story-table-cell row="0" col="0">
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+            <cck-hint>This is a hint text</cck-hint>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Error -->
+        <story-table-cell row="0" col="1">
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+            <cck-error [force]="true">This is an error text</cck-error>
+          </cck-form-field>
+        </story-table-cell>
+        
+      </story-table>
     `,
   }),
 };

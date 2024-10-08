@@ -21,24 +21,18 @@ export const Color: AngularStoryObj<CheckboxComponent> = {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
-    template: `      
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.checkbox.color?.values; track color) {
-            <th>{{color}}</th>
+    template: `
+      <story-table
+        [headers]="uiComponentConfig?.checkbox.color?.values"
+        [rowHeaders]="uiComponentConfig?.checkbox.type?.values ?? []">
+        @for (type of uiComponentConfig?.checkbox.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.checkbox.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-checkbox [color]="color" [type]="type" [checked]="true">Checkbox Label</cck-checkbox>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.checkbox.color?.values; track color) {
-              <td>
-                <cck-checkbox [color]="color" [checked]="true">Checkbox Label</cck-checkbox>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>     
     `,
   }),
 };

@@ -1,4 +1,4 @@
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
@@ -12,7 +12,6 @@ const meta: AngularStoriesMeta = {
   title: 'Dev/<%- className %>',
   tags: ['!autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       providers: [
         {

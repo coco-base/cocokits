@@ -26,28 +26,19 @@ export const ThemeCocokitsRoundedColor: AngularStoryObj<IconButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <table class="story-variant-table">
-        <thead>
-          <th></th>
-          @for (color of uiComponentConfig?.iconButton.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.iconButton.color?.values"
+        [rowHeaders]="uiComponentConfig?.iconButton.type?.values">
+        @for (type of uiComponentConfig?.iconButton.type?.values; let row = $index; track type) {
+          @for (color of uiComponentConfig?.iconButton.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <button cck-icon-button data-cck-rounded="true" [type]="type" [color]="color">
+                <cck-svg-icon [icon]="icon"></cck-svg-icon>
+              </button>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          @for (type of uiComponentConfig?.iconButton.type?.values; track type) {
-            <tr>
-              <td>{{type}}</td>
-              @for (color of uiComponentConfig?.iconButton.color?.values; track color) {
-                <td>
-                  <button cck-icon-button data-cck-rounded="true" [type]="type" [color]="color">
-                    <cck-svg-icon [icon]="icon"></cck-svg-icon>
-                  </button>
-                </td>
-              }
-            </tr>
-          }
-        </tbody>
-      </table>
+        }
+      </story-table>
     `,
   }),
 };

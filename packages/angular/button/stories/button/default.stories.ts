@@ -25,8 +25,14 @@ export const Default: AngularStoryObj<ButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <button cck-button>Default Button</button>
-        <button cck-button disabled>Disabled Button</button>
+      <story-table [headers]="['Default', 'Disabled']" [fullWidth]="false">
+        <story-table-cell row="0" col="0">
+          <button cck-button>Button</button>
+        </story-table-cell>
+        <story-table-cell row="0" col="1">
+          <button cck-button disabled>Button</button>
+        </story-table-cell>
+      </story-table>
     `,
   }),
 };

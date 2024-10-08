@@ -22,46 +22,46 @@ export const Default: AngularStoryObj<RadioButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          <th>Default</th>
-          <th>Disabled</th>
-          <th>Disabled - Checked</th>
-          <th>Disabled - Partial</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <cck-radio-group>
-                <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-              </cck-radio-group>
-            </td>
-            <td>
-              <cck-radio-group [disabled]="true">
-                <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-              </cck-radio-group>
-            </td>
-            <td>
-              <cck-radio-group [disabled]="true" [selected]="1">
-                <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-              </cck-radio-group>
-            </td>
-            <td>
-              <cck-radio-group [selected]="1">
-                <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                <cck-radio-button [value]="2" [disabled]="true">Radio Button 2</cck-radio-button>
-                <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-              </cck-radio-group>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <story-table
+        [headers]="['Default', 'Disabled', 'Disabled - Checked', 'Disabled - Partial']">
+        
+        <!-- Default -->
+        <story-table-cell row="0" col="0">
+          <cck-radio-group>
+            <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+            <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+            <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+          </cck-radio-group>
+        </story-table-cell>
+        
+        <!-- Disabled -->
+        <story-table-cell row="0" col="1">
+          <cck-radio-group [disabled]="true">
+            <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+            <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+            <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+          </cck-radio-group>
+        </story-table-cell>
+        
+        <!-- Disabled - Checked -->
+        <story-table-cell row="0" col="2">
+          <cck-radio-group [disabled]="true" [selected]="1">
+            <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+            <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+            <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+          </cck-radio-group>
+        </story-table-cell>
+        
+        <!-- Disabled - Partial -->
+        <story-table-cell row="0" col="3">
+          <cck-radio-group [selected]="1">
+            <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+            <cck-radio-button [value]="2" [disabled]="true">Radio Button 2</cck-radio-button>
+            <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+          </cck-radio-group>
+        </story-table-cell>
+        
+      </story-table>
     `,
   }),
 };

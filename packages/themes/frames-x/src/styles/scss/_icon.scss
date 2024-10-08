@@ -1,6 +1,13 @@
 @use '../../token/scss' as *;
 
 @mixin icon {
+  .cck-svg-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
   .cck-svg-icon__svg {
     width: 100%;
     height: 100%;

@@ -22,30 +22,24 @@ export const Size: AngularStoryObj<MenuComponent> = {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
-    template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.menu.size?.values; track size) {
-            <th>{{size}}</th>
+    template: ` 
+      <story-table
+        [headers]="uiComponentConfig?.menu.size?.values"
+        [rowHeaders]="uiComponentConfig?.menu.type?.values ?? []">
+        @for (type of uiComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.menu.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-menu class="story-w-200" [size]="size" [type]="type">
+                <cck-menu-item>Edit</cck-menu-item>
+                <cck-menu-item>Duplicate</cck-menu-item>
+                <cck-divider></cck-divider>
+                <cck-menu-item>Archive</cck-menu-item>
+                <cck-menu-item>Move</cck-menu-item>
+              </cck-menu>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.menu.size?.values; track size) {
-              <td>
-                <cck-menu class="story-w-200" [size]="size">
-                  <cck-menu-item>Edit</cck-menu-item>
-                  <cck-menu-item>Duplicate</cck-menu-item>
-                  <cck-divider></cck-divider>
-                  <cck-menu-item>Archive</cck-menu-item>
-                  <cck-menu-item>Move</cck-menu-item>
-                </cck-menu>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>  
     `,
   }),
 };

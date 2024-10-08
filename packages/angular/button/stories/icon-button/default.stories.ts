@@ -25,9 +25,18 @@ export const Default: AngularStoryObj<IconButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <button cck-icon-button>
-          <cck-svg-icon [icon]="icon"></cck-svg-icon>
-        </button>
+      <story-table [headers]="['Default', 'Disabled']">
+        <story-table-cell row="0" col="0">
+          <button cck-icon-button>
+            <cck-svg-icon [icon]="icon"></cck-svg-icon>
+          </button>
+        </story-table-cell>
+        <story-table-cell row="0" col="1">
+          <button cck-icon-button disabled>
+            <cck-svg-icon [icon]="icon"></cck-svg-icon>
+          </button>
+        </story-table-cell>
+      </story-table>
     `,
   }),
 };

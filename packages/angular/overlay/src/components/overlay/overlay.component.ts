@@ -156,7 +156,7 @@ export class OverlayComponent<TData = any, TResult = any> implements OnInit {
       return;
     }
 
-    const TRANSITION = 'transform 200ms';
+    const TRANSITION = 'transform 150ms';
     const contentWrapperElem = this.contentWrapper().nativeElement;
     const transformStart = getAnimationStart(contentWrapperElem, this.overlayRef.config);
     const transformEnd = getAnimationEnd(contentWrapperElem, this.overlayRef.config);

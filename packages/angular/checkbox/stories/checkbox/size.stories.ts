@@ -22,24 +22,18 @@ export const Size: AngularStoryObj<CheckboxComponent> = {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
-    template: `      
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.checkbox.size?.values; track size) {
-            <th>{{size}}</th>
+    template: ` 
+      <story-table
+        [headers]="uiComponentConfig?.checkbox.size?.values"
+        [rowHeaders]="uiComponentConfig?.checkbox.type?.values ?? []">
+        @for (type of uiComponentConfig?.checkbox.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.checkbox.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-checkbox [size]="size" [type]="type" [checked]="true">Checkbox Label</cck-checkbox>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.checkbox.size?.values; track size) {
-              <td>
-                <cck-checkbox [size]="size" [checked]="true">Checkbox Label</cck-checkbox>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>     
     `,
   }),
 };

@@ -90,6 +90,43 @@
     padding: 0 $form-field-spacing-input-wrapper-h-padding;
   }
 
+  .cck-form-field--with-chip-list .cck-suffix,
+  .cck-form-field--with-chip-list .cck-prefix {
+    align-self: flex-start;
+  }
+
+  .cck-form-field__size--sm.cck-form-field--with-chip-list .cck-suffix {
+    margin-top: 6px;
+    margin-right: 4px;
+  }
+
+  .cck-form-field__size--md.cck-form-field--with-chip-list .cck-suffix {
+    margin-top: 8px;
+    margin-right: 4px;
+  }
+
+  .cck-form-field__size--lg.cck-form-field--with-chip-list .cck-suffix {
+    margin-top: 12px;
+    margin-right: 8px;
+    margin-left: 4px;
+  }
+
+  .cck-form-field__size--sm.cck-form-field--with-chip-list .cck-prefix {
+    margin-top: 6px;
+    margin-left: 4px;
+  }
+
+  .cck-form-field__size--md.cck-form-field--with-chip-list .cck-prefix {
+    margin-top: 8px;
+    margin-left: 4px;
+  }
+
+  .cck-form-field__size--lg.cck-form-field--with-chip-list .cck-prefix {
+    margin-top: 12px;
+    margin-left: 8px;
+    margin-right: 4px;
+  }
+
   .cck-form-field--with-chip-list .cck-form-field__input-wrapper {
     padding: 4px;
     cursor: text;

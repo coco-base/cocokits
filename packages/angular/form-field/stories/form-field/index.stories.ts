@@ -48,7 +48,6 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/FormField',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24 story-min-h-300">${story}</div>`),
     moduleMetadata({
       imports: [
         BrowserAnimationsModule,

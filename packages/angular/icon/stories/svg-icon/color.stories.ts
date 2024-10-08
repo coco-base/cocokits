@@ -22,12 +22,17 @@ export const Color: AngularStoryObj<SvgIconComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      @for (color of uiComponentConfig?.svgIcon.color?.values; track color) {
-        <div class="flex-col flex-center gap-12">
-          <cck-svg-icon [icon]="icon" [color]="color"></cck-svg-icon>
-          <span class="p-sm-regular-2">{{color}}</span>
-        </div>
-      }
+      <story-table
+        [headers]="uiComponentConfig?.svgIcon.color?.values"
+        [rowHeaders]="uiComponentConfig?.svgIcon.type?.values ?? []">
+        @for (type of uiComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.svgIcon.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-svg-icon [icon]="icon" [color]="color" [type]="type"></cck-svg-icon>
+            </story-table-cell>
+          }
+        }
+      </story-table>  
     `,
   }),
 };

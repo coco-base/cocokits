@@ -8,6 +8,7 @@
     &.cck-radio-button--disabled {
       cursor: default;
       pointer-events: none;
+      color: $base-disabled;
 
       .cck-radio-button__input-wrapper {
         background-color: $base-disabled;

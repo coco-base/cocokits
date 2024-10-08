@@ -1,4 +1,4 @@
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
@@ -11,7 +11,6 @@ const meta: AngularStoriesMeta = {
   title: 'Dev/Textarea',
   tags: ['!autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       providers: [
         {

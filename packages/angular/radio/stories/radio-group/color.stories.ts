@@ -20,29 +20,27 @@ export const Color: AngularStoryObj<RadioButtonComponent> = {
     props: {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      types: getSelectedCckTheme()?.uiComponentConfig.radioGroup.type?.values.filter((type) => {
+        return type !== 'row';
+      }),
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.radioGroup.color?.values; track color) {
-            <th>{{color}}</th>
+
+      <story-table
+        [headers]="uiComponentConfig?.radioGroup.color?.values"
+        [rowHeaders]="types ?? []">
+        @for (type of types ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.radioGroup.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-radio-group [type]="type" [color]="color" [selected]="1">
+                <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+                <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+                <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+              </cck-radio-group>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.radioGroup.color?.values; track color) {
-              <td>
-                <cck-radio-group [color]="color" [selected]="1">
-                  <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                  <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                  <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-                </cck-radio-group>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>  
     `,
   }),
 };

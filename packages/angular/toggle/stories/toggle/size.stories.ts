@@ -23,23 +23,17 @@ export const Size: AngularStoryObj<ToggleComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.toggle.size?.values; track size) {
-            <th>{{size}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.toggle.size?.values"
+        [rowHeaders]="uiComponentConfig?.toggle.type?.values ?? []">
+        @for (type of uiComponentConfig?.toggle.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.toggle.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-toggle checked="true" [size]="size" [type]="type"></cck-toggle>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.toggle.size?.values; track size) {
-              <td>
-                <cck-toggle checked="true" [size]="size"></cck-toggle>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table> 
     `,
   }),
 };

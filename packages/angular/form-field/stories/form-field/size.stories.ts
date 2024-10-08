@@ -22,26 +22,21 @@ export const Size: AngularStoryObj<FormFieldComponent> = {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
-    template: `      
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.formField.size?.values; track size) {
-            <th>{{size}}</th>
+    template: `   
+      <story-table
+        [headers]="uiComponentConfig?.formField.size?.values"
+        [rowHeaders]="uiComponentConfig?.formField.type?.values ?? []">
+        @for (type of uiComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.formField.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-form-field [size]="size" [type]="type">
+                <cck-label>Email</cck-label>
+                <input cckInput placeholder="Write your Email"/>
+              </cck-form-field>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.formField.size?.values; track size) {
-              <td>
-                <cck-form-field [size]="size">
-                  <cck-label>Email</cck-label>
-                  <input cckInput placeholder="Write your Email"/>
-                </cck-form-field>
-              </td>
-            }
-          </tr>
-        </tbody>
-      </table>
+        }
+      </story-table>        
     `,
   }),
 };

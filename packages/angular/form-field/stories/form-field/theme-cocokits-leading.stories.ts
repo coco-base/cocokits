@@ -26,87 +26,71 @@ export const ThemeCocokitsLeading: AngularStoryObj<FormFieldComponent> = {
       copyIcon,
     },
     template: `
-          <table class="story-variant-table story-variant-table--center-header">
-          <tbody>
-            <!-- Regular -->
-            <tr>
-              <td>Regular</td>
-              <td>
-                <cck-form-field>
-                  <cck-label>Url</cck-label>
-                  <cck-leading [type]="'regular'">https://</cck-leading>
-                  <input cckInput placeholder="google.com"/>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <tr>
-              <td></td>
-              <td>
-                <cck-form-field>
-                  <cck-label>Phone</cck-label>
-                  <cck-leading [type]="'medium'" [color]="'grey'">
-                    <cck-select [size]="'sm'" [value]="'US'" style="width: 45px">
-                      <cck-option [value]="'AT'">AT</cck-option>
-                      <cck-option [value]="'IR'">IR</cck-option>
-                      <cck-option [value]="'US'">US</cck-option>
-                    </cck-select>
-                  </cck-leading>
-                  <input cckInput placeholder="+1 (555) 000-0000"/>
-                  
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Medium -->
-            <tr>
-              <td>Medium</td>  
-              <td>
-                 <cck-form-field>
-                  <cck-label>Url</cck-label>
-                  <cck-leading [type]="'medium'">https://</cck-leading>
-                  <input cckInput placeholder="google.com"/>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Grey -->
-            <tr>
-              <td>Grey Color</td>
-              <td>
-                <cck-form-field>
-                  <cck-label>Url</cck-label>
-                  <cck-leading [color]="'grey'">https://</cck-leading>
-                  <input cckInput placeholder="google.com"/>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-           <!-- Clickable -->
-            <tr>
-              <td>Clickable</td>
-              <td>
-                <cck-form-field>
-                  <cck-label>Url</cck-label>
-                  <cck-leading [clickable]="true">https://</cck-leading>
-                  <input cckInput placeholder="google.com"/>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Disabled -->
-            <tr>
-              <td>Disabled</td>
-              <td>
-                <cck-form-field [disabled]="true">
-                  <cck-label>Url</cck-label>
-                  <cck-leading>https://</cck-leading>
-                  <input cckInput placeholder="google.com"/>
-                </cck-form-field>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <story-table
+        [rowHeaders]="['Select', 'Regular', 'Medium', 'Grey', 'Clickable', 'Disabled']"
+        cellHAlign="start">
+
+        <!-- Select -->
+        <story-table-cell row="0">
+          <cck-form-field>
+            <cck-label>Phone</cck-label>
+            <cck-leading [type]="'medium'" [color]="'grey'">
+              <cck-select [size]="'sm'" [value]="'US'" style="width: 45px">
+                <cck-option [value]="'AT'">AT</cck-option>
+                <cck-option [value]="'IR'">IR</cck-option>
+                <cck-option [value]="'US'">US</cck-option>
+              </cck-select>
+            </cck-leading>
+            <input cckInput placeholder="+1 (555) 000-0000"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Regular -->
+        <story-table-cell row="1">
+          <cck-form-field>
+            <cck-label>Url</cck-label>
+            <cck-leading [type]="'regular'">https://</cck-leading>
+            <input cckInput placeholder="google.com"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Medium -->
+        <story-table-cell row="2">
+          <cck-form-field>
+            <cck-label>Url</cck-label>
+            <cck-leading [type]="'medium'">https://</cck-leading>
+            <input cckInput placeholder="google.com"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Grey -->
+        <story-table-cell row="3">
+          <cck-form-field>
+            <cck-label>Url</cck-label>
+            <cck-leading [color]="'grey'">https://</cck-leading>
+            <input cckInput placeholder="google.com"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Clickable -->
+        <story-table-cell row="4">
+          <cck-form-field>
+            <cck-label>Url</cck-label>
+            <cck-leading [clickable]="true">https://</cck-leading>
+            <input cckInput placeholder="google.com"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Disabled -->
+        <story-table-cell row="5">
+          <cck-form-field [disabled]="true">
+            <cck-label>Url</cck-label>
+            <cck-leading>https://</cck-leading>
+            <input cckInput placeholder="google.com"/>
+          </cck-form-field>
+        </story-table-cell>
+
+      </story-table>
     `,
   }),
 };

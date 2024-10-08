@@ -23,22 +23,17 @@ export const Size: AngularStoryObj<ChipComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-           @for (size of uiComponentConfig?.chip.size?.values; track size) {
-            <th>{{size}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.chip.size?.values"
+        [rowHeaders]="uiComponentConfig?.chip.type?.values ?? []">
+        @for (type of uiComponentConfig?.chip.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.chip.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-chip [size]="size" [type]="type">Chip Value</cck-chip>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-           @for (size of uiComponentConfig?.chip.size?.values; track size) {
-              <td>
-                <cck-chip [size]="size">Chip Value</cck-chip>
-              </td>
-            }
-          </tr>
-        </tbody>
-      </table>
+        }
+      </story-table>     
     `,
   }),
 };

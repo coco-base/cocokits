@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
@@ -23,7 +23,6 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/Toggle',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       imports: [FormsModule, ReactiveFormsModule],
       providers: [

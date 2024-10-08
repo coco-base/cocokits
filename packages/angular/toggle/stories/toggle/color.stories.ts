@@ -22,23 +22,17 @@ export const Color: AngularStoryObj<ToggleComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.toggle.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.toggle.color?.values"
+        [rowHeaders]="uiComponentConfig?.toggle.type?.values ?? []">
+        @for (type of uiComponentConfig?.toggle.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.toggle.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-toggle checked="true" [color]="color" [type]="type"></cck-toggle>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.toggle.color?.values; track color) {
-              <td>
-                <cck-toggle checked="true" [color]="color"></cck-toggle>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>  
     `,
   }),
 };

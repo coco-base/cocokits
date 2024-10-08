@@ -26,23 +26,19 @@ export const ReactiveForm: AngularStoryObj<ToggleComponent> = {
       control: new FormControl(true),
     },
     template: `
-      <div class="flex-row w-100 justify-around">
-      
-        <div class="flex-col">
+      <story-columns>
+        <story-column>
           <cck-toggle [formControl]="control"></cck-toggle>
-        </div>
+        </story-column>
         
-        <div class="hr-h"></div>
-        
-        <div class="flex-col gap-24 align-center">
+        <story-column>
           <div class="p-sm-regular-3">Control Value: {{control.value}}</div>
           <button class="story-button" (click)="control.reset()">Reset</button>
           <button class="story-button" (click)="control.setValue(true)">Set To True</button>
           <button class="story-button" (click)="control.setValue(false)">Set to False</button>
           <button class="story-button" (click)="control.disabled ? control.enable() : control.disable()">Toggle Disable</button>
-        </div>
-      </div>
-      
+        </story-column>
+      </story-columns>
     `,
   }),
 };

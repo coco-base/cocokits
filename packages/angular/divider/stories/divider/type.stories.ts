@@ -23,23 +23,15 @@ export const Type: AngularStoryObj<DividerComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (type of uiComponentConfig?.divider.type?.values; track type) {
-            <th>{{type}}</th>
-          }
-        </thead>
-        <tbody>
-          <tr>
-            @for (type of uiComponentConfig?.divider.type?.values; track type) {
-              <td class="story-w-200 story-h-200">
-                <cck-divider class="story-margin-auto" [type]="type"></cck-divider>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+      <story-table
+        [headers]="uiComponentConfig?.divider.type?.values"
+        [cellHeight]="'100px'">
+        @for (type of uiComponentConfig?.divider.type?.values; let i = $index; track type) {
+          <story-table-cell row="0" [col]="i">
+            <cck-divider [style.margin]="'0 auto'" [type]="type"></cck-divider>
+          </story-table-cell>
+        }
+      </story-table>
     `,
   }),
 };

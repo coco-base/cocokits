@@ -22,7 +22,8 @@
       "@cocokits/angular-menu": ["packages/angular/menu/src/"],
       "@cocokits/angular-divider": ["packages/angular/divider/src/"],
       "@cocokits/angular-toggle": ["packages/angular/toggle/src/"],
-      "@cocokits/internal-model": ["packages/internal/internal-model/src/index.ts"]
+      "@cocokits/internal-model": ["packages/internal/internal-model/src/index.ts"],
+      "@cocokits/storybook-components": ["packages/internal/storybook-components/src/index.ts"]
     }
   }
 }

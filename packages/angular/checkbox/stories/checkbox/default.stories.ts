@@ -26,21 +26,18 @@ export const Default: AngularStoryObj<CheckboxComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          <th>Default</th>
-          <th>Disabled</th>
-          <th>Disabled - Checked</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td><cck-checkbox>Checkbox Label</cck-checkbox></td>
-            <td><cck-checkbox [disabled]="true">Checkbox Label</cck-checkbox></td>
-            <td><cck-checkbox [disabled]="true" [checked]="true">Checkbox Label</cck-checkbox></td>
-          </tr>
-         
-        </tbody>
-      </table>
+      <story-table
+        [headers]="['Default', 'Disabled', 'Disabled - Checked']">
+        <story-table-cell row="0" col="0">
+          <cck-checkbox>Checkbox Label</cck-checkbox>
+        </story-table-cell>
+        <story-table-cell row="0" col="1">
+          <cck-checkbox [disabled]="true">Checkbox Label</cck-checkbox>
+        </story-table-cell>
+        <story-table-cell row="0" col="2">
+          <cck-checkbox [disabled]="true" [checked]="true">Checkbox Label</cck-checkbox>
+        </story-table-cell>
+      </story-table>
     `,
   }),
 };

@@ -22,26 +22,20 @@ export const Color: AngularStoryObj<FormFieldComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `      
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.formField.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.formField.color?.values"
+        [rowHeaders]="uiComponentConfig?.formField.type?.values ?? []">
+        @for (type of uiComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.formField.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-form-field [color]="color">
+                <cck-label>Email</cck-label>
+                <input cckInput placeholder="Write your Email"/>
+              </cck-form-field>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.formField.color?.values; track color) {
-              <td>
-                <cck-form-field [color]="color">
-                  <cck-label>Email</cck-label>
-                  <input cckInput placeholder="Write your Email"/>
-                </cck-form-field>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table> 
     `,
   }),
 };

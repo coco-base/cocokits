@@ -23,12 +23,14 @@ export const Type: AngularStoryObj<ButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        @for (type of uiComponentConfig?.button.type?.values; track type) {
-          <div class="flex-col flex-center gap-12">
+      <story-table
+        [headers]="uiComponentConfig?.button.type?.values">
+        @for (type of uiComponentConfig?.button.type?.values; let i = $index; track type) {
+          <story-table-cell row="0" [col]="i">
             <button cck-button [type]="type">Button</button>
-            <span class="p-sm-regular-2">{{type}}</span>
-          </div>
+          </story-table-cell>
         }
+      </story-table>
     `,
   }),
 };

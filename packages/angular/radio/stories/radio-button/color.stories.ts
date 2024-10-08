@@ -22,23 +22,17 @@ export const Color: AngularStoryObj<RadioButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.radioButton.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.radioButton.color?.values"
+        [rowHeaders]="uiComponentConfig?.radioButton.type?.values ?? []">
+        @for (type of uiComponentConfig?.radioButton.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.radioButton.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-radio-button [type]="type" [color]="color" [checked]="true" [value]="1">Radio Button</cck-radio-button>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.radioButton.color?.values; track color) {
-              <td>
-                <cck-radio-button [color]="color" [checked]="true" [value]="1">Radio Button</cck-radio-button>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>  
     `,
   }),
 };

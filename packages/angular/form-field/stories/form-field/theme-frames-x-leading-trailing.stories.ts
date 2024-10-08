@@ -26,55 +26,45 @@ export const ThemeFramesXLeadingTrailing: AngularStoryObj<FormFieldComponent> = 
       copyIcon,
     },
     template: `
-          <table class="story-variant-table story-variant-table--center-header">
-          <tbody>
-            <!-- Leading -->
-            <tr>
-              <td>Leading</td>
-              <td>
-                <cck-form-field>
-                  <cck-leading>Box</cck-leading>
-                  <input cckInput placeholder="Text"/>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Trailing -->
-            <tr>
-              <td>Trailing</td>  
-              <td>
-                 <cck-form-field>
-                  <input cckInput placeholder="Text"/>
-                  <cck-trailing>Box</cck-trailing>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Both -->
-            <tr>
-              <td>Both</td>
-              <td>
-                <cck-form-field>
-                  <cck-leading>Box</cck-leading>
-                  <input cckInput placeholder="Text"/>
-                  <cck-trailing>Box</cck-trailing>
-                </cck-form-field>
-              </td>
-            </tr>
-            
-            <!-- Disabled -->
-            <tr>
-              <td>Disabled</td>
-              <td>
-                <cck-form-field [disabled]="true">
-                  <cck-leading>Box</cck-leading>
-                  <input cckInput placeholder="Text"/>
-                  <cck-trailing>Box</cck-trailing>
-                </cck-form-field>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-    `,
+      <story-table
+        [rowHeaders]="['Leading', 'Trailing', 'Both', 'Disabled']"
+        cellHAlign="left">
+        
+        <!-- Leading -->
+        <story-table-cell row="0">
+          <cck-form-field>
+            <cck-leading>Box</cck-leading>
+            <input cckInput placeholder="Text"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Trailing -->
+        <story-table-cell row="1">
+          <cck-form-field>
+            <input cckInput placeholder="Text"/>
+            <cck-trailing>Box</cck-trailing>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Both -->
+        <story-table-cell row="2">
+          <cck-form-field>
+            <cck-leading>Box</cck-leading>
+            <input cckInput placeholder="Text"/>
+            <cck-trailing>Box</cck-trailing>
+          </cck-form-field>
+        </story-table-cell>
+        
+        <!-- Disabled -->
+        <story-table-cell row="3">
+          <cck-form-field [disabled]="true">
+            <cck-leading>Box</cck-leading>
+            <input cckInput placeholder="Text"/>
+            <cck-trailing>Box</cck-trailing>
+          </cck-form-field>
+        </story-table-cell>
+       
+      </story-table>
+`,
   }),
 };

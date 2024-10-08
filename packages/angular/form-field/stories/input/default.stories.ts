@@ -22,29 +22,21 @@ export const Default: AngularStoryObj<InputComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          <th>Default</th>
-          <th>Disabled</th>
-        </thead>
-        <tbody>
-          <tr>
-              <td>
-                <cck-form-field>
-                  <cck-label>Label</cck-label>
-                  <input cckInput/>
-                </cck-form-field>
-              </td>
-              
-              <td>
-                <cck-form-field disabled="true">
-                  <cck-label>Label</cck-label>
-                  <input cckInput/>
-                </cck-form-field>
-              </td>
-          </tr>
-        </tbody>
-      </table>
+      <story-table
+        [headers]="['Default', 'Disabled']">
+        <story-table-cell row="0" col="0">
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+          </cck-form-field>
+        </story-table-cell>
+        <story-table-cell row="0" col="1">
+          <cck-form-field disabled="true">
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+          </cck-form-field>
+        </story-table-cell>
+      </story-table>
     `,
   }),
 };

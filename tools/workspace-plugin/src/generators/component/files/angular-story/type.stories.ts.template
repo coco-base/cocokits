@@ -22,23 +22,14 @@ export const Type: AngularStoryObj<<%- className %>Component> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (type of uiComponentConfig?.<%= propertyName %>.type?.values; track type) {
-            <th>{{type}}</th>
-          }
-        </thead>
-        <tbody>
-          <tr>
-            @for (type of uiComponentConfig?.<%= propertyName %>.type?.values; track type) {
-              <td>
-                <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+      <story-table
+        [headers]="uiComponentConfig?.<%= propertyName %>.type?.values">
+        @for (type of uiComponentConfig?.<%= propertyName %>.type?.values; let i = $index; track type) {
+          <story-table-cell row="0" [col]="i">
+            <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
+          </story-table-cell>
+        }
+      </story-table>
     `,
   }),
 };

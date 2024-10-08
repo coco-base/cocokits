@@ -180,6 +180,7 @@
 }
 
 .story-overlay-example {
+  width: 100%;
   min-height: 500px;
   display: flex;
   justify-content: center;
@@ -224,6 +225,14 @@
   border: 1px solid var(--cck-storybook-color-border-button-primary-hover);
 }
 
+.story-wrapper {
+  display: flex;
+  gap: 24px;
+  min-width: 100%;
+  width: fit-content;
+  padding: 24px;
+}
+
 // size - font-weight - color
 .p-sm-regular-4 {
   font: var(--cck-storybook-text-sm-regular);
@@ -255,16 +264,26 @@
   color: var(--cck-storybook-color-font-contrast-2);
 }
 
+.story-wrapper-full-width-table {
+  min-width: 100%;
+  width: fit-content;
+  padding: 24px;
+}
+
 .story-variant-table {
   border: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
   border-radius: var(--cck-storybook-size-6);
   border-spacing: 0;
 }
 
+.story-variant-table.story-variant-table--full-width {
+  min-width: 100%;
+}
+
 .story-variant-table td,
 .story-variant-table th {
-  font: var(--cck-storybook-text-sm-medium);
-  color: var(--cck-storybook-color-font-contrast-4);
+  font: var(--cck-storybook-text-sm-regular);
+  color: var(--cck-storybook-color-font-contrast-2);
   padding: var(--cck-storybook-size-16) var(--cck-storybook-size-24);
   text-align: center;
   vertical-align: top;
@@ -272,14 +291,22 @@
 
 .story-variant-table--bottom-align td,
 .story-variant-table--bottom-align th {
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 
 .story-variant-table thead th {
   border-bottom: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
+  background-color: var(--cck-storybook-color-bg-body-inverse-alpha-2);
 }
 
-.story-variant-table tbody td:first-child {
+// .story-variant-table tbody td:first-child {
+//   font: var(--cck-storybook-text-sm-medium);
+//   color: var(--cck-storybook-color-font-contrast-3);
+//   border-right: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);
+// }
+
+.story-variant-table.story-variant-table__has-col-header tbody td:first-child {
+  width: 1px;
   font: var(--cck-storybook-text-sm-medium);
   color: var(--cck-storybook-color-font-contrast-3);
   border-right: var(--cck-storybook-size-1) solid var(--cck-storybook-color-bg-body-inverse-alpha-5);

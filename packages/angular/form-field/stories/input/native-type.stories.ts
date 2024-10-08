@@ -36,23 +36,18 @@ export const NativeType: AngularStoryObj<FormFieldComponent> = {
         'week',
       ],
     },
-    template: `      
-      <table class="story-variant-table story-variant-table--center-header">
-        
-        <tbody>
-            @for (type of types; track type) {
-              <tr>
-                <td>{{type | titlecase}}</td>
-
-                <td>
-                  <cck-form-field>
-                    <input cckInput [type]="type"/>
-                  </cck-form-field>
-                </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    template: `
+      <story-table
+        [rowHeaders]="types"
+        cellHAlign="start">
+        @for (type of types; let i = $index; track type) {
+          <story-table-cell [row]="i">
+            <cck-form-field class="story-w-200">
+              <input cckInput [type]="type"/>
+            </cck-form-field>
+          </story-table-cell>
+        }
+      </story-table>
     `,
   }),
 };

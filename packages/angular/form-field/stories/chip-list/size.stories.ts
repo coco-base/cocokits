@@ -24,23 +24,22 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
       chips: ['Steak', 'Pizza', 'Burger'],
     },
     template: `
-
-      <table class="story-variant-table story-variant-table--center-header">
-        <tbody>
-          @for (size of uiComponentConfig?.chipList.size?.values; track size) {
-            <tr>
-              <td>{{size}}</td>
-                <td>
-                  <cck-form-field [size]="size">
-                    <cck-label>Chip List</cck-label>
-                    <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
-                    </cck-chip-list>
-                  </cck-form-field>
-                </td>
-            </tr>
+      <story-table
+        [headers]="uiComponentConfig?.chipList.type?.values ?? []"
+        [rowHeaders]="uiComponentConfig?.chipList.size?.values"
+        cellHAlign="start">
+        @for (size of uiComponentConfig?.chipList.size?.values; let row = $index; track size) {
+          @for (type of uiComponentConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-form-field [size]="size" [type]="type">
+                <cck-label>Chip List</cck-label>
+                <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
+                </cck-chip-list>
+              </cck-form-field>
+            </story-table-cell>
           }
-        </tbody>
-      </table>
+        }
+      </story-table> 
     `,
   }),
 };

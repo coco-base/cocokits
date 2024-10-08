@@ -21,29 +21,27 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
     props: {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      types: getSelectedCckTheme()?.uiComponentConfig.radioGroup.type?.values.filter((type) => {
+        return type !== 'row';
+      }),
     },
     template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.radioGroup.size?.values; track size) {
-            <th>{{size}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.radioGroup.size?.values"
+        [rowHeaders]="types ?? []"
+        cellVAlign="start">
+        @for (type of types ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.radioGroup.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-radio-group [type]="type" [size]="size" [selected]="1">
+                <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+                <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+                <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+              </cck-radio-group>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.radioGroup.size?.values; track size) {
-              <td>
-                <cck-radio-group [size]="size" [selected]="1">
-                  <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
-                  <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
-                  <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
-                </cck-radio-group>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table> 
     `,
   }),
 };

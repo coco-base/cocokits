@@ -27,29 +27,19 @@ export const Size: AngularStoryObj<IconButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table">
-        <thead>
-          <th></th>
-          @for (size of uiComponentConfig?.iconButton.size?.values; track size) {
-            <th>{{size}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.iconButton.size?.values"
+        [rowHeaders]="uiComponentConfig?.iconButton.type?.values">
+        @for (type of uiComponentConfig?.iconButton.type?.values; let row = $index; track type) {
+          @for (size of uiComponentConfig?.iconButton.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <button cck-icon-button [type]="type" [size]="size">
+                <cck-svg-icon [icon]="icon"></cck-svg-icon>
+              </button>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          @for (type of uiComponentConfig?.iconButton.type?.values; track type) {
-            <tr>
-              <td>{{type}}</td>
-              @for (size of uiComponentConfig?.iconButton.size?.values; track size) {
-                <td>
-                  <button cck-icon-button [type]="type" [size]="size">
-                    <cck-svg-icon [icon]="icon"></cck-svg-icon>
-                  </button>
-                </td>
-              }
-            </tr>
-          }
-         
-        </tbody>
-      </table>
+        }
+      </story-table>
     `,
   }),
 };

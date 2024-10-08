@@ -1,4 +1,4 @@
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
@@ -21,7 +21,6 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/IconButton',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       imports: [SvgIconComponent],
       providers: [

@@ -22,20 +22,23 @@ export const Default: AngularStoryObj<FormFieldComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      <div class="flex-col gap-32">
-
-        <!--Input, Textarea,Select -->
-        <div class="flex-row gap-32">
-          <cck-form-field>
+      <story-table cellHAlign="start" cellVAlign="start">
+        
+        <story-table-cell row="0" col="0">
+          <cck-form-field class="story-w-200">
             <cck-label>Input</cck-label>
             <input cckInput placeholder="Placeholder"/>
           </cck-form-field>
-  
-          <cck-form-field>
+        </story-table-cell>
+        
+        <story-table-cell row="0" col="1">
+          <cck-form-field class="story-w-200">
             <cck-label>Textarea</cck-label>
             <textarea cckTextarea placeholder="Placeholder"></textarea>
           </cck-form-field>
-       
+        </story-table-cell>
+        
+        <story-table-cell row="0" col="2">
           <cck-form-field class="story-w-200">
             <cck-label>Select</cck-label>
             <cck-select [placeholder]="'Select you food'">
@@ -44,15 +47,16 @@ export const Default: AngularStoryObj<FormFieldComponent> = {
               <cck-option [value]="'Burger'">Burger</cck-option>
             </cck-select>
           </cck-form-field>
-        </div>
-      
-        <!--ChipList-->
-        <cck-form-field class="story-w-600">
-          <cck-label>ChipList</cck-label>
-          <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'" [addOnBlur]="true"/>
-        </cck-form-field>
+        </story-table-cell>
         
-      </div>
+        <story-table-cell row="1" col="0" colSpan="3">
+          <cck-form-field class="story-w-600">
+            <cck-label>ChipList</cck-label>
+            <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'" [addOnBlur]="true"/>
+          </cck-form-field>
+        </story-table-cell>
+        
+      </story-table>
     `,
   }),
 };

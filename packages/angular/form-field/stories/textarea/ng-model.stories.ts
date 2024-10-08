@@ -24,23 +24,19 @@ export const NgModel: AngularStoryObj<InputComponent> = {
       modelValue: 'Default Value',
     },
     template: `
-      <div class="flex-row w-100 justify-around">
-      
-        <div class="flex-col">
+      <story-columns>
+        <story-column>
           <cck-form-field>
             <cck-label>ngModel</cck-label>
             <textarea cckTextarea [(ngModel)]="modelValue" placeholder="Placeholder"></textarea>
           </cck-form-field>
-        </div>
+        </story-column>
         
-        <div class="hr-h"></div>
-        
-        <div class="flex-col gap-24 align-center">
-          <div class="p-sm-regular-3">NgModel Value: {{modelValue}}</div>
+        <story-column>
+         <div class="p-sm-regular-3">NgModel Value: {{modelValue}}</div>
           <textarea class="story-input" [(ngModel)]="modelValue" style="resize: none;"></textarea>
-        </div>
-      </div>
-      
+        </story-column>
+      </story-columns>
     `,
   }),
 };

@@ -23,27 +23,17 @@ export const Size: AngularStoryObj<ButtonComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table">
-        <thead>
-          <th></th>
-          @for (size of uiComponentConfig?.button.size?.values; track size) {
-            <th>{{size}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.button.size?.values"
+        [rowHeaders]="uiComponentConfig?.button.type?.values">
+        @for (type of uiComponentConfig?.button.type?.values; let row = $index; track type) {
+          @for (size of uiComponentConfig?.button.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <button cck-button [type]="type" [size]="size">Button</button>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          @for (type of uiComponentConfig?.button.type?.values; track type) {
-            <tr>
-              <td>{{type}}</td>
-              @for (size of uiComponentConfig?.button.size?.values; track size) {
-                <td>
-                  <button cck-button [type]="type" [size]="size">Button</button>
-                </td>
-              }
-            </tr>
-          }
-         
-        </tbody>
-      </table>
+        }
+      </story-table>
     `,
   }),
 };

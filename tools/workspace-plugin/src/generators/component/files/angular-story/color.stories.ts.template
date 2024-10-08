@@ -22,23 +22,17 @@ export const Color: AngularStoryObj<<%- className %>Component> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (color of uiComponentConfig?.<%= propertyName %>.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.<%= propertyName %>.color?.values"
+        [rowHeaders]="uiComponentConfig?.<%= propertyName %>.type?.values ?? []">
+        @for (type of uiComponentConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.iconButton.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-<%- fileName %> [color]="color" [type]="type"></cck-<%- fileName %>>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (color of uiComponentConfig?.<%= propertyName %>.color?.values; track color) {
-              <td>
-                <cck-<%- fileName %> [color]="color"></cck-<%- fileName %>>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>
     `,
   }),
 };

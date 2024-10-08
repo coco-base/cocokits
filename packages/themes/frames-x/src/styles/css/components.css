@@ -467,7 +467,7 @@
   flex-wrap:wrap;
   align-items:stretch;
   justify-content:flex-start;
-  gap:12px;
+  gap: 12px;
 }
 
 .cck-chip-list__input{

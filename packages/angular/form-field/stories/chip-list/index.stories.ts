@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { UIComponentConfig } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
@@ -28,7 +28,6 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/ChipList',
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
       imports: [
         FormFieldComponent,

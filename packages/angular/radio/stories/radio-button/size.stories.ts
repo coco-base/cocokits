@@ -22,24 +22,18 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
-    template: `
-      <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.radioButton.size?.values; track size) {
-            <th>{{size}}</th>
+    template: ` 
+      <story-table
+        [headers]="uiComponentConfig?.radioButton.size?.values"
+        [rowHeaders]="uiComponentConfig?.radioButton.type?.values ?? []">
+        @for (type of uiComponentConfig?.radioButton.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.radioButton.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-radio-button [type]="type" [size]="size" [value]="1" [checked]="true">Radio Button</cck-radio-button>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.radioButton.size?.values; track size) {
-              <td>
-                <cck-radio-button [size]="size" [value]="1" [checked]="true">Radio Button</cck-radio-button>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table>  
     `,
   }),
 };

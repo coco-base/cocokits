@@ -39,7 +39,8 @@
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
       "@cocokits/theme-cocokits": ["packages/themes/cocokits/src/index.ts"],
       "@cocokits/theme-frames-x": ["packages/themes/frames-x/src/index.ts"],
-      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
+      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"],
+      "@cocokits/storybook-components": ["packages/internal/storybook-components/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -25,30 +25,25 @@ export const Color: AngularStoryObj<IconButtonComponent> = {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       themeName: getSelectedCckTheme()?.name,
+      types:
+        getSelectedCckTheme()?.id === 'cocokits'
+          ? getSelectedCckTheme()?.uiComponentConfig.iconButton.type?.values
+          : getSelectedCckTheme()?.uiComponentConfig.iconButton.type?.values.filter((type) => type !== 'secondary'),
     },
     template: `
-      <table class="story-variant-table">
-        <thead>
-          <th></th>
-          @for (color of uiComponentConfig?.iconButton.color?.values; track color) {
-            <th>{{color}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.iconButton.color?.values"
+        [rowHeaders]="types ?? []">
+        @for (type of types ?? [null]; let row = $index; track type) {
+          @for (color of uiComponentConfig?.iconButton.color?.values; let col = $index; track color) {
+            <story-table-cell [row]="row" [col]="col">
+              <button cck-icon-button [type]="type" [color]="color">
+                <cck-svg-icon [icon]="icon"></cck-svg-icon>
+              </button>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          @for (type of uiComponentConfig?.iconButton.type?.values; track type) {
-            <tr [class.hidden]="themeName === 'Frames X' && type === 'secondary'">
-              <td>{{type}}</td>
-              @for (color of uiComponentConfig?.iconButton.color?.values; track color) {
-                <td>
-                  <button cck-icon-button [type]="type" [color]="color">
-                    <cck-svg-icon [icon]="icon"></cck-svg-icon>
-                  </button>
-                </td>
-              }
-            </tr>
-          }
-        </tbody>
-      </table>
+        }
+      </story-table>
     `,
   }),
 };

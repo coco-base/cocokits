@@ -23,12 +23,18 @@ export const Size: AngularStoryObj<SvgIconComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-      @for (size of uiComponentConfig?.svgIcon.size?.values; track size) {
-        <div class="flex-col flex-center gap-12">
-          <cck-svg-icon [icon]="icon" [size]="size"></cck-svg-icon>
-          <span class="p-sm-regular-2">{{size}}</span>
-        </div>
-      }
+
+      <story-table
+        [headers]="uiComponentConfig?.svgIcon.size?.values"
+        [rowHeaders]="uiComponentConfig?.svgIcon.type?.values ?? []">
+        @for (type of uiComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.svgIcon.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-svg-icon [icon]="icon" [size]="size" [type]="type"></cck-svg-icon>
+            </story-table-cell>
+          }
+        }
+      </story-table> 
     `,
   }),
 };

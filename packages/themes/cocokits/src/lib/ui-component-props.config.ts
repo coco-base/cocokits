@@ -283,7 +283,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
     color: {
       name: 'color',
-      values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast', 'l-contrast'],
+      values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
       require: false,
       default: 'brand',
       description: '',
@@ -315,7 +315,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
     color: {
       name: 'color',
-      values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast', 'l-contrast'],
+      values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
       require: false,
       default: 'brand',
       description: '',
@@ -332,7 +332,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: null,
     color: {
       name: 'color',
-      values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast', 'l-contrast'],
+      values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast'],
       require: false,
       default: 'brand',
       description: '',

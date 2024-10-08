@@ -23,23 +23,18 @@ export const Size: AngularStoryObj<DividerComponent> = {
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
-        <table class="story-variant-table story-variant-table--no-col-header">
-        <thead>
-          @for (size of uiComponentConfig?.divider.size?.values; track size) {
-            <th>{{size}}</th>
+      <story-table
+        [headers]="uiComponentConfig?.divider.size?.values"
+        [rowHeaders]="uiComponentConfig?.divider.type?.values ?? []"
+        [cellHeight]="'100px'">
+        @for (type of uiComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of uiComponentConfig?.divider.size?.values; let col = $index; track size) {
+            <story-table-cell [row]="row" [col]="col">
+              <cck-divider [style.margin]="'0 auto'" [type]="type" [size]="size"></cck-divider>
+            </story-table-cell>
           }
-        </thead>
-        <tbody>
-          <tr>
-            @for (size of uiComponentConfig?.divider.size?.values; track size) {
-              <td class="story-w-200">
-                <cck-divider [size]="size"></cck-divider>
-              </td>
-            }
-          </tr>
-         
-        </tbody>
-      </table>
+        }
+      </story-table> 
     `,
   }),
 };

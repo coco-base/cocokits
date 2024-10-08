@@ -8,6 +8,12 @@
     cursor: pointer;
     font: $text-base-font-medium;
     color: $text-dark-primary;
+
+    &:hover {
+      .cck-svg-icon {
+        fill: $base-fill-5;
+      }
+    }
   }
 
   .cck-select--disabled {
@@ -45,7 +51,6 @@
   .cck-select__dropdown-icon-wrapper .cck-svg-icon {
     width: $icon-md;
     height: $icon-md;
-    fill: currentcolor;
   }
 
   .cck-select--opened .cck-select__dropdown-icon-wrapper {

@@ -129,6 +129,43 @@
       padding: 4px;
       cursor: text;
     }
+
+    & .cck-suffix,
+    & .cck-prefix {
+      align-self: flex-start;
+    }
+
+    &.cck-form-field__size--sm .cck-suffix {
+      margin-top: 6px;
+      margin-right: 4px;
+    }
+
+    &.cck-form-field__size--md .cck-suffix {
+      margin-top: 8px;
+      margin-right: 4px;
+    }
+
+    &.cck-form-field__size--lg .cck-suffix {
+      margin-top: 12px;
+      margin-right: 8px;
+      margin-left: 4px;
+    }
+
+    &.cck-form-field__size--sm .cck-prefix {
+      margin-top: 6px;
+      margin-left: 4px;
+    }
+
+    &.cck-form-field__size--md .cck-prefix {
+      margin-top: 8px;
+      margin-left: 4px;
+    }
+
+    &.cck-form-field__size--lg .cck-prefix {
+      margin-top: 12px;
+      margin-left: 8px;
+      margin-right: 4px;
+    }
   }
 
   .cck-form-field--with-textarea {
