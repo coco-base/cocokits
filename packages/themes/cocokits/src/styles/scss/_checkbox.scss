@@ -191,5 +191,6 @@
   .cck-checkbox--disabled .cck-checkbox__input-wrapper,
   .cck-checkbox--disabled .cck-checkbox__label {
     cursor: default;
+    user-select: none;
   }
 }

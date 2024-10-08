@@ -20,5 +20,7 @@
 
   .cck-input:disabled {
     color: $color-font-alpha-6;
+    user-select: none;
+    cursor: default;
   }
 }

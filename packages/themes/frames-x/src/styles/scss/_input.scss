@@ -16,5 +16,7 @@
 
   .cck-input:disabled {
     color: $base-disabled;
+    user-select: none;
+    cursor: default;
   }
 }

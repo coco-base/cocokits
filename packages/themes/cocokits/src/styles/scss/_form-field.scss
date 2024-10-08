@@ -95,6 +95,10 @@
     align-self: flex-start;
   }
 
+  .cck-form-field--with-chip-list .cck-chip-list {
+    flex: 1;
+  }
+
   .cck-form-field__size--sm.cck-form-field--with-chip-list .cck-suffix {
     margin-top: 6px;
     margin-right: 4px;

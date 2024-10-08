@@ -22,4 +22,10 @@
     background-repeat: no-repeat;
     background-position: bottom right;
   }
+
+  .cck-textarea:disabled {
+    user-select: none;
+    cursor: default;
+    color: $base-disabled;
+  }
 }

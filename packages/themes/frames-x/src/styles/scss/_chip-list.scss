@@ -26,4 +26,24 @@
       color: transparent;
     }
   }
+
+  .cck-chip-list__size {
+    &--sm {
+      .cck-chip-list__input {
+        height: 32px;
+      }
+    }
+
+    &--md {
+      .cck-chip-list__input {
+        height: 36px;
+      }
+    }
+
+    &--lg {
+      .cck-chip-list__input {
+        height: 44px;
+      }
+    }
+  }
 }

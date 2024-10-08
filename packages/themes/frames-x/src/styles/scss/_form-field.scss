@@ -125,6 +125,10 @@
   }
 
   .cck-form-field--with-chip-list {
+    .cck-chip-list {
+      flex: 1;
+    }
+
     .cck-form-field__wrapper {
       padding: 4px;
       cursor: text;

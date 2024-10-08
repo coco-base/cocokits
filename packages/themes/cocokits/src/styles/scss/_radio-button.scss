@@ -163,5 +163,6 @@
   .cck-radio-button--disabled .cck-radio-button__input-wrapper,
   .cck-radio-button--disabled .cck-radio-button__label {
     cursor: default;
+    user-select: none;
   }
 }
