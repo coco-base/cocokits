@@ -48,7 +48,7 @@ export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
 
         <StyledHeaderWrapper>
           <StyledLogo
-            src={storybookThemeName === 'light' ? selectedTheme.iconPathDark : selectedTheme.iconPathLight}></StyledLogo>
+            src={storybookThemeName === 'light' ? selectedTheme.iconPathLight : selectedTheme.iconPathDark}></StyledLogo>
           <StyledHeader>{selectedTheme.name}</StyledHeader>
         </StyledHeaderWrapper>
 
