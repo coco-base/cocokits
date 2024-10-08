@@ -34,7 +34,6 @@ export const Color: AngularStoryObj<ButtonComponent> = {
           @for (color of uiComponentConfig?.button.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-button [type]="type" [color]="color">Button</button>
-              <button disabled cck-button [type]="type" [color]="color">Button</button>
             </story-table-cell>
           }
         }
