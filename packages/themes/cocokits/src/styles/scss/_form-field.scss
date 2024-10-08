@@ -8,6 +8,10 @@
     gap: $form-field-spacing-host-gap;
   }
 
+  .cck-form-field:not(:disabled) .cck-form-field__input-wrapper:hover {
+    background-color: $color-surface-inverse-alpha-1;
+  }
+
   .cck-form-field .cck-select {
     height: 100%;
     width: 100%;
