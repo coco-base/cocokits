@@ -1,11 +1,2 @@
-# core
-
-This library was generated with [Nx](https://nx.dev).
-
-## Building
-
-Run `nx build core` to build the library.
-
-## Running unit tests
-
-Run `nx test core` to execute the unit tests via [Vitest](https://vitest.dev/).
+# @cocokits/core
+The `@cocokits/core` package is the foundation for all UI components in the CocoKits ecosystem, regardless of the framework being used. It provides essential configuration options, handles theming, and generates the necessary CSS selectors for consistent styling and functionality across different components. This package ensures that all UI elements integrate seamlessly with any design system, offering a cohesive and customizable experience for developers and designers alike.
