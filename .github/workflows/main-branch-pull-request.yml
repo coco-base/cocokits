@@ -1,0 +1,27 @@
+name: "Main branch PR [Build, Test]"
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Fetch latest from main branch
+        run: git fetch --no-tags --depth=1 origin main:main
+
+      - name: Install Dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build
+        run: npx nx affected:build --base=main --head=HEAD --exclude=cocokits
+
+      - name: Test
+        run: npx nx affected:test --base=main --head=HEAD --exclude=cocokits
