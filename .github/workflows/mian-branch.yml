@@ -1,0 +1,26 @@
+name: "Main branch [Build - Test]"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Install Dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build
+        run: pnpm nx run cocokits:build-all
+
+      - name: Test
+        run: pnpm nx run cocokits:test-all

@@ -25,6 +25,12 @@
         "command": "nx run-many --all --target=build --parallel --maxParallel=4"
       }
     },
+    "test-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run-many --all --target=test --parallel --maxParallel=4"
+      }
+    },
     "local-registry": {
       "executor": "@nx/js:verdaccio",
       "options": {

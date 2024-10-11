@@ -21,7 +21,7 @@ jobs:
         uses: ./.github/actions/pnpm-install
 
       - name: Build
-        run: npx nx affected:build --base=main --head=HEAD --exclude=cocokits
+        run: pnpm nx affected:build --base=main --head=HEAD --exclude=cocokits
 
       - name: Test
-        run: npx nx affected:test --base=main --head=HEAD --exclude=cocokits
+        run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits
