@@ -26,7 +26,7 @@ import _ from 'lodash';
  * ```
  */
 export function deepMerge<T, U>(target: T, source: U, customizer = deepMergeDefaultCustomize): T & U {
-  return _.mergeWith(target, source, customizer);
+  return _.mergeWith({ ...target }, { ...source }, customizer);
 }
 
 /**
