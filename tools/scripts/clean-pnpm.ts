@@ -24,7 +24,7 @@ while ((match = packagePatternRegex.exec(workspaceConfig)) !== null) {
 const deleteNodeModules = (path: string): void => {
   console.log(`Deleting node_modules in ${path}`);
   try {
-    execSync(`rm -rf ${path}/node_modules`);
+    execSync(`npx rimraf ${path}/node_modules`);
   } catch (error) {
     printError(`Error deleting node_modules in ${path}`, error);
   }
@@ -35,7 +35,7 @@ const staticFile = ['tmp', 'dist', 'package-lock.json', '.nx', 'pnpm-lock.yaml',
 try {
   staticFile.forEach((path) => {
     console.log(`Deleting ${path}`);
-    execSync(`rm -rf ${path}`);
+    execSync(`npx rimraf ${path}`);
   });
 } catch (error) {
   printError(`Error by deleting`, error);

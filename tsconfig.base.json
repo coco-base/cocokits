@@ -36,11 +36,11 @@
       "@cocokits/core": ["packages/common/core/src/index.ts"],
       "@cocokits/internal-model": ["packages/internal/internal-model/src/index.ts"],
       "@cocokits/react-overlay": ["packages/react/overlay/src/index.ts"],
+      "@cocokits/storybook-components": ["packages/internal/storybook-components/src/index.ts"],
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],
       "@cocokits/theme-cocokits": ["packages/themes/cocokits/src/index.ts"],
       "@cocokits/theme-frames-x": ["packages/themes/frames-x/src/index.ts"],
-      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"],
-      "@cocokits/storybook-components": ["packages/internal/storybook-components/src/index.ts"]
+      "@cocokits/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

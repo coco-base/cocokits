@@ -1,4 +1,4 @@
-import { spawnSync } from 'child_process';
+import { execSync } from 'child_process';
 import { RuleConfigCondition } from '@commitlint/types';
 import type { Commit } from 'conventional-commits-parser';
 
@@ -24,7 +24,7 @@ const COMMIT_TYPE_SCOPE: Record<CommitType, boolean> = {
   [CommitType.Release]: false,
 };
 
-const packagesJson = spawnSync('pnpm', ['nx', 'show', 'projects', '--json'], { encoding: 'utf8' }).stdout;
+const packagesJson = execSync('pnpm nx show projects --json', { encoding: 'utf8' });
 const packagesList = (JSON.parse(packagesJson) as string[]).map((name) => name.replace('@cocokits/', ''));
 
 module.exports = {
