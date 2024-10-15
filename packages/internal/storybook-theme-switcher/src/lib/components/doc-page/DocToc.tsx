@@ -1,40 +1,28 @@
-import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { intersectionObserver$ } from '@cocokits/common-utils';
-
 import { scrollToStoryById } from './doc-page.util';
+import { useExistingItems, useSelectedTocItem } from './DocToc.hooks';
 
 export interface DocTocProps {
   items: {id: string, name: string}[]
 }
 
+export interface TopItem {
+  id: string;
+  name: string;
+  element: Element;
+}
+
+
 export const DocToc = ({items}: DocTocProps) => {
-  const [selected, setSelected] = useState('');
-
-  useEffect(() => {
-
-    const itemsElement = items
-      .flatMap<Element>(item => document.querySelector(`#${item.id}`) ?? []);
-
-    const subscriber = intersectionObserver$(itemsElement, { threshold: [0.5] })
-      .subscribe(event => {
-        for (const { intersectionRatio, target } of event.entries) {
-          if (intersectionRatio >= 0.5) {
-            setSelected(target.id);
-            return;
-          }
-        }
-      });
-
-    return () => subscriber.unsubscribe();
-  }, []);
+  const existItems = useExistingItems(items);
+  const selected = useSelectedTocItem(existItems);
 
   return (
     <StyledContainer>
       <h5>On this page</h5>
       <StyledOl>
-        {items.map(item => (
+        {existItems.map(item => (
           <StyledLi
             $selected={item.id === selected} key={item.id}
             onClick={() => scrollToStoryById(item.id)}>
