@@ -39,12 +39,12 @@ ${contents}
  */
 function getContentData(app, event) {
 
-  const contents = event.contents.replace(/<table>/g, '<table class="arg-type-table">');
+  const contents = event.contents.replace(/<table>/g, '<table class="arg-type-table arg-type-table--full-width">');
 
   const storybookDocPageImportPath = path.join(
     path.relative(app.options.getValue('out'), workspaceRoot),
     'packages/internal/storybook-theme-switcher/src'
-  );
+  ).replace(/\\/g, '/');
 
   const tocItems = contents
     .split('\n')
