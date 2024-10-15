@@ -28,7 +28,7 @@ export const NgModel: AngularStoryObj<SelectComponent> = {
         <story-column>
           <cck-form-field class="story-w-200">
             <cck-label>NgModel</cck-label>
-            <cck-select [(ngModel)]="modelValue" [placeholder]="'Select you food'">
+            <cck-select [(ngModel)]="modelValue" [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>

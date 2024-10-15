@@ -30,7 +30,7 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
         <story-column>
           <cck-form-field class="story-w-200">
             <cck-label>FormControl</cck-label>
-            <cck-select [formControl]="controlSingle" [placeholder]="'Select you food'">
+            <cck-select [formControl]="controlSingle" [placeholder]="'Favorite food'">
               <cck-option>---</cck-option>
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>

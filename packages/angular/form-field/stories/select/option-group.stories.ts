@@ -28,7 +28,7 @@ export const OptionGroup: AngularStoryObj<SelectComponent> = {
         <story-table-cell row="0" col="0">
           <cck-form-field class="story-w-200">
             <cck-label>Favorite food</cck-label>
-            <cck-select [multiple]="true" [placeholder]="'Select you food'">
+            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
               <cck-option-group [label]="'Order 1'">
                 <cck-option [value]="'Steak-1'">Steak</cck-option>
                 <cck-option [value]="'Pizza-1'">Pizza</cck-option>
@@ -47,7 +47,7 @@ export const OptionGroup: AngularStoryObj<SelectComponent> = {
         <story-table-cell row="0" col="1">
           <cck-form-field class="story-w-200">
             <cck-label>Favorite food</cck-label>
-            <cck-select [multiple]="true" [placeholder]="'Select you food'">
+            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
               <cck-option-group disabled [label]="'Order 1'">
                 <cck-option [value]="'Steak-1'">Steak</cck-option>
                 <cck-option [value]="'Pizza-1'">Pizza</cck-option>

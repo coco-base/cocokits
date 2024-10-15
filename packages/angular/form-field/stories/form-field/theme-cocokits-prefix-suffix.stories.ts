@@ -38,7 +38,7 @@ export const ThemeCocokitsPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
             <cck-prefix>
               <cck-svg-icon [icon]="forkIcon"></cck-svg-icon>  
             </cck-prefix>
-            <cck-select [placeholder]="'Select you food'">
+            <cck-select [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>

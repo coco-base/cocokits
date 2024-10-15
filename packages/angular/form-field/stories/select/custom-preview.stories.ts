@@ -24,7 +24,7 @@ export const CustomPreview: AngularStoryObj<SelectComponent> = {
     template: `
       <cck-form-field class="story-w-200">
         <cck-label>Favorite food</cck-label>
-        <cck-select [(ngModel)]="modelValue" [multiple]="true" [placeholder]="'Select you food'">
+        <cck-select [(ngModel)]="modelValue" [multiple]="true" [placeholder]="'Favorite food'">
           <cck-select-preview>
             {{modelValue[0]}}
             @if(modelValue.length > 1) {

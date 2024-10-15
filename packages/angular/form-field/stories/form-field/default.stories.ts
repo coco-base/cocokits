@@ -41,7 +41,7 @@ export const Default: AngularStoryObj<FormFieldComponent> = {
         <story-table-cell row="0" col="2">
           <cck-form-field class="story-w-200">
             <cck-label>Select</cck-label>
-            <cck-select [placeholder]="'Select you food'">
+            <cck-select [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>

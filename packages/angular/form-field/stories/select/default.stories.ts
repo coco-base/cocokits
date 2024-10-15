@@ -30,7 +30,7 @@ export const Default: AngularStoryObj<SelectComponent> = {
         <story-table-cell col="0">
           <cck-form-field class="story-w-200">
             <cck-label>Favorite food</cck-label>
-            <cck-select [placeholder]="'Select you food'">
+            <cck-select [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>
@@ -41,7 +41,7 @@ export const Default: AngularStoryObj<SelectComponent> = {
         <!-- No Label --> 
         <story-table-cell col="1">
           <cck-form-field class="story-w-200">
-            <cck-select [placeholder]="'Select you food'">
+            <cck-select [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>
@@ -52,7 +52,7 @@ export const Default: AngularStoryObj<SelectComponent> = {
         <!-- Multi --> 
         <story-table-cell col="2">
           <cck-form-field class="story-w-200">
-            <cck-select [multiple]="true" [placeholder]="'Select you food'">
+            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>
@@ -63,7 +63,7 @@ export const Default: AngularStoryObj<SelectComponent> = {
         <!-- Disabled --> 
         <story-table-cell col="3">
           <cck-form-field class="story-w-200" [disabled]="true">
-            <cck-select [placeholder]="'Select you food'">
+            <cck-select [placeholder]="'Favorite food'">
               <cck-option [value]="'Steak'">Steak</cck-option>
               <cck-option [value]="'Pizza'">Pizza</cck-option>
               <cck-option [value]="'Burger'">Burger</cck-option>

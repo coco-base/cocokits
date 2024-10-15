@@ -31,7 +31,7 @@ export const Size: AngularStoryObj<SelectComponent> = {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [size]="size" class="story-w-200">
                 <cck-label>Favorite food</cck-label>
-                <cck-select [placeholder]="'Select you food'">
+                <cck-select [placeholder]="'Favorite food'">
                   <cck-option [value]="'Steak'">Steak</cck-option>
                   <cck-option [value]="'Pizza'">Pizza</cck-option>
                   <cck-option [value]="'Burger'">Burger</cck-option>
