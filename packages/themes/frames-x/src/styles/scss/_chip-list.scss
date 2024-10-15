@@ -32,6 +32,8 @@
 
       .cck-chip-list__input {
         height: 32px;
+        margin-left: $spacing-7;
+        font: $text-xs-font-medium;
       }
     }
 
@@ -40,6 +42,8 @@
 
       .cck-chip-list__input {
         height: 36px;
+        margin-left: $spacing-8;
+        font: $text-base-font-medium;
       }
     }
 
@@ -48,6 +52,8 @@
 
       .cck-chip-list__input {
         height: 44px;
+        margin-left: $spacing-9;
+        font: $text-lg-font-medium;
       }
     }
   }
