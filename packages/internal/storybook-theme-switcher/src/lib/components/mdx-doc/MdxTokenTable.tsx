@@ -135,7 +135,10 @@ export function MdxTokenTable() {
       {
         selectedToken &&
         <StyledTokenInfoWrapper>
-          <TokenInfo token={selectedToken} tokenMap={tokenDictionary.tokenMap}/>
+          <TokenInfo
+            token={selectedToken}
+            tokenMap={tokenDictionary.tokenMap}
+            close={() => setSelectedToken(null)}/>
         </StyledTokenInfoWrapper>
       }
     </StyledWrapper>
