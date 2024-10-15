@@ -2,7 +2,7 @@ import React, { FC, HTMLAttributes, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { recordReduceMerge } from '@cocokits/common-utils';
-import { CCK_THEMES_MAP, CckTheme, StorybookThemeName } from '@cocokits/storybook-theme-switcher';
+import { CCK_THEMES_MAP, CckTheme, getSelectedCckTheme, StorybookThemeName } from '@cocokits/storybook-theme-switcher';
 
 import { SelectedThemeModes } from './CckThemeDialog.model';
 
@@ -18,12 +18,15 @@ interface CckModeSelectionProps {
 export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
   ({ selectedTheme, defaultSelectedThemeModes, storybookThemeName, onModeChanged, ...props }) => {
 
-    const lightDarkCollectionModes = storybookThemeName === 'light' ? CCK_THEMES_MAP[selectedTheme.id].lightCollectionModes : CCK_THEMES_MAP[selectedTheme.id].darkCollectionModes;
-    const defaultSelectedModes =  recordReduceMerge(CCK_THEMES_MAP[selectedTheme.id].defaultSelectedModes, (mode, collection) => {
-      const modeValue = lightDarkCollectionModes[collection] ?? mode;
-      return {[collection]: modeValue};
-    });
+    const selectedCckTheme = getSelectedCckTheme();
 
+    const lightDarkCollectionModes = storybookThemeName === 'light' ? CCK_THEMES_MAP[selectedTheme.id].lightCollectionModes : CCK_THEMES_MAP[selectedTheme.id].darkCollectionModes;
+    const defaultSelectedModes = selectedCckTheme?.id === selectedTheme.id
+      ? selectedCckTheme.selectedModes
+      : recordReduceMerge(CCK_THEMES_MAP[selectedTheme.id].defaultSelectedModes, (mode, collection) => {
+        const modeValue = lightDarkCollectionModes[collection] ?? mode;
+        return {[collection]: modeValue};
+      });
 
     const [selectedModes, setSelectedModes] = useState<SelectedThemeModes>(defaultSelectedModes);
 

@@ -9,7 +9,9 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "rules": {}
+      "rules": {
+        "max-lines-per-function": ["error", { "max": 120, "skipComments": true }]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
