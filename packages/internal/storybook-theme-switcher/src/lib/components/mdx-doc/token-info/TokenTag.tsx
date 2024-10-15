@@ -16,7 +16,7 @@ export function TokenTag({ type, text, collectionName, modeName, compact = false
 
       <StyledValueWrapper>
         {getTokenIconType(type)}
-        <StyledValue>{text}</StyledValue>
+        <StyledValue $compact={compact}>{text}</StyledValue>
       </StyledValueWrapper>
 
 
@@ -64,18 +64,20 @@ const StylesWrapper = styled.div<{$hasGap: boolean, $compact: boolean}>`
     width: fit-content;
     display: flex;
     flex-direction: column;
-
-    background-color: var(--cck-storybook-color-bg-body-inverse-alpha-2);
-    border: 1px solid var(--cck-storybook-color-border-alpha-default);
-    padding: 6px 12px;
     border-radius: 6px;
 
+    ${props => !props.$compact && css`
+      padding: 6px 12px;
+      background-color: var(--cck-storybook-color-bg-body-inverse-alpha-2);
+      border: 1px solid var(--cck-storybook-color-border-alpha-default);
+  `}
+
     ${props => props.$compact && css`
-        padding: 2px 12px;
+      padding: 2px 12px;
     `}
     
     ${props => props.$hasGap && css`
-        gap: 12px;
+      gap: 12px;
     `}
 `;
 
@@ -108,7 +110,11 @@ const StyledText = styled.div`
     color: var(--cck-storybook-color-font-contrast-3);
 `;
 
-const StyledValue = styled.div`
+const StyledValue = styled.div<{$compact: boolean}>`
     font: var(--cck-storybook-text-sm-medium);
     color: var(--cck-storybook-color-font-contrast-4);
+
+    ${props => props.$compact && css`
+      color: var(--cck-storybook-color-font-contrast-2);
+    `}
 `;
