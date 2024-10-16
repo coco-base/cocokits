@@ -63,6 +63,12 @@
         }
       }
 
+      &.cck-form-field--with-chip-list {
+        .cck-form-field__wrapper {
+          padding: 4px;
+        }
+      }
+
       .cck-input,
       .cck-leading,
       .cck-trailing {
@@ -78,6 +84,12 @@
         }
       }
 
+      &.cck-form-field--with-chip-list {
+        .cck-form-field__wrapper {
+          padding: 4px;
+        }
+      }
+
       .cck-input,
       .cck-leading,
       .cck-trailing {
@@ -90,6 +102,12 @@
       &.cck-form-field--with-select {
         .cck-form-field__wrapper {
           height: 58px;
+        }
+      }
+
+      &.cck-form-field--with-chip-list {
+        .cck-form-field__wrapper {
+          padding: 6px;
         }
       }
 
@@ -130,7 +148,6 @@
     }
 
     .cck-form-field__wrapper {
-      padding: 4px;
       cursor: text;
     }
 
