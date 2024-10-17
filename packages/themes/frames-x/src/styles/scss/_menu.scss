@@ -6,10 +6,11 @@
     flex-direction: column;
     border: 1px solid $base-border;
     border-radius: $radi-6;
-    padding: $spacing-5 0;
+    padding: 0;
     box-shadow: 0 8px 10px -6px #0d10170a, 0 18px 22px -4px #0d101714;
     margin: 4px 0;
     background-color: $base-surface-1;
+    overflow: hidden;
   }
 
   .cck-menu__overlay .cck-overlay__backdrop {
