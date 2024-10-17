@@ -23,7 +23,7 @@ export const Default: AngularStoryObj<ChipListComponent<string>> = {
       chips: ['Steak', 'Pizza', 'Burger'],
     },
     template: `
-        <cck-form-field>
+        <cck-form-field class="story-w-600">
           <cck-label>Chip List</cck-label>
           <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
           </cck-chip-list>

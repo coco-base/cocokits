@@ -21,7 +21,7 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
     props: {
       ...args,
       uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
-      chips: ['Steak', 'Pizza', 'Burger'],
+      chips: ['Steak', 'Pizza'],
     },
     template: `
       <story-table
@@ -31,7 +31,7 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
         @for (size of uiComponentConfig?.chipList.size?.values; let row = $index; track size) {
           @for (type of uiComponentConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
             <story-table-cell [row]="row" [col]="col">
-              <cck-form-field [size]="size" [type]="type">
+              <cck-form-field [size]="size" [type]="type" class="story-w-600">
                 <cck-label>Chip List</cck-label>
                 <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
                 </cck-chip-list>
