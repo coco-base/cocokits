@@ -11,7 +11,23 @@ export const OptionGroup: AngularStoryObj<SelectComponent> = {
         story: `Shows the select component with grouped options, demonstrating how different options can be organized together for improved categorization and user experience.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Favorite food</cck-label>
+            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
+              <cck-option-group disabled [label]="'Order 1'">
+                <cck-option [value]="'Steak-1'">Steak</cck-option>
+                <cck-option [value]="'Pizza-1'">Pizza</cck-option>
+                <cck-option [value]="'Burger-1'">Burger</cck-option>
+              </cck-option-group>
+              <cck-option-group [label]="'Order 2'">
+                <cck-option [value]="'Steak-2'">Steak</cck-option>
+                <cck-option disabled [value]="'Pizza-2'">Pizza</cck-option>
+                <cck-option [value]="'Burger-2'">Burger</cck-option>
+              </cck-option-group>
+            </cck-select>
+          </cck-form-field>
+        `,
       },
     },
   },

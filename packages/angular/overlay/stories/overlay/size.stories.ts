@@ -10,7 +10,7 @@ export const Size: AngularStoryObj<OverlayComponent> = {
         story: `Opens an overlay with a fixed size or sets minimum and maximum sizes, allowing it to fit different design needs.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: ``,
       },
     },
   },

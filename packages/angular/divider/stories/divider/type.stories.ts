@@ -13,7 +13,9 @@ export const Type: AngularStoryObj<DividerComponent> = {
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-divider [type]="..."></cck-divider>
+        `,
       },
     },
   },

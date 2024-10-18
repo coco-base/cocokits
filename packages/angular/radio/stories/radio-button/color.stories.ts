@@ -12,7 +12,9 @@ export const Color: AngularStoryObj<RadioButtonComponent> = {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
       source: {
-        code: `TODO: ...`,
+        code: `
+          <cck-radio-button [color]="..." [checked]="true" [value]="1">Radio Button</cck-radio-button>
+        `,
       },
     },
   },

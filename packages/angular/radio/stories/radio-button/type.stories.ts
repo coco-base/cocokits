@@ -13,7 +13,9 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
       source: {
-        code: `TODO: ...`,
+        code: `
+          <cck-radio-button [type]="..." [checked]="true" [value]="1">Radio Button</cck-radio-button>
+        `,
       },
     },
   },

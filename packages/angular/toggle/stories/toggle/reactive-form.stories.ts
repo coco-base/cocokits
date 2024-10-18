@@ -14,7 +14,7 @@ export const ReactiveForm: AngularStoryObj<ToggleComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-toggle [formControl]="control">Slide me!</cck-toggle>
         `,
       },
     },

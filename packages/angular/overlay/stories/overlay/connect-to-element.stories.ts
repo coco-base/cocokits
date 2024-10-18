@@ -11,7 +11,7 @@ export const ConnectToElement: AngularStoryObj<OverlayComponent> = {
           'Enables the overlay to be attached to a specific target element, allowing it to be positioned dynamically at various locations relative to the target, such as bottom-left.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: ``,
       },
     },
   },

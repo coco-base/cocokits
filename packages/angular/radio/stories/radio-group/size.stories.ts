@@ -13,7 +13,13 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
-        code: `TODO: ...`,
+        code: `
+          <cck-radio-group [size]="..." [selected]="1">
+            <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+            <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+            <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+          </cck-radio-group>
+        `,
       },
     },
   },

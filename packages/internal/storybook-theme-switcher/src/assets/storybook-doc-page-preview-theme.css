@@ -254,6 +254,11 @@ pre .docblock-source > div:nth-child(2) button:focus {
     box-shadow: none;
 }
 
+pre .docblock-source .prismjs,
+.sbdocs.sbdocs-preview .prismjs {
+    color: var(--cck-storybook-color-font-contrast-4);
+}
+
 pre .docblock-source .prismjs .token.string,
 .sbdocs.sbdocs-preview .prismjs .token.string {
     color: var(--color-storybook-source-red1);

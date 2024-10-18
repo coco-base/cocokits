@@ -11,7 +11,7 @@ export const CustomViewContainerRef: AngularStoryObj<OverlayComponent> = {
           'The element will be render in your custom `viewContainerRef`. To make sure the overlay will be visible in your custom container, change the position of overlay to `absolute`',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: ``,
       },
     },
   },

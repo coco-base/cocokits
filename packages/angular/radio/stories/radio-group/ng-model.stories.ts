@@ -12,7 +12,11 @@ export const NgModel: AngularStoryObj<RadioButtonComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-radio-group [(ngModel)]="modelValue">
+            <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
+            <cck-radio-button [value]="2">Radio Button 2</cck-radio-button>
+            <cck-radio-button [value]="3">Radio Button 3</cck-radio-button>
+          </cck-radio-group>
         `,
       },
     },

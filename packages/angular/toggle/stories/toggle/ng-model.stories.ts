@@ -12,7 +12,7 @@ export const NgModel: AngularStoryObj<ToggleComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-toggle [(ngModel)]="modelValue">Slide me!</cck-toggle>
         `,
       },
     },

@@ -12,7 +12,10 @@ export const NgModel: AngularStoryObj<InputComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-form-field>
+            <cck-label>ngModel</cck-label>
+            <textarea cckTextarea [(ngModel)]="modelValue" placeholder="Placeholder"></textarea>
+          </cck-form-field>
         `,
       },
     },

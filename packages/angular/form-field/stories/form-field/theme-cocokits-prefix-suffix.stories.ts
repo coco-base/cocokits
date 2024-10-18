@@ -13,7 +13,30 @@ export const ThemeCocokitsPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
         story: `Demonstrates the formField component with prefix and suffix elements, highlighting how additional text or icons can be added before or after the input to provide context or functionality.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Email</cck-label>
+            <cck-prefix>
+              <cck-svg-icon [icon]="...."></cck-svg-icon>  
+            </cck-prefix>
+            <input cckInput placeholder="Write your Email"/>
+            <cck-suffix>
+              <cck-svg-icon [icon]="..."></cck-svg-icon>  
+            </cck-suffix>
+          </cck-form-field>
+
+          <cck-form-field>
+            <cck-label>Select</cck-label>
+            <cck-prefix>
+              <cck-svg-icon [icon]="..."></cck-svg-icon>  
+            </cck-prefix>
+            <cck-select [placeholder]="'Favorite food'">
+              <cck-option [value]="'Steak'">Steak</cck-option>
+              <cck-option [value]="'Pizza'">Pizza</cck-option>
+              <cck-option [value]="'Burger'">Burger</cck-option>
+            </cck-select>
+          </cck-form-field>
+        `,
       },
     },
   },

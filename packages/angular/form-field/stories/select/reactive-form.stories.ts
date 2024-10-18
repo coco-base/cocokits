@@ -14,7 +14,19 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-form-field>
+            <cck-label>FormControl</cck-label>
+            <cck-select [formControl]="controlSingle" [placeholder]="'Favorite food'">
+              <cck-option>---</cck-option>
+              <cck-option [value]="'Steak'">Steak</cck-option>
+              <cck-option [value]="'Pizza'">Pizza</cck-option>
+              <cck-option [value]="'Burger'">Burger</cck-option>
+            </cck-select>
+            
+            @if(controlSingle.hasError() && controlSingle.errors?.required) {
+              <cck-error>This field is required</cck-error>
+            }
+          </cck-form-field>
         `,
       },
     },

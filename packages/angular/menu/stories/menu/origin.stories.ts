@@ -12,7 +12,27 @@ export const Origin: AngularStoryObj<MenuComponent> = {
         story: `Explores how the menu overlay's position can be adjusted relative to the target element, demonstrating how different origin points like top-left affect where the menu appears upon activation.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '200px'}" [menuOrigin]="Origin.BottomLeft">BottomLeft - Left</button>
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '200px'}" [menuOrigin]="Origin.BottomRight">Bottom - Right</button>
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '200px'}" [menuOrigin]="Origin.TopLeft">Top - Left</button>
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '200px'}" [menuOrigin]="Origin.TopRight">Top - Right</button>
+
+          <ng-template #menu>
+            <cck-menu [closeOnSelectItem]="true">
+              <cck-menu-item>Edit</cck-menu-item>
+              <cck-menu-item>Duplicate</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Archive</cck-menu-item>
+              <cck-menu-item disabled>Move</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Share</cck-menu-item>
+              <cck-menu-item>Add to favorite</cck-menu-item>
+            </cck-menu>
+          </ng-template>
+        
+        `,
       },
     },
   },

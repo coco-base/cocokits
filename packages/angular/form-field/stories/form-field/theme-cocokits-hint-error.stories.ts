@@ -13,7 +13,19 @@ export const ThemeCocokitsHintError: AngularStoryObj<FormFieldComponent> = {
         story: `Displays the formField component in states with hints and error messages, illustrating how the component visually handles guidance and validation feedback to enhance user interaction.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+            <cck-hint>This is a hint text</cck-hint>
+          </cck-form-field>
+
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+            <cck-error [force]="true">This is an error text</cck-error>
+          </cck-form-field>
+        `,
       },
     },
   },

@@ -11,7 +11,22 @@ export const CustomPreview: AngularStoryObj<SelectComponent> = {
         story: `Displays the select component with a customized view for the selected item, enabling more complex and visually rich representations instead of just plain text.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Favorite food</cck-label>
+            <cck-select [(ngModel)]="modelValue" [multiple]="true" [placeholder]="'Favorite food'">
+              <cck-select-preview>
+                {{modelValue[0]}}
+                @if(modelValue.length > 1) {
+                  <span style="opacity: 0.5">(+{{modelValue.length - 1}} more)</span>
+                }
+              </cck-select-preview>
+              <cck-option [value]="'Steak'">Steak</cck-option>
+              <cck-option [value]="'Pizza'">Pizza</cck-option>
+              <cck-option [value]="'Burger'">Burger</cck-option>
+            </cck-select>
+          </cck-form-field>
+        `,
       },
     },
   },

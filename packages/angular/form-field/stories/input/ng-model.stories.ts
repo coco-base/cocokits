@@ -12,7 +12,10 @@ export const NgModel: AngularStoryObj<InputComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-form-field>
+            <cck-label>ngModel</cck-label>
+            <input cckInput [(ngModel)]="modelValue"/>
+          </cck-form-field>
         `,
       },
     },

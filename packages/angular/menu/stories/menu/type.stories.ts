@@ -13,7 +13,22 @@ export const Type: AngularStoryObj<MenuComponent> = {
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '150px'}" [menuOrigin]="'bottom-left'">Open</button>
+          
+          <ng-template #menu>
+            <cck-menu [closeOnSelectItem]="true" [type]="...">
+              <cck-menu-item>Edit</cck-menu-item>
+              <cck-menu-item>Duplicate</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Archive</cck-menu-item>
+              <cck-menu-item disabled>Move</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Share</cck-menu-item>
+              <cck-menu-item>Add to favorite</cck-menu-item>
+            </cck-menu>
+          </ng-template>
+        `,
       },
     },
   },

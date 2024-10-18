@@ -13,7 +13,13 @@ export const ThemeFramesXLeadingTrailing: AngularStoryObj<FormFieldComponent> = 
         story: `Shows the formField component with a leading and trailing element, demonstrating how labels can be integrated at the start to enhance functionality and user interaction.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-leading>Box</cck-leading>
+            <input cckInput placeholder="Text"/>
+            <cck-trailing>Box</cck-trailing>
+          </cck-form-field>
+        `,
       },
     },
   },

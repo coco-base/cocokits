@@ -14,7 +14,12 @@ export const ThemeCocokitsBox: AngularStoryObj<ToggleComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-toggle [(ngModel)]="modelValue" labelPosition="after" class="story-theme-cocokits-toggle-box">
+            <div class="flex-col">
+              <span class="story-theme-cocokits-toggle-box__title">Enable early access</span>
+              <span class="story-theme-cocokits-toggle-box__text">Get access to new features before they are released.</span>
+            </div>
+          </cck-toggle>
         `,
       },
     },

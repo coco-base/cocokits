@@ -13,7 +13,22 @@ export const Size: AngularStoryObj<MenuComponent> = {
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '150px'}" [menuOrigin]="'bottom-left'">Open</button>
+          
+          <ng-template #menu>
+            <cck-menu [closeOnSelectItem]="true" [size]="...">
+              <cck-menu-item>Edit</cck-menu-item>
+              <cck-menu-item>Duplicate</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Archive</cck-menu-item>
+              <cck-menu-item disabled>Move</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Share</cck-menu-item>
+              <cck-menu-item>Add to favorite</cck-menu-item>
+            </cck-menu>
+          </ng-template>
+        `,
       },
     },
   },

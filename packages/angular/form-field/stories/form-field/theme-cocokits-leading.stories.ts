@@ -13,7 +13,26 @@ export const ThemeCocokitsLeading: AngularStoryObj<FormFieldComponent> = {
         story: `Shows the formField component with a leading element, demonstrating how icons or labels can be integrated at the start to enhance functionality and user interaction.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+
+          <cck-form-field>
+            <cck-label>Url</cck-label>
+            <cck-leading>https://</cck-leading>
+            <input cckInput placeholder="google.com"/>
+          </cck-form-field>
+
+          <cck-form-field>
+            <cck-label>Phone</cck-label>
+            <cck-leading>
+              <cck-select [value]="'US'">
+                <cck-option [value]="'AT'">AT</cck-option>
+                <cck-option [value]="'IR'">IR</cck-option>
+                <cck-option [value]="'US'">US</cck-option>
+              </cck-select>
+            </cck-leading>
+            <input cckInput placeholder="+1 (555) 000-0000"/>
+          </cck-form-field>
+        `,
       },
     },
   },

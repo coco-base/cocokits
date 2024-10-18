@@ -13,7 +13,13 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field [size]="...">
+            <cck-label>Chip List</cck-label>
+            <cck-chip-list [chips]="['Steak', 'Pizza']" [placeholder]="'Add a new food'">
+            </cck-chip-list>
+          </cck-form-field>
+        `,
       },
     },
   },

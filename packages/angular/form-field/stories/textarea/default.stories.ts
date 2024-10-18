@@ -12,7 +12,12 @@ export const Default: AngularStoryObj<TextareaComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <textarea cckTextarea placeholder="Placeholder"></textarea>
+          </cck-form-field>
+        `,
       },
     },
   },

@@ -13,7 +13,13 @@ export const ThemeCocokitsTrailing: AngularStoryObj<FormFieldComponent> = {
         story: `Displays the formField component with a trailing element, illustrating the inclusion of icons or actions at the end to improve usability and interface design.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Url</cck-label>
+            <input cckInput placeholder="google"/>
+            <cck-trailing>.com</cck-trailing>
+          </cck-form-field>
+        `,
       },
     },
   },

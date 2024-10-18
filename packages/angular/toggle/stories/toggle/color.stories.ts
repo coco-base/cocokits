@@ -12,7 +12,9 @@ export const Color: AngularStoryObj<ToggleComponent> = {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-toggle [checked]="true" [color]="...">Slide me!</cck-toggle>
+        `,
       },
     },
   },

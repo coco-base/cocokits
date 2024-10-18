@@ -12,7 +12,11 @@ export const Default: AngularStoryObj<RadioButtonComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-radio-button [value]="1">Radio Button</cck-radio-button>
+          <cck-radio-button [disabled]="true" [value]="1">Radio Button</cck-radio-button>
+          <cck-radio-button [disabled]="true" [value]="1" [checked]="true">Radio Button</cck-radio-button>
+        `,
       },
     },
   },

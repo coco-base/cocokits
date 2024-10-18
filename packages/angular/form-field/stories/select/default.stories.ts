@@ -12,7 +12,16 @@ export const Default: AngularStoryObj<SelectComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Favorite food</cck-label>
+            <cck-select [placeholder]="'Favorite food'">
+              <cck-option [value]="'Steak'">Steak</cck-option>
+              <cck-option [value]="'Pizza'">Pizza</cck-option>
+              <cck-option [value]="'Burger'">Burger</cck-option>
+            </cck-select>
+          </cck-form-field>
+        `,
       },
     },
   },

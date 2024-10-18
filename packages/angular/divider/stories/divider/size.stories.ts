@@ -13,7 +13,9 @@ export const Size: AngularStoryObj<DividerComponent> = {
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-divider [size]="..."></cck-divider>
+        `,
       },
     },
   },

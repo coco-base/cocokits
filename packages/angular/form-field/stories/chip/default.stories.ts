@@ -12,7 +12,11 @@ export const Default: AngularStoryObj<ChipComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-chip>Default</cck-chip>
+          <cck-chip [removable]="true">Removable</cck-chip>
+          <cck-chip disabled="">Disabled</cck-chip>
+        `,
       },
     },
   },

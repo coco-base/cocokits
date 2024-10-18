@@ -12,7 +12,12 @@ export const Default: AngularStoryObj<InputComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Label</cck-label>
+            <input cckInput/>
+          </cck-form-field>
+        `,
       },
     },
   },

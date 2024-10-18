@@ -12,7 +12,31 @@ export const Default: AngularStoryObj<FormFieldComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Input</cck-label>
+            <input cckInput placeholder="Placeholder"/>
+          </cck-form-field>
+        
+          <cck-form-field>
+            <cck-label>Textarea</cck-label>
+            <textarea cckTextarea placeholder="Placeholder"></textarea>
+          </cck-form-field>
+
+          <cck-form-field>
+            <cck-label>Select</cck-label>
+            <cck-select [placeholder]="'Favorite food'">
+              <cck-option [value]="'Steak'">Steak</cck-option>
+              <cck-option [value]="'Pizza'">Pizza</cck-option>
+              <cck-option [value]="'Burger'">Burger</cck-option>
+            </cck-select>
+          </cck-form-field>
+
+          <cck-form-field>
+            <cck-label>ChipList</cck-label>
+            <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'" [addOnBlur]="true"/>
+          </cck-form-field>
+        `,
       },
     },
   },

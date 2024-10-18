@@ -12,7 +12,22 @@ export const Default: AngularStoryObj<MenuComponent> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '150px'}" [menuOrigin]="'bottom-left'">Open</button>
+          
+          <ng-template #menu>
+            <cck-menu [closeOnSelectItem]="true">
+              <cck-menu-item>Edit</cck-menu-item>
+              <cck-menu-item>Duplicate</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Archive</cck-menu-item>
+              <cck-menu-item disabled>Move</cck-menu-item>
+              <cck-divider></cck-divider>
+              <cck-menu-item>Share</cck-menu-item>
+              <cck-menu-item>Add to favorite</cck-menu-item>
+            </cck-menu>
+          </ng-template>
+        `,
       },
     },
   },

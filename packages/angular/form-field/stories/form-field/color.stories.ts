@@ -12,7 +12,12 @@ export const Color: AngularStoryObj<FormFieldComponent> = {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
       source: {
-        code: `TODO: ...`,
+        code: `
+          <cck-form-field [color]="...">
+            <cck-label>Email</cck-label>
+            <input cckInput placeholder="Write your Email"/>
+          </cck-form-field>
+        `,
       },
     },
   },

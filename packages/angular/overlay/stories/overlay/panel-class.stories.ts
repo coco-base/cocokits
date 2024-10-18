@@ -10,7 +10,7 @@ export const PanelClass: AngularStoryObj<OverlayComponent> = {
         story: `Displays the overlay with a custom CSS class so you can change its default styles. Do not use opacity or transform in your custom class because it can cause the overlay's animation and position to work incorrectly.`,
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: ``,
       },
     },
   },

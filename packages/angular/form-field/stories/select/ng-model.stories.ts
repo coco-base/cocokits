@@ -12,7 +12,14 @@ export const NgModel: AngularStoryObj<SelectComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-form-field>
+            <cck-label>NgModel</cck-label>
+            <cck-select [(ngModel)]="modelValue" [placeholder]="'Favorite food'">
+              <cck-option [value]="'Steak'">Steak</cck-option>
+              <cck-option [value]="'Pizza'">Pizza</cck-option>
+              <cck-option [value]="'Burger'">Burger</cck-option>
+            </cck-select>
+          </cck-form-field>
         `,
       },
     },

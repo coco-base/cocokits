@@ -14,7 +14,13 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
       },
       source: {
         code: `
-          TODO: ...
+          <cck-form-field>
+            <cck-label>FormControl</cck-label>  
+            <textarea cckTextarea [formControl]="control" placeholder="Placeholder"></textarea>
+            @if(control.errors?.required) {
+              <cck-error>This field is required</cck-error>
+            }
+          </cck-form-field>
         `,
       },
     },

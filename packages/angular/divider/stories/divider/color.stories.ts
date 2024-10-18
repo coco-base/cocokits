@@ -12,7 +12,9 @@ export const Color: AngularStoryObj<DividerComponent> = {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-divider [color]="..."></cck-divider>
+        `,
       },
     },
   },

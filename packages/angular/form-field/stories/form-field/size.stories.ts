@@ -13,7 +13,12 @@ export const Size: AngularStoryObj<FormFieldComponent> = {
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
-        code: `TODO:...`,
+        code: `
+          <cck-form-field [size]="...">
+            <cck-label>Email</cck-label>
+            <input cckInput placeholder="Write your Email"/>
+          </cck-form-field>
+        `,
       },
     },
   },

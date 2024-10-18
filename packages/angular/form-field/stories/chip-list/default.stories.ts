@@ -12,7 +12,13 @@ export const Default: AngularStoryObj<ChipListComponent<string>> = {
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
       source: {
-        code: `TODO: Add source code of story`,
+        code: `
+          <cck-form-field>
+            <cck-label>Chip List</cck-label>
+            <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'">
+            </cck-chip-list>
+          </cck-form-field>
+        `,
       },
     },
   },
