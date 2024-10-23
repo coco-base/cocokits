@@ -1,11 +1,10 @@
+import { recordReduceMerge } from '@cocokits/common-utils';
+import { TokenDictionary } from '@cocokits/core';
 import {
   cocokitsUIComponentConfig,
   svgIconMap as svgIconMapCocokitsTheme,
   tokenDictionary as tokenDictionaryCocokitsTheme,
 } from '@cocokits/theme-cocokits';
-
-import { recordReduceMerge } from '@cocokits/common-utils';
-import { TokenDictionary } from '@cocokits/core';
 import {
   framesXUIComponentConfig,
   svgIconMap as svgIconMapFramesXTheme,
@@ -18,7 +17,7 @@ import { CckTheme, CckThemeId } from './cck-themes.model';
 export const CCK_THEME_SWITCHER_TOOL_ID = '@cocokits/storybook-theme-switcher:cck-tool-id';
 export const CCK_THEME_CHANGED_EVENT_NAME = `cck-storybook-theme-switcher/cck-theme-changed`;
 export const CCK_OPEN_THEME_SELECTION_EVENT_NAME = `cck-storybook-theme-switcher/cck-open-theme-selection`;
-export const LOCALSTORAGE_CCK_THEME = 'cck-theme-switcher-selected';
+export const LOCAL_STORAGE_CCK_THEME = 'cck-theme-switcher-selected';
 export const CCK_THEME_DOCUMENT_ATTR = `data-cck-theme`;
 export const CCK_THEME_NAME_DOCUMENT_ATTR = `data-cck-theme-name`;
 

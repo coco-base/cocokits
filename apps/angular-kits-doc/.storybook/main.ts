@@ -7,6 +7,7 @@ import { getPackageStories } from '../../../tools/scripts/storybook/get-package-
 
 const config = generateAngularStorybookConfig(
   {
+    addons: ['@storybook/addon-google-analytics'],
     stories: [
       '../stories/**/*.mdx',
       '../stories/**/*.stories.@(ts|tsx)',

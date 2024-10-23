@@ -47,4 +47,4 @@ export interface CckSelectedTheme {
   selectedModes: Record<string, string>;
 }
 
-export type CckThemeLocalstorage = CckSelectedTheme;
+export type CckThemeLocalStorage = CckSelectedTheme;

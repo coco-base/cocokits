@@ -23,11 +23,13 @@
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "rxjs": "~7.8.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "mixpanel-browser": "^2.55.1"
   },
   "type": "module",
   "devDependencies": {
-    "@types/react": "^18.2.79"
+    "@types/react": "^18.2.79",
+    "@types/mixpanel-browser": "^2.50.1"
   },
   "exports": {
     ".": "./package.json",

@@ -1,5 +1,7 @@
 import { DocsContextProps } from '@storybook/types';
+
 import { STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent } from '@cocokits/storybook-theme-switcher';
+
 import { getSelectedStorybookTheme } from '../theme-switcher.utils';
 
 export function storybookThemeListener(context: DocsContextProps) {

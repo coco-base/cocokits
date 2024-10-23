@@ -1,7 +1,6 @@
 import { addons, types } from '@storybook/manager-api';
 
 import {
-  LOCALSTORAGE_STORYBOOK_THEME,
   STORYBOOK_THEME_CHANGED_EVENT_NAME,
   STORYBOOK_THEME_SWITCHER_TOOL_ID,
   StorybookThemeChangedEvent,
