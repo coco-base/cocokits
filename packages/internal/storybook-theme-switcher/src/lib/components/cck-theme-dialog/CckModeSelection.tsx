@@ -67,11 +67,11 @@ export const CckModeSelection: FC<CckModeSelectionProps & ReactDivAttr> =
                     <RadioWrapper key={mode.name}>
                       <input
                         type="radio"
-                        id={mode.name}
+                        id={`${collectionName}__${mode.name}`}
                         name={collectionName}
                         defaultChecked={defaultSelectedModes[collectionName] === mode.name}
                         onChange={() => _onModeChanged(collectionName, mode.name)} />
-                      <label htmlFor={mode.name}>
+                      <label htmlFor={`${collectionName}__${mode.name}`}>
                         {mode.name}
                       </label>
                     </RadioWrapper>
@@ -160,6 +160,7 @@ const RadioWrapper = styled.div`
         position: relative;
         font: var(--cck-storybook-text-md-regular);
         color: var(--cck-storybook-color-font-contrast-4);
+        cursor: pointer;
     }
 
     input[type=radio]:checked + label {
