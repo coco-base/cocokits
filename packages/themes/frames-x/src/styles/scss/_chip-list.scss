@@ -34,6 +34,10 @@
         height: 26px;
         margin-left: $spacing-7;
         font: $text-xs-font-medium;
+
+        &:first-child {
+          margin-left: $spacing-6;
+        }
       }
     }
 
@@ -44,6 +48,10 @@
         height: 34px;
         margin-left: $spacing-8;
         font: $text-base-font-medium;
+
+        &:first-child {
+          margin-left: $spacing-7;
+        }
       }
     }
 
@@ -54,6 +62,10 @@
         height: 44px;
         margin-left: $spacing-9;
         font: $text-lg-font-medium;
+
+        &:first-child {
+          margin-left: $spacing-7;
+        }
       }
     }
   }
