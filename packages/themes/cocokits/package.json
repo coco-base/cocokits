@@ -10,7 +10,7 @@
   },
   "type": "commonjs",
   "publishConfig": {
-    "directory": "../../../dist/packages/themes/default"
+    "directory": "../../../dist/packages/themes/cocokits"
   },
   "exports": {
     "./styles.css": "./src/styles/css/components.css",
