@@ -1,6 +1,7 @@
 {
   "name": "@cocokits/common-utils",
   "version": "1.0.0",
+  "private": false,
   "peerDependencies": {
     "lodash": "^4.17.21",
     "rxjs": "~7.8.0"

@@ -1,6 +1,7 @@
 {
   "name": "@cocokits/theme-cocokits",
   "version": "1.0.0",
+  "private": false,
   "peerDependencies": {
     "@cocokits/core": "workspace:*"
   },

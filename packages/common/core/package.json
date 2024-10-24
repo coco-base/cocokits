@@ -1,6 +1,7 @@
 {
   "name": "@cocokits/core",
   "version": "1.0.0",
+  "private": false,
   "peerDependencies": {
     "@cocokits/common-utils": "workspace:*"
   },
