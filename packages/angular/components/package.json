@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/angular-components",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "peerDependencies": {
     "@cocokits/angular-utils": "workspace:*",
     "@cocokits/common-utils": "workspace:*",

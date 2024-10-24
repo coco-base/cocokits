@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/storybook-theme-switcher",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@cocokits/common-utils": "workspace:*",
