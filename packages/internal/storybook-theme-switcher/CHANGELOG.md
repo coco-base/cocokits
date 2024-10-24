@@ -1,5 +1,17 @@
 # @cocokits/storybook-theme-switcher
 
+## 0.0.3
+
+### Patch Changes
+
+- fix default export path of thems from `package.json`
+- Updated dependencies
+  - @cocokits/theme-cocokits@1.0.2
+  - @cocokits/theme-frames-x@1.0.2
+  - @cocokits/react-overlay@1.0.2
+  - @cocokits/common-utils@1.0.2
+  - @cocokits/core@1.0.2
+
 ## 0.0.2
 
 ### Patch Changes

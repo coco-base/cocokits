@@ -1,5 +1,24 @@
 # @cocokits/angular-components
 
+## 1.0.2
+
+### Patch Changes
+
+- fix default export path of thems from `package.json`
+- Updated dependencies
+  - @cocokits/angular-form-field@1.0.2
+  - @cocokits/angular-checkbox@1.0.2
+  - @cocokits/angular-divider@1.0.2
+  - @cocokits/angular-button@1.0.2
+  - @cocokits/angular-toggle@1.0.2
+  - @cocokits/angular-radio@1.0.2
+  - @cocokits/angular-utils@1.0.2
+  - @cocokits/angular-core@1.0.2
+  - @cocokits/angular-icon@1.0.2
+  - @cocokits/angular-menu@1.0.2
+  - @cocokits/common-utils@1.0.2
+  - @cocokits/core@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

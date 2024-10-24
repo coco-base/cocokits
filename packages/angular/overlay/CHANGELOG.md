@@ -1,5 +1,14 @@
 # @cocokits/angular-overlay
 
+## 1.0.2
+
+### Patch Changes
+
+- fix default export path of thems from `package.json`
+- Updated dependencies
+  - @cocokits/common-utils@1.0.2
+  - @cocokits/core@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
