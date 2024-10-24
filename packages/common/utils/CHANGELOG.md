@@ -1,5 +1,11 @@
 # @cocokits/common-utils
 
+## 1.0.1
+
+### Patch Changes
+
+- update package exports for proper type definitions and paths
+
 ## 1.0.0
 
 ### Major Changes

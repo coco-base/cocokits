@@ -1,5 +1,16 @@
 # @cocokits/angular-icon
 
+## 1.0.1
+
+### Patch Changes
+
+- update package exports for proper type definitions and paths
+- Updated dependencies
+  - @cocokits/angular-utils@1.0.1
+  - @cocokits/angular-core@1.0.1
+  - @cocokits/common-utils@1.0.1
+  - @cocokits/core@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

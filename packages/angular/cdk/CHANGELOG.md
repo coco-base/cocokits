@@ -1,5 +1,13 @@
 # @cocokits/angular-cdk
 
+## 1.0.1
+
+### Patch Changes
+
+- update package exports for proper type definitions and paths
+- Updated dependencies
+  - @cocokits/angular-overlay@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
