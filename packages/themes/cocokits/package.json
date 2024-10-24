@@ -13,6 +13,13 @@
     "directory": "../../../dist/packages/themes/cocokits"
   },
   "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./index.js",
+      "require": "./index.js",
+      "module": "./index.js",
+      "main": "./index.js"
+    },
     "./styles.css": "./src/styles/css/components.css",
     "./styles.min.css": "./src/styles/css/components.min.css",
     "./tokens.css": "./src/token/css/tokens.css",
@@ -26,8 +33,5 @@
     "./tokens-core": {
       "sass": "./_tokens-core.scss"
     }
-  },
-  "module": "./index.js",
-  "main": "./index.js",
-  "types": "./src/index.ts"
+  }
 }
