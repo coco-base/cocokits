@@ -36,7 +36,7 @@
         font: $text-xs-font-medium;
 
         &:first-child {
-          margin-left: $spacing-6;
+          margin-left: calc($spacing-6 - 4px);
         }
       }
     }
@@ -50,7 +50,7 @@
         font: $text-base-font-medium;
 
         &:first-child {
-          margin-left: $spacing-7;
+          margin-left: calc($spacing-7 - 4px);
         }
       }
     }
@@ -64,7 +64,7 @@
         font: $text-lg-font-medium;
 
         &:first-child {
-          margin-left: $spacing-7;
+          margin-left: calc($spacing-7 - 6px);
         }
       }
     }
