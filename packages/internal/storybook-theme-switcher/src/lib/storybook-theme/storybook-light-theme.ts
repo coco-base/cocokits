@@ -4,7 +4,7 @@ export const light = create({
   base: 'light',
   brandTitle: 'cocokits',
 
-  brandUrl: 'https://github.com/cocokits/cocokits',
+  brandUrl: 'https://github.com/coco-base/cocokits',
   brandImage: '/cocokits-logo-dark.svg',
 
   colorPrimary: '#129c69', // --cck-storybook-color-brand-default
