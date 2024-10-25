@@ -16,7 +16,7 @@ import { CCK_THEME_IDS_LIST, CckSelectedTheme, CckThemeLocalStorage } from '../c
 export class LocalStorage {
   public static getCckTheme(): CckThemeLocalStorage | null {
     const localStorageThemeStr = window.localStorage.getItem(LOCAL_STORAGE_CCK_THEME);
-    const localStorageTheme = localStorageThemeStr ? JSON.parse(localStorageThemeStr) : null;
+    const localStorageTheme = localStorageThemeStr ? JSON.parse(localStorageThemeStr) : {};
     const isValid = LocalStorage.validateCckTheme(localStorageTheme);
 
     return isValid ? localStorageTheme : null;
