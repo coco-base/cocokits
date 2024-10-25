@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- fix default export path of thems from `package.json`
+- fix default export path of themes from `package.json`
 - Updated dependencies
   - @cocokits/angular-utils@1.0.2
   - @cocokits/angular-core@1.0.2

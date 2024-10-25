@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- fix default export path of thems from `package.json`
+- fix default export path of themes from `package.json`
 
 ## 1.0.1
 

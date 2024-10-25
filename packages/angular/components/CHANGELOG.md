@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- fix default export path of thems from `package.json`
+- fix default export path of themes from `package.json`
 - Updated dependencies
   - @cocokits/angular-form-field@1.0.2
   - @cocokits/angular-checkbox@1.0.2
