@@ -1,8 +1,6 @@
 import { addons } from '@storybook/manager-api';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).STORYBOOK_GA_ID = '';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (window as any).STORYBOOK_REACT_GA_OPTIONS = {};
 
 addons.setConfig({
@@ -12,8 +10,8 @@ addons.setConfig({
   },
   cck: {
     mixpanel: {
-      devToken: '',
-      prodToken: '',
+      devToken: '1b29125c166811fbefa92a71daac829d',
+      prodToken: '9ca9d99b4d98f361e27b1a40dca9e2af',
     },
   },
 });

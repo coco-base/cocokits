@@ -2,34 +2,130 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@cocokits/angular-components": ["packages/angular/components/src/", "../../../packages/angular/components/src/"],
-      "@cocokits/angular-icon": ["packages/angular/icon/src/", "../../../packages/angular/icon/src/"],
-      "@cocokits/core": ["packages/common/core/src/", "../../../packages/common/core/src/"],
-      "@cocokits/common-utils": ["packages/common/utils/src/", "../../../packages/common/utils/src/"],
-      "@cocokits/react-overlay": ["packages/react/overlay/src/", "../../../packages/react/overlay/src/"],
+      "@cocokits/angular-components": [
+        "packages/angular/components/src/",
+        "../packages/angular/components/src/",
+        "../../packages/angular/components/src/",
+        "../../../packages/angular/components/src/"
+      ],
+      "@cocokits/angular-icon": [
+        "packages/angular/icon/src/",
+        "../packages/angular/icon/src/",
+        "../../packages/angular/icon/src/",
+        "../../../packages/angular/icon/src/"
+      ],
+      "@cocokits/core": [
+        "packages/common/core/src/",
+        "../packages/common/core/src/",
+        "../../packages/common/core/src/",
+        "../../../packages/common/core/src/"
+      ],
+      "@cocokits/common-utils": [
+        "packages/common/utils/src/",
+        "../packages/common/utils/src/",
+        "../../packages/common/utils/src/",
+        "../../../packages/common/utils/src/"
+      ],
+      "@cocokits/react-overlay": [
+        "packages/react/overlay/src/",
+        "../packages/react/overlay/src/",
+        "../../packages/react/overlay/src/",
+        "../../../packages/react/overlay/src/"
+      ],
       "@cocokits/storybook-theme-switcher": [
         "packages/internal/storybook-theme-switcher/src/",
+        "../packages/internal/storybook-theme-switcher/src/",
+        "../../packages/internal/storybook-theme-switcher/src/",
         "../../../packages/internal/storybook-theme-switcher/src/"
       ],
-      "@cocokits/theme-cocokits": ["packages/themes/cocokits/src/", "../../../packages/themes/cocokits/src/"],
-      "@cocokits/theme-frames-x": ["packages/themes/frames-x/src/", "../../../packages/themes/frames-x/src/"],
-      "@cocokits/angular-button": ["packages/angular/button/src/", "../../../packages/angular/button/src/"],
-      "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/", "../../../packages/angular/checkbox/src/"],
-      "@cocokits/angular-radio": ["packages/angular/radio/src/", "../../../packages/angular/radio/src/"],
-      "@cocokits/angular-overlay": ["packages/angular/overlay/src/", "../../../packages/angular/overlay/src/"],
-      "@cocokits/angular-cdk": ["packages/angular/cdk/src/", "../../../packages/angular/cdk/src/"],
-      "@cocokits/angular-form-field": ["packages/angular/form-field/src/", "../../../packages/angular/form-field/src/"],
-      "@cocokits/angular-utils": ["packages/angular/utils/src/", "../../../packages/angular/utils/src/"],
-      "@cocokits/angular-core": ["packages/angular/core/src/", "../../../packages/angular/core/src/"],
-      "@cocokits/angular-menu": ["packages/angular/menu/src/", "../../../packages/angular/menu/src/"],
-      "@cocokits/angular-divider": ["packages/angular/divider/src/", "../../../packages/angular/divider/src/"],
-      "@cocokits/angular-toggle": ["packages/angular/toggle/src/", "../../../packages/angular/toggle/src/"],
+      "@cocokits/theme-cocokits": [
+        "packages/themes/cocokits/src/",
+        "../packages/themes/cocokits/src/",
+        "../../packages/themes/cocokits/src/",
+        "../../../packages/themes/cocokits/src/"
+      ],
+      "@cocokits/theme-frames-x": [
+        "packages/themes/frames-x/src/",
+        "../packages/themes/frames-x/src/",
+        "../../packages/themes/frames-x/src/",
+        "../../../packages/themes/frames-x/src/"
+      ],
+      "@cocokits/angular-button": [
+        "packages/angular/button/src/",
+        "../packages/angular/button/src/",
+        "../../packages/angular/button/src/",
+        "../../../packages/angular/button/src/"
+      ],
+      "@cocokits/angular-checkbox": [
+        "packages/angular/checkbox/src/",
+        "../packages/angular/checkbox/src/",
+        "../../packages/angular/checkbox/src/",
+        "../../../packages/angular/checkbox/src/"
+      ],
+      "@cocokits/angular-radio": [
+        "packages/angular/radio/src/",
+        "../packages/angular/radio/src/",
+        "../../packages/angular/radio/src/",
+        "../../../packages/angular/radio/src/"
+      ],
+      "@cocokits/angular-overlay": [
+        "packages/angular/overlay/src/",
+        "../packages/angular/overlay/src/",
+        "../../packages/angular/overlay/src/",
+        "../../../packages/angular/overlay/src/"
+      ],
+      "@cocokits/angular-cdk": [
+        "packages/angular/cdk/src/",
+        "../packages/angular/cdk/src/",
+        "../../packages/angular/cdk/src/",
+        "../../../packages/angular/cdk/src/"
+      ],
+      "@cocokits/angular-form-field": [
+        "packages/angular/form-field/src/",
+        "../packages/angular/form-field/src/",
+        "../../packages/angular/form-field/src/",
+        "../../../packages/angular/form-field/src/"
+      ],
+      "@cocokits/angular-utils": [
+        "packages/angular/utils/src/",
+        "../packages/angular/utils/src/",
+        "../../packages/angular/utils/src/",
+        "../../../packages/angular/utils/src/"
+      ],
+      "@cocokits/angular-core": [
+        "packages/angular/core/src/",
+        "../packages/angular/core/src/",
+        "../../packages/angular/core/src/",
+        "../../../packages/angular/core/src/"
+      ],
+      "@cocokits/angular-menu": [
+        "packages/angular/menu/src/",
+        "../packages/angular/menu/src/",
+        "../../packages/angular/menu/src/",
+        "../../../packages/angular/menu/src/"
+      ],
+      "@cocokits/angular-divider": [
+        "packages/angular/divider/src/",
+        "../packages/angular/divider/src/",
+        "../../packages/angular/divider/src/",
+        "../../../packages/angular/divider/src/"
+      ],
+      "@cocokits/angular-toggle": [
+        "packages/angular/toggle/src/",
+        "../packages/angular/toggle/src/",
+        "../../packages/angular/toggle/src/",
+        "../../../packages/angular/toggle/src/"
+      ],
       "@cocokits/internal-model": [
         "packages/internal/internal-model/src/index.ts",
+        "../packages/internal/internal-model/src/index.ts",
+        "../../packages/internal/internal-model/src/index.ts",
         "../../../packages/internal/internal-model/src/index.ts"
       ],
       "@cocokits/storybook-components": [
         "packages/internal/storybook-components/src/index.ts",
+        "../packages/internal/storybook-components/src/index.ts",
+        "../../packages/internal/storybook-components/src/index.ts",
         "../../../packages/internal/storybook-components/src/index.ts"
       ]
     }

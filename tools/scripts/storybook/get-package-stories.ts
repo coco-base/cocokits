@@ -46,7 +46,7 @@ export function getPackageStories({
        * 1. Any 'index.stories.ts' or 'index.stories.tsx' files located anywhere in the `stories` folder.
        * 2. Any '.mdx' files located anywhere in the `stories` folder, excluding those that begin with an `_`.
        */
-      const storiesGlob = 'stories/**/@(index.stories.@(ts|tsx)|**/[^_]*.mdx)';
+      const storiesGlob = 'stories/**/{!(_)*.mdx,index.stories.@(ts|tsx)}';
       const pkgMetadata = getMetadata(pkgName, projects);
 
       // Make sure the package contains stories. For example '@cocokits/common-utils' don't have any story
