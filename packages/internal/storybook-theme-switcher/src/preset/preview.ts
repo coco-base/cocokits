@@ -1,8 +1,8 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
 
-import { withCckThemeSwitcher } from '../lib/components/withCckThemeSwitcher';
 import { StoryAutoDocPage } from '../lib/components/doc-page/StoryAutoDocPage';
 import { DocPageContainer } from '../lib/components/doc-page-container/DocPageContainer';
+import { withCckThemeSwitcher } from '../lib/components/withCckThemeSwitcher';
 
 /**
  * The `Preview` type is not globally exported and must be imported from a specific framework path (e.g., `@storybook/angular`).

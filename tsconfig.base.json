@@ -35,6 +35,7 @@
       "@cocokits/common-utils": ["packages/common/utils/src/index.ts"],
       "@cocokits/core": ["packages/common/core/src/index.ts"],
       "@cocokits/internal-model": ["packages/internal/internal-model/src/index.ts"],
+      "@cocokits/react-button": ["packages/react/button/src/index.ts"],
       "@cocokits/react-overlay": ["packages/react/overlay/src/index.ts"],
       "@cocokits/storybook-components": ["packages/internal/storybook-components/src/index.ts"],
       "@cocokits/storybook-theme-switcher": ["packages/internal/storybook-theme-switcher/src/index.ts"],

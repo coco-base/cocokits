@@ -30,10 +30,5 @@
   "devDependencies": {
     "@types/react": "^18.2.79",
     "@types/mixpanel-browser": "^2.50.1"
-  },
-  "exports": {
-    ".": "./package.json",
-    "./preview": "./src/preset/preview.ts",
-    "./manager": "./src/preset/manager.ts"
   }
 }

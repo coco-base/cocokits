@@ -12,10 +12,6 @@ import { CckStorybookConfig } from '../lib/config/storybook-config.model';
 addons.register(ADDON_ID, (api) => {
   const config: CckStorybookConfig = addons.getConfig()['cck'];
 
-  if (!config) {
-    throw new Error('CCK config is missing, add it to manager.ts file');
-  }
-
   registerStorybookThemeSwitcher();
   registerCckThemeSwitcher();
   registerHideToolbar(api);
