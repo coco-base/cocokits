@@ -34,3 +34,8 @@ export enum LibraryType {
    */
   Theme = 'theme',
 }
+
+export enum SetupFrameworkType {
+  Angular = 'angular',
+  React = 'react',
+}

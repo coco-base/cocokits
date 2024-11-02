@@ -1,28 +1,37 @@
 import { generateFiles, Tree } from '@nx/devkit';
-import path from 'path';
 
 import { Logger } from '../../../utils/logger';
+import { posixPath } from '../../../utils/path';
 import { updateTextFile } from '../../generator.utils';
 import { ComponentGeneratorOptions } from '../model';
 
 export function angularComponentGenerator(tree: Tree, options: ComponentGeneratorOptions) {
   // Generate component
-  generateFiles(tree, path.join(__dirname, '../files/angular-component'), options.absoluteComponentDirectory, options);
+  generateFiles(
+    tree,
+    posixPath.join(__dirname, '../files/angular-component'),
+    options.absoluteComponentDirectory,
+    options
+  );
 
   // Update index.ts
   if (options.export) {
-    const componentDirectoryFromSrc = path.relative(
-      path.join(options.libraryRoot, 'src'),
+    const componentDirectoryFromSrc = posixPath.relative(
+      posixPath.join(options.libraryRoot, 'src'),
       options.absoluteComponentDirectory
     );
     const exportComponent = `export * from './${componentDirectoryFromSrc}/${options.fileName}.component';`;
-    updateTextFile(tree, path.join(options.libraryRoot, 'src/index.ts'), (content) => `${content}\n${exportComponent}`);
+    updateTextFile(
+      tree,
+      posixPath.join(options.libraryRoot, 'src/index.ts'),
+      (content) => `${content}\n${exportComponent}`
+    );
   }
 
   // Generate story
   if (options.story) {
-    const storyDir = path.join(options.libraryRoot, 'stories', options.fileName);
-    generateFiles(tree, path.join(__dirname, '../files/angular-story'), storyDir, options);
+    const storyDir = posixPath.join(options.libraryRoot, 'stories', options.fileName);
+    generateFiles(tree, posixPath.join(__dirname, '../files/angular-story'), storyDir, options);
   }
 
   Logger.note(`Manually Check list`);

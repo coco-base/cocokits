@@ -1,6 +1,6 @@
 import { Tree } from '@nx/devkit';
-import path from 'path';
 
+import { posixPath } from '../../../utils/path';
 import { getLibraryFrameworkByName, getLibraryRootByName } from '../../generator.utils';
 import { SetupStorybookOption } from '../model';
 import { SetupStorybookGeneratorSchema } from '../schema';
@@ -10,12 +10,12 @@ export function getOptions(tree: Tree, schema: SetupStorybookGeneratorSchema): S
   const options: SetupStorybookOption = {
     libraryName: schema.project,
     libraryRoot,
-    offsetPathToRoot: path.relative(libraryRoot, './'),
+    offsetPathToRoot: posixPath.relative(libraryRoot, './'),
     framework: getLibraryFrameworkByName(tree, schema.project),
-    projectJson: path.join(libraryRoot, 'project.json'),
-    eslintrcJson: path.join(libraryRoot, '.eslintrc.json'),
-    tsconfigJson: path.join(libraryRoot, 'tsconfig.json'),
-    tsconfigLibJson: path.join(libraryRoot, 'tsconfig.lib.json'),
+    projectJson: posixPath.join(libraryRoot, 'project.json'),
+    eslintrcJson: posixPath.join(libraryRoot, '.eslintrc.json'),
+    tsconfigJson: posixPath.join(libraryRoot, 'tsconfig.json'),
+    tsconfigLibJson: posixPath.join(libraryRoot, 'tsconfig.lib.json'),
   };
 
   return options;

@@ -1,6 +1,7 @@
 {
-  "name": "@cocokits/react-button",
+  "name": "<%= importPath %>",
   "version": "0.0.0",
+  "private": <%= !publishable %>,
   "main": "./index.js",
   "types": "./index.d.ts",
   "peerDependencies": {
@@ -14,5 +15,8 @@
       "import": "./index.mjs",
       "require": "./index.js"
     }
-  }
+  }<% if (publishable) { %>,
+  "publishConfig": {
+    "directory": "../../../dist/packages/react/<%= fileName %>"
+  }<% } %>
 }

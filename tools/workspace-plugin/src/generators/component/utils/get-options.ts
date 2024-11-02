@@ -1,7 +1,7 @@
 import { names, Tree } from '@nx/devkit';
 import process from 'node:process';
-import path from 'path';
 
+import { posixPath } from '../../../utils/path';
 import { GeneratorDirectoryFormat } from '../../generator.model';
 import { getLibraryFrameworkByName, getLibraryRootByName } from '../../generator.utils';
 import { ComponentGeneratorOptions } from '../model';
@@ -24,10 +24,10 @@ export function getOptions(tree: Tree, schema: ComponentGeneratorSchema): Compon
 
 function getAbsoluteComponentDirectory(schema: ComponentGeneratorSchema, libraryRoot: string, workspaceRoot: string) {
   return schema.directoryFormat === GeneratorDirectoryFormat.AsProvided
-    ? path.join(path.relative(workspaceRoot, process.cwd()), schema.directory, schema.name)
-    : path.join(libraryRoot, schema.directory, schema.name);
+    ? posixPath.join(posixPath.relative(workspaceRoot, process.cwd()), schema.directory, schema.name)
+    : posixPath.join(libraryRoot, schema.directory, schema.name);
 }
 
 function getRelativeComponentDirectory(absoluteComponentDirectory: string, libraryRoot: string) {
-  return path.relative(libraryRoot, absoluteComponentDirectory);
+  return posixPath.relative(libraryRoot, absoluteComponentDirectory);
 }

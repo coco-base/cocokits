@@ -11,7 +11,7 @@ import { emitMixpanelEvent } from '../lib/mixpanel/mixpanel-emitter';
 import { LocalStorage } from '../lib/utils/local-storage';
 
 export function registerMixpanel(api: API, config: CckStorybookConfig) {
-  if (!config.mixpanel.devToken && !config.mixpanel.prodToken) {
+  if (!config?.mixpanel?.devToken && !config?.mixpanel?.prodToken) {
     console.warn('Mixpanel token is not provided. Skipping Mixpanel initialization.');
     return;
   }

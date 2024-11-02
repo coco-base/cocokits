@@ -14,7 +14,12 @@ export function getTsconfigStorybookManagerJsonChanges(options: LibraryGenerator
   return {
     compilerOptions: {
       paths: {
-        [`${options.importPath}`]: [`${options.libraryRoot}/src/`],
+        [`${options.importPath}`]: [
+          `${options.libraryRoot}/src/`,
+          `../${options.libraryRoot}/src/`,
+          `../../${options.libraryRoot}/src/`,
+          `../../../${options.libraryRoot}/src/`,
+        ],
       },
     },
   };

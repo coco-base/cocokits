@@ -1,7 +1,6 @@
 import { names } from '@nx/devkit';
-import process from 'node:process';
-import path from 'path';
 
+import { posixPath } from '../../../utils/path';
 import { GeneratorDirectoryFormat } from '../../generator.model';
 import { LibraryGeneratorOptions } from '../model';
 import { LibraryGeneratorSchema } from '../schema';
@@ -17,7 +16,7 @@ export function getOptions(schema: LibraryGeneratorSchema, workspaceRoot: string
     publishable: schema.publishable,
     importPath: getImportPath(schema),
     libraryRoot: getLibraryRoot(schema, workspaceRoot),
-    offsetPathToRoot: path.relative(libraryRoot, './'),
+    offsetPathToRoot: posixPath.relative(libraryRoot, './'),
     tsconfigBase: './tsconfig.base.json',
     tsconfigStorybookManager: './tsconfig.storybook-manager-paths.json',
   };
@@ -28,7 +27,10 @@ function getImportPath(schema: LibraryGeneratorSchema) {
 }
 
 function getLibraryRoot(schema: LibraryGeneratorSchema, workspaceRoot: string) {
-  return schema.directoryFormat === GeneratorDirectoryFormat.AsProvided
-    ? path.relative(workspaceRoot, path.join(process.cwd(), schema.directory, schema.name))
-    : path.join(schema.directory, schema.name);
+  const libraryPath =
+    schema.directoryFormat === GeneratorDirectoryFormat.AsProvided
+      ? posixPath.relative(workspaceRoot, posixPath.join(posixPath.cwd(), schema.directory, schema.name))
+      : posixPath.join(schema.directory, schema.name);
+
+  return libraryPath;
 }
