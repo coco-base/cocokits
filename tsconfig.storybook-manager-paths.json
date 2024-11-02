@@ -145,6 +145,54 @@
         "../packages/react/utils/src/",
         "../../packages/react/utils/src/",
         "../../../packages/react/utils/src/"
+      ],
+      "@cocokits/react-core": [
+        "packages/react/core/src/",
+        "../packages/react/core/src/",
+        "../../packages/react/core/src/",
+        "../../../packages/react/core/src/"
+      ],
+      "@cocokits/react-icon": [
+        "packages/react/icon/src/",
+        "../packages/react/icon/src/",
+        "../../packages/react/icon/src/",
+        "../../../packages/react/icon/src/"
+      ],
+      "@cocokits/react-checkbox": [
+        "packages/react/checkbox/src/",
+        "../packages/react/checkbox/src/",
+        "../../packages/react/checkbox/src/",
+        "../../../packages/react/checkbox/src/"
+      ],
+      "@cocokits/react-radio": [
+        "packages/react/radio/src/",
+        "../packages/react/radio/src/",
+        "../../packages/react/radio/src/",
+        "../../../packages/react/radio/src/"
+      ],
+      "@cocokits/react-form-field": [
+        "packages/react/form-field/src/",
+        "../packages/react/form-field/src/",
+        "../../packages/react/form-field/src/",
+        "../../../packages/react/form-field/src/"
+      ],
+      "@cocokits/react-divider": [
+        "packages/react/divider/src/",
+        "../packages/react/divider/src/",
+        "../../packages/react/divider/src/",
+        "../../../packages/react/divider/src/"
+      ],
+      "@cocokits/react-menu": [
+        "packages/react/menu/src/",
+        "../packages/react/menu/src/",
+        "../../packages/react/menu/src/",
+        "../../../packages/react/menu/src/"
+      ],
+      "@cocokits/react-toggle": [
+        "packages/react/toggle/src/",
+        "../packages/react/toggle/src/",
+        "../../packages/react/toggle/src/",
+        "../../../packages/react/toggle/src/"
       ]
     }
   }

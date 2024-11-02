@@ -10,14 +10,14 @@ const config = generateReactStorybookConfig({
   stories: [
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(ts|tsx)',
-    // ...getPackageStories({
-    //   packageName: '@cocokits/react-components',
-    //   callerPath: __dirname,
-    // }),
-    // ...getPackageStories({
-    //   packageName: '@cocokits/react-cdk',
-    //   callerPath: __dirname,
-    // }),
+    ...getPackageStories({
+      packageName: '@cocokits/react-components',
+      callerPath: __dirname,
+    }),
+    ...getPackageStories({
+      packageName: '@cocokits/react-cdk',
+      callerPath: __dirname,
+    }),
     ...getPackageStories({
       packageName: '@cocokits/core',
       callerPath: __dirname,
@@ -26,10 +26,10 @@ const config = generateReactStorybookConfig({
       packageName: '@cocokits/common-utils',
       callerPath: __dirname,
     }),
-    // ...getPackageStories({
-    //   packageName: '@cocokits/react-utils',
-    //   callerPath: __dirname,
-    // }),
+    ...getPackageStories({
+      packageName: '@cocokits/react-utils',
+      callerPath: __dirname,
+    }),
   ],
   docs: {
     docsMode: true,
