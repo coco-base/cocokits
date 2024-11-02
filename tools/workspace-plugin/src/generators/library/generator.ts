@@ -12,7 +12,6 @@ import setupStorybookGenerator from '../setup-storybook/generator';
 export async function libraryGenerator(tree: Tree, schema: LibraryGeneratorSchema) {
   validateSchema(schema);
   const options = getOptions(schema, tree.root);
-  console.log('🚀 ~ libraryGenerator ~ options:', options);
   const setupFrameworkType = getSetupFrameworkType(options);
 
   switch (setupFrameworkType) {
