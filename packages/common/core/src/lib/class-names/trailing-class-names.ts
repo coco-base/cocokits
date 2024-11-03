@@ -21,7 +21,7 @@ export const trailingLayoutClassNamesConfig = {
 export function getTrailingClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof trailingLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof trailingLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'trailing',
     componentProps,
@@ -32,7 +32,7 @@ export function getTrailingClassNames(
     host: [
       ...trailingLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(trailingLayoutClassNamesConfig.prefix, options),
-    ],
-    clickable: [...trailingLayoutClassNamesConfig.elements.clickable.selectors],
+    ].join(' '),
+    clickable: [...trailingLayoutClassNamesConfig.elements.clickable.selectors].join(' '),
   };
 }

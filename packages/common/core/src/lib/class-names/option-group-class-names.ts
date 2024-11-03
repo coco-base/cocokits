@@ -26,7 +26,7 @@ export const optionGroupLayoutClassNamesConfig = {
 export function getOptionGroupClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof optionGroupLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof optionGroupLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'optionGroup',
     componentProps,
@@ -37,8 +37,8 @@ export function getOptionGroupClassNames(
     host: [
       ...optionGroupLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(optionGroupLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...optionGroupLayoutClassNamesConfig.elements.disabled.selectors],
-    label: [...optionGroupLayoutClassNamesConfig.elements.label.selectors],
+    ].join(' '),
+    disabled: [...optionGroupLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    label: [...optionGroupLayoutClassNamesConfig.elements.label.selectors].join(' '),
   };
 }

@@ -23,7 +23,7 @@ export const iconButtonLayoutClassNamesConfig = {
 export function getIconButtonClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof iconButtonLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof iconButtonLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'iconButton',
     componentProps,
@@ -34,7 +34,7 @@ export function getIconButtonClassNames(
     host: [
       ...iconButtonLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(iconButtonLayoutClassNamesConfig.prefix, options),
-    ],
-    backdrop: [...iconButtonLayoutClassNamesConfig.elements.backdrop.selectors],
+    ].join(' '),
+    backdrop: [...iconButtonLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
   };
 }

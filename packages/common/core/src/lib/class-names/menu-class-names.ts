@@ -21,7 +21,7 @@ export const menuLayoutClassNamesConfig = {
 export function getMenuClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof menuLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof menuLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'menu',
     componentProps,
@@ -32,7 +32,7 @@ export function getMenuClassNames(
     host: [
       ...menuLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(menuLayoutClassNamesConfig.prefix, options),
-    ],
-    overlay: [...menuLayoutClassNamesConfig.elements.overlay.selectors],
+    ].join(' '),
+    overlay: [...menuLayoutClassNamesConfig.elements.overlay.selectors].join(' '),
   };
 }

@@ -22,7 +22,7 @@ export const menuItemLayoutClassNamesConfig = {
 export function getMenuItemClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof menuItemLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof menuItemLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'menuItem',
     componentProps,
@@ -33,7 +33,7 @@ export function getMenuItemClassNames(
     host: [
       ...menuItemLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(menuItemLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...menuItemLayoutClassNamesConfig.elements.disabled.selectors],
+    ].join(' '),
+    disabled: [...menuItemLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
   };
 }

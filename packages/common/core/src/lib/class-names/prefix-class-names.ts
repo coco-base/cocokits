@@ -16,7 +16,7 @@ export const prefixLayoutClassNamesConfig = {
 export function getPrefixClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof prefixLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof prefixLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'prefix',
     componentProps,
@@ -27,6 +27,6 @@ export function getPrefixClassNames(
     host: [
       ...prefixLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(prefixLayoutClassNamesConfig.prefix, options),
-    ],
+    ].join(' '),
   };
 }

@@ -26,7 +26,7 @@ export const chipListLayoutClassNamesConfig = {
 export function getChipListClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof chipListLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof chipListLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'chip',
     componentProps,
@@ -37,8 +37,8 @@ export function getChipListClassNames(
     host: [
       ...chipListLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(chipListLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...chipListLayoutClassNamesConfig.elements.disabled.selectors],
-    input: [...chipListLayoutClassNamesConfig.elements.input.selectors],
+    ].join(' '),
+    disabled: [...chipListLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    input: [...chipListLayoutClassNamesConfig.elements.input.selectors].join(' '),
   };
 }

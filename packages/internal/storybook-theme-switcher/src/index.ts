@@ -11,6 +11,8 @@ export * from './lib/config/cck-themes.model';
 export * from './lib/config/storybook-theme.config';
 export * from './lib/config/storybook-theme.model';
 
+export * from './lib/stories-config/react-decorators';
+
 export { MdxDocPage } from './lib/components/doc-page/MdxDocPage';
 export { DocMarkdown } from './lib/components/doc-page/DocMarkdown';
 export { MdxCssSelectorTable } from './lib/components/mdx-doc/MdxCssSelectorTable';

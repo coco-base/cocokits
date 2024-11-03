@@ -16,7 +16,7 @@ export const suffixLayoutClassNamesConfig = {
 export function getSuffixClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof suffixLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof suffixLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'suffix',
     componentProps,
@@ -27,6 +27,6 @@ export function getSuffixClassNames(
     host: [
       ...suffixLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(suffixLayoutClassNamesConfig.prefix, options),
-    ],
+    ].join(' '),
   };
 }

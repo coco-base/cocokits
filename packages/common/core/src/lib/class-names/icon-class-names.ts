@@ -21,7 +21,7 @@ export const svgIconLayoutClassNamesConfig = {
 export function getSvgIconClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof svgIconLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof svgIconLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'svgIcon',
     componentProps,
@@ -33,7 +33,7 @@ export function getSvgIconClassNames(
     host: [
       ...svgIconLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(svgIconLayoutClassNamesConfig.prefix, options),
-    ],
-    svg: [...svgIconLayoutClassNamesConfig.elements.svg.selectors],
+    ].join(' '),
+    svg: [...svgIconLayoutClassNamesConfig.elements.svg.selectors].join(' '),
   };
 }

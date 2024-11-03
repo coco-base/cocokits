@@ -88,7 +88,7 @@ export class MenuTriggerDirective {
     }
 
     const renderedOverlay = this.overlay.open<void, void>(this.menuTemplate(), {
-      panelClass: this.menuOverlayClassNames,
+      panelClass: [this.menuOverlayClassNames],
       size: this.menuSizes(),
       positionStrategy: {
         type: 'connectToElement',

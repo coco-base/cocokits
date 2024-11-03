@@ -61,7 +61,7 @@ export const toggleLayoutClassNamesConfig = {
 export function getToggleClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof toggleLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof toggleLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'toggle',
     componentProps,
@@ -72,15 +72,15 @@ export function getToggleClassNames(
     host: [
       ...toggleLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(toggleLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...toggleLayoutClassNamesConfig.elements.disabled.selectors],
-    label: [...toggleLayoutClassNamesConfig.elements.label.selectors],
-    checked: [...toggleLayoutClassNamesConfig.elements.checked.selectors],
-    unchecked: [...toggleLayoutClassNamesConfig.elements.unchecked.selectors],
-    labelBefore: [...toggleLayoutClassNamesConfig.elements.labelBefore.selectors],
-    sliderWrapper: [...toggleLayoutClassNamesConfig.elements.sliderWrapper.selectors],
-    input: [...toggleLayoutClassNamesConfig.elements.input.selectors],
-    thumb: [...toggleLayoutClassNamesConfig.elements.thumb.selectors],
-    backdrop: [...toggleLayoutClassNamesConfig.elements.backdrop.selectors],
+    ].join(' '),
+    disabled: [...toggleLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    label: [...toggleLayoutClassNamesConfig.elements.label.selectors].join(' '),
+    checked: [...toggleLayoutClassNamesConfig.elements.checked.selectors].join(' '),
+    unchecked: [...toggleLayoutClassNamesConfig.elements.unchecked.selectors].join(' '),
+    labelBefore: [...toggleLayoutClassNamesConfig.elements.labelBefore.selectors].join(' '),
+    sliderWrapper: [...toggleLayoutClassNamesConfig.elements.sliderWrapper.selectors].join(' '),
+    input: [...toggleLayoutClassNamesConfig.elements.input.selectors].join(' '),
+    thumb: [...toggleLayoutClassNamesConfig.elements.thumb.selectors].join(' '),
+    backdrop: [...toggleLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
   };
 }

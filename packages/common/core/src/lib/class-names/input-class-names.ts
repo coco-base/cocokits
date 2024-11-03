@@ -21,7 +21,7 @@ export const inputLayoutClassNamesConfig = {
 export function getInputClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof inputLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof inputLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'input',
     componentProps,
@@ -32,7 +32,7 @@ export function getInputClassNames(
     host: [
       ...inputLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(inputLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...inputLayoutClassNamesConfig.elements.disabled.selectors],
+    ].join(' '),
+    disabled: [...inputLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
   };
 }

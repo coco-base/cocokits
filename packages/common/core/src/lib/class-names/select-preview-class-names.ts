@@ -16,7 +16,7 @@ export const selectPreviewLayoutClassNamesConfig = {
 export function getSelectPreviewClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof selectPreviewLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof selectPreviewLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'selectPreview',
     componentProps,
@@ -27,6 +27,6 @@ export function getSelectPreviewClassNames(
     host: [
       ...selectPreviewLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(selectPreviewLayoutClassNamesConfig.prefix, options),
-    ],
+    ].join(' '),
   };
 }

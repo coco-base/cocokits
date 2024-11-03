@@ -16,7 +16,7 @@ export const errorLayoutClassNamesConfig = {
 export function getErrorClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof errorLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof errorLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'error',
     componentProps,
@@ -27,6 +27,6 @@ export function getErrorClassNames(
     host: [
       ...errorLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(errorLayoutClassNamesConfig.prefix, options),
-    ],
+    ].join(' '),
   };
 }

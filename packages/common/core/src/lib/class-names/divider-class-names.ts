@@ -16,7 +16,7 @@ export const dividerLayoutClassNamesConfig = {
 export function getDividerClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof dividerLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof dividerLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'divider',
     componentProps,
@@ -27,6 +27,6 @@ export function getDividerClassNames(
     host: [
       ...dividerLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(dividerLayoutClassNamesConfig.prefix, options),
-    ],
+    ].join(' '),
   };
 }

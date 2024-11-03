@@ -21,7 +21,7 @@ export const leadingLayoutClassNamesConfig = {
 export function getLeadingClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof leadingLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof leadingLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'leading',
     componentProps,
@@ -32,7 +32,7 @@ export function getLeadingClassNames(
     host: [
       ...leadingLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(leadingLayoutClassNamesConfig.prefix, options),
-    ],
-    clickable: [...leadingLayoutClassNamesConfig.elements.clickable.selectors],
+    ].join(' '),
+    clickable: [...leadingLayoutClassNamesConfig.elements.clickable.selectors].join(' '),
   };
 }

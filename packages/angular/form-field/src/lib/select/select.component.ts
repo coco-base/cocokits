@@ -208,7 +208,7 @@ export class SelectComponent<T = any>
     const connectTo = this.formFieldStore.formField.wrapperElem?.()?.nativeElement ?? this.elemRef.nativeElement;
 
     this.selectStore.renderedOverlay = this.overlay.open<void, T>(optionsTemp, {
-      panelClass: this.classNames().overlay,
+      panelClass: [this.classNames().overlay],
       size: {
         minWidth: connectTo.getBoundingClientRect().width + 'px',
         maxHeight: this.maxOptionsHeight() ? this.maxOptionsHeight() + 'px' : '',

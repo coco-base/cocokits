@@ -27,7 +27,7 @@ export const labelLayoutClassNamesConfig = {
 export function getLabelClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof labelLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof labelLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'label',
     componentProps,
@@ -38,8 +38,8 @@ export function getLabelClassNames(
     host: [
       ...labelLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(labelLayoutClassNamesConfig.prefix, options),
-    ],
-    labelTag: [...labelLayoutClassNamesConfig.elements.labelTag.selectors],
-    requiredMarker: [...labelLayoutClassNamesConfig.elements.requiredMarker.selectors],
+    ].join(' '),
+    labelTag: [...labelLayoutClassNamesConfig.elements.labelTag.selectors].join(' '),
+    requiredMarker: [...labelLayoutClassNamesConfig.elements.requiredMarker.selectors].join(' '),
   };
 }

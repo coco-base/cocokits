@@ -22,7 +22,7 @@ export const buttonLayoutClassNamesConfig = {
 export function getButtonClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof buttonLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof buttonLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'button',
     componentProps,
@@ -33,7 +33,7 @@ export function getButtonClassNames(
     host: [
       ...buttonLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(buttonLayoutClassNamesConfig.prefix, options),
-    ],
-    backdrop: [...buttonLayoutClassNamesConfig.elements.backdrop.selectors],
+    ].join(' '),
+    backdrop: [...buttonLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
   };
 }

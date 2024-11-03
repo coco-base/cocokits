@@ -16,7 +16,7 @@ export const hintLayoutClassNamesConfig = {
 export function getHintClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof hintLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof hintLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'hint',
     componentProps,
@@ -27,6 +27,6 @@ export function getHintClassNames(
     host: [
       ...hintLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(hintLayoutClassNamesConfig.prefix, options),
-    ],
+    ].join(' '),
   };
 }

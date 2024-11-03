@@ -71,7 +71,7 @@ export const checkboxLayoutClassNamesConfig = {
 export function getCheckboxClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof checkboxLayoutClassNamesConfig.elements, string[]> {
+): Record<keyof typeof checkboxLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'checkbox',
     componentProps,
@@ -82,16 +82,16 @@ export function getCheckboxClassNames(
     host: [
       ...checkboxLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(checkboxLayoutClassNamesConfig.prefix, options),
-    ],
-    wrapper: [...checkboxLayoutClassNamesConfig.elements.wrapper.selectors],
-    inputWrapper: [...checkboxLayoutClassNamesConfig.elements.inputWrapper.selectors],
-    input: [...checkboxLayoutClassNamesConfig.elements.input.selectors],
-    backdrop: [...checkboxLayoutClassNamesConfig.elements.backdrop.selectors],
-    background: [...checkboxLayoutClassNamesConfig.elements.background.selectors],
-    label: [...checkboxLayoutClassNamesConfig.elements.label.selectors],
-    checked: [...checkboxLayoutClassNamesConfig.elements.checked.selectors],
-    unchecked: [...checkboxLayoutClassNamesConfig.elements.unchecked.selectors],
-    disabled: [...checkboxLayoutClassNamesConfig.elements.disabled.selectors],
-    indeterminate: [...checkboxLayoutClassNamesConfig.elements.indeterminate.selectors],
+    ].join(' '),
+    wrapper: [...checkboxLayoutClassNamesConfig.elements.wrapper.selectors].join(' '),
+    inputWrapper: [...checkboxLayoutClassNamesConfig.elements.inputWrapper.selectors].join(' '),
+    input: [...checkboxLayoutClassNamesConfig.elements.input.selectors].join(' '),
+    backdrop: [...checkboxLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
+    background: [...checkboxLayoutClassNamesConfig.elements.background.selectors].join(' '),
+    label: [...checkboxLayoutClassNamesConfig.elements.label.selectors].join(' '),
+    checked: [...checkboxLayoutClassNamesConfig.elements.checked.selectors].join(' '),
+    unchecked: [...checkboxLayoutClassNamesConfig.elements.unchecked.selectors].join(' '),
+    disabled: [...checkboxLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    indeterminate: [...checkboxLayoutClassNamesConfig.elements.indeterminate.selectors].join(' '),
   };
 }

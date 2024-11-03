@@ -27,7 +27,7 @@ export const textareaClassNamesConfig = {
 export function getTextareaClassNames(
   componentProps: ThemeUIComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof textareaClassNamesConfig.elements, string[]> {
+): Record<keyof typeof textareaClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {
     componentName: 'textarea',
     componentProps,
@@ -38,8 +38,8 @@ export function getTextareaClassNames(
     host: [
       ...textareaClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(textareaClassNamesConfig.prefix, options),
-    ],
-    disabled: [...textareaClassNamesConfig.elements.disabled.selectors],
-    autoResize: [...textareaClassNamesConfig.elements.autoResize.selectors],
+    ].join(' '),
+    disabled: [...textareaClassNamesConfig.elements.disabled.selectors].join(' '),
+    autoResize: [...textareaClassNamesConfig.elements.autoResize.selectors].join(' '),
   };
 }

@@ -29,6 +29,7 @@
     "../../../packages/internal/storybook-theme-switcher/**/*.ts",
     ".storybook/*.js",
     ".storybook/*.ts",
-    ".storybook/*.tsx"
+    ".storybook/*.tsx",
+    "../../internal/storybook-theme-switcher/src/lib/stories-config/react-decorators.tsx"
   ]
 }
