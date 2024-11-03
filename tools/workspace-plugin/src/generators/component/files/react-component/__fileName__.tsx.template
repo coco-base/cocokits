@@ -1,0 +1,25 @@
+import React from "react";
+
+import { ThemeUIComponentProps } from "@cocokits/core";
+import { useUiBaseComponentConfig } from "@cocokits/react-core";
+
+interface <%= className %>Props extends Omit<React.HTMLAttributes<HTMLElement>, 'color' | 'type'>, ThemeUIComponentProps {
+  children?: React.ReactNode;
+}
+
+export const <%= className %> = React.forwardRef<HTMLElement, <%= className %>Props>(
+  ({ type, size, color, additional, children, ...restProps }, ref) => {
+    const { classNames, hostClassNames } = useUiBaseComponentConfig({
+      componentName: "<%= propertyName %>",
+      props: { type, size, color, additional },
+    });
+
+    return (
+      <div ref={ref} className={hostClassNames} {...restProps}>
+        {children}
+      </div>
+    );
+  }
+);
+
+export default <%= className %>;

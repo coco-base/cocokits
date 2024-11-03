@@ -4,6 +4,7 @@ import { ComponentGeneratorSchema } from './schema';
 import { angularComponentGenerator } from './src/angular-component-generator';
 import { getOptions } from './utils/get-options';
 import { LibraryFramework } from '../generator.model';
+import { reactComponentGenerator } from './src/react-component-generator';
 
 export async function componentGenerator(tree: Tree, schema: ComponentGeneratorSchema) {
   const options = getOptions(tree, schema);
@@ -11,6 +12,10 @@ export async function componentGenerator(tree: Tree, schema: ComponentGeneratorS
   switch (options.framework) {
     case LibraryFramework.Angular:
       await angularComponentGenerator(tree, options);
+      break;
+
+    case LibraryFramework.React:
+      await reactComponentGenerator(tree, options);
       break;
 
     default:

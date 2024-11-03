@@ -1,13 +1,16 @@
-import { Button } from '../../src/lib/button';
+import { Button } from '../../<%- relativeComponentDirectory %>/<%- fileName %>';
 import { ReactStoriesMeta } from '@cocokits/internal-model';
 import { withUiComponentConfig } from '@cocokits/storybook-theme-switcher';
 import descriptionMd from './description.md';
 
-export { Default as Primary } from './default.stories';
+export { Default } from './default.stories';
+export { Type } from './type.stories';
+export { Size } from './size.stories';
+export { Color } from './color.stories';
 
-const meta: ReactStoriesMeta<typeof Button> = {
-  component: Button,
-  title: 'UI Components/Button',
+const meta: ReactStoriesMeta<typeof <%- className %>> = {
+  component: <%- className %>,
+  title: 'UI Components/<%- className %>',
   tags: ['autodocs'],
   decorators: [withUiComponentConfig],
   parameters: {

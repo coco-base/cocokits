@@ -1,0 +1,27 @@
+import { ReactStoryObj } from "@cocokits/internal-model";
+import { Button } from '../../<%- relativeComponentDirectory %>/<%- fileName %>';
+
+
+export const Size: ReactStoryObj<typeof <%- className %>> = {
+  name: "Size",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'TODO: ...',
+      },
+      source: {
+        code: `
+          TODO: ...
+        `,
+      },
+    },
+  },
+  args: {
+  },
+  render: (args) => (
+    <>
+      <<%- className %>></<%- className %>>
+    </>
+  )
+};

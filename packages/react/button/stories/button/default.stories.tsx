@@ -1,8 +1,9 @@
+import { ReactStoryObj } from "@cocokits/internal-model";
 import Button from "../../src/lib/button";
-import { Story } from "./index.stories";
 import { action } from '@storybook/addon-actions';
 
-export const Default: Story = {
+
+export const Default: ReactStoryObj<typeof Button> = {
   name: "Default",
   parameters: {
     docs: {
@@ -19,7 +20,7 @@ export const Default: Story = {
     },
   },
   args: {
-    onClick: action('on-click'),
+    onClick: action('on-click')
   },
   render: (args) => (
     <>

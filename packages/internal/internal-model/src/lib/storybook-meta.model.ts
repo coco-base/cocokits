@@ -1,4 +1,5 @@
-import type { Meta as NgStorybookMeta, StoryObj } from '@storybook/angular';
+import type { Meta as NgStorybookMeta, StoryObj as NgStorybookStoryObj } from '@storybook/angular';
+import type { Meta as ReactStorybookMeta, StoryObj as ReactStorybookStoryObj } from '@storybook/react';
 
 import type { UIComponentsName, UIComponentsPropName } from '@cocokits/core';
 
@@ -25,4 +26,9 @@ export interface AngularStoriesMeta extends NgStorybookMeta {
   tags?: StorybookTags[];
 }
 
-export type AngularStoryObj<T> = StoryObj<T> & { tags?: StoryTags[] };
+export type ReactStoriesMeta<T> = ReactStorybookMeta<T> & {
+  tags?: StorybookTags[];
+};
+
+export type AngularStoryObj<T> = NgStorybookStoryObj<T> & { tags?: StoryTags[] };
+export type ReactStoryObj<T> = ReactStorybookStoryObj<T> & { tags?: StoryTags[] };
