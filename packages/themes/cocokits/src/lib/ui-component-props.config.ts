@@ -7,14 +7,12 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -24,7 +22,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -35,14 +32,12 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
     color: {
       name: 'color',
       values: ['default', 'error'],
-      require: false,
       default: 'default',
       description: '',
     },
@@ -51,21 +46,18 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['horizontal', 'vertical'],
-      require: false,
       default: 'horizontal',
       description: '',
     },
     size: {
       name: 'size',
       values: ['md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
     color: {
       name: 'color',
       values: ['light', 'default', 'dark'],
-      require: false,
       default: 'default',
       description: '',
     },
@@ -75,7 +67,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -86,7 +77,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -106,7 +96,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -117,7 +106,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -136,7 +124,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -161,7 +148,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['regular', 'medium'],
-      require: false,
       default: 'medium',
       description: '',
     },
@@ -169,7 +155,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['transparent', 'grey'],
-      require: false,
       default: 'transparent',
       description: '',
     },
@@ -178,7 +163,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['regular', 'medium'],
-      require: false,
       default: 'medium',
       description: '',
     },
@@ -186,7 +170,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['transparent', 'grey'],
-      require: false,
       default: 'transparent',
       description: '',
     },
@@ -197,7 +180,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -206,21 +188,18 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['column', 'row'],
-      require: false,
       default: 'column',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -230,14 +209,12 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -253,14 +230,12 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -277,21 +252,18 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['primary', 'outline', 'basic', 'light'],
-      require: false,
       default: 'primary',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -299,7 +271,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       rounded: {
         name: 'rounded',
         values: [true, false],
-        require: false,
         default: false,
         description: 'Specifies whether the button should have rounded corners, giving it a circular appearance.',
       },
@@ -309,21 +280,18 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['primary', 'outline', 'basic', 'light'],
-      require: false,
       default: 'primary',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -333,14 +301,12 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-      require: false,
       default: 'md',
       description: '',
     },

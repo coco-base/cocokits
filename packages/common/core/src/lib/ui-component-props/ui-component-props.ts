@@ -62,14 +62,7 @@ export function validateUiComponentProps({
         return;
       }
 
-      // 3- Check required properties are provided
-      if (propConfig.require && hasNotValue(componentPropValue)) {
-        throw new Error(
-          `The '${propName}' property is required for the '${componentName}' component in this theme but was not provided.`
-        );
-      }
-
-      // 4- Check for valid values if the property is configured to accept specific values
+      // 3- Check for valid values if the property is configured to accept specific values
       if (
         hasValue(componentPropValue) &&
         !propConfig.values.includes(componentPropValue as ThemeUIComponentPropValue)
@@ -115,14 +108,7 @@ export function validateUiComponentProps({
         return;
       }
 
-      // 3- Check required properties are provided
-      if (propConfig.require && hasNotValue(componentPropValue)) {
-        throw new Error(
-          `The '${propName}' property is required for the '${componentName}' component in this theme but was not provided.`
-        );
-      }
-
-      // 4- Check for valid values if the property is configured to accept specific values
+      // 3- Check for valid values if the property is configured to accept specific values
       if (
         hasValue(componentPropValue) &&
         !propConfig.values.includes(componentPropValue as ThemeUIComponentPropValue)

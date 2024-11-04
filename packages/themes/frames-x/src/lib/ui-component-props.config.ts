@@ -5,14 +5,12 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['knob', 'switch'],
-      require: false,
       default: 'knob',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -24,14 +22,12 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['horizontal', 'vertical'],
-      require: false,
       default: 'horizontal',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md'],
-      require: false,
       default: 'sm',
       description: '',
     },
@@ -42,7 +38,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -53,7 +48,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -74,7 +68,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -85,7 +78,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -104,7 +96,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -133,7 +124,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -142,7 +132,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['column', 'row'],
-      require: false,
       default: 'column',
       description: '',
     },
@@ -150,7 +139,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -161,7 +149,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -172,7 +159,6 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -189,21 +175,18 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['default', 'secondary', 'ghost'],
-      require: false,
       default: 'default',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'highlight', 'success', 'danger'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -212,21 +195,18 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['default', 'secondary', 'ghost'],
-      require: false,
       default: 'default',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'highlight', 'success', 'danger'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -236,14 +216,12 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     color: {
       name: 'color',
       values: ['grey', 'brand', 'highlight', 'success', 'danger'],
-      require: false,
       default: 'grey',
       description: '',
     },
     size: {
       name: 'size',
       values: ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      require: false,
       default: 'md',
       description: '',
     },

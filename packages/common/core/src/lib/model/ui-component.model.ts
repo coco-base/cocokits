@@ -63,7 +63,6 @@ export type ThemeUIComponentConfig = Record<UIComponentsPropName, ThemeUICompone
 export interface ThemeUIComponentPropsConfig {
   name: UIComponentsPropName | string;
   values: ThemeUIComponentPropValue[];
-  require: boolean; // If true, the 'default' must be null
   default: ThemeUIComponentPropValue | null;
   description: string;
 }
