@@ -1,6 +1,6 @@
 import { StrictInputType } from '@storybook/types';
 
-import { ThemeUIComponentPropsConfig, ThemeUIComponentPropValue } from '@cocokits/core';
+import { ThemeComponentPropertyConfig, UIBaseComponentsPropValue } from '@cocokits/core';
 
 import { getValueWithoutSignal } from './doc-page.utils';
 
@@ -33,7 +33,7 @@ export function transformArgTypeCategory(argType: StrictInputType): 'methods' | 
 
 export function transformArgTypeDefaultValue(
   category: 'methods' | 'events' | 'props',
-  themeUIComponentProps: ThemeUIComponentPropsConfig | null,
+  themeUIComponentProps: ThemeComponentPropertyConfig | null,
   argType: StrictInputType
 ): string | undefined {
   return category === 'props'
@@ -42,8 +42,8 @@ export function transformArgTypeDefaultValue(
 }
 
 export function transformArgTypeType(
-  themeUIComponentProps: ThemeUIComponentPropsConfig | null,
+  themeUIComponentProps: ThemeComponentPropertyConfig | null,
   argType: StrictInputType
-): ThemeUIComponentPropValue[] | undefined {
+): UIBaseComponentsPropValue[] | undefined {
   return themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)];
 }

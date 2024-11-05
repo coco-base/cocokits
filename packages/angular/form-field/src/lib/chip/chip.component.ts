@@ -59,7 +59,7 @@ export class ChipComponent extends _UiBaseComponent<'chip'> {
   constructor() {
     super();
 
-    const removeIcon = this.uiComponentConfig.chip.component?.chipRemoveIcon;
+    const removeIcon = this.uiComponentConfig.chip.templates?.chipRemoveIcon;
 
     if (!removeIcon) {
       throw new Error('`chipRemoveIcon` has not defined in `uiComponentConfig` of selected theme');

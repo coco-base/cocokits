@@ -3,7 +3,6 @@ import { ThemeUIComponentsConfig } from '@cocokits/core';
 
 export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
   toggle: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
@@ -17,18 +16,8 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       description: '',
     },
   },
-  menu: {
-    type: null,
-    size: {
-      name: 'size',
-      values: ['sm', 'md', 'lg'],
-      default: 'md',
-      description: '',
-    },
-    color: null,
-  },
+  menu: {},
   menuItem: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
@@ -63,25 +52,21 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   chipList: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
       default: 'md',
       description: '',
     },
-    color: null,
   },
   chip: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       chipRemoveIcon: {
         name: 'chipRemoveIcon',
         content:
@@ -90,27 +75,23 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       },
     },
   },
-  selectPreview: { type: null, size: null, color: null },
+  selectPreview: {},
   optionGroup: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
       default: 'md',
       description: '',
     },
-    color: null,
   },
   option: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       optionSelectedIcon: {
         name: 'optionSelectedIcon',
         content:
@@ -120,15 +101,13 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   select: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       dropdownIcon: {
         name: 'dropdownIcon',
         content:
@@ -137,13 +116,13 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       },
     },
   },
-  textarea: { type: null, size: null, color: null },
-  input: { type: null, size: null, color: null },
-  label: { type: null, size: null, color: null },
-  error: { type: null, size: null, color: null },
-  hint: { type: null, size: null, color: null },
-  prefix: { type: null, size: null, color: null },
-  suffix: { type: null, size: null, color: null },
+  textarea: {},
+  input: {},
+  label: {},
+  error: {},
+  hint: {},
+  prefix: {},
+  suffix: {},
   trailing: {
     type: {
       name: 'type',
@@ -151,7 +130,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       default: 'medium',
       description: '',
     },
-    size: null,
     color: {
       name: 'color',
       values: ['transparent', 'grey'],
@@ -166,7 +144,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       default: 'medium',
       description: '',
     },
-    size: null,
     color: {
       name: 'color',
       values: ['transparent', 'grey'],
@@ -175,8 +152,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   formField: {
-    type: null,
-    color: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
@@ -205,7 +180,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   radioButton: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
@@ -218,7 +192,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       default: 'md',
       description: '',
     },
-    component: {
+    templates: {
       radioCheckmark: `
         <div class="cck-checkbox__background--outer-circle"></div>
         <div class="cck-checkbox__background--inner-circle"></div>
@@ -226,7 +200,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   checkbox: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
@@ -239,7 +212,7 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       default: 'md',
       description: '',
     },
-    component: {
+    templates: {
       checkboxCheckmark: `
         <svg class="cck-checkbox__checkmark" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="cck-checkbox__checkmark-path"></path>
@@ -297,7 +270,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   svgIcon: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast'],

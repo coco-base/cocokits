@@ -175,7 +175,7 @@ export class SelectComponent<T = any>
   constructor() {
     super();
 
-    const dropdownIcon = this.uiComponentConfig.select.component?.dropdownIcon;
+    const dropdownIcon = this.uiComponentConfig.select.templates?.dropdownIcon;
 
     if (!dropdownIcon) {
       throw new Error('`dropdownIcon` has not defined in `uiComponentConfig` of selected theme');

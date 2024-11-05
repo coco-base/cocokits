@@ -1,11 +1,11 @@
-import { getClassNames, ThemeUIComponentProps, UIComponentsName } from '@cocokits/core';
+import { getClassNames, UIBaseComponentProps, UIComponentsName } from '@cocokits/core';
 import { UiComponentConfig } from './context';
 import { useContext } from 'react';
 import { deepMerge } from '@cocokits/common-utils';
 
 export interface UiBaseComponentConfigOptions<T extends UIComponentsName> {
   componentName: T;
-  props: ThemeUIComponentProps;
+  props: UIBaseComponentProps;
   extraHostElementClassConditions?: { if: boolean | undefined | null; classes: string[] }[];
   skipProps?: {
     skipType?: boolean;

@@ -18,7 +18,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
 
   // const themeComponentConfig = selectedCck
   // Theme.uiComponentConfig[componentName];
-  const {additional, component, ...restProp} = selectedCckTheme.uiComponentConfig[componentName];
+  const {additional, templates: component, ...restProp} = selectedCckTheme.uiComponentConfig[componentName];
   const hasVariants =
     Object.values(restProp).filter(Boolean).length > 0 ||
     Object.values(additional ?? {}).filter(Boolean).length > 0;

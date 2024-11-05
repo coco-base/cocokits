@@ -28,7 +28,7 @@ import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
 import {
-  ThemeUIComponentProps,
+  UIBaseComponentProps,
   ThemeUIComponentsConfig,
   ThemeUIComponentsOptions,
   UIComponentsName,
@@ -81,7 +81,7 @@ export const CLASS_NAMES_FN_MAP = {
 
 export function getClassNames<T extends UIComponentsName>(
   componentName: T,
-  componentProps: ThemeUIComponentProps,
+  componentProps: UIBaseComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
 ): ReturnType<(typeof CLASS_NAMES_FN_MAP)[T]> {
   return CLASS_NAMES_FN_MAP[componentName](componentProps, uiComponentsConfig) as ReturnType<

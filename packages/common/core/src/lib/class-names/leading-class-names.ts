@@ -1,5 +1,5 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
+import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
 import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
 
 export const leadingLayoutClassNamesConfig = {
@@ -19,7 +19,7 @@ export const leadingLayoutClassNamesConfig = {
 };
 
 export function getLeadingClassNames(
-  componentProps: ThemeUIComponentProps,
+  componentProps: UIBaseComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof leadingLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {

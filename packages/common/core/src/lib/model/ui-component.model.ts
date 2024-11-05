@@ -43,35 +43,59 @@ export type UIComponentsName =
   // icon
   | 'svgIcon';
 
-export type UIComponentsPropName = 'type' | 'color' | 'size';
+export type UIBaseComponentsPropName = 'type' | 'color' | 'size';
+export type UIBaseComponentsPropValue = string | number | boolean | null;
 
-export type ThemeUIComponentPropValue = string | number | boolean;
-export type ThemeUIComponentProps = Partial<Record<UIComponentsPropName, ThemeUIComponentPropValue | null>> & {
-  additional?: Record<string, ThemeUIComponentPropValue | null>;
-};
-export type ThemeUIComponentConfig = Record<UIComponentsPropName, ThemeUIComponentPropsConfig | null> & {
-  additional?: Record<string, ThemeUIComponentPropsConfig>;
-  component?: {
+export interface UIBaseComponentProps {
+  type?: UIBaseComponentsPropValue;
+  color?: UIBaseComponentsPropValue;
+  size?: UIBaseComponentsPropValue;
+  additional?: Record<string, UIBaseComponentsPropValue>;
+}
+
+export interface ThemeComponentConfig {
+  type?: ThemeComponentPropertyConfig;
+  color?: ThemeComponentPropertyConfig;
+  size?: ThemeComponentPropertyConfig;
+  additional?: Record<string, ThemeComponentPropertyConfig>;
+  templates?: {
     checkboxCheckmark?: string; // Optional
     radioCheckmark?: string; // Optional
     dropdownIcon?: ThemeSvgIcon; // Require
     optionSelectedIcon?: ThemeSvgIcon; // Optional
     chipRemoveIcon?: ThemeSvgIcon; // Require
   };
-};
+}
 
-export interface ThemeUIComponentPropsConfig {
-  name: UIComponentsPropName | string;
-  values: ThemeUIComponentPropValue[];
-  default: ThemeUIComponentPropValue | null;
+export interface ThemeComponentPropertyConfig {
+  name: UIBaseComponentsPropName | string; // additional properties can have any name
+  values: UIBaseComponentsPropValue[];
+  default: UIBaseComponentsPropValue;
   description: string;
 }
 
-export type ThemeUIComponentsConfig = Record<UIComponentsName, ThemeUIComponentConfig>;
+export interface ThemeConfig {
+  components: ThemeUIComponentsConfig;
+
+  /**
+   * The prefix to use for CSS selectors.
+   * This is useful when you have multiple themes in the same project.
+   * For example, if you want to use the button component in both the Storybook documentation page and in the stories,
+   * the Storybook documentation page must have a prefix. Otherwise, you will have two components with two different themes,
+   * but the browser will only apply one of them.
+   */
+  cssSelectorPrefix: string;
+}
+export type ThemeUIComponentsConfig = Record<UIComponentsName, ThemeComponentConfig>;
+
+export interface CocoKitsConfig {
+  cssSelectorPrefix?: string;
+  themeUiComponentsConfig: ThemeUIComponentsConfig;
+}
 
 // TODO: Find a better name
 export interface ThemeUIComponentsOptions {
   componentName: UIComponentsName;
-  componentProps: ThemeUIComponentProps;
+  componentProps: UIBaseComponentProps;
   uiComponentsConfig: ThemeUIComponentsConfig;
 }

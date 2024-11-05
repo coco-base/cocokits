@@ -1,5 +1,5 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
+import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
 import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
 
 export const labelLayoutClassNamesConfig = {
@@ -25,7 +25,7 @@ export const labelLayoutClassNamesConfig = {
 };
 
 export function getLabelClassNames(
-  componentProps: ThemeUIComponentProps,
+  componentProps: UIBaseComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof labelLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {

@@ -1,5 +1,5 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
+import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
 import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
 
 export const iconButtonLayoutClassNamesConfig = {
@@ -21,7 +21,7 @@ export const iconButtonLayoutClassNamesConfig = {
 };
 
 export function getIconButtonClassNames(
-  componentProps: ThemeUIComponentProps,
+  componentProps: UIBaseComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof iconButtonLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {

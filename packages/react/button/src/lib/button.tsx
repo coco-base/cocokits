@@ -1,8 +1,8 @@
-import { ThemeUIComponentProps } from "@cocokits/core";
+import { UIBaseComponentProps } from "@cocokits/core";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
 import React from "react";
 
-interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, ThemeUIComponentProps {
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, UIBaseComponentProps {
   children?: React.ReactNode;
 }
 

@@ -1,5 +1,5 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
+import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
 import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
 
 export const formFieldLayoutClassNamesConfig = {
@@ -104,7 +104,7 @@ export const formFieldLayoutClassNamesConfig = {
 };
 
 export function getFormFieldClassNames(
-  componentProps: ThemeUIComponentProps,
+  componentProps: UIBaseComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof formFieldLayoutClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {

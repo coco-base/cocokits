@@ -1,5 +1,5 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
+import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
 import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
 
 export const textareaClassNamesConfig = {
@@ -25,7 +25,7 @@ export const textareaClassNamesConfig = {
 };
 
 export function getTextareaClassNames(
-  componentProps: ThemeUIComponentProps,
+  componentProps: UIBaseComponentProps,
   uiComponentsConfig: ThemeUIComponentsConfig
 ): Record<keyof typeof textareaClassNamesConfig.elements, string> {
   const options: ThemeUIComponentsOptions = {

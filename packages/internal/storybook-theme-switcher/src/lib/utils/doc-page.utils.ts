@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { PreparedStory } from '@storybook/types';
 
 import { reduceDeepMerge } from '@cocokits/common-utils';
-import { ThemeUIComponentsConfig, UIComponentsName, UIComponentsPropName } from '@cocokits/core';
+import { ThemeUIComponentsConfig, UIComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
 import { CckThemeChangedEvent, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
 import {
@@ -101,7 +101,7 @@ export function useArgTypesApiList(
       if (!name) {
         return {};
       }
-      const themeUIComponentProps = uiComponentConfig?.[name as UIComponentsPropName];
+      const themeUIComponentProps = uiComponentConfig?.[name as UIBaseComponentsPropName];
 
       // Skip from ArgsTypeTable when the component has no uiComponentConfig in selected Theme,
       // and it's not force to take from component API
@@ -241,7 +241,10 @@ export function filterStoryByScenario(story: PreparedStory, theme: CckThemeChang
   }
 
   const uiComponentName = uiComponentNameTags[0].replace('uiComponentName:', '') as UIComponentsName;
-  const uiComponentPropName = uiComponentPropNameTags[0].replace('uiComponentPropName:', '') as UIComponentsPropName;
+  const uiComponentPropName = uiComponentPropNameTags[0].replace(
+    'uiComponentPropName:',
+    ''
+  ) as UIBaseComponentsPropName;
 
   const themePropConfig = theme.uiComponentConfig[uiComponentName][uiComponentPropName];
 

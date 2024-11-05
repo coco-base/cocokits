@@ -1,7 +1,7 @@
 import { computed, Directive, inject, input, InputSignal, Signal } from '@angular/core';
 
 import { fromAttrWithPrefix } from '@cocokits/angular-utils';
-import { getClassNames, ThemeUIComponentPropValue, UIComponentsName } from '@cocokits/core';
+import { getClassNames, UIBaseComponentsPropValue, UIComponentsName } from '@cocokits/core';
 
 import { UIComponentConfig } from './tokens';
 
@@ -59,7 +59,7 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    *
    * @internal
    */
-  public _additional = fromAttrWithPrefix<Record<string, ThemeUIComponentPropValue>>('data-cck-');
+  public _additional = fromAttrWithPrefix<Record<string, UIBaseComponentsPropValue>>('data-cck-');
 
   // All following properties can be overridden by the parent class to set the final value.
   // For example: the size of `RadioComponent` depends on 2 values,

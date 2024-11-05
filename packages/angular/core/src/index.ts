@@ -22,4 +22,4 @@ export * from './providers';
  * }>;
  * ```
  */
-export { ThemeUIComponentPropValue } from '@cocokits/core';
+export { UIBaseComponentsPropValue as ThemeUIComponentPropValue } from '@cocokits/core';
