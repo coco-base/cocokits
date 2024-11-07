@@ -5,7 +5,7 @@ import { <%- className %>Component } from '../../<%- relativeComponentDirectory 
 
 export const Type: AngularStoryObj<<%- className %>Component> = {
   name: 'Type',
-  tags: ['uiComponentName:<%= propertyName %>', 'uiComponentPropName:type'],
+  tags: ['uiBaseComponentName:<%= propertyName %>', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -19,12 +19,12 @@ export const Type: AngularStoryObj<<%- className %>Component> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.<%= propertyName %>.type?.values">
-        @for (type of uiComponentConfig?.<%= propertyName %>.type?.values; let i = $index; track type) {
+        [headers]="themeConfig?.<%= propertyName %>.type?.values">
+        @for (type of themeConfig?.<%= propertyName %>.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
           </story-table-cell>

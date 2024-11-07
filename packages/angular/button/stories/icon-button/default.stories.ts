@@ -22,7 +22,6 @@ export const Default: AngularStoryObj<IconButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
       <story-table [headers]="['Default', 'Disabled']">

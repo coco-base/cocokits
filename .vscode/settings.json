@@ -1,4 +1,4 @@
 {
   "eslint.validate": ["json"],
-  "cSpell.words": ["Checkmark", "uncategorized"]
+  "cSpell.words": ["Checkmark", "compodoc", "subcomponent", "subcomponents", "uncategorized"]
 }

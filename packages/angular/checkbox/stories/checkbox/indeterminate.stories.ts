@@ -22,7 +22,6 @@ export const Indeterminate: AngularStoryObj<CheckboxComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
         <story-checkbox-indeterminate></story-checkbox-indeterminate>

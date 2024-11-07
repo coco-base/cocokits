@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const checkboxLayoutClassNamesConfig = {
   prefix: 'cck-checkbox',
@@ -37,7 +37,7 @@ export const checkboxLayoutClassNamesConfig = {
       name: 'Background Element',
       selectors: ['cck-checkbox__background'],
       description:
-        'Applied to a `div` element containing a checkmark SVG from `ThemeUiComponentConfig`, child of the `inputWrapper`, to show a custom checkbox symbol based on the design system concepts.',
+        'Applied to a `div` element containing a checkmark SVG from `ThemeConfig`, child of the `inputWrapper`, to show a custom checkbox symbol based on the design system concepts.',
     },
     label: {
       name: 'Label Element',
@@ -70,14 +70,14 @@ export const checkboxLayoutClassNamesConfig = {
 
 export function getCheckboxClassNames(
   componentProps: UIBaseComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  themeConfig: ThemeConfig
 ): Record<keyof typeof checkboxLayoutClassNamesConfig.elements, string> {
-  const options: ThemeUIComponentsOptions = {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'checkbox',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...checkboxLayoutClassNamesConfig.elements.host.selectors,

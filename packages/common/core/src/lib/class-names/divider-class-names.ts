@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const dividerLayoutClassNamesConfig = {
   prefix: 'cck-divider',
@@ -15,14 +15,14 @@ export const dividerLayoutClassNamesConfig = {
 
 export function getDividerClassNames(
   componentProps: UIBaseComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  themeConfig: ThemeConfig
 ): Record<keyof typeof dividerLayoutClassNamesConfig.elements, string> {
-  const options: ThemeUIComponentsOptions = {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'divider',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...dividerLayoutClassNamesConfig.elements.host.selectors,

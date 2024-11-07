@@ -24,7 +24,6 @@ export const Default: AngularStoryObj<TextareaComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
         <cck-form-field>

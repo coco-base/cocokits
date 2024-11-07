@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { PreparedStory } from '@storybook/types';
 
 import { reduceDeepMerge } from '@cocokits/common-utils';
-import { ThemeUIComponentsConfig, UIComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
+import { UIBaseComponentsName, UIBaseComponentsPropName, ThemeConfig } from '@cocokits/core';
 import { CckThemeChangedEvent, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
 import {
@@ -11,7 +11,7 @@ import {
   transformArgTypeDefaultValue,
   transformArgTypeName,
   transformArgTypeType,
-} from './args-type-tranform.utils';
+} from './args-type-transform.utils';
 import { DocArgTypesList } from '../components/doc-page/DocArgTypesTable';
 
 export const storyNameToHash = (id: string): string => id.toLowerCase().replace(/[^a-z0-9]/gi, '-');
@@ -67,9 +67,9 @@ export function getValueWithoutSignal(value: any): string {
 
 // eslint-disable-next-line max-lines-per-function
 export function useArgTypesApiList(
-  componentName: UIComponentsName,
+  componentName: UIBaseComponentsName,
   argTypes: PreparedStory['argTypes'],
-  uiComponentsConfig: ThemeUIComponentsConfig
+  themeConfig: ThemeConfig
 ): {
   props: DocArgTypesList[];
   events: DocArgTypesList[];
@@ -84,10 +84,10 @@ export function useArgTypesApiList(
     };
   }
 
-  const uiComponentConfig = uiComponentsConfig[componentName];
+  const themeComponentConfig = themeConfig.components[componentName];
   const order = ['type', 'color', 'size'];
 
-  const argTypesList = Object.values(argTypes).filter((argType) => !argType.table?.disable ?? true);
+  const argTypesList = Object.values(argTypes).filter((argType) => !argType.table?.disable);
 
   const result = reduceDeepMerge(
     argTypesList,
@@ -101,13 +101,13 @@ export function useArgTypesApiList(
       if (!name) {
         return {};
       }
-      const themeUIComponentProps = uiComponentConfig?.[name as UIBaseComponentsPropName];
+      const themeBaseComponentProps = themeComponentConfig?.[name as UIBaseComponentsPropName] ?? null;
 
-      // Skip from ArgsTypeTable when the component has no uiComponentConfig in selected Theme,
+      // Skip from ArgsTypeTable when the component has no themeConfig in selected Theme,
       // and it's not force to take from component API
       // Example of force: the type of input component is not our custom config, it's the native type of input such as 'number' or 'date'
       // eslint-disable-next-line dot-notation
-      if (!themeUIComponentProps && order.includes(name) && !argType.table?.['useComponentApi']) {
+      if (!themeBaseComponentProps && order.includes(name) && !argType.table?.['useComponentApi']) {
         return {};
       }
 
@@ -117,8 +117,8 @@ export function useArgTypesApiList(
       }
 
       const category = transformArgTypeCategory(argType);
-      const defaultValue = transformArgTypeDefaultValue(category, themeUIComponentProps, argType);
-      const type = transformArgTypeType(themeUIComponentProps, argType);
+      const defaultValue = transformArgTypeDefaultValue(category, themeBaseComponentProps, argType);
+      const type = transformArgTypeType(themeBaseComponentProps, argType);
 
       return {
         [category]: [
@@ -161,17 +161,17 @@ export function useArgTypesApiList(
 }
 
 export function useArgTypesThemeApiList(
-  componentName: UIComponentsName,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  componentName: UIBaseComponentsName,
+  themeConfig: ThemeConfig
 ): DocArgTypesList[] | null {
-  const uiComponentConfig = uiComponentsConfig[componentName];
+  const themeComponentConfig = themeConfig.components[componentName];
 
-  // Not all component has uiComponentConfig (such as CDK) or additional configs
-  if (!uiComponentConfig?.additional) {
+  // Not all component has themeConfig (such as CDK) or additional configs
+  if (!themeComponentConfig?.additional) {
     return null;
   }
 
-  const argTypesList = Object.values(uiComponentConfig.additional).map((value) => {
+  const argTypesList = Object.values(themeComponentConfig.additional).map((value) => {
     return {
       name: `data-cck-${value.name}`,
       description: value.description,
@@ -214,39 +214,41 @@ export function filterStoryByThemeTag(story: PreparedStory, selectedThemeId: Cck
 }
 
 export function filterStoryByScenario(story: PreparedStory, theme: CckThemeChangedEvent): boolean {
-  const uiComponentNameTags = story.tags.filter((tag) => tag.startsWith('uiComponentName:'));
+  const uiBaseComponentNameTags = story.tags.filter((tag) => tag.startsWith('uiBaseComponentName:'));
 
-  // use story, when no 'uiComponentName' tag has defined.
-  if (uiComponentNameTags.length === 0) {
+  // use story, when no 'uiBaseComponentName' tag has defined.
+  if (uiBaseComponentNameTags.length === 0) {
     return true;
   }
 
-  // throw an error when multi 'uiComponentName' exist in story tags
-  if (uiComponentNameTags.length > 1) {
-    throw new Error(`A story can not have multi 'uiComponentName' tag. The current tags is ${story.tags.join(', ')}`);
-  }
-
-  const uiComponentPropNameTags = story.tags.filter((tag) => tag.startsWith('uiComponentPropName:'));
-
-  // use story, when no 'uiComponentPropNameTags' tag has defined.
-  if (uiComponentPropNameTags.length === 0) {
-    return true;
-  }
-
-  // throw an error when multi 'uiComponentName' exist in story tags
-  if (uiComponentPropNameTags.length > 1) {
+  // throw an error when multi 'uiBaseComponentName' exist in story tags
+  if (uiBaseComponentNameTags.length > 1) {
     throw new Error(
-      `A story can not have multi 'uiComponentPropNameTags' tag. The current tags is ${story.tags.join(', ')}`
+      `A story can not have multi 'uiBaseComponentName' tag. The current tags is ${story.tags.join(', ')}`
     );
   }
 
-  const uiComponentName = uiComponentNameTags[0].replace('uiComponentName:', '') as UIComponentsName;
-  const uiComponentPropName = uiComponentPropNameTags[0].replace(
-    'uiComponentPropName:',
+  const uiBaseComponentPropNameTags = story.tags.filter((tag) => tag.startsWith('uiBaseComponentPropName:'));
+
+  // use story, when no 'uiBaseComponentPropNameTags' tag has defined.
+  if (uiBaseComponentPropNameTags.length === 0) {
+    return true;
+  }
+
+  // throw an error when multi 'uiBaseComponentName' exist in story tags
+  if (uiBaseComponentPropNameTags.length > 1) {
+    throw new Error(
+      `A story can not have multi 'uiBaseComponentPropNameTags' tag. The current tags is ${story.tags.join(', ')}`
+    );
+  }
+
+  const uiBaseComponentName = uiBaseComponentNameTags[0].replace('uiBaseComponentName:', '') as UIBaseComponentsName;
+  const uiBaseComponentPropName = uiBaseComponentPropNameTags[0].replace(
+    'uiBaseComponentPropName:',
     ''
   ) as UIBaseComponentsPropName;
 
-  const themePropConfig = theme.uiComponentConfig[uiComponentName][uiComponentPropName];
+  const themePropConfig = theme.themeConfig.components[uiBaseComponentName][uiBaseComponentPropName];
 
   return !!themePropConfig;
 }

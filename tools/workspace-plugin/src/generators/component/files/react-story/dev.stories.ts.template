@@ -1,6 +1,6 @@
 import { Button } from '../../<%- relativeComponentDirectory %>/<%- fileName %>';
 import { ReactStoriesMeta, ReactStoryObj } from '@cocokits/internal-model';
-import { withUiComponentConfig } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfig } from '@cocokits/storybook-theme-switcher';
 import descriptionMd from './description.md';
 
 export { Default } from './default.stories';
@@ -12,7 +12,7 @@ const meta: ReactStoriesMeta<typeof <%- className %>> = {
   component: <%- className %>,
   title: 'UDev/<%- className %>',
   tags: ['!autodocs'],
-  decorators: [withUiComponentConfig],
+  decorators: [withThemeConfig],
   argTypes: {},
 };
 export default meta;

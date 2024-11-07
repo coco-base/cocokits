@@ -24,7 +24,6 @@ export const ThemeCocokitsRounded: AngularStoryObj<IconButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
       <story-table

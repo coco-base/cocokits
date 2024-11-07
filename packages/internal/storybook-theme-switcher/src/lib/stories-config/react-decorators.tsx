@@ -1,11 +1,12 @@
-import { UiComponentConfig } from '@cocokits/react-core';
+import { ThemeConfigContext } from "@cocokits/react-core";
 
 import { getSelectedCckTheme } from "../components/theme-switcher.utils";
 
-export function withUiComponentConfig(Story: any) {
+
+export function withThemeConfig(Story: any) {
   return (
-    <UiComponentConfig.Provider value={getSelectedCckTheme()?.uiComponentConfig}>
+    <ThemeConfigContext.Provider value={getSelectedCckTheme()?.themeConfig}>
       <Story />
-    </UiComponentConfig.Provider>
+    </ThemeConfigContext.Provider>
   );
 }

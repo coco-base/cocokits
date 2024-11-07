@@ -27,7 +27,6 @@ export const ThemeCocokitsBox: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       modelValue: true,
     },
     template: `

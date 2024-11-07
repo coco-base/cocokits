@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const textareaClassNamesConfig = {
   prefix: 'cck-textarea',
@@ -26,14 +26,14 @@ export const textareaClassNamesConfig = {
 
 export function getTextareaClassNames(
   componentProps: UIBaseComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  themeConfig: ThemeConfig
 ): Record<keyof typeof textareaClassNamesConfig.elements, string> {
-  const options: ThemeUIComponentsOptions = {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'textarea',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...textareaClassNamesConfig.elements.host.selectors,

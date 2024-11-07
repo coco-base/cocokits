@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { moduleMetadata } from '@storybook/angular';
 
-import { UIComponentConfig } from '@cocokits/angular-core';
+import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
@@ -44,8 +44,8 @@ const meta: AngularStoriesMeta = {
       ],
       providers: [
         {
-          provide: UIComponentConfig,
-          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
+          provide: ThemeConfigToken,
+          useFactory: () => getSelectedCckTheme()?.themeConfig,
         },
       ],
     }),

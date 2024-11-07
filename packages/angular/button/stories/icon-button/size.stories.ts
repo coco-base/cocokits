@@ -5,7 +5,7 @@ import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.compo
 
 export const Size: AngularStoryObj<IconButtonComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:iconButton', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:iconButton', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -24,14 +24,14 @@ export const Size: AngularStoryObj<IconButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.iconButton.size?.values"
-        [rowHeaders]="uiComponentConfig?.iconButton.type?.values">
-        @for (type of uiComponentConfig?.iconButton.type?.values; let row = $index; track type) {
-          @for (size of uiComponentConfig?.iconButton.size?.values; let col = $index; track size) {
+        [headers]="themeConfig?.iconButton.size?.values"
+        [rowHeaders]="themeConfig?.iconButton.type?.values">
+        @for (type of themeConfig?.iconButton.type?.values; let row = $index; track type) {
+          @for (size of themeConfig?.iconButton.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-icon-button [type]="type" [size]="size">
                 <cck-svg-icon [icon]="icon"></cck-svg-icon>

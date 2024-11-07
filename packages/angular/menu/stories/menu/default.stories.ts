@@ -34,7 +34,6 @@ export const Default: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
         <div class="story-h-350">

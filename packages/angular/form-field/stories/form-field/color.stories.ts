@@ -5,7 +5,7 @@ import { FormFieldComponent } from '../../src';
 
 export const Color: AngularStoryObj<FormFieldComponent> = {
   name: 'Color',
-  tags: ['uiComponentName:formField', 'uiComponentPropName:color'],
+  tags: ['uiBaseComponentName:formField', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -24,14 +24,14 @@ export const Color: AngularStoryObj<FormFieldComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `      
       <story-table
-        [headers]="uiComponentConfig?.formField.color?.values"
-        [rowHeaders]="uiComponentConfig?.formField.type?.values ?? []">
-        @for (type of uiComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of uiComponentConfig?.formField.color?.values; let col = $index; track color) {
+        [headers]="themeConfig?.formField.color?.values"
+        [rowHeaders]="themeConfig?.formField.type?.values ?? []">
+        @for (type of themeConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeConfig?.formField.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [color]="color">
                 <cck-label>Email</cck-label>

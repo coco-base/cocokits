@@ -5,7 +5,7 @@ import { MenuComponent } from '../../src';
 
 export const Type: AngularStoryObj<MenuComponent> = {
   name: 'Type',
-  tags: ['uiComponentName:menu', 'uiComponentPropName:type'],
+  tags: ['uiBaseComponentName:menu', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -35,12 +35,12 @@ export const Type: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.menu.type?.values">
-        @for (type of uiComponentConfig?.menu.type?.values; let i = $index; track type) {
+        [headers]="themeConfig?.menu.type?.values">
+        @for (type of themeConfig?.menu.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-menu class="story-w-200" [type]="type">
               <cck-menu-item>Edit</cck-menu-item>

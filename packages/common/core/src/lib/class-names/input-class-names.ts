@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const inputLayoutClassNamesConfig = {
   prefix: 'cck-input',
@@ -20,14 +20,14 @@ export const inputLayoutClassNamesConfig = {
 
 export function getInputClassNames(
   componentProps: UIBaseComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  themeConfig: ThemeConfig
 ): Record<keyof typeof inputLayoutClassNamesConfig.elements, string> {
-  const options: ThemeUIComponentsOptions = {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'input',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...inputLayoutClassNamesConfig.elements.host.selectors,

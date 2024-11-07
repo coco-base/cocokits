@@ -49,7 +49,6 @@ export const ThemeCocokitsItemIconColor: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       editIcon,
       duplicateIcon,
       archiveIcon,

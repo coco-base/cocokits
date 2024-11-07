@@ -5,7 +5,7 @@ import { MenuComponent } from '../../src';
 
 export const Color: AngularStoryObj<MenuComponent> = {
   name: 'Color',
-  tags: ['uiComponentName:menu', 'uiComponentPropName:color'],
+  tags: ['uiBaseComponentName:menu', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -34,14 +34,14 @@ export const Color: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.menu.color?.values"
-        [rowHeaders]="uiComponentConfig?.menu.type?.values ?? []">
-        @for (type of uiComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of uiComponentConfig?.menu.color?.values; let col = $index; track color) {
+        [headers]="themeConfig?.menu.color?.values"
+        [rowHeaders]="themeConfig?.menu.type?.values ?? []">
+        @for (type of themeConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeConfig?.menu.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-menu class="story-w-200" [color]="color" [type]="type">
                 <cck-menu-item>Edit</cck-menu-item>

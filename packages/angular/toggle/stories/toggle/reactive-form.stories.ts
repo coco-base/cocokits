@@ -22,7 +22,6 @@ export const ReactiveForm: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       control: new FormControl(true),
     },
     template: `

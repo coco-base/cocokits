@@ -1,7 +1,7 @@
-import { Button } from '../../src/lib/button';
+import Button from '../../src/lib/button';
 import { ReactStoriesMeta } from '@cocokits/internal-model';
-import { withUiComponentConfig } from '@cocokits/storybook-theme-switcher';
-import descriptionMd from './description.md';
+import { withThemeConfig } from '@cocokits/storybook-theme-switcher';
+import descriptionMd from './description.md?raw';
 
 export { Default as Primary } from './default.stories';
 
@@ -9,7 +9,7 @@ const meta: ReactStoriesMeta<typeof Button> = {
   component: Button,
   title: 'UI Components/Button',
   tags: ['autodocs'],
-  decorators: [withUiComponentConfig],
+  decorators: [withThemeConfig],
   parameters: {
     docs: {
       description: {

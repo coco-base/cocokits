@@ -1,6 +1,6 @@
 import { ThemeSvgIcon } from './theme-svg-icon.model';
 
-export type UIComponentsName =
+export type UIBaseComponentsName =
   // form-field
   | 'formField'
   | 'label'
@@ -44,7 +44,7 @@ export type UIComponentsName =
   | 'svgIcon';
 
 export type UIBaseComponentsPropName = 'type' | 'color' | 'size';
-export type UIBaseComponentsPropValue = string | number | boolean | null;
+export type UIBaseComponentsPropValue = string | number | boolean | null; // When null, no specific value is applied, event default value
 
 export interface UIBaseComponentProps {
   type?: UIBaseComponentsPropValue;
@@ -69,13 +69,13 @@ export interface ThemeComponentConfig {
 
 export interface ThemeComponentPropertyConfig {
   name: UIBaseComponentsPropName | string; // additional properties can have any name
-  values: UIBaseComponentsPropValue[];
-  default: UIBaseComponentsPropValue;
+  values: NonNullable<UIBaseComponentsPropValue>[];
+  default: NonNullable<UIBaseComponentsPropValue>;
   description: string;
 }
 
 export interface ThemeConfig {
-  components: ThemeUIComponentsConfig;
+  components: ThemeComponentConfigRecord;
 
   /**
    * The prefix to use for CSS selectors.
@@ -86,16 +86,10 @@ export interface ThemeConfig {
    */
   cssSelectorPrefix: string;
 }
-export type ThemeUIComponentsConfig = Record<UIComponentsName, ThemeComponentConfig>;
+export type ThemeComponentConfigRecord = Record<UIBaseComponentsName, ThemeComponentConfig>;
 
-export interface CocoKitsConfig {
-  cssSelectorPrefix?: string;
-  themeUiComponentsConfig: ThemeUIComponentsConfig;
-}
-
-// TODO: Find a better name
-export interface ThemeUIComponentsOptions {
-  componentName: UIComponentsName;
+export interface CssSelectorGeneratorOptions {
+  componentName: UIBaseComponentsName;
   componentProps: UIBaseComponentProps;
-  uiComponentsConfig: ThemeUIComponentsConfig;
+  themeConfig: ThemeConfig;
 }

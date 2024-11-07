@@ -33,17 +33,17 @@ export function transformArgTypeCategory(argType: StrictInputType): 'methods' | 
 
 export function transformArgTypeDefaultValue(
   category: 'methods' | 'events' | 'props',
-  themeUIComponentProps: ThemeComponentPropertyConfig | null,
+  themeComponentProps: ThemeComponentPropertyConfig | null,
   argType: StrictInputType
 ): string | undefined {
   return category === 'props'
-    ? themeUIComponentProps?.default?.toString() ?? getValueWithoutSignal(argType.table?.defaultValue?.summary)
+    ? themeComponentProps?.default?.toString() ?? getValueWithoutSignal(argType.table?.defaultValue?.summary)
     : undefined;
 }
 
 export function transformArgTypeType(
-  themeUIComponentProps: ThemeComponentPropertyConfig | null,
+  themeComponentProps: ThemeComponentPropertyConfig | null,
   argType: StrictInputType
 ): UIBaseComponentsPropValue[] | undefined {
-  return themeUIComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)];
+  return themeComponentProps?.values ?? [getValueWithoutSignal(argType.table?.type?.summary)];
 }

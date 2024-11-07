@@ -16,11 +16,11 @@ export function getStep2StandaloneApp(theme: CckThemeChangedEvent) {
   const tsCodes = `typescript
 
 import { provideCocokits } from '@cocokits/angular-components';
-import { ${camelCase(theme.id)}UIComponentConfig } from '@cocokits/theme-${theme.id}';
+import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideCocokits(${camelCase(theme.id)}UIComponentConfig),
+    provideCocokits(${camelCase(theme.id)}ThemeConfig),
     ...
   ]
 })`
@@ -31,16 +31,16 @@ bootstrapApplication(AppComponent, {
 export function getStep2ModuleApp(theme: CckThemeChangedEvent) {
   const tsCodes = `typescript
 
-  import { UIComponentConfig } from '@cocokits/angular-components';
-  import { ${camelCase(theme.id)}UIComponentConfig } from '@cocokits/theme-${theme.id}';
+  import { ThemeConfigToken } from '@cocokits/angular-components';
+  import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
 
   @NgModule({
     imports: [...],
     declarations: [...],
     providers: [
       {
-        provide: UIComponentConfig,
-        useValue: ${camelCase(theme.id)}UIComponentConfig
+        provide: ThemeConfigToken,
+        useValue: ${camelCase(theme.id)}ThemeConfig
       },
       ...
     ]

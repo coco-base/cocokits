@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "<%= offsetPathToRoot %>/dist/out-tsc",
+    "composite": true,
+    "declaration": true,
+    "outDir": "%= offsetPathToRoot %>/dist/out-tsc",
     "types": ["node", "@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts", "vite/client"]
   },
   "exclude": [

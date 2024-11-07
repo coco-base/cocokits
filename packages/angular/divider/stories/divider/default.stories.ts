@@ -21,7 +21,6 @@ export const Default: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
         <cck-divider></cck-divider>

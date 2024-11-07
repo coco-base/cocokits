@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const radioButtonLayoutClassNamesConfig = {
   prefix: 'cck-radio-button',
@@ -37,7 +37,7 @@ export const radioButtonLayoutClassNamesConfig = {
       name: 'Background Element',
       selectors: ['cck-radio-button__background'],
       description:
-        'Applied to a `div` element containing a `radioButtonBackground` from `ThemeUiComponentConfig`, child of the `inputWrapper`, to show a custom radio symbol based on the design system concepts.',
+        'Applied to a `div` element containing a `radioButtonBackground` from `ThemeConfig`, child of the `inputWrapper`, to show a custom radio symbol based on the design system concepts.',
     },
     label: {
       name: 'Label Element',
@@ -65,14 +65,14 @@ export const radioButtonLayoutClassNamesConfig = {
 
 export function getRadioButtonClassNames(
   componentProps: UIBaseComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  themeConfig: ThemeConfig
 ): Record<keyof typeof radioButtonLayoutClassNamesConfig.elements, string> {
-  const options: ThemeUIComponentsOptions = {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'radioButton',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...radioButtonLayoutClassNamesConfig.elements.host.selectors,

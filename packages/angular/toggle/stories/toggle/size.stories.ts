@@ -5,7 +5,7 @@ import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
 export const Size: AngularStoryObj<ToggleComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:toggle', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:toggle', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -22,14 +22,14 @@ export const Size: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.toggle.size?.values"
-        [rowHeaders]="uiComponentConfig?.toggle.type?.values ?? []">
-        @for (type of uiComponentConfig?.toggle.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.toggle.size?.values; let col = $index; track size) {
+        [headers]="themeConfig?.toggle.size?.values"
+        [rowHeaders]="themeConfig?.toggle.type?.values ?? []">
+        @for (type of themeConfig?.toggle.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeConfig?.toggle.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-toggle checked="true" [size]="size" [type]="type"></cck-toggle>
             </story-table-cell>

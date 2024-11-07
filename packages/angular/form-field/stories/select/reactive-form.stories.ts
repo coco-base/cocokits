@@ -34,7 +34,6 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       controlSingle: new FormControl('Burger', { validators: [Validators.required] }),
     },
     template: `

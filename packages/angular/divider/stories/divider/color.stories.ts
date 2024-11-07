@@ -5,7 +5,7 @@ import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 export const Color: AngularStoryObj<DividerComponent> = {
   name: 'Color',
-  tags: ['uiComponentName:divider', 'uiComponentPropName:color'],
+  tags: ['uiBaseComponentName:divider', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -21,15 +21,15 @@ export const Color: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.divider.color?.values"
-        [rowHeaders]="uiComponentConfig?.divider.type?.values ?? []"
+        [headers]="themeConfig?.divider.color?.values"
+        [rowHeaders]="themeConfig?.divider.type?.values ?? []"
         [cellHeight]="'100px'">
-        @for (type of uiComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of uiComponentConfig?.divider.color?.values; let col = $index; track color) {
+        @for (type of themeConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeConfig?.divider.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-divider [style.margin]="'0 auto'" [type]="type" [color]="color"></cck-divider>
             </story-table-cell>

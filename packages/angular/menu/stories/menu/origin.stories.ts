@@ -39,7 +39,6 @@ export const Origin: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       Origin: OverlayConnectElemOrigin,
     },
     template: `

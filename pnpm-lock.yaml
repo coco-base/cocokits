@@ -451,7 +451,7 @@ importers:
         version: 8.0.10(encoding@0.1.13)(webpack-sources@3.2.3)
       '@storybook/angular':
         specifier: ~8.0.9
-        version: 8.0.10(iuv7ox2zuksgjwid2ep7cbn4mi)
+        version: 8.0.10(e5x4pu5bnsrhjaimmxwms3t3qy)
     publishDirectory: ../../../dist/packages/angular/button
 
   packages/angular/cdk:
@@ -888,7 +888,7 @@ importers:
     devDependencies:
       '@nx/vite':
         specifier: 18.3.5
-        version: 18.3.5(@babel/traverse@7.25.6)(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.7.3)(nx@19.6.0(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.7.3)(less@4.2.0)(sass@1.79.3)(stylus@0.59.0)(terser@5.34.0))(vitest@1.6.0)
+        version: 18.3.5(@babel/traverse@7.25.6)(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.7.3)(nx@18.3.5(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.7.3)(less@4.2.0)(sass@1.79.3)(stylus@0.59.0)(terser@5.34.0))(vitest@1.6.0)
       '@storybook/addon-docs':
         specifier: ~8.0.9
         version: 8.0.10(encoding@0.1.13)(webpack-sources@3.2.3)
@@ -917,7 +917,7 @@ importers:
     devDependencies:
       '@nx/vite':
         specifier: 18.3.5
-        version: 18.3.5(@babel/traverse@7.25.6)(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.7.3)(nx@18.3.5(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.7.3)(less@4.2.0)(sass@1.79.3)(stylus@0.59.0)(terser@5.34.0))(vitest@1.6.0)
+        version: 18.3.5(@babel/traverse@7.25.6)(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.7.3)(nx@19.6.0(@swc-node/register@1.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.28(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.7.3)(less@4.2.0)(sass@1.79.3)(stylus@0.59.0)(terser@5.34.0))(vitest@1.6.0)
       vite:
         specifier: ~5.0.0
         version: 5.0.13(@types/node@22.7.3)(less@4.2.0)(sass@1.79.3)(stylus@0.59.0)(terser@5.34.0)
@@ -934,6 +934,9 @@ importers:
       '@cocokits/core':
         specifier: workspace:*
         version: link:../../../dist/packages/common/core
+      '@cocokits/react-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/core
       '@cocokits/react-overlay':
         specifier: workspace:*
         version: link:../../../dist/packages/react/overlay
@@ -1004,6 +1007,12 @@ importers:
 
   packages/react/button:
     dependencies:
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      '@cocokits/react-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/core
       '@types/react':
         specifier: ^18.3.0
         version: 18.3.1
@@ -1016,6 +1025,176 @@ importers:
       react-dom:
         specifier: ^18.3.0
         version: 18.3.1(react@18.3.1)
+
+  packages/react/cdk:
+    dependencies:
+      '@cocokits/react-overlay':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/overlay
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/cdk
+
+  packages/react/checkbox:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/checkbox
+
+  packages/react/components:
+    dependencies:
+      '@cocokits/common-utils':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/utils
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      '@cocokits/react-button':
+        specifier: workspace:*
+        version: link:../button
+      '@cocokits/react-checkbox':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/checkbox
+      '@cocokits/react-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/core
+      '@cocokits/react-divider':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/divider
+      '@cocokits/react-form-field':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/form-field
+      '@cocokits/react-icon':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/icon
+      '@cocokits/react-menu':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/menu
+      '@cocokits/react-radio':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/radio
+      '@cocokits/react-toggle':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/toggle
+      '@cocokits/react-utils':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/utils
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/components
+
+  packages/react/core:
+    dependencies:
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/core
+
+  packages/react/divider:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/divider
+
+  packages/react/form-field:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/form-field
+
+  packages/react/icon:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/icon
+
+  packages/react/menu:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/menu
 
   packages/react/overlay:
     dependencies:
@@ -1024,7 +1203,7 @@ importers:
         version: link:../../../dist/packages/common/utils
     publishDirectory: ../../../dist/packages/react/overlay
 
-  packages/react/test2:
+  packages/react/radio:
     dependencies:
       '@types/react':
         specifier: ^18.3.0
@@ -1038,7 +1217,39 @@ importers:
       react-dom:
         specifier: ^18.3.0
         version: 18.3.1(react@18.3.1)
-    publishDirectory: ../../../dist/packages/react/test2
+    publishDirectory: ../../../dist/packages/react/radio
+
+  packages/react/toggle:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/toggle
+
+  packages/react/utils:
+    dependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    publishDirectory: ../../../dist/packages/react/utils
 
   packages/themes/cocokits:
     dependencies:
@@ -13008,7 +13219,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
-      '@angular-devkit/build-webpack': 0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.95.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(webpack@5.93.0(@swc/core@1.7.28(@swc/helpers@0.5.13))(esbuild@0.23.0))
+      '@angular-devkit/build-webpack': 0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)))(webpack@5.93.0(@swc/core@1.7.28(@swc/helpers@0.5.13))(esbuild@0.23.0))
       '@angular-devkit/core': 18.2.0(chokidar@3.6.0)
       '@angular/build': 18.2.0(@angular/compiler-cli@18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4))(@types/node@22.7.3)(chokidar@3.6.0)(less@4.2.0)(postcss@8.4.41)(stylus@0.59.0)(terser@5.31.6)(typescript@5.5.4)
       '@angular/compiler-cli': 18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4)
@@ -13101,7 +13312,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-webpack@0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.95.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(webpack@5.93.0(@swc/core@1.7.28(@swc/helpers@0.5.13))(esbuild@0.23.0))':
+  '@angular-devkit/build-webpack@0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)))(webpack@5.93.0(@swc/core@1.7.28(@swc/helpers@0.5.13))(esbuild@0.23.0))':
     dependencies:
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
       rxjs: 7.8.1
@@ -17718,6 +17929,61 @@ snapshots:
       - utf-8-validate
       - webpack-cli
 
+  '@storybook/angular@8.0.10(e5x4pu5bnsrhjaimmxwms3t3qy)':
+    dependencies:
+      '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
+      '@angular-devkit/build-angular': 18.2.0(@angular/compiler-cli@18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4))(@swc/core@1.5.7(@swc/helpers@0.5.13))(@types/node@22.7.3)(chokidar@3.6.0)(html-webpack-plugin@5.6.0(webpack@5.95.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(jest@29.7.0(@types/node@22.7.3)(ts-node@10.9.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(@types/node@20.16.9)(typescript@5.5.4)))(ng-packagr@18.2.0(@angular/compiler-cli@18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4))(tslib@2.7.0)(typescript@5.5.4))(stylus@0.59.0)(typescript@5.5.4)
+      '@angular-devkit/core': 18.2.0(chokidar@3.6.0)
+      '@angular/common': 18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/compiler': 18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))
+      '@angular/compiler-cli': 18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4)
+      '@angular/core': 18.2.0(rxjs@7.8.1)(zone.js@0.14.10)
+      '@angular/forms': 18.2.0(@angular/common@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@18.2.0(@angular/animations@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1)
+      '@angular/platform-browser': 18.2.0(@angular/animations@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))
+      '@angular/platform-browser-dynamic': 18.2.0(@angular/common@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@18.2.0(@angular/animations@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))
+      '@storybook/builder-webpack5': 8.0.10(@swc/core@1.5.7(@swc/helpers@0.5.13))(encoding@0.1.13)(esbuild@0.20.2)(typescript@5.5.4)
+      '@storybook/client-logger': 8.0.10
+      '@storybook/core-common': 8.0.10(encoding@0.1.13)
+      '@storybook/core-events': 8.0.10
+      '@storybook/core-server': 8.0.10(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@storybook/core-webpack': 8.0.10(encoding@0.1.13)
+      '@storybook/docs-tools': 8.0.10(encoding@0.1.13)
+      '@storybook/global': 5.0.0
+      '@storybook/node-logger': 8.0.10
+      '@storybook/preview-api': 8.0.10
+      '@storybook/telemetry': 8.0.10(encoding@0.1.13)
+      '@storybook/types': 8.0.10
+      '@types/node': 18.19.53
+      '@types/react': 18.3.9
+      '@types/react-dom': 18.2.14
+      '@types/semver': 7.5.8
+      '@types/webpack-env': 1.18.5
+      find-up: 5.0.0
+      read-pkg-up: 7.0.1
+      rxjs: 7.8.1
+      semver: 7.6.3
+      telejson: 7.2.0
+      ts-dedent: 2.2.0
+      tsconfig-paths-webpack-plugin: 4.1.0
+      typescript: 5.5.4
+      util-deprecate: 1.0.2
+      webpack: 5.95.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)
+      zone.js: 0.14.10
+    optionalDependencies:
+      '@angular/cli': 18.2.0(chokidar@3.6.0)
+    transitivePeerDependencies:
+      - '@rspack/core'
+      - '@swc/core'
+      - bufferutil
+      - encoding
+      - esbuild
+      - react
+      - react-dom
+      - supports-color
+      - uglify-js
+      - utf-8-validate
+      - webpack-cli
+
   '@storybook/angular@8.0.10(iuv7ox2zuksgjwid2ep7cbn4mi)':
     dependencies:
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
@@ -18277,6 +18543,59 @@ snapshots:
   '@storybook/core-events@8.0.10':
     dependencies:
       ts-dedent: 2.2.0
+
+  '@storybook/core-server@8.0.10(encoding@0.1.13)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@aw-web-design/x-default-browser': 1.4.126
+      '@babel/core': 7.25.2
+      '@discoveryjs/json-ext': 0.5.7
+      '@storybook/builder-manager': 8.0.10(patch_hash=cnnrunuhe7yjaug3zgdjcrvs6y)(encoding@0.1.13)
+      '@storybook/channels': 8.0.10
+      '@storybook/core-common': 8.0.10(encoding@0.1.13)
+      '@storybook/core-events': 8.0.10
+      '@storybook/csf': 0.1.11
+      '@storybook/csf-tools': 8.0.10
+      '@storybook/docs-mdx': 3.0.0
+      '@storybook/global': 5.0.0
+      '@storybook/manager': 8.0.10
+      '@storybook/manager-api': 8.0.10(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@storybook/node-logger': 8.0.10
+      '@storybook/preview-api': 8.0.10
+      '@storybook/telemetry': 8.0.10(encoding@0.1.13)
+      '@storybook/types': 8.0.10
+      '@types/detect-port': 1.3.5
+      '@types/node': 18.19.53
+      '@types/pretty-hrtime': 1.0.3
+      '@types/semver': 7.5.8
+      better-opn: 3.0.2
+      chalk: 4.1.2
+      cli-table3: 0.6.5
+      compression: 1.7.4
+      detect-port: 1.6.1
+      express: 4.21.0
+      fs-extra: 11.2.0
+      globby: 11.1.0
+      ip: 2.0.1
+      lodash: 4.17.21
+      open: 8.4.2
+      pretty-hrtime: 1.0.3
+      prompts: 2.4.2
+      read-pkg-up: 7.0.1
+      semver: 7.6.3
+      telejson: 7.2.0
+      tiny-invariant: 1.3.3
+      ts-dedent: 2.2.0
+      util: 0.12.5
+      util-deprecate: 1.0.2
+      watchpack: 2.4.2
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - react
+      - react-dom
+      - supports-color
+      - utf-8-validate
 
   '@storybook/core-server@8.0.10(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -19736,7 +20055,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.1.0
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@20.16.9)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.1.3)(sass@1.79.3)(stylus@0.59.0)(terser@5.31.6)
+      vitest: 1.6.0(@types/node@22.7.3)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.2.0)(sass@1.79.3)(stylus@0.59.0)(terser@5.34.0)
 
   '@vitest/utils@1.3.1':
     dependencies:
@@ -28837,7 +29156,7 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 7.3.0(webpack@5.95.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2))
+      webpack-dev-middleware: 7.3.0(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))
       ws: 8.18.0
     optionalDependencies:
       webpack: 5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)

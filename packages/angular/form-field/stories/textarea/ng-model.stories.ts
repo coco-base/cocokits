@@ -23,7 +23,6 @@ export const NgModel: AngularStoryObj<InputComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       modelValue: 'Default Value',
     },
     template: `

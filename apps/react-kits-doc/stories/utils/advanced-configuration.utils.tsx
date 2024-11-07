@@ -19,11 +19,11 @@ export function getInstallPackagesStep2Provide(theme: CckThemeChangedEvent) {
   const tsCodes = `typescript
 
 import { provideCocokits } from '@cocokits/angular-core';
-import { ${camelCase(theme.id)}UIComponentConfig } from '@cocokits/theme-${theme.id}';
+import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideCocokits(${camelCase(theme.id)}UIComponentConfig),
+    provideCocokits(${camelCase(theme.id)}ThemeConfig),
     ...
   ]
 })`
@@ -66,22 +66,24 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import {
   provideCocokits,
   DeepPartial,
-  ThemeUIComponentsConfig,
+  ThemeConfig,
   deepMerge,
 } from '@cocokits/angular-components';
-import { ${camelCase(theme.id)}UIComponentConfig } from '@cocokits/theme-${theme.id}';
+import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
 
-const customUIComponentConfig = deepMerge(${camelCase(theme.id)}UIComponentConfig, {
-  button: {
-    size: {
-      default: 'xs',
+const customThemeConfig = deepMerge(${camelCase(theme.id)}ThemeConfig, {
+  components: {
+    button: {
+      size: {
+        default: 'xs',
+      },
     },
-  },
-} as DeepPartial<ThemeUIComponentsConfig>);
+  }  
+} as DeepPartial<ThemeConfig>);
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideCocokits(customUIComponentConfig),
+    provideCocokits(customThemeConfig),
   ],
 });
   `
@@ -99,22 +101,24 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import {
   provideCocokits,
   DeepPartial,
-  ThemeUIComponentsConfig,
+  ThemeConfig,
   deepMerge,
 } from '@cocokits/angular-components';
-import { cocokitsUIComponentConfig } from '@cocokits/theme-cocokits';
-import { framesXUIComponentConfig } from '@cocokits/theme-frames-x';
+import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { framesXThemeConfig } from '@cocokits/theme-frames-x';
 
-const customUIComponentConfig = deepMerge(cocokitsUIComponentConfig, {
-  button: framesXUIComponentConfig.button,
-  iconButton: framesXUIComponentConfig.iconButton,
-  radioGroup: framesXUIComponentConfig.radioGroup,
-  radioButton: framesXUIComponentConfig.radioButton,
-} as DeepPartial<ThemeUIComponentsConfig>);
+const customThemeConfig = deepMerge(cocokitsThemeConfig, {
+  components: {
+    button: framesXThemeConfig.button,
+    iconButton: framesXThemeConfig.iconButton,
+    radioGroup: framesXThemeConfig.radioGroup,
+    radioButton: framesXThemeConfig.radioButton,
+  }
+} as DeepPartial<ThemeConfig>);
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideCocokits(customUIComponentConfig)
+    provideCocokits(customThemeConfig)
   ],
 });
 `

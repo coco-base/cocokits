@@ -5,7 +5,7 @@ import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 export const Type: AngularStoryObj<DividerComponent> = {
   name: 'Type',
-  tags: ['uiComponentName:divider', 'uiComponentPropName:type'],
+  tags: ['uiBaseComponentName:divider', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -22,13 +22,13 @@ export const Type: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.divider.type?.values"
+        [headers]="themeConfig?.divider.type?.values"
         [cellHeight]="'100px'">
-        @for (type of uiComponentConfig?.divider.type?.values; let i = $index; track type) {
+        @for (type of themeConfig?.divider.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-divider [style.margin]="'0 auto'" [type]="type"></cck-divider>
           </story-table-cell>

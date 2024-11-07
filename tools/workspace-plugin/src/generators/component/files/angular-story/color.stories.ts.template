@@ -5,7 +5,7 @@ import { <%- className %>Component } from '../../<%- relativeComponentDirectory 
 
 export const Color: AngularStoryObj<<%- className %>Component> = {
   name: 'Color',
-  tags: ['uiComponentName:<%= propertyName %>', 'uiComponentPropName:color'],
+  tags: ['uiBaseComponentName:<%= propertyName %>', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -19,14 +19,14 @@ export const Color: AngularStoryObj<<%- className %>Component> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.<%= propertyName %>.color?.values"
-        [rowHeaders]="uiComponentConfig?.<%= propertyName %>.type?.values ?? []">
-        @for (type of uiComponentConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of uiComponentConfig?.iconButton.color?.values; let col = $index; track color) {
+        [headers]="themeConfig?.<%= propertyName %>.color?.values"
+        [rowHeaders]="themeConfig?.<%= propertyName %>.type?.values ?? []">
+        @for (type of themeConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeConfig?.iconButton.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-<%- fileName %> [color]="color" [type]="type"></cck-<%- fileName %>>
             </story-table-cell>

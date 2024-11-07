@@ -1,12 +1,12 @@
-import { UIBaseComponentProps } from "@cocokits/core";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
 import React from "react";
 
-interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, UIBaseComponentProps {
+import { UIBaseComponentProps } from "@cocokits/core";
+import { useUiBaseComponentConfig } from "@cocokits/react-core";
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, UIBaseComponentProps {
   children?: React.ReactNode;
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ type, size, color, additional, children, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: "button",

@@ -5,7 +5,7 @@ import { FormFieldComponent } from '../../src';
 
 export const NativeType: AngularStoryObj<FormFieldComponent> = {
   name: 'NativeType',
-  tags: ['uiComponentName:formField'],
+  tags: ['uiBaseComponentName:formField'],
   parameters: {
     docs: {
       description: {
@@ -23,7 +23,6 @@ export const NativeType: AngularStoryObj<FormFieldComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       types: [
         'color',
         'date',

@@ -1,6 +1,6 @@
-import { ThemeUIComponentsConfig } from '@cocokits/core';
+import { ThemeComponentConfigRecord, ThemeConfig } from '@cocokits/core';
 
-export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
+const components: ThemeComponentConfigRecord = {
   toggle: {
     type: {
       name: 'type',
@@ -193,4 +193,22 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
       description: '',
     },
   },
+
+  error: {},
+  hint: {},
+  input: {},
+  textarea: {},
+  label: {},
+  leading: {},
+  prefix: {},
+  selectPreview: {},
+  suffix: {},
+  trailing: {},
+  menu: {},
+  menuItem: {},
+};
+
+export const framesXThemeConfig: ThemeConfig = {
+  components,
+  cssSelectorPrefix: '',
 };

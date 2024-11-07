@@ -43,7 +43,6 @@ export const ThemeCocokitsPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       emailIcon,
       infoIcon,
       copyIcon,

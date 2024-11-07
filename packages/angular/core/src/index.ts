@@ -11,15 +11,15 @@ export * from './providers';
  * Example result without this export:
  * ```typescript
  * additional: import("@angular/core").Signal<{
- *   [x: string]: import("dist/packages/common/core/src").ThemeUIComponentPropValue;
+ *   [x: string]: import("dist/packages/common/core/src").UIBaseComponentsPropValue;
  * }>;
  * ```
  *
  * Example result after adding this export:
  * ```typescript
  * additional: import("@angular/core").Signal<{
- *   [x: string]: import("@cocokits/angular-core").ThemeUIComponentPropValue;
+ *   [x: string]: import("@cocokits/angular-core").UIBaseComponentsPropValue;
  * }>;
  * ```
  */
-export { UIBaseComponentsPropValue as ThemeUIComponentPropValue } from '@cocokits/core';
+export { UIBaseComponentsPropValue } from '@cocokits/core';

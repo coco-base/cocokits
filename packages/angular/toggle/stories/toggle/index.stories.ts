@@ -2,7 +2,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { moduleMetadata } from '@storybook/angular';
 
-import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
+import { _UiBaseComponent, ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
@@ -27,8 +27,8 @@ const meta: AngularStoriesMeta = {
       imports: [FormsModule, ReactiveFormsModule],
       providers: [
         {
-          provide: UIComponentConfig,
-          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
+          provide: ThemeConfigToken,
+          useFactory: () => getSelectedCckTheme()?.themeConfig,
         },
       ],
     }),

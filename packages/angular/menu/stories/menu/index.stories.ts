@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata } from '@storybook/angular';
 
 import { IconButtonComponent } from '@cocokits/angular-button';
-import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
+import { _UiBaseComponent, ThemeConfigToken } from '@cocokits/angular-core';
 import { DividerComponent } from '@cocokits/angular-divider';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
@@ -37,8 +37,8 @@ const meta: AngularStoriesMeta = {
       ],
       providers: [
         {
-          provide: UIComponentConfig,
-          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
+          provide: ThemeConfigToken,
+          useFactory: () => getSelectedCckTheme()?.themeConfig,
         },
       ],
     }),

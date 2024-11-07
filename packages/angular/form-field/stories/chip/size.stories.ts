@@ -5,7 +5,7 @@ import { ChipComponent } from '../../src/lib/chip/chip.component';
 
 export const Size: AngularStoryObj<ChipComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:chip', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:chip', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -22,14 +22,14 @@ export const Size: AngularStoryObj<ChipComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.chip.size?.values"
-        [rowHeaders]="uiComponentConfig?.chip.type?.values ?? []">
-        @for (type of uiComponentConfig?.chip.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.chip.size?.values; let col = $index; track size) {
+        [headers]="themeConfig?.chip.size?.values"
+        [rowHeaders]="themeConfig?.chip.type?.values ?? []">
+        @for (type of themeConfig?.chip.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeConfig?.chip.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-chip [size]="size" [type]="type">Chip Value</cck-chip>
             </story-table-cell>

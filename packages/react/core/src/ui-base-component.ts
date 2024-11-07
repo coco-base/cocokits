@@ -1,9 +1,9 @@
-import { getClassNames, UIBaseComponentProps, UIComponentsName } from '@cocokits/core';
-import { UiComponentConfig } from './context';
+import { getClassNames, UIBaseComponentProps, UIBaseComponentsName } from '@cocokits/core';
+import { ThemeConfigContext } from './context';
 import { useContext } from 'react';
 import { deepMerge } from '@cocokits/common-utils';
 
-export interface UiBaseComponentConfigOptions<T extends UIComponentsName> {
+export interface UiBaseComponentConfigOptions<T extends UIBaseComponentsName> {
   componentName: T;
   props: UIBaseComponentProps;
   extraHostElementClassConditions?: { if: boolean | undefined | null; classes: string[] }[];
@@ -15,12 +15,12 @@ export interface UiBaseComponentConfigOptions<T extends UIComponentsName> {
   };
 }
 
-export function useUiBaseComponentConfig<T extends UIComponentsName>(_options: UiBaseComponentConfigOptions<T>) {
-  const uiComponentConfig = useContext(UiComponentConfig);
+export function useUiBaseComponentConfig<T extends UIBaseComponentsName>(_options: UiBaseComponentConfigOptions<T>) {
+  const themeConfig = useContext(ThemeConfigContext);
 
-  if (!uiComponentConfig) {
+  if (!themeConfig) {
     throw new Error(
-      'UiComponentConfig context is missing. Please ensure that your component is wrapped with UiComponentConfig.Provider'
+      'themeConfig context is missing. Please ensure that your component is wrapped with ThemeConfigContext.Provider'
     );
   }
 
@@ -42,7 +42,7 @@ export function useUiBaseComponentConfig<T extends UIComponentsName>(_options: U
       size: options.skipProps.skipSize ? null : options.props.size,
       additional: options.skipProps.skipAdditional ? undefined : options.props.additional,
     },
-    uiComponentConfig
+    themeConfig
   );
 
   const hostClassNames = [

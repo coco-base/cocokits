@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
-import { ThemeUIComponentsConfig } from '@cocokits/core';
+import { ThemeComponentConfigRecord, ThemeConfig } from '@cocokits/core';
 
-export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+const components: ThemeComponentConfigRecord = {
   toggle: {
     color: {
       name: 'color',
@@ -283,4 +283,9 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       description: '',
     },
   },
+};
+
+export const cocokitsThemeConfig: ThemeConfig = {
+  components,
+  cssSelectorPrefix: '',
 };

@@ -5,7 +5,7 @@ import { RadioButtonComponent } from '../../src';
 
 export const Type: AngularStoryObj<RadioButtonComponent> = {
   name: 'Type',
-  tags: ['uiComponentName:radioGroup', 'uiComponentPropName:type'],
+  tags: ['uiBaseComponentName:radioGroup', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -26,12 +26,12 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.radioGroup.type?.values">
-        @for (type of uiComponentConfig?.radioGroup.type?.values; let i = $index; track type) {
+        [headers]="themeConfig?.radioGroup.type?.values">
+        @for (type of themeConfig?.radioGroup.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-radio-group [type]="type" [selected]="1">
               <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>

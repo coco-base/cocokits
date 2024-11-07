@@ -1,8 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "outDir": ""
+    "composite": true,
+    "declaration": true,
+    "emitDecoratorMetadata": true
   },
   "files": [
     "<%= offsetPathToRoot %>/node_modules/@nx/react/typings/styled-jsx.d.ts",
@@ -29,6 +30,7 @@
     "<%= offsetPathToRoot %>/packages/internal/storybook-theme-switcher/**/*.ts",
     ".storybook/*.js",
     ".storybook/*.ts",
-    ".storybook/*.tsx"
+    ".storybook/*.tsx",
   ]
 }
+

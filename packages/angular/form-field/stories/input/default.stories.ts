@@ -24,7 +24,6 @@ export const Default: AngularStoryObj<InputComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
       <story-table

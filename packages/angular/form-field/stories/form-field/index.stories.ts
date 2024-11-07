@@ -1,8 +1,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
-import { _UiBaseComponent, UIComponentConfig } from '@cocokits/angular-core';
+import { _UiBaseComponent, ThemeConfigToken } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
@@ -67,8 +67,8 @@ const meta: AngularStoriesMeta = {
       ],
       providers: [
         {
-          provide: UIComponentConfig,
-          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
+          provide: ThemeConfigToken,
+          useFactory: () => getSelectedCckTheme()?.themeConfig,
         },
       ],
     }),

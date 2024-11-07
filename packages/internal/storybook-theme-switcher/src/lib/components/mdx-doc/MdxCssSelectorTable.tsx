@@ -1,13 +1,13 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { cssSelectorRender, layoutClassNamesConfig, UIComponentsName } from '@cocokits/core';
+import { cssSelectorRender, layoutClassNamesConfig, UIBaseComponentsName } from '@cocokits/core';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { DocMarkdown } from '../doc-page/DocMarkdown';
 
 // eslint-disable-next-line max-lines-per-function
-export function MdxCssSelectorTable({ componentName }: { componentName: UIComponentsName }) {
+export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseComponentsName }) {
 
   const coreClassNames = layoutClassNamesConfig[componentName];
   const selectedCckTheme = useDocSelectedCckTheme();
@@ -16,9 +16,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
     return;
   }
 
-  // const themeComponentConfig = selectedCck
-  // Theme.uiComponentConfig[componentName];
-  const {additional, templates: component, ...restProp} = selectedCckTheme.uiComponentConfig[componentName];
+  const {additional, templates, ...restProp} = selectedCckTheme.themeConfig.components[componentName];
   const hasVariants =
     Object.values(restProp).filter(Boolean).length > 0 ||
     Object.values(additional ?? {}).filter(Boolean).length > 0;
@@ -96,7 +94,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UICompon
 
                       {
                         Object.values(config.values).map(value => (
-                          <StyledTr key={value.toString()}>
+                          <StyledTr key={value?.toString() }>
                             <StyledTd $noWrap={true}>
                               {
                                 key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({block: coreClassNames.prefix, element: key, modifier: value})

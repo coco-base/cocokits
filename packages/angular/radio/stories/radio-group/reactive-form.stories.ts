@@ -26,7 +26,6 @@ export const ReactiveForm: AngularStoryObj<RadioButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       control: new FormControl(),
     },
     template: `

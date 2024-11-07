@@ -5,7 +5,7 @@ import { ButtonComponent } from '../../src/lib/button/button.component';
 
 export const Size: AngularStoryObj<ButtonComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:button', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:button', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -20,14 +20,14 @@ export const Size: AngularStoryObj<ButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.button.size?.values"
-        [rowHeaders]="uiComponentConfig?.button.type?.values">
-        @for (type of uiComponentConfig?.button.type?.values; let row = $index; track type) {
-          @for (size of uiComponentConfig?.button.size?.values; let col = $index; track size) {
+        [headers]="themeConfig?.button.size?.values"
+        [rowHeaders]="themeConfig?.button.type?.values">
+        @for (type of themeConfig?.button.type?.values; let row = $index; track type) {
+          @for (size of themeConfig?.button.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-button [type]="type" [size]="size">Button</button>
             </story-table-cell>
