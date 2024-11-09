@@ -1,4 +1,5 @@
-import { FC, HTMLAttributes, useEffect, useState } from 'react';
+// Don't remove `React` import, without this we get an error on opening overlay in react doc page
+import React, { FC, HTMLAttributes, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { recordReduceMerge } from '@cocokits/common-utils';

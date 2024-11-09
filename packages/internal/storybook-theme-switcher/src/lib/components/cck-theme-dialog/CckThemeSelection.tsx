@@ -1,4 +1,5 @@
-import { FC } from 'react';
+// Don't remove `React` import, without this we get an error on opening overlay in react doc page
+import React, { FC } from 'react';
 import { css, styled } from 'styled-components';
 
 import { TokenDictionary } from '@cocokits/core';
