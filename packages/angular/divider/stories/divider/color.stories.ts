@@ -21,15 +21,15 @@ export const Color: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="themeConfig?.divider.color?.values"
-        [rowHeaders]="themeConfig?.divider.type?.values ?? []"
+        [headers]="themeComponentConfig?.divider.color?.values"
+        [rowHeaders]="themeComponentConfig?.divider.type?.values ?? []"
         [cellHeight]="'100px'">
-        @for (type of themeConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeConfig?.divider.color?.values; let col = $index; track color) {
+        @for (type of themeComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.divider.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-divider [style.margin]="'0 auto'" [type]="type" [color]="color"></cck-divider>
             </story-table-cell>

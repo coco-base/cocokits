@@ -20,14 +20,14 @@ export const Size: AngularStoryObj<ButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="themeConfig?.button.size?.values"
-        [rowHeaders]="themeConfig?.button.type?.values">
-        @for (type of themeConfig?.button.type?.values; let row = $index; track type) {
-          @for (size of themeConfig?.button.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.button.size?.values"
+        [rowHeaders]="themeComponentConfig?.button.type?.values">
+        @for (type of themeComponentConfig?.button.type?.values; let row = $index; track type) {
+          @for (size of themeComponentConfig?.button.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-button [type]="type" [size]="size">Button</button>
             </story-table-cell>

@@ -22,15 +22,15 @@ export const Size: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="themeConfig?.divider.size?.values"
-        [rowHeaders]="themeConfig?.divider.type?.values ?? []"
+        [headers]="themeComponentConfig?.divider.size?.values"
+        [rowHeaders]="themeComponentConfig?.divider.type?.values ?? []"
         [cellHeight]="'100px'">
-        @for (type of themeConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.divider.size?.values; let col = $index; track size) {
+        @for (type of themeComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.divider.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-divider [style.margin]="'0 auto'" [type]="type" [size]="size"></cck-divider>
             </story-table-cell>

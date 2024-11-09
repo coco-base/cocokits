@@ -13,7 +13,7 @@ export const Size: AngularStoryObj<ToggleComponent> = {
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
       source: {
-        code: `T
+        code: `
           <cck-toggle [checked]="true" [size]="...">Slide me!</cck-toggle>
         `,
       },

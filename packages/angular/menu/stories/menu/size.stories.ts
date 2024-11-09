@@ -35,14 +35,14 @@ export const Size: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: ` 
       <story-table
-        [headers]="themeConfig?.menu.size?.values"
-        [rowHeaders]="themeConfig?.menu.type?.values ?? []">
-        @for (type of themeConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.menu.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.menu.size?.values"
+        [rowHeaders]="themeComponentConfig?.menu.type?.values ?? []">
+        @for (type of themeComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.menu.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-menu class="story-w-200" [size]="size" [type]="type">
                 <cck-menu-item>Edit</cck-menu-item>

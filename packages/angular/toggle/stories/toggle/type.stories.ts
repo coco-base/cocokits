@@ -20,12 +20,12 @@ export const Type: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="themeConfig?.toggle.type?.values">
-        @for (type of themeConfig?.toggle.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.toggle.type?.values">
+        @for (type of themeComponentConfig?.toggle.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-toggle [type]="type"></cck-toggle>
           </story-table-cell>

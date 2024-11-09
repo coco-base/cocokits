@@ -24,14 +24,14 @@ export const Color: AngularStoryObj<FormFieldComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `      
       <story-table
-        [headers]="themeConfig?.formField.color?.values"
-        [rowHeaders]="themeConfig?.formField.type?.values ?? []">
-        @for (type of themeConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeConfig?.formField.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.formField.color?.values"
+        [rowHeaders]="themeComponentConfig?.formField.type?.values ?? []">
+        @for (type of themeComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.formField.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [color]="color">
                 <cck-label>Email</cck-label>

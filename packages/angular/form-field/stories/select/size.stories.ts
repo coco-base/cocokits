@@ -29,14 +29,14 @@ export const Size: AngularStoryObj<SelectComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="themeConfig?.formField.size?.values"
-        [rowHeaders]="themeConfig?.formField.type?.values ?? []">
-        @for (type of themeConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.formField.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.formField.size?.values"
+        [rowHeaders]="themeComponentConfig?.formField.type?.values ?? []">
+        @for (type of themeComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.formField.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [size]="size" class="story-w-200">
                 <cck-label>Favorite food</cck-label>

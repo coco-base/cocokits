@@ -22,13 +22,13 @@ export const Type: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="themeConfig?.divider.type?.values"
+        [headers]="themeComponentConfig?.divider.type?.values"
         [cellHeight]="'100px'">
-        @for (type of themeConfig?.divider.type?.values; let i = $index; track type) {
+        @for (type of themeComponentConfig?.divider.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-divider [style.margin]="'0 auto'" [type]="type"></cck-divider>
           </story-table-cell>

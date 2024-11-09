@@ -19,7 +19,7 @@ export const Color: AngularStoryObj<ButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
       themeName: getSelectedCckTheme()?.name,
       types:
         getSelectedCckTheme()?.id === 'cocokits'
@@ -28,10 +28,10 @@ export const Color: AngularStoryObj<ButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeConfig?.button.color?.values"
+        [headers]="themeComponentConfig?.button.color?.values"
         [rowHeaders]="types ?? []">
         @for (type of types ?? [null]; let row = $index; track type) {
-          @for (color of themeConfig?.button.color?.values; let col = $index; track color) {
+          @for (color of themeComponentConfig?.button.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-button [type]="type" [color]="color">Button</button>
             </story-table-cell>

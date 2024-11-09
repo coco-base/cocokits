@@ -19,10 +19,10 @@ export const Default: AngularStoryObj<SvgIconComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <cck-svg-icon [icon]="icon" [size]="themeConfig?.svgIcon.size?.values.at(-1)"></cck-svg-icon>
+      <cck-svg-icon [icon]="icon" [size]="themeComponentConfig?.svgIcon.size?.values.at(-1)"></cck-svg-icon>
     `,
   }),
 };

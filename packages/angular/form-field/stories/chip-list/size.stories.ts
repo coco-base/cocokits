@@ -26,16 +26,16 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
       chips: ['Steak', 'Pizza'],
     },
     template: `
       <story-table
-        [headers]="themeConfig?.chipList.type?.values ?? []"
-        [rowHeaders]="themeConfig?.chipList.size?.values"
+        [headers]="themeComponentConfig?.chipList.type?.values ?? []"
+        [rowHeaders]="themeComponentConfig?.chipList.size?.values"
         cellHAlign="start">
-        @for (size of themeConfig?.chipList.size?.values; let row = $index; track size) {
-          @for (type of themeConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
+        @for (size of themeComponentConfig?.chipList.size?.values; let row = $index; track size) {
+          @for (type of themeComponentConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [size]="size" [type]="type" class="story-w-600">
                 <cck-label>Chip List</cck-label>

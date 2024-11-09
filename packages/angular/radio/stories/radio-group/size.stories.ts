@@ -26,18 +26,18 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
       types: getSelectedCckTheme()?.themeConfig.components.radioGroup.type?.values.filter((type) => {
         return type !== 'row';
       }),
     },
     template: `
       <story-table
-        [headers]="themeConfig?.radioGroup.size?.values"
+        [headers]="themeComponentConfig?.radioGroup.size?.values"
         [rowHeaders]="types ?? []"
         cellVAlign="start">
         @for (type of types ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.radioGroup.size?.values; let col = $index; track size) {
+          @for (size of themeComponentConfig?.radioGroup.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-radio-group [type]="type" [size]="size" [selected]="1">
                 <cck-radio-button [value]="1">Radio Button 1</cck-radio-button>
