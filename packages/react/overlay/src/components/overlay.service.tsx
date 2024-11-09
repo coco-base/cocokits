@@ -1,5 +1,5 @@
 import { Overlay, OverlayAnimationType, OverlayConfig, OverlayProps, OverlayRef } from '@cocokits/react-overlay';
-import React, { FC } from 'react';
+import  { FC } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { ScrollLocker } from '@cocokits/common-utils';
 

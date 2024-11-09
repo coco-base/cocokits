@@ -1,5 +1,5 @@
 import { addons } from '@storybook/preview-api';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 
 import { STORYBOOK_THEME_CHANGED_EVENT_NAME } from '@cocokits/storybook-theme-switcher';
 

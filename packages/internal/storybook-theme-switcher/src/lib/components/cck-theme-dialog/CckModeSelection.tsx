@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, useEffect, useState } from 'react';
+import { FC, HTMLAttributes, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
 import { recordReduceMerge } from '@cocokits/common-utils';

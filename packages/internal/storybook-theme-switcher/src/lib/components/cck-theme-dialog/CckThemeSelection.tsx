@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { css, styled } from 'styled-components';
 
 import { TokenDictionary } from '@cocokits/core';

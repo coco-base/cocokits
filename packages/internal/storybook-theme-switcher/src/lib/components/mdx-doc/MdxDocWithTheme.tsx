@@ -1,5 +1,4 @@
 import { Markdown } from '@storybook/addon-docs';
-import React from 'react';
 
 import { CckThemeChangedEvent } from '../../config/cck-themes.model';
 import { useDocSelectedCckTheme } from '../../hooks/useDocSelectedCckTheme';

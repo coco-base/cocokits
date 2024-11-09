@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 import { UIBaseComponentProps } from "@cocokits/core";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
@@ -7,7 +7,7 @@ export interface <%= className %>Props extends Omit<React.HTMLAttributes<HTMLEle
   children?: React.ReactNode;
 }
 
-const <%= className %> = React.forwardRef<HTMLElement, <%= className %>Props>(
+const <%= className %> = forwardRef<HTMLElement, <%= className %>Props>(
   ({ type, size, color, additional, children, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: "<%= propertyName %>",

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import  { useEffect, useRef } from 'react';
 import { OverlayProps } from '../models/overlay-props.model';
 import { runEnterAnimation } from './overlay.animation';
 import styled from 'styled-components';

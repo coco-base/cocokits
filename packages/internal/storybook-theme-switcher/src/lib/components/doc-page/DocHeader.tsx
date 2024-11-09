@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import { DocCckStorybookThemeSwitcher, DocCckThemeSwitcher } from '@cocokits/storybook-theme-switcher';

@@ -1,7 +1,7 @@
 import { useOf } from '@storybook/addon-docs';
 import { PreparedStory } from '@storybook/types';
 import * as _ from 'lodash';
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import styled from 'styled-components';
 
 import { deepMerge } from '@cocokits/common-utils';

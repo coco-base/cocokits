@@ -1,5 +1,4 @@
 import { mergeClasses } from '@griffel/react';
-import React from 'react';
 
 import { useStyles } from './StorybookThemeIcon.style';
 
