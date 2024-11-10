@@ -12,7 +12,7 @@ patchedDependencies:
     hash: rctrlduhz637cai5uv4e2lglmu
     path: patches/@compodoc__compodoc.patch
   '@storybook/builder-manager':
-    hash: 4rymu4rh3wyacvgmw45w6bezte
+    hash: zkulh6zh7tuuveuxfj6mu5eheu
     path: patches/@storybook__builder-manager.patch
   typedoc-plugin-markdown@4.2.7:
     hash: ezafjpyaaosoqmx24yppr2jg7i
@@ -215,7 +215,7 @@ importers:
         version: 8.0.10(5vryvpwr7hncuivzpek2csbw6a)
       '@storybook/builder-manager':
         specifier: 8.0.10
-        version: 8.0.10(patch_hash=4rymu4rh3wyacvgmw45w6bezte)(encoding@0.1.13)
+        version: 8.0.10(patch_hash=zkulh6zh7tuuveuxfj6mu5eheu)(encoding@0.1.13)
       '@storybook/core-events':
         specifier: ~8.0.9
         version: 8.0.10
@@ -19424,7 +19424,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-manager@8.0.10(patch_hash=4rymu4rh3wyacvgmw45w6bezte)(encoding@0.1.13)':
+  '@storybook/builder-manager@8.0.10(patch_hash=zkulh6zh7tuuveuxfj6mu5eheu)(encoding@0.1.13)':
     dependencies:
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
       '@storybook/core-common': 8.0.10(encoding@0.1.13)
@@ -19738,7 +19738,7 @@ snapshots:
       '@aw-web-design/x-default-browser': 1.4.126
       '@babel/core': 7.26.0
       '@discoveryjs/json-ext': 0.5.7
-      '@storybook/builder-manager': 8.0.10(patch_hash=4rymu4rh3wyacvgmw45w6bezte)(encoding@0.1.13)
+      '@storybook/builder-manager': 8.0.10(patch_hash=zkulh6zh7tuuveuxfj6mu5eheu)(encoding@0.1.13)
       '@storybook/channels': 8.0.10
       '@storybook/core-common': 8.0.10(encoding@0.1.13)
       '@storybook/core-events': 8.0.10

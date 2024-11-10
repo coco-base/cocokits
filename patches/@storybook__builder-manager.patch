@@ -1,5 +1,5 @@
 diff --git a/dist/index.js b/dist/index.js
-index 1e1d060f473388e4d8ec78af0e8421b623ece19f..9673fed72edc5ae261cb11b814c8a203ca8e046d 100644
+index 1e1d060f473388e4d8ec78af0e8421b623ece19f..165c751a0f891f1cead8550ed880b7d507e08d50 100644
 --- a/dist/index.js
 +++ b/dist/index.js
 @@ -1 +1,421 @@
@@ -88,9 +88,9 @@ index 1e1d060f473388e4d8ec78af0e8421b623ece19f..9673fed72edc5ae261cb11b814c8a203
 +      {}
 +    );
 +  return (0, import_ejs.render)(templateRef, {
-+    title: titleRef ? `${titleRef} - Storybook` : 'Storybook',
++    title: titleRef ? `${titleRef} - CocoKits` : 'CocoKits',
 +    files: { js: jsFiles, css: cssFiles },
-+    favicon: await favicon,
++    favicon: 'favicon/favicon.ico', //await favicon,
 +    globals: {
 +      FEATURES: JSON.stringify(await features, null, 2),
 +      REFS: JSON.stringify(await refs, null, 2),
