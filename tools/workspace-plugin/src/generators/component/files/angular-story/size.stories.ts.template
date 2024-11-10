@@ -5,7 +5,7 @@ import { <%- className %>Component } from '../../<%- relativeComponentDirectory 
 
 export const Size: AngularStoryObj<<%- className %>Component> = {
   name: 'Size',
-  tags: ['uiComponentName:<%= propertyName %>', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:<%= propertyName %>', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -19,14 +19,14 @@ export const Size: AngularStoryObj<<%- className %>Component> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.<%= propertyName %>.size?.values"
-        [rowHeaders]="uiComponentConfig?.<%= propertyName %>.type?.values ?? []">
-        @for (type of uiComponentConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.iconButton.size?.values; let col = $index; track size) {
+        [headers]="themeConfig?.<%= propertyName %>.size?.values"
+        [rowHeaders]="themeConfig?.<%= propertyName %>.type?.values ?? []">
+        @for (type of themeConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeConfig?.iconButton.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-<%- fileName %> [size]="size" [type]="type"></cck-<%- fileName %>>
             </story-table-cell>

@@ -1,0 +1,25 @@
+{
+  "name": "@cocokits/react-kits-doc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/react-kits-doc/src",
+  "tags": ["type:app", "framework:react"],
+  "targets": {
+    "build-storybook": {
+      "dependsOn": [
+        {
+          "projects": ["@cocokits/common-utils"],
+          "target": "build-typedoc"
+        },
+        {
+          "projects": ["@cocokits/react-utils"],
+          "target": "build-typedoc"
+        }
+      ]
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

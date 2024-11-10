@@ -22,7 +22,6 @@ export const ReactiveForm: AngularStoryObj<CheckboxComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       control: new FormControl(false),
     },
     template: `

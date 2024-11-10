@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const menuLayoutClassNamesConfig = {
   prefix: 'cck-menu',
@@ -19,20 +19,20 @@ export const menuLayoutClassNamesConfig = {
 };
 
 export function getMenuClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof menuLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof menuLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'menu',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...menuLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(menuLayoutClassNamesConfig.prefix, options),
-    ],
-    overlay: [...menuLayoutClassNamesConfig.elements.overlay.selectors],
+    ].join(' '),
+    overlay: [...menuLayoutClassNamesConfig.elements.overlay.selectors].join(' '),
   };
 }

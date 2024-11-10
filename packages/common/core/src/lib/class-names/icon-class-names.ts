@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const svgIconLayoutClassNamesConfig = {
   prefix: 'cck-svg-icon',
@@ -19,21 +19,21 @@ export const svgIconLayoutClassNamesConfig = {
 };
 
 export function getSvgIconClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof svgIconLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof svgIconLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'svgIcon',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
 
   return {
     host: [
       ...svgIconLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(svgIconLayoutClassNamesConfig.prefix, options),
-    ],
-    svg: [...svgIconLayoutClassNamesConfig.elements.svg.selectors],
+    ].join(' '),
+    svg: [...svgIconLayoutClassNamesConfig.elements.svg.selectors].join(' '),
   };
 }

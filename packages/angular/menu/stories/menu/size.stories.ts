@@ -5,7 +5,7 @@ import { MenuComponent } from '../../src';
 
 export const Size: AngularStoryObj<MenuComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:menu', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:menu', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -35,14 +35,14 @@ export const Size: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: ` 
       <story-table
-        [headers]="uiComponentConfig?.menu.size?.values"
-        [rowHeaders]="uiComponentConfig?.menu.type?.values ?? []">
-        @for (type of uiComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.menu.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.menu.size?.values"
+        [rowHeaders]="themeComponentConfig?.menu.type?.values ?? []">
+        @for (type of themeComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.menu.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-menu class="story-w-200" [size]="size" [type]="type">
                 <cck-menu-item>Edit</cck-menu-item>

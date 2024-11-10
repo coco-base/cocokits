@@ -1,5 +1,5 @@
 import { Canvas } from '@storybook/addon-docs';
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import styled from 'styled-components';
 
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';

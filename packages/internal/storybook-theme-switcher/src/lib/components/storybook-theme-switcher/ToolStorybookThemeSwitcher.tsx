@@ -2,7 +2,7 @@ import { IconButton, TooltipLinkList, WithTooltip } from '@storybook/components'
 import { CheckIcon as StorybookCheckIcon } from '@storybook/icons';
 import { addons, useChannel } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
-import React, { memo, useEffect, useState } from 'react';
+import  { memo, useEffect, useState } from 'react';
 
 import {
   STORYBOOK_THEME_CHANGED_EVENT_NAME, StorybookThemeChangedEvent, StorybookThemeName,

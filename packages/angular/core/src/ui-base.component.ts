@@ -1,19 +1,19 @@
 import { computed, Directive, inject, input, InputSignal, Signal } from '@angular/core';
 
 import { fromAttrWithPrefix } from '@cocokits/angular-utils';
-import { getClassNames, ThemeUIComponentPropValue, UIComponentsName } from '@cocokits/core';
+import { getClassNames, UIBaseComponentsPropValue, UIBaseComponentsName } from '@cocokits/core';
 
-import { UIComponentConfig } from './tokens';
+import { ThemeConfigToken } from './tokens';
 
 @Directive()
-export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> {
+export abstract class _UiBaseComponent<ComponentsName extends UIBaseComponentsName> {
   protected abstract readonly componentName: ComponentsName;
   // When the `if` condition is true, then the class list will be added to the host element
   protected abstract extraHostElementClassConditions: Signal<
-    { if: boolean | undefined | null | any; classes: string[] }[]
+    { if: boolean | undefined | null | any; classes: string }[]
   >;
 
-  protected uiComponentConfig = inject(UIComponentConfig);
+  protected themeConfig = inject(ThemeConfigToken);
 
   /**
    * The type of component.
@@ -59,7 +59,7 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
    *
    * @internal
    */
-  public _additional = fromAttrWithPrefix<Record<string, ThemeUIComponentPropValue>>('data-cck-');
+  public _additional = fromAttrWithPrefix<Record<string, UIBaseComponentsPropValue>>('data-cck-');
 
   // All following properties can be overridden by the parent class to set the final value.
   // For example: the size of `RadioComponent` depends on 2 values,
@@ -82,14 +82,18 @@ export abstract class _UiBaseComponent<ComponentsName extends UIComponentsName> 
         color: this.baseClassOptions.skipColor ? null : this.color(),
         additional: this.baseClassOptions.skipAdditional ? undefined : this.additional(),
       },
-      this.uiComponentConfig
+      this.themeConfig
     );
   });
 
-  protected hostClassNames = computed(() => [
-    ...this.classNames().host,
-    ...this.extraHostElementClassConditions().flatMap((condition) => (condition.if ? condition.classes : [])),
-  ]);
+  protected hostClassNames = computed(() =>
+    [
+      this.classNames().host,
+      ...this.extraHostElementClassConditions()
+        .filter((condition) => condition.if)
+        .map((condition) => condition.classes),
+    ].join(' ')
+  );
 
   protected baseClassOptions = {
     skipType: false,

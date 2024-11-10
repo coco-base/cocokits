@@ -1,15 +1,14 @@
-import React from 'react';
 import styled from 'styled-components';
 
-import { ThemeUIComponentPropValue } from '@cocokits/core';
+import { UIBaseComponentsPropValue } from '@cocokits/core';
 
 import { DocMarkdown } from './DocMarkdown';
 
 export interface DocArgTypesList {
   name: string;
   description: string | undefined;
-  defaultValue?: ThemeUIComponentPropValue;
-  type: ThemeUIComponentPropValue[] | (string | undefined)[];
+  defaultValue?: UIBaseComponentsPropValue;
+  type: UIBaseComponentsPropValue[] | (string | undefined)[];
 }
 
 interface DocArgTypesProps {

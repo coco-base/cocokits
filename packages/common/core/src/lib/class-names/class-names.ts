@@ -28,10 +28,10 @@ import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
 import {
-  ThemeUIComponentProps,
-  ThemeUIComponentsConfig,
-  ThemeUIComponentsOptions,
-  UIComponentsName,
+  UIBaseComponentProps,
+  CssSelectorGeneratorOptions,
+  UIBaseComponentsName,
+  ThemeConfig,
 } from '../model/ui-component.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 
@@ -79,17 +79,15 @@ export const CLASS_NAMES_FN_MAP = {
   svgIcon: getSvgIconClassNames,
 };
 
-export function getClassNames<T extends UIComponentsName>(
+export function getClassNames<T extends UIBaseComponentsName>(
   componentName: T,
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
 ): ReturnType<(typeof CLASS_NAMES_FN_MAP)[T]> {
-  return CLASS_NAMES_FN_MAP[componentName](componentProps, uiComponentsConfig) as ReturnType<
-    (typeof CLASS_NAMES_FN_MAP)[T]
-  >;
+  return CLASS_NAMES_FN_MAP[componentName](componentProps, themeConfig) as ReturnType<(typeof CLASS_NAMES_FN_MAP)[T]>;
 }
 
-export function getHostClassNames(prefix: string, options: ThemeUIComponentsOptions) {
+export function getHostClassNames(prefix: string, options: CssSelectorGeneratorOptions) {
   const classNames = [];
 
   const { type, color, size, additional } = getComponentPropsWithDefault(options);

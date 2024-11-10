@@ -23,7 +23,7 @@ export const withCckThemeSwitcher = (StoryFn: StoryFunction<Renderer>) => {
     document.documentElement.setAttribute(CCK_THEME_DOCUMENT_ATTR, attr);
     document.documentElement.setAttribute(CCK_THEME_NAME_DOCUMENT_ATTR, id);
 
-    // Remount the story to the story decorators. (in Angular we need to update `UIComponentConfig` token to get the latest theme)
+    // Remount the story to the story decorators. (in Angular we need to update `ThemeConfig` token to get the latest theme)
     addons.getChannel().emit(events.FORCE_REMOUNT, {storyId: storyContext.id});
   };
 

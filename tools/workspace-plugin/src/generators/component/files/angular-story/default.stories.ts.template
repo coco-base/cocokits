@@ -18,7 +18,6 @@ export const Default: AngularStoryObj<<%- className %>Component> = {
   render: (args) => ({
     props: {
         ...args,
-        uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
       <story-table [headers]="['Default']">

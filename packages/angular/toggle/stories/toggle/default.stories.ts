@@ -21,7 +21,6 @@ export const Default: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
       <story-table

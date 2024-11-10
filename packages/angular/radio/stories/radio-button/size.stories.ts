@@ -5,7 +5,7 @@ import { RadioButtonComponent } from '../../src';
 
 export const Size: AngularStoryObj<RadioButtonComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:radioButton', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:radioButton', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -22,14 +22,14 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: ` 
       <story-table
-        [headers]="uiComponentConfig?.radioButton.size?.values"
-        [rowHeaders]="uiComponentConfig?.radioButton.type?.values ?? []">
-        @for (type of uiComponentConfig?.radioButton.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.radioButton.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.radioButton.size?.values"
+        [rowHeaders]="themeComponentConfig?.radioButton.type?.values ?? []">
+        @for (type of themeComponentConfig?.radioButton.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.radioButton.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-radio-button [type]="type" [size]="size" [value]="1" [checked]="true">Radio Button</cck-radio-button>
             </story-table-cell>

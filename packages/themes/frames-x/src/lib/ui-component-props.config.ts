@@ -1,64 +1,50 @@
-import { ThemeUIComponentsConfig } from '@cocokits/core';
+import { ThemeComponentConfigRecord, ThemeConfig } from '@cocokits/core';
 
-export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
+const components: ThemeComponentConfigRecord = {
   toggle: {
     type: {
       name: 'type',
       values: ['knob', 'switch'],
-      require: false,
       default: 'knob',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
   },
-  menu: { type: null, size: null, color: null },
-  menuItem: { type: null, size: null, color: null },
   divider: {
     type: {
       name: 'type',
       values: ['horizontal', 'vertical'],
-      require: false,
       default: 'horizontal',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md'],
-      require: false,
       default: 'sm',
       description: '',
     },
-    color: null,
   },
   chipList: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
   },
   chip: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       chipRemoveIcon: {
         name: 'chipRemoveIcon',
         content:
@@ -67,30 +53,22 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
       },
     },
   },
-
-  selectPreview: { type: null, size: null, color: null },
   optionGroup: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
   },
   option: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       optionSelectedIcon: {
         name: 'optionSelectedIcon',
         content:
@@ -100,16 +78,13 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   select: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       dropdownIcon: {
         name: 'dropdownIcon',
         content:
@@ -118,22 +93,10 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
       },
     },
   },
-  textarea: { type: null, size: null, color: null },
-  input: { type: null, size: null, color: null },
-  label: { type: null, size: null, color: null },
-  error: { type: null, size: null, color: null },
-  hint: { type: null, size: null, color: null },
-  prefix: { type: null, size: null, color: null },
-  suffix: { type: null, size: null, color: null },
-  trailing: { type: null, size: null, color: null },
-  leading: { type: null, size: null, color: null },
   formField: {
-    type: null,
-    color: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -142,41 +105,32 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['column', 'row'],
-      require: false,
       default: 'column',
       description: '',
     },
-    color: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
   radioButton: {
-    type: null,
-    color: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
   checkbox: {
-    type: null,
-    color: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
-    component: {
+    templates: {
       checkboxCheckmark: `
         <svg class="cck-checkbox__checkmark" focusable="false" viewBox="0 0 16 16" aria-hidden="true">
           <path class="cck-checkbox__checkmark-path" d="M5.6,10.1l7.7-7.7c0.6-0.6,1.6-0.6,2.3,0c0.6,0.6,0.6,1.6,0,2.3l-8.8,8.8c-0.6,0.6-1.6,0.6-2.3,0l-4-4 c-0.6-0.6-0.6-1.6,0-2.3s1.6-0.6,2.3,0L5.6,10.1z"/>
@@ -189,21 +143,18 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['default', 'secondary', 'ghost'],
-      require: false,
       default: 'default',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'highlight', 'success', 'danger'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -212,40 +163,52 @@ export const framesXUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['default', 'secondary', 'ghost'],
-      require: false,
       default: 'default',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'highlight', 'success', 'danger'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg', 'xl'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
   svgIcon: {
-    type: null,
     color: {
       name: 'color',
       values: ['grey', 'brand', 'highlight', 'success', 'danger'],
-      require: false,
       default: 'grey',
       description: '',
     },
     size: {
       name: 'size',
       values: ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
+
+  error: {},
+  hint: {},
+  input: {},
+  textarea: {},
+  label: {},
+  leading: {},
+  prefix: {},
+  selectPreview: {},
+  suffix: {},
+  trailing: {},
+  menu: {},
+  menuItem: {},
+};
+
+export const framesXThemeConfig: ThemeConfig = {
+  components,
+  cssSelectorPrefix: '',
 };

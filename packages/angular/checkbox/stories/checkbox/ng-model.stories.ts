@@ -20,7 +20,6 @@ export const NgModel: AngularStoryObj<CheckboxComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       modelValue: false,
     },
     template: `

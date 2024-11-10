@@ -1,23 +1,32 @@
 import { formatFiles, Tree } from '@nx/devkit';
 
-import { LibraryType } from './model';
+import { SetupFrameworkType } from './model';
 import { LibraryGeneratorSchema } from './schema';
 import { angularUiGenerator } from './src/angular-ui-generator';
+import { reactUiGenerator } from './src/react-ui-generator';
 import { getOptions } from './utils/get-options';
+import { getSetupFrameworkType } from './utils/get-setup-framework-type';
 import { validateSchema } from './utils/validate-schema';
-import { LibraryFramework } from '../generator.model';
 import setupStorybookGenerator from '../setup-storybook/generator';
 
 export async function libraryGenerator(tree: Tree, schema: LibraryGeneratorSchema) {
   validateSchema(schema);
   const options = getOptions(schema, tree.root);
+  const setupFrameworkType = getSetupFrameworkType(options);
 
-  if (options.framework === LibraryFramework.Angular && options.type === LibraryType.UI) {
-    angularUiGenerator(tree, options);
-  } else {
-    throw new Error(
-      `The generator doesn't support '${options.framework}' framework with '${options.type}' type right now`
-    );
+  switch (setupFrameworkType) {
+    case SetupFrameworkType.Angular:
+      angularUiGenerator(tree, options);
+      break;
+
+    case SetupFrameworkType.React:
+      reactUiGenerator(tree, options);
+      break;
+
+    default:
+      throw new Error(
+        `The generator doesn't support '${options.framework}' framework with '${options.type}' type right now`
+      );
   }
 
   if (options.storybook) {

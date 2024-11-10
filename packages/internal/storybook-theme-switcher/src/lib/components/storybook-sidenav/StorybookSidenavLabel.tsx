@@ -1,5 +1,6 @@
 // eslint-disable-next-line camelcase
 import { API_HashEntry } from '@storybook/types';
+// Don't remove this import, without this we can not start the storybook doc page in Angular
 import React from 'react';
 import styled, { css } from 'styled-components';
 

@@ -1,0 +1,25 @@
+import { Button } from '../../<%- relativeComponentDirectory %>/<%- fileName %>';
+import { ReactStoriesMeta } from '@cocokits/internal-model';
+import { withThemeConfig } from '@cocokits/storybook-theme-switcher';
+import descriptionMd from './description.md';
+
+export { Default } from './default.stories';
+export { Type } from './type.stories';
+export { Size } from './size.stories';
+export { Color } from './color.stories';
+
+const meta: ReactStoriesMeta<typeof <%- className %>> = {
+  component: <%- className %>,
+  title: 'UI Components/<%- className %>',
+  tags: ['autodocs'],
+  decorators: [withThemeConfig],
+  parameters: {
+    docs: {
+      description: {
+        component: [descriptionMd].join('\n'),
+      },
+    },
+  },
+  argTypes: {},
+};
+export default meta;

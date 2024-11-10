@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AutoDocMain } from './AutoDocMain';
 import { DocPage } from './DocPage';
 

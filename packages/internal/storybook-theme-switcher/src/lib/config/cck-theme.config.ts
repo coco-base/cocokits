@@ -1,12 +1,12 @@
 import { recordReduceMerge } from '@cocokits/common-utils';
 import { TokenDictionary } from '@cocokits/core';
 import {
-  cocokitsUIComponentConfig,
+  cocokitsThemeConfig,
   svgIconMap as svgIconMapCocokitsTheme,
   tokenDictionary as tokenDictionaryCocokitsTheme,
 } from '@cocokits/theme-cocokits';
 import {
-  framesXUIComponentConfig,
+  framesXThemeConfig,
   svgIconMap as svgIconMapFramesXTheme,
   tokenDictionary as tokenDictionaryFramesXTheme,
 } from '@cocokits/theme-frames-x';
@@ -43,7 +43,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
       ...getDefaultSelectedModes(tokenDictionaryCocokitsTheme),
       'brand-color-1': 'dark',
     },
-    uiComponentConfig: cocokitsUIComponentConfig,
+    themeConfig: cocokitsThemeConfig,
     svgIconMap: svgIconMapCocokitsTheme,
     lightCollectionModes: { 'brand-color-1': 'light' },
     darkCollectionModes: { 'brand-color-1': 'dark' },
@@ -57,7 +57,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
     iconPathDark: '/framesX-logo-light.svg',
     tokenDictionary: tokenDictionaryFramesXTheme,
     defaultSelectedModes: getDefaultSelectedModes(tokenDictionaryFramesXTheme),
-    uiComponentConfig: framesXUIComponentConfig,
+    themeConfig: framesXThemeConfig,
     svgIconMap: svgIconMapFramesXTheme,
     lightCollectionModes: { 'color-mode': 'light' },
     darkCollectionModes: { 'color-mode': 'dark' },

@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const formFieldLayoutClassNamesConfig = {
   prefix: 'cck-form-field',
@@ -104,36 +104,36 @@ export const formFieldLayoutClassNamesConfig = {
 };
 
 export function getFormFieldClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof formFieldLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof formFieldLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'formField',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...formFieldLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(formFieldLayoutClassNamesConfig.prefix, options),
-    ],
-    wrapper: [...formFieldLayoutClassNamesConfig.elements.wrapper.selectors],
-    inputWrapper: [...formFieldLayoutClassNamesConfig.elements.inputWrapper.selectors],
-    disabled: [...formFieldLayoutClassNamesConfig.elements.disabled.selectors],
-    required: [...formFieldLayoutClassNamesConfig.elements.required.selectors],
-    focused: [...formFieldLayoutClassNamesConfig.elements.focused.selectors],
-    untouched: [...formFieldLayoutClassNamesConfig.elements.untouched.selectors],
-    touched: [...formFieldLayoutClassNamesConfig.elements.touched.selectors],
-    pristine: [...formFieldLayoutClassNamesConfig.elements.pristine.selectors],
-    dirty: [...formFieldLayoutClassNamesConfig.elements.dirty.selectors],
-    valid: [...formFieldLayoutClassNamesConfig.elements.valid.selectors],
-    invalid: [...formFieldLayoutClassNamesConfig.elements.invalid.selectors],
-    pending: [...formFieldLayoutClassNamesConfig.elements.pending.selectors],
-    error: [...formFieldLayoutClassNamesConfig.elements.error.selectors],
-    withInput: [...formFieldLayoutClassNamesConfig.elements.withInput.selectors],
-    withTextarea: [...formFieldLayoutClassNamesConfig.elements.withTextarea.selectors],
-    withSelect: [...formFieldLayoutClassNamesConfig.elements.withSelect.selectors],
-    withChipList: [...formFieldLayoutClassNamesConfig.elements.withChipList.selectors],
+    ].join(' '),
+    wrapper: [...formFieldLayoutClassNamesConfig.elements.wrapper.selectors].join(' '),
+    inputWrapper: [...formFieldLayoutClassNamesConfig.elements.inputWrapper.selectors].join(' '),
+    disabled: [...formFieldLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    required: [...formFieldLayoutClassNamesConfig.elements.required.selectors].join(' '),
+    focused: [...formFieldLayoutClassNamesConfig.elements.focused.selectors].join(' '),
+    untouched: [...formFieldLayoutClassNamesConfig.elements.untouched.selectors].join(' '),
+    touched: [...formFieldLayoutClassNamesConfig.elements.touched.selectors].join(' '),
+    pristine: [...formFieldLayoutClassNamesConfig.elements.pristine.selectors].join(' '),
+    dirty: [...formFieldLayoutClassNamesConfig.elements.dirty.selectors].join(' '),
+    valid: [...formFieldLayoutClassNamesConfig.elements.valid.selectors].join(' '),
+    invalid: [...formFieldLayoutClassNamesConfig.elements.invalid.selectors].join(' '),
+    pending: [...formFieldLayoutClassNamesConfig.elements.pending.selectors].join(' '),
+    error: [...formFieldLayoutClassNamesConfig.elements.error.selectors].join(' '),
+    withInput: [...formFieldLayoutClassNamesConfig.elements.withInput.selectors].join(' '),
+    withTextarea: [...formFieldLayoutClassNamesConfig.elements.withTextarea.selectors].join(' '),
+    withSelect: [...formFieldLayoutClassNamesConfig.elements.withSelect.selectors].join(' '),
+    withChipList: [...formFieldLayoutClassNamesConfig.elements.withChipList.selectors].join(' '),
   };
 }

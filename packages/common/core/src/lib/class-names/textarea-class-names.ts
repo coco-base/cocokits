@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const textareaClassNamesConfig = {
   prefix: 'cck-textarea',
@@ -25,21 +25,21 @@ export const textareaClassNamesConfig = {
 };
 
 export function getTextareaClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof textareaClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof textareaClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'textarea',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...textareaClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(textareaClassNamesConfig.prefix, options),
-    ],
-    disabled: [...textareaClassNamesConfig.elements.disabled.selectors],
-    autoResize: [...textareaClassNamesConfig.elements.autoResize.selectors],
+    ].join(' '),
+    disabled: [...textareaClassNamesConfig.elements.disabled.selectors].join(' '),
+    autoResize: [...textareaClassNamesConfig.elements.autoResize.selectors].join(' '),
   };
 }

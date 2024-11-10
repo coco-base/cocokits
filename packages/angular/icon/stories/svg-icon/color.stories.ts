@@ -5,7 +5,7 @@ import { SvgIconComponent } from '../../src';
 
 export const Color: AngularStoryObj<SvgIconComponent> = {
   name: 'Color',
-  tags: ['uiComponentName:svgIcon', 'uiComponentPropName:color'],
+  tags: ['uiBaseComponentName:svgIcon', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -19,14 +19,14 @@ export const Color: AngularStoryObj<SvgIconComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.svgIcon.color?.values"
-        [rowHeaders]="uiComponentConfig?.svgIcon.type?.values ?? []">
-        @for (type of uiComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of uiComponentConfig?.svgIcon.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.svgIcon.color?.values"
+        [rowHeaders]="themeComponentConfig?.svgIcon.type?.values ?? []">
+        @for (type of themeComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.svgIcon.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-svg-icon [icon]="icon" [color]="color" [type]="type"></cck-svg-icon>
             </story-table-cell>

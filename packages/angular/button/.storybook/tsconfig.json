@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "exclude": ["../**/*.spec.ts"],
   "include": [
@@ -15,6 +15,7 @@
     "*.js",
     "*.ts",
     "*.tsx",
-    "../../../../packages/internal/storybook-theme-switcher/**/*.ts"
+    "../../../../packages/internal/storybook-theme-switcher/**/*.ts",
+    "../../../../packages/internal/storybook-theme-switcher/**/*.tsx"
   ]
 }

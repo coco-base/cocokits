@@ -1,6 +1,6 @@
 import { moduleMetadata } from '@storybook/angular';
 
-import { UIComponentConfig } from '@cocokits/angular-core';
+import { ThemeConfigToken } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
@@ -25,8 +25,8 @@ const meta: AngularStoriesMeta = {
       imports: [SvgIconComponent],
       providers: [
         {
-          provide: UIComponentConfig,
-          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
+          provide: ThemeConfigToken,
+          useFactory: () => getSelectedCckTheme()?.themeConfig,
         },
       ],
     }),

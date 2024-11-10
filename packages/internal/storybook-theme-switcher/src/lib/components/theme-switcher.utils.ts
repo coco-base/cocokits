@@ -14,7 +14,7 @@ export function generateCckThemeChangeEventData({ id, selectedModes }: CckSelect
     iconPathDark: CCK_THEMES_MAP[id].iconPathDark,
     tokenDictionary: CCK_THEMES_MAP[id].tokenDictionary,
     selectedModes,
-    uiComponentConfig: CCK_THEMES_MAP[id].uiComponentConfig,
+    themeConfig: CCK_THEMES_MAP[id].themeConfig,
     svgIconMap: CCK_THEMES_MAP[id].svgIconMap,
   };
 }

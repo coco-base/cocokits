@@ -1,6 +1,6 @@
 import { IconButton } from '@storybook/components';
 import { addons, useChannel } from '@storybook/manager-api';
-import React, { memo, useEffect, useState } from 'react';
+import  { memo, useEffect, useState } from 'react';
 
 import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,

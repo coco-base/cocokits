@@ -1,15 +1,15 @@
 import { generateFiles, Tree, updateJson } from '@nx/devkit';
-import path from 'path';
 
 import { deepMerge } from '@cocokits/common-utils';
 
 import { Logger } from '../../../utils/logger';
+import { posixPath } from '../../../utils/path';
 import { LibraryGeneratorOptions } from '../model';
 import { getTsconfigJsonChanges, getTsconfigStorybookManagerJsonChanges } from '../utils/get-tsconfig-changes';
 
 export function angularUiGenerator(tree: Tree, options: LibraryGeneratorOptions) {
   // Generate angular library
-  generateFiles(tree, path.join(__dirname, '../files/angular-ui'), options.libraryRoot, options);
+  generateFiles(tree, posixPath.join(__dirname, '../files/angular-ui'), options.libraryRoot, options);
 
   // Update `tsconfig.base.json`
   updateJson(tree, options.tsconfigBase, (json) => deepMerge(json, getTsconfigJsonChanges(options)));

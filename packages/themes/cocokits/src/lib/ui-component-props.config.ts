@@ -1,48 +1,32 @@
 /* eslint-disable max-lines */
-import { ThemeUIComponentsConfig } from '@cocokits/core';
+import { ThemeComponentConfigRecord, ThemeConfig } from '@cocokits/core';
 
-export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
+const components: ThemeComponentConfigRecord = {
   toggle: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
-  menu: {
-    type: null,
-    size: {
-      name: 'size',
-      values: ['sm', 'md', 'lg'],
-      require: false,
-      default: 'md',
-      description: '',
-    },
-    color: null,
-  },
+  menu: {},
   menuItem: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
     color: {
       name: 'color',
       values: ['default', 'error'],
-      require: false,
       default: 'default',
       description: '',
     },
@@ -51,47 +35,38 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['horizontal', 'vertical'],
-      require: false,
       default: 'horizontal',
       description: '',
     },
     size: {
       name: 'size',
       values: ['md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
     color: {
       name: 'color',
       values: ['light', 'default', 'dark'],
-      require: false,
       default: 'default',
       description: '',
     },
   },
   chipList: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
   },
   chip: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       chipRemoveIcon: {
         name: 'chipRemoveIcon',
         content:
@@ -100,29 +75,23 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       },
     },
   },
-  selectPreview: { type: null, size: null, color: null },
+  selectPreview: {},
   optionGroup: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
   },
   option: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       optionSelectedIcon: {
         name: 'optionSelectedIcon',
         content:
@@ -132,16 +101,13 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   select: {
-    type: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    color: null,
-    component: {
+    templates: {
       dropdownIcon: {
         name: 'dropdownIcon',
         content:
@@ -150,26 +116,23 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       },
     },
   },
-  textarea: { type: null, size: null, color: null },
-  input: { type: null, size: null, color: null },
-  label: { type: null, size: null, color: null },
-  error: { type: null, size: null, color: null },
-  hint: { type: null, size: null, color: null },
-  prefix: { type: null, size: null, color: null },
-  suffix: { type: null, size: null, color: null },
+  textarea: {},
+  input: {},
+  label: {},
+  error: {},
+  hint: {},
+  prefix: {},
+  suffix: {},
   trailing: {
     type: {
       name: 'type',
       values: ['regular', 'medium'],
-      require: false,
       default: 'medium',
       description: '',
     },
-    size: null,
     color: {
       name: 'color',
       values: ['transparent', 'grey'],
-      require: false,
       default: 'transparent',
       description: '',
     },
@@ -178,26 +141,20 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['regular', 'medium'],
-      require: false,
       default: 'medium',
       description: '',
     },
-    size: null,
     color: {
       name: 'color',
       values: ['transparent', 'grey'],
-      require: false,
       default: 'transparent',
       description: '',
     },
   },
   formField: {
-    type: null,
-    color: null,
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -206,42 +163,36 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['column', 'row'],
-      require: false,
       default: 'column',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
   radioButton: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    component: {
+    templates: {
       radioCheckmark: `
         <div class="cck-checkbox__background--outer-circle"></div>
         <div class="cck-checkbox__background--inner-circle"></div>
@@ -249,22 +200,19 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     },
   },
   checkbox: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
-    component: {
+    templates: {
       checkboxCheckmark: `
         <svg class="cck-checkbox__checkmark" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="cck-checkbox__checkmark-path"></path>
@@ -277,21 +225,18 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['primary', 'outline', 'basic', 'light'],
-      require: false,
       default: 'primary',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
@@ -299,7 +244,6 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
       rounded: {
         name: 'rounded',
         values: [true, false],
-        require: false,
         default: false,
         description: 'Specifies whether the button should have rounded corners, giving it a circular appearance.',
       },
@@ -309,40 +253,39 @@ export const cocokitsUIComponentConfig: ThemeUIComponentsConfig = {
     type: {
       name: 'type',
       values: ['primary', 'outline', 'basic', 'light'],
-      require: false,
       default: 'primary',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
   svgIcon: {
-    type: null,
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast', 'm-contrast'],
-      require: false,
       default: 'brand',
       description: '',
     },
     size: {
       name: 'size',
       values: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-      require: false,
       default: 'md',
       description: '',
     },
   },
+};
+
+export const cocokitsThemeConfig: ThemeConfig = {
+  components,
+  cssSelectorPrefix: '',
 };

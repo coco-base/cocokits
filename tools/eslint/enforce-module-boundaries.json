@@ -11,6 +11,7 @@
               "@cocokits/core",
               "@cocokits/workspace-plugin",
               "@cocokits/storybook-theme-switcher",
+              "*/packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss",
               ".*/dist/compodoc/.*",
               ".*/tools/scripts/storybook/.*"
             ],

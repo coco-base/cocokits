@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "exclude": ["../**/*.spec.ts"],
   "include": [

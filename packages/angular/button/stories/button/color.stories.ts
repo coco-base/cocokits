@@ -5,7 +5,7 @@ import { ButtonComponent } from '../../src/lib/button/button.component';
 
 export const Color: AngularStoryObj<ButtonComponent> = {
   name: 'Color',
-  tags: ['uiComponentName:button', 'uiComponentPropName:color'],
+  tags: ['uiBaseComponentName:button', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -19,19 +19,19 @@ export const Color: AngularStoryObj<ButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
       themeName: getSelectedCckTheme()?.name,
       types:
         getSelectedCckTheme()?.id === 'cocokits'
-          ? getSelectedCckTheme()?.uiComponentConfig.button.type?.values
-          : getSelectedCckTheme()?.uiComponentConfig.button.type?.values.filter((type) => type !== 'secondary'),
+          ? getSelectedCckTheme()?.themeConfig.components.button.type?.values
+          : getSelectedCckTheme()?.themeConfig.components.button.type?.values.filter((type) => type !== 'secondary'),
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.button.color?.values"
+        [headers]="themeComponentConfig?.button.color?.values"
         [rowHeaders]="types ?? []">
         @for (type of types ?? [null]; let row = $index; track type) {
-          @for (color of uiComponentConfig?.button.color?.values; let col = $index; track color) {
+          @for (color of themeComponentConfig?.button.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-button [type]="type" [color]="color">Button</button>
             </story-table-cell>

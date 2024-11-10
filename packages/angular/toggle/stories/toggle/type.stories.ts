@@ -5,7 +5,7 @@ import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
 export const Type: AngularStoryObj<ToggleComponent> = {
   name: 'Type',
-  tags: ['uiComponentName:toggle', 'uiComponentPropName:type'],
+  tags: ['uiBaseComponentName:toggle', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -20,12 +20,12 @@ export const Type: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.toggle.type?.values">
-        @for (type of uiComponentConfig?.toggle.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.toggle.type?.values">
+        @for (type of themeComponentConfig?.toggle.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-toggle [type]="type"></cck-toggle>
           </story-table-cell>

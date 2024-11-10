@@ -12,7 +12,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-import { UIComponentConfig } from '@cocokits/angular-core';
+import { ThemeConfigToken } from '@cocokits/angular-core';
 import { OverlayConfig, OverlayConnectElemOrigin, OverlayService, RenderedOverlay } from '@cocokits/angular-overlay';
 import { getClassNames } from '@cocokits/core';
 
@@ -24,7 +24,7 @@ import { getClassNames } from '@cocokits/core';
   },
 })
 export class MenuTriggerDirective {
-  private readonly menuOverlayClassNames = getClassNames('menu', {}, inject(UIComponentConfig)).overlay;
+  private readonly menuOverlayClassNames = getClassNames('menu', {}, inject(ThemeConfigToken)).overlay;
   private overlay = inject(OverlayService);
   private elemRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -88,7 +88,7 @@ export class MenuTriggerDirective {
     }
 
     const renderedOverlay = this.overlay.open<void, void>(this.menuTemplate(), {
-      panelClass: this.menuOverlayClassNames,
+      panelClass: [this.menuOverlayClassNames],
       size: this.menuSizes(),
       positionStrategy: {
         type: 'connectToElement',

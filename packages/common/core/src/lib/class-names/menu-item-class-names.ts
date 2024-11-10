@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const menuItemLayoutClassNamesConfig = {
   prefix: 'cck-menu-item',
@@ -20,20 +20,20 @@ export const menuItemLayoutClassNamesConfig = {
 };
 
 export function getMenuItemClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof menuItemLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof menuItemLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'menuItem',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...menuItemLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(menuItemLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...menuItemLayoutClassNamesConfig.elements.disabled.selectors],
+    ].join(' '),
+    disabled: [...menuItemLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
   };
 }

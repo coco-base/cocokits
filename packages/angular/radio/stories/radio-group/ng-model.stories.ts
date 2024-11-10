@@ -24,7 +24,6 @@ export const NgModel: AngularStoryObj<RadioButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       modelValue: null,
     },
     template: `

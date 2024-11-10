@@ -5,7 +5,7 @@ import { ButtonComponent } from '../../src/lib/button/button.component';
 
 export const Type: AngularStoryObj<ButtonComponent> = {
   name: 'Type',
-  tags: ['uiComponentName:button', 'uiComponentPropName:type'],
+  tags: ['uiBaseComponentName:button', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
@@ -20,12 +20,12 @@ export const Type: AngularStoryObj<ButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.button.type?.values">
-        @for (type of uiComponentConfig?.button.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.button.type?.values">
+        @for (type of themeComponentConfig?.button.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <button cck-button [type]="type">Button</button>
           </story-table-cell>

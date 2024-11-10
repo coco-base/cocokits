@@ -1,6 +1,6 @@
 import { moduleMetadata } from '@storybook/angular';
 
-import { UIComponentConfig } from '@cocokits/angular-core';
+import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
@@ -16,8 +16,8 @@ const meta: AngularStoriesMeta = {
       imports: [FormFieldComponent, LabelComponent],
       providers: [
         {
-          provide: UIComponentConfig,
-          useFactory: () => getSelectedCckTheme()?.uiComponentConfig,
+          provide: ThemeConfigToken,
+          useFactory: () => getSelectedCckTheme()?.themeConfig,
         },
       ],
     }),

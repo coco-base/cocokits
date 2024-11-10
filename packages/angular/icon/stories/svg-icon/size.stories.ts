@@ -5,7 +5,7 @@ import { SvgIconComponent } from '../../src';
 
 export const Size: AngularStoryObj<SvgIconComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:svgIcon', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:svgIcon', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -20,15 +20,15 @@ export const Size: AngularStoryObj<SvgIconComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
 
       <story-table
-        [headers]="uiComponentConfig?.svgIcon.size?.values"
-        [rowHeaders]="uiComponentConfig?.svgIcon.type?.values ?? []">
-        @for (type of uiComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.svgIcon.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.svgIcon.size?.values"
+        [rowHeaders]="themeComponentConfig?.svgIcon.type?.values ?? []">
+        @for (type of themeComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.svgIcon.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-svg-icon [icon]="icon" [size]="size" [type]="type"></cck-svg-icon>
             </story-table-cell>

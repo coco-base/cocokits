@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const radioButtonLayoutClassNamesConfig = {
   prefix: 'cck-radio-button',
@@ -37,7 +37,7 @@ export const radioButtonLayoutClassNamesConfig = {
       name: 'Background Element',
       selectors: ['cck-radio-button__background'],
       description:
-        'Applied to a `div` element containing a `radioButtonBackground` from `ThemeUiComponentConfig`, child of the `inputWrapper`, to show a custom radio symbol based on the design system concepts.',
+        'Applied to a `div` element containing a `radioButtonBackground` from `ThemeConfig`, child of the `inputWrapper`, to show a custom radio symbol based on the design system concepts.',
     },
     label: {
       name: 'Label Element',
@@ -64,28 +64,28 @@ export const radioButtonLayoutClassNamesConfig = {
 };
 
 export function getRadioButtonClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof radioButtonLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof radioButtonLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'radioButton',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...radioButtonLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(radioButtonLayoutClassNamesConfig.prefix, options),
-    ],
-    wrapper: [...radioButtonLayoutClassNamesConfig.elements.wrapper.selectors],
-    inputWrapper: [...radioButtonLayoutClassNamesConfig.elements.inputWrapper.selectors],
-    input: [...radioButtonLayoutClassNamesConfig.elements.input.selectors],
-    backdrop: [...radioButtonLayoutClassNamesConfig.elements.backdrop.selectors],
-    background: [...radioButtonLayoutClassNamesConfig.elements.background.selectors],
-    label: [...radioButtonLayoutClassNamesConfig.elements.label.selectors],
-    checked: [...radioButtonLayoutClassNamesConfig.elements.checked.selectors],
-    unchecked: [...radioButtonLayoutClassNamesConfig.elements.unchecked.selectors],
-    disabled: [...radioButtonLayoutClassNamesConfig.elements.disabled.selectors],
+    ].join(' '),
+    wrapper: [...radioButtonLayoutClassNamesConfig.elements.wrapper.selectors].join(' '),
+    inputWrapper: [...radioButtonLayoutClassNamesConfig.elements.inputWrapper.selectors].join(' '),
+    input: [...radioButtonLayoutClassNamesConfig.elements.input.selectors].join(' '),
+    backdrop: [...radioButtonLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
+    background: [...radioButtonLayoutClassNamesConfig.elements.background.selectors].join(' '),
+    label: [...radioButtonLayoutClassNamesConfig.elements.label.selectors].join(' '),
+    checked: [...radioButtonLayoutClassNamesConfig.elements.checked.selectors].join(' '),
+    unchecked: [...radioButtonLayoutClassNamesConfig.elements.unchecked.selectors].join(' '),
+    disabled: [...radioButtonLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
   };
 }

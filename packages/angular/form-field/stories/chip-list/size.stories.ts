@@ -5,7 +5,7 @@ import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
 
 export const Size: AngularStoryObj<ChipListComponent<string>> = {
   name: 'Size',
-  tags: ['uiComponentName:chipList', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:chipList', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -26,16 +26,16 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
       chips: ['Steak', 'Pizza'],
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.chipList.type?.values ?? []"
-        [rowHeaders]="uiComponentConfig?.chipList.size?.values"
+        [headers]="themeComponentConfig?.chipList.type?.values ?? []"
+        [rowHeaders]="themeComponentConfig?.chipList.size?.values"
         cellHAlign="start">
-        @for (size of uiComponentConfig?.chipList.size?.values; let row = $index; track size) {
-          @for (type of uiComponentConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
+        @for (size of themeComponentConfig?.chipList.size?.values; let row = $index; track size) {
+          @for (type of themeComponentConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [size]="size" [type]="type" class="story-w-600">
                 <cck-label>Chip List</cck-label>

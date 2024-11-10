@@ -1,23 +1,23 @@
 import { useOf } from '@storybook/addon-docs';
 import { PreparedStory } from '@storybook/types';
 import * as _ from 'lodash';
-import React, { useContext } from 'react';
+import  { useContext } from 'react';
 import styled from 'styled-components';
 
-import { ClassRef, UIComponentsName } from '@cocokits/core';
+import { deepMerge } from '@cocokits/common-utils';
+import { ClassRef, UIBaseComponentsName } from '@cocokits/core';
 import { CckThemeChangedEvent } from '@cocokits/storybook-theme-switcher';
 
 import { DocArgTypesTable } from './DocArgTypesTable';
 import { useArgTypesApiList, useArgTypesThemeApiList } from '../../utils/doc-page.utils';
 import { DocsPageContext } from '../doc-page-container/DocPageContainer';
-import { deepMerge } from '@cocokits/common-utils';
 
 interface DocArgTypesProps {
   cckTheme: CckThemeChangedEvent
 }
 
 interface DocArgTypeProps {
-  componentName: UIComponentsName,
+  componentName: UIBaseComponentsName,
   argTypes: PreparedStory['argTypes'],
   cckTheme: CckThemeChangedEvent,
   hideComponentName: boolean
@@ -33,7 +33,7 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
 
   const { argTypes, subcomponents } = resolved.preparedMeta;
 
-  const primaryComponentName = _.camelCase(title) as UIComponentsName;
+  const primaryComponentName = _.camelCase(title) as UIBaseComponentsName;
   const hasSubcomponents = !!subcomponents && Object.keys(subcomponents).length > 0;
 
   return (
@@ -50,7 +50,7 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
           }
 
           const componentRef = subcomponent as ClassRef;
-          const componentName = _.camelCase(componentRef.name.replace(/component$/i, '')) as UIComponentsName;
+          const componentName = _.camelCase(componentRef.name.replace(/component$/i, '')) as UIBaseComponentsName;
 
           // Private component such as '_UiBaseComponent'
           if(componentName.startsWith('_')) {
@@ -129,8 +129,8 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
 }
 
 export function DocArgType({componentName, argTypes, cckTheme, hideComponentName}: DocArgTypeProps) {
-  const apiArgTypeList = useArgTypesApiList(componentName, argTypes, cckTheme.uiComponentConfig);
-  const themeApiArgTypeList = useArgTypesThemeApiList(componentName, cckTheme.uiComponentConfig);
+  const apiArgTypeList = useArgTypesApiList(componentName, argTypes, cckTheme.themeConfig);
+  const themeApiArgTypeList = useArgTypesThemeApiList(componentName, cckTheme.themeConfig);
 
   const isApiListEmpty =
     apiArgTypeList.props.length === 0 &&

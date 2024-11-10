@@ -5,7 +5,7 @@ import { FormFieldComponent } from '../../src';
 
 export const Size: AngularStoryObj<FormFieldComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:formField', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:formField', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -25,14 +25,14 @@ export const Size: AngularStoryObj<FormFieldComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `   
       <story-table
-        [headers]="uiComponentConfig?.formField.size?.values"
-        [rowHeaders]="uiComponentConfig?.formField.type?.values ?? []">
-        @for (type of uiComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.formField.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.formField.size?.values"
+        [rowHeaders]="themeComponentConfig?.formField.type?.values ?? []">
+        @for (type of themeComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.formField.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [size]="size" [type]="type">
                 <cck-label>Email</cck-label>

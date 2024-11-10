@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
 
-import { ThemeUIComponentsConfig } from '@cocokits/core';
+import { ThemeConfig } from '@cocokits/core';
 
-export const UIComponentConfig = new InjectionToken<ThemeUIComponentsConfig>('UI_COMPONENT_CONFIG');
+export const ThemeConfigToken = new InjectionToken<ThemeConfig>('UI_COMPONENT_CONFIG');

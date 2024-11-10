@@ -11,6 +11,11 @@ import { emitMixpanelEvent } from '../lib/mixpanel/mixpanel-emitter';
 import { LocalStorage } from '../lib/utils/local-storage';
 
 export function registerMixpanel(api: API, config: CckStorybookConfig) {
+  if (!config?.mixpanel?.devToken && !config?.mixpanel?.prodToken) {
+    console.warn('Mixpanel token is not provided. Skipping Mixpanel initialization.');
+    return;
+  }
+
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   const token = isLocalhost ? config.mixpanel.devToken : config.mixpanel.prodToken;
 

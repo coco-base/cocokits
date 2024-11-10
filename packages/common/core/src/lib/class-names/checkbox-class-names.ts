@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const checkboxLayoutClassNamesConfig = {
   prefix: 'cck-checkbox',
@@ -37,7 +37,7 @@ export const checkboxLayoutClassNamesConfig = {
       name: 'Background Element',
       selectors: ['cck-checkbox__background'],
       description:
-        'Applied to a `div` element containing a checkmark SVG from `ThemeUiComponentConfig`, child of the `inputWrapper`, to show a custom checkbox symbol based on the design system concepts.',
+        'Applied to a `div` element containing a checkmark SVG from `ThemeConfig`, child of the `inputWrapper`, to show a custom checkbox symbol based on the design system concepts.',
     },
     label: {
       name: 'Label Element',
@@ -69,29 +69,29 @@ export const checkboxLayoutClassNamesConfig = {
 };
 
 export function getCheckboxClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof checkboxLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof checkboxLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'checkbox',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...checkboxLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(checkboxLayoutClassNamesConfig.prefix, options),
-    ],
-    wrapper: [...checkboxLayoutClassNamesConfig.elements.wrapper.selectors],
-    inputWrapper: [...checkboxLayoutClassNamesConfig.elements.inputWrapper.selectors],
-    input: [...checkboxLayoutClassNamesConfig.elements.input.selectors],
-    backdrop: [...checkboxLayoutClassNamesConfig.elements.backdrop.selectors],
-    background: [...checkboxLayoutClassNamesConfig.elements.background.selectors],
-    label: [...checkboxLayoutClassNamesConfig.elements.label.selectors],
-    checked: [...checkboxLayoutClassNamesConfig.elements.checked.selectors],
-    unchecked: [...checkboxLayoutClassNamesConfig.elements.unchecked.selectors],
-    disabled: [...checkboxLayoutClassNamesConfig.elements.disabled.selectors],
-    indeterminate: [...checkboxLayoutClassNamesConfig.elements.indeterminate.selectors],
+    ].join(' '),
+    wrapper: [...checkboxLayoutClassNamesConfig.elements.wrapper.selectors].join(' '),
+    inputWrapper: [...checkboxLayoutClassNamesConfig.elements.inputWrapper.selectors].join(' '),
+    input: [...checkboxLayoutClassNamesConfig.elements.input.selectors].join(' '),
+    backdrop: [...checkboxLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
+    background: [...checkboxLayoutClassNamesConfig.elements.background.selectors].join(' '),
+    label: [...checkboxLayoutClassNamesConfig.elements.label.selectors].join(' '),
+    checked: [...checkboxLayoutClassNamesConfig.elements.checked.selectors].join(' '),
+    unchecked: [...checkboxLayoutClassNamesConfig.elements.unchecked.selectors].join(' '),
+    disabled: [...checkboxLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    indeterminate: [...checkboxLayoutClassNamesConfig.elements.indeterminate.selectors].join(' '),
   };
 }

@@ -1,0 +1,16 @@
+{
+  "name": "@cocokits/react-components",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/react/components/src",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:react"],
+  "// targets": "to see all targets run: nx show project button --web",
+  "targets": {
+    "build": {
+      "outputs": ["{workspaceRoot}/dist/packages/react/components"]
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

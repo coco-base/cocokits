@@ -175,10 +175,10 @@ export class SelectComponent<T = any>
   constructor() {
     super();
 
-    const dropdownIcon = this.uiComponentConfig.select.component?.dropdownIcon;
+    const dropdownIcon = this.themeConfig.components.select.templates?.dropdownIcon;
 
     if (!dropdownIcon) {
-      throw new Error('`dropdownIcon` has not defined in `uiComponentConfig` of selected theme');
+      throw new Error('`dropdownIcon` has not defined in `ThemeConfigToken` of selected theme');
     }
     this.dropdownIcon = dropdownIcon;
 
@@ -208,7 +208,7 @@ export class SelectComponent<T = any>
     const connectTo = this.formFieldStore.formField.wrapperElem?.()?.nativeElement ?? this.elemRef.nativeElement;
 
     this.selectStore.renderedOverlay = this.overlay.open<void, T>(optionsTemp, {
-      panelClass: this.classNames().overlay,
+      panelClass: [this.classNames().overlay],
       size: {
         minWidth: connectTo.getBoundingClientRect().width + 'px',
         maxHeight: this.maxOptionsHeight() ? this.maxOptionsHeight() + 'px' : '',

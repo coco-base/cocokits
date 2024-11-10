@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const chipListLayoutClassNamesConfig = {
   prefix: 'cck-chip-list',
@@ -24,21 +24,21 @@ export const chipListLayoutClassNamesConfig = {
 };
 
 export function getChipListClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof chipListLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof chipListLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'chip',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...chipListLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(chipListLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...chipListLayoutClassNamesConfig.elements.disabled.selectors],
-    input: [...chipListLayoutClassNamesConfig.elements.input.selectors],
+    ].join(' '),
+    disabled: [...chipListLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    input: [...chipListLayoutClassNamesConfig.elements.input.selectors].join(' '),
   };
 }

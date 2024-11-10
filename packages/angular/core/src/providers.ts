@@ -1,9 +1,9 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 
-import { ThemeUIComponentsConfig } from '@cocokits/core';
+import { ThemeConfig } from '@cocokits/core';
 
-import { UIComponentConfig } from './tokens';
+import { ThemeConfigToken } from './tokens';
 
-export function provideCocokits(theme: ThemeUIComponentsConfig): EnvironmentProviders {
-  return makeEnvironmentProviders([{ provide: UIComponentConfig, useValue: theme }]);
+export function provideCocokits(config: ThemeConfig): EnvironmentProviders {
+  return makeEnvironmentProviders([{ provide: ThemeConfigToken, useValue: config }]);
 }

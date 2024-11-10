@@ -1,28 +1,28 @@
-import { hasNotValue, hasValue, recordReduceMerge, sanitizeValue } from '@cocokits/common-utils';
+import { hasNotValue, hasValue, isNotNullish, recordReduceMerge, sanitizeValue } from '@cocokits/common-utils';
 
 import {
-  ThemeUIComponentProps,
-  ThemeUIComponentPropsConfig,
-  ThemeUIComponentPropValue,
-  ThemeUIComponentsOptions,
-  UIComponentsPropName,
+  UIBaseComponentProps,
+  ThemeComponentPropertyConfig,
+  UIBaseComponentsPropValue,
+  CssSelectorGeneratorOptions,
+  UIBaseComponentsPropName,
 } from '../model/ui-component.model';
 
 // eslint-disable-next-line max-lines-per-function
-export function validateUiComponentProps({
+export function validateUiBaseComponentProps({
   componentName,
   componentProps,
-  uiComponentsConfig,
-}: ThemeUIComponentsOptions) {
-  if (!uiComponentsConfig) {
-    throw new Error(`'UIComponentConfig' has not provided in the root of application`);
+  themeConfig,
+}: CssSelectorGeneratorOptions) {
+  if (!themeConfig) {
+    throw new Error(`'ThemeConfig' has not provided in the root of application`);
   }
 
-  const componentConfig = uiComponentsConfig[componentName];
+  const componentConfig = themeConfig.components[componentName];
 
   // 1- Check if the theme supports the specified component
   if (!componentConfig) {
-    const validComponents = Object.keys(uiComponentsConfig).join(', ');
+    const validComponents = Object.keys(themeConfig.components).join(', ');
     throw new Error(
       `This theme does not support the '${componentName}' component. Please select a different theme that supports this component or choose from available components: ${validComponents}`
     );
@@ -33,8 +33,8 @@ export function validateUiComponentProps({
   Object.entries(componentConfig)
     .filter((entry) => entry[0] !== 'additional')
     .forEach((entry) => {
-      const propName = entry[0] as UIComponentsPropName;
-      const propConfig = entry[1] as ThemeUIComponentPropsConfig | null;
+      const propName = entry[0] as UIBaseComponentsPropName;
+      const propConfig = entry[1] as ThemeComponentPropertyConfig;
       const componentPropValue = sanitizeValue(componentProps[propName]);
 
       if (
@@ -62,18 +62,8 @@ export function validateUiComponentProps({
         return;
       }
 
-      // 3- Check required properties are provided
-      if (propConfig.require && hasNotValue(componentPropValue)) {
-        throw new Error(
-          `The '${propName}' property is required for the '${componentName}' component in this theme but was not provided.`
-        );
-      }
-
-      // 4- Check for valid values if the property is configured to accept specific values
-      if (
-        hasValue(componentPropValue) &&
-        !propConfig.values.includes(componentPropValue as ThemeUIComponentPropValue)
-      ) {
+      // 3- Check for valid values if the property is configured to accept specific values
+      if (isNotNullish(componentPropValue) && !propConfig.values.includes(componentPropValue)) {
         throw new Error(
           `'${componentPropValue}' is an invalid value for '${propName}' in '${componentName}'. Accepted values in this theme are: ${propConfig.values.join(
             ', '
@@ -86,8 +76,8 @@ export function validateUiComponentProps({
   // TODO: Duplicate code. merge it with `Object.entries` at top
   if (componentConfig.additional) {
     Object.entries(componentConfig.additional).forEach((entry) => {
-      const propName = entry[0] as UIComponentsPropName;
-      const propConfig = entry[1] as ThemeUIComponentPropsConfig | null;
+      const propName = entry[0] as UIBaseComponentsPropName;
+      const propConfig = entry[1] as ThemeComponentPropertyConfig | null;
       const componentPropValue = sanitizeValue(componentProps[propName]);
 
       if (
@@ -115,18 +105,8 @@ export function validateUiComponentProps({
         return;
       }
 
-      // 3- Check required properties are provided
-      if (propConfig.require && hasNotValue(componentPropValue)) {
-        throw new Error(
-          `The '${propName}' property is required for the '${componentName}' component in this theme but was not provided.`
-        );
-      }
-
-      // 4- Check for valid values if the property is configured to accept specific values
-      if (
-        hasValue(componentPropValue) &&
-        !propConfig.values.includes(componentPropValue as ThemeUIComponentPropValue)
-      ) {
+      // 3- Check for valid values if the property is configured to accept specific values
+      if (isNotNullish(componentPropValue) && !propConfig.values.includes(componentPropValue)) {
         throw new Error(
           `'${componentPropValue}' is an invalid value for '${propName}' in '${componentName}'. Accepted values in this theme are: ${propConfig.values.join(
             ', '
@@ -140,25 +120,27 @@ export function validateUiComponentProps({
 export function getComponentPropsWithDefault({
   componentName,
   componentProps,
-  uiComponentsConfig,
-}: ThemeUIComponentsOptions): ThemeUIComponentProps {
-  const additional = recordReduceMerge(uiComponentsConfig?.[componentName].additional ?? {}, (value, key) => {
+  themeConfig,
+}: CssSelectorGeneratorOptions): UIBaseComponentProps {
+  const additional = recordReduceMerge(themeConfig.components?.[componentName].additional ?? {}, (value, key) => {
     return {
       [key]: valueOrDefault(componentProps.additional?.[key], value?.default),
     };
   });
 
   return {
-    type: valueOrDefault(componentProps.type, uiComponentsConfig?.[componentName].type?.default, { acceptNull: false }),
-    color: valueOrDefault(componentProps.color, uiComponentsConfig?.[componentName].color?.default),
-    size: valueOrDefault(componentProps.size, uiComponentsConfig?.[componentName].size?.default),
+    type: valueOrDefault(componentProps.type, themeConfig.components[componentName].type?.default, {
+      acceptNull: false,
+    }),
+    color: valueOrDefault(componentProps.color, themeConfig.components[componentName].color?.default),
+    size: valueOrDefault(componentProps.size, themeConfig.components[componentName].size?.default),
     additional,
   };
 }
 
 function valueOrDefault(
-  value: ThemeUIComponentPropValue | null | undefined,
-  defaultValue: ThemeUIComponentPropValue | null | undefined,
+  value?: UIBaseComponentsPropValue,
+  defaultValue?: UIBaseComponentsPropValue,
   { acceptNull = true }: { acceptNull?: boolean } = {}
 ) {
   if (acceptNull && value === null) {

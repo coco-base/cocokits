@@ -2,6 +2,7 @@ import { formatFiles, Tree } from '@nx/devkit';
 
 import { SetupStorybookGeneratorSchema } from './schema';
 import { setupAngularStorybook } from './src/setup-angular-storybook';
+import { setupReactStorybook } from './src/setup-react-storybook';
 import { getOptions } from './utils/get-options';
 import { LibraryFramework } from '../generator.model';
 
@@ -11,6 +12,10 @@ export async function setupStorybookGenerator(tree: Tree, schema: SetupStorybook
   switch (options.framework) {
     case LibraryFramework.Angular:
       setupAngularStorybook(tree, options);
+      break;
+
+    case LibraryFramework.React:
+      setupReactStorybook(tree, options);
       break;
 
     default:

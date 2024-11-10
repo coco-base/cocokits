@@ -1,6 +1,6 @@
 import { mergeClasses } from '@griffel/react';
 import { addons } from '@storybook/preview-api';
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 
 import { useStyles } from './DocCckThemeSwitcher.style';
 import { CCK_OPEN_THEME_SELECTION_EVENT_NAME, CCK_THEME_CHANGED_EVENT_NAME } from '../../config/cck-theme.config';

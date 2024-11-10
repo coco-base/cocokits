@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const labelLayoutClassNamesConfig = {
   prefix: 'cck-label',
@@ -25,21 +25,21 @@ export const labelLayoutClassNamesConfig = {
 };
 
 export function getLabelClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof labelLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof labelLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'label',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...labelLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(labelLayoutClassNamesConfig.prefix, options),
-    ],
-    labelTag: [...labelLayoutClassNamesConfig.elements.labelTag.selectors],
-    requiredMarker: [...labelLayoutClassNamesConfig.elements.requiredMarker.selectors],
+    ].join(' '),
+    labelTag: [...labelLayoutClassNamesConfig.elements.labelTag.selectors].join(' '),
+    requiredMarker: [...labelLayoutClassNamesConfig.elements.requiredMarker.selectors].join(' '),
   };
 }

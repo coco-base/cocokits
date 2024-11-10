@@ -25,7 +25,6 @@ export const Default: AngularStoryObj<ChipListComponent<string>> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       chips: ['Steak', 'Pizza', 'Burger'],
     },
     template: `

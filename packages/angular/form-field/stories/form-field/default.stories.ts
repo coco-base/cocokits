@@ -43,7 +43,6 @@ export const Default: AngularStoryObj<FormFieldComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
     },
     template: `
       <story-table cellHAlign="start" cellVAlign="start">

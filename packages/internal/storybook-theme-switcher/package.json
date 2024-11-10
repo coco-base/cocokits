@@ -6,6 +6,7 @@
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*",
     "@cocokits/react-overlay": "workspace:*",
+    "@cocokits/react-core": "workspace:*",
     "@cocokits/theme-cocokits": "workspace:*",
     "@cocokits/theme-frames-x": "workspace:*",
     "@griffel/react": "^1.5.22",
@@ -30,10 +31,5 @@
   "devDependencies": {
     "@types/react": "^18.2.79",
     "@types/mixpanel-browser": "^2.50.1"
-  },
-  "exports": {
-    ".": "./package.json",
-    "./preview": "./src/preset/preview.ts",
-    "./manager": "./src/preset/manager.ts"
   }
 }

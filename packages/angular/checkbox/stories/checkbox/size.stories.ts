@@ -5,7 +5,7 @@ import { CheckboxComponent } from '../../src';
 
 export const Size: AngularStoryObj<CheckboxComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:checkbox', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:checkbox', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -20,14 +20,14 @@ export const Size: AngularStoryObj<CheckboxComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: ` 
       <story-table
-        [headers]="uiComponentConfig?.checkbox.size?.values"
-        [rowHeaders]="uiComponentConfig?.checkbox.type?.values ?? []">
-        @for (type of uiComponentConfig?.checkbox.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.checkbox.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.checkbox.size?.values"
+        [rowHeaders]="themeComponentConfig?.checkbox.type?.values ?? []">
+        @for (type of themeComponentConfig?.checkbox.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.checkbox.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-checkbox [size]="size" [type]="type" [checked]="true">Checkbox Label</cck-checkbox>
             </story-table-cell>

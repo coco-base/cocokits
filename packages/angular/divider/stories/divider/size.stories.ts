@@ -5,7 +5,7 @@ import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 export const Size: AngularStoryObj<DividerComponent> = {
   name: 'Size',
-  tags: ['uiComponentName:divider', 'uiComponentPropName:size'],
+  tags: ['uiBaseComponentName:divider', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
@@ -22,15 +22,15 @@ export const Size: AngularStoryObj<DividerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
+      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table
-        [headers]="uiComponentConfig?.divider.size?.values"
-        [rowHeaders]="uiComponentConfig?.divider.type?.values ?? []"
+        [headers]="themeComponentConfig?.divider.size?.values"
+        [rowHeaders]="themeComponentConfig?.divider.type?.values ?? []"
         [cellHeight]="'100px'">
-        @for (type of uiComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of uiComponentConfig?.divider.size?.values; let col = $index; track size) {
+        @for (type of themeComponentConfig?.divider.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.divider.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-divider [style.margin]="'0 auto'" [type]="type" [size]="size"></cck-divider>
             </story-table-cell>

@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const selectLayoutClassNamesConfig = {
   prefix: 'cck-select',
@@ -70,30 +70,30 @@ export const selectLayoutClassNamesConfig = {
 };
 
 export function getSelectClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof selectLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof selectLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'select',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...selectLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(selectLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...selectLayoutClassNamesConfig.elements.disabled.selectors],
-    opened: [...selectLayoutClassNamesConfig.elements.opened.selectors],
-    closed: [...selectLayoutClassNamesConfig.elements.closed.selectors],
-    multiple: [...selectLayoutClassNamesConfig.elements.multiple.selectors],
-    single: [...selectLayoutClassNamesConfig.elements.single.selectors],
-    placeholder: [...selectLayoutClassNamesConfig.elements.placeholder.selectors],
-    triggerWrapper: [...selectLayoutClassNamesConfig.elements.triggerWrapper.selectors],
-    triggerValue: [...selectLayoutClassNamesConfig.elements.triggerValue.selectors],
-    dropdownIconWrapper: [...selectLayoutClassNamesConfig.elements.dropdownIconWrapper.selectors],
-    optionsWrapper: [...selectLayoutClassNamesConfig.elements.optionsWrapper.selectors],
-    overlay: [...selectLayoutClassNamesConfig.elements.overlay.selectors],
+    ].join(' '),
+    disabled: [...selectLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    opened: [...selectLayoutClassNamesConfig.elements.opened.selectors].join(' '),
+    closed: [...selectLayoutClassNamesConfig.elements.closed.selectors].join(' '),
+    multiple: [...selectLayoutClassNamesConfig.elements.multiple.selectors].join(' '),
+    single: [...selectLayoutClassNamesConfig.elements.single.selectors].join(' '),
+    placeholder: [...selectLayoutClassNamesConfig.elements.placeholder.selectors].join(' '),
+    triggerWrapper: [...selectLayoutClassNamesConfig.elements.triggerWrapper.selectors].join(' '),
+    triggerValue: [...selectLayoutClassNamesConfig.elements.triggerValue.selectors].join(' '),
+    dropdownIconWrapper: [...selectLayoutClassNamesConfig.elements.dropdownIconWrapper.selectors].join(' '),
+    optionsWrapper: [...selectLayoutClassNamesConfig.elements.optionsWrapper.selectors].join(' '),
+    overlay: [...selectLayoutClassNamesConfig.elements.overlay.selectors].join(' '),
   };
 }

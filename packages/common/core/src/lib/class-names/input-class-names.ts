@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const inputLayoutClassNamesConfig = {
   prefix: 'cck-input',
@@ -19,20 +19,20 @@ export const inputLayoutClassNamesConfig = {
 };
 
 export function getInputClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof inputLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof inputLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'input',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...inputLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(inputLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...inputLayoutClassNamesConfig.elements.disabled.selectors],
+    ].join(' '),
+    disabled: [...inputLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
   };
 }

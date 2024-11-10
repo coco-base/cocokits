@@ -28,7 +28,6 @@ export const ReactiveForm: AngularStoryObj<InputComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      uiComponentConfig: getSelectedCckTheme()?.uiComponentConfig,
       control: new FormControl('Default Value', { validators: [Validators.required] }),
     },
     template: `

@@ -1,4 +1,4 @@
-import type { ThemeSvgIcon, ThemeUIComponentsConfig, TokenDictionary } from '@cocokits/core';
+import type { ThemeConfig, ThemeSvgIcon, TokenDictionary } from '@cocokits/core';
 
 export type CckThemeName = 'Cocokits' | 'Frames X';
 export type CckThemeId = 'cocokits' | 'frames-x';
@@ -13,7 +13,7 @@ export interface CckTheme {
   iconPathDark: string;
   tokenDictionary: TokenDictionary;
   defaultSelectedModes: Record<string, string>;
-  uiComponentConfig: ThemeUIComponentsConfig;
+  themeConfig: ThemeConfig;
   svgIconMap: Record<string, ThemeSvgIcon>;
 
   /**
@@ -38,7 +38,7 @@ export interface CckThemeChangedEvent {
   iconPathDark: string;
   tokenDictionary: TokenDictionary;
   selectedModes: Record<string, string>;
-  uiComponentConfig: ThemeUIComponentsConfig;
+  themeConfig: ThemeConfig;
   svgIconMap: Record<string, ThemeSvgIcon>;
 }
 

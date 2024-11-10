@@ -35,6 +35,14 @@
     }
   ],
   "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "configurations": {
+        "production": {
+          "dependsOn": ["^build"]
+        }
+      }
+    },
     "@angular-devkit/build-angular:application": {
       "cache": true,
       "dependsOn": ["^build"],

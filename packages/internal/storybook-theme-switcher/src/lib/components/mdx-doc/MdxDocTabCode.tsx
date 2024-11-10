@@ -1,6 +1,6 @@
 import { Source } from '@storybook/addon-docs';
 import { SupportedLanguage } from '@storybook/components';
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 

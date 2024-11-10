@@ -1,3 +1,4 @@
+// Don't remove `React` import, without this we get an error on opening overlay in react doc page
 import React, { useEffect, useRef } from 'react';
 import { OverlayProps } from '../models/overlay-props.model';
 import { runEnterAnimation } from './overlay.animation';

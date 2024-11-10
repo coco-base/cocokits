@@ -1,6 +1,6 @@
 import { getHostClassNames } from './class-names';
-import { ThemeUIComponentProps, ThemeUIComponentsConfig, ThemeUIComponentsOptions } from '../model/ui-component.model';
-import { validateUiComponentProps } from '../ui-component-props/ui-component-props';
+import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const optionLayoutClassNamesConfig = {
   prefix: 'cck-option',
@@ -51,26 +51,26 @@ export const optionLayoutClassNamesConfig = {
 };
 
 export function getOptionClassNames(
-  componentProps: ThemeUIComponentProps,
-  uiComponentsConfig: ThemeUIComponentsConfig
-): Record<keyof typeof optionLayoutClassNamesConfig.elements, string[]> {
-  const options: ThemeUIComponentsOptions = {
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof optionLayoutClassNamesConfig.elements, string> {
+  const options: CssSelectorGeneratorOptions = {
     componentName: 'option',
     componentProps,
-    uiComponentsConfig,
+    themeConfig,
   };
-  validateUiComponentProps(options);
+  validateUiBaseComponentProps(options);
   return {
     host: [
       ...optionLayoutClassNamesConfig.elements.host.selectors,
       ...getHostClassNames(optionLayoutClassNamesConfig.prefix, options),
-    ],
-    disabled: [...optionLayoutClassNamesConfig.elements.disabled.selectors],
-    selected: [...optionLayoutClassNamesConfig.elements.selected.selectors],
-    multiple: [...optionLayoutClassNamesConfig.elements.multiple.selectors],
-    single: [...optionLayoutClassNamesConfig.elements.single.selectors],
-    multipleWrapper: [...optionLayoutClassNamesConfig.elements.multipleWrapper.selectors],
-    contentWrapper: [...optionLayoutClassNamesConfig.elements.contentWrapper.selectors],
-    selectedCheckmark: [...optionLayoutClassNamesConfig.elements.selectedCheckmark.selectors],
+    ].join(' '),
+    disabled: [...optionLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
+    selected: [...optionLayoutClassNamesConfig.elements.selected.selectors].join(' '),
+    multiple: [...optionLayoutClassNamesConfig.elements.multiple.selectors].join(' '),
+    single: [...optionLayoutClassNamesConfig.elements.single.selectors].join(' '),
+    multipleWrapper: [...optionLayoutClassNamesConfig.elements.multipleWrapper.selectors].join(' '),
+    contentWrapper: [...optionLayoutClassNamesConfig.elements.contentWrapper.selectors].join(' '),
+    selectedCheckmark: [...optionLayoutClassNamesConfig.elements.selectedCheckmark.selectors].join(' '),
   };
 }
