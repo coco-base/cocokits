@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
 import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default defineConfig({
   root: __dirname,
@@ -12,7 +13,12 @@ export default defineConfig({
   plugins: [
     react(),
     nxViteTsPaths(),
-    dts({ entryRoot: 'src', tsconfigPath: path.join(__dirname, 'tsconfig.lib.json') }),
+    peerDepsExternal(),
+    dts({
+      entryRoot: 'src',
+      tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
+      aliasesExclude: [/^@cocokits\//],
+    }),
   ],
 
   // Uncomment this if you are using workers.

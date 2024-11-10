@@ -8,7 +8,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../../node_modules/.vite/packages/react/radio',
+  cacheDir: '../../../node_modules/.vite/packages/react/overlay',
 
   plugins: [
     react(),
@@ -29,7 +29,7 @@ export default defineConfig({
   // Configuration for building your library.
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
-    outDir: '../../../dist/packages/react/radio',
+    outDir: '../../../dist/packages/react/overlay',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -38,7 +38,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: 'src/index.ts',
-      name: 'radio',
+      name: 'overlay',
       fileName: 'index',
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.
