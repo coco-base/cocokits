@@ -66,7 +66,7 @@ export const CCK_THEMES_MAP: Record<CckThemeId, CckTheme> = {
 // endregion
 
 // region DEFAULT THEME
-export const DEFAULT_SELECTED_CCK_THEME_ID: CckThemeId = CCK_THEMES_MAP.cocokits.id;
+export const DEFAULT_SELECTED_CCK_THEME_ID: CckThemeId = CCK_THEMES_MAP['frames-x'].id;
 export const DEFAULT_SELECTED_CCK_THEME_MODES = CCK_THEMES_MAP.cocokits.defaultSelectedModes;
 
 // endregion
