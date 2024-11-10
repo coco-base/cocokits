@@ -18,7 +18,7 @@ This includes defining design tokens and variables, and setting up CSS and SCSS 
   - `tsconfig.base.json`
 - Update `CCK_THEMES_MAP` from `packages/internal/storybook-theme-switcher/src/lib/config/cck-theme.config.ts`
 - Update `CckThemeName` and `CckThemeId` from `packages/internal/storybook-theme-switcher/src/lib/config/cck-themes.model.ts`
-- Update `packages/internal/storybook-theme-switcher/src/lib/styles/themes.scss`
+- Update `tools/scripts/storybook/themes.scss`
 
 ## Structure
 
