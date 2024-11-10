@@ -12,6 +12,12 @@ We provide the core components you need for every project, component composition
 ## Why Choose CocoKits?
 **All-in-One Solution:** Get everything you need to build your project with any framework—utilities, CDK, and core components. Bridge Design and Development: Streamline collaboration with tools and components that both designers and developers can use effectively. No Need to Learn New Frameworks: Designers can convert their Figma components into code without needing to learn new programming frameworks. Customization and Flexibility: Fully customizable components and theming options allow you to tailor everything to your project's needs. Efficiency and Speed: Accelerate your development process with ready-to-use components and design tokens. Community and Support: Join a community of professionals and enthusiasts, with full support available to guide you through any challenges.
 
+
+## Supported design systems
+- **Frames X UI Kit:** [Frames X](https://framesxdesign.com/){:target="_blank"} is the largest web design system in the world. With un-styled UI components and support for multiple color and brand themes. [Learn more](https://framesxdesign.com/){:target="_blank"}.
+
+- **CocoKits UI Kit:** Designed by the CocoKits team, this theme provides a consistent, balanced look across all components for a seamless user experience.
+
 ## Features
 ### For Designers
 - **Convert Figma Components to Code:** Transform your Figma components into popular framework components (Angular, React, Vue, or just HTML) without needing to learn any frameworks. You only need to know CSS.
