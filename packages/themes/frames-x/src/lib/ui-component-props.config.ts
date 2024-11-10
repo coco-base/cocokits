@@ -188,8 +188,8 @@ const components: ThemeComponentConfigRecord = {
     },
     size: {
       name: 'size',
-      values: ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      default: 'md',
+      values: ['xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'],
+      default: 'lg',
       description: '',
     },
   },

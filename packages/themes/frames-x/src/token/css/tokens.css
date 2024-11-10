@@ -5,7 +5,7 @@
 
 :where(.cck-theme-frames-x__local-style--default),
 :where([data-cck-theme*='frames-x__local-style--default']) {
-  --text-xs-font-extralight: var(--font-weight-extra-light) var(--icon-xxs) / var(--line-height-xs) var(--font-family);
+  --text-xs-font-extralight: var(--font-weight-extra-light) var(--icon-xs) / var(--line-height-xs) var(--font-family);
   --text-xs-font-light: var(--font-weight-light) var(--font-size-xs) / var(--line-height-xs) var(--font-family);
   --text-xs-font-regular: var(--font-weight-regular) var(--font-size-xs) / var(--line-height-xs) var(--font-family);
   --text-xs-font-medium: var(--font-weight-medium) var(--font-size-xs) / var(--line-height-xs) var(--font-family);
@@ -171,14 +171,14 @@
   --stroke-lg: 2px;
   --stroke-xl: 3px;
   --stroke-2xl: 4px;
-  --icon-xxs: 12px;
-  --icon-xs: 16px;
-  --icon-sm: 20px;
-  --icon-md: 24px;
-  --icon-lg: 28px;
-  --icon-xl: 32px;
-  --icon-2xl: 40px;
-  --icon-3xl: 44px;
+  --icon-xs: 12px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 28px;
+  --icon-2xl: 32px;
+  --icon-3xl: 40px;
+  --icon-4xl: 44px;
 }
 
 :where(.cck-theme-frames-x__sizing--spacious),
@@ -223,14 +223,14 @@
   --stroke-lg: 2px;
   --stroke-xl: 3px;
   --stroke-2xl: 4px;
-  --icon-xxs: 14px;
-  --icon-xs: 18px;
-  --icon-sm: 22px;
-  --icon-md: 26px;
-  --icon-lg: 30px;
-  --icon-xl: 34px;
-  --icon-2xl: 42px;
-  --icon-3xl: 46px;
+  --icon-xs: 14px;
+  --icon-sm: 18px;
+  --icon-md: 22px;
+  --icon-lg: 26px;
+  --icon-xl: 30px;
+  --icon-2xl: 34px;
+  --icon-3xl: 42px;
+  --icon-4xl: 46px;
 }
 
 :where(.cck-theme-frames-x__theme--theme-a),

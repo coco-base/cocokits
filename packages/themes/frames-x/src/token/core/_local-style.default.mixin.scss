@@ -13,7 +13,7 @@
 }
 
 @mixin variables_local-style_default {
-  --text-xs-font-extralight: var(--font-weight-extra-light) var(--icon-xxs) / var(--line-height-xs) var(--font-family);
+  --text-xs-font-extralight: var(--font-weight-extra-light) var(--icon-xs) / var(--line-height-xs) var(--font-family);
   --text-xs-font-light: var(--font-weight-light) var(--font-size-xs) / var(--line-height-xs) var(--font-family);
   --text-xs-font-regular: var(--font-weight-regular) var(--font-size-xs) / var(--line-height-xs) var(--font-family);
   --text-xs-font-medium: var(--font-weight-medium) var(--font-size-xs) / var(--line-height-xs) var(--font-family);

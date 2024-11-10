@@ -764,36 +764,36 @@
 }
 
 .cck-svg-icon__size--xxs{
-  width:var(--icon-xxs);
-  height:var(--icon-xxs);
-}
-.cck-svg-icon__size--xs{
   width:var(--icon-xs);
   height:var(--icon-xs);
 }
-.cck-svg-icon__size--sm{
+.cck-svg-icon__size--xs{
   width:var(--icon-sm);
   height:var(--icon-sm);
 }
-.cck-svg-icon__size--md{
+.cck-svg-icon__size--sm{
   width:var(--icon-md);
   height:var(--icon-md);
 }
-.cck-svg-icon__size--lg{
+.cck-svg-icon__size--md{
   width:var(--icon-lg);
   height:var(--icon-lg);
 }
-.cck-svg-icon__size--xl{
+.cck-svg-icon__size--lg{
   width:var(--icon-xl);
   height:var(--icon-xl);
 }
-.cck-svg-icon__size--2xl{
+.cck-svg-icon__size--xl{
   width:var(--icon-2xl);
   height:var(--icon-2xl);
 }
-.cck-svg-icon__size--3xl{
+.cck-svg-icon__size--2xl{
   width:var(--icon-3xl);
   height:var(--icon-3xl);
+}
+.cck-svg-icon__size--3xl{
+  width:var(--icon-4xl);
+  height:var(--icon-4xl);
 }
 
 .cck-svg-icon__color--grey{
@@ -1022,32 +1022,32 @@
   height:36px;
 }
 .cck-icon-button__size--sm .cck-svg-icon--default-size{
-  width:var(--icon-sm);
-  height:var(--icon-sm);
+  width:var(--icon-md);
+  height:var(--icon-md);
 }
 .cck-icon-button__size--md{
   width:44px;
   height:44px;
 }
 .cck-icon-button__size--md .cck-svg-icon--default-size{
-  width:var(--icon-md);
-  height:var(--icon-md);
+  width:var(--icon-lg);
+  height:var(--icon-lg);
 }
 .cck-icon-button__size--lg{
   width:44px;
   height:44px;
 }
 .cck-icon-button__size--lg .cck-svg-icon--default-size{
-  width:var(--icon-lg);
-  height:var(--icon-lg);
+  width:var(--icon-xl);
+  height:var(--icon-xl);
 }
 .cck-icon-button__size--xl{
   width:58px;
   height:58px;
 }
 .cck-icon-button__size--xl .cck-svg-icon--default-size{
-  width:var(--icon-xl);
-  height:var(--icon-xl);
+  width:var(--icon-2xl);
+  height:var(--icon-2xl);
 }
 
 .cck-input{
@@ -1140,8 +1140,8 @@
 }
 
 .cck-menu-item .cck-svg-icon.cck-svg-icon--default-size{
-  width:var(--icon-md);
-  height:var(--icon-md);
+  width:var(--icon-lg);
+  height:var(--icon-lg);
 }
 
 .cck-menu-item .cck-svg-icon.cck-svg-icon--default-color .cck-svg-icon__svg{
@@ -1208,8 +1208,8 @@
 }
 
 .cck-option__selected-checkmark .cck-svg-icon{
-  width:var(--icon-sm);
-  height:var(--icon-sm);
+  width:var(--icon-md);
+  height:var(--icon-md);
   fill:currentcolor;
 }
 
@@ -1254,8 +1254,8 @@
 }
 
 .cck-prefix .cck-svg-icon.cck-svg-icon--default-size{
-  width:var(--icon-sm);
-  height:var(--icon-sm);
+  width:var(--icon-md);
+  height:var(--icon-md);
 }
 
 .cck-radio-button{
@@ -1454,8 +1454,8 @@
 }
 
 .cck-select__dropdown-icon-wrapper .cck-svg-icon{
-  width:var(--icon-md);
-  height:var(--icon-md);
+  width:var(--icon-lg);
+  height:var(--icon-lg);
 }
 
 .cck-select--opened .cck-select__dropdown-icon-wrapper{
@@ -1467,8 +1467,8 @@
 }
 
 .cck-suffix .cck-svg-icon.cck-svg-icon--default-size{
-  width:var(--icon-sm);
-  height:var(--icon-sm);
+  width:var(--icon-md);
+  height:var(--icon-md);
 }
 
 .cck-textarea{

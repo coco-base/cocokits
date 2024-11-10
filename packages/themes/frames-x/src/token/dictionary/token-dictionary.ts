@@ -109,7 +109,7 @@ export const tokenDictionary: TokenDictionary = {
             textTransform: 'none',
             textDecoration: 'none',
           },
-          value: 'var(--font-weight-extra-light) var(--icon-xxs) / var(--line-height-xs) var(--font-family)',
+          value: 'var(--font-weight-extra-light) var(--icon-xs) / var(--line-height-xs) var(--font-family)',
           aliasTokenId: null,
           aliasHierarchies: null,
         },
@@ -3701,9 +3701,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-xxs',
-        css: 'var(--icon-xxs)',
-        scss: '$icon-xxs',
+        name: 'icon-xs',
+        css: 'var(--icon-xs)',
+        scss: '$icon-xs',
       },
     },
     icon__xs: {
@@ -3727,9 +3727,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-xs',
-        css: 'var(--icon-xs)',
-        scss: '$icon-xs',
+        name: 'icon-sm',
+        css: 'var(--icon-sm)',
+        scss: '$icon-sm',
       },
     },
     icon__sm: {
@@ -3753,9 +3753,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-sm',
-        css: 'var(--icon-sm)',
-        scss: '$icon-sm',
+        name: 'icon-md',
+        css: 'var(--icon-md)',
+        scss: '$icon-md',
       },
     },
     icon__md: {
@@ -3779,9 +3779,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-md',
-        css: 'var(--icon-md)',
-        scss: '$icon-md',
+        name: 'icon-lg',
+        css: 'var(--icon-lg)',
+        scss: '$icon-lg',
       },
     },
     icon__lg: {
@@ -3805,9 +3805,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-lg',
-        css: 'var(--icon-lg)',
-        scss: '$icon-lg',
+        name: 'icon-xl',
+        css: 'var(--icon-xl)',
+        scss: '$icon-xl',
       },
     },
     icon__xl: {
@@ -3831,9 +3831,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-xl',
-        css: 'var(--icon-xl)',
-        scss: '$icon-xl',
+        name: 'icon-2xl',
+        css: 'var(--icon-2xl)',
+        scss: '$icon-2xl',
       },
     },
     icon__2xl: {
@@ -3857,9 +3857,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-2xl',
-        css: 'var(--icon-2xl)',
-        scss: '$icon-2xl',
+        name: 'icon-3xl',
+        css: 'var(--icon-3xl)',
+        scss: '$icon-3xl',
       },
     },
     icon__3xl: {
@@ -3883,9 +3883,9 @@ export const tokenDictionary: TokenDictionary = {
         },
       },
       variable: {
-        name: 'icon-3xl',
-        css: 'var(--icon-3xl)',
-        scss: '$icon-3xl',
+        name: 'icon-4xl',
+        css: 'var(--icon-4xl)',
+        scss: '$icon-4xl',
       },
     },
     'base__surface-1': {
