@@ -21,7 +21,7 @@ jobs:
         uses: ./.github/actions/pnpm-install
 
       - name: Build
-        run: pnpm nx affected:build --base=main --head=HEAD --exclude=cocokits --skip-nx-cache --parallel=1
+        run: pnpm nx run cocokits:build-all
 
       - name: Test
         run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits --skip-nx-cache --parallel=1
