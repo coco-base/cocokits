@@ -48,7 +48,8 @@ h1, h2, h3, h4, h5, h6, p, html, body {
     margin-top: -4px !important;
 }
 .cck-storybook-theme .sidebar-header img {
-    max-width: 150px;
+    max-width: 200px;
+    height: 57px;
 }
 /* endregion */
 
