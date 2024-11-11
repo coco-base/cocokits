@@ -20,11 +20,12 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/actions/pnpm-install
 
-      - name: Build React
-        run: pnpm nx affected:build --base=main --head=HEAD --projects=@cocokits/react-* --parallel=4
 
-      - name: Build Angular
-        run: pnpm nx affected:build --base=main --head=HEAD --projects=@cocokits/angular-* --parallel=4
+      # In CI, the packages will be not build in the correct order. As a quick fix we build the react project first and then run build all
+        run: pnpm nx affected:build --base=main --head=HEAD --exclude=@cocokits/angular-* --parallel=4
+
+      - name: Build All
+        run: pnpm nx affected:build --base=main --head=HEAD --parallel=4
 
 
       - name: Test
