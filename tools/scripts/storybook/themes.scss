@@ -1,7 +1,7 @@
 @use '../../../packages/themes/cocokits/src/styles' as cocokitsTheme;
 @use '../../../packages/themes/frames-x/src/styles' as framesXTheme;
-@import '../../../packages/themes/cocokits/src/token/css/tokens';
-@import '../../../packages/themes/frames-x/src/token/css/tokens';
+@forward '../../../packages/themes/cocokits/src/token/css/tokens';
+@forward '../../../packages/themes/frames-x/src/token/css/tokens';
 
 [data-cck-theme-name='cocokits'] {
   @include cocokitsTheme.components_all;
