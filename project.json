@@ -25,7 +25,8 @@
         "commands": [
           "nx run-many --projects=@cocokits/react-* --target=build --parallel --maxParallel=4",
           "nx run-many --projects=@cocokits/angular-* --target=build --parallel --maxParallel=4"
-        ]
+        ],
+        "parallel": false
       }
     },
     "test-all": {
