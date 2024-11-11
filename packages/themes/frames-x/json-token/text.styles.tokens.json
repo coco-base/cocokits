@@ -4,7 +4,7 @@
       "$type": "typography",
       "$value": {
         "fontFamily": "{font-family}",
-        "fontSize": "{icon.xxs}",
+        "fontSize": "{font-size.xs}",
         "fontWeight": "{font-weight.extra-light}",
         "letterSpacing": "0%",
         "lineHeight": "{line-height.xs}",

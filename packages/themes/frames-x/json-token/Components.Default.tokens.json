@@ -1,0 +1,428 @@
+{
+  "Icon": {
+    "size": {
+      "default": {
+        "$type": "dimension",
+        "$value": "{Icon.size.xs}"
+      },
+      "xs": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.28}"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{Size.32}"
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "{Size.48}"
+      }
+    }
+  },
+  "Button": {
+    "primary": {
+      "height": {
+        "sm": {
+          "$type": "dimension",
+          "$value": "{Size.28}"
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{Size.32}"
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{Size.40}"
+        }
+      },
+      "radius": {
+        "default": {
+          "$type": "dimension",
+          "$value": "{Size.4}"
+        }
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "#ffffff"
+        }
+      }
+    }
+  },
+  "Checkbox": {
+    "Color": {
+      "checkmark": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.50}"
+      }
+    },
+    "Size": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      }
+    }
+  },
+  "Radio": {
+    "Spacing": {
+      "Padding-Input-sm": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      },
+      "Padding-Input-md": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      },
+      "Padding-Input-lg": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      }
+    },
+    "Size": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      }
+    }
+  },
+  "Toggle": {
+    "Spacing": {
+      "gap": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      }
+    },
+    "Color": {
+      "backdrop-unselected": {
+        "$type": "color",
+        "$value": "{Color.Border.Default}"
+      },
+      "backdrop-disabled": {
+        "$type": "color",
+        "$value": "{Color.Disabled.Surface}"
+      },
+      "thumb-disabled": {
+        "$type": "color",
+        "$value": "{Color.Disabled.Surface}"
+      },
+      "thumb-border": {
+        "$type": "color",
+        "$value": "{Color.Border.Light}"
+      },
+      "thumb": {
+        "$type": "color",
+        "$value": "{Color.L-Contrast.Default}"
+      }
+    },
+    "Size": {
+      "bounce": {
+        "$type": "dimension",
+        "$value": "{Size.6}"
+      },
+      "backdrop-sm": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      },
+      "backdrop-md": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      },
+      "backdrop-lg": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "width-sm": {
+        "$type": "dimension",
+        "$value": "{Size.40}"
+      },
+      "width-md": {
+        "$type": "dimension",
+        "$value": "{Size.48}"
+      },
+      "width-lg": {
+        "$type": "dimension",
+        "$value": "{Size.56}"
+      },
+      "thumb-sm": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "thumb-md": {
+        "$type": "dimension",
+        "$value": "{Size.20}"
+      },
+      "thumb-lg": {
+        "$type": "dimension",
+        "$value": "{Size.24}"
+      }
+    }
+  },
+  "Menu_Item": {
+    "Spacing": {
+      "gap": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      },
+      "v-padding": {
+        "$type": "dimension",
+        "$value": "{Size.16}"
+      },
+      "h-padding": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      }
+    },
+    "Size": {
+      "Height-sm": {
+        "$type": "dimension",
+        "$value": "{Size.32}"
+      },
+      "Height-md": {
+        "$type": "dimension",
+        "$value": "{Size.40}"
+      },
+      "Height-lg": {
+        "$type": "dimension",
+        "$value": "{Size.48}"
+      }
+    }
+  },
+  "Menu": {
+    "Spacing": {
+      "v-padding": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      },
+      "h-padding": {
+        "$type": "dimension",
+        "$value": "{Size.0}"
+      }
+    },
+    "Color": {
+      "Border": {
+        "$type": "color",
+        "$value": "{Color.Border.Light}"
+      }
+    },
+    "Size": {
+      "Radius": {
+        "$type": "dimension",
+        "$value": "{Size.6}"
+      }
+    }
+  },
+  "Divider": {
+    "Spacing": {
+      "Margin": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      }
+    },
+    "Color": {
+      "light": {
+        "$type": "color",
+        "$value": "{Color.Border.Light}"
+      },
+      "default": {
+        "$type": "color",
+        "$value": "{Color.Border.Default}"
+      },
+      "dark": {
+        "$type": "color",
+        "$value": "{Color.Border.Dark}"
+      }
+    }
+  },
+  "Chip": {
+    "Color": {
+      "Border": {
+        "$type": "color",
+        "$value": "{Color.Border.Default}"
+      },
+      "Border-Disabled": {
+        "$type": "color",
+        "$value": "{Color.Disabled.Border}"
+      }
+    },
+    "Spacing": {
+      "Overlay-H-Padding": {
+        "$type": "dimension",
+        "$value": "12px"
+      }
+    },
+    "Size": {
+      "Height-sm": {
+        "$type": "dimension",
+        "$value": "{Size.28}"
+      },
+      "Height-md": {
+        "$type": "dimension",
+        "$value": "{Size.32}"
+      },
+      "Height-lg": {
+        "$type": "dimension",
+        "$value": "{Size.40}"
+      }
+    }
+  },
+  "Option": {
+    "Color": {
+      "Overlay-bg": {
+        "$type": "color",
+        "$value": "{Color.L-Contrast.Default}"
+      },
+      "Overlay-border": {
+        "$type": "color",
+        "$value": "{Color.Border.Light}"
+      },
+      "Item-hover": {
+        "$type": "color",
+        "$value": "{Color.H-Contrast.Alpha-1}"
+      }
+    },
+    "Size": {
+      "Height-sm": {
+        "$type": "dimension",
+        "$value": "{Size.32}"
+      },
+      "Height-md": {
+        "$type": "dimension",
+        "$value": "{Size.40}"
+      },
+      "Height-lg": {
+        "$type": "dimension",
+        "$value": "{Size.48}"
+      },
+      "Overlay-Radius": {
+        "$type": "dimension",
+        "$value": "{Size.6}"
+      }
+    },
+    "Spacing": {
+      "Overlay-margin-top": {
+        "$type": "dimension",
+        "$value": "{Size.6}"
+      },
+      "Overlay-v-padding": {
+        "$type": "dimension",
+        "$value": "{Size.0}"
+      },
+      "Overlay-h-padding": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      },
+      "Item-h-padding": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      },
+      "Item-gap": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      }
+    }
+  },
+  "Form_Field": {
+    "Size": {
+      "Radius": {
+        "$type": "dimension",
+        "$value": "{Size.6}"
+      },
+      "Height-sm": {
+        "$type": "dimension",
+        "$value": "{Size.32}"
+      },
+      "Height-md": {
+        "$type": "dimension",
+        "$value": "{Size.40}"
+      },
+      "Height-lg": {
+        "$type": "dimension",
+        "$value": "{Size.48}"
+      }
+    },
+    "Color": {
+      "Border": {
+        "$type": "color",
+        "$value": "{Color.Border.Default}"
+      },
+      "Icon-light": {
+        "$type": "color",
+        "$value": "{Color.M-Contrast.Default}"
+      },
+      "Icon": {
+        "$type": "color",
+        "$value": "{Color.M-Contrast.Dark}"
+      },
+      "error": {
+        "$type": "color",
+        "$value": "{Color.Error.Default}"
+      }
+    },
+    "Spacing": {
+      "Input-Wrapper-h-padding": {
+        "$type": "dimension",
+        "$value": "{Size.12}"
+      },
+      "Input-Wrapper-v-padding": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      },
+      "Input-Wrapper-gap": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      },
+      "Host-gap": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      },
+      "Trailing-gap": {
+        "$type": "dimension",
+        "$value": "{Size.2}"
+      },
+      "Balance-Alignment-margin": {
+        "$type": "dimension",
+        "$value": "{Size.2}"
+      },
+      "Padding-input": {
+        "$type": "dimension",
+        "$value": "{Size.8}"
+      }
+    }
+  },
+  "Label": {
+    "Spacing": {
+      "Required-Marker-Padding-Left": {
+        "$type": "dimension",
+        "$value": "{Size.4}"
+      }
+    }
+  }
+}

@@ -5,42 +5,42 @@
   },
   "radi-1": {
     "$type": "dimension",
-    "$value": "4px"
+    "$value": "0px"
   },
   "radi-2": {
     "$type": "dimension",
-    "$value": "6px"
+    "$value": "0px"
   },
   "radi-3": {
     "$type": "dimension",
-    "$value": "10px"
+    "$value": "0px"
   },
   "radi-4": {
     "$type": "dimension",
-    "$value": "14px"
+    "$value": "0px"
   },
   "radi-5": {
     "$type": "dimension",
-    "$value": "16px"
+    "$value": "0px"
   },
   "radi-6": {
     "$type": "dimension",
-    "$value": "18px"
+    "$value": "0px"
   },
   "radi-7": {
     "$type": "dimension",
-    "$value": "24px"
+    "$value": "0px"
   },
   "radi-8": {
     "$type": "dimension",
-    "$value": "32px"
+    "$value": "0px"
   },
   "radi-9": {
     "$type": "dimension",
-    "$value": "40px"
+    "$value": "0px"
   },
   "radi-10": {
     "$type": "dimension",
-    "$value": "2000px"
+    "$value": "0px"
   }
 }

@@ -29,7 +29,8 @@
     "Radius": {
       "modes": {
         "Default": ["Radius.Default.tokens.json"],
-        "Rounded": ["Radius.Rounded.tokens.json"]
+        "Rounded": ["Radius.Rounded.tokens.json"],
+        "Sharp": ["Radius.Sharp.tokens.json"]
       }
     },
     "Typography": {

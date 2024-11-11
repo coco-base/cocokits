@@ -10,7 +10,7 @@ import { buildTokenDictionary } from './build-token-dictionary';
 import { TokenGeneratorExecutorSchema } from '../schema';
 
 export async function builder(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
-  execSync(`rm -rf ${options.outputDir}`);
+  execSync(`npx rimraf ${options.outputDir}`);
   fs.mkdirSync(options.outputDir, { recursive: true });
 
   buildTokenDictionary(tokenDictionary, options);

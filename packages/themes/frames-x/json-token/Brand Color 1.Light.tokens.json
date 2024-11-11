@@ -1,0 +1,590 @@
+{
+  "Color": {
+    "Brand": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Phlox.600}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Phlox.700}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Phlox.900}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#a11cad05"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#a11cad0a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#a11cad0f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#a11cad14"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#a11cad1a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#a11cad33"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#a11cad66"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#a11cad99"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#a11cadcc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#a11cade5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#a11cad"
+      }
+    },
+    "Info": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Blue.400}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Blue.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Blue.800}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#3b81f405"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#3b81f40a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#3b81f40f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#3b81f414"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#3b81f41a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#3b81f433"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#3b81f466"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#3b81f499"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#3b81f4cc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#3b81f4e5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#3b81f4"
+      }
+    },
+    "Warning": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Orange-peel.300}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Orange-peel.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Orange-peel.600}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#f49d0b05"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#f49d0b0a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#f49d0b0f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#f49d0b14"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#f49d0b1a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#f49d0b33"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#f49d0b66"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#f49d0b99"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#f49d0bcc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#f49d0be5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#f49d0b"
+      }
+    },
+    "Error": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Imperial-red.400}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Imperial-red.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Imperial-red.600}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#f5656505"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#f565650a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#f565650f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#f5656514"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#f565651a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#f5656533"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#f5656566"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#f5656599"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#f56565cc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#f56565e5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#f56565"
+      }
+    },
+    "H-Contrast": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.50}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.200}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.400}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#14141405"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#1414140a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#1414140f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#14141414"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#1414141a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#14141433"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#14141466"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#14141499"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#141414cc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#141414e5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#141414"
+      }
+    },
+    "M-Contrast": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.300}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.500}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.700}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#ababab05"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#ababab0a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#ababab0f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#ababab14"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#ababab1a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#ababab33"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#ababab66"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#ababab99"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#abababcc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#abababe5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#ababab"
+      }
+    },
+    "L-Contrast": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.50}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.200}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.400}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#fafafa05"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#fafafa0a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#fafafa0f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#fafafa14"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#fafafa1a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#fafafa33"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#fafafa66"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#fafafa99"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#fafafacc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#fafafae5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#fafafa"
+      }
+    },
+    "Surface-Inverse": {
+      "default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.400}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#00000005"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#0000000a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#0000000f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#00000014"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#0000001a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#00000033"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#00000066"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#00000099"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#000000cc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#000000e5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#000000"
+      }
+    },
+    "Surface": {
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.50}"
+      },
+      "Alpha-0": {
+        "$type": "color",
+        "$value": "#ffffff05"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "#ffffff0a"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "#ffffff0f"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "#ffffff14"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "#ffffff1a"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#ffffff33"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#ffffff66"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#ffffff99"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#ffffffcc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#ffffffe5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#ffffff"
+      }
+    },
+    "Font": {
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Black.400}"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "#00000033"
+      },
+      "Alpha-6": {
+        "$type": "color",
+        "$value": "#00000066"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#00000099"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#000000cc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#000000e5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#000000"
+      }
+    },
+    "Font-Inverse": {
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.White.50}"
+      },
+      "Alpha-7": {
+        "$type": "color",
+        "$value": "#ffffff99"
+      },
+      "Alpha-8": {
+        "$type": "color",
+        "$value": "#ffffffcc"
+      },
+      "Alpha-9": {
+        "$type": "color",
+        "$value": "#ffffffe5"
+      },
+      "Alpha-10": {
+        "$type": "color",
+        "$value": "#ffffff"
+      }
+    },
+    "Disabled": {
+      "Font": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.500}"
+      },
+      "Surface": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.50}"
+      },
+      "Border": {
+        "$type": "color",
+        "$value": "{Color-Palette.Gray.300}"
+      }
+    },
+    "Border": {
+      "Light": {
+        "$type": "color",
+        "$value": "{Color-Palette.Steel-gray.200}"
+      },
+      "Default": {
+        "$type": "color",
+        "$value": "{Color-Palette.Steel-gray.300}"
+      },
+      "Dark": {
+        "$type": "color",
+        "$value": "{Color-Palette.Steel-gray.400}"
+      }
+    }
+  }
+}
