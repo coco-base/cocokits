@@ -1,5 +1,5 @@
 import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, CssSelectorGeneratorOptions, ThemeConfig } from '../model/ui-component.model';
+import { UIBaseComponentProps, CssSelectorGeneratorOptions, ThemeConfig } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const buttonLayoutClassNamesConfig = {

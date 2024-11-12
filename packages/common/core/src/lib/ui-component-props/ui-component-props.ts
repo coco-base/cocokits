@@ -6,7 +6,7 @@ import {
   UIBaseComponentsPropValue,
   CssSelectorGeneratorOptions,
   UIBaseComponentsPropName,
-} from '../model/ui-component.model';
+} from '../model/theme-config.model';
 
 // eslint-disable-next-line max-lines-per-function
 export function validateUiBaseComponentProps({

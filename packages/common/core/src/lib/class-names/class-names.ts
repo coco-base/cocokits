@@ -32,7 +32,7 @@ import {
   CssSelectorGeneratorOptions,
   UIBaseComponentsName,
   ThemeConfig,
-} from '../model/ui-component.model';
+} from '../model/theme-config.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 
 export const CLASS_NAMES_FN_MAP = {
