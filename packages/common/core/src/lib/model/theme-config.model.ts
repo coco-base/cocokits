@@ -86,7 +86,7 @@ export interface ThemeConfig {
    */
   cssSelectorPrefix: string;
 }
-export type ThemeComponentConfigRecord = Record<UIBaseComponentsName, ThemeComponentConfig>;
+export type ThemeComponentConfigRecord = Partial<Record<UIBaseComponentsName, ThemeComponentConfig>>;
 
 export interface CssSelectorGeneratorOptions {
   componentName: UIBaseComponentsName;

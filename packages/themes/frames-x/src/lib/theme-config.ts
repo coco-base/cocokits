@@ -193,19 +193,6 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
-
-  error: {},
-  hint: {},
-  input: {},
-  textarea: {},
-  label: {},
-  leading: {},
-  prefix: {},
-  selectPreview: {},
-  suffix: {},
-  trailing: {},
-  menu: {},
-  menuItem: {},
 };
 
 export const framesXThemeConfig: ThemeConfig = {

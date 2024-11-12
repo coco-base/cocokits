@@ -16,7 +16,6 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
-  menu: {},
   menuItem: {
     size: {
       name: 'size',
@@ -75,7 +74,6 @@ const components: ThemeComponentConfigRecord = {
       },
     },
   },
-  selectPreview: {},
   optionGroup: {
     size: {
       name: 'size',
@@ -116,13 +114,6 @@ const components: ThemeComponentConfigRecord = {
       },
     },
   },
-  textarea: {},
-  input: {},
-  label: {},
-  error: {},
-  hint: {},
-  prefix: {},
-  suffix: {},
   trailing: {
     type: {
       name: 'type',
