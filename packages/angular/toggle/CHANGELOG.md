@@ -1,5 +1,14 @@
 # @cocokits/angular-toggle
 
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [14e142b]
+- Updated dependencies [14e142b]
+  - @cocokits/angular-core@1.1.0
+  - @cocokits/core@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

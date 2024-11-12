@@ -1,5 +1,18 @@
 # @cocokits/angular-menu
 
+## 1.1.0
+
+### Patch Changes
+
+- Updated dependencies [14e142b]
+- Updated dependencies [14e142b]
+  - @cocokits/angular-core@1.1.0
+  - @cocokits/core@1.1.0
+  - @cocokits/angular-button@1.1.0
+  - @cocokits/angular-divider@1.1.0
+  - @cocokits/angular-icon@1.1.0
+  - @cocokits/angular-overlay@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

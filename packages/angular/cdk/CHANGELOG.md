@@ -1,5 +1,11 @@
 # @cocokits/angular-cdk
 
+## 1.1.0
+
+### Patch Changes
+
+- @cocokits/angular-overlay@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @cocokits/core
 
+## 1.1.0
+
+### Minor Changes
+
+- 14e142b: **Breaking Change:**
+  - `UIComponentConfig` has been renamed to `ThemeComponentConfigRecord`.
+  - Theme configuration now uses the new `ThemeConfig` interface, allowing additional configurations such as `cssSelectorPrefix`.
+
 ## 1.0.2
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @cocokits/storybook-theme-switcher
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [14e142b]
+- Updated dependencies [51ad4f2]
+- Updated dependencies [14e142b]
+  - @cocokits/theme-cocokits@1.1.0
+  - @cocokits/theme-frames-x@1.1.0
+  - @cocokits/core@1.1.0
+  - @cocokits/react-core@1.0.0
+
 ## 0.0.3
 
 ### Patch Changes
