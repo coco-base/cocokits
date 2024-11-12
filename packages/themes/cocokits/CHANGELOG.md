@@ -1,5 +1,17 @@
 # @cocokits/theme-cocokits
 
+## 1.1.0
+
+### Minor Changes
+
+- 14e142b: **Fix:**
+  - Updated SCSS files to replace deprecated `@import` with modern `@use` and `@forward` directives for better modularity and maintainability.
+
+### Patch Changes
+
+- Updated dependencies [14e142b]
+  - @cocokits/core@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

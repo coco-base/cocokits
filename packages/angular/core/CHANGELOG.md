@@ -1,5 +1,17 @@
 # @cocokits/angular-core
 
+## 1.1.0
+
+### Minor Changes
+
+- 14e142b: **Fix:**
+  - This changeset updates the theme configuration structure to a new format with improved naming conventions.
+
+### Patch Changes
+
+- Updated dependencies [14e142b]
+  - @cocokits/core@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes
