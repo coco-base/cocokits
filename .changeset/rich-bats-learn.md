@@ -1,5 +1,5 @@
 ---
-'@cocokits/theme-frames-x': patch
+'@cocokits/theme-frames-x': minor
 ---
 
 **Breaking Change:**
@@ -19,3 +19,7 @@
   - `xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `3xl`, `4xl`
 
 - Default icon size is now `lg` instead of `md`
+
+
+**Fix:**
+- Updated SCSS files to replace deprecated `@import` with modern `@use` and `@forward` directives for better modularity and maintainability.
