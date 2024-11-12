@@ -215,22 +215,12 @@
       height: 36px;
 
       .cck-svg-icon--default-size {
-        width: $icon-sm;
-        height: $icon-sm;
-      }
-    }
-
-    &--md {
-      width: 44px;
-      height: 44px;
-
-      .cck-svg-icon--default-size {
         width: $icon-md;
         height: $icon-md;
       }
     }
 
-    &--lg {
+    &--md {
       width: 44px;
       height: 44px;
 
@@ -240,13 +230,23 @@
       }
     }
 
-    &--xl {
-      width: 58px;
-      height: 58px;
+    &--lg {
+      width: 44px;
+      height: 44px;
 
       .cck-svg-icon--default-size {
         width: $icon-xl;
         height: $icon-xl;
+      }
+    }
+
+    &--xl {
+      width: 56px;
+      height: 56px;
+
+      .cck-svg-icon--default-size {
+        width: $icon-2xl;
+        height: $icon-2xl;
       }
     }
   }

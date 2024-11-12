@@ -49,7 +49,7 @@
       },
       "selected": {
         "$type": "color",
-        "$value": "{colors.blue.300}"
+        "$value": "{colors.blue.400}"
       }
     },
     "danger": {
@@ -73,7 +73,7 @@
       },
       "hover": {
         "$type": "color",
-        "$value": "{colors.orange.400}"
+        "$value": "{colors.orange.300}"
       },
       "selected": {
         "$type": "color",

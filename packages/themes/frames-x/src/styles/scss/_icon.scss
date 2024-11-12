@@ -14,11 +14,6 @@
   }
 
   .cck-svg-icon__size {
-    &--xxs {
-      width: $icon-xxs;
-      height: $icon-xxs;
-    }
-
     &--xs {
       width: $icon-xs;
       height: $icon-xs;
@@ -52,6 +47,11 @@
     &--3xl {
       width: $icon-3xl;
       height: $icon-3xl;
+    }
+
+    &--4xl {
+      width: $icon-4xl;
+      height: $icon-4xl;
     }
   }
 

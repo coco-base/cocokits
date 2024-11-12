@@ -13,11 +13,11 @@
   },
   "radi-3": {
     "$type": "dimension",
-    "$value": "8px"
+    "$value": "10px"
   },
   "radi-4": {
     "$type": "dimension",
-    "$value": "10px"
+    "$value": "14px"
   },
   "radi-5": {
     "$type": "dimension",
@@ -25,11 +25,11 @@
   },
   "radi-6": {
     "$type": "dimension",
-    "$value": "20px"
+    "$value": "18px"
   },
   "radi-7": {
     "$type": "dimension",
-    "$value": "28px"
+    "$value": "24px"
   },
   "radi-8": {
     "$type": "dimension",

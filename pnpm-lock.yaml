@@ -11,9 +11,9 @@ patchedDependencies:
   '@compodoc/compodoc':
     hash: rctrlduhz637cai5uv4e2lglmu
     path: patches/@compodoc__compodoc.patch
-  '@storybook/builder-manager@8.0.10':
-    hash: cnnrunuhe7yjaug3zgdjcrvs6y
-    path: patches/@storybook__builder-manager@8.0.10.patch
+  '@storybook/builder-manager':
+    hash: zkulh6zh7tuuveuxfj6mu5eheu
+    path: patches/@storybook__builder-manager.patch
   typedoc-plugin-markdown@4.2.7:
     hash: ezafjpyaaosoqmx24yppr2jg7i
     path: patches/typedoc-plugin-markdown@4.2.7.patch
@@ -215,7 +215,7 @@ importers:
         version: 8.0.10(5vryvpwr7hncuivzpek2csbw6a)
       '@storybook/builder-manager':
         specifier: 8.0.10
-        version: 8.0.10(patch_hash=cnnrunuhe7yjaug3zgdjcrvs6y)(encoding@0.1.13)
+        version: 8.0.10(patch_hash=zkulh6zh7tuuveuxfj6mu5eheu)(encoding@0.1.13)
       '@storybook/core-events':
         specifier: ~8.0.9
         version: 8.0.10
@@ -898,7 +898,7 @@ importers:
     devDependencies:
       '@nx/vite':
         specifier: 18.3.5
-        version: 18.3.5(@babel/traverse@7.25.9)(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13))(@types/node@22.9.0)(nx@20.0.12(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.1(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.9.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0))(vitest@1.6.0)
+        version: 18.3.5(@babel/traverse@7.25.9)(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13))(@types/node@22.9.0)(nx@18.3.5(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.1(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.9.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0))(vitest@1.6.0)
       '@storybook/addon-docs':
         specifier: ~8.0.9
         version: 8.0.10(encoding@0.1.13)(webpack-sources@3.2.3)
@@ -927,7 +927,7 @@ importers:
     devDependencies:
       '@nx/vite':
         specifier: 18.3.5
-        version: 18.3.5(@babel/traverse@7.25.9)(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13))(@types/node@22.9.0)(nx@18.3.5(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.1(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.9.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0))(vitest@1.6.0)
+        version: 18.3.5(@babel/traverse@7.25.9)(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13))(@types/node@22.9.0)(nx@20.0.12(@swc-node/register@1.9.2(@swc/core@1.9.1(@swc/helpers@0.5.13))(@swc/types@0.1.14)(typescript@5.5.4))(@swc/core@1.9.1(@swc/helpers@0.5.13)))(typescript@5.5.4)(verdaccio@6.0.1(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.9.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0))(vitest@1.6.0)
       vite:
         specifier: ~5.0.0
         version: 5.0.13(@types/node@22.9.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0)
@@ -1214,6 +1214,18 @@ importers:
       '@cocokits/common-utils':
         specifier: workspace:*
         version: link:../../../dist/packages/common/utils
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
     publishDirectory: ../../../dist/packages/react/overlay
 
   packages/react/radio:
@@ -13332,7 +13344,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
-      '@angular-devkit/build-webpack': 0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.96.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))
+      '@angular-devkit/build-webpack': 0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)))(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))
       '@angular-devkit/core': 18.2.0(chokidar@3.6.0)
       '@angular/build': 18.2.0(@angular/compiler-cli@18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4))(@types/node@22.9.0)(chokidar@3.6.0)(less@4.2.0)(postcss@8.4.41)(stylus@0.64.0)(terser@5.31.6)(typescript@5.5.4)
       '@angular/compiler-cli': 18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4)
@@ -13420,7 +13432,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
-      '@angular-devkit/build-webpack': 0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.96.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(webpack@5.93.0(@swc/core@1.9.1(@swc/helpers@0.5.13))(esbuild@0.23.0))
+      '@angular-devkit/build-webpack': 0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)))(webpack@5.93.0(@swc/core@1.9.1(@swc/helpers@0.5.13))(esbuild@0.23.0))
       '@angular-devkit/core': 18.2.0(chokidar@3.6.0)
       '@angular/build': 18.2.0(@angular/compiler-cli@18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4))(@types/node@22.9.0)(chokidar@3.6.0)(less@4.2.0)(postcss@8.4.41)(stylus@0.64.0)(terser@5.31.6)(typescript@5.5.4)
       '@angular/compiler-cli': 18.2.0(@angular/compiler@18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4)
@@ -13504,7 +13516,7 @@ snapshots:
       - utf-8-validate
       - webpack-cli
 
-  '@angular-devkit/build-webpack@0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.96.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))':
+  '@angular-devkit/build-webpack@0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)))(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))':
     dependencies:
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
       rxjs: 7.8.1
@@ -13513,7 +13525,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-webpack@0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.96.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2)))(webpack@5.93.0(@swc/core@1.9.1(@swc/helpers@0.5.13))(esbuild@0.23.0))':
+  '@angular-devkit/build-webpack@0.1802.0(chokidar@3.6.0)(webpack-dev-server@5.0.4(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)))(webpack@5.93.0(@swc/core@1.9.1(@swc/helpers@0.5.13))(esbuild@0.23.0))':
     dependencies:
       '@angular-devkit/architect': 0.1802.0(chokidar@3.6.0)
       rxjs: 7.8.1
@@ -19412,7 +19424,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-manager@8.0.10(patch_hash=cnnrunuhe7yjaug3zgdjcrvs6y)(encoding@0.1.13)':
+  '@storybook/builder-manager@8.0.10(patch_hash=zkulh6zh7tuuveuxfj6mu5eheu)(encoding@0.1.13)':
     dependencies:
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
       '@storybook/core-common': 8.0.10(encoding@0.1.13)
@@ -19726,7 +19738,7 @@ snapshots:
       '@aw-web-design/x-default-browser': 1.4.126
       '@babel/core': 7.26.0
       '@discoveryjs/json-ext': 0.5.7
-      '@storybook/builder-manager': 8.0.10(patch_hash=cnnrunuhe7yjaug3zgdjcrvs6y)(encoding@0.1.13)
+      '@storybook/builder-manager': 8.0.10(patch_hash=zkulh6zh7tuuveuxfj6mu5eheu)(encoding@0.1.13)
       '@storybook/channels': 8.0.10
       '@storybook/core-common': 8.0.10(encoding@0.1.13)
       '@storybook/core-events': 8.0.10
@@ -21185,7 +21197,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.1.1
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@20.17.6)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.1.3)(sass@1.80.6)(stylus@0.59.0)(terser@5.31.6)
+      vitest: 1.6.0(@types/node@22.9.0)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0)
 
   '@vitest/utils@1.3.1':
     dependencies:
@@ -30171,7 +30183,7 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 7.3.0(webpack@5.96.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.20.2))
+      webpack-dev-middleware: 7.3.0(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))
       ws: 8.18.0
     optionalDependencies:
       webpack: 5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)

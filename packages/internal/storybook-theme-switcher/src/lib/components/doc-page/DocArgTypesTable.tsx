@@ -44,7 +44,7 @@ export const DocArgTypesTable = ({argTypesList, hideDefault = false, header}: Do
               <td>
                 <StyledTypeWrapper>
                   {
-                    argType.type.map(type => <code>{type?.toString()}</code>)
+                    argType.type.map((type, index) => <code key={index}>{type?.toString()}</code>)
                   }
                 </StyledTypeWrapper>
               </td>

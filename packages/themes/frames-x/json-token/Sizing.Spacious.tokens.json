@@ -164,35 +164,35 @@
     }
   },
   "icon": {
-    "xxs": {
+    "xs": {
       "$type": "dimension",
       "$value": "14px"
     },
-    "xs": {
+    "sm": {
       "$type": "dimension",
       "$value": "18px"
     },
-    "sm": {
+    "md": {
       "$type": "dimension",
       "$value": "22px"
     },
-    "md": {
+    "lg": {
       "$type": "dimension",
       "$value": "26px"
     },
-    "lg": {
+    "xl": {
       "$type": "dimension",
       "$value": "30px"
     },
-    "xl": {
+    "2xl": {
       "$type": "dimension",
       "$value": "34px"
     },
-    "2xl": {
+    "3xl": {
       "$type": "dimension",
       "$value": "42px"
     },
-    "3xl": {
+    "4xl": {
       "$type": "dimension",
       "$value": "46px"
     }

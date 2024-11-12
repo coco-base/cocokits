@@ -44,7 +44,7 @@ export function buildScss(tokenDictionary: TokenDictionary, options: TokenGenera
   // Build index file
   let indexFileContent = getDefaultFileHeader();
   recordForEach(fileContent, (_, fileName) => {
-    indexFileContent += `@import './${getImportFileName(fileName)}';\n`;
+    indexFileContent += `@forward './${getImportFileName(fileName)}';\n`;
   });
   const filePath = path.join(scssDir, '_index.scss');
   fs.writeFileSync(filePath, indexFileContent);

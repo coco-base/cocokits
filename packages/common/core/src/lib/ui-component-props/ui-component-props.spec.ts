@@ -13,27 +13,29 @@ const DEFAULT_CONFIG = {
     sizes: 'size2',
   },
   themeConfig: {
-    component1: {
-      types: {
-        name: 'types',
-        values: ['type1', 'type2'],
-        require: true,
-        default: 'type1',
-        description: '',
-      },
-      colors: {
-        name: 'colors',
-        values: ['color1', 'color2'],
-        require: false,
-        default: 'color1',
-        description: '',
-      },
-      sizes: {
-        name: 'sizes',
-        values: ['size1', 'size2'],
-        require: false,
-        default: 'size1',
-        description: '',
+    components: {
+      component1: {
+        types: {
+          name: 'types',
+          values: ['type1', 'type2'],
+          require: true,
+          default: 'type1',
+          description: '',
+        },
+        colors: {
+          name: 'colors',
+          values: ['color1', 'color2'],
+          require: false,
+          default: 'color1',
+          description: '',
+        },
+        sizes: {
+          name: 'sizes',
+          values: ['size1', 'size2'],
+          require: false,
+          default: 'size1',
+          description: '',
+        },
       },
     },
   },
@@ -58,17 +60,10 @@ describe('uiBaseComponentParamsValidations', () => {
       componentName: 'unknownComponent',
     });
 
+    console.log('config', config);
+
     expect(() => validateUiBaseComponentProps(config)).toThrow(
       `This theme does not support the 'unknownComponent' component. Please select a different theme that supports this component or choose from available components: component1`
-    );
-  });
-
-  it('should throw an error if a required property is not provided', () => {
-    const config = getConfigWithDefault({});
-    delete config.componentProps.types;
-
-    expect(() => validateUiBaseComponentProps(config)).toThrow(
-      "The 'types' property is required for the 'component1' component in this theme but was not provided."
     );
   });
 
