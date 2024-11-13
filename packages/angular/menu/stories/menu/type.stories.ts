@@ -39,8 +39,8 @@ export const Type: AngularStoryObj<MenuComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.menu.type?.values">
-        @for (type of themeComponentConfig?.menu.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.menu?.type?.values">
+        @for (type of themeComponentConfig?.menu?.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-menu class="story-w-200" [type]="type">
               <cck-menu-item>Edit</cck-menu-item>

@@ -23,7 +23,6 @@ export const Default: AngularStoryObj<ChipComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       <story-table

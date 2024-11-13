@@ -25,10 +25,10 @@ export const Color: AngularStoryObj<ToggleComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeConfig?.toggle.color?.values"
-        [rowHeaders]="themeConfig?.toggle.type?.values ?? []">
-        @for (type of themeConfig?.toggle.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeConfig?.toggle.color?.values; let col = $index; track color) {
+        [headers]="themeConfig?.toggle?.color?.values"
+        [rowHeaders]="themeConfig?.toggle?.type?.values ?? []">
+        @for (type of themeConfig?.toggle?.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeConfig?.toggle?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-toggle checked="true" [color]="color" [type]="type"></cck-toggle>
             </story-table-cell>

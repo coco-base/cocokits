@@ -23,10 +23,10 @@ export const Color: AngularStoryObj<CheckboxComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.checkbox.color?.values"
-        [rowHeaders]="themeComponentConfig?.checkbox.type?.values ?? []">
-        @for (type of themeComponentConfig?.checkbox.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.checkbox.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.checkbox?.color?.values"
+        [rowHeaders]="themeComponentConfig?.checkbox?.type?.values ?? []">
+        @for (type of themeComponentConfig?.checkbox?.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.checkbox?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-checkbox [color]="color" [type]="type" [checked]="true">Checkbox Label</cck-checkbox>
             </story-table-cell>

@@ -10,8 +10,8 @@ import { ConnectToElementStoryComponent } from './components/connect-to-element-
 import { DefaultOverlayStoryComponent } from './components/default-overlay-story.component';
 import { SizeOverlayStoryComponent } from './components/size-overlay-story.component';
 import descriptionMd from './description.md';
-import { OverlayComponent } from '../../src/components/overlay/overlay.component';
 import { OverlayService } from '../../src';
+import { OverlayComponent } from '../../src/components/overlay/overlay.component';
 
 export { Default } from './default.stories';
 export { NoBackdrop } from './no-backdrop.stories';

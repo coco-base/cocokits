@@ -27,10 +27,10 @@ export const ThemeCocokitsRoundedColor: AngularStoryObj<IconButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.iconButton.color?.values"
-        [rowHeaders]="themeComponentConfig?.iconButton.type?.values">
-        @for (type of themeComponentConfig?.iconButton.type?.values; let row = $index; track type) {
-          @for (color of themeComponentConfig?.iconButton.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.iconButton?.color?.values"
+        [rowHeaders]="themeComponentConfig?.iconButton?.type?.values">
+        @for (type of themeComponentConfig?.iconButton?.type?.values; let row = $index; track type) {
+          @for (color of themeComponentConfig?.iconButton?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-icon-button data-cck-rounded="true" [type]="type" [color]="color">
                 <cck-svg-icon [icon]="icon"></cck-svg-icon>

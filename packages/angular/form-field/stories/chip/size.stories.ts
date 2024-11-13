@@ -26,10 +26,10 @@ export const Size: AngularStoryObj<ChipComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.chip.size?.values"
-        [rowHeaders]="themeComponentConfig?.chip.type?.values ?? []">
-        @for (type of themeComponentConfig?.chip.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeComponentConfig?.chip.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.chip?.size?.values"
+        [rowHeaders]="themeComponentConfig?.chip?.type?.values ?? []">
+        @for (type of themeComponentConfig?.chip?.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.chip?.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-chip [size]="size" [type]="type">Chip Value</cck-chip>
             </story-table-cell>

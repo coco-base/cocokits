@@ -27,17 +27,17 @@ export const Color: AngularStoryObj<IconButtonComponent> = {
       themeName: getSelectedCckTheme()?.name,
       types:
         getSelectedCckTheme()?.id === 'cocokits'
-          ? getSelectedCckTheme()?.themeConfig.components.iconButton.type?.values
-          : getSelectedCckTheme()?.themeConfig.components.iconButton.type?.values.filter(
+          ? getSelectedCckTheme()?.themeConfig.components?.iconButton?.type?.values
+          : getSelectedCckTheme()?.themeConfig.components?.iconButton?.type?.values.filter(
               (type) => type !== 'secondary'
             ),
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.iconButton.color?.values"
+        [headers]="themeComponentConfig?.iconButton?.color?.values"
         [rowHeaders]="types ?? []">
         @for (type of types ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.iconButton.color?.values; let col = $index; track color) {
+          @for (color of themeComponentConfig?.iconButton?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-icon-button [type]="type" [color]="color">
                 <cck-svg-icon [icon]="icon"></cck-svg-icon>

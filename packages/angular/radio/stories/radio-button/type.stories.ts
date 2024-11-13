@@ -26,8 +26,8 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.radioButton.type?.values">
-        @for (type of themeComponentConfig?.radioButton.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.radioButton?.type?.values">
+        @for (type of themeComponentConfig?.radioButton?.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-radio-button [type]="type" [value]="1">Radio Button</cck-radio-button>
           </story-table-cell>

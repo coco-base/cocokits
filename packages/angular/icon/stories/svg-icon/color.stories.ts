@@ -23,10 +23,10 @@ export const Color: AngularStoryObj<SvgIconComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.svgIcon.color?.values"
-        [rowHeaders]="themeComponentConfig?.svgIcon.type?.values ?? []">
-        @for (type of themeComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.svgIcon.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.svgIcon?.color?.values"
+        [rowHeaders]="themeComponentConfig?.svgIcon?.type?.values ?? []">
+        @for (type of themeComponentConfig?.svgIcon?.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.svgIcon?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-svg-icon [icon]="icon" [color]="color" [type]="type"></cck-svg-icon>
             </story-table-cell>

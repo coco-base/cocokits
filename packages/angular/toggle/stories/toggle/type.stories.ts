@@ -24,8 +24,8 @@ export const Type: AngularStoryObj<ToggleComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.toggle.type?.values">
-        @for (type of themeComponentConfig?.toggle.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.toggle?.type?.values">
+        @for (type of themeComponentConfig?.toggle?.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <cck-toggle [type]="type"></cck-toggle>
           </story-table-cell>

@@ -26,10 +26,10 @@ export const Size: AngularStoryObj<ToggleComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeConfig?.toggle.size?.values"
-        [rowHeaders]="themeConfig?.toggle.type?.values ?? []">
-        @for (type of themeConfig?.toggle.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.toggle.size?.values; let col = $index; track size) {
+        [headers]="themeConfig?.toggle?.size?.values"
+        [rowHeaders]="themeConfig?.toggle?.type?.values ?? []">
+        @for (type of themeConfig?.toggle?.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeConfig?.toggle?.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-toggle checked="true" [size]="size" [type]="type"></cck-toggle>
             </story-table-cell>

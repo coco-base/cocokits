@@ -274,6 +274,16 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
+
+  menu: {},
+  selectPreview: {},
+  textarea: {},
+  input: {},
+  label: {},
+  error: {},
+  hint: {},
+  prefix: {},
+  suffix: {},
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

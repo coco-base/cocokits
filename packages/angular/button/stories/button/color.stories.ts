@@ -23,8 +23,8 @@ export const Color: AngularStoryObj<ButtonComponent> = {
       themeName: getSelectedCckTheme()?.name,
       types:
         getSelectedCckTheme()?.id === 'cocokits'
-          ? getSelectedCckTheme()?.themeConfig.components.button.type?.values
-          : getSelectedCckTheme()?.themeConfig.components.button.type?.values.filter((type) => type !== 'secondary'),
+          ? getSelectedCckTheme()?.themeConfig.components.button?.type?.values
+          : getSelectedCckTheme()?.themeConfig.components.button?.type?.values.filter((type) => type !== 'secondary'),
     },
     template: `
       <story-table

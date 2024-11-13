@@ -22,7 +22,7 @@ export const Default: AngularStoryObj<SvgIconComponent> = {
       themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <cck-svg-icon [icon]="icon" [size]="themeComponentConfig?.svgIcon.size?.values.at(-1)"></cck-svg-icon>
+      <cck-svg-icon [icon]="icon" [size]="themeComponentConfig?.svgIcon?.size?.values.at(-1)"></cck-svg-icon>
     `,
   }),
 };

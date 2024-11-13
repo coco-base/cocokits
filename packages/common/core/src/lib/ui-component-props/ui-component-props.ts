@@ -122,18 +122,18 @@ export function getComponentPropsWithDefault({
   componentProps,
   themeConfig,
 }: CssSelectorGeneratorOptions): UIBaseComponentProps {
-  const additional = recordReduceMerge(themeConfig.components?.[componentName].additional ?? {}, (value, key) => {
+  const additional = recordReduceMerge(themeConfig.components?.[componentName]?.additional ?? {}, (value, key) => {
     return {
       [key]: valueOrDefault(componentProps.additional?.[key], value?.default),
     };
   });
 
   return {
-    type: valueOrDefault(componentProps.type, themeConfig.components[componentName].type?.default, {
+    type: valueOrDefault(componentProps.type, themeConfig.components[componentName]?.type?.default, {
       acceptNull: false,
     }),
-    color: valueOrDefault(componentProps.color, themeConfig.components[componentName].color?.default),
-    size: valueOrDefault(componentProps.size, themeConfig.components[componentName].size?.default),
+    color: valueOrDefault(componentProps.color, themeConfig.components[componentName]?.color?.default),
+    size: valueOrDefault(componentProps.size, themeConfig.components[componentName]?.size?.default),
     additional,
   };
 }

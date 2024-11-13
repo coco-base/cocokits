@@ -1,5 +1,5 @@
 {
   "eslint.validate": ["json"],
-  "cSpell.words": ["Checkmark", "compodoc", "subcomponent", "subcomponents", "uncategorized"],
+  "cSpell.words": ["autodocs", "Checkmark", "compodoc", "subcomponent", "subcomponents", "uncategorized"],
   "angular.enable-strict-mode-prompt": false
 }

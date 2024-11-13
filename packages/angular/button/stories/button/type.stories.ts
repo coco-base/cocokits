@@ -24,8 +24,8 @@ export const Type: AngularStoryObj<ButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.button.type?.values">
-        @for (type of themeComponentConfig?.button.type?.values; let i = $index; track type) {
+        [headers]="themeComponentConfig?.button?.type?.values">
+        @for (type of themeComponentConfig?.button?.type?.values; let i = $index; track type) {
           <story-table-cell row="0" [col]="i">
             <button cck-button [type]="type">Button</button>
           </story-table-cell>

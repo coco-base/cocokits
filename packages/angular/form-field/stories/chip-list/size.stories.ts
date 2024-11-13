@@ -31,11 +31,11 @@ export const Size: AngularStoryObj<ChipListComponent<string>> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.chipList.type?.values ?? []"
-        [rowHeaders]="themeComponentConfig?.chipList.size?.values"
+        [headers]="themeComponentConfig?.chipList?.type?.values ?? []"
+        [rowHeaders]="themeComponentConfig?.chipList?.size?.values"
         cellHAlign="start">
-        @for (size of themeComponentConfig?.chipList.size?.values; let row = $index; track size) {
-          @for (type of themeComponentConfig?.chipList.type?.values ?? [null]; let col = $index; track type) {
+        @for (size of themeComponentConfig?.chipList?.size?.values; let row = $index; track size) {
+          @for (type of themeComponentConfig?.chipList?.type?.values ?? [null]; let col = $index; track type) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [size]="size" [type]="type" class="story-w-600">
                 <cck-label>Chip List</cck-label>

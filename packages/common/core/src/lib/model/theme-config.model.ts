@@ -86,6 +86,12 @@ export interface ThemeConfig {
    */
   cssSelectorPrefix: string;
 }
+
+/**
+ * The record of component names and their configurations.
+ * If a component has not been defined in this interface from your theme config, it means that the theme does not support that component.
+ * If the component has been defined, but the configuration is empty, it means that the theme supports the component but the component has no specific configuration (such as type, color, or size).
+ */
 export type ThemeComponentConfigRecord = Partial<Record<UIBaseComponentsName, ThemeComponentConfig>>;
 
 export interface CssSelectorGeneratorOptions {

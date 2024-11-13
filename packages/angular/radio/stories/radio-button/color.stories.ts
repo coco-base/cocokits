@@ -25,10 +25,10 @@ export const Color: AngularStoryObj<RadioButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.radioButton.color?.values"
-        [rowHeaders]="themeComponentConfig?.radioButton.type?.values ?? []">
-        @for (type of themeComponentConfig?.radioButton.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.radioButton.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.radioButton?.color?.values"
+        [rowHeaders]="themeComponentConfig?.radioButton?.type?.values ?? []">
+        @for (type of themeComponentConfig?.radioButton?.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.radioButton?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-radio-button [type]="type" [color]="color" [checked]="true" [value]="1">Radio Button</cck-radio-button>
             </story-table-cell>

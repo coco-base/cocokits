@@ -25,10 +25,10 @@ export const Size: AngularStoryObj<SvgIconComponent> = {
     template: `
 
       <story-table
-        [headers]="themeComponentConfig?.svgIcon.size?.values"
-        [rowHeaders]="themeComponentConfig?.svgIcon.type?.values ?? []">
-        @for (type of themeComponentConfig?.svgIcon.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeComponentConfig?.svgIcon.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.svgIcon?.size?.values"
+        [rowHeaders]="themeComponentConfig?.svgIcon?.type?.values ?? []">
+        @for (type of themeComponentConfig?.svgIcon?.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.svgIcon?.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-svg-icon [icon]="icon" [size]="size" [type]="type"></cck-svg-icon>
             </story-table-cell>

@@ -28,7 +28,7 @@ export const ThemeCocokitsRounded: AngularStoryObj<IconButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.button.type?.values">
+        [headers]="themeComponentConfig?.button?.type?.values">
         <story-table-cell row="0" col="0">
           <button cck-icon-button data-cck-rounded="true">
             <cck-svg-icon [icon]="icon"></cck-svg-icon>

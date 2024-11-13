@@ -28,10 +28,10 @@ export const Size: AngularStoryObj<IconButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.iconButton.size?.values"
-        [rowHeaders]="themeComponentConfig?.iconButton.type?.values">
-        @for (type of themeComponentConfig?.iconButton.type?.values; let row = $index; track type) {
-          @for (size of themeComponentConfig?.iconButton.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.iconButton?.size?.values"
+        [rowHeaders]="themeComponentConfig?.iconButton?.type?.values">
+        @for (type of themeComponentConfig?.iconButton?.type?.values; let row = $index; track type) {
+          @for (size of themeComponentConfig?.iconButton?.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-icon-button [type]="type" [size]="size">
                 <cck-svg-icon [icon]="icon"></cck-svg-icon>

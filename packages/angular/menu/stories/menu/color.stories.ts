@@ -38,10 +38,10 @@ export const Color: AngularStoryObj<MenuComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.menu.color?.values"
-        [rowHeaders]="themeComponentConfig?.menu.type?.values ?? []">
-        @for (type of themeComponentConfig?.menu.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.menu.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.menu?.color?.values"
+        [rowHeaders]="themeComponentConfig?.menu?.type?.values ?? []">
+        @for (type of themeComponentConfig?.menu?.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.menu?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-menu class="story-w-200" [color]="color" [type]="type">
                 <cck-menu-item>Edit</cck-menu-item>

@@ -24,10 +24,10 @@ export const Size: AngularStoryObj<ButtonComponent> = {
     },
     template: `
       <story-table
-        [headers]="themeComponentConfig?.button.size?.values"
-        [rowHeaders]="themeComponentConfig?.button.type?.values">
-        @for (type of themeComponentConfig?.button.type?.values; let row = $index; track type) {
-          @for (size of themeComponentConfig?.button.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.button?.size?.values"
+        [rowHeaders]="themeComponentConfig?.button?.type?.values">
+        @for (type of themeComponentConfig?.button?.type?.values; let row = $index; track type) {
+          @for (size of themeComponentConfig?.button?.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <button cck-button [type]="type" [size]="size">Button</button>
             </story-table-cell>

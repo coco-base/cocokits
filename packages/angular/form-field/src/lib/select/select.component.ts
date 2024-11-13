@@ -175,7 +175,7 @@ export class SelectComponent<T = any>
   constructor() {
     super();
 
-    const dropdownIcon = this.themeConfig.components.select.templates?.dropdownIcon;
+    const dropdownIcon = this.themeConfig.components.select?.templates?.dropdownIcon;
 
     if (!dropdownIcon) {
       throw new Error('`dropdownIcon` has not defined in `ThemeConfigToken` of selected theme');

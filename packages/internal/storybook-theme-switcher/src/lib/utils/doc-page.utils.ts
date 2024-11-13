@@ -248,7 +248,7 @@ export function filterStoryByScenario(story: PreparedStory, theme: CckThemeChang
     ''
   ) as UIBaseComponentsPropName;
 
-  const themePropConfig = theme.themeConfig.components[uiBaseComponentName][uiBaseComponentPropName];
+  const themePropConfig = theme.themeConfig.components[uiBaseComponentName]?.[uiBaseComponentPropName];
 
   return !!themePropConfig;
 }

@@ -26,10 +26,10 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
     },
     template: ` 
       <story-table
-        [headers]="themeComponentConfig?.radioButton.size?.values"
-        [rowHeaders]="themeComponentConfig?.radioButton.type?.values ?? []">
-        @for (type of themeComponentConfig?.radioButton.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeComponentConfig?.radioButton.size?.values; let col = $index; track size) {
+        [headers]="themeComponentConfig?.radioButton?.size?.values"
+        [rowHeaders]="themeComponentConfig?.radioButton?.type?.values ?? []">
+        @for (type of themeComponentConfig?.radioButton?.type?.values ?? [null]; let row = $index; track type) {
+          @for (size of themeComponentConfig?.radioButton?.size?.values; let col = $index; track size) {
             <story-table-cell [row]="row" [col]="col">
               <cck-radio-button [type]="type" [size]="size" [value]="1" [checked]="true">Radio Button</cck-radio-button>
             </story-table-cell>

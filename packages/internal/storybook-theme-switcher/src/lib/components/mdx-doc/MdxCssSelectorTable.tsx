@@ -16,7 +16,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseCo
     return;
   }
 
-  const {additional, templates, ...restProp} = selectedCckTheme.themeConfig.components[componentName];
+  const {additional, templates, ...restProp} = selectedCckTheme.themeConfig.components[componentName] ?? {};
   const hasVariants =
     Object.values(restProp).filter(Boolean).length > 0 ||
     Object.values(additional ?? {}).filter(Boolean).length > 0;

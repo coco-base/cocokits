@@ -28,10 +28,10 @@ export const Color: AngularStoryObj<FormFieldComponent> = {
     },
     template: `      
       <story-table
-        [headers]="themeComponentConfig?.formField.color?.values"
-        [rowHeaders]="themeComponentConfig?.formField.type?.values ?? []">
-        @for (type of themeComponentConfig?.formField.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.formField.color?.values; let col = $index; track color) {
+        [headers]="themeComponentConfig?.formField?.color?.values"
+        [rowHeaders]="themeComponentConfig?.formField?.type?.values ?? []">
+        @for (type of themeComponentConfig?.formField?.type?.values ?? [null]; let row = $index; track type) {
+          @for (color of themeComponentConfig?.formField?.color?.values; let col = $index; track color) {
             <story-table-cell [row]="row" [col]="col">
               <cck-form-field [color]="color">
                 <cck-label>Email</cck-label>

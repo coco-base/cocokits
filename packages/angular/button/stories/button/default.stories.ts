@@ -1,5 +1,4 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
