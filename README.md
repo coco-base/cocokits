@@ -14,7 +14,7 @@ We provide the core components you need for every project, component composition
 
 
 ## Supported design systems
-- **Frames X UI Kit:** [Frames X](https://framesxdesign.com/){:target="_blank"} is the largest web design system in the world. With un-styled UI components and support for multiple color and brand themes. [Learn more](https://framesxdesign.com/){:target="_blank"}.
+- **Frames X UI Kit:** [Frames X](https://framesxdesign.com/?aff=wzMlE8) is the largest web design system in the world. With un-styled UI components and support for multiple color and brand themes. [Learn more](https://framesxdesign.com/?aff=wzMlE8).
 
 - **CocoKits UI Kit:** Designed by the CocoKits team, this theme provides a consistent, balanced look across all components for a seamless user experience.
 
