@@ -1,38 +1,34 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/theme-config.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { UIBaseComponentProps, ThemeConfig, LayoutClassNamesConfig } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const leadingLayoutClassNamesConfig = {
-  prefix: 'cck-leading',
+  componentName: 'leading',
+  baseSelectorStructure: {
+    block: 'leading',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-leading'],
+      selectorStructure: [],
       description: 'It will add to the host element of Hint component.',
     },
     clickable: {
       name: 'Clickable Host Element',
-      selectors: ['cck-leading--clickable'],
+      selectorStructure: [{ modifier: 'clickable' }],
       description: 'It will add to the host element of Leading component, when the element is clickable',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getLeadingClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof leadingLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'leading',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(leadingLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...leadingLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(leadingLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    clickable: [...leadingLayoutClassNamesConfig.elements.clickable.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(leadingLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    clickable: generateLayoutClassNameFromElement(leadingLayoutClassNamesConfig, 'clickable', themeConfig),
   };
 }

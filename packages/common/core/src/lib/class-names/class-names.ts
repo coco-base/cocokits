@@ -1,4 +1,4 @@
-import { isNotNullish, recordForEach } from '@cocokits/common-utils';
+import { isNotNullish, recordForEach, safeMergeString } from '@cocokits/common-utils';
 
 import { getButtonClassNames } from './button-class-names';
 import { getCheckboxClassNames } from './checkbox-class-names';
@@ -32,6 +32,7 @@ import {
   CssSelectorGeneratorOptions,
   UIBaseComponentsName,
   ThemeConfig,
+  LayoutClassNamesConfig,
 } from '../model/theme-config.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 
@@ -87,37 +88,101 @@ export function getClassNames<T extends UIBaseComponentsName>(
   return CLASS_NAMES_FN_MAP[componentName](componentProps, themeConfig) as ReturnType<(typeof CLASS_NAMES_FN_MAP)[T]>;
 }
 
-export function getHostClassNames(prefix: string, options: CssSelectorGeneratorOptions) {
+export function getHostClassNamesFromProps(
+  layoutConfig: LayoutClassNamesConfig,
+  themeConfig: ThemeConfig,
+  componentProps: UIBaseComponentProps
+) {
   const classNames = [];
 
-  const { type, color, size, additional } = getComponentPropsWithDefault(options);
+  const { type, color, size, additional } = getComponentPropsWithDefault(layoutConfig, themeConfig, componentProps);
+  const block = safeMergeString(
+    layoutConfig.baseSelectorStructure.block,
+    ...layoutConfig.elements.host.selectorStructure.map((s) => s.block)
+  );
 
   if (isNotNullish(type)) {
-    classNames.push(cssSelectorRender({ block: prefix, element: type }));
+    classNames.push(cssSelectorRender({ block, element: type, themePrefix: themeConfig.cssSelectorPrefix }));
   }
-  if (isNotNullish(type) && options.componentProps.type !== type) {
-    classNames.push(cssSelectorRender({ block: prefix, modifier: 'default-type' }));
+  if (isNotNullish(type) && componentProps.type !== type) {
+    classNames.push(cssSelectorRender({ block, modifier: 'default-type', themePrefix: themeConfig.cssSelectorPrefix }));
   }
 
   if (color) {
-    classNames.push(cssSelectorRender({ block: prefix, element: 'color', modifier: color }));
+    classNames.push(
+      cssSelectorRender({ block, element: 'color', modifier: color, themePrefix: themeConfig.cssSelectorPrefix })
+    );
   }
-  if (color && options.componentProps.color !== color) {
-    classNames.push(cssSelectorRender({ block: prefix, modifier: 'default-color' }));
+  if (color && componentProps.color !== color) {
+    classNames.push(
+      cssSelectorRender({ block, modifier: 'default-color', themePrefix: themeConfig.cssSelectorPrefix })
+    );
   }
 
   if (size) {
-    classNames.push(cssSelectorRender({ block: prefix, element: 'size', modifier: size }));
+    classNames.push(
+      cssSelectorRender({ block, element: 'size', modifier: size, themePrefix: themeConfig.cssSelectorPrefix })
+    );
   }
-  if (size && options.componentProps.size !== size) {
-    classNames.push(cssSelectorRender({ block: prefix, modifier: 'default-size' }));
+  if (size && componentProps.size !== size) {
+    classNames.push(cssSelectorRender({ block, modifier: 'default-size', themePrefix: themeConfig.cssSelectorPrefix }));
   }
 
   if (additional) {
     recordForEach(additional, (value, key) => {
-      classNames.push(cssSelectorRender({ block: prefix, element: key, modifier: value }));
+      classNames.push(
+        cssSelectorRender({ block, element: key, modifier: value, themePrefix: themeConfig.cssSelectorPrefix })
+      );
     });
   }
 
   return classNames;
+}
+
+export function generateLayoutClassNameFromElement<T extends LayoutClassNamesConfig, U extends keyof T['elements']>(
+  layoutConfig: T,
+  key: U,
+  themeConfig: ThemeConfig
+): string;
+export function generateLayoutClassNameFromElement<T extends LayoutClassNamesConfig, U extends 'host'>(
+  layoutConfig: T,
+  key: U,
+  themeConfig: ThemeConfig,
+  componentProps: UIBaseComponentProps
+): string;
+export function generateLayoutClassNameFromElement<T extends LayoutClassNamesConfig, U extends keyof T['elements']>(
+  layoutConfig: T,
+  elementName: U,
+  themeConfig: ThemeConfig,
+  componentProps?: UIBaseComponentProps
+) {
+  const elementConfig = layoutConfig.elements[elementName as string];
+
+  const classNames = [
+    cssSelectorRender({
+      themePrefix: themeConfig.cssSelectorPrefix,
+      block: safeMergeString(
+        layoutConfig.baseSelectorStructure.block,
+        ...elementConfig.selectorStructure.map((s) => s.block)
+      ),
+      element: safeMergeString(
+        layoutConfig.baseSelectorStructure.element,
+        ...elementConfig.selectorStructure.map((s) => s.element)
+      ),
+      modifier: safeMergeString(
+        layoutConfig.baseSelectorStructure.modifier,
+        ...elementConfig.selectorStructure?.map((s) => s.modifier)
+      ),
+    }),
+  ];
+
+  if (elementName === 'host') {
+    if (!componentProps) {
+      throw new Error('componentProps is required when elementName is host by generating class names');
+    }
+
+    classNames.push(...getHostClassNamesFromProps(layoutConfig, themeConfig, componentProps));
+  }
+
+  return classNames.join(' ');
 }

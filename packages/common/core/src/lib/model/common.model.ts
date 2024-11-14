@@ -7,3 +7,7 @@ export type DeepNullable<T> = {
 };
 
 export type ClassRef = new (...args: any[]) => any;
+
+export type RequireAtLeastOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Omit<T, K>;
+}[keyof T];

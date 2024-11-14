@@ -32,7 +32,7 @@ import { trailingLayoutClassNamesConfig } from './trailing-class-names';
  * Because we define it as string. But without types the typescript will understand the key of `elements` map
  */
 
-export const layoutClassNamesConfig = {
+export const layoutClassNamesConfigRecord = {
   // icon
   svgIcon: svgIconLayoutClassNamesConfig,
   // button

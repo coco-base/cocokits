@@ -1,45 +1,41 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/theme-config.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { UIBaseComponentProps, ThemeConfig, LayoutClassNamesConfig } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const textareaClassNamesConfig = {
-  prefix: 'cck-textarea',
+  componentName: 'textarea',
+  baseSelectorStructure: {
+    block: 'textarea',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-textarea'],
+      selectorStructure: [],
       description: 'It will add to the host element of textarea component.',
     },
     disabled: {
       name: 'Host Element',
-      selectors: ['cck-textarea--disabled'],
+      selectorStructure: [{ modifier: 'disabled' }],
       description: 'It will add to the host element of textarea component, the component is disabled',
     },
     autoResize: {
       name: 'Host Element',
-      selectors: ['cck-textarea--auto-resize'],
+      selectorStructure: [{ modifier: 'auto-resize' }],
       description:
-        'It will add to the host element of textarea component, the the height of textarea will automatically change base on content',
+        'It will add to the host element of textarea component, the height of textarea will automatically change based on content',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getTextareaClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof textareaClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'textarea',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(textareaClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...textareaClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(textareaClassNamesConfig.prefix, options),
-    ].join(' '),
-    disabled: [...textareaClassNamesConfig.elements.disabled.selectors].join(' '),
-    autoResize: [...textareaClassNamesConfig.elements.autoResize.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(textareaClassNamesConfig, 'host', themeConfig, componentProps),
+    disabled: generateLayoutClassNameFromElement(textareaClassNamesConfig, 'disabled', themeConfig),
+    autoResize: generateLayoutClassNameFromElement(textareaClassNamesConfig, 'autoResize', themeConfig),
   };
 }

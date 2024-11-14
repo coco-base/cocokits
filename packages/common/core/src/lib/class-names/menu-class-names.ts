@@ -1,38 +1,34 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/theme-config.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { UIBaseComponentProps, ThemeConfig, LayoutClassNamesConfig } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const menuLayoutClassNamesConfig = {
-  prefix: 'cck-menu',
+  componentName: 'menu',
+  baseSelectorStructure: {
+    block: 'menu',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-menu'],
+      selectorStructure: [],
       description: 'It will add to the host element of Menu component.',
     },
     overlay: {
       name: 'Menu Overlay Element',
-      selectors: ['cck-menu__overlay'],
-      description: 'It will add to the overlay element, when the the menu is opened',
+      selectorStructure: [{ element: 'overlay' }],
+      description: 'It will add to the overlay element, when the menu is opened',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getMenuClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof menuLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'menu',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(menuLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...menuLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(menuLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    overlay: [...menuLayoutClassNamesConfig.elements.overlay.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(menuLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    overlay: generateLayoutClassNameFromElement(menuLayoutClassNamesConfig, 'overlay', themeConfig),
   };
 }

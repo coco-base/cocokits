@@ -1,3 +1,4 @@
+import { RequireAtLeastOne } from './common.model';
 import { ThemeSvgIcon } from './theme-svg-icon.model';
 
 export type UIBaseComponentsName =
@@ -98,4 +99,29 @@ export interface CssSelectorGeneratorOptions {
   componentName: UIBaseComponentsName;
   componentProps: UIBaseComponentProps;
   themeConfig: ThemeConfig;
+}
+
+export interface LayoutElementClassNamesConfig {
+  name: string;
+  selectorStructure: RequireAtLeastOne<{
+    block?: string;
+    element?: string;
+    modifier?: string;
+  }>[];
+  description: string;
+}
+
+export interface LayoutClassNamesConfig {
+  componentName: UIBaseComponentsName;
+  /**
+   * The base selector structure which will be added to the final CSS class before all elements' selector structures.
+   * For example, if the base selector structure is `{ block: 'button', element: 'my-prefix' }`, and element selector structure is `{ element: 'icon' }`,
+   * then the final CSS class will be `button__my-prefix-icon`.
+   */
+  baseSelectorStructure: RequireAtLeastOne<{
+    block?: string;
+    element?: string;
+    modifier?: string;
+  }>;
+  elements: { host: LayoutElementClassNamesConfig } & Record<string, LayoutElementClassNamesConfig>;
 }

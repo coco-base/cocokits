@@ -1,39 +1,32 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/theme-config.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { UIBaseComponentProps, ThemeConfig, LayoutClassNamesConfig } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const svgIconLayoutClassNamesConfig = {
-  prefix: 'cck-svg-icon',
+  componentName: 'svgIcon',
+  baseSelectorStructure: { block: 'svg-icon' },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-svg-icon'],
+      selectorStructure: [],
       description: `It will add to the host element of SvgIcon component and it's a wrapper of svg element`,
     },
     svg: {
       name: 'Svg Element',
-      selectors: ['cck-svg-icon__svg'],
+      selectorStructure: [{ element: 'svg' }],
       description: `It will add to the svg element inside of SvgIcon component`,
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getSvgIconClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof svgIconLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'svgIcon',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(svgIconLayoutClassNamesConfig.componentName, componentProps, themeConfig);
 
   return {
-    host: [
-      ...svgIconLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(svgIconLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    svg: [...svgIconLayoutClassNamesConfig.elements.svg.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(svgIconLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    svg: generateLayoutClassNameFromElement(svgIconLayoutClassNamesConfig, 'svg', themeConfig),
   };
 }

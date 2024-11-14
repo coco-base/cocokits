@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { cssSelectorRender, layoutClassNamesConfig, UIBaseComponentsName } from '@cocokits/core';
+import { cssSelectorRender, generateLayoutClassNameFromElement, layoutClassNamesConfigRecord, UIBaseComponentsName } from '@cocokits/core';
 import { useDocSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { DocMarkdown } from '../doc-page/DocMarkdown';
@@ -9,13 +9,14 @@ import { DocMarkdown } from '../doc-page/DocMarkdown';
 // eslint-disable-next-line max-lines-per-function
 export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseComponentsName }) {
 
-  const coreClassNames = layoutClassNamesConfig[componentName];
+  const layoutClassNamesConfig = layoutClassNamesConfigRecord[componentName];
   const selectedCckTheme = useDocSelectedCckTheme();
 
   if (!selectedCckTheme) {
     return;
   }
 
+  const cssSelectorPrefix = selectedCckTheme.themeConfig.cssSelectorPrefix;
   const {additional, templates, ...restProp} = selectedCckTheme.themeConfig.components[componentName] ?? {};
   const hasVariants =
     Object.values(restProp).filter(Boolean).length > 0 ||
@@ -38,9 +39,11 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseCo
         </thead>
         <tbody>
           {
-            Object.entries(coreClassNames.elements).map(([key, value]) => (
+            Object.entries(layoutClassNamesConfig.elements).map(([key, value]) => (
               <StyledTr key={key}>
-                <StyledTd $noWrap={true}>{value.selectors}</StyledTd>
+                <StyledTd $noWrap={true}>
+                  {/* {generateLayoutClassNameFromElement(layoutClassNamesConfig, key as keyof typeof layoutClassNamesConfig.elements, selectedCckTheme.themeConfig)} */}
+                </StyledTd>
                 <StyledTd $noWrap={true}>{key}</StyledTd>
                 <StyledTd><DocMarkdown>{value.description}</DocMarkdown></StyledTd>
               </StyledTr>
@@ -84,7 +87,7 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseCo
                       {/* default-type, default-color, default-size */}
                       <StyledTr key={config.name + 'default'}>
                         <StyledTd $noWrap={true}>
-                          { cssSelectorRender({ block: coreClassNames.prefix, modifier: `default-${config.name}` })}
+                          {/* { cssSelectorRender({ block: layoutClassNamesConfig.prefix, modifier: `default-${config.name}`, themePrefix: cssSelectorPrefix })} */}
                         </StyledTd>
                         <StyledTd>{selectedCckTheme.name}</StyledTd>
                         <StyledTd $noWrap={false}>
@@ -96,9 +99,9 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseCo
                         Object.values(config.values).map(value => (
                           <StyledTr key={value?.toString() }>
                             <StyledTd $noWrap={true}>
-                              {
-                                key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({block: coreClassNames.prefix, element: key, modifier: value})
-                              }
+                              {/* {
+                                key === 'type' ? cssSelectorRender({ block: layoutClassNamesConfig.prefix, element: value, themePrefix: cssSelectorPrefix }) : cssSelectorRender({block: layoutClassNamesConfig.prefix, element: key, modifier: value, themePrefix: cssSelectorPrefix})
+                              } */}
                             </StyledTd>
                             <StyledTd>{selectedCckTheme.name}</StyledTd>
                             <StyledTd $noWrap={true}>Host Element</StyledTd>
@@ -143,9 +146,9 @@ export function MdxCssSelectorTable({ componentName }: { componentName: UIBaseCo
                             Object.values(config.values).map(value => (
                               <StyledTr key={value.toString()}>
                                 <StyledTd $noWrap={true}>
-                                  {
-                                    key === 'type' ? cssSelectorRender({ block: coreClassNames.prefix, element: value }) : cssSelectorRender({ block: coreClassNames.prefix, element: key, modifier: value})
-                                  }
+                                  {/* {
+                                    key === 'type' ? cssSelectorRender({ block: layoutClassNamesConfig.prefix, element: value, themePrefix: cssSelectorPrefix }) : cssSelectorRender({ block: layoutClassNamesConfig.prefix, element: key, modifier: value, themePrefix: cssSelectorPrefix})
+                                  } */}
                                 </StyledTd>
                                 <StyledTd>{selectedCckTheme.name}</StyledTd>
                                 <StyledTd $noWrap={true}>Host Element</StyledTd>
