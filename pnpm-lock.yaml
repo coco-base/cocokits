@@ -58,6 +58,9 @@ importers:
       '@storybook/addon-interactions':
         specifier: ~8.0.9
         version: 8.0.10
+      '@storybook/channels':
+        specifier: ^8.0.9
+        version: 8.0.10
       '@storybook/components':
         specifier: ~8.0.9
         version: 8.0.10(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -935,6 +938,88 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@22.9.0)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.2.0)(sass@1.80.6)(stylus@0.64.0)(terser@5.36.0)
     publishDirectory: ../../../dist/packages/common/utils
+
+  packages/internal/storybook-addon-theme:
+    dependencies:
+      '@cocokits/common-utils':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/utils
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      '@cocokits/react-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/core
+      '@cocokits/react-overlay':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/overlay
+      '@cocokits/theme-cocokits':
+        specifier: workspace:*
+        version: link:../../../dist/packages/themes/cocokits
+      '@cocokits/theme-frames-x':
+        specifier: workspace:*
+        version: link:../../../dist/packages/themes/frames-x
+      '@griffel/react':
+        specifier: ^1.5.22
+        version: 1.5.26(react@18.2.0)
+      '@shikijs/markdown-it':
+        specifier: ^1.6.5
+        version: 1.22.2
+      '@storybook/addon-docs':
+        specifier: ~8.0.9
+        version: 8.0.10(encoding@0.1.13)(webpack-sources@3.2.3)
+      '@storybook/blocks':
+        specifier: ~8.0.9
+        version: 8.0.10(@types/react@18.3.1)(encoding@0.1.13)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+      '@storybook/channels':
+        specifier: ~8.0.9
+        version: 8.0.10
+      '@storybook/components':
+        specifier: ~8.0.9
+        version: 8.0.10(@types/react@18.3.1)(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+      '@storybook/core-events':
+        specifier: ~8.0.9
+        version: 8.0.10
+      '@storybook/icons':
+        specifier: ^1.2.9
+        version: 1.2.12(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+      '@storybook/manager-api':
+        specifier: ~8.0.9
+        version: 8.0.10(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+      '@storybook/preview-api':
+        specifier: ~8.0.9
+        version: 8.0.10
+      '@storybook/theming':
+        specifier: ~8.0.9
+        version: 8.0.10(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+      '@storybook/types':
+        specifier: ~8.0.9
+        version: 8.0.10
+      '@swc/helpers':
+        specifier: ~0.5.2
+        version: 0.5.13
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      mixpanel-browser:
+        specifier: ^2.55.1
+        version: 2.55.1
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      rxjs:
+        specifier: ~7.8.0
+        version: 7.8.1
+      styled-components:
+        specifier: ^6.1.11
+        version: 6.1.13(react-dom@18.3.1(react@18.2.0))(react@18.2.0)
+    devDependencies:
+      '@types/mixpanel-browser':
+        specifier: ^2.50.1
+        version: 2.50.2
+      '@types/react':
+        specifier: ^18.2.79
+        version: 18.3.1
 
   packages/internal/storybook-theme-switcher:
     dependencies:

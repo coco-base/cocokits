@@ -147,6 +147,7 @@
     "@storybook/addon-actions": "~8.0.9",
     "@storybook/addon-google-analytics": "^6.2.9",
     "@storybook/addon-interactions": "~8.0.9",
+    "@storybook/channels": "^8.0.9",
     "@storybook/components": "~8.0.9",
     "@storybook/icons": "^1.2.9",
     "@storybook/test-runner": "^0.19.1",

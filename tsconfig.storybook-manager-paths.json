@@ -38,6 +38,12 @@
         "../../packages/internal/storybook-theme-switcher/src/",
         "../../../packages/internal/storybook-theme-switcher/src/"
       ],
+      "@cocokits/storybook-addon-theme": [
+        "packages/internal/storybook-addon-theme/src/",
+        "../packages/internal/storybook-addon-theme/src/",
+        "../../packages/internal/storybook-addon-theme/src/",
+        "../../../packages/internal/storybook-addon-theme/src/"
+      ],
       "@cocokits/theme-cocokits": [
         "packages/themes/cocokits/src/",
         "../packages/themes/cocokits/src/",
