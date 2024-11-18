@@ -34,5 +34,6 @@ export * from './lib/uncategorized/reduce';
 export * from './lib/uncategorized/sanitize';
 export * from './lib/uncategorized/textarea';
 export * from './lib/uncategorized/string';
+export * from './lib/uncategorized/instance-store';
 
 export * from './lib/selection/selection';
