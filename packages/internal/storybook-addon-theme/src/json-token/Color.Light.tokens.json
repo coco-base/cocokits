@@ -1,0 +1,146 @@
+{
+  "Color": {
+    "Brand": {
+      "Default": {
+        "$type": "color",
+        "$value": "{See-Green.500}"
+      }
+    },
+    "Bg": {
+      "0": {
+        "$type": "color",
+        "$value": "{White.50}"
+      },
+      "1": {
+        "$type": "color",
+        "$value": "{White.50}"
+      },
+      "2": {
+        "$type": "color",
+        "$value": "{White.50}"
+      },
+      "3": {
+        "$type": "color",
+        "$value": "{White.100}"
+      },
+      "4": {
+        "$type": "color",
+        "$value": "{White.300}"
+      },
+      "5": {
+        "$type": "color",
+        "$value": "{White.400}"
+      },
+      "alpha-1": {
+        "$type": "color",
+        "$value": "{White-Alpha.1}"
+      },
+      "alpha-2": {
+        "$type": "color",
+        "$value": "{White-Alpha.3}"
+      },
+      "alpha-3": {
+        "$type": "color",
+        "$value": "{White-Alpha.4}"
+      },
+      "alpha-4": {
+        "$type": "color",
+        "$value": "{White-Alpha.5}"
+      },
+      "alpha-5": {
+        "$type": "color",
+        "$value": "{White-Alpha.6}"
+      },
+      "hover-1": {
+        "$type": "color",
+        "$value": "{Color.Bg.3}"
+      },
+      "Selected": {
+        "$type": "color",
+        "$value": "{Ocean-Green.100}"
+      }
+    },
+    "Border": {
+      "1": {
+        "$type": "color",
+        "$value": "{Black-Alpha.2}"
+      },
+      "2": {
+        "$type": "color",
+        "$value": "{Black-Alpha.4}"
+      },
+      "3": {
+        "$type": "color",
+        "$value": "{Black-Alpha.5}"
+      }
+    },
+    "Font": {
+      "1": {
+        "$type": "color",
+        "$value": "{Black.50}"
+      },
+      "2": {
+        "$type": "color",
+        "$value": "#333d4a"
+      },
+      "3": {
+        "$type": "color",
+        "$value": "#666d77"
+      },
+      "4": {
+        "$type": "color",
+        "$value": "#999ea5"
+      },
+      "5": {
+        "$type": "color",
+        "$value": "#ccced2"
+      },
+      "Alpha-1": {
+        "$type": "color",
+        "$value": "{Black.50}"
+      },
+      "Alpha-2": {
+        "$type": "color",
+        "$value": "{Black-Alpha.8}"
+      },
+      "Alpha-3": {
+        "$type": "color",
+        "$value": "{Black-Alpha.7}"
+      },
+      "Alpha-4": {
+        "$type": "color",
+        "$value": "{Black-Alpha.6}"
+      },
+      "Alpha-5": {
+        "$type": "color",
+        "$value": "{Black-Alpha.5}"
+      }
+    },
+    "Main-Effect": {
+      "Primary-Start": {
+        "$type": "color",
+        "$value": "#008d5ecc"
+      },
+      "Primary-End": {
+        "$type": "color",
+        "$value": "#008d5e99"
+      },
+      "Surface-Start": {
+        "$type": "color",
+        "$value": "#ffffff00"
+      },
+      "Surface-End": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "Box-Start": {
+        "$type": "color",
+        "$value": "#0f111614"
+      },
+      "Box-End": {
+        "$type": "color",
+        "$value": "#0f111600"
+      }
+    }
+  }
+}

@@ -16,8 +16,8 @@ const THEME_COCOKITS: Theme = {
     'brand-color-1': 'dark',
   },
   iconPaths: {
-    [ColorMode.Light]: '/cocokits-icon-dark.svg',
-    [ColorMode.Dark]: '/cocokits-icon-light.svg',
+    [ColorMode.Light]: '/logos/cocokits-icon-logo-dark.svg',
+    [ColorMode.Dark]: '/logos/cocokits-icon-logo-light.svg',
   },
   colorModeTokenCollectionMode: {
     [ColorMode.Light]: { 'brand-color-1': 'light' },
@@ -37,8 +37,8 @@ const THEME_FRAMES_X: Theme = {
     'color-mode': 'dark',
   },
   iconPaths: {
-    [ColorMode.Light]: '/framesX-logo-dark.svg',
-    [ColorMode.Dark]: '/framesX-logo-light.svg',
+    [ColorMode.Light]: 'logos/frames-x-icon-logo-dark.svg',
+    [ColorMode.Dark]: 'logos/frames-x-icon-logo-light.svg',
   },
   colorModeTokenCollectionMode: {
     [ColorMode.Light]: { 'color-mode': 'light' },

@@ -7,7 +7,7 @@ const COLOR_MODE_DARK = create({
   brandTitle: 'cocokits',
 
   brandUrl: 'https://github.com/coco-base/cocokits',
-  brandImage: '/cocokits-logo-light.svg',
+  brandImage: '/logos/cocokits-full-logo-light.svg',
 
   colorPrimary: '#1bbf82', // --cck-storybook-color-brand-default
   colorSecondary: '#1bbf82', // --cck-storybook-color-brand-default
@@ -51,7 +51,7 @@ const COLOR_MODE_LIGHT = create({
   brandTitle: 'cocokits',
 
   brandUrl: 'https://github.com/coco-base/cocokits',
-  brandImage: '/cocokits-logo-dark.svg',
+  brandImage: '/logos/cocokits-full-logo-dark.svg',
 
   colorPrimary: '#129c69', // --cck-storybook-color-brand-default
   colorSecondary: '#129c69', // --cck-storybook-color-brand-default

@@ -8,31 +8,28 @@
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     },
-    "scssify-token": {
-      "executor": "@cocokits/workspace-plugin:scssify-token",
-      "outputs": ["{options.outputPath}"],
-      "configurations": {
-        "designTokensManager": {
-          "files": ["packages/internal/storybook-addon-theme/src/lib/json-token/manifest.json"],
-          "exclude": [],
-          "parser": "design-tokens-manager",
-          "skipTokenTypes": [],
-          "outputDir": "packages/internal/storybook-addon-theme/src/lib/token",
-          "themeName": "cck-storybook-theme",
-          "prefix": "cck-storybook-"
-        }
-      }
-    },
     "token-generator": {
       "executor": "@cocokits/workspace-plugin:token-generator",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "files": ["packages/internal/storybook-addon-theme/src/lib/json-token/manifest.json"],
+        "files": ["packages/internal/storybook-addon-theme/src/json-token/manifest.json"],
         "skipTokenTypes": [],
         "parser": "design-tokens-manager",
-        "outputDir": "packages/internal/storybook-addon-theme/src/lib/token",
-        "themeName": "cck-storybook-theme",
-        "prefix": "cck-storybook-"
+        "outputDir": "packages/internal/storybook-addon-theme/src/token",
+        "themeName": "storybook-addon",
+        "prefix": "cck-doc-"
+      }
+    },
+    "css-generator": {
+      "executor": "@cocokits/workspace-plugin:scss-builder",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": [
+          {
+            "path": "packages/internal/storybook-addon-theme/src/styles/manager-styles.scss",
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles"
+          }
+        ]
       }
     }
   }

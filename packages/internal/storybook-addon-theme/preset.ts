@@ -1,2 +1,24 @@
-export const managerEntries = [require.resolve('./src/lib/manager/manager.ts')];
-export const previewAnnotations = [require.resolve('./src/lib/preview/preview.ts')];
+const sharedHead = `
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+`;
+
+const managerHead = `
+  ${sharedHead}
+  <link rel="stylesheet" href="/styles/manager-styles.min.css">
+`;
+
+const previewHead = `
+  ${sharedHead}
+  <link rel="stylesheet" href="/styles/manager-styles.min.css">
+`;
+
+export default {
+  managerEntries: [require.resolve('./src/lib/manager/manager.ts')],
+  previewAnnotations: [require.resolve('./src/lib/preview/preview.ts')],
+  managerHead: (head: string) => `${head} ${managerHead}`,
+  previewHead: (head: string) => `${head} ${previewHead}`,
+  staticDirs: [`${__dirname}/src/assets`],
+};
