@@ -1,4 +1,4 @@
-import Channel from '@storybook/channels';
+import { Channel } from '@storybook/channels';
 import { fromStorybookEvent } from '../../utils/rxjs.util';
 import { EVENTS } from '../../config/events.config';
 import { SelectedTheme } from '../../model/theme.model';

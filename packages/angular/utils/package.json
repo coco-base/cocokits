@@ -11,8 +11,8 @@
     "@cocokits/common-utils": "workspace:*"
   },
   "devDependencies": {
-    "@storybook/angular": "~8.0.9",
-    "@storybook/addon-docs": "~8.0.9"
+    "@storybook/angular": "8.4.4",
+    "@storybook/addon-docs": "8.4.4"
   },
   "sideEffects": false,
   "publishConfig": {

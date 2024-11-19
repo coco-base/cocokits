@@ -28,6 +28,10 @@
           {
             "path": "packages/internal/storybook-addon-theme/src/styles/manager-styles.scss",
             "output": "packages/internal/storybook-addon-theme/src/assets/styles"
+          },
+          {
+            "path": "packages/internal/storybook-addon-theme/src/styles/preview-styles.scss",
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles"
           }
         ]
       }

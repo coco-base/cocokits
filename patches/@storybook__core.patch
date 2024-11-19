@@ -1,0 +1,67 @@
+diff --git a/dist/builder-manager/index.js b/dist/builder-manager/index.js
+index 8c4916ff9941a3d79a6d4de49697623319d16ec1..0f7ba5f8285a6e8c436aef5a3f93b3dabb87eae6 100644
+--- a/dist/builder-manager/index.js
++++ b/dist/builder-manager/index.js
+@@ -1797,8 +1797,9 @@ var oe = /* @__PURE__ */ o(async (e, i, t, a, r, n, s, c, p, l, u, { versionChec
+     (E, [w, P]) => ({ ...E, [w]: JSON.stringify(P) }),
+     {}
+   );
++
+   return (0, dt.render)(y, {
+-    title: h ? `${h} - Storybook` : "Storybook",
++    title: h ? `${h} - CocoKits` : "CocoKits", // CocoKits
+     files: { js: n, css: r },
+     favicon: await t,
+     globals: {
+@@ -1939,6 +1940,41 @@ var pa = /^\/($|\?)/, G, C, xt = /* @__PURE__ */ o(async (e) => {
+     ne("addon.tsconfig.json"),
+     e.presets.apply("env")
+   ]), n = t ? [...i, t] : i;
++
++  // CocoKits
++  const findTsconfigStorybookManagerPath = () => {
++    const fs = require('fs');
++    const path = require('path');
++  
++    console.log('');
++    console.log('--------------------------------------');
++    console.log('Starting search for tsconfig.storybook-manager-paths.json');
++  
++    let currentDir = process.cwd();
++  
++    while (true) {
++      console.log(`Directory: ${currentDir}`);
++  
++      const filePath = path.join(currentDir, 'tsconfig.storybook-manager-paths.json');
++      if (fs.existsSync(filePath)) {
++        console.log(`Found tsconfig.storybook-manager-paths.json at: ${filePath}`);
++        console.log('--------------------------------------');
++        console.log('');
++
++        return filePath;
++      }
++  
++      const parentDir = path.dirname(currentDir);
++      if (parentDir === currentDir) {
++        throw new Error(
++          `Cannot find tsconfig.storybook-manager-paths.json file in the ${process.cwd()} or any parents make sure you have it in your workspace.`
++        );
++      }
++
++      currentDir = parentDir;
++    }
++  };  
++
+   return {
+     entryPoints: await jt(n, e.cacheKey),
+     outdir: L(e.outputDir || "./", "sb-addons"),
+@@ -1984,7 +2020,8 @@ var pa = /^\/($|\?)/, G, C, xt = /* @__PURE__ */ o(async (e) => {
+         assert: O.resolve("browser-assert")
+       }),
+       Z(ca),
+-      (0, Pt.pnpPlugin)()
++      (0, Pt.pnpPlugin)(),
++      require('esbuild-ts-paths')(findTsconfigStorybookManagerPath()), // CocoKits
+     ],
+     banner: {
+       js: "try{"

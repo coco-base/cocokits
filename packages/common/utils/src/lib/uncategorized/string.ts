@@ -1,3 +1,5 @@
+/** @module common */
+
 /**
  * Safely merges multiple strings into one by filtering out any falsy values and joining the remaining strings.
  *

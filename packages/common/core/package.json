@@ -10,8 +10,8 @@
   },
   "type": "commonjs",
   "devDependencies": {
-    "@storybook/angular": "~8.0.9",
-    "@storybook/addon-docs": "~8.0.9",
+    "@storybook/angular": "8.4.4",
+    "@storybook/addon-docs": "8.4.4",
     "vitest": "^1.6.0",
     "vite": "~5.0.0",
     "@nx/vite": "18.3.5"

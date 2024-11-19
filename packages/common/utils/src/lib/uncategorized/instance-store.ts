@@ -1,3 +1,5 @@
+/** @module common */
+
 /**
  * InstanceStore class to manage and provide instances of other classes.
  * This class ensures that only one instance of each class is created and reused throughout the application.

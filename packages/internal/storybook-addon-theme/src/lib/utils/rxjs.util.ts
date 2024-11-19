@@ -1,5 +1,5 @@
 import { fromEventPattern, shareReplay } from 'rxjs';
-import Channel from '@storybook/channels';
+import { Channel } from '@storybook/channels';
 
 export function fromStorybookEvent<T>(channel: Channel, eventName: string) {
   return fromEventPattern<T>(
