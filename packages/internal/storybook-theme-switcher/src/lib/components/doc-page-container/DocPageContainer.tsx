@@ -1,6 +1,6 @@
 import { DocsContainer } from '@storybook/addon-docs';
 import { DocsContextProps, PreparedStory } from '@storybook/types';
-import  { createContext, ReactNode } from 'react';
+import { createContext, ReactNode } from 'react';
 
 import { getDocPageContent } from './doc-page-context.util';
 import { storybookThemeListener } from './storybook-theme-listener';

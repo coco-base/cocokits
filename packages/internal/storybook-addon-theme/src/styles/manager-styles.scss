@@ -1,1 +1,3 @@
 @use '../token/css/tokens.min.css';
+@use '../theme' as cck-doc;
+@include cck-doc.components_all;

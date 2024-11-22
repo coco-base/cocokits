@@ -1,6 +1,9 @@
 import { addons } from '@storybook/preview-api';
 import { THEME_HTML_ATTRIBUTE_MODE_NAME, THEME_HTML_ATTRIBUTE_THEME_NAME } from '../../config/events.config';
 import { ThemeEventBase } from './theme-event.base';
+import { DocumentStyle } from '../../utils/document-styles';
+import { getInstance } from '@cocokits/common-utils';
+import { SelectedTheme } from '../../model/theme.model';
 
 /**
  * Theming should be managed at the preview level to ensure consistency across the application.
@@ -22,20 +25,20 @@ import { ThemeEventBase } from './theme-event.base';
  *    3- Listen to the color mode changes
  */
 export class ThemeEvent extends ThemeEventBase {
+  private documentStyle = getInstance(DocumentStyle);
+
   constructor() {
     super(addons.getChannel());
 
     // The core concept of color mode change in the app
     this.themeChange$.subscribe((event) => {
+      const selectedTheme: SelectedTheme = { id: event.id, selectedModes: event.selectedModes };
+
       // 1- Local Storage
-      this.localStorage.setTheme({ id: event.id, selectedModes: event.selectedModes });
+      this.localStorage.setTheme(selectedTheme);
 
       // 2- IFrame html css
-      const attr = Object.entries(event.selectedModes)
-        .map(([collectionName, mode]) => `${event.id}__${collectionName}--${mode}`)
-        .join(' ');
-      document.documentElement.setAttribute(THEME_HTML_ATTRIBUTE_MODE_NAME, attr);
-      document.documentElement.setAttribute(THEME_HTML_ATTRIBUTE_THEME_NAME, event.id);
+      this.documentStyle.setTheme(selectedTheme);
 
       // Remount the story to the story decorators. (in Angular we need to update `ThemeConfig` token to get the latest theme)
       // addons.getChannel().emit(events.FORCE_REMOUNT, {storyId: storyContext.id});

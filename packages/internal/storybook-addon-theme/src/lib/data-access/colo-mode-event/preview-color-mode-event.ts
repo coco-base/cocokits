@@ -1,6 +1,7 @@
 import { addons } from '@storybook/preview-api';
-import { COLOR_MODE_CSS_SELECTORS } from '../../config/events.config';
 import { ColorModeEventBase } from './color-mode-event.base';
+import { DocumentStyle } from '../../utils/document-styles';
+import { getInstance } from '@cocokits/common-utils';
 
 /**
  * Color Mode must be handled at both the manager and preview levels.
@@ -27,13 +28,16 @@ import { ColorModeEventBase } from './color-mode-event.base';
  *    1- Iframe html css
  */
 export class ColorModeEvent extends ColorModeEventBase {
+  private documentStyle = getInstance(DocumentStyle);
+
   constructor() {
     super(addons.getChannel());
 
+    this.documentStyle.setAddonTheme();
+
     this.colorModeChange$.subscribe((colorModeEvent) => {
       // 1-Iframe html css
-      document.documentElement.classList.remove(...Object.values(COLOR_MODE_CSS_SELECTORS));
-      document.documentElement.classList.add(COLOR_MODE_CSS_SELECTORS[colorModeEvent.colorMode]);
+      this.documentStyle.setColoMode(colorModeEvent.colorMode);
     });
   }
 }

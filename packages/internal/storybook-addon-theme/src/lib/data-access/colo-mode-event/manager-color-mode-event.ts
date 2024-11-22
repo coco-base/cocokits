@@ -1,10 +1,10 @@
 import { addons } from '@storybook/manager-api';
 import { COLOR_MODES } from '../../config/color-modes.config';
-import { COLOR_MODE_CSS_SELECTORS } from '../../config/events.config';
 import { withLatestFrom } from 'rxjs';
 import { ThemeEvent } from '../theme-event/manager-theme-event';
 import { getInstance } from '@cocokits/common-utils';
 import { ColorModeEventBase } from './color-mode-event.base';
+import { DocumentStyle } from '../../utils/document-styles';
 
 /**
  * Color Mode must be handled at both the manager and preview levels.
@@ -32,6 +32,7 @@ import { ColorModeEventBase } from './color-mode-event.base';
  */
 export class ColorModeEvent extends ColorModeEventBase {
   private themeEvent = getInstance(ThemeEvent);
+  private documentStyle = getInstance(DocumentStyle);
 
   constructor() {
     super(addons.getChannel());
@@ -49,8 +50,7 @@ export class ColorModeEvent extends ColorModeEventBase {
         addons.setConfig({ theme: COLOR_MODES[colorModeEvent.colorMode] });
 
         // 3- Root html css
-        document.documentElement.classList.remove(...Object.values(COLOR_MODE_CSS_SELECTORS));
-        document.documentElement.classList.add(COLOR_MODE_CSS_SELECTORS[colorModeEvent.colorMode]);
+        this.documentStyle.setColoMode(colorModeEvent.colorMode);
 
         // 4- Update modes of selected theme
         this.themeEvent.dispatchTheme({

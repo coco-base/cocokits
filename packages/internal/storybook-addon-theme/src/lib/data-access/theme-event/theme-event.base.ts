@@ -4,7 +4,7 @@ import { EVENTS } from '../../config/events.config';
 import { SelectedTheme } from '../../model/theme.model';
 import { THEMES } from '../../config/theme.config';
 import { fromStorybookEvent } from '../../utils/rxjs.util';
-import { Observable } from 'rxjs';
+import { Observable, startWith } from 'rxjs';
 import { LocalStorage } from '../local-storage';
 import { getInstance } from '@cocokits/common-utils';
 
@@ -16,7 +16,9 @@ export abstract class ThemeEventBase {
   constructor(channel: Channel) {
     this.channel = channel;
     // Don't move this line outside if `constructor`, otherwise the channel will be undefined, event if it's initialized in the constructor props.
-    this.themeChange$ = fromStorybookEvent<ThemeChangeEvent>(this.channel, EVENTS.THEME_CHANGE);
+    this.themeChange$ = fromStorybookEvent<ThemeChangeEvent>(this.channel, EVENTS.THEME_CHANGE).pipe(
+      startWith(this.getCurrentTheme())
+    );
 
     /**
      * We you need to ensure that the observable chain has always an active subscription.
