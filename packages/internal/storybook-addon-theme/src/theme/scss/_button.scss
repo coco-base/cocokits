@@ -1,0 +1,48 @@
+@use '../../token/scss' as *;
+
+@mixin button {
+  // .doc-cck-button {
+  //   display: inline-flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   margin: 0;
+  //   border: none;
+  //   outline: transparent;
+  //   cursor: pointer;
+  //   box-sizing: border-box;
+  //   font: $cck-doc-text-sm-medium;
+  //   border-radius: $cck-doc-radius-sm;
+
+  //   &__size {
+  //     &--md {
+  //       height: 40px;
+  //       gap: 8px;
+  //       padding: 0 20px;
+  //     }
+  //   }
+
+  //   &__color {
+  //     &--default {
+
+  //     }
+
+  //     &--selected {
+
+  //     }
+  //   }
+
+  //   // Types
+  //   &__basic {
+  //     background: transparent;
+  //     color: $cck-doc-color-font-1;
+
+  //     &.doc-cck-button__color--default {
+  //       background-color: transparent;
+
+  //     }
+  //     &.doc-cck-button__color--selected {
+  //       background: $cck-doc-color-bg-selected;
+  //     }
+  //   }
+  // }
+}
