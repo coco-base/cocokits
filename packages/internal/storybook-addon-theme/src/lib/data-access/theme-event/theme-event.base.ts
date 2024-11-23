@@ -2,7 +2,7 @@ import { Channel } from '@storybook/channels';
 import { ThemeChangeEvent } from '../../model/event.model';
 import { EVENTS } from '../../config/events.config';
 import { SelectedTheme } from '../../model/theme.model';
-import { THEMES } from '../../config/theme.config';
+import { THEMES } from '../../config/addon-theme.config';
 import { fromStorybookEvent } from '../../utils/rxjs.util';
 import { Observable, startWith } from 'rxjs';
 import { LocalStorage } from '../local-storage';

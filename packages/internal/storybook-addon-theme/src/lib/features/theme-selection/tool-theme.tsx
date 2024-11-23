@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-import { THEMES } from "../../config/theme.config";
+import { THEMES } from "../../config/addon-theme.config";
 import { SelectedTheme } from "../../model/theme.model";
 import { useTheme } from "../../utils/use-manager-theme";
 

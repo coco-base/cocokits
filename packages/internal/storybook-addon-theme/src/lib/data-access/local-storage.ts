@@ -1,4 +1,4 @@
-import { DEFAULT_COLOR_MODE, DEFAULT_THEME_ID, DEFAULT_THEME_MODES, THEMES } from '../config/theme.config';
+import { DEFAULT_COLOR_MODE, DEFAULT_THEME_ID, DEFAULT_THEME_MODES, THEMES } from '../config/addon-theme.config';
 import { ColorModeChangeEvent } from '../model/event.model';
 import { ColorMode, SelectedTheme, ThemeId } from '../model/theme.model';
 

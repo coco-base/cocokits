@@ -7,7 +7,7 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   children?: React.ReactNode;
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ type, size, color, additional, children, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: "button",

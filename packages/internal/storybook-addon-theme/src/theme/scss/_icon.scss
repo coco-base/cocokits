@@ -1,4 +1,15 @@
 @use '../../token/scss' as *;
 
 @mixin icon {
+  .doc-cck-svg-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    fill: var(--cck-doc-color-font-4);
+  }
+
+  // .doc-cck-svg-icon__svg {}
 }
