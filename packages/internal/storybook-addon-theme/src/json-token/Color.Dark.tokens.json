@@ -55,6 +55,14 @@
         "$type": "color",
         "$value": "{Color.Bg.3}"
       },
+      "hover-2": {
+        "$type": "color",
+        "$value": "{Color.Bg.2}"
+      },
+      "hover-3": {
+        "$type": "color",
+        "$value": "{Ocean-Green.900}"
+      },
       "Selected": {
         "$type": "color",
         "$value": "{Ocean-Green.950}"
