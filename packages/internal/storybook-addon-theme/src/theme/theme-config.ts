@@ -26,7 +26,14 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
-  radioButton: {},
+  radioButton: {
+    templates: {
+      radioCheckmark: `
+        <div class="doc-cck-radio-button__background--outer-circle"></div>
+        <div class="doc-cck-radio-button__background--inner-circle"></div>
+      `,
+    },
+  },
   // checkbox: {},
   iconButton: {
     type: {

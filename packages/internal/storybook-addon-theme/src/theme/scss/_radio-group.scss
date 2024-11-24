@@ -1,4 +1,17 @@
 @use '../../token/scss' as *;
 
 @mixin radio-group {
+  .doc-cck-radio-group {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .doc-cck-radio-group__row {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .doc-cck-radio-group__column {
+    flex-direction: column;
+  }
 }

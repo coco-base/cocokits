@@ -6,7 +6,10 @@ import { deepMerge } from '@cocokits/common-utils';
 export interface UiBaseComponentConfigOptions<T extends UIBaseComponentsName> {
   componentName: T;
   props: UIBaseComponentProps;
-  extraHostElementClassConditions?: { if: boolean | undefined | null; classes: string[] }[];
+  extraHostElementClassConditions?: {
+    if: boolean | undefined | null;
+    classes: (classNames: ReturnType<typeof getClassNames<T>>) => string[];
+  }[];
   skipProps?: {
     skipType?: boolean;
     skipColor?: boolean;
@@ -47,7 +50,9 @@ export function useUiBaseComponentConfig<T extends UIBaseComponentsName>(_option
 
   const hostClassNames = [
     classNames.host,
-    ...options.extraHostElementClassConditions.flatMap((condition) => (condition.if ? condition.classes : [])),
+    ...options.extraHostElementClassConditions.flatMap((condition) =>
+      condition.if ? condition.classes(classNames) : []
+    ),
   ].join(' ');
 
   return {

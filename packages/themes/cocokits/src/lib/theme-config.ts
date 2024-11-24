@@ -185,8 +185,8 @@ const components: ThemeComponentConfigRecord = {
     },
     templates: {
       radioCheckmark: `
-        <div class="cck-checkbox__background--outer-circle"></div>
-        <div class="cck-checkbox__background--inner-circle"></div>
+        <div class="cck-radio-button__background--outer-circle"></div>
+        <div class="cck-radio-button__background--inner-circle"></div>
       `,
     },
   },
