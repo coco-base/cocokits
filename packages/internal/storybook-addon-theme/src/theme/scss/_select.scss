@@ -1,4 +1,50 @@
 @use '../../token/scss' as *;
 
 @mixin select {
+  .doc-cck-select {
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    cursor: pointer;
+    font: var(--cck-doc-text-md-regular);
+    color: var(--cck-doc-color-font-1);
+
+    &__placeholder {
+      color: var(--cck-doc-color-font-4);
+    }
+
+    &__trigger-wrapper {
+      overflow: hidden;
+      flex: 1;
+      color: currentcolor;
+      text-align: start;
+      padding-right: 8px;
+    }
+
+    &__trigger-value {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &__overlay .doc-cck-overlay__backdrop {
+      background-color: rgb(0 0 0 / 0%);
+    }
+
+    &__dropdown-icon-wrapper .doc-cck-svg-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &__options-wrapper {
+      max-height: inherit;
+      height: inherit;
+      overflow: auto;
+      margin-top: 6px;
+      background-color: var(--cck-doc-color-bg-1);
+      border: 1px solid var(--cck-doc-color-border-2);
+      padding: 4px;
+      border-radius: var(--cck-doc-radius-sm);
+    }
+  }
 }

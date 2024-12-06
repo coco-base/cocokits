@@ -1,7 +1,7 @@
 import events from '@storybook/core-events';
 import { addons, types } from '@storybook/manager-api';
 
-import { openOverlay, OverlayAnimationType } from '@cocokits/react-overlay';
+import { openStandaloneOverlay, OverlayAnimationType } from '@cocokits/react-overlay';
 
 import {
   CCK_OPEN_THEME_SELECTION_EVENT_NAME,
@@ -61,14 +61,14 @@ function listenToOpenDialogEvent() {
       STORYBOOK_THEME_CHANGED_EVENT_NAME
     );
     const storybookThemeName = lastStorybookThemeName?.[0].themeName ?? 'dark';
-    const result = await openOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
+    const result = await openStandaloneOverlay<SelectThemeDialogData, SelectThemeDialogResult>(CckThemeDialog, {
       data: {
         selectedThemeId: lastEvent?.[0].id ?? 'cocokits',
         selectedThemeModes: lastEvent?.[0].selectedModes ?? {},
         storybookThemeName: storybookThemeName,
       },
-      animationType: OverlayAnimationType.CenterTopToBottom,
-    });
+      // animationType: OverlayAnimationType.CenterTopToBottom,
+    }).afterClosed;
 
     if (!result) {
       return;

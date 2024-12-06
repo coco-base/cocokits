@@ -1,4 +1,65 @@
 @use '../../token/scss' as *;
 
 @mixin form-field {
+  .doc-cck-form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    .doc-cck-select {
+      height: 100%;
+      width: 100%;
+      flex: 1;
+    }
+
+    .doc-cck-input {
+      width: 100%;
+      flex: 1;
+    }
+
+    &--disabled {
+      opacity: 0.5;
+    }
+
+    &__wrapper {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    &__feedback-wrapper {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    &__input-wrapper {
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border: 1px solid var(--cck-doc-color-border-2);
+      background-color: var(--cck-doc-color-bg-1);
+      padding: 8px 12px;
+      border-radius: var(--cck-doc-radius-sm);
+
+      &:hover {
+        background-color: var(--cck-doc-color-bg-hover-2);
+      }
+    }
+
+    &--focused &__input-wrapper {
+      background-color: var(--cck-doc-color-bg-1);
+      border: 1px solid var(--cck-doc-color-brand-default);
+      box-shadow: inset 0 0 0 1px var(--cck-doc-color-brand-default);
+    }
+  }
 }

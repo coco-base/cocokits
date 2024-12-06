@@ -1,4 +1,37 @@
 @use '../../token/scss' as *;
 
 @mixin option {
+  .doc-cck-option {
+    height: 40px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    font: var(--cck-doc-text-sm-regular);
+    color: var(--cck-doc-color-font-1);
+    gap: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: (var(--cck-doc-color-bg-hover-1));
+    }
+
+    .doc-cck-checkbox__input-wrapper {
+      width: 16px;
+      height: 16px;
+    }
+
+    #{&--single}#{&--selected} {
+      font: var(--cck-doc-text-sm-medium);
+    }
+
+    &__content-wrapper {
+      flex: 1;
+    }
+
+    &__selected-checkmark .doc-cck-svg-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }

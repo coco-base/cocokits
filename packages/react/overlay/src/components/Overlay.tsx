@@ -1,66 +1,117 @@
-// Don't remove `React` import, without this we get an error on opening overlay in react doc page
-import React, { useEffect, useRef } from 'react';
-import { OverlayProps } from '../models/overlay-props.model';
-import { runEnterAnimation } from './overlay.animation';
-import styled from 'styled-components';
+import { useLayoutEffect, useRef } from "react";
+import styled, { css } from "styled-components";
+import { OverlayConfig, OverlayRef } from "../models/overlay.model";
+import { lazyPromise } from "@cocokits/common-utils";
+import { OverLayContext, useOverlayAnimation } from "./overlay.hooks";
+import { useUiBaseComponentConfig } from "@cocokits/react-core";
+
+interface OverlayProps<TData, TResult> {
+  config: OverlayConfig<TData>;
+  closedPromise: ReturnType<typeof lazyPromise<TResult | void>>;
+  afterClosedPromise: ReturnType<typeof lazyPromise<TResult | void>>;
+  children: React.ReactNode | React.ReactNode[];
+}
 
 
-export const Overlay = <TData = unknown, TResult = unknown>(props: OverlayProps<TData, TResult>) => {
+export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const backdropRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
-  const backdropRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { classNames, hostClassNames } = useUiBaseComponentConfig({
+    componentName: 'overlay',
+    props: {},
+    extraHostElementClassConditions: [
+      { if: true, classes: () => props.config.panelClass },
+    ],
+  });
 
-  // Enter Animation
-  useEffect(() => {
-    const contentElem = contentRef.current;
-    const backdropElem = backdropRef.current;
+  const { runEnterAnimation, runExitAnimation } = useOverlayAnimation({
+    config: props.config,
+    containerRef,
+    contentRef,
+    backdropRef,
+  });
 
-    if (!contentElem || !backdropElem) {
+  const onBackdropClick = () => {
+    if (props.config.disableBackdropClose) {
       return;
     }
 
-    runEnterAnimation({ config: props.config, contentElem, backdropElem});
-  });
+    props.closedPromise.resolve();
+  };
 
+  useLayoutEffect(() => {
+    props.closedPromise.promise.then(async (result) => {
+      await runExitAnimation();
+
+      props.afterClosedPromise.resolve(result);
+    });
+
+    runEnterAnimation();
+  }, []);
+
+  const overlayRef: OverlayRef<TData, TResult> = {
+    data: props.config.data,
+    close: (result) => {
+      props.closedPromise.resolve(result);
+    },
+  }
 
   return (
-    <>
-      <StyledBackdrop className="cck-overlay__backdrop" ref={backdropRef} onClick={() => {
-        if (!props.config.disableBackdropClose) {
-          props.close();
-        }
-      }}/>
-      <StyledContent className="cck-overlay__content" ref={contentRef}>
-        <props.componentRef {...props} />
-      </StyledContent>
-    </>
+    <OverLayContext.Provider value={overlayRef}>
+      <StyledContainer ref={containerRef} className={hostClassNames}>
+        {props.config.hasBackdrop && (
+          <StyledBackdrop ref={backdropRef} className={classNames.backdrop} onClick={onBackdropClick} />
+        )}
+        <StyledContentWrapper $size={props.config.size} ref={contentRef} className={classNames.contentWrapper}>
+          {props.children}
+        </StyledContentWrapper>
+      </StyledContainer>
+    </OverLayContext.Provider>
   );
 };
 
-// region ---------------- STYLES ----------------
-const StyledBackdrop = styled.div`
-    :where(&) {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-        z-index: -1;
-        transition: opacity 300ms;
-        pointer-events: initial;
-        touch-action: initial;
-    }
+const StyledContainer = styled.div`
+  :where(&) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+  }
 `;
 
-const StyledContent = styled.div`
-    :where(&) {
-        display: flex;
-        position: relative;
-        overflow: hidden;
-        transition: opacity 500ms, transform 300ms;
-        pointer-events: initial;
-        touch-action: initial;
-    }
+const StyledBackdrop = styled.div`
+  :where(&) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
 `;
-// endregion
+
+const StyledContentWrapper = styled.div<{$size: OverlayConfig['size']}>`
+  :where(&) {
+    position: relative;
+    top: 0;
+    left: 0;
+
+    ${props => css`
+        height: ${props.$size?.height};
+        max-height: ${props.$size?.maxHeight};
+        max-width: ${props.$size?.maxWidth};
+        min-height: ${props.$size?.minHeight};
+        min-width: ${props.$size?.minWidth};
+        width: ${props.$size?.width};
+    `};
+
+  }
+`;

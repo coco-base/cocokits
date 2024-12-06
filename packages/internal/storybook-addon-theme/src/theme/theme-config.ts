@@ -6,7 +6,7 @@ const components: ThemeComponentConfigRecord = {
   // chipList: {},
   // chip: {},
   // optionGroup: {},
-  // option: {},
+  option: {},
   select: {
     templates: {
       dropdownIcon: {

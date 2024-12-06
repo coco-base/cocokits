@@ -20,8 +20,6 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
   const value = props.value;
   const checked = radioContextValue ? radioContextValue.selected === value : props.checked;
 
-  console.log('checked', id, checked);
-
   const themeConfig = useContext(ThemeConfigContext);
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({

@@ -25,6 +25,7 @@
 @use './textarea' as *;
 @use './toggle' as *;
 @use './trailing' as *;
+@use './overlay' as *;
 
 @mixin all {
   @include button;
@@ -54,4 +55,5 @@
   @include textarea;
   @include toggle;
   @include trailing;
+  @include overlay;
 }

@@ -1,5 +1,7 @@
 export * from './lib/differs/array-like-differs';
 
+export * from './lib/dom/anchor-position';
+
 export * from './lib/ensure/ensure-array';
 export * from './lib/ensure/ensure-blob';
 export * from './lib/ensure/ensure-boolean';
@@ -17,6 +19,8 @@ export * from './lib/observer/intersection-observer';
 export * from './lib/observer/mutation-observer';
 
 export * from './lib/search/fuzzysearch';
+
+export * from './lib/promise/lazy-promise';
 
 export * from './lib/rxjs/once-replay-subject';
 export * from './lib/rxjs/once-subject';
