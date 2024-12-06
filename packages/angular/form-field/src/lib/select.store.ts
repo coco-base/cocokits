@@ -79,7 +79,6 @@ export class SelectStoreService<T> implements OnDestroy {
   private set isMultiple(isMultiple: boolean) {
     this._isMultiple?.set(isMultiple);
   }
-  // endregion
 
   constructor() {
     this.selection.addChangeEventListener((changes) => {

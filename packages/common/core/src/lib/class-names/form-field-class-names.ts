@@ -23,6 +23,11 @@ export const formFieldLayoutClassNamesConfig = {
       selectorStructure: [{ element: 'input-wrapper' }],
       description: 'It contains a wrapper element for `prefix`, `suffix`, `input` or `chip-list` elements',
     },
+    feedbackWrapper: {
+      name: 'Feedback Wrapper Element',
+      selectorStructure: [{ element: 'feedback-wrapper' }],
+      description: 'It contains a wrapper element for `hint` and `error` elements',
+    },
     disabled: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'disabled' }],
@@ -116,6 +121,11 @@ export function getFormFieldClassNames(
     host: generateLayoutClassNameFromElement(formFieldLayoutClassNamesConfig, 'host', themeConfig, componentProps),
     wrapper: generateLayoutClassNameFromElement(formFieldLayoutClassNamesConfig, 'wrapper', themeConfig),
     inputWrapper: generateLayoutClassNameFromElement(formFieldLayoutClassNamesConfig, 'inputWrapper', themeConfig),
+    feedbackWrapper: generateLayoutClassNameFromElement(
+      formFieldLayoutClassNamesConfig,
+      'feedbackWrapper',
+      themeConfig
+    ),
     disabled: generateLayoutClassNameFromElement(formFieldLayoutClassNamesConfig, 'disabled', themeConfig),
     required: generateLayoutClassNameFromElement(formFieldLayoutClassNamesConfig, 'required', themeConfig),
     focused: generateLayoutClassNameFromElement(formFieldLayoutClassNamesConfig, 'focused', themeConfig),

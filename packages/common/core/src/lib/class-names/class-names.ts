@@ -35,6 +35,7 @@ import {
   LayoutClassNamesConfig,
 } from '../model/theme-config.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
+import { getOverlayClassNames } from './overlay-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -78,6 +79,8 @@ export const CLASS_NAMES_FN_MAP = {
 
   // icon
   svgIcon: getSvgIconClassNames,
+
+  overlay: getOverlayClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(
@@ -148,13 +151,13 @@ export function generateLayoutClassNameFromElement<T extends LayoutClassNamesCon
   layoutConfig: T,
   key: U,
   themeConfig: ThemeConfig,
-  componentProps: UIBaseComponentProps
+  componentProps: UIBaseComponentProps | null // There is no componentProps for CDK components
 ): string;
 export function generateLayoutClassNameFromElement<T extends LayoutClassNamesConfig, U extends keyof T['elements']>(
   layoutConfig: T,
   elementName: U,
   themeConfig: ThemeConfig,
-  componentProps?: UIBaseComponentProps
+  componentProps?: UIBaseComponentProps | null
 ) {
   const elementConfig = layoutConfig.elements[elementName as string];
 
@@ -176,7 +179,7 @@ export function generateLayoutClassNameFromElement<T extends LayoutClassNamesCon
     }),
   ];
 
-  if (elementName === 'host') {
+  if (elementName === 'host' && !isCDKComponent(layoutConfig.componentName)) {
     if (!componentProps) {
       throw new Error('componentProps is required when elementName is host by generating class names');
     }
@@ -185,4 +188,10 @@ export function generateLayoutClassNameFromElement<T extends LayoutClassNamesCon
   }
 
   return classNames.join(' ');
+}
+
+function isCDKComponent(componentName: UIBaseComponentsName) {
+  const CDK_COMPONENTS: UIBaseComponentsName[] = ['overlay'];
+
+  return CDK_COMPONENTS.includes(componentName);
 }

@@ -15,6 +15,7 @@ import { menuLayoutClassNamesConfig } from './menu-class-names';
 import { menuItemLayoutClassNamesConfig } from './menu-item-class-names';
 import { optionLayoutClassNamesConfig } from './option-class-names';
 import { optionGroupLayoutClassNamesConfig } from './option-group-class-names';
+import { overlayLayoutClassNamesConfig } from './overlay-class-names';
 import { prefixLayoutClassNamesConfig } from './prefix-class-names';
 import { radioButtonLayoutClassNamesConfig } from './radio-button-class-names';
 import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
@@ -67,4 +68,7 @@ export const layoutClassNamesConfigRecord = {
   divider: dividerLayoutClassNamesConfig,
   // toggle
   toggle: toggleLayoutClassNamesConfig,
+
+  // overlay
+  overlay: overlayLayoutClassNamesConfig,
 };

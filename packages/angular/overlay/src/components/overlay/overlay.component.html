@@ -1,13 +1,13 @@
 <!-- BACKDROP -->
 @if(overlayRef.config.hasBackdrop) {
-  <div [@overlayAnimBackdrop]="animationState" class="cck-overlay__backdrop" (click)="onBackdropClick()"></div>
+  <div [@overlayAnimBackdrop]="animationState" [class]="classNames.backdrop" (click)="onBackdropClick()"></div>
 }
 
 <!-- CONTENT -->
 <div
   #contentWrapper
   [@overlayAnimContent]="animationState"
-  class="cck-overlay__content-wrapper"
+  [class]="classNames.contentWrapper"
 
   [style.width]="overlayRef.config.size?.width"
   [style.min-width]="overlayRef.config.size?.minWidth"

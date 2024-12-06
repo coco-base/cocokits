@@ -13,7 +13,7 @@
   <ng-content select='cck-trailing'></ng-content>
 </div>
 
-<div class="cck-form-field__feedback-wrapper">
+<div [class]="classNames().feedbackWrapper">
   <ng-content select='cck-hint'></ng-content>
   <ng-content select='cck-error'></ng-content>
 </div>

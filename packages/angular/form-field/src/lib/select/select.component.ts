@@ -148,7 +148,7 @@ export class SelectComponent<T = any>
   /**
    * Value of the select control.
    */
-  @Input() set value(value: T) {
+  @Input() set value(value: T | T[]) {
     this.selectStore.setSelection(value);
   }
 
