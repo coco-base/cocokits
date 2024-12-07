@@ -199,6 +199,12 @@
         "../packages/react/toggle/src/",
         "../../packages/react/toggle/src/",
         "../../../packages/react/toggle/src/"
+      ],
+      "@cocokits/react-tabs": [
+        "packages/react/tabs/src/",
+        "../packages/react/tabs/src/",
+        "../../packages/react/tabs/src/",
+        "../../../packages/react/tabs/src/"
       ]
     }
   }

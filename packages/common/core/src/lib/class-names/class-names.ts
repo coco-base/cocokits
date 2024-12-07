@@ -29,13 +29,15 @@ import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
 import {
   UIBaseComponentProps,
-  CssSelectorGeneratorOptions,
   UIBaseComponentsName,
   ThemeConfig,
   LayoutClassNamesConfig,
 } from '../model/theme-config.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 import { getOverlayClassNames } from './overlay-class-names';
+import { getTabsClassNames } from './tabs-class-names';
+import { getTabClassNames } from './tab-class-names';
+import { getTabLabelClassNames } from './tab-label-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -79,6 +81,11 @@ export const CLASS_NAMES_FN_MAP = {
 
   // icon
   svgIcon: getSvgIconClassNames,
+
+  // tabs
+  tabs: getTabsClassNames,
+  tab: getTabClassNames,
+  tabLabel: getTabLabelClassNames,
 
   overlay: getOverlayClassNames,
 };

@@ -44,6 +44,11 @@ export type UIBaseComponentsName =
   // icon
   | 'svgIcon'
 
+  // tabs
+  | 'tabs'
+  | 'tab'
+  | 'tabLabel'
+
   // Overlay
   | 'overlay';
 

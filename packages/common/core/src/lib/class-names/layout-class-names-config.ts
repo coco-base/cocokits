@@ -22,6 +22,9 @@ import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
 import { selectLayoutClassNamesConfig } from './select-class-names';
 import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
+import { tabLayoutClassNamesConfig } from './tab-class-names';
+import { tabLabelLayoutClassNamesConfig } from './tab-label-class-names';
+import { tabsLayoutClassNamesConfig } from './tabs-class-names';
 import { textareaClassNamesConfig } from './textarea-class-names';
 import { toggleLayoutClassNamesConfig } from './toggle-class-names';
 import { trailingLayoutClassNamesConfig } from './trailing-class-names';
@@ -68,6 +71,11 @@ export const layoutClassNamesConfigRecord = {
   divider: dividerLayoutClassNamesConfig,
   // toggle
   toggle: toggleLayoutClassNamesConfig,
+
+  // tabs
+  tabs: tabsLayoutClassNamesConfig,
+  tab: tabLayoutClassNamesConfig,
+  tabLabel: tabLabelLayoutClassNamesConfig,
 
   // overlay
   overlay: overlayLayoutClassNamesConfig,
