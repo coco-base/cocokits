@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 export type ComponentStoreSelector<T, U> = (state: T) => U;
 
@@ -16,6 +16,7 @@ export function createComponentStore<T extends object>(initialState: T) {
   const updateState = (partial: Partial<T> | ((prevState: T) => Partial<T>)) => {
     const nextState = typeof partial === 'function' ? partial(state) : partial;
     state = { ...state, ...nextState };
+
     listeners.forEach((listener) => listener(state));
   };
 
@@ -28,7 +29,7 @@ export function createComponentStore<T extends object>(initialState: T) {
     const [selectedState, setSelectedState] = useState(() => selector(state));
     const selectedStateRef = useRef(selectedState);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       const listener = (newState: T) => {
         const newSelectedState = selector(newState);
 
@@ -42,12 +43,16 @@ export function createComponentStore<T extends object>(initialState: T) {
       return () => {
         listeners.delete(listener);
       };
-    }, [selector]);
+    }, []);
 
     return selectedState;
   };
 
   const getState = () => state;
 
-  return { useState: _useState, getState, updateState, setState };
+  const createSelector = <U>(selector: ComponentStoreSelector<T, U>) => {
+    return _useState.bind(null, selector) as () => U;
+  };
+
+  return { useState: _useState, getState, updateState, setState, createSelector, listeners };
 }

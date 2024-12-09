@@ -26,6 +26,9 @@
 @use './toggle' as *;
 @use './trailing' as *;
 @use './overlay' as *;
+@use './tabs' as *;
+@use './tab' as *;
+@use './tab-label' as *;
 
 @mixin all {
   @include button;
@@ -56,4 +59,7 @@
   @include toggle;
   @include trailing;
   @include overlay;
+  @include tabs;
+  @include tab;
+  @include tab-label;
 }

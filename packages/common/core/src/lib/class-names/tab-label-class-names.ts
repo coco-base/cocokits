@@ -24,7 +24,5 @@ export function getTabLabelClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(tabLabelLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    // disabled: generateLayoutClassNameFromElement(tabLabelLayoutClassNamesConfig, 'disabled', themeConfig),
-    // input: generateLayoutClassNameFromElement(tabLabelLayoutClassNamesConfig, 'input', themeConfig),
   };
 }

@@ -1,0 +1,41 @@
+@use '../../token/scss' as *;
+
+@mixin tabs {
+  .doc-cck-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    &__labels-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 4px;
+      align-self: flex-start;
+      border-radius: var(--cck-doc-radius-sm);
+    }
+
+    &__content-wrapper {
+      // background-color: var(--cck-doc-color-bg-4);
+      // border-radius: var(--cck-doc-radius-sm);
+      // padding: 12px 24px;
+      // color: var(--cck-doc-color-font-1);
+      // font: var(--cck-doc-text-sm-medium);
+    }
+
+    &__color {
+      &--default {
+        .doc-cck-tabs__labels-wrapper {
+          background-color: var(--cck-doc-color-bg-3);
+        }
+      }
+
+      &--h-contrast {
+        .doc-cck-tabs__labels-wrapper {
+          background-color: var(--cck-doc-color-bg-4);
+        }
+      }
+    }
+  }
+}

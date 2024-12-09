@@ -1,0 +1,43 @@
+@use '../../token/scss' as *;
+
+@mixin tab {
+  .doc-cck-tab {
+    display: flex;
+    background: transparent;
+    border: none;
+    outline: none;
+    font: var(--cck-doc-text-sm-medium);
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 20px;
+    border-radius: var(--cck-doc-radius-sm);
+    cursor: pointer;
+    position: relative;
+
+    &__indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: var(--cck-doc-radius-sm);
+    }
+
+    &--selected {
+      color: var(--cck-doc-color-font-1);
+    }
+
+    &--unselected {
+      color: var(--cck-doc-color-font-2);
+    }
+  }
+
+  .doc-cck-tabs__color--default .doc-cck-tab__indicator {
+    background-color: var(--cck-doc-color-bg-1);
+  }
+
+  .doc-cck-tabs__color--h-contrast .doc-cck-tab__indicator {
+    background-color: var(--cck-doc-color-bg-2);
+  }
+}

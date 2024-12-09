@@ -11,7 +11,17 @@ export const tabsLayoutClassNamesConfig = {
     host: {
       name: 'Host Element',
       selectorStructure: [],
-      description: 'It will add to the host element of Tabs component.',
+      description: 'This will be added to the host element of the Tabs component.',
+    },
+    labelsWrapper: {
+      name: 'Labels Wrapper Element',
+      selectorStructure: [{ element: 'labels-wrapper' }],
+      description: 'This selector is applied to the wrapper element that contains all the tab labels.',
+    },
+    contentWrapper: {
+      name: 'Content Wrapper Element',
+      selectorStructure: [{ element: 'content-wrapper' }],
+      description: 'This selector is applied to the wrapper element that contains the tab contents.',
     },
   },
 } satisfies LayoutClassNamesConfig;
@@ -24,14 +34,7 @@ export function getTabsClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    // disabled: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'disabled', themeConfig),
-    // input: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'input', themeConfig),
+    labelsWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'labelsWrapper', themeConfig),
+    contentWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'contentWrapper', themeConfig),
   };
 }
-
-/**
- * <Tabs color size type ...>
- *  <Tab label="Tab1">Content 1</Tab>
- *  <Tab label="(selected) => <TabLabel>...</TabLabel>">Content 1</Tab>
- * </Tabs>
- */

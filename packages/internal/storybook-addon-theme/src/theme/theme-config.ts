@@ -76,6 +76,16 @@ const components: ThemeComponentConfigRecord = {
   // trailing: {},
   // menu: {},
   // menuItem: {},
+  tabs: {
+    color: {
+      name: 'color',
+      values: ['default', 'h-contrast'],
+      default: 'h-contrast',
+      description: '',
+    },
+  },
+  tab: {},
+  tabLabel: {},
 };
 
 export const storybookAddonThemeConfig: ThemeConfig = {
