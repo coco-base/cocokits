@@ -1,7 +1,7 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
-import { WithDocContainer } from './with-doc-container';
-import { DocPage } from '../features/doc-page/doc-page';
-import { WithStoryContainer } from './with-story-container';
+import { WithThemeProvider } from './with-theme-provider';
+import { WithStoryDecorator } from './with-story-decorator';
+import { StoryDocPage } from '../features/story-doc-page/story-doc-page';
 
 /**
  * The `Preview` type is not globally exported and must be imported from a specific framework path (e.g., `@storybook/angular`).
@@ -11,12 +11,12 @@ import { WithStoryContainer } from './with-story-container';
 type Preview = ProjectAnnotations<Renderer> & { tags: string[] };
 
 export const preview: Preview = {
-  decorators: [WithStoryContainer],
+  decorators: [WithStoryDecorator],
   tags: ['autodocs'],
   parameters: {
     docs: {
-      container: WithDocContainer,
-      page: DocPage,
+      container: WithThemeProvider,
+      page: StoryDocPage,
     },
   },
 };

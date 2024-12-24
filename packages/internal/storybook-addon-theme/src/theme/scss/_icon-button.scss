@@ -1,4 +1,56 @@
 @use '../../token/scss' as *;
 
+$transition-duration: 150ms;
+
 @mixin icon-button {
+  .doc-cck-icon-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border: none;
+    outline: transparent;
+    background-color: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+    font: $cck-doc-text-sm-medium;
+    border-radius: 50%;
+    color: $cck-doc-color-font-3;
+    transition: background-color $transition-duration;
+
+    .doc-cck-svg-icon {
+      fill: currentcolor;
+      transition: color $transition-duration;
+    }
+
+    &:hover {
+      background-color: $cck-doc-color-bg-hover-1;
+      color: $cck-doc-color-font-2;
+    }
+
+    &__backdrop {
+      display: none;
+    }
+
+    // Size
+    &__size {
+      &--sm {
+        width: 32px;
+        height: 32px;
+      }
+
+      &--md {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    // Types
+    &__basic {
+    }
+
+    &__outline {
+      border: 1px solid $cck-doc-color-border-2;
+    }
+  }
 }

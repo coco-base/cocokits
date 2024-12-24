@@ -26,7 +26,7 @@ class SelectStore<T> {
   private onSelectionChange?: (selected: T[]) => void;
 
   constructor({ onSelectionChange }: SelectStoreConfig<T> = {}) {
-    this, (onSelectionChange = onSelectionChange);
+    this.onSelectionChange = onSelectionChange;
     this.selection.addChangeEventListener(() => {
       this.syncSelectionWithStore();
       this.onSelectionChange?.(this.selection.getSelected());
@@ -37,10 +37,15 @@ class SelectStore<T> {
   public getState = this.state.getState;
 
   public clear = () => this.selection.clear();
-  public select = (values: T | T[]) => this.selection.select(values);
   public deselect = (values: T | T[]) => this.selection.deselect(values);
   public setSelection = (values: T | T[]) => this.selection.setSelection(values);
   public toggle = (value: T) => this.selection.toggle(value);
+  public select = (values: T | T[], skipEmitEvent = false) => {
+    this.selection.select(values, { skipEmitEvent });
+    if (skipEmitEvent) {
+      this.syncSelectionWithStore();
+    }
+  };
 
   private syncSelectionWithStore() {
     this.state.updateState({

@@ -10,14 +10,24 @@ import { ToolColorMode } from '../features/color-mode/tool-color-mode';
 import { ToolTheme } from '../features/theme-selection/tool-theme';
 import { SidebarLabel } from '../features/sidebar-label/sidebar-label';
 import { DocumentStyle } from '../utils/document-styles';
+import { SidebarService } from '../features/sidebar/sidebar.service';
+import { StoryControlStore } from '../features/story-control/manager-story-args.store';
+import events from '@storybook/core/core-events';
 
 addons.register(ADDON_ID, (api) => {
   console.log('Registering CCK Theme Addon');
   const config: StorybookAddonThemeConfig = addons.getConfig()['cck'];
 
+  // Object.values(events).forEach(evenName => {
+  //   addons.getChannel().addListener(evenName, e => console.log(`[STORYBOOK EVENT] ${evenName}`, e));
+  // })
+
   getInstance(ThemeEvent);
   getInstance(ColorModeEvent);
   getInstance(ThemeSelectionService);
+  getInstance(SidebarService);
+
+  getInstance(StoryControlStore);
 
   applyAddonStyles(config);
   addToolsComponent();

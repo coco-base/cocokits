@@ -52,7 +52,7 @@
         "dot-notation": [
           "error",
           {
-            "allowPattern": "^docs$"
+            "allowPattern": "^(docs|cckControl)$"
           }
         ],
         "eqeqeq": ["error"],

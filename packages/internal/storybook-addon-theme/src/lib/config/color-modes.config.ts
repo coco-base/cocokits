@@ -9,41 +9,41 @@ const COLOR_MODE_DARK = create({
   brandUrl: 'https://github.com/coco-base/cocokits',
   brandImage: '/logos/cocokits-full-logo-light.svg',
 
-  colorPrimary: '#1bbf82', // --cck-storybook-color-brand-default
-  colorSecondary: '#1bbf82', // --cck-storybook-color-brand-default
+  colorPrimary: '#1BBF82', // var(--cck-doc-color-brand-default)
+  colorSecondary: '#1BBF82', // var(--cck-doc-color-brand-default)
 
   // UI
-  appBg: '#05030d', // --cck-storybook-color-bg-body-alpha-10
-  appContentBg: '#ffffff0a', // --cck-storybook-color-bg-body-inverse-alpha-2
-  appBorderColor: '#ffffff1a', // --cck-storybook-color-border-alpha-default
+  appBg: '#0F1116', // Sidenav var(--cck-doc-color-bg-1)
+  appContentBg: '#0F1116', // Toolbar & Controller var(--cck-doc-color-bg-1)
+  appBorderColor: '#FFFFFF0F', // Border-bottom of toolbar var(--cck-doc-color-border-1)
 
   // Text colors
-  textColor: '#ffffff', // --cck-storybook-color-font-contrast-4
-  textInverseColor: '#ffffff', // --cck-storybook-color-font-contrast-4
+  textColor: '#FFFFFF', // All main text (Sidenav controller) var(--cck-doc-color-font-1)
+  textInverseColor: '#FFFFFF', // ?? var(--cck-doc-color-font-1)
 
   // Toolbar default and active colors
-  barTextColor: '#ffffff99', // --cck-storybook-color-font-contrast-2
-  barSelectedColor: '#1bbf82', // Selected controller tab / --cck-storybook-color-brand-default
-  barBg: '#ffffff0a', // --cck-storybook-color-bg-body-inverse-alpha-2
+  barTextColor: '#FFFFFF', // text at toolbar var(--cck-doc-color-font-1)
+  barSelectedColor: '#1BBF82', // Selected controller tab, Selected text at toolbar var(--cck-doc-color-brand-default)
+  barBg: '#0F1116', // Toolbar & Controller Toolbar var(--cck-doc-color-bg-1)
 
-  buttonBg: '#1bbf8233', // --cck-storybook-color-bg-button-primary
-  buttonBorder: '#1bbf8266', // --cck-storybook-color-border-button-primary
+  buttonBg: '#012C1E', // var(--cck-doc-color-bg-selected-1)
+  buttonBorder: '#012C1E', // var(--cck-doc-color-bg-selected-1)
 
   // BIZARRE
-  booleanBg: '#ffffff',
-  booleanSelectedBg: '#1bbf82', // --cck-storybook-color-brand-default
+  booleanBg: '#222835', // var(--cck-doc-color-bg-4)
+  booleanSelectedBg: '#1BBF82', // var(--cck-doc-color-brand-default)
 
   // Form colors
-  inputBg: '#ffffff05', // --cck-storybook-color-bg-body-inverse-alpha-1
-  inputBorder: '#ffffff1a', // --cck-storybook-color-border-alpha-default
-  inputTextColor: '#ffffff66', // --cck-storybook-color-font-contrast-1
+  inputBg: '#0F1116', // var(--cck-doc-color-bg-1)
+  inputBorder: '#ffffff1a', // var(--cck-doc-color-border-2)
+  inputTextColor: '#FFFFFF', // var(--cck-doc-color-font-1)
   inputBorderRadius: 4,
-  appPreviewBg: '#05030d', // --cck-storybook-color-bg-body-alpha-10 // The default value of the story background and will be overridden after the Theme has applied
+  appPreviewBg: '#0F1116', // The default value of the story background and will be overridden after the Theme has applied var(--cck-doc-color-bg-1)
   appBorderRadius: 4, // Toolbar menu overlay radius
   fontBase: 'Inter, sans-serif',
   fontCode: 'Inter, sans-serif',
-  textMutedColor: '#ffffff99', // --cck-storybook-color-font-contrast-2 // Font color of sidenav title and search box text
-  barHoverColor: '#ffffff33', // --cck-storybook-color-bg-body-inverse-alpha-6
+  textMutedColor: '#FFFFFF', // Font color of sidenav title and search box text var(--cck-doc-color-font-1)
+  barHoverColor: '#999', // var(--cck-doc-color-font-3)
 });
 
 const COLOR_MODE_LIGHT = create({
@@ -53,41 +53,41 @@ const COLOR_MODE_LIGHT = create({
   brandUrl: 'https://github.com/coco-base/cocokits',
   brandImage: '/logos/cocokits-full-logo-dark.svg',
 
-  colorPrimary: '#129c69', // --cck-storybook-color-brand-default
-  colorSecondary: '#129c69', // --cck-storybook-color-brand-default
+  colorPrimary: '#008D5E', // var(--cck-doc-color-brand-default)
+  colorSecondary: '#008D5E', // var(--cck-doc-color-brand-default)
 
   // UI
-  appBg: '#ffffff', //
-  appContentBg: '#000c1d0a', // --cck-storybook-color-bg-body-inverse-alpha-2
-  appBorderColor: '#000c1d1a', // --cck-storybook-color-border-alpha-default
+  appBg: '#FFFFFF', // Sidenav var(--cck-doc-color-bg-1)
+  appContentBg: '#FFFFFF', // Toolbar & Controller var(--cck-doc-color-bg-1)
+  appBorderColor: '#000C1D0F', // Border-bottom of toolbar var(--cck-doc-color-border-1)
 
   // Text colors
-  textColor: '#000c1d', // --cck-storybook-color-font-contrast-4
-  textInverseColor: '#000c1d', // --cck-storybook-color-font-contrast-4
+  textColor: '#00060F', // All main text (Sidenav controller) var(--cck-doc-color-font-1)
+  textInverseColor: '#00060F', // ?? var(--cck-doc-color-font-1)
 
   // Toolbar default and active colors
-  barTextColor: '#000c1d99', // --cck-storybook-color-font-contrast-2
-  barSelectedColor: '#129c69', // --cck-storybook-color-brand-default // Selected controller tab
-  barBg: '#000c1d0a', //
+  barTextColor: '#00060F', // text at toolbar var(--cck-doc-color-font-1)
+  barSelectedColor: '#008D5E', // Selected controller tab, Selected text at toolbar var(--cck-doc-color-brand-default)
+  barBg: '#FFFFFF', // Toolbar & Controller Toolbar var(--cck-doc-color-bg-1)
 
-  buttonBg: '#129c6933', // --cck-storybook-color-bg-button-primary
-  buttonBorder: '#129c6966', // --cck-storybook-color-border-button-primary
+  buttonBg: '#D4FCEC', // var(--cck-doc-color-bg-selected-1)
+  buttonBorder: '#D4FCEC', // var(--cck-doc-color-bg-selected-1)
 
   // BIZARRE
-  booleanBg: '#ffffff',
-  booleanSelectedBg: '#129c69', // --cck-storybook-color-brand-default
+  booleanBg: '#E3E3E8', // var(--cck-doc-color-bg-4)
+  booleanSelectedBg: '#008D5E', // var(--cck-doc-color-brand-default)
 
   // Form colors
-  inputBg: '#000c1d05', // --cck-storybook-color-bg-body-inverse-alpha-1
-  inputBorder: '#000c1d1a', // --cck-storybook-color-border-alpha-default
-  inputTextColor: '#000c1d66', // --cck-storybook-color-font-contrast-1
+  inputBg: '#FFFFFF', // var(--cck-doc-color-bg-1)
+  inputBorder: '#000C1D1A', // var(--cck-doc-color-border-2)
+  inputTextColor: '#00060F', // var(--cck-doc-color-font-1)
   inputBorderRadius: 4,
-  appPreviewBg: '#ffffff', // --cck-storybook-color-bg-body-alpha-10  // The default value of the story background and will be overridden after the Theme has applied
+  appPreviewBg: '#FFFFFF', // The default value of the story background and will be overridden after the Theme has applied var(--cck-doc-color-bg-1)
   appBorderRadius: 4, // Toolbar menu overlay radius
   fontBase: 'Inter, sans-serif',
   fontCode: 'Inter, sans-serif',
-  textMutedColor: '#000c1d99', // --cck-storybook-color-font-contrast-2 // Font color of sidenav title and search box text
-  barHoverColor: '#000c1d33', // --cck-storybook-color-bg-body-inverse-alpha-6
+  textMutedColor: '#00060F', // Font color of sidenav title and search box text var(--cck-doc-color-font-1)
+  barHoverColor: '#999', // var(--cck-doc-color-font-3)
 });
 
 export const COLOR_MODES: Record<ColorMode, ThemeVars> = {

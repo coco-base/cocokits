@@ -63,9 +63,13 @@
         "$type": "color",
         "$value": "{Ocean-Green.900}"
       },
-      "Selected": {
+      "Selected-1": {
         "$type": "color",
         "$value": "{Ocean-Green.950}"
+      },
+      "Selected-2": {
+        "$type": "color",
+        "$value": "{Ocean-Green.900}"
       }
     },
     "Border": {

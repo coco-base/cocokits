@@ -9,10 +9,13 @@ export const EVENTS = {
   OPEN_THEME_SELECTION: 'cocokits_open-theme-selection',
   THEME_SELECTION_CLOSED: 'cocokits_theme-selection-closed',
 
+  // STORY
+  NEW_STORY: 'cocokits_new-story',
+
   // Story Control
   OPEN_STORY_CONTROL: 'cocokits_open-story-control',
-  STORY_CONTROL_CLOSED: 'cocokits_story-control-closed',
-  STORY_CONTROL_CHANGED: 'cocokits_story-control-changed',
+  CLOSE_STORY_CONTROL: 'cocokits_close-story-control',
+  CHANGE_STORY_CONTROL: 'cocokits_change-story-control',
 };
 
 export const THEME_HTML_ATTRIBUTE_MODE_NAME = 'data-cck-theme';

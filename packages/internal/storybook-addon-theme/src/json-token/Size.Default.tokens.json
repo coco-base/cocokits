@@ -11,6 +11,14 @@
     "md": {
       "$type": "dimension",
       "$value": "8px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "16px"
     }
   }
 }

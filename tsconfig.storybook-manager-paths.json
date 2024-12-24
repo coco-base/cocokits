@@ -158,6 +158,12 @@
         "../../packages/react/core/src/",
         "../../../packages/react/core/src/"
       ],
+      "@cocokits/react-button": [
+        "packages/react/button/src/",
+        "../packages/react/button/src/",
+        "../../packages/react/button/src/",
+        "../../../packages/react/button/src/"
+      ],
       "@cocokits/react-icon": [
         "packages/react/icon/src/",
         "../packages/react/icon/src/",

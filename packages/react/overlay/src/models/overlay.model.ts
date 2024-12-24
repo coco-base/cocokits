@@ -1,20 +1,42 @@
 import { ElementAnchorPoint } from '@cocokits/common-utils';
+import React from 'react';
 
+export interface OverlayConfigStandalone<TData = unknown> extends OverlayConfig<TData> {
+  decorator?: (element: React.ReactNode | React.ReactNode[]) => React.ReactNode;
+}
+
+/**
+ * Configuration options for an overlay component.
+ *
+ * @template TData - The type of data to be passed to the overlay component.
+ */
 export interface OverlayConfig<TData = unknown> {
   /**
-   * The class names, that should be applied to the overlay host element
+   * The z-index of the overlay. Default is 10
+   * TODO: Add it to Angular component
+   */
+  zIndex: number;
+  /**
+   * The class names to be applied to the overlay host element.
    * @default []
    */
   panelClass: string[];
 
   /**
-   * Whether the overlay has a backdrop.
+   * Determines if interaction with elements behind the overlay and backdrop is possible.
+   * This setting is ignored if the overlay has a backdrop.
+   * TODO: Add this config for angular too.
+   */
+  allowInteractionBehindOverlay: boolean;
+
+  /**
+   * Indicates whether the overlay has a backdrop.
    * @default true
    */
   hasBackdrop: boolean;
 
   /**
-   * Disable the closing overlay on backdrop click. The config will be ignored when the overlay has no backdrop
+   * Disables closing the overlay when the backdrop is clicked. This setting is ignored if the overlay has no backdrop.
    * @default false
    */
   disableBackdropClose: boolean;
@@ -26,13 +48,13 @@ export interface OverlayConfig<TData = unknown> {
   parentElement: HTMLElement;
 
   /**
-   * The position of overlay. it can be 'auto' or connected to the element
+   * The strategy for positioning the overlay. It can be 'auto' or connected to an element.
    * @default OverlayPositionStrategyAuto
    */
   positionStrategy: OverlayPositionStrategy;
 
   /**
-   * The fix size of overlay, if not provided it will take the size of children elements
+   * The fixed size of the overlay. If not provided, the overlay will take the size of its children elements.
    */
   size?: {
     height?: string; // px or %
@@ -42,16 +64,9 @@ export interface OverlayConfig<TData = unknown> {
     minWidth?: string; // px or %
     width?: string; // px or %
   };
-  // Size
-  //  - height: number | string
-  //  - maxHeight: number | string
-  //  - maxWidth: number | string
-  //  - minHeight: number | string
-  //  - minWidth: number | string
-  //  - width: number | string
 
   /**
-   * Any data that you want to send to your custom component
+   * Any data to be passed to the custom component within the overlay.
    */
   data: TData;
 
@@ -115,4 +130,5 @@ export interface OverlayRef<TData = unknown, TResult = unknown> {
 export interface RenderedOverlay<TResult> {
   afterClosed: Promise<TResult | void>;
   closed: Promise<TResult | void>;
+  close: (result?: TResult) => void;
 }

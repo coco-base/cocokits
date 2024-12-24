@@ -1,3 +1,14 @@
 @use '../token/css/tokens.min.css';
+@use './storybook';
+@use './typography';
+@use './cck-themes';
 @use '../theme' as cck-doc;
 @include cck-doc.components_all;
+
+.story-decorator-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}

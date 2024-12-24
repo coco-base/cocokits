@@ -6,8 +6,6 @@ import { useOverlayManager } from './overlay.hooks';
 import { OVERLAY_DEFAULT_CONFIG } from './overlay.config';
 import { OverlayConfig } from '../models/overlay.model';
 
-
-
 export interface OverlayPortalProps<TData = unknown> extends Partial<OverlayConfig<TData>> {
   portalId: string;
   children: React.ReactNode | React.ReactNode[];
@@ -17,21 +15,23 @@ export interface OverlayPortalProps<TData = unknown> extends Partial<OverlayConf
 export const OverlayPortal = <TData, TResult>(props: OverlayPortalProps) => {
   const portalId = useStaticText(props.portalId);
   const manager = useOverlayManager<TData, TResult>(portalId);
-  const managerState = manager.getState(); 
+  const managerState = manager.getState();
 
   if (!managerState.isOpened) {
     return null;
   }
 
   const componentConfig: OverlayConfig<TData> = {
+    zIndex: props.zIndex ?? OVERLAY_DEFAULT_CONFIG.zIndex,
     panelClass: props.panelClass ?? OVERLAY_DEFAULT_CONFIG.panelClass,
     hasBackdrop: props.hasBackdrop ?? OVERLAY_DEFAULT_CONFIG.hasBackdrop,
+    allowInteractionBehindOverlay:
+    props.allowInteractionBehindOverlay ?? OVERLAY_DEFAULT_CONFIG.allowInteractionBehindOverlay,
     disableBackdropClose: props.disableBackdropClose ?? OVERLAY_DEFAULT_CONFIG.disableBackdropClose,
     parentElement: props.parentElement ?? OVERLAY_DEFAULT_CONFIG.parentElement,
     positionStrategy: props.positionStrategy ?? OVERLAY_DEFAULT_CONFIG.positionStrategy,
     size: props.size ?? OVERLAY_DEFAULT_CONFIG.size,
     data: props.data ?? OVERLAY_DEFAULT_CONFIG.data,
-
   };
   const config = deepMerge(componentConfig, managerState.managerConfig);
 
@@ -45,4 +45,3 @@ export const OverlayPortal = <TData, TResult>(props: OverlayPortalProps) => {
     config.parentElement
   );
 };
-

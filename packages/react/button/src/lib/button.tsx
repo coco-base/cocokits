@@ -3,7 +3,7 @@ import React, { forwardRef } from "react";
 import { UIBaseComponentProps } from "@cocokits/core";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
 
-export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, UIBaseComponentProps {
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, UIBaseComponentProps {
   children?: React.ReactNode;
 }
 

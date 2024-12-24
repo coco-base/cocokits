@@ -26,7 +26,7 @@
         padding: 0 12px 0 8px;
 
         &:has(.doc-cck-svg-icon:first-child) {
-          padding: 0 12px;
+          padding: 0 12px 0 4px;
         }
       }
 
@@ -36,7 +36,7 @@
         padding: 0 12px;
 
         &:has(.doc-cck-svg-icon:first-child) {
-          padding: 0 16px 0 12px;
+          padding: 0 16px 0 8px;
         }
       }
     }
@@ -63,7 +63,7 @@
     }
 
     &__light {
-      background-color: $cck-doc-color-bg-selected;
+      background-color: $cck-doc-color-bg-selected-1;
       color: $cck-doc-color-font-1;
 
       &:hover {

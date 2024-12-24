@@ -6,7 +6,7 @@ import { useFormStore } from './form-store';
 import { SvgIcon } from '@cocokits/react-icon';
 import { OverlayPortal, OverlayPortalManager } from '@cocokits/react-overlay';
 import { useStaticText } from '@cocokits/react-utils';
-import { ElementAnchorPoint } from '@cocokits/common-utils';
+import { ElementAnchorPoint, isNotNullish } from '@cocokits/common-utils';
 
 export interface SelectProps<T = unknown> extends UIBaseComponentProps {
   // disabled?: boolean;
@@ -45,6 +45,11 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
   onOpenedChange?: (opened: boolean) => void;
 
   /**
+   * TODO: ...
+   */
+  anchorPoint?: ElementAnchorPoint
+
+  /**
    * 
    */
   children?: React.ReactNode;
@@ -52,14 +57,13 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
 
 export const Select = <T,>(props: SelectProps<T>) => {
 
+  const overlayId = useStaticText()
   const themeConfig = useContext(ThemeConfigContext);
   const dropdownIcon = themeConfig?.components.select?.templates?.dropdownIcon;
 
   if(!dropdownIcon) {
     throw new Error('`dropdownIcon` has not defined in `ThemeConfigToken` of selected theme');
   }
-
-  const overlayId = useStaticText()
 
   const formStore = useFormStore();
   const {selectStore, SelectStoreProvider} = createSelectStore({onSelectionChange: props.onChange});
@@ -81,10 +85,20 @@ export const Select = <T,>(props: SelectProps<T>) => {
     ],
   });
 
+  useEffect(() => {
+    if(isNotNullish(props.value)) {
+      selectStore.select(props.value, true)
+    }
+  }, [props.value])
+
 
   useEffect(() => {
     formStore?.registerComponent('select');
-    return () => formStore?.unregisterComponent('select');
+    return () => {
+      console.log('Select destroyed');
+      
+      formStore?.unregisterComponent('select')
+    };
   }, [formStore])
 
 
@@ -114,14 +128,13 @@ export const Select = <T,>(props: SelectProps<T>) => {
       positionStrategy: {
         type: 'connectToElement',
         connectTo,
-        anchorPoint: ElementAnchorPoint.BottomLeft,
+        anchorPoint: props.anchorPoint ?? ElementAnchorPoint.BottomLeft,
       }
     });
 
     await overlay.afterClosed;
     setIsOpened(false);
     props.onOpenedChange?.(false);
-
   };
 
   return (

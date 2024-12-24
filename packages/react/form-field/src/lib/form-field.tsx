@@ -38,7 +38,7 @@ export const FormField: React.FC<FormFieldProps> = (props) => {
 
   return (
     <FormStoreProvider value={formStore}>
-    <div className={`${hostClassNames} ${classNames}`}>
+    <div className={`${hostClassNames} ${props.className}`}>
 
       {/* TODO: Label */}
 

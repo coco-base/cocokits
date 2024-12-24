@@ -1,9 +1,9 @@
 import { addons } from '@storybook/preview-api';
-import { THEME_HTML_ATTRIBUTE_MODE_NAME, THEME_HTML_ATTRIBUTE_THEME_NAME } from '../../config/events.config';
 import { ThemeEventBase } from './theme-event.base';
 import { DocumentStyle } from '../../utils/document-styles';
 import { getInstance } from '@cocokits/common-utils';
-import { SelectedTheme } from '../../model/theme.model';
+import { ColorMode, SelectedTheme } from '../../model/theme.model';
+import { ColorModeEvent } from '../colo-mode-event/preview-color-mode-event';
 
 /**
  * Theming should be managed at the preview level to ensure consistency across the application.
@@ -26,6 +26,7 @@ import { SelectedTheme } from '../../model/theme.model';
  */
 export class ThemeEvent extends ThemeEventBase {
   private documentStyle = getInstance(DocumentStyle);
+  private colorModeEvent = getInstance(ColorModeEvent);
 
   constructor() {
     super(addons.getChannel());
@@ -40,8 +41,23 @@ export class ThemeEvent extends ThemeEventBase {
       // 2- IFrame html css
       this.documentStyle.setTheme(selectedTheme);
 
-      // Remount the story to the story decorators. (in Angular we need to update `ThemeConfig` token to get the latest theme)
-      // addons.getChannel().emit(events.FORCE_REMOUNT, {storyId: storyContext.id});
+      // 3- Change The color mode of the documentation page if the selected theme has a mismatch with the current color mode
+      const { colorMode } = this.colorModeEvent.getCurrentColorMode();
+      const colorModeThemeCollectionModes = event.colorModeTokenCollectionMode[colorMode];
+      const hasMismatchLightheartedMode = Object.entries(colorModeThemeCollectionModes).some(([collection, mode]) => {
+        return selectedTheme.selectedModes[collection] ? selectedTheme.selectedModes[collection] !== mode : false;
+      });
+
+      if (hasMismatchLightheartedMode) {
+        // eslint-disable-next-line no-alert
+        const changeStorybookTheme = confirm(
+          `The documentation page is currently in ${event.displayName} mode, but you've selected the ${colorMode === ColorMode.Light ? 'dark' : 'light'} mode for the theme. Some components might not display correctly. Would you like to change the documentation page theme to ${colorMode === ColorMode.Light ? 'dark' : 'light'} mode as well?`
+        );
+
+        if (changeStorybookTheme) {
+          this.colorModeEvent.dispatchColorMode(colorMode === ColorMode.Light ? ColorMode.Dark : ColorMode.Light);
+        }
+      }
     });
   }
 }

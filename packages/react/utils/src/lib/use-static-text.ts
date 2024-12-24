@@ -17,7 +17,7 @@
 import { useRef } from 'react';
 
 export function useStaticText(defaultValue?: string): string {
-  const textRef = useRef(defaultValue ?? `${Date.now()}`);
+  const textRef = useRef(defaultValue ?? crypto.randomUUID());
 
   if (!!defaultValue?.trim()) {
     textRef.current = defaultValue;

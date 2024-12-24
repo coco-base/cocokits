@@ -138,3 +138,5 @@ export const Icons = {
   arrowHeadDown,
   none,
 };
+
+export type IconsName = keyof typeof Icons;

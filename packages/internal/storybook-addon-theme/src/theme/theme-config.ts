@@ -45,7 +45,7 @@ const components: ThemeComponentConfigRecord = {
     size: {
       name: 'size',
       description: '',
-      values: ['md', 'sm'],
+      values: ['sm', 'md'],
       default: 'md',
     },
   },
@@ -86,6 +86,7 @@ const components: ThemeComponentConfigRecord = {
   },
   tab: {},
   tabLabel: {},
+  overlay: {},
 };
 
 export const storybookAddonThemeConfig: ThemeConfig = {

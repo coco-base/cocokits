@@ -2,7 +2,7 @@ import { HighlighterGeneric } from '@shikijs/core/types';
 import { fromHighlighter } from '@shikijs/markdown-it';
 import MarkdownIt from 'markdown-it';
 import  { ReactNode, useEffect, useState } from 'react';
-import { getHighlighterCore } from 'shiki/core';
+import { getHighlighterCore, getSingletonHighlighterCore } from 'shiki/core';
 import shikiJavascript from 'shiki/langs/javascript.mjs';
 import shikiShell from 'shiki/langs/shell.mjs';
 import shikiTypescript from 'shiki/langs/typescript.mjs';
@@ -20,11 +20,11 @@ export const DocMarkdown = ({children}: DocMarkdownProps) => {
 
   useEffect(() => {
     async function renderMarkdown() {
-      const highlighter = await getHighlighterCore({
+      const highlighter = await getSingletonHighlighterCore({
         themes: [ shikiLightPlus, shikiMaterialThemeOcean],
         langs: [shikiJavascript, shikiTypescript, shikiShell],
         loadWasm: shikiWasm
-      }) as unknown as HighlighterGeneric<any, any>;
+      }) as any;
 
       const md = new MarkdownIt();
 

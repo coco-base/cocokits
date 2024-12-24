@@ -12,7 +12,7 @@ const managerHead = `
 
 const previewHead = `
   ${sharedHead}
-  <link rel="stylesheet" href="/styles/manager-styles.min.css">
+  <link rel="stylesheet" href="/styles/preview-styles.min.css">
 `;
 
 export default {

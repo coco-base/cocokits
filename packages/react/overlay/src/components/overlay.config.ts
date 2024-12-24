@@ -2,11 +2,13 @@ import { ElementAnchorPoint } from '@cocokits/common-utils';
 import { OverlayAnimationType, OverlayConfig } from '../models/overlay.model';
 
 export const OVERLAY_DEFAULT_CONFIG: OverlayConfig<any> = {
+  zIndex: 10,
   disableBackdropClose: false,
   parentElement: document.body,
   data: null,
   panelClass: [],
   hasBackdrop: true,
+  allowInteractionBehindOverlay: false,
   positionStrategy: {
     type: 'auto',
     animationType: OverlayAnimationType.BottomToCenter,

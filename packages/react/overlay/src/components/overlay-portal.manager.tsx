@@ -77,6 +77,7 @@ export class OverlayPortalManager<TData, TResult> {
     return {
       afterClosed: afterClosedPromise.promise,
       closed: closedPromise.promise,
+      close: this.close.bind(this)
     };
   }
 
