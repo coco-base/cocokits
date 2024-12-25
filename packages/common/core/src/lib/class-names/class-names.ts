@@ -98,6 +98,10 @@ export function getClassNames<T extends UIBaseComponentsName>(
   return CLASS_NAMES_FN_MAP[componentName](componentProps, themeConfig) as ReturnType<(typeof CLASS_NAMES_FN_MAP)[T]>;
 }
 
+/**
+ * NOTE: The selector generator for this part is duplicated in 'packages\internal\storybook-addon-theme\src\lib\features\story-doc-page\story-doc-page-styling.utils.tsx'
+ * Each changes must be also added to the other file
+ */
 export function getHostClassNamesFromProps(
   layoutConfig: LayoutClassNamesConfig,
   themeConfig: ThemeConfig,
@@ -160,11 +164,37 @@ export function generateLayoutClassNameFromElement<T extends LayoutClassNamesCon
   themeConfig: ThemeConfig,
   componentProps: UIBaseComponentProps | null // There is no componentProps for CDK components
 ): string;
+/**
+ * Will be used inside of component to get the final className for specific element of the layout.
+ */
 export function generateLayoutClassNameFromElement<T extends LayoutClassNamesConfig, U extends keyof T['elements']>(
   layoutConfig: T,
   elementName: U,
   themeConfig: ThemeConfig,
   componentProps?: UIBaseComponentProps | null
+) {
+  const classNames = generateLayoutBaseClassName(layoutConfig, elementName, themeConfig);
+
+  if (elementName === 'host' && !isCDKComponent(layoutConfig.componentName)) {
+    if (!componentProps) {
+      throw new Error('componentProps is required when elementName is host by generating class names');
+    }
+
+    classNames.push(...getHostClassNamesFromProps(layoutConfig, themeConfig, componentProps));
+  }
+
+  return classNames.join(' ');
+}
+
+/**
+ *
+ * Will generate a lis of class names for specific element of the layout. (For example 'host', 'backdrop').
+ * This function can be used in component styling doc page or in the component itself to get the final className for and element.
+ */
+export function generateLayoutBaseClassName<T extends LayoutClassNamesConfig, U extends keyof T['elements']>(
+  layoutConfig: T,
+  elementName: U,
+  themeConfig: ThemeConfig
 ) {
   const elementConfig = layoutConfig.elements[elementName as string];
 
@@ -186,15 +216,7 @@ export function generateLayoutClassNameFromElement<T extends LayoutClassNamesCon
     }),
   ];
 
-  if (elementName === 'host' && !isCDKComponent(layoutConfig.componentName)) {
-    if (!componentProps) {
-      throw new Error('componentProps is required when elementName is host by generating class names');
-    }
-
-    classNames.push(...getHostClassNamesFromProps(layoutConfig, themeConfig, componentProps));
-  }
-
-  return classNames.join(' ');
+  return classNames;
 }
 
 function isCDKComponent(componentName: UIBaseComponentsName) {

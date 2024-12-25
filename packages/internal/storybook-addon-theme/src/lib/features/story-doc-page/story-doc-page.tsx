@@ -8,6 +8,7 @@ import { Tab, Tabs } from "@cocokits/react-tabs";
 import { StoryDocPageAPI } from "./story-doc-page-api";
 import { StoryDocPageExamples } from "./story-doc-page-examples";
 import { StoryDocPageOverview } from "./story-doc-page-overview";
+import { StoryDocPageStyling } from "./story-doc-page-styling";
 import { DocPage } from "../doc-page/doc-page";
 import { DocTocItem } from "../doc-page/doc-page-toc";
 
@@ -61,23 +62,13 @@ export function StoryDocPage() {
         </Tab>
 
         <Tab label='Styling' value='Styling'>
-          <p>TODO: Styling</p>
+          <StoryDocPageStyling/>
         </Tab>
 
         <Tab label='Examples' value='Examples'>
           <StoryDocPageExamples/>
         </Tab>
       </StyledTabs>
-      {/* <DocPageMarkdown>{metaDescription}</DocPageMarkdown>
-      { storiesData.map(story => (
-        <DocPageSection
-          key={story.id}
-          id={story.id}
-          title={story.name}
-          description={story.parameters['docs']?.description?.story}>
-          <StoryCanvas story={story} />
-        </DocPageSection>
-      ))} */}
     </DocPage>
   );
 }

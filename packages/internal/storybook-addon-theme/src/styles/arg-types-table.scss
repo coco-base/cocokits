@@ -1,5 +1,7 @@
 // arg-type-table
 // arg-type-table--full-width
+// arg-type-table--gap-8
+// arg-type-table--no-wrap
 .arg-type-table {
   border: 1px solid var(--cck-doc-color-border-1);
   border-radius: var(--cck-doc-radius-sm);
@@ -11,6 +13,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+  }
+
+  &--no-wrap {
+    white-space: nowrap;
   }
 
   &.arg-type-table--full-width {

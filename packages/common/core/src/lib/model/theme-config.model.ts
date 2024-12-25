@@ -110,7 +110,8 @@ export interface CssSelectorGeneratorOptions {
 }
 
 export interface LayoutElementClassNamesConfig {
-  name: string;
+  // TODO: add name property that contains the key selector name (i.e. 'host', 'backdrop')
+  name: string; // TODO: Rename it to elementName
   selectorStructure: RequireAtLeastOne<{
     block?: string;
     element?: string;

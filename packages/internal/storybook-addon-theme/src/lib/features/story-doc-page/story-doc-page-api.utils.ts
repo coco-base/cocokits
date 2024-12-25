@@ -30,7 +30,7 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
   const mainComponent = preparedMeta.component as ClassRef;
   const parameters = preparedMeta.parameters as AddonParameters;
   // Type of storybook is wrong, so we have to change it
-  const subComponents = preparedMeta.subcomponents as unknown as ClassRef[] | undefined;
+  const subcomponents = preparedMeta.subcomponents as unknown as ClassRef[] | undefined;
 
   const argTypeGroup = [] as StoryDocPageArgTypes[];
 
@@ -50,7 +50,7 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
     });
   }
 
-  subComponents?.forEach((subcomponent) => {
+  subcomponents?.forEach((subcomponent) => {
     const argTypes = deepMerge(
       parameters.docs?.extractArgTypes?.(subcomponent) ?? {},
       parameters.cckAddon?.subcomponentArgsTypes?.[subcomponent.name] ?? {}
