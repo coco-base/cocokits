@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Tab, Tabs } from "@cocokits/react-tabs";
 
 import { StoryDocPageAPI } from "./story-doc-page-api";
+import { StoryDocPageExamples } from "./story-doc-page-examples";
 import { StoryDocPageOverview } from "./story-doc-page-overview";
 import { DocPage } from "../doc-page/doc-page";
 import { DocTocItem } from "../doc-page/doc-page-toc";
@@ -64,7 +65,7 @@ export function StoryDocPage() {
         </Tab>
 
         <Tab label='Examples' value='Examples'>
-          <p>TODO: Examples</p>
+          <StoryDocPageExamples/>
         </Tab>
       </StyledTabs>
       {/* <DocPageMarkdown>{metaDescription}</DocPageMarkdown>
