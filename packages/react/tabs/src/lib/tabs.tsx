@@ -16,6 +16,7 @@ export interface TabsProps extends UIBaseComponentProps {
 
   onSelectionChange?: (event: TabSelectionChangeEvent) => void;
   children: React.ReactNode | React.ReactNode[];
+  className?: string;
 }
 
 export const Tabs = (props: TabsProps) => {
@@ -62,7 +63,7 @@ export const Tabs = (props: TabsProps) => {
         </TabIndexContext.Provider>
       ))}
 
-      <div className={tabsHostClassNames}>
+      <div className={`${tabsHostClassNames} ${props.className}`}>
         {/* Labels */}
         <div className={tabsClassNames.labelsWrapper}>{tabComponents.map((tab) => tab.tabTmp)}</div>
 

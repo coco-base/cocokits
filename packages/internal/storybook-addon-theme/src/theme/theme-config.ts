@@ -80,7 +80,7 @@ const components: ThemeComponentConfigRecord = {
     color: {
       name: 'color',
       values: ['default', 'h-contrast'],
-      default: 'h-contrast',
+      default: 'default',
       description: '',
     },
   },

@@ -2,6 +2,7 @@
 @use './storybook';
 @use './typography';
 @use './cck-themes';
+@use './arg-types-table';
 @use '../theme' as cck-doc;
 @include cck-doc.components_all;
 

@@ -91,7 +91,7 @@ class TabsStore {
     const currentSelected = state.tabs[state.selectedValue];
     const newSelected = state.tabs[newTabValue];
 
-    if (!newSelected) {
+    if (!newSelected || newTabValue === state.selectedValue) {
       return;
     }
 

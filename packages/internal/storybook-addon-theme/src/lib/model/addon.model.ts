@@ -1,6 +1,6 @@
-import { UIBaseComponentsName } from '@cocokits/core';
+import { DeepPartial, UIBaseComponentsName } from '@cocokits/core';
 import { IconsName } from '../utils/icons';
-import { Args } from '@storybook/types';
+import { Args, PreparedStory } from '@storybook/types';
 
 /**
  * Configuration interface for the CocoKits Storybook Addon Theme.
@@ -33,6 +33,8 @@ export interface AddonParameters {
       component?: string;
     };
     source?: any; // TODO: Remove it after all stories are updated base on new doc theme
+    // Will be added by compodoc after rendered
+    extractArgTypes?: (component: any) => PreparedStory['argTypes'];
   };
   cckAddon?: {
     componentName?: UIBaseComponentsName;
@@ -42,6 +44,23 @@ export interface AddonParameters {
     hasCode?: boolean;
     singleControls?: string[]; // Args key, such as 'type', 'color', 'size'
     controls?: AddonParametersControl[];
+    /**
+     * Override the default argTypes for the story.
+     * Can be used to override the subcomponent argsType.
+     * Angular storybook has no ways to get the subcomponent argTypes. and it use compoDoc to get the argTypes.
+     * ```
+     * const resolved = useOf('meta');
+     * const subComponentArgType = resolved.preparedMeta.parameters['docs'].extractArgTypes(resolved.preparedMeta.subcomponent[0]);
+     * ```
+     *
+     * overrideArgsType will merge the subcomponent argTypes with the overrideArgsType.
+     * The key is component name and the value is the argTypes.
+     */
+    subcomponentArgsTypes?: Record<string, DeepPartial<PreparedStory['argTypes']>>;
+    /**
+     * Will be use to detect the themeConfig for an component to generate API table.
+     */
+    subcomponentNames?: Record<string, UIBaseComponentsName>;
   };
 }
 

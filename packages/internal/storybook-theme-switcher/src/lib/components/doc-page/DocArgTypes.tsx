@@ -62,7 +62,7 @@ export function DocArgTypes({cckTheme}: DocArgTypesProps) {
            * To fix that we created a custom structure in storybook argsType with then name of component and the args table.
            * ```
            * argTypes: {
-           *     MenuTriggerDirective: {
+           *     _MenuTriggerDirective: {
            *       menuOpen: { table: { defaultValue: { summary: 'false' } } }
            *     }
            *   },

@@ -13,7 +13,7 @@ interface DocPageSectionProps {
 
 export function DocPageSection({id, title, description, children}: DocPageSectionProps) {
   return (
-    <div id={id}>
+    <StyledHost id={id}>
 
       <h2>
         <StyledAnchor onClick={() => scrollToStoryById(id)} aria-hidden="true" tab-index="-1" target="_self">
@@ -27,12 +27,16 @@ export function DocPageSection({id, title, description, children}: DocPageSectio
       { description && <DocPageMarkdown>{description}</DocPageMarkdown> }
 
       {children}
-    </div>
+    </StyledHost>
   );
 }
 
 
 // region ---------------- STYLES ----------------
+const StyledHost = styled.div`
+  margin: 48px 0 0 0
+`;
+
 const StyledAnchor = styled.a`
     float: left;
     width: 28px;

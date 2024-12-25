@@ -53,7 +53,7 @@ const StyledContentWrapper = styled.div`
     width: 100%;
     margin: 0 auto;
     max-width: 1100px;
-    padding: 64px 24px 256px 24px;
+    padding: 64px 48px 256px 48px;
 `;
 
 const StyledDocPageHeader = styled(DocPageHeader)`
