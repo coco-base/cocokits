@@ -67,6 +67,7 @@ const StyledMain = styled.main`
   grid-column: 1;
   margin: 2px;
   padding-bottom: 256px;
+  overflow: hidden;
 `;
 
 const StyledDocPageToc = styled(DocPageToc)`

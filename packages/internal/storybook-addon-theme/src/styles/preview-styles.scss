@@ -3,6 +3,7 @@
 @use './typography';
 @use './cck-themes';
 @use './arg-types-table';
+@use './mdx-page';
 @use '../theme' as cck-doc;
 @include cck-doc.components_all;
 

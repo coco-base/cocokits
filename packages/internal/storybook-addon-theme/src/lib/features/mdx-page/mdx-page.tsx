@@ -15,8 +15,10 @@ export function MdxPage({breadcrumb, title, tocItems, hideThemeSwitcher, childre
 
   return (
     <DocPage breadcrumb={breadcrumb} title={title} tocItems={tocItems} hideThemeSwitcher={hideThemeSwitcher}>
-      {children}
+      <div className="theme-addon-mdx-page">
+        {children}
+      </div>
     </DocPage>
-  )
+  );
 
 }
