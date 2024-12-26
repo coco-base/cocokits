@@ -16,6 +16,10 @@ export const EVENTS = {
   OPEN_STORY_CONTROL: 'cocokits_open-story-control',
   CLOSE_STORY_CONTROL: 'cocokits_close-story-control',
   CHANGE_STORY_CONTROL: 'cocokits_change-story-control',
+
+  // Token
+  CHANGE_TOKEN_INFO: 'cocokits_change-token-info',
+  CLOSE_TOKEN_INFO: 'cocokits_close-token-info',
 };
 
 export const THEME_HTML_ATTRIBUTE_MODE_NAME = 'data-cck-theme';

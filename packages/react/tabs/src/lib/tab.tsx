@@ -43,7 +43,7 @@ export const Tab = (props: TabProps) => {
         key={props.value}
         className={hostClassNames}
         onClick={() => tabsStore?.selectTabByValue(props.value)}>
-          <div ref={indicatorElemRef} className={classNames.indicator} />
+          <div style={{display: 'none'}} ref={indicatorElemRef} className={classNames.indicator} />
           {label}
       </button>
     );

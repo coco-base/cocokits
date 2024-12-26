@@ -50,7 +50,7 @@ const StyledWrapper = styled.div<{ deep: number }>`
     // Deep 0 (Root)
     // Deep 1
     ${props => props.deep === 0 && css`
-      font: var(--cck-doc-text-md-medium);
+      font: var(--cck-doc-text-sm-medium);
       color: var(--cck-doc-color-font-1);
     `}
     

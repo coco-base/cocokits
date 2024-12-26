@@ -1,42 +1,48 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import { IconButton } from "@cocokits/react-button";
-import { SvgIcon } from "@cocokits/react-icon";
-import { OverlayRef } from "@cocokits/react-overlay";
+import { IconButton } from '@cocokits/react-button';
+import { SvgIcon } from '@cocokits/react-icon';
+import { OverlayRef } from '@cocokits/react-overlay';
 
-import { Icons } from "../../utils/icons";
+import { Icons } from '../../utils/icons';
 
 /**
  * This component will be render in manager
  */
 
+export type SidebarProps<TData, TResult> = TData extends void
+  ? {
+      title: string;
+      componentRef: React.ReactNode | React.ReactNode[] | React.FC<OverlayRef<void, TResult>>;
+    }
+  : {
+      title: string;
+      data: TData;
+      componentRef: React.ReactNode | React.ReactNode[] | React.FC<OverlayRef<TData, TResult>>;
+    };
 
-export interface SidebarProps<TData, TResult> {
-  title: string;
-  data: TData;
-  componentRef: React.ReactNode | React.ReactNode[] | React.FC<OverlayRef<TData, TResult>>;
-}
-
-export function Sidebar<TData, TResult>({data, close}: OverlayRef<SidebarProps<TData, TResult>, TResult>) {
-
-
-
+export function Sidebar<TData, TResult>({ data, close }: OverlayRef<SidebarProps<TData, TResult>, TResult>) {
   return (
     <StyledHost>
       <StyledHeader>
         <h3>{data.title}</h3>
         <IconButton onClick={() => close()}>
-          <SvgIcon icon={Icons.close}/>
+          <SvgIcon icon={Icons.close} />
         </IconButton>
       </StyledHeader>
 
       <StyledContent>
-        { typeof data.componentRef === 'function' ? <data.componentRef data={data.data} close={close}/> : data.componentRef}
+        {typeof data.componentRef === 'function' ? (
+          'data' in data
+            ? <data.componentRef data={data.data} close={close} />
+            : <data.componentRef data={void 0} close={close} />
+        ) : (
+          data.componentRef
+        )}
       </StyledContent>
     </StyledHost>
   );
-
 }
 
 const StyledHost = styled.div`

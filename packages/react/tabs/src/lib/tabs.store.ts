@@ -1,14 +1,7 @@
 import { createComponentStore } from '@cocokits/react-utils';
 import React, { createContext, RefObject, useContext, useRef } from 'react';
+import { TabSelectionChangeEvent, TabValue } from './tab.model';
 
-export interface TabSelectionChangeEvent {
-  previousIndex: number;
-  previousValue: TabValue;
-  index: number;
-  value: TabValue;
-}
-
-export type TabValue = string;
 export interface TabComponent {
   index: number;
   tabTmp: React.ReactNode;
@@ -72,7 +65,7 @@ class TabsStore {
   public registerTab(tab: TabComponent) {
     this.state.updateState((state) => {
       const tabs = { ...state.tabs, [tab.value]: tab };
-      const selectedValue = state.selectedValue || tab.value; // Select the first tab if no tab is selected (when no tab is selected, selectedValue is an empty string)
+      const selectedValue = state.selectedValue ?? tab.value; // Select the first tab if no tab is selected (when no tab is selected, selectedValue is an empty string)
       return { tabs, selectedValue };
     });
   }

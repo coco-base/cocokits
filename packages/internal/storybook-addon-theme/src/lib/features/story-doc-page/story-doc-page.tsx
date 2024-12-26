@@ -1,9 +1,8 @@
 import { DocsContext } from "@storybook/blocks";
-import { TabSelectionChangeEvent } from "packages/react/tabs/src/lib/tabs.store";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 
-import { Tab, Tabs } from "@cocokits/react-tabs";
+import { Tab, Tabs, TabSelectionChangeEvent } from "@cocokits/react-tabs";
 
 import { StoryDocPageAPI } from "./story-doc-page-api";
 import { StoryDocPageExamples } from "./story-doc-page-examples";

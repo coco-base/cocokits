@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
-import { createTabsStore, TabIndexContext, TabSelectionChangeEvent, TabValue } from './tabs.store';
+import { createTabsStore, TabIndexContext } from './tabs.store';
 import { useEffectAfterMount } from '@cocokits/react-utils';
+import { TabSelectionChangeEvent, TabValue } from './tab.model';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const EMPTY_CALLBACK = () => {};

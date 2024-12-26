@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import {
@@ -13,7 +13,6 @@ import {
 
 import { TokenArrowDownIcon, TokenArrowHeadLeftIcon, TokenArrowHeadRightIcon } from './TokenIcons';
 import { TokenTag } from './TokenTag';
-import React from 'react';
 
 interface TokenValuesProp {
   token: Token,
@@ -44,7 +43,7 @@ export function TokenValues({ token, tokenMap }: TokenValuesProp) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const hierarchies: TokenValueHierarchy[][] = Object.entries(token.modes)
     .flatMap(([modeName, tokenValue]) => {
-      if(tokenValue.aliasHierarchies) {
+      if(tokenValue.aliasHierarchies) {  
         return tokenValue.aliasHierarchies.map(aliasHierarchy => {
           const lastAliasHierarchyToken = aliasHierarchy[aliasHierarchy.length - 1];
           const lastAliasToken = tokenMap[lastAliasHierarchyToken.tokenId];
