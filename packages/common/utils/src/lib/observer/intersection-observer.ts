@@ -49,7 +49,7 @@ export interface IntersectionObserverChanges {
  * The `config` parameter allows customization of the `IntersectionObserver`, letting you specify
  * options such as the threshold or root element, controlling when the observer is triggered.
  *
- * @param elems One or more elements to observe for intersection changes.
+ * @param elements One or more elements to observe for intersection changes.
  * @param config Optional configuration object to customize the observer (e.g., root, rootMargin, threshold).
  * @returns An observable that emits `IntersectionObserverChanges` objects when an intersection change occurs.
  *
@@ -65,8 +65,8 @@ export interface IntersectionObserverChanges {
  * });
  * ```
  */
-export function intersectionObserver$(elems: Element | Element[], config?: IntersectionObserverConfig) {
-  const elemsList = toArray(elems);
+export function intersectionObserver$(elements: Element | Element[], config?: IntersectionObserverConfig) {
+  const elementsList = toArray(elements);
   const onObserverChanges = (subscriber: Subscriber<IntersectionObserverChanges>) => {
     const callBack: IntersectionObserverCallback = (entries, observer) => {
       subscriber.next({ entries, observer });
@@ -75,7 +75,7 @@ export function intersectionObserver$(elems: Element | Element[], config?: Inter
 
     const intersectionObserver = new IntersectionObserver(callBack, config);
 
-    elemsList.forEach((elem) => intersectionObserver.observe(elem));
+    elementsList.forEach((elem) => intersectionObserver.observe(elem));
 
     return onSubscribe;
   };

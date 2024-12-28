@@ -25,8 +25,9 @@ export const tocItems = ${JSON.stringify(tocItems)};
 
 <Meta title='${STORYBOOK_GROUP_NAME}/${title}'/>
 <MdxPage breadcrumb='${STORYBOOK_GROUP_NAME}' title='${title}' tocItems={tocItems} hideThemeSwitcher={true}>
-
+<div>
 ${contents}
+</div>
 </MdxPage>
 `
 
@@ -38,18 +39,24 @@ ${contents}
  */
 function getContentData(app, event) {
 
-  const contents = event.contents.replace(/<table>/g, '<table class="arg-type-table arg-type-table--full-width">');
+  const contents = event.contents
+    .replace(/<table>/g, '<table class="arg-type-table arg-type-table--full-width">')
+    .replace(/^## (.+)$/gm, (_match, headingText) => {
+      return `</div><div id="selection_${generateAnchorId(headingText)}">\n## ${headingText}`;
+    });
 
   const storybookDocPageImportPath = path.join(
     path.relative(app.options.getValue('out'), workspaceRoot),
     'packages/internal/storybook-addon-theme/src/lib/features/mdx-page/mdx-page'
   ).replace(/\\/g, '/');
 
+
+
   const tocItems = contents
     .split('\n')
     .filter(line => line.startsWith('## '))
     .map(line => line.replace('## ', '').trim())
-    .map(lineWithoutHeader => ({ id: generateAnchorId(lineWithoutHeader), name: removeEscapesMarkdownText(lineWithoutHeader) }))
+    .map(lineWithoutHeader => ({ id: 'selection_' + generateAnchorId(lineWithoutHeader), name: removeEscapesMarkdownText(lineWithoutHeader) }))
 
   const title = capitalizeWords(event.url).split('.')[0];
 

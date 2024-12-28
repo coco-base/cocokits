@@ -1,49 +1,18 @@
-import { useOf } from '@storybook/blocks';
-
-import { ClassRef } from '@cocokits/core';
+import { UIBaseComponentsName } from '@cocokits/core';
 
 import { StoryDocPageStylingSection } from './story-doc-page-styling-section';
-import { AddonParameters } from '../../model/addon.model';
 
-export function StoryDocPageStyling() {
-  const resolved = useOf('meta');
+export interface StoryDocPageStylingComponent {
+  uIBaseComponentName: UIBaseComponentsName;
+  componentName: string;
+}
 
-  if (resolved.type !== 'meta') {
-    return;
-  }
+export interface StoryDocPageStylingProps {
+  mainComponent: StoryDocPageStylingComponent,
+  subcomponents: StoryDocPageStylingComponent[]
+}
 
-  const parameters = resolved.preparedMeta.parameters as AddonParameters;
-  const mainUiBaseComponentName = parameters.cckAddon?.componentName;
-  const mainComponentName = (resolved.preparedMeta.component as ClassRef).name;
-
-  if (!mainUiBaseComponentName) {
-    throw new Error(`Component name is missing in the story parameters for story ID: ${resolved.preparedMeta.id}`);
-  }
-  if (!mainComponentName) {
-    throw new Error(`Component is not a class ref in the story parameters for story ID: ${resolved.preparedMeta.id}`);
-  }
-
-
-  // Type of storybook is wrong, so we have to change it
-  const subcomponentsRef = resolved.preparedMeta.subcomponents as unknown as ClassRef[] | undefined;
-
-  const subcomponents =
-    subcomponentsRef?.map((subcomponentRef) => {
-      const subcomponentUIBaseComponentsName = parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name];
-      if (!subcomponentUIBaseComponentsName) {
-        throw new Error(
-          `Subcomponent name is missing in the story parameters for story ID: ${resolved.preparedMeta.id}/${subcomponentRef.name}`
-        );
-      }
-
-      return {
-        subcomponentUIBaseComponentsName,
-        subcomponentComponentsName: subcomponentRef.name,
-      };
-    }) ?? [];
-
-  
-
+export function StoryDocPageStyling({ mainComponent, subcomponents }: StoryDocPageStylingProps) {
   return (
     <>
       {/* Description */}
@@ -54,15 +23,15 @@ export function StoryDocPageStyling() {
       </p>
 
       {/* Main Component */}
-      <StoryDocPageStylingSection componentName={mainComponentName} uiBaseComponentName={mainUiBaseComponentName} />
+      <StoryDocPageStylingSection componentName={mainComponent.componentName} uiBaseComponentName={mainComponent.uIBaseComponentName} />
 
       {/* Subcomponents */}
       {subcomponents.length > 0 &&
         subcomponents.map((subcomponent) => (
           <StoryDocPageStylingSection
-            key={subcomponent.subcomponentComponentsName}
-            componentName={subcomponent.subcomponentComponentsName}
-            uiBaseComponentName={subcomponent.subcomponentUIBaseComponentsName}
+            key={subcomponent.componentName}
+            componentName={subcomponent.componentName}
+            uiBaseComponentName={subcomponent.uIBaseComponentName}
           />
         ))}
     </>

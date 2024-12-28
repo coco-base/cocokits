@@ -14,11 +14,7 @@ export interface DocPageProps {
   children: ReactNode | ReactNode[];
 }
 
-
-
 export const DocPage = (props: DocPageProps) => {
-
-  const tocItems = props.tocItems ?? [{id: '', name: ''}];
 
   return (
     // sb-unstyled class remove default storybook styles
@@ -29,7 +25,7 @@ export const DocPage = (props: DocPageProps) => {
       <StyledContentWrapper>
         <StyledDocPageHeader title={props.title} breadcrumb={props.breadcrumb}/>
         <StyledMain>{props.children}</StyledMain>
-        <StyledDocPageToc items={tocItems}/>
+        { props.tocItems && <StyledDocPageToc items={props.tocItems}/> }
       </StyledContentWrapper>
 
     </StyledHost>
@@ -74,7 +70,7 @@ const StyledDocPageToc = styled(DocPageToc)`
   grid-row: 2;
   grid-column: 2;
   min-width: 150px;
-  max-width: 350px;
+  max-width: 250px;
   margin: 2px;
 
   overflow-y: auto;
@@ -85,8 +81,6 @@ const StyledDocPageToc = styled(DocPageToc)`
   top: 80px;
   margin-top: 0;
   margin-left: 64px;
-
-  border: 1px solid rgba(255, 255, 255, 0.5);
 
   // IFrame inside of Storybook Doc page
   @media (max-width: 880px) {
