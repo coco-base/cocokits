@@ -15,6 +15,11 @@
     cursor: pointer;
     position: relative;
 
+    .doc-cck-tabs__size--fit & {
+      padding: 4px 0;
+      flex: 1;
+    }
+
     &__indicator {
       position: absolute;
       top: 0;
@@ -30,6 +35,10 @@
 
     &--unselected {
       color: var(--cck-doc-color-font-2);
+    }
+
+    .doc-cck-svg-icon {
+      fill: currentcolor;
     }
   }
 

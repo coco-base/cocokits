@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, Icons } from '@cocokits/storybook-addon-theme';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
@@ -93,10 +93,23 @@ export class CartButtonComponent {
     return {
       props: {
         ...args,
-        // _type: 'secondary'
+        Icons: Icons,
       },
       template: `
-        <button [type]="cckControl.type" [size]="cckControl.size" [color]="cckControl.color" cck-button>{{cckControl.text}}</button>
+        <button
+          cck-button
+          [type]="cckControl.type"
+          [size]="cckControl.size"
+          [color]="cckControl.color"
+          [disabled]="cckControl.disabled">
+            @if(cckControl.leftIcon !== 'none') {
+              <cck-svg-icon [icon]="Icons[cckControl.leftIcon]"></cck-svg-icon>
+            }
+            {{cckControl.text}}
+            @if(cckControl.rightIcon !== 'none') {
+              <cck-svg-icon [icon]="Icons[cckControl.rightIcon]"></cck-svg-icon>
+            }
+          </button>
       `,
     };
   },

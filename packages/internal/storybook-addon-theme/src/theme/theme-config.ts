@@ -83,6 +83,12 @@ const components: ThemeComponentConfigRecord = {
       default: 'default',
       description: '',
     },
+    size: {
+      name: 'size',
+      values: ['auto', 'fit'],
+      default: 'auto',
+      description: '',
+    },
   },
   tab: {},
   tabLabel: {},

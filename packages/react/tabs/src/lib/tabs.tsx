@@ -64,7 +64,7 @@ export const Tabs = (props: TabsProps) => {
         </TabIndexContext.Provider>
       ))}
 
-      <div className={`${tabsHostClassNames} ${props.className}`}>
+      <div className={`${tabsHostClassNames} ${props.className ?? ''}`}>
         {/* Labels */}
         <div className={tabsClassNames.labelsWrapper}>{tabComponents.map((tab) => tab.tabTmp)}</div>
 

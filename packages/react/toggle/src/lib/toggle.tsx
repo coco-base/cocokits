@@ -64,8 +64,9 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
 
 
   const toggle = () => {
-    setChecked(!checked);
-    props.onChange?.({checked});
+    const newChecked = !checked;
+    setChecked(newChecked);
+    props.onChange?.({checked: newChecked});
   };
 
   return (

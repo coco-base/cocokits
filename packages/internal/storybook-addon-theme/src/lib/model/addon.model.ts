@@ -93,7 +93,7 @@ export interface AddonParametersSource {
 }
 
 export type AddonParametersControl =
-  | AddonParametersControlTab
+  | AddonParametersControlIcon
   | AddonParametersControlSelect
   | AddonParametersControlText
   | AddonParametersControlBoolean
@@ -112,7 +112,7 @@ export interface AddonParametersControlBase {
   displayName: string;
 }
 
-export interface AddonParametersControlTab extends AddonParametersControlBase {
+export interface AddonParametersControlIcon extends AddonParametersControlBase {
   type: AddonParametersControlType.Icon;
   icons: IconsName[];
   default: IconsName;

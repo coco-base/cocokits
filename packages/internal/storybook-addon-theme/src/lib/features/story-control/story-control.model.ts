@@ -1,4 +1,4 @@
-import { UIBaseComponentsName } from '@cocokits/core';
+import { ThemeSvgIcon, UIBaseComponentsName } from '@cocokits/core';
 import { Args, PreparedStory, StoryId } from '@storybook/types';
 import { AddonParametersControl, AddonParametersControlTheme } from '../../model/addon.model';
 
@@ -13,7 +13,7 @@ export interface StroyControlArgType {
 }
 
 // Example: { type: 'primary', color: 'warn' }
-export type StoryControlChangeEvent = Record<string, string>;
+export type StoryControlChangeEvent = Record<string, string | boolean | number>;
 
 export interface StroyControlFieldProps {
   argType: StroyControlArgType;

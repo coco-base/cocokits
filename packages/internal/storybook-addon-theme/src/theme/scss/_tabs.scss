@@ -16,12 +16,23 @@
       border-radius: var(--cck-doc-radius-sm);
     }
 
-    &__content-wrapper {
-      // background-color: var(--cck-doc-color-bg-4);
-      // border-radius: var(--cck-doc-radius-sm);
-      // padding: 12px 24px;
-      // color: var(--cck-doc-color-font-1);
-      // font: var(--cck-doc-text-sm-medium);
+    // &__content-wrapper {
+    // background-color: var(--cck-doc-color-bg-4);
+    // border-radius: var(--cck-doc-radius-sm);
+    // padding: 12px 24px;
+    // color: var(--cck-doc-color-font-1);
+    // font: var(--cck-doc-text-sm-medium);
+    // }
+
+    &__size {
+      // &--auto {
+
+      // }
+      &--fit {
+        .doc-cck-tabs__labels-wrapper {
+          width: 100%;
+        }
+      }
     }
 
     &__color {

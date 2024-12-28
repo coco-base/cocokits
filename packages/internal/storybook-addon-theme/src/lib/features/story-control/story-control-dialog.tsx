@@ -5,8 +5,10 @@ import { getInstance } from '@cocokits/common-utils';
 import { OverlayRef } from '@cocokits/react-overlay';
 
 import { StoryControlStore } from './manager-story-args.store';
-import { StoreState } from './story-control.model';
+import { StoreState, StoryControlChangeEvent } from './story-control.model';
 import { StyledControlWrapper } from './story-control.style';
+import { StoryControlBoolean } from './story-control-boolean';
+import { StoryControlIcon } from './story-control-icon';
 import { StoryControlSelect } from './story-control-select';
 import { StoryControlText } from './story-control-text';
 import { AddonParametersControlType } from '../../model/addon.model';
@@ -42,7 +44,7 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
   }
 
 
-  const onChange = (changes: Record<string, string>) => {
+  const onChange = (changes: StoryControlChangeEvent) => {
     storyControlStore.updateStoryArgs(data.story.id, changes);
   };
 
@@ -59,12 +61,35 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
             />
           );
         }
+
         if (control.type === AddonParametersControlType.Select) {
           return (
             <StoryControlSelect
               key={control.storyArgKey}
               control={control}
               value={state.args[control.storyArgKey]}
+              onChange={onChange}
+            />
+          );
+        }
+
+        if (control.type === AddonParametersControlType.Boolean) {
+          return (
+            <StoryControlBoolean
+              key={control.storyArgKey}
+              control={control}
+              checked={state.args[control.storyArgKey]}
+              onChange={onChange}
+            />
+          );
+        }
+
+        if (control.type === AddonParametersControlType.Icon) {
+          return (
+            <StoryControlIcon
+              key={control.storyArgKey}
+              control={control}
+              selected={state.args[control.storyArgKey]}
               onChange={onChange}
             />
           );

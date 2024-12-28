@@ -1,13 +1,12 @@
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { ThemeConfigToken } from '@cocokits/angular-core';
+import { SvgIconComponent } from '@cocokits/angular-icon';
 import { getInstance } from '@cocokits/common-utils';
-import { UIBaseComponentsName } from '@cocokits/core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
+import { PreviewThemeEvent } from '@cocokits/storybook-addon-theme';
 
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 import descriptionMd from './description.md';
-import { ThemeEvent } from '../../../../internal/storybook-addon-theme/src/lib/data-access/theme-event/preview-theme-event';
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
 export { Default } from './default.stories';
@@ -22,10 +21,11 @@ const meta: AngularStoriesMeta = {
   decorators: [
     componentWrapperDecorator((story) => `<div class="story-decorator-wrapper">${story}</div>`),
     moduleMetadata({
+      imports: [SvgIconComponent],
       providers: [
         {
           provide: ThemeConfigToken,
-          useFactory: () => getInstance(ThemeEvent).getCurrentTheme().themeConfig,
+          useFactory: () => getInstance(PreviewThemeEvent).getCurrentTheme().themeConfig,
         },
       ],
     }),

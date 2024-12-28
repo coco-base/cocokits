@@ -6,7 +6,7 @@ import { TabLabel } from './tab-label';
 export interface TabProps {
   label: string | ((selected: boolean) => ReactNode);
   value: string;
-  children: React.ReactNode | React.ReactNode[];
+  children?: React.ReactNode | React.ReactNode[];
 }
 
 export const Tab = (props: TabProps) => {

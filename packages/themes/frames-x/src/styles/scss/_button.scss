@@ -17,6 +17,10 @@
     &:focus-visible {
       box-shadow: 0 0 0 3px $state-brand-selected;
     }
+
+    .cck-svg-icon--default-color .cck-svg-icon__svg {
+      fill: currentcolor;
+    }
   }
 
   .cck-button__default {
