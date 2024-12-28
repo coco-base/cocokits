@@ -12,7 +12,6 @@ export function StoryDocPageExamples() {
 const StyledTitle = styled.div`
     font: var(--cck-doc-display-sm-regular);
     color: var(--cck-doc-color-font-1);
-    text-align: center;
     margin-top: 64px;
     margin-bottom: 24px;
 `;

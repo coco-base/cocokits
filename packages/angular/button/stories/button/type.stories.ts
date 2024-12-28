@@ -1,5 +1,6 @@
+import { getInstance } from '@cocokits/common-utils';
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { PreviewThemeEvent } from '@cocokits/storybook-addon-theme';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
@@ -12,25 +13,30 @@ export const Type: AngularStoryObj<ButtonComponent> = {
         story:
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
-      source: {
-        code: `<button cck-button [type]="..."></button>`,
-      },
+    },
+    cckAddon: {
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% cckThemeComponentConfig.type.values.map(type => { %>
+            <button cck-button type='<%= type %>'><%= type %></button>
+          <% }) %>
+          `,
+        },
+      ],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
+      themeComponentConfig: getInstance(PreviewThemeEvent).getCurrentTheme().themeConfig.components.button,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.button?.type?.values">
-        @for (type of themeComponentConfig?.button?.type?.values; let i = $index; track type) {
-          <story-table-cell row="0" [col]="i">
-            <button cck-button [type]="type">Button</button>
-          </story-table-cell>
-        }
-      </story-table>
+      <@for (type of themeComponentConfig?.type?.values; let col = $index; track type) {
+        <button cck-button [type]="type">{{type}}</button>
+      }
     `,
   }),
 };

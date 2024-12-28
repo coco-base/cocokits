@@ -1,5 +1,6 @@
+import { getInstance } from '@cocokits/common-utils';
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, PreviewThemeEvent } from '@cocokits/storybook-addon-theme';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
@@ -12,28 +13,32 @@ export const Size: AngularStoryObj<ButtonComponent> = {
         story:
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
-      source: {
-        code: `<button cck-button [size]="..."></button>`,
-      },
+    },
+    cckAddon: {
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% cckThemeComponentConfig.size.values.map(size => { %>
+            <button cck-button type='<%= type %>' size='<%= size %>'>Button - <%= size %></button>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
+      themeComponentConfig: getInstance(PreviewThemeEvent).getCurrentTheme().themeConfig.components.button,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.button?.size?.values"
-        [rowHeaders]="themeComponentConfig?.button?.type?.values">
-        @for (type of themeComponentConfig?.button?.type?.values; let row = $index; track type) {
-          @for (size of themeComponentConfig?.button?.size?.values; let col = $index; track size) {
-            <story-table-cell [row]="row" [col]="col">
-              <button cck-button [type]="type" [size]="size">Button</button>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (size of themeComponentConfig?.size?.values; let col = $index; track size) {
+        <button cck-button [type]="cckControl.type" [size]="size">Button - {{size}}</button>
+      }
     `,
   }),
 };

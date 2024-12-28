@@ -1,5 +1,4 @@
 import { PreparedStory } from '@storybook/types';
-import { ThemeEventBase } from '../../data-access/theme-event/theme-event.base';
 import {
   AddonParameters,
   AddonParametersControl,
@@ -14,14 +13,10 @@ import { ThemeChangeEvent } from '../../model/event.model';
 export function getStoryControls(story: PreparedStory, theme: ThemeChangeEvent) {
   const parameters = story.parameters as AddonParameters;
   const uiBaseComponentName = parameters.cckAddon?.componentName;
-  const controls = parameters.cckAddon?.controls;
+  const controls = parameters.cckAddon?.controls ?? [];
 
   if (!uiBaseComponentName) {
     throw new Error(`Component name is missing in the story parameters for story ID: ${story.id}`);
-  }
-
-  if (!controls) {
-    throw new Error(`Controls is missing in the story parameters for story ID: ${story.id}`);
   }
 
   // const theme = themeEvent.getCurrentTheme();

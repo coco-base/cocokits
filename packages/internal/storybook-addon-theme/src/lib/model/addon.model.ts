@@ -39,9 +39,9 @@ export interface AddonParameters {
   cckAddon?: {
     componentName?: UIBaseComponentsName;
     source?: AddonParametersSource[];
-    hasControl?: boolean;
-    hasStackblitz?: boolean;
-    hasCode?: boolean;
+    hasControl?: boolean; // Default is false
+    hasStackblitz?: boolean; // Default is true
+    hasCode?: boolean; // Default is true
     singleControls?: string[]; // Args key, such as 'type', 'color', 'size'
     controls?: AddonParametersControl[];
     /**
@@ -77,6 +77,18 @@ export type AddonSourceCodeLanguages =
 export interface AddonParametersSource {
   language: AddonSourceCodeLanguages;
   filename: string;
+  /**
+   * We use 'ejs' to parse the source code and replace the variables.
+   * available variables are:
+   * - cckAddon control args
+   * - cckThemeId
+   * - cckThemeDisplayName
+   * - cckThemeSelectedModes
+   * - cckThemeComponentConfig
+   *
+   * After that we use prettier to format the code.
+   * At the end use shiki to highlight the code.
+   */
   code: string;
 }
 

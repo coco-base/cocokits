@@ -1,5 +1,6 @@
+import { getInstance } from '@cocokits/common-utils';
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, PreviewThemeEvent } from '@cocokits/storybook-addon-theme';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
@@ -11,33 +12,32 @@ export const Color: AngularStoryObj<ButtonComponent> = {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `<button cck-button [color]="..."></button>`,
-      },
+    },
+    cckAddon: {
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% cckThemeComponentConfig.color.values.map(color => { %>
+            <button cck-button type='<%= type %>' color='<%= color %>'><%= color %></button>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
-      themeName: getSelectedCckTheme()?.name,
-      types:
-        getSelectedCckTheme()?.id === 'cocokits'
-          ? getSelectedCckTheme()?.themeConfig.components.button?.type?.values
-          : getSelectedCckTheme()?.themeConfig.components.button?.type?.values.filter((type) => type !== 'secondary'),
+      themeComponentConfig: getInstance(PreviewThemeEvent).getCurrentTheme().themeConfig.components.button,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.button.color?.values"
-        [rowHeaders]="types ?? []">
-        @for (type of types ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.button.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <button cck-button [type]="type" [color]="color">Button</button>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (color of themeComponentConfig?.color?.values; let col = $index; track color) {
+        <button cck-button [type]="cckControl.type" [color]="color">{{color}}</button>
+      }
     `,
   }),
 };

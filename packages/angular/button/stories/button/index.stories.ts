@@ -1,10 +1,13 @@
-import { moduleMetadata } from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { ThemeConfigToken } from '@cocokits/angular-core';
+import { getInstance } from '@cocokits/common-utils';
+import { UIBaseComponentsName } from '@cocokits/core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
+// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 import descriptionMd from './description.md';
+import { ThemeEvent } from '../../../../internal/storybook-addon-theme/src/lib/data-access/theme-event/preview-theme-event';
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
 export { Default } from './default.stories';
@@ -17,11 +20,12 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/Button',
   tags: ['autodocs'],
   decorators: [
+    componentWrapperDecorator((story) => `<div class="story-decorator-wrapper">${story}</div>`),
     moduleMetadata({
       providers: [
         {
           provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
+          useFactory: () => getInstance(ThemeEvent).getCurrentTheme().themeConfig,
         },
       ],
     }),
@@ -32,7 +36,12 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'button',
+    },
   },
-  argTypes: {},
+  argTypes: {
+    cckControl: { control: 'object' },
+  },
 };
 export default meta;
