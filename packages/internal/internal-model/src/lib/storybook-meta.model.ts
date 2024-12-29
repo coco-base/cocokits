@@ -3,6 +3,7 @@ import type { Meta as ReactStorybookMeta, StoryObj as ReactStorybookStoryObj } f
 
 import type { UIBaseComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
 import { AddonParameters } from '@cocokits/storybook-addon-theme';
+import { OpenOptions, Project } from '@stackblitz/sdk';
 
 // 'status:deprecated' | // Sidenav label status
 // 'status:beta' // Sidenav label status
@@ -26,6 +27,12 @@ export type StoryTags = CckStoryTheme | CckStoryUiBaseComponentName | CckStoryUi
 export interface AngularStoriesMeta extends NgStorybookMeta {
   tags?: StorybookTags[];
   parameters?: AddonParameters;
+  stackblitz?: {
+    framework: 'angular';
+    title?: string;
+    tsFile?: string;
+    extraFiles?: Record<string, string>;
+  };
 }
 
 export type ReactStoriesMeta<T> = ReactStorybookMeta<T> & {

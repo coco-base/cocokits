@@ -18,7 +18,7 @@ export function StoryCanvasActions({story, isCodeSelected, onCodeClick}: StoryCa
 
   const parameters: AddonParameters = story.parameters;
   const hasControl = parameters.cckAddon?.hasControl ?? false;
-  const hasStackblitz = parameters.cckAddon?.hasStackblitz ?? true;
+  const hasStackblitz = parameters.cckAddon?.hasStackblitz ?? false;
   const hasCode = parameters.cckAddon?.hasCode ?? true;
 
   return (

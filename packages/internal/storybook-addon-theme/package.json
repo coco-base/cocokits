@@ -12,6 +12,7 @@
     "@griffel/react": "^1.5.22",
     "@shikijs/core": "1.24.3",
     "@shikijs/markdown-it": "1.24.3",
+    "@stackblitz/sdk": "^1.11.0",
     "@storybook/addon-docs": "8.4.4",
     "@storybook/blocks": "8.4.4",
     "@storybook/components": "8.4.4",

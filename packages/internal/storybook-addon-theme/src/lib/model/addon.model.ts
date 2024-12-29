@@ -1,6 +1,7 @@
 import { DeepPartial, UIBaseComponentsName } from '@cocokits/core';
 import { IconsName } from '../utils/icons';
 import { Args, PreparedStory } from '@storybook/types';
+import { OpenOptions, Project, ProjectFiles, ProjectTemplate } from '@stackblitz/sdk';
 
 /**
  * Configuration interface for the CocoKits Storybook Addon Theme.
@@ -44,6 +45,12 @@ export interface AddonParameters {
     hasCode?: boolean; // Default is true
     singleControls?: string[]; // Args key, such as 'type', 'color', 'size'
     controls?: AddonParametersControl[];
+    stackblitz?: {
+      framework?: 'angular';
+      title?: string;
+      tsFile?: string;
+      extraFiles?: Record<string, string>;
+    };
     /**
      * Override the default argTypes for the story.
      * Can be used to override the subcomponent argsType.
