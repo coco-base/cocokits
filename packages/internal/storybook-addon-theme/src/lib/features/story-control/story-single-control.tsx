@@ -6,7 +6,8 @@ import { getInstance, hasNotValue } from '@cocokits/common-utils';
 import { FormField, Option, Select, SelectPreview } from '@cocokits/react-form-field';
 
 import { StoryControlStore } from './preview-story-args.store';
-import { AddonParametersControlSelect, AddonParametersControlType } from '../../model/addon.model';
+import { AddonParameters, AddonParametersControlSelect, AddonParametersControlType } from '../../model/addon.model';
+import { useTheme } from '../../utils/use-preview-theme';
 
 interface StorySingleControlProps {
   argName: string;
@@ -14,12 +15,24 @@ interface StorySingleControlProps {
 }
 
 export function StorySingleControl({ story, argName }: StorySingleControlProps) {
+  const theme = useTheme();
   const storyControlStore = getInstance(StoryControlStore);
   const [selectedValue, setSelectedValue] = useState<string>();
   const [control, setControl] = useState<AddonParametersControlSelect>();
 
+
   useEffect(() => {
     const subscription = storyControlStore.getState$(story.id).subscribe((state) => {
+
+      const parameters = story.parameters as AddonParameters;
+      const themeComponentConfig =  theme.themeConfig.components[parameters.cckAddon!.componentName!];
+
+      if(!themeComponentConfig || !(argName in themeComponentConfig)) {
+        setControl(undefined);
+        setSelectedValue(undefined);
+        return;
+      }
+ 
       const targetControl = state.controls.find((_control) => _control.storyArgKey === argName);
       const value = state.args[argName] as string;
 
@@ -46,7 +59,7 @@ export function StorySingleControl({ story, argName }: StorySingleControlProps) 
     return () => {
       subscription.unsubscribe();
     };
-  }, [story]);
+  }, [story, theme.id]);
 
   if(!control || !selectedValue) {
     return;

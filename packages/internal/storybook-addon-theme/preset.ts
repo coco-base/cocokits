@@ -21,5 +21,6 @@ export default {
   managerHead: (head: string) => `${head} ${managerHead}`,
   previewHead: (head: string) => `${head} ${previewHead}`,
   staticDirs: [`${__dirname}/src/assets`],
+  parameters: {},
   docs: { defaultName: 'Docs' },
 };

@@ -1,4 +1,4 @@
-import { ThemeSvgIcon, UIBaseComponentsName } from '@cocokits/core';
+import { ThemeComponentConfig, ThemeSvgIcon, UIBaseComponentsName } from '@cocokits/core';
 import { Args, PreparedStory, StoryId } from '@storybook/types';
 import { AddonParametersControl, AddonParametersControlTheme } from '../../model/addon.model';
 
@@ -24,6 +24,6 @@ export interface StoreState {
   storyId: StoryId;
   story: PreparedStory;
   controls: Exclude<AddonParametersControl, AddonParametersControlTheme>[];
-  args: Args;
+  args: Args & { themeComponentConfig: ThemeComponentConfig };
   componentName: UIBaseComponentsName;
 }

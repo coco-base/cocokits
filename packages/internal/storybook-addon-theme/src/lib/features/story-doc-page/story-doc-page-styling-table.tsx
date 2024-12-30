@@ -19,7 +19,7 @@ export function StoryDocPageStylingTable({ tableProps }: StoryDocPageStylingTabl
         {tableProps.map((tableProp) => (
           <tr key={tableProp.elementName}>
             <td className="arg-type-table--no-wrap">{tableProp.cssSelector}</td>
-            <td className="arg-type-table--no-wrap">{tableProp.elementName}</td>
+            <td>{tableProp.elementName}</td>
             <td>
               <DocPageMarkdown>{tableProp.description}</DocPageMarkdown>
             </td>

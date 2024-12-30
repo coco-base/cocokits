@@ -1,37 +1,24 @@
-import type { Meta as NgStorybookMeta, StoryObj as NgStorybookStoryObj } from '@storybook/angular';
+import type { ArgTypes, Meta as NgStorybookMeta, StoryObj as NgStorybookStoryObj } from '@storybook/angular';
 import type { Meta as ReactStorybookMeta, StoryObj as ReactStorybookStoryObj } from '@storybook/react';
 
-import type { UIBaseComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
-import { AddonParameters } from '@cocokits/storybook-addon-theme';
-import { OpenOptions, Project } from '@stackblitz/sdk';
+import { AddonParametersMeta, AddonParametersStories } from '@cocokits/storybook-addon-theme';
 
 // 'status:deprecated' | // Sidenav label status
 // 'status:beta' // Sidenav label status
 export type CckStorybookSidenavItemStatus = '';
 
-// Will be used in 'packages/internal/storybook-theme-switcher/src/lib/components/doc-page/AutoDocMain.tsx'
-export type CckStoryTheme =
-  | 'theme:cocokits' // Story will this tag, will be rendered only if the 'Default' theme is selected.
-  | 'theme:frames-x'; // Story will this tag, will be rendered only if the 'Frames X' theme is selected.
-
-export type CckStoryUiBaseComponentName = `uiBaseComponentName:${UIBaseComponentsName}`;
-export type CckStoryUiBaseComponentPropName = `uiBaseComponentPropName:${UIBaseComponentsPropName}`;
 export type StorybookTags =
   | 'autodocs' // Generate DocPage Automatically
   | '!autodocs' // Don't Generate DocPage
-  | CckStoryTheme
   | CckStorybookSidenavItemStatus;
 
-export type StoryTags = CckStoryTheme | CckStoryUiBaseComponentName | CckStoryUiBaseComponentPropName;
-
+// will be used in index.stories.ts
 export interface AngularStoriesMeta extends NgStorybookMeta {
-  tags?: StorybookTags[];
-  parameters?: AddonParameters;
-  stackblitz?: {
-    framework: 'angular';
-    title?: string;
-    tsFile?: string;
-    extraFiles?: Record<string, string>;
+  tags?: StorybookTags[]; // <---- required
+  parameters?: AddonParametersMeta; // <---- required
+  argTypes?: Partial<ArgTypes> & {
+    // <---- required
+    cckControl?: { control: 'object' }; // <---- required
   };
 }
 
@@ -39,8 +26,8 @@ export type ReactStoriesMeta<T> = ReactStorybookMeta<T> & {
   tags?: StorybookTags[];
 };
 
+// will be used in XXX.stories.ts
 export type AngularStoryObj<T> = NgStorybookStoryObj<T> & {
-  tags?: StoryTags[];
-  parameters?: AddonParameters;
+  parameters: AddonParametersStories;
 };
-export type ReactStoryObj<T> = ReactStorybookStoryObj<T> & { tags?: StoryTags[] };
+export type ReactStoryObj<T> = ReactStorybookStoryObj<T>;

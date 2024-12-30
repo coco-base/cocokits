@@ -95,8 +95,6 @@ export const Select = <T,>(props: SelectProps<T>) => {
   useEffect(() => {
     formStore?.registerComponent('select');
     return () => {
-      console.log('Select destroyed');
-      
       formStore?.unregisterComponent('select')
     };
   }, [formStore])

@@ -5,7 +5,7 @@ import { ThemeChangeEvent } from "../model/event.model";
 
 export function getStoryParameters(story: PreparedStory, theme: ThemeChangeEvent) {
 
-  const parameters: AddonParameters = story.parameters;
+  const parameters = story.parameters as AddonParameters;
   
 
   if(!parameters.cckAddon) {

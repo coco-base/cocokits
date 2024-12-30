@@ -1,7 +1,8 @@
-import { DeepPartial, UIBaseComponentsName } from '@cocokits/core';
+import { DeepPartial, ThemeComponentConfig, UIBaseComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
 import { IconsName } from '../utils/icons';
 import { Args, PreparedStory } from '@storybook/types';
-import { OpenOptions, Project, ProjectFiles, ProjectTemplate } from '@stackblitz/sdk';
+import { ThemeChangeEvent } from './event.model';
+import { StoryTab } from '../features/story-doc-page/story-doc-page';
 
 /**
  * Configuration interface for the CocoKits Storybook Addon Theme.
@@ -27,48 +28,87 @@ export interface StorybookAddonThemeConfig {
   hideToolbar?: boolean;
 }
 
-export interface AddonParameters {
+export type AddonParameters = AddonParametersMeta & AddonParametersStories;
+
+export interface AddonParametersStories {
   docs?: {
+    // required
     description?: {
-      story?: string;
-      component?: string;
+      // required
+      story?: string; // required
     };
-    source?: any; // TODO: Remove it after all stories are updated base on new doc theme
+    source?: any;
+  };
+  cckAddon?: CckAddonStories; // required
+}
+
+export interface AddonParametersMeta {
+  docs?: {
+    // <---- required
+    description?: {
+      // <---- required
+      component?: string; // <---- required
+    };
+    source?: any;
     // Will be added by compodoc after rendered
-    extractArgTypes?: (component: any) => PreparedStory['argTypes'];
+    readonly extractArgTypes?: (component: any) => PreparedStory['argTypes'];
   };
-  cckAddon?: {
-    componentName?: UIBaseComponentsName;
-    source?: AddonParametersSource[];
-    hasControl?: boolean; // Default is false
-    hasStackblitz?: boolean; // Default is true
-    hasCode?: boolean; // Default is true
-    singleControls?: string[]; // Args key, such as 'type', 'color', 'size'
-    controls?: AddonParametersControl[];
-    stackblitz?: {
-      framework?: 'angular';
-      title?: string;
-      tsFile?: string;
-      extraFiles?: Record<string, string>;
-    };
-    /**
-     * Override the default argTypes for the story.
-     * Can be used to override the subcomponent argsType.
-     * Angular storybook has no ways to get the subcomponent argTypes. and it use compoDoc to get the argTypes.
-     * ```
-     * const resolved = useOf('meta');
-     * const subComponentArgType = resolved.preparedMeta.parameters['docs'].extractArgTypes(resolved.preparedMeta.subcomponent[0]);
-     * ```
-     *
-     * overrideArgsType will merge the subcomponent argTypes with the overrideArgsType.
-     * The key is component name and the value is the argTypes.
-     */
-    subcomponentArgsTypes?: Record<string, DeepPartial<PreparedStory['argTypes']>>;
-    /**
-     * Will be use to detect the themeConfig for an component to generate API table.
-     */
-    subcomponentNames?: Record<string, UIBaseComponentsName>;
-  };
+  cckAddon?: CckAddonStoriesMeta; // <---- required
+}
+
+export interface CckAddonStoriesMeta {
+  componentName?: UIBaseComponentsName; // <---- required
+  /**
+   * Will be use to detect the themeConfig for an component to generate API table.
+   */
+  subcomponentNames?: Record<string, UIBaseComponentsName>;
+  /**
+   * Override the default argTypes for the story.
+   * Can be used to override the subcomponent argsType.
+   * Angular storybook has no ways to get the subcomponent argTypes. and it use compoDoc to get the argTypes.
+   * ```
+   * const resolved = useOf('meta');
+   * const subComponentArgType = resolved.preparedMeta.parameters['docs'].extractArgTypes(resolved.preparedMeta.subcomponent[0]);
+   * ```
+   *
+   * overrideArgsType will merge the subcomponent argTypes with the overrideArgsType.
+   * The key is component name and the value is the argTypes.
+   */
+  subcomponentArgsTypes?: Record<string, DeepPartial<PreparedStory['argTypes']>>;
+}
+
+export interface StoryRenderConditionProps {
+  theme: ThemeChangeEvent;
+  themeComponentConfig: ThemeComponentConfig | undefined; // Not all themes have the target component config
+  docPageTab: StoryTab;
+}
+
+export interface CckAddonStories {
+  renderConditions?: ((props: StoryRenderConditionProps) => boolean)[];
+  source?: AddonParametersSource[]; // <---- required
+  /**
+   * @default false
+   */
+  hasControl?: boolean;
+  /**
+   * @default false
+   */
+  hasStackblitz?: boolean;
+  /**
+   * @default true
+   */
+  hasCode?: boolean;
+  /**
+   * Args key, such as 'type', 'color', 'size'
+   */
+  singleControls?: string[];
+  controls?: AddonParametersControl[];
+  // stackblitz?: {
+  //   framework?: 'angular';
+  //   title?: string;
+  //   tsFile?: string;
+  //   extraFiles?: Record<string, string>;
+  // };
 }
 
 export type AddonSourceCodeLanguages =
@@ -88,10 +128,10 @@ export interface AddonParametersSource {
    * We use 'ejs' to parse the source code and replace the variables.
    * available variables are:
    * - cckAddon control args
-   * - cckThemeId
-   * - cckThemeDisplayName
-   * - cckThemeSelectedModes
-   * - cckThemeComponentConfig
+   * - themeId
+   * - themeDisplayName
+   * - themeSelectedModes
+   * - themeComponentConfig
    *
    * After that we use prettier to format the code.
    * At the end use shiki to highlight the code.

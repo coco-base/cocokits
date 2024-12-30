@@ -76,7 +76,9 @@ export class StoryControlStore extends StoryControlStoreBase {
     }
 
     const controls = getStoryControls(story, theme);
-    const args: Args = reduceMerge(controls, (value) => ({ [value.storyArgKey]: value.default }));
+    const args: StoreState['args'] = reduceMerge(controls, (value) => ({ [value.storyArgKey]: value.default }), {
+      themeComponentConfig: theme.themeConfig.components[uiBaseComponentName],
+    });
 
     const state = { storyId: story.id, componentName: uiBaseComponentName, story, args, controls };
 

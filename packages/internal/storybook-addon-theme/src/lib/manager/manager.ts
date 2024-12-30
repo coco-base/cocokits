@@ -37,11 +37,12 @@ addons.register(ADDON_ID, (api) => {
   // Mixpanel
 });
 
-function applyAddonStyles(config: StorybookAddonThemeConfig) {
+function applyAddonStyles(config: StorybookAddonThemeConfig | undefined) {
   const documentStyle = getInstance(DocumentStyle);
   documentStyle.setAddonTheme();
 
-  if (config.hideToolbar) {
+  // Libraries storybook for dev, don't have any config files
+  if (config?.hideToolbar) {
     documentStyle.setAddonHideToolbar();
   }
 }

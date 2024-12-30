@@ -75,7 +75,7 @@ export async function generateSourceCode({
   args: Args;
   theme: ThemeChangeEvent;
 }): Promise<GeneratedSourceCode[]> {
-  const parameters: AddonParameters = story.parameters;
+  const parameters = story.parameters as AddonParameters;
   const sourceCodes = parameters.cckAddon?.source;
   const componentName = parameters.cckAddon?.componentName;
 
@@ -92,12 +92,26 @@ export async function generateSourceCode({
 
   const result = await Promise.all(
     sourceCodes.map(async (sourceCode) => {
-      const codeEjs = ejs.render(sourceCode.code, {
+      const sourceCodeWithoutExtraSpace = sourceCode.code
+        /**
+         * Move the ejs tag at the end of prevues line: TAG: `<% } %>`
+         */
+        .replace(/\n\s*<%\s*}\s*%>/g, '<% } %>')
+        /**
+         * Move the ejs tag at the end of prevues line: TAG: `<% }) %>`
+         */
+        .replace(/\n\s*<%\s*}\)\s*%>/g, '<% }) %>')
+        /**
+         * Move the ejs tag at the end of prevues line: TAG: `<% ... { %>` (such as if, for, etc)
+         */
+        .replace(/\n\s*<%(.*?)\{ %>/g, ' <% $1{ %>');
+
+      const codeEjs = ejs.render(sourceCodeWithoutExtraSpace, {
         ...args,
-        cckThemeId: theme.id,
-        cckThemeDisplayName: theme.displayName,
-        cckThemeSelectedModes: theme.selectedModes,
-        cckThemeComponentConfig: theme.themeConfig.components[componentName],
+        themeId: theme.id,
+        themeDisplayName: theme.displayName,
+        themeSelectedModes: theme.selectedModes,
+        themeComponentConfig: theme.themeConfig.components[componentName],
       });
 
       const codePrettier = await prettier.format(codeEjs, {

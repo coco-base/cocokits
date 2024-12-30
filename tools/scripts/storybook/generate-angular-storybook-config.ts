@@ -18,15 +18,17 @@ export function generateAngularStorybookConfig(
   return deepMerge<StorybookConfig, Partial<StorybookConfig>>(
     {
       stories: [],
-      addons: ['@storybook/addon-essentials', '@cocokits/storybook-theme-switcher'],
+      addons: ['@storybook/addon-essentials', '@cocokits/storybook-addon-theme'],
       framework: {
         name: '@storybook/angular',
         options: {},
       },
       docs: {
         defaultName: 'Docs',
+        autodocs: true,
+        docsMode: true,
       },
-      staticDirs: [path.relative(options.callerPath, 'packages/internal/storybook-theme-switcher/src/assets')],
+      staticDirs: [path.relative(options.callerPath, 'packages/internal/storybook-addon-theme/src/assets')],
       env: (env) => {
         return {
           NODE_ENV: env?.['NODE_ENV'] ?? '',

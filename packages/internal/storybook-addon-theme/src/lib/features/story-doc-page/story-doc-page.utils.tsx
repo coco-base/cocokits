@@ -8,20 +8,27 @@ import { StoryDocPageOverviewProps } from './story-doc-page-overview';
 import { StoryDocPageStylingComponent, StoryDocPageStylingProps } from './story-doc-page-styling';
 import { AddonParameters } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
-import { filterStoryByScenario, filterStoryByThemeTag } from '../doc-page/doc-page.util';
 
 
 // Overview
 export function getOverviewProps(
-  parameters: AddonParameters,
+  metaParameters: AddonParameters,
   stories: PreparedStory[],
   theme: ThemeChangeEvent
 ): StoryDocPageOverviewProps {
-  const metaDescription = parameters.docs?.description?.component;
+  const metaDescription = metaParameters.docs?.description?.component;
+  const componentName = metaParameters.cckAddon?.componentName!;
 
-  const flitteredStories = stories
-    .filter((story) => filterStoryByThemeTag(story, theme.id))
-    .filter((story) => filterStoryByScenario(story, theme));
+  const flitteredStories = stories.filter((story) => {
+    const storyParameters = story.parameters as AddonParameters;
+    const renderConditions = storyParameters.cckAddon?.renderConditions ?? [];
+
+    return renderConditions.every((conditionFn) => conditionFn({
+      docPageTab: 'Overview',
+      theme: theme,
+      themeComponentConfig: theme.themeConfig.components[componentName]
+    }));
+  });
 
   return { metaDescription, stories: flitteredStories };
 }

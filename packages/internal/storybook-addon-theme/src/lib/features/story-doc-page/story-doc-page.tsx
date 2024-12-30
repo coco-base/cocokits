@@ -14,10 +14,10 @@ import { useTheme } from '../../utils/use-preview-theme';
 import { DocPage } from '../doc-page/doc-page';
 import { DocTocItem } from '../doc-page/doc-page-toc';
 
-type StoryTabs = 'Overview' | 'API' | 'Styling' | 'Examples';
+export type StoryTab = 'Overview' | 'API' | 'Styling' | 'Examples';
 
 export function StoryDocPage() {
-  const [selectedTab, setSelectedTab] = useState<StoryTabs>('Overview');
+  const [selectedTab, setSelectedTab] = useState<StoryTab>('Overview');
 
   const theme = useTheme();
   const context = useContext(DocsContext);
@@ -30,7 +30,7 @@ export function StoryDocPage() {
   const { overviewProps, title, breadcrumb, apiProps, stylingProps } = useMemo(() => {
     const stories = context.componentStories();
     const primaryStory = stories[0];
-    const parameters: AddonParameters = primaryStory.parameters;
+    const parameters = primaryStory.parameters as AddonParameters;
 
     return {
       title: primaryStory.title.split('/').at(-1), // UI Components/Button -> Button
@@ -41,7 +41,7 @@ export function StoryDocPage() {
     };
   }, [theme.id]);
 
-  const tocItemsMap: Record<StoryTabs, DocTocItem[]> = useMemo(() => {
+  const tocItemsMap: Record<StoryTab, DocTocItem[]> = useMemo(() => {
     return {
       Overview: overviewProps.stories.map(story => ({id: story.id, name: story.name})),
       API: apiProps.argTypes.map(argType => ({ id: argType.componentName, name: argType.componentName })),
@@ -50,8 +50,11 @@ export function StoryDocPage() {
     };
   }, []);
 
+  console.log('apiProps', apiProps);
+  
+
   const onTabChange = (event: TabSelectionChangeEvent) => {
-    setSelectedTab(event.value as StoryTabs);
+    setSelectedTab(event.value as StoryTab);
   };
 
   return (

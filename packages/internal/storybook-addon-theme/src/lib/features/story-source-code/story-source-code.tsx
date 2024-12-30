@@ -121,6 +121,7 @@ const StyleSelectPreviewText = styled.span`
 const StyledCode = styled.div`
   position: relative;
   padding: 20px 20px;
+  overflow: auto;
 
   & pre {
     margin: 0;

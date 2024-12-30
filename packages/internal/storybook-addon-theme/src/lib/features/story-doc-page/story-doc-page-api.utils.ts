@@ -106,8 +106,7 @@ export function getComponentArgTypes(
       (argType) =>
         !(
           argType.table?.disable || // Skip argType, if the story ArgsType is disabled.
-          argType.name.startsWith('_') || // Skip public methods or properties that start with `_`.
-          argType.name === 'cckControl' // Skip theme addon control types
+          argType.name.startsWith('_') // Skip public methods or properties that start with `_`.
         )
     )
     .flatMap((argType) => toArgTypesWithThemeConfig(argType, themeComponentConfig));
