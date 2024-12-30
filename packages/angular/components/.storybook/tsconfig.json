@@ -13,6 +13,7 @@
     "../stories/**/*.stories.mdx",
     "*.js",
     "*.ts",
-    "../../../../packages/internal/storybook-theme-switcher/**/*.ts"
+    "../../../../packages/internal/storybook-addon-theme/**/*.ts",
+    "../../../../packages/internal/storybook-addon-theme/**/*.tsx"
   ]
 }

@@ -1,4 +1,9 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
+import {
+  AddonParametersControlType,
+  ngAdditionalArgsToTemplate,
+  renderWithPageTab,
+} from '@cocokits/storybook-addon-theme';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
@@ -10,31 +15,60 @@ export const Default: AngularStoryObj<IconButtonComponent> = {
         story:
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
-      source: {
-        code: `
-          <button cck-icon-button>
-            <cck-svg-icon [icon]="..."></cck-svg-icon>
-          </button>`,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+              <button
+                cck-icon-button
+                type="<%= type %>"
+                size="<%= size %>"
+                color="<%= color %>"
+                <% if (disabled) { %> disabled <% } %>>
+                  <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
+              </button>
+              `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        {
+          displayName: 'Icon',
+          default: 'heartFill',
+          icons: ['none', 'heartFill', 'heart', 'link'],
+          storyArgKey: 'icon',
+          type: AddonParametersControlType.Icon,
+        },
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+      ],
     },
   },
-  render: (args) => ({
-    props: {
-      ...args,
-    },
-    template: `
-      <story-table [headers]="['Default', 'Disabled']">
-        <story-table-cell row="0" col="0">
-          <button cck-icon-button>
-            <cck-svg-icon [icon]="icon"></cck-svg-icon>
-          </button>
-        </story-table-cell>
-        <story-table-cell row="0" col="1">
-          <button cck-icon-button disabled>
-            <cck-svg-icon [icon]="icon"></cck-svg-icon>
-          </button>
-        </story-table-cell>
-      </story-table>
+  render: (args) => {
+    console.log('args', args);
+
+    return {
+      props: {
+        ...args,
+      },
+      template: `
+      <button
+        cck-icon-button
+        [type]="cckControl.type"
+        [size]="cckControl.size"
+        [color]="cckControl.color"
+        [disabled]="cckControl.disabled"
+        ${ngAdditionalArgsToTemplate(args)}>
+          <cck-svg-icon [icon]="cckIcons[cckControl.icon]"></cck-svg-icon>
+      </button>
     `,
-  }),
+    };
+  },
 };

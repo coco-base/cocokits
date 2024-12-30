@@ -1,44 +1,50 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import {
+  AddonParametersControlType,
+  renderWithPageTab,
+  renderWithThemeId,
+  ThemeId,
+} from '@cocokits/storybook-addon-theme';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
 export const ThemeCocokitsRoundedColor: AngularStoryObj<IconButtonComponent> = {
   name: 'Theme Cocokits: Rounded - Color',
-  tags: ['theme:cocokits'],
   parameters: {
     docs: {
       description: {
         story: '',
       },
-      source: {
-        code: `
-          <button cck-icon-button data-cck-rounded="true" [color]="...">
-            <cck-svg-icon [icon]="..."></cck-svg-icon>
-          </button>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeId(ThemeId.CocoKits), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <% themeComponentConfig.color.values.map(color => { %>
+              <button icon-cck-button type='<%= type %>' color='<%= color %>' data-cck-rounded="true">
+                <cck-svg-icon [icon]="YOU_ICON"></cck-svg-icon>
+              </button>
+            <% }) %>
+            `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.iconButton?.color?.values"
-        [rowHeaders]="themeComponentConfig?.iconButton?.type?.values">
-        @for (type of themeComponentConfig?.iconButton?.type?.values; let row = $index; track type) {
-          @for (color of themeComponentConfig?.iconButton?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <button cck-icon-button data-cck-rounded="true" [type]="type" [color]="color">
-                <cck-svg-icon [icon]="icon"></cck-svg-icon>
-              </button>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <button cck-icon-button [type]="cckControl.type" [color]="color" data-cck-rounded="true">
+          <cck-svg-icon [icon]="cckIcons.heartFill"></cck-svg-icon>
+        </button>
+      }
     `,
   }),
 };

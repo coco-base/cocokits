@@ -1,38 +1,46 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { CheckboxComponent } from '../../src';
 
 export const Color: AngularStoryObj<CheckboxComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:checkbox', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `<cck-checkbox [color]="..."></cck-checkbox>`,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview'), renderWithThemeProp('color')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <% themeComponentConfig.color.values.map(color => { %>
+              <cck-checkbox
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                color="<%= color %>"
+              >
+                Checkbox Label
+              </cck-checkbox>
+            <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.checkbox?.color?.values"
-        [rowHeaders]="themeComponentConfig?.checkbox?.type?.values ?? []">
-        @for (type of themeComponentConfig?.checkbox?.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.checkbox?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-checkbox [color]="color" [type]="type" [checked]="true">Checkbox Label</cck-checkbox>
-            </story-table-cell>
-          }
-        }
-      </story-table>     
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-checkbox [color]="color" [type]="cckControl.type" [checked]="true">Checkbox Label</cck-checkbox>
+      }
     `,
   }),
 };

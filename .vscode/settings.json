@@ -1,5 +1,21 @@
 {
   "eslint.validate": ["json"],
-  "cSpell.words": ["autodocs", "Checkmark", "compodoc", "subcomponent", "subcomponents", "uncategorized"],
+  "cSpell.words": [
+    "autodocs",
+    "camelcase",
+    "Checkmark",
+    "compodoc",
+    "griffel",
+    "ochin",
+    "prismjs",
+    "sbdocs",
+    "shiki",
+    "shikijs",
+    "stackblitz",
+    "subcomponent",
+    "subcomponents",
+    "uncategorized",
+    "vitesse"
+  ],
   "angular.enable-strict-mode-prompt": false
 }

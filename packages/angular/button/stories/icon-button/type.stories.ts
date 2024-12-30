@@ -9,7 +9,7 @@ export const Type: AngularStoryObj<ButtonComponent> = {
     docs: {
       description: {
         story:
-          'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
+          'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique icon-button styles.',
       },
     },
     cckAddon: {
@@ -19,9 +19,11 @@ export const Type: AngularStoryObj<ButtonComponent> = {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          <% themeComponentConfig.type.values.map(type => { %>
-            <button cck-button type='<%= type %>'><%= type %></button>
-          <% }) %>
+            <% themeComponentConfig.type.values.map(type => { %>
+              <button icon-cck-button type='<%= type %>'>
+                <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
+              </button>
+            <% }) %>
           `,
         },
       ],
@@ -32,8 +34,10 @@ export const Type: AngularStoryObj<ButtonComponent> = {
       ...args,
     },
     template: `
-      <@for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <button cck-button [type]="type">{{type}}</button>
+      <@for (type of cckControl.themeComponentConfig.type.values; let col = $index; track type) {
+        <button cck-icon-button [type]="type">
+          <cck-svg-icon [icon]="cckIcons.heartFill"></cck-svg-icon>
+        </button>
       }
     `,
   }),

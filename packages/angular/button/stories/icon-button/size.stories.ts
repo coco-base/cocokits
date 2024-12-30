@@ -1,45 +1,50 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
 export const Size: AngularStoryObj<IconButtonComponent> = {
   name: 'Size',
-  tags: ['uiBaseComponentName:iconButton', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
         story:
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
-      source: {
-        code: `
-        <button cck-icon-button [size]="...">
-          <cck-svg-icon [icon]="..."></cck-svg-icon>
-        </button>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <% themeComponentConfig.size.values.map(size => { %>
+              <button
+                cck-button
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                size='<%= size %>'
+                >
+                  <%= size %>
+                </button>
+            <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.iconButton?.size?.values"
-        [rowHeaders]="themeComponentConfig?.iconButton?.type?.values">
-        @for (type of themeComponentConfig?.iconButton?.type?.values; let row = $index; track type) {
-          @for (size of themeComponentConfig?.iconButton?.size?.values; let col = $index; track size) {
-            <story-table-cell [row]="row" [col]="col">
-              <button cck-icon-button [type]="type" [size]="size">
-                <cck-svg-icon [icon]="icon"></cck-svg-icon>
-              </button>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
+        <button cck-icon-button [type]="cckControl.type" [size]="size">
+          <cck-svg-icon [icon]="cckIcons.heartFill"></cck-svg-icon>
+        </button>
+      }
     `,
   }),
 };

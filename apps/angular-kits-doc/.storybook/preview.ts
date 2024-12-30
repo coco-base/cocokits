@@ -1,12 +1,6 @@
+import { BASE_ANGULAR_BUTTON_PREVIEW } from '@cocokits/storybook-addon-theme';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
-import { componentWrapperDecorator, moduleMetadata, Preview } from '@storybook/angular';
-
-import {
-  StoryColumnComponent,
-  StoryColumnsComponent,
-  StoryTableCellComponent,
-  StoryTableComponent,
-} from '@cocokits/storybook-components';
+import { Preview } from '@storybook/angular';
 
 // This file will be available after first build, Just to skip the IDE error we use `require` instead of `import`
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -14,12 +8,7 @@ const docJson = require('../../../dist/compodoc/angular-kits-doc/documentation.j
 setCompodocJson(docJson);
 
 export const preview: Preview = {
-  decorators: [
-    componentWrapperDecorator((story) => `<div class="story-wrapper">${story}</div>`),
-    moduleMetadata({
-      imports: [StoryTableComponent, StoryTableCellComponent, StoryColumnsComponent, StoryColumnComponent],
-    }),
-  ],
+  ...BASE_ANGULAR_BUTTON_PREVIEW,
   parameters: {
     options: {
       storySort: {
@@ -32,13 +21,6 @@ export const preview: Preview = {
           'Utils',
         ],
       },
-    },
-    controls: {
-      disable: true,
-      expanded: true,
-    },
-    actions: {
-      disable: true,
     },
   },
 };

@@ -1,15 +1,14 @@
 import { moduleMetadata } from '@storybook/angular';
 
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
-import { templateIcon } from './template-svg-icon';
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
 export { Default } from './default.stories';
+export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
 export { ThemeCocokitsRounded } from './theme-cocokits-rounded.stories';
@@ -19,16 +18,10 @@ export { ThemeCocokitsRoundedColor } from './theme-cocokits-rounded-color.storie
 const meta: AngularStoriesMeta = {
   component: IconButtonComponent,
   title: 'UI Components/IconButton',
-  tags: ['autodocs'],
   decorators: [
     moduleMetadata({
       imports: [SvgIconComponent],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {
@@ -37,12 +30,9 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
-  },
-  argTypes: {
-    icon: { table: { disable: true } },
-  },
-  args: {
-    icon: templateIcon,
+    cckAddon: {
+      componentName: 'iconButton',
+    },
   },
 };
 export default meta;

@@ -1,12 +1,10 @@
-import { getInstance } from '@cocokits/common-utils';
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, PreviewThemeEvent } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
 export const Color: AngularStoryObj<ButtonComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:button', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
@@ -14,13 +12,14 @@ export const Color: AngularStoryObj<ButtonComponent> = {
       },
     },
     cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
       singleControls: ['type'],
       source: [
         {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          <% cckThemeComponentConfig.color.values.map(color => { %>
+          <% themeComponentConfig.color.values.map(color => { %>
             <button cck-button type='<%= type %>' color='<%= color %>'><%= color %></button>
           <% }) %>
           `,
@@ -32,10 +31,9 @@ export const Color: AngularStoryObj<ButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getInstance(PreviewThemeEvent).getCurrentTheme().themeConfig.components.button,
     },
     template: `
-      @for (color of themeComponentConfig?.color?.values; let col = $index; track color) {
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
         <button cck-button [type]="cckControl.type" [color]="color">{{color}}</button>
       }
     `,

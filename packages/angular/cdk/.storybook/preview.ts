@@ -1,3 +1,4 @@
+import { BASE_ANGULAR_BUTTON_PREVIEW } from '@cocokits/storybook-addon-theme';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 import { Preview } from '@storybook/angular';
 
@@ -6,6 +7,8 @@ import { Preview } from '@storybook/angular';
 const docJson = require('../../../../dist/compodoc/packages/angular/cdk/documentation.json');
 setCompodocJson(docJson);
 
-const preview: Preview = {};
+const preview: Preview = {
+  ...BASE_ANGULAR_BUTTON_PREVIEW,
+};
 
 export default preview;

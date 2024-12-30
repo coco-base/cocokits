@@ -5,7 +5,8 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
-export const ReactiveForm: AngularStoryObj<CheckboxComponent> = {
+export const ReactiveForm = {
+  // export const ReactiveForm: AngularStoryObj<CheckboxComponent> = {
   name: 'ReactiveForm',
   parameters: {
     docs: {
@@ -19,7 +20,7 @@ export const ReactiveForm: AngularStoryObj<CheckboxComponent> = {
       },
     },
   },
-  render: (args) => ({
+  render: (args: any) => ({
     props: {
       ...args,
       control: new FormControl(false),

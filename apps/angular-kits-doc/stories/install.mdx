@@ -1,5 +1,6 @@
 import {Meta} from '@storybook/addon-docs';
-import {MdxDocPage, MdxDocTabCode, MdxDocWithTheme} from '../../../packages/internal/storybook-theme-switcher/src';
+import { MdxPage, MdxPageTabCode, MdxPageWithThemeSection } from '@cocokits/storybook-addon-theme';
+
 import {
   getStep2ModuleApp,
   getStep2StandaloneApp,
@@ -12,12 +13,9 @@ import {
 } from './utils/install.utils';
 import {backtick} from './utils/markdown.util';
 
-
 <Meta title='Getting Started/Install'/>
 
-<MdxDocPage groupTitle='Getting Started' toc={tocItems} utilsPage={true}>
-
-# Installation Guide
+<MdxPage breadcrumb='Getting Started' title="Installation Guide" tocItems={tocItems}>
 
 This guide explains how to install `CocoKits` into your project with your preferred theme.
 It includes information on prerequisites, installation, and how to display a sample component in your application to verify your setup.
@@ -28,10 +26,10 @@ Make sure you select the theme that you want to install along with your preferre
 ------------------------------------------------------------------
 ## Step 1: Install Packages
 
-<MdxDocWithTheme fn={t => `Install the ${backtick('CocoKits')} Angular components and the ${backtick(t.name)} theme`}/>
+<MdxPageWithThemeSection fn={t => `Install the ${backtick('CocoKits')} Angular components and the ${backtick(t.name)} theme`}/>
 
-<MdxDocWithTheme fn={theme =>
-  <MdxDocTabCode codeTabs={{
+<MdxPageWithThemeSection fn={theme =>
+  <MdxPageTabCode codeTabs={{
   'npm': `npm i @cocokits/angular-components @cocokits/theme-${theme.id}`,
   'yarn': `yarn add @cocokits/angular-components @cocokits/theme-${theme.id}`,
   'pnpm': `pnpm add @cocokits/angular-components @cocokits/theme-${theme.id}`
@@ -42,19 +40,19 @@ Make sure you select the theme that you want to install along with your preferre
 
 ## Step 2: Provide Theme Configuration
 
-<MdxDocWithTheme fn={theme => `Provide the ${backtick(theme.name)} theme configuration in the root of your application.`}/>
+<MdxPageWithThemeSection fn={theme => `Provide the ${backtick(theme.name)} theme configuration in the root of your application.`}/>
 
 
 ### For Standalone Applications
 
 **main.ts**
-<MdxDocWithTheme fn={getStep2StandaloneApp}/>
+<MdxPageWithThemeSection fn={getStep2StandaloneApp}/>
 
 
 ### For Module-Based Applications
 
 **app.module.ts**
-<MdxDocWithTheme fn={getStep2ModuleApp}/>
+<MdxPageWithThemeSection fn={getStep2ModuleApp}/>
 
 
 ------------------------------------------------------------------
@@ -62,7 +60,7 @@ Make sure you select the theme that you want to install along with your preferre
 ## Step 3: Add Component Styles
 
 Add the component styles to your `angular.json` or `project.json` file.
-<MdxDocWithTheme fn={getStep3AngularJson}/>
+<MdxPageWithThemeSection fn={getStep3AngularJson}/>
 
 ------------------------------------------------------------------
 
@@ -74,11 +72,11 @@ This can be done by adding CSS classes to the `<html>` tag in your index.html fi
 You can choose different modes for each collection based on your preferences.
 
 **index.html**
-<MdxDocWithTheme fn={getStep4IndexHtmlCssSelector}/>
+<MdxPageWithThemeSection fn={getStep4IndexHtmlCssSelector}/>
 
 Alternatively, you can use the `data-cck-theme` attribute:
 
-<MdxDocWithTheme fn={getStep4IndexHtmlAttrSelector}/>
+<MdxPageWithThemeSection fn={getStep4IndexHtmlAttrSelector}/>
 
 **Note:** You must include at least one mode for each collection to ensure all styles are properly applied in your app. Otherwise,
 some tokens may not be defined.
@@ -90,12 +88,12 @@ We use the following naming convention for collections and modes:
 cch-theme-[THEME_NAME]__[COLLECTION-NAME]--[MODE-NAME]
 ````
 
-<MdxDocWithTheme fn={getStep4IndexHtmlSelectorExample}/>
+<MdxPageWithThemeSection fn={getStep4IndexHtmlSelectorExample}/>
 
 ### Available Collections and Modes
 
-<MdxDocWithTheme fn={t => `Here is a list of all collections, modes, and their corresponding CSS selectors for the ${t.name} design system:`}/>
-<MdxDocWithTheme fn={getStep4CollectionModesTable}/>
+<MdxPageWithThemeSection fn={t => `Here is a list of all collections, modes, and their corresponding CSS selectors for the ${t.name} design system:`}/>
+<MdxPageWithThemeSection fn={getStep4CollectionModesTable}/>
 **Note:** Adjust the collections and modes based on the actual theme options available.
 
 
@@ -104,7 +102,7 @@ cch-theme-[THEME_NAME]__[COLLECTION-NAME]--[MODE-NAME]
 
 ## Step 5: Basic Usage of Components
 
-<MdxDocWithTheme fn={getStep5HelloComponent}/>
+<MdxPageWithThemeSection fn={getStep5HelloComponent}/>
 For more examples and configuration options, check the documentation page of each component.
 
 ------------------------------------------------------------------
@@ -113,10 +111,10 @@ For more examples and configuration options, check the documentation page of eac
 You can use theme tokens in your component styles to maintain consistency across your application.
 
 **app.component.scss**
-<MdxDocWithTheme fn={getStep6Token}/>
+<MdxPageWithThemeSection fn={getStep6Token}/>
 
 
 **Note:** Replace `YOUR_TOKEN_NAME` with the desired token name.
 You can find all tokens with their names and values in the `Theme Config / Tokens` page of the documentation.
 
-</MdxDocPage>
+</MdxPage>

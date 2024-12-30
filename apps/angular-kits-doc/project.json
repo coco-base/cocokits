@@ -8,7 +8,7 @@
   "targets": {
     "storybook": {
       "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
+        "styles": [],
         "compodoc": true,
         "compodocArgs": [
           "-e",
@@ -29,7 +29,7 @@
         "outputDir": "dist/angular-kits-doc",
         "configDir": "apps/angular-kits-doc/.storybook",
         "browserTarget": "@cocokits/angular-kits-doc:build-storybook",
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
+        "styles": [],
         "compodoc": true,
         "compodocArgs": [
           "-e",

@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, Icons } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
@@ -13,55 +13,30 @@ export const Default: AngularStoryObj<ButtonComponent> = {
       },
     },
     cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
       source: [
         {
-          filename: 'button.component.ts',
-          language: 'angular-ts',
-          code: `
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CartService } from './cart.service';
-
-@Component({
-  selector: 'app-demo',
-  standalone: true,
-  imports: [],
-  template: \`
-<button cck-button [type]="<%= type %>">Test</button>
-<button type="button" [routerLink]="'/cart'">
-@if (cartService.length > 0) {
-<div>
-@let hello = "world";
-{{ cartService.length }}
-</div>
-}
-Cart
-</button>
-  \`,
-  styles: \`
-    div { display: block; }
-  \`,
-})
-export class CartButtonComponent {
-  protected cartService = inject(CartService);
-}
-`,
-        },
-        {
-          filename: 'button.component.html',
+          filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          @if(true) {
-<button cck-button>HTML</button>
-<cck-checkbox> This is a Checkbox </cck-checkbox>
-        }
+          <button
+            cck-button
+            type="<%= type %>"
+            size="<%= size %>"
+            color="<%= color %>"
+            <% if (disabled) { %> disabled <% } %>>
+              <% if (leftIcon !== 'none') { %>
+                <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
+              <% } %>
+              <%= text %>
+              <% if (rightIcon !== 'none') { %>
+                <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
+              <% } %>
+          </button>
           `,
         },
       ],
       hasControl: true,
-      hasStackblitz: true,
-      hasCode: true,
-      singleControls: [],
       controls: [
         { displayName: 'Text', default: 'Button', storyArgKey: 'text', type: AddonParametersControlType.Text },
         {
@@ -86,40 +61,25 @@ export class CartButtonComponent {
       ],
     },
   },
-  args: {
-    // _type: 'secondary'
-  },
   render: (args) => {
     return {
       props: {
         ...args,
-        Icons: Icons,
       },
       template: `
         <button
           cck-button
-          [type]="cckControl.type"
-          [size]="cckControl.size"
-          [color]="cckControl.color"
+          ${ngThemeArgsToTemplate(args)}
           [disabled]="cckControl.disabled">
             @if(cckControl.leftIcon !== 'none') {
-              <cck-svg-icon [icon]="Icons[cckControl.leftIcon]"></cck-svg-icon>
+              <cck-svg-icon [icon]="cckIcons[cckControl.leftIcon]"></cck-svg-icon>
             }
             {{cckControl.text}}
             @if(cckControl.rightIcon !== 'none') {
-              <cck-svg-icon [icon]="Icons[cckControl.rightIcon]"></cck-svg-icon>
+              <cck-svg-icon [icon]="cckIcons[cckControl.rightIcon]"></cck-svg-icon>
             }
           </button>
       `,
     };
   },
 };
-
-// <story-table [headers]="['Default', 'Disabled']" [fullWidth]="false">
-//     <story-table-cell row="0" col="0">
-//       <button cck-button>Button</button>
-//     </story-table-cell>
-//     <story-table-cell row="0" col="1">
-//       <button cck-button disabled>Button</button>
-//     </story-table-cell>
-//   </story-table>

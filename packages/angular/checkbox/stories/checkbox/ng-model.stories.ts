@@ -3,7 +3,8 @@ import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
-export const NgModel: AngularStoryObj<CheckboxComponent> = {
+export const NgModel = {
+  // export const NgModel: AngularStoryObj<CheckboxComponent> = {
   name: 'NgModel',
   parameters: {
     docs: {
@@ -17,7 +18,7 @@ export const NgModel: AngularStoryObj<CheckboxComponent> = {
       },
     },
   },
-  render: (args) => ({
+  render: (args: any) => ({
     props: {
       ...args,
       modelValue: false,

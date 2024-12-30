@@ -32,9 +32,6 @@ const config = generateAngularStorybookConfig(
         callerPath: __dirname,
       }),
     ],
-    docs: {
-      docsMode: true,
-    },
   },
   {
     callerPath: __dirname,

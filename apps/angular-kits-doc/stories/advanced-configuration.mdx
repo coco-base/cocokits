@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/addon-docs';
-import { MdxDocPage, MdxDocTabCode, MdxDocWithTheme } from '../../../packages/internal/storybook-theme-switcher/src';
+import { MdxPage, MdxPageTabCode, MdxPageWithThemeSection } from '@cocokits/storybook-addon-theme';
 import {
   getInstallPackagesStep2Provide,
   getInstallPackagesStep3AngularJson,
@@ -19,9 +19,8 @@ import { header } from './utils/markdown.util';
 
 <Meta title='Getting Started/Advanced Configuration'/>
 
-<MdxDocPage groupTitle='Getting Started' toc={tocItems} utilsPage={true}>
+<MdxPage breadcrumb='Getting Started' title="Advanced Configuration Guide" tocItems={tocItems}>
 
-# Advanced Configuration Guide
 
 This guide explains how to install `CocoKits` into your project with your favorite theme in advanced mode,
 allowing you to customize the default configuration.
@@ -46,8 +45,8 @@ In this example, we'll install only the `Button` and `Radio` components.
 
 Install the specific components and the theme:
 
-<MdxDocWithTheme fn={theme =>
-  <MdxDocTabCode codeTabs={{
+<MdxPageWithThemeSection fn={theme =>
+  <MdxPageTabCode codeTabs={{
     'npm': `npm i @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`,
     'yarn': `yarn add @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`,
     'pnpm': `pnpm add @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`
@@ -58,7 +57,7 @@ Install the specific components and the theme:
 ### Step 2: Provide Theme Configuration
 Provide the theme configuration in the root of your application.
 
-<MdxDocWithTheme fn={getInstallPackagesStep2Provide}/>
+<MdxPageWithThemeSection fn={getInstallPackagesStep2Provide}/>
 
 
 ### Step 3: Import Tokens and Component Styles
@@ -67,14 +66,14 @@ Instead of importing all styles, you can import only the necessary tokens and st
 #### Import Tokens
 In your `angular.json` or `project.json`, add the tokens CSS file:
 
-<MdxDocWithTheme fn={getInstallPackagesStep3AngularJson}/>
+<MdxPageWithThemeSection fn={getInstallPackagesStep3AngularJson}/>
 
 **Note:** We are only importing the tokens here, not the global styles.
 
 #### Import Component Styles
 In your `styles.scss`, add the custom styles for the components you installed:
 
-<MdxDocWithTheme fn={getInstallPackagesStep3ComponentStyle}/>
+<MdxPageWithThemeSection fn={getInstallPackagesStep3ComponentStyle}/>
 
 **Note**: Adjust the component style includes based on the components you've installed.
 
@@ -85,7 +84,7 @@ In your `styles.scss`, add the custom styles for the components you installed:
 
 You can customize the default configuration of the theme. For example, to change the default size of the `Button` component from `xs`:
 
-<MdxDocWithTheme fn={getOverrideComponentConfig}/>
+<MdxPageWithThemeSection fn={getOverrideComponentConfig}/>
 
 **Important:** If you change the configuration of a component (e.g., adding a new size or color), make sure you include the corresponding styles. Otherwise, the new configuration may not be reflected in your application.
 
@@ -96,7 +95,7 @@ You can also merge multi themes and create a new theme. For example, you want to
 
 ### Step 1: Install the Themes
 
-<MdxDocTabCode codeTabs={{
+<MdxPageTabCode codeTabs={{
   'npm': `npm i @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
   'yarn': `yarn add @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
   'pnpm': `pnpm add @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`
@@ -104,14 +103,14 @@ You can also merge multi themes and create a new theme. For example, you want to
 
 ### Step 2: Merge the Theme Configurations
 
-<MdxDocWithTheme fn={getMergeThemesStep2Provide}/>
+<MdxPageWithThemeSection fn={getMergeThemesStep2Provide}/>
 
 ### Step 3: Import Component Styles from Each Theme
 
 In your `styles.scss`, include styles from both themes:
 
 **styles.scss**
-<MdxDocWithTheme fn={getMergeThemesStep3Scss}/>
+<MdxPageWithThemeSection fn={getMergeThemesStep3Scss}/>
 
 ------------------------------------------------------------------
 
@@ -123,21 +122,21 @@ you can selectively include only those modes.
 
 #### Step 1: Import Modes
 **`styles.scss`**
-<MdxDocWithTheme fn={getUseOnlyOneModeOption1Step1Code}/>
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1Step1Code}/>
 
 
 #### Step 2: Add Default Selectors to Your HTML Tag
 In your index.html, add the default selectors to the `<html>` tag:
 
-<MdxDocWithTheme fn={getUseOnlyOneModeOption1Step2ClassSelector}/>
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1Step2ClassSelector}/>
 Alternatively, use the `data-cck-theme` attribute:
-<MdxDocWithTheme fn={getUseOnlyOneModeOption1Step2AttrSelector}/>
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1Step2AttrSelector}/>
 
 **Note:** Ensure that you include at least one mode from each collection to have all necessary tokens available in your project.
 
 ### Option 2: Apply Modes Without Selectors
 You can apply modes directly to the `:root` without using any selectors.
-<MdxDocWithTheme fn={getUseOnlyOneModeOption1code}/>
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1code}/>
 
 With this approach, you **don't need to add any classes to your HTML tags**, and all necessary tokens are available globally in your application.
 
@@ -153,16 +152,16 @@ If you prefer shorter or custom selector names, you can redefine them using the 
 
 ### Example: Shorten Color Mode Selectors
 Let's change the color mode selectors from:
-<MdxDocWithTheme fn={getChangeTokenSelectorsItems}/>
+<MdxPageWithThemeSection fn={getChangeTokenSelectorsItems}/>
 
 #### Step 1: Define Custom Selectors
 **styles.scss**
-<MdxDocWithTheme fn={getChangeTokenSelectorsStep1Code}/>
+<MdxPageWithThemeSection fn={getChangeTokenSelectorsStep1Code}/>
 
 #### Step 2: Apply Custom Selectors
 **index.html**
-<MdxDocWithTheme fn={getChangeTokenSelectorsStep2Code}/>
+<MdxPageWithThemeSection fn={getChangeTokenSelectorsStep2Code}/>
 
 **Note:** This approach allows you to switch between light and dark modes using shorter class names.
 
-</MdxDocPage>
+</MdxPage>

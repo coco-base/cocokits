@@ -1,51 +1,49 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
 export const Color: AngularStoryObj<IconButtonComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:iconButton', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `
-          <button cck-icon-button [color]="...">
-            <cck-svg-icon [icon]="..."></cck-svg-icon>
-          </button>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.color.values.map(color => { %>
+            <button
+              icon-cck-button
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              color='<%= color %>'
+            >
+                <cck-svg-icon [icon]="YOU_ICON"></cck-svg-icon>
+            </button>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
-      themeName: getSelectedCckTheme()?.name,
-      types:
-        getSelectedCckTheme()?.id === 'cocokits'
-          ? getSelectedCckTheme()?.themeConfig.components?.iconButton?.type?.values
-          : getSelectedCckTheme()?.themeConfig.components?.iconButton?.type?.values.filter(
-              (type) => type !== 'secondary'
-            ),
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.iconButton?.color?.values"
-        [rowHeaders]="types ?? []">
-        @for (type of types ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.iconButton?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <button cck-icon-button [type]="type" [color]="color">
-                <cck-svg-icon [icon]="icon"></cck-svg-icon>
-              </button>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <button cck-icon-button [type]="cckControl.type" [color]="color">
+          <cck-svg-icon [icon]="cckIcons.heartFill"></cck-svg-icon>
+        </button>
+      }
     `,
   }),
 };
