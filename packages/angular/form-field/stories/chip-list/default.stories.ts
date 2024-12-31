@@ -2,6 +2,12 @@ import { AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
+import {
+  AddonParametersControlType,
+  ngAdditionalArgsToTemplate,
+  ngThemeArgsToTemplate,
+  renderWithPageTab,
+} from '@cocokits/storybook-addon-theme';
 
 export const Default: AngularStoryObj<ChipListComponent<string>> = {
   name: 'Default',
@@ -11,15 +17,52 @@ export const Default: AngularStoryObj<ChipListComponent<string>> = {
         story:
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
-      source: {
-        code: `
-          <cck-form-field>
-            <cck-label>Chip List</cck-label>
-            <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" [placeholder]="'Add a new food'">
-            </cck-chip-list>
-          </cck-form-field>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <cck-form-field
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+              <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+            >
+              <cck-label><%= label %></cck-label>
+              <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" placeholder="<%= placeholder %>" [addOnBlur]="<%= addOnBlur %>">
+              </cck-chip-list>
+            </cck-form-field>
+            `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        {
+          displayName: 'Label',
+          default: 'Favorite Foods',
+          storyArgKey: 'label',
+          type: AddonParametersControlType.Text,
+        },
+        {
+          displayName: 'Placeholder',
+          default: 'Add a new food',
+          storyArgKey: 'placeholder',
+          type: AddonParametersControlType.Text,
+        },
+        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+        {
+          displayName: 'Add On Blur',
+          default: false,
+          storyArgKey: 'addOnBlur',
+          type: AddonParametersControlType.Boolean,
+        },
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+      ],
     },
   },
   render: (args) => ({
@@ -28,11 +71,11 @@ export const Default: AngularStoryObj<ChipListComponent<string>> = {
       chips: ['Steak', 'Pizza', 'Burger'],
     },
     template: `
-        <cck-form-field class="story-w-600">
-          <cck-label>Chip List</cck-label>
-          <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
-          </cck-chip-list>
-        </cck-form-field>
+      <cck-form-field style="width: 100%" [disabled]="cckControl.disabled" ${ngThemeArgsToTemplate(args)}>
+        <cck-label>{{cckControl.label}}</cck-label>
+        <cck-chip-list [chips]="chips" placeholder="{{cckControl.placeholder}}" [addOnBlur]="cckControl.addOnBlur">
+        </cck-chip-list>
+      </cck-form-field>
     `,
   }),
 };

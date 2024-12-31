@@ -1,14 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { moduleMetadata } from '@storybook/angular';
 
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
+import { withWrapperDecorator } from '../../../../internal/storybook-addon-theme/src/lib/utils/base-preview';
 import {
   ChipComponent,
   ErrorComponent,
@@ -26,28 +22,19 @@ export { Size } from './size.stories';
 const meta: AngularStoriesMeta = {
   component: ChipListComponent,
   title: 'UI Components/ChipList',
-  tags: ['autodocs'],
   decorators: [
+    withWrapperDecorator({}, { maxWidth: '530px' }),
     moduleMetadata({
       imports: [
         FormFieldComponent,
         LabelComponent,
         ErrorComponent,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
         OptionComponent,
         OptionGroupComponent,
         SelectPreviewComponent,
-        BrowserAnimationsModule,
         ChipComponent,
       ],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {
@@ -56,11 +43,13 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'chipList',
+    },
   },
   argTypes: {
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
     chipsChange: { table: { category: 'outputs' } },
   },
-  args: {},
 };
 export default meta;

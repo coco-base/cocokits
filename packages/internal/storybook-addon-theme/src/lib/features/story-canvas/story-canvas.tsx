@@ -74,6 +74,7 @@ const StyledStoryWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 48px 48px 56px 48px;
 
   background-image: 
     linear-gradient(90deg, var(--cck-doc-color-main-effect-surface-end) 0%, var(--cck-doc-color-main-effect-surface-start) 50%, var(--cck-doc-color-main-effect-surface-end) 100%),
