@@ -1,11 +1,9 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
-import { templateIcon } from './template-svg-icon';
 import { SvgIconComponent } from '../../src';
 
 export { Default } from './default.stories';
@@ -15,16 +13,11 @@ export { Color } from './color.stories';
 const meta: AngularStoriesMeta = {
   component: SvgIconComponent,
   title: 'UI Components/SvgIcon',
-  tags: ['autodocs'],
   decorators: [
-    moduleMetadata({
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
     }),
+    moduleMetadata({}),
   ],
   parameters: {
     docs: {
@@ -32,14 +25,9 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
-  },
-  argTypes: {
-    types: { table: { disable: true } },
-    sizes: { table: { disable: true } },
-    colors: { table: { disable: true } },
-  },
-  args: {
-    icon: templateIcon,
+    cckAddon: {
+      componentName: 'svgIcon',
+    },
   },
 };
 export default meta;

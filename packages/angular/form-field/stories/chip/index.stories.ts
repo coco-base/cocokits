@@ -22,7 +22,6 @@ export { Color } from './color.stories';
 const meta: AngularStoriesMeta = {
   component: ChipComponent,
   title: 'UI Components/Chip',
-  tags: ['autodocs'],
   decorators: [
     moduleMetadata({
       imports: [

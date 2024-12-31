@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { SvgIconComponent } from '../../src';
 
@@ -11,28 +11,37 @@ export const Color: AngularStoryObj<SvgIconComponent> = {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `<cck-svg-icon [icon]="..." color="..."></cck-svg-icon>`,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.color.values.map(color => { %>
+            <cck-svg-icon
+              [icon]="YOUR_ICON"
+              [color]="<%= color %>"
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+            >
+            </cck-svg-icon>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.svgIcon?.color?.values"
-        [rowHeaders]="themeComponentConfig?.svgIcon?.type?.values ?? []">
-        @for (type of themeComponentConfig?.svgIcon?.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.svgIcon?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-svg-icon [icon]="icon" [color]="color" [type]="type"></cck-svg-icon>
-            </story-table-cell>
-          }
-        }
-      </story-table>  
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-svg-icon [icon]="cckIcons.heartFill" [color]="color" [type]="cckControl.type"></cck-svg-icon>
+      }
     `,
   }),
 };
