@@ -1,13 +1,7 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
-import {
-  AddonParametersControlType,
-  ngAdditionalArgsToTemplate,
-  ngThemeArgsToTemplate,
-  renderWithPageTab,
-} from '@cocokits/storybook-addon-theme';
 
 export const Default: AngularStoryObj<ChipListComponent<string>> = {
   name: 'Default',

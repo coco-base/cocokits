@@ -1,12 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
 import {
@@ -23,34 +18,26 @@ export { Default } from './default.stories';
 export { Size } from './size.stories';
 export { CustomPreview } from './custom-preview.stories';
 export { OptionGroup } from './option-group.stories';
-export { NgModel } from './ng-model.stories';
-export { ReactiveForm } from './reactive-form.stories';
+// export { NgModel } from './ng-model.stories';
+// export { ReactiveForm } from './reactive-form.stories';
 
 const meta: AngularStoriesMeta = {
   component: SelectComponent,
   subcomponents: [OptionGroupComponent, OptionComponent, SelectPreviewComponent],
   title: 'UI Components/Select',
-  tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="story-min-h-400" style="width: 100%">${story}</div>`),
+    withWrapperDecorator({}, { minWidth: '250px' }),
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [
         FormFieldComponent,
         LabelComponent,
         ErrorComponent,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
         OptionComponent,
         OptionGroupComponent,
         SelectPreviewComponent,
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
       ],
     }),
   ],
@@ -60,21 +47,28 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'select',
+      subcomponentArgsTypes: {
+        OptionComponent: {
+          _disabled: { name: 'disabled', table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+        },
+        OptionGroupComponent: {
+          disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+        },
+      },
+      subcomponentNames: {
+        OptionComponent: 'option',
+        OptionGroupComponent: 'optionGroup',
+        SelectPreviewComponent: 'selectPreview',
+      },
+    },
   },
   argTypes: {
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
     isOpened: { table: { type: { summary: 'boolean' } } },
-    _required: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    _required: { name: 'required', table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
     selectionChange: { table: { category: 'outputs' } },
-
-    _OptionComponent: {
-      _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-    },
-
-    _OptionGroupComponent: {
-      disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-    },
   },
-  args: {},
 };
 export default meta;

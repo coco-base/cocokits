@@ -9,7 +9,6 @@ import { StoryDocPageStylingComponent, StoryDocPageStylingProps } from './story-
 import { AddonParameters } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
 
-
 // Overview
 export function getOverviewProps(
   metaParameters: AddonParameters,
@@ -23,24 +22,24 @@ export function getOverviewProps(
     const storyParameters = story.parameters as AddonParameters;
     const renderConditions = storyParameters.cckAddon?.renderConditions ?? [];
 
-    return renderConditions.every((conditionFn) => conditionFn({
-      docPageTab: 'Overview',
-      theme: theme,
-      themeComponentConfig: theme.themeConfig.components[componentName]
-    }));
+    return renderConditions.every((conditionFn) =>
+      conditionFn({
+        docPageTab: 'Overview',
+        theme: theme,
+        themeComponentConfig: theme.themeConfig.components[componentName],
+      })
+    );
   });
 
   return { metaDescription, stories: flitteredStories };
 }
-
-
 
 // API
 
 export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent): StoryDocPageAPIProps {
   return {
     argTypes: getArgTypesApiList(preparedMeta, theme.themeConfig),
-    themeName: theme.displayName
+    themeName: theme.displayName,
   };
 }
 
@@ -48,7 +47,7 @@ export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent)
 export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonParameters): StoryDocPageStylingProps {
   const mainUiBaseComponentName = parameters.cckAddon?.componentName;
   const mainComponentName = (preparedMeta.component as ClassRef).name;
-  
+
   if (!mainUiBaseComponentName) {
     throw new Error(`Component name is missing in the story parameters for story ID: ${preparedMeta.id}`);
   }
@@ -60,25 +59,27 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
   const subcomponentsRef = preparedMeta.subcomponents as unknown as ClassRef[] | undefined;
 
   const subcomponents: StoryDocPageStylingComponent[] =
-    subcomponentsRef?.map((subcomponentRef) => {
-      const uIBaseComponentName = parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name];
-      if (!uIBaseComponentName) {
-        throw new Error(
-          `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${subcomponentRef.name}`
-        );
-      }
+    subcomponentsRef
+      ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
+      .map((subcomponentRef) => {
+        const uIBaseComponentName = parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name];
+        if (!uIBaseComponentName) {
+          throw new Error(
+            `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${subcomponentRef.name}`
+          );
+        }
 
-      return {
-        uIBaseComponentName,
-        componentName: subcomponentRef.name,
-      } satisfies StoryDocPageStylingComponent;
-    }) ?? [];
+        return {
+          uIBaseComponentName,
+          componentName: subcomponentRef.name,
+        } satisfies StoryDocPageStylingComponent;
+      }) ?? [];
 
   return {
     mainComponent: {
       uIBaseComponentName: mainUiBaseComponentName,
-      componentName: mainComponentName
+      componentName: mainComponentName,
     },
-    subcomponents
+    subcomponents,
   };
 }

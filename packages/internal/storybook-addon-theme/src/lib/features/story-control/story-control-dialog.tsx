@@ -12,6 +12,7 @@ import { StoryControlIcon } from './story-control-icon';
 import { StoryControlSelect } from './story-control-select';
 import { StoryControlText } from './story-control-text';
 import { AddonParametersControlType } from '../../model/addon.model';
+import { StoryControlNumber } from './story-control-number';
 
 export interface StoryControlDialogProps {
   story: PreparedStory;
@@ -54,6 +55,17 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
         if (control.type === AddonParametersControlType.Text) {
           return (
             <StoryControlText
+              key={control.storyArgKey}
+              value={state.args[control.storyArgKey]}
+              control={control}
+              onChange={onChange}
+            />
+          );
+        }
+
+        if (control.type === AddonParametersControlType.Number) {
+          return (
+            <StoryControlNumber
               key={control.storyArgKey}
               value={state.args[control.storyArgKey]}
               control={control}

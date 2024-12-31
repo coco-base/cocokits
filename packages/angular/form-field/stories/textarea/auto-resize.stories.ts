@@ -2,6 +2,7 @@ import { AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { TextareaComponent } from '../../src/lib/textarea/textarea.component';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 export const AutoResize: AngularStoryObj<TextareaComponent> = {
   name: 'AutoResize',
@@ -10,14 +11,29 @@ export const AutoResize: AngularStoryObj<TextareaComponent> = {
       description: {
         story: `Automatically adjusts the height of the textarea as text is entered, ensuring optimal visibility and a seamless user input experience.`,
       },
-      source: {
-        code: `
-          <cck-form-field>
-            <cck-label>AutoResize</cck-label>
-            <textarea cckTextarea [autoResize]="true" placeholder="Placeholder"></textarea>
-          </cck-form-field>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <cck-form-field>
+              <cck-label>AutoResize</cck-label>
+              <textarea
+                cckTextarea
+                [autoResize]="true"
+                placeholder="Placeholder"
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              >
+              </textarea>
+            </cck-form-field>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -25,10 +41,16 @@ export const AutoResize: AngularStoryObj<TextareaComponent> = {
       ...args,
     },
     template: `
-        <cck-form-field>
-          <cck-label>AutoResize</cck-label>
-          <textarea cckTextarea [autoResize]="true" placeholder="Placeholder"></textarea>
-        </cck-form-field>
+      <cck-form-field style="width: 100%">
+        <cck-label>AutoResize</cck-label>
+        <textarea
+          cckTextarea
+          [autoResize]="true"
+          placeholder="Placeholder"
+          [type]="cckControl.type"
+        >
+        </textarea>
+      </cck-form-field>
     `,
   }),
 };

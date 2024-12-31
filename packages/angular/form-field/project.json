@@ -27,7 +27,7 @@
     },
     "storybook": {
       "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
+        "styles": [],
         "compodoc": true,
         "compodocArgs": [
           "-e",
@@ -48,7 +48,7 @@
         "outputDir": "dist/storybook/packages/angular/form-field",
         "configDir": "packages/angular/form-field/.storybook",
         "browserTarget": "@cocokits/angular-form-field:build-storybook",
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
+        "styles": [],
         "compodoc": true,
         "compodocArgs": [
           "-e",

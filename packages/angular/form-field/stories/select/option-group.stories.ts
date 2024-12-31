@@ -2,6 +2,7 @@ import { AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { SelectComponent } from '../../src/lib/select/select.component';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 export const OptionGroup: AngularStoryObj<SelectComponent> = {
   name: 'OptionGroup',
@@ -10,25 +11,43 @@ export const OptionGroup: AngularStoryObj<SelectComponent> = {
       description: {
         story: `Shows the select component with grouped options, demonstrating how different options can be organized together for improved categorization and user experience.`,
       },
-      source: {
-        code: `
-          <cck-form-field>
-            <cck-label>Favorite food</cck-label>
-            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
-              <cck-option-group disabled [label]="'Order 1'">
-                <cck-option [value]="'Steak-1'">Steak</cck-option>
-                <cck-option [value]="'Pizza-1'">Pizza</cck-option>
-                <cck-option [value]="'Burger-1'">Burger</cck-option>
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <cck-form-field>
+            <cck-label>Favorite Food</cck-label>
+            <cck-select
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              [multiple]="true"
+              placeholder="Favorite Food"
+            >
+              <cck-option-group label="Fast Foods">
+                <cck-option value="Steak">Steak</cck-option>
+                <cck-option value="Pizza">Pizza</cck-option>
+                <cck-option value="Burger">Burger</cck-option>
               </cck-option-group>
-              <cck-option-group [label]="'Order 2'">
-                <cck-option [value]="'Steak-2'">Steak</cck-option>
-                <cck-option disabled [value]="'Pizza-2'">Pizza</cck-option>
-                <cck-option [value]="'Burger-2'">Burger</cck-option>
+              <cck-option-group label="Healthy Options">
+                <cck-option value="Salad">Salad</cck-option>
+                <cck-option value="Sushi">Sushi</cck-option>
+                <cck-option value="Soup" disabled>Soup</cck-option>
+              </cck-option-group>
+              <cck-option-group label="Desserts" disabled>
+                <cck-option value="ice-cream">Ice Cream</cck-option>
+                <cck-option value="cake">Cake</cck-option>
+                <cck-option value="pie">Pie</cck-option>
               </cck-option-group>
             </cck-select>
           </cck-form-field>
-        `,
-      },
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -36,47 +55,26 @@ export const OptionGroup: AngularStoryObj<SelectComponent> = {
       ...args,
     },
     template: `
-      <story-table
-        [headers]="['Group', 'Group With Disabled']">
-        
-        <!-- Group -->
-        <story-table-cell row="0" col="0">
-          <cck-form-field class="story-w-200">
-            <cck-label>Favorite food</cck-label>
-            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
-              <cck-option-group [label]="'Order 1'">
-                <cck-option [value]="'Steak-1'">Steak</cck-option>
-                <cck-option [value]="'Pizza-1'">Pizza</cck-option>
-                <cck-option [value]="'Burger-1'">Burger</cck-option>
-              </cck-option-group>
-              <cck-option-group [label]="'Order 2'">
-                <cck-option [value]="'Steak-2'">Steak</cck-option>
-                <cck-option [value]="'Pizza-2'">Pizza</cck-option>
-                <cck-option [value]="'Burger-2'">Burger</cck-option>
-              </cck-option-group>
-            </cck-select>
-          </cck-form-field>
-        </story-table-cell>
-        
-        <!-- Group With Disabled -->
-        <story-table-cell row="0" col="1">
-          <cck-form-field class="story-w-200">
-            <cck-label>Favorite food</cck-label>
-            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
-              <cck-option-group disabled [label]="'Order 1'">
-                <cck-option [value]="'Steak-1'">Steak</cck-option>
-                <cck-option [value]="'Pizza-1'">Pizza</cck-option>
-                <cck-option [value]="'Burger-1'">Burger</cck-option>
-              </cck-option-group>
-              <cck-option-group [label]="'Order 2'">
-                <cck-option [value]="'Steak-2'">Steak</cck-option>
-                <cck-option disabled [value]="'Pizza-2'">Pizza</cck-option>
-                <cck-option [value]="'Burger-2'">Burger</cck-option>
-              </cck-option-group>
-            </cck-select>
-          </cck-form-field>
-        </story-table-cell>
-      </story-table>
+      <cck-form-field style="width: 100%">
+        <cck-label>Favorite Food</cck-label>
+        <cck-select [multiple]="true" placeholder="Favorite Food">
+          <cck-option-group label="Fast Foods">
+            <cck-option value="Steak">Steak</cck-option>
+            <cck-option value="Pizza">Pizza</cck-option>
+            <cck-option value="Burger">Burger</cck-option>
+          </cck-option-group>
+          <cck-option-group label="Healthy Options">
+            <cck-option value="Salad">Salad</cck-option>
+            <cck-option value="Sushi">Sushi</cck-option>
+            <cck-option value="Soup" disabled>Soup</cck-option>
+          </cck-option-group>
+          <cck-option-group label="Desserts" disabled>
+            <cck-option value="ice-cream">Ice Cream</cck-option>
+            <cck-option value="cake">Cake</cck-option>
+            <cck-option value="pie">Pie</cck-option>
+          </cck-option-group>
+        </cck-select>
+      </cck-form-field>
     `,
   }),
 };

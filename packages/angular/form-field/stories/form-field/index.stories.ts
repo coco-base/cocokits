@@ -1,11 +1,9 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { moduleMetadata } from '@storybook/angular';
-
-import { _UiBaseComponent, ThemeConfigToken } from '@cocokits/angular-core';
+import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
 import {
@@ -24,14 +22,10 @@ import {
 } from '../../src';
 import { FormFieldComponent } from '../../src/lib/form-field/form-field.component';
 
-export { Default } from './default.stories';
-export { Color } from './color.stories';
-export { Size } from './size.stories';
-export { ThemeCocokitsHintError } from './theme-cocokits-hint-error.stories';
-export { ThemeCocokitsPrefixSuffix } from './theme-cocokits-prefix-suffix.stories';
-export { ThemeCocokitsLeading } from './theme-cocokits-leading.stories';
-export { ThemeCocokitsTrailing } from './theme-cocokits-trailing.stories';
-export { ThemeFramesXLeadingTrailing } from './theme-frames-x-leading-trailing.stories';
+export { Input } from './input.stories';
+export { Textarea } from './textarea.stories';
+export { Select } from './select.stories';
+export { ChipList } from './chip-list.stories';
 
 const meta: AngularStoriesMeta = {
   component: FormFieldComponent,
@@ -46,11 +40,12 @@ const meta: AngularStoriesMeta = {
     ErrorComponent,
   ],
   title: 'UI Components/FormField',
-  tags: ['autodocs'],
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [
-        BrowserAnimationsModule,
         LabelComponent,
         InputComponent,
         HintComponent,
@@ -65,12 +60,6 @@ const meta: AngularStoriesMeta = {
         OptionComponent,
         ChipListComponent,
       ],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
     }),
   ],
   parameters: {
@@ -79,10 +68,21 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'formField',
+      subcomponentNames: {
+        LabelComponent: 'label',
+        LeadingComponent: 'leading',
+        TrailingComponent: 'trailing',
+        PrefixComponent: 'prefix',
+        SuffixComponent: 'suffix',
+        HintComponent: 'hint',
+        ErrorComponent: 'error',
+      },
+    },
   },
   argTypes: {
     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
   },
-  args: {},
 };
 export default meta;

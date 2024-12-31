@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 import { SelectComponent } from '../../src/lib/select/select.component';
 
@@ -11,18 +11,56 @@ export const Default: AngularStoryObj<SelectComponent> = {
         story:
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
-      source: {
-        code: `
-          <cck-form-field>
-            <cck-label>Favorite food</cck-label>
-            <cck-select [placeholder]="'Favorite food'">
-              <cck-option [value]="'Steak'">Steak</cck-option>
-              <cck-option [value]="'Pizza'">Pizza</cck-option>
-              <cck-option [value]="'Burger'">Burger</cck-option>
-            </cck-select>
-          </cck-form-field>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <cck-form-field>
+              <% if (label) { %>
+                <cck-label><%= label %></cck-label>
+              <% } %>
+
+              <cck-select
+                <% if (placeholder) { %> placeholder="<%= placeholder %>" <% } %>
+                <% if (multiple) { %> [multiple]="<%= multiple %>" <% } %>
+                <% if (disabled) { %> disabled <% } %>
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+                <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+              >
+                <cck-option [value]="'Steak'">Steak</cck-option>
+                <cck-option [value]="'Pizza'">Pizza</cck-option>
+                <cck-option [value]="'Burger'">Burger</cck-option>
+              </cck-select>
+            </cck-form-field>
+            `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        {
+          displayName: 'Label',
+          default: 'Favorite Foods',
+          storyArgKey: 'label',
+          type: AddonParametersControlType.Text,
+        },
+        {
+          displayName: 'Placeholder',
+          default: 'Add a new food',
+          storyArgKey: 'placeholder',
+          type: AddonParametersControlType.Text,
+        },
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+        { displayName: 'Multiple', default: false, storyArgKey: 'multiple', type: AddonParametersControlType.Boolean },
+      ],
     },
   },
   render: (args) => ({
@@ -30,55 +68,21 @@ export const Default: AngularStoryObj<SelectComponent> = {
       ...args,
     },
     template: `
-      <story-table
-        [headers]="['Default', 'No Label', 'Multi', 'Disabled']"
-        cellVAlign="end">
-        
-        <!-- Default --> 
-        <story-table-cell col="0">
-          <cck-form-field class="story-w-200">
-            <cck-label>Favorite food</cck-label>
-            <cck-select [placeholder]="'Favorite food'">
-              <cck-option [value]="'Steak'">Steak</cck-option>
-              <cck-option [value]="'Pizza'">Pizza</cck-option>
-              <cck-option [value]="'Burger'">Burger</cck-option>
-            </cck-select>
-          </cck-form-field>
-        </story-table-cell>
-        
-        <!-- No Label --> 
-        <story-table-cell col="1">
-          <cck-form-field class="story-w-200">
-            <cck-select [placeholder]="'Favorite food'">
-              <cck-option [value]="'Steak'">Steak</cck-option>
-              <cck-option [value]="'Pizza'">Pizza</cck-option>
-              <cck-option [value]="'Burger'">Burger</cck-option>
-            </cck-select>
-          </cck-form-field>
-        </story-table-cell>
-        
-        <!-- Multi --> 
-        <story-table-cell col="2">
-          <cck-form-field class="story-w-200">
-            <cck-select [multiple]="true" [placeholder]="'Favorite food'">
-              <cck-option [value]="'Steak'">Steak</cck-option>
-              <cck-option [value]="'Pizza'">Pizza</cck-option>
-              <cck-option [value]="'Burger'">Burger</cck-option>
-            </cck-select>
-          </cck-form-field>
-        </story-table-cell>
-        
-        <!-- Disabled --> 
-        <story-table-cell col="3">
-          <cck-form-field class="story-w-200" [disabled]="true">
-            <cck-select [placeholder]="'Favorite food'">
-              <cck-option [value]="'Steak'">Steak</cck-option>
-              <cck-option [value]="'Pizza'">Pizza</cck-option>
-              <cck-option [value]="'Burger'">Burger</cck-option>
-            </cck-select>
-          </cck-form-field>
-        </story-table-cell>
-      </story-table>
+       <cck-form-field style="width: 100%">
+        @if(cckControl.label) {
+          <cck-label>{{cckControl.label}}</cck-label>
+        }
+        <cck-select
+          placeholder="{{cckControl.placeholder}}"
+          [multiple]="cckControl.multiple"
+          [disabled]="cckControl.disabled"
+          ${ngThemeArgsToTemplate(args)}
+        >
+          <cck-option [value]="'Steak'">Steak</cck-option>
+          <cck-option [value]="'Pizza'">Pizza</cck-option>
+          <cck-option [value]="'Burger'">Burger</cck-option>
+        </cck-select>
+      </cck-form-field>
     `,
   }),
 };

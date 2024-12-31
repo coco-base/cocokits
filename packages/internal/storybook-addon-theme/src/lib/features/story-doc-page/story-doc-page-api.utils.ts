@@ -50,21 +50,28 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
     });
   }
 
-  subcomponents?.forEach((subcomponent) => {
-    const argTypes = deepMerge(
-      parameters.docs?.extractArgTypes?.(subcomponent) ?? {},
-      parameters.cckAddon?.subcomponentArgsTypes?.[subcomponent.name] ?? {}
-    );
-    const subcomponentName = parameters.cckAddon?.subcomponentNames?.[subcomponent.name];
-    if (!subcomponentName) {
-      throw new Error(`Subcomponent name is missing in the story parameters for story: ${subcomponent.name}`);
-    }
+  subcomponents
+    ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
+    .forEach((subcomponent) => {
+      const argTypes = deepMerge(
+        parameters.docs?.extractArgTypes?.(subcomponent) ?? {},
+        parameters.cckAddon?.subcomponentArgsTypes?.[subcomponent.name] ?? {}
+      );
+      const subcomponentName = parameters.cckAddon?.subcomponentNames?.[subcomponent.name];
+      if (!subcomponentName) {
+        throw new Error(`Subcomponent name is missing in the story parameters for story: ${subcomponent.name}`);
+      }
 
-    argTypeGroup.push({
-      componentName: subcomponent.name,
-      argTypeGroup: getComponentArgTypes(subcomponent, argTypes, parameters, themeConfig.components[subcomponentName]),
+      argTypeGroup.push({
+        componentName: subcomponent.name,
+        argTypeGroup: getComponentArgTypes(
+          subcomponent,
+          argTypes,
+          parameters,
+          themeConfig.components[subcomponentName]
+        ),
+      });
     });
-  });
 
   return argTypeGroup;
 }

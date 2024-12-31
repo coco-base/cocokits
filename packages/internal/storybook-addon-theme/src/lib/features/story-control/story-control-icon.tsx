@@ -22,7 +22,7 @@ export function StoryControlIcon({control, selected, onChange}: StoryControlIcon
   return (
     <>
       <StyledControlLabel>{control.displayName}</StyledControlLabel>
-      <Tabs color='h-contrast' size="fit" selectedValue={selected} onSelectionChange={onIconChange}>
+      <Tabs color='h-contrast' size="fit" selectedValue={selected} onSelectionChange={onIconChange} hideContent={true}>
         {
           control.icons.map((icon) => (
             <Tab key={icon} value={icon} label={() => (<TabLabel><SvgIcon icon={Icons[icon]}/></TabLabel>)}>

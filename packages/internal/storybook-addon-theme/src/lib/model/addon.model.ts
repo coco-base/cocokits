@@ -143,6 +143,7 @@ export type AddonParametersControl =
   | AddonParametersControlIcon
   | AddonParametersControlSelect
   | AddonParametersControlText
+  | AddonParametersControlNumber
   | AddonParametersControlBoolean
   | AddonParametersControlTheme;
 
@@ -150,6 +151,7 @@ export enum AddonParametersControlType {
   Select = 'select',
   Boolean = 'boolean',
   Text = 'text',
+  Number = 'number',
   Icon = 'icon',
   SelectThemeConfig = 'select-theme-config',
 }
@@ -174,6 +176,11 @@ export interface AddonParametersControlSelect extends AddonParametersControlBase
 export interface AddonParametersControlText extends AddonParametersControlBase {
   type: AddonParametersControlType.Text;
   default: string;
+}
+
+export interface AddonParametersControlNumber extends AddonParametersControlBase {
+  type: AddonParametersControlType.Number;
+  default: number;
 }
 
 export interface AddonParametersControlBoolean extends AddonParametersControlBase {

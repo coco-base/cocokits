@@ -2,6 +2,7 @@ import { AngularStoryObj } from '@cocokits/internal-model';
 import {
   AddonParametersControlType,
   ngAdditionalArgsToTemplate,
+  ngThemeArgsToTemplate,
   renderWithPageTab,
 } from '@cocokits/storybook-addon-theme';
 
@@ -61,11 +62,8 @@ export const Default: AngularStoryObj<IconButtonComponent> = {
       template: `
       <button
         cck-icon-button
-        [type]="cckControl.type"
-        [size]="cckControl.size"
-        [color]="cckControl.color"
         [disabled]="cckControl.disabled"
-        ${ngAdditionalArgsToTemplate(args)}>
+        ${ngThemeArgsToTemplate(args)}>
           <cck-svg-icon [icon]="cckIcons[cckControl.icon]"></cck-svg-icon>
       </button>
     `,

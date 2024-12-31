@@ -30,6 +30,7 @@ export * from './lib/scroll/scroll-locker';
 
 export * from './lib/transform/to-boolean-or-present';
 export * from './lib/transform/to-array';
+export * from './lib/transform/to-number';
 
 export * from './lib/uncategorized/deep-merge';
 export * from './lib/uncategorized/deep-clone';

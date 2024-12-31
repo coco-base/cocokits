@@ -36,7 +36,7 @@ type AnimationState = { value: any } & AnimationOptions;
   encapsulation: ViewEncapsulation.None,
   animations: [overlayAnimation.backdrop(), overlayAnimation.content(), overlayAnimation.overlay()],
   host: {
-    '[class]': 'hostClass',
+    '[class]': 'hostClassNames',
     '[class.cck-overlay--top-alignment]': 'isTopAlignment',
     '[class.cck-overlay--right-alignment]': 'isRightAlignment',
     '[class.cck-overlay--bottom-alignment]': 'isBottomAlignment',
