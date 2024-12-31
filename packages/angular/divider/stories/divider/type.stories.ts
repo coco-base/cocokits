@@ -5,7 +5,6 @@ import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 export const Type: AngularStoryObj<DividerComponent> = {
   name: 'Type',
-  tags: ['uiBaseComponentName:divider', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {

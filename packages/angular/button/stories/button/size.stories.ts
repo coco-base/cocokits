@@ -21,7 +21,13 @@ export const Size: AngularStoryObj<ButtonComponent> = {
           language: 'angular-html',
           code: `
           <% themeComponentConfig.size.values.map(size => { %>
-            <button cck-button type='<%= type %>' size='<%= size %>'>Button - <%= size %></button>
+            <button
+              cck-button
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              size='<%= size %>'
+            >
+              Button - <%= size %>
+            </button>
           <% }) %>
           `,
         },

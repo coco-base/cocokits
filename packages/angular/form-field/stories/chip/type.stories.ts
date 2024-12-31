@@ -1,9 +1,9 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
-import { ButtonComponent } from '../../src/lib/button/button.component';
+import { ChipComponent } from '../../src/lib/chip/chip.component';
 
-export const Type: AngularStoryObj<ButtonComponent> = {
+export const Type: AngularStoryObj<ChipComponent> = {
   name: 'Type',
   parameters: {
     docs: {
@@ -13,20 +13,17 @@ export const Type: AngularStoryObj<ButtonComponent> = {
       },
     },
     cckAddon: {
-      renderConditions: [renderWithThemeProp('type'), renderWithPageTab('Overview')],
+      renderConditions: [renderWithPageTab('Overview'), renderWithThemeProp('type')],
       source: [
         {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          <% themeComponentConfig.type.values.map(type => { %>
-            <button
-              cck-button
-              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-            >
-              <%= type %>
-            </button>
-          <% }) %>
+            <% themeComponentConfig.type.values.map(type => { %>
+              <cck-chip type="<%= type %>">
+                Chip Value
+              </cck-chip>
+            <% }) %>
           `,
         },
       ],
@@ -37,8 +34,8 @@ export const Type: AngularStoryObj<ButtonComponent> = {
       ...args,
     },
     template: `
-      <@for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <button cck-button [type]="type">{{type}}</button>
+      @for (type of cckControl.themeComponentConfig.type.values; let col = $index; track type) {
+        <cck-chip [type]="cckControl.type">Chip Value</cck-chip>
       }
     `,
   }),

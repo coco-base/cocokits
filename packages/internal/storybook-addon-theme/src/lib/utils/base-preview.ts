@@ -5,6 +5,8 @@ import { ThemeEvent } from '../data-access/theme-event/preview-theme-event';
 import { Icons } from './icons';
 import { Provider } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const withThemeConfigProvider: () => Provider = () => ({
   provide: ThemeConfigToken,
@@ -47,10 +49,9 @@ export function withWrapperDecorator(
 export const BASE_ANGULAR_BUTTON_PREVIEW: Preview = {
   tags: ['autodocs'],
   decorators: [
-    // componentWrapperDecorator((story) => `<div class="story-decorator-wrapper">${story}</div>`),
     withWrapperDecorator(),
     moduleMetadata({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [FormsModule, ReactiveFormsModule, CommonModule, BrowserAnimationsModule],
       providers: [],
     }),
   ],

@@ -20,7 +20,13 @@ export const Color: AngularStoryObj<ButtonComponent> = {
           language: 'angular-html',
           code: `
           <% themeComponentConfig.color.values.map(color => { %>
-            <button cck-button type='<%= type %>' color='<%= color %>'><%= color %></button>
+            <button
+              cck-button
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              color='<%= color %>'
+            >
+              <%= color %>
+            </button>
           <% }) %>
           `,
         },

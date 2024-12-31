@@ -6,6 +6,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import descriptionMd from './description.md';
@@ -18,9 +19,12 @@ import {
   SelectPreviewComponent,
 } from '../../src';
 import { ChipComponent } from '../../src/lib/chip/chip.component';
+import { withWrapperDecorator } from '../../../../internal/storybook-addon-theme/src/lib/utils/base-preview';
 
 export { Default } from './default.stories';
+export { Type } from './type.stories';
 export { Size } from './size.stories';
+export { Color } from './color.stories';
 
 const meta: AngularStoriesMeta = {
   component: ChipComponent,
@@ -32,20 +36,11 @@ const meta: AngularStoriesMeta = {
         FormFieldComponent,
         LabelComponent,
         ErrorComponent,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
         OptionComponent,
         OptionGroupComponent,
         SelectPreviewComponent,
-        BrowserAnimationsModule,
       ],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {
@@ -54,10 +49,9 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'chip',
+    },
   },
-  argTypes: {
-    disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-  },
-  args: {},
 };
 export default meta;

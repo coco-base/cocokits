@@ -25,7 +25,12 @@ export const ThemeCocokitsRoundedColor: AngularStoryObj<IconButtonComponent> = {
           language: 'angular-html',
           code: `
             <% themeComponentConfig.color.values.map(color => { %>
-              <button icon-cck-button type='<%= type %>' color='<%= color %>' data-cck-rounded="true">
+              <button
+                icon-cck-button
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                color='<%= color %>'
+                data-cck-rounded="true"
+              >
                 <cck-svg-icon [icon]="YOU_ICON"></cck-svg-icon>
               </button>
             <% }) %>

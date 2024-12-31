@@ -21,9 +21,9 @@ export const Default: AngularStoryObj<ButtonComponent> = {
           code: `
           <button
             cck-button
-            type="<%= type %>"
-            size="<%= size %>"
-            color="<%= color %>"
+            <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+            <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+            <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
             <% if (disabled) { %> disabled <% } %>>
               <% if (leftIcon !== 'none') { %>
                 <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>

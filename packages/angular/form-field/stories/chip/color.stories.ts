@@ -3,26 +3,26 @@ import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } fr
 
 import { ChipComponent } from '../../src/lib/chip/chip.component';
 
-export const Size: AngularStoryObj<ChipComponent> = {
-  name: 'Size',
+export const Color: AngularStoryObj<ChipComponent> = {
+  name: 'Color',
   parameters: {
     docs: {
       description: {
         story:
-          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
+          'The color is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
     },
     cckAddon: {
-      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
       singleControls: ['type'],
       source: [
         {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          <% themeComponentConfig.size.values.map(size => { %>
+          <% themeComponentConfig.color.values.map(color => { %>
             <cck-chip
-              size="<%= size %>"
+              color="<%= color %>"
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
             >
               Chip Value
@@ -39,8 +39,8 @@ export const Size: AngularStoryObj<ChipComponent> = {
       ...args,
     },
     template: `
-       @for (size of cckControl.themeComponentConfig?.size?.values; let col = $index; track size) {
-        <cck-chip [size]="size" [type]="cckControl.type">Chip - {{size}}</cck-chip>
+       @for (color of cckControl.themeComponentConfig?.color?.values; let col = $index; track color) {
+        <cck-chip [color]="color" [type]="cckControl.type">Chip - {{color}}</cck-chip>
       }  
     `,
   }),

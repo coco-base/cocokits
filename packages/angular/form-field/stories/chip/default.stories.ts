@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 import { ChipComponent } from '../../src/lib/chip/chip.component';
 
@@ -11,13 +11,41 @@ export const Default: AngularStoryObj<ChipComponent> = {
         story:
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
-      source: {
-        code: `
-          <cck-chip>Default</cck-chip>
-          <cck-chip [removable]="true">Removable</cck-chip>
-          <cck-chip disabled="">Disabled</cck-chip>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <cck-chip
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+              <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+              <% if (disabled) { %> disabled <% } %>
+              <% if (removable) { %> [removable]="true" <% } %>
+              >
+              <%= text %>
+            </cck-chip>
+          `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        { displayName: 'Text', default: 'Label', storyArgKey: 'text', type: AddonParametersControlType.Text },
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        {
+          displayName: 'Removable',
+          default: false,
+          storyArgKey: 'removable',
+          type: AddonParametersControlType.Boolean,
+        },
+        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+      ],
     },
   },
   render: (args) => ({
@@ -25,18 +53,12 @@ export const Default: AngularStoryObj<ChipComponent> = {
       ...args,
     },
     template: `
-      <story-table
-        [headers]="['Default', 'Removable', 'Disabled']">
-        <story-table-cell row="0" col="0">
-          <cck-chip>Default</cck-chip>
-        </story-table-cell>
-        <story-table-cell row="0" col="1">
-          <cck-chip [removable]="true">Removable</cck-chip>
-        </story-table-cell>
-        <story-table-cell row="0" col="2">
-          <cck-chip disabled="">Disabled</cck-chip>
-        </story-table-cell>
-      </story-table>
+      <cck-chip
+        [removable]="cckControl.removable"
+        [disabled]="cckControl.disabled"
+        ${ngThemeArgsToTemplate(args)}>
+        {{cckControl.text}}
+      </cck-chip>
     `,
   }),
 };

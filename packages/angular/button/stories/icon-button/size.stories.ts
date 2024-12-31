@@ -25,8 +25,8 @@ export const Size: AngularStoryObj<IconButtonComponent> = {
                 cck-button
                 <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                 size='<%= size %>'
-                >
-                  <%= size %>
+              >
+                <%= size %>
                 </button>
             <% }) %>
           `,

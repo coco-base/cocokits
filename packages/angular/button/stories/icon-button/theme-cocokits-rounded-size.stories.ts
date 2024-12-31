@@ -25,7 +25,12 @@ export const ThemeCocokitsRoundedSize: AngularStoryObj<IconButtonComponent> = {
           language: 'angular-html',
           code: `
             <% themeComponentConfig.size.values.map(size => { %>
-              <button icon-cck-button type='<%= type %>' size='<%= size %>' data-cck-rounded="true">
+              <button
+                icon-cck-button
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                size='<%= size %>'
+                data-cck-rounded="true"
+              >
                 <cck-svg-icon [icon]="YOU_ICON"></cck-svg-icon>
               </button>
             <% }) %>
