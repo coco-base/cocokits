@@ -4,14 +4,7 @@
 @use './cck-themes';
 @use './arg-types-table';
 @use './collection-modes.selector-table';
+@use './story-decorator-wrapper';
 @use './mdx-page';
 @use '../theme' as cck-doc;
 @include cck-doc.components_all;
-
-.story-decorator-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}

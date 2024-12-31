@@ -1,5 +1,5 @@
 import { ThemeConfigToken } from '@cocokits/angular-core';
-import { getInstance } from '@cocokits/common-utils';
+import { getInstance, isNotNullish } from '@cocokits/common-utils';
 import { componentWrapperDecorator, moduleMetadata, Preview } from '@storybook/angular';
 import { ThemeEvent } from '../data-access/theme-event/preview-theme-event';
 import { Icons } from './icons';
@@ -11,10 +11,44 @@ export const withThemeConfigProvider: () => Provider = () => ({
   useFactory: () => getInstance(ThemeEvent).getCurrentTheme().themeConfig,
 });
 
+export function withWrapperDecorator(
+  {
+    direction = 'row',
+    insideBox = false,
+  }: {
+    direction?: 'row' | 'column';
+    insideBox?: boolean;
+  } = {},
+  styles: Partial<CSSStyleDeclaration> = {}
+): any {
+  const classNames = ['story-decorator-wrapper'];
+
+  if (direction === 'row') {
+    classNames.push(`story-decorator-wrapper__row`);
+  }
+
+  if (direction === 'column') {
+    classNames.push(`story-decorator-wrapper__column`);
+  }
+
+  if (insideBox) {
+    classNames.push(`story-decorator-wrapper__inside-box`);
+  }
+
+  document.body.style;
+
+  const inlineStyles = Object.entries(styles).map(([key, value]) => `${key}: ${value}`);
+
+  return componentWrapperDecorator(
+    (story) => `<div style="${inlineStyles.join('; ')}" class="${classNames.join(' ')}">${story}</div>`
+  );
+}
+
 export const BASE_ANGULAR_BUTTON_PREVIEW: Preview = {
   tags: ['autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="story-decorator-wrapper">${story}</div>`),
+    // componentWrapperDecorator((story) => `<div class="story-decorator-wrapper">${story}</div>`),
+    withWrapperDecorator(),
     moduleMetadata({
       imports: [FormsModule, ReactiveFormsModule],
       providers: [],

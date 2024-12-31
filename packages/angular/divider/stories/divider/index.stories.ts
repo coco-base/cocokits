@@ -1,8 +1,7 @@
 import { moduleMetadata } from '@storybook/angular';
 
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
 import { DividerComponent } from '../../src/lib/divider/divider.component';
@@ -15,15 +14,10 @@ export { Color } from './color.stories';
 const meta: AngularStoriesMeta = {
   component: DividerComponent,
   title: 'UI Components/Divider',
-  tags: ['autodocs'],
   decorators: [
+    withWrapperDecorator({ direction: 'row', insideBox: true }, { width: '200px', height: '100px' }),
     moduleMetadata({
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {
@@ -32,11 +26,9 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'divider',
+    },
   },
-  argTypes: {
-    // Example of: using component API insteadof Theme API or Disable from ArgTable
-    // type: { table: { useComponentApi: true, disable: true } },
-  },
-  args: {},
 };
 export default meta;

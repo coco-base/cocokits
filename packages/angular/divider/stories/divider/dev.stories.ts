@@ -1,37 +1,61 @@
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import {
+  AddonParametersControlType,
+  ngThemeArgsToTemplate,
+  withThemeConfigProvider,
+} from '@cocokits/storybook-addon-theme';
 
 import { DividerComponent } from '../../src/lib/divider/divider.component';
 
 const meta: AngularStoriesMeta = {
   component: DividerComponent,
   title: 'Dev/Divider',
-  tags: ['!autodocs'],
   decorators: [
-    componentWrapperDecorator((story) => `<div class="flex gap-24">${story}</div>`),
     moduleMetadata({
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+      providers: [withThemeConfigProvider()],
     }),
   ],
-  argTypes: {
-    type: { control: 'text' },
-    color: { control: 'text' },
-    size: { control: 'text' },
+  parameters: {
+    docs: {
+      description: {
+        component: '',
+      },
+    },
+    cckAddon: {
+      componentName: 'divider',
+    },
   },
 };
 
 export default meta;
 
-export const Default: AngularStoryObj<DividerComponent> = {
-  args: {
-    // color: 'brand',
+export const Dev: AngularStoryObj<DividerComponent> = {
+  name: 'Dev',
+  parameters: {
+    cckAddon: {
+      hasControl: true,
+      controls: [
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+      ],
+    },
+  },
+  render: (args) => {
+    return {
+      props: {
+        ...args,
+        logMessage: (...message: string[]) => {
+          console.log(...message);
+        },
+        indeterminate: false,
+      },
+      template: `
+       <cck-divider ${ngThemeArgsToTemplate(args)}></cck-divider>
+      `,
+    };
   },
 };

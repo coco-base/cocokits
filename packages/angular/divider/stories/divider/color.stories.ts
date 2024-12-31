@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { DividerComponent } from '../../src/lib/divider/divider.component';
 
@@ -11,31 +11,35 @@ export const Color: AngularStoryObj<DividerComponent> = {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `
-          <cck-divider [color]="..."></cck-divider>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview'), renderWithThemeProp('color')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <% themeComponentConfig.color.values.map(color => { %>
+              <cck-divider
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                color="<%= color %>">
+              </cck-divider>
+            <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.divider?.color?.values"
-        [rowHeaders]="themeComponentConfig?.divider?.type?.values ?? []"
-        [cellHeight]="'100px'">
-        @for (type of themeComponentConfig?.divider?.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.divider?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-divider [style.margin]="'0 auto'" [type]="type" [color]="color"></cck-divider>
-            </story-table-cell>
-          }
-        }
-      </story-table> 
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-divider style="margin: 0 auto; min-height: inherit" [type]="cckControl.type" [color]="color"></cck-divider>
+      }
     `,
   }),
 };

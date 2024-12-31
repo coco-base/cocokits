@@ -22,7 +22,7 @@ const meta: AngularStoriesMeta = {
   parameters: {
     docs: {
       description: {
-        component: [descriptionMd].join('\n'),
+        component: '',
       },
     },
     cckAddon: {

@@ -1,9 +1,8 @@
 import { moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
 
-import { CheckboxIndeterminateComponent } from './components/checkbox-indeterminate/checkbox-indeterminate.component';
 import descriptionMd from './description.md';
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
@@ -18,8 +17,9 @@ const meta: AngularStoriesMeta = {
   component: CheckboxComponent,
   title: 'UI Components/Checkbox',
   decorators: [
+    withWrapperDecorator({ insideBox: true }),
     moduleMetadata({
-      imports: [CheckboxIndeterminateComponent],
+      imports: [],
       providers: [withThemeConfigProvider()],
     }),
   ],
