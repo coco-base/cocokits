@@ -205,6 +205,7 @@ const components: ThemeComponentConfigRecord = {
   trailing: {},
   menu: {},
   menuItem: {},
+  overlay: {},
 };
 
 export const framesXThemeConfig: ThemeConfig = {

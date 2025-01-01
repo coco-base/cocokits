@@ -4,21 +4,25 @@ import { Component, ElementRef, inject, input, signal, viewChild, ViewContainerR
 import { DefaultOverlayExampleComponent } from './default-overlay-example.component';
 import { OverlayConfig } from '../../../src/models/overlay-config.model';
 import { OverlayService } from '../../../src/services/overlay.service';
+import { FormFieldComponent, InputComponent } from '@cocokits/angular-form-field';
+import { ButtonComponent } from '@cocokits/angular-button';
 
 @Component({
   standalone: true,
   selector: 'story-default',
-  imports: [JsonPipe],
+  imports: [JsonPipe, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="content">
-      <input class="story-input" #input placeholder="Enter any text" />
-      <p class="p-sm-regular-2"><b>Overlay Result: </b>{{ result() | json }}</p>
-      <button class="story-button" (click)="onOpenClick()">Open Overlay</button>
+      <cck-form-field>
+        <input cckInput #input placeholder="Enter any text" />
+      </cck-form-field>
+      <p class="result-text"><b>Overlay Result: </b>{{ result() | json }}</p>
+      <button cck-button (click)="onOpenClick()">Open Overlay</button>
     </div>
-    @if(customViewContainerRet()) {
-    <div class="container-ref story-overlay-container-ref">
-      <ng-container #containerRef></ng-container>
-    </div>
+    @if (customViewContainerRet()) {
+      <div class="container-ref story-overlay-container-ref">
+        <ng-container #containerRef></ng-container>
+      </div>
     }
   `,
   styles: [
@@ -41,6 +45,10 @@ import { OverlayService } from '../../../src/services/overlay.service';
         height: 300px;
         border: 1px dashed var(--cck-storybook-color-border-alpha-default);
       }
+      .result-text {
+        font: var(--cck-doc-text-sm-regular);
+        color: var(--cck-doc-color-font-1);
+      }
     `,
   ],
   host: {
@@ -54,7 +62,7 @@ export class DefaultOverlayStoryComponent {
   private overlay = inject(OverlayService);
   result = signal<any>(null);
 
-  private input = viewChild.required<ElementRef<HTMLInputElement>>('input');
+  private input = viewChild.required('input', { read: ElementRef });
   private containerRef = viewChild<ViewContainerRef, ViewContainerRef>('containerRef', { read: ViewContainerRef });
 
   async onOpenClick() {

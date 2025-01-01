@@ -1,0 +1,12 @@
+<h3 class="example-overlay-default-overlay__header">THIS IS A OVERLAY</h3>
+
+<p class="example-overlay-default-overlay__text">
+  <b>Data: </b>
+  {{ overlayRef.data | json }}
+</p>
+
+<cck-form-field>
+  <input cckInput #input placeholder="Enter any text" />
+</cck-form-field>
+
+<button cck-button (click)="onCloseClick()">Close Overlay</button>

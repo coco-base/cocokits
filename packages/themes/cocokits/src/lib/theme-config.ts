@@ -284,6 +284,7 @@ const components: ThemeComponentConfigRecord = {
   hint: {},
   prefix: {},
   suffix: {},
+  overlay: {},
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

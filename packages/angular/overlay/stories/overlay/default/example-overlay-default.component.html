@@ -1,0 +1,10 @@
+<cck-form-field>
+  <input cckInput #input placeholder="Enter any text" />
+</cck-form-field>
+
+<p class="example-overlay-default__text">
+  <b>Overlay Result: </b>
+  {{ result() | json }}
+</p>
+
+<button cck-button (click)="onOpenClick()">Open Overlay</button>
