@@ -1,4 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
@@ -12,11 +13,27 @@ export const Size: AngularStoryObj<ToggleComponent> = {
         story:
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
-      source: {
-        code: `
-          <cck-toggle [checked]="true" [size]="...">Slide me!</cck-toggle>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.size.values.map(size => { %>
+            <cck-toggle
+              size="<%= size %>"
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+            >
+              Slide Me!
+            </cck-toggle>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -25,17 +42,9 @@ export const Size: AngularStoryObj<ToggleComponent> = {
       themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
-      <story-table
-        [headers]="themeConfig?.toggle?.size?.values"
-        [rowHeaders]="themeConfig?.toggle?.type?.values ?? []">
-        @for (type of themeConfig?.toggle?.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.toggle?.size?.values; let col = $index; track size) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-toggle checked="true" [size]="size" [type]="type"></cck-toggle>
-            </story-table-cell>
-          }
-        }
-      </story-table> 
+      @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
+        <cck-toggle checked="true" [size]="size" [type]="cckControl.type"></cck-toggle>
+      }
     `,
   }),
 };

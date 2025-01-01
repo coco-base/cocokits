@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
@@ -11,11 +11,44 @@ export const Default: AngularStoryObj<ToggleComponent> = {
         story:
           'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
       },
-      source: {
-        code: `
-          <cck-toggle [checked]="true">Slide me!</cck-toggle>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <cck-toggle
+              <% if (checked) { %> [checked]='<%= checked %>' <% } %>
+              labelPosition="<%= labelPosition %>"
+              <% if(disabled) { %> disabled <% } %>
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+              <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+            >
+              <%= text %>
+            </cck-toggle>
+          `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        { displayName: 'Text', default: 'Slide Me!', storyArgKey: 'text', type: AddonParametersControlType.Text },
+        {
+          displayName: 'Label Position',
+          default: 'before',
+          options: ['before', 'after'],
+          storyArgKey: 'labelPosition',
+          type: AddonParametersControlType.Select,
+        },
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+        { displayName: 'Checked', default: false, storyArgKey: 'checked', type: AddonParametersControlType.Boolean },
+      ],
     },
   },
   render: (args) => ({
@@ -23,24 +56,13 @@ export const Default: AngularStoryObj<ToggleComponent> = {
       ...args,
     },
     template: `
-      <story-table
-        [headers]="['Default', 'Label Before', 'Disabled']">
-        
-        <!-- Default -->
-        <story-table-cell row="0" col="0">
-          <cck-toggle checked="true">Slide me!</cck-toggle>
-        </story-table-cell>
-        
-        <!-- Label Before -->
-        <story-table-cell row="0" col="1">
-          <cck-toggle checked="true" [labelPosition]="'before'">Slide me!</cck-toggle>
-        </story-table-cell>
-        
-        <!-- Disabled -->
-        <story-table-cell row="0" col="2">
-          <cck-toggle checked="true" disabled="true">Slide me!</cck-toggle>
-        </story-table-cell>
-      </story-table>
+      <cck-toggle
+        [checked]="cckControl.checked"
+        [labelPosition]="cckControl.labelPosition"
+        [disabled]="cckControl.disabled"
+        ${ngThemeArgsToTemplate(args)}>
+        {{cckControl.text}}
+      </cck-toggle>
     `,
   }),
 };

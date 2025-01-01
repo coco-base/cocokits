@@ -1,36 +1,40 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
 export const Type: AngularStoryObj<ToggleComponent> = {
   name: 'Type',
-  tags: ['uiBaseComponentName:toggle', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
         story:
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
-      source: {
-        code: `TODO: Add source code of story`,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('type'), renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.type.values.map(type => { %>
+            <cck-toggle type="<%= type %>">Slide Me!</cck-toggle>
+          <% }) %>
+          `,
+        },
+      ],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.toggle?.type?.values">
-        @for (type of themeComponentConfig?.toggle?.type?.values; let i = $index; track type) {
-          <story-table-cell row="0" [col]="i">
-            <cck-toggle [type]="type"></cck-toggle>
-          </story-table-cell>
-        }
-      </story-table>
+      @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
+        <cck-toggle [type]="type">{{type}}</cck-toggle>
+      }
     `,
   }),
 };

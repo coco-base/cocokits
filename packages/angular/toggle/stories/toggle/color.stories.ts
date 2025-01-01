@@ -1,4 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
@@ -11,11 +12,27 @@ export const Color: AngularStoryObj<ToggleComponent> = {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `
-          <cck-toggle [checked]="true" [color]="...">Slide me!</cck-toggle>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.color.values.map(color => { %>
+            <cck-toggle
+              color="<%= color %>"
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+            >
+              Slide Me!
+            </cck-toggle>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -24,17 +41,9 @@ export const Color: AngularStoryObj<ToggleComponent> = {
       themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
-      <story-table
-        [headers]="themeConfig?.toggle?.color?.values"
-        [rowHeaders]="themeConfig?.toggle?.type?.values ?? []">
-        @for (type of themeConfig?.toggle?.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeConfig?.toggle?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-toggle checked="true" [color]="color" [type]="type"></cck-toggle>
-            </story-table-cell>
-          }
-        }
-      </story-table>  
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-toggle checked="true" [color]="color" [type]="cckControl.type"></cck-toggle>
+      }
     `,
   }),
 };
