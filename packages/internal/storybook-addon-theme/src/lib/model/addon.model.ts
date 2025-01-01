@@ -60,8 +60,10 @@ export interface CckAddonStoriesMeta {
   componentName?: UIBaseComponentsName; // <---- required
   /**
    * Will be use to detect the themeConfig for an component to generate API table.
+   * If the value of a subComponent is null, means it's not part of themes and we will skip it from styling tab,
+   * and for API tab we will only show the API of the component.
    */
-  subcomponentNames?: Record<string, UIBaseComponentsName>;
+  subcomponentNames?: Record<string, UIBaseComponentsName | null>;
   /**
    * Override the default argTypes for the story.
    * Can be used to override the subcomponent argsType.

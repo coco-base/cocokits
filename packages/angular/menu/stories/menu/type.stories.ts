@@ -2,6 +2,7 @@ import { AngularStoryObj } from '@cocokits/internal-model';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { MenuComponent } from '../../src';
+import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 export const Type: AngularStoryObj<MenuComponent> = {
   name: 'Type',
@@ -12,46 +13,44 @@ export const Type: AngularStoryObj<MenuComponent> = {
         story:
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
-      source: {
-        code: `
-          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '150px'}" [menuOrigin]="'bottom-left'">Open</button>
-          
-          <ng-template #menu>
-            <cck-menu [closeOnSelectItem]="true" [type]="...">
-              <cck-menu-item>Edit</cck-menu-item>
-              <cck-menu-item>Duplicate</cck-menu-item>
-              <cck-divider></cck-divider>
-              <cck-menu-item>Archive</cck-menu-item>
-              <cck-menu-item disabled>Move</cck-menu-item>
-              <cck-divider></cck-divider>
-              <cck-menu-item>Share</cck-menu-item>
-              <cck-menu-item>Add to favorite</cck-menu-item>
-            </cck-menu>
-          </ng-template>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('type'), renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <% themeComponentConfig.type.values.map(type => { %>
+
+              <!-- <%= type %> -->
+              <cck-menu [type]="<%= type %>">
+                <cck-menu-item>Edit</cck-menu-item>
+                <cck-menu-item>Duplicate</cck-menu-item>
+                <cck-divider></cck-divider>
+                <cck-menu-item>Archive</cck-menu-item>
+                <cck-menu-item>Move</cck-menu-item>
+              </cck-menu>
+            <% }) %>
+          `,
+        },
+      ],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.menu?.type?.values">
-        @for (type of themeComponentConfig?.menu?.type?.values; let i = $index; track type) {
-          <story-table-cell row="0" [col]="i">
-            <cck-menu class="story-w-200" [type]="type">
-              <cck-menu-item>Edit</cck-menu-item>
-              <cck-menu-item>Duplicate</cck-menu-item>
-              <cck-divider></cck-divider>
-              <cck-menu-item>Archive</cck-menu-item>
-              <cck-menu-item>Move</cck-menu-item>
-            </cck-menu>
-          </story-table-cell>
-        }
-      </story-table>
+       @for (type of cckControl.themeComponentConfig.type.values; let col = $index; track type) {
+        <cck-menu [type]="type">
+          <cck-menu-item>Edit</cck-menu-item>
+          <cck-menu-item>Duplicate</cck-menu-item>
+          <cck-divider></cck-divider>
+          <cck-menu-item>Archive</cck-menu-item>
+          <cck-menu-item>Move</cck-menu-item>
+        </cck-menu>
+      }
     `,
   }),
 };

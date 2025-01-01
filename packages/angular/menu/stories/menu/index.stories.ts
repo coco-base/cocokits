@@ -1,13 +1,11 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { moduleMetadata } from '@storybook/angular';
-
-import { IconButtonComponent } from '@cocokits/angular-button';
-import { _UiBaseComponent, ThemeConfigToken } from '@cocokits/angular-core';
+import { ButtonComponent, IconButtonComponent } from '@cocokits/angular-button';
+import { _UiBaseComponent } from '@cocokits/angular-core';
 import { DividerComponent } from '@cocokits/angular-divider';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
 import { MenuItemComponent, MenuTriggerDirective } from '../../src';
@@ -17,29 +15,24 @@ export { Default } from './default.stories';
 export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
-export { Origin } from './origin.stories';
-export { ThemeCocokitsItemIconColor } from './theme-cocokits-item-icon.stories';
+// export { ThemeCocokitsItemIconColor } from './theme-cocokits-item-icon.stories';
 
 const meta: AngularStoriesMeta = {
   component: MenuComponent,
   subcomponents: [_UiBaseComponent, MenuItemComponent, MenuTriggerDirective],
   title: 'UI Components/Menu',
-  tags: ['autodocs'],
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [
-        BrowserAnimationsModule,
         IconButtonComponent,
         SvgIconComponent,
         MenuItemComponent,
         MenuTriggerDirective,
         DividerComponent,
-      ],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
+        ButtonComponent,
       ],
     }),
   ],
@@ -49,18 +42,35 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
-  },
-  argTypes: {
-    _MenuItemComponent: {
-      disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+    cckAddon: {
+      componentName: 'menu',
+      subcomponentNames: {
+        MenuItemComponent: 'menuItem',
+        MenuTriggerDirective: null,
+      },
+      subcomponentArgsTypes: {
+        MenuItemComponent: {
+          disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+        },
+        MenuTriggerDirective: {
+          menuOpen: { table: { defaultValue: { summary: 'false' } } },
+          menuSizes: { table: { type: { summary: 'OverlayConfig["size"]' }, defaultValue: { summary: '' } } },
+          menuOpened: { table: { category: 'outputs' } },
+          menuClosed: { table: { category: 'outputs' } },
+        },
+      },
     },
-    _MenuTriggerDirective: {
-      menuOpen: { table: { defaultValue: { summary: 'false' } } },
-      menuSizes: { table: { type: { summary: 'OverlayConfig["size"]' }, defaultValue: { summary: '' } } },
-      menuOpened: { table: { category: 'outputs' } },
-      menuClosed: { table: { category: 'outputs' } },
-    },
   },
-  args: {},
+  // argTypes: {
+  //   _MenuItemComponent: {
+  //     disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+  //   },
+  //   _MenuTriggerDirective: {
+  //     menuOpen: { table: { defaultValue: { summary: 'false' } } },
+  //     menuSizes: { table: { type: { summary: 'OverlayConfig["size"]' }, defaultValue: { summary: '' } } },
+  //     menuOpened: { table: { category: 'outputs' } },
+  //     menuClosed: { table: { category: 'outputs' } },
+  //   },
+  // },
 };
 export default meta;

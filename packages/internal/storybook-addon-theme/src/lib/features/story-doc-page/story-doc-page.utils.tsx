@@ -60,7 +60,14 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
 
   const subcomponents: StoryDocPageStylingComponent[] =
     subcomponentsRef
-      ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
+      ?.filter((subcomponentRef) => {
+        return !(
+          subcomponentRef.name.startsWith('_') ||
+          // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
+          // If a component has the value 'null', we skip it because it has no styling.
+          parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name] === null
+        );
+      })
       .map((subcomponentRef) => {
         const uIBaseComponentName = parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name];
         if (!uIBaseComponentName) {

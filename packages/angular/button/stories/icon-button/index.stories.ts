@@ -1,4 +1,4 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
@@ -19,9 +19,11 @@ const meta: AngularStoriesMeta = {
   component: IconButtonComponent,
   title: 'UI Components/IconButton',
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [SvgIconComponent],
-      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {

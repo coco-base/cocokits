@@ -34,7 +34,7 @@ export const Type: AngularStoryObj<ButtonComponent> = {
       ...args,
     },
     template: `
-      <@for (type of cckControl.themeComponentConfig.type.values; let col = $index; track type) {
+      @for (type of cckControl.themeComponentConfig.type.values; let col = $index; track type) {
         <button cck-icon-button [type]="type">
           <cck-svg-icon [icon]="cckIcons.heartFill"></cck-svg-icon>
         </button>

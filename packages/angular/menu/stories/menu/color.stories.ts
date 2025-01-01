@@ -1,4 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { MenuComponent } from '../../src';
@@ -11,24 +12,33 @@ export const Color: AngularStoryObj<MenuComponent> = {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `
-          <button [cckMenuTrigger]="menu" [menuSizes]="{minWidth: '150px'}" [menuOrigin]="'bottom-left'">Open</button>
-          
-          <ng-template #menu>
-            <cck-menu [closeOnSelectItem]="true" [color]="...">
-              <cck-menu-item>Edit</cck-menu-item>
-              <cck-menu-item>Duplicate</cck-menu-item>
-              <cck-divider></cck-divider>
-              <cck-menu-item>Archive</cck-menu-item>
-              <cck-menu-item disabled>Move</cck-menu-item>
-              <cck-divider></cck-divider>
-              <cck-menu-item>Share</cck-menu-item>
-              <cck-menu-item>Add to favorite</cck-menu-item>
-            </cck-menu>
-          </ng-template>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <% themeComponentConfig.color.values.map(color => { %>
+
+              <!-- <%= color %> -->
+              <cck-menu
+                color="<%= color %>"
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              >
+                <cck-menu-item>Edit</cck-menu-item>
+                <cck-menu-item>Duplicate</cck-menu-item>
+                <cck-divider></cck-divider>
+                <cck-menu-item>Archive</cck-menu-item>
+                <cck-menu-item>Move</cck-menu-item>
+              </cck-menu>
+            <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -37,23 +47,14 @@ export const Color: AngularStoryObj<MenuComponent> = {
       themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.menu?.color?.values"
-        [rowHeaders]="themeComponentConfig?.menu?.type?.values ?? []">
-        @for (type of themeComponentConfig?.menu?.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.menu?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-menu class="story-w-200" [color]="color" [type]="type">
-                <cck-menu-item>Edit</cck-menu-item>
-                <cck-menu-item>Duplicate</cck-menu-item>
-                <cck-divider></cck-divider>
-                <cck-menu-item>Archive</cck-menu-item>
-                <cck-menu-item>Move</cck-menu-item>
-              </cck-menu>
-            </story-table-cell>
-          }
-        }
-      </story-table>  
+       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-menu [color]="color" [type]="cckControl.type">
+          <cck-menu-item>Edit</cck-menu-item>
+          <cck-menu-item>Duplicate</cck-menu-item>
+          <cck-divider></cck-divider>
+          <cck-menu-item>Archive</cck-menu-item>
+          <cck-menu-item>Move</cck-menu-item>
+        </cck-menu> 
     `,
   }),
 };

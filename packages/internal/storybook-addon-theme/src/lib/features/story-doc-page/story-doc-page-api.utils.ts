@@ -1,9 +1,8 @@
 import { ClassRef, ThemeComponentConfig, ThemeConfig, UIBaseComponentsPropName } from '@cocokits/core';
 import { PreparedMeta, PreparedStory, StrictInputType, Args } from '@storybook/types';
 import { StoryDocPageArgTypes, StoryDocPageComponentArgTypeGroup } from './story-doc-page-api.model';
-import { deepMerge, reduceDeepMerge } from '@cocokits/common-utils';
+import { deepMerge, recordReduceMerge, reduceDeepMerge } from '@cocokits/common-utils';
 import { AddonParameters } from '../../model/addon.model';
-import { reduceMerge, recordReduceMerge } from '../../../../../../common/utils/src/lib/uncategorized/reduce';
 
 /**
  * To override the common alias names to the real name.
@@ -58,7 +57,9 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
         parameters.cckAddon?.subcomponentArgsTypes?.[subcomponent.name] ?? {}
       );
       const subcomponentName = parameters.cckAddon?.subcomponentNames?.[subcomponent.name];
-      if (!subcomponentName) {
+      // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
+      // If a component has the value 'null', we skip taking the config from the theme and only show the APIs from the component.
+      if (subcomponentName === undefined) {
         throw new Error(`Subcomponent name is missing in the story parameters for story: ${subcomponent.name}`);
       }
 
@@ -68,7 +69,7 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
           subcomponent,
           argTypes,
           parameters,
-          themeConfig.components[subcomponentName]
+          subcomponentName ? themeConfig.components[subcomponentName] : undefined
         ),
       });
     });
