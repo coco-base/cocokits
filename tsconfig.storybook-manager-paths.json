@@ -128,12 +128,6 @@
         "../../packages/internal/internal-model/src/index.ts",
         "../../../packages/internal/internal-model/src/index.ts"
       ],
-      "@cocokits/storybook-components": [
-        "packages/internal/storybook-components/src/index.ts",
-        "../packages/internal/storybook-components/src/index.ts",
-        "../../packages/internal/storybook-components/src/index.ts",
-        "../../../packages/internal/storybook-components/src/index.ts"
-      ],
       "@cocokits/react-components": [
         "packages/react/components/src/",
         "../packages/react/components/src/",

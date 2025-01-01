@@ -1,8 +1,0 @@
-{
-  "name": "@cocokits/storybook-components",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/internal/storybook-components/src",
-  "projectType": "library",
-  "tags": ["type:ui", "framework:shared"],
-  "targets": {}
-}
