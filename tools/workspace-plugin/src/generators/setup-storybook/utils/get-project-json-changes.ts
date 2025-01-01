@@ -5,7 +5,7 @@ export function getAngularProjectJsonChanges(options: SetupStorybookOption) {
     targets: {
       storybook: {
         options: {
-          styles: ['tools/scripts/storybook/themes.scss', 'tools/scripts/storybook/storybook-global.scss'],
+          styles: [],
           compodoc: true,
           compodocArgs: [
             '-e',
@@ -26,7 +26,7 @@ export function getAngularProjectJsonChanges(options: SetupStorybookOption) {
           outputDir: `dist/storybook/${options.libraryRoot}`,
           configDir: `${options.libraryRoot}/.storybook`,
           browserTarget: `${options.libraryName}:build-storybook`,
-          styles: ['tools/scripts/storybook/themes.scss', 'tools/scripts/storybook/storybook-global.scss'],
+          styles: [],
           compodoc: true,
           compodocArgs: [
             '-e',

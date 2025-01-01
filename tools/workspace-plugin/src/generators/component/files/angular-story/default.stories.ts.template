@@ -1,5 +1,5 @@
-import { AngularStoryObj } from '@cocokits/core';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
@@ -10,9 +10,25 @@ export const Default: AngularStoryObj<<%- className %>Component> = {
       description: {
         story: 'TODO: Add story description',
       },
-      source: {
-        code: `TODO: Add source code of story`,
-      }
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+            <!-- TODO: Add Source Code -->
+          `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+      ],
     },
   },
   render: (args) => ({
@@ -20,12 +36,7 @@ export const Default: AngularStoryObj<<%- className %>Component> = {
         ...args,
     },
     template: `
-      <story-table [headers]="['Default']">
-        <!-- Default -->
-        <story-table-cell row="0" col="0">
-          <cck-<%- fileName %>></cck-<%- fileName %>>
-        </story-table-cell>
-      </story-table>
+      <cck-<%- fileName %> ${ngThemeArgsToTemplate(args)}></cck-<%- fileName %>>
     `
   }),
 };

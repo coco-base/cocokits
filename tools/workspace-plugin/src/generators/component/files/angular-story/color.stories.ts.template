@@ -1,38 +1,41 @@
-import { AngularStoryObj } from '@cocokits/core';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 export const Color: AngularStoryObj<<%- className %>Component> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:<%= propertyName %>', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
         story: 'TODO: Add story description',
-      },
-      source: {
-        code: `TODO: Add source code of story`,
-      },
+      }
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.color.values.map(color => { %>
+            <!-- TODO: Add Source Code -->
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
-      <story-table
-        [headers]="themeConfig?.<%= propertyName %>.color?.values"
-        [rowHeaders]="themeConfig?.<%= propertyName %>.type?.values ?? []">
-        @for (type of themeConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeConfig?.iconButton.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-<%- fileName %> [color]="color" [type]="type"></cck-<%- fileName %>>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-<%- fileName %> [color]="color" [type]="cckControl.type"></cck-<%- fileName %>>
+      }
     `,
   }),
 };

@@ -1,8 +1,0 @@
-<!-- packages/internal/storybook-theme-switcher/src/assets/ -->
-<link rel="stylesheet" href="/storybook-theme-switcher-token.css">
-<link rel="stylesheet" href="/storybook-manager-theme-switcher.css">
-<link rel="stylesheet" href="/storybook-manager-cck-components.css">
-
-<!-- Inter Font -->
-<link rel="preconnect" href="https://rsms.me/">
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">

@@ -15,6 +15,7 @@
     "*.js",
     "*.ts",
     "*.tsx",
-    "<%= offsetPathToRoot %>/../packages/internal/storybook-theme-switcher/**/*.ts"
+    "<%= offsetPathToRoot %>/../packages/internal/storybook-addon-theme/**/*.ts",
+    "<%= offsetPathToRoot %>/../packages/internal/storybook-addon-theme/**/*.tsx"
   ]
 }

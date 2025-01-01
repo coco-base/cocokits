@@ -1,35 +1,39 @@
-import { AngularStoryObj } from '@cocokits/core';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 export const Type: AngularStoryObj<<%- className %>Component> = {
   name: 'Type',
-  tags: ['uiBaseComponentName:<%= propertyName %>', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {
         story: 'TODO: Add story description',
       },
-      source: {
-        code: `TODO: Add source code of story`,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('type'), renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.type.values.map(type => { %>
+            <!-- TODO: Add Source Code -->
+          <% }) %>
+          `,
+        },
+      ],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
-      <story-table
-        [headers]="themeConfig?.<%= propertyName %>.type?.values">
-        @for (type of themeConfig?.<%= propertyName %>.type?.values; let i = $index; track type) {
-          <story-table-cell row="0" [col]="i">
-            <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
-          </story-table-cell>
-        }
-      </story-table>
+      @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
+        <cck-<%- fileName %> [type]="type"></cck-<%- fileName %>>
+      }
     `,
   }),
 };

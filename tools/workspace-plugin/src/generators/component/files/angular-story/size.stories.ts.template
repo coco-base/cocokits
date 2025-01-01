@@ -1,38 +1,41 @@
-import { AngularStoryObj } from '@cocokits/core';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 export const Size: AngularStoryObj<<%- className %>Component> = {
   name: 'Size',
-  tags: ['uiBaseComponentName:<%= propertyName %>', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {
         story: 'TODO: Add story description',
       },
-      source: {
-        code: `TODO: Add source code of story`,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.size.values.map(size => { %>
+            <!-- TODO: Add Source Code -->
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
-      <story-table
-        [headers]="themeConfig?.<%= propertyName %>.size?.values"
-        [rowHeaders]="themeConfig?.<%= propertyName %>.type?.values ?? []">
-        @for (type of themeConfig?.<%= propertyName %>.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeConfig?.iconButton.size?.values; let col = $index; track size) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-<%- fileName %> [size]="size" [type]="type"></cck-<%- fileName %>>
-            </story-table-cell>
-          }
-        }
-      </story-table>
+      @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
+        <cck-<%- fileName %> [size]="size" [type]="cckControl.type"></cck-<%- fileName %>>
+      }
     `,
   }),
 };
