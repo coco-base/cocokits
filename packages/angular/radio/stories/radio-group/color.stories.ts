@@ -1,12 +1,10 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { RadioButtonComponent } from '../../src';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 export const Color: AngularStoryObj<RadioButtonComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:radioGroup', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {

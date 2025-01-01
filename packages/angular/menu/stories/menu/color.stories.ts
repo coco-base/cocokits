@@ -6,7 +6,6 @@ import { MenuComponent } from '../../src';
 
 export const Color: AngularStoryObj<MenuComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:menu', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {

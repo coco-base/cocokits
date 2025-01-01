@@ -1,12 +1,10 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { MenuComponent } from '../../src';
-import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 export const Type: AngularStoryObj<MenuComponent> = {
   name: 'Type',
-  tags: ['uiBaseComponentName:menu', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {

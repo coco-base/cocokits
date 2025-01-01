@@ -1,12 +1,10 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { SelectComponent } from '../../src/lib/select/select.component';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 export const Size: AngularStoryObj<SelectComponent> = {
   name: 'Size',
-  tags: ['uiBaseComponentName:select', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {

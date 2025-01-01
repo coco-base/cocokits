@@ -6,7 +6,6 @@ import { RadioButtonComponent } from '../../src';
 
 export const Type: AngularStoryObj<RadioButtonComponent> = {
   name: 'Type',
-  tags: ['uiBaseComponentName:radioGroup', 'uiBaseComponentPropName:type'],
   parameters: {
     docs: {
       description: {

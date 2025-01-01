@@ -5,7 +5,6 @@ import { SvgIconComponent } from '../../src';
 
 export const Color: AngularStoryObj<SvgIconComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:svgIcon', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {

@@ -5,7 +5,6 @@ import { RadioButtonComponent } from '../../src';
 
 export const Color: AngularStoryObj<RadioButtonComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:radioButton', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {

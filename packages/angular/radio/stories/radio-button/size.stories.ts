@@ -6,7 +6,6 @@ import { RadioButtonComponent } from '../../src';
 
 export const Size: AngularStoryObj<RadioButtonComponent> = {
   name: 'Size',
-  tags: ['uiBaseComponentName:radioButton', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {

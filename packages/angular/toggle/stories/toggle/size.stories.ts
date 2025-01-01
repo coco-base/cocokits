@@ -6,7 +6,6 @@ import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
 export const Size: AngularStoryObj<ToggleComponent> = {
   name: 'Size',
-  tags: ['uiBaseComponentName:toggle', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {

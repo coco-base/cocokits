@@ -1,12 +1,10 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { SvgIconComponent } from '../../src';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 export const Size: AngularStoryObj<SvgIconComponent> = {
   name: 'Size',
-  tags: ['uiBaseComponentName:svgIcon', 'uiBaseComponentPropName:size'],
   parameters: {
     docs: {
       description: {

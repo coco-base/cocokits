@@ -6,7 +6,6 @@ import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
 export const Color: AngularStoryObj<ToggleComponent> = {
   name: 'Color',
-  tags: ['uiBaseComponentName:toggle', 'uiBaseComponentPropName:color'],
   parameters: {
     docs: {
       description: {
