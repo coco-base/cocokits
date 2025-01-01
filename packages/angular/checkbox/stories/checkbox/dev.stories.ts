@@ -1,4 +1,4 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
 import {
@@ -7,16 +7,17 @@ import {
   withThemeConfigProvider,
 } from '@cocokits/storybook-addon-theme';
 
-import descriptionMd from './description.md';
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
 const meta: AngularStoriesMeta = {
   component: CheckboxComponent,
   title: 'Dev/Checkbox',
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [],
-      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {

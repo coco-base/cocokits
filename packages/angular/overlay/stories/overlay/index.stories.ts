@@ -37,7 +37,7 @@ const meta: AngularStoriesMeta = {
         // ConnectToElementStoryComponent,
         // SizeOverlayStoryComponent,
       ],
-      providers: [withThemeConfigProvider()],
+      providers: [withThemeConfigProvider()], // TODO: find out why we need to provide this again
     }),
   ],
   parameters: {

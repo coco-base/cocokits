@@ -1,4 +1,4 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
@@ -18,9 +18,11 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/Checkbox',
   decorators: [
     withWrapperDecorator({ insideBox: true }),
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [],
-      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {

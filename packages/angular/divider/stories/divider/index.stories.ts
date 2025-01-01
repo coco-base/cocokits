@@ -1,4 +1,4 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
@@ -16,8 +16,11 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/Divider',
   decorators: [
     withWrapperDecorator({ direction: 'row', insideBox: true }, { width: '200px', height: '100px' }),
-    moduleMetadata({
+    applicationConfig({
       providers: [withThemeConfigProvider()],
+    }),
+    moduleMetadata({
+      imports: [],
     }),
   ],
   parameters: {

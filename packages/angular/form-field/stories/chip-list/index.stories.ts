@@ -1,4 +1,4 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta } from '@cocokits/internal-model';
 import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
@@ -24,6 +24,9 @@ const meta: AngularStoriesMeta = {
   title: 'UI Components/ChipList',
   decorators: [
     withWrapperDecorator({}, { maxWidth: '530px' }),
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [
         FormFieldComponent,
@@ -34,7 +37,6 @@ const meta: AngularStoriesMeta = {
         SelectPreviewComponent,
         ChipComponent,
       ],
-      providers: [withThemeConfigProvider()],
     }),
   ],
   parameters: {
