@@ -14,6 +14,8 @@
     "../stories/**/*.stories.mdx",
     "*.js",
     "*.ts",
-    "*.tsx"
+    "*.tsx",
+    "../../../../packages/internal/storybook-addon-theme/**/*.ts",
+    "../../../../packages/internal/storybook-addon-theme/**/*.tsx"
   ]
 }

@@ -1,6 +1,6 @@
-import { CckThemeChangedEvent } from '../../../../packages/internal/storybook-theme-switcher/src';
 import { camelCase, startCase } from 'lodash';
 import { backtick, code } from './markdown.util';
+import { ThemeChangeEvent } from '@cocokits/storybook-addon-theme';
 
 export function toTitleCase(str: string): string {
   return startCase(camelCase(str)).replace(/\s/g, '');
@@ -15,7 +15,7 @@ export const tocItems = [
 ];
 
 // region ---------------- Install Specific Components ----------------
-export function getInstallPackagesStep2Provide(theme: CckThemeChangedEvent) {
+export function getInstallPackagesStep2Provide(theme: ThemeChangeEvent) {
   const tsCodes = `typescript
 
 import { provideCocokits } from '@cocokits/angular-core';
@@ -31,7 +31,7 @@ bootstrapApplication(AppComponent, {
   return code(tsCodes);
 }
 
-export function getInstallPackagesStep3AngularJson(theme: CckThemeChangedEvent) {
+export function getInstallPackagesStep3AngularJson(theme: ThemeChangeEvent) {
   const tsCodes = `json
  {
   ...
@@ -45,14 +45,14 @@ export function getInstallPackagesStep3AngularJson(theme: CckThemeChangedEvent) 
   return code(tsCodes);
 }
 
-export function getInstallPackagesStep3ComponentStyle(theme: CckThemeChangedEvent) {
+export function getInstallPackagesStep3ComponentStyle(theme: ThemeChangeEvent) {
   const ts = `scss
-@use "@cocokits/theme-${theme.id}/styles-core" as ${toTitleCase(theme.name)};
+@use "@cocokits/theme-${theme.id}/styles-core" as ${toTitleCase(theme.displayname)};
 
-@include ${toTitleCase(theme.name)}.components_button;
-@include ${toTitleCase(theme.name)}.components_icon_button;
-@include ${toTitleCase(theme.name)}.components_radio_button;
-@include ${toTitleCase(theme.name)}.components_radio_group;
+@include ${toTitleCase(theme.displayname)}.components_button;
+@include ${toTitleCase(theme.displayname)}.components_icon_button;
+@include ${toTitleCase(theme.displayname)}.components_radio_button;
+@include ${toTitleCase(theme.displayname)}.components_radio_group;
   `
 
   return code(ts);
@@ -60,7 +60,7 @@ export function getInstallPackagesStep3ComponentStyle(theme: CckThemeChangedEven
 // endregion
 
 // region ---------------- Override Theme UI Configurations ----------------
-export function getOverrideComponentConfig(theme: CckThemeChangedEvent) {
+export function getOverrideComponentConfig(theme: ThemeChangeEvent) {
   const ts = `typescript
 import { bootstrapApplication } from '@angular/platform-browser';
 import {
@@ -106,6 +106,7 @@ import {
 } from '@cocokits/angular-components';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { framesXThemeConfig } from '@cocokits/theme-frames-x';
+import { ThemeChangeEvent } from '@cocokits/storybook-addon-theme';
 
 const customThemeConfig = deepMerge(cocokitsThemeConfig, {
   components: {
@@ -168,13 +169,13 @@ export function getMergeThemesStep3Scss() {
 // endregion
 
 // region ---------------- Use Only One Mode from Each Collection ----------------
-export function getUseOnlyOneModeOption1Step1Code(theme: CckThemeChangedEvent) {
+export function getUseOnlyOneModeOption1Step1Code(theme: ThemeChangeEvent) {
 
   const mixinNames = Object.entries(theme.selectedModes)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.name)}.use_${collection}_${mode}`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayname)}.use_${collection}_${mode}`);
 
   const scss = `scss
-@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.name)};
+@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayname)};
 
 ${mixinNames.join('\n')}
   `;
@@ -182,7 +183,7 @@ ${mixinNames.join('\n')}
   return code(scss);
 }
 
-export function getUseOnlyOneModeOption1Step2ClassSelector(theme: CckThemeChangedEvent) {
+export function getUseOnlyOneModeOption1Step2ClassSelector(theme: ThemeChangeEvent) {
   const selectors = Object.entries(theme.selectedModes)
     .map(([collection, mode]) => `cck-theme-${theme.id}__${collection}--${mode}`)
     .join(' ');
@@ -196,7 +197,7 @@ export function getUseOnlyOneModeOption1Step2ClassSelector(theme: CckThemeChange
   return code(classSelectorCode);
 }
 
-export function getUseOnlyOneModeOption1Step2AttrSelector(theme: CckThemeChangedEvent) {
+export function getUseOnlyOneModeOption1Step2AttrSelector(theme: ThemeChangeEvent) {
   const selectors = Object.entries(theme.selectedModes)
     .map(([collection, mode]) => `${theme.id}__${collection}--${mode}`)
     .join(' ');
@@ -210,12 +211,12 @@ export function getUseOnlyOneModeOption1Step2AttrSelector(theme: CckThemeChanged
   return code(classSelectorCode);
 }
 
-export function getUseOnlyOneModeOption1code(theme: CckThemeChangedEvent) {
+export function getUseOnlyOneModeOption1code(theme: ThemeChangeEvent) {
   const mixinNames = Object.entries(theme.selectedModes)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.name)}.variables_${collection}_${mode}`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayname)}.variables_${collection}_${mode}`);
 
   const scss = `scss
-@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.name)};
+@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayname)};
 
 :root {
   ${mixinNames.join('\n  ')}
@@ -227,7 +228,7 @@ export function getUseOnlyOneModeOption1code(theme: CckThemeChangedEvent) {
 // endregion
 
 // region ---------------- Change Token Selectors ----------------
-export function getChangeTokenSelectorsItems(theme: CckThemeChangedEvent) {
+export function getChangeTokenSelectorsItems(theme: ThemeChangeEvent) {
   const lightFrom = theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--light' : '.cck-theme-cocokits__brand-color-1--light';
   const darkFrom = theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--dark' : '.cck-theme-cocokits__brand-color-1--dark';
 
@@ -237,7 +238,7 @@ export function getChangeTokenSelectorsItems(theme: CckThemeChangedEvent) {
   `
 }
 
-export function getChangeTokenSelectorsStep1Code(theme: CckThemeChangedEvent) {
+export function getChangeTokenSelectorsStep1Code(theme: ThemeChangeEvent) {
   const lightMixin = theme.id === 'frames-x' ? 'FramesX.variables_color_mode_light' : 'Cocokits.cck-theme-cocokits__brand-color-1--light';
   const darkMixin = theme.id === 'frames-x' ? 'FramesX.variables_color_mode_dark' : 'Cocokits.cck-theme-cocokits__brand-color-1--dark';
 
@@ -245,10 +246,10 @@ export function getChangeTokenSelectorsStep1Code(theme: CckThemeChangedEvent) {
 
   const otherMixins = Object.entries(theme.selectedModes)
     .filter(([collection]) => collection !== collectionNameWithLightAndDark)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.name)}.variables_${collection}_${mode}`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayname)}.variables_${collection}_${mode}`);
 
   const scss = `scss
-@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.name)};
+@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayname)};
 
 .cck-theme-light {
   @include ${lightMixin};

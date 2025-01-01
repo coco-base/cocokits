@@ -8,3 +8,4 @@ export * from './lib/utils/args-to-template';
 export * from './lib/utils/story-render-conditions';
 export * from './lib/model/theme.model';
 export * from './lib/utils/base-preview';
+export * from './lib/model/event.model';

@@ -1,6 +1,6 @@
-import { CckThemeChangedEvent } from '../../../../packages/internal/storybook-theme-switcher/src';
 import { camelCase } from 'lodash';
 import { backtick, code } from './markdown.util';
+import { ThemeChangeEvent } from '@cocokits/storybook-addon-theme';
 
 export const tocItems = [
   {"id":"step-1-install-packages","name":"Step 1"},
@@ -12,7 +12,7 @@ export const tocItems = [
 ];
 
 
-export function getStep2StandaloneApp(theme: CckThemeChangedEvent) {
+export function getStep2StandaloneApp(theme: ThemeChangeEvent) {
   const tsCodes = `typescript
 
 import { provideCocokits } from '@cocokits/angular-components';
@@ -28,7 +28,7 @@ bootstrapApplication(AppComponent, {
   return code(tsCodes);
 }
 
-export function getStep2ModuleApp(theme: CckThemeChangedEvent) {
+export function getStep2ModuleApp(theme: ThemeChangeEvent) {
   const tsCodes = `typescript
 
   import { ThemeConfigToken } from '@cocokits/angular-components';
@@ -51,7 +51,7 @@ export function getStep2ModuleApp(theme: CckThemeChangedEvent) {
   return code(tsCodes);
 }
 
-export function getStep3AngularJson(theme: CckThemeChangedEvent) {
+export function getStep3AngularJson(theme: ThemeChangeEvent) {
   const tsCodes = `json
  {
   ...
@@ -66,7 +66,7 @@ export function getStep3AngularJson(theme: CckThemeChangedEvent) {
   return code(tsCodes);
 }
 
-export function getStep4IndexHtmlCssSelector(theme: CckThemeChangedEvent) {
+export function getStep4IndexHtmlCssSelector(theme: ThemeChangeEvent) {
   const selectors = Object.entries(theme.selectedModes)
     .map(([collection, mode]) => `cck-theme-${theme.id}__${collection}--${mode}`)
     .join(' ');
@@ -80,7 +80,7 @@ export function getStep4IndexHtmlCssSelector(theme: CckThemeChangedEvent) {
   return code(html);
 }
 
-export function getStep4IndexHtmlAttrSelector(theme: CckThemeChangedEvent) {
+export function getStep4IndexHtmlAttrSelector(theme: ThemeChangeEvent) {
   const selectors = Object.entries(theme.selectedModes)
     .map(([collection, mode]) => `${theme.id}__${collection}--${mode}`)
     .join(' ');
@@ -94,7 +94,7 @@ export function getStep4IndexHtmlAttrSelector(theme: CckThemeChangedEvent) {
   return code(html);
 }
 
-export function getStep4IndexHtmlSelectorExample(theme: CckThemeChangedEvent) {
+export function getStep4IndexHtmlSelectorExample(theme: ThemeChangeEvent) {
 
   const collection = theme.id === 'frames-x' ? 'sizing' : 'brand-color-1';
   const firstMode = theme.selectedModes[collection];
@@ -107,7 +107,7 @@ For example, to set the ${backtick(firstMode)} mode from ${backtick(collection)}
     `;
 }
 
-export function getStep4CollectionModesTable(theme: CckThemeChangedEvent) {
+export function getStep4CollectionModesTable(theme: ThemeChangeEvent) {
 
   const table = (
     <table className='collection-modes-selector-table'>
@@ -164,7 +164,7 @@ export class HelloComponent {}
   return code(tsCodes);
 }
 
-export function getStep6Token(theme: CckThemeChangedEvent) {
+export function getStep6Token(theme: ThemeChangeEvent) {
   const tsCodes = `scss
 @use "@cocokits/theme-${theme.id}/tokens" as Tokens;
 
