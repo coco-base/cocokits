@@ -1,6 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
@@ -37,7 +36,6 @@ export const Color: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {

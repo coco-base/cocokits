@@ -1,6 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { RadioButtonComponent } from '../../src';
 
@@ -31,7 +30,6 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {

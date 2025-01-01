@@ -1,6 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { MenuComponent } from '../../src';
 
@@ -43,7 +42,6 @@ export const Color: AngularStoryObj<MenuComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
        @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {

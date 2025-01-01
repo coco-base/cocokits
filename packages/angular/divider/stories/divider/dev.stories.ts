@@ -1,4 +1,4 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
 import {
@@ -13,8 +13,11 @@ const meta: AngularStoriesMeta = {
   component: DividerComponent,
   title: 'Dev/Divider',
   decorators: [
-    moduleMetadata({
+    applicationConfig({
       providers: [withThemeConfigProvider()],
+    }),
+    moduleMetadata({
+      imports: [],
     }),
   ],
   parameters: {

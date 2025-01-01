@@ -1,6 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
@@ -38,7 +37,6 @@ export const Size: AngularStoryObj<ToggleComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      themeConfig: getSelectedCckTheme()?.themeConfig,
     },
     template: `
       @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
