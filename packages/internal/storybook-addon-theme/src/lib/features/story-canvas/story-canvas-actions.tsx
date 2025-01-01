@@ -17,9 +17,9 @@ export interface StoryCanvasActionsProps {
 export function StoryCanvasActions({story, isCodeSelected, onCodeClick}: StoryCanvasActionsProps) {
 
   const parameters = story.parameters as AddonParameters;
-  const hasControl = parameters.cckAddon?.hasControl ?? false;
-  const hasStackblitz = parameters.cckAddon?.hasStackblitz ?? false;
-  const hasCode = parameters.cckAddon?.hasCode ?? true;
+  const hasControl = parameters.cckAddon.hasControl ?? false;
+  const hasStackblitz = parameters.cckAddon.hasStackblitz ?? false;
+  const hasCode = parameters.cckAddon.hasCode ?? true;
 
   return (
     <StyledHost>

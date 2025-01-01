@@ -61,7 +61,7 @@ export class StoryControlStore extends StoryControlStoreBase {
 
   private getInitializeState(story: PreparedStory, theme: ThemeChangeEvent): StoreState {
     const parameters = story.parameters as AddonParameters;
-    const uiBaseComponentName = parameters.cckAddon?.componentName;
+    const uiBaseComponentName = parameters.cckAddon.componentName;
 
     if (!uiBaseComponentName) {
       throw new Error(`Component name is missing in the story parameters for story ID: ${story.id}`);

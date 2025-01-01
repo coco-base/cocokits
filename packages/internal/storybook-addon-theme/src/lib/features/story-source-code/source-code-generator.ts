@@ -76,8 +76,8 @@ export async function generateSourceCode({
   theme: ThemeChangeEvent;
 }): Promise<GeneratedSourceCode[]> {
   const parameters = story.parameters as AddonParameters;
-  const sourceCodes = parameters.cckAddon?.source;
-  const componentName = parameters.cckAddon?.componentName;
+  const sourceCodes = parameters.cckAddon.source;
+  const componentName = parameters.cckAddon.componentName;
 
   if (!sourceCodes) {
     throw new Error(`No source code found for story: ${story.id}`);

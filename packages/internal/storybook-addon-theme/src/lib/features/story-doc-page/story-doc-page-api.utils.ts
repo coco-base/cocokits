@@ -34,7 +34,7 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
   const argTypeGroup = [] as StoryDocPageArgTypes[];
 
   if (mainComponent) {
-    const mainComponentName = parameters.cckAddon?.componentName;
+    const mainComponentName = parameters.cckAddon.componentName;
     if (!mainComponentName) {
       throw new Error(`Component name is missing in the story parameters for story: ${mainComponent.name}`);
     }
@@ -53,10 +53,10 @@ export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: Them
     ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
     .forEach((subcomponent) => {
       const argTypes = deepMerge(
-        parameters.docs?.extractArgTypes?.(subcomponent) ?? {},
-        parameters.cckAddon?.subcomponentArgsTypes?.[subcomponent.name] ?? {}
+        parameters.docs.extractArgTypes?.(subcomponent) ?? {},
+        parameters.cckAddon.subcomponentArgsTypes?.[subcomponent.name] ?? {}
       );
-      const subcomponentName = parameters.cckAddon?.subcomponentNames?.[subcomponent.name];
+      const subcomponentName = parameters.cckAddon.subcomponentNames?.[subcomponent.name];
       // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
       // If a component has the value 'null', we skip taking the config from the theme and only show the APIs from the component.
       if (subcomponentName === undefined) {
@@ -93,8 +93,8 @@ export function getComponentArgTypes(
     return null;
   }
   const componentName = componentRef.name;
-  const uiBaseComponentName = parameters.cckAddon?.componentName;
-  const overrideArgsType = parameters.cckAddon?.subcomponentArgsTypes?.[componentName] ?? {};
+  const uiBaseComponentName = parameters.cckAddon.componentName;
+  const overrideArgsType = parameters.cckAddon.subcomponentArgsTypes?.[componentName] ?? {};
 
   if (!uiBaseComponentName) {
     throw new Error(`Component name is missing in the story parameters for story: ${componentName}`);

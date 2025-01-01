@@ -15,12 +15,12 @@ export function getOverviewProps(
   stories: PreparedStory[],
   theme: ThemeChangeEvent
 ): StoryDocPageOverviewProps {
-  const metaDescription = metaParameters.docs?.description?.component;
-  const componentName = metaParameters.cckAddon?.componentName!;
+  const metaDescription = metaParameters.docs.description.component;
+  const componentName = metaParameters.cckAddon.componentName;
 
   const flitteredStories = stories.filter((story) => {
     const storyParameters = story.parameters as AddonParameters;
-    const renderConditions = storyParameters.cckAddon?.renderConditions ?? [];
+    const renderConditions = storyParameters.cckAddon.renderConditions ?? [];
 
     return renderConditions.every((conditionFn) =>
       conditionFn({
@@ -45,7 +45,7 @@ export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent)
 
 // Styling
 export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonParameters): StoryDocPageStylingProps {
-  const mainUiBaseComponentName = parameters.cckAddon?.componentName;
+  const mainUiBaseComponentName = parameters.cckAddon.componentName;
   const mainComponentName = (preparedMeta.component as ClassRef).name;
 
   if (!mainUiBaseComponentName) {
@@ -65,11 +65,11 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
           subcomponentRef.name.startsWith('_') ||
           // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
           // If a component has the value 'null', we skip it because it has no styling.
-          parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name] === null
+          parameters.cckAddon.subcomponentNames?.[subcomponentRef.name] === null
         );
       })
       .map((subcomponentRef) => {
-        const uIBaseComponentName = parameters.cckAddon?.subcomponentNames?.[subcomponentRef.name];
+        const uIBaseComponentName = parameters.cckAddon.subcomponentNames?.[subcomponentRef.name];
         if (!uIBaseComponentName) {
           throw new Error(
             `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${subcomponentRef.name}`

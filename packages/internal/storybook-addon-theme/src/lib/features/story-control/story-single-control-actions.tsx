@@ -10,9 +10,9 @@ interface StorySingleControlActionsProps {
 
 export function StorySingleControlActions({ story }: StorySingleControlActionsProps) {
   const parameters = story.parameters as AddonParameters;
-  const singleControls = parameters.cckAddon?.singleControls;
+  const singleControls = parameters.cckAddon.singleControls;
 
-  if (!singleControls || singleControls?.length === 0) {
+  if (!singleControls || singleControls.length === 0) {
     return;
   }
 

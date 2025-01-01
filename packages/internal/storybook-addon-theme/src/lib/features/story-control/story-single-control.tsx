@@ -25,7 +25,7 @@ export function StorySingleControl({ story, argName }: StorySingleControlProps) 
     const subscription = storyControlStore.getState$(story.id).subscribe((state) => {
 
       const parameters = story.parameters as AddonParameters;
-      const themeComponentConfig =  theme.themeConfig.components[parameters.cckAddon!.componentName!];
+      const themeComponentConfig =  theme.themeConfig.components[parameters.cckAddon.componentName];
 
       if(!themeComponentConfig || !(argName in themeComponentConfig)) {
         setControl(undefined);

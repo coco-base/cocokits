@@ -12,8 +12,8 @@ import { ThemeChangeEvent } from '../../model/event.model';
 
 export function getStoryControls(story: PreparedStory, theme: ThemeChangeEvent) {
   const parameters = story.parameters as AddonParameters;
-  const uiBaseComponentName = parameters.cckAddon?.componentName;
-  const controls = parameters.cckAddon?.controls ?? [];
+  const uiBaseComponentName = parameters.cckAddon.componentName;
+  const controls = parameters.cckAddon.controls ?? [];
 
   if (!uiBaseComponentName) {
     throw new Error(`Component name is missing in the story parameters for story ID: ${story.id}`);
