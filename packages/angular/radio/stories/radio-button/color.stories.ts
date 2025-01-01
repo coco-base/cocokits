@@ -1,5 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 
 import { RadioButtonComponent } from '../../src';
 
@@ -11,30 +11,41 @@ export const Color: AngularStoryObj<RadioButtonComponent> = {
       description: {
         story: 'Color options enable seamless integration with various themes or to highlight specific actions.',
       },
-      source: {
-        code: `
-          <cck-radio-button [color]="..." [checked]="true" [value]="1">Radio Button</cck-radio-button>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+            <cck-radio-button [type]="cckControl.type" [color]="color" [value]="1">Radio Button - {{color}}</cck-radio-button>
+          }
+          <% themeComponentConfig.color.values.map(color => { %>
+            <cck-radio-button
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              color='<%= color %>'
+              [value]="YOUR_VALUE"
+            >
+            Radio Button - <%= color %>
+            </cck-radio-button>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
     props: {
       ...args,
-      themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.radioButton?.color?.values"
-        [rowHeaders]="themeComponentConfig?.radioButton?.type?.values ?? []">
-        @for (type of themeComponentConfig?.radioButton?.type?.values ?? [null]; let row = $index; track type) {
-          @for (color of themeComponentConfig?.radioButton?.color?.values; let col = $index; track color) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-radio-button [type]="type" [color]="color" [checked]="true" [value]="1">Radio Button</cck-radio-button>
-            </story-table-cell>
-          }
-        }
-      </story-table>  
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-radio-button [type]="cckControl.type" [color]="color" [value]="1">Radio Button - {{color}}</cck-radio-button>
+      }
     `,
   }),
 };

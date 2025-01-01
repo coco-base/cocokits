@@ -1,4 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { RadioButtonComponent } from '../../src';
@@ -12,11 +13,31 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
         story:
           'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
-      source: {
-        code: `
-          <cck-radio-button [size]="..." [checked]="true" [value]="1">Radio Button</cck-radio-button>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
+      singleControls: ['type'],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
+            <cck-radio-button [type]="cckControl.type" [size]="size" [value]="1">Radio Button - {{size}}</cck-radio-button>
+          }
+          <% themeComponentConfig.size.values.map(size => { %>
+            <cck-radio-button
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              size='<%= size %>'
+              [value]="YOUR_VALUE"
+            >
+            Radio Button - <%= size %>
+            </cck-radio-button>
+          <% }) %>
+          `,
+        },
+      ],
+      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -25,17 +46,9 @@ export const Size: AngularStoryObj<RadioButtonComponent> = {
       themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: ` 
-      <story-table
-        [headers]="themeComponentConfig?.radioButton?.size?.values"
-        [rowHeaders]="themeComponentConfig?.radioButton?.type?.values ?? []">
-        @for (type of themeComponentConfig?.radioButton?.type?.values ?? [null]; let row = $index; track type) {
-          @for (size of themeComponentConfig?.radioButton?.size?.values; let col = $index; track size) {
-            <story-table-cell [row]="row" [col]="col">
-              <cck-radio-button [type]="type" [size]="size" [value]="1" [checked]="true">Radio Button</cck-radio-button>
-            </story-table-cell>
-          }
-        }
-      </story-table>  
+      @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
+        <cck-radio-button [type]="cckControl.type" [size]="size" [value]="1">Radio Button - {{size}}</cck-radio-button>
+      }
     `,
   }),
 };

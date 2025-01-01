@@ -1,8 +1,7 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
 import { RadioButtonComponent, RadioGroupComponent } from '../../src/lib/radio/radio.component';
@@ -15,16 +14,12 @@ export { Color } from './color.stories';
 const meta: AngularStoriesMeta = {
   component: RadioButtonComponent,
   title: 'UI Components/RadioButton',
-  tags: ['autodocs'],
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
       imports: [RadioGroupComponent],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
     }),
   ],
   parameters: {
@@ -33,11 +28,13 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'radioButton',
+    },
   },
   argTypes: {
     _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
     change: { table: { category: 'outputs' } },
   },
-  args: {},
 };
 export default meta;

@@ -1,4 +1,5 @@
 import { AngularStoryObj } from '@cocokits/internal-model';
+import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
 
 import { RadioButtonComponent } from '../../src';
@@ -12,11 +13,20 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
         story:
           'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
-      source: {
-        code: `
-          <cck-radio-button [type]="..." [checked]="true" [value]="1">Radio Button</cck-radio-button>
-        `,
-      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithThemeProp('type'), renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <% themeComponentConfig.type.values.map(type => { %>
+            <cck-radio-button type='<%= type %>' [value]="YOUR_VALUE">Radio Button - {{type}}</cck-radio-button>
+          <% }) %>
+          `,
+        },
+      ],
     },
   },
   render: (args) => ({
@@ -25,14 +35,9 @@ export const Type: AngularStoryObj<RadioButtonComponent> = {
       themeComponentConfig: getSelectedCckTheme()?.themeConfig.components,
     },
     template: `
-      <story-table
-        [headers]="themeComponentConfig?.radioButton?.type?.values">
-        @for (type of themeComponentConfig?.radioButton?.type?.values; let i = $index; track type) {
-          <story-table-cell row="0" [col]="i">
-            <cck-radio-button [type]="type" [value]="1">Radio Button</cck-radio-button>
-          </story-table-cell>
-        }
-      </story-table>
+      @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
+        <cck-radio-button [type]="type" [value]="1">Radio Button - {{type}}</cck-radio-button>
+      }
     `,
   }),
 };

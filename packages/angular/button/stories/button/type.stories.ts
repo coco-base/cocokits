@@ -22,7 +22,7 @@ export const Type: AngularStoryObj<ButtonComponent> = {
           <% themeComponentConfig.type.values.map(type => { %>
             <button
               cck-button
-              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              type='<%= type %>'
             >
               <%= type %>
             </button>
@@ -37,7 +37,7 @@ export const Type: AngularStoryObj<ButtonComponent> = {
       ...args,
     },
     template: `
-      <@for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
+      @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
         <button cck-button [type]="type">{{type}}</button>
       }
     `,

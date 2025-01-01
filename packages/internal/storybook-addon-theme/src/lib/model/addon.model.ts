@@ -171,7 +171,7 @@ export interface AddonParametersControlIcon extends AddonParametersControlBase {
 
 export interface AddonParametersControlSelect extends AddonParametersControlBase {
   type: AddonParametersControlType.Select;
-  options: string[];
+  options: (string | null)[];
   default: string;
 }
 

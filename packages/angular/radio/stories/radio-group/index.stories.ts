@@ -1,10 +1,7 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { moduleMetadata } from '@storybook/angular';
-
-import { ThemeConfigToken } from '@cocokits/angular-core';
 import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
 
 import descriptionMd from './description.md';
 import { RadioButtonComponent, RadioGroupComponent } from '../../src/lib/radio/radio.component';
@@ -13,22 +10,18 @@ export { Default } from './default.stories';
 export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
-export { NgModel } from './ng-model.stories';
-export { ReactiveForm } from './reactive-form.stories';
+// export { NgModel } from './ng-model.stories';
+// export { ReactiveForm } from './reactive-form.stories';
 
 const meta: AngularStoriesMeta = {
   component: RadioGroupComponent,
   title: 'UI Components/RadioGroup',
-  tags: ['autodocs'],
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
-      imports: [RadioButtonComponent, FormsModule, ReactiveFormsModule],
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig,
-        },
-      ],
+      imports: [RadioButtonComponent],
     }),
   ],
   parameters: {
@@ -37,11 +30,13 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: 'radioGroup',
+    },
   },
   argTypes: {
     _disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
     change: { table: { category: 'outputs' } },
   },
-  args: {},
 };
 export default meta;
