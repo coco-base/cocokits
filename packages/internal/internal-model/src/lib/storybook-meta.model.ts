@@ -14,12 +14,8 @@ export type StorybookTags =
 
 // will be used in index.stories.ts
 export interface AngularStoriesMeta extends NgStorybookMeta {
-  tags?: StorybookTags[]; // <---- required
-  parameters?: AddonParametersMeta; // <---- required
-  argTypes?: Partial<ArgTypes> & {
-    // <---- required
-    cckControl?: { control: 'object' }; // <---- required
-  };
+  tags?: StorybookTags[];
+  parameters: AddonParametersMeta;
 }
 
 export type ReactStoriesMeta<T> = ReactStorybookMeta<T> & {

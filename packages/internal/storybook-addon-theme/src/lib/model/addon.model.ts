@@ -43,21 +43,18 @@ export interface AddonParametersStories {
 }
 
 export interface AddonParametersMeta {
-  docs?: {
-    // <---- required
-    description?: {
-      // <---- required
-      component?: string; // <---- required
+  docs: {
+    description: {
+      component: string;
     };
-    source?: any;
     // Will be added by compodoc after rendered
     readonly extractArgTypes?: (component: any) => PreparedStory['argTypes'];
   };
-  cckAddon?: CckAddonStoriesMeta; // <---- required
+  cckAddon: CckAddonStoriesMeta;
 }
 
 export interface CckAddonStoriesMeta {
-  componentName?: UIBaseComponentsName; // <---- required
+  componentName: UIBaseComponentsName;
   /**
    * Will be use to detect the themeConfig for an component to generate API table.
    * If the value of a subComponent is null, means it's not part of themes and we will skip it from styling tab,
@@ -87,7 +84,7 @@ export interface StoryRenderConditionProps {
 
 export interface CckAddonStories {
   renderConditions?: ((props: StoryRenderConditionProps) => boolean)[];
-  source?: AddonParametersSource[]; // <---- required
+  source: AddonParametersSource[];
   /**
    * @default false
    */
