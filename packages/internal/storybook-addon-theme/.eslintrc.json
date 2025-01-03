@@ -10,7 +10,10 @@
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "max-lines-per-function": ["error", { "max": 120, "skipComments": true }]
+        "max-lines-per-function": ["error", { "max": 120, "skipComments": true }],
+        "no-console": "off",
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": "off"
       }
     },
     {

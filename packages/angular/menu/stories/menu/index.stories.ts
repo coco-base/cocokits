@@ -4,8 +4,7 @@ import { ButtonComponent, IconButtonComponent } from '@cocokits/angular-button';
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { DividerComponent } from '@cocokits/angular-divider';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import { MenuItemComponent, MenuTriggerDirective } from '../../src';
@@ -17,7 +16,7 @@ export { Size } from './size.stories';
 export { Color } from './color.stories';
 // export { ThemeCocokitsItemIconColor } from './theme-cocokits-item-icon.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: MenuComponent,
   subcomponents: [_UiBaseComponent, MenuItemComponent, MenuTriggerDirective],
   title: 'UI Components/Menu',

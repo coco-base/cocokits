@@ -1,12 +1,12 @@
 import { moduleMetadata } from '@storybook/angular';
 
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { CheckboxIndeterminateComponent } from './components/checkbox-indeterminate/checkbox-indeterminate.component';
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
-export const Indeterminate: AngularStoryObj<CheckboxComponent> = {
+export const Indeterminate: StoryObj<CheckboxComponent> = {
   name: 'Indeterminate',
   decorators: [
     moduleMetadata({
@@ -130,7 +130,7 @@ import { moduleMetadata } from '@storybook/angular';
       ...args,
     },
     template: `
-        <story-checkbox-indeterminate></story-checkbox-indeterminate>
+        <example-checkbox-indeterminate></example-checkbox-indeterminate>
     `,
   }),
 };

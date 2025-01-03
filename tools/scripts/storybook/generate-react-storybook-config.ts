@@ -5,14 +5,13 @@ import * as path from 'path';
  * `main.ts` will be executed in node environment with storybook ts configuration.
  * As a result, the alias `@cocokits/...` is unrecognized in these configurations
  */
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { deepMerge } from '../../../packages/common/utils/src';
 
 export function generateReactStorybookConfig(libConfig: Partial<StorybookConfig>): StorybookConfig {
   return deepMerge<StorybookConfig, Partial<StorybookConfig>>(
     {
       stories: [],
-      addons: ['@storybook/addon-essentials', 'packages/internal/storybook-theme-switcher'],
+      addons: ['@storybook/addon-essentials', '@cocokits/storybook-addon-theme'],
       framework: {
         name: '@storybook/react-vite',
         options: {
@@ -24,7 +23,7 @@ export function generateReactStorybookConfig(libConfig: Partial<StorybookConfig>
       docs: {
         defaultName: 'Docs',
       },
-      staticDirs: [path.join(__dirname, '../../../packages/internal/storybook-theme-switcher/src/assets')],
+      staticDirs: [path.join(__dirname, '../../../packages/internal/storybook-addon-theme/src/assets')],
       env: (env) => {
         return {
           NODE_ENV: env?.['NODE_ENV'] ?? '',

@@ -1,8 +1,12 @@
-import { ClassRef, ThemeComponentConfig, ThemeConfig, UIBaseComponentsPropName } from '@cocokits/core';
-import { PreparedMeta, PreparedStory, StrictInputType, Args } from '@storybook/types';
-import { StoryDocPageArgTypes, StoryDocPageComponentArgTypeGroup } from './story-doc-page-api.model';
+import { PreparedMeta, PreparedStory, StrictInputType } from '@storybook/types';
+
 import { deepMerge, recordReduceMerge, reduceDeepMerge } from '@cocokits/common-utils';
-import { AddonParameters } from '../../model/addon.model';
+import { ThemeComponentConfig, ThemeConfig, UIBaseComponentsPropName } from '@cocokits/core';
+
+import { StoryDocPageArgTypes, StoryDocPageComponentArgTypeGroup } from './story-doc-page-api.model';
+import { AddonParameters, ComponentRef } from '../../model/addon.model';
+import { isClassRef, isReactComponent } from '../../utils/common.utils';
+import { getStoryComponentName } from '../../utils/get-story-parameters';
 
 /**
  * To override the common alias names to the real name.
@@ -26,28 +30,23 @@ const NAME_TRANSFORM_MAP: Record<string, string> = {
 };
 
 export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: ThemeConfig): StoryDocPageArgTypes[] {
-  const mainComponent = preparedMeta.component as ClassRef;
+  const mainComponent = preparedMeta.component as ComponentRef;
   const parameters = preparedMeta.parameters as AddonParameters;
-  // Type of storybook is wrong, so we have to change it
-  const subcomponents = preparedMeta.subcomponents as unknown as ClassRef[] | undefined;
+  const mainComponentName = parameters.cckAddon.componentName;
 
+  // Type of storybook is wrong, so we have to change it
+  const subcomponents = preparedMeta.subcomponents as unknown as ComponentRef[] | undefined;
   const argTypeGroup = [] as StoryDocPageArgTypes[];
 
-  if (mainComponent) {
-    const mainComponentName = parameters.cckAddon.componentName;
-    if (!mainComponentName) {
-      throw new Error(`Component name is missing in the story parameters for story: ${mainComponent.name}`);
-    }
-    argTypeGroup.push({
-      componentName: mainComponent.name,
-      argTypeGroup: getComponentArgTypes(
-        mainComponent,
-        preparedMeta.argTypes,
-        parameters,
-        themeConfig.components[mainComponentName]
-      ),
-    });
-  }
+  argTypeGroup.push({
+    componentName: getStoryComponentName(mainComponent, preparedMeta.id),
+    argTypeGroup: getComponentArgTypes(
+      mainComponent,
+      preparedMeta.argTypes,
+      parameters,
+      themeConfig.components[mainComponentName]
+    ),
+  });
 
   subcomponents
     ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
@@ -87,12 +86,12 @@ export function getComponentArgTypes(
    * Storybook source code check if the componentRef is a class reference.
    * I don't know if it's necessary to check it, but I will keep it for now.
    */
-  const isValidComponentRef = isClassRef(componentRef);
+  const isValidComponentRef = isClassRef(componentRef) || isReactComponent(componentRef);
 
   if (!isValidComponentRef) {
     return null;
   }
-  const componentName = componentRef.name;
+  const componentName = getStoryComponentName(componentRef);
   const uiBaseComponentName = parameters.cckAddon.componentName;
   const overrideArgsType = parameters.cckAddon.subcomponentArgsTypes?.[componentName] ?? {};
 
@@ -167,10 +166,6 @@ function getThemeAdditionalArgTypes(
   });
 
   return additionalArgTypes;
-}
-
-function isClassRef(ref: any): ref is ClassRef {
-  return typeof ref === 'function' && !!ref.prototype && ref.prototype.constructor === ref;
 }
 
 function toArgTypesWithThemeConfig(

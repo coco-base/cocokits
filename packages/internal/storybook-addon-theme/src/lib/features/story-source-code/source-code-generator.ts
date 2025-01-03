@@ -1,10 +1,14 @@
-import ejs from 'ejs';
-import shikiThemeSlackDark from 'shiki/themes/slack-dark.mjs';
-import shikiThemeSlackOchin from 'shiki/themes/slack-ochin.mjs';
-import { ColorMode } from '../../model/theme.model';
 import { Args, PreparedStory } from '@storybook/types';
+import ejs from 'ejs';
+import { BuiltInParserName, Plugin } from 'prettier';
+import angularPlugin from 'prettier/plugins/angular';
+import babelPlugin from 'prettier/plugins/babel';
+import esTreePlugin from 'prettier/plugins/estree';
+import htmlPlugin from 'prettier/plugins/html';
+import markdownPlugin from 'prettier/plugins/markdown';
+import postcssPlugin from 'prettier/plugins/postcss';
 import tsPlugin from 'prettier/plugins/typescript';
-import { AddonParameters, AddonSourceCodeLanguages } from '../../model/addon.model';
+import prettier from 'prettier/standalone';
 import { createHighlighterCoreSync, LanguageRegistration } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 import shikiAngularHtml from 'shiki/langs/angular-html.mjs';
@@ -15,15 +19,12 @@ import shikiJson from 'shiki/langs/json.mjs';
 import shikiScss from 'shiki/langs/scss.mjs';
 import shikiShell from 'shiki/langs/shell.mjs';
 import shikiTypescript from 'shiki/langs/typescript.mjs';
-import prettier from 'prettier/standalone';
-import esTreePlugin from 'prettier/plugins/estree';
-import { BuiltInParserName, Plugin } from 'prettier';
-import babelPlugin from 'prettier/plugins/babel';
-import postcssPlugin from 'prettier/plugins/postcss';
-import htmlPlugin from 'prettier/plugins/html';
-import markdownPlugin from 'prettier/plugins/markdown';
-import angularPlugin from 'prettier/plugins/angular';
+import shikiThemeSlackDark from 'shiki/themes/slack-dark.mjs';
+import shikiThemeSlackOchin from 'shiki/themes/slack-ochin.mjs';
+
+import { AddonParameters, AddonSourceCodeLanguages } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
+import { ColorMode } from '../../model/theme.model';
 
 export interface GeneratedSourceCode {
   fileName: string;

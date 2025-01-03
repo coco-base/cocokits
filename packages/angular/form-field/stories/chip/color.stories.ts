@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ChipComponent } from '../../src/lib/chip/chip.component';
 
-export const Color: AngularStoryObj<ChipComponent> = {
+export const Color: StoryObj<ChipComponent> = {
   name: 'Color',
   parameters: {
     docs: {

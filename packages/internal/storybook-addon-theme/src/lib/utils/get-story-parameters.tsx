@@ -1,5 +1,6 @@
 import { PreparedStory } from "@storybook/types";
 
+import { isClassRef } from "./common.utils";
 import { AddonParameters } from "../model/addon.model";
 import { ThemeChangeEvent } from "../model/event.model";
 
@@ -25,5 +26,26 @@ export function getStoryParameters(story: PreparedStory, theme: ThemeChangeEvent
   }
 
   return {parameters, uiBaseComponentName, themeComponentConfig};
+}
 
+export function getStoryComponentName(componentRef: unknown, storyId?: string): string {
+
+  // Angular
+  if(isClassRef(componentRef)) {
+    const componentName = componentRef.name;
+
+    if (!componentName) {
+      throw new Error(`Component is not a class ref in the story parameters for story ID: ${storyId ?? componentRef}`);
+    }
+
+    return componentName;
+  }
+
+  // React
+  const reactComponent = componentRef as React.ComponentType;
+  if(!reactComponent.displayName) {
+    throw new Error(`Component is not a react ref in the story parameters for story ID: ${storyId ?? componentRef}`);
+  }
+
+  return reactComponent.displayName;
 }

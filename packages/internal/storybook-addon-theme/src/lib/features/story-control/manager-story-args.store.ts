@@ -1,14 +1,16 @@
-import { getInstance, reduceMerge } from '@cocokits/common-utils';
-import { ThemeEvent } from '../../data-access/theme-event/manager-theme-event';
-import { Args, PreparedStory, StoryId } from '@storybook/types';
-import { StoreState } from './story-control.model';
 import events from '@storybook/core/core-events';
-import { ThemeChangeEvent } from '../../model/event.model';
-import { getStoryControls } from './story-control.util';
-import { AddonParameters, StoryArgs } from '../../model/addon.model';
-import { GlobalEvent } from '../../data-access/global-event/manager-global-event';
 import { addons } from '@storybook/manager-api';
+import { PreparedStory, StoryId } from '@storybook/types';
+
+import { getInstance, reduceMerge } from '@cocokits/common-utils';
+
 import { StoryControlStoreBase } from './story-args.store.base';
+import { StoreState } from './story-control.model';
+import { getStoryControls } from './story-control.util';
+import { GlobalEvent } from '../../data-access/global-event/manager-global-event';
+import { ThemeEvent } from '../../data-access/theme-event/manager-theme-event';
+import { AddonParameters, StoryArgs } from '../../model/addon.model';
+import { ThemeChangeEvent } from '../../model/event.model';
 
 export class StoryControlStore extends StoryControlStoreBase {
   private themeEvent = getInstance(ThemeEvent);

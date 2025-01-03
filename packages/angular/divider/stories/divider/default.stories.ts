@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { DividerComponent } from '../../src/lib/divider/divider.component';
 
-export const Default: AngularStoryObj<DividerComponent> = {
+export const Default: StoryObj<DividerComponent> = {
   name: 'Default',
   parameters: {
     docs: {

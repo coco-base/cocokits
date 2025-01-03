@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { TextareaComponent } from '../../src/lib/textarea/textarea.component';
 
-export const AutoResize: AngularStoryObj<TextareaComponent> = {
+export const AutoResize: StoryObj<TextareaComponent> = {
   name: 'AutoResize',
   parameters: {
     docs: {

@@ -1,10 +1,12 @@
 import { addons } from '@storybook/manager-api';
-import { COLOR_MODES } from '../../config/color-modes.config';
 import { withLatestFrom } from 'rxjs';
-import { ThemeEvent } from '../theme-event/manager-theme-event';
+
 import { getInstance } from '@cocokits/common-utils';
+
 import { ColorModeEventBase } from './color-mode-event.base';
+import { COLOR_MODES } from '../../config/color-modes.config';
 import { DocumentStyle } from '../../utils/document-styles';
+import { ThemeEvent } from '../theme-event/manager-theme-event';
 
 /**
  * Color Mode must be handled at both the manager and preview levels.

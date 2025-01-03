@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { OverlayRef } from '@cocokits/angular-overlay';
 import { toBooleanOrPresent } from '@cocokits/common-utils';
 

@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
-export const Type: AngularStoryObj<ButtonComponent> = {
+export const Type: StoryObj<ButtonComponent> = {
   name: 'Type',
   parameters: {
     docs: {

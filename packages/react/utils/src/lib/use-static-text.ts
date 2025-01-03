@@ -19,7 +19,7 @@ import { useRef } from 'react';
 export function useStaticText(defaultValue?: string): string {
   const textRef = useRef(defaultValue ?? crypto.randomUUID());
 
-  if (!!defaultValue?.trim()) {
+  if (defaultValue?.trim()) {
     textRef.current = defaultValue;
   }
 

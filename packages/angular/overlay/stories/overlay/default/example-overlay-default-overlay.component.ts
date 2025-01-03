@@ -1,7 +1,9 @@
 import { JsonPipe } from '@angular/common';
 import { Component, ElementRef, inject, viewChild, ViewEncapsulation } from '@angular/core';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { OverlayRef } from '@cocokits/angular-cdk';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { ButtonComponent, FormFieldComponent, InputComponent } from '@cocokits/angular-components';
 
 @Component({

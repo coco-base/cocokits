@@ -55,7 +55,7 @@ const DEFAULT_STATE: FormState = {
 
 const FormStoreContent = createContext<FormStore | null>(null);
 
-export function createFormStore() {
+export function useCreateFormStore() {
   return useMemo(
     () => ({
       FormStoreProvider: FormStoreContent.Provider,

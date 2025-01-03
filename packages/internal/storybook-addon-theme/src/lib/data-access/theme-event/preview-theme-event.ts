@@ -1,8 +1,10 @@
 import { addons } from '@storybook/preview-api';
-import { ThemeEventBase } from './theme-event.base';
-import { DocumentStyle } from '../../utils/document-styles';
+
 import { getInstance } from '@cocokits/common-utils';
+
+import { ThemeEventBase } from './theme-event.base';
 import { ColorMode, SelectedTheme } from '../../model/theme.model';
+import { DocumentStyle } from '../../utils/document-styles';
 import { ColorModeEvent } from '../colo-mode-event/preview-color-mode-event';
 
 /**

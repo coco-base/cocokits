@@ -1,15 +1,16 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType } from '@cocokits/storybook-addon-theme';
 import {
-  AddonParametersControlType,
   ngThemeArgsToTemplate,
+  StoriesMeta,
+  StoryObj,
   withThemeConfigProvider,
-} from '@cocokits/storybook-addon-theme';
+} from '@cocokits/storybook-addon-theme-angular';
 
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: CheckboxComponent,
   title: 'Dev/Checkbox',
   decorators: [
@@ -33,9 +34,14 @@ const meta: AngularStoriesMeta = {
 };
 export default meta;
 
-export const Dev: AngularStoryObj<CheckboxComponent> = {
+export const Dev: StoryObj<CheckboxComponent> = {
   name: 'Dev',
   parameters: {
+    docs: {
+      description: {
+        story: '',
+      },
+    },
     cckAddon: {
       hasControl: true,
       controls: [
@@ -62,6 +68,7 @@ export const Dev: AngularStoryObj<CheckboxComponent> = {
       props: {
         ...args,
         logMessage: (...message: string[]) => {
+          // eslint-disable-next-line no-console
           console.log(...message);
         },
         indeterminate: false,

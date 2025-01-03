@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
 
-export const Default: AngularStoryObj<ChipListComponent<string>> = {
+export const Default: StoryObj<ChipListComponent<string>> = {
   name: 'Default',
   parameters: {
     docs: {

@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { RadioButtonComponent } from '../../src';
 
-export const Color: AngularStoryObj<RadioButtonComponent> = {
+export const Color: StoryObj<RadioButtonComponent> = {
   name: 'Color',
   parameters: {
     docs: {

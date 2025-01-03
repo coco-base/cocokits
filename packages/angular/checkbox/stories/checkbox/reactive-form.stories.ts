@@ -1,12 +1,11 @@
 // import { FormControl } from '@angular/forms';
 
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+// import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 // import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
 // export const ReactiveForm = {
-//   // export const ReactiveForm: AngularStoryObj<CheckboxComponent> = {
+//   // export const ReactiveForm: StoryObj<CheckboxComponent> = {
 //   name: 'ReactiveForm',
 //   parameters: {
 //     docs: {

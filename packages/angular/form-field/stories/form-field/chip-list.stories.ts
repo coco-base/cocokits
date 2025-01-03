@@ -1,14 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import {
-  AddonParametersControlType,
-  ngThemeArgsToTemplate,
-  renderWithPageTab,
-  withWrapperDecorator,
-} from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { FormFieldComponent } from '../../src/lib/form-field/form-field.component';
 
-export const ChipList: AngularStoryObj<FormFieldComponent> = {
+export const ChipList: StoryObj<FormFieldComponent> = {
   name: 'ChipList',
   decorators: [
     // withWrapperDecorator({}, {width: '300px'}),

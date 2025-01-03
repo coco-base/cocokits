@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
+
 import { getInstance } from '@cocokits/common-utils';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { SelectedTheme } from '../model/theme.model';
-import { ThemeChangeEvent } from '../model/event.model';
+
 import { ThemeEvent } from '../data-access/theme-event/preview-theme-event';
+import { ThemeChangeEvent } from '../model/event.model';
+import { SelectedTheme } from '../model/theme.model';
 
 export const useTheme = () => {
   const themeEvent = getInstance(ThemeEvent);

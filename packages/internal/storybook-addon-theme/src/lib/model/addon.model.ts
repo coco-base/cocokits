@@ -1,8 +1,11 @@
-import { DeepPartial, ThemeComponentConfig, UIBaseComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
-import { IconsName } from '../utils/icons';
 import { Args, PreparedStory } from '@storybook/types';
+import { ComponentType } from 'react';
+
+import { ClassRef, DeepPartial, ThemeComponentConfig, UIBaseComponentsName } from '@cocokits/core';
+
 import { ThemeChangeEvent } from './event.model';
 import { StoryTab } from '../features/story-doc-page/story-doc-page';
+import { IconsName } from '../utils/icons';
 
 /**
  * Configuration interface for the CocoKits Storybook Addon Theme.
@@ -31,15 +34,12 @@ export interface StorybookAddonThemeConfig {
 export type AddonParameters = AddonParametersMeta & AddonParametersStories;
 
 export interface AddonParametersStories {
-  docs?: {
-    // required
-    description?: {
-      // required
-      story?: string; // required
+  docs: {
+    description: {
+      story: string;
     };
-    source?: any;
   };
-  cckAddon?: CckAddonStories; // required
+  cckAddon: CckAddonStories;
 }
 
 export interface AddonParametersMeta {
@@ -84,7 +84,7 @@ export interface StoryRenderConditionProps {
 
 export interface CckAddonStories {
   renderConditions?: ((props: StoryRenderConditionProps) => boolean)[];
-  source: AddonParametersSource[];
+  source?: AddonParametersSource[];
   /**
    * @default false
    */
@@ -195,3 +195,5 @@ export interface AddonParametersControlTheme {
 export interface StoryArgs extends Args {
   cckControl?: Args;
 }
+
+export type ComponentRef = ClassRef | ComponentType<any>;

@@ -7,6 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
+  "dependencies": {
+    "@storybook/manager-api": "8.4.4",
+    "@storybook/angular": "8.4.4",
+    "@storybook/addon-docs": "8.4.4"
+  },
   "author": "",
   "license": "ISC"
 }

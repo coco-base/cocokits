@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { SelectComponent } from '../../src/lib/select/select.component';
 
-export const Size: AngularStoryObj<SelectComponent> = {
+export const Size: StoryObj<SelectComponent> = {
   name: 'Size',
   parameters: {
     docs: {

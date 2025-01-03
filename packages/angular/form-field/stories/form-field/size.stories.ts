@@ -1,9 +1,8 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+// import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 // import { FormFieldComponent } from '../../src';
 
-// export const Size: AngularStoryObj<FormFieldComponent> = {
+// export const Size: StoryObj<FormFieldComponent> = {
 //   name: 'Size',
 //   tags: ['uiBaseComponentName:formField', 'uiBaseComponentPropName:size'],
 //   parameters: {

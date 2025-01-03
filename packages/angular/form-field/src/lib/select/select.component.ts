@@ -23,8 +23,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
+import { firstValueFrom } from 'rxjs';
+
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
 import { isNullish, toBooleanOrPresent } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
@@ -32,7 +35,6 @@ import { ThemeSvgIcon } from '@cocokits/core';
 import { injectFormFieldStore } from '../form-field.store';
 import { injectSelectStore, SelectStore, SelectStoreService, SelectTriggerSource } from '../select.store';
 import { SelectPreviewComponent } from '../select-preview/select-preview.component';
-import { firstValueFrom } from 'rxjs';
 
 const SELECT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

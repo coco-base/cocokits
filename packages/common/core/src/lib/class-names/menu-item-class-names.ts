@@ -1,5 +1,5 @@
 import { generateLayoutClassNameFromElement } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, LayoutClassNamesConfig } from '../model/theme-config.model';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const menuItemLayoutClassNamesConfig = {

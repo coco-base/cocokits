@@ -1,9 +1,9 @@
 import { PreparedStory } from "@storybook/types";
 
+import { AddonParameters } from "../../model/addon.model";
 import { DocPageMarkdown } from "../doc-page/doc-page-markdown";
 import { DocPageSection } from "../doc-page/doc-page-section";
 import { StoryCanvas } from "../story-canvas/story-canvas";
-import { AddonParameters } from "../../model/addon.model";
 
 export interface StoryDocPageOverviewProps {
   metaDescription: string | undefined;

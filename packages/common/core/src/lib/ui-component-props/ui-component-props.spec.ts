@@ -50,7 +50,7 @@ describe('uiBaseComponentParamsValidations', () => {
     const config = getConfigWithDefault({});
     delete config.themeConfig;
 
-    expect(() => validateUiBaseComponentProps(config)).toThrow(
+    expect(() => validateUiBaseComponentProps(config.componentName, config.componentProps, config.themeConfig)).toThrow(
       `ThemeConfig' has not provided in the root of application`
     );
   });
@@ -60,9 +60,7 @@ describe('uiBaseComponentParamsValidations', () => {
       componentName: 'unknownComponent',
     });
 
-    console.log('config', config);
-
-    expect(() => validateUiBaseComponentProps(config)).toThrow(
+    expect(() => validateUiBaseComponentProps(config.componentName, config.componentProps, config.themeConfig)).toThrow(
       `This theme does not support the 'unknownComponent' component. Please select a different theme that supports this component or choose from available components: component1`
     );
   });
@@ -72,7 +70,7 @@ describe('uiBaseComponentParamsValidations', () => {
       componentProps: { colors: 'unknown' },
     });
 
-    expect(() => validateUiBaseComponentProps(config)).toThrow(
+    expect(() => validateUiBaseComponentProps(config.componentName, config.componentProps, config.themeConfig)).toThrow(
       `'unknown' is an invalid value for 'colors' in 'component1'. Accepted values in this theme are: color1, color2`
     );
   });
@@ -80,13 +78,17 @@ describe('uiBaseComponentParamsValidations', () => {
   it('should not throw an error for valid component properties', () => {
     const config = getConfigWithDefault({});
 
-    expect(() => validateUiBaseComponentProps(config)).not.toThrow();
+    expect(() =>
+      validateUiBaseComponentProps(config.componentName, config.componentProps, config.themeConfig)
+    ).not.toThrow();
   });
 
   it('should not throw an error if optional properties are not provided', () => {
     const config = getConfigWithDefault({});
     delete config.componentProps.colors;
 
-    expect(() => validateUiBaseComponentProps(config)).not.toThrow();
+    expect(() =>
+      validateUiBaseComponentProps(config.componentName, config.componentProps, config.themeConfig)
+    ).not.toThrow();
   });
 });

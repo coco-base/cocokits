@@ -48,6 +48,11 @@
   gap: 8px;
   padding: 4px !important;
 
+  // Plus button at right of create a new story (is will visible in react app)
+  + div {
+    display: none;
+  }
+
   // Search icon
   > div:first-child {
     color: var(--cck-doc-color-font-2);

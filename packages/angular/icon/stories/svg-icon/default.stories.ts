@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { SvgIconComponent } from '../../src';
 
-export const Default: AngularStoryObj<SvgIconComponent> = {
+export const Default: StoryObj<SvgIconComponent> = {
   name: 'Default',
   parameters: {
     docs: {

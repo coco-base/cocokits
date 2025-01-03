@@ -56,6 +56,9 @@ export type UIBaseComponentsPropName = 'type' | 'color' | 'size';
 export type UIBaseComponentsPropValue = string | number | boolean | null; // When null, no specific value is applied, event default value
 
 export interface UIBaseComponentProps {
+  /**
+   * TODO: Add description
+   */
   type?: UIBaseComponentsPropValue;
   color?: UIBaseComponentsPropValue;
   size?: UIBaseComponentsPropValue;

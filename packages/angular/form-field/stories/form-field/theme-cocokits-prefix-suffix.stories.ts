@@ -1,10 +1,9 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+// import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 // import { FormFieldComponent } from '../../src';
 // import { copyIcon, emailIcon, forkIcon, infoIcon } from '../template-svg-icon';
 
-// export const ThemeCocokitsPrefixSuffix: AngularStoryObj<FormFieldComponent> = {
+// export const ThemeCocokitsPrefixSuffix: StoryObj<FormFieldComponent> = {
 //   name: 'Theme Cocokits: Prefix & Suffix',
 //   tags: ['theme:cocokits', 'theme:frames-x'],
 //   parameters: {

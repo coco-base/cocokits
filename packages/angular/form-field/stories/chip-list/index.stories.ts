@@ -1,10 +1,8 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
-import { withWrapperDecorator } from '../../../../internal/storybook-addon-theme/src/lib/utils/base-preview';
 import {
   ChipComponent,
   ErrorComponent,
@@ -19,7 +17,7 @@ import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
 export { Default } from './default.stories';
 export { Size } from './size.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: ChipListComponent,
   title: 'UI Components/ChipList',
   decorators: [

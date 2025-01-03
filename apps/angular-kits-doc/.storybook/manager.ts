@@ -1,5 +1,6 @@
-import { StorybookAddonThemeConfig } from '@cocokits/storybook-addon-theme';
 import { addons } from '@storybook/manager-api';
+
+import { StorybookAddonThemeConfig } from '@cocokits/storybook-addon-theme';
 
 (window as any).STORYBOOK_GA_ID = 'G-DY82W9XYYK';
 (window as any).STORYBOOK_REACT_GA_OPTIONS = {};

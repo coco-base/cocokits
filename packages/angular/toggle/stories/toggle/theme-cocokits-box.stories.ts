@@ -1,6 +1,3 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-
 // import { ToggleComponent } from '../../src';
 
 // export const ThemeCocokitsBox: AngularStoryObj<ToggleComponent> = {

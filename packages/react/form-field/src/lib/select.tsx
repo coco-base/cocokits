@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
-import { createSelectStore } from './select-store';
+import { useCreateSelectStore } from './select-store';
 import { useFormStore } from './form-store';
 import { SvgIcon } from '@cocokits/react-icon';
 import { OverlayPortal, OverlayPortalManager } from '@cocokits/react-overlay';
@@ -66,7 +66,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
   }
 
   const formStore = useFormStore();
-  const {selectStore, SelectStoreProvider} = createSelectStore({onSelectionChange: props.onChange});
+  const {selectStore, SelectStoreProvider} = useCreateSelectStore({onSelectionChange: props.onChange});
   const [isOpened, setIsOpened] = useState(false);
   const isEmpty = selectStore.useState(state => state.isEmpty);
   const selectedItems = selectStore.useState(state => state.selectedItems ?? []);

@@ -1,6 +1,7 @@
 import type { ProjectAnnotations, Renderer } from '@storybook/types';
-import { WithThemeProvider } from './with-theme-provider';
+
 import { WithStoryDecorator } from './with-story-decorator';
+import { WithThemeProvider } from './with-theme-provider';
 import { StoryDocPage } from '../features/story-doc-page/story-doc-page';
 
 /**

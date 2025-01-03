@@ -5,7 +5,6 @@ import * as path from 'path';
  * `main.ts` will be executed in node environment with storybook ts configuration.
  * As a result, the alias `@cocokits/...` is unrecognized in these configurations
  */
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { deepMerge } from '../../../packages/common/utils/src';
 
 interface AngularStorybookConfigOptions {

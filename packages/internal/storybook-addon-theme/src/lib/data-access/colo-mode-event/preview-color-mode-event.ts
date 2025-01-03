@@ -1,7 +1,9 @@
 import { addons } from '@storybook/preview-api';
+
+import { getInstance } from '@cocokits/common-utils';
+
 import { ColorModeEventBase } from './color-mode-event.base';
 import { DocumentStyle } from '../../utils/document-styles';
-import { getInstance } from '@cocokits/common-utils';
 
 /**
  * Color Mode must be handled at both the manager and preview levels.

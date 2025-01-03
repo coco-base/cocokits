@@ -1,9 +1,8 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+// import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 // import { FormFieldComponent } from '../../src';
 
-// export const Color: AngularStoryObj<FormFieldComponent> = {
+// export const Color: StoryObj<FormFieldComponent> = {
 //   name: 'Color',
 //   tags: ['uiBaseComponentName:formField', 'uiBaseComponentPropName:color'],
 //   parameters: {

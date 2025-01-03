@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { CheckboxComponent } from '../../src';
 
-export const Color: AngularStoryObj<CheckboxComponent> = {
+export const Color: StoryObj<CheckboxComponent> = {
   name: 'Color',
   parameters: {
     docs: {

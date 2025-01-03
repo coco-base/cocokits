@@ -1,13 +1,12 @@
 import { PreparedMeta, PreparedStory } from '@storybook/types';
 
-import { ClassRef } from '@cocokits/core';
-
 import { StoryDocPageAPIProps } from './story-doc-page-api';
 import { getArgTypesApiList } from './story-doc-page-api.utils';
 import { StoryDocPageOverviewProps } from './story-doc-page-overview';
 import { StoryDocPageStylingComponent, StoryDocPageStylingProps } from './story-doc-page-styling';
-import { AddonParameters } from '../../model/addon.model';
+import { AddonParameters, ComponentRef } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
+import { getStoryComponentName } from '../../utils/get-story-parameters';
 
 // Overview
 export function getOverviewProps(
@@ -46,17 +45,14 @@ export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent)
 // Styling
 export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonParameters): StoryDocPageStylingProps {
   const mainUiBaseComponentName = parameters.cckAddon.componentName;
-  const mainComponentName = (preparedMeta.component as ClassRef).name;
+  const mainComponentName = getStoryComponentName(preparedMeta.component, preparedMeta.id);
 
   if (!mainUiBaseComponentName) {
     throw new Error(`Component name is missing in the story parameters for story ID: ${preparedMeta.id}`);
   }
-  if (!mainComponentName) {
-    throw new Error(`Component is not a class ref in the story parameters for story ID: ${preparedMeta.id}`);
-  }
 
   // Type of storybook is wrong, so we have to change it
-  const subcomponentsRef = preparedMeta.subcomponents as unknown as ClassRef[] | undefined;
+  const subcomponentsRef = preparedMeta.subcomponents as unknown as ComponentRef[] | undefined;
 
   const subcomponents: StoryDocPageStylingComponent[] =
     subcomponentsRef

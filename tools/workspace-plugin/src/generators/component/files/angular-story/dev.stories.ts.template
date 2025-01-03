@@ -1,16 +1,14 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
+import { ngThemeArgsToTemplate, StoriesMeta, StoryObj, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 import {
   AddonParametersControlType,
-  ngThemeArgsToTemplate,
-  withThemeConfigProvider,
 } from '@cocokits/storybook-addon-theme';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: <%- className %>Component,
   title: 'Dev/<%- className %>',
   tags: ['!autodocs'],
@@ -37,7 +35,7 @@ const meta: AngularStoriesMeta = {
 export default meta;
 
 
-export const Dev: AngularStoryObj<DividerComponent> = {
+export const Dev: StoryObj<DividerComponent> = {
   name: 'Dev',
   parameters: {
     cckAddon: {

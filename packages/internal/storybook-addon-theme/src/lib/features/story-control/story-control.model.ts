@@ -1,5 +1,7 @@
-import { ThemeComponentConfig, ThemeSvgIcon, UIBaseComponentsName } from '@cocokits/core';
 import { Args, PreparedStory, StoryId } from '@storybook/types';
+
+import { ThemeComponentConfig, UIBaseComponentsName } from '@cocokits/core';
+
 import { AddonParametersControl, AddonParametersControlTheme } from '../../model/addon.model';
 
 export type StroyControlType = 'boolean' | 'select' | 'text' | 'tab';

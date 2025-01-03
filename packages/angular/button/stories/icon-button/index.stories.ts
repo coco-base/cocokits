@@ -1,8 +1,7 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
@@ -15,7 +14,7 @@ export { ThemeCocokitsRounded } from './theme-cocokits-rounded.stories';
 export { ThemeCocokitsRoundedSize } from './theme-cocokits-rounded-size.stories';
 export { ThemeCocokitsRoundedColor } from './theme-cocokits-rounded-color.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: IconButtonComponent,
   title: 'UI Components/IconButton',
   decorators: [

@@ -1,10 +1,10 @@
 import { OverlayConnectElemOrigin } from '@cocokits/angular-overlay';
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { MenuComponent } from '../../src/lib/menu/menu.component';
 
-export const Default: AngularStoryObj<MenuComponent> = {
+export const Default: StoryObj<MenuComponent> = {
   name: 'Default',
   parameters: {
     docs: {

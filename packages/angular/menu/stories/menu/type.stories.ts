@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { MenuComponent } from '../../src';
 
-export const Type: AngularStoryObj<MenuComponent> = {
+export const Type: StoryObj<MenuComponent> = {
   name: 'Type',
   parameters: {
     docs: {

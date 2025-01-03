@@ -1,7 +1,6 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import { ErrorComponent, FormFieldComponent, LabelComponent } from '../../src';
@@ -12,7 +11,7 @@ export { AutoResize } from './auto-resize.stories';
 // export { NgModel } from './ng-model.stories';
 // export { ReactiveForm } from './reactive-form.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: TextareaComponent,
   title: 'UI Components/Textarea',
   decorators: [

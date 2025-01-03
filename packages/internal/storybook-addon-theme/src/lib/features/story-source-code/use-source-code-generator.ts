@@ -1,10 +1,12 @@
 import { Args, PreparedStory } from '@storybook/types';
 import { useEffect, useState } from 'react';
-import { useColorMode } from '../../utils/use-preview-color-mode';
-import { GeneratedSourceCode, generateSourceCode } from './source-code-generator';
+
 import { getInstance } from '@cocokits/common-utils';
-import { StoryControlStore } from '../story-control/preview-story-args.store';
+
+import { GeneratedSourceCode, generateSourceCode } from './source-code-generator';
+import { useColorMode } from '../../utils/use-preview-color-mode';
 import { useTheme } from '../../utils/use-preview-theme';
+import { StoryControlStore } from '../story-control/preview-story-args.store';
 
 interface SourceCodeGenerator {
   loading: boolean;
@@ -24,8 +26,8 @@ export function useSourceCodeGenerator(story: PreparedStory) {
   const theme = useTheme();
 
   useEffect(() => {
-    const subscription = storyControlStore.getArgs$(story.id).subscribe((args) => {
-      setArgs(args);
+    const subscription = storyControlStore.getArgs$(story.id).subscribe((_args) => {
+      setArgs(_args);
     });
 
     return () => subscription.unsubscribe();

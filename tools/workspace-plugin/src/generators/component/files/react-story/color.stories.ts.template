@@ -1,8 +1,8 @@
-import { ReactStoryObj } from "@cocokits/internal-model";
+import { StoryObj } from '@cocokits/storybook-addon-theme-react';
+
 import { Button } from '../../<%- relativeComponentDirectory %>/<%- fileName %>';
 
-
-export const Color: ReactStoryObj<typeof <%- className %>> = {
+export const Color: StoryObj<typeof <%- className %>> = {
   name: "Color",
   parameters: {
     docs: {

@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
-export const Default: AngularStoryObj<ToggleComponent> = {
+export const Default: StoryObj<ToggleComponent> = {
   name: 'Default',
   parameters: {
     docs: {

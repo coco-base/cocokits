@@ -1,10 +1,8 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-
+// import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 // import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
 // export const NgModel = {
-//   // export const NgModel: AngularStoryObj<CheckboxComponent> = {
+//   // export const NgModel: StoryObj<CheckboxComponent> = {
 //   name: 'NgModel',
 //   parameters: {
 //     docs: {

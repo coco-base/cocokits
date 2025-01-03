@@ -24,7 +24,7 @@ interface TabsStoreConfig {
 export const TabsContext = createContext<TabsStore | null>(null);
 export const TabIndexContext = createContext<number>(0);
 
-export function createTabsStore(config: TabsStoreConfig) {
+export function useCreateTabsStore(config: TabsStoreConfig) {
   const storeRef = useRef<{
     TabsStoreProvider: typeof TabsContext.Provider;
     tabsStore: TabsStore;

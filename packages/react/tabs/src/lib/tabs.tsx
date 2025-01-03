@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
-import { createTabsStore, TabIndexContext } from './tabs.store';
+import { useCreateTabsStore, TabIndexContext } from './tabs.store';
 import { useEffectAfterMount } from '@cocokits/react-utils';
 import { TabSelectionChangeEvent, TabValue } from './tab.model';
 
@@ -24,7 +24,7 @@ export const Tabs = (props: TabsProps) => {
   const hideContent = props.hideContent ?? false;
   const disableAnimation = props.disableAnimation ?? false;
 
-  const { tabsStore, TabsStoreProvider } = createTabsStore({
+  const { tabsStore, TabsStoreProvider } = useCreateTabsStore({
     disableAnimation,
     onSelectionChange: props.onSelectionChange ?? EMPTY_CALLBACK,
   });

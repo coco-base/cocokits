@@ -1,5 +1,4 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+// import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 // import { FormFieldComponent } from '../../src';
 // import { copyIcon, emailIcon, infoIcon } from '../template-svg-icon';

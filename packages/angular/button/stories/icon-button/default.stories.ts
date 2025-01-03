@@ -1,14 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import {
-  AddonParametersControlType,
-  ngAdditionalArgsToTemplate,
-  ngThemeArgsToTemplate,
-  renderWithPageTab,
-} from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
-export const Default: AngularStoryObj<IconButtonComponent> = {
+export const Default: StoryObj<IconButtonComponent> = {
   name: 'Default',
   parameters: {
     docs: {
@@ -53,8 +48,6 @@ export const Default: AngularStoryObj<IconButtonComponent> = {
     },
   },
   render: (args) => {
-    console.log('args', args);
-
     return {
       props: {
         ...args,

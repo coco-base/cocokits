@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ChipListComponent } from '../../src/lib/chip-list/chip-list.component';
 
-export const Size: AngularStoryObj<ChipListComponent<string>> = {
+export const Size: StoryObj<ChipListComponent<string>> = {
   name: 'Size',
   parameters: {
     docs: {

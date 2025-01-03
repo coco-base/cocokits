@@ -1,7 +1,6 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 // import { AnimationOverlayStoryComponent } from './components/animation-overlay-story.component';
 // import { BasicOverlayStoryComponent } from './components/basic-overlay-story.component';
@@ -21,7 +20,7 @@ export { Default } from './default/default.stories';
 // export { Animation } from './animation.stories';
 // export { ConnectToElement } from './connect-to-element.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: OverlayComponent,
   title: 'CDK/Overlay',
   subcomponents: [OverlayService],

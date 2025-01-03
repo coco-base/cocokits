@@ -1,5 +1,5 @@
-import { framesXThemeConfig, tokenDictionary as tokenDictionaryFramesXTheme } from '@cocokits/theme-frames-x';
 import { cocokitsThemeConfig, tokenDictionary as tokenDictionaryCocokitsTheme } from '@cocokits/theme-cocokits';
+import { framesXThemeConfig, tokenDictionary as tokenDictionaryFramesXTheme } from '@cocokits/theme-frames-x';
 
 import { ColorMode, Theme, ThemeId } from '../model/theme.model';
 import { getCollectionFirstModeNames } from '../utils/token.util';

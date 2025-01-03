@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeId, ThemeId } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { IconButtonComponent } from '../../src/lib/icon-button/icon-button.component';
 
-export const ThemeCocokitsRounded: AngularStoryObj<IconButtonComponent> = {
+export const ThemeCocokitsRounded: StoryObj<IconButtonComponent> = {
   name: 'Theme Cocokits: Rounded',
   parameters: {
     docs: {

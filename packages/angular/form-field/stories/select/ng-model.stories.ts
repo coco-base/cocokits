@@ -1,6 +1,3 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-
 // import { SelectComponent } from '../../src';
 
 // export const NgModel: AngularStoryObj<SelectComponent> = {

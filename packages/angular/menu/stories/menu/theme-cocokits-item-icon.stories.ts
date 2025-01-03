@@ -1,6 +1,3 @@
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-
 // import { MenuComponent } from '../../src/lib/menu/menu.component';
 // import { archiveIcon, deleteIcon, duplicateIcon, editIcon, moveIcon } from '../template-svg-icon';
 

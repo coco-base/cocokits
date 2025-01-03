@@ -32,17 +32,23 @@
         "../../packages/react/overlay/src/",
         "../../../packages/react/overlay/src/"
       ],
-      "@cocokits/storybook-theme-switcher": [
-        "packages/internal/storybook-theme-switcher/src/",
-        "../packages/internal/storybook-theme-switcher/src/",
-        "../../packages/internal/storybook-theme-switcher/src/",
-        "../../../packages/internal/storybook-theme-switcher/src/"
-      ],
       "@cocokits/storybook-addon-theme": [
         "packages/internal/storybook-addon-theme/src/",
         "../packages/internal/storybook-addon-theme/src/",
         "../../packages/internal/storybook-addon-theme/src/",
         "../../../packages/internal/storybook-addon-theme/src/"
+      ],
+      "@cocokits/storybook-addon-theme-react": [
+        "packages/internal/storybook-addon-theme-react/src",
+        "../packages/internal/storybook-addon-theme-react/src",
+        "../../packages/internal/storybook-addon-theme-react/src",
+        "../../../packages/internal/storybook-addon-theme-react/src"
+      ],
+      "@cocokits/storybook-addon-theme-angular": [
+        "packages/internal/storybook-addon-theme-angular/src",
+        "../packages/internal/storybook-addon-theme-angular/src",
+        "../../packages/internal/storybook-addon-theme-angular/src",
+        "../../../packages/internal/storybook-addon-theme-angular/src"
       ],
       "@cocokits/theme-cocokits": [
         "packages/themes/cocokits/src/",
@@ -121,12 +127,6 @@
         "../packages/angular/toggle/src/",
         "../../packages/angular/toggle/src/",
         "../../../packages/angular/toggle/src/"
-      ],
-      "@cocokits/internal-model": [
-        "packages/internal/internal-model/src/index.ts",
-        "../packages/internal/internal-model/src/index.ts",
-        "../../packages/internal/internal-model/src/index.ts",
-        "../../../packages/internal/internal-model/src/index.ts"
       ],
       "@cocokits/react-components": [
         "packages/react/components/src/",

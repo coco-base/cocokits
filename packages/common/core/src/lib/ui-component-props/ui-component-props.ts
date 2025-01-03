@@ -1,13 +1,13 @@
-import { hasNotValue, hasValue, isNotNullish, recordReduceMerge, sanitizeValue } from '@cocokits/common-utils';
+import { hasValue, isNotNullish, recordReduceMerge, sanitizeValue } from '@cocokits/common-utils';
 
 import {
-  UIBaseComponentProps,
-  ThemeComponentPropertyConfig,
-  UIBaseComponentsPropValue,
-  UIBaseComponentsPropName,
   LayoutClassNamesConfig,
+  ThemeComponentPropertyConfig,
   ThemeConfig,
+  UIBaseComponentProps,
   UIBaseComponentsName,
+  UIBaseComponentsPropName,
+  UIBaseComponentsPropValue,
 } from '../model/theme-config.model';
 
 // eslint-disable-next-line max-lines-per-function

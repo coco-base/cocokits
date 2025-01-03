@@ -1,14 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import {
-  AddonParametersControlType,
-  ngThemeArgsToTemplate,
-  renderWithPageTab,
-  withWrapperDecorator,
-} from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
 
 import { FormFieldComponent } from '../../src/lib/form-field/form-field.component';
 
-export const Select: AngularStoryObj<FormFieldComponent> = {
+export const Select: StoryObj<FormFieldComponent> = {
   name: 'Select',
   decorators: [withWrapperDecorator({}, { width: '250px' })],
   parameters: {

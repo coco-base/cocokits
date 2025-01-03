@@ -2,9 +2,9 @@ import { formatFiles, Tree } from '@nx/devkit';
 
 import { ComponentGeneratorSchema } from './schema';
 import { angularComponentGenerator } from './src/angular-component-generator';
+import { reactComponentGenerator } from './src/react-component-generator';
 import { getOptions } from './utils/get-options';
 import { LibraryFramework } from '../generator.model';
-import { reactComponentGenerator } from './src/react-component-generator';
 
 export async function componentGenerator(tree: Tree, schema: ComponentGeneratorSchema) {
   const options = getOptions(tree, schema);

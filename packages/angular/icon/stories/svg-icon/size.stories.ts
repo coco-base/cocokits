@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { SvgIconComponent } from '../../src';
 
-export const Size: AngularStoryObj<SvgIconComponent> = {
+export const Size: StoryObj<SvgIconComponent> = {
   name: 'Size',
   parameters: {
     docs: {

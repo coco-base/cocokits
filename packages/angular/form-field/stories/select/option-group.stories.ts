@@ -1,10 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { SelectComponent } from '../../src/lib/select/select.component';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 
-export const OptionGroup: AngularStoryObj<SelectComponent> = {
+export const OptionGroup: StoryObj<SelectComponent> = {
   name: 'OptionGroup',
   parameters: {
     docs: {

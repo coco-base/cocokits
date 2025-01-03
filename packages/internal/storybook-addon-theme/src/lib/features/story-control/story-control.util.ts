@@ -1,4 +1,7 @@
 import { PreparedStory } from '@storybook/types';
+
+import { toTitleCase } from '@cocokits/common-utils';
+
 import {
   AddonParameters,
   AddonParametersControl,
@@ -7,7 +10,6 @@ import {
   AddonParametersControlTheme,
   AddonParametersControlType,
 } from '../../model/addon.model';
-import { toTitleCase } from '@cocokits/common-utils';
 import { ThemeChangeEvent } from '../../model/event.model';
 
 export function getStoryControls(story: PreparedStory, theme: ThemeChangeEvent) {

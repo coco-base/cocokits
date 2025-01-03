@@ -1,6 +1,7 @@
-import { create } from '@storybook/theming/create';
-import { ColorMode } from '../model/theme.model';
 import { ThemeVars } from '@storybook/theming';
+import { create } from '@storybook/theming/create';
+
+import { ColorMode } from '../model/theme.model';
 
 const COLOR_MODE_DARK = create({
   base: 'dark',

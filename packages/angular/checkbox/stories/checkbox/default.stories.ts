@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
-import { AddonParametersControlType, ngThemeArgsToTemplate, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
 
-export const Default: AngularStoryObj<CheckboxComponent> = {
+export const Default: StoryObj<CheckboxComponent> = {
   name: 'Default',
   parameters: {
     docs: {

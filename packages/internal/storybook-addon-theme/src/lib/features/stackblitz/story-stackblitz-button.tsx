@@ -19,7 +19,7 @@ interface StoryStackblitzButtonProps {
   story: PreparedStory;
 }
 
-export function StoryStackblitzButton({story}: StoryStackblitzButtonProps) {
+export function StoryStackblitzButton(_props: StoryStackblitzButtonProps) {
 
   return (<></>);
   // const parameters = story.parameters as AddonParameters;

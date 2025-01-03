@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import { getInstance, recordReduceMerge } from "@cocokits/common-utils";
-import { TokenDictionary, TokenId } from "@cocokits/core";
+import { TokenId } from "@cocokits/core";
 import { Tab, Tabs, TabSelectionChangeEvent } from "@cocokits/react-tabs";
 
 import { getTokenList } from "./token-dictionary.utils";

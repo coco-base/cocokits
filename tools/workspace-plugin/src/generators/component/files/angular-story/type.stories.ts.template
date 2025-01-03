@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
-export const Type: AngularStoryObj<<%- className %>Component> = {
+export const Type: StoryObj<<%- className %>Component> = {
   name: 'Type',
   parameters: {
     docs: {

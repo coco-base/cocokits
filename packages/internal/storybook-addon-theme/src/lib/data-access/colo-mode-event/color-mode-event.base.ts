@@ -1,11 +1,13 @@
-import { ColorModeChangeEvent } from '../../model/event.model';
-import { EVENTS } from '../../config/events.config';
+import { Channel } from '@storybook/channels';
 import { Observable, startWith } from 'rxjs';
+
+import { getInstance } from '@cocokits/common-utils';
+
+import { EVENTS } from '../../config/events.config';
+import { ColorModeChangeEvent } from '../../model/event.model';
 import { ColorMode } from '../../model/theme.model';
 import { fromStorybookEvent } from '../../utils/rxjs.util';
-import { Channel } from '@storybook/channels';
 import { LocalStorage } from '../local-storage';
-import { getInstance } from '@cocokits/common-utils';
 
 export abstract class ColorModeEventBase {
   protected channel: Channel;

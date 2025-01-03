@@ -13,6 +13,7 @@ export interface SelectStoreConfig<T> {
   onSelectionChange?: (selected: T[]) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEFAULT_STATE: SelectState<any> = {
   selectedItems: undefined,
   isEmpty: true,
@@ -73,7 +74,7 @@ class SelectStore<T> {
 
 const SelectStoreContent = createContext<SelectStore<unknown> | null>(null);
 
-export function createSelectStore<T>(config?: SelectStoreConfig<T>) {
+export function useCreateSelectStore<T>(config?: SelectStoreConfig<T>) {
   return useMemo(
     () => ({
       SelectStoreProvider: SelectStoreContent.Provider as Provider<SelectStore<T>>,

@@ -1,8 +1,5 @@
 // import { FormControl } from '@angular/forms';
 
-// import { AngularStoryObj } from '@cocokits/internal-model';
-// import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-
 // import { ToggleComponent } from '../../src';
 
 // export const ReactiveForm: AngularStoryObj<ToggleComponent> = {

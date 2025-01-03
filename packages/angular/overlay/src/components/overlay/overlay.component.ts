@@ -15,14 +15,14 @@ import {
 
 import { firstValueFrom } from 'rxjs';
 
+import { ThemeConfigToken } from '@cocokits/angular-core';
 import { onceEventListener, OnceSubject } from '@cocokits/common-utils';
+import { getClassNames } from '@cocokits/core';
 
 import { overlayAnimation } from './overlay.animation';
 import { getAnimationEnd, getAnimationStart, setConnectedToElemAnimationStyle } from './overlay.animation.utils';
 import { OverlayAnimationType } from '../../models/overlay-config.model';
 import { OverlayRef } from '../../services/overlay-ref';
-import { getClassNames } from '@cocokits/core';
-import { ThemeConfigToken } from '@cocokits/angular-core';
 
 type AnimationState = { value: any } & AnimationOptions;
 

@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
-export const Color: AngularStoryObj<ToggleComponent> = {
+export const Color: StoryObj<ToggleComponent> = {
   name: 'Color',
   parameters: {
     docs: {

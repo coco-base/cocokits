@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { PreparedStory } from '@storybook/types';
 
 import { reduceDeepMerge } from '@cocokits/common-utils';
-import { UIBaseComponentsName, UIBaseComponentsPropName, ThemeConfig } from '@cocokits/core';
+import { ThemeConfig, UIBaseComponentsName, UIBaseComponentsPropName } from '@cocokits/core';
 import { CckThemeChangedEvent, CckThemeId } from '@cocokits/storybook-theme-switcher';
 
 import {

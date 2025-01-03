@@ -1,13 +1,15 @@
 import { Channel } from '@storybook/channels';
-import { fromStorybookEvent } from '../../utils/rxjs.util';
-import { EVENTS } from '../../config/events.config';
-import { SelectedTheme } from '../../model/theme.model';
-import { map, Observable } from 'rxjs';
-import { StoryControlDialogProps } from '../../features/story-control/story-control-dialog';
 import events from '@storybook/core/core-events';
 import { PreparedStory } from '@storybook/types';
-import { StoreState } from '../../features/story-control/story-control.model';
+import { map, Observable } from 'rxjs';
+
 import { TokenId } from '@cocokits/core';
+
+import { EVENTS } from '../../config/events.config';
+import { StoreState } from '../../features/story-control/story-control.model';
+import { StoryControlDialogProps } from '../../features/story-control/story-control-dialog';
+import { SelectedTheme } from '../../model/theme.model';
+import { fromStorybookEvent } from '../../utils/rxjs.util';
 
 export type OpenStoryControlParams = StoryControlDialogProps;
 

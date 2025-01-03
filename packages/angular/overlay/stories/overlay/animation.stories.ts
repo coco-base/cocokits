@@ -1,8 +1,8 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { OverlayComponent } from '../../src/components/overlay/overlay.component';
 
-export const Animation: AngularStoryObj<OverlayComponent> = {
+export const Animation: StoryObj<OverlayComponent> = {
   name: 'Animation',
   parameters: {
     docs: {

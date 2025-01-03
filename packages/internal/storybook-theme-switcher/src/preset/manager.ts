@@ -10,7 +10,7 @@ import { ADDON_ID } from '../lib/config/shared.config';
 import { CckStorybookConfig } from '../lib/config/storybook-config.model';
 
 addons.register(ADDON_ID, (api) => {
-  const config: CckStorybookConfig = addons.getConfig()['cck'];
+  const config: CckStorybookConfig = addons.getConfig().cck;
 
   registerStorybookThemeSwitcher();
   registerCckThemeSwitcher();

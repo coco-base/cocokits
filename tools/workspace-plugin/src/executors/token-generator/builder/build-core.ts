@@ -5,9 +5,9 @@ import { recordForEach, recordReduceMerge, reduceMerge } from '@cocokits/common-
 import { TokenCollectionModeNames, TokenCollectionName, TokenDictionary } from '@cocokits/core';
 
 import { CORE_FOLDER_NAME } from './builder.config';
-import { getCoreFileName, getMixinBaseName, getDefaultFileHeader, getImportFileName } from './utils';
-import { TokenGeneratorExecutorSchema } from '../schema';
+import { getCoreFileName, getDefaultFileHeader, getImportFileName, getMixinBaseName } from './utils';
 import { Logger } from '../../../utils/logger';
+import { TokenGeneratorExecutorSchema } from '../schema';
 
 /**
  * Builds Core (CSS variables) from the compiler result and save them.

@@ -1,7 +1,6 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import {
@@ -21,7 +20,7 @@ export { OptionGroup } from './option-group.stories';
 // export { NgModel } from './ng-model.stories';
 // export { ReactiveForm } from './reactive-form.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: SelectComponent,
   subcomponents: [OptionGroupComponent, OptionComponent, SelectPreviewComponent],
   title: 'UI Components/Select',

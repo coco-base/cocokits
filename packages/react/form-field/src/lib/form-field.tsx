@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
-import { createFormStore } from './form-store';
+import { useCreateFormStore } from './form-store';
 
 export interface FormFieldProps extends UIBaseComponentProps {
   disabled?: boolean;
@@ -11,7 +11,7 @@ export interface FormFieldProps extends UIBaseComponentProps {
 
 export const FormField: React.FC<FormFieldProps> = (props) => {
 
-  const {formStore, FormStoreProvider} = createFormStore();
+  const {formStore, FormStoreProvider} = useCreateFormStore();
 
   // const disabled = fromStore.useStore(state => state.disabled);
   const focused = formStore.useState(state => state.focused);

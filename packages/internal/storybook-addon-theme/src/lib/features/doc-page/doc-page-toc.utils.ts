@@ -1,6 +1,8 @@
+import { debounceTime, filter, firstValueFrom, map, Subject, take, takeUntil } from 'rxjs';
+
 import { IntersectionObserverChanges, mutationObserver$, reduceMerge } from '@cocokits/common-utils';
+
 import { DocTocItem, IndicatorState, PreparedTocItem } from './doc-page-toc';
-import { debounceTime, filter, map, take, firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 // Duplicate code with `doc-page-toc.tsx/StyledItem`. Make sure both of them are in sync.
 const ITEM_HEIGHT = 40;

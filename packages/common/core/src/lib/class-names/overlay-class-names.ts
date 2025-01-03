@@ -1,5 +1,5 @@
 import { generateLayoutClassNameFromElement } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, LayoutClassNamesConfig } from '../model/theme-config.model';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 
 export const overlayLayoutClassNamesConfig = {
   componentName: 'overlay',
@@ -26,7 +26,7 @@ export const overlayLayoutClassNamesConfig = {
 } satisfies LayoutClassNamesConfig;
 
 export function getOverlayClassNames(
-  componentProps: UIBaseComponentProps,
+  _componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof overlayLayoutClassNamesConfig.elements, string> {
   // DCK Components don't have props, so we don't need to validate them

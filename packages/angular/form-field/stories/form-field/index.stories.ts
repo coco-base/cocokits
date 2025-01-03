@@ -2,8 +2,7 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import {
@@ -27,7 +26,7 @@ export { Textarea } from './textarea.stories';
 export { Select } from './select.stories';
 export { ChipList } from './chip-list.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: FormFieldComponent,
   subcomponents: [
     _UiBaseComponent,

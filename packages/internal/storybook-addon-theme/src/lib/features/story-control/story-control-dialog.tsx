@@ -9,10 +9,10 @@ import { StoreState, StoryControlChangeEvent } from './story-control.model';
 import { StyledControlWrapper } from './story-control.style';
 import { StoryControlBoolean } from './story-control-boolean';
 import { StoryControlIcon } from './story-control-icon';
+import { StoryControlNumber } from './story-control-number';
 import { StoryControlSelect } from './story-control-select';
 import { StoryControlText } from './story-control-text';
 import { AddonParametersControlType } from '../../model/addon.model';
-import { StoryControlNumber } from './story-control-number';
 
 export interface StoryControlDialogProps {
   story: PreparedStory;

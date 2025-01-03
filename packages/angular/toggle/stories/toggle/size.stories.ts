@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
 
-export const Size: AngularStoryObj<ToggleComponent> = {
+export const Size: StoryObj<ToggleComponent> = {
   name: 'Size',
   parameters: {
     docs: {

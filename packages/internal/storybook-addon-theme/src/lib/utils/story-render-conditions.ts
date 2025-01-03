@@ -1,7 +1,8 @@
+import { UIBaseComponentsPropName } from '@cocokits/core';
+
+import { StoryTab } from '../features/story-doc-page/story-doc-page';
 import { StoryRenderConditionProps } from '../model/addon.model';
 import { ThemeId } from '../model/theme.model';
-import { UIBaseComponentsPropName } from '@cocokits/core';
-import { StoryTab } from '../features/story-doc-page/story-doc-page';
 
 export function renderWithThemeId(themeId: ThemeId): (props: StoryRenderConditionProps) => boolean {
   return (props) => props.theme.id === themeId;

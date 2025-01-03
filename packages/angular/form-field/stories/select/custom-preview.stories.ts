@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { SelectComponent } from '../../src/lib/select/select.component';
 
-export const CustomPreview: AngularStoryObj<SelectComponent> = {
+export const CustomPreview: StoryObj<SelectComponent> = {
   name: 'CustomPreview',
   parameters: {
     docs: {

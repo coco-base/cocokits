@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { toCamelCase, toPascalCase, toKebabCase, toSnakeCase, toTitleCase } from './case';
+
+import { toCamelCase, toKebabCase, toPascalCase, toSnakeCase, toTitleCase } from './case';
 
 describe('toCamelCase', () => {
   it('should convert "hello world" to "helloWorld"', () => {

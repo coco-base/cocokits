@@ -1,12 +1,14 @@
 import { Channel } from '@storybook/channels';
-import { ThemeChangeEvent } from '../../model/event.model';
-import { EVENTS } from '../../config/events.config';
-import { SelectedTheme } from '../../model/theme.model';
-import { THEMES } from '../../config/addon-theme.config';
-import { fromStorybookEvent } from '../../utils/rxjs.util';
 import { Observable, startWith } from 'rxjs';
-import { LocalStorage } from '../local-storage';
+
 import { getInstance } from '@cocokits/common-utils';
+
+import { THEMES } from '../../config/addon-theme.config';
+import { EVENTS } from '../../config/events.config';
+import { ThemeChangeEvent } from '../../model/event.model';
+import { SelectedTheme } from '../../model/theme.model';
+import { fromStorybookEvent } from '../../utils/rxjs.util';
+import { LocalStorage } from '../local-storage';
 
 export abstract class ThemeEventBase {
   protected channel: Channel;

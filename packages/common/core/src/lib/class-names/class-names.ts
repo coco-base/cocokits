@@ -18,26 +18,26 @@ import { getMenuClassNames } from './menu-class-names';
 import { getMenuItemClassNames } from './menu-item-class-names';
 import { getOptionClassNames } from './option-class-names';
 import { getOptionGroupClassNames } from './option-group-class-names';
+import { getOverlayClassNames } from './overlay-class-names';
 import { getPrefixClassNames } from './prefix-class-names';
 import { getRadioButtonClassNames } from './radio-button-class-names';
 import { getRadioGroupClassNames } from './radio-group-class-names';
 import { getSelectClassNames } from './select-class-names';
 import { getSelectPreviewClassNames } from './select-preview-class-names';
 import { getSuffixClassNames } from './suffix-class-names';
+import { getTabClassNames } from './tab-class-names';
+import { getTabLabelClassNames } from './tab-label-class-names';
+import { getTabsClassNames } from './tabs-class-names';
 import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
 import {
+  LayoutClassNamesConfig,
+  ThemeConfig,
   UIBaseComponentProps,
   UIBaseComponentsName,
-  ThemeConfig,
-  LayoutClassNamesConfig,
 } from '../model/theme-config.model';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
-import { getOverlayClassNames } from './overlay-class-names';
-import { getTabsClassNames } from './tabs-class-names';
-import { getTabClassNames } from './tab-class-names';
-import { getTabLabelClassNames } from './tab-label-class-names';
 
 export const CLASS_NAMES_FN_MAP = {
   // formField
@@ -211,7 +211,7 @@ export function generateLayoutBaseClassName<T extends LayoutClassNamesConfig, U 
       ),
       modifier: safeMergeString(
         layoutConfig.baseSelectorStructure.modifier,
-        ...elementConfig.selectorStructure?.map((s) => s.modifier)
+        ...elementConfig.selectorStructure.map((s) => s.modifier)
       ),
     }),
   ];

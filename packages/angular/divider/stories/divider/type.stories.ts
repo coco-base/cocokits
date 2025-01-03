@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { DividerComponent } from '../../src/lib/divider/divider.component';
 
-export const Type: AngularStoryObj<DividerComponent> = {
+export const Type: StoryObj<DividerComponent> = {
   name: 'Type',
   parameters: {
     docs: {

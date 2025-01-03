@@ -1,15 +1,16 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/internal-model';
+import { AddonParametersControlType } from '@cocokits/storybook-addon-theme';
 import {
-  AddonParametersControlType,
   ngThemeArgsToTemplate,
+  StoriesMeta,
+  StoryObj,
   withThemeConfigProvider,
-} from '@cocokits/storybook-addon-theme';
+} from '@cocokits/storybook-addon-theme-angular';
 
 import { DividerComponent } from '../../src/lib/divider/divider.component';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: DividerComponent,
   title: 'Dev/Divider',
   decorators: [
@@ -34,9 +35,14 @@ const meta: AngularStoriesMeta = {
 
 export default meta;
 
-export const Dev: AngularStoryObj<DividerComponent> = {
+export const Dev: StoryObj<DividerComponent> = {
   name: 'Dev',
   parameters: {
+    docs: {
+      description: {
+        story: '',
+      },
+    },
     cckAddon: {
       hasControl: true,
       controls: [

@@ -1,8 +1,7 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import { ToggleComponent } from '../../src/lib/toggle/toggle.component';
@@ -15,7 +14,7 @@ export { Color } from './color.stories';
 // export { NgModel } from './ng-model.stories';
 // export { ReactiveForm } from './reactive-form.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: ToggleComponent,
   subcomponents: [_UiBaseComponent],
   title: 'UI Components/Toggle',

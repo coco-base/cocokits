@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ButtonComponent } from '../../src/lib/button/button.component';
 
-export const Size: AngularStoryObj<ButtonComponent> = {
+export const Size: StoryObj<ButtonComponent> = {
   name: 'Size',
   parameters: {
     docs: {

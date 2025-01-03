@@ -1,9 +1,9 @@
-import { AngularStoryObj } from '@cocokits/internal-model';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 import { ChipComponent } from '../../src/lib/chip/chip.component';
 
-export const Type: AngularStoryObj<ChipComponent> = {
+export const Type: StoryObj<ChipComponent> = {
   name: 'Type',
   parameters: {
     docs: {

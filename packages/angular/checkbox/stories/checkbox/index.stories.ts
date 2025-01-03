@@ -1,7 +1,6 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/internal-model';
-import { withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme';
+import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import { CheckboxComponent } from '../../src/lib/checkbox/checkbox.component';
@@ -13,7 +12,7 @@ export { Indeterminate } from './indeterminate.stories';
 // export { NgModel } from './ng-model.stories';
 // export { ReactiveForm } from './reactive-form.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: CheckboxComponent,
   title: 'UI Components/Checkbox',
   decorators: [

@@ -1,10 +1,12 @@
 import { JsonPipe } from '@angular/common';
 import { Component, ElementRef, inject, input, signal, viewChild, ViewEncapsulation } from '@angular/core';
 
-import { ExampleOverlayDefaultOverlayComponent } from './example-overlay-default-overlay.component';
-import { OverlayAnimationType, OverlayConfig, OverlayService } from '@cocokits/angular-cdk';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { OverlayAnimationType, OverlayService } from '@cocokits/angular-cdk';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { ButtonComponent, FormFieldComponent, InputComponent } from '@cocokits/angular-components';
-import { Overlay } from '../../../../../react/overlay/src/components/overlay';
+
+import { ExampleOverlayDefaultOverlayComponent } from './example-overlay-default-overlay.component';
 
 @Component({
   standalone: true,
