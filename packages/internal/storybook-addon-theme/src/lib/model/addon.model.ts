@@ -10,7 +10,7 @@ import { IconsName } from '../utils/icons';
 /**
  * Configuration interface for the CocoKits Storybook Addon Theme.
  */
-export interface StorybookAddonThemeConfig {
+export interface AddonThemeConfig {
   /**
    * Configuration for Mixpanel analytics.
    */
@@ -29,6 +29,8 @@ export interface StorybookAddonThemeConfig {
    * Use this option for documentation projects only. Enabling this flag will hide the toolbar in all stories, including development stories used for testing components.
    */
   hideToolbar?: boolean;
+
+  framework: 'angular' | 'react';
 }
 
 export type AddonParameters = AddonParametersMeta & AddonParametersStories;

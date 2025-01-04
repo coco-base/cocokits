@@ -24,6 +24,18 @@ export interface SelectionOptions<T> {
    * If omitted, the default comparison is by reference equality.
    */
   trackBy: TrackByFunction<T>;
+
+  /**
+   * Determines whether the component should emit the change event exclusively when the value changes.
+   *
+   * - **When `true`**: The change event is dispatched only if the component's value is altered. This prevents redundant events when the same value is reselected or unchanged.
+   * - **When `false`**: The change event may be emitted even if the value remains the same, allowing for scenarios where re-selection of the current value should trigger a change.
+   *
+   * This property is useful in scenarios where unnecessary change events could lead to performance issues or unintended side effects.
+   *
+   * @default true
+   */
+  onlyEmitOnValueChange?: boolean;
 }
 
 /**
@@ -90,6 +102,7 @@ export interface SelectionUpdateConfig {
 export class Selection<T = any> {
   private events = new CustomEventListener<SelectionChange<T>>();
   private isMultiple: boolean;
+  private onlyEmitOnValueChange: boolean;
   private readonly selectionSet: Set<T>;
 
   private differs: ArrayLikeDiff<T>;
@@ -105,6 +118,7 @@ export class Selection<T = any> {
    */
   constructor(selectedValues: T[] = [], options: Partial<SelectionOptions<T>> = {}) {
     this.isMultiple = options.multiple ?? false;
+    this.onlyEmitOnValueChange = options.onlyEmitOnValueChange ?? true;
     this.selectionSet = new Set<T>(selectedValues);
     this.differs = new ArrayLikeDiff(this.selectionSet, { trackBy: options.trackBy });
   }
@@ -115,7 +129,7 @@ export class Selection<T = any> {
     }
 
     const changes = this.differs.diff(this.selectionSet);
-    if (changes.hasChanged) {
+    if (changes.hasChanged || !this.onlyEmitOnValueChange) {
       this.events.emit({
         triggerSource,
         added: changes.added.map((a) => a.item),

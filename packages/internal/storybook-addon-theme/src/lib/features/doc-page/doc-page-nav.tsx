@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { ColorModeButton } from '../color-mode/color-mode-button';
+import { FrameworkSelectionButton } from '../framework-selection/framework-selection-button';
 import { ThemeSelectionButton } from '../theme-selection/theme-selection-button';
 
 
@@ -11,6 +12,8 @@ interface DocPageNavProps {
 export const DocPageNav = ({hideThemeSwitcher = false}: DocPageNavProps) => {
   return (
     <Nav>
+      <FrameworkSelectionButton/>
+      <StyledSpacer/>
       { !hideThemeSwitcher && <ThemeSelectionButton/> }
       <ColorModeButton/>
     </Nav>
@@ -32,5 +35,9 @@ const Nav = styled.nav`
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px); // Safari 
     border-bottom: 1px solid var(--cck-doc-color-border-2);
+`;
+
+const StyledSpacer = styled.div`
+  flex: 1;
 `;
 // endregion

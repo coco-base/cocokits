@@ -20,6 +20,10 @@ export const EVENTS = {
   // Token
   CHANGE_TOKEN_INFO: 'cocokits_change-token-info',
   CLOSE_TOKEN_INFO: 'cocokits_close-token-info',
+
+  // Config
+  PREVIEW_CONFIG_REGISTER: 'cocokits_preview-config-register',
+  MANAGER_CONFIG_CHANGE: 'cocokits_manager-config-change',
 };
 
 export const THEME_HTML_ATTRIBUTE_MODE_NAME = 'data-cck-theme';

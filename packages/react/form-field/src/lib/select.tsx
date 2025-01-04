@@ -47,29 +47,39 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
   /**
    * TODO: ...
    */
-  anchorPoint?: ElementAnchorPoint
+  anchorPoint?: ElementAnchorPoint;
+
+  // TODO: Add this prop to the angular component too.
+  /**
+   * If true, the `onChange` event will only be emitted when the selected value has been changed.
+   * Set it to `false` for scenarios where re-selection of the selected value should trigger a change event.
+   * @default true
+   */
+  onlyEmitOnValueChange?: boolean;
 
   /**
-   * 
+   *
    */
   children?: React.ReactNode;
 }
 
 export const Select = <T,>(props: SelectProps<T>) => {
-
-  const overlayId = useStaticText()
+  const overlayId = useStaticText();
   const themeConfig = useContext(ThemeConfigContext);
   const dropdownIcon = themeConfig?.components.select?.templates?.dropdownIcon;
 
-  if(!dropdownIcon) {
+  if (!dropdownIcon) {
     throw new Error('`dropdownIcon` has not defined in `ThemeConfigToken` of selected theme');
   }
 
   const formStore = useFormStore();
-  const {selectStore, SelectStoreProvider} = useCreateSelectStore({onSelectionChange: props.onChange});
+  const { selectStore, SelectStoreProvider } = useCreateSelectStore({
+    onSelectionChange: props.onChange,
+    onlyEmitOnValueChange: props.onlyEmitOnValueChange,
+  });
   const [isOpened, setIsOpened] = useState(false);
-  const isEmpty = selectStore.useState(state => state.isEmpty);
-  const selectedItems = selectStore.useState(state => state.selectedItems ?? []);
+  const isEmpty = selectStore.useState((state) => state.isEmpty);
+  const selectedItems = selectStore.useState((state) => state.selectedItems ?? []);
 
   const hostRef = useRef<HTMLDivElement>(null);
 
@@ -86,25 +96,21 @@ export const Select = <T,>(props: SelectProps<T>) => {
   });
 
   useEffect(() => {
-    if(isNotNullish(props.value)) {
-      selectStore.select(props.value, true)
+    if (isNotNullish(props.value)) {
+      selectStore.select(props.value, true);
     }
-  }, [props.value])
-
+  }, [props.value]);
 
   useEffect(() => {
     formStore?.registerComponent('select');
     return () => {
-      formStore?.unregisterComponent('select')
+      formStore?.unregisterComponent('select');
     };
-  }, [formStore])
-
-
+  }, [formStore]);
 
   const onHostClick = async () => {
-
     // Don't do anything if there is an open overlay
-    if(isOpened) {
+    if (isOpened) {
       return;
     }
 
@@ -113,7 +119,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
 
     const connectTo = formStore?.components.formField?.wrapperElem?.current ?? hostRef.current;
 
-    if(!connectTo) {
+    if (!connectTo) {
       throw new Error('No wrapper element found for select component');
     }
 
@@ -127,7 +133,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
         type: 'connectToElement',
         connectTo,
         anchorPoint: props.anchorPoint ?? ElementAnchorPoint.BottomLeft,
-      }
+      },
     });
 
     await overlay.afterClosed;
@@ -141,11 +147,11 @@ export const Select = <T,>(props: SelectProps<T>) => {
         <div className={classNames.triggerWrapper}>
           {/* Trigger Content */}
           <div className={classNames.triggerValue}>
-            {
-              isEmpty
-              ? <div className={classNames.placeholder}>{props.placeholder}</div>
-              : props.selectPreview?.(selectedItems) ?? selectedItems?.join(', ')
-            }
+            {isEmpty ? (
+              <div className={classNames.placeholder}>{props.placeholder}</div>
+            ) : (
+              (props.selectPreview?.(selectedItems) ?? selectedItems?.join(', '))
+            )}
           </div>
         </div>
 
@@ -156,13 +162,9 @@ export const Select = <T,>(props: SelectProps<T>) => {
         {/* Overlay Wrapper */}
       </div>
 
-
       <OverlayPortal portalId={overlayId}>
-        <div className={classNames.optionsWrapper}>
-          {props.children}
-        </div>
+        <div className={classNames.optionsWrapper}>{props.children}</div>
       </OverlayPortal>
-
     </SelectStoreProvider>
   );
 };

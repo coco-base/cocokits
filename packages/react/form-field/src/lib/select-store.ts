@@ -11,6 +11,7 @@ interface SelectState<T> {
 
 export interface SelectStoreConfig<T> {
   onSelectionChange?: (selected: T[]) => void;
+  onlyEmitOnValueChange?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,11 +23,12 @@ const DEFAULT_STATE: SelectState<any> = {
 };
 
 class SelectStore<T> {
-  private selection = new Selection<T>();
+  private selection: Selection<T>;
   private state = createComponentStore<SelectState<T>>(DEFAULT_STATE);
   private onSelectionChange?: (selected: T[]) => void;
 
-  constructor({ onSelectionChange }: SelectStoreConfig<T> = {}) {
+  constructor({ onSelectionChange, onlyEmitOnValueChange }: SelectStoreConfig<T> = {}) {
+    this.selection = new Selection<T>([], { onlyEmitOnValueChange });
     this.onSelectionChange = onSelectionChange;
     this.selection.addChangeEventListener(() => {
       this.syncSelectionWithStore();

@@ -4,6 +4,7 @@ import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 export interface SelectPreviewProps extends UIBaseComponentProps {
   children?: React.ReactNode | React.ReactNode[];
+  className?: string;
 }
 
 export const SelectPreview: React.FC<SelectPreviewProps> = (props) => {
@@ -14,7 +15,7 @@ export const SelectPreview: React.FC<SelectPreviewProps> = (props) => {
   });
 
   return (
-    <div className={hostClassNames}>
+    <div className={`${hostClassNames} ${props.className ?? ''}`}>
       {props.children}
     </div>
   );

@@ -1,5 +1,5 @@
 import { addons } from '@storybook/manager-api';
-import { StorybookAddonThemeConfig } from '@cocokits/storybook-addon-theme';
+import { AddonThemeConfig } from '@cocokits/storybook-addon-theme';
 
 (window as any).STORYBOOK_GA_ID = '';
 (window as any).STORYBOOK_REACT_GA_OPTIONS = {};
@@ -15,5 +15,6 @@ addons.setConfig({
       prodToken: '9ca9d99b4d98f361e27b1a40dca9e2af',
     },
     hideToolbar: true,
-  } satisfies StorybookAddonThemeConfig,
+    framework: 'react',
+  } satisfies AddonThemeConfig,
 });
