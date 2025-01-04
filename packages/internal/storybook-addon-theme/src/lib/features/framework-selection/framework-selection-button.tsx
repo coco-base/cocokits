@@ -50,7 +50,7 @@ export function FrameworkSelectionButton() {
     }
 
     const currentUrl = window.parent.location.href;
-    const newUrl = currentUrl.replace(framework.toLocaleLowerCase(), selectedFramework.toLocaleLowerCase);
+    const newUrl = currentUrl.replace(framework.toLocaleLowerCase(), selectedFramework.toLocaleLowerCase());
     window.open(newUrl, '_blank');
   };
 

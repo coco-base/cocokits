@@ -22,13 +22,10 @@
         ]
       }
     },
-    "storybook-build": {
-      "executor": "@storybook/angular:build-storybook",
+    "build-storybook": {
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputDir": "dist/angular-kits-doc",
-        "configDir": "apps/angular-kits-doc/.storybook",
-        "browserTarget": "@cocokits/angular-kits-doc:build-storybook",
         "styles": [],
         "compodoc": true,
         "compodocArgs": [
