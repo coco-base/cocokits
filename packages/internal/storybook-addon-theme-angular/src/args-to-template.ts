@@ -5,6 +5,9 @@ import { StoreState } from '@cocokits/storybook-addon-theme';
 
 export function ngAdditionalArgsToTemplate(storyArgs: Args): string {
   const args = storyArgs['cckControl'] as StoreState['args'];
+  if (!args) {
+    return '';
+  }
   const additional = args.themeComponentConfig.additional;
 
   if (!additional) {
@@ -22,6 +25,9 @@ export function ngAdditionalArgsToTemplate(storyArgs: Args): string {
 
 export function ngBasePropArgsToTemplate(storyArgs: Args): string {
   const args = storyArgs['cckControl'] as StoreState['args'] & { type?: string; color?: string; size?: string };
+  if (!args) {
+    return '';
+  }
 
   let template = '';
 

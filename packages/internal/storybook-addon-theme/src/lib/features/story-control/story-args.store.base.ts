@@ -3,6 +3,8 @@ import events from '@storybook/core/core-events';
 import { Args, StoryId } from '@storybook/types';
 import { distinctUntilChanged, filter, map, Observable, startWith } from 'rxjs';
 
+import { deepComparator } from '@cocokits/common-utils';
+
 import { StoreState } from './story-control.model';
 import { GlobalEventBase } from '../../data-access/global-event/global-event.base';
 
@@ -38,19 +40,14 @@ export abstract class StoryControlStoreBase {
   }
   public getArgs(storyId: StoryId): Args {
     const storeState = this.store.get(storyId);
-
-    if (!storeState) {
-      throw new Error(`Story state is missing for story ID: ${storyId}`);
-    }
-
-    return storeState.args;
+    return storeState?.args ?? {};
   }
 
   public getArgs$(storyId: StoryId): Observable<Args> {
     return this.globalEvent.changeStoryControl$.pipe(
       map(() => this.getArgs(storyId)),
-      distinctUntilChanged(),
-      startWith(this.getArgs(storyId))
+      startWith(this.getArgs(storyId)),
+      distinctUntilChanged(deepComparator)
     );
   }
 

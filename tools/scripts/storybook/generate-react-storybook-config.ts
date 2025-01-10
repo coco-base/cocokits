@@ -32,6 +32,14 @@ export function generateReactStorybookConfig(libConfig: Partial<StorybookConfig>
           PUBLIC_URL: env?.['PUBLIC_URL'] ?? '',
         };
       },
+      viteFinal: async (config) => {
+        return {
+          ...config,
+          worker: {
+            format: 'es',
+          },
+        };
+      },
     },
     libConfig
   );

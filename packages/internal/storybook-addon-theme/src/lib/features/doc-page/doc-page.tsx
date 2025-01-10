@@ -63,7 +63,8 @@ const StyledMain = styled.main`
   grid-column: 1;
   margin: 2px;
   padding-bottom: 256px;
-  overflow: hidden;
+  // TODO: With overflow hidden, the example can not be shown as full screen. Without it the tables in utils page will ake he whole with and we have horizontal scroll
+  /* overflow: hidden; */
 `;
 
 const StyledDocPageToc = styled(DocPageToc)`

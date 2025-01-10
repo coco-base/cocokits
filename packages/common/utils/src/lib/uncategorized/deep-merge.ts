@@ -2,6 +2,8 @@
 
 import _ from 'lodash';
 
+import { deepClone } from './deep-clone';
+
 /**
  * Deeply merges two objects, `target` and `source`, with optional customization for merging arrays.
  * If no customizer function is provided, the `deepMergeDefaultCustomize` function is used, which combines arrays without duplication.
@@ -26,7 +28,7 @@ import _ from 'lodash';
  * ```
  */
 export function deepMerge<T, U>(target: T, source: U, customizer = deepMergeDefaultCustomize): T & U {
-  return _.mergeWith({ ...target }, { ...source }, customizer);
+  return _.mergeWith(deepClone(target), deepClone(source), customizer);
 }
 
 /**

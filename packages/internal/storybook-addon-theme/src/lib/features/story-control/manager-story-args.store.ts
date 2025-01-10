@@ -26,6 +26,10 @@ export class StoryControlStore extends StoryControlStoreBase {
   }
 
   private onNewStory(story: PreparedStory) {
+    if (this.store.has(story.id)) {
+      return;
+    }
+
     const theme = this.themeEvent.getCurrentTheme();
     const state = this.getInitializeState(story, theme);
 

@@ -36,9 +36,9 @@ export interface AddonThemeConfig {
 export type AddonParameters = AddonParametersMeta & AddonParametersStories;
 
 export interface AddonParametersStories {
-  docs: {
-    description: {
-      story: string;
+  docs?: {
+    description?: {
+      story?: string;
     };
   };
   cckAddon: CckAddonStories;
@@ -120,7 +120,8 @@ export type AddonSourceCodeLanguages =
   | 'json'
   | 'scss'
   | 'shellscript'
-  | 'typescript';
+  | 'typescript'
+  | 'tsx';
 
 export interface AddonParametersSource {
   language: AddonSourceCodeLanguages;

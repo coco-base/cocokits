@@ -50,9 +50,6 @@ export function StoryDocPage() {
     };
   }, []);
 
-  console.log('apiProps', apiProps);
-  
-
   const onTabChange = (event: TabSelectionChangeEvent) => {
     setSelectedTab(event.value as StoryTab);
   };

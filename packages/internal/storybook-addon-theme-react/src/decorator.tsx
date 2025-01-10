@@ -17,6 +17,10 @@ export function withThemeConfigDecorator() {
 } 
 
 export function reactThemeArgsToTemplate(storyArgs: {cckControl: Args}): Args {
+  if(!storyArgs.cckControl) {
+    return {};
+  }
+
   return {
     type: storyArgs.cckControl.type,
     size: storyArgs.cckControl.size,

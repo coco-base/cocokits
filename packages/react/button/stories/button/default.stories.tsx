@@ -1,9 +1,8 @@
 import { StoryObj } from "@cocokits/storybook-addon-theme-react";
 import Button from "../../src/lib/button";
 import { reactThemeArgsToTemplate } from "@cocokits/storybook-addon-theme-react";
-import { AddonParametersControlType } from "@cocokits/storybook-addon-theme";
+import { AddonParametersControlType, renderWithPageTab } from "@cocokits/storybook-addon-theme";
 import { SvgIcon } from "@cocokits/react-icon";
-
 
 export const Default: StoryObj<typeof Button> = {
   name: "Default",
@@ -15,7 +14,37 @@ export const Default: StoryObj<typeof Button> = {
       },
     },
     cckAddon: {
-      source: [],
+      source: [
+        {
+          filename: 'exampleComponent.tsx',
+          language: 'tsx',
+          code: `
+
+          import { Button, SvgIcon} from '@cocokits/react-components';
+import { Example1 } from './examples/examples.stories';
+
+          export const MyComponent = () => {
+            return (
+              <Button
+                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+                <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+                <% if (disabled) { %> disabled={true} <% } %>
+              >
+                <% if (leftIcon !== 'none') { %>
+                  <SvgIcon icon="YOUR_ICON"/>
+                <% } %>
+                <%= text %>
+                <% if (rightIcon !== 'none') { %>
+                  <SvgIcon icon="YOUR_ICON"/>
+                <% } %>
+              </Button>
+            )
+          }
+          `,
+        },
+      ],
+      renderConditions: [renderWithPageTab('Overview')],
       hasControl: true,
       controls: [
         { displayName: 'Text', default: 'Button', storyArgKey: 'text', type: AddonParametersControlType.Text },

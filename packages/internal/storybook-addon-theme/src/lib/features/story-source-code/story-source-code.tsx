@@ -1,5 +1,5 @@
 import { PreparedStory } from '@storybook/types';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { ElementAnchorPoint } from '@cocokits/common-utils';
@@ -7,18 +7,22 @@ import { Delay } from '@cocokits/react-cdk';
 import { FormField, Option, Select, SelectPreview } from '@cocokits/react-form-field';
 
 import { useSourceCodeGenerator } from './use-source-code-generator';
+import { StyledLoader } from '../../utils/common-elements';
 
 interface StorySourceCodeProps {
   story: PreparedStory;
+  pause?: boolean;
+  className?: string;
 }
 
-export function StorySourceCode({ story }: StorySourceCodeProps) {
-  const [selectedSourceIndex, setSelectedSourceIndex] = useState<number>(0);
-  const {loading, sourceCodes} = useSourceCodeGenerator(story);
+export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(({ story, pause, className }, ref) => {
 
-  if (loading && sourceCodes.length === 0) {
+  const [selectedSourceIndex, setSelectedSourceIndex] = useState<number>(0);
+  const { loading, sourceCodes } = useSourceCodeGenerator(story, pause);
+
+  if (loading) {
     return (
-      <StyledHost $placeholder={true}>
+      <StyledHost className={className} $placeholder={true} ref={ref}>
         <StyledLoader />
         <p>Generating source code</p>
       </StyledHost>
@@ -27,14 +31,13 @@ export function StorySourceCode({ story }: StorySourceCodeProps) {
 
   if (sourceCodes.length === 0) {
     return (
-      <StyledHost $placeholder={true}>
+      <StyledHost className={className} $placeholder={true} ref={ref}>
         <p>No source code available for this component!</p>
       </StyledHost>
     );
   }
 
   const selectedSource = sourceCodes[selectedSourceIndex];
-
 
   const CustomPreview = () => (
     <SelectPreview>
@@ -47,14 +50,17 @@ export function StorySourceCode({ story }: StorySourceCodeProps) {
   };
 
   return (
-    <StyledHost>
-
+    <StyledHost className={className} ref={ref}>
       <StyledHeader>
         <StyledFilename>
           {selectedSource.fileName}
-          { loading && <Delay time={100}><StyledLoader /></Delay> }
+          {loading && (
+            <Delay time={100}>
+              <StyledLoader />
+            </Delay>
+          )}
         </StyledFilename>
-        
+
         {sourceCodes.length > 1 && (
           <FormField>
             <Select
@@ -75,9 +81,11 @@ export function StorySourceCode({ story }: StorySourceCodeProps) {
       <StyledCode dangerouslySetInnerHTML={{ __html: selectedSource?.html }} />
     </StyledHost>
   );
-}
+});
 
 const StyledHost = styled.div<{ $placeholder?: boolean }>`
+  display: flex;
+  flex-direction: column;
   min-height: 100px;
   margin: 8px;
   background-color: var(--cck-doc-color-bg-3);
@@ -122,6 +130,9 @@ const StyledCode = styled.div`
   position: relative;
   padding: 20px 20px;
   overflow: auto;
+  flex: 1;
+  margin-right: 4px;
+  scrollbar-color: var(--cck-doc-color-bg-5) var(--cck-doc-color-bg-3);
 
   & pre {
     margin: 0;
@@ -132,34 +143,5 @@ const StyledCode = styled.div`
     background-color: transparent;
     border: none;
     padding: 0;
-  }
-`;
-
-const StyledLoader = styled.div`
-  width: 20px;
-  height: 20px;
-  position: relative;
-  border-radius: 50%;
-  display: inline-block;
-  background: linear-gradient(0deg, var(--cck-doc-color-bg-3) 33%, var(--cck-doc-color-brand-default) 100%);
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-
-  &::after {
-    content: '';  
-    box-sizing: border-box;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--cck-doc-color-bg-3);
-  }
-
-  @keyframes rotation {
-    0% { transform: rotate(0deg) }
-    100% { transform: rotate(360deg) }
   }
 `;

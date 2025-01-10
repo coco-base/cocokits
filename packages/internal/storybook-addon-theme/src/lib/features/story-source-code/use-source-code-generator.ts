@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 
 import { getInstance } from '@cocokits/common-utils';
 
-import { GeneratedSourceCode, generateSourceCode } from './source-code-generator';
+import { generateSourceCode } from './source-code-generator';
+import { GeneratedSourceCode } from './use-source-code-generator.model';
 import { useColorMode } from '../../utils/use-preview-color-mode';
 import { useTheme } from '../../utils/use-preview-theme';
 import { StoryControlStore } from '../story-control/preview-story-args.store';
@@ -18,28 +19,46 @@ const INITIALIZE_SOURCE_CODE: SourceCodeGenerator = {
   sourceCodes: [],
 };
 
-export function useSourceCodeGenerator(story: PreparedStory) {
+export function useSourceCodeGenerator(story: PreparedStory, pause = false): SourceCodeGenerator {
   const storyControlStore = getInstance(StoryControlStore);
   const [sourceCode, setSourceCode] = useState<SourceCodeGenerator>(INITIALIZE_SOURCE_CODE);
   const [args, setArgs] = useState<Args>(storyControlStore.getArgs(story.id));
   const { colorMode } = useColorMode();
-  const theme = useTheme();
+  const { dispatchTheme, ...theme } = useTheme();
 
   useEffect(() => {
+    if (pause) {
+      return;
+    }
+
     const subscription = storyControlStore.getArgs$(story.id).subscribe((_args) => {
       setArgs(_args);
     });
 
     return () => subscription.unsubscribe();
-  }, [story]);
+  }, [story.id, pause]);
 
   useEffect(() => {
+    if (pause) {
+      setSourceCode({ ...sourceCode, loading: true });
+      return;
+    }
+
     setSourceCode({ ...sourceCode, loading: true });
 
-    generateSourceCode({ story, colorMode, args, theme }).then((sourceCodes) => {
-      setSourceCode({ loading: false, sourceCodes });
-    });
-  }, [story, colorMode, args, theme.id]);
+    const { promise, terminate } = generateSourceCode({ story, colorMode, args, theme });
+
+    promise
+      .then((sourceCodes) => {
+        console.log('sourceCodes', sourceCodes);
+        setSourceCode({ loading: false, sourceCodes });
+      })
+      .catch((error) => {
+        console.error('Error generating source code', error);
+      });
+
+    return () => terminate();
+  }, [story.id, args, colorMode, theme.id, pause]);
 
   return sourceCode;
 }

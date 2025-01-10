@@ -1,4 +1,5 @@
 export * from './lib/differs/array-like-differs';
+export * from './lib/differs/simple-comparator';
 
 export * from './lib/dom/anchor-position';
 
