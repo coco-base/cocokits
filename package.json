@@ -6,6 +6,7 @@
   "scripts": {
     "clean-pnpm": "tsx tools/scripts/clean-pnpm.ts",
     "reset": "pnpm run clean-pnpm && pnpm i",
+    "release": "cd ../cocokits-docs/cocokits-doc-release && npm run start",
     "prepare": "husky"
   },
   "private": true,
