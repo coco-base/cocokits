@@ -1,10 +1,9 @@
+import { PREVIEW_BASE } from '@cocokits/storybook-addon-theme-react';
 import { Preview } from '@storybook/react';
 
-import '../../../tools/scripts/storybook/themes.scss';
-import '../../../tools/scripts/storybook/storybook-global.scss';
-
 export const preview: Preview = {
-  decorators: [],
+  ...PREVIEW_BASE,
+  tags: ['autodocs'],
   parameters: {
     options: {
       storySort: {

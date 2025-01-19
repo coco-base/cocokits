@@ -10,8 +10,9 @@
             "allow": [
               "@cocokits/core",
               "@cocokits/workspace-plugin",
-              "@cocokits/storybook-theme-switcher",
-              "*/tools/scripts/storybook/themes.scss",
+              "@cocokits/storybook-addon-theme",
+              "@cocokits/storybook-addon-theme-angular",
+              "@cocokits/storybook-addon-theme-react",
               ".*/dist/compodoc/.*",
               ".*/tools/scripts/storybook/.*"
             ],

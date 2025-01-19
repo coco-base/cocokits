@@ -22,51 +22,8 @@
       },
       "defaultConfiguration": "production"
     },
-    "build-typedoc": {
-      "executor": "@cocokits/workspace-plugin:build-typedoc",
-      "options": {
-        "typeDocConfig": "packages/angular/utils/typedoc.config.mjs"
-      }
-    },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
-    },
-    "storybook": {
-      "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/packages/angular/utils",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
-    },
-    "storybook-build": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputDir": "dist/storybook/packages/angular/utils",
-        "configDir": "packages/angular/utils/.storybook",
-        "browserTarget": "@cocokits/angular-utils:build-storybook",
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/packages/angular/utils",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
     }
   }
 }

@@ -1,38 +1,64 @@
-import { moduleMetadata } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta, AngularStoryObj } from '@cocokits/core';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
-import { ThemeConfigToken } from '@cocokits/angular-core';
+import { ngThemeArgsToTemplate, StoriesMeta, StoryObj, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
+import {
+  AddonParametersControlType,
+} from '@cocokits/storybook-addon-theme';
 
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
 
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: <%- className %>Component,
   title: 'Dev/<%- className %>',
   tags: ['!autodocs'],
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useValue: getSelectedCckTheme()?.themeConfig
-        }
-      ],
-    })
+      imports: []
+    }),
   ],
-  argTypes: {
-    type: { control: 'text' },
-    color: { control: 'text' },
-    size: { control: 'text' },
+  parameters: {
+    docs: {
+      description: {
+        component: '',
+      },
+    },
+    cckAddon: {
+      componentName: '<%- propertyName %>',
+    },
   },
 };
 
 export default meta;
 
 
-export const Default: AngularStoryObj<<%- className %>Component> = {
-  args: {
-    // color: 'brand',
+export const Dev: StoryObj<DividerComponent> = {
+  name: 'Dev',
+  parameters: {
+    cckAddon: {
+      hasControl: true,
+      controls: [
+        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
+        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+      ],
+    },
+  },
+  render: (args) => {
+    return {
+      props: {
+        ...args,
+        logMessage: (...message: string[]) => {
+          console.log(...message);
+        },
+      },
+      template: `
+       <cck-<%- fileName %> ${ngThemeArgsToTemplate(args)}></cck-<%- fileName %>>
+      `,
+    };
   },
 };

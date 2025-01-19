@@ -1,38 +1,34 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const trailingLayoutClassNamesConfig = {
-  prefix: 'cck-trailing',
+  componentName: 'trailing',
+  baseSelectorStructure: {
+    block: 'trailing',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-trailing'],
+      selectorStructure: [],
       description: 'It will add to the host element of Trailing component.',
     },
     clickable: {
       name: 'Clickable Host Element',
-      selectors: ['cck-trailing--clickable'],
+      selectorStructure: [{ modifier: 'clickable' }],
       description: 'It will add to the host element of Trailing component, when the element is clickable',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getTrailingClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof trailingLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'trailing',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(trailingLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...trailingLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(trailingLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    clickable: [...trailingLayoutClassNamesConfig.elements.clickable.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(trailingLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    clickable: generateLayoutClassNameFromElement(trailingLayoutClassNamesConfig, 'clickable', themeConfig),
   };
 }

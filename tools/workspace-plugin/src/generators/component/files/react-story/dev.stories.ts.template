@@ -1,6 +1,7 @@
+import { StoriesMeta, StoryObj } from '@cocokits/storybook-addon-theme-react';
+
 import { Button } from '../../<%- relativeComponentDirectory %>/<%- fileName %>';
-import { ReactStoriesMeta, ReactStoryObj } from '@cocokits/internal-model';
-import { withThemeConfig } from '@cocokits/storybook-theme-switcher';
+
 import descriptionMd from './description.md';
 
 export { Default } from './default.stories';
@@ -8,16 +9,16 @@ export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
 
-const meta: ReactStoriesMeta<typeof <%- className %>> = {
+const meta: StoriesMeta<typeof <%- className %>> = {
   component: <%- className %>,
   title: 'UDev/<%- className %>',
   tags: ['!autodocs'],
-  decorators: [withThemeConfig],
+  decorators: [],
   argTypes: {},
 };
 export default meta;
 
-export const Default: ReactStoryObj<typeof <%- className %>> = {
+export const Default: StoryObj<typeof <%- className %>> = {
   args: {
     // color: 'brand',
   },

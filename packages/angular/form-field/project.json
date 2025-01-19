@@ -24,43 +24,6 @@
     },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
-    },
-    "storybook": {
-      "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/packages/angular/form-field",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
-    },
-    "storybook-build": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputDir": "dist/storybook/packages/angular/form-field",
-        "configDir": "packages/angular/form-field/.storybook",
-        "browserTarget": "@cocokits/angular-form-field:build-storybook",
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/packages/angular/form-field",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
     }
   }
 }

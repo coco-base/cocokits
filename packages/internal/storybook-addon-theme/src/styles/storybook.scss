@@ -1,0 +1,145 @@
+// Hide toolbar
+.cck-theme-storybook-addon--remove-toolbar main .sb-bar {
+  display: none;
+}
+
+#root {
+  // Sidebar border
+  > div:first-child > div:nth-child(2) {
+    border: 1px solid var(--cck-doc-color-border-2);
+  }
+
+  // Disable sidenav draggable
+  > div:first-child > div:nth-child(2) > div:first-child {
+    display: none;
+  }
+}
+
+.sidebar-container {
+  // Change padding of sidenav container
+  > div:first-child > div:first-of-type > div:first-child > div:first-child {
+    padding: 12px 24px;
+  }
+}
+
+.sidebar-header {
+  // Change the logo size
+  > div:first-of-type > a:first-child > img {
+    max-width: 180px !important;
+    width: 180px;
+  }
+
+  // Remove white space of logo wrapper
+  > div:first-of-type {
+    margin-right: 0;
+  }
+
+  // Remove the setting icon at right of logo
+  > div:nth-child(3) {
+    display: none;
+  }
+}
+
+// Sidenav Search
+.search-field {
+  height: 36px !important;
+  background-color: var(--cck-doc-color-bg-2);
+  border: 1px solid var(--cck-doc-color-border-1);
+  gap: 8px;
+  padding: 4px !important;
+
+  // Plus button at right of create a new story (is will visible in react app)
+  + div {
+    display: none;
+  }
+
+  // Search icon
+  > div:first-child {
+    color: var(--cck-doc-color-font-2);
+    flex: none;
+    margin-left: 4px;
+  }
+
+  // Search Input field
+  > input:nth-child(2)::placeholder {
+    color: var(--cck-doc-color-font-4);
+  }
+
+  // Search keyboard shortcut
+  > code:nth-child(3) {
+    display: none;
+  }
+}
+
+// Sidenav root header item
+.sidebar-subheading {
+  margin-top: 0 !important;
+
+  // Apply styles if the next sibling has a class .sidebar-subheading
+  .sidebar-item + & {
+    margin-top: 24px !important;
+  }
+
+  > button:nth-of-type(1) {
+    width: 100%;
+    height: auto;
+    padding: 0;
+
+    &:hover {
+      background-color: unset;
+    }
+  }
+
+  // Sidenav root header item collapse (Icon at left side)
+  > button:nth-of-type(1) > div:first-child {
+    display: none;
+  }
+
+  // Sidenav root header  item collapse all (Icon at right side)
+  > button:nth-of-type(2) {
+    display: none !important;
+  }
+}
+
+// Sidenav item
+.sidebar-item {
+  &:hover {
+    background-color: unset !important;
+  }
+
+  &[data-selected='true'] {
+    background-color: unset !important;
+  }
+
+  > button:nth-of-type(1) {
+    padding: 0;
+  }
+
+  // Item logo and collapse icon of sidenav item
+  > button:nth-of-type(1) > div:nth-of-type(1) {
+    display: none;
+  }
+
+  // Item logo and collapse icon of sidenav item
+  > a:nth-of-type(1) {
+    padding: 0;
+
+    > div:nth-of-type(1) {
+      display: none;
+    }
+  }
+
+  // Disable skip to canvas button (will be visible when the item is selected and with tab key we focus on the item)
+  > a:nth-of-type(2) {
+    display: none;
+  }
+}
+
+.sbdocs.sbdocs-wrapper {
+  background: transparent;
+  padding: 0;
+}
+
+.sbdocs.sbdocs-content {
+  max-width: unset;
+}

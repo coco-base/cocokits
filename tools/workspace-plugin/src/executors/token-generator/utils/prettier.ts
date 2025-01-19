@@ -3,12 +3,11 @@ import { execSync } from 'child_process';
 import { Logger } from '../../../utils/logger';
 
 /**
- * Runs Prettier to format the content of the given directory.
- * It helps to keep the formatting consistent and avoids the need to manually calculate the indent of each line during file generation.
+ * Runs Prettier on a folder path, file path, or a list of paths.
  *
- * @param dirname - The directory path where all files to be formatted are located.
+ * @param pattern - A folder path, file path, or an array pattern.
  */
-export function runPrettier(dirname: string) {
-  Logger.log('\nRunning prettier to format the generated files\n');
-  execSync(`npx prettier --write ${dirname}/**/*`);
+export function runPrettier(...pattern: string[]) {
+  Logger.log('\nRunning prettier to format the generated files\n\n');
+  execSync(`npx prettier --write ${pattern.join(' ')}`);
 }

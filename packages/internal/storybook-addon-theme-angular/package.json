@@ -1,0 +1,17 @@
+{
+  "name": "@cocokits/storybook-addon-theme-angular",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
+    "@storybook/angular": "8.4.4",
+    "@angular/platform-browser": "18.2.0",
+    "@angular/forms": "18.2.0",
+    "@angular/core": "18.2.0",
+    "@angular/common": "18.2.0",
+    "@storybook/types": "8.4.4"
+  },
+  "type": "module",
+  "devDependencies": {}
+}

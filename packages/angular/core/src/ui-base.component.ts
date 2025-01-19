@@ -1,7 +1,8 @@
 import { computed, Directive, inject, input, InputSignal, Signal } from '@angular/core';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { fromAttrWithPrefix } from '@cocokits/angular-utils';
-import { getClassNames, UIBaseComponentsPropValue, UIBaseComponentsName } from '@cocokits/core';
+import { getClassNames, UIBaseComponentsName, UIBaseComponentsPropValue } from '@cocokits/core';
 
 import { ThemeConfigToken } from './tokens';
 

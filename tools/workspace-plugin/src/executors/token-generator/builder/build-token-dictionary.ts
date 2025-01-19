@@ -5,8 +5,8 @@ import { TokenDictionary } from '@cocokits/core';
 
 import { TOKEN_DICTIONARY_FOLDER_NAME } from './builder.config';
 import { getTokenDictionaryFileHeader } from './utils';
-import { TokenGeneratorExecutorSchema } from '../schema';
 import { Logger } from '../../../utils/logger';
+import { TokenGeneratorExecutorSchema } from '../schema';
 
 export function buildTokenDictionary(tokenDictionary: TokenDictionary, options: TokenGeneratorExecutorSchema) {
   const dictionaryDir = join(options.outputDir, TOKEN_DICTIONARY_FOLDER_NAME);

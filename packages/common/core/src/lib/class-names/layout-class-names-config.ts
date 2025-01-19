@@ -15,12 +15,16 @@ import { menuLayoutClassNamesConfig } from './menu-class-names';
 import { menuItemLayoutClassNamesConfig } from './menu-item-class-names';
 import { optionLayoutClassNamesConfig } from './option-class-names';
 import { optionGroupLayoutClassNamesConfig } from './option-group-class-names';
+import { overlayLayoutClassNamesConfig } from './overlay-class-names';
 import { prefixLayoutClassNamesConfig } from './prefix-class-names';
 import { radioButtonLayoutClassNamesConfig } from './radio-button-class-names';
 import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
 import { selectLayoutClassNamesConfig } from './select-class-names';
 import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
+import { tabLayoutClassNamesConfig } from './tab-class-names';
+import { tabLabelLayoutClassNamesConfig } from './tab-label-class-names';
+import { tabsLayoutClassNamesConfig } from './tabs-class-names';
 import { textareaClassNamesConfig } from './textarea-class-names';
 import { toggleLayoutClassNamesConfig } from './toggle-class-names';
 import { trailingLayoutClassNamesConfig } from './trailing-class-names';
@@ -32,7 +36,7 @@ import { trailingLayoutClassNamesConfig } from './trailing-class-names';
  * Because we define it as string. But without types the typescript will understand the key of `elements` map
  */
 
-export const layoutClassNamesConfig = {
+export const layoutClassNamesConfigRecord = {
   // icon
   svgIcon: svgIconLayoutClassNamesConfig,
   // button
@@ -67,4 +71,12 @@ export const layoutClassNamesConfig = {
   divider: dividerLayoutClassNamesConfig,
   // toggle
   toggle: toggleLayoutClassNamesConfig,
+
+  // tabs
+  tabs: tabsLayoutClassNamesConfig,
+  tab: tabLayoutClassNamesConfig,
+  tabLabel: tabLabelLayoutClassNamesConfig,
+
+  // overlay
+  overlay: overlayLayoutClassNamesConfig,
 };

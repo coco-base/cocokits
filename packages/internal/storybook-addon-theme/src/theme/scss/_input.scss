@@ -1,0 +1,16 @@
+@use '../../token/scss' as *;
+
+@mixin input {
+  .doc-cck-input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font: var(--cck-doc-text-sm-regular);
+    color: var(--cck-doc-color-font-1);
+    text-overflow: ellipsis;
+  }
+
+  .doc-cck-input::placeholder {
+    color: var(--cck-doc-color-font-4);
+  }
+}

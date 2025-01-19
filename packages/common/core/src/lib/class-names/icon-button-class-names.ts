@@ -1,40 +1,36 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const iconButtonLayoutClassNamesConfig = {
-  prefix: 'cck-icon-button',
+  componentName: 'iconButton',
+  baseSelectorStructure: {
+    block: 'icon-button',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-icon-button'],
+      selectorStructure: [],
       description:
         'It will add to the host element of IconButton component. The default style has `relative` position.',
     },
     backdrop: {
       name: 'Backdrop Element',
-      selectors: ['cck-icon-button__backdrop'],
+      selectorStructure: [{ element: 'backdrop' }],
       description:
-        'It is an empty `div` added to the host element to add more style base on the design system concepts. (Fro example the Ripple effect). The default styles are full size `absolute` position and `display: none`',
+        'It is an empty `div` added to the host element to add more style based on the design system concepts. (For example the Ripple effect). The default styles are full size `absolute` position and `display: none`',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getIconButtonClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof iconButtonLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'iconButton',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(iconButtonLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...iconButtonLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(iconButtonLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    backdrop: [...iconButtonLayoutClassNamesConfig.elements.backdrop.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(iconButtonLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    backdrop: generateLayoutClassNameFromElement(iconButtonLayoutClassNamesConfig, 'backdrop', themeConfig),
   };
 }

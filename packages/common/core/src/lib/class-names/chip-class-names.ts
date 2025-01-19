@@ -1,56 +1,52 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const chipLayoutClassNamesConfig = {
-  prefix: 'cck-chip',
+  componentName: 'chip',
+  baseSelectorStructure: {
+    block: 'chip',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-chip'],
+      selectorStructure: [],
       description: 'It will add to the host element of Chip component.',
     },
     disabled: {
       name: 'Host Element',
-      selectors: ['cck-chip--disabled'],
-      description: 'Applied to the host element of the Chip component, when the the chip is disabled',
+      selectorStructure: [{ modifier: 'disabled' }],
+      description: 'Applied to the host element of the Chip component, when the chip is disabled',
     },
     removable: {
       name: 'Host Element',
-      selectors: ['cck-chip--removable'],
-      description: 'Applied to the host element of the Chip component, when the the chip is removable',
+      selectorStructure: [{ modifier: 'removable' }],
+      description: 'Applied to the host element of the Chip component, when the chip is removable',
     },
     contentWrapper: {
       name: 'Wrapper of content',
-      selectors: ['cck-chip__content-wrapper'],
+      selectorStructure: [{ element: 'content-wrapper' }],
       description: 'It will add to the wrapper of content element.',
     },
     removeIconWrapper: {
       name: 'Wrapper of remove icon',
-      selectors: ['cck-chip__remove-icon-wrapper'],
+      selectorStructure: [{ element: 'remove-icon-wrapper' }],
       description: 'It will add to the wrapper of remove icon element.',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getChipClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof chipLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'chip',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(chipLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...chipLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(chipLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    disabled: [...chipLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
-    removable: [...chipLayoutClassNamesConfig.elements.removable.selectors].join(' '),
-    contentWrapper: [...chipLayoutClassNamesConfig.elements.contentWrapper.selectors].join(' '),
-    removeIconWrapper: [...chipLayoutClassNamesConfig.elements.removeIconWrapper.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(chipLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    disabled: generateLayoutClassNameFromElement(chipLayoutClassNamesConfig, 'disabled', themeConfig),
+    removable: generateLayoutClassNameFromElement(chipLayoutClassNamesConfig, 'removable', themeConfig),
+    contentWrapper: generateLayoutClassNameFromElement(chipLayoutClassNamesConfig, 'contentWrapper', themeConfig),
+    removeIconWrapper: generateLayoutClassNameFromElement(chipLayoutClassNamesConfig, 'removeIconWrapper', themeConfig),
   };
 }

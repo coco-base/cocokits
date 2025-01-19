@@ -26,5 +26,6 @@ export default defineConfig({
       reportsDirectory: '../../coverage/tools/workspace-plugin',
       provider: 'v8',
     },
+    passWithNoTests: true,
   },
 });

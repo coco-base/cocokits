@@ -1,0 +1,86 @@
+@use '../../token/scss' as *;
+
+@mixin toggle {
+  .doc-cck-toggle {
+    user-select: none;
+    cursor: pointer;
+
+    &__label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      white-space: nowrap;
+      font: var(--cck-doc-text-md-regular);
+      color: var(--cck-doc-color-font-1);
+      gap: 8px;
+    }
+
+    &--label-before {
+      .doc-cck-toggle__label {
+        flex-direction: row-reverse;
+      }
+    }
+
+    &__input {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    &__slider-wrapper {
+      position: relative;
+      width: 32px;
+      height: 20px;
+    }
+
+    &__thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 2;
+      background-color: var(--cck-doc-color-bg-1);
+      transition: 0.3s ease all;
+    }
+
+    &__backdrop {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition: 0.3s ease background-color;
+      border-radius: 500px;
+    }
+
+    &--checked {
+      .doc-cck-toggle__thumb {
+        top: 50%;
+        left: 100%;
+        transform: translate(calc(-100% - 2px), -50%);
+      }
+
+      .doc-cck-toggle__backdrop {
+        background-color: var(--cck-doc-color-brand-default);
+      }
+    }
+
+    &--unchecked {
+      .doc-cck-toggle__thumb {
+        top: 50%;
+        left: 0;
+        transform: translate(2px, -50%);
+      }
+
+      .doc-cck-toggle__backdrop {
+        background-color: var(--cck-doc-color-bg-4);
+      }
+    }
+  }
+}

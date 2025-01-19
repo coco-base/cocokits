@@ -1,0 +1,11 @@
+.example-overlay-default__host {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.example-overlay-default__text {
+  font: var(--cck-doc-text-sm-regular, 400 14px/24px Inter);
+  color: var(--cck-doc-color-font-3, #ccc);
+}

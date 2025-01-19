@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "ExampleStorySource executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "rootDir": {
+      "type": "string"
+    }
+  },
+  "required": ["rootDir"]
+}

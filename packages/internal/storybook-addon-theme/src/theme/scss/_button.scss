@@ -1,0 +1,92 @@
+@use '../../token/scss' as *;
+
+@mixin button {
+  .doc-cck-button {
+    min-width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border: none;
+    outline: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+    font: $cck-doc-text-sm-medium;
+    border-radius: $cck-doc-radius-sm;
+
+    &__backdrop {
+      display: none;
+    }
+
+    // Size
+    &__size {
+      &--sm {
+        height: 32px;
+        gap: 8px;
+        padding: 0 12px 0 8px;
+
+        &:has(.doc-cck-svg-icon:first-child) {
+          padding: 0 12px 0 4px;
+        }
+      }
+
+      &--md {
+        height: 40px;
+        gap: 8px;
+        padding: 0 12px;
+
+        &:has(.doc-cck-svg-icon:first-child) {
+          padding: 0 16px 0 8px;
+        }
+      }
+    }
+
+    // Color
+    // &__color {
+    //   &--default {}
+
+    //   &--highlight {}
+    // }
+
+    // Types
+    &__basic {
+      background-color: transparent;
+      color: $cck-doc-color-font-1;
+
+      .doc-cck-svg-icon {
+        fill: $cck-doc-color-font-1;
+      }
+
+      &:hover {
+        background-color: $cck-doc-color-bg-hover-1;
+      }
+    }
+
+    &__light {
+      background-color: $cck-doc-color-bg-selected-1;
+      color: $cck-doc-color-font-1;
+
+      &:hover {
+        background-color: $cck-doc-color-bg-hover-3;
+      }
+
+      .doc-cck-svg-icon {
+        fill: $cck-doc-color-font-1;
+      }
+    }
+
+    &__outline {
+      background-color: $cck-doc-color-bg-1;
+      color: $cck-doc-ocean-green-600;
+      border: 1px solid $cck-doc-ocean-green-600;
+
+      &:hover {
+        background-color: $cck-doc-color-bg-hover-2;
+      }
+
+      .doc-cck-svg-icon {
+        fill: $cck-doc-ocean-green-600;
+      }
+    }
+  }
+}

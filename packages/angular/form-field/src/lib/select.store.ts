@@ -2,6 +2,7 @@ import { inject, Injectable, InjectionToken, OnDestroy, Signal, signal, Writable
 
 import { Subject } from 'rxjs';
 
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { RenderedOverlay } from '@cocokits/angular-overlay';
 import { Selection, SelectionOptions, SelectionUpdateConfig } from '@cocokits/common-utils';
 
@@ -79,7 +80,6 @@ export class SelectStoreService<T> implements OnDestroy {
   private set isMultiple(isMultiple: boolean) {
     this._isMultiple?.set(isMultiple);
   }
-  // endregion
 
   constructor() {
     this.selection.addChangeEventListener((changes) => {

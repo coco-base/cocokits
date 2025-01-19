@@ -31,6 +31,7 @@ export class OptionGroupComponent extends _UiBaseComponent<'optionGroup'> {
     { if: this.disabled() ?? false, classes: this.classNames().disabled },
   ]);
 
+  /** @internal */
   override size = computed(() => this._size() ?? this.selectComp?.size());
 
   private selectComp = inject(SelectComponent, { optional: true });

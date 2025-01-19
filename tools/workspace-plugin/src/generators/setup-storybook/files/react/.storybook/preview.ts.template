@@ -1,4 +1,11 @@
-import '<%= offsetPathToRoot %>/../tools/scripts/storybook/storybook-global.scss';
-import '<%= offsetPathToRoot %>/../tools/scripts/storybook/themes.scss';
+import { PREVIEW_BASE } from "@cocokits/storybook-addon-theme-react";
+import { Preview } from "@storybook/react";
 
 
+export const preview: Preview = {
+  tags: ['autodocs'],
+  ...PREVIEW_BASE,
+}
+
+
+export default preview;

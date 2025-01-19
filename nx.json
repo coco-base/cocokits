@@ -35,6 +35,15 @@
     }
   ],
   "targetDefaults": {
+    "storybook": {
+      "dependsOn": [{ "projects": "@cocokits/storybook-addon-theme", "target": "css-generator" }]
+    },
+    "build-storybook": {
+      "dependsOn": [{ "projects": "@cocokits/storybook-addon-theme", "target": "css-generator" }]
+    },
+    "storybook-build": {
+      "dependsOn": [{ "projects": "@cocokits/storybook-addon-theme", "target": "css-generator" }]
+    },
     "build": {
       "dependsOn": ["^build"],
       "configurations": {

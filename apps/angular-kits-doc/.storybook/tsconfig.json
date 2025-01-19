@@ -15,8 +15,8 @@
     "./*.ts",
     "../stories/**/*.ts",
     "../stories/**/*.tsx",
-    "../../../packages/internal/storybook-theme-switcher/**/*.ts",
-    "../../../packages/internal/storybook-theme-switcher/**/*.tsx",
+    "../../../packages/internal/storybook-addon-theme/**/*.ts",
+    "../../../packages/internal/storybook-addon-theme/**/*.tsx",
     "../../../packages/angular/**/index.stories.ts"
   ]
 }

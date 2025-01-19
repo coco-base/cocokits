@@ -1,0 +1,40 @@
+{
+  "name": "@cocokits/storybook-addon-theme",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/internal/storybook-addon-theme/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "token-generator": {
+      "executor": "@cocokits/workspace-plugin:token-generator",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": ["packages/internal/storybook-addon-theme/src/json-token/manifest.json"],
+        "skipTokenTypes": [],
+        "parser": "design-tokens-manager",
+        "outputDir": "packages/internal/storybook-addon-theme/src/token",
+        "themeName": "storybook-addon",
+        "prefix": "cck-doc-"
+      }
+    },
+    "css-generator": {
+      "executor": "@cocokits/workspace-plugin:scss-builder",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": [
+          {
+            "path": "packages/internal/storybook-addon-theme/src/styles/manager-styles.scss",
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles"
+          },
+          {
+            "path": "packages/internal/storybook-addon-theme/src/styles/preview-styles.scss",
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles"
+          }
+        ]
+      }
+    }
+  }
+}

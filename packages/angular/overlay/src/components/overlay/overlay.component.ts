@@ -15,7 +15,9 @@ import {
 
 import { firstValueFrom } from 'rxjs';
 
+import { ThemeConfigToken } from '@cocokits/angular-core';
 import { onceEventListener, OnceSubject } from '@cocokits/common-utils';
+import { getClassNames } from '@cocokits/core';
 
 import { overlayAnimation } from './overlay.animation';
 import { getAnimationEnd, getAnimationStart, setConnectedToElemAnimationStyle } from './overlay.animation.utils';
@@ -34,7 +36,7 @@ type AnimationState = { value: any } & AnimationOptions;
   encapsulation: ViewEncapsulation.None,
   animations: [overlayAnimation.backdrop(), overlayAnimation.content(), overlayAnimation.overlay()],
   host: {
-    '[class]': 'hostClass',
+    '[class]': 'hostClassNames',
     '[class.cck-overlay--top-alignment]': 'isTopAlignment',
     '[class.cck-overlay--right-alignment]': 'isRightAlignment',
     '[class.cck-overlay--bottom-alignment]': 'isBottomAlignment',
@@ -47,9 +49,12 @@ type AnimationState = { value: any } & AnimationOptions;
 })
 export class OverlayComponent<TData = any, TResult = any> implements OnInit {
   private injector = inject(Injector);
+
   protected overlayRef: OverlayRef<unknown, TResult> = inject(OverlayRef<TData, TResult>);
 
-  protected hostClass = ['cck-overlay', ...this.overlayRef.config.panelClass];
+  protected classNames = getClassNames('overlay', {}, inject(ThemeConfigToken));
+  protected hostClassNames = [this.classNames.host, ...this.overlayRef.config.panelClass].join(' ');
+
   protected disableAnimation =
     this.overlayRef.config.positionStrategy.type === 'auto' &&
     this.overlayRef.config.positionStrategy.animationType === OverlayAnimationType.None;

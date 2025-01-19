@@ -52,7 +52,7 @@
         "dot-notation": [
           "error",
           {
-            "allowPattern": "^docs$"
+            "allowPattern": "^(cck|docs|cckControl|useComponentApi)$"
           }
         ],
         "eqeqeq": ["error"],
@@ -107,6 +107,13 @@
         "max-nested-callbacks": ["off"],
         "max-lines": ["off"],
         "max-statements": ["off"]
+      }
+    },
+    {
+      "files": ["*.stories.ts"],
+      "rules": {
+        "@nx/enforce-module-boundaries": "off",
+        "no-console": "off"
       }
     }
   ]

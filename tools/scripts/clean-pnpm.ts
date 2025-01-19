@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import { execSync } from 'child_process';
+import path from 'path';
 
 const printError = (message: string, err: any): void => {
   if (!`${err}`.includes('No such file or directory')) {
@@ -30,6 +31,23 @@ const deleteNodeModules = (path: string): void => {
   }
 };
 
+// Find all libraries directories inside of giver directory that contains project.json
+const scanForProjectJson = (rootDir: string, level = 0, maxLevel = 4): string[] => {
+  const result: string[] = [];
+  if (level > maxLevel) return result;
+  const items = fs.readdirSync(rootDir, { withFileTypes: true });
+  if (items.find((item) => item.isFile() && item.name === 'project.json')) {
+    result.push(rootDir);
+    return result;
+  }
+  for (const item of items) {
+    if (item.isDirectory()) {
+      result.push(...scanForProjectJson(path.join(rootDir, item.name), level + 1, maxLevel));
+    }
+  }
+  return result;
+};
+
 const staticFile = ['tmp', 'dist', 'package-lock.json', '.nx', 'pnpm-lock.yaml', '.angular', 'node_modules'];
 
 try {
@@ -49,11 +67,7 @@ packagePatterns.forEach((packagePattern: string) => {
     return;
   }
 
-  const directories: string[] = fs
-    .readdirSync(packagePath, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => `${packagePath}${dirent.name}`);
-
+  const directories = scanForProjectJson(packagePath);
   directories.forEach(deleteNodeModules);
 });
 

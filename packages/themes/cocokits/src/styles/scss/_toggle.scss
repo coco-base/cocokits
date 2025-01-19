@@ -15,6 +15,7 @@
     align-items: center;
     gap: $toggle-spacing-gap;
     font: $text-sm-regular;
+    color: $color-font-default;
 
     &:not(.cck-toggle--disabled) {
       cursor: pointer;
@@ -53,7 +54,9 @@
     background-color: $toggle-color-thumb;
     border-radius: 100px;
     transform: translate(0%, -50%);
-    transition: 0.3s ease all, left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+    transition:
+      0.3s ease all,
+      left 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15);
   }
 
   .cck-toggle__backdrop {

@@ -3,9 +3,9 @@ import path from 'path';
 
 import { CSS_FOLDER_NAME } from './builder.config';
 import { getDefaultFileHeader } from './utils';
-import { TokenGeneratorExecutorSchema } from '../schema';
-import runCssBuilderExecutor from '../../scss-builder/executor';
 import { Logger } from '../../../utils/logger';
+import runCssBuilderExecutor from '../../scss-builder/executor';
+import { TokenGeneratorExecutorSchema } from '../schema';
 
 /**
  * Builds CSS variables from the compiler result and save them.

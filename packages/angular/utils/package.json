@@ -10,10 +10,7 @@
     "rxjs": "~7.8.0",
     "@cocokits/common-utils": "workspace:*"
   },
-  "devDependencies": {
-    "@storybook/angular": "~8.0.9",
-    "@storybook/addon-docs": "~8.0.9"
-  },
+  "devDependencies": {},
   "sideEffects": false,
   "publishConfig": {
     "directory": "../../../dist/packages/angular/utils"

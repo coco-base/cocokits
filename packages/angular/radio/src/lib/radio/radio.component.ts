@@ -54,7 +54,7 @@ export const RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
   encapsulation: ViewEncapsulation.None,
   providers: [RADIO_GROUP_CONTROL_VALUE_ACCESSOR],
   host: {
-    '[class]': 'classNames().host',
+    '[class]': 'hostClassNames()',
   },
 })
 export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGroup'> implements ControlValueAccessor {

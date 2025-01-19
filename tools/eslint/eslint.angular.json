@@ -39,7 +39,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "story",
+            "prefix": "example",
             "style": "kebab-case"
           }
         ]

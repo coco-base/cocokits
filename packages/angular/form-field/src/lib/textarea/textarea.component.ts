@@ -16,7 +16,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
-import { autoResizeTextarea, toBooleanOrPresent } from '@cocokits/common-utils';
+import { autoResizeTextarea, toBooleanOrPresent, toNumber } from '@cocokits/common-utils';
 
 import { injectFormFieldStore } from '../form-field.store';
 
@@ -63,12 +63,12 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
   /**
    * Minimum amount of rows in the textarea. Will be skipped when the `autoResize` is false
    */
-  public minRows: InputSignal<number> = input<number>(2);
+  public minRows = input(2, { transform: toNumber });
 
   /**
    * Maximum amount of rows in the textarea. Will be skipped when the `autoResize` is false
    */
-  public maxRows: InputSignal<number> = input<number>(5);
+  public maxRows = input(5, { transform: toNumber });
 
   /**
    * Whether the textarea is disabled.
@@ -92,6 +92,7 @@ export class TextareaComponent extends _UiBaseComponent<'textarea'> implements O
 
   /**
    * Update the size textarea base on the content.
+   * Will be override after initialized on component on '__onAutoResizeChanged'
    */
   private autoResizeUpdate: () => void = () => {
     throw new Error(`'autoResize' for textarea is no enabled or it has not initialized jet`);

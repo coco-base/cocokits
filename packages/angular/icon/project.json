@@ -24,38 +24,6 @@
     },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
-    },
-    "storybook": {
-      "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/angular-icon",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
-    },
-    "build-storybook": {
-      "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/angular-icon",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
     }
   }
 }

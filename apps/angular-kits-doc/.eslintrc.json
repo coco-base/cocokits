@@ -14,14 +14,14 @@
           "error",
           {
             "type": ["attribute", "element"],
-            "prefix": "story"
+            "prefix": "cck"
           }
         ],
         "@angular-eslint/component-selector": [
           "error",
           {
             "type": "element",
-            "prefix": "story",
+            "prefix": "cck",
             "style": "kebab-case"
           }
         ]

@@ -11,10 +11,10 @@
 
 
 
-@if(isSelected() && !selectStore.isMultiple() && themeConfig.components.option.templates?.optionSelectedIcon) {
+@if(isSelected() && !selectStore.isMultiple() && themeConfig.components.option?.templates?.optionSelectedIcon) {
   <div [class]="classNames().selectedCheckmark">
-    @if(themeConfig.components.option.templates?.optionSelectedIcon) {
-      <cck-svg-icon [icon]="themeConfig.components.option.templates!.optionSelectedIcon!"></cck-svg-icon>
+    @if(themeConfig.components.option?.templates?.optionSelectedIcon) {
+      <cck-svg-icon [icon]="themeConfig.components.option?.templates!.optionSelectedIcon!"></cck-svg-icon>
     }
   </div>
 }

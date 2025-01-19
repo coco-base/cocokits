@@ -1,6 +1,8 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  [attr.viewBox]="icon().viewBox"
-  [class]="classNames().svg"
-  [innerHtml]="icon().content | trustHtml">
-</svg>
+@if(legacyIcon()) {
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    [attr.viewBox]="legacyIcon()?.viewBox"
+    [class]="classNames().svg"
+    [innerHtml]="legacyIcon()?.content | trustHtml">
+  </svg>
+}

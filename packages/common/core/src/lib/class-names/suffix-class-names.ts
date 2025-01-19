@@ -1,32 +1,28 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const suffixLayoutClassNamesConfig = {
-  prefix: 'cck-suffix',
+  componentName: 'suffix',
+  baseSelectorStructure: {
+    block: 'suffix',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-suffix'],
+      selectorStructure: [],
       description: 'It will add to the host element of Suffix component.',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getSuffixClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof suffixLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'suffix',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(suffixLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...suffixLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(suffixLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
+    host: generateLayoutClassNameFromElement(suffixLayoutClassNamesConfig, 'host', themeConfig, componentProps),
   };
 }

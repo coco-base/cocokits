@@ -1,0 +1,167 @@
+import { Meta } from '@storybook/addon-docs';
+import { MdxPage, MdxPageTabCode, MdxPageWithThemeSection } from '@cocokits/storybook-addon-theme';
+
+import {
+  getInstallPackagesStep2Provide,
+  getInstallPackagesStep3AngularJson,
+  getInstallPackagesStep3ComponentStyle,
+  tocItems,
+  getOverrideComponentConfig,
+  getMergeThemesStep2Provide,
+  getMergeThemesStep3Scss,
+  getUseOnlyOneModeOption1Step1Code,
+  getUseOnlyOneModeOption1Step2ClassSelector,
+  getUseOnlyOneModeOption1Step2AttrSelector,
+  getUseOnlyOneModeOption1code,
+  getChangeTokenSelectorsItems, getChangeTokenSelectorsStep1Code, getChangeTokenSelectorsStep2Code,
+} from './utils/advanced-configuration.utils';
+import { header } from './utils/markdown.util';
+
+
+<Meta title='Getting Started/Advanced Configuration'/>
+
+<MdxPage breadcrumb='Getting Started' title="Advanced Configuration Guide" tocItems={tocItems}>
+
+This guide explains how to install `CocoKits` into your project with your favorite theme in advanced mode,
+allowing you to customize the default configuration.
+
+
+You can:
+- **Install only specific components** instead of the entire component library.
+- **Override theme UI configurations**, such as changing the default size of a component.
+- **Merge themes** to create a custom theme.
+- **Use only one mode** from each collection.
+- **Change token selectors** to use shorter or custom selectors.
+
+------------------------------------------------------------------
+
+## Install Specific Components
+`CocoKits` provides individual packages for each component, and `@cocokits/angular-components` is a wrapper for all components.
+You can choose to install only the components you need.
+
+In this example, we'll install only the `Button` and `Radio` components.
+
+### Step 1: Install the Components
+
+Install the specific components and the theme:
+
+<MdxPageWithThemeSection fn={theme =>
+  <MdxPageTabCode codeTabs={{
+    'npm': `npm i @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`,
+    'yarn': `yarn add @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`,
+    'pnpm': `pnpm add @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`
+  }}/>
+}/>
+
+
+### Step 2: Provide Theme Configuration
+Provide the theme configuration in the root of your application.
+
+<MdxPageWithThemeSection fn={getInstallPackagesStep2Provide}/>
+
+
+### Step 3: Import Tokens and Component Styles
+Instead of importing all styles, you can import only the necessary tokens and styles for the components you're using.
+
+#### Import Tokens
+In your `angular.json` or `project.json`, add the tokens CSS file:
+
+<MdxPageWithThemeSection fn={getInstallPackagesStep3AngularJson}/>
+
+**Note:** We are only importing the tokens here, not the global styles.
+
+#### Import Component Styles
+In your `styles.scss`, add the custom styles for the components you installed:
+
+<MdxPageWithThemeSection fn={getInstallPackagesStep3ComponentStyle}/>
+
+**Note**: Adjust the component style includes based on the components you've installed.
+
+
+------------------------------------------------------------------
+
+## Override Theme UI Configurations
+
+You can customize the default configuration of the theme. For example, to change the default size of the `Button` component from `xs`:
+
+<MdxPageWithThemeSection fn={getOverrideComponentConfig}/>
+
+**Important:** If you change the configuration of a component (e.g., adding a new size or color), make sure you include the corresponding styles. Otherwise, the new configuration may not be reflected in your application.
+
+------------------------------------------------------------------
+
+## Merge Themes
+You can also merge multi themes and create a new theme. For example, you want to have the `Cocokits` theme but `button`, `radio` be from `Frames X`
+
+### Step 1: Install the Themes
+
+<MdxPageTabCode codeTabs={{
+  'npm': `npm i @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
+  'yarn': `yarn add @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
+  'pnpm': `pnpm add @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`
+}}/>
+
+### Step 2: Merge the Theme Configurations
+
+<MdxPageWithThemeSection fn={getMergeThemesStep2Provide}/>
+
+### Step 3: Import Component Styles from Each Theme
+
+In your `styles.scss`, include styles from both themes:
+
+**styles.scss**
+<MdxPageWithThemeSection fn={getMergeThemesStep3Scss}/>
+
+------------------------------------------------------------------
+
+## Use Only One Mode from Each Collection
+Each theme provides multiple modes for each collection (e.g., color, sizing). If your project requires only one mode per collection,
+you can selectively include only those modes.
+
+### Option 1: Import Specific Modes with Default Selectors
+
+#### Step 1: Import Modes
+**`styles.scss`**
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1Step1Code}/>
+
+
+#### Step 2: Add Default Selectors to Your HTML Tag
+In your index.html, add the default selectors to the `<html>` tag:
+
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1Step2ClassSelector}/>
+Alternatively, use the `data-cck-theme` attribute:
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1Step2AttrSelector}/>
+
+**Note:** Ensure that you include at least one mode from each collection to have all necessary tokens available in your project.
+
+### Option 2: Apply Modes Without Selectors
+You can apply modes directly to the `:root` without using any selectors.
+<MdxPageWithThemeSection fn={getUseOnlyOneModeOption1code}/>
+
+With this approach, you **don't need to add any classes to your HTML tags**, and all necessary tokens are available globally in your application.
+
+------------------------------------------------------------------
+
+## Change Token Selectors
+By default, the token css selectors have the following structure:
+
+````
+cch-theme-[THEME_NAME]__[COLLECTION-NAME]--[MODE-NAME]
+````
+If you prefer shorter or custom selector names, you can redefine them using the provided SCSS mixins.
+
+### Example: Shorten Color Mode Selectors
+Let's change the color mode selectors from:
+<MdxPageWithThemeSection fn={getChangeTokenSelectorsItems}/>
+
+#### Step 1: Define Custom Selectors
+**styles.scss**
+<MdxPageWithThemeSection fn={getChangeTokenSelectorsStep1Code}/>
+
+#### Step 2: Apply Custom Selectors
+**index.html**
+<MdxPageWithThemeSection fn={getChangeTokenSelectorsStep2Code}/>
+
+**Note:** This approach allows you to switch between light and dark modes using shorter class names.
+
+</MdxPage>

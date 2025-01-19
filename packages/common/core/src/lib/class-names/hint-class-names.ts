@@ -1,32 +1,28 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const hintLayoutClassNamesConfig = {
-  prefix: 'cck-hint',
+  componentName: 'hint',
+  baseSelectorStructure: {
+    block: 'hint',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-hint'],
+      selectorStructure: [],
       description: 'It will add to the host element of Hint component.',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getHintClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof hintLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'hint',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(hintLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...hintLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(hintLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
+    host: generateLayoutClassNameFromElement(hintLayoutClassNamesConfig, 'host', themeConfig, componentProps),
   };
 }

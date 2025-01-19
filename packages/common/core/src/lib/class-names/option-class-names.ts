@@ -1,76 +1,76 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const optionLayoutClassNamesConfig = {
-  prefix: 'cck-option',
+  componentName: 'option',
+  baseSelectorStructure: {
+    block: 'option',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-option'],
+      selectorStructure: [],
       description: 'It will add to the host element of Option component.',
     },
     disabled: {
       name: 'Host Element',
-      selectors: ['cck-option--disabled'],
+      selectorStructure: [{ modifier: 'disabled' }],
       description: 'It will add to the host element of Option component, the component is disabled',
     },
     selected: {
       name: 'Host Element',
-      selectors: ['cck-option--selected'],
+      selectorStructure: [{ modifier: 'selected' }],
       description: 'It will add to the host element of Option component, the option is selected',
     },
     multiple: {
       name: 'Host Element',
-      selectors: ['cck-option--multiple'],
+      selectorStructure: [{ modifier: 'multiple' }],
       description: 'It will add to the host element of option component, when the selection is multi',
     },
     single: {
       name: 'Host Element',
-      selectors: ['cck-option--single'],
+      selectorStructure: [{ modifier: 'single' }],
       description: 'It will add to the host element of option component, when the selection is single',
     },
     multipleWrapper: {
       name: 'Multiple Wrapper Element',
-      selectors: ['cck-option__multiple-wrapper'],
+      selectorStructure: [{ element: 'multiple-wrapper' }],
       description:
         'It will add to the multiple wrapper element, and this element will be visible when the select is multiple selection',
     },
     contentWrapper: {
       name: 'Wrapper of content',
-      selectors: ['cck-option__content-wrapper'],
+      selectorStructure: [{ element: 'content-wrapper' }],
       description: 'It will add to the wrapper of option content',
     },
     selectedCheckmark: {
       name: 'Checkmark element',
-      selectors: ['cck-option__selected-checkmark'],
+      selectorStructure: [{ element: 'selected-checkmark' }],
       description:
         'It will add to the selected checkmark element, and this element will be visible when the option is selected',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getOptionClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof optionLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'option',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(optionLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...optionLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(optionLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
-    disabled: [...optionLayoutClassNamesConfig.elements.disabled.selectors].join(' '),
-    selected: [...optionLayoutClassNamesConfig.elements.selected.selectors].join(' '),
-    multiple: [...optionLayoutClassNamesConfig.elements.multiple.selectors].join(' '),
-    single: [...optionLayoutClassNamesConfig.elements.single.selectors].join(' '),
-    multipleWrapper: [...optionLayoutClassNamesConfig.elements.multipleWrapper.selectors].join(' '),
-    contentWrapper: [...optionLayoutClassNamesConfig.elements.contentWrapper.selectors].join(' '),
-    selectedCheckmark: [...optionLayoutClassNamesConfig.elements.selectedCheckmark.selectors].join(' '),
+    host: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    disabled: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'disabled', themeConfig),
+    selected: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'selected', themeConfig),
+    multiple: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'multiple', themeConfig),
+    single: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'single', themeConfig),
+    multipleWrapper: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'multipleWrapper', themeConfig),
+    contentWrapper: generateLayoutClassNameFromElement(optionLayoutClassNamesConfig, 'contentWrapper', themeConfig),
+    selectedCheckmark: generateLayoutClassNameFromElement(
+      optionLayoutClassNamesConfig,
+      'selectedCheckmark',
+      themeConfig
+    ),
   };
 }

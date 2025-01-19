@@ -1,32 +1,28 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const selectPreviewLayoutClassNamesConfig = {
-  prefix: 'cck-select-preview',
+  componentName: 'selectPreview',
+  baseSelectorStructure: {
+    block: 'select-preview',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-select-preview'],
+      selectorStructure: [],
       description: 'It will add to the host element of SelectPreview component.',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getSelectPreviewClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof selectPreviewLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'selectPreview',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(selectPreviewLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...selectPreviewLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(selectPreviewLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
+    host: generateLayoutClassNameFromElement(selectPreviewLayoutClassNamesConfig, 'host', themeConfig, componentProps),
   };
 }

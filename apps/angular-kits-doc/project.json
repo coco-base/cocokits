@@ -8,28 +8,7 @@
   "targets": {
     "storybook": {
       "options": {
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/angular-kits-doc",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
-    },
-    "storybook-build": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputDir": "dist/angular-kits-doc",
-        "configDir": "apps/angular-kits-doc/.storybook",
-        "browserTarget": "@cocokits/angular-kits-doc:build-storybook",
-        "styles": ["tools/scripts/storybook/themes.scss", "tools/scripts/storybook/storybook-global.scss"],
+        "styles": [],
         "compodoc": true,
         "compodocArgs": [
           "-e",
@@ -43,16 +22,55 @@
         ]
       },
       "dependsOn": [
+        "generate-example-story-source",
+        "build-typedoc",
         {
-          "projects": ["@cocokits/common-utils"],
-          "target": "build-typedoc"
-        },
-        {
-          "projects": ["@cocokits/angular-utils"],
+          "projects": ["@cocokits/common-kits-doc"],
           "target": "build-typedoc"
         }
       ]
     },
+    "build-storybook": {
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputDir": "dist/angular-kits-doc",
+        "styles": [],
+        "compodoc": true,
+        "compodocArgs": [
+          "-e",
+          "json",
+          "-d",
+          "dist/compodoc/angular-kits-doc",
+          "--disableLifeCycleHooks",
+          "--disableProtected",
+          "--disablePrivate",
+          "--disableInternal"
+        ]
+      },
+      "dependsOn": [
+        "^generate-example-story-source",
+        "build-typedoc",
+        {
+          "projects": ["@cocokits/common-kits-doc"],
+          "target": "build-typedoc"
+        }
+      ]
+    },
+
+    "generate-example-story-source": {
+      "executor": "@cocokits/workspace-plugin:example-story-source",
+      "options": {
+        "rootDir": "apps/angular-kits-doc/stories/ui-components"
+      }
+    },
+
+    "build-typedoc": {
+      "executor": "@cocokits/workspace-plugin:build-typedoc",
+      "options": {
+        "typeDocConfig": "apps/angular-kits-doc/typedoc.config.mjs"
+      }
+    },
+
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
     }

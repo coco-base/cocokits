@@ -7,7 +7,7 @@ The following packages have already been integrated into @cocokits/angular-compo
 - `@cocokits/angular-overlay`
 - `@cocokits/angular-utils`
 - `@cocokits/common-utils`
-- `@cocokits/core: Core`
+- `@cocokits/core`
 - `@cocokits/angular-core`
 - `@cocokits/angular-icon`
 - `@cocokits/angular-button`

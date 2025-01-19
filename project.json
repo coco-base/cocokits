@@ -32,7 +32,7 @@
     "test-all": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx run-many --all --target=test --parallel --maxParallel=4"
+        "command": "nx run-many --all --target=test --parallel --maxParallel=4 -- --passWithNoTests"
       }
     },
     "local-registry": {

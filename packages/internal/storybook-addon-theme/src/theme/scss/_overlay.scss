@@ -1,0 +1,13 @@
+@use '../../token/scss' as *;
+
+@mixin overlay {
+  .doc-cck-overlay {
+  }
+
+  .doc-cck-overlay__backdrop {
+    background-color: rgb(0 0 0 / 50%);
+  }
+
+  .doc-cck-overlay__content-wrapper {
+  }
+}

@@ -1,8 +1,7 @@
-import { moduleMetadata } from '@storybook/angular';
-import { _UiBaseComponent, ThemeConfigToken } from '@cocokits/angular-core';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { AngularStoriesMeta } from '@cocokits/core';
-import { getSelectedCckTheme } from '@cocokits/storybook-theme-switcher';
+import { _UiBaseComponent } from '@cocokits/angular-core';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 import { <%- className %>Component } from '../../<%- relativeComponentDirectory %>/<%- fileName %>.component';
@@ -12,21 +11,18 @@ export { Type } from './type.stories';
 export { Size } from './size.stories';
 export { Color } from './color.stories';
 
-const meta: AngularStoriesMeta = {
+const meta: StoriesMeta = {
   component: <%- className %>Component,
   subcomponents: [
     _UiBaseComponent,
   ],
-  title: '<%- className %>',
-  tags: ['autodocs'],
+  title: 'UI Components/<%- className %>',
   decorators: [
+    applicationConfig({
+      providers: [withThemeConfigProvider()],
+    }),
     moduleMetadata({
-      providers: [
-        {
-          provide: ThemeConfigToken,
-          useFactory: () => getSelectedCckTheme()?.themeConfig
-        }
-      ],
+      imports: [],
     })
   ],
   parameters: {
@@ -35,12 +31,13 @@ const meta: AngularStoriesMeta = {
         component: [descriptionMd].join('\n'),
       },
     },
+    cckAddon: {
+      componentName: '<%- propertyName %>',
+    },
   },
   argTypes: {
-    // Example of: using component API insteadof Theme API or Disable from ArgTable
+    // Example of: using component API instead of Theme API or Disable from ArgTable
     // type: { table: { useComponentApi: true, disable: true } },
-  },
-  args: {
   },
 };
 export default meta;

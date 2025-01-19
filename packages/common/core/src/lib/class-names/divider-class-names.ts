@@ -1,32 +1,28 @@
-import { getHostClassNames } from './class-names';
-import { UIBaseComponentProps, ThemeConfig, CssSelectorGeneratorOptions } from '../model/ui-component.model';
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
 export const dividerLayoutClassNamesConfig = {
-  prefix: 'cck-divider',
+  componentName: 'divider',
+  baseSelectorStructure: {
+    block: 'divider',
+  },
   elements: {
     host: {
       name: 'Host Element',
-      selectors: ['cck-divider'],
+      selectorStructure: [],
       description: 'It will add to the host element of Divider component.',
     },
   },
-};
+} satisfies LayoutClassNamesConfig;
 
 export function getDividerClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
 ): Record<keyof typeof dividerLayoutClassNamesConfig.elements, string> {
-  const options: CssSelectorGeneratorOptions = {
-    componentName: 'divider',
-    componentProps,
-    themeConfig,
-  };
-  validateUiBaseComponentProps(options);
+  validateUiBaseComponentProps(dividerLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
   return {
-    host: [
-      ...dividerLayoutClassNamesConfig.elements.host.selectors,
-      ...getHostClassNames(dividerLayoutClassNamesConfig.prefix, options),
-    ].join(' '),
+    host: generateLayoutClassNameFromElement(dividerLayoutClassNamesConfig, 'host', themeConfig, componentProps),
   };
 }

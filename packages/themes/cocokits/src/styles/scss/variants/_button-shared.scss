@@ -17,6 +17,10 @@
       cursor: default;
       user-select: none;
     }
+
+    .cck-svg-icon--default-color .cck-svg-icon__svg {
+      fill: currentcolor;
+    }
   }
 
   .cck-button__size--sm {

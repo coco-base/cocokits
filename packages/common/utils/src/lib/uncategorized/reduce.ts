@@ -167,3 +167,35 @@ export function reduceDeepMerge<TSource, TResult>(
 
   return result;
 }
+
+/**
+ * Repeats a callback function for a specified number of iterations and merges the results.
+ *
+ * @template TResult The type of the resulting object.
+ * @param repeatCount The number of times to repeat the callback.
+ * @param callback A function called on each iteration, returning a partial result to merge.
+ * @param initValue Optional initial value for the merge. Defaults to `{}`.
+ * @returns The merged result of calling the callback on each iteration.
+ *
+ * @example
+ * ```typescript
+ * const result = repeatReduceMerge(3, (index) => ({ [index]: index * 2 }));
+ * console.log(result); // { 0: 0, 1: 2, 2: 4 }
+ * ```
+ */
+export function repeatReduceMerge<TResult>(
+  repeatCount: number,
+  callback: (index: number) => Partial<TResult> | null,
+  initValue: Partial<TResult> = {}
+): TResult {
+  let result = { ...initValue } as TResult;
+
+  for (let i = 0; i < repeatCount; i++) {
+    const newValue = callback(i);
+    if (newValue) {
+      result = { ...result, ...newValue };
+    }
+  }
+
+  return result;
+}

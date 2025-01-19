@@ -1,51 +1,45 @@
-import { OverlayAnimationType, OverlayConfig } from '../models/overlay-config.model';
-import { ScrollLocker } from '@cocokits/common-utils';
+import { OverlayConfig } from '../models/overlay.model';
+import { OVERLAY_ANIMATION, OVERLAY_STYLE } from './overlay.config';
 
-interface AnimationProps {
-  config: OverlayConfig;
-  contentElem: HTMLElement;
-  backdropElem: HTMLElement;
-}
+export function getOverlayStyles(config: OverlayConfig<any>) {
+  if (config.positionStrategy.type === 'auto') {
+    // Auto Animation
+    return {
+      container: {
+        alignItems: OVERLAY_STYLE.container.alignItemsMap[config.positionStrategy.animationType],
+        justifyContent: OVERLAY_STYLE.container.justifyContentMap[config.positionStrategy.animationType],
+      },
+      backdrop: {},
+      content: {},
+    };
+  }
 
-export function runEnterAnimation(props: AnimationProps) {
-  const ANIMATION_FN_MAP: Record<OverlayAnimationType, (props: AnimationProps) => void> = {
-    [OverlayAnimationType.CenterTopToBottom]: enterAnimationCenterTopToBottom,
-    [OverlayAnimationType.CenterBottomToTop]: enterAnimationCenterBottomToTop,
-    [OverlayAnimationType.None]: enterAnimationNone,
+  // ConnectToElement Animation
+  return {
+    container: {},
+    backdrop: {},
+    content: {
+      transformOrigin: OVERLAY_STYLE.content.transformOriginMap[config.positionStrategy.anchorPoint],
+    },
   };
-
-  const animationFn = ANIMATION_FN_MAP[props.config.animationType] ?? enterAnimationNone;
-  animationFn(props);
 }
 
-function enterAnimationNone({ config, contentElem, backdropElem }: AnimationProps) {
-  backdropElem.style.opacity = `1`;
-  ScrollLocker.globalInstance().lock();
-}
+export function getOverlayAnimationProps(
+  config: OverlayConfig<any>,
+  mode: 'enter' | 'leave',
+  currentTranslate: { x: number; y: number }
+) {
+  if (config.positionStrategy.type === 'auto') {
+    // Auto Animation
+    return {
+      backdrop: OVERLAY_ANIMATION.backdrop[mode],
+      content: OVERLAY_ANIMATION.contentAuto[mode](config.positionStrategy.animationType),
+    };
+  }
 
-function enterAnimationCenterTopToBottom({ config, contentElem, backdropElem }: AnimationProps) {
-  contentElem.style.opacity = '0';
-  contentElem.style.transform = 'translateY(-30%) rotateX(20deg)';
-  ScrollLocker.globalInstance().lock();
-
-  // Wait for previous style applied to DOM
-  setTimeout(() => {
-    backdropElem.style.opacity = `1`;
-    contentElem.style.opacity = '1';
-    contentElem.style.transform = 'translateY(0) rotateX(0deg)';
-  });
-}
-
-function enterAnimationCenterBottomToTop({ config, contentElem, backdropElem }: AnimationProps) {
-  contentElem.style.opacity = '0';
-  contentElem.style.transform = 'translateY(30%) rotateX(-20deg)';
-
-  ScrollLocker.globalInstance().lock();
-
-  // Wait for previous style applied to DOM
-  setTimeout(() => {
-    backdropElem.style.opacity = `1`;
-    contentElem.style.opacity = '1';
-    contentElem.style.transform = 'translateY(0) rotateX(0deg)';
-  }, 100);
+  // ConnectToElement Animation
+  return {
+    backdrop: OVERLAY_ANIMATION.backdrop[mode],
+    content: OVERLAY_ANIMATION.contentConnect[mode](currentTranslate),
+  };
 }

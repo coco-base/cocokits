@@ -1,19 +1,21 @@
-import { hasNotValue, hasValue, isNotNullish, recordReduceMerge, sanitizeValue } from '@cocokits/common-utils';
+import { hasValue, isNotNullish, recordReduceMerge, sanitizeValue } from '@cocokits/common-utils';
 
 import {
-  UIBaseComponentProps,
+  LayoutClassNamesConfig,
   ThemeComponentPropertyConfig,
-  UIBaseComponentsPropValue,
-  CssSelectorGeneratorOptions,
+  ThemeConfig,
+  UIBaseComponentProps,
+  UIBaseComponentsName,
   UIBaseComponentsPropName,
-} from '../model/ui-component.model';
+  UIBaseComponentsPropValue,
+} from '../model/theme-config.model';
 
 // eslint-disable-next-line max-lines-per-function
-export function validateUiBaseComponentProps({
-  componentName,
-  componentProps,
-  themeConfig,
-}: CssSelectorGeneratorOptions) {
+export function validateUiBaseComponentProps(
+  componentName: UIBaseComponentsName,
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+) {
   if (!themeConfig) {
     throw new Error(`'ThemeConfig' has not provided in the root of application`);
   }
@@ -117,23 +119,26 @@ export function validateUiBaseComponentProps({
   }
 }
 
-export function getComponentPropsWithDefault({
-  componentName,
-  componentProps,
-  themeConfig,
-}: CssSelectorGeneratorOptions): UIBaseComponentProps {
-  const additional = recordReduceMerge(themeConfig.components?.[componentName].additional ?? {}, (value, key) => {
-    return {
-      [key]: valueOrDefault(componentProps.additional?.[key], value?.default),
-    };
-  });
+export function getComponentPropsWithDefault(
+  layoutConfig: LayoutClassNamesConfig,
+  themeConfig: ThemeConfig,
+  componentProps: UIBaseComponentProps
+): UIBaseComponentProps {
+  const additional = recordReduceMerge(
+    themeConfig.components?.[layoutConfig.componentName]?.additional ?? {},
+    (value, key) => {
+      return {
+        [key]: valueOrDefault(componentProps.additional?.[key], value?.default),
+      };
+    }
+  );
 
   return {
-    type: valueOrDefault(componentProps.type, themeConfig.components[componentName].type?.default, {
+    type: valueOrDefault(componentProps.type, themeConfig.components[layoutConfig.componentName]?.type?.default, {
       acceptNull: false,
     }),
-    color: valueOrDefault(componentProps.color, themeConfig.components[componentName].color?.default),
-    size: valueOrDefault(componentProps.size, themeConfig.components[componentName].size?.default),
+    color: valueOrDefault(componentProps.color, themeConfig.components[layoutConfig.componentName]?.color?.default),
+    size: valueOrDefault(componentProps.size, themeConfig.components[layoutConfig.componentName]?.size?.default),
     additional,
   };
 }

@@ -16,7 +16,7 @@ export default async function runExecutor(options: TokenGeneratorExecutorSchema)
   // Builder
   await builder(tokenDictionary, options);
 
-  runPrettier(options.outputDir);
+  runPrettier(options.outputDir + '/**/*');
 
   return {
     success: true,

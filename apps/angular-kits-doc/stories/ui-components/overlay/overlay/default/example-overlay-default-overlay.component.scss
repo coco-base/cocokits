@@ -1,0 +1,26 @@
+.example-overlay-default-overlay__host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.example-overlay-default-overlay__header {
+  font: var(--cck-doc-display-xs-medium, 500 24px / 38px Inter);
+  color: var(--cck-doc-color-font-1, #000);
+}
+
+.example-overlay-default-overlay__text {
+  font: var(--cck-doc-text-sm-regular, 400 14px / 24px Inter);
+  color: var(--cck-doc-color-font-3, #ccc);
+}
+
+.cck-overlay__content-wrapper {
+  background-color: var(--cck-doc-color-bg-2, #15171e);
+  border: 1px solid var(--cck-doc-color-border-1, #2d2f36);
+  padding: 12px 24px 24px;
+  border-radius: var(--cck-doc-radius-md, 8px);
+}
+
+.cck-overlay__backdrop {
+  background-color: color-mix(in srgb, var(--cck-doc-color-bg-1, #0d0e11) 80%, transparent);
+}

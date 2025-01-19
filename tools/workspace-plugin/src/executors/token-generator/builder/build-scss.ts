@@ -6,8 +6,8 @@ import { TokenCollectionName, TokenDictionary } from '@cocokits/core';
 
 import { SCSS_FOLDER_NAME } from './builder.config';
 import { getDefaultFileHeader, getImportFileName, getScssFileName } from './utils';
-import { TokenGeneratorExecutorSchema } from '../schema';
 import { Logger } from '../../../utils/logger';
+import { TokenGeneratorExecutorSchema } from '../schema';
 
 /**
  * Builds CSS variables from the compiler result and save them.
