@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+import { Icons } from "@cocokits/common-icons";
 import { Button, IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 import { OverlayRef } from '@cocokits/react-overlay';
@@ -9,7 +10,6 @@ import { ThemeSelectionDialogModes } from './theme-selection-dialog-modes';
 import { ThemeSelectionDialogThemes } from './theme-selection-dialog-themes';
 import { THEMES } from '../../config/addon-theme.config';
 import { SelectedTheme, ThemeId } from '../../model/theme.model';
-import { Icons } from '../../utils/icons';
 import { useTheme } from '../../utils/use-manager-theme';
 
 export function ThemeSelectionDialog({ close }: OverlayRef<void, SelectedTheme>) {

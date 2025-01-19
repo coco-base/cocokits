@@ -1,11 +1,12 @@
 import { Args, PreparedStory } from '@storybook/types';
 import { ComponentType } from 'react';
 
+import { IconsName } from '@cocokits/common-icons';
 import { ClassRef, DeepPartial, ThemeComponentConfig, UIBaseComponentsName } from '@cocokits/core';
 
 import { ThemeChangeEvent } from './event.model';
+import { ExampleStoryCssVariables, ExampleStoryTemplateArgs } from './theme.model';
 import { StoryTab } from '../features/story-doc-page/story-doc-page';
-import { IconsName } from '../utils/icons';
 
 /**
  * Configuration interface for the CocoKits Storybook Addon Theme.
@@ -104,6 +105,12 @@ export interface CckAddonStories {
    */
   singleControls?: string[];
   controls?: AddonParametersControl[];
+
+  exampleStory?: {
+    templateArgsMap: ExampleStoryTemplateArgs<unknown>;
+    cssArgsMap: ExampleStoryCssVariables;
+  };
+
   // stackblitz?: {
   //   framework?: 'angular';
   //   title?: string;
@@ -139,6 +146,7 @@ export interface AddonParametersSource {
    * At the end use shiki to highlight the code.
    */
   code: string;
+  visibleConditions?: ((theme: ThemeChangeEvent) => boolean)[];
 }
 
 export type AddonParametersControl =
@@ -197,6 +205,7 @@ export interface AddonParametersControlTheme {
 
 export interface StoryArgs extends Args {
   cckControl?: Args;
+  cckExampleArgs?: Args;
 }
 
 export type ComponentRef = ClassRef | ComponentType<any>;

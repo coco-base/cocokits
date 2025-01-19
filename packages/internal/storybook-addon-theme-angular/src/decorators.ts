@@ -9,7 +9,7 @@ import { ThemeEvent } from '@cocokits/storybook-addon-theme';
 
 export const withThemeConfigProvider: () => Provider = () => ({
   provide: ThemeConfigToken,
-  useFactory: () => getInstance(ThemeEvent).getCurrentTheme().themeConfig,
+  useFactory: () => getInstance(ThemeEvent).currentTheme.themeConfig,
 });
 
 export function withWrapperDecorator(
@@ -43,4 +43,12 @@ export function withWrapperDecorator(
   return componentWrapperDecorator(
     (story) => `<div style="${inlineStyles.join('; ')}" class="${classNames.join(' ')}">${story}</div>`
   );
+}
+
+export function withTokeWrapperDecorator(variables: Record<string, string>) {
+  const inlineStyles = Object.entries(variables)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join('; ');
+
+  return componentWrapperDecorator((story) => `<div style="${inlineStyles}">${story}</div>`);
 }

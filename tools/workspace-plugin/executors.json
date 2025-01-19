@@ -24,6 +24,11 @@
       "implementation": "./src/executors/build-typedoc/executor",
       "schema": "./src/executors/build-typedoc/schema.json",
       "description": "Build the storybook mdx doc page from the utils source code with help of typeDoc"
+    },
+    "example-story-source": {
+      "implementation": "./src/executors/example-story-source/executor",
+      "schema": "./src/executors/example-story-source/schema.json",
+      "description": "example-story-source executor"
     }
   }
 }

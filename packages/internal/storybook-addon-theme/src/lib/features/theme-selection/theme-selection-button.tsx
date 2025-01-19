@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
+import { Icons } from "@cocokits/common-icons";
 import { getInstance } from "@cocokits/common-utils";
 import { SvgIcon } from "@cocokits/react-icon";
 
 import { THEMES } from "../../config/addon-theme.config";
 import { GlobalEvent } from "../../data-access/global-event/preview-global-event";
 import { ColorMode } from "../../model/theme.model";
-import { Icons } from "../../utils/icons";
 import { useColorMode } from "../../utils/use-preview-color-mode";
 import { useTheme } from "../../utils/use-preview-theme";
 

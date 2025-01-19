@@ -1,7 +1,6 @@
+import { Icons } from "@cocokits/common-icons";
 import { Button } from "@cocokits/react-button";
 import { SvgIcon } from "@cocokits/react-icon";
-
-import { Icons } from "../../utils/icons";
 
 interface StorySourceCodeButtonProps {
     selected: boolean;

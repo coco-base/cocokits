@@ -50,7 +50,6 @@ export function useSourceCodeGenerator(story: PreparedStory, pause = false): Sou
 
     promise
       .then((sourceCodes) => {
-        console.log('sourceCodes', sourceCodes);
         setSourceCode({ loading: false, sourceCodes });
       })
       .catch((error) => {

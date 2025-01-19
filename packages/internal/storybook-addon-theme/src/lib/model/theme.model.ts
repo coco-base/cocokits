@@ -14,6 +14,8 @@ export enum ThemeId {
   FramesX = 'frames-x',
 }
 
+export type ThemeIdStr = 'cocokits' | 'frames-x';
+
 export interface Theme {
   id: ThemeId;
   displayName: string;
@@ -51,3 +53,6 @@ export interface SelectedTheme {
 }
 
 // #endregion
+
+export type ExampleStoryTemplateArgs<T> = Record<ThemeId, T>;
+export type ExampleStoryCssVariables = Record<ThemeId, Record<string, string>>;

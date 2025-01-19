@@ -1,3 +1,5 @@
+/** @module string */
+
 /**
  * Converts a string to Title Case.
  *

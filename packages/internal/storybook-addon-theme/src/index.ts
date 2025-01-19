@@ -3,7 +3,6 @@ export * from './lib/features/token-dictionary/token-dictionary';
 export * from './lib/features/mdx-page/mdx-page';
 export * from './lib/features/mdx-page/mdx-page-tab-code';
 export * from './lib/features/mdx-page/mdx-page-with-theme-section';
-export * from './lib/utils/icons';
 export * from './lib/utils/story-render-conditions';
 export * from './lib/model/theme.model';
 export * from './lib/model/event.model';

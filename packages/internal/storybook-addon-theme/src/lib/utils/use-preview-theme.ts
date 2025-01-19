@@ -8,7 +8,7 @@ import { SelectedTheme } from '../model/theme.model';
 
 export const useTheme = () => {
   const themeEvent = getInstance(ThemeEvent);
-  const [theme, setTheme] = useState<ThemeChangeEvent>(themeEvent.getCurrentTheme());
+  const [theme, setTheme] = useState<ThemeChangeEvent>(themeEvent.currentTheme);
 
   const dispatchTheme = (selectedTheme: SelectedTheme) => {
     themeEvent.dispatchTheme(selectedTheme);

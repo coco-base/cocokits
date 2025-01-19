@@ -1,10 +1,10 @@
+import { Icons } from "@cocokits/common-icons";
 import { SvgIcon } from "@cocokits/react-icon";
 import { Tab, TabLabel, Tabs, TabSelectionChangeEvent } from "@cocokits/react-tabs";
 
 import { StoryControlChangeEvent } from "./story-control.model";
 import { StyledControlLabel } from "./story-control.style";
 import { AddonParametersControlIcon } from "../../model/addon.model";
-import { Icons } from "../../utils/icons";
 
 
 interface StoryControlIconProps {

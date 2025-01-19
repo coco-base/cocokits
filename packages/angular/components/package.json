@@ -19,10 +19,7 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "devDependencies": {
-    "@storybook/angular": "8.4.4",
-    "@storybook/addon-docs": "8.4.4"
-  },
+  "devDependencies": {},
   "sideEffects": false,
   "publishConfig": {
     "directory": "../../../dist/packages/angular/components"

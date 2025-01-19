@@ -2,6 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@cocokits/common-kits-doc": [
+        "apps/common-kits-doc/src/",
+        "../apps/common-kits-doc/src/",
+        "../../apps/common-kits-doc/src/",
+        "../../../apps/common-kits-doc/src/"
+      ],
       "@cocokits/angular-components": [
         "packages/angular/components/src/",
         "../packages/angular/components/src/",
@@ -25,6 +31,12 @@
         "../packages/common/utils/src/",
         "../../packages/common/utils/src/",
         "../../../packages/common/utils/src/"
+      ],
+      "@cocokits/common-icons": [
+        "packages/common/icons/src/",
+        "../packages/common/icons/src/",
+        "../../packages/common/icons/src/",
+        "../../../packages/common/icons/src/"
       ],
       "@cocokits/react-overlay": [
         "packages/react/overlay/src/",

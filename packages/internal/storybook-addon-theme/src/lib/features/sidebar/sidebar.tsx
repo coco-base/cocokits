@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { Icons } from "@cocokits/common-icons";
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 import { OverlayRef } from '@cocokits/react-overlay';
-
-import { Icons } from '../../utils/icons';
 
 /**
  * This component will be render in manager

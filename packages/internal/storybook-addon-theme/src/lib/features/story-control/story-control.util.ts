@@ -21,7 +21,6 @@ export function getStoryControls(story: PreparedStory, theme: ThemeChangeEvent) 
     throw new Error(`Component name is missing in the story parameters for story ID: ${story.id}`);
   }
 
-  // const theme = themeEvent.getCurrentTheme();
   const themeComponentConfig = theme.themeConfig.components[uiBaseComponentName];
 
   if (!themeComponentConfig) {

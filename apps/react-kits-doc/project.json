@@ -6,21 +6,41 @@
   "sourceRoot": "apps/react-kits-doc/src",
   "tags": ["type:app", "framework:react"],
   "targets": {
+    "storybook": {
+      "dependsOn": [
+        "generate-example-story-source",
+        "build-typedoc",
+        {
+          "projects": ["@cocokits/common-kits-doc"],
+          "target": "build-typedoc"
+        }
+      ]
+    },
     "build-storybook": {
       "outputs": ["{options.outputPath}"],
       "options": {
         "output-dir": "../../dist/react-kits-doc"
       },
       "dependsOn": [
+        "^generate-example-story-source",
+        "build-typedoc",
         {
-          "projects": ["@cocokits/common-utils"],
-          "target": "build-typedoc"
-        },
-        {
-          "projects": ["@cocokits/react-utils"],
+          "projects": ["@cocokits/common-kits-doc"],
           "target": "build-typedoc"
         }
       ]
+    },
+    "generate-example-story-source": {
+      "executor": "@cocokits/workspace-plugin:example-story-source",
+      "options": {
+        "rootDir": "apps/react-kits-doc/stories/ui-components"
+      }
+    },
+    "build-typedoc": {
+      "executor": "@cocokits/workspace-plugin:build-typedoc",
+      "options": {
+        "typeDocConfig": "apps/react-kits-doc/typedoc.config.mjs"
+      }
     },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"

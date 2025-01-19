@@ -10,11 +10,10 @@ import { ThemeEvent } from '../../data-access/theme-event/preview-theme-event';
 
 export class StoryControlStore extends StoryControlStoreBase {
   protected globalEvent = getInstance(GlobalEvent);
-  private themeEvent = getInstance(ThemeEvent);
   protected store = new Map<StoryId, StoreState>();
 
   constructor() {
-    super(addons.getChannel());
+    super(addons.getChannel(), getInstance(ThemeEvent));
     this.globalEvent.changeStoryControl$.subscribe((state) => {
       this.store.set(state.storyId, state);
     });

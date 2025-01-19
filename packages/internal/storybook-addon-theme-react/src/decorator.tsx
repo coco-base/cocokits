@@ -7,7 +7,7 @@ import { ThemeEvent } from "@cocokits/storybook-addon-theme";
 
 export function withThemeConfigDecorator() {
   return (Story: any) => {
-    const theme = getInstance(ThemeEvent).getCurrentTheme();
+    const theme = getInstance(ThemeEvent).currentTheme;
     return (
       <ThemeConfigContext.Provider value={theme.themeConfig}>
         <Story />

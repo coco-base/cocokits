@@ -31,4 +31,12 @@ export class AddonConfig {
   public setAddonConfig(config: AddonThemeConfig): void {
     this.state = config;
   }
+
+  public getAddonConfig(): AddonThemeConfig {
+    if (!this.state) {
+      throw new Error('Manager Addon config is not ready yet.');
+    }
+
+    return Object.freeze({ ...this.state });
+  }
 }

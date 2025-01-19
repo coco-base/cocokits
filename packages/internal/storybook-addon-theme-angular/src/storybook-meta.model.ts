@@ -9,6 +9,6 @@ export interface StoriesMeta extends Meta {
 }
 
 // will be used in XXX.stories.ts
-export type StoryObj<T> = NgStoryObj<T> & {
+export type StoryObj<T = unknown> = NgStoryObj<T> & {
   parameters: AddonParametersStories;
 };

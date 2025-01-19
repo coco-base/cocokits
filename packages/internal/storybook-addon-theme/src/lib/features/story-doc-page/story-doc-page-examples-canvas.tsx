@@ -2,12 +2,12 @@ import { PreparedStory } from '@storybook/types';
 import { useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { Icons } from "@cocokits/common-icons";
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 
 import { StoryDocPageExampleStoreCellStyle, useStoryDocPageExampleStore } from './story-doc-page-examples.store';
 import { AddonParameters } from '../../model/addon.model';
-import { Icons } from '../../utils/icons';
 import { Story } from '../story-canvas/story';
 import { StoryCanvasWrapper } from '../story-canvas/story-canvas-wrapper';
 import { StorySourceCode } from '../story-source-code/story-source-code';

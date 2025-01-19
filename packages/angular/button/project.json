@@ -24,43 +24,6 @@
     },
     "quick-fix-eslint": {
       "executor": "@nx/eslint:lint"
-    },
-    "storybook": {
-      "options": {
-        "styles": [],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/packages/angular/button",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
-    },
-    "storybook-build": {
-      "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputDir": "dist/storybook/packages/angular/button",
-        "configDir": "packages/angular/button/.storybook",
-        "browserTarget": "@cocokits/angular-button:build-storybook",
-        "styles": [],
-        "compodoc": true,
-        "compodocArgs": [
-          "-e",
-          "json",
-          "-d",
-          "dist/compodoc/packages/angular/button",
-          "--disableLifeCycleHooks",
-          "--disableProtected",
-          "--disablePrivate",
-          "--disableInternal"
-        ]
-      }
     }
   }
 }

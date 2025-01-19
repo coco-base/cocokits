@@ -1,0 +1,22 @@
+{
+  "name": "@cocokits/common-icons",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/common/icons/src",
+  "projectType": "library",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/common/icons",
+        "main": "packages/common/icons/src/index.ts",
+        "tsConfig": "packages/common/icons/tsconfig.lib.json",
+        "assets": ["packages/common/icons/*.md"]
+      }
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

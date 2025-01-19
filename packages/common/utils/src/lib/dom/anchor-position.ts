@@ -1,3 +1,5 @@
+/** @module DOM */
+
 export enum ElementAnchorPoint {
   TopLeft = 'TopLeft',
   TopRight = 'TopRight',

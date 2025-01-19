@@ -1,13 +1,13 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+import { Icons } from "@cocokits/common-icons";
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 
 import { TokenDictionaryValueHierarchy } from './token-dictionary.model';
 import { TokenArrowDownIcon } from './token-dictionary-icons';
 import { TokenDictionaryValue } from './token-dictionary-value';
-import { Icons } from '../../utils/icons';
 
 export interface TokenInfoValueHierarchyProps {
   hierarchiesModes: TokenDictionaryValueHierarchy[][];

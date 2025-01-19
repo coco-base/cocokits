@@ -18,7 +18,7 @@ export type StoryTab = 'Overview' | 'API' | 'Styling' | 'Examples';
 
 export function StoryDocPage() {
   const [selectedTab, setSelectedTab] = useState<StoryTab>('Overview');
-
+  
   const theme = useTheme();
   const context = useContext(DocsContext);
   const resolved = useOf('meta');

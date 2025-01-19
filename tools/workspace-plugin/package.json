@@ -11,7 +11,8 @@
     "cssnano": "^7.0.1",
     "postcss": "^8.4.38",
     "postcss-discard-comments": "^7.0.3",
-    "sass": "^1.75.0"
+    "sass": "^1.75.0",
+    "fast-glob": "^3.3.3"
   },
   "devDependencies": {
     "@nx/vite": "18.3.5",

@@ -1,12 +1,12 @@
 import { PreparedStory } from "@storybook/types";
 import { useEffect, useState } from "react";
 
+import { Icons } from "@cocokits/common-icons";
 import { getInstance } from "@cocokits/common-utils";
 import { Button } from "@cocokits/react-button";
 import { SvgIcon } from "@cocokits/react-icon";
 
 import { GlobalEvent } from "../../data-access/global-event/preview-global-event";
-import { Icons } from "../../utils/icons";
 
 export interface StoryControlButtonProps {
   story: PreparedStory;

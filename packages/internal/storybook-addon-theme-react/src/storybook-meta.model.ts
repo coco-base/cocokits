@@ -13,7 +13,12 @@ export type StoriesMeta<T> = Meta<T> & {
 
 // will be used in XXX.stories.ts
 export type StoryObj<T extends keyof React.JSX.IntrinsicElements | React.JSXElementConstructor<any>> = ReactStoryObj<
-  ComponentProps<T> & { cckControl: Args; cckIcons: Record<string, ThemeSvgIcon> }
+  ComponentProps<T> & {
+    cckControl: Args;
+    cckIcons: Record<string, ThemeSvgIcon>;
+    cckExampleVariables: string;
+    cckExampleArgs: Args;
+  }
 > & {
   parameters: AddonParametersStories;
 };

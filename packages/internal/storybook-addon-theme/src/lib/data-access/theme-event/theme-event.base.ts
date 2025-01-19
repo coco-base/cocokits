@@ -15,25 +15,28 @@ export abstract class ThemeEventBase {
   protected localStorage = getInstance(LocalStorage);
   public themeChange$: Observable<ThemeChangeEvent>;
 
+  public currentTheme = this.selectedThemeToThemeEvent(this.localStorage.getThemeOrDefault());
+
   constructor(channel: Channel) {
     this.channel = channel;
-    // Don't move this line outside if `constructor`, otherwise the channel will be undefined, event if it's initialized in the constructor props.
+    // QuickFix: Don't move this line outside if `constructor`, otherwise the channel will be undefined, event if it's initialized in the constructor props.
     this.themeChange$ = fromStorybookEvent<ThemeChangeEvent>(this.channel, EVENTS.THEME_CHANGE).pipe(
-      startWith(this.getCurrentTheme())
+      startWith(this.currentTheme)
     );
 
     /**
-     * We you need to ensure that the observable chain has always an active subscription.
+     * There are 2 reasons that we have to subscribe to the observable chain:
+     * 1- We you need to ensure that the observable chain has always an active subscription.
      * Observables in RxJS are cold by default and won't emit values unless subscribed to.
      * Even if you don't subscribe to the source observable directly,
      * you should subscribe to the observable resulting from `withLatestFrom`.
      * This will initiate the data flow and allow you to receive values.
+     *
+     * 2- We need to save the selected theme and if any component need it send it immediately without any delays.
      */
-    this.themeChange$.subscribe(() => {});
-  }
-
-  public getCurrentTheme() {
-    return this.selectedThemeToThemeEvent(this.localStorage.getThemeOrDefault());
+    this.themeChange$.subscribe((theme) => {
+      this.currentTheme = this.selectedThemeToThemeEvent(theme);
+    });
   }
 
   public dispatchTheme(newSelectedTheme: SelectedTheme) {

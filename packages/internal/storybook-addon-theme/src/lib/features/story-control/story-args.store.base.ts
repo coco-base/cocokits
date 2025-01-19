@@ -7,21 +7,39 @@ import { deepComparator } from '@cocokits/common-utils';
 
 import { StoreState } from './story-control.model';
 import { GlobalEventBase } from '../../data-access/global-event/global-event.base';
+import { ThemeEventBase } from '../../data-access/theme-event/theme-event.base';
+import { AddonParameters } from '../../model/addon.model';
 
 export abstract class StoryControlStoreBase {
   protected abstract store: Map<StoryId, StoreState>;
   protected abstract globalEvent: GlobalEventBase;
 
-  constructor(protected change: Channel) {}
+  constructor(
+    protected change: Channel,
+    protected themeEvent: ThemeEventBase
+  ) {}
 
   public updateStoryArgs(storyId: StoryId, args: Args, remount = false) {
-    const currentArgs = this.store.get(storyId)?.args;
-
-    if (!currentArgs) {
+    const state = this.store.get(storyId);
+    if (!state) {
       throw new Error(`Story has not been registered in the StoryControlStore for story ID: ${storyId}`);
     }
 
-    const updatedArgs = { cckControl: { ...currentArgs, ...args } };
+    const parameters = state.story.parameters as AddonParameters;
+    const currentArgs = state.args;
+
+    const cckExampleArgs = parameters.cckAddon.exampleStory?.templateArgsMap?.[this.themeEvent.currentTheme.id];
+    const cssArgs = parameters.cckAddon.exampleStory?.cssArgsMap?.[this.themeEvent.currentTheme.id];
+    const cckExampleCssVariables = Object.entries(cssArgs ?? {})
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('; ');
+
+    const updatedArgs = {
+      cckControl: { ...currentArgs, ...args },
+      cckExampleArgs,
+      cckExampleCssVariables,
+    };
+
     this.change.emit(events.UPDATE_STORY_ARGS, { storyId, updatedArgs });
 
     if (remount) {

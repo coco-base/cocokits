@@ -1,0 +1,12 @@
+{
+  "name": "common-kits-doc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {},
+  "keywords": [],
+  "dependencies": {},
+  "author": "",
+  "license": "ISC"
+}

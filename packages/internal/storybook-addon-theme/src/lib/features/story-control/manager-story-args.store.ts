@@ -7,19 +7,20 @@ import { getInstance, reduceMerge } from '@cocokits/common-utils';
 import { StoryControlStoreBase } from './story-args.store.base';
 import { StoreState } from './story-control.model';
 import { getStoryControls } from './story-control.util';
+import { AddonConfig } from '../../data-access/addon-config/manager-addon-config';
 import { GlobalEvent } from '../../data-access/global-event/manager-global-event';
 import { ThemeEvent } from '../../data-access/theme-event/manager-theme-event';
 import { AddonParameters, StoryArgs } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
 
 export class StoryControlStore extends StoryControlStoreBase {
-  private themeEvent = getInstance(ThemeEvent);
   protected globalEvent = getInstance(GlobalEvent);
+  protected addonConfig = getInstance(AddonConfig);
 
   protected store = new Map<StoryId, StoreState>();
 
   constructor() {
-    super(addons.getChannel());
+    super(addons.getChannel(), getInstance(ThemeEvent));
     this.globalEvent.newStory$.subscribe((story) => this.onNewStory(story));
     this.change.addListener(events.UPDATE_STORY_ARGS, (e) => this.onUpdateArgs(e));
     this.themeEvent.themeChange$.subscribe((theme) => this.onThemeChange(theme));
@@ -30,7 +31,7 @@ export class StoryControlStore extends StoryControlStoreBase {
       return;
     }
 
-    const theme = this.themeEvent.getCurrentTheme();
+    const theme = this.themeEvent.currentTheme;
     const state = this.getInitializeState(story, theme);
 
     this.store.set(story.id, state);
@@ -39,7 +40,8 @@ export class StoryControlStore extends StoryControlStoreBase {
   }
 
   private onUpdateArgs({ storyId, updatedArgs }: { storyId: string; updatedArgs: StoryArgs }) {
-    const cckUpdatedArgs = updatedArgs.cckControl;
+    const cckUpdatedArgs = { ...updatedArgs.cckControl, ...updatedArgs.cckExampleArgs };
+
     const currentState = this.store.get(storyId);
 
     if (!currentState || !cckUpdatedArgs) {
@@ -61,7 +63,8 @@ export class StoryControlStore extends StoryControlStoreBase {
       this.store.set(storyId, state);
       this.globalEvent.dispatch.changeStoryControl(state);
 
-      this.updateStoryArgs(storyId, state.args, true);
+      const isAngular = this.addonConfig.getAddonConfig().framework === 'angular';
+      this.updateStoryArgs(storyId, state.args, isAngular);
     });
   }
 
