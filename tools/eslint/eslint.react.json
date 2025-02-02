@@ -2,6 +2,7 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
+      "extends": ["./eslint.base.json"],
       "rules": {
         "react-hooks/exhaustive-deps": "off"
       }

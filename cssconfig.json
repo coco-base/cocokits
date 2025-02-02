@@ -1,0 +1,5 @@
+{
+  "globalCssFiles": ["apps/website/app/base.scss"],
+  "include": ["**/*.{tsx,scss,css}"],
+  "exclude": ["**/*.html"]
+}

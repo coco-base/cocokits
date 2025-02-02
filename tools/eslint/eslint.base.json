@@ -110,10 +110,10 @@
       }
     },
     {
-      "files": ["*.stories.ts"],
+      "files": ["*.stories.ts", "*.stories.tsx"],
       "rules": {
-        "@nx/enforce-module-boundaries": "off",
-        "no-console": "off"
+        "no-console": "off",
+        "react/jsx-no-useless-fragment": "off"
       }
     }
   ]

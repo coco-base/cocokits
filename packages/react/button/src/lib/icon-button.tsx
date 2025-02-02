@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef } from "react";
 
 import { UIBaseComponentProps } from "@cocokits/core";
@@ -22,5 +23,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     );
   }
 );
+
+IconButton.displayName = "IconButton";
 
 export default IconButton;

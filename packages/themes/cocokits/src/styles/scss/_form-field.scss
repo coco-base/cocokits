@@ -149,11 +149,17 @@
     box-shadow: inset 0 0 0 1px $color-brand-default;
   }
 
-  .cck-form-field--error .cck-form-field__input-wrapper {
-    border: 1px solid $form-field-color-error;
+  .cck-form-field--invalid,
+  .cck-form-field--error {
+    .cck-form-field__input-wrapper {
+      border: 1px solid $form-field-color-error;
+    }
   }
 
-  .cck-form-field--focused.cck-form-field--error .cck-form-field__input-wrapper {
-    box-shadow: inset 0 0 0 1px $form-field-color-error;
+  .cck-form-field--focused.cck-form-field--invalid,
+  .cck-form-field--focused.cck-form-field--error {
+    .cck-form-field__input-wrapper {
+      box-shadow: inset 0 0 0 1px $form-field-color-error;
+    }
   }
 }

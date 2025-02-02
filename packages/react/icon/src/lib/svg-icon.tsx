@@ -1,3 +1,4 @@
+'use client';
 import React, { forwardRef, useLayoutEffect, useRef } from "react";
 import { UIBaseComponentProps } from "@cocokits/core";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
@@ -39,7 +40,7 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
     }, [hostRef.current, icon, classNames.svg]);
 
     return (
-      <div ref={hostRef} className={hostClassNames}>
+      <span ref={hostRef} className={`${hostClassNames} ${restProps.className ?? ''}`}>
         {typeof icon !== "string" && (
           <svg
             ref={ref}
@@ -50,7 +51,7 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
             {...restProps}
           />
         )}
-      </div>
+      </span>
     )
   }
 );

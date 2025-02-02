@@ -190,7 +190,7 @@ export interface AddonParametersControlText extends AddonParametersControlBase {
 
 export interface AddonParametersControlNumber extends AddonParametersControlBase {
   type: AddonParametersControlType.Number;
-  default: number;
+  default: number | undefined;
 }
 
 export interface AddonParametersControlBoolean extends AddonParametersControlBase {

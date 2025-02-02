@@ -1,0 +1,39 @@
+@use '../../../token/scss/index' as *;
+
+.cck-component__host {
+  width: 336px;
+  height: 336px;
+  position: relative;
+  border-radius: $website-cck-radius-md;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(
+      90deg,
+      $website-cck-color-bg-0 0%,
+      $website-cck-color-main-effect-surface-start 50%,
+      $website-cck-color-bg-0 100%
+    ),
+    linear-gradient(
+      180deg,
+      $website-cck-color-bg-0 3.62%,
+      $website-cck-color-main-effect-surface-start 51.49%,
+      $website-cck-color-bg-0 100%
+    ),
+    radial-gradient(circle at 3px 3px, $website-cck-color-bg-5 3px, transparent 3px);
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size:
+    cover,
+    cover,
+    16px 16px;
+  box-shadow: 0 4px 10px 0 rgb(255 255 255 / 4%);
+  border: 1px solid var(--website-cck-color-border-2);
+}
+
+.cck-component__name {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font: $website-cck-text-sm-semibold;
+  color: $website-cck-color-font-4;
+}

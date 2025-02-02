@@ -1,0 +1,79 @@
+@use '../../../../token/scss/index' as *;
+
+.welcome__host {
+  position: relative;
+  padding: 88px 0 168px;
+  height: 720px;
+  background: linear-gradient(148deg, var(--website-cck-color-bg-0) 300px, rgb(0 0 0 / 0%) 700px);
+}
+
+.welcome__content {
+  width: 560;
+}
+
+.welcome__description {
+  max-width: 460px;
+  color: var(--website-cck-color-font-3);
+}
+
+.welcome__actions-wrapper {
+  display: flex;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.welcome__ds-title {
+  margin-top: 84px;
+  color: $website-cck-color-font-4;
+  font: $website-cck-text-sm-regular;
+}
+
+.welcome__ds-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.welcome__ds-empty-spot {
+  display: flex;
+  align-items: center;
+  border-radius: 500px;
+  border: 1px dashed $website-cck-color-border-3;
+  color: $website-cck-color-font-4;
+  font: $website-cck-text-sm-regular;
+  padding: 4px 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $website-cck-color-bg-3;
+  }
+}
+
+.welcome__overlay-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url("/banner-effect-1.png");
+  background-position: right;
+  overflow: hidden;
+}
+
+.welcome__overlay-image {
+  position: absolute;
+  top: 100px;
+  right: 0;
+  max-width: fit-content;
+}
+
+.welcome__overlay-effect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1200px;
+  max-width: 1200px;
+  height: 100%;
+}

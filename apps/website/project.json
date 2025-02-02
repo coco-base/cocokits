@@ -5,5 +5,18 @@
   "projectType": "application",
   "tags": ["type:app", "framework:react"],
   "// targets": "to see all targets run: nx show project website --web",
-  "targets": {}
+  "targets": {
+    "token-generator": {
+      "executor": "@cocokits/workspace-plugin:token-generator",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "files": ["apps/website/json-token/manifest.json"],
+        "skipTokenTypes": [],
+        "parser": "design-tokens-manager",
+        "outputDir": "apps/website/token",
+        "prefix": "website-cck-",
+        "themeName": "website"
+      }
+    }
+  }
 }

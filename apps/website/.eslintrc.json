@@ -4,6 +4,7 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["../../tools/eslint/eslint.react.json"],
       "rules": {
         "@next/next/no-html-link-for-pages": ["error", "apps/website/pages"]
       }

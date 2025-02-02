@@ -2,12 +2,13 @@ import { Preview  } from "@storybook/react";
 
 import { Icons } from "@cocokits/common-icons";
 
-import { withThemeConfigDecorator } from "./decorator";
+import { withThemeConfigDecorator, withWrapperDecorator } from "./decorator";
 
 
 export const PREVIEW_BASE: Preview = {
   tags: ['autodocs'],
   decorators: [
+    withWrapperDecorator(),
     withThemeConfigDecorator()
   ],
   argTypes: {

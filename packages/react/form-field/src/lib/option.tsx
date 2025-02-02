@@ -1,13 +1,19 @@
-import { UIBaseComponentProps } from "@cocokits/core";
-import { ThemeConfigContext, useUiBaseComponentConfig } from "@cocokits/react-core";
-import { useSelectStore } from "./select-store";
+'use client';
 import { useContext } from "react";
-import { SvgIcon } from "@cocokits/react-icon";
+
 import { isNullish } from "@cocokits/common-utils";
+import { UIBaseComponentProps } from "@cocokits/core";
+import { Checkbox } from "@cocokits/react-checkbox";
+import { ThemeConfigContext, useUiBaseComponentConfig } from "@cocokits/react-core";
+import { SvgIcon } from "@cocokits/react-icon";
 import { useOverlayRef } from "@cocokits/react-overlay";
 
+import { useFormStore } from "./form-store";
+import { OptionGroupContext } from "./option-group";
+import { useSelectStore } from "./select-store";
+
 export interface OptionProps<T = unknown> extends UIBaseComponentProps {
-  // disabled?: boolean;
+  disabled?: boolean;
   /**
    * Value of the select control.
    */
@@ -19,19 +25,28 @@ export interface OptionProps<T = unknown> extends UIBaseComponentProps {
 export const Option = <T,>(props: OptionProps<T>) => {
 
   const overlayRef = useOverlayRef();
+  const optionGroup = useContext(OptionGroupContext);
   const themeConfig = useContext(ThemeConfigContext);
   const optionSelectedIcon = themeConfig?.components.option?.templates?.optionSelectedIcon;
 
   const selectStore = useSelectStore<T>();
+  const formStore = useFormStore();
   const isSelected = selectStore?.useIsSelected(props.value);
+  const isMultiple = selectStore?.useState(state => state.isMultiple);
+  
+  const formDisabled = formStore?.useState((state) => state.disabled);
+  const disabled = props.disabled ?? optionGroup?.disabled ?? formDisabled;
 
-  const canShowSelectedIcon = isSelected && optionSelectedIcon; // And also is not multiple
+  const canShowSelectedIcon = isSelected && optionSelectedIcon && !isMultiple;
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'option',
     props,
     extraHostElementClassConditions: [
-      // { if: disabled, classes: (classNames) => [classNames.disabled] },
+      { if: disabled, classes: (cn) => [cn.disabled] },
+      { if: isSelected, classes: (cn) => [cn.selected] },
+      { if: isMultiple, classes: (cn) => [cn.multiple] },
+      { if: !isMultiple, classes: (cn) => [cn.single] },
     ],
   });
 
@@ -39,20 +54,38 @@ export const Option = <T,>(props: OptionProps<T>) => {
   const onHostClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
 
-    // Handle Disabled
-    // Handle Multiple
+    if(disabled) {
+      return;
+    }
+
+    if(isMultiple) {
+      if(isNullish(props.value)) {
+        return;
+      }
+
+      selectStore?.toggle(props.value);
+      return;
+    }
 
     isNullish(props.value)
       ? selectStore?.clear()
       : selectStore?.select(props.value);
 
-    // selectStore?.renderedOverlay?.overlayRef.close();
     overlayRef.close();
-  }
+  };
 
   return (
     <div className={hostClassNames} onClick={onHostClick}>
-      {/* Multiple */}
+      {
+        isMultiple &&
+        <div className={classNames.multipleWrapper}>
+          <Checkbox
+            checked={isSelected}
+            disabled={disabled}
+            onChange={() => selectStore?.toggle(props.value)}
+          />
+        </div>
+      }
 
       <div className={classNames.contentWrapper}>
         {props.children}
@@ -66,4 +99,8 @@ export const Option = <T,>(props: OptionProps<T>) => {
     </div>
   );
 
-}
+};
+
+Option.displayName = 'Option';
+
+export default Option;

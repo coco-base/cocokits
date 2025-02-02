@@ -41,6 +41,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
   private cd = inject(ChangeDetectorRef);
 
   protected extraHostElementClassConditions = computed(() => [
+    // TODO: Add required (https://github.com/orgs/coco-base/projects/1/views/7?filterQuery=&pane=issue&itemId=95567898)
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
     { if: this.store.state.focused(), classes: this.classNames().focused },
     { if: this.store.state.hasError(), classes: this.classNames().error },

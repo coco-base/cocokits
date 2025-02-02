@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
+import { Icons } from '@cocokits/common-icons';
+import { Button, SvgIcon } from '@cocokits/react-components';
+
 import { ExampleArgs } from './_story.config';
 import { Styled } from './VolumeButton.styled';
-import { Button, SvgIcon } from '@cocokits/react-components';
-import { Icons } from '@cocokits/common-icons';
 
 const MAX_VOLUME = 5;
 const MIN_VOLUME = 0;

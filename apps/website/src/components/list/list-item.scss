@@ -1,0 +1,24 @@
+@use '../../../token/scss/index' as *;
+
+.list-item__host {
+  display: flex;
+  margin: 12px 0;
+  font: $website-cck-text-md-regular;
+  color: $website-cck-color-font-1;
+
+  &.list-item__host--inactive {
+    color: $website-cck-color-font-3;
+  }
+}
+
+.list-item__tag {
+  background-color: $website-cck-color-bg-4;
+  padding: 0 12px;
+  margin: auto 4px;
+  font: $website-cck-text-sm-regular;
+  color: $website-cck-color-font-3;
+  border-radius: 500px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -19,6 +19,7 @@
     }
   }
 
+  .cck-form-field--invalid,
   .cck-form-field--error {
     .cck-form-field__wrapper {
       border: 1px solid $state-danger-active;

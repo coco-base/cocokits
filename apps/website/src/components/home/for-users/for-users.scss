@@ -1,0 +1,14 @@
+@use '../../../../token/scss/index' as *;
+
+.for-users__host {
+  margin: 48px 0;
+  padding-bottom: 64px;
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  min-height: 500px;
+}
+
+.for-users__section {
+  flex: 1;
+}

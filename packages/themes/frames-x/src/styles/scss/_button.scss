@@ -23,6 +23,10 @@
     }
   }
 
+  .cck-button__backdrop {
+    display: none;
+  }
+
   .cck-button__default {
     &.cck-button__color {
       &--brand {

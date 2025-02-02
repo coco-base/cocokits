@@ -21,11 +21,11 @@ export const Size: StoryObj<IconButtonComponent> = {
           code: `
             <% themeComponentConfig.size.values.map(size => { %>
               <button
-                cck-button
+                cck-icon-button
                 <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                 size='<%= size %>'
               >
-                <%= size %>
+                <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
                 </button>
             <% }) %>
           `,

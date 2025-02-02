@@ -1,64 +1,100 @@
+'use client';
 import React, { useEffect, useRef } from 'react';
+
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
+
 import { useCreateFormStore } from './form-store';
+
 
 export interface FormFieldProps extends UIBaseComponentProps {
   disabled?: boolean;
-  className?: string;
+  required?: boolean;
+  invalid?: boolean;
+  hideRequiredMarker?: boolean;
   children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-export const FormField: React.FC<FormFieldProps> = (props) => {
 
-  const {formStore, FormStoreProvider} = useCreateFormStore();
+export const FormField = (props: FormFieldProps) => {
+  const { formStore, FormStoreProvider } = useCreateFormStore();
 
-  // const disabled = fromStore.useStore(state => state.disabled);
-  const focused = formStore.useState(state => state.focused);
+  const disabled = formStore.useState((state) => state.disabled);
+  const required = formStore.useState((state) => state.required);
+  const focused = formStore.useState((state) => state.focused);
+  const hasInput = formStore.useState((state) => state.hasInput);
+  const hasSelect = formStore.useState((state) => state.hasSelect);
+  const invalid = formStore.useState((state) => state.invalid);
+  const size = formStore.useState((state) => state.size);
+  const labelTemplate = formStore.useState((state) => state.labelTemplate);
+  const hintTemplate = formStore.useState((state) => state.hintTemplate);
+  const errorsTemplates = formStore.useState((state) => state.errorsTemplates);
+  const prefixTemplate = formStore.useState((state) => state.prefixTemplate);
+  const suffixTemplate = formStore.useState((state) => state.suffixTemplate);
+  const leadingTemplate = formStore.useState((state) => state.leadingTemplate);
+  const trailingTemplate = formStore.useState((state) => state.trailingTemplate);
 
   const wrapperElemRef = useRef<HTMLDivElement>(null);
-  
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'formField',
-    props,
+    props: {...props, size},
     extraHostElementClassConditions: [
-      // { if: disabled, classes: (classNames) => [classNames.disabled] },
-      { if: focused, classes: (classNames) => [classNames.focused] },
+      { if: disabled, classes: (cn) => [cn.disabled] },
+      { if: required, classes: (cn) => [cn.required] },
+      { if: focused, classes: (cn) => [cn.focused] },
+      { if: hasInput, classes: (cn) => [cn.withInput] },
+      { if: hasSelect, classes: (cn) => [cn.withSelect] },
+      { if: invalid, classes: (cn) => [cn.invalid] },
+      { if: !!props.className, classes: () => [props.className] },
+      // TODO: add formControl like react-hook-form. with untouched, touched, pristine, dirty, valid, invalid, pending
     ],
   });
 
+
   useEffect(() => {
     formStore.registerComponent('formField');
-    return () => formStore.unregisterComponent('formField')
-  }, [formStore])
+    return () => formStore.unregisterComponent('formField');
+  }, [formStore]);
 
-  // useEffectAfterMount(() => fromStore.upsertComponent('formField', {disabled: props.disabled}), [props.disabled, fromStore])
-  useEffect(() => formStore.updateComponent('formField', {wrapperElem: wrapperElemRef}), [wrapperElemRef, formStore])
+  useEffect(() => {
+    formStore.deepUpdateComponent('formField', {
+      wrapperElem: wrapperElemRef,
+      disabled: props.disabled,
+      required: props.required,
+      invalid: props.invalid,
+      size: props.size,
+      hideRequiredMarker: props.hideRequiredMarker,
+    });
+  }, [wrapperElemRef, formStore, props.disabled, props.required, props.invalid, props.size, props.hideRequiredMarker]);
 
   return (
     <FormStoreProvider value={formStore}>
-    <div className={`${hostClassNames} ${props.className}`}>
+      <div style={props.style} className={hostClassNames}>
+        {labelTemplate}
 
-      {/* TODO: Label */}
-
-      <div className={classNames.wrapper} ref={wrapperElemRef}>
-        {/* TODO: Leading Content */}
-        <div className={classNames.inputWrapper}>
-          {/* TODO: Prefix */}
-          {props.children}
-          {/* TODO: Suffix */}
+        <div className={classNames.wrapper} ref={wrapperElemRef}>
+          {leadingTemplate}
+          <div className={classNames.inputWrapper}>
+            {prefixTemplate}
+            {props.children}
+            {suffixTemplate}
+          </div>
+          {trailingTemplate}
         </div>
-        {/* TODO: Trailing Content */}
-      </div>
 
-      <div className={classNames.feedbackWrapper}>
-        {/* TODO: Hint and Error Messages */}
+        <div className={classNames.feedbackWrapper}>
+          {hintTemplate}
+          {errorsTemplates.map((errorTemplate, index) => {
+            return <React.Fragment key={index}>{errorTemplate}</React.Fragment>;
+          })}
+        </div>
       </div>
-
-    </div>
     </FormStoreProvider>
   );
 };
 
+FormField.displayName = 'FormField';
 export default FormField;

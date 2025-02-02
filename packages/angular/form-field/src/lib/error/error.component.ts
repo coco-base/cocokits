@@ -13,8 +13,6 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 
 import { injectFormFieldStore } from '../form-field.store';
 
-let NEXT_ID = 1;
-
 @Component({
   standalone: true,
   imports: [],
@@ -33,10 +31,9 @@ export class ErrorComponent extends _UiBaseComponent<'error'> implements OnInit,
 
   protected store = injectFormFieldStore();
 
-  private readonly id = `${this.componentName}-${NEXT_ID++}`;
-
   /**
-   * Force to show the error, event the formFiled is don't consider the field with error.
+   * Force to show the error, event the reactive form is valid or there is no reactive form.
+   * By default the error component will only show when the reactive form is invalid.
    */
   public force: InputSignal<boolean> = input(false);
 

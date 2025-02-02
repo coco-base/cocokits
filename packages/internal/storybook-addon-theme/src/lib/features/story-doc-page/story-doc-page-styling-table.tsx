@@ -16,8 +16,8 @@ export function StoryDocPageStylingTable({ tableProps }: StoryDocPageStylingTabl
         </tr>
       </thead>
       <tbody>
-        {tableProps.map((tableProp) => (
-          <tr key={tableProp.elementName}>
+        {tableProps.map((tableProp, index) => (
+          <tr key={index}>
             <td className="arg-type-table--no-wrap">{tableProp.cssSelector}</td>
             <td>{tableProp.elementName}</td>
             <td>

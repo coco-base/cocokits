@@ -34,7 +34,7 @@ export const Default: StoryObj<IconButtonComponent> = {
         {
           displayName: 'Icon',
           default: 'heartFill',
-          icons: ['none', 'heartFill', 'heart', 'link'],
+          icons: ['info', 'heartFill', 'heart', 'link'],
           storyArgKey: 'icon',
           type: AddonParametersControlType.Icon,
         },

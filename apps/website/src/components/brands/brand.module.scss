@@ -1,0 +1,27 @@
+@use '../../../token/scss/index' as *;
+
+.brand__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand__logo--md {
+  width: 24px;
+  height: 24px;
+}
+
+.brand__logo--sm {
+  width: 20px;
+  height: 20px;
+}
+
+.brand__text {
+  font: $website-cck-text-md-medium;
+  color: $website-cck-color-font-3;
+}
+
+.brand__text--highlight {
+  font: $website-cck-text-md-semibold;
+  color: $website-cck-color-font-1;
+}

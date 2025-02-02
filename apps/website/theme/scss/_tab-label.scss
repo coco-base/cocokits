@@ -1,0 +1,9 @@
+@use '../../token/scss' as *;
+
+@mixin tab-label {
+  .website-cck-tab-label {
+    // Without relative and zIndex 1, the indicator will be at top of the prevues element
+    position: relative;
+    z-index: 1;
+  }
+}

@@ -1,0 +1,39 @@
+@use '../../token/scss' as *;
+
+@mixin tabs {
+  .website-cck-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &__labels-wrapper {
+      display: flex;
+      align-items: center;
+    }
+
+    &__default {
+      .website-cck-tabs__labels-wrapper {
+        border-radius: 500px;
+        align-self: center;
+      }
+    }
+
+    &__color {
+      &--default {
+        .website-cck-tabs__labels-wrapper {
+          background-color: $website-cck-color-bg-3;
+        }
+      }
+    }
+
+    &__size {
+      &--md {
+        .website-cck-tabs__labels-wrapper {
+          height: 60px;
+          padding: 8px 12px;
+          border-radius: 500px;
+        }
+      }
+    }
+  }
+}

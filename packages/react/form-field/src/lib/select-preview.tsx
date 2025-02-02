@@ -1,4 +1,6 @@
+'use client';
 import React from 'react';
+
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
@@ -20,5 +22,7 @@ export const SelectPreview: React.FC<SelectPreviewProps> = (props) => {
     </div>
   );
 };
+
+SelectPreview.displayName = 'SelectPreview';
 
 export default SelectPreview;
