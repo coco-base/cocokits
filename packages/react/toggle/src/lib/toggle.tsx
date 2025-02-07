@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { UIBaseComponentProps } from "@cocokits/core";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
+import { useEffectAfterMount } from "@cocokits/react-utils";
 
 let NEXT_ID = 0;
 
@@ -54,13 +55,17 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
     componentName: 'toggle',
     props: { ...props },
     extraHostElementClassConditions: [
-      { if: props.disabled, classes: (classNames) => [classNames.disabled] },
-      { if: checked, classes: (classNames) => [classNames.checked] },
-      { if: !checked, classes: (classNames) => [classNames.unchecked] },
-      { if: props.disabled, classes: (classNames) => [classNames.disabled] },
-      { if: props.labelPosition === 'before', classes: (classNames) => [classNames.labelBefore] },
+      { if: props.disabled, classes: (cn) => [cn.disabled] },
+      { if: checked, classes: (cn) => [cn.checked] },
+      { if: !checked, classes: (cn) => [cn.unchecked] },
+      { if: props.disabled, classes: (cn) => [cn.disabled] },
+      { if: props.labelPosition === 'before', classes: (cn) => [cn.labelBefore] },
     ]
   });
+
+  useEffectAfterMount(() => {
+    setChecked(props.checked ?? false);
+  }, [props.checked]);
 
 
   const toggle = () => {
@@ -90,4 +95,5 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
   );
 };
 
+Toggle.displayName = 'Toggle';
 export default Toggle;

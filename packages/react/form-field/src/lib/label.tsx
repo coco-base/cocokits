@@ -40,7 +40,7 @@ export function Label(props: LabelProps) {
     return () => formStore?.unregisterComponent('label');
   }, []);
 
-  return null;
+  return <></>;
 }
 
 Label.displayName = 'Label';

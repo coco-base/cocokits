@@ -2,7 +2,7 @@ import { ChipListComponent } from '@cocokits/angular-form-field';
 import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
-export const Size: StoryObj<ChipListComponent<string>> = {
+export const Size: StoryObj<ChipListComponent> = {
   name: 'Size',
   parameters: {
     docs: {

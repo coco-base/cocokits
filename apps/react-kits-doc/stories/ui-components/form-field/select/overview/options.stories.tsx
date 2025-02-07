@@ -1,4 +1,3 @@
-import { ElementAnchorPoint } from '@cocokits/common-utils';
 import { FormField, Label, Option, OptionGroup, Select } from '@cocokits/react-form-field';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';

@@ -63,6 +63,6 @@ export function reactThemeArgsToTemplate(storyArgs: Args): Args {
     type: storyArgs.cckControl.type,
     size: storyArgs.cckControl.size,
     color: storyArgs.cckControl.color,
-    additional,
+    // additional,
   };
 }

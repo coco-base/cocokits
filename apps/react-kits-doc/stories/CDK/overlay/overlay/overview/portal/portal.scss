@@ -1,0 +1,39 @@
+.overlay-dialog-portal__host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.overlay-dialog-portal__header {
+  font: var(--cck-doc-display-xs-medium, 500 24px / 38px Inter);
+  color: var(--cck-doc-color-font-1, #000);
+}
+
+.overlay-dialog-portal__text {
+  font: var(--cck-doc-text-sm-regular, 400 14px / 24px Inter);
+  color: var(--cck-doc-color-font-3, #ccc);
+}
+
+.overlay-portal__host {
+  padding: 8px 4px;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overlay-portal__text {
+  font: var(--cck-doc-text-sm-regular, 400 14px/24px Inter);
+  color: var(--cck-doc-color-font-3, #ccc);
+}
+
+.overlay-portal-example .cck-overlay__content-wrapper {
+  background-color: var(--cck-doc-color-bg-2, #15171e);
+  border: 1px solid var(--cck-doc-color-border-1, #2d2f36);
+  padding: 12px 24px 24px;
+  border-radius: var(--cck-doc-radius-md, 8px);
+}
+
+.overlay-portal-example .cck-overlay__backdrop {
+  background-color: color-mix(in srgb, var(--cck-doc-color-bg-1, #0d0e11) 80%, transparent);
+}

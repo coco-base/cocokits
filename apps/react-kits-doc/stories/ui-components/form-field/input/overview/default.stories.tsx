@@ -50,7 +50,7 @@ export const Default: StoryObj<typeof Input> = {
     },
   },
   render: (args) => (
-    <FormField>
+    <FormField style={{ minWidth: '200px' }}>
       {args.cckControl.label && <Label>{args.cckControl.label}</Label> }
       <Input
         {...reactThemeArgsToTemplate(args)}

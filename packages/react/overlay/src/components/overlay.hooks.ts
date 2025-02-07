@@ -33,8 +33,12 @@ export function useOverlayAnimation(props: {
 
   const throwMissingElementsError: () => never = () => {
     const missingElements = [];
-    if (!props.containerRef.current) missingElements.push('containerRef');
-    if (!props.contentRef.current) missingElements.push('contentRef');
+    if (!props.containerRef.current) {
+      missingElements.push('containerRef');
+    }
+    if (!props.contentRef.current) {
+      missingElements.push('contentRef');
+    }
 
     throw new Error(`Missing elements by run overlay animation: ${missingElements.join(', ')}`);
   };

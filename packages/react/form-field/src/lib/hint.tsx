@@ -33,7 +33,7 @@ export function Hint(props: HintProps) {
     return () => formStore?.unregisterComponent('hint');
   }, []);
 
-  return null;
+  return <></>;
 }
 
 Hint.displayName = 'Hint';

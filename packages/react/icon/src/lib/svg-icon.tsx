@@ -1,8 +1,9 @@
 'use client';
 import React, { forwardRef, useLayoutEffect, useRef } from "react";
+
 import { UIBaseComponentProps } from "@cocokits/core";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
 import { ThemeSvgIcon } from "@cocokits/core";
+import { useUiBaseComponentConfig } from "@cocokits/react-core";
 
 export interface SvgIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'color' | 'type'>, UIBaseComponentProps {
   icon: ThemeSvgIcon | string;
@@ -52,8 +53,9 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
           />
         )}
       </span>
-    )
+    );
   }
 );
 
+SvgIcon.displayName = "SvgIcon";
 export default SvgIcon;

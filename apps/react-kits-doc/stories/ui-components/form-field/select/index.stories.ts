@@ -1,17 +1,16 @@
-import { Select } from '@cocokits/react-form-field';
+import { Option, OptionGroup, Select, SelectPreview } from '@cocokits/react-form-field';
 import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
 
 import descriptionMd from './description.md?raw';
 
 export { Default } from './overview/default.stories';
 export { Options } from './overview/options.stories';
+export { CustomPreview } from './overview/custom-preview.stories';
 // export { Size } from './size.stories';
-// export { CustomPreview } from './custom-preview.stories';
-// export { OptionGroup } from './option-group.stories';
 
 const meta: StoriesMeta<typeof Select> = {
   component: Select,
-  // subcomponents: [OptionGroupComponent, OptionComponent, SelectPreviewComponent],
+  subcomponents: { OptionGroup, Option, SelectPreview },
   title: 'UI Components/Select',
   decorators: [],
   parameters: {
@@ -22,19 +21,11 @@ const meta: StoriesMeta<typeof Select> = {
     },
     cckAddon: {
       componentName: 'select',
-      //   subcomponentArgsTypes: {
-      //     OptionComponent: {
-      //       _disabled: { name: 'disabled', table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-      //     },
-      //     OptionGroupComponent: {
-      //       disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
-      //     },
-      //   },
-      //   subcomponentNames: {
-      //     OptionComponent: 'option',
-      //     OptionGroupComponent: 'optionGroup',
-      //     SelectPreviewComponent: 'selectPreview',
-      //   },
+      subcomponentNames: {
+        Option: 'option',
+        OptionGroup: 'optionGroup',
+        SelectPreview: 'selectPreview',
+      },
     },
   },
 };

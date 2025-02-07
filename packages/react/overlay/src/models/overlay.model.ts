@@ -1,5 +1,6 @@
-import { ElementAnchorPoint } from '@cocokits/common-utils';
 import React from 'react';
+
+import { ElementAnchorPoint } from '@cocokits/common-utils';
 
 export interface OverlayConfigStandalone<TData = unknown> extends OverlayConfig<TData> {
   decorator?: (element: React.ReactNode | React.ReactNode[]) => React.ReactNode;

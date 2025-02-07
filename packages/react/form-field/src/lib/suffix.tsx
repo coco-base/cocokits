@@ -33,7 +33,7 @@ export function Suffix(props: SuffixProps) {
     return () => formStore?.unregisterComponent('suffix');
   }, []);
 
-  return null;
+  return <></>;
 }
 
 Suffix.displayName = 'Suffix';

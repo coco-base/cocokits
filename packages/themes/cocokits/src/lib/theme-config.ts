@@ -191,6 +191,12 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   checkbox: {
+    type: {
+      name: 'type',
+      values: ['type1', 'type2'],
+      default: 'type1',
+      description: '',
+    },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error'],

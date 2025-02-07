@@ -33,7 +33,7 @@ export const Option = <T,>(props: OptionProps<T>) => {
   const formStore = useFormStore();
   const isSelected = selectStore?.useIsSelected(props.value);
   const isMultiple = selectStore?.useState(state => state.isMultiple);
-  
+
   const formDisabled = formStore?.useState((state) => state.disabled);
   const disabled = props.disabled ?? optionGroup?.disabled ?? formDisabled;
 
