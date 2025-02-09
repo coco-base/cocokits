@@ -124,7 +124,9 @@ export function getComponentArgTypes(
       const category = transformArgTypeCategory(argType);
       const defaultValue =
         category === 'props' ? getValueWithoutCompodocIssue(argType.table?.defaultValue?.summary) : undefined;
-      const type = getValueWithoutCompodocIssue(argType.table?.type?.summary);
+      const type = getValueWithoutCompodocIssue(
+        argType.table?.type?.summary === 'union' ? argType.type?.raw : argType.table?.type?.summary
+      );
 
       return {
         [category]: [

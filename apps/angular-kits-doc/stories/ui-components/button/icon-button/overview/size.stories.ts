@@ -1,5 +1,5 @@
 import { IconButtonComponent } from '@cocokits/angular-button';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Size: StoryObj<IconButtonComponent> = {
@@ -31,7 +31,7 @@ export const Size: StoryObj<IconButtonComponent> = {
           `,
         },
       ],
-      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => ({

@@ -1,5 +1,5 @@
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<SvgIconComponent> = {
@@ -30,17 +30,11 @@ export const Default: StoryObj<SvgIconComponent> = {
       ],
       hasControl: true,
       controls: [
-        {
-          displayName: 'Icon',
-          default: 'heartFill',
-          icons: ['none', 'heartFill', 'heart', 'link'],
-          storyArgKey: 'icon',
-          type: AddonParametersControlType.Icon,
-        },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        CCK_CONTROL.icon('heartFill'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
       ],
     },
   },

@@ -1,7 +1,7 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { CheckboxComponent } from '@cocokits/angular-checkbox';
-import { AddonParametersControlType } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, CCK_CONTROL } from '@cocokits/storybook-addon-theme';
 import {
   ngThemeArgsToTemplate,
   StoriesMeta,
@@ -44,21 +44,16 @@ export const Dev: StoryObj<CheckboxComponent> = {
     cckAddon: {
       hasControl: true,
       controls: [
-        { displayName: 'Checked', default: false, storyArgKey: 'checked', type: AddonParametersControlType.Boolean },
-        {
-          displayName: 'Indeterminate',
-          default: false,
-          storyArgKey: 'indeterminate',
-          type: AddonParametersControlType.Boolean,
-        },
-        { displayName: 'Text', default: 'Checkbox Label', storyArgKey: 'text', type: AddonParametersControlType.Text },
+        CCK_CONTROL.checked(false),
+        CCK_CONTROL.indeterminate(false),
+        CCK_CONTROL.text('Checkbox Label'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
         { displayName: 'Id', default: 'CUSTOM_ID', storyArgKey: 'id', type: AddonParametersControlType.Text },
         { displayName: 'Name', default: 'CUSTOM_NAME', storyArgKey: 'name', type: AddonParametersControlType.Text },
         { displayName: 'Value', default: 'CUSTOM_VALUE', storyArgKey: 'value', type: AddonParametersControlType.Text },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
       ],
     },
   },

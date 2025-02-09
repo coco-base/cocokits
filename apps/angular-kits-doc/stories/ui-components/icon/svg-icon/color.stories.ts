@@ -1,5 +1,5 @@
 import { SvgIconComponent } from '@cocokits/angular-icon';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Color: StoryObj<SvgIconComponent> = {
@@ -29,7 +29,7 @@ export const Color: StoryObj<SvgIconComponent> = {
           `,
         },
       ],
-      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => ({

@@ -1,5 +1,5 @@
 import { ButtonComponent } from '@cocokits/angular-button';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Color: StoryObj<ButtonComponent> = {
@@ -30,7 +30,7 @@ export const Color: StoryObj<ButtonComponent> = {
           `,
         },
       ],
-      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => ({

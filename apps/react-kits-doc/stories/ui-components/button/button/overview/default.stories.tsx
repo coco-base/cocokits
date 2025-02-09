@@ -1,10 +1,10 @@
-import { Button } from "@cocokits/react-button";
-import { SvgIcon } from "@cocokits/react-icon";
-import { CCK_CONTROL, renderWithPageTab } from "@cocokits/storybook-addon-theme";
-import { reactThemeArgsToTemplate, StoryObj } from "@cocokits/storybook-addon-theme-react";
+import { Button } from '@cocokits/react-button';
+import { SvgIcon } from '@cocokits/react-icon';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Default: StoryObj<typeof Button> = {
-  name: "Default",
+  name: 'Default',
   parameters: {
     docs: {
       description: {
@@ -52,19 +52,15 @@ export const Default: StoryObj<typeof Button> = {
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
         CCK_CONTROL.disabled(),
-      ]
-    }
+      ],
+    },
   },
-  args: {
-  },
+  args: {},
   render: (args) => (
-    <Button
-      {...reactThemeArgsToTemplate(args)}
-      disabled={args.cckControl.disabled}
-    >
-      { args.cckControl.leftIcon !== 'none' && <SvgIcon icon={args.cckIcons[args.cckControl.leftIcon]} /> }
+    <Button {...reactThemeArgsToTemplate(args)} disabled={args.cckControl.disabled}>
+      {args.cckControl.leftIcon !== 'none' && <SvgIcon icon={args.cckIcons[args.cckControl.leftIcon]} />}
       {args.cckControl.text}
-      { args.cckControl.rightIcon !== 'none' && <SvgIcon icon={args.cckIcons[args.cckControl.rightIcon]} /> }
+      {args.cckControl.rightIcon !== 'none' && <SvgIcon icon={args.cckIcons[args.cckControl.rightIcon]} />}
     </Button>
-  )
+  ),
 };
