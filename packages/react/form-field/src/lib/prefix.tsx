@@ -33,7 +33,7 @@ export function Prefix(props: PrefixProps) {
     return () => formStore?.unregisterComponent('prefix');
   }, []);
 
-  return null;
+  return <></>;
 }
 
 Prefix.displayName = 'Prefix';

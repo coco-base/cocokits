@@ -90,6 +90,7 @@ export const Input: StoryObj<typeof FormField> = {
   render: (args) => {
     return (
       <FormField
+        style={{ minWidth: '200px' }}
         {...reactThemeArgsToTemplate(args)}
         disabled={args.cckControl.disabled}
         required={args.cckControl.required}

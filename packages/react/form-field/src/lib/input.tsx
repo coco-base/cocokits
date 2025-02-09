@@ -1,13 +1,10 @@
 'use client';
-import React, { FocusEvent, forwardRef, useEffect, useState } from 'react';
+import React, { FocusEvent, useEffect, useState } from 'react';
 
-import { toBooleanOrPresent } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 import { useFormStore } from './form-store';
-import { useStaticText } from '@cocokits/react-utils';
-import { log } from 'console';
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'color' | 'size'>,

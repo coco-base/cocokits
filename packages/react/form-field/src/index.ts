@@ -11,3 +11,6 @@ export * from './lib/prefix';
 export * from './lib/suffix';
 export * from './lib/leading';
 export * from './lib/trailing';
+export * from './lib/chip';
+export * from './lib/chip-list';
+export * from './lib/textarea';

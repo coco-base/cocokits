@@ -26,7 +26,7 @@ export const Default: StoryObj<typeof Button> = {
                 <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                 <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
                 <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
-                <% if (disabled) { %> disabled={true} <% } %>
+                <% if (disabled) { %> disabled <% } %>
               >
                 <% if (leftIcon !== 'none') { %>
                   <SvgIcon icon="YOUR_ICON"/>

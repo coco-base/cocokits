@@ -20,7 +20,9 @@
     "@cocokits/react-form-field": "workspace:*",
     "@cocokits/react-divider": "workspace:*",
     "@cocokits/react-menu": "workspace:*",
-    "@cocokits/react-toggle": "workspace:*"
+    "@cocokits/react-toggle": "workspace:*",
+    "@cocokits/react-cdk": "workspace:*",
+    "@cocokits/react-tabs": "workspace:*"
   },
   "exports": {
     ".": {

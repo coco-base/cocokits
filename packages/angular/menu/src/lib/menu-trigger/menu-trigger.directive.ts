@@ -39,6 +39,7 @@ export class MenuTriggerDirective {
   /**
    * The size of menu overlay, if not provided it will take the size of children elements
    * @storybook argType will be overridden by storybook
+   * TODO: Rename it to overlaySizes
    */
   public menuSizes = input<OverlayConfig['size']>();
 

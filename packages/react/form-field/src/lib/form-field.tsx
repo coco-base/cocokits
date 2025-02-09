@@ -26,6 +26,8 @@ export const FormField = (props: FormFieldProps) => {
   const focused = formStore.useState((state) => state.focused);
   const hasInput = formStore.useState((state) => state.hasInput);
   const hasSelect = formStore.useState((state) => state.hasSelect);
+  const hasChipList = formStore.useState((state) => state.hasChipList);
+  const hasTextarea = formStore.useState((state) => state.hasTextarea);
   const invalid = formStore.useState((state) => state.invalid);
   const size = formStore.useState((state) => state.size);
   const labelTemplate = formStore.useState((state) => state.labelTemplate);
@@ -47,6 +49,8 @@ export const FormField = (props: FormFieldProps) => {
       { if: focused, classes: (cn) => [cn.focused] },
       { if: hasInput, classes: (cn) => [cn.withInput] },
       { if: hasSelect, classes: (cn) => [cn.withSelect] },
+      { if: hasChipList, classes: (cn) => [cn.withChipList] },
+      { if: hasTextarea, classes: (cn) => [cn.withTextarea] },
       { if: invalid, classes: (cn) => [cn.invalid] },
       { if: !!props.className, classes: () => [props.className] },
       // TODO: add formControl like react-hook-form. with untouched, touched, pristine, dirty, valid, invalid, pending
@@ -61,14 +65,14 @@ export const FormField = (props: FormFieldProps) => {
 
   useEffect(() => {
     formStore.deepUpdateComponent('formField', {
-      wrapperElem: wrapperElemRef,
+      wrapperElem: wrapperElemRef.current,
       disabled: props.disabled,
       required: props.required,
       invalid: props.invalid,
       size: props.size,
       hideRequiredMarker: props.hideRequiredMarker,
     });
-  }, [wrapperElemRef, formStore, props.disabled, props.required, props.invalid, props.size, props.hideRequiredMarker]);
+  }, [wrapperElemRef.current, formStore, props.disabled, props.required, props.invalid, props.size, props.hideRequiredMarker]);
 
   return (
     <FormStoreProvider value={formStore}>

@@ -1,7 +1,8 @@
 import { lazyPromise, ScrollLocker } from '@cocokits/common-utils';
-import { OverlayConfig, RenderedOverlay } from '../models/overlay.model';
 import { createComponentStore } from '@cocokits/react-utils';
+
 import { OVERLAY_DEFAULT_CONFIG } from './overlay.config';
+import { OverlayConfig, RenderedOverlay } from '../models/overlay.model';
 
 type OverlayPortalManagerState<TData, TResult> =
   | OverlayPortalManagerOpenState<TData, TResult>
@@ -24,6 +25,12 @@ interface OverlayPortalManagerCloseState {
 export class OverlayPortalManager<TData, TResult> {
   private static instances = new Map<string, OverlayPortalManager<unknown, unknown | void>>();
 
+  private state = createComponentStore<OverlayPortalManagerState<TData, TResult>>({ isOpened: false });
+
+  public useState = this.state.useState;
+
+  constructor(private id: string) {}
+
   public static getWithId<TData, TResult>(id: string) {
     if (!this.instances.has(id)) {
       this.instances.set(id, new OverlayPortalManager(id));
@@ -45,10 +52,6 @@ export class OverlayPortalManager<TData, TResult> {
 
     this.instances.delete(id);
   }
-
-  private state = createComponentStore<OverlayPortalManagerState<TData, TResult>>({ isOpened: false });
-
-  constructor(private id: string) {}
 
   public getState() {
     return this.state.getState();

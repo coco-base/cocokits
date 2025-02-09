@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 'use client';
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 
@@ -9,11 +10,10 @@ interface FormState {
   disabled: boolean;
   required: boolean;
   hasInput: boolean;
-  // hasTextarea: boolean;
+  hasTextarea: boolean;
   hasSelect: boolean;
-  // hasChipList: boolean;
+  hasChipList: boolean;
   hideRequiredMarker: boolean;
-  // required: boolean;
   focused: boolean;
   invalid: boolean;
   size: UIBaseComponentsPropValue | undefined;
@@ -24,6 +24,7 @@ interface FormState {
   suffixTemplate: ReactNode | undefined;
   trailingTemplate: ReactNode | undefined;
   leadingTemplate: ReactNode | undefined;
+  formFieldWrapperElem: HTMLDivElement | null | undefined;
 }
 
 interface FormStoreComponents {
@@ -31,7 +32,7 @@ interface FormStoreComponents {
     disabled?: boolean;
     required?: boolean;
     hideRequiredMarker: boolean;
-    wrapperElem?: React.RefObject<HTMLElement>;
+    wrapperElem?: HTMLDivElement | null;
     invalid?: boolean;
     size?: UIBaseComponentsPropValue;
   };
@@ -42,8 +43,9 @@ interface FormStoreComponents {
     focused?: boolean;
   };
   textarea?: {
-    // disabled: boolean;
-    // required: boolean;
+    disabled: boolean;
+    required: boolean;
+    invalid?: boolean;
     focused?: boolean;
   };
   select?: {
@@ -53,8 +55,8 @@ interface FormStoreComponents {
     size?: UIBaseComponentsPropValue;
   };
   chipList?: {
-    // disabled: boolean;
-    // size: string;
+    disabled?: boolean;
+    size?: UIBaseComponentsPropValue;
   };
   // TODO: Add to doc that we have have only one label
   label?: {
@@ -85,9 +87,9 @@ const DEFAULT_STATE: FormState = {
   disabled: false,
   required: false,
   hasInput: false,
-  // hasTextarea: false,
+  hasTextarea: false,
   hasSelect: false,
-  // hasChipList: false,
+  hasChipList: false,
   hideRequiredMarker: false,
   focused: false,
   invalid: false,
@@ -99,6 +101,7 @@ const DEFAULT_STATE: FormState = {
   suffixTemplate: undefined,
   leadingTemplate: undefined,
   trailingTemplate: undefined,
+  formFieldWrapperElem: undefined,
 };
 
 const FormStoreContent = createContext<FormStore | null>(null);
@@ -168,29 +171,28 @@ class FormStore {
   private updateStates() {
     const disabled =
       this.components.input?.disabled ??
-      // this.components.textarea?.disabled ??
+      this.components.textarea?.disabled ??
       this.components.select?.disabled ??
-      // this.components.chipList?.disabled ??
+      this.components.chipList?.disabled ??
       this.components.formField?.disabled ??
       false;
 
     const required =
       this.components.input?.required ??
-      // this.components.textarea?.required ??
+      this.components.textarea?.required ??
       this.components.select?.required ??
       this.components.formField?.required ??
       false;
 
     const invalid =
       this.components.input?.invalid ||
-      // this.components.textarea?.invalid ||
+      this.components.textarea?.invalid ||
       this.components.select?.invalid ||
       this.components.formField?.invalid ||
       this.components.errors.length > 0;
 
     const size =
-      // this.components.textarea?.size ??
-      this.components.select?.size ?? this.components.formField?.size ?? undefined;
+      this.components.select?.size ?? this.components.chipList?.size ?? this.components.formField?.size ?? undefined;
 
     const focused = this._components.input?.focused ?? this._components.textarea?.focused ?? false;
 
@@ -198,9 +200,9 @@ class FormStore {
       disabled,
       required,
       hasInput: !!this._components.input,
-      // hasTextarea: !!this.components.textarea,
+      hasTextarea: !!this.components.textarea,
       hasSelect: !!this._components.select,
-      // hasChipList: !!this.components.chipList,
+      hasChipList: !!this.components.chipList,
       hideRequiredMarker: this.components.formField?.hideRequiredMarker ?? false,
       focused,
       invalid,
@@ -212,6 +214,7 @@ class FormStore {
       suffixTemplate: this._components.suffix?.template,
       leadingTemplate: this._components.leading?.template,
       trailingTemplate: this._components.trailing?.template,
+      formFieldWrapperElem: this._components.formField?.wrapperElem,
     });
   }
 }

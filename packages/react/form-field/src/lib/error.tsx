@@ -35,7 +35,7 @@ export function Error(props: ErrorProps) {
     return () => formStore?.unregisterErrorComponent(uuid);
   }, []);
 
-  return null;
+  return <></>;
 }
 
 Error.displayName = 'Error';

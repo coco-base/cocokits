@@ -1,5 +1,8 @@
-import React, { useContext, useState } from 'react';
+'use client';
+import { useContext, useState } from 'react';
+
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
+
 import { RadioGroupContext } from './radio.context';
 import { RadioButtonProps } from './radio.model';
 
@@ -26,13 +29,13 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
     componentName: 'radioButton',
     props: { type, size, color, additional },
     extraHostElementClassConditions: [
-      { if: disabled, classes: (classNames) => [classNames.disabled] },
-      { if: checked, classes: (classNames) => [classNames.checked] },
-      { if: !checked, classes: (classNames) => [classNames.unchecked] },
+      { if: disabled, classes: (cn) => [cn.disabled] },
+      { if: checked, classes: (cn) => [cn.checked] },
+      { if: !checked, classes: (cn) => [cn.unchecked] },
     ]
   });
 
-  const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = () => {
     if (disabled) {
       return;
     }
@@ -67,4 +70,7 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
       </div>
     </div>
   );
-}
+};
+
+RadioButton.displayName = 'RadioButton';
+export default RadioButton;

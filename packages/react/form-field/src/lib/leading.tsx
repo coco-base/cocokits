@@ -6,7 +6,7 @@ import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 import { useFormStore } from './form-store';
 
-interface LeadingProps extends UIBaseComponentProps {
+export interface LeadingProps extends UIBaseComponentProps {
   /**
    * Whether the component is clickable.
    */
@@ -15,7 +15,7 @@ interface LeadingProps extends UIBaseComponentProps {
   className?: string;
 }
 
-export function Leading(props: LeadingProps) {
+export const Leading = (props: LeadingProps) => {
   const formStore = useFormStore();
   
   const { hostClassNames } = useUiBaseComponentConfig({
@@ -37,8 +37,8 @@ export function Leading(props: LeadingProps) {
     return () => formStore?.unregisterComponent('leading');
   }, []);
 
-  return null;
-}
+  return <></>;
+};
 
 Leading.displayName = 'Leading';
 export default Leading;

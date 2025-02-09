@@ -1,9 +1,11 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import styled, { css } from "styled-components";
-import { OverlayConfig, OverlayRef } from "../models/overlay.model";
+
 import { lazyPromise } from "@cocokits/common-utils";
-import { OverLayContext, useOverlayAnimation } from "./overlay.hooks";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
+
+import { OverlayContext, useOverlayAnimation } from "./overlay.hooks";
+import { OverlayConfig, OverlayRef } from "../models/overlay.model";
 
 interface OverlayProps<TData, TResult> {
   config: OverlayConfig<TData>;
@@ -40,6 +42,10 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
     props.closedPromise.resolve();
   };
 
+  useEffect(() => {
+    return () => props.afterClosedPromise.resolve();
+  }, []);
+
   useLayoutEffect(() => {
     props.closedPromise.promise.then(async (result) => {
       await runExitAnimation();
@@ -54,10 +60,10 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
     close: (result) => {
       props.closedPromise.resolve(result);
     },
-  }
+  };
 
   return (
-    <OverLayContext.Provider value={overlayRef}>
+    <OverlayContext.Provider value={overlayRef}>
       <StyledContainer
         ref={containerRef}
         className={hostClassNames}
@@ -70,7 +76,7 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
           {props.children}
         </StyledContentWrapper>
       </StyledContainer>
-    </OverLayContext.Provider>
+    </OverlayContext.Provider>
   );
 };
 
@@ -128,3 +134,7 @@ const StyledContentWrapper = styled.div<{$size: OverlayConfig['size']}>`
 
   }
 `;
+
+
+Overlay.displayName = 'Overlay';
+export default Overlay;

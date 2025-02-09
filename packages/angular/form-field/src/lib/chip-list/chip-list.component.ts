@@ -43,7 +43,7 @@ import { SelectStore, SelectStoreService } from '../select.store';
     '(click)': 'onHostClick()',
   },
 })
-export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> implements OnDestroy {
+export class ChipListComponent extends _UiBaseComponent<'chipList'> implements OnDestroy {
   protected readonly componentName = 'chipList';
   protected extraHostElementClassConditions = computed(() => [
     { if: this.formFieldStore.state.disabled(), classes: this.classNames().disabled },
@@ -61,7 +61,7 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
   private readonly separatorKeysCodes = ['Enter'];
 
   __onFormFieldWrapperClick = effect((onCleanup) => {
-    const callback = () => this.onHostClick();
+    const callback = () => this.onFormFieldHostClick();
 
     this.formFieldStore.formField.wrapperElem()?.nativeElement.addEventListener('click', callback);
 
@@ -71,14 +71,12 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
   });
 
   // region ---------------- INPUTS ----------------
-  /** A function to determine the display value of each chip item. */
-  @Input() displayBy: (item: T) => any = (item) => item;
 
   /**
    * Sets the list of chips to be displayed in the component.
    * When this input is updated, the selection store is updated with the new chips.
    */
-  @Input() set chips(chips: T[]) {
+  @Input() set chips(chips: string[]) {
     this.selectionStore.setSelection(chips);
   }
 
@@ -97,13 +95,13 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
 
   // region ---------------- OUTPUTS ----------------
   /** Emits the chip item that has been removed from the list. */
-  chipRemove: OutputEmitterRef<T> = output<T>();
+  chipRemove: OutputEmitterRef<string> = output<string>();
 
   /** Emits the current list of selected chips whenever a change occurs. */
-  chipsChange: OutputEmitterRef<T[]> = output<T[]>();
+  chipsChange: OutputEmitterRef<string[]> = output<string[]>();
 
   /** Emits the chip item that has been added to the list. */
-  chipAdd: OutputEmitterRef<T> = output<T>();
+  chipAdd: OutputEmitterRef<string> = output<string>();
   // endregion
 
   constructor() {
@@ -113,7 +111,7 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
     this.formFieldStore.registerComponent('chipList', this, this.cd);
   }
 
-  protected onHostClick() {
+  protected onFormFieldHostClick() {
     this.inputRef().nativeElement.focus();
   }
 
@@ -141,7 +139,7 @@ export class ChipListComponent<T = any> extends _UiBaseComponent<'chipList'> imp
     }
   }
 
-  protected onChipRemove(chip: T) {
+  protected onChipRemove(chip: string) {
     this.selectionStore.deselect(chip);
   }
 

@@ -15,14 +15,16 @@ export const Default: StoryObj<typeof Checkbox> = {
       renderConditions: [renderWithPageTab('Overview')],
       source: [
         {
-          filename: 'example.component.html',
-          language: 'angular-html',
+          filename: 'Source Code',
+          language: 'tsx',
           code: `
-            <cck-checkbox
-              <% if (indeterminate) { %> indeterminate="<%= indeterminate %>" <% } %>
+            <Checkbox
               <% if (typeof type !== 'undefined') { %> type="<%= type %>" <% } %>
               <% if (typeof size !== 'undefined') { %> size="<%= size %>" <% } %>
               <% if (typeof color !== 'undefined') { %> color="<%= color %>" <% } %>
+              <% if (indeterminate) { %> indeterminate <% } %>
+              <% if (disabled) { %> disabled <% } %>
+              <% if (checked) { %> checked <% } %>
               value="YOUR_VALUE"
             >
               <%= text %>

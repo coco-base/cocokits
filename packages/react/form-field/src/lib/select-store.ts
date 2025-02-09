@@ -36,7 +36,14 @@ class SelectStore<T> {
   constructor({ onSelectionChange, onlyEmitOnValueChange, multiple }: SelectStoreConfig<T> = {}) {
     this.selection = new Selection<T>([], { onlyEmitOnValueChange, multiple });
     this.onSelectionChange = onSelectionChange;
-    this.selection.addChangeEventListener(() => {
+    this.syncSelectionWithStore();
+
+    this.selection.addChangeEventListener((changes) => {
+      // TODO: Investigate why this function is called multiple times during component initialization.
+      // As quick fix, we are checking if there are no changes in the selection.
+      if (changes.added.length === 0 && changes.removed.length === 0) {
+        return;
+      }
       this.syncSelectionWithStore();
       this.onSelectionChange?.(this.selection.getSelected());
     });

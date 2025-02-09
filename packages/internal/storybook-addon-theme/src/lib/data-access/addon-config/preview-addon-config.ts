@@ -29,6 +29,12 @@ export class AddonConfig {
         resolve();
       });
     this.channel.emit(EVENTS.PREVIEW_CONFIG_REGISTER, { id: this.id } satisfies AddonConfigRegister);
+
+    // The reference of this method will past to the some utils function
+    // (i.e. usePromise react hooks) and it will be called outside of the class.
+    // So, we need to bind the method to the class instance, to make sure that the method will have the correct context
+    // and react react component don't rerender unnecessarily.
+    this.getAddonConfig = this.getAddonConfig.bind(this);
   }
 
   public async getAddonConfig(): Promise<AddonThemeConfig> {

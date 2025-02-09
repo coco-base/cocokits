@@ -6,7 +6,7 @@ import { ElementAnchorPoint, isNotNullish } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
 import { SvgIcon } from '@cocokits/react-icon';
-import { OverlayPortal, OverlayPortalManager } from '@cocokits/react-overlay';
+import { OverlayPortal, OverlayPortalManager, RenderedOverlay } from '@cocokits/react-overlay';
 import { useEffectAfterMount, useStaticText } from '@cocokits/react-utils';
 
 import { useFormStore } from './form-store';
@@ -87,11 +87,13 @@ export const Select = <T,>(props: SelectProps<T>) => {
   const isEmpty = selectStore.useState((state) => state.isEmpty);
   const selectedItems = selectStore.useState((state) => state.selectedItems ?? []);
   const isMultiple = selectStore.useState((state) => state.isMultiple);
-  
+
   const disabled = formStore?.useState((state) => state.disabled);
   const size = formStore?.useState((state) => state.size);
 
   const hostRef = useRef<HTMLDivElement>(null);
+
+  let renderedOverlay: RenderedOverlay<unknown>;
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'select',
@@ -136,13 +138,13 @@ export const Select = <T,>(props: SelectProps<T>) => {
     setIsOpened(true);
     props.onOpenedChange?.(true);
 
-    const connectTo = formStore?.components.formField?.wrapperElem?.current ?? hostRef.current;
+    const connectTo = formStore?.components.formField?.wrapperElem ?? hostRef.current;
 
     if (!connectTo) {
       throw new Error('No wrapper element found for select component');
     }
 
-    const overlay = OverlayPortalManager.getWithId(overlayId).open({
+    renderedOverlay = OverlayPortalManager.getWithId(overlayId).open({
       panelClass: [classNames.overlay],
       size: {
         minWidth: connectTo.getBoundingClientRect().width + 'px',
@@ -155,7 +157,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
       },
     });
 
-    await overlay.afterClosed;
+    await renderedOverlay.afterClosed;
     setIsOpened(false);
     props.onOpenedChange?.(false);
   };

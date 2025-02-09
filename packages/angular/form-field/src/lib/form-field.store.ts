@@ -43,7 +43,7 @@ export class FormFieldStoreService<T = unknown> {
     input?: InputComponent;
     textArea?: TextareaComponent;
     select?: SelectComponent<T>;
-    chipList?: ChipListComponent<T>;
+    chipList?: ChipListComponent;
   } = {};
 
   private has = {
@@ -174,7 +174,7 @@ export class FormFieldStoreService<T = unknown> {
         this.input.required() ?? this.textarea.required() ?? this.select.required() ?? this.control.required() ?? false
     ),
     focused: computed(() => {
-      return this.disabled() ? false : this.input.focused() ?? this.textarea.focused();
+      return this.disabled() ? false : (this.input.focused() ?? this.textarea.focused());
     }),
     hasError: computed(() => {
       if (this.control.invalid() && this.control.dirty() && this.control.touched()) {

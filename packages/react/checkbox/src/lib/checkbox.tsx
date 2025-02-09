@@ -77,7 +77,6 @@ export function Checkbox(props: CheckboxProps) {
       return;
     }
 
-
     inputRef.current.indeterminate = indeterminate;
   }, [inputRef.current, indeterminate]);
 

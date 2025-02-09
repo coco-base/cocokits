@@ -37,7 +37,7 @@ export function Trailing(props: TrailingProps) {
     return () => formStore?.unregisterComponent('trailing');
   }, []);
 
-  return null;
+  return <></>;
 }
 
 Trailing.displayName = 'Trailing';

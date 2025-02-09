@@ -62,4 +62,5 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
   }
 );
 
+SvgIcon.displayName = 'SvgIcon';
 export default SvgIcon;

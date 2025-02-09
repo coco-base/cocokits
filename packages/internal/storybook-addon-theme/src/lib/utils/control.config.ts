@@ -1,4 +1,5 @@
 import { ElementAnchorPoint } from '@cocokits/common-utils';
+import { OverlayAnimationType } from '@cocokits/react-overlay';
 
 import { AddonParametersControl, AddonParametersControlType } from '../model/addon.model';
 
@@ -97,6 +98,27 @@ export const disabled = (
   type: AddonParametersControlType.Boolean,
 });
 
+export const addOnBlur = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Add On Blur',
+  default: defaultValue,
+  storyArgKey: 'addOnBlur',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const open = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Open',
+  default: defaultValue,
+  storyArgKey: 'open',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const closeOnSelectItem = (defaultValue = true): AddonParametersControl => ({
+  displayName: 'Close On Select Item',
+  default: defaultValue,
+  storyArgKey: 'closeOnSelectItem',
+  type: AddonParametersControlType.Boolean,
+});
+
 export const multiple = (defaultValue = false): AddonParametersControl => ({
   displayName: 'Multiple',
   default: defaultValue,
@@ -130,6 +152,21 @@ export const indeterminate = (defaultValue = false): AddonParametersControl => (
   default: defaultValue,
   storyArgKey: 'indeterminate',
   type: AddonParametersControlType.Boolean,
+});
+
+export const removable = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Removable',
+  default: defaultValue,
+  storyArgKey: 'removable',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const labelPosition = (defaultValue = 'before'): AddonParametersControl => ({
+  displayName: 'Label Position',
+  default: defaultValue,
+  storyArgKey: 'labelPosition',
+  options: ['before', 'after'],
+  type: AddonParametersControlType.Select,
 });
 
 export const hideRequiredMarker = (defaultValue = false): AddonParametersControl => ({
@@ -197,4 +234,55 @@ export const inputNativeType = (defaultValue = ''): AddonParametersControl => ({
   ],
   storyArgKey: 'type',
   type: AddonParametersControlType.Select,
+});
+
+export const animationType = (defaultValue = OverlayAnimationType.BottomToCenter): AddonParametersControl => ({
+  displayName: 'Animation Type',
+  default: defaultValue,
+  options: Object.values(OverlayAnimationType),
+  storyArgKey: 'animationType',
+  type: AddonParametersControlType.Select,
+});
+
+export const selectedRadio = (defaultValue = 'Radio-1'): AddonParametersControl => ({
+  displayName: 'Selected',
+  default: defaultValue,
+  options: ['None', 'Radio-1', 'Radio-2', 'Radio-3'],
+  storyArgKey: 'selectedRadio',
+  type: AddonParametersControlType.Select,
+});
+
+export const hasBackdrop = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Has Backdrop',
+  default: defaultValue,
+  storyArgKey: 'hasBackdrop',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const disableBackdropClose = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Disable Backdrop Close',
+  default: defaultValue,
+  storyArgKey: 'disableBackdropClose',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const maxRows = (defaultValue = 5): AddonParametersControl => ({
+  displayName: 'Max Rows',
+  default: defaultValue,
+  storyArgKey: 'maxRows',
+  type: AddonParametersControlType.Number,
+});
+
+export const minRows = (defaultValue = 2): AddonParametersControl => ({
+  displayName: 'Min Rows',
+  default: defaultValue,
+  storyArgKey: 'minRows',
+  type: AddonParametersControlType.Number,
+});
+
+export const autoResize = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Auto Resize',
+  default: defaultValue,
+  storyArgKey: 'autoResize',
+  type: AddonParametersControlType.Boolean,
 });

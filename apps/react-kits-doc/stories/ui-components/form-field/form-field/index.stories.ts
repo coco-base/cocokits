@@ -1,26 +1,24 @@
-import { FormField } from '@cocokits/react-form-field';
+import { Error, FormField, Hint, Label, Leading, Prefix, Suffix, Trailing } from '@cocokits/react-form-field';
 import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
 
 import descriptionMd from './description.md?raw';
 
 export { Input } from './overview/input.stories';
-// export { Textarea } from './textarea.stories';
+export { Textarea } from './overview/textarea.stories';
 export { Select } from './overview/select.stories';
-// export { ChipList } from './chip-list.stories';
+export { ChipList } from './overview/chip-list.stories';
 
 const meta: StoriesMeta<typeof FormField> = {
   component: FormField,
-  // subcomponents: {
-  //   Input
-  // },
-  //   _UiBaseComponent,
-  //   LabelComponent,
-  //   LeadingComponent,
-  //   TrailingComponent,
-  //   PrefixComponent,
-  //   SuffixComponent,
-  //   HintComponent,
-  //   ErrorComponent,
+  subcomponents: {
+    Label,
+    Leading,
+    Trailing,
+    Prefix,
+    Suffix,
+    Hint,
+    Error,
+  },
   title: 'UI Components/FormField',
   decorators: [],
   parameters: {
@@ -31,15 +29,15 @@ const meta: StoriesMeta<typeof FormField> = {
     },
     cckAddon: {
       componentName: 'formField',
-      // subcomponentNames: {
-      //   LabelComponent: 'label',
-      //   LeadingComponent: 'leading',
-      //   TrailingComponent: 'trailing',
-      //   PrefixComponent: 'prefix',
-      //   SuffixComponent: 'suffix',
-      //   HintComponent: 'hint',
-      //   ErrorComponent: 'error',
-      // },
+      subcomponentNames: {
+        Label: 'label',
+        Leading: 'leading',
+        Trailing: 'trailing',
+        Prefix: 'prefix',
+        Suffix: 'suffix',
+        Hint: 'hint',
+        Error: 'error',
+      },
     },
   },
 };

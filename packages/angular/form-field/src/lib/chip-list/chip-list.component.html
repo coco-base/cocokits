@@ -1,6 +1,6 @@
-@for (chip of selectionStore.selectedItems(); track displayBy(chip)) {
+@for (chip of selectionStore.selectedItems(); track chip) {
   <cck-chip [removable]="true" [size]="size()" (remove)="onChipRemove(chip)" (click)="onChipClick($event)">
-    {{displayBy(chip)}}
+    {{chip}}
   </cck-chip>
 }
 
