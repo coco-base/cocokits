@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { lazyPromise } from "@cocokits/common-utils";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
 
-import { OverLayContext, useOverlayAnimation } from "./overlay.hooks";
+import { OverlayContext, useOverlayAnimation } from "./overlay.hooks";
 import { OverlayConfig, OverlayRef } from "../models/overlay.model";
 
 interface OverlayProps<TData, TResult> {
@@ -63,7 +63,7 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
   };
 
   return (
-    <OverLayContext.Provider value={overlayRef}>
+    <OverlayContext.Provider value={overlayRef}>
       <StyledContainer
         ref={containerRef}
         className={hostClassNames}
@@ -76,7 +76,7 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
           {props.children}
         </StyledContentWrapper>
       </StyledContainer>
-    </OverLayContext.Provider>
+    </OverlayContext.Provider>
   );
 };
 

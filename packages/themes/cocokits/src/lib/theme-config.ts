@@ -281,7 +281,14 @@ const components: ThemeComponentConfigRecord = {
     },
   },
 
-  menu: {},
+  menu: {
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
   selectPreview: {},
   textarea: {},
   input: {},

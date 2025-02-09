@@ -1,4 +1,5 @@
 import { ElementAnchorPoint } from '@cocokits/common-utils';
+
 import { OverlayAnimationType, OverlayConfig } from '../models/overlay.model';
 
 export const OVERLAY_DEFAULT_CONFIG: OverlayConfig<any> = {

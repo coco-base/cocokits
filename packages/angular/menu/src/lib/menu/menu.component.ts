@@ -16,8 +16,7 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 })
 export class MenuComponent extends _UiBaseComponent<'menu'> {
   protected readonly componentName = 'menu';
-  protected extraHostElementClassConditions = computed(() => [{ if: true, classes: this.classNames().overlay }]);
-
+  protected extraHostElementClassConditions = computed(() => []);
   /**
    * Close the menu on click any menu options.
    */

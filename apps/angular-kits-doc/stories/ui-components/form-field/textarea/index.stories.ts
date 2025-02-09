@@ -7,8 +7,6 @@ import descriptionMd from './description.md';
 
 export { Default } from './default.stories';
 export { AutoResize } from './auto-resize.stories';
-// export { NgModel } from './ng-model.stories';
-// export { ReactiveForm } from './reactive-form.stories';
 
 const meta: StoriesMeta = {
   component: TextareaComponent,

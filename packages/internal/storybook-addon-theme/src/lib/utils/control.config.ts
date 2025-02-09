@@ -105,6 +105,20 @@ export const addOnBlur = (defaultValue = false): AddonParametersControl => ({
   type: AddonParametersControlType.Boolean,
 });
 
+export const open = (defaultValue = false): AddonParametersControl => ({
+  displayName: 'Open',
+  default: defaultValue,
+  storyArgKey: 'open',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const closeOnSelectItem = (defaultValue = true): AddonParametersControl => ({
+  displayName: 'Close On Select Item',
+  default: defaultValue,
+  storyArgKey: 'closeOnSelectItem',
+  type: AddonParametersControlType.Boolean,
+});
+
 export const multiple = (defaultValue = false): AddonParametersControl => ({
   displayName: 'Multiple',
   default: defaultValue,
@@ -230,6 +244,14 @@ export const animationType = (defaultValue = OverlayAnimationType.BottomToCenter
   type: AddonParametersControlType.Select,
 });
 
+export const selectedRadio = (defaultValue = 'Radio-1'): AddonParametersControl => ({
+  displayName: 'Selected',
+  default: defaultValue,
+  options: ['None', 'Radio-1', 'Radio-2', 'Radio-3'],
+  storyArgKey: 'selectedRadio',
+  type: AddonParametersControlType.Select,
+});
+
 export const hasBackdrop = (defaultValue = false): AddonParametersControl => ({
   displayName: 'Has Backdrop',
   default: defaultValue,
@@ -260,7 +282,7 @@ export const minRows = (defaultValue = 2): AddonParametersControl => ({
 
 export const autoResize = (defaultValue = false): AddonParametersControl => ({
   displayName: 'Auto Resize',
-  default: false,
+  default: defaultValue,
   storyArgKey: 'autoResize',
   type: AddonParametersControlType.Boolean,
 });

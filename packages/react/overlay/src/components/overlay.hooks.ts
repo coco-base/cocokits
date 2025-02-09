@@ -1,13 +1,15 @@
 import { createContext, MutableRefObject, useContext, useRef } from 'react';
-import { OverlayAnimationType, OverlayConfig, OverlayRef } from '../models/overlay.model';
-import { getOverlayAnimationProps, getOverlayStyles } from './overlay.animation';
-import { getElementAnchorPosition } from '@cocokits/common-utils';
-import { OverlayPortalManager } from './overlay-portal.manager';
 
-export const OverLayContext = createContext<OverlayRef<any, any> | null>(null);
+import { getElementAnchorPosition } from '@cocokits/common-utils';
+
+import { getOverlayAnimationProps, getOverlayStyles } from './overlay.animation';
+import { OverlayPortalManager } from './overlay-portal.manager';
+import { OverlayAnimationType, OverlayConfig, OverlayRef } from '../models/overlay.model';
+
+export const OverlayContext = createContext<OverlayRef<any, any> | null>(null);
 
 export function useOverlayRef<TData, TResult>() {
-  return useContext(OverLayContext) as OverlayRef<TData, TResult>;
+  return useContext(OverlayContext) as OverlayRef<TData, TResult>;
 }
 
 export function useOverlayManager<TData, TResult>(overlayId: string) {
