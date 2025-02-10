@@ -1,5 +1,5 @@
 import { ChipList, FormField, Label } from '@cocokits/react-components';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Size: StoryObj<typeof ChipList> = {
@@ -37,20 +37,17 @@ export const Size: StoryObj<typeof ChipList> = {
           `,
         },
       ],
-      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
+      {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
         <FormField key={index}>
           <Label>Chip List</Label>
-          <ChipList
-            chips={['Steak', 'Pizza']}
-            type={args.cckControl.type}
-            size={size}/>
+          <ChipList chips={['Steak', 'Pizza']} type={args.cckControl.type} size={size} />
         </FormField>
-      )) }
+      ))}
     </>
-  )
+  ),
 };
