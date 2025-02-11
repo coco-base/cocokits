@@ -1,20 +1,22 @@
-import Link from 'next/link';
 import './frameworks.scss';
-import { SvgIcon } from '@cocokits/react-icon';
+import Link from 'next/link';
+
 import { Icons } from '@cocokits/common-icons';
+import { SvgIcon } from '@cocokits/react-icon';
+
 import { Framework } from './framework';
 
 
 export const Frameworks = () => {
   return (
-    <div id="section_frameworks" className="frameworks__host">
+    <div id="section__frameworks" className="frameworks__host">
       <h2>Supported frameworks</h2>
 
       <p className='frameworks__description'>
         Deploy and run no matter what tool you use.
         <br/>
         Learn what’s coming next from
-        <Link className='ml-xs' href="#">
+        <Link className='ml-xs' href="https://github.com/orgs/coco-base/projects/1/views/8" rel="noopener noreferrer" target="_blank">
           CocoKits Roadmap
           <SvgIcon color="brand" icon={Icons.arrowRight}/>
         </Link>

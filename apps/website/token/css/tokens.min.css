@@ -63,7 +63,7 @@
 }
 :where(.cck-theme-website__color--dark),
 :where([data-cck-theme*='website__color--dark']) {
-  --website-cck-color-bg-0: var(--website-cck-black-50);
+  --website-cck-color-bg-0: #0F1116;
   --website-cck-color-bg-1: var(--website-cck-black-100);
   --website-cck-color-bg-2: var(--website-cck-black-200);
   --website-cck-color-bg-3: var(--website-cck-black-300);
@@ -116,7 +116,7 @@
 }
 :where(.cck-theme-website__color--light),
 :where([data-cck-theme*='website__color--light']) {
-  --website-cck-color-bg-0: var(--website-cck-white-50);
+  --website-cck-color-bg-0: #fafafa;
   --website-cck-color-bg-1: var(--website-cck-white-50);
   --website-cck-color-bg-2: var(--website-cck-white-50);
   --website-cck-color-bg-3: var(--website-cck-white-100);

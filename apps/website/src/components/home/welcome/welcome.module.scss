@@ -3,12 +3,14 @@
 .welcome__host {
   position: relative;
   padding: 88px 0 168px;
-  height: 720px;
-  background: linear-gradient(148deg, var(--website-cck-color-bg-0) 300px, rgb(0 0 0 / 0%) 700px);
+  display: flex;
+  align-items: center;
+  gap: 64px;
 }
 
 .welcome__content {
   width: 560;
+  flex: 1;
 }
 
 .welcome__description {
@@ -51,29 +53,27 @@
 }
 
 .welcome__overlay-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image: url("/banner-effect-1.png");
-  background-position: right;
-  overflow: hidden;
+  flex: 1.5;
+  position: relative;
+  align-self: stretch;
 }
 
 .welcome__overlay-image {
-  position: absolute;
-  top: 100px;
-  right: 0;
-  max-width: fit-content;
+  opacity: 0.6;
+  height: 100%;
+  width: auto;
+  object-fit: none;
 }
 
 .welcome__overlay-effect {
   position: absolute;
   top: 0;
-  right: 0;
-  width: 1200px;
-  max-width: 1200px;
+  left: 0;
+  width: 100%;
   height: 100%;
+  background: radial-gradient(ellipse at center, transparent 60%, var(--website-cck-color-bg-0) 80%),
+    linear-gradient(to bottom, var(--website-cck-color-bg-0) 0, transparent 20px),
+    linear-gradient(to right, var(--website-cck-color-bg-0) 0, transparent 20px),
+    linear-gradient(to left, var(--website-cck-color-bg-0) 0, transparent 20px),
+    linear-gradient(to top, var(--website-cck-color-bg-0) 0, transparent 20px);
 }

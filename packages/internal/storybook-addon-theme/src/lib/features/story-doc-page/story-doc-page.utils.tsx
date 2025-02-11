@@ -59,24 +59,28 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
   const subcomponents: StoryDocPageStylingComponent[] =
     subcomponentsRef
       ?.filter((subcomponentRef) => {
+        // displayName for react and name for Angular
+        const name = subcomponentRef.displayName ?? subcomponentRef.name;
         return !(
-          subcomponentRef.name.startsWith('_') ||
+          name.startsWith('_') ||
           // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
           // If a component has the value 'null', we skip it because it has no styling.
-          parameters.cckAddon.subcomponentNames?.[subcomponentRef.name] === null
+          parameters.cckAddon.subcomponentNames?.[name] === null
         );
       })
       .map((subcomponentRef) => {
-        const uIBaseComponentName = parameters.cckAddon.subcomponentNames?.[subcomponentRef.name];
+        // displayName for react and name for Angular
+        const name = subcomponentRef.displayName ?? subcomponentRef.name;
+        const uIBaseComponentName = parameters.cckAddon.subcomponentNames?.[name];
         if (!uIBaseComponentName) {
           throw new Error(
-            `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${subcomponentRef.name}`
+            `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${name}`
           );
         }
 
         return {
           uIBaseComponentName,
-          componentName: subcomponentRef.name,
+          componentName: name,
         } satisfies StoryDocPageStylingComponent;
       }) ?? [];
 

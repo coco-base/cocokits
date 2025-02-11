@@ -57,21 +57,26 @@ export function getArgTypesApiList(
   });
 
   subcomponents
-    ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
+    ?.filter((subcomponent) => {
+      // displayName for react and name for Angular
+      const name = subcomponent.displayName ?? subcomponent.name;
+      return !name.startsWith('_');
+    })
     .forEach((subcomponent) => {
+      const name = subcomponent.displayName ?? subcomponent.name;
       const argTypes = deepMerge(
         parameters.docs.extractArgTypes?.(subcomponent) ?? {},
-        parameters.cckAddon.subcomponentArgsTypes?.[subcomponent.name] ?? {}
+        parameters.cckAddon.subcomponentArgsTypes?.[name] ?? {}
       );
-      const subcomponentName = parameters.cckAddon.subcomponentNames?.[subcomponent.name];
+      const subcomponentName = parameters.cckAddon.subcomponentNames?.[name];
       // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
       // If a component has the value 'null', we skip taking the config from the theme and only show the APIs from the component.
       if (subcomponentName === undefined) {
-        throw new Error(`Subcomponent name is missing in the story parameters for story: ${subcomponent.name}`);
+        throw new Error(`Subcomponent name is missing in the story parameters for story: ${name}`);
       }
 
       argTypeGroup.push({
-        componentName: subcomponent.name,
+        componentName: name,
         argTypeGroup: getComponentArgTypes({
           componentRef: subcomponent,
           originalArgTypes: argTypes,
@@ -240,25 +245,7 @@ function toArgTypesWithThemeConfig(
 
   // React only
   if (argType.name === 'additional') {
-    return [
-      //       {
-      //       name: 'additional',
-      //       description: `
-      // - **0000**: sssss
-      // - aaaaa
-      // - bbbbb
-      //       `,
-      //       table: {
-      //         defaultValue: { summary: '' },
-      //         type: { summary: `
-      // {
-      //   rounded1: string;
-      //   rounded2: string;
-      // }
-      //         `.trim() },
-      //       },
-      //     }
-    ];
+    return [];
   }
 
   return [

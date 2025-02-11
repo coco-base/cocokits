@@ -208,4 +208,4 @@ export interface StoryArgs extends Args {
   cckExampleArgs?: Args;
 }
 
-export type ComponentRef = ClassRef | ComponentType<any>;
+export type ComponentRef = (ClassRef | ComponentType<any>) & { displayName: string | undefined };

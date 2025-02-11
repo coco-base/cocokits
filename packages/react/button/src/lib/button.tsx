@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode } from "react";
+import React, { CSSProperties, forwardRef, ReactNode } from "react";
 
 import { UIBaseComponentProps } from "@cocokits/core";
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
@@ -14,7 +14,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ type, size, color, additional, children, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: "button",
-      props: { type, size, color, additional },
+      props: { type, size, color, additional }
     });
 
     return (
