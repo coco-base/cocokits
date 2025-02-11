@@ -1170,6 +1170,9 @@ importers:
       '@cocokits/react-button':
         specifier: workspace:*
         version: link:../button
+      '@cocokits/react-cdk':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/cdk
       '@cocokits/react-checkbox':
         specifier: workspace:*
         version: link:../../../dist/packages/react/checkbox
@@ -1191,6 +1194,9 @@ importers:
       '@cocokits/react-radio':
         specifier: workspace:*
         version: link:../../../dist/packages/react/radio
+      '@cocokits/react-tabs':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/tabs
       '@cocokits/react-toggle':
         specifier: workspace:*
         version: link:../../../dist/packages/react/toggle
