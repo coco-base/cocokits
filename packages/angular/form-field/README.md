@@ -53,9 +53,22 @@ As with other CocoKits components, these form-related components do not come wit
 ## Documentation and Examples
 For more information on configuring and using these components, visit the documentation:
 
-- [ChipListComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-chip-list--docs)
-- [ChipComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-chip--docs)
-- [FormFieldComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-form-field--docs)
-- [InputComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-input--docs)
-- [SelectComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-select--docs)
-- [TextareaComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-textarea--docs)
+- [ChipListComponent](https://angular.cocokits.com/?path=/docs/ui-components-chip-list--docs)
+- [ChipComponent](https://angular.cocokits.com/?path=/docs/ui-components-chip--docs)
+- [FormFieldComponent](https://angular.cocokits.com/?path=/docs/ui-components-form-field--docs)
+- [InputComponent](https://angular.cocokits.com/?path=/docs/ui-components-input--docs)
+- [SelectComponent](https://angular.cocokits.com/?path=/docs/ui-components-select--docs)
+- [TextareaComponent](https://angular.cocokits.com/?path=/docs/ui-components-textarea--docs)
+
+
+
+---
+
+### Contributing
+We welcome contributions! If you'd like to contribute to this project, please read our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md)
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.
+

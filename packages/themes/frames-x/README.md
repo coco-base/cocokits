@@ -11,7 +11,18 @@ The `@cocokits/themes-frames-x` package offers a modern and innovative design th
 ## Documentation and Example
 For installation, configuration, and detailed usage instructions for applying the Frames-X theme, refer to the following documentation link:
 
-- [Installation](https://angular-docs.cocokits.com/?path=/docs/getting-started-install--docs)
-- [Advanced Configuration](https://angular-docs.cocokits.com/?path=/docs/getting-started-advanced-configuration--docs)
+- [Installation](https://angular.cocokits.com/?path=/docs/getting-started-install--docs)
+- [Advanced Configuration](https://angular.cocokits.com/?path=/docs/getting-started-advanced-configuration--docs)
 
 This theme provides a visually appealing option for projects that seek a more daring and modern aesthetic, while still maintaining the reliability and flexibility of CocoKits components.
+
+
+--- 
+
+### Contributing
+Contributions are welcome! Please refer to our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md) for further details.
+
+--- 
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for more information.

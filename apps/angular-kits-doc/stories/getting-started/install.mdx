@@ -26,7 +26,7 @@ Make sure you select the theme that you want to install along with your preferre
 ------------------------------------------------------------------
 ## Step 1: Install Packages
 
-<MdxPageWithThemeSection fn={t => `Install the ${backtick('CocoKits')} Angular components and the ${backtick(t.name)} theme`}/>
+<MdxPageWithThemeSection fn={t => `Install the ${backtick('CocoKits')} Angular components and the ${backtick(t.displayName)} theme`}/>
 
 <MdxPageWithThemeSection fn={theme =>
   <MdxPageTabCode codeTabs={{
@@ -40,7 +40,7 @@ Make sure you select the theme that you want to install along with your preferre
 
 ## Step 2: Provide Theme Configuration
 
-<MdxPageWithThemeSection fn={theme => `Provide the ${backtick(theme.name)} theme configuration in the root of your application.`}/>
+<MdxPageWithThemeSection fn={theme => `Provide the ${backtick(theme.displayName)} theme configuration in the root of your application.`}/>
 
 
 ### For Standalone Applications
@@ -92,7 +92,7 @@ cch-theme-[THEME_NAME]__[COLLECTION-NAME]--[MODE-NAME]
 
 ### Available Collections and Modes
 
-<MdxPageWithThemeSection fn={t => `Here is a list of all collections, modes, and their corresponding CSS selectors for the ${t.name} design system:`}/>
+<MdxPageWithThemeSection fn={t => `Here is a list of all collections, modes, and their corresponding CSS selectors for the ${t.displayName} design system:`}/>
 <MdxPageWithThemeSection fn={getStep4CollectionModesTable}/>
 **Note:** Adjust the collections and modes based on the actual theme options available.
 
