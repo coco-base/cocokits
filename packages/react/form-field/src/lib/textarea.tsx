@@ -10,6 +10,9 @@ import { useFormStore } from './form-store';
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'type' | 'color' | 'size'>,
     UIBaseComponentProps {
+  /**
+   * Whether the form field is invalid.
+   */
   invalid?: boolean;
 
   /**
@@ -32,7 +35,6 @@ export interface TextareaProps
    */
   disabled?: boolean;
 }
-
 
 export const Textarea = (props: TextareaProps) => {
   const {
@@ -64,7 +66,7 @@ export const Textarea = (props: TextareaProps) => {
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: autoResize, classes: (cn) => [cn.autoResize] },
       { if: true, classes: () => [props.className] },
-    ]
+    ],
   });
 
   useEffect(() => {

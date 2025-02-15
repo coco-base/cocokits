@@ -1,17 +1,24 @@
 'use client';
-import React, { forwardRef } from "react";
+import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react';
 
-import { UIBaseComponentProps } from "@cocokits/core";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
+import { UIBaseComponentProps } from '@cocokits/core';
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
-interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>, UIBaseComponentProps {
-  children?: React.ReactNode;
+interface IconButtonProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'>,
+    UIBaseComponentProps {
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ type, size, color, additional, children, className, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
-      componentName: "iconButton",
+      componentName: 'iconButton',
       props: { type, size, color, additional },
     });
 
@@ -24,6 +31,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   }
 );
 
-IconButton.displayName = "IconButton";
+IconButton.displayName = 'IconButton';
 
 export default IconButton;

@@ -9,9 +9,11 @@ import { useFormStore } from './form-store';
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'color' | 'size'>,
     UIBaseComponentProps {
+  /**
+   * Whether the form field is invalid.
+   */
   invalid?: boolean;
 }
-
 
 export const Input = (props: InputProps) => {
   const { type, size, color, additional, invalid, onFocus: propsOnFocus, onBlur: propsOnBlurs, ...restProps } = props;

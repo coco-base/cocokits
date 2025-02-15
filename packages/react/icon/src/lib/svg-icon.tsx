@@ -5,6 +5,9 @@ import { ThemeSvgIcon, UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 export interface SvgIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'color' | 'type'>, UIBaseComponentProps {
+  /**
+   * Input property that requires an SVG icon configuration or svg as string
+   */
   icon: ThemeSvgIcon | string;
   /**
    * The content inside the component.

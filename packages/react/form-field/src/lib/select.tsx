@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 'use client';
-import React, { useContext,useEffect, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 import { ElementAnchorPoint, isNotNullish } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -13,9 +13,21 @@ import { useFormStore } from './form-store';
 import { useCreateSelectStore } from './select-store';
 
 export interface SelectProps<T = unknown> extends UIBaseComponentProps {
+  /**
+   * Whether the form field is disabled.
+   */
   disabled?: boolean;
+  /**
+   * Whether the component is required.
+   */
   required?: boolean;
+  /**
+   * Whether the user should be allowed to select multiple options.
+   */
   multiple?: boolean;
+  /**
+   * Whether the form field is invalid.
+   */
   invalid?: boolean;
   /**
    * Value of the select control.
@@ -63,9 +75,11 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
   onlyEmitOnValueChange?: boolean;
 
   /**
-   *
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
    */
-  children?: React.ReactNode;
+  children?: ReactNode | ReactNode[];
 }
 
 export const Select = <T,>(props: SelectProps<T>) => {
@@ -97,7 +111,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'select',
-    props: {...props, size},
+    props: { ...props, size },
     extraHostElementClassConditions: [
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: isMultiple, classes: (cn) => [cn.multiple] },
@@ -108,7 +122,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
   });
 
   useEffectAfterMount(() => {
-    selectStore.resetWithOption({multiple: props.multiple});
+    selectStore.resetWithOption({ multiple: props.multiple });
   }, [props.multiple]);
 
   useEffect(() => {

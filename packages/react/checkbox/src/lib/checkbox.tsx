@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useRef, useState } from 'react';
+import { ReactNode, useContext, useLayoutEffect, useRef, useState } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -38,7 +38,12 @@ export interface CheckboxProps extends UIBaseComponentProps {
   /** Event emitted when the checkbox's `indeterminate` value changes. */
   onIndeterminateChange?: (indeterminate: boolean) => void;
 
-  children?: React.ReactNode;
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
 }
 
 export function Checkbox(props: CheckboxProps) {
