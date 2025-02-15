@@ -27,11 +27,6 @@
 
 .inside-cocokits__feature-image {
   width: 336px;
-  height: 336px;
-  border: 1px solid var(--website-cck-color-border-2);
-  border-radius: $website-cck-radius-lg;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: auto;
   margin-bottom: 16px;
 }

@@ -16,7 +16,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ type, size, color, additional, children, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: 'button',
-      props: { type, size, color, additional },
+      props: { type, size, color, additional }
     });
 
     return (

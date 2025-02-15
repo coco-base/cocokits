@@ -6,6 +6,8 @@ This package includes the following components:
 - `ButtonComponent`
 - `IconButtonComponent`
 
+---
+
 ### ButtonComponent
 The `ButtonComponent` offers a customizable and flexible button element that can be easily styled to match any design system. It allows for different configurations, including varying button types, sizes, and colors. This component is ideal for standard UI actions such as submitting forms or triggering events.
 
@@ -14,7 +16,9 @@ The `ButtonComponent` offers a customizable and flexible button element that can
 - **Customizable:** Configure the size, color, and type of the button based on your design needs.
 - **Theming Compatibility:** Works with multiple design system themes, maintaining visual consistency across your application.
 - **Flexible Configuration:** Supports various button types like primary, secondary, or icon buttons.
-- 
+
+---
+
 ### IconButtonComponent
 The `IconButtonComponent` is a versatile UI element that integrates icons into button interfaces. It enhances user experience by combining text and icons or displaying an icon alone. This makes it perfect for visually representing actions such as navigating, editing, or deleting.
 
@@ -24,13 +28,27 @@ The `IconButtonComponent` is a versatile UI element that integrates icons into b
 - **Theming Compatibility:** Seamlessly integrates with multiple design system themes, ensuring adaptability to the application's style.
 - **Customizable Appearance:** Adjust the size, color, and other stylistic attributes for full control over the component's appearance.
 
+---
 
 ### Styling and Theming
 The components in this package do not include any built-in styles. However, `@cocokits/angular-button` adds CSS classes to the elements based on the provided configuration. You can style the components yourself or apply a theme from `CocoKits`.
 
 `CocoKits` provides ready-made theming options, or you can create a custom design using your CSS or SCSS styles.
 
+---
+
 ### Documentation and Example
 For detailed usage examples, configuration options, and additional documentation, visit the following links
-- [ButtonComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-button--docs)
-- [IconButtonComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-icon-button--docs)
+- [ButtonComponent](https://angular.cocokits.com/?path=/docs/ui-components-button--docs)
+- [IconButtonComponent](https://angular.cocokits.com/?path=/docs/ui-components-icon-button--docs)
+
+---
+
+### Contributing
+We welcome contributions! If you'd like to contribute to this project, please read our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md)
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.
+

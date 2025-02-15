@@ -29,5 +29,16 @@ CocoKits offers ready-made theming options, or you can style the components your
 
 ## Documentation and Example
 For detailed usage examples, configuration options, and additional documentation, visit the following link:
-- [RadioButtonComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-radiobutton--docs)
-- [RadioGroupComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-radiogroup--docs)
+- [RadioButtonComponent](https://angular.cocokits.com/?path=/docs/ui-components-radiobutton--docs)
+- [RadioGroupComponent](https://angular.cocokits.com/?path=/docs/ui-components-radiogroup--docs)
+
+
+---
+
+### Contributing
+Contributions are welcome! Please refer to our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md) for more details.
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for more information.

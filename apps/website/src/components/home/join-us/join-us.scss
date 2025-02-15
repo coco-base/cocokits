@@ -1,0 +1,60 @@
+@use '../../../../token/scss/index' as *;
+
+.join-us__host {
+  margin: 48px 0;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.join-us__description {
+  text-align: center;
+}
+
+.join-us__footer {
+  margin-top: 80px;
+  width: 400px;
+  padding: 20px 24px;
+  display: flex;
+  gap: 16px;
+  background-color: #000;
+  font: $website-cck-text-md-regular;
+  color: $website-cck-color-font-2;
+  position: relative;
+  border: 1px dashed $website-cck-color-brand-darker;
+}
+
+.join-us__footer-text {
+  flex: 1;
+}
+
+.join-us__footer-corner-1,
+.join-us__footer-corner-2,
+.join-us__footer-corner-3,
+.join-us__footer-corner-4 {
+  position: absolute;
+}
+
+.join-us__footer-corner-1 {
+  top: -2px;
+  left: -2px;
+}
+
+.join-us__footer-corner-2 {
+  top: -2px;
+  right: -2px;
+  transform: rotate(90deg);
+}
+
+.join-us__footer-corner-3 {
+  bottom: -2px;
+  right: -2px;
+  transform: rotate(180deg);
+}
+
+.join-us__footer-corner-4 {
+  bottom: -2px;
+  left: -2px;
+  transform: rotate(-90deg);
+}

@@ -1,11 +1,13 @@
 'use client';
-import Link from 'next/link';
+import { useWebsiteContext } from 'apps/website/app/app.context';
 import Image from 'next/image';
-import styles from './nav.module.scss';
+import Link from 'next/link';
+
+import { Icons } from '@cocokits/common-icons';
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
-import { Icons } from '@cocokits/common-icons';
-import { useWebsiteContext } from 'apps/website/app/app.context';
+
+import styles from './nav.module.scss';
 
 export default function Nav() {
   const context = useWebsiteContext();
@@ -26,19 +28,19 @@ export default function Nav() {
       />
       <div className={styles['nav__item-wrapper']}>
         
-        <Link className={styles.nav__item} href="#section_features">
+        <Link className={styles.nav__item} href="#section__features">
           Features
         </Link>
-        <Link className={styles.nav__item} href="#section_frameworks">
+        <Link className={styles.nav__item} href="#section__frameworks">
           Frameworks
         </Link>
-        <Link className={styles.nav__item} href="#section_for-designer">
+        <Link className={styles.nav__item} href="#section__for-designer">
           For Designers
         </Link>
-        <Link className={styles.nav__item} href="#section_for-developers">
+        <Link className={styles.nav__item} href="#section__for-developer">
           For Developers
         </Link>
-        <Link className={styles.nav__item} href="#section_join-us">
+        <Link className={styles.nav__item} href="#section__join-us">
           Join Us
         </Link>
       </div>
@@ -56,9 +58,9 @@ export default function Nav() {
           </IconButton>
         </Link>
 
-        <IconButton onClick={() => setColorMode(colorMode === 'dark' ? 'light' : 'dark')}>
+        {/* <IconButton onClick={() => setColorMode(colorMode === 'dark' ? 'light' : 'dark')}>
           <SvgIcon icon={colorMode === 'dark' ? Icons.dark : Icons.light}></SvgIcon>
-        </IconButton>
+        </IconButton> */}
       </div>
     </nav>
   );

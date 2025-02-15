@@ -1,14 +1,14 @@
 'use client';
+import { useWebsiteContext } from 'apps/website/app/app.context';
 import Image from 'next/image';
+import Link from 'next/link';
 
-import styles from './welcome.module.scss';
-import { WelcomeBgEffect } from './welcome-bg-effect';
+import { Icons } from '@cocokits/common-icons';
 import { Button } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
-import { Icons } from '@cocokits/common-icons';
+
+import styles from './welcome.module.scss';
 import { Brand } from '../../brands/brand';
-import Link from 'next/link';
-import { useWebsiteContext } from 'apps/website/app/app.context';
 
 export function Welcome() {
   const context = useWebsiteContext();
@@ -24,9 +24,14 @@ export function Welcome() {
   return (
     <div className={styles.welcome__host}>
 
-      <div className={styles['welcome__content']}>
-        <h1 className={styles['welcome__title']}>Bring your design system to life</h1>
-        <p className={styles['welcome__description']}>
+      <div className={styles['welcome__overlay-wrapper']}>
+        <Image className={styles['welcome__overlay-image']} width={828} height={556} src={imageSrc} alt="CocoKits" />
+        <div className={styles['welcome__overlay-effect']}></div>
+      </div>
+
+      <div className={styles.welcome__content}>
+        <h1 className={styles.welcome__title}>Bring your design system to life</h1>
+        <p className={styles.welcome__description}>
           CocoKits is a comprehensive design system language and CDK that enables you
           to create highly efficient web applications with powerful UI components.
         </p>
@@ -35,7 +40,7 @@ export function Welcome() {
           <Link href="https://github.com/coco-base/cocokits" rel="noopener noreferrer">
             <Button>GitHub</Button>
           </Link>
-          <Link href="#section_frameworks" rel="noopener noreferrer">
+          <Link href="#section__frameworks" rel="noopener noreferrer">
             <Button color="secondary">
               Get Started
               <SvgIcon icon={Icons.arrowRight}/>
@@ -57,11 +62,6 @@ export function Welcome() {
             <div className={styles['welcome__ds-empty-spot']}>1 spot available</div>
           </Link>
         </div>
-      </div>
-
-      <div className={styles['welcome__overlay-wrapper']}>
-        <Image className={styles['welcome__overlay-image']} width={768} height={466} src={imageSrc} alt="CocoKits" />
-        <WelcomeBgEffect className={styles['welcome__overlay-effect']}/>
       </div>
 
     </div>

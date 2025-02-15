@@ -58,11 +58,41 @@ export type UIBaseComponentsPropValue = string | number | boolean | null; // Whe
 
 export interface UIBaseComponentProps {
   /**
-   * TODO: Add description
+   * The type of component.
+   *
+   * When set to `null`, no specific type is applied (Not event the default value).
+   * This allows for more flexible styling options if the desired size is not available in the selected theme.
    */
   type?: UIBaseComponentsPropValue;
+
+  /**
+   * The color of component.
+   *
+   * When set to `null`, no specific color is applied (Not event the default value).
+   * This allows for more flexible styling options if the desired size is not available in the selected theme.
+   */
   color?: UIBaseComponentsPropValue;
+
+  /**
+   * The size of component.
+   *
+   * When set to `null`, no specific size is applied (Not event the default value).
+   * This allows for more flexible styling options if the desired size is not available in the selected theme.
+   */
   size?: UIBaseComponentsPropValue;
+
+  /**
+   * The additional properties for the component base on your favorite theme.
+   *
+   * This allows each theme to define its own unique properties or configurations not shared globally across all themes.
+   * For example, "rounded", "variant", and other custom properties.
+   * Based on the value, all necessary class names are created and appended to the host class, allowing the theme to easily select and style elements.
+   *
+   * @example
+   * <Component additional={{rounded: true, variant: 'my-variant'}}/>
+   *
+   * @internal
+   */
   additional?: Record<string, UIBaseComponentsPropValue>;
 }
 

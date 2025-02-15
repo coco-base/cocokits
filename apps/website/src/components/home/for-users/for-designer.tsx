@@ -1,12 +1,14 @@
-import { ListItem } from '../../list/list-item';
 import './for-users.scss';
+import Image from 'next/image';
+
+import { ListItem } from '../../list/list-item';
 
 
 export const ForDesigners = () => {
   return (
     <div id="section__for-designer" className="for-users__host">
       <div className='for-users__section'>
-
+        <Image src='/for-designer.png' alt='CocoKits for Designers' width='1292' height='1009'/>
       </div>
 
       <div className='for-users__section'>

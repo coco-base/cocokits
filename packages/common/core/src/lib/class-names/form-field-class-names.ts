@@ -46,43 +46,50 @@ export const formFieldLayoutClassNamesConfig = {
     untouched: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'untouched' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is untouched',
+      description:
+        'Angular Only: It will add to the host element of FormField component, when the value of input tag is untouched',
     },
     touched: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'touched' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is touched',
+      description:
+        'Angular Only:It will add to the host element of FormField component, when the value of input tag is touched',
     },
     pristine: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'pristine' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is pristine',
+      description:
+        'Angular Only: It will add to the host element of FormField component, when the value of input tag is pristine',
     },
     dirty: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'dirty' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is dirty',
+      description:
+        'Angular Only: It will add to the host element of FormField component, when the value of input tag is dirty',
     },
     valid: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'valid' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is valid',
+      description:
+        'Angular Only:It will add to the host element of FormField component, when the value of input tag is valid',
     },
     invalid: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'invalid' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is invalid',
+      description:
+        'Angular Only: It will add to the host element of FormField component, when the value of input `reactiveForm` is invalid.\n\nReact Only: It will add then the component has invalid prop or error component is present',
     },
     pending: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'pending' }],
-      description: 'It will add to the host element of FormField component, when the value of input tag is pending',
+      description:
+        'Angular Only: It will add to the host element of FormField component, when the value of input tag is pending',
     },
     error: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'error' }],
       description:
-        'It will add to the host element of FormField component, when the value of input is invalid, touched and dirty or error component is present',
+        'Angular Only: It will add to the host element of FormField component, when the value of input is invalid, touched and dirty or error component is present',
     },
     withInput: {
       name: 'Host Element',

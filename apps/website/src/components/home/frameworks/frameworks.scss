@@ -36,7 +36,6 @@
   background-color: $website-cck-color-bg-1;
   border: 1px solid $website-cck-color-border-2;
   box-shadow: 0 4px 20px 0 rgb(255 255 255 / 6%);
-  border-radius: $website-cck-radius-lg;
 }
 
 .framework-item__host--active {
@@ -45,6 +44,14 @@
 
   .framework-item__text {
     color: $website-cck-color-brand-default;
+  }
+
+  .light & {
+    background: linear-gradient(123deg, #f0f0f0 19.44%, #aeeac7 80.56%);
+  }
+
+  .dark & {
+    background: linear-gradient(123deg, #1e1e1e 19.44%, #071a0f 80.56%);
   }
 }
 

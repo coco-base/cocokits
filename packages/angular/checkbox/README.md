@@ -20,4 +20,14 @@ As with other components in `CocoKits`, the `CheckboxComponent` does not include
 Documentation and Examples
 For detailed configuration options, usage examples, and additional documentation, visit:
 
-- [CheckboxComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-checkbox--docs)
+- [CheckboxComponent](https://angular.cocokits.com/?path=/docs/ui-components-checkbox--docs)
+
+---
+
+### Contributing
+We welcome contributions! If you'd like to contribute to this project, please read our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md)
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.

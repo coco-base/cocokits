@@ -1,8 +1,8 @@
 @use '../../../token/scss/index' as *;
 
 .cck-component__host {
-  width: 336px;
-  height: 336px;
+  min-width: 250px;
+  min-height: 250px;
   position: relative;
   border-radius: $website-cck-radius-md;
   display: flex;

@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
 import './global.scss';
-import Nav from '../src/components/nav/nav';
-import { websiteThemeConfig } from '../theme/theme-config';
+import type { Metadata } from 'next';
+
 import App from './app';
+import Nav from '../src/components/nav/nav';
 // import { ThemeConfigContext } from '@cocokits/react-core';
 // import { websiteThemeConfig } from '../theme/theme-config';
 
@@ -23,10 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
       <body>
         <App>
-          <Nav/>
-          <main>
-            {children}
-          </main>
+          {children}
         </App>
       </body>
     </html>

@@ -22,4 +22,15 @@ The `@cocokits/angular-toggle` package does not include built-in styles. However
 
 ## Documentation and Example
 For detailed usage examples, configuration options, and additional documentation, visit the following link:
-- [ToggleComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-toggle--docs)t
+- [ToggleComponent](https://angular.cocokits.com/?path=/docs/ui-components-toggle--docs)
+
+
+---
+
+### Contributing
+Contributions are welcome! Please refer to our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md) for more details.
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for more information.
