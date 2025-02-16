@@ -13,7 +13,7 @@ export interface FormFieldProps extends UIBaseComponentProps {
    */
   disabled?: boolean;
   /**
-   * Whether the component is required.
+   * Whether the field is required.
    */
   required?: boolean;
   /**
