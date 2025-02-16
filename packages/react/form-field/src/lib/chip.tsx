@@ -23,8 +23,19 @@ interface ChipProps extends UIBaseComponentProps {
    * Will called when the chip remove icon has been clicked.
    */
   onRemove?: () => void;
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
   children?: React.ReactNode | React.ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
   className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
   style?: React.CSSProperties;
 }
 
@@ -34,7 +45,7 @@ export function Chip(props: ChipProps) {
 
   const formDisabled = formStore?.useState((state) => state.disabled);
   const disabled = props.disabled ?? formDisabled;
-  
+
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'chip',
     props,
@@ -42,7 +53,7 @@ export function Chip(props: ChipProps) {
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: props.removable, classes: (cn) => [cn.removable] },
       { if: !!props.className, classes: () => [props.className] },
-    ]
+    ],
   });
 
   const removeIcon = themeConfig?.components.chip?.templates?.chipRemoveIcon;
@@ -57,17 +68,11 @@ export function Chip(props: ChipProps) {
 
   return (
     <div className={hostClassNames} style={props.style} onClick={(e) => e.stopPropagation()}>
-      <div className={classNames.contentWrapper}>
-        {props.children}
-      </div>
+      <div className={classNames.contentWrapper}>{props.children}</div>
 
       {props.removable && (
         <div className={classNames.removeIconWrapper}>
-          <IconButton
-            type={null}
-            size={null}
-            color={null}
-            onClick={onRemoveBtnClick}>
+          <IconButton type={null} size={null} color={null} onClick={onRemoveBtnClick}>
             <SvgIcon icon={removeIcon} />
           </IconButton>
         </div>

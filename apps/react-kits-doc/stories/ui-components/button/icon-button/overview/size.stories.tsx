@@ -8,7 +8,8 @@ export const Size: StoryObj<typeof IconButton> = {
   parameters: {
     docs: {
       description: {
-        story: 'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
+        story:
+          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
     },
     cckAddon: {
@@ -43,11 +44,11 @@ export const Size: StoryObj<typeof IconButton> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
+      {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
         <IconButton key={index} type={args.cckControl.type} size={size}>
           <SvgIcon icon={args.cckIcons.heartFill} />
         </IconButton>
-      )) }
+      ))}
     </>
-  )
+  ),
 };

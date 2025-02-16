@@ -5,9 +5,8 @@ import descriptionMd from './description.md?raw';
 
 export { Default } from './overview/default.stories';
 export { Type } from './overview/type.stories';
-export { Color } from './overview/color.stories';
 export { Size } from './overview/size.stories';
-
+export { Color } from './overview/color.stories';
 
 const meta: StoriesMeta<typeof IconButton> = {
   component: IconButton,
@@ -21,7 +20,7 @@ const meta: StoriesMeta<typeof IconButton> = {
     },
     cckAddon: {
       componentName: 'iconButton',
-    }
+    },
   },
   argTypes: {},
 };

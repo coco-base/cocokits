@@ -1,5 +1,5 @@
 import { Chip } from '@cocokits/react-components';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Default: StoryObj<typeof Chip> = {
@@ -43,12 +43,8 @@ export const Default: StoryObj<typeof Chip> = {
     },
   },
   render: (args) => (
-    <Chip
-      {...reactThemeArgsToTemplate(args)}
-      disabled={args.cckControl.disabled}
-      removable={args.cckControl.removable}
-    >
+    <Chip {...reactThemeArgsToTemplate(args)} disabled={args.cckControl.disabled} removable={args.cckControl.removable}>
       {args.cckControl.text}
     </Chip>
-  )
+  ),
 };

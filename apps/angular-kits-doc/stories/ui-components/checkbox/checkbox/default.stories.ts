@@ -1,5 +1,5 @@
 import { CheckboxComponent } from '@cocokits/angular-checkbox';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<CheckboxComponent> = {
@@ -32,17 +32,12 @@ export const Default: StoryObj<CheckboxComponent> = {
       ],
       hasControl: true,
       controls: [
-        {
-          displayName: 'Indeterminate',
-          default: false,
-          storyArgKey: 'indeterminate',
-          type: AddonParametersControlType.Boolean,
-        },
-        { displayName: 'Text', default: 'Checkbox Label', storyArgKey: 'text', type: AddonParametersControlType.Text },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        CCK_CONTROL.indeterminate(false),
+        CCK_CONTROL.text('Checkbox Label'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
       ],
     },
   },

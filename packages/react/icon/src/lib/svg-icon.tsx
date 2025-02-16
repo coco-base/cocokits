@@ -1,18 +1,26 @@
 'use client';
-import React, { forwardRef, useLayoutEffect, useRef } from "react";
+import React, { forwardRef, ReactNode, useLayoutEffect, useRef } from 'react';
 
-import { UIBaseComponentProps } from "@cocokits/core";
-import { ThemeSvgIcon } from "@cocokits/core";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
+import { ThemeSvgIcon, UIBaseComponentProps } from '@cocokits/core';
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 export interface SvgIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'color' | 'type'>, UIBaseComponentProps {
+  /**
+   * Input property that requires an SVG icon configuration or svg as string
+   */
   icon: ThemeSvgIcon | string;
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
 }
 
 export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
   ({ icon, type, size, color, additional, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
-      componentName: "svgIcon",
+      componentName: 'svgIcon',
       props: { type, size, color, additional },
     });
 
@@ -24,15 +32,15 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
       }
 
       const parser = new DOMParser();
-      const doc = parser.parseFromString(icon, "image/svg+xml");
+      const doc = parser.parseFromString(icon, 'image/svg+xml');
 
-      if (doc.getElementsByTagName("parsererror").length) {
-        throw new Error("Error parsing SVG string");
+      if (doc.getElementsByTagName('parsererror').length) {
+        throw new Error('Error parsing SVG string');
       }
 
-      const svgElement = doc.getElementsByTagName("svg")[0];
+      const svgElement = doc.getElementsByTagName('svg')[0];
 
-      svgElement.classList.add(...classNames.svg.split(" "));
+      svgElement.classList.add(...classNames.svg.split(' '));
       hostRef.current.appendChild(svgElement);
 
       return () => {
@@ -42,7 +50,7 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
 
     return (
       <span ref={hostRef} className={`${hostClassNames} ${restProps.className ?? ''}`}>
-        {typeof icon !== "string" && (
+        {typeof icon !== 'string' && (
           <svg
             ref={ref}
             xmlns="http://www.w3.org/2000/svg"
@@ -57,5 +65,5 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
   }
 );
 
-SvgIcon.displayName = "SvgIcon";
+SvgIcon.displayName = 'SvgIcon';
 export default SvgIcon;

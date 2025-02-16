@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -7,26 +7,30 @@ import { useUiBaseComponentConfig } from '@cocokits/react-core';
 import { useFormStore } from './form-store';
 
 interface PrefixProps extends UIBaseComponentProps {
-  children?: React.ReactNode | React.ReactNode[];
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
   className?: string;
 }
 
 export function Prefix(props: PrefixProps) {
   const formStore = useFormStore();
-  
+
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'prefix',
     props,
   });
 
   useEffect(() => {
-    const template = (
-      <div className={`${hostClassNames} ${props.className ?? ''}`}>
-        {props.children}
-      </div>
-    );
+    const template = <div className={`${hostClassNames} ${props.className ?? ''}`}>{props.children}</div>;
 
-    formStore?.updateComponent('prefix', {template});
+    formStore?.updateComponent('prefix', { template });
   }, [props.children]);
 
   useEffect(() => {

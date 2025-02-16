@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Button, Divider, ElementAnchorPoint, Menu, MenuItem } from '@cocokits/react-components';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
-import { set } from 'lodash';
 
 export const Default: StoryObj<typeof Menu> = {
   name: 'Default',
@@ -67,7 +66,7 @@ export const Default: StoryObj<typeof Menu> = {
         CCK_CONTROL.additional(),
         CCK_CONTROL.open(),
         CCK_CONTROL.closeOnSelectItem(),
-        CCK_CONTROL.disabled(false, 'Disabled First Item', "disabledFirstItem"),
+        CCK_CONTROL.disabled(false, 'Disabled First Item', 'disabledFirstItem'),
         CCK_CONTROL.anchorPoint(ElementAnchorPoint.BottomRight),
       ],
     },
@@ -87,31 +86,28 @@ function Story(args: Parameters<NonNullable<StoryObj<typeof Menu>['render']>>[0]
     setOpen(true);
   };
 
-
   return (
     <>
       <Button ref={buttonRef} onClick={onButtonClick}>
         Open
       </Button>
 
-      <Menu 
+      <Menu
         {...reactThemeArgsToTemplate(args)}
         open={open}
         targetRef={buttonRef}
         menuAnchorPoint={args.cckControl.anchorPoint}
         onMenuStatusChange={(isOpen) => setOpen(isOpen)}
-        closeOnSelectItem={args.cckControl.closeOnSelectItem}
-      >
+        closeOnSelectItem={args.cckControl.closeOnSelectItem}>
         <MenuItem disabled={args.cckControl.disabledFirstItem}>Edit</MenuItem>
         <MenuItem>Duplicate</MenuItem>
-        <Divider/>
+        <Divider />
         <MenuItem>Archive</MenuItem>
         <MenuItem disabled>Move</MenuItem>
-        <Divider/>
+        <Divider />
         <MenuItem>Share</MenuItem>
         <MenuItem>Add to favorite</MenuItem>
       </Menu>
     </>
   );
-
 }

@@ -1,5 +1,5 @@
 import { TextareaComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const AutoResize: StoryObj<TextareaComponent> = {
@@ -31,7 +31,7 @@ export const AutoResize: StoryObj<TextareaComponent> = {
           `,
         },
       ],
-      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => ({
