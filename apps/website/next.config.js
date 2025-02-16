@@ -8,7 +8,11 @@ const { composePlugins, withNx } = require('@nx/next');
  **/
 const nextConfig = {
   distDir: '../../dist/website',
+  output: 'export',
   reactStrictMode: false,
+  images: {
+    unoptimized: true, // Disable image optimization for static export
+  },
   nx: {
     // Set this to true if you would like to to use SVGR
     // See: https://github.com/gregberge/svgr

@@ -27,12 +27,8 @@ export function JoinUs() {
           </Button>
         </Link>
 
-        <Link href="/collaboration" rel="noopener noreferrer" target="_blank">
-          <Button>Join us as Designer</Button>
-        </Link>
-
-        <Link href="/collaboration" rel="noopener noreferrer" target="_blank">
-          <Button>Join us as Developer</Button>
+        <Link href="/collaboration.html" rel="noopener noreferrer" target="_blank">
+          <Button>Join our team</Button>
         </Link>
       </div>
 
