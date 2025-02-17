@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@angular/build>lmdb': '-'
+  '@angular/build>lmdb': 3.2.6
 
 patchedDependencies:
   '@compodoc/compodoc':
@@ -13917,6 +13917,7 @@ snapshots:
       fast-glob: 3.3.2
       https-proxy-agent: 7.0.5
       listr2: 8.2.4
+      lmdb: 3.2.6
       magic-string: 0.30.11
       mrmime: 2.0.0
       parse5-html-rewriting-stream: 7.0.0
@@ -13958,6 +13959,7 @@ snapshots:
       fast-glob: 3.3.2
       https-proxy-agent: 7.0.5
       listr2: 8.2.4
+      lmdb: 3.2.6
       magic-string: 0.30.11
       mrmime: 2.0.0
       parse5-html-rewriting-stream: 7.0.0
@@ -20486,7 +20488,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.1.1
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@20.17.11)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.1.3)(sass@1.83.0)(stylus@0.59.0)(terser@5.31.6)
+      vitest: 1.6.0(@types/node@22.10.5)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0)
 
   '@vitest/utils@1.6.0':
     dependencies:
@@ -29699,7 +29701,7 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 7.3.0(webpack@5.97.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.24.2))
+      webpack-dev-middleware: 7.3.0(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))
       ws: 8.18.0
     optionalDependencies:
       webpack: 5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)

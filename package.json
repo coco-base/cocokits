@@ -196,7 +196,7 @@
       "@storybook/core": "patches/@storybook__core.patch"
     },
     "overrides": {
-      "@angular/build>lmdb": "-"
+      "@angular/build>lmdb": "3.2.6"
     }
   },
   "peerDependencies": {
