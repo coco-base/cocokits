@@ -38,18 +38,16 @@ export const Color: StoryObj<typeof IconButton> = {
           `,
         },
       ],
-      controls: [
-        CCK_CONTROL.type(),
-      ],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
+      {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
         <IconButton key={index} type={args.cckControl.type} color={color}>
           <SvgIcon icon={args.cckIcons.heartFill} />
         </IconButton>
-      )) }
+      ))}
     </>
-  )
+  ),
 };

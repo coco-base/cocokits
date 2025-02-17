@@ -1,5 +1,5 @@
 import { RadioButton, RadioGroup } from '@cocokits/react-components';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Size: StoryObj<typeof RadioGroup> = {
@@ -47,5 +47,5 @@ export const Size: StoryObj<typeof RadioGroup> = {
         </RadioGroup>
       ))}
     </>
-  )
+  ),
 };

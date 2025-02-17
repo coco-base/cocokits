@@ -1,5 +1,5 @@
 'use client';
-import React, { FocusEvent, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, FocusEvent, useEffect, useRef, useState } from 'react';
 
 import { autoResizeTextarea } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -10,6 +10,9 @@ import { useFormStore } from './form-store';
 export interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'type' | 'color' | 'size'>,
     UIBaseComponentProps {
+  /**
+   * Whether the form field is invalid.
+   */
   invalid?: boolean;
 
   /**
@@ -31,8 +34,15 @@ export interface TextareaProps
    * Whether the textarea is disabled.
    */
   disabled?: boolean;
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
-
 
 export const Textarea = (props: TextareaProps) => {
   const {
@@ -64,7 +74,7 @@ export const Textarea = (props: TextareaProps) => {
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: autoResize, classes: (cn) => [cn.autoResize] },
       { if: true, classes: () => [props.className] },
-    ]
+    ],
   });
 
   useEffect(() => {

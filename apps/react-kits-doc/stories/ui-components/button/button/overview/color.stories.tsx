@@ -39,9 +39,7 @@ export const Color: StoryObj<typeof Button> = {
           `,
         },
       ],
-      controls: [
-        CCK_CONTROL.type(),
-      ],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => (

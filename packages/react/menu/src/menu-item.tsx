@@ -1,21 +1,22 @@
 'use client';
-import { ReactNode, useContext } from "react";
+import { CSSProperties, ReactNode, useContext } from 'react';
 
-import { UIBaseComponentProps } from "@cocokits/core";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
-import { OverlayContext, OverlayRef } from "@cocokits/react-overlay";
+import { UIBaseComponentProps } from '@cocokits/core';
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
+import { OverlayContext, OverlayRef } from '@cocokits/react-overlay';
 
-import { MenuOverlayParams } from "./menu";
+import { MenuOverlayParams } from './menu';
 
 interface MenuItemProps extends UIBaseComponentProps {
-
   /**
    * If true, the menu item will be disabled.
    */
   disabled?: boolean;
 
   /**
-   * The content of the component.
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
    */
   children?: ReactNode | ReactNode[];
 
@@ -27,34 +28,31 @@ interface MenuItemProps extends UIBaseComponentProps {
   /**
    * Override or extend the styles applied to the component.
    */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
-
 export function MenuItem(props: MenuItemProps) {
-
   const overlayContext = useContext(OverlayContext) as OverlayRef<MenuOverlayParams, void>;
 
   const { hostClassNames } = useUiBaseComponentConfig({
-    componentName: "menuItem",
+    componentName: 'menuItem',
     props: {
       ...props,
-      size: props.size ?? overlayContext?.data.menuSize
+      size: props.size ?? overlayContext?.data.menuSize,
     },
     extraHostElementClassConditions: [
       { if: !!props.className, classes: () => [props.className] },
-      { if: props.disabled, classes: (cn) => [cn.disabled] }
-    ]
+      { if: props.disabled, classes: (cn) => [cn.disabled] },
+    ],
   });
 
   const onHostClick = () => {
-    if(props.disabled || overlayContext.data.closeOnSelectItem === false) {
+    if (props.disabled || overlayContext.data.closeOnSelectItem === false) {
       return;
     }
 
     overlayContext?.close();
   };
-
 
   return (
     <div className={hostClassNames} style={props.style} onClick={onHostClick}>
@@ -63,7 +61,5 @@ export function MenuItem(props: MenuItemProps) {
   );
 }
 
-
-
-MenuItem.displayName = "MenuItem";
+MenuItem.displayName = 'MenuItem';
 export default MenuItem;

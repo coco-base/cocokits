@@ -1,5 +1,5 @@
 import { RadioButtonComponent } from '@cocokits/angular-radio';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<RadioButtonComponent> = {
@@ -33,13 +33,13 @@ export const Default: StoryObj<RadioButtonComponent> = {
       ],
       hasControl: true,
       controls: [
-        { displayName: 'Text', default: 'Label', storyArgKey: 'text', type: AddonParametersControlType.Text },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
-        { displayName: 'Checked', default: false, storyArgKey: 'checked', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.text('label'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(false),
+        CCK_CONTROL.checked(false),
       ],
     },
   },

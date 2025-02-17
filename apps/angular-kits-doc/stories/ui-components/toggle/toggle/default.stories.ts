@@ -1,5 +1,5 @@
 import { ToggleComponent } from '@cocokits/angular-toggle';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<ToggleComponent> = {
@@ -33,20 +33,15 @@ export const Default: StoryObj<ToggleComponent> = {
       ],
       hasControl: true,
       controls: [
-        { displayName: 'Text', default: 'Slide Me!', storyArgKey: 'text', type: AddonParametersControlType.Text },
-        {
-          displayName: 'Label Position',
-          default: 'before',
-          options: ['before', 'after'],
-          storyArgKey: 'labelPosition',
-          type: AddonParametersControlType.Select,
-        },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
-        { displayName: 'Checked', default: false, storyArgKey: 'checked', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.text('Slid Me!'),
+        CCK_CONTROL.label('before'),
+        CCK_CONTROL.placeholder('Placeholder'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(false),
+        CCK_CONTROL.checked(false),
       ],
     },
   },

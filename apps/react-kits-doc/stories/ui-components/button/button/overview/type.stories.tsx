@@ -7,7 +7,8 @@ export const Type: StoryObj<typeof Button> = {
   parameters: {
     docs: {
       description: {
-        story: 'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
+        story:
+          'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
     },
     cckAddon: {
@@ -39,9 +40,11 @@ export const Type: StoryObj<typeof Button> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <Button key={index} type={type}>{type}</Button>
-      )) }
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+        <Button key={index} type={type}>
+          {type}
+        </Button>
+      ))}
     </>
-  )
+  ),
 };

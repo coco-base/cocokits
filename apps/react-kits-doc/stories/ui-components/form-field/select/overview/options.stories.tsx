@@ -60,7 +60,7 @@ export const Options: StoryObj<typeof Select> = {
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
-        CCK_CONTROL.multiple()
+        CCK_CONTROL.multiple(),
       ],
     },
   },
@@ -69,20 +69,23 @@ export const Options: StoryObj<typeof Select> = {
       {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
       <Select
         {...reactThemeArgsToTemplate(args)}
-        placeholder='Add a new food'
+        placeholder="Add a new food"
         multiple={args.cckControl.multiple}
-        maxOptionsHeight={300}
-      >
-        <OptionGroup label='Fast Foods'>
+        maxOptionsHeight={300}>
+        <OptionGroup label="Fast Foods">
           <Option value="Steak">Steak</Option>
-          <Option value="Pizza" disabled>Pizza</Option>
+          <Option value="Pizza" disabled>
+            Pizza
+          </Option>
           <Option value="Burger">Burger</Option>
         </OptionGroup>
 
-        <OptionGroup label='Healthy Options'>
+        <OptionGroup label="Healthy Options">
           <Option value="Salad">Salad</Option>
           <Option value="Sushi">Sushi</Option>
-          <Option value="Soup" disabled>Soup</Option>
+          <Option value="Soup" disabled>
+            Soup
+          </Option>
         </OptionGroup>
 
         <OptionGroup label="Desserts" disabled>

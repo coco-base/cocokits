@@ -1,7 +1,6 @@
 import { ChipList, FormField, Label } from '@cocokits/react-components';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
-import { placeholder } from '../../../../../../../packages/internal/storybook-addon-theme/src/lib/utils/control.config';
 
 export const Default: StoryObj<typeof ChipList> = {
   name: 'Default',
@@ -59,5 +58,5 @@ export const Default: StoryObj<typeof ChipList> = {
         disabled={args.cckControl.disabled}
       />
     </FormField>
-  )
+  ),
 };

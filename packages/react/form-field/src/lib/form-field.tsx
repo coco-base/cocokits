@@ -1,22 +1,43 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import { CSSProperties, Fragment, ReactNode, useEffect, useRef } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 import { useCreateFormStore } from './form-store';
 
-
 export interface FormFieldProps extends UIBaseComponentProps {
+  /**
+   * Whether the form field is disabled.
+   */
   disabled?: boolean;
+  /**
+   * Whether the field is required.
+   */
   required?: boolean;
+  /**
+   * Whether the form field is invalid.
+   */
   invalid?: boolean;
-  hideRequiredMarker?: boolean;
-  children?: React.ReactNode;
+  /**
+   * Whether the required marker should be hidden.
+   */
+  hideRequiredMarker?: boolean | undefined;
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
   className?: string;
-  style?: React.CSSProperties;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
-
 
 export const FormField = (props: FormFieldProps) => {
   const { formStore, FormStoreProvider } = useCreateFormStore();
@@ -42,7 +63,7 @@ export const FormField = (props: FormFieldProps) => {
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'formField',
-    props: {...props, size},
+    props: { ...props, size },
     extraHostElementClassConditions: [
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: required, classes: (cn) => [cn.required] },
@@ -56,7 +77,6 @@ export const FormField = (props: FormFieldProps) => {
       // TODO: add formControl like react-hook-form. with untouched, touched, pristine, dirty, valid, invalid, pending
     ],
   });
-
 
   useEffect(() => {
     formStore.registerComponent('formField');
@@ -72,7 +92,15 @@ export const FormField = (props: FormFieldProps) => {
       size: props.size,
       hideRequiredMarker: props.hideRequiredMarker,
     });
-  }, [wrapperElemRef.current, formStore, props.disabled, props.required, props.invalid, props.size, props.hideRequiredMarker]);
+  }, [
+    wrapperElemRef.current,
+    formStore,
+    props.disabled,
+    props.required,
+    props.invalid,
+    props.size,
+    props.hideRequiredMarker,
+  ]);
 
   return (
     <FormStoreProvider value={formStore}>
@@ -92,7 +120,7 @@ export const FormField = (props: FormFieldProps) => {
         <div className={classNames.feedbackWrapper}>
           {hintTemplate}
           {errorsTemplates.map((errorTemplate, index) => {
-            return <React.Fragment key={index}>{errorTemplate}</React.Fragment>;
+            return <Fragment key={index}>{errorTemplate}</Fragment>;
           })}
         </div>
       </div>

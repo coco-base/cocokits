@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 'use client';
-import { useEffect, useRef } from 'react';
+import { CSSProperties, useEffect, useRef } from 'react';
 
 import { hasNotValue } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -36,14 +36,20 @@ interface ChipListProps extends UIBaseComponentProps {
 
   /** Calls, when the chip item that has been added to the list. */
   onChipsChange?: (chips: string[]) => void;
-  
+
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
   className?: string;
-  style?: React.CSSProperties;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export function ChipList(props: ChipListProps) {
   const formStore = useFormStore();
-  const {chips, addChip, removeChip, setChips} = useChipListStore();
+  const { chips, addChip, removeChip, setChips } = useChipListStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const separatorKeysCodes = ['Enter'];
@@ -53,24 +59,24 @@ export function ChipList(props: ChipListProps) {
   const size = formStore?.useState((state) => state.size);
 
   const disabled = props.disabled ?? formDisabled;
-  
+
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'chipList',
     props,
     extraHostElementClassConditions: [
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: !!props.className, classes: () => [props.className] },
-    ]
+    ],
   });
 
   useEffect(() => {
-    if(!props.chips) {
+    if (!props.chips) {
       return;
     }
     setChips(props.chips);
   }, [props.chips]);
 
-  // Register chipList into formSore 
+  // Register chipList into formSore
   useEffect(() => {
     formStore?.deepUpdateComponent('chipList', {
       disabled: props.disabled,
@@ -78,7 +84,7 @@ export function ChipList(props: ChipListProps) {
     });
   }, [formStore, props.disabled, props.size]);
 
-  // Unregister chipList into formSore 
+  // Unregister chipList into formSore
   useEffect(() => {
     return () => {
       formStore?.unregisterComponent('chipList');
@@ -98,14 +104,13 @@ export function ChipList(props: ChipListProps) {
     };
   }, [formWrapperElement, inputRef.current]);
 
-  
   const onInputKeyup = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value.trim();
     if (!separatorKeysCodes.includes(e.key) || hasNotValue(value)) {
       return;
     }
     const newChipsState = addChip(value);
-    if(newChipsState) {
+    if (newChipsState) {
       props.onChipAdd?.(value);
       props.onChipsChange?.(newChipsState);
     }
@@ -119,7 +124,7 @@ export function ChipList(props: ChipListProps) {
       return;
     }
     const newChipsState = addChip(value);
-    if(newChipsState) {
+    if (newChipsState) {
       props.onChipAdd?.(value);
       props.onChipsChange?.(newChipsState);
     }
@@ -128,7 +133,7 @@ export function ChipList(props: ChipListProps) {
 
   const onRemoveChip = (chip: string) => {
     const newChipsState = removeChip(chip);
-    if(newChipsState) {
+    if (newChipsState) {
       props.onChipRemove?.(chip);
       props.onChipsChange?.(newChipsState);
     }
@@ -136,17 +141,11 @@ export function ChipList(props: ChipListProps) {
 
   return (
     <div className={hostClassNames} style={props.style}>
-      {
-        chips.map((chip, index) => (
-          <Chip
-            key={index}
-            removable
-            size={size}
-            onRemove={() => onRemoveChip(chip)}>
-            {chip}
-          </Chip>
-        ))
-      }
+      {chips.map((chip, index) => (
+        <Chip key={index} removable size={size} onRemove={() => onRemoveChip(chip)}>
+          {chip}
+        </Chip>
+      ))}
 
       <input
         ref={inputRef}

@@ -7,7 +7,8 @@ export const Size: StoryObj<typeof Button> = {
   parameters: {
     docs: {
       description: {
-        story: 'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
+        story:
+          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
     },
     cckAddon: {
@@ -39,16 +40,16 @@ export const Size: StoryObj<typeof Button> = {
           `,
         },
       ],
-      controls: [
-        CCK_CONTROL.type(),
-      ],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Button key={index} type={args.cckControl.type} size={size}>Button - {size}</Button>
-      )) }
+      {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
+        <Button key={index} type={args.cckControl.type} size={size}>
+          Button - {size}
+        </Button>
+      ))}
     </>
-  )
+  ),
 };

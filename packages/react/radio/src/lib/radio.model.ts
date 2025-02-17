@@ -1,3 +1,5 @@
+import { CSSProperties, ReactNode } from 'react';
+
 import { UIBaseComponentProps } from '@cocokits/core';
 
 export interface RadioChangeEvent<T extends string | number> {
@@ -27,8 +29,20 @@ export interface RadioButtonProps<T extends string | number> extends UIBaseCompo
    */
   onChange?: (event: RadioChangeEvent<T>) => void;
 
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
   className?: string;
-  children?: React.ReactNode;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export interface RadioGroupProps<T extends string | number> extends UIBaseComponentProps {
@@ -50,8 +64,18 @@ export interface RadioGroupProps<T extends string | number> extends UIBaseCompon
    * a radio button (the same behavior as `<input type-"radio">`).
    */
   onChange?: (event: RadioChangeEvent<T>) => void;
-
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
   className?: string;
-
-  children?: React.ReactNode;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }

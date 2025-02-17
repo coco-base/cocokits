@@ -1,5 +1,5 @@
 import { RadioButton } from '@cocokits/react-radio';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Color: StoryObj<typeof RadioButton> = {
@@ -44,5 +44,5 @@ export const Color: StoryObj<typeof RadioButton> = {
         </RadioButton>
       ))}
     </>
-  )
+  ),
 };

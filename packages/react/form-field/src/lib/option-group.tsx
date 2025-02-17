@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useMemo } from 'react';
+import { createContext, CSSProperties, useMemo } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -19,8 +19,20 @@ interface OptionGroup extends UIBaseComponentProps {
 
   /** Label for the option group. */
   label: string;
-
+  /**
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
   children: React.ReactNode | React.ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const OptionGroupContext = createContext<OptionGroupContextValue | null>(null);
@@ -34,9 +46,7 @@ export function OptionGroup(props: OptionGroup) {
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'optionGroup',
     props,
-    extraHostElementClassConditions: [
-      { if: disabled, classes: (cn) => [cn.disabled] },
-    ],
+    extraHostElementClassConditions: [{ if: disabled, classes: (cn) => [cn.disabled] }],
   });
 
   const contextValue = useMemo<OptionGroupContextValue>(() => ({ disabled: props.disabled }), [props.disabled]);
