@@ -20,4 +20,15 @@ The `OverlayComponent` is a customizable floating UI element that can be dynamic
 The `OverlayService` provides the core functionality for creating and managing overlays in your application. It handles the lifecycle of overlays, positioning logic,
 
 
-- [OverlayComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-overlay--docs)
+- [OverlayComponent](https://angular.cocokits.com/?path=/docs/ui-components-overlay--docs)
+
+
+---
+
+### Contributing
+We welcome contributions! For details, please see our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md).
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.

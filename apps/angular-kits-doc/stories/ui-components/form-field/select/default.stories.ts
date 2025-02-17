@@ -1,5 +1,5 @@
 import { SelectComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<SelectComponent> = {
@@ -41,24 +41,14 @@ export const Default: StoryObj<SelectComponent> = {
       ],
       hasControl: true,
       controls: [
-        {
-          displayName: 'Label',
-          default: 'Favorite Foods',
-          storyArgKey: 'label',
-          type: AddonParametersControlType.Text,
-        },
-        {
-          displayName: 'Placeholder',
-          default: 'Add a new food',
-          storyArgKey: 'placeholder',
-          type: AddonParametersControlType.Text,
-        },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
-        { displayName: 'Multiple', default: false, storyArgKey: 'multiple', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.label('Label'),
+        CCK_CONTROL.placeholder('Placeholder'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(),
+        CCK_CONTROL.multiple(false),
       ],
     },
   },

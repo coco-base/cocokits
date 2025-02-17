@@ -1,0 +1,16 @@
+.examples-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.examples-1x1 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.examples-1x2 {
+  grid-column: span 2;
+  grid-row: span 1;
+}

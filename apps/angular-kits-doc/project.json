@@ -27,6 +27,10 @@
         {
           "projects": ["@cocokits/common-kits-doc"],
           "target": "build-typedoc"
+        },
+        {
+          "projects": ["@cocokits/storybook-addon-theme"],
+          "target": "css-generator"
         }
       ]
     },
@@ -53,6 +57,10 @@
         {
           "projects": ["@cocokits/common-kits-doc"],
           "target": "build-typedoc"
+        },
+        {
+          "projects": ["@cocokits/storybook-addon-theme"],
+          "target": "css-generator"
         }
       ]
     },

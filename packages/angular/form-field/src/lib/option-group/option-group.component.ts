@@ -37,7 +37,7 @@ export class OptionGroupComponent extends _UiBaseComponent<'optionGroup'> {
   private selectComp = inject(SelectComponent, { optional: true });
 
   /**
-   * Whether the input is disabled.
+   * Whether the group is disabled.
    * @storybook argType will be overridden by storybook
    */
   public disabled = input(undefined, { transform: toBooleanOrPresent });

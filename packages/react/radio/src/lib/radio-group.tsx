@@ -1,21 +1,24 @@
+'use client';
 import { useState } from "react";
-import { RadioGroupContext } from "./radio.context";
+
 import { useUiBaseComponentConfig } from "@cocokits/react-core";
+import { useEffectAfterMount } from "@cocokits/react-utils";
+
+import { RadioGroupContext } from "./radio.context";
 import { RadioChangeEvent, RadioGroupProps } from "./radio.model";
 
 export const RadioGroup = <T extends string | number,>(props: RadioGroupProps<T>) => {
-
-  const type = props.type;
-  const size = props.size;
-  const color = props.color;
-  const additional = props.additional;
   
   const [selected, setSelected] = useState<T | undefined>(props.selected);
 
-  const { classNames, hostClassNames } = useUiBaseComponentConfig({
+  const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'radioGroup',
-    props: { type, size, color, additional }
+    props: props
   });
+
+  useEffectAfterMount(() => {
+    setSelected(props.selected);
+  }, [props.selected]);
 
   const onInputChange = (event: RadioChangeEvent<T>) => {
     setSelected(event.value);
@@ -27,6 +30,10 @@ export const RadioGroup = <T extends string | number,>(props: RadioGroupProps<T>
       <RadioGroupContext.Provider
         value={{
           name: props.name,
+          type: props.type,
+          size: props.size,
+          color: props.color,
+          additional: props.additional,
           selected: selected,
           disabled: props.disabled,
           onChange: onInputChange,
@@ -36,3 +43,6 @@ export const RadioGroup = <T extends string | number,>(props: RadioGroupProps<T>
     </div>
   );
 };
+
+RadioGroup.displayName = 'RadioGroup';
+export default RadioGroup;

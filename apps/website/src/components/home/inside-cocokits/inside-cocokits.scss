@@ -1,0 +1,32 @@
+@use '../../../../token/scss/index' as *;
+
+.inside-cocokits__host {
+  margin: 48px 0;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inside-cocokits__feature-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 32px;
+  gap: 32px;
+}
+
+.inside-cocokits__feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 336px;
+}
+
+.inside-cocokits__feature-image {
+  width: 336px;
+  height: auto;
+  margin-bottom: 16px;
+}

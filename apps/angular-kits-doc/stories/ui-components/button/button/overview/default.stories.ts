@@ -1,5 +1,5 @@
 import { ButtonComponent } from '@cocokits/angular-button';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<ButtonComponent> = {
@@ -38,26 +38,14 @@ export const Default: StoryObj<ButtonComponent> = {
       ],
       hasControl: true,
       controls: [
-        { displayName: 'Text', default: 'Button', storyArgKey: 'text', type: AddonParametersControlType.Text },
-        {
-          displayName: 'Left Icon',
-          default: 'heartFill',
-          icons: ['none', 'heartFill', 'heart', 'link'],
-          storyArgKey: 'leftIcon',
-          type: AddonParametersControlType.Icon,
-        },
-        {
-          displayName: 'Right Icon',
-          default: 'none',
-          icons: ['none', 'heartFill', 'heart', 'link'],
-          storyArgKey: 'rightIcon',
-          type: AddonParametersControlType.Icon,
-        },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.text('Button'),
+        CCK_CONTROL.leftIcon('heartFill'),
+        CCK_CONTROL.rightIcon('none'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(),
       ],
     },
   },

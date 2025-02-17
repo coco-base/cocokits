@@ -2,23 +2,19 @@
   "name": "@cocokits/common-icons",
   "version": "1.0.2",
   "private": false,
-  "peerDependencies": {
-    "lodash": "^4.17.21",
-    "rxjs": "~7.8.0"
-  },
+  "type": "commonjs",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./src/index.ts",
   "dependencies": {
     "@swc/helpers": "~0.5.2"
   },
-  "type": "commonjs",
   "devDependencies": {
-    "vitest": "^1.6.0",
+    "@nx/vite": "18.3.5",
     "vite": "~5.0.0",
-    "@nx/vite": "18.3.5"
+    "vitest": "^1.6.0"
   },
   "publishConfig": {
     "directory": "../../../dist/packages/common/icons"
-  },
-  "module": "./index.js",
-  "main": "./index.js",
-  "types": "./src/index.ts"
+  }
 }

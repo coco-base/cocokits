@@ -2,25 +2,24 @@
   "name": "@cocokits/angular-components",
   "version": "1.1.0",
   "private": false,
-  "peerDependencies": {
+  "sideEffects": false,
+  "dependencies": {
+    "@cocokits/angular-button": "workspace:*",
+    "@cocokits/angular-checkbox": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/angular-divider": "workspace:*",
+    "@cocokits/angular-form-field": "workspace:*",
+    "@cocokits/angular-icon": "workspace:*",
+    "@cocokits/angular-menu": "workspace:*",
+    "@cocokits/angular-radio": "workspace:*",
+    "@cocokits/angular-toggle": "workspace:*",
     "@cocokits/angular-utils": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*",
-    "@cocokits/angular-core": "workspace:*",
-    "@cocokits/angular-icon": "workspace:*",
-    "@cocokits/angular-button": "workspace:*",
-    "@cocokits/angular-checkbox": "workspace:*",
-    "@cocokits/angular-radio": "workspace:*",
-    "@cocokits/angular-form-field": "workspace:*",
-    "@cocokits/angular-divider": "workspace:*",
-    "@cocokits/angular-menu": "workspace:*",
-    "@cocokits/angular-toggle": "workspace:*"
-  },
-  "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {},
-  "sideEffects": false,
+  "peerDependencies": {},
   "publishConfig": {
     "directory": "../../../dist/packages/angular/components"
   }

@@ -46,3 +46,7 @@ storybook-static
 migration-storybook.log
 .angular
 .env
+
+# Next.js
+.next
+out

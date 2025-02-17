@@ -3,5 +3,6 @@
   "dest": "<%= offsetPathToRoot %>/dist/<%= libraryRoot %>",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }

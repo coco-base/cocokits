@@ -1,0 +1,217 @@
+/* stylelint-disable no-duplicate-selectors */
+@use '../token/core/local-style.default.mixin' as *;
+@use '../token/core/color.dark.mixin' as *;
+@use '../token/core/color.light.mixin' as *;
+@use '../token/core/size.default.mixin' as *;
+@use '../token/core/color-palette.default.mixin' as *;
+@use '../theme/scss' as website-cck;
+@use '../../../packages/themes/cocokits/src/styles' as cocokitsTheme;
+@use '../../../packages/themes/frames-x/src/styles' as framesXTheme;
+@forward '../../../packages/themes/cocokits/src/token/css/tokens';
+@forward '../../../packages/themes/frames-x/src/token/css/tokens';
+
+[data-cck-theme-name='cocokits'] {
+  @include cocokitsTheme.components_all;
+}
+
+[data-cck-theme-name='frames-x'] {
+  @include framesXTheme.components_all;
+}
+
+@import './base';
+@import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
+@include website-cck.components_all;
+
+:root {
+  @include variables_local-style_default;
+  @include variables_size_default;
+  @include variables_color-palette_default;
+}
+
+:root,
+html.dark {
+  @include variables_color_dark;
+}
+
+html.light {
+  @include variables_color_light;
+}
+
+/* Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+* {
+  margin: 0;
+}
+
+body {
+  /* Add accessible line-height */
+  line-height: 1.5;
+
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+/* Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+html {
+  background-color: var(--website-cck-color-bg-0);
+}
+
+h1 {
+  font: var(--website-cck-display-md-bold);
+  color: var(--website-cck-color-font-1);
+  margin: 0 0 28px;
+}
+
+h2 {
+  font: var(--website-cck-display-sm-bold);
+  color: var(--website-cck-color-font-1);
+  margin: 12px 0;
+}
+
+h3 {
+  font: var(--website-cck-text-lg-medium);
+  color: var(--website-cck-color-font-1);
+  margin: 12px 0;
+}
+
+h4 {
+  font: var(--website-cck-text-md-medium);
+  color: var(--website-cck-color-font-1);
+  margin: 12px 0;
+}
+
+h5 {
+  font: var(--website-cck-text-sm-medium);
+  color: var(--website-cck-color-font-1);
+  margin: 12px 0;
+}
+
+h6 {
+  font: var(--website-cck-text-xs-medium);
+  color: var(--website-cck-color-font-1);
+  margin: 12px 0;
+}
+
+b,
+strong {
+  font: var(--website-cck-text-md-bold);
+  color: var(--website-cck-color-font-1);
+  margin: 0 0 16px;
+}
+
+p,
+li {
+  font: var(--website-cck-text-md-regular);
+  color: var(--website-cck-color-font-2);
+  margin: 0 0 16px;
+}
+
+ul {
+  font: var(--website-cck-text-sm-regular);
+  color: var(--website-cck-color-font-2);
+}
+
+li {
+  margin: 0 0 16px;
+}
+
+pre {
+  margin: 28px 0;
+}
+
+strong {
+  font-weight: 600;
+}
+
+hr {
+  height: 1px;
+  background-color: var(--website-cck-color-border-1);
+  border: none;
+  margin: 48px 0;
+}
+
+code {
+  display: inline-block;
+  border: 1px solid var(--website-cck-color-border-1);
+  border-radius: 4px;
+  padding: 0 6px;
+  background-color: var(--website-cck-color-bg-3);
+  font: inherit;
+  color: inherit;
+  margin: 0 2px;
+}
+
+a {
+  font: var(--website-cck-text-md-regular);
+  color: var(--website-cck-color-brand-default);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+a.auto-underline {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+body {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+main {
+  padding: 0 64px;
+}

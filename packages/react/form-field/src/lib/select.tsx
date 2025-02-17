@@ -1,17 +1,34 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+/* eslint-disable max-lines-per-function */
+'use client';
+import { CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+
+import { ElementAnchorPoint, isNotNullish } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
-import { useCreateSelectStore } from './select-store';
-import { useFormStore } from './form-store';
 import { SvgIcon } from '@cocokits/react-icon';
-import { OverlayPortal, OverlayPortalManager } from '@cocokits/react-overlay';
-import { useStaticText } from '@cocokits/react-utils';
-import { ElementAnchorPoint, isNotNullish } from '@cocokits/common-utils';
+import { OverlayPortal, OverlayPortalManager, RenderedOverlay } from '@cocokits/react-overlay';
+import { useEffectAfterMount, useStaticText } from '@cocokits/react-utils';
+
+import { useFormStore } from './form-store';
+import { useCreateSelectStore } from './select-store';
 
 export interface SelectProps<T = unknown> extends UIBaseComponentProps {
-  // disabled?: boolean;
-  // required?: boolean;
-  // multiple?: boolean;
+  /**
+   * Whether the form field is disabled.
+   */
+  disabled?: boolean;
+  /**
+   * Whether the field is required.
+   */
+  required?: boolean;
+  /**
+   * Whether the user should be allowed to select multiple options.
+   */
+  multiple?: boolean;
+  /**
+   * Whether the form field is invalid.
+   */
+  invalid?: boolean;
   /**
    * Value of the select control.
    */
@@ -58,9 +75,19 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
   onlyEmitOnValueChange?: boolean;
 
   /**
-   *
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
    */
-  children?: React.ReactNode;
+  children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const Select = <T,>(props: SelectProps<T>) => {
@@ -74,26 +101,37 @@ export const Select = <T,>(props: SelectProps<T>) => {
 
   const formStore = useFormStore();
   const { selectStore, SelectStoreProvider } = useCreateSelectStore({
+    multiple: props.multiple,
     onSelectionChange: props.onChange,
     onlyEmitOnValueChange: props.onlyEmitOnValueChange,
   });
   const [isOpened, setIsOpened] = useState(false);
   const isEmpty = selectStore.useState((state) => state.isEmpty);
   const selectedItems = selectStore.useState((state) => state.selectedItems ?? []);
+  const isMultiple = selectStore.useState((state) => state.isMultiple);
+
+  const disabled = formStore?.useState((state) => state.disabled);
+  const size = formStore?.useState((state) => state.size);
 
   const hostRef = useRef<HTMLDivElement>(null);
 
+  let renderedOverlay: RenderedOverlay<unknown>;
+
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'select',
-    props,
+    props: { ...props, size },
     extraHostElementClassConditions: [
-      // { if: disabled, classes: (classNames) => [classNames.disabled] },
-      // { if: multiple, classes: (classNames) => [classNames.multiple] },
-      // { if: !multiple, classes: (classNames) => [classNames.single] },
-      { if: isOpened, classes: (classNames) => [classNames.opened] },
-      { if: !isOpened, classes: (classNames) => [classNames.closed] },
+      { if: disabled, classes: (cn) => [cn.disabled] },
+      { if: isMultiple, classes: (cn) => [cn.multiple] },
+      { if: !isMultiple, classes: (cn) => [cn.single] },
+      { if: isOpened, classes: (cn) => [cn.opened] },
+      { if: !isOpened, classes: (cn) => [cn.closed] },
     ],
   });
+
+  useEffectAfterMount(() => {
+    selectStore.resetWithOption({ multiple: props.multiple });
+  }, [props.multiple]);
 
   useEffect(() => {
     if (isNotNullish(props.value)) {
@@ -102,11 +140,16 @@ export const Select = <T,>(props: SelectProps<T>) => {
   }, [props.value]);
 
   useEffect(() => {
-    formStore?.registerComponent('select');
+    formStore?.updateComponent('select', {
+      disabled: props.disabled,
+      required: props.required,
+      invalid: props.invalid,
+      size: props.size,
+    });
     return () => {
       formStore?.unregisterComponent('select');
     };
-  }, [formStore]);
+  }, [formStore, props.disabled, props.required, props.invalid, props.size]);
 
   const onHostClick = async () => {
     // Don't do anything if there is an open overlay
@@ -117,13 +160,13 @@ export const Select = <T,>(props: SelectProps<T>) => {
     setIsOpened(true);
     props.onOpenedChange?.(true);
 
-    const connectTo = formStore?.components.formField?.wrapperElem?.current ?? hostRef.current;
+    const connectTo = formStore?.components.formField?.wrapperElem ?? hostRef.current;
 
     if (!connectTo) {
       throw new Error('No wrapper element found for select component');
     }
 
-    const overlay = OverlayPortalManager.getWithId(overlayId).open({
+    renderedOverlay = OverlayPortalManager.getWithId(overlayId).open({
       panelClass: [classNames.overlay],
       size: {
         minWidth: connectTo.getBoundingClientRect().width + 'px',
@@ -136,7 +179,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
       },
     });
 
-    await overlay.afterClosed;
+    await renderedOverlay.afterClosed;
     setIsOpened(false);
     props.onOpenedChange?.(false);
   };
@@ -168,5 +211,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
     </SelectStoreProvider>
   );
 };
+
+Select.displayName = 'Select';
 
 export default Select;

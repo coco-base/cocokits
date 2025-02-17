@@ -1,9 +1,11 @@
-import { useStaticText } from '@cocokits/react-utils';
-import { deepMerge } from '@cocokits/common-utils';
 import { createPortal } from 'react-dom';
+
+import { deepMerge } from '@cocokits/common-utils';
+import { useStaticText } from '@cocokits/react-utils';
+
 import { Overlay } from './overlay';
-import { useOverlayManager } from './overlay.hooks';
 import { OVERLAY_DEFAULT_CONFIG } from './overlay.config';
+import { useOverlayManager } from './overlay.hooks';
 import { OverlayConfig } from '../models/overlay.model';
 
 export interface OverlayPortalProps<TData = unknown> extends Partial<OverlayConfig<TData>> {
@@ -15,7 +17,7 @@ export interface OverlayPortalProps<TData = unknown> extends Partial<OverlayConf
 export const OverlayPortal = <TData, TResult>(props: OverlayPortalProps) => {
   const portalId = useStaticText(props.portalId);
   const manager = useOverlayManager<TData, TResult>(portalId);
-  const managerState = manager.getState();
+  const managerState = manager.useState(state => state);
 
   if (!managerState.isOpened) {
     return null;

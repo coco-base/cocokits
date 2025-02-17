@@ -20,7 +20,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@cocokits/common-kits-doc": ["apps/common-kits-doc/src/index.ts"],
       "@cocokits/angular-button": ["packages/angular/button/src/index.ts"],
       "@cocokits/angular-cdk": ["packages/angular/cdk/src/index.ts"],
       "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/index.ts"],
@@ -35,6 +34,7 @@
       "@cocokits/angular-toggle": ["packages/angular/toggle/src/index.ts"],
       "@cocokits/angular-utils": ["packages/angular/utils/src/index.ts"],
       "@cocokits/common-icons": ["packages/common/icons/src/index.ts"],
+      "@cocokits/common-kits-doc": ["apps/common-kits-doc/src/index.ts"],
       "@cocokits/common-utils": ["packages/common/utils/src/index.ts"],
       "@cocokits/core": ["packages/common/core/src/index.ts"],
       "@cocokits/react-button": ["packages/react/button/src/index.ts"],

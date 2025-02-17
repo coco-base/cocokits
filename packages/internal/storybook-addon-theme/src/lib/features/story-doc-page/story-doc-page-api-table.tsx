@@ -1,3 +1,4 @@
+import { Markdown } from "@storybook/addon-docs";
 import { StoryDocPageComponentArgType } from "./story-doc-page-api.model";
 
 interface StoryDocPageApiTableProps {
@@ -22,11 +23,21 @@ export function StoryDocPageApiTable({hideDefault = false, argTypes}: StoryDocPa
             <td>{argType.name}</td>
             <td>
               <div className="arg-type-table--gap-8">
-                {argType.type.split('|').map((type) => (<code key={type}>{type}</code>))}
+                {
+                  argType.type.startsWith('{')
+                    /* If the value is ab object such as `{'{ rounded: boolean }'}`, it will be displayed as a single code block. */
+                    ? <code key={argType.type}>{argType.type}</code>
+                    /* If the type is multi such as `value1 | value2`, it will be displayed as separate code blocks. */
+                    : argType.type.split('|').map((type) => (<code key={type}>{type}</code>))
+                }
               </div>
             </td>
-            { !hideDefault && <td>{argType.defaultValue}</td> }
-            <td>{argType.description}</td>
+            { !hideDefault && <td><Markdown>{argType.defaultValue?.toString() ?? ''}</Markdown></td> }
+            <td>
+              <Markdown>
+                {argType.description ?? ''}
+              </Markdown>
+            </td>
           </tr>
         ))}
       </tbody>

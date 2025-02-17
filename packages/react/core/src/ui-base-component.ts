@@ -1,14 +1,16 @@
-import { getClassNames, UIBaseComponentProps, UIBaseComponentsName } from '@cocokits/core';
-import { ThemeConfigContext } from './context';
 import { useContext } from 'react';
+
 import { deepMerge } from '@cocokits/common-utils';
+import { getClassNames, UIBaseComponentProps, UIBaseComponentsName } from '@cocokits/core';
+
+import { ThemeConfigContext } from './context';
 
 export interface UiBaseComponentConfigOptions<T extends UIBaseComponentsName> {
   componentName: T;
   props: UIBaseComponentProps;
   extraHostElementClassConditions?: {
     if: boolean | undefined | null;
-    classes: (classNames: ReturnType<typeof getClassNames<T>>) => string[];
+    classes: (classNames: ReturnType<typeof getClassNames<T>>) => (string | null | undefined)[];
   }[];
   skipProps?: {
     skipType?: boolean;
@@ -51,7 +53,7 @@ export function useUiBaseComponentConfig<T extends UIBaseComponentsName>(_option
   const hostClassNames = [
     classNames.host,
     ...options.extraHostElementClassConditions.flatMap((condition) =>
-      condition.if ? condition.classes(classNames) : []
+      condition.if ? (condition.classes(classNames) ?? []) : []
     ),
   ].join(' ');
 

@@ -36,8 +36,6 @@ export function withWrapperDecorator(
     classNames.push(`story-decorator-wrapper__inside-box`);
   }
 
-  document.body.style;
-
   const inlineStyles = Object.entries(styles).map(([key, value]) => `${key}: ${value}`);
 
   return componentWrapperDecorator(

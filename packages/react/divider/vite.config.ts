@@ -5,6 +5,7 @@ import dts from 'vite-plugin-dts';
 import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import { getExternalPackages } from '../../../tools/scripts/get-external-packages';
 
 export default defineConfig({
   root: __dirname,
@@ -46,7 +47,7 @@ export default defineConfig({
     },
     rollupOptions: {
       // External packages that should not be bundled into your library.
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: getExternalPackages(__dirname),
     },
   },
 });

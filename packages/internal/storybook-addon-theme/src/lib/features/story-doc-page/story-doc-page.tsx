@@ -2,13 +2,16 @@ import { DocsContext, useOf } from '@storybook/blocks';
 import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import { getInstance } from '@cocokits/common-utils';
 import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { usePromise } from '@cocokits/react-utils';
 
 import { getApiProps, getOverviewProps, getStylingProps } from './story-doc-page.utils';
 import { StoryDocPageAPI } from './story-doc-page-api';
 import { StoryDocPageExamples } from './story-doc-page-examples';
 import { StoryDocPageOverview } from './story-doc-page-overview';
 import { StoryDocPageStyling } from './story-doc-page-styling';
+import { AddonConfig } from '../../data-access/addon-config/preview-addon-config';
 import { AddonParameters } from '../../model/addon.model';
 import { useTheme } from '../../utils/use-preview-theme';
 import { DocPage } from '../doc-page/doc-page';
@@ -20,35 +23,48 @@ export function StoryDocPage() {
   const [selectedTab, setSelectedTab] = useState<StoryTab>('Overview');
   
   const theme = useTheme();
+  const { result: config } = usePromise(getInstance(AddonConfig).getAddonConfig);
+  
   const context = useContext(DocsContext);
   const resolved = useOf('meta');
 
+  
   if(resolved.type !== 'meta') {
     return;
   }
 
-  const { overviewProps, title, breadcrumb, apiProps, stylingProps } = useMemo(() => {
+  const { overviewProps, title, breadcrumb, apiProps, stylingProps, tocItemsMap } = useMemo(() => {
+    if(!config) {
+      return {};
+    }
     const stories = context.componentStories();
     const primaryStory = stories[0];
     const parameters = primaryStory.parameters as AddonParameters;
 
+    const _overviewProps = getOverviewProps(parameters, stories, theme);
+    const _apiProps = getApiProps(resolved.preparedMeta, theme, config.framework);
+    const _stylingProps = getStylingProps(resolved.preparedMeta, parameters);
+
+    const _tocItemsMap = {
+      Overview: _overviewProps.stories.map(story => ({id: story.id, name: story.name})),
+      API: _apiProps.argTypes.map(argType => ({ id: argType.componentName, name: argType.componentName })),
+      Styling: [_stylingProps.mainComponent, ..._stylingProps.subcomponents].map(component => ({ id: component.componentName, name: component.componentName })),
+      Examples: [],
+    } satisfies Record<'Overview' | 'API' | 'Styling' | 'Examples', DocTocItem[]>;
+
     return {
       title: primaryStory.title.split('/').at(-1), // UI Components/Button -> Button
       breadcrumb: primaryStory.title.split('/')[0], // UI Components/Button -> UI Components
-      overviewProps: getOverviewProps(parameters, stories, theme),
-      apiProps: getApiProps(resolved.preparedMeta, theme),
-      stylingProps: getStylingProps(resolved.preparedMeta, parameters)
+      overviewProps: _overviewProps,
+      apiProps: _apiProps,
+      stylingProps: _stylingProps,
+      tocItemsMap: _tocItemsMap
     };
-  }, [theme.id]);
+  }, [theme.id, config?.framework]);
 
-  const tocItemsMap: Record<StoryTab, DocTocItem[]> = useMemo(() => {
-    return {
-      Overview: overviewProps.stories.map(story => ({id: story.id, name: story.name})),
-      API: apiProps.argTypes.map(argType => ({ id: argType.componentName, name: argType.componentName })),
-      Styling: [stylingProps.mainComponent, ...stylingProps.subcomponents].map(component => ({ id: component.componentName, name: component.componentName })),
-      Examples: [],
-    };
-  }, []);
+  if( !overviewProps || !apiProps || !stylingProps || !tocItemsMap || !title || !breadcrumb) {
+    return null;
+  }
 
   const onTabChange = (event: TabSelectionChangeEvent) => {
     setSelectedTab(event.value as StoryTab);

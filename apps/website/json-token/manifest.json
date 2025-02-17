@@ -1,0 +1,25 @@
+{
+  "name": "Design Tokens",
+  "collections": {
+    "Color": {
+      "modes": {
+        "Dark": ["Color.Dark.tokens.json"],
+        "Light": ["Color.Light.tokens.json"]
+      }
+    },
+    "Size": {
+      "modes": {
+        "Default": ["Size.Default.tokens.json"]
+      }
+    },
+    "Color-Palette": {
+      "modes": {
+        "Default": ["Color-Palette.Default.tokens.json"]
+      }
+    }
+  },
+  "styles": {
+    "text": ["text.styles.tokens.json"],
+    "effect": ["effect.styles.tokens.json"]
+  }
+}

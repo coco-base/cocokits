@@ -29,6 +29,11 @@
       "implementation": "./src/executors/example-story-source/executor",
       "schema": "./src/executors/example-story-source/schema.json",
       "description": "example-story-source executor"
+    },
+    "depcheck": {
+      "implementation": "./src/executors/depcheck/executor",
+      "schema": "./src/executors/depcheck/schema.json",
+      "description": "check which dependencies are missing from package.json"
     }
   }
 }

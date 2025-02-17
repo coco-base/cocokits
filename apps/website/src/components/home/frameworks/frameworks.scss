@@ -1,0 +1,81 @@
+@use '../../../../token/scss/index' as *;
+
+.frameworks__host {
+  margin: 48px 0;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    radial-gradient(50% 50% at 50% 50%, rgb(1 1 1 / 0%) 0%, var(--website-cck-color-bg-0) 100%),
+    url('/banner-effect-1.png') var(--website-cck-color-bg-0) 50% / cover no-repeat;
+}
+
+.frameworks__description {
+  text-align: center;
+}
+
+.frameworks__inline-icon {
+  display: inline-flex;
+}
+
+.frameworks__list {
+  margin-top: 48px;
+  max-width: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.framework-item__host {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  grid-template-rows: auto auto;
+  padding: 18px 44px 16px 20px;
+  background-color: $website-cck-color-bg-1;
+  border: 1px solid $website-cck-color-border-2;
+  box-shadow: 0 4px 20px 0 rgb(255 255 255 / 6%);
+}
+
+.framework-item__host--active {
+  background: linear-gradient(123deg, #1e1e1e 19.44%, #071a0f 80.56%);
+  border: 1px solid $website-cck-color-brand-default;
+
+  .framework-item__text {
+    color: $website-cck-color-brand-default;
+  }
+
+  .light & {
+    background: linear-gradient(123deg, #f0f0f0 19.44%, #aeeac7 80.56%);
+  }
+
+  .dark & {
+    background: linear-gradient(123deg, #1e1e1e 19.44%, #071a0f 80.56%);
+  }
+}
+
+.framework-item__logo {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.framework-item__title {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  font: $website-cck-text-md-semibold;
+  color: $website-cck-color-font-1;
+}
+
+.framework-item__text {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  font: $website-cck-text-md-regular;
+  color: $website-cck-color-font-3;
+}
+
+.framework-logo {
+  width: 24px;
+  height: 24px;
+  fill: $website-cck-color-font-1;
+}

@@ -1,10 +1,13 @@
-import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
-import descriptionMd from './description.md?raw';
 import { Button } from '@cocokits/react-button';
+import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
 
-export { Default } from './default.stories';
+import descriptionMd from './description.md?raw';
 export { VolumeButtonStory } from './examples/volume-button/_volume-button.stories';
-// export { Example1, Example2, Example3, Example4, Example5, Example6, Example7, Example8, Example9, Example10, Example11, Example12, Example13, Example14, Example15, Example16, Example17, Example18, Example19, Example20, Example21, Example22, Example23, Example24, Example25, Example26, Example27, Example28, Example29, Example30, Example31, Example32, Example33, Example34, Example35, Example36, Example37, Example38, Example39, Example40, Example41, Example42, Example43, Example44, Example45, Example46, Example47, Example48, Example49, Example50, Example51, Example52, Example53, Example54, Example55, Example56, Example57, Example58, Example59, Example60 } from './examples/examples.stories';
+
+export { Default } from './overview/default.stories';
+export { Type } from './overview/type.stories';
+export { Size } from './overview/size.stories';
+export { Color } from './overview/color.stories';
 
 const meta: StoriesMeta<typeof Button> = {
   component: Button,
@@ -18,7 +21,7 @@ const meta: StoriesMeta<typeof Button> = {
     },
     cckAddon: {
       componentName: 'button',
-    }
+    },
   },
   argTypes: {},
 };

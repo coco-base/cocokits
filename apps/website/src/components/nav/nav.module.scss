@@ -1,0 +1,35 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--website-cck-color-bg-0);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 20px 32px;
+}
+
+.nav__item-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav__item {
+  font: var(--website-cck-text-sm-medium);
+  color: var(--website-cck-color-font-1);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--website-cck-color-brand-default);
+  }
+}
+
+.nav__social {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+}

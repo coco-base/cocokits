@@ -1,7 +1,7 @@
 import { Args, Meta, StoryObj as ReactStoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
-import { ThemeSvgIcon } from '@cocokits/core';
+import { ThemeComponentConfig, ThemeSvgIcon } from '@cocokits/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { AddonParametersMeta, AddonParametersStories, StorybookTags } from '@cocokits/storybook-addon-theme';
 
@@ -14,7 +14,9 @@ export type StoriesMeta<T> = Meta<T> & {
 // will be used in XXX.stories.ts
 export type StoryObj<T extends keyof React.JSX.IntrinsicElements | React.JSXElementConstructor<any>> = ReactStoryObj<
   ComponentProps<T> & {
-    cckControl: Args;
+    cckControl: Args & {
+      themeComponentConfig: ThemeComponentConfig;
+    };
     cckIcons: Record<string, ThemeSvgIcon>;
     cckExampleVariables: string;
     cckExampleArgs: Args;

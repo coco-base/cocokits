@@ -1,10 +1,12 @@
 import { ElementAnchorPoint } from '@cocokits/common-utils';
+
 import { OverlayAnimationType, OverlayConfig } from '../models/overlay.model';
 
 export const OVERLAY_DEFAULT_CONFIG: OverlayConfig<any> = {
   zIndex: 10,
   disableBackdropClose: false,
-  parentElement: document.body,
+  // To fix the error on non-browser environments such as nextJS or web workers
+  parentElement: typeof document !== 'undefined' ? document.body : (null as any),
   data: null,
   panelClass: [],
   hasBackdrop: true,

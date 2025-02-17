@@ -3,5 +3,6 @@
   "dest": "../../../dist/packages/angular/cdk",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }

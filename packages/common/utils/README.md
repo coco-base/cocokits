@@ -8,3 +8,14 @@ The `@cocokits/common-utils` package is a versatile utility library that can be 
 
 ## Usage
 The `@cocokits/common-utils` package can be easily imported into any project and used to perform common utility tasks. Since it is not tied to any specific framework, it can be used universally across different codebases, ensuring consistent functionality across various platforms.
+
+
+---
+
+### Contributing
+Contributions are welcome! Please refer to our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md) for more details.
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for more information.

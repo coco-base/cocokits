@@ -4,11 +4,7 @@
   "private": false,
   "main": "./index.js",
   "types": "./index.d.ts",
-  "peerDependencies": {
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
+  "dependencies": {
     "@cocokits/react-utils": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*",
@@ -20,7 +16,9 @@
     "@cocokits/react-form-field": "workspace:*",
     "@cocokits/react-divider": "workspace:*",
     "@cocokits/react-menu": "workspace:*",
-    "@cocokits/react-toggle": "workspace:*"
+    "@cocokits/react-toggle": "workspace:*",
+    "@cocokits/react-cdk": "workspace:*",
+    "@cocokits/react-tabs": "workspace:*"
   },
   "exports": {
     ".": {

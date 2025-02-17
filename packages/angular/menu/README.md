@@ -31,4 +31,14 @@ The components in this package do not include built-in styles. However, `@cocoki
 
 ## Documentation and Example
 For detailed usage examples, configuration options, and additional documentation, visit the following link:
-- [MenuComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-menu--docs)
+- [MenuComponent](https://angular.cocokits.com/?path=/docs/ui-components-menu--docs)
+
+---
+
+### Contributing
+We welcome contributions! For details, please see our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md).
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.

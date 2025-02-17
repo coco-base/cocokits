@@ -3,5 +3,6 @@
   "dest": "../../../dist/packages/angular/checkbox",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }

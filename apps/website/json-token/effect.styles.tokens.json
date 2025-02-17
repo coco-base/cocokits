@@ -1,0 +1,21 @@
+{
+  "raised": {
+    "$type": "shadow",
+    "$value": [
+      {
+        "offsetX": "0px",
+        "offsetY": "4px",
+        "blur": "8px",
+        "spread": "0px",
+        "color": "#0000000d"
+      },
+      {
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "5px",
+        "spread": "-4px",
+        "color": "#00000080"
+      }
+    ]
+  }
+}

@@ -4,7 +4,7 @@ import { StoryDocPageAPIProps } from './story-doc-page-api';
 import { getArgTypesApiList } from './story-doc-page-api.utils';
 import { StoryDocPageOverviewProps } from './story-doc-page-overview';
 import { StoryDocPageStylingComponent, StoryDocPageStylingProps } from './story-doc-page-styling';
-import { AddonParameters, ComponentRef } from '../../model/addon.model';
+import { AddonParameters, ComponentRef, AddonThemeConfig } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
 import { getStoryComponentName } from '../../utils/get-story-parameters';
 
@@ -35,9 +35,9 @@ export function getOverviewProps(
 
 // API
 
-export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent): StoryDocPageAPIProps {
+export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent, framework: AddonThemeConfig['framework']): StoryDocPageAPIProps {
   return {
-    argTypes: getArgTypesApiList(preparedMeta, theme.themeConfig),
+    argTypes: getArgTypesApiList(preparedMeta, theme.themeConfig, framework),
     themeName: theme.displayName,
   };
 }
@@ -52,29 +52,35 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
   }
 
   // Type of storybook is wrong, so we have to change it
-  const subcomponentsRef = preparedMeta.subcomponents as unknown as ComponentRef[] | undefined;
+  const subcomponentsRef = preparedMeta.subcomponents && Array.isArray(preparedMeta.subcomponents)
+    ? preparedMeta.subcomponents as unknown as ComponentRef[] ?? []
+    : Object.values(preparedMeta.subcomponents as Record<string, ComponentRef> ?? {});
 
   const subcomponents: StoryDocPageStylingComponent[] =
     subcomponentsRef
       ?.filter((subcomponentRef) => {
+        // displayName for react and name for Angular
+        const name = subcomponentRef.displayName ?? subcomponentRef.name;
         return !(
-          subcomponentRef.name.startsWith('_') ||
+          name.startsWith('_') ||
           // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
           // If a component has the value 'null', we skip it because it has no styling.
-          parameters.cckAddon.subcomponentNames?.[subcomponentRef.name] === null
+          parameters.cckAddon.subcomponentNames?.[name] === null
         );
       })
       .map((subcomponentRef) => {
-        const uIBaseComponentName = parameters.cckAddon.subcomponentNames?.[subcomponentRef.name];
+        // displayName for react and name for Angular
+        const name = subcomponentRef.displayName ?? subcomponentRef.name;
+        const uIBaseComponentName = parameters.cckAddon.subcomponentNames?.[name];
         if (!uIBaseComponentName) {
           throw new Error(
-            `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${subcomponentRef.name}`
+            `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${name}`
           );
         }
 
         return {
           uIBaseComponentName,
-          componentName: subcomponentRef.name,
+          componentName: name,
         } satisfies StoryDocPageStylingComponent;
       }) ?? [];
 

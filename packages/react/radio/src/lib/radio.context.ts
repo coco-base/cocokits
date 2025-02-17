@@ -1,5 +1,8 @@
-import { UIBaseComponentProps } from '@cocokits/core';
+'use client';
 import { createContext } from 'react';
+
+import { UIBaseComponentProps } from '@cocokits/core';
+
 import { RadioChangeEvent } from './radio.model';
 
 export interface RadioContextValue<T extends string | number> extends UIBaseComponentProps {

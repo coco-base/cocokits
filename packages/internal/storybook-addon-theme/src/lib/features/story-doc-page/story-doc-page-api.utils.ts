@@ -1,10 +1,10 @@
 import { PreparedMeta, PreparedStory, StrictInputType } from '@storybook/types';
 
-import { deepMerge, recordReduceMerge, reduceDeepMerge } from '@cocokits/common-utils';
+import { deepMerge, recordReduceDeepMerge, recordReduceMerge, reduceDeepMerge } from '@cocokits/common-utils';
 import { ThemeComponentConfig, ThemeConfig, UIBaseComponentsPropName } from '@cocokits/core';
 
 import { StoryDocPageArgTypes, StoryDocPageComponentArgTypeGroup } from './story-doc-page-api.model';
-import { AddonParameters, ComponentRef } from '../../model/addon.model';
+import { AddonParameters, AddonThemeConfig, ComponentRef } from '../../model/addon.model';
 import { isClassRef, isReactComponent } from '../../utils/common.utils';
 import { getStoryComponentName } from '../../utils/get-story-parameters';
 
@@ -29,59 +29,80 @@ const NAME_TRANSFORM_MAP: Record<string, string> = {
   // menuTemplate: 'cckMenuTrigger',
 };
 
-export function getArgTypesApiList(preparedMeta: PreparedMeta, themeConfig: ThemeConfig): StoryDocPageArgTypes[] {
+export function getArgTypesApiList(
+  preparedMeta: PreparedMeta,
+  themeConfig: ThemeConfig,
+  framework: AddonThemeConfig['framework']
+): StoryDocPageArgTypes[] {
   const mainComponent = preparedMeta.component as ComponentRef;
   const parameters = preparedMeta.parameters as AddonParameters;
   const mainComponentName = parameters.cckAddon.componentName;
 
   // Type of storybook is wrong, so we have to change it
-  const subcomponents = preparedMeta.subcomponents as unknown as ComponentRef[] | undefined;
+  const subcomponents: ComponentRef[] =
+    preparedMeta.subcomponents && Array.isArray(preparedMeta.subcomponents)
+      ? ((preparedMeta.subcomponents as unknown as ComponentRef[]) ?? [])
+      : Object.values((preparedMeta.subcomponents as Record<string, ComponentRef>) ?? {});
   const argTypeGroup = [] as StoryDocPageArgTypes[];
 
   argTypeGroup.push({
     componentName: getStoryComponentName(mainComponent, preparedMeta.id),
-    argTypeGroup: getComponentArgTypes(
-      mainComponent,
-      preparedMeta.argTypes,
-      parameters,
-      themeConfig.components[mainComponentName]
-    ),
+    argTypeGroup: getComponentArgTypes({
+      componentRef: mainComponent,
+      originalArgTypes: preparedMeta.argTypes,
+      parameters: parameters,
+      themeComponentConfig: themeConfig.components[mainComponentName],
+      framework: framework,
+    }),
   });
 
   subcomponents
-    ?.filter((subcomponent) => !subcomponent.name.startsWith('_'))
+    ?.filter((subcomponent) => {
+      // displayName for react and name for Angular
+      const name = subcomponent.displayName ?? subcomponent.name;
+      return !name.startsWith('_');
+    })
     .forEach((subcomponent) => {
+      const name = subcomponent.displayName ?? subcomponent.name;
       const argTypes = deepMerge(
         parameters.docs.extractArgTypes?.(subcomponent) ?? {},
-        parameters.cckAddon.subcomponentArgsTypes?.[subcomponent.name] ?? {}
+        parameters.cckAddon.subcomponentArgsTypes?.[name] ?? {}
       );
-      const subcomponentName = parameters.cckAddon.subcomponentNames?.[subcomponent.name];
+      const subcomponentName = parameters.cckAddon.subcomponentNames?.[name];
       // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
       // If a component has the value 'null', we skip taking the config from the theme and only show the APIs from the component.
       if (subcomponentName === undefined) {
-        throw new Error(`Subcomponent name is missing in the story parameters for story: ${subcomponent.name}`);
+        throw new Error(`Subcomponent name is missing in the story parameters for story: ${name}`);
       }
 
       argTypeGroup.push({
-        componentName: subcomponent.name,
-        argTypeGroup: getComponentArgTypes(
-          subcomponent,
-          argTypes,
+        componentName: name,
+        argTypeGroup: getComponentArgTypes({
+          componentRef: subcomponent,
+          originalArgTypes: argTypes,
           parameters,
-          subcomponentName ? themeConfig.components[subcomponentName] : undefined
-        ),
+          themeComponentConfig: subcomponentName ? themeConfig.components[subcomponentName] : undefined,
+          framework,
+        }),
       });
     });
 
   return argTypeGroup;
 }
 
-export function getComponentArgTypes(
-  componentRef: unknown,
-  originalArgTypes: PreparedStory['argTypes'],
-  parameters: AddonParameters,
-  themeComponentConfig: ThemeComponentConfig | undefined
-): StoryDocPageComponentArgTypeGroup | null {
+export function getComponentArgTypes({
+  componentRef,
+  originalArgTypes,
+  parameters,
+  themeComponentConfig,
+  framework,
+}: {
+  componentRef: unknown;
+  originalArgTypes: PreparedStory['argTypes'];
+  parameters: AddonParameters;
+  themeComponentConfig: ThemeComponentConfig | undefined;
+  framework: AddonThemeConfig['framework'];
+}): StoryDocPageComponentArgTypeGroup | null {
   /**
    * Storybook source code check if the componentRef is a class reference.
    * I don't know if it's necessary to check it, but I will keep it for now.
@@ -124,7 +145,9 @@ export function getComponentArgTypes(
       const category = transformArgTypeCategory(argType);
       const defaultValue =
         category === 'props' ? getValueWithoutCompodocIssue(argType.table?.defaultValue?.summary) : undefined;
-      const type = getValueWithoutCompodocIssue(argType.table?.type?.summary);
+      const type = getValueWithoutCompodocIssue(
+        argType.table?.type?.summary === 'union' ? argType.type?.raw : argType.table?.type?.summary
+      );
 
       return {
         [category]: [
@@ -139,20 +162,50 @@ export function getComponentArgTypes(
     }
   );
 
-  const additionalArgTypes = getThemeAdditionalArgTypes(themeComponentConfig);
+  const additionalArgTypes = getThemeAdditionalArgTypes(themeComponentConfig, framework);
   const ArgTypesWithThemeAdditional = deepMerge(argTypeGroup, additionalArgTypes);
 
   return ArgTypesWithThemeAdditional;
 }
 
 function getThemeAdditionalArgTypes(
-  themeComponentConfig: ThemeComponentConfig | undefined
+  themeComponentConfig: ThemeComponentConfig | undefined,
+  framework: AddonThemeConfig['framework']
 ): Partial<StoryDocPageComponentArgTypeGroup> {
   if (!themeComponentConfig?.additional || Object.keys(themeComponentConfig.additional).length === 0) {
     return {};
   }
 
-  const additionalArgTypes = recordReduceMerge(themeComponentConfig.additional, (componentPropConfig) => {
+  // React
+  if (framework === 'react') {
+    const { description, type, defaultValue } = Object.values(themeComponentConfig.additional).reduce(
+      (result, componentPropConfig) => {
+        return {
+          description: result.description + `- **${componentPropConfig.name}**: ${componentPropConfig.description}\n`,
+          type: result.type + `  ${componentPropConfig.name}: ${componentPropConfig.values.join(' | ')};\n`,
+          defaultValue:
+            result.defaultValue + `- ${componentPropConfig.name}: ${componentPropConfig.default.toString()}\n`,
+        };
+      },
+      { description: '', type: '', defaultValue: '' }
+    );
+
+    const additionalArgTypes = {
+      props: [
+        {
+          name: `additional`,
+          description: description,
+          defaultValue: defaultValue,
+          type: `{\n${type}}`,
+        },
+      ],
+    } satisfies Partial<StoryDocPageComponentArgTypeGroup>;
+
+    return additionalArgTypes;
+  }
+
+  // Angular
+  const additionalArgTypes = recordReduceDeepMerge(themeComponentConfig.additional, (componentPropConfig) => {
     return {
       props: [
         {
@@ -172,7 +225,7 @@ function toArgTypesWithThemeConfig(
   argType: StrictInputType,
   themeComponentConfig: ThemeComponentConfig | undefined
 ): StrictInputType[] {
-  const themePropsNameToOverride = ['type', 'color', 'size'];
+  const themePropsNameToOverride = ['type', 'color', 'size', 'additional'];
 
   // Use original argType, if the argType must be taken from the component API and not change it to the themeConfig Types.
   if (argType.table?.['useComponentApi']) {
@@ -187,6 +240,11 @@ function toArgTypesWithThemeConfig(
   const themComponentPropConfig = themeComponentConfig?.[argType.name as UIBaseComponentsPropName];
   // Skip argType, if the prop has no themeConfig in selected Theme.
   if (!themComponentPropConfig) {
+    return [];
+  }
+
+  // React only
+  if (argType.name === 'additional') {
     return [];
   }
 
@@ -208,7 +266,7 @@ function transformArgTypeCategory(argType: StrictInputType): 'methods' | 'events
     return 'methods';
   }
 
-  if (argType.table?.category === 'outputs') {
+  if (argType.table?.category === 'outputs' || argType.name.match(/^on[A-Z]/)) {
     return 'events';
   }
 

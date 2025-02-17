@@ -1,17 +1,18 @@
 {
   "name": "angular-kits-doc",
   "version": "1.0.0",
+  "private": true,
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {},
-  "keywords": [],
   "dependencies": {
-    "@storybook/manager-api": "8.4.4",
-    "@storybook/angular": "8.4.4",
-    "@storybook/addon-docs": "8.4.4",
+    "@angular/common": "18.2.0",
     "@angular/core": "18.2.0",
-    "@angular/common": "18.2.0"
-  },
-  "author": "",
-  "license": "ISC"
+    "@storybook/addon-docs": "8.4.4",
+    "@storybook/angular": "8.4.4",
+    "@storybook/manager-api": "8.4.4"
+  }
 }

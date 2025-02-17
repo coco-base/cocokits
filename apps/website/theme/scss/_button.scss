@@ -1,0 +1,106 @@
+@use '../../token/scss' as *;
+
+@mixin button {
+  .website-cck-button {
+    min-width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    border: none;
+    outline: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+    font: $website-cck-text-md-semibold;
+
+    .website-cck-svg-icon {
+      fill: currentcolor;
+    }
+
+    &__backdrop {
+      display: none;
+    }
+
+    // Size
+    &__size {
+      &--md {
+        height: 44px;
+        gap: 8px;
+        padding: 0 20px;
+
+        &:has(.website-cck-svg-icon:first-child) {
+          padding: 0 12px 0 20px;
+        }
+
+        &:has(.website-cck-svg-icon:last-child) {
+          padding: 0 20px 0 12px;
+        }
+      }
+    }
+
+    // Color
+    // &__color {
+    //   &--primary {}
+
+    //   &--secondary {}
+    // }
+
+    // Types
+    &__default {
+      border-radius: 0;
+      border: 1px solid $website-cck-color-border-2;
+
+      &.website-cck-button__color--primary {
+        color: $website-cck-color-font-1;
+        background: radial-gradient(
+          100% 100% at 50.53% 100.67%,
+          $website-cck-color-bg-4 0%,
+          $website-cck-color-bg-1 100%
+        );
+
+        &:hover {
+          background: radial-gradient(
+            100% 100% at 50.53% 100.67%,
+            $website-cck-color-bg-1 0%,
+            $website-cck-color-bg-3 100%
+          );
+        }
+
+        &:active {
+          background: radial-gradient(
+            100% 100% at 50.53% 100.67%,
+            $website-cck-color-bg-2 0%,
+            $website-cck-color-bg-4 100%
+          );
+        }
+      }
+
+      &.website-cck-button__color--secondary {
+        color: $website-cck-color-font-invert-1;
+
+        // background: radial-gradient(100% 100% at 50.53% 100.67%, $website-cck-color-bg-3 0%, $website-cck-color-bg-1 100%);
+        background: radial-gradient(
+          100% 100% at 50.53% 100.67%,
+          $website-cck-color-brand-dark 0%,
+          $website-cck-color-brand-light 100%
+        );
+
+        &:hover {
+          background: radial-gradient(
+            100% 100% at 50.53% 100.67%,
+            $website-cck-color-brand-light 0%,
+            $website-cck-color-brand-dark 100%
+          );
+        }
+
+        &:active {
+          background: radial-gradient(
+            100% 100% at 50.53% 100.67%,
+            $website-cck-color-brand-default 0%,
+            $website-cck-color-brand-darker 100%
+          );
+        }
+      }
+    }
+  }
+}

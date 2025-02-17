@@ -1,5 +1,5 @@
 import { IconButtonComponent } from '@cocokits/angular-button';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<IconButtonComponent> = {
@@ -31,18 +31,12 @@ export const Default: StoryObj<IconButtonComponent> = {
       ],
       hasControl: true,
       controls: [
-        {
-          displayName: 'Icon',
-          default: 'heartFill',
-          icons: ['none', 'heartFill', 'heart', 'link'],
-          storyArgKey: 'icon',
-          type: AddonParametersControlType.Icon,
-        },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.icon('heartFill'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(false),
       ],
     },
   },

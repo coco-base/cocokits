@@ -1,0 +1,49 @@
+@use '../../token/scss' as *;
+
+@mixin tab {
+  .website-cck-tab {
+    display: flex;
+    background: transparent;
+    border: none;
+    outline: none;
+    font: $website-cck-color-font-1;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+
+    .website-cck-tabs__default & {
+      padding: 0 16px;
+      border-radius: 500px;
+
+      &__indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 500px;
+      }
+    }
+
+    .website-cck-tabs__color--default &__indicator {
+      border: 1px solid $website-cck-color-border-2;
+      background: radial-gradient(
+        100% 100% at 50.53% 100.67%,
+        $website-cck-color-bg-3 0%,
+        $website-cck-color-bg-1 100%
+      );
+    }
+
+    &--selected {
+      font: $website-cck-text-md-semibold;
+      color: $website-cck-color-font-1;
+    }
+
+    &--unselected {
+      font: $website-cck-text-md-medium;
+      color: $website-cck-color-font-3;
+    }
+  }
+}

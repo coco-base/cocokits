@@ -17,34 +17,41 @@ export function StoryDocPageAPI({ argTypes, themeName }: StoryDocPageAPIProps) {
   return (
     <>
       <DocPageMarkdown>{description}</DocPageMarkdown>
-      {argTypes.map((argType) => (
-        <DocPageSection id={argType.componentName} title={argType.componentName} key={argType.componentName}>
-          {(!argType.argTypeGroup || Object.keys(argType.argTypeGroup).length === 0) && (
-            <p>This components has no API configuration</p>
-          )}
+      {argTypes.map((argType) => {
+        const isEmpty =
+          !argType.argTypeGroup ||
+          Object.keys(argType.argTypeGroup).length === 0 ||
+          (argType.argTypeGroup.props.length === 0 &&
+            argType.argTypeGroup.events.length === 0 &&
+            argType.argTypeGroup.methods.length === 0);
 
-          {argType.argTypeGroup?.props && argType.argTypeGroup?.props.length > 0 && (
-            <>
-              <h4>Properties</h4>
-              <StoryDocPageApiTable argTypes={argType.argTypeGroup.props} />
-            </>
-          )}
+        return (
+          <DocPageSection id={argType.componentName} title={argType.componentName} key={argType.componentName}>
+            {isEmpty && <p>This components has no API configuration</p>}
 
-          {argType.argTypeGroup?.events && argType.argTypeGroup?.events.length > 0 && (
-            <>
-              <h4>Events</h4>
-              <StoryDocPageApiTable hideDefault={true} argTypes={argType.argTypeGroup.events} />
-            </>
-          )}
+            {argType.argTypeGroup?.props && argType.argTypeGroup?.props.length > 0 && (
+              <>
+                <h4>Properties</h4>
+                <StoryDocPageApiTable argTypes={argType.argTypeGroup.props} />
+              </>
+            )}
 
-          {argType.argTypeGroup?.methods && argType.argTypeGroup?.methods.length > 0 && (
-            <>
-              <h4>Methods</h4>
-              <StoryDocPageApiTable hideDefault={true} argTypes={argType.argTypeGroup.methods} />
-            </>
-          )}
-        </DocPageSection>
-      ))}
+            {argType.argTypeGroup?.events && argType.argTypeGroup?.events.length > 0 && (
+              <>
+                <h4>Events</h4>
+                <StoryDocPageApiTable hideDefault={true} argTypes={argType.argTypeGroup.events} />
+              </>
+            )}
+
+            {argType.argTypeGroup?.methods && argType.argTypeGroup?.methods.length > 0 && (
+              <>
+                <h4>Methods</h4>
+                <StoryDocPageApiTable hideDefault={true} argTypes={argType.argTypeGroup.methods} />
+              </>
+            )}
+          </DocPageSection>
+        );
+      })}
     </>
   );
 }

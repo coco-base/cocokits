@@ -1,5 +1,5 @@
 import { FormFieldComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Textarea: StoryObj<FormFieldComponent> = {
@@ -61,47 +61,28 @@ export const Textarea: StoryObj<FormFieldComponent> = {
       ],
       hasControl: true,
       controls: [
-        { displayName: 'Label', default: 'Label', storyArgKey: 'label', type: AddonParametersControlType.Text },
-        {
-          displayName: 'Placeholder',
-          default: 'Placeholder',
-          storyArgKey: 'placeholder',
-          type: AddonParametersControlType.Text,
-        },
-        { displayName: 'Hint', default: '', storyArgKey: 'hint', type: AddonParametersControlType.Text },
-        { displayName: 'Error', default: '', storyArgKey: 'error', type: AddonParametersControlType.Text },
-        {
-          displayName: 'Prefix Icon',
-          default: 'none',
-          icons: ['none', 'link', 'info', 'email'],
-          storyArgKey: 'prefix',
-          type: AddonParametersControlType.Icon,
-        },
-        {
-          displayName: 'Suffix Icon',
-          default: 'none',
-          icons: ['none', 'link', 'info', 'email'],
-          storyArgKey: 'suffix',
-          type: AddonParametersControlType.Icon,
-        },
-        { displayName: 'Leading', default: '', storyArgKey: 'leading', type: AddonParametersControlType.Text },
-        { displayName: 'Trailing', default: '', storyArgKey: 'trailing', type: AddonParametersControlType.Text },
-
+        CCK_CONTROL.label('Label'),
+        CCK_CONTROL.placeholder('Placeholder'),
+        CCK_CONTROL.hint(''),
+        CCK_CONTROL.error(''),
+        CCK_CONTROL.prefixIcon('none'),
+        CCK_CONTROL.suffixIcon('none'),
+        CCK_CONTROL.leading(''),
+        CCK_CONTROL.trailing(''),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(),
+        CCK_CONTROL.required(false),
         { displayName: 'Max Rows', default: 5, storyArgKey: 'maxRows', type: AddonParametersControlType.Number },
         { displayName: 'Min Rows', default: 2, storyArgKey: 'minRows', type: AddonParametersControlType.Number },
-
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
         {
           displayName: 'Auto Resize',
           default: false,
           storyArgKey: 'autoResize',
           type: AddonParametersControlType.Boolean,
         },
-        { displayName: 'Required', default: false, storyArgKey: 'required', type: AddonParametersControlType.Boolean },
       ],
     },
   },

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { UIBaseComponentProps } from "@cocokits/core";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
+import { CSSProperties, FC, ReactNode, useState } from 'react';
+
+import { UIBaseComponentProps } from '@cocokits/core';
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
+import { useEffectAfterMount } from '@cocokits/react-utils';
 
 let NEXT_ID = 0;
 
@@ -35,18 +37,23 @@ export interface ToggleProps extends UIBaseComponentProps {
   onChange?: (event: CckToggleChange) => void;
 
   /**
-   * Additional class names to apply to the slide-toggle component.
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
    */
-  className?: string;
+  children?: ReactNode | ReactNode[];
 
   /**
-   * Child elements to render inside the slide-toggle component.
+   * A custom class name that can be used to apply additional styles to the component.
    */
-  children?: React.ReactNode;
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
-export const Toggle: React.FC<ToggleProps> = (props) => {
-
+export const Toggle: FC<ToggleProps> = (props) => {
   const [checked, setChecked] = useState(props.checked ?? false);
   const [id] = useState(props.id ?? `TOGGLE_${NEXT_ID++}`);
 
@@ -54,19 +61,22 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
     componentName: 'toggle',
     props: { ...props },
     extraHostElementClassConditions: [
-      { if: props.disabled, classes: (classNames) => [classNames.disabled] },
-      { if: checked, classes: (classNames) => [classNames.checked] },
-      { if: !checked, classes: (classNames) => [classNames.unchecked] },
-      { if: props.disabled, classes: (classNames) => [classNames.disabled] },
-      { if: props.labelPosition === 'before', classes: (classNames) => [classNames.labelBefore] },
-    ]
+      { if: props.disabled, classes: (cn) => [cn.disabled] },
+      { if: checked, classes: (cn) => [cn.checked] },
+      { if: !checked, classes: (cn) => [cn.unchecked] },
+      { if: props.disabled, classes: (cn) => [cn.disabled] },
+      { if: props.labelPosition === 'before', classes: (cn) => [cn.labelBefore] },
+    ],
   });
 
+  useEffectAfterMount(() => {
+    setChecked(props.checked ?? false);
+  }, [props.checked]);
 
   const toggle = () => {
     const newChecked = !checked;
     setChecked(newChecked);
-    props.onChange?.({checked: newChecked});
+    props.onChange?.({ checked: newChecked });
   };
 
   return (
@@ -78,9 +88,10 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
             className={classNames.input}
             checked={checked}
             disabled={props.disabled}
-            onInput={e => e.stopPropagation()}
+            onInput={(e) => e.stopPropagation()}
             onChange={toggle}
-            id={id}/>
+            id={id}
+          />
           <div className={classNames.thumb}></div>
           <div className={classNames.backdrop}></div>
         </div>
@@ -90,4 +101,5 @@ export const Toggle: React.FC<ToggleProps> = (props) => {
   );
 };
 
+Toggle.displayName = 'Toggle';
 export default Toggle;

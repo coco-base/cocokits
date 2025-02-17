@@ -19,4 +19,17 @@ Like other `CocoKits` components, the `DividerComponent` does not come with buil
 
 ## Documentation and Examples
 For more detailed information and configuration options, visit the documentation:
-- [DividerComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-divider--docs)
+- [DividerComponent](https://angular.cocokits.com/?path=/docs/ui-components-divider--docs)
+
+
+
+---
+
+### Contributing
+We welcome contributions! If you'd like to contribute to this project, please read our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md)
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.
+

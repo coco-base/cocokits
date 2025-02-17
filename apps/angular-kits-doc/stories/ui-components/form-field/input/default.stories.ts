@@ -1,5 +1,5 @@
 import { InputComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<InputComponent> = {
@@ -35,42 +35,14 @@ export const Default: StoryObj<InputComponent> = {
       ],
       hasControl: true,
       controls: [
-        {
-          displayName: 'Label',
-          default: 'Label',
-          storyArgKey: 'label',
-          type: AddonParametersControlType.Text,
-        },
-        {
-          displayName: 'Placeholder',
-          default: 'Placeholder',
-          storyArgKey: 'placeholder',
-          type: AddonParametersControlType.Text,
-        },
-        {
-          displayName: 'Type',
-          default: '',
-          options: [
-            'color',
-            'date',
-            'datetime-local',
-            'email',
-            'month',
-            'number',
-            'password',
-            'search',
-            'text',
-            'time',
-            'week',
-          ],
-          storyArgKey: 'type',
-          type: AddonParametersControlType.Select,
-        },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
-        { displayName: 'Required', default: false, storyArgKey: 'required', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.label('Label'),
+        CCK_CONTROL.placeholder('Placeholder'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(),
+        CCK_CONTROL.required(false),
       ],
     },
   },

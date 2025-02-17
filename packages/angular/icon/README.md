@@ -22,4 +22,14 @@ CocoKits also offers ready-made theming options, which can be easily applied, or
 
 ## Documentation and Example
 For detailed usage examples, configuration options, and additional documentation, please visit the following link:
-- [SvgIconComponent](https://angular-docs.cocokits.com/?path=/docs/ui-components-svgicon--docs)
+- [SvgIconComponent](https://angular.cocokits.com/?path=/docs/ui-components-svgicon--docs)
+
+---
+
+### Contributing
+We welcome contributions! For details, please see our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md).
+
+---
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for details.

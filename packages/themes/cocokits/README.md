@@ -10,5 +10,15 @@ The `@cocokits/theme-cocokits` package is the official theme designed by the Coc
 ## Installation and Configuration
 To install and configure the `@cocokits/theme-cocokits` package, follow the instructions in the CocoKits installation guide. For further details, including how to apply themes and customize the components, refer to the following links:
 
-- [Installation](https://angular-docs.cocokits.com/?path=/docs/getting-started-install--docs)
-- [Advanced Configuration](https://angular-docs.cocokits.com/?path=/docs/getting-started-advanced-configuration--docs)
+- [Installation](https://angular.cocokits.com/?path=/docs/getting-started-install--docs)
+- [Advanced Configuration](https://angular.cocokits.com/?path=/docs/getting-started-advanced-configuration--docs)
+
+--- 
+
+### Contributing
+Contributions are welcome! Please refer to our [Contributing Guidelines](https://github.com/coco-base/cocokits/blob/main/CONTRIBUTING.md) for further details.
+
+--- 
+
+### License
+This project is licensed under the Apache License. See the [LICENSE](https://github.com/coco-base/cocokits/blob/main/LICENSE) file for more information.

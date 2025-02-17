@@ -2,19 +2,20 @@
   "name": "@cocokits/angular-overlay",
   "version": "1.1.0",
   "private": false,
-  "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0",
-    "@angular/animations": "^18.2.0",
-    "rxjs": "~7.8.0",
-    "@cocokits/common-utils": "workspace:*",
-    "@cocokits/core": "workspace:*"
-  },
+  "sideEffects": false,
   "dependencies": {
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/core": "workspace:*",
     "tslib": "^2.3.0"
   },
   "devDependencies": {},
-  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/animations": "^18.2.0",
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "rxjs": "~7.8.0"
+  },
   "publishConfig": {
     "directory": "../../../dist/packages/angular/overlay"
   }

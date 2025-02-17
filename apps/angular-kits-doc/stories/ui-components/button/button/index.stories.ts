@@ -12,7 +12,8 @@ export { Type } from './overview/type.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
 
-export {} from // Example1,
+// export {} from
+// Example1,
 // Example2,
 // Example3,
 // Example4,
@@ -92,7 +93,7 @@ export {} from // Example1,
 // Example78,
 // Example79,
 // Example80,
-'./examples/example.stories';
+// './examples/example.stories';
 
 const meta: StoriesMeta = {
   component: ButtonComponent,

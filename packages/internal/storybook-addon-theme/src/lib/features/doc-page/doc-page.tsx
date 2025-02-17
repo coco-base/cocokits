@@ -64,6 +64,7 @@ const StyledMain = styled.main`
   margin: 2px;
   padding-bottom: 256px;
   // TODO: With overflow hidden, the example can not be shown as full screen. Without it the tables in utils page will ake he whole with and we have horizontal scroll
+  // https://github.com/orgs/coco-base/projects/1/views/7?pane=issue&itemId=95572742
   /* overflow: hidden; */
 `;
 

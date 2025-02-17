@@ -23,6 +23,10 @@
     }
   }
 
+  .cck-button__backdrop {
+    display: none;
+  }
+
   .cck-button__size--sm {
     // font: $text-sm-medium;
     padding: 0 16px;

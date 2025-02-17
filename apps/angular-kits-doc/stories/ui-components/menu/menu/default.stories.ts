@@ -1,6 +1,6 @@
 import { MenuComponent } from '@cocokits/angular-menu';
 import { OverlayConnectElemOrigin } from '@cocokits/angular-overlay';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<MenuComponent> = {
@@ -50,11 +50,10 @@ export const Default: StoryObj<MenuComponent> = {
       ],
       hasControl: true,
       controls: [
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
         {
           displayName: 'Close On Select Item',
           default: true,

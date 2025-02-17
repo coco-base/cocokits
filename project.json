@@ -13,6 +13,18 @@
         }
       }
     },
+    "depcheck": {
+      "executor": "@cocokits/workspace-plugin:depcheck",
+      "configurations": {
+        "errorOnly": {
+          "logLevel": "errorOnly"
+        },
+        "debug": {
+          "logLevel": "debug"
+        }
+      },
+      "defaultConfiguration": "errorOnly"
+    },
     "quick-fix-eslint": {
       "executor": "nx:run-commands",
       "options": {
@@ -22,10 +34,7 @@
     "build-all": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx run-many --projects=@cocokits/react-* --target=build --parallel --maxParallel=4",
-          "nx run-many --projects=@cocokits/angular-* --target=build --parallel --maxParallel=4"
-        ],
+        "commands": ["nx run-many --target=build --parallel --maxParallel=4"],
         "parallel": false
       }
     },
@@ -42,6 +51,17 @@
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage",
         "clear": true
+      }
+    },
+    "local-registry-quick-fix": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm config set registry http://localhost:4873/",
+          "rimraf tmp/local-registry/storage",
+          "npx verdaccio -c .verdaccio/config.yml --listen 4873"
+        ],
+        "parallel": false
       }
     }
   }

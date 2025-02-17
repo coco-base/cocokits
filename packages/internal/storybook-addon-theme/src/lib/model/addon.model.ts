@@ -190,7 +190,7 @@ export interface AddonParametersControlText extends AddonParametersControlBase {
 
 export interface AddonParametersControlNumber extends AddonParametersControlBase {
   type: AddonParametersControlType.Number;
-  default: number;
+  default: number | undefined;
 }
 
 export interface AddonParametersControlBoolean extends AddonParametersControlBase {
@@ -208,4 +208,4 @@ export interface StoryArgs extends Args {
   cckExampleArgs?: Args;
 }
 
-export type ComponentRef = ClassRef | ComponentType<any>;
+export type ComponentRef = (ClassRef | ComponentType<any>) & { displayName: string | undefined };
