@@ -105,6 +105,7 @@
     "jsdom": "~22.1.0",
     "jsonc-eslint-parser": "^2.1.0",
     "lint-staged": "^15.2.2",
+    "lmdb": "3.2.6",
     "ng-packagr": "18.2.0",
     "nx": "19.5.8",
     "postcss": "8.4.38",
@@ -197,9 +198,6 @@
     "overrides": {
       "@angular/build>lmdb": "-"
     }
-  },
-  "optionalDependencies": {
-    "lmdb": "3.2.6"
   },
   "peerDependencies": {
     "typedoc": "^0.26.7"
