@@ -199,7 +199,7 @@
     }
   },
   "optionalDependencies": {
-    "lmdb": "3.2.2"
+    "lmdb": "3.2.6"
   },
   "peerDependencies": {
     "typedoc": "^0.26.7"
