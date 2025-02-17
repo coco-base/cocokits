@@ -1,5 +1,5 @@
 'use client';
-import { FC, ReactNode } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -15,6 +15,10 @@ export interface SelectPreviewProps extends UIBaseComponentProps {
    * A custom class name that can be used to apply additional styles to the component.
    */
   className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const SelectPreview: FC<SelectPreviewProps> = (props) => {

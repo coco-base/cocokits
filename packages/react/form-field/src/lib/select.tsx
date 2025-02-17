@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 'use client';
-import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { CSSProperties, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 import { ElementAnchorPoint, isNotNullish } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -80,6 +80,14 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
    * It allows rendering nested components within this component.
    */
   children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const Select = <T,>(props: SelectProps<T>) => {

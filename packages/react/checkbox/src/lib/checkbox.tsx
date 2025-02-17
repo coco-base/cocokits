@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useLayoutEffect, useRef, useState } from 'react';
+import { CSSProperties, ReactNode, useContext, useLayoutEffect, useRef, useState } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -44,6 +44,14 @@ export interface CheckboxProps extends UIBaseComponentProps {
    * It allows rendering nested components within this component.
    */
   children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export function Checkbox(props: CheckboxProps) {

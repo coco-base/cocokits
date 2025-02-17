@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 'use client';
-import { useEffect, useRef } from 'react';
+import { CSSProperties, useEffect, useRef } from 'react';
 
 import { hasNotValue } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -44,7 +44,7 @@ interface ChipListProps extends UIBaseComponentProps {
   /**
    * An object containing inline styles that can be used to customize the appearance of the component.
    */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export function ChipList(props: ChipListProps) {

@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
@@ -9,7 +11,7 @@ interface DividerProps extends UIBaseComponentProps {
   /**
    * An object containing inline styles that can be used to customize the appearance of the component.
    */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export function Divider(props: DividerProps) {

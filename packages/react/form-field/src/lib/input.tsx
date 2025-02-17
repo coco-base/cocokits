@@ -1,5 +1,5 @@
 'use client';
-import React, { FocusEvent, useEffect, useState } from 'react';
+import { CSSProperties, FocusEvent, InputHTMLAttributes, useEffect, useState } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -7,12 +7,20 @@ import { useUiBaseComponentConfig } from '@cocokits/react-core';
 import { useFormStore } from './form-store';
 
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'color' | 'size'>,
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'color' | 'size'>,
     UIBaseComponentProps {
   /**
    * Whether the form field is invalid.
    */
   invalid?: boolean;
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const Input = (props: InputProps) => {

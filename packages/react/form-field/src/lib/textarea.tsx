@@ -1,5 +1,5 @@
 'use client';
-import React, { FocusEvent, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, FocusEvent, useEffect, useRef, useState } from 'react';
 
 import { autoResizeTextarea } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -34,6 +34,14 @@ export interface TextareaProps
    * Whether the textarea is disabled.
    */
   disabled?: boolean;
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const Textarea = (props: TextareaProps) => {
