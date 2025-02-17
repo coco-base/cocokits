@@ -2,21 +2,21 @@
   "name": "@cocokits/angular-icon",
   "version": "1.1.0",
   "private": false,
+  "sideEffects": false,
+  "dependencies": {
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/core": "workspace:*",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {},
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
     "@angular/forms": "^18.2.0",
-    "rxjs": "~7.8.0",
-    "@cocokits/core": "workspace:*",
-    "@cocokits/angular-utils": "workspace:*",
-    "@cocokits/angular-core": "workspace:*",
-    "@cocokits/common-utils": "workspace:*"
+    "rxjs": "~7.8.0"
   },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "devDependencies": {},
-  "sideEffects": false,
   "publishConfig": {
     "directory": "../../../dist/packages/angular/icon"
   }

@@ -19,6 +19,9 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/actions/pnpm-install
 
+      - name: Check Dependencies
+        run: pnpm exec nx run cocokits:depcheck
+
       - name: Build
         run: pnpm nx run cocokits:build-all
 

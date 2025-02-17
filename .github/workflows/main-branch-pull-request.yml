@@ -25,9 +25,11 @@ jobs:
       - name: Build Quick Fix
         run: pnpm nx affected:build --base=main --head=HEAD --exclude=@cocokits/angular-* --parallel=4
 
+      - name: Check Dependencies
+        run: pnpm exec nx run cocokits:depcheck
+
       - name: Build All
         run: pnpm nx affected:build --base=main --head=HEAD --parallel=4
-
 
       - name: Test
         run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits --skip-nx-cache --parallel=1

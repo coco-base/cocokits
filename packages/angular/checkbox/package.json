@@ -2,19 +2,19 @@
   "name": "@cocokits/angular-checkbox",
   "version": "1.1.0",
   "private": false,
-  "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0",
-    "@angular/forms": "^18.2.0",
-    "@cocokits/angular-utils": "workspace:*",
-    "@cocokits/angular-core": "workspace:*",
-    "@cocokits/common-utils": "workspace:*"
-  },
+  "sideEffects": false,
   "dependencies": {
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/angular-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
     "tslib": "^2.3.0"
   },
   "devDependencies": {},
-  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "@angular/forms": "^18.2.0"
+  },
   "publishConfig": {
     "directory": "../../../dist/packages/angular/checkbox"
   }

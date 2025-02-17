@@ -7,7 +7,18 @@ uplinks:
     url: https://registry.npmjs.org/
     maxage: 60m
 
+web:
+  enable: true
+  title: CocoKits Verdaccio
+
 packages:
+  '@cocokits/*':
+    # give all users (including non-authenticated users) full access
+    # because it is a local registry
+    access: $all
+    publish: $all
+    unpublish: $all
+
   '**':
     # give all users (including non-authenticated users) full access
     # because it is a local registry
@@ -19,10 +30,11 @@ packages:
     proxy: npmjs
 
 # log settings
-logs:
+log:
   type: stdout
   format: pretty
-  level: warn
+  level: debug
+
 
 publish:
   allow_offline: true # set offline to true to allow publish offline

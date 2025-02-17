@@ -3,5 +3,6 @@
   "dest": "../../../dist/packages/angular/toggle",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }

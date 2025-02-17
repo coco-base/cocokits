@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { EOL } from 'os';
 
 function logGreen(message: string) {
   console.log(chalk.green(message));
@@ -21,7 +22,7 @@ function log(message: string) {
 }
 
 function empty() {
-  console.log('');
+  console.log('  ' + EOL);
 }
 
 function header(message: string) {

@@ -2,14 +2,13 @@
   "name": "@cocokits/angular-cdk",
   "version": "1.1.0",
   "private": false,
-  "peerDependencies": {
-    "@cocokits/angular-overlay": "workspace:*"
-  },
+  "sideEffects": false,
   "dependencies": {
+    "@cocokits/angular-overlay": "workspace:*",
     "tslib": "^2.3.0"
   },
   "devDependencies": {},
-  "sideEffects": false,
+  "peerDependencies": {},
   "publishConfig": {
     "directory": "../../../dist/packages/angular/cdk"
   }

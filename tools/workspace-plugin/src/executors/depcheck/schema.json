@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "version": 2,
+  "title": "Depcheck executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "logLevel": {
+      "type": "string",
+      "enum": ["errorOnly", "debug"],
+      "default": "errorOnly"
+    }
+  },
+  "required": []
+}

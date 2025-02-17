@@ -2,16 +2,17 @@
   "name": "@cocokits/angular-utils",
   "version": "1.0.2",
   "private": false,
+  "sideEffects": false,
+  "dependencies": {
+    "@cocokits/common-utils": "workspace:*"
+  },
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
-    "@angular/platform-browser": "^18.2.0",
     "@angular/forms": "^18.2.0",
-    "rxjs": "~7.8.0",
-    "@cocokits/common-utils": "workspace:*"
+    "@angular/platform-browser": "^18.2.0",
+    "rxjs": "~7.8.0"
   },
-  "devDependencies": {},
-  "sideEffects": false,
   "publishConfig": {
     "directory": "../../../dist/packages/angular/utils"
   }

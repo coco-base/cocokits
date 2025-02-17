@@ -3,5 +3,6 @@
   "dest": "../../../dist/packages/angular/icon",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }

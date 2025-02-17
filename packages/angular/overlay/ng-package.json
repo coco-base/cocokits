@@ -3,5 +3,6 @@
   "dest": "../../../dist/packages/angular/overlay",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }

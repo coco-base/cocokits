@@ -3,5 +3,6 @@
   "dest": "../../../dist/packages/angular/form-field",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["@cocokits/"]
 }
