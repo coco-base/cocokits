@@ -22,8 +22,8 @@ jobs:
 
 
       # In CI, the packages will be not build in the correct order. As a quick fix we build the react project first and then run build all
-      - name: Build Quick Fix
-        run: pnpm nx affected:build --base=main --head=HEAD --exclude=@cocokits/angular-* --parallel=4
+      # - name: Build Quick Fix
+      #  run: pnpm nx affected:build --base=main --head=HEAD --exclude=@cocokits/angular-* --parallel=4
 
       - name: Check Dependencies
         run: pnpm exec nx run cocokits:depcheck

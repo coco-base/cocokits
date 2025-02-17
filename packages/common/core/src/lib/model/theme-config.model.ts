@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { RequireAtLeastOne } from './common.model';
 import { ThemeSvgIcon } from './theme-svg-icon.model';
 
