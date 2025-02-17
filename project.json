@@ -34,10 +34,7 @@
     "build-all": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx run-many --projects=@cocokits/react-* --target=build --parallel --maxParallel=4",
-          "nx run-many --projects=@cocokits/angular-* --target=build --parallel --maxParallel=4"
-        ],
+        "commands": ["nx run-many --target=build --parallel --maxParallel=4"],
         "parallel": false
       }
     },
@@ -56,7 +53,7 @@
         "clear": true
       }
     },
-    "local-registry-quick-fox": {
+    "local-registry-quick-fix": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [

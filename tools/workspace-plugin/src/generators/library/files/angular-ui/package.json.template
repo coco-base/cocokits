@@ -2,22 +2,17 @@
   "name": "<%= importPath %>",
   "version": "0.0.0",
   "private": <%= !publishable %>,
-  "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0",
-    "@cocokits/angular-utils": "workspace:*",
+  "sideEffects": false
+  "dependencies": {
+    "tslib": "^2.3.0",
     "@cocokits/angular-core": "workspace:*",
-    "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*"
   },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "devDependencies": {
-    "@storybook/angular": "8.4.4",
-    "@storybook/addon-docs": "8.4.4"
-  },
-  "sideEffects": false<% if (publishable) { %>,
+  "devDependencies": {},
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0"
+  }<% if (publishable) { %>,
   "publishConfig": {
     "directory": "../../../dist/packages/angular/<%= fileName %>"
   }<% } %>

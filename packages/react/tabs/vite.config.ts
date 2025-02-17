@@ -1,9 +1,10 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import dts from 'vite-plugin-dts';
-import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import react from '@vitejs/plugin-react-swc';
+import * as path from 'path';
+import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+
 import { getExternalPackages } from '../../../tools/scripts/get-external-packages';
 
 export default defineConfig({
@@ -13,7 +14,11 @@ export default defineConfig({
   plugins: [
     react(),
     nxViteTsPaths(),
-    dts({ entryRoot: 'src', tsconfigPath: path.join(__dirname, 'tsconfig.lib.json') }),
+    dts({
+      entryRoot: 'src',
+      tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
+      aliasesExclude: [/^@cocokits\//],
+    }),
   ],
 
   // Uncomment this if you are using workers.
