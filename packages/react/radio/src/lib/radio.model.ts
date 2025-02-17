@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 
@@ -39,6 +39,10 @@ export interface RadioButtonProps<T extends string | number> extends UIBaseCompo
    * A custom class name that can be used to apply additional styles to the component.
    */
   className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export interface RadioGroupProps<T extends string | number> extends UIBaseComponentProps {
@@ -70,4 +74,8 @@ export interface RadioGroupProps<T extends string | number> extends UIBaseCompon
    * A custom class name that can be used to apply additional styles to the component.
    */
   className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }

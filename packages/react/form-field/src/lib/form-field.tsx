@@ -1,6 +1,5 @@
 'use client';
-import { Fragment, ReactNode, useEffect, useRef } from 'react';
-import { CSSProperties } from 'styled-components';
+import { CSSProperties, Fragment, ReactNode, useEffect, useRef } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';

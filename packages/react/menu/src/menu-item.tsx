@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, useContext } from 'react';
+import { CSSProperties, ReactNode, useContext } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -14,7 +14,9 @@ interface MenuItemProps extends UIBaseComponentProps {
   disabled?: boolean;
 
   /**
-   * The content of the component.
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
    */
   children?: ReactNode | ReactNode[];
 
@@ -26,7 +28,7 @@ interface MenuItemProps extends UIBaseComponentProps {
   /**
    * Override or extend the styles applied to the component.
    */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export function MenuItem(props: MenuItemProps) {

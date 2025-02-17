@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, useContext } from 'react';
+import { CSSProperties, ReactNode, useContext } from 'react';
 
 import { isNullish } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
@@ -28,6 +28,14 @@ export interface OptionProps<T = unknown> extends UIBaseComponentProps {
    * It allows rendering nested components within this component.
    */
   children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
 }
 
 export const Option = <T,>(props: OptionProps<T>) => {
