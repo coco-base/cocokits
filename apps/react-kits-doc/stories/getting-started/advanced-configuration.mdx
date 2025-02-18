@@ -1,21 +1,19 @@
 import { Meta } from '@storybook/addon-docs';
 import { MdxPage, MdxPageTabCode, MdxPageWithThemeSection } from '@cocokits/storybook-addon-theme';
 
+import { camelCase, startCase } from 'lodash';
+
 import {
-  getInstallPackagesStep2Provide,
-  getInstallPackagesStep3AngularJson,
-  getInstallPackagesStep3ComponentStyle,
   tocItems,
-  getOverrideComponentConfig,
-  getMergeThemesStep2Provide,
-  getMergeThemesStep3Scss,
+  toTitleCase,
+
   getUseOnlyOneModeOption1Step1Code,
   getUseOnlyOneModeOption1Step2ClassSelector,
   getUseOnlyOneModeOption1Step2AttrSelector,
   getUseOnlyOneModeOption1code,
   getChangeTokenSelectorsItems, getChangeTokenSelectorsStep1Code, getChangeTokenSelectorsStep2Code,
 } from './utils/advanced-configuration.utils';
-import { header } from './utils/markdown.util';
+import { header, backtick, code } from './utils/markdown.util';
 
 
 <Meta title='Getting Started/Advanced Configuration'/>
@@ -36,7 +34,7 @@ You can:
 ------------------------------------------------------------------
 
 ## Install Specific Components
-`CocoKits` provides individual packages for each component, and `@cocokits/angular-components` is a wrapper for all components.
+`CocoKits` provides individual packages for each component, and `@cocokits/react-components` is a wrapper for all components.
 You can choose to install only the components you need.
 
 In this example, we'll install only the `Button` and `Radio` components.
@@ -47,36 +45,47 @@ Install the specific components and the theme:
 
 <MdxPageWithThemeSection fn={theme =>
   <MdxPageTabCode codeTabs={{
-    'npm': `npm i @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`,
-    'yarn': `yarn add @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`,
-    'pnpm': `pnpm add @cocokits/angular-core @cocokits/angular-button @cocokits/angular-radio @cocokits/theme-${theme.id}`
+    'npm': `npm i @cocokits/react-button @cocokits/react-radio @cocokits/theme-${theme.id}`,
+    'yarn': `yarn add @cocokits/react-button @cocokits/react-radio @cocokits/theme-${theme.id}`,
+    'pnpm': `pnpm add @cocokits/react-button @cocokits/react-radio @cocokits/theme-${theme.id}`
   }}/>
 }/>
 
 
 ### Step 2: Provide Theme Configuration
-Provide the theme configuration in the root of your application.
+<MdxPageWithThemeSection fn={theme => `Provide the ${backtick(theme.displayName)} theme configuration in the root of your application.`}/>
 
-<MdxPageWithThemeSection fn={getInstallPackagesStep2Provide}/>
+**App.tsx**
+<MdxPageWithThemeSection fn={theme => code(`tsx
+import { ThemeConfigContext } from "@cocokits/react-components";
+import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
+
+function App() {
+  return (
+    <ThemeConfigContext.Provider value={${camelCase(theme.id)}ThemeConfig}>
+      ...
+    </ThemeConfigContext.Provider>
+  );
+}
+
+export default App;
+`)}/>
 
 
 ### Step 3: Import Tokens and Component Styles
 Instead of importing all styles, you can import only the necessary tokens and styles for the components you're using.
 
-#### Import Tokens
-In your `angular.json` or `project.json`, add the tokens CSS file:
+<MdxPageWithThemeSection fn={theme => code(`scss
+@use "@cocokits/theme-${theme.id}/tokens.min.css";
+@use "@cocokits/theme-${theme.id}/styles-core" as ${toTitleCase(theme.displayName)};
 
-<MdxPageWithThemeSection fn={getInstallPackagesStep3AngularJson}/>
+@include ${toTitleCase(theme.displayName)}.components_button;
+@include ${toTitleCase(theme.displayName)}.components_icon_button;
+@include ${toTitleCase(theme.displayName)}.components_radio_button;
+@include ${toTitleCase(theme.displayName)}.components_radio_group;
 
-**Note:** We are only importing the tokens here, not the global styles.
-
-#### Import Component Styles
-In your `styles.scss`, add the custom styles for the components you installed:
-
-<MdxPageWithThemeSection fn={getInstallPackagesStep3ComponentStyle}/>
-
-**Note**: Adjust the component style includes based on the components you've installed.
-
+// Other global styles
+`)}/>
 
 ------------------------------------------------------------------
 
@@ -84,7 +93,30 @@ In your `styles.scss`, add the custom styles for the components you installed:
 
 You can customize the default configuration of the theme. For example, to change the default size of the `Button` component from `xs`:
 
-<MdxPageWithThemeSection fn={getOverrideComponentConfig}/>
+<MdxPageWithThemeSection fn={theme => code(`tsx
+import { ThemeConfigContext, deepMerge, DeepPartial } from "@cocokits/react-components";
+import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
+
+const customThemeConfig = deepMerge(${camelCase(theme.id)}ThemeConfig, {
+  components: {
+    button: {
+      size: {
+        default: 'xs',
+      },
+    },
+  }  
+} as DeepPartial<ThemeConfig>);
+
+function App() {
+  return (
+    <ThemeConfigContext.Provider value={customThemeConfig}>
+      ...
+    </ThemeConfigContext.Provider>
+  );
+}
+
+export default App;
+`)}/>
 
 **Important:** If you change the configuration of a component (e.g., adding a new size or color), make sure you include the corresponding styles. Otherwise, the new configuration may not be reflected in your application.
 
@@ -96,21 +128,80 @@ You can also merge multi themes and create a new theme. For example, you want to
 ### Step 1: Install the Themes
 
 <MdxPageTabCode codeTabs={{
-  'npm': `npm i @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
-  'yarn': `yarn add @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
-  'pnpm': `pnpm add @cocokits/angular-components @cocokits/theme-frames-x @cocokits/theme-cocokits`
+  'npm': `npm i @cocokits/react-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
+  'yarn': `yarn add @cocokits/react-components @cocokits/theme-frames-x @cocokits/theme-cocokits`,
+  'pnpm': `pnpm add @cocokits/react-components @cocokits/theme-frames-x @cocokits/theme-cocokits`
 }}/>
 
 ### Step 2: Merge the Theme Configurations
 
-<MdxPageWithThemeSection fn={getMergeThemesStep2Provide}/>
+<MdxPageWithThemeSection fn={theme => code(`tsx
+import { ThemeConfigContext, DeepPartial, deepMerge, ThemeConfig } from "@cocokits/react-components";
+import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { framesXThemeConfig } from '@cocokits/theme-frames-x';
+
+const customThemeConfig = deepMerge(cocokitsThemeConfig, {
+  components: {
+    button: framesXThemeConfig.button,
+    iconButton: framesXThemeConfig.iconButton,
+    radioGroup: framesXThemeConfig.radioGroup,
+    radioButton: framesXThemeConfig.radioButton,
+  }
+} as DeepPartial<ThemeConfig>);
+
+function App() {
+  return (
+    <ThemeConfigContext.Provider value={customThemeConfig}>
+      ...
+    </ThemeConfigContext.Provider>
+  );
+}
+
+export default App;
+`)}/>
+
 
 ### Step 3: Import Component Styles from Each Theme
 
 In your `styles.scss`, include styles from both themes:
 
 **styles.scss**
-<MdxPageWithThemeSection fn={getMergeThemesStep3Scss}/>
+<MdxPageWithThemeSection fn={(theme) => code(`css
+@use "@cocokits/theme-${theme.id}/tokens.min.css";
+
+@use "@cocokits/theme-cocokits/styles-core" as Cocokits;
+@use "@cocokits/theme-frames-x/styles-core" as FramesX;
+
+// Import styles from Frames X theme
+@include FramesX.components_button;
+@include FramesX.components_icon_button;
+@include FramesX.components_radio_button;
+@include FramesX.components_radio_group;
+
+// Import styles from Cocokits theme
+@include Cocokits.components_checkbox;
+@include Cocokits.components_chip;
+@include Cocokits.components_chip_list;
+@include Cocokits.components_divider;
+@include Cocokits.components_error;
+@include Cocokits.components_form_field;
+@include Cocokits.components_hint;
+@include Cocokits.components_icon;
+@include Cocokits.components_input;
+@include Cocokits.components_label;
+@include Cocokits.components_leading;
+@include Cocokits.components_menu;
+@include Cocokits.components_menu_item;
+@include Cocokits.components_option;
+@include Cocokits.components_option_group;
+@include Cocokits.components_prefix;
+@include Cocokits.components_select;
+@include Cocokits.components_select_preview;
+@include Cocokits.components_suffix;
+@include Cocokits.components_textarea;
+@include Cocokits.components_toggle;
+@include Cocokits.components_trailing;
+`)}/>
 
 ------------------------------------------------------------------
 
