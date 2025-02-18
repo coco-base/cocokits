@@ -1,5 +1,5 @@
 import { ThemeChangeEvent } from '@cocokits/storybook-addon-theme';
-import { camelCase } from 'lodash';
+
 import { backtick, code } from './markdown.util';
 
 export const tocItems = [
@@ -12,59 +12,6 @@ export const tocItems = [
 ];
 
 
-export function getStep2StandaloneApp(theme: ThemeChangeEvent) {
-  const tsCodes = `typescript
-
-import { provideCocokits } from '@cocokits/angular-components';
-import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
-
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideCocokits(${camelCase(theme.id)}ThemeConfig),
-    ...
-  ]
-})`
-
-  return code(tsCodes);
-}
-
-export function getStep2ModuleApp(theme: ThemeChangeEvent) {
-  const tsCodes = `typescript
-
-  import { ThemeConfigToken } from '@cocokits/angular-components';
-  import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
-
-  @NgModule({
-    imports: [...],
-    declarations: [...],
-    providers: [
-      {
-        provide: ThemeConfigToken,
-        useValue: ${camelCase(theme.id)}ThemeConfig
-      },
-      ...
-    ]
-    ...
-  })
-  export class AppModule {}`
-
-  return code(tsCodes);
-}
-
-export function getStep3AngularJson(theme: ThemeChangeEvent) {
-  const tsCodes = `json
- {
-  ...
-  "styles": [
-    ...,
-    "@cocokits/theme-${theme.id}/styles.min.css",
-    "@cocokits/theme-${theme.id}/tokens.min.css"
-  ],
-  ...
-}`
-
-  return code(tsCodes);
-}
 
 export function getStep4IndexHtmlCssSelector(theme: ThemeChangeEvent) {
   const selectors = Object.entries(theme.selectedModes)
@@ -141,39 +88,4 @@ export function getStep4CollectionModesTable(theme: ThemeChangeEvent) {
   )
 
   return table;
-}
-
-export function getStep5HelloComponent() {
-  const tsCodes = `typescript
-  
-import { Component } from '@angular/core';
-import { ButtonComponent, CheckboxComponent } from '@cocokits/angular-components';
-import { ThemeChangeEvent } from '@cocokits/storybook-addon-theme';
-
-@Component({
-    selector: 'hello',
-    standalone: true,
-    imports: [ButtonComponent, CheckboxComponent],
-    template: \`
-      <button cck-button>Button</button>
-      <cck-checkbox>This is a Checkbox</cck-checkbox>
-    \`
-})
-export class HelloComponent {}
-`
-
-  return code(tsCodes);
-}
-
-export function getStep6Token(theme: ThemeChangeEvent) {
-  const tsCodes = `scss
-@use "@cocokits/theme-${theme.id}/tokens" as Tokens;
-
-:host {
-    display: block;
-    background-color: Tokens.$YOUR_TOKEN_NAME; // Replace YOUR_TOKEN_NAME with your token name
-}
-`
-
-  return code(tsCodes);
 }

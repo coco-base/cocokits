@@ -1,17 +1,14 @@
 import {Meta} from '@storybook/addon-docs';
 import { MdxPage, MdxPageTabCode, MdxPageWithThemeSection } from '@cocokits/storybook-addon-theme';
-
 import {
-  getStep2ModuleApp,
-  getStep2StandaloneApp,
-  getStep3AngularJson,
-  getStep4CollectionModesTable,
-  getStep4IndexHtmlAttrSelector,
   getStep4IndexHtmlCssSelector,
-  getStep4IndexHtmlSelectorExample, getStep5HelloComponent, getStep6Token,
+  getStep4IndexHtmlAttrSelector,
+  getStep4IndexHtmlSelectorExample,
+  getStep4CollectionModesTable,
   tocItems,
 } from './utils/install.utils';
-import {backtick} from './utils/markdown.util';
+import { camelCase } from 'lodash';
+import { backtick, code } from './utils/markdown.util';
 
 
 <Meta title='Getting Started/Install'/>
@@ -27,13 +24,13 @@ Make sure you select the theme that you want to install along with your preferre
 ------------------------------------------------------------------
 ## Step 1: Install Packages
 
-<MdxPageWithThemeSection fn={t => `Install the ${backtick('CocoKits')} Angular components and the ${backtick(t.name)} theme`}/>
+<MdxPageWithThemeSection fn={t => `Install the ${backtick('CocoKits')} React components and the ${backtick(t.displayName)} theme`}/>
 
 <MdxPageWithThemeSection fn={theme =>
   <MdxPageTabCode codeTabs={{
-  'npm': `npm i @cocokits/angular-components @cocokits/theme-${theme.id}`,
-  'yarn': `yarn add @cocokits/angular-components @cocokits/theme-${theme.id}`,
-  'pnpm': `pnpm add @cocokits/angular-components @cocokits/theme-${theme.id}`
+  'npm': `npm i @cocokits/react-components @cocokits/theme-${theme.id}`,
+  'yarn': `yarn add @cocokits/react-components @cocokits/theme-${theme.id}`,
+  'pnpm': `pnpm add @cocokits/react-components @cocokits/theme-${theme.id}`
   }}/>
 }/>
 
@@ -41,28 +38,54 @@ Make sure you select the theme that you want to install along with your preferre
 
 ## Step 2: Provide Theme Configuration
 
-<MdxPageWithThemeSection fn={theme => `Provide the ${backtick(theme.name)} theme configuration in the root of your application.`}/>
+<MdxPageWithThemeSection fn={theme => `Provide the ${backtick(theme.displayName)} theme configuration in the root of your application.`}/>
 
+**App.tsx**
+<MdxPageWithThemeSection fn={theme => code(`tsx
+import { ThemeConfigContext } from "@cocokits/react-components";
+import { ${camelCase(theme.id)}ThemeConfig } from '@cocokits/theme-${theme.id}';
 
-### For Standalone Applications
+function App() {
+  return (
+    <ThemeConfigContext.Provider value={${camelCase(theme.id)}ThemeConfig}>
+      ...
+    </ThemeConfigContext.Provider>
+  );
+}
 
-**main.ts**
-<MdxPageWithThemeSection fn={getStep2StandaloneApp}/>
-
-
-### For Module-Based Applications
-
-**app.module.ts**
-<MdxPageWithThemeSection fn={getStep2ModuleApp}/>
-
+export default App;
+`)}/>
 
 ------------------------------------------------------------------
 
 ## Step 3: Add Component Styles
 
-Add the component styles to your `angular.json` or `project.json` file.
-<MdxPageWithThemeSection fn={getStep3AngularJson}/>
 
+### import to scss
+<MdxPageWithThemeSection fn={theme => code(`scss
+@use "@cocokits/theme-${theme.id}/tokens.min.css"; // <- Add this one
+@use "@cocokits/theme-${theme.id}/styles.min.css"; // <- Add this one
+
+// Other global styles
+`)}/>
+
+### import to tsx
+Add the component styles to your main `main.tsx` or `index.tsx`.
+<MdxPageWithThemeSection fn={theme => code(`tsx
+...
+import '@cocokits/theme-${theme.id}/tokens.min.css'; // <- Add this one
+import '@cocokits/theme-${theme.id}/styles.min.css'; // <- Add this one
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+`)}/>
 ------------------------------------------------------------------
 
 ## Step 4: Apply Theme Modes
@@ -103,7 +126,16 @@ cch-theme-[THEME_NAME]__[COLLECTION-NAME]--[MODE-NAME]
 
 ## Step 5: Basic Usage of Components
 
-<MdxPageWithThemeSection fn={getStep5HelloComponent}/>
+<MdxPageWithThemeSection fn={() => code(`tsx
+import { Button, Checkbox } from '@cocokits/react-components';
+
+function Hello() {
+  return (
+    <Button>Hello</Button>
+    <Checkbox>This is a checkbox</Checkbox>
+  );
+}
+`)}/>
 For more examples and configuration options, check the documentation page of each component.
 
 ------------------------------------------------------------------
@@ -111,8 +143,15 @@ For more examples and configuration options, check the documentation page of eac
 ## Step 6: Use Tokens in Your Component Styles
 You can use theme tokens in your component styles to maintain consistency across your application.
 
-**app.component.scss**
-<MdxPageWithThemeSection fn={getStep6Token}/>
+**hello.scss**
+<MdxPageWithThemeSection fn={theme => code(`scss
+@use "@cocokits/theme-${theme.id}/tokens" as Tokens;
+
+.hello {
+  background-color: Tokens.$YOUR_TOKEN_NAME; // Replace YOUR_TOKEN_NAME with your token name
+}
+
+`)}/>
 
 
 **Note:** Replace `YOUR_TOKEN_NAME` with the desired token name.
