@@ -29,6 +29,8 @@
     "stories/**/*.stories.mdx",
     "../../../packages/internal/storybook-addon-theme/**/*.ts",
     "../../../packages/internal/storybook-addon-theme/**/*.tsx",
+    "../../../packages/internal/common-kits-doc/src/**/*.ts",
+    "../../../packages/internal/common-kits-doc/src/**/*.tsx",
     ".storybook/*.js",
     ".storybook/*.ts",
     ".storybook/*.tsx"

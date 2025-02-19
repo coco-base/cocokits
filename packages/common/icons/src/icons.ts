@@ -219,6 +219,13 @@ const arrowDown = `
   </svg>
 `;
 
+const trashOutline = `
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M7.2 8.8V18C7.2 18.2209 7.37909 18.4 7.6 18.4H16.4C16.6231 18.4 16.8 18.2208 16.8 18.0021V8.80007L18.4 8.8V18.0021C18.4 19.1066 17.5046 20 16.4 20H7.6C6.49543 20 5.6 19.1046 5.6 18V8.8H4.8C4.35817 8.8 4 8.44183 4 8C4 7.55817 4.35817 7.2 4.8 7.2H8V4.8C8 4.58783 8.08429 4.38434 8.23431 4.23431C8.38434 4.08429 8.58783 4 8.8 4H15.2C15.4122 4 15.6157 4.08429 15.7657 4.23431C15.9157 4.38434 16 4.58783 16 4.8V7.2H19.2C19.6418 7.2 20 7.55817 20 8C20 8.44183 19.6418 8.8 19.2 8.8H18.4H7.2ZM9.6 7.2V5.6H14.4V7.2H9.6Z"/>
+  </svg>
+
+`;
+
 export const Icons = {
   light,
   dark,
@@ -255,6 +262,7 @@ export const Icons = {
   arrowLeft,
   arrowUp,
   arrowDown,
+  trashOutline,
 };
 
 export type IconsName = keyof typeof Icons;

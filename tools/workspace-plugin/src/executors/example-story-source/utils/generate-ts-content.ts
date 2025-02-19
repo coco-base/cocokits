@@ -15,12 +15,20 @@ export async function generateTs({ filePath }: { filePath: string }) {
     // React: function Component(props: {cckExampleArgs: ExampleArgs}) -> function Component()
     .replace(/props: {cckExampleArgs: ExampleArgs}/g, '')
 
-    // Angular: Any line that includes 'ExampleArgs'. For example:
-    // public cckExampleArgs = input.required<ExampleArgs>();
-    // import { ExampleArgs } from './_story.config';
-    .split('\n')
-    .filter((line) => !line.includes('ExampleArgs'))
-    .join('\n');
+    // Angular: import { ExampleArgs } from '@cocokits/common-kits-doc/...'; -> ''
+    .replace(/import.*ExampleArgs.*@cocokits\/common-kits-doc.*/g, '')
+
+    // Angular: public cckExampleArgs = input.required<ExampleArgs>(); -> ''
+    .replace(/.*input.*ExampleArgs.*();/g, '')
+
+    // Angular: replace {{ cckExampleArgs(). }} with ejs syntax
+    .replace(/{{\s*cckExampleArgs\(\)\.(\w+)\s*}}/g, '{{ <%=$1%> }}')
+
+    // Angular: replace cckExampleArgs(). with ejs syntax
+    .replace(/cckExampleArgs\(\)\.(\w+)/g, "'<%=$1%>'")
+
+    // React: replace cckExampleArgs. with ejs syntax
+    .replace(/cckExampleArgs\.(\w+)/g, "'<%=$1%>'");
 
   const language = path.extname(filePath) === '.tsx' ? 'tsx' : 'angular-ts';
 

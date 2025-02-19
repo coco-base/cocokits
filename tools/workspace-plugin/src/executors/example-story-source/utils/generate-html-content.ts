@@ -5,10 +5,12 @@ export async function generateHtml({ filePath }: { filePath: string }) {
   const htmlRaw = await fs.readFileSync(filePath, { encoding: 'utf-8' });
 
   const htmlEjs = htmlRaw
-    // ANGULAR: replace cckArgs(). with ejs syntax
-    .replace(/cckArgs\(\)\.(\w+)/g, "'<%=$1%>'")
-    // REACT: replace cckArgs. with ejs syntax
-    .replace(/cckArgs\.(\w+)/g, "'<%=$1%>'");
+    // Angular: replace {{ cckExampleArgs(). }} with ejs syntax
+    .replace(/{{\s*cckExampleArgs\(\)\.(\w+)\s*}}/g, '{{ <%=$1%> }}')
+    // Angular: replace cckExampleArgs(). with ejs syntax
+    .replace(/cckExampleArgs\(\)\.(\w+)/g, "'<%=$1%>'")
+    // React: replace cckExampleArgs. with ejs syntax
+    .replace(/cckExampleArgs\.(\w+)/g, "'<%=$1%>'");
 
   return `{
     language: 'html',

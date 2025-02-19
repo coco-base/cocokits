@@ -12,6 +12,6 @@ export default defineConfig({
   plugins: [
     react(),
     nxViteTsPaths(),
-    // dts({ entryRoot: 'src', tsconfigPath: path.join(__dirname, 'tsconfig.storybook.json') }),
+    dts({ entryRoot: 'src', tsconfigPath: path.join(__dirname, 'tsconfig.storybook.json') }),
   ],
 });

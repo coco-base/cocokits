@@ -2,8 +2,7 @@ import { Component, computed, input, signal } from '@angular/core';
 
 import { IconButtonComponent, SvgIconComponent } from '@cocokits/angular-components';
 import { Icons } from '@cocokits/common-icons';
-
-import { ExampleArgs } from './_story.config';
+import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/volume-button.config';
 
 const MAX_VOLUME = 4;
 const MIN_VOLUME = 0;

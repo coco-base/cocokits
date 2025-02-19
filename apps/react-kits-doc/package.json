@@ -1,11 +1,12 @@
 {
   "name": "react-kits-doc",
   "version": "1.0.0",
-  "private": true,
   "description": "",
-  "keywords": [],
-  "license": "ISC",
-  "author": "",
   "main": "index.js",
-  "scripts": {}
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
