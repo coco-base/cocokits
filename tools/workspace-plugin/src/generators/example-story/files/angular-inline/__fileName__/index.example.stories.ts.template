@@ -1,0 +1,33 @@
+import { moduleMetadata } from '@storybook/angular';
+
+import { CSS_VARIABLES, TEMPLATE_ARGS } from '@cocokits/common-kits-doc/examples-config/<%= uiComponentName %>/<%= fileName %>.config';
+import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
+
+import { <%= className %>Component } from './<%= name %>.component';
+import { SOURCE } from './_story.source.ts';
+
+export const <%= className %>: StoryObj = {
+  name: '<%= titleName %>',
+  decorators: [
+    moduleMetadata({
+      imports: [<%= className %>Component],
+    }),
+  ],
+  parameters: {
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Examples')],
+      source: SOURCE,
+      exampleStory: {
+        templateArgsMap: TEMPLATE_ARGS,
+        cssArgsMap: CSS_VARIABLES,
+      },
+    },
+  },
+  render: (args) => ({
+    props: { ...args },
+    template: `
+      <cck-<%= name %> [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+    `,
+  }),
+};

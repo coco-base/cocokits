@@ -1,0 +1,12 @@
+import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/<%= uiComponentName %>/<%= fileName %>.config';
+
+import { Styled } from './<%= className %>.styled';
+
+export function <%= className %>(props: {cckExampleArgs: ExampleArgs}) {
+
+  return (
+    <Styled.Host>
+      
+    </Styled.Host>
+  );
+}

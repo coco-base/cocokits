@@ -1,0 +1,8 @@
+import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/<%= uiComponentName %>/<%= fileName %>.config';
+
+export function <%= className %>(props: {cckExampleArgs: ExampleArgs}) {
+
+  return (
+    <div/>
+  );
+}
