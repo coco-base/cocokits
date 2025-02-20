@@ -15,6 +15,10 @@ export { Color } from './overview/color.stories';
 export { BackButton } from './examples/back-button/index.example.stories';
 export { CopyLinkButton } from './examples/copy-link-button/index.example.stories';
 export { DeleteButton } from './examples/delete-button/index.example.stories';
+export { AddNewButton } from './examples/add-new-button/index.example.stories';
+export { ShowMoreButton } from './examples/show-more-button/index.example.stories';
+export { StackHorizontalButton } from './examples/stack-horizontal-button/index.example.stories';
+export { StackVerticalButton } from './examples/stack-vertical-button/index.example.stories';
 
 // export {} from
 // Example1,

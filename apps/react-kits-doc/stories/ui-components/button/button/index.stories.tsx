@@ -12,6 +12,10 @@ export { Color } from './overview/color.stories';
 export { BackButtonStory } from './examples/back-button/index.example.stories';
 export { CopyLinkButtonStory } from './examples/copy-link-button/index.example.stories';
 export { DeleteButtonStory } from './examples/delete-button/index.example.stories';
+export { AddNewButtonStory } from './examples/add-new-button/index.example.stories';
+export { ShowMoreButtonStory } from './examples/show-more-button/index.example.stories';
+export { StackHorizontalButtonStory } from './examples/stack-horizontal-button/index.example.stories';
+export { StackVerticalButtonStory } from './examples/stack-vertical-button/index.example.stories';
 
 const meta: StoriesMeta<typeof Button> = {
   component: Button,

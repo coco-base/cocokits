@@ -4,8 +4,8 @@ import { CSS_VARIABLES, TEMPLATE_ARGS } from '@cocokits/common-kits-doc/examples
 import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
-import { <%= className %>Component } from './<%= name %>.component';
-import { SOURCE } from './_story.source.ts';
+import { SOURCE } from './_story.source';
+import { <%= className %>Component } from './<%= fileName %>.component';
 
 export const <%= className %>: StoryObj = {
   name: '<%= titleName %>',
@@ -27,7 +27,7 @@ export const <%= className %>: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-<%= name %> [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-<%= fileName %> [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

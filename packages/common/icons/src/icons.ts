@@ -130,7 +130,7 @@ const minus = `
   </svg>
 `;
 
-const plus = `
+const plusLight = `
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M12.5 6C12.5 5.725 12.275 5.5 12 5.5C11.725 5.5 11.5 5.725 11.5 6V11.5H6C5.725 11.5 5.5 11.725 5.5 12C5.5 12.275 5.725 12.5 6 12.5H11.5V18C11.5 18.275 11.725 18.5 12 18.5C12.275 18.5 12.5 18.275 12.5 18V12.5H18C18.275 12.5 18.5 12.275 18.5 12C18.5 11.725 18.275 11.5 18 11.5H12.5V6Z"/>
   </svg>
@@ -223,7 +223,12 @@ const trashOutline = `
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M7.2 8.8V18C7.2 18.2209 7.37909 18.4 7.6 18.4H16.4C16.6231 18.4 16.8 18.2208 16.8 18.0021V8.80007L18.4 8.8V18.0021C18.4 19.1066 17.5046 20 16.4 20H7.6C6.49543 20 5.6 19.1046 5.6 18V8.8H4.8C4.35817 8.8 4 8.44183 4 8C4 7.55817 4.35817 7.2 4.8 7.2H8V4.8C8 4.58783 8.08429 4.38434 8.23431 4.23431C8.38434 4.08429 8.58783 4 8.8 4H15.2C15.4122 4 15.6157 4.08429 15.7657 4.23431C15.9157 4.38434 16 4.58783 16 4.8V7.2H19.2C19.6418 7.2 20 7.55817 20 8C20 8.44183 19.6418 8.8 19.2 8.8H18.4H7.2ZM9.6 7.2V5.6H14.4V7.2H9.6Z"/>
   </svg>
+`;
 
+const plus = `
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 4C12.5523 4 13 4.44772 13 5V11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H13V19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19V13H5C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11L11 11V5C11 4.44772 11.4477 4 12 4Z"/>
+  </svg>
 `;
 
 export const Icons = {
@@ -249,7 +254,7 @@ export const Icons = {
   dollar,
   info,
   minus,
-  plus,
+  plusLight,
   volumeMuteX,
   volumeOff,
   volumeLow,
@@ -263,6 +268,7 @@ export const Icons = {
   arrowUp,
   arrowDown,
   trashOutline,
+  plus,
 };
 
 export type IconsName = keyof typeof Icons;

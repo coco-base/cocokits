@@ -13,7 +13,7 @@ export async function generateTs({ filePath }: { filePath: string }) {
     .replace(/{props\.cckExampleArgs\.(\w+)}/g, '<%= $1 %>')
 
     // React: function Component(props: {cckExampleArgs: ExampleArgs}) -> function Component()
-    .replace(/props: {cckExampleArgs: ExampleArgs}/g, '')
+    .replace(/props:\s*{\s*cckExampleArgs:\s.*ExampleArgs\s.*}/g, '')
 
     // Angular: import { ExampleArgs } from '@cocokits/common-kits-doc/...'; -> ''
     .replace(/import.*ExampleArgs.*@cocokits\/common-kits-doc.*/g, '')
