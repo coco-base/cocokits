@@ -1,4 +1,15 @@
-import { ChipList as ChipListOriginal, Error, FormField, Hint, Label, Leading, Prefix, Suffix,SvgIcon, Trailing } from '@cocokits/react-components';
+import {
+  ChipList as ChipListOriginal,
+  Error,
+  FormField,
+  Hint,
+  Label,
+  Leading,
+  Prefix,
+  Suffix,
+  SvgIcon,
+  Trailing,
+} from '@cocokits/react-components';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -21,7 +32,12 @@ export const ChipList: StoryObj<typeof FormField> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <FormField
+                     import { FormField, Label ,ChipListOriginal } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <FormField
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
               <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
@@ -66,6 +82,10 @@ export const ChipList: StoryObj<typeof FormField> = {
               <% } %>
 
             </FormField>
+                </>
+              );
+            }
+            
           `,
         },
       ],
@@ -99,38 +119,34 @@ export const ChipList: StoryObj<typeof FormField> = {
         disabled={args.cckControl.disabled}
         required={args.cckControl.required}
         invalid={args.cckControl.invalid}
-        hideRequiredMarker={args.cckControl.hideRequiredMarker}
-      >
-  
-        { args.cckControl.label && <Label>{args.cckControl.label}</Label> }
-        { args.cckControl.leading && <Leading>{args.cckControl.leading}</Leading> }
-        {
-          args.cckControl.prefixIcon !== 'none' &&
+        hideRequiredMarker={args.cckControl.hideRequiredMarker}>
+        {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
+        {args.cckControl.leading && <Leading>{args.cckControl.leading}</Leading>}
+        {args.cckControl.prefixIcon !== 'none' && (
           <Prefix>
             <SvgIcon icon={args.cckIcons[args.cckControl.prefixIcon]} />
           </Prefix>
-        }
-  
+        )}
+
         <ChipListOriginal
           chips={['Steak', 'Pizza']}
           placeholder={args.cckControl.placeholder}
-          addOnBlur={args.cckControl.addOnBlur} />
-  
-        {
-          args.cckControl.suffixIcon !== 'none' &&
+          addOnBlur={args.cckControl.addOnBlur}
+        />
+
+        {args.cckControl.suffixIcon !== 'none' && (
           <Suffix>
             <SvgIcon icon={args.cckIcons[args.cckControl.suffixIcon]} />
           </Suffix>
-        }
-  
-        { args.cckControl.trailing && <Trailing>{args.cckControl.trailing}</Trailing> }
-  
-        { args.cckControl.hint && <Hint>{args.cckControl.hint}</Hint> }
-        { args.cckControl.error && <Error>{args.cckControl.error}</Error> }
-  
+        )}
+
+        {args.cckControl.trailing && <Trailing>{args.cckControl.trailing}</Trailing>}
+
+        {args.cckControl.hint && <Hint>{args.cckControl.hint}</Hint>}
+        {args.cckControl.error && <Error>{args.cckControl.error}</Error>}
       </FormField>
     );
-  }
+  },
   // render: (args) => ({
   //   props: {
   //     ...args,

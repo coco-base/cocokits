@@ -18,11 +18,20 @@ export const Type: StoryObj<typeof Chip> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <% themeComponentConfig.type.values.map(type => { %>
-              <Chip type="<%= type %>">
-                Chip - <%= type %>
-              </Chip>
-            <% }) %>
+            import { Chip } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <% themeComponentConfig.type.values.map(type => { %>
+                    <Chip type="<%= type %>">
+                      Chip - <%= type %>
+                    </Chip>
+                  <% }) %>
+                </>
+              );
+            }
+
           `,
         },
       ],
@@ -30,9 +39,11 @@ export const Type: StoryObj<typeof Chip> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <Chip key={index} type={type}>Chip - {type}</Chip>
-      )) }
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+        <Chip key={index} type={type}>
+          Chip - {type}
+        </Chip>
+      ))}
     </>
-  )
+  ),
 };

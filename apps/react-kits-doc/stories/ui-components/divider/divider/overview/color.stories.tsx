@@ -18,13 +18,19 @@ export const Color: StoryObj<typeof Divider> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <>
-              <% themeComponentConfig.color.values.map(color => { %>
-                <Divider
-                  <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              import { Divider } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                 <% themeComponentConfig.color.values.map(color => { %>
+                  <Divider
+                    <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                   color="<%= color %>"/>
-              <% }) %>
-            </>
+                   <% }) %>
+                </>
+              );
+            }
           `,
         },
       ],
@@ -34,8 +40,8 @@ export const Color: StoryObj<typeof Divider> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <Divider key={index} type={args.cckControl.type} color={color}/>
+        <Divider key={index} type={args.cckControl.type} color={color} />
       ))}
     </>
-  )
+  ),
 };

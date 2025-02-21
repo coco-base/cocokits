@@ -20,7 +20,7 @@ export const Size: StoryObj<typeof IconButton> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { IconButton } from "@cocokits/react-components";
+          import { IconButton , SvgIcon } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (

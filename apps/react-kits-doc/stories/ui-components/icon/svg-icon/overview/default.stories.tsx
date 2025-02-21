@@ -18,27 +18,27 @@ export const Default: StoryObj<typeof SvgIcon> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { SvgIcon } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
             <SvgIcon
               <% if (typeof type !== 'undefined') { %> type="<%= type %>" <% } %>
               <% if (typeof size !== 'undefined') { %> size="<%= size %>" <% } %>
               <% if (typeof color !== 'undefined') { %> color="<%= color %>" <% } %>
               icon={YOUR_ICON}
             />
+                </>
+              );
+            }
+
           `,
         },
       ],
       hasControl: true,
-      controls: [
-        CCK_CONTROL.icon('heartFill'),
-        CCK_CONTROL.type(),
-        CCK_CONTROL.color(),
-        CCK_CONTROL.size(),
-      ],
+      controls: [CCK_CONTROL.icon('heartFill'), CCK_CONTROL.type(), CCK_CONTROL.color(), CCK_CONTROL.size()],
     },
   },
-  render: (args) => (
-    <SvgIcon
-      {...reactThemeArgsToTemplate(args)}
-      icon={args.cckIcons[args.cckControl.icon]}/>
-  )
+  render: (args) => <SvgIcon {...reactThemeArgsToTemplate(args)} icon={args.cckIcons[args.cckControl.icon]} />,
 };

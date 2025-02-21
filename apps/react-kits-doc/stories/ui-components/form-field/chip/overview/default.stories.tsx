@@ -15,9 +15,14 @@ export const Default: StoryObj<typeof Chip> = {
       renderConditions: [renderWithPageTab('Overview')],
       source: [
         {
-          filename: 'example.component.html',
-          language: 'angular-html',
+          filename: 'Source Code',
+          language: 'tsx',
           code: `
+                     import { Chip } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
             <Chip
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
@@ -27,6 +32,10 @@ export const Default: StoryObj<typeof Chip> = {
               >
               <%= text %>
             </Chip>
+                </>
+              );
+            }
+
           `,
         },
       ],

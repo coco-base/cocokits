@@ -18,6 +18,10 @@ export const Color: StoryObj<typeof Menu> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { Divider, Menu, MenuItem } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
           <>
             <% themeComponentConfig.color.values.map(color => { %>
 
@@ -35,6 +39,9 @@ export const Color: StoryObj<typeof Menu> = {
 
             <% }) %>
           </>
+              );
+            }
+
           `,
         },
       ],
@@ -47,12 +54,11 @@ export const Color: StoryObj<typeof Menu> = {
         <Menu key={index} type={args.cckControl.type} color={color} open={true} _skipOverlay={true}>
           <MenuItem>Edit</MenuItem>
           <MenuItem>Duplicate</MenuItem>
-          <Divider/>
+          <Divider />
           <MenuItem>Archive</MenuItem>
           <MenuItem>Move</MenuItem>
         </Menu>
       ))}
     </>
-  )
+  ),
 };
-

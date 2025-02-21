@@ -1,5 +1,5 @@
 import { RadioButton } from '@cocokits/react-components';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Size: StoryObj<typeof RadioButton> = {
@@ -19,6 +19,10 @@ export const Size: StoryObj<typeof RadioButton> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { RadioButton } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
           <>
             <% themeComponentConfig.size.values.map((size, index) => { %>
 
@@ -31,6 +35,9 @@ export const Size: StoryObj<typeof RadioButton> = {
               </RadioButton>
             <% }) %>
           </>
+              );
+            }
+
           `,
         },
       ],
@@ -45,5 +52,5 @@ export const Size: StoryObj<typeof RadioButton> = {
         </RadioButton>
       ))}
     </>
-  )
+  ),
 };

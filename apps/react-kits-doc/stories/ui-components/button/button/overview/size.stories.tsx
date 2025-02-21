@@ -34,7 +34,6 @@ export const Size: StoryObj<typeof Button> = {
                 <% }) %>
               </>
 
-              <>
             );
           }
           `,

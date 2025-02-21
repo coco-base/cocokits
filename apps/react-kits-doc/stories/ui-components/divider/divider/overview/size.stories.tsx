@@ -19,24 +19,30 @@ export const Size: StoryObj<typeof Divider> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <>
-              <% themeComponentConfig.size.values.map(size => { %>
+            import { Divider } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                    <% themeComponentConfig.size.values.map(size => { %>
                 <Divider
                   <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                   size="<%= size %>"/>
               <% }) %>
-            </>
+                </>
+              );
+            }
           `,
         },
       ],
-      controls: [CCK_CONTROL.type(),],
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Divider key={index} type={args.cckControl.type} size={size}/>
-      )) }
+      {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
+        <Divider key={index} type={args.cckControl.type} size={size} />
+      ))}
     </>
-  )
+  ),
 };
