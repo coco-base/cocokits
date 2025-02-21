@@ -18,7 +18,7 @@ export const Default: StoryObj<typeof IconButton> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { IconButton, SvgIcon} from '@cocokits/react-components';
+          import { IconButton, SvgIcon } from '@cocokits/react-components';
 
           export const MyComponent = () => {
             return (

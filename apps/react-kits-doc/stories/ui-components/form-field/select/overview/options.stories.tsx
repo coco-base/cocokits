@@ -18,6 +18,11 @@ export const Options: StoryObj<typeof Select> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { FormField, Label, Option, OptionGroup, Select } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
             <FormField>
                <% if (label) { %>
                 <Label><%= label %></Label>
@@ -50,6 +55,10 @@ export const Options: StoryObj<typeof Select> = {
 
               </Select>
             </FormField>
+                </>
+              );
+            }
+
             `,
         },
       ],

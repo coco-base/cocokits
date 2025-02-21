@@ -18,7 +18,7 @@ export const Color: StoryObj<typeof SvgIcon> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { Checkbox } from "@cocokits/react-components";
+            import { SvgIcon } from "@cocokits/react-components";
   
             export const MyComponent = () => {
               return (
@@ -42,7 +42,7 @@ export const Color: StoryObj<typeof SvgIcon> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <SvgIcon key={index} type={args.cckControl.type} color={color} icon={args.cckIcons.heartFill}/>
+        <SvgIcon key={index} type={args.cckControl.type} color={color} icon={args.cckIcons.heartFill} />
       ))}
     </>
   ),

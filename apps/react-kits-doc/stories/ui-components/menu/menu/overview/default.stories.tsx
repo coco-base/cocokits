@@ -20,7 +20,7 @@ export const Default: StoryObj<typeof Menu> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { Button, SvgIcon } from "@cocokits/react-components";
+          import { Button , Menu, MenuItem  , Divider} from "@cocokits/react-components";
 
           export const MyComponent = () => {
             const buttonRef = useRef<HTMLButtonElement>(null);

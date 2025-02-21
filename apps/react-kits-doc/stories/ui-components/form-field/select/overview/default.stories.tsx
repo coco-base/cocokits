@@ -19,6 +19,11 @@ export const Default: StoryObj<typeof Select> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { FormField, Label, Option, Select } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
             <FormField>
                <% if (label) { %>
                 <Label><%= label %></Label>
@@ -40,6 +45,10 @@ export const Default: StoryObj<typeof Select> = {
                 <Option value="Burger">Burger</Option>
               </Select>
             </FormField>
+                </>
+              );
+            }
+
             `,
         },
       ],
@@ -71,8 +80,7 @@ export const Default: StoryObj<typeof Select> = {
         invalid={args.cckControl.invalid}
         multiple={args.cckControl.multiple}
         anchorPoint={args.cckControl.anchorPoint}
-        maxOptionsHeight={args.cckControl.maxOptionsHeight}
-      >
+        maxOptionsHeight={args.cckControl.maxOptionsHeight}>
         <Option value="Steak">Steak</Option>
         <Option value="Pizza">Pizza</Option>
         <Option value="Burger">Burger</Option>

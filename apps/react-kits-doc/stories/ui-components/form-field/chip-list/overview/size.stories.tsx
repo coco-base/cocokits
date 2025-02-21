@@ -19,6 +19,10 @@ export const Size: StoryObj<typeof ChipList> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+          import { FormField, Label, ChipList } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
             <>
               <% themeComponentConfig.size.values.map(size => { %>
               
@@ -34,6 +38,8 @@ export const Size: StoryObj<typeof ChipList> = {
 
               <% }) %>
             </>
+              );
+            }
           `,
         },
       ],

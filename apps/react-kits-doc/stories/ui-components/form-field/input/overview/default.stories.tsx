@@ -18,6 +18,11 @@ export const Default: StoryObj<typeof Input> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { FormField, Label , Input } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
           <FormField>
             <% if (label) { %>
               <Label><%= label %></Label>
@@ -32,6 +37,10 @@ export const Default: StoryObj<typeof Input> = {
               <% if (placeholder) { %> placeholder="<%= placeholder %>" <% } %>
             />
           </FormField>
+                </>
+              );
+            }
+
             `,
         },
       ],
@@ -51,7 +60,7 @@ export const Default: StoryObj<typeof Input> = {
   },
   render: (args) => (
     <FormField style={{ minWidth: '200px' }}>
-      {args.cckControl.label && <Label>{args.cckControl.label}</Label> }
+      {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
       <Input
         {...reactThemeArgsToTemplate(args)}
         placeholder={args.cckControl.placeholder}
@@ -60,5 +69,5 @@ export const Default: StoryObj<typeof Input> = {
         invalid={args.cckControl.invalid}
       />
     </FormField>
-  )
+  ),
 };

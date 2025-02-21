@@ -19,16 +19,22 @@ export const Color: StoryObj<typeof Chip> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          <>
-            <% themeComponentConfig.color.values.map(color => { %>
-              <Chip
-                color="<%= color %>"
-                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-              >
-                Chip - <%= color %>
-              </Chip>
-            <% }) %>
-          </>
+            import { Chip } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <% themeComponentConfig.color.values.map(color => { %>
+                  <Chip
+                    color="<%= color %>"
+                    <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                  >
+                    Chip - <%= color %>
+                  </Chip>
+                  <% }) %>
+              </>
+              );
+            }
           `,
         },
       ],
@@ -43,5 +49,5 @@ export const Color: StoryObj<typeof Chip> = {
         </Chip>
       ))}
     </>
-  )
+  ),
 };

@@ -18,6 +18,10 @@ export const Color: StoryObj<typeof RadioButton> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { RadioButton } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
           <>
             <% themeComponentConfig.color.values.map((color, index) => { %>
 
@@ -30,6 +34,9 @@ export const Color: StoryObj<typeof RadioButton> = {
               </RadioButton>
             <% }) %>
           </>
+              );
+            }
+
           `,
         },
       ],

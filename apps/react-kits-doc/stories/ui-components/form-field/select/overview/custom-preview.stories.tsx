@@ -18,7 +18,12 @@ export const CustomPreview: StoryObj<typeof Select> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <FormField>
+                     import { FormField, Label, Option, Select } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+      <FormField>
                <% if (label) { %>
                 <Label><%= label %></Label>
               <% } %>
@@ -47,6 +52,10 @@ export const CustomPreview: StoryObj<typeof Select> = {
 
               </Select>
             </FormField>
+                </>
+              );
+            }
+      
             `,
         },
       ],

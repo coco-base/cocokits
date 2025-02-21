@@ -18,6 +18,11 @@ export const Default: StoryObj<typeof RadioGroup> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { RadioButton, RadioGroup } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
             <RadioGroup
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
@@ -28,6 +33,10 @@ export const Default: StoryObj<typeof RadioGroup> = {
               <RadioButton value="Radio-2">Radio Button 2</RadioButton>
               <RadioButton value="Radio-3">Radio Button 3</RadioButton>
             </RadioGroup>
+                </>
+              );
+            }
+
           `,
         },
       ],
@@ -51,5 +60,5 @@ export const Default: StoryObj<typeof RadioGroup> = {
       <RadioButton value="Radio-2">Radio Button 2</RadioButton>
       <RadioButton value="Radio-3">Radio Button 3</RadioButton>
     </RadioGroup>
-  )
+  ),
 };

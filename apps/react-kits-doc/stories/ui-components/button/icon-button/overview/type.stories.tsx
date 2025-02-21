@@ -8,7 +8,8 @@ export const Type: StoryObj<typeof IconButton> = {
   parameters: {
     docs: {
       description: {
-        story: 'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
+        story:
+          'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
     },
     cckAddon: {
@@ -18,7 +19,7 @@ export const Type: StoryObj<typeof IconButton> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { IconButton } from "@cocokits/react-components";
+          import { IconButton , SvgIcon } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
@@ -40,11 +41,11 @@ export const Type: StoryObj<typeof IconButton> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
         <IconButton key={index} type={type}>
           <SvgIcon icon={args.cckIcons.heartFill} />
         </IconButton>
-      )) }
+      ))}
     </>
-  )
+  ),
 };

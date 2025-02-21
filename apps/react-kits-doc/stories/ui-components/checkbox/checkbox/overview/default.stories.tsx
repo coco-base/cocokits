@@ -18,17 +18,24 @@ export const Default: StoryObj<typeof Checkbox> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <Checkbox
-              <% if (typeof type !== 'undefined') { %> type="<%= type %>" <% } %>
-              <% if (typeof size !== 'undefined') { %> size="<%= size %>" <% } %>
-              <% if (typeof color !== 'undefined') { %> color="<%= color %>" <% } %>
-              <% if (indeterminate) { %> indeterminate <% } %>
-              <% if (disabled) { %> disabled <% } %>
-              <% if (checked) { %> checked <% } %>
-              value="YOUR_VALUE"
-            >
-              <%= text %>
-            </cck-checkbox>
+           
+            import { Checkbox } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                   <Checkbox
+                      <% if (typeof type !== 'undefined') { %> type="<%= type %>" <% } %>
+                      <% if (typeof size !== 'undefined') { %> size="<%= size %>" <% } %>
+                      <% if (typeof color !== 'undefined') { %> color="<%= color %>" <% } %>
+                      <% if (indeterminate) { %> indeterminate <% } %>
+                      <% if (disabled) { %> disabled <% } %>
+                      <% if (checked) { %> checked <% } %>
+                      value="YOUR_VALUE"
+                    />
+                </>
+              );
+            }
           `,
         },
       ],
@@ -53,5 +60,5 @@ export const Default: StoryObj<typeof Checkbox> = {
       disabled={args.cckControl.disabled}>
       {args.cckControl.text}
     </Checkbox>
-  )
+  ),
 };

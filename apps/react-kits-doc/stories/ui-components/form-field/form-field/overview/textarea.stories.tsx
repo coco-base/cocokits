@@ -1,4 +1,14 @@
-import { Error,FormField, Hint, Label, Leading, Prefix, Suffix, Textarea as TextareaOriginal, Trailing } from '@cocokits/react-form-field';
+import {
+  Error,
+  FormField,
+  Hint,
+  Label,
+  Leading,
+  Prefix,
+  Suffix,
+  Textarea as TextareaOriginal,
+  Trailing,
+} from '@cocokits/react-form-field';
 import { SvgIcon } from '@cocokits/react-icon';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
@@ -19,7 +29,12 @@ export const Textarea: StoryObj<typeof FormField> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <FormField
+                     import { FormField, Label, Textarea } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <FormField
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
               <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
@@ -66,6 +81,10 @@ export const Textarea: StoryObj<typeof FormField> = {
               <% } %>
 
             </FormField>
+                </>
+              );
+            }
+            
           `,
         },
       ],
@@ -101,40 +120,33 @@ export const Textarea: StoryObj<typeof FormField> = {
         disabled={args.cckControl.disabled}
         required={args.cckControl.required}
         invalid={args.cckControl.invalid}
-        hideRequiredMarker={args.cckControl.hideRequiredMarker}
-      >
-  
-        { args.cckControl.label && <Label>{args.cckControl.label}</Label> }
-        { args.cckControl.leading && <Leading>{args.cckControl.leading}</Leading> }
-        {
-          args.cckControl.prefixIcon !== 'none' &&
+        hideRequiredMarker={args.cckControl.hideRequiredMarker}>
+        {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
+        {args.cckControl.leading && <Leading>{args.cckControl.leading}</Leading>}
+        {args.cckControl.prefixIcon !== 'none' && (
           <Prefix>
             <SvgIcon icon={args.cckIcons[args.cckControl.prefixIcon]} />
           </Prefix>
-        }
-  
+        )}
+
         <TextareaOriginal
           placeholder={args.cckControl.placeholder}
           autoResize={args.cckControl.autoResize}
           minRows={args.cckControl.minRows}
           maxRows={args.cckControl.maxRows}
         />
-  
-        {
-          args.cckControl.suffixIcon !== 'none' &&
+
+        {args.cckControl.suffixIcon !== 'none' && (
           <Suffix>
             <SvgIcon icon={args.cckIcons[args.cckControl.suffixIcon]} />
           </Suffix>
-        }
-  
-        { args.cckControl.trailing && <Trailing>{args.cckControl.trailing}</Trailing> }
-  
-        { args.cckControl.hint && <Hint>{args.cckControl.hint}</Hint> }
-        { args.cckControl.error && <Error>{args.cckControl.error}</Error> }
-  
+        )}
+
+        {args.cckControl.trailing && <Trailing>{args.cckControl.trailing}</Trailing>}
+
+        {args.cckControl.hint && <Hint>{args.cckControl.hint}</Hint>}
+        {args.cckControl.error && <Error>{args.cckControl.error}</Error>}
       </FormField>
     );
-  }
+  },
 };
-
-

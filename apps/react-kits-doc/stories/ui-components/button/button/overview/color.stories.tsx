@@ -11,9 +11,7 @@ export const Color: StoryObj<typeof Button> = {
       },
     },
     cckAddon: {
-      renderConditions: [
-        renderWithThemeProp('color'), renderWithPageTab('Overview')
-      ],
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
       singleControls: ['type'],
       source: [
         {

@@ -18,6 +18,11 @@ export const Default: StoryObj<typeof Toggle> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { Toggle } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
             <Toggle
               <% if (typeof type !== 'undefined') { %> type="<%= type %>" <% } %>
               <% if (typeof size !== 'undefined') { %> size="<%= size %>" <% } %>
@@ -28,6 +33,10 @@ export const Default: StoryObj<typeof Toggle> = {
             >
               <%= text %>
             </Toggle>
+                </>
+              );
+            }
+
           `,
         },
       ],
@@ -52,5 +61,5 @@ export const Default: StoryObj<typeof Toggle> = {
       labelPosition={args.cckControl.labelPosition}>
       {args.cckControl.text}
     </Toggle>
-  )
+  ),
 };

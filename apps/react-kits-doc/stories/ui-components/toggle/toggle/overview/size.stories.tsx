@@ -19,7 +19,7 @@ export const Size: StoryObj<typeof Toggle> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { Checkbox } from "@cocokits/react-components";
+            import { Toggle } from "@cocokits/react-components";
   
             export const MyComponent = () => {
               return (
@@ -42,8 +42,8 @@ export const Size: StoryObj<typeof Toggle> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Toggle key={index} type={args.cckControl.type} size={size}/>
+        <Toggle key={index} type={args.cckControl.type} size={size} />
       ))}
     </>
-  )
+  ),
 };
