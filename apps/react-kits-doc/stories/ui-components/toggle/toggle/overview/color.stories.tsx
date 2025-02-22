@@ -18,7 +18,7 @@ export const Color: StoryObj<typeof Toggle> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { Checkbox } from "@cocokits/react-components";
+            import { Toggle } from "@cocokits/react-components";
   
             export const MyComponent = () => {
               return (
@@ -41,7 +41,7 @@ export const Color: StoryObj<typeof Toggle> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <Toggle key={index} type={args.cckControl.type} color={color} checked/>
+        <Toggle key={index} type={args.cckControl.type} color={color} checked />
       ))}
     </>
   ),

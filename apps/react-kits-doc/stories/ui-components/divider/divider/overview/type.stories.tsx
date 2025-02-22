@@ -18,11 +18,17 @@ export const Type: StoryObj<typeof Divider> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <>
-              <% themeComponentConfig.type.values.map(type => { %>
-                <Divider type='<%= type %>'/>
-              <% }) %>
-            </>
+            import { Divider } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <% themeComponentConfig.type.values.map(type => { %>
+                    <Divider type='<%= type %>'/>
+                  <% }) %>
+                </>
+              );
+            }
           `,
         },
       ],
@@ -30,11 +36,20 @@ export const Type: StoryObj<typeof Divider> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <div key={index} style={{flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}>
-          <Divider type={type}/>
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+        <div
+          key={index}
+          style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            width: '100%',
+          }}>
+          <Divider type={type} />
         </div>
-      )) }
+      ))}
     </>
-  )
+  ),
 };

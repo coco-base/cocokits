@@ -18,19 +18,27 @@ export const Default: StoryObj<typeof ChipList> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <FormField>
-              <Label><%= label %></Label>
-              <ChipList
-                chips={['Steak', 'Pizza']}
-                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
-                <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
-                <% if (disabled) { %> disabled <% } %>
-                placeholder="<%= placeholder %>"
-                addOnBlur={<%= addOnBlur %>}
-              >
-              </ChipList>
-            </FormField>
+            import { FormField, Label, ChipList } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <FormField>
+                    <Label><%= label %></Label>
+                    <ChipList
+                      chips={['Steak', 'Pizza']}
+                      <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                      <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+                      <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+                      <% if (disabled) { %> disabled <% } %>
+                      placeholder="<%= placeholder %>"
+                      addOnBlur={<%= addOnBlur %>}
+                    >
+                    </ChipList>
+                  </FormField>
+                </>
+              );
+            }
             `,
         },
       ],

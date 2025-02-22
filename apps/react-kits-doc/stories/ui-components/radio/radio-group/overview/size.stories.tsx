@@ -19,6 +19,10 @@ export const Size: StoryObj<typeof RadioGroup> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { RadioButton, RadioGroup } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
           <>
             <% themeComponentConfig.size.values.map(size => { %>
 
@@ -31,6 +35,9 @@ export const Size: StoryObj<typeof RadioGroup> = {
               </RadioGroup>
             <% }) %>
           </>
+              );
+            }
+
           `,
         },
       ],

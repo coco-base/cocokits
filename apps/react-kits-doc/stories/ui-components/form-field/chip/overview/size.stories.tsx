@@ -19,16 +19,23 @@ export const Size: StoryObj<typeof Chip> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          <>
-            <% themeComponentConfig.size.values.map(size => { %>
-              <Chip
-                size="<%= size %>"
-                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-              >
-                Chip - <%= size %>
-              </Chip>
-            <% }) %>
-          </>
+            import { Chip } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <% themeComponentConfig.size.values.map(size => { %>
+                    <Chip
+                      size="<%= size %>"
+                      <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                    >
+                      Chip - <%= size %>
+                    </Chip>
+                  <% }) %>
+                </>
+              );
+            }
+
           `,
         },
       ],
@@ -37,9 +44,11 @@ export const Size: StoryObj<typeof Chip> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Chip key={index} type={args.cckControl.type} size={size}>Chip - {size}</Chip>
-      )) }
+      {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
+        <Chip key={index} type={args.cckControl.type} size={size}>
+          Chip - {size}
+        </Chip>
+      ))}
     </>
-  )
+  ),
 };

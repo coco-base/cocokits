@@ -18,11 +18,20 @@ export const Type: StoryObj<typeof RadioButton> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { RadioButton } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
           <% themeComponentConfig.type.values.map(type => { %>
             <RadioButton type='<%= type %>' value='YOUR_VALUE'>
               Radio Button - {type}
             </RadioButton>
           <% }) %>
+                </>
+              );
+            }
+
           `,
         },
       ],
@@ -36,5 +45,5 @@ export const Type: StoryObj<typeof RadioButton> = {
         </RadioButton>
       ))}
     </>
-  )
+  ),
 };

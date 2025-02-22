@@ -1,4 +1,15 @@
-import { Error, FormField, Hint, Label, Leading, Option, Prefix, Select as SelectOriginal, Suffix, Trailing } from '@cocokits/react-form-field';
+import {
+  Error,
+  FormField,
+  Hint,
+  Label,
+  Leading,
+  Option,
+  Prefix,
+  Select as SelectOriginal,
+  Suffix,
+  Trailing,
+} from '@cocokits/react-form-field';
 import { SvgIcon } from '@cocokits/react-icon';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
@@ -19,7 +30,13 @@ export const Select: StoryObj<typeof FormField> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <FormField
+          
+           import { FormField, Label, Select , Option } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+                  <FormField
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
               <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
@@ -69,6 +86,10 @@ export const Select: StoryObj<typeof FormField> = {
                   <Error><%= error %></Error>
               <% } %>
           </FormField>
+                </>
+              );
+            }
+            
           `,
         },
       ],
@@ -96,13 +117,12 @@ export const Select: StoryObj<typeof FormField> = {
   },
   render: (args) => (
     <FormField
-      style={{minWidth: '200px'}}
+      style={{ minWidth: '200px' }}
       {...reactThemeArgsToTemplate(args)}
       disabled={args.cckControl.disabled}
       required={args.cckControl.required}
       invalid={args.cckControl.invalid}
       hideRequiredMarker={args.cckControl.hideRequiredMarker}>
-
       {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
       {args.cckControl.leading && <Leading>{args.cckControl.leading}</Leading>}
       {args.cckControl.prefixIcon !== 'none' && (
@@ -111,9 +131,7 @@ export const Select: StoryObj<typeof FormField> = {
         </Prefix>
       )}
 
-      <SelectOriginal
-        placeholder={args.cckControl.placeholder}
-        multiple={args.cckControl.multiple}>
+      <SelectOriginal placeholder={args.cckControl.placeholder} multiple={args.cckControl.multiple}>
         <Option value="Steak">Steak</Option>
         <Option value="Pizza">Pizza</Option>
         <Option value="Burger">Burger</Option>

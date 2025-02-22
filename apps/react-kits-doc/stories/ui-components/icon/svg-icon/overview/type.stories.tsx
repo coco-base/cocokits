@@ -7,7 +7,8 @@ export const Type: StoryObj<typeof SvgIcon> = {
   parameters: {
     docs: {
       description: {
-        story: 'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
+        story:
+          'Displays variations in appearance and functionality, demonstrating how different types can be used to create unique button styles.',
       },
     },
     cckAddon: {
@@ -17,7 +18,7 @@ export const Type: StoryObj<typeof SvgIcon> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { Button } from "@cocokits/react-components";
+          import { SvgIcon } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
@@ -38,9 +39,9 @@ export const Type: StoryObj<typeof SvgIcon> = {
   },
   render: (args) => (
     <>
-      { args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <SvgIcon key={index} type={type} icon={args.cckIcons.heartFill}/>
-      )) }
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+        <SvgIcon key={index} type={type} icon={args.cckIcons.heartFill} />
+      ))}
     </>
-  )
+  ),
 };

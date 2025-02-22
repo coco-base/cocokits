@@ -18,6 +18,10 @@ export const Size: StoryObj<typeof Menu> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { Menu, MenuItem , Divider } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
             <>
 
               <% themeComponentConfig.size.values.map(size => { %>
@@ -36,6 +40,9 @@ export const Size: StoryObj<typeof Menu> = {
               <% }) %>
 
             </>
+              );
+            }
+
           `,
         },
       ],
@@ -48,12 +55,11 @@ export const Size: StoryObj<typeof Menu> = {
         <Menu key={index} type={args.cckControl.type} size={size} open={true} _skipOverlay={true}>
           <MenuItem>Edit</MenuItem>
           <MenuItem>Duplicate</MenuItem>
-          <Divider/>
+          <Divider />
           <MenuItem>Archive</MenuItem>
           <MenuItem>Move</MenuItem>
         </Menu>
       ))}
     </>
-  )
+  ),
 };
-

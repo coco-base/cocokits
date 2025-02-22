@@ -18,6 +18,10 @@ export const Type: StoryObj<typeof RadioGroup> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
+                     import { RadioButton, RadioGroup } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
             <>
               <% themeComponentConfig.type.values.map(type => { %>
                 <RadioGroup type="<%= type %>">
@@ -27,6 +31,9 @@ export const Type: StoryObj<typeof RadioGroup> = {
                 </RadioGroup>
               <% }) %>
             </>
+              );
+            }
+
           `,
         },
       ],
@@ -42,5 +49,5 @@ export const Type: StoryObj<typeof RadioGroup> = {
         </RadioGroup>
       ))}
     </>
-  )
+  ),
 };

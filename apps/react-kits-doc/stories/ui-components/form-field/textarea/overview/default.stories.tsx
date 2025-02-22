@@ -18,7 +18,12 @@ export const Default: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            <FormField>
+                     import { FormField, Label, Textarea } from "@cocokits/react-components";
+  
+            export const MyComponent = () => {
+              return (
+                <>
+<FormField>
               <% if (label) { %>
                 <Label><%= label %></Label>
               <% } %>
@@ -36,6 +41,10 @@ export const Default: StoryObj<typeof Textarea> = {
                 <% if (typeof maxRows !== 'undefined') { %> maxRows={<%= maxRows %>} <% } %>
               />
             </FormField>
+                </>
+              );
+            }
+            
           `,
         },
       ],
@@ -58,7 +67,7 @@ export const Default: StoryObj<typeof Textarea> = {
   },
   render: (args) => (
     <FormField>
-      {args.cckControl.label && <Label>{args.cckControl.label}</Label> }
+      {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
       <Textarea
         {...reactThemeArgsToTemplate(args)}
         placeholder={args.cckControl.placeholder}
@@ -70,5 +79,5 @@ export const Default: StoryObj<typeof Textarea> = {
         maxRows={args.cckControl.maxRows}
       />
     </FormField>
-  )
+  ),
 };
