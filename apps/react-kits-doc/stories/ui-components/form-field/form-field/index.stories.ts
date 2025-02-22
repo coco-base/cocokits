@@ -8,6 +8,10 @@ export { Textarea } from './overview/textarea.stories';
 export { Select } from './overview/select.stories';
 export { ChipList } from './overview/chip-list.stories';
 
+export { PasswordStory } from './examples/password/index.example.stories';
+export { EmailValidationStory } from './examples/email-validation/index.example.stories';
+export { InputLinkStory } from './examples/input-link/index.example.stories';
+
 const meta: StoriesMeta<typeof FormField> = {
   component: FormField,
   subcomponents: {

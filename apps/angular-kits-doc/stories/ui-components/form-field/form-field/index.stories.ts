@@ -26,6 +26,10 @@ export { Textarea } from './textarea.stories';
 export { Select } from './select.stories';
 export { ChipList } from './chip-list.stories';
 
+export { Password } from './examples/password/index.example.stories';
+export { EmailValidation } from './examples/email-validation/index.example.stories';
+export { InputLink } from './examples/input-link/index.example.stories';
+
 const meta: StoriesMeta = {
   component: FormFieldComponent,
   subcomponents: [

@@ -51,7 +51,8 @@ export function FrameworkSelectionButton() {
 
     const currentUrl = window.parent.location.href;
     const newUrl = currentUrl.replace(framework.toLocaleLowerCase(), selectedFramework.toLocaleLowerCase());
-    window.open(newUrl, '_blank');
+    const windowRoot = window.top ?? window;
+    windowRoot.location.href = newUrl;
   };
 
   return (

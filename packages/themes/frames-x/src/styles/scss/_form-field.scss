@@ -6,6 +6,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    min-width: 100px;
 
     .cck-select {
       height: 100%;
@@ -65,7 +66,7 @@
       }
 
       &.cck-form-field--with-chip-list {
-        .cck-form-field__wrapper {
+        .cck-form-field__input-wrapper {
           padding: 4px;
         }
       }
@@ -86,7 +87,7 @@
       }
 
       &.cck-form-field--with-chip-list {
-        .cck-form-field__wrapper {
+        .cck-form-field__input-wrapper {
           padding: 4px;
         }
       }
@@ -107,7 +108,7 @@
       }
 
       &.cck-form-field--with-chip-list {
-        .cck-form-field__wrapper {
+        .cck-form-field__input-wrapper {
           padding: 6px;
         }
       }
@@ -137,10 +138,6 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
-
-    .cck-form-field--with-textarea & {
-      padding: 8px;
-    }
   }
 
   .cck-form-field--with-chip-list {
@@ -191,7 +188,7 @@
   }
 
   .cck-form-field--with-textarea {
-    .cck-form-field__wrapper {
+    .cck-form-field__input-wrapper {
       padding: 10px 10px 10px 16px;
 
       &:hover:not(:has(textarea:focus-visible)) {
@@ -201,7 +198,7 @@
   }
 
   .cck-form-field--with-select {
-    .cck-form-field__wrapper {
+    .cck-form-field__input-wrapper {
       padding: 0 $spacing-6 0 $spacing-7;
 
       &:hover {

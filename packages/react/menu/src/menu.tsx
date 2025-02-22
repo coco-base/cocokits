@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 'use client';
 import { CSSProperties, ReactNode, useCallback, useEffect, useState } from 'react';
 
@@ -118,7 +119,7 @@ export function Menu(props: MenuProps) {
       positionStrategy: {
         type: 'connectToElement',
         connectTo,
-        anchorPoint: props.menuAnchorPoint ?? ElementAnchorPoint.BottomRight,
+        anchorPoint: props.menuAnchorPoint ?? ElementAnchorPoint.BottomLeft,
       },
       data: {
         closeOnSelectItem: props.closeOnSelectItem,

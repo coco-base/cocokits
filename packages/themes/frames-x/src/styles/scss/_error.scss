@@ -2,7 +2,13 @@
 
 @mixin error {
   .cck-error {
+    display: flex;
+    gap: 6px;
     font: $text-sm-font-medium;
     color: $state-danger-active;
+
+    .cck-svg-icon--default-color .cck-svg-icon__svg {
+      fill: currentcolor;
+    }
   }
 }

@@ -2,7 +2,13 @@
 
 @mixin hint {
   .cck-hint {
+    display: flex;
+    gap: 6px;
     font: $text-sm-font-medium;
     color: $text-dark-secondary;
+
+    .cck-svg-icon--default-color .cck-svg-icon__svg {
+      fill: currentcolor;
+    }
   }
 }

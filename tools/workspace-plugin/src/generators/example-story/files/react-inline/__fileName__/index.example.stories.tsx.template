@@ -8,7 +8,7 @@ import { SOURCE } from './_story.source';
 import { <%= className %> } from './<%= className %>';
 
 export const <%= className %>Story: StoryObj<typeof <%= className %>> = {
-  name: 'Volume Button',
+  name: '<%= titleName %>',
   parameters: {
     cckAddon: {
       renderConditions: [renderWithPageTab('Examples')],

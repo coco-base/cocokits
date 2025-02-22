@@ -62,7 +62,7 @@ export function ChipList(props: ChipListProps) {
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'chipList',
-    props,
+    props: { ...props, size },
     extraHostElementClassConditions: [
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: !!props.className, classes: () => [props.className] },
