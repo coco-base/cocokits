@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Icons } from '@cocokits/common-icons';
+import { Icons, LineIcons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/volume-button.config';
 import { Button, SvgIcon } from '@cocokits/react-components';
 
@@ -40,7 +40,7 @@ export function VolumeButton(props: {cckExampleArgs: ExampleArgs}) {
   return (
     <Styled.Host>
       <Button size="sm" onClick={decreaseVolume}>
-        <SvgIcon icon={Icons.minus} />
+        <SvgIcon icon={LineIcons.minus} />
       </Button>
 
       <Styled.Label>{props.cckExampleArgs.name}</Styled.Label>

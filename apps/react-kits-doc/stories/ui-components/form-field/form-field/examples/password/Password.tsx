@@ -10,7 +10,7 @@ export function Password(props: { cckExampleArgs: ExampleArgs }) {
       <Input type="password" placeholder="Enter your password"/>
       <Hint>
         <SvgIcon icon={Icons.info}/>
-        <span>Your password must be at least 10 characters long</span>
+        <span>At least 10 characters long</span>
       </Hint>
     </FormField>
   );

@@ -19,6 +19,7 @@ export type StoryObj<T extends keyof React.JSX.IntrinsicElements | React.JSXElem
     };
     cckIcons: Record<string, ThemeSvgIcon>;
     cckExampleVariables: string;
+    cckExampleCssVariables: string;
     cckExampleArgs: Args;
   }
 > & {

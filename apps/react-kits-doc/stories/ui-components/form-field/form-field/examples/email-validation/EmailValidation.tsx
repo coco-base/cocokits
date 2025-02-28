@@ -1,27 +1,35 @@
-import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/email-validation.config';
-import { FormField, Label, Input, SvgIcon, Error } from '@cocokits/react-components';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 import { Icons } from '@cocokits/common-icons';
+import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/email-validation.config';
+import { Error, FormField, Input, Label, SvgIcon } from '@cocokits/react-components';
 
 export function EmailValidation(props: { cckExampleArgs: ExampleArgs }) {
-  const [invalid, setInvalid] = useState(true);
-  const [touched, setTouched] = useState(false);
+  const {
+    control,
+    formState: { errors },
+  } = useForm<{email: string}>({mode: 'onTouched'});
 
-  const onInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setInvalid(!emailRegex.test(value));
-  };
-
+  
   return (
-    <FormField invalid={invalid && touched}>
+    <FormField>
       <Label>Email</Label>
-      <Input type="email" onInput={onInput} onBlur={() => setTouched(true)} />
+      <Input
+        type="email"
+        name="email"
+        control={control}
+        rules={{
+          required: "Email is required",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "Enter a valid email address"
+          },
+        }}/>
       {
-        invalid && touched && (
+        errors.email && (
           <Error>
             <SvgIcon icon={Icons.warning} />
-            <span>Enter a valid email address</span>
+            <span>{errors.email.message}</span>
           </Error>
         )
       }

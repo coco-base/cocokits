@@ -9,8 +9,18 @@ export { Select } from './overview/select.stories';
 export { ChipList } from './overview/chip-list.stories';
 
 export { PasswordStory } from './examples/password/index.example.stories';
-export { EmailValidationStory } from './examples/email-validation/index.example.stories';
 export { InputLinkStory } from './examples/input-link/index.example.stories';
+export { InputSuffixSuccessStory } from './examples/input-suffix-success/index.example.stories';
+export { InputHintSuccessStory } from './examples/input-hint-success/index.example.stories';
+export { EmailValidationStory } from './examples/email-validation/index.example.stories';
+export { PrefixSuffixSearchStory } from './examples/prefix-suffix-search/index.example.stories';
+export { LeadingWebsiteStory } from './examples/leading-website/index.example.stories';
+export { TrailingDomainStory } from './examples/trailing-domain/index.example.stories';
+export { LeadingIconStory } from './examples/leading-icon/index.example.stories';
+export { TrailingCopyStory } from './examples/trailing-copy/index.example.stories';
+export { TrailingSelectAmountStory } from './examples/trailing-select-amount/index.example.stories';
+export { TrailingCustomColorStory } from './examples/trailing-custom-color/index.example.stories';
+export { PrefixIconSelectStory } from './examples/prefix-icon-select/index.example.stories';
 
 const meta: StoriesMeta<typeof FormField> = {
   component: FormField,

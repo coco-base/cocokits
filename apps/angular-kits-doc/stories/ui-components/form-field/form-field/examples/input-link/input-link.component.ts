@@ -1,15 +1,15 @@
 import { Component, input } from '@angular/core';
 
-import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-link.config';
 import {
   FormFieldComponent,
-  LabelComponent,
   HintComponent,
   InputComponent,
+  LabelComponent,
   PrefixComponent,
   SvgIconComponent,
 } from '@cocokits/angular-components';
 import { Icons } from '@cocokits/common-icons';
+import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-link.config';
 
 @Component({
   standalone: true,

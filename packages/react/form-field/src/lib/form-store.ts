@@ -16,6 +16,7 @@ interface FormState {
   hideRequiredMarker: boolean;
   focused: boolean;
   invalid: boolean;
+  error: boolean;
   size: UIBaseComponentsPropValue | undefined;
   labelTemplate: ReactNode | undefined;
   hintTemplate: ReactNode | undefined;
@@ -93,6 +94,7 @@ const DEFAULT_STATE: FormState = {
   hideRequiredMarker: false,
   focused: false,
   invalid: false,
+  error: false,
   size: undefined,
   labelTemplate: undefined,
   hintTemplate: undefined,
@@ -188,8 +190,9 @@ class FormStore {
       this.components.input?.invalid ||
       this.components.textarea?.invalid ||
       this.components.select?.invalid ||
-      this.components.formField?.invalid ||
-      this.components.errors.length > 0;
+      this.components.formField?.invalid;
+
+    const error = this.components.errors.length > 0 || invalid;
 
     const size =
       this.components.select?.size ?? this.components.chipList?.size ?? this.components.formField?.size ?? undefined;
@@ -206,10 +209,11 @@ class FormStore {
       hideRequiredMarker: this.components.formField?.hideRequiredMarker ?? false,
       focused,
       invalid,
+      error,
       size,
       labelTemplate: this._components.label?.template,
       hintTemplate: this._components.hint?.template,
-      errorsTemplates: this._components.errors.map((error) => error.template),
+      errorsTemplates: this._components.errors.map((err) => err.template),
       prefixTemplate: this._components.prefix?.template,
       suffixTemplate: this._components.suffix?.template,
       leadingTemplate: this._components.leading?.template,

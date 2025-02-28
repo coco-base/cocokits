@@ -1,7 +1,7 @@
 import { Component, computed, input, signal } from '@angular/core';
 
 import { IconButtonComponent, SvgIconComponent } from '@cocokits/angular-components';
-import { Icons } from '@cocokits/common-icons';
+import { Icons, LineIcons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/volume-button.config';
 
 const MAX_VOLUME = 4;
@@ -22,20 +22,20 @@ export class VolumeButtonComponent {
   protected volumeIcon = computed(() => {
     switch (this.volume()) {
       case 0:
-        return Icons.volumeMute;
+        return LineIcons.volumeMute;
       case 1:
-        return Icons.volumeOff;
+        return LineIcons.volumeOff;
       case 2:
-        return Icons.volumeLow;
+        return LineIcons.volumeLow;
       case 3:
-        return Icons.volume;
+        return LineIcons.volume;
       case 4:
-        return Icons.volumeHigh;
+        return LineIcons.volumeHigh;
       default:
-        return Icons.volumeHigh;
+        return LineIcons.volumeHigh;
     }
   });
-  protected readonly Icons = Icons;
+  protected readonly LineIcons = LineIcons;
 
   increaseVolume() {
     this.volume.set(Math.max(MIN_VOLUME, Math.min(MAX_VOLUME, this.volume() + 1)));

@@ -30,7 +30,7 @@ export const Textarea: StoryObj<FormFieldComponent> = {
               <% if (leading) { %>
                 <cck-leading><%= leading %></cck-leading>
               <% } %>
-              <% if (prefix !== 'none') { %>
+              <% if (prefixIcon !== 'none') { %>
                 <cck-prefix>
                   <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
                 </cck-prefix>
@@ -41,7 +41,7 @@ export const Textarea: StoryObj<FormFieldComponent> = {
                 <% if (placeholder) { %> placeholder="<%= placeholder %>" <% } %>
               />
 
-              <% if (suffix !== 'none') { %>
+              <% if (suffixIcon !== 'none') { %>
                 <cck-suffix>
                   <cck-svg-icon [icon]="YOUR_ICON"></cck-svg-icon>
                 </cck-suffix>
@@ -104,9 +104,9 @@ export const Textarea: StoryObj<FormFieldComponent> = {
           <cck-leading>{{cckControl.leading}}</cck-leading>
         }
 
-        @if(cckControl.prefix !== 'none') {
+        @if(cckControl.prefixIcon !== 'none') {
           <cck-prefix>
-            <cck-svg-icon [icon]="cckIcons[cckControl.prefix]"></cck-svg-icon>
+            <cck-svg-icon [icon]="cckIcons[cckControl.prefixIcon]"></cck-svg-icon>
           </cck-prefix>
         }
 
@@ -119,9 +119,9 @@ export const Textarea: StoryObj<FormFieldComponent> = {
           [required]="cckControl.required">
         </textarea>
 
-        @if(cckControl.suffix !== 'none') {
+        @if(cckControl.suffixIcon !== 'none') {
           <cck-suffix>
-            <cck-svg-icon [icon]="cckIcons[cckControl.suffix]"></cck-svg-icon>
+            <cck-svg-icon [icon]="cckIcons[cckControl.suffixIcon]"></cck-svg-icon>
           </cck-suffix>
         }
 

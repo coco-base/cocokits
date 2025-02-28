@@ -19,7 +19,7 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/input/pas
     <input cck-input type="password" placeholder="Enter your password" [required]="true" />
     <cck-hint>
       <cck-svg-icon [icon]="Icons.info" />
-      <span>Your password must be at least 10 characters long</span>
+      <span>At least 10 characters long</span>
     </cck-hint>
   </cck-form-field>`,
   styles: ``,

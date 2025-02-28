@@ -126,6 +126,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
       { if: !isMultiple, classes: (cn) => [cn.single] },
       { if: isOpened, classes: (cn) => [cn.opened] },
       { if: !isOpened, classes: (cn) => [cn.closed] },
+      { if: !!props.className, classes: () => [props.className] },
     ],
   });
 

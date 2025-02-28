@@ -10,5 +10,15 @@
     .cck-svg-icon--default-color .cck-svg-icon__svg {
       fill: currentcolor;
     }
+
+    &__color {
+      &--default {
+        color: $text-dark-secondary;
+      }
+
+      &--success {
+        color: $state-success-active;
+      }
+    }
   }
 }

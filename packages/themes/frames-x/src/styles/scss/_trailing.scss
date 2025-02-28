@@ -12,5 +12,18 @@
     padding: 0 $spacing-7;
     cursor: default;
     user-select: none;
+
+    &--clickable {
+      cursor: pointer;
+      transition: background-color 100ms;
+
+      &:active {
+        background-color: $base-fill-1;
+      }
+
+      &:hover:not(:active) {
+        background-color: $base-fill-2;
+      }
+    }
   }
 }
