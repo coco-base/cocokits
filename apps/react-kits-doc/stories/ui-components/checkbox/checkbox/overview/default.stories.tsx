@@ -32,7 +32,9 @@ export const Default: StoryObj<typeof Checkbox> = {
                       <% if (disabled) { %> disabled <% } %>
                       <% if (checked) { %> checked <% } %>
                       value="YOUR_VALUE"
-                    />
+                    >
+                       Checkbox Label
+                    </Checkbox>
                 </>
               );
             }
