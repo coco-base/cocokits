@@ -27,7 +27,7 @@ export const InputLink: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-input-link [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-input-link [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

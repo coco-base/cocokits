@@ -30,7 +30,7 @@ export const TrailingCopy: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-trailing-copy [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-trailing-copy [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

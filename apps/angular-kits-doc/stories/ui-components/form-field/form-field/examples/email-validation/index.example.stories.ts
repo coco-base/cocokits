@@ -30,7 +30,7 @@ export const EmailValidation: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-email-validation [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-email-validation [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

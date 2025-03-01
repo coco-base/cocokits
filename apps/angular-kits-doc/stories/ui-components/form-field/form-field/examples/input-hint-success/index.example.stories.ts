@@ -30,7 +30,7 @@ export const InputHintSuccess: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-input-hint-success [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-input-hint-success [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

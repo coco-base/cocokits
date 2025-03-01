@@ -30,7 +30,7 @@ export const StackHorizontalButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-stack-horizontal-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-stack-horizontal-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

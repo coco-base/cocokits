@@ -23,7 +23,7 @@ export const TrailingCopyStory: StoryObj<typeof TrailingCopy> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <TrailingCopy cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

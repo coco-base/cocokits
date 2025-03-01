@@ -30,7 +30,7 @@ export const LeadingWebsite: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-leading-website [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-leading-website [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

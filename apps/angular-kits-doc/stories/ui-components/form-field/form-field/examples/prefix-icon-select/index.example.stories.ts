@@ -30,7 +30,7 @@ export const PrefixIconSelect: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-prefix-icon-select [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-prefix-icon-select [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

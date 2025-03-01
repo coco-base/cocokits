@@ -27,7 +27,7 @@ export const DeleteButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-delete-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-delete-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

@@ -21,6 +21,8 @@ export { TrailingCopyStory } from './examples/trailing-copy/index.example.storie
 export { TrailingSelectAmountStory } from './examples/trailing-select-amount/index.example.stories';
 export { TrailingCustomColorStory } from './examples/trailing-custom-color/index.example.stories';
 export { PrefixIconSelectStory } from './examples/prefix-icon-select/index.example.stories';
+export { SuffixCardPatternStory } from './examples/suffix-card-pattern/index.example.stories';
+export { SelectPreviewTagStory } from './examples/select-preview-tag/index.example.stories';
 
 const meta: StoriesMeta<typeof FormField> = {
   component: FormField,

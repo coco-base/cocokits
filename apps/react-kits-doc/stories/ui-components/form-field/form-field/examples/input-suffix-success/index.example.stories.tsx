@@ -23,7 +23,7 @@ export const InputSuffixSuccessStory: StoryObj<typeof InputSuffixSuccess> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <InputSuffixSuccess cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

@@ -20,7 +20,7 @@ export const PasswordStory: StoryObj<typeof Password> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <Password cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

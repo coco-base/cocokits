@@ -20,7 +20,7 @@ export const AddNewButtonStory: StoryObj<typeof AddNewButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <AddNewButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

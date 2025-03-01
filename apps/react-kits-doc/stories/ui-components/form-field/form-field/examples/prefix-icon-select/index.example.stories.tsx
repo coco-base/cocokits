@@ -23,7 +23,7 @@ export const PrefixIconSelectStory: StoryObj<typeof PrefixIconSelect> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <PrefixIconSelect cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

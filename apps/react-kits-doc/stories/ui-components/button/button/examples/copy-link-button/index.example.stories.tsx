@@ -20,7 +20,7 @@ export const CopyLinkButtonStory: StoryObj<typeof CopyLinkButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <CopyLinkButton cckExampleArgs={args.cckExampleArgs}/>
     </InlineStyle>
   )

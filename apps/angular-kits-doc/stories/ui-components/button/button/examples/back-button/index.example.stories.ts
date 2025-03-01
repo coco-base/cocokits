@@ -27,7 +27,7 @@ export const BackButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-back-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-back-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

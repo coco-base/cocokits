@@ -27,7 +27,7 @@ export const AddNewButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-add-new-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-add-new-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

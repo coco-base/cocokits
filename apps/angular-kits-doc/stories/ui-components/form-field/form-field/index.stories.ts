@@ -39,6 +39,8 @@ export { TrailingCopy } from './examples/trailing-copy/index.example.stories';
 export { TrailingSelectAmount } from './examples/trailing-select-amount/index.example.stories';
 export { TrailingCustomColor } from './examples/trailing-custom-color/index.example.stories';
 export { PrefixIconSelect } from './examples/prefix-icon-select/index.example.stories';
+export { SuffixCardPattern } from './examples/suffix-card-pattern/index.example.stories';
+export { SelectPreviewTag } from './examples/select-preview-tag/index.example.stories';
 
 const meta: StoriesMeta = {
   component: FormFieldComponent,

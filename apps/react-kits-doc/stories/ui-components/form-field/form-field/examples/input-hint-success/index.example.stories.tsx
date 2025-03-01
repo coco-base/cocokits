@@ -23,7 +23,7 @@ export const InputHintSuccessStory: StoryObj<typeof InputHintSuccess> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <InputHintSuccess cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

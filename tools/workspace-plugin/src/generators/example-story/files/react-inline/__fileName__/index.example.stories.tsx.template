@@ -20,7 +20,7 @@ export const <%= className %>Story: StoryObj<typeof <%= className %>> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <<%= className %> cckExampleArgs={args.cckExampleArgs}/>
     </InlineStyle>
   )

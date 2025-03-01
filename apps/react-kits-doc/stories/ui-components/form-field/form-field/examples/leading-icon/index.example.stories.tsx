@@ -20,7 +20,7 @@ export const LeadingIconStory: StoryObj<typeof LeadingIcon> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <LeadingIcon cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

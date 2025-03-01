@@ -27,7 +27,7 @@ export const Password: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-password [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-password [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

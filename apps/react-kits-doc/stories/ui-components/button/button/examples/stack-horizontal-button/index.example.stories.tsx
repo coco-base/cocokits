@@ -23,7 +23,7 @@ export const StackHorizontalButtonStory: StoryObj<typeof StackHorizontalButton> 
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <StackHorizontalButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

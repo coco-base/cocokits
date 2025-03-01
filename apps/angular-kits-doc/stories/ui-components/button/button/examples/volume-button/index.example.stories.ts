@@ -27,7 +27,7 @@ export const VolumeButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-volume-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-volume-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

@@ -23,7 +23,7 @@ export const EmailValidationStory: StoryObj<typeof EmailValidation> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <EmailValidation cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

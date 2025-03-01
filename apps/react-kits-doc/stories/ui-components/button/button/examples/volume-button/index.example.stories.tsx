@@ -20,7 +20,7 @@ export const VolumeButtonStory: StoryObj<typeof VolumeButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <VolumeButton cckExampleArgs={args.cckExampleArgs}/>
     </InlineStyle>
   )

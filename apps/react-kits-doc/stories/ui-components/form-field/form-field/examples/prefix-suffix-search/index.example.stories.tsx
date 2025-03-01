@@ -23,7 +23,7 @@ export const PrefixSuffixSearchStory: StoryObj<typeof PrefixSuffixSearch> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <PrefixSuffixSearch cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

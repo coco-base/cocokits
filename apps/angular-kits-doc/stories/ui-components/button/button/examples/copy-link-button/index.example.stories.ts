@@ -27,7 +27,7 @@ export const CopyLinkButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-copy-link-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-copy-link-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

@@ -20,7 +20,7 @@ export const ShowMoreButtonStory: StoryObj<typeof ShowMoreButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <ShowMoreButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

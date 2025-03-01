@@ -30,7 +30,7 @@ export const TrailingSelectAmount: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-trailing-select-amount [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-trailing-select-amount [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

@@ -20,7 +20,7 @@ export const InputLinkStory: StoryObj<typeof InputLink> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <InputLink cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

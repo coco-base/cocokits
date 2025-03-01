@@ -23,7 +23,7 @@ export const TrailingSelectAmountStory: StoryObj<typeof TrailingSelectAmount> = 
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <TrailingSelectAmount cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

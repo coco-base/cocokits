@@ -27,7 +27,7 @@ export const <%= className %>: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-<%= fileName %> [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-<%= fileName %> [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

@@ -30,7 +30,7 @@ export const PrefixSuffixSearch: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-prefix-suffix-search [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-prefix-suffix-search [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

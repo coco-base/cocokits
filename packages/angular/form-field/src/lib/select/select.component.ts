@@ -94,6 +94,8 @@ export class SelectComponent<T = any>
 
   protected triggerValue = computed(() => this.selectStore.selectedItems().join(', '));
 
+  public selected = this.selectStore.selectedItems;
+
   /**
    * Avoid using `effect` to listen for changes in selection and update the form controller value.
    * The `ControlValueAccessor` integrates with signals through the `formControl` function, which converts a form controller into a signal.

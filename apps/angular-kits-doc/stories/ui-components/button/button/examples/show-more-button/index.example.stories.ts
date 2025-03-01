@@ -27,7 +27,7 @@ export const ShowMoreButton: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-show-more-button [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-show-more-button [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

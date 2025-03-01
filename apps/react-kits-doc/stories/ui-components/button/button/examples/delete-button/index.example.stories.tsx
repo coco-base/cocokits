@@ -20,7 +20,7 @@ export const DeleteButtonStory: StoryObj<typeof DeleteButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <DeleteButton cckExampleArgs={args.cckExampleArgs}/>
     </InlineStyle>
   )

@@ -23,7 +23,7 @@ export const StackVerticalButtonStory: StoryObj<typeof StackVerticalButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <StackVerticalButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

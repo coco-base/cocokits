@@ -30,7 +30,7 @@ export const InputSuffixSuccess: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-input-suffix-success [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-input-suffix-success [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

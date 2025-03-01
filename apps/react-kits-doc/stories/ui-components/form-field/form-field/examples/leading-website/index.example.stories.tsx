@@ -23,7 +23,7 @@ export const LeadingWebsiteStory: StoryObj<typeof LeadingWebsite> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <LeadingWebsite cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

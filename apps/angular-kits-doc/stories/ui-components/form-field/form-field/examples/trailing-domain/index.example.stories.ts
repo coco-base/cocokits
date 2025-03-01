@@ -30,7 +30,7 @@ export const TrailingDomain: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-trailing-domain [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-trailing-domain [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

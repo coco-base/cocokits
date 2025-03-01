@@ -23,7 +23,7 @@ export const TrailingDomainStory: StoryObj<typeof TrailingDomain> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <TrailingDomain cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
   ),

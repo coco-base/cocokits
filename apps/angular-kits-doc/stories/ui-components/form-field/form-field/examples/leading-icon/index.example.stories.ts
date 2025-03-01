@@ -27,7 +27,7 @@ export const LeadingIcon: StoryObj = {
   render: (args) => ({
     props: { ...args },
     template: `
-      <cck-leading-icon [style]="cckExampleVariables" [cckExampleArgs]="cckExampleArgs"/>
+      <cck-leading-icon [style]="cckExampleCssVariables" [cckExampleArgs]="cckExampleArgs"/>
     `,
   }),
 };

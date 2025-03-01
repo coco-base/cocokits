@@ -20,7 +20,7 @@ export const BackButtonStory: StoryObj<typeof BackButton> = {
     },
   },
   render: (args) => (
-    <InlineStyle styles={args.cckExampleVariables}>
+    <InlineStyle styles={args.cckExampleCssVariables}>
       <BackButton cckExampleArgs={args.cckExampleArgs}/>
     </InlineStyle>
   )
