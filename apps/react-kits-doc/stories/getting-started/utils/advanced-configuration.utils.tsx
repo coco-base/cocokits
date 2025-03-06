@@ -21,7 +21,7 @@ export const tocItems = [
 export function getUseOnlyOneModeOption1Step1Code(theme: ThemeChangeEvent) {
 
   const mixinNames = Object.entries(theme.selectedModes)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.use_${collection}_${mode}`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.use_${collection}_${mode};`);
 
   const scss = `scss
 @use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayName)};
@@ -62,7 +62,7 @@ export function getUseOnlyOneModeOption1Step2AttrSelector(theme: ThemeChangeEven
 
 export function getUseOnlyOneModeOption1code(theme: ThemeChangeEvent) {
   const mixinNames = Object.entries(theme.selectedModes)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.variables_${collection}_${mode}`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.variables_${collection}_${mode};`);
 
   const scss = `scss
 @use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayName)};
@@ -95,7 +95,7 @@ export function getChangeTokenSelectorsStep1Code(theme: ThemeChangeEvent) {
 
   const otherMixins = Object.entries(theme.selectedModes)
     .filter(([collection]) => collection !== collectionNameWithLightAndDark)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayname)}.variables_${collection}_${mode}`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayname)}.variables_${collection}_${mode};`);
 
   const scss = `scss
 @use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayname)};

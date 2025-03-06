@@ -142,10 +142,10 @@ import { framesXThemeConfig } from '@cocokits/theme-frames-x';
 
 const customThemeConfig = deepMerge(cocokitsThemeConfig, {
   components: {
-    button: framesXThemeConfig.button,
-    iconButton: framesXThemeConfig.iconButton,
-    radioGroup: framesXThemeConfig.radioGroup,
-    radioButton: framesXThemeConfig.radioButton,
+    button: framesXThemeConfig.components.button,
+    iconButton: framesXThemeConfig.components.iconButton,
+    radioGroup: framesXThemeConfig.components.radioGroup,
+    radioButton: framesXThemeConfig.components.radioButton,
   }
 } as DeepPartial<ThemeConfig>);
 
