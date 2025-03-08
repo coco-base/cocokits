@@ -1,6 +1,7 @@
 export * from '@cocokits/core';
 export * from '@cocokits/angular-core';
 export * from '@cocokits/angular-utils';
+export * from '@cocokits/common-utils';
 export * from '@cocokits/angular-icon';
 export * from '@cocokits/angular-button';
 export * from '@cocokits/angular-checkbox';

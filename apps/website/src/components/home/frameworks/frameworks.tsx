@@ -25,7 +25,7 @@ export const Frameworks = () => {
 
       <div className='frameworks__list'>
         <Framework framework='angular' active={true}/>
-        <Framework framework='react'/>
+        <Framework framework='react' active={true}/>
         <Framework framework='vue'/>
         <Framework framework='html'/>
         <Framework framework='web-components'/>

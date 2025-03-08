@@ -8,7 +8,6 @@ export { Type } from './overview/type.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
 
-// export { VolumeButtonStory } from './examples/volume-button/index.example.stories';
 export { BackButtonStory } from './examples/back-button/index.example.stories';
 export { CopyLinkButtonStory } from './examples/copy-link-button/index.example.stories';
 export { DeleteButtonStory } from './examples/delete-button/index.example.stories';

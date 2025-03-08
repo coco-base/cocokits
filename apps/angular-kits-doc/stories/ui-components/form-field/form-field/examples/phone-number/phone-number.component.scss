@@ -1,0 +1,10 @@
+.prefix {
+  color: var(--prefix-color);
+  font: var(--prefix-font);
+}
+
+.option-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

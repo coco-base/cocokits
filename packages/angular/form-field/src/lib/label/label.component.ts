@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
@@ -21,4 +21,9 @@ export class LabelComponent extends _UiBaseComponent<'label'> {
   protected extraHostElementClassConditions = computed(() => []);
 
   protected store = injectFormFieldStore();
+
+  /**
+   * The for attribute specifies which form element a label is bound to.
+   */
+  public for = input<string>();
 }

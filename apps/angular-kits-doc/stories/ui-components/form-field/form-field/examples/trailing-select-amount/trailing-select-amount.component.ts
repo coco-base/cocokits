@@ -5,12 +5,12 @@ import {
   InputComponent,
   LabelComponent,
   OptionComponent,
+  removeAmountFormat,
   SelectComponent,
+  toAmountFormat,
   TrailingComponent,
 } from '@cocokits/angular-components';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-select-amount.config';
-
-import { formatValue, unFormatValue } from './trailing-select-amount.util';
 
 @Component({
   standalone: true,
@@ -42,10 +42,10 @@ export class TrailingSelectAmountComponent {
   }
 
   protected onFocus() {
-    this.value.set(unFormatValue(this.value()));
+    this.value.set(removeAmountFormat(this.value()));
   }
 
   protected onBlur() {
-    this.value.set(formatValue(this.value()));
+    this.value.set(toAmountFormat(this.value()));
   }
 }

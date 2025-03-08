@@ -41,6 +41,10 @@ export { TrailingCustomColor } from './examples/trailing-custom-color/index.exam
 export { PrefixIconSelect } from './examples/prefix-icon-select/index.example.stories';
 export { SuffixCardPattern } from './examples/suffix-card-pattern/index.example.stories';
 export { SelectPreviewTag } from './examples/select-preview-tag/index.example.stories';
+export { PhoneNumber } from './examples/phone-number/index.example.stories';
+export { TextareaMaxChar } from './examples/textarea-max-char/index.example.stories';
+export { InputSideLabel } from './examples/input-side-label/index.example.stories';
+export { LeadingCurrency } from './examples/leading-currency/index.example.stories';
 
 const meta: StoriesMeta = {
   component: FormFieldComponent,
