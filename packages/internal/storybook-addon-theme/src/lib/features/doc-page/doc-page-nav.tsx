@@ -12,9 +12,11 @@ interface DocPageNavProps {
 export const DocPageNav = ({hideThemeSwitcher = false}: DocPageNavProps) => {
   return (
     <Nav>
-      <FrameworkSelectionButton/>
+      <SelectionWrapper>
+        { !hideThemeSwitcher && <ThemeSelectionButton/> }
+        <FrameworkSelectionButton/>
+      </SelectionWrapper>
       <StyledSpacer/>
-      { !hideThemeSwitcher && <ThemeSelectionButton/> }
       <ColorModeButton/>
     </Nav>
   );
@@ -35,6 +37,17 @@ const Nav = styled.nav`
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px); // Safari 
     border-bottom: 1px solid var(--cck-doc-color-border-2);
+    background-color: color-mix(in srgb, var(--cck-doc-color-bg-2) 80%, transparent)
+`;
+
+const SelectionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  border: 1px solid var(--cck-doc-color-border-2);
+  border-radius: 500px;
+  height: 44px;
+  background-color: color-mix(in srgb, var(--cck-doc-color-font-1) 4%, transparent);
 `;
 
 const StyledSpacer = styled.div`

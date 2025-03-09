@@ -11,5 +11,8 @@
     fill: var(--cck-doc-color-font-4);
   }
 
-  // .doc-cck-svg-icon__svg {}
+  .doc-cck-svg-icon__svg {
+    width: 100%;
+    height: 100%;
+  }
 }

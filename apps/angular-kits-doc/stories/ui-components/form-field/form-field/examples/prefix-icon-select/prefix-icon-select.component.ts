@@ -1,14 +1,14 @@
 import { Component, input, signal } from '@angular/core';
+
 import {
   FormFieldComponent,
   LabelComponent,
-  SelectComponent,
   OptionComponent,
-  SvgIconComponent,
   PrefixComponent,
+  SelectComponent,
+  SvgIconComponent,
 } from '@cocokits/angular-components';
 import { Icons } from '@cocokits/common-icons';
-
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/prefix-icon-select.config';
 
 @Component({
