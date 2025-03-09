@@ -51,12 +51,13 @@ export function FrameworkSelectionButton() {
 
     const currentUrl = window.parent.location.href;
     const newUrl = currentUrl.replace(framework.toLocaleLowerCase(), selectedFramework.toLocaleLowerCase());
-    window.open(newUrl, '_blank');
+    const windowRoot = window.top ?? window;
+    windowRoot.location.href = newUrl;
   };
 
   return (
-    <StyledFormField>
-      <Select
+    <StyledHost>
+      <StyledSelected
         // Value is just to force to render custom preview instead of placeholder. We don't use the selected value.
         value={framework}
         onlyEmitOnValueChange={false}
@@ -73,8 +74,8 @@ export function FrameworkSelectionButton() {
           />
           React
         </Option>
-      </Select>
-    </StyledFormField>
+      </StyledSelected>
+    </StyledHost>
   );
 }
 
@@ -85,14 +86,21 @@ const StyledSelectPreview = styled(SelectPreview)`
   margin-right: 4px;
 `;
 
-const StyledFormField = styled(FormField)`
-  .doc-cck-form-field__input-wrapper {
-    background-color: transparent;
-  }
+const StyledHost = styled.div`
+  border-radius: 500px;
+  padding: 0 12px 0 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &:hover .doc-cck-form-field__input-wrapper {
-    background-color: var(--cck-doc-color-bg-hover-1);
+  &:hover {
+    background-color: var(--cck-doc-color-bg-hover-2);
   }
+`;
+
+const StyledSelected = styled(Select<string>)`
+  height: 100%;
 `;
 
 const StyledOptionAngularImage = styled.img`

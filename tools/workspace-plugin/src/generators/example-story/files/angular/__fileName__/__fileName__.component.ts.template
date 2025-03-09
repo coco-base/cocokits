@@ -1,0 +1,14 @@
+import { Component, input } from '@angular/core';
+
+import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/<%= uiComponentName %>/<%= fileName %>.config';
+
+@Component({
+  standalone: true,
+  selector: 'cck-<%= fileName %>',
+  imports: [],
+  templateUrl: './<%= fileName %>.component.html',
+  styleUrls: ['./<%= fileName %>.component.scss'],
+})
+export class <%= className %>Component {
+  public cckExampleArgs = input.required<ExampleArgs>();
+}

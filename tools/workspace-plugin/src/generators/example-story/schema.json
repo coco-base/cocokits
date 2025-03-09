@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "ExampleStory",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "the name of example story. (e.g. back-button)"
+    },
+    "category": {
+      "type": "string",
+      "description": "the category of example story. It's the story Sidenav label. (e.g. button)"
+    },
+    "library": {
+      "type": "string",
+      "description": "the library of example story. (e.g. button, form-field)"
+    },
+    "uiComponentName": {
+      "type": "string",
+      "description": "the name of the UI component. (e.g. Button, IconButton)"
+    },
+    "angularInline": {
+      "type": "boolean",
+      "description": "use Angular inline template and styles",
+      "default": true
+    },
+    "reactInline": {
+      "type": "boolean",
+      "description": "create a style file for React with styled-components",
+      "default": true
+    }
+  },
+  "required": ["name", "category", "library", "uiComponentName"]
+}

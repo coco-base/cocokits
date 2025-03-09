@@ -14,6 +14,11 @@
       "factory": "./src/generators/component/generator",
       "schema": "./src/generators/component/schema.json",
       "description": "Create a new component in CocoKits project"
+    },
+    "example-story": {
+      "factory": "./src/generators/example-story/generator",
+      "schema": "./src/generators/example-story/schema.json",
+      "description": "example-story generator"
     }
   }
 }

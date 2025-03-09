@@ -1,7 +1,8 @@
-import React from "react";
-import { AngularLog, HtmlLog, ReactLog, VueLog, WebComponentLog } from "./logos";
-import Link from "next/link";
 import * as _ from 'lodash';
+import Link from "next/link";
+import React from "react";
+
+import { AngularLog, HtmlLog, ReactLog, VueLog, WebComponentLog } from "./logos";
 
 interface FrameworksProps {
   framework: 'angular' | 'react' | 'vue' | 'html' | 'web-components';
@@ -15,7 +16,7 @@ const TITLES: Record<FrameworksProps['framework'], string> = {
   vue: 'Vue',
   html: 'HTML',
   'web-components': 'Web Components',
-}
+};
 
 const LOGO: Record<FrameworksProps['framework'], React.FC<void>> = {
   angular: AngularLog,
@@ -23,15 +24,15 @@ const LOGO: Record<FrameworksProps['framework'], React.FC<void>> = {
   vue: VueLog,
   html: HtmlLog,
   'web-components': WebComponentLog,
-}
+};
 
 const LINKS: Record<FrameworksProps['framework'], string> = {
   angular: 'https://angular.cocokits.com',
-  react: '',
+  react: 'https://react.cocokits.com',
   vue: '',
   html: '',
   'web-components': '',
-}
+};
 
 export const Framework = ({framework, active=false}: FrameworksProps) => {
 
@@ -50,7 +51,7 @@ export const Framework = ({framework, active=false}: FrameworksProps) => {
           </div>
         </div>
       </Link>
-    )
+    );
   }
   return (
     <div className="framework-item__host">

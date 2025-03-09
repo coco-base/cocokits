@@ -29,6 +29,7 @@ export * from './lib/rxjs/skip-nullish';
 
 export * from './lib/scroll/scroll-locker';
 
+export * from './lib/transform/amount';
 export * from './lib/transform/to-boolean-or-present';
 export * from './lib/transform/to-array';
 export * from './lib/transform/to-number';

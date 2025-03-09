@@ -77,7 +77,7 @@ export const formFieldLayoutClassNamesConfig = {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'invalid' }],
       description:
-        'Angular Only: It will add to the host element of FormField component, when the value of input `reactiveForm` is invalid.\n\nReact Only: It will add then the component has invalid prop or error component is present',
+        'Angular Only: It will add to the host element of FormField component, when the value of input `reactiveForm` is invalid.\n\nReact Only: It will add then the component has invalid prop or the react-hook-form has invalid',
     },
     pending: {
       name: 'Host Element',
@@ -89,7 +89,7 @@ export const formFieldLayoutClassNamesConfig = {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'error' }],
       description:
-        'Angular Only: It will add to the host element of FormField component, when the value of input is invalid, touched and dirty or error component is present',
+        'Angular Only: It will add to the host element of FormField component, when the value of input is invalid and touched or error component is present/\n\nReact Only: It will add then the component has invalid prop or the react-hook-form has invalid or error component is present',
     },
     withInput: {
       name: 'Host Element',

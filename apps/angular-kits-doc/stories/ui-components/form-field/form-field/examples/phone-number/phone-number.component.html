@@ -1,0 +1,30 @@
+<cck-form-field>
+  <cck-label>Phone number</cck-label>
+  <cck-prefix class="prefix">+{{ value() === 'TH' ? '66' : '43' }}</cck-prefix>
+  <input cckInput [mask]="value() === 'TH' ? '999-999-999' : '999 9999 999'">
+  <cck-suffix>
+    <cck-select
+      [value]="value()"
+      (selectionChange)="value.set($event[0])"
+      appendTo="body">
+
+      <cck-select-preview>
+        <cck-svg-icon [size]="cckExampleArgs().previewFlagSize" [icon]="value() === 'TH' ? THFlag : ATFlag"></cck-svg-icon>
+      </cck-select-preview>
+
+      <cck-option value="TH">
+        <div class="option-wrapper">
+          <cck-svg-icon [size]="cckExampleArgs().optionFlagSize" [icon]="THFlag"></cck-svg-icon>
+          TH
+        </div>
+      </cck-option>
+      <cck-option value="AT">
+        <div class="option-wrapper">
+          <cck-svg-icon [size]="cckExampleArgs().optionFlagSize" [icon]="ATFlag"></cck-svg-icon>
+          AT
+        </div>
+      </cck-option>
+    </cck-select>
+  </cck-suffix>
+  <cck-hint>Enter your local phone number</cck-hint>
+</cck-form-field>

@@ -15,26 +15,6 @@ const config = generateAngularStorybookConfig(
         packageName: '@cocokits/common-kits-doc',
         callerPath: __dirname,
       }),
-      // ...getPackageStories({
-      //   packageName: '@cocokits/angular-components',
-      //   callerPath: __dirname,
-      // }),
-      // ...getPackageStories({
-      //   packageName: '@cocokits/angular-cdk',
-      //   callerPath: __dirname,
-      // }),
-      // ...getPackageStories({
-      //   packageName: '@cocokits/core',
-      //   callerPath: __dirname,
-      // }),
-      // ...getPackageStories({
-      //   packageName: '@cocokits/common-utils',
-      //   callerPath: __dirname,
-      // }),
-      // ...getPackageStories({
-      //   packageName: '@cocokits/angular-utils',
-      //   callerPath: __dirname,
-      // }),
     ],
   },
   {

@@ -8,9 +8,15 @@ export function generateGlobalScss({
   CSS_VARIABLES: ExampleStoryCssVariables;
 }) {
   const source = Object.entries(ThemeId).reduce((_result, [themeIdKey, themeIdValue]) => {
-    const code = Object.entries(CSS_VARIABLES[themeIdValue]).reduce((result, [key, value]) => {
-      return `${result}\n        ${key}: ${value};`;
-    }, '');
+    const code = Object.entries(CSS_VARIABLES[themeIdValue])
+      .reduce((result, [key, value]) => {
+        return `${result}\n        ${key}: ${value};`;
+      }, '')
+      .trim();
+
+    if (!code) {
+      return _result;
+    }
 
     return (
       _result +

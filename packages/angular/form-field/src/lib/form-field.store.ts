@@ -177,7 +177,7 @@ export class FormFieldStoreService<T = unknown> {
       return this.disabled() ? false : (this.input.focused() ?? this.textarea.focused());
     }),
     hasError: computed(() => {
-      if (this.control.invalid() && this.control.dirty() && this.control.touched()) {
+      if (this.control.invalid() && this.control.touched()) {
         return true;
       }
 

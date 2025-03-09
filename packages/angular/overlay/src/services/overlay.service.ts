@@ -1,6 +1,7 @@
 import {
   ApplicationRef,
   ComponentRef,
+  ElementRef,
   inject,
   Injectable,
   Injector,
@@ -47,6 +48,12 @@ export class OverlayService {
     const overlayComponentRef = viewContainerRef.createComponent(OverlayComponent<TData, TResult>, {
       injector: Injector.create({ providers }),
     });
+
+    // Move the component to the target element
+    if (config.appendTo) {
+      const appendTo = config.appendTo === 'body' ? document.body : config.appendTo;
+      appendTo.appendChild(overlayComponentRef.injector.get(ElementRef).nativeElement);
+    }
 
     const afterClose = this.closeHandler<TData, TResult>(overlayRef, viewContainerRef, overlayComponentRef);
 

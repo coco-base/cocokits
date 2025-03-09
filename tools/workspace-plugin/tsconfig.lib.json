@@ -6,6 +6,6 @@
     "declaration": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/generators/example-story/files/src/angular-inline/_story.source.ts.template"],
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
 }

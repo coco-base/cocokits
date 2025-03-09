@@ -28,7 +28,7 @@ import { firstValueFrom } from 'rxjs';
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
+import { OverlayConfig, OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
 import { isNullish, toBooleanOrPresent } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';
 
@@ -93,6 +93,8 @@ export class SelectComponent<T = any>
   protected optionsTemp = viewChild('optionsTemp', { read: TemplateRef });
 
   protected triggerValue = computed(() => this.selectStore.selectedItems().join(', '));
+
+  public selected = this.selectStore.selectedItems;
 
   /**
    * Avoid using `effect` to listen for changes in selection and update the form controller value.
@@ -159,6 +161,12 @@ export class SelectComponent<T = any>
    */
   public placeholder: InputSignal<string> = input('');
 
+  /**
+   * Target element to attach the overlay to.
+   * If not provided, the overlay will be attached root component.
+   */
+  public appendTo = input<OverlayConfig['appendTo']>();
+
   // endregion
   // region ---------------- OUTPUTS ----------------
 
@@ -211,6 +219,7 @@ export class SelectComponent<T = any>
 
     this.selectStore.renderedOverlay = this.overlay.open<void, T>(optionsTemp, {
       panelClass: [this.classNames().overlay],
+      appendTo: this.appendTo(),
       size: {
         minWidth: connectTo.getBoundingClientRect().width + 'px',
         maxHeight: this.maxOptionsHeight() ? this.maxOptionsHeight() + 'px' : '',

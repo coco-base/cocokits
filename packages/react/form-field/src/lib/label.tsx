@@ -21,6 +21,11 @@ interface LabelProps extends UIBaseComponentProps {
    * An object containing inline styles that can be used to customize the appearance of the component.
    */
   style?: CSSProperties;
+
+  /**
+   * The for attribute specifies which form element a label is bound to.
+   */
+  htmlFor?: string;
 }
 
 export function Label(props: LabelProps) {
@@ -34,23 +39,27 @@ export function Label(props: LabelProps) {
     props,
   });
 
+  const template = (
+    <div className={`${hostClassNames} ${props.className ?? ''}`}>
+      <label className={classNames.labelTag} htmlFor={props.htmlFor}>
+        {props.children}
+
+        {!hideRequiredMarker && required && <span className={classNames.requiredMarker}>*</span>}
+      </label>
+    </div>
+  );
+
   useEffect(() => {
-    const template = (
-      <div className={`${hostClassNames} ${props.className ?? ''}`}>
-        <label className={classNames.labelTag}>
-          {props.children}
-
-          {!hideRequiredMarker && required && <span className={classNames.requiredMarker}>*</span>}
-        </label>
-      </div>
-    );
-
     formStore?.updateComponent('label', { template });
-  }, [props.children, hideRequiredMarker, required]);
+  }, [template]);
 
   useEffect(() => {
     return () => formStore?.unregisterComponent('label');
   }, []);
+
+  if(!formStore) {
+    return template;
+  }
 
   return <></>;
 }

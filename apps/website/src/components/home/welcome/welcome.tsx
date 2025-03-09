@@ -54,7 +54,7 @@ export function Welcome() {
             <Brand name="cocokits"/>
           </Link>
 
-          <Link className="auto-underline" href="https://framesxdesign.com/" target="_blank" rel="noopener noreferrer">
+          <Link className="auto-underline" href="https://framesxdesign.com/?aff=wzMlE8" target="_blank" rel="noopener noreferrer">
             <Brand name="frames-x"/>
           </Link>
 

@@ -8,6 +8,12 @@
         "../../apps/common-kits-doc/src/",
         "../../../apps/common-kits-doc/src/"
       ],
+      "@cocokits/common-kits-doc/*": [
+        "packages/internal/common-kits-doc/src/*",
+        "../packages/internal/common-kits-doc/src/*",
+        "../../packages/internal/common-kits-doc/src/*",
+        "../../../packages/internal/common-kits-doc/src/*"
+      ],
       "@cocokits/angular-components": [
         "packages/angular/components/src/",
         "../packages/angular/components/src/",

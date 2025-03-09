@@ -67,7 +67,7 @@ export const Default: StoryObj<typeof Menu> = {
         CCK_CONTROL.open(),
         CCK_CONTROL.closeOnSelectItem(),
         CCK_CONTROL.disabled(false, 'Disabled First Item', 'disabledFirstItem'),
-        CCK_CONTROL.anchorPoint(ElementAnchorPoint.BottomRight),
+        CCK_CONTROL.anchorPoint(ElementAnchorPoint.BottomLeft),
       ],
     },
   },

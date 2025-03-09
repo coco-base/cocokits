@@ -1,7 +1,7 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { ErrorComponent, FormFieldComponent, InputComponent, LabelComponent } from '@cocokits/angular-form-field';
-import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 
@@ -14,7 +14,6 @@ const meta: StoriesMeta = {
   component: InputComponent,
   title: 'UI Components/Input',
   decorators: [
-    withWrapperDecorator({}, { width: '200px' }),
     applicationConfig({
       providers: [withThemeConfigProvider()],
     }),

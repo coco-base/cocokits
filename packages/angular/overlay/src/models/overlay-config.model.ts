@@ -81,6 +81,11 @@ export interface OverlayConfig<TData = unknown> {
   //    - overlayX: 'start' | 'center' | 'end'
   //    - overlayY: 'top' | 'center' | 'bottom'
   //    - weight: number
+
+  /**
+   * Target element to attach the overlay to. If not provided, the overlay will be attached root component.
+   */
+  appendTo?: HTMLElement | 'body';
 }
 
 export type OverlayPositionStrategy = OverlayPositionStrategyAuto | OverlayPositionStrategyConnectToElement;

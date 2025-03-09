@@ -14,6 +14,10 @@ export { ThemeCocokitsRounded } from './overview/theme-cocokits-rounded.stories'
 export { ThemeCocokitsRoundedSize } from './overview/theme-cocokits-rounded-size.stories';
 export { ThemeCocokitsRoundedColor } from './overview/theme-cocokits-rounded-color.stories';
 
+export { ModeToggle } from './examples/mode-toggle/index.example.stories';
+export { SocialButtons } from './examples/social-buttons/index.example.stories';
+export { VolumeButton } from './examples/volume-button/index.example.stories';
+
 const meta: StoriesMeta = {
   component: IconButtonComponent,
   title: 'UI Components/IconButton',

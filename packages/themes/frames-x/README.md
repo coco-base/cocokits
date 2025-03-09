@@ -1,6 +1,6 @@
 # @cocokits/themes-frames-x
 The `@cocokits/themes-frames-x` package offers a modern and innovative design theme that brings a fresh, distinctive style to `CocoKits` components. This theme is ideal for projects that aim to stand out with a unique and visually engaging user interface.
-[Frames-X](https://framesxdesign.com/) enhances the overall visual experience, delivering a bold and contemporary look while maintaining functionality and ease of use.
+[Frames-X](https://framesxdesign.com/?aff=wzMlE8) enhances the overall visual experience, delivering a bold and contemporary look while maintaining functionality and ease of use.
 
 ## Key Features:
 - **Modern Design Aesthetic:** Provides a sleek and innovative visual style, perfect for projects that require a modern and standout appearance.

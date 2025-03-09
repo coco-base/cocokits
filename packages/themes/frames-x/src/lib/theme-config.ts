@@ -194,7 +194,14 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   error: {},
-  hint: {},
+  hint: {
+    color: {
+      name: 'color',
+      values: ['default', 'success'],
+      default: 'default',
+      description: '',
+    },
+  },
   input: {},
   textarea: {},
   label: {},

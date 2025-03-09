@@ -32,4 +32,4 @@ jobs:
         run: pnpm nx affected:build --base=main --head=HEAD --parallel=4
 
       - name: Test
-        run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits --skip-nx-cache --parallel=1
+        run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits --parallel=1

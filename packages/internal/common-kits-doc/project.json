@@ -1,0 +1,19 @@
+{
+  "name": "@cocokits/common-kits-doc",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "app",
+  "sourceRoot": "packages/internal/common-kits-doc/src",
+  "tags": ["type:utils", "framework:shared"],
+  "targets": {
+    "build-typedoc": {
+      "executor": "@cocokits/workspace-plugin:build-typedoc",
+      "options": {
+        "typeDocConfig": "packages/internal/common-kits-doc/typedoc.config.mjs"
+      }
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

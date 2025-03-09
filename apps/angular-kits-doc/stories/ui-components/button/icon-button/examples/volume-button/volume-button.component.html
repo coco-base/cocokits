@@ -1,0 +1,27 @@
+<button
+  cck-icon-button
+  [type]="cckExampleArgs().buttonType"
+  [size]="cckExampleArgs().buttonSize"
+  [color]="cckExampleArgs().buttonColor"
+  (click)="decreaseVolume()">
+  <cck-svg-icon [icon]="LineIcons.minus"></cck-svg-icon>
+</button>
+
+<div class="volume-display-wrapper">
+  <cck-svg-icon
+    class="volume-icon"
+    [size]="cckExampleArgs().volumeIconSize"
+    [color]="null"
+    [icon]="volumeIcon()"/>
+  
+  <span class="volume-label">{{ volume() }}</span>
+</div>
+
+<button
+  cck-icon-button
+  [type]="cckExampleArgs().buttonType"
+  [size]="cckExampleArgs().buttonSize"
+  [color]="cckExampleArgs().buttonColor"
+  (click)="increaseVolume()">
+  <cck-svg-icon [icon]="LineIcons.plus"></cck-svg-icon>
+</button>

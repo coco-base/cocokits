@@ -41,10 +41,10 @@ const StyledHost = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 44px;
+  height: 100%;
   padding: 0 12px 0 12px;
-  border: 1px solid var(--cck-doc-color-border-2);
-  border-radius: var(--cck-doc-radius-sm);
+  /* border: 1px solid var(--cck-doc-color-border-2); */
+  border-radius: 500px 500px;
   gap: 12px;
   cursor: pointer;
 
@@ -52,6 +52,6 @@ const StyledHost = styled.div`
   color: var(--cck-doc-color-font-1);
 
   &:hover {
-    background-color: var(--cck-doc-color-bg-hover-1);
+    background-color: var(--cck-doc-color-bg-hover-2);
   }
 `;

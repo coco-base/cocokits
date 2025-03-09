@@ -1,11 +1,10 @@
 {
   "name": "react-kits-doc",
   "version": "1.0.0",
-  "private": true,
   "description": "",
-  "keywords": [],
-  "license": "ISC",
-  "author": "",
   "main": "index.js",
-  "scripts": {}
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

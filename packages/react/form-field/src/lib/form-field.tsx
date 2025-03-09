@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 'use client';
 import { CSSProperties, Fragment, ReactNode, useEffect, useRef } from 'react';
 
@@ -50,6 +51,7 @@ export const FormField = (props: FormFieldProps) => {
   const hasChipList = formStore.useState((state) => state.hasChipList);
   const hasTextarea = formStore.useState((state) => state.hasTextarea);
   const invalid = formStore.useState((state) => state.invalid);
+  const error = formStore.useState((state) => state.error);
   const size = formStore.useState((state) => state.size);
   const labelTemplate = formStore.useState((state) => state.labelTemplate);
   const hintTemplate = formStore.useState((state) => state.hintTemplate);
@@ -73,6 +75,7 @@ export const FormField = (props: FormFieldProps) => {
       { if: hasChipList, classes: (cn) => [cn.withChipList] },
       { if: hasTextarea, classes: (cn) => [cn.withTextarea] },
       { if: invalid, classes: (cn) => [cn.invalid] },
+      { if: error, classes: (cn) => [cn.error] },
       { if: !!props.className, classes: () => [props.className] },
       // TODO: add formControl like react-hook-form. with untouched, touched, pristine, dirty, valid, invalid, pending
     ],

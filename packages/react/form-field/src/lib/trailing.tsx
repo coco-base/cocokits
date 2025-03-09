@@ -1,5 +1,5 @@
 'use client';
-import { CSSProperties, ReactNode, useEffect } from 'react';
+import { CSSProperties,ReactNode, useEffect } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -25,6 +25,11 @@ interface TrailingProps extends UIBaseComponentProps {
    * An object containing inline styles that can be used to customize the appearance of the component.
    */
   style?: CSSProperties;
+
+  /**
+   * Callback to invoke on click.
+   */
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 export function Trailing(props: TrailingProps) {
@@ -33,10 +38,13 @@ export function Trailing(props: TrailingProps) {
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'trailing',
     props,
+    extraHostElementClassConditions: [
+      {if: props.clickable, classes: (cn) => [cn.clickable]}
+    ]
   });
 
   useEffect(() => {
-    const template = <div className={`${hostClassNames} ${props.className ?? ''}`}>{props.children}</div>;
+    const template = <div className={`${hostClassNames} ${props.className ?? ''}`} onClick={(e) => props.onClick?.(e)}>{props.children}</div>;
 
     formStore?.updateComponent('trailing', { template });
   }, [props.children]);
