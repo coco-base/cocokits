@@ -21,7 +21,7 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-fiel
       <cck-label>Select amount</cck-label>
       <input cck-input (change)="onChange($event)" (focus)="onFocus()" (blur)="onBlur()" [value]="value()" />
       <cck-trailing>
-        <cck-select value="USD">
+        <cck-select value="USD" appendTo="body">
           <cck-option value="USD">USD</cck-option>
           <cck-option value="EUR">EUR</cck-option>
           <cck-option value="JPY">JPY</cck-option>

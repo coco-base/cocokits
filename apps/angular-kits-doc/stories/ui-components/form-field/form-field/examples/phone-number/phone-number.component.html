@@ -5,7 +5,8 @@
   <cck-suffix>
     <cck-select
       [value]="value()"
-      (selectionChange)="value.set($event[0])">
+      (selectionChange)="value.set($event[0])"
+      appendTo="body">
 
       <cck-select-preview>
         <cck-svg-icon [size]="cckExampleArgs().previewFlagSize" [icon]="value() === 'TH' ? THFlag : ATFlag"></cck-svg-icon>

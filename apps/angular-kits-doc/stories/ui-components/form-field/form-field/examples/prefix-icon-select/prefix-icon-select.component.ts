@@ -21,7 +21,7 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-fiel
       <cck-prefix>
         <cck-svg-icon [icon]="iconMap[value()]" />
       </cck-prefix>
-      <cck-select class="select" [value]="value()" (selectionChange)="value.set($event[0])">
+      <cck-select class="select" [value]="value()" (selectionChange)="value.set($event[0])" appendTo="body">
         <cck-option value="Cake">
           <div class="option-wrapper">
             <cck-svg-icon [icon]="iconMap.Cake"></cck-svg-icon>

@@ -16,7 +16,7 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-fiel
   template: `
     <cck-form-field>
       <cck-label>Favorite food</cck-label>
-      <cck-select #select class="select" [multiple]="true" [value]="['Cake', 'Pizza']">
+      <cck-select #select class="select" [multiple]="true" [value]="['Cake', 'Pizza']" appendTo="body">
         <cck-select-preview class="preview">
           <div class="tag">{{ select.selected().length }}</div>
           <span>{{ select.selected()[0] }}</span>
