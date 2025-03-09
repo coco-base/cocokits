@@ -195,9 +195,6 @@
       "typedoc-plugin-markdown@4.2.7": "patches/typedoc-plugin-markdown@4.2.7.patch",
       "@compodoc/compodoc": "patches/@compodoc__compodoc.patch",
       "@storybook/core": "patches/@storybook__core.patch"
-    },
-    "overrides": {
-      "@angular/build>lmdb": "-"
     }
   },
   "peerDependencies": {
