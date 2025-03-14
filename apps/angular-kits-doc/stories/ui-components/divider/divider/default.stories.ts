@@ -1,5 +1,5 @@
 import { DividerComponent } from '@cocokits/angular-divider';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<DividerComponent> = {
@@ -28,12 +28,7 @@ export const Default: StoryObj<DividerComponent> = {
         },
       ],
       hasControl: true,
-      controls: [
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-      ],
+      controls: [CCK_CONTROL.type(), CCK_CONTROL.color(), CCK_CONTROL.size(), CCK_CONTROL.additional()],
     },
   },
   render: (args) => ({

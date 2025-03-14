@@ -8,7 +8,7 @@ import { getPackageStories } from '../../../tools/scripts/storybook/get-package-
 const config = generateReactStorybookConfig({
   addons: ['@storybook/addon-google-analytics'],
   stories: [
-    '../stories/**/*.mdx',
+    '../stories/**/!(_)*.mdx',
     '../stories/**/index.stories.@(ts|tsx)',
     ...getPackageStories({
       packageName: '@cocokits/common-kits-doc',

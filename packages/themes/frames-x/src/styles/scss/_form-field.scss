@@ -62,6 +62,16 @@
         .cck-form-field__wrapper {
           height: 36px;
         }
+
+        .cck-form-field__input-wrapper {
+          padding: 0 $spacing-6 0 $spacing-7;
+        }
+      }
+
+      .cck-form-field--with-textarea {
+        .cck-form-field__input-wrapper {
+          padding: $spacing-6 $spacing-6 $spacing-6 $spacing-7;
+        }
       }
 
       &.cck-form-field--with-chip-list {
@@ -72,7 +82,9 @@
 
       .cck-input,
       .cck-leading,
-      .cck-trailing {
+      .cck-trailing,
+      .cck-textarea,
+      .cck-select {
         font: $text-sm-font-medium;
       }
     }
@@ -83,6 +95,16 @@
         .cck-form-field__wrapper {
           height: 44px;
         }
+
+        .cck-form-field__input-wrapper {
+          padding: 0 $spacing-7 0 $spacing-8;
+        }
+      }
+
+      .cck-form-field--with-textarea {
+        .cck-form-field__input-wrapper {
+          padding: $spacing-7 $spacing-7 $spacing-7 $spacing-8;
+        }
       }
 
       &.cck-form-field--with-chip-list {
@@ -93,7 +115,9 @@
 
       .cck-input,
       .cck-leading,
-      .cck-trailing {
+      .cck-trailing,
+      .cck-textarea,
+      .cck-select {
         font: $text-base-font-medium;
       }
     }
@@ -103,6 +127,16 @@
       &.cck-form-field--with-select {
         .cck-form-field__wrapper {
           height: 56px;
+        }
+
+        .cck-form-field__input-wrapper {
+          padding: 0 $spacing-7 0 $spacing-8;
+        }
+      }
+
+      .cck-form-field--with-textarea {
+        .cck-form-field__input-wrapper {
+          padding: $spacing-7 $spacing-7 $spacing-7 $spacing-8;
         }
       }
 
@@ -114,7 +148,9 @@
 
       .cck-input,
       .cck-leading,
-      .cck-trailing {
+      .cck-trailing,
+      .cck-textarea,
+      .cck-select {
         font: $text-lg-font-medium;
       }
     }
@@ -196,20 +232,9 @@
     }
   }
 
+  .cck-form-field--with-input,
   .cck-form-field--with-select {
     .cck-form-field__input-wrapper {
-      padding: 0 $spacing-6 0 $spacing-7;
-
-      &:hover {
-        background-color: $base-fill-1;
-      }
-    }
-  }
-
-  .cck-form-field--with-input {
-    .cck-form-field__input-wrapper {
-      padding: 0 $spacing-6 0 $spacing-7;
-
       &:hover:not(:has(input:focus-visible)) {
         background-color: $base-fill-1;
       }

@@ -39,11 +39,11 @@ export const Default: StoryObj<ButtonComponent> = {
       hasControl: true,
       controls: [
         CCK_CONTROL.text('Button'),
-        CCK_CONTROL.leftIcon('heartFill'),
-        CCK_CONTROL.rightIcon('none'),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
+        CCK_CONTROL.leftIcon('heartFill'),
+        CCK_CONTROL.rightIcon('none'),
         CCK_CONTROL.additional(),
         CCK_CONTROL.disabled(),
       ],

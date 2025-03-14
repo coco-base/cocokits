@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FormField, Option, Select, SelectPreview } from '@cocokits/react-form-field';
+import { Option, Select, SelectPreview } from '@cocokits/react-form-field';
 
 import { useFramework } from './framework-selection.hooks';
 import { AddonThemeConfig } from '../../model/addon.model';
@@ -14,7 +14,9 @@ const CustomPreview = ({ framework }: { framework: AddonThemeConfig['framework']
   if (framework === 'angular') {
     return (
       <StyledSelectPreview>
-        <StyledOptionAngularImage src="logos/angular-icon-logo.png" alt="Angular" />
+        <StyledOptionAngularImage
+          src={isDark ? 'logos/angular-icon-logo_white.png' : 'logos/angular-icon-logo_black.png'}
+          alt="Angular" />
         Angular
       </StyledSelectPreview>
     );
@@ -64,7 +66,9 @@ export function FrameworkSelectionButton() {
         selectPreview={() => <CustomPreview framework={framework} />}
         onChange={onFrameworkChange}>
         <Option value="angular">
-          <StyledOptionAngularImage src="logos/angular-icon-logo.png" alt="Angular" />
+          <StyledOptionAngularImage
+            src={isDark ? 'logos/angular-icon-logo_white.png' : 'logos/angular-icon-logo_black.png'}
+            alt="Angular" />
           Angular
         </Option>
         <Option value="react">
@@ -104,12 +108,12 @@ const StyledSelected = styled(Select<string>)`
 `;
 
 const StyledOptionAngularImage = styled.img`
-  width: 24px;
+  width: 28px;
   margin-right: 10px;
 `;
 
 const StyledOptionReactImage = styled.img`
-  width: 20px;
+  width: 24px;
   margin-right: 12px;
   margin-left: 2px;
 `;

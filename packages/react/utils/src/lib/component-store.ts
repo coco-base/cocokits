@@ -1,3 +1,4 @@
+/** @module _hidden */
 import { useLayoutEffect, useRef, useState } from 'react';
 
 export type ComponentStoreSelector<T, U> = (state: T) => U;
@@ -9,15 +10,12 @@ export interface ComponentStore<T extends object> {
   setState: (state: T) => void;
 }
 
-export function createComponentStore<T extends object>(initialState: T, debug = false) {
+export function createComponentStore<T extends object>(initialState: T) {
   let state = initialState;
   const listeners = new Set<(state: T) => void>();
 
   const updateState = (partial: Partial<T> | ((prevState: T) => Partial<T>)): T => {
     const nextState = typeof partial === 'function' ? partial(state) : partial;
-    if (debug) {
-      console.log('createComponentStore updateState', nextState);
-    }
     state = { ...state, ...nextState };
 
     listeners.forEach((listener) => listener(state));

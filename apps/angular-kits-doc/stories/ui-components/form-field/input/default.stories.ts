@@ -37,7 +37,7 @@ export const Default: StoryObj<InputComponent> = {
       controls: [
         CCK_CONTROL.label('Label'),
         CCK_CONTROL.placeholder('Placeholder'),
-        CCK_CONTROL.type(),
+        CCK_CONTROL.inputNativeType(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
@@ -55,6 +55,9 @@ export const Default: StoryObj<InputComponent> = {
           <cck-label>{{cckControl.label}}</cck-label>
           <input
             cckInput
+            [type]="cckControl.type"
+            [size]="cckControl.size"
+            [color]="cckControl.color"
             [placeholder]="cckControl.placeholder"
             [required]="cckControl.required"
             [disabled]="cckControl.disabled"

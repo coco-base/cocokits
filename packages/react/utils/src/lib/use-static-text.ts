@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 /**
  * A custom hook that returns a static text value. The value remains constant across re-renders
  * unless the provided `defaultValue` changes.
@@ -14,8 +16,6 @@
  *
  * // In this example, the `id` will remain "component-id" across re-renders unless the `defaultValue` changes.
  */
-import { useRef } from 'react';
-
 export function useStaticText(defaultValue?: string): string {
   const textRef = useRef(defaultValue ?? crypto.randomUUID());
 

@@ -57,8 +57,8 @@ function getContentData(app, event) {
     .filter(line => line.startsWith('## '))
     .map(line => line.replace('## ', '').trim())
     .map(lineWithoutHeader => ({ id: 'selection_' + generateAnchorId(lineWithoutHeader), name: removeEscapesMarkdownText(lineWithoutHeader) }))
-
-  const title = capitalizeWords(event.url).split('.')[0];
+    
+  const title = capitalizeWords(event.url.replaceAll('-', ' ')).split('.')[0];
 
   return {
     contents,
