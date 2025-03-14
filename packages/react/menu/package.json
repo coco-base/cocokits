@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-menu",
-  "version": "0.0.0",
-  "private": false,
+  "version": "1.0.1",
   "exports": {
     ".": {
       "import": "./index.mjs",
@@ -26,6 +25,7 @@
     "react-dom": "^18.3.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/menu"
+    "directory": "../../../dist/packages/react/menu",
+    "access": "public"
   }
 }

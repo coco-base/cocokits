@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/react-button",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "exports": {
     ".": {
       "import": "./index.mjs",
@@ -22,6 +22,7 @@
     "react-dom": "^18.3.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/button"
+    "directory": "../../../dist/packages/react/button",
+    "access": "public"
   }
 }

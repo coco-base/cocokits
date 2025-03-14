@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-overlay",
-  "version": "1.0.2",
-  "private": false,
+  "version": "1.0.3",
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
@@ -25,6 +24,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/overlay"
+    "directory": "../../../dist/packages/react/overlay",
+    "access": "public"
   }
 }

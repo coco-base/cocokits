@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/theme-cocokits",
-  "version": "1.1.0",
-  "private": false,
+  "version": "1.1.1",
   "type": "commonjs",
   "exports": {
     ".": {
@@ -30,6 +29,7 @@
     "@swc/helpers": "~0.5.2"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/themes/cocokits"
+    "directory": "../../../dist/packages/themes/cocokits",
+    "access": "public"
   }
 }

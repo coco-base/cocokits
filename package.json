@@ -182,6 +182,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.54.2",
     "react-is": "18.3.1",
+    "rollup-plugin-copy": "^3.5.0",
     "rxjs": "~7.8.0",
     "shiki": "1.24.3",
     "tslib": "^2.3.0",

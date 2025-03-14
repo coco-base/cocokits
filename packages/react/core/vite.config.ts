@@ -6,6 +6,7 @@ import * as path from 'path';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { getExternalPackages } from '../../../tools/scripts/get-external-packages';
+import copy from 'rollup-plugin-copy';
 
 export default defineConfig({
   root: __dirname,
@@ -19,6 +20,10 @@ export default defineConfig({
       entryRoot: 'src',
       tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
       aliasesExclude: [/^@cocokits\//],
+    }),
+    copy({
+      targets: [{ src: 'README.md', dest: '../../../dist/packages/react/core' }],
+      hook: 'writeBundle',
     }),
   ],
 

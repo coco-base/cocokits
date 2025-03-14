@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-overlay",
-  "version": "1.1.0",
-  "private": false,
+  "version": "1.1.1",
   "sideEffects": false,
   "dependencies": {
     "@cocokits/angular-core": "workspace:*",
@@ -17,6 +16,7 @@
     "rxjs": "~7.8.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/overlay"
+    "directory": "../../../dist/packages/angular/overlay",
+    "access": "public"
   }
 }

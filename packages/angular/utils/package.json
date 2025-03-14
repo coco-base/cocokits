@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-utils",
-  "version": "1.0.2",
-  "private": false,
+  "version": "1.0.3",
   "sideEffects": false,
   "dependencies": {
     "@cocokits/common-utils": "workspace:*"
@@ -14,6 +13,7 @@
     "rxjs": "~7.8.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/utils"
+    "directory": "../../../dist/packages/angular/utils",
+    "access": "public"
   }
 }

@@ -1,5 +1,11 @@
 # @cocokits/common-icons
 
+## 1.0.3
+
+### Patch Changes
+
+- c9f1995: First Release 🔥
+
 ## 1.0.2
 
 ### Patch Changes

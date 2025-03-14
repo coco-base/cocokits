@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/common-utils",
-  "version": "1.0.2",
-  "private": false,
+  "version": "1.0.3",
   "type": "commonjs",
   "main": "./index.js",
   "module": "./index.js",
@@ -17,6 +16,7 @@
     "vitest": "^1.6.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/common/utils"
+    "directory": "../../../dist/packages/common/utils",
+    "access": "public"
   }
 }
