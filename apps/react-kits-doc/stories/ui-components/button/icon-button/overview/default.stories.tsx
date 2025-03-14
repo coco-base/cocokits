@@ -38,11 +38,11 @@ export const Default: StoryObj<typeof IconButton> = {
       renderConditions: [renderWithPageTab('Overview')],
       hasControl: true,
       controls: [
-        CCK_CONTROL.icon('heartFill'),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
+        CCK_CONTROL.icon('heartFill'),
         CCK_CONTROL.disabled(),
       ],
     },

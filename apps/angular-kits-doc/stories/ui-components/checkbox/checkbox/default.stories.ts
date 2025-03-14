@@ -32,12 +32,12 @@ export const Default: StoryObj<CheckboxComponent> = {
       ],
       hasControl: true,
       controls: [
-        CCK_CONTROL.indeterminate(false),
         CCK_CONTROL.text('Checkbox Label'),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
+        CCK_CONTROL.indeterminate(false),
       ],
     },
   },

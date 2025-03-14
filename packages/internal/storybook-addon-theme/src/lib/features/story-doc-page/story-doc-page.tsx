@@ -12,6 +12,7 @@ import { StoryDocPageExamples } from './story-doc-page-examples';
 import { StoryDocPageOverview } from './story-doc-page-overview';
 import { StoryDocPageStyling } from './story-doc-page-styling';
 import { AddonConfig } from '../../data-access/addon-config/preview-addon-config';
+import { GlobalEvent } from '../../data-access/global-event/preview-global-event';
 import { AddonParameters } from '../../model/addon.model';
 import { useTheme } from '../../utils/use-preview-theme';
 import { DocPage } from '../doc-page/doc-page';
@@ -67,7 +68,9 @@ export function StoryDocPage() {
   }
 
   const onTabChange = (event: TabSelectionChangeEvent) => {
-    setSelectedTab(event.value as StoryTab);
+    const tabName = event.value as StoryTab;
+    getInstance(GlobalEvent).dispatch.docTabChange({ tabName });
+    setSelectedTab(tabName);
   };
 
   return (

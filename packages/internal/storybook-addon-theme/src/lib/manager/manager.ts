@@ -5,6 +5,7 @@ import { getInstance } from '@cocokits/common-utils';
 import { ADDON_COLOR_MODE_TOOL_ID, ADDON_ID, ADDON_THEME_TOOL_ID } from '../config/addon.config';
 import { AddonConfig } from '../data-access/addon-config/manager-addon-config';
 import { ColorModeEvent } from '../data-access/colo-mode-event/manager-color-mode-event';
+import { registerMixpanel } from '../data-access/mixpanel/mixpanel-register';
 import { ThemeEvent } from '../data-access/theme-event/manager-theme-event';
 import { ToolColorMode } from '../features/color-mode/tool-color-mode';
 import { SidebarService } from '../features/sidebar/sidebar.service';
@@ -34,9 +35,7 @@ addons.register(ADDON_ID, (_api) => {
   applyAddonStyles(config);
   addToolsComponent();
   addSidebarLabel();
-
-  // TODO:
-  // Mixpanel
+  registerMixpanel(config);
 });
 
 function applyAddonStyles(config: AddonThemeConfig | undefined) {

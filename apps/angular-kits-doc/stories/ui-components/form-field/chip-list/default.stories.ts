@@ -1,5 +1,5 @@
 import { ChipListComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<ChipListComponent> = {
@@ -32,29 +32,14 @@ export const Default: StoryObj<ChipListComponent> = {
       ],
       hasControl: true,
       controls: [
-        {
-          displayName: 'Label',
-          default: 'Favorite Foods',
-          storyArgKey: 'label',
-          type: AddonParametersControlType.Text,
-        },
-        {
-          displayName: 'Placeholder',
-          default: 'Add a new food',
-          storyArgKey: 'placeholder',
-          type: AddonParametersControlType.Text,
-        },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
-        {
-          displayName: 'Add On Blur',
-          default: false,
-          storyArgKey: 'addOnBlur',
-          type: AddonParametersControlType.Boolean,
-        },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
+        CCK_CONTROL.label('Favorite Foods'),
+        CCK_CONTROL.placeholder('Add a new food'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.disabled(false),
+        CCK_CONTROL.addOnBlur(false),
       ],
     },
   },

@@ -24,7 +24,11 @@ export function StoryCanvas({story}: StoryCanvasProps) {
     getInstance(GlobalEvent).dispatch.newStory(story);
   }, []);
 
-  const onCodeClick = () => setIsCodeSelected(!isCodeSelected);
+  const onCodeClick = () => {
+    const newIsCodeSelected = !isCodeSelected;
+    getInstance(GlobalEvent).dispatch.docOverviewSourceToggle({ storyName: story.name, isOpen: newIsCodeSelected });
+    setIsCodeSelected(newIsCodeSelected);
+  };
 
   return (
     <StyledHost>

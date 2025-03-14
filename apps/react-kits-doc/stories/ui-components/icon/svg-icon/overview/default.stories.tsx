@@ -37,7 +37,7 @@ export const Default: StoryObj<typeof SvgIcon> = {
         },
       ],
       hasControl: true,
-      controls: [CCK_CONTROL.icon('heartFill'), CCK_CONTROL.type(), CCK_CONTROL.color(), CCK_CONTROL.size()],
+      controls: [CCK_CONTROL.type(), CCK_CONTROL.color(), CCK_CONTROL.size(), CCK_CONTROL.icon('heartFill')],
     },
   },
   render: (args) => <SvgIcon {...reactThemeArgsToTemplate(args)} icon={args.cckIcons[args.cckControl.icon]} />,

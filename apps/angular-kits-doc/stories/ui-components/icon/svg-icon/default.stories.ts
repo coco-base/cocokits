@@ -30,11 +30,11 @@ export const Default: StoryObj<SvgIconComponent> = {
       ],
       hasControl: true,
       controls: [
-        CCK_CONTROL.icon('heartFill'),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
+        CCK_CONTROL.icon('heartFill'),
       ],
     },
   },

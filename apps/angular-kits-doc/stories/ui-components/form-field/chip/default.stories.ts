@@ -1,5 +1,5 @@
 import { ChipComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<ChipComponent> = {
@@ -32,18 +32,13 @@ export const Default: StoryObj<ChipComponent> = {
       ],
       hasControl: true,
       controls: [
-        { displayName: 'Text', default: 'Label', storyArgKey: 'text', type: AddonParametersControlType.Text },
-        { prop: 'type', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'color', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'size', type: AddonParametersControlType.SelectThemeConfig },
-        { prop: 'additional', type: AddonParametersControlType.SelectThemeConfig },
-        {
-          displayName: 'Removable',
-          default: false,
-          storyArgKey: 'removable',
-          type: AddonParametersControlType.Boolean,
-        },
-        { displayName: 'Disabled', default: false, storyArgKey: 'disabled', type: AddonParametersControlType.Boolean },
+        CCK_CONTROL.text('Label'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.removable(false),
+        CCK_CONTROL.disabled(false),
       ],
     },
   },

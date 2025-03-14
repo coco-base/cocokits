@@ -3,10 +3,12 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Icons } from "@cocokits/common-icons";
+import { getInstance } from '@cocokits/common-utils';
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 
 import { StoryDocPageExampleStoreCellStyle, useStoryDocPageExampleStore } from './story-doc-page-examples.store';
+import { GlobalEvent } from '../../data-access/global-event/preview-global-event';
 import { AddonParameters } from '../../model/addon.model';
 import { Story } from '../story-canvas/story';
 import { StoryCanvasWrapper } from '../story-canvas/story-canvas-wrapper';
@@ -89,10 +91,12 @@ export function StoryDocPageExamplesCanvas({ index, story, className }: StoryDoc
   ]);
 
   const onCollapseClick = () => {
+    getInstance(GlobalEvent).dispatch.docExampleToggle({ storyName: title, isOpen: false });
     store?.setCellExpanded(index, false);
   };
 
   const onExpandClick = () => {
+    getInstance(GlobalEvent).dispatch.docExampleToggle({ storyName: title, isOpen: true });
     store?.setCellExpanded(index, true);
   };
 
