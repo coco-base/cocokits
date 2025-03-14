@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-form-field",
   "version": "1.0.0",
-  "private": false,
   "exports": {
     ".": {
       "import": "./index.mjs",

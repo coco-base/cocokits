@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-divider",
   "version": "1.1.0",
-  "private": false,
   "sideEffects": false,
   "dependencies": {
     "@cocokits/angular-core": "workspace:*",

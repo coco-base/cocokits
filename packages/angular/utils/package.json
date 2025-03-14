@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-utils",
   "version": "1.0.2",
-  "private": false,
   "sideEffects": false,
   "dependencies": {
     "@cocokits/common-utils": "workspace:*"

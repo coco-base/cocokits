@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-icon",
   "version": "1.0.0",
-  "private": false,
   "exports": {
     ".": {
       "import": "./index.mjs",

@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/common-utils",
   "version": "1.0.2",
-  "private": false,
   "type": "commonjs",
   "main": "./index.js",
   "module": "./index.js",
