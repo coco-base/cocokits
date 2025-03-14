@@ -23,6 +23,7 @@
     "react-dom": "^18.3.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/checkbox"
+    "directory": "../../../dist/packages/react/checkbox",
+    "access": "public"
   }
 }

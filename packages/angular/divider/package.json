@@ -15,6 +15,7 @@
     "@angular/core": "^18.2.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/divider"
+    "directory": "../../../dist/packages/angular/divider",
+    "access": "public"
   }
 }

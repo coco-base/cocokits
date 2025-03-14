@@ -20,6 +20,7 @@
   "devDependencies": {},
   "peerDependencies": {},
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/components"
+    "directory": "../../../dist/packages/angular/components",
+    "access": "public"
   }
 }

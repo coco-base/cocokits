@@ -20,6 +20,7 @@
   "devDependencies": {},
   "sideEffects": false,
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/menu"
+    "directory": "../../../dist/packages/angular/menu",
+    "access": "public"
   }
 }

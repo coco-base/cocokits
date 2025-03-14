@@ -15,6 +15,7 @@
     "@angular/forms": "^18.2.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/checkbox"
+    "directory": "../../../dist/packages/angular/checkbox",
+    "access": "public"
   }
 }

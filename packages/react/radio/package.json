@@ -23,6 +23,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/radio"
+    "directory": "../../../dist/packages/react/radio",
+    "access": "public"
   }
 }

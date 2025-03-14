@@ -30,6 +30,7 @@
   },
   "devDependencies": {},
   "publishConfig": {
-    "directory": "../../../dist/packages/themes/frames-x"
+    "directory": "../../../dist/packages/themes/frames-x",
+    "access": "public"
   }
 }

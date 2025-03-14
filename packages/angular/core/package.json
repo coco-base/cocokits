@@ -13,6 +13,7 @@
     "@angular/core": "^18.2.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/core"
+    "directory": "../../../dist/packages/angular/core",
+    "access": "public"
   }
 }

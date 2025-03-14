@@ -14,7 +14,8 @@
     "@angular/core": "^18.2.0"
   }<% if (publishable) { %>,
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/<%= fileName %>"
+    "directory": "../../../dist/packages/angular/<%= fileName %>",
+    "access": "public"
   }<% } %>
 
 }

@@ -14,6 +14,7 @@
     "vitest": "^1.6.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/common/icons"
+    "directory": "../../../dist/packages/common/icons",
+    "access": "public"
   }
 }

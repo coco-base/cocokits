@@ -9,6 +9,7 @@
   "devDependencies": {},
   "peerDependencies": {},
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/cdk"
+    "directory": "../../../dist/packages/angular/cdk",
+    "access": "public"
   }
 }

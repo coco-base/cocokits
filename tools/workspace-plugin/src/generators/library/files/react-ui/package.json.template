@@ -23,6 +23,7 @@
     }
   }<% if (publishable) { %>,
   "publishConfig": {
-    "directory": "../../../dist/packages/react/<%= fileName %>"
+    "directory": "../../../dist/packages/react/<%= fileName %>",
+    "access": "public"
   }<% } %>
 }

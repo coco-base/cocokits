@@ -25,6 +25,7 @@
     "react-dom": "^18.3.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/menu"
+    "directory": "../../../dist/packages/react/menu",
+    "access": "public"
   }
 }

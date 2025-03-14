@@ -24,6 +24,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/overlay"
+    "directory": "../../../dist/packages/react/overlay",
+    "access": "public"
   }
 }

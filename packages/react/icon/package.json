@@ -22,6 +22,7 @@
     "react-dom": "^18.3.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/icon"
+    "directory": "../../../dist/packages/react/icon",
+    "access": "public"
   }
 }

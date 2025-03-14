@@ -23,6 +23,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/toggle"
+    "directory": "../../../dist/packages/react/toggle",
+    "access": "public"
   }
 }

@@ -26,6 +26,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/components"
+    "directory": "../../../dist/packages/react/components",
+    "access": "public"
   }
 }

@@ -15,6 +15,7 @@
     "vitest": "^1.6.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/common/core"
+    "directory": "../../../dist/packages/common/core",
+    "access": "public"
   }
 }

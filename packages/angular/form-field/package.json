@@ -21,6 +21,7 @@
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/form-field"
+    "directory": "../../../dist/packages/angular/form-field",
+    "access": "public"
   }
 }

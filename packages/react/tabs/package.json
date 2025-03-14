@@ -23,6 +23,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/tabs"
+    "directory": "../../../dist/packages/react/tabs",
+    "access": "public"
   }
 }
