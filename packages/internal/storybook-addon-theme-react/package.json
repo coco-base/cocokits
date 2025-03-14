@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/storybook-addon-theme-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@storybook/react": "8.4.4",

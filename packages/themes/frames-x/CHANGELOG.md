@@ -1,5 +1,13 @@
 # @cocokits/theme-frames-x
 
+## 1.1.1
+
+### Patch Changes
+
+- c9f1995: Improve and fix bugs
+- Updated dependencies [c9f1995]
+  - @cocokits/core@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes
