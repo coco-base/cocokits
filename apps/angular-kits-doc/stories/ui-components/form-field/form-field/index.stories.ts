@@ -21,10 +21,10 @@ import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-
 
 import descriptionMd from './description.md';
 
-export { Input } from './input.stories';
-export { Textarea } from './textarea.stories';
-export { Select } from './select.stories';
-export { ChipList } from './chip-list.stories';
+export { Input } from './overview/input.stories';
+export { Textarea } from './overview/textarea.stories';
+export { Select } from './overview/select.stories';
+export { ChipList } from './overview/chip-list.stories';
 
 export { Password } from './examples/password/index.example.stories';
 export { InputLink } from './examples/input-link/index.example.stories';

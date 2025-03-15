@@ -13,12 +13,10 @@ import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@coc
 
 import descriptionMd from './description.md';
 
-export { Default } from './default.stories';
-export { Size } from './size.stories';
-export { CustomPreview } from './custom-preview.stories';
-export { OptionGroup } from './option-group.stories';
-// export { NgModel } from './ng-model.stories';
-// export { ReactiveForm } from './reactive-form.stories';
+export { Default } from './overview/default.stories';
+export { Size } from './overview/size.stories';
+export { CustomPreview } from './overview/custom-preview.stories';
+export { OptionGroup } from './overview/option-group.stories';
 
 const meta: StoriesMeta = {
   component: SelectComponent,

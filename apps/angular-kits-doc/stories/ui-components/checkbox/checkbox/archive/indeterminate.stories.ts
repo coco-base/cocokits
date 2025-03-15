@@ -4,7 +4,7 @@ import { CheckboxComponent } from '@cocokits/angular-checkbox';
 import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
-import { CheckboxIndeterminateComponent } from './components/checkbox-indeterminate/checkbox-indeterminate.component';
+import { CheckboxIndeterminateComponent } from '../components/checkbox-indeterminate/checkbox-indeterminate.component';
 
 export const Indeterminate: StoryObj<CheckboxComponent> = {
   name: 'Indeterminate',
