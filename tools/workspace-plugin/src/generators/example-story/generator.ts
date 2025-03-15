@@ -76,23 +76,47 @@ function addImport(tree: Tree, exampleFolderPath: string, isAngular: boolean, op
 
   let content = tree.read(indexStoryPath, 'utf-8');
 
-  // Matches any line containing from './examples/ plus any characters after
-  // and captures the entire line
-  const regex = /^(.*from\s+['"]\.\/examples\/.*['"].*)$/gm;
-  let lastMatch: string | null = null;
-  let match: RegExpExecArray | null;
-
-  // Find the last occurrence of the matching line
-  while ((match = regex.exec(content)) !== null) {
-    lastMatch = match[1];
-  }
+  const lastMatch = findLastExportLine(content);
 
   if (lastMatch) {
     const newLine = `export { ${options.className}${isAngular ? '' : 'Story'} } from './examples/${options.fileName}/index.example.stories';`;
     content = content.replace(lastMatch, `${lastMatch}\n${newLine}`);
+  } else {
+    console.warn(
+      `Could not find a place to export the generate story in ${indexStoryPath}. You will need to add the export manually.`
+    );
   }
 
   tree.write(indexStoryPath, content);
+}
+
+function findLastExportLine(content: string): string | null {
+  let lastMatch: string | null = null;
+  let match: RegExpExecArray | null;
+
+  // Matches any line containing from './examples/ plus any characters after
+  // and captures the entire line
+  const regexExample = /^(.*from\s+['"]\.\/examples\/.*['"].*)$/gm;
+
+  // Find the last occurrence of the matching line
+  while ((match = regexExample.exec(content)) !== null) {
+    lastMatch = match[1];
+  }
+
+  if (lastMatch) {
+    return lastMatch;
+  }
+
+  // Matches any line containing from './examples/ plus any characters after
+  // and captures the entire line
+  const regexOverview = /^(.*from\s+['"]\.\/overview\/.*['"].*)$/gm;
+
+  // Find the last occurrence of the matching line
+  while ((match = regexOverview.exec(content)) !== null) {
+    lastMatch = match[1];
+  }
+
+  return lastMatch;
 }
 
 export default exampleStoryGenerator;
