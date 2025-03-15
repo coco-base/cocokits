@@ -5,9 +5,9 @@ import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-
 
 import descriptionMd from './description.md';
 
-export { Default } from './default.stories';
-export { Size } from './size.stories';
-export { Color } from './color.stories';
+export { Default } from './overview/default.stories';
+export { Size } from './overview/size.stories';
+export { Color } from './overview/color.stories';
 
 const meta: StoriesMeta = {
   component: SvgIconComponent,
