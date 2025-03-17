@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-menu",
-  "version": "1.1.0",
-  "private": false,
+  "version": "1.1.1",
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
@@ -21,6 +20,7 @@
   "devDependencies": {},
   "sideEffects": false,
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/menu"
+    "directory": "../../../dist/packages/angular/menu",
+    "access": "public"
   }
 }

@@ -56,12 +56,12 @@ export const Default: StoryObj<typeof Select> = {
       controls: [
         CCK_CONTROL.label('Favorite Foods'),
         CCK_CONTROL.placeholder('Add a new food'),
+        CCK_CONTROL.maxOptionsHeight(),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
         CCK_CONTROL.anchorPoint(ElementAnchorPoint.BottomLeft),
-        CCK_CONTROL.maxOptionsHeight(),
         CCK_CONTROL.disabled(),
         CCK_CONTROL.multiple(),
         CCK_CONTROL.required(),

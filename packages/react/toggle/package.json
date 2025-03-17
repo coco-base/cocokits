@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-toggle",
-  "version": "0.0.0",
-  "private": false,
+  "version": "1.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
@@ -24,6 +23,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/toggle"
+    "directory": "../../../dist/packages/react/toggle",
+    "access": "public"
   }
 }

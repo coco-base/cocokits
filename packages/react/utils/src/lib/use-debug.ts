@@ -1,3 +1,8 @@
+/* eslint-disable no-console */
+import { useEffect, useRef } from 'react';
+
+let NEXT_ID = 0;
+
 /**
  * A custom hook that logs debug information for the component lifecycle and change events.
  *
@@ -13,10 +18,6 @@
  *
  * In this example, the hook logs when the component is mounted, unmounted, and whenever the values in `changes` update.
  */
-import { useEffect, useRef } from 'react';
-
-let NEXT_ID = 0;
-
 export function useDebug(prefix: string, changes: any[] = []) {
   const id = useRef(NEXT_ID++);
 

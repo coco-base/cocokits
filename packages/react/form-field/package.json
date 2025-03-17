@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-form-field",
-  "version": "0.0.0",
-  "private": false,
+  "version": "1.0.1",
   "exports": {
     ".": {
       "import": "./index.mjs",
@@ -30,6 +29,7 @@
     "react-hook-form": "^7.54.2"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/form-field"
+    "directory": "../../../dist/packages/react/form-field",
+    "access": "public"
   }
 }

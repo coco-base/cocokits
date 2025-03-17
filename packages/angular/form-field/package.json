@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-form-field",
-  "version": "1.1.0",
-  "private": false,
+  "version": "1.1.1",
   "sideEffects": false,
   "dependencies": {
     "@cocokits/angular-button": "workspace:*",
@@ -22,6 +21,7 @@
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/form-field"
+    "directory": "../../../dist/packages/angular/form-field",
+    "access": "public"
   }
 }

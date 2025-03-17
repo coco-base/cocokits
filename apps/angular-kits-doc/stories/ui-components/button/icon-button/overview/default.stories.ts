@@ -31,10 +31,10 @@ export const Default: StoryObj<IconButtonComponent> = {
       ],
       hasControl: true,
       controls: [
-        CCK_CONTROL.icon('heartFill'),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
+        CCK_CONTROL.icon('heartFill'),
         CCK_CONTROL.additional(),
         CCK_CONTROL.disabled(false),
       ],

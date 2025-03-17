@@ -1,3 +1,24 @@
+import { StoryTab } from '../features/story-doc-page/story-doc-page';
+
+export interface EventDocTabChange {
+  tabName: StoryTab;
+}
+
+export interface EventDocExampleToggle {
+  exampleName: string;
+  isOpen: boolean;
+}
+
+export interface EventDocOverviewControlToggle {
+  storyName: string;
+  isOpen: boolean;
+}
+
+export interface EventDocOverviewSourceToggle {
+  storyName: string;
+  isOpen: boolean;
+}
+
 export const EVENTS = {
   // Theme
   THEME_CHANGE: 'cocokits_theme-changed',
@@ -24,6 +45,11 @@ export const EVENTS = {
   // Config
   PREVIEW_CONFIG_REGISTER: 'cocokits_preview-config-register',
   MANAGER_CONFIG_CHANGE: 'cocokits_manager-config-change',
+
+  // Docs
+  DOC_TAB_CHANGE: 'cocokits_doc-tab-change',
+  DOC_EXAMPLE_TOGGLE: 'cocokits_doc-example-toggle',
+  DOC_OVERVIEW_SOURCE_TOGGLE: 'cocokits_doc-overview-source-toggle',
 };
 
 export const THEME_HTML_ATTRIBUTE_MODE_NAME = 'data-cck-theme';

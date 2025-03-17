@@ -1,5 +1,13 @@
 # @cocokits/angular-cdk
 
+## 1.1.1
+
+### Patch Changes
+
+- c9f1995: First Release 🔥
+- Updated dependencies [c9f1995]
+  - @cocokits/angular-overlay@1.1.1
+
 ## 1.1.0
 
 ### Patch Changes

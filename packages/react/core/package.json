@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-core",
-  "version": "0.0.0",
-  "private": false,
+  "version": "1.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",
   "peerDependencies": {
@@ -23,6 +22,7 @@
     }
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/core"
+    "directory": "../../../dist/packages/react/core",
+    "access": "public"
   }
 }

@@ -8,6 +8,7 @@ import { TokenId } from '@cocokits/core';
 import { EVENTS } from '../../config/events.config';
 import { StoreState } from '../../features/story-control/story-control.model';
 import { StoryControlDialogProps } from '../../features/story-control/story-control-dialog';
+import { StoryTab } from '../../features/story-doc-page/story-doc-page';
 import { SelectedTheme } from '../../model/theme.model';
 import { fromStorybookEvent } from '../../utils/rxjs.util';
 
@@ -15,6 +16,20 @@ export type OpenStoryControlParams = StoryControlDialogProps;
 
 export interface PageChangeEvent {
   storyId: string; // theme-config-tokens--docs or ui-components-button--default
+}
+
+export interface DocTabChange {
+  tabName: StoryTab;
+}
+
+export interface DocExampleToggle {
+  isOpen: boolean;
+  storyName: string;
+}
+
+export interface DocOverviewSourceToggle {
+  isOpen: boolean;
+  storyName: string;
 }
 
 export abstract class GlobalEventBase {
@@ -37,6 +52,11 @@ export abstract class GlobalEventBase {
   public changeTokenInfo$: Observable<TokenId>;
   public closeTokenInfo$: Observable<TokenId>;
 
+  // Doc
+  public docTabChange$: Observable<DocTabChange>;
+  public docExampleToggle$: Observable<DocExampleToggle>;
+  public docOverviewSourceToggle$: Observable<DocOverviewSourceToggle>;
+
   public dispatch = {
     // Render
     newStory: (story: PreparedStory) => this.channel.emit(EVENTS.NEW_STORY, story),
@@ -53,6 +73,11 @@ export abstract class GlobalEventBase {
     // Token
     changeTokenInfo: (tokenId: TokenId) => this.channel.emit(EVENTS.CHANGE_TOKEN_INFO, tokenId),
     closeTokenInfo: () => this.channel.emit(EVENTS.CLOSE_TOKEN_INFO),
+
+    // Doc
+    docTabChange: (e: DocTabChange) => this.channel.emit(EVENTS.DOC_TAB_CHANGE, e),
+    docExampleToggle: (e: DocExampleToggle) => this.channel.emit(EVENTS.DOC_EXAMPLE_TOGGLE, e),
+    docOverviewSourceToggle: (e: DocOverviewSourceToggle) => this.channel.emit(EVENTS.DOC_OVERVIEW_SOURCE_TOGGLE, e),
   };
 
   constructor(channel: Channel) {
@@ -75,5 +100,13 @@ export abstract class GlobalEventBase {
 
     this.changeTokenInfo$ = fromStorybookEvent<TokenId>(this.channel, EVENTS.CHANGE_TOKEN_INFO);
     this.closeTokenInfo$ = fromStorybookEvent<TokenId>(this.channel, EVENTS.CLOSE_TOKEN_INFO);
+
+    // Doc
+    this.docTabChange$ = fromStorybookEvent<DocTabChange>(this.channel, EVENTS.DOC_TAB_CHANGE);
+    this.docExampleToggle$ = fromStorybookEvent<DocExampleToggle>(this.channel, EVENTS.DOC_EXAMPLE_TOGGLE);
+    this.docOverviewSourceToggle$ = fromStorybookEvent<DocOverviewSourceToggle>(
+      this.channel,
+      EVENTS.DOC_OVERVIEW_SOURCE_TOGGLE
+    );
   }
 }

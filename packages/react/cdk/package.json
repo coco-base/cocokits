@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/react-cdk",
-  "version": "0.0.0",
-  "private": false,
+  "version": "1.0.1",
   "exports": {
     ".": {
       "import": "./index.mjs",
@@ -22,6 +21,7 @@
     "react-dom": "^18.3.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/cdk"
+    "directory": "../../../dist/packages/react/cdk",
+    "access": "public"
   }
 }

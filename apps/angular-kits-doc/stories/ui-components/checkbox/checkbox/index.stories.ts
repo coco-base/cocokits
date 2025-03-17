@@ -5,13 +5,10 @@ import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@coc
 
 import descriptionMd from './description.md';
 
-export { Default } from './default.stories';
-export { Size } from './size.stories';
-export { Color } from './color.stories';
+export { Default } from './overview/default.stories';
+export { Size } from './overview/size.stories';
+export { Color } from './overview/color.stories';
 export { CheckboxLabelThrough } from './examples/checkbox-label-through/index.example.stories';
-// export { Indeterminate } from './indeterminate.stories';
-// export { NgModel } from './ng-model.stories';
-// export { ReactiveForm } from './reactive-form.stories';
 
 const meta: StoriesMeta = {
   component: CheckboxComponent,

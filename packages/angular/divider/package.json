@@ -1,7 +1,6 @@
 {
   "name": "@cocokits/angular-divider",
-  "version": "1.1.0",
-  "private": false,
+  "version": "1.1.1",
   "sideEffects": false,
   "dependencies": {
     "@cocokits/angular-core": "workspace:*",
@@ -16,6 +15,7 @@
     "@angular/core": "^18.2.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/divider"
+    "directory": "../../../dist/packages/angular/divider",
+    "access": "public"
   }
 }

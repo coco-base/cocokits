@@ -43,11 +43,11 @@ export const Default: StoryObj<typeof Toggle> = {
       hasControl: true,
       controls: [
         CCK_CONTROL.text('Slide Me!'),
-        CCK_CONTROL.labelPosition(),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
         CCK_CONTROL.additional(),
+        CCK_CONTROL.labelPosition(),
         CCK_CONTROL.disabled(),
         CCK_CONTROL.checked(),
       ],
