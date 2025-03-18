@@ -7,11 +7,14 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/
   standalone: true,
   selector: 'cck-checkbox-label-through',
   imports: [CheckboxComponent],
-  template: ` <cck-checkbox size="md" value="YOUR_VALUE" class="StrikedLabel"> Checkbox Label </cck-checkbox> `,
+  template: `
+    <cck-checkbox [size]="cckExampleArgs().size" [value]="1"
+      ><span class="striked-label"> Checkbox Label </span></cck-checkbox
+    >
+  `,
   styles: `
-    .StrikedLabel {
+    .striked-label {
       text-decoration: line-through;
-      color: white;
     }
   `,
 })

@@ -5,7 +5,7 @@ import { Styled } from './CheckboxLabelThrough.styled';
 
 export function CheckboxLabelThrough(props: { cckExampleArgs: ExampleArgs }) {
   return (
-    <Checkbox size="md" value="YOUR_VALUE">
+    <Checkbox size={props.cckExampleArgs.size} value={1}>
       <Styled.StrikedLabel>Checkbox Label</Styled.StrikedLabel>
     </Checkbox>
   );
