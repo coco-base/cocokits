@@ -8,6 +8,8 @@ import descriptionMd from './description.md';
 export { Default } from './overview/default.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
+export { CheckboxLabelThrough } from './examples/checkbox-label-through/index.example.stories';
+export { CheckboxLabelLink } from './examples/checkbox-label-link/index.example.stories';
 
 const meta: StoriesMeta = {
   component: CheckboxComponent,
