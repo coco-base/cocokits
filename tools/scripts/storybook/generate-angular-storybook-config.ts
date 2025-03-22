@@ -27,7 +27,10 @@ export function generateAngularStorybookConfig(
         autodocs: true,
         docsMode: true,
       },
-      staticDirs: [path.relative(options.callerPath, 'packages/internal/storybook-addon-theme/src/assets')],
+      staticDirs: [
+        path.relative(options.callerPath, 'packages/internal/storybook-addon-theme/src/assets'),
+        path.relative(options.callerPath, 'packages/internal/common-kits-doc/assets'),
+      ],
       env: (env) => {
         return {
           NODE_ENV: env?.['NODE_ENV'] ?? '',

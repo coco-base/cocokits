@@ -1,0 +1,116 @@
+import { Meta } from '@storybook/addon-docs';
+import { MdxPage, TokenDictionary } from '@cocokits/storybook-addon-theme';
+
+export const tocItems = [
+  {"id":"apps","name":"apps"},
+  {"id":"appsangular-kits-doc","name":"apps/angular-kits-doc"},
+  {"id":"appsreact-kits-doc","name":"apps/react-kits-doc"},
+  {"id":"packages","name":"packages"},
+  {"id":"packagescommon","name":"packages/common"},
+  {"id":"packagesinternal","name":"packages/internal"},
+  {"id":"packagesthemes","name":"packages/themes"},
+  {"id":"tools","name":"tools"}
+];
+
+<Meta title='Contributing/Workspace Structure'/>
+
+<MdxPage breadcrumb="Contributing" title='Workspace Structure' hideThemeSwitcher={true} tocItems={tocItems}>
+
+This document outlines the folder structure of the CocoKits project, providing a clear understanding of the purpose of each directory.
+It is designed to assist new contributors in navigating the project, understanding where to place their files, and ensuring consistency
+across the codebase.
+
+CocoKits uses a monorepo architecture managed by NX, which enables efficient code sharing, dependency management,
+and build optimization across multiple packages. The project follows a multi-package approach, where components are modular 
+nd can be used independently or as part of a full suite.
+
+## apps
+The apps directory contains the main applications that demonstrate and document the component libraries or any other application that is part of the project.
+These applications serve as both documentation and real-world examples of how to use the libraries effectively.
+
+## apps/angular-kits-doc
+This folder contains the documentation for the Angular libraries and kits and it;s develop base on storybook.
+It serves as a comprehensive guide for developers and designers on how to use Angular components and libraries effectively. Key features include:
+
+- **Component Examples:** Demonstrations of Angular UI components with examples, source code, and component generators based on different configurations.
+- **API Documentation:** Detailed API references for each component, including usage instructions, props, and events.
+- **Styling and Theming:** Documentation on design tokens, design system themes, and how to apply them in applications.
+- **Guidelines:** Step-by-step instructions on installation, collaboration, and best practices for using Angular kits.
+- **Utilities:** Common Angular utilities that developers can integrate into their own applications.
+
+All Angular-related documentation, including design system themes, styling guidelines, and component usage, that is related to angular,
+should be placed here.
+
+## apps/react-kits-doc
+Similar to the angular-kits-doc folder, this directory contains documentation for the React libraries and kits.
+It provides guidance on utilizing React components and libraries effectively and develop base on storybook.
+Key features include:
+
+- **Component Examples:** Demonstrations of React UI components with examples, source code, and component generators based on different configurations.
+- **API Documentation:** Detailed API references for each component, including usage instructions, props, and events.
+- **Styling and Theming:** Documentation on design tokens, design system themes, and how to apply them in applications.
+- **Guidelines:** Step-by-step instructions on installation, collaboration, and best practices for using React kits.
+- **Utilities:** Common React utilities that developers can integrate into their own applications.
+
+All React-related documentation, including design system themes, styling guidelines, and component usage, that is related to react, should be placed here.
+
+## packages
+The packages directory is the core of the project, containing all reusable library packages.
+These packages are organized by framework and functionality to ensure modularity and reusability.
+
+## packages/angular
+This folder contains Angular-specific libraries and components. It is designed to house reusable Angular services,
+components, directives, pipes, and utilities that can be shared across various Angular applications within the project.
+Developers should place any Angular-related code here to maintain organization and reusability.
+
+## packages/common
+The common folder is intended for shared utilities, functions, and components that are framework-agnostic. This includes:
+
+- Helper functions
+- Constants
+- Types
+- Framework-independent utilities
+
+Developers should ensure that any shared logic or utilities are placed in this directory to promote reusability across different frameworks.
+
+## packages/internal
+This directory is reserved for internal libraries and components that are not intended for public use. It may include:
+
+Experimental features
+
+- Internal tools (e.g., documentation generators, build tools, custom storybook theme)
+- Prototypes or proof-of-concept code
+
+Developers should use this folder for internal team use only. Code in this directory should never be published to the npm registry.
+
+## packages/react
+Similar to the angular folder, the react directory contains React-specific libraries and components.
+It is designed to house reusable React hooks, components, and utilities that can be utilized across various React applications within the project.
+Developers should place any React-related code here.
+
+## packages/themes
+The themes folder is dedicated to styling and theming resources for the project. This includes:
+
+- CSS and SASS files
+- Design tokens
+- Theme configurations
+- Visual styling frameworks
+
+Developers should place any theme-related files here to ensure a consistent look and feel across all applications.
+
+
+## tools
+The tools directory contains scripts and utilities that assist in the development process. This includes:
+
+- Build scripts
+- Testing utilities
+- Automation scripts
+- Development tools
+
+Developers should add any scripts or tools that enhance productivity or automate tasks in this folder.
+
+## Conclusion
+This structure ensures that the CocoKits project remains organized, scalable, and easy to navigate.
+By following the guidelines outlined in this document, contributors can maintain consistency and improve the overall quality of the codebase.
+
+</MdxPage>

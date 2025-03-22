@@ -19,7 +19,7 @@ export const DocPage = (props: DocPageProps) => {
   return (
     // sb-unstyled class remove default storybook styles
     <StyledHost className={`sb-unstyled`}>
-      <DocPageNav/>
+      <DocPageNav hideThemeSwitcher={props.hideThemeSwitcher}/>
       <DocPageBgEffect/>
 
       <StyledContentWrapper>
