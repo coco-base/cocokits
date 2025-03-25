@@ -1,5 +1,5 @@
 import { PreparedStory } from '@storybook/types';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { ElementAnchorPoint } from '@cocokits/common-utils';
@@ -17,8 +17,26 @@ interface StorySourceCodeProps {
 
 export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(({ story, pause, className }, ref) => {
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const [selectedSourceIndex, setSelectedSourceIndex] = useState<number>(0);
-  const { loading, sourceCodes } = useSourceCodeGenerator(story, pause);
+  const { loading, sourceCodes } = useSourceCodeGenerator(story, pause || isMobile);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 600);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if(isMobile)  {
+    return (
+      <StyledHost className={className} $placeholder={true} ref={ref}>
+        <p>Please switch to a larger device to see the source code</p>
+      </StyledHost>
+    );
+  }
 
   if (loading) {
     return (
@@ -98,6 +116,8 @@ const StyledHost = styled.div<{ $placeholder?: boolean }>`
       justify-content: center;
       align-items: center;
       gap: 12px;
+      padding: 24px;
+      text-align: center;
 
       & p {
         margin: 0;

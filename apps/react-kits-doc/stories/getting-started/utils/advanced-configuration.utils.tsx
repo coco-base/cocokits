@@ -84,7 +84,7 @@ export function getChangeTokenSelectorsItems(theme: ThemeChangeEvent) {
   return `
 - ${backtick(lightFrom)} -> ${backtick('.cck-theme-light')}
 - ${backtick(darkFrom)} -> ${backtick('.cck-theme-dark')}
-  `
+  `;
 }
 
 export function getChangeTokenSelectorsStep1Code(theme: ThemeChangeEvent) {
@@ -126,7 +126,7 @@ export function getChangeTokenSelectorsStep2Code() {
 
 <html class="cck-theme-dark">
   <!-- ... -->
-</html>`
+</html>`;
 
   return code(html);
 }

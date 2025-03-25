@@ -116,7 +116,9 @@ export function StoryDocPageExamplesCanvas({ index, story, className }: StoryDoc
         </StyledStoryCanvasWrapper>
       </StyledStoryCanvasContainer>
 
-      <StyledStorySourceCode ref={sourceCodeRef} story={story} pause={!shouldShowSourceCode}/>
+      <StyledStorySourceCodeWrapper ref={sourceCodeRef}>
+        <StyledStorySourceCode story={story} pause={!shouldShowSourceCode}/>
+      </StyledStorySourceCodeWrapper>
 
       <StyledCloseButton ref={collapseButtonRef} onClick={onCollapseClick}>
         <SvgIcon icon={Icons.close} />
@@ -170,12 +172,18 @@ const StyledStoryCanvasWrapper = styled(StoryCanvasWrapper)`
   }
 `;
 
-const StyledStorySourceCode = styled(StorySourceCode)`
+const StyledStorySourceCodeWrapper = styled.div`
   flex: 0; // Expanded: 1
   opacity: 1; // Expanded: 1
   min-height: 0;
   overflow: hidden;
   margin: 0; // Expanded 8px 0
+`;
+
+const StyledStorySourceCode = styled(StorySourceCode)`
+  height: 100%;
+  overflow: auto;
+  margin: 0; // Override the source code margin
 `;
 
 const StyledCloseButton = styled(IconButton)`

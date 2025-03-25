@@ -1,5 +1,7 @@
-import { createComponentStore } from '@cocokits/react-utils';
 import React, { createContext, RefObject, useContext, useRef } from 'react';
+
+import { createComponentStore } from '@cocokits/react-utils';
+
 import { TabSelectionChangeEvent, TabValue } from './tab.model';
 
 export interface TabComponent {
@@ -47,12 +49,6 @@ export function useTabsStore() {
 class TabsStore {
   private state = createComponentStore<TabsState>({ selectedValue: '', tabs: {} });
 
-  constructor(private config: TabsStoreConfig) {}
-
-  public updateConfig(config: Partial<TabsStoreConfig>) {
-    this.config = { ...this.config, ...config };
-  }
-
   public useSelectedTab = this.state.createSelector(
     (state) => state.tabs[state.selectedValue] ?? Object.values(state.tabs)[0]
   );
@@ -61,6 +57,12 @@ class TabsStore {
     const tabs = Object.values(state.tabs) ?? [];
     return tabs.sort((a, b) => a.index - b.index);
   });
+
+  constructor(private config: TabsStoreConfig) {}
+
+  public updateConfig(config: Partial<TabsStoreConfig>) {
+    this.config = { ...this.config, ...config };
+  }
 
   public registerTab(tab: TabComponent) {
     this.state.updateState((state) => {
@@ -88,8 +90,8 @@ class TabsStore {
       return;
     }
 
-    this.state.updateState((state) => {
-      return { ...state, selectedValue: newTabValue };
+    this.state.updateState((currentState) => {
+      return { ...currentState, selectedValue: newTabValue };
     });
 
     if (emitEvent) {

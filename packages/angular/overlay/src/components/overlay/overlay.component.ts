@@ -126,10 +126,10 @@ export class OverlayComponent<TData = any, TResult = any> implements OnInit {
   ngOnInit() {
     isTemplateRef(this.overlayRef.componentOrTemplate)
       ? this.contentViewContainerRef().createEmbeddedView(
-          this.overlayRef.componentOrTemplate,
-          {},
-          { injector: this.injector }
-        )
+        this.overlayRef.componentOrTemplate,
+        {},
+        { injector: this.injector }
+      )
       : this.contentViewContainerRef().createComponent(this.overlayRef.componentOrTemplate);
 
     if (this.overlayRef.config.positionStrategy.type === 'connectToElement') {

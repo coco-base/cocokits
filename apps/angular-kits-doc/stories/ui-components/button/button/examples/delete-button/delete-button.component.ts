@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 
 import { ButtonComponent, SvgIconComponent } from '@cocokits/angular-components';
-import { Icons, OutlineIcons } from '@cocokits/common-icons';
+import { OutlineIcons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/delete-button.config';
 
 @Component({

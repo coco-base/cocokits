@@ -1,19 +1,18 @@
 diff --git a/dist/builder-manager/index.js b/dist/builder-manager/index.js
-index 8c4916ff9941a3d79a6d4de49697623319d16ec1..0f7ba5f8285a6e8c436aef5a3f93b3dabb87eae6 100644
+index 8c4916ff9941a3d79a6d4de49697623319d16ec1..3c920fd6290efc2088008c859a1e0c71b2fb572c 100644
 --- a/dist/builder-manager/index.js
 +++ b/dist/builder-manager/index.js
-@@ -1797,8 +1797,9 @@ var oe = /* @__PURE__ */ o(async (e, i, t, a, r, n, s, c, p, l, u, { versionChec
-     (E, [w, P]) => ({ ...E, [w]: JSON.stringify(P) }),
+@@ -1798,7 +1798,8 @@ var oe = /* @__PURE__ */ o(async (e, i, t, a, r, n, s, c, p, l, u, { versionChec
      {}
    );
-+
    return (0, dt.render)(y, {
 -    title: h ? `${h} - Storybook` : "Storybook",
++    // title: h ? `${h} - Storybook` : "Storybook",
 +    title: h ? `${h} - CocoKits` : "CocoKits", // CocoKits
      files: { js: n, css: r },
      favicon: await t,
      globals: {
-@@ -1939,6 +1940,41 @@ var pa = /^\/($|\?)/, G, C, xt = /* @__PURE__ */ o(async (e) => {
+@@ -1939,6 +1940,34 @@ var pa = /^\/($|\?)/, G, C, xt = /* @__PURE__ */ o(async (e) => {
      ne("addon.tsconfig.json"),
      e.presets.apply("env")
    ]), n = t ? [...i, t] : i;
@@ -22,32 +21,25 @@ index 8c4916ff9941a3d79a6d4de49697623319d16ec1..0f7ba5f8285a6e8c436aef5a3f93b3da
 +  const findTsconfigStorybookManagerPath = () => {
 +    const fs = require('fs');
 +    const path = require('path');
-+  
 +    console.log('');
 +    console.log('--------------------------------------');
 +    console.log('Starting search for tsconfig.storybook-manager-paths.json');
-+  
 +    let currentDir = process.cwd();
-+  
 +    while (true) {
 +      console.log(`Directory: ${currentDir}`);
-+  
 +      const filePath = path.join(currentDir, 'tsconfig.storybook-manager-paths.json');
 +      if (fs.existsSync(filePath)) {
 +        console.log(`Found tsconfig.storybook-manager-paths.json at: ${filePath}`);
 +        console.log('--------------------------------------');
 +        console.log('');
-+
 +        return filePath;
 +      }
-+  
 +      const parentDir = path.dirname(currentDir);
 +      if (parentDir === currentDir) {
 +        throw new Error(
 +          `Cannot find tsconfig.storybook-manager-paths.json file in the ${process.cwd()} or any parents make sure you have it in your workspace.`
 +        );
 +      }
-+
 +      currentDir = parentDir;
 +    }
 +  };  
@@ -55,7 +47,7 @@ index 8c4916ff9941a3d79a6d4de49697623319d16ec1..0f7ba5f8285a6e8c436aef5a3f93b3da
    return {
      entryPoints: await jt(n, e.cacheKey),
      outdir: L(e.outputDir || "./", "sb-addons"),
-@@ -1984,7 +2020,8 @@ var pa = /^\/($|\?)/, G, C, xt = /* @__PURE__ */ o(async (e) => {
+@@ -1984,7 +2013,8 @@ var pa = /^\/($|\?)/, G, C, xt = /* @__PURE__ */ o(async (e) => {
          assert: O.resolve("browser-assert")
        }),
        Z(ca),
@@ -65,3 +57,24 @@ index 8c4916ff9941a3d79a6d4de49697623319d16ec1..0f7ba5f8285a6e8c436aef5a3f93b3da
      ],
      banner: {
        js: "try{"
+diff --git a/dist/manager/runtime.js b/dist/manager/runtime.js
+index 10bd360e4a0354ba53c4c84dbe415201c7717fbe..1d5a6f9d8be031ae03f2fdb69fddc86c750a89af 100644
+--- a/dist/manager/runtime.js
++++ b/dist/manager/runtime.js
+@@ -5895,10 +5895,14 @@ var qp = (0, Bo.default)(1e3)((e, t) => t[e]), yy = (0, Bo.default)(1e3)((e, t)
+   (e, t) => Qp(t, e).map((o) => o.id)
+ ), It = (0, Bo.default)(1e3)((e, t, o) => {
+   let i = e[t];
+-  return (i.type === "story" || i.type === "docs" ? [] : i.children).reduce((r, l) => {
++  // return (i.type === "story" || i.type === "docs" ? [] : i.children).reduce((r, l) => {
++  //   let u = e[l];
++  //   return !u || o && (u.type === "story" || u.type === "docs") || r.push(l, ...It(e, l, o)), r;
++  // }, []);
++  return (i.type === "story" || i.type === "docs" ? [] : i.children)?.reduce((r, l) => {
+     let u = e[l];
+     return !u || o && (u.type === "story" || u.type === "docs") || r.push(l, ...It(e, l, o)), r;
+-  }, []);
++  }, []) ?? [];
+ });
+ function Zp(e, t) {
+   let o = e.type !== "root" && e.parent ? t.index[e.parent] : null;

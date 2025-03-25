@@ -118,7 +118,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
               {...restFieldControl}
               {...restProps}
             />
-          )
+          );
         }}
       />
     );

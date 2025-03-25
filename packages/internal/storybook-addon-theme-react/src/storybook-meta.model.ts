@@ -2,7 +2,6 @@ import { Args, Meta, StoryObj as ReactStoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
 import { ThemeComponentConfig, ThemeSvgIcon } from '@cocokits/core';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { AddonParametersMeta, AddonParametersStories, StorybookTags } from '@cocokits/storybook-addon-theme';
 
 // will be used in index.stories.ts

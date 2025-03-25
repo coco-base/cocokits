@@ -17,16 +17,27 @@ As a contributor, here are the guidelines we would like you to follow:
 
 ## Contribution Workflow
 
-- **Clone the Repository:** Clone the main repository to your local machine
-- **Create a New Branch:** Create a new branch for your changes and follow the [branch naming convention](./?path=/docs/contributing-branch-naming--docs)
-- **Make Your Changes:** Work on your changes locally and commit them with clear and follow [commit message convention](./?path=/docs/contributing-commit--docs).
-- **Push Your Changes:** Push your branch to the remote repository
-- **Submit a Pull Request (PR):**
-  - Create a PR from your branch to the main branch of the repository.
-  - Include a clear description of the changes, the purpose of the PR, and any relevant context.
-  - Request a review from the core team members.
-- **Core Team Review and Merge:** The author of the PR cannot merge it. A core team member will review the PR, provide feedback, and merge it into the main branch once it is approved and all CI checks pass.
-- **Clean Up:** After the PR is merged, delete the feature branch to keep the repository clean:
+1. **Fork the Repository:** Start by forking the repository and cloning your fork to your local machine.
+1. **Create a Feature Branch:** Create a new feature branch for your changes and follow the [branch naming convention](./?path=/docs/contributing-branch-naming--docs)
+1. **Make Your Changes:** Work on your changes locally and commit them with clear and follow [commit message convention](./?path=/docs/contributing-commit--docs).
+1. **Write Tests:** Update existing tests or add new ones to cover your changes. This helps maintain reliability and stability.
+1. **Document Changes:** Update any relevant documentation within the package to reflect your changes. And make sure all the changes covered by JsDoc comments with `@example` tag.
+1. **Update Changes Log:** Use `changesset` to add all changes log.
+    - Run `pnpm changeset add` to create a new changeset.
+    - Select the packages that are affected by your changes.
+    - Choose the bump type for each package. 
+      - **major**: Breaking changes, choose the packages that have breaking changes and keep if empty if no breaking changes.
+      - **minor**: New features, choose the packages that have new features, and keep it empty if no new features.
+      - **patch**: Bug fixes
+    - Add a summary of the changes
+    - Commit the changeset file.
+1. **Push Your Changes:** Push your branch to the remote repository
+1. **Submit a Pull Request (PR):**
+    - Create a PR from your branch to the main branch of the repository.
+    - Include a clear description of the changes, the purpose of the PR, and any relevant context.
+    - Request a review from the core team members.
+1. **Core Team Review and Merge:** The author of the PR cannot merge it. A core team member will review the PR, provide feedback, and merge it into the main branch once it is approved and all CI checks pass.
+1. **Clean Up:** After the PR is merged, delete the feature branch to keep the repository clean:
 
 ## Final Note
 We love you and your pull requests 🤗.

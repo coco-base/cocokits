@@ -1,6 +1,6 @@
 import { Args } from '@storybook/types';
 
-import { getInstance, isNotNullish, reduceMerge } from "@cocokits/common-utils";
+import { getInstance } from "@cocokits/common-utils";
 import { ThemeConfigContext } from "@cocokits/react-core";
 import { StoreState, ThemeEvent } from "@cocokits/storybook-addon-theme";
 
@@ -54,10 +54,10 @@ export function reactThemeArgsToTemplate(storyArgs: Args): Args {
     return {};
   }
 
-  const additionalThemeConfig = args.themeComponentConfig.additional;
-  const additionalKeys = Object.keys(additionalThemeConfig ?? {})
-    .filter((key) => isNotNullish(args[key]));
-  const additional = reduceMerge(additionalKeys, (key) => ({ [key]: args[key] }), {});
+  // const additionalThemeConfig = args.themeComponentConfig.additional;
+  // const additionalKeys = Object.keys(additionalThemeConfig ?? {})
+  //   .filter((key) => isNotNullish(args[key]));
+  // const additional = reduceMerge(additionalKeys, (key) => ({ [key]: args[key] }), {});
   
   return {
     type: storyArgs.cckControl.type,

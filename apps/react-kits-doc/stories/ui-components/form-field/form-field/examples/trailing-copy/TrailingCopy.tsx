@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
+
 import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-copy.config';
 import { FormField, Hint, Input, Label, SvgIcon, Trailing } from '@cocokits/react-components';
-import { useEffect, useState } from 'react';
 
 export function TrailingCopy(props: { cckExampleArgs: ExampleArgs }) {
 
