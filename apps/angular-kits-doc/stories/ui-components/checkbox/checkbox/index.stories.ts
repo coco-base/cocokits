@@ -10,6 +10,8 @@ export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
 export { CheckboxLabelThrough } from './examples/checkbox-label-through/index.example.stories';
 export { CheckboxLabelLink } from './examples/checkbox-label-link/index.example.stories';
+export { CheckboxGroupColumn } from './examples/checkbox-group-column/index.example.stories';
+export { CheckboxGroupRow } from './examples/checkbox-group-row/index.example.stories';
 
 const meta: StoriesMeta = {
   component: CheckboxComponent,
