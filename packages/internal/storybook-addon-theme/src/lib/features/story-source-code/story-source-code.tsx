@@ -2,9 +2,11 @@ import { PreparedStory } from '@storybook/types';
 import { forwardRef, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
+import { Icons } from '@cocokits/common-icons';
 import { ElementAnchorPoint } from '@cocokits/common-utils';
-import { Delay } from '@cocokits/react-cdk';
+import { Button } from '@cocokits/react-button';
 import { FormField, Option, Select, SelectPreview } from '@cocokits/react-form-field';
+import { SvgIcon } from '@cocokits/react-icon';
 
 import { useSourceCodeGenerator } from './use-source-code-generator';
 import { StyledLoader } from '../../utils/common-elements';
@@ -17,6 +19,7 @@ interface StorySourceCodeProps {
 
 export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(({ story, pause, className }, ref) => {
 
+  const [hasCopied, setHasCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const [selectedSourceIndex, setSelectedSourceIndex] = useState<number>(0);
   const { loading, sourceCodes } = useSourceCodeGenerator(story, pause || isMobile);
@@ -67,17 +70,29 @@ export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(
     setSelectedSourceIndex(index);
   };
 
+  const onCopyClick = () => {
+    navigator.clipboard.writeText(selectedSource.code);
+
+    if(!hasCopied) {
+      setHasCopied(true);
+      setTimeout(() => setHasCopied(false), 3000);
+    }
+  };
+
   return (
     <StyledHost className={className} ref={ref}>
       <StyledHeader>
-        <StyledFilename>
-          {selectedSource.fileName}
-          {loading && (
-            <Delay time={100}>
-              <StyledLoader />
-            </Delay>
-          )}
-        </StyledFilename>
+        <StyledFilename>{selectedSource.fileName}</StyledFilename>
+
+        <StyledCopyButton onClick={onCopyClick}>
+          { hasCopied && 'Copied!' }
+          { !hasCopied && 
+            <>
+              <SvgIcon icon={Icons.copy} />
+              Copy
+            </>
+          }
+        </StyledCopyButton>
 
         {sourceCodes.length > 1 && (
           <FormField>
@@ -127,7 +142,6 @@ const StyledHost = styled.div<{ $placeholder?: boolean }>`
 
 const StyledHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   padding: 8px 8px 8px 20px;
   border-bottom: 1px solid var(--cck-doc-color-border-2);
 `;
@@ -138,6 +152,11 @@ const StyledFilename = styled.div`
   gap: 12px;
   font: var(--cck-doc-text-sm-medium);
   color: var(--cck-doc-color-font-3);
+`;
+
+const StyledCopyButton = styled(Button)`
+  margin-left: auto;
+  margin-right: 8px;
 `;
 
 const StyleSelectPreviewText = styled.span`
@@ -152,6 +171,7 @@ const StyledCode = styled.div`
   overflow: auto;
   flex: 1;
   margin-right: 4px;
+  font-size: 14px;
   scrollbar-color: var(--cck-doc-color-bg-5) var(--cck-doc-color-bg-3);
 
   & pre {

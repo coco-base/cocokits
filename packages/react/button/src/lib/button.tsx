@@ -21,10 +21,13 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'col
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ type, size, color, additional, children, ...restProps }, ref) => {
+  ({ type, size, color, additional, children, className, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: 'button',
       props: { type, size, color, additional },
+      extraHostElementClassConditions: [
+        { if: !!className, classes: () => [className] },
+      ]
     });
 
     return (

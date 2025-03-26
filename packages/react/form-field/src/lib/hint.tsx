@@ -29,10 +29,13 @@ export function Hint(props: HintProps) {
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'hint',
     props,
+    extraHostElementClassConditions: [
+      { if: !!props.className, classes: () => [props.className] },
+    ]
   });
 
   useEffect(() => {
-    const template = <div className={`${hostClassNames} ${props.className ?? ''}`}>{props.children}</div>;
+    const template = <div className={hostClassNames} style={props.style}>{props.children}</div>;
 
     formStore?.updateComponent('hint', { template });
   }, [props.children]);

@@ -62,7 +62,8 @@ export interface SelectProps<T = unknown> extends UIBaseComponentProps {
   onOpenedChange?: (opened: boolean) => void;
 
   /**
-   * TODO: ...
+   * The anchor point for the overlay panel.
+   * @default ElementAnchorPoint.BottomLeft
    */
   anchorPoint?: ElementAnchorPoint;
 
@@ -187,7 +188,7 @@ export const Select = <T,>(props: SelectProps<T>) => {
 
   return (
     <SelectStoreProvider value={selectStore}>
-      <div className={hostClassNames} onClick={onHostClick} ref={hostRef}>
+      <div className={hostClassNames} style={props.style} onClick={onHostClick} ref={hostRef}>
         <div className={classNames.triggerWrapper}>
           {/* Trigger Content */}
           <div className={classNames.triggerValue}>

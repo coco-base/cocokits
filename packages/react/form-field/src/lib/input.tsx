@@ -66,6 +66,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     extraHostElementClassConditions: [
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: true, classes: () => [props.className] },
+      { if: !!props.className, classes: () => [props.className] },
     ],
     skipProps: {
       skipType: true,
@@ -107,6 +108,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           return (
             <input
               className={hostClassNames}
+              style={props.style}
               required={required}
               disabled={disabled}
               type={type?.toString() || 'text'}

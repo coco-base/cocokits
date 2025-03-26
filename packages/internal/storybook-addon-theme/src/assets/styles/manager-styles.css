@@ -453,7 +453,7 @@ a{
   fill:var(--cck-doc-color-font-1);
 }
 .doc-cck-button__basic:hover{
-  background-color:var(--cck-doc-color-bg-hover-1);
+  background-color:var(--cck-doc-color-bg-hover-2);
 }
 .doc-cck-button__light{
   background-color:var(--cck-doc-color-bg-selected-1);
@@ -736,7 +736,7 @@ body{
 
 .doc-cck-radio-group__row{
   flex-direction:row;
-  gap:24px;
+  gap:12px;
 }
 
 .doc-cck-radio-group__column{
@@ -864,9 +864,10 @@ body{
 }
 .doc-cck-tabs__labels-wrapper{
   display:flex;
+  flex-wrap:wrap;
   align-items:center;
   gap:8px;
-  height:40px;
+  min-height:40px;
   padding:4px;
   align-self:flex-start;
   border-radius:var(--cck-doc-radius-sm);
@@ -890,7 +891,7 @@ body{
   height:32px;
   align-items:center;
   justify-content:center;
-  padding:4px 20px;
+  padding:4px 12px;
   border-radius:var(--cck-doc-radius-sm);
   cursor:pointer;
   position:relative;
