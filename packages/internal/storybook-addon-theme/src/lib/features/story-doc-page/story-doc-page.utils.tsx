@@ -4,7 +4,7 @@ import { StoryDocPageAPIProps } from './story-doc-page-api';
 import { getArgTypesApiList } from './story-doc-page-api.utils';
 import { StoryDocPageOverviewProps } from './story-doc-page-overview';
 import { StoryDocPageStylingComponent, StoryDocPageStylingProps } from './story-doc-page-styling';
-import { AddonParameters, ComponentRef, AddonThemeConfig } from '../../model/addon.model';
+import { AddonParameters, AddonThemeConfig,ComponentRef } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
 import { getStoryComponentName } from '../../utils/get-story-parameters';
 

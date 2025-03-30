@@ -26,10 +26,13 @@ export interface SvgIconProps extends Omit<React.SVGProps<SVGSVGElement>, 'color
 }
 
 export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
-  ({ icon, type, size, color, additional, ...restProps }, ref) => {
+  ({ icon, type, size, color, additional, className, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: 'svgIcon',
       props: { type, size, color, additional },
+      extraHostElementClassConditions: [
+        { if: !!className, classes: () => [className] },
+      ]
     });
 
     const hostRef = useRef<HTMLDivElement>(null);
@@ -57,7 +60,7 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
     }, [hostRef.current, icon, classNames.svg]);
 
     return (
-      <span ref={hostRef} className={`${hostClassNames} ${restProps.className ?? ''}`}>
+      <span ref={hostRef} className={hostClassNames}>
         {typeof icon !== 'string' && (
           <svg
             ref={ref}

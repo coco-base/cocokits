@@ -21,7 +21,6 @@ import {
   repeatReduceMerge,
   resizeObserver$,
 } from '@cocokits/common-utils';
-
 interface StoryDocPageExampleStoreCellState {
   index: number;
   expandChanged: boolean;
@@ -106,9 +105,10 @@ class StoryDocPageExampleStore {
       throw new Error('Can not use StoryDocPageExampleStore before initialize');
     }
 
-    const GRID_COLUMNS = 3;
     const GRID_GAP = 24;
+    const MIN_CELL_WIDTH = 250;
     const CELL_HEIGHT = 300;
+    const GRID_COLUMNS = Math.max(1, Math.floor((gridHostRect.width + GRID_GAP) / (MIN_CELL_WIDTH + GRID_GAP)));
 
     const totalHorizontalGap = (GRID_COLUMNS - 1) * GRID_GAP;
     const cellWidth = (gridHostRect.width - totalHorizontalGap) / GRID_COLUMNS;
@@ -237,12 +237,15 @@ class StoryDocPageExampleStore {
     cell: StoryDocPageExampleStoreCellState,
     gridHostElem: HTMLDivElement
   ): StoryDocPageExampleStoreCellStyle {
+    const isMobile = document.documentElement.classList.contains('cck-breakpoint--mobile');
     const NAVAR_HEIGHT = 64;
+    const MARGIN_TOP = isMobile ? 0 : NAVAR_HEIGHT;
+    const MARGIN_BOTTOM = isMobile ? NAVAR_HEIGHT : 0;
     const EXPANDED_CELL_VERTICAL_MARGIN = 12;
     const EXPANDED_CELL_HORIZONTAL_MARGIN = 16;
 
-    const marginTop = NAVAR_HEIGHT + EXPANDED_CELL_VERTICAL_MARGIN;
-    const marginBottom = EXPANDED_CELL_VERTICAL_MARGIN;
+    const marginTop = MARGIN_TOP + EXPANDED_CELL_VERTICAL_MARGIN;
+    const marginBottom = MARGIN_BOTTOM + EXPANDED_CELL_VERTICAL_MARGIN;
     const currentTop = -gridHostElem.getBoundingClientRect().top;
 
     return {

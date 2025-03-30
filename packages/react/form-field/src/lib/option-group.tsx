@@ -46,14 +46,17 @@ export function OptionGroup(props: OptionGroup) {
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'optionGroup',
     props,
-    extraHostElementClassConditions: [{ if: disabled, classes: (cn) => [cn.disabled] }],
+    extraHostElementClassConditions: [
+      { if: disabled, classes: (cn) => [cn.disabled] },
+      { if: !!props.className, classes: () => [props.className] },
+    ],
   });
 
   const contextValue = useMemo<OptionGroupContextValue>(() => ({ disabled: props.disabled }), [props.disabled]);
 
   return (
     <OptionGroupContext.Provider value={contextValue}>
-      <div className={hostClassNames}>
+      <div className={hostClassNames} style={props.style}>
         <div className={classNames.label}>{props.label}</div>
         {props.children}
       </div>

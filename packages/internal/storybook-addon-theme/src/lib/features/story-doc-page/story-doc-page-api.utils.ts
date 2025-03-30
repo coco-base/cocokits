@@ -1,6 +1,6 @@
 import { PreparedMeta, PreparedStory, StrictInputType } from '@storybook/types';
 
-import { deepMerge, recordReduceDeepMerge, recordReduceMerge, reduceDeepMerge } from '@cocokits/common-utils';
+import { deepMerge, recordReduceDeepMerge, reduceDeepMerge } from '@cocokits/common-utils';
 import { ThemeComponentConfig, ThemeConfig, UIBaseComponentsPropName } from '@cocokits/core';
 
 import { StoryDocPageArgTypes, StoryDocPageComponentArgTypeGroup } from './story-doc-page-api.model';

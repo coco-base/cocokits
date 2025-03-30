@@ -39,12 +39,13 @@ export function Trailing(props: TrailingProps) {
     componentName: 'trailing',
     props,
     extraHostElementClassConditions: [
-      {if: props.clickable, classes: (cn) => [cn.clickable]}
+      {if: props.clickable, classes: (cn) => [cn.clickable]},
+      { if: !!props.className, classes: () => [props.className] },
     ]
   });
 
   useEffect(() => {
-    const template = <div className={`${hostClassNames} ${props.className ?? ''}`} onClick={(e) => props.onClick?.(e)}>{props.children}</div>;
+    const template = <div className={hostClassNames} style={props.style} onClick={(e) => props.onClick?.(e)}>{props.children}</div>;
 
     formStore?.updateComponent('trailing', { template });
   }, [props.children]);

@@ -29,7 +29,7 @@ export function ThemeSelectionButton() {
         src={logoSrc}
         alt={theme.displayName} />
       
-      <span>{theme.displayName}</span>
+      <StyledLabel>{theme.displayName}</StyledLabel>
 
       <SvgIcon icon={Icons.arrowHeadDown}/>
     </StyledHost>
@@ -53,5 +53,11 @@ const StyledHost = styled.div`
 
   &:hover {
     background-color: var(--cck-doc-color-bg-hover-2);
+  }
+`;
+
+const StyledLabel = styled.span`
+  .cck-breakpoint--mobile & {
+    display: none;
   }
 `;

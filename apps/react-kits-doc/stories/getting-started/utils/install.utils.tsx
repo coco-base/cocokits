@@ -85,7 +85,7 @@ export function getStep4CollectionModesTable(theme: ThemeChangeEvent) {
         }
       </tbody>
     </table>
-  )
+  );
 
   return table;
 }

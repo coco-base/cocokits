@@ -1,5 +1,6 @@
-import { SvgIcon } from "@cocokits/react-components";
 import styled from "styled-components";
+
+import { SvgIcon } from "@cocokits/react-components";
 
 const Host = styled.div`
   display: flex;

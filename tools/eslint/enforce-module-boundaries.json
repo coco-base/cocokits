@@ -14,7 +14,8 @@
               "@cocokits/storybook-addon-theme-angular",
               "@cocokits/storybook-addon-theme-react",
               ".*/dist/compodoc/.*",
-              ".*/tools/scripts/storybook/.*"
+              ".*/tools/scripts/storybook/.*",
+              ".*/tools/scripts/get-external-packages"
             ],
             "depConstraints": [
               {
@@ -47,7 +48,12 @@
               },
               {
                 "sourceTag": "framework:storybook",
-                "onlyDependOnLibsWithTags": ["framework:storybook", "framework:react", "framework:shared"]
+                "onlyDependOnLibsWithTags": [
+                  "framework:storybook",
+                  "framework:react",
+                  "framework:angular",
+                  "framework:shared"
+                ]
               },
               {
                 "sourceTag": "framework:shared",

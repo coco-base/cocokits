@@ -15,5 +15,5 @@ export const TabLabel = (props: TabLabelProps) => {
 
   return (
     <div className={hostClassNames}>{props.children}</div>
-  )
-}
+  );
+};

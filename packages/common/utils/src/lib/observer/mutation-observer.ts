@@ -59,7 +59,7 @@ export interface MutationObserverChanges {
  * });
  * ```
  */
-export function mutationObserver$(elems: Element | Element[], config: MutationObserverConfig) {
+export function mutationObserver$(elems: Document | Element | Element[], config: MutationObserverConfig) {
   const elemsList = toArray(elems);
   const onMutationChange = (subscriber: Subscriber<MutationObserverChanges>) => {
     const callBack: MutationCallback = (entries, observer) => subscriber.next({ entries, observer });

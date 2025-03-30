@@ -37,10 +37,13 @@ export function Label(props: LabelProps) {
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'label',
     props,
+    extraHostElementClassConditions: [
+      { if: !!props.className, classes: () => [props.className] },
+    ]
   });
 
   const template = (
-    <div className={`${hostClassNames} ${props.className ?? ''}`}>
+    <div className={hostClassNames} style={props.style}>
       <label className={classNames.labelTag} htmlFor={props.htmlFor}>
         {props.children}
 

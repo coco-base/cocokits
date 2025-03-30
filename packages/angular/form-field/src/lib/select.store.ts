@@ -2,7 +2,6 @@ import { inject, Injectable, InjectionToken, OnDestroy, Signal, signal, Writable
 
 import { Subject } from 'rxjs';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { RenderedOverlay } from '@cocokits/angular-overlay';
 import { Selection, SelectionOptions, SelectionUpdateConfig } from '@cocokits/common-utils';
 

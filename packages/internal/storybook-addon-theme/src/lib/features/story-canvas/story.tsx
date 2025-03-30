@@ -1,7 +1,7 @@
 import { Story as StorybookStory } from "@storybook/blocks";
 import { PreparedStory } from "@storybook/types";
 import { useEffect, useState } from "react";
-import { filter, map, take, tap } from "rxjs";
+import { filter, map, take } from "rxjs";
 
 import { getInstance } from "@cocokits/common-utils";
 import { Delay } from "@cocokits/react-cdk";

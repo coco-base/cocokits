@@ -19,7 +19,7 @@ export const DocPage = (props: DocPageProps) => {
   return (
     // sb-unstyled class remove default storybook styles
     <StyledHost className={`sb-unstyled`}>
-      <DocPageNav/>
+      <DocPageNav hideThemeSwitcher={props.hideThemeSwitcher}/>
       <DocPageBgEffect/>
 
       <StyledContentWrapper>
@@ -50,6 +50,10 @@ const StyledContentWrapper = styled.div`
     margin: 0 auto;
     max-width: 1100px;
     padding: 64px 48px 256px 48px;
+
+    .cck-breakpoint--mobile & {
+      padding: 24px 12px 12px 12px;
+    }
 `;
 
 const StyledDocPageHeader = styled(DocPageHeader)`

@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/angular-kits-doc/src",
-  "tags": ["type:app", "framework:angular"],
+  "tags": ["type:app", "framework:storybook"],
   "targets": {
     "storybook": {
       "options": {

@@ -74,7 +74,7 @@ export const Textarea = (props: TextareaProps) => {
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: autoResize, classes: (cn) => [cn.autoResize] },
       { if: true, classes: () => [props.className] },
-    ],
+    ]
   });
 
   useEffect(() => {
@@ -115,6 +115,7 @@ export const Textarea = (props: TextareaProps) => {
     <textarea
       ref={textareaRef}
       className={hostClassNames}
+      style={props.style}
       required={required}
       disabled={disabled}
       onFocus={onFocus}

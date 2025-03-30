@@ -1,3 +1,4 @@
+import { mergeConfig } from 'vite';
 import type { StorybookConfig } from '@storybook/react-vite';
 import * as path from 'path';
 
@@ -23,7 +24,10 @@ export function generateReactStorybookConfig(libConfig: Partial<StorybookConfig>
       docs: {
         defaultName: 'Docs',
       },
-      staticDirs: [path.join(__dirname, '../../../packages/internal/storybook-addon-theme/src/assets')],
+      staticDirs: [
+        path.join(__dirname, '../../../packages/internal/storybook-addon-theme/src/assets'),
+        path.join(__dirname, '../../../packages/internal/common-kits-doc/assets'),
+      ],
       env: (env) => {
         return {
           NODE_ENV: env?.['NODE_ENV'] ?? '',

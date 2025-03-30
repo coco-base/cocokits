@@ -1,5 +1,5 @@
 import { TextareaComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<TextareaComponent> = {

@@ -70,18 +70,18 @@ export function getStoryControls(story: PreparedStory, theme: ThemeChangeEvent) 
       return Object.values(themeComponentConfig.additional).map((prop) => {
         return typeof prop.default === 'boolean'
           ? ({
-              type: AddonParametersControlType.Boolean,
-              displayName: toTitleCase(prop.name),
-              storyArgKey: prop.name,
-              default: prop.default,
-            } satisfies AddonParametersControlBoolean)
+            type: AddonParametersControlType.Boolean,
+            displayName: toTitleCase(prop.name),
+            storyArgKey: prop.name,
+            default: prop.default,
+          } satisfies AddonParametersControlBoolean)
           : ({
-              type: AddonParametersControlType.Select,
-              displayName: toTitleCase(prop.name),
-              storyArgKey: prop.name,
-              default: prop.default.toString(),
-              options: prop.values.map((value) => value.toString()),
-            } satisfies AddonParametersControlSelect);
+            type: AddonParametersControlType.Select,
+            displayName: toTitleCase(prop.name),
+            storyArgKey: prop.name,
+            default: prop.default.toString(),
+            options: prop.values.map((value) => value.toString()),
+          } satisfies AddonParametersControlSelect);
       });
     }
 

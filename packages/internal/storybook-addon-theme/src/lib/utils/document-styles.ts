@@ -47,4 +47,9 @@ export class DocumentStyle {
   public setAddonHideToolbar() {
     document.documentElement.classList.add('cck-theme-storybook-addon--remove-toolbar');
   }
+
+  public setBreakpoint(breakpoint: 'mobile' | 'pc') {
+    document.documentElement.classList.remove('cck-breakpoint--mobile', 'cck-breakpoint--pc');
+    document.documentElement.classList.add(`cck-breakpoint--${breakpoint}`);
+  }
 }
