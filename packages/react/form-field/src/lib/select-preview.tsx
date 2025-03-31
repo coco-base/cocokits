@@ -25,9 +25,12 @@ export const SelectPreview: FC<SelectPreviewProps> = (props) => {
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'selectPreview',
     props,
+    extraHostElementClassConditions: [
+      { if: !!props.className, classes: () => [props.className] },
+    ]
   });
 
-  return <div className={`${hostClassNames} ${props.className ?? ''}`}>{props.children}</div>;
+  return <div className={hostClassNames} style={props.style}>{props.children}</div>;
 };
 
 SelectPreview.displayName = 'SelectPreview';

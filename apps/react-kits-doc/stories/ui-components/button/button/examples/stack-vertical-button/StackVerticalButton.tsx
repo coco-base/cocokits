@@ -1,9 +1,9 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
+import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/stack-vertical-button.config';
 import { Button, SvgIcon } from '@cocokits/react-components';
-import { Icons } from '@cocokits/common-icons';
 
 export function StackVerticalButton(props: { cckExampleArgs: ExampleArgs }) {
   return (

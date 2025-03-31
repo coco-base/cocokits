@@ -1,0 +1,164 @@
+import { Meta } from '@storybook/addon-docs';
+import { MdxPage, TokenDictionary } from '@cocokits/storybook-addon-theme';
+
+export const tocItems = [
+  {"id":"overview","name":"Overview"},
+  {"id":"storybook-structure-and-guidelines","name":"Storybook Structure"},
+  {"id":"cocokits-specific-configuration","name":"CocoKits Configuration"},
+];
+
+<Meta title='Contributing/Kits Doc Structure'/>
+
+<MdxPage breadcrumb="Contributing" title='Kits Doc Structure' hideThemeSwitcher={true} tocItems={tocItems}>
+
+The Documentation Kits are the core of the documentation page you are currently viewing.
+This document explains how the documentation pages work, how to extend them, and how to fix issues.
+It also provides guidelines for creating and organizing documentation for different frameworks and components.
+
+--- 
+
+## Overview
+The Documentation Kits are built using Storybook with a custom, unique theme designed specifically for CocoKits.
+This theme enhances the user experience, making it easier for developers and designers to find the information they need.
+
+Each framework (e.g., Angular, React) has its own dedicated documentation application:
+
+- **angular-kits-doc:** Documentation for Angular-specific components, utilities, and libraries.
+- **react-kits-doc:** Documentation for React-specific components, utilities, and libraries.
+
+Additionally, there is a common-kits-doc for framework-agnostic documentation, such as:
+
+- Common utilities
+- Theme documentation
+- Contribution guidelines
+- Any other content that should be shared across all framework-specific documentation applications.
+
+Each framework-specific documentation application should document its own content, including:
+
+- Installation guides
+- Component documentation (APIs, styling, examples)
+- Framework-specific utilities
+- Any other framework-specific content
+
+## Storybook Structure and Guidelines
+The documentation is organized using Storybook, with a custom builder and addons.
+Below are the guidelines for creating new pages and ensuring they appear correctly in the side navigation.
+
+### Folder Structure
+The structure for each framework-specific documentation application is as follows:
+```
+[FRAMEWORK]-kits-doc
+|--- stories/
+└── |------ [SIDENAV ROOT ITEM]/
+    └── |------ ...
+```
+
+- **stories:** This folder contains all side navigation items.
+- **[SIDENAV ROOT ITEM]:** Each root item represents a category in the side navigation (e.g., "UI Components").
+  - Inside each root item, you can create subfolders for libraries, components, and their respective documentation.
+
+
+### Creating a New UI Component Page
+To create a new UI component page, follow this structure:
+
+```
+stories/
+└── [SIDENAV ROOT ITEM]/
+    └── [NAME OF LIBRARY]/
+        └── [NAME OF COMPONENT]/
+            ├── examples/
+            ├── overview/
+            ├── description.md
+            └── index.stories.ts
+```
+- **index.stories.ts**
+  - This is the main file that Storybook uses to generate the documentation page.
+  - Export all stories that should appear in the **Overview** or **Examples** tabs.
+  - Ensure the **title** is defined correctly. For example, if the page is under "UI Components" and the component is "Button," the title should be:
+  `title: 'UI Components/Button'`
+  - The folder structure is for organization, but Storybook uses the title field to generate the documentation page and side navigation.
+
+- **description.md**
+  - This file contains the main description of the component and is displayed at the top of the documentation page.
+
+- **overview**
+  - This folder contains stories that provide an overview of the component, including all available configurations and scenarios.
+  - All stories in this folder must be exported from `index.stories.ts` otherwise, they will not appear in the documentation.
+  - File naming convention: `[NAME].stories.ts`.
+  - Required stories for each UI component:
+    - **default.stories.ts:** The default story with controls to configure the component and see live changes.
+    - **type.stories.ts:** Displays different types of the component based on the selected theme.
+    - **size.stories.ts:** Displays different sizes of the component based on the selected theme.
+    - **color.stories.ts:** Displays different colors of the component based on the selected theme.
+  - Additional stories can be created for other core scenarios.
+
+- **examples**
+  - This folder contains real-world usage scenarios for the component, displayed under the Examples tab.
+  - Use the custom schematic provided by CocoKits to generate new examples. Refer to the "New Example Documentation" for more details.
+
+
+## Cocokits-Specific Configuration
+
+To ensure consistency and compatibility with CocoKits' custom Storybook setup, follow these guidelines:
+
+### StoriesMeta Interface
+All stories must use the StoriesMeta interface, imported from:
+
+- `@cocokits/storybook-addon-theme-angular` (for Angular)
+- `@cocokits/storybook-addon-theme-react` (for React)
+
+Under the `parameters` object, define the `cckAddon` configuration:
+
+- `componentName:` The name of the component (required).
+- `subcomponentNames:` Optional. Use this if the component has subcomponents that do not require their own documentation page (e.g., a prefix component used within a form field).
+- `subcomponentArgsTypes:` Optional. Use this to override subcomponent APIs if Storybook cannot generate them correctly.
+
+### Custom Story Parameters
+CocoKits provides custom configurations for stories. Each story must use the `StoryObj` interface from the appropriate framework-specific addon.
+- `@cocokits/storybook-addon-theme-angular` (for Angular)
+- `@cocokits/storybook-addon-theme-react` (for React)
+
+### Key Custom Parameters
+- **renderConditions**
+  - A list of functions that return a boolean. If the result is true, the story is rendered; otherwise, it is skipped.
+  ```
+  StoryRenderConditionProps {
+    theme: ThemeChangeEvent;
+    themeComponentConfig: ThemeComponentConfig | undefined; // Not all themes have the target component config
+    docPageTab: StoryTab;
+  }
+  ```
+  - Predefined functions:
+     - **renderWithThemeId:** Renders the story only when a specific theme is selected.
+     - **renderWithThemeProp:** Renders the story only if the selected theme has a specific configuration.
+     - **renderWithPageTab:** Renders the story only for a specific tab (e.g., "Overview" or "Examples").
+
+  - singleControls
+    A list of single controls displayed at the bottom right of the story. For example, use singleControls: `['type']` for color and size stories.
+
+  - source
+    - A list of source configurations. Each source includes:
+      - `filename`
+      - `language`
+      - `visibleConditions`
+      - `code` (generated using EJS templates)
+    - Use the following variables in EJS templates:
+      - `themeComponentConfig`
+      - Control variables from the side panel
+      - `themeId`
+      - `themeDisplayName`
+      - `themeSelectedModes`
+
+  - controls
+    - Defines all controls visible in the side panel. Each control must follow the `AddonParametersControl` interface.
+    - Predefined controls (available in `packages/internal/storybook-addon-theme/src/lib/utils/control.config.ts`):
+      - `CCK_CONTROL.type()`: Component types.
+      - `CCK_CONTROL.size()`: Component sizes.
+      - `CCK_CONTROL.color()`: Component colors.
+      - `CCK_CONTROL.text()`: Text input.
+      - ...
+
+## Conclusion
+By following these guidelines, you can create consistent, well-organized, and user-friendly documentation for CocoKits. Refer to existing examples and the official Storybook documentation for further details.
+
+</MdxPage>

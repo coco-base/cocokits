@@ -4,7 +4,7 @@
   "projectType": "library",
   "prefix": "app",
   "sourceRoot": "packages/internal/common-kits-doc/src",
-  "tags": ["type:utils", "framework:shared"],
+  "tags": ["type:utils", "framework:storybook"],
   "targets": {
     "build-typedoc": {
       "executor": "@cocokits/workspace-plugin:build-typedoc",

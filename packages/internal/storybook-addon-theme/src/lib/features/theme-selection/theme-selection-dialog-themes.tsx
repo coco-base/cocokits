@@ -59,6 +59,7 @@ export function ThemeSelectionDialogThemes({
 const StyledHost = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `;
 
 const StyledHeader = styled.div`
@@ -78,11 +79,16 @@ const StyledThemeWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 48px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledTheme = styled.div<{ $selected: boolean }>`
   flex: 1;
   height: 224px;
+  min-height: 164px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,7 +101,7 @@ const StyledTheme = styled.div<{ $selected: boolean }>`
     props.$selected &&
     css`
       border: 2px solid var(--cck-doc-color-brand-default);
-    `}
+  `}
 `;
 
 const StyledThemeBannerWrapper = styled.div`

@@ -1,0 +1,201 @@
+import { Meta } from '@storybook/addon-docs';
+import { MdxPage, TokenDictionary } from '@cocokits/storybook-addon-theme';
+
+export const tocItems = [
+  {"id":"creating-a-new-example","name":"Creating a New Example"},
+  {"id":"example-configuration","name":"Example Configuration"},
+  {"id":"explanation-of-generated-files","name":"Generated Files"},
+  {"id":"styling-guidelines","name":"Styling Guidelines"},
+  {"id":"folder-structure","name":"Folder Structure"},
+  {"id":"best-practices","name":"Best Practices"},
+];
+
+<Meta title='Contributing/Component Examples'/>
+
+<MdxPage breadcrumb="Contributing" title='Component Examples' hideThemeSwitcher={true} tocItems={tocItems}>
+
+This document provides an overview of the UI Component Examples feature, which is visible under the
+Examples tab for each UI component in the documentation. These examples represent real-world scenarios
+that can be used within the application. They are designed to help developers understand how to implement
+and use UI components effectively.
+
+All examples must be defined in both Angular and React before each release. Each example consists of
+three main parts:
+
+- Shared Config: Configuration shared between Angular and React.
+- Angular Code: Implementation of the example in Angular.
+- React Code: Implementation of the example in React.
+
+---
+
+## Creating a New Example
+
+To create a new example, you can use the Nx Console Extension or run a command in the terminal.
+Follow these steps:
+
+**Using Nx Console Extension:**
+- Open the `Nx Console` Extension in your IDE
+- Click on `Nx Generate (UI)`
+- Select `@cocokits/workspace-plugin - example-story`
+
+**Using the Command Line:**
+Run the following command:
+```bash
+pnpm nx generate @cocokits/workspace-plugin:example-story <CONFIGURATIONS>
+```
+
+### Configuration Options:
+When generating a new example, you need to provide the following configuration options:
+
+- **category:** The category of the example story. This corresponds to the label in the Storybook sidenav (e.g., button).
+- **library:** The library to which the example belongs (e.g., button, form-field).
+- **name:** The name of the example story (e.g., back-button).
+- **uiComponentName:** The name of the UI component for which the example is being created (e.g., Button, IconButton).
+
+Additionally, there are two optional configurations, both set to `true` by default:
+
+- **angularInline:** If set to `true`, the schematic will create a single file for the Angular component
+using inline templates and styles. This is recommended for simpler examples that don’t require complex HTML or SCSS.
+- **reactInline:** If set to `true`, the schematic will create a single file for the React component using
+styled-components. If set to `false`, a separate `[EXAMPLE_NAME].styled.tsx` file will be created for styles.
+
+
+## Example Configuration
+For instance, if you want to create an example for back button component under the button category,
+you would use the following configuration:
+
+```bash	
+pnpm nx generate @cocokits/workspace-plugin:example-story --category=icon-button --library=button --name=back-button --uiComponentName=icon-button
+```
+
+This command will generate the following files:
+```bash
+CREATE apps/react-kits-doc/stories/ui-components/button/icon-button/examples/back-button/index.example.stories.tsx
+CREATE apps/react-kits-doc/stories/ui-components/button/icon-button/examples/back-button/_story.source.ts
+CREATE apps/react-kits-doc/stories/ui-components/button/icon-button/examples/back-button/MultiSelectFood.tsx
+UPDATE apps/react-kits-doc/stories/ui-components/button/icon-button/index.stories.ts
+CREATE apps/angular-kits-doc/stories/ui-components/button/icon-button/examples/back-button/index.example.stories.ts
+CREATE apps/angular-kits-doc/stories/ui-components/button/icon-button/examples/back-button/_story.source.ts
+CREATE apps/angular-kits-doc/stories/ui-components/button/icon-button/examples/back-button/back-button.component.ts      
+UPDATE apps/angular-kits-doc/stories/ui-components/button/icon-button/index.stories.ts
+CREATE packages/internal/common-kits-doc/src/examples-config/icon-button/back-button.config.ts
+```
+
+---
+
+## Explanation of Generated Files
+
+- `index.example.stories.tsx`/ `index.example.stories.ts`: These files are used to generate the Storybook story for the example.
+They are framework-specific (React or Angular) and are responsible for rendering the custom component under the Examples tab in the documentation.
+
+`_story.source.ts`: This file contains the source code of the custom component. It is automatically updated whenever the Storybook is built or served.
+You do not need to modify this file manually. Instead, focus on updating the component itself, and the source code will be regenerated automatically.
+
+- `MultiSelectFood.tsx`: This is the React component file. You can modify its content to build the desired example.
+Ensure that the component name, props, and interface remain unchanged.
+
+- `multi-select-food.component.ts`: This is the Angular component file. Similar to the React component, you can modify its content.
+Ensure that the component name, selector, and `cckExampleArgs` input remain unchanged.
+
+- `index.stories.ts`: This file is updated to include the new example. It ensures that the example is visible in Storybook.
+If you are working on only one framework (e.g., Angular), you can comment out the export line in the other framework’s
+`index.stories.ts` file to avoid duplication.
+
+- `multi-select-food.config.ts`: This file contains shared configuration for both Angular and React. It includes the following dynamic configurations:
+  - `TEMPLATE_ARGS`: Defines component props or inputs that may vary based on the selected theme. For example:
+  ```ts
+    export interface ExampleArgs {
+      buttonType: string;
+      buttonColor: string;
+      buttonSize: string;
+    }
+
+    export const TEMPLATE_ARGS: ExampleStoryTemplateArgs<ExampleArgs> = {
+      [ThemeId.FramesX]: {
+        buttonType: 'default',
+        buttonColor: 'brand',
+        buttonSize: 'md',
+      },
+      [ThemeId.CocoKits]: {
+        buttonType: 'primary',
+        buttonColor: 'brand',
+        buttonSize: 'md',
+      },
+    };
+  ```
+  - `CSS_VARIABLES`: Defines styling tokens that may vary based on the selected theme. For example:
+  ```ts
+    export const CSS_VARIABLES: ExampleStoryCssVariables = {
+      [ThemeId.FramesX]: {
+        '--text-font': 'var(--text-base-font-regular)',
+        '--text-color': 'var(--text-dark-primary)',
+      },
+      [ThemeId.CocoKits]: {
+        '--text-font': 'var(--text-lg-regular)',
+        '--text-color': 'var(--color-font-default)',
+      },
+    };
+  ```
+  These CSS variables can be used in your component as follows:
+
+  ```CSS
+  font: var(--text-font);
+  color: var(--text-color);
+  ```
+
+---
+
+## Styling Guidelines
+- Angular: Use SCSS for styling.
+- React: Use `styled-components`. Define all custom styles and export them under `Styled` for consistency. For example:
+```tsx	
+const Host = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const Styled = {
+  Host,
+};
+
+// Usage
+<Styled.Host>...</Styled.Host>
+```
+
+---
+
+## Folder Structure
+All stories for a component are organized under the following structure:
+
+```
+[FRAMEWORK]-kits-doc/
+└── stories/
+    └── [SIDENAV ROOT ITEM]/          // e.g., "button"
+        └── [NAME OF LIBRARY]/        // e.g., "button"
+            └── [NAME OF COMPONENT]/  // e.g., "icon-button"
+                └── examples/
+                    └── [EXAMPLE NAME] // e.g., "back-button"
+```
+
+The shared configuration files are located under:
+
+```
+packages/
+└── internal/
+    └── common-kits-doc/
+        └── src/
+            └── examples-config/
+                └── [NAME OF COMPONENT]/  // e.g., "button"
+                    └── [EXAMPLE_NAME].config.ts
+```
+
+---
+
+## Best Practices
+- Consistency: Ensure that the Angular and React implementations of an example are consistent in functionality and appearance.
+- Documentation: Add comments to the code to explain complex logic or configurations.
+- Testing: Test the example in both frameworks to ensure it works as expected across themes and configurations.
+- Collaboration: If you are working on only one framework, communicate with the team member responsible for the other framework to ensure alignment.
+
+</MdxPage>

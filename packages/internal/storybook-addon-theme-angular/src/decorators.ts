@@ -2,7 +2,6 @@ import { Provider } from '@angular/core';
 
 import { componentWrapperDecorator } from '@storybook/angular';
 
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { ThemeConfigToken } from '@cocokits/angular-core';
 import { getInstance } from '@cocokits/common-utils';
 import { ThemeEvent } from '@cocokits/storybook-addon-theme';

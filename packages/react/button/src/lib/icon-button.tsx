@@ -28,10 +28,13 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: 'iconButton',
       props: { type, size, color, additional },
+      extraHostElementClassConditions: [
+        { if: !!className, classes: () => [className] },
+      ]
     });
 
     return (
-      <button ref={ref} className={`${hostClassNames} ${className}`} {...restProps}>
+      <button ref={ref} className={hostClassNames} {...restProps}>
         {children}
         <div className={classNames.backdrop}></div>
       </button>

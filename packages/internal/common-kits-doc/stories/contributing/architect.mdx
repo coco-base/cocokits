@@ -1,0 +1,81 @@
+import { Meta } from '@storybook/addon-docs';
+import { MdxPage, TokenDictionary } from '@cocokits/storybook-addon-theme';
+
+<Meta title='Contributing/Architect'/>
+
+<MdxPage breadcrumb="Contributing" title='Architect' hideThemeSwitcher={true}>
+
+CocoKits is a modular and framework agnostic ecosystem designed to provide developers and designers with a flexible,
+consistent, and scalable foundation for building modern user interfaces.
+Below is an overview of the library structure and its key components.
+
+<img src="./contributing/core-structure.png" alt="CocoKits Structure" style={{ width: '100%' }}/>
+
+---
+
+## Core Foundation
+At the heart of CocoKits is the `@cocokits/core` package, which serves as the foundation for all UI components across the ecosystem.
+This package provides essential configuration options, handles theming, and generates the necessary CSS selectors to ensure
+consistent styling and functionality across different frameworks. It ensures seamless integration with any design system,
+offering a cohesive and customizable experience for developers and designers alike.
+
+## Platform Specific Core
+To support framework specific implementations, CocoKits offers `@cocokits/angular-core` and `@cocokits/react-core`.
+These packages provide the foundational functionality required by CocoKits UI libraries to operate within Angular or React environments.
+While they do not include any UI components, they contain essential tokens, providers, and configurations that enable the UI libraries
+to function properly.
+
+---
+
+## UI Components
+The CocoKits Angular and React UI libraries deliver essential components with a focus on unstyled, functional elements.
+These components, such as responsive forms and interactive controls, provide all the necessary functionality without imposing any visual styling.
+This approach gives developers complete control over the application’s look and feel, ensuring flexibility and alignment with any design system.
+
+---
+
+## Component Development Kits (CDK)
+To simplify the integration of essential utilities, CocoKits provides `@cocokits/angular-cdk` and `@cocokits/react-cdk`.
+These packages act as wrappers around Angular CDK or React ARIA/Headless UI libraries, offering pre configured utilities
+for accessibility, overlays, keyboard navigation, and more. By bundling these utilities into a single package, CocoKits
+streamlines the development workflow and reduces dependency management overhead.
+
+---
+
+## Utilities
+CocoKits includes a suite of utility packages to enhance development efficiency.
+
+#### Common Utils
+These are the common utilities that can be used across different frameworks. They are pure TypeScript utilities with no dependencies,
+allowing you to easily incorporate them into any application—even if you don't plan on using any UI components.
+
+#### React Utils
+The `@cocokits/react-utils` package is a collection of essential utilities and custom hooks specifically designed for React projects.
+Tailored for design systems and UI components, it provides optimized helpers that integrate seamlessly into React-based workflows without
+the traditional "Component" suffix for UI parts.
+
+#### Angular Utils
+The `@cocokits/angular-utils` package is a versatile utility library developed specifically for Angular applications.
+It offers essential utilities and helper functions designed to streamline Angular development. This package makes it easier to handle
+common tasks while offering Angular specific features such as custom pipes, signals, and more.
+
+---
+
+## Theming Libraries
+Each theme in our workspace styles the components based on its own configuration and exports all available tokens so you can easily use
+them in your application or extend the current design. You can use one theme or combine multiple themes together to style the components
+according to your requirements or even create your own theme library.
+
+#### Cocokits Theme
+The `@cocokits/theme-cocokits` package is the official theme designed by the CocoKits team.
+It provides a balanced, cohesive, and visually consistent appearance across all CocoKits components.
+This theme integrates seamlessly with the CocoKits library, ensuring that all UI elements maintain a unified look and feel while allowing
+for easy customization to match specific project requirements.
+
+#### FramesX Theme
+The `@cocokits/themes-frames-x` package offers a modern and innovative design theme that brings a fresh,
+distinctive style to CocoKits components. This theme is ideal for projects that aim to stand out with a unique and visually
+engaging user interface. For an enhanced visual experience, check out the Frames X UI Kits which deliver a bold and contemporary
+look while maintaining functionality and ease of use.
+
+</MdxPage>

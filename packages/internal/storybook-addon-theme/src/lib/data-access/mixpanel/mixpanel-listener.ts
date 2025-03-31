@@ -6,17 +6,12 @@ import { filter, map, Observable, of, OperatorFunction, startWith, switchMap, ta
 import { getInstance } from '@cocokits/common-utils';
 
 import { MixpanelEventData, MixpanelEvents, StorybookPageCategories } from './mixpanel.model';
-import {
-  EventDocExampleToggle,
-  EventDocOverviewSourceToggle,
-  EventDocTabChange,
-  EVENTS,
-} from '../../config/events.config';
+import { EVENTS } from '../../config/events.config';
 import { ThemeChangeEvent } from '../../model/event.model';
 import { fromStorybookEvent } from '../../utils/rxjs.util';
+import { DocExampleToggle, DocOverviewSourceToggle, DocTabChange } from '../global-event/global-event.base';
 import { GlobalEvent } from '../global-event/manager-global-event';
 import { LocalStorage } from '../local-storage';
-import { DocExampleToggle, DocOverviewSourceToggle, DocTabChange } from '../global-event/global-event.base';
 
 type MixPanelStorybookEvents = Observable<readonly [MixpanelEvents, MixpanelEventData<MixpanelEvents>]>;
 

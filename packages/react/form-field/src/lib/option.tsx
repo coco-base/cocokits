@@ -62,6 +62,7 @@ export const Option = <T,>(props: OptionProps<T>) => {
       { if: isSelected, classes: (cn) => [cn.selected] },
       { if: isMultiple, classes: (cn) => [cn.multiple] },
       { if: !isMultiple, classes: (cn) => [cn.single] },
+      { if: !!props.className, classes: () => [props.className] },
     ],
   });
 
@@ -87,7 +88,7 @@ export const Option = <T,>(props: OptionProps<T>) => {
   };
 
   return (
-    <div className={hostClassNames} onClick={onHostClick}>
+    <div className={hostClassNames} style={props.style} onClick={onHostClick}>
       {isMultiple && (
         <div className={classNames.multipleWrapper}>
           <Checkbox checked={isSelected} disabled={disabled} onChange={() => selectStore?.toggle(props.value)} />

@@ -1,3 +1,8 @@
+.arg-type-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
 // arg-type-table
 // arg-type-table--full-width
 // arg-type-table--gap-8
@@ -21,6 +26,10 @@
 
   &.arg-type-table--full-width {
     min-width: 100%;
+  }
+
+  & .description-column {
+    min-width: 300px;
   }
 
   & p {
@@ -56,7 +65,7 @@
     }
 
     & code {
-      white-space: break-spaces;
+      white-space: nowrap;
       font: var(--cck-doc-text-xs-regular);
       color: var(--cck-doc-color-font-2);
       padding: 0 6px;

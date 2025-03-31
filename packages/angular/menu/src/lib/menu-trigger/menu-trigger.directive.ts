@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 
 import { ThemeConfigToken } from '@cocokits/angular-core';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { OverlayConfig, OverlayConnectElemOrigin, OverlayService, RenderedOverlay } from '@cocokits/angular-overlay';
 import { getClassNames } from '@cocokits/core';
 

@@ -1,5 +1,5 @@
-import { OverlayConfig } from '../models/overlay.model';
 import { OVERLAY_ANIMATION, OVERLAY_STYLE } from './overlay.config';
+import { OverlayConfig } from '../models/overlay.model';
 
 export function getOverlayStyles(config: OverlayConfig<any>) {
   if (config.positionStrategy.type === 'auto') {

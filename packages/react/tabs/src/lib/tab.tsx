@@ -1,7 +1,9 @@
-import { useUiBaseComponentConfig } from '@cocokits/react-core';
-import { TabIndexContext, useTabsStore } from './tabs.store';
 import { ReactNode, useContext, useEffect, useRef } from 'react';
+
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
+
 import { TabLabel } from './tab-label';
+import { TabIndexContext, useTabsStore } from './tabs.store';
 
 export interface TabProps {
   label: string | ((selected: boolean) => ReactNode);
@@ -23,8 +25,8 @@ export const Tab = (props: TabProps) => {
     componentName: 'tab',
     props: {},
     extraHostElementClassConditions: [
-      { if: isSelected, classes: (classNames) => [classNames.selected] },
-      { if: !isSelected, classes: (classNames) => [classNames.unselected] },
+      { if: isSelected, classes: (cn) => [cn.selected] },
+      { if: !isSelected, classes: (cn) => [cn.unselected] },
     ],
   });
 
@@ -43,8 +45,8 @@ export const Tab = (props: TabProps) => {
         key={props.value}
         className={hostClassNames}
         onClick={() => tabsStore?.selectTabByValue(props.value)}>
-          <div style={{display: 'none'}} ref={indicatorElemRef} className={classNames.indicator} />
-          {label}
+        <div style={{display: 'none'}} ref={indicatorElemRef} className={classNames.indicator} />
+        {label}
       </button>
     );
 

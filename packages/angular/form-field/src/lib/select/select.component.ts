@@ -27,7 +27,6 @@ import { firstValueFrom } from 'rxjs';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { OverlayConfig, OverlayConnectElemOrigin, OverlayService } from '@cocokits/angular-overlay';
 import { isNullish, toBooleanOrPresent } from '@cocokits/common-utils';
 import { ThemeSvgIcon } from '@cocokits/core';

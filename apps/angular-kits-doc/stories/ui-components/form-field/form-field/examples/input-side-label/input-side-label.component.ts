@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
-import { FormFieldComponent, HintComponent, InputComponent, LabelComponent } from '@cocokits/angular-form-field';
 
+import { FormFieldComponent, InputComponent, LabelComponent } from '@cocokits/angular-form-field';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-side-label.config';
 
 @Component({

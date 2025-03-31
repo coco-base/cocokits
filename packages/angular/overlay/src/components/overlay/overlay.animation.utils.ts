@@ -12,10 +12,10 @@ export function getAnimationEnd(contentWrapper: HTMLElement, overlayConfig: Over
   const { translateX, translateY, rotateX, rotateY, scale } =
     overlayConfig.positionStrategy.type === 'connectToElement'
       ? getConnectedToElemAnimationEnd(
-          contentWrapper,
-          overlayConfig.positionStrategy.connectTo,
-          overlayConfig.positionStrategy.origin
-        )
+        contentWrapper,
+        overlayConfig.positionStrategy.connectTo,
+        overlayConfig.positionStrategy.origin
+      )
       : getAutoAnimationEnd();
 
   return `translateX(${translateX}) translateY(${translateY}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
@@ -25,10 +25,10 @@ export function getAnimationStart(contentWrapper: HTMLElement, overlayConfig: Ov
   const { translateX, translateY, rotateX, rotateY, scale } =
     overlayConfig.positionStrategy.type === 'connectToElement'
       ? getConnectedToElemAnimationStart(
-          contentWrapper,
-          overlayConfig.positionStrategy.connectTo,
-          overlayConfig.positionStrategy.origin
-        )
+        contentWrapper,
+        overlayConfig.positionStrategy.connectTo,
+        overlayConfig.positionStrategy.origin
+      )
       : getAutoAnimationStart(overlayConfig.positionStrategy.animationType);
 
   return `translateX(${translateX}) translateY(${translateY}) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;

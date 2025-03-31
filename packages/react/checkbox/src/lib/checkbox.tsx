@@ -70,6 +70,7 @@ export function Checkbox(props: CheckboxProps) {
       { if: checked, classes: (cn) => [cn.checked] },
       { if: !checked, classes: (cn) => [cn.unchecked] },
       { if: props.disabled, classes: (cn) => [cn.disabled] },
+      { if: !!props.className, classes: () => [props.className] },
     ],
   });
 
@@ -100,7 +101,7 @@ export function Checkbox(props: CheckboxProps) {
   };
 
   return (
-    <div className={hostClassNames}>
+    <div className={hostClassNames} style={props.style}>
       <div className={classNames.wrapper}>
         <div className={classNames.inputWrapper}>
           <input

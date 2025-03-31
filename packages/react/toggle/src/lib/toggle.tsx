@@ -66,6 +66,7 @@ export const Toggle: FC<ToggleProps> = (props) => {
       { if: !checked, classes: (cn) => [cn.unchecked] },
       { if: props.disabled, classes: (cn) => [cn.disabled] },
       { if: props.labelPosition === 'before', classes: (cn) => [cn.labelBefore] },
+      { if: !!props.className, classes: () => [props.className] },
     ],
   });
 
@@ -80,7 +81,7 @@ export const Toggle: FC<ToggleProps> = (props) => {
   };
 
   return (
-    <div className={hostClassNames}>
+    <div className={hostClassNames} style={props.style}>
       <label className={classNames.label} htmlFor={id}>
         <div className={classNames.sliderWrapper}>
           <input

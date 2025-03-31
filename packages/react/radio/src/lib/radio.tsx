@@ -32,6 +32,7 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
       { if: disabled, classes: (cn) => [cn.disabled] },
       { if: checked, classes: (cn) => [cn.checked] },
       { if: !checked, classes: (cn) => [cn.unchecked] },
+      { if: !!props.className, classes: () => [props.className] },
     ]
   });
 
@@ -45,7 +46,7 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
   };
 
   return (
-    <div className={`${hostClassNames} ${props.className}`}>
+    <div className={hostClassNames} style={props.style}>
       <div className={classNames.wrapper}>
         <div className={classNames.inputWrapper}>
           <input

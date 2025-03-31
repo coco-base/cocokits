@@ -13,7 +13,10 @@ export const RadioGroup = <T extends string | number,>(props: RadioGroupProps<T>
 
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'radioGroup',
-    props: props
+    props: props,
+    extraHostElementClassConditions: [
+      { if: !!props.className, classes: () => [props.className] },
+    ]
   });
 
   useEffectAfterMount(() => {
@@ -26,7 +29,7 @@ export const RadioGroup = <T extends string | number,>(props: RadioGroupProps<T>
   };
 
   return (
-    <div className={`${hostClassNames} ${props.className}`}>
+    <div className={hostClassNames} style={props.style}>
       <RadioGroupContext.Provider
         value={{
           name: props.name,

@@ -1,5 +1,6 @@
-import { PREVIEW_BASE } from '@cocokits/storybook-addon-theme-react';
 import { Preview } from '@storybook/react';
+
+import { PREVIEW_BASE } from '@cocokits/storybook-addon-theme-react';
 
 export const preview: Preview = {
   ...PREVIEW_BASE,
@@ -14,6 +15,16 @@ export const preview: Preview = {
           'Theme Config',
           'CDK',
           'Utils',
+          'Contributing',
+          [
+            'Guidelines',
+            'Architect',
+            'Workspace Structure',
+            'Kits Doc Structure',
+            'Component Examples',
+            'Commit',
+            'Branch Naming',
+          ],
         ],
       },
     },

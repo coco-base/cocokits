@@ -78,8 +78,10 @@ export function ThemeSelectionDialog({ close }: OverlayRef<void, SelectedTheme>)
 }
 
 const StyledHost = styled.div`
-  width: 560px;
-  height: 640px;
+  width: 98vw;
+  height: 98vh;
+  max-width: 560px;
+  max-height: 640px;
   display: flex;
   flex-direction: column;
   padding: 24px;

@@ -11,7 +11,6 @@ enum CommitType {
   Test = 'test', // Adding missing tests or correcting existing tests
   Chore = 'chore', // Changes to the build process or auxiliary tools and libraries. (documentation generation, build, pipelines, directories, scripts, tools, updates such as package.json)
   Story = 'story', // Add or change a story (Overview or Example story) for doc page (Angular/React)
-  Release = 'release', // versioning, build
 }
 
 const COMMIT_TYPE_SCOPE: Record<CommitType, boolean> = {
@@ -23,7 +22,6 @@ const COMMIT_TYPE_SCOPE: Record<CommitType, boolean> = {
   [CommitType.Test]: true,
   [CommitType.Chore]: false,
   [CommitType.Story]: false,
-  [CommitType.Release]: false,
 };
 
 const packagesJson = execSync('pnpm nx show projects --json', { encoding: 'utf8' });

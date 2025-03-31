@@ -48,7 +48,7 @@ export function ThemeSelectionDialogModes({
           <StyledModesWrapper key={collectionName}>
             <StyledCollectionName>{collectionName}</StyledCollectionName>
 
-            <RadioGroup
+            <StyledRadioGroup
               selected={selectedThemeModes[collectionName]}
               onChange={(event) => _onModeChanged(collectionName, event.value)}>
               {modes.map((mode) => (
@@ -56,7 +56,7 @@ export function ThemeSelectionDialogModes({
                   {mode.name}
                 </StyledRadioButton>
               ))}
-            </RadioGroup>
+            </StyledRadioGroup>
 
           </StyledModesWrapper>
 
@@ -69,6 +69,7 @@ export function ThemeSelectionDialogModes({
 const StyledHost = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `;
 
 const StyledHeader = styled.div`
@@ -108,6 +109,7 @@ const StyledModesWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   min-height: 48px;
+  padding: 8px 0;
 
   &:not(:first-of-type) {
     border-top: 1px solid var(--cck-doc-color-border-1);
@@ -121,6 +123,10 @@ const StyledCollectionName = styled.div`
   color: var(--cck-doc-color-font-1);
 `;
 
+const StyledRadioGroup = styled(RadioGroup<string>)`
+  flex-wrap: wrap;
+`;
+
 const StyledRadioButton = styled(RadioButton)`
-  min-width: 120px;
+  min-width: 110px;
 `;
