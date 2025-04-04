@@ -9,5 +9,6 @@ export * from './lib/model/event.model';
 export * from './lib/features/story-control/story-control.model';
 export * from './lib/model/storybook-meta.model';
 export * from './lib/utils/use-preview-theme';
+export * from './lib/utils/use-preview-color-mode';
 export { ThemeEvent } from './lib/data-access/theme-event/preview-theme-event';
 export * as CCK_CONTROL from './lib/utils/control.config';
