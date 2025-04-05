@@ -54,10 +54,10 @@ export function useOverlayAnimation(props: {
       props.config.positionStrategy.type === 'auto'
         ? { x: 0, y: 0 }
         : getElementAnchorPosition(
-          props.contentRef.current,
-          props.config.positionStrategy.connectTo,
-          props.config.positionStrategy.anchorPoint
-        );
+            props.contentRef.current,
+            props.config.positionStrategy.connectTo,
+            props.config.positionStrategy.anchorPoint
+          );
 
     const styles = getOverlayStyles(props.config);
     const animationProps = getOverlayAnimationProps(props.config, 'enter', anchorPosition);
