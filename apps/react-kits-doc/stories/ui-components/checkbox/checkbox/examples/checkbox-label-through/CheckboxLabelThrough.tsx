@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-label-through.config';
-import { Checkbox } from '@cocokits/react-checkbox';
+import { Checkbox } from '@cocokits/react-components';
 
 import { Styled } from './CheckboxLabelThrough.styled';
 

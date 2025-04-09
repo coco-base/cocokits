@@ -10,6 +10,7 @@ export { CheckboxLabelThroughStory } from './examples/checkbox-label-through/ind
 export { CheckboxLabelLinkStory } from './examples/checkbox-label-link/index.example.stories';
 export { CheckboxGroupColumnStory } from './examples/checkbox-group-column/index.example.stories';
 export { CheckboxGroupRowStory } from './examples/checkbox-group-row/index.example.stories';
+export { CheckboxBoxSelectionStory } from './examples/checkbox-box-selection/index.example.stories';
 
 const meta: StoriesMeta<typeof Checkbox> = {
   component: Checkbox,

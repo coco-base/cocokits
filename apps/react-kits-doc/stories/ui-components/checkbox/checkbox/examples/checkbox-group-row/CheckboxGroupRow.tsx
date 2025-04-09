@@ -1,21 +1,23 @@
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-group-row.config';
-import { Checkbox } from '@cocokits/react-checkbox';
+import { Checkbox } from '@cocokits/react-components';
+
+import { Styled } from './CheckboxGroupRow.styled';
 
 export function CheckboxGroupRow(props: { cckExampleArgs: ExampleArgs }) {
   return (
     <div>
-      <i style={{ color: 'var(--checkbox-group-column-color)' }}>Favorite food</i>
-      <div style={{ display: 'flex', flexDirection: 'row', gap: '12px', marginTop: '10px' }}>
+      <Styled.Label>Favorite food</Styled.Label>
+      <Styled.CheckboxGroup>
         <Checkbox size={props.cckExampleArgs.size} value={1}>
           Pizza
         </Checkbox>
-        <Checkbox size={props.cckExampleArgs.size} value={1}>
+        <Checkbox size={props.cckExampleArgs.size} value={2}>
           Pasta
         </Checkbox>
-        <Checkbox size={props.cckExampleArgs.size} value={1}>
+        <Checkbox size={props.cckExampleArgs.size} value={3}>
           Fruits
         </Checkbox>
-      </div>
+      </Styled.CheckboxGroup>
     </div>
   );
 }

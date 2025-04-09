@@ -1,7 +1,7 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { CheckboxComponent } from '@cocokits/angular-checkbox';
-import { StoriesMeta, withThemeConfigProvider, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
+import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 
@@ -12,12 +12,12 @@ export { CheckboxLabelThrough } from './examples/checkbox-label-through/index.ex
 export { CheckboxLabelLink } from './examples/checkbox-label-link/index.example.stories';
 export { CheckboxGroupColumn } from './examples/checkbox-group-column/index.example.stories';
 export { CheckboxGroupRow } from './examples/checkbox-group-row/index.example.stories';
+export { CheckboxBoxSelection } from './examples/checkbox-box-selection/index.example.stories';
 
 const meta: StoriesMeta = {
   component: CheckboxComponent,
   title: 'UI Components/Checkbox',
   decorators: [
-    withWrapperDecorator({ insideBox: true }),
     applicationConfig({
       providers: [withThemeConfigProvider()],
     }),

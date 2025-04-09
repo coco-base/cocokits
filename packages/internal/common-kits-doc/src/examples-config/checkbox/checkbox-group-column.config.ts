@@ -17,8 +17,10 @@ export const TEMPLATE_ARGS: ExampleStoryTemplateArgs<ExampleArgs> = {
 export const CSS_VARIABLES: ExampleStoryCssVariables = {
   [ThemeId.FramesX]: {
     '--checkbox-group-column-color': 'var(--colors-gray-300)',
+    '--checkbox-group-column-font-family': 'var(--font-family)',
   },
   [ThemeId.CocoKits]: {
     '--checkbox-group-column-color': 'var(--color-palette-gray-800)',
+    '--checkbox-group-column-font-family': 'Inter',
   },
 };

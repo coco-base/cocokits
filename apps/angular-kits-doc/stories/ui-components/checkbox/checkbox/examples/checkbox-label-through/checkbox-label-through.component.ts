@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 
-import { CheckboxComponent } from '@cocokits/angular-checkbox';
+import { CheckboxComponent } from '@cocokits/angular-components';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-label-through.config';
 
 @Component({
@@ -8,8 +8,8 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/
   selector: 'cck-checkbox-label-through',
   imports: [CheckboxComponent],
   template: `
-    <cck-checkbox [size]="cckExampleArgs.size" [value]="1" (change)="checked = $event.checked">
-      <span [class.striked-label]="checked"> Checkbox Label </span>
+    <cck-checkbox [size]="cckExampleArgs.size" [value]="1" (change)="checked.set($event.checked)">
+      <span [class.striked-label]="checked()"> Checkbox Label </span>
     </cck-checkbox>
   `,
   styles: [
@@ -22,5 +22,5 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/
 })
 export class CheckboxLabelThroughComponent {
   @Input() cckExampleArgs!: ExampleArgs;
-  checked = false;
+  protected checked = signal(false);
 }

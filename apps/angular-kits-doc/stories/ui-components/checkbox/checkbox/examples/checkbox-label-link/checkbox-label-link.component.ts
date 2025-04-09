@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 
-import { CheckboxComponent } from '@cocokits/angular-checkbox';
+import { CheckboxComponent } from '@cocokits/angular-components';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-label-link.config';
 
 @Component({
