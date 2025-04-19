@@ -9,10 +9,10 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'html',
     filename: 'checkbox-box-selection.component.html',
     code: `
-<cck-checkbox class="Box" [value]="1">
+<cck-checkbox class="checkbox__box" [value]="1">
     Vegetarian
 </cck-checkbox>
-<cck-checkbox class="Box" [value]="1">
+<cck-checkbox class="checkbox__box" [value]="2">
     Gluten-Free
 </cck-checkbox>`,
   },
@@ -20,17 +20,18 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'scss',
     filename: 'checkbox-box-selection.component.scss',
     code: `
-:host{ 
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.Box{
-    padding: var(--cck-checkbox-padding);
-    border: var(--cck-checkbox-border-width) var(--cck-checkbox-border-style) var(--cck-checkbox-border-color);
-    border-radius: var(--cck-checkbox-border-radius);
-}`,
+.checkbox__box {
+  padding: var(--cck-checkbox-padding);
+  border: var(--cck-checkbox-border-width) var(--cck-checkbox-border-style) var(--cck-checkbox-border-color);
+  border-radius: var(--cck-checkbox-border-radius);
+}
+`,
   },
   {
     language: 'angular-ts',

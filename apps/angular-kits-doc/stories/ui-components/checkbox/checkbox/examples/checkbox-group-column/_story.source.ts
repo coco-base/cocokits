@@ -22,13 +22,13 @@ import { CheckboxComponent } from '@cocokits/angular-components';
     <div class="checkbox-group-column">
       <span class="label">My hobbies</span>
       <cck-checkbox [size]="'<%=size%>'" [value]="1">Comic books</cck-checkbox>
-      <cck-checkbox [size]="'<%=size%>'" [value]="1">Listen to music</cck-checkbox>
-      <cck-checkbox [size]="'<%=size%>'" [value]="1">Travel the world</cck-checkbox>
-      <cck-checkbox [size]="'<%=size%>'" [value]="1">Watch movies</cck-checkbox>
+      <cck-checkbox [size]="'<%=size%>'" [value]="2">Listen to music</cck-checkbox>
+      <cck-checkbox [size]="'<%=size%>'" [value]="3">Travel the world</cck-checkbox>
+      <cck-checkbox [size]="'<%=size%>'" [value]="4">Watch movies</cck-checkbox>
     </div>
   \`,
   styles: \`
-      .checkbox-group-column {
+    .checkbox-group-column {
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -37,7 +37,8 @@ import { CheckboxComponent } from '@cocokits/angular-components';
     .label {
       color: var(--checkbox-group-column-color);
       font-style: italic;
-    }\`,
+    }
+  \`,
 })
 export class CheckboxGroupColumnComponent {
 

@@ -23,8 +23,8 @@ import { CheckboxComponent } from '@cocokits/angular-components';
       <span class="label">Favorite food</span>
       <div class="checkbox-group-row">
         <cck-checkbox [size]="'<%=size%>'" [value]="1">Pizza</cck-checkbox>
-        <cck-checkbox [size]="'<%=size%>'" [value]="1">Pasta</cck-checkbox>
-        <cck-checkbox [size]="'<%=size%>'" [value]="1">Fruits</cck-checkbox>
+        <cck-checkbox [size]="'<%=size%>'" [value]="2">Pasta</cck-checkbox>
+        <cck-checkbox [size]="'<%=size%>'" [value]="3">Fruits</cck-checkbox>
       </div>
     </div>
   \`,
@@ -44,7 +44,8 @@ import { CheckboxComponent } from '@cocokits/angular-components';
       flex-direction: row;
       gap: 12px;
       margin-top: 10px;
-    }\`,
+    }
+  \`,
 })
 export class CheckboxGroupRowComponent {
 

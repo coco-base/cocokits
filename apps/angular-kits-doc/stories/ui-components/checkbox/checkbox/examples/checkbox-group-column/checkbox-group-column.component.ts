@@ -11,9 +11,9 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/
     <div class="checkbox-group-column">
       <span class="label">My hobbies</span>
       <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Comic books</cck-checkbox>
-      <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Listen to music</cck-checkbox>
-      <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Travel the world</cck-checkbox>
-      <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Watch movies</cck-checkbox>
+      <cck-checkbox [size]="cckExampleArgs().size" [value]="2">Listen to music</cck-checkbox>
+      <cck-checkbox [size]="cckExampleArgs().size" [value]="3">Travel the world</cck-checkbox>
+      <cck-checkbox [size]="cckExampleArgs().size" [value]="4">Watch movies</cck-checkbox>
     </div>
   `,
   styles: `

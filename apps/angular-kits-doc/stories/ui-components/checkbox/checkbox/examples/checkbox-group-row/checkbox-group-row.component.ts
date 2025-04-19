@@ -12,8 +12,8 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/
       <span class="label">Favorite food</span>
       <div class="checkbox-group-row">
         <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Pizza</cck-checkbox>
-        <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Pasta</cck-checkbox>
-        <cck-checkbox [size]="cckExampleArgs().size" [value]="1">Fruits</cck-checkbox>
+        <cck-checkbox [size]="cckExampleArgs().size" [value]="2">Pasta</cck-checkbox>
+        <cck-checkbox [size]="cckExampleArgs().size" [value]="3">Fruits</cck-checkbox>
       </div>
     </div>
   `,
