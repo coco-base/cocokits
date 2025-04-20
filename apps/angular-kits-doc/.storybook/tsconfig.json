@@ -17,6 +17,7 @@
     "../stories/**/*.tsx",
     "../../../packages/internal/storybook-addon-theme/**/*.ts",
     "../../../packages/internal/storybook-addon-theme/**/*.tsx",
+    "../../../packages/internal/common-kits-doc/**/*.tsx",
     "../../../packages/angular/**/index.stories.ts"
   ]
 }
