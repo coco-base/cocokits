@@ -13,6 +13,7 @@ export { CheckboxLabelLink } from './examples/checkbox-label-link/index.example.
 export { CheckboxGroupColumn } from './examples/checkbox-group-column/index.example.stories';
 export { CheckboxGroupRow } from './examples/checkbox-group-row/index.example.stories';
 export { CheckboxBoxSelection } from './examples/checkbox-box-selection/index.example.stories';
+export { CheckboxBoxSelectionInfo } from './examples/checkbox-box-selection-info/index.example.stories';
 
 const meta: StoriesMeta = {
   component: CheckboxComponent,
