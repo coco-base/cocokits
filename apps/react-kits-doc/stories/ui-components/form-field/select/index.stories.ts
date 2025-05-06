@@ -6,7 +6,9 @@ import descriptionMd from './description.md?raw';
 export { Default } from './overview/default.stories';
 export { Options } from './overview/options.stories';
 export { CustomPreview } from './overview/custom-preview.stories';
-// export { Size } from './size.stories';
+export { Type } from './overview/type.stories';
+export { Size } from './overview/size.stories';
+export { Color } from './overview/color.stories';
 
 const meta: StoriesMeta<typeof Select> = {
   component: Select,
