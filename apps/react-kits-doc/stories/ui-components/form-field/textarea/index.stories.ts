@@ -1,9 +1,13 @@
-import { Textarea } from '@cocokits/react-components';
+import { Textarea } from '@cocokits/react-form-field';
 import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
 
 import descriptionMd from './description.md?raw';
 
 export { Default } from './overview/default.stories';
+export { AutoResize } from './overview/auto-resize.stories';
+export { Color } from './overview/color.stories';
+export { Size } from './overview/size.stories';
+export { Type } from './overview/type.stories';
 
 const meta: StoriesMeta<typeof Textarea> = {
   component: Textarea,
@@ -17,6 +21,7 @@ const meta: StoriesMeta<typeof Textarea> = {
     cckAddon: {
       componentName: 'textarea',
     },
+    argTypes: {},
   },
 };
 export default meta;

@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@angular/build>lmdb': '-'
-
 patchedDependencies:
   '@compodoc/compodoc':
     hash: rctrlduhz637cai5uv4e2lglmu
@@ -136,10 +133,6 @@ importers:
       zone.js:
         specifier: ~0.14.3
         version: 0.14.10
-    optionalDependencies:
-      lmdb:
-        specifier: 3.1.3
-        version: 3.1.3
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: 18.2.0
@@ -3724,33 +3717,33 @@ packages:
     peerDependencies:
       '@inquirer/prompts': '>= 3 < 6'
 
-  '@lmdb/lmdb-darwin-arm64@3.1.3':
-    resolution: {integrity: sha512-VV667lP23gIsQkb80rnQwAHjj6F1uZp30qTnvLSlep3pOomzXcQBMFp4ZmJLeGJnnPy54JjNsYBFyg9X95wCPw==}
+  '@lmdb/lmdb-darwin-arm64@3.0.13':
+    resolution: {integrity: sha512-uiKPB0Fv6WEEOZjruu9a6wnW/8jrjzlZbxXscMB8kuCJ1k6kHpcBnuvaAWcqhbI7rqX5GKziwWEdD+wi2gNLfA==}
     cpu: [arm64]
     os: [darwin]
 
-  '@lmdb/lmdb-darwin-x64@3.1.3':
-    resolution: {integrity: sha512-kuhKKJxGCQr9gBtUd7cVBBn6OtwQg7vIiD5gHEZb+jWLJulg6N4uPSLTab8W9tvpb3ryRTAejMt7F89/2MoRrQ==}
+  '@lmdb/lmdb-darwin-x64@3.0.13':
+    resolution: {integrity: sha512-bEVIIfK5mSQoG1R19qA+fJOvCB+0wVGGnXHT3smchBVahYBdlPn2OsZZKzlHWfb1E+PhLBmYfqB5zQXFP7hJig==}
     cpu: [x64]
     os: [darwin]
 
-  '@lmdb/lmdb-linux-arm64@3.1.3':
-    resolution: {integrity: sha512-XnSHGKsJ1Fr5LBjyDkG7JnVJlduhg7AhV1J6YQujStsKnehuiidsNW0InEJrAO4QMHqquwnCfLvU9PPJfpFVYw==}
+  '@lmdb/lmdb-linux-arm64@3.0.13':
+    resolution: {integrity: sha512-afbVrsMgZ9dUTNUchFpj5VkmJRxvht/u335jUJ7o23YTbNbnpmXif3VKQGCtnjSh+CZaqm6N3CPG8KO3zwyZ1Q==}
     cpu: [arm64]
     os: [linux]
 
-  '@lmdb/lmdb-linux-arm@3.1.3':
-    resolution: {integrity: sha512-R0CkYoJPHUfxPe2LaAqMGwTf5+1eXchUMNISO8OKEvKkS/zg2emIYTOb29v1k8WGSmdJkgQneBav/W3h5NorzA==}
+  '@lmdb/lmdb-linux-arm@3.0.13':
+    resolution: {integrity: sha512-Yml1KlMzOnXj/tnW7yX8U78iAzTk39aILYvCPbqeewAq1kSzl+w59k/fiVkTBfvDi/oW/5YRxL+Fq+Y1Fr1r2Q==}
     cpu: [arm]
     os: [linux]
 
-  '@lmdb/lmdb-linux-x64@3.1.3':
-    resolution: {integrity: sha512-epvFL9/Tem00evtuq05kqWbRppJ4G/D8wa6LnQmOu779VmbrY6+M3v3h4fnt2QqMQt3+J6Cg/gZACDlDcH+eUw==}
+  '@lmdb/lmdb-linux-x64@3.0.13':
+    resolution: {integrity: sha512-vOtxu0xC0SLdQ2WRXg8Qgd8T32ak4SPqk5zjItRszrJk2BdeXqfGxBJbP7o4aOvSPSmSSv46Lr1EP4HXU8v7Kg==}
     cpu: [x64]
     os: [linux]
 
-  '@lmdb/lmdb-win32-x64@3.1.3':
-    resolution: {integrity: sha512-S6P96biJyrt/CUYSP0v4OH1U9ITzHhHCh1kn7hHOscS3S1+T/D74sCJKQ9xb/Raos2NJHqtZ8EyQVEVjOzmqbg==}
+  '@lmdb/lmdb-win32-x64@3.0.13':
+    resolution: {integrity: sha512-UCrMJQY/gJnOl3XgbWRZZUvGGBuKy6i0YNSptgMzHBjs+QYDYR1Mt/RLTOPy4fzzves65O1EDmlL//OzEqoLlA==}
     cpu: [x64]
     os: [win32]
 
@@ -8412,6 +8405,10 @@ packages:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
 
+  fresh@2.0.0:
+    resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
+    engines: {node: '>= 0.8'}
+
   from@0.1.7:
     resolution: {integrity: sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g==}
 
@@ -9796,8 +9793,8 @@ packages:
     resolution: {integrity: sha512-iyAZCeyD+c1gPyE9qpFu8af0Y+MRtmKOncdGoA2S5EY8iFq99dmmvkNnHiWo+pj0s7yH7l3KPIgee77tKpXPWQ==}
     engines: {node: '>=18.0.0'}
 
-  lmdb@3.1.3:
-    resolution: {integrity: sha512-WQcfSoOTw+XfBXQN4dRN1Ke5vv+NgmOWs4wH8oh4jYFmPZIaVPiQVF+0nGdjQDLGDcrMMyr2C34cG6WZPes6xQ==}
+  lmdb@3.0.13:
+    resolution: {integrity: sha512-UGe+BbaSUQtAMZobTb4nHvFMrmvuAQKSeaqAX2meTEQjfsbpl5sxdHD8T72OnwD4GU9uwNhYXIVe4QGs8N9Zyw==}
     hasBin: true
 
   loader-runner@4.3.0:
@@ -10123,8 +10120,16 @@ packages:
     resolution: {integrity: sha512-oHlN/w+3MQ3rba9rqFr6V/ypF10LSkdwUysQL7GkXoTgIWeV+tcXGA852TBxH+gsh8UWoyhR1hKcoMJTuWflpg==}
     engines: {node: '>= 0.6'}
 
+  mime-db@1.54.0:
+    resolution: {integrity: sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==}
+    engines: {node: '>= 0.6'}
+
   mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
+    engines: {node: '>= 0.6'}
+
+  mime-types@3.0.1:
+    resolution: {integrity: sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==}
     engines: {node: '>= 0.6'}
 
   mime@1.6.0:
@@ -12023,8 +12028,8 @@ packages:
     resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
     engines: {node: '>= 0.8.0'}
 
-  send@1.1.0:
-    resolution: {integrity: sha512-v67WcEouB5GxbTWL/4NeToqcZiAWEq90N888fczVArY8A79J0L4FD7vj5hm3eUMua5EpoQ59wa/oovY6TLvRUA==}
+  send@1.2.0:
+    resolution: {integrity: sha512-uaW0WwXKpL9blXE2o0bRhoL2EGXIrZxQ2ZQ4mgcfoBxdFmQold+qWsD2jLrfZ0trjKL6vOw0j//eAwcALFjKSw==}
     engines: {node: '>= 18'}
 
   serialize-javascript@6.0.2:
@@ -13976,6 +13981,7 @@ snapshots:
       fast-glob: 3.3.2
       https-proxy-agent: 7.0.5
       listr2: 8.2.4
+      lmdb: 3.0.13
       magic-string: 0.30.11
       mrmime: 2.0.0
       parse5-html-rewriting-stream: 7.0.0
@@ -14017,6 +14023,7 @@ snapshots:
       fast-glob: 3.3.2
       https-proxy-agent: 7.0.5
       listr2: 8.2.4
+      lmdb: 3.0.13
       magic-string: 0.30.11
       mrmime: 2.0.0
       parse5-html-rewriting-stream: 7.0.0
@@ -15929,7 +15936,7 @@ snapshots:
       object-assign: 4.1.1
       open: 8.4.0
       proxy-middleware: 0.15.0
-      send: 1.1.0
+      send: 1.2.0
       serve-index: 1.9.1
     transitivePeerDependencies:
       - supports-color
@@ -16863,22 +16870,22 @@ snapshots:
       '@inquirer/prompts': 5.3.8
       '@inquirer/type': 1.5.5
 
-  '@lmdb/lmdb-darwin-arm64@3.1.3':
+  '@lmdb/lmdb-darwin-arm64@3.0.13':
     optional: true
 
-  '@lmdb/lmdb-darwin-x64@3.1.3':
+  '@lmdb/lmdb-darwin-x64@3.0.13':
     optional: true
 
-  '@lmdb/lmdb-linux-arm64@3.1.3':
+  '@lmdb/lmdb-linux-arm64@3.0.13':
     optional: true
 
-  '@lmdb/lmdb-linux-arm@3.1.3':
+  '@lmdb/lmdb-linux-arm@3.0.13':
     optional: true
 
-  '@lmdb/lmdb-linux-x64@3.1.3':
+  '@lmdb/lmdb-linux-x64@3.0.13':
     optional: true
 
-  '@lmdb/lmdb-win32-x64@3.1.3':
+  '@lmdb/lmdb-win32-x64@3.0.13':
     optional: true
 
   '@manypkg/find-root@1.1.0':
@@ -22336,8 +22343,7 @@ snapshots:
   detect-libc@1.0.3:
     optional: true
 
-  detect-libc@2.0.3:
-    optional: true
+  detect-libc@2.0.3: {}
 
   detect-newline@3.1.0: {}
 
@@ -23623,6 +23629,8 @@ snapshots:
   fraction.js@4.3.7: {}
 
   fresh@0.5.2: {}
+
+  fresh@2.0.0: {}
 
   from@0.1.7: {}
 
@@ -25509,7 +25517,7 @@ snapshots:
       rfdc: 1.4.1
       wrap-ansi: 9.0.0
 
-  lmdb@3.1.3:
+  lmdb@3.0.13:
     dependencies:
       msgpackr: 1.11.2
       node-addon-api: 6.1.0
@@ -25517,13 +25525,12 @@ snapshots:
       ordered-binary: 1.5.3
       weak-lru-cache: 1.2.2
     optionalDependencies:
-      '@lmdb/lmdb-darwin-arm64': 3.1.3
-      '@lmdb/lmdb-darwin-x64': 3.1.3
-      '@lmdb/lmdb-linux-arm': 3.1.3
-      '@lmdb/lmdb-linux-arm64': 3.1.3
-      '@lmdb/lmdb-linux-x64': 3.1.3
-      '@lmdb/lmdb-win32-x64': 3.1.3
-    optional: true
+      '@lmdb/lmdb-darwin-arm64': 3.0.13
+      '@lmdb/lmdb-darwin-x64': 3.0.13
+      '@lmdb/lmdb-linux-arm': 3.0.13
+      '@lmdb/lmdb-linux-arm64': 3.0.13
+      '@lmdb/lmdb-linux-x64': 3.0.13
+      '@lmdb/lmdb-win32-x64': 3.0.13
 
   loader-runner@4.3.0: {}
 
@@ -25837,9 +25844,15 @@ snapshots:
 
   mime-db@1.53.0: {}
 
+  mime-db@1.54.0: {}
+
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
+
+  mime-types@3.0.1:
+    dependencies:
+      mime-db: 1.54.0
 
   mime@1.6.0: {}
 
@@ -25999,7 +26012,6 @@ snapshots:
   msgpackr@1.11.2:
     optionalDependencies:
       msgpackr-extract: 3.0.3
-    optional: true
 
   muggle-string@0.3.1: {}
 
@@ -26144,8 +26156,7 @@ snapshots:
   node-addon-api@3.2.1:
     optional: true
 
-  node-addon-api@6.1.0:
-    optional: true
+  node-addon-api@6.1.0: {}
 
   node-addon-api@7.1.1:
     optional: true
@@ -26161,7 +26172,6 @@ snapshots:
   node-gyp-build-optional-packages@5.2.2:
     dependencies:
       detect-libc: 2.0.3
-    optional: true
 
   node-gyp-build@4.8.4:
     optional: true
@@ -26608,8 +26618,7 @@ snapshots:
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
 
-  ordered-binary@1.5.3:
-    optional: true
+  ordered-binary@1.5.3: {}
 
   os-filter-obj@2.0.0:
     dependencies:
@@ -28004,16 +28013,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  send@1.1.0:
+  send@1.2.0:
     dependencies:
       debug: 4.4.0
-      destroy: 1.2.0
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
-      fresh: 0.5.2
+      fresh: 2.0.0
       http-errors: 2.0.0
-      mime-types: 2.1.35
+      mime-types: 3.0.1
       ms: 2.1.3
       on-finished: 2.4.1
       range-parser: 1.2.1
@@ -29665,8 +29673,7 @@ snapshots:
     dependencies:
       defaults: 1.0.4
 
-  weak-lru-cache@1.2.2:
-    optional: true
+  weak-lru-cache@1.2.2: {}
 
   webidl-conversions@3.0.1: {}
 

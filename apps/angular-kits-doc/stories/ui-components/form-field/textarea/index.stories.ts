@@ -7,6 +7,7 @@ import descriptionMd from './description.md';
 
 export { Default } from './default.stories';
 export { AutoResize } from './auto-resize.stories';
+export { Size } from './size.stories';
 
 const meta: StoriesMeta = {
   component: TextareaComponent,
