@@ -9,7 +9,7 @@ export const Color: StoryObj<typeof Select> = {
   parameters: {
     docs: {
       description: {
-        story: 'The color is adjustable to match the design language or emphasize the Select field in the form.',
+        story: 'The color is adjustable to match the design language or emphasize the Select field in the form',
       },
     },
     cckAddon: {

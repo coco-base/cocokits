@@ -9,6 +9,7 @@ export { CustomPreview } from './overview/custom-preview.stories';
 export { Type } from './overview/type.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
+export { ErrorState } from './overview/error-state.stories';
 
 const meta: StoriesMeta<typeof Select> = {
   component: Select,
