@@ -76,7 +76,8 @@ export const Default: StoryObj<typeof Textarea> = {
         invalid={args.cckControl.invalid}
         autoResize={args.cckControl.autoResize}
         minRows={args.cckControl.minRows}
-        maxRows={args.cckControl.maxRows}      />
+        maxRows={args.cckControl.maxRows}
+      />
     </FormField>
   ),
 };

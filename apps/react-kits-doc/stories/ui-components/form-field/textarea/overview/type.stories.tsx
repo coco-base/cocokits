@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-duplicate-props */
 import { FormField, Label, Textarea } from '@cocokits/react-form-field';
 import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
@@ -19,7 +18,7 @@ export const Type: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { FormField, Label, Textarea } from "@cocokits/react-form-field";
+            import { FormField, Label, Textarea } from "@cocokits/react-components";
 
             export const MyComponent = () => {
               return (
@@ -44,7 +43,6 @@ export const Type: StoryObj<typeof Textarea> = {
   },
   render: (args) => (
     <>
-      {console.log(args.cckControl.themeComponentConfig.type)}
       {args.cckControl.themeComponentConfig.type?.values.map((value, index) => (
         <FormField key={index}>
           <Label>Textarea - {value}</Label>

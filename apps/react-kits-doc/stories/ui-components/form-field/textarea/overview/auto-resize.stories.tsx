@@ -18,7 +18,7 @@ export const AutoResize: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { FormField, Label, Textarea } from '@cocokits/react-form-field';
+            import { FormField, Label, Textarea } from '@cocokits/react-components';
 
             export const MyComponent = () => {
               return (
@@ -26,7 +26,7 @@ export const AutoResize: StoryObj<typeof Textarea> = {
                   <Label>AutoResize</Label>
                   <Textarea
                     autoResize
-                    <% if (typeof cckControl !== 'undefined' && cckControl.type) { %>type="<%= cckControl.type %>"<% } %>
+                    type="<%= cckControl.type %>"
                     placeholder="Placeholder"
                   />
                 </FormField>

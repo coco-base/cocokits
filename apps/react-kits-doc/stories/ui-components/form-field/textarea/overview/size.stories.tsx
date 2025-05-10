@@ -19,7 +19,7 @@ export const Size: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { FormField, Label, Textarea } from "@cocokits/react-form-field";
+            import { FormField, Label, Textarea } from "@cocokits/react-components";
 
             export const MyComponent = () => {
               return (
@@ -28,7 +28,7 @@ export const Size: StoryObj<typeof Textarea> = {
                     <FormField>
                       <Label>Textarea - <%= size %></Label>
                       <Textarea
-                        <% if (typeof cckControl !== 'undefined' && cckControl.type) { %>type="<%= cckControl.type %>"<% } %>
+                        type="<%= cckControl.type %>"
                         size="<%= size %>"
                         placeholder="Write something..."
                       />

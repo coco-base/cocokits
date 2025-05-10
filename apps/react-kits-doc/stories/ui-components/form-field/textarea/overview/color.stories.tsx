@@ -18,7 +18,7 @@ export const Color: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { FormField, Label, Textarea } from "@cocokits/react-form-field";
+            import { FormField, Label, Textarea } from "@cocokits/react-components";
 
             export const MyComponent = () => {
               return (

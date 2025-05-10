@@ -8,6 +8,7 @@ export { AutoResize } from './overview/auto-resize.stories';
 export { Color } from './overview/color.stories';
 export { Size } from './overview/size.stories';
 export { Type } from './overview/type.stories';
+export { ErrorState } from './overview/error-state.stories';
 
 const meta: StoriesMeta<typeof Textarea> = {
   component: Textarea,
@@ -21,7 +22,6 @@ const meta: StoriesMeta<typeof Textarea> = {
     cckAddon: {
       componentName: 'textarea',
     },
-    argTypes: {},
   },
 };
 export default meta;
