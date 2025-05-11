@@ -10,12 +10,15 @@ export const SOURCE: AddonParametersSource[] = [
     filename: 'CheckboxLabelLink.tsx',
     code: `
 
-import { Checkbox } from '@cocokits/react-checkbox';
+import { Checkbox } from '@cocokits/react-components';
 
 export function CheckboxLabelLink() {
   return (
-    <Checkbox>
-      I accept the <a href="/">Privacy Policy</a>
+    <Checkbox value={1}>
+      I accept the
+      <a href="https://cocokits.com" target="_blank" rel="noopener noreferrer">
+        Privacy Policy
+      </a>
     </Checkbox>
   );
 }

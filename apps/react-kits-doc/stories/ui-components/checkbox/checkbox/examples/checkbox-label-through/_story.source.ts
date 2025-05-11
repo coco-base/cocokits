@@ -24,15 +24,21 @@ export const Styled = {
     language: 'tsx',
     filename: 'CheckboxLabelThrough.tsx',
     code: `
+import { useState } from 'react';
 
-import { Checkbox } from '@cocokits/react-checkbox';
+
+import { Checkbox } from '@cocokits/react-components';
 
 import { Styled } from './CheckboxLabelThrough.styled';
 
 export function CheckboxLabelThrough() {
+  const [checked, setChecked] = useState(false);
+
   return (
-    <Checkbox size='<%= size %>' value={1}>
-      <Styled.StrikedLabel>Checkbox Label</Styled.StrikedLabel>
+    <Checkbox size='<%= size %>' value={1} checked={checked} onChange={() => setChecked((prev) => !prev)}>
+      <Styled.StrikedLabel style={{ textDecoration: checked ? 'line-through' : 'none' }}>
+        Checkbox Label
+      </Styled.StrikedLabel>
     </Checkbox>
   );
 }

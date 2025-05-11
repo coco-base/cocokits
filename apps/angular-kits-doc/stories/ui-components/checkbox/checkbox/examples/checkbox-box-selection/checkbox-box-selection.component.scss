@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox__box {
+  padding: var(--cck-checkbox-padding);
+  border: var(--cck-checkbox-border-width) var(--cck-checkbox-border-style) var(--cck-checkbox-border-color);
+  border-radius: var(--cck-checkbox-border-radius);
+}
