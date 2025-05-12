@@ -54,7 +54,7 @@ export const Color: StoryObj<typeof Select> = {
        
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <FormField key={index} style={{ marginBottom: '1rem', minWidth: '200px' }}>
+        <FormField key={index} style={{ minWidth: '200px' }}>
           <Label>Color: {color}</Label>
           <Select
             color={color}

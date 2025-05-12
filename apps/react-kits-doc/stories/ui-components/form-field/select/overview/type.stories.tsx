@@ -18,7 +18,7 @@ export const Type: StoryObj<typeof Select> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { FormField, Label, Option, Select } from "@cocokits/react-form-field";
+            import { FormField, Label, Option, Select } from "@cocokits/react-components";
     
             export const MyComponent = () => {
               return (
@@ -44,7 +44,7 @@ export const Type: StoryObj<typeof Select> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <FormField key={index} style={{ marginBottom: '1rem', minWidth: '200px' }}>
+        <FormField key={index} style={{ minWidth: '200px' }}>
           <Label>Select - {type}</Label>
           <Select type={type}>
             <Option value="default">default</Option>

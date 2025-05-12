@@ -19,7 +19,7 @@ export const Size: StoryObj<typeof Select> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { FormField, Label, Option, Select } from "@cocokits/react-form-field";
+            import { FormField, Label, Option, Select } from "@cocokits/react-components";
 
             export const MyComponent = () => {
               return (
