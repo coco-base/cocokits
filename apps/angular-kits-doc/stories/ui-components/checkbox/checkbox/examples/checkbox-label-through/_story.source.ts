@@ -9,9 +9,9 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'angular-ts',
     filename: 'checkbox-label-through.component.ts',
     code: `
-import { Component, input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 
-import { CheckboxComponent } from '@cocokits/angular-checkbox';
+import { CheckboxComponent } from '@cocokits/angular-components';
 
 
 @Component({
@@ -19,18 +19,21 @@ import { CheckboxComponent } from '@cocokits/angular-checkbox';
   selector: 'cck-checkbox-label-through',
   imports: [CheckboxComponent],
   template: \`
-    <cck-checkbox [size]="'<%=size%>'" [value]="1"
-      ><span class="striked-label"> Checkbox Label </span></cck-checkbox
-    >
+    <cck-checkbox [size]="'<%=size%>'" [value]="1" (change)="checked.set($event.checked)">
+      <span [class.striked-label]="checked()"> Checkbox Label </span>
+    </cck-checkbox>
   \`,
-  styles: \`
-    .striked-label {
-      text-decoration: line-through;
-    }
-  \`,
+  styles: [
+    \`
+      .striked-label {
+        text-decoration: line-through;
+      }
+    \`,
+  ],
 })
 export class CheckboxLabelThroughComponent {
-
+  @Input() cckExampleArgs!: ExampleArgs;
+  protected checked = signal(false);
 }
 `,
   },
