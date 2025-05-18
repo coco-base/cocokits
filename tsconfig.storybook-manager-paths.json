@@ -223,6 +223,18 @@
         "../packages/react/tabs/src/",
         "../../packages/react/tabs/src/",
         "../../../packages/react/tabs/src/"
+      ],
+      "@cocokits/angular-avatar": [
+        "packages/angular/avatar/src/",
+        "../packages/angular/avatar/src/",
+        "../../packages/angular/avatar/src/",
+        "../../../packages/angular/avatar/src/"
+      ],
+      "@cocokits/react-avatar": [
+        "packages/react/avatar/src/",
+        "../packages/react/avatar/src/",
+        "../../packages/react/avatar/src/",
+        "../../../packages/react/avatar/src/"
       ]
     }
   }

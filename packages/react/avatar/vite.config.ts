@@ -11,7 +11,7 @@ import { getExternalPackages } from '../../../tools/scripts/get-external-package
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '<%= offsetPathToRoot %>/node_modules/.vite/packages/react/<%= fileName %>',
+  cacheDir: '../../../node_modules/.vite/packages/react/avatar',
   assetsInclude: path.join(__dirname, 'README.md'),
 
   plugins: [
@@ -24,7 +24,7 @@ export default defineConfig({
       aliasesExclude: [/^@cocokits\//],
     }),
     copy({
-      targets: [{ src: 'README.md', dest: '../../../dist/packages/react/<%= fileName %>' }],
+      targets: [{ src: 'README.md', dest: '../../../dist/packages/react/avatar' }],
       hook: 'writeBundle',
     }),
   ],
@@ -37,7 +37,7 @@ export default defineConfig({
   // Configuration for building your library.
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
-    outDir: '<%= offsetPathToRoot %>/dist/packages/react/<%= fileName %>',
+    outDir: '../../../dist/packages/react/avatar',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -46,7 +46,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: 'src/index.ts',
-      name: '<%= fileName %>',
+      name: 'avatar',
       fileName: 'index',
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.

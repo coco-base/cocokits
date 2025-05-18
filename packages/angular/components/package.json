@@ -12,6 +12,7 @@
     "@cocokits/angular-menu": "workspace:*",
     "@cocokits/angular-radio": "workspace:*",
     "@cocokits/angular-toggle": "workspace:*",
+    "@cocokits/angular-avatar": "workspace:*",
     "@cocokits/angular-utils": "workspace:*",
     "@cocokits/common-utils": "workspace:*",
     "@cocokits/core": "workspace:*",
