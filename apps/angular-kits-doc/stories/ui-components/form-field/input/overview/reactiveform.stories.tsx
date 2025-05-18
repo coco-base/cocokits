@@ -1,11 +1,15 @@
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { InputComponent } from '@cocokits/angular-form-field';
-import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import {
+  CCK_CONTROL,
+  renderWithPageTab,
+  renderWithThemeProp,
+} from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 import { moduleMetadata } from '@storybook/angular';
 
-export const ReactiveFormBinding: StoryObj<InputComponent> = {
-  name: 'ReactiveFormBinding',
+export const ReactiveForm: StoryObj<InputComponent> = {
+  name: 'ReactiveForm',
   parameters: {
     docs: {
       description: {
@@ -22,24 +26,32 @@ export const ReactiveFormBinding: StoryObj<InputComponent> = {
           filename: 'reactive-form.component.ts',
           language: 'typescript',
           code: `
-            name = new FormControl('');
-          `,
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'reactive-form-example',
+  templateUrl: './reactive-form.component.html',
+})
+export class ReactiveFormComponent {
+  name = new FormControl('');
+}
+          `.trim(),
         },
         {
           filename: 'reactive-form.component.html',
           language: 'angular-html',
           code: `
-            <cck-form-field>
-              <cck-label>Name</cck-label>
-              <input
-                cckInput
-                type="text"
-                [formControl]="name"
-                placeholder="Enter your name"
-              />
-            </cck-form-field>
-            <p>You typed: {{ name.value }}</p>
-          `,
+<cck-form-field>
+  <cck-label>Name</cck-label>
+  <input
+    cckInput
+    type="text"
+    [formControl]="name"
+    placeholder="Enter your name"
+/>
+</cck-form-field>
+          `.trim(),
         },
       ],
       hasControl: false,
@@ -56,16 +68,15 @@ export const ReactiveFormBinding: StoryObj<InputComponent> = {
       name: new FormControl(''),
     },
     template: `
-      <cck-form-field style="width: 100%">
-        <cck-label>Name</cck-label>
-        <input
-          cckInput
-          type="text"
-          [formControl]="name"
-          placeholder="Placeholder"
-        />
-      </cck-form-field>
-      <p>You typed: {{ name.value }}</p>
-    `,
+<cck-form-field style="width: 100%">
+  <cck-label>Name</cck-label>
+  <input
+    cckInput
+    type="text"
+    [formControl]="name"
+    placeholder="Placeholder"
+/>
+</cck-form-field>
+    `.trim(),
   }),
 };

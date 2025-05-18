@@ -9,8 +9,8 @@ export { Default } from './overview/default.stories';
 export { Type } from './overview/type.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
-export { NgModelBinding } from './overview/ng-model.stories';
-export { ReactiveFormBinding } from './overview/reactiveform.stories';
+export { NgModel } from './overview/ngmodel.stories';
+export { ReactiveForm } from './overview/reactiveform.stories';
 
 const meta: StoriesMeta = {
   component: InputComponent,

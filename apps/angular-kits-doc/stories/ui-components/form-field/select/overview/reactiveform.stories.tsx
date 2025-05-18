@@ -9,12 +9,13 @@ export const ReactiveForm: StoryObj<SelectComponent> = {
   parameters: {
     docs: {
       description: {
-        story: 'Integration with Angular Reactive Forms using FormControl',
+        story: 'Integration with Angular Reactive Forms using FormControl.',
       },
     },
     cckAddon: {
       renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
       singleControls: ['type'],
+      controls: [CCK_CONTROL.type()],
       source: [
         {
           filename: 'example.component.html',
@@ -28,10 +29,20 @@ export const ReactiveForm: StoryObj<SelectComponent> = {
                 <cck-option value="Burger">Burger</cck-option>
               </cck-select>
             </cck-form-field>
-          `,
+          `.trim(),
+        },
+        {
+          filename: 'example.component.ts',
+          language: 'typescript',
+          code: `
+            import { FormControl } from '@angular/forms';
+
+            export class ExampleComponent {
+              foodControl = new FormControl('Pizza');
+            }
+          `.trim(),
         },
       ],
-      controls: [CCK_CONTROL.type()],
     },
   },
   decorators: [
@@ -50,14 +61,15 @@ export const ReactiveForm: StoryObj<SelectComponent> = {
       template: `
         <cck-form-field style="width: 300px;">
           <cck-label>Favorite food</cck-label>
-          <cck-select placeholder="Pick one" [formControl]="foodControl" [type]="cckControl.type">
+          <cck-select
+            placeholder="Pick one"
+            [formControl]="foodControl"
+            [type]="cckControl.type">
             <cck-option value="Steak">Steak</cck-option>
             <cck-option value="Pizza">Pizza</cck-option>
             <cck-option value="Burger">Burger</cck-option>
           </cck-select>
         </cck-form-field>
-
-        <p style="margin-top: 1rem;">Selected: <strong>{{ foodControl.value }}</strong></p>
       `,
     };
   },
