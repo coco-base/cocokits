@@ -22,7 +22,7 @@ export const Default: StoryObj<RadioButtonComponent> = {
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
               <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
-              <% if (selected !== 'None') { %> selected='<%= selected %>' <% } %>
+              <% if (selectedRadio !== 'None') { %> selected='<%= selectedRadio %>' <% } %>
               <% if (disabled) { %> disabled <% } %>
              >
                 <cck-radio-button value="Radio-1">Radio Button 1</cck-radio-button>
@@ -50,7 +50,7 @@ export const Default: StoryObj<RadioButtonComponent> = {
     template: `
       <cck-radio-group
         [disabled]="cckControl.disabled"
-        [selected]="cckControl.selected"
+        [selected]="cckControl.selectedRadio"
         ${ngThemeArgsToTemplate(args)}>
           <cck-radio-button value="Radio-1">Radio Button 1</cck-radio-button>
           <cck-radio-button value="Radio-2">Radio Button 2</cck-radio-button>
