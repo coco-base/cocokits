@@ -52,9 +52,7 @@ export function CheckboxBoxSelectionInfo() {
   return (
     <Styled.Container>
       <Styled.Box>
-        <Checkbox value={1}>
-          Leave at Door
-        </Checkbox>
+        <Checkbox value={1}>Leave at Door</Checkbox>
         <SvgIcon icon={Icons.info} size='<%= IconSize %>' />
       </Styled.Box>
       <Styled.Box>

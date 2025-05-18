@@ -7,7 +7,7 @@ export interface <%= className %>Props extends Omit<React.HTMLAttributes<HTMLEle
   children?: React.ReactNode;
 }
 
-const <%= className %> = forwardRef<HTMLElement, <%= className %>Props>(
+export const <%= className %> = forwardRef<HTMLDivElement, <%= className %>Props>(
   ({ type, size, color, additional, children, ...restProps }, ref) => {
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: "<%= propertyName %>",
@@ -22,4 +22,5 @@ const <%= className %> = forwardRef<HTMLElement, <%= className %>Props>(
   }
 );
 
+<%= className %>.displayName = '<%= className %>';
 export default <%= className %>;

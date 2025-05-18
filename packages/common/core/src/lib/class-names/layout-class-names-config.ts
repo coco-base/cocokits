@@ -1,3 +1,4 @@
+import { avatarLayoutClassNamesConfig } from './avatar-class-names';
 import { buttonLayoutClassNamesConfig } from './button-class-names';
 import { checkboxLayoutClassNamesConfig } from './checkbox-class-names';
 import { chipLayoutClassNamesConfig } from './chip-class-names';
@@ -79,4 +80,7 @@ export const layoutClassNamesConfigRecord = {
 
   // overlay
   overlay: overlayLayoutClassNamesConfig,
+
+  // avatar
+  avatar: avatarLayoutClassNamesConfig,
 };

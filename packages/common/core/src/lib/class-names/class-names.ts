@@ -1,5 +1,6 @@
 import { isNotNullish, recordForEach, safeMergeString } from '@cocokits/common-utils';
 
+import { getAvatarClassNames } from './avatar-class-names';
 import { getButtonClassNames } from './button-class-names';
 import { getCheckboxClassNames } from './checkbox-class-names';
 import { getChipClassNames } from './chip-class-names';
@@ -88,6 +89,9 @@ export const CLASS_NAMES_FN_MAP = {
   tabLabel: getTabLabelClassNames,
 
   overlay: getOverlayClassNames,
+
+  // Avatar
+  avatar: getAvatarClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

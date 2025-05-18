@@ -213,6 +213,14 @@ const components: ThemeComponentConfigRecord = {
   menu: {},
   menuItem: {},
   overlay: {},
+  avatar: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+      default: 'md',
+      description: '',
+    },
+  },
 };
 
 export const framesXThemeConfig: ThemeConfig = {

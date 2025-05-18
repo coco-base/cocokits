@@ -337,7 +337,7 @@ h1{
 h2{
   font:var(--cck-doc-text-xl-medium);
   color:var(--cck-doc-color-font-1);
-  margin:36px 0 24px 0;
+  margin:36px 0 24px;
 }
 
 h3{
@@ -3629,7 +3629,6 @@ a{
 :where([data-cck-theme-name=cocokits]) .cck-trailing .cck-svg-icon.cck-svg-icon--default-color .cck-svg-icon__svg{
   fill:var(--form_field-color-icon);
 }
-
 :where([data-cck-theme-name=frames-x]) .cck-button{
   display:inline-flex;
   justify-content:center;
@@ -5337,7 +5336,6 @@ a{
 :where([data-cck-theme-name=frames-x]) .cck-trailing--clickable:hover:not(:active){
   background-color:var(--base-fill-2);
 }
-
 .arg-type-table-wrapper{
   width:100%;
   overflow-x:auto;
