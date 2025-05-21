@@ -9,3 +9,8 @@
 @forward 'global';
 @forward 'components';
 @forward 'brand-color-1';
+
+$avatar-size-xs: var(--size-28);
+$avatar-size-sm: var(--size-32);
+$avatar-size-md: var(--size-40);
+$avatar-size-lg: var(--size-48);

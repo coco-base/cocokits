@@ -301,7 +301,7 @@ const components: ThemeComponentConfigRecord = {
   avatar: {
     size: {
       name: 'size',
-      values: ['sm', 'md', 'lg', 'xl'],
+      values: ['xs', 'sm', 'md', 'lg'],
       default: 'md',
       description: '',
     },

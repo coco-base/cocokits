@@ -2,5 +2,66 @@
 
 @mixin avatar {
   .cck-avatar {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    &__image,
+    &__placeholder-image,
+    &__fallback-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    &--with-label {
+      color: $color-font-default;
+      background-color: $color-brand-light;
+    }
+
+    &--clickable {
+      cursor: pointer;
+    }
+
+    &__size {
+      &--xs {
+        width: $avatar-size-xs;
+        height: $avatar-size-xs;
+
+        &.cck-avatar--with-label {
+          font: $text-xs-semibold;
+        }
+      }
+
+      &--sm {
+        width: $avatar-size-sm;
+        height: $avatar-size-sm;
+
+        &.cck-avatar--with-label {
+          font: $text-sm-semibold;
+        }
+      }
+
+      &--md {
+        width: $avatar-size-md;
+        height: $avatar-size-md;
+
+        &.cck-avatar--with-label {
+          font: $text-md-semibold;
+        }
+      }
+
+      &--lg {
+        width: $avatar-size-lg;
+        height: $avatar-size-lg;
+
+        &.cck-avatar--with-label {
+          font: $text-lg-semibold;
+        }
+      }
+    }
   }
 }
