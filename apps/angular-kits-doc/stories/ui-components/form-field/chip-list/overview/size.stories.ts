@@ -20,13 +20,15 @@ export const Size: StoryObj<ChipListComponent> = {
           language: 'angular-html',
           code: `
             <% themeComponentConfig.size.values.map(size => { %>
-              <button
-                cck-button
-                <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                size='<%= size %>'
-              >
-                <%= size %>
-                </button>
+            <cck-form-field
+              <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+              <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+              <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+            >
+              <cck-label>Chip List</cck-label>
+              <cck-chip-list [chips]="['Steak', 'Pizza', 'Burger']" placeholder="Add a New Food" [addOnBlur]="true">
+              </cck-chip-list>
+            </cck-form-field>
             <% }) %>
           `,
         },
