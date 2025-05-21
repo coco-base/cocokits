@@ -3,21 +3,32 @@ import { API_HashEntry } from '@storybook/types';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+import { CckStorybookSidenavItemStatus, StorybookTags } from '../../model/storybook-meta.model';
+
 // eslint-disable-next-line camelcase
 export const SidebarLabel = (item: API_HashEntry) => {
 
 
   // To get item status from story tag
-  // const tags = (item.type === 'story' || item.type === 'docs') ? item.tags as StorybookTags[] : [] as StorybookTags[];
-  // const status = tags.find(tag => ['status:deprecated', 'status:beta'].includes(tag)) as CckStorybookSidenavItemStatus;
+  const tags = (item.type === 'story' || item.type === 'docs') ? item.tags as StorybookTags[] : [] as StorybookTags[];
+  const status = tags.find((tag) => Object.values(CckStorybookSidenavItemStatus).includes(tag as CckStorybookSidenavItemStatus));
 
   const isCollapsable = item.type === 'root' || item.type === 'group' || item.type === 'component';
   // const isSelectable = item.type === 'docs' || item.type === 'story';
 
+  if(item.name === 'Avatar') {
+    console.log('item', status, item);
+  }
+  
+  
   return (
     <StyledWrapper deep={item.depth} data-cck-storybook-sidenav-item>
 
       <span>{item.name}</span>
+      {
+        status &&
+        <StyledStatusNew>{status.split('status:')[1]}</StyledStatusNew>
+      }
 
       {
         isCollapsable &&
@@ -96,5 +107,14 @@ const StyledArrowSvg = styled.svg`
     path {
       stroke: currentColor;
     }
+`;
+
+const StyledStatusNew = styled.span`
+  background-color: var(--cck-doc-color-bg-selected-1);
+  margin-left: 8px;
+  padding: 0px 8px;
+  border-radius: 6px;
+  font: var(--cck-doc-text-sm-medium);
+  color: var(--cck-doc-color-brand-default);
 `;
 // endregion
