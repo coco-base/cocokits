@@ -12,6 +12,7 @@ export { CustomTemplate } from './overview/custom-content.stories';
 const meta: StoriesMeta = {
   component: AvatarComponent,
   title: 'UI Components/Avatar',
+  tags: ['status:new'],
   decorators: [
     applicationConfig({
       providers: [withThemeConfigProvider()],

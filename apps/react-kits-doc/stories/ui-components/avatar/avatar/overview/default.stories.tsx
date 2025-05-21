@@ -17,7 +17,26 @@ export const Default: StoryObj<typeof Avatar> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          
+            import { Avatar} from '@cocokits/react-components';
+
+            export const MyComponent = () => {
+              <% if (placeholderSrc) { %> const placeholder="<%= placeholderSrc %>"; <% } %>
+              <% if (fallbackSrc) { %> const fallback="<%= fallbackSrc %>"; <% } %>
+
+              return (
+                <Avatar
+                  <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                  <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+                  <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+                  <% if (src) { %> src='<%= src %>' <% } %>
+                  <% if (alt) { %> alt='<%= alt %>' <% } %>
+                  <% if (!src && label) { %> label='<%= label %>' <% } %>
+                  <% if (src && placeholderSrc) { %> placeholderSrc={placeholder} <% } %>
+                  <% if (src && fallbackSrc) { %> fallbackSrc={fallback} <% } %>
+                  <% if (!clickable) { %> clickable={false} <% } %>
+                />
+              )
+            }
           `,
         },
       ],
@@ -27,13 +46,25 @@ export const Default: StoryObj<typeof Avatar> = {
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
+        CCK_CONTROL.label(''),
+        CCK_CONTROL.alt('Image alt'),
+        CCK_CONTROL.srcUrl(),
+        CCK_CONTROL.placeholderSrc(),
+        CCK_CONTROL.fallbackSrc(),
+        CCK_CONTROL.clickable(),
         CCK_CONTROL.additional(),
       ],
     },
   },
   args: {},
   render: (args) => (
-    <Avatar {...reactThemeArgsToTemplate(args)}>
-    </Avatar>
+    <Avatar
+      {...reactThemeArgsToTemplate(args)}
+      src={args.cckControl.src}
+      alt={args.cckControl.alt}
+      label={args.cckControl.label}
+      placeholderSrc={args.cckControl.placeholderSrc}
+      fallbackSrc={args.cckControl.fallbackSrc}
+      clickable={args.cckControl.clickable}/>
   ),
 };

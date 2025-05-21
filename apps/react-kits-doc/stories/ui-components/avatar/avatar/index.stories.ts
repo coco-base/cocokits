@@ -4,10 +4,12 @@ import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
 import descriptionMd from './description.md?raw';
 
 export { Default } from './overview/default.stories';
+export { CustomTemplate } from './overview/custom-content.stories';
 
 const meta: StoriesMeta<typeof Avatar> = {
   component: Avatar,
   title: 'UI Components/Avatar',
+  tags: ['status:new'],
   decorators: [],
   parameters: {
     docs: {

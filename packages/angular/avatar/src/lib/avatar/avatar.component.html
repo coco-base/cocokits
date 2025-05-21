@@ -9,7 +9,6 @@
       [style.display]="imgStatus() === 'loaded' ? 'block' : 'none'"
       (load)="imgStatus.set('loaded')"
       (error)="imgStatus.set('error')"
-      (loadend)="imgStatus.set('loaded')"
     />
   }
 

@@ -31,8 +31,8 @@ export const Default: StoryObj<AvatarComponent> = {
                   <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
                   <% if (src) { %> src="<%= src %>" <% } %>
                   <% if (!src && label) { %> label="<%= label %>" <% } %>
-                  <% if (placeholderSrc) { %> [placeholderSrc]="placeholder" <% } %>
-                  <% if (fallbackSrc) { %> [fallbackSrc]="fallback" <% } %>
+                  <% if (src && placeholderSrc) { %> [placeholderSrc]="placeholder" <% } %>
+                  <% if (src && fallbackSrc) { %> [fallbackSrc]="fallback" <% } %>
                   <% if (alt) { %> alt="<%= alt %>" <% } %>
                   <% if (clickable) { %> [clickable]="<%= clickable %>" <% } %>
                 />
@@ -69,10 +69,10 @@ export const Default: StoryObj<AvatarComponent> = {
         <cck-avatar
           ${ngThemeArgsToTemplate(args)}
           [src]="cckControl.src"
+          [alt]="cckControl.alt"
           [label]="cckControl.label"
           [placeholderSrc]="cckControl.placeholderSrc"
           [fallbackSrc]="cckControl.fallbackSrc"
-          [alt]="cckControl.alt"
           [clickable]="cckControl.clickable"
         />
       `,

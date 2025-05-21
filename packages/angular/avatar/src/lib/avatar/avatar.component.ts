@@ -38,7 +38,6 @@ export class AvatarComponent extends _UiBaseComponent<'avatar'> {
     { if: this.wihImage(), classes: this.classNames().withImage },
     { if: this.wihLabel(), classes: this.classNames().withLabel },
     { if: this.contentTemp(), classes: this.classNames().withCustomContent },
-    { if: this.contentTemp(), classes: this.classNames().withCustomContent },
     { if: this.clickable(), classes: this.classNames().clickable },
   ]);
 
@@ -73,7 +72,7 @@ export class AvatarComponent extends _UiBaseComponent<'avatar'> {
   public label = input<string>();
 
   /**
-   * Whether the avatar should be clickable. Defaults to true.
+   * Whether the avatar should be clickable.
    * @storybook argType will be overridden by storybook
    */
   public clickable = input<boolean>(true);
