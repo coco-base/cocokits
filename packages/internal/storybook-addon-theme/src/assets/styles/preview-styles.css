@@ -5336,6 +5336,70 @@ a{
 :where([data-cck-theme-name=frames-x]) .cck-trailing--clickable:hover:not(:active){
   background-color:var(--base-fill-2);
 }
+:where([data-cck-theme-name=frames-x]) .cck-avatar{
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__image, :where([data-cck-theme-name=frames-x]) .cck-avatar__placeholder-image, :where([data-cck-theme-name=frames-x]) .cck-avatar__fallback-image{
+  width:100%;
+  height:100%;
+  -o-object-fit:cover;
+  object-fit:cover;
+  border-radius:inherit;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar--with-label{
+  color:var(--text-light-primary);
+  background-color:var(--state-brand-active);
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar--clickable{
+  cursor:pointer;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--xs{
+  width:28px;
+  height:28px;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--xs.cck-avatar--with-label{
+  font:var(--text-xs-font-semibold);
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--sm{
+  width:32px;
+  height:32px;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--sm.cck-avatar--with-label{
+  font:var(--text-xs-font-semibold);
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--md{
+  width:40px;
+  height:40px;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--md.cck-avatar--with-label{
+  font:var(--text-sm-font-semibold);
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--lg{
+  width:44px;
+  height:44px;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--lg.cck-avatar--with-label{
+  font:var(--text-lg-font-semibold);
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--xl{
+  width:56px;
+  height:56px;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--xl.cck-avatar--with-label{
+  font:var(--text-xl-font-semibold);
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--2xl{
+  width:72px;
+  height:72px;
+}
+:where([data-cck-theme-name=frames-x]) .cck-avatar__size--2xl.cck-avatar--with-label{
+  font:var(--text-2xl-font-semibold);
+}
+
 .arg-type-table-wrapper{
   width:100%;
   overflow-x:auto;

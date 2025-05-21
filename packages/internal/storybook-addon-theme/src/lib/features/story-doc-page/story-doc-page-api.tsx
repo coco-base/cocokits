@@ -6,9 +6,10 @@ import { DocPageSection } from '../doc-page/doc-page-section';
 export interface StoryDocPageAPIProps {
   argTypes: StoryDocPageArgTypes[];
   themeName: string;
+  ngTemplateMD: string | null;
 }
 
-export function StoryDocPageAPI({ argTypes, themeName }: StoryDocPageAPIProps) {
+export function StoryDocPageAPI({ argTypes, themeName, ngTemplateMD }: StoryDocPageAPIProps) {
   const description = `Please verify that the \`${themeName}\` theme is also applied to your project to ensure consistency,
   or change the theme of this document page to align with your project settings.
   Mismatches between the theme of this document and your project can result in discrepancies in \`type\` definitions and \`default\` values,
@@ -52,6 +53,14 @@ export function StoryDocPageAPI({ argTypes, themeName }: StoryDocPageAPIProps) {
           </DocPageSection>
         );
       })}
+
+      {
+        ngTemplateMD && (
+          <DocPageSection id="ng-template-doc" title="Templates">
+            <DocPageMarkdown>{ngTemplateMD}</DocPageMarkdown>
+          </DocPageSection>
+        )
+      }
     </>
   );
 }

@@ -15,15 +15,49 @@ export const Default: StoryObj<AvatarComponent> = {
       renderConditions: [renderWithPageTab('Overview')],
       source: [
         {
-          filename: 'example.component.html',
-          language: 'angular-html',
+          filename: 'example.component.ts',
+          language: 'angular-ts',
           code: `
-          
+            import { Component } from "@angular/core";
+            import { AvatarComponent } from '@cocokits/angular-components';
+
+            @Component({
+              selector: 'example-component',
+              imports: [AvatarComponent],
+              template: \`
+                <cck-avatar
+                  <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                  <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+                  <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+                  <% if (src) { %> src="<%= src %>" <% } %>
+                  <% if (!src && label) { %> label="<%= label %>" <% } %>
+                  <% if (placeholderSrc) { %> [placeholderSrc]="placeholder" <% } %>
+                  <% if (fallbackSrc) { %> [fallbackSrc]="fallback" <% } %>
+                  <% if (alt) { %> alt="<%= alt %>" <% } %>
+                  <% if (clickable) { %> [clickable]="<%= clickable %>" <% } %>
+                />
+              \`,
+            })
+            export class ExampleComponent {
+              <% if (placeholderSrc) { %> protected placeholder="<%= placeholderSrc %>"; <% } %>
+              <% if (fallbackSrc) { %> protected fallback="<%= fallbackSrc %>"; <% } %>
+            }
           `,
         },
       ],
       hasControl: true,
-      controls: [CCK_CONTROL.type(), CCK_CONTROL.color(), CCK_CONTROL.size(), CCK_CONTROL.additional()],
+      controls: [
+        CCK_CONTROL.type(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.label(''),
+        CCK_CONTROL.alt('Image alt'),
+        CCK_CONTROL.srcUrl(),
+        CCK_CONTROL.placeholderSrc(),
+        CCK_CONTROL.fallbackSrc(),
+        CCK_CONTROL.clickable(),
+        CCK_CONTROL.additional(),
+      ],
     },
   },
   render: (args) => {
@@ -33,9 +67,14 @@ export const Default: StoryObj<AvatarComponent> = {
       },
       template: `
         <cck-avatar
-          ${ngThemeArgsToTemplate(args)}>
-            
-        </cck-avatar>
+          ${ngThemeArgsToTemplate(args)}
+          [src]="cckControl.src"
+          [label]="cckControl.label"
+          [placeholderSrc]="cckControl.placeholderSrc"
+          [fallbackSrc]="cckControl.fallbackSrc"
+          [alt]="cckControl.alt"
+          [clickable]="cckControl.clickable"
+        />
       `,
     };
   },

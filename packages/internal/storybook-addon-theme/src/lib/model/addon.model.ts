@@ -77,6 +77,12 @@ export interface CckAddonStoriesMeta {
    * The key is component name and the value is the argTypes.
    */
   subcomponentArgsTypes?: Record<string, DeepPartial<PreparedStory['argTypes']>>;
+
+  /**
+   * Ref to markdown file of ng-template that will be used on his component.
+   * If it's provided, the doc page show template section with the content of the markdown file.
+   */
+  ngTemplateMarkdown?: string;
 }
 
 export interface StoryRenderConditionProps {
@@ -152,6 +158,7 @@ export interface AddonParametersSource {
 export type AddonParametersControl =
   | AddonParametersControlIcon
   | AddonParametersControlSelect
+  | AddonParametersControlImage
   | AddonParametersControlText
   | AddonParametersControlNumber
   | AddonParametersControlBoolean
@@ -159,6 +166,7 @@ export type AddonParametersControl =
 
 export enum AddonParametersControlType {
   Select = 'select',
+  Image = 'image',
   Boolean = 'boolean',
   Text = 'text',
   Number = 'number',
@@ -180,6 +188,12 @@ export interface AddonParametersControlIcon extends AddonParametersControlBase {
 export interface AddonParametersControlSelect extends AddonParametersControlBase {
   type: AddonParametersControlType.Select;
   options: (string | null)[];
+  default: string;
+}
+
+export interface AddonParametersControlImage extends AddonParametersControlBase {
+  type: AddonParametersControlType.Image;
+  images: string[];
   default: string;
 }
 

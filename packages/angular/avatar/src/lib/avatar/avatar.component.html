@@ -1,1 +1,35 @@
-<p>cck-avatar works !!</p>
+<ng-container *ngTemplateOutlet="template()"></ng-container>
+
+<ng-template #defaultTemp>
+  @if(canShowImg()) {
+    <img
+      [class]="classNames().image"
+      [src]="src()"
+      [alt]="alt()"
+      [style.display]="imgStatus() === 'loaded' ? 'block' : 'none'"
+      (load)="imgStatus.set('loaded')"
+      (error)="imgStatus.set('error')"
+      (loadend)="imgStatus.set('loaded')"
+    />
+  }
+
+  @if(canShowPlaceholder()) {
+    <img
+      [class]="classNames().placeholderImage"
+      [src]="placeholderSrc()"
+      [alt]="alt()"
+    />
+  }
+
+  @if(canShowFallback()) {
+    <img
+      [class]="classNames().fallbackImage"
+      [src]="fallbackSrc()"
+      [alt]="alt()"
+    />
+  }
+
+  @if(canShowLabel()) {
+    <span [class]="classNames().label">{{label()}}</span>
+  }
+</ng-template>

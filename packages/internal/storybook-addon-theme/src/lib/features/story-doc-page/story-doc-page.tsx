@@ -48,7 +48,10 @@ export function StoryDocPage() {
 
     const _tocItemsMap = {
       Overview: _overviewProps.stories.map(story => ({id: story.id, name: story.name})),
-      API: _apiProps.argTypes.map(argType => ({ id: argType.componentName, name: argType.componentName })),
+      API: [
+        ..._apiProps.argTypes.map(argType => ({ id: argType.componentName, name: argType.componentName })),
+        ...(parameters.cckAddon.ngTemplateMarkdown ? [{ id: 'ng-template-doc', name: 'Templates' }] : []),
+      ],
       Styling: [_stylingProps.mainComponent, ..._stylingProps.subcomponents].map(component => ({ id: component.componentName, name: component.componentName })),
       Examples: [],
     } satisfies Record<'Overview' | 'API' | 'Styling' | 'Examples', DocTocItem[]>;

@@ -39,6 +39,7 @@ export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent,
   return {
     argTypes: getArgTypesApiList(preparedMeta, theme.themeConfig, framework),
     themeName: theme.displayName,
+    ngTemplateMD: (preparedMeta.parameters as AddonParameters).cckAddon.ngTemplateMarkdown ?? null,
   };
 }
 

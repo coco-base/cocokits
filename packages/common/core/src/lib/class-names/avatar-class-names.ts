@@ -56,6 +56,16 @@ export const avatarLayoutClassNamesConfig = {
       selectorStructure: [{ modifier: 'with-label' }],
       description: `Will be add to the host element, when the component use label`,
     },
+    withCustomContent: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'with-custom-content' }],
+      description: `Will be add to the host element, when the component has custom template`,
+    },
+    clickable: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'clickable' }],
+      description: `Will be add to the host element, when the component is clickable`,
+    },
   },
 } satisfies LayoutClassNamesConfig;
 
@@ -76,5 +86,11 @@ export function getAvatarClassNames(
     fallback: generateLayoutClassNameFromElement(avatarLayoutClassNamesConfig, 'fallback', themeConfig),
     withImage: generateLayoutClassNameFromElement(avatarLayoutClassNamesConfig, 'withImage', themeConfig),
     withLabel: generateLayoutClassNameFromElement(avatarLayoutClassNamesConfig, 'withLabel', themeConfig),
+    withCustomContent: generateLayoutClassNameFromElement(
+      avatarLayoutClassNamesConfig,
+      'withCustomContent',
+      themeConfig
+    ),
+    clickable: generateLayoutClassNameFromElement(avatarLayoutClassNamesConfig, 'clickable', themeConfig),
   };
 }

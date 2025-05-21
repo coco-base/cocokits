@@ -15,7 +15,7 @@ export interface StroyControlArgType {
 }
 
 // Example: { type: 'primary', color: 'warn' }
-export type StoryControlChangeEvent = Record<string, string | boolean | number>;
+export type StoryControlChangeEvent = Record<string, string | boolean | number | null>;
 
 export interface StroyControlFieldProps {
   argType: StroyControlArgType;
