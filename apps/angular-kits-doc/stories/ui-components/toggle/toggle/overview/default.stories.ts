@@ -34,8 +34,7 @@ export const Default: StoryObj<ToggleComponent> = {
       hasControl: true,
       controls: [
         CCK_CONTROL.text('Slid Me!'),
-        CCK_CONTROL.label('before'),
-        CCK_CONTROL.placeholder('Placeholder'),
+        CCK_CONTROL.labelPosition(),
         CCK_CONTROL.type(),
         CCK_CONTROL.color(),
         CCK_CONTROL.size(),
