@@ -2,5 +2,84 @@
 
 @mixin avatar {
   .cck-avatar {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    &__image,
+    &__placeholder-image,
+    &__fallback-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    &--with-label {
+      color: $text-light-primary;
+      background-color: $state-brand-active;
+    }
+
+    &--clickable {
+      cursor: pointer;
+    }
+
+    &__size {
+      &--xs {
+        width: 28px;
+        height: 28px;
+
+        &.cck-avatar--with-label {
+          font: $text-xs-font-semibold;
+        }
+      }
+
+      &--sm {
+        width: 32px;
+        height: 32px;
+
+        &.cck-avatar--with-label {
+          font: $text-xs-font-semibold;
+        }
+      }
+
+      &--md {
+        width: 40px;
+        height: 40px;
+
+        &.cck-avatar--with-label {
+          font: $text-sm-font-semibold;
+        }
+      }
+
+      &--lg {
+        width: 44px;
+        height: 44px;
+
+        &.cck-avatar--with-label {
+          font: $text-lg-font-semibold;
+        }
+      }
+
+      &--xl {
+        width: 56px;
+        height: 56px;
+
+        &.cck-avatar--with-label {
+          font: $text-xl-font-semibold;
+        }
+      }
+
+      &--2xl {
+        width: 72px;
+        height: 72px;
+
+        &.cck-avatar--with-label {
+          font: $text-2xl-font-semibold;
+        }
+      }
+    }
   }
 }
