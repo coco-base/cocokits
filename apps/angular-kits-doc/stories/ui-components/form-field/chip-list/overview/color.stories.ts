@@ -1,25 +1,24 @@
 import { ChipListComponent } from '@cocokits/angular-form-field';
-import { AddonParametersControlType, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
-export const Size: StoryObj<ChipListComponent> = {
-  name: 'Size',
+export const Color: StoryObj<ChipListComponent> = {
+  name: 'Color',
   parameters: {
     docs: {
       description: {
         story:
-          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
+          'The color is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
     },
     cckAddon: {
-      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
-      singleControls: ['type'],
+      renderConditions: [renderWithThemeProp('color'), renderWithPageTab('Overview')],
       source: [
         {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-            <% themeComponentConfig.size.values.map(size => { %>
+            <% themeComponentConfig.color.values.map(color => { %>
             <cck-form-field
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
@@ -33,7 +32,6 @@ export const Size: StoryObj<ChipListComponent> = {
           `,
         },
       ],
-      controls: [{ prop: 'type', type: AddonParametersControlType.SelectThemeConfig }],
     },
   },
   render: (args) => ({
@@ -42,8 +40,8 @@ export const Size: StoryObj<ChipListComponent> = {
       chips: ['Steak', 'Pizza'],
     },
     template: `
-      @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
-        <cck-form-field style="width: 100%" [size]="size" [type]="cckControl.type">
+      @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
+        <cck-form-field  [color]="color" [type]="cckControl.type">
           <cck-label>Chip List</cck-label>
           <cck-chip-list [chips]="chips" [placeholder]="'Add a new food'" [addOnBlur]="true">
           </cck-chip-list>

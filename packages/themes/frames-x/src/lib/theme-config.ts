@@ -30,6 +30,18 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   chipList: {
+    type: {
+      name: 'type',
+      values: ['default', 'secondary', 'ghost'],
+      default: 'default',
+      description: '',
+    },
+    color: {
+      name: 'color',
+      values: ['brand', 'highlight', 'success', 'danger'],
+      default: 'brand',
+      description: '',
+    },
     size: {
       name: 'size',
       values: ['sm', 'md', 'lg'],
