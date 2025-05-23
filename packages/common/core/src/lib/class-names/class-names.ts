@@ -32,12 +32,8 @@ import { getTabsClassNames } from './tabs-class-names';
 import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
-import {
-  LayoutClassNamesConfig,
-  ThemeConfig,
-  UIBaseComponentProps,
-  UIBaseComponentsName,
-} from '../model/theme-config.model';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
+import { UIBaseComponentsName } from '../model/ui-base-components-name';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 
 export const CLASS_NAMES_FN_MAP = {

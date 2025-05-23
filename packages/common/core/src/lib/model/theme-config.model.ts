@@ -1,61 +1,6 @@
 import { RequireAtLeastOne } from './common.model';
 import { ThemeSvgIcon } from './theme-svg-icon.model';
-
-export type UIBaseComponentsName =
-  // form-field
-  | 'formField'
-  | 'label'
-  | 'error'
-  | 'hint'
-  | 'prefix'
-  | 'suffix'
-  | 'trailing'
-  | 'leading'
-  | 'input'
-  | 'textarea'
-  | 'select'
-  | 'option'
-  | 'optionGroup'
-  | 'selectPreview'
-  | 'chip'
-  | 'chipList'
-
-  // menu
-  | 'menu'
-  | 'menuItem'
-
-  // divider
-  | 'divider'
-
-  // toggle
-  | 'toggle'
-
-  // radio
-  | 'radioButton'
-  | 'radioGroup'
-
-  // checkbox
-  | 'checkbox'
-
-  // button
-  | 'button'
-  | 'iconButton'
-
-  // icon
-  | 'svgIcon'
-
-  // tabs
-  | 'tabs'
-  | 'tab'
-  | 'tabLabel'
-
-  // Overlay
-  | 'overlay'
-
-  // Avatar
-  | 'avatar';
-// | 'avatarLabel'
-// | 'avatarGroup';
+import { UIBaseComponentsName } from './ui-base-components-name';
 
 export type UIBaseComponentsPropName = 'type' | 'color' | 'size';
 export type UIBaseComponentsPropValue = string | number | boolean | null; // When null, no specific value is applied, event default value
