@@ -19,7 +19,9 @@ export function getOptions(tree: Tree, schema: UiCoreComponentGeneratorSchema): 
   return {
     tree,
     componentName: componentName,
+    componentFileName: componentName.fileName,
     libraryName: libraryNames,
+    libraryFileName: libraryNames.fileName,
     angularLibrary: {
       name: `@cocokits/angular-${libraryNames.fileName}`,
       libraryPath: `packages/angular/${libraryNames.fileName}`,

@@ -19,14 +19,14 @@ export const <%= componentName.propertyName %>LayoutClassNamesConfig = {
   },
 } satisfies LayoutClassNamesConfig;
 
-export function get%= componentName.className %>ClassNames(
+export function get<%= componentName.className %>ClassNames(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
-): Record<keyof typeof %= componentName.propertyName %>LayoutClassNamesConfig.elements, string> {
-  validateUiBaseComponentProps(%= componentName.propertyName %>LayoutClassNamesConfig.componentName, componentProps, themeConfig);
+): Record<keyof typeof <%= componentName.propertyName %>LayoutClassNamesConfig.elements, string> {
+  validateUiBaseComponentProps(<%= componentName.propertyName %>LayoutClassNamesConfig.componentName, componentProps, themeConfig);
 
   return {
-    host: generateLayoutClassNameFromElement(%= componentName.propertyName %>LayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    // example: generateLayoutClassNameFromElement(%= componentName.propertyName %>LayoutClassNamesConfig, 'example', themeConfig),
+    host: generateLayoutClassNameFromElement(<%= componentName.propertyName %>LayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    // example: generateLayoutClassNameFromElement(<%= componentName.propertyName %>LayoutClassNamesConfig, 'example', themeConfig),
   };
 }

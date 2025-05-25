@@ -1,8 +1,6 @@
 import { errorMessages } from './errors';
 import componentGenerator from '../../component/generator';
-import { GeneratorDirectoryFormat, LibraryFramework } from '../../generator.model';
-import libraryGenerator from '../../library/generator';
-import { LibraryType } from '../../library/model';
+import { GeneratorDirectoryFormat } from '../../generator.model';
 import { UiCoreComponentGeneratorOptions } from '../model';
 
 export async function generateComponent(options: UiCoreComponentGeneratorOptions) {
@@ -12,8 +10,8 @@ export async function generateComponent(options: UiCoreComponentGeneratorOptions
     project: options.angularLibrary.name,
     story: false,
     export: true,
-    directory: 'src/lib',
-    directoryFormat: GeneratorDirectoryFormat.AsProvided,
+    directory: `src/lib`,
+    directoryFormat: GeneratorDirectoryFormat.Root,
     formatFiles: false,
   });
 
@@ -24,15 +22,13 @@ export async function generateComponent(options: UiCoreComponentGeneratorOptions
   options.tree.write(options.angularDocAdvanceConfigurationFilePath, updatedAngularDocAdvancedConfig);
 
   // React
-  await libraryGenerator(options.tree, {
-    name: options.libraryName.fileName,
-    type: LibraryType.UI,
-    framework: LibraryFramework.Angular,
-    storybook: false,
-    directory: `/packages/angular`,
-    directoryFormat: GeneratorDirectoryFormat.AsProvided,
-    publishable: true,
-    importPath: `@cocokits/angular-${options.libraryName.fileName}`,
+  await componentGenerator(options.tree, {
+    name: options.componentName.fileName,
+    project: options.reactLibrary.name,
+    story: false,
+    export: true,
+    directory: `src/lib`,
+    directoryFormat: GeneratorDirectoryFormat.Root,
     formatFiles: false,
   });
 
@@ -89,7 +85,7 @@ function getAngularDocAdvancedConfig(options: UiCoreComponentGeneratorOptions): 
   }
 
   return docAdvancedConfig.replace(
-    /((getMergeThemesStep3Scss\s*\(\)\s*{[\s\S]*?code\(`scss[\s\S]*))(@include\s+[^\n;]+;)([\s\S]*?`)\)/m,
+    /(@include Cocokits.components[\s\S]+?;)(?![\s\S]*@include Cocokits.components)/m,
     `$1$3\n@include Cocokits.components_${options.componentName.fileName};;$4)`
   );
 }
@@ -102,7 +98,7 @@ function getReactDocAdvancedConfig(options: UiCoreComponentGeneratorOptions): st
   }
 
   return docAdvancedConfig.replace(
-    /((getMergeThemesStep3Scss\s*\(\)\s*{[\s\S]*?code\(`scss[\s\S]*))(@include\s+[^\n;]+;)([\s\S]*?`)\)/m,
+    /(@include Cocokits.components[\s\S]+?;)(?![\s\S]*@include Cocokits.components)/m,
     `$1$3\n@include Cocokits.components_${options.componentName.fileName};;$4)`
   );
 }

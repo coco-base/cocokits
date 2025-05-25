@@ -12,7 +12,7 @@ export async function generateLibrary(options: UiCoreComponentGeneratorOptions) 
     framework: LibraryFramework.Angular,
     storybook: false,
     directory: `/packages/angular`,
-    directoryFormat: GeneratorDirectoryFormat.AsProvided,
+    directoryFormat: GeneratorDirectoryFormat.Root,
     publishable: true,
     importPath: `@cocokits/angular-${options.libraryName.fileName}`,
     formatFiles: false,

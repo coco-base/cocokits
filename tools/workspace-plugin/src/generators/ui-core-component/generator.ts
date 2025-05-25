@@ -17,6 +17,7 @@ import { updateUiBaseComponentsNameFile } from './utils/ui-base-components-name.
 
 export async function uiCoreComponentGenerator(tree: Tree, schema: UiCoreComponentGeneratorSchema) {
   const options = getOptions(tree, schema);
+  console.log('options', schema, options);
 
   // Core
   updateUiBaseComponentsNameFile(options);
