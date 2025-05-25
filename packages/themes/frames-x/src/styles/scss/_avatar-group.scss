@@ -2,6 +2,92 @@
 
 @mixin avatar-group {
   .cck-avatar-group {
-    opacity: 1;
+    display: flex;
+
+    &--direction-left {
+      direction: rtl;
+
+      &.cck-avatar-group__size {
+        &--xs {
+          .cck-avatar:not(:last-of-type) {
+            margin-left: -10px;
+          }
+        }
+
+        &--sm {
+          .cck-avatar:not(:last-of-type) {
+            margin-left: -10px;
+          }
+        }
+
+        &--md {
+          .cck-avatar:not(:last-of-type) {
+            margin-left: -14px;
+          }
+        }
+
+        &--lg {
+          .cck-avatar:not(:last-of-type) {
+            margin-left: -16px;
+          }
+        }
+
+        &--xl {
+          .cck-avatar:not(:last-of-type) {
+            margin-left: -16px;
+          }
+        }
+
+        &--2xl {
+          .cck-avatar:not(:last-of-type) {
+            margin-left: -18px;
+          }
+        }
+      }
+    }
+
+    &--direction-right {
+      &.cck-avatar-group__size {
+        &--xs {
+          .cck-avatar:not(:first-of-type) {
+            margin-left: -10px;
+          }
+        }
+
+        &--sm {
+          .cck-avatar:not(:first-of-type) {
+            margin-left: -10px;
+          }
+        }
+
+        &--md {
+          .cck-avatar:not(:first-of-type) {
+            margin-left: -14px;
+          }
+        }
+
+        &--lg {
+          .cck-avatar:not(:first-of-type) {
+            margin-left: -16px;
+          }
+        }
+
+        &--xl {
+          .cck-avatar:not(:first-of-type) {
+            margin-left: -16px;
+          }
+        }
+
+        &--2xl {
+          .cck-avatar:not(:first-of-type) {
+            margin-left: -18px;
+          }
+        }
+      }
+    }
+
+    .cck-avatar {
+      border: 2px solid $base-surface-1;
+    }
   }
 }
