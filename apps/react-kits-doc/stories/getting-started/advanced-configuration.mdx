@@ -11,7 +11,10 @@ import {
   getUseOnlyOneModeOption1Step2ClassSelector,
   getUseOnlyOneModeOption1Step2AttrSelector,
   getUseOnlyOneModeOption1code,
-  getChangeTokenSelectorsItems, getChangeTokenSelectorsStep1Code, getChangeTokenSelectorsStep2Code,
+  getChangeTokenSelectorsItems,
+  getChangeTokenSelectorsStep1Code,
+  getChangeTokenSelectorsStep2Code,
+  getMergeThemesStep3Scss
 } from './utils/advanced-configuration.utils';
 import { header, backtick, code } from './utils/markdown.util';
 
@@ -166,42 +169,7 @@ export default App;
 In your `styles.scss`, include styles from both themes:
 
 **styles.scss**
-<MdxPageWithThemeSection fn={(theme) => code(`css
-@use "@cocokits/theme-${theme.id}/tokens.min.css";
-
-@use "@cocokits/theme-cocokits/styles-core" as Cocokits;
-@use "@cocokits/theme-frames-x/styles-core" as FramesX;
-
-// Import styles from Frames X theme
-@include FramesX.components_button;
-@include FramesX.components_icon_button;
-@include FramesX.components_radio_button;
-@include FramesX.components_radio_group;
-
-// Import styles from Cocokits theme
-@include Cocokits.components_checkbox;
-@include Cocokits.components_chip;
-@include Cocokits.components_chip_list;
-@include Cocokits.components_divider;
-@include Cocokits.components_error;
-@include Cocokits.components_form_field;
-@include Cocokits.components_hint;
-@include Cocokits.components_icon;
-@include Cocokits.components_input;
-@include Cocokits.components_label;
-@include Cocokits.components_leading;
-@include Cocokits.components_menu;
-@include Cocokits.components_menu_item;
-@include Cocokits.components_option;
-@include Cocokits.components_option_group;
-@include Cocokits.components_prefix;
-@include Cocokits.components_select;
-@include Cocokits.components_select_preview;
-@include Cocokits.components_suffix;
-@include Cocokits.components_textarea;
-@include Cocokits.components_toggle;
-@include Cocokits.components_trailing;
-`)}/>
+<MdxPageWithThemeSection fn={getMergeThemesStep3Scss}/>
 
 ------------------------------------------------------------------
 

@@ -1,0 +1,50 @@
+import { cck-<%= componentName.className %>Component } from '@cocokits/angular-cck-<%= libraryName.fileName %>';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
+
+export const Default: StoryObj<cck-<%= componentName.className%>Component> = {
+  name: 'Default',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
+      },
+    },
+    cckAddon: {
+      renderConditions: [renderWithPageTab('Overview')],
+      source: [
+        {
+          filename: 'example.component.html',
+          language: 'angular-html',
+          code: `
+          <cck-<%= componentName.fileName %>
+            <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+            <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+            <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+          >
+          </cck-<%= componentName.fileName %>>
+          `,
+        },
+      ],
+      hasControl: true,
+      controls: [
+        // CCK_CONTROL.text('cck-<%= componentName.fileName %>'),
+      ],
+    },
+  },
+  render: (args) => {
+    return {
+      props: {
+        ...args,
+      },
+      // [text]="cckControl.text"
+      template: `
+        <cck-<%= componentName.fileName %>
+          ${ngThemeArgsToTemplate(args)}
+        >
+        </cck-<%= componentName.fileName %>>
+      `,
+    };
+  },
+};

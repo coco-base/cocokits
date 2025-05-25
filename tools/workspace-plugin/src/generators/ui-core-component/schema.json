@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "UiCoreComponent",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the component"
+    },
+    "exitingLibraryName": {
+      "type": "string",
+      "description": "The name of the library to add the component to",
+      "enum": ["Avatar", "Button", "Checkbox", "Divider", "FormField", "Icon", "Menu", "Overlay", "Radio", "Toggle"]
+    },
+    "newLibraryName": {
+      "type": "string",
+      "description": "The name of the new library to create"
+    }
+  },
+  "required": ["name"]
+}

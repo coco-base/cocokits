@@ -95,10 +95,10 @@ export function getChangeTokenSelectorsStep1Code(theme: ThemeChangeEvent) {
 
   const otherMixins = Object.entries(theme.selectedModes)
     .filter(([collection]) => collection !== collectionNameWithLightAndDark)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayname)}.variables_${collection}_${mode};`);
+    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.variables_${collection}_${mode};`);
 
   const scss = `scss
-@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayname)};
+@use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayName)};
 
 .cck-theme-light {
   @include ${lightMixin};
@@ -129,6 +129,50 @@ export function getChangeTokenSelectorsStep2Code() {
 </html>`;
 
   return code(html);
+}
+// endregion
+
+// region ---------------- Merge Themes ----------------
+export function getMergeThemesStep3Scss() {
+  return code(`scss
+  
+@use "@cocokits/theme-cocokits/styles-core" as Cocokits;
+@use "@cocokits/theme-frames-x/styles-core" as FramesX;
+
+// Import styles from Frames X theme
+@include FramesX.components_button;
+@include FramesX.components_icon_button;
+@include FramesX.components_radio_button;
+@include FramesX.components_radio_group;
+
+// Import styles from Cocokits theme
+@include Cocokits.components_checkbox;
+@include Cocokits.components_chip;
+@include Cocokits.components_chip_list;
+@include Cocokits.components_divider;
+@include Cocokits.components_error;
+@include Cocokits.components_form_field;
+@include Cocokits.components_hint;
+@include Cocokits.components_icon;
+@include Cocokits.components_input;
+@include Cocokits.components_label;
+@include Cocokits.components_leading;
+@include Cocokits.components_menu;
+@include Cocokits.components_menu_item;
+@include Cocokits.components_option;
+@include Cocokits.components_option_group;
+@include Cocokits.components_prefix;
+@include Cocokits.components_select;
+@include Cocokits.components_select_preview;
+@include Cocokits.components_suffix;
+@include Cocokits.components_textarea;
+@include Cocokits.components_toggle;
+@include Cocokits.components_trailing;
+@include Cocokits.components_trailing;
+@include Cocokits.components_avatar;
+
+  
+  `);
 }
 // endregion
 

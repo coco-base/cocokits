@@ -6,6 +6,10 @@
     "declaration": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/generators/example-story/files/src/angular-inline/_story.source.ts.template"],
+  "include": [
+    "src/**/*.ts",
+    "src/generators/example-story/files/src/angular-inline/_story.source.ts.template",
+    "src/generators/ui-core-component/files/angular-storybook/__libraryName.fileName__.template/__componentName.fileName__.template/index.stories.ts.template"
+  ],
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
 }

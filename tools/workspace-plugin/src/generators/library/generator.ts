@@ -35,7 +35,9 @@ export async function libraryGenerator(tree: Tree, schema: LibraryGeneratorSchem
     });
   }
 
-  await formatFiles(tree);
+  if (schema.formatFiles) {
+    await formatFiles(tree);
+  }
 }
 
 export default libraryGenerator;

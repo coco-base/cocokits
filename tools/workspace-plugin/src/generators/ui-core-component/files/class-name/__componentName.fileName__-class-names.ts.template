@@ -1,0 +1,32 @@
+import { generateLayoutClassNameFromElement } from './class-names';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
+import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
+
+export const <%= componentName.propertyName %>LayoutClassNamesConfig = {
+  componentName: '<%= componentName.propertyName %>',
+  baseSelectorStructure: { block: '<%= componentName.fileName %>' },
+  elements: {
+    host: {
+      name: 'Host Element',
+      selectorStructure: [],
+      description: 'It will add to the host element of `<%= componentName.className %>` component.',
+    },
+    // example: {
+    //   name: '...',
+    //   selectorStructure: [{ element: '...', modifier: '...' }],
+    //   description: `...`,
+    // },
+  },
+} satisfies LayoutClassNamesConfig;
+
+export function get%= componentName.className %>ClassNames(
+  componentProps: UIBaseComponentProps,
+  themeConfig: ThemeConfig
+): Record<keyof typeof %= componentName.propertyName %>LayoutClassNamesConfig.elements, string> {
+  validateUiBaseComponentProps(%= componentName.propertyName %>LayoutClassNamesConfig.componentName, componentProps, themeConfig);
+
+  return {
+    host: generateLayoutClassNameFromElement(%= componentName.propertyName %>LayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    // example: generateLayoutClassNameFromElement(%= componentName.propertyName %>LayoutClassNamesConfig, 'example', themeConfig),
+  };
+}

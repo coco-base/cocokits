@@ -51,6 +51,11 @@
       "type": "string",
       "description": "The library name used to import it, like `@cocokits/angular-components`. Must be a valid npm name. The default is `@cocokits/[FRAMEWORK]-[NAME]`",
       "default": ""
+    },
+    "formatFiles": {
+      "type": "boolean",
+      "description": "Format the files after the generator is run.",
+      "default": true
     }
   },
   "required": ["name", "type", "framework"]

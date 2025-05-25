@@ -38,17 +38,12 @@ import { trailingLayoutClassNamesConfig } from './trailing-class-names';
  */
 
 export const layoutClassNamesConfigRecord = {
-  // icon
   svgIcon: svgIconLayoutClassNamesConfig,
-  // button
   button: buttonLayoutClassNamesConfig,
   iconButton: iconButtonLayoutClassNamesConfig,
-  // checkbox
   checkbox: checkboxLayoutClassNamesConfig,
-  // radio
   radioGroup: radioGroupLayoutClassNamesConfig,
   radioButton: radioButtonLayoutClassNamesConfig,
-  // form-field
   formField: formFieldLayoutClassNamesConfig,
   label: labelLayoutClassNamesConfig,
   error: errorLayoutClassNamesConfig,
@@ -65,22 +60,13 @@ export const layoutClassNamesConfigRecord = {
   selectPreview: selectPreviewLayoutClassNamesConfig,
   chip: chipLayoutClassNamesConfig,
   chipList: chipListLayoutClassNamesConfig,
-  // menu
   menu: menuLayoutClassNamesConfig,
   menuItem: menuItemLayoutClassNamesConfig,
-  // divider
   divider: dividerLayoutClassNamesConfig,
-  // toggle
   toggle: toggleLayoutClassNamesConfig,
-
-  // tabs
   tabs: tabsLayoutClassNamesConfig,
   tab: tabLayoutClassNamesConfig,
   tabLabel: tabLabelLayoutClassNamesConfig,
-
-  // overlay
   overlay: overlayLayoutClassNamesConfig,
-
-  // avatar
   avatar: avatarLayoutClassNamesConfig,
 };

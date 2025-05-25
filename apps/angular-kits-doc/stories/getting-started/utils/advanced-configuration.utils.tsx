@@ -161,7 +161,8 @@ export function getMergeThemesStep3Scss() {
 @include Cocokits.components_textarea;
 @include Cocokits.components_toggle;
 @include Cocokits.components_trailing;
-
+@include Cocokits.components_trailing;
+@include Cocokits.components_avatar;
   
   `)
 }

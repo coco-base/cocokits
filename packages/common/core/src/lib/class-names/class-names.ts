@@ -37,7 +37,6 @@ import { UIBaseComponentsName } from '../model/ui-base-components-name';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 
 export const CLASS_NAMES_FN_MAP = {
-  // formField
   formField: getFormFieldClassNames,
   label: getLabelClassNames,
   error: getErrorClassNames,
@@ -54,39 +53,20 @@ export const CLASS_NAMES_FN_MAP = {
   selectPreview: getSelectPreviewClassNames,
   chip: getChipClassNames,
   chipList: getChipListClassNames,
-
-  // menu
   menu: getMenuClassNames,
   menuItem: getMenuItemClassNames,
-
-  // divider
   divider: getDividerClassNames,
-
-  // toggle
   toggle: getToggleClassNames,
-
-  // radio
   radioButton: getRadioButtonClassNames,
   radioGroup: getRadioGroupClassNames,
-
-  // checkbox
   checkbox: getCheckboxClassNames,
-
-  // button
   button: getButtonClassNames,
   iconButton: getIconButtonClassNames,
-
-  // icon
   svgIcon: getSvgIconClassNames,
-
-  // tabs
   tabs: getTabsClassNames,
   tab: getTabClassNames,
   tabLabel: getTabLabelClassNames,
-
   overlay: getOverlayClassNames,
-
-  // Avatar
   avatar: getAvatarClassNames,
 };
 

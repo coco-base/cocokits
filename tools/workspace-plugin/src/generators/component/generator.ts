@@ -22,7 +22,9 @@ export async function componentGenerator(tree: Tree, schema: ComponentGeneratorS
       throw new Error(`The generator doesn't support create component for '${options.framework}' framework right now`);
   }
 
-  await formatFiles(tree);
+  if (schema.formatFiles) {
+    await formatFiles(tree);
+  }
 }
 
 export default componentGenerator;

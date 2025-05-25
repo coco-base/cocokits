@@ -32,6 +32,11 @@
       "description": "Directory configuration. When set to `as-provided`, the generator file is created in the given directory, relative to the current working directory, independent of the project structure. If set to `root`, the file is created relative to the library root, incorporating the project structure.",
       "enum": ["as-provided", "root"],
       "default": "as-provided"
+    },
+    "formatFiles": {
+      "type": "boolean",
+      "description": "Format the files after the generator is run.",
+      "default": true
     }
   },
   "required": ["name", "project"]
