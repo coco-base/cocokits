@@ -306,7 +306,14 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
-  avatarGroup: {},
+  avatarGroup: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

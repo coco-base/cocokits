@@ -332,3 +332,11 @@ export const clickable = (defaultValue = true): AddonParametersControl => ({
   storyArgKey: 'clickable',
   type: AddonParametersControlType.Boolean,
 });
+
+export const avatarDirection = (defaultValue = 'right'): AddonParametersControl => ({
+  displayName: 'Direction',
+  default: defaultValue,
+  storyArgKey: 'avatarDirection',
+  options: ['right', 'left'],
+  type: AddonParametersControlType.Select,
+});

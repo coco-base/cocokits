@@ -221,7 +221,14 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
-  avatarGroup: {},
+  avatarGroup: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+      default: 'md',
+      description: '',
+    },
+  },
 };
 
 export const framesXThemeConfig: ThemeConfig = {
