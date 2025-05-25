@@ -19,4 +19,6 @@ export function updateClassNamesMap(options: UiCoreComponentGeneratorOptions) {
     /(CLASS_NAMES_FN_MAP\s*=\s*{[\s\S]*?)(\s*};)/,
     `$1\n${options.componentName.propertyName}: get${options.componentName.className}ClassNames,$2`
   );
+
+  options.tree.write(options.classNameMapFilePath, fileContent);
 }

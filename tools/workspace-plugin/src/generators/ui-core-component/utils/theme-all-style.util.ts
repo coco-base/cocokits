@@ -18,6 +18,8 @@ export function updateThemeAllStylesFile(options: UiCoreComponentGeneratorOption
   // Update @mixin all
   cocoKitsFileContent.replace(/(@mixin all {.*)(})/, `$1\n@include ${options.componentName.fileName};\n$1$2`);
 
+  options.tree.write(options.cocokitsAllStylesFilePath, cocoKitsFileContent);
+
   // FramesX
   const framesXFileContent = options.tree.read(options.cocokitsAllStylesFilePath, 'utf-8');
 
@@ -33,4 +35,6 @@ export function updateThemeAllStylesFile(options: UiCoreComponentGeneratorOption
 
   // Update @mixin all
   framesXFileContent.replace(/(@mixin all {.*)(})/, `$1\n@include ${options.componentName.fileName};\n$1$2`);
+
+  options.tree.write(options.cocokitsAllStylesFilePath, framesXFileContent);
 }

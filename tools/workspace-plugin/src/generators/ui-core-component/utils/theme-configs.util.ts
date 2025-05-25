@@ -13,6 +13,8 @@ export function updateThemeConfigs(options: UiCoreComponentGeneratorOptions) {
     `$1\n${options.componentName.propertyName}: {},$2`
   );
 
+  options.tree.write(options.cocokitsThemeConfigFilePath, cocoKitsFileContent);
+
   // FramesX
   const framesXFileContent = options.tree.read(options.framesXThemeConfigFilePath, 'utf-8');
   if (!framesXFileContent) {
@@ -23,4 +25,6 @@ export function updateThemeConfigs(options: UiCoreComponentGeneratorOptions) {
     /(const components.*=\s*{[\s\S]*?)(\s*};)/,
     `$1\n${options.componentName.propertyName}: {},$2`
   );
+
+  options.tree.write(options.cocokitsThemeConfigFilePath, framesXFileContent);
 }

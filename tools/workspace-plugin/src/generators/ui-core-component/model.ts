@@ -8,6 +8,7 @@ export interface UiCoreComponentGeneratorOptions {
     propertyName: string; // `formField`
     constantName: string; // `FORM_FIELD`
     fileName: string; // `form-field`,
+    underscoreFileName: string; // `form_field`
   };
   componentFileName: string; // form-field. Nx generator don't support deep nested object for fileName
   libraryName: {
@@ -15,6 +16,7 @@ export interface UiCoreComponentGeneratorOptions {
     propertyName: string; // `formField`
     constantName: string; // `FORM_FIELD`
     fileName: string; // `form-field`,
+    underscoreFileName: string; // `form_field`
   };
   libraryFileName: string; // form-field. Nx generator don't support deep nested object for fileName
   angularLibrary: {

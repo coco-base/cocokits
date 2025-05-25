@@ -18,9 +18,15 @@ export function getOptions(tree: Tree, schema: UiCoreComponentGeneratorSchema): 
 
   return {
     tree,
-    componentName: componentName,
+    componentName: {
+      ...componentName,
+      underscoreFileName: componentName.fileName.replaceAll('-', '_'),
+    },
     componentFileName: componentName.fileName,
-    libraryName: libraryNames,
+    libraryName: {
+      ...libraryNames,
+      underscoreFileName: componentName.fileName.replaceAll('-', '_'),
+    },
     libraryFileName: libraryNames.fileName,
     angularLibrary: {
       name: `@cocokits/angular-${libraryNames.fileName}`,

@@ -15,6 +15,8 @@ export function updateThemeIndexStylesFile(options: UiCoreComponentGeneratorOpti
     `$1\n@forward './${options.componentName.fileName}' as components_*;\n`
   );
 
+  options.tree.write(options.cocokitsIndexStylesFilePath, cocoKitsFileContent);
+
   // FramesX
   const framesXFileContent = options.tree.read(options.framesXIndexStylesFilePath, 'utf-8');
 
@@ -27,4 +29,6 @@ export function updateThemeIndexStylesFile(options: UiCoreComponentGeneratorOpti
     /(@forward[\s\S]+?;)(?![\s\S]*@forward)/,
     `$1\n@forward './${options.componentName.fileName}' as components_*;\n`
   );
+
+  options.tree.write(options.framesXIndexStylesFilePath, cocoKitsFileContent);
 }

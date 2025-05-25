@@ -19,4 +19,6 @@ export function updateLayoutClassNamesConfig(options: UiCoreComponentGeneratorOp
     /(\s*)(};)/,
     `$1 ${options.componentName.propertyName}: ${options.componentName.propertyName}LayoutClassNamesConfig,\n$1$2`
   );
+
+  options.tree.write(options.layoutClassNamesConfigFilePath, fileContent);
 }
