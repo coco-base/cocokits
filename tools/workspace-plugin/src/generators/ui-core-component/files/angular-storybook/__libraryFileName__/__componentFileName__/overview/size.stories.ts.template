@@ -20,9 +20,9 @@ export const Size: StoryObj<<%= componentName.className %>Component> = {
           language: 'angular-html',
           code: `
          <%% themeComponentConfig.size.values.map(size => { %>
-            <cck-&lt;%= componentName.fileName %>
-             <%% if (typeof type !== 'undefined') { %> type='&lt;%= type %>'<%% } %>
-              size='&lt;%= size %>'
+            <cck-<%= componentName.fileName %>
+             <%% if (typeof type !== 'undefined') { %> type='<%%= type %>'<%% } %>
+              size='<%%= size %>'
             />
          <%% }) %>
           `,

@@ -25,7 +25,7 @@ export const Size: StoryObj<typeof <%= componentName.className %>> = {
             return (
               <>
                 <%% themeComponentConfig.size.values.map(size => { %>
-                  <<%%= componentName.className %>
+                  <<%= componentName.className %>
                     <%% if (typeof type !== 'undefined') { %> type='<%%= type %>' <%% } %>
                     size='<%%= size %>'
                   />

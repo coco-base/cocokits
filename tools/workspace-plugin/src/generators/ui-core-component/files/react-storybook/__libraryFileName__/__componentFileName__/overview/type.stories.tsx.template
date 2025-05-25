@@ -18,13 +18,13 @@ export const Type: StoryObj<typeof <%= componentName.className %>> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%%= componentName.className %> } from "@cocokits/react-components";
+          import { <%= componentName.className %> } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
               <>
                 <%% themeComponentConfig.type.values.map(type => { %>
-                  <<%%= componentName.className %>
+                  <<%= componentName.className %>
                     <%% if (typeof type !== 'undefined') { %> type='<%%= type %>' <%% } %>
                   />
                 <%% }) %>

@@ -17,16 +17,16 @@ export const Default: StoryObj<typeof <%= componentName.className %>> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%%= componentName.className %>, SvgIcon} from '@cocokits/react-components';
+          import { <%= componentName.className %>, SvgIcon} from '@cocokits/react-components';
 
           export const MyComponent = () => {
             return (
-              <<%%= componentName.className %>
+              <<%= componentName.className %>
                 <%% if (typeof type !== 'undefined') { %> type='<%%= type %>' <%% } %>
                 <%% if (typeof size !== 'undefined') { %> size='<%%= size %>' <%% } %>
                 <%% if (typeof color !== 'undefined') { %> color='<%%= color %>' <%% } %>
               >
-              </<%%= componentName.className %>>
+              </<%= componentName.className %>>
             )
           }
           `,
