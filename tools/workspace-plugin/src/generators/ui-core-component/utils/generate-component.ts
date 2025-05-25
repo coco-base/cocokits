@@ -85,7 +85,7 @@ function getAngularDocAdvancedConfig(options: UiCoreComponentGeneratorOptions): 
   }
 
   return docAdvancedConfig.replace(
-    /(@include Cocokits.components[\s\S]+?;)(?![\s\S]*@include Cocokits.components)/m,
+    /(@include Cocokits.components[\s\S]+?;)(?![\s\S]*@include Cocokits.components)/gm,
     `$1\n@include Cocokits.components_${options.componentName.underscoreFileName};`
   );
 }
@@ -98,7 +98,7 @@ function getReactDocAdvancedConfig(options: UiCoreComponentGeneratorOptions): st
   }
 
   return docAdvancedConfig.replace(
-    /(@include Cocokits.components[\s\S]+?;)(?![\s\S]*@include Cocokits.components)/m,
+    /(@include Cocokits.components[\s\S]+?;)(?![\s\S]*@include Cocokits.components)/gm,
     `$1\n@include Cocokits.components_${options.componentName.underscoreFileName};`
   );
 }
