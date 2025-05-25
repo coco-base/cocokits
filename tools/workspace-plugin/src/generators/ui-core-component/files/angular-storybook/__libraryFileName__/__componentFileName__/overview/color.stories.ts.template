@@ -19,7 +19,7 @@ export const Color: StoryObj<<%= componentName.className %>Component> = {
           language: 'angular-html',
           code: `
           <%% themeComponentConfig.color.values.map(color => { %>
-            <cck-<%%= componentName.fileName %>
+            <cck-<%= componentName.fileName %>
               <%% if (typeof type !== 'undefined') { %> type='<%%= type %>' <%% } %>
               color='<%%= color %>'
             />
