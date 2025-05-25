@@ -25,12 +25,12 @@ export async function generateLibrary(options: UiCoreComponentGeneratorOptions) 
   await libraryGenerator(options.tree, {
     name: options.libraryName.fileName,
     type: LibraryType.UI,
-    framework: LibraryFramework.Angular,
+    framework: LibraryFramework.React,
     storybook: false,
-    directory: `/packages/angular`,
-    directoryFormat: GeneratorDirectoryFormat.AsProvided,
+    directory: `/packages/react`,
+    directoryFormat: GeneratorDirectoryFormat.Root,
     publishable: true,
-    importPath: `@cocokits/angular-${options.libraryName.fileName}`,
+    importPath: `@cocokits/react-${options.libraryName.fileName}`,
     formatFiles: false,
   });
 
