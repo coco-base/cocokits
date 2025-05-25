@@ -94,7 +94,7 @@ const StyledContainer = styled.div<{ $allowInteraction: boolean; $zIndex: number
     pointer-events: auto;
 
     ${(props) =>
-      props.$allowInteraction &&
+    props.$allowInteraction &&
       css`
         touch-action: none;
         pointer-events: none;
