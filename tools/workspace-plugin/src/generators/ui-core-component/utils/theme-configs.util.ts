@@ -26,5 +26,5 @@ export function updateThemeConfigs(options: UiCoreComponentGeneratorOptions) {
     `$1\n${options.componentName.propertyName}: {},$2`
   );
 
-  options.tree.write(options.cocokitsThemeConfigFilePath, framesXFileContent);
+  options.tree.write(options.framesXThemeConfigFilePath, framesXFileContent);
 }

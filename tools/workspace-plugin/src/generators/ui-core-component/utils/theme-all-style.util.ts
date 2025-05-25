@@ -21,7 +21,7 @@ export function updateThemeAllStylesFile(options: UiCoreComponentGeneratorOption
   options.tree.write(options.cocokitsAllStylesFilePath, cocoKitsFileContent);
 
   // FramesX
-  const framesXFileContent = options.tree.read(options.cocokitsAllStylesFilePath, 'utf-8');
+  const framesXFileContent = options.tree.read(options.framesXAllStylesFilePath, 'utf-8');
 
   if (!framesXFileContent) {
     throw new Error(errorMessages.allStyles.notFoundOrEmptyFramesX(options));
@@ -36,5 +36,5 @@ export function updateThemeAllStylesFile(options: UiCoreComponentGeneratorOption
   // Update @mixin all
   framesXFileContent.replace(/(@mixin all {.*)(})/, `$1\n@include ${options.componentName.fileName};\n$1$2`);
 
-  options.tree.write(options.cocokitsAllStylesFilePath, framesXFileContent);
+  options.tree.write(options.framesXAllStylesFilePath, framesXFileContent);
 }
