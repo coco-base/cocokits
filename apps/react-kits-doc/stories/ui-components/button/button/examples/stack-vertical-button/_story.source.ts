@@ -31,7 +31,7 @@ export function StackVerticalButton() {
         size='<%= secondButtonSize %>'
         color='<%= secondButtonColor %>'>
         Confirm
-        <SvgIcon icon={Icons.arrowRight}/>
+        <SvgIcon icon={Icons.arrowRight} />
       </Button>
     </HostStyles>
   );

@@ -1,4 +1,4 @@
-import { AvatarGroup } from '@cocokits/react-avatar';
+import { Avatar, AvatarGroup } from '@cocokits/react-avatar';
 import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -27,7 +27,12 @@ export const Color: StoryObj<typeof AvatarGroup> = {
                   <AvatarGroup
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                     color='<%= color %>'
-                  />
+                  >
+                    <Avatar src="https://i.pravatar.cc?img=9"/>
+                    <Avatar src="https://i.pravatar.cc?img=10"/>
+                    <Avatar src="https://i.pravatar.cc?img=11"/>
+                    <Avatar src="https://i.pravatar.cc?img=12"/>
+                  </AvatarGroup>
                 <% }) %>
               </>
             );
@@ -41,7 +46,11 @@ export const Color: StoryObj<typeof AvatarGroup> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <AvatarGroup key={index} type={args.cckControl.type} color={color} />
+        <AvatarGroup key={index} type={args.cckControl.type} color={color}>
+          <Avatar src="https://i.pravatar.cc?img=9" />
+          <Avatar src="https://i.pravatar.cc?img=10" />
+          <Avatar src="https://i.pravatar.cc?img=11" />
+        </AvatarGroup>
       ))}
     </>
   ),

@@ -1,4 +1,4 @@
-import { AvatarGroup } from '@cocokits/react-avatar';
+import { Avatar, AvatarGroup } from '@cocokits/react-avatar';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -26,7 +26,12 @@ export const Type: StoryObj<typeof AvatarGroup> = {
                 <% themeComponentConfig.type.values.map(type => { %>
                   <AvatarGroup
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                  />
+                  >
+                    <Avatar src="https://i.pravatar.cc?img=9"/>
+                    <Avatar src="https://i.pravatar.cc?img=10"/>
+                    <Avatar src="https://i.pravatar.cc?img=11"/>
+                    <Avatar src="https://i.pravatar.cc?img=12"/>
+                  </AvatarGroup>
                 <% }) %>
               </>
             );
@@ -38,7 +43,13 @@ export const Type: StoryObj<typeof AvatarGroup> = {
   },
   render: (args) => (
     <>
-      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => <AvatarGroup key={index} type={type} />)}
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+        <AvatarGroup key={index} type={type}>
+          <Avatar src="https://i.pravatar.cc?img=9" />
+          <Avatar src="https://i.pravatar.cc?img=10" />
+          <Avatar src="https://i.pravatar.cc?img=11" />
+        </AvatarGroup>
+      ))}
     </>
   ),
 };

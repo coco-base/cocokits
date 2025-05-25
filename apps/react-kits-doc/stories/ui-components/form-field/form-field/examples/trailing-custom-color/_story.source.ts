@@ -9,23 +9,22 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'tsx',
     filename: 'TrailingCustomColor.styled.tsx',
     code: `
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { Trailing } from "@cocokits/react-components";
+import { Trailing } from '@cocokits/react-components';
 
 const _Trailing = styled(Trailing)\`
-
   &.cck-trailing {
     background-color: var(--trailing-bg);
-  
+
     &:hover:not(:active) {
       background-color: var(--trailing-bg-hover);
     }
-  
+
     &:active {
       background-color: var(--trailing-bg-active);
     }
-  
+
     .cck-svg-icon .cck-svg-icon__svg {
       fill: var(--trailing-color);
     }
@@ -34,7 +33,8 @@ const _Trailing = styled(Trailing)\`
 
 export const Styled = {
   Trailing: _Trailing,
-};`,
+};
+`,
   },
   {
     language: 'tsx',
@@ -50,9 +50,9 @@ export function TrailingCustomColor() {
   return (
     <FormField>
       <Label>Subscribe</Label>
-      <Input defaultValue="hello@cocokits.com"/>
+      <Input defaultValue="hello@cocokits.com" />
       <Styled.Trailing clickable>
-        <SvgIcon icon={Icons.arrowRight}/>
+        <SvgIcon icon={Icons.arrowRight} />
       </Styled.Trailing>
     </FormField>
   );

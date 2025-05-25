@@ -17,14 +17,19 @@ import { FormField, Hint, Input, Label, Suffix, SvgIcon } from '@cocokits/react-
 
 export function InputSuffixSuccess() {
   const [value, setValue] = useState('');
-  
-      
+
   return (
     <FormField>
       <Label>Confirm email</Label>
-      <Input placeholder='Enter hello@cocokits.com' onChange={e => setValue(e.target.value)}/>
+      <Input placeholder="Enter hello@cocokits.com" onChange={(e) => setValue(e.target.value)} />
       <Suffix>
-        { value === 'hello@cocokits.com' && <SvgIcon icon={Icons.checkCircle} color='<%= iconColor %>' size='<%= iconSize %>'/> }
+        {value === 'hello@cocokits.com' && (
+          <SvgIcon
+            icon={Icons.checkCircle}
+            color='<%= iconColor %>'
+            size='<%= iconSize %>'
+          />
+        )}
       </Suffix>
       <Hint>Enter your email address again</Hint>
     </FormField>

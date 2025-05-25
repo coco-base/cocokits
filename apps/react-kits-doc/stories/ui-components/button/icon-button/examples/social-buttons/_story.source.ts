@@ -18,25 +18,16 @@ import { IconButton, SvgIcon } from '@cocokits/react-components';
 export function SocialButtons() {
   return (
     <HostStyled>
-      <IconButton
-        color='<%= color %>'
-        type='<%= type %>'
-        size='<%= size %>'>
-        <SvgIcon icon={Icons.x} size='<%= iconSize %>'/>
+      <IconButton color='<%= color %>' type='<%= type %>' size='<%= size %>'>
+        <SvgIcon icon={Icons.x} size='<%= iconSize %>' />
       </IconButton>
 
-      <IconButton
-        color='<%= color %>'
-        type='<%= type %>'
-        size='<%= size %>'>
-        <SvgIcon icon={Icons.github} size='<%= iconSize %>'/>
+      <IconButton color='<%= color %>' type='<%= type %>' size='<%= size %>'>
+        <SvgIcon icon={Icons.github} size='<%= iconSize %>' />
       </IconButton>
 
-      <IconButton
-        color='<%= color %>'
-        type='<%= type %>'
-        size='<%= size %>'>
-        <SvgIcon icon={Icons.instagram} size='<%= iconSize %>'/>
+      <IconButton color='<%= color %>' type='<%= type %>' size='<%= size %>'>
+        <SvgIcon icon={Icons.instagram} size='<%= iconSize %>' />
       </IconButton>
     </HostStyled>
   );

@@ -17,14 +17,14 @@ import { IconButton, SvgIcon } from '@cocokits/react-components';
 
 export function ModeToggle() {
   const [isDark, setIsDark] = useState(false);
-  
+
   return (
     <IconButton
       color='<%= color %>'
       type='<%= type %>'
       size='<%= size %>'
       onClick={() => setIsDark(!isDark)}>
-      <SvgIcon icon={isDark ? Icons.light : Icons.dark} size='<%= iconSize %>'/>
+      <SvgIcon icon={isDark ? Icons.light : Icons.dark} size='<%= iconSize %>' />
     </IconButton>
   );
 }

@@ -1,28 +1,34 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
-export interface AvatarGroupProps
-  extends Omit<React.HTMLAttributes<HTMLElement>, 'color' | 'type'>,
-    UIBaseComponentProps {
+export type AvatarGroupContextValue = UIBaseComponentProps;
+export const AvatarGroupContext = React.createContext<AvatarGroupContextValue | null>(null);
+
+export interface AvatarGroupProps extends UIBaseComponentProps {
+  direction?: 'right' | 'left';
   children?: React.ReactNode;
 }
 
-export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
-  ({ type, size, color, additional, children, ...restProps }, ref) => {
-    const { classNames, hostClassNames } = useUiBaseComponentConfig({
-      componentName: 'avatarGroup',
-      props: { type, size, color, additional },
-    });
+export const AvatarGroup = ({ type, size, color, additional, children, direction = 'right' }: AvatarGroupProps) => {
+  const { classNames, hostClassNames } = useUiBaseComponentConfig({
+    componentName: 'avatarGroup',
+    props: { type, size, color, additional },
+    extraHostElementClassConditions: [
+      { if: direction === 'left', classes: (cn) => [cn.leftDirection] },
+      { if: direction === 'right', classes: (cn) => [cn.rightDirection] },
+    ],
+  });
 
-    return (
-      <div ref={ref} className={hostClassNames} {...restProps}>
+  return (
+    <div className={hostClassNames}>
+      <AvatarGroupContext.Provider value={{type, size, color, additional}}>
         {children}
-      </div>
-    );
-  }
-);
+      </AvatarGroupContext.Provider>
+    </div>
+  );
+};
 
 AvatarGroup.displayName = 'AvatarGroup';
 export default AvatarGroup;

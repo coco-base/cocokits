@@ -4,6 +4,8 @@ import { hasNotValue, hasValue } from '@cocokits/common-utils';
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
+import { AvatarGroupContext } from '../avatar-group/avatar-group';
+
 export interface AvatarProps extends UIBaseComponentProps {
   /**
    * Source URL for the avatar image.
@@ -50,7 +52,15 @@ export interface AvatarProps extends UIBaseComponentProps {
   contentTemp?: React.ReactNode;
 }
 
-export function Avatar({ type, size, color, additional, clickable = true, ...restProps }: AvatarProps) {
+export function Avatar({ clickable = true, ...restProps }: AvatarProps) {
+
+  const avatarGroupContext = React.useContext(AvatarGroupContext);
+
+  const type = restProps.type ?? avatarGroupContext?.type;
+  const size = restProps.size ?? avatarGroupContext?.size;
+  const color = restProps.color ?? avatarGroupContext?.color;
+  const additional = { ...avatarGroupContext?.additional, ...restProps.additional };
+
   const withImage = !restProps.contentTemp && hasValue(restProps.src);
   const withLabel = !restProps.contentTemp && hasNotValue(restProps.src) && hasValue(restProps.label);
 

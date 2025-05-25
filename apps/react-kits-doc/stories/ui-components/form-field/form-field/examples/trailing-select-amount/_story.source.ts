@@ -12,11 +12,18 @@ export const SOURCE: AddonParametersSource[] = [
 import { useState } from 'react';
 
 
-import { FormField, Input, Label, Option, removeAmountFormat, Select, toAmountFormat, Trailing } from '@cocokits/react-components';
-
+import {
+  FormField,
+  Input,
+  Label,
+  Option,
+  removeAmountFormat,
+  Select,
+  toAmountFormat,
+  Trailing,
+} from '@cocokits/react-components';
 
 export function TrailingSelectAmount() {
-
   const [value, setValue] = useState('');
 
   return (
@@ -26,7 +33,8 @@ export function TrailingSelectAmount() {
         value={value}
         onFocus={() => setValue(removeAmountFormat(value))}
         onBlur={() => setValue(toAmountFormat(value))}
-        onChange={e => setValue(e.target.value)}/>
+        onChange={(e) => setValue(e.target.value)}
+      />
       <Trailing>
         <Select value="USD">
           <Option value="USD">USD</Option>

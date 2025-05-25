@@ -13,8 +13,7 @@ import { Icons } from '@cocokits/common-icons';
 
 import { Button, SvgIcon } from '@cocokits/react-components';
 
-export function CopyLinkButton(props: {cckExampleArgs: ExampleArgs}) {
-
+export function CopyLinkButton() {
   return (
     <Button type='<%= buttonType %>'>
       <SvgIcon icon={Icons.link} />

@@ -9,9 +9,9 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'tsx',
     filename: 'SelectPreviewTag.styled.tsx',
     code: `
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { Select as CckSelect, SelectPreview as CckSelectPreview } from "@cocokits/react-components";
+import { Select as CckSelect, SelectPreview as CckSelectPreview } from '@cocokits/react-components';
 
 const Select = styled(CckSelect<string>)\`
   min-width: 190px;
@@ -44,9 +44,8 @@ export const Styled = {
   Select,
   SelectPreview,
   Tag,
-  HintText
+  HintText,
 };
-
 `,
   },
   {
@@ -69,10 +68,9 @@ export function SelectPreviewTag() {
           <Styled.SelectPreview>
             <Styled.Tag>{selected.length}</Styled.Tag>
             <span>{selected[0]}</span>
-            {  selected.length > 1 && <Styled.HintText> (+{selected.length - 1} more)</Styled.HintText> }
+            {selected.length > 1 && <Styled.HintText> (+{selected.length - 1} more)</Styled.HintText>}
           </Styled.SelectPreview>
-        )}
-      >
+        )}>
         <Option value="Cake">Cake</Option>
         <Option value="Pizza">Pizza</Option>
         <Option value="Burger">Burger</Option>

@@ -13,8 +13,7 @@ import { Icons } from '@cocokits/common-icons';
 
 import { Button, SvgIcon } from '@cocokits/react-components';
 
-export function BackButton(props: {cckExampleArgs: ExampleArgs}) {
-
+export function BackButton() {
   return (
     <Button>
       <SvgIcon icon={Icons.arrowLeft} />
