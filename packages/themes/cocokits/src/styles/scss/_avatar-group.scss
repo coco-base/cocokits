@@ -1,0 +1,7 @@
+@use '../../token/scss' as *;
+
+@mixin avatar-group {
+  .cck-avatar-group {
+    opacity: 1;
+  }
+}

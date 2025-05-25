@@ -18,11 +18,11 @@ export const Type: StoryObj<<%= componentName.className %>Component> = {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          &lt;% themeComponentConfig.type.values.map(type => { %&gt;
-            <cck-&lt;%= componentName.fileName %&gt;
-              type='&lt;%= type %&gt;'
+          <%% themeComponentConfig.type.values.map(type => { %>
+            <cck-<%%= componentName.fileName %>
+              type='<%%= type %>'
             />
-          &lt;% }) %&gt;
+          <%% }) %>
           `,
         },
       ],
