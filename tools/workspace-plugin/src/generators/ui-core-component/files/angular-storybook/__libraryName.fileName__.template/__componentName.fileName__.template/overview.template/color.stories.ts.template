@@ -18,12 +18,12 @@ export const Color: StoryObj<<%= componentName.className %>Component> = {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-          <%% themeComponentConfig.color.values.map(color => { %>
-            <cck-<%=% componentName.fileName %>
-              <%% if (typeof type !== 'undefined') { %> type='<%%= type %>' <% } %>
-              color='<%%= color %>'
+          &lt;% themeComponentConfig.color.values.map(color => { %&gt;
+            <cck-&lt;%= componentName.fileName %&gt;
+              &lt;% if (typeof type !== 'undefined') { %&gt; type='&lt;%= type %&gt;' &lt;% } %&gt;
+              color='&lt;%= color %&gt;'
             />
-          <%% }) %>
+          &lt;% }) %&gt;
           `,
         },
       ],
