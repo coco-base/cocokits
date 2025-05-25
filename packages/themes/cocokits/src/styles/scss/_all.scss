@@ -26,6 +26,7 @@
 @use './toggle' as *;
 @use './trailing' as *;
 @use './avatar' as *;
+@use './avatar-group' as *;
 
 @mixin all {
   @include button;

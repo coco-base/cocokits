@@ -306,6 +306,7 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
+  avatarGroup: {},
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

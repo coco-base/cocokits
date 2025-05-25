@@ -221,6 +221,7 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
+  avatarGroup: {},
 };
 
 export const framesXThemeConfig: ThemeConfig = {

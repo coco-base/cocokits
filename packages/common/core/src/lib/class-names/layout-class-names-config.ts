@@ -1,4 +1,5 @@
 import { avatarLayoutClassNamesConfig } from './avatar-class-names';
+import { avatarGroupLayoutClassNamesConfig } from './avatar-group-class-names';
 import { buttonLayoutClassNamesConfig } from './button-class-names';
 import { checkboxLayoutClassNamesConfig } from './checkbox-class-names';
 import { chipLayoutClassNamesConfig } from './chip-class-names';
@@ -69,4 +70,5 @@ export const layoutClassNamesConfigRecord = {
   tabLabel: tabLabelLayoutClassNamesConfig,
   overlay: overlayLayoutClassNamesConfig,
   avatar: avatarLayoutClassNamesConfig,
+  avatarGroup: avatarGroupLayoutClassNamesConfig,
 };
