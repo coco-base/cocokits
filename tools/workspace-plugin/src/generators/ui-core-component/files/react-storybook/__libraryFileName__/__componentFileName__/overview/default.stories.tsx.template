@@ -1,5 +1,5 @@
 import { <%= componentName.className %> } from '@cocokits/react-<%= libraryName.fileName %>';
-import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Default: StoryObj<typeof <%= componentName.className %>> = {
@@ -35,7 +35,10 @@ export const Default: StoryObj<typeof <%= componentName.className %>> = {
       renderConditions: [renderWithPageTab('Overview')],
       hasControl: true,
       controls: [
-        // CCK_CONTROL.text('<%= componentName.fileName %>'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.additional(),
       ],
     },
   },

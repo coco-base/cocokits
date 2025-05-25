@@ -12,6 +12,7 @@ export { Color } from './overview/color.stories';
 const meta: StoriesMeta<typeof <%= componentName.className %>> = {
   component: <%= componentName.className %>,
   title: 'UI Components/<%= componentName.className %>',
+  tags: ['status:new'],
   decorators: [],
   parameters: {
     docs: {

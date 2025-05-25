@@ -1,5 +1,5 @@
 import { <%= componentName.className %>Component } from '@cocokits/angular-<%= libraryName.fileName %>';
-import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 export const Default: StoryObj<<%= componentName.className%>Component> = {
@@ -29,7 +29,10 @@ export const Default: StoryObj<<%= componentName.className%>Component> = {
       ],
       hasControl: true,
       controls: [
-        // CCK_CONTROL.text('cck-<%= componentName.fileName %>'),
+        CCK_CONTROL.type(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.additional(),
       ],
     },
   },

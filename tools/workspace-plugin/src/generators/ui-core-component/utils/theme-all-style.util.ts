@@ -38,8 +38,8 @@ export function updateThemeAllStylesFile(options: UiCoreComponentGeneratorOption
 
   // Update @mixin all
   framesXFileContent = framesXFileContent.replace(
-    /(@mixin all {.*)(})/gm,
-    `$1\n@include ${options.componentName.fileName};\n$1$2`
+    /(@include[\s\S]+?;)(?![\s\S]*@include)/gm,
+    `$1\n@include ${options.componentName.fileName};\n`
   );
 
   options.tree.write(options.framesXAllStylesFilePath, framesXFileContent);
