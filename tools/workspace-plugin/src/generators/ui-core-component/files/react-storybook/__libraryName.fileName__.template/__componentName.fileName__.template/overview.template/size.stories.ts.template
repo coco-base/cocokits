@@ -19,17 +19,17 @@ export const Size: StoryObj<typeof <%= componentName.className %>> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%= componentName.className %> } from "@cocokits/react-components";
+          import { <%%= componentName.className %> } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
               <>
-                <% themeComponentConfig.size.values.map(size => { %>
-                  <<%= componentName.className %>
-                    <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                    size='<%= size %>'
+                <%% themeComponentConfig.size.values.map(size => { %>
+                  <<%%= componentName.className %>
+                    <%% if (typeof type !== 'undefined') { %> type='<%%= type %>' <%% } %>
+                    size='<%%= size %>'
                   />
-                <% }) %>
+                <%% }) %>
               </>
 
             );
