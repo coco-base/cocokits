@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
@@ -16,5 +16,10 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 })
 export class AvatarGroupComponent extends _UiBaseComponent<'avatarGroup'> {
   protected readonly componentName = 'avatarGroup';
-  protected extraHostElementClassConditions = computed(() => []);
+  protected extraHostElementClassConditions = computed(() => [
+    { if: this.direction() === 'left', classes: this.classNames().leftDirection },
+    { if: this.direction() === 'right', classes: this.classNames().rightDirection },
+  ]);
+
+  public direction = input<'right' | 'left'>('right');
 }

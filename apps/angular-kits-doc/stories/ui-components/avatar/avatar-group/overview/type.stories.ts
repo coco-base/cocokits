@@ -21,7 +21,12 @@ export const Type: StoryObj<AvatarGroupComponent> = {
           <% themeComponentConfig.type.values.map(type => { %>
             <cck-avatar-group
               type='<%= type %>'
-            />
+            >
+              <cck-avatar src="https://i.pravatar.cc?img=9"/>
+              <cck-avatar src="https://i.pravatar.cc?img=10"/>
+              <cck-avatar src="https://i.pravatar.cc?img=11"/>
+              <cck-avatar src="https://i.pravatar.cc?img=12"/>
+            </cck-avatar-group>
           <% }) %>
           `,
         },
@@ -34,7 +39,11 @@ export const Type: StoryObj<AvatarGroupComponent> = {
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <cck-avatar-group [type]="type"/>
+        <cck-avatar-group [type]="type">
+          <cck-avatar src="https://i.pravatar.cc?img=9"/>
+          <cck-avatar src="https://i.pravatar.cc?img=10"/>
+          <cck-avatar src="https://i.pravatar.cc?img=11"/>
+        </cck-avatar-group>
       }
     `,
   }),

@@ -11,11 +11,16 @@ export const avatarGroupLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `AvatarGroup` component.',
     },
-    // example: {
-    //   name: '...',
-    //   selectorStructure: [{ element: '...', modifier: '...' }],
-    //   description: `...`,
-    // },
+    leftDirection: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'direction-left' }],
+      description: `Applied to the host element of the AvatarGroup component when the direction is set to 'left'.`,
+    },
+    rightDirection: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'direction-right' }],
+      description: `Applied to the host element of the AvatarGroup component when the direction is set to 'right'.`,
+    },
   },
 } satisfies LayoutClassNamesConfig;
 
@@ -27,6 +32,11 @@ export function getAvatarGroupClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(avatarGroupLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    // example: generateLayoutClassNameFromElement(avatarGroupLayoutClassNamesConfig, 'example', themeConfig),
+    leftDirection: generateLayoutClassNameFromElement(avatarGroupLayoutClassNamesConfig, 'leftDirection', themeConfig),
+    rightDirection: generateLayoutClassNameFromElement(
+      avatarGroupLayoutClassNamesConfig,
+      'rightDirection',
+      themeConfig
+    ),
   };
 }

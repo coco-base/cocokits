@@ -22,7 +22,12 @@ export const Color: StoryObj<AvatarGroupComponent> = {
             <cck-avatar-group
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               color='<%= color %>'
-            />
+            >
+              <cck-avatar src="https://i.pravatar.cc?img=9"/>
+              <cck-avatar src="https://i.pravatar.cc?img=10"/>
+              <cck-avatar src="https://i.pravatar.cc?img=11"/>
+              <cck-avatar src="https://i.pravatar.cc?img=12"/>
+            </cck-avatar-group>
           <% }) %>
           `,
         },
@@ -36,7 +41,11 @@ export const Color: StoryObj<AvatarGroupComponent> = {
     },
     template: `
       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
-        <cck-avatar-group [type]="cckControl.type" [color]="color"/>
+        <cck-avatar-group [type]="cckControl.type" [color]="color">
+          <cck-avatar src="https://i.pravatar.cc?img=9"/>
+          <cck-avatar src="https://i.pravatar.cc?img=10"/>
+          <cck-avatar src="https://i.pravatar.cc?img=11"/>
+        </cck-avatar-group>
       }
     `,
   }),

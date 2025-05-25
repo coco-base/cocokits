@@ -5,6 +5,7 @@ import {
   computed,
   contentChild,
   effect,
+  inject,
   input,
   signal,
   TemplateRef,
@@ -16,6 +17,7 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 import { hasNotValue, hasValue } from '@cocokits/common-utils';
 
 import { AvatarTemplateDirective } from './avatar.tmpl-directive';
+import { AvatarGroupComponent } from '../avatar-group/avatar-group.component';
 
 @Component({
   standalone: true,
@@ -40,6 +42,20 @@ export class AvatarComponent extends _UiBaseComponent<'avatar'> {
     { if: this.contentTemp(), classes: this.classNames().withCustomContent },
     { if: this.clickable(), classes: this.classNames().clickable },
   ]);
+
+  private avatarGroup = inject(AvatarGroupComponent, { optional: true });
+
+  /** @ignore */
+  override type = computed(() => this._type() ?? this.avatarGroup?.type());
+
+  /** @ignore */
+  override size = computed(() => this._size() ?? this.avatarGroup?.size());
+
+  /** @ignore */
+  override color = computed(() => this._color() ?? this.avatarGroup?.color());
+
+  /** @ignore */
+  override additional = computed(() => ({ ...this._additional(), ...this.avatarGroup?.additional() }));
 
   /**
    * Source URL for the avatar image.
