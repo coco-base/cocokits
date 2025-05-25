@@ -7,18 +7,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
   return (
     <html lang="en">
-
       <head>
         <link rel="icon" href="/favicon.svg" sizes="any" />
       </head>
 
       <body>
-        <div style={{ margin: '0 48px', maxWidth: '1200px', padding: '0 24px' }}>
-          {children}
-        </div>
+        <div style={{ margin: '0 48px', maxWidth: '1200px', padding: '0 24px' }}>{children}</div>
       </body>
     </html>
   );

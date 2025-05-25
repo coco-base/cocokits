@@ -15,18 +15,19 @@ export const BackButtonStory: StoryObj<typeof BackButton> = {
       source: SOURCE,
       exampleStory: {
         templateArgsMap: TEMPLATE_ARGS,
-        cssArgsMap: CSS_VARIABLES
-      }
+        cssArgsMap: CSS_VARIABLES,
+      },
     },
   },
   render: (args) => (
     <InlineStyle styles={args.cckExampleCssVariables}>
-      <BackButton cckExampleArgs={args.cckExampleArgs}/>
+      <BackButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
-  )
+  ),
 };
 
-
 const InlineStyle = styled.div<{ styles: string }>`
-  ${({ styles }) => css`${styles}`}
+  ${({ styles }) => css`
+    ${styles}
+  `}
 `;

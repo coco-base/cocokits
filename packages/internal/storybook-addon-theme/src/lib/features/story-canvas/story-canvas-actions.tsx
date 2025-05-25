@@ -1,11 +1,10 @@
-import { PreparedStory } from "@storybook/types";
-import styled from "styled-components";
+import { PreparedStory } from '@storybook/types';
+import styled from 'styled-components';
 
-import { AddonParameters } from "../../model/addon.model";
-import { StoryStackblitzButton } from "../stackblitz/story-stackblitz-button";
-import { StoryControlButton } from "../story-control/story-control-button";
-import { StorySourceCodeButton } from "../story-source-code/story-source-code-button";
-
+import { AddonParameters } from '../../model/addon.model';
+import { StoryStackblitzButton } from '../stackblitz/story-stackblitz-button';
+import { StoryControlButton } from '../story-control/story-control-button';
+import { StorySourceCodeButton } from '../story-source-code/story-source-code-button';
 
 export interface StoryCanvasActionsProps {
   story: PreparedStory;
@@ -13,9 +12,7 @@ export interface StoryCanvasActionsProps {
   onCodeClick: () => void;
 }
 
-
-export function StoryCanvasActions({story, isCodeSelected, onCodeClick}: StoryCanvasActionsProps) {
-
+export function StoryCanvasActions({ story, isCodeSelected, onCodeClick }: StoryCanvasActionsProps) {
   const parameters = story.parameters as AddonParameters;
   const hasControl = parameters.cckAddon.hasControl ?? false;
   const hasStackblitz = parameters.cckAddon.hasStackblitz ?? false;
@@ -23,9 +20,9 @@ export function StoryCanvasActions({story, isCodeSelected, onCodeClick}: StoryCa
 
   return (
     <StyledHost>
-      { hasStackblitz && <StoryStackblitzButton story={story}/> }
-      { hasCode && <StorySourceCodeButton selected={isCodeSelected} onCodeClick={onCodeClick}/> }
-      { hasControl && <StoryControlButton story={story}/> }
+      {hasStackblitz && <StoryStackblitzButton story={story} />}
+      {hasCode && <StorySourceCodeButton selected={isCodeSelected} onCodeClick={onCodeClick} />}
+      {hasControl && <StoryControlButton story={story} />}
     </StyledHost>
   );
 }

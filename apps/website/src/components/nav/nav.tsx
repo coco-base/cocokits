@@ -27,7 +27,6 @@ export default function Nav() {
         alt="CocoKits Logo"
       />
       <div className={styles['nav__item-wrapper']}>
-        
         <Link className={styles.nav__item} href="#section__features">
           Features
         </Link>

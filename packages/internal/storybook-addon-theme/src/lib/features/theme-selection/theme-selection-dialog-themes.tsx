@@ -101,7 +101,7 @@ const StyledTheme = styled.div<{ $selected: boolean }>`
     props.$selected &&
     css`
       border: 2px solid var(--cck-doc-color-brand-default);
-  `}
+    `}
 `;
 
 const StyledThemeBannerWrapper = styled.div`
@@ -132,7 +132,7 @@ const StyledThemeTag = styled.div<{ $selected: boolean }>`
   ${(props) =>
     props.$selected &&
     css`
-      background-color: var(--cck-doc-color-bg-selected-2);  
+      background-color: var(--cck-doc-color-bg-selected-2);
     `}
 `;
 

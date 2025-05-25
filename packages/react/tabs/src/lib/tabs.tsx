@@ -5,7 +5,7 @@ import { useUiBaseComponentConfig } from '@cocokits/react-core';
 import { useEffectAfterMount } from '@cocokits/react-utils';
 
 import { TabSelectionChangeEvent, TabValue } from './tab.model';
-import { TabIndexContext,useCreateTabsStore } from './tabs.store';
+import { TabIndexContext, useCreateTabsStore } from './tabs.store';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const EMPTY_CALLBACK = () => {};

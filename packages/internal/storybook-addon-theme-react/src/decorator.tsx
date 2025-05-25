@@ -1,9 +1,8 @@
 import { Args } from '@storybook/types';
 
-import { getInstance } from "@cocokits/common-utils";
-import { ThemeConfigContext } from "@cocokits/react-core";
-import { StoreState, ThemeEvent } from "@cocokits/storybook-addon-theme";
-
+import { getInstance } from '@cocokits/common-utils';
+import { ThemeConfigContext } from '@cocokits/react-core';
+import { StoreState, ThemeEvent } from '@cocokits/storybook-addon-theme';
 
 export function withThemeConfigDecorator() {
   return (Story: any) => {
@@ -14,7 +13,7 @@ export function withThemeConfigDecorator() {
       </ThemeConfigContext.Provider>
     );
   };
-} 
+}
 
 export function withWrapperDecorator(
   {
@@ -42,7 +41,7 @@ export function withWrapperDecorator(
 
   return (Story: any) => (
     <div style={styles as Record<string, string>} className={classNames.join(' ')}>
-      <Story/>
+      <Story />
     </div>
   );
 }
@@ -50,7 +49,7 @@ export function withWrapperDecorator(
 export function reactThemeArgsToTemplate(storyArgs: Args): Args {
   const args = storyArgs['cckControl'] as StoreState['args'];
 
-  if(!args) {
+  if (!args) {
     return {};
   }
 
@@ -58,7 +57,7 @@ export function reactThemeArgsToTemplate(storyArgs: Args): Args {
   // const additionalKeys = Object.keys(additionalThemeConfig ?? {})
   //   .filter((key) => isNotNullish(args[key]));
   // const additional = reduceMerge(additionalKeys, (key) => ({ [key]: args[key] }), {});
-  
+
   return {
     type: storyArgs.cckControl.type,
     size: storyArgs.cckControl.size,

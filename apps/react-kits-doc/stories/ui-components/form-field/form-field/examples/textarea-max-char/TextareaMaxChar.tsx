@@ -10,11 +10,14 @@ export function TextareaMaxChar(props: { cckExampleArgs: ExampleArgs }) {
   return (
     <FormField>
       <Label>Description</Label>
-      <Textarea 
+      <Textarea
         maxLength={maxLength}
         placeholder="Short project description"
-        onChange={e => setValueLength(e.target.value.length)}/>
-      <Hint>{valueLength}/{maxLength} characters max</Hint>
+        onChange={(e) => setValueLength(e.target.value.length)}
+      />
+      <Hint>
+        {valueLength}/{maxLength} characters max
+      </Hint>
     </FormField>
   );
 }

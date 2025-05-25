@@ -30,7 +30,7 @@ export function StoryControlImage({ control, value, onChange }: StoryControlImag
         {control.images.map((image, index) =>
           image === 'none' ? (
             <IconButton onClick={() => onSelectChange(image)}>
-              <SvgIcon icon={Icons.none}/>
+              <SvgIcon icon={Icons.none} />
             </IconButton>
           ) : (
             <StyledControlImage key={index} $selected={image === selectedImage} onClick={() => onSelectChange(image)}>

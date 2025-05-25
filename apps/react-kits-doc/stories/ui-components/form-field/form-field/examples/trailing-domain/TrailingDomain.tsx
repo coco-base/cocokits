@@ -5,7 +5,7 @@ export function TrailingDomain(props: { cckExampleArgs: ExampleArgs }) {
   return (
     <FormField>
       <Label>Choose domain name</Label>
-      <Input/>
+      <Input />
       <Trailing>.com</Trailing>
     </FormField>
   );

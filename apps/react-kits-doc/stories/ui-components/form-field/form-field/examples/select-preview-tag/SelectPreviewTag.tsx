@@ -14,10 +14,9 @@ export function SelectPreviewTag(props: { cckExampleArgs: ExampleArgs }) {
           <Styled.SelectPreview>
             <Styled.Tag>{selected.length}</Styled.Tag>
             <span>{selected[0]}</span>
-            {  selected.length > 1 && <Styled.HintText> (+{selected.length - 1} more)</Styled.HintText> }
+            {selected.length > 1 && <Styled.HintText> (+{selected.length - 1} more)</Styled.HintText>}
           </Styled.SelectPreview>
-        )}
-      >
+        )}>
         <Option value="Cake">Cake</Option>
         <Option value="Pizza">Pizza</Option>
         <Option value="Burger">Burger</Option>

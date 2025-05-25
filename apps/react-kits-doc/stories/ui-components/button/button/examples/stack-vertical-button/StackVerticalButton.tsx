@@ -20,7 +20,7 @@ export function StackVerticalButton(props: { cckExampleArgs: ExampleArgs }) {
         size={props.cckExampleArgs.secondButtonSize}
         color={props.cckExampleArgs.secondButtonColor}>
         Confirm
-        <SvgIcon icon={Icons.arrowRight}/>
+        <SvgIcon icon={Icons.arrowRight} />
       </Button>
     </HostStyles>
   );

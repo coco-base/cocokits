@@ -1,21 +1,21 @@
-import { TooltipLinkList, WithTooltip } from "@storybook/components";
-import React, { memo } from "react";
+import { TooltipLinkList, WithTooltip } from '@storybook/components';
+import React, { memo } from 'react';
 
-import { ColorMode } from "../../model/theme.model";
-import { useColorMode } from "../../utils/use-manager-color-mode";
+import { ColorMode } from '../../model/theme.model';
+import { useColorMode } from '../../utils/use-manager-color-mode';
 
 const COLOR_MODE_OPTIONS = [
   {
     id: ColorMode.Light,
     title: ColorMode.Light,
-  }, {
+  },
+  {
     id: ColorMode.Dark,
     title: ColorMode.Dark,
-  }
+  },
 ];
 
 export const ToolColorMode = memo(() => {
-
   const { colorMode, dispatchColorMode } = useColorMode();
 
   return (
@@ -27,7 +27,7 @@ export const ToolColorMode = memo(() => {
       tooltip={({ onHide }) => {
         return (
           <TooltipLinkList
-            links={COLOR_MODE_OPTIONS.map(({id, title}) => ({
+            links={COLOR_MODE_OPTIONS.map(({ id, title }) => ({
               id,
               title,
               active: colorMode === id,
@@ -43,7 +43,6 @@ export const ToolColorMode = memo(() => {
           />
         );
       }}>
-
       <p>Color Mode: {colorMode}</p>
 
       {/* <IconButton active={true} title="Storybook Theme">
@@ -53,7 +52,6 @@ export const ToolColorMode = memo(() => {
         }
         <IconButtonLabel>{selectedThemeName}</IconButtonLabel>
       </IconButton> */}
-
     </WithTooltip>
   );
 });

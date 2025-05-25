@@ -54,13 +54,11 @@ export function StoryDocPageAPI({ argTypes, themeName, ngTemplateMD }: StoryDocP
         );
       })}
 
-      {
-        ngTemplateMD && (
-          <DocPageSection id="ng-template-doc" title="Templates">
-            <DocPageMarkdown>{ngTemplateMD}</DocPageMarkdown>
-          </DocPageSection>
-        )
-      }
+      {ngTemplateMD && (
+        <DocPageSection id="ng-template-doc" title="Templates">
+          <DocPageMarkdown>{ngTemplateMD}</DocPageMarkdown>
+        </DocPageSection>
+      )}
     </>
   );
 }

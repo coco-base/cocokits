@@ -33,10 +33,10 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
     };
   }, [data.story]);
 
-  if(!state) {
+  if (!state) {
     return;
   }
-  
+
   if (!state?.args) {
     return <p>No Args available</p>;
   }
@@ -44,7 +44,6 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
   if (!state.controls || state.controls.length === 0) {
     return <p>No Control available</p>;
   }
-
 
   const onChange = (changes: StoryControlChangeEvent) => {
     storyControlStore.updateStoryArgs(data.story.id, changes);
@@ -124,4 +123,3 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
     </StyledControlWrapper>
   );
 }
-

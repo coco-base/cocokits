@@ -18,7 +18,7 @@ export function openStandaloneOverlay<TData = unknown, TResult = unknown>(
   const afterClosedPromise = lazyPromise<TResult | void>();
 
   const config: OverlayConfigStandalone<TData> = { ...OVERLAY_DEFAULT_CONFIG, ..._config };
-  
+
   const decorator = config.decorator ?? ((element) => element);
 
   const container = createContainerElement(config.zIndex);
@@ -37,18 +37,20 @@ export function openStandaloneOverlay<TData = unknown, TResult = unknown>(
     closedPromise.resolve(result);
   };
 
-  root.render(decorator(
-    <Overlay config={config} afterClosedPromise={afterClosedPromise} closedPromise={closedPromise}>
-      {typeof componentRef === 'function'
-        ? React.createElement(componentRef, { data: config.data, close })
-        : componentRef}
-    </Overlay>
-  ));
+  root.render(
+    decorator(
+      <Overlay config={config} afterClosedPromise={afterClosedPromise} closedPromise={closedPromise}>
+        {typeof componentRef === 'function'
+          ? React.createElement(componentRef, { data: config.data, close })
+          : componentRef}
+      </Overlay>
+    )
+  );
 
   return {
     afterClosed: afterClosedPromise.promise,
     closed: closedPromise.promise,
-    close
+    close,
   };
 }
 

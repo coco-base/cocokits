@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Icons } from "@cocokits/common-icons";
+import { Icons } from '@cocokits/common-icons';
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 import { OverlayRef } from '@cocokits/react-overlay';
@@ -33,9 +33,11 @@ export function Sidebar<TData, TResult>({ data, close }: OverlayRef<SidebarProps
 
       <StyledContent>
         {typeof data.componentRef === 'function' ? (
-          'data' in data
-            ? <data.componentRef data={data.data} close={close} />
-            : <data.componentRef data={void 0} close={close} />
+          'data' in data ? (
+            <data.componentRef data={data.data} close={close} />
+          ) : (
+            <data.componentRef data={void 0} close={close} />
+          )
         ) : (
           data.componentRef
         )}

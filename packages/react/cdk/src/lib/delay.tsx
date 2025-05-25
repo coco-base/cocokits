@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export interface DelayProps {
   time: number;
   children: React.ReactNode | React.ReactNode[];
 }
 
-export function Delay({time, children}: DelayProps) {
+export function Delay({ time, children }: DelayProps) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -16,5 +16,4 @@ export function Delay({time, children}: DelayProps) {
   }, [time]);
 
   return show ? children : null;
-
 }

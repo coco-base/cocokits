@@ -16,7 +16,7 @@ export function StorySingleControlActions({ story }: StorySingleControlActionsPr
     return;
   }
 
-  if(!story.argTypes['cckControl']) {
+  if (!story.argTypes['cckControl']) {
     throw new Error(`'cckControl' argTypes is missing for story ID: ${story.id}`);
   }
 

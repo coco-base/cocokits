@@ -12,28 +12,29 @@ export const InsideCocoKits = () => {
       <p>Everything you need to build your application efficiently.</p>
 
       <div className="inside-cocokits__feature-wrapper">
-
         <InsideCocokitsFeature
           title="Tokens"
           description="Universal tokens and utilities to bring your design system to life and reduce maintenance costs."
           svgSrc="/token.png"
           linkText="Preview Tokens"
-          href="https://angular.cocokits.com/?path=/docs/theme-config-tokens--docs"/>
+          href="https://angular.cocokits.com/?path=/docs/theme-config-tokens--docs"
+        />
 
         <InsideCocokitsFeature
           title="UI Components"
           description="Jump start your application development with flexible and reusable components."
           svgSrc="/ui-component.png"
           linkText="Preview Components"
-          href="https://angular.cocokits.com/?path=/docs/ui-components-button--docs" />
+          href="https://angular.cocokits.com/?path=/docs/ui-components-button--docs"
+        />
 
         <InsideCocokitsFeature
           title="Easy-to-use and customize"
           description="Build and customize design system themes with enterprise-grade flexibility and control."
           svgSrc="/customize.png"
           linkText="Preview Config"
-          href="https://angular.cocokits.com/?path=/docs/getting-started-advanced-configuration--docs" />
-
+          href="https://angular.cocokits.com/?path=/docs/getting-started-advanced-configuration--docs"
+        />
       </div>
     </div>
   );

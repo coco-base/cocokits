@@ -1,16 +1,15 @@
-import React, { ReactNode } from "react";
-import { styled } from "styled-components";
+import React, { ReactNode } from 'react';
+import { styled } from 'styled-components';
 
-export function Feature(prop: {title: string, children: ReactNode, image: React.FC<void>}) {
+export function Feature(prop: { title: string; children: ReactNode; image: React.FC<void> }) {
   return (
     <StyledHost>
       <h3>{prop.title}</h3>
       <StyledImage>{prop.image()}</StyledImage>
       <p>{prop.children}</p>
     </StyledHost>
-  )
+  );
 }
-
 
 const StyledHost = styled.div`
   display: flex;

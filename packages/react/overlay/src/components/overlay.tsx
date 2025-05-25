@@ -1,11 +1,11 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { useEffect, useLayoutEffect, useRef } from 'react';
+import styled, { css } from 'styled-components';
 
-import { lazyPromise } from "@cocokits/common-utils";
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
+import { lazyPromise } from '@cocokits/common-utils';
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
-import { OverlayContext, useOverlayAnimation } from "./overlay.hooks";
-import { OverlayConfig, OverlayRef } from "../models/overlay.model";
+import { OverlayContext, useOverlayAnimation } from './overlay.hooks';
+import { OverlayConfig, OverlayRef } from '../models/overlay.model';
 
 interface OverlayProps<TData, TResult> {
   config: OverlayConfig<TData>;
@@ -14,7 +14,7 @@ interface OverlayProps<TData, TResult> {
   children: React.ReactNode | React.ReactNode[];
 }
 
-export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => {  
+export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const backdropRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -22,9 +22,7 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'overlay',
     props: {},
-    extraHostElementClassConditions: [
-      { if: true, classes: () => props.config.panelClass },
-    ],
+    extraHostElementClassConditions: [{ if: true, classes: () => props.config.panelClass }],
   });
 
   const { runEnterAnimation, runExitAnimation } = useOverlayAnimation({
@@ -32,7 +30,7 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
     containerRef,
     contentRef,
     backdropRef,
-  });  
+  });
 
   const onBackdropClick = () => {
     if (props.config.disableBackdropClose) {
@@ -80,25 +78,27 @@ export const Overlay = <TData, TResult>(props: OverlayProps<TData, TResult>) => 
   );
 };
 
-const StyledContainer = styled.div<{$allowInteraction: boolean, $zIndex: number}>`
+const StyledContainer = styled.div<{ $allowInteraction: boolean; $zIndex: number }>`
   :where(&) {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: ${props => props.$zIndex};
+    z-index: ${(props) => props.$zIndex};
     display: flex;
     justify-content: center;
     align-items: center;
     perspective: 1000px;
     touch-action: auto;
     pointer-events: auto;
-    
-    ${props => props.$allowInteraction && css`
-      touch-action: none;
-      pointer-events: none;
-    `}
+
+    ${(props) =>
+      props.$allowInteraction &&
+      css`
+        touch-action: none;
+        pointer-events: none;
+      `}
   }
 `;
 
@@ -115,7 +115,7 @@ const StyledBackdrop = styled.div`
   }
 `;
 
-const StyledContentWrapper = styled.div<{$size: OverlayConfig['size']}>`
+const StyledContentWrapper = styled.div<{ $size: OverlayConfig['size'] }>`
   :where(&) {
     position: relative;
     top: 0;
@@ -123,18 +123,16 @@ const StyledContentWrapper = styled.div<{$size: OverlayConfig['size']}>`
     touch-action: initial;
     pointer-events: initial;
 
-    ${props => css`
-        height: ${props.$size?.height};
-        max-height: ${props.$size?.maxHeight};
-        max-width: ${props.$size?.maxWidth};
-        min-height: ${props.$size?.minHeight};
-        min-width: ${props.$size?.minWidth};
-        width: ${props.$size?.width};
+    ${(props) => css`
+      height: ${props.$size?.height};
+      max-height: ${props.$size?.maxHeight};
+      max-width: ${props.$size?.maxWidth};
+      min-height: ${props.$size?.minHeight};
+      min-width: ${props.$size?.minWidth};
+      width: ${props.$size?.width};
     `};
-
   }
 `;
-
 
 Overlay.displayName = 'Overlay';
 export default Overlay;

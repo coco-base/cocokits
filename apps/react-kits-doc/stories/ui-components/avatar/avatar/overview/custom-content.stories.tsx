@@ -45,10 +45,18 @@ export const CustomTemplate: StoryObj<typeof Avatar> = {
       size={args.cckControl.size}
       contentTemp={
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', width: '100%', height: '100%', gap: '2px' }}>
-          <img src="https://i.pravatar.cc/100?img=5" alt="" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-          <img src="https://i.pravatar.cc/100?img=12" alt="" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+          <img
+            src="https://i.pravatar.cc/100?img=5"
+            alt=""
+            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+          />
+          <img
+            src="https://i.pravatar.cc/100?img=12"
+            alt=""
+            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+          />
         </div>
       }
     />
-  )
+  ),
 };

@@ -6,11 +6,9 @@ import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-co
 import { RadioGroupContext } from './radio.context';
 import { RadioButtonProps } from './radio.model';
 
-
 let NEXT_ID = 0;
 
-export const RadioButton = <T extends string | number,>(props: RadioButtonProps<T>) => {
-
+export const RadioButton = <T extends string | number>(props: RadioButtonProps<T>) => {
   const radioContextValue = useContext(RadioGroupContext);
   const [id] = useState(props.id ?? `cck-radio-${NEXT_ID++}`);
 
@@ -33,7 +31,7 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
       { if: checked, classes: (cn) => [cn.checked] },
       { if: !checked, classes: (cn) => [cn.unchecked] },
       { if: !!props.className, classes: () => [props.className] },
-    ]
+    ],
   });
 
   const onInputChange = () => {
@@ -42,7 +40,7 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
     }
 
     props.onChange?.({ value });
-    radioContextValue?.onChange?.({ value});
+    radioContextValue?.onChange?.({ value });
   };
 
   return (
@@ -57,13 +55,15 @@ export const RadioButton = <T extends string | number,>(props: RadioButtonProps<
             checked={checked}
             disabled={disabled}
             value={value}
-            onChange={onInputChange}/>
+            onChange={onInputChange}
+          />
 
           <div className={classNames.backdrop}></div>
           <div
             className={classNames.background}
-            dangerouslySetInnerHTML={{ __html: themeConfig?.components.radioButton?.templates?.radioCheckmark ?? '' }}>
-          </div>
+            dangerouslySetInnerHTML={{
+              __html: themeConfig?.components.radioButton?.templates?.radioCheckmark ?? '',
+            }}></div>
         </div>
         <label className={classNames.label} htmlFor={id}>
           {props.children}

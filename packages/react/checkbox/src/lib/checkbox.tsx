@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode, useContext, useLayoutEffect, useRef, useState
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
-import { useStaticText } from "@cocokits/react-utils";
+import { useStaticText } from '@cocokits/react-utils';
 
 export interface CheckboxProps extends UIBaseComponentProps {
   /** Whether the checkbox is checked. */

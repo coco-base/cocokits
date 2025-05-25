@@ -18,7 +18,6 @@ interface StorySourceCodeProps {
 }
 
 export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(({ story, pause, className }, ref) => {
-
   const [hasCopied, setHasCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
   const [selectedSourceIndex, setSelectedSourceIndex] = useState<number>(0);
@@ -33,7 +32,7 @@ export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if(isMobile)  {
+  if (isMobile) {
     return (
       <StyledHost className={className} $placeholder={true} ref={ref}>
         <p>Please switch to a larger device to see the source code</p>
@@ -73,7 +72,7 @@ export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(
   const onCopyClick = () => {
     navigator.clipboard.writeText(selectedSource.code);
 
-    if(!hasCopied) {
+    if (!hasCopied) {
       setHasCopied(true);
       setTimeout(() => setHasCopied(false), 3000);
     }
@@ -85,13 +84,13 @@ export const StorySourceCode = forwardRef<HTMLDivElement, StorySourceCodeProps>(
         <StyledFilename>{selectedSource.fileName}</StyledFilename>
 
         <StyledCopyButton onClick={onCopyClick}>
-          { hasCopied && 'Copied!' }
-          { !hasCopied && 
+          {hasCopied && 'Copied!'}
+          {!hasCopied && (
             <>
               <SvgIcon icon={Icons.copy} />
               Copy
             </>
-          }
+          )}
         </StyledCopyButton>
 
         {sourceCodes.length > 1 && (
@@ -163,7 +162,6 @@ const StyleSelectPreviewText = styled.span`
   font: var(--cck-doc-text-sm-medium);
   color: var(--cck-doc-color-font-3);
 `;
-
 
 const StyledCode = styled.div`
   position: relative;

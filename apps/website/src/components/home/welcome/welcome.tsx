@@ -12,7 +12,7 @@ import { Brand } from '../../brands/brand';
 
 export function Welcome() {
   const context = useWebsiteContext();
-  if(!context) {
+  if (!context) {
     return null;
   }
 
@@ -23,7 +23,6 @@ export function Welcome() {
 
   return (
     <div className={styles.welcome__host}>
-
       <div className={styles['welcome__overlay-wrapper']}>
         <Image className={styles['welcome__overlay-image']} width={828} height={556} src={imageSrc} alt="CocoKits" />
         <div className={styles['welcome__overlay-effect']}></div>
@@ -32,8 +31,8 @@ export function Welcome() {
       <div className={styles.welcome__content}>
         <h1 className={styles.welcome__title}>Bring your design system to life</h1>
         <p className={styles.welcome__description}>
-          CocoKits is a comprehensive design system language and CDK that enables you
-          to create highly efficient web applications with powerful UI components.
+          CocoKits is a comprehensive design system language and CDK that enables you to create highly efficient web
+          applications with powerful UI components.
         </p>
 
         <div className={styles['welcome__actions-wrapper']}>
@@ -43,7 +42,7 @@ export function Welcome() {
           <Link href="#section__frameworks" rel="noopener noreferrer">
             <Button color="secondary">
               Get Started
-              <SvgIcon icon={Icons.arrowRight}/>
+              <SvgIcon icon={Icons.arrowRight} />
             </Button>
           </Link>
         </div>
@@ -51,11 +50,15 @@ export function Welcome() {
         <div className={styles['welcome__ds-title']}>SUPPORTED DESIGN SYSTEMS</div>
         <div className={styles['welcome__ds-wrapper']}>
           <Link className="auto-underline" href="https://cocokits.com" target="_blank" rel="noopener noreferrer">
-            <Brand name="cocokits"/>
+            <Brand name="cocokits" />
           </Link>
 
-          <Link className="auto-underline" href="https://framesxdesign.com/?aff=wzMlE8" target="_blank" rel="noopener noreferrer">
-            <Brand name="frames-x"/>
+          <Link
+            className="auto-underline"
+            href="https://framesxdesign.com/?aff=wzMlE8"
+            target="_blank"
+            rel="noopener noreferrer">
+            <Brand name="frames-x" />
           </Link>
 
           <Link href="/support-design-system" rel="noopener noreferrer">
@@ -63,7 +66,6 @@ export function Welcome() {
           </Link>
         </div>
       </div>
-
     </div>
   );
 }

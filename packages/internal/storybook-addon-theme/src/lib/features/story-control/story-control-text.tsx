@@ -1,11 +1,10 @@
-import { FormEvent } from "react";
+import { FormEvent } from 'react';
 
-import { FormField, Input } from "@cocokits/react-form-field";
+import { FormField, Input } from '@cocokits/react-form-field';
 
-import { StoryControlChangeEvent } from "./story-control.model";
-import { StyledControlLabel, StyledControlSelection } from "./story-control.style";
-import { AddonParametersControlText } from "../../model/addon.model";
-
+import { StoryControlChangeEvent } from './story-control.model';
+import { StyledControlLabel, StyledControlSelection } from './story-control.style';
+import { AddonParametersControlText } from '../../model/addon.model';
 
 interface StoryControlTextProps {
   control: AddonParametersControlText;
@@ -13,8 +12,7 @@ interface StoryControlTextProps {
   onChange: (changes: StoryControlChangeEvent) => void;
 }
 
-export function StoryControlText({control, value, onChange}: StoryControlTextProps) {
-
+export function StoryControlText({ control, value, onChange }: StoryControlTextProps) {
   const onInput = (e: FormEvent<HTMLInputElement>) => {
     onChange({ [control.storyArgKey]: e.currentTarget.value });
   };
@@ -24,12 +22,9 @@ export function StoryControlText({control, value, onChange}: StoryControlTextPro
       <StyledControlLabel>{control.displayName}</StyledControlLabel>
       <StyledControlSelection>
         <FormField>
-          <Input
-            value={value}
-            onInput={onInput}/>
+          <Input value={value} onInput={onInput} />
         </FormField>
       </StyledControlSelection>
     </>
   );
-  
 }

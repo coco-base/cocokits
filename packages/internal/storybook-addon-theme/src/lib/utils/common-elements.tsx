@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledLoader = styled.div`
   width: 20px;
@@ -11,7 +11,7 @@ export const StyledLoader = styled.div`
   animation: rotation 1s linear infinite;
 
   &::after {
-    content: '';  
+    content: '';
     box-sizing: border-box;
     position: absolute;
     left: 50%;
@@ -24,7 +24,11 @@ export const StyledLoader = styled.div`
   }
 
   @keyframes rotation {
-    0% { transform: rotate(0deg) }
-    100% { transform: rotate(360deg) }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;

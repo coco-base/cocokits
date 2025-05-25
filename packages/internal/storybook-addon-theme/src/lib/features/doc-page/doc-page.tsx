@@ -1,64 +1,61 @@
-import { ReactNode } from "react";
-import styled from "styled-components";
+import { ReactNode } from 'react';
+import styled from 'styled-components';
 
-import { DocPageBgEffect } from "./doc-page-bg-effect";
-import { DocPageHeader } from "./doc-page-header";
-import { DocPageNav } from "./doc-page-nav";
-import { DocPageToc, DocTocItem } from "./doc-page-toc";
+import { DocPageBgEffect } from './doc-page-bg-effect';
+import { DocPageHeader } from './doc-page-header';
+import { DocPageNav } from './doc-page-nav';
+import { DocPageToc, DocTocItem } from './doc-page-toc';
 
 export interface DocPageProps {
   breadcrumb?: string;
   title?: string;
   hideThemeSwitcher?: boolean;
-  tocItems?: DocTocItem[],
+  tocItems?: DocTocItem[];
   children: ReactNode | ReactNode[];
 }
 
 export const DocPage = (props: DocPageProps) => {
-
   return (
     // sb-unstyled class remove default storybook styles
     <StyledHost className={`sb-unstyled`}>
-      <DocPageNav hideThemeSwitcher={props.hideThemeSwitcher}/>
-      <DocPageBgEffect/>
+      <DocPageNav hideThemeSwitcher={props.hideThemeSwitcher} />
+      <DocPageBgEffect />
 
       <StyledContentWrapper>
-        <StyledDocPageHeader title={props.title} breadcrumb={props.breadcrumb}/>
+        <StyledDocPageHeader title={props.title} breadcrumb={props.breadcrumb} />
         <StyledMain>{props.children}</StyledMain>
-        { props.tocItems && <StyledDocPageToc items={props.tocItems}/> }
+        {props.tocItems && <StyledDocPageToc items={props.tocItems} />}
       </StyledContentWrapper>
-
     </StyledHost>
   );
 };
 
-
 const StyledHost = styled.div`
-    background-color: var(--cck-doc-color-bg-1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
+  background-color: var(--cck-doc-color-bg-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
 `;
 
 const StyledContentWrapper = styled.div`
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
-    grid-template-columns: minmax(0, 1fr) auto;
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    max-width: 1100px;
-    padding: 64px 48px 256px 48px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 64px 48px 256px 48px;
 
-    .cck-breakpoint--mobile & {
-      padding: 24px 12px 12px 12px;
-    }
+  .cck-breakpoint--mobile & {
+    padding: 24px 12px 12px 12px;
+  }
 `;
 
 const StyledDocPageHeader = styled(DocPageHeader)`
   grid-row: 1;
-  grid-column: 1 / -1;  // spans all columns
+  grid-column: 1 / -1; // spans all columns
   margin: 2px;
 `;
 

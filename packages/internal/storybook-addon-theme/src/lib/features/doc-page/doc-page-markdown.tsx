@@ -10,15 +10,14 @@
 // import shikiMaterialThemeOcean from'shiki/themes/material-theme-ocean.mjs';
 // import shikiWasm from 'shiki/wasm';
 import { Markdown } from '@storybook/blocks';
-import  { ReactNode } from 'react';
-
+import { ReactNode } from 'react';
 
 interface DocPageMarkdownProps {
   children: ReactNode;
 }
 
 // TODO: The custom highlighter is not working on dark mode. fix it and replace the default one with our custom one
-export const DocPageMarkdown = ({children}: DocPageMarkdownProps) => {
+export const DocPageMarkdown = ({ children }: DocPageMarkdownProps) => {
   // const [html, setHtml] = useState('');
 
   // useEffect(() => {

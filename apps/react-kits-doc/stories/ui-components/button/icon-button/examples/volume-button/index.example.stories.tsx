@@ -1,6 +1,9 @@
 import styled, { css } from 'styled-components';
 
-import { CSS_VARIABLES, TEMPLATE_ARGS } from '@cocokits/common-kits-doc/examples-config/icon-button/volume-button.config';
+import {
+  CSS_VARIABLES,
+  TEMPLATE_ARGS,
+} from '@cocokits/common-kits-doc/examples-config/icon-button/volume-button.config';
 import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -15,18 +18,19 @@ export const VolumeButtonStory: StoryObj<typeof VolumeButton> = {
       source: SOURCE,
       exampleStory: {
         templateArgsMap: TEMPLATE_ARGS,
-        cssArgsMap: CSS_VARIABLES
-      }
+        cssArgsMap: CSS_VARIABLES,
+      },
     },
   },
   render: (args) => (
     <InlineStyle styles={args.cckExampleCssVariables}>
-      <VolumeButton cckExampleArgs={args.cckExampleArgs}/>
+      <VolumeButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
-  )
+  ),
 };
 
-
 const InlineStyle = styled.div<{ styles: string }>`
-  ${({ styles }) => css`${styles}`}
+  ${({ styles }) => css`
+    ${styles}
+  `}
 `;

@@ -30,14 +30,9 @@ export const Tab = (props: TabProps) => {
     ],
   });
 
-
   // Register and update the tab on mount and changes
   useEffect(() => {
-
-    const label = typeof props.label === 'string'
-      ? <TabLabel>{props.label}</TabLabel>
-      : props.label(isSelected);
-
+    const label = typeof props.label === 'string' ? <TabLabel>{props.label}</TabLabel> : props.label(isSelected);
 
     const tabTmp = (
       <button
@@ -45,7 +40,7 @@ export const Tab = (props: TabProps) => {
         key={props.value}
         className={hostClassNames}
         onClick={() => tabsStore?.selectTabByValue(props.value)}>
-        <div style={{display: 'none'}} ref={indicatorElemRef} className={classNames.indicator} />
+        <div style={{ display: 'none' }} ref={indicatorElemRef} className={classNames.indicator} />
         {label}
       </button>
     );
@@ -60,7 +55,6 @@ export const Tab = (props: TabProps) => {
       indicatorElemRef,
       value: props.value,
     });
-
   }, [props.children, props.label, props.value, isSelected]);
 
   // Unregister tab on unmount

@@ -44,7 +44,6 @@ export function ThemeSelectionDialogModes({
 
       <StyledModesList>
         {Object.entries(selectedTheme.tokenDictionary.collectionModeNames).map(([collectionName, modes]) => (
-
           <StyledModesWrapper key={collectionName}>
             <StyledCollectionName>{collectionName}</StyledCollectionName>
 
@@ -57,9 +56,7 @@ export function ThemeSelectionDialogModes({
                 </StyledRadioButton>
               ))}
             </StyledRadioGroup>
-
           </StyledModesWrapper>
-
         ))}
       </StyledModesList>
     </StyledHost>

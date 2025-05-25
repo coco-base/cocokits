@@ -1,16 +1,12 @@
-import { Preview  } from "@storybook/react";
+import { Preview } from '@storybook/react';
 
-import { Icons } from "@cocokits/common-icons";
+import { Icons } from '@cocokits/common-icons';
 
-import { withThemeConfigDecorator, withWrapperDecorator } from "./decorator";
-
+import { withThemeConfigDecorator, withWrapperDecorator } from './decorator';
 
 export const PREVIEW_BASE: Preview = {
   tags: ['autodocs'],
-  decorators: [
-    withWrapperDecorator(),
-    withThemeConfigDecorator()
-  ],
+  decorators: [withWrapperDecorator(), withThemeConfigDecorator()],
   argTypes: {
     cckControl: { control: 'object', table: { disable: true } },
     cckExampleArgs: { control: 'object', table: { disable: true } },

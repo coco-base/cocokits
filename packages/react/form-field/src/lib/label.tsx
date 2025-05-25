@@ -37,9 +37,7 @@ export function Label(props: LabelProps) {
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'label',
     props,
-    extraHostElementClassConditions: [
-      { if: !!props.className, classes: () => [props.className] },
-    ]
+    extraHostElementClassConditions: [{ if: !!props.className, classes: () => [props.className] }],
   });
 
   const template = (
@@ -60,7 +58,7 @@ export function Label(props: LabelProps) {
     return () => formStore?.unregisterComponent('label');
   }, []);
 
-  if(!formStore) {
+  if (!formStore) {
     return template;
   }
 

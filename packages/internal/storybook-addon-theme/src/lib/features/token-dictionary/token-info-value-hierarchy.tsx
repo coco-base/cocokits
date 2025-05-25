@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { Icons } from "@cocokits/common-icons";
+import { Icons } from '@cocokits/common-icons';
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 
@@ -43,11 +43,9 @@ export function TokenInfoValueHierarchy({
 
       {/* Indicator */}
       <StyledIndicatorWrapper>
-        {
-          hierarchiesModes.map((_, index) => (
-            <StyledIndicator key={index} $selected={index === selectedIndex}/>
-          ))
-        }
+        {hierarchiesModes.map((_, index) => (
+          <StyledIndicator key={index} $selected={index === selectedIndex} />
+        ))}
       </StyledIndicatorWrapper>
 
       {/* Prev Button */}
@@ -90,7 +88,8 @@ const StyledIndicator = styled.div<{ $selected: boolean }>`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: ${({ $selected }) => ($selected ? 'var(--cck-doc-color-brand-default)' : 'var(--cck-doc-color-bg-5)')};
+  background-color: ${({ $selected }) =>
+    $selected ? 'var(--cck-doc-color-brand-default)' : 'var(--cck-doc-color-bg-5)'};
 `;
 
 const StylesSliderGroup = styled.div<{ $selectedIndex: number }>`

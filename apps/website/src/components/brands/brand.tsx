@@ -12,7 +12,7 @@ interface BrandProps {
 const BRAND_NAMES = {
   cocokits: 'CocoKits',
   'frames-x': 'Frames X',
-}
+};
 
 const BRAND_LOGOS = {
   light: {
@@ -22,18 +22,17 @@ const BRAND_LOGOS = {
   dark: {
     cocokits: '/cocokits-icon-logo-light.svg',
     'frames-x': '/frames-x-icon-logo-light.svg',
-  }
+  },
 };
 
 const BRAND_LOGO_SIZE = {
   cocokits: styles['brand__logo--md'],
   'frames-x': styles['brand__logo--sm'],
-}
+};
 
-
-export function Brand({name, highlight= false, className = ''}: BrandProps) {
+export function Brand({ name, highlight = false, className = '' }: BrandProps) {
   const context = useWebsiteContext();
-  if(!context) {
+  if (!context) {
     return null;
   }
 
@@ -41,7 +40,13 @@ export function Brand({name, highlight= false, className = ''}: BrandProps) {
 
   return (
     <div className={`${styles.brand__wrapper} ${className}`}>
-      <Image width={24} height={24} className={BRAND_LOGO_SIZE[name]} src={BRAND_LOGOS[colorMode][name]} alt={BRAND_NAMES[name]} />
+      <Image
+        width={24}
+        height={24}
+        className={BRAND_LOGO_SIZE[name]}
+        src={BRAND_LOGOS[colorMode][name]}
+        alt={BRAND_NAMES[name]}
+      />
       <div className={highlight ? styles['brand__text--highlight'] : styles.brand__text}>{BRAND_NAMES[name]}</div>
     </div>
   );

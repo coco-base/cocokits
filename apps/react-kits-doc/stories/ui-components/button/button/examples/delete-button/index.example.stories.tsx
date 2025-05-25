@@ -15,18 +15,19 @@ export const DeleteButtonStory: StoryObj<typeof DeleteButton> = {
       source: SOURCE,
       exampleStory: {
         templateArgsMap: TEMPLATE_ARGS,
-        cssArgsMap: CSS_VARIABLES
-      }
+        cssArgsMap: CSS_VARIABLES,
+      },
     },
   },
   render: (args) => (
     <InlineStyle styles={args.cckExampleCssVariables}>
-      <DeleteButton cckExampleArgs={args.cckExampleArgs}/>
+      <DeleteButton cckExampleArgs={args.cckExampleArgs} />
     </InlineStyle>
-  )
+  ),
 };
 
-
 const InlineStyle = styled.div<{ styles: string }>`
-  ${({ styles }) => css`${styles}`}
+  ${({ styles }) => css`
+    ${styles}
+  `}
 `;

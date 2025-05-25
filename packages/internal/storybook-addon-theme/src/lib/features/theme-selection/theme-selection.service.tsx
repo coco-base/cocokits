@@ -14,12 +14,14 @@ export class ThemeSelectionService {
   private themeEvent = getInstance(ThemeEvent);
 
   constructor() {
-    this.globalEvent.openThemeSelection$.pipe(
-      switchMap(() => this.openThemeSelection()),
-      filter(selectedTheme => !!selectedTheme)
-    ).subscribe((selectedTheme) => {
-      this.themeEvent.dispatchTheme(selectedTheme);
-    });
+    this.globalEvent.openThemeSelection$
+      .pipe(
+        switchMap(() => this.openThemeSelection()),
+        filter((selectedTheme) => !!selectedTheme)
+      )
+      .subscribe((selectedTheme) => {
+        this.themeEvent.dispatchTheme(selectedTheme);
+      });
   }
 
   private openThemeSelection() {
@@ -29,10 +31,8 @@ export class ThemeSelectionService {
         animationType: OverlayAnimationType.TopToCenter,
       },
       decorator: (children) => (
-        <ThemeConfigContext.Provider value={storybookAddonThemeConfig}>
-          {children}
-        </ThemeConfigContext.Provider>
-      )
+        <ThemeConfigContext.Provider value={storybookAddonThemeConfig}>{children}</ThemeConfigContext.Provider>
+      ),
     });
 
     return overlayRef.closed;

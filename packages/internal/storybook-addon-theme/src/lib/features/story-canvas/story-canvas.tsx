@@ -1,23 +1,21 @@
-import { PreparedStory } from "@storybook/types";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { PreparedStory } from '@storybook/types';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import { getInstance } from "@cocokits/common-utils";
+import { getInstance } from '@cocokits/common-utils';
 
-import { Story } from "./story";
-import { StoryCanvasActions } from "./story-canvas-actions";
-import { StoryCanvasWrapper } from "./story-canvas-wrapper";
-import { GlobalEvent } from "../../data-access/global-event/preview-global-event";
-import { StorySingleControlActions } from "../story-control/story-single-control-actions";
-import { StorySourceCode } from "../story-source-code/story-source-code";
+import { Story } from './story';
+import { StoryCanvasActions } from './story-canvas-actions';
+import { StoryCanvasWrapper } from './story-canvas-wrapper';
+import { GlobalEvent } from '../../data-access/global-event/preview-global-event';
+import { StorySingleControlActions } from '../story-control/story-single-control-actions';
+import { StorySourceCode } from '../story-source-code/story-source-code';
 
 export interface StoryCanvasProps {
   story: PreparedStory;
 }
 
-
-export function StoryCanvas({story}: StoryCanvasProps) {
-
+export function StoryCanvas({ story }: StoryCanvasProps) {
   const [isCodeSelected, setIsCodeSelected] = useState(false);
 
   useEffect(() => {
@@ -34,11 +32,11 @@ export function StoryCanvas({story}: StoryCanvasProps) {
     <StyledHost>
       <StyledStoryCanvasWrapper>
         <Story story={story} />
-        <StoryCanvasActions story={story} isCodeSelected={isCodeSelected} onCodeClick={onCodeClick}/>
-        <StorySingleControlActions story={story}/>
+        <StoryCanvasActions story={story} isCodeSelected={isCodeSelected} onCodeClick={onCodeClick} />
+        <StorySingleControlActions story={story} />
       </StyledStoryCanvasWrapper>
 
-      { isCodeSelected && <StorySourceCode story={story}/> }
+      {isCodeSelected && <StorySourceCode story={story} />}
     </StyledHost>
   );
 }

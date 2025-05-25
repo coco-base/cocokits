@@ -1,17 +1,16 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { Icons } from "@cocokits/common-icons";
-import { getInstance } from "@cocokits/common-utils";
-import { SvgIcon } from "@cocokits/react-icon";
+import { Icons } from '@cocokits/common-icons';
+import { getInstance } from '@cocokits/common-utils';
+import { SvgIcon } from '@cocokits/react-icon';
 
-import { THEMES } from "../../config/addon-theme.config";
-import { GlobalEvent } from "../../data-access/global-event/preview-global-event";
-import { ColorMode } from "../../model/theme.model";
-import { useColorMode } from "../../utils/use-preview-color-mode";
-import { useTheme } from "../../utils/use-preview-theme";
+import { THEMES } from '../../config/addon-theme.config';
+import { GlobalEvent } from '../../data-access/global-event/preview-global-event';
+import { ColorMode } from '../../model/theme.model';
+import { useColorMode } from '../../utils/use-preview-color-mode';
+import { useTheme } from '../../utils/use-preview-theme';
 
 export function ThemeSelectionButton() {
-
   const globalEvent = getInstance(GlobalEvent);
   const theme = useTheme();
   const { colorMode } = useColorMode();
@@ -24,18 +23,14 @@ export function ThemeSelectionButton() {
 
   return (
     <StyledHost onClick={onHostClick}>
-      <img
-        width="24px"
-        src={logoSrc}
-        alt={theme.displayName} />
-      
+      <img width="24px" src={logoSrc} alt={theme.displayName} />
+
       <StyledLabel>{theme.displayName}</StyledLabel>
 
-      <SvgIcon icon={Icons.arrowHeadDown}/>
+      <SvgIcon icon={Icons.arrowHeadDown} />
     </StyledHost>
   );
 }
-
 
 const StyledHost = styled.div`
   display: flex;

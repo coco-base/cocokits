@@ -9,7 +9,7 @@ import { Styled } from './VolumeButton.styled';
 const MAX_VOLUME = 5;
 const MIN_VOLUME = 0;
 
-export function VolumeButton(props: {cckExampleArgs: ExampleArgs}) {
+export function VolumeButton(props: { cckExampleArgs: ExampleArgs }) {
   const [volume, setVolume] = useState(3);
 
   const volumeIcon = () => {
@@ -48,11 +48,7 @@ export function VolumeButton(props: {cckExampleArgs: ExampleArgs}) {
       </IconButton>
 
       <Styled.Wrapper>
-        <Styled.Icon
-          size={props.cckExampleArgs.volumeIconSize}
-          color={null}
-          icon={volumeIcon()}
-        />
+        <Styled.Icon size={props.cckExampleArgs.volumeIconSize} color={null} icon={volumeIcon()} />
         <Styled.Label>{volume}</Styled.Label>
       </Styled.Wrapper>
 
@@ -63,7 +59,6 @@ export function VolumeButton(props: {cckExampleArgs: ExampleArgs}) {
         onClick={increaseVolume}>
         <SvgIcon icon={LineIcons.plus} />
       </IconButton>
-
     </Styled.Host>
   );
 }

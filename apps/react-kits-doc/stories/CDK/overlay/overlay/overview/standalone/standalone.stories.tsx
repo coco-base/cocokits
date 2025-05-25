@@ -1,13 +1,11 @@
-
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj, withWrapperDecorator } from '@cocokits/storybook-addon-theme-react';
 
-import {OverlayStandaloneExample} from './standalone';
-
+import { OverlayStandaloneExample } from './standalone';
 
 export const Standalone: StoryObj<typeof OverlayStandaloneExample> = {
   name: 'Standalone',
-  decorators: [withWrapperDecorator({insideBox: true})],
+  decorators: [withWrapperDecorator({ insideBox: true })],
   parameters: {
     docs: {
       description: {
@@ -106,7 +104,7 @@ export const Standalone: StoryObj<typeof OverlayStandaloneExample> = {
                 </div>
               );
             };
-          `
+          `,
         },
         {
           filename: 'OverlayDialogStandalone.scss',
@@ -129,14 +127,11 @@ export const Standalone: StoryObj<typeof OverlayStandaloneExample> = {
               margin: 0 0 16px;
               font-size: 16px;
             }
-          `
+          `,
         },
       ],
       hasControl: true,
-      controls: [
-        CCK_CONTROL.hasBackdrop(),
-        CCK_CONTROL.disableBackdropClose()
-      ],
+      controls: [CCK_CONTROL.hasBackdrop(), CCK_CONTROL.disableBackdropClose()],
     },
   },
   render: (args) => {
@@ -148,5 +143,3 @@ export const Standalone: StoryObj<typeof OverlayStandaloneExample> = {
     );
   },
 };
-
-

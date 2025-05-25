@@ -65,6 +65,7 @@ export const Default: StoryObj<typeof Avatar> = {
       label={args.cckControl.label}
       placeholderSrc={args.cckControl.placeholderSrc}
       fallbackSrc={args.cckControl.fallbackSrc}
-      clickable={args.cckControl.clickable}/>
+      clickable={args.cckControl.clickable}
+    />
   ),
 };

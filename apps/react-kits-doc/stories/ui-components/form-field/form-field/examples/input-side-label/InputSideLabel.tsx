@@ -6,16 +6,15 @@ import { Styled } from './InputSideLabel.styled';
 export function InputSideLabel(props: { cckExampleArgs: ExampleArgs }) {
   return (
     <Styled.Host>
-      <Label htmlFor='city'>City</Label>
+      <Label htmlFor="city">City</Label>
       <FormField>
-        <Input id="city"/>
+        <Input id="city" />
       </FormField>
 
-      <Label htmlFor='country'>Country</Label>
+      <Label htmlFor="country">Country</Label>
       <FormField>
-        <Input id='country'/>
+        <Input id="country" />
       </FormField>
-
     </Styled.Host>
   );
 }

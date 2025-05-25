@@ -9,19 +9,18 @@ export function toTitleCase(str: string): string {
 }
 
 export const tocItems = [
-  {"id":"install-specific-components","name":"Install Specific Components"},
-  {"id":"override-theme-ui-configurations","name":"Override Theme UI Configurations"},
-  {"id":"merge-themes","name":"Merge Themes"},
-  {"id":"use-only-one-mode-from-each-collection","name":"Use Only One Mode from Each Collection"},
-  {"id":"change-token-selectors","name":"Change Token Selectors"}
+  { id: 'install-specific-components', name: 'Install Specific Components' },
+  { id: 'override-theme-ui-configurations', name: 'Override Theme UI Configurations' },
+  { id: 'merge-themes', name: 'Merge Themes' },
+  { id: 'use-only-one-mode-from-each-collection', name: 'Use Only One Mode from Each Collection' },
+  { id: 'change-token-selectors', name: 'Change Token Selectors' },
 ];
-
 
 // region ---------------- Use Only One Mode from Each Collection ----------------
 export function getUseOnlyOneModeOption1Step1Code(theme: ThemeChangeEvent) {
-
-  const mixinNames = Object.entries(theme.selectedModes)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.use_${collection}_${mode};`);
+  const mixinNames = Object.entries(theme.selectedModes).map(
+    ([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.use_${collection}_${mode};`
+  );
 
   const scss = `scss
 @use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayName)};
@@ -61,8 +60,9 @@ export function getUseOnlyOneModeOption1Step2AttrSelector(theme: ThemeChangeEven
 }
 
 export function getUseOnlyOneModeOption1code(theme: ThemeChangeEvent) {
-  const mixinNames = Object.entries(theme.selectedModes)
-    .map(([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.variables_${collection}_${mode};`);
+  const mixinNames = Object.entries(theme.selectedModes).map(
+    ([collection, mode]) => `@include ${toTitleCase(theme.displayName)}.variables_${collection}_${mode};`
+  );
 
   const scss = `scss
 @use "@cocokits/theme-${theme.id}/tokens-core" as ${toTitleCase(theme.displayName)};
@@ -78,8 +78,10 @@ export function getUseOnlyOneModeOption1code(theme: ThemeChangeEvent) {
 
 // region ---------------- Change Token Selectors ----------------
 export function getChangeTokenSelectorsItems(theme: ThemeChangeEvent) {
-  const lightFrom = theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--light' : '.cck-theme-cocokits__brand-color-1--light';
-  const darkFrom = theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--dark' : '.cck-theme-cocokits__brand-color-1--dark';
+  const lightFrom =
+    theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--light' : '.cck-theme-cocokits__brand-color-1--light';
+  const darkFrom =
+    theme.id === 'frames-x' ? '.cck-theme-frames-x__color-mode--dark' : '.cck-theme-cocokits__brand-color-1--dark';
 
   return `
 - ${backtick(lightFrom)} -> ${backtick('.cck-theme-light')}
@@ -88,8 +90,12 @@ export function getChangeTokenSelectorsItems(theme: ThemeChangeEvent) {
 }
 
 export function getChangeTokenSelectorsStep1Code(theme: ThemeChangeEvent) {
-  const lightMixin = theme.id === 'frames-x' ? 'FramesX.variables_color_mode_light' : 'Cocokits.cck-theme-cocokits__brand-color-1--light';
-  const darkMixin = theme.id === 'frames-x' ? 'FramesX.variables_color_mode_dark' : 'Cocokits.cck-theme-cocokits__brand-color-1--dark';
+  const lightMixin =
+    theme.id === 'frames-x'
+      ? 'FramesX.variables_color_mode_light'
+      : 'Cocokits.cck-theme-cocokits__brand-color-1--light';
+  const darkMixin =
+    theme.id === 'frames-x' ? 'FramesX.variables_color_mode_dark' : 'Cocokits.cck-theme-cocokits__brand-color-1--dark';
 
   const collectionNameWithLightAndDark = theme.id === 'frames-x' ? 'color-mode' : 'brand-color-1';
 
@@ -175,6 +181,3 @@ export function getMergeThemesStep3Scss() {
   `);
 }
 // endregion
-
-
-

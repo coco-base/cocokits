@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 const Host = styled.div`
   display: grid;
@@ -13,4 +12,3 @@ const Host = styled.div`
 export const Styled = {
   Host,
 };
-
