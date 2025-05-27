@@ -55,7 +55,7 @@ module.exports = {
   plugins: [
     {
       rules: {
-        'cck-scope': (parsed: Commit, when: RuleConfigCondition, packagesList: string[]) => {
+        'cck-scope': (parsed: Commit, when: RuleConfigCondition, scopeList: string[]) => {
           const type = parsed.type as CommitType;
           const canHaveScope = COMMIT_TYPE_SCOPE[type];
 
@@ -63,7 +63,7 @@ module.exports = {
             return parsed.scope ? [false, `Commit type '${type}' can not have any scope`] : [true];
           }
 
-          const isScopeValid = packagesList.includes(parsed.scope);
+          const isScopeValid = scopeList.includes(parsed.scope);
           if (!isScopeValid) {
             return [
               false,
