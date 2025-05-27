@@ -19,7 +19,7 @@ export const Size: StoryObj<typeof AvatarGroup> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%= componentName.className %> } from "@cocokits/react-components";
+          import { AvatarGroup, Avatar } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (

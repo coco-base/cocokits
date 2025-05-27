@@ -18,7 +18,7 @@ export const Color: StoryObj<typeof AvatarGroup> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { AvatarGroup } from "@cocokits/react-components";
+          import { AvatarGroup, Avatar } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (

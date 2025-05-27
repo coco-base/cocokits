@@ -17,7 +17,7 @@ export const CustomTemplate: StoryObj<typeof Avatar> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { Avatar} from '@cocokits/react-components';
+            import { Avatar } from '@cocokits/react-components';
 
             export const MyComponent = () => {
               return (

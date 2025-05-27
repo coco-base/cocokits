@@ -3754,50 +3754,40 @@ a{
   justify-content:center;
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--xs{
-  gap:12px;
+  gap:var(--size-12);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--xs .cck-avatar-label__label-wrapper{
-  gap:2px;
   font:var(--text-xs-medium);
 }
-:where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--xs.cck-avatar-label--avatar-left.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper, :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--xs.cck-avatar-label--avatar-right.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper{
-  gap:12px;
+:where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--xs.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper{
+  gap:var(--size-12);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--sm{
-  gap:12px;
+  gap:var(--size-12);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--sm .cck-avatar-label__label-wrapper{
   font:var(--text-sm-medium);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--sm.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper{
-  gap:12px;
-}
-:where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--sm.cck-avatar-label--label-vertical .cck-avatar-label__label-wrapper{
-  gap:4px;
+  gap:var(--size-12);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--md{
-  gap:12px;
+  gap:var(--size-12);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--md .cck-avatar-label__label-wrapper{
   font:var(--text-md-medium);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--md.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper{
-  gap:12px;
-}
-:where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--md.cck-avatar-label--label-vertical .cck-avatar-label__label-wrapper{
-  gap:2px;
+  gap:var(--size-12);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--lg{
-  gap:20px;
+  gap:var(--size-20);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--lg .cck-avatar-label__label-wrapper{
-  font:var(--text-md-medium);
+  font:var(--text-sm-medium);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--lg.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper{
-  gap:20px;
-}
-:where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--lg.cck-avatar-label--label-vertical .cck-avatar-label__label-wrapper{
-  gap:2px;
+  gap:var(--size-20);
 }
 
 :where([data-cck-theme-name=frames-x]) .cck-button{

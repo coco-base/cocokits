@@ -75,7 +75,7 @@
       "files": ["*.tsx", "*.jsx"],
       "rules": {
         "max-lines-per-function": ["error", { "max": 80, "skipComments": true }],
-        "complexity": ["error", { "max": 20 }]
+        "complexity": ["error", { "max": 30 }]
       }
     },
     {

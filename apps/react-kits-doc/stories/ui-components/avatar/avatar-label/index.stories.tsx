@@ -1,5 +1,5 @@
 import { AvatarLabel } from '@cocokits/react-avatar';
-import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
+import { StoriesMeta, withWrapperDecorator } from '@cocokits/storybook-addon-theme-react';
 
 import descriptionMd from './description.md?raw';
 
@@ -12,7 +12,9 @@ const meta: StoriesMeta<typeof AvatarLabel> = {
   component: AvatarLabel,
   title: 'UI Components/AvatarLabel',
   tags: ['status:new'],
-  decorators: [],
+  decorators: [
+    withWrapperDecorator({ insideBox: true }),
+  ],
   parameters: {
     docs: {
       description: {

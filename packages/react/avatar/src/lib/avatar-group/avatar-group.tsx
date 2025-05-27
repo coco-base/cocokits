@@ -22,11 +22,9 @@ export const AvatarGroup = ({ type, size, color, additional, children, direction
   });
 
   return (
-    <div className={hostClassNames}>
-      <AvatarGroupContext.Provider value={{type, size, color, additional}}>
-        {children}
-      </AvatarGroupContext.Provider>
-    </div>
+    <AvatarGroupContext.Provider value={{ type, size, color, additional }}>
+      <div className={hostClassNames}>{children}</div>
+    </AvatarGroupContext.Provider>
   );
 };
 

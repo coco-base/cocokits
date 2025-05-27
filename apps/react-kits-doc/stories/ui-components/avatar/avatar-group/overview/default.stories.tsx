@@ -17,7 +17,7 @@ export const Default: StoryObj<typeof AvatarGroup> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { AvatarGroup, SvgIcon} from '@cocokits/react-components';
+          import { AvatarGroup, Avatar } from '@cocokits/react-components';
 
           export const MyComponent = () => {
             return (

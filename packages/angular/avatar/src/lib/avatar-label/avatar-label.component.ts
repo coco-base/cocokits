@@ -25,9 +25,23 @@ export class AvatarLabelComponent extends _UiBaseComponent<'avatarLabel'> {
     { if: this.labelAlignment() === 'vertical', classes: this.classNames().labelAlignmentVertical },
   ]);
 
+  /**
+   * The position of the avatar relative to the label.
+   */
   public avatarPosition = input<'left' | 'right' | 'top' | 'bottom'>('left');
+
+  /**
+   * The alignment of the label
+   */
   public labelAlignment = input<'horizontal' | 'vertical'>('vertical');
 
+  /**
+   * The title text of component.
+   */
   public title = input<string>();
+
+  /**
+   * The description text of avatar
+   */
   public description = input<string>();
 }

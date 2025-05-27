@@ -5,6 +5,7 @@ import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
 import { AvatarGroupContext } from '../avatar-group/avatar-group';
+import { AvatarLabelContext } from '../avatar-label/avatar-label';
 
 export interface AvatarProps extends UIBaseComponentProps {
   /**
@@ -53,13 +54,13 @@ export interface AvatarProps extends UIBaseComponentProps {
 }
 
 export function Avatar({ clickable = true, ...restProps }: AvatarProps) {
-
   const avatarGroupContext = React.useContext(AvatarGroupContext);
+  const avatarLabelContext = React.useContext(AvatarLabelContext);
 
-  const type = restProps.type ?? avatarGroupContext?.type;
-  const size = restProps.size ?? avatarGroupContext?.size;
-  const color = restProps.color ?? avatarGroupContext?.color;
-  const additional = { ...avatarGroupContext?.additional, ...restProps.additional };
+  const type = restProps.type ?? avatarGroupContext?.type ?? avatarLabelContext?.type;
+  const size = restProps.size ?? avatarGroupContext?.size ?? avatarLabelContext?.size;
+  const color = restProps.color ?? avatarGroupContext?.color ?? avatarLabelContext?.color;
+  const additional = { ...avatarGroupContext?.additional, ...restProps.additional, ...avatarLabelContext?.additional };
 
   const withImage = !restProps.contentTemp && hasValue(restProps.src);
   const withLabel = !restProps.contentTemp && hasNotValue(restProps.src) && hasValue(restProps.label);

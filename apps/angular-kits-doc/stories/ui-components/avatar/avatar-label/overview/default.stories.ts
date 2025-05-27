@@ -22,7 +22,12 @@ export const Default: StoryObj<AvatarLabelComponent> = {
             <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
             <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
             <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+            title="<%= title %>"
+            description="<%= description %>"
+            avatarPosition="<%= avatarPosition %>"
+            labelAlignment="<%= labelAlignment %>"
           >
+            <cck-avatar src="<%= src %>"></cck-avatar>
           </cck-avatar-label>
           `,
         },

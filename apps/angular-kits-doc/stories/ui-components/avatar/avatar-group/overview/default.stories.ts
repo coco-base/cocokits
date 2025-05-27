@@ -22,7 +22,7 @@ export const Default: StoryObj<AvatarGroupComponent> = {
             <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
             <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
             <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
-            direction='<%= cckControl.avatarDirection %>'
+            direction='<%= avatarDirection %>'
           >
             <cck-avatar src="https://i.pravatar.cc?img=9"/>
             <cck-avatar src="https://i.pravatar.cc?img=10"/>

@@ -73,8 +73,7 @@
           font: $text-xs-medium;
         }
 
-        &.cck-avatar-label--avatar-left.cck-avatar-label--label-horizontal,
-        &.cck-avatar-label--avatar-right.cck-avatar-label--label-horizontal {
+        &.cck-avatar-label--label-horizontal {
           .cck-avatar-label__label-wrapper {
             gap: $avatar-label-gap-xs;
           }
@@ -113,7 +112,7 @@
         gap: $avatar-label-gap-lg;
 
         .cck-avatar-label__label-wrapper {
-          font: $text-sm-medium;
+          font: $text-md-medium;
         }
 
         &.cck-avatar-label--label-horizontal {

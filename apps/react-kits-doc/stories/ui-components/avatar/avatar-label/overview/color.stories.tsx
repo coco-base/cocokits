@@ -1,4 +1,4 @@
-import { AvatarLabel } from '@cocokits/react-avatar';
+import { Avatar, AvatarLabel } from '@cocokits/react-avatar';
 import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -18,7 +18,7 @@ export const Color: StoryObj<typeof AvatarLabel> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { AvatarLabel } from "@cocokits/react-components";
+          import { AvatarLabel, Avatar } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
@@ -27,7 +27,10 @@ export const Color: StoryObj<typeof AvatarLabel> = {
                   <AvatarLabel
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                     color='<%= color %>'
-                  />
+                    title="Alex Pearson"
+                    description="UX Engineer">
+                    <Avatar src="https://i.pravatar.cc?img=52" />
+                  </AvatarLabel>
                 <% }) %>
               </>
             );
@@ -41,7 +44,15 @@ export const Color: StoryObj<typeof AvatarLabel> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <AvatarLabel key={index} type={args.cckControl.type} color={color} />
+        <AvatarLabel
+          key={index}
+          type={args.cckControl.type}
+          color={color}
+          title="Alex Pearson"
+          description="UX Engineer">
+          <Avatar src="https://i.pravatar.cc?img=52" />
+        </AvatarLabel>
+
       ))}
     </>
   ),

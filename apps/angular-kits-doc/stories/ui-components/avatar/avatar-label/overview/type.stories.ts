@@ -21,7 +21,11 @@ export const Type: StoryObj<AvatarLabelComponent> = {
           <% themeComponentConfig.type.values.map(type => { %>
             <cck-avatar-label
               type='<%= type %>'
-            />
+              title="Alex Pearson"
+              description="UX Engineer"
+            >
+              <cck-avatar src="https://i.pravatar.cc?img=52" />
+            </cck-avatar-label>
           <% }) %>
           `,
         },
@@ -34,7 +38,12 @@ export const Type: StoryObj<AvatarLabelComponent> = {
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <cck-avatar-label [type]="type"/>
+        <cck-avatar-label
+          [type]="type"
+          title="Alex Pearson"
+          description="UX Engineer">
+            <cck-avatar src="https://i.pravatar.cc?img=52"/>
+        </cck-avatar-label>
       }
     `,
   }),

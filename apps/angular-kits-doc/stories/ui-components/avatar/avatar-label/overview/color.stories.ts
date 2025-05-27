@@ -22,7 +22,11 @@ export const Color: StoryObj<AvatarLabelComponent> = {
             <cck-avatar-label
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               color='<%= color %>'
-            />
+              title="Alex Pearson"
+              description="UX Engineer"
+            >
+              <cck-avatar src="https://i.pravatar.cc?img=52" />
+            </cck-avatar-label>
           <% }) %>
           `,
         },
@@ -36,7 +40,13 @@ export const Color: StoryObj<AvatarLabelComponent> = {
     },
     template: `
       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
-        <cck-avatar-label [type]="cckControl.type" [color]="color"/>
+        <cck-avatar-label
+          [type]="cckControl.type"
+          [color]="color"
+          title="Alex Pearson"
+          description="UX Engineer">
+            <cck-avatar src="https://i.pravatar.cc?img=52"/>
+        </cck-avatar-label>
       }
     `,
   }),

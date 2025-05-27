@@ -23,7 +23,11 @@ export const Size: StoryObj<AvatarLabelComponent> = {
             <cck-avatar-label
              <% if (typeof type !== 'undefined') { %> type='<%= type %>'<% } %>
               size='<%= size %>'
-            />
+              title="Alex Pearson"
+              description="UX Engineer"
+            >
+              <cck-avatar src="https://i.pravatar.cc?img=52" />
+            </cck-avatar-label>
          <% }) %>
           `,
         },
@@ -37,7 +41,13 @@ export const Size: StoryObj<AvatarLabelComponent> = {
     },
     template: `
       @for (size of cckControl.themeComponentConfig?.size?.values; let col = $index; track size) {
-        <cck-avatar-label [type]="cckControl.type" [size]="size"/>
+        <cck-avatar-label
+          [type]="cckControl.type"
+          [size]="size"
+          title="Alex Pearson"
+          description="UX Engineer">
+            <cck-avatar src="https://i.pravatar.cc?img=52"/>
+        </cck-avatar-label>
       }
     `,
   }),

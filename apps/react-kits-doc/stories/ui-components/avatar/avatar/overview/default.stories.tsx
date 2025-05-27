@@ -17,7 +17,7 @@ export const Default: StoryObj<typeof Avatar> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-            import { Avatar} from '@cocokits/react-components';
+            import { Avatar } from '@cocokits/react-components';
 
             export const MyComponent = () => {
               <% if (placeholderSrc) { %> const placeholder="<%= placeholderSrc %>"; <% } %>
