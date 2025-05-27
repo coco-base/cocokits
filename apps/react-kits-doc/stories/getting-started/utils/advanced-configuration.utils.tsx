@@ -177,6 +177,7 @@ export function getMergeThemesStep3Scss() {
 @include Cocokits.components_trailing;
 @include Cocokits.components_avatar;
 @include Cocokits.components_avatar_group;
+@include Cocokits.components_avatar_label;
 
   
   `);

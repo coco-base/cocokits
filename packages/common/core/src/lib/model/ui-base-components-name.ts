@@ -38,4 +38,4 @@ type ButtonComponentName = 'button' | 'iconButton';
 type IconComponentName = 'svgIcon';
 type TabsComponentName = 'tabs' | 'tab' | 'tabLabel';
 type OverlayComponentName = 'overlay';
-type AvatarComponentName = 'avatar' | 'avatarGroup';
+type AvatarComponentName = 'avatar' | 'avatarGroup' | 'avatarLabel';

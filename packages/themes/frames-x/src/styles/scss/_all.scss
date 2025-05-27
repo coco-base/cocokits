@@ -27,6 +27,7 @@
 @use './trailing' as *;
 @use './avatar' as *;
 @use './avatar-group' as *;
+@use './avatar-label' as *;
 
 @mixin all {
   @include button;
@@ -58,4 +59,5 @@
   @include trailing;
   @include avatar;
   @include avatar-group;
+  @include avatar-label;
 }

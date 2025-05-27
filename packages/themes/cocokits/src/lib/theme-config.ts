@@ -314,6 +314,14 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
+  avatarLabel: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

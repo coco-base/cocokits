@@ -18,6 +18,7 @@ import { hasNotValue, hasValue } from '@cocokits/common-utils';
 
 import { AvatarTemplateDirective } from './avatar.tmpl-directive';
 import { AvatarGroupComponent } from '../avatar-group/avatar-group.component';
+import { AvatarLabelComponent } from '../avatar-label/avatar-label.component';
 
 @Component({
   standalone: true,
@@ -44,18 +45,23 @@ export class AvatarComponent extends _UiBaseComponent<'avatar'> {
   ]);
 
   private avatarGroup = inject(AvatarGroupComponent, { optional: true });
+  private avatarLabel = inject(AvatarLabelComponent, { optional: true });
 
   /** @ignore */
-  override type = computed(() => this._type() ?? this.avatarGroup?.type());
+  override type = computed(() => this._type() ?? this.avatarGroup?.type() ?? this.avatarLabel?.type());
 
   /** @ignore */
-  override size = computed(() => this._size() ?? this.avatarGroup?.size());
+  override size = computed(() => this._size() ?? this.avatarGroup?.size() ?? this.avatarLabel?.size());
 
   /** @ignore */
-  override color = computed(() => this._color() ?? this.avatarGroup?.color());
+  override color = computed(() => this._color() ?? this.avatarGroup?.color() ?? this.avatarLabel?.color());
 
   /** @ignore */
-  override additional = computed(() => ({ ...this._additional(), ...this.avatarGroup?.additional() }));
+  override additional = computed(() => ({
+    ...this._additional(),
+    ...this.avatarGroup?.additional(),
+    ...this.avatarLabel?.additional(),
+  }));
 
   /**
    * Source URL for the avatar image.

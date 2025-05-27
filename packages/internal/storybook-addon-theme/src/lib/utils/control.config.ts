@@ -1,8 +1,34 @@
 /* eslint-disable max-lines */
+import { camelCase } from 'lodash';
+
 import { ElementAnchorPoint } from '@cocokits/common-utils';
 import { OverlayAnimationType } from '@cocokits/react-overlay';
 
 import { AddonParametersControl, AddonParametersControlType } from '../model/addon.model';
+
+export const customText = (
+  displayName: string,
+  defaultValue: string,
+  storyArgKey?: string
+): AddonParametersControl => ({
+  displayName,
+  default: defaultValue,
+  storyArgKey: storyArgKey ?? camelCase(displayName),
+  type: AddonParametersControlType.Text,
+});
+
+export const customSelect = (
+  displayName: string,
+  options: string[],
+  defaultValue?: string,
+  storyArgKey?: string
+): AddonParametersControl => ({
+  displayName: displayName,
+  default: defaultValue ?? options[0],
+  options,
+  storyArgKey: storyArgKey ?? camelCase(displayName),
+  type: AddonParametersControlType.Select,
+});
 
 export const text = (defaultValue: string): AddonParametersControl => ({
   displayName: 'Text',
@@ -312,9 +338,9 @@ export const fallbackSrc = (): AddonParametersControl => ({
   type: AddonParametersControlType.Image,
 });
 
-export const srcUrl = (): AddonParametersControl => ({
+export const srcUrl = (defaultValue = 'https://i.pravatar.cc?img=9'): AddonParametersControl => ({
   displayName: 'Src',
-  default: 'https://i.pravatar.cc?img=9',
+  default: defaultValue,
   storyArgKey: 'src',
   type: AddonParametersControlType.Text,
 });

@@ -16,10 +16,6 @@ export const SidebarLabel = (item: API_HashEntry) => {
   const isCollapsable = item.type === 'root' || item.type === 'group' || item.type === 'component';
   // const isSelectable = item.type === 'docs' || item.type === 'story';
 
-  if (item.name === 'Avatar') {
-    console.log('item', status, item);
-  }
-
   return (
     <StyledWrapper deep={item.depth} data-cck-storybook-sidenav-item>
       <span>{item.name}</span>

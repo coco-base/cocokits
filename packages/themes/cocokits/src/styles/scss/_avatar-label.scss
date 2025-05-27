@@ -1,0 +1,127 @@
+@use '../../token/scss' as *;
+
+@mixin avatar-label {
+  .cck-avatar-label {
+    display: flex;
+    align-items: center;
+
+    &__title {
+      color: $color-font-default;
+    }
+
+    &__description {
+      color: $color-font-alpha-6;
+    }
+
+    &__label-wrapper {
+      display: flex;
+    }
+
+    &--avatar-right {
+      flex-direction: row-reverse;
+
+      .cck-avatar-label__label-wrapper {
+        text-align: right;
+      }
+    }
+
+    &--avatar-left {
+      flex-direction: row;
+    }
+
+    &--avatar-top {
+      flex-direction: column;
+    }
+
+    &--avatar-bottom {
+      flex-direction: column-reverse;
+    }
+
+    &--avatar-top.cck-avatar-label--label-vertical,
+    &--avatar-bottom.cck-avatar-label--label-vertical {
+      .cck-avatar-label__label-wrapper {
+        align-items: center;
+      }
+    }
+
+    &--avatar-left.cck-avatar-label--label-horizontal,
+    &--avatar-right.cck-avatar-label--label-horizontal {
+      .cck-avatar-label__label-wrapper {
+        align-items: center;
+      }
+    }
+
+    &--label-horizontal {
+      .cck-avatar-label__label-wrapper {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    &--label-vertical {
+      .cck-avatar-label__label-wrapper {
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+
+    &__size {
+      &--xs {
+        gap: $avatar-label-gap-xs;
+
+        .cck-avatar-label__label-wrapper {
+          font: $text-xs-medium;
+        }
+
+        &.cck-avatar-label--avatar-left.cck-avatar-label--label-horizontal,
+        &.cck-avatar-label--avatar-right.cck-avatar-label--label-horizontal {
+          .cck-avatar-label__label-wrapper {
+            gap: $avatar-label-gap-xs;
+          }
+        }
+      }
+
+      &--sm {
+        gap: $avatar-label-gap-sm;
+
+        .cck-avatar-label__label-wrapper {
+          font: $text-sm-medium;
+        }
+
+        &.cck-avatar-label--label-horizontal {
+          .cck-avatar-label__label-wrapper {
+            gap: $avatar-label-gap-sm;
+          }
+        }
+      }
+
+      &--md {
+        gap: $avatar-label-gap-md;
+
+        .cck-avatar-label__label-wrapper {
+          font: $text-md-medium;
+        }
+
+        &.cck-avatar-label--label-horizontal {
+          .cck-avatar-label__label-wrapper {
+            gap: $avatar-label-gap-md;
+          }
+        }
+      }
+
+      &--lg {
+        gap: $avatar-label-gap-lg;
+
+        .cck-avatar-label__label-wrapper {
+          font: $text-sm-medium;
+        }
+
+        &.cck-avatar-label--label-horizontal {
+          .cck-avatar-label__label-wrapper {
+            gap: $avatar-label-gap-lg;
+          }
+        }
+      }
+    }
+  }
+}
