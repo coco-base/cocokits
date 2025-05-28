@@ -3784,7 +3784,7 @@ a{
   gap:var(--size-20);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--lg .cck-avatar-label__label-wrapper{
-  font:var(--text-sm-medium);
+  font:var(--text-md-medium);
 }
 :where([data-cck-theme-name=cocokits]) .cck-avatar-label__size--lg.cck-avatar-label--label-horizontal .cck-avatar-label__label-wrapper{
   gap:var(--size-20);
