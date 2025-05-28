@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 'use client';
 import { CSSProperties, FocusEvent, forwardRef, InputHTMLAttributes, useEffect, useState } from 'react';
-import { Control, Controller, ControllerProps } from "react-hook-form";
+import { Control, Controller, ControllerProps } from 'react-hook-form';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -33,19 +33,19 @@ export interface InputProps
   /**
    * Control object is from invoking useForm, it connect input with react-hook-form
    */
-  control?: Control<any, any>
+  control?: Control<any, any>;
 
   /**
    * Validation rules in the same format for register options, which includes:
    * required, min, max, minLength, maxLength, pattern, validate.
    * It connect input with react-hook-form
    */
-  rules?: ControllerProps<any>["rules"];
+  rules?: ControllerProps<any>['rules'];
 }
 
 // forwardRef<HTMLButtonElement, Props>((props, ref) => (
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  if(props.control && !props.name) {
+  if (props.control && !props.name) {
     throw new Error('You should provide name for input when using control');
   }
 
@@ -58,7 +58,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const disabled = formStore?.useState((state) => state.disabled);
   const required = formStore?.useState((state) => state.required);
   const fieldControl = props.control?.getFieldState(props.name ?? '');
-
 
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'input',
@@ -96,15 +95,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     props.onBlur?.(e);
   };
 
-
-  if(!!props.control && !!props.name) {
+  if (!!props.control && !!props.name) {
     return (
       <Controller
         name={props.name}
         control={props.control}
         rules={props.rules ?? {}}
-        render={({ field: { onBlur: onControlBlue,  ...restFieldControl } }) => {
-
+        render={({ field: { onBlur: onControlBlue, ...restFieldControl } }) => {
           return (
             <input
               className={hostClassNames}

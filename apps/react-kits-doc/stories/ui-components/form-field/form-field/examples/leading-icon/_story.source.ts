@@ -18,9 +18,9 @@ export function LeadingIcon() {
     <FormField>
       <Label>Enter username</Label>
       <Leading>
-        <SvgIcon icon={Icons.user}/>
+        <SvgIcon icon={Icons.user} />
       </Leading>
-      <Input/>
+      <Input />
     </FormField>
   );
 }

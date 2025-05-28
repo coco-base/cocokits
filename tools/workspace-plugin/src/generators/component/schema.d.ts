@@ -7,4 +7,5 @@ export interface ComponentGeneratorSchema {
   export: boolean;
   directory: string;
   directoryFormat: GeneratorDirectoryFormat;
+  formatFiles: boolean;
 }

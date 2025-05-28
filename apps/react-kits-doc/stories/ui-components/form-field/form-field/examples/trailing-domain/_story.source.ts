@@ -16,7 +16,7 @@ export function TrailingDomain() {
   return (
     <FormField>
       <Label>Choose domain name</Label>
-      <Input/>
+      <Input />
       <Trailing>.com</Trailing>
     </FormField>
   );

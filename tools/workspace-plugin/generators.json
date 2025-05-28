@@ -19,6 +19,11 @@
       "factory": "./src/generators/example-story/generator",
       "schema": "./src/generators/example-story/schema.json",
       "description": "example-story generator"
+    },
+    "ui-core-component": {
+      "factory": "./src/generators/ui-core-component/generator",
+      "schema": "./src/generators/ui-core-component/schema.json",
+      "description": "Add ui core component with all configuration (core, react, angular and update theme libraries)"
     }
   }
 }

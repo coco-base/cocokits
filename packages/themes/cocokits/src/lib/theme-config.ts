@@ -298,6 +298,30 @@ const components: ThemeComponentConfigRecord = {
   prefix: {},
   suffix: {},
   overlay: {},
+  avatar: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
+  avatarGroup: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
+  avatarLabel: {
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

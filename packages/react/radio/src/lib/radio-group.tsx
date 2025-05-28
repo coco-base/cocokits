@@ -1,22 +1,19 @@
 'use client';
-import { useState } from "react";
+import { useState } from 'react';
 
-import { useUiBaseComponentConfig } from "@cocokits/react-core";
-import { useEffectAfterMount } from "@cocokits/react-utils";
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
+import { useEffectAfterMount } from '@cocokits/react-utils';
 
-import { RadioGroupContext } from "./radio.context";
-import { RadioChangeEvent, RadioGroupProps } from "./radio.model";
+import { RadioGroupContext } from './radio.context';
+import { RadioChangeEvent, RadioGroupProps } from './radio.model';
 
-export const RadioGroup = <T extends string | number,>(props: RadioGroupProps<T>) => {
-  
+export const RadioGroup = <T extends string | number>(props: RadioGroupProps<T>) => {
   const [selected, setSelected] = useState<T | undefined>(props.selected);
 
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'radioGroup',
     props: props,
-    extraHostElementClassConditions: [
-      { if: !!props.className, classes: () => [props.className] },
-    ]
+    extraHostElementClassConditions: [{ if: !!props.className, classes: () => [props.className] }],
   });
 
   useEffectAfterMount(() => {

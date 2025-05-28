@@ -5,13 +5,13 @@ type IsRecord<T> = T extends object
   ? T extends unknown[]
     ? false
     : T extends Set<unknown>
-    ? false
-    : T extends Map<unknown, unknown>
-    ? false
-    : // eslint-disable-next-line @typescript-eslint/ban-types
-    T extends Function
-    ? false
-    : true
+      ? false
+      : T extends Map<unknown, unknown>
+        ? false
+        : // eslint-disable-next-line @typescript-eslint/ban-types
+          T extends Function
+          ? false
+          : true
   : false;
 
 type IsUnknownRecord<T> = string extends keyof T ? true : number extends keyof T ? true : false;

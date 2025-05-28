@@ -7,25 +7,16 @@ import { IconButton, SvgIcon } from '@cocokits/react-components';
 export function SocialButtons(props: { cckExampleArgs: ExampleArgs }) {
   return (
     <HostStyled>
-      <IconButton
-        color={props.cckExampleArgs.color}
-        type={props.cckExampleArgs.type}
-        size={props.cckExampleArgs.size}>
-        <SvgIcon icon={Icons.x} size={props.cckExampleArgs.iconSize}/>
+      <IconButton color={props.cckExampleArgs.color} type={props.cckExampleArgs.type} size={props.cckExampleArgs.size}>
+        <SvgIcon icon={Icons.x} size={props.cckExampleArgs.iconSize} />
       </IconButton>
 
-      <IconButton
-        color={props.cckExampleArgs.color}
-        type={props.cckExampleArgs.type}
-        size={props.cckExampleArgs.size}>
-        <SvgIcon icon={Icons.github} size={props.cckExampleArgs.iconSize}/>
+      <IconButton color={props.cckExampleArgs.color} type={props.cckExampleArgs.type} size={props.cckExampleArgs.size}>
+        <SvgIcon icon={Icons.github} size={props.cckExampleArgs.iconSize} />
       </IconButton>
 
-      <IconButton
-        color={props.cckExampleArgs.color}
-        type={props.cckExampleArgs.type}
-        size={props.cckExampleArgs.size}>
-        <SvgIcon icon={Icons.instagram} size={props.cckExampleArgs.iconSize}/>
+      <IconButton color={props.cckExampleArgs.color} type={props.cckExampleArgs.type} size={props.cckExampleArgs.size}>
+        <SvgIcon icon={Icons.instagram} size={props.cckExampleArgs.iconSize} />
       </IconButton>
     </HostStyled>
   );

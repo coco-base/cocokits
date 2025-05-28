@@ -1,7 +1,34 @@
+/* eslint-disable max-lines */
+import { camelCase } from 'lodash';
+
 import { ElementAnchorPoint } from '@cocokits/common-utils';
 import { OverlayAnimationType } from '@cocokits/react-overlay';
 
 import { AddonParametersControl, AddonParametersControlType } from '../model/addon.model';
+
+export const customText = (
+  displayName: string,
+  defaultValue: string,
+  storyArgKey?: string
+): AddonParametersControl => ({
+  displayName,
+  default: defaultValue,
+  storyArgKey: storyArgKey ?? camelCase(displayName),
+  type: AddonParametersControlType.Text,
+});
+
+export const customSelect = (
+  displayName: string,
+  options: string[],
+  defaultValue?: string,
+  storyArgKey?: string
+): AddonParametersControl => ({
+  displayName: displayName,
+  default: defaultValue ?? options[0],
+  options,
+  storyArgKey: storyArgKey ?? camelCase(displayName),
+  type: AddonParametersControlType.Select,
+});
 
 export const text = (defaultValue: string): AddonParametersControl => ({
   displayName: 'Text',
@@ -285,4 +312,57 @@ export const autoResize = (defaultValue = false): AddonParametersControl => ({
   default: defaultValue,
   storyArgKey: 'autoResize',
   type: AddonParametersControlType.Boolean,
+});
+
+export const placeholderSrc = (): AddonParametersControl => ({
+  displayName: 'Placeholder',
+  default:
+    'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2NjYyIvPjwvc3ZnPg==',
+  storyArgKey: 'placeholderSrc',
+  images: [
+    'none',
+    'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2NjYyIvPjwvc3ZnPg==',
+  ],
+  type: AddonParametersControlType.Image,
+});
+
+export const fallbackSrc = (): AddonParametersControl => ({
+  displayName: 'Fallback',
+  default:
+    'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCABkAGQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6dooooAKKKKACiiigAooooAKKKKACiqEOtabNq82lRX1s+owpvktlkBdV45I/EfmKv0AFFFFABRRRQAUV5L43+NVj4b1+40q00uXUJLZtk0nniJQ/dR8pzjoenNYH/DQyf9Cy3/gd/wDa6APeaK8G/wCGhk/6Flv/AAO/+10f8NDJ/wBCy3/gd/8Aa6APeaK8G/4aGT/oWW/8Dv8A7XTov2gvOlSKHwtJJI5Cqi3uSxPQAeXyaAPd68t+LfxJ/sD/AIkfh3/SfENxhPkG/wCz7unHdznhfxPYGh4/+Kd7pml2+l2FiIfFd4oDW0cnnm03fdBIUZkORhccd88Z4TSNR0z4Yail5rdsdc8Xz5knTzwBYhucF8NulOefT19QD074QfDuTw2JNb112n8QXanfubd5IY5IJ/iY9z+A7k+nVheCvE9l4u8Pw6rp6uiOSjxv96Nx1U/ofoRW7QAUUUUAFFFFAHxZ8Sv+Sg+I/wDr/m/9DNavwu+Htz46u7rF0LOxtQvmzbN7FjnCqMj0POeKyviV/wAlB8R/9f8AN/6Ga3fhJ8RD4GuruO5tWutPu9pdY2AdGXOGXPB4OCPpz6oCP4p/Dm58Cy2souxe2FySqS7NjKw52sMnt0Oex6VwNejfFz4kf8Jw9pb2do9rp1qxcCRgXkcjGTjgYHQc9TXnkUbzSpFCjSSOQqooyWJ6ADuaACKN5pUihRpJHIVUUZLE9AB3NekW1unw9iiSOJb3x1dgLFEq+YNODdOP4pjngds/mW1unw9iiSOJb3x1dgLFEq+YNODdOP4pjngds/m+9f8A4VxE73DfavHV6nmPLJ8409H7gn70rZ69v5gDbm4T4eRSvJKt746u1LSzM3mDTg3Xn+KY55PbP5+bSyPNK8sztJI5LM7HJYnqSe5olkeaV5ZnaSRyWZ2OSxPUk9zTKAPqH9mr/kn0/wD1/wAn/oEder15R+zV/wAk+n/6/wCT/wBAjr1emAUUUUAFFFFAHxZ8Sv8AkoPiP/r/AJv/AEM1zVdL8Sv+Sg+I/wDr/m/9DNdp8HPhfJ4llj1fXI2j0VGzHGeDdEdh6J6nv0HchAQ/Cb4VzeLEOpawZrXR8FYynDzt0yueig9++MDvh97YWnwyv5rTTpY9Y8YzOYrZo49y2SNwrbe8zA8Dtn8/Tfir8RI/DMMfh7wvGsuuSKsSJCmRag8KAo6t0wv4nsC/4SfDb/hH/wDieeIf9J8Q3GXy53/Z93Xnu5zy34DuSAHwk+G3/CP/APE88Q/6T4huMvlzv+z7uvPdznlvwHcne+JvgGx8baVtfbBqkKn7NdY6f7Leqn9Oo9+0opgfC+u6RfaFqs+napA0F3C2GRu/oQe4PY1n19ifE3wDY+NtK2vtg1SFT9musdP9lvVT+nUe/wAl67pF9oWqz6dqkDQXcLYZG7+hB7g9jSA+kf2av+SfT/8AX/J/6BHXq9eUfs1f8k+n/wCv+T/0COvV6YBRRRQAUUUUAfH/AMVdF1Kw+I+q+bZyk3V201ufLLLKHbK7eMN1xj14rv8AUPHfiTwroUej3V8t94qvFVI7OC3iVNOQjCrhFG6Q5GF6Dj8ev+LfxJ/sD/iR+Hf9J8Q3GE+Qb/s+7px3c54X8T2BPhJ8Nv8AhH/+J54h/wBJ8Q3GXy53/Z93Xnu5zy34DuSgPKJpv+FdI8zMt947uhvklcCVdODcnrkNKc8nnGfzpf8AC3fHn/QYP/gHD/8AEV9bUUwPkn/hbvjz/oMH/wAA4f8A4ij/AIW748/6DB/8A4f/AIivraigD5J/4W748/6DB/8AAOH/AOIrnvFPinXfFbwNrsy3UkIKxuLaNGAPbKqCR7GvteigDzb9n/Sr3Sfh+q6hA8D3Ny9wiOMNsIUAkds7SfpivSaKKACiiigAqh4giv5tDvotGmjh1F4WW3kkHyq+OCf8mr9FAHmPwq+GY8NzPrHiCRL3xBMWbeWLrDnqQT1Y92/AdyfTqKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP//Z',
+  storyArgKey: 'fallbackSrc',
+  images: [
+    'none',
+    'data:image/jpeg;base64,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',
+  ],
+  type: AddonParametersControlType.Image,
+});
+
+export const srcUrl = (defaultValue = 'https://i.pravatar.cc?img=9'): AddonParametersControl => ({
+  displayName: 'Src',
+  default: defaultValue,
+  storyArgKey: 'src',
+  type: AddonParametersControlType.Text,
+});
+
+export const alt = (defaultValue = ''): AddonParametersControl => ({
+  displayName: 'Alt',
+  default: defaultValue,
+  storyArgKey: 'alt',
+  type: AddonParametersControlType.Text,
+});
+
+export const clickable = (defaultValue = true): AddonParametersControl => ({
+  displayName: 'Clickable',
+  default: defaultValue,
+  storyArgKey: 'clickable',
+  type: AddonParametersControlType.Boolean,
+});
+
+export const avatarDirection = (defaultValue = 'right'): AddonParametersControl => ({
+  displayName: 'Direction',
+  default: defaultValue,
+  storyArgKey: 'avatarDirection',
+  options: ['right', 'left'],
+  type: AddonParametersControlType.Select,
 });

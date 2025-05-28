@@ -27,25 +27,25 @@ export const SOURCE: AddonParametersSource[] = [
     filename: 'checkbox-box-selection-info.component.scss',
     code: `
 :host {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .checkbox__box {
-    padding: var(--cck-checkbox-padding);
-    border: var(--cck-checkbox-border-width) var(--cck-checkbox-border-style) var(--cck-checkbox-border-color);
-    border-radius: var(--cck-checkbox-border-radius);
+  padding: var(--cck-checkbox-padding);
+  border: var(--cck-checkbox-border-width) var(--cck-checkbox-border-style) var(--cck-checkbox-border-color);
+  border-radius: var(--cck-checkbox-border-radius);
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  gap: var(--cck-checkbox-box-gap);
 
-    direction: rtl;
-    display: flex;
-    align-items: center;
-    gap: var(--cck-checkbox-box-gap);
-    
-    svg {
-        fill: var(--cck-checkbox-icon-color);
-    }
-}`,
+  svg {
+    fill: var(--cck-checkbox-icon-color);
+  }
+}
+`,
   },
   {
     language: 'angular-ts',
@@ -60,7 +60,7 @@ import { Icons } from '@cocokits/common-icons';
 @Component({
   standalone: true,
   selector: 'cck-checkbox-box-selection-info',
-  imports: [CheckboxComponent , SvgIconComponent ],
+  imports: [CheckboxComponent, SvgIconComponent],
   templateUrl: './checkbox-box-selection-info.component.html',
   styleUrls: ['./checkbox-box-selection-info.component.scss'],
 })

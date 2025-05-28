@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const StyledControlWrapper = styled.div`
   display: grid;
@@ -15,6 +15,37 @@ export const StyledControlLabel = styled.div`
   max-width: 150px;
 `;
 
-export const StyledControlSelection = styled.div`
+export const StyledControlImage = styled.div<{ $selected: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid transparent;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+  }
+
+  ${(props) =>
+    props.$selected &&
+    css`
+      border: 2px solid var(--cck-doc-color-brand-default);
+    `}
+`;
+
+export const StyledControlSelection = styled.div<{ $isRow?: boolean }>`
   grid-column: 2;
+
+  ${(props) =>
+    props.$isRow &&
+    css`
+      display: flex;
+      gap: 12px;
+    `}
 `;

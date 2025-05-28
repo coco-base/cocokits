@@ -1,14 +1,16 @@
-import React from "react";
-import { Feature } from "./feature";
-import { CustomizeSvg, TokenSvg, UiComponentSvg } from "./feature-image";
-import { styled } from "styled-components";
+import React from 'react';
+import { Feature } from './feature';
+import { CustomizeSvg, TokenSvg, UiComponentSvg } from './feature-image';
+import { styled } from 'styled-components';
 
 export function Features() {
   return (
     <>
       <h2>What is CocoKits?</h2>
       <p>
-        CocoKits is a collection of core UI components and tools designed to bridge the gap between designers and developers. Whether you're a designer looking to bring your designs to life without deep coding knowledge or a developer seeking customizable components, CocoKits streamlines your workflow.
+        CocoKits is a collection of core UI components and tools designed to bridge the gap between designers and
+        developers. Whether you're a designer looking to bring your designs to life without deep coding knowledge or a
+        developer seeking customizable components, CocoKits streamlines your workflow.
       </p>
 
       <StyledFeatureWrapper>
@@ -25,7 +27,7 @@ export function Features() {
         </Feature>
       </StyledFeatureWrapper>
     </>
-  )
+  );
 }
 
 const StyledFeatureWrapper = styled.div`

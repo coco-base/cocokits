@@ -8,7 +8,6 @@ import {
 
 import { StoryDocPageStylingTableVariants } from './story-doc-page-styling.model';
 
-
 /**
  * NOTE: The selector generator for this part is duplicated in 'packages\common\core\src\lib\class-names\class-names.ts'
  * Each changes must be also added to the other file
@@ -27,7 +26,6 @@ export function getElementsVariants(
     ).join(' '),
   }));
 }
-
 
 /**
  * NOTE: The selector generator for this part is duplicated in 'packages\common\core\src\lib\class-names\class-names.ts'
@@ -68,7 +66,6 @@ export function getTypeVariants(
 
   return variants;
 }
-
 
 /**
  * NOTE: The selector generator for this part is duplicated in 'packages\common\core\src\lib\class-names\class-names.ts'

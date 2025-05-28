@@ -6,7 +6,7 @@ export function LeadingWebsite(props: { cckExampleArgs: ExampleArgs }) {
     <FormField>
       <Label>Website URL</Label>
       <Leading>https://</Leading>
-      <Input/>
+      <Input />
     </FormField>
   );
 }

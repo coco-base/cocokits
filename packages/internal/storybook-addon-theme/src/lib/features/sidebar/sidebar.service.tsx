@@ -1,17 +1,22 @@
-import events from "@storybook/core/core-events";
+import events from '@storybook/core/core-events';
 import { addons } from '@storybook/manager-api';
-import { filter } from "rxjs";
+import { filter } from 'rxjs';
 
-import { getInstance } from "@cocokits/common-utils";
-import { ThemeConfigContext } from "@cocokits/react-core";
-import { openStandaloneOverlay, OverlayAnimationType, OverlayConfigStandalone, RenderedOverlay } from "@cocokits/react-overlay";
+import { getInstance } from '@cocokits/common-utils';
+import { ThemeConfigContext } from '@cocokits/react-core';
+import {
+  openStandaloneOverlay,
+  OverlayAnimationType,
+  OverlayConfigStandalone,
+  RenderedOverlay,
+} from '@cocokits/react-overlay';
 
-import { Sidebar } from "./sidebar";
-import { storybookAddonThemeConfig } from "../../../theme/theme-config";
-import { GlobalEvent } from "../../data-access/global-event/manager-global-event";
-import { fromStorybookEvent } from "../../utils/rxjs.util";
-import { StoryControlDialog, StoryControlDialogProps } from "../story-control/story-control-dialog";
-import { TokenInfoDialog } from "../token-dictionary/token-info-dialog";
+import { Sidebar } from './sidebar';
+import { storybookAddonThemeConfig } from '../../../theme/theme-config';
+import { GlobalEvent } from '../../data-access/global-event/manager-global-event';
+import { fromStorybookEvent } from '../../utils/rxjs.util';
+import { StoryControlDialog, StoryControlDialogProps } from '../story-control/story-control-dialog';
+import { TokenInfoDialog } from '../token-dictionary/token-info-dialog';
 
 /**
  * This Service will be render in manager
@@ -26,10 +31,8 @@ const DEFAULT_OVERLAY_CONFIG: Partial<OverlayConfigStandalone<unknown>> = {
     animationType: OverlayAnimationType.ToRightCenter,
   },
   decorator: (children) => (
-    <ThemeConfigContext.Provider value={storybookAddonThemeConfig}>
-      {children}
-    </ThemeConfigContext.Provider>
-  )
+    <ThemeConfigContext.Provider value={storybookAddonThemeConfig}>{children}</ThemeConfigContext.Provider>
+  ),
 };
 
 export class SidebarService {
@@ -38,7 +41,6 @@ export class SidebarService {
   private tokenInfoRef: RenderedOverlay<void> | null = null;
 
   constructor() {
-
     fromStorybookEvent(addons.getChannel(), events.SET_CURRENT_STORY);
 
     this.globalEvent.pageChange$.subscribe(() => {
@@ -53,16 +55,17 @@ export class SidebarService {
       this.closeTokenInfo();
     });
 
-
     this.globalEvent.openStoryControl$.subscribe((params) => {
       this.onOpenStoryControl(params);
     });
 
-    this.globalEvent.changeTokenInfo$.pipe(
-      filter(() => this.tokenInfoRef === null) // Skip if token info is already open, The component must get the changes without rerender 
-    ).subscribe(() => {
-      this.onOpenTokenInfo();
-    });
+    this.globalEvent.changeTokenInfo$
+      .pipe(
+        filter(() => this.tokenInfoRef === null) // Skip if token info is already open, The component must get the changes without rerender
+      )
+      .subscribe(() => {
+        this.onOpenTokenInfo();
+      });
   }
 
   private onOpenStoryControl(params: StoryControlDialogProps) {
@@ -73,8 +76,8 @@ export class SidebarService {
       data: {
         title: 'Control',
         data: params,
-        componentRef: StoryControlDialog
-      }
+        componentRef: StoryControlDialog,
+      },
     });
 
     this.storyControlRef = overlayRef;
@@ -86,12 +89,11 @@ export class SidebarService {
   }
 
   private onOpenTokenInfo() {
-
     const overlayRef = openStandaloneOverlay(Sidebar<void, void>, {
       ...DEFAULT_OVERLAY_CONFIG,
       data: {
         title: 'Token Info',
-        componentRef: TokenInfoDialog
+        componentRef: TokenInfoDialog,
       },
     });
 

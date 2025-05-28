@@ -1,5 +1,8 @@
 import { isNotNullish, recordForEach, safeMergeString } from '@cocokits/common-utils';
 
+import { getAvatarClassNames } from './avatar-class-names';
+import { getAvatarGroupClassNames } from './avatar-group-class-names';
+import { getAvatarLabelClassNames } from './avatar-label-class-names';
 import { getButtonClassNames } from './button-class-names';
 import { getCheckboxClassNames } from './checkbox-class-names';
 import { getChipClassNames } from './chip-class-names';
@@ -31,16 +34,11 @@ import { getTabsClassNames } from './tabs-class-names';
 import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
-import {
-  LayoutClassNamesConfig,
-  ThemeConfig,
-  UIBaseComponentProps,
-  UIBaseComponentsName,
-} from '../model/theme-config.model';
+import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
+import { UIBaseComponentsName } from '../model/ui-base-components-name';
 import { getComponentPropsWithDefault } from '../ui-component-props/ui-component-props';
 
 export const CLASS_NAMES_FN_MAP = {
-  // formField
   formField: getFormFieldClassNames,
   label: getLabelClassNames,
   error: getErrorClassNames,
@@ -57,37 +55,23 @@ export const CLASS_NAMES_FN_MAP = {
   selectPreview: getSelectPreviewClassNames,
   chip: getChipClassNames,
   chipList: getChipListClassNames,
-
-  // menu
   menu: getMenuClassNames,
   menuItem: getMenuItemClassNames,
-
-  // divider
   divider: getDividerClassNames,
-
-  // toggle
   toggle: getToggleClassNames,
-
-  // radio
   radioButton: getRadioButtonClassNames,
   radioGroup: getRadioGroupClassNames,
-
-  // checkbox
   checkbox: getCheckboxClassNames,
-
-  // button
   button: getButtonClassNames,
   iconButton: getIconButtonClassNames,
-
-  // icon
   svgIcon: getSvgIconClassNames,
-
-  // tabs
   tabs: getTabsClassNames,
   tab: getTabClassNames,
   tabLabel: getTabLabelClassNames,
-
   overlay: getOverlayClassNames,
+  avatar: getAvatarClassNames,
+  avatarGroup: getAvatarGroupClassNames,
+  avatarLabel: getAvatarLabelClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

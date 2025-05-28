@@ -1,16 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface TokenInfoVariableProps {
   value: string;
 }
 
 export function TokenInfoVariable({ value }: TokenInfoVariableProps) {
-  return (
-    <StyledHost>
-      {value}
-    </StyledHost>
-  );
-
+  return <StyledHost>{value}</StyledHost>;
 }
 
 const StyledHost = styled.div`

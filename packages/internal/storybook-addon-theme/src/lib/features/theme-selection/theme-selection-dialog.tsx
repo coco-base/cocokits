@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { Icons } from "@cocokits/common-icons";
+import { Icons } from '@cocokits/common-icons';
 import { Button, IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
 import { OverlayRef } from '@cocokits/react-overlay';

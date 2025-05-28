@@ -1,11 +1,18 @@
 import { useState } from 'react';
 
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-select-amount.config';
-import { FormField, Input, Label, Option, removeAmountFormat, Select, toAmountFormat, Trailing } from '@cocokits/react-components';
-
+import {
+  FormField,
+  Input,
+  Label,
+  Option,
+  removeAmountFormat,
+  Select,
+  toAmountFormat,
+  Trailing,
+} from '@cocokits/react-components';
 
 export function TrailingSelectAmount(props: { cckExampleArgs: ExampleArgs }) {
-
   const [value, setValue] = useState('');
 
   return (
@@ -15,7 +22,8 @@ export function TrailingSelectAmount(props: { cckExampleArgs: ExampleArgs }) {
         value={value}
         onFocus={() => setValue(removeAmountFormat(value))}
         onBlur={() => setValue(toAmountFormat(value))}
-        onChange={e => setValue(e.target.value)}/>
+        onChange={(e) => setValue(e.target.value)}
+      />
       <Trailing>
         <Select value="USD">
           <Option value="USD">USD</Option>

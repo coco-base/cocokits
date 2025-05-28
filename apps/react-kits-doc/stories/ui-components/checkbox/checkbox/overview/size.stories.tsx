@@ -49,5 +49,5 @@ export const Size: StoryObj<typeof Checkbox> = {
         </Checkbox>
       ))}
     </>
-  )
+  ),
 };

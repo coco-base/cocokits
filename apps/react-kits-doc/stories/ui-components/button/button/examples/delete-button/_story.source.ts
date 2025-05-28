@@ -13,11 +13,10 @@ import { OutlineIcons } from '@cocokits/common-icons';
 
 import { Button, SvgIcon } from '@cocokits/react-components';
 
-export function DeleteButton(props: {cckExampleArgs: ExampleArgs}) {
-
+export function DeleteButton() {
   return (
-    <Button color='<%= buttonColor %>' type='<%= buttonType %>'>  
-      <SvgIcon icon={OutlineIcons.trash}/>
+    <Button color='<%= buttonColor %>' type='<%= buttonType %>'>
+      <SvgIcon icon={OutlineIcons.trash} />
       <span>Delete</span>
     </Button>
   );

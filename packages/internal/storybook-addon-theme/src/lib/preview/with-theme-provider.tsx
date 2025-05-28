@@ -1,15 +1,15 @@
-import { DocsContainer } from "@storybook/addon-docs";
-import { DocsContextProps } from "@storybook/types";
-import { ReactNode, useEffect } from "react";
+import { DocsContainer } from '@storybook/addon-docs';
+import { DocsContextProps } from '@storybook/types';
+import { ReactNode, useEffect } from 'react';
 
-import { getInstance } from "@cocokits/common-utils";
-import { ThemeConfigContext } from "@cocokits/react-core";
+import { getInstance } from '@cocokits/common-utils';
+import { ThemeConfigContext } from '@cocokits/react-core';
 
-import { storybookAddonThemeConfig } from "../../theme/theme-config";
-import { ColorModeEvent } from "../data-access/colo-mode-event/preview-color-mode-event";
-import { ThemeEvent } from "../data-access/theme-event/preview-theme-event";
-import { StoryControlStore } from "../features/story-control/preview-story-args.store";
-import { DocumentStyle } from "../utils/document-styles";
+import { storybookAddonThemeConfig } from '../../theme/theme-config';
+import { ColorModeEvent } from '../data-access/colo-mode-event/preview-color-mode-event';
+import { ThemeEvent } from '../data-access/theme-event/preview-theme-event';
+import { StoryControlStore } from '../features/story-control/preview-story-args.store';
+import { DocumentStyle } from '../utils/document-styles';
 
 interface DocPageContainerProps {
   context: DocsContextProps;
@@ -17,7 +17,6 @@ interface DocPageContainerProps {
 }
 
 export const WithThemeProvider = (props: DocPageContainerProps) => {
-
   getInstance(ColorModeEvent);
   getInstance(ThemeEvent);
   getInstance(StoryControlStore);

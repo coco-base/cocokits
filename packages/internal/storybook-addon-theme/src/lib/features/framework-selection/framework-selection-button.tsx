@@ -19,7 +19,8 @@ const CustomPreview = ({ framework }: { framework: AddonThemeConfig['framework']
         <StyledOptionAngularImage
           $isOption={false}
           src={isDark ? 'logos/angular-icon-logo_white.png' : 'logos/angular-icon-logo_black.png'}
-          alt="Angular" />
+          alt="Angular"
+        />
         <StyledLabel>Angular</StyledLabel>
       </StyledSelectPreview>
     );
@@ -46,16 +47,18 @@ export function FrameworkSelectionButton() {
   const { colorMode } = useColorMode();
   const isDark = colorMode === ColorMode.Dark;
 
-  const [isMobile, setIsMobile] = useState(window.parent.document.documentElement.classList.contains('cck-breakpoint--mobile'));
+  const [isMobile, setIsMobile] = useState(
+    window.parent.document.documentElement.classList.contains('cck-breakpoint--mobile')
+  );
 
   useEffect(() => {
-    const observer$ = mutationObserver$(document.documentElement, { attributes: true, childList: true })
-      .subscribe(() => {
+    const observer$ = mutationObserver$(document.documentElement, { attributes: true, childList: true }).subscribe(
+      () => {
         setIsMobile(document.documentElement.classList.contains('cck-breakpoint--mobile'));
-      });
+      }
+    );
 
     return () => observer$.unsubscribe();
-
   }, []);
 
   if (!framework) {
@@ -86,7 +89,8 @@ export function FrameworkSelectionButton() {
           <StyledOptionAngularImage
             $isOption={true}
             src={isDark ? 'logos/angular-icon-logo_white.png' : 'logos/angular-icon-logo_black.png'}
-            alt="Angular" />
+            alt="Angular"
+          />
           Angular
         </Option>
         <Option value="react">
@@ -126,28 +130,31 @@ const StyledSelected = styled(Select<string>)`
   height: 100%;
 `;
 
-const StyledOptionAngularImage = styled.img<{$isOption: boolean}>`
+const StyledOptionAngularImage = styled.img<{ $isOption: boolean }>`
   width: 28px;
   margin-right: 10px;
 
-  ${ props => !props.$isOption && css`
-    .cck-breakpoint--mobile & {
-      margin-right: 0;
-    }
-  `}
+  ${(props) =>
+    !props.$isOption &&
+    css`
+      .cck-breakpoint--mobile & {
+        margin-right: 0;
+      }
+    `}
 `;
 
-const StyledOptionReactImage = styled.img<{$isOption: boolean}>`
+const StyledOptionReactImage = styled.img<{ $isOption: boolean }>`
   width: 24px;
   margin-right: 12px;
   margin-left: 2px;
 
-  ${ props => !props.$isOption && css`
-    .cck-breakpoint--mobile & {
-      margin-right: 0;
-    }
-  `}
-  
+  ${(props) =>
+    !props.$isOption &&
+    css`
+      .cck-breakpoint--mobile & {
+        margin-right: 0;
+      }
+    `}
 `;
 
 const StyledLabel = styled.span`

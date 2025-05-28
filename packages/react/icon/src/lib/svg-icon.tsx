@@ -30,9 +30,7 @@ export const SvgIcon = forwardRef<SVGSVGElement, SvgIconProps>(
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: 'svgIcon',
       props: { type, size, color, additional },
-      extraHostElementClassConditions: [
-        { if: !!className, classes: () => [className] },
-      ]
+      extraHostElementClassConditions: [{ if: !!className, classes: () => [className] }],
     });
 
     const hostRef = useRef<HTMLDivElement>(null);

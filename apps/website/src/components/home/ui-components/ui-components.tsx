@@ -7,8 +7,21 @@ import { useRef, useState } from 'react';
 
 import { Icons } from '@cocokits/common-icons';
 import { Button } from '@cocokits/react-button';
-import { Checkbox, Chip, ChipList, IconButton, Label, SvgIcon, Menu, MenuItem, Divider, RadioGroup, RadioButton, Toggle } from '@cocokits/react-components';
-import { FormField, Input, Option,Select, Textarea } from '@cocokits/react-form-field';
+import {
+  Checkbox,
+  Chip,
+  ChipList,
+  IconButton,
+  Label,
+  SvgIcon,
+  Menu,
+  MenuItem,
+  Divider,
+  RadioGroup,
+  RadioButton,
+  Toggle,
+} from '@cocokits/react-components';
+import { FormField, Input, Option, Select, Textarea } from '@cocokits/react-form-field';
 import { Tab, TabLabel, Tabs } from '@cocokits/react-tabs';
 
 import { Brand } from '../../brands/brand';
@@ -19,13 +32,11 @@ export function UiComponents() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
-
-  if(!context) {
+  if (!context) {
     return;
   }
 
-  const {selectedTheme, setSelectedTheme} = context;
-
+  const { selectedTheme, setSelectedTheme } = context;
 
   return (
     <div className="my-xl flex-column flex-center">
@@ -36,55 +47,48 @@ export function UiComponents() {
         hideContent={true}
         selectedValue={selectedTheme}
         onSelectionChange={(theme) => setSelectedTheme(theme.value as typeof selectedTheme)}>
-        <Tab label={TabBrandLabel('cocokits')} value="cocokits"/>
-        <Tab label={TabBrandLabel('frames-x')} value="frames-x"/>
+        <Tab label={TabBrandLabel('cocokits')} value="cocokits" />
+        <Tab label={TabBrandLabel('frames-x')} value="frames-x" />
       </Tabs>
 
-      <div className='examples-container'>
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Button">
+      <div className="examples-container">
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Button">
           <Button>Button</Button>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Button">
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Button">
           <IconButton>
             <SvgIcon icon={Icons.heartFill} />
           </IconButton>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Button">
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Button">
           <Checkbox>Checkbox</Checkbox>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Input">
-          <FormField style={{width: '200px'}}>
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Input">
+          <FormField style={{ width: '200px' }}>
             <Input placeholder="Input" />
           </FormField>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Chip">
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Chip">
           <Chip> Chip </Chip>
         </CckComponent>
 
-        <CckComponent className='examples-1x2' themeName={selectedTheme} name="ChipList">
+        <CckComponent className="examples-1x2" themeName={selectedTheme} name="ChipList">
           <FormField>
             <Label>Favorite Foods</Label>
-            <ChipList
-              chips={["Steak", "Pizza"]}
-              placeholder="Add a new food"
-            />
+            <ChipList chips={['Steak', 'Pizza']} placeholder="Add a new food" />
           </FormField>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Menu">
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Menu">
           <Button ref={buttonRef} onClick={() => setOpen(true)}>
             Open Menu
           </Button>
 
-          <Menu
-            open={open}
-            targetRef={buttonRef}
-            onMenuStatusChange={(isOpen) => setOpen(isOpen)}
-          >
+          <Menu open={open} targetRef={buttonRef} onMenuStatusChange={(isOpen) => setOpen(isOpen)}>
             <MenuItem>Edit</MenuItem>
             <MenuItem>Duplicate</MenuItem>
             <Divider />
@@ -96,10 +100,8 @@ export function UiComponents() {
           </Menu>
         </CckComponent>
 
-
-
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Select">
-          <FormField style={{width: '200px'}}>
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Select">
+          <FormField style={{ width: '200px' }}>
             <Select placeholder="Select">
               <Option value="Text 1">Text 1</Option>
               <Option value="Text 2">Text 2</Option>
@@ -108,13 +110,13 @@ export function UiComponents() {
           </FormField>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Textarea">
-          <FormField style={{width: '200px'}}>
-            <Textarea placeholder="Textarea" autoResize minRows={2} maxRows={4}/>
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Textarea">
+          <FormField style={{ width: '200px' }}>
+            <Textarea placeholder="Textarea" autoResize minRows={2} maxRows={4} />
           </FormField>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="RadioGroup">
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="RadioGroup">
           <RadioGroup selected="Radio-1">
             <RadioButton value="Radio-1">Radio Button 1</RadioButton>
             <RadioButton value="Radio-2">Radio Button 2</RadioButton>
@@ -122,12 +124,16 @@ export function UiComponents() {
           </RadioGroup>
         </CckComponent>
 
-        <CckComponent className='examples-1x1' themeName={selectedTheme} name="Toggle">
-          <Toggle/>
+        <CckComponent className="examples-1x1" themeName={selectedTheme} name="Toggle">
+          <Toggle />
         </CckComponent>
       </div>
 
-      <Link className='mt-xl' href="https://angular.cocokits.com/?path=/docs/ui-components-button--docs" target='_blank' rel="noopener noreferrer">
+      <Link
+        className="mt-xl"
+        href="https://angular.cocokits.com/?path=/docs/ui-components-button--docs"
+        target="_blank"
+        rel="noopener noreferrer">
         <Button>Explore all components</Button>
       </Link>
     </div>
@@ -138,7 +144,7 @@ export function UiComponents() {
 const TabBrandLabel = (themeName: 'cocokits' | 'frames-x') => (selected: boolean) => {
   return (
     <TabLabel>
-      <Brand name={themeName} highlight={selected}/>
+      <Brand name={themeName} highlight={selected} />
     </TabLabel>
   );
-}
+};

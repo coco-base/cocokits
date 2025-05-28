@@ -1,23 +1,23 @@
-import React from "react";
-import { styled } from "styled-components";
-import { NeonBox } from "./neon-box";
-import { SvgIcon } from "@cocokits/react-components";
-import { Icons } from "@cocokits/common-icons";
+import React from 'react';
+import { styled } from 'styled-components';
+import { NeonBox } from './neon-box';
+import { SvgIcon } from '@cocokits/react-components';
+import { Icons } from '@cocokits/common-icons';
 
 export function Intro() {
   return (
     <StyledContainer>
       <StyledHost>
-
         <StyledHeader>
           <StyledPHeader>
             Create fast and performant enterprise apps and websites.
-            <br/>
+            <br />
             Use robust toolset and components to scale you business with confidence.
           </StyledPHeader>
 
           <StyledPSubheader>
-            CocoKits is everything you need to build your project with any framework. We provide you with all you need, such as utilities, CDK (Component Development Kit), and core components.
+            CocoKits is everything you need to build your project with any framework. We provide you with all you need,
+            such as utilities, CDK (Component Development Kit), and core components.
           </StyledPSubheader>
         </StyledHeader>
 
@@ -41,9 +41,7 @@ export function Intro() {
             <StyledNeonBoxIcon icon={Icons.setting}></StyledNeonBoxIcon>
             <StyledNeonBoxText>CDK</StyledNeonBoxText>
           </StyledNeonBox>
-
         </StyledNeonBoxGrid>
-
       </StyledHost>
     </StyledContainer>
   );

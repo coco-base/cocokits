@@ -13,10 +13,17 @@ import { useState } from 'react';
 
 import { Icons } from '@cocokits/common-icons';
 
-import { FormField, Input, Label, Leading, removeAmountFormat, SvgIcon, toAmountFormat } from '@cocokits/react-components';
+import {
+  FormField,
+  Input,
+  Label,
+  Leading,
+  removeAmountFormat,
+  SvgIcon,
+  toAmountFormat,
+} from '@cocokits/react-components';
 
 export function LeadingCurrency() {
-
   const [value, setValue] = useState('');
 
   return (
@@ -29,7 +36,8 @@ export function LeadingCurrency() {
         value={value}
         onFocus={() => setValue(removeAmountFormat(value))}
         onBlur={() => setValue(toAmountFormat(value))}
-        onChange={e => setValue(e.target.value)}/>
+        onChange={(e) => setValue(e.target.value)}
+      />
     </FormField>
   );
 }

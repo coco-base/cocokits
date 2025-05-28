@@ -22,20 +22,19 @@ export type StoryTab = 'Overview' | 'API' | 'Styling' | 'Examples';
 
 export function StoryDocPage() {
   const [selectedTab, setSelectedTab] = useState<StoryTab>('Overview');
-  
+
   const theme = useTheme();
   const { result: config } = usePromise(getInstance(AddonConfig).getAddonConfig);
-  
+
   const context = useContext(DocsContext);
   const resolved = useOf('meta');
 
-  
-  if(resolved.type !== 'meta') {
+  if (resolved.type !== 'meta') {
     return;
   }
 
   const { overviewProps, title, breadcrumb, apiProps, stylingProps, tocItemsMap } = useMemo(() => {
-    if(!config) {
+    if (!config) {
       return {};
     }
     const stories = context.componentStories();
@@ -47,9 +46,15 @@ export function StoryDocPage() {
     const _stylingProps = getStylingProps(resolved.preparedMeta, parameters);
 
     const _tocItemsMap = {
-      Overview: _overviewProps.stories.map(story => ({id: story.id, name: story.name})),
-      API: _apiProps.argTypes.map(argType => ({ id: argType.componentName, name: argType.componentName })),
-      Styling: [_stylingProps.mainComponent, ..._stylingProps.subcomponents].map(component => ({ id: component.componentName, name: component.componentName })),
+      Overview: _overviewProps.stories.map((story) => ({ id: story.id, name: story.name })),
+      API: [
+        ..._apiProps.argTypes.map((argType) => ({ id: argType.componentName, name: argType.componentName })),
+        ...(parameters.cckAddon.ngTemplateMarkdown ? [{ id: 'ng-template-doc', name: 'Templates' }] : []),
+      ],
+      Styling: [_stylingProps.mainComponent, ..._stylingProps.subcomponents].map((component) => ({
+        id: component.componentName,
+        name: component.componentName,
+      })),
       Examples: [],
     } satisfies Record<'Overview' | 'API' | 'Styling' | 'Examples', DocTocItem[]>;
 
@@ -59,11 +64,11 @@ export function StoryDocPage() {
       overviewProps: _overviewProps,
       apiProps: _apiProps,
       stylingProps: _stylingProps,
-      tocItemsMap: _tocItemsMap
+      tocItemsMap: _tocItemsMap,
     };
   }, [theme.id, config?.framework]);
 
-  if( !overviewProps || !apiProps || !stylingProps || !tocItemsMap || !title || !breadcrumb) {
+  if (!overviewProps || !apiProps || !stylingProps || !tocItemsMap || !title || !breadcrumb) {
     return null;
   }
 
@@ -81,11 +86,11 @@ export function StoryDocPage() {
         </Tab>
 
         <Tab label="API" value="API">
-          <StoryDocPageAPI {...apiProps}/>
+          <StoryDocPageAPI {...apiProps} />
         </Tab>
 
         <Tab label="Styling" value="Styling">
-          <StoryDocPageStyling {...stylingProps}/>
+          <StoryDocPageStyling {...stylingProps} />
         </Tab>
 
         <Tab label="Examples" value="Examples">

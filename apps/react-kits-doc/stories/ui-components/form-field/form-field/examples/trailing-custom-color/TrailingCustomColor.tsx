@@ -8,9 +8,9 @@ export function TrailingCustomColor(props: { cckExampleArgs: ExampleArgs }) {
   return (
     <FormField>
       <Label>Subscribe</Label>
-      <Input defaultValue="hello@cocokits.com"/>
+      <Input defaultValue="hello@cocokits.com" />
       <Styled.Trailing clickable>
-        <SvgIcon icon={Icons.arrowRight}/>
+        <SvgIcon icon={Icons.arrowRight} />
       </Styled.Trailing>
     </FormField>
   );

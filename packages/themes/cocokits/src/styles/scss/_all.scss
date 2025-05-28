@@ -25,6 +25,9 @@
 @use './textarea' as *;
 @use './toggle' as *;
 @use './trailing' as *;
+@use './avatar' as *;
+@use './avatar-group' as *;
+@use './avatar-label' as *;
 
 @mixin all {
   @include button;
@@ -54,4 +57,7 @@
   @include textarea;
   @include toggle;
   @include trailing;
+  @include avatar;
+  @include avatar-group;
+  @include avatar-label;
 }

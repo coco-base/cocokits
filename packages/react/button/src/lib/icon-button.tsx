@@ -28,9 +28,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     const { classNames, hostClassNames } = useUiBaseComponentConfig({
       componentName: 'iconButton',
       props: { type, size, color, additional },
-      extraHostElementClassConditions: [
-        { if: !!className, classes: () => [className] },
-      ]
+      extraHostElementClassConditions: [{ if: !!className, classes: () => [className] }],
     });
 
     return (

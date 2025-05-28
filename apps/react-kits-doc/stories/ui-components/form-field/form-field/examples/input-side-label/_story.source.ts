@@ -9,8 +9,7 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'tsx',
     filename: 'InputSideLabel.styled.tsx',
     code: `
-import styled from "styled-components";
-
+import styled from 'styled-components';
 
 const Host = styled.div\`
   display: grid;
@@ -24,7 +23,6 @@ const Host = styled.div\`
 export const Styled = {
   Host,
 };
-
 `,
   },
   {
@@ -39,16 +37,15 @@ import { Styled } from './InputSideLabel.styled';
 export function InputSideLabel() {
   return (
     <Styled.Host>
-      <Label htmlFor='city'>City</Label>
+      <Label htmlFor="city">City</Label>
       <FormField>
-        <Input id="city"/>
+        <Input id="city" />
       </FormField>
 
-      <Label htmlFor='country'>Country</Label>
+      <Label htmlFor="country">Country</Label>
       <FormField>
-        <Input id='country'/>
+        <Input id="country" />
       </FormField>
-
     </Styled.Host>
   );
 }

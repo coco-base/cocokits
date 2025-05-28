@@ -29,7 +29,7 @@ export interface LeadingProps extends UIBaseComponentProps {
   /**
    * Callback to invoke on click.
    */
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 export const Leading = (props: LeadingProps) => {
@@ -39,13 +39,17 @@ export const Leading = (props: LeadingProps) => {
     componentName: 'leading',
     props,
     extraHostElementClassConditions: [
-      {if: props.clickable, classes: (cn) => [cn.clickable]},
+      { if: props.clickable, classes: (cn) => [cn.clickable] },
       { if: !!props.className, classes: () => [props.className] },
     ],
   });
 
   useEffect(() => {
-    const template = <div className={hostClassNames} style={props.style} onClick={(e) => props.onClick?.(e)}>{props.children}</div>;
+    const template = (
+      <div className={hostClassNames} style={props.style} onClick={(e) => props.onClick?.(e)}>
+        {props.children}
+      </div>
+    );
 
     formStore?.updateComponent('leading', { template });
   }, [props.children]);

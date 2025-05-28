@@ -19,9 +19,8 @@ export function EmailValidation() {
   const {
     control,
     formState: { errors },
-  } = useForm<{email: string}>({mode: 'onTouched'});
+  } = useForm<{ email: string }>({ mode: 'onTouched' });
 
-  
   return (
     <FormField>
       <Label>Email</Label>
@@ -30,20 +29,19 @@ export function EmailValidation() {
         name="email"
         control={control}
         rules={{
-          required: "Email is required",
+          required: 'Email is required',
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: "Enter a valid email address"
+            message: 'Enter a valid email address',
           },
-        }}/>
-      {
-        errors.email && (
-          <Error>
-            <SvgIcon icon={Icons.warning} />
-            <span>{errors.email.message}</span>
-          </Error>
-        )
-      }
+        }}
+      />
+      {errors.email && (
+        <Error>
+          <SvgIcon icon={Icons.warning} />
+          <span>{errors.email.message}</span>
+        </Error>
+      )}
     </FormField>
   );
 }

@@ -9,6 +9,7 @@ import { StoreState, StoryControlChangeEvent } from './story-control.model';
 import { StyledControlWrapper } from './story-control.style';
 import { StoryControlBoolean } from './story-control-boolean';
 import { StoryControlIcon } from './story-control-icon';
+import { StoryControlImage } from './story-control-image';
 import { StoryControlNumber } from './story-control-number';
 import { StoryControlSelect } from './story-control-select';
 import { StoryControlText } from './story-control-text';
@@ -32,10 +33,10 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
     };
   }, [data.story]);
 
-  if(!state) {
+  if (!state) {
     return;
   }
-  
+
   if (!state?.args) {
     return <p>No Args available</p>;
   }
@@ -43,7 +44,6 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
   if (!state.controls || state.controls.length === 0) {
     return <p>No Control available</p>;
   }
-
 
   const onChange = (changes: StoryControlChangeEvent) => {
     storyControlStore.updateStoryArgs(data.story.id, changes);
@@ -85,6 +85,17 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
           );
         }
 
+        if (control.type === AddonParametersControlType.Image) {
+          return (
+            <StoryControlImage
+              key={control.storyArgKey}
+              control={control}
+              value={state.args[control.storyArgKey]}
+              onChange={onChange}
+            />
+          );
+        }
+
         if (control.type === AddonParametersControlType.Boolean) {
           return (
             <StoryControlBoolean
@@ -112,4 +123,3 @@ export function StoryControlDialog({ data }: OverlayRef<StoryControlDialogProps,
     </StyledControlWrapper>
   );
 }
-

@@ -10,7 +10,6 @@ import { GlobalEvent } from '../../data-access/global-event/preview-global-event
 import { AddonParameters } from '../../model/addon.model';
 import { useTheme } from '../../utils/use-preview-theme';
 
-
 export function StoryDocPageExamples() {
   const { StoreProvider, store } = useCreateStoryDocPageExampleStore();
   const globalEvent = getInstance(GlobalEvent);
@@ -44,7 +43,7 @@ export function StoryDocPageExamples() {
 
   // Register Host Element
   useLayoutEffect(() => {
-    if(hostRef.current) {
+    if (hostRef.current) {
       store.registerHostElement(hostRef.current, filteredStories.length);
     }
   }, [filteredStories]);
@@ -53,9 +52,7 @@ export function StoryDocPageExamples() {
   // Update Grid Height
   useEffect(() => {
     const expandedSubscription = store.isCellExpanded$().subscribe((isCellExpanded) => {
-      isCellExpanded
-        ? ScrollLocker.globalInstance().lock()
-        : ScrollLocker.globalInstance().unlock();
+      isCellExpanded ? ScrollLocker.globalInstance().lock() : ScrollLocker.globalInstance().unlock();
     });
 
     const heightSubscription = store.getGridHeight$().subscribe((gridHeight) => {
@@ -74,26 +71,18 @@ export function StoryDocPageExamples() {
   return (
     <StoreProvider value={store}>
       <StyledHost ref={hostRef}>
-        {
-          filteredStories.map((story, index) => {
-            return (
-              <StyledStoryDocPageExamplesCanvas
-                key={story.id}
-                index={index}
-                story={story}
-              />
-            );
-          })
-        }
+        {filteredStories.map((story, index) => {
+          return <StyledStoryDocPageExamplesCanvas key={story.id} index={index} story={story} />;
+        })}
 
-        {
-          filteredStories.length === 0 && (
-            <>
-              <h2>Coming Soon</h2>
-              <p>We are working hard to bring you more amazing and real use case examples for each component. Stay tuned!</p>
-            </>
-          )
-        }
+        {filteredStories.length === 0 && (
+          <>
+            <h2>Coming Soon</h2>
+            <p>
+              We are working hard to bring you more amazing and real use case examples for each component. Stay tuned!
+            </p>
+          </>
+        )}
       </StyledHost>
     </StoreProvider>
   );

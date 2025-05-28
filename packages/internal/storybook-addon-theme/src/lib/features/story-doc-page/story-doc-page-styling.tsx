@@ -8,8 +8,8 @@ export interface StoryDocPageStylingComponent {
 }
 
 export interface StoryDocPageStylingProps {
-  mainComponent: StoryDocPageStylingComponent,
-  subcomponents: StoryDocPageStylingComponent[]
+  mainComponent: StoryDocPageStylingComponent;
+  subcomponents: StoryDocPageStylingComponent[];
 }
 
 export function StoryDocPageStyling({ mainComponent, subcomponents }: StoryDocPageStylingProps) {
@@ -23,7 +23,10 @@ export function StoryDocPageStyling({ mainComponent, subcomponents }: StoryDocPa
       </p>
 
       {/* Main Component */}
-      <StoryDocPageStylingSection componentName={mainComponent.componentName} uiBaseComponentName={mainComponent.uIBaseComponentName} />
+      <StoryDocPageStylingSection
+        componentName={mainComponent.componentName}
+        uiBaseComponentName={mainComponent.uIBaseComponentName}
+      />
 
       {/* Subcomponents */}
       {subcomponents.length > 0 &&

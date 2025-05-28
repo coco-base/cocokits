@@ -24,20 +24,38 @@ const COMMIT_TYPE_SCOPE: Record<CommitType, boolean> = {
   [CommitType.Story]: false,
 };
 
+function findCommonPackages(list: string[]): string[] {
+  const angularSet = new Set<string>();
+  const reactSet = new Set<string>();
+
+  for (const item of list) {
+    if (item.startsWith('angular-')) {
+      angularSet.add(item.replace('angular-', ''));
+    }
+    if (item.startsWith('react-')) {
+      reactSet.add(item.replace('react-', ''));
+    }
+  }
+
+  // Find intersection
+  return Array.from(angularSet).filter((pkg) => reactSet.has(pkg));
+}
+
 const packagesJson = execSync('pnpm nx show projects --json', { encoding: 'utf8' });
 const packagesList = (JSON.parse(packagesJson) as string[]).map((name) => name.replace('@cocokits/', ''));
+const scopeList = [...packagesList, ...findCommonPackages(packagesList)];
 
 module.exports = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'type-enum': [2, 'always', Object.values(CommitType)],
     'header-max-length': [0, 'always', 72],
-    'cck-scope': [2, 'always', packagesList],
+    'cck-scope': [2, 'always', scopeList],
   },
   plugins: [
     {
       rules: {
-        'cck-scope': (parsed: Commit, when: RuleConfigCondition, packagesList: string[]) => {
+        'cck-scope': (parsed: Commit, when: RuleConfigCondition, scopeList: string[]) => {
           const type = parsed.type as CommitType;
           const canHaveScope = COMMIT_TYPE_SCOPE[type];
 
@@ -45,11 +63,11 @@ module.exports = {
             return parsed.scope ? [false, `Commit type '${type}' can not have any scope`] : [true];
           }
 
-          const isScopeValid = packagesList.includes(parsed.scope);
+          const isScopeValid = scopeList.includes(parsed.scope);
           if (!isScopeValid) {
             return [
               false,
-              `Commit scope '${parsed.scope}' is not a valid scope. Here is all valid scopes: \n${packagesList.join(
+              `Commit scope '${parsed.scope}' is not a valid scope. Here is all valid scopes: \n${scopeList.join(
                 '\n'
               )}\n`,
             ];

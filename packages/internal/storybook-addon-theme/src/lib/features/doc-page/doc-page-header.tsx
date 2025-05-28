@@ -3,16 +3,16 @@ import styled from 'styled-components';
 
 import { hasNotValue, toArray } from '@cocokits/common-utils';
 
-
 interface DocPageHeaderProps {
   title?: string;
-  breadcrumb?: string | string[]
+  breadcrumb?: string | string[];
 }
 
-
-
-export const DocPageHeader: FC<DocPageHeaderProps & React.HTMLAttributes<HTMLDivElement>> = ({ title, breadcrumb, ...props }) => {
-
+export const DocPageHeader: FC<DocPageHeaderProps & React.HTMLAttributes<HTMLDivElement>> = ({
+  title,
+  breadcrumb,
+  ...props
+}) => {
   const breadcrumbText = toArray(breadcrumb).join(' / ');
 
   if (hasNotValue(title) && hasNotValue(breadcrumbText)) {
@@ -29,12 +29,12 @@ export const DocPageHeader: FC<DocPageHeaderProps & React.HTMLAttributes<HTMLDiv
 
 // region ---------------- STYLES ----------------
 const StyledHost = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
-const StyledBreadcrumb = styled.p.attrs({role: 'navigation'})`
-    font: var(--cck-doc-text-xs-medium);
-    color: var(--cck-doc-color-brand-default);
-    margin-bottom: 8px;
+const StyledBreadcrumb = styled.p.attrs({ role: 'navigation' })`
+  font: var(--cck-doc-text-xs-medium);
+  color: var(--cck-doc-color-brand-default);
+  margin-bottom: 8px;
 `;
 // endregion

@@ -1,13 +1,11 @@
-
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj, withWrapperDecorator } from '@cocokits/storybook-addon-theme-react';
 
-import {OverlayPortalExample} from './portal';
-
+import { OverlayPortalExample } from './portal';
 
 export const Portal: StoryObj<typeof OverlayPortalExample> = {
   name: 'Portal',
-  decorators: [withWrapperDecorator({insideBox: true})],
+  decorators: [withWrapperDecorator({ insideBox: true })],
   parameters: {
     docs: {
       description: {
@@ -81,7 +79,7 @@ export const Portal: StoryObj<typeof OverlayPortalExample> = {
             );
           };
             
-          `
+          `,
         },
         {
           filename: 'OverlayPortalExample.scss',
@@ -128,14 +126,11 @@ export const Portal: StoryObj<typeof OverlayPortalExample> = {
               background-color: color-mix(in srgb, var(--cck-doc-color-bg-1, #0d0e11) 80%, transparent);
             }
 
-          `
+          `,
         },
       ],
       hasControl: true,
-      controls: [
-        CCK_CONTROL.hasBackdrop(),
-        CCK_CONTROL.disableBackdropClose()
-      ],
+      controls: [CCK_CONTROL.hasBackdrop(), CCK_CONTROL.disableBackdropClose()],
     },
   },
   render: (args) => {
@@ -147,5 +142,3 @@ export const Portal: StoryObj<typeof OverlayPortalExample> = {
     );
   },
 };
-
-

@@ -8,7 +8,6 @@ type OverlayPortalManagerState<TData, TResult> =
   | OverlayPortalManagerOpenState<TData, TResult>
   | OverlayPortalManagerCloseState;
 
-
 interface OverlayPortalManagerOpenState<TData, TResult> {
   isOpened: true;
   managerConfig: Partial<OverlayConfig<TData>>;
@@ -16,11 +15,9 @@ interface OverlayPortalManagerOpenState<TData, TResult> {
   afterClosedPromise: ReturnType<typeof lazyPromise<TResult | void>>;
 }
 
-
 interface OverlayPortalManagerCloseState {
   isOpened: false;
 }
-
 
 export class OverlayPortalManager<TData, TResult> {
   private static instances = new Map<string, OverlayPortalManager<unknown, unknown | void>>();
@@ -72,15 +69,16 @@ export class OverlayPortalManager<TData, TResult> {
     this.state.setState({
       isOpened: true,
       managerConfig: config,
-      closedPromise, afterClosedPromise
+      closedPromise,
+      afterClosedPromise,
     });
-  
+
     scrollLocker.lock();
 
     return {
       afterClosed: afterClosedPromise.promise,
       closed: closedPromise.promise,
-      close: this.close.bind(this)
+      close: this.close.bind(this),
     };
   }
 

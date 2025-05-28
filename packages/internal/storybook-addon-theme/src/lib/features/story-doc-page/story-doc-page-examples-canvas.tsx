@@ -2,7 +2,7 @@ import { PreparedStory } from '@storybook/types';
 import { useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import { Icons } from "@cocokits/common-icons";
+import { Icons } from '@cocokits/common-icons';
 import { getInstance } from '@cocokits/common-utils';
 import { IconButton } from '@cocokits/react-button';
 import { SvgIcon } from '@cocokits/react-icon';
@@ -28,7 +28,6 @@ const ANIMATION_OPTION: KeyframeAnimationOptions = {
   fill: 'both',
 };
 
-
 export function StoryDocPageExamplesCanvas({ index, story, className }: StoryDocPageExamplesCanvasProps) {
   const [shouldShowSourceCode, setShouldShowSourceCode] = useState(false);
 
@@ -47,21 +46,16 @@ export function StoryDocPageExamplesCanvas({ index, story, className }: StoryDoc
   const description = parameters.docs.description.story;
 
   useLayoutEffect(() => {
-    if (
-      !store ||
-      !hostRef.current ||
-      !titleRef.current ||
-      !canvasContainerRef.current
-    ) {
+    if (!store || !hostRef.current || !titleRef.current || !canvasContainerRef.current) {
       return;
     }
 
     const subscription = store.getCellStyles$(index).subscribe((_styles) => {
       const styles = _styles as StoryDocPageExampleStoreCellStyle;
-      const options: KeyframeAnimationOptions = {...ANIMATION_OPTION, duration: styles.expandedChanged ? 300 : 0};
+      const options: KeyframeAnimationOptions = { ...ANIMATION_OPTION, duration: styles.expandedChanged ? 300 : 0 };
 
       // Just one time, because generate the source code const and we don't want to regenerate it.
-      if(styles.isExpanded){
+      if (styles.isExpanded) {
         setShouldShowSourceCode(true);
       }
 
@@ -112,12 +106,11 @@ export function StoryDocPageExamplesCanvas({ index, story, className }: StoryDoc
           <StyledCodeButton ref={expandButtonRef} onClick={onExpandClick}>
             <SvgIcon icon={Icons.code} />
           </StyledCodeButton>
-
         </StyledStoryCanvasWrapper>
       </StyledStoryCanvasContainer>
 
       <StyledStorySourceCodeWrapper ref={sourceCodeRef}>
-        <StyledStorySourceCode story={story} pause={!shouldShowSourceCode}/>
+        <StyledStorySourceCode story={story} pause={!shouldShowSourceCode} />
       </StyledStorySourceCodeWrapper>
 
       <StyledCloseButton ref={collapseButtonRef} onClick={onCollapseClick}>

@@ -83,9 +83,7 @@ class StoryDocPageExampleStore {
   private state: StoryDocPageExampleStoreState | null = null;
 
   private cellStateSubject$ = new Subject<StoryDocPageExampleStoreState>();
-  public cellState$ = this.cellStateSubject$.asObservable().pipe(
-    shareReplay(1)
-  );
+  public cellState$ = this.cellStateSubject$.asObservable().pipe(shareReplay(1));
 
   public registerHostElement(elem: HTMLDivElement, cellLength: number) {
     this.gridHostElem = elem;
@@ -163,14 +161,13 @@ class StoryDocPageExampleStore {
     return this.cellState$.pipe(
       map((state) => state.cellState[index]),
       distinctUntilChanged(deepComparator),
-      switchMap(
-        (cell) =>
-          (cell.expanded ? fromEvent(window, 'resize') : of()).pipe(
-            map(() => this.toStateStyle(cell, this.gridHostElem)),
-            startWith(this.toStateStyle(cell, this.gridHostElem))
-          )
+      switchMap((cell) =>
+        (cell.expanded ? fromEvent(window, 'resize') : of()).pipe(
+          map(() => this.toStateStyle(cell, this.gridHostElem)),
+          startWith(this.toStateStyle(cell, this.gridHostElem))
+        )
       ),
-      filter(Boolean),
+      filter(Boolean)
     );
   }
 
@@ -200,15 +197,10 @@ class StoryDocPageExampleStore {
       return null;
     }
 
-
-    return cell.expanded
-      ? this.getExpandedStyle(cell, gridHostElem)
-      : this.getCollapsedStyle(cell);
+    return cell.expanded ? this.getExpandedStyle(cell, gridHostElem) : this.getCollapsedStyle(cell);
   }
 
-  private getCollapsedStyle(
-    cell: StoryDocPageExampleStoreCellState
-  ): StoryDocPageExampleStoreCellStyle {
+  private getCollapsedStyle(cell: StoryDocPageExampleStoreCellState): StoryDocPageExampleStoreCellStyle {
     return {
       expandedChanged: cell.expandChanged,
       isExpanded: false,
@@ -293,5 +285,3 @@ export function useCreateStoryDocPageExampleStore() {
 export function useStoryDocPageExampleStore() {
   return useContext(StoryDocPageExampleStoreContent);
 }
-
-

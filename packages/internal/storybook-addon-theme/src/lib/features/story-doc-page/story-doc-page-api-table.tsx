@@ -1,14 +1,14 @@
-import { Markdown } from "@storybook/addon-docs";
-import styled from "styled-components";
+import { Markdown } from '@storybook/addon-docs';
+import styled from 'styled-components';
 
-import { StoryDocPageComponentArgType } from "./story-doc-page-api.model";
+import { StoryDocPageComponentArgType } from './story-doc-page-api.model';
 
 interface StoryDocPageApiTableProps {
   hideDefault?: boolean;
-  argTypes: StoryDocPageComponentArgType[]
+  argTypes: StoryDocPageComponentArgType[];
 }
 
-export function StoryDocPageApiTable({hideDefault = false, argTypes}: StoryDocPageApiTableProps) {
+export function StoryDocPageApiTable({ hideDefault = false, argTypes }: StoryDocPageApiTableProps) {
   return (
     <StyledTableWrapper>
       <table className="arg-type-table arg-type-table--full-width">
@@ -26,20 +26,22 @@ export function StoryDocPageApiTable({hideDefault = false, argTypes}: StoryDocPa
               <td>{argType.name}</td>
               <td>
                 <div className="arg-type-table--gap-8">
-                  {
-                    argType.type.startsWith('{')
-                      /* If the value is ab object such as `{'{ rounded: boolean }'}`, it will be displayed as a single code block. */
-                      ? <code key={argType.type}>{argType.type}</code>
-                      /* If the type is multi such as `value1 | value2`, it will be displayed as separate code blocks. */
-                      : argType.type.split('|').map((type) => (<code key={type}>{type}</code>))
-                  }
+                  {argType.type.startsWith('{') ? (
+                    /* If the value is ab object such as `{'{ rounded: boolean }'}`, it will be displayed as a single code block. */
+                    <code key={argType.type}>{argType.type}</code>
+                  ) : (
+                    /* If the type is multi such as `value1 | value2`, it will be displayed as separate code blocks. */
+                    argType.type.split('|').map((type) => <code key={type}>{type}</code>)
+                  )}
                 </div>
               </td>
-              { !hideDefault && <td><Markdown>{argType.defaultValue?.toString() ?? ''}</Markdown></td> }
+              {!hideDefault && (
+                <td>
+                  <Markdown>{argType.defaultValue?.toString() ?? ''}</Markdown>
+                </td>
+              )}
               <StyledTdDescription>
-                <Markdown>
-                  {argType.description ?? ''}
-                </Markdown>
+                <Markdown>{argType.description ?? ''}</Markdown>
               </StyledTdDescription>
             </tr>
           ))}
@@ -47,7 +49,6 @@ export function StoryDocPageApiTable({hideDefault = false, argTypes}: StoryDocPa
       </table>
     </StyledTableWrapper>
   );
-
 }
 
 const StyledTableWrapper = styled.div`

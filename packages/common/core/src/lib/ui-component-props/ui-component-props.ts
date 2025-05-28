@@ -5,10 +5,10 @@ import {
   ThemeComponentPropertyConfig,
   ThemeConfig,
   UIBaseComponentProps,
-  UIBaseComponentsName,
   UIBaseComponentsPropName,
   UIBaseComponentsPropValue,
 } from '../model/theme-config.model';
+import { UIBaseComponentsName } from '../model/ui-base-components-name';
 
 // eslint-disable-next-line max-lines-per-function
 export function validateUiBaseComponentProps(

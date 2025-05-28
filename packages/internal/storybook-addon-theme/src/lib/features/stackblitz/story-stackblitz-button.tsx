@@ -1,4 +1,4 @@
-import { PreparedStory } from "@storybook/types";
+import { PreparedStory } from '@storybook/types';
 
 // import sdk from '@stackblitz/sdk';
 // import { Button } from "@cocokits/react-button";
@@ -20,8 +20,7 @@ interface StoryStackblitzButtonProps {
 }
 
 export function StoryStackblitzButton(_props: StoryStackblitzButtonProps) {
-
-  return (<></>);
+  return <></>;
   // const parameters = story.parameters as AddonParameters;
 
   // const stackblitz = parameters.cckAddon?.stackblitz;
@@ -29,7 +28,6 @@ export function StoryStackblitzButton(_props: StoryStackblitzButtonProps) {
   // if(!stackblitz) {
   //   throw new Error('Stackblitz config has not found for story id: ' + story.id);
   // }
-
 
   // const framework = stackblitz.framework;
 
@@ -41,12 +39,12 @@ export function StoryStackblitzButton(_props: StoryStackblitzButtonProps) {
   // }
 
   // const tsFile = stackblitz.tsFile;
-  
+
   // if(!tsFile) {
   //   throw new Error('Stackblitz example files has not found for story id: ' + story.id);
   // }
 
-  // const files = stackblitz.extraFiles ?? {}; 
+  // const files = stackblitz.extraFiles ?? {};
 
   // const onButtonClick = () => {
   //   sdk.openProject({
@@ -98,7 +96,6 @@ export function StoryStackblitzButton(_props: StoryStackblitzButtonProps) {
   //     startScript: 'npm i && npm start'
   //   });
   // };
-  
 
   // return (
   //   <Button onClick={onButtonClick}>
@@ -106,5 +103,4 @@ export function StoryStackblitzButton(_props: StoryStackblitzButtonProps) {
   //     Stackblitz
   //   </Button>
   // );
-
 }

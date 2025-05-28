@@ -3,5 +3,6 @@
   "printWidth": 120,
   "trailingComma": "es5",
   "tabWidth": 2,
-  "bracketSameLine": true
+  "bracketSameLine": true,
+  "endOfLine": "crlf"
 }

@@ -10,4 +10,5 @@ export interface LibraryGeneratorSchema {
   directoryFormat: GeneratorDirectoryFormat;
   publishable: boolean;
   importPath: string;
+  formatFiles: boolean;
 }

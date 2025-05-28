@@ -17,7 +17,7 @@ export function LeadingWebsite() {
     <FormField>
       <Label>Website URL</Label>
       <Leading>https://</Leading>
-      <Input/>
+      <Input />
     </FormField>
   );
 }

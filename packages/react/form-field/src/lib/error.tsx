@@ -31,13 +31,15 @@ export function Error(props: ErrorProps) {
   const { hostClassNames } = useUiBaseComponentConfig({
     componentName: 'error',
     props,
-    extraHostElementClassConditions: [
-      { if: !!props.className, classes: () => [props.className] },
-    ]
+    extraHostElementClassConditions: [{ if: !!props.className, classes: () => [props.className] }],
   });
 
   useEffect(() => {
-    const template = <div className={hostClassNames} style={props.style}>{props.children}</div>;
+    const template = (
+      <div className={hostClassNames} style={props.style}>
+        {props.children}
+      </div>
+    );
 
     formStore?.updateErrorComponent({ id: uuid, template });
   }, [props.children]);

@@ -17,7 +17,8 @@
     "@cocokits/react-menu": "workspace:*",
     "@cocokits/react-toggle": "workspace:*",
     "@cocokits/react-cdk": "workspace:*",
-    "@cocokits/react-tabs": "workspace:*"
+    "@cocokits/react-tabs": "workspace:*",
+    "@cocokits/react-avatar": "workspace:*"
   },
   "exports": {
     ".": {

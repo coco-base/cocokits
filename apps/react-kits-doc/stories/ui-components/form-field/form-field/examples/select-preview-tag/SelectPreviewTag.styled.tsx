@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { Select as CckSelect, SelectPreview as CckSelectPreview } from "@cocokits/react-components";
+import { Select as CckSelect, SelectPreview as CckSelectPreview } from '@cocokits/react-components';
 
 const Select = styled(CckSelect<string>)`
   min-width: 190px;
@@ -33,6 +33,5 @@ export const Styled = {
   Select,
   SelectPreview,
   Tag,
-  HintText
+  HintText,
 };
-

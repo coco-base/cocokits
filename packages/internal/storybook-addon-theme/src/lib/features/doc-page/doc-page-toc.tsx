@@ -6,7 +6,6 @@ import { intersectionObserver$ } from '@cocokits/common-utils';
 
 import { getPreparedItems, getSelectedStateValue } from './doc-page-toc.utils';
 
-
 export interface DocTocItem {
   id: string;
   name: string;
@@ -45,10 +44,9 @@ export const DocPageToc = ({ items, className }: DocPageTocProps) => {
 
     const listenToVisibilityChange = (_preparedItems: PreparedTocItem[]) => {
       const itemsElement = _preparedItems.map((item) => item.element);
-      subscriber = intersectionObserver$(itemsElement, { threshold: [0, 0.1, 0.9, 1] })
-        .subscribe((event => {
-          setSelectedState((currentState) => getSelectedStateValue(currentState, _preparedItems, event));
-        }));
+      subscriber = intersectionObserver$(itemsElement, { threshold: [0, 0.1, 0.9, 1] }).subscribe((event) => {
+        setSelectedState((currentState) => getSelectedStateValue(currentState, _preparedItems, event));
+      });
     };
 
     preparedItemsPromise.then((_preparedItems) => {
@@ -170,4 +168,3 @@ const StyledItem = styled.div<{ $selected: boolean }>`
   }
 `;
 // endregion
-

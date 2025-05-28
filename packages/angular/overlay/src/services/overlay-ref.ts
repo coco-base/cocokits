@@ -13,7 +13,10 @@ export class OverlayRef<TData = unknown, TResult = unknown> {
   }
 
   // eslint-disable-next-line no-empty-function
-  constructor(public componentOrTemplate: Type<any> | TemplateRef<any>, public config: OverlayConfig<TData>) {}
+  constructor(
+    public componentOrTemplate: Type<any> | TemplateRef<any>,
+    public config: OverlayConfig<TData>
+  ) {}
 
   public close(result?: TResult) {
     this.closeReplaySubject$.next(result);

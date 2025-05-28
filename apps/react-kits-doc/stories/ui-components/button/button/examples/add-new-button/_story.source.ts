@@ -15,7 +15,10 @@ import { Button, SvgIcon } from '@cocokits/react-components';
 
 export function AddNewButton() {
   return (
-    <Button type='<%= buttonType %>' color='<%= buttonColor %>' size='<%= buttonSize %>'>
+    <Button
+      type='<%= buttonType %>'
+      color='<%= buttonColor %>'
+      size='<%= buttonSize %>'>
       <span>Add New</span>
       <SvgIcon icon={Icons.plus} />
     </Button>

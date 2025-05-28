@@ -13,11 +13,10 @@ export interface OverlayPortalProps<TData = unknown> extends Partial<OverlayConf
   children: React.ReactNode | React.ReactNode[];
 }
 
-
 export const OverlayPortal = <TData, TResult>(props: OverlayPortalProps) => {
   const portalId = useStaticText(props.portalId);
   const manager = useOverlayManager<TData, TResult>(portalId);
-  const managerState = manager.useState(state => state);
+  const managerState = manager.useState((state) => state);
 
   if (!managerState.isOpened) {
     return null;
@@ -28,7 +27,7 @@ export const OverlayPortal = <TData, TResult>(props: OverlayPortalProps) => {
     panelClass: props.panelClass ?? OVERLAY_DEFAULT_CONFIG.panelClass,
     hasBackdrop: props.hasBackdrop ?? OVERLAY_DEFAULT_CONFIG.hasBackdrop,
     allowInteractionBehindOverlay:
-    props.allowInteractionBehindOverlay ?? OVERLAY_DEFAULT_CONFIG.allowInteractionBehindOverlay,
+      props.allowInteractionBehindOverlay ?? OVERLAY_DEFAULT_CONFIG.allowInteractionBehindOverlay,
     disableBackdropClose: props.disableBackdropClose ?? OVERLAY_DEFAULT_CONFIG.disableBackdropClose,
     parentElement: props.parentElement ?? OVERLAY_DEFAULT_CONFIG.parentElement,
     positionStrategy: props.positionStrategy ?? OVERLAY_DEFAULT_CONFIG.positionStrategy,

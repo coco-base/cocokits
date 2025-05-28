@@ -5,12 +5,11 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-fiel
 import { FormField, Hint, Input, Label, SvgIcon, Trailing } from '@cocokits/react-components';
 
 export function TrailingCopy(props: { cckExampleArgs: ExampleArgs }) {
-
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     let setTimeoutId: NodeJS.Timeout;
-    if(showHint) {
+    if (showHint) {
       setTimeoutId = setTimeout(() => {
         setShowHint(false);
       }, 3000);
@@ -19,7 +18,6 @@ export function TrailingCopy(props: { cckExampleArgs: ExampleArgs }) {
     return () => {
       clearTimeout(setTimeoutId);
     };
-
   }, [showHint]);
 
   return (
@@ -27,7 +25,7 @@ export function TrailingCopy(props: { cckExampleArgs: ExampleArgs }) {
       <Label>Copy text</Label>
       <Input defaultValue="cocokits.com"></Input>
       <Trailing clickable={true} onClick={() => setShowHint(true)}>
-        <SvgIcon icon={Icons.copy}/>
+        <SvgIcon icon={Icons.copy} />
       </Trailing>
       {showHint && <Hint>Copied</Hint>}
     </FormField>

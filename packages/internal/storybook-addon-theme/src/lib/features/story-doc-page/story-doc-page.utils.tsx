@@ -4,7 +4,7 @@ import { StoryDocPageAPIProps } from './story-doc-page-api';
 import { getArgTypesApiList } from './story-doc-page-api.utils';
 import { StoryDocPageOverviewProps } from './story-doc-page-overview';
 import { StoryDocPageStylingComponent, StoryDocPageStylingProps } from './story-doc-page-styling';
-import { AddonParameters, AddonThemeConfig,ComponentRef } from '../../model/addon.model';
+import { AddonParameters, AddonThemeConfig, ComponentRef } from '../../model/addon.model';
 import { ThemeChangeEvent } from '../../model/event.model';
 import { getStoryComponentName } from '../../utils/get-story-parameters';
 
@@ -35,10 +35,15 @@ export function getOverviewProps(
 
 // API
 
-export function getApiProps(preparedMeta: PreparedMeta, theme: ThemeChangeEvent, framework: AddonThemeConfig['framework']): StoryDocPageAPIProps {
+export function getApiProps(
+  preparedMeta: PreparedMeta,
+  theme: ThemeChangeEvent,
+  framework: AddonThemeConfig['framework']
+): StoryDocPageAPIProps {
   return {
     argTypes: getArgTypesApiList(preparedMeta, theme.themeConfig, framework),
     themeName: theme.displayName,
+    ngTemplateMD: (preparedMeta.parameters as AddonParameters).cckAddon.ngTemplateMarkdown ?? null,
   };
 }
 
@@ -52,9 +57,10 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
   }
 
   // Type of storybook is wrong, so we have to change it
-  const subcomponentsRef = preparedMeta.subcomponents && Array.isArray(preparedMeta.subcomponents)
-    ? preparedMeta.subcomponents as unknown as ComponentRef[] ?? []
-    : Object.values(preparedMeta.subcomponents as Record<string, ComponentRef> ?? {});
+  const subcomponentsRef =
+    preparedMeta.subcomponents && Array.isArray(preparedMeta.subcomponents)
+      ? ((preparedMeta.subcomponents as unknown as ComponentRef[]) ?? [])
+      : Object.values((preparedMeta.subcomponents as Record<string, ComponentRef>) ?? {});
 
   const subcomponents: StoryDocPageStylingComponent[] =
     subcomponentsRef

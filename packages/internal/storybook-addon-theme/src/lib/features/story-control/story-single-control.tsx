@@ -20,19 +20,17 @@ export function StorySingleControl({ story, argName }: StorySingleControlProps) 
   const [selectedValue, setSelectedValue] = useState<string>();
   const [control, setControl] = useState<AddonParametersControlSelect>();
 
-
   useEffect(() => {
     const subscription = storyControlStore.getState$(story.id).subscribe((state) => {
-
       const parameters = story.parameters as AddonParameters;
-      const themeComponentConfig =  theme.themeConfig.components[parameters.cckAddon.componentName];
+      const themeComponentConfig = theme.themeConfig.components[parameters.cckAddon.componentName];
 
-      if(!themeComponentConfig || !(argName in themeComponentConfig)) {
+      if (!themeComponentConfig || !(argName in themeComponentConfig)) {
         setControl(undefined);
         setSelectedValue(undefined);
         return;
       }
- 
+
       const targetControl = state.controls.find((_control) => _control.storyArgKey === argName);
       const value = state.args[argName] as string;
 
@@ -46,11 +44,11 @@ export function StorySingleControl({ story, argName }: StorySingleControlProps) 
         );
       }
 
-      if(hasNotValue(value)) {
+      if (hasNotValue(value)) {
         throw new Error(
           `The argument '${argName}' does not exist in the CckControls configuration for story ID '${story.id}'.`
         );
-      }     
+      }
 
       setControl(targetControl);
       setSelectedValue(value);
@@ -61,7 +59,7 @@ export function StorySingleControl({ story, argName }: StorySingleControlProps) 
     };
   }, [story, theme.id]);
 
-  if(!control || !selectedValue) {
+  if (!control || !selectedValue) {
     return;
   }
 
