@@ -28,6 +28,9 @@
 @use './avatar' as *;
 @use './avatar-group' as *;
 @use './avatar-label' as *;
+@use './accordion' as *;
+@use './accordion-header' as *;
+@use './accordion-panel' as *;
 
 @mixin all {
   @include button;
@@ -60,4 +63,7 @@
   @include avatar;
   @include avatar-group;
   @include avatar-label;
+  @include accordion;
+  @include accordion-header;
+  @include accordion-panel;
 }

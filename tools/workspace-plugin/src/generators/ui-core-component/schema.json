@@ -11,7 +11,19 @@
     "exitingLibraryName": {
       "type": "string",
       "description": "The name of the library to add the component to",
-      "enum": ["Avatar", "Button", "Checkbox", "Divider", "FormField", "Icon", "Menu", "Overlay", "Radio", "Toggle"]
+      "enum": [
+        "Avatar",
+        "Button",
+        "Checkbox",
+        "Divider",
+        "FormField",
+        "Icon",
+        "Menu",
+        "Overlay",
+        "Radio",
+        "Toggle",
+        "Accordion"
+      ]
     },
     "newLibraryName": {
       "type": "string",

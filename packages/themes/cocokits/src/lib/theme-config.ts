@@ -322,6 +322,22 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
+  accordion: {
+    type: {
+      name: 'type',
+      values: ['default', 'group', 'compact'],
+      default: 'default',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md'],
+      default: 'md',
+      description: '',
+    },
+  },
+  accordionHeader: {},
+  accordionPanel: {},
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

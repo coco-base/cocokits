@@ -1,0 +1,29 @@
+{
+  "name": "@cocokits/angular-accordion",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "/packages/angular/accordion/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:angular"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "/packages/angular/accordion/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "/packages/angular/accordion/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "/packages/angular/accordion/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

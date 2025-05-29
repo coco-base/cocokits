@@ -1,0 +1,7 @@
+@use '../../token/scss' as *;
+
+@mixin accordion-header {
+  .cck-accordion-header {
+    opacity: 1;
+  }
+}
