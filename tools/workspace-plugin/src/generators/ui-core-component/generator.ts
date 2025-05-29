@@ -37,7 +37,7 @@ export async function uiCoreComponentGenerator(tree: Tree, schema: UiCoreCompone
 
   await generateComponent(options);
 
-  if (schema.skipStorybook) {
+  if (!schema.skipStorybook) {
     generateStorybook(options);
   }
 
