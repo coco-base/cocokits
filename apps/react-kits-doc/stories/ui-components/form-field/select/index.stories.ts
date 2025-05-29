@@ -21,10 +21,10 @@ const meta: StoriesMeta<typeof Select> = {
     },
     cckAddon: {
       componentName: 'select',
-      subcomponentNames: {
-        Option: 'option',
-        OptionGroup: 'optionGroup',
-        SelectPreview: 'selectPreview',
+      subcomponents: {
+        Option: { name: 'option' },
+        OptionGroup: { name: 'optionGroup' },
+        SelectPreview: { name: 'selectPreview' },
       },
     },
   },

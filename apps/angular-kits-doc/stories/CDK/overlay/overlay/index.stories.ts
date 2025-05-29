@@ -46,8 +46,8 @@ const meta: StoriesMeta = {
     },
     cckAddon: {
       componentName: 'overlay',
-      subcomponentNames: {
-        OverlayService: null,
+      subcomponents: {
+        OverlayService: { name: null },
       },
     },
   },

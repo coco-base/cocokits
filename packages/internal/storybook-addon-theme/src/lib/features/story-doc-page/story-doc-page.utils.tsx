@@ -71,13 +71,13 @@ export function getStylingProps(preparedMeta: PreparedMeta, parameters: AddonPar
           name.startsWith('_') ||
           // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
           // If a component has the value 'null', we skip it because it has no styling.
-          parameters.cckAddon.subcomponentNames?.[name] === null
+          parameters.cckAddon.subcomponents?.[name].name === null
         );
       })
       .map((subcomponentRef) => {
         // displayName for react and name for Angular
         const name = subcomponentRef.displayName ?? subcomponentRef.name;
-        const uIBaseComponentName = parameters.cckAddon.subcomponentNames?.[name];
+        const uIBaseComponentName = parameters.cckAddon.subcomponents?.[name].name;
         if (!uIBaseComponentName) {
           throw new Error(
             `Subcomponent name is missing in the story parameters for story ID: ${preparedMeta.id}/${name}`
