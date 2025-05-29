@@ -8,9 +8,7 @@ export function updateUiBaseComponentsNameFile(options: UiCoreComponentGenerator
     throw new Error(errorMessages.uiBaseComponentsName.notFoundOrEmpty(options));
   }
 
-  const newContent = options.newLibrary
-    ? getNewLibraryContent(content, options)
-    : getExitingLibraryContent(content, options);
+  content = options.newLibrary ? getNewLibraryContent(content, options) : getExitingLibraryContent(content, options);
 
   if (options.newLibrary) {
     content = content.replace(
@@ -19,7 +17,7 @@ export function updateUiBaseComponentsNameFile(options: UiCoreComponentGenerator
     );
   }
 
-  options.tree.write(options.uiBaseComponentsNameFilePath, newContent);
+  options.tree.write(options.uiBaseComponentsNameFilePath, content);
 }
 
 function getExitingLibraryContent(originalFileContent: string, options: UiCoreComponentGeneratorOptions) {
@@ -43,6 +41,6 @@ function getNewLibraryContent(originalFileContent: string, options: UiCoreCompon
 
   return (
     originalFileContent +
-    `\ntype ${options.libraryName.className}ComponentName = '${options.componentName.propertyName}';\n`
+    `type ${options.libraryName.className}ComponentName = '${options.componentName.propertyName}';\n`
   );
 }
