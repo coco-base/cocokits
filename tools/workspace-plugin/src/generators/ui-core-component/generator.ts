@@ -36,7 +36,10 @@ export async function uiCoreComponentGenerator(tree: Tree, schema: UiCoreCompone
   }
 
   await generateComponent(options);
-  generateStorybook(options);
+
+  if (schema.skipStorybook) {
+    generateStorybook(options);
+  }
 
   await formatFiles(tree);
 }

@@ -2,15 +2,22 @@ import { errorMessages } from './errors';
 import { UiCoreComponentGeneratorOptions } from '../model';
 
 export function updateUiBaseComponentsNameFile(options: UiCoreComponentGeneratorOptions) {
-  const originalFileContent = options.tree.read(options.uiBaseComponentsNameFilePath, 'utf-8');
+  let content = options.tree.read(options.uiBaseComponentsNameFilePath, 'utf-8');
 
-  if (!originalFileContent) {
+  if (!content) {
     throw new Error(errorMessages.uiBaseComponentsName.notFoundOrEmpty(options));
   }
 
   const newContent = options.newLibrary
-    ? getNewLibraryContent(originalFileContent, options)
-    : getExitingLibraryContent(originalFileContent, options);
+    ? getNewLibraryContent(content, options)
+    : getExitingLibraryContent(content, options);
+
+  if (options.newLibrary) {
+    content = content.replace(
+      /(UIBaseComponentsName[\s\S]*?)(;)/,
+      `$1 | ${options.libraryName.className}ComponentName$2`
+    );
+  }
 
   options.tree.write(options.uiBaseComponentsNameFilePath, newContent);
 }

@@ -12,7 +12,7 @@ interface NxGeneratorSchema {
 export function updateGeneratorSchema(options: UiCoreComponentGeneratorOptions) {
   if (options.newLibrary) {
     const schema = getSchemaJson(options);
-    schema.properties.exitingLibraryName.enum.push(options.libraryName.fileName);
+    schema.properties.exitingLibraryName.enum.push(options.libraryName.className);
     options.tree.write(options.generatorSchemaFilePath, JSON.stringify(schema, null, 2));
   }
 }
