@@ -36,6 +36,7 @@ export const Default: StoryObj<typeof Select> = {
                 <% if (disabled) { %> disabled <% } %>
                 <% if (required) { %> required <% } %>
                 <% if (invalid) { %> invalid <% } %>
+                    <% if (error) { %> error <% } %>
                 <% if (multiple) { %> multiple <% } %>
                 <% if (anchorPoint) { %> anchorPoint='<%= anchorPoint %>' <% } %>
                 <% if (typeof maxOptionsHeight === 'number') { %> maxOptionsHeight='<%= maxOptionsHeight %>' <% } %>
@@ -66,6 +67,8 @@ export const Default: StoryObj<typeof Select> = {
         CCK_CONTROL.multiple(),
         CCK_CONTROL.required(),
         CCK_CONTROL.invalid(),
+        CCK_CONTROL.error(),
+
       ],
     },
   },
@@ -80,6 +83,7 @@ export const Default: StoryObj<typeof Select> = {
         invalid={args.cckControl.invalid}
         multiple={args.cckControl.multiple}
         anchorPoint={args.cckControl.anchorPoint}
+        error={args.cckControl.error}
         maxOptionsHeight={args.cckControl.maxOptionsHeight}>
         <Option value="Steak">Steak</Option>
         <Option value="Pizza">Pizza</Option>
