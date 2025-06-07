@@ -10,7 +10,7 @@
 // import shikiMaterialThemeOcean from'shiki/themes/material-theme-ocean.mjs';
 // import shikiWasm from 'shiki/wasm';
 import { Markdown } from '@storybook/blocks';
-import { ReactNode } from 'react';
+import { ReactNode, useLayoutEffect,useRef } from 'react';
 
 interface DocPageMarkdownProps {
   children: ReactNode;
@@ -18,6 +18,16 @@ interface DocPageMarkdownProps {
 
 // TODO: The custom highlighter is not working on dark mode. fix it and replace the default one with our custom one
 export const DocPageMarkdown = ({ children }: DocPageMarkdownProps) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    // Ensure the content is rendered after the component mounts
+    if (contentRef.current) {
+      contentRef.current.querySelectorAll('table').forEach((table) => {
+        table.classList.add('arg-type-table', 'arg-type-table--full-width');
+      });
+    }
+  }, [children]);
   // const [html, setHtml] = useState('');
 
   // useEffect(() => {
@@ -48,7 +58,7 @@ export const DocPageMarkdown = ({ children }: DocPageMarkdownProps) => {
   // );
 
   return (
-    <div className="theme-addon-mdx-page">
+    <div ref={contentRef} className="theme-addon-mdx-page">
       <Markdown>{children as string}</Markdown>
     </div>
   );

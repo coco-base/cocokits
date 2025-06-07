@@ -6,6 +6,7 @@ import { getInstance, hasNotValue } from '@cocokits/common-utils';
 import { FormField, Option, Select, SelectPreview } from '@cocokits/react-form-field';
 
 import { StoryControlStore } from './preview-story-args.store';
+import { StoreState } from './story-control.model';
 import { AddonParameters, AddonParametersControlSelect, AddonParametersControlType } from '../../model/addon.model';
 import { useTheme } from '../../utils/use-preview-theme';
 
@@ -25,33 +26,33 @@ export function StorySingleControl({ story, argName }: StorySingleControlProps) 
       const parameters = story.parameters as AddonParameters;
       const themeComponentConfig = theme.themeConfig.components[parameters.cckAddon.componentName];
 
-      if (!themeComponentConfig || !(argName in themeComponentConfig)) {
+      const targetAddonParametersControl = parameters.cckAddon.controls?.find((_control) => {
+        return _control.type === AddonParametersControlType.SelectThemeConfig
+          ? _control.prop === argName
+          : _control.storyArgKey === argName;
+      });
+
+      if(targetAddonParametersControl?.type === AddonParametersControlType.SelectThemeConfig) {
+        if (themeComponentConfig && argName in themeComponentConfig) {
+          const { targetControl, value } = getThemeConfigArgsTypeConfig(state, { story, argName });
+          setControl(targetControl);
+          setSelectedValue(value);
+          return;
+        }
         setControl(undefined);
         setSelectedValue(undefined);
         return;
       }
 
-      const targetControl = state.controls.find((_control) => _control.storyArgKey === argName);
-      const value = state.args[argName] as string;
-
-      if (!targetControl) {
-        throw new Error(`CckControl not found for story ID: ${story.id} and arg name: ${argName}`);
+      if(targetAddonParametersControl?.type === AddonParametersControlType.Select) {
+        const value = state.args[argName] as string;
+        setControl(targetAddonParametersControl);
+        setSelectedValue(value);
+        return;
       }
 
-      if (targetControl.type !== AddonParametersControlType.Select) {
-        throw new Error(
-          `singleControls accept only Select control type, but got ${targetControl.type} for story ID: ${story.id} and arg name: ${argName}`
-        );
-      }
-
-      if (hasNotValue(value)) {
-        throw new Error(
-          `The argument '${argName}' does not exist in the CckControls configuration for story ID '${story.id}'.`
-        );
-      }
-
-      setControl(targetControl);
-      setSelectedValue(value);
+      setControl(undefined);
+      setSelectedValue(undefined);
     });
 
     return () => {
@@ -96,3 +97,26 @@ const StyledSelectPreviewType = styled.span`
   color: var(--cck-doc-color-font-3);
   margin-right: 8px;
 `;
+
+function getThemeConfigArgsTypeConfig(state: StoreState, { story, argName }: StorySingleControlProps) {
+  const targetControl = state.controls.find((_control) => _control.storyArgKey === argName);
+  const value = state.args[argName] as string;
+
+  if (!targetControl) {
+    throw new Error(`CckControl not found for story ID: ${story.id} and arg name: ${argName}`);
+  }
+
+  if (targetControl.type !== AddonParametersControlType.Select) {
+    throw new Error(
+      `singleControls accept only Select control type, but got ${targetControl.type} for story ID: ${story.id} and arg name: ${argName}`
+    );
+  }
+
+  if (hasNotValue(value)) {
+    throw new Error(
+      `The argument '${argName}' does not exist in the CckControls configuration for story ID '${story.id}'.`
+    );
+  }
+
+  return { targetControl, value };
+}
