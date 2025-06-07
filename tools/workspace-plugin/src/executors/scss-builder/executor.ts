@@ -8,11 +8,12 @@ export default async function runCssBuilderExecutor(options: ScssBuilderExecutor
       Logger.header('Style build has been started');
     }
 
-    for (const { path, output } of options.files) {
+    for (const { path, output, wrapWithWhereSudo } of options.files) {
       const builderResult = await cssBuilder(path, {
         outputStyle: 'expanded',
         sourceMap: false,
         outputPath: output,
+        wrapWithWhereSudo,
       });
 
       Logger.success(`✔ [CREATED]: ${builderResult.cssPath}`);
@@ -21,6 +22,7 @@ export default async function runCssBuilderExecutor(options: ScssBuilderExecutor
         outputStyle: 'compressed',
         sourceMap: false,
         outputPath: output,
+        wrapWithWhereSudo,
       });
 
       Logger.success(`✔ [CREATED]: ${builderMinResult.cssPath}`);

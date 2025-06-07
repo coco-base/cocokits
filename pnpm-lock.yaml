@@ -426,6 +426,9 @@ importers:
       postcss:
         specifier: 8.4.38
         version: 8.4.38
+      postcss-selector-parser:
+        specifier: ^7.1.0
+        version: 7.1.0
       postcss-url:
         specifier: ~10.1.3
         version: 10.1.3(postcss@8.4.38)
@@ -519,6 +522,47 @@ importers:
 
   apps/react-kits-doc: {}
 
+  packages/angular/accordion:
+    dependencies:
+      '@angular/common':
+        specifier: ^18.2.0
+        version: 18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/core':
+        specifier: ^18.2.0
+        version: 18.2.0(rxjs@7.8.1)(zone.js@0.14.10)
+      '@cocokits/angular-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/angular/core
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
+    publishDirectory: ../../../dist/packages/angular/accordion
+
+  packages/angular/avatar:
+    dependencies:
+      '@angular/common':
+        specifier: ^18.2.0
+        version: 18.2.0(@angular/core@18.2.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/core':
+        specifier: ^18.2.0
+        version: 18.2.0(rxjs@7.8.1)(zone.js@0.14.10)
+      '@cocokits/angular-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/angular/core
+      '@cocokits/common-utils':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/utils
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
+    publishDirectory: ../../../dist/packages/angular/avatar
+
   packages/angular/button:
     dependencies:
       '@angular/common':
@@ -584,6 +628,12 @@ importers:
 
   packages/angular/components:
     dependencies:
+      '@cocokits/angular-accordion':
+        specifier: workspace:*
+        version: link:../../../dist/packages/angular/accordion
+      '@cocokits/angular-avatar':
+        specifier: workspace:*
+        version: link:../../../dist/packages/angular/avatar
       '@cocokits/angular-button':
         specifier: workspace:*
         version: link:../../../dist/packages/angular/button
@@ -906,7 +956,7 @@ importers:
     devDependencies:
       '@nx/vite':
         specifier: 18.3.5
-        version: 18.3.5(@babel/traverse@7.26.4)(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13))(@types/node@22.10.5)(nx@18.3.5(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13)))(typescript@5.6.3)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.10.5)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0))(vitest@1.6.0)
+        version: 18.3.5(@babel/traverse@7.26.4)(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13))(@types/node@22.10.5)(nx@20.3.2(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13)))(typescript@5.6.3)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.10.5)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0))(vitest@1.6.0)
       vite:
         specifier: ~5.0.0
         version: 5.0.13(@types/node@22.10.5)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0)
@@ -923,7 +973,7 @@ importers:
     devDependencies:
       '@nx/vite':
         specifier: 18.3.5
-        version: 18.3.5(@babel/traverse@7.26.4)(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13))(@types/node@22.10.5)(nx@20.3.2(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13)))(typescript@5.6.3)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.10.5)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0))(vitest@1.6.0)
+        version: 18.3.5(@babel/traverse@7.26.4)(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13))(@types/node@22.10.5)(nx@18.3.5(@swc-node/register@1.9.2(@swc/core@1.10.4(@swc/helpers@0.5.13))(@swc/types@0.1.17)(typescript@5.6.3))(@swc/core@1.10.4(@swc/helpers@0.5.13)))(typescript@5.6.3)(verdaccio@6.0.0(encoding@0.1.13)(typanion@3.14.0))(vite@5.0.13(@types/node@22.10.5)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0))(vitest@1.6.0)
       vite:
         specifier: ~5.0.0
         version: 5.0.13(@types/node@22.10.5)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0)
@@ -1115,6 +1165,55 @@ importers:
         specifier: 18.3.1
         version: 18.3.1
 
+  packages/react/accordion:
+    dependencies:
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      '@cocokits/react-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/core
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+    publishDirectory: ../../../dist/packages/react/accordion
+
+  packages/react/avatar:
+    dependencies:
+      '@cocokits/common-utils':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/utils
+      '@cocokits/core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/common/core
+      '@cocokits/react-core':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/core
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+    publishDirectory: ../../../dist/packages/react/avatar
+
   packages/react/button:
     dependencies:
       '@cocokits/core':
@@ -1192,6 +1291,12 @@ importers:
       '@cocokits/core':
         specifier: workspace:*
         version: link:../../../dist/packages/common/core
+      '@cocokits/react-accordion':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/accordion
+      '@cocokits/react-avatar':
+        specifier: workspace:*
+        version: link:../../../dist/packages/react/avatar
       '@cocokits/react-button':
         specifier: workspace:*
         version: link:../../../dist/packages/react/button
@@ -8412,6 +8517,10 @@ packages:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
 
+  fresh@2.0.0:
+    resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
+    engines: {node: '>= 0.8'}
+
   from@0.1.7:
     resolution: {integrity: sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g==}
 
@@ -10123,8 +10232,16 @@ packages:
     resolution: {integrity: sha512-oHlN/w+3MQ3rba9rqFr6V/ypF10LSkdwUysQL7GkXoTgIWeV+tcXGA852TBxH+gsh8UWoyhR1hKcoMJTuWflpg==}
     engines: {node: '>= 0.6'}
 
+  mime-db@1.54.0:
+    resolution: {integrity: sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==}
+    engines: {node: '>= 0.6'}
+
   mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
+    engines: {node: '>= 0.6'}
+
+  mime-types@3.0.1:
+    resolution: {integrity: sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==}
     engines: {node: '>= 0.6'}
 
   mime@1.6.0:
@@ -11358,8 +11475,8 @@ packages:
     resolution: {integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==}
     engines: {node: '>=4'}
 
-  postcss-selector-parser@7.0.0:
-    resolution: {integrity: sha512-9RbEr1Y7FFfptd/1eEdntyjMwLeghW1bHX9GWjXo19vx4ytPQhANltvVxDggzJl7mnWM+dX28kb6cyS/4iQjlQ==}
+  postcss-selector-parser@7.1.0:
+    resolution: {integrity: sha512-8sLjZwK0R+JlxlYcTuVnyT2v+htpdrjDOKuMcOVdYjt52Lh8hWRYpxBPoKx/Zg+bcjc3wx6fmQevMmUztS/ccA==}
     engines: {node: '>=4'}
 
   postcss-svgo@6.0.3:
@@ -12023,8 +12140,8 @@ packages:
     resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
     engines: {node: '>= 0.8.0'}
 
-  send@1.1.0:
-    resolution: {integrity: sha512-v67WcEouB5GxbTWL/4NeToqcZiAWEq90N888fczVArY8A79J0L4FD7vj5hm3eUMua5EpoQ59wa/oovY6TLvRUA==}
+  send@1.2.0:
+    resolution: {integrity: sha512-uaW0WwXKpL9blXE2o0bRhoL2EGXIrZxQ2ZQ4mgcfoBxdFmQold+qWsD2jLrfZ0trjKL6vOw0j//eAwcALFjKSw==}
     engines: {node: '>= 18'}
 
   serialize-javascript@6.0.2:
@@ -15929,7 +16046,7 @@ snapshots:
       object-assign: 4.1.1
       open: 8.4.0
       proxy-middleware: 0.15.0
-      send: 1.1.0
+      send: 1.2.0
       serve-index: 1.9.1
     transitivePeerDependencies:
       - supports-color
@@ -15962,9 +16079,9 @@ snapshots:
       '@csstools/css-parser-algorithms': 3.0.4(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3
 
-  '@csstools/selector-specificity@5.0.0(postcss-selector-parser@7.0.0)':
+  '@csstools/selector-specificity@5.0.0(postcss-selector-parser@7.1.0)':
     dependencies:
-      postcss-selector-parser: 7.0.0
+      postcss-selector-parser: 7.1.0
 
   '@cypress/request@3.0.5':
     dependencies:
@@ -20557,7 +20674,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.1.1
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@22.10.5)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.2.1)(sass@1.83.0)(stylus@0.64.0)(terser@5.37.0)
+      vitest: 1.6.0(@types/node@20.17.11)(@vitest/ui@1.6.0)(jsdom@22.1.0)(less@4.1.3)(sass@1.83.0)(stylus@0.59.0)(terser@5.31.6)
 
   '@vitest/utils@1.6.0':
     dependencies:
@@ -23624,6 +23741,8 @@ snapshots:
 
   fresh@0.5.2: {}
 
+  fresh@2.0.0: {}
+
   from@0.1.7: {}
 
   fromentries@1.3.2: {}
@@ -25837,9 +25956,15 @@ snapshots:
 
   mime-db@1.53.0: {}
 
+  mime-db@1.54.0: {}
+
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
+
+  mime-types@3.0.1:
+    dependencies:
+      mime-db: 1.54.0
 
   mime@1.6.0: {}
 
@@ -27126,13 +27251,13 @@ snapshots:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.38)
       postcss: 8.4.38
-      postcss-selector-parser: 7.0.0
+      postcss-selector-parser: 7.1.0
       postcss-value-parser: 4.2.0
 
   postcss-modules-scope@3.2.1(postcss@8.4.38):
     dependencies:
       postcss: 8.4.38
-      postcss-selector-parser: 7.0.0
+      postcss-selector-parser: 7.1.0
 
   postcss-modules-values@4.0.0(postcss@8.4.38):
     dependencies:
@@ -27278,7 +27403,7 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-selector-parser@7.0.0:
+  postcss-selector-parser@7.1.0:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
@@ -28004,16 +28129,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  send@1.1.0:
+  send@1.2.0:
     dependencies:
       debug: 4.4.0
-      destroy: 1.2.0
       encodeurl: 2.0.0
       escape-html: 1.0.3
       etag: 1.8.1
-      fresh: 0.5.2
+      fresh: 2.0.0
       http-errors: 2.0.0
-      mime-types: 2.1.35
+      mime-types: 3.0.1
       ms: 2.1.3
       on-finished: 2.4.1
       range-parser: 1.2.1
@@ -28619,7 +28743,7 @@ snapshots:
       mdn-data: 2.14.0
       postcss-media-query-parser: 0.2.3
       postcss-resolve-nested-selector: 0.1.6
-      postcss-selector-parser: 7.0.0
+      postcss-selector-parser: 7.1.0
       postcss-value-parser: 4.2.0
       stylelint: 16.12.0(typescript@5.5.4)
 
@@ -28628,7 +28752,7 @@ snapshots:
       '@csstools/css-parser-algorithms': 3.0.4(@csstools/css-tokenizer@3.0.3)
       '@csstools/css-tokenizer': 3.0.3
       '@csstools/media-query-list-parser': 4.0.2(@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3))(@csstools/css-tokenizer@3.0.3)
-      '@csstools/selector-specificity': 5.0.0(postcss-selector-parser@7.0.0)
+      '@csstools/selector-specificity': 5.0.0(postcss-selector-parser@7.1.0)
       '@dual-bundle/import-meta-resolve': 4.1.0
       balanced-match: 2.0.0
       colord: 2.9.3
@@ -28655,7 +28779,7 @@ snapshots:
       postcss: 8.4.49
       postcss-resolve-nested-selector: 0.1.6
       postcss-safe-parser: 7.0.1(postcss@8.4.49)
-      postcss-selector-parser: 7.0.0
+      postcss-selector-parser: 7.1.0
       postcss-value-parser: 4.2.0
       resolve-from: 5.0.0
       string-width: 4.2.3
@@ -29783,7 +29907,7 @@ snapshots:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack-dev-middleware: 7.3.0(webpack@5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0))
+      webpack-dev-middleware: 7.3.0(webpack@5.97.1(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.24.2))
       ws: 8.18.0
     optionalDependencies:
       webpack: 5.93.0(@swc/core@1.5.7(@swc/helpers@0.5.13))(esbuild@0.23.0)

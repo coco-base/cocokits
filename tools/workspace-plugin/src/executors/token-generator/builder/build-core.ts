@@ -77,12 +77,14 @@ function buildCoreFiles(tokenDictionary: TokenDictionary, coreDir: string, theme
 }
 
 function buildUseAllFile(generatedFileNames: string[], collectionModeNames: TokenCollectionModeNames, coreDir: string) {
+  // Imports
   let useAllFileContent = getDefaultFileHeader();
   generatedFileNames.forEach((fileName) => {
     const usePath = getImportFileName(fileName);
     useAllFileContent += `@use './${usePath}' as *;\n`;
   });
 
+  // use_all
   let useAllMixinContent = '@mixin use_all {';
   const useAllMixinIncludeContent = Object.entries(collectionModeNames).reduce(
     (result, [collectionName, modeNames]) => {
@@ -97,6 +99,7 @@ function buildUseAllFile(generatedFileNames: string[], collectionModeNames: Toke
   useAllMixinContent += useAllMixinIncludeContent;
   useAllMixinContent += '\n}';
 
+  // Save file
   const useAllFilePath = path.join(coreDir, '_use-all.scss');
   fs.writeFileSync(useAllFilePath, useAllFileContent + '\n\n' + useAllMixinContent);
   Logger.success(`✔ [CREATED]: ${useAllFilePath}`);
