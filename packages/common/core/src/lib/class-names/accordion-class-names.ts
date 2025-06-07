@@ -11,11 +11,21 @@ export const accordionLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `Accordion` component.',
     },
-    // example: {
-    //   name: '...',
-    //   selectorStructure: [{ element: '...', modifier: '...' }],
-    //   description: `...`,
-    // },
+    withoutAnimation: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'without-animation' }],
+      description: `Will be add to the host element, when the collapsing and expanding should not have any animation`,
+    },
+    singleMode: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'single-mode' }],
+      description: `Will be add to the host element, when accordion can expand only one panel`,
+    },
+    multiMode: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'multi-mode' }],
+      description: `Will be add to the host element, when accordion can expand multiple panels`,
+    },
   },
 } satisfies LayoutClassNamesConfig;
 
@@ -27,6 +37,12 @@ export function getAccordionClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(accordionLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    // example: generateLayoutClassNameFromElement(accordionLayoutClassNamesConfig, 'example', themeConfig),
+    withoutAnimation: generateLayoutClassNameFromElement(
+      accordionLayoutClassNamesConfig,
+      'withoutAnimation',
+      themeConfig
+    ),
+    singleMode: generateLayoutClassNameFromElement(accordionLayoutClassNamesConfig, 'singleMode', themeConfig),
+    multiMode: generateLayoutClassNameFromElement(accordionLayoutClassNamesConfig, 'multiMode', themeConfig),
   };
 }

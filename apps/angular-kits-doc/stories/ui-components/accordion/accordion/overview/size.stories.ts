@@ -23,7 +23,22 @@ export const Size: StoryObj<AccordionComponent> = {
             <cck-accordion
              <% if (typeof type !== 'undefined') { %> type='<%= type %>'<% } %>
               size='<%= size %>'
-            />
+            >
+              <cck-accordion-panel>
+                <cck-accordion-header>Accordion Header 1</cck-accordion-header>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </cck-accordion-panel>
+
+              <cck-accordion-panel>
+                <cck-accordion-header>Accordion Header 2</cck-accordion-header>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </cck-accordion-panel>
+
+              <cck-accordion-panel>
+                <cck-accordion-header>Accordion Header 3</cck-accordion-header>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </cck-accordion-panel>
+              </cck-accordion>
          <% }) %>
           `,
         },
@@ -37,7 +52,23 @@ export const Size: StoryObj<AccordionComponent> = {
     },
     template: `
       @for (size of cckControl.themeComponentConfig?.size?.values; let col = $index; track size) {
-        <cck-accordion [type]="cckControl.type" [size]="size"/>
+        <h5 style="width: 100%; margin: 0">{{ size }}</h5>
+        <cck-accordion [type]="cckControl.type" [size]="size">
+          <cck-accordion-panel>
+            <cck-accordion-header>Accordion Header 1</cck-accordion-header>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </cck-accordion-panel>
+
+          <cck-accordion-panel>
+            <cck-accordion-header>Accordion Header 2</cck-accordion-header>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </cck-accordion-panel>
+
+          <cck-accordion-panel>
+            <cck-accordion-header>Accordion Header 3</cck-accordion-header>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </cck-accordion-panel>
+        </cck-accordion>
       }
     `,
   }),

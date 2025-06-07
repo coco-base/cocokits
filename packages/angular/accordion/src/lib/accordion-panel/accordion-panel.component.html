@@ -1,1 +1,5 @@
-<p>cck-accordion-panel works !!</p>
+<ng-content select="cck-accordion-header"></ng-content>
+
+<div #content [class]="classNames().contentWrapper">
+  <ng-content></ng-content>
+</div>

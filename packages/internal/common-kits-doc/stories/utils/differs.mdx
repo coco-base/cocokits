@@ -5,7 +5,7 @@
 import { Meta } from '@storybook/addon-docs';
 import { MdxPage } from '@cocokits/storybook-addon-theme';
 
-export const tocItems = [{"id":"selection_arraylikedifft","name":"ArrayLikeDiff<T>"},{"id":"selection_arraylikediffchanget","name":"ArrayLikeDiffChange<T>"},{"id":"selection_arraylikediffoptionst","name":"ArrayLikeDiffOptions<T>"}];
+export const tocItems = [{"id":"selection_arraylikedifft","name":"ArrayLikeDiff<T>"},{"id":"selection_arraylikediffchanget","name":"ArrayLikeDiffChange<T>"},{"id":"selection_arraylikediffoptionst","name":"ArrayLikeDiffOptions<T>"},{"id":"selection_getobjectdiff","name":"getObjectDiff()"}];
 
 <Meta title='Utils/Differs'/>
 <MdxPage breadcrumb='Utils' title='Differs' tocItems={tocItems} hideThemeSwitcher={true}>
@@ -500,6 +500,79 @@ const options: ArrayLikeDiffOptions<MyItem> = {
 </tbody>
 </table>
 </div>
+
+***
+
+</div><div id="selection_getobjectdiff">
+## getObjectDiff()
+
+```ts
+function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
+```
+
+### Type Parameters
+
+<div class="arg-type-table-wrapper">
+<table class="arg-type-table arg-type-table--full-width">
+<thead>
+<tr>
+<th>Type Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`T` *extends* `Record<string | number, any>`
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+### Parameters
+
+<div class="arg-type-table-wrapper">
+<table class="arg-type-table arg-type-table--full-width">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`obj1`
+
+</td>
+<td>
+
+`T`
+
+</td>
+</tr>
+<tr>
+<td>
+
+`obj2`
+
+</td>
+<td>
+
+`T`
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+### Returns
+
+`Partial<T>`
 
 </div>
 </MdxPage>

@@ -56,6 +56,8 @@ export interface ThemeComponentConfig {
     dropdownIcon?: ThemeSvgIcon; // Require
     optionSelectedIcon?: ThemeSvgIcon; // Optional
     chipRemoveIcon?: ThemeSvgIcon; // Require
+    accordionExpandedIcon?: string; // Require
+    accordionCollapsedIcon?: string; // Require
   };
 }
 

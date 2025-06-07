@@ -1,14 +1,14 @@
 import { AccordionComponent } from '@cocokits/angular-accordion';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
-import { ngThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-angular';
+import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
-export const Default: StoryObj<AccordionComponent> = {
-  name: 'Default',
+export const Disabled: StoryObj<AccordionComponent> = {
+  name: 'Disabled',
   parameters: {
     docs: {
       description: {
         story:
-          'Shows the default example with no additional configurations, providing an interactive example in its most basic form.',
+          'The `disabled` state allows the accordion to be visually and functionally inactive, preventing user interaction. This is useful for scenarios where the accordion should not be accessible, such as during loading states or when certain conditions are not met.',
       },
     },
     cckAddon: {
@@ -20,25 +20,29 @@ export const Default: StoryObj<AccordionComponent> = {
           code: `
           <cck-accordion
             <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-            <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
-            <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
           >
+
+            <cck-accordion-panel>
+              <cck-accordion-header>Accordion Header 1</cck-accordion-header>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </cck-accordion-panel>
+
+            <cck-accordion-panel disabled>
+              <cck-accordion-header>Accordion Header 2</cck-accordion-header>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </cck-accordion-panel>
+
+            <cck-accordion-panel>
+              <cck-accordion-header>Accordion Header 3</cck-accordion-header>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </cck-accordion-panel>
           </cck-accordion>
           `,
         },
       ],
-      hasControl: true,
-      controls: [
-        CCK_CONTROL.type(),
-        CCK_CONTROL.size(),
-        CCK_CONTROL.color(),
-        CCK_CONTROL.additional(),
-        CCK_CONTROL.customSelect('Icon Position', ['right', 'left']),
-        CCK_CONTROL.customSelect('Toggle Trigger', ['header', 'icon']),
-        CCK_CONTROL.customNumber('Duration', 300),
-        CCK_CONTROL.customBoolean('Multi Mode'),
-        CCK_CONTROL.customBoolean('Instant Animation'),
-      ],
+      singleControls: ['type'],
+      hasControl: false,
+      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => {
@@ -47,23 +51,15 @@ export const Default: StoryObj<AccordionComponent> = {
         ...args,
       },
       template: `
-        <cck-accordion
-          ${ngThemeArgsToTemplate(args)}
-          [multiMode]="cckControl.multiMode"
-          [instantAnimation]="cckControl.instantAnimation"
-          [animationDuration]="cckControl.duration"
-          [iconPosition]="cckControl.iconPosition"
-          [toggleTrigger]="cckControl.toggleTrigger"
-        >
+        <cck-accordion [type]="cckControl.type">
+
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 1</cck-accordion-header>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </cck-accordion-panel>
 
-          <cck-accordion-panel>
+          <cck-accordion-panel disabled>
             <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </cck-accordion-panel>
 

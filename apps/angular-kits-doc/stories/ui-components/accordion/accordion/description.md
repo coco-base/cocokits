@@ -4,9 +4,6 @@ The core wrapper that manages the state and structure of all panels. It handles 
 - **Custom Icon Template:**
 Allow developers to define a custom template for the expand/collapse icon, supporting branding or UI consistency.
 
-- **Lazy Loading:**
-Load panel content only when expanded for better performance, and destroy it again when collapsed to free resources.
-
 - **Expansion Mode:**
 Support both single and multiple expanded panels simultaneously, configurable via input.
 
@@ -30,6 +27,3 @@ Allow batch toggle actions to expand or collapse all panels at once, useful in d
 
 - **Nested Support:**
 Support placing accordions inside accordion content, enabling complex hierarchical layouts.
-
-- **Custom Logic Guard:**
-Before collapsing a panel, allow showing a confirmation dialog or running async logic to approve the action.

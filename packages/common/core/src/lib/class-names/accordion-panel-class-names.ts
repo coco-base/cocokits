@@ -11,11 +11,31 @@ export const accordionPanelLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `AccordionPanel` component.',
     },
-    // example: {
-    //   name: '...',
-    //   selectorStructure: [{ element: '...', modifier: '...' }],
-    //   description: `...`,
+    contentWrapper: {
+      name: 'Content Wrapper Element',
+      selectorStructure: [{ element: 'content-wrapper' }],
+      description: `The Wrapper element that contains content of panel`,
+    },
+    // withLazyLoad: {
+    //   name: 'Host Element',
+    //   selectorStructure: [{ modifier: 'with-lazy-load' }],
+    //   description: `Will be add to the host element, when the lazy loading template is available`,
     // },
+    disabled: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'disabled' }],
+      description: `Will be add to the host element, when the panel is disabled`,
+    },
+    expanded: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'expanded' }],
+      description: `Will be add to the host element, when the panel is expanded`,
+    },
+    collapsed: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'collapsed' }],
+      description: `Will be add to the host element, when the panel is collapsed`,
+    },
   },
 } satisfies LayoutClassNamesConfig;
 
@@ -27,6 +47,14 @@ export function getAccordionPanelClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(accordionPanelLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    // example: generateLayoutClassNameFromElement(accordionPanelLayoutClassNamesConfig, 'example', themeConfig),
+    contentWrapper: generateLayoutClassNameFromElement(
+      accordionPanelLayoutClassNamesConfig,
+      'contentWrapper',
+      themeConfig
+    ),
+    // withLazyLoad: generateLayoutClassNameFromElement(accordionPanelLayoutClassNamesConfig, 'withLazyLoad', themeConfig),
+    disabled: generateLayoutClassNameFromElement(accordionPanelLayoutClassNamesConfig, 'disabled', themeConfig),
+    expanded: generateLayoutClassNameFromElement(accordionPanelLayoutClassNamesConfig, 'expanded', themeConfig),
+    collapsed: generateLayoutClassNameFromElement(accordionPanelLayoutClassNamesConfig, 'collapsed', themeConfig),
   };
 }

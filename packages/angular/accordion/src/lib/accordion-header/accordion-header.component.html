@@ -1,1 +1,18 @@
-<p>cck-accordion-header works !!</p>
+<ng-content></ng-content>
+
+<div [class]="classNames().iconWrapper" (click)="toggle()">
+  <ng-container *ngTemplateOutlet="template(); context: { 
+      isExpanded: isExpanded(), 
+      disabled: panelRef.disabled() 
+    }"></ng-container>
+</div>
+
+<ng-template #defaultIconTemp let-isExpanded="isExpanded">
+  <button cck-icon-button>
+    @if(isExpanded) {
+      <cck-svg-icon [icon]="expandedIcon"/>
+    } @else {
+      <cck-svg-icon [icon]="collapsedIcon"/>
+    }
+  </button>
+</ng-template>

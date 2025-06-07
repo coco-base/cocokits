@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { Icons } from '@cocokits/common-icons';
 import { ThemeComponentConfigRecord, ThemeConfig } from '@cocokits/core';
 
 const components: ThemeComponentConfigRecord = {
@@ -241,15 +242,19 @@ const components: ThemeComponentConfigRecord = {
   accordion: {
     type: {
       name: 'type',
-      values: ['default', 'secondary'],
+      values: ['default', 'underline'],
       default: 'default',
       description: '',
     },
     size: {
       name: 'size',
       values: ['sm', 'md'],
-      default: 'md',
+      default: 'sm',
       description: '',
+    },
+    templates: {
+      accordionExpandedIcon: Icons.arrowHeadUp,
+      accordionCollapsedIcon: Icons.arrowHeadDown,
     },
   },
   accordionHeader: {},

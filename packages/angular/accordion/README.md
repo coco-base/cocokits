@@ -19,9 +19,6 @@ The core wrapper component that manages the accordion structure. It handles stat
 - **Custom Icon Template:**
 Allow developers to define a custom template for the expand/collapse icon, supporting branding or UI consistency.
 
-- **Lazy Loading:**
-Load panel content only when expanded for better performance, and destroy it again when collapsed to free resources.
-
 - **Expansion Mode:**
 Support both single and multiple expanded panels simultaneously, configurable via input.
 

@@ -2,6 +2,31 @@
 
 @mixin accordion {
   .cck-accordion {
-    opacity: 1;
+    display: flex;
+    flex-direction: column;
+
+    &__default {
+      &.cck-accordion__size {
+        &--sm {
+          gap: $spacing-7;
+        }
+
+        &--md {
+          gap: $spacing-8;
+        }
+      }
+    }
+
+    &__underline {
+      &.cck-accordion__size {
+        &--sm {
+          gap: $spacing-8;
+        }
+
+        &--md {
+          gap: $spacing-10;
+        }
+      }
+    }
   }
 }
