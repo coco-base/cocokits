@@ -19,3 +19,38 @@ $avatar-label-gap-xs: var(--size-12);
 $avatar-label-gap-sm: var(--size-12);
 $avatar-label-gap-md: var(--size-12);
 $avatar-label-gap-lg: var(--size-20);
+
+// $button-primary-height-sm
+$accordion-default-gap-sm: var(--size-12);
+$accordion-default-gap-md: var(--size-20);
+$accordion-panel-default-spacing-h-padding-sm: var(--size-20);
+$accordion-panel-default-spacing-h-padding-md: var(--size-20);
+$accordion-panel-default-spacing-padding-bottom-sm: var(--size-20);
+$accordion-panel-default-spacing-padding-bottom-md: var(--size-20);
+$accordion-header-spacing-height-sm: var(--size-48);
+$accordion-header-spacing-height-md: var(--size-56);
+
+/**
+1- accordion
+   single-mode
+   multi-mode
+   default
+   group	
+   basic
+   sm
+   md
+
+2- panel
+   expanded
+   collapsed
+   disabled
+   
+
+3- header
+   icon-left
+   icon-right
+   trigger-icon
+   trigger-header
+   3-1 icon-wrapper
+4- content-wrapper
+*/

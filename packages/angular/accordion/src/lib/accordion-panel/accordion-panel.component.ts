@@ -1,7 +1,6 @@
 import {
   afterNextRender,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   effect,
@@ -43,12 +42,9 @@ export class AccordionPanelComponent<TValue extends string | number> extends _Ui
     { if: this.disabled(), classes: this.classNames().disabled },
   ]);
 
-  protected hasExpandedOnce = false;
-
   protected animation!: Animation;
   private store = inject(AccordionStore);
   private accordionRef = inject(AccordionComponent);
-  private cd = inject(ChangeDetectorRef);
   protected isExpanded = this.store.isExpanded(this._id);
 
   /**
@@ -75,14 +71,12 @@ export class AccordionPanelComponent<TValue extends string | number> extends _Ui
       : await this.animation.animate({ easing: cubicBezierEasing, duration: this.accordionRef.animationDuration() });
 
     if (isExpanded) {
-      this.hasExpandedOnce = true;
       this.content().nativeElement.style.height = `auto`;
-      this.cd.markForCheck(); // For lazy loading to trigger change detection
     }
   });
 
   private __setInitSize = afterNextRender(() => {
-    this.animation = new Animation(this.content().nativeElement);
+    this.animation = Animation.getOrCreateInstance(this.content().nativeElement);
     this.animation.setDimension({ height: 0 }).applyImmediately();
   });
 }

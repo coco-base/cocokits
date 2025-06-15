@@ -1,7 +1,94 @@
 @use '../../token/scss' as *;
 
+$accordion2: '.cck-accordion';
+$panel2: '.cck-accordion-panel';
+$sm2: '.cck-accordion__size--sm';
+$md2: '.cck-accordion__size--md';
+$expanded2: '.cck-accordion-panel--expanded';
+$collapsed2: '.cck-accordion-panel--collapsed';
+$contentWrapper2: '.cck-accordion-panel__content-wrapper';
+$default2: '.cck-accordion__default';
+$group2: '.cck-accordion__group';
+$basic2: '.cck-accordion__basic';
+$noAnimation: '.cck-accordion--instant-animation';
+
+/**
+1- accordion
+   single-mode
+   multi-mode
+   default
+   group	
+   basic
+   sm
+   md
+
+2- panel
+   expanded
+   collapsed
+   disabled
+   
+
+3- header
+   icon-left
+   icon-right
+   trigger-icon
+   trigger-header
+   3-1 icon-wrapper
+4- content-wrapper
+*/
+
 @mixin accordion-panel {
-  .cck-accordion-panel {
-    opacity: 1;
+  #{$panel2} {
+    overflow: hidden;
+    font: $text-md-regular;
+    color: $color-font-default;
+    transition: padding-bottom 300ms;
+  }
+
+  #{$noAnimation} > #{$panel2} {
+    transition: none;
+  }
+
+  #{$collapsed2} {
+    padding-bottom: 0;
+  }
+
+  #{$sm2} > #{$panel2} {
+    &#{$expanded2} {
+      padding-bottom: $accordion-panel-default-spacing-padding-bottom-sm;
+    }
+
+    > #{$contentWrapper2} {
+      padding-left: $accordion-panel-default-spacing-h-padding-sm;
+      padding-right: $accordion-panel-default-spacing-h-padding-sm;
+    }
+  }
+
+  #{$md2} > #{$panel2} {
+    &#{$expanded2} {
+      padding-bottom: $accordion-panel-default-spacing-padding-bottom-md;
+    }
+
+    > #{$contentWrapper2} {
+      padding-left: $accordion-panel-default-spacing-h-padding-sm;
+      padding-right: $accordion-panel-default-spacing-h-padding-sm;
+    }
+  }
+
+  // #{$contentWrapper2} {
+  //   font: $text-md-regular;
+  // }
+
+  #{$default2} {
+    > #{$panel2} {
+      border: 1px solid $color-border-default;
+      border-radius: 6px;
+    }
+  }
+  #{$group2},
+  #{$basic2} {
+    > #{$panel2}:not(:last-of-type) {
+      border-bottom: 1px solid $color-border-default;
+    }
   }
 }

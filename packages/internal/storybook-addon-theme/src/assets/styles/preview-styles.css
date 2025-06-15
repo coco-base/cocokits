@@ -464,14 +464,11 @@ a{
   font:var(--cck-doc-text-sm-medium);
   color:var(--cck-doc-color-font-1);
 }
-.arg-type-table td code {
+.arg-type-table td code{
   white-space:nowrap;
   font:var(--cck-doc-text-xs-regular);
   color:var(--cck-doc-color-font-2);
   padding:0 6px;
-}
-.arg-type-table td code.wrap {
-  white-space: normal;
 }
 .arg-type-table th{
   font:var(--cck-doc-text-sm-medium);
@@ -683,7 +680,7 @@ a{
 }
 
 .cck-doc-story__button--basic{
-  padding:0 16px 0 16px;
+  padding:0 16px;
   background-color:transparent;
   color:var(--cck-doc-color-font-1);
   gap:8px;
@@ -702,6 +699,10 @@ a{
 }
 .cck-doc-story__button--basic:hover{
   background-color:var(--cck-doc-color-bg-hover-2);
+}
+
+.cck-doc-story__header{
+  width:100%;
 }
 .doc-cck-button{
   min-width:80px;

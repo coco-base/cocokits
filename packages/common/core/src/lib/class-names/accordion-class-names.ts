@@ -11,9 +11,9 @@ export const accordionLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `Accordion` component.',
     },
-    withoutAnimation: {
+    instantAnimation: {
       name: 'Host Element',
-      selectorStructure: [{ modifier: 'without-animation' }],
+      selectorStructure: [{ modifier: 'instant-animation' }],
       description: `Will be add to the host element, when the collapsing and expanding should not have any animation`,
     },
     singleMode: {
@@ -37,9 +37,9 @@ export function getAccordionClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(accordionLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    withoutAnimation: generateLayoutClassNameFromElement(
+    instantAnimation: generateLayoutClassNameFromElement(
       accordionLayoutClassNamesConfig,
-      'withoutAnimation',
+      'instantAnimation',
       themeConfig
     ),
     singleMode: generateLayoutClassNameFromElement(accordionLayoutClassNamesConfig, 'singleMode', themeConfig),

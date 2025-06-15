@@ -11,16 +11,11 @@ export const accordionHeaderLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `AccordionHeader` component.',
     },
-    iconWrapper: {
-      name: 'Icon Wrapper Element',
-      selectorStructure: [{ element: 'icon-wrapper' }],
-      description: `The Wrapper element that contains icon of header`,
+    iconBtn: {
+      name: 'Icon Button Element',
+      selectorStructure: [{ element: 'icon-btn' }],
+      description: `The Icon button element that contains icon of header`,
     },
-    // withCustomIcon: {
-    //   name: 'Host Element',
-    //   selectorStructure: [{ modifier: 'with-custom-icon' }],
-    //   description: `Will be add to the host element, when the custom icon template is used instead of default icon`,
-    // },
     iconLeft: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'icon-left' }],
@@ -57,12 +52,7 @@ export function getAccordionHeaderClassNames(
       themeConfig,
       componentProps
     ),
-    iconWrapper: generateLayoutClassNameFromElement(accordionHeaderLayoutClassNamesConfig, 'iconWrapper', themeConfig),
-    // withCustomIcon: generateLayoutClassNameFromElement(
-    //   accordionHeaderLayoutClassNamesConfig,
-    //   'withCustomIcon',
-    //   themeConfig
-    // ),
+    iconBtn: generateLayoutClassNameFromElement(accordionHeaderLayoutClassNamesConfig, 'iconBtn', themeConfig),
     iconLeft: generateLayoutClassNameFromElement(accordionHeaderLayoutClassNamesConfig, 'iconLeft', themeConfig),
     iconRight: generateLayoutClassNameFromElement(accordionHeaderLayoutClassNamesConfig, 'iconRight', themeConfig),
     triggerIcon: generateLayoutClassNameFromElement(accordionHeaderLayoutClassNamesConfig, 'triggerIcon', themeConfig),

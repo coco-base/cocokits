@@ -24,19 +24,19 @@ export const Type: StoryObj<AccordionComponent> = {
             >
               <cck-accordion-panel>
                 <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </cck-accordion-panel>
 
               <cck-accordion-panel>
                 <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </cck-accordion-panel>
 
               <cck-accordion-panel>
                 <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </cck-accordion-panel>
             </cck-accordion>
           <% }) %>
@@ -51,21 +51,21 @@ export const Type: StoryObj<AccordionComponent> = {
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <h5 style="width: 100%; margin: 0">{{ type }}</h5>
+        <h4 class='cck-doc-story__header'>{{type}}</h4>
         <cck-accordion [type]="type">
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
         </cck-accordion>
       }

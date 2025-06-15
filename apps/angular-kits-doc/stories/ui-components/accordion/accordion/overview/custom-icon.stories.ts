@@ -23,13 +23,7 @@ export const CustomIcon: StoryObj<AccordionComponent> = {
           >
             <!-- Custom icon template for all accordions header -->
             <ng-template cckAccordionHeaderIcon let-isExpanded="isExpanded">
-              <button cck-icon-button>
-                @if(isExpanded) {
-                  <cck-svg-icon [icon]="Icons.minus"/>
-                } @else {
-                  <cck-svg-icon [icon]="Icons.plus"/>
-                }
-              </button>
+              <cck-svg-icon [icon]="isExpanded ? Icons.minus : Icons.plus"/>
             </ng-template>
 
             <cck-accordion-panel>
@@ -38,26 +32,20 @@ export const CustomIcon: StoryObj<AccordionComponent> = {
 
                 <!-- Custom icon template for this accordion header -->
                 <ng-template cckAccordionHeaderIcon let-isExpanded="isExpanded">
-                  <button cck-icon-button>
-                    @if(isExpanded) {
-                      <cck-svg-icon [icon]="Icons.arrowUp"/>
-                    } @else {
-                      <cck-svg-icon [icon]="Icons.arrowDown"/>
-                    }
-                  </button>
+                  <cck-svg-icon [icon]="isExpanded ? Icons.arrowUp : Icons.arrowDown"/>
                 </ng-template>
               </cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
 
             <cck-accordion-panel disabled>
               <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
 
             <cck-accordion-panel>
               <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
           </cck-accordion>
           `,
@@ -77,39 +65,27 @@ export const CustomIcon: StoryObj<AccordionComponent> = {
         <cck-accordion [type]="cckControl.type">
 
         <ng-template cckAccordionHeaderIcon let-isExpanded="isExpanded">
-          <button cck-icon-button>
-            @if(isExpanded) {
-              <cck-svg-icon [icon]="cckIcons.arrowUp"/>
-            } @else {
-              <cck-svg-icon [icon]="cckIcons.arrowDown"/>
-            }
-          </button>
+          <cck-svg-icon [icon]="isExpanded ? cckIcons.arrowUp : cckIcons.arrowDown"/>
         </ng-template>
 
           <cck-accordion-panel>
             <cck-accordion-header>
               Accordion Header 1
               <ng-template cckAccordionHeaderIcon let-isExpanded="isExpanded">
-                <button cck-icon-button>
-                  @if(isExpanded) {
-                    <cck-svg-icon [icon]="cckIcons.minus"/>
-                  } @else {
-                    <cck-svg-icon [icon]="cckIcons.plus"/>
-                  }
-                </button>
+                <cck-svg-icon [icon]="isExpanded ? cckIcons.minus : cckIcons.plus"/>
               </ng-template>
             </cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
         </cck-accordion>
       `,

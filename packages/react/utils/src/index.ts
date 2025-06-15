@@ -5,3 +5,8 @@ export * from './lib/use-silent-state';
 export * from './lib/use-debug';
 export * from './lib/use-immediately-effect';
 export * from './lib/use-promise';
+export * from './lib/use-on-init';
+export * from './lib/use-on-destroy';
+export * from './lib/use-slot-children';
+export * from './lib/use-animation';
+export * from './lib/use-selection';

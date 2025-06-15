@@ -12,28 +12,26 @@
     &--collapsed {
       padding-bottom: 0;
     }
-
-    &--sm.cck-accordion-panel--expanded {
-      padding-bottom: $spacing-8;
-    }
-
-    &--md.cck-accordion-panel--expanded {
-      padding-bottom: $spacing-10;
-    }
   }
 
   .cck-accordion {
-    &__default {
+    &-panel {
       transition: padding-bottom 300ms;
+    }
 
-      &.cck-accordion__size--sm.cck-accordion-panel--expanded {
-        padding-bottom: $spacing-8;
-      }
+    &--instant-animation > .cck-accordion-panel {
+      transition: none;
+    }
 
-      &.cck-accordion__size.md.cck-accordion-panel--expanded {
-        padding-bottom: $spacing-10;
-      }
+    &__size--sm .cck-accordion-panel--expanded {
+      padding-bottom: $spacing-8;
+    }
 
+    &__size.md .cck-accordion-panel--expanded {
+      padding-bottom: $spacing-10;
+    }
+
+    &__default {
       > .cck-accordion-panel {
         border: 1px solid $base-border;
         border-radius: $radi-6;

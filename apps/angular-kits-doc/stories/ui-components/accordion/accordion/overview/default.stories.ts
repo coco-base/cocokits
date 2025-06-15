@@ -22,7 +22,26 @@ export const Default: StoryObj<AccordionComponent> = {
             <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
             <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
             <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
+            multiMode="<%= multiMode %>"
+            instantAnimation="<%= instantAnimation %>"
+            animationDuration="<%= duration %>"
+            iconPosition="<%= iconPosition %>"
+            toggleTrigger="<%= toggleTrigger %>"
           >
+            <cck-accordion-panel>
+              <cck-accordion-header>Accordion Header 1</cck-accordion-header>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </cck-accordion-panel>
+
+            <cck-accordion-panel>
+              <cck-accordion-header>Accordion Header 2</cck-accordion-header>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </cck-accordion-panel>
+
+            <cck-accordion-panel>
+              <cck-accordion-header>Accordion Header 3</cck-accordion-header>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </cck-accordion-panel>
           </cck-accordion>
           `,
         },
@@ -57,19 +76,17 @@ export const Default: StoryObj<AccordionComponent> = {
         >
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
         </cck-accordion>
       `,

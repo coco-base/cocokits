@@ -24,17 +24,17 @@ export const Disabled: StoryObj<AccordionComponent> = {
 
             <cck-accordion-panel>
               <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
 
             <cck-accordion-panel disabled>
               <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
 
             <cck-accordion-panel>
               <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
           </cck-accordion>
           `,
@@ -55,17 +55,17 @@ export const Disabled: StoryObj<AccordionComponent> = {
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel disabled>
             <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
         </cck-accordion>
       `,

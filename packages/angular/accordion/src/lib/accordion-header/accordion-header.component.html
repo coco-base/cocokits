@@ -1,18 +1,12 @@
 <ng-content></ng-content>
 
-<div [class]="classNames().iconWrapper" (click)="toggle()">
+<button [class]="classNames().iconBtn" (click)="toggle()">
   <ng-container *ngTemplateOutlet="template(); context: { 
       isExpanded: isExpanded(), 
       disabled: panelRef.disabled() 
     }"></ng-container>
-</div>
+</button>
 
 <ng-template #defaultIconTemp let-isExpanded="isExpanded">
-  <button cck-icon-button>
-    @if(isExpanded) {
-      <cck-svg-icon [icon]="expandedIcon"/>
-    } @else {
-      <cck-svg-icon [icon]="collapsedIcon"/>
-    }
-  </button>
+  <cck-svg-icon [icon]="isExpanded ? expandedIcon : collapsedIcon"/>
 </ng-template>

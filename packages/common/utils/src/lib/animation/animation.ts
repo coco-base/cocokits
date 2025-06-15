@@ -6,6 +6,7 @@ import { getAnimationValueOnProgress, getTransform2dValue } from './animation.ut
 import { AnimationFrameManager } from './animation-frame-manager';
 import { AnimationStore } from './animation-store';
 import { getObjectDiff } from '../differs/simple-object-diff';
+import { hasNotValue } from '../ensure/ensure-value';
 import { deepClone } from '../uncategorized/deep-clone';
 import { clamp } from '../uncategorized/math';
 
@@ -145,13 +146,19 @@ export class Animation {
     return this;
   }
 
-  public setScale(scale: number) {
-    this.state.deepSet({ properties: { transform: { scale } } });
+  public setScale(scale: number | undefined | null) {
+    if (hasNotValue(scale)) {
+      return this;
+    }
+    this.state.deepSet({ properties: { transform: { scale: scale as number } } });
     return this;
   }
 
-  public setOpacity(opacity: number) {
-    const boundedOpacity = clamp(opacity, [0, 1]);
+  public setOpacity(opacity: number | undefined | null) {
+    if (hasNotValue(opacity)) {
+      return this;
+    }
+    const boundedOpacity = clamp(opacity as number, [0, 1]);
     this.state.deepSet({ properties: { opacity: boundedOpacity } });
     return this;
   }

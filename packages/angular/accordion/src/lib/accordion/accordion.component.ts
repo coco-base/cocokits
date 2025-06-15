@@ -39,7 +39,7 @@ export class AccordionComponent<
 > extends _UiBaseComponent<'accordion'> {
   protected readonly componentName = 'accordion';
   protected extraHostElementClassConditions = computed(() => [
-    { if: this.instantAnimation(), classes: this.classNames().withoutAnimation },
+    { if: this.instantAnimation(), classes: this.classNames().instantAnimation },
     { if: this.multiMode(), classes: this.classNames().multiMode },
     { if: !this.multiMode(), classes: this.classNames().singleMode },
   ]);

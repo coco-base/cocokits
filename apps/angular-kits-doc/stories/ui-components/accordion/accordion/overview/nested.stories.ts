@@ -21,12 +21,12 @@ export const Nested: StoryObj<AccordionComponent> = {
           <cck-accordion>
             <cck-accordion-panel>
               <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
 
             <cck-accordion-panel disabled>
               <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </cck-accordion-panel>
 
             <cck-accordion-panel>
@@ -35,17 +35,17 @@ export const Nested: StoryObj<AccordionComponent> = {
               <cck-accordion>
                 <cck-accordion-panel>
                   <cck-accordion-header>Accordion Header 3-1</cck-accordion-header>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </cck-accordion-panel>
 
                 <cck-accordion-panel disabled>
                   <cck-accordion-header>Accordion Header 3-2</cck-accordion-header>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </cck-accordion-panel>
 
                 <cck-accordion-panel>
                   <cck-accordion-header>Accordion Header 3-3</cck-accordion-header>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </cck-accordion-panel>
               </cck-accordion>
 
@@ -66,12 +66,12 @@ export const Nested: StoryObj<AccordionComponent> = {
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
             <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </cck-accordion-panel>
 
           <cck-accordion-panel>
@@ -80,17 +80,17 @@ export const Nested: StoryObj<AccordionComponent> = {
             <cck-accordion>
               <cck-accordion-panel>
                 <cck-accordion-header>Accordion Header 3-1</cck-accordion-header>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </cck-accordion-panel>
 
               <cck-accordion-panel>
                 <cck-accordion-header>Accordion Header 3-2</cck-accordion-header>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </cck-accordion-panel>
 
               <cck-accordion-panel>
                 <cck-accordion-header>Accordion Header 3-3</cck-accordion-header>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </cck-accordion-panel>
             </cck-accordion>
 

@@ -1,4 +1,4 @@
-import { Accordion } from '@cocokits/react-accordion';
+import { Accordion, AccordionHeader, AccordionPanel } from '@cocokits/react-accordion';
 import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -19,7 +19,7 @@ export const Size: StoryObj<typeof Accordion> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%= componentName.className %> } from "@cocokits/react-components";
+          import { Accordion, AccordionPanel, AccordionHeader } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
@@ -28,7 +28,32 @@ export const Size: StoryObj<typeof Accordion> = {
                   <Accordion
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                     size='<%= size %>'
-                  />
+                    
+                  >
+                    <AccordionPanel>
+                      <AccordionHeader>Accordion Header 1</AccordionHeader>
+                      
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua.
+                      
+                    </AccordionPanel>
+
+                    <AccordionPanel>
+                      <AccordionHeader>Accordion Header 1</AccordionHeader>
+                      
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua.
+                      
+                    </AccordionPanel>
+
+                    <AccordionPanel>
+                      <AccordionHeader>Accordion Header 1</AccordionHeader>
+                      
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua.
+                      
+                    </AccordionPanel>
+                    </Accordion>
                 <% }) %>
               </>
 
@@ -43,7 +68,28 @@ export const Size: StoryObj<typeof Accordion> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Accordion key={index} type={args.cckControl.type} size={size} />
+        <>
+          <h4 className="cck-doc-story__header">{size}</h4>
+          <Accordion key={index} type={args.cckControl.type} size={size}>
+            <AccordionPanel>
+              <AccordionHeader>Accordion Header 1</AccordionHeader>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.
+            </AccordionPanel>
+
+            <AccordionPanel>
+              <AccordionHeader>Accordion Header 1</AccordionHeader>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.
+            </AccordionPanel>
+
+            <AccordionPanel>
+              <AccordionHeader>Accordion Header 1</AccordionHeader>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.
+            </AccordionPanel>
+          </Accordion>
+        </>
       ))}
     </>
   ),

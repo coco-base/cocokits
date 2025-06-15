@@ -55,26 +55,20 @@ import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
       (expandedChange)="selection.setSelection($event)">
       <cck-accordion-panel value="1">
         <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
-        </p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua.
       </cck-accordion-panel>
 
       <cck-accordion-panel value="2" disabled>
         <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
-        </p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua.
       </cck-accordion-panel>
 
       <cck-accordion-panel value="3">
         <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
-        </p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua.
       </cck-accordion-panel>
     </cck-accordion>
   `,
@@ -151,26 +145,20 @@ export const Control: StoryObj<AccordionComponent> = {
               (expandedChange)="selection.setSelection($event)">
               <cck-accordion-panel value="1">
                 <cck-accordion-header>Accordion Header 1</cck-accordion-header>
-                <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
                   magna aliqua.
-                </p>
               </cck-accordion-panel>
 
               <cck-accordion-panel value="2" disabled>
                 <cck-accordion-header>Accordion Header 2</cck-accordion-header>
-                <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
                   magna aliqua.
-                </p>
               </cck-accordion-panel>
 
               <cck-accordion-panel value="3">
                 <cck-accordion-header>Accordion Header 3</cck-accordion-header>
-                <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
                   magna aliqua.
-                </p>
               </cck-accordion-panel>
             </cck-accordion>
           `,

@@ -14,13 +14,11 @@ export function createComponentStore<T extends object>(initialState: T) {
   let state = initialState;
   const listeners = new Set<(state: T) => void>();
 
-  const updateState = (partial: Partial<T> | ((prevState: T) => Partial<T>)): T => {
+  const updateState = (partial: Partial<T> | ((prevState: T) => Partial<T>)) => {
     const nextState = typeof partial === 'function' ? partial(state) : partial;
     state = { ...state, ...nextState };
 
     listeners.forEach((listener) => listener(state));
-
-    return state;
   };
 
   const setState = (newState: T) => {

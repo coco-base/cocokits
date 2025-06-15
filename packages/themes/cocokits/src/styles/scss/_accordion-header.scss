@@ -1,7 +1,137 @@
 @use '../../token/scss' as *;
 
+$accordion: '.cck-accordion';
+$panel: '.cck-accordion-panel';
+$header: '.cck-accordion-header';
+$sm: '.cck-accordion__size--sm';
+$md: '.cck-accordion__size--md';
+$expanded: '.cck-accordion-panel--expanded';
+$collapsed: '.cck-accordion-panel--collapsed';
+$contentWrapper: '.cck-accordion-panel__content-wrapper';
+$default: '.cck-accordion__default';
+$group: '.cck-accordion__group';
+$basic: '.cck-accordion__basic';
+$iconLeft: '.cck-accordion-header--icon-left';
+$iconRight: '.cck-accordion-header--icon-right';
+$iconBtn: '.cck-accordion-header__icon-btn';
+$iconSvg: '.cck-svg-icon.cck-svg-icon--default-color';
+$triggerIcon: '.cck-accordion-header--trigger-icon';
+$triggerHeader: '.cck-accordion-header--trigger-header';
+$disabled: '.cck-accordion-panel--disabled';
+
 @mixin accordion-header {
-  .cck-accordion-header {
-    opacity: 1;
+  #{$triggerIcon} {
+    > #{$iconBtn}:hover {
+      background-color: $color-h-contrast-alpha-1;
+    }
+  }
+
+  #{$triggerHeader} {
+    cursor: pointer;
+
+    > #{$iconBtn}:hover {
+      background-color: transparent;
+    }
+  }
+
+  #{$header} {
+    display: flex;
+    align-items: center;
+    color: $color-font-default;
+
+    #{$iconSvg} {
+      fill: $color-font-default;
+    }
+
+    > #{$iconBtn} {
+      background-color: transparent;
+      fill: $color-font-default;
+      border-radius: 4px;
+      cursor: pointer;
+      outline: none;
+      border: none;
+      display: flex;
+      justify-self: center;
+      align-items: center;
+    }
+  }
+
+  #{$iconRight} {
+    > #{$iconBtn} {
+      margin-left: auto;
+    }
+  }
+
+  #{$iconLeft} {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+
+  #{$sm} {
+    > #{$panel} > #{$header} {
+      height: $accordion-header-spacing-height-sm;
+
+      > #{$iconBtn} {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+
+  #{$md} {
+    > #{$panel} #{$header} {
+      height: $accordion-header-spacing-height-md;
+
+      > #{$iconBtn} {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+
+  #{$panel} > #{$header} {
+    font: $text-md-medium;
+
+    &#{$iconRight} {
+      padding-left: $accordion-panel-default-spacing-h-padding-sm;
+      padding-right: calc($accordion-panel-default-spacing-h-padding-sm - 10px);
+    }
+
+    &#{$iconLeft} {
+      padding-left: calc($accordion-panel-default-spacing-h-padding-sm - 10px);
+      padding-right: $accordion-panel-default-spacing-h-padding-sm;
+    }
+  }
+
+  #{$default},
+  #{$group} {
+    > #{$collapsed} > #{$header} {
+      background-color: $color-h-contrast-alpha-2;
+    }
+  }
+
+  #{$basic} {
+    > #{$panel} > #{$triggerHeader} {
+      &:hover {
+        background-color: $color-h-contrast-alpha-2;
+      }
+    }
+  }
+
+  #{$disabled} {
+    color: $color-disabled-font;
+    opacity: 0.5;
+
+    > #{$header} {
+      color: currentcolor;
+
+      &#{$triggerHeader} {
+        cursor: not-allowed;
+      }
+
+      > #{$iconBtn} {
+        display: none;
+      }
+    }
   }
 }

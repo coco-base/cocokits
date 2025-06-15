@@ -1,5 +1,5 @@
 import { Accordion, AccordionHeader,AccordionPanel } from '@cocokits/react-accordion';
-import { StoriesMeta } from '@cocokits/storybook-addon-theme-react';
+import { StoriesMeta, withWrapperDecorator } from '@cocokits/storybook-addon-theme-react';
 
 import descriptionMd from './description.md?raw';
 
@@ -7,6 +7,10 @@ export { Default } from './overview/default.stories';
 export { Type } from './overview/type.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
+export { Disabled } from './overview/disabled.stories';
+export { CustomIcon } from './overview/custom-icon.stories';
+export { Nested } from './overview/nested.stories';
+export { Control } from './overview/control.stories';
 
 const meta: StoriesMeta<typeof Accordion> = {
   component: Accordion,
@@ -16,7 +20,9 @@ const meta: StoriesMeta<typeof Accordion> = {
     AccordionPanel,
     AccordionHeader
   },
-  decorators: [],
+  decorators: [
+    withWrapperDecorator({ insideBox: true }, { width: '400px' }),
+  ],
   parameters: {
     docs: {
       description: {
