@@ -2,6 +2,7 @@ import { Markdown } from '@storybook/addon-docs';
 import styled from 'styled-components';
 
 import { StoryDocPageComponentArgType } from './story-doc-page-api.model';
+import { parseTypeDefinition } from './story-doc-page-api.utils';
 
 interface StoryDocPageApiTableProps {
   hideDefault?: boolean;
@@ -26,13 +27,11 @@ export function StoryDocPageApiTable({ hideDefault = false, argTypes }: StoryDoc
               <td>{argType.name}</td>
               <td>
                 <div className="arg-type-table--gap-8">
-                  {argType.type.startsWith('{') || argType.type.includes('=>') ? (
-                    /* If the value is ab object or arrow function such as `{'{ rounded: boolean }'}` or `(value: string) => boolean`, it will be displayed as a single code block. */
-                    <code className='wrap' key={argType.type}>{argType.type}</code>
-                  ) : (
-                    /* If the type is multi such as `value1 | value2`, it will be displayed as separate code blocks. */
-                    argType.type.split('|').map((type) => <code key={type}>{type}</code>)
-                  )}
+                  {parseTypeDefinition(argType.type).map((type, i) => (
+                    <code key={i} className={type.includes('=>') ? 'wrap' : ''}>
+                      {type}
+                    </code>
+                  ))}
                 </div>
               </td>
               {!hideDefault && (

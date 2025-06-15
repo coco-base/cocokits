@@ -9,10 +9,19 @@ import { useAccordionStore } from '../accordion.store';
 import { AccordionPanelContext } from '../accordion-panel/accordion-panel';
 
 export interface AccordionHeaderProps extends UIBaseComponentProps {
+   /**
+   * Template for the accordion icon, that will apply to on;y this header.
+   * Can be a React node, an array of React nodes, or a function that returns a React node.
+   * If a function is provided, it receives an object containing the `isExpanded` and `disabled` properties.
+   */
   iconTemplate?:
     | React.ReactNode
     | React.ReactNode[]
     | ((props: { isExpanded: boolean; disabled: boolean }) => React.ReactNode);
+
+  /**
+   * The content of the accordion header, such as a title or any custom template.
+   */
   children?: React.ReactNode;
 }
 

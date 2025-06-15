@@ -30,6 +30,3 @@ Allow batch toggle actions to expand or collapse all panels at once, useful in d
 
 - **Nested Support:**
 Support placing accordions inside accordion content, enabling complex hierarchical layouts.
-
-- **Custom Logic Guard:**
-Before collapsing a panel, allow showing a confirmation dialog or running async logic to approve the action.

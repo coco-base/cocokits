@@ -49,11 +49,19 @@ export interface AccordionProps<TValue extends string | number> extends UIBaseCo
    */
   expandedChange?: (value: TValue | TValue[] | null) => void;
 
+  /**
+   * Template for the accordion icon, that will apply to all accordion headers.
+   * Can be a React node, an array of React nodes, or a function that returns a React node.
+   * If a function is provided, it receives an object containing the `isExpanded` and `disabled` properties.
+   */
   iconTemplate?:
       | React.ReactNode
       | React.ReactNode[]
       | ((props: { isExpanded: boolean; disabled: boolean }) => React.ReactNode);
 
+  /**
+   * he children of the Accordion component. Must only be `AccordionPanel` components.
+   */
   children: React.ReactNode;
 }
 

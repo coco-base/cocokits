@@ -466,9 +466,12 @@ a{
 }
 .arg-type-table td code{
   white-space:nowrap;
-  font:var(--cck-doc-text-xs-regular);
+  font:var(--cck-doc-text-sm-regular);
   color:var(--cck-doc-color-font-2);
   padding:0 6px;
+}
+.arg-type-table td code.wrap{
+  white-space:normal;
 }
 .arg-type-table th{
   font:var(--cck-doc-text-sm-medium);

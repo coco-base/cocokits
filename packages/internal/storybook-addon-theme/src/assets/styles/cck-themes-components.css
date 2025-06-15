@@ -1787,7 +1787,7 @@
   opacity:0.5;
 }
 :where([data-cck-theme-name=cocokits] .cck-accordion-panel--disabled > .cck-accordion-header){
-  color:currentColor;
+  color:currentcolor;
 }
 :where([data-cck-theme-name=cocokits] .cck-accordion-panel--disabled > .cck-accordion-header.cck-accordion-header--trigger-header){
   cursor:not-allowed;
@@ -1825,7 +1825,8 @@
   border:1px solid var(--color-border-default);
   border-radius:6px;
 }
-:where([data-cck-theme-name=cocokits] .cck-accordion__group > .cck-accordion-panel):not(:last-of-type),:where( [data-cck-theme-name=cocokits] .cck-accordion__basic > .cck-accordion-panel):not(:last-of-type){
+:where([data-cck-theme-name=cocokits] .cck-accordion__group > .cck-accordion-panel):not(:last-of-type),:where(
+[data-cck-theme-name=cocokits] .cck-accordion__basic > .cck-accordion-panel):not(:last-of-type){
   border-bottom:1px solid var(--color-border-default);
 }
 
