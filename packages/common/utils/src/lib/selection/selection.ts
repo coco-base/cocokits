@@ -1,6 +1,7 @@
 /** @module selection */
 
 import { ArrayLikeDiff } from '../differs/array-like-differs';
+import { isNullish } from '../ensure/ensure-nullish';
 import { CustomEventListener } from '../event-listener/custom-event-listener';
 
 type TrackByFunction<T = any> = (item: T) => any;
@@ -104,8 +105,12 @@ export class Selection<T = any> {
   private isMultiple: boolean;
   private onlyEmitOnValueChange: boolean;
   private readonly selectionSet: Set<T>;
-
   private differs: ArrayLikeDiff<T>;
+
+  /**
+   * Get a list of selected items.
+   */
+  public selected = [] as T[];
 
   /**
    * Creates a new `Selection` instance.
@@ -120,6 +125,7 @@ export class Selection<T = any> {
     this.isMultiple = options.multiple ?? false;
     this.onlyEmitOnValueChange = options.onlyEmitOnValueChange ?? true;
     this.selectionSet = new Set<T>(selectedValues);
+    this.selected = Array.from(this.selectionSet);
     this.differs = new ArrayLikeDiff(this.selectionSet, { trackBy: options.trackBy });
   }
 
@@ -153,7 +159,7 @@ export class Selection<T = any> {
    */
   public updateOptions(options: Partial<SelectionOptions<T>>) {
     this.isMultiple = options.multiple ?? this.isMultiple;
-    this.verifyValueAssignment(Array.from(this.selectionSet));
+    this.verifyValueAssignment(this.selected);
     this.differs = new ArrayLikeDiff(this.selectionSet, { trackBy: options.trackBy });
   }
 
@@ -213,9 +219,10 @@ export class Selection<T = any> {
 
   /**
    * Get a list of selected items.
+   * @deprecated Use `selected` instead.
    */
   getSelected() {
-    return Array.from(this.selectionSet);
+    return this.selected;
   }
 
   /**
@@ -225,6 +232,7 @@ export class Selection<T = any> {
    */
   clear(config?: SelectionUpdateConfig): void {
     this.selectionSet.clear();
+    this.selected = [];
     this.diffChangesAndEmit(config);
   }
 
@@ -247,9 +255,11 @@ export class Selection<T = any> {
 
     if (!this.isMultiple) {
       this.selectionSet.clear();
+      this.selected = [];
     }
 
     valuesArray.forEach((value) => this.selectionSet.add(value));
+    this.selected = Array.from(this.selectionSet);
 
     this.diffChangesAndEmit(config);
   }
@@ -271,6 +281,7 @@ export class Selection<T = any> {
     const valuesArray = Array.isArray(values) ? values : [values];
     this.verifyValueAssignment(valuesArray);
     valuesArray.forEach((value) => this.selectionSet.delete(value));
+    this.selected = Array.from(this.selectionSet);
 
     this.diffChangesAndEmit(config);
   }
@@ -288,12 +299,13 @@ export class Selection<T = any> {
    * console.log(selection.getSelected()); // [5, 6, 7]
    * ```
    */
-  setSelection(values: T | T[], config?: SelectionUpdateConfig): boolean | void {
-    const valuesArray = Array.isArray(values) ? values : [values];
+  setSelection(values: T | T[] | null | undefined, config?: SelectionUpdateConfig): boolean | void {
+    const valuesArray = Array.isArray(values) ? values : isNullish(values) ? [] : [values];
     this.verifyValueAssignment(valuesArray);
 
     this.selectionSet.clear();
     valuesArray.forEach((value) => this.selectionSet.add(value));
+    this.selected = Array.from(this.selectionSet);
 
     this.diffChangesAndEmit(config);
   }

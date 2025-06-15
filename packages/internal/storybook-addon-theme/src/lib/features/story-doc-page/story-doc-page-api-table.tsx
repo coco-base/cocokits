@@ -26,9 +26,9 @@ export function StoryDocPageApiTable({ hideDefault = false, argTypes }: StoryDoc
               <td>{argType.name}</td>
               <td>
                 <div className="arg-type-table--gap-8">
-                  {argType.type.startsWith('{') ? (
-                    /* If the value is ab object such as `{'{ rounded: boolean }'}`, it will be displayed as a single code block. */
-                    <code key={argType.type}>{argType.type}</code>
+                  {argType.type.startsWith('{') || argType.type.includes('=>') ? (
+                    /* If the value is ab object or arrow function such as `{'{ rounded: boolean }'}` or `(value: string) => boolean`, it will be displayed as a single code block. */
+                    <code className='wrap' key={argType.type}>{argType.type}</code>
                   ) : (
                     /* If the type is multi such as `value1 | value2`, it will be displayed as separate code blocks. */
                     argType.type.split('|').map((type) => <code key={type}>{type}</code>)

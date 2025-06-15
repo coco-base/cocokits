@@ -235,6 +235,18 @@
         "../packages/react/avatar/src/",
         "../../packages/react/avatar/src/",
         "../../../packages/react/avatar/src/"
+      ],
+      "@cocokits/angular-accordion": [
+        "packages/angular/accordion/src/",
+        "../packages/angular/accordion/src/",
+        "../../packages/angular/accordion/src/",
+        "../../../packages/angular/accordion/src/"
+      ],
+      "@cocokits/react-accordion": [
+        "packages/react/accordion/src/",
+        "../packages/react/accordion/src/",
+        "../../packages/react/accordion/src/",
+        "../../../packages/react/accordion/src/"
       ]
     }
   }

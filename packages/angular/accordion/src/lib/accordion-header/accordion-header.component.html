@@ -1,0 +1,12 @@
+<ng-content></ng-content>
+
+<button [class]="classNames().iconBtn" (click)="toggle()">
+  <ng-container *ngTemplateOutlet="template(); context: { 
+      isExpanded: isExpanded(), 
+      disabled: panelRef.disabled() 
+    }"></ng-container>
+</button>
+
+<ng-template #defaultIconTemp let-isExpanded="isExpanded">
+  <cck-svg-icon [icon]="isExpanded ? expandedIcon : collapsedIcon"/>
+</ng-template>

@@ -1,13 +1,17 @@
 {
   "eslint.validate": ["json"],
+  "cSpell.dictionaries": ["lorem-ipsum"],
   "cSpell.words": [
     "autodocs",
     "camelcase",
     "Checkmark",
     "compodoc",
+    "cssmodule",
     "griffel",
+    "mixedmark",
     "ochin",
     "prismjs",
+    "radi",
     "sbdocs",
     "shiki",
     "shikijs",

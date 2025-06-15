@@ -46,27 +46,27 @@
   // endregion
 
   // region ------------- Color -------------
-  .cck-svg-icon__color--brand .cck-svg-icon__svg {
+  .cck-svg-icon__color--brand {
     fill: $color-brand-default;
   }
 
-  .cck-svg-icon__color--info .cck-svg-icon__svg {
+  .cck-svg-icon__color--info {
     fill: $color-info-default;
   }
 
-  .cck-svg-icon__color--warning .cck-svg-icon__svg {
+  .cck-svg-icon__color--warning {
     fill: $color-warning-default;
   }
 
-  .cck-svg-icon__color--error .cck-svg-icon__svg {
+  .cck-svg-icon__color--error {
     fill: $color-error-default;
   }
 
-  .cck-svg-icon__color--h-contrast .cck-svg-icon__svg {
+  .cck-svg-icon__color--h-contrast {
     fill: $color-h-contrast-default;
   }
 
-  .cck-svg-icon__color--m-contrast .cck-svg-icon__svg {
+  .cck-svg-icon__color--m-contrast {
     fill: $color-m-contrast-default;
   }
 }

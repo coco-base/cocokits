@@ -7,12 +7,14 @@ import discardComments from 'postcss-discard-comments';
 import * as sass from 'sass';
 import { OutputStyle } from 'sass/types/options';
 
+import { whereSelectorPlugin } from './where-selector-plugin';
 import { Logger } from '../../utils/logger';
 
 interface CssBuilderOptions {
   outputStyle: OutputStyle;
   sourceMap: boolean;
   outputPath: string;
+  wrapWithWhereSudo: boolean;
 }
 
 export async function cssBuilder(
@@ -27,10 +29,14 @@ export async function cssBuilder(
     sourceMapIncludeSources: options.sourceMap,
   });
 
-  const postCssPlugins =
+  const postCssPlugins: postcss.AcceptedPlugin[] =
     options.outputStyle === 'expanded'
       ? [autoprefixer({ cascade: false }), discardComments({ removeAll: true })]
       : [autoprefixer({ cascade: false }), cssnano()];
+
+  if (options.wrapWithWhereSudo) {
+    postCssPlugins.push(whereSelectorPlugin());
+  }
 
   const cssOutputPath =
     options.outputStyle === 'expanded'

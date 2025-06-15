@@ -149,6 +149,45 @@ An optional object to configure the selection behavior.
 
 `Selection<T>`
 
+### Properties
+
+<div class="arg-type-table-wrapper">
+<table class="arg-type-table arg-type-table--full-width">
+<thead>
+<tr>
+<th>Property</th>
+<th>Modifier</th>
+<th>Type</th>
+<th class="description-column">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+`selected`
+
+</td>
+<td>
+
+`public`
+
+</td>
+<td>
+
+`T[]`
+
+</td>
+<td>
+
+Get a list of selected items.
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
 ### Methods
 
 #### addChangeEventListener()
@@ -324,7 +363,7 @@ selection.deselect([2, 3]);
 console.log(selection.getSelected()); // [1]
 ```
 
-#### getSelected()
+#### ~~getSelected()~~
 
 ```ts
 getSelected(): T[]
@@ -335,6 +374,10 @@ Get a list of selected items.
 ##### Returns
 
 `T[]`
+
+##### Deprecated
+
+Use `selected` instead.
 
 #### hasValue()
 

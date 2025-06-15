@@ -1,12 +1,10 @@
 @use '../../../../themes/cocokits/src/styles' as cocokitsTheme;
 @use '../../../../themes/frames-x/src/styles' as framesXTheme;
-@forward '../../../../themes/cocokits/src/token/css/tokens';
-@forward '../../../../themes/frames-x/src/token/css/tokens';
 
-:where([data-cck-theme-name='cocokits']) {
+[data-cck-theme-name='cocokits'] {
   @include cocokitsTheme.components_all;
 }
 
-:where([data-cck-theme-name='frames-x']) {
+[data-cck-theme-name='frames-x'] {
   @include framesXTheme.components_all;
 }

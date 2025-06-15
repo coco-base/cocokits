@@ -1,5 +1,10 @@
+export * from './lib/animation/animation.model';
+export * from './lib/animation/animation-group';
+export * from './lib/animation/animation';
+
 export * from './lib/differs/array-like-differs';
 export * from './lib/differs/simple-comparator';
+export * from './lib/differs/simple-object-diff';
 
 export * from './lib/dom/anchor-position';
 

@@ -164,6 +164,9 @@ export function getMergeThemesStep3Scss() {
 @include Cocokits.components_avatar;
 @include Cocokits.components_avatar_group;
 @include Cocokits.components_avatar_label;
+@include Cocokits.components_accordion;
+@include Cocokits.components_accordion_header;
+@include Cocokits.components_accordion_panel;
   
   `);
 }

@@ -27,11 +27,23 @@
         "files": [
           {
             "path": "packages/internal/storybook-addon-theme/src/styles/manager-styles.scss",
-            "output": "packages/internal/storybook-addon-theme/src/assets/styles"
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles",
+            "wrapWithWhereSudo": false
           },
           {
             "path": "packages/internal/storybook-addon-theme/src/styles/preview-styles.scss",
-            "output": "packages/internal/storybook-addon-theme/src/assets/styles"
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles",
+            "wrapWithWhereSudo": false
+          },
+          {
+            "path": "packages/internal/storybook-addon-theme/src/styles/cck-themes-components.scss",
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles",
+            "wrapWithWhereSudo": true
+          },
+          {
+            "path": "packages/internal/storybook-addon-theme/src/styles/cck-themes-tokens.scss",
+            "output": "packages/internal/storybook-addon-theme/src/assets/styles",
+            "wrapWithWhereSudo": true
           }
         ]
       }

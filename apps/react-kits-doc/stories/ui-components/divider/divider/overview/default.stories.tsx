@@ -1,10 +1,8 @@
-import { DividerComponent } from '@cocokits/angular-divider';
 import { Divider } from '@cocokits/react-components';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
-import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
-import { reactThemeArgsToTemplate } from '@cocokits/storybook-addon-theme-react';
+import { reactThemeArgsToTemplate,StoryObj } from '@cocokits/storybook-addon-theme-react';
 
-export const Default: StoryObj<DividerComponent> = {
+export const Default: StoryObj<typeof Divider> = {
   name: 'Default',
   parameters: {
     docs: {

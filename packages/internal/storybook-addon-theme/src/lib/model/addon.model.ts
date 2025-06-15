@@ -58,26 +58,37 @@ export interface AddonParametersMeta {
 
 export interface CckAddonStoriesMeta {
   componentName: UIBaseComponentsName;
-  /**
-   * Will be use to detect the themeConfig for an component to generate API table.
-   * If the value of a subComponent is null, means it's not part of themes and we will skip it from styling tab,
-   * and for API tab we will only show the API of the component.
-   */
-  subcomponentNames?: Record<string, UIBaseComponentsName | null>;
-  /**
-   * Override the default argTypes for the story.
-   * Can be used to override the subcomponent argsType.
-   * Angular storybook has no ways to get the subcomponent argTypes. and it use compoDoc to get the argTypes.
-   * ```
-   * const resolved = useOf('meta');
-   * const subComponentArgType = resolved.preparedMeta.parameters['docs'].extractArgTypes(resolved.preparedMeta.subcomponent[0]);
-   * ```
-   *
-   * overrideArgsType will merge the subcomponent argTypes with the overrideArgsType.
-   * The key is component name and the value is the argTypes.
-   */
-  subcomponentArgsTypes?: Record<string, DeepPartial<PreparedStory['argTypes']>>;
 
+  subcomponents?: Record<
+    string,
+    {
+      /**
+       * Will be use to detect the themeConfig for an component to generate API table.
+       * If the value of a subComponent is null, means it's not part of themes and we will skip it from styling tab,
+       * and for API tab we will only show the API of the component.
+       */
+      name: UIBaseComponentsName | null;
+
+      /**
+       * The short deception of sub component. can be string or markdown format
+       */
+      description?: string;
+
+      /**
+       * Override the default argTypes for the story.
+       * Can be used to override the subcomponent argsType.
+       * Angular storybook has no ways to get the subcomponent argTypes. and it use compoDoc to get the argTypes.
+       * ```
+       * const resolved = useOf('meta');
+       * const subComponentArgType = resolved.preparedMeta.parameters['docs'].extractArgTypes(resolved.preparedMeta.subcomponent[0]);
+       * ```
+       *
+       * overrideArgsType will merge the subcomponent argTypes with the overrideArgsType.
+       * The key is component name and the value is the argTypes.
+       */
+      argsTypes?: DeepPartial<PreparedStory['argTypes']>;
+    }
+  >;
   /**
    * Ref to markdown file of ng-template that will be used on his component.
    * If it's provided, the doc page show template section with the content of the markdown file.

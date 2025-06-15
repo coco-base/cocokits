@@ -1,3 +1,6 @@
+import { accordionLayoutClassNamesConfig } from './accordion-class-names';
+import { accordionHeaderLayoutClassNamesConfig } from './accordion-header-class-names';
+import { accordionPanelLayoutClassNamesConfig } from './accordion-panel-class-names';
 import { avatarLayoutClassNamesConfig } from './avatar-class-names';
 import { avatarGroupLayoutClassNamesConfig } from './avatar-group-class-names';
 import { avatarLabelLayoutClassNamesConfig } from './avatar-label-class-names';
@@ -73,4 +76,7 @@ export const layoutClassNamesConfigRecord = {
   avatar: avatarLayoutClassNamesConfig,
   avatarGroup: avatarGroupLayoutClassNamesConfig,
   avatarLabel: avatarLabelLayoutClassNamesConfig,
+  accordion: accordionLayoutClassNamesConfig,
+  accordionHeader: accordionHeaderLayoutClassNamesConfig,
+  accordionPanel: accordionPanelLayoutClassNamesConfig,
 };

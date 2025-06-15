@@ -13,6 +13,8 @@ const managerHead = `
 const previewHead = `
   ${sharedHead}
   <link rel="stylesheet" href="/styles/preview-styles.min.css">
+  <link rel="stylesheet" href="/styles/cck-themes-components.min.css">
+  <link rel="stylesheet" href="/styles/cck-themes-tokens.min.css">
 `;
 
 export default {
