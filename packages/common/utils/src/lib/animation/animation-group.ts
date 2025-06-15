@@ -8,14 +8,29 @@ const DEFAULT_CONFIG: AnimationGroupConfig = {
   disableInstance: false,
 };
 
+/**
+ * AnimationGroup class for managing a group of animations.
+ *
+ * @example
+ * const anim1 = new Animation(element1);
+ * const anim2 = new Animation(element2);
+ * const group = new AnimationGroup([anim1, anim2]);
+ *
+ * anim1.setTranslate({x: 100, y: 0});
+ * anim2.setTranslate({x: 0, y: 100});
+ * group.animate({ duration: 500 });
+ */
 export class AnimationGroup {
   private readonly config: AnimationGroupConfig;
 
-  private animationDelayTimerId!: NodeJS.Timeout;
+  private animationDelayTimerId!: ReturnType<typeof setTimeout>;
   private frameManager!: AnimationFrameManager | null;
 
   private instances = new Set<Animation>();
 
+  /**
+   * Indicates whether any animation in the group is currently running.
+   */
   public get isAnimating() {
     return !!this.frameManager?.isAnimating;
   }
@@ -25,17 +40,38 @@ export class AnimationGroup {
     instances.forEach((instance) => this.add(instance));
   }
 
+  /**
+   * Adds an animation instance to the group.
+   *
+   * @param instance - The Animation instance to add.
+   * @example
+   * const anim = new Animation(element);
+   * const group = new AnimationGroup();
+   * group.add(anim);
+   */
   public add(instance: Animation) {
     const animation = instance instanceof Animation ? instance : Animation.getOrCreateInstance(instance);
     animation._disableAnimate = this.config.disableInstance;
     this.instances.add(animation);
   }
 
+  /**
+   * Removes an animation instance from the group.
+   *
+   * @param instance - The Animation instance to remove.
+   * @example
+   * const anim = new Animation(element);
+   * const group = new AnimationGroup([anim]);
+   * group.delete(anim);
+   */
   public delete(instance: Animation) {
     const animation = instance instanceof Animation ? instance : Animation.getOrCreateInstance(instance);
     this.instances.delete(animation);
   }
 
+  /**
+   * Stops all animations in the group.
+   */
   public stopAnimation() {
     this.instances.forEach((animation) => animation.stopAnimation());
     clearTimeout(this.animationDelayTimerId);
@@ -43,10 +79,18 @@ export class AnimationGroup {
     this.frameManager = null;
   }
 
+  /**
+   * Applies all style changes to the DOM immediately for all animations in the group.
+   */
   public applyImmediately() {
     this.instances.forEach((animation) => animation.applyImmediately());
   }
 
+  /**
+   * Applies all style changes to the DOM on the next requestAnimationFrame for all animations in the group.
+   *
+   * @returns A promise that resolves to true when the changes are applied.
+   */
   public apply() {
     return new Promise<boolean>((resolve) => {
       this.stopAnimation();
@@ -57,6 +101,12 @@ export class AnimationGroup {
     });
   }
 
+  /**
+   * Animates all style changes to the DOM for all animations in the group.
+   *
+   * @param options - Animation options including duration, easing, and delay.
+   * @returns A promise that resolves to true if the animation state is completed, otherwise false.
+   */
   public async animate({ duration = 100, easing = (x: number) => x, delay = 0 } = {}): Promise<boolean> {
     if (duration <= 0) {
       return this.apply();

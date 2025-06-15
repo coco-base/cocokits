@@ -7,7 +7,6 @@ The `@cocokits/angular-accordion` package provides a powerful and flexible accor
 - `AccordionPanelComponent`
 - `AccordionHeaderComponent`
 - `AccordionHeaderIconDirective`
-- `AccordionLazyContentDirective`
 
 
 ## Key Components Overview: 
@@ -43,9 +42,6 @@ Allow batch toggle actions to expand or collapse all panels at once, useful in d
 - **Nested Support:**
 Support placing accordions inside accordion content, enabling complex hierarchical layouts.
 
-- **Custom Logic Guard:**
-Before collapsing a panel, allow showing a confirmation dialog or running async logic to approve the action.
-
 
 ### AccordionPanelComponent
 
@@ -60,9 +56,6 @@ Renders the clickable trigger area of a panel. Allows full template customizatio
 
 Angular structural directive (ng-template) that allows replacing the default header icon with custom visuals or animations.
 
-### AccordionLazyContentDirective
-
-An Angular ng-template directive that delays rendering of panel content until the panel is expanded. It destroys the content again on collapse to optimize memory and performance.
 
 ---
 

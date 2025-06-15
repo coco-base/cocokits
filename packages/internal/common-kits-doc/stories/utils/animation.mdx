@@ -5,7 +5,7 @@
 import { Meta } from '@storybook/addon-docs';
 import { MdxPage } from '@cocokits/storybook-addon-theme';
 
-export const tocItems = [{"id":"selection_animatestate","name":"AnimateState"},{"id":"selection_animation","name":"Animation"},{"id":"selection_animationgroup","name":"AnimationGroup"},{"id":"selection_animateresult","name":"AnimateResult"},{"id":"selection_animationgroupconfig","name":"AnimationGroupConfig"},{"id":"selection_animationproperties","name":"AnimationProperties"},{"id":"selection_coordinate","name":"Coordinate"},{"id":"selection_dimension","name":"Dimension"},{"id":"selection_transformproperty","name":"TransformProperty"},{"id":"selection_callbackt","name":"Callback()<T>"}];
+export const tocItems = [{"id":"selection_animatestate","name":"AnimateState"},{"id":"selection_animation","name":"Animation"},{"id":"selection_animationgroup","name":"AnimationGroup"},{"id":"selection_animateresult","name":"AnimateResult"},{"id":"selection_animationgroupconfig","name":"AnimationGroupConfig"},{"id":"selection_animationproperties","name":"AnimationProperties"},{"id":"selection_coordinate","name":"Coordinate"},{"id":"selection_dimension","name":"Dimension"},{"id":"selection_transformproperty","name":"TransformProperty"}];
 
 <Meta title='Utils/Animation'/>
 <MdxPage breadcrumb='Utils' title='Animation' tocItems={tocItems} hideThemeSwitcher={true}>
@@ -84,53 +84,6 @@ const anim2 = Animation.getOrCreateInstance(element1); // Returns the existing i
 const anim3 = Animation.getOrCreateInstance(element2); // Returns a new instance for element2, as none exists yet
 ```
 
-### Properties
-
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
-<thead>
-<tr>
-<th>Property</th>
-<th>Modifier</th>
-<th>Type</th>
-<th>Default value</th>
-<th class="description-column">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`_disableAnimate`
-
-</td>
-<td>
-
-`public`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-`false`
-
-</td>
-<td>
-
-**`Internal`**
-
-Internal implementation detail, do not use directly
-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
 ### Accessors
 
 #### actualValue
@@ -138,6 +91,8 @@ Internal implementation detail, do not use directly
 ```ts
 get actualValue(): AnimationProperties
 ```
+
+Previous animation properties before the last update.
 
 ##### Returns
 
@@ -149,6 +104,8 @@ get actualValue(): AnimationProperties
 get isAnimating(): boolean
 ```
 
+Indicates whether the animation is currently running.
+
 ##### Returns
 
 `boolean`
@@ -159,91 +116,21 @@ get isAnimating(): boolean
 get value(): AnimationProperties
 ```
 
+Current animation properties.
+
 ##### Returns
 
 `AnimationProperties`
 
 ### Methods
 
-#### \_getAnimationFrameCallback()
-
-```ts
-_getAnimationFrameCallback(isAnimationGroup: boolean): (progress: number) => Partial<AnimationProperties>
-```
-
-##### Parameters
-
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`isAnimationGroup`
-
-</td>
-<td>
-
-`boolean`
-
-</td>
-<td>
-
-`false`
-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-##### Returns
-
-`Function`
-
-###### Parameters
-
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`progress`
-
-</td>
-<td>
-
-`number`
-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-###### Returns
-
-`Partial<AnimationProperties>`
-
 #### addDimension()
 
 ```ts
-addDimension(__namedParameters: Partial<Dimension>): Animation
+addDimension(dimension: Partial<Dimension>): Animation
 ```
+
+Adds dimension values to the current dimension.
 
 ##### Parameters
 
@@ -253,13 +140,14 @@ addDimension(__namedParameters: Partial<Dimension>): Animation
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
 
-`__namedParameters`
+`dimension`
 
 </td>
 <td>
@@ -267,6 +155,11 @@ addDimension(__namedParameters: Partial<Dimension>): Animation
 `Partial<Dimension>`
 
 </td>
+<td>
+
+The dimension values to add.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -276,11 +169,19 @@ addDimension(__namedParameters: Partial<Dimension>): Animation
 
 `Animation`
 
+##### Example
+
+```ts
+anim.addDimension({ width: 50, height: 100 });
+```
+
 #### addTranslate()
 
 ```ts
-addTranslate(__namedParameters: Partial<Coordinate>): Animation
+addTranslate(transform: Partial<Coordinate>): Animation
 ```
+
+Adds translation values to the current transform.
 
 ##### Parameters
 
@@ -290,18 +191,24 @@ addTranslate(__namedParameters: Partial<Coordinate>): Animation
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
 
-`__namedParameters`
+`transform`
 
 </td>
 <td>
 
 `Partial<Coordinate>`
+
+</td>
+<td>
+
+The translation values to add.
 
 </td>
 </tr>
@@ -313,11 +220,19 @@ addTranslate(__namedParameters: Partial<Coordinate>): Animation
 
 `Animation`
 
+##### Example
+
+```ts
+anim.addTranslate({ x: 50, y: 100 });
+```
+
 #### addValueChangeListener()
 
 ```ts
 addValueChangeListener(fn: Callback<AnimationProperties>): void
 ```
+
+Adds a listener for value changes.
 
 ##### Parameters
 
@@ -353,7 +268,7 @@ addValueChangeListener(fn: Callback<AnimationProperties>): void
 #### animate()
 
 ```ts
-animate(__namedParameters: {
+animate(options: {
   delay: 0;
   duration: 100;
   easing: (x: number) => number;
@@ -370,13 +285,14 @@ Animate all style changes to the DOM.
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
 
-`__namedParameters`
+`options`
 
 </td>
 <td>
@@ -384,11 +300,16 @@ Animate all style changes to the DOM.
 `object`
 
 </td>
+<td>
+
+Animation options including duration, easing, and delay.
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.delay`
+`options.delay`
 
 </td>
 <td>
@@ -396,11 +317,16 @@ Animate all style changes to the DOM.
 `number`
 
 </td>
+<td>
+
+&hyphen;
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.duration`
+`options.duration`
 
 </td>
 <td>
@@ -408,16 +334,26 @@ Animate all style changes to the DOM.
 `number`
 
 </td>
+<td>
+
+&hyphen;
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.easing`
+`options.easing`
 
 </td>
 <td>
 
 `(x: number) => number`
+
+</td>
+<td>
+
+&hyphen;
 
 </td>
 </tr>
@@ -434,7 +370,7 @@ A promise that resolves to true if the animation state is completed, otherwise f
 #### animate$()
 
 ```ts
-animate$(__namedParameters: {
+animate$(options: {
   delay: 0;
   duration: 100;
   easing: (x: number) => number;
@@ -451,13 +387,14 @@ Animate all style changes to the DOM.
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
 
-`__namedParameters`
+`options`
 
 </td>
 <td>
@@ -465,11 +402,16 @@ Animate all style changes to the DOM.
 `object`
 
 </td>
+<td>
+
+Animation options including duration, easing, and delay.
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.delay`
+`options.delay`
 
 </td>
 <td>
@@ -477,11 +419,16 @@ Animate all style changes to the DOM.
 `number`
 
 </td>
+<td>
+
+&hyphen;
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.duration`
+`options.duration`
 
 </td>
 <td>
@@ -489,16 +436,26 @@ Animate all style changes to the DOM.
 `number`
 
 </td>
+<td>
+
+&hyphen;
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.easing`
+`options.easing`
 
 </td>
 <td>
 
 `(x: number) => number`
+
+</td>
+<td>
+
+&hyphen;
 
 </td>
 </tr>
@@ -546,6 +503,8 @@ The changes that applied to the DOM
 flipX(): Animation
 ```
 
+Flips the element horizontally.
+
 ##### Returns
 
 `Animation`
@@ -556,6 +515,8 @@ flipX(): Animation
 flipY(): Animation
 ```
 
+Flips the element vertically.
+
 ##### Returns
 
 `Animation`
@@ -565,6 +526,8 @@ flipY(): Animation
 ```ts
 removeValueChangeListener(fn: Callback<AnimationProperties>): void
 ```
+
+Removes a listener for value changes.
 
 ##### Parameters
 
@@ -603,6 +566,8 @@ removeValueChangeListener(fn: Callback<AnimationProperties>): void
 setDimension(dimension: Partial<Dimension>): Animation
 ```
 
+Sets dimension values for the current dimension.
+
 ##### Parameters
 
 <div class="arg-type-table-wrapper">
@@ -611,6 +576,7 @@ setDimension(dimension: Partial<Dimension>): Animation
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -625,6 +591,11 @@ setDimension(dimension: Partial<Dimension>): Animation
 `Partial<Dimension>`
 
 </td>
+<td>
+
+The dimension values to set.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -634,11 +605,19 @@ setDimension(dimension: Partial<Dimension>): Animation
 
 `Animation`
 
+##### Example
+
+```ts
+anim.setDimension({ width: 200, height: 300 });
+```
+
 #### setOpacity()
 
 ```ts
 setOpacity(opacity: number): Animation
 ```
+
+Sets the opacity of the element.
 
 ##### Parameters
 
@@ -677,6 +656,8 @@ setOpacity(opacity: number): Animation
 setScale(scale: number): Animation
 ```
 
+Sets the scale of the element.
+
 ##### Parameters
 
 <div class="arg-type-table-wrapper">
@@ -714,6 +695,8 @@ setScale(scale: number): Animation
 setTranslate(transform: Partial<Coordinate>): Animation
 ```
 
+Sets translation values for the current transform.
+
 ##### Parameters
 
 <div class="arg-type-table-wrapper">
@@ -722,6 +705,7 @@ setTranslate(transform: Partial<Coordinate>): Animation
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -736,6 +720,11 @@ setTranslate(transform: Partial<Coordinate>): Animation
 `Partial<Coordinate>`
 
 </td>
+<td>
+
+The translation values to set.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -745,11 +734,19 @@ setTranslate(transform: Partial<Coordinate>): Animation
 
 `Animation`
 
+##### Example
+
+```ts
+anim.setTranslate({ x: 100, y: 50 });
+```
+
 #### stopAnimation()
 
 ```ts
 stopAnimation(): void
 ```
+
+Stops the current animation.
 
 ##### Returns
 
@@ -761,7 +758,9 @@ stopAnimation(): void
 static getOrCreateInstance(element: HTMLElement): Animation
 ```
 
-Returns the singleton instance of Animation for a given element
+Returns the singleton instance of Animation for a given element or create a new one if it doesn't exist.
+This method ensures that only one instance of Animation exists per HTMLElement.
+Yoy can use it on different code to make sure all instances are sync with each other.
 
 ##### Parameters
 
@@ -799,6 +798,20 @@ Returns the singleton instance of Animation for a given element
 </div><div id="selection_animationgroup">
 ## AnimationGroup
 
+AnimationGroup class for managing a group of animations.
+
+### Example
+
+```ts
+const anim1 = new Animation(element1);
+const anim2 = new Animation(element2);
+const group = new AnimationGroup([anim1, anim2]);
+
+anim1.setTranslate({x: 100, y: 0});
+anim2.setTranslate({x: 0, y: 100});
+group.animate({ duration: 500 });
+```
+
 ### Accessors
 
 #### isAnimating
@@ -806,6 +819,8 @@ Returns the singleton instance of Animation for a given element
 ```ts
 get isAnimating(): boolean
 ```
+
+Indicates whether any animation in the group is currently running.
 
 ##### Returns
 
@@ -819,6 +834,8 @@ get isAnimating(): boolean
 add(instance: Animation): void
 ```
 
+Adds an animation instance to the group.
+
 ##### Parameters
 
 <div class="arg-type-table-wrapper">
@@ -827,6 +844,7 @@ add(instance: Animation): void
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -841,6 +859,11 @@ add(instance: Animation): void
 `Animation`
 
 </td>
+<td>
+
+The Animation instance to add.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -850,15 +873,25 @@ add(instance: Animation): void
 
 `void`
 
+##### Example
+
+```ts
+const anim = new Animation(element);
+const group = new AnimationGroup();
+group.add(anim);
+```
+
 #### animate()
 
 ```ts
-animate(__namedParameters: {
+animate(options: {
   delay: 0;
   duration: 100;
   easing: (x: number) => number;
  }): Promise<boolean>
 ```
+
+Animates all style changes to the DOM for all animations in the group.
 
 ##### Parameters
 
@@ -868,13 +901,14 @@ animate(__namedParameters: {
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
 
-`__namedParameters`
+`options`
 
 </td>
 <td>
@@ -882,11 +916,16 @@ animate(__namedParameters: {
 `object`
 
 </td>
+<td>
+
+Animation options including duration, easing, and delay.
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.delay`
+`options.delay`
 
 </td>
 <td>
@@ -894,11 +933,16 @@ animate(__namedParameters: {
 `number`
 
 </td>
+<td>
+
+&hyphen;
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.duration`
+`options.duration`
 
 </td>
 <td>
@@ -906,16 +950,26 @@ animate(__namedParameters: {
 `number`
 
 </td>
+<td>
+
+&hyphen;
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters.easing`
+`options.easing`
 
 </td>
 <td>
 
 `(x: number) => number`
+
+</td>
+<td>
+
+&hyphen;
 
 </td>
 </tr>
@@ -927,21 +981,29 @@ animate(__namedParameters: {
 
 `Promise<boolean>`
 
+A promise that resolves to true if the animation state is completed, otherwise false.
+
 #### apply()
 
 ```ts
 apply(): Promise<boolean>
 ```
 
+Applies all style changes to the DOM on the next requestAnimationFrame for all animations in the group.
+
 ##### Returns
 
 `Promise<boolean>`
+
+A promise that resolves to true when the changes are applied.
 
 #### applyImmediately()
 
 ```ts
 applyImmediately(): void
 ```
+
+Applies all style changes to the DOM immediately for all animations in the group.
 
 ##### Returns
 
@@ -953,6 +1015,8 @@ applyImmediately(): void
 delete(instance: Animation): void
 ```
 
+Removes an animation instance from the group.
+
 ##### Parameters
 
 <div class="arg-type-table-wrapper">
@@ -961,6 +1025,7 @@ delete(instance: Animation): void
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -975,6 +1040,11 @@ delete(instance: Animation): void
 `Animation`
 
 </td>
+<td>
+
+The Animation instance to remove.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -984,11 +1054,21 @@ delete(instance: Animation): void
 
 `void`
 
+##### Example
+
+```ts
+const anim = new Animation(element);
+const group = new AnimationGroup([anim]);
+group.delete(anim);
+```
+
 #### stopAnimation()
 
 ```ts
 stopAnimation(): void
 ```
+
+Stops all animations in the group.
 
 ##### Returns
 
@@ -1378,67 +1458,6 @@ stopAnimation(): void
 </tbody>
 </table>
 </div>
-
-***
-
-</div><div id="selection_callbackt">
-## Callback()\<T\>
-
-```ts
-type Callback<T>: (data: T) => void;
-```
-
-### Type Parameters
-
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T`
-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-### Parameters
-
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`data`
-
-</td>
-<td>
-
-`T`
-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-### Returns
-
-`void`
 
 </div>
 </MdxPage>

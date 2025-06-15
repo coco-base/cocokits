@@ -14,8 +14,10 @@ export const tocItems = [{"id":"selection_clamp","name":"clamp()"}];
 ## clamp()
 
 ```ts
-function clamp(value: number, __namedParameters: [number, number]): number
+function clamp(value: number, bounds: [number, number]): number
 ```
+
+Clamps a number within the specified bounds.
 
 ### Parameters
 
@@ -25,6 +27,7 @@ function clamp(value: number, __namedParameters: [number, number]): number
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -39,16 +42,26 @@ function clamp(value: number, __namedParameters: [number, number]): number
 `number`
 
 </td>
+<td>
+
+The number to clamp.
+
+</td>
 </tr>
 <tr>
 <td>
 
-`__namedParameters`
+`bounds`
 
 </td>
 <td>
 
 `[number, number]`
+
+</td>
+<td>
+
+An array containing the minimum and maximum bounds [minBound, maxBound].
 
 </td>
 </tr>
@@ -59,6 +72,25 @@ function clamp(value: number, __namedParameters: [number, number]): number
 ### Returns
 
 `number`
+
+The clamped value.
+
+### Examples
+
+```ts
+const clampedValue = clamp(10, [0, 5]);
+console.log(clampedValue); // Output: 5
+```
+
+```ts
+const clampedValue = clamp(-3, [0, 5]);
+console.log(clampedValue); // Output: 0
+```
+
+```ts
+const clampedValue = clamp(3, [0, 5]);
+console.log(clampedValue); // Output: 3
+```
 
 </div>
 </MdxPage>

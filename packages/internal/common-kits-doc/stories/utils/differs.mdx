@@ -510,6 +510,8 @@ const options: ArrayLikeDiffOptions<MyItem> = {
 function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 ```
 
+Computes the difference between two objects, returning a new object that represents the changes.
+
 ### Type Parameters
 
 <div class="arg-type-table-wrapper">
@@ -517,6 +519,7 @@ function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 <thead>
 <tr>
 <th>Type Parameter</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -524,6 +527,11 @@ function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 <td>
 
 `T` *extends* `Record<string | number, any>`
+
+</td>
+<td>
+
+The type of the objects being compared.
 
 </td>
 </tr>
@@ -539,6 +547,7 @@ function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th class="description-column">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -553,6 +562,11 @@ function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 `T`
 
 </td>
+<td>
+
+The first object to compare.
+
+</td>
 </tr>
 <tr>
 <td>
@@ -565,6 +579,11 @@ function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 `T`
 
 </td>
+<td>
+
+The second object to compare.
+
+</td>
 </tr>
 </tbody>
 </table>
@@ -573,6 +592,17 @@ function getObjectDiff<T>(obj1: T, obj2: T): Partial<T>
 ### Returns
 
 `Partial<T>`
+
+A partial object containing the differences between `obj1` and `obj2`.
+
+### Example
+
+```ts
+const obj1 = { a: 1, b: { c: 2 }, d: 4 };
+const obj2 = { a: 1, b: { c: 3 }, e: 5 };
+const diff = getObjectDiff(obj1, obj2);
+console.log(diff); // Output: { b: { c: 3 }, d: null, e: 5 }
+```
 
 </div>
 </MdxPage>

@@ -10,6 +10,7 @@ import { hasNotValue } from '../ensure/ensure-value';
 import { deepClone } from '../uncategorized/deep-clone';
 import { clamp } from '../uncategorized/math';
 
+/** @ignore */
 export type Callback<T> = (data: T) => void;
 
 interface AnimationState {
@@ -39,23 +40,30 @@ export class Animation {
 
   private element: HTMLElement;
 
-  private animationDelayTimerId!: NodeJS.Timeout;
+  private animationDelayTimerId!: ReturnType<typeof setTimeout>;
 
+  /**
+   * Current animation properties.
+   */
   public get value() {
     return this.state.value.properties;
   }
 
+  /**
+   * Previous animation properties before the last update.
+   */
   public get actualValue() {
     return this.state.value.previousProperties;
   }
 
+  /**
+   * Indicates whether the animation is currently running.
+   */
   public get isAnimating() {
     return !!this.frameManager?.isAnimating;
   }
 
-  /**
-   * @internal Internal implementation detail, do not use directly
-   */
+  /** @ignore */
   public _disableAnimate = false;
 
   constructor(element: HTMLElement) {
@@ -84,7 +92,9 @@ export class Animation {
   }
 
   /**
-   * Returns the singleton instance of Animation for a given element
+   * Returns the singleton instance of Animation for a given element or create a new one if it doesn't exist.
+   * This method ensures that only one instance of Animation exists per HTMLElement.
+   * Yoy can use it on different code to make sure all instances are sync with each other.
    */
   public static getOrCreateInstance(element: HTMLElement): Animation {
     if (!Animation.instances.has(element)) {
@@ -94,14 +104,27 @@ export class Animation {
   }
 
   // region --- Values ---
+  /**
+   * Adds a listener for value changes.
+   */
   public addValueChangeListener(fn: Callback<AnimationProperties>) {
     this.callbacks.add(fn);
   }
 
+  /**
+   * Removes a listener for value changes.
+   */
   public removeValueChangeListener(fn: Callback<AnimationProperties>) {
     this.callbacks.delete(fn);
   }
 
+  /**
+   * Adds translation values to the current transform.
+   *
+   * @param transform - The translation values to add.
+   * @example
+   * anim.addTranslate({ x: 50, y: 100 });
+   */
   public addTranslate({ x = 0, y = 0 }: Partial<Coordinate>) {
     const transform = {
       x: this.state.value.properties.transform.x + x,
@@ -111,6 +134,13 @@ export class Animation {
     return this;
   }
 
+  /**
+   * Sets translation values for the current transform.
+   *
+   * @param transform - The translation values to set.
+   * @example
+   * anim.setTranslate({ x: 100, y: 50 });
+   */
   public setTranslate(transform: Partial<Coordinate>) {
     const x = transform.x ?? this.state.value.properties.transform.x;
     const y = transform.y ?? this.state.value.properties.transform.y;
@@ -118,6 +148,13 @@ export class Animation {
     return this;
   }
 
+  /**
+   * Adds dimension values to the current dimension.
+   *
+   * @param dimension - The dimension values to add.
+   * @example
+   * anim.addDimension({ width: 50, height: 100 });
+   */
   public addDimension({ width = 0, height = 0 }: Partial<Dimension>) {
     const dimension = {
       width: this.state.value.properties.dimension.width + width,
@@ -127,6 +164,13 @@ export class Animation {
     return this;
   }
 
+  /**
+   * Sets dimension values for the current dimension.
+   *
+   * @param dimension - The dimension values to set.
+   * @example
+   * anim.setDimension({ width: 200, height: 300 });
+   */
   public setDimension(dimension: Partial<Dimension>) {
     const width = dimension.width ?? this.state.value.properties.dimension.width;
     const height = dimension.height ?? this.state.value.properties.dimension.height;
@@ -134,18 +178,27 @@ export class Animation {
     return this;
   }
 
+  /**
+   * Flips the element horizontally.
+   */
   public flipX() {
     const rotateX = this.state.value.properties.transform.rotateX === 180 ? 0 : 180;
     this.state.deepSet({ properties: { transform: { rotateX } } });
     return this;
   }
 
+  /**
+   * Flips the element vertically.
+   */
   public flipY() {
     const rotateY = this.state.value.properties.transform.rotateY === 180 ? 0 : 180;
     this.state.deepSet({ properties: { transform: { rotateY } } });
     return this;
   }
 
+  /**
+   * Sets the scale of the element.
+   */
   public setScale(scale: number | undefined | null) {
     if (hasNotValue(scale)) {
       return this;
@@ -154,6 +207,9 @@ export class Animation {
     return this;
   }
 
+  /**
+   * Sets the opacity of the element.
+   */
   public setOpacity(opacity: number | undefined | null) {
     if (hasNotValue(opacity)) {
       return this;
@@ -167,6 +223,9 @@ export class Animation {
 
   // region --- animate ----
 
+  /**
+   * Stops the current animation.
+   */
   public stopAnimation() {
     clearTimeout(this.animationDelayTimerId);
     this.frameManager?.cancel();
@@ -223,6 +282,7 @@ export class Animation {
     });
   }
 
+  /** @ignore */
   public _getAnimationFrameCallback(isAnimationGroup = false) {
     const valueOnStart = deepClone(this.state.value.previousProperties);
     const valueOnEnd = deepClone(this.state.value.properties);
@@ -263,6 +323,7 @@ export class Animation {
 
   /**
    * Animate all style changes to the DOM.
+   * @param options - Animation options including duration, easing, and delay.
    * @return An Observable of changes on each frame, that apply to the DOM
    */
   public animate$({ duration = 100, easing = (x: number) => x, delay = 0 } = {}): Observable<AnimateResult> {
@@ -316,6 +377,7 @@ export class Animation {
 
   /**
    * Animate all style changes to the DOM.
+   * @param options - Animation options including duration, easing, and delay.
    * @return A promise that resolves to true if the animation state is completed, otherwise false
    */
   public async animate({ duration = 100, easing = (x: number) => x, delay = 0 } = {}): Promise<boolean> {
