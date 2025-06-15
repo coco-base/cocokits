@@ -1,7 +1,11 @@
 import { useLayoutEffect, useRef } from 'react';
 
 import { Animation, AnimationProperties } from '@cocokits/common-utils';
-import { DeepPartial } from '@cocokits/core';
+
+// TODO: it's defined in `@cocokits/core`, but since we can not import core into utils, we have to redefine it here.'
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
 
 /**
  * Options for the `useAnimation` hook.

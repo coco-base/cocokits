@@ -6,7 +6,10 @@
   "types": "./index.d.ts",
   "dependencies": {
     "@cocokits/react-core": "workspace:*",
-    "@cocokits/core": "workspace:*"
+    "@cocokits/core": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/react-utils": "workspace:*",
+    "@cocokits/react-icon": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.3.0",

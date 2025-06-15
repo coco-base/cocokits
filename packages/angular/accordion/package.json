@@ -6,7 +6,10 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@cocokits/angular-core": "workspace:*",
-    "@cocokits/core": "workspace:*"
+    "@cocokits/core": "workspace:*",
+    "@cocokits/common-utils": "workspace:*",
+    "@cocokits/angular-button": "workspace:*",
+    "@cocokits/angular-icon": "workspace:*"
   },
   "devDependencies": {},
   "peerDependencies": {
