@@ -34,6 +34,7 @@ export const Default: StoryObj<typeof Input> = {
               <% if (required) { %> required <% } %>
               <% if (disabled) { %> disabled <% } %>
               <% if (invalid) { %> invalid <% } %>
+                   <% if (error) { %> error <% } %>
               <% if (placeholder) { %> placeholder="<%= placeholder %>" <% } %>
             />
           </FormField>
@@ -55,6 +56,7 @@ export const Default: StoryObj<typeof Input> = {
         CCK_CONTROL.disabled(),
         CCK_CONTROL.required(),
         CCK_CONTROL.invalid(),
+     
       ],
     },
   },
