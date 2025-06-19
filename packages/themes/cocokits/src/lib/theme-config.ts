@@ -343,6 +343,8 @@ const components: ThemeComponentConfigRecord = {
   },
   accordionHeader: {},
   accordionPanel: {},
+  tabs: {},
+  tab: {},
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

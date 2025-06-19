@@ -10,7 +10,8 @@ export type UIBaseComponentsName =
   | _Tabs_ComponentNameOld
   | OverlayComponentName
   | AvatarComponentName
-  | AccordionComponentName;
+  | AccordionComponentName
+  | TabsComponentName;
 
 type FormFieldComponentName =
   | 'formField'
@@ -41,3 +42,4 @@ type _Tabs_ComponentNameOld = 'tabsOld' | 'tabOld' | 'tabLabelOld';
 type OverlayComponentName = 'overlay';
 type AvatarComponentName = 'avatar' | 'avatarGroup' | 'avatarLabel';
 type AccordionComponentName = 'accordion' | 'accordionHeader' | 'accordionPanel';
+type TabsComponentName = 'tabs' | 'tab';

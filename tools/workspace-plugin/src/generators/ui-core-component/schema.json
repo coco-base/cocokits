@@ -22,7 +22,8 @@
         "Overlay",
         "Radio",
         "Toggle",
-        "Accordion"
+        "Accordion",
+        "Tabs"
       ]
     },
     "newLibraryName": {

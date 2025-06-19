@@ -181,6 +181,8 @@ export function getMergeThemesStep3Scss() {
 @include Cocokits.components_accordion;
 @include Cocokits.components_accordion_header;
 @include Cocokits.components_accordion_panel;
+@include Cocokits.components_tabs;
+@include Cocokits.components_tab;
 
   
   `);

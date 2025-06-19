@@ -247,6 +247,18 @@
         "../packages/react/accordion/src/",
         "../../packages/react/accordion/src/",
         "../../../packages/react/accordion/src/"
+      ],
+      "@cocokits/angular-tabs": [
+        "packages/angular/tabs/src/",
+        "../packages/angular/tabs/src/",
+        "../../packages/angular/tabs/src/",
+        "../../../packages/angular/tabs/src/"
+      ],
+      "@cocokits/react-tabs": [
+        "packages/react/tabs/src/",
+        "../packages/react/tabs/src/",
+        "../../packages/react/tabs/src/",
+        "../../../packages/react/tabs/src/"
       ]
     }
   }

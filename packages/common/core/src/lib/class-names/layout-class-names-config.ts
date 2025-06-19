@@ -28,8 +28,10 @@ import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
 import { selectLayoutClassNamesConfig } from './select-class-names';
 import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
+import { tabLayoutClassNamesConfig } from './tab-class-names';
 import { tabLayoutClassNamesConfigOld } from './tab-class-names-old';
 import { tabLabelLayoutClassNamesConfigOld } from './tab-label-class-names-old';
+import { tabsLayoutClassNamesConfig } from './tabs-class-names';
 import { tabsLayoutClassNamesConfigOld } from './tabs-class-names-old';
 import { textareaClassNamesConfig } from './textarea-class-names';
 import { toggleLayoutClassNamesConfig } from './toggle-class-names';
@@ -69,9 +71,9 @@ export const layoutClassNamesConfigRecord = {
   menuItem: menuItemLayoutClassNamesConfig,
   divider: dividerLayoutClassNamesConfig,
   toggle: toggleLayoutClassNamesConfig,
-  tabs: tabsLayoutClassNamesConfigOld,
-  tab: tabLayoutClassNamesConfigOld,
-  tabLabel: tabLabelLayoutClassNamesConfigOld,
+  tabsOld: tabsLayoutClassNamesConfigOld,
+  tabOld: tabLayoutClassNamesConfigOld,
+  tabLabelOld: tabLabelLayoutClassNamesConfigOld,
   overlay: overlayLayoutClassNamesConfig,
   avatar: avatarLayoutClassNamesConfig,
   avatarGroup: avatarGroupLayoutClassNamesConfig,
@@ -79,4 +81,6 @@ export const layoutClassNamesConfigRecord = {
   accordion: accordionLayoutClassNamesConfig,
   accordionHeader: accordionHeaderLayoutClassNamesConfig,
   accordionPanel: accordionPanelLayoutClassNamesConfig,
+  tabs: tabsLayoutClassNamesConfig,
+  tab: tabLayoutClassNamesConfig,
 };

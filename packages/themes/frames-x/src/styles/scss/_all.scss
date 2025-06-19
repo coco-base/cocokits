@@ -31,6 +31,8 @@
 @use './accordion' as *;
 @use './accordion-header' as *;
 @use './accordion-panel' as *;
+@use './tabs' as *;
+@use './tab' as *;
 
 @mixin all {
   @include button;
@@ -66,4 +68,6 @@
   @include accordion;
   @include accordion-header;
   @include accordion-panel;
+  @include tabs;
+  @include tab;
 }

@@ -31,8 +31,10 @@ import { getRadioGroupClassNames } from './radio-group-class-names';
 import { getSelectClassNames } from './select-class-names';
 import { getSelectPreviewClassNames } from './select-preview-class-names';
 import { getSuffixClassNames } from './suffix-class-names';
+import { getTabClassNames } from './tab-class-names';
 import { getTabClassNamesOld } from './tab-class-names-old';
 import { getTabLabelClassNamesOld } from './tab-label-class-names-old';
+import { getTabsClassNames } from './tabs-class-names';
 import { getTabsClassNamesOld } from './tabs-class-names-old';
 import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
@@ -78,6 +80,8 @@ export const CLASS_NAMES_FN_MAP = {
   accordion: getAccordionClassNames,
   accordionHeader: getAccordionHeaderClassNames,
   accordionPanel: getAccordionPanelClassNames,
+  tabs: getTabsClassNames,
+  tab: getTabClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

@@ -1829,6 +1829,9 @@
 [data-cck-theme-name=cocokits] .cck-accordion__basic > .cck-accordion-panel):not(:last-of-type){
   border-bottom:1px solid var(--color-border-default);
 }
+:where([data-cck-theme-name=cocokits] .cck-tabs){
+  opacity:1;
+}
 
 :where([data-cck-theme-name=frames-x] .cck-button){
   display:inline-flex;
@@ -3891,4 +3894,7 @@
 }
 :where([data-cck-theme-name=frames-x] .cck-accordion__underline > .cck-accordion-panel){
   border-bottom:1px solid var(--base-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-tabs){
+  opacity:1;
 }
