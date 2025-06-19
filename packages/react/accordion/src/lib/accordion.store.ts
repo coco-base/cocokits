@@ -110,7 +110,7 @@ export class AccordionStore {
 
 const AccordionStoreContent = createContext<AccordionStore | null>(null);
 
-export function useCreateAccordionStore(config?: AccordionStoreOptions) {
+export function useCreateAccordionStore(config: AccordionStoreOptions) {
   return useMemo(
     () => ({
       StoreProvider: AccordionStoreContent.Provider as Provider<AccordionStore>,
