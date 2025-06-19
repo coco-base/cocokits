@@ -1,6 +1,6 @@
 import { Icons } from '@cocokits/common-icons';
 import { SvgIcon } from '@cocokits/react-icon';
-import { Tab, TabLabel, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { Tab, TabLabel, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs-old';
 
 import { StoryControlChangeEvent } from './story-control.model';
 import { StyledControlLabel } from './story-control.style';

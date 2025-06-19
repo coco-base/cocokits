@@ -1,4 +1,4 @@
-# @cocokits/react-tabs
+# @cocokits/react-tabs-old
 
 ## 1.0.1
 

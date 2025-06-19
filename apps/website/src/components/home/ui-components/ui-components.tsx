@@ -22,7 +22,7 @@ import {
   Toggle,
 } from '@cocokits/react-components';
 import { FormField, Input, Option, Select, Textarea } from '@cocokits/react-form-field';
-import { Tab, TabLabel, Tabs } from '@cocokits/react-tabs';
+import { Tab, TabLabel, Tabs } from '@cocokits/react-tabs-old';
 
 import { Brand } from '../../brands/brand';
 import { CckComponent } from '../../cck-component/cck-component';

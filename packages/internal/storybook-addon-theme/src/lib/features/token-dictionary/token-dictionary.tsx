@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { getInstance, recordReduceMerge } from '@cocokits/common-utils';
 import { TokenId } from '@cocokits/core';
-import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs-old';
 
 import { getTokenList } from './token-dictionary.utils';
 import { TokenDictionaryValue } from './token-dictionary-value';

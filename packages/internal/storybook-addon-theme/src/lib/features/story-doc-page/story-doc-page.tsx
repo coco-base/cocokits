@@ -3,7 +3,7 @@ import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getInstance } from '@cocokits/common-utils';
-import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs-old';
 import { usePromise } from '@cocokits/react-utils';
 
 import { getApiProps, getOverviewProps, getStylingProps } from './story-doc-page.utils';

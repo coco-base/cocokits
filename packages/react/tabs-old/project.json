@@ -1,5 +1,5 @@
 {
-  "name": "@cocokits/react-tabs",
+  "name": "@cocokits/react-tabs-old",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/react/tabs/src",
   "projectType": "library",

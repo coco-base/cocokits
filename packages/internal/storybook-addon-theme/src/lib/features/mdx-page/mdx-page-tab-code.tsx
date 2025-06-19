@@ -1,7 +1,7 @@
 import { Markdown } from '@storybook/addon-docs';
 import { SupportedLanguage } from '@storybook/components';
 
-import { Tab, Tabs } from '@cocokits/react-tabs';
+import { Tab, Tabs } from '@cocokits/react-tabs-old';
 
 interface MdxPageTabCodeProps {
   codeTabs: { [key: string]: string };
