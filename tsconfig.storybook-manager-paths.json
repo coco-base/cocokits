@@ -218,11 +218,11 @@
         "../../packages/react/toggle/src/",
         "../../../packages/react/toggle/src/"
       ],
-      "@cocokits/react-tabs": [
-        "packages/react/tabs/src/",
-        "../packages/react/tabs/src/",
-        "../../packages/react/tabs/src/",
-        "../../../packages/react/tabs/src/"
+      "@cocokits/react-tabs-old": [
+        "packages/react/tabs-old/src/",
+        "../packages/react/tabs-old/src/",
+        "../../packages/react/tabs-old/src/",
+        "../../../packages/react/tabs-old/src/"
       ],
       "@cocokits/angular-avatar": [
         "packages/angular/avatar/src/",

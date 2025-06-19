@@ -3,7 +3,7 @@ import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getInstance } from '@cocokits/common-utils';
-import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { TabOld, TabSelectionChangeEventOld,TabsOld } from '@cocokits/react-tabs-old';
 import { usePromise } from '@cocokits/react-utils';
 
 import { getApiProps, getOverviewProps, getStylingProps } from './story-doc-page.utils';
@@ -72,7 +72,7 @@ export function StoryDocPage() {
     return null;
   }
 
-  const onTabChange = (event: TabSelectionChangeEvent) => {
+  const onTabChange = (event: TabSelectionChangeEventOld) => {
     const tabName = event.value as StoryTab;
     getInstance(GlobalEvent).dispatch.docTabChange({ tabName });
     setSelectedTab(tabName);
@@ -81,27 +81,27 @@ export function StoryDocPage() {
   return (
     <DocPage breadcrumb={breadcrumb} title={title} tocItems={tocItemsMap[selectedTab]}>
       <StyledTabs selectedValue={selectedTab} onSelectionChange={onTabChange}>
-        <Tab label="Overview" value="Overview">
+        <TabOld label="Overview" value="Overview">
           <StoryDocPageOverview {...overviewProps} />
-        </Tab>
+        </TabOld>
 
-        <Tab label="API" value="API">
+        <TabOld label="API" value="API">
           <StoryDocPageAPI {...apiProps} />
-        </Tab>
+        </TabOld>
 
-        <Tab label="Styling" value="Styling">
+        <TabOld label="Styling" value="Styling">
           <StoryDocPageStyling {...stylingProps} />
-        </Tab>
+        </TabOld>
 
-        <Tab label="Examples" value="Examples">
+        <TabOld label="Examples" value="Examples">
           <StoryDocPageExamples />
-        </Tab>
+        </TabOld>
       </StyledTabs>
     </DocPage>
   );
 }
 
-const StyledTabs = styled(Tabs)`
+const StyledTabs = styled(TabsOld)`
   & .doc-cck-tabs__content-wrapper {
     margin-top: 28px;
   }

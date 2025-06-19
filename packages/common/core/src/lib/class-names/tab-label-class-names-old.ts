@@ -2,8 +2,8 @@ import { generateLayoutClassNameFromElement } from './class-names';
 import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
-export const tabLabelLayoutClassNamesConfig = {
-  componentName: 'tabLabel',
+export const tabLabelLayoutClassNamesConfigOld = {
+  componentName: 'tabLabelOld',
   baseSelectorStructure: {
     block: 'tab-label',
   },
@@ -16,13 +16,13 @@ export const tabLabelLayoutClassNamesConfig = {
   },
 } satisfies LayoutClassNamesConfig;
 
-export function getTabLabelClassNames(
+export function getTabLabelClassNamesOld(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
-): Record<keyof typeof tabLabelLayoutClassNamesConfig.elements, string> {
-  validateUiBaseComponentProps(tabLabelLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+): Record<keyof typeof tabLabelLayoutClassNamesConfigOld.elements, string> {
+  validateUiBaseComponentProps(tabLabelLayoutClassNamesConfigOld.componentName, componentProps, themeConfig);
 
   return {
-    host: generateLayoutClassNameFromElement(tabLabelLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    host: generateLayoutClassNameFromElement(tabLabelLayoutClassNamesConfigOld, 'host', themeConfig, componentProps),
   };
 }

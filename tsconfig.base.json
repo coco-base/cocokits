@@ -52,7 +52,7 @@
       "@cocokits/react-menu": ["packages/react/menu/src/index.ts"],
       "@cocokits/react-overlay": ["packages/react/overlay/src/index.ts"],
       "@cocokits/react-radio": ["packages/react/radio/src/index.ts"],
-      "@cocokits/react-tabs": ["packages/react/tabs/src/index.ts"],
+      "@cocokits/react-tabs-old": ["packages/react/tabs-old/src/index.ts"],
       "@cocokits/react-toggle": ["packages/react/toggle/src/index.ts"],
       "@cocokits/react-utils": ["packages/react/utils/src/index.ts"],
       "@cocokits/storybook-addon-theme": ["packages/internal/storybook-addon-theme/src/index.ts"],

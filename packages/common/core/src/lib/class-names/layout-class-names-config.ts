@@ -28,9 +28,9 @@ import { radioGroupLayoutClassNamesConfig } from './radio-group-class-names';
 import { selectLayoutClassNamesConfig } from './select-class-names';
 import { selectPreviewLayoutClassNamesConfig } from './select-preview-class-names';
 import { suffixLayoutClassNamesConfig } from './suffix-class-names';
-import { tabLayoutClassNamesConfig } from './tab-class-names';
-import { tabLabelLayoutClassNamesConfig } from './tab-label-class-names';
-import { tabsLayoutClassNamesConfig } from './tabs-class-names';
+import { tabLayoutClassNamesConfigOld } from './tab-class-names-old';
+import { tabLabelLayoutClassNamesConfigOld } from './tab-label-class-names-old';
+import { tabsLayoutClassNamesConfigOld } from './tabs-class-names-old';
 import { textareaClassNamesConfig } from './textarea-class-names';
 import { toggleLayoutClassNamesConfig } from './toggle-class-names';
 import { trailingLayoutClassNamesConfig } from './trailing-class-names';
@@ -69,9 +69,9 @@ export const layoutClassNamesConfigRecord = {
   menuItem: menuItemLayoutClassNamesConfig,
   divider: dividerLayoutClassNamesConfig,
   toggle: toggleLayoutClassNamesConfig,
-  tabs: tabsLayoutClassNamesConfig,
-  tab: tabLayoutClassNamesConfig,
-  tabLabel: tabLabelLayoutClassNamesConfig,
+  tabs: tabsLayoutClassNamesConfigOld,
+  tab: tabLayoutClassNamesConfigOld,
+  tabLabel: tabLabelLayoutClassNamesConfigOld,
   overlay: overlayLayoutClassNamesConfig,
   avatar: avatarLayoutClassNamesConfig,
   avatarGroup: avatarGroupLayoutClassNamesConfig,

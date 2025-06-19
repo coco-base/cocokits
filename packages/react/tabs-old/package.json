@@ -1,5 +1,5 @@
 {
-  "name": "@cocokits/react-tabs",
+  "name": "@cocokits/react-tabs-old",
   "version": "1.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",

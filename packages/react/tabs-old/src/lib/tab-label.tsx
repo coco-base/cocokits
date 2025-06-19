@@ -5,9 +5,9 @@ export interface TabLabelProps extends UIBaseComponentProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
-export const TabLabel = (props: TabLabelProps) => {
+export const TabLabelOld = (props: TabLabelProps) => {
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
-    componentName: 'tabLabel',
+    componentName: 'tabLabelOld',
     props,
   });
 

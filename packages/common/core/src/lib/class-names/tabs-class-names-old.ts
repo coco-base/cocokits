@@ -2,8 +2,8 @@ import { generateLayoutClassNameFromElement } from './class-names';
 import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
-export const tabsLayoutClassNamesConfig = {
-  componentName: 'tabs',
+export const tabsLayoutClassNamesConfigOld = {
+  componentName: 'tabsOld',
   baseSelectorStructure: {
     block: 'tabs',
   },
@@ -26,15 +26,15 @@ export const tabsLayoutClassNamesConfig = {
   },
 } satisfies LayoutClassNamesConfig;
 
-export function getTabsClassNames(
+export function getTabsClassNamesOld(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
-): Record<keyof typeof tabsLayoutClassNamesConfig.elements, string> {
-  validateUiBaseComponentProps(tabsLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+): Record<keyof typeof tabsLayoutClassNamesConfigOld.elements, string> {
+  validateUiBaseComponentProps(tabsLayoutClassNamesConfigOld.componentName, componentProps, themeConfig);
 
   return {
-    host: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    labelsWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'labelsWrapper', themeConfig),
-    contentWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'contentWrapper', themeConfig),
+    host: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfigOld, 'host', themeConfig, componentProps),
+    labelsWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfigOld, 'labelsWrapper', themeConfig),
+    contentWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfigOld, 'contentWrapper', themeConfig),
   };
 }

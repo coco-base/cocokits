@@ -2,8 +2,8 @@ import { generateLayoutClassNameFromElement } from './class-names';
 import { LayoutClassNamesConfig, ThemeConfig, UIBaseComponentProps } from '../model/theme-config.model';
 import { validateUiBaseComponentProps } from '../ui-component-props/ui-component-props';
 
-export const tabLayoutClassNamesConfig = {
-  componentName: 'tab',
+export const tabLayoutClassNamesConfigOld = {
+  componentName: 'tabOld',
   baseSelectorStructure: {
     block: 'tab',
   },
@@ -36,17 +36,17 @@ export const tabLayoutClassNamesConfig = {
   },
 } satisfies LayoutClassNamesConfig;
 
-export function getTabClassNames(
+export function getTabClassNamesOld(
   componentProps: UIBaseComponentProps,
   themeConfig: ThemeConfig
-): Record<keyof typeof tabLayoutClassNamesConfig.elements, string> {
-  validateUiBaseComponentProps(tabLayoutClassNamesConfig.componentName, componentProps, themeConfig);
+): Record<keyof typeof tabLayoutClassNamesConfigOld.elements, string> {
+  validateUiBaseComponentProps(tabLayoutClassNamesConfigOld.componentName, componentProps, themeConfig);
 
   return {
-    host: generateLayoutClassNameFromElement(tabLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    indicator: generateLayoutClassNameFromElement(tabLayoutClassNamesConfig, 'indicator', themeConfig),
-    content: generateLayoutClassNameFromElement(tabLayoutClassNamesConfig, 'content', themeConfig),
-    selected: generateLayoutClassNameFromElement(tabLayoutClassNamesConfig, 'selected', themeConfig),
-    unselected: generateLayoutClassNameFromElement(tabLayoutClassNamesConfig, 'unselected', themeConfig),
+    host: generateLayoutClassNameFromElement(tabLayoutClassNamesConfigOld, 'host', themeConfig, componentProps),
+    indicator: generateLayoutClassNameFromElement(tabLayoutClassNamesConfigOld, 'indicator', themeConfig),
+    content: generateLayoutClassNameFromElement(tabLayoutClassNamesConfigOld, 'content', themeConfig),
+    selected: generateLayoutClassNameFromElement(tabLayoutClassNamesConfigOld, 'selected', themeConfig),
+    unselected: generateLayoutClassNameFromElement(tabLayoutClassNamesConfigOld, 'unselected', themeConfig),
   };
 }

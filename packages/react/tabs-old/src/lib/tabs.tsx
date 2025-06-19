@@ -4,35 +4,35 @@ import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 import { useEffectAfterMount } from '@cocokits/react-utils';
 
-import { TabSelectionChangeEvent, TabValue } from './tab.model';
-import { TabIndexContext, useCreateTabsStore } from './tabs.store';
+import { TabSelectionChangeEventOld, TabValueOld } from './tab.model';
+import { TabIndexContextOld, useCreateTabsStoreOld } from './tabs.store';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const EMPTY_CALLBACK = () => {};
 
-export interface TabsProps extends UIBaseComponentProps {
+export interface TabsPropsOld extends UIBaseComponentProps {
   selectedIndex?: number;
-  selectedValue?: TabValue;
+  selectedValue?: TabValueOld;
 
   hideContent?: boolean;
   disableAnimation?: boolean;
 
-  onSelectionChange?: (event: TabSelectionChangeEvent) => void;
+  onSelectionChange?: (event: TabSelectionChangeEventOld) => void;
   children: React.ReactNode | React.ReactNode[];
   className?: string;
 }
 
-export const Tabs = (props: TabsProps) => {
+export const TabsOld = (props: TabsPropsOld) => {
   const hideContent = props.hideContent ?? false;
   const disableAnimation = props.disableAnimation ?? false;
 
-  const { tabsStore, TabsStoreProvider } = useCreateTabsStore({
+  const { tabsStore, TabsStoreProvider } = useCreateTabsStoreOld({
     disableAnimation,
     onSelectionChange: props.onSelectionChange ?? EMPTY_CALLBACK,
   });
 
   const { classNames: tabsClassNames, hostClassNames: tabsHostClassNames } = useUiBaseComponentConfig({
-    componentName: 'tabs',
+    componentName: 'tabsOld',
     props,
   });
 
@@ -61,9 +61,9 @@ export const Tabs = (props: TabsProps) => {
     <TabsStoreProvider value={tabsStore}>
       {/* Just render the children to register them into the store, The Children has no template */}
       {React.Children.map(props.children, (child, index) => (
-        <TabIndexContext.Provider key={index} value={index}>
+        <TabIndexContextOld.Provider key={index} value={index}>
           {child}
-        </TabIndexContext.Provider>
+        </TabIndexContextOld.Provider>
       ))}
 
       <div className={`${tabsHostClassNames} ${props.className ?? ''}`}>

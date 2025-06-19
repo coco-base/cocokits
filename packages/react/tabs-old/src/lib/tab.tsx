@@ -2,18 +2,18 @@ import { ReactNode, useContext, useEffect, useRef } from 'react';
 
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 
-import { TabLabel } from './tab-label';
-import { TabIndexContext, useTabsStore } from './tabs.store';
+import { TabLabelOld } from './tab-label';
+import { TabIndexContextOld, useTabsStoreOld } from './tabs.store';
 
-export interface TabProps {
+export interface TabPropsOld {
   label: string | ((selected: boolean) => ReactNode);
   value: string;
   children?: React.ReactNode | React.ReactNode[];
 }
 
-export const Tab = (props: TabProps) => {
-  const tabsStore = useTabsStore();
-  const index = useContext(TabIndexContext);
+export const TabOld = (props: TabPropsOld) => {
+  const tabsStore = useTabsStoreOld();
+  const index = useContext(TabIndexContextOld);
   const selectedTab = tabsStore?.useSelectedTab();
 
   const hostElemRef = useRef<HTMLButtonElement>(null);
@@ -22,7 +22,7 @@ export const Tab = (props: TabProps) => {
   const isSelected = selectedTab?.value === props.value;
 
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
-    componentName: 'tab',
+    componentName: 'tabOld',
     props: {},
     extraHostElementClassConditions: [
       { if: isSelected, classes: (cn) => [cn.selected] },
@@ -32,7 +32,7 @@ export const Tab = (props: TabProps) => {
 
   // Register and update the tab on mount and changes
   useEffect(() => {
-    const label = typeof props.label === 'string' ? <TabLabel>{props.label}</TabLabel> : props.label(isSelected);
+    const label = typeof props.label === 'string' ? <TabLabelOld>{props.label}</TabLabelOld> : props.label(isSelected);
 
     const tabTmp = (
       <button

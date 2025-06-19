@@ -1,7 +1,7 @@
 import { Markdown } from '@storybook/addon-docs';
 import { SupportedLanguage } from '@storybook/components';
 
-import { Tab, Tabs } from '@cocokits/react-tabs';
+import { TabOld, TabsOld } from '@cocokits/react-tabs-old';
 
 interface MdxPageTabCodeProps {
   codeTabs: { [key: string]: string };
@@ -10,12 +10,12 @@ interface MdxPageTabCodeProps {
 
 export const MdxPageTabCode = ({ codeTabs, language = 'typescript' }: MdxPageTabCodeProps) => {
   return (
-    <Tabs>
+    <TabsOld>
       {Object.keys(codeTabs).map((tab) => (
-        <Tab key={tab} label={tab} value={tab}>
+        <TabOld key={tab} label={tab} value={tab}>
           <Markdown>{`\`\`\`${language}\n${codeTabs[tab]}\n\`\`\``}</Markdown>
-        </Tab>
+        </TabOld>
       ))}
-    </Tabs>
+    </TabsOld>
   );
 };

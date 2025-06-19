@@ -2,52 +2,52 @@ import React, { createContext, RefObject, useContext, useRef } from 'react';
 
 import { createComponentStore } from '@cocokits/react-utils';
 
-import { TabSelectionChangeEvent, TabValue } from './tab.model';
+import { TabSelectionChangeEventOld, TabValueOld } from './tab.model';
 
-export interface TabComponent {
+export interface TabComponentOld {
   index: number;
   tabTmp: React.ReactNode;
   contentTmp: React.ReactNode;
   hostElemRef: RefObject<HTMLButtonElement>;
   indicatorElemRef: RefObject<HTMLDivElement>;
-  value: TabValue;
+  value: TabValueOld;
 }
 
-export interface TabsState {
-  selectedValue: TabValue;
-  tabs: Record<TabValue, TabComponent>;
+export interface TabsStateOld {
+  selectedValue: TabValueOld;
+  tabs: Record<TabValueOld, TabComponentOld>;
 }
 
-interface TabsStoreConfig {
+interface TabsStoreConfigOld {
   disableAnimation: boolean;
-  onSelectionChange: (event: TabSelectionChangeEvent) => void;
+  onSelectionChange: (event: TabSelectionChangeEventOld) => void;
 }
 
-export const TabsContext = createContext<TabsStore | null>(null);
-export const TabIndexContext = createContext<number>(0);
+export const TabsContextOld = createContext<TabsStoreOld | null>(null);
+export const TabIndexContextOld = createContext<number>(0);
 
-export function useCreateTabsStore(config: TabsStoreConfig) {
+export function useCreateTabsStoreOld(config: TabsStoreConfigOld) {
   const storeRef = useRef<{
-    TabsStoreProvider: typeof TabsContext.Provider;
-    tabsStore: TabsStore;
+    TabsStoreProvider: typeof TabsContextOld.Provider;
+    tabsStore: TabsStoreOld;
   }>();
 
   if (!storeRef.current) {
     storeRef.current = {
-      TabsStoreProvider: TabsContext.Provider,
-      tabsStore: new TabsStore(config),
+      TabsStoreProvider: TabsContextOld.Provider,
+      tabsStore: new TabsStoreOld(config),
     };
   }
 
   return storeRef.current;
 }
 
-export function useTabsStore() {
-  return useContext(TabsContext);
+export function useTabsStoreOld() {
+  return useContext(TabsContextOld);
 }
 
-class TabsStore {
-  private state = createComponentStore<TabsState>({ selectedValue: '', tabs: {} });
+class TabsStoreOld {
+  private state = createComponentStore<TabsStateOld>({ selectedValue: '', tabs: {} });
 
   public useSelectedTab = this.state.createSelector(
     (state) => state.tabs[state.selectedValue] ?? Object.values(state.tabs)[0]
@@ -58,13 +58,13 @@ class TabsStore {
     return tabs.sort((a, b) => a.index - b.index);
   });
 
-  constructor(private config: TabsStoreConfig) {}
+  constructor(private config: TabsStoreConfigOld) {}
 
-  public updateConfig(config: Partial<TabsStoreConfig>) {
+  public updateConfig(config: Partial<TabsStoreConfigOld>) {
     this.config = { ...this.config, ...config };
   }
 
-  public registerTab(tab: TabComponent) {
+  public registerTab(tab: TabComponentOld) {
     this.state.updateState((state) => {
       const tabs = { ...state.tabs, [tab.value]: tab };
       const selectedValue = state.selectedValue ?? tab.value; // Select the first tab if no tab is selected (when no tab is selected, selectedValue is an empty string)
@@ -72,7 +72,7 @@ class TabsStore {
     });
   }
 
-  public unregisterTab(tabValue: TabValue) {
+  public unregisterTab(tabValue: TabValueOld) {
     this.state.updateState((state) => {
       const tabs = { ...state.tabs };
       delete tabs[tabValue];
@@ -81,7 +81,7 @@ class TabsStore {
     });
   }
 
-  public selectTabByValue(newTabValue: TabValue, emitEvent = true) {
+  public selectTabByValue(newTabValue: TabValueOld, emitEvent = true) {
     const state = this.state.getState();
     const currentSelected = state.tabs[state.selectedValue];
     const newSelected = state.tabs[newTabValue];

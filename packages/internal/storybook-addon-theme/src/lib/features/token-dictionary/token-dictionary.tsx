@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { getInstance, recordReduceMerge } from '@cocokits/common-utils';
 import { TokenId } from '@cocokits/core';
-import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { TabOld, TabSelectionChangeEventOld,TabsOld } from '@cocokits/react-tabs-old';
 
 import { getTokenList } from './token-dictionary.utils';
 import { TokenDictionaryValue } from './token-dictionary-value';
@@ -36,7 +36,7 @@ export function TokenDictionary() {
     });
   }, [theme.id]);
 
-  const onCollectionTabClick = (event: TabSelectionChangeEvent) => {
+  const onCollectionTabClick = (event: TabSelectionChangeEventOld) => {
     setSelectedCollection(event.value);
   };
 
@@ -46,9 +46,9 @@ export function TokenDictionary() {
   };
 
   return (
-    <Tabs selectedValue={selectedCollection} onSelectionChange={onCollectionTabClick}>
+    <TabsOld selectedValue={selectedCollection} onSelectionChange={onCollectionTabClick}>
       {tokenDictionary.collectionNames.map((collection) => (
-        <Tab key={collection.rawName} label={collection.name} value={collection.name}>
+        <TabOld key={collection.rawName} label={collection.name} value={collection.name}>
           <StyledTable>
             <thead>
               <tr className="header">
@@ -109,9 +109,9 @@ export function TokenDictionary() {
               })}
             </tbody>
           </StyledTable>
-        </Tab>
+        </TabOld>
       ))}
-    </Tabs>
+    </TabsOld>
   );
 }
 
