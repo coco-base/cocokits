@@ -176,7 +176,7 @@ function createComponentStore<T>(initialState: T): {
   getState: () => T;
   listeners: Set<(state: T) => void>;
   setState: (newState: T) => void;
-  updateState: (partial: Partial<T> | (prevState: T) => Partial<T>) => T;
+  updateState: (partial: Partial<T> | (prevState: T) => Partial<T>) => void;
   useState: _useState;
  }
 ```
@@ -237,7 +237,7 @@ function createComponentStore<T>(initialState: T): {
   getState: () => T;
   listeners: Set<(state: T) => void>;
   setState: (newState: T) => void;
-  updateState: (partial: Partial<T> | (prevState: T) => Partial<T>) => T;
+  updateState: (partial: Partial<T> | (prevState: T) => Partial<T>) => void;
   useState: _useState;
  }
 ```
@@ -328,7 +328,7 @@ function createComponentStore<T>(initialState: T): {
 </td>
 <td>
 
-`(partial: Partial<T> | (prevState: T) => Partial<T>) => T`
+`(partial: Partial<T> | (prevState: T) => Partial<T>) => void`
 
 </td>
 <td>

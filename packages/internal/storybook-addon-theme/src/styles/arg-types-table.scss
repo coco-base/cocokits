@@ -66,9 +66,13 @@
 
     & code {
       white-space: nowrap;
-      font: var(--cck-doc-text-xs-regular);
+      font: var(--cck-doc-text-sm-regular);
       color: var(--cck-doc-color-font-2);
       padding: 0 6px;
+
+      &.wrap {
+        white-space: normal;
+      }
     }
   }
 

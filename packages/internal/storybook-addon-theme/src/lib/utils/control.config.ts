@@ -17,6 +17,17 @@ export const customText = (
   type: AddonParametersControlType.Text,
 });
 
+export const customNumber = (
+  displayName: string,
+  defaultValue: number,
+  storyArgKey?: string
+): AddonParametersControl => ({
+  displayName,
+  default: defaultValue,
+  storyArgKey: storyArgKey ?? camelCase(displayName),
+  type: AddonParametersControlType.Number,
+});
+
 export const customSelect = (
   displayName: string,
   options: string[],
@@ -28,6 +39,17 @@ export const customSelect = (
   options,
   storyArgKey: storyArgKey ?? camelCase(displayName),
   type: AddonParametersControlType.Select,
+});
+
+export const customBoolean = (
+  displayName: string,
+  defaultValue?: boolean,
+  storyArgKey?: string
+): AddonParametersControl => ({
+  displayName,
+  default: defaultValue ?? false,
+  storyArgKey: storyArgKey ?? camelCase(displayName),
+  type: AddonParametersControlType.Boolean,
 });
 
 export const text = (defaultValue: string): AddonParametersControl => ({

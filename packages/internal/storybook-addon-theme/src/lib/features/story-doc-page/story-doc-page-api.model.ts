@@ -6,9 +6,9 @@ export interface StoryDocPageArgTypes {
 }
 
 export interface StoryDocPageComponentArgTypeGroup {
-  props: StoryDocPageComponentArgType[];
-  events: StoryDocPageComponentArgType[];
-  methods: StoryDocPageComponentArgType[];
+  props?: StoryDocPageComponentArgType[];
+  events?: StoryDocPageComponentArgType[];
+  methods?: StoryDocPageComponentArgType[];
 }
 
 export interface StoryDocPageComponentArgType {

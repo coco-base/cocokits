@@ -2,7 +2,6 @@ import { Tree } from '@nx/devkit';
 
 export interface UiCoreComponentGeneratorOptions {
   tree: Tree;
-
   componentName: {
     className: string; // `FormField`
     propertyName: string; // `formField`

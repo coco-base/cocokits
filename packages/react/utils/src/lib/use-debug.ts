@@ -10,13 +10,13 @@ let NEXT_ID = 0;
  * @param {any[]} [changes] - An optional array of dependencies. Debug messages are logged when these values change.
  *
  * @example
+ * // In this example, the hook logs when the component is mounted, unmounted, and whenever the values in `changes` update.
  * // Usage example:
  * function MyComponent({ propA, propB }) {
  *   useDebug("MyComponent", [propA, propB]);
  *   return <div>Hello, world!</div>;
  * }
  *
- * In this example, the hook logs when the component is mounted, unmounted, and whenever the values in `changes` update.
  */
 export function useDebug(prefix: string, changes: any[] = []) {
   const id = useRef(NEXT_ID++);

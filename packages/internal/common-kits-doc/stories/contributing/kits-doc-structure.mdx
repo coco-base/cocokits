@@ -110,8 +110,10 @@ All stories must use the StoriesMeta interface, imported from:
 Under the `parameters` object, define the `cckAddon` configuration:
 
 - `componentName:` The name of the component (required).
-- `subcomponentNames:` Optional. Use this if the component has subcomponents that do not require their own documentation page (e.g., a prefix component used within a form field).
-- `subcomponentArgsTypes:` Optional. Use this to override subcomponent APIs if Storybook cannot generate them correctly.
+- `subcomponents:` Optional. Use this if the component has subcomponents that do not require their own documentation page (e.g., a prefix component used within a form field).
+  - `name`: The name of subComponent, if set to `null` then no documentation will be generate in API doc page.
+  - `argsType`: Optional. Use this to override subcomponent APIs if Storybook cannot generate them correctly.
+  - `description:` Optional. THe description of the component that should be shown under API tab
 
 ### Custom Story Parameters
 CocoKits provides custom configurations for stories. Each story must use the `StoryObj` interface from the appropriate framework-specific addon.

@@ -348,7 +348,7 @@ observer$.subscribe(({ entries, observer }) => {
 ## mutationObserver$()
 
 ```ts
-function mutationObserver$(elems: Element | Element[] | Document, config: MutationObserverInit): Observable<MutationObserverChanges>
+function mutationObserver$(elems: Element | Document | Element[], config: MutationObserverInit): Observable<MutationObserverChanges>
 ```
 
 Creates an observable that emits changes from a `MutationObserver` whenever
@@ -383,7 +383,7 @@ individually, and changes are emitted as they occur.
 </td>
 <td>
 
-`Element | Element[] | Document`
+`Element | Document | Element[]`
 
 </td>
 <td>

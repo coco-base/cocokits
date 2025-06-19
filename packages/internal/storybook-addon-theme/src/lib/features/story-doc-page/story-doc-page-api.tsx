@@ -22,9 +22,9 @@ export function StoryDocPageAPI({ argTypes, themeName, ngTemplateMD }: StoryDocP
         const isEmpty =
           !argType.argTypeGroup ||
           Object.keys(argType.argTypeGroup).length === 0 ||
-          (argType.argTypeGroup.props.length === 0 &&
-            argType.argTypeGroup.events.length === 0 &&
-            argType.argTypeGroup.methods.length === 0);
+          (argType.argTypeGroup.props?.length === 0 &&
+            argType.argTypeGroup.events?.length === 0 &&
+            argType.argTypeGroup.methods?.length === 0);
 
         return (
           <DocPageSection id={argType.componentName} title={argType.componentName} key={argType.componentName}>

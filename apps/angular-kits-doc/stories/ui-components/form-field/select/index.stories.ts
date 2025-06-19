@@ -46,18 +46,20 @@ const meta: StoriesMeta = {
     },
     cckAddon: {
       componentName: 'select',
-      subcomponentArgsTypes: {
+      subcomponents: {
         OptionComponent: {
-          _disabled: { name: 'disabled', table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+          name: 'option',
+          argsTypes: {
+            _disabled: { name: 'disabled', table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+          },
         },
         OptionGroupComponent: {
-          disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+          name: 'optionGroup',
+          argsTypes: {
+            _disabled: { name: 'disabled', table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+          },
         },
-      },
-      subcomponentNames: {
-        OptionComponent: 'option',
-        OptionGroupComponent: 'optionGroup',
-        SelectPreviewComponent: 'selectPreview',
+        SelectPreviewComponent: { name: 'selectPreview' },
       },
     },
   },

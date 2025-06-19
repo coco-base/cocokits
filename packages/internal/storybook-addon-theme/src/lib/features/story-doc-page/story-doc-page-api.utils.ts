@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { PreparedMeta, PreparedStory, StrictInputType } from '@storybook/types';
 
 import { deepMerge, recordReduceDeepMerge, reduceDeepMerge } from '@cocokits/common-utils';
@@ -66,9 +67,9 @@ export function getArgTypesApiList(
       const name = subcomponent.displayName ?? subcomponent.name;
       const argTypes = deepMerge(
         parameters.docs.extractArgTypes?.(subcomponent) ?? {},
-        parameters.cckAddon.subcomponentArgsTypes?.[name] ?? {}
+        parameters.cckAddon.subcomponents?.[name]?.argsTypes ?? {}
       );
-      const subcomponentName = parameters.cckAddon.subcomponentNames?.[name];
+      const subcomponentName = parameters.cckAddon.subcomponents?.[name]?.name;
       // Not all subcomponents are part of UIBaseComponents (e.g., MenuTriggerDirective).
       // If a component has the value 'null', we skip taking the config from the theme and only show the APIs from the component.
       if (subcomponentName === undefined) {
@@ -114,7 +115,7 @@ export function getComponentArgTypes({
   }
   const componentName = getStoryComponentName(componentRef);
   const uiBaseComponentName = parameters.cckAddon.componentName;
-  const overrideArgsType = parameters.cckAddon.subcomponentArgsTypes?.[componentName] ?? {};
+  const overrideArgsType = parameters.cckAddon.subcomponents?.[componentName]?.argsTypes ?? {};
 
   if (!uiBaseComponentName) {
     throw new Error(`Component name is missing in the story parameters for story: ${componentName}`);
@@ -315,4 +316,87 @@ function getValueWithoutCompodocIssue(value: string | unknown): string {
   }
 
   return _value;
+}
+
+/**
+ * Parses a TypeScript type definition string into an array of individual types.
+ * This handles complex nested structures including functions, generics, and union types.
+ * Removes unnecessary outer parentheses from type definitions.
+ *
+ * @param {string} typeStrRaw - The TypeScript type definition string (e.g. "string | number | boolean")
+ * @returns {string[]} An array of individual types (e.g. ["string", "number", "boolean"])
+ *
+ * @example
+ * // Returns ["string", "number"]
+ * parseTypeDefinition("string | number")
+ *
+ * @example
+ * // Returns ["string", "number"]  - removes unnecessary parentheses
+ * parseTypeDefinition("(string | number)")
+ *
+ * @example
+ * // Returns ["TValue", "TValue[]"]
+ * parseTypeDefinition("TValue | TValue[]")
+ *
+ * @example
+ * // Function types are preserved
+ * // Returns ["(value: TValue | TValue[] | null) => void"]
+ * parseTypeDefinition("(value: TValue | TValue[] | null) => void")
+ */
+export function parseTypeDefinition(typeStrRaw: string): string[] {
+  // Trim and remove leading pipe if present
+  let typeStr = typeStrRaw.trim();
+  if (typeStr.startsWith('|')) {
+    typeStr = typeStr.substring(1).trim();
+  }
+
+  // Prepare result array and tracking variables
+  const result = [];
+  let current = ''; // Builds the current type token
+  let depth = 0; // Tracks nesting level of brackets/braces/parentheses
+
+  // Process each character individually to properly handle nested structures
+  for (let i = 0; i < typeStr.length; i++) {
+    const char = typeStr[i];
+
+    // Detect opening brackets/braces/parentheses to track nesting depth
+    if ('({[<'.includes(char)) {
+      depth++; // Increase nesting level
+      current += char;
+    }
+    // Detect closing brackets/braces/parentheses to decrease nesting depth
+    else if (')}]>'.includes(char)) {
+      depth--; // Decrease nesting level
+      current += char;
+    }
+    // Split on pipe character only when at the root level (depth=0)
+    else if (char === '|' && depth === 0) {
+      // Only add non-empty types to the result array
+      if (current.trim()) {
+        result.push(removeUnnecessaryParentheses(current.trim()));
+      }
+      current = ''; // Reset current token builder
+    }
+    // For all other characters, keep building the current token
+    else {
+      current += char;
+    }
+  }
+
+  // Add the last type token after the loop completes
+  if (current.trim()) {
+    result.push(removeUnnecessaryParentheses(current.trim()));
+  }
+
+  return result;
+}
+
+/**
+ * Removes unnecessary parentheses wrapping a type.
+ * Only removes parentheses if they're surrounding the entire type and aren't part of a function type.
+ */
+function removeUnnecessaryParentheses(typeStrRaw: string): string {
+  const type = typeStrRaw.trim();
+  // While the type starts with '(' and ends with ')', check if we can remove them
+  return type.startsWith('(') && type.endsWith(')') ? type.slice(1, -1) : type;
 }

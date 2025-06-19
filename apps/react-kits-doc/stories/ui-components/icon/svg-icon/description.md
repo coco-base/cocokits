@@ -1,4 +1,4 @@
-The `SvgIcon` from `@cocokits` allows for the dynamic embedding of SVG icons within your Angular applications.
+The `SvgIcon` from `@cocokits` allows for the dynamic embedding of SVG icons within your React applications.
 
 
 #### Features:

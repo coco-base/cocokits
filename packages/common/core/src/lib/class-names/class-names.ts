@@ -1,5 +1,8 @@
 import { isNotNullish, recordForEach, safeMergeString } from '@cocokits/common-utils';
 
+import { getAccordionClassNames } from './accordion-class-names';
+import { getAccordionHeaderClassNames } from './accordion-header-class-names';
+import { getAccordionPanelClassNames } from './accordion-panel-class-names';
 import { getAvatarClassNames } from './avatar-class-names';
 import { getAvatarGroupClassNames } from './avatar-group-class-names';
 import { getAvatarLabelClassNames } from './avatar-label-class-names';
@@ -72,6 +75,9 @@ export const CLASS_NAMES_FN_MAP = {
   avatar: getAvatarClassNames,
   avatarGroup: getAvatarGroupClassNames,
   avatarLabel: getAvatarLabelClassNames,
+  accordion: getAccordionClassNames,
+  accordionHeader: getAccordionHeaderClassNames,
+  accordionPanel: getAccordionPanelClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

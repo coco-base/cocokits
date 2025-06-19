@@ -1,0 +1,70 @@
+@use '../../token/scss' as *;
+
+@mixin accordion-panel {
+  .cck-accordion-panel {
+    overflow: hidden;
+
+    &__content-wrapper {
+      font: $text-base-font-regular;
+      color: $text-dark-secondary;
+    }
+
+    &--collapsed {
+      padding-bottom: 0;
+    }
+  }
+
+  .cck-accordion {
+    &-panel {
+      transition: padding-bottom 300ms;
+    }
+
+    &--instant-animation > .cck-accordion-panel {
+      transition: none;
+    }
+
+    &__size--sm .cck-accordion-panel--expanded {
+      padding-bottom: $spacing-8;
+    }
+
+    &__size.md .cck-accordion-panel--expanded {
+      padding-bottom: $spacing-10;
+    }
+
+    &__default {
+      > .cck-accordion-panel {
+        border: 1px solid $base-border;
+        border-radius: $radi-6;
+        background-color: $base-surface-1;
+      }
+
+      &.cck-accordion__size {
+        &--sm > .cck-accordion-panel > .cck-accordion-panel__content-wrapper {
+          padding-left: $spacing-8;
+          padding-right: $spacing-7;
+        }
+
+        // &--sm > .cck-accordion-panel--expanded > .cck-accordion-panel__content-wrapper {
+        //   padding-bottom: $spacing-8;
+        // }
+
+        &--md > .cck-accordion-panel > .cck-accordion-panel__content-wrapper {
+          padding-left: $spacing-10;
+          padding-right: $spacing-8;
+        }
+
+        // &--md > .cck-accordion-panel--expanded > .cck-accordion-panel__content-wrapper {
+        //   padding-bottom: $spacing-10;
+        // }
+      }
+    }
+
+    &__underline {
+      padding-bottom: $spacing-8;
+
+      > .cck-accordion-panel {
+        border-bottom: 1px solid $base-border;
+      }
+    }
+  }
+}

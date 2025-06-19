@@ -1,0 +1,37 @@
+@use '../../token/scss' as *;
+
+@mixin accordion {
+  .cck-accordion {
+    display: flex;
+    flex-direction: column;
+
+    &__default {
+      &.cck-accordion__size {
+        &--sm {
+          gap: $accordion-default-gap-sm;
+        }
+
+        &--md {
+          gap: $accordion-default-gap-md;
+        }
+      }
+    }
+
+    &__group {
+      border: 1px solid $color-border-default;
+      border-radius: 6px;
+    }
+
+    &__basic {
+      // &.cck-accordion__size {
+      //   &--sm {
+      //     gap: $spacing-8;
+      //   }
+
+      //   &--md {
+      //     gap: $spacing-10;
+      //   }
+      // }
+    }
+  }
+}

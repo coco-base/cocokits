@@ -89,14 +89,14 @@ const meta: StoriesMeta = {
     },
     cckAddon: {
       componentName: 'formField',
-      subcomponentNames: {
-        LabelComponent: 'label',
-        LeadingComponent: 'leading',
-        TrailingComponent: 'trailing',
-        PrefixComponent: 'prefix',
-        SuffixComponent: 'suffix',
-        HintComponent: 'hint',
-        ErrorComponent: 'error',
+      subcomponents: {
+        LabelComponent: { name: 'label' },
+        LeadingComponent: { name: 'leading' },
+        TrailingComponent: { name: 'trailing' },
+        PrefixComponent: { name: 'prefix' },
+        SuffixComponent: { name: 'suffix' },
+        HintComponent: { name: 'hint' },
+        ErrorComponent: { name: 'error' },
       },
     },
   },

@@ -41,19 +41,21 @@ const meta: StoriesMeta = {
     },
     cckAddon: {
       componentName: 'menu',
-      subcomponentNames: {
-        MenuItemComponent: 'menuItem',
-        MenuTriggerDirective: null,
-      },
-      subcomponentArgsTypes: {
+      subcomponents: {
         MenuItemComponent: {
-          disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+          name: 'menuItem',
+          argsTypes: {
+            disabled: { table: { type: { summary: 'boolean' }, defaultValue: { summary: '' } } },
+          },
         },
         MenuTriggerDirective: {
-          menuOpen: { table: { defaultValue: { summary: 'false' } } },
-          menuSizes: { table: { type: { summary: 'OverlayConfig["size"]' }, defaultValue: { summary: '' } } },
-          menuOpened: { table: { category: 'outputs' } },
-          menuClosed: { table: { category: 'outputs' } },
+          name: null,
+          argsTypes: {
+            menuOpen: { table: { defaultValue: { summary: 'false' } } },
+            menuSizes: { table: { type: { summary: 'OverlayConfig["size"]' }, defaultValue: { summary: '' } } },
+            menuOpened: { table: { category: 'outputs' } },
+            menuClosed: { table: { category: 'outputs' } },
+          },
         },
       },
     },

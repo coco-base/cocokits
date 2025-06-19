@@ -1,0 +1,127 @@
+@use '../../token/scss' as *;
+
+@mixin accordion-header {
+  .cck-accordion-header {
+    display: flex;
+    align-items: center;
+    color: $text-dark-primary;
+
+    .cck-svg-icon.cck-svg-icon--default-color {
+      fill: $text-dark-primary;
+    }
+
+    &--icon-left {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+
+      > .cck-accordion-header__icon-btn {
+        margin-right: $spacing-8;
+      }
+    }
+
+    &--icon-right {
+      > .cck-accordion-header__icon-btn {
+        margin-left: auto;
+      }
+    }
+
+    .cck-accordion-header__icon-btn {
+      background-color: transparent;
+      border: none;
+      color: $base-fill-4;
+      border-radius: var(--radi-6);
+      cursor: pointer;
+      outline: none;
+
+      &:hover {
+        border: none;
+      }
+    }
+
+    &--trigger-icon {
+      .cck-accordion-header__icon-btn {
+        &:hover {
+          background-color: var(--base-fill-1);
+        }
+      }
+    }
+
+    &--trigger-header {
+      cursor: pointer;
+
+      > .cck-accordion-header__icon-btn {
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  .cck-accordion {
+    &-panel--disabled {
+      > .cck-accordion-header {
+        color: $base-disabled;
+      }
+
+      > .cck-accordion-header--trigger-header {
+        cursor: not-allowed;
+      }
+
+      > .cck-accordion-header > .cck-accordion-header__icon-btn {
+        display: none;
+      }
+    }
+
+    &__size {
+      &--sm .cck-accordion-header {
+        font: $text-base-font-medium;
+
+        > .cck-accordion-header__icon-btn {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      &--md .cck-accordion-header {
+        font: $text-lg-font-medium;
+
+        > .cck-accordion-header__icon-btn {
+          width: 44px;
+          height: 44px;
+        }
+      }
+    }
+
+    &__default {
+      // .cck-accordion-panel--expanded .cck-accordion-header {}
+
+      > .cck-accordion-panel--collapsed > .cck-accordion-header {
+        background-color: $base-surface-2;
+      }
+
+      &.cck-accordion__size {
+        &--sm > .cck-accordion-panel > .cck-accordion-header {
+          height: 56px;
+          padding: 0 $spacing-7 0 $spacing-8;
+        }
+
+        &--md > .cck-accordion-panel > .cck-accordion-header {
+          height: 72px;
+          padding: 0 $spacing-8 0 $spacing-10;
+        }
+      }
+    }
+
+    &__underline {
+      &.cck-accordion__size {
+        &--sm > .cck-accordion-panel > .cck-accordion-header {
+          height: 40px;
+        }
+
+        &--md > .cck-accordion-panel > .cck-accordion-header {
+          height: 52px;
+        }
+      }
+    }
+  }
+}

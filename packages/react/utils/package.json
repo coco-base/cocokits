@@ -11,7 +11,8 @@
   "types": "./index.d.ts",
   "dependencies": {
     "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react-dom": "^18.3.0",
+    "@cocokits/common-utils": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.3.0",

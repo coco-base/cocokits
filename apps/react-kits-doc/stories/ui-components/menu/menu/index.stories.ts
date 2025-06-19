@@ -20,8 +20,8 @@ const meta: StoriesMeta<typeof Menu> = {
     },
     cckAddon: {
       componentName: 'menu',
-      subcomponentNames: {
-        MenuItem: 'menuItem',
+      subcomponents: {
+        MenuItem: { name: 'menuItem' },
       },
     },
   },
