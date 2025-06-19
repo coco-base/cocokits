@@ -10,14 +10,14 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "/packages/angular/accordion/ng-package.json"
+        "project": "packages/angular/accordion/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "/packages/angular/accordion/tsconfig.lib.prod.json"
+          "tsConfig": "packages/angular/accordion/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "/packages/angular/accordion/tsconfig.lib.json"
+          "tsConfig": "packages/angular/accordion/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
