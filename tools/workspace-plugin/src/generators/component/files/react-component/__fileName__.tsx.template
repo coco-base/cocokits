@@ -22,19 +22,18 @@ export interface <%= className %>Props extends UIBaseComponentProps {
 }
 
 export const <%= className %> = (props: <%= className %>Props) => {
-    const { classNames, hostClassNames } = useUiBaseComponentConfig({
-      componentName: "<%= propertyName %>",
-      props,
-      extraHostElementClassConditions: [{ if: !!props.className, classes: () => [className] }],
-    });
+  const { classNames, hostClassNames } = useUiBaseComponentConfig({
+    componentName: "<%= propertyName %>",
+    props,
+    extraHostElementClassConditions: [{ if: !!props.className, classes: () => [props.className] }],
+  });
 
-    return (
-      <div className={hostClassNames} style={props.style}>
-        {children}
-      </div>
-    );
-  }
-);
+  return (
+    <div className={hostClassNames} style={props.style}>
+      {props.children}
+    </div>
+  );
+}
 
 <%= className %>.displayName = '<%= className %>';
 export default <%= className %>;
