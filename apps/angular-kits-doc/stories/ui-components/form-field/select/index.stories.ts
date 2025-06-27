@@ -17,6 +17,10 @@ export { Default } from './overview/default.stories';
 export { Size } from './overview/size.stories';
 export { CustomPreview } from './overview/custom-preview.stories';
 export { OptionGroup } from './overview/option-group.stories';
+export { Type } from './overview/type.stories';
+export { Color } from './overview/color.stories';
+export { NgModel } from './overview/ngmodel.stories';
+export { ReactiveForm } from './overview/reactiveform.stories';
 
 const meta: StoriesMeta = {
   component: SelectComponent,
