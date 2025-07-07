@@ -1,7 +1,126 @@
 @use '../../token/scss' as *;
+@use './selector-names/_tabs-selector-names' as S;
 
 @mixin tab {
-  .cck-tab {
-    opacity: 1;
+  #{S.$tab} {
+    display: flex;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $text-dark-tertiary;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+
+    & #{S.$svgIcon} {
+      color: currentcolor;
+      fill: currentcolor;
+    }
+  }
+
+  #{S.$label} {
+    // Without relative and zIndex 1, the indicator will be at top of the prevues element
+    position: relative;
+    z-index: 1;
+  }
+
+  #{S.$unselected}:not(#{S.$disabled}):focus-visible {
+    outline: 2px solid $state-brand-selected;
+  }
+
+  #{S.$selected} {
+    color: $text-dark-primary;
+  }
+
+  #{S.$disabled} {
+    color: $base-disabled;
+    cursor: not-allowed;
+  }
+
+  #{S.$indicator} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  #{S.$alignStretch} {
+    #{S.$tab} {
+      flex: 1;
+    }
+  }
+
+  #{S.$toggle} {
+    #{S.$tab} {
+      border-radius: $radi-5;
+    }
+
+    #{S.$unselected}:not(#{S.$disabled}):hover {
+      background-color: $base-fill-2;
+    }
+
+    #{S.$indicator} {
+      border-radius: $radi-5;
+      background-color: $base-surface-1;
+      border: 1px solid $base-border;
+    }
+  }
+
+  #{S.$fill} {
+    #{S.$tab} {
+      border-radius: $radi-6;
+    }
+
+    #{S.$indicator} {
+      border-radius: $radi-5;
+      background-color: $base-surface-2;
+      border: 2px solid $state-brand-selected;
+    }
+  }
+
+  #{S.$line} {
+    #{S.$indicator} {
+      border-bottom: $stroke-lg solid $state-brand-selected;
+    }
+  }
+
+  #{S.$sm} {
+    #{S.$tab} {
+      font: $text-sm-font-medium;
+      padding: 0 $spacing-7;
+      height: 36px;
+
+      &#{S.$selected} {
+        font: $text-sm-font-semibold;
+      }
+    }
+  }
+
+  #{S.$md} {
+    #{S.$tab} {
+      font: $text-base-font-medium;
+      padding: 0 $spacing-8;
+      height: 44px;
+
+      &#{S.$selected} {
+        font: $text-base-font-semibold;
+      }
+    }
+  }
+
+  #{S.$lg} {
+    #{S.$tab} {
+      font: $text-lg-font-medium;
+      padding: 0 $spacing-9;
+      height: 56px;
+
+      &#{S.$selected} {
+        font: $text-lg-font-semibold;
+      }
+    }
   }
 }

@@ -5,8 +5,7 @@ import { AbstractControl, FormControlStatus, ValidationErrors, Validators } from
 import { map, Observable, startWith, Subject, switchMap } from 'rxjs';
 
 import { toDeepSignal } from '@cocokits/angular-utils';
-import { recordReduceMerge } from '@cocokits/common-utils';
-import { DeepNullable } from '@cocokits/core';
+import { DeepNullable, recordReduceMerge } from '@cocokits/common-utils';
 
 import { ChipListComponent } from './chip-list/chip-list.component';
 import { ErrorComponent } from './error/error.component';

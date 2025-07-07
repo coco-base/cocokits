@@ -1,6 +1,6 @@
 import { Icons } from '@cocokits/common-icons';
 import { SvgIcon } from '@cocokits/react-icon';
-import { TabLabelOld, TabOld, TabSelectionChangeEventOld, TabsOld } from '@cocokits/react-tabs-old';
+import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
 
 import { StoryControlChangeEvent } from './story-control.model';
 import { StyledControlLabel } from './story-control.style';
@@ -13,25 +13,18 @@ interface StoryControlIconProps {
 }
 
 export function StoryControlIcon({ control, selected, onChange }: StoryControlIconProps) {
-  const onIconChange = (e: TabSelectionChangeEventOld) => {
+  const onIconChange = (e: TabSelectionChangeEvent<string>) => {
     onChange({ [control.storyArgKey]: e.value });
   };
 
   return (
     <>
       <StyledControlLabel>{control.displayName}</StyledControlLabel>
-      <TabsOld color="h-contrast" size="fit" selectedValue={selected} onSelectionChange={onIconChange} hideContent={true}>
+      <Tabs color="h-contrast" size="fit" selected={selected} onSelectionChange={onIconChange} hideContent={true}>
         {control.icons.map((icon) => (
-          <TabOld
-            key={icon}
-            value={icon}
-            label={() => (
-              <TabLabelOld>
-                <SvgIcon icon={Icons[icon]} />
-              </TabLabelOld>
-            )}></TabOld>
+          <Tab key={icon} value={icon} header={() => <SvgIcon icon={Icons[icon]} />}></Tab>
         ))}
-      </TabsOld>
+      </Tabs>
     </>
   );
 }

@@ -19,10 +19,17 @@ export const Color: StoryObj<TabsComponent> = {
           language: 'angular-html',
           code: `
           <% themeComponentConfig.color.values.map(color => { %>
+
+            <!------------ <%= color %> ------------>
             <cck-tabs
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               color='<%= color %>'
-            />
+              [hideContent]="true"
+            >
+              <cck-tab header="Header 1"/>
+              <cck-tab header="Header 2"/>
+              <cck-tab header="Header 3"/>
+            </cck-tabs>
           <% }) %>
           `,
         },
@@ -36,7 +43,11 @@ export const Color: StoryObj<TabsComponent> = {
     },
     template: `
       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
-        <cck-tabs [type]="cckControl.type" [color]="color"/>
+        <cck-tabs [type]="cckControl.type" [color]="color" [hideContent]="true">
+          <cck-tab header="Header 1"/>
+            <cck-tab header="Header 2"/>
+            <cck-tab header="Header 3"/>
+        </cck-tabs>
       }
     `,
   }),

@@ -12,7 +12,7 @@ The `@cocokits/angular-accordion` package provides a powerful and flexible accor
 ## Key Components Overview: 
 
 ### AccordionComponent
-The core wrapper component that manages the accordion structure. It handles state control, panel registration, keyboard accessibility, and global behaviors such as animation and expand/collapse all.
+The core wrapper component that manages the accordion structure. It handles state control, panel registration, and global behaviors such as animation and expand/collapse all.
 
 **Features:**
 - **Custom Icon Template:**

@@ -20,10 +20,17 @@ export const Size: StoryObj<TabsComponent> = {
           language: 'angular-html',
           code: `
          <% themeComponentConfig.size.values.map(size => { %>
+
+            <!------------ <%= size %> ------------>
             <cck-tabs
              <% if (typeof type !== 'undefined') { %> type='<%= type %>'<% } %>
               size='<%= size %>'
-            />
+              [hideContent]="true"
+            >
+              <cck-tab header="Header 1"/>
+              <cck-tab header="Header 2"/>
+              <cck-tab header="Header 3"/>
+            </cck-tabs>
          <% }) %>
           `,
         },
@@ -37,7 +44,11 @@ export const Size: StoryObj<TabsComponent> = {
     },
     template: `
       @for (size of cckControl.themeComponentConfig?.size?.values; let col = $index; track size) {
-        <cck-tabs [type]="cckControl.type" [size]="size"/>
+        <cck-tabs [type]="cckControl.type" [size]="size" [hideContent]="true">
+          <cck-tab header="Header 1"/>
+            <cck-tab header="Header 2"/>
+            <cck-tab header="Header 3"/>
+        </cck-tabs>
       }
     `,
   }),

@@ -76,7 +76,7 @@ const components: ThemeComponentConfigRecord = {
   // trailing: {},
   // menu: {},
   // menuItem: {},
-  tabsOld: {
+  tabs: {
     color: {
       name: 'color',
       values: ['default', 'h-contrast'],
@@ -90,8 +90,7 @@ const components: ThemeComponentConfigRecord = {
       description: '',
     },
   },
-  tabOld: {},
-  tabLabelOld: {},
+  tab: {},
   overlay: {},
 };
 

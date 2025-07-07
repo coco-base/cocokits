@@ -2,6 +2,7 @@ import { UIBaseComponentsPropValue } from '@cocokits/core';
 
 export interface StoryDocPageArgTypes {
   componentName: string;
+  deception: string | undefined;
   argTypeGroup: StoryDocPageComponentArgTypeGroup | null;
 }
 

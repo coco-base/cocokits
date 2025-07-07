@@ -6,7 +6,7 @@
     flex-direction: column;
     gap: 12px;
 
-    &__labels-wrapper {
+    &__headers-wrapper {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -30,7 +30,7 @@
 
       // }
       &--fit {
-        .doc-cck-tabs__labels-wrapper {
+        .doc-cck-tabs__headers-wrapper {
           width: 100%;
         }
       }
@@ -38,13 +38,13 @@
 
     &__color {
       &--default {
-        .doc-cck-tabs__labels-wrapper {
+        .doc-cck-tabs__headers-wrapper {
           background-color: var(--cck-doc-color-bg-3);
         }
       }
 
       &--h-contrast {
-        .doc-cck-tabs__labels-wrapper {
+        .doc-cck-tabs__headers-wrapper {
           background-color: var(--cck-doc-color-bg-4);
         }
       }

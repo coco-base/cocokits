@@ -1,4 +1,4 @@
-import { Tabs } from '@cocokits/react-tabs';
+import { Tab, Tabs } from '@cocokits/react-tabs';
 import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -19,19 +19,25 @@ export const Size: StoryObj<typeof Tabs> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%= componentName.className %> } from "@cocokits/react-components";
+          import { Tabs, Tab } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
               <>
                 <% themeComponentConfig.size.values.map(size => { %>
+
+                  {/* ------------ <%= size %> ------------ */}
                   <Tabs
-                    <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                    size='<%= size %>'
-                  />
+                    <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
+                    type="<%= type %>"
+                    hideContent={true}
+                  >
+                    <Tab header="Header 1"/>
+                    <Tab header="Header 2"/>
+                    <Tab header="Header 3"/>
+                  </Tabs>
                 <% }) %>
               </>
-
             );
           }
           `,
@@ -43,7 +49,11 @@ export const Size: StoryObj<typeof Tabs> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Tabs key={index} type={args.cckControl.type} size={size} />
+        <Tabs key={index} size={size} type={args.cckControl.type} hideContent={true}>
+          <Tab header="Header 1" />
+          <Tab header="Header 2" />
+          <Tab header="Header 3" />
+        </Tabs>
       ))}
     </>
   ),

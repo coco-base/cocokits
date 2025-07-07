@@ -1,7 +1,72 @@
 @use '../../token/scss' as *;
+@use './selector-names/_tabs-selector-names' as S;
 
 @mixin tabs {
-  .cck-tabs {
-    opacity: 1;
+  #{S.$tabs} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #{S.$headerWrapper} {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-2;
+    flex-wrap: wrap;
+  }
+
+  #{S.$alignLeft} {
+    #{S.$headerWrapper} {
+      align-self: flex-start;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+  }
+  #{S.$alignCenter} {
+    #{S.$headerWrapper} {
+      align-self: center;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  #{S.$alignRight} {
+    #{S.$headerWrapper} {
+      align-self: flex-end;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+  }
+  #{S.$alignStretch} {
+    #{S.$headerWrapper} {
+      align-self: stretch;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+  }
+
+  #{S.$toggle} {
+    #{S.$headerWrapper} {
+      padding: $spacing-2;
+      border-radius: $radi-6;
+      background-color: $base-fill-1;
+    }
+  }
+
+  #{S.$sm} {
+    #{S.$headerWrapper} {
+      min-height: 36px;
+    }
+  }
+
+  #{S.$md} {
+    #{S.$headerWrapper} {
+      min-height: 44px;
+    }
+  }
+
+  #{S.$lg} {
+    #{S.$headerWrapper} {
+      min-height: 56px;
+    }
   }
 }

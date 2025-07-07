@@ -51,3 +51,5 @@ export * from './lib/uncategorized/instance-store';
 export * from './lib/selection/selection';
 
 export * from './lib/string/case';
+
+export * from './lib/model/common.model';

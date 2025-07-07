@@ -259,7 +259,20 @@ const components: ThemeComponentConfigRecord = {
   },
   accordionHeader: {},
   accordionPanel: {},
-  tabs: {},
+  tabs: {
+    type: {
+      name: 'type',
+      values: ['fill', 'line', 'toggle'],
+      default: 'fill',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
   tab: {},
 };
 

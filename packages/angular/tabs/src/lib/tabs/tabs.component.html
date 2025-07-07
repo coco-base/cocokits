@@ -1,1 +1,13 @@
-<p>cck-tabs works !!</p>
+<div [class]="classNames().headersWrapper">
+  @for (headerTemp of tabComponents(); track $index) {
+    <ng-container *ngTemplateOutlet="headerTemp._headerTemplate()"></ng-container>
+  }
+</div>
+
+@let _selectedTabComponent = selectedTabComponent();
+
+@if(!hideContent() && _selectedTabComponent) {
+  <div [class]="classNames().contentWrapper">
+    <ng-container *ngTemplateOutlet="_selectedTabComponent._contentTemplate()"></ng-container>
+  </div>
+}

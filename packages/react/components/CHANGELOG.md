@@ -19,6 +19,5 @@
   - @cocokits/react-icon@1.0.1
   - @cocokits/react-menu@1.0.1
   - @cocokits/react-radio@1.0.1
-  - @cocokits/react-tabs-old@1.0.1
   - @cocokits/react-toggle@1.0.1
   - @cocokits/react-utils@1.0.1

@@ -49,4 +49,10 @@
   .doc-cck-tabs__color--h-contrast .doc-cck-tab__indicator {
     background-color: var(--cck-doc-color-bg-2);
   }
+
+  .doc-cck-tab__label {
+    // Without relative and zIndex 1, the indicator will be at top of the prevues element
+    position: relative;
+    z-index: 1;
+  }
 }

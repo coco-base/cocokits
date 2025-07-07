@@ -28,7 +28,6 @@ export * from './lib/class-names/textarea-class-names';
 export * from './lib/class-names/toggle-class-names';
 export * from './lib/class-names/trailing-class-names';
 
-export * from './lib/model/common.model';
 export * from './lib/model/design-token.model';
 export * from './lib/model/theme-svg-icon.model';
 export * from './lib/model/theme-config.model';

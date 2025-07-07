@@ -11,18 +11,18 @@ import {
   Checkbox,
   Chip,
   ChipList,
+  Divider,
   IconButton,
   Label,
-  SvgIcon,
   Menu,
   MenuItem,
-  Divider,
-  RadioGroup,
   RadioButton,
+  RadioGroup,
+  SvgIcon,
   Toggle,
 } from '@cocokits/react-components';
 import { FormField, Input, Option, Select, Textarea } from '@cocokits/react-form-field';
-import { Tab, TabLabel, Tabs } from '@cocokits/react-tabs-old';
+import { Tab, Tabs } from '@cocokits/react-tabs';
 
 import { Brand } from '../../brands/brand';
 import { CckComponent } from '../../cck-component/cck-component';
@@ -45,10 +45,10 @@ export function UiComponents() {
 
       <Tabs
         hideContent={true}
-        selectedValue={selectedTheme}
+        selected={selectedTheme}
         onSelectionChange={(theme) => setSelectedTheme(theme.value as typeof selectedTheme)}>
-        <Tab label={TabBrandLabel('cocokits')} value="cocokits" />
-        <Tab label={TabBrandLabel('frames-x')} value="frames-x" />
+        <Tab header={TabBrandLabel('cocokits')} value="cocokits" />
+        <Tab header={TabBrandLabel('frames-x')} value="frames-x" />
       </Tabs>
 
       <div className="examples-container">
@@ -143,8 +143,6 @@ export function UiComponents() {
 // eslint-disable-next-line react/display-name
 const TabBrandLabel = (themeName: 'cocokits' | 'frames-x') => (selected: boolean) => {
   return (
-    <TabLabel>
-      <Brand name={themeName} highlight={selected} />
-    </TabLabel>
+    <Brand name={themeName} highlight={selected} />
   );
 };

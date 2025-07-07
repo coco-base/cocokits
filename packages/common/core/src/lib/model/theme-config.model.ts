@@ -1,4 +1,5 @@
-import { RequireAtLeastOne } from './common.model';
+import { RequireAtLeastOne } from '@cocokits/common-utils';
+
 import { ThemeSvgIcon } from './theme-svg-icon.model';
 import { UIBaseComponentsName } from './ui-base-components-name';
 

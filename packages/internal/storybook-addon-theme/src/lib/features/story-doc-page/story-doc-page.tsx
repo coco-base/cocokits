@@ -3,7 +3,7 @@ import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getInstance } from '@cocokits/common-utils';
-import { TabOld, TabSelectionChangeEventOld,TabsOld } from '@cocokits/react-tabs-old';
+import { Tab, Tabs,TabSelectionChangeEvent } from '@cocokits/react-tabs';
 import { usePromise } from '@cocokits/react-utils';
 
 import { getApiProps, getOverviewProps, getStylingProps } from './story-doc-page.utils';
@@ -72,36 +72,35 @@ export function StoryDocPage() {
     return null;
   }
 
-  const onTabChange = (event: TabSelectionChangeEventOld) => {
-    const tabName = event.value as StoryTab;
-    getInstance(GlobalEvent).dispatch.docTabChange({ tabName });
-    setSelectedTab(tabName);
+  const onTabChange = (event: TabSelectionChangeEvent<StoryTab>) => {
+    getInstance(GlobalEvent).dispatch.docTabChange({ tabName: event.value });
+    setSelectedTab(event.value);
   };
 
   return (
     <DocPage breadcrumb={breadcrumb} title={title} tocItems={tocItemsMap[selectedTab]}>
-      <StyledTabs selectedValue={selectedTab} onSelectionChange={onTabChange}>
-        <TabOld label="Overview" value="Overview">
+      <StyledTabs selected={selectedTab} onSelectionChange={onTabChange}>
+        <Tab header="Overview" value="Overview">
           <StoryDocPageOverview {...overviewProps} />
-        </TabOld>
+        </Tab>
 
-        <TabOld label="API" value="API">
+        <Tab header="API" value="API">
           <StoryDocPageAPI {...apiProps} />
-        </TabOld>
+        </Tab>
 
-        <TabOld label="Styling" value="Styling">
+        <Tab header="Styling" value="Styling">
           <StoryDocPageStyling {...stylingProps} />
-        </TabOld>
+        </Tab>
 
-        <TabOld label="Examples" value="Examples">
+        <Tab header="Examples" value="Examples">
           <StoryDocPageExamples />
-        </TabOld>
+        </Tab>
       </StyledTabs>
     </DocPage>
   );
 }
 
-const StyledTabs = styled(TabsOld)`
+const StyledTabs = styled(Tabs<StoryTab>)`
   & .doc-cck-tabs__content-wrapper {
     margin-top: 28px;
   }

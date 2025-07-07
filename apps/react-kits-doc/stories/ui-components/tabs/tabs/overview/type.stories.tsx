@@ -1,4 +1,4 @@
-import { Tabs } from '@cocokits/react-tabs';
+import { Tab, Tabs } from '@cocokits/react-tabs';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
@@ -18,15 +18,22 @@ export const Type: StoryObj<typeof Tabs> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { Tabs } from "@cocokits/react-components";
+          import { Tabs, Tab } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
               <>
                 <% themeComponentConfig.type.values.map(type => { %>
+
+                  {/* ------------ <%= type %> ------------ */}
                   <Tabs
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                  />
+                    hideContent={true}
+                  >
+                    <Tab header="Header 1"/>
+                    <Tab header="Header 2"/>
+                    <Tab header="Header 3"/>
+                  </Tabs>
                 <% }) %>
               </>
             );
@@ -37,6 +44,14 @@ export const Type: StoryObj<typeof Tabs> = {
     },
   },
   render: (args) => (
-    <>{args.cckControl.themeComponentConfig.type?.values.map((type, index) => <Tabs key={index} type={type} />)}</>
+    <>
+      {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
+        <Tabs key={index} type={type} hideContent={true}>
+          <Tab header="Header 1" />
+          <Tab header="Header 2" />
+          <Tab header="Header 3" />
+        </Tabs>
+      ))}
+    </>
   ),
 };

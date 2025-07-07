@@ -1324,9 +1324,6 @@ importers:
       '@cocokits/react-radio':
         specifier: workspace:*
         version: link:../../../dist/packages/react/radio
-      '@cocokits/react-tabs-old':
-        specifier: workspace:*
-        version: link:../../../dist/packages/react/tabs
       '@cocokits/react-toggle':
         specifier: workspace:*
         version: link:../../../dist/packages/react/toggle

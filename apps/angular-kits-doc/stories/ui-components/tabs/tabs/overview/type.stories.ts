@@ -19,9 +19,14 @@ export const Type: StoryObj<TabsComponent> = {
           language: 'angular-html',
           code: `
           <% themeComponentConfig.type.values.map(type => { %>
-            <cck-tabs
-              type='<%= type %>'
-            />
+
+
+            <!------------ <%= type %> ------------>
+            <cck-tabs type='<%= type %>' [hideContent]="true">
+              <cck-tab header="Header 1"/>
+              <cck-tab header="Header 2"/>
+              <cck-tab header="Header 3"/>
+            </cck-tabs>
           <% }) %>
           `,
         },
@@ -34,7 +39,11 @@ export const Type: StoryObj<TabsComponent> = {
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <cck-tabs [type]="type"/>
+        <cck-tabs [type]="type" [hideContent]="true">
+          <cck-tab header="Header 1"/>
+          <cck-tab header="Header 2"/>
+          <cck-tab header="Header 3"/>
+        </cck-tabs>
       }
     `,
   }),
