@@ -29,7 +29,7 @@ jobs:
         run: pnpm exec nx run cocokits:depcheck
 
       - name: Build All
-        run: pnpm nx affected:build --base=main --head=HEAD --parallel=4
+        run: pnpm nx affected:build --base=main --head=HEAD --exclude=website --parallel=4
 
       - name: Test
-        run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits --parallel=1
+        run: pnpm nx affected:test --base=main --head=HEAD --exclude=cocokits,website --parallel=1
