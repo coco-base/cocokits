@@ -1,4 +1,3 @@
-export * from './lib/tabs';
-export * from './lib/tab';
-export * from './lib/tab-label';
-export * from './lib/tab.model';
+export * from './lib/tabs/tabs';
+export * from './lib/tab/tab';
+export * from './lib/tabs.model';

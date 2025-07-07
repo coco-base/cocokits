@@ -1,0 +1,22 @@
+<!-- Header Tab -->
+<ng-template #headerTemp>
+  
+  <button [class]="hostClassNames()" (click)="toggle()">
+    <div #indicatorElemRef [style.visibility]="_isSelected() ? 'visible' : 'hidden'" [class]="classNames().indicator"></div>
+
+    <div [class]="classNames().headerWrapper">
+      <ng-container *ngTemplateOutlet="headerTemplateContent(); context: { selected: _isSelected() }"></ng-container>
+    </div>
+  </button>
+</ng-template>
+
+<!-- Default Header Content -->
+<ng-template #defaultHeaderTemp let-selected="selected">
+  {{ header() }}
+</ng-template>
+
+
+<!-- Tab Content -->
+<ng-template #contentTemp>
+  <ng-content></ng-content>
+</ng-template>

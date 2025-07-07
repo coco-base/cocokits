@@ -4,24 +4,42 @@ import { validateUiBaseComponentProps } from '../ui-component-props/ui-component
 
 export const tabsLayoutClassNamesConfig = {
   componentName: 'tabs',
-  baseSelectorStructure: {
-    block: 'tabs',
-  },
+  baseSelectorStructure: { block: 'tabs' },
   elements: {
     host: {
       name: 'Host Element',
       selectorStructure: [],
-      description: 'This will be added to the host element of the Tabs component.',
+      description: 'It will add to the host element of `Tabs` component.',
     },
-    labelsWrapper: {
-      name: 'Labels Wrapper Element',
-      selectorStructure: [{ element: 'labels-wrapper' }],
-      description: 'This selector is applied to the wrapper element that contains all the tab labels.',
+    headersWrapper: {
+      name: 'Headers Wrapper Element',
+      selectorStructure: [{ element: 'headers-wrapper' }],
+      description: 'This selector is applied to the wrapper element that contains all the tab headers.',
     },
     contentWrapper: {
       name: 'Content Wrapper Element',
       selectorStructure: [{ element: 'content-wrapper' }],
       description: 'This selector is applied to the wrapper element that contains the tab contents.',
+    },
+    alignLeft: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'align-left' }],
+      description: 'This selector is applied to the host element, when the header align is left.',
+    },
+    alignCenter: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'align-center' }],
+      description: 'This selector is applied to the host element, when the header align is center.',
+    },
+    alignRight: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'align-right' }],
+      description: 'This selector is applied to the host element, when the header align is right.',
+    },
+    alignStretch: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'align-stretch' }],
+      description: 'This selector is applied to the host element, when the header align is stretch.',
     },
   },
 } satisfies LayoutClassNamesConfig;
@@ -34,7 +52,11 @@ export function getTabsClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'host', themeConfig, componentProps),
-    labelsWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'labelsWrapper', themeConfig),
+    headersWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'headersWrapper', themeConfig),
     contentWrapper: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'contentWrapper', themeConfig),
+    alignLeft: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignLeft', themeConfig),
+    alignCenter: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignCenter', themeConfig),
+    alignRight: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignRight', themeConfig),
+    alignStretch: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignStretch', themeConfig),
   };
 }

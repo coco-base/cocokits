@@ -48,6 +48,7 @@ export function getArgTypesApiList(
 
   argTypeGroup.push({
     componentName: getStoryComponentName(mainComponent, preparedMeta.id),
+    deception: parameters.cckAddon.deception,
     argTypeGroup: getComponentArgTypes({
       componentRef: mainComponent,
       originalArgTypes: preparedMeta.argTypes,
@@ -78,6 +79,7 @@ export function getArgTypesApiList(
 
       argTypeGroup.push({
         componentName: name,
+        deception: parameters.cckAddon.subcomponents?.[name]?.description,
         argTypeGroup: getComponentArgTypes({
           componentRef: subcomponent,
           originalArgTypes: argTypes,
@@ -388,7 +390,7 @@ export function parseTypeDefinition(typeStrRaw: string): string[] {
     result.push(removeUnnecessaryParentheses(current.trim()));
   }
 
-  return result;
+  return result.map((type) => (type.startsWith("'") && type.endsWith("'") ? type.slice(1, -1) : type));
 }
 
 /**

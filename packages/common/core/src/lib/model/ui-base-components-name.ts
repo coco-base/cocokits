@@ -7,10 +7,11 @@ export type UIBaseComponentsName =
   | CheckboxComponentName
   | ButtonComponentName
   | IconComponentName
-  | TabsComponentName
+  | _Tabs_ComponentNameOld
   | OverlayComponentName
   | AvatarComponentName
-  | AccordionComponentName;
+  | AccordionComponentName
+  | TabsComponentName;
 
 type FormFieldComponentName =
   | 'formField'
@@ -37,7 +38,8 @@ type RadioComponentName = 'radioButton' | 'radioGroup';
 type CheckboxComponentName = 'checkbox';
 type ButtonComponentName = 'button' | 'iconButton';
 type IconComponentName = 'svgIcon';
-type TabsComponentName = 'tabs' | 'tab' | 'tabLabel';
+type _Tabs_ComponentNameOld = 'tabsOld' | 'tabOld' | 'tabLabelOld';
 type OverlayComponentName = 'overlay';
 type AvatarComponentName = 'avatar' | 'avatarGroup' | 'avatarLabel';
 type AccordionComponentName = 'accordion' | 'accordionHeader' | 'accordionPanel';
+type TabsComponentName = 'tabs' | 'tab';

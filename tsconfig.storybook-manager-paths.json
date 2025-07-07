@@ -218,12 +218,6 @@
         "../../packages/react/toggle/src/",
         "../../../packages/react/toggle/src/"
       ],
-      "@cocokits/react-tabs": [
-        "packages/react/tabs/src/",
-        "../packages/react/tabs/src/",
-        "../../packages/react/tabs/src/",
-        "../../../packages/react/tabs/src/"
-      ],
       "@cocokits/angular-avatar": [
         "packages/angular/avatar/src/",
         "../packages/angular/avatar/src/",
@@ -247,6 +241,18 @@
         "../packages/react/accordion/src/",
         "../../packages/react/accordion/src/",
         "../../../packages/react/accordion/src/"
+      ],
+      "@cocokits/angular-tabs": [
+        "packages/angular/tabs/src/",
+        "../packages/angular/tabs/src/",
+        "../../packages/angular/tabs/src/",
+        "../../../packages/angular/tabs/src/"
+      ],
+      "@cocokits/react-tabs": [
+        "packages/react/tabs/src/",
+        "../packages/react/tabs/src/",
+        "../../packages/react/tabs/src/",
+        "../../../packages/react/tabs/src/"
       ]
     }
   }

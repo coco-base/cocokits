@@ -1,5 +1,7 @@
 /** @module _hidden */
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+
+import { useImmediatelyEffect } from './use-immediately-effect';
 
 export type ComponentStoreSelector<T, U> = (state: T) => U;
 
@@ -30,7 +32,7 @@ export function createComponentStore<T extends object>(initialState: T) {
     const [selectedState, setSelectedState] = useState(() => selector(state));
     const selectedStateRef = useRef(selectedState);
 
-    useLayoutEffect(() => {
+    useImmediatelyEffect(() => {
       const listener = (newState: T) => {
         const newSelectedState = selector(newState);
 

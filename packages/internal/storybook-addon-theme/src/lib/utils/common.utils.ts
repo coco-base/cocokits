@@ -1,6 +1,6 @@
 import { ComponentRef } from 'react';
 
-import { ClassRef } from '@cocokits/core';
+import { ClassRef } from '@cocokits/common-utils';
 
 export function isClassRef(ref: any): ref is ClassRef {
   return typeof ref === 'function' && !!ref.prototype && ref.prototype.constructor === ref;

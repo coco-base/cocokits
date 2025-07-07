@@ -11,4 +11,3 @@ export * from '@cocokits/react-divider';
 export * from '@cocokits/react-menu';
 export * from '@cocokits/react-toggle';
 export * from '@cocokits/react-cdk';
-// export * from '@cocokits/react-tabs';

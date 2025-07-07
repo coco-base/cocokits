@@ -32,8 +32,10 @@ import { getSelectClassNames } from './select-class-names';
 import { getSelectPreviewClassNames } from './select-preview-class-names';
 import { getSuffixClassNames } from './suffix-class-names';
 import { getTabClassNames } from './tab-class-names';
-import { getTabLabelClassNames } from './tab-label-class-names';
+import { getTabClassNamesOld } from './tab-class-names-old';
+import { getTabLabelClassNamesOld } from './tab-label-class-names-old';
 import { getTabsClassNames } from './tabs-class-names';
+import { getTabsClassNamesOld } from './tabs-class-names-old';
 import { getTextareaClassNames } from './textarea-class-names';
 import { getToggleClassNames } from './toggle-class-names';
 import { getTrailingClassNames } from './trailing-class-names';
@@ -68,9 +70,9 @@ export const CLASS_NAMES_FN_MAP = {
   button: getButtonClassNames,
   iconButton: getIconButtonClassNames,
   svgIcon: getSvgIconClassNames,
-  tabs: getTabsClassNames,
-  tab: getTabClassNames,
-  tabLabel: getTabLabelClassNames,
+  tabsOld: getTabsClassNamesOld,
+  tabOld: getTabClassNamesOld,
+  tabLabelOld: getTabLabelClassNamesOld,
   overlay: getOverlayClassNames,
   avatar: getAvatarClassNames,
   avatarGroup: getAvatarGroupClassNames,
@@ -78,6 +80,8 @@ export const CLASS_NAMES_FN_MAP = {
   accordion: getAccordionClassNames,
   accordionHeader: getAccordionHeaderClassNames,
   accordionPanel: getAccordionPanelClassNames,
+  tabs: getTabsClassNames,
+  tab: getTabClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

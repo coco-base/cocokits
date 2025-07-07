@@ -60,7 +60,7 @@ export interface AccordionProps<TValue extends string | number> extends UIBaseCo
       | ((props: { isExpanded: boolean; disabled: boolean }) => React.ReactNode);
 
   /**
-   * he children of the Accordion component. Must only be `AccordionPanel` components.
+   * the children of the Accordion component. Must only be `AccordionPanel` components.
    */
   children: React.ReactNode;
 }

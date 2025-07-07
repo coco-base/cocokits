@@ -5,7 +5,7 @@
 import { Meta } from '@storybook/addon-docs';
 import { MdxPage } from '@cocokits/storybook-addon-theme';
 
-export const tocItems = [{"id":"selection_animationframemanager","name":"AnimationFrameManager"},{"id":"selection_animationstoret","name":"AnimationStore<T>"},{"id":"selection_deeppartialt","name":"DeepPartial<T>"},{"id":"selection_getanimationvalueonprogress","name":"getAnimationValueOnProgress()"},{"id":"selection_gettransform2dvalue","name":"getTransform2dValue()"}];
+export const tocItems = [{"id":"selection_animationframemanager","name":"AnimationFrameManager"},{"id":"selection_animationstoret","name":"AnimationStore<T>"},{"id":"selection_getanimationvalueonprogress","name":"getAnimationValueOnProgress()"},{"id":"selection_gettransform2dvalue","name":"getTransform2dValue()"}];
 
 <Meta title='Utils/_hidden'/>
 <MdxPage breadcrumb='Utils' title='_hidden' tocItems={tocItems} hideThemeSwitcher={true}>
@@ -217,36 +217,6 @@ set(value: T): void
 ##### Returns
 
 `void`
-
-***
-
-</div><div id="selection_deeppartialt">
-## DeepPartial\<T\>
-
-```ts
-type DeepPartial<T>: { [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P] };
-```
-
-### Type Parameters
-
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
-<thead>
-<tr>
-<th>Type Parameter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-`T`
-
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 
 ***
 

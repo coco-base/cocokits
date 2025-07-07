@@ -1,12 +1,8 @@
 /** @module _hidden */
 
+import { DeepPartial } from '../model/common.model';
 import { deepClone } from '../uncategorized/deep-clone';
 import { deepMerge } from '../uncategorized/deep-merge';
-
-// TODO: It's duplicate between core and utils, but we can not use core in utils, so we need to keep it here.
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
 
 export class AnimationStore<T> {
   private _value: T;

@@ -12,7 +12,7 @@ export const MdxPageTabCode = ({ codeTabs, language = 'typescript' }: MdxPageTab
   return (
     <Tabs>
       {Object.keys(codeTabs).map((tab) => (
-        <Tab key={tab} label={tab} value={tab}>
+        <Tab key={tab} header={tab} value={tab}>
           <Markdown>{`\`\`\`${language}\n${codeTabs[tab]}\n\`\`\``}</Markdown>
         </Tab>
       ))}

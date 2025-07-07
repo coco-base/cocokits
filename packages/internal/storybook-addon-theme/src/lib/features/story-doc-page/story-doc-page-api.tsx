@@ -15,6 +15,8 @@ export function StoryDocPageAPI({ argTypes, themeName, ngTemplateMD }: StoryDocP
   Mismatches between the theme of this document and your project can result in discrepancies in \`type\` definitions and \`default\` values,
   as themes may vary in their specifications.`;
 
+  console.log('StoryDocPageAPI argTypes:', argTypes);
+  
   return (
     <>
       <DocPageMarkdown>{description}</DocPageMarkdown>
@@ -27,7 +29,11 @@ export function StoryDocPageAPI({ argTypes, themeName, ngTemplateMD }: StoryDocP
             argType.argTypeGroup.methods?.length === 0);
 
         return (
-          <DocPageSection id={argType.componentName} title={argType.componentName} key={argType.componentName}>
+          <DocPageSection
+            id={argType.componentName}
+            title={argType.componentName}
+            description={argType.deception}
+            key={argType.componentName}>
             {isEmpty && <p>This components has no API configuration</p>}
 
             {argType.argTypeGroup?.props && argType.argTypeGroup?.props.length > 0 && (

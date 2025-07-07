@@ -2,7 +2,8 @@ import { Args, PreparedStory } from '@storybook/types';
 import { ComponentType } from 'react';
 
 import { IconsName } from '@cocokits/common-icons';
-import { ClassRef, DeepPartial, ThemeComponentConfig, UIBaseComponentsName } from '@cocokits/core';
+import { ClassRef, DeepPartial } from '@cocokits/common-utils';
+import { ThemeComponentConfig, UIBaseComponentsName } from '@cocokits/core';
 
 import { ThemeChangeEvent } from './event.model';
 import { ExampleStoryCssVariables, ExampleStoryTemplateArgs } from './theme.model';
@@ -58,6 +59,7 @@ export interface AddonParametersMeta {
 
 export interface CckAddonStoriesMeta {
   componentName: UIBaseComponentsName;
+  deception?: string;
 
   subcomponents?: Record<
     string,

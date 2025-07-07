@@ -33,6 +33,7 @@
       "@cocokits/angular-menu": ["packages/angular/menu/src/index.ts"],
       "@cocokits/angular-overlay": ["packages/angular/overlay/src/index.ts"],
       "@cocokits/angular-radio": ["packages/angular/radio/src/index.ts"],
+      "@cocokits/angular-tabs": ["packages/angular/tabs/src/index.ts"],
       "@cocokits/angular-toggle": ["packages/angular/toggle/src/index.ts"],
       "@cocokits/angular-utils": ["packages/angular/utils/src/index.ts"],
       "@cocokits/common-icons": ["packages/common/icons/src/index.ts"],

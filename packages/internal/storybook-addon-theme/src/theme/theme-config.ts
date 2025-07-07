@@ -91,7 +91,6 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   tab: {},
-  tabLabel: {},
   overlay: {},
 };
 

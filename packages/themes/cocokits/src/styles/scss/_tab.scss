@@ -1,0 +1,7 @@
+@use '../../token/scss' as *;
+
+@mixin tab {
+  .cck-tab {
+    opacity: 1;
+  }
+}

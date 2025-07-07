@@ -259,6 +259,21 @@ const components: ThemeComponentConfigRecord = {
   },
   accordionHeader: {},
   accordionPanel: {},
+  tabs: {
+    type: {
+      name: 'type',
+      values: ['fill', 'line', 'toggle'],
+      default: 'fill',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
+  tab: {},
 };
 
 export const framesXThemeConfig: ThemeConfig = {

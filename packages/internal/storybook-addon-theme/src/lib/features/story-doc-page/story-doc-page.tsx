@@ -3,7 +3,7 @@ import { useContext, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { getInstance } from '@cocokits/common-utils';
-import { Tab, Tabs, TabSelectionChangeEvent } from '@cocokits/react-tabs';
+import { Tab, Tabs,TabSelectionChangeEvent } from '@cocokits/react-tabs';
 import { usePromise } from '@cocokits/react-utils';
 
 import { getApiProps, getOverviewProps, getStylingProps } from './story-doc-page.utils';
@@ -72,28 +72,27 @@ export function StoryDocPage() {
     return null;
   }
 
-  const onTabChange = (event: TabSelectionChangeEvent) => {
-    const tabName = event.value as StoryTab;
-    getInstance(GlobalEvent).dispatch.docTabChange({ tabName });
-    setSelectedTab(tabName);
+  const onTabChange = (event: TabSelectionChangeEvent<StoryTab>) => {
+    getInstance(GlobalEvent).dispatch.docTabChange({ tabName: event.value });
+    setSelectedTab(event.value);
   };
 
   return (
     <DocPage breadcrumb={breadcrumb} title={title} tocItems={tocItemsMap[selectedTab]}>
-      <StyledTabs selectedValue={selectedTab} onSelectionChange={onTabChange}>
-        <Tab label="Overview" value="Overview">
+      <StyledTabs selected={selectedTab} onSelectionChange={onTabChange}>
+        <Tab header="Overview" value="Overview">
           <StoryDocPageOverview {...overviewProps} />
         </Tab>
 
-        <Tab label="API" value="API">
+        <Tab header="API" value="API">
           <StoryDocPageAPI {...apiProps} />
         </Tab>
 
-        <Tab label="Styling" value="Styling">
+        <Tab header="Styling" value="Styling">
           <StoryDocPageStyling {...stylingProps} />
         </Tab>
 
-        <Tab label="Examples" value="Examples">
+        <Tab header="Examples" value="Examples">
           <StoryDocPageExamples />
         </Tab>
       </StyledTabs>
@@ -101,7 +100,7 @@ export function StoryDocPage() {
   );
 }
 
-const StyledTabs = styled(Tabs)`
+const StyledTabs = styled(Tabs<StoryTab>)`
   & .doc-cck-tabs__content-wrapper {
     margin-top: 28px;
   }

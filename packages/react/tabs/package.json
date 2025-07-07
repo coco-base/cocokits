@@ -1,12 +1,14 @@
 {
   "name": "@cocokits/react-tabs",
-  "version": "1.0.1",
+  "version": "0.0.0",
+  "private": false,
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "@cocokits/core": "workspace:*",
     "@cocokits/react-core": "workspace:*",
-    "@cocokits/react-utils": "workspace:*"
+    "@cocokits/core": "workspace:*",
+    "@cocokits/react-utils": "workspace:*",
+    "@cocokits/common-utils": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.3.0",
