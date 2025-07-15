@@ -42,7 +42,6 @@ const SELECT_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  standalone: true,
   imports: [SvgIconComponent],
   selector: 'cck-select',
   templateUrl: './select.component.html',

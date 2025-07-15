@@ -21,9 +21,8 @@ import { TabsFeatureStore } from '../tabs.feature-store';
 let NEXT_ID = 1;
 
 @Component({
-  standalone: true,
-  imports: [NgTemplateOutlet],
   selector: 'cck-tab',
+  imports: [NgTemplateOutlet],
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

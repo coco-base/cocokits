@@ -9,11 +9,11 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'tsx',
     filename: 'TrailingCustomColor.styled.tsx',
     code: `
-import styled from 'styled-components';
+import _Styled from 'styled-components';
 
 import { Trailing } from '@cocokits/react-components';
 
-const _Trailing = styled(Trailing)\`
+const _Trailing = _Styled(Trailing)\`
   &.cck-trailing {
     background-color: var(--trailing-bg);
 

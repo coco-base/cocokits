@@ -14,7 +14,6 @@ import { toBooleanOrPresent } from '@cocokits/common-utils';
 import { SelectComponent } from '../select/select.component';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-option-group',
   templateUrl: './option-group.component.html',

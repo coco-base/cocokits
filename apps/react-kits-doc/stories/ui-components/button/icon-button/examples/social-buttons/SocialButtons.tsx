@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import styled from "styled-components"
 
 import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/icon-button/social-buttons.config';

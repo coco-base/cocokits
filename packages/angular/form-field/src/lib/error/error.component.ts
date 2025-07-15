@@ -14,7 +14,6 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 import { injectFormFieldStore } from '../form-field.store';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-error',
   templateUrl: './error.component.html',

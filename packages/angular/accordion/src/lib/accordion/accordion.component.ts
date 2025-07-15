@@ -22,7 +22,6 @@ import { AccordionHeaderIconTemplateDirective } from '../accordion-header-icon.t
 import { AccordionPanelComponent } from '../accordion-panel/accordion-panel.component';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-accordion',
   templateUrl: './accordion.component.html',

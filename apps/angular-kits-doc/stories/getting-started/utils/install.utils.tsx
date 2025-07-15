@@ -117,7 +117,7 @@ export function getStep4CollectionModesTable(theme: ThemeChangeEvent) {
 
         {Object.entries(theme.tokenDictionary.collectionModeNames).map(([collection, modes]) =>
           modes.map((mode, index) => (
-            <tr>
+            <tr key={`${collection}-${mode.name}`}>
               {index === 0 && (
                 <td rowSpan={modes.length} className="collection-modes-selector-table__header-cell">
                   {collection}
@@ -156,7 +156,6 @@ import { ButtonComponent, CheckboxComponent } from '@cocokits/angular-components
 
 @Component({
     selector: 'hello',
-    standalone: true,
     imports: [ButtonComponent, CheckboxComponent],
     template: \`
       <button cck-button>Button</button>

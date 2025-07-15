@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, computed, input, InputSignal, ViewE
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-menu',
   templateUrl: './menu.component.html',

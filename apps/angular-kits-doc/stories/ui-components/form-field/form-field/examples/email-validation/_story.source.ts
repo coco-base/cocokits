@@ -23,7 +23,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-email-validation',
   imports: [FormFieldComponent, LabelComponent, InputComponent, ErrorComponent, ReactiveFormsModule, SvgIconComponent],
   template: \`

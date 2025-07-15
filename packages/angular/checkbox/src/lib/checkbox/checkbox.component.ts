@@ -31,7 +31,6 @@ const CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  standalone: true,
   imports: [TrustHtmlPipe],
   selector: 'cck-checkbox',
   templateUrl: './checkbox.component.html',

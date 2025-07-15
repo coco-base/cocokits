@@ -21,7 +21,6 @@ import {
 
 
 @Component({
-  standalone: true,
   selector: 'cck-select-preview-tag',
   imports: [OptionComponent, FormFieldComponent, LabelComponent, SelectComponent, SelectPreviewComponent],
   template: \`

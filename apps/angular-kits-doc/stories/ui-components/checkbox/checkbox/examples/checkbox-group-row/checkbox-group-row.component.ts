@@ -4,7 +4,6 @@ import { CheckboxComponent } from '@cocokits/angular-components';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-group-row.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-checkbox-group-row',
   imports: [CheckboxComponent],
   template: `

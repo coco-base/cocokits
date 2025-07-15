@@ -18,7 +18,6 @@ import { injectSelectStore, SelectTriggerSource } from '../select.store';
 import { SelectComponent } from '../select/select.component';
 
 @Component({
-  standalone: true,
   imports: [CheckboxComponent, SvgIconComponent],
   selector: 'cck-option',
   templateUrl: './option.component.html',

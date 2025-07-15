@@ -9,7 +9,7 @@ export function createFeatureStore<T extends ClassRef>(featureStoreRef: T) {
     const storeRef = useRef<{
       StoreProvider: typeof Context.Provider;
       store: InstanceType<T>;
-    }>();
+    }>(null);
 
     if (!storeRef.current) {
       storeRef.current = {

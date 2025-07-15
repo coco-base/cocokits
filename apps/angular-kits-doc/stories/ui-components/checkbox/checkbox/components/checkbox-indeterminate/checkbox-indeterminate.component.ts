@@ -9,7 +9,6 @@ interface Task {
 }
 
 @Component({
-  standalone: true,
   imports: [CheckboxComponent],
   templateUrl: './checkbox-indeterminate.component.html',
   styleUrls: ['./checkbox-indeterminate.component.scss'],

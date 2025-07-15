@@ -32,7 +32,6 @@ const TOGGLE_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-toggle',
   templateUrl: './toggle.component.html',

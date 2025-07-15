@@ -2125,13 +2125,6 @@
 :where([data-cck-theme-name=frames-x] .cck-checkbox.cck-checkbox--disabled *){
   cursor:default;
 }
-:where([data-cck-theme-name=frames-x] .cck-checkbox--checked .cck-checkbox__background){
-  border:2px solid var(--state-brand-active);
-  background-color:var(--state-brand-active);
-}
-:where([data-cck-theme-name=frames-x] .cck-checkbox--checked .cck-checkbox__checkmark){
-  opacity:1;
-}
 :where([data-cck-theme-name=frames-x] .cck-checkbox--indeterminate .cck-checkbox__background){
   border:2px solid var(--state-brand-active);
   background-color:var(--state-brand-active);
@@ -2165,6 +2158,13 @@
   transition:opacity 180ms cubic-bezier(0.4, 0, 0.6, 1);
   color:#fff;
   padding:2px;
+}
+:where([data-cck-theme-name=frames-x] .cck-checkbox--checked .cck-checkbox__background){
+  border:2px solid var(--state-brand-active);
+  background-color:var(--state-brand-active);
+}
+:where([data-cck-theme-name=frames-x] .cck-checkbox--checked .cck-checkbox__checkmark){
+  opacity:1;
 }
 :where([data-cck-theme-name=frames-x] .cck-checkbox__checkmark-path){
   fill:currentcolor;
@@ -3956,8 +3956,8 @@
   position:relative;
 }
 :where([data-cck-theme-name=frames-x] .cck-tab .cck-svg-icon.cck-svg-icon--default-color){
-  color:currentColor;
-  fill:currentColor;
+  color:currentcolor;
+  fill:currentcolor;
 }
 :where([data-cck-theme-name=frames-x] .cck-tab__label){
   position:relative;
@@ -4008,7 +4008,7 @@
 }
 :where([data-cck-theme-name=frames-x] .cck-tabs__size--sm .cck-tab){
   font:var(--text-sm-font-medium);
-  padding:0px var(--spacing-7);
+  padding:0 var(--spacing-7);
   height:36px;
 }
 :where([data-cck-theme-name=frames-x] .cck-tabs__size--sm .cck-tab.cck-tab--selected){
@@ -4016,7 +4016,7 @@
 }
 :where([data-cck-theme-name=frames-x] .cck-tabs__size--md .cck-tab){
   font:var(--text-base-font-medium);
-  padding:0px var(--spacing-8);
+  padding:0 var(--spacing-8);
   height:44px;
 }
 :where([data-cck-theme-name=frames-x] .cck-tabs__size--md .cck-tab.cck-tab--selected){
@@ -4024,7 +4024,7 @@
 }
 :where([data-cck-theme-name=frames-x] .cck-tabs__size--lg .cck-tab){
   font:var(--text-lg-font-medium);
-  padding:0px var(--spacing-9);
+  padding:0 var(--spacing-9);
   height:56px;
 }
 :where([data-cck-theme-name=frames-x] .cck-tabs__size--lg .cck-tab.cck-tab--selected){

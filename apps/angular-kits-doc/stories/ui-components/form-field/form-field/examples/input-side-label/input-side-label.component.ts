@@ -4,7 +4,6 @@ import { FormFieldComponent, InputComponent, LabelComponent } from '@cocokits/an
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-side-label.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-input-side-label',
   imports: [FormFieldComponent, LabelComponent, InputComponent],
   template: `

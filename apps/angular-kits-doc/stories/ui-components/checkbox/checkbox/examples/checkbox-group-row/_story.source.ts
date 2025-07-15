@@ -15,7 +15,6 @@ import { CheckboxComponent } from '@cocokits/angular-components';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-checkbox-group-row',
   imports: [CheckboxComponent],
   template: \`

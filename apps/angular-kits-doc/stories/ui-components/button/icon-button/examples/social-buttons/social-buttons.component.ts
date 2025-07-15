@@ -6,7 +6,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/icon-button/social-buttons.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-social-buttons',
   imports: [IconButtonComponent, SvgIconComponent],
   template: `

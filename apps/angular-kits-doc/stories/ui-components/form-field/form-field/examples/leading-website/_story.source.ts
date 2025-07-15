@@ -15,7 +15,6 @@ import { FormFieldComponent, InputComponent, LabelComponent, LeadingComponent } 
 
 
 @Component({
-  standalone: true,
   selector: 'cck-leading-website',
   imports: [FormFieldComponent, InputComponent, LeadingComponent, LabelComponent],
   template: \`

@@ -8,7 +8,6 @@ const MAX_VOLUME = 4;
 const MIN_VOLUME = 0;
 
 @Component({
-  standalone: true,
   selector: 'cck-volume-button',
   imports: [IconButtonComponent, SvgIconComponent],
   templateUrl: './volume-button.component.html',

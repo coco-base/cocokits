@@ -4,7 +4,6 @@
 // import { OverlayRef } from '../../../src/services/overlay-ref';
 
 // @Component({
-//   standalone: true,
 //   imports: [JsonPipe],
 //   template: `
 //     <p class="p-sm-regular-4">THIS IS A OVERLAY</p>

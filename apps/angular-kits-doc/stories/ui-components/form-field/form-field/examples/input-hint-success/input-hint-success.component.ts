@@ -14,7 +14,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-hint-success.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-input-hint-success',
   imports: [
     FormFieldComponent,

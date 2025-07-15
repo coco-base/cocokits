@@ -4,7 +4,6 @@
 // import { OverlayRef } from '../../../src/services/overlay-ref';
 
 // @Component({
-//   standalone: true,
 //   imports: [AsyncPipe],
 //   template: `
 //     <p class="p-sm-regular-4">Resize the textarea to change the overlay size</p>

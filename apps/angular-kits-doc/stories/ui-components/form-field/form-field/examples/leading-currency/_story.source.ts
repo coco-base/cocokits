@@ -24,7 +24,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-leading-currency',
   imports: [FormFieldComponent, InputComponent, LeadingComponent, LabelComponent, SvgIconComponent],
   template: \`

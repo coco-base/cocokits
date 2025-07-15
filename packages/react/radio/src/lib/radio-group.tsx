@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+// Don't remove `React` import, without this we get an error on opening overlay in react doc page
+import React, { useState } from 'react';
 
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
 import { useEffectAfterMount } from '@cocokits/react-utils';

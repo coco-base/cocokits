@@ -34,7 +34,7 @@ export interface MenuProps extends UIBaseComponentProps {
   /**
    * References the target element that the menu is associated with.
    */
-  targetRef?: React.RefObject<HTMLElement>;
+  targetRef?: React.RefObject<HTMLElement | null>;
 
   /**
    * Whether the menu should be closed when an item is selected.

@@ -16,7 +16,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-stack-vertical-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: \`

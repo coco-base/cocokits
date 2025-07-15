@@ -8,7 +8,6 @@ import { OverlayAnimationType, OverlayService } from '@cocokits/angular-overlay'
 import { ExampleOverlayDefaultOverlayComponent } from './example-overlay-default-overlay.component';
 
 @Component({
-  standalone: true,
   selector: 'cck-overlay-default',
   imports: [JsonPipe, FormFieldComponent, InputComponent, ButtonComponent],
   templateUrl: './example-overlay-default.component.html',

@@ -25,7 +25,6 @@ import { injectFormFieldStore } from '../form-field.store';
 import { SelectStore, SelectStoreService } from '../select.store';
 
 @Component({
-  standalone: true,
   imports: [ChipComponent],
   selector: 'cck-chip-list',
   templateUrl: './chip-list.component.html',

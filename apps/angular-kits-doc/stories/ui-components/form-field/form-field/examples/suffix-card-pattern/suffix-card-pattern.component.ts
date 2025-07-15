@@ -13,7 +13,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/suffix-card-pattern.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-suffix-card-pattern',
   imports: [FormFieldComponent, LabelComponent, InputComponent, SuffixComponent, SvgIconComponent, NgxMaskDirective],
   providers: [provideNgxMask()],

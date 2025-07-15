@@ -6,7 +6,6 @@ import { FormFieldComponent, InputComponent } from '@cocokits/angular-form-field
 import { OverlayRef } from '@cocokits/angular-overlay';
 
 @Component({
-  standalone: true,
   imports: [JsonPipe, FormFieldComponent, InputComponent, ButtonComponent],
   templateUrl: './example-overlay-default-overlay.component.html',
   styleUrl: './example-overlay-default-overlay.component.scss',

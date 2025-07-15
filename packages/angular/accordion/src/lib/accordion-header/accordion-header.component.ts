@@ -10,7 +10,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { IconButtonComponent } from '@cocokits/angular-button';
 import { _UiBaseComponent } from '@cocokits/angular-core';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 
@@ -20,8 +19,7 @@ import { AccordionHeaderIconTemplateDirective } from '../accordion-header-icon.t
 import { AccordionPanelComponent } from '../accordion-panel/accordion-panel.component';
 
 @Component({
-  standalone: true,
-  imports: [IconButtonComponent, SvgIconComponent, CommonModule],
+  imports: [SvgIconComponent, CommonModule],
   selector: 'cck-accordion-header',
   templateUrl: './accordion-header.component.html',
   styleUrls: ['./accordion-header.component.scss'],

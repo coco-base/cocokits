@@ -63,7 +63,7 @@ export function getStep4CollectionModesTable(theme: ThemeChangeEvent) {
 
         {Object.entries(theme.tokenDictionary.collectionModeNames).map(([collection, modes]) =>
           modes.map((mode, index) => (
-            <tr>
+            <tr key={`${collection}-${mode.name}`}>
               {index === 0 && (
                 <td rowSpan={modes.length} className="collection-modes-selector-table__header-cell">
                   {collection}

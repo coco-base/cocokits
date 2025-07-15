@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, computed, ViewEncapsulation } from 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-prefix',
   templateUrl: './prefix.component.html',

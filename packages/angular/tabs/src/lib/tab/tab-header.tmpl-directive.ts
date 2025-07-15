@@ -5,7 +5,6 @@ export interface AccordionHeaderIconContext {
 }
 
 @Directive({
-  standalone: true,
   selector: 'ng-template[cckTabHeader]',
 })
 export class TabHeaderTemplateDirective {

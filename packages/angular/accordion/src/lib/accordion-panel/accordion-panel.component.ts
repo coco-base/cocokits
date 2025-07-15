@@ -21,7 +21,6 @@ import { AccordionComponent } from '../accordion/accordion.component';
 let NEXT_ID = 1;
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-accordion-panel',
   templateUrl: './accordion-panel.component.html',

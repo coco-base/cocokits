@@ -4,7 +4,6 @@ import { ButtonComponent } from '@cocokits/angular-components';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/stack-horizontal-button.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-stack-horizontal-button',
   imports: [ButtonComponent],
   template: `

@@ -22,7 +22,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-leading-icon',
   imports: [FormFieldComponent, InputComponent, LeadingComponent, LabelComponent, SvgIconComponent],
   template: \`

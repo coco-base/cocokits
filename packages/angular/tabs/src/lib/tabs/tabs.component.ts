@@ -22,7 +22,6 @@ import { TabsFeatureStore } from '../tabs.feature-store';
 import { TabSelectionChangeEvent } from '../tabs.model';
 
 @Component({
-  standalone: true,
   imports: [NgTemplateOutlet],
   selector: 'cck-tabs',
   templateUrl: './tabs.component.html',

@@ -18,7 +18,6 @@ import { ThemeSvgIcon } from '@cocokits/core';
 import { injectFormFieldStore } from '../form-field.store';
 
 @Component({
-  standalone: true,
   imports: [SvgIconComponent, IconButtonComponent],
   selector: 'cck-chip',
   templateUrl: './chip.component.html',

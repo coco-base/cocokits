@@ -21,7 +21,6 @@ import { AvatarGroupComponent } from '../avatar-group/avatar-group.component';
 import { AvatarLabelComponent } from '../avatar-label/avatar-label.component';
 
 @Component({
-  standalone: true,
   imports: [CommonModule],
   selector: 'cck-avatar',
   templateUrl: './avatar.component.html',

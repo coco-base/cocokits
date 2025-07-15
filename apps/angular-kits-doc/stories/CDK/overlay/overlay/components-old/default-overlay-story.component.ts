@@ -9,7 +9,6 @@
 // import { OverlayService } from '../../../src/services/overlay.service';
 
 // @Component({
-//   standalone: true,
 //   selector: 'story-default',
 //   imports: [JsonPipe, FormFieldComponent, InputComponent, ButtonComponent],
 //   template: `

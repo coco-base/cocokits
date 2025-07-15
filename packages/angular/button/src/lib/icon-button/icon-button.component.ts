@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, computed, ViewEncapsulation } from 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'button[cck-icon-button]',
   templateUrl: './icon-button.component.html',

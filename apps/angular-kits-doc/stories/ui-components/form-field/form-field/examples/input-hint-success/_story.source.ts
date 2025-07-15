@@ -25,7 +25,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-input-hint-success',
   imports: [
     FormFieldComponent,

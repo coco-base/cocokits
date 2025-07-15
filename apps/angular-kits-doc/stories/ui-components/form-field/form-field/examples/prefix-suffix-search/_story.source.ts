@@ -22,7 +22,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-prefix-suffix-search',
   imports: [FormFieldComponent, InputComponent, PrefixComponent, SuffixComponent, SvgIconComponent],
   template: \`

@@ -22,7 +22,7 @@ export function StoryControlSelect({ control, value, onChange }: StoryControlSel
         <FormField>
           <Select onChange={onSelectChange} value={value}>
             {control.options.map((option) => (
-              <Option value={option}>{option}</Option>
+              <Option key={option} value={option}>{option}</Option>
             ))}
           </Select>
         </FormField>

@@ -4,7 +4,6 @@ import { CheckboxComponent } from '@cocokits/angular-components';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-box-selection.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-checkbox-box-selection',
   imports: [CheckboxComponent],
   templateUrl: './checkbox-box-selection.component.html',

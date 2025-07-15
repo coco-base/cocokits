@@ -12,7 +12,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-suffix-success.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-input-suffix-success',
   imports: [FormFieldComponent, LabelComponent, InputComponent, SuffixComponent, HintComponent, SvgIconComponent],
   template: `

@@ -11,8 +11,8 @@ export interface TabComponent<TValue> {
   disabled: boolean;
   tabTmp: ReactNode;
   contentTmp: ReactNode;
-  hostElemRef: RefObject<HTMLButtonElement>;
-  indicatorElemRef: RefObject<HTMLDivElement>;
+  hostElemRef: RefObject<HTMLButtonElement | null>;
+  indicatorElemRef: RefObject<HTMLDivElement | null>;
 }
 
 export type TabsFeatureStoreOptions<TValue> = Pick<

@@ -6,7 +6,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/add-new-button.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-add-new-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: `

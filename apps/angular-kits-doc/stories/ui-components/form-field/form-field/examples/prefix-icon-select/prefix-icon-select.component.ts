@@ -12,7 +12,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/prefix-icon-select.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-prefix-icon-select',
   imports: [FormFieldComponent, LabelComponent, SelectComponent, OptionComponent, SvgIconComponent, PrefixComponent],
   template: `

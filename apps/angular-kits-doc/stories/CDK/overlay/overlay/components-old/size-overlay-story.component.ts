@@ -4,7 +4,6 @@
 // import { OverlayService } from '../../../src/services/overlay.service';
 
 // @Component({
-//   standalone: true,
 //   selector: 'story-size',
 //   imports: [],
 //   template: `

@@ -1,4 +1,3 @@
-import { PromiseExecutor } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -14,7 +13,7 @@ import {
 } from './utils';
 import { Logger } from '../../utils/logger';
 
-const runExecutor: PromiseExecutor<DepcheckExecutorSchema> = async (options) => {
+export default async function runExecutor(options: DepcheckExecutorSchema) {
   Logger.header(`Running depcheck`);
 
   let hasError = false;
@@ -68,6 +67,4 @@ const runExecutor: PromiseExecutor<DepcheckExecutorSchema> = async (options) => 
   return {
     success: true,
   };
-};
-
-export default runExecutor;
+}

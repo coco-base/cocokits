@@ -5,7 +5,6 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 import { injectFormFieldStore } from '../form-field.store';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-trailing',
   templateUrl: './trailing.component.html',

@@ -4,7 +4,6 @@ import { FormFieldComponent, HintComponent, LabelComponent, TextareaComponent } 
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/textarea-max-char.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-textarea-max-char',
   imports: [FormFieldComponent, TextareaComponent, LabelComponent, HintComponent],
   template: `

@@ -19,7 +19,6 @@ import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-fiel
 import { ATFlag, THFlag } from './flags';
 
 @Component({
-  standalone: true,
   selector: 'cck-phone-number',
   imports: [
     FormFieldComponent,

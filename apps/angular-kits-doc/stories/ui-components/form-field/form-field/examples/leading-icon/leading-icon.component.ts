@@ -11,7 +11,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/leading-icon.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-leading-icon',
   imports: [FormFieldComponent, InputComponent, LeadingComponent, LabelComponent, SvgIconComponent],
   template: `

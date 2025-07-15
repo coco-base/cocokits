@@ -15,7 +15,6 @@ import { ButtonComponent } from '@cocokits/angular-components';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-stack-horizontal-button',
   imports: [ButtonComponent],
   template: \`

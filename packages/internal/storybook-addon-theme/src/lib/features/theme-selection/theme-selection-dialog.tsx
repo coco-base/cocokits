@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// Don't remove `React` import, without this we get an error on opening overlay in react doc page
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { Icons } from '@cocokits/common-icons';

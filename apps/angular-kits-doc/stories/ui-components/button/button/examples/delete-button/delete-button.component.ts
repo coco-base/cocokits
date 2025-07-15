@@ -5,7 +5,6 @@ import { OutlineIcons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/delete-button.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-delete-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: `

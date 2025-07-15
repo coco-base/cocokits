@@ -117,7 +117,6 @@ import {
 import { ATFlag, THFlag } from './flags';
 
 @Component({
-  standalone: true,
   selector: 'cck-phone-number',
   imports: [
     FormFieldComponent,

@@ -4,7 +4,6 @@ import { FormFieldComponent, InputComponent, LabelComponent, LeadingComponent } 
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/leading-website.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-leading-website',
   imports: [FormFieldComponent, InputComponent, LeadingComponent, LabelComponent],
   template: `

@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from "styled-components"
 import { NeonBox } from './neon-box';
 import { SvgIcon } from '@cocokits/react-components';
 import { Icons } from '@cocokits/common-icons';

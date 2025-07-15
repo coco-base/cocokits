@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { ThemeConfigContext, useUiBaseComponentConfig } from '@cocokits/react-core';
 

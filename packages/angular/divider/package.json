@@ -11,8 +11,8 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0"
+    "@angular/common": "~20.0.0",
+    "@angular/core": "~20.0.0"
   },
   "publishConfig": {
     "directory": "../../../dist/packages/angular/divider",

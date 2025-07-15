@@ -22,7 +22,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-custom-color',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent, SvgIconComponent],
   template: \`

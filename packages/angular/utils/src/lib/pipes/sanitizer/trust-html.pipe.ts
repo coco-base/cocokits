@@ -14,7 +14,6 @@ import { DomSanitizer } from '@angular/platform-browser';
  */
 @Pipe({
   name: 'trustHtml',
-  standalone: true,
 })
 export class TrustHtmlPipe implements PipeTransform {
   private sanitizer = inject(DomSanitizer);
