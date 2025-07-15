@@ -1,5 +1,6 @@
 import { createContext, ReactNode, RefObject } from 'react';
 
+import { Animation } from '@cocokits/common-utils';
 import { createComponentStore, createFeatureStore } from '@cocokits/react-utils';
 
 import { TabSelectionChangeEvent } from './tabs.model';
@@ -74,7 +75,7 @@ class TabsFeatureStore<TValue> {
     });
   }
 
-  public selectTabById(newTabId: string, emitEvent = true) {
+  public async selectTabById(newTabId: string, emitEvent = true) {
     const currentSelected = this.state.tabs[this.state.selectedId];
     const newSelected = this.state.tabs[newTabId];
 
@@ -95,23 +96,29 @@ class TabsFeatureStore<TValue> {
       });
     }
 
-    if (!this.state.instantAnimation && newSelected.hostElemRef.current && currentSelected.hostElemRef.current) {
+    if (
+      !this.state.instantAnimation &&
+      newSelected.hostElemRef.current &&
+      currentSelected.hostElemRef.current &&
+      newSelected.indicatorElemRef.current
+    ) {
       const currentTabReact = currentSelected.hostElemRef.current.getBoundingClientRect();
       const newTabReact = newSelected.hostElemRef.current.getBoundingClientRect();
 
-      const translate = {
-        x: currentTabReact.left - newTabReact.left,
-        y: currentTabReact.top - newTabReact.top,
-      };
+      const animationRef = Animation.getOrCreateInstance(newSelected.indicatorElemRef.current);
+      animationRef
+        .setDimension({ width: currentTabReact.width, height: currentTabReact.height })
+        .setTranslate({ x: currentTabReact.left - newTabReact.left, y: currentTabReact.top - newTabReact.top })
+        .applyImmediately();
 
-      newSelected.indicatorElemRef.current?.animate(
-        {
-          transform: [`translate(${translate.x}px, ${translate.y}px)`, '*'],
-          width: [`${currentTabReact.width}px`, `${newTabReact.width}px`],
-          height: [`${currentTabReact.height}px`, `${newTabReact.height}px`],
-        },
-        { duration: 300, easing: 'ease-in-out' }
-      );
+      await animationRef
+        .setDimension({ width: newTabReact.width, height: newTabReact.height })
+        .setTranslate({ x: 0, y: 0 })
+        .animate({ duration: 300, easing: easeInOut });
+
+      newSelected.indicatorElemRef.current.style.removeProperty('width');
+      newSelected.indicatorElemRef.current.style.removeProperty('height');
+      newSelected.indicatorElemRef.current.style.removeProperty('transform');
     }
   }
 
@@ -132,3 +139,7 @@ class TabsFeatureStore<TValue> {
 
 export const { useCreateFeatureStore, useFeatureStore } = createFeatureStore(TabsFeatureStore<any>);
 export const TabIndexContext = createContext<number>(0);
+
+function easeInOut(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}

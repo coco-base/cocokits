@@ -10,7 +10,7 @@ export const SOURCE: AddonParametersSource[] = [
     filename: 'StackVerticalButton.tsx',
     code: `
 import React from 'react';
-import styled from "styled-components"
+import styled from "styled-components";
 
 import { Icons } from '@cocokits/common-icons';
 

@@ -147,7 +147,7 @@ export class TabsComponent<TValue = unknown> extends _UiBaseComponent<'tabs'> im
         await animationRef
           .setDimension({ width: newTabReact.width, height: newTabReact.height })
           .setTranslate({ x: 0, y: 0 })
-          .animate({ duration: 300 });
+          .animate({ duration: 300, easing: easeInOut });
 
         selectedTabComponent._indicatorElemRef().nativeElement.style.removeProperty('width');
         selectedTabComponent._indicatorElemRef().nativeElement.style.removeProperty('height');
@@ -176,4 +176,11 @@ export class TabsComponent<TValue = unknown> extends _UiBaseComponent<'tabs'> im
       this.tabComponents().find((_, index) => index === this._selectedIndex) ?? this.tabComponents()[0];
     this.featStore.selectTabById(selectedTabByIndex._id);
   }
+}
+
+function easeInOut(t: number): number {
+  return t < 0.5
+    ? 4 * t * t * t
+    : // eslint-disable-next-line no-mixed-operators
+    1 - Math.pow(-2 * t + 2, 3) / 2;
 }
