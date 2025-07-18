@@ -3,7 +3,8 @@
   "version": "1.0.3",
   "sideEffects": false,
   "dependencies": {
-    "@cocokits/common-utils": "workspace:*"
+    "@cocokits/common-utils": "workspace:*",
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
     "@angular/common": "~20.0.0",

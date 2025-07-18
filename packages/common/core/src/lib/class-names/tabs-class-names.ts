@@ -63,5 +63,6 @@ export function getTabsClassNames(
     alignCenter: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignCenter', themeConfig),
     alignRight: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignRight', themeConfig),
     alignStretch: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'alignStretch', themeConfig),
+    instantAnimation: generateLayoutClassNameFromElement(tabsLayoutClassNamesConfig, 'instantAnimation', themeConfig),
   };
 }

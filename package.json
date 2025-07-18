@@ -148,10 +148,10 @@
   ],
   "author": "Milad Faghihi <miladfm@gmail.com>",
   "engines": {
-    "pnpm": "^9.0.0",
-    "node": "18.13.0 || ^20.9.0",
+    "pnpm": "^9.12.1",
+    "node": "^20.19.0 || ^22.12.0 || ^24.0.0",
     "typescript": ">=5.8.0 <5.9.0",
-    "rxjs": "^6.5.3 || ^7.8.0"
+    "rxjs": "^6.5.3 || ^7.4.0"
   },
   "dependencies": {
     "@angular/animations": "~20.0.0",
