@@ -23,7 +23,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-prefix-icon-select',
   imports: [FormFieldComponent, LabelComponent, SelectComponent, OptionComponent, SvgIconComponent, PrefixComponent],
   template: \`

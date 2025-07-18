@@ -2,6 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "emitDecoratorMetadata": true,
+    "noPropertyAccessFromIndexSignature": false,
     "jsx": "react-jsx"
   },
   "exclude": ["../**/*.spec.ts", "node_modules", "../../../**/node_modules"],

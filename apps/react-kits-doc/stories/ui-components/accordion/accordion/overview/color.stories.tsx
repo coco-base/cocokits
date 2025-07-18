@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { Accordion, AccordionHeader, AccordionPanel } from '@cocokits/react-accordion';
 import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
@@ -64,7 +66,7 @@ export const Color: StoryObj<typeof Accordion> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <>
+        <Fragment key={index}>
           <h4 className="cck-doc-story__header">{color}</h4>
           <Accordion key={index} type={args.cckControl.type} color={color}>
             <AccordionPanel>
@@ -85,7 +87,7 @@ export const Color: StoryObj<typeof Accordion> = {
               dolore magna aliqua.
             </AccordionPanel>
           </Accordion>
-        </>
+        </Fragment>
       ))}
     </>
   ),

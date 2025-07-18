@@ -11,7 +11,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-custom-color.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-custom-color',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent, SvgIconComponent],
   template: `

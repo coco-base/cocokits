@@ -24,7 +24,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-suffix-card-pattern',
   imports: [FormFieldComponent, LabelComponent, InputComponent, SuffixComponent, SvgIconComponent, NgxMaskDirective],
   providers: [provideNgxMask()],

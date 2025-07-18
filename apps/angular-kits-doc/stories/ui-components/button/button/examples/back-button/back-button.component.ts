@@ -5,7 +5,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/back-button.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-back-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: `

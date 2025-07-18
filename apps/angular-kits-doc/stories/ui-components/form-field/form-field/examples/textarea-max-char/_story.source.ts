@@ -15,7 +15,6 @@ import { FormFieldComponent, HintComponent, LabelComponent, TextareaComponent } 
 
 
 @Component({
-  standalone: true,
   selector: 'cck-textarea-max-char',
   imports: [FormFieldComponent, TextareaComponent, LabelComponent, HintComponent],
   template: \`

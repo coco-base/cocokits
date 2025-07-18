@@ -19,8 +19,8 @@ type ClassRef<T, U>: Object;
 
 ### Type Parameters
 
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
+<div className="arg-type-table-wrapper">
+<table className="arg-type-table arg-type-table--full-width">
 <thead>
 <tr>
 <th>Type Parameter</th>
@@ -67,8 +67,8 @@ type DeepNullable<T>: { [P in keyof T]: T[P] extends object ? DeepNullable<T[P]>
 
 ### Type Parameters
 
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
+<div className="arg-type-table-wrapper">
+<table className="arg-type-table arg-type-table--full-width">
 <thead>
 <tr>
 <th>Type Parameter</th>
@@ -97,8 +97,8 @@ type DeepPartial<T>: { [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> 
 
 ### Type Parameters
 
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
+<div className="arg-type-table-wrapper">
+<table className="arg-type-table arg-type-table--full-width">
 <thead>
 <tr>
 <th>Type Parameter</th>
@@ -127,8 +127,8 @@ type RequireAtLeastOne<T>: { [K in keyof T]-?: Required<Pick<T, K>> & Omit<T, K>
 
 ### Type Parameters
 
-<div class="arg-type-table-wrapper">
-<table class="arg-type-table arg-type-table--full-width">
+<div className="arg-type-table-wrapper">
+<table className="arg-type-table arg-type-table--full-width">
 <thead>
 <tr>
 <th>Type Parameter</th>

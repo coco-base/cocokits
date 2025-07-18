@@ -8,7 +8,6 @@ import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 @Component({
   selector: 'cck-tabs-control',
-  standalone: true,
   imports: [TabsComponent, TabComponent],
   styles: [
     `
@@ -110,7 +109,6 @@ export const Control: StoryObj<TabsComponent> = {
           code: `
             @Component({
               selector: 'cck-tabs-control',
-              standalone: true,
               imports: [TabsComponent, TabComponent],
               stylesUrls: ['./example.component.scss'],
               templateUrl: './example.component.html',

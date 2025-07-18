@@ -5,7 +5,8 @@
       "extends": ["./eslint.base.json"],
       "rules": {
         "react-hooks/exhaustive-deps": "off",
-        "react/jsx-no-useless-fragment": "off"
+        "react/jsx-no-useless-fragment": "off",
+        "max-lines-per-function": ["error", { "max": 140, "skipComments": true }]
       }
     }
   ]

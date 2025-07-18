@@ -7,7 +7,6 @@ import { toBooleanOrPresent } from '@cocokits/common-utils';
 import { MenuComponent } from '../menu/menu.component';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-menu-item',
   templateUrl: './menu-item.component.html',

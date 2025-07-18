@@ -17,7 +17,6 @@ import { OverlayConfig, OverlayConnectElemOrigin, OverlayService, RenderedOverla
 import { getClassNames } from '@cocokits/core';
 
 @Directive({
-  standalone: true,
   selector: '[cckMenuTrigger]',
   host: {
     '(click)': 'onHostClick()',

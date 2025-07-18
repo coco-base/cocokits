@@ -18,7 +18,6 @@ import { toBooleanOrPresent } from '@cocokits/common-utils';
 import { injectFormFieldStore } from '../form-field.store';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'input[cck-input], input[cckInput]',
   templateUrl: './input.component.html',

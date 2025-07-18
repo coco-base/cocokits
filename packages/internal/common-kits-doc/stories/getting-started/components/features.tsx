@@ -1,7 +1,7 @@
 import React from 'react';
 import { Feature } from './feature';
 import { CustomizeSvg, TokenSvg, UiComponentSvg } from './feature-image';
-import { styled } from 'styled-components';
+import styled from "styled-components"
 
 export function Features() {
   return (

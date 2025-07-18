@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 'use client';
 import { CSSProperties, FocusEvent, forwardRef, InputHTMLAttributes, useEffect, useState } from 'react';
 import { Control, Controller, ControllerProps } from 'react-hook-form';

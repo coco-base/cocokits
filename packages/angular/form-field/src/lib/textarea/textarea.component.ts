@@ -21,7 +21,6 @@ import { autoResizeTextarea, toBooleanOrPresent, toNumber } from '@cocokits/comm
 import { injectFormFieldStore } from '../form-field.store';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'textarea[cck-textarea], textarea[cckTextarea]',
   templateUrl: './textarea.component.html',

@@ -5,7 +5,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/copy-link-button.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-copy-link-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: `

@@ -27,7 +27,6 @@ import { OverlayRef } from '../../services/overlay-ref';
 type AnimationState = { value: any } & AnimationOptions;
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-overlay',
   templateUrl: './overlay.component.html',

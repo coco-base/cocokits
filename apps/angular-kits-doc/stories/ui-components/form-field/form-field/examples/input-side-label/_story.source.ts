@@ -15,7 +15,6 @@ import { FormFieldComponent, InputComponent, LabelComponent } from '@cocokits/an
 
 
 @Component({
-  standalone: true,
   selector: 'cck-input-side-label',
   imports: [FormFieldComponent, LabelComponent, InputComponent],
   template: \`

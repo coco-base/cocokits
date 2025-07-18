@@ -17,7 +17,6 @@ import { ThemeSvgIcon } from '@cocokits/core';
 
 @Component({
   selector: 'cck-svg-icon',
-  standalone: true,
   templateUrl: './svg-icon.component.html',
   styleUrl: './svg-icon.component.scss',
   imports: [TrustHtmlPipe],

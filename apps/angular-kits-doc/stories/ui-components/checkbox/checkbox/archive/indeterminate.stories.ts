@@ -81,7 +81,6 @@ import { moduleMetadata } from '@storybook/angular';
             }
             
             @Component({
-              standalone: true,
               imports: [CheckboxComponent],
               selector: 'app-example',
               templateUrl: './checkbox-indeterminate.component.html',

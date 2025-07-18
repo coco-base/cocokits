@@ -46,7 +46,6 @@ export const RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-radio-group',
   template: '<ng-content></ng-content>',
@@ -157,7 +156,6 @@ export class RadioGroupComponent<T = unknown> extends _UiBaseComponent<'radioGro
 
 // To avoid circular dependency, we need to define both components in a single file.
 @Component({
-  standalone: true,
   imports: [TrustHtmlPipe],
   selector: 'cck-radio-button',
   templateUrl: './radio-button.component.html',

@@ -5,7 +5,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/icon-button/mode-toggle.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-mode-toggle',
   imports: [IconButtonComponent, SvgIconComponent],
   template: ` <button

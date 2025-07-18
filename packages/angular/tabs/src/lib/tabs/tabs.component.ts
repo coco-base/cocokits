@@ -22,7 +22,6 @@ import { TabsFeatureStore } from '../tabs.feature-store';
 import { TabSelectionChangeEvent } from '../tabs.model';
 
 @Component({
-  standalone: true,
   imports: [NgTemplateOutlet],
   selector: 'cck-tabs',
   templateUrl: './tabs.component.html',
@@ -43,6 +42,7 @@ export class TabsComponent<TValue = unknown> extends _UiBaseComponent<'tabs'> im
     { if: this.headerAlign() === 'right', classes: this.classNames().alignRight },
     { if: this.headerAlign() === 'center', classes: this.classNames().alignCenter },
     { if: this.headerAlign() === 'stretch', classes: this.classNames().alignStretch },
+    { if: this.instantAnimation(), classes: this.classNames().instantAnimation },
   ]);
 
   private _selectedIndex: number | undefined;
@@ -148,7 +148,7 @@ export class TabsComponent<TValue = unknown> extends _UiBaseComponent<'tabs'> im
         await animationRef
           .setDimension({ width: newTabReact.width, height: newTabReact.height })
           .setTranslate({ x: 0, y: 0 })
-          .animate({ duration: 300 });
+          .animate({ duration: 300, easing: easeInOut });
 
         selectedTabComponent._indicatorElemRef().nativeElement.style.removeProperty('width');
         selectedTabComponent._indicatorElemRef().nativeElement.style.removeProperty('height');
@@ -177,4 +177,11 @@ export class TabsComponent<TValue = unknown> extends _UiBaseComponent<'tabs'> im
       this.tabComponents().find((_, index) => index === this._selectedIndex) ?? this.tabComponents()[0];
     this.featStore.selectTabById(selectedTabByIndex._id);
   }
+}
+
+function easeInOut(t: number): number {
+  return t < 0.5
+    ? 4 * t * t * t
+    : // eslint-disable-next-line no-mixed-operators
+    1 - Math.pow(-2 * t + 2, 3) / 2;
 }

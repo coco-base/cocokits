@@ -1,5 +1,4 @@
-// Don't remove `React` import, without this we get an error on opening overlay in react doc page
-import React, { FC } from 'react';
+import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 import { lazyPromise, ScrollLocker } from '@cocokits/common-utils';
@@ -9,7 +8,7 @@ import { OVERLAY_DEFAULT_CONFIG } from './overlay.config';
 import { OverlayConfigStandalone, OverlayRef, RenderedOverlay } from '../models/overlay.model';
 
 export function openStandaloneOverlay<TData = unknown, TResult = unknown>(
-  componentRef: FC<OverlayRef<TData, TResult>> | React.ReactNode,
+  componentRef: React.FC<OverlayRef<TData, TResult>> | React.ReactNode,
   _config: Partial<OverlayConfigStandalone<TData>> = {}
 ): RenderedOverlay<TResult> {
   const scrollLocker = ScrollLocker.globalInstance();

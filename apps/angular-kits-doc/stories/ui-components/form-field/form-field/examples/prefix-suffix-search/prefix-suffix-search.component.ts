@@ -11,7 +11,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/prefix-suffix-search.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-prefix-suffix-search',
   imports: [FormFieldComponent, InputComponent, PrefixComponent, SuffixComponent, SvgIconComponent],
   template: `

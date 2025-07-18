@@ -5,7 +5,6 @@ import { _UiBaseComponent } from '@cocokits/angular-core';
 import { injectFormFieldStore } from '../form-field.store';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-label',
   templateUrl: './label.component.html',

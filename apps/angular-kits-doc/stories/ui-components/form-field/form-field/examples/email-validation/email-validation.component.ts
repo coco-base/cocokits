@@ -12,7 +12,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/email-validation.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-email-validation',
   imports: [FormFieldComponent, LabelComponent, InputComponent, ErrorComponent, ReactiveFormsModule, SvgIconComponent],
   template: `

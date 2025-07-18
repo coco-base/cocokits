@@ -9,7 +9,6 @@ import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
 @Component({
   selector: 'cck-accordion-control',
-  standalone: true,
   imports: [AccordionComponent, AccordionHeaderComponent, AccordionPanelComponent],
   styles: [
     `

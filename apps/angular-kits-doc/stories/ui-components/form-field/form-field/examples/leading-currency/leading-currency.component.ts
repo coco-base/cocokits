@@ -13,7 +13,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/leading-currency.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-leading-currency',
   imports: [FormFieldComponent, InputComponent, LeadingComponent, LabelComponent, SvgIconComponent],
   template: `

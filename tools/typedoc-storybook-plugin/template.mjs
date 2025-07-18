@@ -40,11 +40,11 @@ ${contents}
 function getContentData(app, event) {
 
   const contents = event.contents
-    .replace(/<table>/g, '<div class="arg-type-table-wrapper">\n<table class="arg-type-table arg-type-table--full-width">')
+    .replace(/<table>/g, '<div className="arg-type-table-wrapper">\n<table className="arg-type-table arg-type-table--full-width">')
     .replace(/<\/table>/g, '</table>\n</div>')
     .replace(
       /<th>([\s\n\r]*(Description|description)[\s\n\r]*)<\/th>/gi,
-      '<th class="description-column">Description</th>'
+      '<th className="description-column">Description</th>'
     )
     .replace(/^## (.+)$/gm, (_match, headingText) => {
       return `</div><div id="selection_${generateAnchorId(headingText)}">\n## ${headingText}`;

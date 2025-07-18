@@ -1,5 +1,4 @@
-/* eslint-disable max-lines-per-function */
-import { CSSProperties, ReactNode, useContext, useEffect, useLayoutEffect, useRef } from 'react';
+import { CSSProperties, ReactNode, useContext, useLayoutEffect, useRef } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';
@@ -91,7 +90,7 @@ export const Tab = <TValue,>({
         key={id}
         className={hostClassNames}
         onClick={onClick}>
-        <div style={{ display: 'none' }} ref={indicatorElemRef} className={classNames.indicator} />
+        <div style={{ visibility: isSelected ? 'visible' : 'hidden'}} ref={indicatorElemRef} className={classNames.indicator} />
         <div className={classNames.headerWrapper}>
           {headerTemp}
         </div>
@@ -111,15 +110,6 @@ export const Tab = <TValue,>({
       value: valueOrId,
     });
   }, [children, header, valueOrId, index, isSelected]);
-
-  // Change indicator display on selected tab change
-  useEffect(() => {
-    if (isSelected) {
-      indicatorElemRef.current?.style.removeProperty('display');
-    } else {
-      indicatorElemRef.current?.style.setProperty('display', 'none');
-    }
-  }, [isSelected, indicatorElemRef.current]);
 
   useOnDestroy(() => store?.unregisterTab(id));
 

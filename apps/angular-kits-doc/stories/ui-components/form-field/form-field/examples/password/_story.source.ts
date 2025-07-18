@@ -22,7 +22,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-password',
   imports: [FormFieldComponent, LabelComponent, InputComponent, SvgIconComponent, HintComponent],
   template: \` <cck-form-field>

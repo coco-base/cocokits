@@ -1,6 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from "styled-components"
 import { NeonBox } from './neon-box';
 
 export function WhoCanUse() {

@@ -29,28 +29,8 @@ $accordion-panel-default-spacing-padding-bottom-sm: var(--size-20);
 $accordion-panel-default-spacing-padding-bottom-md: var(--size-20);
 $accordion-header-spacing-height-sm: var(--size-48);
 $accordion-header-spacing-height-md: var(--size-56);
+$tabs-spacing-gap: var(--size-12); // Whitespace between tabs and content
+$tab-spacing-gap: var(--size-4); // Whitespace between tab items
 
-/**
-1- accordion
-   single-mode
-   multi-mode
-   default
-   group	
-   basic
-   sm
-   md
-
-2- panel
-   expanded
-   collapsed
-   disabled
-   
-
-3- header
-   icon-left
-   icon-right
-   trigger-icon
-   trigger-header
-   3-1 icon-wrapper
-4- content-wrapper
-*/
+$tabs-default-color-header-bg: var(--color-surface-inverse-alpha-3);
+$tabs-border-color-border: var(--color-surface-inverse-alpha-5);

@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
 import { _UiBaseComponent } from '@cocokits/angular-core';
 
 @Component({
-  standalone: true,
   imports: [],
   selector: 'cck-avatar-group',
   templateUrl: './avatar-group.component.html',

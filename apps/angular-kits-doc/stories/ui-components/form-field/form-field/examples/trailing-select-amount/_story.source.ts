@@ -24,7 +24,6 @@ import {
 
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-select-amount',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent, SelectComponent, OptionComponent],
   template: \`

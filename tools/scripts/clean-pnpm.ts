@@ -48,16 +48,23 @@ const scanForProjectJson = (rootDir: string, level = 0, maxLevel = 4): string[] 
   return result;
 };
 
-const staticFile = ['tmp', 'dist', 'package-lock.json', '.nx', 'pnpm-lock.yaml', '.angular', 'node_modules'];
+const staticFile = ['tmp', 'dist', 'package-lock.json', 'pnpm-lock.yaml', '.nx', '.angular', 'node_modules'];
 
-try {
-  staticFile.forEach((path) => {
-    console.log(`Deleting ${path}`);
-    execSync(`npx rimraf ${path}`);
-  });
-} catch (error) {
-  printError(`Error by deleting`, error);
-}
+staticFile.forEach((filePath) => {
+  console.log(`Deleting ${filePath}`);
+  try {
+    execSync(`npx rimraf ${filePath}`, { stdio: 'pipe' });
+  } catch (error) {
+    // Try alternative deletion methods for Windows
+    try {
+      console.log(`-> Delete failed with 'rimraf'. Switch to widows native delete`);
+      execSync(`taskkill /f /im node.exe`, { stdio: 'pipe' });
+      execSync(`Remove-Item ${filePath} -Recurse -Force`, { stdio: 'pipe' });
+    } catch (secondError) {
+      printError(`Error deleting ${filePath}`, error);
+    }
+  }
+});
 
 // Iterate over each package and delete its node_modules
 packagePatterns.forEach((packagePattern: string) => {

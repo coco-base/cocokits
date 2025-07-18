@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import { lazyPromise } from '@cocokits/common-utils';

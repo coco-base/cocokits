@@ -23,7 +23,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-copy',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent, SvgIconComponent, HintComponent],
   template: \`

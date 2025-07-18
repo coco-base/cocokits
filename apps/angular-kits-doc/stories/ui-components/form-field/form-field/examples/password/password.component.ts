@@ -11,7 +11,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/input/password.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-password',
   imports: [FormFieldComponent, LabelComponent, InputComponent, SvgIconComponent, HintComponent],
   template: ` <cck-form-field>

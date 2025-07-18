@@ -17,7 +17,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-add-new-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: \`

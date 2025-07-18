@@ -12,7 +12,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/input-link.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-input-link',
   imports: [FormFieldComponent, LabelComponent, HintComponent, InputComponent, PrefixComponent, SvgIconComponent],
   template: `

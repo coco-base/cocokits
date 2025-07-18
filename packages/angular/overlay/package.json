@@ -10,9 +10,9 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/animations": "^18.2.0",
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0",
+    "@angular/animations": "~20.0.0",
+    "@angular/common": "~20.0.0",
+    "@angular/core": "~20.0.0",
     "rxjs": "~7.8.0"
   },
   "publishConfig": {

@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { Accordion, AccordionHeader, AccordionPanel } from '@cocokits/react-accordion';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
@@ -63,7 +65,7 @@ export const Type: StoryObj<typeof Accordion> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <>
+        <Fragment key={index}>
           <h4 className="cck-doc-story__header">{type}</h4>
           <Accordion key={index} type={type}>
             <AccordionPanel>
@@ -84,7 +86,7 @@ export const Type: StoryObj<typeof Accordion> = {
               dolore magna aliqua.
             </AccordionPanel>
           </Accordion>
-        </>
+        </Fragment>
       ))}
     </>
   ),

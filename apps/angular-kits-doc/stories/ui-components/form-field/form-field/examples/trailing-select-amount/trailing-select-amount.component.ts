@@ -13,7 +13,6 @@ import {
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-select-amount.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-select-amount',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent, SelectComponent, OptionComponent],
   template: `

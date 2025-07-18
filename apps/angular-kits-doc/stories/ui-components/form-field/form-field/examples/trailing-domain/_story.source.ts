@@ -15,7 +15,6 @@ import { FormFieldComponent, InputComponent, LabelComponent, TrailingComponent }
 
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-domain',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent],
   template: \`

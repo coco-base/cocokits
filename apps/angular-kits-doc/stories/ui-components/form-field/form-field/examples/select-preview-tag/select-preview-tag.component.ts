@@ -10,7 +10,6 @@ import {
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/select-preview-tag.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-select-preview-tag',
   imports: [OptionComponent, FormFieldComponent, LabelComponent, SelectComponent, SelectPreviewComponent],
   template: `

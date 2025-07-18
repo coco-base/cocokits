@@ -343,7 +343,26 @@ const components: ThemeComponentConfigRecord = {
   },
   accordionHeader: {},
   accordionPanel: {},
-  tabs: {},
+  tabs: {
+    type: {
+      name: 'type',
+      values: ['border', 'fill', 'line', 'basic'],
+      default: 'border',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+    color: {
+      name: 'color',
+      values: ['default', 'brand', 'info', 'warning', 'error', 'h-contrast'],
+      default: 'default',
+      description: '',
+    },
+  },
   tab: {},
 };
 

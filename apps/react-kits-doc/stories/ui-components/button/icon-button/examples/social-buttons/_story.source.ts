@@ -9,7 +9,7 @@ export const SOURCE: AddonParametersSource[] = [
     language: 'tsx',
     filename: 'SocialButtons.tsx',
     code: `
-import { styled } from 'styled-components';
+import styled from "styled-components";
 
 import { Icons } from '@cocokits/common-icons';
 

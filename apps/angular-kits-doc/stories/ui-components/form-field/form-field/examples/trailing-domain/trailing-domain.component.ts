@@ -4,7 +4,6 @@ import { FormFieldComponent, InputComponent, LabelComponent, TrailingComponent }
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-domain.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-domain',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent],
   template: `

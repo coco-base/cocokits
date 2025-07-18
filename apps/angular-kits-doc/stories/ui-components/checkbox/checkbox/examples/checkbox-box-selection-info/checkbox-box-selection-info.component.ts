@@ -5,7 +5,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/checkbox/checkbox-box-selection-info.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-checkbox-box-selection-info',
   imports: [CheckboxComponent, SvgIconComponent],
   templateUrl: './checkbox-box-selection-info.component.html',

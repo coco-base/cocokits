@@ -21,7 +21,11 @@
     "@cocokits/angular-tabs": "workspace:*"
   },
   "devDependencies": {},
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@angular/common": "~20.0.0",
+    "@angular/core": "~20.0.0",
+    "@angular/forms": "~20.0.0"
+  },
   "publishConfig": {
     "directory": "../../../dist/packages/angular/components",
     "access": "public"

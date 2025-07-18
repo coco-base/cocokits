@@ -12,7 +12,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/form-field/trailing-copy.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-trailing-copy',
   imports: [FormFieldComponent, InputComponent, TrailingComponent, LabelComponent, SvgIconComponent, HintComponent],
   template: `

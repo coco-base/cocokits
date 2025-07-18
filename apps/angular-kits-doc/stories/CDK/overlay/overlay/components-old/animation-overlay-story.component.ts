@@ -6,7 +6,6 @@
 // import { OverlayService } from '../../../src/services/overlay.service';
 
 // @Component({
-//   standalone: true,
 //   selector: 'story-animation',
 //   imports: [JsonPipe],
 //   template: `

@@ -1,4 +1,3 @@
-'use client';
 import { ButtonHTMLAttributes, CSSProperties, forwardRef, ReactNode } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';

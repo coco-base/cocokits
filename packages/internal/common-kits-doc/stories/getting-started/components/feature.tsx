@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { styled } from 'styled-components';
+import styled from "styled-components"
 
 export function Feature(prop: { title: string; children: ReactNode; image: React.FC<void> }) {
   return (

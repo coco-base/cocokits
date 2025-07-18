@@ -6,7 +6,6 @@ export interface AccordionHeaderIconContext {
 }
 
 @Directive({
-  standalone: true,
   selector: 'ng-template[cckAccordionHeaderIcon]',
 })
 export class AccordionHeaderIconTemplateDirective {

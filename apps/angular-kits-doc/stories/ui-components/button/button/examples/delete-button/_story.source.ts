@@ -16,7 +16,6 @@ import { OutlineIcons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-delete-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: \`

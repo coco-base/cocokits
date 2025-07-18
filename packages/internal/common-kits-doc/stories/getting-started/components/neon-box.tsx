@@ -20,15 +20,15 @@ export function NeonBox({ className, style, children, color = 'brand' }: NeonBox
       <StyledSvg fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id={`backgroundGradient-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--neon-box-bg-effect-start)" />
-            <stop offset="100%" stop-color="var(--neon-box-bg-effect-end)" />
+            <stop offset="0%" stopColor="var(--neon-box-bg-effect-start)" />
+            <stop offset="100%" stopColor="var(--neon-box-bg-effect-end)" />
           </linearGradient>
 
           <linearGradient id={`borderGradient-${id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--neon-box-border-1)" />
-            <stop offset="40%" stop-color="var(--neon-box-border-2)" />
-            <stop offset="60%" stop-color="var(--neon-box-border-3)" />
-            <stop offset="100%" stop-color="var(--neon-box-border-4)" />
+            <stop offset="0%" stopColor="var(--neon-box-border-1)" />
+            <stop offset="40%" stopColor="var(--neon-box-border-2)" />
+            <stop offset="60%" stopColor="var(--neon-box-border-3)" />
+            <stop offset="100%" stopColor="var(--neon-box-border-4)" />
           </linearGradient>
         </defs>
 
@@ -40,7 +40,7 @@ export function NeonBox({ className, style, children, color = 'brand' }: NeonBox
           rx="24"
           fill={`url(#backgroundGradient-${id})`}
           stroke={`url(#borderGradient-${id})`}
-          stroke-width="1"
+          strokeWidth="1"
         />
       </StyledSvg>
 

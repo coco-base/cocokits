@@ -23,7 +23,6 @@ import { Icons } from '@cocokits/common-icons';
 
 
 @Component({
-  standalone: true,
   selector: 'cck-input-link',
   imports: [FormFieldComponent, LabelComponent, HintComponent, InputComponent, PrefixComponent, SvgIconComponent],
   template: \`

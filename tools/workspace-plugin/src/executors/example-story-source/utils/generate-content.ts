@@ -1,5 +1,7 @@
 import path from 'path';
 
+import { ThemeId } from '@cocokits/storybook-addon-theme';
+
 import { generateGlobalScss } from './generate-global-scss-content';
 import { generateHtml } from './generate-html-content';
 import { generateScss } from './generate-scss-content';
@@ -17,8 +19,10 @@ export async function generateFilesContent(filesPath: string[], configFilePath: 
   // This package relies on the document object and isn't optimized for Node environments.
   // Without mocking, importing it directly causes errors like 'Cannot read property ... of undefined'.
   // By mocking the global document and loading ThemeId lazily, we avoid these issues.
-  global.document = { body: null } as Document;
-  const { ThemeId } = await import('@cocokits/storybook-addon-theme');
+  // global.document = { body: null } as Document;
+  // console.log('-- 5.1');
+
+  // const { ThemeId } = await import('@cocokits/storybook-addon-theme');
 
   try {
     let source = '';

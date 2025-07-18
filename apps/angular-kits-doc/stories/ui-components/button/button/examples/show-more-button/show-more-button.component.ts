@@ -5,7 +5,6 @@ import { Icons } from '@cocokits/common-icons';
 import { ExampleArgs } from '@cocokits/common-kits-doc/examples-config/button/show-more-button.config';
 
 @Component({
-  standalone: true,
   selector: 'cck-show-more-button',
   imports: [ButtonComponent, SvgIconComponent],
   template: `
