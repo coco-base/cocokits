@@ -1,5 +1,3 @@
-// Don't remove `React` import, without this we get an error on opening overlay in react doc page
-import React from 'react';
 import { filter, switchMap } from 'rxjs';
 
 import { getInstance } from '@cocokits/common-utils';

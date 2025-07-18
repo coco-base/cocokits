@@ -1,5 +1,6 @@
 import events from '@storybook/core/core-events';
 import { addons } from '@storybook/manager-api';
+import React from 'react';
 import { filter } from 'rxjs';
 
 import { getInstance } from '@cocokits/common-utils';
@@ -21,6 +22,9 @@ import { TokenInfoDialog } from '../token-dictionary/token-info-dialog';
 /**
  * This Service will be render in manager
  */
+
+// Don't remove `React` import, without this we get an error on opening overlay in react doc page
+window.React = React; // Ensure React is available globally for the overlay
 
 const DEFAULT_OVERLAY_CONFIG: Partial<OverlayConfigStandalone<unknown>> = {
   zIndex: 5,

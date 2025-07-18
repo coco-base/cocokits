@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { CSSProperties, ReactNode, useContext, useLayoutEffect, useRef } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';

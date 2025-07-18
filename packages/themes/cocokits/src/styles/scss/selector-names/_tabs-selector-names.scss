@@ -1,0 +1,36 @@
+// Type
+$T_fill: '.cck-tabs__fill';
+$T_line: '.cck-tabs__line';
+$T_border: '.cck-tabs__border';
+$T_basic: '.cck-tabs__basic';
+
+// Size
+$S_sm: '.cck-tabs__size--sm';
+$S_md: '.cck-tabs__size--md';
+$S_lg: '.cck-tabs__size--lg';
+
+// Color
+$C_default: '.cck-tabs__color--default';
+$C_brand: '.cck-tabs__color--brand';
+$C_info: '.cck-tabs__color--info';
+$C_warning: '.cck-tabs__color--warning';
+$C_error: '.cck-tabs__color--error';
+$C_hContrast: '.cck-tabs__color--h-contrast';
+
+// Elements
+$tabs: '.cck-tabs';
+$headerWrapper: '.cck-tabs__headers-wrapper';
+$contentWrapper: '.cck-tabs__content-wrapper';
+$tab: '.cck-tab';
+$label: '.cck-tab__label';
+$indicator: '.cck-tab__indicator';
+$content: '.cck-tab__content';
+$selected: '.cck-tab--selected';
+$unselected: '.cck-tab--unselected';
+$disabled: '.cck-tab--disabled';
+$alignLeft: '.cck-tabs--align-left';
+$alignCenter: '.cck-tabs--align-center';
+$alignRight: '.cck-tabs--align-right';
+$alignStretch: '.cck-tabs--align-stretch';
+$svgIcon: '.cck-svg-icon.cck-svg-icon--default-color';
+$instantAnimation: '.cck-tabs--instant-animation';

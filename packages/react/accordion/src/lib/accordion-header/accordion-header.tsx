@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { useCallback, useContext } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';

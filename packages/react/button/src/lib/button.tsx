@@ -1,5 +1,4 @@
-// Don't remove `React` import, without this we get an error on opening overlay in react doc page
-import React, { ButtonHTMLAttributes, CSSProperties, forwardRef, ReactNode } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, forwardRef, ReactNode } from 'react';
 
 import { UIBaseComponentProps } from '@cocokits/core';
 import { useUiBaseComponentConfig } from '@cocokits/react-core';

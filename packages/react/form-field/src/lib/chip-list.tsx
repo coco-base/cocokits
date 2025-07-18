@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 'use client';
 import { CSSProperties, useEffect, useRef } from 'react';
 

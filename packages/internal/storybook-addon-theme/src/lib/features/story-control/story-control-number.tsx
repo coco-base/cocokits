@@ -1,5 +1,3 @@
-import { FormEvent } from 'react';
-
 import { FormField, Input } from '@cocokits/react-form-field';
 
 import { StoryControlChangeEvent } from './story-control.model';

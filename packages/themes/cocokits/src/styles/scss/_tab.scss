@@ -1,7 +1,208 @@
 @use '../../token/scss' as *;
+@use './selector-names/_tabs-selector-names' as S;
 
 @mixin tab {
-  .cck-tab {
-    opacity: 1;
+  #{S.$tab} {
+    display: flex;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $color-font-alpha-7;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+
+    & #{S.$svgIcon} {
+      color: currentcolor;
+      fill: currentcolor;
+    }
+  }
+
+  :not(#{S.$instantAnimation}) {
+    #{S.$tab} {
+      transition: color 100ms;
+    }
+
+    #{S.$tab}#{S.$selected} {
+      transition: color 150ms;
+    }
+  }
+
+  #{S.$label} {
+    // Without relative and zIndex 1, the indicator will be at top of the prevues element
+    position: relative;
+    z-index: 1;
+  }
+
+  #{S.$unselected}:not(#{S.$disabled}):focus-visible {
+    outline: 2px solid $color-brand-alpha-7;
+  }
+
+  #{S.$selected} {
+    color: $color-font-default;
+  }
+
+  #{S.$disabled} {
+    color: $color-font-alpha-5;
+    cursor: not-allowed;
+  }
+
+  #{S.$indicator} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  #{S.$alignStretch} {
+    #{S.$tab} {
+      flex: 1;
+    }
+  }
+
+  #{S.$T_fill},
+  #{S.$T_border},
+  #{S.$T_basic} {
+    #{S.$tab} {
+      border-radius: 12px;
+    }
+
+    #{S.$unselected}:not(#{S.$disabled}):hover {
+      background-color: $color-surface-inverse-alpha-2;
+    }
+
+    #{S.$indicator} {
+      border-radius: 12px;
+      background-color: $color-surface-inverse-alpha-4;
+    }
+
+    &#{S.$C_default} {
+      #{S.$indicator} {
+        background-color: $color-surface-inverse-alpha-4;
+      }
+    }
+
+    &#{S.$C_brand} {
+      #{S.$indicator} {
+        background-color: $color-brand-default;
+      }
+      #{S.$tab}#{S.$selected} {
+        color: $color-font-inverse-default;
+      }
+    }
+
+    &#{S.$C_info} {
+      #{S.$indicator} {
+        background-color: $color-info-default;
+      }
+      #{S.$tab}#{S.$selected} {
+        color: $color-font-inverse-default;
+      }
+    }
+
+    &#{S.$C_warning} {
+      #{S.$indicator} {
+        background-color: $color-warning-default;
+      }
+      #{S.$tab}#{S.$selected} {
+        color: $color-font-inverse-default;
+      }
+    }
+
+    &#{S.$C_error} {
+      #{S.$indicator} {
+        background-color: $color-error-default;
+      }
+      #{S.$tab}#{S.$selected} {
+        color: $color-font-inverse-default;
+      }
+    }
+
+    &#{S.$C_hContrast} {
+      #{S.$indicator} {
+        background-color: $color-h-contrast-default;
+      }
+      #{S.$tab}#{S.$selected} {
+        color: $color-font-inverse-default;
+      }
+    }
+  }
+
+  #{S.$T_line} {
+    &#{S.$C_default} {
+      #{S.$indicator} {
+        border-bottom: 2px solid $color-surface-inverse-alpha-6;
+      }
+    }
+
+    &#{S.$C_brand} {
+      #{S.$indicator} {
+        border-bottom: 2px solid $color-brand-default;
+      }
+    }
+
+    &#{S.$C_info} {
+      #{S.$indicator} {
+        border-bottom: 2px solid $color-info-default;
+      }
+    }
+
+    &#{S.$C_warning} {
+      #{S.$indicator} {
+        border-bottom: 2px solid $color-warning-default;
+      }
+    }
+
+    &#{S.$C_error} {
+      #{S.$indicator} {
+        border-bottom: 2px solid $color-error-default;
+      }
+    }
+
+    &#{S.$C_hContrast} {
+      #{S.$indicator} {
+        border-bottom: 2px solid $color-h-contrast-default;
+      }
+    }
+  }
+
+  #{S.$S_sm} {
+    #{S.$tab} {
+      font: $text-sm-regular;
+      padding: 0 12px;
+      height: 32px;
+
+      &#{S.$selected} {
+        font: $text-sm-medium;
+      }
+    }
+  }
+
+  #{S.$S_md} {
+    #{S.$tab} {
+      font: $text-md-regular;
+      padding: 0 12px;
+      height: 36px;
+
+      &#{S.$selected} {
+        font: $text-md-regular;
+      }
+    }
+  }
+
+  #{S.$S_lg} {
+    #{S.$tab} {
+      font: $text-md-regular;
+      padding: 0 20px;
+      height: 40px;
+
+      &#{S.$selected} {
+        font: $text-md-medium;
+      }
+    }
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 'use client';
 import { CSSProperties, ReactNode, useCallback, useEffect, useState } from 'react';
 

@@ -88,6 +88,7 @@ export const Tabs = <TValue,>({
       { if: headerAlign === 'right', classes: (cn) => [cn.alignRight] },
       { if: headerAlign === 'center', classes: (cn) => [cn.alignCenter] },
       { if: headerAlign === 'stretch', classes: (cn) => [cn.alignStretch] },
+      { if: instantAnimation, classes: (cn) => [cn.instantAnimation] },
     ],
   });
 

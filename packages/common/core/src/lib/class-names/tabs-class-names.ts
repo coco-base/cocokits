@@ -41,6 +41,11 @@ export const tabsLayoutClassNamesConfig = {
       selectorStructure: [{ modifier: 'align-stretch' }],
       description: 'This selector is applied to the host element, when the header align is stretch.',
     },
+    instantAnimation: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'instant-animation' }],
+      description: 'This selector is applied to the host element, when the animation is instant.',
+    },
   },
 } satisfies LayoutClassNamesConfig;
 

@@ -42,6 +42,7 @@ export class TabsComponent<TValue = unknown> extends _UiBaseComponent<'tabs'> im
     { if: this.headerAlign() === 'right', classes: this.classNames().alignRight },
     { if: this.headerAlign() === 'center', classes: this.classNames().alignCenter },
     { if: this.headerAlign() === 'stretch', classes: this.classNames().alignStretch },
+    { if: this.instantAnimation(), classes: this.classNames().instantAnimation },
   ]);
 
   private _selectedIndex: number | undefined;

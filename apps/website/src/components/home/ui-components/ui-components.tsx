@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 'use client';
 import './ui-components.scss';
 import { useWebsiteContext } from 'apps/website/app/app.context';
