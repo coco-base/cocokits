@@ -1,5 +1,18 @@
 # @cocokits/core
 
+## 1.2.0
+
+### Minor Changes
+
+- ba59a0c: - Add Avatar component
+  - Add Accordion component
+  - Add Tabs component
+
+### Patch Changes
+
+- Updated dependencies [ba59a0c]
+  - @cocokits/common-utils@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

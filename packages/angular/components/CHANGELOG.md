@@ -1,5 +1,38 @@
 # @cocokits/angular-components
 
+## 1.2.0
+
+### Minor Changes
+
+- ba59a0c: - Add Avatar component
+  - Add Accordion component
+  - Add Tabs component
+- 1050af5: Upgrade to Angular 20
+
+### Patch Changes
+
+- Updated dependencies [ba59a0c]
+- Updated dependencies [ba59a0c]
+- Updated dependencies [ba59a0c]
+- Updated dependencies [ba59a0c]
+- Updated dependencies [ba59a0c]
+- Updated dependencies [1050af5]
+  - @cocokits/core@1.2.0
+  - @cocokits/angular-tabs@1.2.0
+  - @cocokits/angular-avatar@1.2.0
+  - @cocokits/common-utils@1.2.0
+  - @cocokits/angular-accordion@1.2.0
+  - @cocokits/angular-form-field@1.2.0
+  - @cocokits/angular-checkbox@1.2.0
+  - @cocokits/angular-divider@1.2.0
+  - @cocokits/angular-button@1.2.0
+  - @cocokits/angular-toggle@1.2.0
+  - @cocokits/angular-radio@1.2.0
+  - @cocokits/angular-utils@1.2.0
+  - @cocokits/angular-core@1.2.0
+  - @cocokits/angular-icon@1.2.0
+  - @cocokits/angular-menu@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

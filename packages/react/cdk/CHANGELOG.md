@@ -1,5 +1,16 @@
 # @cocokits/react-cdk
 
+## 1.2.0
+
+### Minor Changes
+
+- 1050af5: Upgrade to react 19
+
+### Patch Changes
+
+- Updated dependencies [1050af5]
+  - @cocokits/react-overlay@1.2.0
+
 ## 1.0.1
 
 ### Patch Changes

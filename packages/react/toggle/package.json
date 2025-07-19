@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/react-toggle",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@cocokits/angular-cdk",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "sideEffects": false,
   "dependencies": {
     "@cocokits/angular-overlay": "workspace:*",
