@@ -1,5 +1,13 @@
 # @cocokits/common-utils
 
+## 1.2.0
+
+### Minor Changes
+
+- ba59a0c: - Add Animation
+  - Add Math
+  - Add common model
+
 ## 1.0.3
 
 ### Patch Changes

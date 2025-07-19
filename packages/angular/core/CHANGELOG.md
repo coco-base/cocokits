@@ -1,5 +1,18 @@
 # @cocokits/angular-core
 
+## 1.2.0
+
+### Minor Changes
+
+- 1050af5: Upgrade to Angular 20
+
+### Patch Changes
+
+- Updated dependencies [ba59a0c]
+- Updated dependencies [1050af5]
+  - @cocokits/core@1.2.0
+  - @cocokits/angular-utils@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes

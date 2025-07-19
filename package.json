@@ -1,6 +1,6 @@
 {
   "name": "cocokits",
-  "version": "0.0.0",
+  "version": "1.1.1",
   "description": "A design system adn UI kits workspace focused on providing themes across Angular, React, Web Components, and HTML/CSS.",
   "license": "Apache-2.0",
   "scripts": {

@@ -1,5 +1,16 @@
 # @cocokits/angular-cdk
 
+## 1.2.0
+
+### Minor Changes
+
+- 1050af5: Upgrade to Angular 20
+
+### Patch Changes
+
+- Updated dependencies [1050af5]
+  - @cocokits/angular-overlay@1.2.0
+
 ## 1.1.1
 
 ### Patch Changes
