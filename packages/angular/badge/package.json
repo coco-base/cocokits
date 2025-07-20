@@ -1,0 +1,20 @@
+{
+  "name": "@cocokits/angular-badge",
+  "version": "0.0.0",
+  "private": false,
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/core": "workspace:*"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "@angular/common": ">=20.0.0",
+    "@angular/core": ">=20.0.0"
+  },
+  "publishConfig": {
+    "directory": "../../../dist/packages/angular/badge",
+    "access": "public"
+  }
+}

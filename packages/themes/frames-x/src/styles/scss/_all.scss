@@ -33,6 +33,8 @@
 @use './accordion-panel' as *;
 @use './tabs' as *;
 @use './tab' as *;
+@use './badge' as *;
+@use './badge-container' as *;
 
 @mixin all {
   @include button;
@@ -70,4 +72,6 @@
   @include accordion-panel;
   @include tabs;
   @include tab;
+  @include badge;
+  @include badge-container;
 }

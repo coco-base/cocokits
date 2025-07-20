@@ -4,6 +4,8 @@ import { accordionPanelLayoutClassNamesConfig } from './accordion-panel-class-na
 import { avatarLayoutClassNamesConfig } from './avatar-class-names';
 import { avatarGroupLayoutClassNamesConfig } from './avatar-group-class-names';
 import { avatarLabelLayoutClassNamesConfig } from './avatar-label-class-names';
+import { badgeLayoutClassNamesConfig } from './badge-class-names';
+import { badgeContainerLayoutClassNamesConfig } from './badge-container-class-names';
 import { buttonLayoutClassNamesConfig } from './button-class-names';
 import { checkboxLayoutClassNamesConfig } from './checkbox-class-names';
 import { chipLayoutClassNamesConfig } from './chip-class-names';
@@ -83,4 +85,6 @@ export const layoutClassNamesConfigRecord = {
   accordionPanel: accordionPanelLayoutClassNamesConfig,
   tabs: tabsLayoutClassNamesConfig,
   tab: tabLayoutClassNamesConfig,
+  badge: badgeLayoutClassNamesConfig,
+  badgeContainer: badgeContainerLayoutClassNamesConfig,
 };

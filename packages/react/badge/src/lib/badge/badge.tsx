@@ -1,0 +1,39 @@
+import { CSSProperties, ReactNode } from 'react';
+
+import { UIBaseComponentProps } from '@cocokits/core';
+import { useUiBaseComponentConfig } from '@cocokits/react-core';
+
+export interface BadgeProps extends UIBaseComponentProps {
+  /**
+   * *************** TODO *************
+   * The content inside the component.
+   * This can be a string, a number, an element, or an array of elements.
+   * It allows rendering nested components within this component.
+   */
+  children?: ReactNode | ReactNode[];
+  /**
+   * A custom class name that can be used to apply additional styles to the component.
+   */
+  className?: string;
+  /**
+   * An object containing inline styles that can be used to customize the appearance of the component.
+   */
+  style?: CSSProperties;
+}
+
+export const Badge = (props: BadgeProps) => {
+  const { classNames, hostClassNames } = useUiBaseComponentConfig({
+    componentName: 'badge',
+    props,
+    extraHostElementClassConditions: [{ if: !!props.className, classes: () => [props.className] }],
+  });
+
+  return (
+    <div className={hostClassNames} style={props.style}>
+      {props.children}
+    </div>
+  );
+};
+
+Badge.displayName = 'Badge';
+export default Badge;

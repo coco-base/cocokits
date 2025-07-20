@@ -274,6 +274,8 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   tab: {},
+  badge: {},
+  badgeContainer: {},
 };
 
 export const framesXThemeConfig: ThemeConfig = {

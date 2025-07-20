@@ -169,6 +169,8 @@ export function getMergeThemesStep3Scss() {
 @include Cocokits.components_accordion_panel;
 @include Cocokits.components_tabs;
 @include Cocokits.components_tab;
+@include Cocokits.components_badge;
+@include Cocokits.components_badge_container;
   
   `);
 }

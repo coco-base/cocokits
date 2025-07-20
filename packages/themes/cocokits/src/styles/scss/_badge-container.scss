@@ -1,0 +1,7 @@
+@use '../../token/scss' as *;
+
+@mixin badge-container {
+  .cck-badge-container {
+    opacity: 1;
+  }
+}
