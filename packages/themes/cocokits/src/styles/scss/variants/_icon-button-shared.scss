@@ -17,15 +17,15 @@
       fill: $color-disabled-font;
       cursor: default;
     }
+
+    .cck-svg-icon--default-color {
+      fill: inherit;
+    }
   }
 
   .cck-icon-button .cck-svg-icon {
     width: 100%;
     height: 100%;
-  }
-
-  .cck-icon-button .cck-svg-icon__svg {
-    fill: inherit;
   }
 
   .cck-icon-button__rounded--false {

@@ -22,6 +22,7 @@ export const Color: StoryObj<BadgeComponent> = {
             <cck-badge
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               color='<%= color %>'
+              content="5"
             />
           <% }) %>
           `,
@@ -36,7 +37,7 @@ export const Color: StoryObj<BadgeComponent> = {
     },
     template: `
       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
-        <cck-badge [type]="cckControl.type" [color]="color"/>
+        <cck-badge [type]="cckControl.type" [color]="color" content="5"/>
       }
     `,
   }),

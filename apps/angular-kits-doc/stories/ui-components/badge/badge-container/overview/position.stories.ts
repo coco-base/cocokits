@@ -1,37 +1,39 @@
 import { BadgeContainerComponent } from '@cocokits/angular-badge';
-import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
 
-export const Size: StoryObj<BadgeContainerComponent> = {
-  name: 'Size',
+export const Position: StoryObj<BadgeContainerComponent> = {
+  name: 'Position',
   parameters: {
     docs: {
       description: {
         story:
-          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
+          'The position of the badge can be adjusted to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
     },
     cckAddon: {
-      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
+      renderConditions: [renderWithPageTab('Overview')],
       singleControls: ['type'],
       source: [
         {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-         <% themeComponentConfig.size.values.map(size => { %>
+         <% ['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(position => { %>
+
+           <!-- <%= position %> -->
             <cck-badge-container
              <% if (typeof type !== 'undefined') { %> type='<%= type %>'<% } %>
-              size='<%= size %>'
+              position='<%= position %>'
             >
               <div
                 [style.width]="'70px'"
                 [style.height]="'70px'"
                 [style.background-color]="'var(--cck-doc-color-bg-3, #191b23)'"
                 [style.border]="'3px solid var(--cck-doc-color-border-3, #ffffff33)'"
-                [style.border-radius]="cckControl.radius"
+                [style.border-radius]="'12px'"
               ></div>
-              <cck-badge content="2"/>
+              <cck-badge content="2" radius="12px"/>
             </cck-badge-container>
          <% }) %>
           `,
@@ -43,18 +45,19 @@ export const Size: StoryObj<BadgeContainerComponent> = {
   render: (args) => ({
     props: {
       ...args,
+      position: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
     },
     template: `
-      @for (size of cckControl.themeComponentConfig?.size?.values; let col = $index; track size) {
-        <cck-badge-container [type]="cckControl.type" [size]="size">
+      @for (position of ['top-left', 'top-right', 'bottom-left', 'bottom-right']; let col = $index; track position) {
+        <cck-badge-container [type]="cckControl.type" [position]="position">
           <div
             [style.width]="'70px'"
             [style.height]="'70px'"
             [style.background-color]="'var(--cck-doc-color-bg-3)'"
             [style.border]="'3px solid var(--cck-doc-color-border-3)'"
-            [style.border-radius]="cckControl.radius"
+            [style.border-radius]="'12px'"
           ></div>
-          <cck-badge content="2"/>
+          <cck-badge content="2"  radius="12px"/>
         </cck-badge-container>
       }
     `,

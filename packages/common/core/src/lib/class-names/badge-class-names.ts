@@ -31,6 +31,11 @@ export const badgeLayoutClassNamesConfig = {
       selectorStructure: [{ modifier: 'without-content' }],
       description: `Will be add to the host element, when the badge has not content, and show as dot`,
     },
+    hidden: {
+      name: 'Host Element',
+      selectorStructure: [{ modifier: 'hidden' }],
+      description: `Will be add to the host element, when the badge is hidden`,
+    },
   },
 } satisfies LayoutClassNamesConfig;
 
@@ -46,5 +51,6 @@ export function getBadgeClassNames(
     withoutContent: generateLayoutClassNameFromElement(badgeLayoutClassNamesConfig, 'withoutContent', themeConfig),
     content: generateLayoutClassNameFromElement(badgeLayoutClassNamesConfig, 'content', themeConfig),
     maxIndicator: generateLayoutClassNameFromElement(badgeLayoutClassNamesConfig, 'maxIndicator', themeConfig),
+    hidden: generateLayoutClassNameFromElement(badgeLayoutClassNamesConfig, 'hidden', themeConfig),
   };
 }

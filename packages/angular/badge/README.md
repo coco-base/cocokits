@@ -24,7 +24,6 @@ Manages badge placement relative to target elements. Provides precise offset con
 
 #### Features:
 - **Position Presets:** Positions badge at corners: top-left, top-right, bottom-left, bottom-right
-- **Pixel-Perfect Placement:** Adjusts position with [x,y] pixel values (supports negative offsets)
 - **Flexible Integration:** Works with any content element that needs badge indicators
 
 ---

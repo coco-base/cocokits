@@ -22,7 +22,16 @@ export const Color: StoryObj<BadgeContainerComponent> = {
             <cck-badge-container
               <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
               color='<%= color %>'
-            />
+            >
+              <div
+                [style.width]="'70px'"
+                [style.height]="'70px'"
+                [style.background-color]="'var(--cck-doc-color-bg-3)'"
+                [style.border]="'3px solid var(--cck-doc-color-border-3)'"
+                [style.border-radius]="cckControl.radius"
+              ></div>
+              <cck-badge content="2"/>
+            </cck-badge-container>
           <% }) %>
           `,
         },
@@ -36,7 +45,16 @@ export const Color: StoryObj<BadgeContainerComponent> = {
     },
     template: `
       @for (color of cckControl.themeComponentConfig.color.values; let col = $index; track color) {
-        <cck-badge-container [type]="cckControl.type" [color]="color"/>
+        <cck-badge-container [type]="cckControl.type" [color]="color">
+          <div
+            [style.width]="'70px'"
+            [style.height]="'70px'"
+            [style.background-color]="'var(--cck-doc-color-bg-3)'"
+            [style.border]="'3px solid var(--cck-doc-color-border-3)'"
+            [style.border-radius]="cckControl.radius"
+          ></div>
+          <cck-badge content="2"/>
+        </cck-badge-container>
       }
     `,
   }),

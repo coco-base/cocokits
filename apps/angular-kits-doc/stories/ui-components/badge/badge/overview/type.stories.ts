@@ -21,6 +21,7 @@ export const Type: StoryObj<BadgeComponent> = {
           <% themeComponentConfig.type.values.map(type => { %>
             <cck-badge
               type='<%= type %>'
+              content="5"
             />
           <% }) %>
           `,
@@ -34,7 +35,7 @@ export const Type: StoryObj<BadgeComponent> = {
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <cck-badge [type]="type"/>
+        <cck-badge [type]="type" content="5"/>
       }
     `,
   }),

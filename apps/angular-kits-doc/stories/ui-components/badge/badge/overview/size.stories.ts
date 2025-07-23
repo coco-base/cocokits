@@ -23,6 +23,7 @@ export const Size: StoryObj<BadgeComponent> = {
             <cck-badge
              <% if (typeof type !== 'undefined') { %> type='<%= type %>'<% } %>
               size='<%= size %>'
+              content="5"
             />
          <% }) %>
           `,
@@ -37,7 +38,7 @@ export const Size: StoryObj<BadgeComponent> = {
     },
     template: `
       @for (size of cckControl.themeComponentConfig?.size?.values; let col = $index; track size) {
-        <cck-badge [type]="cckControl.type" [size]="size"/>
+        <cck-badge [type]="cckControl.type" [size]="size" content="5"/>
       }
     `,
   }),

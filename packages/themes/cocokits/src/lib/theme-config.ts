@@ -373,14 +373,14 @@ const components: ThemeComponentConfigRecord = {
     },
     size: {
       name: 'size',
-      values: ['sm', 'md', 'lg'],
+      values: ['sm', 'md', 'lg', 'xl'],
       default: 'md',
       description: '',
     },
     color: {
       name: 'color',
       values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
-      default: 'brand',
+      default: 'h-contrast',
       description: '',
     },
   },

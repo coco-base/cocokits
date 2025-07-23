@@ -1,1 +1,8 @@
-<p>cck-badge-container works !!</p>
+<ng-content/>
+
+<div
+  [class]="classNames().badgeWrapper"
+  [style.transform]="transformBadgeWrapper()"
+  >
+  <ng-content select="cck-badge"></ng-content>
+</div>

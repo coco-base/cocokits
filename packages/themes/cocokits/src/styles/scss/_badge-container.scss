@@ -1,7 +1,69 @@
 @use '../../token/scss' as *;
+@use './selector-names/badge-container-selector-names' as S;
+
+/**
+ * Calculates the optimal badge positioning offset to account for border-radius curvature.
+ * 
+ * The magic number 0.2929 (1 - cos(45°)) compensates for the visible corner position
+ * in rounded containers. When a container has border-radius, the actual visible corner
+ * begins at approximately 29.29% of the radius value inward from the mathematical corner.
+ *
+ * Usage Example:
+ *   .badge {
+ *     right: badge-offset();
+ *     top: badge-offset();
+ *   }
+ *
+ * Mathematical Proof:
+ * - On a rounded corner, the point where the curve becomes visible forms a 45° angle
+ * - The offset distance from the mathematical corner is radius(1 - cosθ)
+ * - At θ=45°, cos(45°) ≈ 0.7071 → offset = radius(1 - 0.7071) ≈ 0.2929radius
+ *
+ * This ensures badges appear visually aligned with the visible corner edge
+ * regardless of the container's border-radius value.
+ */
+@function badge-offset() {
+  @return calc(0.2929 * var(--cck-badge-radius, 0px));
+}
 
 @mixin badge-container {
-  .cck-badge-container {
-    opacity: 1;
+  #{S.$badgeContainer} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  #{S.$badgeWrapper} {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :not(#{S.$customOffset}) {
+    &#{S.$topLeft} #{S.$badgeWrapper} {
+      top: badge-offset();
+      left: badge-offset();
+      transform: translate(-50%, -50%);
+    }
+
+    &#{S.$topRight} #{S.$badgeWrapper} {
+      top: badge-offset();
+      right: badge-offset();
+      transform: translate(50%, -50%);
+    }
+
+    &#{S.$bottomLeft} #{S.$badgeWrapper} {
+      bottom: badge-offset();
+      left: badge-offset();
+      transform: translate(-50%, 50%);
+    }
+
+    &#{S.$bottomRight} #{S.$badgeWrapper} {
+      bottom: badge-offset();
+      right: badge-offset();
+      transform: translate(50%, 50%);
+    }
   }
 }

@@ -96,7 +96,7 @@ export class AvatarComponent extends _UiBaseComponent<'avatar'> {
    * Whether the avatar should be clickable.
    * @storybook argType will be overridden by storybook
    */
-  public clickable = input<boolean>(true);
+  public clickable = input<boolean>(false);
 
   private contentTemp = contentChild(AvatarTemplateDirective, { read: TemplateRef<HTMLElement> });
   private defaultTemp = viewChild.required<TemplateRef<HTMLElement>>('defaultTemp');

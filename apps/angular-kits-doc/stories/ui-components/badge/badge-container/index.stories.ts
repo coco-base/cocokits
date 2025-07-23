@@ -1,7 +1,7 @@
 import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
-import { BadgeContainerComponent } from '@cocokits/angular-badge';
-import { StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
+import { BadgeComponent, BadgeContainerComponent } from '@cocokits/angular-badge';
+import { ngArgType, StoriesMeta, withThemeConfigProvider } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
 
@@ -9,6 +9,8 @@ export { Default } from './overview/default.stories';
 export { Type } from './overview/type.stories';
 export { Size } from './overview/size.stories';
 export { Color } from './overview/color.stories';
+export { Position } from './overview/position.stories';
+export { Integration } from './overview/integration.stories';
 
 const meta: StoriesMeta = {
   component: BadgeContainerComponent,
@@ -19,7 +21,7 @@ const meta: StoriesMeta = {
       providers: [withThemeConfigProvider()],
     }),
     moduleMetadata({
-      imports: [],
+      imports: [BadgeComponent],
     }),
   ],
   parameters: {
@@ -31,6 +33,13 @@ const meta: StoriesMeta = {
     cckAddon: {
       componentName: 'badgeContainer',
     },
+  },
+  argTypes: {
+    ...ngArgType({
+      name: 'position',
+      type: "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
+      defaultValue: 'top-right',
+    }),
   },
 };
 export default meta;

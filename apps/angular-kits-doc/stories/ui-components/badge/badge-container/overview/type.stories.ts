@@ -21,7 +21,16 @@ export const Type: StoryObj<BadgeContainerComponent> = {
           <% themeComponentConfig.type.values.map(type => { %>
             <cck-badge-container
               type='<%= type %>'
-            />
+            >
+              <div
+                [style.width]="'70px'"
+                [style.height]="'70px'"
+                [style.background-color]="'var(--cck-doc-color-bg-3)'"
+                [style.border]="'3px solid var(--cck-doc-color-border-3)'"
+                [style.border-radius]="cckControl.radius"
+              ></div>
+              <cck-badge content="2"/>
+            </cck-badge-container>
           <% }) %>
           `,
         },
@@ -34,7 +43,16 @@ export const Type: StoryObj<BadgeContainerComponent> = {
     },
     template: `
       @for (type of cckControl.themeComponentConfig?.type?.values; let col = $index; track type) {
-        <cck-badge-container [type]="type"/>
+        <cck-badge-container [type]="type">
+          <div
+            [style.width]="'70px'"
+            [style.height]="'70px'"
+            [style.background-color]="'var(--cck-doc-color-bg-3)'"
+            [style.border]="'3px solid var(--cck-doc-color-border-3)'"
+            [style.border-radius]="cckControl.radius"
+          ></div>
+          <cck-badge content="2"/>
+        </cck-badge-container>
       }
     `,
   }),

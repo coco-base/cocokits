@@ -11,6 +11,11 @@ export const badgeContainerLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `BadgeContainer` component.',
     },
+    badgeWrapper: {
+      name: 'Badge Wrapper',
+      selectorStructure: [{ element: 'badge-wrapper' }],
+      description: `It will add to the wrapper element of \`Badge\` component inside \`BadgeContainer\`. This is useful for styling the badge container as a whole.`,
+    },
     topLeft: {
       name: 'Host Element',
       selectorStructure: [{ modifier: 'top-left' }],
@@ -32,7 +37,7 @@ export const badgeContainerLayoutClassNamesConfig = {
       description: `Will be add to the host element, when the position is bottom-right`,
     },
     customOffset: {
-      name: 'Host Element',
+      name: 'Host Wrapper',
       selectorStructure: [{ modifier: 'custom-offset' }],
       description: `Will be add to the host element, when the custom offset exists`,
     },
@@ -47,6 +52,7 @@ export function getBadgeContainerClassNames(
 
   return {
     host: generateLayoutClassNameFromElement(badgeContainerLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    badgeWrapper: generateLayoutClassNameFromElement(badgeContainerLayoutClassNamesConfig, 'badgeWrapper', themeConfig),
     topLeft: generateLayoutClassNameFromElement(badgeContainerLayoutClassNamesConfig, 'topLeft', themeConfig),
     topRight: generateLayoutClassNameFromElement(badgeContainerLayoutClassNamesConfig, 'topRight', themeConfig),
     bottomLeft: generateLayoutClassNameFromElement(badgeContainerLayoutClassNamesConfig, 'bottomLeft', themeConfig),
