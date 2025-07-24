@@ -47,8 +47,8 @@ export const Type: StoryObj<BadgeContainerComponent> = {
           <div
             [style.width]="'70px'"
             [style.height]="'70px'"
-            [style.background-color]="'var(--cck-doc-color-bg-3)'"
-            [style.border]="'3px solid var(--cck-doc-color-border-3)'"
+            [style.background-color]="'var(--cck-doc-color-bg-3, #191b23)'"
+            [style.border]="'3px solid var(--cck-doc-color-border-3, #ffffff33)'"
             [style.border-radius]="cckControl.radius"
           ></div>
           <cck-badge content="2"/>

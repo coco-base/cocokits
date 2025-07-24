@@ -25,8 +25,10 @@ export const Default: StoryObj<typeof Badge> = {
                 <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                 <% if (typeof size !== 'undefined') { %> size='<%= size %>' <% } %>
                 <% if (typeof color !== 'undefined') { %> color='<%= color %>' <% } %>
-              >
-              </Badge>
+                <% if (max > 0) { %> max={<%= max %>} <% } %>
+                <% if (content !== '') { %> content='<%= content %>' <% } %>
+                <% if (hide) { %> hide={<%= hide %>} <% } %>
+              />
             )
           }
           `,
@@ -34,10 +36,24 @@ export const Default: StoryObj<typeof Badge> = {
       ],
       renderConditions: [renderWithPageTab('Overview')],
       hasControl: true,
-      controls: [CCK_CONTROL.type(), CCK_CONTROL.size(), CCK_CONTROL.color(), CCK_CONTROL.additional()],
+      controls: [
+        CCK_CONTROL.type(),
+        CCK_CONTROL.size(),
+        CCK_CONTROL.color(),
+        CCK_CONTROL.additional(),
+        CCK_CONTROL.customText('Content', '2'),
+        CCK_CONTROL.customNumber('Max', 10),
+        CCK_CONTROL.customBoolean('Hide', false),
+      ],
     },
   },
   args: {},
-  // text={args.cckControl.text}
-  render: (args) => <Badge {...reactThemeArgsToTemplate(args)}></Badge>,
+  render: (args) => (
+    <Badge
+      {...reactThemeArgsToTemplate(args)}
+      max={args.cckControl.max}
+      content={args.cckControl.content}
+      hide={args.cckControl.hide}
+    ></Badge>
+  ),
 };

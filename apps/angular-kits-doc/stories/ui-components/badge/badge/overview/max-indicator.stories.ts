@@ -18,10 +18,10 @@ export const MaxIndicator: StoryObj<BadgeComponent> = {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-            <cck-badge [type]="cckControl.type" content="5000" max="9"/>
-            <cck-badge [type]="cckControl.type" content="5000" max="20"/>
-            <cck-badge [type]="cckControl.type" content="5000" max="99"/>
-            <cck-badge [type]="cckControl.type" content="5000" max="999"/>
+            <cck-badge type="<%= type %>" content="5000" max="9"/>
+            <cck-badge type="<%= type %>" content="5000" max="20"/>
+            <cck-badge type="<%= type %>" content="5000" max="99"/>
+            <cck-badge type="<%= type %>" content="5000" max="999"/>
           `,
         },
       ],

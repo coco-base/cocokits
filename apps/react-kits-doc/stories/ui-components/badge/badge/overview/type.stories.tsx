@@ -26,6 +26,7 @@ export const Type: StoryObj<typeof Badge> = {
                 <% themeComponentConfig.type.values.map(type => { %>
                   <Badge
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
+                    content="5"
                   />
                 <% }) %>
               </>
@@ -39,7 +40,7 @@ export const Type: StoryObj<typeof Badge> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.type?.values.map((type, index) => (
-        <Badge key={index} type={type} />
+        <Badge key={index} type={type} content="5"/>
       ))}
     </>
   ),

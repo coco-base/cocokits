@@ -44,7 +44,7 @@ export class BadgeContainerComponent extends _UiBaseComponent<'badgeContainer'> 
 
   protected transformBadgeWrapper = computed(() => {
     const offset = this.offset();
-    if (!offset) {
+    if (!offset || !offset[0] || !offset[1]) {
       return null;
     }
     return `translate(${offset[0]}, ${offset[1]})`;

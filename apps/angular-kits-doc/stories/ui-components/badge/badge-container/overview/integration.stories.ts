@@ -5,11 +5,12 @@ import { BadgeContainerComponent } from '@cocokits/angular-badge';
 import { IconButtonComponent } from '@cocokits/angular-button';
 import { SvgIconComponent } from '@cocokits/angular-icon';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
-import { StoryObj } from '@cocokits/storybook-addon-theme-angular';
+import { StoryObj, withWrapperDecorator } from '@cocokits/storybook-addon-theme-angular';
 
 export const Integration: StoryObj<BadgeContainerComponent> = {
   name: 'Integration',
   decorators: [
+    withWrapperDecorator({ insideBox: true }),
     moduleMetadata({
       imports: [IconButtonComponent, SvgIconComponent, AvatarComponent, AvatarLabelComponent],
     }),

@@ -19,7 +19,7 @@ export const Size: StoryObj<typeof Badge> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%= componentName.className %> } from "@cocokits/react-components";
+          import { Badge } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
@@ -28,6 +28,7 @@ export const Size: StoryObj<typeof Badge> = {
                   <Badge
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                     size='<%= size %>'
+                    content="5"
                   />
                 <% }) %>
               </>
@@ -43,7 +44,7 @@ export const Size: StoryObj<typeof Badge> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <Badge key={index} type={args.cckControl.type} size={size} />
+        <Badge key={index} type={args.cckControl.type} size={size} content="5"/>
       ))}
     </>
   ),

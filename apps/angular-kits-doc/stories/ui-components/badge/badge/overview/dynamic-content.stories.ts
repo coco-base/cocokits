@@ -18,10 +18,10 @@ export const DynamicContent: StoryObj<BadgeComponent> = {
           filename: 'example.component.html',
           language: 'angular-html',
           code: `
-            <cck-badge [type]="cckControl.type" />
-            <cck-badge [type]="cckControl.type" content="5"/>
-            <cck-badge [type]="cckControl.type" content="20" max="10"/>
-            <cck-badge [type]="cckControl.type" content="Online"/>
+            <cck-badge type="<%= type %>" />
+            <cck-badge type="<%= type %>" content="5"/>
+            <cck-badge type="<%= type %>" content="20" max="10"/>
+            <cck-badge type="<%= type %>" content="Online"/>
           `,
         },
       ],

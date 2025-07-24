@@ -27,6 +27,7 @@ export const Color: StoryObj<typeof Badge> = {
                   <Badge
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
                     color='<%= color %>'
+                    content="5"
                   />
                 <% }) %>
               </>
@@ -41,7 +42,7 @@ export const Color: StoryObj<typeof Badge> = {
   render: (args) => (
     <>
       {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
-        <Badge key={index} type={args.cckControl.type} color={color} />
+        <Badge key={index} type={args.cckControl.type} color={color} content="5"/>
       ))}
     </>
   ),

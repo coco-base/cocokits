@@ -2,6 +2,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { BadgeComponent } from '@cocokits/angular-badge';
 import { ButtonComponent } from '@cocokits/angular-button';
+import { DividerComponent } from '@cocokits/angular-divider';
 import { MenuComponent, MenuItemComponent } from '@cocokits/angular-menu';
 import { TabComponent, TabHeaderTemplateDirective, TabsComponent } from '@cocokits/angular-tabs';
 import { CCK_CONTROL, renderWithPageTab } from '@cocokits/storybook-addon-theme';
@@ -18,6 +19,7 @@ export const Integration: StoryObj<BadgeComponent> = {
         TabHeaderTemplateDirective,
         MenuComponent,
         MenuItemComponent,
+        DividerComponent,
       ],
     }),
   ],

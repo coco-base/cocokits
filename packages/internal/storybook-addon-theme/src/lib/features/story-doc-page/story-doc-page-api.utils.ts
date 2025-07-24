@@ -147,7 +147,7 @@ export function getComponentArgTypes({
     (argType) => {
       const category = transformArgTypeCategory(argType);
       const defaultValue =
-        category === 'props' ? getValueWithoutCompodocIssue(argType.table?.defaultValue?.summary) : undefined;
+        category === 'props' ? serializeDefaultValue(argType.table?.defaultValue?.summary) : undefined;
       const type = getValueWithoutCompodocIssue(
         argType.table?.type?.summary === 'union' ? argType.type?.raw : argType.table?.type?.summary
       );
@@ -274,6 +274,20 @@ function transformArgTypeCategory(argType: StrictInputType): 'methods' | 'events
   }
 
   return 'props';
+}
+
+function serializeDefaultValue(value: string | undefined): string {
+  if (!value) {
+    return '';
+  }
+  // React wrap the default value with quotes, so we have to remove them.
+  const valueWithoutQuotes =
+    (value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))
+      ? value.slice(1, -1)
+      : value;
+
+  const valueWithoutCompodocIssue = getValueWithoutCompodocIssue(valueWithoutQuotes);
+  return valueWithoutCompodocIssue;
 }
 
 /**

@@ -40,6 +40,8 @@ const meta: StoriesMeta = {
       type: "'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
       defaultValue: 'top-right',
     }),
+    ...ngArgType({ name: 'offset', type: '[string, string]', defaultValue: '' }),
+    ...ngArgType({ name: 'radius', type: 'string', defaultValue: '0px' }),
   },
 };
 export default meta;

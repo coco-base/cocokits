@@ -1,33 +1,33 @@
 import { Badge, BadgeContainer } from '@cocokits/react-badge';
-import { CCK_CONTROL, renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
+import { renderWithPageTab } from '@cocokits/storybook-addon-theme';
 import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
-export const Size: StoryObj<typeof BadgeContainer> = {
-  name: 'Size',
+export const Position: StoryObj<typeof BadgeContainer> = {
+  name: 'Position',
   parameters: {
     docs: {
       description: {
         story:
-          'The size is adjustable to suit different design needs and screen dimensions, improving both aesthetics and usability.',
+          'The position of the badge can be adjusted to suit different design needs and screen dimensions, improving both aesthetics and usability.',
       },
     },
     cckAddon: {
-      renderConditions: [renderWithThemeProp('size'), renderWithPageTab('Overview')],
-      singleControls: ['type'],
+      renderConditions: [renderWithPageTab('Overview')],
       source: [
         {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { <%= componentName.className %> } from "@cocokits/react-components";
+          import { BadgeContainer } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
               <>
-                <% themeComponentConfig.size.values.map(size => { %>
+                <% ['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(position => { %>
                   <BadgeContainer
                     <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                    size='<%= size %>'
+                    position='<%= position %>'
+                    radius="12px"
                   >
                     <div
                       style={{
@@ -35,35 +35,33 @@ export const Size: StoryObj<typeof BadgeContainer> = {
                         height: '70px',
                         backgroundColor: 'var(--cck-doc-color-bg-3, #191b23)',
                         border: '3px solid var(--cck-doc-color-border-3, #ffffff33)',
-                        borderRadius: '<%= radius %>',
+                        borderRadius: '12px',
                       }}
                     ></div>
                     <Badge content="2"/>
+                  </BadgeContainer>
                 <% }) %>
               </>
-
             );
           }
           `,
         },
       ],
-      controls: [CCK_CONTROL.type()],
     },
   },
   render: (args) => (
     <>
-      {args.cckControl.themeComponentConfig.size?.values.map((size, index) => (
-        <BadgeContainer key={index} type={args.cckControl.type} size={size}>
+      {(['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const).map((position, index) => (
+        <BadgeContainer key={index} position={position} type={args.cckControl.type} radius="12px">
           <div
             style={{
               width: '70px',
               height: '70px',
               backgroundColor: 'var(--cck-doc-color-bg-3)',
               border: '3px solid var(--cck-doc-color-border-3)',
-              borderRadius: args.cckControl.radius,
-            }}
-          ></div>
-          <Badge content="2"/>
+              borderRadius: '12px',
+            }}></div>
+          <Badge content="2" />
         </BadgeContainer>
       ))}
     </>

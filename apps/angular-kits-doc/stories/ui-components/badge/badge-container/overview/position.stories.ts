@@ -45,19 +45,18 @@ export const Position: StoryObj<BadgeContainerComponent> = {
   render: (args) => ({
     props: {
       ...args,
-      position: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
     },
     template: `
       @for (position of ['top-left', 'top-right', 'bottom-left', 'bottom-right']; let col = $index; track position) {
-        <cck-badge-container [type]="cckControl.type" [position]="position">
+        <cck-badge-container [type]="cckControl.type" [position]="position" radius="12px">
           <div
             [style.width]="'70px'"
             [style.height]="'70px'"
-            [style.background-color]="'var(--cck-doc-color-bg-3)'"
-            [style.border]="'3px solid var(--cck-doc-color-border-3)'"
+            [style.background-color]="'var(--cck-doc-color-bg-3, #191b23)'"
+            [style.border]="'3px solid var(--cck-doc-color-border-3, #ffffff33)'"
             [style.border-radius]="'12px'"
           ></div>
-          <cck-badge content="2"  radius="12px"/>
+          <cck-badge content="2"/>
         </cck-badge-container>
       }
     `,
