@@ -21,7 +21,6 @@ export { Integration } from './overview/integration.stories';
 const meta: StoriesMeta = {
   component: BadgeComponent,
   title: 'UI Components/Badge',
-  tags: ['status:new'],
   decorators: [
     withWrapperDecorator({ insideBox: true }),
     applicationConfig({

@@ -22,7 +22,6 @@ export { Control } from './overview/control.stories';
 const meta: StoriesMeta = {
   component: TabsComponent,
   title: 'UI Components/Tabs',
-  tags: ['status:new'],
   subcomponents: [TabComponent],
   decorators: [
     withWrapperDecorator({ insideBox: true }, { width: '500px' }),

@@ -13,7 +13,6 @@ export { Integration } from './overview/integration.stories';
 const meta: StoriesMeta<typeof BadgeContainer> = {
   component: BadgeContainer,
   title: 'UI Components/BadgeContainer',
-  tags: ['status:new'],
   decorators: [],
   parameters: {
     docs: {

@@ -290,7 +290,7 @@ const components: ThemeComponentConfigRecord = {
     color: {
       name: 'color',
       values: ['brand', 'highlight', 'success', 'danger'],
-      default: 'success',
+      default: 'highlight',
       description: '',
     },
   },

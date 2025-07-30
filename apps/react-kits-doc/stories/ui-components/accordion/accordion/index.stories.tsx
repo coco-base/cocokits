@@ -15,7 +15,6 @@ export { Control } from './overview/control.stories';
 const meta: StoriesMeta<typeof Accordion> = {
   component: Accordion,
   title: 'UI Components/Accordion',
-  tags: ['status:new'],
   subcomponents: {
     AccordionPanel,
     AccordionHeader

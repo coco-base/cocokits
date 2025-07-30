@@ -4345,7 +4345,7 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border-radius:500px;
+  border-radius:var(--radi-6);
 }
 :where([data-cck-theme-name=frames-x] .cck-badge--hidden){
   display:none;
@@ -4415,20 +4415,20 @@
   font:var(--text-xl-font-semibold);
 }
 :where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--xs){
+  width:8px;
+  height:8px;
+}
+:where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--sm){
   width:12px;
   height:12px;
 }
-:where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--sm){
+:where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--md){
   width:16px;
   height:16px;
 }
-:where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--md){
+:where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--lg){
   width:24px;
   height:24px;
-}
-:where([data-cck-theme-name=frames-x] .cck-badge--without-content.cck-badge__size--lg){
-  width:32px;
-  height:32px;
 }
 :where([data-cck-theme-name=frames-x] .cck-badge-container){
   display:flex;
