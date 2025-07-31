@@ -295,6 +295,14 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   badgeContainer: {},
+  table: {
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg'],
+      default: 'md',
+      description: '',
+    },
+  },
 };
 
 export const framesXThemeConfig: ThemeConfig = {

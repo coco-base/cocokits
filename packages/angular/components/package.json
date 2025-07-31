@@ -19,7 +19,8 @@
     "tslib": "^2.3.0",
     "@cocokits/angular-accordion": "workspace:*",
     "@cocokits/angular-tabs": "workspace:*",
-    "@cocokits/angular-badge": "workspace:*"
+    "@cocokits/angular-badge": "workspace:*",
+    "@cocokits/angular-table": "workspace:*"
   },
   "devDependencies": {},
   "peerDependencies": {

@@ -12,7 +12,8 @@ export type UIBaseComponentsName =
   | AvatarComponentName
   | AccordionComponentName
   | TabsComponentName
-  | BadgeComponentName;
+  | BadgeComponentName
+  | TableComponentName;
 
 type FormFieldComponentName =
   | 'formField'
@@ -45,3 +46,4 @@ type AvatarComponentName = 'avatar' | 'avatarGroup' | 'avatarLabel';
 type AccordionComponentName = 'accordion' | 'accordionHeader' | 'accordionPanel';
 type TabsComponentName = 'tabs' | 'tab';
 type BadgeComponentName = 'badge' | 'badgeContainer';
+type TableComponentName = 'table';

@@ -33,6 +33,7 @@ import { suffixLayoutClassNamesConfig } from './suffix-class-names';
 import { tabLayoutClassNamesConfig } from './tab-class-names';
 import { tabLayoutClassNamesConfigOld } from './tab-class-names-old';
 import { tabLabelLayoutClassNamesConfigOld } from './tab-label-class-names-old';
+import { tableLayoutClassNamesConfig } from './table-class-names';
 import { tabsLayoutClassNamesConfig } from './tabs-class-names';
 import { tabsLayoutClassNamesConfigOld } from './tabs-class-names-old';
 import { textareaClassNamesConfig } from './textarea-class-names';
@@ -87,4 +88,5 @@ export const layoutClassNamesConfigRecord = {
   tab: tabLayoutClassNamesConfig,
   badge: badgeLayoutClassNamesConfig,
   badgeContainer: badgeContainerLayoutClassNamesConfig,
+  table: tableLayoutClassNamesConfig,
 };

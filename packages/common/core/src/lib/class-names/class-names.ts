@@ -36,6 +36,7 @@ import { getSuffixClassNames } from './suffix-class-names';
 import { getTabClassNames } from './tab-class-names';
 import { getTabClassNamesOld } from './tab-class-names-old';
 import { getTabLabelClassNamesOld } from './tab-label-class-names-old';
+import { getTableClassNames } from './table-class-names';
 import { getTabsClassNames } from './tabs-class-names';
 import { getTabsClassNamesOld } from './tabs-class-names-old';
 import { getTextareaClassNames } from './textarea-class-names';
@@ -86,6 +87,7 @@ export const CLASS_NAMES_FN_MAP = {
   tab: getTabClassNames,
   badge: getBadgeClassNames,
   badgeContainer: getBadgeContainerClassNames,
+  table: getTableClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

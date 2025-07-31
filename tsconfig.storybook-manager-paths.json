@@ -265,6 +265,18 @@
         "../packages/react/badge/src/",
         "../../packages/react/badge/src/",
         "../../../packages/react/badge/src/"
+      ],
+      "@cocokits/angular-table": [
+        "packages/angular/table/src/",
+        "../packages/angular/table/src/",
+        "../../packages/angular/table/src/",
+        "../../../packages/angular/table/src/"
+      ],
+      "@cocokits/react-table": [
+        "packages/react/table/src/",
+        "../packages/react/table/src/",
+        "../../packages/react/table/src/",
+        "../../../packages/react/table/src/"
       ]
     }
   }
