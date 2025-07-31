@@ -19,7 +19,8 @@
     "@cocokits/react-cdk": "workspace:*",
     "@cocokits/react-avatar": "workspace:*",
     "@cocokits/react-accordion": "workspace:*",
-    "@cocokits/react-tabs": "workspace:*"
+    "@cocokits/react-tabs": "workspace:*",
+    "@cocokits/react-badge": "workspace:*"
   },
   "exports": {
     ".": {

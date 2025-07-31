@@ -23,7 +23,8 @@
         "Radio",
         "Toggle",
         "Accordion",
-        "Tabs"
+        "Tabs",
+        "Badge"
       ]
     },
     "newLibraryName": {

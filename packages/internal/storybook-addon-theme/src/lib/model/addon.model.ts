@@ -212,7 +212,7 @@ export interface AddonParametersControlImage extends AddonParametersControlBase 
 
 export interface AddonParametersControlText extends AddonParametersControlBase {
   type: AddonParametersControlType.Text;
-  default: string;
+  default: string | undefined;
 }
 
 export interface AddonParametersControlNumber extends AddonParametersControlBase {
@@ -228,6 +228,11 @@ export interface AddonParametersControlBoolean extends AddonParametersControlBas
 export interface AddonParametersControlTheme {
   type: AddonParametersControlType.SelectThemeConfig;
   prop: 'type' | 'color' | 'size' | 'additional';
+  /**
+   * If the control is for a sub-component, this will be the name of that sub-component.
+   * For example `badgeContainer` has his own theme config and `badge` components sub-component that we use as content of badgeContainer.
+   * */
+  subComponentName?: UIBaseComponentsName;
 }
 
 export interface StoryArgs extends Args {

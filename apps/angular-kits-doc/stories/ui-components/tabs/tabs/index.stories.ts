@@ -9,6 +9,7 @@ import {
 } from '@cocokits/storybook-addon-theme-angular';
 
 import descriptionMd from './description.md';
+import ngTemplateMd from './ng-templates.md';
 
 export { Default } from './overview/default.stories';
 export { Type } from './overview/type.stories';
@@ -21,7 +22,6 @@ export { Control } from './overview/control.stories';
 const meta: StoriesMeta = {
   component: TabsComponent,
   title: 'UI Components/Tabs',
-  tags: ['status:new'],
   subcomponents: [TabComponent],
   decorators: [
     withWrapperDecorator({ insideBox: true }, { width: '500px' }),
@@ -40,6 +40,7 @@ const meta: StoriesMeta = {
     },
     cckAddon: {
       componentName: 'tabs',
+      ngTemplateMarkdown: ngTemplateMd,
       subcomponents: {
         TabComponent: {
           name: 'tab',

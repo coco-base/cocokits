@@ -1,0 +1,117 @@
+@use '../../token/scss' as *;
+@use './selector-names/badge-selector-names' as S;
+
+@mixin badge {
+  #{S.$badge} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radi-6;
+  }
+
+  #{S.$hidden} {
+    display: none;
+  }
+
+  // Type
+  #{S.$T_default} {
+    // Color
+    &#{S.$C_brand} {
+      background-color: $state-brand-active;
+      border: 1px solid $state-brand-active;
+      color: $text-light-primary;
+    }
+    &#{S.$C_highlight} {
+      background-color: $state-highlight-active;
+      border: 1px solid $state-highlight-active;
+      color: $text-light-primary;
+    }
+    &#{S.$C_success} {
+      background-color: $state-success-active;
+      border: 1px solid $state-success-active;
+      color: $text-light-primary;
+    }
+    &#{S.$C_danger} {
+      background-color: $state-danger-active;
+      border: 1px solid $state-danger-active;
+      color: $text-light-primary;
+    }
+  }
+
+  #{S.$T_ghost} {
+    // Color
+    &#{S.$C_brand} {
+      background-color: $base-surface-2;
+      border: 1px solid $state-brand-active;
+      color: $state-brand-active;
+    }
+    &#{S.$C_highlight} {
+      background-color: $base-surface-2;
+      border: 1px solid $state-highlight-active;
+      color: $state-highlight-active;
+    }
+    &#{S.$C_success} {
+      background-color: $base-surface-2;
+      border: 1px solid $state-success-active;
+      color: $state-success-active;
+    }
+    &#{S.$C_danger} {
+      background-color: $base-surface-2;
+      border: 1px solid $state-danger-active;
+      color: $state-danger-active;
+    }
+  }
+
+  // Size
+  #{S.$withContent} {
+    &#{S.$S_xs} {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 4px;
+      font: $text-xs-font-medium;
+    }
+
+    &#{S.$S_sm} {
+      min-width: 28px;
+      height: 28px;
+      padding: 0 4px;
+      font: $text-base-font-semibold;
+    }
+
+    &#{S.$S_md} {
+      min-width: 40px;
+      height: 40px;
+      padding: 0 8px;
+      font: $text-lg-font-semibold;
+    }
+
+    &#{S.$S_lg} {
+      min-width: 52px;
+      height: 52px;
+      padding: 0 8px;
+      font: $text-xl-font-semibold;
+    }
+  }
+
+  #{S.$withoutContent} {
+    &#{S.$S_xs} {
+      width: 8px;
+      height: 8px;
+    }
+
+    &#{S.$S_sm} {
+      width: 12px;
+      height: 12px;
+    }
+
+    &#{S.$S_md} {
+      width: 16px;
+      height: 16px;
+    }
+
+    &#{S.$S_lg} {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

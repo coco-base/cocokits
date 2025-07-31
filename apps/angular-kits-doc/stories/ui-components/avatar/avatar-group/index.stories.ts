@@ -13,7 +13,6 @@ export { Color } from './overview/color.stories';
 const meta: StoriesMeta = {
   component: AvatarGroupComponent,
   title: 'UI Components/AvatarGroup',
-  tags: ['status:new'],
   decorators: [
     applicationConfig({
       providers: [withThemeConfigProvider()],

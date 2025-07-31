@@ -1,0 +1,98 @@
+@use '../../token/scss' as *;
+@use './selector-names/badge-selector-names' as S;
+
+@mixin badge {
+  #{S.$badge} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #{S.$hidden} {
+    display: none;
+  }
+
+  // Type
+  #{S.$T_rounded} {
+    border-radius: 500px;
+  }
+
+  #{S.$T_rectangle} {
+    border-radius: 4px;
+  }
+
+  // Color
+  #{S.$C_brand} {
+    background-color: $color-brand-default;
+    color: $color-font-inverse-default;
+  }
+  #{S.$C_info} {
+    background-color: $color-info-default;
+    color: $color-font-inverse-default;
+  }
+  #{S.$C_warning} {
+    background-color: $color-warning-default;
+    color: $color-font-inverse-default;
+  }
+  #{S.$C_error} {
+    background-color: $color-error-default;
+    color: $color-font-inverse-default;
+  }
+  #{S.$C_hContrast} {
+    background-color: $color-h-contrast-default;
+    color: $color-font-inverse-default;
+  }
+
+  // Size
+  #{S.$withContent} {
+    &#{S.$S_sm} {
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      font: $text-xs-regular;
+    }
+
+    &#{S.$S_md} {
+      min-width: 22px;
+      height: 22px;
+      padding: 0 4px;
+      font: $text-xs-medium;
+    }
+
+    &#{S.$S_lg} {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 8px;
+      font: $text-sm-medium;
+    }
+
+    &#{S.$S_xl} {
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      font: $text-md-medium;
+    }
+  }
+
+  #{S.$withoutContent} {
+    &#{S.$S_sm} {
+      width: 6px;
+      height: 6px;
+    }
+
+    &#{S.$S_md} {
+      width: 8px;
+      height: 8px;
+    }
+
+    &#{S.$S_lg} {
+      width: 12px;
+      height: 12px;
+    }
+
+    &#{S.$S_xl} {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

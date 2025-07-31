@@ -11,7 +11,6 @@ export { Color } from './overview/color.stories';
 const meta: StoriesMeta<typeof AvatarGroup> = {
   component: AvatarGroup,
   title: 'UI Components/AvatarGroup',
-  tags: ['status:new'],
   decorators: [],
   parameters: {
     docs: {

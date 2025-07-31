@@ -2,13 +2,14 @@
 import { camelCase } from 'lodash';
 
 import { ElementAnchorPoint } from '@cocokits/common-utils';
+import { UIBaseComponentsName } from '@cocokits/core';
 import { OverlayAnimationType } from '@cocokits/react-overlay';
 
 import { AddonParametersControl, AddonParametersControlType } from '../model/addon.model';
 
 export const customText = (
   displayName: string,
-  defaultValue: string,
+  defaultValue: string | undefined,
   storyArgKey?: string
 ): AddonParametersControl => ({
   displayName,
@@ -19,7 +20,7 @@ export const customText = (
 
 export const customNumber = (
   displayName: string,
-  defaultValue: number,
+  defaultValue: number | undefined,
   storyArgKey?: string
 ): AddonParametersControl => ({
   displayName,
@@ -101,24 +102,28 @@ export const trailing = (defaultValue = ''): AddonParametersControl => ({
   type: AddonParametersControlType.Text,
 });
 
-export const type = (): AddonParametersControl => ({
+export const type = (subComponentName?: UIBaseComponentsName): AddonParametersControl => ({
   prop: 'type',
   type: AddonParametersControlType.SelectThemeConfig,
+  subComponentName,
 });
 
-export const color = (): AddonParametersControl => ({
+export const color = (subComponentName?: UIBaseComponentsName): AddonParametersControl => ({
   prop: 'color',
   type: AddonParametersControlType.SelectThemeConfig,
+  subComponentName,
 });
 
-export const size = (): AddonParametersControl => ({
+export const size = (subComponentName?: UIBaseComponentsName): AddonParametersControl => ({
   prop: 'size',
   type: AddonParametersControlType.SelectThemeConfig,
+  subComponentName,
 });
 
-export const additional = (): AddonParametersControl => ({
+export const additional = (subComponentName?: UIBaseComponentsName): AddonParametersControl => ({
   prop: 'additional',
   type: AddonParametersControlType.SelectThemeConfig,
+  subComponentName,
 });
 
 export const anchorPoint = (defaultValue: ElementAnchorPoint): AddonParametersControl => ({
@@ -374,7 +379,7 @@ export const alt = (defaultValue = ''): AddonParametersControl => ({
   type: AddonParametersControlType.Text,
 });
 
-export const clickable = (defaultValue = true): AddonParametersControl => ({
+export const clickable = (defaultValue = false): AddonParametersControl => ({
   displayName: 'Clickable',
   default: defaultValue,
   storyArgKey: 'clickable',

@@ -35,17 +35,17 @@ export interface AvatarLabelProps extends UIBaseComponentProps {
   children?: React.ReactNode;
 }
 
-export const AvatarLabel = ({ type, size, color, additional, children, ...restProps }: AvatarLabelProps) => {
+export const AvatarLabel = ({ type, size, color, additional, children, avatarPosition = 'left', labelAlignment = 'vertical', ...restProps }: AvatarLabelProps) => {
   const { classNames, hostClassNames } = useUiBaseComponentConfig({
     componentName: 'avatarLabel',
     props: { type, size, color, additional },
     extraHostElementClassConditions: [
-      { if: restProps.avatarPosition === 'left', classes: (cn) => [cn.avatarPositionLeft] },
-      { if: restProps.avatarPosition === 'right', classes: (cn) => [cn.avatarPositionRight] },
-      { if: restProps.avatarPosition === 'top', classes: (cn) => [cn.avatarPositionTop] },
-      { if: restProps.avatarPosition === 'bottom', classes: (cn) => [cn.avatarPositionBottom] },
-      { if: restProps.labelAlignment === 'horizontal', classes: (cn) => [cn.labelAlignmentHorizontal] },
-      { if: restProps.labelAlignment === 'vertical', classes: (cn) => [cn.labelAlignmentVertical] }
+      { if: avatarPosition === 'left', classes: (cn) => [cn.avatarPositionLeft] },
+      { if: avatarPosition === 'right', classes: (cn) => [cn.avatarPositionRight] },
+      { if: avatarPosition === 'top', classes: (cn) => [cn.avatarPositionTop] },
+      { if: avatarPosition === 'bottom', classes: (cn) => [cn.avatarPositionBottom] },
+      { if: labelAlignment === 'horizontal', classes: (cn) => [cn.labelAlignmentHorizontal] },
+      { if: labelAlignment === 'vertical', classes: (cn) => [cn.labelAlignmentVertical] }
     ]
   });
 

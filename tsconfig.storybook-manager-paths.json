@@ -253,6 +253,18 @@
         "../packages/react/tabs/src/",
         "../../packages/react/tabs/src/",
         "../../../packages/react/tabs/src/"
+      ],
+      "@cocokits/angular-badge": [
+        "packages/angular/badge/src/",
+        "../packages/angular/badge/src/",
+        "../../packages/angular/badge/src/",
+        "../../../packages/angular/badge/src/"
+      ],
+      "@cocokits/react-badge": [
+        "packages/react/badge/src/",
+        "../packages/react/badge/src/",
+        "../../packages/react/badge/src/",
+        "../../../packages/react/badge/src/"
       ]
     }
   }

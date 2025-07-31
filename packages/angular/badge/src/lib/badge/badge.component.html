@@ -1,0 +1,7 @@
+@if(!hide()) {
+  <span [class]="classNames().content">{{truncationContent()}}</span>
+  
+  @if(withMaxIndicator()) {
+    <span [class]="classNames().maxIndicator">+</span>
+  }
+}

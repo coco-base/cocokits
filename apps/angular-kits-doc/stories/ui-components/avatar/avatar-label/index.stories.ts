@@ -13,7 +13,6 @@ export { Color } from './overview/color.stories';
 const meta: StoriesMeta = {
   component: AvatarLabelComponent,
   title: 'UI Components/AvatarLabel',
-  tags: ['status:new'],
   decorators: [
     withWrapperDecorator({ insideBox: true }),
     applicationConfig({

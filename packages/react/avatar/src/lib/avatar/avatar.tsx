@@ -35,7 +35,7 @@ export interface AvatarProps extends UIBaseComponentProps {
 
   /**
    * Whether the avatar should be clickable.
-   * @defaultValue true
+   * @defaultValue false
    */
 
   clickable?: boolean;
@@ -53,7 +53,7 @@ export interface AvatarProps extends UIBaseComponentProps {
   contentTemp?: React.ReactNode;
 }
 
-export function Avatar({ clickable = true, ...restProps }: AvatarProps) {
+export function Avatar({ clickable = false, ...restProps }: AvatarProps) {
   const avatarGroupContext = React.useContext(AvatarGroupContext);
   const avatarLabelContext = React.useContext(AvatarLabelContext);
 

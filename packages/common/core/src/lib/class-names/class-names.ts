@@ -6,6 +6,8 @@ import { getAccordionPanelClassNames } from './accordion-panel-class-names';
 import { getAvatarClassNames } from './avatar-class-names';
 import { getAvatarGroupClassNames } from './avatar-group-class-names';
 import { getAvatarLabelClassNames } from './avatar-label-class-names';
+import { getBadgeClassNames } from './badge-class-names';
+import { getBadgeContainerClassNames } from './badge-container-class-names';
 import { getButtonClassNames } from './button-class-names';
 import { getCheckboxClassNames } from './checkbox-class-names';
 import { getChipClassNames } from './chip-class-names';
@@ -82,6 +84,8 @@ export const CLASS_NAMES_FN_MAP = {
   accordionPanel: getAccordionPanelClassNames,
   tabs: getTabsClassNames,
   tab: getTabClassNames,
+  badge: getBadgeClassNames,
+  badgeContainer: getBadgeContainerClassNames,
 };
 
 export function getClassNames<T extends UIBaseComponentsName>(

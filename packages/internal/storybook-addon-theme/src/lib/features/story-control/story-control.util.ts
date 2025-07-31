@@ -1,6 +1,7 @@
+/* eslint-disable complexity */
 import { PreparedStory } from '@storybook/types';
 
-import { toTitleCase } from '@cocokits/common-utils';
+import { toCamelCase, toTitleCase } from '@cocokits/common-utils';
 
 import {
   AddonParameters,
@@ -29,56 +30,60 @@ export function getStoryControls(story: PreparedStory, theme: ThemeChangeEvent) 
 
   const args: Exclude<AddonParametersControl, AddonParametersControlTheme>[] = controls.flatMap((control) => {
     const isThemeConfig = control.type === AddonParametersControlType.SelectThemeConfig;
+    const targetThemeComponentConfig =
+      isThemeConfig && control.subComponentName
+        ? theme.themeConfig.components[control.subComponentName]
+        : themeComponentConfig;
 
-    if (isThemeConfig && control.prop === 'type' && themeComponentConfig.type) {
+    if (isThemeConfig && control.prop === 'type' && targetThemeComponentConfig?.type) {
       return [
         {
           type: AddonParametersControlType.Select,
-          displayName: toTitleCase(themeComponentConfig.type.name),
-          storyArgKey: themeComponentConfig.type.name,
-          default: themeComponentConfig.type.default.toString(),
-          options: themeComponentConfig.type.values.map((value) => value.toString()),
+          displayName: toTitleCase(`${control.subComponentName ?? ''} ${targetThemeComponentConfig.type.name}`),
+          storyArgKey: toCamelCase(`${control.subComponentName ?? ''} ${targetThemeComponentConfig.type.name}`),
+          default: targetThemeComponentConfig.type.default.toString(),
+          options: targetThemeComponentConfig.type.values.map((value) => value.toString()),
         },
       ] satisfies AddonParametersControlSelect[];
     }
 
-    if (isThemeConfig && control.prop === 'color' && themeComponentConfig.color) {
+    if (isThemeConfig && control.prop === 'color' && targetThemeComponentConfig?.color) {
       return [
         {
           type: AddonParametersControlType.Select,
-          displayName: toTitleCase(themeComponentConfig.color.name),
-          storyArgKey: themeComponentConfig.color.name,
-          default: themeComponentConfig.color.default.toString(),
-          options: themeComponentConfig.color.values.map((value) => value.toString()),
+          displayName: toTitleCase(`${control.subComponentName ?? ''} ${targetThemeComponentConfig.color.name}`),
+          storyArgKey: toCamelCase(`${control.subComponentName ?? ''} ${targetThemeComponentConfig.color.name}`),
+          default: targetThemeComponentConfig.color.default.toString(),
+          options: targetThemeComponentConfig.color.values.map((value) => value.toString()),
         },
       ] satisfies AddonParametersControlSelect[];
     }
 
-    if (isThemeConfig && control.prop === 'size' && themeComponentConfig.size) {
+    if (isThemeConfig && control.prop === 'size' && targetThemeComponentConfig?.size) {
       return [
         {
           type: AddonParametersControlType.Select,
-          displayName: toTitleCase(themeComponentConfig.size.name),
-          storyArgKey: themeComponentConfig.size.name,
-          default: themeComponentConfig.size.default.toString(),
-          options: themeComponentConfig.size.values.map((value) => value.toString()),
+          displayName: toTitleCase(`${control.subComponentName ?? ''} ${targetThemeComponentConfig.size.name}`),
+          storyArgKey: toCamelCase(`${control.subComponentName ?? ''} ${targetThemeComponentConfig.size.name}`),
+          default: targetThemeComponentConfig.size.default.toString(),
+          options: targetThemeComponentConfig.size.values.map((value) => value.toString()),
         },
       ] satisfies AddonParametersControlSelect[];
     }
 
-    if (isThemeConfig && control.prop === 'additional' && themeComponentConfig.additional) {
-      return Object.values(themeComponentConfig.additional).map((prop) => {
+    if (isThemeConfig && control.prop === 'additional' && targetThemeComponentConfig?.additional) {
+      return Object.values(targetThemeComponentConfig.additional).map((prop) => {
         return typeof prop.default === 'boolean'
           ? ({
             type: AddonParametersControlType.Boolean,
-            displayName: toTitleCase(prop.name),
-            storyArgKey: prop.name,
+            displayName: toTitleCase(`${control.subComponentName ?? ''} ${prop.name}`),
+            storyArgKey: toCamelCase(`${control.subComponentName ?? ''} ${prop.name}`),
             default: prop.default,
           } satisfies AddonParametersControlBoolean)
           : ({
             type: AddonParametersControlType.Select,
-            displayName: toTitleCase(prop.name),
-            storyArgKey: prop.name,
+            displayName: toTitleCase(`${control.subComponentName ?? ''} ${prop.name}`),
+            storyArgKey: toCamelCase(`${control.subComponentName ?? ''} ${prop.name}`),
             default: prop.default.toString(),
             options: prop.values.map((value) => value.toString()),
           } satisfies AddonParametersControlSelect);

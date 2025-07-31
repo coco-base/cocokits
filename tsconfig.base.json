@@ -22,6 +22,7 @@
     "paths": {
       "@cocokits/angular-accordion": ["packages/angular/accordion/src/index.ts"],
       "@cocokits/angular-avatar": ["packages/angular/avatar/src/index.ts"],
+      "@cocokits/angular-badge": ["packages/angular/badge/src/index.ts"],
       "@cocokits/angular-button": ["packages/angular/button/src/index.ts"],
       "@cocokits/angular-cdk": ["packages/angular/cdk/src/index.ts"],
       "@cocokits/angular-checkbox": ["packages/angular/checkbox/src/index.ts"],
@@ -42,6 +43,7 @@
       "@cocokits/core": ["packages/common/core/src/index.ts"],
       "@cocokits/react-accordion": ["packages/react/accordion/src/index.ts"],
       "@cocokits/react-avatar": ["packages/react/avatar/src/index.ts"],
+      "@cocokits/react-badge": ["packages/react/badge/src/index.ts"],
       "@cocokits/react-button": ["packages/react/button/src/index.ts"],
       "@cocokits/react-cdk": ["packages/react/cdk/src/index.ts"],
       "@cocokits/react-checkbox": ["packages/react/checkbox/src/index.ts"],

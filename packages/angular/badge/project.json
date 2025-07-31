@@ -1,0 +1,29 @@
+{
+  "name": "@cocokits/angular-badge",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/angular/badge/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:ui", "framework:angular"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "packages/angular/badge/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/angular/badge/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "packages/angular/badge/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "quick-fix-eslint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

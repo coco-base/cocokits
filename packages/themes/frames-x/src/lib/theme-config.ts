@@ -274,6 +274,27 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   tab: {},
+  badge: {
+    type: {
+      name: 'type',
+      values: ['default', 'ghost'],
+      default: 'default',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['xs', 'sm', 'md', 'lg'],
+      default: 'xs',
+      description: '',
+    },
+    color: {
+      name: 'color',
+      values: ['brand', 'highlight', 'success', 'danger'],
+      default: 'highlight',
+      description: '',
+    },
+  },
+  badgeContainer: {},
 };
 
 export const framesXThemeConfig: ThemeConfig = {

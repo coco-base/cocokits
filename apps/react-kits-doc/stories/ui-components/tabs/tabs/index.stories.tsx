@@ -15,7 +15,6 @@ const meta: StoriesMeta<typeof Tabs> = {
   component: Tabs,
   title: 'UI Components/Tabs',
   subcomponents: {Tab},
-  tags: ['status:new'],
   decorators: [
     withWrapperDecorator({insideBox: true}, {width: '500px'}),
   ],

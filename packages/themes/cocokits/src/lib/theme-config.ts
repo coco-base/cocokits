@@ -364,6 +364,27 @@ const components: ThemeComponentConfigRecord = {
     },
   },
   tab: {},
+  badge: {
+    type: {
+      name: 'type',
+      values: ['rounded', 'rectangle'],
+      default: 'rounded',
+      description: '',
+    },
+    size: {
+      name: 'size',
+      values: ['sm', 'md', 'lg', 'xl'],
+      default: 'md',
+      description: '',
+    },
+    color: {
+      name: 'color',
+      values: ['brand', 'info', 'warning', 'error', 'h-contrast'],
+      default: 'h-contrast',
+      description: '',
+    },
+  },
+  badgeContainer: {},
 };
 
 export const cocokitsThemeConfig: ThemeConfig = {

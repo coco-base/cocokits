@@ -13,7 +13,6 @@ export { Color } from './overview/color.stories';
 const meta: StoriesMeta = {
   component: <%= componentName.className %>Component,
   title: 'UI Components/<%= componentName.className %>',
-  tags: ['status:new'],
   decorators: [
     applicationConfig({
       providers: [withThemeConfigProvider()],
