@@ -12,54 +12,59 @@ export const tableLayoutClassNamesConfig = {
       selectorStructure: [],
       description: 'It will add to the host element of `Table` component.',
     },
+    table: {
+      name: 'Table Element',
+      selectorStructure: [{ element: 'table' }],
+      description: 'It will add to the table tag of `Table` component.',
+    },
 
     // GridLine Modifiers
     gridFull: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-full' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to full.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to full.`,
     },
     gridTable: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-table' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to table.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to table.`,
     },
     gridRows: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-rows' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to rows.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to rows.`,
     },
     gridTableRows: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-table-rows' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to table-rows.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to table-rows.`,
     },
     gridColumn: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-column' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to column.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to column.`,
     },
     gridTableColumn: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-table-column' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to table-column.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to table-column.`,
     },
     gridHeader: {
-      name: 'Host Element',
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'grid-header' }],
-      description: `It will add to the host element of \`Table\` component when gridLine set to header.`,
+      description: `It will add to the table element of \`Table\` component when gridLine set to header.`,
     },
 
     // Other Modifiers
-    gridWithStripedRows: {
-      name: 'Host Element',
+    withStripedRows: {
+      name: 'Table Element',
       selectorStructure: [{ modifier: 'with-striped-rows' }],
-      description: `It will add to the host element of \`Table\` component when stripedRows set to true.`,
+      description: `It will add to the table element of \`Table\` component when stripedRows set to true.`,
     },
-    gridWithHover: {
-      name: 'Host Element',
-      selectorStructure: [{ modifier: 'with-hover' }],
-      description: `It will add to the host element of \`Table\` component when hover set to true.`,
+    withHoverEffect: {
+      name: 'Table Element',
+      selectorStructure: [{ modifier: 'with-hover-effect' }],
+      description: `It will add to the table element of \`Table\` component when hoverEffect set to true.`,
     },
   },
 } satisfies LayoutClassNamesConfig;
@@ -73,6 +78,7 @@ export function getTableClassNames(
   return {
     // Elements
     host: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'host', themeConfig, componentProps),
+    table: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'table', themeConfig),
 
     // GridLine Modifiers
     gridFull: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'gridFull', themeConfig),
@@ -84,11 +90,7 @@ export function getTableClassNames(
     gridHeader: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'gridHeader', themeConfig),
 
     // Other Modifiers
-    gridWithStripedRows: generateLayoutClassNameFromElement(
-      tableLayoutClassNamesConfig,
-      'gridWithStripedRows',
-      themeConfig
-    ),
-    gridWithHover: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'gridWithHover', themeConfig),
+    withStripedRows: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'withStripedRows', themeConfig),
+    withHoverEffect: generateLayoutClassNameFromElement(tableLayoutClassNamesConfig, 'withHoverEffect', themeConfig),
   };
 }

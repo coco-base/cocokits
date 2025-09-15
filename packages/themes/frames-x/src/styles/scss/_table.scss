@@ -1,7 +1,194 @@
 @use '../../token/scss' as *;
+@use './selector-names/_table-selector-names' as S;
 
 @mixin table {
-  .cck-table {
-    opacity: 1;
+  #{S.$sm} {
+    --table-size-base-1: 8px;
+    --table-size-base-2: 16px;
+    --table-size-base-3: 20px;
+    --table-size-base-4: 24px;
+    --table-size-base-5: 28px;
+    --table-size-base-6: 36px;
+    --table-spacing-1: 4px;
+    --table-spacing-2: 8px;
+    --table-spacing-3: 12px;
+    --table-spacing-4: 20px;
+    --table-column-1: 80px;
+    --table-column-2: 100px;
+    --table-column-3: 140px;
+    --table-column-4: 180px;
+    --table-column-5: 240px;
+    --table-column-6: 300px;
+    --table-column-7: 350px;
+    --table-font: #{$text-base-font-medium};
+  }
+
+  #{S.$md} {
+    --table-size-base-1: 12px;
+    --table-size-base-2: 18px;
+    --table-size-base-3: 24px;
+    --table-size-base-4: 28px;
+    --table-size-base-5: 30px;
+    --table-size-base-6: 44px;
+    --table-spacing-1: 6px;
+    --table-spacing-2: 10px;
+    --table-spacing-3: 14px;
+    --table-spacing-4: 24px;
+    --table-column-1: 100px;
+    --table-column-2: 120px;
+    --table-column-3: 160px;
+    --table-column-4: 220px;
+    --table-column-5: 260px;
+    --table-column-6: 360px;
+    --table-column-7: 400px;
+    --table-font: #{$text-base-font-medium};
+  }
+
+  #{S.$lg} {
+    --table-size-base-1: 14px;
+    --table-size-base-2: 20px;
+    --table-size-base-3: 28px;
+    --table-size-base-4: 32px;
+    --table-size-base-5: 36px;
+    --table-size-base-6: 52px;
+    --table-spacing-1: 8px;
+    --table-spacing-2: 12px;
+    --table-spacing-3: 16px;
+    --table-spacing-4: 32px;
+    --table-column-1: 120px;
+    --table-column-2: 140px;
+    --table-column-3: 180px;
+    --table-column-4: 240px;
+    --table-column-5: 280px;
+    --table-column-6: 400px;
+    --table-column-7: 440px;
+    --table-font: #{$text-base-font-medium};
+  }
+
+  #{S.$table} {
+    --table-border-radius: 12px;
+    --table-border: 1px solid #{$colors-alpha-dark-100};
+  }
+
+  #{S.$table} {
+    width: 100%;
+    border-collapse: collapse;
+
+    td,
+    th {
+      color: $text-dark-secondary;
+      font: var(--table-font);
+      padding: var(--table-spacing-3) var(--table-spacing-3);
+    }
+
+    th {
+      background-color: $colors-gray-100;
+      text-align: left;
+    }
+
+    td {
+      background-color: $colors-gray-50;
+    }
+
+    thead > tr:first-of-type > th:first-of-type {
+      border-top-left-radius: var(--table-border-radius);
+    }
+
+    thead > tr:first-of-type > th:last-of-type {
+      border-top-right-radius: var(--table-border-radius);
+    }
+
+    tbody > tr:last-of-type > td:first-of-type {
+      border-bottom-left-radius: var(--table-border-radius);
+    }
+
+    tbody > tr:last-of-type > td:last-of-type {
+      border-bottom-right-radius: var(--table-border-radius);
+    }
+  }
+
+  #{S.$grid-full} {
+    > #{S.$table} {
+      outline: var(--table-border);
+      border-radius: var(--table-border-radius);
+
+      > thead > tr > th:not(:last-of-type),
+      > tbody > tr > td:not(:last-of-type) {
+        border-right: var(--table-border);
+      }
+
+      > thead > tr:not(:last-of-type),
+      > tbody > tr:not(:last-of-type),
+      > thead {
+        border-bottom: var(--table-border);
+      }
+    }
+  }
+
+  #{S.$grid-table} {
+    > #{S.$table} {
+      outline: var(--table-border);
+      border-radius: var(--table-border-radius);
+    }
+  }
+
+  #{S.$grid-rows} {
+    > #{S.$table} > thead > tr,
+    > #{S.$table} > tbody > tr {
+      border-bottom: var(--table-border);
+    }
+  }
+
+  #{S.$grid-table-rows} {
+    > #{S.$table} {
+      outline: var(--table-border);
+      border-radius: var(--table-border-radius);
+
+      > thead > tr:not(:last-of-type),
+      > tbody > tr:not(:last-of-type) {
+        border-bottom: var(--table-border);
+      }
+    }
+  }
+
+  #{S.$grid-column} {
+    > #{S.$table} > thead > tr > td:not(:last-of-type),
+    > #{S.$table} > tbody > tr > td:not(:last-of-type),
+    > #{S.$table} > thead > tr > th:not(:last-of-type),
+    > #{S.$table} > tbody > tr > th:not(:last-of-type) {
+      border-right: var(--table-border);
+    }
+  }
+
+  #{S.$grid-table-column} {
+    > #{S.$table} {
+      outline: var(--table-border);
+      border-radius: var(--table-border-radius);
+
+      > thead > tr > td:not(:last-of-type),
+      > tbody > tr > td:not(:last-of-type),
+      > thead > tr > th:not(:last-of-type),
+      > tbody > tr > th:not(:last-of-type) {
+        border-right: var(--table-border);
+      }
+    }
+  }
+
+  #{S.$grid-header} {
+    > #{S.$table} > thead > tr:last-of-type > th {
+      border-bottom: var(--table-border);
+    }
+  }
+
+  #{S.$striped-rows} {
+    > #{S.$table} > tbody > tr:nth-child(even) > td {
+      background-color: red;
+    }
+  }
+
+  #{S.$hover-effect} {
+    > #{S.$table} > tbody > tr:hover > td {
+      background-color: blue;
+    }
   }
 }

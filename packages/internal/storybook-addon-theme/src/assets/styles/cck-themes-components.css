@@ -2146,6 +2146,9 @@
   right:calc(0.2929 * var(--cck-badge-radius, 0px));
   transform:translate(50%, 50%);
 }
+:where([data-cck-theme-name=cocokits] .cck-table){
+  opacity:1;
+}
 
 :where([data-cck-theme-name=frames-x] .cck-button){
   display:inline-flex;
@@ -4461,4 +4464,151 @@
   bottom:calc(0.2929 * var(--cck-badge-radius, 0px));
   right:calc(0.2929 * var(--cck-badge-radius, 0px));
   transform:translate(50%, 50%);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__size--sm){
+  --table-size-base-1:8px;
+  --table-size-base-2:16px;
+  --table-size-base-3:20px;
+  --table-size-base-4:24px;
+  --table-size-base-5:28px;
+  --table-size-base-6:36px;
+  --table-spacing-1:4px;
+  --table-spacing-2:8px;
+  --table-spacing-3:12px;
+  --table-spacing-4:20px;
+  --table-column-1:80px;
+  --table-column-2:100px;
+  --table-column-3:140px;
+  --table-column-4:180px;
+  --table-column-5:240px;
+  --table-column-6:300px;
+  --table-column-7:350px;
+  --table-font:var(--text-base-font-medium);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__size--md){
+  --table-size-base-1:12px;
+  --table-size-base-2:18px;
+  --table-size-base-3:24px;
+  --table-size-base-4:28px;
+  --table-size-base-5:30px;
+  --table-size-base-6:44px;
+  --table-spacing-1:6px;
+  --table-spacing-2:10px;
+  --table-spacing-3:14px;
+  --table-spacing-4:24px;
+  --table-column-1:100px;
+  --table-column-2:120px;
+  --table-column-3:160px;
+  --table-column-4:220px;
+  --table-column-5:260px;
+  --table-column-6:360px;
+  --table-column-7:400px;
+  --table-font:var(--text-base-font-medium);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__size--lg){
+  --table-size-base-1:14px;
+  --table-size-base-2:20px;
+  --table-size-base-3:28px;
+  --table-size-base-4:32px;
+  --table-size-base-5:36px;
+  --table-size-base-6:52px;
+  --table-spacing-1:8px;
+  --table-spacing-2:12px;
+  --table-spacing-3:16px;
+  --table-spacing-4:32px;
+  --table-column-1:120px;
+  --table-column-2:140px;
+  --table-column-3:180px;
+  --table-column-4:240px;
+  --table-column-5:280px;
+  --table-column-6:400px;
+  --table-column-7:440px;
+  --table-font:var(--text-base-font-medium);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table){
+  --table-border-radius:12px;
+  --table-border:1px solid var(--colors-alpha-dark-100);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table){
+  width:100%;
+  border-collapse:collapse;
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table td),:where(
+[data-cck-theme-name=frames-x] .cck-table__table th){
+  color:var(--text-dark-secondary);
+  font:var(--table-font);
+  padding:var(--table-spacing-3) var(--table-spacing-3);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table th){
+  background-color:var(--colors-gray-100);
+  text-align:left;
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table td){
+  background-color:var(--colors-gray-50);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table thead > tr:first-of-type > th):first-of-type{
+  border-top-left-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table thead > tr:first-of-type > th):last-of-type{
+  border-top-right-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table tbody > tr:last-of-type > td):first-of-type{
+  border-bottom-left-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table__table tbody > tr:last-of-type > td):last-of-type{
+  border-bottom-right-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-full > .cck-table__table){
+  outline:var(--table-border);
+  border-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-full > .cck-table__table > thead > tr > th):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-full > .cck-table__table > tbody > tr > td):not(:last-of-type){
+  border-right:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-full > .cck-table__table > thead > tr):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-full > .cck-table__table > tbody > tr):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-full > .cck-table__table > thead){
+  border-bottom:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-table > .cck-table__table){
+  outline:var(--table-border);
+  border-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-rows > .cck-table__table > thead > tr),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-rows > .cck-table__table > tbody > tr){
+  border-bottom:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-table-rows > .cck-table__table){
+  outline:var(--table-border);
+  border-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-table-rows > .cck-table__table > thead > tr):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-table-rows > .cck-table__table > tbody > tr):not(:last-of-type){
+  border-bottom:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-column > .cck-table__table > thead > tr > td):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-column > .cck-table__table > tbody > tr > td):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-column > .cck-table__table > thead > tr > th):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-column > .cck-table__table > tbody > tr > th):not(:last-of-type){
+  border-right:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-table-column > .cck-table__table){
+  outline:var(--table-border);
+  border-radius:var(--table-border-radius);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-table-column > .cck-table__table > thead > tr > td):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-table-column > .cck-table__table > tbody > tr > td):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-table-column > .cck-table__table > thead > tr > th):not(:last-of-type),:where(
+[data-cck-theme-name=frames-x] .cck-table--grid-table-column > .cck-table__table > tbody > tr > th):not(:last-of-type){
+  border-right:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--grid-header > .cck-table__table > thead > tr:last-of-type > th){
+  border-bottom:var(--table-border);
+}
+:where([data-cck-theme-name=frames-x] .cck-table--with-striped-rows > .cck-table__table > tbody > tr:nth-child(even) > td){
+  background-color:red;
+}
+:where([data-cck-theme-name=frames-x] .cck-table--with-hover-effect > .cck-table__table > tbody > tr:hover > td){
+  background-color:blue;
 }

@@ -1,4 +1,5 @@
 @use '../../token/scss' as *;
+@use './selector-names/_table-selector-names' as S;
 
 @mixin table {
   .cck-table {

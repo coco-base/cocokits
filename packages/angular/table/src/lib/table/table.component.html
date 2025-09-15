@@ -1,1 +1,17 @@
-<p>cck-table works !!</p>
+<table [ngClass]="classNames().table" (click)="onClick()">
+
+  <thead>
+    <ng-container *ngTemplateOutlet="tableHeader()"/>
+  </thead>
+
+  <tbody>
+    @for (row of dataSource.data(); track row; let i = $index) {
+      <ng-container *ngTemplateOutlet="tableBody(); context: {
+        $implicit: row,
+        data: row,
+        index: i
+      }"/>
+    }
+  </tbody>
+
+</table>
