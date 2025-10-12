@@ -7,8 +7,7 @@ export const ErrorState: StoryObj<typeof Textarea> = {
   parameters: {
     docs: {
       description: {
-        story:
-          'This demonstrates the textarea in an error state, typically used to indicate invalid input.',
+        story: 'This demonstrates both normal and error states for the textarea component.',
       },
     },
     cckAddon: {
@@ -18,25 +17,39 @@ export const ErrorState: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-          import { FormField, Label, Textarea } from "@cocokits/react-components";
+          import { FormField, Label, Textarea, Text } from "@cocokits/react-components";
 
           export const MyComponent = () => {
             return (
-              <FormField invalid>
-                <Label>Error State</Label>
-                <Textarea invalid placeholder="placeholder" />
-              </FormField>
+              <>
+                <FormField>
+                  <Label>Normal</Label>
+                  <Textarea placeholder="placeholder" />
+                </FormField>
+
+                <FormField invalid>
+                  <Label>Error State</Label>
+                  <Textarea invalid placeholder="placeholder" />
+                </FormField>
+              </>
             );
-          }
+          };
           `,
         },
       ],
     },
   },
   render: () => (
-    <FormField invalid>
-      <Label>Error State</Label>
-      <Textarea invalid placeholder="placeholder" />
-    </FormField>
+    <>
+      <FormField>
+        <Label>Normal</Label>
+        <Textarea placeholder="placeholder" />
+      </FormField>
+
+      <FormField invalid>
+        <Label>Error State</Label>
+        <Textarea invalid placeholder="placeholder" />
+      </FormField>
+    </>
   ),
-}; 
+};

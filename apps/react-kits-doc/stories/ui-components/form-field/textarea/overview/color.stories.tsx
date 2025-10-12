@@ -1,6 +1,6 @@
 import { FormField, Label, Textarea } from '@cocokits/react-components';
 import { renderWithPageTab, renderWithThemeProp } from '@cocokits/storybook-addon-theme';
-import { reactThemeArgsToTemplate, StoryObj } from '@cocokits/storybook-addon-theme-react';
+import { StoryObj } from '@cocokits/storybook-addon-theme-react';
 
 export const Color: StoryObj<typeof Textarea> = {
   name: 'Color',
@@ -26,8 +26,8 @@ export const Color: StoryObj<typeof Textarea> = {
                       <FormField>
                         <Label><%= color %></Label>
                         <Textarea
+                          color="<%= color %>"
                           <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
-                          color='<%= color %>'
                         >
                           <%= color %>
                         </Textarea>
@@ -44,20 +44,10 @@ export const Color: StoryObj<typeof Textarea> = {
   },
   render: (args) => (
     <>
-      {(args.cckControl?.themeComponentConfig?.color?.values || []).map((color, index) => (
+      {args.cckControl.themeComponentConfig.color?.values.map((color, index) => (
         <FormField key={index}>
-          <Label>{String(color)}</Label>
-          <Textarea
-            {...reactThemeArgsToTemplate(args)}
-            color={String(color)}
-            placeholder={String(color)}
-            required={args.cckControl.required}
-            disabled={args.cckControl.disabled}
-            invalid={args.cckControl.invalid}
-            autoResize={args.cckControl.autoResize}
-            minRows={args.cckControl.minRows}
-            maxRows={args.cckControl.maxRows}
-          />
+          <Label>{color}</Label>
+          <Textarea color={color} />
         </FormField>
       ))}
     </>
