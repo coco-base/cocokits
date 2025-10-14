@@ -18,12 +18,12 @@ export const Default: StoryObj<typeof Textarea> = {
           filename: 'Source Code',
           language: 'tsx',
           code: `
-                     import { FormField, Label, Textarea } from "@cocokits/react-components";
+            import { FormField, Label, Textarea } from "@cocokits/react-components";
   
             export const MyComponent = () => {
               return (
                 <>
-<FormField>
+            <FormField>
               <% if (label) { %>
                 <Label><%= label %></Label>
               <% } %>
