@@ -53,7 +53,7 @@ export const OptionGroup: StoryObj<SelectComponent> = {
       ...args,
     },
     template: `
-      <cck-form-field style="width: 100%">
+      <cck-form-field>
         <cck-label>Favorite Food</cck-label>
         <cck-select [multiple]="true" placeholder="Favorite Food">
           <cck-option-group label="Fast Foods">

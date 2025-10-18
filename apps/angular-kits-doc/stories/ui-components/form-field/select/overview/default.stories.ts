@@ -57,7 +57,7 @@ export const Default: StoryObj<SelectComponent> = {
       ...args,
     },
     template: `
-       <cck-form-field style="width: 100%">
+       <cck-form-field>
         @if(cckControl.label) {
           <cck-label>{{cckControl.label}}</cck-label>
         }
