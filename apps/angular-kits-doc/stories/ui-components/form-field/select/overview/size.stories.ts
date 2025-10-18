@@ -21,7 +21,6 @@ export const Size: StoryObj<SelectComponent> = {
           code: `
             <% themeComponentConfig.size.values.map(size => { %>
 
-              <!-- <%= size %> -->
               <cck-form-field
                 size="<%= size %>"
                 <% if (typeof type !== 'undefined') { %> type='<%= type %>' <% } %>
@@ -46,9 +45,9 @@ export const Size: StoryObj<SelectComponent> = {
     },
     template: `
       @for (size of cckControl.themeComponentConfig.size.values; let col = $index; track size) {
-        <cck-form-field style="width: 100%">
+        <cck-form-field [size]="size">
           <cck-label>Select - {{size}}</cck-label>
-          <cck-select placeholder="Favorite food" [size]="size" [type]="cckControl.type">
+          <cck-select placeholder="Favorite food"  [type]="cckControl.type">
             <cck-option value="Steak">Steak</cck-option>
             <cck-option value="Pizza">Pizza</cck-option>
             <cck-option value="Burger">Burger</cck-option>

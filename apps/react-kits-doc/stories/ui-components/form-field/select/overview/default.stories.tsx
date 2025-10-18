@@ -70,7 +70,7 @@ export const Default: StoryObj<typeof Select> = {
     },
   },
   render: (args) => (
-    <FormField style={{ minWidth: '200px' }}>
+    <FormField>
       {args.cckControl.label && <Label>{args.cckControl.label}</Label>}
       <Select
         {...reactThemeArgsToTemplate(args)}
