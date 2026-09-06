@@ -1,0 +1,4 @@
+{
+  "font-family-sans": { "$type": "fontFamily", "$value": "Inter" },
+  "font-family-mono": { "$type": "fontFamily", "$value": "JetBrains Mono" }
+}

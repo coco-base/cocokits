@@ -19,5 +19,5 @@ export class MenuComponent extends _UiBaseComponent<'menu'> {
   /**
    * Close the menu on click any menu options.
    */
-  closeOnSelectItem: InputSignal<boolean> = input(false);
+  closeOnSelectItem: InputSignal<boolean> = input(true);
 }

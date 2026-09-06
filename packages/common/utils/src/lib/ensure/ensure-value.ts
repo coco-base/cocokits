@@ -28,6 +28,10 @@ export function hasValue(value: any): boolean {
   if (isNullish(value)) {
     return false;
   }
+  // Dates should be considered meaningful values if valid
+  if (value instanceof Date) {
+    return !isNaN(value.getTime());
+  }
   if (isString(value)) {
     return value.trim() !== '';
   }

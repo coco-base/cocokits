@@ -1,11 +1,14 @@
-<table [ngClass]="classNames().table" (click)="onClick()">
+<!-- Just for test -->
+<ng-content></ng-content>
+
+<table [ngClass]="classNames().table">
 
   <thead>
     <ng-container *ngTemplateOutlet="tableHeader()"/>
   </thead>
 
   <tbody>
-    @for (row of dataSource.data(); track row; let i = $index) {
+    @for (row of (dataSource.change$ | async)?.data; track row; let i = $index) {
       <ng-container *ngTemplateOutlet="tableBody(); context: {
         $implicit: row,
         data: row,

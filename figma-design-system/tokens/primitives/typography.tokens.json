@@ -1,0 +1,60 @@
+{
+  "$description": "Typography primitive scale — raw font-size, font-weight, line-height, letter-spacing and paragraph-spacing values. No modes. Referenced by Semantic Typography. In Figma each group becomes a variable group using '/' separator (e.g. font-size/2xs).",
+
+  "font-size": {
+    "$description": "Fluid type scale from 2xs (10px) to 7xl (72px)",
+    "2xs": { "$type": "dimension", "$value": "10px" },
+    "xs":  { "$type": "dimension", "$value": "12px" },
+    "sm":  { "$type": "dimension", "$value": "14px" },
+    "md":  { "$type": "dimension", "$value": "16px" },
+    "lg":  { "$type": "dimension", "$value": "18px" },
+    "xl":  { "$type": "dimension", "$value": "20px" },
+    "2xl": { "$type": "dimension", "$value": "24px" },
+    "3xl": { "$type": "dimension", "$value": "30px" },
+    "4xl": { "$type": "dimension", "$value": "36px" },
+    "5xl": { "$type": "dimension", "$value": "48px" },
+    "6xl": { "$type": "dimension", "$value": "60px" },
+    "7xl": { "$type": "dimension", "$value": "72px" }
+  },
+
+  "font-weight": {
+    "$description": "Standard font weight scale from thin (100) to black (900)",
+    "thin":       { "$type": "fontWeight", "$value": 100 },
+    "extralight": { "$type": "fontWeight", "$value": 200 },
+    "light":      { "$type": "fontWeight", "$value": 300 },
+    "regular":    { "$type": "fontWeight", "$value": 400 },
+    "medium":     { "$type": "fontWeight", "$value": 500 },
+    "semibold":   { "$type": "fontWeight", "$value": 600 },
+    "bold":       { "$type": "fontWeight", "$value": 700 },
+    "extrabold":  { "$type": "fontWeight", "$value": 800 },
+    "black":      { "$type": "fontWeight", "$value": 900 }
+  },
+
+  "line-height": {
+    "$description": "Unitless multipliers — multiply by font-size to get actual line height",
+    "none":    { "$type": "number", "$value": 1.0 },
+    "tight":   { "$type": "number", "$value": 1.25 },
+    "snug":    { "$type": "number", "$value": 1.375 },
+    "normal":  { "$type": "number", "$value": 1.5 },
+    "relaxed": { "$type": "number", "$value": 1.625 },
+    "loose":   { "$type": "number", "$value": 2.0 }
+  },
+
+  "letter-spacing": {
+    "$description": "Em-based letter spacing values",
+    "tighter": { "$type": "dimension", "$value": "-0.05em" },
+    "tight":   { "$type": "dimension", "$value": "-0.025em" },
+    "normal":  { "$type": "dimension", "$value": "0em" },
+    "wide":    { "$type": "dimension", "$value": "0.025em" },
+    "wider":   { "$type": "dimension", "$value": "0.05em" },
+    "widest":  { "$type": "dimension", "$value": "0.1em" }
+  },
+
+  "paragraph-spacing": {
+    "$description": "Space added after a paragraph block",
+    "none": { "$type": "dimension", "$value": "0px" },
+    "sm":   { "$type": "dimension", "$value": "8px" },
+    "md":   { "$type": "dimension", "$value": "16px" },
+    "lg":   { "$type": "dimension", "$value": "24px" }
+  }
+}

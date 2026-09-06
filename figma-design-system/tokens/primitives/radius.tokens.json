@@ -1,0 +1,11 @@
+{
+  "radius-none": { "$type": "dimension", "$value": "0px" },
+  "radius-xs":   { "$type": "dimension", "$value": "2px" },
+  "radius-sm":   { "$type": "dimension", "$value": "4px" },
+  "radius-md":   { "$type": "dimension", "$value": "6px" },
+  "radius-lg":   { "$type": "dimension", "$value": "8px" },
+  "radius-xl":   { "$type": "dimension", "$value": "12px" },
+  "radius-2xl":  { "$type": "dimension", "$value": "16px" },
+  "radius-3xl":  { "$type": "dimension", "$value": "24px" },
+  "radius-full": { "$type": "dimension", "$value": "9999px" }
+}

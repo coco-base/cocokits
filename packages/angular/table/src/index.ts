@@ -1,4 +1,6 @@
 export * from './lib/table/table.component';
+export * from './lib/header/column-sort.component';
+
 export * from './lib/table.model';
 export * from './lib/table-data-source.store';
 export * from './lib/filter.types';

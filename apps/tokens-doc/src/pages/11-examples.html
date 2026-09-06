@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Examples — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Token breakdowns for Button, Toggle, Checkbox, and Tab. See exactly how each component uses Size, Structure, and the shared Color collection in practice.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="Component Examples — CocoKits Token Architecture">
+  <meta property="og:description" content="Token breakdowns for Button, Toggle, Checkbox, and Tab. See exactly how each component uses Size, Structure, and the shared Color collection in practice.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/11-examples.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Component Examples — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Token breakdowns for Button, Toggle, Checkbox, and Tab. See exactly how each component uses Size, Structure, and the shared Color collection in practice.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/11-examples.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">11</div>
+      <div class="hero-content">
+        <div class="hero-badge">Reference</div>
+        <h1>Component Examples</h1>
+        <p class="hero-desc">Concrete examples for Button, Toggle, Checkbox, and Tab — showing which token roles each type uses and how to implement them in SCSS.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <h2>11.1 Button</h2>
+      <p>Button has 4 types. Each uses a different subset of the 6 color roles from the <code>Color / Active</code> collection.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Type</th><th>color</th><th>on-color</th><th>container</th><th>on-container</th><th>outline</th><th>focus</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>primary</strong></td><td>✓ bg</td><td>✓ text</td><td>–</td><td>–</td><td>–</td><td>✓ focus</td></tr>
+            <tr><td><strong>outline</strong></td><td>–</td><td>–</td><td>–</td><td>✓ text</td><td>✓ border</td><td>✓ focus</td></tr>
+            <tr><td><strong>light</strong></td><td>–</td><td>–</td><td>✓ bg</td><td>✓ text</td><td>–</td><td>✓ focus</td></tr>
+            <tr><td><strong>basic</strong></td><td>–</td><td>–</td><td>–</td><td>✓ text</td><td>–</td><td>✓ focus</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Size Tokens</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>sm</th><th>md</th><th>lg</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>button-height</code></td><td>32px</td><td>40px</td><td>48px</td></tr>
+            <tr><td><code>button-padding-x</code></td><td>8px</td><td>16px</td><td>16px</td></tr>
+            <tr><td><code>button-font-size</code></td><td>14px</td><td>14px</td><td>16px</td></tr>
+            <tr><td><code>button-icon-size</code></td><td>16px</td><td>20px</td><td>20px</td></tr>
+            <tr><td><code>button-gap</code></td><td>4px</td><td>8px</td><td>8px</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>SCSS Implementation Sketch</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">SCSS — Button component</span>
+          <button class="copy-btn"><span class="copy-label">Copy</span></button>
+        </div>
+        <pre><code><span class="s-comment">// Color classes (one per family)</span>
+<span class="s-class">.cck-button__color--brand</span>    { <span class="s-prop">--cck-color</span>: <span class="s-value">var(--brand-color)</span>; <span class="s-comment">/* ...all 6 */</span> }
+<span class="s-class">.cck-button__color--danger</span>   { <span class="s-prop">--cck-color</span>: <span class="s-value">var(--danger-color)</span>; <span class="s-comment">/* ...all 6 */</span> }
+
+<span class="s-comment">// Type classes (one per type — reads color class vars)</span>
+<span class="s-class">.cck-button__type--primary</span>:not(:disabled) {
+  <span class="s-prop">background-color</span>: <span class="s-value">var(--cck-color)</span>;
+  <span class="s-prop">color</span>:            <span class="s-value">var(--cck-on-color)</span>;
+  <span class="s-prop">height</span>:           <span class="s-value">var(--button-height)</span>;
+  <span class="s-prop">padding</span>:          <span class="s-value">0 var(--button-padding-x)</span>;
+  <span class="s-prop">font-size</span>:        <span class="s-value">var(--button-font-size)</span>;
+  <span class="s-prop">border-radius</span>:    <span class="s-value">var(--button-radius)</span>;
+  &:focus-visible   { <span class="s-prop">box-shadow</span>: <span class="s-value">0 0 0 3px var(--cck-focus)</span>; }
+}
+
+<span class="s-class">.cck-button__type--outline</span>:not(:disabled) {
+  <span class="s-prop">background-color</span>: <span class="s-value">transparent</span>;
+  <span class="s-prop">color</span>:            <span class="s-value">var(--cck-on-container)</span>;
+  <span class="s-prop">border</span>:           <span class="s-value">1px solid var(--cck-outline)</span>;
+  &:focus-visible   { <span class="s-prop">box-shadow</span>: <span class="s-value">0 0 0 3px var(--cck-focus)</span>; }
+}
+
+<span class="s-comment">// Disabled (structural — same for all types)</span>
+<span class="s-class">.cck-button</span>:disabled {
+  <span class="s-prop">background-color</span>: <span class="s-value">var(--button-disabled-bg)</span>;
+  <span class="s-prop">color</span>:            <span class="s-value">var(--button-disabled-text)</span>;
+  <span class="s-prop">border-color</span>:     <span class="s-value">var(--button-disabled-border)</span>;
+  <span class="s-prop">cursor</span>:           <span class="s-value">not-allowed</span>;
+}</code></pre>
+      </div>
+
+      <h2>11.2 Toggle</h2>
+      <p>Toggle uses only <code>color</code> (and optionally <code>focus</code>) from the shared collection. All other colors are structural.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>State</th><th>Track color</th><th>Thumb color</th><th>Source</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Unchecked</td><td><code>--toggle-track-off</code> (gray)</td><td><code>--toggle-thumb</code> (white)</td><td>Structure collection</td></tr>
+            <tr><td>Checked</td><td><code>var(--cck-color)</code> (brand/danger/…)</td><td><code>--toggle-thumb</code> (white)</td><td>Color/Active + Structure</td></tr>
+            <tr><td>Disabled (any)</td><td><code>--toggle-track-disabled</code></td><td><code>--toggle-thumb-disabled</code></td><td>Structure collection</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>11.3 Checkbox</h2>
+      <p>Checkbox uses <code>color</code> and <code>focus</code> from Color/Active. All other colors (border when unchecked, checkmark itself) are structural.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Element</th><th>State</th><th>Color Source</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Box border</td><td>unchecked</td><td><code>--checkbox-border-off</code> → <code>{border-default}</code> (Structural)</td></tr>
+            <tr><td>Box background</td><td>unchecked</td><td><code>--checkbox-bg-off</code> → transparent (Structural)</td></tr>
+            <tr><td>Box border + bg</td><td>checked</td><td><code>var(--cck-color)</code> (Color/Active)</td></tr>
+            <tr><td>Checkmark icon</td><td>checked</td><td><code>--checkbox-checkmark</code> → white (Structural)</td></tr>
+            <tr><td>Focus ring</td><td>focused</td><td><code>var(--cck-focus)</code> (Color/Active)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>11.4 Tab</h2>
+      <p>Tab has 4 types: <code>fill</code>, <code>border</code>, <code>basic</code>, and <code>line</code>. Each uses different roles:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Active bg</th><th>Active text</th><th>Indicator</th><th>Focus</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>fill</strong></td><td><code>color</code></td><td><code>on-color</code></td><td>–</td><td><code>focus</code></td></tr>
+            <tr><td><strong>border</strong></td><td><code>container</code></td><td><code>on-container</code></td><td><code>outline</code></td><td><code>focus</code></td></tr>
+            <tr><td><strong>basic</strong></td><td>transparent</td><td><code>on-container</code></td><td>–</td><td><code>focus</code></td></tr>
+            <tr><td><strong>line</strong></td><td>transparent</td><td><code>on-container</code></td><td><code>outline</code> (underline)</td><td><code>focus</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>The Pattern is Consistent</strong>
+          Every component follows the same two-class approach. Add the color class, add the type class. That's it. The same SCSS pattern works for Button, Toggle, Checkbox, Tab, Badge, Icon — every component.
+        </div>
+      </div>
+
+      <div class="page-nav">
+        <a href="10-token-chains.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">Token Chain Example</span>
+        </a>
+        <a href="12-designers.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">Next →</span>
+          <span class="page-nav-label">For Designers</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

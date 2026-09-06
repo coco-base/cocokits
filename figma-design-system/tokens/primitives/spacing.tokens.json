@@ -1,0 +1,17 @@
+{
+  "$description": "Spacing Normal mode — default density scale. 0→0, 1→1px, 2→2px, 3→4px, 4→8px, then expanding: 12, 16, 24, 32, 48, 64, 96, 128. Fine-grained at small end, expands at large end. Used ONLY for margin, padding, and gap.",
+
+  "spacing-0":  { "$type": "dimension", "$value": "0px" },
+  "spacing-1":  { "$type": "dimension", "$value": "{size-1}" },
+  "spacing-2":  { "$type": "dimension", "$value": "{size-2}" },
+  "spacing-3":  { "$type": "dimension", "$value": "{size-4}" },
+  "spacing-4":  { "$type": "dimension", "$value": "{size-8}" },
+  "spacing-5":  { "$type": "dimension", "$value": "{size-12}" },
+  "spacing-6":  { "$type": "dimension", "$value": "{size-16}" },
+  "spacing-7":  { "$type": "dimension", "$value": "{size-24}" },
+  "spacing-8":  { "$type": "dimension", "$value": "{size-32}" },
+  "spacing-9":  { "$type": "dimension", "$value": "{size-48}" },
+  "spacing-10": { "$type": "dimension", "$value": "{size-64}" },
+  "spacing-11": { "$type": "dimension", "$value": "{size-96}" },
+  "spacing-12": { "$type": "dimension", "$value": "{size-128}" }
+}

@@ -1,0 +1,76 @@
+{
+  "$description": "Semantic color tokens — Dark mode. All values alias Brand Palette tokens using dot notation. Same structure as Light mode but with inverted/adjusted values for dark backgrounds.",
+
+  "color": {
+    "brand":   { "$type": "color", "$value": "{brand.light}"   },
+    "info":    { "$type": "color", "$value": "{info.light}"    },
+    "success": { "$type": "color", "$value": "{success.light}" },
+    "warning": { "$type": "color", "$value": "{warning.light}" },
+    "danger":  { "$type": "color", "$value": "{danger.light}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.light}"},
+    "neutral": { "$type": "color", "$value": "{neutral.light}" }
+  },
+  "on-color": {
+    "brand":   { "$type": "color", "$value": "{brand.darker}"   },
+    "info":    { "$type": "color", "$value": "{info.darker}"    },
+    "success": { "$type": "color", "$value": "{success.darker}" },
+    "warning": { "$type": "color", "$value": "{warning.darker}" },
+    "danger":  { "$type": "color", "$value": "{danger.darker}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.darker}"},
+    "neutral": { "$type": "color", "$value": "{neutral.darker}" }
+  },
+  "container": {
+    "brand":   { "$type": "color", "$value": "{brand.dark}"   },
+    "info":    { "$type": "color", "$value": "{info.dark}"    },
+    "success": { "$type": "color", "$value": "{success.dark}" },
+    "warning": { "$type": "color", "$value": "{warning.dark}" },
+    "danger":  { "$type": "color", "$value": "{danger.dark}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.dark}"},
+    "neutral": { "$type": "color", "$value": "{neutral.dark}" }
+  },
+  "on-container": {
+    "brand":   { "$type": "color", "$value": "{brand.lighter}"   },
+    "info":    { "$type": "color", "$value": "{info.lighter}"    },
+    "success": { "$type": "color", "$value": "{success.lighter}" },
+    "warning": { "$type": "color", "$value": "{warning.lighter}" },
+    "danger":  { "$type": "color", "$value": "{danger.lighter}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.lighter}"},
+    "neutral": { "$type": "color", "$value": "{neutral.lighter}" }
+  },
+  "outline": {
+    "brand":   { "$type": "color", "$value": "{brand.base}"   },
+    "info":    { "$type": "color", "$value": "{info.base}"    },
+    "success": { "$type": "color", "$value": "{success.base}" },
+    "warning": { "$type": "color", "$value": "{warning.base}" },
+    "danger":  { "$type": "color", "$value": "{danger.base}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.base}"},
+    "neutral": { "$type": "color", "$value": "{neutral.base}" }
+  },
+  "focus": {
+    "brand":   { "$type": "color", "$value": "{brand.light}"   },
+    "info":    { "$type": "color", "$value": "{info.light}"    },
+    "success": { "$type": "color", "$value": "{success.light}" },
+    "warning": { "$type": "color", "$value": "{warning.light}" },
+    "danger":  { "$type": "color", "$value": "{danger.light}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.light}"},
+    "neutral": { "$type": "color", "$value": "{neutral.light}" }
+  },
+
+  "surface": {
+    "default": { "$type": "color", "$value": "{contrast.darker}" },
+    "muted":   { "$type": "color", "$value": "{contrast.dark}"   }
+  },
+  "on-surface": {
+    "default": { "$type": "color", "$value": "{neutral.lighter}" },
+    "muted":   { "$type": "color", "$value": "{neutral.light}"   }
+  },
+  "border": {
+    "default": { "$type": "color", "$value": "{contrast.base}"  },
+    "strong":  { "$type": "color", "$value": "{contrast.light}" }
+  },
+  "disabled": {
+    "surface":    { "$type": "color", "$value": "{contrast.dark}" },
+    "on-surface": { "$type": "color", "$value": "{contrast.base}" },
+    "border":     { "$type": "color", "$value": "{contrast.base}" }
+  }
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Frequently asked questions about the CocoKits token system: why 6 shared tokens, dark mode implementation, disabled states, Figma debugging, and more.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="FAQ — CocoKits Token Architecture">
+  <meta property="og:description" content="Frequently asked questions about the CocoKits token system: why 6 shared tokens, dark mode implementation, disabled states, Figma debugging, and more.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/14-faq.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FAQ — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Frequently asked questions about the CocoKits token system: why 6 shared tokens, dark mode implementation, disabled states, Figma debugging, and more.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/14-faq.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">14</div>
+      <div class="hero-content">
+        <div class="hero-badge">Guides</div>
+        <h1>FAQ</h1>
+        <p class="hero-desc">Answers to the most common questions about the CocoKits token architecture — for designers and developers alike.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <div class="faq-q">Why one shared Color/Active collection instead of separate color collections per component?</div>
+          <div class="faq-a">
+            If every component had its own color collection, adding a new color family would require changes in 15+ places. The shared <code>Color/Active</code> collection means <strong>one change</strong> affects all components. It also ensures perfect color consistency — Brand Blue is literally the same token everywhere, not 15 different tokens that happen to look similar.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Why only 6 tokens in Color/Active instead of more?</div>
+          <div class="faq-a">
+            We audited every component and found that no component needs more than 6 distinct color roles. Adding more tokens would create "unused slots" in most components, and coupling between the design and development teams about which slot means what. The 6 roles (<code>color</code>, <code>on-color</code>, <code>container</code>, <code>on-container</code>, <code>outline</code>, <code>focus</code>) are sufficient to describe any interactive component's visual behavior.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Some components seem to use unusual Color/Active tokens. Is that intentional?</div>
+          <div class="faq-a">
+            Yes. For example, a "basic" button uses <code>on-container</code> for its text color even though it has no container background. This is intentional — <code>on-container</code> is the right "foreground color against the page surface" role for the brand family. Using it ensures the text color is always readable and on-brand, while remaining consistent with how other types use the same slot.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">What does the "neutral" color family look like? Isn't it just gray?</div>
+          <div class="faq-a">
+            Neutral can have a slight color temperature influenced by the brand. With Brand Palette's <code>neutral-dark</code> / <code>neutral-light</code> tokens, a brand can shift its neutral toward warm beige or cool blue-gray. This gives the entire design a coherent atmosphere, not just the accent colors.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Why are states (hover, disabled) in Variant Properties but Color and Size in Modes?</div>
+          <div class="faq-a">
+            States <em>change the component's structure</em> — a disabled button might hide a loading indicator, or a hover state adds an overlay. That structural change is what Variants are for. Color and Size only change <em>token values</em>, not the structure. Modes are the Figma mechanism for changing token values without touching the component's layer structure.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">How do I handle typography scaling in Figma without breaking the architecture?</div>
+          <div class="faq-a">
+            Use Figma Text Styles that reference variables internally. Apply the style to the text node — don't bind a font-size variable directly to the text node, as it would conflict with the style. When the <code>Button/Size</code> mode changes to "lg", the <code>Button/Label</code> text style (which internally references <code>button-font-size</code>) automatically picks up the larger value.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Can I use this token system without Figma?</div>
+          <div class="faq-a">
+            Yes. The CSS custom property output from the token generator works independently of Figma. If you're a developer working code-first, you can define your token values directly in CSS/SCSS. The three-tier architecture is a naming and organization convention that's equally valid in pure code.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">How does dark mode work in code?</div>
+          <div class="faq-a">
+            Add <code>data-cck-theme="dark"</code> to the <code>&lt;html&gt;</code> element (or any ancestor). The CSS selector <code>[data-cck-theme="dark"]</code> overrides all <code>--semantic-*</code> tokens. Since components only reference semantic tokens (never primitives), they automatically adapt. You don't need to change any component classes.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">How should I apply disabled states in CSS?</div>
+          <div class="faq-a">
+            Use the native <code>:disabled</code> pseudo-class along with structural tokens: <code>.cck-button:disabled { background-color: var(--button-disabled-bg); }</code>. Disabled tokens live in the Structure collection and are the same across all color families — disabled styling is structural, not family-specific.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">A child element inside a component isn't responding to color mode changes. Why?</div>
+          <div class="faq-a">
+            Check whether that element's color is bound to a <strong>structural token</strong> instead of a <code>Color/Active</code> token. Structural tokens don't change with color mode — that's by design. For example, the toggle thumb is always white (structural). If you expect it to change, re-evaluate whether it should actually be bound to a family color role.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">In Figma, the mode I set isn't applying to a child component. How do I debug?</div>
+          <div class="faq-a">
+            Walk up the Layers panel. The nearest ancestor with an explicit mode set for that collection wins. If a child component has its own explicit mode set (even at creation time), it will override the parent. To reset it, select the component instance, go to the right panel under "Layer", and set the collection to "(Match parent)".
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Why use a 3-tier system? Why not 2 tiers or 4 tiers?</div>
+          <div class="faq-a">
+            <strong>2 tiers</strong> (raw → component) don't support simultaneous brand + dark mode switching — you'd end up with a combinatorial explosion of collections. <strong>4 tiers</strong> add complexity without additional power — the 3rd tier already decouples everything needed. Three tiers is the minimum necessary for complete independence between brand, theme, component type, and component size.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="page-nav">
+        <a href="13-developers.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">For Developers</span>
+        </a>
+        <a href="../index.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">↑ Back to Home</span>
+          <span class="page-nav-label">Architecture Overview</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

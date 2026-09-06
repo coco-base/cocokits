@@ -1,0 +1,17 @@
+{
+  "opacity-0":   { "$type": "number", "$value": 0 },
+  "opacity-5":   { "$type": "number", "$value": 0.05 },
+  "opacity-10":  { "$type": "number", "$value": 0.10 },
+  "opacity-20":  { "$type": "number", "$value": 0.20 },
+  "opacity-25":  { "$type": "number", "$value": 0.25 },
+  "opacity-30":  { "$type": "number", "$value": 0.30 },
+  "opacity-40":  { "$type": "number", "$value": 0.40 },
+  "opacity-50":  { "$type": "number", "$value": 0.50 },
+  "opacity-60":  { "$type": "number", "$value": 0.60 },
+  "opacity-70":  { "$type": "number", "$value": 0.70 },
+  "opacity-75":  { "$type": "number", "$value": 0.75 },
+  "opacity-80":  { "$type": "number", "$value": 0.80 },
+  "opacity-90":  { "$type": "number", "$value": 0.90 },
+  "opacity-95":  { "$type": "number", "$value": 0.95 },
+  "opacity-100": { "$type": "number", "$value": 1 }
+}

@@ -1,0 +1,11 @@
+{
+  "$description": "Rose brand — Red/Pink-dominant palette. Flower: Rose. Dominant UX color: Red. All values alias Color Palette tokens via dot notation.",
+
+  "brand":    { "lighter": { "$type": "color", "$value": "{rose.50}"      }, "light": { "$type": "color", "$value": "{rose.200}"     }, "base": { "$type": "color", "$value": "{rose.600}"     }, "dark": { "$type": "color", "$value": "{rose.800}"     }, "darker": { "$type": "color", "$value": "{rose.950}"     } },
+  "info":     { "lighter": { "$type": "color", "$value": "{cobalt.50}"    }, "light": { "$type": "color", "$value": "{cobalt.200}"   }, "base": { "$type": "color", "$value": "{cobalt.600}"   }, "dark": { "$type": "color", "$value": "{cobalt.800}"   }, "darker": { "$type": "color", "$value": "{cobalt.950}"   } },
+  "success":  { "lighter": { "$type": "color", "$value": "{fern.50}"      }, "light": { "$type": "color", "$value": "{fern.200}"     }, "base": { "$type": "color", "$value": "{fern.600}"     }, "dark": { "$type": "color", "$value": "{fern.800}"     }, "darker": { "$type": "color", "$value": "{fern.950}"     } },
+  "warning":  { "lighter": { "$type": "color", "$value": "{saffron.50}"   }, "light": { "$type": "color", "$value": "{saffron.200}"  }, "base": { "$type": "color", "$value": "{saffron.500}"  }, "dark": { "$type": "color", "$value": "{saffron.800}"  }, "darker": { "$type": "color", "$value": "{saffron.950}"  } },
+  "danger":   { "lighter": { "$type": "color", "$value": "{scarlet.50}"   }, "light": { "$type": "color", "$value": "{scarlet.200}"  }, "base": { "$type": "color", "$value": "{scarlet.600}"  }, "dark": { "$type": "color", "$value": "{scarlet.800}"  }, "darker": { "$type": "color", "$value": "{scarlet.950}"  } },
+  "contrast": { "lighter": { "$type": "color", "$value": "{graphite.50}"  }, "light": { "$type": "color", "$value": "{graphite.200}" }, "base": { "$type": "color", "$value": "{graphite.700}" }, "dark": { "$type": "color", "$value": "{graphite.900}" }, "darker": { "$type": "color", "$value": "{graphite.950}" } },
+  "neutral":  { "lighter": { "$type": "color", "$value": "{sand.50}"      }, "light": { "$type": "color", "$value": "{sand.200}"     }, "base": { "$type": "color", "$value": "{sand.500}"     }, "dark": { "$type": "color", "$value": "{sand.800}"     }, "darker": { "$type": "color", "$value": "{sand.950}"     } }
+}

@@ -1,0 +1,14 @@
+﻿{
+  "$description": "Dim mode — Softer version of dark. Surfaces use mid-dark tones (contrast/dark not contrast/darker), reducing eye strain for extended nighttime use. Popular in apps like Twitter/X. Colors remain vibrant but surfaces and borders have lower contrast than full Dark mode. Best for: long reading sessions at night.",
+
+  "color":        { "brand": "{brand.light}",    "info": "{info.light}",    "success": "{success.light}",  "warning": "{warning.light}",  "danger": "{danger.light}",  "contrast": "{contrast.light}", "neutral": "{neutral.light}" },
+  "on-color":     { "brand": "{brand.darker}",   "info": "{info.darker}",   "success": "{success.darker}", "warning": "{warning.darker}", "danger": "{danger.darker}", "contrast": "{contrast.lighter}", "neutral": "{neutral.lighter}" },
+  "container":    { "brand": "{brand.base}",     "info": "{info.base}",     "success": "{success.base}",   "warning": "{warning.base}",   "danger": "{danger.base}",   "contrast": "{contrast.base}",  "neutral": "{neutral.base}" },
+  "on-container": { "brand": "{brand.lighter}",  "info": "{info.lighter}",  "success": "{success.lighter}","warning": "{warning.lighter}", "danger": "{danger.lighter}", "contrast": "{contrast.lighter}", "neutral": "{neutral.lighter}" },
+  "outline":      { "brand": "{brand.dark}",     "info": "{info.dark}",     "success": "{success.dark}",   "warning": "{warning.dark}",   "danger": "{danger.dark}",   "contrast": "{contrast.dark}",  "neutral": "{neutral.dark}" },
+  "focus":        { "brand": "{brand.light}",    "info": "{info.light}",    "success": "{success.light}",  "warning": "{warning.light}",  "danger": "{danger.light}",  "contrast": "{contrast.light}", "neutral": "{neutral.light}" },
+  "surface":      { "default": "{contrast.dark}", "muted": "{contrast.base}" },
+  "on-surface":   { "default": "{neutral.lighter}", "muted": "{neutral.light}" },
+  "border":       { "default": "{contrast.base}", "strong": "{contrast.light}" },
+  "disabled":     { "surface": "{contrast.base}", "on-surface": "{contrast.light}", "border": "{contrast.light}" }
+}

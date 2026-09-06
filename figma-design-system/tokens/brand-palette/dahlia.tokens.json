@@ -1,0 +1,11 @@
+{
+  "$description": "Dahlia brand — Purple-dominant palette. Flower: Dahlia. Dominant UX color: Purple. All values alias Color Palette tokens via dot notation.",
+
+  "brand":    { "lighter": { "$type": "color", "$value": "{violet.50}"    }, "light": { "$type": "color", "$value": "{violet.200}"   }, "base": { "$type": "color", "$value": "{violet.600}"   }, "dark": { "$type": "color", "$value": "{violet.800}"   }, "darker": { "$type": "color", "$value": "{violet.950}"   } },
+  "info":     { "lighter": { "$type": "color", "$value": "{azure.50}"     }, "light": { "$type": "color", "$value": "{azure.200}"    }, "base": { "$type": "color", "$value": "{azure.600}"    }, "dark": { "$type": "color", "$value": "{azure.800}"    }, "darker": { "$type": "color", "$value": "{azure.950}"    } },
+  "success":  { "lighter": { "$type": "color", "$value": "{moss.50}"      }, "light": { "$type": "color", "$value": "{moss.200}"     }, "base": { "$type": "color", "$value": "{moss.600}"     }, "dark": { "$type": "color", "$value": "{moss.800}"     }, "darker": { "$type": "color", "$value": "{moss.950}"     } },
+  "warning":  { "lighter": { "$type": "color", "$value": "{marigold.50}"  }, "light": { "$type": "color", "$value": "{marigold.200}" }, "base": { "$type": "color", "$value": "{marigold.500}" }, "dark": { "$type": "color", "$value": "{marigold.800}" }, "darker": { "$type": "color", "$value": "{marigold.950}" } },
+  "danger":   { "lighter": { "$type": "color", "$value": "{ember.50}"     }, "light": { "$type": "color", "$value": "{ember.200}"    }, "base": { "$type": "color", "$value": "{ember.600}"    }, "dark": { "$type": "color", "$value": "{ember.800}"    }, "darker": { "$type": "color", "$value": "{ember.950}"    } },
+  "contrast": { "lighter": { "$type": "color", "$value": "{slate.50}"     }, "light": { "$type": "color", "$value": "{slate.200}"    }, "base": { "$type": "color", "$value": "{slate.700}"    }, "dark": { "$type": "color", "$value": "{slate.900}"    }, "darker": { "$type": "color", "$value": "{slate.950}"    } },
+  "neutral":  { "lighter": { "$type": "color", "$value": "{taupe.50}"     }, "light": { "$type": "color", "$value": "{taupe.200}"    }, "base": { "$type": "color", "$value": "{taupe.500}"    }, "dark": { "$type": "color", "$value": "{taupe.800}"    }, "darker": { "$type": "color", "$value": "{taupe.950}"    } }
+}

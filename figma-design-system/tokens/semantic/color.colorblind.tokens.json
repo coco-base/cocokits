@@ -1,0 +1,14 @@
+﻿{
+  "$description": "Colorblind mode — Mild accessibility adjustment for protanopia/deuteranopia. Keeps correct palette semantics (green=success, red=danger) but shifts their TONE: success uses lighter/cooler shades and danger uses darker/warmer shades. This creates clear luminance contrast between them so they are visually distinct even without hue perception. All other roles identical to Light mode. Best for: inclusive design, public-facing apps.",
+
+  "color":        { "brand": "{brand.base}",     "info": "{info.base}",     "success": "{success.light}",   "warning": "{warning.base}",  "danger": "{danger.dark}",    "contrast": "{contrast.base}",  "neutral": "{neutral.base}" },
+  "on-color":     { "brand": "{white}",           "info": "{white}",         "success": "{success.darker}",  "warning": "{contrast.dark}", "danger": "{white}",           "contrast": "{white}",          "neutral": "{white}" },
+  "container":    { "brand": "{brand.lighter}",   "info": "{info.lighter}",  "success": "{success.lighter}", "warning": "{warning.lighter}","danger": "{danger.light}",   "contrast": "{contrast.lighter}","neutral": "{neutral.lighter}" },
+  "on-container": { "brand": "{brand.darker}",    "info": "{info.darker}",   "success": "{success.dark}",    "warning": "{warning.darker}", "danger": "{danger.darker}",  "contrast": "{contrast.darker}","neutral": "{neutral.darker}" },
+  "outline":      { "brand": "{brand.light}",     "info": "{info.light}",    "success": "{success.light}",   "warning": "{warning.light}", "danger": "{danger.dark}",    "contrast": "{contrast.light}", "neutral": "{neutral.light}" },
+  "focus":        { "brand": "{brand.base}",      "info": "{info.base}",     "success": "{success.light}",   "warning": "{warning.base}",  "danger": "{danger.dark}",    "contrast": "{contrast.base}",  "neutral": "{neutral.base}" },
+  "surface":      { "default": "{white}", "muted": "{neutral.lighter}" },
+  "on-surface":   { "default": "{contrast.dark}", "muted": "{neutral.base}" },
+  "border":       { "default": "{neutral.light}", "strong": "{neutral.base}" },
+  "disabled":     { "surface": "{neutral.lighter}", "on-surface": "{neutral.light}", "border": "{neutral.light}" }
+}

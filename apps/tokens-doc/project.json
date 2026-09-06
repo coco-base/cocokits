@@ -1,0 +1,10 @@
+{
+  "name": "tokens-doc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/tokens-doc/src",
+  "projectType": "application",
+  "tags": ["type:app"],
+  "// targets": "to see all targets run: nx show project tokens-doc --web",
+  "targets": {
+  }
+}

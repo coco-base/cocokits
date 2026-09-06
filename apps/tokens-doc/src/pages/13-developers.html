@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Developers CSS and SCSS Workflow — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Developer guide: CSS custom property architecture, class naming conventions, token generator output formats, and steps for adding new color families and components.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="For Developers CSS and SCSS Workflow — CocoKits Token Architecture">
+  <meta property="og:description" content="Developer guide: CSS custom property architecture, class naming conventions, token generator output formats, and steps for adding new color families and components.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/13-developers.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="For Developers CSS and SCSS Workflow — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Developer guide: CSS custom property architecture, class naming conventions, token generator output formats, and steps for adding new color families and components.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/13-developers.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">13</div>
+      <div class="hero-content">
+        <div class="hero-badge">Guides</div>
+        <h1>For Developers</h1>
+        <p class="hero-desc">CSS custom property architecture, class naming conventions, how the token generator works, and step-by-step guides for adding families and components.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <h2>13.1 CSS Custom Property Architecture</h2>
+      <p>The token generator exports three layers of CSS custom properties, applied at different scopes:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">CSS — :root (Tier 1 + Tier 2 defaults)</span>
+          <button class="copy-btn"><span class="copy-label">Copy</span></button>
+        </div>
+        <pre><code><span class="s-class">:root</span> {
+  <span class="s-comment">/* Tier 1 — Primitives */</span>
+  <span class="s-prop">--purple-600</span>:  <span class="s-value">#9333ea</span>;
+  <span class="s-prop">--gray-50</span>:     <span class="s-value">#f9fafb</span>;
+  <span class="s-prop">--spacing-4</span>:   <span class="s-value">4px</span>;
+  <span class="s-prop">--font-size-sm</span>: <span class="s-value">14px</span>;
+
+  <span class="s-comment">/* Tier 2 — Semantic (Light mode default) */</span>
+  <span class="s-prop">--brand-color</span>:        <span class="s-value">var(--purple-600)</span>;
+  <span class="s-prop">--brand-on-color</span>:     <span class="s-value">#ffffff</span>;
+  <span class="s-prop">--brand-container</span>:    <span class="s-value">var(--purple-100)</span>;
+  <span class="s-prop">--brand-on-container</span>: <span class="s-value">var(--purple-800)</span>;
+  <span class="s-prop">--brand-outline</span>:      <span class="s-value">var(--purple-600)</span>;
+  <span class="s-prop">--brand-focus</span>:        <span class="s-value">rgba(147, 51, 234, 0.4)</span>;
+
+  <span class="s-prop">--surface-default</span>:    <span class="s-value">#ffffff</span>;
+  <span class="s-prop">--on-surface</span>:         <span class="s-value">var(--gray-900)</span>;
+  <span class="s-prop">--disabled-surface</span>:   <span class="s-value">var(--gray-100)</span>;
+}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">CSS — Dark mode override</span>
+          <button class="copy-btn"><span class="copy-label">Copy</span></button>
+        </div>
+        <pre><code><span class="s-class">[data-cck-theme="dark"]</span> {
+  <span class="s-comment">/* Override Tier 2 semantic tokens for dark theme */</span>
+  <span class="s-prop">--brand-color</span>:        <span class="s-value">var(--purple-400)</span>;  <span class="s-comment">/* lighter for dark bg */</span>
+  <span class="s-prop">--brand-on-color</span>:     <span class="s-value">var(--purple-900)</span>;
+  <span class="s-prop">--brand-container</span>:    <span class="s-value">var(--purple-900)</span>;
+  <span class="s-prop">--brand-on-container</span>: <span class="s-value">var(--purple-200)</span>;
+
+  <span class="s-prop">--surface-default</span>:    <span class="s-value">var(--gray-900)</span>;
+  <span class="s-prop">--on-surface</span>:         <span class="s-value">var(--gray-50)</span>;
+  <span class="s-prop">--disabled-surface</span>:   <span class="s-value">var(--gray-800)</span>;
+}</code></pre>
+      </div>
+
+      <h2>13.2 Class Naming Convention</h2>
+      <p>Format: <code>.cck-{component}__{prop}--{value}</code></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Segment</th><th>Meaning</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>cck-</code></td><td>Namespace prefix (CocoKits)</td><td><code>cck-</code></td></tr>
+            <tr><td><code>{component}</code></td><td>Component name, lowercase, hyphenated</td><td><code>button</code>, <code>form-field</code></td></tr>
+            <tr><td><code>__{prop}</code></td><td>BEM element — the property being modified</td><td><code>__color</code>, <code>__type</code>, <code>__size</code></td></tr>
+            <tr><td><code>--{value}</code></td><td>BEM modifier — the value</td><td><code>--brand</code>, <code>--primary</code>, <code>--lg</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">HTML usage examples</span>
+        </div>
+        <pre><code><span class="s-comment">&lt;!-- Brand primary large button --&gt;</span>
+&lt;<span class="s-keyword">button</span> class="<span class="s-string">cck-button
+               cck-button__color--brand
+               cck-button__type--primary
+               cck-button__size--lg</span>"&gt;
+  Save
+&lt;/<span class="s-keyword">button</span>&gt;
+
+<span class="s-comment">&lt;!-- Danger outline medium button --&gt;</span>
+&lt;<span class="s-keyword">button</span> class="<span class="s-string">cck-button
+               cck-button__color--danger
+               cck-button__type--outline
+               cck-button__size--md</span>"&gt;
+  Delete
+&lt;/<span class="s-keyword">button</span>&gt;</code></pre>
+      </div>
+
+      <h2>13.3 Token Generator Outputs</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Output Format</th><th>Use Case</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>SCSS variables (<code>$brand-color: …</code>)</td><td>Sass/SCSS components that reference tokens by name</td></tr>
+            <tr><td>CSS custom properties (<code>--brand-color: …</code>)</td><td>Global CSS file loaded once; all tokens available in browser</td></tr>
+            <tr><td>CSS mixins</td><td>Component stylesheets include size and structural mixins per component</td></tr>
+            <tr><td>TypeScript dictionary</td><td>Type-safe token access in JS/TS code; animation keyframes, dynamic styles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>13.4 Adding a New Color Family</h2>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Add base colors to Brand Palette</strong><br>
+            In each brand mode (Brand-A, Brand-B, …), add a <code>my-family-base</code> and related tokens pointing to primitives.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Add 6 role tokens to Semantic / Color</strong><br>
+            In both Light and Dark modes, add <code>my-family-color</code>, <code>my-family-on-color</code>, <code>my-family-container</code>, <code>my-family-on-container</code>, <code>my-family-outline</code>, <code>my-family-focus</code>.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Add a new mode to Color / Active</strong><br>
+            Name it <code>my-family</code>. Set each of the 6 tokens to point to the corresponding <code>my-family-*</code> semantic token.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Add one CSS class per component</strong><br>
+            <code>.cck-button__color--my-family { --cck-color: var(--my-family-color); /* ...all 6 */ }</code>
+            No other code changes needed — all existing type classes automatically work.
+          </div>
+        </div>
+      </div>
+
+      <h2>13.5 Adding a New Component</h2>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Create <code>{Component}/Size</code> collection in Figma</strong><br>
+            Add sm/md/lg modes. Define all dimension and typography tokens.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Create <code>{Component}/Structure</code> collection</strong><br>
+            Add tokens for fixed colors (disabled states, structural elements). Reference Semantic/Color globals.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Wire family colors to Color / Active</strong><br>
+            Inside the component, bind color-family fills directly to <code>Color/Active → color</code>, <code>container</code>, etc. Do not create new tokens.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Write CSS color + type classes</strong><br>
+            Follow the <code>.cck-{comp}__color--{family}</code> and <code>.cck-{comp}__type--{type}</code> pattern. Each color class sets the 6 <code>--cck-*</code> variables. Each type class reads them.
+          </div>
+        </div>
+      </div>
+
+      <div class="page-nav">
+        <a href="12-designers.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">For Designers</span>
+        </a>
+        <a href="14-faq.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">Next →</span>
+          <span class="page-nav-label">FAQ</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

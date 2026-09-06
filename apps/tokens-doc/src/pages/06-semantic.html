@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tier 2 Semantic Tokens — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Learn about semantic tokens: brand palettes supporting multiple brands, semantic color roles, typography tokens, and spacing abstractions that give primitives meaning.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="Tier 2 Semantic Tokens — CocoKits Token Architecture">
+  <meta property="og:description" content="Learn about semantic tokens: brand palettes supporting multiple brands, semantic color roles, typography tokens, and spacing abstractions that give primitives meaning.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/06-semantic.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tier 2 Semantic Tokens — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Learn about semantic tokens: brand palettes supporting multiple brands, semantic color roles, typography tokens, and spacing abstractions that give primitives meaning.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/06-semantic.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">06</div>
+      <div class="hero-content">
+        <div class="hero-badge" style="background:rgba(97,131,247,.12);border-color:rgba(97,131,247,.25);color:var(--accent)">Tier 2</div>
+        <h1>Semantic Tokens</h1>
+        <p class="hero-desc">Brand palettes, color roles, typography, and spacing — all with meaningful names that describe intent, not appearance.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <h2>6.1 Brand Palette</h2>
+      <p>Figma collection: <code>Brand Palette</code> — Modes: <code>Brand-A</code>, <code>Brand-B</code>, …</p>
+      <p>The Brand Palette is the <strong>first translation layer</strong>. It maps raw primitive colors to brand-specific names. Switching the mode changes which primitive colors the brand tokens point to, instantly re-theming the entire system.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>Mode: Brand-A</th><th>Mode: Brand-B</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>brand-base</code></td><td><code>{purple-600}</code></td><td><code>{teal-400}</code></td><td>Primary brand color</td></tr>
+            <tr><td><code>brand-light</code></td><td><code>{purple-400}</code></td><td><code>{teal-300}</code></td><td>Lighter variant (dark mode use)</td></tr>
+            <tr><td><code>brand-dark</code></td><td><code>{purple-800}</code></td><td><code>{teal-700}</code></td><td>Darker variant</td></tr>
+            <tr><td><code>brand-container-base</code></td><td><code>{purple-100}</code></td><td><code>{teal-100}</code></td><td>Soft tinted background</td></tr>
+            <tr><td><code>info-base</code></td><td><code>{blue-600}</code></td><td><code>{blue-500}</code></td><td>Info family base</td></tr>
+            <tr><td><code>success-base</code></td><td><code>{green-600}</code></td><td><code>{green-500}</code></td><td>Success family base</td></tr>
+            <tr><td><code>warning-base</code></td><td><code>{amber-500}</code></td><td><code>{amber-400}</code></td><td>Warning family base</td></tr>
+            <tr><td><code>danger-base</code></td><td><code>{red-600}</code></td><td><code>{red-500}</code></td><td>Danger family base</td></tr>
+            <tr><td><code>neutral-dark</code></td><td><code>{gray-700}</code></td><td><code>{slate-700}</code></td><td>Neutral dark variant (brand-specific gray temp)</td></tr>
+            <tr><td><code>neutral-light</code></td><td><code>{gray-200}</code></td><td><code>{slate-200}</code></td><td>Neutral light variant</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>Why are neutrals brand-dependent?</strong> Different brands have different "gray temperatures." A tech brand might use cool blue-grays; a luxury brand might use warm beige-grays. The Brand Palette gives maximum control over the entire color atmosphere.
+        </div>
+      </div>
+
+      <h2>6.2 Semantic Color</h2>
+      <p>Figma collection: <code>Semantic / Color</code> — Modes: <code>Light</code>, <code>Dark</code></p>
+      <p>This is where the <strong>42 semantic color tokens</strong> live: 7 color families × 6 roles each, plus global structural colors. All tokens reference Brand Palette tokens — never primitives directly.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>Mode: Light</th><th>Mode: Dark</th><th>Role</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>brand-color</code></td><td><code>{brand-base}</code> → purple</td><td><code>{brand-light}</code> → lighter purple</td><td>Brand primary accent</td></tr>
+            <tr><td><code>brand-on-color</code></td><td><code>{white}</code></td><td><code>{brand-dark}</code></td><td>Content on brand-color</td></tr>
+            <tr><td><code>brand-container</code></td><td><code>{brand-container-base}</code></td><td><code>{brand-dark}</code></td><td>Subtle brand background</td></tr>
+            <tr><td><code>brand-on-container</code></td><td><code>{brand-dark}</code></td><td><code>{brand-light}</code></td><td>Content on container</td></tr>
+            <tr><td><code>brand-outline</code></td><td><code>{brand-base}</code></td><td><code>{brand-light}</code></td><td>Brand border/stroke</td></tr>
+            <tr><td><code>brand-focus</code></td><td><code>{brand-base}@40%</code></td><td><code>{brand-light}@40%</code></td><td>Focus ring (alpha)</td></tr>
+            <tr><td><code>danger-color</code></td><td><code>{danger-base}</code> → red</td><td><code>{danger-light}</code></td><td>Danger primary accent</td></tr>
+            <tr><td colspan="4" style="color:var(--text-faint);font-style:italic;padding:8px 16px">…same 6-role pattern for: info, success, warning, neutral, contrast…</td></tr>
+            <tr><td><code>surface-default</code></td><td><code>{white}</code></td><td><code>{gray-900}</code></td><td>Default background surface</td></tr>
+            <tr><td><code>on-surface</code></td><td><code>{gray-900}</code></td><td><code>{gray-50}</code></td><td>Default text color</td></tr>
+            <tr><td><code>on-surface-muted</code></td><td><code>{gray-500}</code></td><td><code>{gray-400}</code></td><td>Secondary/muted text</td></tr>
+            <tr><td><code>border-default</code></td><td><code>{gray-200}</code></td><td><code>{gray-700}</code></td><td>Default border</td></tr>
+            <tr><td><code>disabled-surface</code></td><td><code>{gray-100}</code></td><td><code>{gray-800}</code></td><td>Disabled element bg</td></tr>
+            <tr><td><code>disabled-on-surface</code></td><td><code>{gray-400}</code></td><td><code>{gray-600}</code></td><td>Text on disabled</td></tr>
+            <tr><td><code>disabled-border</code></td><td><code>{gray-300}</code></td><td><code>{gray-700}</code></td><td>Disabled border</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>6.3 Semantic Typography</h2>
+      <p>Figma collection: <code>Semantic / Typography</code> — Mode: Default (or per-brand if needed)</p>
+      <p>Typography tokens define the design system's type scale — what font sizes, weights, and line heights are available for use. These are what Figma text styles bind to.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>Maps To</th><th>Figma Style</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>text-xs</code> (font-size)</td><td><code>{font-size-xs}</code> = 12px</td><td><code>Typography / text-xs-regular</code></td></tr>
+            <tr><td><code>text-sm</code> (font-size)</td><td><code>{font-size-sm}</code> = 14px</td><td><code>Typography / text-sm-medium</code></td></tr>
+            <tr><td><code>text-md</code> (font-size)</td><td><code>{font-size-md}</code> = 16px</td><td><code>Typography / text-md-regular</code></td></tr>
+            <tr><td><code>text-lg</code> (font-size)</td><td><code>{font-size-lg}</code> = 18px</td><td><code>Typography / text-lg-medium</code></td></tr>
+            <tr><td><code>display-sm</code> (font-size)</td><td><code>{font-size-xl}</code> = 20px</td><td><code>Typography / display-sm-semibold</code></td></tr>
+            <tr><td><code>display-md</code> (font-size)</td><td><code>{font-size-2xl}</code> = 24px</td><td><code>Typography / display-md-semibold</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>6.4 Semantic Spacing &amp; Radius</h2>
+      <p>In most cases, Tier 1 spacing and radius tokens are aliased directly at the semantic level to give them meaningful names that describe usage context:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Semantic Token</th><th>Primitive Reference</th><th>Intended Use</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>space-component-gap-sm</code></td><td><code>{spacing-4}</code> = 4px</td><td>Tight gaps inside compact components</td></tr>
+            <tr><td><code>space-component-gap-md</code></td><td><code>{spacing-8}</code> = 8px</td><td>Default gap between component children</td></tr>
+            <tr><td><code>space-component-padding-sm</code></td><td><code>{spacing-8}</code> = 8px</td><td>Small component padding</td></tr>
+            <tr><td><code>space-component-padding-md</code></td><td><code>{spacing-16}</code> = 16px</td><td>Default component padding</td></tr>
+            <tr><td><code>radius-component-sm</code></td><td><code>{radius-md}</code> = 4px</td><td>Default small component radius</td></tr>
+            <tr><td><code>radius-component-md</code></td><td><code>{radius-lg}</code> = 8px</td><td>Default medium component radius</td></tr>
+            <tr><td><code>radius-component-full</code></td><td><code>{radius-full}</code> = 9999px</td><td>Pill-shaped components</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="page-nav">
+        <a href="05-primitives.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">Tier 1 — Primitives</span>
+        </a>
+        <a href="07-component-tokens.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">Next →</span>
+          <span class="page-nav-label">Tier 3 — Components</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

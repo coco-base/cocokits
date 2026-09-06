@@ -1,0 +1,10 @@
+{
+  "$description": "Color / Active — info mode. All values alias the 'info' family from Semantic / Color. Apply this mode to a frame/component to make it info-colored (informational, help, links). Use in Figma by setting the 'Color / Active' collection mode to 'info'.",
+
+  "color":        { "$type": "color", "$value": "{color.info}",        "$description": "Primary accent fill for info components" },
+  "on-color":     { "$type": "color", "$value": "{on-color.info}",     "$description": "Text/icon color drawn on top of 'color'" },
+  "container":    { "$type": "color", "$value": "{container.info}",    "$description": "Subtle tinted background for info-colored containers" },
+  "on-container": { "$type": "color", "$value": "{on-container.info}", "$description": "Text/icon color drawn inside 'container'" },
+  "outline":      { "$type": "color", "$value": "{outline.info}",      "$description": "Border/outline color for info-colored components" },
+  "focus":        { "$type": "color", "$value": "{focus.info}",        "$description": "Focus ring color (semi-transparent) for info-colored components" }
+}

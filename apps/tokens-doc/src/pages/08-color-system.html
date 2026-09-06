@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color System In Depth — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Deep dive into the color system: 7 color families, 6 color roles per family, structural vs family colors, and how Color and Type stay independent via CSS custom properties.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="Color System In Depth — CocoKits Token Architecture">
+  <meta property="og:description" content="Deep dive into the color system: 7 color families, 6 color roles per family, structural vs family colors, and how Color and Type stay independent via CSS custom properties.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/08-color-system.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Color System In Depth — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Deep dive into the color system: 7 color families, 6 color roles per family, structural vs family colors, and how Color and Type stay independent via CSS custom properties.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/08-color-system.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">08</div>
+      <div class="hero-content">
+        <div class="hero-badge">Color System</div>
+        <h1>Color System In Depth</h1>
+        <p class="hero-desc">The 7 color families, 6 color roles, structural vs family colors, and how Type × Color remain completely independent.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <h2>8.1 The 7 Color Families</h2>
+      <p>Every component color in CocoKits belongs to one of 7 families. Each family represents a distinct <strong>user intent</strong>:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Family</th><th>Purpose</th><th>Example Usage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span style="color:#a855f7">●</span> <code>neutral</code></td><td>Default, unaccented UI</td><td>Dividers, borders, muted backgrounds</td></tr>
+            <tr><td><span style="color:#9333ea">●</span> <code>brand</code></td><td>Primary brand identity</td><td>Primary buttons, active states, key CTAs</td></tr>
+            <tr><td><span style="color:#3b82f6">●</span> <code>info</code></td><td>Informational / neutral-positive</td><td>Info banners, help icons, links</td></tr>
+            <tr><td><span style="color:#22c55e">●</span> <code>success</code></td><td>Positive confirmation</td><td>Success toasts, completed states</td></tr>
+            <tr><td><span style="color:#f59e0b">●</span> <code>warning</code></td><td>Caution, needs attention</td><td>Warning alerts, approaching limits</td></tr>
+            <tr><td><span style="color:#ef4444">●</span> <code>danger</code></td><td>Destructive, error, critical</td><td>Delete buttons, error messages, validation</td></tr>
+            <tr><td><span style="color:#f1f5f9">●</span> <code>contrast</code></td><td>Maximum visual weight</td><td>High-contrast text, critical emphasis</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Each family has all 6 roles. That means: <strong>7 families × 6 roles = 42 semantic color tokens</strong> (plus structural globals).</p>
+
+      <h2>8.2 The 6 Color Roles</h2>
+      <p>Inspired by Material Design 3's color role system, adapted for CocoKits:</p>
+
+      <div class="role-grid">
+        <div class="role-card">
+          <div class="role-card-header">
+            <span class="role-chip">color</span>
+          </div>
+          <div class="role-card-title" style="margin-bottom:6px">Primary Accent Swatch</div>
+          <p class="role-card-desc">The "loud" color. Bold, saturated. Used for filled backgrounds or key strokes. This is what most people think of as "the brand color."</p>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <span class="role-chip">on-color</span>
+          </div>
+          <div class="role-card-title" style="margin-bottom:6px">Content ON color</div>
+          <p class="role-card-desc">Usually white or very dark. Must have high contrast against <code>color</code>. Used for text and icons placed on <code>color</code> backgrounds.</p>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <span class="role-chip">container</span>
+          </div>
+          <div class="role-card-title" style="margin-bottom:6px">Soft / Tinted Background</div>
+          <p class="role-card-desc">The "quiet" version. Low saturation, tinted. Used for subtle backgrounds (light buttons, chips, soft highlights).</p>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <span class="role-chip">on-container</span>
+          </div>
+          <div class="role-card-title" style="margin-bottom:6px">Content ON container</div>
+          <p class="role-card-desc">Usually dark in light mode, light in dark mode. Must read well against <code>container</code>. Used for text on soft backgrounds.</p>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <span class="role-chip">outline</span>
+          </div>
+          <div class="role-card-title" style="margin-bottom:6px">Borders &amp; Strokes</div>
+          <p class="role-card-desc">Typically the same hue as <code>color</code> but used exclusively for stroke/border contexts. Outline buttons, form field borders when active.</p>
+        </div>
+        <div class="role-card">
+          <div class="role-card-header">
+            <span class="role-chip">focus</span>
+          </div>
+          <div class="role-card-title" style="margin-bottom:6px">Focus Rings</div>
+          <p class="role-card-desc">An alpha/transparent version of the family color. Used for <code>box-shadow</code> focus indicators to show keyboard navigation state.</p>
+        </div>
+      </div>
+
+      <h2>8.3 How Color × Type Stay Independent</h2>
+      <p>This is the most important concept for developers. <strong>Color and Type are orthogonal</strong> — they never need to know about each other.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">CSS — Color class (Step 1)</span>
+          <button class="copy-btn"><span class="copy-label">Copy</span></button>
+        </div>
+        <pre><code><span class="s-comment">/* Step 1: The Color class sets CSS variables */</span>
+<span class="s-class">.cck-button__color--brand</span> {
+  <span class="s-prop">--cck-color</span>:        <span class="s-value">var(--brand-color)</span>;
+  <span class="s-prop">--cck-on-color</span>:     <span class="s-value">var(--brand-on-color)</span>;
+  <span class="s-prop">--cck-container</span>:    <span class="s-value">var(--brand-container)</span>;
+  <span class="s-prop">--cck-on-container</span>: <span class="s-value">var(--brand-on-container)</span>;
+  <span class="s-prop">--cck-outline</span>:      <span class="s-value">var(--brand-outline)</span>;
+  <span class="s-prop">--cck-focus</span>:        <span class="s-value">var(--brand-focus)</span>;
+}
+
+<span class="s-class">.cck-button__color--danger</span> {
+  <span class="s-prop">--cck-color</span>:        <span class="s-value">var(--danger-color)</span>;
+  <span class="s-prop">--cck-on-color</span>:     <span class="s-value">var(--danger-on-color)</span>;
+  <span class="s-comment">/* ...same pattern for all 7 families... */</span>
+}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">CSS — Type class (Step 2)</span>
+          <button class="copy-btn"><span class="copy-label">Copy</span></button>
+        </div>
+        <pre><code><span class="s-comment">/* Step 2: The Type class reads whatever color was set */</span>
+<span class="s-class">.cck-button__type--primary</span>:not(:disabled) {
+  <span class="s-prop">background-color</span>: <span class="s-value">var(--cck-color)</span>;    <span class="s-comment">/* reads color class's variable */</span>
+  <span class="s-prop">color</span>:            <span class="s-value">var(--cck-on-color)</span>;
+  <span class="s-prop">border-radius</span>:    <span class="s-value">var(--button-radius)</span>;
+}
+
+<span class="s-class">.cck-button__type--outline</span> {
+  <span class="s-prop">background-color</span>: <span class="s-value">transparent</span>;
+  <span class="s-prop">color</span>:            <span class="s-value">var(--cck-on-container)</span>;
+  <span class="s-prop">border</span>:           <span class="s-value">1px solid var(--cck-outline)</span>;
+}</code></pre>
+      </div>
+
+      <div class="callout callout--key">
+        <span class="callout-icon">🔑</span>
+        <div class="callout-body">
+          <strong>The Key Insight</strong><br>
+          Adding a new color family requires only <strong>one new color class</strong>. All existing types automatically work with it.<br>
+          Adding a new type requires only <strong>one new type class</strong>. All existing colors automatically work with it.<br>
+          The two dimensions never need to know about each other.
+        </div>
+      </div>
+
+      <h2>8.4 Structural vs Color-Family Colors</h2>
+      <p>Every component uses a mix of both. The rule of thumb:</p>
+
+      <div class="callout callout--rule">
+        <span class="callout-icon">📏</span>
+        <div class="callout-body">
+          <strong>Rule</strong>
+          If the color changes when you switch <code>color="brand"</code> to <code>color="danger"</code> on the component, it's a <strong>color-family color</strong> (lives in Color/Active). If it stays the same, it's a <strong>structural color</strong> (lives in Structure collection).
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Example</th><th>Type</th><th>Explanation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Toggle thumb (always white)</td><td><span style="color:var(--amber)">Structural</span></td><td>Never changes with color family</td></tr>
+            <tr><td>Toggle track when unchecked (always gray)</td><td><span style="color:var(--amber)">Structural</span></td><td>Fixed regardless of brand/danger</td></tr>
+            <tr><td>Toggle track when checked</td><td><span style="color:var(--accent)">Color-family</span></td><td>Purple for brand, red for danger</td></tr>
+            <tr><td>Button disabled bg</td><td><span style="color:var(--amber)">Structural</span></td><td>Always the same muted gray</td></tr>
+            <tr><td>Button primary background</td><td><span style="color:var(--accent)">Color-family</span></td><td>Changes with color prop</td></tr>
+            <tr><td>Focus rings</td><td><span style="color:var(--accent)">Color-family</span></td><td>Brand focus ≠ danger focus</td></tr>
+            <tr><td>Form field default border</td><td><span style="color:var(--amber)">Structural</span></td><td>Always neutral, uses semantic global</td></tr>
+            <tr><td>Checkbox background when checked</td><td><span style="color:var(--accent)">Color-family</span></td><td>Changes per family</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>8.5 Figma Mode Inheritance</h2>
+      <p>Variable modes in Figma cascade from parent frames to children. The nearest ancestor with an explicit mode set always wins.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">Figma mode inheritance example</span>
+        </div>
+        <pre><code><span class="s-comment">Wrapper frame — Color/Active = "brand"    ← all children default to brand</span>
+  ├── Button instance (no override)         ← inherits brand
+  ├── Toggle (Color/Active = "danger")      ← overrides to danger
+  │    └── Track (inherits danger)
+  └── Checkbox (no override)               ← inherits brand from wrapper</code></pre>
+      </div>
+
+      <div class="callout callout--warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Always set modes at the instance level</strong> when you want per-component control. Setting a mode on a shared parent frame means all children inside it inherit that mode unless explicitly overridden. To debug unexpected colors, walk up the layer tree and check which ancestor has the mode set.
+        </div>
+      </div>
+
+      <div class="page-nav">
+        <a href="07-component-tokens.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">Tier 3 — Components</span>
+        </a>
+        <a href="09-collections.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">Next →</span>
+          <span class="page-nav-label">Collections &amp; Modes</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

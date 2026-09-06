@@ -1,0 +1,86 @@
+{
+  "$description": "Semantic color tokens — Light mode. All values alias Brand Palette tokens using dot notation (e.g. {brand.base} → Brand Palette variable brand/base). The active brand is selected via the Brand Palette collection mode.",
+
+  "color": {
+    "$description": "Primary role fill color (e.g. button background, badge background)",
+    "brand":   { "$type": "color", "$value": "{brand.base}"   },
+    "info":    { "$type": "color", "$value": "{info.base}"    },
+    "success": { "$type": "color", "$value": "{success.base}" },
+    "warning": { "$type": "color", "$value": "{warning.base}" },
+    "danger":  { "$type": "color", "$value": "{danger.base}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.base}"},
+    "neutral": { "$type": "color", "$value": "{neutral.base}" }
+  },
+  "on-color": {
+    "$description": "Text/icon color drawn on top of the role fill (color.*)",
+    "brand":   { "$type": "color", "$value": "{white}" },
+    "info":    { "$type": "color", "$value": "{white}" },
+    "success": { "$type": "color", "$value": "{white}" },
+    "warning": { "$type": "color", "$value": "{contrast.dark}" },
+    "danger":  { "$type": "color", "$value": "{white}" },
+    "contrast":{ "$type": "color", "$value": "{white}" },
+    "neutral": { "$type": "color", "$value": "{white}" }
+  },
+  "container": {
+    "$description": "Subtle background tint for role-colored containers (light shade)",
+    "brand":   { "$type": "color", "$value": "{brand.lighter}"   },
+    "info":    { "$type": "color", "$value": "{info.lighter}"    },
+    "success": { "$type": "color", "$value": "{success.lighter}" },
+    "warning": { "$type": "color", "$value": "{warning.lighter}" },
+    "danger":  { "$type": "color", "$value": "{danger.lighter}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.lighter}"},
+    "neutral": { "$type": "color", "$value": "{neutral.lighter}" }
+  },
+  "on-container": {
+    "$description": "Text/icon color drawn inside container.* (dark shade for contrast)",
+    "brand":   { "$type": "color", "$value": "{brand.darker}"   },
+    "info":    { "$type": "color", "$value": "{info.darker}"    },
+    "success": { "$type": "color", "$value": "{success.darker}" },
+    "warning": { "$type": "color", "$value": "{warning.darker}" },
+    "danger":  { "$type": "color", "$value": "{danger.darker}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.darker}"},
+    "neutral": { "$type": "color", "$value": "{neutral.darker}" }
+  },
+  "outline": {
+    "$description": "Border/outline color for role-colored components",
+    "brand":   { "$type": "color", "$value": "{brand.light}"   },
+    "info":    { "$type": "color", "$value": "{info.light}"    },
+    "success": { "$type": "color", "$value": "{success.light}" },
+    "warning": { "$type": "color", "$value": "{warning.light}" },
+    "danger":  { "$type": "color", "$value": "{danger.light}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.light}"},
+    "neutral": { "$type": "color", "$value": "{neutral.light}" }
+  },
+  "focus": {
+    "$description": "Focus ring color for keyboard navigation",
+    "brand":   { "$type": "color", "$value": "{brand.base}"   },
+    "info":    { "$type": "color", "$value": "{info.base}"    },
+    "success": { "$type": "color", "$value": "{success.base}" },
+    "warning": { "$type": "color", "$value": "{warning.base}" },
+    "danger":  { "$type": "color", "$value": "{danger.base}"  },
+    "contrast":{ "$type": "color", "$value": "{contrast.base}"},
+    "neutral": { "$type": "color", "$value": "{neutral.base}" }
+  },
+
+  "surface": {
+    "$description": "Page and card background surfaces",
+    "default": { "$type": "color", "$value": "{white}"            },
+    "muted":   { "$type": "color", "$value": "{neutral.lighter}"  }
+  },
+  "on-surface": {
+    "$description": "Text/icon color on surface.*",
+    "default": { "$type": "color", "$value": "{contrast.dark}" },
+    "muted":   { "$type": "color", "$value": "{neutral.base}"  }
+  },
+  "border": {
+    "$description": "Divider and outline colors",
+    "default": { "$type": "color", "$value": "{neutral.light}" },
+    "strong":  { "$type": "color", "$value": "{neutral.base}"  }
+  },
+  "disabled": {
+    "$description": "Colors for disabled UI elements",
+    "surface":    { "$type": "color", "$value": "{neutral.lighter}" },
+    "on-surface": { "$type": "color", "$value": "{neutral.light}"   },
+    "border":     { "$type": "color", "$value": "{neutral.light}"   }
+  }
+}

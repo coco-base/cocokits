@@ -1,0 +1,153 @@
+﻿{
+  "version": "2.0.0",
+  "$description": "CocoKits Figma Design System — collection manifest. Tier 1 = raw primitives (no aliasing). Tier 2 = semantic/alias layer that references Tier 1. Tier 3 = component-level layer (shared cross-component collections). In Figma the variable name separator is '/' (group separator). In JSON token references the separator is '.' (dot notation). Example: JSON {cobalt.50} → Figma variable cobalt/50.",
+
+  "tier": {
+    "1": "Primitives — raw values, no aliases",
+    "2": "Semantic — all values alias Tier-1 tokens",
+    "3": "Component — component-level tokens; shared collections span the entire system"
+  },
+
+  "figma_separator_collections": {
+    "description": "These 3 collections exist in Figma ONLY as visual section dividers between tiers. They contain zero variables and have no JSON files. AI agents MUST NOT rename, delete, add variables to, or otherwise modify them. They are permanent fixtures of the Figma file.",
+    "ai_rule": "NEVER_MODIFY",
+    "collections": [
+      { "name": "----- TIER 1 ----------------", "purpose": "Visual separator above Tier 1 collections" },
+      { "name": "----- TIER 2 ----------------", "purpose": "Visual separator above Tier 2 collections" },
+      { "name": "----- TIER 3 ----------------", "purpose": "Visual separator above Tier 3 collections" }
+    ]
+  },
+
+  "collections": [
+    {
+      "tier": 1,
+      "name": "Primitives / Color",
+      "description": "Raw color primitives — 61 named palettes × 11 steps (50,100-900,950) + black + white + black-alpha/10-90 + white-alpha/10-90 = 694 total COLOR variables. No modes. Example variable: cobalt/50. Referenced by Semantic / Brand. NEVER referenced directly by components.",
+      "files": ["primitives/color-palette.tokens.json"]
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Size",
+      "description": "Raw pixel size scale. 31 flat FLOAT variables: size-1, size-2, size-3, size-4, size-5, size-6, size-8, size-10, size-12, size-14, size-16, size-20, size-24, size-28, size-32, size-36, size-40, size-44, size-48, size-56, size-64, size-72, size-80, size-96, size-112, size-128, size-160, size-192, size-224, size-256, size-512. No modes. Used as source aliases for Spacing and component sizing.",
+      "files": ["primitives/size.tokens.json"]
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Spacing",
+      "description": "Spacing scale — 13 steps (spacing-0 through spacing-12) for use ONLY with margin, padding, and gap CSS properties. THREE density modes change the actual pixel values while keeping the step names identical. Use the step name in components and switch the mode at the theme level. All non-zero values alias Size tokens. spacing-0=0px always.",
+      "modes": ["Normal", "Compact", "Comfortable"],
+      "modeDescriptions": {
+        "Normal":      "Fine-grained at small end, expanding at large end. spacing-1=1px, spacing-2=2px, spacing-3=4px, spacing-4=8px, spacing-5=12, spacing-6=16, spacing-7=24, spacing-8=32, spacing-9=48, spacing-10=64, spacing-11=96, spacing-12=128. Default for most UIs.",
+        "Compact":     "One step down from Normal. spacing-1=1, spacing-2=2, spacing-3=2, spacing-4=4, spacing-5=8, spacing-6=12, spacing-7=16, spacing-8=24, spacing-9=32, spacing-10=48, spacing-11=64, spacing-12=96. Use for tables, dashboards, admin panels.",
+        "Comfortable": "One step up from Normal. spacing-1=2, spacing-2=4, spacing-3=6, spacing-4=10, spacing-5=16, spacing-6=20, spacing-7=32, spacing-8=40, spacing-9=64, spacing-10=80, spacing-11=128, spacing-12=160. Use for landing pages, docs, reading apps."
+      },
+      "files": {
+        "Normal":      "primitives/spacing.tokens.json",
+        "Compact":     "primitives/spacing.compact.tokens.json",
+        "Comfortable": "primitives/spacing.comfortable.tokens.json"
+      }
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Radius",
+      "description": "Border-radius scale from none (0) to full (9999px). 9 FLOAT variables. No modes.",
+      "files": ["primitives/radius.tokens.json"]
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Opacity",
+      "description": "Opacity scale 0–100 expressed as 0.0–1.0 decimals. 15 FLOAT variables. No modes.",
+      "files": ["primitives/opacity.tokens.json"]
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Shadow",
+      "description": "Box shadow levels xs through 2xl plus inner. References Color Palette black-alpha tokens. No modes. Note: Figma does not support shadow variable type — these are defined as Figma Effect Styles.",
+      "files": ["primitives/shadow.tokens.json"]
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Font Family",
+      "description": "Font family pairs: font-family-sans and font-family-mono. THREE modes select the active typeface. Mode Inter = Inter + JetBrains Mono. Mode Geist = Geist + Fira Code. Mode Poppins = Poppins + Source Code Pro.",
+      "modes": ["Inter", "Geist", "Poppins"],
+      "files": {
+        "Inter":   "primitives/font-family.inter.tokens.json",
+        "Geist":   "primitives/font-family.geist.tokens.json",
+        "Poppins": "primitives/font-family.poppins.tokens.json"
+      }
+    },
+    {
+      "tier": 1,
+      "name": "Primitives / Typography",
+      "description": "Raw typography scale grouped by property. Groups: font-size (12 sizes, 2xs-7xl), font-weight (9 weights, thin-black), line-height (6 multipliers, none-loose), letter-spacing (6 values, tighter-widest), paragraph-spacing (4 values). All FLOAT except font-size which is dimension. No modes. In Figma: font-size/2xs, font-weight/bold, line-height/normal etc.",
+      "files": ["primitives/typography.tokens.json"]
+    },
+
+    {
+      "tier": 2,
+      "name": "Semantic / Brand",
+      "description": "Brand-mapped color roles. 7 semantic roles (brand, info, success, warning, danger, contrast, neutral) x 5 steps (lighter, light, base, dark, darker) = 35 COLOR variables. FIVE brand modes — each maps the roles to different Primitives/Color palettes. Mode Iris=Blue, Fern=Green, Rose=Red, Dahlia=Purple, Marigold=Orange. All values alias Primitives / Color. In Figma: brand/base, info/lighter, etc.",
+      "modes": ["Iris", "Fern", "Rose", "Dahlia", "Marigold"],
+      "files": {
+        "Iris":     "brand-palette/iris.tokens.json",
+        "Fern":     "brand-palette/fern.tokens.json",
+        "Rose":     "brand-palette/rose.tokens.json",
+        "Dahlia":   "brand-palette/dahlia.tokens.json",
+        "Marigold": "brand-palette/marigold.tokens.json"
+      }
+    },
+    {
+      "tier": 2,
+      "name": "Semantic / Color",
+      "description": "UI-role semantic color tokens. Groups: color, on-color, container, on-container, outline, focus (7 roles each) + surface (default/muted), on-surface (default/muted), border (default/strong), disabled (surface/on-surface/border) = 51 COLOR variables. FOUR modes: standard light/dark plus accessibility variants. All values alias Semantic / Brand (or Primitives / Color white for colorblind on-color). Switching Semantic / Brand mode changes which palettes resolve through all semantic tokens.",
+      "modes": ["Light", "Dark", "Dim", "Colorblind"],
+      "modeDescriptions": {
+        "Light":      "Standard light background. surface=white, on-surface=charcoal. Default for most web apps.",
+        "Dark":       "Standard dark background. surface=charcoal/darker, on-surface=ash/lighter. Use for dark-theme products.",
+        "Dim":        "Softer dark. surface=charcoal/dark (one step lighter than Dark). Lower eye strain for night reading. Similar to Twitter/X Dim mode.",
+        "Colorblind": "Mild protanopia/deuteranopia adjustment. Keeps green=success and red=danger but shifts tones: success uses lighter/cooler shades (more distinguishable), danger uses darker/warmer shades. Creates clear luminance contrast without changing palette semantics. Surfaces identical to Light."
+      },
+      "files": {
+        "Light":      "semantic/color.light.tokens.json",
+        "Dark":       "semantic/color.dark.tokens.json",
+        "Dim":        "semantic/color.dim.tokens.json",
+        "Colorblind": "semantic/color.colorblind.tokens.json"
+      }
+    },
+    {
+      "tier": 2,
+      "name": "Semantic / Active Color",
+      "description": "Shared color bridge collection — ONE collection for the entire design system, 7 modes (one per color family). Contains exactly 6 COLOR variables: color, on-color, container, on-container, outline, focus. Each variable aliases the corresponding role in 'Semantic / Color' for the active family. Components bind to these 6 variables (CSS: --cck-color, --cck-on-color, etc.). To change a component's color family, switch the mode on its containing frame. This pattern keeps Color × Type orthogonal — all type variants (primary, outline, light, basic) automatically work with any color family without duplication.",
+      "modes": ["neutral", "brand", "info", "success", "warning", "danger", "contrast"],
+      "modeDescriptions": {
+        "neutral":  "Default unaccented UI — maps to Semantic Color neutral family. Use for dividers, borders, muted backgrounds.",
+        "brand":    "Primary brand identity — maps to Semantic Color brand family. Use for primary buttons, active states, key CTAs.",
+        "info":     "Informational / neutral-positive — maps to Semantic Color info family. Use for info banners, help icons, links.",
+        "success":  "Positive confirmation — maps to Semantic Color success family. Use for success toasts, completed states.",
+        "warning":  "Caution — maps to Semantic Color warning family. Use for warning alerts, approaching limits.",
+        "danger":   "Destructive / error / critical — maps to Semantic Color danger family. Use for delete buttons, error messages.",
+        "contrast": "Maximum visual weight — maps to Semantic Color contrast family. Use for high-contrast text, critical emphasis."
+      },
+      "files": {
+        "neutral":  "shared/color-active.neutral.tokens.json",
+        "brand":    "shared/color-active.brand.tokens.json",
+        "info":     "shared/color-active.info.tokens.json",
+        "success":  "shared/color-active.success.tokens.json",
+        "warning":  "shared/color-active.warning.tokens.json",
+        "danger":   "shared/color-active.danger.tokens.json",
+        "contrast": "shared/color-active.contrast.tokens.json"
+      }
+    },
+    {
+      "tier": 2,
+      "name": "Semantic / Typography",
+      "description": "Named text/heading/display/code styles. Each style has 4 property variables: font-family (STRING), font-size (FLOAT), font-weight (FLOAT), line-height (FLOAT). Styles: text-2xs/xs/sm/md/lg (3-4 weights each), heading-xs/sm/md (4 weights each), heading-lg (3 weights), display-sm/md/lg (3 weights each), code/xs/sm/md = 44 styles x 4 props = 176 variables. THREE font modes (Inter, Geist, Poppins) — switching mode changes font-family-sans/mono resolution. All values alias Font Family or Typography Primitives.",
+      "modes": ["Inter", "Geist", "Poppins"],
+      "files": {
+        "Inter":   "semantic/typography.inter.tokens.json",
+        "Geist":   "semantic/typography.geist.tokens.json",
+        "Poppins": "semantic/typography.poppins.tokens.json"
+      }
+    }
+  ]
+}

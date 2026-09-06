@@ -110,9 +110,15 @@ export class SelectComponent<T = any>
     .pipe(takeUntilDestroyed())
     .subscribe(({ selected, triggerSource }) => {
       if (triggerSource === SelectTriggerSource.FromOption) {
-        this._controlValueAccessorChangeFn(selected);
+        const _selected = this.selectStore.isMultiple() ? selected : selected[0];
+        this._controlValueAccessorChangeFn(_selected);
         this._onTouched();
-        this.selectionChange.emit(selected);
+        this.selectionChange.emit(_selected as Exclude<T, undefined> | Exclude<T, undefined>[]);
+        if(this.selectStore.isMultiple()) {
+          this.multipleValueChange.emit(selected as Exclude<T[], undefined>);
+        } else {
+          this.singleValueChange.emit(selected[0] as Exclude<T, undefined>);
+        }
       }
     });
 
@@ -134,6 +140,7 @@ export class SelectComponent<T = any>
    * @storybook argType will be overridden by storybook
    */
   public _required = input(undefined, { transform: toBooleanOrPresent, alias: 'required' });
+
 
   /**
    * Whether the user should be allowed to select multiple options.
@@ -176,7 +183,9 @@ export class SelectComponent<T = any>
   /**
    * Event emitted when the selected value has been changed by the user.
    */
-  public selectionChange: OutputEmitterRef<T[]> = output<T[]>();
+  public selectionChange: OutputEmitterRef<Exclude<T, undefined> | Exclude<T, undefined>[]>= output<Exclude<T, undefined>[] | Exclude<T, undefined>>();
+  public singleValueChange: OutputEmitterRef<Exclude<T, undefined>> = output<Exclude<T, undefined>>();
+  public multipleValueChange: OutputEmitterRef<Exclude<T[], undefined>> = output<Exclude<T[], undefined>>();
 
   // endregion
 

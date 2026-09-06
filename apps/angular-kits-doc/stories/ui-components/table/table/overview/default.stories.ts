@@ -61,7 +61,7 @@ import { JsonPipe } from '@angular/common';
 
         <button (click)="addNumberFilter()">Add</button>
         <button (click)="addNumberFilterGroup()">Add Group</button>
-        <button (click)="table.dataSource.clearColumnFilter('number')">Remove</button>
+        <button (click)="table.dataSourceOld.clearColumnFilter('number')">Remove</button>
       </div>
 
       <!-- Name -->
@@ -106,7 +106,7 @@ import { JsonPipe } from '@angular/common';
 
         <button (click)="addNameFilter()">Add</button>
         <button (click)="addNameFilterGroup()">Add Group</button>
-        <button (click)="table.dataSource.clearColumnFilter('name')">Remove</button>
+        <button (click)="table.dataSourceOld.clearColumnFilter('name')">Remove</button>
       </div>
 
       <!-- Date -->
@@ -151,7 +151,7 @@ import { JsonPipe } from '@angular/common';
 
         <button (click)="addDateFilter()">Add</button>
         <button (click)="addDateFilterGroup()">Add Group</button>
-        <button (click)="table.dataSource.clearColumnFilter('date')">Remove</button>
+        <button (click)="table.dataSourceOld.clearColumnFilter('date')">Remove</button>
       </div>
 
       <!-- Active -->
@@ -163,10 +163,10 @@ import { JsonPipe } from '@angular/common';
           <option value="blank">blank</option>
         </select>
         <button
-          (click)="table.dataSource.setColumnFilter('active', operatorActive.value, undefined, undefined, 'boolean')">
+          (click)="table.dataSourceOld.setColumnFilter('active', operatorActive.value, undefined, undefined, 'boolean')">
           Apply
         </button>
-        <button (click)="table.dataSource.clearColumnFilter('active')">Remove</button>
+        <button (click)="table.dataSourceOld.clearColumnFilter('active')">Remove</button>
       </div>
     </div>
     <div>
@@ -182,31 +182,31 @@ import { JsonPipe } from '@angular/common';
           <option value="50">50</option>
           <option value="100">100</option>
         </select>
-        <button (click)="table.dataSource.setPagination(paginationInputPageSize.value, paginationSelectPageSize.value)">
+        <button (click)="table.dataSourceOld.setPagination(paginationInputPageSize.value, paginationSelectPageSize.value)">
           Set Page Size
         </button>
         <hr />
-        currentPage: {{ table.dataSource.getPaginationInfo().currentPage }} <br />
-        pageSize: {{ table.dataSource.getPaginationInfo().pageSize }} <br />
-        totalItems: {{ table.dataSource.getPaginationInfo().totalItems }} <br />
-        totalPages: {{ table.dataSource.getPaginationInfo().totalPages }} <br />
-        startIndex: {{ table.dataSource.getPaginationInfo().startIndex }} <br />
-        endIndex: {{ table.dataSource.getPaginationInfo().endIndex }} <br />
-        hasPrevious: {{ table.dataSource.getPaginationInfo().hasPrevious }} <br />
-        hasNext: {{ table.dataSource.getPaginationInfo().hasNext }} <br />
+        currentPage: {{ table.dataSourceOld.getPaginationInfo().currentPage }} <br />
+        pageSize: {{ table.dataSourceOld.getPaginationInfo().pageSize }} <br />
+        totalItems: {{ table.dataSourceOld.getPaginationInfo().totalItems }} <br />
+        totalPages: {{ table.dataSourceOld.getPaginationInfo().totalPages }} <br />
+        startIndex: {{ table.dataSourceOld.getPaginationInfo().startIndex }} <br />
+        endIndex: {{ table.dataSourceOld.getPaginationInfo().endIndex }} <br />
+        hasPrevious: {{ table.dataSourceOld.getPaginationInfo().hasPrevious }} <br />
+        hasNext: {{ table.dataSourceOld.getPaginationInfo().hasNext }} <br />
         <hr />
         Total Date: {{ data.length }} <br />
-        Total Date in Table: {{ table.dataSource.data().length }}
+        Total Date in Table: {{ table.dataSourceOld.data().length }}
       </div>
 
       <h4>Sorting</h4>
       <!-- Sorting -->
       <div class="card">
-        {{ table.dataSource.getSortModel().sorts | json }}
+        {{ table.dataSourceOld.getSortModel().sorts | json }}
         <hr />
         Multi: <input type="checkbox" #multiSortCheckbox />
-        <button (click)="table.dataSource.setMultiSortEnabled(multiSortCheckbox.checked)">Set Multi</button>
-        <button (click)="table.dataSource.clearSort()">Clear All</button>
+        <button (click)="table.dataSourceOld.setMultiSortEnabled(multiSortCheckbox.checked)">Set Multi</button>
+        <button (click)="table.dataSourceOld.clearSort()">Clear All</button>
         <hr />
         Number:
         <select #sortNumber>
@@ -215,10 +215,10 @@ import { JsonPipe } from '@angular/common';
           <option value="null">---</option>
         </select>
         <br />
-        <button (click)="table.dataSource.addSort('number', sortNumber.value)">Add</button>
-        <button (click)="table.dataSource.setSort('number', sortNumber.value)">Set</button>
-        <button (click)="table.dataSource.toggleSort('number', multiSortCheckbox.checked)">Toggle</button>
-        <button (click)="table.dataSource.removeSort('number')">Remove</button>
+        <button (click)="table.dataSourceOld.addSort('number', sortNumber.value)">Add</button>
+        <button (click)="table.dataSourceOld.setSort('number', sortNumber.value)">Set</button>
+        <button (click)="table.dataSourceOld.toggleSort('number', multiSortCheckbox.checked)">Toggle</button>
+        <button (click)="table.dataSourceOld.removeSort('number')">Remove</button>
         <hr />
 
         Name:
@@ -229,10 +229,10 @@ import { JsonPipe } from '@angular/common';
         </select>
         <br />
         <br />
-        <button (click)="table.dataSource.addSort('name', sortName.value)">Add</button>
-        <button (click)="table.dataSource.setSort('name', sortName.value)">Set</button>
-        <button (click)="table.dataSource.toggleSort('name', multiSortCheckbox.checked)">Toggle</button>
-        <button (click)="table.dataSource.removeSort('name')">Remove</button>
+        <button (click)="table.dataSourceOld.addSort('name', sortName.value)">Add</button>
+        <button (click)="table.dataSourceOld.setSort('name', sortName.value)">Set</button>
+        <button (click)="table.dataSourceOld.toggleSort('name', multiSortCheckbox.checked)">Toggle</button>
+        <button (click)="table.dataSourceOld.removeSort('name')">Remove</button>
         <hr />
 
         Date:
@@ -243,10 +243,10 @@ import { JsonPipe } from '@angular/common';
         </select>
 
         <br />
-        <button (click)="table.dataSource.addSort('date', sortDate.value)">Add</button>
-        <button (click)="table.dataSource.setSort('date', sortDate.value)">Set</button>
-        <button (click)="table.dataSource.toggleSort('date', multiSortCheckbox.checked)">Toggle</button>
-        <button (click)="table.dataSource.removeSort('date')">Remove</button>
+        <button (click)="table.dataSourceOld.addSort('date', sortDate.value)">Add</button>
+        <button (click)="table.dataSourceOld.setSort('date', sortDate.value)">Set</button>
+        <button (click)="table.dataSourceOld.toggleSort('date', multiSortCheckbox.checked)">Toggle</button>
+        <button (click)="table.dataSourceOld.removeSort('date')">Remove</button>
         <hr />
 
         Active:
@@ -256,10 +256,10 @@ import { JsonPipe } from '@angular/common';
           <option value="null">---</option>
         </select>
         <br />
-        <button (click)="table.dataSource.addSort('active', sortActive.value)">Add</button>
-        <button (click)="table.dataSource.setSort('active', sortActive.value)">Set</button>
-        <button (click)="table.dataSource.toggleSort('active', multiSortCheckbox.checked)">Toggle</button>
-        <button (click)="table.dataSource.removeSort('active')">Remove</button>
+        <button (click)="table.dataSourceOld.addSort('active', sortActive.value)">Add</button>
+        <button (click)="table.dataSourceOld.setSort('active', sortActive.value)">Set</button>
+        <button (click)="table.dataSourceOld.toggleSort('active', multiSortCheckbox.checked)">Toggle</button>
+        <button (click)="table.dataSourceOld.removeSort('active')">Remove</button>
         <hr />
 
         <hr />
@@ -533,7 +533,7 @@ class Test {
   inputNumber2_2 = viewChild<ElementRef<HTMLInputElement>>('inputNumber2_2');
 
   addNumberFilter() {
-    this.table()?.dataSource.addFilterCondition({
+    this.table()?.dataSourceOld.addFilterCondition({
       field: 'number',
       operator: this.operatorNumber1()?.nativeElement.value as any,
       value: this.inputNumber1()?.nativeElement.value,
@@ -543,7 +543,7 @@ class Test {
   }
 
   addNumberFilterGroup() {
-    this.table()?.dataSource.addColumnConditions(
+    this.table()?.dataSourceOld.addColumnConditions(
       'number',
       [
         {
@@ -572,7 +572,7 @@ class Test {
   inputName2 = viewChild<ElementRef<HTMLInputElement>>('inputName2');
 
   addNameFilter() {
-    this.table()?.dataSource.addFilterCondition({
+    this.table()?.dataSourceOld.addFilterCondition({
       field: 'name',
       operator: this.operatorName()?.nativeElement.value as any,
       value: this.inputName()?.nativeElement.value,
@@ -582,7 +582,7 @@ class Test {
   }
 
   addNameFilterGroup() {
-    this.table()?.dataSource.addColumnConditions(
+    this.table()?.dataSourceOld.addColumnConditions(
       'name',
       [
         {
@@ -610,7 +610,7 @@ class Test {
   inputDate2_2 = viewChild<ElementRef<HTMLInputElement>>('inputDate2_2');
 
   addDateFilter() {
-    this.table()?.dataSource.addFilterCondition({
+    this.table()?.dataSourceOld.addFilterCondition({
       field: 'date',
       operator: this.operatorDate1()?.nativeElement.value as any,
       value: this.inputDate1()?.nativeElement.value,
@@ -620,7 +620,7 @@ class Test {
   }
 
   addDateFilterGroup() {
-    this.table()?.dataSource.addColumnConditions(
+    this.table()?.dataSourceOld.addColumnConditions(
       'date',
       [
         {

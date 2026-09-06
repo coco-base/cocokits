@@ -43,7 +43,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
     // TODO: Add required (https://github.com/orgs/coco-base/projects/1/views/7?filterQuery=&pane=issue&itemId=95567898)
     { if: this.store.state.disabled(), classes: this.classNames().disabled },
     { if: this.store.state.focused(), classes: this.classNames().focused },
-    { if: this.store.state.hasError(), classes: this.classNames().error },
+    { if: this.store.state.hasError() || this.invalid(), classes: this.classNames().error },
     { if: this.store.state.hasInput(), classes: this.classNames().withInput },
     { if: this.store.state.hasTextarea(), classes: this.classNames().withTextarea },
     { if: this.store.state.hasSelect(), classes: this.classNames().withSelect },
@@ -53,7 +53,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
     { if: this.store.control.pristine(), classes: this.classNames().pristine },
     { if: this.store.control.dirty(), classes: this.classNames().dirty },
     { if: this.store.control.valid(), classes: this.classNames().valid },
-    { if: this.store.control.invalid(), classes: this.classNames().invalid },
+    { if: this.store.control.invalid() ?? this.invalid(), classes: this.classNames().invalid },
     { if: this.store.control.pending(), classes: this.classNames().pending },
   ]);
 
@@ -67,6 +67,7 @@ export class FormFieldComponent extends _UiBaseComponent<'formField'> implements
    * @storybook argType will be overridden by storybook
    */
   public disabled = input(undefined, { transform: toBooleanOrPresent });
+  public invalid = input(undefined, { transform: toBooleanOrPresent });
 
   constructor() {
     super();

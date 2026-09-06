@@ -1,0 +1,4 @@
+{
+  "font-family-sans": { "$type": "fontFamily", "$value": "Geist" },
+  "font-family-mono": { "$type": "fontFamily", "$value": "Fira Code" }
+}

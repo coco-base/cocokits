@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tier 3 Component Tokens — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Understand component-level tokens: Size collections, Structure collections for fixed values, and the shared Color collection. Just 6 tokens power every component.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="Tier 3 Component Tokens — CocoKits Token Architecture">
+  <meta property="og:description" content="Understand component-level tokens: Size collections, Structure collections for fixed values, and the shared Color collection. Just 6 tokens power every component.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/07-component-tokens.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tier 3 Component Tokens — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Understand component-level tokens: Size collections, Structure collections for fixed values, and the shared Color collection. Just 6 tokens power every component.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/07-component-tokens.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">07</div>
+      <div class="hero-content">
+        <div class="hero-badge" style="background:rgba(245,194,69,.12);border-color:rgba(245,194,69,.25);color:var(--amber)">Tier 3</div>
+        <h1>Component Tokens</h1>
+        <p class="hero-desc">Three collections per component: Size (changes with size mode), Structure (fixed values), and the shared Color bridge (6 tokens, all components).</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <h2>7.1 The Size Collection</h2>
+      <p>Figma collection: <code>{Component} / Size</code> — Modes: <code>sm</code>, <code>md</code>, <code>lg</code></p>
+      <p>Every token whose value changes when the component size changes lives here. This includes dimensions, padding, gaps, and typography tokens.</p>
+
+      <h3>Button / Size Example</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>sm</th><th>md</th><th>lg</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>button-height</code></td><td>32px</td><td>40px</td><td>48px</td></tr>
+            <tr><td><code>button-padding-x</code></td><td>8px</td><td>16px</td><td>16px</td></tr>
+            <tr><td><code>button-padding-y</code></td><td>4px</td><td>8px</td><td>12px</td></tr>
+            <tr><td><code>button-font-size</code></td><td>14px</td><td>14px</td><td>16px</td></tr>
+            <tr><td><code>button-font-weight</code></td><td>500</td><td>500</td><td>500</td></tr>
+            <tr><td><code>button-icon-size</code></td><td>16px</td><td>20px</td><td>20px</td></tr>
+            <tr><td><code>button-gap</code></td><td>4px</td><td>8px</td><td>8px</td></tr>
+            <tr><td><code>button-radius</code></td><td><code>{radius-md}</code></td><td><code>{radius-md}</code></td><td><code>{radius-md}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--rule">
+        <span class="callout-icon">📏</span>
+        <div class="callout-body">
+          <strong>Naming Rule</strong>
+          Token names never include the mode name. <code>button-height</code> is correct. <code>button-height-md</code> is wrong — <code>md</code> is a mode, not part of the token's identity.
+        </div>
+      </div>
+
+      <h2>7.2 The Structure Collection</h2>
+      <p>Figma collection: <code>{Component} / Structure</code> — Mode: Default (single mode)</p>
+      <p>Fixed token values that never change regardless of color family or size. These are structural — they belong to the component's visual recipe, not its theming layer.</p>
+
+      <h3>Examples</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>Value</th><th>References</th></tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="3" style="background:var(--bg-elevated);color:var(--text-dim);font-size:12px;padding:8px 16px;font-style:italic">Button / Structure</td></tr>
+            <tr><td><code>button-disabled-bg</code></td><td>fixed</td><td><code>{disabled-surface}</code></td></tr>
+            <tr><td><code>button-disabled-text</code></td><td>fixed</td><td><code>{disabled-on-surface}</code></td></tr>
+            <tr><td><code>button-disabled-border</code></td><td>fixed</td><td><code>{disabled-border}</code></td></tr>
+            <tr><td colspan="3" style="background:var(--bg-elevated);color:var(--text-dim);font-size:12px;padding:8px 16px;font-style:italic">Toggle / Structure</td></tr>
+            <tr><td><code>toggle-thumb</code></td><td>always white</td><td><code>{white}</code></td></tr>
+            <tr><td><code>toggle-thumb-border</code></td><td>always medium gray</td><td><code>{border-default}</code></td></tr>
+            <tr><td><code>toggle-track-off</code></td><td>always gray</td><td><code>{border-default}</code></td></tr>
+            <tr><td><code>toggle-track-disabled</code></td><td>fixed</td><td><code>{disabled-surface}</code></td></tr>
+            <tr><td colspan="3" style="background:var(--bg-elevated);color:var(--text-dim);font-size:12px;padding:8px 16px;font-style:italic">Checkbox / Structure</td></tr>
+            <tr><td><code>checkbox-bg-off</code></td><td>unchecked bg</td><td><code>{surface-default}</code></td></tr>
+            <tr><td><code>checkbox-border-off</code></td><td>unchecked border</td><td><code>{border-default}</code></td></tr>
+            <tr><td><code>checkbox-checkmark</code></td><td>always white</td><td><code>{white}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>7.3 The Shared Color Collection — The Key Innovation</h2>
+      <p>Figma collection: <code>Color / Active</code> — Modes: <code>neutral</code>, <code>brand</code>, <code>info</code>, <code>success</code>, <code>warning</code>, <code>danger</code>, <code>contrast</code></p>
+
+      <div class="callout callout--key">
+        <span class="callout-icon">🔑</span>
+        <div class="callout-body">
+          <strong>Instead of duplicating color definitions inside every component, one shared collection bridges Semantic Colors to Component Types.</strong>
+          Only 6 tokens. All 15+ components. Every color family. Zero duplication.
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Token</th><th>Meaning</th><th>Mode: brand</th><th>Mode: danger</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>color</code></td><td>Primary accent swatch</td><td><code>{brand-color}</code> → purple</td><td><code>{danger-color}</code> → red</td></tr>
+            <tr><td><code>on-color</code></td><td>Content on <code>color</code></td><td><code>{brand-on-color}</code> → white</td><td><code>{danger-on-color}</code> → white</td></tr>
+            <tr><td><code>container</code></td><td>Soft/subtle background</td><td><code>{brand-container}</code> → light purple</td><td><code>{danger-container}</code> → light red</td></tr>
+            <tr><td><code>on-container</code></td><td>Content on <code>container</code></td><td><code>{brand-on-container}</code> → dark purple</td><td><code>{danger-on-container}</code> → dark red</td></tr>
+            <tr><td><code>outline</code></td><td>Borders and outlines</td><td><code>{brand-outline}</code> → purple</td><td><code>{danger-outline}</code> → red</td></tr>
+            <tr><td><code>focus</code></td><td>Focus rings / highlights</td><td><code>{brand-focus}</code> → purple alpha</td><td><code>{danger-focus}</code> → red alpha</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Why Only 6?</h3>
+      <p>We audited every component in the system:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Component</th><th>Tokens Used</th><th>Which Ones</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Button (primary)</td><td>4</td><td><code>color</code>, <code>on-color</code>, <code>focus</code>, <code>outline</code></td></tr>
+            <tr><td>Button (outline)</td><td>3</td><td><code>on-container</code>, <code>outline</code>, <code>focus</code></td></tr>
+            <tr><td>Button (light)</td><td>3</td><td><code>container</code>, <code>on-container</code>, <code>focus</code></td></tr>
+            <tr><td>Button (basic)</td><td>2</td><td><code>on-container</code>, <code>focus</code></td></tr>
+            <tr><td>Toggle</td><td>1–2</td><td><code>color</code>, (<code>focus</code>)</td></tr>
+            <tr><td>Checkbox</td><td>2</td><td><code>color</code>, <code>focus</code></td></tr>
+            <tr><td>Radio Button</td><td>1</td><td><code>color</code></td></tr>
+            <tr><td>Badge</td><td>2</td><td><code>color</code>, <code>on-color</code></td></tr>
+            <tr><td>Tab</td><td>3–4</td><td><code>color</code>, <code>on-color</code>, <code>outline</code>, <code>focus</code></td></tr>
+            <tr><td>Icon</td><td>1</td><td><code>color</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>No component needs more than 6. Most need 1–3. The 6 roles cover every case.</p>
+
+      <h2>7.4 Component Typography Tokens &amp; Styles</h2>
+      <p>Typography tokens that change with size belong in the Size collection alongside dimensional tokens.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">Full Typography Chain</span>
+          <button class="copy-btn"><span class="copy-label">Copy</span></button>
+        </div>
+        <pre><code><span class="s-comment">// Tier 1 — Primitive</span>
+<span class="s-tier1">font-size-sm:  14px</span>
+<span class="s-tier1">font-size-md:  16px</span>
+      ↓
+<span class="s-comment">// Tier 3 — Button / Size (size collection)</span>
+<span class="s-tier3">button-font-size</span>: <span class="s-value">{font-size-sm}</span>  <span class="s-comment">← sm mode</span>
+                    <span class="s-value">{font-size-sm}</span>  <span class="s-comment">← md mode</span>
+                    <span class="s-value">{font-size-md}</span>  <span class="s-comment">← lg mode</span>
+      ↓
+<span class="s-comment">// Figma Text Style "Button / Label"</span>
+<span class="s-prop">font-size</span>    → <span class="s-value">$button-font-size</span>  <span class="s-comment">(bound to Size token)</span>
+<span class="s-prop">font-weight</span>  → <span class="s-value">$button-font-weight</span>
+<span class="s-prop">font-family</span>  → <span class="s-value">Inter</span>              <span class="s-comment">(static)</span>
+      ↓
+<span class="s-comment">// Label text node inside Button component</span>
+<span class="s-keyword">style</span> = <span class="s-string">"Button / Label"</span>  <span class="s-comment">(no direct variable needed)</span></code></pre>
+      </div>
+
+      <div class="callout callout--rule">
+        <span class="callout-icon">📏</span>
+        <div class="callout-body">
+          <strong>Figma Constraint: Variables vs Styles</strong>
+          In Figma, applying a Text Style and binding a font-size variable to the same text node are <em>mutually exclusive</em> — the style wins. The solution: bind the variable <em>inside the style definition</em>, not on the text node itself.
+        </div>
+      </div>
+
+      <h2>7.5 Token Naming Rules</h2>
+      <p>Token names follow a flat, hyphenated, lowercase pattern: <code>{component}-{element}-{property}</code></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Segment</th><th>Rule</th><th>Example</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>{component}</code></td><td>Component name, lowercase, hyphenated</td><td><code>button</code>, <code>form-field</code>, <code>toggle</code></td></tr>
+            <tr><td><code>{element}</code></td><td>Child element name (omit for root)</td><td><code>thumb</code>, <code>track</code>, <code>label</code>, <code>icon</code></td></tr>
+            <tr><td><code>{property}</code></td><td>CSS property or abstract property name</td><td><code>size</code>, <code>color</code>, <code>radius</code>, <code>padding-x</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">Token name examples</span>
+        </div>
+        <pre><code><span class="s-tier3">button-height</span>              <span class="s-comment">← root property, no element</span>
+<span class="s-tier3">button-font-size</span>           <span class="s-comment">← root-level typography</span>
+<span class="s-tier3">button-icon-size</span>           <span class="s-comment">← child element (icon) + property</span>
+<span class="s-tier3">toggle-thumb-size</span>          <span class="s-comment">← child element (thumb) + property</span>
+<span class="s-tier3">toggle-track-off</span>           <span class="s-comment">← child (track) + state (off)</span>
+<span class="s-tier3">checkbox-border-off</span>        <span class="s-comment">← root border in unchecked state</span>
+<span class="s-tier3">form-field-label-font-size</span> <span class="s-comment">← child element (label) + property</span>
+
+<span class="s-comment">✗ WRONG: button-height-md  ← mode in token name</span>
+<span class="s-comment">✗ WRONG: btn-pad           ← abbreviation</span>
+<span class="s-comment">✗ WRONG: primary-button-h  ← type in token name</span></code></pre>
+      </div>
+
+      <div class="page-nav">
+        <a href="06-semantic.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">Tier 2 — Semantic</span>
+        </a>
+        <a href="08-color-system.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">Next →</span>
+          <span class="page-nav-label">Color System In Depth</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

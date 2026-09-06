@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Designers Figma Workflow — CocoKits Token Architecture</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Figma workflow for designers: setting up components with variables, binding tokens, switching modes for size and color, and managing variant vs mode properties.">
+  <meta name="keywords" content="design tokens, CocoKits, design system, CSS custom properties, Figma variables, token architecture, Angular, React, multi-brand theming, dark mode">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="CocoKits">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocoKits Token Architecture">
+  <meta property="og:title" content="For Designers Figma Workflow — CocoKits Token Architecture">
+  <meta property="og:description" content="Figma workflow for designers: setting up components with variables, binding tokens, switching modes for size and color, and managing variant vs mode properties.">
+  <meta property="og:url" content="https://cocokits.com/token-architecture/pages/12-designers.html">
+  <meta property="og:image" content="https://cocokits.com/token-architecture/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="For Designers Figma Workflow — CocoKits Token Architecture">
+  <meta name="twitter:description" content="Figma workflow for designers: setting up components with variables, binding tokens, switching modes for size and color, and managing variant vs mode properties.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://cocokits.com/token-architecture/pages/12-designers.html">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="96x96" href="../assets/favicon-96x96.png">
+
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="site-wrapper">
+  <aside class="sidebar" id="sidebar">
+    <a href="../index.html" class="sidebar-logo">
+      <span class="logo-mark"><svg width="26" height="20" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+      <div class="logo-text">CocoKits <span>Token Architecture</span></div>
+      <span class="logo-version">v1.1</span>
+    </a>
+    <nav class="sidebar-nav">
+      <a href="../index.html" class="nav-home"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></a>
+      <div class="nav-group">
+        <span class="nav-group-label">Getting Started</span>
+        <a href="01-why-tokens.html" class="nav-link"><span class="nav-num">01</span><span class="nav-label">Why Design Tokens?</span></a>
+        <a href="02-glossary.html" class="nav-link"><span class="nav-num">02</span><span class="nav-label">Glossary</span></a>
+        <a href="03-problems.html" class="nav-link"><span class="nav-num">03</span><span class="nav-label">Problems Solved</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Architecture</span>
+        <a href="04-overview.html" class="nav-link"><span class="nav-num">04</span><span class="nav-label">Architecture Overview</span></a>
+        <a href="05-primitives.html" class="nav-link"><span class="nav-num">05</span><span class="nav-label">Tier 1 — Primitives</span></a>
+        <a href="06-semantic.html" class="nav-link"><span class="nav-num">06</span><span class="nav-label">Tier 2 — Semantic</span></a>
+        <a href="07-component-tokens.html" class="nav-link"><span class="nav-num">07</span><span class="nav-label">Tier 3 — Components</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Color System</span>
+        <a href="08-color-system.html" class="nav-link"><span class="nav-num">08</span><span class="nav-label">Color System In Depth</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Reference</span>
+        <a href="09-collections.html" class="nav-link"><span class="nav-num">09</span><span class="nav-label">Collections &amp; Modes</span></a>
+        <a href="10-token-chains.html" class="nav-link"><span class="nav-num">10</span><span class="nav-label">Token Chain Example</span></a>
+        <a href="11-examples.html" class="nav-link"><span class="nav-num">11</span><span class="nav-label">Component Examples</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Guides</span>
+        <a href="12-designers.html" class="nav-link"><span class="nav-num">12</span><span class="nav-label">For Designers</span></a>
+        <a href="13-developers.html" class="nav-link"><span class="nav-num">13</span><span class="nav-label">For Developers</span></a>
+        <a href="14-faq.html" class="nav-link"><span class="nav-num">14</span><span class="nav-label">FAQ</span></a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon">🌙</span><span class="toggle-label">Dark mode</span>
+        <span class="toggle-indicator"></span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-hero">
+      <div class="hero-number">12</div>
+      <div class="hero-content">
+        <div class="hero-badge">Guides</div>
+        <h1>For Designers</h1>
+        <p class="hero-desc">How to work with CocoKits variables and modes in Figma — from setting up a component to controlling states and switching themes.</p>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <h2>12.1 Figma Variables Panel Structure</h2>
+      <p>In the Figma Variables panel, you should see the following collections. Each collection has specific modes and a defined scope:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span class="code-dot dot-red"></span><span class="code-dot dot-amber"></span><span class="code-dot dot-green"></span></div>
+          <span class="code-lang">Figma Variables Panel layout</span>
+        </div>
+        <pre><code><span class="s-tier1">▶ Primitives / Color</span>       [Default]
+<span class="s-tier1">▶ Primitives / Spacing</span>     [Default]
+<span class="s-tier1">▶ Primitives / Typography</span>  [Default]
+<span class="s-tier1">▶ Primitives / Radius</span>      [Default]
+──────────────────────────────────────
+<span class="s-tier2">▶ Brand Palette</span>            [Brand-A | Brand-B]
+<span class="s-tier2">▶ Semantic / Color</span>         [Light | Dark]
+<span class="s-tier2">▶ Semantic / Typography</span>    [Default]
+──────────────────────────────────────
+<span class="s-tier3">▶ Color / Active</span>           [neutral | brand | info | success | warning | danger | contrast]
+<span class="s-tier3">▶ Button / Size</span>            [sm | md | lg]
+<span class="s-tier3">▶ Button / Structure</span>       [Default]
+<span class="s-tier3">▶ Toggle / Size</span>            [sm | md]
+<span class="s-tier3">▶ Toggle / Structure</span>       [Default]
+<span class="s-tier3">▶ Checkbox / Size</span>          [sm | md | lg]
+<span class="s-tier3">▶ Checkbox / Structure</span>     [Default]
+  ... (one row per component)</code></pre>
+      </div>
+
+      <h2>12.2 Setting Up a Component</h2>
+      <p>Follow these steps every time you create a new component in Figma:</p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Bind dimensional tokens to Size collection</strong><br>
+            Select the layer, go to Auto Layout, click the value → choose variable from <code>{Component}/Size</code>. Repeat for height, padding, font-size.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Bind structural colors to Structure collection</strong><br>
+            For fills that don't change with color family (disabled bg, checkmark white), bind to <code>{Component}/Structure</code>.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Bind family colors to Color / Active</strong><br>
+            For fills that change when the user switches color (track when checked, button bg), bind to <code>Color/Active → color</code>, <code>Color/Active → container</code>, etc.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <strong>Apply Typography Text Style</strong><br>
+            Select text layer → apply the matching Typography style (e.g., <code>Button / Label</code>). The style internally references Size tokens, so sizing is automatic.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <strong>Set up states as Variant Properties</strong><br>
+            Add a Variant Property called <code>State</code> with values: <code>default</code>, <code>hover</code>, <code>pressed</code>, <code>focused</code>, <code>disabled</code>. Do not make <code>Color</code> or <code>Size</code> variant properties.
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <strong>Test by switching collection modes</strong><br>
+            In the canvas, select the component instance. In the right panel under "Layer", look for the collection name and switch its mode. Verify that colors update correctly.
+          </div>
+        </div>
+      </div>
+
+      <h2>12.3 Variants vs Modes — What Goes Where?</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Property</th><th>Figma Variant?</th><th>Figma Mode?</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>State</code> (hover, pressed…)</td><td>✓ YES</td><td>–</td><td>State changes the visual "recipe" (shows different layers)</td></tr>
+            <tr><td><code>Type</code> (primary, outline…)</td><td>✓ YES</td><td>–</td><td>Type changes the structural visual recipe (different fills applied)</td></tr>
+            <tr><td><code>Color</code> (brand, danger…)</td><td>✗ NO</td><td>✓ Color/Active mode</td><td>Color changes token values, not the structure of the component</td></tr>
+            <tr><td><code>Size</code> (sm, md, lg)</td><td>✗ NO</td><td>✓ Component Size mode</td><td>Size changes token values (dimensions), not structure</td></tr>
+            <tr><td><code>Theme</code> (light, dark)</td><td>✗ NO</td><td>✓ Semantic/Color mode</td><td>Theme changes all semantic color values simultaneously</td></tr>
+            <tr><td><code>Brand</code> (Brand-A, B)</td><td>✗ NO</td><td>✓ Brand Palette mode</td><td>Brand changes which primitives are used across the board</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>12.4 Button Mode Switching Example</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>What changes</th><th>Bound to</th><th>Collection</th><th>Controlled by</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Dimensions</td><td><code>button-height</code>, etc.</td><td>Button / Size</td><td>Size mode (sm/md/lg)</td></tr>
+            <tr><td>Fill color</td><td><code>color</code> role</td><td>Color / Active</td><td>Color mode (brand/danger/…)</td></tr>
+            <tr><td>Light ↔ Dark</td><td><code>brand-color</code>, etc.</td><td>Semantic / Color</td><td>Theme mode (Light/Dark)</td></tr>
+            <tr><td>Brand switch</td><td><code>brand-base</code>, etc.</td><td>Brand Palette</td><td>Brand mode (Brand-A/B)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>12.5 Mode Inheritance in Frames</h2>
+      <p>Setting a mode on a frame applies it to <em>all children</em> unless overridden. Use this deliberately:</p>
+
+      <div class="callout callout--tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Page-level theming</strong>: Set Semantic/Color to Dark on the root frame → the entire screen goes dark. No need to touch individual components.
+        </div>
+      </div>
+
+      <div class="callout callout--warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Component-level override</strong>: To make one button "danger" in an otherwise "brand" screen, select only that button instance and override its Color/Active mode to "danger". The parent mode keeps applying to all other children.
+        </div>
+      </div>
+
+      <div class="page-nav">
+        <a href="11-examples.html" class="page-nav-link page-nav-link--prev">
+          <span class="page-nav-direction">← Previous</span>
+          <span class="page-nav-label">Component Examples</span>
+        </a>
+        <a href="13-developers.html" class="page-nav-link page-nav-link--next">
+          <span class="page-nav-direction">Next →</span>
+          <span class="page-nav-label">For Developers</span>
+        </a>
+      </div>
+    </div>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo-mark"><svg width="32" height="24" viewBox="0 0 35 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.2141 3.67723L12.184 0.647095L0 12.8311L12.184 25.0151L14.8763 22.3228L5.72245 13.1689L15.2141 3.67723Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#003F2A"/><path fill-rule="evenodd" clip-rule="evenodd" d="M22.2141 0.984932L10.0301 13.1689L22.2141 25.3529L34.3981 13.1689L22.2141 0.984932ZM22.2141 6.40385L15.4491 13.1689L22.2141 19.934L28.9792 13.1689L22.2141 6.40385Z" fill="#008D5E"/></svg></span>
+          <div class="footer-brand-text">
+            <span class="footer-brand-name">CocoKits</span>
+            <span class="footer-tagline">Token Architecture</span>
+          </div>
+          <span class="footer-version">v1.1</span>
+        </div>
+        <nav class="footer-links">
+          <a href="https://cocokits.com" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span>cocokits.com</span>
+          </a>
+          <a href="mailto:hello@cocokits.com" class="footer-link">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>hello@cocokits.com</span>
+          </a>
+          <a href="https://github.com/coco-base/cocokits" class="footer-link" target="_blank" rel="noopener">
+            <svg class="footer-link-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+            <span>coco-base/cocokits</span>
+          </a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 CocoKits &mdash; Token Architecture v1.1. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<script src="../js/main.js"></script>
+</body>
+</html>
