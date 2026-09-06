@@ -59,6 +59,10 @@ Just send us an email with a link to your design system at `hello@cocokits.com`,
 
 ## Contributing
 
+For Codex-assisted development in this repository, start with [AGENTS.md](AGENTS.md).
+It links to focused guides for architecture, Angular/React components, themes,
+Storybook documentation, and development workflows under [ai-instructions/codex](ai-instructions/codex/architecture.md).
+
 If you’re interested in contributing, please review the guidelines below. They cover best practices for refining features, fixing bugs, and submitting pull requests. Check these lines for more details:
 
 - [Angular](https://angular.cocokits.com/?path=/docs/contributing-guidelines--docs)
