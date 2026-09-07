@@ -12,16 +12,24 @@ inspect the target implementation, its exports, `project.json`, and nearby examp
 Do not rescan the entire repository for each task. These guides are a navigation
 map, not a substitute for checking the source you will change.
 
-| Task                                                       | Read                                                     |
-| ---------------------------------------------------------- | -------------------------------------------------------- |
-| Find ownership, dependencies, or entry points              | [Architecture](ai-instructions/codex/architecture.md)    |
-| Develop or fix Angular/React components and utilities      | [Components](ai-instructions/codex/components.md)        |
-| Change appearance, theme configuration, or tokens          | [Themes](ai-instructions/codex/themes.md)                |
-| Write documentation, stories, examples, or fix the docs UI | [Storybook](ai-instructions/codex/storybook.md)          |
-| Run, test, lint, generate, commit, or prepare a release    | [Workflow](ai-instructions/codex/workflow.md)            |
-| Investigate setup failures or incomplete areas             | [Onboarding baseline](ai-instructions/codex/baseline.md) |
+| Task                                                        | Read                                                                    |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Find ownership, dependencies, or entry points               | [Architecture](ai-instructions/codex/architecture.md)                   |
+| Develop or fix Angular/React components and utilities       | [Components](ai-instructions/codex/components.md)                       |
+| Change appearance, theme configuration, or tokens           | [Themes](ai-instructions/codex/themes.md)                               |
+| Write documentation, stories, examples, or fix the docs UI  | [Storybook](ai-instructions/codex/storybook.md)                         |
+| Run, test, lint, generate, commit, or prepare a release     | [Workflow](ai-instructions/codex/workflow.md)                           |
+| Investigate setup failures or incomplete areas              | [Onboarding baseline](ai-instructions/codex/baseline.md)                |
+| Create or resume a component from design through validation | [Component lead skill](.agents/skills/cocokits-component-lead/SKILL.md) |
 
 ## Working rules
+
+- Use the component lead skill for any request to create or resume component work.
+  Unless the user narrows the scope, creation includes Angular, React, Frames X,
+  CocoKits, both Storybooks, tests, and browser validation. The lead delegates
+  product code and independently validates it. A worker explicitly assigned by
+  that lead executes its bounded implementation directly and does not invoke the
+  lead workflow again. A narrow component bug fix remains a normal scoped task.
 
 - Keep framework-neutral contracts in `packages/common/core` (`@cocokits/core`)
   and shared helpers in `packages/common/utils`. Do not import Angular/React into

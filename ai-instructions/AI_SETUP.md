@@ -8,6 +8,11 @@ Storybook documentation, testing, and releases. Start a new Codex task in this
 checkout to load the root guidance from the beginning; no global configuration
 change is needed. These guides are based on repository source and build config.
 
+For complete component work from a Figma or other design reference, use the
+repository-local [Cocokits component lead skill](../.agents/skills/cocokits-component-lead/SKILL.md).
+It coordinates framework, theme, documentation, testing, and visual validation
+work and keeps a restart-safe record under `ai-work/components/`.
+
 The framework/theme files below serve a different audience: developers using
 published Cocokits packages in their own applications. Keep consumer guidance
 separate from repository maintenance instructions.
