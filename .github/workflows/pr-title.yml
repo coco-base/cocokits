@@ -1,14 +1,11 @@
-# Manual only: commitlint on a PR title (squash merges use it as the commit message). The same check runs locally with
+# Commitlint on the PR title (squash merges use it as the commit message). The same check runs locally with
 # `pnpm ci:local --title "<title>"`.
 name: pr-title
 
 on:
-  workflow_dispatch:
-    inputs:
-      title:
-        description: PR title to check
-        type: string
-        required: true
+  pull_request:
+    branches: [next, main]
+    types: [opened, edited, synchronize, reopened]
 
 permissions:
   contents: read
@@ -32,5 +29,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Commitlint the PR title
         env:
-          PR_TITLE: ${{ inputs.title }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: printf '%s\n' "$PR_TITLE" | pnpm exec commitlint

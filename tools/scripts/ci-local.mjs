@@ -1,10 +1,11 @@
-// The local run of the GitHub pipeline (.github/workflows), which is manual-only. Every PR runs it before the push:
+// The local run of the GitHub pipeline (.github/workflows/ci.yml). Every pull request runs it before the push:
 //   pnpm ci:local --title "<PR title>"
-// Steps, stopping at the first failure: install, format, lint:files, affected lint/typecheck/test/build, commitlint of
-// the commits since the base, commitlint of the PR title, and the library generator proof when the change touches it.
-// Flags: --base <ref> (default origin/main), --title "<PR title>" (required when the run is for a PR), --all (always run
-// the generator proof). Known flakes under parallel load: workspace:test timeouts and machines:cycles ENOENT; re-run
-// that target alone (docs/style-guides/workspace/ci-pipeline.md).
+// Steps, stopping at the first failure: install, format, lint:files, affected lint/typecheck/test/build, affected
+// publint/attw, size, commitlint of the commits since the base, commitlint of the PR title, and the library generator
+// proof when the change touches it.
+// Flags: --base <ref> (default origin/main; origin/next while next is open), --title "<PR title>" (required when the
+// run is for a PR), --all (always run the generator proof). Known flakes under parallel load: workspace:test timeouts
+// and machines:cycles ENOENT; re-run that target alone (docs/style-guides/workspace/ci-pipeline.md).
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
 import { parseArgs } from 'node:util';
@@ -66,6 +67,9 @@ step('affected: lint typecheck test build', 'pnpm', [
   'build',
   `--base=${base}`,
 ]);
+step('affected: publint attw', 'pnpm', ['exec', 'nx', 'affected', '-t', 'publint', 'attw', `--base=${base}`]);
+step('build everything for size', 'pnpm', ['exec', 'nx', 'run-many', '-t', 'build']);
+step('size limit', 'pnpm', ['run', 'size']);
 step('commit messages', 'pnpm', ['exec', 'commitlint', '--from', base, '--to', 'HEAD']);
 if (values.title === undefined) {
   console.log('\n== PR title skipped (no --title; pass it when the run is for a PR)');

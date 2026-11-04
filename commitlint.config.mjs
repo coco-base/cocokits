@@ -1,7 +1,7 @@
-const TYPES = ['feat', 'fix', 'docs', 'perf', 'refactor', 'test', 'chore', 'story'];
-const SCOPELESS = new Set(['chore', 'story']);
+const TYPES = ['feat', 'fix', 'docs', 'perf', 'refactor', 'test', 'chore'];
+const SCOPELESS = new Set(['chore']);
 
-/** Scope required except for chore/story, which must not have one. A sub-scope may follow a project: `angular/button`. */
+/** Scope required except for chore, which must not have one. A sub-scope may follow a project: `angular/button`. */
 const scopeByType = (parsed) => {
   const { type, scope } = parsed;
   if (!type) return [true];
