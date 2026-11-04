@@ -1,83 +1,62 @@
-# CocoKits Next
+# CocoKits
 
-Unstyled components for Angular, React (including Next.js) and Vue. Behaviour is written once as framework-free machines. Thin adapters bind it to each framework. Themes style every framework the same way.
+Unstyled components for **Angular**, **React** (including Next.js) and **Vue**, and themes that style all three the same way.
 
-Agents and humans start at [AGENTS.md](./AGENTS.md), then [INDEX.md](./INDEX.md). Rules are in `docs/architecture.md`, reasons in `docs/why/`.
+- **One behaviour, three frameworks.** Keyboard handling, ARIA, state and form participation are written once in framework-free code. Thin adapters bind it to each framework.
+- **Unstyled by contract.** Every part renders a fixed `cck-` class and `data-*` attributes for each state. A theme is CSS plus a typed config, so it works the same in every framework.
+- **Accessible and SSR-safe.** Roles and keyboard behaviour follow the WAI-ARIA Authoring Practices. Nothing touches `window` or `document` at import time.
 
-## Prerequisites and setup
+Documentation: [doc.cocokits.com](https://doc.cocokits.com).
 
-- Node, in the range of `engines` in `package.json`.
-- pnpm, through corepack. The version is the `packageManager` field. Use pnpm only, never npm or yarn.
+> This is the `next` branch: the 2.0 rewrite. The 1.x code is on the [`v1`](https://github.com/coco-base/cocokits/tree/v1) branch. 2.0 is not released yet.
 
-```bash
-corepack enable
-pnpm install
-```
+## Packages
 
-`pnpm install` also installs the git hooks (husky, through `prepare`).
+Every package has the same version.
 
-## Repository layout
+| Package | What it is |
+|---|---|
+| `@cocokits/angular` | Angular components, one subpath per component (`@cocokits/angular/button`) |
+| `@cocokits/react` | React components, one subpath per component (`@cocokits/react/button`) |
+| `@cocokits/vue` | Vue components, one subpath per component (`@cocokits/vue/button`) |
+| `@cocokits/theme-cocokits` | The CocoKits theme: CSS, tokens and `ThemeConfig`, for any framework |
+| `@cocokits/theme-cocokits-angular`, `-react`, `-vue` | The typed layer of the CocoKits theme for one framework |
+| `@cocokits/theme-frames-x` | The Frames X theme: CSS and `ThemeConfig`, for any framework |
+| `@cocokits/theme-frames-x-angular`, `-react`, `-vue` | The typed layer of the Frames X theme for one framework |
 
-Source lives under `packages/`, tooling under `tools/`. Details: [repo-layout.md](./docs/style-guides/workspace/repo-layout.md).
+Internal packages that the packages above depend on: `@cocokits/angular-core`, `@cocokits/react-core`, `@cocokits/vue-core` (the framework adapters), `@cocokits/machines` (component behaviour), `@cocokits/cdk` (shared building blocks), `@cocokits/shared` and `@cocokits/utils`. They come in as dependencies; applications do not import them directly.
 
-| Project                  | Package                            | Path                               | Layer        |
-| ------------------------ | ---------------------------------- | ---------------------------------- | ------------ |
-| `utils`                  | `@cocokits/utils`                  | `packages/utils`                   | utils        |
-| `shared`                 | `@cocokits/shared`                 | `packages/shared`                  | shared       |
-| `cdk`                    | `@cocokits/cdk`                    | `packages/cdk`                     | cdk          |
-| `machines`               | `@cocokits/machines`               | `packages/machines`                | machine      |
-| `angular-core`           | `@cocokits/angular-core`           | `packages/angular/core`            | fw-core      |
-| `react-core`             | `@cocokits/react-core`             | `packages/react/core`              | fw-core      |
-| `vue-core`               | `@cocokits/vue-core`               | `packages/vue/core`                | fw-core      |
-| `angular`                | `@cocokits/angular`                | `packages/angular`                 | fw-component |
-| `react`                  | `@cocokits/react`                  | `packages/react`                   | fw-component |
-| `vue`                    | `@cocokits/vue`                    | `packages/vue`                     | fw-component |
-| `theme-cocokits`         | `@cocokits/theme-cocokits`         | `packages/themes/cocokits/core`    | theme        |
-| `theme-cocokits-angular` | `@cocokits/theme-cocokits-angular` | `packages/themes/cocokits/angular` | theme        |
-| `theme-cocokits-react`   | `@cocokits/theme-cocokits-react`   | `packages/themes/cocokits/react`   | theme        |
-| `theme-cocokits-vue`     | `@cocokits/theme-cocokits-vue`     | `packages/themes/cocokits/vue`     | theme        |
+## Install
 
-Layers import only from layers to their left: `utils, shared ← cdk ← machines ← <fw>-core ← <fw> components ← themes`.
-
-## Daily commands
-
-All targets that exist are listed in [targets.md](./docs/style-guides/workspace/targets.md).
+Install the component package of your framework and a theme:
 
 ```bash
-pnpm nx affected -t lint typecheck test build   # before every push
-pnpm nx run-many -t lint typecheck test build   # everything
-pnpm nx run <project>:<target>                  # one project, for example: pnpm nx run machines:test
-pnpm nx format:check                            # check formatting
-pnpm nx format                                  # fix formatting (pnpm format)
-pnpm changeset add                              # every releasable change
+# Angular
+npm install @cocokits/angular @cocokits/theme-cocokits @cocokits/theme-cocokits-angular
+
+# React or Next.js
+npm install @cocokits/react @cocokits/theme-cocokits @cocokits/theme-cocokits-react
+
+# Vue or Nuxt
+npm install @cocokits/vue @cocokits/theme-cocokits @cocokits/theme-cocokits-vue
 ```
 
-## Creating packages and entry points
+Then load the theme stylesheet (`@cocokits/theme-cocokits/styles.css`) and import components from their subpaths. Usage, theming and every component are in the [documentation](https://doc.cocokits.com).
 
-Never create packages or entry points by hand; use the `library` generator ([generators guide](./docs/style-guides/workspace/generators.md)). For example, a machine entry point `@cocokits/machines/switch`:
+## Supported versions
 
-```bash
-pnpm nx g @cocokits/workspace:library switch --kind=machine
-```
+| | Range |
+|---|---|
+| Angular | 22 |
+| React | 19 (Next.js 15 and 16) |
+| Vue | 3.5 (Nuxt 3 and 4) |
 
-Run `pnpm nx format` afterwards. All kinds and options: [tools/workspace-plugin/README.md](./tools/workspace-plugin/README.md) and [generators.md](./docs/style-guides/workspace/generators.md).
+The exact ranges are the `peerDependencies` of each package and [`compatibility.json`](compatibility.json).
 
-## Git workflow
+## Contribute
 
-1. Branch off `main`.
-2. The PR description lists the commands you ran with their results.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and, for the rules of the code, [docs/architecture.md](docs/architecture.md). Coding agents start at [AGENTS.md](AGENTS.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
-Git hooks:
+## License
 
-- pre-commit: ESLint and Prettier on the staged files only (lint-staged).
-- commit-msg: commitlint checks the message.
-
-The GitHub workflows are manual-only. Before every PR push run `pnpm ci:local --title "<PR title>"`, which runs the whole pipeline locally ([ci-pipeline.md](./docs/style-guides/workspace/ci-pipeline.md)).
-
-## Current state
-
-The packages are empty scaffolds: no components, machines or cdk modules exist yet.
-
-## Local scratch folder
-
-`.tmp/` is a git-ignored scratch folder for local output.
+[Apache License 2.0](LICENSE)
