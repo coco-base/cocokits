@@ -60,7 +60,8 @@ module.exports = {
     tsConfig: { fileName: 'tsconfig.base.json' },
     tsPreCompilationDeps: true,
     doNotFollow: { path: 'node_modules' },
-    exclude: { path: '^packages/(angular|react|vue)/core/' },
+    // Build output is not source, and a build running at the same time rewrites it under the check.
+    exclude: { path: ['^packages/(angular|react|vue)/core/', '/dist/'] },
     includeOnly: '^(packages|tools/workspace-plugin/test-fixtures)/',
     moduleSystems: ['es6', 'cjs'],
     enhancedResolveOptions: {

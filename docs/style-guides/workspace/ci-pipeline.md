@@ -14,7 +14,7 @@ Runs on a pull request to `next` or `main` and on a push to `next` or `main`. A 
 6. `pnpm size` after building every project
 7. On a pull request, a second job runs commitlint over the commits since the base
 
-`pr-title.yml` runs commitlint on the title of the pull request (squash merges use it as the commit message). `generator-verify.yml` is manual: the slow buildability check of the library generator.
+`pr-title.yml` runs commitlint on the title of the pull request (squash merges use it as the commit message); it skips the release pull request from `next`, which is merged, not squashed. `generator-verify.yml` is manual: the slow buildability check of the library generator.
 
 ## `pnpm ci:local`
 

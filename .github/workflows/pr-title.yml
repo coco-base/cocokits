@@ -17,6 +17,8 @@ concurrency:
 jobs:
   title:
     name: PR title
+    # The release pull request from `next` to `main` is merged, not squashed, so its title is free.
+    if: github.head_ref != 'next'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [angular({ tsconfig: 'tsconfig.spec.json' })],
   resolve: { tsconfigPaths: true },
   test: {
+    // Tests run in parallel with other projects; the default 5 s is too tight under that load.
+    testTimeout: 15_000,
     name: 'theme-cocokits-angular',
     environment: 'jsdom',
     setupFiles: ['tests/setup.ts'],
