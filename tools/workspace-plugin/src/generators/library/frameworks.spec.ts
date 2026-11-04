@@ -131,7 +131,7 @@ describe('library generator: themes', () => {
     const tree = createWorkspace();
     await generate(tree, { kind: 'theme-core', theme: 'acme' });
     const { targets } = readJson<{ targets: Record<string, unknown> }>(tree, 'packages/themes/acme/core/project.json');
-    expect(Object.keys(targets)).toEqual(['build', 'docs-data', 'typecheck']);
+    expect(Object.keys(targets)).toEqual(['build', 'docs-data', 'typecheck', 'pack', 'publint', 'attw']);
     expect(targets['docs-data']).toEqual({
       executor: '@cocokits/workspace:docs-data',
       options: { source: 'theme' },

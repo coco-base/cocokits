@@ -29,6 +29,9 @@
         "parallel": false
       },
       "dependsOn": ["^build"]
-    }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
   }
 }

@@ -28,12 +28,24 @@ describe('library generator: shared packages', () => {
       type: 'module',
       sideEffects: false,
     });
+    expect(pkg.repository).toEqual({
+      type: 'git',
+      url: 'https://github.com/coco-base/cocokits.git',
+      directory: root,
+    });
     expect(pkg.files).toEqual(['dist']);
     expect(pkg.publishConfig.access).toBe('public');
     expect(pkg.exports).toEqual({ '.': { types: './dist/index.d.ts', default: './dist/index.js' } });
     expect(pkg.peerDependencies).toBeUndefined();
     expect(readJson<{ extends: string }>(tree, `${root}/tsconfig.json`).extends).toBe('../../tsconfig.strict.json');
     expect(readJson<{ name: string }>(tree, `${root}/project.json`).name).toBe(name);
+    expect(Object.keys(readJson<{ targets: object }>(tree, `${root}/project.json`).targets)).toEqual([
+      'build',
+      'typecheck',
+      'pack',
+      'publint',
+      'attw',
+    ]);
     expect(tsconfigPaths(tree)[`@cocokits/${name}`]).toEqual([`./${root}/src/index.ts`]);
     expect(sizeEntries(tree)).toEqual([`@cocokits/${name}`]);
     expect(rootDevDependencies(tree)).toHaveProperty('tsdown');

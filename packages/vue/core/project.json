@@ -11,11 +11,13 @@
       "options": {
         "commands": [
           "vite build -c vite.config.lib.mjs",
-          "vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src"
+          "vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src",
+          "node ../../../tools/scripts/fix-declaration-imports.mjs dist"
         ],
         "cwd": "{projectRoot}",
         "parallel": false
-      }
+      },
+      "inputs": ["production", "^production", "{workspaceRoot}/tools/scripts/fix-declaration-imports.mjs"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
@@ -24,6 +26,9 @@
         "cwd": "{projectRoot}",
         "parallel": false
       }
-    }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
   }
 }

@@ -20,6 +20,9 @@
         "cwd": "{projectRoot}",
         "parallel": false
       }
-    }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
   }
 }

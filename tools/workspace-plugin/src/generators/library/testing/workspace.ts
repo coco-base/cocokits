@@ -35,6 +35,8 @@ export function snapshot(tree: Tree): Record<string, string> {
 export interface PackageJson {
   name: string;
   version: string;
+  license?: string;
+  repository?: { type: string; url: string; directory: string };
   type: string;
   sideEffects: boolean | string[];
   files?: string[];

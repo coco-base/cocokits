@@ -67,6 +67,9 @@
       "options": {
         "source": "theme"
       }
-    }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
   }
 }

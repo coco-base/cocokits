@@ -18,24 +18,49 @@
     ]
   },
   "plugins": [
-    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
-    { "plugin": "@nx/vitest", "options": { "testTargetName": "test" } }
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test"
+      }
+    }
   ],
   "targetDefaults": {
-    "build": { "cache": true, "dependsOn": ["^build"], "inputs": ["production", "^production"] },
-    "typecheck": { "cache": true, "dependsOn": ["^build"] },
-    "test": { "cache": true, "dependsOn": ["^build"], "inputs": ["default", "^production"] },
-    "lint": { "cache": true },
-    "pack": { "cache": true, "dependsOn": ["build"], "outputs": ["{workspaceRoot}/dist/tarballs/{projectName}"] },
-    "publint": { "cache": true, "dependsOn": ["pack"] },
-    "attw": { "cache": true, "dependsOn": ["pack"] },
-    "size": { "cache": true, "dependsOn": ["build"] },
-    "api-report": { "cache": true, "dependsOn": ["build"], "outputs": ["{projectRoot}/api"] },
-    "dom-contract": { "cache": true, "dependsOn": ["build"], "outputs": ["{projectRoot}/dom-contract"] },
+    "build": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "typecheck": {
+      "cache": true,
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^production"]
+    },
+    "lint": {
+      "cache": true
+    },
     "docs-data": {
       "cache": true,
       "dependsOn": ["build"],
-      "inputs": ["production", "^production", "executors", { "dependentTasksOutputFiles": "**/*", "transitive": true }],
+      "inputs": [
+        "production",
+        "^production",
+        "executors",
+        {
+          "dependentTasksOutputFiles": "**/*",
+          "transitive": true
+        }
+      ],
       "outputs": ["{workspaceRoot}/dist/docs-data/{projectName}"]
     },
     "api-docs": {
@@ -50,7 +75,58 @@
       ],
       "outputs": ["{workspaceRoot}/dist/api-docs/{projectName}"]
     },
-    "smoke": { "cache": false, "dependsOn": ["build"] }
+    "pack": {
+      "cache": true,
+      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/package-checks.mjs pack {projectName}",
+        "cwd": "{workspaceRoot}"
+      },
+      "outputs": ["{workspaceRoot}/dist/tarballs/{projectName}"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/tools/scripts/package-checks.mjs",
+        {
+          "dependentTasksOutputFiles": "**/*",
+          "transitive": false
+        }
+      ]
+    },
+    "publint": {
+      "cache": true,
+      "dependsOn": ["pack"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/tools/scripts/package-checks.mjs",
+        {
+          "dependentTasksOutputFiles": "**/*.tgz",
+          "transitive": false
+        }
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/package-checks.mjs publint {projectName}",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "attw": {
+      "cache": true,
+      "dependsOn": ["pack"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/tools/scripts/package-checks.mjs",
+        {
+          "dependentTasksOutputFiles": "**/*.tgz",
+          "transitive": false
+        }
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/package-checks.mjs attw {projectName}",
+        "cwd": "{workspaceRoot}"
+      }
+    }
   },
   "release": null
 }

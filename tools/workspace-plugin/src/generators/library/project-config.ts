@@ -31,7 +31,15 @@ function commandTarget(commands: string[]): Target {
   };
 }
 
-/** Angular packages without a root entry (D-019) strip the primary entry that ng-packagr always builds. */
+/** The Vue build runs a workspace script, so a change of the script rebuilds the package. */
+function withScriptInput(target: Target): Target {
+  return {
+    ...target,
+    inputs: ['production', '^production', '{workspaceRoot}/tools/scripts/fix-declaration-imports.mjs'],
+  };
+}
+
+/** Angular packages without a root entry strip the primary entry that ng-packagr always builds. */
 export function stripsRootExport(spec: PackageSpec): boolean {
   return spec.builder === 'ng-packagr' && !spec.rootEntry && spec.kind === 'fw';
 }
@@ -45,7 +53,7 @@ function packageTarget(spec: PackageSpec): Target {
   };
 }
 
-function buildTarget(spec: PackageSpec): Target {
+function buildTarget(spec: PackageSpec, offset: string): Target {
   switch (spec.builder) {
     case 'ng-packagr':
       if (stripsRootExport(spec)) {
@@ -62,10 +70,13 @@ function buildTarget(spec: PackageSpec): Target {
         options: { project: `{projectRoot}/${ngPackageFile(spec)}`, tsConfig: '{projectRoot}/tsconfig.lib.json' },
       };
     case 'vite-vue':
-      return commandTarget([
-        'vite build -c vite.config.lib.mjs',
-        'vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src',
-      ]);
+      return withScriptInput(
+        commandTarget([
+          'vite build -c vite.config.lib.mjs',
+          'vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src',
+          `node ${offset}tools/scripts/fix-declaration-imports.mjs dist`,
+        ]),
+      );
     default:
       return commandTarget(
         spec.css
@@ -84,12 +95,16 @@ function docsDataTarget(): Target {
   return { executor: '@cocokits/workspace:docs-data', options: { source: 'theme' } };
 }
 
-function targetsFor(spec: PackageSpec): Record<string, Target> {
+/** The publish checks; their command, cache and `dependsOn` come from the defaults in nx.json. */
+const PUBLISH_CHECKS: Record<string, Target> = { pack: {}, publint: {}, attw: {} };
+
+function targetsFor(spec: PackageSpec, offset: string): Record<string, Target> {
   return {
     ...(stripsRootExport(spec) ? { package: packageTarget(spec) } : {}),
-    ...(spec.type === 'tool' ? {} : { build: buildTarget(spec) }),
+    ...(spec.type === 'tool' ? {} : { build: buildTarget(spec, offset) }),
     ...(spec.kind === 'theme-core' ? { 'docs-data': docsDataTarget() } : {}),
     typecheck: typecheckTarget(spec),
+    ...(spec.type === 'tool' ? {} : PUBLISH_CHECKS),
   };
 }
 
@@ -108,7 +123,7 @@ export function buildProjectJson(spec: PackageSpec, offset: string): Record<stri
     projectType: 'library',
     sourceRoot: sourceRootOf(spec),
     tags: [spec.layer, spec.scope, `type:${spec.type}`],
-    targets: targetsFor(spec),
+    targets: targetsFor(spec, offset),
   };
 }
 

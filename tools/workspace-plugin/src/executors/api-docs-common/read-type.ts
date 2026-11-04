@@ -9,9 +9,8 @@ const WRAPPERS = new Set([
 ]);
 
 /**
- * Splits generic arguments at the commas that are not inside brackets, parentheses, braces or quotes. The quote scan
- * is the one of `splitUnionType` in `@cocokits/docs-shared` (the owner): the workspace project imports nothing internal, so
- * it keeps this copy (architecture §10, one exception), and the two must change together.
+ * Splits generic arguments at the commas that are not inside brackets, parentheses, braces or quotes. The workspace
+ * project imports nothing internal, so it keeps its own scan (architecture §10, one exception).
  */
 function topLevelArguments(text: string): string[] {
   const parts: string[] = [];

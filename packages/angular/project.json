@@ -45,6 +45,9 @@
     },
     "lint": {
       "dependsOn": ["cycles"]
-    }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
   }
 }

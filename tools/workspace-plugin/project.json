@@ -12,6 +12,18 @@
         "cwd": "{projectRoot}",
         "parallel": false
       }
+    },
+    "api-parity": {
+      "executor": "@cocokits/workspace:api-parity",
+      "dependsOn": ["angular:api-docs", "react:api-docs", "vue:api-docs"],
+      "cache": true,
+      "inputs": [
+        "executors",
+        {
+          "dependentTasksOutputFiles": "**/*.json",
+          "transitive": false
+        }
+      ]
     }
   }
 }
