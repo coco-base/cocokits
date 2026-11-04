@@ -1,0 +1,21 @@
+// FieldError rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The part is a live region that is always rendered and empty until it shows, so it sets no
+// `display` (never `none`: it must stay in the accessibility tree, and the native `hidden` works).
+// The space before a message is padding on the feedback wrapper's side (_form-field.scss), so an
+// empty one takes none. The text is the cue besides the color.
+@mixin rules {
+  .cck-field-error {
+    color: var(--cck-field-error-text-color);
+    font-family: var(--cck-field-error-font-family);
+    font-size: var(--cck-field-error-font-size);
+    line-height: var(--cck-field-error-line-height);
+    letter-spacing: var(--cck-field-error-letter-spacing);
+    font-weight: var(--cck-field-error-font-weight);
+  }
+
+  @media (forced-colors: active) {
+    .cck-field-error {
+      color: CanvasText;
+    }
+  }
+}

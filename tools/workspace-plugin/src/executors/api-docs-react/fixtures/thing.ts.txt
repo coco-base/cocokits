@@ -1,0 +1,52 @@
+import type { ButtonHTMLAttributes, ReactElement, ReactNode } from 'react';
+
+interface MachineProps {
+  /**
+   * Whether the thing is disabled.
+   * @defaultValue false
+   */
+  readonly disabled?: boolean;
+}
+
+/** Props of the {@link Thing}. Native button props pass through. */
+export interface ThingProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>, Pick<MachineProps, 'disabled'> {
+  /**
+   * Replaces the element.
+   *
+   * @cckSemantic none
+   * @remarks The element override.
+   */
+  readonly render?: ReactElement | ((props: ThingProps) => ReactElement) | undefined;
+  /** The content of the thing. */
+  readonly children?: ReactNode | undefined;
+  /** A hint zone. */
+  readonly hint?: ReactNode;
+  /** The accessible label. */
+  readonly label: string;
+  /**
+   * Whether it is native.
+   * @defaultValue true
+   */
+  readonly native?: boolean | undefined;
+}
+
+/**
+ * Renders a thing.
+ * @cckPart root
+ */
+export function Thing(props: ThingProps): ReactElement {
+  return props as unknown as ReactElement;
+}
+
+/**
+ * Hidden.
+ * @internal
+ */
+export function Secret(): ReactElement {
+  return {} as ReactElement;
+}
+
+/** Not a component: a hook. */
+export function useThing(): number {
+  return 1;
+}

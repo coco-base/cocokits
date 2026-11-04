@@ -1,8 +1,0 @@
-@use '../../../token/scss' as *;
-
-@mixin button-disable {
-  background-color: $base-fill-1;
-  color: $base-disabled;
-  cursor: default;
-  user-select: none;
-}

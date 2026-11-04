@@ -1,29 +1,25 @@
 {
-  "name": "@cocokits/angular-core",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/angular/core/src",
-  "prefix": "lib",
+  "name": "angular-core",
   "projectType": "library",
-  "tags": ["type:ui", "framework:angular"],
+  "sourceRoot": "packages/angular/core/src",
+  "tags": ["layer:fw-core", "scope:angular", "type:lib"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "outputs": ["{workspaceRoot}/dist/packages/angular-core"],
       "options": {
-        "project": "packages/angular/core/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "packages/angular/core/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "packages/angular/core/tsconfig.lib.json"
-        }
-      },
-      "defaultConfiguration": "production"
+        "project": "{projectRoot}/ng-package.build.json",
+        "tsConfig": "{projectRoot}/tsconfig.lib.json"
+      }
     },
-    "quick-fix-eslint": {
-      "executor": "@nx/eslint:lint"
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc --noEmit -p tsconfig.lib.json", "tsc --noEmit -p tsconfig.spec.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
     }
   }
 }

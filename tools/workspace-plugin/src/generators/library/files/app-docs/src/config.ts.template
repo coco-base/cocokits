@@ -1,0 +1,2 @@
+// Placeholder so the project has a TypeScript input; the docs config (preview origins, budgets) replaces it.
+export const SITE_NAME = '<%= projectName %>';

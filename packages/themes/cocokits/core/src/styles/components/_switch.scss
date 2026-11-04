@@ -1,0 +1,259 @@
+// Switch rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-switch-* tokens. The label wraps the track and the content. The track is the
+// hit area (at least 24 by 24 CSS px) with the native input transparent over it; its `::before` is the
+// visible pill. The thumb moves with `inset-inline-start`, so RTL needs no counterpart. On and off are
+// told apart by the thumb position, not only by color. Every state rule has the same specificity, so
+// source order decides: read-only, checked, invalid, disabled.
+$root: '.cck-switch';
+$label: '> .cck-switch__label';
+$track: '#{$label} > .cck-switch__track';
+$pill: '#{$track}::before';
+$thumb: '#{$track} > .cck-switch__thumb';
+$backdrop: '#{$track} > .cck-switch__backdrop';
+$input: '#{$track} > .cck-switch__input';
+$invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
+// A native `fieldset[disabled]` disables the input before the root renders `data-disabled`.
+$disabled: ':where([data-disabled], :has(#{$input}:disabled))';
+// Where the thumb rests: its offset from the pill edge, and at the other end, and the centre of both.
+$thumb-start: var(--cck-switch-thumb-offset);
+$thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-offset));
+
+@mixin rules {
+  .cck-switch {
+    box-sizing: border-box;
+    display: inline-flex;
+    max-inline-size: 100%;
+    vertical-align: top;
+  }
+
+  // The root sets `display`, so the theme restates the native `hidden`.
+  .cck-switch[hidden] {
+    display: none;
+  }
+
+  .cck-switch__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cck-switch-gap);
+    min-inline-size: 0;
+    color: var(--cck-switch-label-text-color);
+    font-family: var(--cck-switch-label-font-family);
+    font-size: var(--cck-switch-label-font-size);
+    line-height: var(--cck-switch-label-line-height);
+    letter-spacing: var(--cck-switch-label-letter-spacing);
+    cursor: pointer;
+  }
+
+  // Reverses the row with the writing direction, so RTL needs no counterpart.
+  .cck-switch[data-label-position='before'] #{$label} {
+    flex-direction: row-reverse;
+  }
+
+  // A stacking context, so the halo (z-index -1) paints behind the pill and the thumb, not behind the page.
+  .cck-switch__track {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    flex: none;
+    inline-size: var(--cck-switch-track-width);
+    block-size: var(--cck-switch-hit-size);
+  }
+
+  .cck-switch__track::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 50%;
+    box-sizing: border-box;
+    block-size: var(--cck-switch-track-height);
+    translate: 0 -50%;
+    border: var(--cck-switch-track-border-width) solid var(--cck-switch-track-border-color);
+    border-radius: 9999px;
+    background-color: var(--cck-switch-track-bg);
+  }
+
+  .cck-switch__input {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .cck-switch__thumb {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: $thumb-start;
+    inline-size: var(--cck-switch-thumb-size);
+    block-size: var(--cck-switch-thumb-size);
+    translate: 0 -50%;
+    border-radius: 50%;
+    background-color: var(--cck-switch-thumb-color);
+    pointer-events: none;
+  }
+
+  // The halo sits behind the thumb and follows it.
+  .cck-switch__backdrop {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: calc(#{$thumb-start} + (var(--cck-switch-thumb-size) - var(--cck-switch-halo-size)) / 2);
+    inline-size: var(--cck-switch-halo-size);
+    block-size: var(--cck-switch-halo-size);
+    translate: 0 -50%;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  #{$root}:where(:hover) #{$backdrop} {
+    background-color: var(--cck-switch-halo-bg);
+  }
+
+  #{$root}:where(:hover) #{$pill} {
+    border-color: var(--cck-switch-track-hover-border-color);
+  }
+
+  #{$root}:where(:hover) #{$thumb} {
+    background-color: var(--cck-switch-thumb-hover-color);
+  }
+
+  // Read-only: a dashed border tells it from an editable track without color, also in forced colors.
+  #{$root}:where([data-readonly]) #{$pill} {
+    border-style: dashed;
+    // The fill stops at the border, so the gaps between the dashes show the surface also when checked.
+    background-clip: padding-box;
+    background-color: var(--cck-switch-track-readonly-bg);
+  }
+
+  #{$root}:where([data-checked]) {
+    #{$pill} {
+      border-color: var(--cck-switch-track-checked-border-color);
+      background-color: var(--cck-switch-track-checked-bg);
+    }
+
+    #{$thumb} {
+      inset-inline-start: $thumb-end;
+      background-color: var(--cck-switch-thumb-checked-color);
+    }
+
+    #{$backdrop} {
+      inset-inline-start: calc(#{$thumb-end} + (var(--cck-switch-thumb-size) - var(--cck-switch-halo-size)) / 2);
+    }
+  }
+
+  #{$root}#{$invalid} #{$pill} {
+    border-color: var(--cck-switch-track-invalid-border-color);
+    // A second line of the same width inside the border: the cue does not rest on hue alone.
+    // Forced colors drop the shadow, so the border gets thicker there.
+    box-shadow: inset 0 0 0 var(--cck-switch-track-border-width) var(--cck-switch-track-invalid-border-color);
+  }
+
+  // On a filled track the inner line takes the thumb color, which reads against the fill; the border stays danger.
+  #{$root}:where([data-checked])#{$invalid} #{$pill} {
+    box-shadow: inset 0 0 0 var(--cck-switch-track-border-width) var(--cck-switch-thumb-checked-color);
+  }
+
+  #{$root}#{$disabled} {
+    #{$backdrop} {
+      background-color: transparent;
+    }
+
+    #{$pill} {
+      border-color: var(--cck-switch-track-disabled-border-color);
+      background-color: var(--cck-switch-track-disabled-bg);
+      // Disabled wins over invalid: no invalid line.
+      box-shadow: none;
+    }
+
+    #{$thumb} {
+      background-color: var(--cck-switch-thumb-disabled-color);
+    }
+
+    #{$label} {
+      color: var(--cck-switch-label-disabled-text-color);
+      cursor: default;
+    }
+
+    #{$input} {
+      cursor: default;
+    }
+  }
+
+  #{$root}:has(#{$input}:focus-visible) #{$pill} {
+    outline: var(--cck-switch-focus-width) solid var(--cck-switch-focus-color);
+    outline-offset: var(--cck-switch-focus-offset);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cck-switch__track::before,
+    .cck-switch__backdrop {
+      transition-property: background-color, border-color;
+      transition-duration: var(--cck-switch-motion-duration);
+    }
+
+    .cck-switch__thumb {
+      transition-property: inset-inline-start, background-color;
+      transition-duration: var(--cck-switch-motion-duration);
+    }
+
+    .cck-switch__backdrop {
+      transition-property: inset-inline-start, background-color;
+    }
+  }
+
+  @media (forced-colors: active) {
+    #{$root} #{$pill} {
+      border-color: CanvasText;
+      background-color: Canvas;
+    }
+
+    #{$root} #{$thumb} {
+      background-color: CanvasText;
+    }
+
+    // Forced colors give the hover halo no tint.
+    #{$root} #{$backdrop} {
+      background-color: transparent;
+    }
+
+    // The border is CanvasText, so a dashed (read-only) or thicker (invalid) edge shows on the Highlight fill.
+    #{$root}:where([data-checked]) {
+      #{$pill} {
+        border-color: CanvasText;
+        background-color: Highlight;
+      }
+
+      #{$thumb} {
+        background-color: HighlightText;
+      }
+    }
+
+    #{$root}#{$invalid} #{$pill} {
+      border-width: var(--cck-switch-track-invalid-border-width);
+    }
+
+    #{$root}#{$disabled} {
+      #{$pill} {
+        border-color: GrayText;
+        border-width: var(--cck-switch-track-border-width);
+        background-color: Canvas;
+      }
+
+      #{$thumb} {
+        background-color: GrayText;
+      }
+
+      #{$label} {
+        color: GrayText;
+      }
+    }
+
+    #{$root}:has(#{$input}:focus-visible) #{$pill} {
+      outline-color: Highlight;
+    }
+  }
+}

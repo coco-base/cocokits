@@ -1,0 +1,137 @@
+import { frameworkPeerRanges, type Compatibility } from './compat';
+import { entryPoint, type PackageSpec } from './spec';
+import { TOOL_VERSIONS, majorRange } from './versions';
+
+export const WORKSPACE_RANGE = 'workspace:*';
+
+export type ExportValue = string | { readonly types: string; readonly default: string };
+
+/** Optional peers of @cocokits/cdk, each imported by exactly one module (packages-and-entry-points.md). */
+const CDK_OPTIONAL_PEERS = ['@floating-ui/dom', '@internationalized/date', '@internationalized/number'] as const;
+
+/** Internal packages a layer may import; only those that exist in the workspace are declared. */
+export function internalDependencyNames(spec: PackageSpec): string[] {
+  switch (spec.kind) {
+    case 'cdk':
+      return ['utils', 'shared'];
+    case 'machines':
+    case 'fw-core':
+      return ['utils', 'shared', 'cdk'];
+    case 'fw':
+      return ['utils', 'shared', 'cdk', 'machines', `${spec.framework ?? ''}-core`];
+    case 'app':
+      // A preview app also renders through the preview kit.
+      return spec.framework === undefined ? ['shared'] : ['shared', 'docs-shared'];
+    case 'tool':
+    case 'docs-stories':
+    case 'docs-shared':
+      return ['shared'];
+    default:
+      return [];
+  }
+}
+
+function themePeers(spec: PackageSpec): Record<string, string> {
+  if (spec.kind === 'theme-core') return { '@cocokits/shared': WORKSPACE_RANGE };
+  const fw = spec.framework ?? '';
+  return {
+    [`@cocokits/theme-${spec.theme ?? ''}`]: WORKSPACE_RANGE,
+    [`@cocokits/${fw}-core`]: WORKSPACE_RANGE,
+    [`@cocokits/${fw}`]: WORKSPACE_RANGE,
+  };
+}
+
+export function sortKeys<T>(record: Record<string, T>): Record<string, T> {
+  return Object.fromEntries(Object.entries(record).sort(([a], [b]) => a.localeCompare(b)));
+}
+
+export function peerDependencies(spec: PackageSpec, compat: Compatibility | undefined): Record<string, string> {
+  const peers: Record<string, string> = {};
+  if (spec.kind === 'theme-core' || spec.kind === 'theme-fw') Object.assign(peers, themePeers(spec));
+  if (spec.kind === 'cdk') {
+    for (const name of CDK_OPTIONAL_PEERS) peers[name] = majorRange(TOOL_VERSIONS[name]);
+  }
+  if (spec.framework && compat) Object.assign(peers, frameworkPeerRanges(compat, spec.framework));
+  return sortKeys(peers);
+}
+
+/** `.` first, then alphabetical. */
+export function sortExports(exportsMap: Record<string, ExportValue>): Record<string, ExportValue> {
+  const rank = (key: string): number => (key === '.' ? 0 : 1);
+  return Object.fromEntries(Object.entries(exportsMap).sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b)));
+}
+
+/** Theme core asset exports (packages-and-entry-points.md). */
+const CSS_EXPORTS: Record<string, string> = {
+  './styles.css': './dist/styles.css',
+  './tokens.css': './dist/tokens.css',
+  './components/*.css': './dist/components/*.css',
+};
+
+function initialExports(spec: PackageSpec): Record<string, ExportValue> {
+  // ng-packagr writes every JS entry of its output package.json itself and warns about a source entry that
+  // already has `types`/`default`, so a source `exports` of an ng-packagr package never lists them.
+  if (spec.builder === 'ng-packagr') return {};
+  const result: Record<string, ExportValue> = {};
+  if (spec.rootEntry) {
+    const root = entryPoint(spec, undefined);
+    result[root.key] = { types: root.types, default: root.default };
+  }
+  return spec.css ? { ...result, ...CSS_EXPORTS } : result;
+}
+
+export interface PackageJsonContext {
+  readonly compat: Compatibility | undefined;
+  /** Internal dependencies that exist in the workspace, name to range. */
+  readonly internal: Readonly<Record<string, string>>;
+  readonly offset: string;
+}
+
+/**
+ * The package.json of a private tool: no `exports`, no `files`, no `publishConfig`, and no `type`, so Nx loads its
+ * executors the way it loads those of `@cocokits/workspace`.
+ */
+function buildToolPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
+  return {
+    name: spec.packageName,
+    version: '0.0.0',
+    private: true,
+    description: spec.description,
+    ...(Object.keys(context.internal).length > 0 ? { dependencies: sortKeys({ ...context.internal }) } : {}),
+  };
+}
+
+/** The package.json of a private app or e2e project: like a tool's, with `type: module` (Astro and the Angular build read ESM). */
+function buildAppPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
+  const { name, version, private: isPrivate, description, ...rest } = buildToolPackageJson(spec, context);
+  return { name, version, private: isPrivate, description, type: 'module', ...rest };
+}
+
+/** The package.json of a new package. Key order is fixed so reruns and reviews stay stable. */
+export function buildPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
+  if (spec.kind === 'app' || spec.kind === 'docs-e2e') return buildAppPackageJson(spec, context);
+  if (spec.type === 'tool') return buildToolPackageJson(spec, context);
+  const dependencies: Record<string, string> = { ...context.internal };
+  if (spec.kind === 'cdk') dependencies['alien-signals'] = `^${TOOL_VERSIONS['alien-signals']}`;
+  const peers = peerDependencies(spec, context.compat);
+  const ng = spec.builder === 'ng-packagr';
+  const publishConfig: Record<string, unknown> = { access: 'public' };
+  // ng-packagr copies this package.json into its output and publishing runs from there.
+  if (ng) publishConfig['directory'] = `${context.offset}dist/packages/${spec.projectName}`;
+  return {
+    name: spec.packageName,
+    version: '0.0.0',
+    description: spec.description,
+    type: 'module',
+    sideEffects: spec.css ? ['*.css'] : false,
+    // `files: ["dist"]` would hide everything in the ng-packagr output directory.
+    ...(ng ? {} : { files: ['dist'] }),
+    exports: initialExports(spec),
+    ...(Object.keys(dependencies).length > 0 ? { dependencies: sortKeys(dependencies) } : {}),
+    ...(Object.keys(peers).length > 0 ? { peerDependencies: peers } : {}),
+    ...(spec.kind === 'cdk'
+      ? { peerDependenciesMeta: Object.fromEntries(CDK_OPTIONAL_PEERS.map((name) => [name, { optional: true }])) }
+      : {}),
+    publishConfig,
+  };
+}

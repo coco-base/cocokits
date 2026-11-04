@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "API docs executor",
+  "description": "Extract the API of every component entry point of a package from its TSDoc into ApiDoc JSON.",
+  "type": "object",
+  "properties": {
+    "outputDir": {
+      "type": "string",
+      "default": "{projectRoot}/src/generated/api-docs",
+      "description": "The output folder, relative to the workspace root. Its JSON files are replaced."
+    },
+    "tsConfig": {
+      "type": "string",
+      "default": "{projectRoot}/tsconfig.lib.json",
+      "description": "The tsconfig of the package, relative to the workspace root."
+    }
+  },
+  "additionalProperties": false
+}

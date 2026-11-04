@@ -1,0 +1,53 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Tabs / Size",
+      "tier": 3,
+      "prefix": "tabs",
+      "alsoFor": ["tab-nav"],
+      "defaultMode": "md",
+      "modes": ["sm", "md", "lg"],
+      "tokens": [
+        { "name": "trigger-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-32}", "md": "{Core / Size#size-36}", "lg": "{Core / Size#size-40}" } },
+        { "name": "trigger-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } },
+        { "name": "label-font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-lg/font-family}" } },
+        { "name": "label-font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-lg/font-size}" } },
+        { "name": "label-line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "label-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-lg/letter-spacing}" } }
+      ]
+    },
+    {
+      "name": "Tabs / Structure",
+      "tier": 3,
+      "prefix": "tabs",
+      "alsoFor": ["tab-nav"],
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-5}" } },
+        { "name": "list-gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
+        { "name": "list-padding", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-3}" } },
+        { "name": "list-radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-xl}" } },
+        { "name": "list-border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
+        { "name": "list-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/2}" } },
+        { "name": "list-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
+        { "name": "line-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } },
+        { "name": "line-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/2}" } },
+        { "name": "trigger-radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-lg}" } },
+        { "name": "label-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } },
+        { "name": "label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
+        { "name": "selected-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
+        { "name": "disabled-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/on-surface}" } },
+        { "name": "indicator-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "indicator-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } },
+        { "name": "indicator-line-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
+        { "name": "indicator-line-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
+        { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
+        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } },
+        { "name": "motion-duration", "type": "string", "valuesByMode": { "Default": "200ms" } }
+      ]
+    }
+  ]
+}

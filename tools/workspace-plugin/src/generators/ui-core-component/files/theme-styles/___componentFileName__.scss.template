@@ -1,7 +1,0 @@
-@use '../../token/scss' as *;
-
-@mixin <%= componentName.fileName %> {
-  .cck-<%= componentName.fileName %> {
-    opacity: 1;
-  }
-}

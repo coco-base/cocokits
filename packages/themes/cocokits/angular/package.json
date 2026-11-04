@@ -1,0 +1,18 @@
+{
+  "name": "@cocokits/theme-cocokits-angular",
+  "version": "0.0.0",
+  "description": "Typed cocokits theme layer for Angular.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {},
+  "peerDependencies": {
+    "@angular/core": "^22.0.0",
+    "@cocokits/angular": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/theme-cocokits": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../../../dist/packages/theme-cocokits-angular"
+  }
+}

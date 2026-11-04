@@ -1,0 +1,67 @@
+// BadgeContainer rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The container owns the position: it places its direct child `.cck-badge` on a corner (the anatomy
+// the selectors rely on). --cck-badge-container-radius, --cck-badge-offset-x and --cck-badge-offset-y
+// are documented custom properties (docs/css.md): the author sets them, the rules read them with a
+// 0px fallback, and no token defines them. The offset adds to the corner; the inline offset is
+// mirrored in RTL like the corner.
+$radius-inset: calc(0.2929 * var(--cck-badge-container-radius, 0px));
+$offset-x: var(--cck-badge-offset-x, 0px);
+$offset-y: var(--cck-badge-offset-y, 0px);
+
+@mixin rules {
+  .cck-badge-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-position] > .cck-badge {
+      position: absolute;
+    }
+
+    &[data-position='top-left'] > .cck-badge {
+      inset-block-start: $radius-inset;
+      inset-inline-start: $radius-inset;
+      translate: calc(-50% + #{$offset-x}) calc(-50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(50% - #{$offset-x}) calc(-50% + #{$offset-y});
+      }
+    }
+
+    &[data-position='top-right'] > .cck-badge {
+      inset-block-start: $radius-inset;
+      inset-inline-end: $radius-inset;
+      translate: calc(50% + #{$offset-x}) calc(-50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(-50% - #{$offset-x}) calc(-50% + #{$offset-y});
+      }
+    }
+
+    &[data-position='bottom-left'] > .cck-badge {
+      inset-block-end: $radius-inset;
+      inset-inline-start: $radius-inset;
+      translate: calc(-50% + #{$offset-x}) calc(50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(50% - #{$offset-x}) calc(50% + #{$offset-y});
+      }
+    }
+
+    &[data-position='bottom-right'] > .cck-badge {
+      inset-block-end: $radius-inset;
+      inset-inline-end: $radius-inset;
+      translate: calc(50% + #{$offset-x}) calc(50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(-50% - #{$offset-x}) calc(50% + #{$offset-y});
+      }
+    }
+  }
+}

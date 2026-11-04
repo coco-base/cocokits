@@ -1,0 +1,49 @@
+# Glossary
+
+One term per concept; use these words in code, TSDoc, docs, PRs and replies. Rules: [docs/architecture.md](./architecture.md); reasons: [docs/why/index.md](./why/index.md). Component names in definitions are examples only.
+
+- **adapter** — The framework binding as a whole: fw-core plus the components built on it. Adapters bind behaviour; they never decide it.
+- **anatomy** — The parts-only declaration of a component via `defineAnatomy({ block, parts })` in `packages/machines/<name>/`.
+- **APG** — WAI-ARIA Authoring Practices Guide; the reference for roles and keyboard behaviour.
+- **base** — The unstyled component layer `@cocokits/<fw>/<component>`: behaviour, accessibility, state, forms, anatomy; no visual options and no `theme` prop.
+- **cdk module** — A framework-free building block at `@cocokits/cdk/<module>` (for example focus handling, dismissal, positioning, form participation).
+- **changeset** — `pnpm changeset add` entry naming packages and bump; all published packages release in lockstep.
+- **compatibility manifest** — `compatibility.json` at the repo root: supported peer ranges, browsers and SSR targets; the only place versions are named.
+- **ComponentMeta** — The type of a component's meta, `<name>.meta.ts`, in `@cocokits/shared`.
+- **compound component** — A component of several parts. Authoring shape per framework (Angular content projection; React and Vue sibling parts linked by `value`); rendered contract shared.
+- **controlled / uncontrolled** — Value owned by the consumer vs internal state seeded by a default value; mapped per framework (`model()`, `v-model`, `value`/`defaultValue`/`onValueChange`).
+- **custom story** — A story written in the story language in `packages/docs-stories/src/<component>/<id>.story.tsx`; with a generated story's id it replaces that story.
+- **data attribute** — Output-only `data-*` for everything that varies: state and theme options. Presence booleans, one attribute per fact, `data-state` only for exclusive lifecycle states.
+- **fw-core** — `@cocokits/<fw>-core`: the per-framework adapter: machine runner, overlay portal and theme runtime.
+- **generated story** — A story the story compiler creates from the `ApiDoc` and the `ThemeConfig`: the playground, and one per theme option, boolean prop and string-union prop.
+- **generator** — The Nx workspace generator `library` in `tools/workspace-plugin`; the only way to create packages and entry points.
+- **layer** — One of utils, shared, cdk, machines, fw-core, components, themes; imports point left only (architecture §2).
+- **machine** — One component's behaviour unit in `@cocokits/machines/<name>`: anatomy, meta and behaviour.
+- **machines** — The layer and the package `@cocokits/machines`; one subpath per component, no root entry.
+- **meta** — `<name>.meta.ts`, a `ComponentMeta`: the rendered contract plus keyboard table and expected roles. Never props (architecture §8).
+- **overlay container** — The element into which overlay parts are portaled instead of rendering inside the trigger's parent.
+- **overlay part** — A floating part such as a dialog, popover or menu content; always portaled.
+- **part** — A named element of a component; camelCase key, kebab-case class. The root part is `root`.
+- **part class** — The fixed BEM class a part always renders (`cck-example__trigger`); the only part identifier.
+- **polymorphism mechanism** — The one way per framework to change the rendered element: React `render`, Vue `asChild`/`as`, Angular attribute selector.
+- **portal** — Each fw-core's native mechanism rendering an overlay part into the overlay container; renders nothing on the server.
+- **positioning** — `@cocokits/cdk/positioning`, the only importer of `@floating-ui/dom`; writes inline coordinates only.
+- **rendered contract** — What a component's approved spec fixes for every framework: per part its element, role, focus and ref target, labelling and `data-*`, plus the form contract; only the authoring shape differs.
+- **reserved names** — The base `data-*` names declared in a meta; a `ThemeConfig` cannot declare an option with one of them.
+- **root entry** — A package's default import path (`@cocokits/<name>`); subpaths exist only where the entry-point table in [packages-and-entry-points.md](./style-guides/workspace/packages-and-entry-points.md) lists them.
+- **shared** — `@cocokits/shared`: what all frameworks share that is not behaviour; types plus the pure helpers that define them; root entry only.
+- **snippet template** — The playground's inline code with its args left open; `renderSnippet` fills it in the browser and reports the lines that print a non-default value.
+- **story** — One example of a component with a title, a description and code for every framework and theme. It is written once and compiled: a generated, custom or theme story.
+- **story compiler** — `tools/story-compiler`: the build-time tool that prints stories as native Angular, React and Vue code, once per theme (executors `compile` and `typings`).
+- **story config** — `stories.config.ts` of a component or theme: sample content, skipped stories, hidden controls and order.
+- **story language** — The static TSX subset story sources are written in: components, native elements, literal values, text, fragments and `as`. Anything else is a compile error.
+- **target inventory** — `docs/style-guides/workspace/targets.md`: the Nx targets and workspace commands that exist; the only command list.
+- **theme** — `@cocokits/theme-<name>`: the framework-free package with CSS against part classes and `data-*`, tokens and a typed `ThemeConfig`; never changes behaviour.
+- **theme layer** — Thin per-framework code in its own package `@cocokits/theme-<name>-<fw>` adding typed visual options rendered as `data-*`. Angular: a directive on the same element. React and Vue: a wrapper component that takes typed theme options and provides them through the fw-core theme runtime. Base parts never take a `theme` prop (architecture §4).
+- **theme runtime** — The fw-core part of theming: provides theme scope and options to base parts, which read the attributes that apply to them.
+- **theme story** — A story in `packages/docs-stories/src/<component>/<theme>/`, printed for that theme only.
+- **ThemeConfig** — A theme's executable schema: per component, options with attribute, values, default and part names; the source of the theme layer's types.
+- **toIdSegment** — Injective encoder in `@cocokits/utils` for the rare case where a value must appear in an id.
+- **token** — A design-token CSS variable declared by a theme; naming per the theme's docs.
+- **usage model** — The story compiler's merged view of one component for one framework and theme, from the `ApiDoc` and the `ThemeConfig`: host element, props, theme options and imports. Not the rendered contract.
+- **util** — A generic, stateless, dependency-free function in `@cocokits/utils` used by two or more packages.

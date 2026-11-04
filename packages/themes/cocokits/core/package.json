@@ -1,0 +1,29 @@
+{
+  "name": "@cocokits/theme-cocokits",
+  "version": "0.0.0",
+  "description": "The cocokits theme: ThemeConfig, CSS and tokens, framework-free.",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./components/*.css": "./dist/components/*.css",
+    "./logo-light.svg": "./dist/logo-light.svg",
+    "./logo-dark.svg": "./dist/logo-dark.svg"
+  },
+  "peerDependencies": {
+    "@cocokits/shared": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

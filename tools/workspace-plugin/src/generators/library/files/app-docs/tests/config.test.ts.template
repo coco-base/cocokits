@@ -1,0 +1,8 @@
+import { describe, expect, it } from 'vitest';
+import { SITE_NAME } from '../src/config';
+
+describe('<%= packageName %>', () => {
+  it('loads its config', () => {
+    expect(SITE_NAME).toBe('<%= projectName %>');
+  });
+});

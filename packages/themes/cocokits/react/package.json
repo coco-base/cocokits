@@ -1,0 +1,26 @@
+{
+  "name": "@cocokits/theme-cocokits-react",
+  "version": "0.0.0",
+  "description": "Typed cocokits theme layer for React.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "peerDependencies": {
+    "@cocokits/react": "workspace:*",
+    "@cocokits/react-core": "workspace:*",
+    "@cocokits/theme-cocokits": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

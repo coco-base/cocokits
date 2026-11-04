@@ -1,0 +1,10 @@
+import { TestBed } from '@angular/core/testing';
+import { describe, expect, it } from 'vitest';
+import { App } from '../src/app/app';
+
+describe('<%= packageName %>', () => {
+  it('creates its root component', () => {
+    const fixture = TestBed.createComponent(App);
+    expect(fixture.componentInstance).toBeInstanceOf(App);
+  });
+});

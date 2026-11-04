@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "theme-cocokits-vue",
+  "projectType": "library",
+  "sourceRoot": "packages/themes/cocokits/vue/src",
+  "tags": ["layer:theme", "scope:vue", "type:lib"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "commands": [
+          "vite build -c vite.config.lib.mjs",
+          "vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src"
+        ],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["vue-tsc --noEmit -p tsconfig.lib.json", "vue-tsc --noEmit -p tsconfig.spec.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    }
+  }
+}

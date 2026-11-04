@@ -1,0 +1,7 @@
+<script setup lang="ts">
+// Placeholder root component; the preview protocol and the story renderer replace it.
+</script>
+
+<template>
+  <p>CocoKits preview</p>
+</template>

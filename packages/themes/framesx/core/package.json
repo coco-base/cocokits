@@ -1,0 +1,27 @@
+{
+  "name": "@cocokits/theme-framesx",
+  "version": "0.0.0",
+  "description": "The framesx theme: ThemeConfig and CSS, framework-free.",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./logo-light.svg": "./dist/logo-light.svg",
+    "./logo-dark.svg": "./dist/logo-dark.svg"
+  },
+  "peerDependencies": {
+    "@cocokits/shared": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

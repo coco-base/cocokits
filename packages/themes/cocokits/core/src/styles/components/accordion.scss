@@ -1,0 +1,5 @@
+@use '_accordion' as accordion;
+
+@layer cocokits {
+  @include accordion.rules;
+}

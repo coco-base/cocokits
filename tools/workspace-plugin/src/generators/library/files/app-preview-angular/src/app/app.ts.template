@@ -1,0 +1,11 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+/** Placeholder root component; the preview protocol and the story renderer replace it. */
+@Component({
+  selector: 'preview-root',
+  template: '{{ title }}',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class App {
+  protected readonly title = 'CocoKits preview';
+}

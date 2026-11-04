@@ -1,7 +1,0 @@
-<label [class]="classNames().labelTag" [for]="for()">
-  <ng-content></ng-content>
-
-  @if(!store.state.hideRequiredMarker() && store.state.required()) {
-    <span [class]="classNames().requiredMarker">*</span>
-  }
-</label>

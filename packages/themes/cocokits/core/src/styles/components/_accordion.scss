@@ -1,0 +1,214 @@
+// Accordion rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The theme options sit on the root (`data-variant`, `data-size`, `data-toggle-position`, `data-hide-toggle`), so every
+// part below the root is reached through child combinators: an Accordion inside a content keeps its own options.
+// The content sets no `display`, so the native `hidden` hides it. The chevron is drawn on the trigger's `::after` with
+// two borders and `currentColor`, so it follows the label color, also when disabled and in forced colors. The content
+// animates its height over `--accordion-content-height`, which the base writes after mount; while it is unset (the
+// first render) both ends of the keyframes are invalid and resolve to `auto`, so nothing moves. The space below the
+// content is a pseudo-element, so it is inside the measured height and needs no animation of its own.
+$trigger: '.cck-accordion > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
+$content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
+
+@mixin rules {
+  .cck-accordion {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cck-accordion-gap);
+  }
+
+  // The root sets `display`, so the theme restates the native `hidden`.
+  .cck-accordion[hidden] {
+    display: none;
+  }
+
+  .cck-accordion[data-orientation='horizontal'] {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .cck-accordion[data-orientation='horizontal'] > .cck-accordion__item {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  // The look of the items.
+  .cck-accordion[data-variant='default'] > .cck-accordion__item {
+    border: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+    border-radius: var(--cck-accordion-radius);
+    background-color: var(--cck-accordion-bg);
+  }
+
+  .cck-accordion[data-variant='group'] {
+    gap: 0;
+    border: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+    border-radius: var(--cck-accordion-radius);
+    background-color: var(--cck-accordion-bg);
+  }
+
+  .cck-accordion[data-variant='group'] > .cck-accordion__item + .cck-accordion__item {
+    border-block-start: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+  }
+
+  .cck-accordion[data-variant='group'][data-orientation='horizontal'] > .cck-accordion__item + .cck-accordion__item {
+    border-block-start: 0;
+    border-inline-start: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+  }
+
+  .cck-accordion[data-variant='basic'] {
+    gap: 0;
+  }
+
+  .cck-accordion > .cck-accordion__item > .cck-accordion__header {
+    margin: 0;
+  }
+
+  #{$trigger} {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cck-accordion-trigger-gap);
+    inline-size: 100%;
+    min-block-size: max(24px, var(--cck-accordion-trigger-height));
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--cck-accordion-trigger-padding-inline);
+    border: 0;
+    border-radius: var(--cck-accordion-radius);
+    background-color: transparent;
+    color: var(--cck-accordion-trigger-color);
+    font-family: var(--cck-accordion-font-family);
+    font-size: var(--cck-accordion-font-size);
+    line-height: var(--cck-accordion-line-height);
+    letter-spacing: var(--cck-accordion-letter-spacing);
+    font-weight: var(--cck-accordion-trigger-font-weight);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .cck-accordion:is([data-variant='group'], [data-variant='basic'])
+    > .cck-accordion__item
+    > .cck-accordion__header
+    > .cck-accordion__trigger {
+    border-radius: 0;
+  }
+
+  // The chevron: a square with two borders, turned by 45 degrees and moved a quarter of its side.
+  #{$trigger}::after {
+    content: '';
+    flex: none;
+    box-sizing: border-box;
+    inline-size: var(--cck-accordion-icon-size);
+    block-size: var(--cck-accordion-icon-size);
+    border-block-end: var(--cck-accordion-icon-width) solid currentColor;
+    border-inline-end: var(--cck-accordion-icon-width) solid currentColor;
+    translate: 0 -25%;
+    rotate: 45deg;
+  }
+
+  #{$trigger}[data-state='open']::after {
+    translate: 0 25%;
+    rotate: 225deg;
+  }
+
+  // The corner is on the inline end, so in a right-to-left page the turn is mirrored: the point still faces down (closed) or up (open).
+  #{$trigger}:dir(rtl)::after {
+    rotate: -45deg;
+  }
+
+  #{$trigger}[data-state='open']:dir(rtl)::after {
+    rotate: -225deg;
+  }
+
+  .cck-accordion[data-toggle-position='before']
+    > .cck-accordion__item
+    > .cck-accordion__header
+    > .cck-accordion__trigger::after {
+    order: -1;
+  }
+
+  .cck-accordion[data-hide-toggle] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger::after {
+    display: none;
+  }
+
+  // The state comes from the facts the base renders. Later rules win, so disabled is last.
+  #{$trigger}[data-disabled] {
+    color: var(--cck-accordion-disabled-color);
+    cursor: default;
+  }
+
+  // Inside the trigger's own box, so the ring is never clipped by the item.
+  #{$trigger}[data-focus-visible] {
+    outline: var(--cck-accordion-focus-width) solid var(--cck-accordion-focus-color);
+    outline-offset: calc(-1 * var(--cck-accordion-focus-width));
+  }
+
+  #{$content} {
+    box-sizing: border-box;
+    padding-inline: var(--cck-accordion-trigger-padding-inline);
+    color: var(--cck-accordion-content-color);
+    font-family: var(--cck-accordion-font-family);
+    font-size: var(--cck-accordion-font-size);
+    line-height: var(--cck-accordion-line-height);
+    letter-spacing: var(--cck-accordion-letter-spacing);
+  }
+
+  #{$content}::after {
+    content: '';
+    display: block;
+    block-size: var(--cck-accordion-content-padding-block-end);
+  }
+
+  @keyframes cck-accordion-open {
+    from {
+      block-size: calc(var(--accordion-content-height) * 0);
+    }
+
+    to {
+      block-size: var(--accordion-content-height);
+    }
+  }
+
+  @keyframes cck-accordion-close {
+    from {
+      block-size: var(--accordion-content-height);
+    }
+
+    to {
+      block-size: calc(var(--accordion-content-height) * 0);
+    }
+  }
+
+  // The base hides the content when its animation ends, so without one (reduced motion) it is hidden at once.
+  // `overflow` clips the content while its height grows or shrinks.
+  @media (prefers-reduced-motion: no-preference) {
+    #{$content} {
+      overflow: hidden;
+    }
+
+    #{$content}[data-state='open'] {
+      animation: cck-accordion-open var(--cck-accordion-motion-duration) ease;
+    }
+
+    #{$content}[data-state='closed'] {
+      animation: cck-accordion-close var(--cck-accordion-motion-duration) ease forwards;
+    }
+  }
+
+  @media (forced-colors: active) {
+    #{$trigger}[data-disabled] {
+      color: GrayText;
+    }
+
+    #{$trigger}[data-focus-visible] {
+      outline-color: Highlight;
+    }
+
+    .cck-accordion[data-variant='default'] > .cck-accordion__item,
+    .cck-accordion[data-variant='group'],
+    .cck-accordion[data-variant='group'] > .cck-accordion__item + .cck-accordion__item {
+      border-color: CanvasText;
+    }
+  }
+}

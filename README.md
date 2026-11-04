@@ -1,71 +1,83 @@
-# Cocokits
+# CocoKits Next
 
-`CocoKits` is everything you need to build your project with any framework.
-We provide you with all you need, such as utilities, CDK (Component Development Kit), and core components.
+Unstyled components for Angular, React (including Next.js) and Vue. Behaviour is written once as framework-free machines. Thin adapters bind it to each framework. Themes style every framework the same way.
 
-`CocoKits` is a professionally crafted toolkit for product design and development teams and individuals.
-We provide the core components you need for every project, component composition, and development experience.
+Agents and humans start at [AGENTS.md](./AGENTS.md), then [INDEX.md](./INDEX.md). Rules are in `docs/architecture.md`, reasons in `docs/why/`.
 
-## What is CocoKits?
-`CocoKits` is a collection of core UI components and tools designed to bridge the gap between designers and developers. Whether you're a designer looking to bring your designs to life without deep coding knowledge or a developer seeking customizable components, CocoKits streamlines your workflow.
+## Prerequisites and setup
 
-## Why Choose CocoKits?
-**All-in-One Solution:** Get everything you need to build your project with any framework—utilities, CDK, and core components. Bridge Design and Development: Streamline collaboration with tools and components that both designers and developers can use effectively. No Need to Learn New Frameworks: Designers can convert their Figma components into code without needing to learn new programming frameworks. Customization and Flexibility: Fully customizable components and theming options allow you to tailor everything to your project's needs. Efficiency and Speed: Accelerate your development process with ready-to-use components and design tokens. Community and Support: Join a community of professionals and enthusiasts, with full support available to guide you through any challenges.
+- Node, in the range of `engines` in `package.json`.
+- pnpm, through corepack. The version is the `packageManager` field. Use pnpm only, never npm or yarn.
 
+```bash
+corepack enable
+pnpm install
+```
 
-## Supported design systems
-- **[Frames X UI Kit](https://framesxdesign.com/?aff=wzMlE8)**: Frames X is the largest web design system in the world. With un-styled UI components and support for multiple color and brand themes. [Learn more](https://framesxdesign.com/?aff=wzMlE8).
+`pnpm install` also installs the git hooks (husky, through `prepare`).
 
-- **CocoKits UI Kit:** Designed by the CocoKits team, this theme provides a consistent, balanced look across all components for a seamless user experience.
+## Repository layout
 
-## Features
-### For Designers
-- **Convert Figma Components to Code:** Transform your Figma components into popular framework components (Angular, React, Vue, or just HTML) without needing to learn any frameworks. You only need to know CSS.
-- **Design Package Creation:** We provide you with fully functional components in each framework without any styles. You can then create your design package (only CSS/SCSS) to style the components and make them ready for developers.
-- **Support for Existing Design Systems:** If you have an existing design system and want to convert it to include component code for developers, CocoKits is your best solution.
-- **Full Support:** We offer comprehensive support during the process with various examples and online sessions to answer any of your questions.
+Source lives under `packages/`, tooling under `tools/`. Details: [repo-layout.md](./docs/style-guides/workspace/repo-layout.md).
 
-**How to Add Your Design System to CocoKits**
-Just send us an email with a link to your design system at `hello@cocokits.com`, and we will schedule a meeting to help you become part of our community and create your components in just a week.
+| Project                  | Package                            | Path                               | Layer        |
+| ------------------------ | ---------------------------------- | ---------------------------------- | ------------ |
+| `utils`                  | `@cocokits/utils`                  | `packages/utils`                   | utils        |
+| `shared`                 | `@cocokits/shared`                 | `packages/shared`                  | shared       |
+| `cdk`                    | `@cocokits/cdk`                    | `packages/cdk`                     | cdk          |
+| `machines`               | `@cocokits/machines`               | `packages/machines`                | machine      |
+| `angular-core`           | `@cocokits/angular-core`           | `packages/angular/core`            | fw-core      |
+| `react-core`             | `@cocokits/react-core`             | `packages/react/core`              | fw-core      |
+| `vue-core`               | `@cocokits/vue-core`               | `packages/vue/core`                | fw-core      |
+| `angular`                | `@cocokits/angular`                | `packages/angular`                 | fw-component |
+| `react`                  | `@cocokits/react`                  | `packages/react`                   | fw-component |
+| `vue`                    | `@cocokits/vue`                    | `packages/vue`                     | fw-component |
+| `theme-cocokits`         | `@cocokits/theme-cocokits`         | `packages/themes/cocokits/core`    | theme        |
+| `theme-cocokits-angular` | `@cocokits/theme-cocokits-angular` | `packages/themes/cocokits/angular` | theme        |
+| `theme-cocokits-react`   | `@cocokits/theme-cocokits-react`   | `packages/themes/cocokits/react`   | theme        |
+| `theme-cocokits-vue`     | `@cocokits/theme-cocokits-vue`     | `packages/themes/cocokits/vue`     | theme        |
 
-### For Developers
-- **Production-Ready Components:** CocoKits is ready to be used in your production environment with the core components of your favorite design system.
-- **Fully Customizable:** Depending on your project and requirements, you can easily change the style of any component and modify the theme of your design system quickly and effortlessly.
-- **Component Examples:** All components come with various examples, so you can see how each component looks in different scenarios.
-- **Override Default Configurations:** You can override the default configurations of the components based on your specific requirements.
+Layers import only from layers to their left: `utils, shared ← cdk ← machines ← <fw>-core ← <fw> components ← themes`.
 
+## Daily commands
 
-### Core Components
-- **Essential and Functional:** The CocoKits core components are fully functional essential components without any design, which almost all design systems should have.
-- **Design System Integration:** Each design system will style the components based on different configurations (such as size, color, etc.). Ensure you import your favorite design system to see the styled components accordingly.
-- **Quality Over Quantity:** We focus on the quality of core components familiar to you and widely used across the web, rather than a large number of components or one-off variations.
-- **Simplified Experience:** Our goal is to make your experience simple and efficient. We handle implementation details like flexible architecture, and theming, so you can start building your product immediately.
+All targets that exist are listed in [targets.md](./docs/style-guides/workspace/targets.md).
 
-### Token Manager
-- **Design Tokens Conversion:** All tokens from your favorite design system have been converted to CSS and SCSS variables, allowing you to use them and follow your design system's style guide.
-- **Use Predefined Styles:** Utilize spacing, color palettes, or branding colors defined in your design system to implement any feature or extend the UI components.
-- **Override Token Values:** You can override any token values based on your project needs, such as changing the brand color or other elements.
-- **Collections and Modes:** We provide you with all collections and modes from your favorite design system, and you can choose which collection or mode you want to use in your project.
+```bash
+pnpm nx affected -t lint typecheck test build   # before every push
+pnpm nx run-many -t lint typecheck test build   # everything
+pnpm nx run <project>:<target>                  # one project, for example: pnpm nx run machines:test
+pnpm nx format:check                            # check formatting
+pnpm nx format                                  # fix formatting (pnpm format)
+pnpm changeset add                              # every releasable change
+```
 
+## Creating packages and entry points
 
-## Theming and Composition
-- **Flexible Theming Approach:** CocoKits offers a flexible and easy-to-use theming approach.
-- **Semantic Design Tokens:** We provide semantic design tokens, like colors and typography values based on your favorite design system, that you can customize to match your brand.
-- **Create New Themes:** You can create new themes with full control over every value or use our color generator for faster results.
-- **Accessible Themes:** With semantic design tokens, your themes will be accessible and include light/dark mode support.
-- **Composable UI Pieces:** We create highly composable atomic UI pieces that you can easily assemble based on your product needs.
-- **Automatic Layout Handling:** We automatically handle all layout edge cases, making it effortless to combine components together.
+Never create packages or entry points by hand; use the `library` generator ([generators guide](./docs/style-guides/workspace/generators.md)). For example, a machine entry point `@cocokits/machines/switch`:
 
+```bash
+pnpm nx g @cocokits/workspace:library switch --kind=machine
+```
 
-## Contributing
+Run `pnpm nx format` afterwards. All kinds and options: [tools/workspace-plugin/README.md](./tools/workspace-plugin/README.md) and [generators.md](./docs/style-guides/workspace/generators.md).
 
-If you’re interested in contributing, please review the guidelines below. They cover best practices for refining features, fixing bugs, and submitting pull requests. Check these lines for more details:
+## Git workflow
 
-- [Angular](https://angular.cocokits.com/?path=/docs/contributing-guidelines--docs)
-- [React](https://react.cocokits.com/?path=/docs/contributing-guidelines--docs)
+1. Branch off `main`.
+2. The PR description lists the commands you ran with their results.
 
+Git hooks:
 
-## Contact Us
-Have questions or need assistance? Don't hesitate to reach out:
+- pre-commit: ESLint and Prettier on the staged files only (lint-staged).
+- commit-msg: commitlint checks the message.
 
-**Email:** `hello@cocokits.com`
+The GitHub workflows are manual-only. Before every PR push run `pnpm ci:local --title "<PR title>"`, which runs the whole pipeline locally ([ci-pipeline.md](./docs/style-guides/workspace/ci-pipeline.md)).
+
+## Current state
+
+The packages are empty scaffolds: no components, machines or cdk modules exist yet.
+
+## Local scratch folder
+
+`.tmp/` is a git-ignored scratch folder for local output.

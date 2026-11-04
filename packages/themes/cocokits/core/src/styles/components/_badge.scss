@@ -1,0 +1,49 @@
+// Badge rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+@mixin rules {
+  .cck-badge {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--cck-badge-height);
+    block-size: var(--cck-badge-height);
+    padding-inline: var(--cck-badge-padding-inline);
+    padding-block: 0;
+    background-color: var(--cck-badge-bg);
+    color: var(--cck-badge-text-color);
+    font-family: var(--cck-badge-font-family);
+    font-size: var(--cck-badge-font-size);
+    line-height: var(--cck-badge-line-height);
+    letter-spacing: var(--cck-badge-letter-spacing);
+    font-weight: var(--cck-badge-font-weight);
+    white-space: nowrap;
+
+    &[data-variant='rounded'] {
+      border-radius: var(--cck-badge-radius-rounded);
+    }
+
+    &[data-variant='rectangle'] {
+      border-radius: var(--cck-badge-radius-rectangle);
+    }
+
+    // The base reports an empty badge; this theme draws it as a dot.
+    &[data-empty] {
+      min-inline-size: 0;
+      inline-size: var(--cck-badge-dot-size);
+      block-size: var(--cck-badge-dot-size);
+      padding-inline: 0;
+    }
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Forced colors remove the background, so an outline keeps a dot visible.
+  @media (forced-colors: active) {
+    .cck-badge {
+      outline: 1px solid CanvasText;
+    }
+  }
+}

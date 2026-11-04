@@ -1,0 +1,12 @@
+{
+  "peers": {
+    "@angular/core": { "low": "22.0.0", "high": "22.2.3" },
+    "react": { "low": "19.0.0", "high": "19.3.1" },
+    "react-dom": { "low": "19.0.0", "high": "19.3.1" },
+    "vue": { "low": "3.5.0", "high": "3.5.44" },
+    "next": { "low": "15.0.0", "high": "16.4.2" },
+    "nuxt": { "low": "3.0.0", "high": "4.6.2" }
+  },
+  "browsers": ["last 2 Chrome versions", "last 2 Firefox versions", "last 2 Safari versions", "last 2 iOS versions"],
+  "ssr": ["next", "angular-ssr", "nuxt"]
+}

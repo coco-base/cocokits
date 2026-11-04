@@ -1,28 +1,28 @@
 {
   "name": "@cocokits/react-core",
-  "version": "1.2.0",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "peerDependencies": {
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
-  },
-  "devDependencies": {
-    "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0"
-  },
-  "dependencies": {
-    "@cocokits/core": "workspace:*",
-    "@cocokits/common-utils": "workspace:*"
-  },
+  "version": "0.0.0",
+  "description": "React adapter runtime: binds machines to React and provides the theme runtime.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
-      "import": "./index.mjs",
-      "require": "./index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
+  "dependencies": {
+    "@cocokits/cdk": "workspace:*",
+    "@cocokits/shared": "workspace:*",
+    "@cocokits/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "publishConfig": {
-    "directory": "../../../dist/packages/react/core",
     "access": "public"
   }
 }

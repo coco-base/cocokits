@@ -1,16 +1,26 @@
 {
-  "name": "@cocokits/react-core",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/react/core/src",
+  "name": "react-core",
   "projectType": "library",
-  "tags": ["type:ui", "framework:react"],
-  "// targets": "to see all targets run: nx show project button --web",
+  "sourceRoot": "packages/react/core/src",
+  "tags": ["layer:fw-core", "scope:react", "type:lib"],
   "targets": {
     "build": {
-      "outputs": ["{workspaceRoot}/dist/packages/react/core"]
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "commands": ["tsdown -c tsdown.config.mjs --config-loader native"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
     },
-    "quick-fix-eslint": {
-      "executor": "@nx/eslint:lint"
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc --noEmit -p tsconfig.lib.json", "tsc --noEmit -p tsconfig.spec.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
     }
   }
 }

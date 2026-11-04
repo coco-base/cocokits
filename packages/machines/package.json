@@ -1,0 +1,116 @@
+{
+  "name": "@cocokits/machines",
+  "version": "0.0.0",
+  "description": "Framework-agnostic component behaviour, one subpath per component.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./accordion": {
+      "types": "./dist/accordion/index.d.ts",
+      "default": "./dist/accordion/index.js"
+    },
+    "./badge": {
+      "types": "./dist/badge/index.d.ts",
+      "default": "./dist/badge/index.js"
+    },
+    "./badge-container": {
+      "types": "./dist/badge-container/index.d.ts",
+      "default": "./dist/badge-container/index.js"
+    },
+    "./button": {
+      "types": "./dist/button/index.d.ts",
+      "default": "./dist/button/index.js"
+    },
+    "./checkbox": {
+      "types": "./dist/checkbox/index.d.ts",
+      "default": "./dist/checkbox/index.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog/index.d.ts",
+      "default": "./dist/dialog/index.js"
+    },
+    "./field-error": {
+      "types": "./dist/field-error/index.d.ts",
+      "default": "./dist/field-error/index.js"
+    },
+    "./form-field": {
+      "types": "./dist/form-field/index.d.ts",
+      "default": "./dist/form-field/index.js"
+    },
+    "./hint": {
+      "types": "./dist/hint/index.d.ts",
+      "default": "./dist/hint/index.js"
+    },
+    "./input": {
+      "types": "./dist/input/index.d.ts",
+      "default": "./dist/input/index.js"
+    },
+    "./label": {
+      "types": "./dist/label/index.d.ts",
+      "default": "./dist/label/index.js"
+    },
+    "./leading": {
+      "types": "./dist/leading/index.d.ts",
+      "default": "./dist/leading/index.js"
+    },
+    "./popover": {
+      "types": "./dist/popover/index.d.ts",
+      "default": "./dist/popover/index.js"
+    },
+    "./prefix": {
+      "types": "./dist/prefix/index.d.ts",
+      "default": "./dist/prefix/index.js"
+    },
+    "./radio": {
+      "types": "./dist/radio/index.d.ts",
+      "default": "./dist/radio/index.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio-group/index.d.ts",
+      "default": "./dist/radio-group/index.js"
+    },
+    "./select": {
+      "types": "./dist/select/index.d.ts",
+      "default": "./dist/select/index.js"
+    },
+    "./suffix": {
+      "types": "./dist/suffix/index.d.ts",
+      "default": "./dist/suffix/index.js"
+    },
+    "./switch": {
+      "types": "./dist/switch/index.d.ts",
+      "default": "./dist/switch/index.js"
+    },
+    "./tab-nav": {
+      "types": "./dist/tab-nav/index.d.ts",
+      "default": "./dist/tab-nav/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs/index.d.ts",
+      "default": "./dist/tabs/index.js"
+    },
+    "./textarea": {
+      "types": "./dist/textarea/index.d.ts",
+      "default": "./dist/textarea/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip/index.d.ts",
+      "default": "./dist/tooltip/index.js"
+    },
+    "./trailing": {
+      "types": "./dist/trailing/index.d.ts",
+      "default": "./dist/trailing/index.js"
+    }
+  },
+  "dependencies": {
+    "@cocokits/cdk": "workspace:*",
+    "@cocokits/shared": "workspace:*",
+    "@cocokits/utils": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

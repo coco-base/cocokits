@@ -1,0 +1,8 @@
+import { describe, expect, it } from 'vitest';
+import * as placeholder from '../src/placeholder';
+
+describe('<%= packageName %>', () => {
+  it('loads its placeholder source', () => {
+    expect(placeholder).toBeDefined();
+  });
+});

@@ -1,19 +1,20 @@
 {
   "name": "@cocokits/angular-core",
-  "version": "1.2.0",
+  "version": "0.0.0",
+  "description": "Angular adapter runtime: binds machines to Angular and provides the theme runtime.",
+  "type": "module",
   "sideEffects": false,
+  "exports": {},
   "dependencies": {
-    "@cocokits/angular-utils": "workspace:*",
-    "@cocokits/core": "workspace:*",
-    "tslib": "^2.3.0"
+    "@cocokits/cdk": "workspace:*",
+    "@cocokits/shared": "workspace:*",
+    "@cocokits/utils": "workspace:*"
   },
-  "devDependencies": {},
   "peerDependencies": {
-    "@angular/common": "~20.0.0",
-    "@angular/core": "~20.0.0"
+    "@angular/core": "^22.0.0"
   },
   "publishConfig": {
-    "directory": "../../../dist/packages/angular/core",
-    "access": "public"
+    "access": "public",
+    "directory": "../../../dist/packages/angular-core"
   }
 }

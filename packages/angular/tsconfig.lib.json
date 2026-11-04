@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "types": [],
+    "paths": { "@cocokits/angular/*": ["./*"] }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "node_modules", "core", "**/tests/**", "**/*.test.ts", "**/*.test.tsx"],
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "strictInjectionParameters": true,
+    "strictTemplates": true
+  }
+}

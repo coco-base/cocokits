@@ -1,0 +1,63 @@
+<button
+  #trigger
+  [class]="parts().trigger.class"
+  [cckAttrs]="_theme().trigger"
+  [attr.id]="parts().trigger.id"
+  [attr.type]="parts().trigger.type"
+  [attr.role]="parts().trigger.role"
+  [attr.aria-haspopup]="parts().trigger['aria-haspopup']"
+  [attr.aria-expanded]="parts().trigger['aria-expanded']"
+  [attr.aria-controls]="parts().trigger['aria-controls']"
+  [attr.aria-activedescendant]="parts().trigger['aria-activedescendant']"
+  [attr.aria-labelledby]="parts().trigger['aria-labelledby']"
+  [attr.aria-label]="parts().trigger['aria-label']"
+  [attr.aria-readonly]="parts().trigger['aria-readonly']"
+  [attr.aria-required]="parts().trigger['aria-required']"
+  [attr.aria-invalid]="parts().trigger['aria-invalid']"
+  [attr.aria-describedby]="parts().trigger['aria-describedby']"
+  [attr.disabled]="parts().trigger.disabled ? '' : null"
+  [attr.form]="form() ?? null"
+  [attr.data-state]="parts().trigger['data-state']"
+  (click)="onTriggerClick($event)"
+  (keydown)="onTriggerKeyDown($event)"
+  (keyup)="parts().trigger.onKeyUp($event)"
+  (focus)="focused.set(true)"
+  (blur)="onTriggerBlur($event)"
+>
+  @if (empty()) {
+  <span [class]="parts().placeholder.class" [cckAttrs]="_theme().placeholder">{{ placeholder() }}</span>
+  } @else {
+  <span [class]="parts().value.class" [cckAttrs]="_theme().value">
+    @if (_triggerTemplate(); as template) {
+    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="triggerContext()" />
+    } @else { {{ text() }} }
+  </span>
+  }
+  <span
+    [class]="parts().dropdownIcon.class"
+    [attr.aria-hidden]="parts().dropdownIcon['aria-hidden']"
+    [cckAttrs]="_theme().dropdownIcon"
+  ></span>
+</button>
+@for (entry of formInputs(); track $index) {
+<input
+  type="text"
+  tabindex="-1"
+  aria-hidden="true"
+  [attr.autocomplete]="autocomplete() ?? 'off'"
+  [attr.style]="hiddenStyle"
+  [attr.name]="parts().formInput.name"
+  [attr.form]="form() ?? null"
+  [attr.required]="parts().formInput.required ? '' : null"
+  [attr.disabled]="parts().formInput.disabled ? '' : null"
+  #hidden
+  [attr.value]="entry"
+  (input)="onAutofill($event, entry)"
+  (invalid)="onInvalid($event)"
+/>
+} @if (blockedSubmit()) {
+<span [attr.id]="parts().validationMessage.id" [attr.style]="hiddenStyle">{{ validationMessage() }}</span>
+}
+<ng-template #listbox>
+  <div cckSelectContent><ng-content /></div>
+</ng-template>

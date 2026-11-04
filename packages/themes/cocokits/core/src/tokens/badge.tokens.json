@@ -1,0 +1,35 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Badge / Size",
+      "tier": 3,
+      "prefix": "badge",
+      "defaultMode": "md",
+      "modes": ["sm", "md", "lg", "xl"],
+      "tokens": [
+        { "name": "height", "type": "number", "unit": "px", "valuesByMode": { "sm": 18, "md": 22, "lg": "{Core / Size#size-24}", "xl": "{Core / Size#size-28}" } },
+        { "name": "padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-3}", "lg": "{Theme / Spacing#spacing-4}", "xl": "{Theme / Spacing#spacing-4}" } },
+        { "name": "dot-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-6}", "md": "{Core / Size#size-8}", "lg": "{Core / Size#size-12}", "xl": "{Core / Size#size-16}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-xs/font-family}", "md": "{Theme / Typography#text-xs/font-family}", "lg": "{Theme / Typography#text-sm/font-family}", "xl": "{Theme / Typography#text-md/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-xs/font-size}", "md": "{Theme / Typography#text-xs/font-size}", "lg": "{Theme / Typography#text-sm/font-size}", "xl": "{Theme / Typography#text-md/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-xs/line-height}", "md": "{Theme / Typography#text-xs/line-height}", "lg": "{Theme / Typography#text-sm/line-height}", "xl": "{Theme / Typography#text-md/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-xs/letter-spacing}", "md": "{Theme / Typography#text-xs/letter-spacing}", "lg": "{Theme / Typography#text-sm/letter-spacing}", "xl": "{Theme / Typography#text-md/letter-spacing}" } },
+        { "name": "font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "sm": "{Core / Typography#font-weight/regular}", "md": "{Core / Typography#font-weight/medium}", "lg": "{Core / Typography#font-weight/medium}", "xl": "{Core / Typography#font-weight/medium}" } }
+      ]
+    },
+    {
+      "name": "Badge / Structure",
+      "tier": 3,
+      "prefix": "badge",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "radius-rounded", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-full}" } },
+        { "name": "radius-rectangle", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } }
+      ]
+    }
+  ]
+}

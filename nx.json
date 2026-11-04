@@ -1,204 +1,56 @@
 {
-  "pluginsConfig": {
-    "@nx/js": {
-      "analyzeSourceFiles": true
-    }
-  },
-  "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "defaultBase": "main",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/*.test.*",
+      "!{projectRoot}/**/*.spec.ts",
+      "!{projectRoot}/tests/**",
+      "!{projectRoot}/src/generated/**/*"
+    ],
+    "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/compatibility.json"],
+    "executors": [
+      "{workspaceRoot}/tools/workspace-plugin/executors.json",
+      "{workspaceRoot}/tools/workspace-plugin/src/executors/**/*.ts",
+      "!{workspaceRoot}/tools/workspace-plugin/src/executors/**/*.spec.ts"
+    ]
+  },
   "plugins": [
-    {
-      "plugin": "@nx/storybook/plugin",
-      "options": {
-        "serveStorybookTargetName": "storybook",
-        "buildStorybookTargetName": "build-storybook",
-        "testStorybookTargetName": "test-storybook",
-        "staticStorybookTargetName": "static-storybook"
-      }
-    },
-    {
-      "plugin": "@nx/vite/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "testTargetName": "test",
-        "serveTargetName": "serve",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static"
-      }
-    },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "eslint:lint",
-        "extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
-      }
-    },
-    {
-      "plugin": "@nx/next/plugin",
-      "options": {
-        "startTargetName": "start",
-        "buildTargetName": "build",
-        "devTargetName": "dev",
-        "serveStaticTargetName": "serve-static"
-      }
-    },
-    {
-      "plugin": "@nx/jest/plugin",
-      "options": {
-        "targetName": "test"
-      }
-    }
+    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
+    { "plugin": "@nx/vitest", "options": { "testTargetName": "test" } }
   ],
   "targetDefaults": {
-    "storybook": {
-      "dependsOn": [
-        {
-          "projects": "@cocokits/storybook-addon-theme",
-          "target": "css-generator"
-        }
-      ]
+    "build": { "cache": true, "dependsOn": ["^build"], "inputs": ["production", "^production"] },
+    "typecheck": { "cache": true, "dependsOn": ["^build"] },
+    "test": { "cache": true, "dependsOn": ["^build"], "inputs": ["default", "^production"] },
+    "lint": { "cache": true },
+    "pack": { "cache": true, "dependsOn": ["build"], "outputs": ["{workspaceRoot}/dist/tarballs/{projectName}"] },
+    "publint": { "cache": true, "dependsOn": ["pack"] },
+    "attw": { "cache": true, "dependsOn": ["pack"] },
+    "size": { "cache": true, "dependsOn": ["build"] },
+    "api-report": { "cache": true, "dependsOn": ["build"], "outputs": ["{projectRoot}/api"] },
+    "dom-contract": { "cache": true, "dependsOn": ["build"], "outputs": ["{projectRoot}/dom-contract"] },
+    "docs-data": {
+      "cache": true,
+      "dependsOn": ["build"],
+      "inputs": ["production", "^production", "executors", { "dependentTasksOutputFiles": "**/*", "transitive": true }],
+      "outputs": ["{projectRoot}/src/generated/docs-data"]
     },
-    "build-storybook": {
-      "dependsOn": [
-        {
-          "projects": "@cocokits/storybook-addon-theme",
-          "target": "css-generator"
-        }
-      ]
-    },
-    "storybook-build": {
-      "dependsOn": [
-        {
-          "projects": "@cocokits/storybook-addon-theme",
-          "target": "css-generator"
-        }
-      ]
-    },
-    "build": {
-      "dependsOn": ["^build"],
-      "configurations": {
-        "production": {
-          "dependsOn": ["^build"]
-        }
-      }
-    },
-    "@angular-devkit/build-angular:application": {
+    "api-docs": {
       "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    },
-    "@nx/eslint:lint": {
-      "cache": true,
       "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
-      ]
+        "production",
+        "^production",
+        "executors",
+        "{workspaceRoot}/packages/shared/src/**/*.ts",
+        "{workspaceRoot}/packages/machines/**/*.types.ts"
+      ],
+      "outputs": ["{projectRoot}/src/generated/api-docs"]
     },
-    "@nx/js:swc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    },
-    "@nx/angular:package": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
-    }
+    "smoke": { "cache": false, "dependsOn": ["build"] }
   },
-  "generators": {
-    "@nx/angular:application": {
-      "e2eTestRunner": "none",
-      "linter": "eslint",
-      "style": "scss",
-      "unitTestRunner": "none"
-    },
-    "@nx/react": {
-      "application": {
-        "babel": true,
-        "style": "scss",
-        "linter": "eslint",
-        "bundler": "vite"
-      },
-      "component": {
-        "style": "scss"
-      },
-      "library": {
-        "style": "scss",
-        "linter": "eslint"
-      }
-    },
-    "@nx/web:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "vitest",
-      "e2eTestRunner": "none"
-    },
-    "@nx/angular:component": {
-      "style": "scss",
-      "type": "component"
-    },
-    "@nx/angular:library": {
-      "linter": "eslint",
-      "unitTestRunner": "none"
-    },
-    "@nx/next": {
-      "application": {
-        "style": "styled-components",
-        "linter": "eslint"
-      }
-    },
-    "@schematics/angular:component": {
-      "type": "component"
-    },
-    "@nx/angular:directive": {
-      "type": "directive"
-    },
-    "@schematics/angular:directive": {
-      "type": "directive"
-    },
-    "@nx/angular:service": {
-      "type": "service"
-    },
-    "@schematics/angular:service": {
-      "type": "service"
-    },
-    "@nx/angular:scam": {
-      "type": "component"
-    },
-    "@nx/angular:scam-directive": {
-      "type": "directive"
-    },
-    "@nx/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:guard": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:interceptor": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:module": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:module": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
-    "@nx/angular:resolver": {
-      "typeSeparator": "."
-    },
-    "@schematics/angular:resolver": {
-      "typeSeparator": "."
-    }
-  }
+  "release": null
 }

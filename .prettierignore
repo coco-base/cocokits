@@ -1,7 +1,23 @@
-# Add files here to ignore them from prettier formatting
-/dist
-/coverage
-/.nx/cache
-.angular
+dist
+coverage
+.nx
+.tmp
+tmp
+node_modules
+.astro
+.lighthouseci
+pnpm-lock.yaml
+pnpm-lock.*.yaml
 
-/.nx/workspace-data
+# generated
+**/api/*.api.md
+dom-contract
+CHANGELOG.md
+size-limit.config.mjs
+
+# hand-written documentation and agent engine
+docs/**
+.claude/**
+/*.md
+**/src/styles/generated/
+**/src/generated/

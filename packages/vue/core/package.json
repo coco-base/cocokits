@@ -1,0 +1,27 @@
+{
+  "name": "@cocokits/vue-core",
+  "version": "0.0.0",
+  "description": "Vue adapter runtime: binds machines to Vue and provides the theme runtime.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@cocokits/cdk": "workspace:*",
+    "@cocokits/shared": "workspace:*",
+    "@cocokits/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@cocokits/angular",
+  "version": "0.0.0",
+  "description": "Unstyled Angular components, one subpath per component.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {},
+  "dependencies": {
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/cdk": "workspace:*",
+    "@cocokits/machines": "workspace:*",
+    "@cocokits/shared": "workspace:*",
+    "@cocokits/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "rxjs": "^7.4.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/packages/angular"
+  },
+  "peerDependenciesMeta": {
+    "@angular/cdk": {
+      "optional": true
+    },
+    "@angular/forms": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,5 @@
+import { defineConfig } from 'astro/config';
+
+// Placeholder: the site URL, the integrations and the dev server port are set where the site is built
+// (docs/style-guides/docs/site-architecture.md).
+export default defineConfig({});

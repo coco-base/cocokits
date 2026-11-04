@@ -1,0 +1,48 @@
+@layer cocokits {
+  .cck-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-block-size: 2.5rem;
+    padding-inline: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+
+    &[data-variant='solid'] {
+      background-color: light-dark(#1d4ed8, #93c5fd);
+      color: light-dark(#fff, #0f172a);
+    }
+
+    &[data-variant='outline'] {
+      border-color: light-dark(#1d4ed8, #93c5fd);
+      color: light-dark(#1d4ed8, #93c5fd);
+    }
+
+    &[data-disabled],
+    &:disabled {
+      background-color: light-dark(#e2e8f0, #334155);
+      border-color: light-dark(#e2e8f0, #334155);
+      color: light-dark(#64748b, #94a3b8);
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: 2px solid light-dark(#1d4ed8, #93c5fd);
+      outline-offset: 2px;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-button[data-disabled] {
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+}

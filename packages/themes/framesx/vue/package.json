@@ -1,0 +1,25 @@
+{
+  "name": "@cocokits/theme-framesx-vue",
+  "version": "0.0.0",
+  "description": "Typed framesx theme layer for Vue.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "peerDependencies": {
+    "@cocokits/theme-framesx": "workspace:*",
+    "@cocokits/vue": "workspace:*",
+    "@cocokits/vue-core": "workspace:*",
+    "vue": "^3.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

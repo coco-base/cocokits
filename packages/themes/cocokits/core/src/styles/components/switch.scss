@@ -1,0 +1,5 @@
+@use '_switch' as switch;
+
+@layer cocokits {
+  @include switch.rules;
+}

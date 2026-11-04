@@ -1,0 +1,28 @@
+/**
+ * Props of the Thing.
+ * @cckPart root
+ */
+export interface ThingProps {
+  /**
+   * Whether the thing is disabled.
+   * @defaultValue false
+   */
+  readonly disabled?: boolean;
+  /**
+   * The tag to render.
+   * @cckSemantic none
+   * @remarks The element override.
+   * @defaultValue 'button'
+   */
+  readonly as?: string;
+  /** The value, for `v-model`. */
+  readonly modelValue?: string;
+  /** The accessible label. */
+  readonly label: string;
+}
+
+/** Emits of the Thing. */
+export type ThingEmits = {
+  /** Emitted with the new value for `v-model`. */
+  'update:modelValue': [value: string];
+};

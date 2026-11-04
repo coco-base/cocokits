@@ -1,0 +1,19 @@
+{
+  "name": "@cocokits/shared",
+  "version": "0.0.0",
+  "description": "Shared contracts: anatomy, meta, theme and docs types.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

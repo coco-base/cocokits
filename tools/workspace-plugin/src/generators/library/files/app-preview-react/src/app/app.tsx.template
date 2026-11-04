@@ -1,0 +1,6 @@
+import type { ReactElement } from 'react';
+
+/** Placeholder root component; the preview protocol and the story renderer replace it. */
+export function App(): ReactElement {
+  return <p>CocoKits preview</p>;
+}

@@ -1,25 +1,23 @@
-export * from './tokens';
-export * from './ui-base.component';
-export * from './providers';
-
-/**
- * Re-exports modules from the current package to ensure proper type definitions and paths are used in production builds.
- *
- * This export is crucial for components that need to override the additional properties. Without this export,
- * the type definitions in the build file will reference the relative path to the dist folder instead of the package path.
- *
- * Example result without this export:
- * ```typescript
- * additional: import("@angular/core").Signal<{
- *   [x: string]: import("dist/packages/common/core/src").UIBaseComponentsPropValue;
- * }>;
- * ```
- *
- * Example result after adding this export:
- * ```typescript
- * additional: import("@angular/core").Signal<{
- *   [x: string]: import("@cocokits/angular-core").UIBaseComponentsPropValue;
- * }>;
- * ```
- */
-export { UIBaseComponentsPropValue } from '@cocokits/core';
+export { CCK_THEME, provideCckTheme, provideThemeOptions } from './theme-provider';
+export type { CckThemeOptions, CckThemeOverrides, CckThemeState } from './theme-provider';
+export { themeAttrs } from './theme-attrs';
+export type { ThemeAttrsSignal } from './theme-attrs';
+export { CckAttrs, bindAttrs } from './attrs';
+export { IdGenerator } from './id-generator';
+export { injectFormParticipation } from './form-participation';
+export type {
+  FormParticipationBinding,
+  InjectFormParticipationBaseOptions,
+  InjectFormParticipationCheckedOptions,
+  InjectFormParticipationOptions,
+  InjectFormParticipationTextOptions,
+} from './form-participation';
+export { CckDir, CckDirection, provideCckDirection } from './direction';
+export type { Direction } from './direction';
+export { CckPortal } from './portal';
+export type { AttachComponentOptions } from './portal';
+export { mergeIds } from './merge-ids';
+export { afterReplay, listenFirst, listenLast } from './listen-last';
+export { CckOverlayLayer } from './overlay-layer';
+export { injectZoneBoundary } from './zone-boundary';
+export type { ZoneBoundary } from './zone-boundary';

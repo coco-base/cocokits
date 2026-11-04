@@ -1,0 +1,72 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "theme-cocokits",
+  "projectType": "library",
+  "sourceRoot": "packages/themes/cocokits/core/src",
+  "tags": ["layer:theme", "scope:shared", "type:lib"],
+  "targets": {
+    "tokens": {
+      "executor": "@cocokits/workspace:tokens",
+      "cache": true,
+      "inputs": ["{projectRoot}/src/tokens/*.tokens.json", "executors"],
+      "outputs": ["{projectRoot}/src/styles/generated/_tokens.scss", "{projectRoot}/src/generated/token-modes.ts"],
+      "options": {
+        "input": [
+          "packages/themes/cocokits/core/src/tokens/base.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/button.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/badge.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/form-field.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/label.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/hint.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/input.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/textarea.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/field-error.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/checkbox.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/switch.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/radio.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/radio-group.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/tabs.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/popover.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/tooltip.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/dialog.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/select.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/accordion.tokens.json"
+        ],
+        "output": "packages/themes/cocokits/core/src/styles/generated/_tokens.scss",
+        "modesOutput": "packages/themes/cocokits/core/src/generated/token-modes.ts",
+        "format": "scss"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "commands": ["tsdown -c tsdown.config.mjs --config-loader native", "node scripts/build-css.mjs"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      },
+      "dependsOn": ["^build", "tokens"]
+    },
+    "test": {
+      "dependsOn": ["^build", "tokens", "build"]
+    },
+    "lint": {
+      "dependsOn": ["tokens"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build", "tokens"],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc --noEmit -p tsconfig.lib.json", "tsc --noEmit -p tsconfig.spec.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
+    "docs-data": {
+      "executor": "@cocokits/workspace:docs-data",
+      "options": {
+        "source": "theme"
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+@use '_input' as input;
+
+@layer cocokits {
+  @include input.rules;
+}

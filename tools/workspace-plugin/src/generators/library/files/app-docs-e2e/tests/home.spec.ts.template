@@ -1,0 +1,6 @@
+import { expect, test } from '@playwright/test';
+
+test('the home page of the built site has a main landmark', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('main')).toBeVisible();
+});
