@@ -13,7 +13,7 @@ export function typeParameterDefaults(
 
 /**
  * The type text with every type parameter replaced by its default (`T[]` gives `string[]`), so a generic component
- * is read as the component with the default type: the stories and the controls treat the Select as string-valued
+ * is read as the component with the default type: a reader of the JSON treats the Select as string-valued
  * (api-extraction.md, generic components). A name that is not a type parameter with a default stays. A type that is
  * a bare type parameter with a default of `true` or `false` (the `M` of a Select `multiple?: M`) is the boolean the
  * author writes, so it reads `boolean`: the default only narrows the other members.

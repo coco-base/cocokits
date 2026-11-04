@@ -84,7 +84,7 @@ function topLevelMembers(typeText: string): string[] {
  * Replaces a member of the top-level union that is exactly the name of an alias of string literals by its union:
  * `BadgeContainerPosition | undefined` becomes `'top-left' | 'top-right' | … | undefined`. Any other text stays as written, so the
  * type keeps its meaning: arrays (`Position[]`), `keyof Position`, generic types (`Box<Position>`), member accesses,
- * object property keys and quoted text. The API tab then shows the real values, and the story compiler can
+ * object property keys and quoted text. A reader of the JSON then sees the real values and can
  * classify the prop.
  */
 export function expandAliases(typeText: string, resolve: AliasResolver): string {

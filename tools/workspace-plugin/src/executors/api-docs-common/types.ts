@@ -31,7 +31,7 @@ export interface ApiPartJson {
   anatomyPart?: string;
   /** Angular only: the anatomy parts the part renders internally besides its own. */
   renders?: string[];
-  /** Angular only: the story part the part also stands for. */
+  /** Angular only: the part the part also stands for. */
   section?: { partName: string; slotName: string; inputName: string };
   /** Angular only: the selector of the `ng-template` the part is declared inside. */
   templateSelector?: string;

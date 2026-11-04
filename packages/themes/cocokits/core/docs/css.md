@@ -45,7 +45,7 @@ Every color family (`brand`, `neutral`, `info`, `success`, `warning`, `danger`, 
 
 Rule: [css-conventions](../../../../../docs/style-guides/themes/css-conventions.md#documented-custom-properties).
 
-Applies to: `badge`, `badge-container`. The docs site lists these properties on the Styling page of each component named here.
+Applies to: `badge`, `badge-container`. Consumers such as a docs site list these properties for each component named here.
 
 | Property                       | Set on                   | Default | Effect                                                                                   |
 | ------------------------------ | ------------------------ | ------- | ---------------------------------------------------------------------------------------- |

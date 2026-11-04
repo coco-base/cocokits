@@ -17,7 +17,7 @@ type ByFramework<T> = Map<string, T>;
  * Semantic ids a framework lacks by design, for a reason that is no single member. The Angular Accordion keeps its open
  * state on each item (the `expanded` model, tagged `none`) and is always vertical, collapsible and mounted, so React and
  * Vue have the root members and the item key that Angular has no input for. The Angular Tooltip follows Material and has no
- * open model and no change output, which the story language still needs for React and Vue (`tooltip.open`,
+ * open model and no change output, which the playground controls still need for React and Vue (`tooltip.open`,
  * `tooltip.openChange`), so `none` would drop them. Angular selects a tab by its index, so the Angular tab and its section
  * have no value, and no `forceMount` (the root keeps every panel with `preserveContent`); the Angular nav takes the panel
  * directive itself, not its id. The Angular `ng-template[cckTabContent]` slot has no counterpart in React and Vue (the

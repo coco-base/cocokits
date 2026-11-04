@@ -24,7 +24,7 @@ export interface ComponentMeta<Part extends string = string> {
   /** The form contract in one sentence. */
   readonly form: string;
   /**
-   * The default element of each part, for docs, stories and tests. Set it where the author may choose
+   * The default element of each part, for docs and tests. Set it where the author may choose
    * another element; leave it out for a part that has no element of its own.
    */
   readonly defaultElements?: Readonly<Partial<Record<Part, string>>>;

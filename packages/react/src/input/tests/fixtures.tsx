@@ -36,7 +36,7 @@ export function must<T>(value: T | null | undefined): T {
   return value;
 }
 
-/** The Input story markup: a label, an input and two hints, with no id written. */
+/** The Input example markup: a label, an input and two hints, with no id written. */
 export function EmailField({ id }: { readonly id?: string }): ReactElement {
   return (
     <FormField
