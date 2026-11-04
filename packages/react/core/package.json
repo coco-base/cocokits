@@ -1,7 +1,13 @@
 {
   "name": "@cocokits/react-core",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "React adapter runtime: binds machines to React and provides the theme runtime.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/react/core"
+  },
   "type": "module",
   "sideEffects": false,
   "files": [

@@ -1,7 +1,13 @@
 {
   "name": "@cocokits/cdk",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "Framework-free primitives and stateful runtime, one subpath per module.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/cdk"
+  },
   "type": "module",
   "sideEffects": false,
   "files": [

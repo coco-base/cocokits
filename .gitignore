@@ -8,11 +8,7 @@ coverage
 .nx/installation
 *.tsbuildinfo
 .angular
-.astro
-.lighthouseci
 .vite
-test-results
-playwright-report
 .DS_Store
 Thumbs.db
 .idea

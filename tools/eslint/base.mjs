@@ -24,11 +24,7 @@ export function createBaseConfig({ tsconfigRootDir }) {
         '**/tmp/**',
         '**/node_modules/**',
         '**/.angular/**',
-        '**/.astro/**',
-        '**/.lighthouseci/**',
         '**/.vite/**',
-        '**/test-results/**',
-        '**/playwright-report/**',
       ],
     },
     {

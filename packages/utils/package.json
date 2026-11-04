@@ -1,7 +1,13 @@
 {
   "name": "@cocokits/utils",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "Stateless helpers used by every other layer.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/utils"
+  },
   "type": "module",
   "sideEffects": false,
   "files": [

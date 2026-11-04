@@ -28,10 +28,10 @@ const TOOLING_EXTERNALS = [
 
 /** @param {{ test: boolean, tooling?: boolean }} options */
 function createDepConstraints({ test, tooling = false }) {
-  // Test files: @cocokits/cdk/testing (layer:cdk) for every lib; conformance, docs-stories and the preview apps
-  // for framework components and framework themes; preview app story ids for the theme core.
+  // Test files: @cocokits/cdk/testing (layer:cdk) for every lib; conformance tests for framework components and
+  // framework themes.
   const cdkForTests = test ? ['layer:cdk'] : [];
-  const fwTestExtras = test ? ['type:test', 'type:tool', 'type:app'] : [];
+  const fwTestExtras = test ? ['type:test'] : [];
   const testExternals = [...(test ? TEST_EXTERNALS : []), ...(tooling ? TOOLING_EXTERNALS : [])];
 
   const sharedLayer = (layer, allowed) => ({
@@ -66,10 +66,10 @@ function createDepConstraints({ test, tooling = false }) {
         ...fwTestExtras,
       ],
     },
-    // layer:theme + scope:shared (theme core): shared only (screenshot tests: preview apps)
+    // layer:theme + scope:shared (theme core): shared only
     {
       allSourceTags: ['layer:theme', 'scope:shared'],
-      onlyDependOnLibsWithTags: ['layer:shared', ...cdkForTests, ...(test ? ['type:app'] : [])],
+      onlyDependOnLibsWithTags: ['layer:shared', ...cdkForTests],
     },
     // layer:theme + scope:<fw>: its core, fw-core, fw components, shared; never machines, cdk, another framework
     ...FRAMEWORKS.map((fw) => ({
@@ -85,26 +85,10 @@ function createDepConstraints({ test, tooling = false }) {
     })),
     // type:test (conformance): shared, machines (spec only), cdk/testing; no framework package
     { sourceTag: 'type:test', onlyDependOnLibsWithTags: ['layer:shared', 'layer:machine', 'layer:cdk'] },
-    // type:tool (docs tooling with layer:docs, such as story-compiler, docs-stories and docs-shared: shared and other
-    // docs tooling; workspace: nothing internal). The type tag cannot tell them apart, so both are allowed for all.
-    { sourceTag: 'type:tool', onlyDependOnLibsWithTags: ['layer:shared', 'layer:docs'] },
-    // type:e2e (docs-e2e): browser tests of the built site; imports no workspace project. Like every app it carries
-    // layer:app, which no list above contains, so nothing imports it.
-    { sourceTag: 'type:e2e', onlyDependOnLibsWithTags: [] },
-    // Apps carry layer:app, which no list above contains, so no package imports an app.
-    // type:app + scope:<fw> (preview-<fw>): fw, fw-core, themes, docs tooling, shared; no machines directly.
-    // Consumer fixtures install packed tarballs and declare no workspace dependencies.
-    ...FRAMEWORKS.map((fw) => ({
-      allSourceTags: ['type:app', `scope:${fw}`],
-      onlyDependOnLibsWithTags: ['layer:fw-component', 'layer:fw-core', 'layer:theme', 'layer:shared', 'type:tool'],
-    })),
-    // type:app + scope:shared (docs): shared, docs tooling, machines, theme core; no framework package
-    {
-      allSourceTags: ['type:app', 'scope:shared'],
-      onlyDependOnLibsWithTags: ['layer:shared', 'type:tool', 'layer:machine', 'layer:theme'],
-    },
+    // type:tool (private repo tooling with layer:tool): shared and other tooling; workspace: nothing internal.
+    { sourceTag: 'type:tool', onlyDependOnLibsWithTags: ['layer:shared', 'layer:tool'] },
     // Scope rules: shared never reaches a framework; a framework project reaches itself and shared.
-    // Test files of scope:shared projects may reach the preview apps of every framework.
+    // Test files of scope:shared projects may reach the framework packages.
     {
       sourceTag: 'scope:shared',
       onlyDependOnLibsWithTags: ['scope:shared', ...(test ? FRAMEWORKS.map((fw) => `scope:${fw}`) : [])],
