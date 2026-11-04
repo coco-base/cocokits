@@ -27,7 +27,7 @@ host: {
 },
 ```
 
-Every `data-*` a part renders belongs to the component's approved contract; do not render undeclared attributes.
+Every `data-*` a part renders belongs to the component's contract; do not render undeclared attributes.
 
 ## Exceptions
 

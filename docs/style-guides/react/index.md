@@ -18,6 +18,6 @@ How to write headless components for `@cocokits/react`: compound parts, state, S
 | [machine-backed.md](./machine-backed.md) | A part whose behaviour comes from `@cocokits/machines/<name>` |
 | [internals.md](./internals.md) | Rules for the small shared helpers in `packages/react/src/internal/` |
 | [testing.md](./testing.md) | Writing or fixing React tests |
-| [docs-and-stories.md](./docs-and-stories.md) | TSDoc for public props and parts |
+| [tsdoc.md](./tsdoc.md) | TSDoc for public props and parts |
 
-Related areas: [framework-agnostic](../framework-agnostic/index.md), [themes](../themes/index.md), [testing](../testing/index.md), [docs](../docs/index.md), [accessibility](../accessibility/index.md), [workspace](../workspace/index.md), [glossary](../../glossary.md).
+Related areas: [framework-agnostic](../framework-agnostic/index.md), [themes](../themes/index.md), [testing](../testing/index.md), [accessibility](../accessibility/index.md), [workspace](../workspace/index.md), [glossary](../../glossary.md).

@@ -4,17 +4,11 @@ Where each kind of code lives. Package names and entry points: [packages-and-ent
 
 ```
 cocokits/
-├─ AGENTS.md  CLAUDE.md  INDEX.md   # agent entry: CLAUDE.md imports AGENTS.md; both load only INDEX.md
-├─ .claude/skills/<skill>/          # one workflow per task, each pointing at the guide to load
+├─ AGENTS.md  CLAUDE.md             # contributor entry: what the repo is, the rules, where they live
 ├─ docs/
 │  ├─ architecture.md  glossary.md  why/
 │  └─ style-guides/<area>/          # index.md plus small topic files per area
 ├─ compatibility.json               # supported peer ranges, browsers, SSR targets
-├─ apps/                            # private, layer:app, type:app
-│  ├─ docs/                         # @cocokits/docs             the Astro docs site
-│  ├─ preview-angular/              # @cocokits/preview-angular  renders the compiled stories in an iframe
-│  ├─ preview-react/                # @cocokits/preview-react    the same for React
-│  └─ preview-vue/                  # @cocokits/preview-vue      the same for Vue
 ├─ packages/
 │  ├─ utils/                        # @cocokits/utils            layer:utils
 │  ├─ shared/                       # @cocokits/shared           layer:shared
@@ -26,23 +20,19 @@ cocokits/
 │  │  └─ core/                      # @cocokits/react-core
 │  ├─ vue/                          # @cocokits/vue
 │  │  └─ core/                      # @cocokits/vue-core
-│  ├─ docs-stories/                 # @cocokits/docs-stories (private)  layer:docs: story sources and config
-│  ├─ docs-shared/                  # @cocokits/docs-shared (private)   layer:docs: preview protocol, docs data types, preview kit
-│  └─ themes/<name>/
+│  └─ themes/<name>/                # cocokits, frames-x
 │     ├─ core/                      # @cocokits/theme-<name>         layer:theme, scope:shared
 │     ├─ angular/                   # @cocokits/theme-<name>-angular layer:theme, scope:angular
 │     ├─ react/                     # @cocokits/theme-<name>-react
 │     └─ vue/                       # @cocokits/theme-<name>-vue
 ├─ tools/
-│  ├─ workspace-plugin/             # @cocokits/workspace: the library generator, the tokens, docs-data, api-docs-angular, api-docs-react and api-docs-vue executors
-│  ├─ story-compiler/               # @cocokits/story-compiler (private)  layer:docs, type:tool: prints stories
-│  ├─ consumer-fixture/             # @cocokits/consumer-fixture (private)  layer:docs, type:tool: compiles the stories from packed packages
+│  ├─ workspace-plugin/             # @cocokits/workspace: the library generator, the tokens, docs-data, api-docs-angular, api-docs-react, api-docs-vue and api-parity executors
 │  ├─ eslint/                       # shared flat configs: base, boundaries, entry points, contract rules, exceptions, file size
-│  └─ scripts/                      # verify-library-generator.mjs
-└─ nx.json  pnpm-workspace.yaml  tsconfig.base.json  eslint.config.mjs  size-limit.config.mjs  .changeset/
+│  └─ scripts/                      # ci-local.mjs, package-checks.mjs, verify-library-generator.mjs
+└─ nx.json  pnpm-workspace.yaml  tsconfig.base.json  eslint.config.mjs  size-limit.config.mjs  .changeset/  .github/
 ```
 
-`apps/` holds only private apps; they publish nothing.
+`dist/` at the root holds the build output of the Angular packages (`dist/packages/<name>`), the tarballs of the publish checks (`dist/tarballs`) and the extractor output (`dist/api-docs`, `dist/docs-data`). It is git-ignored.
 
 ## Placement rules
 

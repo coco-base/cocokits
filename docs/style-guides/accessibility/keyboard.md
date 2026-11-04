@@ -1,6 +1,6 @@
 # Keyboard
 
-General keyboard rules for interactive components. Which keys a given component handles comes from its approved requirements and the APG pattern it follows, not from this file ([architecture.md](../../architecture.md), [apg-patterns](./apg-patterns.md)).
+General keyboard rules for interactive components. Which keys a given component handles comes from its requirements and the APG pattern it follows, not from this file ([architecture.md](../../architecture.md), [apg-patterns](./apg-patterns.md)).
 
 ## Rules
 

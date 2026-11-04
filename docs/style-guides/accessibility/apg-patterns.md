@@ -2,7 +2,7 @@
 
 A component follows the WAI-ARIA Authoring Practices pattern for its widget: <https://www.w3.org/WAI/ARIA/apg/patterns/>. Read the pattern's page for its roles, states, keyboard interaction and focus management before implementing; do not work from memory.
 
-A component's actual keyboard and ARIA contract comes from its approved requirements and its tested implementation, not from this file ([architecture.md](../../architecture.md)). The table below only helps choose a focus strategy; it does not specify any CocoKits component.
+A component's actual keyboard and ARIA contract comes from its requirements and its tested implementation, not from this file ([architecture.md](../../architecture.md)). The table below only helps choose a focus strategy; it does not specify any CocoKits component.
 
 ## Required, optional and library choices
 

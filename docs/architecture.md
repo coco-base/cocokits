@@ -1,17 +1,17 @@
-# CocoKits Next: Architecture
+# CocoKits: Architecture
 
-This file states the cross-cutting rules for writing and reviewing CocoKits code. Guides under `docs/style-guides/` add rules specific to their area and link here instead of restating these. The reasons are in [`docs/why/`](./why/index.md); read a why file only when you need the reason or want to change the rule. Start from [`INDEX.md`](../INDEX.md) to find the guide for a task.
+This file states the cross-cutting rules for writing and reviewing CocoKits code. Guides under `docs/style-guides/` add rules specific to their area and link here instead of restating these. The reasons are in [`docs/why/`](./why/index.md); read a why file only when you need the reason or want to change the rule.
 
-**Examples are illustrative.** Named components in any doc (Switch, Tabs, Popover, Select, Dialog, …) illustrate a general rule. They are never a spec of that component. A component's real behaviour (DOM, keyboard, ARIA, forms, states, API) comes from its approved requirements and its implemented, tested contract.
+**Examples are illustrative.** Named components in any doc (Switch, Tabs, Popover, Select, Dialog, …) illustrate a general rule. They are never a spec of that component. A component's real behaviour (DOM, keyboard, ARIA, forms, states, API) comes from its requirements and its implemented, tested contract.
 
-The repository also has `AGENTS.md`, `INDEX.md` and skills in `.claude/skills/`; they point to these rules and do not add new ones.
+`AGENTS.md` at the repository root points to these rules and does not add new ones.
 
 ## 1. Goals
 
 1. One set of **unstyled ("any-style") components** for **Angular, React (including Next.js) and Vue**. Only these three are supported.
 2. Many **themes**. A theme is CSS plus a typed config, and it behaves the same in every framework.
 3. Adding a component or theme must be cheap: behaviour is written once and shared.
-4. **Code quality comes first**, so humans and AI agents follow the same written rules and automated checks.
+4. **Code quality comes first**, so every contributor follows the same written rules and automated checks.
 5. **A good developer experience in each framework** comes before identical authoring code across frameworks. Behaviour, DOM and themes are shared; the way a developer writes a component may differ.
 6. **Current stable framework versions and their current APIs**. Support covers the current framework major, plus the previous one where the APIs allow. Guides never name versions; supported ranges live in `peerDependencies` and `compatibility.json`.
 
@@ -67,7 +67,7 @@ Why: [styling contract](./why/styling-contract.md)
 | Runtime state (base layer) | `data-*` | `data-selected`, `data-disabled`, `data-orientation="vertical"` |
 | Theme options (theme layer) | `data-*` | `data-size="lg"`, `data-variant="outline"`, `data-rounded` |
 
-- Every component declares its **parts** once (why: [anatomy](./why/anatomy.md)). Example (illustrative; the parts of a real component come from its approved requirements):
+- Every component declares its **parts** once (why: [anatomy](./why/anatomy.md)). Example (illustrative; the parts of a real component come from its requirements):
 
   ```ts
   export const exampleAnatomy = defineAnatomy({
@@ -80,7 +80,7 @@ Why: [styling contract](./why/styling-contract.md)
   ```
 
   `defineAnatomy` (from `@cocokits/shared`) returns the same object plus a typed `classes` map (`exampleAnatomy.classes.trigger === 'cck-example__trigger'`). A part has only `name` and `description`: no state, options, role or other attributes (role and ARIA are behaviour, rendered by the machine). A component's anatomy and meta live in `packages/machines/<name>/` and are exported from `@cocokits/machines/<name>`. The anatomy never depends on `ThemeConfig`.
-- **One rendered contract per component** (why: [rendered contract](./why/rendered-contract.md)): once a component's contract is approved, every framework renders exactly that (same parts, classes, `data-*`, roles, focus and ref targets, labelling and **default element**); only the authoring shape differs. Where the contract lets the author choose the element of a part, every framework lets them, and the meta's `defaultElements` names the default. A part's anatomy description says what the part is for, never which element it is, unless the behaviour contract fixes the element. Ids are generated from the root id (SSR-stable); a value that links sibling parts (a Tab and its panel) enters an id only through the injective `toIdSegment`. The meta (`<name>.meta.ts`) declares every emitted `data-*` attribute; undeclared output fails a test.
+- **One rendered contract per component** (why: [rendered contract](./why/rendered-contract.md)): once a component's contract is settled, every framework renders exactly that (same parts, classes, `data-*`, roles, focus and ref targets, labelling and **default element**); only the authoring shape differs. Where the contract lets the author choose the element of a part, every framework lets them, and the meta's `defaultElements` names the default. A part's anatomy description says what the part is for, never which element it is, unless the behaviour contract fixes the element. Ids are generated from the root id (SSR-stable); a value that links sibling parts (a Tab and its panel) enters an id only through the injective `toIdSegment`. The meta (`<name>.meta.ts`) declares every emitted `data-*` attribute; undeclared output fails a test.
 - Every part renders its fixed class. There is no `data-scope`/`data-part`.
 - `data-*` naming: booleans are presence attributes (`data-disabled=""`, absent when false); named values are value attributes; one attribute per fact (no `data-unselected` next to `data-selected`); `data-state` only for exclusive lifecycle states (`open|closed`); base attribute names are reserved and a `ThemeConfig` cannot reuse them.
 - A `data-*` the base renders names a **fact** (`data-empty`: no text is shown; `data-truncated`), never a **look** (`data-dot`). Whether a fact is drawn as a dot, a badge or nothing is the theme's decision (why: [styling contract](./why/styling-contract.md#the-base-states-facts-the-theme-decides-the-look)).
@@ -124,7 +124,7 @@ Angular selectors (examples):
 | The part's role has a native element ([aria-rules, Semantics first](./style-guides/accessibility/aria-rules.md#semantics-first)) | That element with the attribute: `button[cckButton]`, `a[cckButton]`, `input[cckInput]` |
 | Any other part, including one with internal markup | Attribute only, on the author's element: `[cckBadge]`, `[cckTooltip]` |
 
-**The behaviour contract requires a native element** when the part's role has a native element: a trigger is `button` or `a`, a form value is `input`, `select` or `textarea`, a modal Dialog is `dialog`. A Popover with `modal` keeps its content element and gets `aria-modal="true"`, as Radix and Reka do ([why](./why/overlays.md#a-modal-popover-keeps-its-content-element)). The spec records that element in the Anatomy table, and the selector fixes it. Every other part is attribute-only so the author chooses the element, and the meta's `defaultElements` names the default that docs, stories and tests use. A part with internal markup is a component with an attribute selector, not a tag.
+**The behaviour contract requires a native element** when the part's role has a native element: a trigger is `button` or `a`, a form value is `input`, `select` or `textarea`, a modal Dialog is `dialog`. A Popover with `modal` keeps its content element and gets `aria-modal="true"`, as Radix and Reka do ([why](./why/overlays.md#a-modal-popover-keeps-its-content-element)). The component's requirements record that element in the Anatomy table, and the selector fixes it. Every other part is attribute-only so the author chooses the element, and the meta's `defaultElements` names the default that docs, stories and tests use. A part with internal markup is a component with an attribute selector, not a tag.
 
 Base parts that have no markup of their own are directives. Parts that need internal markup are components. Both use attribute selectors.
 
@@ -138,7 +138,7 @@ Base parts that have no markup of their own are directives. Parts that need inte
 - Same machine, same rendered parts, classes, `data-*` and default element in every framework, so every theme works everywhere.
 - Children register with their parent through DI (Angular) or context (others), never through structural content queries. In Angular, projected children register before the parent's view renders, so SSR output is complete.
 - Tests assert on the rendered parts, never on the authoring shape.
-- The spec and the docs describe the authoring shape of every framework.
+- The component's requirements and its documentation describe the authoring shape of every framework.
 
 Why: [rendered contract](./why/rendered-contract.md#the-element-is-the-authors-choice)
 
@@ -154,7 +154,7 @@ Why: [rendered contract](./why/rendered-contract.md#the-element-is-the-authors-c
 
 - Change callbacks fire when the component changes its own value: through user interaction or a native form reset. They never fire when the parent changes a controlled value or updates props.
 - Refusal and change notification follow each framework's reference ([§10.5](#10-simplicity-and-reuse)): Angular `disableClose` / `closePredicate` and Material output names, React Content handlers and `details.cancel()`, Vue Content emits and `update:*` only. The cdk dismiss intent is the shared core ([why](./why/overlays.md#each-framework-refuses-and-reports-as-its-reference-does)).
-- Form participation (the form contract is part of each component's approved contract; component tests submit and reset a real form in every framework; details in the [React](./style-guides/react/forms.md), [Vue](./style-guides/vue/forms.md) and [Angular](./style-guides/angular/forms.md) forms guides):
+- Form participation (the form contract is part of each component's contract; component tests submit and reset a real form in every framework; details in the [React](./style-guides/react/forms.md), [Vue](./style-guides/vue/forms.md) and [Angular](./style-guides/angular/forms.md) forms guides):
   - Angular: Signal Forms is the model integration (no `ControlValueAccessor`); native submission uses a hidden native input when `name` is set.
   - React and Vue: one shared primitive (`@cocokits/cdk/form-control`) renders a hidden native input whenever the component can be submitted or validated, not only when `name` is set. So native `input`/`change` events, the `form` attribute, fieldsets, constraint validation and reset work.
   - A component whose control is a native `input` (text, checkbox, radio) or `textarea` renders no hidden input in any framework. The same cdk module reports the owner form's reset and submit and the disabling fieldset, writes the value (or `checked`) to the element, and reports a radio that another radio of its group unchecked ([why](./why/forms.md)).
@@ -172,7 +172,6 @@ Native elements first; roles and keyboard behaviour follow the WAI-ARIA Authorin
 | Parts and classes | The anatomy in `packages/machines/<name>` (when the component exists) |
 | `data-*` per part, keyboard table, expected roles, form contract | The component meta `<name>.meta.ts` in `packages/machines/<name>` (when the component exists) |
 | Theme options and their `data-*` values | Each theme's `ThemeConfig` |
-| Stories (code for every framework and theme) | Story sources and story config in `packages/docs-stories`, compiled by the story compiler; never written per framework |
 | Supported framework and browser ranges | `compatibility.json` and each package's `peerDependencies` |
 
 Examples are not specs: they never define a component's behaviour.
@@ -203,16 +202,16 @@ The checks and commands that exist are listed in [targets.md](./style-guides/wor
    - A bare kind word (`component`, `config`, `part`, `read`, `directive`, `own`) is still wrong where it hides what the value is: say which one (`themeDirective`, `ownValues`). A name that a framework API fixes (`read` in `afterEveryRender`, `directive` in `hostDirectives`) is exempt.
    - An abstract class that directives or components share ([when](style-guides/angular/components-and-selectors.md#directive-on-the-users-element)) ends in `Base` (`CckButtonBase`, `CckTextControlBase`); `Root` is only the root part of an anatomy.
    - Use the [glossary](./glossary.md) term, and never a framework type name for something else.
-   - Exported names, fields and parameters of exported functions are API ([semver](../.claude/skills/reviewing-code/references/semver-rules.md)); settle them before the first release.
-   - In a published `@cocokits/*` package, a public member of an exported class that only the library's own parts use (marked `@internal`) starts with one `_` (`_register`, `_theme`), so a consumer does not use it by accident. Everything else keeps its plain name: the members of a class or interface that is internal as a whole (`CckOverlayLayer`), `private`, `protected` and `#` members, consumer API (inputs, models, outputs, documented methods), names a framework or a base class fixes (lifecycle hooks, an override of a `protected` member) and every project that is not published (apps, tools, `docs-stories`, tests).
-   - Code comments describe the current code. They never name plans, plan rows, jobs or audits; that history lives in `factory/`.
+   - Exported names, fields and parameters of exported functions are API (semver); settle them before the first release.
+   - In a published `@cocokits/*` package, a public member of an exported class that only the library's own parts use (marked `@internal`) starts with one `_` (`_register`, `_theme`), so a consumer does not use it by accident. Everything else keeps its plain name: the members of a class or interface that is internal as a whole (`CckOverlayLayer`), `private`, `protected` and `#` members, consumer API (inputs, models, outputs, documented methods), names a framework or a base class fixes (lifecycle hooks, an override of a `protected` member) and every project that is not published (tools, tests).
+   - Code comments describe the current code. They never name plans, tickets or review rounds; that history lives in the pull request.
 5. **Reference API per framework.** Every public API choice follows the reference library of that framework: Angular follows [Angular Material](https://material.angular.dev) and the [Angular CDK](https://material.angular.dev/cdk/categories), React follows [Radix UI](https://www.radix-ui.com), [Base UI](https://base-ui.com) and [React Aria](https://react-aria.adobe.com), Vue follows [Reka UI](https://reka-ui.com). A cdk module follows the matching Angular CDK module (overlay dispatchers, a11y key managers, focus trap) and Radix or Floating UI (dismissable layer, presence), and each behaviour they have that it lacks is a deviation row of the comparison.
    - **What it covers.** The entry point (service, directive or component), the open and close model, the defaults mechanism, the veto or refusal mechanism, the naming of inputs, outputs, props and events, composition (`asChild`, `render`, slots), and the simplicity of the structure. Prefer their simpler solution.
    - **Parity.** Parity across frameworks binds the rendered contract (§3: classes, `data-*`, roles, ARIA, keyboard), not the entry point. Parity never excuses breaking a framework's idiom.
-   - **Never a reason.** Repo convenience: the story compiler can print it, the authoring shapes look alike, less migration, existing code. A compiler limitation never shapes a component API.
-   - **Deviation.** It needs all three: the reference precedent with a fetched URL, the reason, and the maintainer's approval recorded as a question id in the spec's Reference API comparison ([template](../.claude/skills/writing-specs/references/spec-template.md)). Without them the reference wins.
+   - **Never a reason.** Repo convenience: a tool can print it, the authoring shapes look alike, less migration, existing code. A tooling limitation never shapes a component API.
+   - **Deviation.** It needs all three: the reference precedent with a fetched URL, the reason, and a maintainer's agreement recorded in the pull request or issue that proposes the API. Without them the reference wins.
    - **Originality.** It means no copied code or prose. The reference's API shape is the starting point, never something to avoid.
-   - **Proposals.** In every brainstorm, proposal, audit or report, by any agent, each API or design pick cites its reference precedent (link to a fetched page) or is labelled DEVIATION and put to the maintainer as a question, never as "agreed". A comparison from memory is incomplete.
+   - **Proposals.** In every issue, pull request or design discussion, each API or design pick cites its reference precedent (link to a fetched page) or is labelled DEVIATION and put to the maintainers as a question, never as "agreed". A comparison from memory is incomplete.
 6. **One name, one owner, simplest channel.**
    - One name per concept through the whole data flow (prop, machine field, type, `data-*`, CSS, docs). Never rename it between layers.
    - Put each piece of configuration and logic on the component whose purpose it serves. A child does not know its parent's concern: the container owns `position`, and the badge only shows its value.
@@ -221,4 +220,4 @@ The checks and commands that exist are listed in [targets.md](./style-guides/wor
    - Derive from the single source (the anatomy, the meta) instead of repeating its keys. A helper takes the whole source and loops over it; no call site repeats a part name or makes one call per part. A new part then needs no edit in any adapter. For theme attributes a component calls the helper once with the anatomy and every part it renders binds its own record.
    - A function is pure: it mutates no input and has no hidden effect beyond the one its documentation states. It returns a new value.
 
-Why: [simplicity and reuse](./why/factory.md#simplicity-and-reuse), [reference API](./why/factory.md#reference-api-per-framework)
+Why: [simplicity and reuse](./why/simplicity.md#simplicity-and-reuse), [reference API](./why/simplicity.md#reference-api-per-framework)

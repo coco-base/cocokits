@@ -4,7 +4,7 @@ The tags every project carries and the dependency table of the workspace. Other 
 
 ## Tags
 
-Every project has one `layer:*`, one `scope:*` (`shared` or a framework name) and one `type:*` tag (`lib` for every package; `tool` for a private tool project: the `workspace` project, `tools/workspace-plugin`, the docs tooling the `tool` kind creates, `docs-stories` and `docs-shared`, which carry `layer:docs`; `app` for the docs site and the preview apps, which carry `layer:app`; `e2e` for the browser tests of the built docs site, `docs-e2e`, which carries `layer:app` too; the config also defines `test` constraints). The `library` generator writes them. Why `layer:docs`: [layers](../../why/layers.md#docs-tooling-has-its-own-layer). Why `layer:app`: [layers](../../why/layers.md#apps-have-their-own-layer). Why `type:e2e`: [layers](../../why/layers.md#e2e-projects-import-nothing).
+Every project has one `layer:*`, one `scope:*` (`shared` or a framework name) and one `type:*` tag (`lib` for every package; `tool` for a private tool project: the `workspace` project, `tools/workspace-plugin`, and the projects the `tool` kind creates, which carry `layer:tool`; the config also defines `test` constraints). The `library` generator writes them.
 
 ## Dependency table
 
@@ -21,14 +21,11 @@ Every project has one `layer:*`, one `scope:*` (`shared` or a framework name) an
 | `layer:theme`, `scope:shared` | `theme-<name>` (framework-free) | `shared` | cdk, machines, any framework package |
 | `layer:theme`, `scope:<fw>` | `theme-<name>-<fw>` | `theme-<name>` (its core), `<fw>-core`, `<fw>` components of the same scope, `shared` | machines, cdk, another framework |
 | `type:tool` | `workspace` | nothing internal | |
-| `layer:docs`, `scope:shared`, `type:tool` | `story-compiler` (`tools/story-compiler`), `consumer-fixture` (`tools/consumer-fixture`), `docs-stories` (`packages/docs-stories`), `docs-shared` (`packages/docs-shared`) | `shared`, other `layer:docs` projects | any other workspace project; the config checks the `type:tool` tag, which allows `layer:shared` and `layer:docs` only |
-| `layer:app`, `scope:shared`, `type:app` | `docs` (`apps/docs`) | `shared`, `docs-stories`, `docs-shared`, `machines`, `theme-<name>` (framework-free) | a framework package, a framework theme layer |
-| `layer:app`, `scope:shared`, `type:e2e` | `docs-e2e` (`apps/docs-e2e`) | nothing internal; it tests the built site and imports no repo source | any workspace project |
-| `layer:app`, `scope:<fw>`, `type:app` | `preview-<fw>` (`apps/preview-<fw>`) | `<fw>`, `<fw>-core`, `theme-<name>` and `theme-<name>-<fw>` of the same scope, `shared`, `docs-stories`, `docs-shared` | machines directly, another framework |
+| `layer:tool`, `scope:shared`, `type:tool` | a private tool created by the `tool` kind (`tools/<name>`) | `shared`, other `layer:tool` projects | any other workspace project; the config checks the `type:tool` tag, which allows `layer:shared` and `layer:tool` only |
 
 Scope rules: `scope:shared` projects never depend on a framework project; a framework project depends on itself and `scope:shared`.
 
-The config also encodes constraints for `type:test` projects and test-file allowances (for example `@cocokits/cdk/testing`). `layer:app` has no constraint of its own: no layer lists it as a dependency, so no package imports an app, and the `type:app` and `scope:*` rules govern what an app imports.
+The config also encodes constraints for `type:test` projects and test-file allowances (for example `@cocokits/cdk/testing`).
 
 ## Test files
 

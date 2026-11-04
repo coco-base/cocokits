@@ -1,6 +1,6 @@
 # Workspace generators
 
-The only way to create packages and entry points. Only the `library` generator exists; there are no component, scenario or story-file scaffolding generators. Why: [tooling](../../why/tooling.md).
+The only way to create packages and entry points. Only the `library` generator exists; there are no component scaffolding generators. Why: [tooling](../../why/tooling.md#one-library-generator-for-packages-and-entry-points).
 
 It lives in `tools/workspace-plugin` (`@cocokits/workspace`) and runs as `nx g @cocokits/workspace:library <name> --kind=<kind>`. Kinds, options and examples: [tools/workspace-plugin/README.md](../../../tools/workspace-plugin/README.md). Templates are EJS files under `src/generators/library/files/`.
 

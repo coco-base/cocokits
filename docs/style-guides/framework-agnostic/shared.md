@@ -7,7 +7,7 @@
 - Generic contracts only: one that every framework, theme or component needs. A contract that one component defines for another (the position type a badge container owns) stays with its owner in `@cocokits/machines/<name>` and is imported from there ([layers-and-imports](./layers-and-imports.md)).
 - Only types, `as const` lists and pure helpers that define or check a contract. No state, no DOM access, no timers, no behaviour.
 - No workspace or npm dependencies. DOM types are allowed; DOM access is not.
-- Generic helpers go to [utils](./utils.md); anything stateful goes to [cdk](./cdk-modules.md); code only the docs tooling uses goes to the private `@cocokits/docs-shared` ([layers-and-imports](./layers-and-imports.md)).
+- Generic helpers go to [utils](./utils.md); anything stateful goes to [cdk](./cdk-modules.md) ([layers-and-imports](./layers-and-imports.md)).
 
 ## Anatomy
 

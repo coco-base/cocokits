@@ -1,6 +1,6 @@
 # ARIA, ids, labels and platform rules
 
-What the base renders so that assistive technology reads the right name, role, state and relationships. Widgets named here are examples of a rule; a component's actual ARIA contract comes from its approved requirements ([architecture.md](../../architecture.md)).
+What the base renders so that assistive technology reads the right name, role, state and relationships. Widgets named here are examples of a rule; a component's actual ARIA contract comes from its requirements ([architecture.md](../../architecture.md)).
 
 ## Semantics first
 

@@ -1,0 +1,31 @@
+# Why: simplicity, names and reference APIs
+
+Rules: [architecture §10](../architecture.md#10-simplicity-and-reuse). This file explains them and states no rules.
+
+## Simplicity and reuse
+
+**Rejected alternatives.**
+
+- _Let each contributor build what a task needs from scratch._ A contributor sees one task, not the repo, so a second helper appears where one exists.
+- _Review for duplication only after the build._ The duplicate is already wired in by then.
+- _Design every component from scratch._ Each framework implementation then invents its own API shape and structure, and the result grows more complex than the proven headless libraries (Base UI, Angular Material and CDK, Reka UI).
+- _Treat names and the choice of mechanism as taste._ One change passed eleven review rounds with a setup function where Angular inherits from a base directive, a manual listener whose reason sat only in a code comment, a `computed` no caller could see, a class string copied from the anatomy and eight names that said only a kind. Another named one concept `placement` in the badge and `position` in its container, put the container's `position` on the badge, and passed it through an injection token where CSS on the container's `data-position` was enough. The Angular rule is in the [DI rules](../style-guides/angular/components-and-selectors.md#di-rules).
+
+**Why.** Every extra helper, option or layer must be tested, documented and kept in line across three frameworks. A reviewer cannot see what was not written, so the search for an existing solution happens before the build and the review asks for the simpler form. Text follows the same rule: a rule stated in two files drifts, so each rule has one owner and pointers. The framework's own mechanism is the one the next reader already knows. For the same reason each framework implementation is compared with its proven reference library: it keeps our API familiar and simple, and a solution more complex than theirs needs a recorded reason. A copied fact drifts from its source while every test still passes. A concept keeps one name through every layer because each rename is a mapping the reader must learn and no test checks. Configuration lives on the component whose purpose it serves, so a child stays reusable and a parent change touches one file; CSS on the parent's own attributes needs no code, no token and no test of the channel. A helper that took one part name left two of the Badge's three parts without theme attributes, because the component called it for `root` only; a new part also meant an edit in every adapter. Looping over the anatomy inside the helper removes both, and a pure function cannot hide that kind of effect. A name is read far more often than it is written, and an exported name can only change in a major release, so review treats names and mechanisms as findings.
+
+The exception to "a base is for siblings of one component": the Input and the Textarea implement one control contract on different native elements, share about 300 lines of inputs, host bindings and logic per framework, and live in separate entries (one entry per component), where ng-packagr cannot share a relative file. A setup function would leave each class declaring the inputs and host bindings, which the Angular guide forbids, and a copy is the duplication this section exists to prevent, so an exported abstract base (`CckTextControlBase`, from the Input entry, marked not for direct use) is the simplest form that passes the guides. The Checkbox and the Switch had a second copy of the same forms-control logic (13 state inputs, touched/dirty/submitted, the FormField report, the tracking of a forms library), which only the model differs from, so that part is one abstract base, `CckFormControlBase`, and the text and checked bases extend it (its entry: [entry points](entry-points.md)). The rule also names what is fine, so review does not flag it: a field that names its own object (`name`), an established domain term (`block`, `element`) and a function named after the single value it returns (`dataAttr`).
+
+## Internal members and current-code comments
+
+**Why.** An Angular part reads its root through `inject`, so the root's coordination members (`register`, `theme`, `parts`) must be public, and a consumer who injects the root or queries it with `viewChild` sees them next to the real API. `@internal` keeps them off the generated API pages, but the typings and the running object still carry them, so the `_` marks them where they are used, as Angular Material does. A `private`, `protected` or `#` member and code that is not published have no consumer to protect, so renaming them only adds churn. A plan or issue id in a comment goes stale as soon as the plan changes and says nothing about the code. The rule: [architecture §10](../architecture.md#10-simplicity-and-reuse).
+
+## Reference API per framework
+
+**Rejected alternatives.**
+
+- _One API shape for all three frameworks, for parity._ A first Dialog made a declarative Angular dialog (`<ng-container cckDialog [(open)]>`) that Angular Material and the CDK do not have (they open a dialog from a service). Nothing in Material or the CDK supports it. Parity is a property of the rendered contract; the entry point is what an Angular, React or Vue developer already knows.
+- _Compare after the API is approved._ The comparison then only records "differences, all from the approved design". It is a table in the proposal, so reviewers see it before anything is built.
+- _Accept any recorded reason for a deviation._ A reason written by the same author always holds. The reason "the docs tooling can print it" shaped a component API. A deviation needs a reviewer's agreement.
+- _Originality as "a different shape"._ Rules against copying wording and structure were read as "avoid their API". Originality means no copied code or prose.
+
+**Why.** Without a required table at each point where an API is decided or judged, the rule was not gated, and the originality wording pushed the other way. Now the table is required, a deviation needs a fetched precedent and a reviewer's agreement, and every proposal cites its precedent or says DEVIATION. A comparison written from memory hid a gap before, so an unfetched source blocks. The rule: [architecture §10 item 5](../architecture.md#10-simplicity-and-reuse).

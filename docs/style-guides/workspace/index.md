@@ -12,3 +12,4 @@ Scope: where code lives in the Nx + pnpm workspace and how it is built, checked 
 | [nx-tags-and-boundaries.md](./nx-tags-and-boundaries.md) | Setting project tags, fixing a boundary lint error, checking whether an import is allowed |
 | [generators.md](./generators.md) | Running or changing the library generator |
 | [ci-pipeline.md](./ci-pipeline.md) | Adding or fixing a CI job |
+| [api-extraction.md](./api-extraction.md) | Changing an `api-docs` extractor, a TSDoc tag the extractors read, or the `api-parity` check |

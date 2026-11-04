@@ -18,7 +18,7 @@ How a CocoKits SFC is written: script API, typed props/emits/slots, reactivity, 
 - Never destructure `props` or a `reactive` object in setup (`const { disabled } = props` loses reactivity). Use `props.x`, `toRef(props, 'x')` or a getter.
 - Models, change details and `null` are in [models.md](./models.md).
 - **A root's default slot passes its state** as slot props, declared in `defineSlots` with a TSDoc comment on each field and tagged `@cckSemantic none` with a `@remarks` (the other frameworks have no such field): `{ open, close }` for the Dialog and Popover, `{ open }` for the Tooltip, `{ modelValue }` for Tabs, `{ modelValue, open }` for the Select. A themed root passes the same slot props through its own default slot.
-- **`aria-*` are fall-through attributes.** `aria-label`, `aria-labelledby` and `aria-describedby` are not declared props: written on a part, they reach the part's element in kebab case, like any other undeclared attribute. Declare them only when they belong on another element than the one the attributes land on (a choice control gives them to its input, the Select to its trigger and list). A consumer value never replaces a machine state attribute the part lists in `priorityAttrs`. The parity check does not require a Vue member for an `aria-*` semantic id ([api-extraction.md](../docs/api-extraction.md#pipeline)).
+- **`aria-*` are fall-through attributes.** `aria-label`, `aria-labelledby` and `aria-describedby` are not declared props: written on a part, they reach the part's element in kebab case, like any other undeclared attribute. Declare them only when they belong on another element than the one the attributes land on (a choice control gives them to its input, the Select to its trigger and list). A consumer value never replaces a machine state attribute the part lists in `priorityAttrs`. The parity check does not require a Vue member for an `aria-*` semantic id ([api-extraction.md](../workspace/api-extraction.md#pipeline)).
 
 ## Reactivity
 
@@ -46,4 +46,4 @@ How a CocoKits SFC is written: script API, typed props/emits/slots, reactivity, 
 
 ## TSDoc
 
-Every prop, emit, slot, slot prop, model and exposed method has a TSDoc comment ([docs-and-stories.md](./docs-and-stories.md)).
+Every prop, emit, slot, slot prop, model and exposed method has a TSDoc comment ([tsdoc.md](./tsdoc.md)).

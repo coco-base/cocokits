@@ -35,7 +35,7 @@ What a name says about its value (`*Name` strings, no bare `config` or `part`): 
 
 ## TSDoc
 
-API descriptions are written once, as TSDoc on the source ([architecture, section 8](../../architecture.md)). TSDoc rules: [api-extraction](../docs/api-extraction.md#tsdoc-rules-all-frameworks). Prop docs live on the `Props` interface.
+API descriptions are written once, as TSDoc on the source ([architecture, section 8](../../architecture.md)). TSDoc rules: [tsdoc](./tsdoc.md#tsdoc-rules-all-frameworks). Prop docs live on the `Props` interface.
 
 ## Performance
 

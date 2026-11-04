@@ -25,8 +25,6 @@ How a package is named, which entry points it exposes and how its `package.json`
 | `@cocokits/machines` | One subpath per component, no root | Same as cdk |
 | `@cocokits/<fw>` | One subpath per component | Angular builds each component as its own entry point; React keeps one `'use client'` boundary per component; dev servers and test runners evaluate a full barrel |
 | `@cocokits/angular` | Additionally one `/<component>/testing` subpath per component, and `/form-control`, the one subpath without a component | The harness depends on `@angular/cdk/testing` and never ships in the runtime entry. `/form-control` is the abstract base that the form controls share (`CckFormControlBase`, not for direct use): it needs the optional `@angular/forms` peer, so it cannot live in `angular-core` or `form-field`, and ng-packagr entries cannot share a relative file |
-| `@cocokits/docs-shared` (private) | Root, plus `/vite` and `/testing` | Exception to "private packages: root only". `/vite` is a Node-only Vite plugin: `vite.config.mjs` runs in Node without tsconfig paths, the boundaries rule refuses a relative import across projects, and the root barrel is browser code that cannot hold `node:fs`. `/testing` is the test support the preview apps share (fakes, `find`, `must`), kept out of the runtime entry |
-| `@cocokits/story-compiler` (private tool) | No root; one `/language` path | Exception to "private packages: root only", and a tsconfig path only (a tool has no `exports`; the library generator has no kind for it). `/language` is the authoring entry of the story language: the markers that story sources import, listed in [story-language](../docs/story-language.md). It imports no `@cocokits/*` package, so the compiler can leave this repo with it |
 
 Why: [entry points](../../why/entry-points.md).
 
@@ -36,7 +34,8 @@ Why: [entry points](../../why/entry-points.md).
 
 ## package.json rules
 
-- ESM only: `"type": "module"`, `exports` with `types` + `default` per entry, `files: ["dist"]`. Exception: the ng-packagr packages (`angular-core`, `angular`, `theme-cocokits-angular`) publish from their dist directory through `publishConfig.directory`, have no `files` field, and keep `exports: {}` in the source `package.json` because ng-packagr writes the exports (the `@cocokits/angular` build also strips the root export).
+- ESM only: `"type": "module"`, `exports` with `types` + `default` per entry, `files: ["dist"]`. Exception: the ng-packagr packages (`angular-core`, `angular`, `theme-<name>-angular`) publish from their dist directory through `publishConfig.directory`, have no `files` field, and keep `exports: {}` in the source `package.json` because ng-packagr writes the exports (the `@cocokits/angular` build also strips the root export).
+- Every published package has the same `version` (Changesets keeps them in one `fixed` group), `"license": "Apache-2.0"` and a `repository` with the `directory` of the package. The generator writes them.
 - `sideEffects: false`; theme core packages set `sideEffects: ["*.css"]`.
 - Internal dependencies are `workspace:*`; Changesets rewrites them on publish. A package never bundles another workspace package.
 - Framework peers use the ranges of `compatibility.json`, written as `>=` / `^`, never an exact pin; they live only in `peerDependencies`. `compatibility.json` is the only file besides `package.json` that names supported versions. Raising `low` is a major change; raising `high` is a minor change with a changeset.

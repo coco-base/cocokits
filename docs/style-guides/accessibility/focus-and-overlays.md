@@ -1,6 +1,6 @@
 # Focus management and overlays
 
-Where focus goes, how it comes back, and what changes because overlay content is portaled. The overlay invariants are in [architecture.md](../../architecture.md). Widgets named here are examples; a component's actual focus contract comes from its approved requirements.
+Where focus goes, how it comes back, and what changes because overlay content is portaled. The overlay invariants are in [architecture.md](../../architecture.md). Widgets named here are examples; a component's actual focus contract comes from its requirements.
 
 ## Focus strategy
 

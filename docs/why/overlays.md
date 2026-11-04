@@ -61,7 +61,7 @@ Rules: [Overlays and positioning](../style-guides/framework-agnostic/overlays-an
 
 **Why.**
 - The cdk raises one cancelable intent per cause, so the adapters stay thin: Angular maps it to `disableClose` and `closePredicate`, React to the Content handlers (the specific one, then `onInteractOutside` with the same event) and `details.cancel()`, Vue to the same events as emits.
-- Vue gives no reason with `update:open`. The Events panel of the docs shows the reason only where the framework has it (React); the Vue `update:*` row has none, which is the price of one change event.
+- Vue gives no reason with `update:open`. A tool that lists change events shows the reason only where the framework has it (React); the Vue `update:*` event has none, which is the price of one change event.
 - Trigger and Close parts in Vue send their click whatever a consumer `preventDefault()` did, because Reka's parts do; Angular and React keep the veto of their references.
 
 ## Overlay roots start their listeners outside the zone
@@ -96,7 +96,7 @@ A tooltip that exists only while open is announced to nobody who focuses the tri
 
 The helper (`createDescription` in the cdk `portal` module) differs from the CDK's `AriaDescriber` on purpose. It makes one element per tooltip in the trigger's own overlay container, because a shared container on `body` cannot be reached from a trigger in a shadow root, and an open modal makes everything outside it inert, so ids that point there stop resolving. It does not write `aria-describedby`: the frameworks own the trigger's attributes (a write the framework does not know about breaks hydration), so the machine adds the id to the props. It has no reference count, no form for an existing element and no role argument, because the only user is the tooltip. Nothing is made on the server, so before hydration the trigger has its own name only.
 
-The Provider of the Tooltip is optional in React and Vue, as Base UI's is. Radix and Reka throw without one, which would force every app and every story to wrap each tooltip. The group that lets a second tooltip open at once after a first closed lives in the framework-free machine (`createTooltipGroup`); the adapters create one per Provider.
+The Provider of the Tooltip is optional in React and Vue, as Base UI's is. Radix and Reka throw without one, which would force every app to wrap each tooltip. The group that lets a second tooltip open at once after a first closed lives in the framework-free machine (`createTooltipGroup`); the adapters create one per Provider.
 
 The machine keeps the neutral delay names (`delay`, `closeDelay`, as Base UI names them) while each framework keeps its reference name (`showDelay` and `hideDelay` in Angular, `delayDuration` in React and Vue). This is the one exception to one name through the layers: a user of Material or Radix looks for their own name, and the reference decides (architecture section 10). The names map to one semantic id through `@cckSemantic`, and the defaults differ by design (0 ms in Angular, 700 ms in React and Vue), so each delay member is tagged `@cckDefaultDiffers` and the parity check reports the difference.
 

@@ -54,44 +54,15 @@ Rules: [Layers and packages](../architecture.md#2-layers-and-packages), [Tags an
 
 **Cost.** Two dev dependencies (`dependency-cruiser`, `@vue/compiler-sfc`) and one `cycles` target per project that has component folders.
 
-## Docs tooling has its own layer
+## Tooling has its own layer
 
 Rule: [Tags and boundaries](../style-guides/workspace/nx-tags-and-boundaries.md).
 
 **Rejected alternatives.**
-- *Tag docs tooling `layer:shared`.* That layer imports nothing internal. Letting the story compiler import `@cocokits/shared` would loosen the rule for every package in the layer.
-- *Put the tooling into the `workspace` project.* Every compiler change would run the generator-verify job and grow the plugin.
+- *Tag a private tool `layer:shared`.* That layer imports nothing internal. Letting a tool import `@cocokits/shared` would loosen the rule for every package in the layer.
+- *Put every tool into the `workspace` project.* Every tool change would run the generator-verify job and grow the plugin.
 
-**Why.** Docs tooling (the story compiler, the story sources, the code they share) reads the contracts in `shared` and is never imported by a published package. Under its own `layer:docs` tag this tooling may import `shared` and other docs tooling, while `layer:shared` keeps its "nothing internal" rule. Other layers import `shared` as the dependency table says; the tag gives docs tooling no new right over them.
-
-## Docs-only code lives in a private package
-
-Rule: [Layers and imports](../style-guides/framework-agnostic/layers-and-imports.md).
-
-**Rejected alternatives.**
-- *Keep the preview protocol and the docs data types in `@cocokits/shared`.* Every export of a published package is public API: users could import it, a change to it would need a changeset and a semver bump, and the package would ship code no user runs.
-
-**Why.** The preview protocol, the docs data types and their helpers serve only the docs site, the preview apps and the story compiler. In the private `@cocokits/docs-shared` (`layer:docs`) they change with the site, need no changeset, and the boundary rules keep every published package from importing them.
-
-## Apps have their own layer
-
-Rule: [Tags and boundaries](../style-guides/workspace/nx-tags-and-boundaries.md).
-
-**Rejected alternatives.**
-- *Tag apps `layer:shared` or `layer:fw-component`.* The first forbids importing `@cocokits/shared`, the second would let an app sit in a layer that other packages may import.
-- *Tag apps by `type:app` alone.* Every project has one `layer:*` tag, and tooling that groups projects by layer would find none for the apps.
-
-**Why.** The docs site and the preview apps consume packages and nothing consumes them. A `layer:app` value that no "may depend on" list contains makes "no package imports an app" a property of the table instead of a review rule, and the `type:app` and `scope:*` rules say what each app may import.
-
-## E2e projects import nothing
-
-Rule: [Tags and boundaries](../style-guides/workspace/nx-tags-and-boundaries.md).
-
-**Rejected alternatives.**
-- *Tag the browser tests `type:test`.* That constraint allows `shared`, machines and cdk, which a browser test of the built site must not import, and the Vitest-based conformance projects carry it.
-- *Tag them `type:app`.* An app may import `shared`, machines and the docs tooling.
-
-**Why.** The tests drive the built site in a browser and read it only through the DOM. If they imported repo source they could share a selector or a constant with the code under test and keep passing when both are wrong. A tag of their own with an empty "may depend on" list turns that into a lint error, and `layer:app` keeps them out of every other project's list.
+**Why.** A private tool that reads the contracts in `shared` is never imported by a published package. Under its own `layer:tool` tag it may import `shared` and other tools, while `layer:shared` keeps its "nothing internal" rule. Other layers do not list `layer:tool`, so no published package can import a tool; that is a property of the table instead of a review rule.
 
 ## Package names
 

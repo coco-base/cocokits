@@ -8,7 +8,7 @@ One theme is a framework-free package plus one package per framework. A framewor
 
 ## Names
 
-The Angular directive is `Cck<Name>Theme` (`CckButtonTheme`). The React and Vue wrapper has the base component's name (`Button`). Both are root exports of `@cocokits/theme-<name>-<fw>`. The story compiler relies on these names to import a themed component.
+The Angular directive is `Cck<Name>Theme` (`CckButtonTheme`). The React and Vue wrapper has the base component's name (`Button`). Both are root exports of `@cocokits/theme-<name>-<fw>`. Consumers import a themed component by these names.
 
 ## How parts get their attributes
 

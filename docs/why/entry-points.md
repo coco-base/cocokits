@@ -30,29 +30,3 @@ Rules: [Packages and entry points](../style-guides/workspace/packages-and-entry-
 **Why subpaths cost users nothing.** End users never import machines directly. `@cocokits/angular`, `@cocokits/react` and `@cocokits/vue` do. The import path only matters inside the repo.
 
 **Cost.** Heavy third-party dependencies become optional peer dependencies, needed only by the components that use them.
-
-## `docs-shared` has `/vite` and `/testing` subpaths
-
-**Rejected alternatives.**
-- *A relative import of the plugin file from each `vite.config.mjs`.* The `@nx/enforce-module-boundaries` rule refuses a relative import that crosses a project; the rule is never silenced.
-- *The plugin in the root entry.* The root barrel is evaluated in the browser; the plugin imports `node:fs`.
-- *A new package for the plugin and one for the test support.* Two more packages (about ten files each) for two small files; the preview PR size limit rules it out and the packages would have one consumer pair each.
-- *Test support in the root entry.* Fakes and a `ResizeObserver` stub would ship in the runtime barrel that the preview apps bundle.
-
-**Why.**
-- A Vite config is loaded by Node, which resolves a bare specifier through the package `exports`; tsconfig paths do not apply there. So the plugin needs a subpath of a package, and the package is private and already owns the preview code.
-- `/testing` follows the same pattern as the cdk and angular `testing` subpaths: test-only code stays out of the runtime entry.
-- The exception is limited to the private `docs-shared`; no published package gets such a subpath.
-
-## `story-compiler` has a `/language` path
-
-**Rejected alternatives.**
-- *The markers in `@cocokits/shared`.* It is published, and the library will move to a repository that must not know about the story compiler.
-- *A new package for the markers.* A package (about ten files) for one small file with one consumer family, and it would be moved with the compiler anyway.
-- *A relative import of the file from the stories.* The `@nx/enforce-module-boundaries` rule refuses a relative import that crosses a project; the rule is never silenced.
-
-**Why.**
-- The markers belong to the story language, and the compiler owns the language, so they live in its package, in a folder of their own outside `src`.
-- Story sources, tests and the compiler resolve it through a tsconfig path, like every private package; a tool has no `exports`, so none is added.
-- The entry imports no `@cocokits/*` package, so moving the compiler out takes it along with no change.
-- The exception is limited to the private `story-compiler`; no published package gets such a path.

@@ -18,4 +18,4 @@ Rules specific to hand-written CocoKits Angular components (`@cocokits/angular/<
 | [lifecycle-and-ssr.md](./lifecycle-and-ssr.md) | Render hooks, `DestroyRef`, zoneless, SSR safety |
 | [machine-backed.md](./machine-backed.md) | Using framework-free shared behaviour from an Angular component |
 | [testing.md](./testing.md) | Writing Vitest specs and harnesses |
-| [docs-and-stories.md](./docs-and-stories.md) | TSDoc on public symbols |
+| [tsdoc.md](./tsdoc.md) | TSDoc on public symbols |

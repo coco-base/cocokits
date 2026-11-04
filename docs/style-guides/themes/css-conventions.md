@@ -21,7 +21,7 @@ The selectors, values and media rules a theme stylesheet follows. The styling co
 A theme may let the author set a visual value (a corner offset, a radius) through a custom property.
 
 - The name is `--<prefix>-<component>-<property>`, where `<prefix>` is the theme's own variable prefix, its `$meta.globalPrefix` (the cocokits theme's is named in its [token naming](../../../packages/themes/cocokits/core/docs/tokens.md#naming)). The theme reads it with a fallback, `var(--<prefix>-<component>-<property>, <fallback>)`, and never defines it; the base never writes it.
-- Each property is listed in the theme's `core/docs/css.md` (name, set on, default, effect) and on the component's Styling page, which the site renders from that file; the shape it needs (the `Applies to:` line, the table, the `html`, `tsx` and `vue` fences) is in the `<CustomProperties />` row of [component-pages.md](../docs/component-pages.md#docs-components). It is not a token.
+- Each property is listed in the theme's `core/docs/css.md` (name, set on, default, effect) with the shape the docs tooling reads (an `Applies to:` line, a table, and `html`, `tsx` and `vue` code fences). It is not a token.
 
 ## Specificity and layering
 
@@ -31,7 +31,7 @@ A theme may let the author set a visual value (a corner offset, a radius) throug
 
 ## Values
 
-- Colours, sizes, radii, spacing, fonts and motion values come from tokens (`var(--brand)`; names come from the theme's docs), not literals. Literals such as `0`, `1px` hairlines and `100%` are fine. A literal colour (hex, `rgb()`, `hsl()`, `oklch()`, a named colour) appears only in the generated token files (`styles/generated/`); system colours appear only inside `@media (forced-colors: active)`. The docs app has the same rule: [site architecture, colours](../docs/site-architecture.md#colours).
+- Colours, sizes, radii, spacing, fonts and motion values come from tokens (`var(--brand)`; names come from the theme's docs), not literals. Literals such as `0`, `1px` hairlines and `100%` are fine. A literal colour (hex, `rgb()`, `hsl()`, `oklch()`, a named colour) appears only in the generated token files (`styles/generated/`); system colours appear only inside `@media (forced-colors: active)`.
 - Component CSS never branches on the mode; the mode swaps token values. Mapping `prefers-color-scheme` to a mode is a provider option, not a media query in theme CSS.
 
 ## RTL

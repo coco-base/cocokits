@@ -8,7 +8,6 @@ Where code goes:
 |---|---|
 | is a pure, stateless, generic function | `@cocokits/utils` |
 | defines a CocoKits contract or the pure helper that defines it | `@cocokits/shared` |
-| is used only by the docs site, a preview app or the docs tooling | `@cocokits/docs-shared` (private) |
 | holds state, listeners, observers or timers, and is reusable behaviour | `@cocokits/cdk/<module>` |
 | is one component's anatomy, meta, behaviour and props per part | `@cocokits/machines/<name>` |
 | is a hook, or uses a framework API | `@cocokits/<fw>-core` |

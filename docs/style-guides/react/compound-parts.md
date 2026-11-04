@@ -7,7 +7,7 @@ How a part is written in React: context, prop order, handler composition, refs, 
 - Compound components are sibling parts linked by `value`. The root provides context; each part renders itself in place.
 - A part MUST NOT inspect `children`, register JSX or labels with the root for the root to render later, or derive order from `Children.map` indices. Registries hold DOM nodes (for keyboard navigation and the tab stop) only.
 - Every part destructures `ref` and `render`, reads its context through a hook that names the part, computes derived values in render, takes its theme attributes from the fw-core theme runtime ([theming.md](./theming.md)) and renders through the shared render helper with `mergeProps(ours, elementProps)` ([internals.md](./internals.md)).
-- A part renders exactly what the component's approved contract declares (element, role, focus and ref target, `data-*`).
+- A part renders exactly what the component's contract declares (element, role, focus and ref target, `data-*`).
 
 ## Context
 

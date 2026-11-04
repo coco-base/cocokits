@@ -18,6 +18,6 @@ Scope: hand-written CocoKits Vue components (`@cocokits/vue/<name>`), the Vue ad
 | [forms.md](./forms.md) | Form controls: hidden input, native events, `form`, fieldset, validation, reset |
 | [machine-backed.md](./machine-backed.md) | A part whose behaviour comes from `@cocokits/machines/<name>` |
 | [testing.md](./testing.md) | Writing or fixing Vue tests |
-| [docs-and-stories.md](./docs-and-stories.md) | TSDoc for public props, emits, slots and models |
+| [tsdoc.md](./tsdoc.md) | TSDoc for public props, emits, slots and models |
 
-Related areas: [framework-agnostic](../framework-agnostic/index.md), [themes](../themes/index.md), [testing](../testing/index.md), [docs](../docs/index.md), [accessibility](../accessibility/index.md), [workspace](../workspace/index.md), [glossary](../../glossary.md).
+Related areas: [framework-agnostic](../framework-agnostic/index.md), [themes](../themes/index.md), [testing](../testing/index.md), [accessibility](../accessibility/index.md), [workspace](../workspace/index.md), [glossary](../../glossary.md).

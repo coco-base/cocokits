@@ -1,6 +1,6 @@
 # Component tests
 
-One framework component rendered in a DOM. They live in the framework package and run with that package's `test` target (Vitest, `pnpm nx run <project>:test`, [targets.md](../workspace/targets.md)). Which behaviour a component must have comes from its approved requirements; these tests check that the implementation renders that one contract in each framework. Components named here are examples.
+One framework component rendered in a DOM. They live in the framework package and run with that package's `test` target (Vitest, `pnpm nx run <project>:test`, [targets.md](../workspace/targets.md)). Which behaviour a component must have comes from its requirements; these tests check that the implementation renders that one contract in each framework. Components named here are examples.
 
 ## Setup
 
