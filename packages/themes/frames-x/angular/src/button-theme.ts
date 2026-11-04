@@ -1,8 +1,8 @@
 import { Directive, forwardRef, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import type { FramesXThemeConfig } from '@cocokits/theme-frames-x';
+import type { FramesThemeConfig } from '@cocokits/theme-frames-x';
 
-type ButtonOptions = FramesXThemeConfig['components']['button'];
+type ButtonOptions = FramesThemeConfig['components']['button'];
 
 /** The `variant` values of the Frames X theme. */
 export type CckButtonVariant = ButtonOptions['variant']['values'][number];

@@ -1,7 +1,7 @@
 import type { ButtonProps as BaseButtonProps } from '@cocokits/vue/button';
-import type { FramesXThemeConfig } from '@cocokits/theme-frames-x';
+import type { FramesThemeConfig } from '@cocokits/theme-frames-x';
 
-type ButtonOptions = FramesXThemeConfig['components']['button'];
+type ButtonOptions = FramesThemeConfig['components']['button'];
 
 /** The `variant` values of the Frames X theme. */
 export type ButtonVariant = ButtonOptions['variant']['values'][number];

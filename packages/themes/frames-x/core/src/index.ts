@@ -1,4 +1,4 @@
-export { framesXThemeConfig } from './theme-config';
-export type { FramesXThemeConfig } from './theme-config';
+export { framesThemeConfig } from './theme-config';
+export type { FramesThemeConfig } from './theme-config';
 
 export { modeCollections } from './mode-collections';

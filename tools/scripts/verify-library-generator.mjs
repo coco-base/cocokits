@@ -23,7 +23,6 @@ const SKIPPED = new Set([
   '.nx',
   '.tmp',
   '.git',
-  '.claude',
   '.husky',
   'packages',
   'docs',

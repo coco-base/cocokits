@@ -12,8 +12,8 @@ interface RootOption<V extends readonly string[]> extends ThemeOption {
   readonly description: string;
 }
 
-/** The type of `framesXThemeConfig`; theme layers derive their option unions from it. */
-export interface FramesXThemeConfig extends ThemeConfig {
+/** The type of `framesThemeConfig`; theme layers derive their option unions from it. */
+export interface FramesThemeConfig extends ThemeConfig {
   readonly name: 'frames-x';
   readonly components: {
     readonly button: {
@@ -23,7 +23,7 @@ export interface FramesXThemeConfig extends ThemeConfig {
 }
 
 /** The options of the frames-x theme per component. */
-export const framesXThemeConfig: FramesXThemeConfig = defineThemeConfig({
+export const framesThemeConfig: FramesThemeConfig = defineThemeConfig({
   name: 'frames-x',
   modeCollections,
   components: {
