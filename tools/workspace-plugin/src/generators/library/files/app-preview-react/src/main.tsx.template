@@ -1,7 +1,0 @@
-import { createRoot } from 'react-dom/client';
-import { App } from './app/app';
-import './styles.scss';
-
-const container = document.getElementById('root');
-if (container === null) throw new Error('The preview page has no #root element.');
-createRoot(container).render(<App />);

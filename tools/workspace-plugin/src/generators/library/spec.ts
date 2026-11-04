@@ -18,14 +18,14 @@ export interface PackageSpec {
   /** Extends tsconfig.strict.json (layers utils, shared, cdk, machine, fw-core). */
   readonly strict: boolean;
   readonly description: string;
-  /** The package has a `.` export (D-019); a private package has only its tsconfig path. */
+  /** The package has a `.` export ; a private package has only its tsconfig path. */
   readonly rootEntry: boolean;
   /** Theme core: CSS asset exports and the interim sass build. */
   readonly css: boolean;
   /** Other packages live in subfolders of this project (packages/<fw>/core). */
   readonly nested: boolean;
-  /** The `type:*` tag: `lib` for a package, `tool` for a private tool (no build, no exports), `app` for an app, `e2e` for the browser tests of an app. */
-  readonly type: 'lib' | 'tool' | 'app' | 'e2e';
+  /** The `type:*` tag: `lib` for a package, `tool` for a private tool (no build, no exports). */
+  readonly type: 'lib' | 'tool';
   /** The package is never published: no `exports`, no changeset group, no size entry. */
   readonly private: boolean;
 }
@@ -41,7 +41,7 @@ type Parts = Pick<PackageSpec, 'projectName' | 'root' | 'layer' | 'scope' | 'des
 
 const SHARED_LIBS: Record<string, string> = {
   utils: 'Stateless helpers used by every other layer.',
-  shared: 'Shared contracts: anatomy, meta, theme and docs types.',
+  shared: 'Shared contracts: anatomy, meta, theme and mode types.',
 };
 
 function sharedLibParts(name: string): Parts {
@@ -89,83 +89,19 @@ function frameworkParts(kind: PackageKind, { framework, theme }: PackageInput): 
   }
 }
 
-/** Every tool the kind creates today is docs tooling, so it writes `layer:docs` (nothing else may import `shared` from a tool). */
+/** A tool is private repo tooling: it writes `layer:tool` and may import `shared`. */
 function toolParts(name: string): Parts {
   return {
     projectName: name,
     root: `tools/${name}`,
-    layer: 'layer:docs',
+    layer: 'layer:tool',
     scope: 'scope:shared',
-    description: 'Private docs tooling, run by Nx from source.',
+    description: 'Private tooling, run by Nx from source.',
     builder: 'none',
     strict: true,
     rootEntry: false,
     type: 'tool',
     private: true,
-  };
-}
-
-/** The docs stories: the same private, build-free scaffold as a tool, in `packages/` where the story sources live. */
-function docsStoriesParts(): Parts {
-  return {
-    ...toolParts('docs-stories'),
-    root: 'packages/docs-stories',
-    description: 'Private story sources and story config of the docs site.',
-  };
-}
-
-/**
- * The code the docs tooling shares (the preview protocol, the docs data types): the tool scaffold in `packages/`
- * with a root entry that only the tsconfig path registers, because the apps and tools import it from source.
- */
-function docsSharedParts(): Parts {
-  return {
-    ...toolParts('docs-shared'),
-    root: 'packages/docs-shared',
-    description: 'Private code the docs tooling shares: the preview protocol and the docs data types.',
-    rootEntry: true,
-  };
-}
-
-/**
- * The browser tests of the docs site (Playwright Test): a private project that tests the built site and imports no
- * repo source, so it has its own `type:e2e` tag and `shared` is not a dependency.
- */
-function docsE2eParts(): Parts {
-  return {
-    projectName: 'docs-e2e',
-    root: 'apps/docs-e2e',
-    layer: 'layer:app',
-    scope: 'scope:shared',
-    description: 'Browser tests of the built docs site (Playwright Test); imports no repo source.',
-    builder: 'none',
-    strict: true,
-    rootEntry: false,
-    type: 'e2e',
-    private: true,
-  };
-}
-
-/** An app is private and never published; the Astro site is `docs`, a preview app is `preview-<framework>`. */
-function appParts({ framework }: PackageInput): Parts {
-  const common = { builder: 'none', strict: true, rootEntry: false, type: 'app', private: true } as const;
-  if (framework === undefined) {
-    return {
-      ...common,
-      projectName: 'docs',
-      root: 'apps/docs',
-      layer: 'layer:app',
-      scope: 'scope:shared',
-      description: 'The public docs site: a static Astro site that renders no framework code.',
-    };
-  }
-  return {
-    ...common,
-    projectName: `preview-${framework}`,
-    root: `apps/preview-${framework}`,
-    layer: 'layer:app',
-    scope: `scope:${framework}`,
-    description: `The ${FRAMEWORK_INFO[framework].label} preview app: renders the compiled stories in an iframe of the docs site.`,
   };
 }
 
@@ -175,14 +111,6 @@ function partsFor(kind: PackageKind, input: PackageInput): Parts {
       return sharedLibParts(input.name ?? '');
     case 'tool':
       return toolParts(input.name ?? '');
-    case 'docs-stories':
-      return docsStoriesParts();
-    case 'docs-shared':
-      return docsSharedParts();
-    case 'docs-e2e':
-      return docsE2eParts();
-    case 'app':
-      return appParts(input);
     case 'cdk':
       return {
         projectName: 'cdk',

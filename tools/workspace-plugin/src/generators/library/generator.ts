@@ -28,7 +28,7 @@ function createPackage(tree: Tree, spec: PackageSpec): GeneratorCallback {
 }
 
 /**
- * Scaffolds a package or an entry point (D-030). Idempotent: existing projects and entry folders are
+ * Scaffolds a package or an entry point. Idempotent: existing projects and entry folders are
  * left untouched, and the registrations (`exports`, tsconfig paths, size-limit) are only added when missing.
  */
 export default async function libraryGenerator(

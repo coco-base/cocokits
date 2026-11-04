@@ -6,7 +6,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Package or entry point name: utils|shared for shared-lib, the tool name for tool (required), docs for app without a framework (the Astro site), the module for cdk-module, the machine for machine, the component for fw-entry and angular-testing. Optional for cdk, machines, fw-core, fw, theme-core, theme-fw, docs-stories, docs-shared, docs-e2e and app with a framework (the canonical project name is used; a different value is rejected).",
+      "description": "Package or entry point name: utils|shared for shared-lib, the tool name for tool (required), the module for cdk-module, the machine for machine, the component for fw-entry and angular-testing. Optional for cdk, machines, fw-core, fw, theme-core and theme-fw (the canonical project name is used; a different value is rejected).",
       "$default": { "$source": "argv", "index": 0 },
       "pattern": "^[a-z][a-z0-9-]*$"
     },
@@ -22,10 +22,6 @@
         "theme-core",
         "theme-fw",
         "tool",
-        "app",
-        "docs-stories",
-        "docs-shared",
-        "docs-e2e",
         "cdk-module",
         "machine",
         "fw-entry",
@@ -34,7 +30,7 @@
     },
     "framework": {
       "type": "string",
-      "description": "Framework of fw-core, fw, theme-fw, fw-entry, angular-testing and app (angular-testing is always angular; app takes angular, react or vue for the preview app and none for the docs site).",
+      "description": "Framework of fw-core, fw, theme-fw, fw-entry and angular-testing (angular-testing is always angular).",
       "enum": ["angular", "react", "vue"]
     },
     "theme": {

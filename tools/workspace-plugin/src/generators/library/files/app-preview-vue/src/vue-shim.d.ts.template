@@ -1,7 +1,0 @@
-// ESLint's TypeScript parser does not read single-file components: this gives its type information the
-// component type. `vue-tsc` reads the real component.
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue';
-  const component: DefineComponent;
-  export default component;
-}

@@ -7,10 +7,6 @@ export const PACKAGE_KINDS = [
   'theme-core',
   'theme-fw',
   'tool',
-  'app',
-  'docs-stories',
-  'docs-shared',
-  'docs-e2e',
 ] as const;
 export const ENTRY_KINDS = ['cdk-module', 'machine', 'fw-entry', 'angular-testing'] as const;
 export const KINDS = [...PACKAGE_KINDS, ...ENTRY_KINDS] as const;

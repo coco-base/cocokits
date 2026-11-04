@@ -24,20 +24,20 @@ describe('library generator: tool', () => {
   it('creates a private project with the three tags, no exports and no build', async () => {
     const tree = createWorkspace();
     await generate(tree, { kind: 'shared-lib', name: 'shared' });
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    const root = 'tools/story-compiler';
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    const root = 'tools/sample-tool';
     const expected = [...COMMON_FILES, 'src/placeholder.ts', 'tests/placeholder.test.ts'];
     expect(missingFiles(tree, root, expected)).toEqual([]);
-    expect(readTags(tree, root)).toEqual(['layer:docs', 'scope:shared', 'type:tool']);
+    expect(readTags(tree, root)).toEqual(['layer:tool', 'scope:shared', 'type:tool']);
     const project = readJson<{ name: string; sourceRoot: string; targets: Record<string, unknown> }>(
       tree,
       `${root}/project.json`,
     );
-    expect(project.name).toBe('story-compiler');
+    expect(project.name).toBe('sample-tool');
     expect(project.sourceRoot).toBe(`${root}/src`);
     expect(Object.keys(project.targets)).toEqual(['typecheck']);
     const pkg = readPackage(tree, root);
-    expect(pkg).toMatchObject({ name: '@cocokits/story-compiler', version: '0.0.0', private: true });
+    expect(pkg).toMatchObject({ name: '@cocokits/sample-tool', version: '0.0.0', private: true });
     expect(pkg).not.toHaveProperty('exports');
     expect(pkg).not.toHaveProperty('files');
     expect(pkg).not.toHaveProperty('publishConfig');
@@ -48,7 +48,7 @@ describe('library generator: tool', () => {
   it('registers nothing for publishing: no tsconfig path, size entry or changeset group', async () => {
     const tree = createWorkspace();
     tree.write('.changeset/config.json', JSON.stringify({ fixed: [['@cocokits/cdk']] }));
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
     expect(tsconfigPaths(tree)).toEqual({});
     expect(sizeEntries(tree)).toEqual([]);
     expect(readJson<{ fixed: string[][] }>(tree, '.changeset/config.json').fixed).toEqual([['@cocokits/cdk']]);
@@ -56,21 +56,21 @@ describe('library generator: tool', () => {
 
   it('links the tool in the root package.json so Nx finds its executors', async () => {
     const tree = createWorkspace();
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    expect(rootDevDependencies(tree)).toMatchObject({ '@cocokits/story-compiler': 'workspace:*' });
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    expect(rootDevDependencies(tree)).toMatchObject({ '@cocokits/sample-tool': 'workspace:*' });
     expect(rootDevDependencies(tree)).not.toHaveProperty('tsdown');
   });
 
   it('declares @cocokits/shared only when the package exists', async () => {
     const tree = createWorkspace();
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    expect(readPackage(tree, 'tools/story-compiler')).not.toHaveProperty('dependencies');
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    expect(readPackage(tree, 'tools/sample-tool')).not.toHaveProperty('dependencies');
   });
 
   it('writes strict tsconfigs without declaration output, with Node types and the scratch folder excluded', async () => {
     const tree = createWorkspace();
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    const root = 'tools/story-compiler';
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    const root = 'tools/sample-tool';
     const base = readJson<Tsconfig>(tree, `${root}/tsconfig.json`);
     expect(base.extends).toBe('../../tsconfig.strict.json');
     expect(base.compilerOptions).toEqual({
@@ -88,24 +88,24 @@ describe('library generator: tool', () => {
 
   it('writes the file-size lint config, a vitest config that skips tmp, and a placeholder test', async () => {
     const tree = createWorkspace();
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    const root = 'tools/story-compiler';
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    const root = 'tools/sample-tool';
     expect(tree.read(`${root}/eslint.config.mjs`, 'utf-8')).toContain("from '../../eslint.config.mjs'");
     const vitest = tree.read(`${root}/vitest.config.mjs`, 'utf-8') ?? '';
-    expect(vitest).toContain("name: 'story-compiler'");
+    expect(vitest).toContain("name: 'sample-tool'");
     expect(vitest).toContain("'**/tmp/**'");
-    expect(tree.read(`${root}/tests/placeholder.test.ts`, 'utf-8')).toContain("describe('@cocokits/story-compiler'");
-    expect(tree.read(`${root}/README.md`, 'utf-8')).toContain('`layer:docs`');
+    expect(tree.read(`${root}/tests/placeholder.test.ts`, 'utf-8')).toContain("describe('@cocokits/sample-tool'");
+    expect(tree.read(`${root}/README.md`, 'utf-8')).toContain('`layer:tool`');
   });
 
   it('leaves an existing tool untouched on a rerun', async () => {
     const tree = createWorkspace();
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    tree.write('tools/story-compiler/src/placeholder.ts', 'export const kept = 1;\n');
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    tree.write('tools/sample-tool/src/placeholder.ts', 'export const kept = 1;\n');
     const before = snapshot(tree);
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
     expect(snapshot(tree)).toEqual(before);
-    expect(tree.read('tools/story-compiler/src/placeholder.ts', 'utf-8')).toBe('export const kept = 1;\n');
+    expect(tree.read('tools/sample-tool/src/placeholder.ts', 'utf-8')).toBe('export const kept = 1;\n');
   });
 });
 
@@ -118,7 +118,7 @@ describe('library generator: tool validation', () => {
     await expect(generate(createWorkspace(), { kind: 'tool', name })).rejects.toThrow(/Invalid name/);
   });
 
-  it.each(['eslint', 'scripts', 'workspace-plugin', 'workspace', 'shared', 'docs'])(
+  it.each(['eslint', 'scripts', 'workspace-plugin', 'workspace', 'shared'])(
     'rejects the reserved name "%s"',
     async (name) => {
       await expect(generate(createWorkspace(), { kind: 'tool', name })).rejects.toThrow(/reserved/);
@@ -155,7 +155,7 @@ describe('library generator: tool name collisions', () => {
 
   it('still reruns for the tool itself', async () => {
     const tree = createWorkspace();
-    await generate(tree, { kind: 'tool', name: 'story-compiler' });
-    await expect(generate(tree, { kind: 'tool', name: 'story-compiler' })).resolves.toBeDefined();
+    await generate(tree, { kind: 'tool', name: 'sample-tool' });
+    await expect(generate(tree, { kind: 'tool', name: 'sample-tool' })).resolves.toBeDefined();
   });
 });

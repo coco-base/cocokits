@@ -21,7 +21,13 @@ describe('library generator: shared packages', () => {
     expect(missingFiles(tree, root, expected)).toEqual([]);
     expect(readTags(tree, root)).toEqual([`layer:${name}`, 'scope:shared', 'type:lib']);
     const pkg = readPackage(tree, root);
-    expect(pkg).toMatchObject({ name: `@cocokits/${name}`, version: '0.0.0', type: 'module', sideEffects: false });
+    expect(pkg).toMatchObject({
+      name: `@cocokits/${name}`,
+      version: '2.0.0',
+      license: 'Apache-2.0',
+      type: 'module',
+      sideEffects: false,
+    });
     expect(pkg.files).toEqual(['dist']);
     expect(pkg.publishConfig.access).toBe('public');
     expect(pkg.exports).toEqual({ '.': { types: './dist/index.d.ts', default: './dist/index.js' } });

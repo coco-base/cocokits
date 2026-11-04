@@ -10,7 +10,7 @@ export type Compatibility = Readonly<Record<string, PeerRange>>;
 
 const VERSION = /^\d+\.\d+\.\d+$/;
 
-/** Reads the `peers` of compatibility.json, the only place that names supported versions (D-023). */
+/** Reads the `peers` of compatibility.json, the only place that names supported versions. */
 export function readCompatibility(tree: Tree): Compatibility {
   if (!tree.exists('compatibility.json')) {
     throw new Error('compatibility.json not found at the workspace root; it is required for framework peers.');

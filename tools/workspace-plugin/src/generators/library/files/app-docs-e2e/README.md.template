@@ -1,5 +1,0 @@
-# <%= packageName %>
-
-<%= description %> Layer: `<%= layer %>`, scope: `<%= scope %>` ([tags and boundaries](<%= offset %>docs/style-guides/workspace/nx-tags-and-boundaries.md)).
-
-Run it with `pnpm nx run <%= projectName %>:e2e`. The target builds the site first and serves `apps/docs/dist` with the docs app's own server script. Where the tests live, how they are named and how the browser is chosen: [testing guide](<%= offset %>docs/style-guides/testing/index.md#end-to-end-tests).

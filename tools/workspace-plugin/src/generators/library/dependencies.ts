@@ -30,29 +30,11 @@ function frameworkTooling(framework: Framework, compat: Compatibility, nxVersion
   };
 }
 
-/** The React and Vue preview apps: the framework, Vite with its plugin, jsdom and the framework's testing library. */
-function previewViteTooling(
-  framework: 'react' | 'vue',
-  compat: Compatibility | undefined,
-  nxVersion: string,
-): Versions {
-  const own =
-    framework === 'react'
-      ? pick('vite', '@vitejs/plugin-react', '@testing-library/react')
-      : pick('@testing-library/vue');
-  return { ...(compat ? frameworkTooling(framework, compat, nxVersion) : {}), ...own, ...pick('jsdom') };
-}
-
 /** Root devDependencies a kind needs to build and test (the next step installs them). */
 export function toolingFor(spec: PackageSpec, compat: Compatibility | undefined, nxVersion: string): Versions {
   const tooling: Versions = {};
-  // Nx finds the executors of a tool through the workspace link in the root package.json. Apps and the docs
-  // stories declare none, and their tooling is added with the first source that needs it.
+  // Nx finds the executors of a tool through the workspace link in the root package.json.
   if (spec.kind === 'tool') return { [spec.packageName]: WORKSPACE_RANGE };
-  if (spec.kind === 'docs-e2e') return pick('@playwright/test');
-  if (spec.kind === 'app' && (spec.framework === 'react' || spec.framework === 'vue')) {
-    return previewViteTooling(spec.framework, compat, nxVersion);
-  }
   if (spec.private) return {};
   if (spec.builder === 'tsdown') Object.assign(tooling, pick('tsdown'));
   if (spec.css) Object.assign(tooling, pick('sass'));

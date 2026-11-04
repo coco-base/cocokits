@@ -1,13 +1,13 @@
-// Buildability proof for the `library` generator (D-030). Not part of any Nx target: it installs the framework
+// Buildability proof for the `library` generator. Not part of any Nx target: it installs the framework
 // tooling, so run it by hand when the generator or its templates change:
 //   node tools/scripts/verify-library-generator.mjs
 // It never touches the real working tree. It copies the workspace root files, tools/ and .changeset/ into a fresh
-// temporary directory (no node_modules, dist, .nx, .tmp, .git, packages, apps, docs), generates every package kind
+// temporary directory (no node_modules, dist, .nx, .tmp, .git, packages, docs), generates every package kind
 // into an empty packages/ there, runs build, lint, typecheck and test, adds one entry point of every kind, runs the
 // targets again, checks that the built @cocokits/angular package.json has no "." export, and deletes the directory.
 // The tool kind is generated as `verify-tool`: it has no build, so lint, typecheck and test run on it, and its source
-// imports `@cocokits/shared` to prove the `type:tool` boundary. Real tool projects (such as story-compiler) are not
-// copied: they need the real packages.
+// imports `@cocokits/shared` to prove the `type:tool` boundary. Real tool projects are not copied: they need the real
+// packages.
 import { execSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -26,7 +26,6 @@ const SKIPPED = new Set([
   '.claude',
   '.husky',
   'packages',
-  'apps',
   'docs',
   'size-limit.config.mjs',
 ]);
@@ -44,7 +43,6 @@ const PACKAGES = [
     { kind: 'fw-core', framework },
     { kind: 'fw', framework },
   ]),
-  ...['react', 'vue'].map((framework) => ({ kind: 'app', framework })),
   { kind: 'theme-core', theme: 'verify' },
   ...['angular', 'react', 'vue'].map((framework) => ({ kind: 'theme-fw', theme: 'verify', framework })),
 ];

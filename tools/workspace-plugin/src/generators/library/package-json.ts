@@ -3,6 +3,9 @@ import { entryPoint, type PackageSpec } from './spec';
 import { TOOL_VERSIONS, majorRange } from './versions';
 
 export const WORKSPACE_RANGE = 'workspace:*';
+/** The version every publishable package starts at: one version for all of them. */
+export const PACKAGE_VERSION = '2.0.0';
+const REPOSITORY_URL = 'https://github.com/coco-base/cocokits.git';
 
 export type ExportValue = string | { readonly types: string; readonly default: string };
 
@@ -19,12 +22,7 @@ export function internalDependencyNames(spec: PackageSpec): string[] {
       return ['utils', 'shared', 'cdk'];
     case 'fw':
       return ['utils', 'shared', 'cdk', 'machines', `${spec.framework ?? ''}-core`];
-    case 'app':
-      // A preview app also renders through the preview kit.
-      return spec.framework === undefined ? ['shared'] : ['shared', 'docs-shared'];
     case 'tool':
-    case 'docs-stories':
-    case 'docs-shared':
       return ['shared'];
     default:
       return [];
@@ -101,15 +99,8 @@ function buildToolPackageJson(spec: PackageSpec, context: PackageJsonContext): R
   };
 }
 
-/** The package.json of a private app or e2e project: like a tool's, with `type: module` (Astro and the Angular build read ESM). */
-function buildAppPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
-  const { name, version, private: isPrivate, description, ...rest } = buildToolPackageJson(spec, context);
-  return { name, version, private: isPrivate, description, type: 'module', ...rest };
-}
-
 /** The package.json of a new package. Key order is fixed so reruns and reviews stay stable. */
 export function buildPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
-  if (spec.kind === 'app' || spec.kind === 'docs-e2e') return buildAppPackageJson(spec, context);
   if (spec.type === 'tool') return buildToolPackageJson(spec, context);
   const dependencies: Record<string, string> = { ...context.internal };
   if (spec.kind === 'cdk') dependencies['alien-signals'] = `^${TOOL_VERSIONS['alien-signals']}`;
@@ -120,8 +111,10 @@ export function buildPackageJson(spec: PackageSpec, context: PackageJsonContext)
   if (ng) publishConfig['directory'] = `${context.offset}dist/packages/${spec.projectName}`;
   return {
     name: spec.packageName,
-    version: '0.0.0',
+    version: PACKAGE_VERSION,
     description: spec.description,
+    license: 'Apache-2.0',
+    repository: { type: 'git', url: REPOSITORY_URL, directory: spec.root },
     type: 'module',
     sideEffects: spec.css ? ['*.css'] : false,
     // `files: ["dist"]` would hide everything in the ng-packagr output directory.

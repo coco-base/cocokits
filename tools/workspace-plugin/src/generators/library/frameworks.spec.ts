@@ -127,7 +127,7 @@ describe('library generator: framework core', () => {
 });
 
 describe('library generator: themes', () => {
-  it('theme-core: a docs-data target, so the docs site picks a new theme up with no docs change', async () => {
+  it('theme-core: a docs-data target', async () => {
     const tree = createWorkspace();
     await generate(tree, { kind: 'theme-core', theme: 'acme' });
     const { targets } = readJson<{ targets: Record<string, unknown> }>(tree, 'packages/themes/acme/core/project.json');

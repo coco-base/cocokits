@@ -57,13 +57,6 @@ const RESERVED_TOOL_NAMES = [
   'angular',
   'react',
   'vue',
-  'docs',
-  'docs-stories',
-  'docs-shared',
-  'docs-e2e',
-  'preview-angular',
-  'preview-react',
-  'preview-vue',
 ];
 
 const USES: Record<PackageKind, { framework: boolean; theme: boolean }> = {
@@ -75,10 +68,6 @@ const USES: Record<PackageKind, { framework: boolean; theme: boolean }> = {
   'theme-core': { framework: false, theme: true },
   'theme-fw': { framework: true, theme: true },
   tool: { framework: false, theme: false },
-  app: { framework: true, theme: false },
-  'docs-stories': { framework: false, theme: false },
-  'docs-shared': { framework: false, theme: false },
-  'docs-e2e': { framework: false, theme: false },
 };
 
 function checkName(value: string, label: string): void {
@@ -112,7 +101,7 @@ function projectRoots(tree: Tree, folder: string): string[] {
 
 /** A private project must not take the project name or the package name of any other project of the workspace. */
 function assertNoCollision(tree: Tree, root: string, name: string): void {
-  for (const project of ['apps', 'packages', 'tools'].flatMap((folder) => projectRoots(tree, folder))) {
+  for (const project of ['packages', 'tools'].flatMap((folder) => projectRoots(tree, folder))) {
     if (project === root) continue;
     const projectName = readJson<{ name?: string }>(tree, `${project}/project.json`).name;
     const file = `${project}/package.json`;
@@ -131,20 +120,6 @@ function checkToolName(tree: Tree, name: string | undefined): void {
   assertNoCollision(tree, `tools/${name}`, name);
 }
 
-/** The framework of an app: none for the Astro site `docs`, the framework of the preview app `preview-<framework>`. */
-function resolveAppFramework(options: LibraryGeneratorSchema): Framework | undefined {
-  if (options.framework === undefined) {
-    if (options.name !== 'docs') {
-      throw new Error(
-        'Kind "app" needs the name "docs" (the Astro site) or --framework=angular|react|vue (a preview app).',
-      );
-    }
-    return undefined;
-  }
-  if (options.name === 'docs') throw new Error('The app "docs" does not take --framework.');
-  return requireFramework('app', options.framework);
-}
-
 /** Checks the name rules that belong to one kind (the names of tools, shared libraries and private projects). */
 function checkKindName(tree: Tree, kind: PackageKind, spec: PackageSpec, options: LibraryGeneratorSchema): void {
   if (kind === 'shared-lib' && !SHARED_LIB_NAMES.includes(options.name ?? '')) {
@@ -153,12 +128,9 @@ function checkKindName(tree: Tree, kind: PackageKind, spec: PackageSpec, options
   if (options.name !== undefined && options.name !== spec.projectName) {
     throw new Error(`The name for kind "${kind}" must be "${spec.projectName}" (or omitted), got "${options.name}".`);
   }
-  if (kind === 'app' || kind === 'docs-stories' || kind === 'docs-shared' || kind === 'docs-e2e')
-    assertNoCollision(tree, spec.root, spec.projectName);
 }
 
 function frameworkOf(kind: PackageKind, options: LibraryGeneratorSchema): Framework | undefined {
-  if (kind === 'app') return resolveAppFramework(options);
   return USES[kind].framework ? requireFramework(kind, options.framework) : undefined;
 }
 
@@ -241,13 +213,13 @@ function assertParentExists(tree: Tree, parent: PackageSpec, kind: EntryKind, re
   }
 }
 
-/** D-005 and D-019: packages without a root entry never get a `.` export. */
+/** Packages without a root entry never get a `.` export. */
 export function assertNoRootExport(tree: Tree, spec: PackageSpec): void {
   const file = `${spec.root}/package.json`;
   if (spec.rootEntry || !tree.exists(file)) return;
   const pkg = readJson<{ exports?: Record<string, unknown> }>(tree, file);
   if (pkg.exports && '.' in pkg.exports) {
-    throw new Error(`${file}: ${spec.packageName} must not have a "." export (D-005, D-019); remove it.`);
+    throw new Error(`${file}: ${spec.packageName} must not have a "." export; remove it.`);
   }
 }
 
