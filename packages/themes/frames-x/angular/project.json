@@ -1,13 +1,13 @@
 {
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "name": "theme-framesx-angular",
+  "name": "theme-frames-x-angular",
   "projectType": "library",
-  "sourceRoot": "packages/themes/framesx/angular/src",
+  "sourceRoot": "packages/themes/frames-x/angular/src",
   "tags": ["layer:theme", "scope:angular", "type:lib"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/packages/theme-framesx-angular"],
+      "outputs": ["{workspaceRoot}/dist/packages/theme-frames-x-angular"],
       "options": {
         "project": "{projectRoot}/ng-package.json",
         "tsConfig": "{projectRoot}/tsconfig.lib.json"

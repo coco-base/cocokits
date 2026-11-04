@@ -1,7 +1,7 @@
 import { defineThemeConfig, type ThemeConfig, type ThemeOption } from '@cocokits/shared';
 import { modeCollections } from './mode-collections';
 
-/** The variants are written by hand: FramesX has no token collections. */
+/** The variants are written by hand: Frames X has no token collections. */
 const BUTTON_VARIANTS = ['solid', 'outline'] as const;
 
 /** A button option: a ThemeOption with literal values, rendered on the root part. */
@@ -12,9 +12,9 @@ interface RootOption<V extends readonly string[]> extends ThemeOption {
   readonly description: string;
 }
 
-/** The type of `framesxThemeConfig`; theme layers derive their option unions from it. */
-export interface FramesxThemeConfig extends ThemeConfig {
-  readonly name: 'framesx';
+/** The type of `framesXThemeConfig`; theme layers derive their option unions from it. */
+export interface FramesXThemeConfig extends ThemeConfig {
+  readonly name: 'frames-x';
   readonly components: {
     readonly button: {
       readonly variant: RootOption<typeof BUTTON_VARIANTS>;
@@ -22,9 +22,9 @@ export interface FramesxThemeConfig extends ThemeConfig {
   };
 }
 
-/** The options of the framesx theme per component. */
-export const framesxThemeConfig: FramesxThemeConfig = defineThemeConfig({
-  name: 'framesx',
+/** The options of the frames-x theme per component. */
+export const framesXThemeConfig: FramesXThemeConfig = defineThemeConfig({
+  name: 'frames-x',
   modeCollections,
   components: {
     button: {

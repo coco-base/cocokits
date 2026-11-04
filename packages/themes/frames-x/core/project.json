@@ -1,8 +1,8 @@
 {
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "name": "theme-framesx",
+  "name": "theme-frames-x",
   "projectType": "library",
-  "sourceRoot": "packages/themes/framesx/core/src",
+  "sourceRoot": "packages/themes/frames-x/core/src",
   "tags": ["layer:theme", "scope:shared", "type:lib"],
   "targets": {
     "build": {

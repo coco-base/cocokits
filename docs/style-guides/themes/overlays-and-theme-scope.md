@@ -16,7 +16,7 @@ How a theme styles portaled parts and how theme scope, modes and direction reach
 - Portaled content takes the nearest theme scope, mode and `dir` of its trigger's ancestors. Component CSS does nothing for this; it only reads tokens.
 - The theme layer does not re-scope overlays: no scope wrapper, no extra provider, no mode class on the content.
 - A consumer token override must be written against the theme scope or `:root`; a variable set on an arbitrary ancestor is not inherited across the portal.
-- A theme that switches light and dark with `color-scheme` on a subtree (framesx uses `color-scheme` and `light-dark()`) is not mirrored to the host: the host follows the document's `color-scheme`. Mode attributes are copied; `color-scheme` is not.
+- A theme that switches light and dark with `color-scheme` on a subtree (frames-x uses `color-scheme` and `light-dark()`) is not mirrored to the host: the host follows the document's `color-scheme`. Mode attributes are copied; `color-scheme` is not.
 - Dark-mode rules that assume the overlay sits inside a themed subtree are a bug.
 
 Focus, dismissal and keyboard behaviour of overlays belong to the base: [accessibility/focus-and-overlays](../accessibility/focus-and-overlays.md).

@@ -1,7 +1,13 @@
 {
-  "name": "@cocokits/theme-framesx",
-  "version": "0.0.0",
-  "description": "The framesx theme: ThemeConfig and CSS, framework-free.",
+  "name": "@cocokits/theme-frames-x",
+  "version": "2.0.0",
+  "description": "The frames-x theme: ThemeConfig and CSS, framework-free.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/themes/frames-x/core"
+  },
   "type": "module",
   "sideEffects": [
     "*.css"

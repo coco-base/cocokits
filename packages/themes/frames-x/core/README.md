@@ -1,6 +1,6 @@
-# @cocokits/theme-framesx
+# @cocokits/theme-frames-x
 
-The FramesX theme: ThemeConfig and CSS, framework-free. Layer: `layer:theme`, scope: `scope:shared` ([tags and boundaries](../../../../docs/style-guides/workspace/nx-tags-and-boundaries.md)).
+The Frames X theme: ThemeConfig and CSS, framework-free. Layer: `layer:theme`, scope: `scope:shared` ([tags and boundaries](../../../../docs/style-guides/workspace/nx-tags-and-boundaries.md)).
 
 - Components: Button, with one option, `variant` (`solid` or `outline`).
 - Exports: `styles.css`, `logo-light.svg` and `logo-dark.svg`.

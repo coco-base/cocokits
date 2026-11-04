@@ -1,7 +1,13 @@
 {
   "name": "@cocokits/theme-cocokits-react",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "Typed cocokits theme layer for React.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/themes/cocokits/react"
+  },
   "type": "module",
   "sideEffects": false,
   "files": [

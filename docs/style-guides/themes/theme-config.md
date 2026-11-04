@@ -12,7 +12,7 @@ Per component, a theme lists the options it supports. Each option has:
 - `partNames`: the names of the anatomy parts that render the attribute (`root` if omitted).
 - `description`.
 
-A config may also carry `modeCollections`, the theme's modes index (see [Values from token collections](#values-from-token-collections)). The portal host of an overlay reads it to copy the page-wide mode attributes (the collections without a `componentName`) from the trigger's ancestors; a theme without it mirrors no modes. cocokits sets it from its generated index; framesx sets an empty list.
+A config may also carry `modeCollections`, the theme's modes index (see [Values from token collections](#values-from-token-collections)). The portal host of an overlay reads it to copy the page-wide mode attributes (the collections without a `componentName`) from the trigger's ancestors; a theme without it mirrors no modes. cocokits sets it from its generated index; frames-x sets an empty list.
 
 `size`, `variant` and `color` are the common option names; a theme may add its own (for example `rounded`). Booleans are only for true two-state options and render as presence attributes (`data-rounded=""`, absent when false). A component missing from the config is not supported by the theme; `{}` means supported with no options.
 
