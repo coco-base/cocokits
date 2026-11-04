@@ -6,7 +6,7 @@
   "properties": {
     "outputDir": {
       "type": "string",
-      "default": "{projectRoot}/src/generated/api-docs",
+      "default": "{workspaceRoot}/dist/api-docs/{projectName}",
       "description": "The output folder, relative to the workspace root. Its JSON files are replaced."
     },
     "tsConfig": {

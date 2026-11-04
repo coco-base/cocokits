@@ -7,7 +7,7 @@ import { machinesDocsData } from './machines';
 import type { DocsDataSchema } from './schema';
 import { themeDocsData } from './theme';
 
-const DEFAULT_OUTPUT = '{projectRoot}/src/generated/docs-data';
+const DEFAULT_OUTPUT = '{workspaceRoot}/dist/docs-data/{projectName}';
 
 function build(options: DocsDataSchema, context: ExecutorContext, projectRoot: string): JsonFile[] {
   if (options.source === 'machines') return machinesDocsData(context.root, projectRoot);
@@ -15,7 +15,7 @@ function build(options: DocsDataSchema, context: ExecutorContext, projectRoot: s
 }
 
 /**
- * Writes the docs data of a project into its own `src/generated/docs-data` folder: one `ComponentDocData` file per
+ * Writes the docs data of a project into `dist/docs-data/<project>` (at the workspace root): one `ComponentDocData` file per
  * component for `source: "machines"`, and `theme.json` (`ThemeDocData`) for `source: "theme"`. It reads the built
  * package, so the project's `build` runs first. Any error is printed and fails the target before a file is written.
  */

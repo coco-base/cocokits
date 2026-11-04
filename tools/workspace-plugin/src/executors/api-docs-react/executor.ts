@@ -5,7 +5,7 @@ import { extractReactApiDocs } from './extract';
 
 /**
  * Writes `<component>.json` (`ApiDoc`) for every React entry point of the project into its own
- * `src/generated/api-docs` folder. The API comes from the TypeScript checker and TSDoc only, and the target fails,
+ * `dist/api-docs/<project>` folder. The API comes from the TypeScript checker and TSDoc only, and the target fails,
  * writing nothing, when a part or a prop declared by CocoKits has no TSDoc.
  */
 export default function apiDocsReactExecutor(

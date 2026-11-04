@@ -323,8 +323,9 @@ describe('api-docs-angular executor', () => {
 
   it('writes one ApiDoc file per entry point into the project, deterministically', async () => {
     createPackage('run', 'inherit');
-    const out = join(area.dir, 'run', 'pkg', 'src', 'generated', 'api-docs');
-    const options = { tsConfig: '{projectRoot}/tsconfig.lib.json' };
+    const out = join(area.dir, 'run', 'out');
+    const outputDir = `tools/workspace-plugin/tmp/api-docs-angular/run/out`;
+    const options = { outputDir, tsConfig: '{projectRoot}/tsconfig.lib.json' };
     expect((await executor(options, area.context('run'))).success).toBe(true);
     expect(readdirSync(out)).toEqual(['thing.json']);
     const first = readFileSync(join(out, 'thing.json'), 'utf8');
@@ -336,10 +337,13 @@ describe('api-docs-angular executor', () => {
 
   it('fails on a member without TSDoc and writes nothing', async () => {
     createPackage('fail', 'missing-doc');
-    const result = await executor({}, area.context('fail'));
+    const result = await executor(
+      { outputDir: 'tools/workspace-plugin/tmp/api-docs-angular/fail/out' },
+      area.context('fail'),
+    );
     expect(result.success).toBe(false);
     expect(vi.mocked(console.error).mock.calls.join('\n')).toMatch(/Thing\.undocumented/);
-    expect(existsSync(join(area.dir, 'fail', 'pkg', 'src'))).toBe(false);
+    expect(existsSync(join(area.dir, 'fail', 'out'))).toBe(false);
   });
 
   it('fails for an outputDir or a tsConfig outside the workspace', async () => {

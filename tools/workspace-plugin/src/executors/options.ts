@@ -7,9 +7,12 @@ export function projectRootOf(context: ExecutorContext): string {
 }
 
 /**
- * Replaces `{projectRoot}` and `{workspaceRoot}` in a path option. Nx does this in a run, but not in a direct call
- * (a test), so the executors do it too.
+ * Replaces `{projectRoot}`, `{projectName}` and `{workspaceRoot}` in a path option. Nx does this in a run, but not in
+ * a direct call (a test), so the executors do it too.
  */
 export function expandOption(value: string, context: ExecutorContext): string {
-  return value.replace(/\{projectRoot\}/g, projectRootOf(context)).replace(/\{workspaceRoot\}/g, '.');
+  return value
+    .replace(/\{projectRoot\}/g, projectRootOf(context))
+    .replace(/\{projectName\}/g, context.projectName ?? '')
+    .replace(/\{workspaceRoot\}/g, '.');
 }

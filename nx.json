@@ -36,7 +36,7 @@
       "cache": true,
       "dependsOn": ["build"],
       "inputs": ["production", "^production", "executors", { "dependentTasksOutputFiles": "**/*", "transitive": true }],
-      "outputs": ["{projectRoot}/src/generated/docs-data"]
+      "outputs": ["{workspaceRoot}/dist/docs-data/{projectName}"]
     },
     "api-docs": {
       "cache": true,
@@ -48,7 +48,7 @@
         "{workspaceRoot}/packages/shared/src/**/*.ts",
         "{workspaceRoot}/packages/machines/**/*.types.ts"
       ],
-      "outputs": ["{projectRoot}/src/generated/api-docs"]
+      "outputs": ["{workspaceRoot}/dist/api-docs/{projectName}"]
     },
     "smoke": { "cache": false, "dependsOn": ["build"] }
   },

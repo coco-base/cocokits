@@ -11,7 +11,7 @@
     },
     "outputDir": {
       "type": "string",
-      "default": "{projectRoot}/src/generated/docs-data",
+      "default": "{workspaceRoot}/dist/docs-data/{projectName}",
       "description": "The output folder, relative to the workspace root. Its JSON files are replaced."
     }
   },

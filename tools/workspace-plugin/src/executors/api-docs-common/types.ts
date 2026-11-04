@@ -1,4 +1,4 @@
-/** `ApiMember` of `@cocokits/shared`, which the workspace plugin cannot import. */
+/** One documented member of a part: a prop, input, event, slot or method. The extractors write it from TSDoc. */
 export interface ApiMemberJson {
   name: string;
   semanticId: string;
@@ -13,7 +13,7 @@ export interface ApiMemberJson {
   examples?: string[];
 }
 
-/** `ApiSlot` of `@cocokits/shared`. */
+/** One slot of a part. */
 export interface ApiSlotJson extends ApiMemberJson {
   /** The `ng-content select`. Angular only. */
   selector?: string;
@@ -21,7 +21,7 @@ export interface ApiSlotJson extends ApiMemberJson {
   scope?: { name: string; type: string; description: string; semanticId?: 'none' }[];
 }
 
-/** `ApiPart` of `@cocokits/shared`. */
+/** One part of a component. */
 export interface ApiPartJson {
   name: string;
   semanticId: string;
@@ -45,7 +45,7 @@ export interface ApiPartJson {
   bindings?: { semanticId: string; value: string; syntax: string }[];
 }
 
-/** `ApiDoc` of `@cocokits/shared`, which the workspace plugin cannot import. */
+/** The API of one component in one framework: the JSON file an extractor writes. */
 export interface ApiDocJson {
   component: string;
   framework: 'angular' | 'react' | 'vue';

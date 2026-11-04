@@ -17,7 +17,7 @@ function memberProblem(kind: string, member: unknown): string | undefined {
   return undefined;
 }
 
-/** The first thing wrong with the parsed JSON as an `ApiDoc`, or `undefined` when what the check reads is sound. The shape is owned by the `apiDocs` schema in `apps/docs/src/content.config.ts`. */
+/** The first thing wrong with the parsed JSON as an `ApiDoc`, or `undefined` when what the check reads is sound. The docs repo reads the same shape. */
 function shapeProblem(value: unknown): string | undefined {
   if (!isObject(value)) return 'not an object';
   if (typeof value['component'] !== 'string' || value['component'] === '') return 'component is not a string';

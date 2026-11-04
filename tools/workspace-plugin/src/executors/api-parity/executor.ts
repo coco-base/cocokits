@@ -6,9 +6,9 @@ import { readApiDocs } from './read';
 import type { ApiParitySchema } from './schema';
 
 const DEFAULT_API_DOCS_DIRS = [
-  'packages/angular/src/generated/api-docs',
-  'packages/react/src/generated/api-docs',
-  'packages/vue/src/generated/api-docs',
+  '{workspaceRoot}/dist/api-docs/angular',
+  '{workspaceRoot}/dist/api-docs/react',
+  '{workspaceRoot}/dist/api-docs/vue',
 ];
 
 /** Compares the Angular, React and Vue `ApiDoc` files by the rules of `compareApiDocs`. */

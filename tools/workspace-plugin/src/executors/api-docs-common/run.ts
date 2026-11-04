@@ -6,7 +6,7 @@ import { writeJsonFiles } from '../write-json';
 import type { ApiDocsSchema } from './schema';
 import type { ApiDocJson } from './types';
 
-const DEFAULT_OUTPUT = '{projectRoot}/src/generated/api-docs';
+const DEFAULT_OUTPUT = '{workspaceRoot}/dist/api-docs/{projectName}';
 const DEFAULT_TSCONFIG = '{projectRoot}/tsconfig.lib.json';
 
 /** One error that lists every problem, so a run reports them all. */

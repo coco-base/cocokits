@@ -67,7 +67,7 @@ describe('docs-data: machines', () => {
     machines(undefined);
     const result = await executor({ source: 'machines' }, context('m', 'packages/m'));
     expect(result.success).toBe(true);
-    expect(readJson('packages/m/src/generated/docs-data/alpha.json')).toEqual({
+    expect(readJson('dist/docs-data/m/alpha.json')).toEqual({
       kind: 'component',
       componentName: 'alpha',
       anatomy: {
@@ -98,7 +98,7 @@ ${META.replace("apg: 'https://example.test/alpha', ", '')}
     );
     const result = await executor({ source: 'machines' }, context('m', 'packages/m'));
     expect(result.success).toBe(true);
-    expect(readJson('packages/m/src/generated/docs-data/alpha.json')).not.toHaveProperty('meta.apg');
+    expect(readJson('dist/docs-data/m/alpha.json')).not.toHaveProperty('meta.apg');
   });
 
   it('reads the camelCase export names of a kebab-case subpath', async () => {
@@ -112,7 +112,7 @@ ${META.replace("apg: 'https://example.test/alpha', ", '')}
     );
     const result = await executor({ source: 'machines' }, context('m', 'packages/m'));
     expect(result.success).toBe(true);
-    expect(readJson('packages/m/src/generated/docs-data/date-picker.json')).toMatchObject({
+    expect(readJson('dist/docs-data/m/date-picker.json')).toMatchObject({
       componentName: 'date-picker',
     });
   });
@@ -122,7 +122,7 @@ ${META.replace("apg: 'https://example.test/alpha', ", '')}
     const result = await executor({ source: 'machines' }, context('m', 'packages/m'));
     expect(result.success).toBe(false);
     expect(errors()).toMatch(/\.\/beta: .* does not export betaMeta/);
-    expect(existsSync(join(dir, 'packages/m/src/generated'))).toBe(false);
+    expect(existsSync(join(dir, 'dist/docs-data'))).toBe(false);
   });
 
   it('fails on an export that is not an anatomy or a meta', async () => {
@@ -140,16 +140,16 @@ ${META.replace("apg: 'https://example.test/alpha', ", '')}
 
   it('replaces the JSON files, so a removed component leaves no stale file', async () => {
     machines(undefined);
-    write('packages/m/src/generated/docs-data/old.json', '{}');
-    write('packages/m/src/generated/docs-data/keep.txt', 'x');
+    write('dist/docs-data/m/old.json', '{}');
+    write('dist/docs-data/m/keep.txt', 'x');
     await executor({ source: 'machines' }, context('m', 'packages/m'));
-    expect(readdirSync(join(dir, 'packages/m/src/generated/docs-data')).sort()).toEqual(['alpha.json', 'keep.txt']);
+    expect(readdirSync(join(dir, 'dist/docs-data/m')).sort()).toEqual(['alpha.json', 'keep.txt']);
   });
 
   it('does not rewrite a file whose bytes would not change, so a watching dev server sees nothing', async () => {
     machines(undefined);
     await executor({ source: 'machines' }, context('m', 'packages/m'));
-    const file = join(dir, 'packages/m/src/generated/docs-data/alpha.json');
+    const file = join(dir, 'dist/docs-data/m/alpha.json');
     const before = statSync(file).mtimeMs;
     await new Promise((resolve) => setTimeout(resolve, 30));
     await executor({ source: 'machines' }, context('m', 'packages/m'));
@@ -159,9 +159,9 @@ ${META.replace("apg: 'https://example.test/alpha', ", '')}
   it('is deterministic: the same data gives the same bytes', async () => {
     machines(undefined);
     await executor({ source: 'machines' }, context('m', 'packages/m'));
-    const first = readFileSync(join(dir, 'packages/m/src/generated/docs-data/alpha.json'), 'utf8');
+    const first = readFileSync(join(dir, 'dist/docs-data/m/alpha.json'), 'utf8');
     await executor({ source: 'machines' }, context('m', 'packages/m'));
-    expect(readFileSync(join(dir, 'packages/m/src/generated/docs-data/alpha.json'), 'utf8')).toBe(first);
+    expect(readFileSync(join(dir, 'dist/docs-data/m/alpha.json'), 'utf8')).toBe(first);
     expect(first.endsWith('}\n')).toBe(true);
   });
 });
@@ -199,7 +199,7 @@ describe('docs-data: theme', () => {
     theme();
     const result = await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'));
     expect(result.success).toBe(true);
-    expect(readJson('packages/t/src/generated/docs-data/theme.json')).toEqual({
+    expect(readJson('dist/docs-data/theme-mood/theme.json')).toEqual({
       kind: 'theme',
       name: 'mood',
       components: {
@@ -240,7 +240,7 @@ describe('docs-data: theme', () => {
     const result = await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'));
     expect(result.success).toBe(false);
     expect(errors()).toMatch(message);
-    expect(existsSync(join(dir, 'packages/t/src/generated/docs-data'))).toBe(false);
+    expect(existsSync(join(dir, 'dist/docs-data/theme-mood'))).toBe(false);
   });
 
   it('fails when the entry exports no ThemeConfig', async () => {
@@ -264,7 +264,7 @@ describe('docs-data: theme', () => {
     theme(OPTION, '', collections);
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(false);
     expect(errors()).toMatch(message);
-    expect(existsSync(join(dir, 'packages/t/src/generated/docs-data'))).toBe(false);
+    expect(existsSync(join(dir, 'dist/docs-data/theme-mood'))).toBe(false);
   });
 
   it('has no option besides source and outputDir', () => {
@@ -318,7 +318,7 @@ describe('docs-data: theme', () => {
   it('assumes nothing about the attribute scheme: another prefix and names pass', async () => {
     theme(OPTION, '', [{ ...MOOD, name: 'Density', attrName: 'x9-density' }]);
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
-    expect(readJson('packages/t/src/generated/docs-data/theme.json')).toMatchObject({
+    expect(readJson('dist/docs-data/theme-mood/theme.json')).toMatchObject({
       modeCollections: [{ attrName: 'x9-density' }],
     });
   });

@@ -19,7 +19,7 @@ export interface Collection {
   tokens: Token[];
 }
 
-/** One mode of a collection in the modes index (`ModeValue` in `@cocokits/shared`, which this plugin cannot import). */
+/** One mode of a collection in the modes index (`ModeValue` in `@cocokits/shared`). */
 export interface ModeValue {
   name: string;
   value: string;

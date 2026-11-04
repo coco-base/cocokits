@@ -5,7 +5,7 @@ import { extractAngularApiDocs } from './extract';
 
 /**
  * Writes `<component>.json` (`ApiDoc`) for every Angular entry point of the project into its own
- * `src/generated/api-docs` folder. The API comes from TSDoc only, and the target fails, writing nothing, when a
+ * `dist/api-docs/<project>` folder. The API comes from TSDoc only, and the target fails, writing nothing, when a
  * public member of a directive has none (an inherited one included).
  */
 export default function apiDocsAngularExecutor(

@@ -5,7 +5,7 @@ import { extractVueApiDocs } from './extract';
 
 /**
  * Writes `<component>.json` (`ApiDoc`) for every Vue entry point of the project into its own
- * `src/generated/api-docs` folder. The API comes from `vue-component-meta` and TSDoc only, and the target fails,
+ * `dist/api-docs/<project>` folder. The API comes from `vue-component-meta` and TSDoc only, and the target fails,
  * writing nothing, when a part or a public member has no TSDoc.
  */
 export default function apiDocsVueExecutor(

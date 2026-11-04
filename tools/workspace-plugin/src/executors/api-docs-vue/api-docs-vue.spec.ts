@@ -175,21 +175,24 @@ describe('api-docs-vue executor', () => {
 
   it('writes one ApiDoc file per entry point into the project, deterministically', async () => {
     createPackage('run');
-    const out = join(area.dir, 'run', 'pkg', 'src', 'generated', 'api-docs');
-    expect((await executor({}, area.context('run'))).success).toBe(true);
+    const out = join(area.dir, 'run', 'out');
+    const outputDir = `tools/workspace-plugin/tmp/api-docs-vue/run/out`;
+    expect((await executor({ outputDir }, area.context('run'))).success).toBe(true);
     expect(readdirSync(out)).toEqual(['thing.json']);
     const first = readFileSync(join(out, 'thing.json'), 'utf8');
     expect(JSON.parse(first)).toMatchObject({ component: 'thing', framework: 'vue' });
     expect(first.endsWith('}\n')).toBe(true);
-    await executor({}, area.context('run'));
+    await executor({ outputDir }, area.context('run'));
     expect(readFileSync(join(out, 'thing.json'), 'utf8')).toBe(first);
   });
 
   it('fails on a prop without TSDoc and writes nothing', async () => {
     createPackage('fail', { types: fixture('thing.types.ts').replace(LABEL_DOC, '') });
-    expect((await executor({}, area.context('fail'))).success).toBe(false);
+    expect(
+      (await executor({ outputDir: 'tools/workspace-plugin/tmp/api-docs-vue/fail/out' }, area.context('fail'))).success,
+    ).toBe(false);
     expect(vi.mocked(console.error).mock.calls.join('\n')).toMatch(/Thing\.label/);
-    expect(existsSync(join(area.dir, 'fail', 'pkg', 'src', 'generated'))).toBe(false);
+    expect(existsSync(join(area.dir, 'fail', 'out'))).toBe(false);
   });
 
   it('fails for an outputDir or a tsConfig outside the workspace', async () => {
