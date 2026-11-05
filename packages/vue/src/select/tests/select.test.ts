@@ -5,7 +5,7 @@ import { h, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { SelectItem } from '../index';
-import { mountView, record, selectView, settle, stubOverlayBrowser } from './fixtures';
+import { active, gone, mountView, option, record, selectView, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -19,15 +19,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select rendered contract', () => {
   it('renders the root, trigger, placeholder and icon with the anatomy classes and no list while closed', () => {

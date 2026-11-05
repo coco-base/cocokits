@@ -2,10 +2,18 @@
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen, waitFor } from '@testing-library/vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { selectAnatomy } from '@cocokits/machines/select';
-import { mountView, record, selectView, settle, stubOverlayBrowser } from './fixtures';
-
-const { classes } = selectAnatomy;
+import {
+  active,
+  gone,
+  mountView,
+  option,
+  record,
+  selectView,
+  settle,
+  stubOverlayBrowser,
+  trigger,
+  valueText,
+} from './fixtures';
 
 let scrollIntoView: ReturnType<typeof stubOverlayBrowser>;
 
@@ -19,16 +27,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
 
 describe('Select keyboard', () => {
   it('moves with the arrows, stops at the ends, skips the disabled option, and Home/End/PageUp/PageDown jump', async () => {

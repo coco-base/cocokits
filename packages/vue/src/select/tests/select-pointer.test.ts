@@ -3,10 +3,20 @@ import userEvent from '@testing-library/user-event';
 import { cleanup, screen, waitFor } from '@testing-library/vue';
 import { defineComponent, h, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { selectAnatomy } from '@cocokits/machines/select';
-import { item, mountView, must, record, selectRoot, selectView, stubOverlayBrowser } from './fixtures';
-
-const { classes } = selectAnatomy;
+import {
+  active,
+  gone,
+  item,
+  mountView,
+  must,
+  option,
+  record,
+  selectRoot,
+  selectView,
+  stubOverlayBrowser,
+  trigger,
+  valueText,
+} from './fixtures';
 
 beforeEach(() => {
   stubOverlayBrowser();
@@ -18,16 +28,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
 
 describe('Select pointer', () => {
   it('highlights under the pointer, skips a disabled option, and a press in the list keeps the focus on the trigger', async () => {
