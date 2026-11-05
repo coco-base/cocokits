@@ -1,13 +1,7 @@
 // @vitest-environment node
-import type { ReactElement } from 'react';
-import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { ThemeProvider } from '@cocokits/react-core';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Checkbox, Radio, Switch } from '../src/index';
-
-const html = (ui: ReactElement): string =>
-  renderToString(<ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>);
+import { html } from './helpers';
 
 describe('theme choice controls on the server', () => {
   it('has no window or document, so the import and render prove no DOM access', () => {
