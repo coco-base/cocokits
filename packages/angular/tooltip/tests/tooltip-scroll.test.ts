@@ -1,9 +1,9 @@
 import { Component, viewChild } from '@angular/core';
 import { render, waitFor } from '@testing-library/angular';
-import { tooltipAnatomy } from '@cocokits/machines/tooltip';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckTooltip, CckTooltipImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { bubble } from './queries';
 
 @Component({
   imports: [...CckTooltipImports],
@@ -21,7 +21,6 @@ const byId = (id: string): HTMLElement => {
   if (!element) throw new Error(id);
   return element;
 };
-const bubble = (): HTMLElement | null => document.querySelector<HTMLElement>(`.${tooltipAnatomy.classes.content}`);
 
 describe('Tooltip scroll', () => {
   beforeEach(stubOverlayApis);

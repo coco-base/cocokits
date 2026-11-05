@@ -5,6 +5,7 @@ import { tooltipAnatomy } from '@cocokits/machines/tooltip';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CCK_TOOLTIP_DEFAULT_OPTIONS, CckTooltip, CckTooltipImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { bubble } from './queries';
 
 @Component({
   imports: [...CckTooltipImports],
@@ -32,7 +33,6 @@ class Host {
 }
 
 const trigger = (): HTMLElement => screen.getByRole('button');
-const bubble = (): HTMLElement | null => document.querySelector<HTMLElement>(`.${tooltipAnatomy.classes.content}`);
 
 describe('Tooltip one-attribute form', () => {
   beforeEach(() => {
