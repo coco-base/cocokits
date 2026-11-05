@@ -25,7 +25,6 @@ function templateFolders(spec: PackageSpec): string[] {
   if (spec.builder === 'tsdown') folders.push('build-tsdown');
   if (spec.builder === 'vite-vue') folders.push('build-vite-vue');
   if (ng) folders.push('build-ng');
-  if (ng && !spec.rootEntry && spec.kind === 'fw') folders.push('ng-no-root');
   if (spec.css) folders.push('theme');
   return folders;
 }

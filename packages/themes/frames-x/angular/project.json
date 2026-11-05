@@ -5,12 +5,23 @@
   "sourceRoot": "packages/themes/frames-x/angular/src",
   "tags": ["layer:theme", "scope:angular", "type:lib"],
   "targets": {
-    "build": {
+    "package": {
       "executor": "@nx/angular:package",
+      "dependsOn": ["^build"],
       "outputs": ["{workspaceRoot}/dist/packages/theme-frames-x-angular"],
       "options": {
         "project": "{projectRoot}/ng-package.json",
         "tsConfig": "{projectRoot}/tsconfig.lib.json"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "package"],
+      "inputs": ["production", "^production", "{workspaceRoot}/tools/scripts/finalize-ng-package.mjs"],
+      "outputs": ["{workspaceRoot}/dist/packages/theme-frames-x-angular"],
+      "options": {
+        "command": "node ../../../../tools/scripts/finalize-ng-package.mjs",
+        "cwd": "{projectRoot}"
       }
     },
     "typecheck": {

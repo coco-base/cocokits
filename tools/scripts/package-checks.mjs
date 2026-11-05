@@ -1,11 +1,13 @@
 // The publish checks of one package, run by the `pack`, `publint` and `attw` targets of nx.json:
 //   node tools/scripts/package-checks.mjs pack|publint|attw <projectName>
 // `pack` writes the tarball `pnpm pack` makes (what npm would receive: `workspace:*` resolved, `publishConfig.directory`
-// followed for the ng-packagr packages) to dist/tarballs/<projectName>. The other two check that tarball.
+// followed for the ng-packagr packages) to dist/tarballs/<projectName>. The other two check that tarball. `publint` also
+// checks that the tarball is publishable as it is (`checkPublishable`).
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import process from 'node:process';
+import { problemsOf } from './package-manifest.mjs';
 
 const [action, projectName] = process.argv.slice(2);
 const root = resolve(import.meta.dirname, '..', '..');
@@ -41,16 +43,64 @@ function tarball() {
   return join(tarballs, files[0] ?? '');
 }
 
+/** Runs tar on a tarball. Relative to its folder: GNU tar reads `C:` of an absolute Windows path as a host name. */
+function tar(file, flags, ...paths) {
+  const result = spawnSync('tar', [flags, basename(file), ...paths], { cwd: dirname(file), encoding: 'utf8' });
+  if (result.status !== 0) throw new Error(`cannot read ${file}: ${result.stderr}`);
+  return result.stdout;
+}
+
+function packedManifest(file) {
+  return JSON.parse(tar(file, '-xOzf', 'package/package.json'));
+}
+
 /** The `exports` keys of the packed package.json that name a stylesheet or an image. */
 function assetExports(file) {
-  // Relative to its folder: GNU tar reads `C:` of an absolute Windows path as a host name.
-  const result = spawnSync('tar', ['-xOzf', basename(file), 'package/package.json'], {
-    cwd: dirname(file),
-    encoding: 'utf8',
-  });
-  if (result.status !== 0) throw new Error(`cannot read package.json from ${file}: ${result.stderr}`);
-  const exports = JSON.parse(result.stdout).exports ?? {};
-  return Object.keys(exports).filter((key) => /\.(css|svg)$/.test(key));
+  return Object.keys(packedManifest(file).exports ?? {}).filter((key) => /\.(css|svg)$/.test(key));
+}
+
+/** Every file below `folder`, relative to it. */
+function filesBelow(folder, prefix = '') {
+  return readdirSync(join(folder, prefix), { withFileTypes: true }).flatMap((entry) =>
+    entry.isDirectory() ? filesBelow(folder, `${prefix}${entry.name}/`) : [`${prefix}${entry.name}`],
+  );
+}
+
+/**
+ * Fails when a package is not publishable as it is: a `workspace:`, `link:` or `file:` range, a
+ * `publishConfig.directory` left over, no `name`, `version` or `license` field, no LICENSE or README.md, or a file
+ * named by `exports`, `main`, `module`, `types` or `bin` that is missing. It checks the tarball and, for a package
+ * that publishes from its build output (`publishConfig.directory`), that folder too: it is what `npm publish` gets.
+ */
+function checkPublishable(file) {
+  const listing = tar(file, '-tzf')
+    .split('\n')
+    .map((item) => item.trim());
+  const checks = [
+    {
+      where: 'tarball',
+      manifest: packedManifest(file),
+      packed: new Set(listing.filter((item) => item.startsWith('package/')).map((item) => item.slice(8))),
+    },
+  ];
+  const source = join(projectRootOf(projectName), 'package.json');
+  const directory = JSON.parse(readFileSync(source, 'utf8')).publishConfig?.directory;
+  if (directory !== undefined) {
+    const dist = resolve(dirname(source), directory);
+    checks.push({
+      where: `${directory} (build output)`,
+      manifest: JSON.parse(readFileSync(join(dist, 'package.json'), 'utf8')),
+      packed: new Set(filesBelow(dist)),
+    });
+  }
+  const failed = checks.flatMap(({ where, manifest, packed }) =>
+    problemsOf(manifest, packed).map((problem) => `  - ${String(manifest.name)} ${where}: ${problem}`),
+  );
+  if (failed.length > 0) {
+    console.error(`${projectName} is not publishable as it is:`);
+    for (const line of failed) console.error(line);
+    process.exit(1);
+  }
 }
 
 if (projectName === undefined) throw new Error('usage: package-checks.mjs pack|publint|attw <projectName>');
@@ -62,6 +112,7 @@ switch (action) {
     run('pnpm', ['pack', '--pack-destination', tarballs], projectRootOf(projectName));
     break;
   case 'publint':
+    checkPublishable(tarball());
     run('pnpm', ['exec', 'publint', 'run', tarball(), '--level', 'warning', '--strict'], root);
     break;
   case 'attw': {

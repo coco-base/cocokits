@@ -84,7 +84,9 @@ describe('library generator: framework core', () => {
     );
     expect(project.targets['package']?.executor).toBe('@nx/angular:package');
     expect(project.targets['build']).toMatchObject({ executor: 'nx:run-commands', dependsOn: ['^build', 'package'] });
-    expect(tree.read('packages/angular/scripts/strip-root-export.mjs', 'utf-8')).toContain('delete pkg.exports');
+    expect(project.targets['build']).toMatchObject({
+      options: { command: 'node ../../tools/scripts/finalize-ng-package.mjs --strip-root' },
+    });
     const pkg = readPackage(tree, 'packages/angular');
     expect(pkg.files).toBeUndefined();
     expect(

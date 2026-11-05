@@ -83,6 +83,9 @@ importers:
       '@nx/vitest':
         specifier: 23.3.0
         version: 23.3.0(bde067361e5eef3237b22c1abc2b7b73)
+      '@size-limit/esbuild':
+        specifier: 14.3.0
+        version: 14.3.0(size-limit@14.3.0)
       '@size-limit/file':
         specifier: 14.3.0
         version: 14.3.0(size-limit@14.3.0)
@@ -182,6 +185,9 @@ importers:
       sass:
         specifier: 1.105.2
         version: 1.105.2
+      semver:
+        specifier: 7.8.6
+        version: 7.8.6
       size-limit:
         specifier: 14.3.0
         version: 14.3.0
@@ -197,6 +203,9 @@ importers:
       typescript-eslint:
         specifier: 8.72.0
         version: 8.72.0(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3)
+      validate-npm-package-name:
+        specifier: 8.0.0
+        version: 8.0.0
       vite:
         specifier: 8.3.4
         version: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1)(sass-embedded@1.104.1)(sass@1.105.2)(terser@5.51.2)(yaml@2.9.1)
@@ -3008,6 +3017,12 @@ packages:
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
+
+  '@size-limit/esbuild@14.3.0':
+    resolution: {integrity: sha512-0HvGvD5vw2j/lZ7u+koacP5UpveaFVirc8Gm0GJRfICDd+4xEpZX3ManDSnFzwlk7qe0JtJjE8d5jp5t8sUlEQ==}
+    engines: {node: ^22.19.0 || ^24.5.0 || >=26.0.0}
+    peerDependencies:
+      size-limit: 14.3.0
 
   '@size-limit/file@14.3.0':
     resolution: {integrity: sha512-GWKOi0rorXPbYmwbT926Z91t28rg5gd5hv8ywY1FNcaYf8NbibgK5K5YabYbLkV6KpGwuuixBRtIzl3ZpPzUfw==}
@@ -6200,6 +6215,10 @@ packages:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
+  validate-npm-package-name@8.0.0:
+    resolution: {integrity: sha512-SCv6OOV6Xj2/3cXy3dGmADluJTNcL3o7hZAglNPTe+WYuEuvxgJzxPrSDLZhF+CwyQOubqgecjMmTJGMVLWjYQ==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
+
   varint@6.0.0:
     resolution: {integrity: sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==}
 
@@ -8947,6 +8966,11 @@ snapshots:
   '@simple-libs/stream-utils@2.0.0': {}
 
   '@sindresorhus/is@4.6.0': {}
+
+  '@size-limit/esbuild@14.3.0(size-limit@14.3.0)':
+    dependencies:
+      esbuild: 0.28.2
+      size-limit: 14.3.0
 
   '@size-limit/file@14.3.0(size-limit@14.3.0)':
     dependencies:
@@ -12286,6 +12310,8 @@ snapshots:
   util-deprecate@1.0.2: {}
 
   validate-npm-package-name@5.0.1: {}
+
+  validate-npm-package-name@8.0.0: {}
 
   varint@6.0.0: {}
 

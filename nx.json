@@ -10,7 +10,11 @@
       "!{projectRoot}/tests/**",
       "!{projectRoot}/src/generated/**/*"
     ],
-    "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/compatibility.json"],
+    "sharedGlobals": [
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/compatibility.json",
+      "{workspaceRoot}/LICENSE"
+    ],
     "executors": [
       "{workspaceRoot}/tools/workspace-plugin/executors.json",
       "{workspaceRoot}/tools/workspace-plugin/src/executors/**/*.ts",
@@ -87,6 +91,7 @@
       "inputs": [
         "default",
         "{workspaceRoot}/tools/scripts/package-checks.mjs",
+        "{workspaceRoot}/tools/scripts/package-manifest.mjs",
         {
           "dependentTasksOutputFiles": "**/*",
           "transitive": false
@@ -95,12 +100,13 @@
     },
     "publint": {
       "cache": true,
-      "dependsOn": ["pack"],
+      "dependsOn": ["build", "pack"],
       "inputs": [
         "default",
         "{workspaceRoot}/tools/scripts/package-checks.mjs",
+        "{workspaceRoot}/tools/scripts/package-manifest.mjs",
         {
-          "dependentTasksOutputFiles": "**/*.tgz",
+          "dependentTasksOutputFiles": "**/*",
           "transitive": false
         }
       ],
@@ -116,6 +122,7 @@
       "inputs": [
         "default",
         "{workspaceRoot}/tools/scripts/package-checks.mjs",
+        "{workspaceRoot}/tools/scripts/package-manifest.mjs",
         {
           "dependentTasksOutputFiles": "**/*.tgz",
           "transitive": false

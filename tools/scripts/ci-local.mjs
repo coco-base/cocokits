@@ -1,8 +1,9 @@
 // The local run of the GitHub pipeline (.github/workflows/ci.yml). Every pull request runs it before the push:
 //   pnpm ci:local --title "<PR title>"
 // Steps, stopping at the first failure: install, format, lint:files, affected lint/typecheck/test/build, affected
-// publint/attw, size, commitlint of the commits since the base, commitlint of the PR title, and the library generator
-// proof when the change touches it.
+// publint (it also fails a package that is not publishable as it is) and attw, size (every entry has a budget),
+// commitlint of the commits since the base, commitlint of the PR title, and the library generator proof when the
+// change touches it.
 // Flags: --base <ref> (default origin/main; pass --base with the branch your PR targets), --title "<PR title>" (required when the
 // run is for a PR), --all (always run the generator proof). Known flakes under parallel load: workspace:test timeouts
 // and machines:cycles ENOENT; re-run that target alone.
