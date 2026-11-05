@@ -112,3 +112,6 @@ export async function open(): Promise<void> {
   await userEvent.click(trigger());
   await settle();
 }
+
+/** The open dialog element, or null. */
+export const dialog = (): HTMLDialogElement | null => screen.queryByRole<HTMLDialogElement>('dialog');

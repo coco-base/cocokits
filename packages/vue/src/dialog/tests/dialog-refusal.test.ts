@@ -5,7 +5,7 @@ import { h, ref, withModifiers } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PointerDownOutsideEvent } from '@cocokits/vue-core';
 import { DialogClose, DialogContent, DialogRoot, DialogTrigger } from '../index';
-import { boxAt, dialogView, mountView, open, pressOn, settle, stubOverlayBrowser, trigger } from './fixtures';
+import { boxAt, dialog, dialogView, mountView, open, pressOn, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -15,8 +15,6 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.documentElement.removeAttribute('style');
 });
-
-const dialog = (): HTMLDialogElement | null => screen.queryByRole('dialog');
 
 /** A press on the backdrop: the dialog element itself, outside its box. */
 function pressBackdrop(): void {

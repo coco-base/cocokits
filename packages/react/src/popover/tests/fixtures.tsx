@@ -58,3 +58,6 @@ export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Sh
 
 /** The button with the accessible name. */
 export const button = (name: string): HTMLElement => screen.getByRole('button', { name });
+
+/** The open popover content, or null. */
+export const popover = (): HTMLElement | null => screen.queryByRole('dialog');
