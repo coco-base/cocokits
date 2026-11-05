@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const stylesCss = ['form-field', 'label', 'hint', 'input', 'textarea', 'field-error']
   .map((name) => read('dist', 'components', `${name}.css`))
   .join('\n');
-const tokensCss = read('dist', 'tokens.css');
 /** The input wrapper that holds a text control: the box. */
 const BOX = '.cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea)';
 const scss = ['_form-field.scss', '_label.scss', '_hint.scss', '_input.scss', '_textarea.scss', '_field-error.scss']

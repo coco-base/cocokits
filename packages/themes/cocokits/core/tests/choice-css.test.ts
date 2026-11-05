@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
 
 const BLOCKS = ['checkbox', 'switch', 'radio'] as const;
-const tokensCss = read('dist', 'tokens.css');
 
 interface TokenFile {
   collections: { name: string; tokens: { name: string; valuesByMode: Record<string, unknown> }[] }[];
@@ -14,9 +13,6 @@ const scssOf = (block: string): string =>
     read('src', 'styles', 'components', `_${block}.scss`),
     block === 'switch' ? '' : read('src', 'styles', '_choice-box.scss'),
   ].join('\n');
-/** The selectors of every rule that names a CocoKits class. */
-const selectorsOf = (css: string): string[] =>
-  [...css.matchAll(/(?:^|[{}])\s*([^{}@]+?)\s*\{/g)].map((match) => match[1]).filter((s) => s.includes('.cck-'));
 const forcedOf = (css: string): string => css.slice(css.indexOf('@media (forced-colors: active)'));
 
 describe.each(BLOCKS)('%s output', (block) => {

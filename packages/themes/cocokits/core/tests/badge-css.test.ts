@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const stylesCss = read('dist', 'styles.css');
-const tokensCss = read('dist', 'tokens.css');
 const scss = ['_badge.scss', '_badge-container.scss']
   .map((file) => read('src', 'styles', 'components', file))
   .join('\n');

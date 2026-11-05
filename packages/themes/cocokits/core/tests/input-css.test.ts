@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'input.css');
 const scss = read('src', 'styles', 'components', '_input.scss');
-const tokensCss = read('dist', 'tokens.css');
 
 describe('input output', () => {
   it('puts the rules inside @layer cocokits and into the whole theme', () => {

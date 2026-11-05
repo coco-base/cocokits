@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'field-error.css');
 const scss = read('src', 'styles', 'components', '_field-error.scss');
-const tokensCss = read('dist', 'tokens.css');
 
 describe('field-error output', () => {
   it('puts the rules inside @layer cocokits and into the whole theme', () => {
