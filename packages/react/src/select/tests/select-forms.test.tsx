@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FormField } from '../../form-field';
 import { Hint } from '../../hint';
 import { Label } from '../../label';
-import { nextTask, stubTopLayer, firstDetails, must, Dishes, Opt } from './fixtures';
+import { Dishes, firstDetails, gone, must, nextTask, Opt, stubTopLayer, trigger, valueText } from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -20,12 +20,6 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLButtonElement => screen.getByRole('combobox');
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 const options = [
   <Opt key="c" value="Cake">
     Cake

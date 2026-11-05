@@ -2,7 +2,7 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { reasonsOf, stubTopLayer, Dishes, Opt } from './fixtures';
+import { active, Dishes, Opt, reasonsOf, stubTopLayer } from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -12,10 +12,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select keyboard: typeahead cycling', () => {
   it('cycles through the options that share a first letter when the same character repeats', async () => {

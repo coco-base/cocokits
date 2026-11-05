@@ -2,7 +2,7 @@
 import { act, cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { nextTask, stubTopLayer, must, Dishes, Opt } from './fixtures';
+import { Dishes, must, nextTask, Opt, stubTopLayer, trigger } from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -13,7 +13,6 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLElement => screen.getByRole('combobox');
 const rootOf = (): Element | null => trigger().parentElement;
 
 function Form({ invalid }: { readonly invalid?: boolean }): React.ReactElement {
