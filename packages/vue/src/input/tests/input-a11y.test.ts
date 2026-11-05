@@ -8,11 +8,9 @@ import { FormField } from '../../form-field';
 import { Label } from '../../label';
 import { Input } from '../index';
 import { mountView } from '../../internal/tests/mount-helpers';
-import { emailField, field } from './fixtures';
+import { control, emailField, field } from './fixtures';
 
 afterEach(cleanup);
-
-const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 
 describe('Input accessibility', () => {
   it.each<[string, () => VNode]>([

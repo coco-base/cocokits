@@ -7,12 +7,11 @@ import { FormField } from '../../form-field';
 import { Label } from '../../label';
 import { Input } from '../index';
 import { mountView, pick } from '../../internal/tests/mount-helpers';
-import { nextTask } from './fixtures';
+import { control, nextTask } from './fixtures';
 
 afterEach(cleanup);
 
 const form = (): HTMLFormElement => pick(document.body, 'form') as HTMLFormElement;
-const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 const resetButton = (text = 'Reset'): VNodeButton => h('button', { type: 'reset' }, text);
 type VNodeButton = ReturnType<typeof h>;
 

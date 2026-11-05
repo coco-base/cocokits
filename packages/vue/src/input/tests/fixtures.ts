@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/vue';
 import { h, type VNode } from 'vue';
 import { inputAnatomy } from '@cocokits/machines/input';
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
@@ -48,3 +49,6 @@ export function emailField(id?: string): VNode {
     },
   );
 }
+
+/** The text box. */
+export const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
