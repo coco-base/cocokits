@@ -99,10 +99,10 @@ const PUBLISH_CHECKS: Record<string, Target> = { pack: {}, publint: {}, attw: {}
 function targetsFor(spec: PackageSpec, offset: string): Record<string, Target> {
   return {
     ...(spec.builder === 'ng-packagr' ? { package: packageTarget(spec) } : {}),
-    ...(spec.type === 'tool' ? {} : { build: buildTarget(spec, offset) }),
+    build: buildTarget(spec, offset),
     ...(spec.kind === 'theme-core' ? { 'docs-data': docsDataTarget() } : {}),
     typecheck: typecheckTarget(spec),
-    ...(spec.type === 'tool' ? {} : PUBLISH_CHECKS),
+    ...PUBLISH_CHECKS,
   };
 }
 
@@ -110,17 +110,14 @@ function sourceRootOf(spec: PackageSpec): string {
   return spec.shape === 'src-root' || spec.shape === 'src-subdirs' ? `${spec.root}/src` : spec.root;
 }
 
-/**
- * project.json; `lint` and `test` are inferred by the @nx/eslint and @nx/vitest plugins of nx.json. A tool has
- * no `build`: Nx runs its sources as they are.
- */
+/** project.json; `lint` and `test` are inferred by the @nx/eslint and @nx/vitest plugins of nx.json. */
 export function buildProjectJson(spec: PackageSpec, offset: string): Record<string, unknown> {
   return {
     $schema: `${offset}node_modules/nx/schemas/project-schema.json`,
     name: spec.projectName,
     projectType: 'library',
     sourceRoot: sourceRootOf(spec),
-    tags: [spec.layer, spec.scope, `type:${spec.type}`],
+    tags: [spec.layer, spec.scope, 'type:lib'],
     targets: targetsFor(spec, offset),
   };
 }
@@ -137,41 +134,8 @@ function baseExcludes(spec: PackageSpec): string[] {
 
 const TEST_GLOBS = ['**/tests/**', '**/*.test.ts', '**/*.test.tsx'];
 
-/**
- * A tool runs from source and emits nothing: the strict config without declaration output, Node types in every
- * config, and the project's `tmp` scratch folder (compile checks of generated code) outside the type check.
- */
-function buildToolTsconfigs(offset: string): Record<string, Record<string, unknown>> {
-  const excludes = ['dist', 'node_modules', 'tmp'];
-  const sources = ['**/*.ts'];
-  return {
-    'tsconfig.json': {
-      extends: `${offset}tsconfig.strict.json`,
-      compilerOptions: {
-        isolatedDeclarations: false,
-        declaration: false,
-        declarationMap: false,
-        types: ['node'],
-      },
-      include: sources,
-      exclude: excludes,
-    },
-    'tsconfig.lib.json': {
-      extends: './tsconfig.json',
-      include: sources,
-      exclude: [...excludes, ...TEST_GLOBS],
-    },
-    'tsconfig.spec.json': {
-      extends: './tsconfig.json',
-      include: ['**/tests/**/*.ts', '**/*.test.ts'],
-      exclude: excludes,
-    },
-  };
-}
-
 /** tsconfig.json (all files, for the editor and ESLint), tsconfig.lib.json and tsconfig.spec.json. */
 export function buildTsconfigs(spec: PackageSpec, offset: string): Record<string, Record<string, unknown>> {
-  if (spec.type === 'tool') return buildToolTsconfigs(offset);
   const options: Record<string, unknown> = {};
   if (spec.framework === 'react') options['jsx'] = 'react-jsx';
   if (spec.framework === 'angular') options['experimentalDecorators'] = true;

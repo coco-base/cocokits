@@ -17,7 +17,6 @@ function internalDependencies(tree: Tree, spec: PackageSpec): Record<string, str
 }
 
 function templateFolders(spec: PackageSpec): string[] {
-  if (spec.type === 'tool') return ['common', 'tool'];
   const folders = ['common', spec.rootEntry ? 'test-root-entry' : 'test-no-root'];
   const ng = spec.builder === 'ng-packagr';
   if (spec.rootEntry || ng) folders.push('src-index');
@@ -42,12 +41,7 @@ function tsdownEntry(spec: PackageSpec): { entry: string; tsdownRoot: string } {
 }
 
 function substitutions(spec: PackageSpec, offset: string): Record<string, unknown> {
-  const excludes = [
-    '**/node_modules/**',
-    '**/dist/**',
-    ...(spec.nested ? ['core/**'] : []),
-    ...(spec.type === 'tool' ? ['**/tmp/**'] : []),
-  ];
+  const excludes = ['**/node_modules/**', '**/dist/**', ...(spec.nested ? ['core/**'] : [])];
   return {
     ...spec,
     offset,

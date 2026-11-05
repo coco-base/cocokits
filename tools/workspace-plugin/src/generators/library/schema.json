@@ -6,7 +6,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Package or entry point name: utils|shared for shared-lib, the tool name for tool (required), the module for cdk-module, the machine for machine, the component for fw-entry and angular-testing. Optional for cdk, machines, fw-core, fw, theme-core and theme-fw (the canonical project name is used; a different value is rejected).",
+      "description": "Package or entry point name: utils|shared for shared-lib, the module for cdk-module, the machine for machine, the component for fw-entry and angular-testing. Optional for cdk, machines, fw-core, fw, theme-core and theme-fw (the canonical project name is used; a different value is rejected).",
       "$default": { "$source": "argv", "index": 0 },
       "pattern": "^[a-z][a-z0-9-]*$"
     },
@@ -21,7 +21,6 @@
         "fw",
         "theme-core",
         "theme-fw",
-        "tool",
         "cdk-module",
         "machine",
         "fw-entry",

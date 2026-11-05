@@ -44,20 +44,6 @@ const RESERVED_ENTRY_NAMES = [
 ];
 /** Additionally reserved where the folder sits next to framework sub-packages or harness folders. */
 const RESERVED_COMPONENT_NAMES = ['core', 'testing'];
-/** Folders of `tools/` and the names of existing projects (the plugin is the `workspace` project) a tool cannot take. */
-const RESERVED_TOOL_NAMES = [
-  'eslint',
-  'scripts',
-  'workspace-plugin',
-  'workspace',
-  'utils',
-  'shared',
-  'cdk',
-  'machines',
-  'angular',
-  'react',
-  'vue',
-];
 
 const USES: Record<PackageKind, { framework: boolean; theme: boolean }> = {
   'shared-lib': { framework: false, theme: false },
@@ -67,7 +53,6 @@ const USES: Record<PackageKind, { framework: boolean; theme: boolean }> = {
   fw: { framework: true, theme: false },
   'theme-core': { framework: false, theme: true },
   'theme-fw': { framework: true, theme: true },
-  tool: { framework: false, theme: false },
 };
 
 function checkName(value: string, label: string): void {
@@ -88,40 +73,8 @@ function requireTheme(kind: string, value: string | undefined): string {
   return value;
 }
 
-/** The folders of every project below the workspace roots that hold projects: where a project.json is. */
-function projectRoots(tree: Tree, folder: string): string[] {
-  if (!tree.exists(folder) || tree.isFile(folder)) return [];
-  const own = tree.exists(`${folder}/project.json`) ? [folder] : [];
-  const below = tree
-    .children(folder)
-    .filter((child) => child !== 'node_modules' && child !== 'dist')
-    .flatMap((child) => projectRoots(tree, `${folder}/${child}`));
-  return [...own, ...below];
-}
-
-/** A private project must not take the project name or the package name of any other project of the workspace. */
-function assertNoCollision(tree: Tree, root: string, name: string): void {
-  for (const project of ['packages', 'tools'].flatMap((folder) => projectRoots(tree, folder))) {
-    if (project === root) continue;
-    const projectName = readJson<{ name?: string }>(tree, `${project}/project.json`).name;
-    const file = `${project}/package.json`;
-    const packageName = tree.exists(file) ? readJson<{ name?: string }>(tree, file).name : undefined;
-    if (projectName === name || packageName === `@cocokits/${name}`) {
-      throw new Error(`"${name}" is already the name of the project in ${project}; a project needs a name of its own.`);
-    }
-  }
-}
-
-function checkToolName(tree: Tree, name: string | undefined): void {
-  if (name === undefined) {
-    throw new Error('Kind "tool" needs a name: nx g @cocokits/workspace:library <name> --kind=tool.');
-  }
-  if (RESERVED_TOOL_NAMES.includes(name)) throw new Error(`"${name}" is reserved and cannot name a tool.`);
-  assertNoCollision(tree, `tools/${name}`, name);
-}
-
-/** Checks the name rules that belong to one kind (the names of tools, shared libraries and private projects). */
-function checkKindName(tree: Tree, kind: PackageKind, spec: PackageSpec, options: LibraryGeneratorSchema): void {
+/** Checks the name rules that belong to one kind (the names of shared libraries and canonical projects). */
+function checkKindName(kind: PackageKind, spec: PackageSpec, options: LibraryGeneratorSchema): void {
   if (kind === 'shared-lib' && !SHARED_LIB_NAMES.includes(options.name ?? '')) {
     throw new Error(`Kind "shared-lib" needs a name: ${SHARED_LIB_NAMES.join(' or ')}.`);
   }
@@ -134,7 +87,7 @@ function frameworkOf(kind: PackageKind, options: LibraryGeneratorSchema): Framew
   return USES[kind].framework ? requireFramework(kind, options.framework) : undefined;
 }
 
-function resolvePackage(tree: Tree, kind: PackageKind, options: LibraryGeneratorSchema): PackageSpec {
+function resolvePackage(kind: PackageKind, options: LibraryGeneratorSchema): PackageSpec {
   const uses = USES[kind];
   if (!uses.framework && options.framework !== undefined) {
     throw new Error(`Kind "${kind}" does not take --framework.`);
@@ -143,9 +96,8 @@ function resolvePackage(tree: Tree, kind: PackageKind, options: LibraryGenerator
   if (options.name !== undefined) checkName(options.name, 'name');
   const framework = frameworkOf(kind, options);
   const theme = uses.theme ? requireTheme(kind, options.theme) : undefined;
-  if (kind === 'tool') checkToolName(tree, options.name);
   const spec = buildPackageSpec(kind, { name: options.name, framework, theme });
-  checkKindName(tree, kind, spec, options);
+  checkKindName(kind, spec, options);
   return spec;
 }
 
@@ -226,7 +178,7 @@ export function assertNoRootExport(tree: Tree, spec: PackageSpec): void {
 export function resolveOptions(tree: Tree, options: LibraryGeneratorSchema): Resolved {
   const { kind } = options;
   if (isPackageKind(kind)) {
-    const spec = resolvePackage(tree, kind, options);
+    const spec = resolvePackage(kind, options);
     assertNoRootExport(tree, spec);
     return { type: 'package', spec };
   }

@@ -85,8 +85,8 @@ function createDepConstraints({ test, tooling = false }) {
     })),
     // type:test (conformance): shared, machines (spec only), cdk/testing; no framework package
     { sourceTag: 'type:test', onlyDependOnLibsWithTags: ['layer:shared', 'layer:machine', 'layer:cdk'] },
-    // type:tool (private repo tooling with layer:tool): shared and other tooling; workspace: nothing internal.
-    { sourceTag: 'type:tool', onlyDependOnLibsWithTags: ['layer:shared', 'layer:tool'] },
+    // type:tool (the workspace plugin, the only tool project): no package of the library, only other tooling.
+    { sourceTag: 'type:tool', onlyDependOnLibsWithTags: ['type:tool'] },
     // Scope rules: shared never reaches a framework; a framework project reaches itself and shared.
     // Test files of scope:shared projects may reach the framework packages.
     {

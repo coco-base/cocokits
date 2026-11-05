@@ -18,16 +18,12 @@ export interface PackageSpec {
   /** Extends tsconfig.strict.json (layers utils, shared, cdk, machine, fw-core). */
   readonly strict: boolean;
   readonly description: string;
-  /** The package has a `.` export ; a private package has only its tsconfig path. */
+  /** The package has a "." export. */
   readonly rootEntry: boolean;
   /** Theme core: CSS asset exports and the interim sass build. */
   readonly css: boolean;
   /** Other packages live in subfolders of this project (packages/<fw>/core). */
   readonly nested: boolean;
-  /** The `type:*` tag: `lib` for a package, `tool` for a private tool (no build, no exports). */
-  readonly type: 'lib' | 'tool';
-  /** The package is never published: no `exports`, no changeset group, no size entry. */
-  readonly private: boolean;
 }
 
 export interface PackageInput {
@@ -37,7 +33,7 @@ export interface PackageInput {
 }
 
 type Parts = Pick<PackageSpec, 'projectName' | 'root' | 'layer' | 'scope' | 'description'> &
-  Partial<Pick<PackageSpec, 'builder' | 'shape' | 'strict' | 'css' | 'nested' | 'rootEntry' | 'type' | 'private'>>;
+  Partial<Pick<PackageSpec, 'shape' | 'strict' | 'css' | 'nested'>>;
 
 const SHARED_LIBS: Record<string, string> = {
   utils: 'Stateless helpers used by every other layer.',
@@ -89,28 +85,10 @@ function frameworkParts(kind: PackageKind, { framework, theme }: PackageInput): 
   }
 }
 
-/** A tool is private repo tooling: it writes `layer:tool` and may import `shared`. */
-function toolParts(name: string): Parts {
-  return {
-    projectName: name,
-    root: `tools/${name}`,
-    layer: 'layer:tool',
-    scope: 'scope:shared',
-    description: 'Private tooling, run by Nx from source.',
-    builder: 'none',
-    strict: true,
-    rootEntry: false,
-    type: 'tool',
-    private: true,
-  };
-}
-
 function partsFor(kind: PackageKind, input: PackageInput): Parts {
   switch (kind) {
     case 'shared-lib':
       return sharedLibParts(input.name ?? '');
-    case 'tool':
-      return toolParts(input.name ?? '');
     case 'cdk':
       return {
         projectName: 'cdk',
@@ -157,8 +135,6 @@ export function buildPackageSpec(kind: PackageKind, input: PackageInput): Packag
     strict: false,
     css: false,
     nested: false,
-    type: 'lib',
-    private: false,
     rootEntry: shape === 'src-root',
     ...parts,
     shape,

@@ -1,7 +1,6 @@
 import { readJson, type Tree } from '@nx/devkit';
 import { frameworkHighVersions, type Compatibility } from './compat';
 import type { Framework } from './kinds';
-import { WORKSPACE_RANGE } from './package-json';
 import type { PackageSpec } from './spec';
 import { NX_FALLBACK_VERSION, TOOL_VERSIONS } from './versions';
 
@@ -33,9 +32,6 @@ function frameworkTooling(framework: Framework, compat: Compatibility, nxVersion
 /** Root devDependencies a kind needs to build and test (the next step installs them). */
 export function toolingFor(spec: PackageSpec, compat: Compatibility | undefined, nxVersion: string): Versions {
   const tooling: Versions = {};
-  // Nx finds the executors of a tool through the workspace link in the root package.json.
-  if (spec.kind === 'tool') return { [spec.packageName]: WORKSPACE_RANGE };
-  if (spec.private) return {};
   if (spec.builder === 'tsdown') Object.assign(tooling, pick('tsdown'));
   if (spec.css) Object.assign(tooling, pick('sass'));
   if (spec.kind === 'cdk') {

@@ -22,8 +22,6 @@ export function internalDependencyNames(spec: PackageSpec): string[] {
       return ['utils', 'shared', 'cdk'];
     case 'fw':
       return ['utils', 'shared', 'cdk', 'machines', `${spec.framework ?? ''}-core`];
-    case 'tool':
-      return ['shared'];
     default:
       return [];
   }
@@ -85,23 +83,8 @@ export interface PackageJsonContext {
   readonly offset: string;
 }
 
-/**
- * The package.json of a private tool: no `exports`, no `files`, no `publishConfig`, and no `type`, so Nx loads its
- * executors the way it loads those of `@cocokits/workspace`.
- */
-function buildToolPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
-  return {
-    name: spec.packageName,
-    version: '0.0.0',
-    private: true,
-    description: spec.description,
-    ...(Object.keys(context.internal).length > 0 ? { dependencies: sortKeys({ ...context.internal }) } : {}),
-  };
-}
-
 /** The package.json of a new package. Key order is fixed so reruns and reviews stay stable. */
 export function buildPackageJson(spec: PackageSpec, context: PackageJsonContext): Record<string, unknown> {
-  if (spec.type === 'tool') return buildToolPackageJson(spec, context);
   const dependencies: Record<string, string> = { ...context.internal };
   if (spec.kind === 'cdk') dependencies['alien-signals'] = `^${TOOL_VERSIONS['alien-signals']}`;
   const peers = peerDependencies(spec, context.compat);
