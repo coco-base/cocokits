@@ -1,10 +1,9 @@
 // @vitest-environment jsdom
-import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import type { ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Tooltip } from '../index';
-import { stubTopLayer, tooltipContent } from './fixtures';
+import { elapse, isOpen, setup, stubTopLayer, tooltipContent } from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -19,16 +18,8 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const setup = (): ReturnType<typeof userEvent.setup> =>
-  userEvent.setup({ delay: null, advanceTimers: (ms) => vi.advanceTimersByTime(ms) });
-const elapse = (ms: number): void => {
-  act(() => {
-    vi.advanceTimersByTime(ms);
-  });
-};
 const first = (): HTMLElement => screen.getByRole('button', { name: 'One' });
 const second = (): HTMLElement => screen.getByRole('button', { name: 'Two' });
-const isOpen = (): boolean => tooltipContent() !== null;
 
 function Two({ rootDelay }: { readonly rootDelay?: number }): ReactElement {
   return (
