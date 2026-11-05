@@ -9,6 +9,7 @@ import { SelectRoot } from './select-root';
 import { SelectSeparator } from './select-separator';
 import { SelectTrigger } from './select-trigger';
 import { SelectValue } from './select-value';
+import type { SelectPart, SelectRootComponent, SelectTriggerProps, SelectValueComponent } from './select.types';
 import type {
   SelectContentProps,
   SelectGroupProps,
@@ -17,12 +18,8 @@ import type {
   SelectItemIndicatorProps,
   SelectItemTextProps,
   SelectLabelProps,
-  SelectPart,
-  SelectRootComponent,
   SelectSeparatorProps,
-  SelectTriggerProps,
-  SelectValueComponent,
-} from './select.types';
+} from './select-parts.types';
 
 /** The shape of the {@link Select} namespace. */
 interface SelectNamespace {

@@ -1,7 +1,8 @@
 import { StrictMode, type ReactElement, type ReactNode } from 'react';
 import { vi } from 'vitest';
 import { Select } from '../index';
-import type { SelectContentProps, SelectItemProps, SelectRootProps, SelectTriggerProps } from '../select.types';
+import type { SelectRootProps, SelectTriggerProps } from '../select.types';
+import type { SelectContentProps, SelectItemProps } from '../select-parts.types';
 
 /**
  * jsdom has no top layer, no modal `dialog` and no `scrollIntoView`: emulate `:modal` (a dialog with

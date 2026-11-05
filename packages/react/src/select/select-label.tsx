@@ -4,7 +4,8 @@ import type { ReactElement } from 'react';
 import { toReactProps } from '@cocokits/react-core';
 import { renderElement } from '../internal/render-element';
 import { useSelectContext, useSelectGroup } from './select-context';
-import type { SelectLabelProps, SelectPart, SelectRenderProps } from './select.types';
+import type { SelectPart, SelectRenderProps } from './select.types';
+import type { SelectLabelProps } from './select-parts.types';
 import { useSelectPartProps } from './use-select-part';
 
 /** The attributes the machine owns; a consumer value can never replace them. */

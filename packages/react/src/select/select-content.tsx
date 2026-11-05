@@ -10,7 +10,8 @@ import { renderElement } from '../internal/render-element';
 import { usePositioningOptions } from '../internal/use-positioning-options';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { useSelectContext, type SelectContextValue } from './select-context';
-import type { SelectContentProps, SelectPart, SelectRenderProps } from './select.types';
+import type { SelectPart, SelectRenderProps } from './select.types';
+import type { SelectContentProps } from './select-parts.types';
 import { useSelectPartProps } from './use-select-part';
 
 /** The attributes the machine owns; a consumer value can never replace them. */
