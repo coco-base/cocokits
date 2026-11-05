@@ -38,6 +38,7 @@ export default {
   rules: {
     'type-enum': [2, 'always', TYPES],
     'scope-empty': [0],
+    'body-empty': [2, 'never'],
     'cocokits-scope-by-type': [2, 'always'],
     'cocokits-no-attribution': [2, 'always'],
   },

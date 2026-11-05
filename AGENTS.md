@@ -42,7 +42,7 @@ pnpm ci:local --title "<PR title>"              # the whole CI list, before a PR
 ## Commits and pull requests
 
 - A pull request changes at most 50 files and does one thing. Split larger work. Never push to `main`.
-- Commits and PR titles are conventional: `type(scope): subject` with the project name as scope (`fix(machines): ...`). `feat`, `fix`, `docs`, `perf`, `refactor` and `test` need a scope; `chore` has none. Body lines are at most 100 characters. No `Co-Authored-By` trailer and no tool attribution line (commitlint rejects them).
+- Commits and PR titles are conventional: `type(scope): subject` with the project name as scope (`fix(machines): ...`). `feat`, `fix`, `docs`, `perf`, `refactor` and `test` need a scope; `chore` has none. Every commit has a subject and a body; body lines are at most 100 characters. No `Co-Authored-By` trailer and no tool attribution line (commitlint rejects them).
 - No changesets until the 2.0.0 release; the first release is cut from the fixed version group in `.changeset/config.json`.
 - Never skip hooks (`--no-verify`).
 - A pull request states the commands you ran and their results. Never claim a check you did not run.

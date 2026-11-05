@@ -26,7 +26,7 @@ A layer imports only from layers to its left: `utils, shared ← cdk ← machine
 
 1. Open or pick an issue. For a new component or a public API change, describe the API and the reference library it follows (Angular Material and CDK, Radix UI and Base UI, Reka UI) before you write code. The maintainers agree on the API first.
 2. Search the repository for an existing solution before you add code, and keep the change as small as the requirement allows.
-3. Create packages and entry points with the generator, never by hand: `pnpm nx g @cocokits/workspace:library --help`.
+3. Create packages and entry points with the generator, never by hand: `pnpm nx g @cocokits/workspace:library <name> ...` (`--help` lists the options).
 4. Write tests with the change and TSDoc on every public symbol.
 5. Run the checks (below) and open the pull request.
 
@@ -52,7 +52,7 @@ Commit messages and pull request titles follow [Conventional Commits](https://ww
 
 - `type` is one of `feat`, `fix`, `docs`, `perf`, `refactor`, `test` or `chore`.
 - `scope` is the project the change is for, without the package prefix (`machines`, `angular/button`, `theme-cocokits`). It is required for every type except `chore`, which has none.
-- The summary is imperative, present tense, not capitalised, with no full stop. Body lines are at most 100 characters.
+- The summary is imperative, present tense, not capitalised, with no full stop. Every commit has a body (subject + body); body lines are at most 100 characters.
 - No `Co-Authored-By` trailer and no tool attribution line.
 - Mark a breaking change with a `BREAKING CHANGE:` footer that explains how to migrate.
 
