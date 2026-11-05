@@ -150,7 +150,7 @@ describe('library generator: size-limit.config.mjs separators', () => {
     tree.write('size-limit.config.mjs', 'export default [];\n');
     await generate(tree, { kind: 'shared-lib', name: 'utils' });
     expect(tree.read('size-limit.config.mjs', 'utf-8')).toBe(
-      "export default [\n  { name: '@cocokits/utils', path: 'packages/utils/dist/index.js' },\n];\n",
+      "export default [\n  { name: '@cocokits/utils', path: 'packages/utils/dist/index.js', limit: '2 kB' },\n];\n",
     );
   });
 });
@@ -161,7 +161,7 @@ describe('library generator: size-limit.config.mjs', () => {
     const custom = tree
       .read('size-limit.config.mjs', 'utf-8')
       ?.replace(
-        "path: 'packages/utils/dist/index.js' }",
+        "path: 'packages/utils/dist/index.js', limit: '2 kB' }",
         "path: 'packages/utils/dist/index.js', limit: '1 kB', brotli: true }",
       );
     expect(custom).toContain("limit: '1 kB'");
