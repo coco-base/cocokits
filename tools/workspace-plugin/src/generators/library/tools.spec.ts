@@ -95,7 +95,7 @@ describe('library generator: tool', () => {
     expect(vitest).toContain("name: 'sample-tool'");
     expect(vitest).toContain("'**/tmp/**'");
     expect(tree.read(`${root}/tests/placeholder.test.ts`, 'utf-8')).toContain("describe('@cocokits/sample-tool'");
-    expect(tree.read(`${root}/README.md`, 'utf-8')).toContain('`layer:tool`');
+    expect(tree.read(`${root}/README.md`, 'utf-8')).toContain('# @cocokits/sample-tool');
   });
 
   it('leaves an existing tool untouched on a rerun', async () => {

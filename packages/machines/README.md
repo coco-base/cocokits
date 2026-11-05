@@ -1,3 +1,5 @@
 # @cocokits/machines
 
-Framework-agnostic component behaviour, one subpath per component. Layer: `layer:machine`, scope: `scope:shared` ([tags and boundaries](../../docs/style-guides/workspace/nx-tags-and-boundaries.md)).
+Framework-agnostic component behaviour, one subpath per component.
+
+Internal package: it comes in as a dependency of the component packages; applications do not import it directly.

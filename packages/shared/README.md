@@ -1,3 +1,5 @@
 # @cocokits/shared
 
-Shared contracts: anatomy, meta, theme and mode types. Layer: `layer:shared`, scope: `scope:shared` ([tags and boundaries](../../docs/style-guides/workspace/nx-tags-and-boundaries.md)).
+Shared contracts: anatomy, meta, theme and mode types.
+
+Internal package: it comes in as a dependency of the component packages; applications do not import it directly.

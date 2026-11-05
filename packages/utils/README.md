@@ -1,3 +1,5 @@
 # @cocokits/utils
 
-Stateless helpers used by every other layer. Layer: `layer:utils`, scope: `scope:shared` ([tags and boundaries](../../docs/style-guides/workspace/nx-tags-and-boundaries.md)).
+Stateless helpers used by every other layer.
+
+Internal package: it comes in as a dependency of the component packages; applications do not import it directly.

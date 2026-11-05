@@ -1,3 +1,10 @@
 # <%= packageName %>
 
-<%= description %> Layer: `<%= layer %>`, scope: `<%= scope %>` ([tags and boundaries](<%= offset %>docs/style-guides/workspace/nx-tags-and-boundaries.md)).
+<%= description %>
+<% if (type !== 'tool') { %>
+## Install
+
+```bash
+npm install <%= packageName %>
+```
+<% } %>

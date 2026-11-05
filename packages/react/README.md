@@ -1,3 +1,9 @@
 # @cocokits/react
 
-Unstyled React components, one subpath per component. Layer: `layer:fw-component`, scope: `scope:react` ([tags and boundaries](../../docs/style-guides/workspace/nx-tags-and-boundaries.md)).
+Unstyled React components, one subpath per component.
+
+## Install
+
+```bash
+npm install @cocokits/react
+```
