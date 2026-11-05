@@ -186,7 +186,7 @@ describe('Select opening', () => {
     await user.click(trigger());
     expect(screen.queryByRole('listbox')).toBeNull();
     rerender(<Example disabled />);
-    expect((trigger() as HTMLButtonElement).disabled).toBe(true);
+    expect(trigger().disabled).toBe(true);
     expect(trigger().closest(`.${classes.root}`)?.hasAttribute('data-disabled')).toBe(true);
     await user.click(trigger());
     expect(screen.queryByRole('listbox')).toBeNull();
