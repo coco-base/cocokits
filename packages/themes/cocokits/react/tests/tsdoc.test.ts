@@ -8,7 +8,7 @@ const sourceDir = fileURLToPath(new URL('../src/', import.meta.url));
 
 describe('the TSDoc of the theme options', () => {
   // A theme option has a one-sentence summary only. Its default and its values live in the theme's `ThemeConfig`, so the
-  // layer does not restate them (docs/style-guides/docs/api-extraction.md, "TSDoc rules").
+  // layer does not restate them.
   it('has no @defaultValue in the layer source', () => {
     const files = readdirSync(sourceDir, { recursive: true, encoding: 'utf8' }).filter((name) =>
       /\.(ts|tsx|vue)$/.test(name),

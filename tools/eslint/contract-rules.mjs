@@ -1,16 +1,17 @@
 /**
- * Lint form of two Angular rules: no `cck-` class string literal (architecture §10) and no manual `addEventListener` or
- * `removeEventListener` (docs/style-guides/angular/host-bindings-and-data-attrs.md).
+ * Lint form of two Angular rules: no `cck-` class string literal and no manual `addEventListener` or
+ * `removeEventListener`.
  *
- * Covers the Angular packages, and the Angular theme layers (ANGULAR_FILES), tests included. Exceptions:
- * docs/style-guides/workspace/targets.md#lint-exceptions.
+ * Covers the Angular packages, and the Angular theme layers (ANGULAR_FILES), tests included. Exceptions are
+ * entries in `tools/eslint/exceptions.mjs`.
  * Not covered: templates (`.html` files and inline templates), `Renderer2.listen`, `@HostListener`; review owns them.
  */
 const ANGULAR_FILES = ['packages/angular/**/*.ts', 'packages/themes/*/angular/**/*.ts'];
 
-const CLASS_LITERAL_MESSAGE = 'Typed "cck-" class string. Rule: docs/architecture.md section 10 item 3.';
+const CLASS_LITERAL_MESSAGE =
+  'Typed "cck-" class string. Bind the class the machine returns; never restate it as a literal.';
 const LISTENER_MESSAGE =
-  'Manual event listener. Rule: docs/style-guides/angular/host-bindings-and-data-attrs.md. Exceptions: docs/style-guides/workspace/targets.md#lint-exceptions.';
+  'Manual event listener. Use a host binding or a template listener; a justified exception is an entry in tools/eslint/exceptions.mjs.';
 
 const CLASS_LITERAL_SELECTORS = [
   "Property[key.name='class'] > Literal[value=/^cck-/]",

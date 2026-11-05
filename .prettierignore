@@ -14,7 +14,6 @@ CHANGELOG.md
 size-limit.config.mjs
 
 # hand-written documentation
-docs/**
 /*.md
 **/src/styles/generated/
 **/src/generated/

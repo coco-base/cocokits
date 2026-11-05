@@ -1,7 +1,7 @@
 import nx from '@nx/eslint-plugin';
 
 /**
- * Executable form of docs/style-guides/workspace/nx-tags-and-boundaries.md (dependency table).
+ * Executable form of the dependency table: the tags of a project decide what it may import.
  * Tags: one layer:*, one scope:* (shared or a framework) and one type:* per project.
  * FRAMEWORKS lists the framework scopes that get their own constraints.
  */

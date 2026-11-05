@@ -253,7 +253,7 @@ describe('Input with reactive forms', () => {
 });
 
 describe('Input with template-driven forms', () => {
-  // A tripwire for docs/style-guides/angular/forms.md: Angular 22 does not apply the validator directives
+  // A tripwire for the documented limit: Angular 22 does not apply the validator directives
   // (`required`, `minlength`, ...) to a control it binds through the custom-control path, so the attribute
   // makes the Input `required` natively and in the field but not the `NgModel` invalid.
   it('shows the required attribute but does not get an invalid control from it', async () => {

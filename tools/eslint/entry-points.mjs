@@ -1,5 +1,5 @@
 /**
- * Entry-point rule (packages-and-entry-points.md), independent of module resolution: it works on the import
+ * Entry-point rule, independent of module resolution: it works on the import
  * specifier, so it holds before a package has any entry point or tsconfig path.
  *  - No root import of the packages without a root entry (cdk, machines, angular, react, vue).
  *  - No deep import beyond the listed subpaths: `@cocokits/<pkg>/src/...`, `@cocokits/cdk/<module>/...`,

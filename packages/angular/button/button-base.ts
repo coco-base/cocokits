@@ -5,7 +5,7 @@ import { buttonAnatomy, getButtonProps } from '@cocokits/machines/button';
 /**
  * Shared base of `CckButton` and `CckButtonAnchor`; it is not exported from the entry point and
  * only exists so the two directives share code. It binds the root class from the machine props
- * (`[class]`, not `host.class`) and registers the click guard as a capture-phase listener (guide row "Guard that stops other listeners").
+ * (`[class]`, not `host.class`) and registers the click guard as a capture-phase listener.
  */
 @Directive({
   host: {
@@ -34,8 +34,8 @@ export abstract class CckButtonBase {
     themeAttrs(buttonAnatomy); // applies the root part's theme attributes to the host
 
     // Not a host `(click)`: only a capture-phase listener runs before the consumer's handlers and RouterLink.
-    // Full reason: row "Guard that stops other listeners" in
-    // docs/style-guides/angular/host-bindings-and-data-attrs.md#exceptions.
+    // A `host` listener cannot stop the others (they are one DOM listener) and `host` has no capture phase, so the
+    // guard that stops the other listeners of a disabled link is a capture listener.
     listenFirst(host, 'click', (event) => {
       this.props().onClick?.(event);
     });

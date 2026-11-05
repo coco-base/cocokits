@@ -121,7 +121,7 @@ function verifyAngularDist(target) {
 }
 
 /**
- * One real cross-package import per allowed edge of nx-tags-and-boundaries.md. Every module exports a marker string
+ * One real cross-package import per allowed edge of the dependency table. Every module exports a marker string
  * (explicit type for isolatedDeclarations) and re-exports the markers of the packages it imports. `dist` is the
  * build output folder (relative to the workspace); `imports` must stay bare specifiers in it, and no marker of an
  * imported package may be inlined.

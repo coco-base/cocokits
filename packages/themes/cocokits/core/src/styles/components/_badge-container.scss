@@ -1,7 +1,7 @@
 // BadgeContainer rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // The container owns the position: it places its direct child `.cck-badge` on a corner (the anatomy
 // the selectors rely on). --cck-badge-container-radius, --cck-badge-offset-x and --cck-badge-offset-y
-// are documented custom properties (docs/css.md): the author sets them, the rules read them with a
+// are documented custom properties: the author sets them, the rules read them with a
 // 0px fallback, and no token defines them. The offset adds to the corner; the inline offset is
 // mirrored in RTL like the corner.
 $radius-inset: calc(0.2929 * var(--cck-badge-container-radius, 0px));

@@ -379,8 +379,8 @@ function compareComponent(component: string, docs: readonly ApiDocJson[], result
 }
 
 /**
- * Compares the `ApiDoc` files of one or more components across frameworks, by semantic id. Which differences fail
- * and which are only reported: `docs/style-guides/docs/api-extraction.md`, Pipeline.
+ * Compares the `ApiDoc` files of one or more components across frameworks, by semantic id. A part or a member that exists
+ * in one framework only, and a `required` or `default` difference, fail; a type difference is only reported.
  */
 export function compareApiDocs(docs: readonly ApiDocJson[]): ParityResult {
   const result: ParityResult = { failures: [], reports: [] };

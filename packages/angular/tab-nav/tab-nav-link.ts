@@ -83,7 +83,7 @@ export class CckTabNavLink implements CckTabNavRegistration, OnInit {
     bindAttrs(this._element, () => this.root._theme().link);
 
     // Not a host `(click)`: only a capture-phase listener runs before the consumer's handlers and RouterLink.
-    // Same reason as the Button's guard (host-bindings-and-data-attrs.md#exceptions).
+    // Same reason as the Button's guard: a `host` listener cannot stop the others.
     listenFirst(this._element, 'click', (event) => {
       this.props().onClick?.(event);
     });

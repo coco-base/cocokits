@@ -1,6 +1,6 @@
 /**
  * The `data-*` names on every rendered element of each part, checked against the names the meta declares for it
- * (architecture §3: undeclared output fails a test).
+ * (an undeclared data attribute fails a test).
  *
  * @param classes - The anatomy class of each part.
  * @param declared - The `data-*` names the meta declares for each part.

@@ -9,7 +9,7 @@ const REPOSITORY_URL = 'https://github.com/coco-base/cocokits.git';
 
 export type ExportValue = string | { readonly types: string; readonly default: string };
 
-/** Optional peers of @cocokits/cdk, each imported by exactly one module (packages-and-entry-points.md). */
+/** Optional peers of @cocokits/cdk, each imported by exactly one module. */
 const CDK_OPTIONAL_PEERS = ['@floating-ui/dom', '@internationalized/date', '@internationalized/number'] as const;
 
 /** Internal packages a layer may import; only those that exist in the workspace are declared. */
@@ -59,7 +59,7 @@ export function sortExports(exportsMap: Record<string, ExportValue>): Record<str
   return Object.fromEntries(Object.entries(exportsMap).sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b)));
 }
 
-/** Theme core asset exports (packages-and-entry-points.md). */
+/** Theme core asset exports. */
 const CSS_EXPORTS: Record<string, string> = {
   './styles.css': './dist/styles.css',
   './tokens.css': './dist/tokens.css',

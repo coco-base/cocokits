@@ -181,7 +181,7 @@ export function buildTsconfigs(spec: PackageSpec, offset: string): Record<string
   if (spec.builder === 'tsdown' && !spec.strict) {
     Object.assign(options, { declaration: true, isolatedDeclarations: true });
   }
-  // utils-guide: no DOM types in generic utils (its `dom/` and `env/` folders opt in later).
+  // No DOM types in generic utils (its `dom/` and `env/` folders opt in later).
   if (spec.projectName === 'utils') options['lib'] = ['ES2023'];
   const lib: Record<string, unknown> = {
     extends: './tsconfig.json',

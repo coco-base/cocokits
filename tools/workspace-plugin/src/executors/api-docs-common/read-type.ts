@@ -10,7 +10,7 @@ const WRAPPERS = new Set([
 
 /**
  * Splits generic arguments at the commas that are not inside brackets, parentheses, braces or quotes. The workspace
- * project imports nothing internal, so it keeps its own scan (architecture §10, one exception).
+ * project imports nothing internal, so it keeps its own scan.
  */
 function topLevelArguments(text: string): string[] {
   const parts: string[] = [];

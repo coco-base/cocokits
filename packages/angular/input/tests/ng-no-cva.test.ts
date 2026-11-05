@@ -21,7 +21,7 @@ const required = (Validators as unknown as { required: ValidatorFn }).required;
 /**
  * The static host attribute `ngNoCva` makes `@angular/forms` bind a
  * `FormValueControl` on a native `input` through the custom-control path in reactive and template-driven
- * forms, with no ControlValueAccessor (docs/why/forms.md). A release of Angular that changes this fails here.
+ * forms, with no ControlValueAccessor. A release of Angular that changes this fails here.
  *
  * The control is the smallest `FormValueControl` that declares the state inputs, so the test is about
  * Angular's mechanism and not about the Input.

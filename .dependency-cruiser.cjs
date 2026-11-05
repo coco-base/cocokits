@@ -1,5 +1,5 @@
 /**
- * Config of the `cycles` target (dependency-cruiser): docs/style-guides/workspace/nx-tags-and-boundaries.md#rules.
+ * Config of the `cycles` target (dependency-cruiser): a layer imports only from the layers to its left, and the tags of the project decide the rest.
  * Run from the repository root: `depcruise <projectRoot> --config .dependency-cruiser.cjs`.
  *
  * Rules:

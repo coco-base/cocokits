@@ -11,14 +11,14 @@ const sources = readdirSync(componentsDir)
   .filter((file) => file.endsWith('.scss'))
   .map((file) => ({ file, block: basename(file, '.scss').replace(/^_/, '') }));
 const tokensCss = readThemeFile('dist', 'tokens.css');
-/** Documented custom properties the author sets (docs/css.md): the theme reads them and defines no token. */
+/** Documented custom properties the author sets: the theme reads them and defines no token. */
 const INLINE_PROPERTIES = [
   '--cck-badge-container-radius',
   '--cck-badge-offset-x',
   '--cck-badge-offset-y',
   '--cck-textarea-min-rows',
   '--cck-textarea-max-rows',
-  // Written by the base on the Tabs indicator: measured geometry, not a token (architecture §4).
+  // Written by the base on the Tabs indicator: measured geometry, not a token.
   '--active-tab-left',
   '--active-tab-top',
   '--active-tab-width',
@@ -37,7 +37,7 @@ const INLINE_PROPERTIES = [
   '--transform-origin',
   '--cck-select-slide-x',
   '--cck-select-slide-y',
-  // Documented custom property (docs/css.md): the author sets it, the theme reads it with a 220px fallback.
+  // Documented custom property: the author sets it, the theme reads it with a 220px fallback.
   '--cck-select-content-max-height',
   // Written by the base on the Accordion content: measured geometry, not a token (architecture �4).
   '--accordion-content-height',

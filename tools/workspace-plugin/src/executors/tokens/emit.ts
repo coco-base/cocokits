@@ -7,7 +7,7 @@ const NO_ROOT = 'Theme / Active Color';
 /**
  * The class prefix of a component root (`cck-button`). It restates `CCK_PREFIX`, which
  * `packages/shared/src/prefix.ts` owns: the workspace plugin depends on nothing internal
- * (dependency table in `docs/style-guides/workspace/nx-tags-and-boundaries.md`), so it cannot import it.
+ * (the `workspace` project imports no other project), so it cannot import it.
  */
 const CLASS_PREFIX = 'cck';
 const UNITS = ['px', 'rem', 'em', '%', 'unitless'];

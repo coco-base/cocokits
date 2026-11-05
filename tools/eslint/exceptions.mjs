@@ -1,5 +1,6 @@
 /**
- * Every lint exception of the repo: docs/style-guides/workspace/targets.md#lint-exceptions.
+ * Every lint exception of the repo. An exception is never a disable comment: it is an entry here with its files, the
+ * rules it turns off and a one-line reason.
  * Listed last in eslint.config.mjs, so an entry wins over the rule it turns off.
  */
 const EXCEPTIONS = [
