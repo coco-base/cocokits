@@ -18,7 +18,7 @@ export interface PackageSpec {
   /** Extends tsconfig.strict.json (layers utils, shared, cdk, machine, fw-core). */
   readonly strict: boolean;
   readonly description: string;
-  /** The package has a `.` export ; a private package has only its tsconfig path. */
+  /** The package has a "." export. */
   readonly rootEntry: boolean;
   /** Theme core: CSS asset exports and the interim sass build. */
   readonly css: boolean;
@@ -33,7 +33,7 @@ export interface PackageInput {
 }
 
 type Parts = Pick<PackageSpec, 'projectName' | 'root' | 'layer' | 'scope' | 'description'> &
-  Partial<Pick<PackageSpec, 'builder' | 'shape' | 'strict' | 'css' | 'nested' | 'rootEntry'>>;
+  Partial<Pick<PackageSpec, 'shape' | 'strict' | 'css' | 'nested'>>;
 
 const SHARED_LIBS: Record<string, string> = {
   utils: 'Stateless helpers used by every other layer.',
