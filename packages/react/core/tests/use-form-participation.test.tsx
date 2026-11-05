@@ -1,17 +1,12 @@
 // @vitest-environment jsdom
 import { renderToString } from 'react-dom/server';
 import { act, cleanup, render } from '@testing-library/react';
-import { StrictMode, useEffect, useRef, type ReactElement } from 'react';
+import { useEffect, useRef, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { useFormParticipation, type FormParticipationBinding } from '../src/index';
-
-function must<T>(value: T | null | undefined): T {
-  if (value === null || value === undefined) throw new Error('Expected the element to exist.');
-  return value;
-}
+import { must, nextTask, wrappers } from './helpers';
 
 let latest: FormParticipationBinding | undefined;
-const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 interface ProbeProps {
   readonly model: string;
@@ -56,11 +51,6 @@ afterEach(() => {
   cleanup();
   latest = undefined;
 });
-
-const wrappers = [
-  { name: 'plain', wrap: (node: ReactElement) => node },
-  { name: 'StrictMode', wrap: (node: ReactElement) => <StrictMode>{node}</StrictMode> },
-];
 
 describe.each(wrappers)('useFormParticipation ($name)', ({ wrap }) => {
   it('starts false and follows the fieldset', async () => {

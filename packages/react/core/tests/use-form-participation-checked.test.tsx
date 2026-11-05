@@ -1,16 +1,11 @@
 // @vitest-environment jsdom
 import { act, cleanup, render } from '@testing-library/react';
-import { StrictMode, useEffect, useRef, type ReactElement } from 'react';
+import { useEffect, useRef, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { useFormParticipation, type FormParticipationBinding } from '../src/index';
-
-function must<T>(value: T | null | undefined): T {
-  if (value === null || value === undefined) throw new Error('Expected the element to exist.');
-  return value;
-}
+import { must, nextTask, wrappers } from './helpers';
 
 let latest: FormParticipationBinding | undefined;
-const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 interface RadioProps {
   readonly name: string;
@@ -36,11 +31,6 @@ afterEach(() => {
   cleanup();
   latest = undefined;
 });
-
-const wrappers = [
-  { name: 'plain', wrap: (node: ReactElement) => node },
-  { name: 'StrictMode', wrap: (node: ReactElement) => <StrictMode>{node}</StrictMode> },
-];
 
 describe.each(wrappers)('useFormParticipation in checked mode ($name)', ({ wrap }) => {
   it('syncValue writes the latest checked state', () => {
