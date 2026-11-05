@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { createRef, StrictMode, useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover } from '../index';
-import { Example, nextFrame, stubTopLayer } from './fixtures';
+import { button, Example, nextFrame, stubTopLayer, trigger } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -14,10 +14,8 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 const content = (): HTMLElement | null => screen.queryByRole('dialog');
 const isOpen = (): boolean => content() !== null;
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 const reasons = (fn: ReturnType<typeof vi.fn>): unknown[] =>
   fn.mock.calls.map((call: unknown[]) => [call[0], (call[1] as { reason: string }).reason]);
 

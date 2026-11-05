@@ -5,7 +5,7 @@ import { useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { OverlayPositionOptions } from '@cocokits/cdk/positioning';
 import { Popover } from '../index';
-import { nextFrame, stubTopLayer } from './fixtures';
+import { nextFrame, stubTopLayer, trigger } from './fixtures';
 
 const { starts, scrollLocks } = vi.hoisted(() => ({
   starts: [] as OverlayPositionOptions[],
@@ -49,7 +49,6 @@ const last = (): OverlayPositionOptions => {
   if (start === undefined) throw new Error('positioning was not started');
   return start;
 };
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 const scrollLocked = (): boolean => scrollLocks.locked > scrollLocks.unlocked;
 
 describe('Popover.Arrow', () => {

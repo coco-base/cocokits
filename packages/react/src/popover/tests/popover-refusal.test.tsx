@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { StrictMode, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover, type PopoverContentProps, type PopoverRootProps } from '../index';
-import { nextFrame, stubTopLayer } from './fixtures';
+import { button, nextFrame, stubTopLayer } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -14,7 +14,6 @@ afterEach(() => {
 });
 
 const popover = (): HTMLElement | null => screen.queryByRole('dialog');
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 
 function Refusable({ root, ...handlers }: PopoverContentProps & { readonly root?: PopoverRootProps }): ReactElement {
   return (

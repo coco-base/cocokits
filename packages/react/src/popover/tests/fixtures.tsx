@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { StrictMode, type ReactElement } from 'react';
 import { vi } from 'vitest';
 import { Popover } from '../index';
@@ -51,3 +52,9 @@ export const nextFrame = (): Promise<void> =>
       resolve();
     }),
   );
+
+/** The button that triggers the popover. */
+export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
+
+/** The button with the accessible name. */
+export const button = (name: string): HTMLElement => screen.getByRole('button', { name });

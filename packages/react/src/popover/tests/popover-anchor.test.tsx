@@ -5,7 +5,7 @@ import { createRef, useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { OverlayPositionOptions, OverlayVirtualAnchor } from '@cocokits/cdk/positioning';
 import { Popover } from '../index';
-import { stubTopLayer } from './fixtures';
+import { stubTopLayer, trigger } from './fixtures';
 
 const { starts } = vi.hoisted(() => ({ starts: [] as Record<string, unknown>[] }));
 
@@ -35,7 +35,6 @@ const last = (): Record<string, unknown> => {
   if (start === undefined) throw new Error('positioning was not started');
   return start;
 };
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 
 describe('Popover.Anchor', () => {
   it('places the content against the anchor, and against the trigger without one', async () => {
