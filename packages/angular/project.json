@@ -17,9 +17,10 @@
     "build": {
       "executor": "nx:run-commands",
       "dependsOn": ["^build", "package"],
+      "inputs": ["production", "^production", "{workspaceRoot}/tools/scripts/finalize-ng-package.mjs"],
       "outputs": ["{workspaceRoot}/dist/packages/angular"],
       "options": {
-        "command": "node scripts/strip-root-export.mjs",
+        "command": "node ../../tools/scripts/finalize-ng-package.mjs --strip-root",
         "cwd": "{projectRoot}"
       }
     },

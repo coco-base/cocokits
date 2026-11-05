@@ -31,12 +31,9 @@ function commandTarget(commands: string[]): Target {
   };
 }
 
-/** The Vue build runs a workspace script, so a change of the script rebuilds the package. */
-function withScriptInput(target: Target): Target {
-  return {
-    ...target,
-    inputs: ['production', '^production', '{workspaceRoot}/tools/scripts/fix-declaration-imports.mjs'],
-  };
+/** A build that runs a workspace script rebuilds the package when the script changes. */
+function withScriptInput(target: Target, script: string): Target {
+  return { ...target, inputs: ['production', '^production', `{workspaceRoot}/tools/scripts/${script}`] };
 }
 
 /** Angular packages without a root entry strip the primary entry that ng-packagr always builds. */
@@ -56,19 +53,19 @@ function packageTarget(spec: PackageSpec): Target {
 function buildTarget(spec: PackageSpec, offset: string): Target {
   switch (spec.builder) {
     case 'ng-packagr':
-      if (stripsRootExport(spec)) {
-        return {
+      // ng-packagr copies the source package.json; the script makes the output publishable as it is.
+      return withScriptInput(
+        {
           executor: 'nx:run-commands',
           dependsOn: ['^build', 'package'],
           outputs: [`{workspaceRoot}/dist/packages/${spec.projectName}`],
-          options: { command: 'node scripts/strip-root-export.mjs', cwd: '{projectRoot}' },
-        };
-      }
-      return {
-        executor: '@nx/angular:package',
-        outputs: [`{workspaceRoot}/dist/packages/${spec.projectName}`],
-        options: { project: `{projectRoot}/${ngPackageFile(spec)}`, tsConfig: '{projectRoot}/tsconfig.lib.json' },
-      };
+          options: {
+            command: `node ${offset}tools/scripts/finalize-ng-package.mjs${stripsRootExport(spec) ? ' --strip-root' : ''}`,
+            cwd: '{projectRoot}',
+          },
+        },
+        'finalize-ng-package.mjs',
+      );
     case 'vite-vue':
       return withScriptInput(
         commandTarget([
@@ -76,6 +73,7 @@ function buildTarget(spec: PackageSpec, offset: string): Target {
           'vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src',
           `node ${offset}tools/scripts/fix-declaration-imports.mjs dist`,
         ]),
+        'fix-declaration-imports.mjs',
       );
     default:
       return commandTarget(
@@ -100,7 +98,7 @@ const PUBLISH_CHECKS: Record<string, Target> = { pack: {}, publint: {}, attw: {}
 
 function targetsFor(spec: PackageSpec, offset: string): Record<string, Target> {
   return {
-    ...(stripsRootExport(spec) ? { package: packageTarget(spec) } : {}),
+    ...(spec.builder === 'ng-packagr' ? { package: packageTarget(spec) } : {}),
     ...(spec.type === 'tool' ? {} : { build: buildTarget(spec, offset) }),
     ...(spec.kind === 'theme-core' ? { 'docs-data': docsDataTarget() } : {}),
     typecheck: typecheckTarget(spec),
