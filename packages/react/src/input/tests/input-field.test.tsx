@@ -8,7 +8,7 @@ import { FormField, type FormFieldState } from '../../form-field';
 import { Hint } from '../../hint';
 import { Label } from '../../label';
 import { Input } from '../index';
-import { EmailField, nextFrame, strict } from './fixtures';
+import { control, EmailField, nextFrame, strict } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -16,7 +16,6 @@ afterEach(() => {
 });
 
 const field = (): HTMLElement => screen.getByTestId('field');
-const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 const label = (): HTMLElement => screen.getByText('Email', { exact: false });
 
 describe('Input in a FormField: ids, label and description', () => {

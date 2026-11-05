@@ -6,12 +6,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField } from '../../form-field';
 import { Label } from '../../label';
 import { Input } from '../index';
-import { must, nextTask, strict } from './fixtures';
+import { control, must, nextTask, strict } from './fixtures';
 
 afterEach(cleanup);
 
 const form = (): HTMLFormElement => must(document.querySelector('form'));
-const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 
 describe('Input in a native form', () => {
   it('puts the value in FormData under its name, and blocks checkValidity while required and empty', async () => {

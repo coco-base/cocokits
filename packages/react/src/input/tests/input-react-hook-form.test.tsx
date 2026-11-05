@@ -7,7 +7,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField } from '../../form-field';
 import { Label } from '../../label';
 import { Input } from '../index';
-import { nextTask, strict } from './fixtures';
+import { control, nextTask, strict } from './fixtures';
 
 afterEach(cleanup);
 
@@ -20,7 +20,6 @@ const current = (): UseFormReturn<Values> => {
   if (!api) throw new Error('The form has not rendered.');
   return api;
 };
-const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 
 function Registered({ onSubmit }: { readonly onSubmit?: (values: Values) => void }): ReactElement {
   const form = useForm<Values>({ defaultValues: { email: 'start@example.com' } });
