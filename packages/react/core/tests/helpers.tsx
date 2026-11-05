@@ -9,8 +9,13 @@ export function must<T>(value: T | null | undefined): T {
 /** Resolves after the next task. */
 export const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
+interface Wrapper {
+  readonly name: string;
+  readonly wrap: (node: ReactElement) => ReactElement;
+}
+
 /** The ways a test renders a node: as is, and inside StrictMode. */
-export const wrappers = [
-  { name: 'plain', wrap: (node: ReactElement) => node },
-  { name: 'StrictMode', wrap: (node: ReactElement) => <StrictMode>{node}</StrictMode> },
+export const wrappers: readonly Wrapper[] = [
+  { name: 'plain', wrap: (node) => node },
+  { name: 'StrictMode', wrap: (node) => <StrictMode>{node}</StrictMode> },
 ];
