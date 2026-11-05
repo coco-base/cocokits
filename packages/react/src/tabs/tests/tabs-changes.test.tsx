@@ -4,22 +4,12 @@ import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Tabs } from '../index';
+import { panelOf, selectedTabs, tab } from './fixtures';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
-const panelOf = (name: string): HTMLElement => {
-  const element = document.getElementById(tab(name).getAttribute('aria-controls') ?? '');
-  if (!element) throw new Error(`no panel for ${name}`);
-  return element;
-};
-const selectedTabs = (): string[] =>
-  screen
-    .getAllByRole('tab')
-    .flatMap((element) => (element.getAttribute('aria-selected') === 'true' ? [element.textContent] : []));
 
 describe('Tabs trigger changes', () => {
   function Lockable(): ReactElement {

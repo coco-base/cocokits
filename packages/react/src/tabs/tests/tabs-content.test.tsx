@@ -3,14 +3,12 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Tabs } from '../index';
-import { Example } from './fixtures';
+import { Example, tab } from './fixtures';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 
 describe('Tabs.Content', () => {
   it('renders its element always and its children only while selected', async () => {

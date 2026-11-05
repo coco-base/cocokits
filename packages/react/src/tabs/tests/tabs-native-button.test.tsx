@@ -1,17 +1,16 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { KeyboardEvent } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DirectionProvider } from '@cocokits/react-core';
 import { Tabs } from '../index';
+import { tab } from './fixtures';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 
 function Example({
   nativeButton,
