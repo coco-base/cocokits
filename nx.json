@@ -10,7 +10,11 @@
       "!{projectRoot}/tests/**",
       "!{projectRoot}/src/generated/**/*"
     ],
-    "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/compatibility.json"],
+    "sharedGlobals": [
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/compatibility.json",
+      "{workspaceRoot}/LICENSE"
+    ],
     "executors": [
       "{workspaceRoot}/tools/workspace-plugin/executors.json",
       "{workspaceRoot}/tools/workspace-plugin/src/executors/**/*.ts",
