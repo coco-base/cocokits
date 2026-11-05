@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/vue';
-import { defineComponent, h, nextTick, ref, type Component, type VNode } from 'vue';
+import { h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Badge as BaseBadge } from '@cocokits/vue/badge';
 import { BadgeContainer } from '@cocokits/vue/badge-container';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Badge, type BadgeProps } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -14,13 +14,6 @@ afterEach(() => {
 });
 
 const { variant, color, size } = cocokitsThemeConfig.components.badge;
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 
 function mountBadge(props: Partial<BadgeProps> = {}): HTMLElement {
   render(themed(() => h(Badge, { 'data-testid': 'badge', ...props })));
