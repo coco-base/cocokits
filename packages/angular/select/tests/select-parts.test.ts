@@ -4,12 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CCK_SELECT_CONFIG, CckSelectImports, type CckSelectChange } from '../index';
-import { activeName, gone, must, trigger } from './helpers';
+import { activeName, gone, must, nextTask, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const { classes } = selectAnatomy;
 const imports = [...CckSelectImports];
-const nextTask = (ms = 10): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe('Select parts', () => {
   beforeEach(() => {

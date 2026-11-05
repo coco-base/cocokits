@@ -19,3 +19,6 @@ export const gone = (): Promise<void> =>
 /** The text of the option the trigger points at with `aria-activedescendant`. */
 export const activeName = (): string =>
   document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
+
+/** Resolves after `ms` milliseconds. */
+export const nextTask = (ms = 10): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));

@@ -5,7 +5,7 @@ import { tooltipAnatomy } from '@cocokits/machines/tooltip';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CCK_TOOLTIP_DEFAULT_OPTIONS, CckTooltip, CckTooltipImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
-import { bubble } from './queries';
+import { bubble, closed, opened } from './queries';
 
 @Component({
   imports: [...CckTooltipImports],
@@ -49,16 +49,6 @@ describe('Tooltip one-attribute form', () => {
   const elapse = async (ms: number, fixture: { whenStable: () => Promise<unknown> }): Promise<void> => {
     vi.advanceTimersByTime(ms);
     await fixture.whenStable();
-  };
-  const opened = async (): Promise<void> => {
-    await waitFor(() => {
-      expect(bubble()).not.toBeNull();
-    });
-  };
-  const closed = async (): Promise<void> => {
-    await waitFor(() => {
-      expect(bubble()).toBeNull();
-    });
   };
 
   it('makes the host the trigger and renders the message in a content part in the overlay container', async () => {

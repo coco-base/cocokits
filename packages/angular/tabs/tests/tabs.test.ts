@@ -5,7 +5,7 @@ import { CckDir } from '@cocokits/angular-core';
 import { tabsAnatomy, tabsMeta } from '@cocokits/machines/tabs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckTabsImports, type CckTabChangeEvent } from '../index';
-import { tab } from './queries';
+import { labels, tab } from './queries';
 
 const imports = [...CckTabsImports, CckDir];
 const { classes } = tabsAnatomy;
@@ -48,7 +48,6 @@ const panel = (name: string): HTMLElement => {
   if (!element) throw new Error(`no panel for ${name}`);
   return element;
 };
-const labels = (): (string | null)[] => screen.getAllByRole('tab').map((element) => element.textContent.trim());
 
 afterEach(() => {
   vi.restoreAllMocks();

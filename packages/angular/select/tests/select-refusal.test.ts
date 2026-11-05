@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports, type CckSelectChange, type SelectOpenChangeDetails } from '../index';
-import { gone, must, trigger } from './helpers';
+import { gone, must, nextTask, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 @Component({
@@ -45,8 +45,6 @@ class Host {
     });
   }
 }
-
-const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 10));
 
 async function setup(): Promise<{
   host: Host;
