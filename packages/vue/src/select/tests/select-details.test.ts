@@ -2,7 +2,7 @@
 import userEvent from '@testing-library/user-event';
 import { cleanup, fireEvent, screen, waitFor } from '@testing-library/vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { item, mountView, must, record, selectRoot, settle, stubOverlayBrowser } from './fixtures';
+import { active, item, mountView, must, record, selectRoot, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(() => {
   stubOverlayBrowser();
@@ -13,10 +13,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select hidden input', () => {
   it('carries autocomplete off by default and the given autocomplete', () => {

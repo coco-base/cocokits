@@ -8,7 +8,21 @@ import { provideDirection } from '@cocokits/vue-core';
 import { DialogClose, DialogContent, DialogRoot, DialogTrigger } from '../../dialog';
 import { PopoverContent, PopoverRoot, PopoverTrigger } from '../../popover';
 import { SelectGroup, SelectLabel, SelectSeparator } from '../index';
-import { item, mountView, ObjectItem, record, selectRoot, selectView, settle, stubOverlayBrowser } from './fixtures';
+import {
+  active,
+  gone,
+  item,
+  mountView,
+  ObjectItem,
+  option,
+  record,
+  selectRoot,
+  selectView,
+  settle,
+  stubOverlayBrowser,
+  trigger,
+  valueText,
+} from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -21,16 +35,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select groups and separators', () => {
   it('groups items under a label, named by the label, with a separator between groups', async () => {

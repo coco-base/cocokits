@@ -7,7 +7,18 @@ import { selectAnatomy } from '@cocokits/machines/select';
 import { FormField } from '../../form-field';
 import { Hint } from '../../hint';
 import { Label } from '../../label';
-import { item, mountView, must, nextTask, selectRoot, settle, stubOverlayBrowser } from './fixtures';
+import {
+  gone,
+  item,
+  mountView,
+  must,
+  nextTask,
+  selectRoot,
+  settle,
+  stubOverlayBrowser,
+  trigger,
+  valueText,
+} from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -21,12 +32,6 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLButtonElement => screen.getByRole('combobox');
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 const options = (): ReturnType<typeof h>[] => [item('Cake'), item('Pizza')];
 const submitHandler = (): ReturnType<typeof vi.fn<(event: SubmitEvent) => void>> =>
   vi.fn((event: SubmitEvent) => {

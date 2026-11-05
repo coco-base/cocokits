@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
-import { cleanup, fireEvent, screen, waitFor } from '@testing-library/vue';
+import { cleanup, fireEvent, screen } from '@testing-library/vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { item, must, record, selectView, settle, stubOverlayBrowser } from './fixtures';
+import { gone, item, must, record, selectView, settle, stubOverlayBrowser, trigger } from './fixtures';
 import { mountView } from './fixtures';
 
 beforeEach(() => {
@@ -15,11 +15,6 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 const after = (): HTMLElement => must(document.getElementById('after'));
 const prevent = (event: Event): void => {
   event.preventDefault();
