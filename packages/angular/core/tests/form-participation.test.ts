@@ -2,11 +2,7 @@ import { Component, viewChild, signal, type ElementRef } from '@angular/core';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { injectFormParticipation } from '../src/index';
-
-function must<T>(value: T | null | undefined): T {
-  if (value === null || value === undefined) throw new Error('Expected the element to exist.');
-  return value;
-}
+import { must } from './queries';
 
 @Component({ selector: 'input[testParticipation]', template: '' })
 class TestInput {

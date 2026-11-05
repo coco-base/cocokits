@@ -14,6 +14,7 @@ import { bootstrapApplication, provideClientHydration } from '@angular/platform-
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckPortal } from '../src/index';
+import { must } from './queries';
 
 @Component({
   selector: 'app-root',
@@ -75,11 +76,6 @@ function bootstrapOnClient(hydrate: boolean): Promise<ApplicationRef> {
 /** Markup without the hydration bookkeeping Angular adds. */
 function normalized(root: Element): string {
   return root.innerHTML.replace(/\s+(?:ngh|jsaction)="[^"]*"/g, '').replace(/<!--[^>]*-->/g, '');
-}
-
-function must<T>(value: T | null): T {
-  if (value === null) throw new Error('expected a value');
-  return value;
 }
 
 describe('CckPortal hydration', () => {
