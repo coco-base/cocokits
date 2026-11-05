@@ -13,7 +13,7 @@ export function declarationsOf(css: string, selector: string): string | undefine
 }
 
 /** The compiled token stylesheet. */
-export const tokensCss = read('dist', 'tokens.css');
+export const tokensCss: string = read('dist', 'tokens.css');
 
 /** The selectors of every rule that names a CocoKits class. */
 export const selectorsOf = (css: string): string[] =>
