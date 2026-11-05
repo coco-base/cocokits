@@ -321,6 +321,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
 
   protected readonly hiddenStyle = visuallyHiddenStyleText;
   private readonly triggerRef = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly listbox = viewChild<TemplateRef<void>>('listbox');
+  private readonly hiddenInputs = viewChildren<ElementRef<HTMLInputElement>>('hidden');
 
   protected readonly participation = injectFormParticipation({
     element: () => this.triggerRef()?.nativeElement,
@@ -352,8 +354,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
     options: this._options,
     content: this._contentElement,
     trigger: this.triggerRef,
-    listbox: viewChild<TemplateRef<void>>('listbox'),
-    hiddenInputs: viewChildren<ElementRef<HTMLInputElement>>('hidden'),
+    listbox: this.listbox,
+    hiddenInputs: this.hiddenInputs,
     emitChange: (value, reason, event) => {
       this.selectionChange.emit({ source: this, value, reason, event });
     },
