@@ -1,10 +1,9 @@
 # <%= packageName %>
 
 <%= description %>
-<% if (type !== 'tool') { %>
+
 ## Install
 
 ```bash
 npm install <%= packageName %>
 ```
-<% } %>

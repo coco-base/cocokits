@@ -1,13 +1,4 @@
-export const PACKAGE_KINDS = [
-  'shared-lib',
-  'cdk',
-  'machines',
-  'fw-core',
-  'fw',
-  'theme-core',
-  'theme-fw',
-  'tool',
-] as const;
+export const PACKAGE_KINDS = ['shared-lib', 'cdk', 'machines', 'fw-core', 'fw', 'theme-core', 'theme-fw'] as const;
 export const ENTRY_KINDS = ['cdk-module', 'machine', 'fw-entry', 'angular-testing'] as const;
 export const KINDS = [...PACKAGE_KINDS, ...ENTRY_KINDS] as const;
 export const FRAMEWORKS = ['angular', 'react', 'vue'] as const;
@@ -15,8 +6,7 @@ export const FRAMEWORKS = ['angular', 'react', 'vue'] as const;
 export type PackageKind = (typeof PACKAGE_KINDS)[number];
 export type EntryKind = (typeof ENTRY_KINDS)[number];
 export type Framework = (typeof FRAMEWORKS)[number];
-/** `none`: nothing to build; the sources run as they are (a private tool). */
-export type Builder = 'tsdown' | 'ng-packagr' | 'vite-vue' | 'none';
+export type Builder = 'tsdown' | 'ng-packagr' | 'vite-vue';
 
 export const NAME_PATTERN = /^[a-z][a-z0-9-]*$/;
 

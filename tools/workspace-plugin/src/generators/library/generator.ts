@@ -20,10 +20,8 @@ function createPackage(tree: Tree, spec: PackageSpec): GeneratorCallback {
   scaffoldPackage(tree, spec, compat);
   const entries = rootEntryOf(spec);
   for (const entry of entries) addTsconfigPath(tree, entry);
-  if (!spec.private) {
-    addSizeEntries(tree, [...sizeEntriesOf(entries), ...(spec.css ? cssSizeEntries(spec) : [])]);
-    addToChangesetGroup(tree, spec.packageName);
-  }
+  addSizeEntries(tree, [...sizeEntriesOf(entries), ...(spec.css ? cssSizeEntries(spec) : [])]);
+  addToChangesetGroup(tree, spec.packageName);
   return addDependenciesToPackageJson(tree, {}, toolingFor(spec, compat, installedNxVersion(tree)));
 }
 

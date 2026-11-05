@@ -5,9 +5,6 @@
 // temporary directory (no node_modules, dist, .nx, .tmp, .git, packages, docs), generates every package kind
 // into an empty packages/ there, runs build, lint, typecheck and test, adds one entry point of every kind, runs the
 // targets again, checks that the built @cocokits/angular package.json has no "." export, and deletes the directory.
-// The tool kind is generated as `verify-tool`: it has no build, so lint, typecheck and test run on it, and its source
-// imports `@cocokits/shared` to prove the `type:tool` boundary. Real tool projects are not copied: they need the real
-// packages.
 import { execSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -29,15 +26,11 @@ const SKIPPED = new Set([
   'size-limit.config.mjs',
 ]);
 
-/** Folders of `tools/` the copy needs; any other folder is a real tool project, which needs the real packages. */
-const KEPT_TOOLS = new Set(['workspace-plugin', 'eslint', 'scripts']);
-
 const PACKAGES = [
   { kind: 'shared-lib', name: 'utils' },
   { kind: 'shared-lib', name: 'shared' },
   { kind: 'cdk' },
   { kind: 'machines' },
-  { kind: 'tool', name: 'verify-tool' },
   ...['angular', 'react', 'vue'].flatMap((framework) => [
     { kind: 'fw-core', framework },
     { kind: 'fw', framework },
@@ -61,8 +54,7 @@ function copyWorkspace(target) {
     recursive: true,
     filter: (path) => {
       const parts = relative(source, path).split(sep);
-      const projectTool = parts[0] === 'tools' && parts.length > 1 && !KEPT_TOOLS.has(parts[1] ?? '');
-      return !(SKIPPED.has(parts[0]) || projectTool || parts.includes('node_modules'));
+      return !(SKIPPED.has(parts[0]) || parts.includes('node_modules'));
     },
   });
 }
@@ -178,8 +170,6 @@ const WIRED = [
     imports: ['@cocokits/shared'],
     dist: 'packages/themes/verify/core/dist',
   },
-  // A tool has no build output, so only its source is wired: lint proves `type:tool` may import `shared`.
-  { name: 'tool', file: 'tools/verify-tool/src/placeholder.ts', imports: ['@cocokits/shared'], dist: undefined },
   ...['angular', 'react', 'vue'].map((fw) => ({
     name: `theme-${fw}`,
     file: `packages/themes/verify/${fw}/src/index.ts`,
@@ -209,7 +199,7 @@ function builtFiles(directory) {
 function verifyExternalImports(target) {
   const byFile = new Map(WIRED.map((wired) => [wired.name, wired]));
   for (const { name, imports, dist } of WIRED) {
-    if (imports.length === 0 || dist === undefined) continue;
+    if (imports.length === 0) continue;
     const files = builtFiles(join(target, dist));
     const code = files.map((file) => readFileSync(file, 'utf8')).join('\n');
     if (!code.includes(marker(name))) throw new Error(`${dist}: built output of ${name} not found`);
