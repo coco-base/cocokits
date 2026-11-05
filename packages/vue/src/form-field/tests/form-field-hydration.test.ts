@@ -2,19 +2,12 @@
 import { createSSRApp, h, type App } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { defineThemeConfig } from '@cocokits/shared';
 import { ThemeProvider } from '@cocokits/vue-core';
 import { Hint } from '../../hint';
 import { Label } from '../../label';
 import { FormField } from '../index';
 import { view } from '../../internal/tests/mount-helpers';
-
-const themeConfig = defineThemeConfig({
-  name: 'test',
-  components: {
-    'form-field': { tone: { attrName: 'tone', values: ['plain'], default: 'plain', partNames: ['root'] } },
-  },
-});
+import { formFieldThemeConfig as themeConfig } from './fixtures';
 
 let app: App | undefined;
 
