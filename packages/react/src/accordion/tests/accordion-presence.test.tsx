@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Accordion } from '../index';
-import { cssAnimation, Example } from './fixtures';
+import { cssAnimation, Example, region, trigger } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -13,9 +13,6 @@ afterEach(() => {
   Reflect.deleteProperty(HTMLElement.prototype, 'scrollHeight');
   Reflect.deleteProperty(HTMLElement.prototype, 'scrollWidth');
 });
-
-const trigger = (name: string): HTMLElement => screen.getByRole('button', { name });
-const region = (name: string): HTMLElement | null => screen.queryByRole('region', { name });
 
 describe('Accordion closed content', () => {
   it('does not render closed content and renders it when the item opens', async () => {

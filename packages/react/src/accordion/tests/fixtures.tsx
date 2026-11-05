@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { StrictMode, type ReactElement } from 'react';
 import {
   Accordion,
@@ -64,3 +65,16 @@ export function cssAnimation(finished: Promise<unknown>): Animation {
     effect: { getComputedTiming: () => ({ endTime: 300 }) },
   } as unknown as Animation;
 }
+
+/** The trigger button with the accessible name. */
+export const trigger = (name: string): HTMLElement => screen.getByRole('button', { name });
+
+/** The region of the item with the accessible name, or null while its content is not rendered. */
+export const region = (name: string): HTMLElement | null => screen.queryByRole('region', { name });
+
+/** Whether the item with the accessible name is expanded. */
+export const isOpen = (name: string): boolean => trigger(name).getAttribute('aria-expanded') === 'true';
+
+/** The names of the expanded items. */
+export const openNames = (): string[] =>
+  ['Shipping', 'Returns', 'Warranty'].filter((name) => trigger(name).getAttribute('aria-expanded') === 'true');

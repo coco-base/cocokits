@@ -5,7 +5,7 @@ import { StrictMode, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DirectionProvider } from '@cocokits/react-core';
 import { Accordion } from '../index';
-import { Example } from './fixtures';
+import { Example, isOpen, openNames, trigger } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -14,11 +14,6 @@ afterEach(() => {
   Reflect.deleteProperty(HTMLElement.prototype, 'scrollHeight');
   Reflect.deleteProperty(HTMLElement.prototype, 'scrollWidth');
 });
-
-const trigger = (name: string): HTMLElement => screen.getByRole('button', { name });
-const isOpen = (name: string): boolean => trigger(name).getAttribute('aria-expanded') === 'true';
-const openNames = (): string[] =>
-  ['Shipping', 'Returns', 'Warranty'].filter((name) => trigger(name).getAttribute('aria-expanded') === 'true');
 
 describe('Accordion keyboard', () => {
   it('moves with ArrowDown and ArrowUp between the enabled triggers, wrapping, and never toggles', async () => {
