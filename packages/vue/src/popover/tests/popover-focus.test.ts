@@ -4,7 +4,7 @@ import { cleanup, screen } from '@testing-library/vue';
 import { h } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PopoverClose } from '../index';
-import { byId, mountView, popoverView, settle, stubOverlayBrowser } from './fixtures';
+import { byId, dialog, mountView, open, popoverView, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -13,14 +13,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
-const dialog = (): HTMLElement | null => screen.queryByRole('dialog');
-
-async function open(): Promise<void> {
-  await userEvent.click(trigger());
-  await settle();
-}
 
 describe('Popover focus', () => {
   it('moves focus to the first focusable element of the content on open', async () => {

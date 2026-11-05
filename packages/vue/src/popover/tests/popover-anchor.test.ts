@@ -5,7 +5,7 @@ import { defineComponent, h, nextTick, ref, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as positioning from '@cocokits/cdk/positioning';
 import { PopoverAnchor, PopoverContent, PopoverRoot, PopoverTrigger } from '../index';
-import { mountView, settle, stubOverlayBrowser } from './fixtures';
+import { mountView, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@cocokits/cdk/positioning')>();
@@ -30,7 +30,6 @@ function lastOptions(): Options {
   if (!call) throw new Error('positioning was not started');
   return call[0];
 }
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 
 function view(options: {
   anchor?: () => VNode | VNode[] | null;

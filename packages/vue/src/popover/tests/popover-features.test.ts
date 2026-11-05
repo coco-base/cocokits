@@ -6,7 +6,7 @@ import { renderToString } from 'vue/server-renderer';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { startOverlayPosition, type OverlayPositionOptions } from '@cocokits/cdk/positioning';
 import { PopoverArrow, PopoverClose, PopoverContent, PopoverRoot, PopoverTrigger } from '../index';
-import { byId, mountView, popoverView, settle, stubOverlayBrowser } from './fixtures';
+import { byId, mountView, open, popoverView, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@cocokits/cdk/positioning')>();
@@ -27,17 +27,11 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 const lastOptions = (): OverlayPositionOptions => {
   const call = vi.mocked(startOverlayPosition).mock.calls.at(-1);
   if (!call) throw new Error('Positioning never started.');
   return call[0];
 };
-
-async function open(): Promise<void> {
-  await userEvent.click(trigger());
-  await settle();
-}
 
 describe('PopoverArrow', () => {
   const withArrow = (arrowProps: Record<string, unknown> = {}, arrowSlots?: Record<string, () => unknown>) =>

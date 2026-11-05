@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
-import { cleanup, screen } from '@testing-library/vue';
+import { cleanup } from '@testing-library/vue';
 import { h, withModifiers } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FocusOutsideEvent, PointerDownOutsideEvent } from '@cocokits/vue-core';
 import { PopoverContent, PopoverRoot } from '../index';
-import { byId, mountView, popoverView, settle, stubOverlayBrowser } from './fixtures';
+import { byId, dialog, mountView, open, popoverView, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -15,17 +15,9 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
-const dialog = (): HTMLElement | null => screen.queryByRole('dialog');
-
 /** A press that lands outside and moves no focus, so only the press is a cause. */
 function pressOutside(): void {
   byId('before').dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, cancelable: true, composed: true }));
-}
-
-async function open(): Promise<void> {
-  await userEvent.click(trigger());
-  await settle();
 }
 
 describe('Popover content: escapeKeyDown', () => {

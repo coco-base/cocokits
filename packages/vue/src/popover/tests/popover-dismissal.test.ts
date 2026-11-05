@@ -4,7 +4,7 @@ import { cleanup, render, screen } from '@testing-library/vue';
 import { h } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PopoverClose, PopoverContent, PopoverRoot, PopoverTrigger } from '../index';
-import { byId, mountView, popoverView, settle, stubOverlayBrowser, view } from './fixtures';
+import { byId, mountView, popoverView, settle, stubOverlayBrowser, trigger, view } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -13,8 +13,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 
 describe('Popover dismissal', () => {
   it('stays open on a press inside the content and closes on a press outside', async () => {
