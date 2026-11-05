@@ -1,21 +1,19 @@
 /**
- * File-size guardrail: no TS, TSX, JS, JSX, HTML, CSS, SCSS or Markdown file may exceed 500 lines of code.
+ * File-size guardrail: no TS, TSX, JS, JSX, HTML, CSS, SCSS or Markdown file may exceed 500 lines.
  *
- * "Lines of code" are the non-blank lines of the file. In TS/JS files comment-only lines are skipped as well; in HTML,
- * CSS, SCSS and Markdown every non-blank line counts, comments and code fences included.
+ * Every line counts: blank lines, comment lines and code fences included. Only generated files are ignored.
  *
  * ESLint needs a parser per file type. The text files get a tiny parser that returns an empty program, so the core
- * `max-lines` rule runs on them unchanged (no comments in an empty program, hence only blank lines are skipped). This
- * avoids a local rule and a dependency per language; @eslint/markdown and @eslint/css would add parsing of structures
- * this rule never reads.
+ * `max-lines` rule runs on them unchanged. This avoids a local rule and a dependency per language; @eslint/markdown
+ * and @eslint/css would add parsing of structures this rule never reads.
  */
 export const MAX_FILE_LINES = 500;
 
 const SOURCE_FILES = ['**/*.{ts,tsx,mts,cts,js,mjs,cjs,jsx,vue}'];
 const TEXT_FILES = ['**/*.{html,css,scss,md}'];
 
-/** Generated or vendored files that are not written by hand. */
-const GENERATED_FILES = ['**/CHANGELOG.md', '**/api/*.api.md', '**/dom-contract/**', '**/size-limit.config.mjs'];
+/** Files a tool writes (changesets, the library generator); they are never edited by hand. */
+const GENERATED_FILES = ['**/CHANGELOG.md', '**/size-limit.config.mjs'];
 
 /** @type {import('eslint').Linter.Parser} */
 const plainTextParser = {
@@ -37,7 +35,7 @@ const plainTextParser = {
   },
 };
 
-const MAX_LINES = ['error', { max: MAX_FILE_LINES, skipBlankLines: true, skipComments: true }];
+const MAX_LINES = ['error', { max: MAX_FILE_LINES, skipBlankLines: false, skipComments: false }];
 
 export function createFileSizeConfig() {
   return [

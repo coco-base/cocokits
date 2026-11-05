@@ -46,4 +46,4 @@ pnpm ci:local --title "<PR title>"              # the whole CI list, before a PR
 - No changesets until the 2.0.0 release; the first release is cut from the fixed version group in `.changeset/config.json`.
 - Never skip hooks (`--no-verify`).
 - A pull request states the commands you ran and their results. Never claim a check you did not run.
-- No source or doc file is over 500 lines of code. Contributing guide for people: [CONTRIBUTING.md](CONTRIBUTING.md).
+- No source or doc file is over 500 lines, blank and comment lines included. Contributing guide for people: [CONTRIBUTING.md](CONTRIBUTING.md).
