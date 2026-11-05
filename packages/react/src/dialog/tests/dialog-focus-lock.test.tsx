@@ -5,7 +5,7 @@ import { StrictMode, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover } from '../../popover';
 import { Dialog } from '../index';
-import { boxAt, Example, nextFrame, pressOn, stubTopLayer } from './fixtures';
+import { boxAt, button, closed, content, Example, nextFrame, pressOn, stubTopLayer, trigger } from './fixtures';
 
 beforeEach(stubTopLayer);
 
@@ -18,15 +18,6 @@ afterEach(() => {
 });
 
 type User = ReturnType<typeof userEvent.setup>;
-
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
-const content = (): HTMLDialogElement | null => screen.queryByRole<HTMLDialogElement>('dialog');
-const isOpen = (): boolean => content() !== null;
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
-const closed = (): Promise<void> =>
-  waitFor(() => {
-    expect(isOpen()).toBe(false);
-  });
 
 function NestedDialogs(): ReactElement {
   return (

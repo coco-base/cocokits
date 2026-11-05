@@ -4,7 +4,19 @@ import userEvent from '@testing-library/user-event';
 import { createRef, useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Dialog } from '../index';
-import { boxAt, cssAnimation, Example, nextFrame, pressOn, stubTopLayer } from './fixtures';
+import {
+  boxAt,
+  button,
+  closed,
+  content,
+  cssAnimation,
+  Example,
+  isOpen,
+  nextFrame,
+  pressOn,
+  stubTopLayer,
+  trigger,
+} from './fixtures';
 
 beforeEach(stubTopLayer);
 
@@ -18,16 +30,8 @@ afterEach(() => {
 
 type User = ReturnType<typeof userEvent.setup>;
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
-const content = (): HTMLDialogElement | null => screen.queryByRole<HTMLDialogElement>('dialog');
-const isOpen = (): boolean => content() !== null;
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 const reasons = (fn: ReturnType<typeof vi.fn>): unknown[] =>
   fn.mock.calls.map((call: unknown[]) => [call[0], (call[1] as { reason: string }).reason]);
-const closed = (): Promise<void> =>
-  waitFor(() => {
-    expect(isOpen()).toBe(false);
-  });
 
 describe('Dialog rendered contract', () => {
   it('renders only the trigger while closed', () => {

@@ -1,3 +1,5 @@
+import { screen, waitFor } from '@testing-library/react';
+import { expect } from 'vitest';
 import { StrictMode, type ReactElement } from 'react';
 import { vi } from 'vitest';
 import { Dialog } from '../index';
@@ -92,3 +94,21 @@ export function cssAnimation(finished: Promise<unknown>): Animation {
     effect: { getComputedTiming: () => ({ endTime: 300 }) },
   } as unknown as Animation;
 }
+
+/** The trigger of the Delete dialog. */
+export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
+
+/** The open dialog element, or null. */
+export const content = (): HTMLDialogElement | null => screen.queryByRole<HTMLDialogElement>('dialog');
+
+/** Whether the dialog is open. */
+export const isOpen = (): boolean => content() !== null;
+
+/** The button with the accessible name. */
+export const button = (name: string): HTMLElement => screen.getByRole('button', { name });
+
+/** Resolves once the dialog is closed. */
+export const closed = (): Promise<void> =>
+  waitFor(() => {
+    expect(isOpen()).toBe(false);
+  });
