@@ -5,6 +5,7 @@ import { CckDir } from '@cocokits/angular-core';
 import { tabsAnatomy, tabsMeta } from '@cocokits/machines/tabs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckTabsImports, type CckTabChangeEvent } from '../index';
+import { tab } from './queries';
 
 const imports = [...CckTabsImports, CckDir];
 const { classes } = tabsAnatomy;
@@ -42,7 +43,6 @@ class Host {
   readonly changes: CckTabChangeEvent[] = [];
 }
 
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 const panel = (name: string): HTMLElement => {
   const element = document.getElementById(tab(name).getAttribute('aria-controls') ?? '');
   if (!element) throw new Error(`no panel for ${name}`);

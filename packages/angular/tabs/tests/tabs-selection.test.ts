@@ -3,10 +3,10 @@ import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { CckTabsImports, type CckTabChangeEvent } from '../index';
+import { tab } from './queries';
 
 const imports = [...CckTabsImports];
 
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 const selectedLabels = (): string[] =>
   screen
     .getAllByRole('tab')
