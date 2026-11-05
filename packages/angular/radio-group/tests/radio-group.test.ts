@@ -8,14 +8,10 @@ import { CckDir } from '@cocokits/angular-core';
 import { CckRadioImports } from '@cocokits/angular/radio';
 import { radioGroupMeta } from '@cocokits/machines/radio-group';
 import { CckRadioGroupImports, type RadioGroupChangeDetails } from '../index';
+import { must } from './queries';
 
 const radio = (name: string): HTMLInputElement => screen.getByRole<HTMLInputElement>('radio', { name });
 const imports = [...CckRadioGroupImports, ...CckRadioImports];
-
-function must<T>(value: T | null | undefined): T {
-  if (value === null || value === undefined) throw new Error('Expected the element to exist.');
-  return value;
-}
 
 @Component({
   imports: [...imports, FormsModule],

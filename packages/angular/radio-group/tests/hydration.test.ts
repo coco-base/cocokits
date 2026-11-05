@@ -1,6 +1,7 @@
 import type { ApplicationRef } from '@angular/core';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { bootstrapOnClient, renderOnServer } from './ssr-fixtures';
+import { must } from './queries';
 
 /**
  * Markup without the hydration and event-replay bookkeeping Angular adds, without `tabindex` (set after mount), and without the `value`
@@ -14,11 +15,6 @@ function normalized(root: Element): string {
     .replace(/\s+checked=""/g, '')
     .replace(/\s+tabindex="[^"]*"/g, '')
     .replace(/<!--[^>]*-->/g, '');
-}
-
-function must<T>(value: T | null | undefined): T {
-  if (value == null) throw new Error('expected a value');
-  return value;
 }
 
 describe('Radio group hydration', () => {
