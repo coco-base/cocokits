@@ -6,11 +6,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { inputMeta } from '@cocokits/machines/input';
 import { ThemeProvider } from '@cocokits/react-core';
 import { Input, type InputChangeDetails } from '../index';
-import { inputThemeConfig, strict } from './fixtures';
+import { control as input, inputThemeConfig, strict } from './fixtures';
 
 afterEach(cleanup);
-
-const input = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 
 describe('Input rendering', () => {
   it('renders a native text input with the class and the type text, and nothing else', () => {

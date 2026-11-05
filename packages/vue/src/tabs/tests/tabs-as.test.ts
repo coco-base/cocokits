@@ -5,7 +5,7 @@ import { defineComponent, h, nextTick } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { provideDirection, useDirection } from '@cocokits/vue-core';
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from '../index';
-import { mountView } from './fixtures';
+import { mountView, tab } from './fixtures';
 
 const veto = (event: Event): void => {
   event.preventDefault();
@@ -89,7 +89,6 @@ describe('Tabs trigger on a tag other than button', () => {
     );
     return onValueChange;
   };
-  const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 
   it('keeps role="tab" and the roving tabindex, and has no type', async () => {
     view();

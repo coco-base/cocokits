@@ -7,11 +7,9 @@ import { inputAnatomy, inputMeta } from '@cocokits/machines/input';
 import { ThemeProvider } from '@cocokits/vue-core';
 import { Input } from '../index';
 import { mountView, pick } from '../../internal/tests/mount-helpers';
-import { inputThemeConfig } from './fixtures';
+import { control as input, inputThemeConfig } from './fixtures';
 
 afterEach(cleanup);
-
-const input = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 
 describe('Input rendering', () => {
   it('renders a native text input with the class and the type text, and nothing else', () => {
