@@ -164,7 +164,7 @@ export const nextFrame = (): Promise<void> =>
 export const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 /** The Select trigger: the only combobox on the page. */
-export const trigger = (): HTMLElement => screen.getByRole('combobox');
+export const trigger = (): HTMLButtonElement => screen.getByRole('combobox');
 
 /** The option with the accessible name. */
 export const option = (name: string): HTMLElement => screen.getByRole('option', { name });
