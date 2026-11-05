@@ -175,6 +175,15 @@ describe('library generator: size-limit.config.mjs', () => {
     );
     expect(sizeEntries(tree)).toEqual(['@cocokits/utils', '@cocokits/shared', '@cocokits/cdk/reactive']);
   });
+
+  it('creates a config that bundles every entry with its packages external and a budget', async () => {
+    const tree = await workspaceWith({ kind: 'shared-lib', name: 'utils' });
+    const content = tree.read('size-limit.config.mjs', 'utf-8') ?? '';
+    expect(content).toContain("packages: 'external'");
+    expect(content).toContain('const entries = [\n  { name');
+    expect(content).toContain("limit: '2 kB' },\n];");
+    expect(content).toContain('entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }))');
+  });
 });
 
 describe('library generator: idempotence', () => {

@@ -83,6 +83,9 @@ importers:
       '@nx/vitest':
         specifier: 23.3.0
         version: 23.3.0(bde067361e5eef3237b22c1abc2b7b73)
+      '@size-limit/esbuild':
+        specifier: 14.3.0
+        version: 14.3.0(size-limit@14.3.0)
       '@size-limit/file':
         specifier: 14.3.0
         version: 14.3.0(size-limit@14.3.0)
@@ -3008,6 +3011,12 @@ packages:
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
+
+  '@size-limit/esbuild@14.3.0':
+    resolution: {integrity: sha512-0HvGvD5vw2j/lZ7u+koacP5UpveaFVirc8Gm0GJRfICDd+4xEpZX3ManDSnFzwlk7qe0JtJjE8d5jp5t8sUlEQ==}
+    engines: {node: ^22.19.0 || ^24.5.0 || >=26.0.0}
+    peerDependencies:
+      size-limit: 14.3.0
 
   '@size-limit/file@14.3.0':
     resolution: {integrity: sha512-GWKOi0rorXPbYmwbT926Z91t28rg5gd5hv8ywY1FNcaYf8NbibgK5K5YabYbLkV6KpGwuuixBRtIzl3ZpPzUfw==}
@@ -8947,6 +8956,11 @@ snapshots:
   '@simple-libs/stream-utils@2.0.0': {}
 
   '@sindresorhus/is@4.6.0': {}
+
+  '@size-limit/esbuild@14.3.0(size-limit@14.3.0)':
+    dependencies:
+      esbuild: 0.28.2
+      size-limit: 14.3.0
 
   '@size-limit/file@14.3.0(size-limit@14.3.0)':
     dependencies:

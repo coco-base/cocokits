@@ -49,6 +49,7 @@
     "@nx/eslint-plugin": "23.3.0",
     "@nx/js": "23.3.0",
     "@nx/vitest": "23.3.0",
+    "@size-limit/esbuild": "14.3.0",
     "@size-limit/file": "14.3.0",
     "@swc-node/register": "1.12.1",
     "@swc/core": "1.16.18",
