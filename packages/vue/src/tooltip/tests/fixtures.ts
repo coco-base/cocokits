@@ -1,4 +1,6 @@
-import { h, type VNode } from 'vue';
+import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/vue';
+import { h, nextTick, type VNode } from 'vue';
 import { vi } from 'vitest';
 import { TooltipContent, TooltipRoot, TooltipTrigger } from '../index';
 
@@ -78,3 +80,22 @@ export function accessibleDescription(element: Element): string {
     .join(' ')
     .trim();
 }
+
+/** The button that triggers the tooltip. */
+export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Copy link' });
+
+/** Whether the tooltip content is in the document. */
+export const isOpen = (): boolean => tooltipContent() !== null;
+
+/** A user whose delays run on the fake clock. */
+export const setup = (): ReturnType<typeof userEvent.setup> =>
+  userEvent.setup({ delay: null, advanceTimers: (ms) => vi.advanceTimersByTime(ms) });
+
+/** Advances the fake clock and lets Vue and the portal flush. */
+export const elapse = async (ms: number): Promise<void> => {
+  await vi.advanceTimersByTimeAsync(ms);
+  for (let round = 0; round < 3; round += 1) {
+    await nextTick();
+    await vi.advanceTimersByTimeAsync(0);
+  }
+};

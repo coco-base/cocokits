@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
-import { cleanup, fireEvent, screen } from '@testing-library/vue';
+import { cleanup, fireEvent } from '@testing-library/vue';
 import { h, nextTick, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as positioning from '@cocokits/cdk/positioning';
 import { TooltipContent, TooltipRoot, TooltipTrigger } from '../index';
-import { elementById, mountView, shownContent, settle, stubOverlayBrowser, tooltipContent } from './fixtures';
+import { elementById, mountView, settle, shownContent, stubOverlayBrowser, tooltipContent, trigger } from './fixtures';
 
 vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@cocokits/cdk/positioning')>();
@@ -30,7 +30,6 @@ function lastOptions(): Options {
   if (!call) throw new Error('positioning was not started');
   return call[0];
 }
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Copy link' });
 
 function view(options: { rootProps?: () => Record<string, unknown>; contentProps?: Record<string, unknown> }) {
   return () => [
