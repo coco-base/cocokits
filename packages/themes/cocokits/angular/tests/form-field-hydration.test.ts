@@ -1,12 +1,11 @@
 import { ApplicationRef, Component, destroyPlatform } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { CckInput } from '@cocokits/angular/input';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckFormFieldTheme } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +18,6 @@ import { CckFormFieldTheme } from '../src/index';
 class Root {
   protected readonly large = 'lg';
 }
-
-const providers = [provideCckTheme(cocokitsThemeConfig)];
 
 afterEach(() => {
   destroyPlatform();

@@ -1,11 +1,10 @@
 import { ApplicationRef, Component, destroyPlatform } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckButton, CckButtonAnchor } from '@cocokits/angular/button';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckButtonTheme } from '../src/index';
+import { providers } from './helpers';
 
 let clicks = 0;
 
@@ -25,8 +24,6 @@ class Root {
     clicks = value;
   }
 }
-
-const providers = [provideCckTheme(cocokitsThemeConfig)];
 
 afterEach(() => {
   destroyPlatform();

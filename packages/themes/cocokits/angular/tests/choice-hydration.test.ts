@@ -1,13 +1,12 @@
 import { ApplicationRef, Component, destroyPlatform } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckCheckbox } from '@cocokits/angular/checkbox';
 import { CckRadio } from '@cocokits/angular/radio';
 import { CckSwitch } from '@cocokits/angular/switch';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckCheckboxTheme, CckRadioTheme, CckSwitchTheme } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +19,6 @@ import { CckCheckboxTheme, CckRadioTheme, CckSwitchTheme } from '../src/index';
 class Root {
   protected readonly on = true;
 }
-
-const providers = [provideCckTheme(cocokitsThemeConfig)];
 
 afterEach(() => {
   destroyPlatform();
