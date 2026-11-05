@@ -8,14 +8,12 @@ import { defineThemeConfig } from '@cocokits/shared';
 import { ThemeProvider } from '@cocokits/react-core';
 import { Checkbox, type CheckboxChangeDetails } from '../index';
 import { isSet, must, nextFrame, strict } from '../../internal/tests/choice-fixtures';
+import { box, rootOf } from './fixtures';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
-const box = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('checkbox');
-const rootOf = (): HTMLElement => must(box().closest<HTMLElement>('.cck-checkbox'));
 
 /** A controlled checkbox whose parent accepts the change. */
 function Accepting({ onEvent }: { readonly onEvent: (value: boolean, details: CheckboxChangeDetails) => void }) {

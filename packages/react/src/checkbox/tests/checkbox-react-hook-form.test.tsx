@@ -9,6 +9,7 @@ import { Label } from '../../label';
 import { Switch } from '../../switch';
 import { Checkbox } from '../index';
 import { isSet, must, nextTask, strict } from '../../internal/tests/choice-fixtures';
+import { box, rootOf } from './fixtures';
 
 afterEach(cleanup);
 
@@ -21,8 +22,6 @@ const current = (): UseFormReturn<Values> => {
   if (!api) throw new Error('The form has not rendered.');
   return api;
 };
-const box = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('checkbox');
-const rootOf = (): HTMLElement => must(box().closest<HTMLElement>('.cck-checkbox'));
 
 function Registered({ onSubmit }: { readonly onSubmit?: (values: Values) => void }): ReactElement {
   const form = useForm<Values>({ defaultValues: { terms: true } });

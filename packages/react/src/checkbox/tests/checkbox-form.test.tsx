@@ -4,12 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Checkbox } from '../index';
-import { isSet, must, nextTask, strict } from '../../internal/tests/choice-fixtures';
+import { isSet, nextTask, strict } from '../../internal/tests/choice-fixtures';
+import { box, rootOf } from './fixtures';
 
 afterEach(cleanup);
 
-const box = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('checkbox');
-const rootOf = (): HTMLElement => must(box().closest<HTMLElement>('.cck-checkbox'));
 const form = (): HTMLFormElement => screen.getByTestId<HTMLFormElement>('form');
 const data = (): FormData => new FormData(form());
 
