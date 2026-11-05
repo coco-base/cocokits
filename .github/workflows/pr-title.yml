@@ -29,4 +29,4 @@ jobs:
       - name: Commitlint the PR title
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: printf '%s\n' "$PR_TITLE" | pnpm exec commitlint
+        run: printf '%s\n' "$PR_TITLE" | pnpm exec commitlint --config commitlint.title.config.mjs

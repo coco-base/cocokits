@@ -74,7 +74,7 @@ step('commit messages', 'pnpm', ['exec', 'commitlint', '--from', base, '--to', '
 if (values.title === undefined) {
   console.log('\n== PR title skipped (no --title; pass it when the run is for a PR)');
 } else {
-  step('PR title', 'pnpm', ['exec', 'commitlint'], `${values.title}\n`);
+  step('PR title', 'pnpm', ['exec', 'commitlint', '--config', 'commitlint.title.config.mjs'], `${values.title}\n`);
 }
 if (values.all || changedPaths().some((path) => GENERATOR_PATHS.some((pattern) => pattern.test(path)))) {
   step('library generator', 'node', ['tools/scripts/verify-library-generator.mjs']);
