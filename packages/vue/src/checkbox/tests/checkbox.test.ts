@@ -8,7 +8,7 @@ import { ThemeProvider } from '@cocokits/vue-core';
 import { defineThemeConfig } from '@cocokits/shared';
 import { Checkbox } from '../index';
 import { mountView } from '../../internal/tests/mount-helpers';
-import { box } from './fixtures';
+import { box, root } from './fixtures';
 import { must, nextFrame } from '../../internal/tests/choice-helpers';
 
 afterEach(() => {
@@ -16,7 +16,6 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const root = (): HTMLElement => must(document.querySelector<HTMLElement>('.cck-checkbox'));
 const isSet = (element: Element, name: string): boolean => element.hasAttribute(name);
 
 /** A v-model checkbox whose parent records every change. */

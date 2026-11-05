@@ -5,14 +5,13 @@ import { h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Checkbox } from '../index';
 import { mountView } from '../../internal/tests/mount-helpers';
-import { box } from './fixtures';
+import { box, root } from './fixtures';
 import { must, nextTask } from '../../internal/tests/choice-helpers';
 
 afterEach(cleanup);
 
 const form = (): HTMLFormElement => must(document.querySelector('form'));
 const data = (): FormData => new FormData(form());
-const root = (): HTMLElement => must(document.querySelector<HTMLElement>('.cck-checkbox'));
 const reset = h('button', { type: 'reset' }, 'Reset');
 
 describe('Checkbox in a real form', () => {
