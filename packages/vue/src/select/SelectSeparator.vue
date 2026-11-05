@@ -3,7 +3,7 @@ import { computed, mergeProps, useAttrs } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { useSelectContext } from './select.context';
-import type { SelectSeparatorProps } from './select.types';
+import type { SelectSeparatorProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectSeparator', inheritAttrs: false });
 

@@ -10,23 +10,25 @@ export { default as SelectGroup } from './SelectGroup.vue';
 export { default as SelectLabel } from './SelectLabel.vue';
 export { default as SelectSeparator } from './SelectSeparator.vue';
 export type {
-  SelectContentEmits,
-  SelectContentProps,
-  SelectGroupProps,
   SelectIconProps,
   SelectItemData,
-  SelectItemEmits,
-  SelectItemIndicatorProps,
-  SelectItemProps,
   SelectItems,
-  SelectItemTextProps,
-  SelectLabelProps,
   SelectOpenReason,
   SelectRootEmits,
   SelectRootProps,
-  SelectSeparatorProps,
   SelectTriggerProps,
   SelectValueOf,
   SelectValueProps,
   SelectValueReason,
 } from './select.types';
+export type {
+  SelectContentEmits,
+  SelectContentProps,
+  SelectGroupProps,
+  SelectItemEmits,
+  SelectItemIndicatorProps,
+  SelectItemProps,
+  SelectItemTextProps,
+  SelectLabelProps,
+  SelectSeparatorProps,
+} from './select-list.types';

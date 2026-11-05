@@ -20,7 +20,7 @@ import { toVueListeners } from '../internal/listeners';
 import { omit } from '../internal/record';
 import { rootElementOf } from '../internal/root-element';
 import { SELECT_GROUP_KEY, SELECT_ITEM_KEY, useSelectContext } from './select.context';
-import type { SelectItemEmits, SelectItemProps } from './select.types';
+import type { SelectItemEmits, SelectItemProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectItem', inheritAttrs: false });
 

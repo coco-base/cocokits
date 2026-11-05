@@ -13,7 +13,7 @@ import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { rootElementOf } from '../internal/root-element';
 import { SELECT_ITEM_KEY, useSelectContext } from './select.context';
-import type { SelectItemTextProps } from './select.types';
+import type { SelectItemTextProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectItemText', inheritAttrs: false });
 

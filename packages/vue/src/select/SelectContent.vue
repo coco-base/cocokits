@@ -19,7 +19,7 @@ import { DISMISS_LAYER_KEY } from '../internal/dismiss-layer';
 import { toVueListeners } from '../internal/listeners';
 import { rootElementOf } from '../internal/root-element';
 import { useSelectContext } from './select.context';
-import type { SelectContentEmits, SelectContentProps } from './select.types';
+import type { SelectContentEmits, SelectContentProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectContent', inheritAttrs: false });
 
