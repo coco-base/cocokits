@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Profiler, useState, type ReactElement } from 'react';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Select } from '../index';
-import { reasonsOf, stubTopLayer, Dishes, Opt } from './fixtures';
+import { active, Dishes, gone, Opt, option, reasonsOf, stubTopLayer, trigger, valueText } from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -18,16 +18,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select option groups', () => {
   it('groups options under a text label and a markup label, named by the label', async () => {

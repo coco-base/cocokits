@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Select } from '../index';
-import { Example, stubTopLayer, reasonsOf, Dishes } from './fixtures';
+import { active, Dishes, Example, gone, option, reasonsOf, stubTopLayer, trigger } from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -17,15 +17,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select rendered contract', () => {
   it('renders the root, trigger, placeholder and icon with the anatomy classes and no list while closed', () => {

@@ -1,3 +1,6 @@
+import { screen, waitFor } from '@testing-library/react';
+import { expect } from 'vitest';
+import { selectAnatomy } from '@cocokits/machines/select';
 import { StrictMode, type ReactElement, type ReactNode } from 'react';
 import { vi } from 'vitest';
 import { Select } from '../index';
@@ -159,3 +162,23 @@ export const nextFrame = (): Promise<void> =>
 
 /** Resolves after the tasks queued so far. */
 export const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+
+/** The Select trigger: the only combobox on the page. */
+export const trigger = (): HTMLElement => screen.getByRole('combobox');
+
+/** The option with the accessible name. */
+export const option = (name: string): HTMLElement => screen.getByRole('option', { name });
+
+/** Resolves once the list is out of the document. */
+export const gone = (): Promise<void> =>
+  waitFor(() => {
+    expect(screen.queryByRole('listbox')).toBeNull();
+  });
+
+/** The text of the option the trigger points at with `aria-activedescendant`. */
+export const active = (): string =>
+  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
+
+/** The text the trigger shows for the selection. */
+export const valueText = (): string | undefined =>
+  trigger().querySelector(`.${selectAnatomy.classes.value}`)?.textContent.trim();

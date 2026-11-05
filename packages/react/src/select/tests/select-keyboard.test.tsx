@@ -1,11 +1,19 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Example, nextFrame, stubTopLayer, reasonsOf, lastReason } from './fixtures';
-
-const { classes } = selectAnatomy;
+import {
+  active,
+  Example,
+  gone,
+  lastReason,
+  nextFrame,
+  option,
+  reasonsOf,
+  stubTopLayer,
+  trigger,
+  valueText,
+} from './fixtures';
 
 let scrollIntoView: ReturnType<typeof stubTopLayer>;
 
@@ -18,16 +26,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
 
 describe('Select keyboard', () => {
   it('moves with the arrows, stops at the ends, skips the disabled option, and Home/End/PageUp/PageDown jump', async () => {

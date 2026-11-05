@@ -1,12 +1,22 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
-import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Example, stubTopLayer, reasonsOf, lastReason, must, Dishes, Opt } from './fixtures';
-
-const { classes } = selectAnatomy;
+import {
+  active,
+  Dishes,
+  Example,
+  gone,
+  lastReason,
+  must,
+  Opt,
+  option,
+  reasonsOf,
+  stubTopLayer,
+  trigger,
+  valueText,
+} from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -17,16 +27,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
-const valueText = (): string | undefined => trigger().querySelector(`.${classes.value}`)?.textContent.trim();
 
 describe('Select pointer', () => {
   it('highlights under the pointer, skips a disabled option, and a press in the list keeps the focus on the trigger', async () => {

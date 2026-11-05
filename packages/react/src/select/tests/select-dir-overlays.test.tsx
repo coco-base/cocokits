@@ -7,7 +7,7 @@ import { DirectionProvider } from '@cocokits/react-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Dialog } from '../../dialog';
 import { Popover } from '../../popover';
-import { ANCHOR_BOX, nextTask, stubLayout, stubTopLayer, Dishes, Opt } from './fixtures';
+import { active, ANCHOR_BOX, Dishes, gone, nextTask, Opt, stubLayout, stubTopLayer, trigger } from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -20,14 +20,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select right to left', () => {
   it('flips start and end placement, and leaves the vertical keys alone', async () => {
