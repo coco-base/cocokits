@@ -4,7 +4,7 @@ import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { omit } from '../internal/record';
 import { SELECT_GROUP_KEY, useSelectContext } from './select.context';
-import type { SelectGroupProps } from './select.types';
+import type { SelectGroupProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectGroup', inheritAttrs: false });
 

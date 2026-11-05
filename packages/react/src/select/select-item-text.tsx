@@ -4,7 +4,8 @@ import { useContext, type ReactElement } from 'react';
 import { toReactProps } from '@cocokits/react-core';
 import { renderElement } from '../internal/render-element';
 import { SelectItemContext, useSelectContext } from './select-context';
-import type { SelectItemTextProps, SelectPart, SelectRenderProps } from './select.types';
+import type { SelectPart, SelectRenderProps } from './select.types';
+import type { SelectItemTextProps } from './select-parts.types';
 import { useSelectPartProps } from './use-select-part';
 
 function SelectItemTextImpl({ render, ref, ...rest }: SelectItemTextProps): ReactElement {

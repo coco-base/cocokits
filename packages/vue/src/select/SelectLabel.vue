@@ -3,7 +3,7 @@ import { computed, inject, mergeProps, useAttrs } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { SELECT_GROUP_KEY, useSelectContext } from './select.context';
-import type { SelectLabelProps } from './select.types';
+import type { SelectLabelProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectLabel', inheritAttrs: false });
 

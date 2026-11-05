@@ -25,10 +25,7 @@ import {
   injectZoneBoundary,
   themeAttrs,
 } from '@cocokits/angular-core';
-import { createDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
-import { startOverlayPosition, type OverlayVirtualAnchor } from '@cocokits/cdk/positioning';
-import { createPresence } from '@cocokits/cdk/presence';
 import {
   getTooltipProps,
   tooltipAnatomy,
@@ -41,32 +38,16 @@ import {
   type TooltipSide,
   type TooltipState,
 } from '@cocokits/machines/tooltip';
-import {
-  CckTooltipBubble,
-  TOOLTIP_BUBBLE_CONTEXT,
-  type TooltipBubbleContext,
-  type TooltipContentRegistration,
-} from './tooltip-bubble';
+import { type TooltipBubbleContext, type TooltipContentRegistration } from './tooltip-bubble';
 import { closeOnAncestorScroll } from './tooltip-scroll';
 import { describeTrigger } from './tooltip-description';
 import { bindTooltipHost } from './tooltip-host';
 import { CCK_TOOLTIP_DEFAULT_OPTIONS } from './tooltip-options';
+import { createTooltipOverlay, type TooltipOverlay, type TooltipOrigin } from './tooltip-overlay';
 
 export type { TooltipContentRegistration } from './tooltip-bubble';
 
 const ELEMENT_NODE = 1;
-
-/** A point in viewport coordinates, in px. */
-export interface TooltipOrigin {
-  readonly x: number;
-  readonly y: number;
-}
-
-/** A zero-size anchor at the point; its scrolling ancestors are the trigger's. */
-const pointAnchor = ({ x, y }: TooltipOrigin, contextElement: Element): OverlayVirtualAnchor => ({
-  getBoundingClientRect: () => ({ x, y, width: 0, height: 0, top: y, right: x, bottom: y, left: x }),
-  contextElement,
-});
 
 const toText = (value: string | number | null | undefined): string => (value == null ? '' : String(value));
 const toDelay = (value: unknown): number | undefined => (value == null ? undefined : numberAttribute(value));
@@ -219,11 +200,6 @@ export class CckTooltip {
   private readonly origin = signal<TooltipOrigin | null>(null);
   /** The point the next opening uses; set by a pointer entering, a focus or `show()`. */
   private nextOrigin: TooltipOrigin | null = null;
-  /** Whether the content is in the document: shown, or hidden with an exit animation still running. */
-  private readonly mounted = signal(false);
-  private readonly placement = signal<{ side: TooltipSide; align: TooltipAlign } | null>(null);
-  /** Whether the positioning module reported that the arrow cannot point at the anchor. */
-  private readonly arrowHidden = signal(false);
   private readonly description = signal<TooltipDescription>('none');
   private readonly tooltipId = inject(IdGenerator).getId(tooltipAnatomy.classes.root);
   private readonly options = inject(CCK_TOOLTIP_DEFAULT_OPTIONS);
@@ -231,7 +207,6 @@ export class CckTooltip {
   private readonly renderer = inject(Renderer2);
   private readonly portal = inject(CckPortal);
   private readonly direction = inject(CckDirection);
-  private readonly layer = inject(CckOverlayLayer);
   private readonly zone = injectZoneBoundary();
   private readonly parentLayer = inject(CckOverlayLayer, { optional: true, skipSelf: true });
   private readonly shown = computed(() => this.isOpen() && !this.disabled());
@@ -239,28 +214,22 @@ export class CckTooltip {
   private readonly anchorPoint = computed(() =>
     (this.positionAtOrigin() ?? this.options.positionAtOrigin ?? false) ? this.origin() : null,
   );
-  private readonly presence = createPresence({
-    getElement: () => this._content()?.element ?? null,
-    onStateChange: (state) => {
-      this.mounted.set(state !== 'unmounted');
-    },
-  });
+  private readonly overlay: TooltipOverlay;
   private focusVisible: FocusVisibleTracker | null = null;
   private timer: ReturnType<typeof setTimeout> | undefined;
-  private dismissLayer: DismissLayer | null = null;
 
   private readonly state = computed<TooltipState>(() => ({
     id: this.tooltipId,
     open: this.isOpen(),
-    mounted: this.mounted(),
+    mounted: this.overlay.mounted(),
     disabled: this.disabled(),
     delay: this.showDelay() ?? this.options.showDelay,
     closeDelay: this.hideDelay() ?? this.options.hideDelay,
     disableHoverableContent: this.options.disableTooltipInteractivity ?? false,
-    arrowHidden: this.arrowHidden(),
+    arrowHidden: this.overlay.arrowHidden(),
     description: this.description(),
-    side: this.placement()?.side ?? this._content()?.side(),
-    align: this.placement()?.align ?? this._content()?.align(),
+    side: this.overlay.placement()?.side ?? this._content()?.side(),
+    align: this.overlay.placement()?.align ?? this._content()?.align(),
     isFocusVisible: () => this.focusVisible?.isFocusVisible() ?? false,
   }));
 
@@ -300,8 +269,7 @@ export class CckTooltip {
     const destroyRef = inject(DestroyRef);
     destroyRef.onDestroy(() => {
       this.cancel();
-      this.presence.destroy();
-      this.stopDismissLayer();
+      this.overlay.destroy();
     });
     if (this.hostElement) {
       // The host is the anchor of the bubble; an `ng-container` root must not inject a container (hydration).
@@ -355,88 +323,27 @@ export class CckTooltip {
       }
     });
 
-    // Showing mounts at once; hiding waits for the exit animation (read after the closed state rendered).
-    afterRenderEffect({
-      write: () => {
-        const show = this.shown() && this.hasContent() && this._trigger() !== null;
-        untracked(() => {
-          this.presence.setOpen(show);
-        });
-      },
-    });
-
     const hasBubble = computed(() => this.hostIsTrigger() && this.text() !== '');
-    afterRenderEffect({
-      write: () => {
-        const [mounted, template, trigger, bubble] = [this.mounted(), this._template(), this._trigger(), hasBubble()];
-        untracked(() => {
-          if (mounted && trigger && template) this.portal.attach(template, undefined, trigger);
-          else if (mounted && trigger && bubble) {
-            const injector = Injector.create({
-              providers: [{ provide: TOOLTIP_BUBBLE_CONTEXT, useValue: this.bubbleContext }],
-              parent: this.injector,
-            });
-            this.portal.attachComponent(CckTooltipBubble, trigger, { injector });
-          } else this.portal.detach();
-        });
+    this.overlay = createTooltipOverlay({
+      shown: this.shown,
+      hasContent: this.hasContent,
+      trigger: this._trigger,
+      template: this._template,
+      hasBubble,
+      bubbleContext: this.bubbleContext,
+      content: this._content,
+      arrow: this._arrow,
+      anchorPoint: this.anchorPoint,
+      disableClose: this.disableClose,
+      send: (event) => {
+        this.send(event);
       },
-    });
-
-    afterRenderEffect({
-      write: (onCleanup) => {
-        const [mounted, trigger, content, arrow, point] = [
-          this.mounted(),
-          this._trigger(),
-          this._content(),
-          this._arrow(),
-          this.anchorPoint(),
-        ];
-        if (!mounted || !trigger || !content) return;
-        const [side, align] = [content.side(), content.align()];
-        const stop = untracked(() =>
-          this.zone.outside(() =>
-            startOverlayPosition({
-              getAnchor: () => (point ? pointAnchor(point, trigger) : trigger),
-              getContent: () => content.element,
-              side,
-              align,
-              getDirection: () => this.direction.dir(),
-              onPlacementChange: (placement) => {
-                this.zone.inside(() => {
-                  this.placement.set(placement);
-                });
-              },
-              ...(arrow
-                ? {
-                    getArrow: () => arrow,
-                    onArrowHiddenChange: (hidden: boolean) => {
-                      this.zone.inside(() => {
-                        this.arrowHidden.set(hidden);
-                      });
-                    },
-                  }
-                : {}),
-            }),
-          ),
-        );
-        onCleanup(() => {
-          stop();
-          this.placement.set(null);
-          this.arrowHidden.set(false);
-        });
-      },
-    });
-
-    // While shown, the tooltip is a layer of the stack, so Escape reaches the topmost one; `change` starts the
-    // layer at once, this effect removes it when `disabled` closed the tooltip.
-    afterRenderEffect({
-      write: () => {
-        const [shown, trigger] = [this.shown(), this._trigger()];
-        untracked(() => {
-          if (shown && trigger) this.startDismissLayer();
-          else this.stopDismissLayer();
-        });
-      },
+      injector: this.injector,
+      portal: this.portal,
+      zone: this.zone,
+      direction: this.direction,
+      layer: inject(CckOverlayLayer),
+      parentLayer: this.parentLayer,
     });
 
     closeOnAncestorScroll({
@@ -495,37 +402,6 @@ export class CckTooltip {
     else this.show(undefined, origin);
   }
 
-  /** Registers the dismiss layer if it is not registered yet. */
-  private startDismissLayer(): void {
-    if (this.dismissLayer) return;
-    const layer = this.zone.outside(() =>
-      createDismissLayer({
-        getInsideElements: () => [this._trigger(), this._content()?.element ?? null],
-        onDismiss: (intent) => {
-          const { reason, event } = intent;
-          if (reason === 'focus-out') return;
-          this.zone.inside(() => {
-            // A refused close keeps the layers below open too.
-            if (this.disableClose()) intent.preventDefault();
-            else this.send({ type: 'CONTENT.DISMISS', reason, event });
-          });
-        },
-        getParent: () => this.parentLayer?.current ?? null,
-      }),
-    );
-    this.dismissLayer = layer;
-    this.layer.current = layer;
-  }
-
-  /** Removes the dismiss layer; safe to call when there is none. */
-  private stopDismissLayer(): void {
-    const layer = this.dismissLayer;
-    if (!layer) return;
-    layer.destroy();
-    if (this.layer.current === layer) this.layer.current = null;
-    this.dismissLayer = null;
-  }
-
   private cancel(): void {
     clearTimeout(this.timer);
     this.timer = undefined;
@@ -547,8 +423,8 @@ export class CckTooltip {
       if (this.isOpen() === open || this.disabled()) return;
       if (open) this.origin.set(this.nextOrigin);
       this.isOpen.set(open);
-      if (open) this.startDismissLayer();
-      else this.stopDismissLayer();
+      if (open) this.overlay.startDismissLayer();
+      else this.overlay.stopDismissLayer();
     };
     // The delay timer starts outside the zone; only its callback, which writes state, comes back in.
     if (delay > 0) {

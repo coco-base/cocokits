@@ -3,7 +3,7 @@ import { computed, mergeProps, useAttrs } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { useSelectContext } from './select.context';
-import type { SelectItemIndicatorProps } from './select.types';
+import type { SelectItemIndicatorProps } from './select-list.types';
 
 defineOptions({ name: 'CckSelectItemIndicator', inheritAttrs: false });
 

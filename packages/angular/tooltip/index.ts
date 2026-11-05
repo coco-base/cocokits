@@ -5,7 +5,7 @@ import { CckTooltipPortal } from './tooltip-portal';
 import { CckTooltipTrigger } from './tooltip-trigger';
 
 export { CckTooltip } from './tooltip';
-export type { TooltipOrigin } from './tooltip';
+export type { TooltipOrigin } from './tooltip-overlay';
 export { CckTooltipArrow } from './tooltip-arrow';
 export { CCK_TOOLTIP_DEFAULT_OPTIONS } from './tooltip-options';
 export type { CckTooltipDefaultOptions } from './tooltip-options';

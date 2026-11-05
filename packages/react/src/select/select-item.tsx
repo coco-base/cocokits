@@ -7,7 +7,8 @@ import { isDevelopment } from '../internal/dev';
 import { renderElement } from '../internal/render-element';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { SelectGroupContext, SelectItemContext, useSelectContext } from './select-context';
-import type { SelectItemComponent, SelectItemProps, SelectRenderProps } from './select.types';
+import type { SelectRenderProps } from './select.types';
+import type { SelectItemComponent, SelectItemProps } from './select-parts.types';
 import { useSelectPartProps } from './use-select-part';
 
 /** The attributes the machine owns; a consumer value can never replace them. */
