@@ -100,13 +100,13 @@
     },
     "publint": {
       "cache": true,
-      "dependsOn": ["pack"],
+      "dependsOn": ["build", "pack"],
       "inputs": [
         "default",
         "{workspaceRoot}/tools/scripts/package-checks.mjs",
         "{workspaceRoot}/tools/scripts/package-manifest.mjs",
         {
-          "dependentTasksOutputFiles": "**/*.tgz",
+          "dependentTasksOutputFiles": "**/*",
           "transitive": false
         }
       ],
