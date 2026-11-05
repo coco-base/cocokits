@@ -2,6 +2,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createPresence } from '../index';
 import type { PresenceState } from '../index';
+import { settle } from './helpers';
 
 interface FakeAnimation {
   finished: Promise<unknown>;
@@ -42,8 +43,6 @@ function deferred() {
   });
   return { finish, cancel, ...cssAnimation(finished) };
 }
-
-const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe('createPresence', () => {
   it('starts unmounted and mounts on open', () => {

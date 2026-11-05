@@ -27,8 +27,7 @@ vi.mock('@floating-ui/dom', () => {
 
 import { startOverlayPosition } from '../index';
 import type { OverlayPositionOptions } from '../index';
-
-const flush = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+import { flush } from './helpers';
 
 let anchor: HTMLElement;
 let content: HTMLElement;

@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import { waitForAnimations } from '../index';
+import { settle } from './helpers';
 
 interface FakeAnimation {
   finished: Promise<unknown>;
@@ -24,8 +25,6 @@ function elementWith(animations: FakeAnimation[]): HTMLElement {
   element.getAnimations = (() => animations) as unknown as HTMLElement['getAnimations'];
   return element;
 }
-
-const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 /** Whether the promise resolved, after letting pending work run. */
 async function resolved(promise: Promise<void>): Promise<boolean> {
