@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { StrictMode, useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Dialog } from '../index';
-import { nextFrame, stubTopLayer } from './fixtures';
+import { button, nextFrame, stubTopLayer } from './fixtures';
 
 const { scrollLocks } = vi.hoisted(() => ({ scrollLocks: { locked: 0, unlocked: 0 } }));
 
@@ -28,7 +28,6 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 const scrollLocked = (): boolean => scrollLocks.locked > scrollLocks.unlocked;
 const dialogElement = (): HTMLDialogElement => {
   const found = document.querySelector<HTMLDialogElement>('dialog.cck-dialog__content');

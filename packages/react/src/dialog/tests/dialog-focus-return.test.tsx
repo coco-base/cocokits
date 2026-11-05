@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Dialog } from '../index';
-import { Example, stubTopLayer } from './fixtures';
+import { button, closed, Example, stubTopLayer, trigger } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -15,13 +15,6 @@ afterEach(() => {
 });
 
 type User = ReturnType<typeof userEvent.setup>;
-
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
-const closed = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('dialog')).toBeNull();
-  });
 
 describe('Dialog focus return to the trigger', () => {
   // Safari does not focus a button on a press: the click arrives while focus sits on another control.

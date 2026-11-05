@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { StrictMode, useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Dialog, type DialogContentProps, type DialogRootProps } from '../index';
-import { boxAt, nextFrame, pressOn, stubTopLayer } from './fixtures';
+import { boxAt, button, content, nextFrame, pressOn, stubTopLayer } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -13,9 +13,6 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.documentElement.removeAttribute('style');
 });
-
-const content = (): HTMLDialogElement | null => screen.queryByRole<HTMLDialogElement>('dialog');
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 
 function Refusable({ root, ...handlers }: DialogContentProps & { readonly root?: DialogRootProps }): ReactElement {
   return (

@@ -5,7 +5,7 @@ import { StrictMode, useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover } from '../../popover';
 import { Dialog } from '../index';
-import { nextFrame, pressOn, stubTopLayer } from './fixtures';
+import { button, nextFrame, pressOn, stubTopLayer } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -15,8 +15,6 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.documentElement.removeAttribute('style');
 });
-
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 
 /** A promise that stands in for the exit animation of an element. */
 function animate(element: HTMLElement): () => Promise<void> {
