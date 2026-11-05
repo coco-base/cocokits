@@ -4,8 +4,8 @@
 
 | Version | Supported |
 |---|---|
-| 2.x (the `next` branch until 2.0.0 is released) | Yes |
-| 1.x (the `v1` branch) | No |
+| 2.x | Yes |
+| 1.x | No |
 
 ## Report a vulnerability
 

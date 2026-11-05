@@ -8,8 +8,6 @@ Unstyled components for **Angular**, **React** (including Next.js) and **Vue**, 
 
 Documentation: [doc.cocokits.com](https://doc.cocokits.com).
 
-> This is the `next` branch: the 2.0 rewrite. The 1.x code is on the [`v1`](https://github.com/coco-base/cocokits/tree/v1) branch. 2.0 is not released yet.
-
 ## Packages
 
 Every package has the same version.
@@ -55,7 +53,7 @@ The exact ranges are the `peerDependencies` of each package and [`compatibility.
 
 ## Contribute
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) and, for the rules of the code, [docs/architecture.md](docs/architecture.md). Coding agents start at [AGENTS.md](AGENTS.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md). Coding agents start at [AGENTS.md](AGENTS.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
 ## License
 
