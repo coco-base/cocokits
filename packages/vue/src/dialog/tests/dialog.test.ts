@@ -4,7 +4,7 @@ import { cleanup, screen } from '@testing-library/vue';
 import { h, nextTick, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DialogClose, DialogContent, DialogRoot, DialogTitle, DialogTrigger } from '../index';
-import { boxAt, dialogView, mountView, pressOn, settle, stubOverlayBrowser } from './fixtures';
+import { boxAt, button, dialogView, mountView, pressOn, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -18,9 +18,7 @@ afterEach(() => {
 
 type User = ReturnType<typeof userEvent.setup>;
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
 const dialog = (): HTMLDialogElement | null => screen.queryByRole<HTMLDialogElement>('dialog');
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 const classesOf = (element: Element): string[] => [...element.classList];
 
 describe('Dialog rendered contract', () => {

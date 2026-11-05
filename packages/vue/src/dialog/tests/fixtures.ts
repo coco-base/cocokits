@@ -1,3 +1,5 @@
+import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/vue';
 import { h, type Ref, type VNode } from 'vue';
 import { vi } from 'vitest';
 import { DialogClose, DialogContent, DialogDescription, DialogRoot, DialogTitle, DialogTrigger } from '../index';
@@ -97,4 +99,16 @@ export function dialogView(options: {
     ),
     h('button', { id: 'after' }, 'after'),
   ];
+}
+
+/** The button that opens the dialog. */
+export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
+
+/** The button with the accessible name. */
+export const button = (name: string): HTMLElement => screen.getByRole('button', { name });
+
+/** Opens the dialog with a click on the trigger and waits for the update. */
+export async function open(): Promise<void> {
+  await userEvent.click(trigger());
+  await settle();
 }
