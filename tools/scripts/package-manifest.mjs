@@ -1,4 +1,7 @@
 // What makes a package manifest publishable, shared by the publish checks (package-checks.mjs) and their tests.
+import semver from 'semver';
+import validateName from 'validate-npm-package-name';
+
 const DEPENDENCY_FIELDS = ['dependencies', 'peerDependencies', 'optionalDependencies', 'devDependencies'];
 /** Ranges the registry cannot resolve. */
 const LOCAL_RANGE = /^(workspace|link|file|portal|catalog):/;
@@ -26,19 +29,29 @@ export function missingFiles(manifest, packed) {
   });
 }
 
-/** The semantic version grammar of https://semver.org (npm refuses to publish any other `version`). */
-const SEMVER =
-  /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+/** The problem with a `name` npm would refuse for a new package, if any. */
+function nameProblem(name) {
+  if (typeof name !== 'string' || name === '') return 'no "name" field';
+  const { validForNewPackages, errors = [], warnings = [] } = validateName(name);
+  return validForNewPackages
+    ? undefined
+    : `"name" is "${name}", not a valid package name: ${[...errors, ...warnings].join(', ')}`;
+}
 
-/** A missing `name`, `license` or `version`, or a `version` that is not a semantic version. */
+/** The problem with a `version` that is not exactly a semantic version (`semver.valid` also accepts `v1.0.0` and drops `+build`), if any. */
+function versionProblem(version) {
+  if (typeof version !== 'string' || version === '') return 'no "version" field';
+  return semver.valid(version) === version.split('+')[0]
+    ? undefined
+    : `"version" is "${version}", not a semantic version`;
+}
+
+/** A missing `license`, an invalid `name` or an invalid `version`. */
 function fieldProblems(manifest) {
-  const problems = [];
-  for (const field of ['name', 'license']) {
-    if (typeof manifest[field] !== 'string' || manifest[field] === '') problems.push(`no "${field}" field`);
-  }
-  if (typeof manifest.version !== 'string' || manifest.version === '') problems.push('no "version" field');
-  else if (!SEMVER.test(manifest.version)) problems.push(`"version" is "${manifest.version}", not a semantic version`);
-  return problems;
+  const license = typeof manifest.license === 'string' && manifest.license !== '' ? undefined : 'no "license" field';
+  return [nameProblem(manifest.name), versionProblem(manifest.version), license].filter(
+    (problem) => problem !== undefined,
+  );
 }
 
 /** What is wrong with a package that has this manifest and these files (paths relative to the package). */

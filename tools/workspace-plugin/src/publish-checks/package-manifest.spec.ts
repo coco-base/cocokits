@@ -33,13 +33,36 @@ describe.each([
     }
   });
 
-  it.each(['banana', '2.0', 'v2.0.0', '02.0.0', '2.0.0-', ' 2.0.0'])('rejects the version "%s"', (version) => {
+  it.each([
+    'banana',
+    '2.0',
+    'v2.0.0',
+    '02.0.0',
+    '2.0.0-',
+    ' 2.0.0',
+    '9007199254740992.0.0',
+    `1.0.0-${'a'.repeat(300)}`,
+  ])('rejects the version %j', (version) => {
     expect(problemsOf({ ...MANIFEST, version }, files)).toEqual([`"version" is "${version}", not a semantic version`]);
+  });
+
+  it.each(['invalid name', 'UpperCase', '@scope name/pkg', '@scope/Upper', '@scope', '.hidden', `a${'b'.repeat(214)}`])(
+    'rejects the name %j',
+    (name) => {
+      const [problem, ...others] = problemsOf({ ...MANIFEST, name }, files);
+      expect(problem).toContain(`"name" is "${name}", not a valid package name`);
+      expect(others).toEqual([]);
+    },
+  );
+
+  it.each(['@cocokits/angular-core', 'cocokits', '@scope/pkg.name'])('accepts the name %s', (name) => {
+    expect(problemsOf({ ...MANIFEST, name }, files)).toEqual([]);
   });
 
   it('rejects a missing or empty version', () => {
     expect(problemsOf({ ...MANIFEST, version: '' }, files)).toEqual(['no "version" field']);
     expect(problemsOf({ ...MANIFEST, version: undefined }, files)).toEqual(['no "version" field']);
+    expect(problemsOf({ ...MANIFEST, name: undefined }, files)).toEqual(['no "name" field']);
   });
 
   it('rejects a workspace range and a leftover publishConfig.directory', () => {
