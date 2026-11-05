@@ -4,14 +4,10 @@ import userEvent from '@testing-library/user-event';
 import { accordionAnatomy } from '@cocokits/machines/accordion';
 import { describe, expect, it } from 'vitest';
 import { CckAccordion, CckAccordionImports, CckAccordionItem } from '../index';
+import { must } from './queries';
 
 const imports = [...CckAccordionImports];
 const { classes } = accordionAnatomy;
-
-function must<T>(value: T | null | undefined): T {
-  if (value == null) throw new Error('expected a value');
-  return value;
-}
 
 const trigger = (name: string): HTMLElement => screen.getByRole('button', { name });
 const expanded = (name: string): string | null => trigger(name).getAttribute('aria-expanded');
