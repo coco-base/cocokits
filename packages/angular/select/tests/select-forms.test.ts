@@ -9,7 +9,7 @@ import { CckLabelImports } from '@cocokits/angular/label';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports, type CckSelectChange } from '../index';
-import { must } from './helpers';
+import { gone, must, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const imports = [
@@ -24,12 +24,7 @@ const imports = [
 ];
 const { classes } = selectAnatomy;
 
-const trigger = (): HTMLButtonElement => screen.getByRole('combobox');
 const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 const OPTIONS = `<div cckSelectOption value="Cake">Cake</div><div cckSelectOption value="Pizza">Pizza</div>`;
 const submitHandler = (): ReturnType<typeof vi.fn> =>
   vi.fn((event: SubmitEvent) => {

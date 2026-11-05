@@ -3,9 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { trigger } from './helpers';
 
 const imports = [...CckSelectImports];
-const trigger = (): HTMLElement => screen.getByRole('combobox');
 const SELECT = `
   <button id="other">Other</button>
   <div cckSelect aria-label="Dish" [disabled]="disabled" [readonly]="readonly">
