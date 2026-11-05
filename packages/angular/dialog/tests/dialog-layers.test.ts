@@ -5,19 +5,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckPopoverImports } from '@cocokits/angular/popover';
 import { CckDialogImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { frame } from './queries';
 
 beforeEach(stubOverlayApis);
 afterEach(() => {
   vi.restoreAllMocks();
   document.documentElement.removeAttribute('style');
 });
-
-const frame = (): Promise<void> =>
-  new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
 
 /** Stands in for the exit animation of an element; the returned function ends it. */
 function animate(element: HTMLElement): () => void {

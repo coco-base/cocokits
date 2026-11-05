@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckDialogImports, type DialogChangeDetails } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { boxAt, closed, dialog, pressBackdrop } from './queries';
 
 const DELETE = `
   <ng-container cckDialog [disableClose]="true" [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">
@@ -17,18 +18,6 @@ const DELETE = `
       </dialog>
     </ng-template>
   </ng-container>`;
-
-const dialog = (): HTMLDialogElement => screen.getByRole<HTMLDialogElement>('dialog', { name: 'Delete project' });
-const closed = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('dialog')).toBeNull();
-  });
-const boxAt = (element: HTMLElement): void => {
-  element.getBoundingClientRect = () => new DOMRect(100, 100, 200, 200);
-};
-const pressBackdrop = (target: HTMLElement, at: { clientX: number; clientY: number }): void => {
-  target.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, cancelable: true, composed: true, ...at }));
-};
 
 @Component({ imports: [...CckDialogImports], template: DELETE })
 class LockedHost {

@@ -4,13 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckDialogImports, type DialogChangeDetails } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
-
-const frame = (): Promise<void> =>
-  new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
+import { frame } from './queries';
 
 const TEMPLATE = `
   <ng-container
