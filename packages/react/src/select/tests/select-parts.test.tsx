@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Select } from '../index';
-import { stubTopLayer, Dishes, Opt } from './fixtures';
+import { Dishes, Opt, stubTopLayer, trigger } from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -16,8 +16,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
 
 describe('Select render', () => {
   const dish = (): ReturnType<typeof render> =>

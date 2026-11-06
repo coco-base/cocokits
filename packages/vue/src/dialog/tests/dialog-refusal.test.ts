@@ -5,7 +5,7 @@ import { h, ref, withModifiers } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PointerDownOutsideEvent } from '@cocokits/vue-core';
 import { DialogClose, DialogContent, DialogRoot, DialogTrigger } from '../index';
-import { boxAt, dialogView, mountView, pressOn, settle, stubOverlayBrowser } from './fixtures';
+import { boxAt, dialog, dialogView, mountView, open, pressOn, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -16,20 +16,12 @@ afterEach(() => {
   document.documentElement.removeAttribute('style');
 });
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
-const dialog = (): HTMLDialogElement | null => screen.queryByRole('dialog');
-
 /** A press on the backdrop: the dialog element itself, outside its box. */
 function pressBackdrop(): void {
   const element = dialog();
   if (!element) throw new Error('no dialog');
   boxAt(element);
   pressOn(element, { clientX: 10, clientY: 10 });
-}
-
-async function open(): Promise<void> {
-  await userEvent.click(trigger());
-  await settle();
 }
 
 describe('Dialog content: escapeKeyDown', () => {

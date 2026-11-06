@@ -5,7 +5,7 @@ import { createSSRApp, h, ref, type App } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DialogClose, DialogContent, DialogRoot, DialogTitle, DialogTrigger } from '../index';
-import { dialogView, mountView, settle, stubOverlayBrowser } from './fixtures';
+import { dialogView, mountView, open, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 let mounted: App | undefined;
 beforeEach(stubOverlayBrowser);
@@ -19,18 +19,12 @@ afterEach(() => {
   document.documentElement.removeAttribute('style');
 });
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
 const dialogs = (): HTMLDialogElement[] => Array.from(document.querySelectorAll('dialog'));
 const dialog = (): HTMLDialogElement => {
   const found = document.querySelector('dialog');
   if (!found) throw new Error('No dialog in the document.');
   return found;
 };
-
-async function open(): Promise<void> {
-  await userEvent.click(trigger());
-  await settle();
-}
 
 describe('Dialog modal', () => {
   it('is modal by default: the native modal dialog, the page locked', async () => {

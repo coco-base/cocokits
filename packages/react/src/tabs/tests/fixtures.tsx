@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { StrictMode, type ReactElement } from 'react';
 import { Tabs, type TabsRootProps } from '../index';
 
@@ -27,3 +28,19 @@ export function Example({
     </StrictMode>
   );
 }
+
+/** The tab with the accessible name. */
+export const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
+
+/** The panel the tab points at with `aria-controls`. */
+export const panelOf = (name: string): HTMLElement => {
+  const element = document.getElementById(tab(name).getAttribute('aria-controls') ?? '');
+  if (!element) throw new Error(`no panel for ${name}`);
+  return element;
+};
+
+/** The text of the tabs that are selected. */
+export const selectedTabs = (): string[] =>
+  screen
+    .getAllByRole('tab')
+    .flatMap((element) => (element.getAttribute('aria-selected') === 'true' ? [element.textContent] : []));

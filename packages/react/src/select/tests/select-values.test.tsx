@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Select } from '../index';
-import { Dishes, Opt, reasonsOf, stubTopLayer } from './fixtures';
+import { active, Dishes, Opt, reasonsOf, stubTopLayer, trigger, valueText } from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -14,11 +14,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const valueText = (): string | undefined => trigger().querySelector('.cck-select__value')?.textContent.trim();
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select value types', () => {
   it('types a single Select as T or null and a multiple one as a list', () => {

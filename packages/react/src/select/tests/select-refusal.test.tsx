@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Dishes, Opt, lastReason, must, nextTask, reasonsOf, stubTopLayer } from './fixtures';
+import { Dishes, gone, lastReason, must, nextTask, Opt, reasonsOf, stubTopLayer, trigger, valueText } from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -12,13 +12,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const valueText = (): string | undefined => trigger().querySelector('.cck-select__value')?.textContent.trim();
 
 function Menu(props: Parameters<typeof Dishes<string, false>>[0]): React.ReactElement {
   return (

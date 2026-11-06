@@ -5,7 +5,7 @@ import { h } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PopoverContent, PopoverRoot, PopoverTrigger } from '../../popover';
 import { DialogClose, DialogContent, DialogRoot, DialogTrigger } from '../index';
-import { mountView, settle, stubOverlayBrowser } from './fixtures';
+import { button, mountView, settle, stubOverlayBrowser } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -15,8 +15,6 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.documentElement.removeAttribute('style');
 });
-
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 
 describe('Dialog nesting', () => {
   it('opens a dialog from a dialog inside the outer one; Escape closes the inner only, focus goes back to its trigger and the lock stays', async () => {

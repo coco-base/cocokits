@@ -1,11 +1,20 @@
 // @vitest-environment jsdom
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { createRef, StrictMode, type ReactElement } from 'react';
 import { Popover } from '../../popover';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Tooltip } from '../index';
-import { Example, stubTopLayer, tooltipContent, tooltipDescription } from './fixtures';
+import {
+  elapse,
+  Example,
+  isOpen,
+  reasons,
+  setup,
+  stubTopLayer,
+  tooltipContent,
+  tooltipDescription,
+  trigger,
+} from './fixtures';
 
 beforeEach(() => {
   stubTopLayer();
@@ -23,23 +32,12 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const setup = (): ReturnType<typeof userEvent.setup> =>
-  userEvent.setup({ delay: null, advanceTimers: (ms) => vi.advanceTimersByTime(ms) });
-const elapse = (ms: number): void => {
-  act(() => {
-    vi.advanceTimersByTime(ms);
-  });
-};
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Copy link' });
 const content = tooltipContent;
 const shown = (): HTMLElement => {
   const element = content();
   if (!element) throw new Error('Expected the tooltip to be open.');
   return element;
 };
-const isOpen = (): boolean => content() !== null;
-const reasons = (fn: ReturnType<typeof vi.fn>): unknown[] =>
-  fn.mock.calls.map((call: unknown[]) => [call[0], (call[1] as { reason: string }).reason]);
 
 describe('Tooltip rendered contract', () => {
   it('renders only the trigger while closed', () => {

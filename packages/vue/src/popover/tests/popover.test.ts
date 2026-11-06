@@ -5,7 +5,7 @@ import { h, nextTick, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { popoverMeta } from '@cocokits/machines/popover';
 import { PopoverClose, PopoverContent, PopoverRoot, PopoverTrigger } from '../index';
-import { mountView, popoverView, settle, stubOverlayBrowser } from './fixtures';
+import { dialog, mountView, popoverView, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -15,11 +15,9 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 function classesOf(element: Element): string[] {
   return [...element.classList];
 }
-const dialog = (): HTMLElement | null => screen.queryByRole('dialog');
 
 describe('Popover rendered contract', () => {
   it('renders no element for the root, and a closed trigger with the disclosure ARIA', () => {

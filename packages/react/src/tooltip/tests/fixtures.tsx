@@ -1,3 +1,5 @@
+import { act, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { StrictMode, type ReactElement } from 'react';
 import { vi } from 'vitest';
 import { Tooltip } from '../index';
@@ -77,3 +79,24 @@ export function accessibleDescription(element: Element): string {
     .join(' ')
     .trim();
 }
+
+/** The button that triggers the tooltip. */
+export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Copy link' });
+
+/** Whether the tooltip content is in the document. */
+export const isOpen = (): boolean => tooltipContent() !== null;
+
+/** The `[value, reason]` pairs of the calls to an open-change callback. */
+export const reasons = (fn: ReturnType<typeof vi.fn>): unknown[] =>
+  fn.mock.calls.map((call: unknown[]) => [call[0], (call[1] as { reason: string }).reason]);
+
+/** A user whose delays run on the fake clock. */
+export const setup = (): ReturnType<typeof userEvent.setup> =>
+  userEvent.setup({ delay: null, advanceTimers: (ms) => vi.advanceTimersByTime(ms) });
+
+/** Moves the fake clock forward inside `act`. */
+export const elapse = (ms: number): void => {
+  act(() => {
+    vi.advanceTimersByTime(ms);
+  });
+};

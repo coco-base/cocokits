@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-libra
 import type { OverlayPositionOptions } from '@cocokits/cdk/positioning';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Tooltip } from '../index';
-import { Example, stubTopLayer, tooltipContent, tooltipDescription } from './fixtures';
+import { Example, isOpen, reasons, stubTopLayer, tooltipContent, tooltipDescription, trigger } from './fixtures';
 
 const starts: OverlayPositionOptions[] = [];
 vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
@@ -26,11 +26,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Copy link' });
-const isOpen = (): boolean => tooltipContent() !== null;
-const reasons = (fn: ReturnType<typeof vi.fn>): unknown[] =>
-  fn.mock.calls.map((call: unknown[]) => [call[0], (call[1] as { reason: string }).reason]);
 
 describe('Tooltip closes when an ancestor of the trigger scrolls', () => {
   it('closes on a scrolling ancestor, with the reason scroll', async () => {

@@ -202,7 +202,7 @@ describe('Select opening', () => {
     expect(screen.queryByRole('listbox')).toBeNull();
     readonlyView.unmount();
     mountView(selectView({ disabled: true }));
-    expect((trigger() as HTMLButtonElement).disabled).toBe(true);
+    expect(trigger().disabled).toBe(true);
     expect(trigger().closest(`.${classes.root}`)?.hasAttribute('data-disabled')).toBe(true);
     await user.click(trigger());
     expect(screen.queryByRole('listbox')).toBeNull();

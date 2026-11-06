@@ -5,7 +5,7 @@ import { defineComponent, h, ref, type Component } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PopoverContent, PopoverRoot, PopoverTrigger } from '../../popover';
 import { DialogClose, DialogContent, DialogRoot, DialogTitle, DialogTrigger } from '../index';
-import { mountView, pressOn, settle, stubOverlayBrowser } from './fixtures';
+import { button, mountView, pressOn, settle, stubOverlayBrowser } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -16,8 +16,6 @@ afterEach(() => {
   document.body.innerHTML = '';
   document.documentElement.removeAttribute('style');
 });
-
-const button = (name: string): HTMLElement => screen.getByRole('button', { name });
 
 /** A promise that stands in for the exit animation of an element. */
 function animate(element: HTMLElement): () => Promise<void> {

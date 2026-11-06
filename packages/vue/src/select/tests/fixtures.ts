@@ -183,7 +183,7 @@ export function component(rootProps: Record<string, unknown> = {}): Component {
 }
 
 /** The Select trigger: the only combobox on the page. */
-export const trigger = (): HTMLElement => screen.getByRole('combobox');
+export const trigger = (): HTMLButtonElement => screen.getByRole('combobox');
 
 /** The option with the accessible name. */
 export const option = (name: string): HTMLElement => screen.getByRole('option', { name });

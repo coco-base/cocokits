@@ -6,7 +6,7 @@ import { DirectionProvider } from '@cocokits/react-core';
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { Tooltip } from '../../tooltip';
 import { Popover } from '../index';
-import { stubTopLayer } from './fixtures';
+import { popover, stubTopLayer } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -45,7 +45,6 @@ function Stack({
   );
 }
 
-const popover = (): HTMLElement | null => screen.queryByRole('dialog');
 const tooltip = (): HTMLElement | null => document.querySelector<HTMLElement>('.cck-tooltip__content');
 
 describe('Tooltip over a Popover', () => {

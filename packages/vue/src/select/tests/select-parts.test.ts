@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
-import { cleanup, screen, waitFor } from '@testing-library/vue';
+import { cleanup, screen } from '@testing-library/vue';
 import { h } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { selectAnatomy } from '@cocokits/machines/select';
@@ -14,7 +14,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../index';
-import { item, mountView, ObjectItem, ObjectRoot, record, selectRoot, settle, stubOverlayBrowser } from './fixtures';
+import {
+  active,
+  gone,
+  item,
+  mountView,
+  ObjectItem,
+  ObjectRoot,
+  option,
+  record,
+  selectRoot,
+  settle,
+  stubOverlayBrowser,
+  trigger,
+} from './fixtures';
 
 const { classes } = selectAnatomy;
 
@@ -27,15 +40,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const option = (name: string): HTMLElement => screen.getByRole('option', { name });
-const active = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 
 describe('Select part elements', () => {
   it('renders a div for the Root, Content, Item and Group, a button for the Trigger and spans for the rest', async () => {

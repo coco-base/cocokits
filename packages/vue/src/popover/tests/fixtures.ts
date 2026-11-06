@@ -1,3 +1,5 @@
+import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/vue';
 import { defineComponent, h, ref, type Component, type Ref, type VNode } from 'vue';
 import { vi } from 'vitest';
 import { PopoverClose, PopoverContent, PopoverRoot, PopoverTrigger } from '../index';
@@ -67,4 +69,16 @@ export function controlled(openRef: Ref<boolean> = ref(false)): { Component: Com
     open: openRef,
     Component: defineComponent({ setup: () => popoverView({ open: openRef }) }),
   };
+}
+
+/** The button that opens the popover. */
+export const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
+
+/** The open popover content, or null. */
+export const dialog = (): HTMLElement | null => screen.queryByRole('dialog');
+
+/** Opens the popover with a click on the trigger and waits for the update. */
+export async function open(): Promise<void> {
+  await userEvent.click(trigger());
+  await settle();
 }

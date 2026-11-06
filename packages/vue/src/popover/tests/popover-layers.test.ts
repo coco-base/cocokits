@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { provideDirection } from '@cocokits/vue-core';
 import { TooltipContent, TooltipRoot, TooltipTrigger } from '../../tooltip';
 import { PopoverContent, PopoverRoot, PopoverTrigger } from '../index';
-import { mountView, settle, stubOverlayBrowser } from './fixtures';
+import { mountView, dialog as popover, settle, stubOverlayBrowser } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
@@ -17,7 +17,6 @@ afterEach(() => {
   document.documentElement.removeAttribute('dir');
 });
 
-const popover = (): HTMLElement | null => screen.queryByRole('dialog');
 const tooltip = (): HTMLElement | null => document.querySelector<HTMLElement>('.cck-tooltip__content');
 
 /** An open Tooltip on a button inside an open Popover, both driven by the page like `v-model:open`. */
