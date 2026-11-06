@@ -1,12 +1,23 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
 import { cleanup, fireEvent, screen, waitFor } from '@testing-library/vue';
-import { h, nextTick, ref } from 'vue';
+import { h, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { PopoverContent, PopoverRoot, PopoverTrigger } from '../../popover';
 import { tooltipMeta } from '@cocokits/machines/tooltip';
 import { TooltipContent, TooltipRoot, TooltipTrigger } from '../index';
-import { mountView, settle, stubOverlayBrowser, tooltipContent, tooltipDescription, tooltipView } from './fixtures';
+import {
+  elapse,
+  isOpen,
+  mountView,
+  settle,
+  setup,
+  stubOverlayBrowser,
+  tooltipContent,
+  tooltipDescription,
+  tooltipView,
+  trigger,
+} from './fixtures';
 
 beforeEach(() => {
   stubOverlayBrowser();
@@ -25,24 +36,12 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const setup = (): ReturnType<typeof userEvent.setup> =>
-  userEvent.setup({ delay: null, advanceTimers: (ms) => vi.advanceTimersByTime(ms) });
 /** Back to the real clock, for a test that waits on an animation frame (focus moves in a frame). */
 const useRealClock = (): void => {
   vi.useRealTimers();
   Reflect.deleteProperty(globalThis, 'jest');
 };
-/** Advances the fake clock and lets Vue and the portal flush. */
-const elapse = async (ms: number): Promise<void> => {
-  await vi.advanceTimersByTimeAsync(ms);
-  for (let round = 0; round < 3; round += 1) {
-    await nextTick();
-    await vi.advanceTimersByTimeAsync(0);
-  }
-};
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Copy link' });
 const tip = (): HTMLElement | null => tooltipContent();
-const isOpen = (): boolean => tip() !== null;
 const shown = (): HTMLElement => {
   const element = tip();
   if (!element) throw new Error('Expected the tooltip to be open.');

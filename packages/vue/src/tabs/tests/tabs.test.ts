@@ -5,7 +5,7 @@ import { defineComponent, h, nextTick, ref, type Ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { provideDirection } from '@cocokits/vue-core';
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from '../index';
-import { mountView, tabsView } from './fixtures';
+import { mountView, tab, tabsView } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -13,7 +13,6 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 const panelOf = (name: string): HTMLElement => {
   const element = document.getElementById(tab(name).getAttribute('aria-controls') ?? '');
   if (!element) throw new Error(`no panel for ${name}`);

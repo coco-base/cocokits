@@ -4,7 +4,7 @@ import { cleanup, screen } from '@testing-library/vue';
 import { h, nextTick, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from '../index';
-import { mountView, tabsView } from './fixtures';
+import { mountView, tab, tabsView } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -13,7 +13,6 @@ afterEach(() => {
 });
 
 const panels = (): HTMLElement[] => [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 
 /** Three tabs; `1` and `'1'` are different values. */
 function numbers(root: Record<string, unknown> = {}): () => VNode {

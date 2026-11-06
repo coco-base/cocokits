@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/vue';
 import { defineComponent, h, type VNode } from 'vue';
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from '../index';
 
@@ -53,3 +54,6 @@ export function tabsView(options: TabsViewOptions = {}): () => VNode[] {
     h('button', 'after'),
   ];
 }
+
+/** The tab with the accessible name. */
+export const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });

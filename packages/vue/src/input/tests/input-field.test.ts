@@ -10,7 +10,7 @@ import { Hint } from '../../hint';
 import { Label } from '../../label';
 import { Input } from '../index';
 import { mountView } from '../../internal/tests/mount-helpers';
-import { emailField, field, nextFrame } from './fixtures';
+import { control, emailField, field, nextFrame } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -18,7 +18,6 @@ afterEach(() => {
 });
 
 const root = (): HTMLElement => screen.getByTestId('field');
-const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 const named = (text: string): HTMLElement => screen.getByText(text, { exact: false });
 
 describe('Input in a FormField: ids, label and description', () => {

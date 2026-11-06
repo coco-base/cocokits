@@ -5,12 +5,11 @@ import { useState, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField } from '../../form-field';
 import { Textarea } from '../index';
-import { must, nextTask, strict } from './fixtures';
+import { control, must, nextTask, strict } from './fixtures';
 
 afterEach(cleanup);
 
 const form = (): HTMLFormElement => must(document.querySelector('form'));
-const control = (): HTMLTextAreaElement => screen.getByRole<HTMLTextAreaElement>('textbox');
 
 const CRLF = 'a\r\nb';
 const LF = 'a\nb';

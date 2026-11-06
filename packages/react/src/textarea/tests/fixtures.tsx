@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { StrictMode, type ReactElement } from 'react';
 import { textareaAnatomy } from '@cocokits/machines/textarea';
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
@@ -55,3 +56,6 @@ export function MessageField({ id }: { readonly id?: string }): ReactElement {
     </FormField>
   );
 }
+
+/** The text area. */
+export const control = (): HTMLTextAreaElement => screen.getByRole<HTMLTextAreaElement>('textbox');

@@ -1,10 +1,9 @@
 // @vitest-environment jsdom
-import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
-import { h, nextTick, ref } from 'vue';
+import { h, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { TooltipContent, TooltipProvider, TooltipRoot, TooltipTrigger } from '../index';
-import { mountView, stubOverlayBrowser, tooltipContent } from './fixtures';
+import { elapse, isOpen, mountView, setup, stubOverlayBrowser } from './fixtures';
 
 beforeEach(() => {
   stubOverlayBrowser();
@@ -20,17 +19,7 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-const setup = (): ReturnType<typeof userEvent.setup> =>
-  userEvent.setup({ delay: null, advanceTimers: (ms) => vi.advanceTimersByTime(ms) });
-const elapse = async (ms: number): Promise<void> => {
-  await vi.advanceTimersByTimeAsync(ms);
-  for (let round = 0; round < 3; round += 1) {
-    await nextTick();
-    await vi.advanceTimersByTimeAsync(0);
-  }
-};
 const trigger = (name: string): HTMLElement => screen.getByRole('button', { name });
-const isOpen = (): boolean => tooltipContent() !== null;
 
 /** Two tooltips; the roots take the given props. */
 function pair(rootProps: Record<string, unknown> = {}) {

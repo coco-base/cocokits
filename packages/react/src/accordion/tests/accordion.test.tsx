@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { accordionMeta } from '@cocokits/machines/accordion';
-import { Example } from './fixtures';
+import { Example, isOpen, openNames, region, trigger } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -13,12 +13,6 @@ afterEach(() => {
   Reflect.deleteProperty(HTMLElement.prototype, 'scrollHeight');
   Reflect.deleteProperty(HTMLElement.prototype, 'scrollWidth');
 });
-
-const trigger = (name: string): HTMLElement => screen.getByRole('button', { name });
-const region = (name: string): HTMLElement | null => screen.queryByRole('region', { name });
-const isOpen = (name: string): boolean => trigger(name).getAttribute('aria-expanded') === 'true';
-const openNames = (): string[] =>
-  ['Shipping', 'Returns', 'Warranty'].filter((name) => trigger(name).getAttribute('aria-expanded') === 'true');
 
 describe('Accordion rendered contract', () => {
   it('renders root > item > header > trigger and content with the fixed classes, elements and data attributes', () => {

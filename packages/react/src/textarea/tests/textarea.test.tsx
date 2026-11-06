@@ -6,11 +6,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { textareaMeta } from '@cocokits/machines/textarea';
 import { ThemeProvider } from '@cocokits/react-core';
 import { Textarea, type TextareaChangeDetails } from '../index';
-import { strict, textareaThemeConfig } from './fixtures';
+import { control as area, strict, textareaThemeConfig } from './fixtures';
 
 afterEach(cleanup);
-
-const area = (): HTMLTextAreaElement => screen.getByRole<HTMLTextAreaElement>('textbox');
 
 describe('Textarea rendering', () => {
   it('renders a native textarea with the class, no type and nothing else', () => {

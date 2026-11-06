@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { StrictMode, type ReactElement } from 'react';
 import { inputAnatomy } from '@cocokits/machines/input';
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
@@ -53,3 +54,6 @@ export function EmailField({ id }: { readonly id?: string }): ReactElement {
     </FormField>
   );
 }
+
+/** The text box. */
+export const control = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
