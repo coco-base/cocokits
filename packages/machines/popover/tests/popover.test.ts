@@ -158,6 +158,12 @@ describe('transitionPopover', () => {
 });
 
 describe('meta', () => {
+  it('limits the modal Tab row to React and Vue, with a neutral context', () => {
+    const modal = popoverMeta.keyboard.filter((row) => row.frameworks !== undefined);
+    expect(modal).toHaveLength(1);
+    expect(modal[0]).toMatchObject({ context: 'inside the content of a modal popover', frameworks: ['react', 'vue'] });
+  });
+
   it('links the dialog pattern of the content, and declares roles and elements', () => {
     expect(popoverMeta.apg).toBe('https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/');
     expect(popoverMeta.roles.content).toBe('dialog');

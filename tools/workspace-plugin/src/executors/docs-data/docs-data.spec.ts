@@ -131,6 +131,34 @@ ${META.replace("apg: 'https://example.test/alpha', ", '')}
     expect(errors()).toMatch(/\.\/beta: the anatomy export is not made by defineAnatomy/);
   });
 
+  it.each([
+    ['an empty frameworks list', '[]', /the keyboard row "Enter" has an empty or invalid "frameworks" list/],
+    ['an unknown framework name', "['react', 'svelte']", /names an unknown framework "svelte"/],
+  ])('fails on a keyboard row with %s', async (_label, list, message) => {
+    machines(
+      `${ANATOMY.replace('alpha', 'beta').replace("'alpha'", "'beta'")}
+${META.replace('alphaMeta', 'betaMeta').replace("action: 'Activates.'", `action: 'Activates.', frameworks: ${list}`)}
+`,
+    );
+    expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(false);
+    expect(errors()).toMatch(message);
+  });
+
+  it('keeps a keyboard row frameworks list in the docs data', async () => {
+    write(
+      'packages/m/package.json',
+      JSON.stringify({ type: 'module', exports: { './alpha': { default: './dist/a.js' } } }),
+    );
+    write(
+      'packages/m/dist/a.js',
+      `${ANATOMY}
+${META.replace("action: 'Activates.'", "action: 'Activates.', frameworks: ['react', 'vue']")}
+`,
+    );
+    expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(true);
+    expect(readJson('dist/docs-data/m/alpha.json')).toHaveProperty('meta.keyboard.0.frameworks', ['react', 'vue']);
+  });
+
   it('fails with a hint when the package is not built', async () => {
     machines(undefined);
     rmSync(join(dir, 'packages/m/dist'), { recursive: true });

@@ -35,6 +35,25 @@ function checkAnatomy(subpath: string, anatomy: unknown): Record<string, unknown
   return anatomy;
 }
 
+const FRAMEWORKS: readonly string[] = ['angular', 'react', 'vue'];
+
+/** A keyboard row `frameworks` list must be absent or a non-empty list of known framework names. */
+function checkKeyboardFrameworks(subpath: string, keyboard: readonly unknown[]): void {
+  for (const row of keyboard) {
+    const frameworks = isRecord(row) ? row['frameworks'] : undefined;
+    if (frameworks === undefined) continue;
+    const label = isRecord(row) ? String(row['key']) : String(row);
+    if (!Array.isArray(frameworks) || frameworks.length === 0) {
+      throw new Error(`${subpath}: the keyboard row "${label}" has an empty or invalid "frameworks" list`);
+    }
+    for (const name of frameworks) {
+      if (typeof name !== 'string' || !FRAMEWORKS.includes(name)) {
+        throw new Error(`${subpath}: the keyboard row "${label}" names an unknown framework "${String(name)}"`);
+      }
+    }
+  }
+}
+
 function checkMeta(subpath: string, meta: unknown): Record<string, unknown> {
   if (
     !isRecord(meta) ||
@@ -48,6 +67,7 @@ function checkMeta(subpath: string, meta: unknown): Record<string, unknown> {
       `${subpath}: the meta export is not a ComponentMeta (dataAttrs, roles, keyboard, form, and apg when it is set)`,
     );
   }
+  checkKeyboardFrameworks(subpath, meta['keyboard'] as unknown[]);
   return meta;
 }
 
