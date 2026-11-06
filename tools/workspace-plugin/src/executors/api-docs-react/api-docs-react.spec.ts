@@ -317,8 +317,10 @@ ${tags}
     ]);
   });
 
-  it('fails on a none field without @cckParity or with an empty one', () => {
-    expect(() => extract('scope-no-parity', withNone(''))).toThrow(/scope field "selected".*@cckParity/);
+  it('fails on a none field without @cckParity, with only @remarks, or with an empty one', () => {
+    const missing = /scope field "selected".*@cckParity/;
+    expect(() => extract('scope-no-parity', withNone(''))).toThrow(missing);
+    expect(() => extract('scope-remarks', withNone('   * @remarks A reason.'))).toThrow(missing);
     expect(() => extract('scope-empty', withNone('   * @cckParity'))).toThrow(/scope field "selected"/);
   });
 });
@@ -401,7 +403,7 @@ describe('extractReactApiDocs: parts and defaults that differ by design', () => 
     expect(() => extract('differs-empty', differs(''))).toThrow(/Thing\.label: "@cckDefaultDiffers" needs a reason/);
   });
 
-  it('marks a component tagged @cckSemantic none as framework-only, and needs its @cckParity or @remarks', () => {
+  it('marks a component tagged @cckSemantic none as framework-only, and needs its @cckParity', () => {
     const tagged = (reason: string): string =>
       fixture('thing.ts').replace(
         ' * @cckPart root\n */\nexport function Thing',
@@ -410,7 +412,7 @@ describe('extractReactApiDocs: parts and defaults that differ by design', () => 
     const part = extract('only', tagged(' * @cckParity One framework only.\n'))[0]?.parts[0];
     expect(part?.frameworkOnly).toBe(true);
     expect(JSON.stringify(part)).not.toMatch(/parity|One framework only/i);
-    expect(extract('only-remarks', tagged(' * @remarks The part.\n'))[0]?.parts[0]?.frameworkOnly).toBe(true);
+    expect(() => extract('only-remarks', tagged(' * @remarks The part.\n'))).toThrow(/needs a "@cckParity"/);
     expect(() => extract('only-empty', tagged(''))).toThrow(
       /Thing: the part is "@cckSemantic none" and needs a "@cckParity"/,
     );
@@ -418,7 +420,10 @@ describe('extractReactApiDocs: parts and defaults that differ by design', () => 
 
   it('checks @cckParity on a prop and keeps it out of the JSON', () => {
     const source = (tags: string): string =>
-      fixture('thing.ts').replace('   * @cckSemantic none\n   * @remarks The element override.\n', tags);
+      fixture('thing.ts').replace(
+        '   * @cckSemantic none\n   * @remarks The element override.\n   * @cckParity Another framework has no override.\n',
+        tags,
+      );
     const props = extract('parity', source('   * @cckSemantic none\n   * @cckParity Other has it.\n'))[0]?.parts[0]
       ?.props;
     const render = props?.find((prop) => prop.name === 'render');

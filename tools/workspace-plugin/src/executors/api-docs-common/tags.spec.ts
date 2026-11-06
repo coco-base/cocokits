@@ -48,17 +48,17 @@ describe('withoutLinks', () => {
 describe('checkParity', () => {
   const tag = (name: string, comment: string) => ({ name, comment });
 
-  it('accepts a none item with a @cckParity reason or a @remarks reason', () => {
-    for (const reason of [tag('cckParity', 'Only here.'), tag('remarks', 'Only here.')]) {
-      const problems: string[] = [];
-      expect(checkParity('Thing.render', [tag('cckSemantic', 'none'), reason], problems)).toBe(true);
-      expect(problems).toEqual([]);
-    }
+  it('accepts a none item with a @cckParity reason', () => {
+    const problems: string[] = [];
+    const tags = [tag('cckSemantic', 'none'), tag('cckParity', 'Only here.')];
+    expect(checkParity('Thing.render', tags, problems)).toBe(true);
+    expect(problems).toEqual([]);
   });
 
-  it('adds a problem for a none item without a reason', () => {
+  it('adds a problem for a none item with only a @remarks', () => {
     const problems: string[] = [];
-    expect(checkParity('Thing.render', [tag('cckSemantic', 'none'), tag('remarks', '')], problems)).toBe(true);
+    const tags = [tag('cckSemantic', 'none'), tag('remarks', 'Only here.')];
+    expect(checkParity('Thing.render', tags, problems)).toBe(true);
     expect(problems).toEqual(['Thing.render is "@cckSemantic none" and needs a "@cckParity" reason']);
   });
 
