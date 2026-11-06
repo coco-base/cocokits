@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from '@testing-library/vue';
-import { defineComponent, h, nextTick, ref, type Component, type VNode } from 'vue';
+import { h, nextTick, ref, type Component, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AccordionHeader as BaseAccordionHeader } from '@cocokits/vue/accordion';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -14,13 +14,6 @@ afterEach(() => {
 
 const options = cocokitsThemeConfig.components.accordion;
 const ATTRIBUTES = ['data-variant', 'data-size', 'data-toggle-position', 'data-hide-toggle'] as const;
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | boolean | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 const items = (): VNode[] => [
   h(AccordionItem, { value: 'shipping' }, () => [
     h(AccordionHeader, null, () => h(AccordionTrigger, null, () => 'Shipping')),

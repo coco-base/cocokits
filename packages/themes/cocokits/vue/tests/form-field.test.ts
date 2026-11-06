@@ -1,13 +1,13 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/vue';
-import { defineComponent, h, nextTick, ref, type Component, type VNode } from 'vue';
+import { h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField as BaseFormField } from '@cocokits/vue/form-field';
 import { Input } from '@cocokits/vue/input';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { defineAnatomy } from '@cocokits/shared';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormField, type FormFieldProps } from '../src/index';
+import { themed } from './helpers';
 
 /** The classes come from an anatomy of the same block, as the theme-config tests do; a theme may not import a machine. */
 const formFieldAnatomy = defineAnatomy({
@@ -24,13 +24,6 @@ afterEach(() => {
 });
 
 const { size } = cocokitsThemeConfig.components['form-field'];
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 
 const root = (): HTMLElement => screen.getByTestId('field');
 const inputWrapper = (): HTMLElement => {

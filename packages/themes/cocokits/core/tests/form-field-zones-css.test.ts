@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const stylesCss = ['form-field', 'label', 'hint', 'input', 'textarea', 'field-error']
   .map((name) => read('dist', 'components', `${name}.css`))
   .join('\n');
 const scss = read('src', 'styles', 'components', '_form-field.scss');
-const tokensCss = read('dist', 'tokens.css');
 
 const INSIDE = ['.cck-form-field__input-wrapper > .cck-prefix', '.cck-form-field__input-wrapper > .cck-suffix'];
 const OUTSIDE = ['.cck-form-field__wrapper > .cck-leading', '.cck-form-field__wrapper > .cck-trailing'];

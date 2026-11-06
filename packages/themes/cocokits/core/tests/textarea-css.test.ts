@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'textarea.css');
 const scss = read('src', 'styles', 'components', '_textarea.scss');
-const tokensCss = read('dist', 'tokens.css');
 const INVALID = '.cck-textarea:where([data-invalid]):where([data-touched], [data-submitted])';
 const DISABLED = '.cck-textarea:where([data-disabled], :disabled)';
 

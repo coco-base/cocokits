@@ -1,11 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { StrictMode, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Select as BaseSelect } from '@cocokits/react/select';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Select, type SelectRootProps } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -13,11 +14,6 @@ afterEach(() => {
 });
 
 const options = cocokitsThemeConfig.components.select;
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const example = (props: Partial<SelectRootProps> = {}): ReactElement => (
   <Select.Root {...props}>
     <Select.Trigger aria-label="Dish">

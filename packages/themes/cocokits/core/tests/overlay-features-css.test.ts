@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const popover = read('dist', 'components', 'popover.css');
 const tooltip = read('dist', 'components', 'tooltip.css');
 const select = read('dist', 'components', 'select.css');
 const dialog = read('dist', 'components', 'dialog.css');
-const tokensCss = read('dist', 'tokens.css');
 
 describe.each([
   ['popover', popover],

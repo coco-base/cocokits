@@ -1,11 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { read } from './css-test-helpers';
+import { read, selectorsOf, tokensCss } from './css-test-helpers';
 
-const tokensCss = read('dist', 'tokens.css');
 const css = read('dist', 'components', 'tab-nav.css');
-/** The selectors of every rule that names a CocoKits class. */
-const selectorsOf = (text: string): string[] =>
-  [...text.matchAll(/(?:^|[{}])\s*([^{}@]+?)\s*\{/g)].map((match) => match[1]).filter((s) => s.includes('.cck-'));
 
 describe('tab-nav output', () => {
   it('puts the rules inside @layer cocokits, in its entry and in the whole theme', () => {

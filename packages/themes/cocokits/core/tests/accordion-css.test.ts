@@ -1,14 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read } from './css-test-helpers';
+import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
 
-const tokensCss = read('dist', 'tokens.css');
 const css = read('dist', 'components', 'accordion.css');
 /** The compiled CSS drops the quotes of an attribute value. */
 const trigger = '.cck-accordion > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
 const content = '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
-/** The selectors of every rule that names a CocoKits class. */
-const selectorsOf = (text: string): string[] =>
-  [...text.matchAll(/(?:^|[{}])\s*([^{}@]+?)\s*\{/g)].map((match) => match[1]).filter((s) => s.includes('.cck-'));
 /** The text of the first block that opens with `at`, up to its closing brace at the same indent. */
 const mediaBlock = (text: string, at: string): string => {
   const start = text.indexOf(at);

@@ -1,24 +1,16 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render } from '@testing-library/vue';
-import { defineComponent, h, nextTick, ref, type Component, type VNode } from 'vue';
+import { h, nextTick, ref, type Component, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Checkbox as BaseCheckbox } from '@cocokits/vue/checkbox';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Checkbox, Radio, Switch } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | boolean | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 
 const CASES = [
   ['checkbox', 'Checkbox', Checkbox],

@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { StrictMode, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Tabs as BaseTabs } from '@cocokits/react/tabs';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Tabs, type TabsRootProps } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -15,11 +16,6 @@ afterEach(() => {
 
 const options = cocokitsThemeConfig.components.tabs;
 const ATTRIBUTES = ['data-variant', 'data-cck-color', 'data-size', 'data-header-align'] as const;
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const example = (props: Partial<TabsRootProps> = {}): ReactElement => (
   <Tabs.Root defaultValue="account" {...props}>
     <Tabs.List aria-label="Account settings">

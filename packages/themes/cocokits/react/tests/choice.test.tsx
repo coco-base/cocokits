@@ -1,22 +1,17 @@
 // @vitest-environment jsdom
 import { cleanup, render } from '@testing-library/react';
-import { StrictMode, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Checkbox as BaseCheckbox } from '@cocokits/react/checkbox';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Checkbox, Radio, Switch } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
-
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 
 const CASES = [
   ['checkbox', 'Checkbox', Checkbox],

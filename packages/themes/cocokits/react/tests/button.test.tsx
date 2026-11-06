@@ -1,11 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { StrictMode, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Button as BaseButton } from '@cocokits/react/button';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Button, type ButtonProps } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -13,11 +14,6 @@ afterEach(() => {
 });
 
 const button = (): HTMLElement => screen.getByRole('button');
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 
 const { variant, color, size } = cocokitsThemeConfig.components.button;
 

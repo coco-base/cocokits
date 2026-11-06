@@ -1,11 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { StrictMode, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { TabNav as BaseTabNav } from '@cocokits/react/tab-nav';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { TabNav, type TabNavRootProps } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -14,11 +15,6 @@ afterEach(() => {
 
 const options = cocokitsThemeConfig.components['tab-nav'];
 const ATTRIBUTES = ['data-variant', 'data-cck-color', 'data-size', 'data-header-align'] as const;
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const example = (props: Partial<TabNavRootProps> = {}): ReactElement => (
   <TabNav.Root aria-label="Project" {...props}>
     <TabNav.List>

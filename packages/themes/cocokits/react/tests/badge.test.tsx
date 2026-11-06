@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { StrictMode, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Badge as BaseBadge } from '@cocokits/react/badge';
 import { BadgeContainer } from '@cocokits/react/badge-container';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Badge } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -14,11 +14,6 @@ afterEach(() => {
 });
 
 const badge = (): HTMLElement => screen.getByTestId('badge');
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const { variant, color, size } = cocokitsThemeConfig.components.badge;
 
 describe('theme Badge', () => {

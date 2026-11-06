@@ -1,9 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { cocokitsThemeConfig, modeCollections } from '../src/index';
+import { tokensCss } from './css-test-helpers';
 
-const tokensCss = readFileSync(join(import.meta.dirname, '..', 'dist', 'tokens.css'), 'utf8');
 const byName = (name: string) => modeCollections.find((collection) => collection.name === name);
 
 describe('modeCollections, the modes index the theme exports', () => {

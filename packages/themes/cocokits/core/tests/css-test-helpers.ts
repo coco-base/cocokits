@@ -11,3 +11,10 @@ export function declarationsOf(css: string, selector: string): string | undefine
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return new RegExp(`(?:^|[{}])\\s*${escaped}\\s*\\{([^}]*)\\}`).exec(css)?.[1];
 }
+
+/** The compiled token stylesheet. */
+export const tokensCss: string = read('dist', 'tokens.css');
+
+/** The selectors of every rule that names a CocoKits class. */
+export const selectorsOf = (css: string): string[] =>
+  [...css.matchAll(/(?:^|[{}])\s*([^{}@]+?)\s*\{/g)].map((match) => match[1]).filter((s) => s.includes('.cck-'));

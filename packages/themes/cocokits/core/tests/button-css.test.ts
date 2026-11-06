@@ -1,16 +1,15 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { read as readThemeFile, tokensCss } from './css-test-helpers';
 
 const root = join(import.meta.dirname, '..');
 const componentsDir = join(root, 'src', 'styles', 'components');
-const readThemeFile = (...path: string[]): string => readFileSync(join(root, ...path), 'utf8');
 
 /** `_button.scss` is the rules of the `button` block. Entries without rules have no `var()`. */
 const sources = readdirSync(componentsDir)
   .filter((file) => file.endsWith('.scss'))
   .map((file) => ({ file, block: basename(file, '.scss').replace(/^_/, '') }));
-const tokensCss = readThemeFile('dist', 'tokens.css');
 /** Documented custom properties the author sets: the theme reads them and defines no token. */
 const INLINE_PROPERTIES = [
   '--cck-badge-container-radius',
