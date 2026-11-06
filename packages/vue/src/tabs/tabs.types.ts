@@ -31,14 +31,14 @@ export interface TabsRootProps<T extends TabsValue = string> {
    * render before the panels (`TabsList` first); in any other order pass a value.
    *
    * @cckSemantic tabs.value
-   * @remarks Vue's `v-model`.
+   * @cckParity Vue's `v-model`.
    */
   readonly modelValue?: T | undefined;
   /**
-   * The modifiers of `v-model` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers of `v-model`, as in `v-model.trim`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Vue-only: Vue fills it from `v-model.trim` and the like.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -46,7 +46,7 @@ export interface TabsRootProps<T extends TabsValue = string> {
    * `modelValue` ignores it. The tab with this value is selected in the server output.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultValue`; Angular binds `selectedIndex` as a model.
+   * @cckParity Vue's uncontrolled start value, as React's `defaultValue`; Angular binds `selectedIndex` as a model.
    */
   readonly defaultValue?: T | undefined;
   /**
@@ -66,7 +66,7 @@ export interface TabsRootProps<T extends TabsValue = string> {
    * `TabsContent` with `forceMount` keeps its own content whatever this says.
    *
    * @cckSemantic none
-   * @remarks Reka UI's `unmountOnHide`. Angular keeps content with `preserveContent`, React with `forceMount`.
+   * @cckParity Reka UI's `unmountOnHide`. Angular keeps content with `preserveContent`, React with `forceMount`.
    * @defaultValue true
    */
   readonly unmountOnHide?: boolean | undefined;
@@ -75,7 +75,7 @@ export interface TabsRootProps<T extends TabsValue = string> {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -85,14 +85,14 @@ export interface TabsRootProps<T extends TabsValue = string> {
    * `provideDirection` applies, else `'ltr'`.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Angular reads `Directionality` (no input).
    */
   readonly dir?: Direction | undefined;
   /**
    * Whether the root merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -108,8 +108,8 @@ export interface TabsRootEmits<T extends TabsValue = string> {
    * Emits with the new value for `v-model`, after every selection the tabs accept.
    *
    * @cckSemantic tabs.valueChange
-   * @remarks Vue's change event is the `v-model` update event, as in Reka UI; it carries no reason. Angular emits
-   * `selectedTabChange` and React calls `onValueChange`.
+   * @remarks Carries the new value only, no reason.
+   * @cckParity Vue's change event is the `v-model` update event, as in Reka UI; it carries no reason. Angular emits `selectedTabChange` and React calls `onValueChange`.
    */
   'update:modelValue': [value: T];
 }
@@ -134,7 +134,7 @@ export interface TabsListProps {
    * Whether the arrow keys wrap from the last tab to the first and back. With `false` they stop at the ends.
    *
    * @cckSemantic none
-   * @remarks Reka UI's `loop`. Angular always wraps and has no input.
+   * @cckParity Reka UI's `loop`. Angular always wraps and has no input.
    * @defaultValue true
    */
   readonly loop?: boolean | undefined;
@@ -143,7 +143,7 @@ export interface TabsListProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -151,7 +151,7 @@ export interface TabsListProps {
    * Whether the list merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -174,7 +174,7 @@ export interface TabsTriggerProps {
    * and compared with `===`, so `1` and `'1'` are different tabs.
    *
    * @cckSemantic tabs.trigger.value
-   * @remarks Angular's `cckTab` is selected by its index.
+   * @cckParity Angular's `cckTab` is selected by its index.
    */
   readonly value: string | number;
   /**
@@ -189,7 +189,7 @@ export interface TabsTriggerProps {
    * Enter and Space, and when disabled gets `aria-disabled="true"` in place of `disabled`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -198,7 +198,7 @@ export interface TabsTriggerProps {
    * `button`. The child must render a `button`; its own props win except the ARIA, id and state markers.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -226,8 +226,7 @@ export interface TabsContentProps {
    * Whether the content is rendered while the tab is not selected. The panel stays `hidden`.
    *
    * @cckSemantic tabs.panel.forceMount
-   * @remarks Reka UI's `forceMount`, which also unhides the panel; here a kept panel stays hidden. Angular keeps
-   * the content of every panel with `preserveContent` on the root.
+   * @cckParity Reka UI's `forceMount`, which also unhides the panel; here a kept panel stays hidden. Angular keeps the content of every panel with `preserveContent` on the root.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -235,7 +234,7 @@ export interface TabsContentProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -244,7 +243,7 @@ export interface TabsContentProps {
    * content is that child's own children.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -267,7 +266,7 @@ export interface TabsIndicatorProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -275,7 +274,7 @@ export interface TabsIndicatorProps {
    * Whether the indicator merges onto its first element or component child instead of rendering a `span`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

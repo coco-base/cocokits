@@ -27,15 +27,15 @@ export interface DialogRootProps {
    * on the server renders its content after hydration.
    *
    * @cckSemantic dialog.open
-   * @remarks Vue's `v-model:open`.
+   * @cckParity Vue's `v-model:open`.
    * @defaultValue false
    */
   readonly open?: boolean | undefined;
   /**
-   * The modifiers of `v-model:open` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers written on `v-model:open`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model:open.trim` and the like.
+   * @cckParity Vue-only: Vue fills it from the modifiers written on `v-model:open`.
    */
   readonly openModifiers?: Record<string, true> | undefined;
   /**
@@ -43,7 +43,7 @@ export interface DialogRootProps {
    * The content mounts after hydration, so a dialog that is open by default renders closed on the server.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultOpen`; Angular binds `open` as a model.
+   * @cckParity Vue's uncontrolled start value, as React's `defaultOpen`; Angular binds `open` as a model.
    * @defaultValue false
    */
   readonly defaultOpen?: boolean | undefined;
@@ -55,7 +55,7 @@ export interface DialogRootProps {
    * open takes effect at the next open.
    *
    * @cckSemantic dialog.modal
-   * @remarks React and Vue only (Radix and Reka); the Angular dialog is always modal.
+   * @cckParity React and Vue only (Radix and Reka); the Angular dialog is always modal.
    * @defaultValue true
    */
   readonly modal?: boolean | undefined;
@@ -64,7 +64,7 @@ export interface DialogRootProps {
    * `dialog` that is not open), as with `forceMount` on `DialogContent`.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Vue only (Reka UI).
    * @defaultValue true
    */
   readonly unmountOnHide?: boolean | undefined;
@@ -76,9 +76,8 @@ export interface DialogRootEmits {
    * Emits with the new open state for `v-model:open`, after every change the dialog accepts.
    *
    * @cckSemantic dialog.openChange
-   * @remarks Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. A parent
-   * that bound `v-model:open` keeps its own value to refuse a change. Angular emits `opened` and `closed` or the
-   * `open` model and React calls `onOpenChange`.
+   * @remarks Carries no reason. A parent that bound `v-model:open` keeps its own value to refuse a change.
+   * @cckParity Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. A parent that bound `v-model:open` keeps its own value to refuse a change. Angular emits `opened` and `closed` or the `open` model and React calls `onOpenChange`.
    */
   'update:open': [open: boolean];
 }
@@ -101,7 +100,7 @@ export interface DialogTriggerProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -110,7 +109,7 @@ export interface DialogTriggerProps {
    * `button`. The child must render a `button`; its own props win except the ARIA and `data-state` markers.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -140,7 +139,7 @@ export interface DialogContentProps {
    * no content.
    *
    * @cckSemantic dialog.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular removes the content when it closes.
+   * @cckParity React and Vue only (Radix and Reka); Angular removes the content when it closes.
    * @defaultValue false
    */
   readonly forceMount?: boolean | undefined;
@@ -162,7 +161,7 @@ export interface DialogContentEmits {
    * Emits before Escape closes the dialog, with the keydown. Call `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
    */
   escapeKeyDown: [event: KeyboardEvent];
   /**
@@ -170,7 +169,7 @@ export interface DialogContentEmits {
    * is the press. Call `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
    */
   pointerDownOutside: [event: PointerDownOutsideEvent];
   /**
@@ -178,7 +177,7 @@ export interface DialogContentEmits {
    * `detail.originalEvent` is the focus event. Call `preventDefault()` to keep it open. A modal dialog never emits it.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onFocusOutside` handler.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onFocusOutside` handler.
    */
   focusOutside: [event: FocusOutsideEvent];
   /**
@@ -186,7 +185,7 @@ export interface DialogContentEmits {
    * `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onInteractOutside` handler.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onInteractOutside` handler.
    */
   interactOutside: [event: PointerDownOutsideEvent | FocusOutsideEvent];
   /**
@@ -195,7 +194,7 @@ export interface DialogContentEmits {
    * listener to choose the element.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onOpenAutoFocus` handler.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onOpenAutoFocus` handler.
    */
   openAutoFocus: [event: Event];
   /**
@@ -203,7 +202,7 @@ export interface DialogContentEmits {
    * dialog without a trigger). Call `preventDefault()` to skip the return and move focus yourself.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onCloseAutoFocus` handler.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onCloseAutoFocus` handler.
    */
   closeAutoFocus: [event: Event];
 }
@@ -223,7 +222,7 @@ export interface DialogTitleProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'h2'
    */
   readonly as?: AsTag | Component | undefined;
@@ -231,7 +230,7 @@ export interface DialogTitleProps {
    * Whether the title merges onto its first element child (a heading you choose) instead of rendering an `h2`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -251,7 +250,7 @@ export interface DialogDescriptionProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'p'
    */
   readonly as?: AsTag | Component | undefined;
@@ -259,7 +258,7 @@ export interface DialogDescriptionProps {
    * Whether the description merges onto its first element child instead of rendering a `p`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -282,7 +281,7 @@ export interface DialogCloseProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -291,7 +290,7 @@ export interface DialogCloseProps {
    * `button`. The child must render a `button`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

@@ -28,7 +28,7 @@ defineSlots<{
    * The label of the trigger: text and icons.
    *
    * @cckSemantic tabs.label
-   * @remarks Angular takes the label as `label` or as a `cckTabLabel` template on the `cckTab` section.
+   * @cckParity Angular takes the label as `label` or as a `cckTabLabel` template on the `cckTab` section.
    */
   default?(): unknown;
 }>();

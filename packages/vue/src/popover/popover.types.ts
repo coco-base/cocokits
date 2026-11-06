@@ -25,15 +25,15 @@ export interface PopoverRootProps {
    * on the server renders its content after hydration.
    *
    * @cckSemantic popover.open
-   * @remarks Vue's `v-model:open`.
+   * @cckParity Vue's `v-model:open`.
    * @defaultValue false
    */
   readonly open?: boolean | undefined;
   /**
-   * The modifiers of `v-model:open` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers written on `v-model:open`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model:open.trim` and the like.
+   * @cckParity Vue-only: Vue fills it from the modifiers written on `v-model:open`.
    */
   readonly openModifiers?: Record<string, true> | undefined;
   /**
@@ -41,7 +41,7 @@ export interface PopoverRootProps {
    * The content mounts after hydration, so a popover that is open by default renders closed on the server.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultOpen`; Angular binds `open` as a model.
+   * @cckParity Vue's uncontrolled start value, as React's `defaultOpen`; Angular binds `open` as a model.
    * @defaultValue false
    */
   readonly defaultOpen?: boolean | undefined;
@@ -52,7 +52,7 @@ export interface PopoverRootProps {
    * while the popover is open takes effect at the next open.
    *
    * @cckSemantic popover.modal
-   * @remarks React and Vue only (Radix and Reka); Angular has no modal popover.
+   * @cckParity React and Vue only (Radix and Reka); Angular has no modal popover.
    * @defaultValue false
    */
   readonly modal?: boolean | undefined;
@@ -64,9 +64,8 @@ export interface PopoverRootEmits {
    * Emits with the new open state for `v-model:open`, after every change the popover accepts.
    *
    * @cckSemantic popover.openChange
-   * @remarks Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. A parent
-   * that bound `v-model:open` keeps its own value to refuse a change. Angular emits `opened` and `closed` or the
-   * `open` model and React calls `onOpenChange`.
+   * @remarks Carries no reason. A parent that bound `v-model:open` keeps its own value to refuse a change.
+   * @cckParity Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. A parent that bound `v-model:open` keeps its own value to refuse a change. Angular emits `opened` and `closed` or the `open` model and React calls `onOpenChange`.
    */
   'update:open': [open: boolean];
 }
@@ -89,7 +88,7 @@ export interface PopoverTriggerProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -98,7 +97,7 @@ export interface PopoverTriggerProps {
    * `button`. The child must render a `button`; its own props win except the ARIA and `data-state` markers.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -134,8 +133,7 @@ export interface PopoverContentProps extends OverlayPositioningProps, OverlayArr
    * An element or virtual element to place the content against, in place of the `PopoverAnchor` and the trigger.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI's `reference`); React places against a virtual element with `virtualRef` on
-   * `Popover.Anchor`.
+   * @cckParity Vue only (Reka UI's `reference`); React places against a virtual element with `virtualRef` on `Popover.Anchor`.
    */
   readonly reference?: Element | OverlayVirtualAnchor | undefined;
   /**
@@ -144,7 +142,7 @@ export interface PopoverContentProps extends OverlayPositioningProps, OverlayArr
    * the server renders no content.
    *
    * @cckSemantic popover.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular removes the content when it closes.
+   * @cckParity React and Vue only (Radix and Reka); Angular removes the content when it closes.
    * @defaultValue false
    */
   readonly forceMount?: boolean | undefined;
@@ -153,7 +151,7 @@ export interface PopoverContentProps extends OverlayPositioningProps, OverlayArr
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -162,7 +160,7 @@ export interface PopoverContentProps extends OverlayPositioningProps, OverlayArr
    * components follow it. Without it the nearest `provideDirection` applies, else `'ltr'`.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Angular reads `Directionality` (no input).
    */
   readonly dir?: Direction | undefined;
   /**
@@ -170,7 +168,7 @@ export interface PopoverContentProps extends OverlayPositioningProps, OverlayArr
    * child keeps `role="dialog"`, the ids and the state markers of the content.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -190,7 +188,7 @@ export interface PopoverContentEmits {
    * Emits before Escape closes the popover, with the keydown. Call `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
    */
   escapeKeyDown: [event: KeyboardEvent];
   /**
@@ -198,7 +196,7 @@ export interface PopoverContentEmits {
    * press. Call `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
    */
   pointerDownOutside: [event: PointerDownOutsideEvent];
   /**
@@ -206,7 +204,7 @@ export interface PopoverContentEmits {
    * the focus event. Call `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onFocusOutside` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onFocusOutside` handler and Angular `disableClose`.
    */
   focusOutside: [event: FocusOutsideEvent];
   /**
@@ -214,7 +212,7 @@ export interface PopoverContentEmits {
    * `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onInteractOutside` handler.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onInteractOutside` handler.
    */
   interactOutside: [event: PointerDownOutsideEvent | FocusOutsideEvent];
   /**
@@ -222,7 +220,7 @@ export interface PopoverContentEmits {
    * to move it yourself.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onOpenAutoFocus` handler.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onOpenAutoFocus` handler.
    */
   openAutoFocus: [event: Event];
   /**
@@ -230,7 +228,7 @@ export interface PopoverContentEmits {
    * yourself.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onCloseAutoFocus` handler and Angular `restoreFocus`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onCloseAutoFocus` handler and Angular `restoreFocus`.
    */
   closeAutoFocus: [event: Event];
 }
@@ -248,14 +246,14 @@ export interface PopoverAnchorProps {
    * An element or virtual element to place the content against, in place of the anchor's own element.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI's `reference`); React uses `virtualRef`.
+   * @cckParity Vue only (Reka UI's `reference`); React uses `virtualRef`.
    */
   readonly reference?: Element | OverlayVirtualAnchor | undefined;
   /**
    * The tag or component to render, in place of the `div`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -263,7 +261,7 @@ export interface PopoverAnchorProps {
    * Whether the part merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -282,7 +280,7 @@ export interface PopoverTitleProps {
    * The tag or component to render, in place of the `h2`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'h2'
    */
   readonly as?: AsTag | Component | undefined;
@@ -290,7 +288,7 @@ export interface PopoverTitleProps {
    * Whether the part merges onto its first element or component child instead of rendering a `h2`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -309,7 +307,7 @@ export interface PopoverDescriptionProps {
    * The tag or component to render, in place of the `p`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'p'
    */
   readonly as?: AsTag | Component | undefined;
@@ -317,7 +315,7 @@ export interface PopoverDescriptionProps {
    * Whether the part merges onto its first element or component child instead of rendering a `p`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -340,7 +338,7 @@ export interface PopoverCloseProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -349,7 +347,7 @@ export interface PopoverCloseProps {
    * `button`. The child must render a `button`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -373,7 +371,7 @@ export interface PopoverArrowProps {
    * by the `hidden` attribute without a theme rule. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -382,7 +380,7 @@ export interface PopoverArrowProps {
    * triangle. The child is the whole arrow.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

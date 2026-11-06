@@ -49,7 +49,7 @@ defineSlots<{
      * open values in `multiple` mode.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the model of the root, as in Reka UI.
+     * @cckParity Vue-only slot prop: the model of the root, as in Reka UI.
      */
     modelValue: string | string[] | undefined;
   }): unknown;

@@ -57,14 +57,14 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * that does not accept a change keeps the old value.
    *
    * @cckSemantic select.value
-   * @remarks Vue's `v-model`.
+   * @cckParity Vue's `v-model`.
    */
   readonly modelValue?: SelectValueOf<T, M> | undefined;
   /**
-   * The modifiers of `v-model` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers of `v-model`, as in `v-model.trim`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Vue-only: Vue fills it from `v-model.trim` and the like.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -72,22 +72,22 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * `modelValue` ignores it. A form reset restores it, and clears the Select when there is none.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultValue`; Angular binds `value` as a model.
+   * @cckParity Vue's uncontrolled start value, as React's `defaultValue`; Angular binds `value` as a model.
    */
   readonly defaultValue?: SelectValueOf<T, M> | undefined;
   /**
    * Whether the list is open, bound with `v-model:open`. A disabled or read-only Select never opens.
    *
    * @cckSemantic select.open
-   * @remarks Vue's `v-model:open`.
+   * @cckParity Vue's `v-model:open`.
    * @defaultValue false
    */
   readonly open?: boolean | undefined;
   /**
-   * The modifiers of `v-model:open` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers written on `v-model:open`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model:open.trim` and the like.
+   * @cckParity Vue-only: Vue fills it from the modifiers written on `v-model:open`.
    */
   readonly openModifiers?: Record<string, true> | undefined;
   /**
@@ -95,7 +95,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * ignores it. A disabled or read-only Select never opens.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultOpen`; Angular has the `open()` method.
+   * @cckParity Vue's uncontrolled start value, as React's `defaultOpen`; Angular has the `open()` method.
    * @defaultValue false
    */
   readonly defaultOpen?: boolean | undefined;
@@ -114,7 +114,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * an item should equal its label.
    *
    * @cckSemantic select.items
-   * @remarks Base UI's `items` with string labels; Angular reads the option text instead.
+   * @cckParity Base UI's `items` with string labels; Angular reads the option text instead.
    */
   readonly items?: SelectItems<T> | undefined;
   /**
@@ -122,7 +122,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * of an item with no text.
    *
    * @cckSemantic select.itemToStringLabel
-   * @remarks Base UI's `itemToStringLabel`; Angular reads the option text.
+   * @cckParity Base UI's `itemToStringLabel`; Angular reads the option text.
    * @defaultValue String
    */
   readonly itemToStringLabel?: ((value: T) => string) | undefined;
@@ -130,7 +130,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * Turns a value into the string of the hidden form input. A browser autofill is matched through it.
    *
    * @cckSemantic select.itemToStringValue
-   * @remarks Base UI's `itemToStringValue`.
+   * @cckParity Base UI's `itemToStringValue`.
    * @defaultValue String
    */
   readonly itemToStringValue?: ((value: T) => string) | undefined;
@@ -139,7 +139,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * it when `T` is an object.
    *
    * @cckSemantic select.isItemEqual
-   * @remarks Reka UI's `by`; React has `isItemEqualToValue` and Angular `compareWith`.
+   * @cckParity Reka UI's `by`; React has `isItemEqualToValue` and Angular `compareWith`.
    * @defaultValue Object.is
    */
   readonly by?: string | ((a: T, b: T) => boolean) | undefined;
@@ -148,7 +148,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * item of a single Select. Without it they carry `autocomplete="off"`.
    *
    * @cckSemantic select.autocomplete
-   * @remarks Reka UI's `autocomplete`; React has `autoComplete`.
+   * @cckParity Reka UI's `autocomplete`; React has `autoComplete`.
    * @defaultValue 'off'
    */
   readonly autocomplete?: string | undefined;
@@ -156,7 +156,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * What the hidden input of a single Select carries while nothing is selected.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI's `nullableValue`).
+   * @cckParity Vue only (Reka UI's `nullableValue`).
    * @defaultValue ''
    */
   readonly nullableValue?: string | undefined;
@@ -170,7 +170,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * Makes the Select read-only: it stays focusable and never opens.
    *
    * @cckSemantic select.readOnly
-   * @remarks Vue spells it as the native `readonly` attribute.
+   * @cckParity Vue spells it as the native `readonly` attribute.
    * @defaultValue false
    */
   readonly readonly?: boolean | undefined;
@@ -203,7 +203,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * `SelectContent` can take its own.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Angular reads `Directionality` (no input).
    */
   readonly dir?: Direction | undefined;
   /**
@@ -211,7 +211,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * keeps the role, the classes and the `data-*` markers of the part, and its children go inside it.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child; React's `render` and Angular's attribute selector do the same.
+   * @cckParity Vue's merge onto one child; React's `render` and Angular's attribute selector do the same.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -224,16 +224,16 @@ export interface SelectRootEmits<T = string, M extends boolean = false> {
    * item), or the list with `multiple`.
    *
    * @cckSemantic select.valueChange
-   * @remarks Vue's change event is the `v-model` update event, as in Reka UI; it carries no reason. Angular emits
-   * `selectionChange` and React calls `onValueChange`.
+   * @remarks Carries the new value only, no reason.
+   * @cckParity Vue's change event is the `v-model` update event, as in Reka UI; it carries no reason. Angular emits `selectionChange` and React calls `onValueChange`.
    */
   'update:modelValue': [value: SelectValueOf<T, M>];
   /**
    * Emits with the new open state for `v-model:open`, after every change the Select accepts.
    *
    * @cckSemantic select.openChange
-   * @remarks Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. Angular
-   * emits `openedChange` and React calls `onOpenChange`.
+   * @remarks Carries the new value only, no reason.
+   * @cckParity Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. Angular emits `openedChange` and React calls `onOpenChange`.
    */
   'update:open': [open: boolean];
 }
@@ -255,7 +255,7 @@ export interface SelectTriggerProps {
    * A tag or component other than `button` gets `tabindex="0"` and no `type`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -264,7 +264,7 @@ export interface SelectTriggerProps {
    * `button`. The child keeps its own props except the ARIA and `data-state` markers.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -292,7 +292,7 @@ export interface SelectValueProps {
    * The tag or component to render, in place of the `span`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -300,7 +300,7 @@ export interface SelectValueProps {
    * Whether the part merges onto its first element or component child instead of rendering a `span`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -319,7 +319,7 @@ export interface SelectIconProps {
    * The tag or component to render, in place of the `span`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -327,7 +327,7 @@ export interface SelectIconProps {
    * Whether the part merges onto its first element or component child instead of rendering a `span`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

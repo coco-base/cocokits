@@ -21,7 +21,7 @@ defineSlots<{
      * Whether the item is open.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop, as in Reka UI.
+     * @cckParity Vue-only slot prop, as in Reka UI.
      */
     open: boolean;
   }): unknown;

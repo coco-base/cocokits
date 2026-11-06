@@ -34,7 +34,7 @@ export interface SelectContentProps extends OverlayPositioningProps {
    * no list.
    *
    * @cckSemantic select.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular removes the list when it closes.
+   * @cckParity React and Vue only (Radix and Reka); Angular removes the list when it closes.
    * @defaultValue false
    */
   readonly forceMount?: boolean | undefined;
@@ -43,7 +43,7 @@ export interface SelectContentProps extends OverlayPositioningProps {
    * it the root's applies.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Angular reads `Directionality` (no input).
    */
   readonly dir?: Direction | undefined;
   /**
@@ -51,7 +51,7 @@ export interface SelectContentProps extends OverlayPositioningProps {
    * Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -59,7 +59,7 @@ export interface SelectContentProps extends OverlayPositioningProps {
    * Whether the list merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -79,7 +79,7 @@ export interface SelectContentEmits {
    * Emits before Escape closes the list, with the keydown. Call `preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
    */
   escapeKeyDown: [event: KeyboardEvent];
   /**
@@ -87,7 +87,7 @@ export interface SelectContentEmits {
    * press. Call `preventDefault()` to keep it open; the press then leaves the focus on the trigger.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
+   * @cckParity Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
    */
   pointerDownOutside: [event: PointerDownOutsideEvent];
 }
@@ -120,7 +120,7 @@ export interface SelectItemProps<T = string> {
    * value.
    *
    * @cckSemantic select.option.textValue
-   * @remarks Radix's and Reka UI's `textValue`; Angular matches the option text.
+   * @cckParity Radix's and Reka UI's `textValue`; Angular matches the option text.
    */
   readonly textValue?: string | undefined;
   /**
@@ -129,7 +129,7 @@ export interface SelectItemProps<T = string> {
    *
    * @cckSemantic select.option.id
    * @defaultValue generated
-   * @remarks Material's option `id`.
+   * @cckParity Material's option `id`.
    */
   readonly id?: string | undefined;
   /**
@@ -137,7 +137,7 @@ export interface SelectItemProps<T = string> {
    * Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -145,7 +145,7 @@ export interface SelectItemProps<T = string> {
    * Whether the item merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -164,7 +164,7 @@ export interface SelectItemEmits<T = string> {
    * `preventDefault()` to stop the choice: the value stays, and a list opened by a click or a key stays open.
    *
    * @cckSemantic none
-   * @remarks Vue's item emit (Reka UI); React cancels in `onValueChange` and Angular has no value veto.
+   * @cckParity Vue's item emit (Reka UI); React cancels in `onValueChange` and Angular has no value veto.
    */
   select: [event: CustomEvent<{ originalEvent: Event; value: T }>];
 }
@@ -182,7 +182,7 @@ export interface SelectItemTextProps {
    * The tag or component to render, in place of the `span`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -190,7 +190,7 @@ export interface SelectItemTextProps {
    * Whether the part merges onto its first element or component child instead of rendering a `span`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -210,7 +210,7 @@ export interface SelectItemIndicatorProps {
    * The tag or component to render, in place of the `span`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -218,7 +218,7 @@ export interface SelectItemIndicatorProps {
    * Whether the part merges onto its first element or component child instead of rendering a `span`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -246,7 +246,7 @@ export interface SelectGroupProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -254,7 +254,7 @@ export interface SelectGroupProps {
    * Whether the group merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -273,7 +273,7 @@ export interface SelectLabelProps {
    * The tag or component to render, in place of the `div`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -281,7 +281,7 @@ export interface SelectLabelProps {
    * Whether the part merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -300,7 +300,7 @@ export interface SelectSeparatorProps {
    * The tag or component to render, in place of the `div`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -308,7 +308,7 @@ export interface SelectSeparatorProps {
    * Whether the part merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

@@ -38,7 +38,7 @@ defineSlots<{
      * Whether the tooltip is open. A disabled tooltip is never shown, whatever this says.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the state of the root, as in Reka UI.
+     * @cckParity Vue-only slot prop: the state of the root, as in Reka UI.
      */
     open: boolean;
   }): unknown;

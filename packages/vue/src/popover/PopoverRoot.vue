@@ -20,14 +20,14 @@ defineSlots<{
      * Whether the popover is open.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the state of the root, as in Reka UI.
+     * @cckParity Vue-only slot prop: the state of the root, as in Reka UI.
      */
     open: boolean;
     /**
      * Closes the popover the way `PopoverClose` does and emits `update:open` with `false`.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the close function of the root, as in Reka UI.
+     * @cckParity Vue-only slot prop: the close function of the root, as in Reka UI.
      */
     close: () => void;
   }): unknown;

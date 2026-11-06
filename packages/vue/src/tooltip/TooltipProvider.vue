@@ -18,7 +18,7 @@ defineSlots<{
    * The tooltips the provider gives its defaults and its delay group. The provider renders no element around them.
    *
    * @cckSemantic none
-   * @remarks React's `children` of the Provider; the same part in both frameworks.
+   * @cckParity React's `children` of the Provider; the same part in both frameworks.
    */
   default?(): unknown;
 }>();
