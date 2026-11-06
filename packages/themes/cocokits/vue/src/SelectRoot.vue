@@ -38,14 +38,14 @@ defineSlots<{
      * The selected value: a `T` or `null`, or a list of `T` with `multiple`; `''`, `null` and an empty list mean nothing is selected.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the model of the root, as in Reka UI.
+     * @remarks Slot prop: the model of the root.
      */
     modelValue: SelectRootProps<T, M>['modelValue'];
     /**
      * Whether the list is open.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the open state of the root, as in Reka UI.
+     * @remarks Slot prop: the open state of the root.
      */
     open: boolean;
   }): unknown;
@@ -70,7 +70,7 @@ defineExpose({
    * The trigger element of the base Select. `null` before mount.
    *
    * @cckSemantic none
-   * @remarks Vue-only member: templates reach the DOM node through the component ref.
+   * @remarks Templates reach the DOM node through the component ref.
    */
   get element(): HTMLElement | null {
     return base.value?.element ?? null;

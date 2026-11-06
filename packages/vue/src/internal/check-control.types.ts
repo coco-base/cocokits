@@ -45,7 +45,8 @@ export interface ChoiceControlProps {
    * The element of the root.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka). The input is always a native `<input>`.
+   * @remarks The input is always a native `<input>`.
+   * @cckParity Replaces the rendered element with `as`. The input is always a native `<input>`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -53,7 +54,7 @@ export interface ChoiceControlProps {
    * Merges the root onto the one child of the default slot, and the child's own children become the label content.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -77,17 +78,17 @@ export interface CheckControlProps extends ChoiceControlProps {
    */
   readonly disabled?: boolean | undefined;
   /**
-   * The name `FormData` submits. You set it (for example `name="terms"` next to `v-model`); no Vue forms library fills it in.
+   * The name `FormData` submits. You set it (for example `name="terms"` next to `v-model`); no forms library fills it in.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; only Angular defaults it from the forms control.
+   * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
    * The value `FormData` submits while the control is checked; left out, the browser submits `on`.
    *
    * @cckSemantic *.value
-   * @remarks Angular names it `submitValue`, because Signal Forms rejects a `value` binding on a control with a `checked` model.
+   * @cckParity A native attribute of the element.
    */
   readonly value?: string | undefined;
   /**
@@ -95,7 +96,7 @@ export interface CheckControlProps extends ChoiceControlProps {
    * stays focusable and is submitted. Renders `aria-readonly="true"`.
    *
    * @cckSemantic *.readOnly
-   * @remarks Vue spells it as the native `readonly` attribute.
+   * @cckParity Spelled as the native `readonly` attribute.
    * @defaultValue false
    */
   readonly readonly?: boolean | undefined;
@@ -115,7 +116,7 @@ export interface CheckControlProps extends ChoiceControlProps {
    * Hides the control (native `hidden` on the root).
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute of the element.
    * @defaultValue false
    */
   readonly hidden?: boolean | undefined;

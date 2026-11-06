@@ -26,7 +26,7 @@ export interface FieldErrorProps {
    * The tag or component to render.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -35,7 +35,7 @@ export interface FieldErrorProps {
    * default slot instead of rendering an element. The message is the child's own children.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

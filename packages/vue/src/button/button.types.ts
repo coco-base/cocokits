@@ -21,7 +21,7 @@ export interface ButtonProps extends Pick<MachineButtonProps, 'disabled'> {
    * render an `<a>`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka); a non-`button` value renders link semantics.
+   * @cckParity Replaces the rendered element with `as`. A non-`button` value renders link semantics.
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -31,7 +31,7 @@ export interface ButtonProps extends Pick<MachineButtonProps, 'disabled'> {
    * (while disabled: `aria-disabled`, `tabindex`, `data-disabled`), and the class joins its class.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one link child.
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

@@ -29,15 +29,15 @@ export interface RadioGroupProps {
    * value. Unbound, the group keeps its own value.
    *
    * @cckSemantic radio-group.value
-   * @remarks Vue's `v-model` (`modelValue`).
+   * @cckParity Bound with `v-model`.
    * @defaultValue null
    */
   readonly modelValue?: string | null | undefined;
   /**
-   * The modifiers of `v-model` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers of `v-model`, as in `v-model.trim`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Only this framework has this member.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -45,7 +45,7 @@ export interface RadioGroupProps {
    * `modelValue` ignores it. A form reset returns to the value the group had when it was created.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultValue`; Angular binds `value` as a model.
+   * @cckParity The value the component starts with.
    */
   readonly defaultValue?: string | undefined;
   /**
@@ -99,7 +99,7 @@ export interface RadioGroupProps {
    * when you pass one. Without it the nearest `provideDirection` applies, else `'ltr'`.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Not available in every framework.
    */
   readonly dir?: Direction | undefined;
   /**
@@ -107,7 +107,7 @@ export interface RadioGroupProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -115,7 +115,7 @@ export interface RadioGroupProps {
    * Whether the root merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -129,8 +129,8 @@ export interface RadioGroupEmits {
    * event, listen to the native `change` of the inputs (it bubbles to the root) and to the form's `reset`.
    *
    * @cckSemantic radio-group.valueChange
-   * @remarks The `v-model` update event of Vue is the group's only event (as Reka UI), so it stands for the change
-   * event of the other frameworks: Angular emits `valueChangeDetails` and React calls `onValueChange`.
+   * @remarks The only change event; it carries the value only.
+   * @cckParity The `update:modelValue` event is the group's only change event; it carries the value only.
    */
   'update:modelValue': [value: string | null];
 }

@@ -10,7 +10,7 @@ export interface DismissHandlers {
 }
 
 /**
- * Runs the content's emits for one dismiss intent, in the order of Reka UI: the specific one, then
+ * Runs the content's emits for one dismiss intent, in this order: the specific one, then
  * `interactOutside` with the same event. A listener refuses with `preventDefault()` (or `.prevent`); the intent is
  * then refused too, so the layers below stay open. The emits run listeners synchronously, so the answer is known
  * when this returns. A close request without a key (the dialog's `cancel`, or the `close` the browser forced) is

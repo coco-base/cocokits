@@ -21,7 +21,7 @@ export interface BadgeProps extends Pick<MachineBadgeProps, 'content' | 'max' | 
    * The tag or component to render. Keep a phrasing element, so the Badge stays valid inside a `<button>`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -32,7 +32,7 @@ export interface BadgeProps extends Pick<MachineBadgeProps, 'content' | 'max' | 
    * (none while `hide` is set).
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

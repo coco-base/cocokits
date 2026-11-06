@@ -22,15 +22,15 @@ export interface SwitchProps extends CheckControlProps {
    * controlled: a parent that does not accept a change keeps the old value. Unbound, the Switch keeps its own value.
    *
    * @cckSemantic switch.checked
-   * @remarks Vue's `v-model` (`modelValue`).
+   * @cckParity Bound with `v-model`.
    * @defaultValue false
    */
   readonly modelValue?: boolean | null | undefined;
   /**
-   * The modifiers of `v-model` (`.trim`, `.number`, ...) Vue passes; the component only declares them so they do not reach the native element.
+   * The modifiers of `v-model` (`.trim`, `.number`, ...); the component only declares them so they do not reach the native element.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Only this framework has this member.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -39,7 +39,7 @@ export interface SwitchProps extends CheckControlProps {
    * and does not make it controlled.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultChecked`; Angular binds it as a model.
+   * @cckParity The value the component starts with.
    * @defaultValue false
    */
   readonly defaultChecked?: boolean | undefined;
@@ -51,7 +51,8 @@ export interface SwitchEmits {
    * Emits with the new checked value for `v-model`, after a change the user makes and after a reset of the owner form.
    *
    * @cckSemantic switch.checkedChange
-   * @remarks The `v-model` update event of Vue is the only change event (as Reka UI), so it stands for the change event of the other frameworks: Angular emits `checkedChangeDetails` and React calls `onCheckedChange`. It carries the value only.
+   * @remarks The only change event; it carries the value only.
+   * @cckParity The `update:modelValue` event is the only change event; it carries the value only.
    */
   'update:modelValue': [checked: boolean];
 }

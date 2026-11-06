@@ -48,7 +48,7 @@ const roving = computed(() =>
   }),
 );
 
-// Shift+arrow is the browser's or the page's (a selection, a gesture): not a tab move (Radix).
+// Shift+arrow is the browser's or the page's (a selection, a gesture): not a tab move.
 function onKeydown(event: KeyboardEvent): void {
   if (!event.shiftKey) roving.value.handleKeyDown(event);
 }
