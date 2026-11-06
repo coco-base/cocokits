@@ -102,30 +102,34 @@ function emitDocsOf(dir: string, typeName: string): Map<string, NodeDoc> {
 /** Expands the aliases of string literals in the type text of a member. */
 type Expand = (type: string, member: string) => string;
 
-/** The checker and the types file of a component folder. */
+/** The checker and every types file of a component folder. */
 interface Scope {
   readonly checker: ts.TypeChecker;
-  readonly source: ts.SourceFile;
+  readonly sources: readonly ts.SourceFile[];
 }
 
 /**
- * The expander of the props of `<Name>Props`. A prop is usually picked from a machine type, so its alias is in scope
- * where the machine declares the property, not in the types file: the scope is the declaration of the property.
+ * The expander of the props of `<Name>Props`, declared in any types file of the folder. A prop is usually picked from
+ * a machine type, so its alias is in scope where the machine declares the property, not in the types file: the scope
+ * is the declaration of the property.
  */
 function expanderOf(scope: Scope | undefined, typeName: string): Expand {
-  if (scope === undefined) return (type) => type;
-  const { checker, source } = scope;
-  const declaration = source.statements.find(
-    (statement): statement is ts.TypeAliasDeclaration | ts.InterfaceDeclaration =>
-      (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) &&
-      statement.name.text === typeName,
-  );
+  const first = scope?.sources[0];
+  if (scope === undefined || first === undefined) return (type) => type;
+  const { checker, sources } = scope;
+  const declaration = sources
+    .flatMap((source) => source.statements)
+    .find(
+      (statement): statement is ts.TypeAliasDeclaration | ts.InterfaceDeclaration =>
+        (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) &&
+        statement.name.text === typeName,
+    );
   const propsType = declaration && checker.getTypeAtLocation(declaration.name);
   return (type, member) => {
     const property = propsType?.getProperty(member)?.declarations?.[0];
     return expandAliases(
       withDefaultArguments(type, enclosingDefaults(property)),
-      aliasResolverAt(checker, property ?? source),
+      aliasResolverAt(checker, property ?? declaration ?? first),
     );
   };
 }
@@ -247,13 +251,12 @@ function partOf(
   return result;
 }
 
-/** The first `*.types.ts` file of a folder. */
-function typesFileOf(dir: string): string | undefined {
-  const file = readdirSync(dir)
+/** Every `*.types.ts` file of a folder: a component may split its part types over several. */
+const typesFilesOf = (dir: string): string[] =>
+  readdirSync(dir)
     .filter((item) => item.endsWith('.types.ts'))
-    .sort()[0];
-  return file === undefined ? undefined : posix(join(dir, file));
-}
+    .sort()
+    .map((file) => posix(join(dir, file)));
 
 /**
  * The `ApiDoc` of every Vue entry point of a package (`src/<component>/index.ts`), from `vue-component-meta`: the
@@ -271,16 +274,13 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
   const { createChecker } = loadPackage(root, 'vue-component-meta') as MetaModule;
   const checker = createChecker(posix(tsConfig), { forceUseTs: true, schema: { ignore: [] } });
   const problems: string[] = [];
-  const typeFiles = entries.map(({ dir }) => typesFileOf(dir));
-  const program = createTsProgram(
-    tsConfig,
-    typeFiles.filter((file): file is string => file !== undefined),
-  );
+  const typeFiles = entries.map(({ dir }) => typesFilesOf(dir));
+  const program = createTsProgram(tsConfig, typeFiles.flat());
   const types = program.getTypeChecker();
   try {
     const docs = entries.map(({ name, dir }, index): ApiDocJson => {
-      const source = program.getSourceFile(typeFiles[index] ?? '');
-      const scope = source === undefined ? undefined : { checker: types, source };
+      const sources = (typeFiles[index] ?? []).flatMap((file) => program.getSourceFile(file) ?? []);
+      const scope = sources.length === 0 ? undefined : { checker: types, sources };
       const files = readdirSync(dir)
         .filter((file) => file.endsWith('.vue'))
         .sort();
