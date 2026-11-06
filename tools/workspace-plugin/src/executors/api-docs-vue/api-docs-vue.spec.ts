@@ -20,6 +20,8 @@ const LABEL_DOC = '  /** The accessible label. */\n';
 interface Sources {
   vue?: string;
   types?: string;
+  /** More files of the package, by path from the package root. */
+  more?: Record<string, string>;
 }
 
 function createPackage(name: string, sources: Sources = {}): { project: string; tsConfig: string } {
@@ -29,6 +31,7 @@ function createPackage(name: string, sources: Sources = {}): { project: string; 
       'src/thing/Thing.vue': sources.vue ?? fixture('Thing.vue'),
       'src/thing/thing.types.ts': sources.types ?? fixture('thing.types.ts'),
       'src/thing/index.ts': fixture('index.ts'),
+      ...sources.more,
     },
     TSCONFIG,
   );
@@ -295,6 +298,20 @@ describe('extractVueApiDocs: generic components', () => {
     const modelValue = doc?.parts[0]?.props.find((prop) => prop.name === 'modelValue');
     expect(modelValue?.type).toBe('string | readonly string[] | null');
     expect(doc?.parts[0]?.props.map((prop) => prop.name).sort()).toEqual(['as', 'disabled', 'label', 'modelValue']);
+  });
+
+  it('reads the Props type from any types file of the folder, not only the first by name', () => {
+    const types = fixture('thing.types.ts')
+      .replace('export interface ThingProps {', 'export interface ThingProps<T = string> {')
+      .replace('readonly modelValue?: string;', 'readonly modelValue?: T[];');
+    // `thing-list.types.ts` sorts before `thing.types.ts`, as `select-list.types.ts` before `select.types.ts`.
+    const list = `export interface ThingListProps {\n${LABEL_DOC}  readonly label: string;\n}\n`;
+    const more = { 'src/thing/thing-list.types.ts': list };
+    const vue = fixture('Thing.vue')
+      .replace('<script setup lang="ts">', '<script setup lang="ts" generic="T">')
+      .replace('defineProps<ThingProps>()', 'defineProps<ThingProps<T>>()');
+    const props = extract('split-types', { types, vue, more })[0]?.parts[0]?.props ?? [];
+    expect(props.find((prop) => prop.name === 'modelValue')?.type).toBe('string[]');
   });
 });
 
