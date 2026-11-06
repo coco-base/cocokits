@@ -45,7 +45,9 @@ const props = withDefaults(defineProps<SelectContentProps>(), {
 });
 const emit = defineEmits<SelectContentEmits>();
 defineSlots<{
-  /** The list: `SelectItem`s, `SelectGroup`s and `SelectSeparator`s. */
+  /**
+   * The list: `SelectItem`, `SelectGroup` and `SelectSeparator` elements.
+   */
   default?(): unknown;
 }>();
 

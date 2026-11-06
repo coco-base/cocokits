@@ -33,7 +33,9 @@ const props = withDefaults(defineProps<SelectItemProps<T>>(), {
 });
 const emit = defineEmits<SelectItemEmits<T>>();
 defineSlots<{
-  /** The content of the item: a `SelectItemIndicator` and a `SelectItemText`, never a control. */
+  /**
+   * The content of the item: a `SelectItemIndicator` and a `SelectItemText`. It must not be interactive.
+   */
   default?(): unknown;
 }>();
 

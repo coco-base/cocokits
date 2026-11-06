@@ -12,7 +12,9 @@ defineOptions({ name: 'CckSelectTrigger', inheritAttrs: false });
 
 const props = withDefaults(defineProps<SelectTriggerProps>(), { as: 'button', asChild: false });
 defineSlots<{
-  /** The content of the trigger: a `SelectValue` and a `SelectIcon`. */
+  /**
+   * The content of the trigger: a `SelectValue` and a `SelectIcon`.
+   */
   default?(): unknown;
 }>();
 

@@ -10,7 +10,9 @@ defineOptions({ name: 'CckSelectGroup', inheritAttrs: false });
 
 const props = withDefaults(defineProps<SelectGroupProps>(), { disabled: false, as: 'div', asChild: false });
 defineSlots<{
-  /** The group: a `SelectLabel`, then its `SelectItem`s. */
+  /**
+   * The group: a `SelectLabel`, then its `SelectItem` elements.
+   */
   default?(): unknown;
 }>();
 
