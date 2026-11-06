@@ -6,11 +6,13 @@ import { problemsError } from '../api-docs-common/run';
 import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, expandAliases } from '../api-docs-common/expand-alias';
-import { portalSelectors } from '../api-docs-common/tags';
+import { exportedTypesOf } from '../api-docs-common/exported-types';
+import { defaultOf, portalSelectors, tagsOf, withoutLinks } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
 import { partOf, type DocDirective } from './convert';
 import { baseClassOf, publicMembersOf } from './members';
+import { symbolsOf } from './symbols';
 
 /** The part of `@angular/compiler-cli` this executor uses. */
 interface NgtscProgramLike {
@@ -139,6 +141,15 @@ function withScopes(
     const cls = entry === undefined ? undefined : classNamed(program, entry);
     // The type parameter of the template directive is the component's own (`T` of the Select), so it takes the
     // default of the component.
+    const tags = directive?.jsdocTags ?? [];
+    const detailDefault = defaultOf(tags);
+    const detailRemarks = tagsOf(tags, 'remarks').map(withoutLinks);
+    const detailExamples = tagsOf(tags, 'example');
+    const detail = {
+      ...(detailDefault === undefined ? {} : { default: detailDefault }),
+      ...(detailRemarks.length > 0 ? { remarks: detailRemarks.join('\n\n') } : {}),
+      ...(detailExamples.length > 0 ? { examples: detailExamples } : {}),
+    };
     const scope =
       cls === undefined
         ? undefined
@@ -148,7 +159,7 @@ function withScopes(
             problems,
             typeParameterDefaults(classNamed(program, owner)?.typeParameters),
           );
-    return scope === undefined ? slot : { ...slot, scope };
+    return scope === undefined || scope.length === 0 ? { ...slot, ...detail } : { ...slot, ...detail, scope };
   });
   return { ...part, slots };
 }
@@ -194,7 +205,17 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
       parts.push(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems));
     }
-    return { component: name, framework: 'angular', parts };
+    const sourceFile = tsProgram.getSourceFile(file);
+    const partNames = new Set(classes.map((entry) => entry.name));
+    const services = sourceFile === undefined ? [] : symbolsOf(checker, sourceFile, name, partNames);
+    const types = sourceFile === undefined ? [] : exportedTypesOf(tsProgram, checker, sourceFile, name, () => false);
+    return {
+      component: name,
+      framework: 'angular',
+      parts,
+      ...(services.length > 0 ? { services } : {}),
+      ...(types.length > 0 ? { types } : {}),
+    };
   });
   if (problems.length > 0) throw problemsError(problems);
   return docs;

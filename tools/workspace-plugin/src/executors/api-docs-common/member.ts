@@ -1,4 +1,14 @@
-import { checkParity, defaultDiffersOf, defaultOf, paragraphsOf, semanticIdOf, tagsOf, withoutLinks } from './tags';
+import {
+  checkParity,
+  defaultDiffersOf,
+  defaultOf,
+  groupOf,
+  paragraphsOf,
+  semanticIdOf,
+  taskOf,
+  tagsOf,
+  withoutLinks,
+} from './tags';
 import type { ApiMemberJson, TagEntry } from './types';
 
 /** What an extractor read of a member, before it becomes an `ApiMember`. */
@@ -13,6 +23,19 @@ export interface RawMember {
   readonly tags: readonly TagEntry[];
   /** Used when the TSDoc has no `@defaultValue`; the tag wins over a default in the source. */
   readonly sourceDefault?: string | undefined;
+}
+
+/** The `group` and `task` fields of a member. A `@cckTask` without an `@example` adds a problem naming `label`. */
+function groupAndTaskOf(
+  tags: readonly TagEntry[],
+  hasExample: boolean,
+  label: string,
+  problems: string[],
+): { group?: string; task?: string } {
+  const group = groupOf(tags);
+  const task = taskOf(tags);
+  if (task !== undefined && !hasExample) problems.push(`${label}: "@cckTask" needs an "@example"`);
+  return { ...(group === undefined ? {} : { group }), ...(task === undefined ? {} : { task }) };
 }
 
 /**
@@ -49,6 +72,7 @@ export function memberOf(
     ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}),
     ...(deprecated === undefined ? {} : { deprecated: deprecated === '' ? 'Deprecated.' : deprecated }),
     ...(examples.length > 0 ? { examples } : {}),
+    ...groupAndTaskOf(raw.tags, examples.length > 0, `${owner}.${raw.name}`, problems),
   };
 }
 

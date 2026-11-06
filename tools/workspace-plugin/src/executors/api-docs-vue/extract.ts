@@ -8,7 +8,8 @@ import { enclosingDefaults, typeParameterDefaults, withDefaultArguments } from '
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
-import { checkPartDoc, frameworkOnlyOf, paragraphsOf } from '../api-docs-common/tags';
+import { exportedTypesOf } from '../api-docs-common/exported-types';
+import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
 
@@ -180,6 +181,47 @@ function withScopes(
   });
 }
 
+/** The events with the comment of the `<Name>Emits` type where the checker lost it (a named tuple). */
+function eventsWithDocs(events: readonly MetaMember[], emitDocs: ReadonlyMap<string, NodeDoc>): MetaMember[] {
+  return events.map((event) => {
+    const documented = emitDocs.get(event.name);
+    if (documented === undefined || event.description !== '') return event;
+    return {
+      ...event,
+      description: documented.description,
+      tags: documented.tags.map((tag) => ({ name: tag.name, text: tag.comment })),
+    };
+  });
+}
+
+/** The props to list: not a global prop (`key`, `ref`), and not one the framework fills itself (`modelModifiers`, `@internal`). */
+function shownProps(props: readonly MetaMember[]): MetaMember[] {
+  return props.filter((prop) => prop.global !== true && !isInternal(tagEntriesOf(prop.tags)));
+}
+
+/** The exposed methods to list: not an instance member named with `$`, and not a prop. */
+function shownMethods(exposed: readonly MetaMember[], props: readonly MetaMember[]): MetaMember[] {
+  return exposed.filter((item) => !item.name.startsWith('$') && !props.some((prop) => prop.name === item.name));
+}
+
+/** The `v-model` bindings: a prop `x` with an `update:x` event. */
+function bindingsOf(
+  props: readonly ApiMemberJson[],
+  events: readonly MetaMember[],
+): NonNullable<ApiPartJson['bindings']> {
+  return props.flatMap((prop) =>
+    events.some((event) => event.name === `update:${prop.name}`)
+      ? [
+          {
+            semanticId: prop.semanticId,
+            value: prop.name,
+            syntax: prop.name === 'modelValue' ? 'v-model' : `v-model:${prop.name}`,
+          },
+        ]
+      : [],
+  );
+}
+
 function partOf(
   componentName: string,
   name: string,
@@ -194,22 +236,12 @@ function partOf(
   const doc = declaration && docOf(declaration);
   if (doc === undefined) problems.push(`${name}: the folder needs an exported ${typeName} in a *.types.ts file`);
   const tags = doc?.tags ?? [];
+  const text = doc?.description ?? '';
   const partProblems = doc ? problems : [];
-  const part = checkPartDoc(typeName, tags, doc?.description ?? '', partProblems);
-  const props = meta.props.filter((prop) => prop.global !== true);
+  const part = checkPartDoc(typeName, tags, text, partProblems);
+  const props = shownProps(meta.props);
   const emitDocs = emitDocsOf(dir, `${name}Emits`);
-  const events = meta.events.map((event) => {
-    const documented = emitDocs.get(event.name);
-    if (documented === undefined) return event;
-    // The checker loses the comment of a named tuple.
-    return event.description === ''
-      ? {
-          ...event,
-          description: documented.description,
-          tags: documented.tags.map((tag) => ({ name: tag.name, text: tag.comment })),
-        }
-      : event;
-  });
+  const events = eventsWithDocs(meta.events, emitDocs);
   // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
   const idScope = part === 'root' || part === '' ? componentName : `${componentName}.${part}`;
   const result: ApiPartJson = {
@@ -217,7 +249,8 @@ function partOf(
     semanticId: `${componentName}.${part}`,
     anatomyPart: part,
     ...frameworkOnlyOf(typeName, tags, partProblems),
-    description: paragraphsOf(doc?.description ?? '')[0] ?? '',
+    description: paragraphsOf(text)[0] ?? '',
+    ...partDocFields(text, tags),
     props: listOf(idScope, name, props, problems, true, expand),
     events: listOf(idScope, name, events, problems, false, expand),
     slots: withScopes(
@@ -227,26 +260,9 @@ function partOf(
       problems,
       typeParameterDefaults(declaration?.typeParameters),
     ),
-    methods: listOf(
-      componentName,
-      name,
-      meta.exposed.filter((item) => !item.name.startsWith('$') && !props.some((prop) => prop.name === item.name)),
-      problems,
-      false,
-      expand,
-    ),
+    methods: listOf(componentName, name, shownMethods(meta.exposed, props), problems, false, expand),
   };
-  const bindings = result.props.flatMap((prop) =>
-    events.some((event) => event.name === `update:${prop.name}`)
-      ? [
-          {
-            semanticId: prop.semanticId,
-            value: prop.name,
-            syntax: prop.name === 'modelValue' ? 'v-model' : `v-model:${prop.name}`,
-          },
-        ]
-      : [],
-  );
+  const bindings = bindingsOf(result.props, events);
   if (bindings.length > 0) result.bindings = bindings;
   return result;
 }
@@ -275,12 +291,12 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
   const checker = createChecker(posix(tsConfig), { forceUseTs: true, schema: { ignore: [] } });
   const problems: string[] = [];
   const typeFiles = entries.map(({ dir }) => typesFilesOf(dir));
-  const program = createTsProgram(tsConfig, typeFiles.flat());
-  const types = program.getTypeChecker();
+  const program = createTsProgram(tsConfig, [...typeFiles.flat(), ...entries.map((entry) => entry.file)]);
+  const typeChecker = program.getTypeChecker();
   try {
-    const docs = entries.map(({ name, dir }, index): ApiDocJson => {
+    const docs = entries.map(({ name, dir, file }, index): ApiDocJson => {
       const sources = (typeFiles[index] ?? []).flatMap((file) => program.getSourceFile(file) ?? []);
-      const scope = sources.length === 0 ? undefined : { checker: types, sources };
+      const scope = sources.length === 0 ? undefined : { checker: typeChecker, sources };
       const files = readdirSync(dir)
         .filter((file) => file.endsWith('.vue'))
         .sort();
@@ -288,7 +304,11 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
       const parts = files.map((file) =>
         partOf(name, basename(file, '.vue'), dir, checker.getComponentMeta(posix(join(dir, file))), problems, scope),
       );
-      return { component: name, framework: 'vue', parts };
+      const indexFile = program.getSourceFile(file);
+      const own = new Set(parts.flatMap((part) => [`${part.name}Props`, `${part.name}Emits`, `${part.name}Slots`]));
+      const types =
+        indexFile === undefined ? [] : exportedTypesOf(program, typeChecker, indexFile, name, (item) => own.has(item));
+      return { component: name, framework: 'vue', parts, ...(types.length > 0 ? { types } : {}) };
     });
     if (problems.length > 0) throw problemsError(problems);
     return docs;

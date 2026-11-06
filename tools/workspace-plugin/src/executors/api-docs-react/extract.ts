@@ -5,7 +5,15 @@ import { aliasResolverAt, createTsProgram, expandAliases } from '../api-docs-com
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
-import { checkParity, checkPartDoc, frameworkOnlyOf, paragraphsOf } from '../api-docs-common/tags';
+import { exportedTypesOf } from '../api-docs-common/exported-types';
+import {
+  checkParity,
+  checkPartDoc,
+  frameworkOnlyOf,
+  paragraphsOf,
+  partDocFields,
+  tagsOf,
+} from '../api-docs-common/tags';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { displayTextOf } from './display-text';
@@ -123,10 +131,36 @@ function scopeOf(
   fn: ts.FunctionTypeNode,
   owner: string,
   problems: string[],
+  tags: readonly TagEntry[],
 ): NonNullable<ApiSlotJson['scope']> {
   const parameter = fn.parameters[0]?.type;
   const type = parameter === undefined ? undefined : checker.getTypeFromTypeNode(parameter);
-  return (type?.getProperties() ?? []).map((property) => {
+  const properties = (type?.getProperties() ?? []).filter((property) => !isPrimitiveMember(type, property));
+  if (properties.length === 0 && parameter !== undefined) {
+    // A parameter that is not an object (`(value: V) => ReactNode`) is one field, named after the parameter; its text
+    // is the `@param` tag of the prop.
+    const name = fn.parameters[0]?.name.getText() ?? 'value';
+    const text = tagsOf(tags, 'param')
+      .map((tag) =>
+        tag.startsWith(`${name} `)
+          ? tag
+              .slice(name.length)
+              .replace(/^\s*-?\s*/, '')
+              .trim()
+          : '',
+      )
+      .find((tagText) => tagText !== '');
+    if (text === undefined)
+      problems.push(`${owner}: the function parameter "${name}" needs a "@param ${name} - ..." tag`);
+    return [
+      {
+        name,
+        type: withDefaultArguments(parameter.getText().replace(/\s+/g, ' '), enclosingDefaults(parameter)),
+        description: paragraphsOf(text ?? '')[0] ?? '',
+      },
+    ];
+  }
+  return properties.map((property) => {
     const declaration = property.valueDeclaration ?? property.declarations?.[0];
     const description = paragraphsOf(displayTextOf(property.getDocumentationComment(checker)))[0] ?? '';
     if (description === '') problems.push(`${owner}: the scope field "${property.name}" has no TSDoc description`);
@@ -147,6 +181,15 @@ function scopeOf(
       ...(frameworkOnly ? { semanticId: 'none' as const } : {}),
     };
   });
+}
+
+/** Whether a member belongs to a primitive's apparatus (`toString` of a string), not to a scope object. */
+function isPrimitiveMember(type: ts.Type | undefined, property: ts.Symbol): boolean {
+  return (
+    type !== undefined &&
+    (type.flags & (ts.TypeFlags.StringLike | ts.TypeFlags.NumberLike | ts.TypeFlags.BooleanLike)) !== 0 &&
+    property.name !== ''
+  );
 }
 
 /** Whether a prop is an event: a CocoKits callback named `on<Thing>` (the native `on*` handlers are not own declarations). */
@@ -261,7 +304,18 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
           if (member === undefined) return [];
           return fn === undefined
             ? [member]
-            : [{ ...member, scope: scopeOf(checker, fn, `${component.name}.${symbol.name}`, problems) }];
+            : [
+                {
+                  ...member,
+                  scope: scopeOf(
+                    checker,
+                    fn,
+                    `${component.name}.${symbol.name}`,
+                    problems,
+                    tagsOfSymbol(checker, symbol),
+                  ),
+                },
+              ];
         }) ?? [];
       return {
         name: component.name,
@@ -269,13 +323,17 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
         anatomyPart: part,
         ...frameworkOnlyOf(component.name, tags, problems),
         description: paragraphsOf(displayTextOf(component.getDocumentationComment(checker)))[0] ?? '',
+        ...partDocFields(displayTextOf(component.getDocumentationComment(checker)), tags),
         props,
         events,
         slots,
         methods: [],
       };
     });
-    return { component: name, framework: 'react', parts };
+    const partNames = new Set(parts.map((part) => `${part.name}Props`));
+    const types =
+      source === undefined ? [] : exportedTypesOf(program, checker, source, name, (item) => partNames.has(item));
+    return { component: name, framework: 'react', parts, ...(types.length > 0 ? { types } : {}) };
   });
   if (problems.length > 0) throw problemsError(problems);
   return docs;

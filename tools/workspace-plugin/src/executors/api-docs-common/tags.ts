@@ -32,6 +32,41 @@ export const defaultOf = (tags: readonly TagEntry[]): string | undefined => {
   return text === undefined || text === '' ? undefined : text.replace(/^`([^`]*)`$/, '$1');
 };
 
+/** The text after the first paragraph of a part's TSDoc, with its `@remarks`: what the page shows under the description. */
+export function partRemarksOf(description: string, tags: readonly TagEntry[]): string | undefined {
+  const [, ...rest] = paragraphsOf(description);
+  const text = [...rest, ...tagsOf(tags, 'remarks').map(withoutLinks)].filter((item) => item !== '');
+  return text.length === 0 ? undefined : text.join('\n\n');
+}
+
+/** The optional `remarks` and `examples` fields of a part: the text after its first paragraph and its `@example` tags. */
+export function partDocFields(
+  description: string,
+  tags: readonly TagEntry[],
+): { remarks?: string; examples?: string[] } {
+  const remarks = partRemarksOf(description, tags);
+  const examples = tagsOf(tags, 'example');
+  return {
+    ...(remarks === undefined ? {} : { remarks }),
+    ...(examples.length > 0 ? { examples } : {}),
+  };
+}
+
+/** The `@cckGroup <name>` of a member, or undefined. */
+export const groupOf = (tags: readonly TagEntry[]): string | undefined => {
+  const [text] = tagsOf(tags, 'cckGroup');
+  return text === undefined || text === '' ? undefined : text;
+};
+
+/** The title of the `@cckTask <title>` of a member, or undefined. */
+export const taskOf = (tags: readonly TagEntry[]): string | undefined => {
+  const [text] = tagsOf(tags, 'cckTask');
+  return text === undefined || text === '' ? undefined : text.replace(/\s+/g, ' ');
+};
+
+/** Whether the tags hold `@internal`. */
+export const isInternal = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'internal');
+
 /**
  * The canonical id of a member: its `@cckSemantic` tag when it has one, else `<component>.<name>`
  * (api-extraction.md, semantic ids). A tag that starts with `*.` (`*.readOnly`) stands for the component being
