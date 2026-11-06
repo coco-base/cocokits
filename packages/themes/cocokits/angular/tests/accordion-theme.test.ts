@@ -11,6 +11,7 @@ import {
   type CckAccordionTogglePosition,
   type CckAccordionVariant,
 } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckAccordionImports, CckAccordionTheme],
@@ -50,7 +51,7 @@ class Fixed {
 
 const options = cocokitsThemeConfig.components.accordion;
 const ATTRIBUTES = ['data-variant', 'data-size', 'data-toggle-position', 'data-hide-toggle'] as const;
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const root = (container: Element): Element => {
   const element = container.querySelector('.cck-accordion');
   if (!element) throw new Error('no .cck-accordion');

@@ -6,6 +6,7 @@ import { CckBadgeContainerImports } from '@cocokits/angular/badge-container';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckBadgeTheme, type CckBadgeColor, type CckBadgeSize, type CckBadgeVariant } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckBadgeImports, CckBadgeTheme],
@@ -42,7 +43,7 @@ class OnStrong {
   readonly size = 'lg';
 }
 
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const badge = (): HTMLElement => screen.getByTestId('badge');
 const attrs = (): Record<string, string | null> => ({
   variant: badge().getAttribute('data-variant'),

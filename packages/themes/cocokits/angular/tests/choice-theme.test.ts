@@ -15,6 +15,7 @@ import {
   type CckCheckboxLabelPosition,
   type CckCheckboxSize,
 } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckCheckbox, CckCheckboxTheme, CckSwitch, CckSwitchTheme, CckRadio, CckRadioTheme],
@@ -42,7 +43,7 @@ class Fixed {
   protected readonly on = true;
 }
 
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const IDS = ['checkbox', 'switch', 'radio'] as const;
 /** The classes come from an anatomy of the same block; a theme layer may not import a machine. */
 const rootClass = (id: string): string =>

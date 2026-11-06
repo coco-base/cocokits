@@ -5,6 +5,7 @@ import { CckButton, CckButtonAnchor } from '@cocokits/angular/button';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckButtonTheme, type CckButtonColor, type CckButtonSize, type CckButtonVariant } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckButton, CckButtonAnchor, CckButtonTheme],
@@ -19,7 +20,7 @@ class Host {
   readonly size = signal<CckButtonSize | null | undefined>(undefined);
 }
 
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const attrs = (el: HTMLElement): Record<string, string | null> => ({
   variant: el.getAttribute('data-variant'),
   color: el.getAttribute('data-cck-color'),

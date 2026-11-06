@@ -1,11 +1,10 @@
 import { ApplicationRef, Component, destroyPlatform } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckBadgeImports } from '@cocokits/angular/badge';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckBadgeTheme } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -22,8 +21,6 @@ class Root {
 /** The server markup without the hydration bookkeeping (`ngh` attributes and `ngetn` comments). */
 const withoutHydrationMarks = (html: string | undefined): string | undefined =>
   html?.replace(/ ngh="[^"]*"/g, '').replace(/<!--ngetn-->/g, '');
-
-const providers = [provideCckTheme(cocokitsThemeConfig)];
 
 afterEach(() => {
   destroyPlatform();

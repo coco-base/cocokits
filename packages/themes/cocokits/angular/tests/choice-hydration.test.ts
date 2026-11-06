@@ -1,13 +1,12 @@
 import { ApplicationRef, Component, destroyPlatform } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckCheckbox } from '@cocokits/angular/checkbox';
 import { CckRadio } from '@cocokits/angular/radio';
 import { CckSwitch } from '@cocokits/angular/switch';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckCheckboxTheme, CckRadioTheme, CckSwitchTheme } from '../src/index';
+import { providers, strip } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +19,6 @@ import { CckCheckboxTheme, CckRadioTheme, CckSwitchTheme } from '../src/index';
 class Root {
   protected readonly on = true;
 }
-
-const providers = [provideCckTheme(cocokitsThemeConfig)];
 
 afterEach(() => {
   destroyPlatform();
@@ -46,7 +43,6 @@ describe('theme choice controls hydration', () => {
     const html = new DOMParser().parseFromString(server, 'text/html');
     document.body.innerHTML = html.body.innerHTML;
     const first = document.querySelector('.cck-checkbox');
-    const strip = (markup: string): string => markup.replace(/ ngh="\d+"/g, '');
     const before = strip(document.body.innerHTML);
     const logged: unknown[][] = [];
     for (const method of ['error', 'warn'] as const) {

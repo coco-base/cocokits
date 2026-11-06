@@ -11,6 +11,7 @@ import {
   type CckTabNavSize,
   type CckTabNavVariant,
 } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckTabNavImports, CckTabNavTheme],
@@ -50,7 +51,7 @@ class Fixed {
 
 const options = cocokitsThemeConfig.components['tab-nav'];
 const ATTRIBUTES = ['data-variant', 'data-cck-color', 'data-size', 'data-header-align'] as const;
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const root = (container: Element): Element => {
   const element = container.querySelector('.cck-tab-nav');
   if (!element) throw new Error('no .cck-tab-nav');

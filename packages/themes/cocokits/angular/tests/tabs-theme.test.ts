@@ -11,6 +11,7 @@ import {
   type CckTabsSize,
   type CckTabsVariant,
 } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckTabsImports, CckTabsTheme],
@@ -50,7 +51,7 @@ class Fixed {
 
 const options = cocokitsThemeConfig.components.tabs;
 const ATTRIBUTES = ['data-variant', 'data-cck-color', 'data-size', 'data-header-align'] as const;
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const root = (container: Element): Element => {
   const element = container.querySelector('.cck-tabs');
   if (!element) throw new Error('no .cck-tabs');

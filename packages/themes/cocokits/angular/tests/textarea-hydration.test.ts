@@ -1,14 +1,13 @@
 import { ApplicationRef, Component, destroyPlatform } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckFieldError } from '@cocokits/angular/field-error';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { CckPrefix } from '@cocokits/angular/prefix';
 import { CckTextarea } from '@cocokits/angular/textarea';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckTextareaTheme } from '../src/index';
+import { providers, strip } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -22,8 +21,6 @@ import { CckTextareaTheme } from '../src/index';
 class Root {
   protected readonly rows = 2;
 }
-
-const providers = [provideCckTheme(cocokitsThemeConfig)];
 
 afterEach(() => {
   destroyPlatform();
@@ -48,7 +45,6 @@ describe('theme Textarea hydration', () => {
     const html = new DOMParser().parseFromString(server, 'text/html');
     document.body.innerHTML = html.body.innerHTML;
     const first = document.getElementById('a');
-    const strip = (markup: string): string => markup.replace(/ ngh="\d+"/g, '');
     const before = strip(document.body.innerHTML);
     const logged: unknown[][] = [];
     for (const method of ['error', 'warn'] as const) {

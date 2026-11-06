@@ -5,6 +5,7 @@ import { CckSelectImports } from '@cocokits/angular/select';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckSelectTheme, type CckSelectSize } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   imports: [CckSelectImports, CckSelectTheme],
@@ -31,7 +32,7 @@ class Fixed {
   protected readonly dish = 'Cake';
 }
 
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const root = (container: Element): Element => {
   const element = container.querySelector('.cck-select');
   if (!element) throw new Error('no .cck-select');
