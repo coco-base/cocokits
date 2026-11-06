@@ -1,31 +1,18 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import { waitForAnimations } from '../index';
+import { cssAnimation, type FakeAnimation } from './fixtures';
+import { settle } from './helpers';
 
-interface FakeAnimation {
-  finished: Promise<unknown>;
-  playState?: string;
-  effect?: { getComputedTiming: () => { endTime: number } };
-  animationName?: string;
-}
-
-function css(finished: Promise<unknown>, overrides: Partial<FakeAnimation> = {}): FakeAnimation {
-  return {
-    finished,
-    animationName: 'enter',
-    playState: 'running',
-    effect: { getComputedTiming: () => ({ endTime: 300 }) },
-    ...overrides,
-  };
-}
+/** An entering CSS animation. */
+const css = (finished: Promise<unknown>, overrides: Partial<FakeAnimation> = {}): FakeAnimation =>
+  cssAnimation(finished, { animationName: 'enter', ...overrides });
 
 function elementWith(animations: FakeAnimation[]): HTMLElement {
   const element = document.createElement('div');
   element.getAnimations = (() => animations) as unknown as HTMLElement['getAnimations'];
   return element;
 }
-
-const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 /** Whether the promise resolved, after letting pending work run. */
 async function resolved(promise: Promise<void>): Promise<boolean> {

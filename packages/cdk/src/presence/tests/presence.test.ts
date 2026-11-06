@@ -2,24 +2,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createPresence } from '../index';
 import type { PresenceState } from '../index';
-
-interface FakeAnimation {
-  finished: Promise<unknown>;
-  playState?: string;
-  effect?: { getComputedTiming: () => { endTime: number } };
-  animationName?: string;
-}
-
-/** A CSS animation as `getAnimations()` returns it: it has an animation name, runs and ends in 300 ms. */
-function cssAnimation(finished: Promise<unknown>, overrides: Partial<FakeAnimation> = {}): FakeAnimation {
-  return {
-    finished,
-    animationName: 'exit',
-    playState: 'running',
-    effect: { getComputedTiming: () => ({ endTime: 300 }) },
-    ...overrides,
-  };
-}
+import { cssAnimation, type FakeAnimation } from './fixtures';
+import { settle } from './helpers';
 
 function setup(animations: () => FakeAnimation[]) {
   const element = document.createElement('div');
@@ -42,8 +26,6 @@ function deferred() {
   });
   return { finish, cancel, ...cssAnimation(finished) };
 }
-
-const settle = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe('createPresence', () => {
   it('starts unmounted and mounts on open', () => {

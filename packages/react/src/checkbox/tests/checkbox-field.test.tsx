@@ -9,13 +9,13 @@ import { Label } from '../../label';
 import { Switch } from '../../switch';
 import { Checkbox } from '../index';
 import { isSet, must, strict } from '../../internal/tests/choice-fixtures';
+import { box } from './fixtures';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
 
-const box = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('checkbox');
 const select = (selector: string): Element | null => document.querySelector(selector);
 
 function Field({ field = {}, control = {} }: { readonly field?: object; readonly control?: object }): ReactElement {
