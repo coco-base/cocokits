@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { StrictMode, createRef, type ReactElement } from 'react';
+import { createRef } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FieldError } from '@cocokits/react/field-error';
 import { Leading } from '@cocokits/react/leading';
@@ -12,6 +12,7 @@ import { ThemeProvider } from '@cocokits/react-core';
 import { defineAnatomy } from '@cocokits/shared';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormField, Textarea } from '../src/index';
+import { themed } from './helpers';
 
 /** The classes come from an anatomy of the same block, as the theme-config tests do; a theme may not import a machine. */
 const textareaAnatomy = defineAnatomy({
@@ -24,11 +25,6 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const textarea = (): HTMLElement => screen.getByTestId('textarea');
 
 describe('theme Textarea', () => {

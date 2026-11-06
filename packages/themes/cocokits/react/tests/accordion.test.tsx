@@ -1,12 +1,13 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { StrictMode, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Accordion as BaseAccordion } from '@cocokits/react/accordion';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Accordion, type AccordionRootProps } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -15,11 +16,6 @@ afterEach(() => {
 
 const options = cocokitsThemeConfig.components.accordion;
 const ATTRIBUTES = ['data-variant', 'data-size', 'data-toggle-position', 'data-hide-toggle'] as const;
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const example = (props: Partial<AccordionRootProps> = {}): ReactElement => (
   <Accordion.Root type="single" collapsible {...(props as object)}>
     <Accordion.Item value="shipping">

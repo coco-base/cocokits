@@ -1,6 +1,5 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { StrictMode, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField as BaseFormField } from '@cocokits/react/form-field';
 import { Input } from '@cocokits/react/input';
@@ -8,6 +7,7 @@ import { ThemeProvider } from '@cocokits/react-core';
 import { defineAnatomy } from '@cocokits/shared';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormField } from '../src/index';
+import { themed } from './helpers';
 
 /** The classes come from an anatomy of the same block, as the theme-config tests do; a theme may not import a machine. */
 const formFieldAnatomy = defineAnatomy({
@@ -23,11 +23,6 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const themed = (ui: ReactElement): ReactElement => (
-  <StrictMode>
-    <ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>
-  </StrictMode>
-);
 const root = (): HTMLElement => screen.getByTestId('field');
 const inputWrapper = (): HTMLElement => {
   const wrapper = root().querySelector<HTMLElement>(`.${formFieldAnatomy.classes.inputWrapper}`);
