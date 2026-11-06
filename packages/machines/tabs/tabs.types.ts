@@ -14,11 +14,11 @@ export type TabsValue = string | number;
 
 /** One registered tab, read in document order by the adapter. */
 export interface TabsItem {
-  /** The value that links the trigger to its panel. Angular uses the tab's index. */
+  /** The value that links the trigger to its panel. */
   readonly value: TabsValue;
   /**
    * The key that enters the trigger and panel ids. Leave it out to derive it from `value` with the injective
-   * `toIdSegment` (React, Vue); Angular gives each tab its generated id here, so ids never depend on the value.
+   * `toIdSegment`; an adapter whose ids must never depend on the value gives each tab its generated id here.
    */
   readonly key?: string | undefined;
   /** The trigger id, replacing the generated `<id>-trigger-<key>`; the panel's `aria-labelledby` follows it. */
@@ -35,7 +35,7 @@ export interface TabsState {
   readonly items: readonly TabsItem[];
   /** The selected value (controlled or tracked); `undefined` selects the first enabled tab. */
   readonly value?: TabsValue | undefined;
-  /** Every panel renders its content, not only the selected one (Vue `unmountOnHide=false`). @defaultValue false */
+  /** Every panel renders its content, not only the selected one. @defaultValue false */
   readonly keepContent?: boolean | undefined;
   /** @defaultValue 'horizontal' */
   readonly orientation?: TabsOrientation | undefined;

@@ -12,7 +12,7 @@ export interface FormFieldControlProps {
   /** The author's `name` (or the one a forms library wrote). An empty string counts as none. */
   readonly name?: string | undefined;
   /**
-   * The bound forms control's full path (Angular `ngControl.path`), used to default `name` when no author
+   * The bound forms control's full path, used to default `name` when no author
    * `name` is set: the segments joined with `.`. No default for an empty path, an empty segment or a lone
    * numeric segment (a root array index).
    */

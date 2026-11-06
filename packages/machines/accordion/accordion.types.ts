@@ -11,7 +11,7 @@ export type AccordionChangeReason = 'user';
 
 /** One registered item, read in document order by the adapter. */
 export interface AccordionItem {
-  /** The key stored in the open value: the item `value` (React, Vue) or its generated id (Angular). */
+  /** The key stored in the open value: the item `value`, or an id the adapter generates for the item. */
   readonly key: string;
   /** A disabled item is never toggled by the user and the arrow keys skip it. @defaultValue false */
   readonly disabled?: boolean | undefined;
@@ -25,7 +25,7 @@ export interface AccordionState {
   readonly value: readonly string[];
   /** @defaultValue 'single' */
   readonly type?: AccordionType | undefined;
-  /** Whether the open item can be closed in `single` mode. Angular passes `true`. @defaultValue false */
+  /** Whether the open item can be closed in `single` mode. @defaultValue false */
   readonly collapsible?: boolean | undefined;
   /** Disables every item. @defaultValue false */
   readonly disabled?: boolean | undefined;
@@ -57,12 +57,12 @@ export type AccordionEvent =
       readonly event: Event;
     }
   | {
-      /** A method asked to open an item (Angular `open()`, `openAll()`). */
+      /** An imperative call asked to open an item. */
       readonly type: 'ITEM.OPEN';
       readonly key: string;
     }
   | {
-      /** A method asked to close an item (Angular `close()`, `closeAll()`). */
+      /** An imperative call asked to close an item. */
       readonly type: 'ITEM.CLOSE';
       readonly key: string;
     }
