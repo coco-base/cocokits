@@ -1,6 +1,6 @@
 /**
- * Renames the listeners of a machine to the names Vue binds. The machine names a listener after the event the
- * way React does (`onKeyDown`); `h()` and `v-bind` turn that into the event `key-down`, which never fires. A
+ * Renames the listeners of a machine to the names Vue binds. The machine names a listener after the event
+ * (`onKeyDown`); `h()` and `v-bind` turn that into the event `key-down`, which never fires. A
  * template writes `@keydown`, which is `onKeydown`, so every name after `on` is lowercase. A one-word
  * listener (`onClick`) is unchanged.
  *

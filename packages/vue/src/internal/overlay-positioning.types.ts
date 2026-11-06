@@ -9,7 +9,7 @@ export interface OverlayPositioningProps {
    * The gap between the anchor and the content in px. Unset, the content takes the theme's `--side-offset`.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular takes the gap from the theme.
+   * @cckParity React and Vue only (Radix and Reka); Angular takes the gap from the theme.
    */
   readonly sideOffset?: number | undefined;
   /**
@@ -18,7 +18,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue 0
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular has no offset input.
+   * @cckParity React and Vue only (Radix and Reka); Angular has no offset input.
    */
   readonly alignOffset?: number | undefined;
   /**
@@ -27,16 +27,16 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular always avoids collisions.
+   * @cckParity React and Vue only (Radix and Reka); Angular always avoids collisions.
    */
   readonly avoidCollisions?: boolean | undefined;
   /**
    * The distance in px the content keeps from the viewport edges: one number for all four, or one per side
-   * (`top`, `right`, `bottom`, `left`; unset sides are 0). The sides are physical, as in Radix and Reka.
+   * (`top`, `right`, `bottom`, `left`; unset sides are 0). The sides are physical.
    *
    * @defaultValue 5
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular keeps 5 px.
+   * @cckParity React and Vue only (Radix and Reka); Angular keeps 5 px.
    */
   readonly collisionPadding?: OverlayCollisionPadding | undefined;
   /**
@@ -45,7 +45,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue 'partial'
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular uses `'partial'`.
+   * @cckParity React and Vue only (Radix and Reka); Angular uses `'partial'`.
    */
   readonly sticky?: OverlaySticky | undefined;
   /**
@@ -54,7 +54,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular never hides it.
+   * @cckParity React and Vue only (Radix and Reka); Angular never hides it.
    */
   readonly hideWhenDetached?: boolean | undefined;
   /**
@@ -62,7 +62,7 @@ export interface OverlayPositioningProps {
    * none. Entries that are `null` are ignored.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular keeps the content in the viewport.
+   * @cckParity React and Vue only (Radix and Reka); Angular keeps the content in the viewport.
    */
   readonly collisionBoundary?: Element | null | readonly (Element | null)[] | undefined;
   /**
@@ -71,7 +71,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue 'optimized'
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular always places it when something moved.
+   * @cckParity React and Vue only (Radix and Reka); Angular always places it when something moved.
    */
   readonly updatePositionStrategy?: 'optimized' | 'always' | undefined;
   /**
@@ -80,7 +80,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks Vue only (Reka UI); Radix flips whenever `avoidCollisions` is on.
+   * @cckParity Vue only (Reka UI); Radix flips whenever `avoidCollisions` is on.
    */
   readonly sideFlip?: boolean | undefined;
   /**
@@ -89,7 +89,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Vue only (Reka UI).
    */
   readonly alignFlip?: boolean | undefined;
   /**
@@ -98,7 +98,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Vue only (Reka UI).
    */
   readonly prioritizePosition?: boolean | undefined;
   /**
@@ -107,7 +107,7 @@ export interface OverlayPositioningProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Vue only (Reka UI).
    */
   readonly disableUpdateOnLayoutShift?: boolean | undefined;
 }
@@ -121,7 +121,7 @@ export interface OverlayArrowProps {
    *
    * @defaultValue 0
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular keeps the arrow at the anchor's centre.
+   * @cckParity React and Vue only (Radix and Reka); Angular keeps the arrow at the anchor's centre.
    */
   readonly arrowPadding?: number | undefined;
   /**
@@ -130,7 +130,7 @@ export interface OverlayArrowProps {
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks Vue only (Reka UI); Radix always hides it.
+   * @cckParity Vue only (Reka UI); Radix always hides it.
    */
   readonly hideShiftedArrow?: boolean | undefined;
 }

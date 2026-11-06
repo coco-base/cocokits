@@ -20,7 +20,7 @@ defineSlots<{
    * The element the Badge merges onto when it merges (`asChild`, or `as="template"`); the Badge puts its own content parts inside it. Not rendered otherwise.
    *
    * @cckSemantic none
-   * @remarks The `asChild` host element, Vue only.
+   * @cckParity The `asChild` host element, Vue only.
    */
   default?(): unknown;
 }>();
@@ -55,7 +55,7 @@ defineExpose({
    * `null` before mount.
    *
    * @cckSemantic none
-   * @remarks Vue-only member: templates reach the DOM node through the component ref.
+   * @cckParity Vue-only member: templates reach the DOM node through the component ref.
    */
   get element(): Element | null {
     return rootElementOf(root.value);

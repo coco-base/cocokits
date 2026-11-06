@@ -17,7 +17,7 @@ export interface LeadingProps {
    * The tag or component to render.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -26,7 +26,7 @@ export interface LeadingProps {
    * default slot instead of rendering an element.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

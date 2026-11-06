@@ -40,7 +40,7 @@ export interface FormFieldProps {
    * Makes the control read-only.
    *
    * @cckSemantic form-field.readOnly
-   * @remarks Vue spells it as the native `readonly` attribute.
+   * @cckParity Vue spells it as the native `readonly` attribute.
    * @defaultValue false
    */
   readonly readonly?: boolean | undefined;
@@ -67,7 +67,7 @@ export interface FormFieldProps {
    * never shows it again.
    *
    * @cckSemantic none
-   * @remarks Vue and Angular declare it, so a `false` cannot unhide the root; React takes the native attribute.
+   * @cckParity Vue and Angular declare it, so a `false` cannot unhide the root; React takes the native attribute.
    * @defaultValue false
    */
   readonly hidden?: boolean | undefined;
@@ -75,7 +75,7 @@ export interface FormFieldProps {
    * The tag or component to render.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Vue's element override (Reka).
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -85,7 +85,7 @@ export interface FormFieldProps {
    * zone and the hint zone inside the child; the own children of the child become the control.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Vue's merge onto one child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

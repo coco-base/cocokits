@@ -32,7 +32,7 @@ export interface RadioProps extends ChoiceControlProps {
    * radio without a name warns in development. Ignored inside a `RadioGroup`, which gives the name.
    *
    * @cckSemantic *.name
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute in React and Vue; Angular declares it as an input.
    */
   readonly name?: string | undefined;
   /**
@@ -40,7 +40,7 @@ export interface RadioProps extends ChoiceControlProps {
    * `RadioGroup` it identifies the radio, and a radio without one can never be checked.
    *
    * @cckSemantic *.value
-   * @remarks Angular names it `submitValue`, as on the Checkbox.
+   * @cckParity Angular names it `submitValue`, as on the Checkbox.
    */
   readonly value?: string | undefined;
   /**
@@ -49,15 +49,15 @@ export interface RadioProps extends ChoiceControlProps {
    * controlled: a parent that does not accept a change keeps the old value. Unbound, the Radio keeps its own value. Ignored inside a `RadioGroup`.
    *
    * @cckSemantic radio.checked
-   * @remarks Vue's `v-model` (`modelValue`).
+   * @cckParity Vue's `v-model` (`modelValue`).
    * @defaultValue false
    */
   readonly modelValue?: boolean | null | undefined;
   /**
-   * The modifiers of `v-model` (`.trim`, `.number`, ...) Vue passes; the component only declares them so they do not reach the native element.
+   * The modifiers of `v-model` (`.trim`, `.number`, ...); the component only declares them so they do not reach the native element.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Vue-only: Vue fills it from `v-model.trim` and the like.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -66,7 +66,7 @@ export interface RadioProps extends ChoiceControlProps {
    * and does not make it controlled.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultChecked`; Angular binds it as a model.
+   * @cckParity Vue's uncontrolled start value, as React's `defaultChecked`; Angular binds it as a model.
    * @defaultValue false
    */
   readonly defaultChecked?: boolean | undefined;
@@ -78,7 +78,8 @@ export interface RadioEmits {
    * Emits with the new checked value for `v-model`, after a change the user makes and after a reset of the owner form.
    *
    * @cckSemantic radio.checkedChange
-   * @remarks The `v-model` update event of Vue is the only change event (as Reka UI), so it stands for the change event of the other frameworks: Angular emits `checkedChangeDetails` and React calls `onCheckedChange`. It carries the value only.
+   * @remarks The only change event; it carries the value only.
+   * @cckParity The `v-model` update event of Vue is the only change event (as Reka UI), so it stands for the change event of the other frameworks: Angular emits `checkedChangeDetails` and React calls `onCheckedChange`. It carries the value only.
    */
   'update:modelValue': [checked: boolean];
 }

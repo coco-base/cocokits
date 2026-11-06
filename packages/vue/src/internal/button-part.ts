@@ -9,7 +9,7 @@ import { omit } from './record';
 export type ButtonPartKind = 'native' | 'child' | 'non-native';
 
 /**
- * The kind of a button-default part. The API decides it: Vue never inspects the rendered element.
+ * The kind of a button-default part. The API decides it: the part never inspects the rendered element.
  *
  * @internal
  * @param as - The `as` prop of the part (`'button'` when unset).
@@ -57,8 +57,7 @@ function onKeyup(event: KeyboardEvent): void {
 }
 
 /**
- * What a Dialog or Popover trigger or Close gets on an element that is not a native button, the way Base UI's
- * `useButton` does it, besides {@link NON_NATIVE_DEFAULTS}: Enter on keydown and Space on keyup, both through a click so the
+ * What a Dialog or Popover trigger or Close gets on an element that is not a native button, besides {@link NON_NATIVE_DEFAULTS}: Enter on keydown and Space on keyup, both through a click so the
  * part's click logic and a consumer `click` listener run. Bind it after the author's attrs, so their listeners
  * run first and can veto with `preventDefault()`.
  *
@@ -71,7 +70,7 @@ export function nonNativePress(): Record<string, unknown> {
 
 /**
  * The role and tab stop of a button-default part on an element that is not a native button. Merge it before the
- * author's attrs, so an author's `role` or `tabindex` wins, as the `render` props do in React.
+ * author's attrs, so an author's `role` or `tabindex` wins.
  *
  * @internal
  */

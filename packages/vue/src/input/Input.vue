@@ -45,7 +45,7 @@ defineExpose({
    * The native `<input>`. `null` before mount.
    *
    * @cckSemantic none
-   * @remarks Vue-only member: templates reach the DOM node through the component ref.
+   * @cckParity Vue-only member: templates reach the DOM node through the component ref.
    */
   get element(): HTMLInputElement | null {
     return element.value;
