@@ -7,7 +7,7 @@ import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, expandAliases } from '../api-docs-common/expand-alias';
 import { exportedTypesOf } from '../api-docs-common/exported-types';
-import { defaultOf, portalSelectors, tagsOf, withoutLinks } from '../api-docs-common/tags';
+import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
 import { partOf, type DocDirective } from './convert';
@@ -123,6 +123,18 @@ function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration
   };
 }
 
+/** What a template directive says about itself: what shows without it, when it is used and an example. */
+function templateDetailOf(directive: DocDirective): { default?: string; remarks?: string; examples?: string[] } {
+  const fallback = defaultOf(directive.jsdocTags);
+  const remarks = partRemarksOf(directive.description, directive.jsdocTags);
+  const examples = tagsOf(directive.jsdocTags, 'example');
+  return {
+    ...(fallback === undefined ? {} : { default: fallback }),
+    ...(remarks === undefined ? {} : { remarks }),
+    ...(examples.length > 0 ? { examples } : {}),
+  };
+}
+
 /**
  * Gives each slot whose selector is an `ng-template` the scope its directive declares: the type after `ctx is` in the
  * `static ngTemplateContextGuard` of the class with that selector.
@@ -141,15 +153,7 @@ function withScopes(
     const cls = entry === undefined ? undefined : classNamed(program, entry);
     // The type parameter of the template directive is the component's own (`T` of the Select), so it takes the
     // default of the component.
-    const tags = directive?.jsdocTags ?? [];
-    const detailDefault = defaultOf(tags);
-    const detailRemarks = tagsOf(tags, 'remarks').map(withoutLinks);
-    const detailExamples = tagsOf(tags, 'example');
-    const detail = {
-      ...(detailDefault === undefined ? {} : { default: detailDefault }),
-      ...(detailRemarks.length > 0 ? { remarks: detailRemarks.join('\n\n') } : {}),
-      ...(detailExamples.length > 0 ? { examples: detailExamples } : {}),
-    };
+    const detail = directive === undefined ? {} : templateDetailOf(directive);
     const scope =
       cls === undefined
         ? undefined
