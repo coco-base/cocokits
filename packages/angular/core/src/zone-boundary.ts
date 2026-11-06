@@ -17,7 +17,7 @@ export interface ZoneBoundary {
 /**
  * The narrow zone boundary of the overlay roots: the document listeners of the dismiss layer, positioning,
  * focus-visible tracking and delay timers start outside NgZone, and only the callbacks that change state come
- * back in (the Angular CDK's overlay dispatchers do the same). Call it in an injection context.
+ * back in. Call it in an injection context.
  *
  * @example
  * ```ts

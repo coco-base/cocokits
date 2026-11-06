@@ -13,7 +13,8 @@ import { injectCckPopover } from './popover';
  * </div>
  * @cckPart anchor
  * @cckSlot default - Anything.
- * @remarks With several anchors the last one mounted is used. React and Vue can also place the content against a virtual element; Angular cannot.
+ * @remarks With several anchors the last one mounted is used.
+ * @cckParity Places the content against an element only; there is no virtual anchor.
  */
 @Directive({
   selector: '[cckPopoverAnchor]',

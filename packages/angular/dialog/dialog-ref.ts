@@ -14,7 +14,7 @@ export type CckDialogState = 'open' | 'closing' | 'closed';
 export type CckDialogCloseRequest<R> = (result: R | undefined) => void;
 
 /**
- * The handle of a dialog opened by `CckDialog.open`, as Angular Material's `MatDialogRef` is; injectable in the
+ * The handle of a dialog opened by `CckDialog.open`; injectable in the
  * opened component. The notification Observables complete when the dialog closes.
  *
  * @typeParam T - The type of the opened component.

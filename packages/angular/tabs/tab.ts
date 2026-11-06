@@ -74,28 +74,32 @@ export class CckTab implements CckTabRegistration, OnInit {
   /**
    * The text of the trigger.
    * @cckSemantic none
-   * @remarks Angular only: the trigger is rendered by the Tabs from this section; React and Vue write the trigger as its own part.
+   * @remarks The Tabs renders the trigger from this text.
+   * @cckParity Only this framework has this member.
    */
   readonly label = input<string | undefined>(undefined);
 
   /**
    * The id of the trigger, which the panel's `aria-labelledby` follows. Generated when left out.
    * @cckSemantic none
-   * @remarks Angular only: the trigger is rendered by the Tabs; React and Vue take a native `id` on the trigger.
+   * @remarks Applies to the trigger the Tabs renders.
+   * @cckParity Declared as an input; the Tabs sets it on the trigger it renders.
    */
   readonly id = input<string | undefined>(undefined);
 
   /**
    * The accessible name of the trigger, forwarded to it and never kept on the section.
    * @cckSemantic none
-   * @remarks Angular only: the trigger is rendered by the Tabs; React and Vue take a native `aria-label` on the trigger.
+   * @remarks Applies to the trigger the Tabs renders.
+   * @cckParity Declared as an input; the Tabs sets it on the trigger it renders.
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
    * The id of the element that names the trigger, forwarded to it and never kept on the section.
    * @cckSemantic none
-   * @remarks Angular only: the trigger is rendered by the Tabs; React and Vue take a native `aria-labelledby` on the trigger.
+   * @remarks Applies to the trigger the Tabs renders.
+   * @cckParity Declared as an input; the Tabs sets it on the trigger it renders.
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });
 

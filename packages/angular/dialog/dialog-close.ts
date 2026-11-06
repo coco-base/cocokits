@@ -25,7 +25,8 @@ import { injectCckDialogRoot } from './dialog-root';
 export class CckDialogClose {
   /**
    * The result a dialog opened by `CckDialog` gives `beforeClosed()` and `afterClosed()`.
-   * @remarks Angular only: the result of `CckDialog.open`; React and Vue pass results through parent state.
+   * @remarks Carries the result of `CckDialog.open`.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly result = input<unknown>(undefined, { alias: 'cckDialogClose' });

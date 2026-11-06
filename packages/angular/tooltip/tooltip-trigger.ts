@@ -32,14 +32,14 @@ import { injectCckTooltip } from './tooltip';
 export class CckTooltipTrigger {
   /**
    * The id of the trigger; it wins over the generated one and follows changes.
-   * @remarks Angular only: React and Vue triggers take `id` as a native prop.
+   * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
   readonly id = input<string | null | undefined>(null);
 
   /**
    * The ids that describe the trigger; the tooltip adds its own to them.
-   * @remarks Angular only: React and Vue triggers take `aria-describedby` as a native prop.
+   * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
   readonly ariaDescribedby = input<string | null | undefined>(null, { alias: 'aria-describedby' });

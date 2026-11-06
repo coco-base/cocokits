@@ -82,7 +82,7 @@ export class CckAccordion {
    * Whether several items can be open at once. Without it, opening an item closes the open one.
    * @defaultValue false
    * @cckSemantic none
-   * @remarks Angular only: React and Vue choose the mode with `type`.
+   * @cckParity Lets several items stay open at once; each item keeps its own open state.
    */
   readonly multi = input(false, { transform: booleanAttribute });
 
@@ -168,7 +168,7 @@ export class CckAccordion {
    * Opens every item that is not disabled. Does nothing unless `multi` is set.
    *
    * @cckSemantic none
-   * @remarks Angular only: React and Vue change the root value.
+   * @cckParity The open state lives on each item.
    * @example
    * <div cckAccordion multi #accordion="cckAccordion"></div>
    * <button (click)="accordion.openAll()">Open all</button>
@@ -181,7 +181,7 @@ export class CckAccordion {
   /**
    * Closes every item that is not disabled.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue change the root value.
+   * @cckParity The open state lives on each item.
    */
   closeAll(): void {
     for (const item of this.ordered()) this._send({ type: 'ITEM.CLOSE', key: item._id });

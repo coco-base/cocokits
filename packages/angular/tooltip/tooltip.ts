@@ -89,7 +89,7 @@ export class CckTooltip {
    * Milliseconds between a mouse or pen hover and the tooltip showing. Keyboard focus shows it at once.
    * @defaultValue 0, from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @cckSemantic tooltip.delay
-   * @cckDefaultDiffers The delay belongs to the defaults token here and to the Provider in React and Vue.
+   * @cckDefaultDiffers The delay belongs to the defaults token.
    */
   readonly showDelay = input<number | undefined, unknown>(undefined, {
     alias: 'cckTooltipShowDelay',
@@ -100,7 +100,7 @@ export class CckTooltip {
    * Milliseconds between the pointer leaving the trigger and the content and the tooltip hiding. At least
    * 100 ms apply while the content is hoverable, so the pointer can cross the gap to the content.
    * @defaultValue 0, from `CCK_TOOLTIP_DEFAULT_OPTIONS`
-   * @remarks Angular only, as in Angular Material: Radix and Reka have no close delay.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly hideDelay = input<number | undefined, unknown>(undefined, {
@@ -122,6 +122,7 @@ export class CckTooltip {
    * @defaultValue 'top', from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @remarks The compound form sets it on the content part.
    * @cckSemantic none
+   * @cckParity Only the one-attribute form has it.
    */
   readonly side = input<TooltipSide | undefined>(undefined, { alias: 'cckTooltipSide' });
 
@@ -130,6 +131,7 @@ export class CckTooltip {
    * @defaultValue 'center', from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @remarks The compound form sets it on the content part.
    * @cckSemantic none
+   * @cckParity Only the one-attribute form has it.
    */
   readonly align = input<TooltipAlign | undefined>(undefined, { alias: 'cckTooltipAlign' });
 
@@ -138,7 +140,7 @@ export class CckTooltip {
    * not against the trigger box. Opened by keyboard focus or by `show()` without an origin, it is placed
    * against the trigger.
    * @defaultValue false, from `CCK_TOOLTIP_DEFAULT_OPTIONS`
-   * @remarks Angular only, as in Angular Material (`matTooltipPositionAtOrigin`).
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly positionAtOrigin = input<boolean | undefined, unknown>(undefined, {
@@ -151,21 +153,23 @@ export class CckTooltip {
    * a scroll still close it. Refusing Escape leaves the tooltip undismissable by keyboard, which fails WCAG 1.4.13
    * (Content on Hover or Focus) unless the content can be dismissed another way; that is your choice to make.
    * @defaultValue false
-   * @remarks Angular only: React refuses with `onEscapeKeyDown` and `onPointerDownOutside`, Vue with the `escapeKeyDown` and `pointerDownOutside` events.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly disableClose = input(false, { transform: booleanAttribute });
 
   /**
    * The id of the trigger in the one-attribute form; it wins over the generated one and follows changes.
-   * @remarks Angular only: React and Vue triggers take `id` as a native prop. Does nothing on a compound root; the trigger part takes it.
+   * @remarks Does nothing on a compound root; the trigger part takes it.
+   * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
   readonly id = input<string | null | undefined>(null);
 
   /**
    * The ids that describe the trigger in the one-attribute form; the tooltip adds its own to them.
-   * @remarks Angular only: React and Vue triggers take `aria-describedby` as a native prop. Does nothing on a compound root; the trigger part takes it.
+   * @remarks Does nothing on a compound root; the trigger part takes it.
+   * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
   readonly ariaDescribedby = input<string | null | undefined>(null, { alias: 'aria-describedby' });
@@ -313,7 +317,7 @@ export class CckTooltip {
       }
     });
 
-    // A disabled tooltip drops its pending change and hides at once (as Angular Material does).
+    // A disabled tooltip drops its pending change and hides at once.
     afterRenderEffect(() => {
       if (this.disabled()) {
         untracked(() => {
@@ -369,7 +373,7 @@ export class CckTooltip {
    *
    * @param delay - Milliseconds to wait. @defaultValue the show delay
    * @param origin - The point in viewport coordinates the tooltip is placed against with `cckTooltipPositionAtOrigin`; without it the tooltip is placed against the trigger.
-   * @remarks Angular only, as in Angular Material: React and Vue open the tooltip with `open`.
+   * @cckParity Opens the tooltip with `show()`; there is no open state to bind.
    * @cckSemantic none
    */
   show(delay: number = this.showDelay() ?? this.options.showDelay, origin?: TooltipOrigin): void {
@@ -383,7 +387,7 @@ export class CckTooltip {
    * Hides the tooltip after `delay`, and replaces a pending change.
    *
    * @param delay - Milliseconds to wait. @defaultValue the hide delay
-   * @remarks Angular only, as in Angular Material: React and Vue close the tooltip with `open`.
+   * @cckParity Closes the tooltip with `hide()`; there is no open state to bind.
    * @cckSemantic none
    */
   hide(delay: number = this.hideDelay() ?? this.options.hideDelay): void {
@@ -394,7 +398,7 @@ export class CckTooltip {
    * Hides the tooltip when it is shown, else shows it.
    *
    * @param origin - The point `show` takes, used when the tooltip is shown.
-   * @remarks Angular only, as in Angular Material: React and Vue toggle `open`.
+   * @cckParity Switches the tooltip with `toggle()`; there is no open state to bind.
    * @cckSemantic none
    */
   toggle(origin?: TooltipOrigin): void {

@@ -25,7 +25,7 @@ import { CCK_DIALOG_DATA, CckDialogRef } from './dialog-ref';
 import { CckDialogRoot } from './dialog-root';
 
 /**
- * Opens a component or a template in a modal dialog from code, as Angular Material's `MatDialog` does. The
+ * Opens a component or a template in a modal dialog from code. The
  * dialog is the declarative Dialog (the same presence, dismissal, scroll lock and focus return), and the same
  * `cckDialogTitle`, `cckDialogDescription` and `cckDialogClose` parts work inside the opened view.
  *
@@ -195,10 +195,10 @@ export class CckDialog {
     return this.parent ? this.parent.sharedOpened() : this.opened;
   }
 
-  /** The config of the call over the token's value (which replaces the built-in defaults, as Material's does). */
+  /** The config of the call over the token's value (which replaces the built-in defaults). */
   private merge<D>(config: CckDialogConfig<D> | undefined): CckDialogConfig<D> {
     const merged = Object.assign({}, this.defaults ?? new CckDialogConfig(), config) as CckDialogConfig<D>;
-    // A key left out of both acts as `true`, as in Material where the CDK defaults fill it; `undefined` acts as `false`.
+    // A key left out of both acts as `true`; `undefined` acts as `false`.
     if (!Object.hasOwn(merged, 'closeOnNavigation')) merged.closeOnNavigation = true;
     return merged;
   }

@@ -7,7 +7,7 @@ import { CckTextControlBase } from './text-control-base';
 /** Why the value of an Input changed: the user typed (`'user'`) or the form was reset (`'form-reset'`). */
 export type InputChangeReason = 'user' | 'form-reset';
 
-/** What the framework-neutral change callback of an Input receives; the Angular output adds the `value`. */
+/** The `reason` and `event` of a change. The `valueChangeDetails` output emits them with the `value`. */
 export type InputChangeDetails = ChangeDetails<InputChangeReason>;
 
 /**
@@ -46,7 +46,7 @@ export class CckInput extends CckTextControlBase<InputChangeReason> {
    * The `type`. A value outside the six text types (`text`, `email`, `password`, `search`, `tel`, `url`)
    * renders `text`.
    * @cckSemantic none
-   * @remarks React and Vue take the native `type` attribute.
+   * @cckParity Declared as an input.
    * @defaultValue 'text'
    */
   readonly type = input<string | undefined>(undefined);

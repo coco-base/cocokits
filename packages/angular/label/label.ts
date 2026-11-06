@@ -53,7 +53,7 @@ export class CckLabel {
    * The id of the label, static or bound. Without one, inside a field, the label takes the field's generated
    * label id; either way the field hands the id on to a control that names itself by the label.
    * @cckSemantic none
-   * @remarks The native attribute of React and Vue.
+   * @cckParity Declared as an input.
    */
   readonly authorId = input<string | undefined>(undefined, { alias: 'id' });
 
