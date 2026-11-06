@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { isFramework } from '../../generators/library/kinds';
 import { loadBuiltModule } from '../load-module';
 import type { JsonFile } from '../write-json';
 
@@ -35,19 +36,17 @@ function checkAnatomy(subpath: string, anatomy: unknown): Record<string, unknown
   return anatomy;
 }
 
-const FRAMEWORKS: readonly string[] = ['angular', 'react', 'vue'];
-
 /** A keyboard row `frameworks` list must be absent or a non-empty list of known framework names. */
 function checkKeyboardFrameworks(subpath: string, keyboard: readonly unknown[]): void {
   for (const row of keyboard) {
-    const frameworks = isRecord(row) ? row['frameworks'] : undefined;
-    if (frameworks === undefined) continue;
-    const label = isRecord(row) ? String(row['key']) : String(row);
+    if (!isRecord(row) || row['frameworks'] === undefined) continue;
+    const frameworks = row['frameworks'];
+    const label = String(row['key']);
     if (!Array.isArray(frameworks) || frameworks.length === 0) {
       throw new Error(`${subpath}: the keyboard row "${label}" has an empty or invalid "frameworks" list`);
     }
     for (const name of frameworks) {
-      if (typeof name !== 'string' || !FRAMEWORKS.includes(name)) {
+      if (typeof name !== 'string' || !isFramework(name)) {
         throw new Error(`${subpath}: the keyboard row "${label}" names an unknown framework "${String(name)}"`);
       }
     }

@@ -8,7 +8,7 @@ export interface MetaKeyboardRow {
   readonly action: string;
   /**
    * The frameworks the row applies to. Leave it out when the row applies to every framework; a list is never empty.
-   * Use it for a row that one framework lacks, so the docs of the other frameworks do not show it.
+   * List the frameworks that have the row; the docs of a framework not in the list do not show it.
    */
   readonly frameworks?: readonly ('angular' | 'react' | 'vue')[];
 }
