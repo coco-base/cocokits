@@ -1,12 +1,10 @@
 // @vitest-environment node
 import '@angular/compiler';
 import { Component } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideServerRendering, renderApplication } from '@angular/platform-server';
 import { CckBadgeImports } from '@cocokits/angular/badge';
 import { describe, expect, it } from 'vitest';
 import { CckBadgeTheme } from '../src/index';
-import { providers } from './helpers';
+import { renderThemedApp } from './ssr-helpers';
 
 @Component({
   selector: 'app-root',
@@ -20,17 +18,10 @@ class Root {
   readonly count = 5;
 }
 
-const render = (themed: boolean): Promise<string> =>
-  renderApplication(
-    (context) =>
-      bootstrapApplication(Root, { providers: [provideServerRendering(), ...(themed ? providers : [])] }, context),
-    { document: '<html><body><app-root></app-root></body></html>' },
-  );
-
 describe('theme Badge server render', () => {
   it('contains the class, the content and the theme data-* without window access', async () => {
     expect(typeof window).toBe('undefined');
-    const html = await render(true);
+    const html = await renderThemedApp(Root, true);
     const first = /<span[^>]*>/.exec(html)?.[0] ?? '';
     expect(first).toContain('class="cck-badge"');
     expect(first).toContain('data-variant="rectangle"');
@@ -42,6 +33,6 @@ describe('theme Badge server render', () => {
   });
 
   it('renders no theme data-* without a theme', async () => {
-    expect(await render(false)).not.toMatch(/data-variant|data-cck-color|data-size/);
+    expect(await renderThemedApp(Root, false)).not.toMatch(/data-variant|data-cck-color|data-size/);
   });
 });

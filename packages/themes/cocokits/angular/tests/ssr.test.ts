@@ -1,12 +1,10 @@
 // @vitest-environment node
 import '@angular/compiler';
 import { Component } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideServerRendering, renderApplication } from '@angular/platform-server';
 import { CckButton, CckButtonAnchor } from '@cocokits/angular/button';
 import { describe, expect, it } from 'vitest';
 import { CckButtonTheme } from '../src/index';
-import { providers } from './helpers';
+import { renderThemedApp } from './ssr-helpers';
 
 @Component({
   selector: 'app-root',
@@ -18,17 +16,10 @@ import { providers } from './helpers';
 })
 class Root {}
 
-const render = (themed: boolean): Promise<string> =>
-  renderApplication(
-    (context) =>
-      bootstrapApplication(Root, { providers: [provideServerRendering(), ...(themed ? providers : [])] }, context),
-    { document: '<html><body><app-root></app-root></body></html>' },
-  );
-
 describe('server render', () => {
   it('contains the class, type and theme data-* without window access', async () => {
     expect(typeof window).toBe('undefined');
-    const html = await render(true);
+    const html = await renderThemedApp(Root, true);
     expect(html).toMatch(
       /<button[^>]*class="cck-button"[^>]*type="button"|<button[^>]*type="button"[^>]*class="cck-button"/,
     );
@@ -40,7 +31,7 @@ describe('server render', () => {
   });
 
   it('renders no theme data-* without a theme', async () => {
-    const html = await render(false);
+    const html = await renderThemedApp(Root, false);
     expect(html).not.toMatch(/data-variant|data-cck-color|data-size/);
   });
 });
