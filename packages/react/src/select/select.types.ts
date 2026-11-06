@@ -79,7 +79,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    *
    * @defaultValue null (an empty list with `multiple`)
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `value` as a model.
+   * @cckParity The uncontrolled start value.
    */
   readonly defaultValue?: SelectValueOf<T, M> | undefined;
   /**
@@ -89,7 +89,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * list open.
    *
    * @cckSemantic select.valueChange
-   * @remarks React's change callback (Base UI); Angular emits `selectionChange` and Vue `update:modelValue`.
+   * @cckParity The change callback of this component.
    */
   readonly onValueChange?: ((value: SelectValueOf<T, M>, details: SelectChangeDetails) => void) | undefined;
   /**
@@ -105,7 +105,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular has the `open()` method and Vue binds `open` as a model.
+   * @cckParity The uncontrolled start value.
    */
   readonly defaultOpen?: boolean | undefined;
   /**
@@ -114,7 +114,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * (not for reason `'blur'`).
    *
    * @cckSemantic select.openChange
-   * @remarks React's change callback; Angular emits `openedChange` and Vue `update:open`.
+   * @cckParity The change callback of this component.
    */
   readonly onOpenChange?: ((open: boolean, details: SelectOpenChangeDetails) => void) | undefined;
   /**
@@ -132,7 +132,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * autofill against these entries.
    *
    * @cckSemantic select.items
-   * @remarks Base UI's `items` with string labels; Angular reads the option text instead.
+   * @cckParity Not available in every framework.
    */
   readonly items?: SelectItems<T> | undefined;
   /**
@@ -140,7 +140,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * of an item with no text.
    *
    * @cckSemantic select.itemToStringLabel
-   * @remarks Base UI's `itemToStringLabel`; Angular reads the option text.
+   * @cckParity Not available in every framework.
    * @defaultValue String
    */
   readonly itemToStringLabel?: ((value: T) => string) | undefined;
@@ -148,7 +148,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * Turns a value into the string of the hidden form input. A browser autofill is matched through it.
    *
    * @cckSemantic select.itemToStringValue
-   * @remarks Base UI's `itemToStringValue`.
+   * @cckParity A function of the item value that returns a string.
    * @defaultValue String
    */
   readonly itemToStringValue?: ((value: T) => string) | undefined;
@@ -157,7 +157,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * arguments alike: the order they arrive in is not fixed.
    *
    * @cckSemantic select.isItemEqual
-   * @remarks Base UI's `isItemEqualToValue`; Angular has `compareWith` and Vue `by`.
+   * @cckParity A function of the item value and the selected value.
    * @defaultValue Object.is
    */
   readonly isItemEqualToValue?: ((itemValue: T, value: T) => boolean) | undefined;
@@ -166,7 +166,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * item of a single Select. Without it they carry `autocomplete="off"`.
    *
    * @cckSemantic select.autocomplete
-   * @remarks Radix's `autoComplete`; Vue spells it `autocomplete`.
+   * @cckParity Spelled `autoComplete`.
    * @defaultValue 'off'
    */
   readonly autoComplete?: string | undefined;
@@ -211,7 +211,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * you pass is rendered on the root element.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Not available in every framework.
    */
   readonly dir?: Direction | undefined;
   /**
@@ -220,7 +220,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: SelectRender | undefined;
 }
@@ -257,7 +257,7 @@ export interface SelectTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity Tells the part what element `render` produces.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -266,7 +266,7 @@ export interface SelectTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    * not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: SelectRender | undefined;
 }
@@ -289,7 +289,7 @@ export interface SelectValueProps<V = unknown> extends Omit<ComponentPropsWithRe
    * or the list with `multiple`). It is not called while nothing is selected.
    *
    * @cckSemantic select.default
-   * @remarks Base UI's `Value` children function; Angular uses `ng-template[cckSelectTrigger]` and Vue the default slot.
+   * @cckParity A node or a function of the selected value.
    */
   readonly children?: ReactNode | ((value: V) => ReactNode) | undefined;
   /**
@@ -297,7 +297,7 @@ export interface SelectValueProps<V = unknown> extends Omit<ComponentPropsWithRe
    * all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: SelectRender | undefined;
 }

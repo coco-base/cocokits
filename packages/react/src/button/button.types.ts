@@ -42,7 +42,7 @@ export interface ButtonProps
    * receives, including `ref`, onto one element. A link also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI).
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: ReactElement | ((props: ButtonRenderProps, state: ButtonState) => ReactElement) | undefined;
   /**
@@ -51,7 +51,7 @@ export interface ButtonProps
    * renders one), with no `role`, no `tabIndex` 0 and no Space handling.
    *
    * @cckSemantic none
-   * @remarks Base UI's flag; `false` renders link semantics (CocoKits supports a link as the only non-button element).
+   * @cckParity A flag; `false` renders link semantics (CocoKits supports a link as the only non-button element).
    * @defaultValue true
    */
   readonly nativeButton?: boolean | undefined;

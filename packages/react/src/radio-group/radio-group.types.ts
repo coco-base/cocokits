@@ -53,7 +53,7 @@ export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * The initial value of an uncontrolled group, read once. A form reset restores it.
    *
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `value` as a model.
+   * @cckParity The uncontrolled start value.
    */
   readonly defaultValue?: string | undefined;
   /**
@@ -62,7 +62,7 @@ export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * `value`. The radios inside report nothing of their own.
    *
    * @cckSemantic radio-group.valueChange
-   * @remarks React's change callback; Angular emits `valueChangeDetails` and Vue emits `update:modelValue` only.
+   * @cckParity The change callback of this component.
    */
   readonly onValueChange?: ((value: string | null, details: RadioGroupChangeDetails) => void) | undefined;
   /**
@@ -113,7 +113,7 @@ export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * in `rtl`. Without it the nearest `DirectionProvider` applies, then `'ltr'`. Only a `dir` you pass is rendered.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Not available in every framework.
    */
   readonly dir?: Direction | undefined;
   /**
@@ -122,7 +122,7 @@ export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: ReactElement | ((props: RadioGroupRenderProps, state: RadioGroupState) => ReactElement) | undefined;
 }

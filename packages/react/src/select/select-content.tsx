@@ -29,7 +29,7 @@ const RESERVED = [
 
 /**
  * Starts the dismiss layer of the open list: Escape and a press outside reach the Content handlers and then the
- * Select, inside the layer walk, so a refusal keeps the layers below open. The press logic is the CDK's.
+ * Select, inside the layer walk, so a refusal keeps the layers below open.
  */
 function useSelectDismissLayer(
   context: SelectContextValue,

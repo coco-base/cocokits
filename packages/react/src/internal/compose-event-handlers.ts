@@ -1,4 +1,4 @@
-/** A React event handler. */
+/** An event handler. */
 export type EventHandler<E> = (event: E) => void;
 
 /**

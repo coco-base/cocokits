@@ -48,7 +48,7 @@ export interface CheckedState {
  * after the prop changes and after every reported change, so a change the parent rejects is restored.
  *
  * A user change is reported from the native `change` event of the input, so `details.event` is that event and
- * in a radio group the radio that lost the check reports before the one that gained it, as in Angular.
+ * in a radio group the radio that lost the check reports before the one that gained it.
  *
  * @param options - The props and the element ref.
  * @returns The checked value to render, the form binding and the props for the input.
@@ -175,11 +175,11 @@ export function useCheckedState(options: CheckedStateOptions): CheckedState {
 }
 
 /**
- * The machine's input part as React props, without `checked`: the model is rendered through the start state of
+ * The machine's input part as props of the element, without `checked`: the model is rendered through the start state of
  * {@link useCheckedState}, which a form reset restores.
  *
  * @param machineInput - The `input` part of the machine result.
- * @returns A new record with React names.
+ * @returns A new record with the element's prop names.
  */
 export function machineInputProps(machineInput: object): Record<string, unknown> {
   return withoutReserved({ ...toReactProps(machineInput) }, ['checked']);

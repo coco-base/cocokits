@@ -40,7 +40,7 @@ export interface BadgeProps
    * receives, including `ref`, onto one element. Keep a phrasing element, so the Badge stays valid inside a `<button>`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI).
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<BadgeRenderProps, BadgeState> | undefined;
 }
