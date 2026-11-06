@@ -180,20 +180,18 @@ function SelectContentImpl(props: SelectContentProps): ReactElement {
 }
 
 /**
- * Renders the list: a `<div role="listbox">` (or your `render` element) in a top-layer host outside the Select's
- * parent. It renders nothing while closed (unless `forceMount`), on the server and in the first client render, so a list that is open by
- * default appears right after hydration. It is placed on `side` and `align`, flips and shifts to stay in view, and
- * reports where it is as `data-side` and `data-align`. Positioning props (`sideOffset`, `alignOffset`,
- * `avoidCollisions`, `collisionPadding`, `sticky`, `hideWhenDetached`, `collisionBoundary`,
- * `updatePositionStrategy`) tune where it sits. DOM focus stays on the trigger; the highlighted item is its
- * `aria-activedescendant`. Refuse a dismissal with `onEscapeKeyDown` or `onPointerDownOutside`
- * (`event.preventDefault()`), or any change with `details.cancel()` in `onOpenChange`; refusing Escape weakens the
- * pattern. Focus leaving the trigger is never refused: it chooses the highlighted item of a single Select and
- * closes. Put `Select.Item`s, `Select.Group`s and `Select.Separator`s inside it.
+ * The list of items. It renders a `<div role="listbox">` in the overlay container, outside the parent of the Select. It renders nothing while the Select is closed, unless `forceMount` is set.
+ *
+ * It opens on `side` and `align`, and flips and shifts to stay in view. It reports where it is as `data-side` and `data-align`. The focus stays on the trigger; the highlighted item is its `aria-activedescendant`. Put `Select.Item`, `Select.Group` and `Select.Separator` elements inside it.
+ *
+ * To keep the list open, use `onEscapeKeyDown` and `onPointerDownOutside` with `event.preventDefault()`, or `details.cancel()` in `onOpenChange`. A focus leave is never refused: it chooses the highlighted item of a single Select and closes the list.
  *
  * @example
  * <Select.Content side="bottom">
- *   <Select.Item value="Cake"><Select.ItemIndicator /><Select.ItemText>Cake</Select.ItemText></Select.Item>
+ *   <Select.Item value="Cake">
+ *     <Select.ItemIndicator />
+ *     <Select.ItemText>Cake</Select.ItemText>
+ *   </Select.Item>
  * </Select.Content>
  * @cckPart content
  * @param props - The Content props.

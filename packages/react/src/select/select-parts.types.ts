@@ -9,8 +9,9 @@ export type { PointerDownOutsideEvent };
 /** The `render` prop every part has; its TSDoc is repeated on each part's props. */
 interface SelectRenderOption {
   /**
-   * Replaces the rendered element: an element, or a function of the merged props. The part keeps its classes and
-   * `data-*`. The function form must spread all the props it receives, including `ref`, onto one element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props that returns an element. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -21,8 +22,7 @@ interface SelectRenderOption {
 /** Props of the {@link SelectIcon}: native `span` props and `render`. Its content, if any, replaces the theme's icon. */
 export interface SelectIconProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * The icon to draw in place of the theme's icon; empty keeps the theme's icon.
-   *
+   * The icon to draw in place of the icon of the theme. When not set, the icon of the theme shows.
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -31,8 +31,7 @@ export interface SelectIconProps extends Omit<ComponentPropsWithRef<'span'>, 'co
 /** Props of the {@link SelectItemText}: native `span` props and `render`. */
 export interface SelectItemTextProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * The text of the item: what typeahead matches and the trigger shows. Never a control.
-   *
+   * The text of the item. Type-to-search matches it, and the trigger can show it. It must not be interactive.
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -41,8 +40,7 @@ export interface SelectItemTextProps extends Omit<ComponentPropsWithRef<'span'>,
 /** Props of the {@link SelectItemIndicator}: native `span` props and `render`. */
 export interface SelectItemIndicatorProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * A mark to draw in place of the theme's mark; empty keeps the theme's mark.
-   *
+   * A mark to draw in place of the mark of the theme. When not set, the mark of the theme shows.
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -51,8 +49,7 @@ export interface SelectItemIndicatorProps extends Omit<ComponentPropsWithRef<'sp
 /** Props of the {@link SelectLabel}: native `div` props and `render`. */
 export interface SelectLabelProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, SelectRenderOption {
   /**
-   * The label of the group: text or markup, never a control.
-   *
+   * The label of the group, as text or markup. It must not be interactive.
    * @cckSemantic select.label
    */
   readonly children?: ReactNode | undefined;
@@ -64,58 +61,62 @@ export interface SelectSeparatorProps extends Omit<ComponentPropsWithRef<'div'>,
 /** Props of the {@link SelectContent}. Native `div` props pass through. */
 export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, OverlayPositioningProps {
   /**
-   * The items, groups and separators.
-   *
+   * The items, the groups and the separators.
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * The side of the trigger (or the field box) the list prefers. `start` and `end` follow the direction; it
-   * flips when there is no room.
-   *
-   * @defaultValue 'bottom'
+   * The side of the trigger (or the field box) where the list prefers to open. `start` and `end` follow the text direction. The list opens on the other side when there is no room.
    * @cckSemantic select.content.side
+   * @defaultValue 'bottom'
    */
   readonly side?: OverlaySide | undefined;
   /**
-   * How the list lines up along the anchor's edge.
-   *
-   * @defaultValue 'start'
+   * How the list lines up with the edge of the trigger.
    * @cckSemantic select.content.align
+   * @defaultValue 'start'
    */
   readonly align?: OverlayAlign | undefined;
   /**
-   * Keeps the list in the document while the Select is closed, after hydration: it then has `hidden` and
-   * `data-state="closed"`, and its items stay mounted. Nothing is rendered on the server. Closed, it has no dismiss
-   * layer and no positioning.
+   * Whether the closed list stays in the document, hidden. It then has `hidden` and `data-state="closed"`, and its items stay mounted. Nothing is rendered on the server.
    *
-   * @defaultValue false
+   * When not set, the closed list is not in the document.
+   *
    * @cckSemantic select.content.forceMount
    * @cckParity Not available in every framework.
+   * @defaultValue false
    */
   readonly forceMount?: boolean | undefined;
   /**
-   * Called when Escape is pressed with the list open, before it closes. Call `event.preventDefault()` to keep it
-   * open. Refusing Escape weakens the pattern, because users expect it to close the list; keep the refusal
-   * short-lived. Focus leaving the trigger is never refused.
+   * Called when the user presses Escape with the list open, before it closes. Call `event.preventDefault()` to keep the list open. When not set, Escape closes the list.
    *
+   * A Select that Escape cannot close is harder to leave with the keyboard. Keep the refusal short. A focus leave is never refused.
+   *
+   * @example
+   * <Select.Content onEscapeKeyDown={(event) => event.preventDefault()}>
+   *   ...
+   * </Select.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly onEscapeKeyDown?: ((event: KeyboardEvent) => void) | undefined;
   /**
-   * Called when a pointer press lands outside the list and the trigger, before it closes. The press is
-   * `event.detail.originalEvent`. Call `event.preventDefault()` to keep it open; the press then leaves the focus
-   * on the trigger.
+   * Called when the user presses outside the list and the trigger, before the list closes. The press is `event.detail.originalEvent`. Call `event.preventDefault()` to keep the list open.
    *
+   * The press then leaves the focus on the trigger. When not set, the press closes the list.
+   *
+   * @example
+   * <Select.Content onPointerDownOutside={(event) => event.preventDefault()}>
+   *   ...
+   * </Select.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly onPointerDownOutside?: ((event: PointerDownOutsideEvent) => void) | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props. The part keeps its role,
-   * classes and `data-*`. The function form must spread all the props it receives, including `ref`, onto one
-   * element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props that returns an element. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -130,45 +131,37 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
  */
 export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'children'> {
   /**
-   * The value the item stands for. In a single Select an item whose value is `null` or `''` clears the value and
-   * shows the placeholder.
-   *
+   * The value of the item. The Select holds it when the user chooses the item. In a single Select, an item with the value `null` or `''` clears the value and shows the placeholder.
    * @cckSemantic select.option.value
    */
   readonly value: T | null;
   /**
-   * Whether the item is disabled: it cannot be chosen and keys skip it. Its group adds to it.
-   *
+   * Whether the item is disabled. The user cannot choose it, and keys skip it. A disabled group also disables it.
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
   /**
-   * The text type-to-search matches. Without it the text of the `Select.ItemText` counts, else the label of the
-   * value.
-   *
+   * The text that type-to-search matches. When not set, the text of the `Select.ItemText` counts, and then the label of the value.
    * @cckSemantic select.option.textValue
    * @cckParity Not available in every framework.
    */
   readonly textValue?: string | undefined;
   /**
-   * The id of the item element, also the trigger's `aria-activedescendant` while it is highlighted. Without it
-   * one is made.
-   *
+   * The `id` of the item element. The trigger uses it as `aria-activedescendant` while the item is highlighted. When not set, an id is made for you.
    * @cckSemantic select.option.id
    * @defaultValue generated
    * @cckParity A native `id` on the item element.
    */
   readonly id?: string | undefined;
   /**
-   * The content of the item: a `Select.ItemIndicator` and a `Select.ItemText`, never a control.
-   *
+   * The content of the item: a `Select.ItemIndicator` and a `Select.ItemText`. It must not be interactive.
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props. The part keeps its role,
-   * classes and `data-*`. The function form must spread all the props it receives, including `ref`, onto one
-   * element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props that returns an element. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -179,22 +172,20 @@ export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<
 /** Props of the {@link SelectGroup}. Native `div` props pass through. */
 export interface SelectGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
-   * Whether the group is disabled: its items cannot be chosen.
-   *
+   * Whether the group is disabled. The user cannot choose its items.
    * @defaultValue false
    * @cckSemantic select.optionGroup.disabled
    */
   readonly disabled?: boolean | undefined;
   /**
    * A `Select.Label` and the items of the group.
-   *
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props. The part keeps its role,
-   * classes and `data-*`. The function form must spread all the props it receives, including `ref`, onto one
-   * element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props that returns an element. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
