@@ -44,7 +44,8 @@ export const popoverMeta: ComponentMeta<
     },
     {
       key: 'Tab / Shift+Tab',
-      context: 'inside a modal content (React and Vue)',
+      context: 'inside the content of a modal popover',
+      frameworks: ['react', 'vue'],
       action:
         'Moves to the next or previous focusable element, wrapping from the last to the first and from the first ' +
         'to the last. Focus never leaves the content; everything outside is inert.',
