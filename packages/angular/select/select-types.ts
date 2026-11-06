@@ -2,19 +2,33 @@ import { InjectionToken, type Signal } from '@angular/core';
 import type { SelectOpenReason, SelectValueReason } from '@cocokits/machines/select';
 import type { ChangeDetails } from '@cocokits/shared';
 
-/** Why the open state of a Select changed. */
+/**
+ * Why the open state of a Select changed. It is one of five values.
+ *
+ * `'trigger'`: the user pressed the trigger. `'escape'`: the user pressed Escape. `'outside-press'`: the user pressed outside the list. `'select'`: the user chose an option. `'blur'`: the focus left the trigger.
+ */
 export type SelectOpenChangeReason = SelectOpenReason;
 
-/** What `closePredicate` of a Select receives: why the Select is about to close and the event behind it. */
+/**
+ * What `closePredicate` receives: an object with the `reason` why the Select is about to close, and the `event` behind it.
+ */
 export type SelectOpenChangeDetails = ChangeDetails<SelectOpenChangeReason>;
 
-/** Why the value of a Select changed: the user chose an option (`'user'`) or the form was reset (`'form-reset'`). */
+/**
+ * Why the value of a Select changed. It is one of two values.
+ *
+ * `'user'`: the user chose an option. `'form-reset'`: the form was reset.
+ */
 export type SelectValueChangeReason = SelectValueReason;
 
-/** The type of one option's value: `V` for a single Select, the item type of the list for a multiple one. */
+/**
+ * The type of the value of one option. For a single Select it is `V`. For a Select with `multiple`, it is the type of one item of the list.
+ */
 export type CckSelectItem<V> = V extends readonly (infer Item)[] ? Item : V;
 
-/** What `sortComparator` is given of an option: its signals. A `CckSelectOption` is one. */
+/**
+ * What `sortComparator` receives for an option: the signals of the option. A `CckSelectOption` has the same members.
+ */
 export interface CckSelectOptionRef {
   /** The option's value. */
   readonly value: Signal<unknown>;
@@ -24,9 +38,13 @@ export interface CckSelectOptionRef {
   readonly disabled: Signal<boolean>;
 }
 
-/** What the `cckSelectTrigger` template receives. */
+/**
+ * What the `cckSelectTrigger` template receives: the selected values, as `selected`.
+ */
 export interface SelectTriggerContext<T = string> {
-  /** The selected values; empty while nothing is selected. */
+  /**
+   * The values that are selected, as a list. A single Select gives a list of one value.
+   */
   readonly selected: readonly T[];
 }
 
@@ -48,20 +66,28 @@ export interface SelectOptionRegistration {
   readonly label: () => string;
 }
 
-/** The defaults of every Select below the provider. */
+/**
+ * The default values of every Select below the provider. Set them with `CCK_SELECT_CONFIG`.
+ */
 export interface CckSelectConfig {
-  /** How long a pause empties the type-to-find buffer, in milliseconds. @defaultValue 500 */
+  /**
+   * How long a pause, in milliseconds, empties the type-to-find text. When not set, the pause is 500 milliseconds.
+   * @defaultValue 500
+   */
   typeaheadDebounceInterval?: number;
-  /** Whether an option with a `null` or `undefined` value is selected like any other. @defaultValue false */
+  /**
+   * Whether an option with the value `null` or `undefined` is chosen like any other option. When not set, such an option clears a single Select.
+   * @defaultValue false
+   */
   canSelectNullableOptions?: boolean;
 }
 
 /**
- * Sets the defaults of the Selects below the provider. A provided value replaces the built-in defaults, and an
- * input on the Select wins.
- *
+ * The default values for every Select below the provider. A value here replaces the built-in default. An input on a Select wins over it.
  * @example
- * providers: [{ provide: CCK_SELECT_CONFIG, useValue: { typeaheadDebounceInterval: 300 } }]
- * @see https://github.com/angular/components/blob/main/src/material/select/select.ts MAT_SELECT_CONFIG
+ * @Component({
+ *   providers: [{ provide: CCK_SELECT_CONFIG, useValue: { typeaheadDebounceInterval: 300 } }],
+ * })
+ * export class DishForm {}
  */
 export const CCK_SELECT_CONFIG = new InjectionToken<CckSelectConfig>('CCK_SELECT_CONFIG');

@@ -80,23 +80,23 @@ export abstract class CckFormControlBase {
   private resetWatch: Subscription | undefined;
 
   /**
-   * Emits when the user leaves the control; forms libraries mark the control touched from it.
+   * Emits when the user leaves the control. Signal Forms listens to it to mark the field as touched.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks Part of the `FormUiControl` contract (output).
    * @cckParity Part of the `FormUiControl` contract.
    */
   readonly touch = output();
 
   /**
-   * The ids this control is described by (`aria-describedby`). Inside a field the feedback wrapper id is
-   * added after them.
+   * The ids of the elements that describe the control. They become the `aria-describedby` of the control. When not set, the control has no description of its own.
+   * @remarks Inside a form field, the field adds the id of its hint and error text after your ids.
    * @cckSemantic *.ariaDescribedBy
    */
   readonly ariaDescribedBy = input<string | undefined>(undefined, { alias: 'aria-describedby' });
 
   /**
-   * The `name` that `FormData` submits. Signal Forms writes its field name into it. Left out, it is the
-   * path of the bound forms control joined with `.`, and none without a forms library.
+   * The `name` of the control in `FormData`. When not set, the name is the path of the bound forms control, or empty without a forms library.
+   * @remarks Signal Forms writes its field name into this input.
    * @cckSemantic none
    * @cckParity Declared as an input.
    * @defaultValue ''
@@ -104,39 +104,42 @@ export abstract class CckFormControlBase {
   readonly name = input('');
 
   /**
-   * Whether the control is disabled. A disabling `fieldset` and the field's `disabled` add to it.
+   * Whether the user cannot use the control. A disabling `fieldset` or a disabled form field also disables it.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the control is read-only; it stays focusable.
+   * Whether the control is read-only. The user can focus it but cannot change it.
    * @cckSemantic *.readOnly
    * @defaultValue false
    */
   readonly readonly = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the control is required (native `required`).
+   * Whether the control needs a value before the form can submit. It turns on the native `required` check.
    * @defaultValue false
    */
   readonly required = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the control is invalid. `aria-invalid` waits for `touched` or `submitted`.
+   * Whether the value is not valid. The control sets `aria-invalid` only after the user has left it or has tried to submit the form.
    * @defaultValue false
    */
   readonly invalid = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether an asynchronous validator is running.
+   * Whether a check of the value is still running. Signal Forms sets this member while an asynchronous validator runs.
+   * @cckGroup forms
+   * @cckSemantic none
+   * @cckParity Angular only: this input is part of the Signal Forms `FormUiControl` contract.
    * @defaultValue false
    */
   readonly pending = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the control is hidden (native `hidden`). Signal Forms writes it; render a hidden field with
-   * `@if` instead.
+   * Whether the control is hidden with the native `hidden` attribute. Signal Forms sets this member. To hide a field yourself, render it with `@if`.
+   * @cckGroup forms
    * @cckSemantic none
    * @cckParity Declared as an input.
    * @defaultValue false
@@ -144,39 +147,46 @@ export abstract class CckFormControlBase {
   readonly hidden = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the user left the control. A forms library writes it; a value that is given wins, otherwise it
-   * is set after the first blur.
+   * Whether the user has left the control. Signal Forms sets this member. When not set, the control becomes touched after the first blur.
+   * @cckGroup forms
+   * @cckSemantic none
+   * @cckParity Angular only: this input is part of the Signal Forms `FormUiControl` contract.
+   * @defaultValue false
    */
   readonly touched = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the user changed the control. A forms library writes it; a value that is given wins, otherwise
-   * it is set after the first change.
+   * Whether the user has changed the control. Signal Forms sets this member. When not set, the control becomes dirty after the first change.
+   * @cckGroup forms
+   * @cckSemantic none
+   * @cckParity Angular only: this input is part of the Signal Forms `FormUiControl` contract.
+   * @defaultValue false
    */
   readonly dirty = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether a submit of the owner form was attempted. A value that is given wins, also `false`; otherwise
-   * a `submit` event of the form (canceled ones included) sets it and a reset clears it.
+   * Whether the user tried to submit the form that holds the control. When not set, a `submit` event of the form sets it and a form reset clears it.
+   * @remarks A value you give always wins, `false` too.
+   * @cckSemantic none
+   * @cckParity Angular only: forms libraries and the form field read this fact from the directive.
    */
   readonly submitted = input<boolean | undefined, unknown>(undefined, {
     transform: (value) => (value === undefined ? undefined : booleanAttribute(value)),
   });
 
   /**
-   * The validation errors a forms library writes. The control and the FieldError render nothing
-   * from them.
+   * The validation errors of the value. Signal Forms sets this member. The control shows nothing from it; a field error part shows them.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks Part of the `FormUiControl` contract (input).
    * @cckParity Part of the `FormUiControl` contract.
    * @defaultValue []
    */
   readonly errors = input<readonly ValidationError.WithOptionalFieldTree[]>([]);
 
   /**
-   * The reasons the control is disabled, written by Signal Forms. The control renders nothing.
+   * The reasons why the control is disabled. Signal Forms sets this member. The control shows nothing from it.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks Part of the `FormUiControl` contract (input).
    * @cckParity Part of the `FormUiControl` contract.
    * @defaultValue []
    */
@@ -234,9 +244,11 @@ export abstract class CckFormControlBase {
   }
 
   /**
-   * Focuses the control. Signal Forms calls it to focus an invalid field.
+   * Moves the focus to the control. Signal Forms calls it to focus the first invalid field.
+   * @example
+   * // control = viewChild.required(<your form control class>)
+   * this.control().focus();
    * @cckSemantic none
-   * @remarks Part of the `FormUiControl` contract (method).
    * @cckParity Part of the `FormUiControl` contract.
    */
   focus(options?: FocusOptions): void {
@@ -244,9 +256,11 @@ export abstract class CckFormControlBase {
   }
 
   /**
-   * Clears the touched, dirty and submitted facts the control keeps itself. Signal Forms calls it on `reset()`.
+   * Clears the touched, dirty and submitted state that the control keeps itself. Signal Forms calls it when the field resets.
+   * @example
+   * // control = viewChild.required(<your form control class>)
+   * this.control().reset();
    * @cckSemantic none
-   * @remarks Part of the `FormUiControl` contract (method).
    * @cckParity Part of the `FormUiControl` contract.
    */
   reset(): void {

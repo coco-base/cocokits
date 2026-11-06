@@ -21,7 +21,11 @@ export { CckSelectOptionGroup, CckSelectOptionGroupLabel } from './select-option
 export { CckSelectSeparator } from './select-separator';
 export { CckSelectTrigger } from './select-trigger';
 
-/** Everything needed to author a Select: `imports: [CckSelectImports]`. */
+/**
+ * Everything you need to write a Select in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckSelectImports]
+ */
 export const CckSelectImports = [
   CckSelect,
   CckSelectOption,

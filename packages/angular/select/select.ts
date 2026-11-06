@@ -34,52 +34,54 @@ import type {
   SelectValueChangeReason,
 } from './select-types';
 
-/** What `selectionChange` emits: the Select, the new value and why it changed. */
+/**
+ * What `selectionChange` sends: the Select, the new value, the reason and the event.
+ */
 export interface CckSelectChange<V = string> {
-  /** The Select that changed. */
+  /**
+   * The Select that changed.
+   */
   readonly source: CckSelect<V>;
-  /** The new value: an option's value or `null` for a single Select, the list of values for a multiple one. */
+  /**
+   * The new value. It is the value of one option, or `null` for a single Select. With `multiple`, it is the list of values.
+   */
   readonly value: V | null;
-  /** Why the value changed. */
+  /**
+   * Why the value changed: `'user'` when the user chose an option, `'form-reset'` when the form was reset.
+   */
   readonly reason: SelectValueChangeReason;
-  /** The event that caused the change. */
+  /**
+   * The event that caused the change. It is `null` for a form reset.
+   */
   readonly event: Event | null;
 }
 
 /**
- * A select: a trigger that shows the selection and a listbox of options in an overlay. It is a custom
- * listbox, not a native `<select>`. The options are the content you write, `[cckSelectOption]` and
- * `[cckSelectOptionGroup]`; the trigger, the placeholder, the value and the icon are rendered for you.
+ * A select: a trigger that shows the choice and a list of options that opens in an overlay. It is a custom listbox, not a native `<select>`. You write the options inside it; the trigger, the placeholder, the value and the icon are made for you.
  *
- * The value is a model: `[(value)]`, `[value]` or unbound. `V` is the type of the value, taken from the binding:
- * an option's value for a single Select (`string` unless the options carry something else, and then
- * `compareWith` and `itemToStringValue` tell the Select how to compare and submit it), a list with
- * `multiple`. `undefined` means unbound and `null` means nothing is selected; the Select writes `null` when a
- * clearing option is chosen or the form is reset. In a single Select an option whose value is `null` or
- * `undefined` clears the value (unless `canSelectNullableOptions`), and one whose value is `''` clears it and shows
- * the placeholder. The trigger shows the text of the selected options, joined with `, `. The Select is a Signal
- * Forms custom control and, through the static `ngNoCva` attribute, also binds to `formControlName`,
- * `[formControl]` and `ngModel`. While `name` is set it renders hidden native inputs, so `FormData`, `required`,
- * `form`, `reset` and autofill work.
+ * The value is a model. Use `[(value)]` to read and change it, `[value]` to only set it, or no binding. `V` is the type of the value and comes from the binding.
  *
- * Inside a `[cckFormField]` the trigger is the field's control (`<fieldId>-control`) and the list lines up with
- * the field's input wrapper. Name the Select with the field's label, `aria-label` or `aria-labelledby`. Focus
- * stays on the trigger while the list is open; the highlighted option is the `aria-activedescendant`.
+ * A single Select holds the value of one option. With `multiple`, it holds a list. `undefined` means the value is not bound, and `null` means nothing is selected. An option with the value `null` or `undefined` clears a single Select, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder. The trigger shows the text of the selected options, joined with a comma. To show something else, write a `cckSelectTrigger` template.
+ *
+ * The Select works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes hidden native inputs, so `FormData`, `required`, `form`, reset and autofill work. Inside a `[cckFormField]`, the trigger is the control of the field, and the list lines up with the input of the field. Name the Select with the label of the field, `aria-label` or `aria-labelledby`. The focus stays on the trigger while the list is open. The highlighted option is the `aria-activedescendant`.
  *
  * @example
  * <div cckSelect [(value)]="dish" placeholder="Choose a dish" aria-label="Dish">
- *   <div cckSelectOption value="Cake">Cake</div>
+ *   <div cckSelectOptionGroup label="Desserts">
+ *     <div cckSelectOption value="Cake">Cake</div>
+ *     <div cckSelectOption value="Ice cream">Ice cream</div>
+ *   </div>
+ *   <div cckSelectSeparator></div>
  *   <div cckSelectOption value="Pizza">Pizza</div>
  * </div>
- * @typeParam V - The type of the value, taken from the `value` binding. Defaults to `string`.
+ * @typeParam V - The type of the value. It comes from the `value` binding. The default is `string`.
  * @cckPart root
  * @cckPart trigger
  * @cckPart value
  * @cckPart dropdownIcon
  * @cckPart content
- * @cckSlot default - The options and option groups.
- * @cckSlot trigger ng-template[cckSelectTrigger] - What the trigger shows while something is selected, in place of
- * the labels joined with a comma.
+ * @cckSlot default - The options, the option groups and the separators.
+ * @cckSlot trigger ng-template[cckSelectTrigger] - Your own markup for the trigger, in place of the labels of the selected options.
  */
 @Component({
   selector: '[cckSelect]',
@@ -105,24 +107,38 @@ export interface CckSelectChange<V = string> {
 })
 export class CckSelect<V = string> extends CckFormControlBase implements FormValueControl<V | null | undefined> {
   /**
-   * The selected value: an option's value for a single Select, a list of values with `multiple`. `undefined`
-   * means unbound (nothing is selected) and `null` means nothing is selected. `''` shows the placeholder too. A
-   * write from the parent or a forms library never emits `selectionChange`.
+   * The selected value. A single Select holds the value of one option. A Select with `multiple` holds a list of values.
+   *
+   * When not set, nothing is selected.
+   *
+   * @remarks `null` and `''` also mean nothing is selected, and the placeholder shows. Changing the value from code never emits `selectionChange`.
+   * @example
+   * <div cckSelect [(value)]="dish" aria-label="Dish">
+   *   <div cckSelectOption value="Cake">Cake</div>
+   *   <div cckSelectOption value="Pizza">Pizza</div>
+   * </div>
+   * <!-- In the class: readonly dish = signal<string | null>('Pizza'); -->
+   * @cckTask Read and set the value
    * @cckSemantic select.value
    */
   readonly value = model<V | null | undefined>(undefined);
 
   /**
-   * Emits after every change of the value the user makes and after a form reset, with the Select, the new value
-   * (a list with `multiple`, `null` when a clearing option was chosen) and the reason. Never for a write from the
-   * parent or a forms library.
+   * Emits after the user changes the value, and after a form reset. It sends a `CckSelectChange` object with the Select, the new value, the reason and the event.
+   * @remarks It never emits when the parent or a forms library changes the value. With `multiple`, the new value is a list. It is `null` when the user chose a clearing option.
+   * @example
+   * <div cckSelect (selectionChange)="onChange($event)" aria-label="Dish">
+   *   <div cckSelectOption value="Cake">Cake</div>
+   * </div>
+   * <!-- In the class: onChange(change: CckSelectChange) { console.log(change.value, change.reason); } -->
+   * @cckTask Respond to a choice
    * @cckSemantic select.valueChange
    */
   readonly selectionChange = output<CckSelectChange<V>>();
 
   /**
-   * Emits `true` or `false` after every change of the open state, including `open()`, `close()` and `toggle()`.
-   * @remarks The reason of a close is in `closePredicate`.
+   * Emits `true` or `false` after every change of the open state. This includes a change made by `open()`, `close()` or `toggle()`.
+   * @remarks To learn why a close happens, use `closePredicate`.
    * @cckParity Emits a `boolean`; it carries no reason.
    * @cckSemantic select.openChange
    */
@@ -143,46 +159,59 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   readonly closed = output();
 
   /**
-   * Whether several options can be selected. The value is then a list, and choosing an option toggles it and
-   * keeps the list open.
+   * Whether the user can choose more than one option. The value is then a list. Choosing an option adds it or removes it, and the list stays open.
+   * @example
+   * <div cckSelect multiple [(value)]="dishes" aria-label="Dishes">
+   *   <div cckSelectOption value="Cake">Cake</div>
+   *   <div cckSelectOption value="Pizza">Pizza</div>
+   * </div>
+   * <!-- In the class: readonly dishes = signal<string[]>(['Cake']); -->
+   * @cckTask Choose several options
    * @defaultValue false
    */
   readonly multiple = input(false, { transform: booleanAttribute });
 
   /**
-   * The text shown while nothing is selected.
+   * The text that shows while nothing is selected. When not set, the trigger shows no text then.
    * @cckSemantic select.value.placeholder
    * @defaultValue ''
    */
   readonly placeholder = input('');
 
   /**
-   * Whether an option's value is the selected value. Use it when the options carry objects.
+   * A function that tells whether an option value is the selected value. Use it when the option values are objects. When not set, the values are compared with `Object.is`.
+   * @remarks Pair it with `itemToStringValue`, which turns an object into the text that a form sends.
+   * @example
+   * <div cckSelect [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">
+   *   @for (item of dishes; track item.id) {
+   *     <div cckSelectOption [value]="item">{{ item.name }}</div>
+   *   }
+   * </div>
+   * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->
+   * @cckTask Use objects as values
    * @cckSemantic select.isItemEqual
    * @defaultValue Object.is
-   * @see https://github.com/angular/components/blob/main/src/material/select/select.ts MatSelect.compareWith
    */
   readonly compareWith = input<(o1: CckSelectItem<V>, o2: CckSelectItem<V>) => boolean>((a, b) => Object.is(a, b));
 
   /**
-   * Turns a value into the string the hidden form input submits, and matches an autofilled string to an option.
+   * A function that turns a value into the text that the hidden form input sends. The browser autofill uses it to find the option. When not set, the value is turned into text with `String`.
    * @cckSemantic select.itemToStringValue
    * @defaultValue String
    */
   readonly itemToStringValue = input<(value: CckSelectItem<V>) => string>((value) => String(value));
 
   /**
-   * Orders the values of a `multiple` Select after a choice. Without it they follow the order of the options.
+   * A function that sorts the values of a `multiple` Select after each choice. When not set, the values follow the order of the options.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
-   * @see https://github.com/angular/components/blob/main/src/material/select/select.ts MatSelect.sortComparator
    */
   readonly sortComparator = input<
     ((a: CckSelectOptionRef, b: CckSelectOptionRef, options: readonly CckSelectOptionRef[]) => number) | undefined
   >(undefined);
 
   /**
-   * How long a pause empties the type-to-find buffer, in milliseconds. A character is matched at once.
+   * How long a pause, in milliseconds, empties the type-to-find text. When not set, the pause is 500 milliseconds. A letter is matched at once.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
    * @defaultValue 500
@@ -190,8 +219,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   readonly typeaheadDebounceInterval = input<number | undefined>(undefined);
 
   /**
-   * Whether an option whose value is `null` or `undefined` is selected like any other instead of clearing a
-   * single Select; it then shows its label.
+   * Whether an option with the value `null` or `undefined` is chosen like any other option. When not set, such an option clears a single Select.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
    * @defaultValue false
@@ -201,104 +229,109 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   });
 
   /**
-   * Whether Escape and an outside press keep the list open. The check runs first, before `closePredicate`.
-   * Choosing an option, the trigger, `close()` and focus leaving still close it. Disabling these closes weakens
-   * the pattern: a keyboard user can no longer leave with Escape.
-   * @defaultValue false
+   * Whether Escape and a press outside keep the list open. The trigger, choosing an option, `close()` and a focus leave still close it. When not set, they close the list.
+   * @remarks A Select that Escape cannot close is harder to leave with the keyboard. Use this input with care. It runs before `closePredicate`.
    * @cckParity Only this framework has this member.
    * @cckSemantic none
-   * @see https://github.com/angular/components/blob/main/src/cdk/overlay/overlay-directives.ts cdkConnectedOverlayDisableClose
+   * @defaultValue false
    */
   readonly disableClose = input(false, { transform: booleanAttribute });
 
   /**
-   * Decides, for every close the Select makes itself (the trigger, Escape, an outside press, choosing an
-   * option), whether it happens: `false` keeps the list open. It runs after `disableClose`. A value chosen in
-   * the list still changes. `open()`, `close()`, `toggle()` and focus leaving are never checked: focus leaving
-   * chooses the highlighted option and closes. Refusing Escape weakens the pattern.
+   * A function that decides whether a close that the Select starts happens. Return `false` to keep the list open. When not set, every close happens.
+   * @remarks It runs for the trigger, Escape, a press outside and choosing an option, after `disableClose`. It does not run for `open()`, `close()`, `toggle()` and a focus leave. A focus leave chooses the highlighted option and closes the list.
+   * @example
+   * <div cckSelect [closePredicate]="canClose" aria-label="Dish">
+   *   <div cckSelectOption value="Cake">Cake</div>
+   * </div>
+   * <!-- In the class: canClose = (details: SelectOpenChangeDetails) => details.reason !== 'escape'; -->
+   * @cckTask Keep the list open
    * @cckParity Only this framework has this member.
    * @cckSemantic none
-   * @see https://github.com/angular/components/blob/main/src/material/dialog/dialog-config.ts MatDialogConfig.closePredicate
    */
   readonly closePredicate = input<((details: SelectOpenChangeDetails) => boolean) | undefined>(undefined);
 
   /**
-   * The native `autocomplete` of the hidden form inputs, for the browser's autofill.
+   * The native `autocomplete` value of the hidden form inputs. The browser autofill uses it. When not set, the value is `'off'`.
    * @cckSemantic select.autocomplete
    * @defaultValue 'off'
    */
   readonly autocomplete = input<string | undefined>(undefined);
 
   /**
-   * The ids this control is described by (`aria-describedby`), kept off the host and given to the trigger.
+   * The ids of the elements that describe the Select. The trigger gets them as `aria-describedby`. When not set, the Select has no description of its own.
    * @cckSemantic select.trigger.aria-describedby
    */
   override readonly ariaDescribedBy = input<string | undefined>(undefined, { alias: 'aria-describedby' });
 
   /**
-   * The `name` that `FormData` submits. Signal Forms writes its field name into it. Left out, it is the path of
-   * the bound forms control joined with `.`, and none without a forms library. Without a name and without
-   * `required` no hidden input renders.
+   * The `name` that `FormData` sends. When not set, the name is the path of the bound forms control, or empty without a forms library. Without a name and without `required`, no hidden input is made.
+   * @example
+   * <form>
+   *   <div cckSelect name="dish" required aria-label="Dish">
+   *     <div cckSelectOption value="Cake">Cake</div>
+   *   </div>
+   *   <button type="submit">Send</button>
+   * </form>
+   * @cckTask Send the value with a form
    * @cckSemantic select.name
    * @defaultValue ''
    */
   override readonly name = input('');
 
   /**
-   * The id of the form the hidden inputs belong to (native `form`), for a Select outside its form.
+   * The `id` of the form that the hidden inputs belong to. Use it when the Select is outside its form. When not set, the form around the Select owns the inputs.
    */
   readonly form = input<string | undefined>(undefined);
 
   /**
-   * The side of the trigger (or the field box) the list prefers. `start` and `end` follow the direction; it
-   * flips when there is no room.
+   * The side of the trigger where the list prefers to open. `start` and `end` follow the text direction. The list opens on the other side when there is no room.
    * @cckSemantic select.content.side
    * @defaultValue 'bottom'
    */
   readonly side = input<OverlaySide>('bottom');
 
   /**
-   * How the list lines up along the anchor's edge.
+   * How the list lines up with the edge of the trigger.
    * @cckSemantic select.content.align
    * @defaultValue 'start'
    */
   readonly align = input<OverlayAlign>('start');
 
   /**
-   * The author's label, kept off the host and given to the trigger and the list.
+   * The accessible name of the Select. The trigger and the list get it. When not set, name the Select with `aria-labelledby` or with the label of a form field.
    * @cckSemantic select.trigger.aria-label
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
-   * The ids of the elements that label the Select, kept off the host and given to the trigger and the list.
+   * The ids of the elements that name the Select. The trigger and the list get them as `aria-labelledby`. When not set, no element names the Select through this input.
    * @cckSemantic select.trigger.aria-labelledby
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });
 
   /**
-   * Whether the user left the control. Signal Forms writes it; a value that is given wins, otherwise it is set
-   * after the first blur.
+   * Whether the user has left the control. Signal Forms sets this member. When not set, the control becomes touched after the first blur.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks A Signal Forms input.
    * @cckParity Signal Forms bind this input.
+   * @defaultValue false
    */
   override readonly touched = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the user changed the control. Signal Forms writes it; a value that is given wins, otherwise it is
-   * set after the first change.
+   * Whether the user has changed the control. Signal Forms sets this member. When not set, the control becomes dirty after the first change.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks A Signal Forms input.
    * @cckParity Signal Forms bind this input.
+   * @defaultValue false
    */
   override readonly dirty = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether a submit of the owner form was attempted. A value that is given wins, also `false`; otherwise a
-   * `submit` event of the form sets it and a reset clears it.
+   * Whether the user tried to submit the form that holds the control. When not set, a `submit` event of the form sets it and a form reset clears it.
+   * @remarks A value you give always wins, `false` too.
    * @cckSemantic none
-   * @remarks A Signal Forms input.
    * @cckParity Signal Forms bind this input.
    */
   override readonly submitted = input<boolean | undefined, unknown>(undefined, {
@@ -306,9 +339,9 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   });
 
   /**
-   * Whether an asynchronous validator is running.
+   * Whether a check of the value is still running. Signal Forms sets this member while an asynchronous validator runs.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks A Signal Forms input.
    * @cckParity Signal Forms bind this input.
    * @defaultValue false
    */
@@ -397,6 +430,9 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
 
   /**
    * Opens the list. A disabled or read-only Select never opens.
+   * @example
+   * // select = viewChild.required(CckSelect)
+   * this.select().open();
    * @cckSemantic none
    * @cckParity The methods own the open state; there is no open input.
    */
@@ -405,7 +441,10 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   }
 
   /**
-   * Closes the list. Nothing is checked: `disableClose` and `closePredicate` guard the user's closes only.
+   * Closes the list. It does not run `disableClose` or `closePredicate`, because you ask for the close yourself.
+   * @example
+   * // select = viewChild.required(CckSelect)
+   * this.select().close();
    * @cckSemantic none
    * @cckParity The methods own the open state; there is no open input.
    */
@@ -414,7 +453,10 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   }
 
   /**
-   * Opens the list when it is closed and closes it when it is open.
+   * Opens the list when it is closed, and closes it when it is open.
+   * @example
+   * // select = viewChild.required(CckSelect)
+   * this.select().toggle();
    * @cckSemantic none
    * @cckParity The methods own the open state; there is no open input.
    */

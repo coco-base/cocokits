@@ -3,7 +3,7 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckSelect } from './select';
 
 /**
- * A decorative line between options or groups. It is hidden from assistive technology and keys never land on it.
+ * A line between options or groups. It is decorative: assistive technology skips it, and keys never stop on it.
  *
  * @example
  * <div cckSelectOption value="Cake">Cake</div>
