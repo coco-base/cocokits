@@ -3,14 +3,13 @@ import '@angular/compiler';
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckFieldError } from '@cocokits/angular/field-error';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { CckPrefix } from '@cocokits/angular/prefix';
 import { CckTextarea } from '@cocokits/angular/textarea';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckTextareaTheme } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -28,11 +27,7 @@ class Root {
 const render = (themed: boolean): Promise<string> =>
   renderApplication(
     (context) =>
-      bootstrapApplication(
-        Root,
-        { providers: [provideServerRendering(), ...(themed ? [provideCckTheme(cocokitsThemeConfig)] : [])] },
-        context,
-      ),
+      bootstrapApplication(Root, { providers: [provideServerRendering(), ...(themed ? providers : [])] }, context),
     { document: '<html><body><app-root></app-root></body></html>' },
   );
 

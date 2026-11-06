@@ -3,12 +3,11 @@ import '@angular/compiler';
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { CckInput } from '@cocokits/angular/input';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckFormFieldTheme } from '../src/index';
+import { providers } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -25,11 +24,7 @@ class Root {
 const render = (themed: boolean): Promise<string> =>
   renderApplication(
     (context) =>
-      bootstrapApplication(
-        Root,
-        { providers: [provideServerRendering(), ...(themed ? [provideCckTheme(cocokitsThemeConfig)] : [])] },
-        context,
-      ),
+      bootstrapApplication(Root, { providers: [provideServerRendering(), ...(themed ? providers : [])] }, context),
     { document: '<html><body><app-root></app-root></body></html>' },
   );
 

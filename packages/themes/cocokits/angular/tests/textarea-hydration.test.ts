@@ -7,7 +7,7 @@ import { CckPrefix } from '@cocokits/angular/prefix';
 import { CckTextarea } from '@cocokits/angular/textarea';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckTextareaTheme } from '../src/index';
-import { providers } from './helpers';
+import { providers, strip } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +45,6 @@ describe('theme Textarea hydration', () => {
     const html = new DOMParser().parseFromString(server, 'text/html');
     document.body.innerHTML = html.body.innerHTML;
     const first = document.getElementById('a');
-    const strip = (markup: string): string => markup.replace(/ ngh="\d+"/g, '');
     const before = strip(document.body.innerHTML);
     const logged: unknown[][] = [];
     for (const method of ['error', 'warn'] as const) {

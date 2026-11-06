@@ -7,6 +7,7 @@ import { defineAnatomy } from '@cocokits/shared';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckFormFieldTheme, type CckFormFieldSize } from '../src/index';
+import { providers } from './helpers';
 
 /** The classes come from an anatomy of the same block, as the theme-config tests do; a theme may not import a machine. */
 const formFieldAnatomy = defineAnatomy({
@@ -44,7 +45,7 @@ class ElementHost {
   protected readonly small = 'sm';
 }
 
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const root = (): HTMLElement => screen.getByTestId('field');
 const inputWrapper = (): HTMLElement => {
   const wrapper = root().querySelector<HTMLElement>(`.${formFieldAnatomy.classes.inputWrapper}`);

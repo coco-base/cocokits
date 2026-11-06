@@ -12,6 +12,7 @@ import { defineAnatomy } from '@cocokits/shared';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckFormFieldTheme, CckTextareaTheme } from '../src/index';
+import { providers } from './helpers';
 
 /** The classes come from an anatomy of the same block, as the theme-config tests do; a theme may not import a machine. */
 const textareaAnatomy = defineAnatomy({
@@ -67,7 +68,7 @@ class FieldHost {
   protected readonly rows = 2;
 }
 
-const themed = { providers: [provideCckTheme(cocokitsThemeConfig)] };
+const themed = { providers };
 const textarea = (): HTMLElement => screen.getByTestId('textarea');
 
 describe('CckTextareaTheme', () => {

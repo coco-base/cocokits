@@ -6,7 +6,7 @@ import { CckRadio } from '@cocokits/angular/radio';
 import { CckSwitch } from '@cocokits/angular/switch';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckCheckboxTheme, CckRadioTheme, CckSwitchTheme } from '../src/index';
-import { providers } from './helpers';
+import { providers, strip } from './helpers';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +43,6 @@ describe('theme choice controls hydration', () => {
     const html = new DOMParser().parseFromString(server, 'text/html');
     document.body.innerHTML = html.body.innerHTML;
     const first = document.querySelector('.cck-checkbox');
-    const strip = (markup: string): string => markup.replace(/ ngh="\d+"/g, '');
     const before = strip(document.body.innerHTML);
     const logged: unknown[][] = [];
     for (const method of ['error', 'warn'] as const) {
