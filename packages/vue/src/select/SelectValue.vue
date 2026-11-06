@@ -16,14 +16,14 @@ defineSlots<{
      * else the value as text.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop (Reka UI's `selectedLabel`); Angular's `cckSelectTrigger` template gets the values.
+     * @cckParity Slot prop.
      */
     selectedLabel: readonly string[];
     /**
      * The model of the root: a value or `null`, or the list with `multiple`.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop (Reka UI's `modelValue`); React's `Select.Value` children function gets the value.
+     * @cckParity Slot prop.
      */
     modelValue: unknown;
   }): unknown;

@@ -28,7 +28,7 @@ defineSlots<{
    * The label of the trigger: text and icons.
    *
    * @cckSemantic tabs.label
-   * @remarks Angular takes the label as `label` or as a `cckTabLabel` template on the `cckTab` section.
+   * @cckParity The label is the content of the trigger part.
    */
   default?(): unknown;
 }>();
@@ -51,7 +51,7 @@ const machine = computed(() => {
 function onActivate(event: KeyboardEvent): void {
   if (kind.value !== 'non-native' || event.defaultPrevented || event.target !== event.currentTarget) return;
   if (event.key !== 'Enter' && event.key !== ' ') return;
-  // A disabled tab selects nothing, but Space still must not scroll the page (Base UI).
+  // A disabled tab selects nothing, but Space still must not scroll the page.
   event.preventDefault();
   if (!props.disabled) ctx.dispatch({ type: 'TRIGGER.CLICK', value: props.value, event });
 }

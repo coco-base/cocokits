@@ -179,7 +179,7 @@ describe('TooltipProvider', () => {
   });
 
   it('has no closeDelay prop', () => {
-    // @ts-expect-error closeDelay was removed (Reka UI has none)
+    // @ts-expect-error closeDelay was removed
     const props: InstanceType<typeof TooltipRoot>['$props'] = { closeDelay: 100 };
     expect(props).toBeDefined();
   });

@@ -47,7 +47,7 @@ defineExpose({
    * The DOM element of the root. `null` before mount.
    *
    * @cckSemantic none
-   * @remarks Vue-only member: templates reach the DOM node through the component ref.
+   * @remarks Templates reach the DOM node through the component ref.
    */
   get element(): Element | null {
     return base.value?.element ?? null;
@@ -56,7 +56,7 @@ defineExpose({
    * The native `<input>`. `null` before mount.
    *
    * @cckSemantic none
-   * @remarks Vue-only member: templates reach the DOM node through the component ref.
+   * @remarks Templates reach the DOM node through the component ref.
    */
   get inputElement(): HTMLInputElement | null {
     return base.value?.inputElement ?? null;

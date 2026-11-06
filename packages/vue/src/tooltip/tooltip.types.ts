@@ -31,15 +31,15 @@ export interface TooltipRootProps {
    * on the server renders its content after hydration.
    *
    * @cckSemantic tooltip.open
-   * @remarks Vue's `v-model:open`.
+   * @cckParity Bound with `v-model:open`.
    * @defaultValue false
    */
   readonly open?: boolean | undefined;
   /**
-   * The modifiers of `v-model:open` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers written on `v-model:open`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model:open.trim` and the like.
+   * @cckParity Only this framework has this member.
    */
   readonly openModifiers?: Record<string, true> | undefined;
   /**
@@ -47,7 +47,7 @@ export interface TooltipRootProps {
    * The content mounts after hydration, so a tooltip that is open by default renders closed on the server.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultOpen`; Angular binds `open` as a model.
+   * @cckParity The value the component starts with.
    * @defaultValue false
    */
   readonly defaultOpen?: boolean | undefined;
@@ -57,7 +57,7 @@ export interface TooltipRootProps {
    * after it closed.
    *
    * @cckSemantic tooltip.delay
-   * @cckDefaultDiffers Angular reads its delay from CCK_TOOLTIP_DEFAULT_OPTIONS (0), React and Vue from the Provider (700), as Material, Radix and Reka do.
+   * @cckDefaultDiffers The delay belongs to the Provider.
    * @defaultValue 700, from the Provider
    */
   readonly delayDuration?: number | undefined;
@@ -67,7 +67,7 @@ export interface TooltipRootProps {
    * magnifier (WCAG 1.4.13).
    *
    * @cckSemantic none
-   * @remarks Vue and React (Radix and Reka); Angular has the `disableTooltipInteractivity` token option.
+   * @cckParity Not available in every framework.
    * @defaultValue false, from the Provider
    */
   readonly disableHoverableContent?: boolean | undefined;
@@ -75,7 +75,7 @@ export interface TooltipRootProps {
    * Whether a press on the trigger leaves the tooltip shown instead of closing it.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Only this framework has this member.
    * @defaultValue false, from the Provider
    */
   readonly disableClosingTrigger?: boolean | undefined;
@@ -103,7 +103,7 @@ export interface TooltipRootProps {
  *
  * @cckPart provider
  * @cckSemantic none
- * @remarks Vue and React only (Reka UI and Radix); Angular sets the defaults with CCK_TOOLTIP_DEFAULT_OPTIONS and has no group.
+ * @cckParity Not available in every framework.
  */
 export interface TooltipProviderProps {
   /**
@@ -111,7 +111,7 @@ export interface TooltipProviderProps {
    * `delayDuration`.
    *
    * @cckSemantic none
-   * @cckParity Vue and React only (Reka UI and Radix); Angular sets the defaults with CCK_TOOLTIP_DEFAULT_OPTIONS.
+   * @cckParity Not available in every framework.
    * @defaultValue 700
    */
   readonly delayDuration?: number | undefined;
@@ -120,7 +120,7 @@ export interface TooltipProviderProps {
    * `0` or less nothing is skipped.
    *
    * @cckSemantic none
-   * @remarks Vue and React only (Reka UI and Radix).
+   * @cckParity Not available in every framework.
    * @defaultValue 300
    */
   readonly skipDelayDuration?: number | undefined;
@@ -128,7 +128,7 @@ export interface TooltipProviderProps {
    * The default of `disableHoverableContent` for the tooltips inside.
    *
    * @cckSemantic none
-   * @remarks Vue and React only (Reka UI and Radix).
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly disableHoverableContent?: boolean | undefined;
@@ -136,7 +136,7 @@ export interface TooltipProviderProps {
    * The default of `disableClosingTrigger` for the tooltips inside.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Only this framework has this member.
    * @defaultValue false
    */
   readonly disableClosingTrigger?: boolean | undefined;
@@ -144,7 +144,7 @@ export interface TooltipProviderProps {
    * The default of `disabled` for the tooltips inside.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI).
+   * @cckParity Only this framework has this member.
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
@@ -156,9 +156,8 @@ export interface TooltipRootEmits {
    * Emits with the new open state for `v-model:open`, after every change the tooltip accepts.
    *
    * @cckSemantic tooltip.openChange
-   * @remarks Vue's change event is the `v-model:open` update event, as in Reka UI; it carries no reason. A parent
-   * that bound `v-model:open` keeps its own value to refuse a change. Angular emits `opened` and `closed` or the
-   * `open` model and React calls `onOpenChange`.
+   * @remarks Carries no reason. A parent that bound `v-model:open` keeps its own value to refuse a change.
+   * @cckParity The `update:open` event is the only change event; it carries no reason. A parent that bound `v-model:open` keeps its own value to refuse a change.
    */
   'update:open': [open: boolean];
 }
@@ -180,7 +179,7 @@ export interface TooltipTriggerProps {
    * description stay on the trigger.
    *
    * @cckSemantic none
-   * @remarks Vue only (Reka UI's `reference`).
+   * @cckParity Not available in every framework.
    */
   readonly reference?: Element | OverlayVirtualAnchor | undefined;
   /**
@@ -188,7 +187,7 @@ export interface TooltipTriggerProps {
    * A tag or component other than `button` gets `tabindex="0"` and no `type`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -198,7 +197,7 @@ export interface TooltipTriggerProps {
    * `data-state`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -218,7 +217,7 @@ export interface TooltipContentEmits {
    * Emits before Escape closes the tooltip, with the keydown. Call `preventDefault()` to keep it shown.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onEscapeKeyDown` handler and Angular `disableClose`.
+   * @cckParity The Content part emits it.
    */
   escapeKeyDown: [event: KeyboardEvent];
   /**
@@ -226,7 +225,7 @@ export interface TooltipContentEmits {
    * press. Call `preventDefault()` to keep it shown.
    *
    * @cckSemantic none
-   * @remarks Vue's Content emit (Reka UI); React has the `onPointerDownOutside` handler and Angular `disableClose`.
+   * @cckParity The Content part emits it.
    */
   pointerDownOutside: [event: PointerDownOutsideEvent];
 }
@@ -250,7 +249,7 @@ export interface TooltipContentProps extends OverlayPositioningProps, OverlayArr
    * It is not set on the visible content.
    *
    * @cckSemantic tooltip.content.aria-label
-   * @remarks Vue's `ariaLabel` prop; React has the `aria-label` attribute and Angular the `cckTooltip` message.
+   * @cckParity The text of the hidden description of the trigger.
    */
   readonly ariaLabel?: string | undefined;
   /**
@@ -272,7 +271,7 @@ export interface TooltipContentProps extends OverlayPositioningProps, OverlayArr
    * no content.
    *
    * @cckSemantic tooltip.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular removes the content when it closes.
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly forceMount?: boolean | undefined;
@@ -281,7 +280,7 @@ export interface TooltipContentProps extends OverlayPositioningProps, OverlayArr
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -290,7 +289,7 @@ export interface TooltipContentProps extends OverlayPositioningProps, OverlayArr
    * child keeps `role="tooltip"`, the id and the state markers of the content.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -314,7 +313,7 @@ export interface TooltipArrowProps {
    * by the `hidden` attribute without a theme rule. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -323,7 +322,7 @@ export interface TooltipArrowProps {
    * triangle. The child is the whole arrow.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

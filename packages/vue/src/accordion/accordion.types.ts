@@ -27,14 +27,14 @@ export interface AccordionRootProps {
    * `defaultValue`.
    *
    * @cckSemantic accordion.value
-   * @remarks Angular has no root value; each item binds `expanded`.
+   * @cckParity Bound with `v-model`.
    */
   readonly modelValue?: string | string[] | undefined;
   /**
-   * The modifiers of `v-model` Vue passes; the component only declares them so they do not reach the DOM.
+   * The modifiers of `v-model`, as in `v-model.trim`; the component only declares them so they do not reach the DOM.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Only this framework has this member.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -42,7 +42,7 @@ export interface AccordionRootProps {
    * `modelValue` ignores it. The items it names are open in the server output.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultValue`; Angular binds `expanded` on each item.
+   * @cckParity The value the component starts with.
    */
   readonly defaultValue?: string | string[] | undefined;
   /**
@@ -50,7 +50,7 @@ export interface AccordionRootProps {
    * value: a list is `multiple`, anything else `single`.
    *
    * @cckSemantic accordion.type
-   * @remarks Angular uses the `multi` input on the root.
+   * @cckParity Not available in every framework.
    * @defaultValue 'single'
    */
   readonly type?: AccordionType | undefined;
@@ -59,7 +59,7 @@ export interface AccordionRootProps {
    * and its trigger gets `aria-disabled="true"`. `multiple` mode always closes.
    *
    * @cckSemantic accordion.collapsible
-   * @remarks Angular items are always collapsible (Material/CDK).
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly collapsible?: boolean | undefined;
@@ -68,7 +68,7 @@ export interface AccordionRootProps {
    * value can still open an item.
    *
    * @cckSemantic accordion.disabled
-   * @remarks Angular disables each item; it has no root-wide `disabled`.
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
@@ -76,7 +76,7 @@ export interface AccordionRootProps {
    * Whether the headers are laid out in a column or a row; `horizontal` moves with Left and Right.
    *
    * @cckSemantic accordion.orientation
-   * @remarks Angular is vertical only.
+   * @cckParity Not available in every framework.
    * @defaultValue 'vertical'
    */
   readonly orientation?: AccordionOrientation | undefined;
@@ -86,7 +86,7 @@ export interface AccordionRootProps {
    * `'ltr'`.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Not available in every framework.
    */
   readonly dir?: Direction | undefined;
   /**
@@ -94,7 +94,7 @@ export interface AccordionRootProps {
    * content `hidden`. An item can override it.
    *
    * @cckSemantic none
-   * @remarks Vue-only, as in Reka UI; Angular always keeps the children.
+   * @cckParity Only this framework has this member.
    * @defaultValue true
    */
   readonly unmountOnHide?: boolean | undefined;
@@ -103,7 +103,7 @@ export interface AccordionRootProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -111,7 +111,7 @@ export interface AccordionRootProps {
    * Whether the root merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -125,8 +125,8 @@ export interface AccordionRootEmits {
    * `multiple` mode. A value written by the parent emits nothing.
    *
    * @cckSemantic accordion.valueChange
-   * @remarks Vue's change event is the `v-model` update event, as in Reka UI; it carries no reason. React calls
-   * `onValueChange`.
+   * @remarks Carries the new value only, no reason.
+   * @cckParity The `update:modelValue` event is the only change event; it carries no reason.
    */
   'update:modelValue': [value: string | string[] | undefined];
 }
@@ -148,7 +148,7 @@ export interface AccordionItemProps {
    * The key of the item in the open value. Unique inside the accordion.
    *
    * @cckSemantic accordion.item.value
-   * @remarks Angular items have no value; they use a generated id.
+   * @cckParity Not available in every framework.
    */
   readonly value: string;
   /**
@@ -163,7 +163,7 @@ export interface AccordionItemProps {
    * Whether the content of this item is removed from the DOM while it is closed. Without it the root decides.
    *
    * @cckSemantic none
-   * @remarks Vue-only, as in Reka UI; Angular always keeps the children.
+   * @cckParity Only this framework has this member.
    * @defaultValue the value of the root
    */
   readonly unmountOnHide?: boolean | undefined;
@@ -171,7 +171,7 @@ export interface AccordionItemProps {
    * The tag or component to render, in place of the `div`. The part keeps its state. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -179,7 +179,7 @@ export interface AccordionItemProps {
    * Whether the item merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -200,7 +200,7 @@ export interface AccordionHeaderProps {
    * `asChild`.
    *
    * @cckSemantic accordion.header.headingLevel
-   * @remarks Angular takes the `headingLevel` input of the item.
+   * @cckParity Sets the heading level by replacing the rendered element.
    * @defaultValue 'h3'
    */
   readonly as?: AsTag | Component | undefined;
@@ -208,7 +208,7 @@ export interface AccordionHeaderProps {
    * Whether the header merges onto its first element or component child instead of rendering an `h3`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -231,7 +231,7 @@ export interface AccordionTriggerProps {
    * in place of `disabled`. Ignored with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka). Reka renders a `div` by default; this renders a native `button`.
+   * @cckParity Replaces the rendered element with `as`. The default element is a native `button`.
    * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
@@ -240,7 +240,7 @@ export interface AccordionTriggerProps {
    * `button`. The child must render a `button`; its own props win except the ARIA, id and state markers.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -261,7 +261,7 @@ export interface AccordionContentProps {
    * form control or a component state in the DOM.
    *
    * @cckSemantic accordion.content.forceMount
-   * @remarks Vue and React only; Angular always keeps the children rendered.
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly forceMount?: boolean | undefined;
@@ -270,7 +270,7 @@ export interface AccordionContentProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -278,7 +278,7 @@ export interface AccordionContentProps {
    * Whether the content merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

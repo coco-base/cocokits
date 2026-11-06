@@ -23,7 +23,7 @@ const machine = computed(
   () => getPopoverProps({ id: ctx.id, open: ctx.open.value, mounted: ctx.mounted.value }, ctx.send).trigger,
 );
 // Only a native button gets `type`; another element gets the button role, a tab stop and the keys. A consumer
-// listener runs first (`mergeProps` chains it before ours) and cannot veto the click: the click is sent whatever it did, as in Reka UI.
+// listener runs first (`mergeProps` chains it before ours) and cannot veto the click: the click is sent whatever it did.
 const bound = computed(() => {
   const { id } = attrs;
   return mergeProps(themeAttrs.value.trigger, kind.value === 'non-native' ? NON_NATIVE_DEFAULTS : {}, attrs, {

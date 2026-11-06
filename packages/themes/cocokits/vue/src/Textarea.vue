@@ -40,7 +40,7 @@ defineExpose({
    * The native `<textarea>`. `null` before mount.
    *
    * @cckSemantic none
-   * @remarks Vue-only member: templates reach the DOM node through the component ref.
+   * @remarks Templates reach the DOM node through the component ref.
    */
   get element(): HTMLTextAreaElement | null {
     return base.value?.element ?? null;

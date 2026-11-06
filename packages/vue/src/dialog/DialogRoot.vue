@@ -22,14 +22,14 @@ defineSlots<{
      * Whether the dialog is open.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the state of the root, as in Reka UI.
+     * @cckParity Slot prop: the state of the root.
      */
     open: boolean;
     /**
      * Closes the dialog the way `DialogClose` does and emits `update:open` with `false`.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the close function of the root, as in Reka UI.
+     * @cckParity Slot prop: the close function of the root.
      */
     close: () => void;
   }): unknown;
