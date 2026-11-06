@@ -224,7 +224,7 @@ describe('flips and priority', () => {
     expect(middlewareNames().slice(0, 3)).toEqual(['offset', 'flip', 'shift']);
   });
 
-  it('shifts before it flips by default, as Radix and Reka do', () => {
+  it('shifts before it flips by default', () => {
     start({});
     expect(middlewareNames().slice(0, 3)).toEqual(['offset', 'shift', 'flip']);
   });

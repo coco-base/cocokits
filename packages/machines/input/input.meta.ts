@@ -14,7 +14,7 @@ export const inputMeta: ComponentMeta<'root'> = {
     {
       key: 'Text keys, IME',
       context: 'input',
-      action: 'Edit the value. Each `input` event fires the change callback with the reason `user`.',
+      action: 'Edit the value. Each `input` event reports the change.',
     },
     { key: 'Enter', context: 'input in a form', action: 'Implicit submission of the owner form (native).' },
   ],

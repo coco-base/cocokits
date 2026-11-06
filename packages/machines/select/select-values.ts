@@ -5,7 +5,7 @@ const isNullish = (value: unknown): boolean => value === undefined || value === 
 
 /**
  * The option a single Select with `canSelectNullableOptions` shows as selected while its value is empty: the
- * first option whose value is `null` or `undefined` (Material).
+ * first option whose value is `null` or `undefined`.
  */
 function nullableSelectedItem<T>(state: SelectState<T>): SelectItem<T> | undefined {
   if (state.multiple || state.canSelectNullableOptions !== true || !isNullish(state.value)) return undefined;

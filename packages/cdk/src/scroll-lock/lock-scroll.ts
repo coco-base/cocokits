@@ -44,7 +44,7 @@ function applyLock(doc: Document): ScrollLock {
   const root = doc.documentElement;
   const body = doc.body as HTMLElement | null;
   const view = doc.defaultView;
-  // As Angular CDK's block strategy: a page that does not scroll has nothing to lock.
+  // A page that does not scroll has nothing to lock.
   if (!view || !(scrolls(root) || (body && scrolls(body)))) return { count: 0, restore: NOTHING_TO_RESTORE };
   const restores: (() => void)[] = [];
   const scroller = body && bodyScrolls(root, body, view) ? body : null;
@@ -85,7 +85,7 @@ function bodyBorders(body: HTMLElement, view: Window): number {
 /**
  * Locks the scroll of a document: sets `overflow: hidden` on the root element and pads it on the right
  * by the scrollbar width so the page does not shift. It does nothing when the page does not scroll (the
- * root and the body fit), as Angular CDK's block strategy; adds no padding when the root has
+ * root and the body fit); adds no padding when the root has
  * `scrollbar-gutter: stable`, which keeps the layout; and also hides and pads `<body>` when the body is
  * a scroll container of its own. While it holds, `--scrollbar-width` on `<html>` is the width in px
  * the lock padded (written only above 0), for fixed elements to offset with

@@ -2,8 +2,7 @@ import { defineAnatomy, type Anatomy, type AnatomyPart } from '@cocokits/shared'
 
 /**
  * Select anatomy: a root, a trigger (with the placeholder or value and the dropdown icon) and a portaled list
- * of options, option groups and separators. Who writes each part is the framework's: React and Vue compose them,
- * Angular renders the trigger, value, icon and list itself and the author writes the options.
+ * of options, option groups and separators. The adapter decides who writes each part.
  */
 export const selectAnatomy: Anatomy<
   'select',

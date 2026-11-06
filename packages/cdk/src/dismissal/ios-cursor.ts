@@ -1,6 +1,6 @@
 /**
  * iOS and iPadOS WebKit send no `click` for a non-interactive element unless it looks clickable, and a touch
- * press is dispatched on `click`. Angular CDK's outside-click dispatcher does the same: `cursor: pointer` on `body`.
+ * press is dispatched on `click`. `cursor: pointer` on `body` makes every element look clickable.
  */
 function isIos(doc: Document): boolean {
   const navigator = doc.defaultView?.navigator;

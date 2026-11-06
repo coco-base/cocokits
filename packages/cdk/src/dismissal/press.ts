@@ -54,7 +54,7 @@ function isBackdropPress(layer: Layer, event: MouseEvent | undefined, target: No
   );
 }
 
-/** A modal ignores a secondary-button press and a ctrl+primary press (Radix Dialog). */
+/** A modal ignores a secondary-button press and a ctrl+primary press. */
 function modalIgnores(event: MouseEvent | undefined): boolean {
   return !!event && (event.button !== 0 || event.ctrlKey);
 }

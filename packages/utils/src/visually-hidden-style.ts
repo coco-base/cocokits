@@ -1,7 +1,7 @@
 /**
  * The style that hides an element from sight and from the layout while it stays in the accessibility tree,
  * focusable and a control the browser validates (so never `display: none`). Values are strings with units,
- * so React, Vue and `Renderer2.setStyle` apply them alike. Use it for the hidden native form input and for
+ * so any adapter applies them alike. Use it for the hidden native form input and for
  * the focus guards of an overlay.
  */
 export const visuallyHiddenStyle = {
