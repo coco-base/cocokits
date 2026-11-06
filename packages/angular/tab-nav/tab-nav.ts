@@ -98,7 +98,8 @@ export class CckTabNav {
    * The panel the links control, from a `cckTabNavPanel` template reference. It switches the nav to panel mode
    * (tabs with one Tab stop and arrow keys); leave it out for plain links.
    * @cckSemantic none
-   * @remarks The Angular panel is the directive itself; React and Vue pass its id to the same prop.
+   * @remarks Takes the panel directive itself, not its id.
+   * @cckParity React and Vue pass the id of the panel to the same prop.
    */
   readonly tabPanel = input<CckTabNavPanel | undefined>(undefined);
 

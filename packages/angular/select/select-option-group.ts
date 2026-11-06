@@ -57,7 +57,8 @@ export class CckSelectOptionGroup {
   /**
    * The text of the label. Use the `cckSelectOptionGroupLabel` template for markup.
    * @cckSemantic none
-   * @remarks Text shortcut of the `label` slot; React's `label` takes text directly.
+   * @remarks Text shortcut of the `label` slot.
+   * @cckParity React's `label` takes text directly.
    * @defaultValue ''
    */
   readonly label = input('');

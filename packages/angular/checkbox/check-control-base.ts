@@ -24,8 +24,7 @@ import { hasChoiceControlName } from '@cocokits/utils';
 export type CheckControlChangeReason = 'user' | 'form-reset';
 
 /**
- * What the framework-neutral change callback of a checkbox or switch receives; the Angular output adds the
- * `value`.
+ * What the change callback of a checkbox or switch receives; the output adds the `value`.
  */
 export type CheckControlChangeDetails = ChangeDetails<CheckControlChangeReason>;
 
@@ -115,15 +114,15 @@ export abstract class CckCheckControlBase extends CckFormControlBase implements 
   /**
    * The value `FormData` submits while the control is checked; left out, the browser submits `on`.
    * @cckSemantic *.value
-   * @remarks Named `submitValue` because Signal Forms rejects a `value` binding on a control with a `checked`
-   *   model. React and Vue take the native `value`.
+   * @remarks Named `submitValue` because Signal Forms rejects a `value` binding on a control with a `checked` model.
+   * @cckParity React and Vue take the native `value`.
    */
   readonly submitValue = input<string | undefined>(undefined);
 
   /**
    * The id of the form the input belongs to, when it is not inside it (native `form` attribute).
    * @cckSemantic none
-   * @remarks React and Vue take the native `form` attribute.
+   * @cckParity React and Vue take the native `form` attribute.
    */
   readonly form = input<string | undefined>(undefined);
 

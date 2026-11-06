@@ -61,7 +61,7 @@ export class CckTabNavLink implements CckTabNavRegistration, OnInit {
   /**
    * The id of the link, which the linked panel is labelled by while the link is active. Generated when left out.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue take a native `id` on the link.
+   * @cckParity Angular only: React and Vue take a native `id` on the link.
    */
   readonly id = input(inject(IdGenerator).getId(tabNavAnatomy.classes.link));
 

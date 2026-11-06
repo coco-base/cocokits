@@ -117,7 +117,7 @@ export class CckDialogRoot {
    * parent still close. Disabling these closes weakens the dialog pattern: a keyboard user then has only the
    * controls inside the dialog to leave it, so keep a Close button.
    * @defaultValue false
-   * @remarks Angular only: React refuses with `onEscapeKeyDown` and `onPointerDownOutside`, Vue with the `escapeKeyDown` and `pointerDownOutside` events.
+   * @cckParity Angular only: React refuses with `onEscapeKeyDown` and `onPointerDownOutside`, Vue with the `escapeKeyDown` and `pointerDownOutside` events.
    * @cckSemantic none
    * @see https://github.com/angular/components/blob/main/src/cdk/dialog/dialog-config.ts DialogConfig.disableClose
    */
@@ -128,7 +128,7 @@ export class CckDialogRoot {
    * press on the backdrop), whether it happens: `false` keeps the dialog open. It runs after `disableClose`.
    * A write to `open` from the parent is never checked. A refused `<form method="dialog">` shows the dialog
    * again. Refusing weakens the dialog pattern (see `disableClose`).
-   * @remarks Angular only: React refuses with `details.cancel()` in `onOpenChange`, Vue by not taking `update:open`.
+   * @cckParity Angular only: React refuses with `details.cancel()` in `onOpenChange`, Vue by not taking `update:open`.
    * @cckSemantic none
    * @see https://github.com/angular/components/blob/main/src/material/dialog/dialog-config.ts MatDialogConfig.closePredicate
    */
@@ -136,7 +136,7 @@ export class CckDialogRoot {
 
   /**
    * Emits after the dialog opens by itself (the trigger), with the reason and the event. Never for a write from the parent.
-   * @remarks Angular only: React and Vue report an open through `onOpenChange` and `update:open`.
+   * @cckParity Angular only: React and Vue report an open through `onOpenChange` and `update:open`.
    * @cckSemantic none
    */
   readonly opened = output<DialogChangeDetails>();
@@ -144,7 +144,7 @@ export class CckDialogRoot {
   /**
    * Emits after the dialog closes by itself (Close, `<form method="dialog">`, Escape, a press on the backdrop), with the reason and the event.
    * Never for a write from the parent.
-   * @remarks Angular only: React and Vue report a close through `onOpenChange` and `update:open`.
+   * @cckParity Angular only: React and Vue report a close through `onOpenChange` and `update:open`.
    * @cckSemantic none
    */
   readonly closed = output<DialogChangeDetails>();
@@ -363,7 +363,7 @@ export class CckDialogRoot {
 
   /**
    * Refuses an intent. After a refused press on the backdrop focus stays inside the dialog: if the browser moved
-   * it out, it goes back to the element that had it (Angular CDK `dialog-ref.ts`).
+   * it out, it goes back to the element that had it.
    */
   private refuse(intent: DismissIntent): void {
     intent.preventDefault();

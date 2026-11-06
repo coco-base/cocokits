@@ -151,7 +151,7 @@ export class CckFormField {
   /**
    * Whether the field root is hidden. It is also hidden while its control is.
    * @cckSemantic none
-   * @remarks React and Vue take the native `hidden` attribute.
+   * @cckParity React and Vue take the native `hidden` attribute.
    * @defaultValue false
    */
   readonly hidden = input(false, { transform: booleanAttribute });

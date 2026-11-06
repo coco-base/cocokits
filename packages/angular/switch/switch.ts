@@ -10,7 +10,7 @@ import { getSwitchProps, switchAnatomy } from '@cocokits/machines/switch';
 /** Why the checked value of a Switch changed: the user toggled it (`'user'`) or the form was reset (`'form-reset'`). */
 export type SwitchChangeReason = CheckControlChangeReason;
 
-/** What the framework-neutral change callback of a Switch receives; the Angular output adds the `value`. */
+/** What the change callback of a Switch receives; the output adds the `value`. */
 export type SwitchChangeDetails = CheckControlChangeDetails;
 
 /**

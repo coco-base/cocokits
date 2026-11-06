@@ -7,7 +7,7 @@ import type { ChangeDetails } from '@cocokits/shared';
 /** Why the value of a Textarea changed: the user typed (`'user'`) or the form was reset (`'form-reset'`). */
 export type TextareaChangeReason = 'user' | 'form-reset';
 
-/** What the framework-neutral change callback of a Textarea receives; the Angular output adds the `value`. */
+/** What the change callback of a Textarea receives; the output adds the `value`. */
 export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
 
 /**

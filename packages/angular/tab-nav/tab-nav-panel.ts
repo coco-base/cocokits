@@ -29,7 +29,8 @@ export class CckTabNavPanel {
   /**
    * The id of the panel, which the links point at. Generated when left out.
    * @cckSemantic none
-   * @remarks Angular passes the panel itself to `tabPanel`; React and Vue pass this id.
+   * @remarks The panel is the directive itself, not its id.
+   * @cckParity React and Vue pass the id of the panel.
    */
   readonly id = input(inject(IdGenerator).getId(tabNavAnatomy.classes.panel));
 

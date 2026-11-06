@@ -9,8 +9,7 @@ export function deepActiveOrBody(doc: Document): HTMLElement {
 }
 
 /**
- * Focuses an element that may not be focusable: it gets `tabindex="-1"` until it loses focus (Angular Material's
- * `_forceFocus`).
+ * Focuses an element that may not be focusable: it gets `tabindex="-1"` until it loses focus.
  *
  * @param element - The element to focus.
  * @param renderer - Sets the attribute and listens for the blur.
@@ -27,7 +26,7 @@ function forceFocus(element: HTMLElement, renderer: Renderer2): void {
 }
 
 /**
- * Places focus in a dialog that `showModal()` has just opened, as Angular Material's `autoFocus` does. The
+ * Places focus in a dialog that `showModal()` has just opened. The
  * native focusing steps have already run. `'dialog'` and `false` need nothing here: the `<dialog>` is rendered
  * with `autofocus`, so the native steps focus it. `undefined` leaves focus where the native steps put it.
  *

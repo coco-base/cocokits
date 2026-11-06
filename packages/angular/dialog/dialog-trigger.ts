@@ -32,7 +32,7 @@ export class CckDialogTrigger {
   /**
    * The id of the trigger. It wins over the generated one and follows changes.
    * @defaultValue generated
-   * @remarks Angular only: React and Vue take `id` as an attribute on the part.
+   * @cckParity Angular only: React and Vue take `id` as an attribute on the part.
    * @cckSemantic none
    */
   readonly id = input<string | undefined>(undefined);

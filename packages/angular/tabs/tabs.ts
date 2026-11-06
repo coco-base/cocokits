@@ -189,7 +189,7 @@ export class CckTabs {
    * it the content of a panel is removed when the tab is left. The default comes from `CCK_TABS_CONFIG`.
    * @defaultValue false
    * @cckSemantic none
-   * @remarks Angular keeps the content with this root input; React has `forceMount` on `Tabs.Content` and Vue `unmountOnHide` on `TabsRoot`.
+   * @cckParity Angular keeps the content with this root input; React has `forceMount` on `Tabs.Content` and Vue `unmountOnHide` on `TabsRoot`.
    */
   readonly preserveContent = input(inject(CCK_TABS_CONFIG, { optional: true })?.preserveContent ?? false, {
     transform: booleanAttribute,
@@ -218,7 +218,7 @@ export class CckTabs {
    * Emits when keyboard focus reaches a tab: an arrow key, Home or End, or Tab into the list. Not for pointer
    * focus.
    * @cckSemantic none
-   * @remarks Angular only, as in Angular Material: React and Vue have no event for focus moving between tabs.
+   * @cckParity Angular only, as in Angular Material: React and Vue have no event for focus moving between tabs.
    */
   readonly focusChange = output<CckTabChangeEvent>();
 

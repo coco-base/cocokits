@@ -10,7 +10,7 @@ import {
 /** Why the checked value of a Checkbox changed: the user toggled it (`'user'`) or the form was reset (`'form-reset'`). */
 export type CheckboxChangeReason = CheckControlChangeReason;
 
-/** What the framework-neutral change callback of a Checkbox receives; the Angular output adds the `value`. */
+/** What the change callback of a Checkbox receives; the output adds the `value`. */
 export type CheckboxChangeDetails = CheckControlChangeDetails;
 
 /**

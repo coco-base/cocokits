@@ -23,7 +23,7 @@ export class CckDialogTitle {
   /**
    * The id of the heading; the content's `aria-labelledby` follows it.
    * @defaultValue generated
-   * @remarks React and Vue: the Title's id is generated.
+   * @cckParity React and Vue generate the id of the Title and take no id from the reader.
    * @cckSemantic none
    */
   readonly id = input<string | undefined>(undefined);

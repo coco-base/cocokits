@@ -82,7 +82,8 @@ export abstract class CckFormControlBase {
   /**
    * Emits when the user leaves the control; forms libraries mark the control touched from it.
    * @cckSemantic none
-   * @remarks Angular's `FormUiControl` output.
+   * @remarks Part of the `FormUiControl` contract (output).
+   * @cckParity `FormUiControl` is an Angular contract; React and Vue have no such output.
    */
   readonly touch = output();
 
@@ -97,7 +98,7 @@ export abstract class CckFormControlBase {
    * The `name` that `FormData` submits. Signal Forms writes its field name into it. Left out, it is the
    * path of the bound forms control joined with `.`, and none without a forms library.
    * @cckSemantic none
-   * @remarks React and Vue take the native `name` attribute; only Angular forms put the name on a directive.
+   * @cckParity React and Vue take the native `name` attribute; only Angular forms put the name on a directive.
    * @defaultValue ''
    */
   readonly name = input('');
@@ -137,7 +138,7 @@ export abstract class CckFormControlBase {
    * Whether the control is hidden (native `hidden`). Signal Forms writes it; render a hidden field with
    * `@if` instead.
    * @cckSemantic none
-   * @remarks React and Vue take the native `hidden` attribute.
+   * @cckParity React and Vue take the native `hidden` attribute.
    * @defaultValue false
    */
   readonly hidden = input(false, { transform: booleanAttribute });
@@ -166,7 +167,8 @@ export abstract class CckFormControlBase {
    * The validation errors a forms library writes. The control and the FieldError render nothing
    * from them.
    * @cckSemantic none
-   * @remarks Angular's `FormUiControl` input.
+   * @remarks Part of the `FormUiControl` contract (input).
+   * @cckParity `FormUiControl` is an Angular contract; React and Vue have no such input.
    * @defaultValue []
    */
   readonly errors = input<readonly ValidationError.WithOptionalFieldTree[]>([]);
@@ -174,7 +176,8 @@ export abstract class CckFormControlBase {
   /**
    * The reasons the control is disabled, written by Signal Forms. The control renders nothing.
    * @cckSemantic none
-   * @remarks Angular's `FormUiControl` input.
+   * @remarks Part of the `FormUiControl` contract (input).
+   * @cckParity `FormUiControl` is an Angular contract; React and Vue have no such input.
    * @defaultValue []
    */
   readonly disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
@@ -233,7 +236,8 @@ export abstract class CckFormControlBase {
   /**
    * Focuses the control. Signal Forms calls it to focus an invalid field.
    * @cckSemantic none
-   * @remarks Angular's `FormUiControl` method.
+   * @remarks Part of the `FormUiControl` contract (method).
+   * @cckParity `FormUiControl` is an Angular contract; React and Vue have no such method.
    */
   focus(options?: FocusOptions): void {
     this.controlElement()?.focus(options);
@@ -242,7 +246,8 @@ export abstract class CckFormControlBase {
   /**
    * Clears the touched, dirty and submitted facts the control keeps itself. Signal Forms calls it on `reset()`.
    * @cckSemantic none
-   * @remarks Angular's `FormUiControl` method.
+   * @remarks Part of the `FormUiControl` contract (method).
+   * @cckParity `FormUiControl` is an Angular contract; React and Vue have no such method.
    */
   reset(): void {
     this.touchedState.set(false);

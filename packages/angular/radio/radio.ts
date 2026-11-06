@@ -20,7 +20,7 @@ import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
 /** Why the checked value of a Radio changed: the user checked it or another radio of its group (`'user'`), or the form was reset (`'form-reset'`). */
 export type RadioChangeReason = 'user' | 'form-reset';
 
-/** What the framework-neutral change callback of a Radio receives; the Angular output adds the `value`. */
+/** What the change callback of a Radio receives; the output adds the `value`. */
 export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
 
 /**
@@ -153,7 +153,7 @@ export class CckRadio {
    * A radio without a name has no group mate and warns in development. Ignored inside a Radio group, which
    * gives every radio its own name.
    * @cckSemantic *.name
-   * @remarks React and Vue take the native `name` attribute.
+   * @cckParity React and Vue take the native `name` attribute.
    */
   readonly name = input<string | undefined>(undefined);
 
@@ -162,14 +162,15 @@ export class CckRadio {
    * Radio group it identifies the radio: it is checked while the group's value equals it, and a radio without
    * one can never be checked.
    * @cckSemantic *.value
-   * @remarks Named `submitValue`, as on the Checkbox. React and Vue take the native `value`.
+   * @remarks Named `submitValue`, as on the Checkbox.
+   * @cckParity React and Vue take the native `value`.
    */
   readonly submitValue = input<string | undefined>(undefined);
 
   /**
    * The id of the form the input belongs to, when it is not inside it (native `form` attribute).
    * @cckSemantic none
-   * @remarks React and Vue take the native `form` attribute.
+   * @cckParity React and Vue take the native `form` attribute.
    */
   readonly form = input<string | undefined>(undefined);
 
@@ -260,7 +261,7 @@ export class CckRadio {
   /**
    * Focuses the native input.
    * @cckSemantic none
-   * @remarks React and Vue reach the input through `ref`.
+   * @cckParity React and Vue reach the input through `ref`.
    */
   focus(options?: FocusOptions): void {
     this.inputRef()?.nativeElement.focus(options);

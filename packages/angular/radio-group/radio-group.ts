@@ -168,7 +168,8 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   /**
    * Emits when focus leaves the group (not when it moves between its radios), for Signal Forms' touched state.
    * @cckSemantic none
-   * @remarks Signal Forms' output; the React and Vue Radio group have no such prop.
+   * @remarks A Signal Forms output.
+   * @cckParity Signal Forms bind this output; the React and Vue Radio group have no such prop.
    */
   readonly touch = output();
 
