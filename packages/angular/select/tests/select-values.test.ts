@@ -12,14 +12,10 @@ import {
   type CckSelectOptionRef,
 } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { gone, trigger } from './helpers';
 
 const { classes } = selectAnatomy;
-const trigger = (): HTMLElement => screen.getByRole('combobox');
 const shown = (): string => trigger().querySelector(`.${classes.value}`)?.textContent.trim() ?? '';
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 
 describe('Select value and labels', () => {
   beforeEach(() => {

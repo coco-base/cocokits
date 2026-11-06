@@ -7,17 +7,11 @@ import { CckPopoverImports } from '@cocokits/angular/popover';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports, type CckSelectChange } from '../index';
-import { must } from './helpers';
+import { gone, must, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const imports = [...CckSelectImports, ...CckPopoverImports, ...CckDialogImports, CckDir];
 const { classes } = selectAnatomy;
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 
 describe('Select features', () => {
   beforeEach(() => {

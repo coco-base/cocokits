@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelect, CckSelectImports, type CckSelectChange, type SelectOpenChangeDetails } from '../index';
-import { must } from './helpers';
+import { must, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const { classes } = selectAnatomy;
@@ -40,7 +40,6 @@ class Host {
   };
 }
 
-const trigger = (): HTMLElement => screen.getByRole('combobox');
 const listbox = (): HTMLElement => screen.getByRole('listbox');
 const optionNames = (): string[] => screen.getAllByRole('option').map((option) => option.textContent.trim());
 const frame = (): Promise<void> =>
@@ -182,7 +181,7 @@ describe('Select', () => {
       host.readonly.set(false);
       host.disabled.set(true);
       await fixture.whenStable();
-      expect((trigger() as HTMLButtonElement).disabled).toBe(true);
+      expect(trigger().disabled).toBe(true);
       expect(trigger().closest(`.${classes.root}`)?.hasAttribute('data-disabled')).toBe(true);
       await user.click(trigger());
       expect(screen.queryByRole('listbox')).toBeNull();

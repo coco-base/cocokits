@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports } from '../index';
-import { must } from './helpers';
+import { must, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const TEMPLATE = `<form ngNativeValidate (submit)="$event.preventDefault()">
@@ -12,7 +12,6 @@ const TEMPLATE = `<form ngNativeValidate (submit)="$event.preventDefault()">
   <p id="own">Pick one</p>
 </form>`;
 
-const trigger = (): HTMLElement => screen.getByRole('combobox');
 const root = (): Element => must(trigger().closest('.cck-select'));
 const described = (): string =>
   (trigger().getAttribute('aria-describedby') ?? '')

@@ -1,6 +1,7 @@
 import type { ApplicationRef } from '@angular/core';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { bootstrapOnClient, renderOnServer } from './ssr-fixtures';
+import { must } from './fixtures';
 
 /**
  * Markup without the hydration and event-replay bookkeeping Angular adds, and without the `value`
@@ -13,11 +14,6 @@ function normalized(root: Element): string {
     .replace(/\s+(?:ngh|jsaction|value)="[^"]*"/g, '')
     .replace(/\s+checked=""/g, '')
     .replace(/<!--[^>]*-->/g, '');
-}
-
-function must<T>(value: T | null | undefined): T {
-  if (value == null) throw new Error('expected a value');
-  return value;
 }
 
 describe('Checkbox, Switch and Radio hydration', () => {

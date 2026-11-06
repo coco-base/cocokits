@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports, type CckSelectChange, type SelectOpenChangeDetails } from '../index';
-import { must } from './helpers';
+import { gone, must, nextTask, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 @Component({
@@ -45,13 +45,6 @@ class Host {
     });
   }
 }
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
-const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 10));
 
 async function setup(): Promise<{
   host: Host;

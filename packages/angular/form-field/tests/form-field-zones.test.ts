@@ -11,6 +11,7 @@ import { CckSuffixImports } from '../../suffix';
 import { CckTextareaImports } from '../../textarea';
 import { CckTrailingImports } from '../../trailing';
 import { CckFormFieldImports } from '../index';
+import { must } from './queries';
 
 const imports = [
   ...CckFormFieldImports,
@@ -179,11 +180,6 @@ describe('FormField container click', () => {
     expect(document.activeElement).toBe(container.querySelector('textarea'));
   });
 });
-
-function must<T>(value: T | null | undefined): T {
-  if (value === null || value === undefined) throw new Error('Expected a value.');
-  return value;
-}
 
 describe('FormField with a Textarea', () => {
   const field = `

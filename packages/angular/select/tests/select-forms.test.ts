@@ -9,7 +9,7 @@ import { CckLabelImports } from '@cocokits/angular/label';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports, type CckSelectChange } from '../index';
-import { must } from './helpers';
+import { gone, must, nextTask, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const imports = [
@@ -24,12 +24,6 @@ const imports = [
 ];
 const { classes } = selectAnatomy;
 
-const trigger = (): HTMLButtonElement => screen.getByRole('combobox');
-const nextTask = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
-const gone = (): Promise<void> =>
-  waitFor(() => {
-    expect(screen.queryByRole('listbox')).toBeNull();
-  });
 const OPTIONS = `<div cckSelectOption value="Cake">Cake</div><div cckSelectOption value="Pizza">Pizza</div>`;
 const submitHandler = (): ReturnType<typeof vi.fn> =>
   vi.fn((event: SubmitEvent) => {
@@ -136,7 +130,7 @@ describe('Select forms', () => {
       expect(form.checkValidity()).toBe(false);
       form.requestSubmit();
       expect(handler).not.toHaveBeenCalled();
-      await nextTask();
+      await nextTask(0);
       expect(document.activeElement).toBe(trigger());
       expect(trigger().getAttribute('aria-required')).toBe('true');
       await user.click(trigger());
@@ -173,7 +167,7 @@ describe('Select forms', () => {
       await gone();
       seen.length = 0;
       container.querySelector('form')?.reset();
-      await nextTask();
+      await nextTask(0);
       await fixture.whenStable();
       expect(value()).toBe('Cake');
       expect(seen).toMatchObject([{ value: 'Cake', reason: 'form-reset' }]);
@@ -192,7 +186,7 @@ describe('Select forms', () => {
       await user.click(await screen.findByRole('option', { name: 'Pizza' }));
       await gone();
       container.querySelector('form')?.reset();
-      await nextTask();
+      await nextTask(0);
       await fixture.whenStable();
       expect(trigger().querySelector(`.${classes.placeholder}`)?.textContent).toBe('Choose');
     });
@@ -320,7 +314,7 @@ describe('Select forms', () => {
         componentProperties: { value },
       });
       await fixture.whenStable();
-      await nextTask();
+      await nextTask(0);
       expect(trigger().querySelector(`.${classes.value}`)?.textContent.trim()).toBe('Pizza');
       await user.click(trigger());
       await user.click(await screen.findByRole('option', { name: 'Cake' }));

@@ -6,6 +6,7 @@ import { popoverAnatomy } from '@cocokits/machines/popover';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckPopoverImports, type PopoverChangeDetails } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { frame, trigger } from './queries';
 
 const imports = [...CckPopoverImports, CckDir];
 const { classes } = popoverAnatomy;
@@ -32,19 +33,12 @@ class Host {
   readonly details: (PopoverChangeDetails & { value: boolean })[] = [];
 }
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 const content = (): HTMLElement => screen.getByRole('dialog', { name: 'Share this page' });
 function emptySpace(): HTMLElement {
   const element = document.getElementById('empty');
   if (!element) throw new Error('Expected the empty paragraph.');
   return element;
 }
-const frame = (): Promise<void> =>
-  new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
 
 async function open(host: Host, fixture: { whenStable: () => Promise<unknown> }): Promise<void> {
   host.open.set(true);

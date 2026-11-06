@@ -2,15 +2,11 @@ import type { ApplicationRef } from '@angular/core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { bootstrapOnClient, renderOnServer } from './fixtures';
 import { stubOverlayApis } from './overlay-stubs';
+import { must } from './helpers';
 
 /** Markup without the hydration and event-replay bookkeeping Angular adds. */
 function normalized(root: Element): string {
   return root.innerHTML.replace(/\s+(?:ngh|jsaction)="[^"]*"/g, '').replace(/<!--[^>]*-->/g, '');
-}
-
-function must<T>(value: T | null | undefined): T {
-  if (value == null) throw new Error('expected a value');
-  return value;
 }
 
 describe('Select hydration', () => {

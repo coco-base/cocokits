@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckSelectImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { activeName } from './helpers';
 
 @Component({
   imports: [...CckSelectImports],
@@ -18,10 +19,6 @@ class Host {
   readonly value = signal<string | readonly string[] | null | undefined>(undefined);
   readonly multiple = signal(false);
 }
-
-const trigger = (): HTMLElement => screen.getByRole('combobox');
-const activeName = (): string =>
-  document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '')?.textContent.trim() ?? '';
 
 describe('Select keyboard', () => {
   beforeEach(() => {

@@ -1,9 +1,9 @@
 import { Component, provideZonelessChangeDetection, signal, viewChild } from '@angular/core';
-import { fireEvent, render, waitFor } from '@testing-library/angular';
-import { tooltipAnatomy } from '@cocokits/machines/tooltip';
+import { fireEvent, render } from '@testing-library/angular';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckTooltip, CckTooltipImports, CCK_TOOLTIP_DEFAULT_OPTIONS } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { closed, opened } from './queries';
 
 type Options = Parameters<typeof import('@cocokits/cdk/positioning').startOverlayPosition>[0];
 
@@ -38,16 +38,6 @@ function enter(element: Element, x: number, y: number): void {
   Object.defineProperty(event, 'pointerType', { value: 'mouse' });
   fireEvent(element, event);
 }
-
-const bubble = (): Element | null => document.querySelector(`.${tooltipAnatomy.classes.content}`);
-const opened = (): Promise<void> =>
-  waitFor(() => {
-    expect(bubble()).not.toBeNull();
-  });
-const closed = (): Promise<void> =>
-  waitFor(() => {
-    expect(bubble()).toBeNull();
-  });
 
 const host = (): HTMLElement => {
   const element = document.getElementById('host');

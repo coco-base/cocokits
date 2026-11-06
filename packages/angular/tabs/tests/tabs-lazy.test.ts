@@ -1,8 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { render, screen } from '@testing-library/angular';
+import { render } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { CCK_TABS_CONFIG, CckTabsImports } from '../index';
+import { tab } from './queries';
 
 const counts = { created: 0, destroyed: 0 };
 
@@ -18,7 +19,6 @@ class Probe implements OnDestroy {
 
 const imports = [...CckTabsImports, Probe];
 
-const tab = (name: string): HTMLElement => screen.getByRole('tab', { name });
 const panels = (): HTMLElement[] => [...document.querySelectorAll<HTMLElement>('.cck-tabs__panel')];
 const probes = (): number => document.querySelectorAll('.probe').length;
 

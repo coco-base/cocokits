@@ -4,13 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckPopoverImports, type PopoverChangeDetails } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
-
-const frame = (): Promise<void> =>
-  new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
+import { frame, trigger } from './queries';
 
 @Component({
   imports: [...CckPopoverImports],
@@ -49,7 +43,6 @@ class Host {
   };
 }
 
-const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Share' });
 const emptySpace = (): HTMLElement => screen.getByText('Empty space');
 
 describe('Popover refusal and notification', () => {

@@ -4,13 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckDialogImports, type DialogChangeDetails } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
-
-const frame = (): Promise<void> =>
-  new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
+import { boxAt, frame, pressBackdrop } from './queries';
 
 const TEMPLATE = `
   <ng-container
@@ -44,10 +38,8 @@ class Host {
 
 const dialog = (): HTMLDialogElement => screen.getByRole<HTMLDialogElement>('dialog', { name: 'Edit draft' });
 const press = (target: HTMLElement): void => {
-  target.getBoundingClientRect = () => new DOMRect(100, 100, 200, 200);
-  target.dispatchEvent(
-    new MouseEvent('pointerdown', { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10 }),
-  );
+  boxAt(target);
+  pressBackdrop(target, { clientX: 10, clientY: 10 });
 };
 
 describe('Dialog closePredicate', () => {

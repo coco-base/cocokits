@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckPopoverImports } from '@cocokits/angular/popover';
 import { CckDialogImports, type DialogChangeDetails } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
+import { boxAt, closed, dialog, frame, pressBackdrop } from './queries';
 
 const imports = [...CckDialogImports, ...CckPopoverImports];
 const { classes } = dialogAnatomy;
@@ -54,28 +55,6 @@ class VetoHost {
 type User = ReturnType<typeof userEvent.setup>;
 
 const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Delete' });
-const dialog = (): HTMLDialogElement => screen.getByRole<HTMLDialogElement>('dialog', { name: 'Delete project' });
-const frame = (): Promise<void> =>
-  new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      resolve();
-    });
-  });
-
-async function closed(): Promise<void> {
-  await waitFor(() => {
-    expect(screen.queryByRole('dialog')).toBeNull();
-  });
-}
-
-/** Presses the backdrop: a pointer press that lands on the dialog element, outside its box. */
-function pressBackdrop(target: HTMLElement, at: { clientX: number; clientY: number }): void {
-  target.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, cancelable: true, composed: true, ...at }));
-}
-
-function boxAt(element: HTMLElement): void {
-  element.getBoundingClientRect = () => new DOMRect(100, 100, 200, 200);
-}
 
 describe('Dialog', () => {
   beforeEach(stubOverlayApis);
