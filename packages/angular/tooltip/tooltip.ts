@@ -122,6 +122,7 @@ export class CckTooltip {
    * @defaultValue 'top', from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @remarks The compound form sets it on the content part.
    * @cckSemantic none
+   * @cckParity Only the Angular one-attribute form has it; the other frameworks set it on the content part.
    */
   readonly side = input<TooltipSide | undefined>(undefined, { alias: 'cckTooltipSide' });
 
@@ -130,6 +131,7 @@ export class CckTooltip {
    * @defaultValue 'center', from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @remarks The compound form sets it on the content part.
    * @cckSemantic none
+   * @cckParity Only the Angular one-attribute form has it; the other frameworks set it on the content part.
    */
   readonly align = input<TooltipAlign | undefined>(undefined, { alias: 'cckTooltipAlign' });
 

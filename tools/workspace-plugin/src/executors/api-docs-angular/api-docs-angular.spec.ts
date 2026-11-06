@@ -465,13 +465,13 @@ describe('extractAngularApiDocs: parts and defaults that differ by design', () =
     ).toThrow(/ThingItem\.disabled: "@cckDefaultDiffers" needs a reason/);
   });
 
-  it('marks a part tagged @cckSemantic none as framework-only, and needs its @cckParity or @remarks', () => {
+  it('marks a part tagged @cckSemantic none as framework-only, and needs its @cckParity', () => {
     const tagged = (reason: string) => (text: string) =>
       text.replace(' * @cckNoElement', ` * @cckNoElement\n * @cckSemantic none\n${reason}`);
     const [, , overlay] = parts('only', tagged(' * @cckParity Only this framework has the part.\n'));
     expect(overlay?.frameworkOnly).toBe(true);
     expect(JSON.stringify(overlay)).not.toMatch(/parity|Only this framework/i);
-    expect(parts('only-remarks', tagged(' * @remarks The part.\n'))[2]?.frameworkOnly).toBe(true);
+    expect(() => parts('only-remarks', tagged(' * @remarks The part.\n'))).toThrow(/needs a "@cckParity"/);
     expect(() => parts('only-empty', tagged(''))).toThrow(
       /ThingOverlay: the part is "@cckSemantic none" and needs a "@cckParity"/,
     );

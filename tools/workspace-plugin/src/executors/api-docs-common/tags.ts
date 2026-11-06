@@ -54,17 +54,16 @@ export const defaultDiffersOf = (tags: readonly TagEntry[]): string | undefined 
 
 /**
  * Checks the reason of an item tagged `@cckSemantic none`, which exists in one framework by design. It needs a
- * `@cckParity <reason>` (the reason is read here and never written to the JSON). Until every package uses the tag, a
- * non-empty `@remarks` is accepted instead. An empty `@cckParity` is a problem on any item. Returns whether the item is
- * tagged `none`.
+ * `@cckParity <reason>` (the reason is read here and never written to the JSON). An empty `@cckParity` is a problem
+ * on any item. Returns whether the item is tagged `none`.
  */
 export function checkParity(label: string, tags: readonly TagEntry[], problems: string[]): boolean {
   const parity = tagsOf(tags, 'cckParity');
   if (parity.some((text) => text === ''))
     problems.push(`${label}: "@cckParity" needs a reason ("@cckParity <reason>")`);
   const none = tagsOf(tags, 'cckSemantic').includes('none');
-  const hasReason = parity.some((text) => text !== '') || tagsOf(tags, 'remarks').some((text) => text !== '');
-  if (none && !hasReason) problems.push(`${label} is "@cckSemantic none" and needs a "@cckParity" reason`);
+  if (none && !parity.some((text) => text !== ''))
+    problems.push(`${label} is "@cckSemantic none" and needs a "@cckParity" reason`);
   return none;
 }
 
