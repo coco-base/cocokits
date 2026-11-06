@@ -5,9 +5,10 @@ import { aliasResolverAt, createTsProgram, expandAliases } from '../api-docs-com
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
-import { checkPartDoc, frameworkOnlyOf, paragraphsOf } from '../api-docs-common/tags';
+import { checkParity, checkPartDoc, frameworkOnlyOf, paragraphsOf } from '../api-docs-common/tags';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
 import { posix } from '../posix-path';
+import { displayTextOf } from './display-text';
 
 /**
  * Whether a declaration belongs to the package or the workspace: native button props, the DOM and the React types
@@ -19,7 +20,7 @@ function isOwnDeclaration(program: ts.Program, declaration: ts.Declaration): boo
 }
 
 const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
-  symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: ts.displayPartsToString(tag.text) }));
+  symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
 
 /**
  * The type as the author wrote it when the declaration has a type annotation (so `ReactElement` stays `ReactElement`
@@ -61,7 +62,7 @@ function propOf(
       name: asSlot && symbol.name === 'children' ? 'default' : symbol.name,
       type: withoutUndefined(type, required),
       required,
-      description: ts.displayPartsToString(symbol.getDocumentationComment(checker)),
+      description: displayTextOf(symbol.getDocumentationComment(checker)),
       tags: tagsOfSymbol(checker, symbol),
     },
     partName,
@@ -113,7 +114,10 @@ function typeMembers(type: ts.TypeNode | undefined): readonly ts.TypeNode[] {
   return ts.isUnionTypeNode(type) ? type.types : [type];
 }
 
-/** The scope of a scoped slot: the members of the parameter's type, each with its TSDoc (a missing one is a problem). */
+/**
+ * The scope of a scoped slot: the members of the parameter's type, each with its TSDoc (a missing one is a problem). A
+ * field tagged `@cckSemantic none` needs a `@cckParity` reason and is written with `semanticId: 'none'`.
+ */
 function scopeOf(
   checker: ts.TypeChecker,
   fn: ts.FunctionTypeNode,
@@ -124,14 +128,24 @@ function scopeOf(
   const type = parameter === undefined ? undefined : checker.getTypeFromTypeNode(parameter);
   return (type?.getProperties() ?? []).map((property) => {
     const declaration = property.valueDeclaration ?? property.declarations?.[0];
-    const description = paragraphsOf(ts.displayPartsToString(property.getDocumentationComment(checker)))[0] ?? '';
+    const description = paragraphsOf(displayTextOf(property.getDocumentationComment(checker)))[0] ?? '';
     if (description === '') problems.push(`${owner}: the scope field "${property.name}" has no TSDoc description`);
     const text =
       declaration !== undefined && ts.isPropertySignature(declaration) && declaration.type !== undefined
         ? declaration.type.getText().replace(/\s+/g, ' ')
         : checker.typeToString(checker.getTypeOfSymbol(property));
     // A type parameter of the scope type is written with its default, as the members of a generic component are.
-    return { name: property.name, type: withDefaultArguments(text, enclosingDefaults(declaration)), description };
+    const frameworkOnly = checkParity(
+      `${owner}: the scope field "${property.name}"`,
+      tagsOfSymbol(checker, property),
+      problems,
+    );
+    return {
+      name: property.name,
+      type: withDefaultArguments(text, enclosingDefaults(declaration)),
+      description,
+      ...(frameworkOnly ? { semanticId: 'none' as const } : {}),
+    };
   });
 }
 
@@ -218,7 +232,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
       const part = checkPartDoc(
         component.name,
         tags,
-        ts.displayPartsToString(component.getDocumentationComment(checker)),
+        displayTextOf(component.getDocumentationComment(checker)),
         problems,
       );
       // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
@@ -254,7 +268,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
         semanticId: `${name}.${part}`,
         anatomyPart: part,
         ...frameworkOnlyOf(component.name, tags, problems),
-        description: paragraphsOf(ts.displayPartsToString(component.getDocumentationComment(checker)))[0] ?? '',
+        description: paragraphsOf(displayTextOf(component.getDocumentationComment(checker)))[0] ?? '',
         props,
         events,
         slots,

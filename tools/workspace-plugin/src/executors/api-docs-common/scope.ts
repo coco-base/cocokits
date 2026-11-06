@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { withDefaultArguments } from './generic';
-import { paragraphsOf } from './tags';
+import { checkParity, paragraphsOf } from './tags';
 import type { ApiSlotJson } from './types';
 
 type ScopeFields = NonNullable<ApiSlotJson['scope']>;
@@ -12,7 +12,7 @@ const docOf = (node: ts.Node): string =>
  * The scope a type literal declares, `{ /** The selected values. *\/ readonly selected: readonly string[] }`: one field
  * per member with its type text and its TSDoc. A field without TSDoc adds a problem, naming `owner`. A type parameter of
  * the component is written with its default (`readonly T[]` gives `readonly string[]`), as the members of a generic
- * component are. A field tagged `@cckSemantic none` exists in one framework by design and needs a `@remarks` with the
+ * component are. A field tagged `@cckSemantic none` exists in one framework by design and needs a `@cckParity`
  * reason, else a problem; it is written with `semanticId: 'none'`, as a member is.
  */
 export function scopeOfType(
@@ -27,17 +27,11 @@ export function scopeOfType(
     if (!ts.isPropertySignature(member) || !ts.isIdentifier(member.name)) continue;
     const description = docOf(member);
     if (description === '') problems.push(`${owner}: the scope field "${member.name.text}" has no TSDoc description`);
-    const tags = ts.getJSDocTags(member);
-    const tagText = (name: string): string[] =>
-      tags
-        .filter((tag) => tag.tagName.text === name)
-        .map((tag) => (ts.getTextOfJSDocComment(tag.comment) ?? '').trim());
-    const frameworkOnly = tagText('cckSemantic').includes('none');
-    if (frameworkOnly && tagText('remarks').every((text) => text === '')) {
-      problems.push(
-        `${owner}: the scope field "${member.name.text}" is "@cckSemantic none" and needs a "@remarks" reason`,
-      );
-    }
+    const tags = ts.getJSDocTags(member).map((tag) => ({
+      name: tag.tagName.text,
+      comment: ts.getTextOfJSDocComment(tag.comment) ?? '',
+    }));
+    const frameworkOnly = checkParity(`${owner}: the scope field "${member.name.text}"`, tags, problems);
     fields.push({
       name: member.name.text,
       type: withDefaultArguments(member.type?.getText().replace(/\s+/g, ' ') ?? 'unknown', defaults),
