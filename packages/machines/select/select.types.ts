@@ -2,10 +2,18 @@ import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import type { Typeahead } from '@cocokits/cdk/roving-focus';
 import type { FormFieldControlProps, FormFieldControlState } from '../form-field';
 
-/** Why the open state changed. */
+/**
+ * Why the open state changed. It is one of five values.
+ *
+ * `'trigger'`: the user pressed the trigger. `'escape'`: the user pressed Escape. `'outside-press'`: the user pressed outside the list. `'select'`: the user chose an item. `'blur'`: the focus left the trigger.
+ */
 export type SelectOpenReason = 'trigger' | 'escape' | 'outside-press' | 'select' | 'blur';
 
-/** Why the value changed: the user chose an option, or the owner form was reset. */
+/**
+ * Why the value changed. It is one of two values.
+ *
+ * `'user'`: the user chose an item. `'form-reset'`: the form was reset.
+ */
 export type SelectValueReason = 'user' | 'form-reset';
 
 /** The side of the trigger (or field box) the list sits on. `start` and `end` follow the direction. */
