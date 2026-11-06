@@ -35,7 +35,7 @@ export interface FieldErrorProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * form must spread all the props it receives, including `ref` and `children`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI).
+   * @cckParity React's element override (Base UI).
    */
   readonly render?: RenderProp<FieldErrorRenderProps, FieldErrorState> | undefined;
 }

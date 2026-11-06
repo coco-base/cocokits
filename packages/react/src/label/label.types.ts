@@ -12,7 +12,7 @@ export interface LabelProps extends Omit<ComponentPropsWithRef<'label'>, 'color'
    * control's id; an explicit value always wins.
    *
    * @cckSemantic label.for
-   * @remarks React spells the native `for` attribute `htmlFor`.
+   * @cckParity React spells the native `for` attribute `htmlFor`.
    */
   readonly htmlFor?: string | undefined;
 }

@@ -26,7 +26,7 @@ export interface SuffixProps extends Omit<ComponentPropsWithRef<'div'>, 'color' 
    * form must spread all the props it receives, including `ref` and `children`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI).
+   * @cckParity React's element override (Base UI).
    */
   readonly render?: RenderProp<SuffixRenderProps, SuffixState> | undefined;
 }

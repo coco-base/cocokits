@@ -79,7 +79,7 @@ const RESERVED = [
 ];
 
 /**
- * Computes the props of every part. A hook, so that the React compiler lint sees the `dispatch` it receives as
+ * Computes the props of every part. A hook, so that the compiler lint sees the `dispatch` it receives as
  * a plain argument: the Root keeps the latest state in a ref and `dispatch` reads it only when an event runs.
  */
 function useSelectParts<T>(

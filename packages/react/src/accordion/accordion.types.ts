@@ -51,7 +51,7 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    *
    * @defaultValue false
    * @cckSemantic accordion.disabled
-   * @remarks Root-wide disabling (Radix, Reka); Angular disables each item.
+   * @cckParity Root-wide disabling (Radix, Reka); Angular disables each item.
    */
   readonly disabled?: boolean | undefined;
   /**
@@ -59,7 +59,7 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    *
    * @defaultValue 'vertical'
    * @cckSemantic accordion.orientation
-   * @remarks Angular is always vertical.
+   * @cckParity Angular is always vertical.
    */
   readonly orientation?: AccordionOrientation | undefined;
   /**
@@ -68,7 +68,7 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * is rendered on the element.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Angular reads `Directionality` (no input).
    */
   readonly dir?: Direction | undefined;
   /**
@@ -76,7 +76,7 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * The function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<AccordionState> | undefined;
 }
@@ -87,7 +87,7 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    * `single` keeps at most one item open; `multiple` lets every item toggle on its own.
    *
    * @cckSemantic accordion.type
-   * @remarks Angular uses `multi` instead.
+   * @cckParity Angular uses `multi` instead.
    */
   readonly type: 'single';
   /**
@@ -96,7 +96,7 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    * with every item closed.
    *
    * @cckSemantic accordion.value
-   * @remarks React's open value; Angular binds `expanded` on each item and Vue binds `modelValue`.
+   * @cckParity React's open value; Angular binds `expanded` on each item and Vue binds `modelValue`.
    */
   readonly value?: string | undefined;
   /**
@@ -104,7 +104,7 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    *
    * @defaultValue ''
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular binds `expanded` on each item and Vue binds `modelValue`.
+   * @cckParity React's uncontrolled mode; Angular binds `expanded` on each item and Vue binds `modelValue`.
    */
   readonly defaultValue?: string | undefined;
   /**
@@ -112,7 +112,7 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    * Never when the parent sets `value`.
    *
    * @cckSemantic accordion.valueChange
-   * @remarks Vue emits `update:modelValue`; Angular has no root value and emits `expandedChange` on each item.
+   * @cckParity Vue emits `update:modelValue`; Angular has no root value and emits `expandedChange` on each item.
    */
   readonly onValueChange?: ((value: string, details: AccordionChangeDetails) => void) | undefined;
   /**
@@ -120,7 +120,7 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    *
    * @defaultValue false
    * @cckSemantic accordion.collapsible
-   * @remarks Angular is always collapsible.
+   * @cckParity Angular is always collapsible.
    */
   readonly collapsible?: boolean | undefined;
 }
@@ -131,7 +131,7 @@ export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
    * `single` keeps at most one item open; `multiple` lets every item toggle on its own.
    *
    * @cckSemantic accordion.type
-   * @remarks Angular uses `multi` instead.
+   * @cckParity Angular uses `multi` instead.
    */
   readonly type: 'multiple';
   /**
@@ -139,7 +139,7 @@ export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
    * `onValueChange` keeps the old value.
    *
    * @cckSemantic accordion.value
-   * @remarks React's open value; Angular binds `expanded` on each item and Vue binds `modelValue`.
+   * @cckParity React's open value; Angular binds `expanded` on each item and Vue binds `modelValue`.
    */
   readonly value?: readonly string[] | undefined;
   /**
@@ -147,7 +147,7 @@ export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
    *
    * @defaultValue []
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular binds `expanded` on each item and Vue binds `modelValue`.
+   * @cckParity React's uncontrolled mode; Angular binds `expanded` on each item and Vue binds `modelValue`.
    */
   readonly defaultValue?: readonly string[] | undefined;
   /**
@@ -155,7 +155,7 @@ export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
    * parent sets `value`.
    *
    * @cckSemantic accordion.valueChange
-   * @remarks Vue emits `update:modelValue`; Angular has no root value and emits `expandedChange` on each item.
+   * @cckParity Vue emits `update:modelValue`; Angular has no root value and emits `expandedChange` on each item.
    */
   readonly onValueChange?: ((value: readonly string[], details: AccordionChangeDetails) => void) | undefined;
 }
@@ -175,7 +175,7 @@ export interface AccordionItemProps extends Omit<ComponentPropsWithRef<'div'>, '
    * The key of the item in the open value. Unique inside the Root.
    *
    * @cckSemantic accordion.item.value
-   * @remarks Angular items have no value; the accordion uses a generated id.
+   * @cckParity Angular items have no value; the accordion uses a generated id.
    */
   readonly value: string;
   /**
@@ -192,7 +192,7 @@ export interface AccordionItemProps extends Omit<ComponentPropsWithRef<'div'>, '
    * one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the item and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular renders the item and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<AccordionItemState> | undefined;
 }
@@ -212,7 +212,7 @@ export interface AccordionHeaderProps extends Omit<ComponentPropsWithRef<'h3'>, 
    *
    * @defaultValue 'h3'
    * @cckSemantic accordion.header.headingLevel
-   * @remarks Angular uses the `headingLevel` input of the item; Vue uses `as`.
+   * @cckParity Angular uses the `headingLevel` input of the item; Vue uses `as`.
    */
   readonly render?: RenderProp<AccordionItemState> | undefined;
 }
@@ -223,7 +223,7 @@ export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'butto
    * The trigger text, which is also its accessible name.
    *
    * @cckSemantic accordion.label
-   * @remarks Angular takes the label as `label` or as a `cckAccordionLabel` template on the item.
+   * @cckParity Angular takes the label as `label` or as a `cckAccordionLabel` template on the item.
    */
   readonly children?: ReactNode | undefined;
   /**
@@ -233,7 +233,7 @@ export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'butto
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity React's element kind for `render` (Base UI); Vue decides it with `as`.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -242,7 +242,7 @@ export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'butto
    * one element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the trigger and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular renders the trigger and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<AccordionItemState> | undefined;
 }
@@ -261,7 +261,7 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    *
    * @defaultValue false
    * @cckSemantic accordion.content.forceMount
-   * @remarks Angular always keeps the content rendered.
+   * @cckParity Angular always keeps the content rendered.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -270,7 +270,7 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    * one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the content and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular renders the content and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<AccordionItemState> | undefined;
 }

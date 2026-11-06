@@ -71,21 +71,21 @@ export interface TextareaProps extends Omit<
    * The name `FormData` submits. With react-hook-form, `register('email')` passes it.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; only Angular defaults it from the forms control.
+   * @cckParity A native attribute in React and Vue; only Angular defaults it from the forms control.
    */
   readonly name?: string | undefined;
   /**
    * Hides the control (native `hidden`).
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute in React and Vue; Angular declares it as an input.
    */
   readonly hidden?: boolean | undefined;
   /**
    * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
    *
    * @cckSemantic textarea.ariaDescribedBy
-   * @remarks React spells the machine's `ariaDescribedBy` as the native attribute.
+   * @cckParity React spells the machine's `ariaDescribedBy` as the native attribute.
    */
   readonly 'aria-describedby'?: string | undefined;
   /**
@@ -100,7 +100,7 @@ export interface TextareaProps extends Omit<
    * @defaultValue ''
    *
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `value` as a model.
+   * @cckParity React's uncontrolled mode; Angular and Vue bind `value` as a model.
    */
   readonly defaultValue?: string | undefined;
   /**
@@ -108,7 +108,7 @@ export interface TextareaProps extends Omit<
    * of the owner form; never when the parent sets `value`.
    *
    * @cckSemantic textarea.valueChange
-   * @remarks React's change callback; Angular emits `valueChangeDetails` and Vue emits `valueChange`.
+   * @cckParity React's change callback; Angular emits `valueChangeDetails` and Vue emits `update:modelValue`.
    */
   readonly onValueChange?: ((value: string, details: TextareaChangeDetails) => void) | undefined;
 }

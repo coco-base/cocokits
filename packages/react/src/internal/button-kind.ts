@@ -49,7 +49,7 @@ export function useElementKind(
 const isLink = (element: HTMLElement): boolean => element.localName === 'a' && element.hasAttribute('href');
 
 /**
- * The props of a button-default part that renders a non-native element (Base UI `useButton`): `role="button"`,
+ * The props of a button-default part that renders a non-native element: `role="button"`,
  * `tabIndex` 0, Enter activates on keydown (not on an `<a href>`, which keeps the browser's own activation),
  * Space is kept from scrolling on keydown and activates on keyup. Activation is a click on the element, so
  * the part's click logic and the consumer's `onClick` run. A consumer `preventDefault()` on the keydown or

@@ -60,7 +60,7 @@ export interface TooltipRootProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `open` as a model.
+   * @cckParity React's uncontrolled mode; Vue has `defaultOpen` too, and Angular has no open state to bind.
    */
   readonly defaultOpen?: boolean | undefined;
   /**
@@ -69,7 +69,7 @@ export interface TooltipRootProps {
    * the change: an uncontrolled tooltip keeps its state.
    *
    * @cckSemantic tooltip.openChange
-   * @remarks React's change callback; Angular and Vue name this differently (`update:open` in Vue).
+   * @cckParity React's change callback; Vue emits `update:open`, and Angular has no open-state event.
    */
   readonly onOpenChange?: ((open: boolean, details: TooltipChangeDetails) => void) | undefined;
   /**
@@ -88,7 +88,7 @@ export interface TooltipRootProps {
    *
    * @defaultValue false, from the Provider
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular sets it with `disableTooltipInteractivity` in its defaults token.
+   * @cckParity React and Vue only (Radix and Reka); Angular sets it with `disableTooltipInteractivity` in its defaults token.
    */
   readonly disableHoverableContent?: boolean | undefined;
   /**
@@ -108,7 +108,7 @@ export interface TooltipProviderProps {
    * The tooltips of the group. The provider renders no element around them.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular sets its defaults with a token.
+   * @cckParity React and Vue only (Radix and Reka); Angular sets its defaults with a token.
    */
   readonly children?: ReactNode | undefined;
   /**
@@ -117,7 +117,7 @@ export interface TooltipProviderProps {
    *
    * @defaultValue 700
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular sets its delays with CCK_TOOLTIP_DEFAULT_OPTIONS.
+   * @cckParity React and Vue only (Radix and Reka); Angular sets its delays with CCK_TOOLTIP_DEFAULT_OPTIONS.
    */
   readonly delayDuration?: number | undefined;
   /**
@@ -127,7 +127,7 @@ export interface TooltipProviderProps {
    *
    * @defaultValue 300
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular has no tooltip group.
+   * @cckParity React and Vue only (Radix and Reka); Angular has no tooltip group.
    */
   readonly skipDelayDuration?: number | undefined;
   /**
@@ -136,7 +136,7 @@ export interface TooltipProviderProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular sets it with `disableTooltipInteractivity` in its defaults token.
+   * @cckParity React and Vue only (Radix and Reka); Angular sets it with `disableTooltipInteractivity` in its defaults token.
    */
   readonly disableHoverableContent?: boolean | undefined;
 }
@@ -162,7 +162,7 @@ export interface TooltipTriggerProps extends Omit<ComponentPropsWithRef<'button'
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity React's element kind for `render` (Base UI); Vue decides it with `as`.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -171,7 +171,7 @@ export interface TooltipTriggerProps extends Omit<ComponentPropsWithRef<'button'
    * props it receives, including `ref`, onto one element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TooltipState> | undefined;
 }
@@ -201,7 +201,7 @@ export interface TooltipContentProps
    * that one with `details.cancel()` in `onOpenChange`. WCAG 1.4.13 asks for a tooltip that stays dismissible: refuse Escape only when you offer another way to hide it.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onEscapeKeyDown?: ((event: KeyboardEvent) => void) | undefined;
   /**
@@ -209,7 +209,7 @@ export interface TooltipContentProps
    * `event.detail.originalEvent`. Call `event.preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onPointerDownOutside?: ((event: PointerDownOutsideEvent) => void) | undefined;
   /**
@@ -218,7 +218,7 @@ export interface TooltipContentProps
    *
    * @defaultValue false
    * @cckSemantic tooltip.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular never keeps the content mounted.
+   * @cckParity React and Vue only (Radix and Reka); Angular never keeps the content mounted.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -241,7 +241,7 @@ export interface TooltipContentProps
    * one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular and Vue use their own element mechanism.
+   * @cckParity React's element override (Base UI); Angular and Vue use their own element mechanism.
    */
   readonly render?: RenderProp<TooltipContentState> | undefined;
 }
@@ -249,10 +249,10 @@ export interface TooltipContentProps
 /** Props of the {@link TooltipArrow}. Native `span` props pass through. */
 export interface TooltipArrowProps extends Omit<ComponentPropsWithRef<'span'>, 'color'> {
   /**
-   * Replaces the built-in triangle, as Radix does. The arrow is decorative: keep it free of text.
+   * Replaces the built-in triangle. The arrow is decorative: keep it free of text.
    *
    * @cckSemantic tooltip.default
-   * @remarks The triangle is built in; Angular replaces it with the content of the attribute element.
+   * @cckParity The triangle is built in; Angular replaces it with the content of the attribute element.
    */
   readonly children?: ReactNode | undefined;
   /**
@@ -261,7 +261,7 @@ export interface TooltipArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    * must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on any element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on any element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TooltipState> | undefined;
 }

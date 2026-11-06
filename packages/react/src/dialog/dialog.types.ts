@@ -50,7 +50,7 @@ export interface DialogRootProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `open` as a model.
+   * @cckParity React's uncontrolled mode; Angular and Vue bind `open` as a model.
    */
   readonly defaultOpen?: boolean | undefined;
   /**
@@ -59,7 +59,7 @@ export interface DialogRootProps {
    * change: an uncontrolled dialog keeps its state, and a refused Escape or backdrop press counts as refused.
    *
    * @cckSemantic dialog.openChange
-   * @remarks React's change callback; Angular emits `opened` and `closed`, and Vue emits `update:open`.
+   * @cckParity React's change callback; Angular emits `opened` and `closed`, and Vue emits `update:open`.
    */
   readonly onOpenChange?: ((open: boolean, details: DialogChangeDetails) => void) | undefined;
   /**
@@ -72,7 +72,7 @@ export interface DialogRootProps {
    *
    * @defaultValue true
    * @cckSemantic dialog.modal
-   * @remarks React and Vue only (Radix and Reka); Angular Dialog is always modal.
+   * @cckParity React and Vue only (Radix and Reka); Angular Dialog is always modal.
    */
   readonly modal?: boolean | undefined;
 }
@@ -97,7 +97,7 @@ export interface DialogTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity React's element kind for `render` (Base UI); Vue decides it with `as`.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -106,7 +106,7 @@ export interface DialogTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    * must spread all the props it receives, including `ref`, onto one element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp | undefined;
 }
@@ -122,10 +122,11 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
   /**
    * Called when Escape is pressed with this dialog on top, before it closes. Call `event.preventDefault()` to keep
    * it open. It is not called for a close request without a key (a back gesture, assistive technology): refuse
-   * that one with `details.cancel()` in `onOpenChange`. Refusing Escape or the outside press weakens the dialog pattern (Material warns the same): keep another way to close it.
+   * that one with `details.cancel()` in `onOpenChange`. Refusing Escape or the outside press weakens the dialog
+   * pattern: keep another way to close it.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onEscapeKeyDown?: ((event: KeyboardEvent) => void) | undefined;
   /**
@@ -133,7 +134,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `event.detail.originalEvent`. Call `event.preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onPointerDownOutside?: ((event: PointerDownOutsideEvent) => void) | undefined;
   /**
@@ -141,7 +142,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * Call `event.preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onInteractOutside?: ((event: PointerDownOutsideEvent | FocusOutsideEvent) => void) | undefined;
   /**
@@ -151,7 +152,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    *
    * @defaultValue false
    * @cckSemantic dialog.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular never keeps the content mounted.
+   * @cckParity React and Vue only (Radix and Reka); Angular never keeps the content mounted.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -159,7 +160,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * CocoKits from moving focus (a dialog's native focusing has already run when this is called).
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular has no equivalent.
+   * @cckParity React and Vue only (Radix and Reka); Angular has no equivalent.
    */
   readonly onOpenAutoFocus?: ((event: Event) => void) | undefined;
   /**
@@ -167,7 +168,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `event.preventDefault()` to skip the return.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular Popover has `restoreFocus`.
+   * @cckParity React and Vue only (Radix and Reka); Angular Popover has `restoreFocus`.
    */
   readonly onCloseAutoFocus?: ((event: Event) => void) | undefined;
 }
@@ -184,7 +185,7 @@ export interface DialogTitleProps extends Omit<ComponentPropsWithRef<'h2'>, 'col
    * Replaces the rendered `<h2>` with the heading you choose, such as `<h3 />`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on the heading and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on the heading and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp | undefined;
 }
@@ -201,7 +202,7 @@ export interface DialogDescriptionProps extends Omit<ComponentPropsWithRef<'p'>,
    * Replaces the rendered `<p>`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on the element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp | undefined;
 }
@@ -220,7 +221,7 @@ export interface DialogCloseProps extends Omit<ComponentPropsWithRef<'button'>, 
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity React's element kind for `render` (Base UI); Vue decides it with `as`.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -229,7 +230,7 @@ export interface DialogCloseProps extends Omit<ComponentPropsWithRef<'button'>, 
    * element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp | undefined;
 }

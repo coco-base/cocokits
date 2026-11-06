@@ -70,7 +70,7 @@ interface InputComponent {
  * `url`. It is a real form control, so `FormData`, constraint validation, the `form` attribute,
  * implicit submission and `fieldset[disabled]` work, and it works with react-hook-form `register()`
  * and `Controller`. Without `value` it is uncontrolled (`defaultValue`, the DOM holds the text); with
- * `value` it is controlled and React restores a change the parent rejects.
+ * `value` it is controlled and a change the parent rejects is restored.
  *
  * Inside a FormField it gets the id `<fieldId>-control`, the Label names it, and its
  * `aria-describedby` ends with the feedback wrapper that holds the hints. An `id`,

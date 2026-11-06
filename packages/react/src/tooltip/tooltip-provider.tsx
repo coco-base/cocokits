@@ -32,7 +32,7 @@ function TooltipProviderImpl({
  * </Tooltip.Provider>
  * @cckPart provider
  * @cckSemantic none
- * @remarks React and Vue only (Radix and Reka); Angular sets the defaults with CCK_TOOLTIP_DEFAULT_OPTIONS and has no group.
+ * @cckParity React and Vue only (Radix and Reka); Angular sets the defaults with CCK_TOOLTIP_DEFAULT_OPTIONS and has no group.
  * @param props - The Provider props.
  * @returns The children inside the provider.
  */

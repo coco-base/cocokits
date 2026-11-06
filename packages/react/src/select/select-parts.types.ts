@@ -13,7 +13,7 @@ interface SelectRenderOption {
    * `data-*`. The function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: SelectRender | undefined;
 }
@@ -91,7 +91,7 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
    *
    * @defaultValue false
    * @cckSemantic select.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular never keeps the list mounted.
+   * @cckParity React and Vue only (Radix and Reka); Angular never keeps the list mounted.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -100,7 +100,7 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
    * short-lived. Focus leaving the trigger is never refused.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onEscapeKeyDown?: ((event: KeyboardEvent) => void) | undefined;
   /**
@@ -109,7 +109,7 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
    * on the trigger.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
    */
   readonly onPointerDownOutside?: ((event: PointerDownOutsideEvent) => void) | undefined;
   /**
@@ -118,7 +118,7 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
    * element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: SelectRender | undefined;
 }
@@ -147,7 +147,7 @@ export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<
    * value.
    *
    * @cckSemantic select.option.textValue
-   * @remarks Radix's `textValue`; Angular matches the option text.
+   * @cckParity Radix's `textValue`; Angular matches the option text.
    */
   readonly textValue?: string | undefined;
   /**
@@ -156,7 +156,7 @@ export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<
    *
    * @cckSemantic select.option.id
    * @defaultValue generated
-   * @remarks Material's option `id`.
+   * @cckParity Material's option `id`.
    */
   readonly id?: string | undefined;
   /**
@@ -171,7 +171,7 @@ export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<
    * element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: SelectRender | undefined;
 }
@@ -197,7 +197,7 @@ export interface SelectGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: SelectRender | undefined;
 }

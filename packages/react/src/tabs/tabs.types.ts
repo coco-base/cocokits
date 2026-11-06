@@ -64,7 +64,7 @@ export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * The initial value of an uncontrolled Tabs, read once. Pass it for a selected tab in the server output.
    *
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `value` as a model.
+   * @cckParity React's uncontrolled mode; Angular and Vue bind `value` as a model.
    */
   readonly defaultValue?: string | undefined;
   /**
@@ -72,7 +72,7 @@ export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * when the parent sets `value`.
    *
    * @cckSemantic tabs.valueChange
-   * @remarks React's change callback; Angular emits `valueChangeDetails` and Vue emits `valueChange`.
+   * @cckParity React's change callback; Angular emits `selectedTabChange` and Vue emits `update:modelValue`.
    */
   readonly onValueChange?: ((value: string, details: TabsChangeDetails) => void) | undefined;
   /**
@@ -93,7 +93,7 @@ export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * applies, then `'ltr'`. Only a `dir` you pass is rendered on the element.
    *
    * @cckSemantic none
-   * @remarks Angular reads `Directionality` (no input).
+   * @cckParity Angular reads `Directionality` (no input).
    */
   readonly dir?: Direction | undefined;
   /**
@@ -101,7 +101,7 @@ export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TabsState> | undefined;
 }
@@ -132,7 +132,7 @@ export interface TabsListProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React and Vue only; Angular always wraps and has no input.
+   * @cckParity React and Vue only; Angular always wraps and has no input.
    */
   readonly loop?: boolean | undefined;
   /**
@@ -140,7 +140,7 @@ export interface TabsListProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the list and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular renders the list and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TabsState> | undefined;
 }
@@ -151,14 +151,14 @@ export interface TabsTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 
    * The trigger label, rendered inside the label span as written.
    *
    * @cckSemantic tabs.label
-   * @remarks Angular takes the label as `label` or as a `cckTabLabel` template on the `cckTab` section.
+   * @cckParity Angular takes the label as `label` or as a `cckTabLabel` template on the `cckTab` section.
    */
   readonly children?: ReactNode | undefined;
   /**
    * The tab this trigger selects: the `value` of its `Tabs.Content`. Unique inside the Tabs.
    *
    * @cckSemantic tabs.trigger.value
-   * @remarks Angular selects by index, so `cckTab` has no `value`.
+   * @cckParity Angular selects by index, so `cckTab` has no `value`.
    */
   readonly value: string;
   /**
@@ -173,7 +173,7 @@ export interface TabsTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity React's element kind for `render` (Base UI); Vue decides it with `as`.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -182,7 +182,7 @@ export interface TabsTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 
    * one element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the trigger and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular renders the trigger and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TabsTriggerState> | undefined;
 }
@@ -199,7 +199,7 @@ export interface TabsContentProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * The tab this panel belongs to: the `value` of its `Tabs.Trigger`. Unique inside the Tabs.
    *
    * @cckSemantic tabs.panel.value
-   * @remarks Angular selects by index, so `cckTab` has no `value`.
+   * @cckParity Angular selects by index, so `cckTab` has no `value`.
    */
   readonly value: string;
   /**
@@ -207,7 +207,7 @@ export interface TabsContentProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * same as without it; the children keep their state.
    *
    * @cckSemantic tabs.panel.forceMount
-   * @remarks Angular keeps content of every panel with `preserveContent` on the root.
+   * @cckParity Angular keeps content of every panel with `preserveContent` on the root.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -216,7 +216,7 @@ export interface TabsContentProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TabsContentState> | undefined;
 }
@@ -228,7 +228,7 @@ export interface TabsIndicatorProps extends Omit<ComponentPropsWithRef<'span'>, 
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the indicator itself and Vue uses `as` or `asChild`.
+   * @cckParity React's element override (Base UI); Angular renders the indicator itself and Vue uses `as` or `asChild`.
    */
   readonly render?: RenderProp<TabsState> | undefined;
 }

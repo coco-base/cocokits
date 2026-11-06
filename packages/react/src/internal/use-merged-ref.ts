@@ -4,8 +4,8 @@ import { useMemo, type Ref, type RefCallback } from 'react';
 import { mergeRefs } from './merge-refs';
 
 /**
- * The merged callback ref of {@link mergeRefs}, kept stable while the refs are the same, so React
- * does not detach and attach the node on every render.
+ * The merged callback ref of {@link mergeRefs}, kept stable while the refs are the same, so the
+ * framework does not detach and attach the node on every render.
  *
  * @param first - The first ref.
  * @param second - The second ref.

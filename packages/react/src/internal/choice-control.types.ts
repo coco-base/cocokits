@@ -52,7 +52,7 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * @defaultValue false
    *
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `checked` as a model.
+   * @cckParity React's uncontrolled mode; Angular and Vue bind `checked` as a model.
    */
   readonly defaultChecked?: boolean | undefined;
   /**
@@ -60,7 +60,7 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * owner form; never when the parent sets `checked`. `details.event` is that event, or the `reset` event after a reset.
    *
    * @cckSemantic *.checkedChange
-   * @remarks React's change callback; Angular emits `checkedChangeDetails` and Vue emits `checkedChange`.
+   * @cckParity React's change callback; Angular emits `checkedChangeDetails` and Vue emits `update:modelValue`.
    */
   readonly onCheckedChange?: ((checked: boolean, details: ChoiceControlChangeDetails) => void) | undefined;
   /** The `id` of the native input; generated when left out. An `id` you write replaces the generated one, and the label follows it. */
@@ -69,14 +69,14 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * The name `FormData` submits. With react-hook-form, `register('terms')` passes it.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue.
+   * @cckParity A native attribute in React and Vue.
    */
   readonly name?: string | undefined;
   /**
    * The value `FormData` submits while the control is checked; left out, the browser submits `on`.
    *
    * @cckSemantic *.value
-   * @remarks A native attribute in React and Vue; Angular names it `submitValue`.
+   * @cckParity A native attribute in React and Vue; Angular names it `submitValue`.
    */
   readonly value?: string | undefined;
   /**
@@ -95,28 +95,28 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * Hides the control (native `hidden` on the root).
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute in React and Vue; Angular declares it as an input.
    */
   readonly hidden?: boolean | undefined;
   /**
    * The ids this control is described by.
    *
    * @cckSemantic *.ariaDescribedBy
-   * @remarks React spells the machine's `ariaDescribedBy` as the native attribute.
+   * @cckParity React spells the machine's `ariaDescribedBy` as the native attribute.
    */
   readonly 'aria-describedby'?: string | undefined;
   /**
    * The accessible name of the input, for a control without content.
    *
    * @cckSemantic *.ariaLabel
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute in React and Vue; Angular declares it as an input.
    */
   readonly 'aria-label'?: string | undefined;
   /**
    * The id of the element that names the input.
    *
    * @cckSemantic *.ariaLabelledBy
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute in React and Vue; Angular declares it as an input.
    */
   readonly 'aria-labelledby'?: string | undefined;
   /** The label content: the caption that names the control. */
@@ -127,7 +127,7 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * the element's own `ref`, and the function form receives no `ref`.
    *
    * @cckSemantic none
-   * @remarks React's element replacement; Angular's host is the root and Vue takes `as` and `asChild`.
+   * @cckParity React's element replacement; Angular's host is the root and Vue takes `as` and `asChild`.
    */
   readonly render?: RenderProp<ChoiceRootProps, S> | undefined;
 }
@@ -154,7 +154,7 @@ export interface ChoiceControlBaseProps<S> extends ChoiceBaseProps<S> {
    * The name `FormData` submits. With react-hook-form, `register('terms')` passes it.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; only Angular defaults it from the forms control.
+   * @cckParity A native attribute in React and Vue; only Angular defaults it from the forms control.
    */
   readonly name?: string | undefined;
   /**
@@ -167,7 +167,7 @@ export interface ChoiceControlBaseProps<S> extends ChoiceBaseProps<S> {
    * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
    *
    * @cckSemantic *.ariaDescribedBy
-   * @remarks React spells the machine's `ariaDescribedBy` as the native attribute.
+   * @cckParity React spells the machine's `ariaDescribedBy` as the native attribute.
    */
   readonly 'aria-describedby'?: string | undefined;
   /**
