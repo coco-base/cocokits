@@ -288,6 +288,41 @@ ${field}
   });
 });
 
+describe('extractReactApiDocs: scope field parity', () => {
+  const withNone = (tags: string): string =>
+    fixture('thing.ts')
+      .replace(
+        '  /** A hint zone. */',
+        '  /** What the thing shows. */\n  readonly preview?: (scope: PreviewScope) => ReactNode;\n  /** A hint zone. */',
+      )
+      .replace(
+        '/** Props of the {@link Thing}.',
+        `interface PreviewScope {
+  /**
+   * The chosen ones.
+   * @cckSemantic none
+${tags}
+   */
+  readonly selected: readonly string[];
+}
+
+/** Props of the {@link Thing}.`,
+      );
+
+  it('writes semanticId none on a field with a @cckParity reason and keeps the reason out of the JSON', () => {
+    const docs = extract('scope-parity', withNone('   * @cckParity A field only React has.'));
+    const slot = docs[0]?.parts[0]?.slots.find((item) => item.name === 'preview');
+    expect(slot?.scope).toEqual([
+      { name: 'selected', type: 'readonly string[]', description: 'The chosen ones.', semanticId: 'none' },
+    ]);
+  });
+
+  it('fails on a none field without @cckParity or with an empty one', () => {
+    expect(() => extract('scope-no-parity', withNone(''))).toThrow(/scope field "selected".*@cckParity/);
+    expect(() => extract('scope-empty', withNone('   * @cckParity'))).toThrow(/scope field "selected"/);
+  });
+});
+
 describe('extractReactApiDocs: generic components', () => {
   it('reads a prop typed by a type parameter with the default of the parameter', () => {
     const thing = fixture('thing.ts')
@@ -366,15 +401,47 @@ describe('extractReactApiDocs: parts and defaults that differ by design', () => 
     expect(() => extract('differs-empty', differs(''))).toThrow(/Thing\.label: "@cckDefaultDiffers" needs a reason/);
   });
 
-  it('marks a component tagged @cckSemantic none as framework-only, and needs its @remarks', () => {
-    const tagged = (remarks: string): string =>
+  it('marks a component tagged @cckSemantic none as framework-only, and needs its @cckParity or @remarks', () => {
+    const tagged = (reason: string): string =>
       fixture('thing.ts').replace(
         ' * @cckPart root\n */\nexport function Thing',
-        ` * @cckPart root\n * @cckSemantic none\n${remarks} */\nexport function Thing`,
+        ` * @cckPart root\n * @cckSemantic none\n${reason} */\nexport function Thing`,
       );
-    expect(extract('only', tagged(' * @remarks React only.\n'))[0]?.parts[0]?.frameworkOnly).toBe(true);
+    const part = extract('only', tagged(' * @cckParity One framework only.\n'))[0]?.parts[0];
+    expect(part?.frameworkOnly).toBe(true);
+    expect(JSON.stringify(part)).not.toMatch(/parity|One framework only/i);
+    expect(extract('only-remarks', tagged(' * @remarks The part.\n'))[0]?.parts[0]?.frameworkOnly).toBe(true);
     expect(() => extract('only-empty', tagged(''))).toThrow(
-      /Thing: the part is "@cckSemantic none" and needs a "@remarks"/,
+      /Thing: the part is "@cckSemantic none" and needs a "@cckParity"/,
     );
+  });
+
+  it('checks @cckParity on a prop and keeps it out of the JSON', () => {
+    const source = (tags: string): string =>
+      fixture('thing.ts').replace('   * @cckSemantic none\n   * @remarks The element override.\n', tags);
+    const props = extract('parity', source('   * @cckSemantic none\n   * @cckParity Other has it.\n'))[0]?.parts[0]
+      ?.props;
+    const render = props?.find((prop) => prop.name === 'render');
+    expect(render).toMatchObject({ semanticId: 'none', description: 'Replaces the element.' });
+    expect(JSON.stringify(render)).not.toMatch(/parity|Other has it/i);
+    expect(() => extract('parity-none', source('   * @cckSemantic none\n'))).toThrow(
+      /Thing\.render is "@cckSemantic none" and needs a "@cckParity" reason/,
+    );
+    expect(() => extract('parity-empty', source('   * @cckParity\n'))).toThrow(
+      /Thing\.render: "@cckParity" needs a reason/,
+    );
+  });
+
+  it('writes {@link} in the description, remarks and deprecated text as plain text', () => {
+    const linked = fixture('thing.ts').replace(
+      '   * Whether it is native.\n',
+      '   * Whether it is {@link Thing | native}.\n   *\n   * Read {@link ThingProps}.\n   * @deprecated Use {@link Thing}.\n',
+    );
+    const native = extract('links', linked)[0]?.parts[0]?.props.find((prop) => prop.name === 'native');
+    expect(native).toMatchObject({
+      description: 'Whether it is native.',
+      remarks: 'Read `ThingProps`.',
+      deprecated: 'Use `Thing`.',
+    });
   });
 });

@@ -111,6 +111,7 @@ export interface TooltipProviderProps {
    * `delayDuration`.
    *
    * @cckSemantic none
+   * @cckParity Vue and React only (Reka UI and Radix); Angular sets the defaults with CCK_TOOLTIP_DEFAULT_OPTIONS.
    * @defaultValue 700
    */
   readonly delayDuration?: number | undefined;

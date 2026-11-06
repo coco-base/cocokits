@@ -25,7 +25,7 @@ export interface TabNavLinkState {
 export interface TabNavPanelState {
   /** The panel id; the root's `panelId` links to it. */
   readonly id: string;
-  /** The id of the active link, when the adapter knows it (Angular); else `<panel id>-tab`. */
+  /** The id of the active link, when the adapter knows it; else `<panel id>-tab`. */
   readonly activeLinkId?: string | undefined;
   /** `false` when no link is active: the panel then renders no `aria-labelledby`. @defaultValue true */
   readonly hasActiveLink?: boolean | undefined;

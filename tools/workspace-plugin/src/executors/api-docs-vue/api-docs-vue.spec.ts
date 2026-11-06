@@ -250,15 +250,29 @@ describe('extractVueApiDocs: scoped slots', () => {
     expect(doc[0]?.parts[0]?.slots.find((slot) => slot.name === 'preview')?.scope?.[0]?.type).toBe('readonly string[]');
   });
 
-  it('marks a slot prop tagged @cckSemantic none and needs its @remarks', () => {
-    const tagged = (remarks: string): string =>
+  it('checks @cckParity on a prop and keeps it out of the JSON', () => {
+    const types = (tags: string): string =>
+      fixture('thing.types.ts').replace('   * @cckSemantic none\n   * @remarks The element override.\n', tags);
+    const props = extract('parity', { types: types('   * @cckSemantic none\n   * @cckParity Other has it.\n') })[0]
+      ?.parts[0]?.props;
+    const as = props?.find((prop) => prop.name === 'as');
+    expect(as).toMatchObject({ semanticId: 'none' });
+    expect(JSON.stringify(as)).not.toMatch(/parity|Other has it/i);
+    expect(() => extract('parity-none', { types: types('   * @cckSemantic none\n') })).toThrow(
+      /is "@cckSemantic none" and needs a "@cckParity" reason/,
+    );
+    expect(() => extract('parity-empty', { types: types('   * @cckParity\n') })).toThrow(/"@cckParity" needs a reason/);
+  });
+
+  it('marks a slot prop tagged @cckSemantic none and needs its @cckParity or @remarks', () => {
+    const tagged = (remarks: string, tag = 'remarks'): string =>
       vue(
         [
           '    /**',
           '     * The chosen ones.',
           '     *',
           '     * @cckSemantic none',
-          ...(remarks === '' ? [] : [`     * @remarks ${remarks}`]),
+          ...(remarks === '' ? [] : [`     * @${tag} ${remarks}`]),
           '     */',
           '    selected: readonly string[];',
         ].join('\n'),
@@ -268,7 +282,7 @@ describe('extractVueApiDocs: scoped slots', () => {
     expect(preview?.scope).toEqual([
       { name: 'selected', type: 'readonly string[]', description: 'The chosen ones.', semanticId: 'none' },
     ]);
-    expect(() => extract('scoped-none-bare', { vue: tagged('') })).toThrow(/needs a "@remarks" reason/);
+    expect(() => extract('scoped-none-bare', { vue: tagged('') })).toThrow(/needs a "@cckParity" reason/);
   });
 
   it('fails on a slot prop without TSDoc', () => {
@@ -332,7 +346,7 @@ describe('extractVueApiDocs: parts and defaults that differ by design', () => {
     );
   });
 
-  it('marks a part tagged @cckSemantic none as framework-only, and needs its @remarks', () => {
+  it('marks a part tagged @cckSemantic none as framework-only, and needs its @cckParity or @remarks', () => {
     const tagged = (remarks: string): string =>
       fixture('thing.types.ts').replace(
         ' * @cckPart root\n */',
@@ -340,7 +354,7 @@ describe('extractVueApiDocs: parts and defaults that differ by design', () => {
       );
     expect(extract('only', { types: tagged(' * @remarks Vue only.\n') })[0]?.parts[0]?.frameworkOnly).toBe(true);
     expect(() => extract('only-empty', { types: tagged('') })).toThrow(
-      /ThingProps: the part is "@cckSemantic none" and needs a "@remarks"/,
+      /ThingProps: the part is "@cckSemantic none" and needs a "@cckParity"/,
     );
   });
 });

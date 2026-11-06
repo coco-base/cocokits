@@ -4,7 +4,7 @@ export interface FormFieldPartProps {
   readonly class: string;
 }
 
-/** The resolved facts of a field: what the root renders (the React render function receives the same facts). */
+/** The resolved facts of a field: what the root renders. */
 export interface FormFieldState {
   /** Disabled by the field, the control, a forms library or an ancestor fieldset. */
   readonly disabled: boolean;

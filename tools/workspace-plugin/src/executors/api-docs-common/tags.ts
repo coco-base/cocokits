@@ -4,9 +4,23 @@ import type { TagEntry } from './types';
 export const tagsOf = (tags: readonly TagEntry[], name: string): string[] =>
   tags.filter((tag) => tag.name === name).map((tag) => tag.comment.trim());
 
-/** The TSDoc text with its line breaks folded into spaces, paragraph by paragraph. */
+const LINK = /\{@link(?:code|plain)?\s+([^}]*)\}/g;
+
+/**
+ * The text with each inline link as plain text: `{@link X}` becomes the code span `` `X` ``, and `{@link X | text}` (or
+ * the JSDoc form `{@link X text}`) becomes `text`. The JSON is read by tables that cannot follow a link, so it holds no
+ * link tag.
+ */
+export function withoutLinks(text: string): string {
+  return text.replace(LINK, (_match, inner: string) => {
+    const [target = '', label = ''] = inner.includes('|') ? inner.split('|', 2) : inner.trim().split(/\s+(.*)/s, 2);
+    return label.trim() === '' ? `\`${target.trim()}\`` : label.trim();
+  });
+}
+
+/** The TSDoc text with its links as plain text and its line breaks folded into spaces, paragraph by paragraph. */
 export function paragraphsOf(description: string): string[] {
-  return description
+  return withoutLinks(description)
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim())
     .filter((paragraph) => paragraph !== '');
@@ -39,19 +53,31 @@ export const defaultDiffersOf = (tags: readonly TagEntry[]): string | undefined 
 };
 
 /**
+ * Checks the reason of an item tagged `@cckSemantic none`, which exists in one framework by design. It needs a
+ * `@cckParity <reason>` (the reason is read here and never written to the JSON). Until every package uses the tag, a
+ * non-empty `@remarks` is accepted instead. An empty `@cckParity` is a problem on any item. Returns whether the item is
+ * tagged `none`.
+ */
+export function checkParity(label: string, tags: readonly TagEntry[], problems: string[]): boolean {
+  const parity = tagsOf(tags, 'cckParity');
+  if (parity.some((text) => text === ''))
+    problems.push(`${label}: "@cckParity" needs a reason ("@cckParity <reason>")`);
+  const none = tagsOf(tags, 'cckSemantic').includes('none');
+  const hasReason = parity.some((text) => text !== '') || tagsOf(tags, 'remarks').some((text) => text !== '');
+  if (none && !hasReason) problems.push(`${label} is "@cckSemantic none" and needs a "@cckParity" reason`);
+  return none;
+}
+
+/**
  * `{ frameworkOnly: true }` for a part class or component tagged `@cckSemantic none`: the part exists in some frameworks
- * only by design (the Tooltip Provider). The tag needs a `@remarks` with the reason, else a problem is added.
+ * only by design (the Tooltip Provider). The tag needs a `@cckParity` reason ({@link checkParity}).
  */
 export function frameworkOnlyOf(
   name: string,
   tags: readonly TagEntry[],
   problems: string[],
 ): { frameworkOnly: true } | Record<string, never> {
-  if (!tagsOf(tags, 'cckSemantic').includes('none')) return {};
-  if (tagsOf(tags, 'remarks').every((text) => text === '')) {
-    problems.push(`${name}: the part is "@cckSemantic none" and needs a "@remarks" reason`);
-  }
-  return { frameworkOnly: true };
+  return checkParity(`${name}: the part`, tags, problems) ? { frameworkOnly: true } : {};
 }
 
 /**
@@ -83,8 +109,7 @@ export function parseSlotTag(text: string): SlotTag | undefined {
   const source = text.trim();
   const [name = '', ...selectorWords] = source.slice(0, delimiter.index).split(/\s+/);
   const selector = selectorWords.join(' ');
-  const description = source
-    .slice(delimiter.index + delimiter[0].length)
+  const description = withoutLinks(source.slice(delimiter.index + delimiter[0].length))
     .replace(/\s+/g, ' ')
     .trim();
   if (name === '' || description === '' || (name === 'default' && selector !== '')) return undefined;

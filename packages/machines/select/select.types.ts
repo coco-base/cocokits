@@ -25,9 +25,8 @@ export interface SelectItem<T = string> {
   /** The id of the option element. @defaultValue made from the Select id and `key` */
   readonly id?: string | undefined;
   /**
-   * The text the trigger shows for the option when it is selected. Angular reads it from the option's content;
-   * React and Vue leave it out and give the Select `itemToStringLabel`. Without it the machine falls back to
-   * `itemToStringLabel(value)`, then `String(value)`.
+   * The text the trigger shows for the option when it is selected. An adapter that cannot read it from the option's
+   * content leaves it out. Without it the machine falls back to `itemToStringLabel(value)`, then `String(value)`.
    */
   readonly label?: string | undefined;
   /** The text typeahead matches, for example a `textValue`; without it the machine matches `label`. */
@@ -73,12 +72,12 @@ export interface SelectState<T = string> extends Omit<FormFieldControlProps, 'id
   readonly itemToStringValue?: ((value: T) => string) | undefined;
   /**
    * An option whose value is `null` or `undefined` is selected like any other instead of clearing a single
-   * Select (Material `canSelectNullableOptions`). @defaultValue false
+   * Select. @defaultValue false
    */
   readonly canSelectNullableOptions?: boolean | undefined;
   /**
-   * Orders the values of a multiple Select after a toggle, for an adapter that keeps option order (Material
-   * `sortComparator`). Without it values keep selection order.
+   * Orders the values of a multiple Select after a toggle, for an adapter that keeps option order.
+   * Without it values keep selection order.
    */
   readonly orderValues?: ((values: readonly T[]) => readonly T[]) | undefined;
   /** Decides whether an option's value is the selected one. @defaultValue Object.is */
