@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/vue';
-import { defineComponent, h, nextTick, ref, type Component, type VNode } from 'vue';
+import { h, nextTick, ref, type Component, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { SelectItem as BaseSelectItem } from '@cocokits/vue/select';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { SelectGroup, SelectItem, SelectRoot } from '../src/index';
 import { selectParts, type PartsOptions } from './select-parts';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -14,13 +14,6 @@ afterEach(() => {
 });
 
 const options = cocokitsThemeConfig.components.select;
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | boolean | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 const example = (props: Record<string, unknown> = {}, parts: PartsOptions = {}): VNode =>
   h(SelectRoot as Component, props, () => selectParts(parts));
 const root = (container: Element): Element => {

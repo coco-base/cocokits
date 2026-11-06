@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/vue';
-import { defineComponent, h, nextTick, ref, type Component, type VNode } from 'vue';
+import { h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FieldError } from '@cocokits/vue/field-error';
 import { Leading } from '@cocokits/vue/leading';
@@ -8,10 +8,9 @@ import { Prefix } from '@cocokits/vue/prefix';
 import { Suffix } from '@cocokits/vue/suffix';
 import { Textarea as BaseTextarea } from '@cocokits/vue/textarea';
 import { Trailing } from '@cocokits/vue/trailing';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { defineAnatomy } from '@cocokits/shared';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormField, Textarea } from '../src/index';
+import { themed } from './helpers';
 
 /** The classes come from an anatomy of the same block, as the theme-config tests do; a theme may not import a machine. */
 const textareaAnatomy = defineAnatomy({
@@ -24,13 +23,6 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | boolean | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 const textarea = (): HTMLTextAreaElement => screen.getByTestId<HTMLTextAreaElement>('textarea');
 
 describe('theme Textarea', () => {

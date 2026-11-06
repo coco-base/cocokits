@@ -5,7 +5,7 @@ import { defineComponent, h, type Component, type VNode } from 'vue';
 /** A component that renders the nodes inside the cocokits theme, with optional overrides. */
 export const themed = (
   renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | null>>,
+  overrides?: Record<string, Record<string, string | boolean | null>>,
 ): Component =>
   defineComponent({
     setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),

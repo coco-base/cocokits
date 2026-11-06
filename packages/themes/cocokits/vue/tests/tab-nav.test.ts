@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/vue';
-import { defineComponent, h, type Component, type VNode } from 'vue';
+import { h, type Component, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   TabNavIndicator as BaseTabNavIndicator,
@@ -8,9 +8,9 @@ import {
   TabNavList as BaseTabNavList,
   TabNavPanel as BaseTabNavPanel,
 } from '@cocokits/vue/tab-nav';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { TabNavIndicator, TabNavLink, TabNavList, TabNavPanel, TabNavRoot } from '../src/index';
+import { themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -19,13 +19,6 @@ afterEach(() => {
 
 const options = cocokitsThemeConfig.components['tab-nav'];
 const ATTRIBUTES = ['data-variant', 'data-cck-color', 'data-size', 'data-header-align'] as const;
-const themed = (
-  renderFn: () => VNode | VNode[],
-  overrides?: Record<string, Record<string, string | boolean | null>>,
-): Component =>
-  defineComponent({
-    setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig, overrides }, renderFn),
-  });
 const example = (props: Record<string, unknown> = {}): VNode =>
   h(TabNavRoot as Component, { 'aria-label': 'Project', ...props }, () =>
     h(TabNavList, null, () => [

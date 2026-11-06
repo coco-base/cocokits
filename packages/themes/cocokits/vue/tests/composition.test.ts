@@ -1,10 +1,8 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
 import { cleanup, render, screen, waitFor } from '@testing-library/vue';
-import { defineComponent, h, nextTick, type Component, type VNode } from 'vue';
+import { h, nextTick, type Component, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ThemeProvider } from '@cocokits/vue-core';
-import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import {
   Checkbox,
   Radio,
@@ -19,6 +17,7 @@ import {
   Textarea,
 } from '../src/index';
 import { item, selectParts } from './select-parts';
+import { themed } from './helpers';
 
 beforeEach(() => {
   HTMLElement.prototype.showPopover = function showPopover(this: HTMLElement): void {
@@ -40,9 +39,6 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
-
-const themed = (renderFn: () => VNode | VNode[]): Component =>
-  defineComponent({ setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, renderFn) });
 
 const tabs = (props: Record<string, unknown>): VNode =>
   h(TabsRoot as Component, props, () => [
