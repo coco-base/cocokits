@@ -21,7 +21,7 @@ import { CckTabLabel } from './tab-label';
 import { injectCckTabs, type CckTabRegistration } from './tabs';
 
 /**
- * One tab: the section holds the content of the panel and defines its trigger, which the `cckTabs` host renders in
+ * One tab: the section holds the content of the panel and defines its trigger, which the `cck-tabs` host renders in
  * its list. The section is the panel (`role="tabpanel"`); it is hidden while its tab is not selected and holds
  * its content only while it is selected (see `preserveContent` on the Tabs and the `cckTabContent` template for
  * lazy creation). Give the trigger text with `label`, or markup with a `cckTabLabel` template. `label`,
@@ -29,7 +29,7 @@ import { injectCckTabs, type CckTabRegistration } from './tabs';
  * trigger. A tab is found by its position, so it has no value.
  *
  * @example
- * <div cckTab label="Account">Change your name.</div>
+ * <cck-tab label="Account">Change your name.</cck-tab>
  * @cckPart panel
  * @cckSection trigger label label
  * @cckSlot default - The content of the panel.
@@ -37,7 +37,7 @@ import { injectCckTabs, type CckTabRegistration } from './tabs';
  * @cckSlot content ng-template[cckTabContent] - The content of the panel, created when the tab is first selected.
  */
 @Component({
-  selector: '[cckTab]',
+  selector: 'cck-tab',
   exportAs: 'cckTab',
   encapsulation: ViewEncapsulation.None,
   imports: [NgTemplateOutlet],
@@ -115,7 +115,7 @@ export class CckTab implements CckTabRegistration, OnInit {
   /** Whether this tab is the selected one. @internal */
   readonly _selected: Signal<boolean>;
 
-  private readonly root = injectCckTabs('cckTab');
+  private readonly root = injectCckTabs('cck-tab');
   private readonly destroyRef = inject(DestroyRef);
   private readonly key = inject(IdGenerator).getId('cck-tab');
   private readonly labelSlot = contentChild(CckTabLabel, { descendants: false });

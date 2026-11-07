@@ -41,7 +41,7 @@ import {
 import { sortByDomOrder } from '@cocokits/utils';
 import { CCK_TABS_CONFIG } from './tabs-config';
 
-/** What a Tabs knows about one `cckTab`: the tab a change event reports. */
+/** What a Tabs knows about one `cck-tab`: the tab a change event reports. */
 export interface CckTabRegistration {
   /** The section element, which is the panel. */
   readonly _element: HTMLElement;
@@ -81,7 +81,7 @@ function inDomOrder(tabs: readonly CckTabRegistration[]): CckTabRegistration[] {
 }
 
 /**
- * Tabs: a list of triggers and one panel per trigger, one tab selected at a time. Write one `cckTab` section
+ * Tabs: a list of triggers and one panel per trigger, one tab selected at a time. Write one `cck-tab` section
  * per tab inside the host; the host renders the list (with the triggers and one sliding indicator) before the
  * sections, which are the panels. Arrow keys, Home and End move between the enabled triggers; with `automatic`
  * activation the focused trigger is selected, with `manual` Enter or Space selects it. A panel holds its content
@@ -89,17 +89,17 @@ function inDomOrder(tabs: readonly CckTabRegistration[]): CckTabRegistration[] {
  * on the host: they are forwarded to the list and never stay on the host.
  *
  * @example
- * <div cckTabs aria-label="Account settings" [(selectedIndex)]="tab">
- *   <div cckTab label="Account">Change your name.</div>
- *   <div cckTab label="Password">Change your password.</div>
- * </div>
+ * <cck-tabs aria-label="Account settings" [(selectedIndex)]="tab">
+ *   <cck-tab label="Account">Change your name.</cck-tab>
+ *   <cck-tab label="Password">Change your password.</cck-tab>
+ * </cck-tabs>
  * @cckPart root
  * @cckPart list
  * @cckPart indicator
- * @cckSlot default - The `cckTab` sections.
+ * @cckSlot default - The `cck-tab` sections.
  */
 @Component({
-  selector: '[cckTabs]',
+  selector: 'cck-tabs',
   exportAs: 'cckTabs',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
@@ -476,6 +476,6 @@ export class CckTabs {
  */
 export function injectCckTabs(part: string): CckTabs {
   const root = inject(CckTabs, { optional: true });
-  if (!root) throw new Error(`CocoKits: ${part} must be placed inside an element with cckTabs.`);
+  if (!root) throw new Error(`CocoKits: ${part} must be placed inside a <cck-tabs>.`);
   return root;
 }

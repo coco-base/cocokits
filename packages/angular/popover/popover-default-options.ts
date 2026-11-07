@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 
-/** The placement a `cckPopoverContent` takes when it sets no `side` or `align`. */
+/** The placement a `cck-popover-content` takes when it sets no `side` or `align`. */
 export interface CckPopoverDefaultOptions {
   /** The side of the trigger the content prefers. */
   side: OverlaySide;

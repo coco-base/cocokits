@@ -9,10 +9,10 @@ import type { SelectTriggerContext } from './select-types';
  *
  * @defaultValue The trigger shows the text of the selected options, joined with a comma.
  * @example
- * <div cckSelect multiple [(value)]="dishes" placeholder="Choose dishes" aria-label="Dishes">
+ * <cck-select multiple [(value)]="dishes" placeholder="Choose dishes" aria-label="Dishes">
  *   <ng-template cckSelectTrigger let-selected="selected">{{ selected.length }} selected</ng-template>
- *   <div cckSelectOption value="Cake">Cake</div>
- * </div>
+ *   <cck-select-option value="Cake">Cake</cck-select-option>
+ * </cck-select>
  * @cckTemplate ng-template[cckSelectTrigger]
  */
 @Directive({ selector: 'ng-template[cckSelectTrigger]', exportAs: 'cckSelectTrigger' })
@@ -34,7 +34,7 @@ export class CckSelectTrigger<T = unknown> {
     return directive instanceof CckSelectTrigger && typeof context === 'object';
   }
 
-  private readonly root = injectCckSelect<unknown>('Trigger');
+  private readonly root = injectCckSelect<unknown>('cckSelectTrigger');
   private readonly template = inject<TemplateRef<SelectTriggerContext<T>>>(TemplateRef);
 
   constructor() {

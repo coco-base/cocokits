@@ -7,7 +7,7 @@ import { injectCckTooltip } from './tooltip';
  * and nowhere else; keep one root element in the template. It renders no part.
  *
  * @example
- * <ng-template cckTooltipPortal><div cckTooltipContent>Copy link</div></ng-template>
+ * <ng-template cckTooltipPortal><cck-tooltip-content>Copy link</cck-tooltip-content></ng-template>
  */
 @Directive({ selector: 'ng-template[cckTooltipPortal]', exportAs: 'cckTooltipPortal' })
 export class CckTooltipPortal {

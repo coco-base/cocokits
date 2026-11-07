@@ -11,12 +11,12 @@ import { CckRadioGroupHarness } from '../index';
 @Component({
   imports: [CckRadioGroupImports, CckRadioImports],
   template: `
-    <div cckRadioGroup aria-label="Plan" [(value)]="plan">
-      <div cckRadio submitValue="free">Free</div>
-      <div cckRadio submitValue="pro">Pro</div>
-      <div cckRadio submitValue="team">Team</div>
-    </div>
-    <div cckRadioGroup aria-label="Empty" id="empty-group"></div>
+    <cck-radio-group aria-label="Plan" [(value)]="plan">
+      <cck-radio submitValue="free">Free</cck-radio>
+      <cck-radio submitValue="pro">Pro</cck-radio>
+      <cck-radio submitValue="team">Team</cck-radio>
+    </cck-radio-group>
+    <cck-radio-group aria-label="Empty" id="empty-group"></cck-radio-group>
   `,
 })
 class Host {

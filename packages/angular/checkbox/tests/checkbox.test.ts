@@ -8,8 +8,7 @@ import { box, isSet, must } from './fixtures';
 @Component({
   imports: [CckCheckboxImports],
   template: `
-    <div
-      cckCheckbox
+    <cck-checkbox
       id="terms"
       name="terms"
       form="f"
@@ -20,7 +19,7 @@ import { box, isSet, must } from './fixtures';
       (checkedChangeDetails)="events.push($event)"
     >
       Accept the terms
-    </div>
+    </cck-checkbox>
   `,
 })
 class Host {
@@ -45,7 +44,7 @@ describe('Checkbox', () => {
 
   it('renders the anatomy around a native checkbox with the label content', async () => {
     const { root } = await mount();
-    expect(root.tagName).toBe('DIV');
+    expect(root.tagName).toBe('CCK-CHECKBOX');
     expect(
       root.querySelector('.cck-checkbox__wrapper > .cck-checkbox__input-wrapper > input.cck-checkbox__input'),
     ).toBe(box());
@@ -73,7 +72,7 @@ describe('Checkbox', () => {
   });
 
   it('points the label at the input and generates an id when there is none', async () => {
-    const view = await render(`<div cckCheckbox>Caption</div>`, { imports: [...CckCheckboxImports] });
+    const view = await render(`<cck-checkbox>Caption</cck-checkbox>`, { imports: [...CckCheckboxImports] });
     const input = box();
     expect(input.id).toMatch(/^cck-checkbox-/);
     expect(view.container.querySelector('label')?.getAttribute('for')).toBe(input.id);
@@ -130,7 +129,7 @@ describe('Checkbox', () => {
   it('blocks every user toggle while read-only, stays focusable and submits', async () => {
     const events: unknown[] = [];
     const view = await render(
-      `<form><div cckCheckbox readonly name="a" [checked]="true" (checkedChangeDetails)="events.push($event)">Caption</div></form>`,
+      `<form><cck-checkbox readonly name="a" [checked]="true" (checkedChangeDetails)="events.push($event)">Caption</cck-checkbox></form>`,
       { imports: [...CckCheckboxImports], componentProperties: { events } },
     );
     const user = userEvent.setup();
@@ -147,13 +146,13 @@ describe('Checkbox', () => {
   });
 
   it('renders disabled natively and as a fact', async () => {
-    const view = await render(`<div cckCheckbox disabled>Caption</div>`, { imports: [...CckCheckboxImports] });
+    const view = await render(`<cck-checkbox disabled>Caption</cck-checkbox>`, { imports: [...CckCheckboxImports] });
     expect(box().disabled).toBe(true);
     expect(isSet(must(view.container.querySelector('.cck-checkbox')), 'data-disabled')).toBe(true);
   });
 
   it('renders aria-invalid only after the control was touched', async () => {
-    await render(`<div cckCheckbox invalid>Caption</div>`, { imports: [...CckCheckboxImports] });
+    await render(`<cck-checkbox invalid>Caption</cck-checkbox>`, { imports: [...CckCheckboxImports] });
     expect(isSet(box(), 'aria-invalid')).toBe(false);
     const user = userEvent.setup();
     await user.click(box());
@@ -163,7 +162,7 @@ describe('Checkbox', () => {
 
   it('emits touch on blur and takes no focus on mount', async () => {
     const touch = vi.fn();
-    await render(`<div cckCheckbox (touch)="touch()">Caption</div>`, {
+    await render(`<cck-checkbox (touch)="touch()">Caption</cck-checkbox>`, {
       imports: [...CckCheckboxImports],
       componentProperties: { touch },
     });
@@ -175,7 +174,7 @@ describe('Checkbox', () => {
 
   it('treats a nullish checked as unchecked and does not echo it', async () => {
     const events = vi.fn();
-    await render(`<div cckCheckbox [checked]="value" (checkedChangeDetails)="events($event)">Caption</div>`, {
+    await render(`<cck-checkbox [checked]="value" (checkedChangeDetails)="events($event)">Caption</cck-checkbox>`, {
       imports: [...CckCheckboxImports],
       componentProperties: { value: null, events },
     });
@@ -188,15 +187,15 @@ describe('Checkbox', () => {
 
     it('warns for an empty label part with no other name', async () => {
       const spy = warn();
-      await render(`<div cckCheckbox></div>`, { imports: [...CckCheckboxImports] });
+      await render(`<cck-checkbox></cck-checkbox>`, { imports: [...CckCheckboxImports] });
       expect(spy).toHaveBeenCalledTimes(1);
       expect(String(spy.mock.calls[0]?.[0])).toContain('no accessible name');
     });
 
     it.each([
-      ['content', `<div cckCheckbox>Caption</div>`],
-      ['aria-label', `<div cckCheckbox aria-label="Name"></div>`],
-      ['aria-labelledby', `<div cckCheckbox aria-labelledby="x"></div>`],
+      ['content', `<cck-checkbox>Caption</cck-checkbox>`],
+      ['aria-label', `<cck-checkbox aria-label="Name"></cck-checkbox>`],
+      ['aria-labelledby', `<cck-checkbox aria-labelledby="x"></cck-checkbox>`],
     ])('does not warn with %s', async (_name, template) => {
       const spy = warn();
       await render(template, { imports: [...CckCheckboxImports] });
@@ -205,7 +204,7 @@ describe('Checkbox', () => {
 
     it('does not warn when a label outside points at the id', async () => {
       const spy = warn();
-      await render(`<label for="mine">Outside</label><div cckCheckbox id="mine"></div>`, {
+      await render(`<label for="mine">Outside</label><cck-checkbox id="mine"></cck-checkbox>`, {
         imports: [...CckCheckboxImports],
       });
       expect(spy).not.toHaveBeenCalled();

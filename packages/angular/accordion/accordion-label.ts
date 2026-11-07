@@ -1,14 +1,14 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
- * The markup of a trigger, instead of the `label` text: put an `ng-template` first inside a `cckAccordionItem`.
+ * The markup of a trigger, instead of the `label` text: put an `ng-template` first inside a `cck-accordion-item`.
  * The trigger renders it inside the button, so the template has no context.
  *
  * @example
- * <div cckAccordionItem>
+ * <cck-accordion-item>
  *   <ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>
  *   Send it back within 30 days.
- * </div>
+ * </cck-accordion-item>
  */
 @Directive({
   selector: 'ng-template[cckAccordionLabel]',

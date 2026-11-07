@@ -10,15 +10,15 @@ import { stubOverlayApis } from './overlay-stubs';
 const { classes } = selectAnatomy;
 
 const DISHES = `
-  <div cckSelect aria-label="Dish" placeholder="Choose a dish" [(value)]="value"
+  <cck-select aria-label="Dish" placeholder="Choose a dish" [(value)]="value"
     [multiple]="multiple()" [disabled]="disabled()" [readonly]="readonly()" [closePredicate]="record"
     (selectionChange)="changes.push($event)" (openedChange)="openChanges.push($event)"
     (opened)="events.push('opened')" (closed)="events.push('closed')">
-    <div cckSelectOption value="Cake">Cake</div>
-    <div cckSelectOption value="Pizza" disabled>Pizza</div>
-    <div cckSelectOption value="Burger">Burger</div>
-    <div cckSelectOption value="Steak">Steak</div>
-  </div>
+    <cck-select-option value="Cake">Cake</cck-select-option>
+    <cck-select-option value="Pizza" disabled>Pizza</cck-select-option>
+    <cck-select-option value="Burger">Burger</cck-select-option>
+    <cck-select-option value="Steak">Steak</cck-select-option>
+  </cck-select>
   <button id="after">After</button>
   <p id="empty">Empty</p>`;
 

@@ -4,14 +4,13 @@ import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
 
 /**
  * A count, a short text or an empty badge. It renders the content part and, when the number is above
- * `max`, the max indicator (`+`) into the author's element (a `<span>` by default, inside a button
- * a phrasing element). To pin it to a corner, make it a direct child of a `[cckBadgeContainer]`; the
+ * `max`, the max indicator (`+`) into the `cck-badge` tag. To pin it to a corner, make it a direct child of a `cck-badge-container`; the
  * badge itself knows nothing about the position.
  * It has no role and no ARIA: the shown text is read in place, so put the meaning of an empty badge in
  * the host's name.
  *
  * @example
- * <span cckBadge [content]="5"></span>
+ * <cck-badge [content]="5"></cck-badge>
  * @cckPart root
  * @cckPart content
  * @cckPart maxIndicator
@@ -19,7 +18,7 @@ import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
  * @cckDataAttr data-truncated - present when the content is above `max`
  */
 @Component({
-  selector: '[cckBadge]',
+  selector: 'cck-badge',
   exportAs: 'cckBadge',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],

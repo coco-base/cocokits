@@ -45,7 +45,9 @@ describe('Textarea, zones and FieldError on the server', () => {
   it('renders the FieldError roots as polite live regions, with content only for force', async () => {
     const html = clean(await renderOnServer());
     const errors = [
-      ...html.matchAll(/<div[^>]*aria-live="polite"[^>]*class="cck-field-error"[^>]*>([^<]*)<\/div>/g),
+      ...html.matchAll(
+        /<cck-field-error[^>]*aria-live="polite"[^>]*class="cck-field-error"[^>]*>([^<]*)<\/cck-field-error>/g,
+      ),
     ].map((match) => match[1]);
     expect(errors).toEqual(['', 'Forced.']);
   });

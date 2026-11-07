@@ -6,9 +6,9 @@ import { must, trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
 
 const TEMPLATE = `<form ngNativeValidate (submit)="$event.preventDefault()">
-  <div cckSelect aria-label="Dish" name="dish" required [invalid]="invalid" aria-describedby="own">
-    <div cckSelectOption value="Cake">Cake</div>
-  </div>
+  <cck-select aria-label="Dish" name="dish" required [invalid]="invalid" aria-describedby="own">
+    <cck-select-option value="Cake">Cake</cck-select-option>
+  </cck-select>
   <p id="own">Pick one</p>
 </form>`;
 

@@ -12,26 +12,26 @@ const imports = [...CckBadgeImports, ...CckBadgeContainerImports, ...CckButtonIm
 
 describe('Badge accessibility', () => {
   it('becomes part of the button name', async () => {
-    await render(`<button cckButton>Inbox <span cckBadge [content]="5"></span></button>`, {
+    await render(`<button cckButton>Inbox <cck-badge [content]="5"></cck-badge></button>`, {
       imports,
     });
     expect(screen.getByRole('button', { name: 'Inbox 5' })).toBeTruthy();
   });
 
   it('reads a truncated badge as "99 +"', async () => {
-    await render(`<button cckButton>Inbox <span cckBadge [content]="120" [max]="99"></span></button>`, { imports });
+    await render(`<button cckButton>Inbox <cck-badge [content]="120" [max]="99"></cck-badge></button>`, { imports });
     expect(screen.getByRole('button', { name: /Inbox 99\s*\+/ })).toBeTruthy();
   });
 
   it.each([
-    ['badge', `<span cckBadge [content]="5"></span>`],
-    ['empty', `<span cckBadge></span>`],
-    ['truncated', `<span cckBadge [content]="120" [max]="99"></span>`],
-    ['hidden', `<span cckBadge [content]="5" hide></span>`],
-    ['badge in a button', `<button cckButton>Inbox <span cckBadge [content]="5"></span></button>`],
+    ['badge', `<cck-badge [content]="5"></cck-badge>`],
+    ['empty', `<cck-badge></cck-badge>`],
+    ['truncated', `<cck-badge [content]="120" [max]="99"></cck-badge>`],
+    ['hidden', `<cck-badge [content]="5" hide></cck-badge>`],
+    ['badge in a button', `<button cckButton>Inbox <cck-badge [content]="5"></cck-badge></button>`],
     [
       'container with an icon-only button',
-      `<div cckBadgeContainer><button cckButton aria-label="Notifications, 2 new"><svg aria-hidden="true" width="8" height="8"></svg></button><span cckBadge></span></div>`,
+      `<cck-badge-container><button cckButton aria-label="Notifications, 2 new"><svg aria-hidden="true" width="8" height="8"></svg></button><cck-badge></cck-badge></cck-badge-container>`,
     ],
   ])('has no axe violations: %s', async (_name, template) => {
     const { container } = await render(template, { imports });
@@ -40,7 +40,7 @@ describe('Badge accessibility', () => {
 
   it('adds no role, aria-* or tabindex to the badge or the container', async () => {
     const { container } = await render(
-      `<div cckBadgeContainer><button cckButton>Inbox</button><span cckBadge [content]="120" [max]="99"></span></div>`,
+      `<cck-badge-container><button cckButton>Inbox</button><cck-badge [content]="120" [max]="99"></cck-badge></cck-badge-container>`,
       { imports },
     );
     for (const el of container.querySelectorAll('.cck-badge, .cck-badge *, .cck-badge-container')) {
@@ -51,7 +51,7 @@ describe('Badge accessibility', () => {
 
   it('is not tabbable and leaves the Tab order of a Button unchanged', async () => {
     await render(
-      `<button cckButton id="a">Inbox <span cckBadge [content]="5"></span></button><button cckButton id="b">Next</button>`,
+      `<button cckButton id="a">Inbox <cck-badge [content]="5"></cck-badge></button><button cckButton id="b">Next</button>`,
       { imports },
     );
     const user = userEvent.setup();
@@ -65,8 +65,8 @@ describe('Badge accessibility', () => {
 
   it('emits only the data-* the metas declare, on every part', async () => {
     const { container } = await render(
-      `<span cckBadge [content]="1"></span><span cckBadge hide></span>
-       <div cckBadgeContainer position="bottom-left"><span cckBadge [content]="120" [max]="99"></span></div>`,
+      `<cck-badge [content]="1"></cck-badge><cck-badge hide></cck-badge>
+       <cck-badge-container position="bottom-left"><cck-badge [content]="120" [max]="99"></cck-badge></cck-badge-container>`,
       { imports },
     );
     const declared: Record<string, readonly string[]> = {

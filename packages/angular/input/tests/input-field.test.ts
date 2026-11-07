@@ -27,7 +27,9 @@ describe('Input in a FormField: ids and descriptions', () => {
     ['Label before the Input', `<label cckLabel>Email</label><input cckInput />`],
     ['Label after the Input', `<input cckInput /><label cckLabel>Email</label>`],
   ])('wires the id, the label for and the description with nothing written: %s', async (_name, inner) => {
-    const { container } = await render(`<div cckFormField>${inner}<div cckHint>Help</div></div>`, { imports });
+    const { container } = await render(`<cck-form-field>${inner}<cck-hint>Help</cck-hint></cck-form-field>`, {
+      imports,
+    });
     const feedback = feedbackOf(container);
     expect(feedback.id).toMatch(/^cck-form-field-.+-feedback$/);
     const fieldId = feedback.id.replace(/-feedback$/, '');
@@ -40,7 +42,7 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('keeps the generated ids apart for two fields', async () => {
     const { container } = await render(
-      `<div cckFormField><label cckLabel>A</label><input cckInput /></div><div cckFormField><label cckLabel>B</label><input cckInput /></div>`,
+      `<cck-form-field><label cckLabel>A</label><input cckInput /></cck-form-field><cck-form-field><label cckLabel>B</label><input cckInput /></cck-form-field>`,
       { imports },
     );
     const ids = Array.from(container.querySelectorAll('input'), (input) => input.id);
@@ -50,7 +52,7 @@ describe('Input in a FormField: ids and descriptions', () => {
   it('derives the ids from the id of the field, static or bound, and follows a change', async () => {
     const id = signal('email');
     const { container, fixture } = await render(
-      `<div cckFormField [id]="id()"><label cckLabel>Email</label><input cckInput /></div>`,
+      `<cck-form-field [id]="id()"><label cckLabel>Email</label><input cckInput /></cck-form-field>`,
       { imports, componentProperties: { id } },
     );
     expect(fieldOf(container).id).toBe('email');
@@ -68,16 +70,19 @@ describe('Input in a FormField: ids and descriptions', () => {
   });
 
   it('reflects a static id on the field root', async () => {
-    const { container } = await render(`<div cckFormField id="static"><input cckInput aria-label="A" /></div>`, {
-      imports,
-    });
+    const { container } = await render(
+      `<cck-form-field id="static"><input cckInput aria-label="A" /></cck-form-field>`,
+      {
+        imports,
+      },
+    );
     expect(fieldOf(container).id).toBe('static');
     expect(textbox().id).toBe('static-control');
   });
 
   it('renders no id attribute on the root for an empty id, and generates the field id', async () => {
     const { container } = await render(
-      `<div cckFormField id=""><label cckLabel>Email</label><input cckInput /></div>`,
+      `<cck-form-field id=""><label cckLabel>Email</label><input cckInput /></cck-form-field>`,
       { imports },
     );
     expect(fieldOf(container).hasAttribute('id')).toBe(false);
@@ -88,7 +93,7 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('keeps the facts of the machine over an author data-* attribute on the root', async () => {
     const { container } = await render(
-      `<div cckFormField data-invalid="x" data-filled="x" class="mine" title="T"><label cckLabel>Email</label><input cckInput /></div>`,
+      `<cck-form-field data-invalid="x" data-filled="x" class="mine" title="T"><label cckLabel>Email</label><input cckInput /></cck-form-field>`,
       { imports },
     );
     const root = fieldOf(container);
@@ -100,7 +105,7 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('lets an author id win and the label follow it, and puts the author description first', async () => {
     const { container } = await render(
-      `<div cckFormField id="f"><label cckLabel>Email</label><input cckInput id="mine" aria-describedby="note" /></div><p id="note">n</p>`,
+      `<cck-form-field id="f"><label cckLabel>Email</label><input cckInput id="mine" aria-describedby="note" /></cck-form-field><p id="note">n</p>`,
       { imports },
     );
     expect(textbox().id).toBe('mine');
@@ -109,15 +114,18 @@ describe('Input in a FormField: ids and descriptions', () => {
   });
 
   it('never repeats the feedback id when the author already lists it', async () => {
-    await render(`<div cckFormField id="f"><input cckInput aria-label="A" aria-describedby="f-feedback x" /></div>`, {
-      imports,
-    });
+    await render(
+      `<cck-form-field id="f"><input cckInput aria-label="A" aria-describedby="f-feedback x" /></cck-form-field>`,
+      {
+        imports,
+      },
+    );
     expect(textbox().getAttribute('aria-describedby')).toBe('f-feedback x');
   });
 
   it('lets an explicit for win over the control id', async () => {
     const { container } = await render(
-      `<div cckFormField><label cckLabel for="other">Email</label><input cckInput /></div>`,
+      `<cck-form-field><label cckLabel for="other">Email</label><input cckInput /></cck-form-field>`,
       { imports },
     );
     expect(label(container).htmlFor).toBe('other');
@@ -125,7 +133,7 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('keeps every hint inside the described feedback wrapper, in order', async () => {
     const { container } = await render(
-      `<div cckFormField id="f"><label cckLabel>A</label><input cckInput /><div cckHint>One</div><div cckHint>Two</div><div cckHint>Three</div></div>`,
+      `<cck-form-field id="f"><label cckLabel>A</label><input cckInput /><cck-hint>One</cck-hint><cck-hint>Two</cck-hint><cck-hint>Three</cck-hint></cck-form-field>`,
       { imports },
     );
     const hints = Array.from(feedbackOf(container).querySelectorAll('.cck-hint'), (el) => el.textContent);
@@ -135,7 +143,9 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('works without a label, a hint or any attribute', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const { container } = await render(`<div cckFormField><input cckInput aria-label="A" /></div>`, { imports });
+    const { container } = await render(`<cck-form-field><input cckInput aria-label="A" /></cck-form-field>`, {
+      imports,
+    });
     expect(label(container).textContent).toBe('');
     expect(textbox().id).toMatch(/-control$/);
     expect(warn).not.toHaveBeenCalled();
@@ -149,7 +159,7 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('gives a native input in the field no default and keeps an explicit for', async () => {
     const { container } = await render(
-      `<div cckFormField><label cckLabel>A</label><input id="n" /></div><div cckFormField><label cckLabel for="m">B</label><input id="m" /></div>`,
+      `<cck-form-field><label cckLabel>A</label><input id="n" /></cck-form-field><cck-form-field><label cckLabel for="m">B</label><input id="m" /></cck-form-field>`,
       { imports },
     );
     const [first, second] = Array.from(container.querySelectorAll('label'));
@@ -160,7 +170,7 @@ describe('Input in a FormField: ids and descriptions', () => {
   it('follows an Input that appears and disappears with @if', async () => {
     const show = signal(false);
     const { container, fixture } = await render(
-      `<div cckFormField id="f"><label cckLabel>A</label>@if (show()) {<input cckInput />}</div>`,
+      `<cck-form-field id="f"><label cckLabel>A</label>@if (show()) {<input cckInput />}</cck-form-field>`,
       { imports, componentProperties: { show } },
     );
     expect(label(container).hasAttribute('for')).toBe(false);
@@ -179,7 +189,7 @@ describe('Input in a FormField: the accessible name warning', () => {
 
   it('warns after mount when nothing names the Input', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckFormField><input cckInput /></div>`, { imports });
+    await render(`<cck-form-field><input cckInput /></cck-form-field>`, { imports });
     expect(warned(warn)).toBe(true);
   });
 
@@ -191,7 +201,7 @@ describe('Input in a FormField: the accessible name warning', () => {
     ['a wrapping label', `<label>A <input cckInput /></label>`],
   ])('does not warn when %s names it', async (_name, inner) => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckFormField>${inner}</div>`, { imports });
+    await render(`<cck-form-field>${inner}</cck-form-field>`, { imports });
     expect(warned(warn)).toBe(false);
   });
 
@@ -203,7 +213,7 @@ describe('Input in a FormField: the accessible name warning', () => {
 });
 
 describe('Input in a FormField: one control per field', () => {
-  const second = `<div cckFormField id="f"><label cckLabel>A</label><input cckInput aria-label="First" /><input cckInput aria-label="Second" required aria-describedby="mine" id="own" /></div>`;
+  const second = `<cck-form-field id="f"><label cckLabel>A</label><input cckInput aria-label="First" /><input cckInput aria-label="Second" required aria-describedby="mine" id="own" /></cck-form-field>`;
 
   it('gives a second control no generated id, only its own description, and a warning', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
@@ -219,7 +229,7 @@ describe('Input in a FormField: one control per field', () => {
   it('gets no id at all without an author id, and its facts do not reach the field or the label', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const { container } = await render(
-      `<div cckFormField id="f"><label cckLabel>A</label><input cckInput aria-label="First" /><input cckInput aria-label="Second" required /></div>`,
+      `<cck-form-field id="f"><label cckLabel>A</label><input cckInput aria-label="First" /><input cckInput aria-label="Second" required /></cck-form-field>`,
       { imports },
     );
     const other = container.querySelectorAll('input')[1];
@@ -233,7 +243,7 @@ describe('Input in a FormField: one control per field', () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const first = signal(true);
     const { container, fixture } = await render(
-      `<div cckFormField id="f"><label cckLabel>A</label>@if (first()) {<input cckInput aria-label="First" />}@if (true) {<input cckInput aria-label="Second" required />}</div>`,
+      `<cck-form-field id="f"><label cckLabel>A</label>@if (first()) {<input cckInput aria-label="First" />}@if (true) {<input cckInput aria-label="Second" required />}</cck-form-field>`,
       { imports, componentProperties: { first } },
     );
     first.set(false);
@@ -250,9 +260,12 @@ describe('Input in a FormField: one control per field', () => {
 
 describe('Input in a FormField: state both ways', () => {
   it('shows the label marker and the root fact when only the Input is required', async () => {
-    const { container } = await render(`<div cckFormField><label cckLabel>A</label><input cckInput required /></div>`, {
-      imports,
-    });
+    const { container } = await render(
+      `<cck-form-field><label cckLabel>A</label><input cckInput required /></cck-form-field>`,
+      {
+        imports,
+      },
+    );
     expect(isSet(fieldOf(container), 'data-required')).toBe(true);
     const marker = label(container).lastElementChild;
     expect(marker?.className).toBe('cck-label__required-marker');
@@ -263,7 +276,7 @@ describe('Input in a FormField: state both ways', () => {
 
   it('hides the marker with hideRequiredMarker without changing required', async () => {
     const { container } = await render(
-      `<div cckFormField hideRequiredMarker><label cckLabel>A</label><input cckInput required /></div>`,
+      `<cck-form-field hideRequiredMarker><label cckLabel>A</label><input cckInput required /></cck-form-field>`,
       { imports },
     );
     expect(container.querySelector('.cck-label__required-marker')).toBeNull();
@@ -273,7 +286,7 @@ describe('Input in a FormField: state both ways', () => {
 
   it('reaches the native input from the field props, and ORs them with the control', async () => {
     const { container } = await render(
-      `<div cckFormField required disabled readonly invalid><label cckLabel>A</label><input cckInput /></div>`,
+      `<cck-form-field required disabled readonly invalid><label cckLabel>A</label><input cckInput /></cck-form-field>`,
       { imports },
     );
     const input = container.querySelector('input');
@@ -287,7 +300,7 @@ describe('Input in a FormField: state both ways', () => {
 
   it('cannot be turned off from the other side', async () => {
     const { container } = await render(
-      `<div cckFormField [required]="false"><label cckLabel>A</label><input cckInput required /></div>`,
+      `<cck-form-field [required]="false"><label cckLabel>A</label><input cckInput required /></cck-form-field>`,
       { imports },
     );
     expect(textbox().required).toBe(true);
@@ -296,7 +309,7 @@ describe('Input in a FormField: state both ways', () => {
 
   it('puts the control facts on the field root as they change', async () => {
     const { container, fixture } = await render(
-      `<div cckFormField><label cckLabel>A</label><input cckInput [invalid]="invalid()" /></div>`,
+      `<cck-form-field><label cckLabel>A</label><input cckInput [invalid]="invalid()" /></cck-form-field>`,
       { imports, componentProperties: { invalid: signal(false) } },
     );
     const user = userEvent.setup();
@@ -311,7 +324,7 @@ describe('Input in a FormField: state both ways', () => {
   });
 
   it('hides the field root while the control is hidden', async () => {
-    const { container } = await render(`<div cckFormField><input cckInput aria-label="A" hidden /></div>`, {
+    const { container } = await render(`<cck-form-field><input cckInput aria-label="A" hidden /></cck-form-field>`, {
       imports,
     });
     expect(fieldOf(container).hidden).toBe(true);
@@ -320,7 +333,7 @@ describe('Input in a FormField: state both ways', () => {
 
   it('renders exactly the data attributes of the meta on the field root when every fact is true', async () => {
     const { container } = await render(
-      `<div cckFormField><input cckInput aria-label="Name" disabled readonly required invalid pending touched dirty submitted value="a" /></div>`,
+      `<cck-form-field><input cckInput aria-label="Name" disabled readonly required invalid pending touched dirty submitted value="a" /></cck-form-field>`,
       { imports },
     );
     const input = textbox();
@@ -337,7 +350,7 @@ describe('Input in a FormField: state both ways', () => {
   it('keeps an author hidden attribute on the field root, static or bound', async () => {
     const hidden = signal(true);
     const { container, fixture } = await render(
-      `<div cckFormField hidden><input cckInput aria-label="A" /></div><div cckFormField [hidden]="hidden()"><input cckInput aria-label="B" /></div>`,
+      `<cck-form-field hidden><input cckInput aria-label="A" /></cck-form-field><cck-form-field [hidden]="hidden()"><input cckInput aria-label="B" /></cck-form-field>`,
       { imports, componentProperties: { hidden } },
     );
     const [first, second] = Array.from(container.querySelectorAll<HTMLElement>('.cck-form-field'));

@@ -4,19 +4,19 @@ import { injectCckPopover } from './popover';
 
 /**
  * The pointer from the content to the trigger: a decorative element that holds a triangle `svg`. Put it on
- * the element you choose (a `span` is the usual one) inside `cckPopoverContent`. CocoKits places it on the
+ * the `cck-popover-arrow` tag inside `cck-popover-content`. CocoKits places it on the
  * content edge that faces the anchor, centred on the anchor and turned to point at it, and adds its height to
  * the gap between the anchor and the content. It gets the native `hidden` attribute while it cannot point at
  * the anchor (the content has shifted along the edge). Children replace the triangle and must be SVG
  * elements, such as a `polygon`. An element that is not an HTML element, such as an `svg`, is not hidden by `hidden`: hide it with CSS.
  *
  * @example
- * <div cckPopoverContent aria-label="Share"><span cckPopoverArrow></span>Anyone with the link can view.</div>
+ * <cck-popover-content aria-label="Share"><cck-popover-arrow></cck-popover-arrow>Anyone with the link can view.</cck-popover-content>
  * @cckPart arrow
  * @cckSlot default - Replaces the triangle with SVG shapes.
  */
 @Component({
-  selector: '[cckPopoverArrow]',
+  selector: 'cck-popover-arrow',
   exportAs: 'cckPopoverArrow',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<svg width="10" height="5" viewBox="0 0 30 10" preserveAspectRatio="none" style="display: block">

@@ -7,12 +7,12 @@ import { injectCckPopover } from './popover';
  * mounted.
  *
  * @example
- * <p cckPopoverDescription>Anyone with the link can view it.</p>
+ * <cck-popover-description>Anyone with the link can view it.</cck-popover-description>
  * @cckPart description
  * @cckSlot default - The description text.
  */
 @Directive({
-  selector: '[cckPopoverDescription]',
+  selector: 'cck-popover-description',
   exportAs: 'cckPopoverDescription',
   host: {
     '[class]': 'props().class',

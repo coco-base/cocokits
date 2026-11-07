@@ -8,10 +8,10 @@ describe('Tabs data attributes', () => {
   it('only emits data-* declared in the meta, on every part', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckTabs aria-label="Settings">
-        <div cckTab label="A">A body</div>
-        <div cckTab label="B" disabled>B body</div>
-      </div>`,
+      `<cck-tabs aria-label="Settings">
+        <cck-tab label="A">A body</cck-tab>
+        <cck-tab label="B" disabled>B body</cck-tab>
+      </cck-tabs>`,
       { imports: [...CckTabsImports] },
     );
     await user.tab();

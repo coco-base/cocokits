@@ -63,17 +63,17 @@ export interface CckSelectChange<V = string> {
  *
  * A single Select holds the value of one option. With `multiple`, it holds a list. `undefined` means the value is not bound, and `null` means nothing is selected. An option with the value `null` or `undefined` clears a single Select, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder. The trigger shows the text of the selected options, joined with a comma. To show something else, write a `cckSelectTrigger` template.
  *
- * The Select works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes hidden native inputs, so `FormData`, `required`, `form`, reset and autofill work. Inside a `[cckFormField]`, the trigger is the control of the field, and the list lines up with the input of the field. Name the Select with the label of the field, `aria-label` or `aria-labelledby`. The focus stays on the trigger while the list is open. The highlighted option is the `aria-activedescendant`.
+ * The Select works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes hidden native inputs, so `FormData`, `required`, `form`, reset and autofill work. Inside a `cck-form-field`, the trigger is the control of the field, and the list lines up with the input of the field. Name the Select with the label of the field, `aria-label` or `aria-labelledby`. The focus stays on the trigger while the list is open. The highlighted option is the `aria-activedescendant`.
  *
  * @example
- * <div cckSelect [(value)]="dish" placeholder="Choose a dish" aria-label="Dish">
- *   <div cckSelectOptionGroup label="Desserts">
- *     <div cckSelectOption value="Cake">Cake</div>
- *     <div cckSelectOption value="Ice cream">Ice cream</div>
- *   </div>
- *   <div cckSelectSeparator></div>
- *   <div cckSelectOption value="Pizza">Pizza</div>
- * </div>
+ * <cck-select [(value)]="dish" placeholder="Choose a dish" aria-label="Dish">
+ *   <cck-select-option-group label="Desserts">
+ *     <cck-select-option value="Cake">Cake</cck-select-option>
+ *     <cck-select-option value="Ice cream">Ice cream</cck-select-option>
+ *   </cck-select-option-group>
+ *   <cck-select-separator></cck-select-separator>
+ *   <cck-select-option value="Pizza">Pizza</cck-select-option>
+ * </cck-select>
  * @typeParam V - The type of the value. It comes from the `value` binding. The default is `string`.
  * @cckPart root
  * @cckPart trigger
@@ -84,7 +84,7 @@ export interface CckSelectChange<V = string> {
  * @cckSlot trigger ng-template[cckSelectTrigger] - Your own markup for the trigger, in place of the labels of the selected options.
  */
 @Component({
-  selector: '[cckSelect]',
+  selector: 'cck-select',
   exportAs: 'cckSelect',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, CckSelectContent, NgTemplateOutlet],
@@ -113,10 +113,10 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *
    * @remarks `null` and `''` also mean nothing is selected, and the placeholder shows. Changing the value from code never emits `selectionChange`.
    * @example
-   * <div cckSelect [(value)]="dish" aria-label="Dish">
-   *   <div cckSelectOption value="Cake">Cake</div>
-   *   <div cckSelectOption value="Pizza">Pizza</div>
-   * </div>
+   * <cck-select [(value)]="dish" aria-label="Dish">
+   *   <cck-select-option value="Cake">Cake</cck-select-option>
+   *   <cck-select-option value="Pizza">Pizza</cck-select-option>
+   * </cck-select>
    * <!-- In the class: readonly dish = signal<string | null>('Pizza'); -->
    * @cckTask Read and set the value
    * @cckSemantic select.value
@@ -127,9 +127,9 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * Emits after the user changes the value, and after a form reset. It sends a `CckSelectChange` object with the Select, the new value, the reason and the event.
    * @remarks It never emits when the parent or a forms library changes the value. With `multiple`, the new value is a list. It is `null` when the user chose a clearing option.
    * @example
-   * <div cckSelect (selectionChange)="onChange($event)" aria-label="Dish">
-   *   <div cckSelectOption value="Cake">Cake</div>
-   * </div>
+   * <cck-select (selectionChange)="onChange($event)" aria-label="Dish">
+   *   <cck-select-option value="Cake">Cake</cck-select-option>
+   * </cck-select>
    * <!-- In the class: onChange(change: CckSelectChange) { console.log(change.value, change.reason); } -->
    * @cckTask Respond to a choice
    * @cckSemantic select.valueChange
@@ -161,10 +161,10 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Whether the user can choose more than one option. The value is then a list. Choosing an option adds it or removes it, and the list stays open.
    * @example
-   * <div cckSelect multiple [(value)]="dishes" aria-label="Dishes">
-   *   <div cckSelectOption value="Cake">Cake</div>
-   *   <div cckSelectOption value="Pizza">Pizza</div>
-   * </div>
+   * <cck-select multiple [(value)]="dishes" aria-label="Dishes">
+   *   <cck-select-option value="Cake">Cake</cck-select-option>
+   *   <cck-select-option value="Pizza">Pizza</cck-select-option>
+   * </cck-select>
    * <!-- In the class: readonly dishes = signal<string[]>(['Cake']); -->
    * @cckTask Choose several options
    * @defaultValue false
@@ -182,11 +182,11 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * A function that tells whether an option value is the selected value. Use it when the option values are objects. When not set, the values are compared with `Object.is`.
    * @remarks Pair it with `itemToStringValue`, which turns an object into the text that a form sends.
    * @example
-   * <div cckSelect [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">
+   * <cck-select [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">
    *   @for (item of dishes; track item.id) {
-   *     <div cckSelectOption [value]="item">{{ item.name }}</div>
+   *     <cck-select-option [value]="item">{{ item.name }}</cck-select-option>
    *   }
-   * </div>
+   * </cck-select>
    * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->
    * @cckTask Use objects as values
    * @cckSemantic select.isItemEqual
@@ -241,9 +241,9 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * A function that decides whether a close that the Select starts happens. Return `false` to keep the list open. When not set, every close happens.
    * @remarks It runs for the trigger, Escape, a press outside and choosing an option, after `disableClose`. It does not run for `open()`, `close()`, `toggle()` and a focus leave. A focus leave chooses the highlighted option and closes the list.
    * @example
-   * <div cckSelect [closePredicate]="canClose" aria-label="Dish">
-   *   <div cckSelectOption value="Cake">Cake</div>
-   * </div>
+   * <cck-select [closePredicate]="canClose" aria-label="Dish">
+   *   <cck-select-option value="Cake">Cake</cck-select-option>
+   * </cck-select>
    * <!-- In the class: canClose = (details: SelectOpenChangeDetails) => details.reason !== 'escape'; -->
    * @cckTask Keep the list open
    * @cckParity Only this framework has this member.
@@ -268,9 +268,9 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * The `name` that `FormData` sends. When not set, the name is the path of the bound forms control, or empty without a forms library. Without a name and without `required`, no hidden input is made.
    * @example
    * <form>
-   *   <div cckSelect name="dish" required aria-label="Dish">
-   *     <div cckSelectOption value="Cake">Cake</div>
-   *   </div>
+   *   <cck-select name="dish" required aria-label="Dish">
+   *     <cck-select-option value="Cake">Cake</cck-select-option>
+   *   </cck-select>
    *   <button type="submit">Send</button>
    * </form>
    * @cckTask Send the value with a form
@@ -494,6 +494,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
  */
 export function injectCckSelect<V>(part: string): CckSelect<V> {
   const root = inject<CckSelect<V>>(CckSelect, { optional: true });
-  if (!root) throw new Error(`CocoKits: cckSelect${part} must be placed inside an element with cckSelect.`);
+  if (!root) throw new Error(`CocoKits: ${part} must be placed inside a <cck-select>.`);
   return root;
 }

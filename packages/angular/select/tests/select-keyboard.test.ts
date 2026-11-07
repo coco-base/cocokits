@@ -8,11 +8,11 @@ import { activeName } from './helpers';
 
 @Component({
   imports: [...CckSelectImports],
-  template: ` <div cckSelect aria-label="Dish" [multiple]="multiple()" [(value)]="value">
-      <div cckSelectOption value="Salad">Salad</div>
-      <div cckSelectOption value="Steak">Steak</div>
-      <div cckSelectOption value="Cake">Cake</div>
-    </div>
+  template: ` <cck-select aria-label="Dish" [multiple]="multiple()" [(value)]="value">
+      <cck-select-option value="Salad">Salad</cck-select-option>
+      <cck-select-option value="Steak">Steak</cck-select-option>
+      <cck-select-option value="Cake">Cake</cck-select-option>
+    </cck-select>
     <button id="after">After</button>`,
 })
 class Host {

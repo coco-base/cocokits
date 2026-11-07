@@ -14,10 +14,10 @@ describe('Select data attributes', () => {
   it('only emits data-* declared in the meta, on every part', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckSelect aria-label="Dish" name="dish" required multiple>
-        <div cckSelectOption value="Cake">Cake</div>
-        <div cckSelectOptionGroup label="Mains"><div cckSelectOption value="Pizza" disabled>Pizza</div></div>
-      </div>`,
+      `<cck-select aria-label="Dish" name="dish" required multiple>
+        <cck-select-option value="Cake">Cake</cck-select-option>
+        <cck-select-option-group label="Mains"><cck-select-option value="Pizza" disabled>Pizza</cck-select-option></cck-select-option-group>
+      </cck-select>`,
       { imports: [...CckSelectImports] },
     );
     await user.click(screen.getByRole('combobox'));

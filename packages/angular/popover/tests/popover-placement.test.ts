@@ -22,7 +22,7 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
     <ng-container cckPopover [open]="true">
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share" [side]="side()" [align]="align()">Text</div>
+        <cck-popover-content aria-label="Share" [side]="side()" [align]="align()">Text</cck-popover-content>
       </ng-template>
     </ng-container>
   `,

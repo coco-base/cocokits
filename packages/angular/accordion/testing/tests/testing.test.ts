@@ -9,15 +9,15 @@ import { CckAccordionHarness, CckAccordionItemHarness } from '../index';
 @Component({
   imports: [CckAccordionImports],
   template: `
-    <div cckAccordion>
-      <div cckAccordionItem label="Shipping">Ships in two days</div>
-      <div cckAccordionItem label="Returns" [expanded]="true">Return within 30 days</div>
-      <div cckAccordionItem [label]="locked" disabled>Locked body</div>
-    </div>
-    <div cckAccordion multi>
-      <div cckAccordionItem label="One">First</div>
-      <div cckAccordionItem label="Two">Second</div>
-    </div>
+    <cck-accordion>
+      <cck-accordion-item label="Shipping">Ships in two days</cck-accordion-item>
+      <cck-accordion-item label="Returns" [expanded]="true">Return within 30 days</cck-accordion-item>
+      <cck-accordion-item [label]="locked" disabled>Locked body</cck-accordion-item>
+    </cck-accordion>
+    <cck-accordion multi>
+      <cck-accordion-item label="One">First</cck-accordion-item>
+      <cck-accordion-item label="Two">Second</cck-accordion-item>
+    </cck-accordion>
   `,
 })
 class Host {

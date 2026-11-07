@@ -16,17 +16,17 @@ import { CckFormFieldImports } from '../index';
   selector: 'app-root',
   imports: [CckFormFieldImports, CckLabelImports, CckHintImports],
   template: `
-    <div cckFormField id="ordered">
+    <cck-form-field id="ordered">
       <label cckLabel for="email">Email address</label>
       <input id="email" type="email" aria-describedby="email-hint" />
-      <div cckHint id="email-hint">{{ hint }}</div>
-    </div>
-    <div cckFormField id="reversed">
-      <div cckHint>Help</div>
+      <cck-hint id="email-hint">{{ hint }}</cck-hint>
+    </cck-form-field>
+    <cck-form-field id="reversed">
+      <cck-hint>Help</cck-hint>
       <input id="name" />
       <label cckLabel for="name">Name</label>
-    </div>
-    <div cckFormField id="bare"><input /></div>
+    </cck-form-field>
+    <cck-form-field id="bare"><input /></cck-form-field>
   `,
 })
 export class Root {

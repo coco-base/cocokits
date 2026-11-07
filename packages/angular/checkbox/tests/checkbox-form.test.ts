@@ -21,7 +21,7 @@ describe('Checkbox in a real form', () => {
   it('submits on while checked, the submit value when given, and nothing while unchecked', async () => {
     const checked = signal(false);
     const { container, fixture } = await render(
-      `<form><div cckCheckbox name="a" [checked]="checked()">A</div><div cckCheckbox name="b" submitValue="yes" [checked]="true">B</div></form>`,
+      `<form><cck-checkbox name="a" [checked]="checked()">A</cck-checkbox><cck-checkbox name="b" submitValue="yes" [checked]="true">B</cck-checkbox></form>`,
       { imports, componentProperties: { checked } },
     );
     const form = container.querySelector('form');
@@ -33,7 +33,7 @@ describe('Checkbox in a real form', () => {
   });
 
   it('blocks checkValidity while required and unchecked', async () => {
-    const { container } = await render(`<form><div cckCheckbox required>Accept</div></form>`, { imports });
+    const { container } = await render(`<form><cck-checkbox required>Accept</cck-checkbox></form>`, { imports });
     const form = container.querySelector('form');
     expect(form?.checkValidity()).toBe(false);
     await userEvent.setup().click(box());
@@ -43,7 +43,7 @@ describe('Checkbox in a real form', () => {
   it('sets submitted on a submit attempt and marks aria-invalid', async () => {
     const handler = onSubmit();
     const { container, fixture } = await render(
-      `<form (submit)="handler($event)"><div cckCheckbox invalid>Accept</div></form>`,
+      `<form (submit)="handler($event)"><cck-checkbox invalid>Accept</cck-checkbox></form>`,
       { imports, componentProperties: { handler } },
     );
     expect(isSet(box(), 'aria-invalid')).toBe(false);
@@ -58,7 +58,7 @@ describe('Checkbox in a real form', () => {
       const checked = signal(true);
       const seen: { value: boolean; reason: string; event: Event | null }[] = [];
       const { container, fixture } = await render(
-        `<form><div cckCheckbox [(checked)]="checked" (checkedChangeDetails)="seen.push($event)">A</div></form>`,
+        `<form><cck-checkbox [(checked)]="checked" (checkedChangeDetails)="seen.push($event)">A</cck-checkbox></form>`,
         { imports, componentProperties: { checked, seen } },
       );
       const root = must(container.querySelector('.cck-checkbox'));
@@ -83,7 +83,7 @@ describe('Checkbox in a real form', () => {
       const onDetails = vi.fn();
       const checked = signal(false);
       const { container } = await render(
-        `<form (reset)="$event.preventDefault()"><div cckCheckbox [(checked)]="checked" (checkedChangeDetails)="onDetails($event)">A</div></form>`,
+        `<form (reset)="$event.preventDefault()"><cck-checkbox [(checked)]="checked" (checkedChangeDetails)="onDetails($event)">A</cck-checkbox></form>`,
         { imports, componentProperties: { onDetails, checked } },
       );
       await userEvent.setup().click(box());
@@ -98,7 +98,7 @@ describe('Checkbox in a real form', () => {
       const handler = onSubmit();
       const checked = signal(false);
       const { fixture } = await render(
-        `<form id="f" (submit)="handler($event)"></form><div cckCheckbox form="f" name="a" [(checked)]="checked">A</div>`,
+        `<form id="f" (submit)="handler($event)"></form><cck-checkbox form="f" name="a" [(checked)]="checked">A</cck-checkbox>`,
         { imports, componentProperties: { handler, checked } },
       );
       const form = must((fixture.nativeElement as HTMLElement).querySelector('form'));
@@ -115,7 +115,7 @@ describe('Checkbox in a real form', () => {
   it('renders data-disabled from a disabling fieldset and disables the input natively', async () => {
     const disabled = signal(false);
     const { container, fixture } = await render(
-      `<form><fieldset [disabled]="disabled()"><div cckCheckbox>A</div></fieldset></form>`,
+      `<form><fieldset [disabled]="disabled()"><cck-checkbox>A</cck-checkbox></fieldset></form>`,
       { imports, componentProperties: { disabled } },
     );
     const root = must(container.querySelector('.cck-checkbox'));

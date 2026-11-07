@@ -8,11 +8,11 @@ import { CckTabsImports } from '../index';
 const imports = [...CckTabsImports];
 
 const TEMPLATE = `
-  <div cckTabs aria-label="Account settings">
-    <div cckTab label="Account">Account body</div>
-    <div cckTab label="Password">Password body</div>
-    <div cckTab label="Locked" disabled>Locked body</div>
-  </div>`;
+  <cck-tabs aria-label="Account settings">
+    <cck-tab label="Account">Account body</cck-tab>
+    <cck-tab label="Password">Password body</cck-tab>
+    <cck-tab label="Locked" disabled>Locked body</cck-tab>
+  </cck-tabs>`;
 
 describe('Tabs accessibility', () => {
   it('has no axe violations, also after a selection', async () => {
@@ -24,7 +24,7 @@ describe('Tabs accessibility', () => {
   });
 
   it('has no axe violations when vertical', async () => {
-    const { container } = await render(TEMPLATE.replace('cckTabs', 'cckTabs orientation="vertical"'), { imports });
+    const { container } = await render(TEMPLATE.replace('<cck-tabs', '<cck-tabs orientation="vertical"'), { imports });
     expect((await axe(container)).violations).toEqual([]);
   });
 

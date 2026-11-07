@@ -6,16 +6,16 @@ import { getPrefixProps, prefixAnatomy } from '@cocokits/machines/prefix';
  * Content inside the box of a FormField, before the control.
  * While the control is focused, a drag cannot start a text selection here. It renders its content as
  * written, adds no ARIA and has no style. It sits on the author's element (a `<div>` by default) and works outside a
- * `[cckFormField]` too, where it has no placement. An icon-only prefix needs `aria-hidden="true"`; an
+ * `cck-form-field` too, where it has no placement. An icon-only prefix needs `aria-hidden="true"`; an
  * interactive one is a real `button` or `a` with its own accessible name. Its text is not part of the
  * control's name or description.
  *
  * @example
- * <div cckFormField>
+ * <cck-form-field>
  *   <label cckLabel>Price</label>
  *   <span cckPrefix>$</span>
  *   <input cckInput />
- * </div>
+ * </cck-form-field>
  * @cckPart root
  * @cckSlot default - The content of the zone.
  */

@@ -11,17 +11,17 @@ import { CckPopoverImports } from '../index';
     <ng-container cckPopover [open]="startOpen">
       <div cckPopoverAnchor><button cckPopoverTrigger>Share</button></div>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent>
-          <span cckPopoverArrow></span>
+        <cck-popover-content>
+          <cck-popover-arrow></cck-popover-arrow>
           <h2 cckPopoverTitle>Share this page</h2>
           <button cckPopoverClose>Close</button>
-        </div>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
     <ng-container cckPopover>
       <button cckPopoverTrigger>Info</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Info">Text</div>
+        <cck-popover-content aria-label="Info">Text</cck-popover-content>
       </ng-template>
     </ng-container>
   `,

@@ -17,7 +17,7 @@ describe('Popover data attributes', () => {
       `<ng-container cckPopover>
         <button cckPopoverTrigger>Share</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-label="Share"><button cckPopoverClose>Close</button></div>
+          <cck-popover-content aria-label="Share"><button cckPopoverClose>Close</button></cck-popover-content>
         </ng-template>
       </ng-container>`,
       { imports: [...CckPopoverImports] },

@@ -28,7 +28,7 @@ function template(links: string): string {
     <nav cckTabNav aria-label="Project" [tabPanel]="panel">
       ${links}
     </nav>
-    <div cckTabNavPanel #panel="cckTabNavPanel" id="outlet"><p>Outlet</p></div>`;
+    <cck-tab-nav-panel #panel="cckTabNavPanel" id="outlet"><p>Outlet</p></cck-tab-nav-panel>`;
 }
 
 const LINKS = `
@@ -98,7 +98,7 @@ describe('TabNav with a linked panel', () => {
   it('uses the id of a link as the label of the panel', async () => {
     await render(
       `<nav cckTabNav aria-label="x" [tabPanel]="panel"><a cckTabNavLink href="#a" active id="mine">A</a></nav>
-       <div cckTabNavPanel #panel="cckTabNavPanel"></div>`,
+       <cck-tab-nav-panel #panel="cckTabNavPanel"></cck-tab-nav-panel>`,
       { imports },
     );
     expect(screen.getByRole('tab').id).toBe('mine');

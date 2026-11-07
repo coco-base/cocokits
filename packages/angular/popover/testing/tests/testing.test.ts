@@ -13,17 +13,17 @@ import { CckPopoverHarness } from '../index';
     <ng-container cckPopover>
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent>
+        <cck-popover-content>
           <h2 cckPopoverTitle>Share this page</h2>
-          <p cckPopoverDescription>Anyone with the link can read it.</p>
+          <cck-popover-description>Anyone with the link can read it.</cck-popover-description>
           <button cckPopoverClose>Done</button>
-        </div>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
     <ng-container cckPopover>
       <button cckPopoverTrigger disabled>{{ invite }}</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Invite">Invite someone</div>
+        <cck-popover-content aria-label="Invite">Invite someone</cck-popover-content>
       </ng-template>
     </ng-container>
   `,

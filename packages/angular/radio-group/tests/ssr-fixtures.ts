@@ -9,11 +9,11 @@ import { CckRadioGroupImports } from '../index';
   selector: 'app-root',
   imports: [CckRadioGroupImports, CckRadioImports],
   template: `
-    <div cckRadioGroup aria-label="Plan" [value]="plan" required orientation="horizontal">
-      <div cckRadio submitValue="free">Free</div>
-      <div cckRadio submitValue="pro">Pro</div>
-      <div cckRadio submitValue="team" disabled>Team</div>
-    </div>
+    <cck-radio-group aria-label="Plan" [value]="plan" required orientation="horizontal">
+      <cck-radio submitValue="free">Free</cck-radio>
+      <cck-radio submitValue="pro">Pro</cck-radio>
+      <cck-radio submitValue="team" disabled>Team</cck-radio>
+    </cck-radio-group>
   `,
 })
 export class Root {

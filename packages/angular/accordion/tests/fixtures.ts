@@ -8,18 +8,18 @@ import { CckAccordionImports } from '../index';
   selector: 'app-root',
   imports: [CckAccordionImports],
   template: `
-    <div cckAccordion>
-      <div cckAccordionItem label="Shipping">Shipping body</div>
-      <div cckAccordionItem label="Returns" [expanded]="true">Returns body</div>
-      <div cckAccordionItem label="Warranty" [expanded]="true">Warranty body</div>
-    </div>
-    <div cckAccordion multi>
-      <div cckAccordionItem headingLevel="2" [expanded]="true">
+    <cck-accordion>
+      <cck-accordion-item label="Shipping">Shipping body</cck-accordion-item>
+      <cck-accordion-item label="Returns" [expanded]="true">Returns body</cck-accordion-item>
+      <cck-accordion-item label="Warranty" [expanded]="true">Warranty body</cck-accordion-item>
+    </cck-accordion>
+    <cck-accordion multi>
+      <cck-accordion-item headingLevel="2" [expanded]="true">
         <ng-template cckAccordionLabel><b>Care</b> guide</ng-template>
         Care body
-      </div>
-      <div cckAccordionItem label="Locked" disabled>Locked body</div>
-    </div>
+      </cck-accordion-item>
+      <cck-accordion-item label="Locked" disabled>Locked body</cck-accordion-item>
+    </cck-accordion>
   `,
 })
 export class Root {

@@ -10,12 +10,12 @@ import { getTabNavProps, tabNavAnatomy } from '@cocokits/machines/tab-nav';
  *
  * @example
  * <nav cckTabNav aria-label="Project" [tabPanel]="panel">…</nav>
- * <div cckTabNavPanel #panel="cckTabNavPanel"><router-outlet /></div>
+ * <cck-tab-nav-panel #panel="cckTabNavPanel"><router-outlet /></cck-tab-nav-panel>
  * @cckPart panel
  * @cckSlot default - The content of the active link.
  */
 @Directive({
-  selector: '[cckTabNavPanel]',
+  selector: 'cck-tab-nav-panel',
   exportAs: 'cckTabNavPanel',
   host: {
     '[class]': 'props().class',

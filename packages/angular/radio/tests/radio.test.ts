@@ -18,24 +18,22 @@ function must<T>(value: T | null | undefined): T {
   template: `
     <fieldset>
       <legend>Plan</legend>
-      <div
-        cckRadio
+      <cck-radio
         name="plan"
         submitValue="free"
         [checked]="selected() === 'free'"
         (checkedChangeDetails)="onChange('free', $event)"
       >
         Free
-      </div>
-      <div
-        cckRadio
+      </cck-radio>
+      <cck-radio
         name="plan"
         submitValue="pro"
         [checked]="selected() === 'pro'"
         (checkedChangeDetails)="onChange('pro', $event)"
       >
         Pro
-      </div>
+      </cck-radio>
     </fieldset>
   `,
 })
@@ -65,11 +63,11 @@ describe('Radio', () => {
   });
 
   it('renders the anatomy and only the radio facts', async () => {
-    const { container } = await render(`<div cckRadio name="plan" required>Free</div>`, {
+    const { container } = await render(`<cck-radio name="plan" required>Free</cck-radio>`, {
       imports: [...CckRadioImports],
     });
     const root = must(container.querySelector('.cck-radio'));
-    expect(root.tagName).toBe('DIV');
+    expect(root.tagName).toBe('CCK-RADIO');
     const input = radio('Free');
     expect(root.querySelector('.cck-radio__wrapper > .cck-radio__input-wrapper > input.cck-radio__input')).toBe(input);
     expect(input.type).toBe('radio');
@@ -88,7 +86,7 @@ describe('Radio', () => {
 
   it('routes id, name and aria attributes to the input and none to the host', async () => {
     const { container } = await render(
-      `<div cckRadio id="mine" name="plan" aria-describedby="d" submitValue="free">Free</div>`,
+      `<cck-radio id="mine" name="plan" aria-describedby="d" submitValue="free">Free</cck-radio>`,
       { imports: [...CckRadioImports] },
     );
     const root = must(container.querySelector('.cck-radio'));
@@ -141,8 +139,8 @@ describe('Radio', () => {
   it('does not report a radio of another name, another form or no name', async () => {
     const events: string[] = [];
     await render(
-      `<div cckRadio name="a" [checked]="true" (checkedChangeDetails)="events.push('a')">A</div>
-       <div cckRadio name="b" (checkedChangeDetails)="events.push('b')">B</div>`,
+      `<cck-radio name="a" [checked]="true" (checkedChangeDetails)="events.push('a')">A</cck-radio>
+       <cck-radio name="b" (checkedChangeDetails)="events.push('b')">B</cck-radio>`,
       { imports: [...CckRadioImports], componentProperties: { events } },
     );
     await userEvent.setup().click(radio('B'));
@@ -154,8 +152,8 @@ describe('Radio', () => {
     const seen: { value: boolean; reason: string }[] = [];
     const { container, fixture } = await render(
       `<form>
-         <div cckRadio name="plan" submitValue="free" [checked]="true" (checkedChangeDetails)="seen.push($event)">Free</div>
-         <div cckRadio name="plan" submitValue="pro">Pro</div>
+         <cck-radio name="plan" submitValue="free" [checked]="true" (checkedChangeDetails)="seen.push($event)">Free</cck-radio>
+         <cck-radio name="plan" submitValue="pro">Pro</cck-radio>
        </form>`,
       { imports: [...CckRadioImports], componentProperties: { seen } },
     );
@@ -175,7 +173,7 @@ describe('Radio', () => {
   it('renders data-disabled from a disabling fieldset', async () => {
     const disabled = signal(false);
     const { container, fixture } = await render(
-      `<fieldset [disabled]="disabled()"><div cckRadio name="plan">Free</div></fieldset>`,
+      `<fieldset [disabled]="disabled()"><cck-radio name="plan">Free</cck-radio></fieldset>`,
       { imports: [...CckRadioImports], componentProperties: { disabled } },
     );
     const root = must(container.querySelector('.cck-radio'));
@@ -190,14 +188,14 @@ describe('Radio', () => {
   describe('development warnings', () => {
     it('warns once for a radio without a name', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-      await render(`<div cckRadio>Free</div>`, { imports: [...CckRadioImports] });
+      await render(`<cck-radio>Free</cck-radio>`, { imports: [...CckRadioImports] });
       expect(warn).toHaveBeenCalledTimes(1);
       expect(String(warn.mock.calls[0]?.[0])).toContain('Radio has no name');
     });
 
     it('does not warn with a name', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-      await render(`<div cckRadio name="plan">Free</div>`, { imports: [...CckRadioImports] });
+      await render(`<cck-radio name="plan">Free</cck-radio>`, { imports: [...CckRadioImports] });
       expect(warn).not.toHaveBeenCalled();
     });
   });

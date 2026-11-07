@@ -2,6 +2,11 @@
 import { describe, expect, it } from 'vitest';
 import { renderOnServer } from './ssr-fixtures';
 
+/** The opening tags of the Checkbox, Switch and Radio. */
+function roots(html: string): Record<string, string | undefined>[] {
+  return ['cck-checkbox', 'cck-switch', 'cck-radio'].flatMap((tag) => tags(html, tag));
+}
+
 /** The opening tags with the name, as a name to value map. */
 function tags(html: string, tag: string): Record<string, string | undefined>[] {
   return [...html.matchAll(new RegExp(`<${tag}\\b([^>]*)>`, 'g'))].map((match) =>
@@ -16,11 +21,11 @@ describe('Checkbox, Switch and Radio on the server', () => {
 
   it('renders the classes, the facts, the checked attribute and the mixed fact', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
-    const roots = tags(html, 'div');
-    const checked = roots.filter((div) => div.class?.startsWith('cck-checkbox') && div['data-checked'] !== undefined);
+    const hosts = roots(html);
+    const checked = hosts.filter((div) => div.class?.startsWith('cck-checkbox') && div['data-checked'] !== undefined);
     expect(checked.length).toBeGreaterThan(0);
-    expect(roots.some((div) => div['data-indeterminate'] !== undefined)).toBe(true);
-    expect(roots.some((div) => div.class?.startsWith('cck-switch') && div['data-required'] !== undefined)).toBe(true);
+    expect(hosts.some((div) => div['data-indeterminate'] !== undefined)).toBe(true);
+    expect(hosts.some((div) => div.class?.startsWith('cck-switch') && div['data-required'] !== undefined)).toBe(true);
     const inputs = tags(html, 'input');
     expect(inputs.filter((input) => input.type === 'checkbox' && input.checked !== undefined).length).toBeGreaterThan(
       1,
@@ -59,7 +64,7 @@ describe('Checkbox, Switch and Radio on the server', () => {
         part,
       ).toBe(true);
     }
-    const hosts = tags(html, 'div').filter((div) => /^cck-(checkbox|switch|radio)\b/.test(div.class ?? ''));
+    const hosts = roots(html).filter((div) => /^cck-(checkbox|switch|radio)\b/.test(div.class ?? ''));
     expect(hosts.length).toBeGreaterThan(5);
     for (const host of hosts) {
       expect(host.name).toBeUndefined();

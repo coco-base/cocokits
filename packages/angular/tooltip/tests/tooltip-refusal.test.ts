@@ -11,7 +11,7 @@ import { stubOverlayApis } from './overlay-stubs';
     <p>Empty space</p>
     <ng-container cckTooltip [disableClose]="disableClose()">
       <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-      <ng-template cckTooltipPortal><div cckTooltipContent>Copy the link</div></ng-template>
+      <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
     </ng-container>
   `,
 })
@@ -51,7 +51,7 @@ describe('Tooltip disableClose', () => {
   it('warns in development when the portal has no trigger', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     await render(
-      `<ng-container cckTooltip><ng-template cckTooltipPortal><div cckTooltipContent>x</div></ng-template></ng-container>`,
+      `<ng-container cckTooltip><ng-template cckTooltipPortal><cck-tooltip-content>x</cck-tooltip-content></ng-template></ng-container>`,
       { imports: [...CckTooltipImports] },
     );
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('CocoKits: a TooltipPortal has no TooltipTrigger'));

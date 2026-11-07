@@ -16,14 +16,14 @@ import { CckBadgeImports } from '../index';
   selector: 'app-root',
   imports: [CckBadgeImports, CckBadgeContainerImports, CckButtonImports],
   template: `
-    <span cckBadge [content]="count"></span>
-    <span cckBadge></span>
-    <span cckBadge [content]="120" [max]="99"></span>
-    <span cckBadge [content]="5" hide></span>
-    <div cckBadgeContainer position="bottom-left">
-      <span cckBadge [content]="2"></span>
+    <cck-badge [content]="count"></cck-badge>
+    <cck-badge></cck-badge>
+    <cck-badge [content]="120" [max]="99"></cck-badge>
+    <cck-badge [content]="5" hide></cck-badge>
+    <cck-badge-container position="bottom-left">
+      <cck-badge [content]="2"></cck-badge>
       <button cckButton>Inbox</button>
-    </div>
+    </cck-badge-container>
   `,
 })
 export class Root {

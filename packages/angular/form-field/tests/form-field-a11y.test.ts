@@ -8,19 +8,19 @@ import { CckFormFieldImports } from '../index';
 
 const imports = [...CckFormFieldImports, ...CckLabelImports, ...CckHintImports];
 
-const story = `<div cckFormField>
+const story = `<cck-form-field>
   <label cckLabel for="email">Email address</label>
   <input id="email" type="email" aria-describedby="email-hint" />
-  <div cckHint id="email-hint">We only use it for the receipt.</div>
-</div>`;
+  <cck-hint id="email-hint">We only use it for the receipt.</cck-hint>
+</cck-form-field>`;
 
 describe('FormField accessibility', () => {
   it.each([
     ['label, input and hint', story],
-    ['without a hint', `<div cckFormField><label cckLabel for="n">Name</label><input id="n" /></div>`],
+    ['without a hint', `<cck-form-field><label cckLabel for="n">Name</label><input id="n" /></cck-form-field>`],
     [
       'several hints',
-      `<div cckFormField><label cckLabel for="n">Name</label><input id="n" aria-describedby="a b" /><div cckHint id="a">One</div><div cckHint id="b">Two</div></div>`,
+      `<cck-form-field><label cckLabel for="n">Name</label><input id="n" aria-describedby="a b" /><cck-hint id="a">One</cck-hint><cck-hint id="b">Two</cck-hint></cck-form-field>`,
     ],
   ])('has no axe violations: %s', async (_name, template) => {
     const { container } = await render(template, { imports });

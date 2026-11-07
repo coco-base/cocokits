@@ -16,7 +16,7 @@ export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
  * `[formControl]` and `ngModel` with no ControlValueAccessor, and that takes part in a native `<form>`
  * itself (`FormData`, constraint validation, reset, `fieldset[disabled]`).
  *
- * Inside a `[cckFormField]` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
+ * Inside a `cck-form-field` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
  * `aria-describedby` ends with the field's feedback wrapper. `name` defaults to the path of the bound
  * forms control. `aria-invalid="true"` appears only while the control is invalid and was touched or the
  * form was submitted. Enter inserts a line break and never submits the form.
@@ -26,10 +26,10 @@ export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
  * through.
  *
  * @example
- * <div cckFormField>
+ * <cck-form-field>
  *   <label cckLabel>Message</label>
  *   <textarea cckTextarea [(value)]="message"></textarea>
- * </div>
+ * </cck-form-field>
  * @cckPart root
  */
 @Directive({

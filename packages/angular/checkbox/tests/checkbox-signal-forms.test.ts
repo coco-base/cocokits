@@ -33,7 +33,7 @@ const off: Flags = { required: false, disabled: false, readonly: false, hidden: 
   template: `
     <form [formRoot]="f">
       @if (!f.terms().hidden() || showHidden) {
-        <div cckCheckbox [formField]="f.terms" submitValue="yes">Accept</div>
+        <cck-checkbox [formField]="f.terms" submitValue="yes">Accept</cck-checkbox>
       }
       <button type="submit">Send</button>
     </form>

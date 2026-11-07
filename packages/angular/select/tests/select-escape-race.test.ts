@@ -7,16 +7,15 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckSelectImports],
   template: `
-    <div
-      cckSelect
+    <cck-select
       aria-label="Dish"
       placeholder="Choose a dish"
       [closePredicate]="record"
       (openedChange)="opened.push($event)"
     >
-      <div cckSelectOption value="Cake">Cake</div>
-      <div cckSelectOption value="Pizza">Pizza</div>
-    </div>
+      <cck-select-option value="Cake">Cake</cck-select-option>
+      <cck-select-option value="Pizza">Pizza</cck-select-option>
+    </cck-select>
   `,
 })
 class Host {

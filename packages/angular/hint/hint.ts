@@ -3,18 +3,18 @@ import { themeAttrs } from '@cocokits/angular-core';
 import { getHintProps, hintAnatomy } from '@cocokits/machines/hint';
 
 /**
- * A short help text for a control, on the author's element (a `<div>` by default). It renders its
+ * A short help text for a control, written as the `cck-hint` tag. It renders its
  * content as written and has no role and no ARIA: give it an `id` and list that id in the
- * control's `aria-describedby`. It works on its own, inside or outside a `[cckFormField]`, and
+ * control's `aria-describedby`. It works on its own, inside or outside a `cck-form-field`, and
  * sets no style.
  *
  * @example
- * <div cckHint id="email-hint">We only use it for the receipt.</div>
+ * <cck-hint id="email-hint">We only use it for the receipt.</cck-hint>
  * @cckPart root
  * @cckSlot default - The hint text, optionally with an icon.
  */
 @Directive({
-  selector: '[cckHint]',
+  selector: 'cck-hint',
   exportAs: 'cckHint',
   host: {
     '[class]': 'parts.root.class',

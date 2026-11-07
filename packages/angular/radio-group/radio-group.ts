@@ -65,8 +65,7 @@ function inDomOrder(radios: readonly CckRadioGroupRegistration[]): CckRadioGroup
 }
 
 /**
- * A group of Radios with one value. Put it on the element that holds the `cckRadio` elements (a `div` by
- * default); the host is the `radiogroup`. The group is one tab stop: Tab enters at the checked radio, else the
+ * A group of Radios with one value. Write it as the `cck-radio-group` tag around the `cck-radio` tags; the host is the `radiogroup`. The group is one tab stop: Tab enters at the checked radio, else the
  * first enabled one, and the arrow keys move the focus and the check to the next enabled radio. Each radio is
  * identified by its `submitValue`; it is checked while that equals the group's `value`, and it takes the
  * group's `name`, `disabled` and `required`. Name the group with `aria-labelledby` (a visible caption) or
@@ -79,15 +78,15 @@ function inDomOrder(radios: readonly CckRadioGroupRegistration[]): CckRadioGroup
  *
  * @example
  * <span id="plan-label">Plan</span>
- * <div cckRadioGroup aria-labelledby="plan-label" [(value)]="plan">
- *   <div cckRadio submitValue="free">Free</div>
- *   <div cckRadio submitValue="pro">Pro</div>
- * </div>
+ * <cck-radio-group aria-labelledby="plan-label" [(value)]="plan">
+ *   <cck-radio submitValue="free">Free</cck-radio>
+ *   <cck-radio submitValue="pro">Pro</cck-radio>
+ * </cck-radio-group>
  * @cckPart root
- * @cckSlot default - The `cckRadio` elements.
+ * @cckSlot default - The `cck-radio` elements.
  */
 @Directive({
-  selector: '[cckRadioGroup]',
+  selector: 'cck-radio-group',
   exportAs: 'cckRadioGroup',
   host: {
     ngNoCva: '',

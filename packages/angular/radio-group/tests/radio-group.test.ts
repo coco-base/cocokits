@@ -6,7 +6,6 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckDir } from '@cocokits/angular-core';
 import { CckRadioImports } from '@cocokits/angular/radio';
-import { radioGroupMeta } from '@cocokits/machines/radio-group';
 import { CckRadioGroupImports, type RadioGroupChangeDetails } from '../index';
 import { must } from './queries';
 
@@ -17,8 +16,7 @@ const imports = [...CckRadioGroupImports, ...CckRadioImports];
   imports: [...imports, FormsModule],
   template: `
     <span id="plan-label">Plan</span>
-    <div
-      cckRadioGroup
+    <cck-radio-group
       aria-labelledby="plan-label"
       [(value)]="plan"
       [orientation]="orientation()"
@@ -27,10 +25,10 @@ const imports = [...CckRadioGroupImports, ...CckRadioImports];
       [required]="required()"
       (valueChangeDetails)="events.push($event)"
     >
-      <div cckRadio submitValue="free">Free</div>
-      <div cckRadio submitValue="pro" [disabled]="proDisabled()">Pro</div>
-      <div cckRadio submitValue="team">Team</div>
-    </div>
+      <cck-radio submitValue="free">Free</cck-radio>
+      <cck-radio submitValue="pro" [disabled]="proDisabled()">Pro</cck-radio>
+      <cck-radio submitValue="team">Team</cck-radio>
+    </cck-radio-group>
   `,
 })
 class Host {
@@ -135,11 +133,9 @@ describe('Radio group', () => {
     expect(host.events.map((e) => [e.value, e.reason, e.event?.type])).toEqual([['free', 'user', 'change']]);
   });
 
-  it('renders a div root by default', async () => {
+  it('renders the cck-radio-group tag', async () => {
     const { container } = await render(Host);
-    expect(must(container.querySelector('.cck-radio-group')).tagName.toLowerCase()).toBe(
-      radioGroupMeta.defaultElements?.root,
-    );
+    expect(must(container.querySelector('.cck-radio-group')).tagName.toLowerCase()).toBe('cck-radio-group');
   });
 
   it('stops at the end with loop=false and blocks the other axis with orientation', async () => {
@@ -192,10 +188,10 @@ describe('Radio group', () => {
       imports,
       template: `
         <div dir="rtl" cckDir>
-          <div cckRadioGroup aria-label="Plan" [value]="plan">
-            <div cckRadio submitValue="free">Free</div>
-            <div cckRadio submitValue="pro">Pro</div>
-          </div>
+          <cck-radio-group aria-label="Plan" [value]="plan">
+            <cck-radio submitValue="free">Free</cck-radio>
+            <cck-radio submitValue="pro">Pro</cck-radio>
+          </cck-radio-group>
         </div>
       `,
     })
@@ -211,8 +207,8 @@ describe('Radio group', () => {
 
   it('leaves the group on Tab and keeps one tab stop', async () => {
     await render(
-      `<button>before</button><div cckRadioGroup aria-label="Plan" value="free">
-        <div cckRadio submitValue="free">Free</div><div cckRadio submitValue="pro">Pro</div></div><button>after</button>`,
+      `<button>before</button><cck-radio-group aria-label="Plan" value="free">
+        <cck-radio submitValue="free">Free</cck-radio><cck-radio submitValue="pro">Pro</cck-radio></cck-radio-group><button>after</button>`,
       { imports },
     );
     const user = userEvent.setup();
@@ -227,11 +223,11 @@ describe('Radio group', () => {
     @Component({
       imports,
       template: `
-        <div cckRadioGroup aria-label="Plan">
+        <cck-radio-group aria-label="Plan">
           @for (plan of plans(); track plan) {
-            <div cckRadio [submitValue]="plan">{{ plan }}</div>
+            <cck-radio [submitValue]="plan">{{ plan }}</cck-radio>
           }
-        </div>
+        </cck-radio-group>
       `,
     })
     class Dynamic {
@@ -252,7 +248,7 @@ describe('Radio group', () => {
 
   it('warns about a radio without a value and never checks it', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckRadioGroup aria-label="Plan"><div cckRadio>Loose</div></div>`, { imports });
+    await render(`<cck-radio-group aria-label="Plan"><cck-radio>Loose</cck-radio></cck-radio-group>`, { imports });
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('no submitValue'));
     await userEvent.setup().click(radio('Loose'));
     expect(radio('Loose').checked).toBe(false);
@@ -261,8 +257,8 @@ describe('Radio group', () => {
   it('emits touch when focus leaves the group and not between radios', async () => {
     const touch = vi.fn();
     await render(
-      `<div cckRadioGroup aria-label="Plan" value="free" (touch)="touch()">
-        <div cckRadio submitValue="free">Free</div><div cckRadio submitValue="pro">Pro</div></div><button>after</button>`,
+      `<cck-radio-group aria-label="Plan" value="free" (touch)="touch()">
+        <cck-radio submitValue="free">Free</cck-radio><cck-radio submitValue="pro">Pro</cck-radio></cck-radio-group><button>after</button>`,
       { imports, componentProperties: { touch } },
     );
     const user = userEvent.setup();
@@ -279,17 +275,16 @@ describe('Radio group in a form', () => {
     imports,
     template: `
       <form aria-label="Plan form">
-        <div
-          cckRadioGroup
+        <cck-radio-group
           aria-label="Plan"
           name="plan"
           [required]="true"
           [(value)]="plan"
           (valueChangeDetails)="events.push($event)"
         >
-          <div cckRadio submitValue="free">Free</div>
-          <div cckRadio submitValue="pro">Pro</div>
-        </div>
+          <cck-radio submitValue="free">Free</cck-radio>
+          <cck-radio submitValue="pro">Pro</cck-radio>
+        </cck-radio-group>
       </form>
     `,
   })
@@ -331,7 +326,7 @@ describe('Radio group in a form', () => {
 
   it('disables every radio through a disabling fieldset', async () => {
     await render(
-      `<fieldset disabled><div cckRadioGroup aria-label="Plan"><div cckRadio submitValue="a">A</div></div></fieldset>`,
+      `<fieldset disabled><cck-radio-group aria-label="Plan"><cck-radio submitValue="a">A</cck-radio></cck-radio-group></fieldset>`,
       { imports },
     );
     expect(radio('A').disabled).toBe(true);
@@ -343,10 +338,10 @@ describe('Radio group forms libraries', () => {
     @Component({
       imports: [...imports, FormField],
       template: `
-        <div cckRadioGroup aria-label="Plan" [formField]="planForm.plan">
-          <div cckRadio submitValue="free">Free</div>
-          <div cckRadio submitValue="pro">Pro</div>
-        </div>
+        <cck-radio-group aria-label="Plan" [formField]="planForm.plan">
+          <cck-radio submitValue="free">Free</cck-radio>
+          <cck-radio submitValue="pro">Pro</cck-radio>
+        </cck-radio-group>
       `,
     })
     class SignalHost {
@@ -369,10 +364,10 @@ describe('Radio group forms libraries', () => {
     @Component({
       imports: [...imports, ReactiveFormsModule],
       template: `
-        <div cckRadioGroup aria-label="Plan" [formControl]="control">
-          <div cckRadio submitValue="free">Free</div>
-          <div cckRadio submitValue="pro">Pro</div>
-        </div>
+        <cck-radio-group aria-label="Plan" [formControl]="control">
+          <cck-radio submitValue="free">Free</cck-radio>
+          <cck-radio submitValue="pro">Pro</cck-radio>
+        </cck-radio-group>
       `,
     })
     class ReactiveHost {
@@ -391,10 +386,10 @@ describe('Radio group forms libraries', () => {
     @Component({
       imports: [...imports, FormsModule],
       template: `
-        <div cckRadioGroup aria-label="Plan" [(ngModel)]="plan">
-          <div cckRadio submitValue="free">Free</div>
-          <div cckRadio submitValue="pro">Pro</div>
-        </div>
+        <cck-radio-group aria-label="Plan" [(ngModel)]="plan">
+          <cck-radio submitValue="free">Free</cck-radio>
+          <cck-radio submitValue="pro">Pro</cck-radio>
+        </cck-radio-group>
       `,
     })
     class ModelHost {

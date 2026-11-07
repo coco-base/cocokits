@@ -24,7 +24,7 @@ import { CckSelectOptionGroup } from './select-option-group';
  * In a single Select, an option with the value `null` or `undefined` clears the value, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder.
  *
  * @example
- * <div cckSelectOption value="Cake">Cake</div>
+ * <cck-select-option value="Cake">Cake</cck-select-option>
  * @typeParam T - The type of the value. The default is `string`.
  * @cckPart option
  * @cckPart optionIndicator
@@ -35,7 +35,7 @@ import { CckSelectOptionGroup } from './select-option-group';
  * @cckDataAttr data-disabled - present when the option or its group is disabled
  */
 @Component({
-  selector: '[cckSelectOption]',
+  selector: 'cck-select-option',
   exportAs: 'cckSelectOption',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
@@ -80,7 +80,7 @@ export class CckSelectOption<T = string> implements OnInit {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** @internal */
-  readonly _root = injectCckSelect<unknown>('Option');
+  readonly _root = injectCckSelect<unknown>('cck-select-option');
   private readonly group = inject(CckSelectOptionGroup, { optional: true });
   private readonly key = inject(IdGenerator).getId(selectAnatomy.classes.option);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;

@@ -10,7 +10,7 @@ import { CckInputImports } from '../index';
 const imports = [...CckInputImports, ...CckFormFieldImports, ...CckLabelImports, ...CckHintImports];
 
 const field = (attrs: string, input: string): string =>
-  `<div cckFormField ${attrs}><label cckLabel>Email address</label><input cckInput ${input} /><div cckHint>We only use it for the receipt.</div><div cckHint>Second hint.</div></div>`;
+  `<cck-form-field ${attrs}><label cckLabel>Email address</label><input cckInput ${input} /><cck-hint>We only use it for the receipt.</cck-hint><cck-hint>Second hint.</cck-hint></cck-form-field>`;
 
 describe('Input accessibility', () => {
   it.each([
@@ -31,7 +31,7 @@ describe('Input accessibility', () => {
     await render(field('', 'type="email"'), { imports });
     const input = screen.getByRole('textbox', { name: 'Email address' });
     expect(input.getAttribute('aria-describedby')).toBeTruthy();
-    expect(screen.getByRole('textbox', { description: 'We only use it for the receipt. Second hint.' })).toBe(input);
+    expect(screen.getByRole('textbox', { description: 'We only use it for the receipt.Second hint.' })).toBe(input);
   });
 
   it('keeps the name free of the required marker and announces required natively', async () => {

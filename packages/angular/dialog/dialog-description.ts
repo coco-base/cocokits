@@ -7,12 +7,12 @@ import { injectCckDialogRoot } from './dialog-root';
  * mounted.
  *
  * @example
- * <p cckDialogDescription>This cannot be undone.</p>
+ * <cck-dialog-description>This cannot be undone.</cck-dialog-description>
  * @cckPart description
  * @cckSlot default - The description text.
  */
 @Directive({
-  selector: '[cckDialogDescription]',
+  selector: 'cck-dialog-description',
   exportAs: 'cckDialogDescription',
   host: {
     '[class]': 'props().class',

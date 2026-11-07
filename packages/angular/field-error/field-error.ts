@@ -4,8 +4,8 @@ import { CckFormField } from '@cocokits/angular/form-field';
 import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-error';
 
 /**
- * An error message of the field, on the author's element (a `<div>` by default). Inside a
- * `[cckFormField]` it shows its content while the field is invalid and was touched or submitted (the
+ * An error message of the field, written as the `cck-field-error` tag. Inside a
+ * `cck-form-field` it shows its content while the field is invalid and was touched or submitted (the
  * gate of `aria-invalid`), or always with `force`; outside a field the content always shows. The
  * root is a polite live region (`aria-live="polite"`) that is always rendered, so the text is
  * announced when it appears; it has no role. Inside a field it sits in the feedback wrapper, which
@@ -15,16 +15,16 @@ import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-
  * icon).
  *
  * @example
- * <div cckFormField>
+ * <cck-form-field>
  *   <label cckLabel>Email address</label>
  *   <input cckInput type="email" required />
- *   <div cckFieldError>Enter an email address.</div>
- * </div>
+ *   <cck-field-error>Enter an email address.</cck-field-error>
+ * </cck-form-field>
  * @cckPart root
  * @cckSlot default - The message; inserted only while the error shows.
  */
 @Component({
-  selector: '[cckFieldError]',
+  selector: 'cck-field-error',
   exportAs: 'cckFieldError',
   encapsulation: ViewEncapsulation.None,
   host: {

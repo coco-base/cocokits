@@ -6,13 +6,13 @@ import { injectCckSelect } from './select';
  * A line between options or groups. It is decorative: assistive technology skips it, and keys never stop on it.
  *
  * @example
- * <div cckSelectOption value="Cake">Cake</div>
- * <div cckSelectSeparator></div>
- * <div cckSelectOption value="Pizza">Pizza</div>
+ * <cck-select-option value="Cake">Cake</cck-select-option>
+ * <cck-select-separator></cck-select-separator>
+ * <cck-select-option value="Pizza">Pizza</cck-select-option>
  * @cckPart separator
  */
 @Directive({
-  selector: '[cckSelectSeparator]',
+  selector: 'cck-select-separator',
   exportAs: 'cckSelectSeparator',
   host: {
     '[class]': 'root.parts().separator.class',
@@ -20,7 +20,7 @@ import { injectCckSelect } from './select';
   },
 })
 export class CckSelectSeparator {
-  protected readonly root = injectCckSelect<unknown>('Separator');
+  protected readonly root = injectCckSelect<unknown>('cck-select-separator');
 
   constructor() {
     bindAttrs(inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, () => this.root._theme().separator);

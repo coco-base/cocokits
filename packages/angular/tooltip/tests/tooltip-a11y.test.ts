@@ -20,7 +20,7 @@ describe('Tooltip accessibility', () => {
     await render(
       `<ng-container cckTooltip>
         <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-        <ng-template cckTooltipPortal><div cckTooltipContent>Copies the link to the clipboard</div></ng-template>
+        <ng-template cckTooltipPortal><cck-tooltip-content>Copies the link to the clipboard</cck-tooltip-content></ng-template>
       </ng-container>`,
       { imports: [...CckTooltipImports] },
     );

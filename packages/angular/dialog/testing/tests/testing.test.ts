@@ -15,7 +15,7 @@ import { CckDialogHarness } from '../index';
       <ng-template cckDialogPortal>
         <dialog cckDialogContent>
           <h2 cckDialogTitle>Delete project</h2>
-          <p cckDialogDescription>This cannot be undone.</p>
+          <cck-dialog-description>This cannot be undone.</cck-dialog-description>
           <button cckDialogClose>Cancel</button>
         </dialog>
       </ng-template>

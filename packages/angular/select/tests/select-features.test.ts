@@ -25,15 +25,15 @@ describe('Select features', () => {
     it('groups options under a text label and a markup label, named by the label', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckSelect aria-label="Dish">
-          <div cckSelectOptionGroup label="Desserts">
-            <div cckSelectOption value="Cake">Cake</div>
-          </div>
-          <div cckSelectOptionGroup>
+        `<cck-select aria-label="Dish">
+          <cck-select-option-group label="Desserts">
+            <cck-select-option value="Cake">Cake</cck-select-option>
+          </cck-select-option-group>
+          <cck-select-option-group>
             <ng-template cckSelectOptionGroupLabel><b data-testid="mark">Mains</b> (hot)</ng-template>
-            <div cckSelectOption value="Pizza">Pizza</div>
-          </div>
-        </div>`,
+            <cck-select-option value="Pizza">Pizza</cck-select-option>
+          </cck-select-option-group>
+        </cck-select>`,
         { imports },
       );
       await user.click(trigger());
@@ -51,12 +51,12 @@ describe('Select features', () => {
       const user = userEvent.setup();
       const value = signal<string | undefined>(undefined);
       await render(
-        `<div cckSelect aria-label="Dish" [(value)]="value">
-          <div cckSelectOptionGroup label="Sold out" disabled>
-            <div cckSelectOption value="Cake">Cake</div>
-          </div>
-          <div cckSelectOption value="Pizza">Pizza</div>
-        </div>`,
+        `<cck-select aria-label="Dish" [(value)]="value">
+          <cck-select-option-group label="Sold out" disabled>
+            <cck-select-option value="Cake">Cake</cck-select-option>
+          </cck-select-option-group>
+          <cck-select-option value="Pizza">Pizza</cck-select-option>
+        </cck-select>`,
         { imports, componentProperties: { value } },
       );
       await user.click(trigger());
@@ -76,10 +76,10 @@ describe('Select features', () => {
       const value = signal<string | undefined>('Cake');
       const changes: CckSelectChange[] = [];
       await render(
-        `<div cckSelect aria-label="Dish" placeholder="Choose" [(value)]="value" (selectionChange)="changes.push($event)">
-          <div cckSelectOption value="">None</div>
-          <div cckSelectOption value="Cake">Cake</div>
-        </div>`,
+        `<cck-select aria-label="Dish" placeholder="Choose" [(value)]="value" (selectionChange)="changes.push($event)">
+          <cck-select-option value="">None</cck-select-option>
+          <cck-select-option value="Cake">Cake</cck-select-option>
+        </cck-select>`,
         { imports, componentProperties: { value, changes } },
       );
       expect(trigger().querySelector(`.${classes.value}`)?.textContent.trim()).toBe('Cake');
@@ -101,8 +101,7 @@ describe('Select features', () => {
 
     @Component({
       imports,
-      template: `<div
-        cckSelect
+      template: `<cck-select
         aria-label="Dish"
         name="dish"
         [(value)]="value"
@@ -111,9 +110,9 @@ describe('Select features', () => {
         (selectionChange)="changes.push($event)"
       >
         @for (dish of dishes; track dish.id) {
-          <div cckSelectOption [value]="dish">{{ dish.name }}</div>
+          <cck-select-option [value]="dish">{{ dish.name }}</cck-select-option>
         }
-      </div>`,
+      </cck-select>`,
     })
     class ObjectHost {
       readonly dishes: readonly Dish[] = [
@@ -144,11 +143,11 @@ describe('Select features', () => {
     it('matches typeahead against the text of the option, and String(value) when it has none', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckSelect aria-label="Dish">
-          <div cckSelectOption value="Cake"><svg aria-hidden="true"></svg></div>
-          <div cckSelectOption value="Pizza"><svg aria-hidden="true"></svg></div>
-          <div cckSelectOption value="Soup"><span aria-hidden="true">x</span> Soup</div>
-        </div>`,
+        `<cck-select aria-label="Dish">
+          <cck-select-option value="Cake"><svg aria-hidden="true"></svg></cck-select-option>
+          <cck-select-option value="Pizza"><svg aria-hidden="true"></svg></cck-select-option>
+          <cck-select-option value="Soup"><span aria-hidden="true">x</span> Soup</cck-select-option>
+        </cck-select>`,
         { imports },
       );
       await user.tab();
@@ -162,12 +161,12 @@ describe('Select features', () => {
     it('renders the cckSelectTrigger template with the selected values while something is selected', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckSelect multiple aria-label="Dish" placeholder="Choose" [value]="['Cake', 'Pizza']">
+        `<cck-select multiple aria-label="Dish" placeholder="Choose" [value]="['Cake', 'Pizza']">
           <ng-template cckSelectTrigger let-selected="selected">{{ selected.length }} selected</ng-template>
-          <div cckSelectOption value="Cake">Cake</div>
-          <div cckSelectOption value="Pizza">Pizza</div>
-          <div cckSelectOption value="Steak">Steak</div>
-        </div>`,
+          <cck-select-option value="Cake">Cake</cck-select-option>
+          <cck-select-option value="Pizza">Pizza</cck-select-option>
+          <cck-select-option value="Steak">Steak</cck-select-option>
+        </cck-select>`,
         { imports },
       );
       expect(trigger().querySelector(`.${classes.value}`)?.textContent.trim()).toBe('2 selected');
@@ -178,10 +177,10 @@ describe('Select features', () => {
 
     it('shows the placeholder, not the slot, while nothing is selected', async () => {
       await render(
-        `<div cckSelect aria-label="Dish" placeholder="Choose">
+        `<cck-select aria-label="Dish" placeholder="Choose">
           <ng-template cckSelectTrigger let-selected="selected">{{ selected.length }}</ng-template>
-          <div cckSelectOption value="Cake">Cake</div>
-        </div>`,
+          <cck-select-option value="Cake">Cake</cck-select-option>
+        </cck-select>`,
         { imports },
       );
       expect(trigger().querySelector(`.${classes.placeholder}`)?.textContent).toBe('Choose');
@@ -193,7 +192,7 @@ describe('Select features', () => {
     it('works unbound, with a one-way start value, and two-way', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckSelect aria-label="Dish" value="Burger"><div cckSelectOption value="Burger">Burger</div><div cckSelectOption value="Cake">Cake</div></div>`,
+        `<cck-select aria-label="Dish" value="Burger"><cck-select-option value="Burger">Burger</cck-select-option><cck-select-option value="Cake">Cake</cck-select-option></cck-select>`,
         {
           imports,
         },
@@ -209,7 +208,7 @@ describe('Select features', () => {
       const value = signal<string | undefined>(undefined);
       const changes: CckSelectChange[] = [];
       const { fixture } = await render(
-        `<div cckSelect aria-label="Dish" [(value)]="value" (selectionChange)="changes.push($event)"><div cckSelectOption value="Cake">Cake</div></div>`,
+        `<cck-select aria-label="Dish" [(value)]="value" (selectionChange)="changes.push($event)"><cck-select-option value="Cake">Cake</cck-select-option></cck-select>`,
         { imports, componentProperties: { value, changes } },
       );
       value.set('Cake');
@@ -231,11 +230,11 @@ describe('Select features', () => {
       const user = userEvent.setup();
       const value = signal<string | undefined>(undefined);
       await render(
-        `<div cckSelect aria-label="Dish" [(value)]="value">
-          <div cckSelectOption value="Cake" vetoClick>Cake</div>
-          <div cckSelectOption value="Pizza" (click)="$event.preventDefault()">Pizza</div>
-          <div cckSelectOption value="Burger">Burger</div>
-        </div>`,
+        `<cck-select aria-label="Dish" [(value)]="value">
+          <cck-select-option value="Cake" vetoClick>Cake</cck-select-option>
+          <cck-select-option value="Pizza" (click)="$event.preventDefault()">Pizza</cck-select-option>
+          <cck-select-option value="Burger">Burger</cck-select-option>
+        </cck-select>`,
         { imports: [...imports, VetoClick], componentProperties: { value } },
       );
       await user.click(trigger());
@@ -251,11 +250,11 @@ describe('Select features', () => {
   describe('dynamic options', () => {
     @Component({
       imports,
-      template: `<div cckSelect aria-label="Dish">
+      template: `<cck-select aria-label="Dish">
         @for (dish of dishes(); track dish) {
-          <div cckSelectOption [value]="dish">{{ dish }}</div>
+          <cck-select-option [value]="dish">{{ dish }}</cck-select-option>
         }
-      </div>`,
+      </cck-select>`,
     })
     class DynamicHost {
       readonly dishes = signal(['Cake', 'Pizza', 'Steak']);
@@ -284,8 +283,8 @@ describe('Select features', () => {
     it('flips start and end placement, and leaves the vertical keys alone', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckDir dir="rtl"><div cckSelect aria-label="Dish" side="start">
-          <div cckSelectOption value="Cake">Cake</div><div cckSelectOption value="Pizza">Pizza</div></div></div>`,
+        `<div cckDir dir="rtl"><cck-select aria-label="Dish" side="start">
+          <cck-select-option value="Cake">Cake</cck-select-option><cck-select-option value="Pizza">Pizza</cck-select-option></cck-select></div>`,
         { imports },
       );
       await user.tab();
@@ -308,12 +307,12 @@ describe('Select features', () => {
         `<ng-container cckPopover>
           <button cckPopoverTrigger>Settings</button>
           <ng-template cckPopoverPortal>
-            <div cckPopoverContent aria-label="Settings panel">
-              <div cckSelect aria-label="Dish">
-                <div cckSelectOption value="Cake">Cake</div>
-                <div cckSelectOption value="Pizza">Pizza</div>
-              </div>
-            </div>
+            <cck-popover-content aria-label="Settings panel">
+              <cck-select aria-label="Dish">
+                <cck-select-option value="Cake">Cake</cck-select-option>
+                <cck-select-option value="Pizza">Pizza</cck-select-option>
+              </cck-select>
+            </cck-popover-content>
           </ng-template>
         </ng-container>`,
         { imports },
@@ -343,10 +342,10 @@ describe('Select features', () => {
           <button cckDialogTrigger>Order</button>
           <ng-template cckDialogPortal>
             <dialog cckDialogContent aria-label="Order">
-              <div cckSelect aria-label="Dish" [(value)]="value">
-                <div cckSelectOption value="Cake">Cake</div>
-                <div cckSelectOption value="Pizza">Pizza</div>
-              </div>
+              <cck-select aria-label="Dish" [(value)]="value">
+                <cck-select-option value="Cake">Cake</cck-select-option>
+                <cck-select-option value="Pizza">Pizza</cck-select-option>
+              </cck-select>
               <button cckDialogClose>Cancel</button>
             </dialog>
           </ng-template>

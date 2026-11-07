@@ -33,7 +33,7 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
  * `checked` and not the others gets no event for the others: write every radio's `checked` from one
  * selected value. A radio without `name` has no group mate, so it warns in development.
  *
- * Inside a Radio group (`cckRadioGroup`) the group owns the value: the radio is identified by its
+ * Inside a Radio group (`cck-radio-group`) the group owns the value: the radio is identified by its
  * `submitValue`, is checked while that equals the group's value, takes the group's `name`, `disabled` and
  * `required` (its own `disabled` and `required` add to them), and the arrow keys of the group apply. Its own
  * `checked`, `name` and `checkedChangeDetails` are ignored there.
@@ -41,7 +41,7 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
  * It takes no part in the FormField contract and binds no forms library.
  *
  * @example
- * <div cckRadio name="plan" submitValue="free" [(checked)]="isFree">Free</div>
+ * <cck-radio name="plan" submitValue="free" [(checked)]="isFree">Free</cck-radio>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
@@ -52,7 +52,7 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
  * @cckSlot default - The label content.
  */
 @Component({
-  selector: '[cckRadio]',
+  selector: 'cck-radio',
   exportAs: 'cckRadio',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],

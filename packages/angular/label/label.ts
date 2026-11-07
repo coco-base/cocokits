@@ -5,7 +5,7 @@ import { formFieldIds } from '@cocokits/machines/form-field';
 import { getLabelProps, labelAnatomy } from '@cocokits/machines/label';
 
 /**
- * The visible label of a control, on a native `<label>`. Inside a `[cckFormField]` with a CocoKits
+ * The visible label of a control, on a native `<label>`. Inside a `cck-form-field` with a CocoKits
  * control (the Input), `for` points at that control by itself, whatever order the two are written in,
  * and the label ends with a `*` marker while the field's control is required. Set `for` to choose
  * another control or to label a native control; set `hideRequiredMarker` on the field to hide the
@@ -13,10 +13,10 @@ import { getLabelProps, labelAnatomy } from '@cocokits/machines/label';
  * It works on its own, outside a field, and sets no style.
  *
  * @example
- * <div cckFormField>
+ * <cck-form-field>
  *   <label cckLabel>Email address</label>
  *   <input cckInput type="email" required />
- * </div>
+ * </cck-form-field>
  * @cckPart root
  * @cckPart requiredMarker
  * @cckSlot default - The label text, as written.

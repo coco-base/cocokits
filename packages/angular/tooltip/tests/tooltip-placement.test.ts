@@ -22,7 +22,7 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
     <ng-container cckTooltip>
       <button cckTooltipTrigger>Copy</button>
       <ng-template cckTooltipPortal>
-        <div cckTooltipContent [side]="side()" [align]="align()">Text</div>
+        <cck-tooltip-content [side]="side()" [align]="align()">Text</cck-tooltip-content>
       </ng-template>
     </ng-container>
   `,

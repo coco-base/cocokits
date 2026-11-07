@@ -27,7 +27,7 @@ import { CckDialogRoot } from './dialog-root';
 /**
  * Opens a component or a template in a modal dialog from code. The
  * dialog is the declarative Dialog (the same presence, dismissal, scroll lock and focus return), and the same
- * `cckDialogTitle`, `cckDialogDescription` and `cckDialogClose` parts work inside the opened view.
+ * `cckDialogTitle`, `cck-dialog-description` and `cckDialogClose` parts work inside the opened view.
  *
  * It renders in the overlay container: an open modal dialog that holds the focused element, else the end of
  * `<body>`. On the server it opens nothing and returns a ref that is already finished. Provide `CckDialog` in a

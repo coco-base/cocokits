@@ -8,22 +8,22 @@ import { CckTabsImports } from '../index';
   selector: 'app-root',
   imports: [CckTabsImports],
   template: `
-    <div cckTabs aria-label="Account" [selectedIndex]="1">
-      <div cckTab label="Account">Account body</div>
-      <div cckTab label="Password" id="password-tab"><ng-template cckTabContent>Password body</ng-template></div>
-      <div cckTab label="Locked" aria-label="Locked tab">Locked body</div>
-    </div>
-    <div cckTabs [aria-label]="plain" orientation="vertical">
-      <div cckTab label="X" disabled>X body</div>
-      <div cckTab>
+    <cck-tabs aria-label="Account" [selectedIndex]="1">
+      <cck-tab label="Account">Account body</cck-tab>
+      <cck-tab label="Password" id="password-tab"><ng-template cckTabContent>Password body</ng-template></cck-tab>
+      <cck-tab label="Locked" aria-label="Locked tab">Locked body</cck-tab>
+    </cck-tabs>
+    <cck-tabs [aria-label]="plain" orientation="vertical">
+      <cck-tab label="X" disabled>X body</cck-tab>
+      <cck-tab>
         <ng-template cckTabLabel><b>Y</b></ng-template
         >Y body
-      </div>
-    </div>
-    <div cckTabs aria-label="Kept" [selectedIndex]="1" preserveContent>
-      <div cckTab label="First">First body</div>
-      <div cckTab label="Second">Second body</div>
-    </div>
+      </cck-tab>
+    </cck-tabs>
+    <cck-tabs aria-label="Kept" [selectedIndex]="1" preserveContent>
+      <cck-tab label="First">First body</cck-tab>
+      <cck-tab label="Second">Second body</cck-tab>
+    </cck-tabs>
   `,
 })
 export class Root {

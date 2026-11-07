@@ -45,9 +45,9 @@ const variables = (): Record<string, string> =>
     ]),
   );
 
-const TWO = `<div cckTabs aria-label="x">
-  <div cckTab label="Account">a</div><div cckTab label="Password">b</div>
-</div>`;
+const TWO = `<cck-tabs aria-label="x">
+  <cck-tab label="Account">a</cck-tab><cck-tab label="Password">b</cck-tab>
+</cck-tabs>`;
 
 describe('Tabs indicator', () => {
   beforeEach(() => {
@@ -87,7 +87,7 @@ describe('Tabs indicator', () => {
   it('removes the variables when no tab is selected', async () => {
     const tabs = signal(['a']);
     await render(
-      `<div cckTabs aria-label="x">@for (name of tabs(); track name) { <div cckTab label="Account">a</div> }</div>`,
+      `<cck-tabs aria-label="x">@for (name of tabs(); track name) { <cck-tab label="Account">a</cck-tab> }</cck-tabs>`,
       { imports, componentProperties: { tabs } },
     );
     await waitFor(() => {

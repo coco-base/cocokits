@@ -1,14 +1,14 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
- * The markup of a trigger, instead of the `label` text: put an `ng-template` first inside a `cckTab`. The
+ * The markup of a trigger, instead of the `label` text: put an `ng-template` first inside a `cck-tab`. The
  * trigger renders it inside its label, and carries `data-selected` for styling, so the template has no context.
  *
  * @example
- * <div cckTab>
+ * <cck-tab>
  *   <ng-template cckTabLabel><svg aria-hidden="true">…</svg> Account</ng-template>
  *   Change your name.
- * </div>
+ * </cck-tab>
  */
 @Directive({
   selector: 'ng-template[cckTabLabel]',

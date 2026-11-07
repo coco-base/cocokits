@@ -9,7 +9,7 @@ import { injectCckTooltip } from './tooltip';
  * free of interactive content.
  *
  * @example
- * <div cckTooltipContent side="bottom">Copy link</div>
+ * <cck-tooltip-content side="bottom">Copy link</cck-tooltip-content>
  * @cckPart content
  * @cckTemplate ng-template[cckTooltipPortal]
  * @cckSlot default - The content.
@@ -18,7 +18,7 @@ import { injectCckTooltip } from './tooltip';
  * @cckDataAttr data-align - the resolved alignment: `start`, `center` or `end`
  */
 @Directive({
-  selector: '[cckTooltipContent]',
+  selector: 'cck-tooltip-content',
   exportAs: 'cckTooltipContent',
   host: {
     '[class]': 'props().class',

@@ -20,7 +20,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  * `formControlName`, `[formControl]` and `ngModel` with no ControlValueAccessor. The input is the form control,
  * so `FormData`, `required`, reset, the `form` attribute and `fieldset[disabled]` are native.
  *
- * Inside a `[cckFormField]` the input gets the id `<fieldId>-control`, the field label's `for` points at it
+ * Inside a `cck-form-field` the input gets the id `<fieldId>-control`, the field label's `for` points at it
  * and its `aria-describedby` ends with the field's feedback wrapper. `name` defaults to the path of the bound
  * forms control. `aria-invalid="true"` appears only while the control is invalid and was touched or the form was
  * submitted. Use `submitValue` for the value the form submits (Signal Forms rejects a `value` binding here).
@@ -29,7 +29,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  * in its `checkedChangeDetails` handler.
  *
  * @example
- * <div cckCheckbox [(checked)]="accepted">Accept the terms</div>
+ * <cck-checkbox [(checked)]="accepted">Accept the terms</cck-checkbox>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
@@ -40,7 +40,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  * @cckSlot default - The label content.
  */
 @Component({
-  selector: '[cckCheckbox]',
+  selector: 'cck-checkbox',
   exportAs: 'cckCheckbox',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],

@@ -17,9 +17,9 @@ describe('Tabs selectedIndex', () => {
   it('selects the first enabled tab for null and leaves the model null', async () => {
     const index = signal<number | null>(null);
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index">
-        <div cckTab label="A" disabled>a</div><div cckTab label="B">b</div><div cckTab label="C">c</div>
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index">
+        <cck-tab label="A" disabled>a</cck-tab><cck-tab label="B">b</cck-tab><cck-tab label="C">c</cck-tab>
+      </cck-tabs>`,
       { imports, componentProperties: { index } },
     );
     expect(selectedLabels()).toEqual(['B']);
@@ -30,9 +30,9 @@ describe('Tabs selectedIndex', () => {
     const index = signal<number | null>(2);
     const changes: CckTabChangeEvent[] = [];
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
-        <div cckTab label="A">a</div><div cckTab label="B">b</div><div cckTab label="C">c</div>
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
+        <cck-tab label="A">a</cck-tab><cck-tab label="B">b</cck-tab><cck-tab label="C">c</cck-tab>
+      </cck-tabs>`,
       { imports, componentProperties: { index, changes } },
     );
     expect(selectedLabels()).toEqual(['C']);
@@ -52,9 +52,9 @@ describe('Tabs selectedIndex', () => {
     const user = userEvent.setup();
     const index = signal<number | null>(1);
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index">
-        <div cckTab label="A">a</div><div cckTab label="B" disabled>b</div><div cckTab label="C">c</div>
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index">
+        <cck-tab label="A">a</cck-tab><cck-tab label="B" disabled>b</cck-tab><cck-tab label="C">c</cck-tab>
+      </cck-tabs>`,
       { imports, componentProperties: { index } },
     );
     expect(selectedLabels()).toEqual(['B']);
@@ -67,9 +67,9 @@ describe('Tabs selectedIndex', () => {
     const index = signal<number | null>(null);
     const changes: CckTabChangeEvent[] = [];
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
-        <div cckTab label="A">a</div><div cckTab label="B">b</div><div cckTab label="C">c</div>
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
+        <cck-tab label="A">a</cck-tab><cck-tab label="B">b</cck-tab><cck-tab label="C">c</cck-tab>
+      </cck-tabs>`,
       { imports, componentProperties: { index, changes } },
     );
     await user.click(tab('C'));
@@ -86,9 +86,9 @@ describe('Tabs selectedIndex', () => {
     const index = signal<number | null>(1);
     const changes: CckTabChangeEvent[] = [];
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
-        @for (name of names(); track name) { <div cckTab [label]="name">{{ name }} body</div> }
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
+        @for (name of names(); track name) { <cck-tab [label]="name">{{ name }} body</cck-tab> }
+      </cck-tabs>`,
       { imports, componentProperties: { names, index, changes } },
     );
     expect(selectedLabels()).toEqual(['b']);
@@ -108,9 +108,9 @@ describe('Tabs selectedIndex', () => {
     const index = signal<number | null>(2);
     const changes: CckTabChangeEvent[] = [];
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
-        @for (name of names(); track name) { <div cckTab [label]="name">{{ name }} body</div> }
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index" (selectedTabChange)="changes.push($event)">
+        @for (name of names(); track name) { <cck-tab [label]="name">{{ name }} body</cck-tab> }
+      </cck-tabs>`,
       { imports, componentProperties: { names, index, changes } },
     );
     expect(selectedLabels()).toEqual(['c']);
@@ -128,9 +128,9 @@ describe('Tabs selectedIndex', () => {
   it('keeps a null position on the selected tab when a tab is inserted before it', async () => {
     const names = signal(['a', 'b']);
     await render(
-      `<div cckTabs aria-label="x">
-        @for (name of names(); track name) { <div cckTab [label]="name">{{ name }} body</div> }
-      </div>`,
+      `<cck-tabs aria-label="x">
+        @for (name of names(); track name) { <cck-tab [label]="name">{{ name }} body</cck-tab> }
+      </cck-tabs>`,
       { imports, componentProperties: { names } },
     );
     expect(selectedLabels()).toEqual(['a']);
@@ -145,9 +145,9 @@ describe('Tabs selectedIndex', () => {
     const names = signal(['a', 'b', 'c']);
     const index = signal<number | null>(1);
     await render(
-      `<div cckTabs aria-label="x" [(selectedIndex)]="index">
-        @for (name of names(); track name) { <div cckTab [label]="name">{{ name }} body</div> }
-      </div>`,
+      `<cck-tabs aria-label="x" [(selectedIndex)]="index">
+        @for (name of names(); track name) { <cck-tab [label]="name">{{ name }} body</cck-tab> }
+      </cck-tabs>`,
       { imports, componentProperties: { names, index } },
     );
     names.set(['a', 'c']);
@@ -166,9 +166,9 @@ describe('Tabs selectedIndex', () => {
 describe('Tabs focusChange', () => {
   const TEMPLATE = `
     <button>before</button>
-    <div cckTabs aria-label="x" (focusChange)="focused.push($event)">
-      <div cckTab label="A">a</div><div cckTab label="B">b</div><div cckTab label="C">c</div>
-    </div>`;
+    <cck-tabs aria-label="x" (focusChange)="focused.push($event)">
+      <cck-tab label="A">a</cck-tab><cck-tab label="B">b</cck-tab><cck-tab label="C">c</cck-tab>
+    </cck-tabs>`;
 
   it('fires for Tab into the list and for arrow, Home and End focus', async () => {
     const user = userEvent.setup();
@@ -194,10 +194,10 @@ describe('Tabs trigger labelling', () => {
   it('puts aria-label, aria-labelledby and id on the trigger and not on the section', async () => {
     const { container } = await render(
       `<span id="name">Named</span>
-       <div cckTabs aria-label="x">
-         <div cckTab label="A" id="first" aria-label="First tab">a</div>
-         <div cckTab label="B" aria-labelledby="name">b</div>
-       </div>`,
+       <cck-tabs aria-label="x">
+         <cck-tab label="A" id="first" aria-label="First tab">a</cck-tab>
+         <cck-tab label="B" aria-labelledby="name">b</cck-tab>
+       </cck-tabs>`,
       { imports },
     );
     const first = tab('First tab');

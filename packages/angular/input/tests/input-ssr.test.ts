@@ -62,7 +62,7 @@ describe('Input on the server', () => {
       'data-touched': '',
       'aria-invalid': 'true',
     });
-    const fields = tags(html, 'div').filter((div) => div.class === 'cck-form-field');
+    const fields = tags(html, 'cck-form-field').filter((div) => div.class === 'cck-form-field');
     expect(fields.some((field) => field['data-required'] !== undefined && field['data-invalid'] !== undefined)).toBe(
       true,
     );

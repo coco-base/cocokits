@@ -53,7 +53,7 @@ function inDomOrder(links: readonly CckTabNavRegistration[]): CckTabNavRegistrat
  * stay links: there is no selection state here, so the author marks the current link `active` (from the
  * router). Name the `nav` with `aria-label` or `aria-labelledby`; they stay on the host.
  *
- * Link a `cckTabNavPanel` with `tabPanel` when the links drive an outlet: the list becomes a `tablist`, the
+ * Link a `cck-tab-nav-panel` with `tabPanel` when the links drive an outlet: the list becomes a `tablist`, the
  * links become `tab`s that control the panel, the active link is the one Tab stop and the arrow keys move
  * focus between the links without navigating.
  *
@@ -95,7 +95,7 @@ function inDomOrder(links: readonly CckTabNavRegistration[]): CckTabNavRegistrat
 })
 export class CckTabNav {
   /**
-   * The panel the links control, from a `cckTabNavPanel` template reference. It switches the nav to panel mode
+   * The panel the links control, from a `cck-tab-nav-panel` template reference. It switches the nav to panel mode
    * (tabs with one Tab stop and arrow keys); leave it out for plain links.
    * @cckSemantic none
    * @remarks Takes the panel directive itself, not its id.

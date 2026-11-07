@@ -27,13 +27,13 @@ afterEach(() => {
     >
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share link">
+        <cck-popover-content aria-label="Share link">
           <p>Anyone with the link can view.</p>
           <ng-container cckTooltip>
             <button cckTooltipTrigger>Copy</button>
-            <ng-template cckTooltipPortal><div cckTooltipContent>Copy the link</div></ng-template>
+            <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
           </ng-container>
-        </div>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
   `,
@@ -84,9 +84,9 @@ describe('Tooltip over a Popover', () => {
       <ng-container cckPopover [open]="true">
         <button cckPopoverTrigger>Share</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-label="Share link" side="start">
+          <cck-popover-content aria-label="Share link" side="start">
             <button (click)="dir.set('rtl')">flip</button>
-          </div>
+          </cck-popover-content>
         </ng-template>
       </ng-container>
     </div>
@@ -119,7 +119,7 @@ describe('Popover initial focus', () => {
       `<ng-container cckPopover>
         <button cckPopoverTrigger>Share</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-label="Share link"><button>first</button><button autofocus>second</button></div>
+          <cck-popover-content aria-label="Share link"><button>first</button><button autofocus>second</button></cck-popover-content>
         </ng-template>
       </ng-container>`,
       { imports },

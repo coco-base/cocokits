@@ -26,7 +26,7 @@ const themeConfig = defineThemeConfig({
 describe('FormField, Label and Hint theme', () => {
   it('puts the theme attribute on every rendered part of all three components', async () => {
     const { container } = await render(
-      `<div cckFormField required><label cckLabel>Name</label><input /><div cckHint>Help</div></div>`,
+      `<cck-form-field required><label cckLabel>Name</label><input /><cck-hint>Help</cck-hint></cck-form-field>`,
       {
         imports: [...CckFormFieldImports, ...CckLabelImports, ...CckHintImports],
         providers: [provideCckTheme(themeConfig)],

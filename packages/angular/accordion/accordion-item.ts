@@ -36,12 +36,12 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 /**
  * One section of an Accordion. The item renders its heading with one button (the trigger) and its content, and
- * the element you write holds the content. Give the trigger text with `label`, or markup with a
+ * the `cck-accordion-item` tag holds the content. Give the trigger text with `label`, or markup with a
  * `cckAccordionLabel` template. `label`, `expanded`, `disabled` and `headingLevel` do not stay on the host
  * element. Closed content stays in the DOM and is `hidden`.
  *
  * @example
- * <div cckAccordionItem label="Shipping" [(expanded)]="open">Orders leave in two days.</div>
+ * <cck-accordion-item label="Shipping" [(expanded)]="open">Orders leave in two days.</cck-accordion-item>
  * @cckPart item
  * @cckPart header
  * @cckPart content
@@ -50,7 +50,7 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
  * @cckSlot label ng-template[cckAccordionLabel] - The markup of the trigger, instead of the `label` text.
  */
 @Component({
-  selector: '[cckAccordionItem]',
+  selector: 'cck-accordion-item',
   exportAs: 'cckAccordionItem',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
@@ -238,7 +238,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   readonly _element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
   /** The accordion the item sits in. @internal */
-  protected readonly root = injectCckAccordion('cckAccordionItem');
+  protected readonly root = injectCckAccordion('cck-accordion-item');
 
   /** Whether the item is open: in single mode only one item is. */
   protected readonly isOpen = computed(() => this.root._openKeys().includes(this._id));

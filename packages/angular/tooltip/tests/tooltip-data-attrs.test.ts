@@ -16,7 +16,7 @@ describe('Tooltip data attributes', () => {
     await render(
       `<ng-container cckTooltip>
         <button cckTooltipTrigger>Copy</button>
-        <ng-template cckTooltipPortal><div cckTooltipContent>Copies</div></ng-template>
+        <ng-template cckTooltipPortal><cck-tooltip-content>Copies</cck-tooltip-content></ng-template>
       </ng-container>`,
       { imports: [...CckTooltipImports] },
     );

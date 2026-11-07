@@ -4,7 +4,7 @@ import { injectCckTooltip } from './tooltip';
 
 /**
  * The pointer from the content to the trigger: a decorative element that holds a triangle `svg`. Put it on
- * the element you choose (a `span` is the usual one) inside `cckTooltipContent`; the one-attribute form has no
+ * the `cck-tooltip-arrow` tag inside `cck-tooltip-content`; the one-attribute form has no
  * content template to hold it. CocoKits places it on the content edge that faces the trigger, centred on the
  * trigger and turned to point at it, and adds its height to the gap between the trigger and the content. It
  * gets the native `hidden` attribute while it cannot point at the trigger (the content has shifted along the
@@ -12,12 +12,12 @@ import { injectCckTooltip } from './tooltip';
  * an HTML element, such as an `svg`, is not hidden by `hidden`: hide it with CSS.
  *
  * @example
- * <div cckTooltipContent><span cckTooltipArrow></span>Copy link</div>
+ * <cck-tooltip-content><cck-tooltip-arrow></cck-tooltip-arrow>Copy link</cck-tooltip-content>
  * @cckPart arrow
  * @cckSlot default - Replaces the triangle with SVG shapes.
  */
 @Component({
-  selector: '[cckTooltipArrow]',
+  selector: 'cck-tooltip-arrow',
   exportAs: 'cckTooltipArrow',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<svg width="10" height="5" viewBox="0 0 30 10" preserveAspectRatio="none" style="display: block">

@@ -85,16 +85,19 @@ describe('CckLabel', () => {
   });
 
   it('renders no for in a field without a CocoKits control, and no marker while the field is not required', async () => {
-    const { container } = await render(`<div cckFormField><label cckLabel>Email</label><input id="e" /></div>`, {
-      imports: [...imports, ...CckFormFieldImports],
-    });
+    const { container } = await render(
+      `<cck-form-field><label cckLabel>Email</label><input id="e" /></cck-form-field>`,
+      {
+        imports: [...imports, ...CckFormFieldImports],
+      },
+    );
     expect(container.querySelector('label')?.hasAttribute('for')).toBe(false);
     expect(container.querySelector('.cck-label__required-marker')).toBeNull();
   });
 
   it('renders the required marker as the last child, hidden from assistive technology, while the field is required', async () => {
     const { container } = await render(
-      `<div cckFormField required><label cckLabel>Email <b>address</b></label><input id="e" /></div>`,
+      `<cck-form-field required><label cckLabel>Email <b>address</b></label><input id="e" /></cck-form-field>`,
       { imports: [...imports, ...CckFormFieldImports] },
     );
     const marker = container.querySelector('label')?.lastElementChild;

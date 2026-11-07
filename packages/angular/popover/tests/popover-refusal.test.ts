@@ -22,10 +22,10 @@ import { frame, trigger } from './queries';
     >
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share this page">
+        <cck-popover-content aria-label="Share this page">
           <a href="#x">First</a>
           <button cckPopoverClose>Close</button>
-        </div>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
   `,
@@ -151,7 +151,7 @@ describe('Popover refusal and notification', () => {
   it('warns in development when the portal has no trigger', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     await render(
-      `<ng-container cckPopover><ng-template cckPopoverPortal><div cckPopoverContent aria-label="x">x</div></ng-template></ng-container>`,
+      `<ng-container cckPopover><ng-template cckPopoverPortal><cck-popover-content aria-label="x">x</cck-popover-content></ng-template></ng-container>`,
       { imports: [...CckPopoverImports] },
     );
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('CocoKits: a PopoverPortal has no PopoverTrigger'));

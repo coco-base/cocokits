@@ -38,11 +38,11 @@ import { shouldFocusControl } from '@cocokits/utils';
  * an `id`, the label a matching `for`, and the control its own `aria-describedby`.
  *
  * @example
- * <div cckFormField>
+ * <cck-form-field>
  *   <label cckLabel>Email address</label>
  *   <input cckInput type="email" />
- *   <div cckHint>We only use it for the receipt.</div>
- * </div>
+ *   <cck-hint>We only use it for the receipt.</cck-hint>
+ * </cck-form-field>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
@@ -53,11 +53,11 @@ import { shouldFocusControl } from '@cocokits/utils';
  * @cckSlot prefix [cckPrefix] - Content inside the box, before the control.
  * @cckSlot suffix [cckSuffix] - Content inside the box, after the control.
  * @cckSlot trailing [cckTrailing] - Content outside the box, after it.
- * @cckSlot hint [cckHint] - The hints.
- * @cckSlot error [cckFieldError] - The field errors, after the hints.
+ * @cckSlot hint cck-hint - The hints.
+ * @cckSlot error cck-field-error - The field errors, after the hints.
  */
 @Component({
-  selector: '[cckFormField]',
+  selector: 'cck-form-field',
   exportAs: 'cckFormField',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
@@ -98,8 +98,8 @@ import { shouldFocusControl } from '@cocokits/utils';
       [attr.id]="parts().feedbackWrapper.id"
       [cckAttrs]="theme().feedbackWrapper"
     >
-      <ng-content select="[cckHint]" />
-      <ng-content select="[cckFieldError]" />
+      <ng-content select="cck-hint" />
+      <ng-content select="cck-field-error" />
     </div>
   `,
 })

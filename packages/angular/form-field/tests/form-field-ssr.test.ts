@@ -4,7 +4,8 @@ import { renderOnServer } from './fixtures';
 
 /** The `cck-*` classes inside one field, in document order, without the field's own. */
 function partsOf(html: string, id: string): string[] {
-  const field = html.split(/(?=<div[^>]*class="cck-form-field")/).find((chunk) => chunk.includes(`id="${id}"`)) ?? '';
+  const field =
+    html.split(/(?=<cck-form-field[^>]*class="cck-form-field")/).find((chunk) => chunk.includes(`id="${id}"`)) ?? '';
   return [...field.matchAll(/class="(cck-[a-z_-]+)"/g)].map((match) => match[1]).slice(1);
 }
 

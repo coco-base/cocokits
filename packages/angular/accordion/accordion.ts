@@ -54,21 +54,21 @@ function inDomOrder(items: readonly CckAccordionItemRegistration[]): CckAccordio
 }
 
 /**
- * Accordion: a stack of sections that open and close. Write one `cckAccordionItem` per section inside the
+ * Accordion: a stack of sections that open and close. Write one `cck-accordion-item` per section inside the
  * host; each item renders its own heading, button and content. By default one item is open at a time;
  * `multi` lets every item toggle on its own. ArrowDown and ArrowUp, Home and End move between the enabled
  * triggers of this accordion. Items of a nested accordion belong to the nearest root.
  *
  * @example
- * <div cckAccordion multi>
- *   <div cckAccordionItem label="Shipping" [(expanded)]="shippingOpen">Orders leave in two days.</div>
- *   <div cckAccordionItem label="Returns">Send it back within 30 days.</div>
- * </div>
+ * <cck-accordion multi>
+ *   <cck-accordion-item label="Shipping" [(expanded)]="shippingOpen">Orders leave in two days.</cck-accordion-item>
+ *   <cck-accordion-item label="Returns">Send it back within 30 days.</cck-accordion-item>
+ * </cck-accordion>
  * @cckPart root
- * @cckSlot default - The `cckAccordionItem` sections.
+ * @cckSlot default - The `cck-accordion-item` sections.
  */
 @Directive({
-  selector: '[cckAccordion]',
+  selector: 'cck-accordion',
   exportAs: 'cckAccordion',
   host: {
     '[class]': 'rootProps().class',
@@ -170,7 +170,7 @@ export class CckAccordion {
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    * @example
-   * <div cckAccordion multi #accordion="cckAccordion"></div>
+   * <cck-accordion multi #accordion="cckAccordion"></cck-accordion>
    * <button (click)="accordion.openAll()">Open all</button>
    */
   openAll(): void {
@@ -266,6 +266,6 @@ export class CckAccordion {
  */
 export function injectCckAccordion(part: string): CckAccordion {
   const root = inject(CckAccordion, { optional: true });
-  if (!root) throw new Error(`CocoKits: ${part} must be placed inside an element with cckAccordion.`);
+  if (!root) throw new Error(`CocoKits: ${part} must be placed inside a <cck-accordion>.`);
   return root;
 }

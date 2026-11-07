@@ -22,7 +22,7 @@ const themeConfig = defineThemeConfig({
 
 describe('CckBadge theme', () => {
   it('puts the theme attribute on every rendered part', async () => {
-    const { container } = await render(`<span cckBadge [content]="120" [max]="99"></span>`, {
+    const { container } = await render(`<cck-badge [content]="120" [max]="99"></cck-badge>`, {
       imports: [...CckBadgeImports],
       providers: [provideCckTheme(themeConfig)],
     });

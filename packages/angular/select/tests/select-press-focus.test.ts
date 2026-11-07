@@ -8,10 +8,10 @@ import { trigger } from './helpers';
 const imports = [...CckSelectImports];
 const SELECT = `
   <button id="other">Other</button>
-  <div cckSelect aria-label="Dish" [disabled]="disabled" [readonly]="readonly">
-    <div cckSelectOption value="a">Apple</div>
-    <div cckSelectOption value="b">Banana</div>
-  </div>`;
+  <cck-select aria-label="Dish" [disabled]="disabled" [readonly]="readonly">
+    <cck-select-option value="a">Apple</cck-select-option>
+    <cck-select-option value="b">Banana</cck-select-option>
+  </cck-select>`;
 
 describe('Select trigger focus on a press', () => {
   beforeEach(stubOverlayApis);

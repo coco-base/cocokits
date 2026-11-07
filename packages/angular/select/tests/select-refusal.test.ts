@@ -9,8 +9,7 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckSelectImports],
   template: `
-    <div
-      cckSelect
+    <cck-select
       aria-label="Dish"
       [multiple]="multiple()"
       [disableClose]="disableClose()"
@@ -19,10 +18,10 @@ import { stubOverlayApis } from './overlay-stubs';
       (selectionChange)="changes.push($event)"
       (openedChange)="opened.push($event)"
     >
-      <div cckSelectOption value="Cake">Cake</div>
-      <div cckSelectOption value="Pizza">Pizza</div>
-      <div cckSelectOption value="Burger">Burger</div>
-    </div>
+      <cck-select-option value="Cake">Cake</cck-select-option>
+      <cck-select-option value="Pizza">Pizza</cck-select-option>
+      <cck-select-option value="Burger">Burger</cck-select-option>
+    </cck-select>
     <button id="after">After</button>
     <p id="empty">Empty</p>
   `,

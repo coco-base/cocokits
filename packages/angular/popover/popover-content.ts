@@ -11,7 +11,7 @@ import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
  * `aria-labelledby`, or add a `cckPopoverTitle`. Focus moves to its first focusable element on open, or to the content itself.
  *
  * @example
- * <div cckPopoverContent side="top" aria-label="Share this page">...</div>
+ * <cck-popover-content side="top" aria-label="Share this page">...</cck-popover-content>
  * @cckPart content
  * @cckTemplate ng-template[cckPopoverPortal]
  * @cckSlot default - The content.
@@ -20,7 +20,7 @@ import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
  * @cckDataAttr data-align - the resolved alignment: `start`, `center` or `end`
  */
 @Directive({
-  selector: '[cckPopoverContent]',
+  selector: 'cck-popover-content',
   exportAs: 'cckPopoverContent',
   host: {
     '[class]': 'props().class',
@@ -70,7 +70,7 @@ export class CckPopoverContent {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(element)) {
         console.warn(
-          'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle, or an aria-label or aria-labelledby to the element with cckPopoverContent.',
+          'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle, or an aria-label or aria-labelledby to the <cck-popover-content>.',
         );
       }
     });

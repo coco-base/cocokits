@@ -20,25 +20,25 @@ import { CckInputImports } from '../index';
   imports: [ReactiveFormsModule, CckInputImports, CckFormFieldImports, CckLabelImports, CckHintImports],
   template: `
     <form [formGroup]="group">
-      <div cckFormField>
+      <cck-form-field>
         <label cckLabel>Email</label>
         <input cckInput type="email" formControlName="email" />
-        <div cckHint>We only use it for the receipt.</div>
-      </div>
-      <div cckFormField id="street-field" required>
+        <cck-hint>We only use it for the receipt.</cck-hint>
+      </cck-form-field>
+      <cck-form-field id="street-field" required>
         <input cckInput formControlName="street" aria-describedby="note" />
         <label cckLabel>Street</label>
-        <div cckHint>One</div>
-        <div cckHint>Two</div>
-      </div>
+        <cck-hint>One</cck-hint>
+        <cck-hint>Two</cck-hint>
+      </cck-form-field>
       <div formGroupName="address">
-        <div cckFormField><label cckLabel>City</label><input cckInput formControlName="city" /></div>
+        <cck-form-field><label cckLabel>City</label><input cckInput formControlName="city" /></cck-form-field>
       </div>
     </form>
     <p id="note">A note</p>
-    <div cckFormField id="own"><label cckLabel>Own</label><input cckInput id="mine" disabled value="x" /></div>
-    <div cckFormField><label cckLabel>Native</label><input id="native" /></div>
-    <div cckFormField><input cckInput aria-label="Alone" required invalid touched /></div>
+    <cck-form-field id="own"><label cckLabel>Own</label><input cckInput id="mine" disabled value="x" /></cck-form-field>
+    <cck-form-field><label cckLabel>Native</label><input id="native" /></cck-form-field>
+    <cck-form-field><input cckInput aria-label="Alone" required invalid touched /></cck-form-field>
   `,
 })
 export class Root {

@@ -22,16 +22,16 @@ import { injectCckSelect } from './select';
  * For markup, put a `cckSelectOptionGroupLabel` template inside the group. The markup must not be interactive.
  *
  * @example
- * <div cckSelectOptionGroup label="Desserts">
- *   <div cckSelectOption value="Cake">Cake</div>
- * </div>
+ * <cck-select-option-group label="Desserts">
+ *   <cck-select-option value="Cake">Cake</cck-select-option>
+ * </cck-select-option-group>
  * @cckPart optionGroup
  * @cckSection optionGroupLabel label label
  * @cckSlot default - The options of the group.
  * @cckSlot label ng-template[cckSelectOptionGroupLabel] - Your own markup for the label, in place of the `label` text.
  */
 @Component({
-  selector: '[cckSelectOptionGroup]',
+  selector: 'cck-select-option-group',
   exportAs: 'cckSelectOptionGroup',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
@@ -69,7 +69,7 @@ export class CckSelectOptionGroup {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** @internal */
-  readonly _root = injectCckSelect<unknown>('OptionGroup');
+  readonly _root = injectCckSelect<unknown>('cck-select-option-group');
   /** @internal */
   readonly _labelTemplate = signal<TemplateRef<object> | null>(null);
 
@@ -91,10 +91,10 @@ export class CckSelectOptionGroup {
  *
  * @defaultValue The group shows the text of the `label` input.
  * @example
- * <div cckSelectOptionGroup>
+ * <cck-select-option-group>
  *   <ng-template cckSelectOptionGroupLabel><b>Desserts</b></ng-template>
- *   <div cckSelectOption value="Cake">Cake</div>
- * </div>
+ *   <cck-select-option value="Cake">Cake</cck-select-option>
+ * </cck-select-option-group>
  * @cckTemplate ng-template[cckSelectOptionGroupLabel]
  */
 @Directive({ selector: 'ng-template[cckSelectOptionGroupLabel]', exportAs: 'cckSelectOptionGroupLabel' })

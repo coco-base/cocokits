@@ -16,7 +16,7 @@ export type InputChangeDetails = ChangeDetails<InputChangeReason>;
  * ControlValueAccessor. It takes part in a native `<form>` itself: `FormData`, constraint validation,
  * the `form` attribute, implicit submission and `fieldset[disabled]` work.
  *
- * Inside a `[cckFormField]` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
+ * Inside a `cck-form-field` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
  * `aria-describedby` ends with the field's feedback wrapper. An `id` or `aria-describedby` you write
  * wins or comes first. `type` is `text` unless you set it, and `name` defaults to the path of the bound
  * forms control (`address.street`). The state facts are `data-*` attributes; `aria-invalid="true"`
@@ -27,10 +27,10 @@ export type InputChangeDetails = ChangeDetails<InputChangeReason>;
  * the parent until the parent sets a new value.
  *
  * @example
- * <div cckFormField>
+ * <cck-form-field>
  *   <label cckLabel>Email address</label>
  *   <input cckInput type="email" [(value)]="email" />
- * </div>
+ * </cck-form-field>
  * @cckPart root
  */
 @Directive({

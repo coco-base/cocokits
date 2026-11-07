@@ -7,7 +7,7 @@ import { injectCckPopover } from './popover';
  * and nowhere else; keep one root element in the template. It renders no part.
  *
  * @example
- * <ng-template cckPopoverPortal><div cckPopoverContent aria-label="Details">...</div></ng-template>
+ * <ng-template cckPopoverPortal><cck-popover-content aria-label="Details">...</cck-popover-content></ng-template>
  */
 @Directive({ selector: 'ng-template[cckPopoverPortal]', exportAs: 'cckPopoverPortal' })
 export class CckPopoverPortal {

@@ -55,7 +55,7 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
 /**
  * A Tooltip. Put `cckTooltip="Copy link"` on the focusable element: the host is the trigger, the message is
  * what the bubble shows and the text that describes the trigger. For rich content use the compound form on an
- * `ng-container`: `cckTooltipTrigger`, an `ng-template` with `cckTooltipPortal` and `cckTooltipContent`; the
+ * `ng-container`: `cckTooltipTrigger`, an `ng-template` with `cckTooltipPortal` and `cck-tooltip-content`; the
  * message then is only the description. It opens after `cckTooltipShowDelay` on a mouse or pen hover and at
  * once on keyboard focus (touch never opens it), and closes after `cckTooltipHideDelay` when the pointer leaves,
  * on blur, Escape, a press on the trigger and when an ancestor of the trigger scrolls. With a message the
@@ -66,7 +66,7 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
  * @example
  * <ng-container cckTooltip="Copy link">
  *   <button cckTooltipTrigger>Copy</button>
- *   <ng-template cckTooltipPortal><div cckTooltipContent><b>Copy</b> the link</div></ng-template>
+ *   <ng-template cckTooltipPortal><cck-tooltip-content><b>Copy</b> the link</cck-tooltip-content></ng-template>
  * </ng-container>
  * @cckPart root
  * @cckNoElement
@@ -183,7 +183,7 @@ export class CckTooltip {
   readonly _content = signal<TooltipContentRegistration | null>(null);
   /** @internal */
   readonly _template = signal<TemplateRef<void> | null>(null);
-  /** The arrow element a `cckTooltipArrow` registered; the content positions it. @internal */
+  /** The arrow element a `cck-tooltip-arrow` registered; the content positions it. @internal */
   readonly _arrow = signal<HTMLElement | null>(null);
 
   private readonly host = inject<ElementRef<Node>>(ElementRef).nativeElement;

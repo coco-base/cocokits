@@ -19,7 +19,7 @@ describe('Popover accessibility', () => {
       `<ng-container cckPopover>
         <button cckPopoverTrigger>Share</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-label="Share this page"><p>Copy the link.</p><button cckPopoverClose>Close</button></div>
+          <cck-popover-content aria-label="Share this page"><p>Copy the link.</p><button cckPopoverClose>Close</button></cck-popover-content>
         </ng-template>
       </ng-container>`,
       { imports },
@@ -36,7 +36,7 @@ describe('Popover accessibility', () => {
       `<ng-container cckPopover>
         <button cckPopoverTrigger>Open</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-labelledby="t"><h2 id="t">Settings</h2><button cckPopoverClose>Done</button></div>
+          <cck-popover-content aria-labelledby="t"><h2 id="t">Settings</h2><button cckPopoverClose>Done</button></cck-popover-content>
         </ng-template>
       </ng-container>`,
       { imports },

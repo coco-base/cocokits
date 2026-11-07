@@ -20,7 +20,7 @@ export type SwitchChangeDetails = CheckControlChangeDetails;
  * next to the track.
  *
  * @example
- * <div cckSwitch [(checked)]="notifications">Notifications</div>
+ * <cck-switch [(checked)]="notifications">Notifications</cck-switch>
  * @cckPart root
  * @cckPart label
  * @cckPart track
@@ -30,7 +30,7 @@ export type SwitchChangeDetails = CheckControlChangeDetails;
  * @cckSlot default - The label content.
  */
 @Component({
-  selector: '[cckSwitch]',
+  selector: 'cck-switch',
   exportAs: 'cckSwitch',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],

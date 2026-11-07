@@ -67,9 +67,9 @@ export type PopoverChangeDetails = ChangeDetails<PopoverOpenChangeReason>;
  * <ng-container cckPopover [(open)]="shared">
  *   <button cckPopoverTrigger>Share</button>
  *   <ng-template cckPopoverPortal>
- *     <div cckPopoverContent aria-label="Share this page">
+ *     <cck-popover-content aria-label="Share this page">
  *       <button cckPopoverClose>Close</button>
- *     </div>
+ *     </cck-popover-content>
  *   </ng-template>
  * </ng-container>
  * @cckPart root
@@ -144,7 +144,7 @@ export class CckPopover {
   readonly _content = signal<PopoverContentRegistration | null>(null);
   /** @internal */
   readonly _template = signal<TemplateRef<void> | null>(null);
-  /** The arrow element a `cckPopoverArrow` registered; the content positions it. @internal */
+  /** The arrow element a `cck-popover-arrow` registered; the content positions it. @internal */
   readonly _arrow = signal<HTMLElement | null>(null);
   /** How many titles are mounted. @internal */
   readonly _titles = signal(0);

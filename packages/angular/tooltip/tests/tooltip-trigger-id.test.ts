@@ -10,7 +10,7 @@ import { stubOverlayApis } from './overlay-stubs';
   template: `
     <ng-container cckTooltip>
       <button cckTooltipTrigger [id]="triggerId()" [aria-describedby]="ids()" aria-label="Copy link">Copy</button>
-      <ng-template cckTooltipPortal><div cckTooltipContent>Copy the link</div></ng-template>
+      <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
     </ng-container>
     <button cckTooltip="Save" [id]="saveId()" [aria-describedby]="ids()" aria-label="Store">Save</button>
     <i id="a">a</i><i id="b">b</i>
