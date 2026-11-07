@@ -6,5 +6,5 @@ export const fieldErrorMeta: ComponentMeta<'root'> = {
   roles: { root: null },
   keyboard: [],
   defaultElements: { root: 'div' },
-  form: 'None: the message sits in the feedback wrapper, which the control already names with `aria-describedby`.',
+  form: 'None: inside a FormField the control lists the error id in `aria-describedby`; the element is empty while the error is hidden.',
 };

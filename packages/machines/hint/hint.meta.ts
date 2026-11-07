@@ -6,5 +6,5 @@ export const hintMeta: ComponentMeta<'root'> = {
   roles: { root: null },
   keyboard: [],
   defaultElements: { root: 'div' },
-  form: 'None: the author links the hint to a control with `aria-describedby`.',
+  form: 'None: inside a FormField the control lists the hint id in `aria-describedby`; outside one the author links it by hand.',
 };

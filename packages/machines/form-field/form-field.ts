@@ -32,17 +32,18 @@ const partIds = (fieldId: string, kind: 'hint' | 'error', own: readonly (string 
  * Derives the ids of a field from one field id.
  *
  * @param fieldId - The author's field id or a generated one.
- * @param parts - The author's `id` of each Hint and each FieldError the field holds, in document order.
+ * @param authorIds - The `id` the author wrote on each Hint and each FieldError of the field, in document order;
+ * `undefined` for a part without one.
  * @returns The control id, the feedback wrapper id, the label id, and the ids of the hints and of the errors: an
  * author's `id` wins, otherwise `<fieldId>-hint-<n>` or `<fieldId>-error-<n>`, counting from 1.
  */
-export function formFieldIds(fieldId: string, parts: FormFieldPartIds = {}): FormFieldIds {
+export function formFieldIds(fieldId: string, authorIds: FormFieldPartIds = {}): FormFieldIds {
   return {
     control: `${fieldId}-control`,
     feedback: `${fieldId}-feedback`,
     label: `${fieldId}-label`,
-    hints: partIds(fieldId, 'hint', parts.hints),
-    errors: partIds(fieldId, 'error', parts.errors),
+    hints: partIds(fieldId, 'hint', authorIds.hints),
+    errors: partIds(fieldId, 'error', authorIds.errors),
   };
 }
 
