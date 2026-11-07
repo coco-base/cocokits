@@ -216,7 +216,13 @@
   }
 
   .cck-select__option-group {
+    display: block;
     padding-block-end: var(--cck-select-content-padding);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-select__option-group-label {
@@ -230,9 +236,15 @@
   // A border line (not a background), so forced colors keep it: the border colour is a system colour there.
   .cck-select__separator {
     box-sizing: border-box;
+    display: block;
     block-size: 0;
     margin-block: var(--cck-select-option-padding-block);
     border-block-start: var(--cck-select-content-border-width) solid var(--cck-select-content-border-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {

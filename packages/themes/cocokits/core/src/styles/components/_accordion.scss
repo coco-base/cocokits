@@ -27,6 +27,16 @@ $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
     align-items: flex-start;
   }
 
+  // The item is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
+  .cck-accordion > .cck-accordion__item {
+    display: block;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
   .cck-accordion[data-orientation='horizontal'] > .cck-accordion__item {
     flex: 1;
     min-inline-size: 0;

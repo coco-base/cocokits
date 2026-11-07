@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'field-error.css');
-const scss = read('src', 'styles', 'components', '_field-error.scss');
 
 describe('field-error output', () => {
   it('puts the rules inside @layer cocokits and into the whole theme', () => {
@@ -29,8 +28,9 @@ describe('field-error output', () => {
     }
   });
 
-  it('sets no display (never none: the live region stays in the accessibility tree) and no margin', () => {
-    expect(scss).not.toMatch(/(^|[\s{;])display\s*:/);
+  it('is a block like the div it replaces, hides only with the hidden attribute, and sets no margin', () => {
+    expect(declarationsOf(css, '.cck-field-error')).toContain('display: block');
+    expect(declarationsOf(css, '.cck-field-error[hidden]')).toMatch(/display:\s*none/);
     expect(declarationsOf(css, '.cck-field-error')).not.toMatch(/margin/);
   });
 

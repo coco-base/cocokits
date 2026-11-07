@@ -220,6 +220,16 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
 @mixin rules {
   @include list-rules('tabs', 'trigger', 'data-selected', true);
 
+  // The panel is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
+  .cck-tabs__panel {
+    display: block;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
   .cck-tabs[data-orientation='vertical'] > .cck-tabs__panel {
     flex: 1;
     min-inline-size: 0;
@@ -239,4 +249,14 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
 
 @mixin nav-rules {
   @include list-rules('tab-nav', 'link', 'data-active', false);
+
+  // The panel is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
+  .cck-tab-nav__panel {
+    display: block;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
 }

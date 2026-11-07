@@ -73,8 +73,14 @@
   }
 
   .cck-popover__description {
+    display: block;
     margin: 0;
     color: var(--cck-popover-description-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-popover__close:not(.cck-button):focus-visible {

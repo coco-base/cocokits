@@ -10,6 +10,7 @@
   .cck-tooltip__content {
     --side-offset: var(--cck-tooltip-side-offset);
     box-sizing: border-box;
+    display: block;
     max-inline-size: min(var(--cck-tooltip-max-inline-size), calc(100vw - 2 * var(--cck-tooltip-padding-inline)));
     padding: var(--cck-tooltip-padding-block) var(--cck-tooltip-padding-inline);
     border-radius: var(--cck-tooltip-radius);
