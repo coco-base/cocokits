@@ -1,10 +1,23 @@
 import type { Placement } from '@floating-ui/dom';
 import type { Direction } from '@cocokits/shared';
 
-/** The side of the anchor the content sits on. `start` and `end` follow the direction. */
+/**
+ * The side of the anchor the content sits on. `start` and `end` follow the text direction.
+ *
+ * @cckValue top - Above the anchor.
+ * @cckValue bottom - Below the anchor.
+ * @cckValue start - Before the anchor, in the text direction.
+ * @cckValue end - After the anchor, in the text direction.
+ */
 export type OverlaySide = 'top' | 'bottom' | 'start' | 'end';
 
-/** How the content lines up along the anchor's edge. */
+/**
+ * How the content lines up along the edge of the anchor.
+ *
+ * @cckValue start - Lines up with the start edge of the anchor.
+ * @cckValue center - Centered on the anchor.
+ * @cckValue end - Lines up with the end edge of the anchor.
+ */
 export type OverlayAlign = 'start' | 'center' | 'end';
 
 /**
@@ -28,7 +41,12 @@ export interface OverlayVirtualAnchor {
 /** Distance from the viewport edges: one number for all four, or per physical side (unset sides are `0`). */
 export type OverlayCollisionPadding = number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>;
 
-/** `partial`: stay in view along the edge only while the anchor is partly in view. `always`: stay in view regardless. */
+/**
+ * How the content stays in view along the edge of the anchor.
+ *
+ * @cckValue partial - Keeps the content in view only while the anchor is at least partly in view.
+ * @cckValue always - Keeps the content in view in every case.
+ */
 export type OverlaySticky = 'partial' | 'always';
 
 type PhysicalSide = 'top' | 'bottom' | 'left' | 'right';
