@@ -4,6 +4,7 @@ import {
   cloneElement,
   isValidElement,
   useCallback,
+  useEffect,
   useId,
   useMemo,
   useRef,
@@ -30,7 +31,8 @@ import {
   type FormFieldContextValue,
   type FormFieldLabelContextValue,
 } from '../internal/form-field-context';
-import { ownPartIds, withPartIds } from '../internal/field-parts';
+import { isDevelopment } from '../internal/dev';
+import { readZone, withPartIds } from '../internal/field-parts';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
@@ -97,8 +99,16 @@ function FormFieldImpl({
 
   const [authorLabelId, setLabelId] = useState<string | undefined>(undefined);
   // The ids of the hints and errors come from the props, so the first render and the server render have them.
-  const hintKey = JSON.stringify(ownPartIds(hint));
-  const errorKey = JSON.stringify(ownPartIds(error));
+  const hintKey = JSON.stringify(readZone(hint, 'hint').ownIds);
+  const errorKey = JSON.stringify(readZone(error, 'error').ownIds);
+  const hasWrapper = readZone(hint, 'hint').hasWrapper || readZone(error, 'error').hasWrapper;
+  useEffect(() => {
+    if (hasWrapper && isDevelopment()) {
+      console.warn(
+        'CocoKits: a FormField lists only the Hint and FieldError elements put directly in the hint or error prop. An element around them hides them: the control is not described by them.',
+      );
+    }
+  }, [hasWrapper]);
   const ids = useMemo(
     () => ({
       ...formFieldIds(fieldId, {
@@ -158,8 +168,8 @@ function FormFieldImpl({
             {trailing}
           </div>
           <div {...themeAttrs.feedbackWrapper} {...toReactProps(parts.feedbackWrapper)}>
-            {withPartIds(hint, ids.hints)}
-            {withPartIds(error, ids.errors)}
+            {withPartIds(readZone(hint, 'hint'), 'hint', ids.hints)}
+            {withPartIds(readZone(error, 'error'), 'error', ids.errors)}
           </div>
         </FormFieldLabelContext>
       </FormFieldStateContext>

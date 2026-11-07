@@ -79,7 +79,11 @@ export interface FormFieldProps extends Omit<ComponentPropsWithRef<'div'>, 'colo
    */
   readonly children?: ReactNode;
   /**
-   * The help texts under the control: one or more `Hint` elements. When not set, the field shows no help text.
+   * The help texts under the control: one or more `Hint` elements, or plain text. When not set, the field shows no
+   * help text.
+   *
+   * Plain text renders in a `Hint`. Put each `Hint` directly in the prop: the field does not read into another
+   * element, so a `Hint` inside one does not describe the control.
    *
    * @example
    * <FormField label={<Label>Email address</Label>} hint={<Hint>We never share it.</Hint>}>
@@ -126,10 +130,11 @@ export interface FormFieldProps extends Omit<ComponentPropsWithRef<'div'>, 'colo
    */
   readonly trailing?: ReactNode;
   /**
-   * The errors of the field, after the hints: one or more `FieldError` elements. When not set, the field shows no
-   * error.
+   * The errors of the field, after the hints: one or more `FieldError` elements, or plain text. When not set, the
+   * field shows no error.
    *
-   * Pass a `FieldError`, not a plain string, so that the message is in the live region.
+   * Plain text renders in a `FieldError` that always shows. Put each `FieldError` directly in the prop: the field
+   * does not read into another element, so a `FieldError` inside one does not describe the control.
    *
    * @example
    * <FormField
