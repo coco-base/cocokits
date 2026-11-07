@@ -13,17 +13,17 @@ export type CckRadioLabelPosition = RadioOptions['labelPosition']['values'][numb
 
 /**
  * The cocokits theme options of the Radio. It sits on the same element as the base component
- * (`[cckRadio]`) and provides the values to it; the base renders the `data-*` attributes on the root.
+ * (`cck-radio`) and provides the values to it; the base renders the `data-*` attributes on the root.
  * Each option resolves in order: the input, then the `provideCckTheme` override, then the config
  * default; `null` removes the attribute. The theme needs `provideCckTheme`; without it no theme
  * attribute renders.
  *
  * @example
- * <div cckRadio size="lg" color="success" labelPosition="before">Label</div>
+ * <cck-radio size="lg" color="success" labelPosition="before">Label</cck-radio>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckRadio]',
+  selector: 'cck-radio',
   providers: [
     provideThemeOptions(
       'radio',

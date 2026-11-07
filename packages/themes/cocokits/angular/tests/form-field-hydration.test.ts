@@ -11,8 +11,8 @@ import { providers, strip } from './helpers';
   selector: 'app-root',
   imports: [CckFormField, CckFormFieldTheme, CckInput],
   template: `
-    <div cckFormField [size]="large" id="a"><input cckInput aria-label="Email" /></div>
-    <div cckFormField id="b"><input cckInput aria-label="Email" /></div>
+    <cck-form-field [size]="large" id="a"><input cckInput aria-label="Email" /></cck-form-field>
+    <cck-form-field id="b"><input cckInput aria-label="Email" /></cck-form-field>
   `,
 })
 class Root {

@@ -20,9 +20,11 @@ import { providers } from './helpers';
 @Component({
   imports: [CckCheckbox, CckCheckboxTheme, CckSwitch, CckSwitchTheme, CckRadio, CckRadioTheme],
   template: `
-    <div cckCheckbox id="checkbox" [size]="size()" [color]="color()" [labelPosition]="labelPosition()">Accept</div>
-    <div cckSwitch id="switch" [size]="size()" [color]="color()" [labelPosition]="labelPosition()">Alerts</div>
-    <div cckRadio id="radio" name="plan" [size]="size()" [color]="color()" [labelPosition]="labelPosition()">A</div>
+    <cck-checkbox id="checkbox" [size]="size()" [color]="color()" [labelPosition]="labelPosition()"
+      >Accept</cck-checkbox
+    >
+    <cck-switch id="switch" [size]="size()" [color]="color()" [labelPosition]="labelPosition()">Alerts</cck-switch>
+    <cck-radio id="radio" name="plan" [size]="size()" [color]="color()" [labelPosition]="labelPosition()">A</cck-radio>
   `,
 })
 class Host {
@@ -34,9 +36,9 @@ class Host {
 @Component({
   imports: [CckCheckbox, CckCheckboxTheme, CckSwitch, CckSwitchTheme, CckRadio, CckRadioTheme],
   template: `
-    <div cckCheckbox size="sm" [checked]="on" [disabled]="on">Accept</div>
-    <div cckSwitch size="sm" [checked]="on" [disabled]="on">Alerts</div>
-    <div cckRadio name="plan" size="sm" [checked]="on" [disabled]="on">A</div>
+    <cck-checkbox size="sm" [checked]="on" [disabled]="on">Accept</cck-checkbox>
+    <cck-switch size="sm" [checked]="on" [disabled]="on">Alerts</cck-switch>
+    <cck-radio name="plan" size="sm" [checked]="on" [disabled]="on">A</cck-radio>
   `,
 })
 class Fixed {

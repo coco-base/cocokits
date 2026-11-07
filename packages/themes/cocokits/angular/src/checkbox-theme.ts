@@ -13,17 +13,17 @@ export type CckCheckboxLabelPosition = CheckboxOptions['labelPosition']['values'
 
 /**
  * The cocokits theme options of the Checkbox. It sits on the same element as the base component
- * (`[cckCheckbox]`) and provides the values to it; the base renders the `data-*` attributes on the root.
+ * (`cck-checkbox`) and provides the values to it; the base renders the `data-*` attributes on the root.
  * Each option resolves in order: the input, then the `provideCckTheme` override, then the config
  * default; `null` removes the attribute. The theme needs `provideCckTheme`; without it no theme
  * attribute renders.
  *
  * @example
- * <div cckCheckbox size="lg" color="success" labelPosition="before">Label</div>
+ * <cck-checkbox size="lg" color="success" labelPosition="before">Label</cck-checkbox>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckCheckbox]',
+  selector: 'cck-checkbox',
   providers: [
     provideThemeOptions(
       'checkbox',

@@ -11,8 +11,8 @@ import { renderThemedApp } from './ssr-helpers';
   selector: 'app-root',
   imports: [CckFormField, CckFormFieldTheme, CckInput],
   template: `
-    <div cckFormField [size]="large"><input cckInput aria-label="Email" /></div>
-    <div cckFormField><input cckInput aria-label="Email" /></div>
+    <cck-form-field [size]="large"><input cckInput aria-label="Email" /></cck-form-field>
+    <cck-form-field><input cckInput aria-label="Email" /></cck-form-field>
   `,
 })
 class Root {

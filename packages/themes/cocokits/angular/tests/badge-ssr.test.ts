@@ -10,8 +10,8 @@ import { renderThemedApp } from './ssr-helpers';
   selector: 'app-root',
   imports: [CckBadgeImports, CckBadgeTheme],
   template: `
-    <span cckBadge [content]="count" variant="rectangle" color="danger" size="lg"></span>
-    <span cckBadge></span>
+    <cck-badge [content]="count" variant="rectangle" color="danger" size="lg"></cck-badge>
+    <cck-badge></cck-badge>
   `,
 })
 class Root {
@@ -22,13 +22,13 @@ describe('theme Badge server render', () => {
   it('contains the class, the content and the theme data-* without window access', async () => {
     expect(typeof window).toBe('undefined');
     const html = await renderThemedApp(Root, true);
-    const first = /<span[^>]*>/.exec(html)?.[0] ?? '';
+    const first = /<cck-badge[^>]*>/.exec(html)?.[0] ?? '';
     expect(first).toContain('class="cck-badge"');
     expect(first).toContain('data-variant="rectangle"');
     expect(first).toContain('data-cck-color="danger"');
     expect(first).toContain('data-size="lg"');
     expect(html).toContain('>5</span>');
-    const dot = /<span[^>]*data-empty[^>]*>/.exec(html)?.[0] ?? '';
+    const dot = /<cck-badge[^>]*data-empty[^>]*>/.exec(html)?.[0] ?? '';
     expect(dot).toContain('data-cck-color="contrast"');
   });
 

@@ -54,14 +54,14 @@ class AttributeHost {
     CckFieldErrorImports,
   ],
   template: `
-    <div cckFormField data-testid="field" invalid size="lg">
-      <div cckFieldError data-testid="error">Enter a message.</div>
+    <cck-form-field data-testid="field" invalid size="lg">
+      <cck-field-error data-testid="error">Enter a message.</cck-field-error>
       <span cckTrailing data-testid="trailing">T</span>
       <span cckSuffix data-testid="suffix">S</span>
       <textarea cckTextarea data-testid="textarea" aria-label="Message" [rows]="rows" touched autoResize></textarea>
       <span cckPrefix data-testid="prefix">P</span>
       <span cckLeading data-testid="leading">L</span>
-    </div>
+    </cck-form-field>
   `,
 })
 class FieldHost {

@@ -16,17 +16,16 @@ import { providers } from './helpers';
 @Component({
   imports: [CckTabsImports, CckTabsTheme],
   template: `
-    <div
-      cckTabs
+    <cck-tabs
       aria-label="Account settings"
       [variant]="variant()"
       [color]="color()"
       [size]="size()"
       [headerAlign]="headerAlign()"
     >
-      <div cckTab label="Account">Change your name.</div>
-      <div cckTab label="Password">Change your password.</div>
-    </div>
+      <cck-tab label="Account">Change your name.</cck-tab>
+      <cck-tab label="Password">Change your password.</cck-tab>
+    </cck-tabs>
   `,
 })
 class Host {
@@ -39,10 +38,10 @@ class Host {
 @Component({
   imports: [CckTabsImports, CckTabsTheme],
   template: `
-    <div cckTabs aria-label="Account settings" size="sm">
-      <div cckTab label="Account">Change your name.</div>
-      <div cckTab label="Password" [disabled]="off">Change your password.</div>
-    </div>
+    <cck-tabs aria-label="Account settings" size="sm">
+      <cck-tab label="Account">Change your name.</cck-tab>
+      <cck-tab label="Password" [disabled]="off">Change your password.</cck-tab>
+    </cck-tabs>
   `,
 })
 class Fixed {

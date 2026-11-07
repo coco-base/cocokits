@@ -10,10 +10,10 @@ import { providers } from './helpers';
 @Component({
   imports: [CckSelectImports, CckSelectTheme],
   template: `
-    <div cckSelect aria-label="Dish" placeholder="Choose a dish" [size]="size()">
-      <div cckSelectOption value="Cake">Cake</div>
-      <div cckSelectOption value="Pizza">Pizza</div>
-    </div>
+    <cck-select aria-label="Dish" placeholder="Choose a dish" [size]="size()">
+      <cck-select-option value="Cake">Cake</cck-select-option>
+      <cck-select-option value="Pizza">Pizza</cck-select-option>
+    </cck-select>
   `,
 })
 class Host {
@@ -23,9 +23,9 @@ class Host {
 @Component({
   imports: [CckSelectImports, CckSelectTheme],
   template: `
-    <div cckSelect aria-label="Dish" size="sm">
-      <div cckSelectOption [value]="dish">Cake</div>
-    </div>
+    <cck-select aria-label="Dish" size="sm">
+      <cck-select-option [value]="dish">Cake</cck-select-option>
+    </cck-select>
   `,
 })
 class Fixed {

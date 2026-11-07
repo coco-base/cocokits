@@ -25,9 +25,9 @@ const inputAnatomy = defineAnatomy({
 @Component({
   imports: [CckFormField, CckFormFieldTheme, CckInput],
   template: `
-    <div cckFormField data-testid="field" [size]="size()">
+    <cck-form-field data-testid="field" [size]="size()">
       <input cckInput data-testid="input" value="a" />
-    </div>
+    </cck-form-field>
   `,
 })
 class Host {
@@ -37,8 +37,8 @@ class Host {
 @Component({
   imports: [CckFormField, CckFormFieldTheme, CckInput],
   template: `
-    <div cckFormField data-testid="div" size="lg"><input cckInput aria-label="a" /></div>
-    <section cckFormField data-testid="section" [size]="small"><input cckInput aria-label="b" /></section>
+    <cck-form-field data-testid="large" size="lg"><input cckInput aria-label="a" /></cck-form-field>
+    <cck-form-field data-testid="small" [size]="small"><input cckInput aria-label="b" /></cck-form-field>
   `,
 })
 class ElementHost {
@@ -107,12 +107,12 @@ describe('CckFormFieldTheme', () => {
 
 describe('CckFormFieldTheme root element', () => {
   it.each([
-    ['div', 'DIV', 'lg'],
-    ['section', 'SECTION', 'sm'],
-  ])('keeps data-size on the %s root and its input wrapper', async (id, tag, value) => {
+    ['large', 'lg'],
+    ['small', 'sm'],
+  ])('keeps data-size on the %s tag root and its input wrapper', async (id, value) => {
     await render(ElementHost, themed);
     const field = screen.getByTestId(id);
-    expect(field.tagName).toBe(tag);
+    expect(field.tagName).toBe('CCK-FORM-FIELD');
     expect(field.getAttribute('data-size')).toBe(value);
     expect(field.querySelector(`.${formFieldAnatomy.classes.inputWrapper}`)?.getAttribute('data-size')).toBe(value);
   });

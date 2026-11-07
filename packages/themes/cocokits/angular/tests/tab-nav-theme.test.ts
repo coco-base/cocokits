@@ -127,7 +127,7 @@ describe('theme directive on the tab nav', () => {
   it('keeps the theme options on the root and gives the linked panel the part class and no theme attribute', async () => {
     const { container } = await render(
       '<nav cckTabNav aria-label="Project" [tabPanel]="panel"><a cckTabNavLink href="#a" active>A</a></nav>' +
-        '<div cckTabNavPanel #panel="cckTabNavPanel">Outlet</div>',
+        '<cck-tab-nav-panel #panel="cckTabNavPanel">Outlet</cck-tab-nav-panel>',
       { imports: [...CckTabNavImports, CckTabNavTheme], ...themed },
     );
     expect(root(container).getAttribute('data-variant')).toBe('border');

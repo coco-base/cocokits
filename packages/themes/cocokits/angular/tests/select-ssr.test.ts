@@ -9,9 +9,9 @@ import { renderThemedApp } from './ssr-helpers';
 @Component({
   selector: 'app-root',
   imports: [CckSelectImports, CckSelectTheme],
-  template: `<div cckSelect aria-label="Dish" placeholder="Choose a dish" size="lg">
-    <div cckSelectOption [value]="dish">Cake</div>
-  </div>`,
+  template: `<cck-select aria-label="Dish" placeholder="Choose a dish" size="lg">
+    <cck-select-option [value]="dish">Cake</cck-select-option>
+  </cck-select>`,
 })
 class Root {
   protected readonly dish = 'Cake';
@@ -21,13 +21,13 @@ describe('theme select on the server', () => {
   it('has no window access and renders the size on the root', async () => {
     expect(typeof window).toBe('undefined');
     const html = await renderThemedApp(Root, true);
-    expect(/<div[^>]*class="cck-select"[^>]*>/.exec(html)?.[0] ?? '').toContain('data-size="lg"');
+    expect(/<cck-select[^>]*class="cck-select"[^>]*>/.exec(html)?.[0] ?? '').toContain('data-size="lg"');
     expect(html).toContain('Choose a dish');
     expect(html).not.toContain('role="listbox"');
   });
 
   it('renders no theme attribute without a provider', async () => {
     const html = await renderThemedApp(Root, false);
-    expect(/<div[^>]*class="cck-select"[^>]*>/.exec(html)?.[0] ?? '').not.toContain('data-size');
+    expect(/<cck-select[^>]*class="cck-select"[^>]*>/.exec(html)?.[0] ?? '').not.toContain('data-size');
   });
 });

@@ -11,27 +11,19 @@ import { renderThemedApp } from './ssr-helpers';
 @Component({
   selector: 'app-root',
   imports: [CckCheckbox, CckCheckboxTheme, CckSwitch, CckSwitchTheme, CckRadio, CckRadioTheme],
-  template: `<div
-      cckCheckbox
-      id="c"
-      [checked]="on"
-      [indeterminate]="true"
-      size="lg"
-      color="danger"
-      labelPosition="before"
-    >
+  template: `<cck-checkbox id="c" [checked]="on" [indeterminate]="true" size="lg" color="danger" labelPosition="before">
       Accept
-    </div>
-    <div cckSwitch id="s" [disabled]="true">Alerts</div>
-    <div cckRadio id="r1" name="plan" [checked]="on">A</div>
-    <div cckRadio id="r2" name="plan">B</div>`,
+    </cck-checkbox>
+    <cck-switch id="s" [disabled]="true">Alerts</cck-switch>
+    <cck-radio id="r1" name="plan" [checked]="on">A</cck-radio>
+    <cck-radio id="r2" name="plan">B</cck-radio>`,
 })
 class Root {
   protected readonly on = true;
 }
 
 const tags = (html: string, block: string): string[] =>
-  [...html.matchAll(new RegExp(`<div[^>]*class="cck-${block}"[^>]*>`, 'g'))].map((match) => match[0]);
+  [...html.matchAll(new RegExp(`<cck-${block}[^>]*class="cck-${block}"[^>]*>`, 'g'))].map((match) => match[0]);
 
 describe('theme choice controls on the server', () => {
   it('has no window access and renders the options and the checked mark of a Checkbox', async () => {

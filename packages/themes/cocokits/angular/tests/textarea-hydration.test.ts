@@ -12,10 +12,10 @@ import { providers, strip } from './helpers';
 @Component({
   selector: 'app-root',
   imports: [CckFormField, CckTextarea, CckTextareaTheme, CckPrefix, CckFieldError],
-  template: `<div cckFormField id="a">
+  template: `<cck-form-field id="a">
       <span cckPrefix>P</span><textarea cckTextarea aria-label="Message" autoResize></textarea>
-      <div cckFieldError>Enter a message.</div>
-    </div>
+      <cck-field-error>Enter a message.</cck-field-error>
+    </cck-form-field>
     <textarea cckTextarea aria-label="Plain" [rows]="rows"></textarea>`,
 })
 class Root {

@@ -13,17 +13,17 @@ export type CckSwitchLabelPosition = SwitchOptions['labelPosition']['values'][nu
 
 /**
  * The cocokits theme options of the Switch. It sits on the same element as the base component
- * (`[cckSwitch]`) and provides the values to it; the base renders the `data-*` attributes on the root.
+ * (`cck-switch`) and provides the values to it; the base renders the `data-*` attributes on the root.
  * Each option resolves in order: the input, then the `provideCckTheme` override, then the config
  * default; `null` removes the attribute. The theme needs `provideCckTheme`; without it no theme
  * attribute renders.
  *
  * @example
- * <div cckSwitch size="lg" color="success" labelPosition="before">Label</div>
+ * <cck-switch size="lg" color="success" labelPosition="before">Label</cck-switch>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckSwitch]',
+  selector: 'cck-switch',
   providers: [
     provideThemeOptions(
       'switch',
