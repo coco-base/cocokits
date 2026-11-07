@@ -50,21 +50,61 @@ const props = withDefaults(defineProps<FormFieldProps>(), {
 });
 
 defineSlots<{
-  /** The label of the control. */
+  /**
+   * The label of the control. When not set, the field has no label, and the control needs another name.
+   *
+   * @example
+   * <template #label><Label>Email</Label></template>
+   */
   label?(): unknown;
-  /** The control. */
+  /**
+   * The control: an Input, a Textarea or your own control. When not set, the field has no control.
+   *
+   * @example
+   * <FormField><template #label><Label>Email</Label></template><Input type="email" /></FormField>
+   */
   default?(): unknown;
-  /** The hints. Several are allowed. */
+  /**
+   * The hints. Several are allowed. When not set, the field shows no hint.
+   *
+   * @example
+   * <template #hint><Hint>We only use it for the receipt.</Hint></template>
+   */
   hint?(): unknown;
-  /** Content outside the box, before it. */
+  /**
+   * Content outside the box, before it. When not set, nothing shows there.
+   *
+   * @example
+   * <template #leading><Leading>To</Leading></template>
+   */
   leading?(): unknown;
-  /** Content inside the box, before the control. */
+  /**
+   * Content inside the box, before the control. When not set, nothing shows there.
+   *
+   * @example
+   * <template #prefix><Prefix>$</Prefix></template>
+   */
   prefix?(): unknown;
-  /** Content inside the box, after the control. */
+  /**
+   * Content inside the box, after the control. When not set, nothing shows there.
+   *
+   * @example
+   * <template #suffix><Suffix>kg</Suffix></template>
+   */
   suffix?(): unknown;
-  /** Content outside the box, after it. */
+  /**
+   * Content outside the box, after it. When not set, nothing shows there.
+   *
+   * @example
+   * <template #trailing><Trailing><Button>Check</Button></Trailing></template>
+   */
   trailing?(): unknown;
-  /** The error messages, after the hints. Several are allowed. */
+  /**
+   * The error messages, after the hints. Several are allowed. When not set, the field shows no error.
+   *
+   * @example
+   * <template #error><FieldError>Enter an email address.</FieldError></template>
+   */
   error?(): unknown;
 }>();
 
@@ -210,8 +250,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the FormField: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the FormField: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <FormField ref="field"><template #label><Label>Email</Label></template><Input /></FormField>
+   * <!-- In the script: const field = useTemplateRef('field'); then field.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

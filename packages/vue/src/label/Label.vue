@@ -10,7 +10,12 @@ defineOptions({ name: 'CckLabel' });
 const props = withDefaults(defineProps<LabelProps>(), { for: undefined });
 
 defineSlots<{
-  /** The text of the label. */
+  /**
+   * The text of the label. When not set, the label is empty and the control has no visible name.
+   *
+   * @example
+   * <Label for="email">Email address</Label>
+   */
   default?(): unknown;
 }>();
 

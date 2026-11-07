@@ -10,7 +10,12 @@ defineOptions({ name: 'CckTrailing' });
 withDefaults(defineProps<TrailingProps>(), { as: 'div', asChild: false });
 
 defineSlots<{
-  /** The content. */
+  /**
+   * The content of the Trailing. When not set, the Trailing is an empty element.
+   *
+   * @example
+   * <Trailing>Go</Trailing>
+   */
   default?(): unknown;
 }>();
 
@@ -21,8 +26,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the Trailing: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the Trailing: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Trailing ref="trailing">Go</Trailing>
+   * <!-- In the script: const trailing = useTemplateRef('trailing'); then trailing.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

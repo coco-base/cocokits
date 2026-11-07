@@ -220,7 +220,7 @@ export interface PopoverContentEmits {
    * Emits before Escape closes the popover, with the keydown event. Call `preventDefault()` to keep the popover open.
    *
    * @example
-   * <PopoverContent aria-label="Share" @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>
+   * <PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.
@@ -231,7 +231,7 @@ export interface PopoverContentEmits {
    * `preventDefault()` to keep the popover open.
    *
    * @example
-   * <PopoverContent aria-label="Share" @pointer-down-outside="(event) => event.preventDefault()">...</PopoverContent>
+   * <PopoverContent @pointer-down-outside="(event) => event.preventDefault()">...</PopoverContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.
@@ -242,7 +242,7 @@ export interface PopoverContentEmits {
    * event. Call `preventDefault()` to keep the popover open.
    *
    * @example
-   * <PopoverContent aria-label="Share" @focus-outside.prevent>...</PopoverContent>
+   * <PopoverContent @focus-outside.prevent>...</PopoverContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.
@@ -253,7 +253,7 @@ export interface PopoverContentEmits {
    * `preventDefault()` to keep the popover open.
    *
    * @example
-   * <PopoverContent aria-label="Share" @interact-outside="(event) => dirty && event.preventDefault()">...</PopoverContent>
+   * <PopoverContent @interact-outside="(event) => dirty && event.preventDefault()">...</PopoverContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.
@@ -264,7 +264,7 @@ export interface PopoverContentEmits {
    * or to move it yourself.
    *
    * @example
-   * <PopoverContent aria-label="Share" @open-auto-focus="(event) => { event.preventDefault(); nameInput?.focus(); }">...</PopoverContent>
+   * <PopoverContent @open-auto-focus="(event) => { event.preventDefault(); nameInput?.focus(); }">...</PopoverContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.
@@ -275,7 +275,7 @@ export interface PopoverContentEmits {
    * focus yourself.
    *
    * @example
-   * <PopoverContent aria-label="Share" @close-auto-focus="(event) => { event.preventDefault(); searchInput?.focus(); }">...</PopoverContent>
+   * <PopoverContent @close-auto-focus="(event) => { event.preventDefault(); search?.focus(); }">...</PopoverContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.

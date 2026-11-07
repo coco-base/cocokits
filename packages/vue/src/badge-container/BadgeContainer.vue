@@ -41,8 +41,8 @@ defineExpose({
    * child. It is `null` before mount.
    *
    * @example
-   * <BadgeContainer ref="container"><Button>Inbox</Button><Badge :content="2" /></BadgeContainer>
-   * <!-- In the script: const container = useTemplateRef('container'); then container.value?.element is the element. -->
+   * <BadgeContainer ref="box"><Button>Inbox</Button><Badge :content="2" /></BadgeContainer>
+   * <!-- In the script: const box = useTemplateRef('box'); then box.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.
