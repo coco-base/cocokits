@@ -24,7 +24,9 @@ export type { TooltipChangeReason };
  * @example
  * <TooltipProvider>
  *   <TooltipRoot>
- *     <TooltipTrigger aria-label="Copy link"><CopyIcon aria-hidden="true" /></TooltipTrigger>
+ *     <TooltipTrigger aria-label="Copy link">
+ *       <svg aria-hidden="true">...</svg>
+ *     </TooltipTrigger>
  *     <TooltipContent>
  *       Copy link
  *       <TooltipArrow />
@@ -199,7 +201,9 @@ export interface TooltipRootEmits {
  * must take the focus. Its own props win, except `aria-describedby`, `id` and `data-state`.
  *
  * @example
- * <TooltipTrigger aria-label="Copy link"><CopyIcon aria-hidden="true" /></TooltipTrigger>
+ * <TooltipTrigger aria-label="Copy link">
+ *   <svg aria-hidden="true">...</svg>
+ * </TooltipTrigger>
  *
  * @cckPart trigger
  */
