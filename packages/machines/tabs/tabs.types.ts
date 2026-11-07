@@ -31,8 +31,9 @@ export interface TabsItem {
   /** The value that links the trigger to its panel. */
   readonly value: TabsValue;
   /**
-   * The key that enters the trigger and panel ids. Leave it out to derive it from `value` with the injective
-   * `toIdSegment`; an adapter whose ids must never depend on the value gives each tab its generated id here.
+   * The key that enters the trigger and panel ids.
+   * Leave it out to derive it from `value` with the injective `toIdSegment`.
+   * An adapter whose ids must never depend on the value gives each tab its generated id here.
    */
   readonly key?: string | undefined;
   /** The trigger id, replacing the generated `<id>-trigger-<key>`; the panel's `aria-labelledby` follows it. */
