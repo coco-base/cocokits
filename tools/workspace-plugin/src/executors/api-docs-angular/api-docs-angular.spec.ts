@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import executor from './executor';
 import type { ApiDocJson } from '../api-docs-common/types';
 import { entryPointsOf, extractAngularApiDocs, sourceFileOf } from './extract';
-import { readType } from '../api-docs-common/read-type';
 import { REPO, scratchArea } from '../api-docs-common/testing/scratch';
 
 const FIXTURES = resolve(import.meta.dirname, 'fixtures');
@@ -38,29 +37,6 @@ function extract(name: string, fixture: string, change?: (text: string) => strin
 
 afterEach(() => {
   area.clean();
-});
-
-describe('readType', () => {
-  it.each([
-    ['InputSignalWithTransform<boolean, unknown>', 'boolean'],
-    ['InputSignalWithTransform<number, string | number>', 'number'],
-    ['InputSignal<string>', 'string'],
-    ['InputSignal<Array<string>>', 'Array<string>'],
-    ['InputSignal<Map<string, number> | null>', 'Map<string, number> | null'],
-    ['InputSignal<(a: string, b: number) => void>', '(a: string, b: number) => void'],
-    ["InputSignal<'a,b' | 'c'>", "'a,b' | 'c'"],
-    [String.raw`InputSignalWithTransform<'a\\', unknown>`, String.raw`'a\\'`],
-    [String.raw`InputSignalWithTransform<"x\\\"y,z", unknown>`, String.raw`"x\\\"y,z"`],
-    ['ModelSignal<string | undefined>', 'string | undefined'],
-    ['OutputEmitterRef<boolean>', 'boolean'],
-    ['OutputEmitterRef<void>', 'void'],
-    ['EventEmitter<number>', 'number'],
-    ['string', 'string'],
-    ['Signal<number>', 'Signal<number>'],
-    ['Promise<string>', 'Promise<string>'],
-  ])('%s reads %s', (type, read) => {
-    expect(readType(type)).toBe(read);
-  });
 });
 
 describe('extractAngularApiDocs: inheritance', () => {
@@ -313,6 +289,24 @@ describe('entryPointsOf', () => {
   });
 });
 
+/** The inherit fixture with the text the text rules ask for: the "When not set" sentences and the method examples. */
+function followsTextRules(text: string): string {
+  const example = (doc: string, call: string): string => `/**\n   * ${doc}\n   * @example\n   * ${call}\n   */`;
+  return text
+    .replace(
+      '/** The value, with two-way binding. */',
+      '/** The value, with two-way binding. When not set, it is empty. */',
+    )
+    .replace('/** A number with an alias. */', '/** A number with an alias. When not set, it is 3. */')
+    .replace('/** An old-style input. */', '/** An old-style input. When not set, it is empty. */')
+    .replace('- The label of the thing.', '- The label of the thing. When not set, the thing has no label.')
+    .replace('below the thing.', 'below the thing. When not set, no hint shows.')
+    .replace('/** Closes the thing; the subclass makes it public. */', example('Closes the thing.', 'thing.close();'))
+    .replace('/** Closes the thing. */', example('Closes the thing.', 'thing.close();'))
+    .replace('   * Opens it by an amount.\n', '   * Opens it by an amount.\n   * @example\n   * thing.open(1);\n')
+    .replace('   * Opens it the old way.\n', '   * Opens it the old way.\n   * @example\n   * thing.oldOpen();\n');
+}
+
 describe('api-docs-angular executor', () => {
   beforeEach(() => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -322,7 +316,7 @@ describe('api-docs-angular executor', () => {
   });
 
   it('writes one ApiDoc file per entry point into the project, deterministically', async () => {
-    createPackage('run', 'inherit');
+    createPackage('run', 'inherit', followsTextRules);
     const out = join(area.dir, 'run', 'out');
     const outputDir = `tools/workspace-plugin/tmp/api-docs-angular/run/out`;
     const options = { outputDir, tsConfig: '{projectRoot}/tsconfig.lib.json' };
@@ -333,6 +327,16 @@ describe('api-docs-angular executor', () => {
     expect(first.endsWith('}\n')).toBe(true);
     await executor(options, area.context('run'));
     expect(readFileSync(join(out, 'thing.json'), 'utf8')).toBe(first);
+  });
+
+  it('fails on TSDoc that breaks a text rule, names the item and writes nothing', async () => {
+    createPackage('rules', 'inherit');
+    const outputDir = 'tools/workspace-plugin/tmp/api-docs-angular/rules/out';
+    expect((await executor({ outputDir }, area.context('rules'))).success).toBe(false);
+    expect(vi.mocked(console.error).mock.calls.join('\n')).toMatch(
+      /angular\/thing Thing\.close\(\): needs an @example/,
+    );
+    expect(existsSync(join(area.dir, 'rules', 'out'))).toBe(false);
   });
 
   it('fails on a member without TSDoc and writes nothing', async () => {

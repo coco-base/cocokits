@@ -168,6 +168,20 @@ describe('extractVueApiDocs: hostile input', () => {
   });
 });
 
+/** The thing fixture with the text the text rules ask for: a root example and the "When not set" sentences. */
+const FOLLOWS_TEXT_RULES: Sources = {
+  types: fixture('thing.types.ts')
+    .replace(' * @cckPart root\n */', ' * @cckPart root\n * @example\n * <Thing label="Save">Save</Thing>\n */')
+    .replace(
+      '/** The value, for `v-model`. */',
+      '/** The value, for `v-model`. When not set, the thing has no value. */',
+    ),
+  vue: fixture('Thing.vue').replace(
+    '/** The content of the thing. */',
+    '/**\n   * The content. When not set, the thing is empty.\n   * @example\n   * <Thing label="Save">Save</Thing>\n   */',
+  ),
+};
+
 describe('api-docs-vue executor', () => {
   beforeEach(() => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -177,7 +191,7 @@ describe('api-docs-vue executor', () => {
   });
 
   it('writes one ApiDoc file per entry point into the project, deterministically', async () => {
-    createPackage('run');
+    createPackage('run', FOLLOWS_TEXT_RULES);
     const out = join(area.dir, 'run', 'out');
     const outputDir = `tools/workspace-plugin/tmp/api-docs-vue/run/out`;
     expect((await executor({ outputDir }, area.context('run'))).success).toBe(true);
@@ -187,6 +201,14 @@ describe('api-docs-vue executor', () => {
     expect(first.endsWith('}\n')).toBe(true);
     await executor({ outputDir }, area.context('run'));
     expect(readFileSync(join(out, 'thing.json'), 'utf8')).toBe(first);
+  });
+
+  it('fails on TSDoc that breaks a text rule, names the item and writes nothing', async () => {
+    createPackage('rules');
+    const outputDir = 'tools/workspace-plugin/tmp/api-docs-vue/rules/out';
+    expect((await executor({ outputDir }, area.context('rules'))).success).toBe(false);
+    expect(vi.mocked(console.error).mock.calls.join('\n')).toMatch(/vue\/thing Thing \(root part\): needs an @example/);
+    expect(existsSync(join(area.dir, 'rules', 'out'))).toBe(false);
   });
 
   it('fails on a prop without TSDoc and writes nothing', async () => {
