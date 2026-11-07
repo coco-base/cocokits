@@ -3,11 +3,10 @@ import { injectCckSelect } from './select';
 import type { SelectTriggerContext } from './select-types';
 
 /**
- * Your own markup for the trigger, in place of the labels of the selected options.
+ * Your own markup for the trigger, in place of the labels of the selected options. When not set, the trigger shows the text of the selected options, joined with a comma.
  *
  * The Select shows this template only while something is selected. While nothing is selected, the placeholder shows. The template receives the selected values as `selected`.
  *
- * @defaultValue The trigger shows the text of the selected options, joined with a comma.
  * @example
  * <cck-select multiple [(value)]="dishes" placeholder="Choose dishes" aria-label="Dishes">
  *   <ng-template cckSelectTrigger let-selected="selected">{{ selected.length }} selected</ng-template>

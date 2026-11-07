@@ -27,8 +27,8 @@ import { injectCckSelect } from './select';
  * </cck-select-option-group>
  * @cckPart optionGroup
  * @cckSection optionGroupLabel label label
- * @cckSlot default - The options of the group.
- * @cckSlot label ng-template[cckSelectOptionGroupLabel] - Your own markup for the label, in place of the `label` text.
+ * @cckSlot default - The options of the group. When not set, the group is empty.
+ * @cckSlot label ng-template[cckSelectOptionGroupLabel] - Your own markup for the label, in place of the `label` text. When not set, the label shows the `label` text.
  */
 @Component({
   selector: 'cck-select-option-group',

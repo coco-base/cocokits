@@ -80,8 +80,8 @@ export interface CckSelectChange<V = string> {
  * @cckPart value
  * @cckPart dropdownIcon
  * @cckPart content
- * @cckSlot default - The options, the option groups and the separators.
- * @cckSlot trigger ng-template[cckSelectTrigger] - Your own markup for the trigger, in place of the labels of the selected options.
+ * @cckSlot default - The options, the option groups and the separators. When not set, the list is empty.
+ * @cckSlot trigger ng-template[cckSelectTrigger] - Your own markup for the trigger, in place of the labels of the selected options. When not set, the trigger shows the labels joined with a comma.
  */
 @Component({
   selector: 'cck-select',
@@ -410,6 +410,9 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
 
   /**
    * Whether the list is open.
+   * @example
+   * // select = viewChild.required(CckSelect)
+   * if (this.select().panelOpen) this.select().close();
    * @cckSemantic none
    * @cckParity The methods own the open state; there is no open input.
    */
