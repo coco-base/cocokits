@@ -35,6 +35,13 @@ const emit = defineEmits<SelectItemEmits<T>>();
 defineSlots<{
   /**
    * The content of the item: a `SelectItemIndicator` and a `SelectItemText`. It must not be interactive.
+   * When not set, the item shows no text.
+   *
+   * @example
+   * <SelectItem value="pasta">
+   *   <SelectItemIndicator />
+   *   <SelectItemText>Pasta</SelectItemText>
+   * </SelectItem>
    */
   default?(): unknown;
 }>();

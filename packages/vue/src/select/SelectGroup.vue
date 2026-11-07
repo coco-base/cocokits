@@ -11,7 +11,15 @@ defineOptions({ name: 'CckSelectGroup', inheritAttrs: false });
 const props = withDefaults(defineProps<SelectGroupProps>(), { disabled: false, as: 'div', asChild: false });
 defineSlots<{
   /**
-   * The group: a `SelectLabel`, then its `SelectItem` elements.
+   * The group: a `SelectLabel`, then its `SelectItem` elements. When not set, the group is empty.
+   *
+   * @example
+   * <SelectGroup>
+   *   <SelectLabel>Hot dishes</SelectLabel>
+   *   <SelectItem value="soup">
+   *     <SelectItemText>Soup</SelectItemText>
+   *   </SelectItem>
+   * </SelectGroup>
    */
   default?(): unknown;
 }>();

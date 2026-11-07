@@ -46,7 +46,18 @@ const props = withDefaults(defineProps<SelectContentProps>(), {
 const emit = defineEmits<SelectContentEmits>();
 defineSlots<{
   /**
-   * The list: `SelectItem`, `SelectGroup` and `SelectSeparator` elements.
+   * The list: `SelectItem`, `SelectGroup` and `SelectSeparator` elements. When not set, the list is empty.
+   *
+   * @example
+   * <SelectContent>
+   *   <SelectItem value="pasta">
+   *     <SelectItemText>Pasta</SelectItemText>
+   *   </SelectItem>
+   *   <SelectSeparator />
+   *   <SelectItem value="soup">
+   *     <SelectItemText>Soup</SelectItemText>
+   *   </SelectItem>
+   * </SelectContent>
    */
   default?(): unknown;
 }>();

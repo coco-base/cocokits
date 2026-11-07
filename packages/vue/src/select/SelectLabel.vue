@@ -10,8 +10,10 @@ defineOptions({ name: 'CckSelectLabel', inheritAttrs: false });
 withDefaults(defineProps<SelectLabelProps>(), { as: 'div', asChild: false });
 defineSlots<{
   /**
-   * The label of the group: text and markup, never a control.
+   * The label of the group: text and markup, never a control. When not set, the group has no name.
    *
+   * @example
+   * <SelectLabel>Hot dishes</SelectLabel>
    * @cckSemantic select.label
    */
   default?(): unknown;

@@ -77,7 +77,7 @@ const props = withDefaults(defineProps<SelectRootProps<T, M>>(), {
 defineEmits<SelectRootEmits<T, M>>();
 defineSlots<{
   /**
-   * The trigger and the list. The slot gives you the value and the open state.
+   * The trigger and the list. The slot gives you the value and the open state. When not set, nothing shows.
    *
    * The slot is always rendered. Use the fields only when you need the value or the open state in the template.
    *
