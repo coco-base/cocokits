@@ -1,4 +1,11 @@
-/** Why the dialog opened or closed. */
+/**
+ * Why the dialog opened or closed.
+ *
+ * @cckValue trigger - The user pressed the trigger.
+ * @cckValue close - The user pressed a close button, or a form inside the dialog closed it.
+ * @cckValue escape - The user pressed Escape.
+ * @cckValue outside-press - The user pressed outside the dialog.
+ */
 export type DialogChangeReason = 'trigger' | 'close' | 'escape' | 'outside-press';
 
 /** Inputs of `getDialogProps` and `transitionDialog`. */

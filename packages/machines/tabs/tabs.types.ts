@@ -1,12 +1,26 @@
 import type { Direction } from '@cocokits/shared';
 
-/** How the tabs are laid out; it decides the arrow keys. */
+/**
+ * How the tabs are laid out. It decides the arrow keys.
+ *
+ * @cckValue horizontal - The tabs sit in a row. ArrowLeft and ArrowRight move the focus.
+ * @cckValue vertical - The tabs sit in a column. ArrowUp and ArrowDown move the focus.
+ */
 export type TabsOrientation = 'horizontal' | 'vertical';
 
-/** `automatic` selects a tab when it receives focus by arrow key; `manual` waits for Enter or Space. */
+/**
+ * When a tab that gets the focus by an arrow key is selected.
+ *
+ * @cckValue automatic - The tab is selected as soon as it gets the focus.
+ * @cckValue manual - The tab is selected when the user presses Enter or Space.
+ */
 export type TabsActivationMode = 'automatic' | 'manual';
 
-/** Why the selected tab changed. Only the user changes it. */
+/**
+ * Why the selected tab changed.
+ *
+ * @cckValue user - The user selected a tab.
+ */
 export type TabsChangeReason = 'user';
 
 /** What identifies a tab: a string or a number. Compared with `===`, so `1` and `'1'` are different tabs. */

@@ -1,6 +1,14 @@
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 
-/** Why the popover opened or closed. */
+/**
+ * Why the popover opened or closed.
+ *
+ * @cckValue trigger - The user pressed the trigger.
+ * @cckValue close - The user pressed a close button.
+ * @cckValue escape - The user pressed Escape.
+ * @cckValue outside-press - The user pressed outside the popover.
+ * @cckValue focus-out - The focus left the popover.
+ */
 export type PopoverChangeReason = 'trigger' | 'close' | 'escape' | 'outside-press' | 'focus-out';
 
 /** The side of the trigger the content sits on. `start` and `end` follow the direction. */

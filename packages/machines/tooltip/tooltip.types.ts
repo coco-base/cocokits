@@ -1,15 +1,26 @@
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 
-/** Why the tooltip opened or closed. */
+/**
+ * Why the tooltip opened or closed.
+ *
+ * @cckValue hover - The pointer rested on the trigger.
+ * @cckValue focus - The trigger got the focus from the keyboard.
+ * @cckValue escape - The user pressed Escape.
+ * @cckValue outside-press - The user pressed outside the tooltip.
+ * @cckValue pointer-leave - The pointer left the trigger and the content.
+ * @cckValue blur - The focus left the trigger.
+ * @cckValue press - The user pressed the trigger.
+ * @cckValue scroll - A container of the trigger scrolled.
+ */
 export type TooltipChangeReason =
   'hover' | 'focus' | 'escape' | 'outside-press' | 'pointer-leave' | 'blur' | 'press' | 'scroll';
 
 /**
- * How the trigger is described, computed by the adapter from what it reports about the description text.
+ * How the trigger is described. The adapter computes it from what it reports about the description text.
  *
- * - `described`: a hidden description element exists and the trigger's `aria-describedby` names it.
- * - `suppressed`: the text equals the trigger's own `aria-label`, so nothing is added.
- * - `none`: no description text; the trigger is described by the content while the content is mounted.
+ * @cckValue described - A hidden description element exists, and the `aria-describedby` of the trigger names it.
+ * @cckValue suppressed - The text equals the `aria-label` of the trigger, so nothing is added.
+ * @cckValue none - There is no description text. The content describes the trigger while it is mounted.
  */
 export type TooltipDescription = 'described' | 'suppressed' | 'none';
 
