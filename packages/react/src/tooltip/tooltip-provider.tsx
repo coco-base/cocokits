@@ -21,10 +21,14 @@ function TooltipProviderImpl({
 }
 
 /**
- * Holds the delay group and the defaults of the tooltips inside it. It renders no element. After a tooltip of the
- * group opens, the next hover in the group opens without delay, and keeps doing so for `skipDelayDuration` after
- * the last one closed. Wrap the page, or a toolbar, once; it is optional, and a tooltip outside any Provider has
- * the built-in defaults and no group. A nested Provider forms its own group.
+ * Holds the delay group and the defaults of the tooltips inside it. It renders no element. Wrap the page or a
+ * toolbar in it once.
+ *
+ * After a tooltip of the group shows, the next hover in the group shows without delay. This goes on for
+ * `skipDelayDuration` after the last tooltip hides.
+ *
+ * It is optional: a tooltip outside any Provider has the built-in defaults and no group. A Provider inside another
+ * Provider makes its own group.
  *
  * @example
  * <Tooltip.Provider delayDuration={400}>

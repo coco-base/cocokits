@@ -262,23 +262,32 @@ function PopoverContentImpl(props: PopoverContentProps): ReactElement {
 }
 
 /**
- * Renders a `<div role="dialog">` next to the trigger, in a top-layer host outside the trigger's
- * parent. It renders nothing while closed (unless `forceMount`), on the server and in the first client render, so a
- * popover that is open by default appears right after hydration. With `modal` on the Root it makes the page
- * outside inert, locks scroll, wraps Tab inside it and has `aria-modal="true"`. Put a `Popover.Arrow` inside it
- * for a pointer to the trigger. It is placed on `side` and `align`, flips and shifts to stay in
- * view, and reports where it is as `data-side` and `data-align`. Focus moves to its first focusable element on
- * open (the content itself when it has none) and back to the trigger on Escape, Close or a press on non-focusable
- * space; a press on another focusable element keeps focus there. Tab past the last focusable element goes to the
- * element after the trigger and closes the popover. It is named by `Popover.Title` and described by
- * `Popover.Description` while they are mounted; without a Title give it `aria-label`. With `Popover.Anchor` it is
- * placed against the anchor instead of the trigger. Refuse a dismissal with `onEscapeKeyDown`, `onPointerDownOutside`, `onFocusOutside` or
- * `onInteractOutside` (`event.preventDefault()`), or any change with `details.cancel()` in `onOpenChange`; refusing
- * Escape weakens the dialog pattern. `onOpenAutoFocus` and `onCloseAutoFocus` can stop CocoKits from moving
- * focus.
+ * The panel of the popover. It renders a `<div role="dialog">` in the overlay container, not next to the trigger. A
+ * `Popover.Title` names it and a `Popover.Description` describes it; without a Title, give it an `aria-label`.
+ *
+ * It renders nothing while closed, on the server and in the first client render. So a popover that starts open
+ * appears right after hydration. With `forceMount`, the closed content stays in the document.
+ *
+ * It opens on `side` and `align` of the trigger, or of the `Popover.Anchor`. It flips and shifts to stay in view,
+ * and says where it is with `data-side` and `data-align`.
+ *
+ * On open, the focus moves to its first control, or to the content when it has none. On Escape, a Close or a
+ * press on empty space, the focus returns to the trigger.
+ *
+ * A press on another control keeps the focus there. Tab after the last control moves to the element after the
+ * trigger and closes the popover.
+ *
+ * With `modal` on the Root, the page outside is inert, the page does not scroll, Tab stays inside and the content
+ * has `aria-modal="true"`.
+ *
+ * To refuse a close, call `event.preventDefault()` in `onEscapeKeyDown`, `onPointerDownOutside`, `onFocusOutside`
+ * or `onInteractOutside`. Stop the focus moves with `onOpenAutoFocus` and `onCloseAutoFocus`.
  *
  * @example
- * <Popover.Content aria-label="Share" side="top">Anyone with the link can view.</Popover.Content>
+ * <Popover.Content side="top">
+ *   <Popover.Title>Share this page</Popover.Title>
+ *   <Popover.Close>Done</Popover.Close>
+ * </Popover.Content>
  * @cckPart content
  * @param props - The Content props.
  * @returns The portal, or nothing while closed.

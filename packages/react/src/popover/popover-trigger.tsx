@@ -46,11 +46,13 @@ function PopoverTriggerImpl({ render, nativeButton = true, ref, ...rest }: Popov
 }
 
 /**
- * Renders a `<button type="button">` that toggles the popover. With `nativeButton={false}` it renders another
- * element through `render` and gives it `role="button"`, `tabindex="0"` and Enter and Space activation, and no
- * `type`. It carries `aria-haspopup="dialog"`,
- * `aria-expanded` and, while the content is mounted, `aria-controls`. Native button props pass through, and
- * `ref` reaches the element. Compose it with another component through `render`, for example `<Button />`.
+ * The button that opens and closes the popover. It renders a `<button type="button">` with `aria-haspopup="dialog"`
+ * and `aria-expanded`. Native button props pass through, and `ref` reaches the element.
+ *
+ * It has `aria-controls` while the content is mounted.
+ *
+ * To render another element or component, use `render`. An element that is not a `<button>` also needs
+ * `nativeButton={false}`.
  *
  * @example
  * <Popover.Trigger>Share</Popover.Trigger>

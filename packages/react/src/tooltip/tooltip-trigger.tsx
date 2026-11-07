@@ -81,17 +81,22 @@ function TooltipTriggerImpl({ render, nativeButton = true, ref, ...rest }: Toolt
 }
 
 /**
- * Renders a `<button type="button">` that the tooltip describes. With `nativeButton={false}` it renders another
- * element through `render` and gives it `tabindex="0"` and no `type`. It carries `aria-describedby`, added to any
- * description you wrote: it names a hidden description of the Content's text (after hydration, also while the
- * tooltip is closed), or the content while that is mounted. Native button props pass through, and `ref` reaches
- * the element. Compose it with another focusable component through `render`, for example `<Button />`.
- * Hover and keyboard focus show the tooltip; a press hides it. A disabled button cannot be focused, so it
- * never shows the tooltip: give a focusable wrapper (`render={<span />}` with `nativeButton={false}`) the
- * trigger and put the button inside it.
+ * The element that the tooltip describes. It renders a `<button type="button">`. Native button props pass through,
+ * and `ref` reaches the element.
+ *
+ * Its `aria-describedby` adds the tooltip to any ids you wrote. It points to a hidden copy of the text of the
+ * Content after hydration, or to the content while it is mounted.
+ *
+ * Hover and keyboard focus show the tooltip, and a press hides it. To render another element or component, use
+ * `render` and `nativeButton={false}`.
+ *
+ * A disabled button cannot take the focus, so it never shows the tooltip. Make a wrapper the trigger with
+ * `render={<span />}` and `nativeButton={false}`, and put the button inside it.
  *
  * @example
- * <Tooltip.Trigger aria-label="Copy link">...</Tooltip.Trigger>
+ * <Tooltip.Trigger aria-label="Copy link">
+ *   <svg aria-hidden="true">...</svg>
+ * </Tooltip.Trigger>
  * @cckPart trigger
  * @param props - The Trigger props.
  * @returns The rendered element.

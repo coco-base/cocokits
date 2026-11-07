@@ -36,8 +36,8 @@ function PopoverTitleImpl({ render, ref, ...rest }: PopoverTitleProps): ReactEle
 }
 
 /**
- * Renders the `<h2>` that names the popover; the content refers to it with `aria-labelledby` while it is mounted.
- * Use `render` for another heading level, such as `<h3 />`.
+ * The title that names the popover. It renders an `<h2>`, and the content points to it with `aria-labelledby` while
+ * it is mounted. Pass `render={<h3 />}` for another heading level.
  *
  * @example
  * <Popover.Title>Share this page</Popover.Title>
