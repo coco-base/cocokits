@@ -15,7 +15,15 @@ import {
 } from 'vue';
 import { isDevelopment } from './dev';
 
-/** A tag name for `as`. `'template'` merges onto the first element or component child like `asChild`. */
+/**
+ * A tag name for `as`. Any other tag name works too.
+ *
+ * @cckValue a - A link.
+ * @cckValue button - A native button.
+ * @cckValue div - A block element with no meaning of its own.
+ * @cckValue span - An inline element with no meaning of its own.
+ * @cckValue template - No element of its own: the part merges onto its first child, as with `asChild`.
+ */
 export type AsTag = 'a' | 'button' | 'div' | 'span' | 'template' | (string & Record<never, never>);
 
 /** Props of the {@link Primitive}. */
