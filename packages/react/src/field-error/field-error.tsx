@@ -43,7 +43,8 @@ interface FieldErrorComponent {
  * message is announced when it appears. Inside a FormField it shows while the field is invalid and was
  * touched or the form was submitted, or with `force`; outside a FormField it always shows, and you render
  * the content conditionally. The message is not rendered while hidden, so a hidden FieldError adds nothing to
- * the description of the control. Pass it to the `error` prop of a FormField; several are allowed. It has
+ * the description of the control. Passed to the `error` prop of a FormField it describes the control (an error
+ * without an `id` gets `<fieldId>-error-<n>`). Pass it to the `error` prop of a FormField; several are allowed. It has
  * no role and does not move focus. Native div attributes pass through, and `ref` reaches the div.
  *
  * @example

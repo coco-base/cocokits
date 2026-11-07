@@ -92,7 +92,7 @@ export interface InputProps extends Omit<
    */
   readonly hidden?: boolean | undefined;
   /**
-   * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
+   * The ids this control is described by. Inside a FormField the ids of its hints, then of its errors, are added after them.
    *
    * @cckSemantic input.ariaDescribedBy
    * @cckParity Spelled as the native `aria-describedby` attribute.

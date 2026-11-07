@@ -36,8 +36,9 @@ interface HintComponent {
 
 /**
  * Renders a `<div>` by default with a short help text under a control. It has no role and
- * wires nothing: the author sets `id` on the Hint and `aria-describedby` with that id on the
- * control. It works the same outside a FormField. Native div attributes pass through, and `ref`
+ * wires nothing outside a FormField: the author sets `id` on the Hint and `aria-describedby` with that id on
+ * the control. Passed to the `hint` prop of a FormField, it describes the control, and a Hint without an `id`
+ * gets `<fieldId>-hint-<n>`. Native div attributes pass through, and `ref`
  * reaches the div.
  *
  * @example

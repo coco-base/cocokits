@@ -49,9 +49,9 @@ describe('Checkbox in a FormField', () => {
     expect(screen.getByRole('switch', { name: 'Notifications Email me' }).id).toBe('s-control');
   });
 
-  it('ends aria-describedby with the feedback wrapper, after the author ids', () => {
+  it('ends aria-describedby with the hint id, after the author ids', () => {
     render(<Field control={{ 'aria-describedby': 'note' }} />);
-    expect(box().getAttribute('aria-describedby')).toBe('note f-feedback');
+    expect(box().getAttribute('aria-describedby')).toBe('note f-hint-1');
   });
 
   it('is described by the hint', () => {

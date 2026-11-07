@@ -30,6 +30,7 @@ import {
   type FormFieldContextValue,
   type FormFieldLabelContextValue,
 } from '../internal/form-field-context';
+import { ownPartIds, withPartIds } from '../internal/field-parts';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
@@ -39,6 +40,10 @@ import type { FormFieldProps, FormFieldRenderProps, FormFieldState } from './for
 interface ElementProps {
   readonly ref?: Ref<HTMLElement>;
 }
+
+/** The ids of a zone from their JSON key; JSON writes a missing id as `null`. */
+const ownIdsOf = (key: string): (string | undefined)[] =>
+  (JSON.parse(key) as (string | null)[]).map((id) => id ?? undefined);
 
 function FormFieldImpl({
   label,
@@ -91,9 +96,18 @@ function FormFieldImpl({
   }, []);
 
   const [authorLabelId, setLabelId] = useState<string | undefined>(undefined);
+  // The ids of the hints and errors come from the props, so the first render and the server render have them.
+  const hintKey = JSON.stringify(ownPartIds(hint));
+  const errorKey = JSON.stringify(ownPartIds(error));
   const ids = useMemo(
-    () => ({ ...formFieldIds(fieldId), ...(authorLabelId === undefined ? {} : { label: authorLabelId }) }),
-    [fieldId, authorLabelId],
+    () => ({
+      ...formFieldIds(fieldId, {
+        hints: ownIdsOf(hintKey),
+        errors: ownIdsOf(errorKey),
+      }),
+      ...(authorLabelId === undefined ? {} : { label: authorLabelId }),
+    }),
+    [fieldId, authorLabelId, hintKey, errorKey],
   );
   const own = useMemo(
     () => ({ disabled, readOnly, required, invalid, hideRequiredMarker }),
@@ -144,8 +158,8 @@ function FormFieldImpl({
             {trailing}
           </div>
           <div {...themeAttrs.feedbackWrapper} {...toReactProps(parts.feedbackWrapper)}>
-            {hint}
-            {error}
+            {withPartIds(hint, ids.hints)}
+            {withPartIds(error, ids.errors)}
           </div>
         </FormFieldLabelContext>
       </FormFieldStateContext>
@@ -185,8 +199,8 @@ interface FormFieldComponent {
  *
  * It wires a CocoKits control for you. The field has an id (your `id`, or a generated one); the
  * control (an Input or a Textarea) gets `<id>-control`, the Label's `htmlFor` points at it, and the
- * control's `aria-describedby` ends with the feedback wrapper's `<id>-feedback`, so every hint and error
- * describes the control. An `id`, `htmlFor` or `aria-describedby` you write wins or comes first.
+ * control's `aria-describedby` ends with the ids of its hints, then of its errors (an `id` on a Hint or a
+ * FieldError wins; otherwise `<id>-hint-<n>` or `<id>-error-<n>`), so every hint and error describes the control. An `id`, `htmlFor` or `aria-describedby` you write wins or comes first.
  * `disabled`, `readOnly`, `required` and `invalid` reach the control, and the facts of the control (those
  * and `touched`, `dirty`, `submitted`, `focused`, `filled`, `pending`) are `data-*` attributes on the field root. A control
  * that is not a CocoKits control gets none of this: give it an `id`, give the Label the same
