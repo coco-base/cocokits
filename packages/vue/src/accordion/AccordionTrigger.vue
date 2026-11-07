@@ -23,7 +23,10 @@ defineOptions({ name: 'CckAccordionTrigger', inheritAttrs: false });
 const props = withDefaults(defineProps<AccordionTriggerProps>(), { as: 'button', asChild: false });
 defineSlots<{
   /**
-   * The label of the trigger: text and icons.
+   * The label of the trigger: text and icons. When not set, the trigger has no accessible name.
+   *
+   * @example
+   * <AccordionTrigger>Shipping</AccordionTrigger>
    *
    * @cckSemantic accordion.label
    * @cckParity The label is the content of the trigger part.

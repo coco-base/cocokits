@@ -17,7 +17,11 @@ const props = withDefaults(defineProps<BadgeProps>(), {
 
 defineSlots<{
   /**
-   * The element the Badge merges onto when it merges (`asChild`, or `as="template"`); the Badge puts its own content parts inside it. Not rendered otherwise.
+   * The element the Badge merges onto, with `asChild` or `as="template"`. The Badge puts its own content parts
+   * inside it. When not set, or when the Badge does not merge, nothing from the slot renders.
+   *
+   * @example
+   * <Badge as-child :content="5"><strong /></Badge>
    *
    * @cckSemantic none
    * @cckParity Used with `asChild` only: the element the Badge merges onto.
@@ -51,8 +55,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the Badge: the `<span>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the Badge: the `<span>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Badge ref="badge" :content="5" />
+   * <!-- In the script: const badge = useTemplateRef('badge'); then badge.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

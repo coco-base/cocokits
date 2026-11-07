@@ -3,10 +3,11 @@ import type { ButtonProps as MachineButtonProps } from '@cocokits/machines/butto
 import type { AsTag } from '@cocokits/vue-core';
 
 /**
- * A button for actions. It renders a native `<button type="button">` by default; with `as` other
- * than `'button'`, or `asChild`, it renders link semantics (an `<a>`). Native button attributes and
- * listeners fall through to the rendered element. A disabled link blocks its click in the capture
- * phase, so a consumer `@click.capture` runs first and can veto the guard with `preventDefault()`.
+ * A button for actions. It renders a native `<button type="button">`. With an `as` other than `'button'`, or with
+ * `asChild`, it renders a link (an `<a>`).
+ *
+ * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in
+ * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.
  *
  * @example
  * <Button @click="save">Save</Button>
@@ -15,10 +16,13 @@ import type { AsTag } from '@cocokits/vue-core';
  */
 export interface ButtonProps extends Pick<MachineButtonProps, 'disabled'> {
   /**
-   * The tag or component to render. `'button'` renders a native `<button>`; any other value
-   * (`'a'`, `RouterLink`, `NuxtLink`) renders link semantics: no `role`, no `type`, and a disabled
-   * Button gets `aria-disabled="true"` and `tabindex="-1"` and blocks its click. A component must
-   * render an `<a>`.
+   * The tag or component to render. `'button'` renders a native `<button>`. Any other value, such as `'a'` or
+   * `RouterLink`, renders a link, and a component must render an `<a>`.
+   *
+   * It is ignored with `asChild`.
+   *
+   * A link has no `role` and no `type`. A disabled link gets `aria-disabled="true"` and `tabindex="-1"`, and it
+   * blocks its click.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`. A non-`button` value renders link semantics.
@@ -26,9 +30,11 @@ export interface ButtonProps extends Pick<MachineButtonProps, 'disabled'> {
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the Button merges onto its first element or component child (text and comments are skipped) instead of
-   * rendering an element, for example a router link. The child must render an `<a>`; its own props win except the state markers the Button sets
-   * (while disabled: `aria-disabled`, `tabindex`, `data-disabled`), and the class joins its class.
+   * Whether the Button merges onto its first element or component child, such as a router link, instead of
+   * rendering an element. Text and comments before the child are skipped. The child must render an `<a>`.
+   *
+   * The props of the child win, except the state markers the Button sets while disabled: `aria-disabled`,
+   * `tabindex` and `data-disabled`. The class of the Button joins the class of the child.
    *
    * @cckSemantic none
    * @cckParity Not available in every framework.

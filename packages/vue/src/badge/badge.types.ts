@@ -3,12 +3,13 @@ import type { BadgeProps as MachineBadgeProps } from '@cocokits/machines/badge';
 import type { AsTag } from '@cocokits/vue-core';
 
 /**
- * A count or a short text, shown on or next to another element. It renders a `<span>` by default, so
- * it is valid inside a `<button>`. Native attributes fall through to the root. A `BadgeContainer`
- * pins it to a corner when it is a direct child of the container.
+ * A count or a short text, shown on or next to another element. It renders a `<span>`, so it is valid inside a
+ * `<button>`. Native attributes fall through to the root.
  *
- * It has no role. Its text is read in place, so inside a Button it becomes part of the button's
- * name. An empty badge has no text: put the meaning in the host's name, for example
+ * A `BadgeContainer` pins the Badge to a corner when the Badge is a direct child of the container.
+ *
+ * The Badge has no role. Its text is read in place, so inside a Button it becomes part of the name of the button.
+ * An empty Badge has no text. Put the meaning in the name of the host, for example
  * `aria-label="Notifications, 2 new"` on an icon-only Button.
  *
  * @example
@@ -18,7 +19,8 @@ import type { AsTag } from '@cocokits/vue-core';
  */
 export interface BadgeProps extends Pick<MachineBadgeProps, 'content' | 'max' | 'hide'> {
   /**
-   * The tag or component to render. Keep a phrasing element, so the Badge stays valid inside a `<button>`.
+   * The tag or component to render. Keep a phrasing element, so the Badge stays valid inside a `<button>`. It is
+   * ignored with `asChild`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
@@ -26,10 +28,11 @@ export interface BadgeProps extends Pick<MachineBadgeProps, 'content' | 'max' | 
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the Badge merges its attributes onto the one element or component child of its default
-   * slot instead of rendering an element. The Badge adds the class and the `data-*`, and
-   * renders its content and max indicator parts inside the child in place of the child's own children
-   * (none while `hide` is set).
+   * Whether the Badge merges its attributes onto the one element or component child of its default slot, instead
+   * of rendering an element. The Badge adds the class and the `data-*` attributes.
+   *
+   * The Badge renders its content and max indicator parts inside the child, in place of the children of the child.
+   * While `hide` is set, it renders none.
    *
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.

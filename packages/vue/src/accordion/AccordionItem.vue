@@ -15,7 +15,15 @@ const props = withDefaults(defineProps<AccordionItemProps>(), {
   asChild: false,
 });
 defineSlots<{
-  /** The header and the content of the item. It receives `open`. */
+  /**
+   * The header and the content of the item. The slot gives you the open state. When not set, the item is empty.
+   *
+   * @example
+   * <AccordionItem value="shipping" #default="{ open }">
+   *   <AccordionHeader><AccordionTrigger>Shipping {{ open ? '(open)' : '' }}</AccordionTrigger></AccordionHeader>
+   *   <AccordionContent>Orders leave in two days.</AccordionContent>
+   * </AccordionItem>
+   */
   default?(props: {
     /**
      * Whether the item is open.

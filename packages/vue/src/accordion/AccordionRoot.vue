@@ -42,11 +42,19 @@ const props = withDefaults(defineProps<AccordionRootProps>(), {
 });
 const emit = defineEmits<AccordionRootEmits>();
 defineSlots<{
-  /** The items. It receives `modelValue`. */
+  /**
+   * The items of the accordion. The slot gives you the open value. When not set, the accordion has no items.
+   *
+   * @example
+   * <AccordionRoot v-model="open" #default="{ modelValue }">
+   *   <p>Open: {{ modelValue }}</p>
+   *   <AccordionItem value="shipping">...</AccordionItem>
+   * </AccordionRoot>
+   */
   default?(props: {
     /**
-     * The open value: the value of the open item in `single` mode (`undefined` when none is open), the list of
-     * open values in `multiple` mode.
+     * The open value. In `single` mode it is the value of the open item, or `undefined` when none is open. In
+     * `multiple` mode it is the list of open values.
      *
      * @cckSemantic none
      * @cckParity Slot prop: the model of the root.
