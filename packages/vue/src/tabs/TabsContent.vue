@@ -9,7 +9,13 @@ defineOptions({ name: 'CckTabsContent', inheritAttrs: false });
 
 const props = withDefaults(defineProps<TabsContentProps>(), { forceMount: undefined, as: 'div', asChild: false });
 defineSlots<{
-  /** The content of the panel. It is rendered only while the tab is selected, or always with `forceMount`. */
+  /**
+   * The content of the panel. It is rendered only while the tab is selected, or always with `forceMount`. When not
+   * set, the panel is empty.
+   *
+   * @example
+   * <TabsContent value="account">Change your name.</TabsContent>
+   */
   default?(): unknown;
 }>();
 

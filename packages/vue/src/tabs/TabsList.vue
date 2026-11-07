@@ -12,7 +12,15 @@ defineOptions({ name: 'CckTabsList', inheritAttrs: false });
 
 const props = withDefaults(defineProps<TabsListProps>(), { loop: true, as: 'div', asChild: false });
 defineSlots<{
-  /** The triggers and the `TabsIndicator`. */
+  /**
+   * The triggers and the `TabsIndicator`. When not set, the list is empty.
+   *
+   * @example
+   * <TabsList aria-label="Account settings">
+   *   <TabsTrigger value="account">Account</TabsTrigger>
+   *   <TabsIndicator />
+   * </TabsList>
+   */
   default?(): unknown;
 }>();
 

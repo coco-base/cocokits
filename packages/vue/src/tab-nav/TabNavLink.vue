@@ -19,7 +19,12 @@ defineOptions({ name: 'CckTabNavLink', inheritAttrs: false });
 
 const props = withDefaults(defineProps<TabNavLinkProps>(), { active: false, disabled: false, as: 'a', asChild: false });
 defineSlots<{
-  /** The text of the link, optionally with an icon. */
+  /**
+   * The text of the link, with an icon if you like. When not set, the link has no accessible name.
+   *
+   * @example
+   * <TabNavLink href="/profile"><UserIcon aria-hidden="true" /> Profile</TabNavLink>
+   */
   default?(): unknown;
 }>();
 

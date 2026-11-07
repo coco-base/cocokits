@@ -29,7 +29,12 @@ defineOptions({ name: 'CckTabNavRoot', inheritAttrs: false });
 
 const props = withDefaults(defineProps<TabNavRootProps>(), { tabPanel: undefined, as: 'nav', asChild: false });
 defineSlots<{
-  /** The `TabNavList` with the links and the indicator. */
+  /**
+   * The `TabNavList` with the links and the indicator. When not set, the navigation is empty.
+   *
+   * @example
+   * <TabNavRoot aria-label="Account"><TabNavList>...</TabNavList></TabNavRoot>
+   */
   default?(): unknown;
 }>();
 
