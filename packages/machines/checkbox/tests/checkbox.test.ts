@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { formFieldIds } from '../../form-field';
 import { checkboxAnatomy, checkboxMeta, getCheckboxProps } from '../index';
 
-const ids = formFieldIds('terms');
+const ids = formFieldIds('terms', { hints: [undefined], errors: [undefined] });
 
 function dataKeys(root: object): string[] {
   return Object.entries(root)
@@ -136,9 +136,11 @@ describe('getCheckboxProps', () => {
     expect(getCheckboxProps({ id: 'own' }, { ids }).label.for).toBe('own');
   });
 
-  it('merges aria-describedby: the author ids first, then the feedback id', () => {
-    expect(getCheckboxProps({ ariaDescribedBy: 'a' }, { ids }).input['aria-describedby']).toBe(`a ${ids.feedback}`);
-    expect(getCheckboxProps({}, { ids }).input['aria-describedby']).toBe(ids.feedback);
+  it('merges aria-describedby: the author ids first, then the hint and error ids', () => {
+    expect(getCheckboxProps({ ariaDescribedBy: 'a' }, { ids }).input['aria-describedby']).toBe(
+      'a terms-hint-1 terms-error-1',
+    );
+    expect(getCheckboxProps({}, { ids }).input['aria-describedby']).toBe('terms-hint-1 terms-error-1');
   });
 
   it('ORs the field facts into the input and the root', () => {

@@ -20,6 +20,7 @@ export type {
   FormFieldFeedbackWrapperProps,
   FormFieldIds,
   FormFieldOwnFacts,
+  FormFieldPartIds,
   FormFieldPartProps,
   FormFieldParts,
   FormFieldProps,

@@ -112,7 +112,7 @@ function controlProps<T>(state: SelectState<T>, filled: boolean): FormFieldContr
  * Computes the props of every Select part and the state it reports to its field. Pure: no DOM, same
  * result on the server and the client. The handlers send events; they compute nothing while the props
  * are computed. The Select is the control of its FormField: the trigger takes the control id and the
- * feedback id, and the facts of the field and of the Select add up. A blocked submit counts as invalid and
+ * hint and error ids, and the facts of the field and of the Select add up. A blocked submit counts as invalid and
  * submitted, and the message element joins the trigger's description.
  *
  * @param state - The author's props and the tracked facts.

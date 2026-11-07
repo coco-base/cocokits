@@ -222,7 +222,7 @@ export interface SelectTriggerProps extends SelectPartProps {
   readonly 'aria-required'?: 'true' | undefined;
   /** `'true'` only while invalid and (touched or submitted). */
   readonly 'aria-invalid'?: 'true' | undefined;
-  /** The author's ids first, then the feedback id of the field. */
+  /** The author's ids first, then the field's hint ids, then its error ids. */
   readonly 'aria-describedby'?: string | undefined;
   /** Native `disabled`. */
   readonly disabled?: true | undefined;

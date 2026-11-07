@@ -116,11 +116,11 @@ describe('trigger ARIA (select-only combobox)', () => {
     expect(getSelectProps(opened(), vi.fn()).content['aria-labelledby']).toBeUndefined();
   });
 
-  it('uses the control id of a field and adds its feedback id after the author ids', () => {
-    const ids = formFieldIds('f1');
+  it('uses the control id of a field and adds its hint ids after the author ids', () => {
+    const ids = formFieldIds('f1', { hints: [undefined] });
     const trigger = getSelectProps(base({ ariaDescribedBy: 'mine' }), vi.fn(), { ids }).trigger;
     expect(trigger.id).toBe(ids.control);
-    expect(trigger['aria-describedby']).toBe(`mine ${ids.feedback}`);
+    expect(trigger['aria-describedby']).toBe('mine f1-hint-1');
     expect(getSelectProps(base(), vi.fn()).trigger['aria-describedby']).toBeUndefined();
   });
 

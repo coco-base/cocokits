@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { formFieldIds } from '../../form-field';
 import { getTextareaProps, textareaAnatomy, textareaMeta } from '../index';
 
-const ids = formFieldIds('msg');
+const ids = formFieldIds('msg', { hints: [undefined] });
 
 function dataKeys(root: object): string[] {
   return Object.entries(root)
@@ -52,13 +52,13 @@ describe('getTextareaProps', () => {
     }
   });
 
-  it('takes the control id and the feedback id from the field, and lets an author id win', () => {
+  it('takes the control id and the hint id from the field, and lets an author id win', () => {
     expect(getTextareaProps({}, { ids }).root).toMatchObject({
       id: 'msg-control',
-      'aria-describedby': 'msg-feedback',
+      'aria-describedby': 'msg-hint-1',
     });
     const author = getTextareaProps({ id: 'mine', ariaDescribedBy: 'help' }, { ids });
-    expect(author.root).toMatchObject({ id: 'mine', 'aria-describedby': 'help msg-feedback' });
+    expect(author.root).toMatchObject({ id: 'mine', 'aria-describedby': 'help msg-hint-1' });
     expect(author.control.id).toBe('mine');
   });
 

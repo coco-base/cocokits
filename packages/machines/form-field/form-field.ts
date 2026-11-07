@@ -4,6 +4,7 @@ import type {
   FormFieldControlState,
   FormFieldIds,
   FormFieldOwnFacts,
+  FormFieldPartIds,
   FormFieldParts,
   FormFieldProps,
   FormFieldRootProps,
@@ -24,28 +25,41 @@ export const formFieldStateAttrs = [
   'data-filled',
 ] as const;
 
+const partIds = (fieldId: string, kind: 'hint' | 'error', own: readonly (string | undefined)[] = []): string[] =>
+  own.map((id, index) => (id === undefined || id === '' ? `${fieldId}-${kind}-${String(index + 1)}` : id));
+
 /**
  * Derives the ids of a field from one field id.
  *
  * @param fieldId - The author's field id or a generated one.
- * @returns The control id, the feedback wrapper id and the label id.
+ * @param parts - The author's `id` of each Hint and each FieldError the field holds, in document order.
+ * @returns The control id, the feedback wrapper id, the label id, and the ids of the hints and of the errors: an
+ * author's `id` wins, otherwise `<fieldId>-hint-<n>` or `<fieldId>-error-<n>`, counting from 1.
  */
-export function formFieldIds(fieldId: string): FormFieldIds {
-  return { control: `${fieldId}-control`, feedback: `${fieldId}-feedback`, label: `${fieldId}-label` };
+export function formFieldIds(fieldId: string, parts: FormFieldPartIds = {}): FormFieldIds {
+  return {
+    control: `${fieldId}-control`,
+    feedback: `${fieldId}-feedback`,
+    label: `${fieldId}-label`,
+    hints: partIds(fieldId, 'hint', parts.hints),
+    errors: partIds(fieldId, 'error', parts.errors),
+  };
 }
 
 /**
- * Merges the author's `aria-describedby` ids with the feedback id: the author's ids first, the feedback id
- * after them, no duplicates. The default is never replaced.
+ * Merges the author's `aria-describedby` ids with more ids: the author's ids first, the others after them in
+ * order, no duplicates. The default is never replaced.
  *
  * @param authorIds - The author's space-separated ids.
- * @param feedbackId - The feedback wrapper id; leave it out when the control has none (outside a field).
+ * @param ids - The ids to add (the hint ids, then the error ids); leave them out when there are none.
  * @returns The merged value, or `undefined` when there is no id at all.
  */
-export function mergeDescribedBy(authorIds: string | null | undefined, feedbackId?: string | null): string | undefined {
-  const ids = (authorIds ?? '').split(/\s+/).filter(Boolean);
-  if (feedbackId) ids.push(feedbackId);
-  const unique = [...new Set(ids)];
+export function mergeDescribedBy(
+  authorIds: string | null | undefined,
+  ...ids: readonly (string | null | undefined)[]
+): string | undefined {
+  const all = [...(authorIds ?? '').split(/\s+/).filter(Boolean), ...ids.filter(Boolean)] as string[];
+  const unique = [...new Set(all)];
   return unique.length > 0 ? unique.join(' ') : undefined;
 }
 

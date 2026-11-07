@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { formFieldIds } from '../../form-field';
 import { getSwitchProps, switchAnatomy, switchMeta } from '../index';
 
-const ids = formFieldIds('notify');
+const ids = formFieldIds('notify', { hints: [undefined] });
 
 function dataKeys(root: object): string[] {
   return Object.entries(root)
@@ -79,7 +79,7 @@ describe('getSwitchProps', () => {
     const inField = getSwitchProps({}, { ids });
     expect(inField.input.id).toBe(ids.control);
     expect(inField.label.for).toBe(ids.control);
-    expect(inField.input['aria-describedby']).toBe(ids.feedback);
+    expect(inField.input['aria-describedby']).toBe('notify-hint-1');
   });
 
   it('reports the field control state with filled = checked', () => {

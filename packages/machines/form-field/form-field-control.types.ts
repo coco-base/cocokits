@@ -7,7 +7,7 @@ import type { FormFieldControlState, FormFieldIds, FormFieldOwnFacts, FormFieldR
 export interface FormFieldControlProps {
   /** The author's `id`. It wins over the generated control id. */
   readonly id?: string | undefined;
-  /** The author's `aria-describedby`. The feedback id is added after it inside a field. */
+  /** The author's `aria-describedby`. The ids of the field's hints, then of its errors, are added after it inside a field. */
   readonly ariaDescribedBy?: string | undefined;
   /** The author's `name` (or the one a forms library wrote). An empty string counts as none. */
   readonly name?: string | undefined;
@@ -45,7 +45,7 @@ export interface FormFieldControlProps {
 export interface FormFieldControlContext {
   /**
    * The ids of the field. Leave them out for a second control in one field: it gets no generated id and no
-   * feedback id.
+   * description.
    */
   readonly ids?: FormFieldIds | undefined;
   /** The facts the author set on the FormField; they reach the control by OR. */
@@ -69,7 +69,7 @@ export interface FormFieldControlRootProps extends Omit<FormFieldRootProps, 'cla
   readonly required?: true | undefined;
   /** `'true'` only while invalid and (touched or submitted). Never `'false'`. */
   readonly 'aria-invalid'?: 'true' | undefined;
-  /** The author's ids first, then the feedback id. */
+  /** The author's ids first, then the hint ids, then the error ids. */
   readonly 'aria-describedby'?: string | undefined;
 }
 
