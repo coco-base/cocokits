@@ -36,7 +36,7 @@ export interface OverlayPositioningProps {
    */
   readonly collisionPadding?: OverlayCollisionPadding | undefined;
   /**
-   * How the list stays in view along the edge of the trigger. `'partial'` keeps it in view only while the trigger is at least partly in view. `'always'` keeps it in view in every case.
+   * How the list stays in view along the edge of the trigger.
    * @cckSemantic none
    * @cckParity Not available in every framework.
    * @defaultValue 'partial'
@@ -57,7 +57,9 @@ export interface OverlayPositioningProps {
    */
   readonly collisionBoundary?: Element | null | readonly (Element | null)[] | undefined;
   /**
-   * How the position follows the page. `'optimized'` places the list again only when something moved or changed size. `'always'` places it again on every animation frame.
+   * How the position follows the page.
+   * @cckValue optimized - Places the list again only when something moved or changed size.
+   * @cckValue always - Places the list again on every animation frame.
    * @cckSemantic none
    * @cckParity Not available in every framework.
    * @defaultValue 'optimized'

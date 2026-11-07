@@ -49,17 +49,22 @@ export interface SelectContentProps extends OverlayPositioningProps {
    */
   readonly dir?: Direction | undefined;
   /**
-   * The tag or component to render in place of the `<div>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<div>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<div>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -82,7 +87,6 @@ export interface SelectContentEmits {
    * <SelectContent @escape-key-down.prevent>
    *   ...
    * </SelectContent>
-   * @cckTask Keep the list open
    * @cckSemantic none
    * @cckParity The Content part emits it.
    */
@@ -140,17 +144,22 @@ export interface SelectItemProps<T = string> {
    */
   readonly id?: string | undefined;
   /**
-   * The tag or component to render in place of the `<div>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<div>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<div>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -186,17 +195,22 @@ export interface SelectItemEmits<T = string> {
  */
 export interface SelectItemTextProps {
   /**
-   * The tag or component to render in place of the `<span>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<span>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<span>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -213,17 +227,22 @@ export interface SelectItemTextProps {
  */
 export interface SelectItemIndicatorProps {
   /**
-   * The tag or component to render in place of the `<span>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<span>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<span>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -252,17 +271,22 @@ export interface SelectGroupProps {
    */
   readonly disabled?: boolean | undefined;
   /**
-   * The tag or component to render in place of the `<div>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<div>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<div>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -279,17 +303,22 @@ export interface SelectGroupProps {
  */
 export interface SelectLabelProps {
   /**
-   * The tag or component to render in place of the `<div>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<div>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<div>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -306,17 +335,22 @@ export interface SelectLabelProps {
  */
 export interface SelectSeparatorProps {
   /**
-   * The tag or component to render in place of the `<div>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<div>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<div>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false

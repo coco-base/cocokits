@@ -10,11 +10,10 @@ defineOptions({ name: 'CckSelectValue', inheritAttrs: false });
 withDefaults(defineProps<SelectValueProps>(), { placeholder: '', as: 'span', asChild: false });
 defineSlots<{
   /**
-   * Your own content for the trigger, in place of the labels of the selected items. The slot gives you the labels and the value.
+   * Your own content for the trigger, in place of the labels of the selected items. The slot gives you the labels and the value. When not set, the trigger shows the labels of the selected items, joined with a comma.
    *
    * The slot is used only while something is selected. While nothing is selected, the placeholder shows.
    *
-   * @defaultValue The trigger shows the labels of the selected items, joined with a comma.
    * @example
    * <SelectValue placeholder="Choose a dish" #default="{ selectedLabel }">
    *   Dish: {{ selectedLabel.join(' and ') }}

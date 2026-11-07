@@ -81,7 +81,6 @@ defineSlots<{
    *
    * The slot is always rendered. Use the fields only when you need the value or the open state in the template.
    *
-   * @defaultValue Nothing is rendered inside the root.
    * @example
    * <SelectRoot v-model="dish" #default="{ open }">
    *   <SelectTrigger aria-label="Dish">

@@ -82,7 +82,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    *   ...
    * </SelectRoot>
    * <!-- In the script: const dish = ref<string | null>('Pizza'); -->
-   * @cckTask Read and set the value
    * @cckSemantic select.value
    * @cckParity Bound with `v-model`.
    */
@@ -132,7 +131,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    *   ...
    * </SelectRoot>
    * <!-- In the script: const dishes = ref<string[]>(['Cake']); -->
-   * @cckTask Choose several options
    * @defaultValue false
    */
   readonly multiple?: (M & boolean) | undefined;
@@ -168,7 +166,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    * <SelectRoot v-model="dish" by="id">
    *   ...
    * </SelectRoot>
-   * @cckTask Use objects as values
    * @cckSemantic select.isItemEqual
    * @cckParity A key name or a compare function.
    * @defaultValue Object.is
@@ -220,7 +217,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    *   </SelectRoot>
    *   <button type="submit">Send</button>
    * </form>
-   * @cckTask Send the value with a form
    * @cckSemantic select.name
    * @defaultValue ''
    */
@@ -239,7 +235,11 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    */
   readonly dir?: Direction | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<div>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -260,7 +260,6 @@ export interface SelectRootEmits<T = string, M extends boolean = false> {
    * <SelectRoot :model-value="dish" @update:model-value="(value) => console.log(value)">
    *   ...
    * </SelectRoot>
-   * @cckTask Respond to a choice
    * @cckSemantic select.valueChange
    * @cckParity The `update:modelValue` event is the only change event; it carries no reason.
    */
@@ -290,17 +289,22 @@ export interface SelectRootEmits<T = string, M extends boolean = false> {
  */
 export interface SelectTriggerProps {
   /**
-   * The tag or component to render in place of the `<button>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<button>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'button'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<button>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -324,17 +328,22 @@ export interface SelectValueProps {
    */
   readonly placeholder?: string | undefined;
   /**
-   * The tag or component to render in place of the `<span>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<span>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<span>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
@@ -351,17 +360,22 @@ export interface SelectValueProps {
  */
 export interface SelectIconProps {
   /**
-   * The tag or component to render in place of the `<span>`. The part keeps its role, state, ids and handlers. It is ignored with `asChild`.
+   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
+   * handlers. It is ignored with `asChild`.
    *
-   * When not set, the part renders a `<span>`.
+   * When not set, the part renders its own element.
    *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
-   * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own `<span>`. The child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set, the part renders its own element.
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
+   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
+   * the part renders its own element.
+   *
+   * @cckShared
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.
    * @defaultValue false
