@@ -70,9 +70,10 @@ describe('display of the tag parts', () => {
 
   it('keeps a space between a hint and an error in the description of the control', () => {
     document.body.innerHTML =
-      '<cck-form-field class="cck-form-field"><input aria-label="Message" aria-describedby="feedback" />' +
+      '<cck-form-field class="cck-form-field"><input aria-label="Message" aria-describedby="f-hint-1 f-error-1" />' +
       '<div id="feedback" class="cck-form-field__feedback-wrapper">' +
-      '<cck-hint class="cck-hint">Help</cck-hint><cck-field-error class="cck-field-error">Enter a message.</cck-field-error>' +
+      '<cck-hint id="f-hint-1" class="cck-hint">Help</cck-hint>' +
+      '<cck-field-error id="f-error-1" class="cck-field-error">Enter a message.</cck-field-error>' +
       '</div></cck-form-field>';
     expect(screen.getByRole('textbox', { description: 'Help Enter a message.' })).toBeTruthy();
   });
