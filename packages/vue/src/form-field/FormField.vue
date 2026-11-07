@@ -2,6 +2,7 @@
 import {
   computed,
   h,
+  nextTick,
   onMounted,
   provide,
   shallowRef,
@@ -22,7 +23,9 @@ import {
   type FormFieldControlState,
 } from '@cocokits/machines/form-field';
 import { shouldFocusControl } from '@cocokits/utils';
-import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
+import { isDevelopment, Primitive, useThemeAttrs } from '@cocokits/vue-core';
+import { FieldError } from '../field-error';
+import { Hint } from '../hint';
 import {
   FORM_FIELD_KEY,
   FORM_FIELD_LABEL_KEY,
@@ -31,7 +34,7 @@ import {
   type FormFieldContextValue,
   type FormFieldLabelContextValue,
 } from '../internal/form-field-context';
-import { ownPartIds, withPartIds } from '../internal/field-parts';
+import { readZone, withPartIds } from '../internal/field-parts';
 import { rootElementOf } from '../internal/root-element';
 import type { FormFieldProps } from './form-field.types';
 
@@ -66,6 +69,8 @@ defineSlots<{
   default?(): unknown;
   /**
    * The hints. Several are allowed. When not set, the field shows no hint.
+   *
+   * Put each Hint directly in the slot. A plain text renders inside a Hint.
    *
    * @example
    * <template #hint><Hint>We only use it for the receipt.</Hint></template>
@@ -102,6 +107,8 @@ defineSlots<{
   /**
    * The error messages, after the hints. Several are allowed. When not set, the field shows no error.
    *
+   * Put each FieldError directly in the slot. A plain text renders inside a FieldError that always shows.
+   *
    * @example
    * <template #error><FieldError>Enter an email address.</FieldError></template>
    */
@@ -117,18 +124,38 @@ const themeAttrs = useThemeAttrs(formFieldAnatomy);
 const generatedId = useId();
 const fieldId = computed(() => nonEmpty(props.id) ?? generatedId);
 const authorLabelId = shallowRef<string | undefined>(undefined);
-// The `id` the author wrote on each hint and error, read from the slots on every render, so the ids are there from
-// the first render (also on the server) and a control can list them.
-const ownParts = shallowRef<{ hints: (string | undefined)[]; errors: (string | undefined)[] }>({
-  hints: [],
-  errors: [],
-});
+interface OwnParts {
+  readonly hints: (string | undefined)[];
+  readonly errors: (string | undefined)[];
+}
+// The `id` the author wrote on each hint and error, read from the slots by the render (`zones`). The render runs
+// before the control renders, also on the server, so the control lists the ids from the first render. It is a plain
+// variable, so the render writes no reactive state. When an update changed the parts, `committedParts` takes them
+// after the flush (`nextTick`) and the controls follow. The zones render inside the slot of the root element, so a
+// hook of this component would not see their updates.
+let renderedParts: OwnParts = { hints: [], errors: [] };
+let listedParts: OwnParts = renderedParts;
+const committedParts = shallowRef<OwnParts | undefined>(undefined);
 const sameList = (a: readonly unknown[], b: readonly unknown[]): boolean =>
   a.length === b.length && a.every((id, index) => id === b[index]);
+const sameParts = (a: OwnParts, b: OwnParts): boolean => sameList(a.hints, b.hints) && sameList(a.errors, b.errors);
 const ids = computed(() => {
-  const generated = formFieldIds(fieldId.value, ownParts.value);
+  listedParts = committedParts.value ?? renderedParts;
+  const generated = formFieldIds(fieldId.value, renderedParts);
   return authorLabelId.value === undefined ? generated : { ...generated, label: authorLabelId.value };
 });
+let mounted = false;
+let listing = false;
+/** After the flush of an update, tells the controls when the parts changed. The first render needs no telling. */
+function listChangedParts(): void {
+  if (!mounted || listing || sameParts(listedParts, renderedParts)) return;
+  listing = true;
+  void nextTick(() => {
+    listing = false;
+    if (!sameParts(listedParts, renderedParts)) committedParts.value = renderedParts;
+  });
+}
+let warnedWrapper = false;
 const own = computed(() => ({
   disabled: props.disabled,
   readOnly: props.readonly,
@@ -145,6 +172,7 @@ let controlElement: HTMLElement | null = null;
 const settled = ref(false);
 onMounted(() => {
   settled.value = true;
+  mounted = true;
 });
 
 const inputWrapper = shallowRef<HTMLElement | null>(null);
@@ -211,13 +239,24 @@ function slotNodes(name: keyof typeof slots): VNode[] {
   return slots[name]?.() ?? [];
 }
 
+const isHint = (node: VNode): boolean => node.type === Hint;
+const isFieldError = (node: VNode): boolean => node.type === FieldError;
+
 /** The zones around a control, written once for both renderings. */
 function zones(control: VNode[] = []): VNode[] {
-  const hints = slotNodes('hint');
-  const errors = slotNodes('error');
-  const own = { hints: ownPartIds(hints), errors: ownPartIds(errors) };
-  if (!sameList(own.hints, ownParts.value.hints) || !sameList(own.errors, ownParts.value.errors)) ownParts.value = own;
-  const partIds = formFieldIds(fieldId.value, own);
+  const hints = readZone(slotNodes('hint'), isHint, (text) => h(Hint, null, () => text));
+  // A plain text error was always shown before it became a FieldError; `force` keeps that.
+  const errors = readZone(slotNodes('error'), isFieldError, (text) => h(FieldError, { force: true }, () => text));
+  if ((hints.wrapped || errors.wrapped) && !warnedWrapper && isDevelopment()) {
+    warnedWrapper = true;
+    console.warn(
+      'CocoKits: <FormField> does not read into a wrapper element or a component. Put each Hint and FieldError ' +
+        'directly in the hint or error slot, so it gets an id and describes the control.',
+    );
+  }
+  renderedParts = { hints: hints.ownIds, errors: errors.ownIds };
+  listChangedParts();
+  const partIds = formFieldIds(fieldId.value, renderedParts);
   return [
     ...slotNodes('label'),
     h('div', { ...themeAttrs.value.wrapper, class: parts.value.wrapper.class }, [
@@ -238,8 +277,8 @@ function zones(control: VNode[] = []): VNode[] {
       ...slotNodes('trailing'),
     ]),
     h('div', { ...themeAttrs.value.feedbackWrapper, ...parts.value.feedbackWrapper }, [
-      ...withPartIds(hints, partIds.hints),
-      ...withPartIds(errors, partIds.errors),
+      ...withPartIds(hints.nodes, isHint, partIds.hints),
+      ...withPartIds(errors.nodes, isFieldError, partIds.errors),
     ]),
   ];
 }

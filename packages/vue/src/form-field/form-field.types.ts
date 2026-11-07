@@ -19,6 +19,9 @@ import type { AsTag } from '@cocokits/vue-core';
  * keeps its own `id`, or gets `<id>-hint-<n>` or `<id>-error-<n>`. An `id`, `for` or `aria-describedby` you write
  * wins or comes first.
  *
+ * Put each Hint and FieldError directly in its slot. The field does not read into a wrapper element or component,
+ * and warns in development. Another element in the slot gets no id and is not listed.
+ *
  * `disabled`, `readonly`, `required` and `invalid` reach the control. The facts of the control are `data-*`
  * attributes on the root: those four and `touched`, `dirty`, `submitted`, `focused`, `filled` and `pending`.
  *
