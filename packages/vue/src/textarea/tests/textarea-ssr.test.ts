@@ -45,7 +45,7 @@ describe('Textarea and the zones on the server', () => {
     const html = await markup(() => messageField('msg'));
     expect(html).toContain('id="msg-control"');
     expect(html).toContain('for="msg-control"');
-    expect(html).toContain('aria-describedby="msg-feedback"');
+    expect(html).toContain('aria-describedby="msg-hint-1 msg-hint-2 msg-error-1"');
     for (const idref of [...idsIn(html, 'for'), ...idsIn(html, 'aria-describedby')]) {
       expect(html, idref).toContain(`id="${idref}"`);
     }
@@ -78,10 +78,10 @@ describe('Textarea and the zones on the server', () => {
         );
     };
     const hidden = await markup(field(false));
-    expect(hidden).toContain('<div class="cck-field-error" aria-live="polite"></div>');
+    expect(hidden).toContain(`<div class="cck-field-error" aria-live="polite" id="f-error-1"></div>`);
     expect(hidden).not.toContain('Message');
     const forced = await markup(field(true));
-    expect(forced).toContain('aria-live="polite">Message</div>');
+    expect(forced).toContain('id="f-error-1">Message</div>');
     expect(await markup(() => h(FieldError, null, () => 'Alone'))).toContain('>Alone</div>');
   });
 });

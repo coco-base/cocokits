@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen, waitFor } from '@testing-library/vue';
-import { h } from 'vue';
+import { h, nextTick } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { FormField } from '../../form-field';
@@ -251,19 +251,20 @@ describe('Select in a FormField', () => {
       );
   }
 
-  it('is the control of the field: control id, label for, described by the feedback, required marker', () => {
+  it('is the control of the field: control id, label for, described by the hint, required marker', async () => {
     const { container } = mountView(field());
+    await nextTick();
     const label = screen.getByText('Dish', { selector: 'label' });
     expect(trigger().id).toMatch(/-control$/);
     expect(label.getAttribute('for')).toBe(trigger().id);
-    const feedback = must(container.querySelector<HTMLElement>('.cck-form-field__feedback-wrapper'));
-    expect(trigger().getAttribute('aria-describedby')).toBe(feedback.id);
+    const hint = must(container.querySelector<HTMLElement>('.cck-hint'));
+    expect(trigger().getAttribute('aria-describedby')).toBe(hint.id);
     expect(trigger().getAttribute('aria-required')).toBe('true');
     expect(label.textContent).toContain('*');
     expect(screen.getByRole('combobox', { name: /Dish/ })).toBe(trigger());
   });
 
-  it('merges the author aria-describedby with the ids of the field', () => {
+  it('merges the author aria-describedby with the ids of the field', async () => {
     const { container } = mountView(() =>
       h(
         FormField,
@@ -276,10 +277,11 @@ describe('Select in a FormField', () => {
         },
       ),
     );
-    const feedback = must(container.querySelector<HTMLElement>('.cck-form-field__feedback-wrapper'));
+    await nextTick();
+    const hint = must(container.querySelector<HTMLElement>('.cck-hint'));
     const ids = (trigger().getAttribute('aria-describedby') ?? '').split(' ');
     expect(ids).toContain('mine');
-    expect(ids).toContain(feedback.id);
+    expect(ids).toContain(hint.id);
   });
 
   it('gives the field its facts: filled, focused, required', async () => {

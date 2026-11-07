@@ -65,7 +65,7 @@ export interface CheckControlProps extends ChoiceControlProps {
   /** The `id` of the native input. Inside a FormField it defaults to `<fieldId>-control`; an explicit value wins and the Label follows it. */
   readonly id?: string | undefined;
   /**
-   * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
+   * The ids this control is described by. Inside a FormField the ids of its hints, then of its errors, are added after them.
    *
    * @cckSemantic *.ariaDescribedBy
    * @remarks Written `aria-describedby` in a template; the prop is its camel-cased form.

@@ -12,7 +12,7 @@ import type { AsTag } from '@cocokits/vue-core';
  *
  * It wires a control for you. The field has an id (your `id`, or a generated one); the control
  * (an Input or a Textarea) gets `<id>-control`, the Label's `for` points at it, and the control's
- * `aria-describedby` ends with the feedback wrapper's `<id>-feedback`, so every hint and error describes the control. An `id`, `for` or `aria-describedby` you
+ * `aria-describedby` ends with the ids of its hints, then of its errors (an `id` on a Hint or a FieldError wins; otherwise `<id>-hint-<n>` or `<id>-error-<n>`), so every hint and error describes the control. An `id`, `for` or `aria-describedby` you
  * write wins or comes first. `disabled`, `readonly`, `required` and `invalid` reach the control, and the facts
  * of the control (those and `touched`, `dirty`, `submitted`, `focused`, `filled`, `pending`) are `data-*`
  * attributes on the root. A control that is not a CocoKits control gets none of this: give it an `id`, give

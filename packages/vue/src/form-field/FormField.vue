@@ -31,6 +31,7 @@ import {
   type FormFieldContextValue,
   type FormFieldLabelContextValue,
 } from '../internal/form-field-context';
+import { ownPartIds, withPartIds } from '../internal/field-parts';
 import { rootElementOf } from '../internal/root-element';
 import type { FormFieldProps } from './form-field.types';
 
@@ -76,8 +77,16 @@ const themeAttrs = useThemeAttrs(formFieldAnatomy);
 const generatedId = useId();
 const fieldId = computed(() => nonEmpty(props.id) ?? generatedId);
 const authorLabelId = shallowRef<string | undefined>(undefined);
+// The `id` the author wrote on each hint and error, read from the slots on every render, so the ids are there from
+// the first render (also on the server) and a control can list them.
+const ownParts = shallowRef<{ hints: (string | undefined)[]; errors: (string | undefined)[] }>({
+  hints: [],
+  errors: [],
+});
+const sameList = (a: readonly unknown[], b: readonly unknown[]): boolean =>
+  a.length === b.length && a.every((id, index) => id === b[index]);
 const ids = computed(() => {
-  const generated = formFieldIds(fieldId.value);
+  const generated = formFieldIds(fieldId.value, ownParts.value);
   return authorLabelId.value === undefined ? generated : { ...generated, label: authorLabelId.value };
 });
 const own = computed(() => ({
@@ -164,6 +173,11 @@ function slotNodes(name: keyof typeof slots): VNode[] {
 
 /** The zones around a control, written once for both renderings. */
 function zones(control: VNode[] = []): VNode[] {
+  const hints = slotNodes('hint');
+  const errors = slotNodes('error');
+  const own = { hints: ownPartIds(hints), errors: ownPartIds(errors) };
+  if (!sameList(own.hints, ownParts.value.hints) || !sameList(own.errors, ownParts.value.errors)) ownParts.value = own;
+  const partIds = formFieldIds(fieldId.value, own);
   return [
     ...slotNodes('label'),
     h('div', { ...themeAttrs.value.wrapper, class: parts.value.wrapper.class }, [
@@ -184,8 +198,8 @@ function zones(control: VNode[] = []): VNode[] {
       ...slotNodes('trailing'),
     ]),
     h('div', { ...themeAttrs.value.feedbackWrapper, ...parts.value.feedbackWrapper }, [
-      ...slotNodes('hint'),
-      ...slotNodes('error'),
+      ...withPartIds(hints, partIds.hints),
+      ...withPartIds(errors, partIds.errors),
     ]),
   ];
 }

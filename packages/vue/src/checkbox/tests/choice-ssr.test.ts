@@ -48,8 +48,8 @@ describe('Checkbox, Switch and Radio on the server', () => {
     const html = await markup();
     const inputs = tags(html, 'input');
     expect(inputs.find((input) => input.name === 'news')?.id).toBe('news-control');
+    expect(inputs.find((input) => input.name === 'news')?.['aria-describedby']).toBe('news-hint-1');
     expect(inputs.find((input) => input.name === 'push')?.id).toBe('push-control');
-    expect(inputs.find((input) => input.name === 'news')?.['aria-describedby']).toBe('news-feedback');
     const ids = new Set([...html.matchAll(/\sid="([^"]*)"/g)].map((match) => match[1]));
     const references = [
       ...[...html.matchAll(/\sfor="([^"]*)"/g)].map((match) => match[1]),

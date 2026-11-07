@@ -33,10 +33,10 @@ describe('Checkbox in a FormField', () => {
     expect(screen.getByRole('checkbox', { name: 'Notifications Email me' })).toBe(box());
   });
 
-  it('ends aria-describedby with the feedback wrapper and is described by the hint', async () => {
+  it('ends aria-describedby with the hint id and is described by the hint', async () => {
     mountView(() => field(() => h(Checkbox, { ariaDescribedby: 'note' }, () => 'Email me')));
     await nextTick();
-    expect(box().getAttribute('aria-describedby')).toBe('note f-feedback');
+    expect(box().getAttribute('aria-describedby')).toBe('note f-hint-1');
     expect(screen.getByRole('checkbox', { description: 'Weekly only.' })).toBe(box());
   });
 

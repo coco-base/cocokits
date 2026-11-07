@@ -3,7 +3,7 @@ import type { AsTag } from '@cocokits/vue-core';
 
 /**
  * A short help text for a control, shown under it. It renders a `<div>` by default and has no role.
- * Set `id` on the hint and `aria-describedby` on the control. It works on its own and inside a
+ * Outside a `FormField`, set `id` on the hint and `aria-describedby` on the control; inside one the control is described by it. It works on its own and inside a
  * `FormField`. Native attributes fall through to the root.
  *
  * @example

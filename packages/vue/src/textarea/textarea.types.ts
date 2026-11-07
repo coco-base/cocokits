@@ -3,7 +3,7 @@
  * so `FormData`, constraint validation, the `form` attribute and `fieldset[disabled]` work. Bind the text with
  * `v-model`. Enter inserts a line break and never submits the form. A text with CR or CRLF shows with LF, as the
  * element does, and the DOM is not rewritten for that. Inside a FormField it gets the id `<fieldId>-control`, the
- * Label names it, and its `aria-describedby` ends with the feedback wrapper that holds the hints and the FieldError. Native
+ * Label names it, and its `aria-describedby` ends with the ids of the hints, then of the errors. Native
  * attributes (`rows`, `cols`, `placeholder`, ...) and listeners fall through to the `<textarea>`.
  *
  * @example
@@ -15,7 +15,7 @@ export interface TextareaProps {
   /** The `id`. Inside a FormField it defaults to `<fieldId>-control`; an explicit value wins and the Label follows it. */
   readonly id?: string | undefined;
   /**
-   * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
+   * The ids this control is described by. Inside a FormField the ids of its hints, then of its errors, are added after them.
    *
    * @cckSemantic textarea.ariaDescribedBy
    * @remarks Written `aria-describedby` in a template; the prop is its camel-cased form.

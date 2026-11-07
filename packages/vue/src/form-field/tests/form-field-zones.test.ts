@@ -84,7 +84,7 @@ describe('FormField zones', () => {
 });
 
 describe('FormField with a Textarea', () => {
-  it('gives it the control id, points the Label at it and describes it by the feedback wrapper', async () => {
+  it('gives it the control id, points the Label at it and describes it by the hint', async () => {
     mountView(() =>
       h(
         FormField,
@@ -99,7 +99,7 @@ describe('FormField with a Textarea', () => {
     await nextTick();
     const area = screen.getByRole('textbox', { name: 'Message' });
     expect(area.id).toBe('msg-control');
-    expect(area.getAttribute('aria-describedby')).toBe('msg-feedback');
+    expect(area.getAttribute('aria-describedby')).toBe('msg-hint-1');
     expect(document.querySelector('.cck-form-field__input-wrapper:has(> .cck-textarea)')).not.toBeNull();
   });
 
@@ -247,5 +247,41 @@ describe('FormField container click', () => {
     await nextTick();
     await userEvent.click(inputWrapper());
     expect(document.activeElement).toBe(document.body);
+  });
+});
+
+describe('FormField description without a theme', () => {
+  it('reads the hint and the shown error as two phrases', async () => {
+    mountView(() =>
+      h(
+        FormField,
+        { id: 'msg' },
+        {
+          label: () => h(Label, null, () => 'Message'),
+          hint: () => h(Hint, null, () => 'Help'),
+          error: () => h(FieldError, { force: true }, () => 'Enter a message.'),
+          default: () => h(Textarea),
+        },
+      ),
+    );
+    await nextTick();
+    const area = screen.getByRole('textbox', { description: 'Help Enter a message.' });
+    expect(area.getAttribute('aria-describedby')).toBe('msg-hint-1 msg-error-1');
+  });
+
+  it('keeps an author id on a part and lists it', async () => {
+    mountView(() =>
+      h(
+        FormField,
+        { id: 'msg' },
+        {
+          label: () => h(Label, null, () => 'Message'),
+          hint: () => h(Hint, { id: 'mine' }, () => 'Help'),
+          default: () => h(Textarea, { ariaDescribedby: 'first' }),
+        },
+      ),
+    );
+    await nextTick();
+    expect(screen.getByRole('textbox').getAttribute('aria-describedby')).toBe('first mine');
   });
 });

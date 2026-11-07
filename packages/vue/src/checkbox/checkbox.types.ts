@@ -7,7 +7,7 @@ import type { CheckControlProps } from '../internal/check-control.types';
  * listeners (`form`, `onFocus`, ...) go to the `<input>`; `class`, `style` and `hidden` stay on the root; `role` is reserved.
  *
  * Inside a FormField the input gets the id `<fieldId>-control`, the field Label's `for` points at it and its
- * `aria-describedby` ends with the field's feedback wrapper. `aria-invalid="true"` appears only while the control is
+ * `aria-describedby` ends with the ids of the field's hints, then of its errors. `aria-invalid="true"` appears only while the control is
  * invalid and was touched or the form was submitted.
  *
  * `indeterminate` is one-way: the component never changes it. A parent that owns the mixed state recomputes it in

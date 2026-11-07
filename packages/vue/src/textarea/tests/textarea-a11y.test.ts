@@ -50,11 +50,11 @@ describe('Textarea accessibility', () => {
     expect((await axe(container)).violations).toEqual([]);
   });
 
-  it('is named by the label and described by the feedback wrapper, which holds the hint and the shown error', async () => {
+  it('is named by the label and described by each hint and the error', async () => {
     mountView(() => messageField('msg'));
     await nextTick();
     const area = screen.getByRole('textbox', { name: 'Message' });
-    expect(area.getAttribute('aria-describedby')).toBe('msg-feedback');
+    expect(area.getAttribute('aria-describedby')).toBe('msg-hint-1 msg-hint-2 msg-error-1');
     expect(document.getElementById('msg-feedback')?.textContent).toBe('Be kind.Be short.Write a message.');
   });
 
@@ -63,12 +63,16 @@ describe('Textarea accessibility', () => {
     await nextTick();
     const area = screen.getByRole('textbox', { name: 'Message' });
     const feedback = (): string =>
-      document.getElementById(area.getAttribute('aria-describedby') ?? '')?.textContent ?? '';
+      (area.getAttribute('aria-describedby') ?? '')
+        .split(' ')
+        .map((id) => document.getElementById(id)?.textContent ?? '')
+        .join(' ')
+        .trim();
     expect(feedback()).toBe('Help');
     await userEvent.click(area);
     await userEvent.tab();
     expect(area.getAttribute('aria-invalid')).toBe('true');
-    expect(feedback()).toBe('HelpWrite something.');
+    expect(feedback()).toBe('Help Write something.');
   });
 
   it('takes focus on Tab, skips a disabled textarea, keeps a read-only one and steals no focus on mount', async () => {

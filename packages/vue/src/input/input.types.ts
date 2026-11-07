@@ -4,8 +4,7 @@ import type { InputType } from '@cocokits/machines/input';
  * A native `<input>` for a line of text: `text`, `email`, `password`, `search`, `tel` or `url`. It is a real
  * form control, so `FormData`, constraint validation, the `form` attribute, implicit submission and
  * `fieldset[disabled]` work. Bind the text with `v-model`. Inside a FormField it gets the id
- * `<fieldId>-control`, the Label names it, and its `aria-describedby` ends with the feedback wrapper that holds
- * the hints. Native attributes and listeners fall through to the `<input>`.
+ * `<fieldId>-control`, the Label names it, and its `aria-describedby` ends with the ids of the hints, then of the errors. Native attributes and listeners fall through to the `<input>`.
  *
  * @example
  * <FormField><template #label><Label>Email</Label></template><Input v-model="email" type="email" /></FormField>
@@ -16,7 +15,7 @@ export interface InputProps {
   /** The `id`. Inside a FormField it defaults to `<fieldId>-control`; an explicit value wins and the Label follows it. */
   readonly id?: string | undefined;
   /**
-   * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
+   * The ids this control is described by. Inside a FormField the ids of its hints, then of its errors, are added after them.
    *
    * @cckSemantic input.ariaDescribedBy
    * @remarks Written `aria-describedby` in a template; the prop is its camel-cased form.
