@@ -118,9 +118,8 @@ function AccordionItemImpl({
 }
 
 /**
- * Renders the `<div>` of one section: its header and its content. `value` is the key of the item in the open
- * value. A disabled item cannot be toggled by the user, and the arrow keys skip it. Native `div` props pass
- * through, and `ref` reaches the element.
+ * One section of the accordion: its header and its content. It renders a `<div>`, and `value` is its key in the
+ * open value. Native `div` props pass through, and `ref` reaches the element.
  *
  * @example
  * <Accordion.Item value="shipping">

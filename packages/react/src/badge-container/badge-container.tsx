@@ -42,13 +42,17 @@ interface BadgeContainerComponent {
 }
 
 /**
- * Renders a `<div>` by default that pins its Badge to a corner of the element it wraps (`position`, as
- * `data-position` on the root). The Badge must be a direct child of the container: the theme
- * positions `.cck-badge-container[data-position] > .cck-badge`. The children render unchanged, in
- * the order the author wrote them. Native div attributes pass through, and `ref` reaches the div.
+ * Places a Badge on a corner of the element it wraps. It renders a `<div>` with `data-position`, and the children
+ * as you wrote them. Native `div` props pass through, and `ref` reaches the element.
+ *
+ * The Badge must be a direct child of the container, because the theme places
+ * `.cck-badge-container[data-position] > .cck-badge`.
  *
  * @example
- * <BadgeContainer position="top-right"><Button>Inbox</Button><Badge content={2} /></BadgeContainer>
+ * <BadgeContainer position="top-right">
+ *   <button type="button">Inbox</button>
+ *   <Badge content={2} />
+ * </BadgeContainer>
  * @cckPart root
  * @param props - The BadgeContainer props.
  * @returns The rendered div.

@@ -75,12 +75,14 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
 }
 
 /**
- * Renders the `<button type="button">` that opens and closes its item. It carries `aria-expanded`,
- * `aria-controls` while the content is in the document, native `disabled` when the item is disabled, and
- * `aria-disabled="true"` while it is the open trigger of a single accordion that is not `collapsible`. With
- * `nativeButton={false}` it renders another element through `render` and gives it `role="button"`, `tabindex="0"`
- * and Enter and Space activation, and no `type`. Native button props pass through, and `ref` reaches the element.
- * Compose it with another component through `render`.
+ * The button that opens and closes its item. It renders a `<button type="button">` with `aria-expanded`. Native
+ * button props pass through, and `ref` reaches the element.
+ *
+ * It has `aria-controls` while the content is in the document, and native `disabled` when the item is disabled.
+ * The open trigger of a single accordion without `collapsible` has `aria-disabled="true"`.
+ *
+ * To render another element or component, use `render`. An element that is not a `<button>` also needs
+ * `nativeButton={false}`.
  *
  * @example
  * <Accordion.Trigger>Shipping</Accordion.Trigger>
