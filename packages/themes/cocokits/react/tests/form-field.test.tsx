@@ -79,7 +79,7 @@ describe('theme FormField', () => {
     expect(root().hasAttribute('data-required')).toBe(true);
     expect(inputWrapper().contains(input)).toBe(true);
     expect(input.getAttribute('id')).toMatch(/-control$/);
-    expect(input.getAttribute('aria-describedby')).toMatch(/-feedback$/);
+    expect(input.getAttribute('aria-describedby')).toMatch(/-hint-1$/);
   });
 
   it('renders a div by default and keeps data-size on an element chosen with render', () => {

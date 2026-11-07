@@ -111,7 +111,7 @@ describe('theme FormField', () => {
     expect(root().hasAttribute('data-required')).toBe(true);
     expect(inputWrapper().contains(input)).toBe(true);
     expect(input.getAttribute('id')).toMatch(/-control$/);
-    expect(input.getAttribute('aria-describedby')).toMatch(/-feedback$/);
+    expect(input.getAttribute('aria-describedby')).toMatch(/-hint-1$/);
     expect(screen.getByText('Email')).toBeTruthy();
     expect(screen.getByText('Hint')).toBeTruthy();
   });
