@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { RenderProp } from '../internal/render-element';
 import type {
   ChoiceControlBaseProps,
   ChoiceControlChangeDetails,
@@ -31,4 +32,30 @@ export interface SwitchProps extends ChoiceControlBaseProps<SwitchState> {
    * <Switch>Email notifications</Switch>
    */
   readonly children?: ReactNode;
+  /**
+   * Called after the user checks or unchecks the Switch, and after a reset of its form. It receives the new state
+   * and a details object with the `reason` and the `event`.
+   *
+   * The `event` is the native `change` event, or the `reset` event after a reset. It is never called when you
+   * change `checked` yourself.
+   *
+   * @example
+   * <Switch onCheckedChange={(checked, details) => details.reason === 'user' && setNotify(checked)}>
+   *   Email notifications
+   * </Switch>
+   * @cckSemantic *.checkedChange
+   * @cckParity The change callback of this component.
+   */
+  readonly onCheckedChange?: ((checked: boolean, details: SwitchChangeDetails) => void) | undefined;
+  /**
+   * Replaces the root element. Pass an element, or a function of the root props and the {@link SwitchState}. The
+   * caption and the inner parts stay.
+   *
+   * When not set, the root is a `<div>`. The `ref` reaches the input, not the root. The element form keeps the
+   * `ref` of the element, and the function form receives no `ref`.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   */
+  readonly render?: RenderProp<SwitchRenderProps, SwitchState> | undefined;
 }

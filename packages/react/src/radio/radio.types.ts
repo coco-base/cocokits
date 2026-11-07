@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { RenderProp } from '../internal/render-element';
 import type {
   ChoiceBaseProps,
   ChoiceRootProps,
@@ -71,6 +72,17 @@ export interface RadioProps extends Omit<
    * @cckParity The change callback of this component.
    */
   readonly onCheckedChange?: ((checked: boolean, details: RadioChangeDetails) => void) | undefined;
+  /**
+   * Replaces the root element. Pass an element, or a function of the root props and the {@link RadioState}. The
+   * caption and the inner parts stay.
+   *
+   * When not set, the root is a `<div>`. The `ref` reaches the input, not the root. The element form keeps the
+   * `ref` of the element, and the function form receives no `ref`.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   */
+  readonly render?: RenderProp<RadioRenderProps, RadioState> | undefined;
 }
 
 /** The root props that the function form of `render` receives for a Radio. */
