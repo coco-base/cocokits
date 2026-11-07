@@ -22,7 +22,7 @@ describe('Textarea, zones and FieldError on the server', () => {
     expect(textarea.id).toBe('message-field-control');
     expect(textarea.name).toBe('message');
     expect(textarea.rows).toBe('4');
-    expect(textarea['aria-describedby']).toBe('message-field-feedback');
+    expect(textarea['aria-describedby']).toBe('message-field-hint-1 message-field-error-1 message-field-error-2');
     expect(textarea.type).toBeUndefined();
     const ids = new Set([...html.matchAll(/\sid="([^"]*)"/g)].map((match) => match[1]));
     const references = [

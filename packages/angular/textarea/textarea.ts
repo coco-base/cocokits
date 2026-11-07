@@ -17,7 +17,7 @@ export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
  * itself (`FormData`, constraint validation, reset, `fieldset[disabled]`).
  *
  * Inside a `cck-form-field` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
- * `aria-describedby` ends with the field's feedback wrapper. `name` defaults to the path of the bound
+ * `aria-describedby` ends with the ids of the field's hints, then of its errors. `name` defaults to the path of the bound
  * forms control. `aria-invalid="true"` appears only while the control is invalid and was touched or the
  * form was submitted. Enter inserts a line break and never submits the form.
  *

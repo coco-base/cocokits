@@ -48,7 +48,7 @@ describe('Textarea accessibility', () => {
     await render(field('', ''), { imports });
     const textarea = screen.getByRole('textbox', { name: 'Message' });
     expect(textarea.tagName).toBe('TEXTAREA');
-    expect(screen.getByRole('textbox', { description: 'Be kind.Write a message.' })).toBe(textarea);
+    expect(screen.getByRole('textbox', { description: 'Be kind. Write a message.' })).toBe(textarea);
   });
 
   it('marks invalid for assistive technology only after the user left the field', async () => {

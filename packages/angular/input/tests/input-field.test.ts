@@ -35,7 +35,7 @@ describe('Input in a FormField: ids and descriptions', () => {
     const fieldId = feedback.id.replace(/-feedback$/, '');
     expect(textbox().id).toBe(`${fieldId}-control`);
     expect(label(container).htmlFor).toBe(`${fieldId}-control`);
-    expect(textbox().getAttribute('aria-describedby')).toBe(feedback.id);
+    expect(textbox().getAttribute('aria-describedby')).toBe(`${fieldId}-hint-1`);
     expect(screen.getByRole('textbox', { name: 'Email' })).toBe(textbox());
     expect(fieldOf(container).hasAttribute('id')).toBe(false);
   });
@@ -52,20 +52,20 @@ describe('Input in a FormField: ids and descriptions', () => {
   it('derives the ids from the id of the field, static or bound, and follows a change', async () => {
     const id = signal('email');
     const { container, fixture } = await render(
-      `<cck-form-field [id]="id()"><label cckLabel>Email</label><input cckInput /></cck-form-field>`,
+      `<cck-form-field [id]="id()"><label cckLabel>Email</label><input cckInput /><cck-hint>Help</cck-hint></cck-form-field>`,
       { imports, componentProperties: { id } },
     );
     expect(fieldOf(container).id).toBe('email');
     expect(textbox().id).toBe('email-control');
     expect(label(container).htmlFor).toBe('email-control');
-    expect(textbox().getAttribute('aria-describedby')).toBe('email-feedback');
+    expect(textbox().getAttribute('aria-describedby')).toBe('email-hint-1');
     expect(feedbackOf(container).id).toBe('email-feedback');
     id.set('mail');
     await fixture.whenStable();
     expect(fieldOf(container).id).toBe('mail');
     expect(textbox().id).toBe('mail-control');
     expect(label(container).htmlFor).toBe('mail-control');
-    expect(textbox().getAttribute('aria-describedby')).toBe('mail-feedback');
+    expect(textbox().getAttribute('aria-describedby')).toBe('mail-hint-1');
     expect(feedbackOf(container).id).toBe('mail-feedback');
   });
 
@@ -82,13 +82,15 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('renders no id attribute on the root for an empty id, and generates the field id', async () => {
     const { container } = await render(
-      `<cck-form-field id=""><label cckLabel>Email</label><input cckInput /></cck-form-field>`,
+      `<cck-form-field id=""><label cckLabel>Email</label><input cckInput /><cck-hint>Help</cck-hint></cck-form-field>`,
       { imports },
     );
     expect(fieldOf(container).hasAttribute('id')).toBe(false);
     expect(textbox().id).toMatch(/^cck-form-field-.+-control$/);
-    expect(textbox().getAttribute('aria-describedby')).toBe(feedbackOf(container).id);
-    expect(document.getElementById(feedbackOf(container).id)).toBe(feedbackOf(container));
+    expect(textbox().getAttribute('aria-describedby')).toBe(
+      `${feedbackOf(container).id.replace(/-feedback$/, '')}-hint-1`,
+    );
+    expect(feedbackOf(container).id).toMatch(/-feedback$/);
   });
 
   it('keeps the facts of the machine over an author data-* attribute on the root', async () => {
@@ -105,22 +107,22 @@ describe('Input in a FormField: ids and descriptions', () => {
 
   it('lets an author id win and the label follow it, and puts the author description first', async () => {
     const { container } = await render(
-      `<cck-form-field id="f"><label cckLabel>Email</label><input cckInput id="mine" aria-describedby="note" /></cck-form-field><p id="note">n</p>`,
+      `<cck-form-field id="f"><label cckLabel>Email</label><input cckInput id="mine" aria-describedby="note" /><cck-hint>H</cck-hint></cck-form-field><p id="note">n</p>`,
       { imports },
     );
     expect(textbox().id).toBe('mine');
     expect(label(container).htmlFor).toBe('mine');
-    expect(textbox().getAttribute('aria-describedby')).toBe('note f-feedback');
+    expect(textbox().getAttribute('aria-describedby')).toBe('note f-hint-1');
   });
 
-  it('never repeats the feedback id when the author already lists it', async () => {
+  it('never repeats a hint id when the author already lists it', async () => {
     await render(
-      `<cck-form-field id="f"><input cckInput aria-label="A" aria-describedby="f-feedback x" /></cck-form-field>`,
+      `<cck-form-field id="f"><input cckInput aria-label="A" aria-describedby="f-hint-1 x" /><cck-hint>H</cck-hint></cck-form-field>`,
       {
         imports,
       },
     );
-    expect(textbox().getAttribute('aria-describedby')).toBe('f-feedback x');
+    expect(textbox().getAttribute('aria-describedby')).toBe('f-hint-1 x');
   });
 
   it('lets an explicit for win over the control id', async () => {
@@ -131,14 +133,14 @@ describe('Input in a FormField: ids and descriptions', () => {
     expect(label(container).htmlFor).toBe('other');
   });
 
-  it('keeps every hint inside the described feedback wrapper, in order', async () => {
+  it('keeps every hint inside the feedback wrapper, in order, and describes the control by each', async () => {
     const { container } = await render(
       `<cck-form-field id="f"><label cckLabel>A</label><input cckInput /><cck-hint>One</cck-hint><cck-hint>Two</cck-hint><cck-hint>Three</cck-hint></cck-form-field>`,
       { imports },
     );
     const hints = Array.from(feedbackOf(container).querySelectorAll('.cck-hint'), (el) => el.textContent);
     expect(hints).toEqual(['One', 'Two', 'Three']);
-    expect(document.getElementById(textbox().getAttribute('aria-describedby') ?? '')).toBe(feedbackOf(container));
+    expect(textbox().getAttribute('aria-describedby')).toBe('f-hint-1 f-hint-2 f-hint-3');
   });
 
   it('works without a label, a hint or any attribute', async () => {
@@ -220,7 +222,7 @@ describe('Input in a FormField: one control per field', () => {
     const { container } = await render(second, { imports });
     const [first, other] = Array.from(container.querySelectorAll('input'));
     expect(first.id).toBe('f-control');
-    expect(first.getAttribute('aria-describedby')).toBe('f-feedback');
+    expect(first.getAttribute('aria-describedby')).toBeNull();
     expect(other.id).toBe('own');
     expect(other.getAttribute('aria-describedby')).toBe('mine');
     expect(warn.mock.calls.some(([message]) => String(message).includes('holds one control'))).toBe(true);

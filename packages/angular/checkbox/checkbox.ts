@@ -21,7 +21,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  * so `FormData`, `required`, reset, the `form` attribute and `fieldset[disabled]` are native.
  *
  * Inside a `cck-form-field` the input gets the id `<fieldId>-control`, the field label's `for` points at it
- * and its `aria-describedby` ends with the field's feedback wrapper. `name` defaults to the path of the bound
+ * and its `aria-describedby` ends with the ids of the field's hints, then of its errors. `name` defaults to the path of the bound
  * forms control. `aria-invalid="true"` appears only while the control is invalid and was touched or the form was
  * submitted. Use `submitValue` for the value the form submits (Signal Forms rejects a `value` binding here).
  *

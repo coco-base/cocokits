@@ -31,7 +31,7 @@ describe('Input accessibility', () => {
     await render(field('', 'type="email"'), { imports });
     const input = screen.getByRole('textbox', { name: 'Email address' });
     expect(input.getAttribute('aria-describedby')).toBeTruthy();
-    expect(screen.getByRole('textbox', { description: 'We only use it for the receipt.Second hint.' })).toBe(input);
+    expect(screen.getByRole('textbox', { description: 'We only use it for the receipt. Second hint.' })).toBe(input);
   });
 
   it('keeps the name free of the required marker and announces required natively', async () => {

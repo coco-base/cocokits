@@ -200,14 +200,14 @@ describe('Select forms', () => {
         <cck-hint>Pick one</cck-hint>
       </cck-form-field>`;
 
-    it('is the control of the field: control id, label for, described by the feedback, required marker', async () => {
+    it('is the control of the field: control id, label for, described by the hint, required marker', async () => {
       await render(FIELD, { imports, componentProperties: { value: undefined } });
       const field = must(document.querySelector<HTMLElement>('cck-form-field'));
       const label = screen.getByText('Dish', { selector: 'label' });
       expect(trigger().id).toMatch(/-control$/);
       expect(label.getAttribute('for')).toBe(trigger().id);
-      const feedback = must(field.querySelector<HTMLElement>('.cck-form-field__feedback-wrapper'));
-      expect(trigger().getAttribute('aria-describedby')).toBe(feedback.id);
+      const hint = must(field.querySelector<HTMLElement>('cck-hint'));
+      expect(trigger().getAttribute('aria-describedby')).toBe(hint.id);
       expect(trigger().getAttribute('aria-required')).toBe('true');
       expect(label.textContent).toContain('*');
       expect(screen.getByRole('combobox', { name: /Dish/ })).toBe(trigger());

@@ -21,10 +21,10 @@ describe('Input on the server', () => {
     const email = byLabel('email');
     expect(email?.id).toMatch(/^cck-form-field-.+-control$/);
     expect(email?.type).toBe('email');
-    expect(email?.['aria-describedby']).toMatch(/^cck-form-field-.+-feedback$/);
+    expect(email?.['aria-describedby']).toMatch(/^cck-form-field-.+-hint-1$/);
     const street = byLabel('street');
     expect(street?.id).toBe('street-field-control');
-    expect(street?.['aria-describedby']).toBe('note street-field-feedback');
+    expect(street?.['aria-describedby']).toBe('note street-field-hint-1 street-field-hint-2');
     expect(street?.required).toBe(''); // from the field
     expect(inputs.find((input) => input.id === 'mine')?.disabled).toBeDefined();
   });

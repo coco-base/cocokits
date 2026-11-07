@@ -198,7 +198,7 @@ describe('FormField with a Textarea', () => {
     const textarea = screen.getByRole('textbox', { name: 'Message' });
     expect(textarea.id).toBe(`${fieldId}-control`);
     expect(container.querySelector('label')?.htmlFor).toBe(textarea.id);
-    expect(textarea.getAttribute('aria-describedby')).toBe(feedback.id);
+    expect(textarea.getAttribute('aria-describedby')).toBe(`${fieldId}-hint-1`);
     expect(part(container, 'input-wrapper').matches(':has(> .cck-textarea)')).toBe(true);
   });
 
@@ -234,7 +234,8 @@ describe('FieldError', () => {
     expect(live(container).getAttribute('aria-live')).toBe('polite');
     expect(live(container).hasAttribute('role')).toBe(false);
     expect(live(container).textContent.trim()).toBe('');
-    expect(screen.getByRole('textbox', { description: 'Help' })).toBeTruthy();
+    // The empty error is listed too, so the description ends with a space.
+    expect(screen.getByRole('textbox', { description: /^Help\s*$/ })).toBeTruthy();
   });
 
   it('shows the content after blur and describes the control with it', async () => {
@@ -243,7 +244,7 @@ describe('FieldError', () => {
     await user.click(screen.getByRole('textbox'));
     await user.tab();
     expect(live(container).textContent.trim()).toBe('Enter a message.');
-    expect(screen.getByRole('textbox', { description: 'HelpEnter a message.' })).toBeTruthy();
+    expect(screen.getByRole('textbox', { description: 'Help Enter a message.' })).toBeTruthy();
   });
 
   it('shows the content after a submit event without blur, and a reset hides it again', async () => {
@@ -296,6 +297,28 @@ describe('FieldError', () => {
 
   it('adds no text to the description while not shown', async () => {
     await render(field('<input cckInput invalid />'), { imports });
-    expect(screen.getByRole('textbox', { description: 'Help' })).toBeTruthy();
+    // The empty error is listed too, so the description ends with a space.
+    expect(screen.getByRole('textbox', { description: /^Help\s*$/ })).toBeTruthy();
+  });
+});
+
+describe('FormField description without a theme', () => {
+  const template = (hint: string): string => `<cck-form-field id="msg"><label cckLabel>Message</label>
+    <textarea cckTextarea aria-describedby="first" invalid></textarea>${hint}
+    <cck-field-error force>Enter a message.</cck-field-error></cck-form-field>`;
+
+  it('reads the hint and the shown error as two phrases, in order: author ids, hints, errors', async () => {
+    await render(template('<cck-hint>Help</cck-hint>'), { imports });
+    const area = screen.getByRole('textbox', { description: 'Help Enter a message.' });
+    expect(area.getAttribute('aria-describedby')).toBe('first msg-hint-1 msg-error-1');
+  });
+
+  it('lets an author id win and numbers the others in document order', async () => {
+    await render(template('<cck-hint>One</cck-hint><cck-hint id="mine">Two</cck-hint><cck-hint>Three</cck-hint>'), {
+      imports,
+    });
+    expect(screen.getByRole('textbox').getAttribute('aria-describedby')).toBe(
+      'first msg-hint-1 mine msg-hint-3 msg-error-1',
+    );
   });
 });

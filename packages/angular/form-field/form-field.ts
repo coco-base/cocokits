@@ -10,6 +10,7 @@ import {
   signal,
   viewChild,
   type Signal,
+  type WritableSignal,
 } from '@angular/core';
 import { CckAttrs, IdGenerator, themeAttrs } from '@cocokits/angular-core';
 import {
@@ -31,8 +32,8 @@ import { shouldFocusControl } from '@cocokits/utils';
  * padding, a prefix or a suffix) focuses the control, unless it lands on interactive content, on a
  * disabled control or after selecting text. With a CocoKits control (the
  * Input or the Textarea) inside, the field works out the ids: the control gets `<fieldId>-control`, the label's
- * `for` points at it, and the control's `aria-describedby` ends with the feedback wrapper that holds
- * the hints. Set `id` on the field to choose the `<fieldId>` part. The field state props
+ * `for` points at it, and the control's `aria-describedby` ends with the ids of its hints, then of its errors
+ * (a hint or error without an `id` gets `<fieldId>-hint-<n>` or `<fieldId>-error-<n>`). Set `id` on the field to choose the `<fieldId>` part. The field state props
  * (`disabled`, `readonly`, `required`, `invalid`) reach the control, and the control's own state
  * reaches the field root as `data-*` facts. A native or third-party control gets no defaults: give it
  * an `id`, the label a matching `for`, and the control its own `aria-describedby`.
@@ -106,6 +107,11 @@ import { shouldFocusControl } from '@cocokits/utils';
 export class CckFormField {
   private readonly generatedId = inject(IdGenerator).getId(formFieldAnatomy.classes.root);
   private readonly reported = signal<Signal<FormFieldControlState> | undefined>(undefined);
+  private readonly partIds: Record<'hints' | 'errors', WritableSignal<readonly (string | undefined)[]>> = {
+    hints: signal([]),
+    errors: signal([]),
+  };
+  private readonly entries: Record<'hints' | 'errors', object[]> = { hints: [], errors: [] };
   private owner: object | undefined;
   private controlElement: (() => HTMLElement | null | undefined) | null = null;
   private readonly inputWrapper = viewChild<ElementRef<HTMLElement>>('inputWrapper');
@@ -176,9 +182,32 @@ export class CckFormField {
    * @internal
    */
   readonly _ids = computed(() => {
-    const ids = formFieldIds(this._fieldId());
+    const ids = formFieldIds(this._fieldId(), { hints: this.partIds.hints(), errors: this.partIds.errors() });
     return { ...ids, label: this._labelId() ?? ids.label };
   });
+
+  /**
+   * Registers a Hint or a FieldError in document order. Call it in the part's injection context. The control's
+   * `aria-describedby` lists the ids of the registered parts: hints first, then errors.
+   *
+   * @param kind - `hints` for a Hint, `errors` for a FieldError.
+   * @param ownId - The `id` the author wrote on the part, if any.
+   * @returns The id the part renders: the author's, or `<fieldId>-hint-<n>` / `<fieldId>-error-<n>`.
+   * @internal
+   */
+  _registerPart(kind: 'hints' | 'errors', ownId: string | undefined): Signal<string | undefined> {
+    const list = this.partIds[kind];
+    const token = {};
+    const entries = this.entries[kind];
+    entries.push(token);
+    list.update((ids) => [...ids, ownId]);
+    inject(DestroyRef).onDestroy(() => {
+      const index = entries.indexOf(token);
+      entries.splice(index, 1);
+      list.update((ids) => ids.filter((_, at) => at !== index));
+    });
+    return computed(() => this._ids()[kind]?.[entries.indexOf(token)]);
+  }
 
   /**
    * The facts the author set on the field.

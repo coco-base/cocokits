@@ -30,9 +30,9 @@ describe('Checkbox in a FormField', () => {
     expect(screen.getByRole('checkbox', { name: 'Notifications Email me' })).toBe(box());
   });
 
-  it('ends aria-describedby with the feedback wrapper', async () => {
+  it('ends aria-describedby with the hint id', async () => {
     await render(field('', 'aria-describedby="note"'), { imports });
-    expect(box().getAttribute('aria-describedby')).toBe('note f-feedback');
+    expect(box().getAttribute('aria-describedby')).toBe('note f-hint-1');
   });
 
   it('is described by the hint', async () => {
