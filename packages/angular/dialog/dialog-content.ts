@@ -4,18 +4,20 @@ import { hasAccessibleName } from '@cocokits/utils';
 import { injectCckDialogRoot } from './dialog-root';
 
 /**
- * The content of the Dialog: a native `dialog` opened with `showModal()`. It renders in the overlay container,
- * not next to the trigger. Its `::backdrop` is the backdrop. Name it with a `cckDialogTitle` or with
- * `aria-label` / `aria-labelledby`.
+ * The window of the dialog, on a native `<dialog>` that opens with `showModal()`. It shows in the overlay container, not next to the trigger. Its `::backdrop` is the backdrop.
+ *
+ * Name it with a `cckDialogTitle`, `aria-label` or `aria-labelledby`.
  *
  * @example
- * <dialog cckDialogContent>
- *   <h2 cckDialogTitle>Delete project</h2>
- *   <button cckDialogClose>Cancel</button>
- * </dialog>
+ * <ng-template cckDialogPortal>
+ *   <dialog cckDialogContent>
+ *     <h2 cckDialogTitle>Delete project</h2>
+ *     <button cckDialogClose type="button">Cancel</button>
+ *   </dialog>
+ * </ng-template>
  * @cckPart content
  * @cckTemplate ng-template[cckDialogPortal]
- * @cckSlot default - The title, the description, the body and the Close buttons.
+ * @cckSlot default - The title, the description, the body and the close buttons. When not set, the dialog is empty.
  * @cckDataAttr data-state - `open` or `closed`
  */
 @Directive({

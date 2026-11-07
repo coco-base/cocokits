@@ -8,11 +8,9 @@ import {
 } from '@cocokits/machines/badge-container';
 
 /**
- * Pins a Badge to a corner of the element it wraps. It renders its children as written and does not
- * inspect them. The `cck-badge` must be a direct child of the container: the theme places it with
- * `.cck-badge-container[data-position] > .cck-badge`.
+ * Pins a badge to a corner of the element it wraps. The `cck-badge` must be a direct child of the container.
  *
- * It sets no style: the theme places the badge.
+ * The container sets no style. The theme places the badge with `.cck-badge-container[data-position] > .cck-badge`.
  *
  * @example
  * <cck-badge-container position="top-right">
@@ -20,7 +18,7 @@ import {
  *   <cck-badge [content]="2"></cck-badge>
  * </cck-badge-container>
  * @cckPart root
- * @cckSlot default - The wrapped element and its Badge, projected as written.
+ * @cckSlot default - The element to mark and its `cck-badge`. When not set, the container is empty.
  * @cckDataAttr data-position - the corner the badge is pinned to
  */
 @Directive({
@@ -33,7 +31,7 @@ import {
 })
 export class CckBadgeContainer {
   /**
-   * The corner its badge is pinned to. `left` is the inline-start side and `right` the inline-end side.
+   * The corner where the badge sits. `left` is the start side of the text direction, and `right` is the end side.
    * @defaultValue 'top-right'
    */
   readonly position = input<BadgeContainerPosition>(BADGE_CONTAINER_DEFAULTS.position);

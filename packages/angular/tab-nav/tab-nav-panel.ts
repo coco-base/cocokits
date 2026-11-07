@@ -3,16 +3,17 @@ import { IdGenerator } from '@cocokits/angular-core';
 import { getTabNavProps, tabNavAnatomy } from '@cocokits/machines/tab-nav';
 
 /**
- * The panel a TabNav controls, for links that drive a router outlet: put the outlet inside it, give it a
- * template reference and pass that to `tabPanel` on the nav. It may sit anywhere in the page. It is the
- * `tabpanel`, labelled by the active link; while no link is active it has no label. It stays on the page
- * whatever the active link is.
+ * The panel that the links of a tab nav control. Put your router outlet inside it, and pass its template reference to `tabPanel` on the nav.
+ *
+ * The panel can sit anywhere in the page, and it always stays there. It is the `tabpanel`, and the active link names it. While no link is active, it has no name.
  *
  * @example
- * <nav cckTabNav aria-label="Project" [tabPanel]="panel">…</nav>
+ * <nav cckTabNav aria-label="Project" [tabPanel]="panel">
+ *   <a cckTabNavLink routerLink="/overview" [active]="true">Overview</a>
+ * </nav>
  * <cck-tab-nav-panel #panel="cckTabNavPanel"><router-outlet /></cck-tab-nav-panel>
  * @cckPart panel
- * @cckSlot default - The content of the active link.
+ * @cckSlot default - The content of the active page. When not set, the panel is empty.
  */
 @Directive({
   selector: 'cck-tab-nav-panel',
@@ -27,9 +28,8 @@ import { getTabNavProps, tabNavAnatomy } from '@cocokits/machines/tab-nav';
 })
 export class CckTabNavPanel {
   /**
-   * The id of the panel, which the links point at. Generated when left out.
+   * The `id` of the panel. The links point at it. When not set, the panel gets a generated id.
    * @cckSemantic none
-   * @remarks The panel is the directive itself, not its id.
    * @cckParity Declared as an input; the directive forwards it to the element.
    */
   readonly id = input(inject(IdGenerator).getId(tabNavAnatomy.classes.panel));

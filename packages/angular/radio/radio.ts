@@ -17,31 +17,30 @@ import { CckRadioGroup } from '@cocokits/angular/radio-group';
 import { getRadioProps, radioAnatomy } from '@cocokits/machines/radio';
 import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
 
-/** Why the checked value of a Radio changed: the user checked it or another radio of its group (`'user'`), or the form was reset (`'form-reset'`). */
+/**
+ * Why the checked value of a Radio changed.
+ * @cckValue 'user' - The user checked this radio or another radio with the same `name`.
+ * @cckValue 'form-reset' - The form that holds the radio was reset.
+ */
 export type RadioChangeReason = 'user' | 'form-reset';
 
-/** The `reason` and `event` of a change. The `checkedChangeDetails` output emits them with the `value`. */
+/** The `reason` and the `event` of a change. The `checkedChangeDetails` output sends them with the `value`. */
 export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
 
 /**
- * One standalone radio around a native `<input type="radio">` with its label. Radios with the same `name`
- * form a native group: the browser unchecks the others and moves focus with the arrow keys. The host is the
- * root (a `<div>` by default) and the content you write becomes the label.
+ * One radio with its label. It wraps a native `<input type="radio">`. The content you write inside it becomes the label.
  *
- * When the user checks another radio of the group, this radio's `checked` becomes `false` and
- * `checkedChangeDetails` emits with `'user'` and the other radio's event. A parent that sets one radio's
- * `checked` and not the others gets no event for the others: write every radio's `checked` from one
- * selected value. A radio without `name` has no group mate, so it warns in development.
+ * Radios with the same `name` form a native group. The browser unchecks the other radios and moves the focus with the arrow keys. When the user checks another radio of the group, this radio's `checked` becomes `false` and `checkedChangeDetails` emits.
  *
- * Inside a Radio group (`cck-radio-group`) the group owns the value: the radio is identified by its
- * `submitValue`, is checked while that equals the group's value, takes the group's `name`, `disabled` and
- * `required` (its own `disabled` and `required` add to them), and the arrow keys of the group apply. Its own
- * `checked`, `name` and `checkedChangeDetails` are ignored there.
+ * When you set `checked` from code, set it on every radio of the group from one value. The other radios emit nothing for your change.
  *
- * It takes no part in the FormField contract and binds no forms library.
+ * Inside a `cck-radio-group`, the group owns the value. The radio is checked while its `submitValue` equals the value of the group. The radio takes the `name`, `disabled` and `required` of the group. Its own `checked`, `name` and `checkedChangeDetails` do nothing there.
+ *
+ * The radio does not join a form field and does not bind a forms library. For a form value, use a `cck-radio-group`.
  *
  * @example
  * <cck-radio name="plan" submitValue="free" [(checked)]="isFree">Free</cck-radio>
+ * <cck-radio name="plan" submitValue="pro" [(checked)]="isPro">Pro</cck-radio>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
@@ -49,7 +48,7 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
  * @cckPart backdrop
  * @cckPart background
  * @cckPart label
- * @cckSlot default - The label content.
+ * @cckSlot default - The text of the label. When not set, the label is empty, so name the radio with `aria-label`.
  */
 @Component({
   selector: 'cck-radio',
@@ -131,75 +130,74 @@ export class CckRadio {
   private mountValue = false;
 
   /**
-   * Whether the radio is checked. A nullish value renders unchecked. It follows the group: when the user
-   * checks another radio of the same `name`, it becomes `false`. Ignored inside a Radio group.
+   * Whether the radio is checked. Use `[(checked)]` to read and change it.
+   * @remarks It becomes `false` when the user checks another radio with the same `name`. A `null` or `undefined` value shows the radio unchecked. Inside a `cck-radio-group`, it does nothing.
    * @defaultValue false
    */
   readonly checked = model(false);
 
   /**
-   * Emits after every change the user makes, also the uncheck that another radio of the group causes, with
-   * the new value and the reason. Never for a write from the parent. Never emitted inside a Radio group,
-   * which emits the change.
+   * Emits after the user checks this radio or another radio with the same `name`, and after a form reset. It sends the new `value`, the `reason` and the `event`.
+   * @remarks It never emits when the parent changes `checked`. Inside a `cck-radio-group`, it never emits; the group emits the change.
+   * @example
+   * <cck-radio name="plan" submitValue="free" (checkedChangeDetails)="onChange($event.value, $event.reason)">Free</cck-radio>
+   * <!-- In the class: onChange(checked: boolean, reason: RadioChangeReason) { console.log(checked, reason); } -->
    * @cckSemantic *.checkedChange
    */
   readonly checkedChangeDetails = output<ValueChangeDetails<boolean, RadioChangeReason>>();
 
-  /** The `id` of the native input; generated when left out. */
+  /** The `id` of the native input. When not set, the input gets a generated id. */
   readonly id = input<string | undefined>(undefined);
 
   /**
-   * The `name` that makes radios a group and that `FormData` submits. Give every radio of a group the same one.
-   * A radio without a name has no group mate and warns in development. Ignored inside a Radio group, which
-   * gives every radio its own name.
+   * The `name` that puts radios in one group. `FormData` sends it with the value. When not set, the radio is alone, and a warning shows in development.
+   * @remarks Give every radio of a group the same name. Inside a `cck-radio-group`, the radio takes the name of the group instead.
    * @cckSemantic *.name
    * @cckParity Declared as an input.
    */
   readonly name = input<string | undefined>(undefined);
 
   /**
-   * The value `FormData` submits while the radio is checked; left out, the browser submits `on`. Inside a
-   * Radio group it identifies the radio: it is checked while the group's value equals it, and a radio without
-   * one can never be checked.
+   * The value that `FormData` sends while the radio is checked. When not set, the browser sends `on`.
+   * @remarks Inside a `cck-radio-group`, it is the value of the radio. The radio is checked while the value of the group equals it. Without it, the radio can never be checked there. The name is `submitValue`, as on the Checkbox.
    * @cckSemantic *.value
-   * @remarks Named `submitValue`, as on the Checkbox.
    * @cckParity Declared as an input.
    */
   readonly submitValue = input<string | undefined>(undefined);
 
   /**
-   * The id of the form the input belongs to, when it is not inside it (native `form` attribute).
+   * The `id` of the form that the native input belongs to. Use it when the radio is outside its form. When not set, the form around the radio owns the input.
    * @cckSemantic none
    * @cckParity Declared as an input.
    */
   readonly form = input<string | undefined>(undefined);
 
   /**
-   * The ids this radio is described by (`aria-describedby` of the input).
+   * The ids of the elements that describe the radio. The native input gets them as `aria-describedby`. When not set, the radio has no description.
    * @cckSemantic *.ariaDescribedBy
    */
   readonly ariaDescribedBy = input<string | undefined>(undefined, { alias: 'aria-describedby' });
 
   /**
-   * The `aria-label` of the native input.
+   * The accessible name of the native input, as `aria-label`. When not set, the content you write inside the radio names it.
    * @cckSemantic *.ariaLabel
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
-   * The `aria-labelledby` of the native input.
+   * The ids of the elements that name the native input, as `aria-labelledby`. When not set, the content you write inside the radio names it.
    * @cckSemantic *.ariaLabelledBy
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });
 
   /**
-   * Whether the radio is disabled. A disabling `fieldset` adds to it.
+   * Whether the user cannot use the radio. A disabled `fieldset` around it also disables it.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the radio is required (native `required`: one radio of the group must be checked).
+   * Whether one radio of the group must be checked before the form can submit. It sets the native `required`.
    * @defaultValue false
    */
   readonly required = input(false, { transform: booleanAttribute });
@@ -259,7 +257,10 @@ export class CckRadio {
   }
 
   /**
-   * Focuses the native input.
+   * Moves the focus to the native input.
+   * @example
+   * // radio = viewChild.required(CckRadio)
+   * this.radio().focus();
    * @cckSemantic none
    * @cckParity Only this framework has this member.
    */

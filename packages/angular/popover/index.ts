@@ -21,7 +21,11 @@ export { CckPopoverPortal } from './popover-portal';
 export { CckPopoverTitle } from './popover-title';
 export { CckPopoverTrigger } from './popover-trigger';
 
-/** Everything needed to author a Popover: `imports: [CckPopoverImports]`. */
+/**
+ * Everything you need to write a Popover in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckPopoverImports]
+ */
 export const CckPopoverImports = [
   CckPopover,
   CckPopoverTrigger,

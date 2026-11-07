@@ -1,18 +1,16 @@
 import { InjectionToken } from '@angular/core';
 
-/** The defaults of every Tabs; provide them with {@link CCK_TABS_CONFIG}. */
+/** The defaults of every Tabs. Provide them with {@link CCK_TABS_CONFIG}. */
 export interface CckTabsConfig {
   /**
-   * Whether a panel keeps its content once it was shown, hidden while its tab is not selected. An input on
-   * the Tabs wins.
+   * Whether a panel keeps its content after it was shown once. The `preserveContent` input of a Tabs wins over it.
    * @defaultValue false
    */
   readonly preserveContent?: boolean | undefined;
 }
 
 /**
- * Provides the defaults of every Tabs below it. The provided object is the whole config: it does not merge
- * with a config of a parent injector.
+ * Gives the defaults to every Tabs below it. The object you give is the whole config. It does not merge with the config of a parent.
  *
  * @example
  * providers: [{ provide: CCK_TABS_CONFIG, useValue: { preserveContent: true } }]

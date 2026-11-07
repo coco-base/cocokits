@@ -4,32 +4,28 @@ import { CckTextControlBase } from '@cocokits/angular/input';
 import { getTextareaProps, textareaAnatomy } from '@cocokits/machines/textarea';
 import type { ChangeDetails } from '@cocokits/shared';
 
-/** Why the value of a Textarea changed: the user typed (`'user'`) or the form was reset (`'form-reset'`). */
+/**
+ * Why the value of a Textarea changed.
+ * @cckValue 'user' - The user changed the text.
+ * @cckValue 'form-reset' - The form that holds the textarea was reset.
+ */
 export type TextareaChangeReason = 'user' | 'form-reset';
 
-/** The `reason` and `event` of a change. The `valueChangeDetails` output emits them with the `value`. */
+/** The `reason` and the `event` of a change. The `valueChangeDetails` output sends them with the `value`. */
 export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
 
 /**
- * A multi-line text control on a native `<textarea>`. It follows the Input contract: a Signal Forms
- * custom control that, through the static `ngNoCva` attribute, also binds to `formControlName`,
- * `[formControl]` and `ngModel` with no ControlValueAccessor, and that takes part in a native `<form>`
- * itself (`FormData`, constraint validation, reset, `fieldset[disabled]`).
+ * A multi-line text control on a native `<textarea>`. Name it with a label, `aria-label` or `aria-labelledby`. Enter adds a line break and never submits the form.
  *
- * Inside a `cck-form-field` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
- * `aria-describedby` ends with the ids of the field's hints, then of its errors. `name` defaults to the path of the bound
- * forms control. `aria-invalid="true"` appears only while the control is invalid and was touched or the
- * form was submitted. Enter inserts a line break and never submits the form.
+ * The textarea works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. It is a native form control, so `FormData`, validation, form reset and a disabled `fieldset` work as usual.
  *
- * The value is a string with LF line breaks: a model value with CR or CRLF is shown with LF, and the
- * model is never rewritten for it. Native `rows`, `cols`, `wrap` and the other textarea attributes pass
- * through.
+ * Inside a `cck-form-field`, the textarea gets the id `<fieldId>-control`, and the label of the field points at it. The textarea is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the textarea or has tried to submit the form.
+ *
+ * The line breaks of the value show as LF. A value with CR or CRLF is shown with LF, but your value does not change. The native `rows`, `cols` and `wrap` attributes work as usual.
  *
  * @example
- * <cck-form-field>
- *   <label cckLabel>Message</label>
- *   <textarea cckTextarea [(value)]="message"></textarea>
- * </cck-form-field>
+ * <label for="message">Message</label>
+ * <textarea cckTextarea id="message" [(value)]="message"></textarea>
  * @cckPart root
  */
 @Directive({

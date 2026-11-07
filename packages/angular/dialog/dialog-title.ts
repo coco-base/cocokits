@@ -3,13 +3,14 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckDialogRoot } from './dialog-root';
 
 /**
- * The heading that names the Dialog. Put it on the heading you choose; the content is labelled by it with
- * `aria-labelledby` while it is mounted.
+ * The heading that names the dialog. Put the attribute on a heading of the level you choose. While it is on the page, the dialog points at it with `aria-labelledby`.
  *
  * @example
- * <h2 cckDialogTitle>Delete project</h2>
+ * <dialog cckDialogContent>
+ *   <h2 cckDialogTitle>Delete project</h2>
+ * </dialog>
  * @cckPart title
- * @cckSlot default - The title text.
+ * @cckSlot default - The text of the title. When not set, the title is empty and names nothing.
  */
 @Directive({
   selector: '[cckDialogTitle]',
@@ -21,8 +22,7 @@ import { injectCckDialogRoot } from './dialog-root';
 })
 export class CckDialogTitle {
   /**
-   * The id of the heading; the content's `aria-labelledby` follows it.
-   * @defaultValue generated
+   * The `id` of the heading. The dialog points at it with `aria-labelledby`. When not set, the heading gets a generated id.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */

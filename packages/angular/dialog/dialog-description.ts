@@ -3,13 +3,14 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckDialogRoot } from './dialog-root';
 
 /**
- * The text that describes the Dialog. The content is described by it with `aria-describedby` while it is
- * mounted.
+ * The text that describes the dialog. While it is on the page, the dialog points at it with `aria-describedby`.
  *
  * @example
- * <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+ * <dialog cckDialogContent aria-label="Delete project">
+ *   <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+ * </dialog>
  * @cckPart description
- * @cckSlot default - The description text.
+ * @cckSlot default - The text of the description. When not set, the description is empty.
  */
 @Directive({
   selector: 'cck-dialog-description',

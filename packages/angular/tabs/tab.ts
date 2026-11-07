@@ -21,20 +21,21 @@ import { CckTabLabel } from './tab-label';
 import { injectCckTabs, type CckTabRegistration } from './tabs';
 
 /**
- * One tab: the section holds the content of the panel and defines its trigger, which the `cck-tabs` host renders in
- * its list. The section is the panel (`role="tabpanel"`); it is hidden while its tab is not selected and holds
- * its content only while it is selected (see `preserveContent` on the Tabs and the `cckTabContent` template for
- * lazy creation). Give the trigger text with `label`, or markup with a `cckTabLabel` template. `label`,
- * `disabled`, `aria-label` and `aria-labelledby` do not stay on the host element, and `id` is the id of the
- * trigger. A tab is found by its position, so it has no value.
+ * One tab. The element is the panel, and the `cck-tabs` around it makes the trigger in its list. The content you write inside it is the content of the panel.
+ *
+ * Give the trigger its text with `label`, or its markup with a `cckTabLabel` template. The panel is hidden while its tab is not selected. It holds its content only while the tab is selected, unless `preserveContent` is set on the tabs.
+ *
+ * A tab is found by its position, so it has no value. The `id` input is the id of the trigger.
  *
  * @example
- * <cck-tab label="Account">Change your name.</cck-tab>
+ * <cck-tabs aria-label="Account settings">
+ *   <cck-tab label="Account">Change your name.</cck-tab>
+ * </cck-tabs>
  * @cckPart panel
  * @cckSection trigger label label
- * @cckSlot default - The content of the panel.
- * @cckSlot label ng-template[cckTabLabel] - The markup of the trigger, instead of the `label` text.
- * @cckSlot content ng-template[cckTabContent] - The content of the panel, created when the tab is first selected.
+ * @cckSlot default - The content of the panel. When not set, the panel is empty.
+ * @cckSlot label ng-template[cckTabLabel] - Your own markup for the trigger. When not set, the trigger shows the `label` text.
+ * @cckSlot content ng-template[cckTabContent] - The content of the panel, made when the tab is selected. When not set, the panel shows the content you write inside the tab.
  */
 @Component({
   selector: 'cck-tab',
@@ -65,40 +66,36 @@ import { injectCckTabs, type CckTabRegistration } from './tabs';
 })
 export class CckTab implements CckTabRegistration, OnInit {
   /**
-   * Whether the trigger is disabled: it is never selected by the user and the arrow keys skip it.
+   * Whether the user cannot select the tab. The arrow keys skip its trigger.
    * @defaultValue false
    * @cckSemantic tabs.trigger.disabled
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * The text of the trigger.
+   * The text of the trigger. When not set, the trigger shows the `cckTabLabel` template, or no text.
    * @cckSemantic none
-   * @remarks The Tabs renders the trigger from this text.
    * @cckParity Only this framework has this member.
    */
   readonly label = input<string | undefined>(undefined);
 
   /**
-   * The id of the trigger, which the panel's `aria-labelledby` follows. Generated when left out.
+   * The `id` of the trigger. The panel points at it with `aria-labelledby`. When not set, the trigger gets a generated id.
    * @cckSemantic none
-   * @remarks Applies to the trigger the Tabs renders.
    * @cckParity Declared as an input; the Tabs sets it on the trigger it renders.
    */
   readonly id = input<string | undefined>(undefined);
 
   /**
-   * The accessible name of the trigger, forwarded to it and never kept on the section.
+   * The accessible name of the trigger. The trigger gets it, and the panel does not keep it. When not set, the text of the trigger names it.
    * @cckSemantic none
-   * @remarks Applies to the trigger the Tabs renders.
    * @cckParity Declared as an input; the Tabs sets it on the trigger it renders.
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
-   * The id of the element that names the trigger, forwarded to it and never kept on the section.
+   * The `id` of the element that names the trigger. The trigger gets it, and the panel does not keep it. When not set, the text of the trigger names it.
    * @cckSemantic none
-   * @remarks Applies to the trigger the Tabs renders.
    * @cckParity Declared as an input; the Tabs sets it on the trigger it renders.
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });

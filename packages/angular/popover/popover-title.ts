@@ -3,13 +3,14 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * The heading that names the Popover. Put it on the heading you choose; the content is labelled by it with
- * `aria-labelledby` while it is mounted.
+ * The heading that names the popover. Put the attribute on a heading of the level you choose. While it is on the page, the content points at it with `aria-labelledby`.
  *
  * @example
- * <h2 cckPopoverTitle>Share this page</h2>
+ * <cck-popover-content>
+ *   <h2 cckPopoverTitle>Share this page</h2>
+ * </cck-popover-content>
  * @cckPart title
- * @cckSlot default - The title text.
+ * @cckSlot default - The text of the title. When not set, the title is empty and names nothing.
  */
 @Directive({
   selector: '[cckPopoverTitle]',

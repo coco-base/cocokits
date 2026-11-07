@@ -54,18 +54,22 @@ function inDomOrder(items: readonly CckAccordionItemRegistration[]): CckAccordio
 }
 
 /**
- * Accordion: a stack of sections that open and close. Write one `cck-accordion-item` per section inside the
- * host; each item renders its own heading, button and content. By default one item is open at a time;
- * `multi` lets every item toggle on its own. ArrowDown and ArrowUp, Home and End move between the enabled
- * triggers of this accordion. Items of a nested accordion belong to the nearest root.
+ * A stack of sections that open and close. You write one `cck-accordion-item` for each section. Each item makes its own heading, button and content.
+ *
+ * One item is open at a time. With `multi`, each item opens and closes on its own.
+ *
+ * Down Arrow, Up Arrow, Home and End move the focus between the enabled buttons. The items of a nested accordion belong to the nearest accordion.
  *
  * @example
  * <cck-accordion multi>
  *   <cck-accordion-item label="Shipping" [(expanded)]="shippingOpen">Orders leave in two days.</cck-accordion-item>
- *   <cck-accordion-item label="Returns">Send it back within 30 days.</cck-accordion-item>
+ *   <cck-accordion-item>
+ *     <ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>
+ *     Send it back within 30 days.
+ *   </cck-accordion-item>
  * </cck-accordion>
  * @cckPart root
- * @cckSlot default - The `cck-accordion-item` sections.
+ * @cckSlot default - The `cck-accordion-item` sections. When not set, the accordion is empty.
  */
 @Directive({
   selector: 'cck-accordion',
@@ -79,7 +83,7 @@ function inDomOrder(items: readonly CckAccordionItemRegistration[]): CckAccordio
 })
 export class CckAccordion {
   /**
-   * Whether several items can be open at once. Without it, opening an item closes the open one.
+   * Whether several items can be open at the same time. When not set, opening an item closes the open item.
    * @defaultValue false
    * @cckSemantic none
    * @cckParity Lets several items stay open at once; each item keeps its own open state.
@@ -165,13 +169,15 @@ export class CckAccordion {
   }
 
   /**
-   * Opens every item that is not disabled. Does nothing unless `multi` is set.
+   * Opens every item that is not disabled. It does nothing without `multi`.
    *
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    * @example
-   * <cck-accordion multi #accordion="cckAccordion"></cck-accordion>
-   * <button (click)="accordion.openAll()">Open all</button>
+   * <cck-accordion multi #accordion="cckAccordion">
+   *   <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="accordion.openAll()">Open all</button>
    */
   openAll(): void {
     if (!this.multi()) return;
@@ -180,6 +186,11 @@ export class CckAccordion {
 
   /**
    * Closes every item that is not disabled.
+   * @example
+   * <cck-accordion #accordion="cckAccordion">
+   *   <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="accordion.closeAll()">Close all</button>
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */

@@ -12,25 +12,18 @@ import { CckFormField } from '@cocokits/angular/form-field';
 import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-error';
 
 /**
- * An error message of the field, written as the `cck-field-error` tag. Inside a
- * `cck-form-field` it shows its content while the field is invalid and was touched or submitted (the
- * gate of `aria-invalid`), or always with `force`; outside a field the content always shows. The
- * root is a polite live region (`aria-live="polite"`) that is always rendered, so the text is
- * announced when it appears; it has no role. Inside a field the control's `aria-describedby` names it (the
- * element is empty while the error is hidden), so the text is also read as the description on focus. An error
- * without an `id` gets `<fieldId>-error-<n>`.
+ * An error message for a control. Inside a `cck-form-field`, it shows while the field is invalid and the user has left the control or has tried to submit. Outside a field, it always shows.
  *
- * The content you write is created once and only inserted while it shows, so keep it cheap (text, an
- * icon).
+ * The element is always there and is a polite live region, so screen readers announce the text when it shows. It has no role. Inside a field, the control is described by the error, so the text is also read on focus.
+ *
+ * An error without an `id` inside a field gets `<fieldId>-error-<n>`. The content is made once and added only while the error shows, so keep it small, like text or an icon.
  *
  * @example
- * <cck-form-field>
- *   <label cckLabel>Email address</label>
- *   <input cckInput type="email" required />
- *   <cck-field-error>Enter an email address.</cck-field-error>
- * </cck-form-field>
+ * <label for="email">Email address</label>
+ * <input id="email" type="email" aria-describedby="email-error" />
+ * <cck-field-error id="email-error">Enter an email address.</cck-field-error>
  * @cckPart root
- * @cckSlot default - The message; inserted only while the error shows.
+ * @cckSlot default - The text of the message. It is added only while the error shows. When not set, the error is empty.
  */
 @Component({
   selector: 'cck-field-error',
@@ -55,7 +48,7 @@ export class CckFieldError {
   protected readonly id = this.field?._registerPart('errors', this.ownId) ?? computed(() => this.ownId);
 
   /**
-   * Whether the content shows regardless of the field state.
+   * Whether the message always shows, whatever the state of the field is.
    * @defaultValue false
    */
   readonly force = input(false, { transform: booleanAttribute });

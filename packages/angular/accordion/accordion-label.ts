@@ -1,8 +1,9 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
- * The markup of a trigger, instead of the `label` text: put an `ng-template` first inside a `cck-accordion-item`.
- * The trigger renders it inside the button, so the template has no context.
+ * Your own markup for the trigger of an item, in place of the `label` text. Put the `ng-template` first inside a `cck-accordion-item`.
+ *
+ * The trigger shows the template inside its button. The template gets no context, and its markup must not be interactive.
  *
  * @example
  * <cck-accordion-item>

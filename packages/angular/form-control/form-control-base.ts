@@ -23,7 +23,10 @@ import type {
 } from '@cocokits/machines/form-field';
 import type { Subscription } from 'rxjs';
 
-/** What a form control needs from its machine: the facts on its root, and the report for the field. */
+/**
+ * What a form control needs from its machine: the facts on its root, and the report for the field.
+ * @internal
+ */
 export interface FormControlParts {
   readonly root: Partial<
     Pick<
@@ -55,6 +58,7 @@ export type FormControlFacts = Omit<FormFieldControlProps, 'id' | 'filled'>;
  * Not for direct use or extension outside CocoKits: it is exported only because the controls are separate
  * entry points and cannot share a relative file. Its members are the members of every control, so changing
  * one weighs as the same change on all of them.
+ * @internal
  */
 @Directive({
   host: {

@@ -4,33 +4,28 @@ import { getInputProps, inputAnatomy, type InputType } from '@cocokits/machines/
 import type { ChangeDetails } from '@cocokits/shared';
 import { CckTextControlBase } from './text-control-base';
 
-/** Why the value of an Input changed: the user typed (`'user'`) or the form was reset (`'form-reset'`). */
+/**
+ * Why the value of an Input changed.
+ * @cckValue 'user' - The user changed the text.
+ * @cckValue 'form-reset' - The form that holds the input was reset.
+ */
 export type InputChangeReason = 'user' | 'form-reset';
 
-/** The `reason` and `event` of a change. The `valueChangeDetails` output emits them with the `value`. */
+/** The `reason` and the `event` of a change. The `valueChangeDetails` output sends them with the `value`. */
 export type InputChangeDetails = ChangeDetails<InputChangeReason>;
 
 /**
- * A single-line text control on a native `<input>`. It is a Signal Forms custom control and, through
- * the static `ngNoCva` attribute, also binds to `formControlName`, `[formControl]` and `ngModel` with no
- * ControlValueAccessor. It takes part in a native `<form>` itself: `FormData`, constraint validation,
- * the `form` attribute, implicit submission and `fieldset[disabled]` work.
+ * A single-line text control on a native `<input>`. Name it with a label, `aria-label` or `aria-labelledby`.
  *
- * Inside a `cck-form-field` it gets the id `<fieldId>-control`, the label's `for` points at it, and its
- * `aria-describedby` ends with the ids of the field's hints, then of its errors. An `id` or `aria-describedby` you write
- * wins or comes first. `type` is `text` unless you set it, and `name` defaults to the path of the bound
- * forms control (`address.street`). The state facts are `data-*` attributes; `aria-invalid="true"`
- * appears only while the control is invalid and was touched or the form was submitted.
+ * The input works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. It is a native form control, so `FormData`, validation, the `form` attribute, submit on Enter and a disabled `fieldset` work as usual.
  *
- * A nullish value (a reset nullable control, an unset `ngModel`) renders empty and is never echoed back.
- * The value is a model: `[(value)]`, `[value]` or unbound. With a one-way `[value]` typing diverges from
- * the parent until the parent sets a new value.
+ * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field, after your own `aria-describedby`. `aria-invalid` shows only after the user has left the input or has tried to submit the form.
+ *
+ * The value is a model. Use `[(value)]` to read and change it, `[value]` to only set it, or no binding.
  *
  * @example
- * <cck-form-field>
- *   <label cckLabel>Email address</label>
- *   <input cckInput type="email" [(value)]="email" />
- * </cck-form-field>
+ * <label for="email">Email address</label>
+ * <input cckInput id="email" type="email" [(value)]="email" />
  * @cckPart root
  */
 @Directive({
@@ -43,8 +38,7 @@ export type InputChangeDetails = ChangeDetails<InputChangeReason>;
 })
 export class CckInput extends CckTextControlBase<InputChangeReason> {
   /**
-   * The `type`. A value outside the six text types (`text`, `email`, `password`, `search`, `tel`, `url`)
-   * renders `text`.
+   * The native `type` of the input. It can be `text`, `email`, `password`, `search`, `tel` or `url`. Any other value shows a `text` input.
    * @cckSemantic none
    * @cckParity Declared as an input.
    * @defaultValue 'text'

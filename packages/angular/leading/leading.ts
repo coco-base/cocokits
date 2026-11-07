@@ -3,11 +3,9 @@ import { themeAttrs } from '@cocokits/angular-core';
 import { getLeadingProps, leadingAnatomy } from '@cocokits/machines/leading';
 
 /**
- * Content outside the box of a FormField, before it. It renders its content as written,
- * adds no ARIA and has no style. It sits on the author's element (a `<div>` by default) and works outside a
- * `cck-form-field` too, where it has no placement. An icon-only leading needs `aria-hidden="true"`; an
- * interactive one is a real `button` or `a` with its own accessible name. Its text is not part of the
- * control's name or description.
+ * Content outside the box of a `cck-form-field`, before the box. Put the attribute on any element, like a `<span>` or a `<button>`. Outside a field, it has no place of its own.
+ *
+ * It adds no ARIA and no style. Its text is not part of the name or the description of the control. Give an icon without text `aria-hidden="true"`. Make an interactive leading content a real `<button>` or `<a>` with its own accessible name.
  *
  * @example
  * <cck-form-field>
@@ -16,7 +14,7 @@ import { getLeadingProps, leadingAnatomy } from '@cocokits/machines/leading';
  *   <input cckInput />
  * </cck-form-field>
  * @cckPart root
- * @cckSlot default - The content of the zone.
+ * @cckSlot default - The content to show. When not set, the element is empty.
  */
 @Directive({
   selector: '[cckLeading]',

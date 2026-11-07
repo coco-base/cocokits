@@ -4,16 +4,16 @@ import { CckFormField } from '@cocokits/angular/form-field';
 import { getHintProps, hintAnatomy } from '@cocokits/machines/hint';
 
 /**
- * A short help text for a control, written as the `cck-hint` tag. It renders its
- * content as written and has no role and no ARIA: give it an `id` and list that id in the
- * control's `aria-describedby`. Inside a `cck-form-field` the control is described by it already, and a
- * hint without an `id` gets `<fieldId>-hint-<n>`. It works on its own, inside or outside a `cck-form-field`, and
- * sets no style.
+ * A short help text for a control. It has no role and no ARIA attributes.
+ *
+ * Inside a `cck-form-field`, the control is described by the hint without your help. A hint without an `id` then gets `<fieldId>-hint-<n>`. Outside a field, give the hint an `id` and list it in the `aria-describedby` of the control.
  *
  * @example
+ * <label for="email">Email address</label>
+ * <input id="email" type="email" aria-describedby="email-hint" />
  * <cck-hint id="email-hint">We only use it for the receipt.</cck-hint>
  * @cckPart root
- * @cckSlot default - The hint text, optionally with an icon.
+ * @cckSlot default - The text of the hint. It can hold an icon too. When not set, the hint is empty.
  */
 @Directive({
   selector: 'cck-hint',

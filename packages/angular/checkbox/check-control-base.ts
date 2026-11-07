@@ -18,17 +18,21 @@ import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
 import { hasChoiceControlName } from '@cocokits/utils';
 
 /**
- * Why the checked value of a checkbox or switch changed: the user toggled it (`'user'`) or the form was
- * reset (`'form-reset'`).
+ * Why the checked value of a checkbox or switch changed.
+ * @cckValue 'user' - The user turned the control on or off.
+ * @cckValue 'form-reset' - The form that holds the control was reset.
  */
 export type CheckControlChangeReason = 'user' | 'form-reset';
 
 /**
- * The `reason` and `event` of a change. The `checkedChangeDetails` output emits them with the `value`.
+ * The `reason` and the `event` of a change. The `checkedChangeDetails` output sends them with the `value`.
  */
 export type CheckControlChangeDetails = ChangeDetails<CheckControlChangeReason>;
 
-/** What a check control needs from its machine: the root, the input, the label and the report for the field. */
+/**
+ * What a check control needs from its machine: the root, the input, the label and the report for the field.
+ * @internal
+ */
 export type CheckControlParts = Pick<CheckboxParts, 'root' | 'input' | 'label'> & FormControlParts;
 
 /**
@@ -43,6 +47,7 @@ export type CheckControlParts = Pick<CheckboxParts, 'root' | 'input' | 'label'> 
  * Not for direct use or extension outside CocoKits: it is exported only because the Checkbox and the Switch are
  * separate entry points and cannot share a relative file. Its members are the members of both components, so
  * changing one weighs as the same change on both.
+ * @internal
  */
 @Directive({
   host: {
@@ -78,49 +83,50 @@ export abstract class CckCheckControlBase extends CckFormControlBase implements 
   protected abstract readonly idPrefix: string;
 
   /**
-   * Whether the control is checked. A nullish value (a reset nullable control, an unset `ngModel`) renders
-   * unchecked and is never echoed back as a change. A one-way `[checked]` diverges from the parent after a
-   * click until the parent sets a new value. A static `checked` attribute does not check the control: write
-   * `[checked]="true"`.
+   * Whether the control is checked. Use `[(checked)]` to read and change it.
+   * @remarks A `null` or `undefined` value shows the control unchecked and emits no change. With a one-way `[checked]`, a click changes the control but not your value. A plain `checked` attribute does not check the control, so write `[checked]="true"`.
    * @defaultValue false
    */
   readonly checked = model(false);
 
   /**
-   * Emits after every toggle the user makes and after a form reset, with the new value and the reason.
-   * Never for a write from the parent or a forms library.
+   * Emits after the user turns the control on or off, and after a form reset. It sends the new `value`, the `reason` and the `event`.
+   * @remarks It never emits when the parent or a forms library changes `checked`.
+   * @example
+   * <!-- A cck-switch takes the same binding. -->
+   * <cck-checkbox (checkedChangeDetails)="onChange($event.value, $event.reason)">Accept the terms</cck-checkbox>
+   * <!-- In the class: onChange(checked: boolean, reason: CheckboxChangeReason) { console.log(checked, reason); } -->
    * @cckSemantic *.checkedChange
    */
   readonly checkedChangeDetails = output<ValueChangeDetails<boolean, CheckControlChangeReason>>();
 
   /**
-   * The `id` of the native input. Inside a field it defaults to `<fieldId>-control`; otherwise it is
-   * generated.
+   * The `id` of the native input. When not set, the input gets `<fieldId>-control` inside a form field, or a generated id outside one.
    */
   readonly id = input<string | undefined>(undefined);
 
   /**
-   * The `aria-label` of the native input.
+   * The accessible name of the native input, as `aria-label`. When not set, the content you write inside the control names it.
    * @cckSemantic *.ariaLabel
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
-   * The `aria-labelledby` of the native input.
+   * The ids of the elements that name the native input, as `aria-labelledby`. When not set, the content you write inside the control names it.
    * @cckSemantic *.ariaLabelledBy
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });
 
   /**
-   * The value `FormData` submits while the control is checked; left out, the browser submits `on`.
+   * The value that `FormData` sends while the control is checked. When not set, the browser sends `on`.
+   * @remarks The name is `submitValue` because Signal Forms does not allow a `value` binding on a control with a `checked` model.
    * @cckSemantic *.value
-   * @remarks Named `submitValue` because Signal Forms rejects a `value` binding on a control with a `checked` model.
    * @cckParity Declared as an input.
    */
   readonly submitValue = input<string | undefined>(undefined);
 
   /**
-   * The id of the form the input belongs to, when it is not inside it (native `form` attribute).
+   * The `id` of the form that the native input belongs to. Use it when the control is outside its form. When not set, the form around the control owns the input.
    * @cckSemantic none
    * @cckParity Declared as an input.
    */

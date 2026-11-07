@@ -3,8 +3,9 @@ import { CckPortal } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * Holds the content of the Popover. The content renders in the overlay container while the Popover is open,
- * and nowhere else; keep one root element in the template. It renders no part.
+ * Holds the content of the popover. The content shows in the overlay container only while the popover is open.
+ *
+ * Keep one root element, the `cck-popover-content`, in the template. The template makes no part of its own.
  *
  * @example
  * <ng-template cckPopoverPortal><cck-popover-content aria-label="Details">...</cck-popover-content></ng-template>

@@ -11,9 +11,11 @@ import {
   type TooltipContentRegistration,
 } from './tooltip-bubble';
 
-/** A point in viewport coordinates, in px. */
+/** A point in the viewport, in pixels. `show()` and `toggle()` take it to place the tooltip at that point. */
 export interface TooltipOrigin {
+  /** The distance from the left edge of the viewport. */
   readonly x: number;
+  /** The distance from the top edge of the viewport. */
   readonly y: number;
 }
 

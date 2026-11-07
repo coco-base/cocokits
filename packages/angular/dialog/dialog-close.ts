@@ -3,15 +3,15 @@ import { afterReplay, bindAttrs, listenLast } from '@cocokits/angular-core';
 import { injectCckDialogRoot } from './dialog-root';
 
 /**
- * A button that closes the Dialog. Place it in the content. It gives no label: write one, or an `aria-label`
- * for an icon-only button. With a value (`[cckDialogClose]="result"`) it closes a dialog opened by
- * `CckDialog` with that result; without one the result is `undefined`.
+ * A button that closes the dialog, on a native `<button>`. Put it inside the content. It gets no label of its own, so write one, or add `aria-label` to a button with only an icon.
  *
  * @example
- * <button cckDialogClose>Cancel</button>
- * <button [cckDialogClose]="project">Save</button>
+ * <dialog cckDialogContent aria-label="Save project">
+ *   <button cckDialogClose type="button">Cancel</button>
+ *   <button [cckDialogClose]="project" type="button">Save</button>
+ * </dialog>
  * @cckPart close
- * @cckSlot default - The button label.
+ * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
  */
 @Directive({
   selector: 'button[cckDialogClose]',
@@ -24,8 +24,7 @@ import { injectCckDialogRoot } from './dialog-root';
 })
 export class CckDialogClose {
   /**
-   * The result a dialog opened by `CckDialog` gives `beforeClosed()` and `afterClosed()`.
-   * @remarks Carries the result of `CckDialog.open`.
+   * The result of a dialog that `CckDialog` opened. `beforeClosed()` and `afterClosed()` emit it. When not set, the result is `undefined`.
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */

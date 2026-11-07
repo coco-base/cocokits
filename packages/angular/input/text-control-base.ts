@@ -35,6 +35,7 @@ type Reason = 'user' | 'form-reset';
  *
  * @typeParam R - The reasons the subclass reports for a change of the value (`InputChangeReason`,
  * `TextareaChangeReason`). Each subclass names its own set, within the base reasons `'user'` and `'form-reset'`.
+ * @internal
  */
 @Directive({
   host: {
@@ -66,22 +67,26 @@ export abstract class CckTextControlBase<R extends Reason = Reason>
   });
 
   /**
-   * The text. A nullish value (a reset nullable control, an unset `ngModel`) renders empty and is never
-   * echoed back as a change.
+   * The text of the control. Use `[(value)]` to read and change it.
+   * @remarks A `null` or `undefined` value shows an empty control and emits no change. With a one-way `[value]`, typing changes the control but not your value.
    * @defaultValue ''
    */
   readonly value = model<string | null | undefined>('');
 
   /**
-   * Emits after every change the user makes and after a form reset, with the new value and the reason.
-   * Never for a write from the parent or a forms library.
+   * Emits after the user changes the text, and after a form reset. It sends the new `value`, the `reason` and the `event`.
+   * @remarks It never emits when the parent or a forms library changes the value.
+   * @example
+   * <!-- A textarea[cckTextarea] takes the same binding. -->
+   * <input cckInput aria-label="Name" (valueChangeDetails)="onChange($event.value, $event.reason)" />
+   * <!-- In the class: onChange(text: string, reason: InputChangeReason) { console.log(text, reason); } -->
    * @cckSemantic *.valueChange
    */
   readonly valueChangeDetails = output<ValueChangeDetails<string, R>>();
 
   /**
-   * The `id`. Inside a field it defaults to `<fieldId>-control`; an explicit value wins and the label
-   * follows it.
+   * The `id` of the control. When not set, the control gets `<fieldId>-control` inside a form field, or no id outside one.
+   * @remarks Inside a form field, the label of the field points at your id.
    */
   readonly id = input<string | undefined>(undefined);
 

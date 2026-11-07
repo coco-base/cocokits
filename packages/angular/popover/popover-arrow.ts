@@ -3,17 +3,19 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * The pointer from the content to the trigger: a decorative element that holds a triangle `svg`. Put it on
- * the `cck-popover-arrow` tag inside `cck-popover-content`. CocoKits places it on the
- * content edge that faces the anchor, centred on the anchor and turned to point at it, and adds its height to
- * the gap between the anchor and the content. It gets the native `hidden` attribute while it cannot point at
- * the anchor (the content has shifted along the edge). Children replace the triangle and must be SVG
- * elements, such as a `polygon`. An element that is not an HTML element, such as an `svg`, is not hidden by `hidden`: hide it with CSS.
+ * A small triangle that points from the content to the anchor. It is only for the look. Put it inside the `cck-popover-content`.
+ *
+ * The arrow sits on the edge of the content that faces the anchor, and points at the anchor. Its height adds to the gap between the anchor and the content.
+ *
+ * When the content moves too far along its edge, the arrow cannot point at the anchor, and it gets `hidden`. The `hidden` attribute does not hide an `svg`, so hide that with CSS.
  *
  * @example
- * <cck-popover-content aria-label="Share"><cck-popover-arrow></cck-popover-arrow>Anyone with the link can view.</cck-popover-content>
+ * <cck-popover-content aria-label="Share this page">
+ *   <cck-popover-arrow></cck-popover-arrow>
+ *   Anyone with the link can view it.
+ * </cck-popover-content>
  * @cckPart arrow
- * @cckSlot default - Replaces the triangle with SVG shapes.
+ * @cckSlot default - Your own SVG shapes, like a `polygon`, in place of the triangle. When not set, the arrow shows a triangle.
  */
 @Component({
   selector: 'cck-popover-arrow',

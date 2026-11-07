@@ -53,24 +53,29 @@ const toText = (value: string | number | null | undefined): string => (value == 
 const toDelay = (value: unknown): number | undefined => (value == null ? undefined : numberAttribute(value));
 
 /**
- * A Tooltip. Put `cckTooltip="Copy link"` on the focusable element: the host is the trigger, the message is
- * what the bubble shows and the text that describes the trigger. For rich content use the compound form on an
- * `ng-container`: `cckTooltipTrigger`, an `ng-template` with `cckTooltipPortal` and `cck-tooltip-content`; the
- * message then is only the description. It opens after `cckTooltipShowDelay` on a mouse or pen hover and at
- * once on keyboard focus (touch never opens it), and closes after `cckTooltipHideDelay` when the pointer leaves,
- * on blur, Escape, a press on the trigger and when an ancestor of the trigger scrolls. With a message the
- * trigger is described by a hidden copy of it, also while closed (after hydration).
+ * A short text that shows when the user points at or focuses an element. Put `cckTooltip="Copy link"` on a focusable element. That element is the trigger, and the text describes it.
+ *
+ * For rich content, put the root on an `ng-container`. Inside it, write a `cckTooltipTrigger`, and a `cckTooltipPortal` template with a `cck-tooltip-content`. The text of `cckTooltip` then only describes the trigger.
+ *
+ * The tooltip opens after `cckTooltipShowDelay` on a mouse or pen hover, and at once on keyboard focus. A touch never opens it. It closes after `cckTooltipHideDelay` when the pointer leaves, and at once on blur, Escape, a press on the trigger or a scroll.
+ *
+ * @remarks With a text, the trigger is described by a hidden copy of the text, also while the tooltip is closed.
  *
  * @example
- * <button cckTooltip="Copy link">Copy</button>
+ * <button cckTooltip="Copy link" type="button">Copy</button>
  * @example
  * <ng-container cckTooltip="Copy link">
- *   <button cckTooltipTrigger>Copy</button>
- *   <ng-template cckTooltipPortal><cck-tooltip-content><b>Copy</b> the link</cck-tooltip-content></ng-template>
+ *   <button cckTooltipTrigger type="button">Copy</button>
+ *   <ng-template cckTooltipPortal>
+ *     <cck-tooltip-content side="bottom">
+ *       <cck-tooltip-arrow></cck-tooltip-arrow>
+ *       <b>Copy</b> the link
+ *     </cck-tooltip-content>
+ *   </ng-template>
  * </ng-container>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The trigger and the portal template of the compound form.
+ * @cckSlot default - The trigger and the `cckTooltipPortal` template of the rich form. When not set, the element with `cckTooltip` is the trigger.
  */
 @Directive({
   selector: '[cckTooltip]',
@@ -79,14 +84,14 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
 })
 export class CckTooltip {
   /**
-   * The text of the tooltip, trimmed. In the one-attribute form it is shown and describes the trigger; an empty
-   * message shows nothing. In the compound form it only describes the trigger, and the template is shown.
+   * The text of the tooltip. Spaces at the start and the end are removed. When not set, the tooltip shows nothing and describes nothing.
+   * @remarks In the rich form, the text only describes the trigger, and the template shows.
    * @cckSemantic tooltip.content.aria-label
    */
   readonly message = input('', { alias: 'cckTooltip', transform: toText });
 
   /**
-   * Milliseconds between a mouse or pen hover and the tooltip showing. Keyboard focus shows it at once.
+   * How long the tooltip waits to show after a mouse or pen hover, in milliseconds. Keyboard focus shows it at once.
    * @defaultValue 0, from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @cckSemantic tooltip.delay
    * @cckDefaultDiffers The delay belongs to the defaults token.
@@ -97,8 +102,8 @@ export class CckTooltip {
   });
 
   /**
-   * Milliseconds between the pointer leaving the trigger and the content and the tooltip hiding. At least
-   * 100 ms apply while the content is hoverable, so the pointer can cross the gap to the content.
+   * How long the tooltip waits to hide after the pointer leaves, in milliseconds.
+   * @remarks While the pointer can move onto the content, the wait is at least 100 milliseconds. So the pointer can cross the gap.
    * @defaultValue 0, from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -109,36 +114,33 @@ export class CckTooltip {
   });
 
   /**
-   * Whether the tooltip never opens. A disabled tooltip is closed, hides at once when it is turned on while
-   * shown, and has no description.
+   * Whether the tooltip never opens. A shown tooltip hides at once when it becomes disabled. A disabled tooltip describes nothing.
    * @defaultValue false
    * @cckSemantic tooltip.disabled
    */
   readonly disabled = input(false, { alias: 'cckTooltipDisabled', transform: booleanAttribute });
 
   /**
-   * The side of the trigger the bubble prefers in the one-attribute form. `start` and `end` follow the
-   * direction; it flips when there is no room.
+   * The side of the trigger where the tooltip prefers to open. `start` and `end` follow the text direction. The tooltip opens on the other side when there is no room.
    * @defaultValue 'top', from `CCK_TOOLTIP_DEFAULT_OPTIONS`
-   * @remarks The compound form sets it on the content part.
+   * @remarks In the rich form, set `side` on the `cck-tooltip-content`.
    * @cckSemantic none
    * @cckParity Only the one-attribute form has it.
    */
   readonly side = input<TooltipSide | undefined>(undefined, { alias: 'cckTooltipSide' });
 
   /**
-   * How the bubble lines up along the trigger's edge in the one-attribute form.
+   * How the tooltip lines up with the edge of the trigger.
    * @defaultValue 'center', from `CCK_TOOLTIP_DEFAULT_OPTIONS`
-   * @remarks The compound form sets it on the content part.
+   * @remarks In the rich form, set `align` on the `cck-tooltip-content`.
    * @cckSemantic none
    * @cckParity Only the one-attribute form has it.
    */
   readonly align = input<TooltipAlign | undefined>(undefined, { alias: 'cckTooltipAlign' });
 
   /**
-   * Whether a tooltip the pointer opens is placed against the point where the pointer entered the trigger,
-   * not against the trigger box. Opened by keyboard focus or by `show()` without an origin, it is placed
-   * against the trigger.
+   * Whether a tooltip that the pointer opens shows at the point where the pointer entered the trigger. A tooltip that keyboard focus opens still shows at the trigger.
+   * @remarks `show()` without a point also places the tooltip at the trigger.
    * @defaultValue false, from `CCK_TOOLTIP_DEFAULT_OPTIONS`
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -149,9 +151,8 @@ export class CckTooltip {
   });
 
   /**
-   * Whether Escape and an outside press keep the tooltip open. Pointer leave, blur, a press on the trigger and
-   * a scroll still close it. Refusing Escape leaves the tooltip undismissable by keyboard, which fails WCAG 1.4.13
-   * (Content on Hover or Focus) unless the content can be dismissed another way; that is your choice to make.
+   * Whether Escape and a press outside keep the tooltip open. The pointer leaving, a blur, a press on the trigger and a scroll still close it.
+   * @remarks Without Escape, a keyboard user cannot hide the tooltip. That fails WCAG 1.4.13, unless the user can hide it another way.
    * @defaultValue false
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -159,16 +160,16 @@ export class CckTooltip {
   readonly disableClose = input(false, { transform: booleanAttribute });
 
   /**
-   * The id of the trigger in the one-attribute form; it wins over the generated one and follows changes.
-   * @remarks Does nothing on a compound root; the trigger part takes it.
+   * The `id` of the trigger. When not set, the trigger gets a generated id.
+   * @remarks In the rich form, it does nothing; set `id` on the `cckTooltipTrigger`.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
   readonly id = input<string | null | undefined>(null);
 
   /**
-   * The ids that describe the trigger in the one-attribute form; the tooltip adds its own to them.
-   * @remarks Does nothing on a compound root; the trigger part takes it.
+   * The ids of the elements that describe the trigger. The tooltip adds its own id after them. When not set, only the tooltip describes the trigger.
+   * @remarks In the rich form, it does nothing; set it on the `cckTooltipTrigger`.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
@@ -368,11 +369,12 @@ export class CckTooltip {
   }
 
   /**
-   * Shows the tooltip after `delay`. Does nothing while disabled, with nothing to show or while it is shown;
-   * otherwise it replaces a pending change.
+   * Shows the tooltip after `delay`. It does nothing while the tooltip is disabled, empty or shown. It replaces a show or hide that is still waiting.
    *
-   * @param delay - Milliseconds to wait. @defaultValue the show delay
-   * @param origin - The point in viewport coordinates the tooltip is placed against with `cckTooltipPositionAtOrigin`; without it the tooltip is placed against the trigger.
+   * @param delay - How long to wait, in milliseconds. When not set, it waits the show delay.
+   * @param origin - The point where the tooltip shows, with `cckTooltipPositionAtOrigin`. When not set, the tooltip shows at the trigger.
+   * @example
+   * <button cckTooltip="Copy link" #tip="cckTooltip" type="button" (focus)="tip.show(0)">Copy</button>
    * @cckParity Opens the tooltip with `show()`; there is no open state to bind.
    * @cckSemantic none
    */
@@ -384,9 +386,11 @@ export class CckTooltip {
   }
 
   /**
-   * Hides the tooltip after `delay`, and replaces a pending change.
+   * Hides the tooltip after `delay`. It replaces a show or hide that is still waiting.
    *
-   * @param delay - Milliseconds to wait. @defaultValue the hide delay
+   * @param delay - How long to wait, in milliseconds. When not set, it waits the hide delay.
+   * @example
+   * <button cckTooltip="Copy link" #tip="cckTooltip" type="button" (click)="tip.hide(0)">Copy</button>
    * @cckParity Closes the tooltip with `hide()`; there is no open state to bind.
    * @cckSemantic none
    */
@@ -395,9 +399,11 @@ export class CckTooltip {
   }
 
   /**
-   * Hides the tooltip when it is shown, else shows it.
+   * Hides the tooltip when it is shown, and shows it when it is hidden.
    *
-   * @param origin - The point `show` takes, used when the tooltip is shown.
+   * @param origin - The point that `show()` takes, when the tooltip shows.
+   * @example
+   * <button cckTooltip="Copy link" #tip="cckTooltip" type="button" (click)="tip.toggle()">Copy</button>
    * @cckParity Switches the tooltip with `toggle()`; there is no open state to bind.
    * @cckSemantic none
    */

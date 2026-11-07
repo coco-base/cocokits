@@ -2,14 +2,14 @@ import { Directive } from '@angular/core';
 import { CckButtonBase } from './button-base';
 
 /**
- * The Button root on a native `<button>`. It renders the `cck-button` class, a static
- * `type="button"` (a consumer's static `type="submit"` or `"reset"` wins) and `data-disabled`;
- * the theme styles it. An icon-only button needs `aria-label` or `aria-labelledby`.
+ * A button on a native `<button>`. Its `type` is `button` unless you write `type="submit"` or `type="reset"`. The theme gives it its look.
+ *
+ * A button with only an icon needs `aria-label` or `aria-labelledby`.
  *
  * @example
  * <button cckButton (click)="save()">Save</button>
  * @cckPart root
- * @cckSlot default - The button label, as written.
+ * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
  * @cckDataAttr data-disabled - present when disabled
  */
 @Directive({

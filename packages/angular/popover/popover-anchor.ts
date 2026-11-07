@@ -3,17 +3,19 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * An optional element the content is placed against instead of the trigger. Put it on any element inside the
- * root. It has no role and no ARIA: it only changes where the content goes. The trigger keeps `aria-expanded`
- * and gets focus back, and only the trigger and the content count as inside for an outside press.
+ * An element that the content lines up with, in place of the trigger. Put the attribute on any element inside the root. It only changes where the content shows.
+ *
+ * The anchor has no role and no ARIA attributes. The trigger keeps `aria-expanded` and gets the focus back. A press on the anchor still counts as a press outside.
  *
  * @example
- * <div cckPopoverAnchor>
- *   <button cckPopoverTrigger>Share</button>
- * </div>
+ * <ng-container cckPopover>
+ *   <div cckPopoverAnchor>
+ *     <button cckPopoverTrigger type="button">Share</button>
+ *   </div>
+ * </ng-container>
  * @cckPart anchor
- * @cckSlot default - Anything.
- * @remarks With several anchors the last one mounted is used.
+ * @cckSlot default - Any content. When not set, the anchor is empty.
+ * @remarks With more than one anchor, the content lines up with the last one.
  * @cckParity Places the content against an element only; there is no virtual anchor.
  */
 @Directive({

@@ -1,8 +1,9 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
- * The markup of a trigger, instead of the `label` text: put an `ng-template` first inside a `cck-tab`. The
- * trigger renders it inside its label, and carries `data-selected` for styling, so the template has no context.
+ * Your own markup for the trigger of a tab, in place of the `label` text. Put the `ng-template` first inside a `cck-tab`.
+ *
+ * The trigger shows the template inside its label. The template gets no context. To style the selected tab, use `data-selected` on the trigger.
  *
  * @example
  * <cck-tab>

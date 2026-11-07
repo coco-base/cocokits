@@ -24,38 +24,40 @@ import {
 import { shouldFocusControl } from '@cocokits/utils';
 
 /**
- * Lays out a label, a control, its zones and its hints in fixed places: the label first; inside the
- * wrapper the leading zone, then the input wrapper (prefix, control, suffix), then the trailing zone;
- * the hints and the field errors last.
+ * Places a label, one control, its extra content, hints and errors in fixed places. The order you write them in does not matter.
  *
- * The places, not the order the author writes things, fix the order. A click on the input wrapper (its
- * padding, a prefix or a suffix) focuses the control, unless it lands on interactive content, on a
- * disabled control or after selecting text. With a CocoKits control (the
- * Input or the Textarea) inside, the field works out the ids: the control gets `<fieldId>-control`, the label's
- * `for` points at it, and the control's `aria-describedby` ends with the ids of its hints, then of its errors
- * (a hint or error without an `id` gets `<fieldId>-hint-<n>` or `<fieldId>-error-<n>`). Set `id` on the field to choose the `<fieldId>` part. The field state props
- * (`disabled`, `readonly`, `required`, `invalid`) reach the control, and the control's own state
- * reaches the field root as `data-*` facts. A native or third-party control gets no defaults: give it
- * an `id`, the label a matching `for`, and the control its own `aria-describedby`.
+ * The label comes first. Then come the leading content, the box with the prefix, the control and the suffix, and the trailing content. The hints and the errors come last.
+ *
+ * A click in the box focuses the control. This does not happen on interactive content, on a disabled control or after the user selects text.
+ *
+ * @remarks With a CocoKits control inside, the field links the parts for you. The control gets the id `<fieldId>-control`, and the label points at it. The control is described by the hints, then by the errors. Set `id` on the field to choose `<fieldId>`.
+ *
+ * The `disabled`, `readonly`, `required` and `invalid` inputs of the field reach the control. The state of the control shows on the field as `data-*` attributes.
+ *
+ * A native or third-party control gets none of this. Give it an `id`, give the label a matching `for`, and give the control its own `aria-describedby`.
  *
  * @example
  * <cck-form-field>
- *   <label cckLabel>Email address</label>
- *   <input cckInput type="email" />
- *   <cck-hint>We only use it for the receipt.</cck-hint>
+ *   <label cckLabel>Amount</label>
+ *   <span cckPrefix>€</span>
+ *   <input cckInput type="number" required />
+ *   <span cckSuffix>.00</span>
+ *   <button cckTrailing type="button">Max</button>
+ *   <cck-hint>You can send up to 500 euros.</cck-hint>
+ *   <cck-field-error>Enter an amount.</cck-field-error>
  * </cck-form-field>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
  * @cckPart feedbackWrapper
- * @cckSlot label [cckLabel] - The label of the control.
- * @cckSlot default - The control.
- * @cckSlot leading [cckLeading] - Content outside the box, before it.
- * @cckSlot prefix [cckPrefix] - Content inside the box, before the control.
- * @cckSlot suffix [cckSuffix] - Content inside the box, after the control.
- * @cckSlot trailing [cckTrailing] - Content outside the box, after it.
- * @cckSlot hint cck-hint - The hints.
- * @cckSlot error cck-field-error - The field errors, after the hints.
+ * @cckSlot label [cckLabel] - The label of the control. When not set, the field shows no label, so name the control another way.
+ * @cckSlot default - The control. When not set, the field has no control.
+ * @cckSlot leading [cckLeading] - Content outside the box, before it. When not set, nothing shows there.
+ * @cckSlot prefix [cckPrefix] - Content inside the box, before the control. When not set, nothing shows there.
+ * @cckSlot suffix [cckSuffix] - Content inside the box, after the control. When not set, nothing shows there.
+ * @cckSlot trailing [cckTrailing] - Content outside the box, after it. When not set, nothing shows there.
+ * @cckSlot hint cck-hint - The hints. When not set, the field shows no hint.
+ * @cckSlot error cck-field-error - The errors, after the hints. When not set, the field shows no error.
  */
 @Component({
   selector: 'cck-form-field',
@@ -117,45 +119,44 @@ export class CckFormField {
   private readonly inputWrapper = viewChild<ElementRef<HTMLElement>>('inputWrapper');
 
   /**
-   * The id of the field, reflected to the host. Without it the host renders no `id` and a generated one
-   * is used. The control id is `<id>-control` and the feedback wrapper id `<id>-feedback`.
+   * The `id` of the field. The ids of the parts start with it, like `<id>-control` for the control. When not set, the host gets no `id`, and the parts use a generated id.
    */
   readonly id = input<string | undefined>(undefined);
 
   /**
-   * Whether the field disables its control. The control's own `disabled` adds to it; neither can turn the
-   * other off.
+   * Whether the user cannot use the control. The control can also be disabled on its own.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field makes its control read-only.
+   * Whether the control is read-only. The user can focus it but cannot change it.
    * @cckSemantic form-field.readOnly
    * @defaultValue false
    */
   readonly readonly = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field makes its control required and shows the label's required marker.
+   * Whether the control needs a value. The label then shows its required marker.
    * @defaultValue false
    */
   readonly required = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field marks its control invalid.
+   * Whether the value of the control is not valid.
    * @defaultValue false
    */
   readonly invalid = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the label's required marker is hidden. It does not change `required`.
+   * Whether the required marker of the label is hidden. It does not change `required`.
    * @defaultValue false
    */
   readonly hideRequiredMarker = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field root is hidden. It is also hidden while its control is.
+   * Whether the field is hidden with the native `hidden` attribute. The field also hides while its control is hidden, which Signal Forms sets through `[formField]`.
+   * @cckGroup forms
    * @cckSemantic none
    * @cckParity Declared as an input.
    * @defaultValue false

@@ -54,27 +54,33 @@ export interface PopoverContentRegistration {
 /** Why the open state of a Popover changed. */
 export type PopoverOpenChangeReason = PopoverChangeReason;
 
-/** What `opened`, `closed` and `closePredicate` of a Popover receive: why the change happened and the event behind it. */
+/** What `opened`, `closed` and `closePredicate` receive: the `reason` of the change and the `event` behind it. */
 export type PopoverChangeDetails = ChangeDetails<PopoverOpenChangeReason>;
 
 /**
- * The root of a Popover: it renders no element, it holds the open state and connects the trigger, the
- * content and the Close button. The content is declared in a `cckPopoverPortal` template and rendered in
- * the overlay container, not next to the trigger. It is non-modal: focus moves into it on open and back to
- * the trigger on Escape, Close or an outside press on empty space (unless `restoreFocus` is `false`); Tab past either end leaves it and closes it.
+ * A panel that opens next to a button and does not block the page. Put the root on an `ng-container`; it makes no element. It holds the open state and links the trigger, the content and the close button.
+ *
+ * You write the content in a `cckPopoverPortal` template. It shows in the overlay container, not next to the trigger.
+ *
+ * On open, the focus moves into the content. Escape, the close button and a press outside close it, and the focus goes back to the trigger. Tab past the first or last element also closes it.
  *
  * @example
  * <ng-container cckPopover [(open)]="shared">
- *   <button cckPopoverTrigger>Share</button>
+ *   <div cckPopoverAnchor>
+ *     <button cckPopoverTrigger type="button">Share</button>
+ *   </div>
  *   <ng-template cckPopoverPortal>
- *     <cck-popover-content aria-label="Share this page">
- *       <button cckPopoverClose>Close</button>
+ *     <cck-popover-content side="top">
+ *       <cck-popover-arrow></cck-popover-arrow>
+ *       <h2 cckPopoverTitle>Share this page</h2>
+ *       <cck-popover-description>Anyone with the link can view it.</cck-popover-description>
+ *       <button cckPopoverClose type="button">Close</button>
  *     </cck-popover-content>
  *   </ng-template>
  * </ng-container>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The trigger and the portal template.
+ * @cckSlot default - The trigger and the `cckPopoverPortal` template. When not set, there is nothing to open.
  */
 @Directive({
   selector: '[cckPopover]',
@@ -83,51 +89,72 @@ export type PopoverChangeDetails = ChangeDetails<PopoverOpenChangeReason>;
 })
 export class CckPopover {
   /**
-   * Whether the content is open. Two-way, one-way (the start value) or unbound.
-   * @remarks The model output `openChange` emits the new value when the popover changes itself. `opened` and `closed` emit the reason, for the content's own changes only.
+   * Whether the content is open. Use `[(open)]` to read and change it.
+   * @remarks `openChange` emits the new value when the popover opens or closes itself. `opened` and `closed` also send the reason.
    * @defaultValue false
    */
   readonly open = model(false);
 
   /**
-   * Whether Escape, an outside press and focus leaving keep the popover open. The check runs first, before
-   * `closePredicate`, `open` and `closed`; Close, the trigger and a write from the parent still close.
-   * Disabling these closes weakens the pattern: keep a Close button, so a keyboard user can leave.
+   * Whether Escape, a press outside and a focus leave keep the popover open. The close button, the trigger and a change from the parent still close it.
+   * @remarks It runs before `closePredicate`. Keep a close button, so a keyboard user can still leave.
    * @defaultValue false
    * @cckParity Only this framework has this member.
    * @cckSemantic none
-   * @see https://github.com/angular/components/blob/main/src/cdk/overlay/overlay-directives.ts cdkConnectedOverlayDisableClose
    */
   readonly disableClose = input(false, { transform: booleanAttribute });
 
   /**
-   * Decides, for every close the popover makes itself (Close, the trigger, Escape, an outside press, focus
-   * leaving), whether it happens: `false` keeps the popover open. It runs after `disableClose`. A write to
-   * `open` from the parent is never checked.
+   * A function that decides whether a close that the popover starts happens. Return `false` to keep it open. When not set, every close happens.
+   * @remarks It runs for the close button, the trigger, Escape, a press outside and a focus leave, after `disableClose`. It does not run when the parent changes `open`.
+   * @example
+   * <ng-container cckPopover [closePredicate]="canClose">
+   *   <button cckPopoverTrigger type="button">Share</button>
+   *   <ng-template cckPopoverPortal>
+   *     <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   *   </ng-template>
+   * </ng-container>
+   * <!-- In the class: canClose = (details: PopoverChangeDetails) => details.reason !== 'outside-press'; -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly closePredicate = input<((details: PopoverChangeDetails) => boolean) | undefined>(undefined);
 
   /**
-   * Whether focus returns to the trigger when the popover closes.
+   * Whether the focus goes back to the trigger when the popover closes.
    * @defaultValue true
    * @cckParity Only this framework has this member.
    * @cckSemantic none
-   * @see https://github.com/angular/components/blob/main/src/material/menu/menu-trigger.ts matMenuTriggerRestoreFocus
    */
   readonly restoreFocus = input(true, { transform: booleanAttribute });
 
   /**
-   * Emits after the popover opens by itself (the trigger), with the reason and the event. Never for a write from the parent.
+   * Emits after the user opens the popover with the trigger. It sends the `reason` and the `event`.
+   * @remarks It never emits when the parent changes `open`.
+   * @example
+   * <ng-container cckPopover (opened)="onOpen($event)">
+   *   <button cckPopoverTrigger type="button">Share</button>
+   *   <ng-template cckPopoverPortal>
+   *     <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   *   </ng-template>
+   * </ng-container>
+   * <!-- In the class: onOpen(details: PopoverChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly opened = output<PopoverChangeDetails>();
 
   /**
-   * Emits after the popover closes by itself (Close, the trigger, Escape, an outside press, focus leaving), with the reason and the event.
-   * Never for a write from the parent.
+   * Emits after the popover closes itself. It sends the `reason` and the `event`.
+   * @remarks The close button, the trigger, Escape, a press outside and a focus leave close it. It never emits when the parent changes `open`.
+   * @example
+   * <ng-container cckPopover (closed)="onClose($event)">
+   *   <button cckPopoverTrigger type="button">Share</button>
+   *   <ng-template cckPopoverPortal>
+   *     <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   *   </ng-template>
+   * </ng-container>
+   * <!-- In the class: onClose(details: PopoverChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */

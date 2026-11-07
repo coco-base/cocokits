@@ -1,10 +1,9 @@
 import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
- * The lazy content of a tab: put an `ng-template` inside a `cck-tab`. Its content is created the first time the
- * tab is selected and destroyed when the tab is left, unless `preserveContent` keeps it. Content written
- * directly inside the `cck-tab` is created with the tab and only attached to the page while the tab is
- * selected.
+ * Content of a tab that is made only when the tab is selected. Put the `ng-template` inside a `cck-tab`.
+ *
+ * The content is made the first time the tab is selected. It is removed when the user leaves the tab, unless `preserveContent` is set. Content you write directly inside the `cck-tab` is made with the tab, and shows only while the tab is selected.
  *
  * @example
  * <cck-tab label="Report">

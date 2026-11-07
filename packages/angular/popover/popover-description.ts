@@ -3,13 +3,14 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * The text that describes the Popover. The content is described by it with `aria-describedby` while it is
- * mounted.
+ * The text that describes the popover. While it is on the page, the content points at it with `aria-describedby`.
  *
  * @example
- * <cck-popover-description>Anyone with the link can view it.</cck-popover-description>
+ * <cck-popover-content aria-label="Share this page">
+ *   <cck-popover-description>Anyone with the link can view it.</cck-popover-description>
+ * </cck-popover-content>
  * @cckPart description
- * @cckSlot default - The description text.
+ * @cckSlot default - The text of the description. When not set, the description is empty.
  */
 @Directive({
   selector: 'cck-popover-description',

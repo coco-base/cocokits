@@ -3,15 +3,16 @@ import { bindAttrs, mergeIds } from '@cocokits/angular-core';
 import { injectCckTooltip } from './tooltip';
 
 /**
- * Marks the focusable element a compound Tooltip describes. Put it on any focusable element: a `button`, or
- * another component by adding the directive next to it. Its `aria-describedby` names the hidden description
- * when the root has a message, else the content while it is mounted. A disabled button cannot be focused, so it
- * never shows the tooltip; put the trigger on a focusable wrapper around it.
+ * The element that the tooltip describes, in the rich form. Put the attribute on any focusable element, also next to the attribute of another component.
+ *
+ * The trigger is described by the text of `cckTooltip`, or by the content while it shows. A disabled button cannot get the focus, so it never shows a tooltip. Put the trigger on a focusable element around it.
  *
  * @example
- * <button cckTooltipTrigger aria-label="Copy link">...</button>
+ * <ng-container cckTooltip="Copy link">
+ *   <button cckTooltipTrigger type="button" aria-label="Copy">…</button>
+ * </ng-container>
  * @cckPart trigger
- * @cckSlot default - The trigger content.
+ * @cckSlot default - The content of the trigger. When not set, the trigger is empty, so name it with `aria-label`.
  * @cckDataAttr data-state - `open` or `closed`
  */
 @Directive({
@@ -31,14 +32,14 @@ import { injectCckTooltip } from './tooltip';
 })
 export class CckTooltipTrigger {
   /**
-   * The id of the trigger; it wins over the generated one and follows changes.
+   * The `id` of the trigger. When not set, the trigger gets a generated id.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */
   readonly id = input<string | null | undefined>(null);
 
   /**
-   * The ids that describe the trigger; the tooltip adds its own to them.
+   * The ids of the elements that describe the trigger. The tooltip adds its own id after them. When not set, only the tooltip describes the trigger.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */

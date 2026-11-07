@@ -3,18 +3,19 @@ import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckTooltip } from './tooltip';
 
 /**
- * The pointer from the content to the trigger: a decorative element that holds a triangle `svg`. Put it on
- * the `cck-tooltip-arrow` tag inside `cck-tooltip-content`; the one-attribute form has no
- * content template to hold it. CocoKits places it on the content edge that faces the trigger, centred on the
- * trigger and turned to point at it, and adds its height to the gap between the trigger and the content. It
- * gets the native `hidden` attribute while it cannot point at the trigger (the content has shifted along the
- * edge). Children replace the triangle and must be SVG elements, such as a `polygon`. An element that is not
- * an HTML element, such as an `svg`, is not hidden by `hidden`: hide it with CSS.
+ * A small triangle that points from the content to the trigger. It is only for the look. Put it inside the `cck-tooltip-content` of the rich form.
+ *
+ * The arrow sits on the edge of the content that faces the trigger, and points at the trigger. Its height adds to the gap between the trigger and the content.
+ *
+ * When the content moves too far along its edge, the arrow cannot point at the trigger, and it gets `hidden`. The `hidden` attribute does not hide an `svg`, so hide that with CSS.
  *
  * @example
- * <cck-tooltip-content><cck-tooltip-arrow></cck-tooltip-arrow>Copy link</cck-tooltip-content>
+ * <cck-tooltip-content>
+ *   <cck-tooltip-arrow></cck-tooltip-arrow>
+ *   Copy link
+ * </cck-tooltip-content>
  * @cckPart arrow
- * @cckSlot default - Replaces the triangle with SVG shapes.
+ * @cckSlot default - Your own SVG shapes, like a `polygon`, in place of the triangle. When not set, the arrow shows a triangle.
  */
 @Component({
   selector: 'cck-tooltip-arrow',
