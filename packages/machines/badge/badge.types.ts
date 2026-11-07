@@ -1,10 +1,13 @@
 /** Inputs of `getBadgeProps`. */
 export interface BadgeProps {
-  /** The count or text to show. `null`, `undefined`, `""` and the number `0` show an empty badge. */
+  /**
+   * The count or the text to show. When not set, the badge is empty.
+   * @remarks `null`, an empty string and the number `0` also show an empty badge.
+   */
   readonly content?: number | string | null | undefined;
   /**
-   * The largest count shown. A numeric content above it shows this value and a `+`.
-   * Unset or `0` never truncates.
+   * The largest count to show. A larger count shows this value and a `+`. When not set, or when `0`, every count
+   * shows in full.
    */
   readonly max?: number | undefined;
   /**
