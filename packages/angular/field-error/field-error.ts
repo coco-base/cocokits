@@ -1,12 +1,4 @@
-import {
-  Component,
-  HostAttributeToken,
-  ViewEncapsulation,
-  booleanAttribute,
-  computed,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, booleanAttribute, computed, inject, input } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-error';
@@ -31,7 +23,7 @@ import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class]': 'parts().root.class',
-    '[attr.id]': 'id() || null',
+    '[attr.id]': 'renderedId() || null',
     '[attr.aria-live]': 'parts().root["aria-live"]',
   },
   template: `
@@ -41,11 +33,18 @@ import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-
   `,
 })
 export class CckFieldError {
+  /**
+   * The `id` of the error. A bound id can change, and the control description follows it. When not set, the error gets `<fieldId>-error-<n>` inside a `cck-form-field`, or no id outside one.
+   * @cckSemantic none
+   * @cckParity Declared as an input; the directive forwards it to the element.
+   */
+  readonly id = input<string | undefined>(undefined);
+
   private readonly field = inject(CckFormField, { optional: true });
-  private readonly ownId = inject(new HostAttributeToken('id'), { optional: true }) ?? undefined;
 
   /** The id of the host: the author's, or the one the field gives it (`<fieldId>-error-<n>`). */
-  protected readonly id = this.field?._registerPart('errors', this.ownId) ?? computed(() => this.ownId);
+  protected readonly renderedId =
+    this.field?._registerPart('errors', inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, this.id) ?? this.id;
 
   /**
    * Whether the message always shows, whatever the state of the field is.

@@ -3,12 +3,14 @@ import {
   DestroyRef,
   ElementRef,
   ViewEncapsulation,
+  afterEveryRender,
   booleanAttribute,
   computed,
   inject,
   input,
   signal,
   viewChild,
+  untracked,
   type Signal,
   type WritableSignal,
 } from '@angular/core';
@@ -21,7 +23,21 @@ import {
   type FormFieldControlState,
   type FormFieldOwnFacts,
 } from '@cocokits/machines/form-field';
-import { shouldFocusControl } from '@cocokits/utils';
+import { shouldFocusControl, sortByDomOrder } from '@cocokits/utils';
+
+/** A Hint or a FieldError the field lists: its host element, for the document order, and the author's id. */
+interface FieldPart {
+  readonly element: HTMLElement;
+  readonly ownId: Signal<string | undefined>;
+}
+
+type FieldPartKind = 'hints' | 'errors';
+
+/** The parts in document order; a part that is not in the page yet keeps its place at the end. */
+const inDomOrder = (parts: readonly FieldPart[]): readonly FieldPart[] => {
+  const byElement = new Map(parts.map((part) => [part.element, part]));
+  return sortByDomOrder(parts.map((part) => part.element)).flatMap((element) => byElement.get(element) ?? []);
+};
 
 /**
  * Places a label, one control, its extra content, hints and errors in fixed places. The order you write them in does not matter.
@@ -109,11 +125,10 @@ import { shouldFocusControl } from '@cocokits/utils';
 export class CckFormField {
   private readonly generatedId = inject(IdGenerator).getId(formFieldAnatomy.classes.root);
   private readonly reported = signal<Signal<FormFieldControlState> | undefined>(undefined);
-  private readonly partIds: Record<'hints' | 'errors', WritableSignal<readonly (string | undefined)[]>> = {
+  private readonly registered: Record<FieldPartKind, WritableSignal<readonly FieldPart[]>> = {
     hints: signal([]),
     errors: signal([]),
   };
-  private readonly entries: Record<'hints' | 'errors', object[]> = { hints: [], errors: [] };
   private owner: object | undefined;
   private controlElement: (() => HTMLElement | null | undefined) | null = null;
   private readonly inputWrapper = viewChild<ElementRef<HTMLElement>>('inputWrapper');
@@ -183,31 +198,34 @@ export class CckFormField {
    * @internal
    */
   readonly _ids = computed(() => {
-    const ids = formFieldIds(this._fieldId(), { hints: this.partIds.hints(), errors: this.partIds.errors() });
+    const ownIds = (kind: FieldPartKind): (string | undefined)[] => this.registered[kind]().map((part) => part.ownId());
+    const ids = formFieldIds(this._fieldId(), { hints: ownIds('hints'), errors: ownIds('errors') });
     return { ...ids, label: this._labelId() ?? ids.label };
   });
 
   /**
-   * Registers a Hint or a FieldError in document order. Call it in the part's injection context. The control's
-   * `aria-describedby` lists the ids of the registered parts: hints first, then errors.
+   * Registers a Hint or a FieldError. Call it in the part's injection context. The control's `aria-describedby`
+   * lists the ids of the registered parts: hints first, then errors, each in document order. A part that `@if` or
+   * `@for` adds later takes its document place after the next render.
    *
    * @param kind - `hints` for a Hint, `errors` for a FieldError.
-   * @param ownId - The `id` the author wrote on the part, if any.
+   * @param element - The host element of the part.
+   * @param ownId - The `id` the author gives the part; an empty or missing id gets a generated one.
    * @returns The id the part renders: the author's, or `<fieldId>-hint-<n>` / `<fieldId>-error-<n>`.
    * @internal
    */
-  _registerPart(kind: 'hints' | 'errors', ownId: string | undefined): Signal<string | undefined> {
-    const list = this.partIds[kind];
-    const token = {};
-    const entries = this.entries[kind];
-    entries.push(token);
-    list.update((ids) => [...ids, ownId]);
+  _registerPart(
+    kind: FieldPartKind,
+    element: HTMLElement,
+    ownId: Signal<string | undefined>,
+  ): Signal<string | undefined> {
+    const list = this.registered[kind];
+    const part: FieldPart = { element, ownId };
+    list.update((parts) => [...parts, part]);
     inject(DestroyRef).onDestroy(() => {
-      const index = entries.indexOf(token);
-      entries.splice(index, 1);
-      list.update((ids) => ids.filter((_, at) => at !== index));
+      list.update((parts) => parts.filter((other) => other !== part));
     });
-    return computed(() => this._ids()[kind]?.[entries.indexOf(token)]);
+    return computed(() => this._ids()[kind]?.[list().indexOf(part)]);
   }
 
   /**
@@ -238,6 +256,20 @@ export class CckFormField {
 
   /** The theme attributes of every part; the root's are applied to the host. */
   protected readonly theme = themeAttrs(formFieldAnatomy);
+
+  constructor() {
+    // Parts register when they are created, and `@if` or `@for` creates a part after its static siblings: read the
+    // document order after every render.
+    afterEveryRender({
+      read: () => {
+        for (const list of Object.values(this.registered)) {
+          const current = untracked(list);
+          const sorted = inDomOrder(current);
+          if (sorted.some((part, index) => part !== current[index])) list.set(sorted);
+        }
+      },
+    });
+  }
 
   /**
    * Registers the control that is being created. Call it in the control's injection context. The first

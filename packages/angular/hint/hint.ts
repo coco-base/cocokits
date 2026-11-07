@@ -1,4 +1,4 @@
-import { Directive, HostAttributeToken, computed, inject } from '@angular/core';
+import { Directive, ElementRef, inject, input } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { getHintProps, hintAnatomy } from '@cocokits/machines/hint';
@@ -20,15 +20,22 @@ import { getHintProps, hintAnatomy } from '@cocokits/machines/hint';
   exportAs: 'cckHint',
   host: {
     '[class]': 'parts.root.class',
-    '[attr.id]': 'id() || null',
+    '[attr.id]': 'renderedId() || null',
   },
 })
 export class CckHint {
-  private readonly ownId = inject(new HostAttributeToken('id'), { optional: true }) ?? undefined;
+  /**
+   * The `id` of the hint. A bound id can change, and the control description follows it. When not set, the hint gets `<fieldId>-hint-<n>` inside a `cck-form-field`, or no id outside one.
+   * @cckSemantic none
+   * @cckParity Declared as an input; the directive forwards it to the element.
+   */
+  readonly id = input<string | undefined>(undefined);
+
   private readonly field = inject(CckFormField, { optional: true });
 
   /** The id of the host: the author's, or the one the field gives it (`<fieldId>-hint-<n>`). */
-  protected readonly id = this.field?._registerPart('hints', this.ownId) ?? computed(() => this.ownId);
+  protected readonly renderedId =
+    this.field?._registerPart('hints', inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, this.id) ?? this.id;
 
   protected readonly parts = getHintProps();
 
