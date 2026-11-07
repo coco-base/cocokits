@@ -38,14 +38,15 @@ import { CckDialogRoot } from './dialog-root';
  * On the server, `open()` shows nothing and returns a ref that is already closed.
  *
  * @example
- * ```ts
+ * // In the class of your component.
+ * private readonly dialog = inject(CckDialog);
+ *
  * // A component: the data goes in with CCK_DIALOG_DATA, and the result comes out with afterClosed().
- * const ref = inject(CckDialog).open(ConfirmDialog, { data: 'Delete project', ariaLabel: 'Confirm' });
+ * const ref = this.dialog.open(ConfirmDialog, { data: 'Delete project', ariaLabel: 'Confirm' });
  * ref.afterClosed().subscribe((confirmed) => confirmed && deleteProject());
  *
- * // A template: `let-data` is the data, and `let-ref="dialogRef"` is the ref.
- * dialog.open(this.template(), { data: project });
- * ```
+ * // A template: `let-data` is the data, and `let-dialogRef="dialogRef"` is the ref.
+ * this.dialog.open(this.template(), { data: project, ariaLabel: 'Project' });
  */
 @Injectable({ providedIn: 'root' })
 export class CckDialog {
