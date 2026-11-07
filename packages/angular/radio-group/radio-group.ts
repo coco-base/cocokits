@@ -155,12 +155,10 @@ export class CckRadioGroup implements FormValueControl<string | null> {
 
   /**
    * Which arrow keys move between the radios. It also sets `aria-orientation`. When not set, all four arrow keys move.
-   * @cckValue 'horizontal' - Only Left and Right move.
-   * @cckValue 'vertical' - Only Up and Down move.
    * @cckSemantic radio-group.orientation
    * @defaultValue both axes
    */
-  readonly orientation = input<'horizontal' | 'vertical' | undefined>(undefined);
+  readonly orientation = input<RadioGroupOrientation | undefined>(undefined);
 
   /**
    * Whether the arrow keys go from the last radio to the first, and from the first to the last.
