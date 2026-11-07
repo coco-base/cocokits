@@ -1,0 +1,22 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Label / Structure",
+      "tier": 3,
+      "prefix": "label",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/letter-spacing}" } },
+        { "name": "font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } },
+        { "name": "required-marker-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#danger/text}" } },
+        { "name": "required-marker-gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } }
+      ]
+    }
+  ]
+}

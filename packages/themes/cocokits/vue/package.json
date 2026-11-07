@@ -1,0 +1,31 @@
+{
+  "name": "@cocokits/theme-cocokits-vue",
+  "version": "2.0.0",
+  "description": "Typed cocokits theme layer for Vue.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/themes/cocokits/vue"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "peerDependencies": {
+    "@cocokits/theme-cocokits": "workspace:*",
+    "@cocokits/vue": "workspace:*",
+    "@cocokits/vue-core": "workspace:*",
+    "vue": "^3.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

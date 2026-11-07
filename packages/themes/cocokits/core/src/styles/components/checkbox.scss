@@ -1,0 +1,5 @@
+@use '_checkbox' as checkbox;
+
+@layer cocokits {
+  @include checkbox.rules;
+}

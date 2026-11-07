@@ -1,0 +1,5 @@
+@use '_badge' as badge;
+
+@layer cocokits {
+  @include badge.rules;
+}

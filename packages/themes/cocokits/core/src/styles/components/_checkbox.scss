@@ -1,0 +1,67 @@
+// Checkbox rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-checkbox-* tokens. The native input lies transparent over the hit area, so focus,
+// the target and :focus-visible stay native; the box, the tick and the dash are drawn on `background`.
+// Checked, mixed and invalid are shapes (a tick, a dash, a second line), not only colors. The shared
+// pieces and the cascade order are in _choice-box.scss.
+@use '../choice-box' as box;
+
+$block: 'checkbox';
+$facts: '[data-checked], [data-indeterminate]';
+$invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
+
+@mixin rules {
+  @include box.layout($block);
+
+  // The tick, clipped from the mark color, so the color follows the state.
+  .cck-checkbox__background::after {
+    inset: 20%;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+
+  // Read-only: a dashed border tells it from an editable box without color, also in forced colors.
+  // The unchecked box also gets the read-only surface; the checked rule below overrides the fill.
+  .cck-checkbox:where([data-readonly]) #{box.box($block)} {
+    border-style: dashed;
+    // The fill stops at the border, so the gaps between the dashes show the surface also when checked.
+    background-clip: padding-box;
+    background-color: var(--cck-checkbox-box-readonly-bg);
+  }
+
+  @include box.checked($block, $facts);
+
+  // The dash wins over the tick: a bar across the middle, as high as the border is wide.
+  .cck-checkbox:where([data-indeterminate]) #{box.box($block)}::after {
+    inset-block: calc(50% - var(--cck-checkbox-box-border-width) / 2);
+    inset-inline: 20%;
+    clip-path: none;
+  }
+
+  .cck-checkbox#{$invalid} #{box.box($block)} {
+    border-color: var(--cck-checkbox-box-invalid-border-color);
+    // A second line of the same width inside the border: the cue does not rest on hue alone.
+    // Forced colors drop the shadow, so the border gets thicker there.
+    box-shadow: inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color);
+  }
+
+  // On a filled box the inner line takes the mark color, which reads against the fill; the border stays danger.
+  .cck-checkbox:where(#{$facts})#{$invalid} #{box.box($block)} {
+    box-shadow: inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-mark-color);
+  }
+
+  @include box.disabled($block);
+  @include box.focus($block);
+  @include box.motion($block);
+
+  @include box.forced($block, $facts) {
+    .cck-checkbox#{$invalid} #{box.box($block)} {
+      border-width: var(--cck-checkbox-box-invalid-border-width);
+    }
+  }
+
+  // Disabled wins over invalid in forced colors too: the thin border again.
+  @media (forced-colors: active) {
+    .cck-checkbox#{box.disabled($block)} #{box.box($block)} {
+      border-width: var(--cck-checkbox-box-border-width);
+    }
+  }
+}

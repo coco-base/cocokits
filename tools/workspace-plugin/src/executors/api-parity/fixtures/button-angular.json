@@ -1,0 +1,60 @@
+{
+  "component": "button",
+  "framework": "angular",
+  "parts": [
+    {
+      "name": "CckButton",
+      "semanticId": "button.root",
+      "selector": "button[cckButton]",
+      "anatomyPart": "root",
+      "props": [
+        {
+          "name": "disabled",
+          "semanticId": "button.disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "events": [],
+      "slots": [
+        {
+          "name": "default",
+          "semanticId": "button.default",
+          "type": "content",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "methods": []
+    },
+    {
+      "name": "CckButtonAnchor",
+      "semanticId": "button.root",
+      "selector": "a[cckButton]",
+      "anatomyPart": "root",
+      "props": [
+        {
+          "name": "disabled",
+          "semanticId": "button.disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "events": [],
+      "slots": [
+        {
+          "name": "default",
+          "semanticId": "button.default",
+          "type": "content",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "methods": []
+    }
+  ]
+}

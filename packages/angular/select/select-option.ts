@@ -1,0 +1,131 @@
+import {
+  Component,
+  DestroyRef,
+  afterNextRender,
+  ElementRef,
+  ViewEncapsulation,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+  type OnInit,
+} from '@angular/core';
+import { CckAttrs, IdGenerator, bindAttrs, listenLast } from '@cocokits/angular-core';
+import { selectAnatomy, type SelectItem } from '@cocokits/machines/select';
+import { hasInteractiveContent } from '@cocokits/utils';
+import { injectCckSelect } from './select';
+import { CckSelectOptionGroup } from './select-option-group';
+
+/**
+ * An option of a Select. Its value is `value`; its content is what you write inside it, which must not be
+ * interactive. A decorative indicator (a check, or a box with `multiple`) is rendered for you. The trigger and
+ * type-to-find use the trimmed text of the content as the option's label. In a single Select an option whose
+ * value is `null` or `undefined` clears the value (unless `canSelectNullableOptions`), and one whose value is
+ * `''` clears it and shows the placeholder.
+ *
+ * @example
+ * <div cckSelectOption value="Cake">Cake</div>
+ * @typeParam T - The type of the value. Defaults to `string`.
+ * @cckPart option
+ * @cckPart optionIndicator
+ * @cckPart optionContent
+ * @cckSlot default - The content of the option.
+ * @cckDataAttr data-selected - present when the option is selected
+ * @cckDataAttr data-highlighted - present on the active option
+ * @cckDataAttr data-disabled - present when the option or its group is disabled
+ */
+@Component({
+  selector: '[cckSelectOption]',
+  exportAs: 'cckSelectOption',
+  encapsulation: ViewEncapsulation.None,
+  imports: [CckAttrs],
+  host: {
+    '[class]': 'props().class',
+    '[id]': 'props().id',
+    '[attr.role]': 'props().role',
+    '[attr.aria-selected]': 'props()["aria-selected"]',
+    '[attr.aria-disabled]': 'props()["aria-disabled"]',
+    '[attr.data-selected]': 'props()["data-selected"]',
+    '[attr.data-highlighted]': 'props()["data-highlighted"]',
+    '[attr.data-disabled]': 'props()["data-disabled"]',
+    '(pointermove)': 'props().onPointerMove($event)',
+  },
+  template: `
+    <span
+      [class]="parts().optionIndicator.class"
+      [attr.aria-hidden]="parts().optionIndicator['aria-hidden']"
+      [cckAttrs]="_root._theme().optionIndicator"
+    ></span>
+    <span [class]="parts().optionContent.class" [cckAttrs]="_root._theme().optionContent"><ng-content /></span>
+  `,
+})
+export class CckSelectOption<T = string> implements OnInit {
+  /**
+   * The value the option stands for.
+   * @cckSemantic select.option.value
+   */
+  readonly value = input.required<T | null | undefined>();
+
+  /**
+   * The `id` of the option element, which is also the trigger's `aria-activedescendant` while the option is
+   * highlighted.
+   * @cckSemantic select.option.id
+   * @defaultValue generated
+   */
+  readonly id = input<string | undefined>(undefined);
+
+  /**
+   * Whether the option is disabled: it cannot be chosen and keys skip it. Its group adds to it.
+   * @defaultValue false
+   */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /** @internal */
+  readonly _root = injectCckSelect<unknown>('Option');
+  private readonly group = inject(CckSelectOptionGroup, { optional: true });
+  private readonly key = inject(IdGenerator).getId(selectAnatomy.classes.option);
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly isDisabled = computed(() => this.disabled() || this.group?.disabled() === true);
+  private readonly item = computed<SelectItem<unknown>>(() => ({
+    key: this.key,
+    value: this.value(),
+    disabled: this.isDisabled(),
+    id: this.id(),
+  }));
+  protected readonly parts = this._root.parts;
+  protected readonly props = computed(() => this._root.parts().option(this.item()));
+
+  private unregister: (() => void) | undefined;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => {
+      this.unregister?.();
+    });
+    bindAttrs(this.element, () => this._root._theme().option);
+    afterNextRender(() => {
+      if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
+      if (hasInteractiveContent(this.element)) {
+        console.warn(
+          'CocoKits: a SelectOption holds a focusable or interactive element. An option is not interactive: use plain text and markup.',
+        );
+      }
+    });
+    // After the author's own listeners, so a `preventDefault()` there vetoes the choice.
+    listenLast(this.element, 'click', (event) => {
+      this.props().onClick(event);
+    });
+  }
+
+  /** Registers once the inputs are set: the Select reads the value of every registered option. */
+  ngOnInit(): void {
+    this.unregister = this._root._registerOption({
+      key: this.key,
+      element: this.element,
+      option: this,
+      value: this.value,
+      id: this.id,
+      disabled: this.isDisabled,
+      label: () => this.element.querySelector(`.${selectAnatomy.classes.optionContent}`)?.textContent.trim() ?? '',
+    });
+  }
+}

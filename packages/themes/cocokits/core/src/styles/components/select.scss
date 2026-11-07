@@ -1,0 +1,8 @@
+@use '_side-offset' as side-offset;
+@use '_select' as select;
+
+@include side-offset.register;
+
+@layer cocokits {
+  @include select.rules;
+}

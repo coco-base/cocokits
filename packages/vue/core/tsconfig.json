@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.strict.json",
+  "compilerOptions": {
+    // vue-tsc's virtual module for an SFC has unannotated top-level variables, which isolatedDeclarations rejects.
+    "isolatedDeclarations": false
+  },
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": ["dist", "node_modules"]
+}

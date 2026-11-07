@@ -1,0 +1,23 @@
+// Radio group rules: layout only. Wrapped in `@layer cocokits` by the entries that include this mixin.
+@mixin rules {
+  // The radios stack in a column; the row gap is the same between wrapped lines.
+  .cck-radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cck-radio-group-gap);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // A row that wraps instead of overflowing (WCAG 1.4.10).
+    &[data-orientation='horizontal'] {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: var(--cck-radio-group-inline-gap);
+    }
+  }
+}

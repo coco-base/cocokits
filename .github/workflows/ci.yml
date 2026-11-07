@@ -1,0 +1,87 @@
+# The gates of every change: format, lint, typecheck, test, build, the publish checks (publint, attw) and size. The same
+# list runs locally with `pnpm ci:local` (tools/scripts/ci-local.mjs). A pull request checks the projects it affects
+# against its base branch; a push checks every project.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: format, lint, typecheck, test, build, publint, attw, size
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      BASE: origin/${{ github.base_ref }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # Reads the version from the packageManager field of package.json.
+      - uses: pnpm/action-setup@v6
+
+      # The Node version is the one in .nvmrc, which satisfies the engines range of package.json.
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Format
+        run: pnpm exec nx format:check
+
+      # Size limit (500 lines of code) for the Markdown, HTML, CSS and SCSS files outside any Nx project.
+      - name: Lint workspace files
+        run: pnpm run lint:files
+
+      - name: Lint, typecheck, test, build (affected)
+        if: github.event_name == 'pull_request'
+        run: pnpm exec nx affected -t lint typecheck test build --base="$BASE" --head=HEAD
+
+      - name: Lint, typecheck, test, build (all)
+        if: github.event_name == 'push'
+        run: pnpm exec nx run-many -t lint typecheck test build
+
+      - name: Publint and attw (affected)
+        if: github.event_name == 'pull_request'
+        run: pnpm exec nx affected -t publint attw --base="$BASE" --head=HEAD
+
+      - name: Publint and attw (all)
+        if: github.event_name == 'push'
+        run: pnpm exec nx run-many -t publint attw
+
+      # size-limit measures the built files of every entry point, so everything is built first (cached after the steps above).
+      - name: Size
+        run: pnpm exec nx run-many -t build && pnpm size
+
+  commits:
+    name: commit messages (commits since the base)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Commitlint the commits since the base
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: pnpm exec commitlint --from "$BASE" --to HEAD

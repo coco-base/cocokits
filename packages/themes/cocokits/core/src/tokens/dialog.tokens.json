@@ -1,0 +1,45 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Dialog__content / Structure",
+      "tier": 3,
+      "prefix": "dialog",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
+        { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
+        { "name": "border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/3}" } },
+        { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } },
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-xl}" } },
+        { "name": "shadow", "type": "string", "valuesByMode": { "Default": "{Theme / Shadow#shadow-lg}" } },
+        { "name": "padding", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-6}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
+        { "name": "viewport-margin", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-5}" } },
+        { "name": "max-inline-size", "type": "number", "unit": "px", "valuesByMode": { "Default": 480 } },
+        { "name": "backdrop-bg", "type": "color", "valuesByMode": { "Default": "{Core / Color#black-alpha/50}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/letter-spacing}" } },
+        { "name": "title-font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-lg/font-family}" } },
+        { "name": "title-font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-lg/font-size}" } },
+        { "name": "title-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/semibold}" } },
+        { "name": "title-line-height", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "title-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-lg/letter-spacing}" } },
+        { "name": "title-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
+        { "name": "description-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
+        { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
+        { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
+        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } },
+        { "name": "motion-duration", "type": "string", "valuesByMode": { "Default": "200ms" } },
+        { "name": "motion-distance", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-3}" } },
+        { "name": "close-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-3}" } },
+        { "name": "close-padding-block", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } },
+        { "name": "close-radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "close-hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } }
+      ]
+    }
+  ]
+}

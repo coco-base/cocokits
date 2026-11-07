@@ -1,0 +1,47 @@
+// The whole theme: the tokens and every component stylesheet.
+@use 'tokens';
+@use 'components/_button' as button;
+@use 'components/_badge' as badge;
+@use 'components/_badge-container' as badge-container;
+@use 'components/_form-field' as form-field;
+@use 'components/_label' as label;
+@use 'components/_hint' as hint;
+@use 'components/_input' as input;
+@use 'components/_textarea' as textarea;
+@use 'components/_field-error' as field-error;
+@use 'components/_checkbox' as checkbox;
+@use 'components/_switch' as switch;
+@use 'components/_radio' as radio;
+@use 'components/_radio-group' as radio-group;
+@use 'components/_tabs' as tabs;
+@use 'components/_dialog' as dialog;
+@use 'components/_popover' as popover;
+@use 'components/_tooltip' as tooltip;
+@use 'components/_select' as select;
+@use 'components/_accordion' as accordion;
+@use 'components/_side-offset' as side-offset;
+
+@include side-offset.register;
+
+@layer cocokits {
+  @include button.rules;
+  @include badge.rules;
+  @include badge-container.rules;
+  @include form-field.rules;
+  @include label.rules;
+  @include hint.rules;
+  @include input.rules;
+  @include textarea.rules;
+  @include field-error.rules;
+  @include checkbox.rules;
+  @include switch.rules;
+  @include radio.rules;
+  @include radio-group.rules;
+  @include tabs.rules;
+  @include tabs.nav-rules;
+  @include dialog.rules;
+  @include popover.rules;
+  @include tooltip.rules;
+  @include select.rules;
+  @include accordion.rules;
+}

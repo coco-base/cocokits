@@ -1,43 +1,40 @@
-import { formatFiles, Tree } from '@nx/devkit';
+import { addDependenciesToPackageJson, formatFiles, type GeneratorCallback, type Tree } from '@nx/devkit';
+import { readCompatibility, type Compatibility } from './compat';
+import { installedNxVersion, toolingFor } from './dependencies';
+import { addEntry } from './entry';
+import {
+  addSizeEntries,
+  addToChangesetGroup,
+  addTsconfigPath,
+  cssSizeEntries,
+  rootEntryOf,
+  sizeEntriesOf,
+} from './register';
+import { resolveOptions } from './resolve';
+import type { LibraryGeneratorSchema } from './schema';
+import { scaffoldPackage } from './scaffold';
+import type { PackageSpec } from './spec';
 
-import { SetupFrameworkType } from './model';
-import { LibraryGeneratorSchema } from './schema';
-import { angularUiGenerator } from './src/angular-ui-generator';
-import { reactUiGenerator } from './src/react-ui-generator';
-import { getOptions } from './utils/get-options';
-import { getSetupFrameworkType } from './utils/get-setup-framework-type';
-import { validateSchema } from './utils/validate-schema';
-import setupStorybookGenerator from '../setup-storybook/generator';
-
-export async function libraryGenerator(tree: Tree, schema: LibraryGeneratorSchema) {
-  validateSchema(schema);
-  const options = getOptions(schema, tree.root);
-  const setupFrameworkType = getSetupFrameworkType(options);
-
-  switch (setupFrameworkType) {
-    case SetupFrameworkType.Angular:
-      angularUiGenerator(tree, options);
-      break;
-
-    case SetupFrameworkType.React:
-      reactUiGenerator(tree, options);
-      break;
-
-    default:
-      throw new Error(
-        `The generator doesn't support '${options.framework}' framework with '${options.type}' type right now`
-      );
-  }
-
-  if (options.storybook) {
-    await setupStorybookGenerator(tree, {
-      project: options.importPath,
-    });
-  }
-
-  if (schema.formatFiles) {
-    await formatFiles(tree);
-  }
+function createPackage(tree: Tree, spec: PackageSpec): GeneratorCallback {
+  const compat: Compatibility | undefined = spec.framework ? readCompatibility(tree) : undefined;
+  scaffoldPackage(tree, spec, compat);
+  const entries = rootEntryOf(spec);
+  for (const entry of entries) addTsconfigPath(tree, entry);
+  addSizeEntries(tree, [...sizeEntriesOf(entries), ...(spec.css ? cssSizeEntries(spec) : [])]);
+  addToChangesetGroup(tree, spec.packageName);
+  return addDependenciesToPackageJson(tree, {}, toolingFor(spec, compat, installedNxVersion(tree)));
 }
 
-export default libraryGenerator;
+/**
+ * Scaffolds a package or an entry point. Idempotent: existing projects and entry folders are
+ * left untouched, and the registrations (`exports`, tsconfig paths, size-limit) are only added when missing.
+ */
+export default async function libraryGenerator(
+  tree: Tree,
+  options: LibraryGeneratorSchema,
+): Promise<GeneratorCallback> {
+  const resolved = resolveOptions(tree, options);
+  const installTask = resolved.type === 'package' ? createPackage(tree, resolved.spec) : addEntry(tree, resolved.spec);
+  if (options.skipFormat !== true) await formatFiles(tree);
+  return installTask;
+}

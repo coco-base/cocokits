@@ -1,9 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "types": []
-  },
-  "include": ["../../packages/react/utils/src/**/*.ts", "../../packages/common/utils/src/**/*.ts"],
-  "exclude": ["../../packages/react/utils/src/**/*.spec.ts", "../../packages/common/utils/src/**/*.spec.ts"]
-}

@@ -1,0 +1,23 @@
+// Label rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+@mixin rules {
+  .cck-label {
+    display: flex;
+    color: var(--cck-label-text-color);
+    font-family: var(--cck-label-font-family);
+    font-size: var(--cck-label-font-size);
+    line-height: var(--cck-label-line-height);
+    letter-spacing: var(--cck-label-letter-spacing);
+    font-weight: var(--cck-label-font-weight);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // A glyph, not colour alone, so it needs no rule for forced colors.
+  .cck-label__required-marker {
+    margin-inline-start: var(--cck-label-required-marker-gap);
+    color: var(--cck-label-required-marker-color);
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.strict.json",
+  "compilerOptions": {},
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "node_modules"]
+}

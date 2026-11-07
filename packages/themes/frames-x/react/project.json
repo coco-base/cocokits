@@ -1,0 +1,29 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "theme-frames-x-react",
+  "projectType": "library",
+  "sourceRoot": "packages/themes/frames-x/react/src",
+  "tags": ["layer:theme", "scope:react", "type:lib"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "commands": ["tsdown -c tsdown.config.mjs --config-loader native"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc --noEmit -p tsconfig.lib.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
+  }
+}

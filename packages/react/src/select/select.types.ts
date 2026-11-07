@@ -1,0 +1,321 @@
+import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, RefCallback } from 'react';
+import type { SelectOpenReason, SelectValueReason } from '@cocokits/machines/select';
+import type { Direction } from '@cocokits/shared';
+import type { CancelableChangeDetails } from '../internal/cancelable-change-details';
+
+export type { CancelableChangeDetails, SelectOpenReason, SelectValueReason };
+
+/**
+ * What `onValueChange` receives besides the value: the reason (`'user'` or `'form-reset'`), the event behind it,
+ * and `cancel()` to refuse the change.
+ */
+export type SelectChangeDetails = CancelableChangeDetails<SelectValueReason>;
+
+/**
+ * What `onOpenChange` receives besides the open state: the reason, the event behind it, and `cancel()` to refuse
+ * the change. A close caused by focus leaving the trigger (reason `'blur'`) cannot be refused.
+ */
+export type SelectOpenChangeDetails = CancelableChangeDetails<SelectOpenReason>;
+
+/**
+ * The value of a Select: a `T` or `null` (nothing selected) for a single Select, a list of `T` with `multiple`.
+ * `M` is the type of the `multiple` prop, so the value is a list exactly when `multiple` is on.
+ */
+export type SelectValueOf<T = string, M extends boolean = false> = M extends true ? readonly T[] : T | null;
+
+/** One entry of the `items` prop of a Select: a value, the label the trigger shows for it and whether it is disabled. */
+export interface SelectItemData<T = string> {
+  /** The value of the item. */
+  readonly value: T;
+  /** The text the trigger shows while the value is selected. */
+  readonly label: string;
+  /** Whether a closed Select refuses a browser autofill to this item. @defaultValue false */
+  readonly disabled?: boolean | undefined;
+}
+
+/** The `items` of a Select: a list of entries, or, for string values, a record from value to label. */
+export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Record<string, string>>;
+
+/**
+ * The props the function form of `render` receives: the native props merged with the part's own. Spread all of
+ * them, including `ref`, onto one element.
+ */
+export interface SelectRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  /** Any `data-*` attribute, such as `data-state` and the theme options. */
+  readonly [attribute: `data-${string}`]: string | undefined;
+  /** The merged ref: the part's `ref`, the rendered element's own `ref` and the part's internal one. */
+  readonly ref: RefCallback<HTMLElement>;
+}
+
+/** The `render` prop of a Select part: an element, or a function of the merged props. */
+export type SelectRender = ReactElement | ((props: SelectRenderProps) => ReactElement);
+
+/**
+ * Props of the {@link SelectRoot}. Native `div` props pass through to the root element.
+ *
+ * @typeParam T - The type of an item's value. Defaults to `string`.
+ * @typeParam M - The type of `multiple`: `true` makes the value a list. Defaults to `false`.
+ */
+export interface SelectRootProps<T = string, M extends boolean = false> extends Omit<
+  ComponentPropsWithRef<'div'>,
+  'color' | 'defaultValue' | 'onChange' | 'dir'
+> {
+  /**
+   * The trigger and the list: a `Select.Trigger` and a `Select.Content`.
+   *
+   * @cckSemantic select.default
+   */
+  readonly children?: ReactNode | undefined;
+  /**
+   * The selected value: a `T` or `null` for a single Select, a list of `T` with `multiple`. `null`, `''` and an
+   * empty list mean nothing is selected. It makes the Select controlled: a parent that does not update it after
+   * `onValueChange` keeps the old value.
+   *
+   * @cckSemantic select.value
+   */
+  readonly value?: SelectValueOf<T, M> | undefined;
+  /**
+   * The start value of an uncontrolled Select.
+   *
+   * @defaultValue null (an empty list with `multiple`)
+   * @cckSemantic none
+   * @cckParity The uncontrolled start value.
+   */
+  readonly defaultValue?: SelectValueOf<T, M> | undefined;
+  /**
+   * Called after every change of the value the user makes and after a form reset, with the new value (a list
+   * with `multiple`, `null` when a clearing item was chosen) and the details. Never when the parent sets `value`.
+   * Call `details.cancel()` to refuse the change: the value stays, and a choice made inside the list keeps the
+   * list open.
+   *
+   * @cckSemantic select.valueChange
+   * @cckParity The change callback of this component.
+   */
+  readonly onValueChange?: ((value: SelectValueOf<T, M>, details: SelectChangeDetails) => void) | undefined;
+  /**
+   * Whether the list is open, which makes it controlled. A disabled or read-only Select never opens.
+   *
+   * @defaultValue false
+   * @cckSemantic select.open
+   */
+  readonly open?: boolean | undefined;
+  /**
+   * The initial open state of an uncontrolled Select. The list mounts after hydration, so a Select that is open
+   * by default renders closed on the server.
+   *
+   * @defaultValue false
+   * @cckSemantic none
+   * @cckParity The uncontrolled start value.
+   */
+  readonly defaultOpen?: boolean | undefined;
+  /**
+   * Called after every open change the user makes: the trigger, Escape, a press outside, choosing an item or
+   * focus leaving the trigger. Never when the parent sets `open`. Call `details.cancel()` to refuse the change
+   * (not for reason `'blur'`).
+   *
+   * @cckSemantic select.openChange
+   * @cckParity The change callback of this component.
+   */
+  readonly onOpenChange?: ((open: boolean, details: SelectOpenChangeDetails) => void) | undefined;
+  /**
+   * Whether several items can be selected. The value is then a list in the order the items were selected, and
+   * choosing an item toggles it and keeps the list open.
+   *
+   * @defaultValue false
+   */
+  readonly multiple?: M | undefined;
+  /**
+   * The labels the trigger shows, from data: a list of `{ value, label }` entries, or, for string values, a
+   * record from value to label. The trigger text is the label of each selected value joined with `, `, else
+   * `itemToStringLabel(value)`, else `String(value)`. No part registers its text with the Select, so the label
+   * is in the server render; the text of an item should equal its label. A closed Select also matches a browser
+   * autofill against these entries.
+   *
+   * @cckSemantic select.items
+   * @cckParity Not available in every framework.
+   */
+  readonly items?: SelectItems<T> | undefined;
+  /**
+   * Turns a value into the text the trigger shows when `items` has no label for it, and the type-to-search text
+   * of an item with no text.
+   *
+   * @cckSemantic select.itemToStringLabel
+   * @cckParity Not available in every framework.
+   * @defaultValue String
+   */
+  readonly itemToStringLabel?: ((value: T) => string) | undefined;
+  /**
+   * Turns a value into the string of the hidden form input. A browser autofill is matched through it.
+   *
+   * @cckSemantic select.itemToStringValue
+   * @cckParity A function of the item value that returns a string.
+   * @defaultValue String
+   */
+  readonly itemToStringValue?: ((value: T) => string) | undefined;
+  /**
+   * Whether an item's value is the selected value. Use it when `T` is an object. It must treat its two
+   * arguments alike: the order they arrive in is not fixed.
+   *
+   * @cckSemantic select.isItemEqual
+   * @cckParity A function of the item value and the selected value.
+   * @defaultValue Object.is
+   */
+  readonly isItemEqualToValue?: ((itemValue: T, value: T) => boolean) | undefined;
+  /**
+   * The `autocomplete` of the hidden inputs. A browser autofill that writes to them selects the matching enabled
+   * item of a single Select. Without it they carry `autocomplete="off"`.
+   *
+   * @cckSemantic select.autocomplete
+   * @cckParity Spelled `autoComplete`.
+   * @defaultValue 'off'
+   */
+  readonly autoComplete?: string | undefined;
+  /**
+   * Whether the Select is disabled. A disabling `fieldset` and the FormField's `disabled` add to it.
+   *
+   * @defaultValue false
+   */
+  readonly disabled?: boolean | undefined;
+  /**
+   * Whether the Select is read-only: it stays focusable and never opens.
+   *
+   * @defaultValue false
+   */
+  readonly readOnly?: boolean | undefined;
+  /**
+   * Whether a value is required (native `required` on the hidden input, `aria-required` on the trigger).
+   *
+   * @defaultValue false
+   */
+  readonly required?: boolean | undefined;
+  /**
+   * Whether the Select is invalid. `aria-invalid` waits for a blur or a submit attempt.
+   *
+   * @defaultValue false
+   */
+  readonly invalid?: boolean | undefined;
+  /**
+   * The `name` `FormData` submits. Without it and without `required` no hidden input renders.
+   *
+   * @cckSemantic select.name
+   * @defaultValue ''
+   */
+  readonly name?: string | undefined;
+  /**
+   * The id of the form the hidden inputs belong to (native `form`), for a Select outside its form.
+   */
+  readonly form?: string | undefined;
+  /**
+   * The text direction of the Select and its list, like a `DirectionProvider`: `start` and `end` placement and
+   * the portal host follow it. Without it the nearest `DirectionProvider` applies, then `'ltr'`. Only a `dir`
+   * you pass is rendered on the root element.
+   *
+   * @cckSemantic none
+   * @cckParity Not available in every framework.
+   */
+  readonly dir?: Direction | undefined;
+  /**
+   * Replaces the rendered `<div>`: an element, or a function of the merged props. The part keeps its role,
+   * classes and `data-*`. The function form must spread all the props it receives, including `ref`, onto one
+   * element.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   */
+  readonly render?: SelectRender | undefined;
+}
+
+/** Props of the {@link SelectTrigger}. Native button props pass through, `aria-*` included. */
+export interface SelectTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 'color'> {
+  /**
+   * The content of the trigger: a `Select.Value` and a `Select.Icon`.
+   *
+   * @cckSemantic select.default
+   */
+  readonly children?: ReactNode | undefined;
+  /**
+   * The accessible name of the Select. The list is named the same.
+   *
+   * @cckSemantic select.trigger.aria-label
+   */
+  readonly 'aria-label'?: string | undefined;
+  /**
+   * The id of the element that names the Select. The list is named the same.
+   *
+   * @cckSemantic select.trigger.aria-labelledby
+   */
+  readonly 'aria-labelledby'?: string | undefined;
+  /**
+   * The ids of the elements that describe the Select. They are added to the ids of the FormField.
+   *
+   * @cckSemantic select.trigger.aria-describedby
+   */
+  readonly 'aria-describedby'?: string | undefined;
+  /**
+   * Whether the rendered element is a native `<button>`. Set `false` when `render` gives another element: it
+   * then gets `tabindex="0"` and no `type`. In development a tag that does not match logs a `CocoKits:` error.
+   *
+   * @defaultValue true
+   * @cckSemantic none
+   * @cckParity Tells the part what element `render` produces.
+   */
+  readonly nativeButton?: boolean | undefined;
+  /**
+   * Replaces the rendered `<button>`: an element such as `<Button />`, or a function of the merged props. The
+   * function form must spread all the props it receives, including `ref`, onto one element. An element that is
+   * not a `<button>` also needs `nativeButton={false}`.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   */
+  readonly render?: SelectRender | undefined;
+}
+
+/**
+ * Props of the {@link SelectValue}. Native `span` props pass through.
+ *
+ * @typeParam V - The type of the value the children function receives: `T | null`, or `readonly T[]` with `multiple`.
+ */
+export interface SelectValueProps<V = unknown> extends Omit<ComponentPropsWithRef<'span'>, 'color' | 'children'> {
+  /**
+   * The text shown while nothing is selected.
+   *
+   * @cckSemantic select.value.placeholder
+   * @defaultValue ''
+   */
+  readonly placeholder?: string | undefined;
+  /**
+   * What to show in place of the labels while something is selected: a node, or a function of the value (a `T`,
+   * or the list with `multiple`). It is not called while nothing is selected.
+   *
+   * @cckSemantic select.default
+   * @cckParity A node or a function of the selected value.
+   */
+  readonly children?: ReactNode | ((value: V) => ReactNode) | undefined;
+  /**
+   * Replaces the rendered `<span>`: an element, or a function of the merged props. The function form must spread
+   * all the props it receives, including `ref`, onto one element.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   */
+  readonly render?: SelectRender | undefined;
+}
+
+/** A Select part: a function component with its `displayName`. */
+export interface SelectPart<P> {
+  (props: P): ReactElement;
+  displayName: string;
+}
+
+/** The {@link SelectRoot}: a generic function component, `Select.Root<T, M>`, with its `displayName`. */
+export interface SelectRootComponent {
+  <T = string, M extends boolean = false>(props: SelectRootProps<T, M>): ReactElement;
+  displayName: string;
+}
+
+/** The {@link SelectValue}: a generic function component, `Select.Value<V>`, with its `displayName`. */
+export interface SelectValueComponent {
+  <V = unknown>(props: SelectValueProps<V>): ReactElement;
+  displayName: string;
+}

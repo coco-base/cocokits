@@ -1,0 +1,126 @@
+// Textarea rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// A standalone Textarea draws its own md box. Inside a FormField input wrapper the wrapper draws the
+// box (_form-field.scss) and the Textarea is borderless and fills it. It keeps a padding-block from
+// the field size (set in _form-field.scss), so its scroll area and its resize handle stay inside the
+// border. The Textarea sets no `display`,
+// so the native `hidden` attribute needs no restatement. State rules keep the specificity of the
+// base rule (`:where()`), so the wrapper reset below always wins and source order decides between
+// the states.
+@mixin rules {
+  .cck-textarea {
+    box-sizing: border-box;
+    margin: 0;
+    padding-block: var(--cck-textarea-padding-block);
+    padding-inline: var(--cck-textarea-padding-inline);
+    border: var(--cck-textarea-border-width) solid var(--cck-textarea-border-color);
+    border-radius: var(--cck-textarea-radius);
+    background-color: var(--cck-textarea-bg);
+    color: var(--cck-textarea-text-color);
+    font-family: var(--cck-textarea-font-family);
+    font-size: var(--cck-textarea-font-size);
+    line-height: var(--cck-textarea-line-height);
+    letter-spacing: var(--cck-textarea-letter-spacing);
+    resize: vertical;
+    // An inline-block box would leave a gap under it.
+    vertical-align: top;
+
+    &::placeholder {
+      color: var(--cck-textarea-placeholder-color);
+      opacity: 1;
+    }
+
+    &:where(:hover) {
+      border-color: var(--cck-textarea-hover-border-color);
+    }
+
+    &:where([data-invalid]):where([data-touched], [data-submitted]) {
+      border-color: var(--cck-textarea-invalid-border-color);
+      // A second line of the same width inside the border: the cue does not rest on hue alone.
+      // Forced colors drop the shadow, so the border gets thicker there.
+      box-shadow: inset 0 0 0 var(--cck-textarea-border-width) var(--cck-textarea-invalid-border-color);
+    }
+
+    &:where([data-readonly]) {
+      background-color: var(--cck-textarea-readonly-bg);
+      // A dashed border tells it from an editable box without color, also in forced colors.
+      border-style: dashed;
+    }
+
+    // After the other states, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    &:where([data-disabled], :disabled) {
+      border-color: var(--cck-textarea-disabled-border-color);
+      background-color: var(--cck-textarea-disabled-bg);
+      // Disabled wins over invalid: no invalid line.
+      box-shadow: none;
+      color: var(--cck-textarea-disabled-text-color);
+
+      &::placeholder {
+        color: var(--cck-textarea-disabled-text-color);
+      }
+    }
+
+    &:focus-visible {
+      outline: var(--cck-textarea-focus-width) solid var(--cck-textarea-focus-color);
+      outline-offset: var(--cck-textarea-focus-offset);
+    }
+
+    // Grows with its content between the min and max rows (documented custom properties, defaults 2
+    // and 5). The bounds count the padding and the border. Where `field-sizing` is unsupported, the
+    // `rows` height and the scrolling remain.
+    &[data-auto-resize] {
+      field-sizing: content;
+      resize: none;
+      inline-size: 100%;
+      min-block-size: calc(
+        var(--cck-textarea-min-rows, 2) * 1lh + 2 * var(--cck-textarea-padding-block) + 2 *
+          var(--cck-textarea-border-width)
+      );
+      max-block-size: calc(
+        var(--cck-textarea-max-rows, 5) * 1lh + 2 * var(--cck-textarea-padding-block) + 2 *
+          var(--cck-textarea-border-width)
+      );
+    }
+  }
+
+  // In a field the wrapper holds the box and its focus ring, so the Textarea keeps no box of its own.
+  .cck-form-field__input-wrapper > .cck-textarea {
+    flex: 1;
+    min-inline-size: 0;
+    padding-inline: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    font: inherit;
+    letter-spacing: inherit;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-textarea {
+      border-color: CanvasText;
+
+      &:where([data-invalid]):where([data-touched], [data-submitted]) {
+        border-width: var(--cck-textarea-invalid-border-width);
+      }
+
+      &:where([data-disabled], :disabled) {
+        border-color: GrayText;
+        // The invalid border is thicker here; disabled wins over it.
+        border-width: var(--cck-textarea-border-width);
+        color: GrayText;
+
+        &::placeholder {
+          color: GrayText;
+        }
+      }
+
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+  }
+}

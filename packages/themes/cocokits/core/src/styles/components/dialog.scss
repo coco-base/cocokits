@@ -1,0 +1,5 @@
+@use '_dialog' as dialog;
+
+@layer cocokits {
+  @include dialog.rules;
+}
