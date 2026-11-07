@@ -1,19 +1,22 @@
 import type { ChoiceControlProps } from '../internal/check-control.types';
 
 /**
- * One standalone radio around a native `<input type="radio">` with its label. Radios with the same `name` form a
- * native group: the browser unchecks the others and moves focus with the arrow keys. The root is a `<div>` by default
- * and the content you write becomes the label. Bind the value with `v-model`.
+ * One radio around a native `<input type="radio">` with its label. It renders a `<div>`, and the content you write
+ * becomes the label. Bind the value with `v-model`.
  *
- * When the user checks another radio of the group, this radio's value becomes `false` and `update:modelValue` emits
- * with `false`. A parent that sets one radio's value and not the others gets no event for the
- * others: write every radio's `v-model` from one selected value. A radio without `name` has no group mate, so it warns
- * in development. Other native input attributes (`form`, ...) go to the `<input>`; `class`, `style` and
- * `hidden` stay on the root; `role`, `aria-invalid` and `aria-readonly` are reserved.
+ * Radios with the same `name` form a native group: the browser unchecks the others and moves the focus with the
+ * arrow keys. When the user checks another radio of the group, the value of this radio becomes `false`, and
+ * `update:modelValue` emits `false`.
  *
- * Inside a `RadioGroup` the group owns the value: the radio is identified by its `value`, it is checked while the group
- * has that value, and its own `v-model`, `name` and events are ignored (it emits none). The group also gives the
- * `name`, the `tabindex` of the single tab stop, and its `disabled`, `required` and `form`.
+ * A parent that sets the value of one radio gets no event for the others. So write the `v-model` of every radio from
+ * one selected value. A radio without `name` has no group, so it warns in development.
+ *
+ * Other native input attributes, such as `form`, go to the `<input>`. `class`, `style` and `hidden` stay on the root.
+ * `role`, `aria-invalid` and `aria-readonly` are reserved.
+ *
+ * Inside a `RadioGroup`, the group owns the value. The radio is checked while the group has its `value`. Its own
+ * `v-model`, `name` and events are ignored, and it emits nothing. The group also gives the `name`, the `tabindex` of
+ * the single Tab stop, and its `disabled`, `required` and `form`.
  *
  * @example
  * <Radio v-model="isFree" name="plan" value="free">Free</Radio>
@@ -28,25 +31,30 @@ import type { ChoiceControlProps } from '../internal/check-control.types';
  */
 export interface RadioProps extends ChoiceControlProps {
   /**
-   * The name that makes radios a group and that `FormData` submits. Give every radio of a group the same one. A
-   * radio without a name warns in development. Ignored inside a `RadioGroup`, which gives the name.
+   * The name that makes radios a group and that `FormData` submits. Give every radio of a group the same name.
+   * When not set, the radio has no group and warns in development.
+   *
+   * It is ignored inside a `RadioGroup`, which gives the name.
    *
    * @cckSemantic *.name
    * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
-   * The value `FormData` submits while the radio is checked; left out, the browser submits `on`. Inside a
-   * `RadioGroup` it identifies the radio, and a radio without one can never be checked.
+   * The value that `FormData` submits while the radio is checked. When not set, the browser submits `on`.
+   *
+   * Inside a `RadioGroup` it identifies the radio, and a radio without one can never be checked.
    *
    * @cckSemantic *.value
    * @cckParity A native attribute of the element.
    */
   readonly value?: string | undefined;
   /**
-   * Whether the radio is checked, bound with `v-model`. `null` and `undefined` render unchecked. It follows the
-   * group: when the user checks another radio of the same `name`, it becomes `false`. Bound with a listener it is
-   * controlled: a parent that does not accept a change keeps the old value. Unbound, the Radio keeps its own value. Ignored inside a `RadioGroup`.
+   * Whether the radio is checked, bound with `v-model`. `null` renders unchecked. When not set, the Radio keeps its
+   * own value, which starts as `defaultChecked`.
+   *
+   * When the user checks another radio with the same `name`, it becomes `false`. If you listen for changes and do
+   * not accept one, the old value stays. It is ignored inside a `RadioGroup`.
    *
    * @cckSemantic radio.checked
    * @cckParity Bound with `v-model`.
@@ -54,16 +62,19 @@ export interface RadioProps extends ChoiceControlProps {
    */
   readonly modelValue?: boolean | null | undefined;
   /**
-   * The modifiers of `v-model` (`.trim`, `.number`, ...); the component only declares them so they do not reach the native element.
+   * The modifiers of `v-model`, as in `v-model.trim`. The framework fills it. The component declares it so the
+   * modifiers do not reach the native element.
    *
+   * @internal
    * @cckSemantic none
    * @cckParity Only this framework has this member.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
-   * The initial checked state of a Radio whose `v-model` is not bound, read once when it is created. Binding `modelValue`,
-   * with or without a listener, ignores it. A listener on `update:modelValue` reports the changes of the Radio
-   * and does not make it controlled.
+   * The start checked state of a Radio whose `v-model` is not bound. It is read once, when the Radio is created.
+   *
+   * A bound `modelValue` ignores it, with or without a listener. A listener on `update:modelValue` alone reports the
+   * changes and does not make the Radio controlled.
    *
    * @cckSemantic none
    * @cckParity The value the component starts with.
@@ -75,10 +86,10 @@ export interface RadioProps extends ChoiceControlProps {
 /** The events of the Radio. */
 export interface RadioEmits {
   /**
-   * Emits with the new checked value for `v-model`, after a change the user makes and after a reset of the owner form.
+   * Emits the new checked value for `v-model` when the user changes it and when the form of the control resets.
+   * It is the only change event, and it carries the value only.
    *
    * @cckSemantic radio.checkedChange
-   * @remarks The only change event; it carries the value only.
    * @cckParity The `update:modelValue` event is the only change event; it carries the value only.
    */
   'update:modelValue': [checked: boolean];

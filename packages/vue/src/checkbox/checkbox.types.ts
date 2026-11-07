@@ -1,17 +1,19 @@
 import type { CheckControlProps } from '../internal/check-control.types';
 
 /**
- * A checkbox around a native `<input type="checkbox">` with its label. The root is a `<div>` by default and the
- * content you write becomes the label. Bind the value with `v-model`. The input is the form control, so `FormData`,
- * `required`, reset, the `form` attribute and `fieldset[disabled]` are native. Other native input attributes and
- * listeners (`form`, `onFocus`, ...) go to the `<input>`; `class`, `style` and `hidden` stay on the root; `role` is reserved.
+ * A checkbox around a native `<input type="checkbox">` with its label. It renders a `<div>`, and the content you
+ * write becomes the label. Bind the value with `v-model`.
  *
- * Inside a FormField the input gets the id `<fieldId>-control`, the field Label's `for` points at it and its
- * `aria-describedby` ends with the ids of the field's hints, then of its errors. `aria-invalid="true"` appears only while the control is
- * invalid and was touched or the form was submitted.
+ * The input is the form control, so `FormData`, `required`, reset, the `form` attribute and `fieldset[disabled]` are
+ * native. Other native input attributes and listeners, such as `form` and `onFocus`, go to the `<input>`. `class`,
+ * `style` and `hidden` stay on the root, and `role` is reserved.
  *
- * `indeterminate` is one-way: the component never changes it. A parent that owns the mixed state recomputes it in
- * its `update:modelValue` handler.
+ * Inside a FormField, the input gets the id `<fieldId>-control`, and the `for` of the field Label points at it. Its
+ * `aria-describedby` ends with the ids of the hints of the field, then of its errors. `aria-invalid="true"` appears
+ * only while the control is invalid and was touched, or the form was submitted.
+ *
+ * `indeterminate` goes one way: the component never changes it. A parent that owns the mixed state computes it again
+ * in its `update:modelValue` handler.
  *
  * @example
  * <Checkbox v-model="accepted">Accept the terms</Checkbox>
@@ -26,16 +28,17 @@ import type { CheckControlProps } from '../internal/check-control.types';
  */
 export interface CheckboxProps extends CheckControlProps {
   /**
-   * Whether the checkbox shows the mixed state. One-way: the component never changes it and never emits for it.
-   * `data-indeterminate` renders on the server; the DOM property is set after mount.
+   * Whether the checkbox shows the mixed state. The component never changes it and never emits for it.
+   * `data-indeterminate` renders on the server, and the DOM property is set after mount.
    *
    * @defaultValue false
    */
   readonly indeterminate?: boolean | undefined;
   /**
-   * Whether the checkbox is checked, bound with `v-model`. `null` and `undefined` render unchecked. Bound with a
-   * listener it is controlled: a parent that does not accept a change keeps the old value. Unbound, the Checkbox
-   * keeps its own value.
+   * Whether the checkbox is checked, bound with `v-model`. `null` renders unchecked. When not set, the Checkbox
+   * keeps its own value, which starts as `defaultChecked`.
+   *
+   * If you listen for changes and do not accept one, the old value stays.
    *
    * @cckSemantic checkbox.checked
    * @cckParity Bound with `v-model`.
@@ -43,16 +46,19 @@ export interface CheckboxProps extends CheckControlProps {
    */
   readonly modelValue?: boolean | null | undefined;
   /**
-   * The modifiers of `v-model` (`.trim`, `.number`, ...); the component only declares them so they do not reach the native element.
+   * The modifiers of `v-model`, as in `v-model.trim`. The framework fills it. The component declares it so the
+   * modifiers do not reach the native element.
    *
+   * @internal
    * @cckSemantic none
    * @cckParity Only this framework has this member.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
-   * The initial checked state of a Checkbox whose `v-model` is not bound, read once when it is created. Binding `modelValue`,
-   * with or without a listener, ignores it. A listener on `update:modelValue` reports the changes of the Checkbox
-   * and does not make it controlled.
+   * The start checked state of a Checkbox whose `v-model` is not bound. It is read once, when the Checkbox is created.
+   *
+   * A bound `modelValue` ignores it, with or without a listener. A listener on `update:modelValue` alone reports the
+   * changes and does not make the Checkbox controlled.
    *
    * @cckSemantic none
    * @cckParity The value the component starts with.
@@ -64,10 +70,10 @@ export interface CheckboxProps extends CheckControlProps {
 /** The events of the Checkbox. */
 export interface CheckboxEmits {
   /**
-   * Emits with the new checked value for `v-model`, after a change the user makes and after a reset of the owner form.
+   * Emits the new checked value for `v-model` when the user changes it and when the form of the control resets.
+   * It is the only change event, and it carries the value only.
    *
    * @cckSemantic checkbox.checkedChange
-   * @remarks The only change event; it carries the value only.
    * @cckParity The `update:modelValue` event is the only change event; it carries the value only.
    */
   'update:modelValue': [checked: boolean];

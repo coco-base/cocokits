@@ -39,7 +39,13 @@ const props = withDefaults(defineProps<RadioProps>(), {
 defineEmits<RadioEmits>();
 
 defineSlots<{
-  /** The label content: the caption of the radio. */
+  /**
+   * The label content: the caption of the radio. When not set, the radio has no caption and needs `aria-label` or
+   * `aria-labelledby`.
+   *
+   * @example
+   * <Radio v-model="isFree" name="plan" value="free">Free <small>for one user</small></Radio>
+   */
   default?(): unknown;
 }>();
 
@@ -151,8 +157,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the root: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the root: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Radio ref="free" v-model="isFree" name="plan" value="free">Free</Radio>
+   * <!-- In the script: const free = useTemplateRef('free'); then free.value?.element is the root. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.
@@ -161,7 +171,11 @@ defineExpose({
     return rootElementOf(root.value);
   },
   /**
-   * The native `<input>`. `null` before mount.
+   * The native `<input>`. It is `null` before mount.
+   *
+   * @example
+   * <Radio ref="free" v-model="isFree" name="plan" value="free">Free</Radio>
+   * <!-- In the script: const free = useTemplateRef('free'); then free.value?.inputElement?.focus(). -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

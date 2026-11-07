@@ -31,7 +31,13 @@ const props = withDefaults(defineProps<SwitchProps>(), {
 defineEmits<SwitchEmits>();
 
 defineSlots<{
-  /** The label content: the caption of the switch. */
+  /**
+   * The label content: the caption of the switch. When not set, the switch has no caption and needs `aria-label` or
+   * `aria-labelledby`.
+   *
+   * @example
+   * <Switch v-model="notify">Email notifications</Switch>
+   */
   default?(): unknown;
 }>();
 
@@ -71,8 +77,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the root: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the root: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Switch ref="notifications" v-model="notify">Email notifications</Switch>
+   * <!-- In the script: const notifications = useTemplateRef('notifications'); then notifications.value?.element is the root. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.
@@ -81,7 +91,11 @@ defineExpose({
     return rootElementOf(root.value);
   },
   /**
-   * The native `<input>`. `null` before mount.
+   * The native `<input>`. It is `null` before mount.
+   *
+   * @example
+   * <Switch ref="notifications" v-model="notify">Email notifications</Switch>
+   * <!-- In the script: const notifications = useTemplateRef('notifications'); then notifications.value?.inputElement?.focus(). -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.
