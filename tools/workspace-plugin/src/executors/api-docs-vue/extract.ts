@@ -3,7 +3,7 @@ import { basename, join } from 'node:path';
 import ts from 'typescript';
 import { loadPackage } from '../load-module';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
-import { aliasResolverAt, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
+import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
@@ -11,7 +11,14 @@ import { posix } from '../posix-path';
 import { exportedTypesOf } from '../api-docs-common/exported-types';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
-import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
+import type {
+  ApiDocJson,
+  ApiMemberJson,
+  ApiPartJson,
+  ApiSlotJson,
+  ApiValueJson,
+  TagEntry,
+} from '../api-docs-common/types';
 
 /** The part of `vue-component-meta` this executor uses. */
 interface MetaTag {
@@ -100,8 +107,8 @@ function emitDocsOf(dir: string, typeName: string): Map<string, NodeDoc> {
   return docs;
 }
 
-/** Expands the aliases of string literals in the type text of a member. */
-type Expand = (type: string, member: string) => string;
+/** Expands the aliases of string literals in the type text of a member, with the `@cckValue` meanings of them. */
+type Expand = (type: string, member: string) => { text: string; values: ApiValueJson[] };
 
 /** The checker and every types file of a component folder. */
 interface Scope {
@@ -116,7 +123,7 @@ interface Scope {
  */
 function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   const first = scope?.sources[0];
-  if (scope === undefined || first === undefined) return (type) => type;
+  if (scope === undefined || first === undefined) return (type) => ({ text: type, values: [] });
   const { checker, sources } = scope;
   const declaration = sources
     .flatMap((source) => source.statements)
@@ -128,10 +135,9 @@ function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   const propsType = declaration && checker.getTypeAtLocation(declaration.name);
   return (type, member) => {
     const property = propsType?.getProperty(member)?.declarations?.[0];
-    return expandAliases(
-      withDefaultArguments(type, enclosingDefaults(property)),
-      aliasResolverAt(checker, property ?? declaration ?? first),
-    );
+    const written = withDefaultArguments(type, enclosingDefaults(property));
+    const resolve = aliasResolverAt(checker, property ?? declaration ?? first);
+    return { text: expandAliases(written, resolve), values: aliasValuesOf(written, resolve) };
   };
 }
 
@@ -146,11 +152,13 @@ function listOf(
   const result: ApiMemberJson[] = [];
   for (const item of items) {
     const required = isProp && item.required === true;
+    const expanded = expand(withoutUndefined(item.type, required || !isProp), item.name);
     const member = memberOf(
       componentName,
       {
         name: item.name,
-        type: expand(withoutUndefined(item.type, required || !isProp), item.name),
+        type: expanded.text,
+        aliasValues: expanded.values,
         required,
         description: item.description,
         tags: tagEntriesOf(item.tags),

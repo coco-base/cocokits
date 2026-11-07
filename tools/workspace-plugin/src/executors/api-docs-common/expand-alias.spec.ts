@@ -1,11 +1,25 @@
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
-import { aliasResolverAt, expandAliases } from './expand-alias';
+import { aliasResolverAt, aliasValuesOf, expandAliases } from './expand-alias';
 
 const FILES: Record<string, string> = {
-  '/pos.ts':
-    "export type Position = 'top-left' | 'top-right';\nexport type Single = 'only';\nexport type Mixed = 'a' | 1;\nexport type Box<T> = T;\n",
-  '/use.ts': "import type { Position, Single, Mixed, Box } from './pos';\ntype Local = 'x';\nexport const keep = 1;\n",
+  '/pos.ts': [
+    '/**',
+    ' * A corner.',
+    ' * @cckValue top-left - The top left corner.',
+    ' * @cckValue top-right - The top right corner.',
+    ' */',
+    "export type Position = 'top-left' | 'top-right';",
+    "export type Single = 'only';",
+    "export type Mixed = 'a' | 1;",
+    'export type Box<T> = T;',
+    'export type Corner = Position;',
+    '/** @cckValue only - The one value. */',
+    'export type Sole = Single;',
+    '',
+  ].join('\n'),
+  '/use.ts':
+    "import type { Position, Single, Mixed, Box, Corner, Sole } from './pos';\ntype Local = 'x';\nexport const keep = 1;\n",
 };
 
 function resolver(): ReturnType<typeof aliasResolverAt> {
@@ -55,5 +69,25 @@ describe('expandAliases', () => {
     for (const text of ['Box<Position>', 'Mixed', 'ns.Position', "'Position'", 'string | number', 'Unknown']) {
       expect(expandAliases(text, resolve)).toBe(text);
     }
+  });
+});
+
+describe('aliasValuesOf', () => {
+  const resolve = resolver();
+  const corners = [
+    { value: 'top-left', description: 'The top left corner.' },
+    { value: 'top-right', description: 'The top right corner.' },
+  ];
+
+  it('gives the @cckValue meanings of the aliases a type text names, and none for an alias without them', () => {
+    expect(aliasValuesOf('Position | undefined', resolve)).toEqual(corners);
+    expect(aliasValuesOf('Single', resolve)).toEqual([]);
+    expect(aliasValuesOf('Position[]', resolve)).toEqual([]);
+  });
+
+  it('expands an alias of an alias, which takes the inner meanings unless it has its own', () => {
+    expect(expandAliases('Corner', resolve)).toBe("'top-left' | 'top-right'");
+    expect(aliasValuesOf('Corner', resolve)).toEqual(corners);
+    expect(aliasValuesOf('Sole', resolve)).toEqual([{ value: 'only', description: 'The one value.' }]);
   });
 });

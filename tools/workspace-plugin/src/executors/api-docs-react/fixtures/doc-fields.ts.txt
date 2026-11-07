@@ -44,6 +44,8 @@ export interface ThingProps {
    * @cckGroup forms
    */
   readonly size?: 'small' | 'large' | undefined;
+  /** The side the thing opens on. */
+  readonly side?: ThingSide | undefined;
   /** The content, or a function of the state that returns it. */
   readonly children?: ReactNode | ((state: ThingState) => ReactNode);
   /**

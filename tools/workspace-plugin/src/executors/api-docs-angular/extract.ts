@@ -5,12 +5,12 @@ import { loadPackage } from '../load-module';
 import { problemsError } from '../api-docs-common/run';
 import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
-import { aliasResolverAt, expandAliases } from '../api-docs-common/expand-alias';
+import { aliasResolverAt, aliasValuesOf, expandAliases } from '../api-docs-common/expand-alias';
 import { exportedTypesOf } from '../api-docs-common/exported-types';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
-import { partOf, type DocDirective } from './convert';
+import { partOf, type DocDirective, type ExpandedType } from './convert';
 import { baseClassOf, publicMembersOf } from './members';
 import { symbolsOf } from './symbols';
 
@@ -204,7 +204,10 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       }
       if (ts.getCombinedModifierFlags(cls) & ts.ModifierFlags.Abstract) continue;
       const resolve = aliasResolverAt(checker, cls);
-      const expand = (type: string): string => expandAliases(type, resolve);
+      const expand = (type: string): ExpandedType => ({
+        text: expandAliases(type, resolve),
+        values: aliasValuesOf(type, resolve),
+      });
       const doc = withInstantiatedTypes(checker, cls, entry as unknown as DocDirective);
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
       parts.push(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems));

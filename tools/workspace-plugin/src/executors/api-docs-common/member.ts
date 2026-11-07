@@ -10,7 +10,7 @@ import {
   valuesOf,
   withoutLinks,
 } from './tags';
-import type { ApiMemberJson, TagEntry } from './types';
+import type { ApiMemberJson, ApiValueJson, TagEntry } from './types';
 
 /** What an extractor read of a member, before it becomes an `ApiMember`. */
 export interface RawMember {
@@ -24,19 +24,23 @@ export interface RawMember {
   readonly tags: readonly TagEntry[];
   /** Used when the TSDoc has no `@defaultValue`; the tag wins over a default in the source. */
   readonly sourceDefault?: string | undefined;
+  /** The `@cckValue` meanings of the alias the type names (`aliasValuesOf`); the member's own tags win. */
+  readonly aliasValues?: readonly ApiValueJson[];
 }
 
 /**
- * The optional fields a member's tags add: `group` (`@cckGroup`), `shared` (`@cckShared`) and `values` (`@cckValue`).
- * A malformed `@cckValue` adds a problem naming `label`.
+ * The optional fields a member's tags add: `group` (`@cckGroup`), `shared` (`@cckShared`) and `values` (`@cckValue`,
+ * else the meanings of the alias its type names). A malformed `@cckValue` adds a problem naming `label`.
  */
 function tagFieldsOf(
-  tags: readonly TagEntry[],
+  raw: RawMember,
   label: string,
   problems: string[],
 ): Pick<ApiMemberJson, 'group' | 'shared' | 'values'> {
+  const { tags } = raw;
   const group = groupOf(tags);
-  const values = valuesOf(tags, label, problems);
+  const own = valuesOf(tags, label, problems);
+  const values = own.length > 0 ? own : [...(raw.aliasValues ?? [])];
   return {
     ...(group === undefined ? {} : { group }),
     ...(isShared(tags) ? { shared: true } : {}),
@@ -78,7 +82,7 @@ export function memberOf(
     ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}),
     ...(deprecated === undefined ? {} : { deprecated: deprecated === '' ? 'Deprecated.' : deprecated }),
     ...(examples.length > 0 ? { examples } : {}),
-    ...tagFieldsOf(raw.tags, `${owner}.${raw.name}`, problems),
+    ...tagFieldsOf(raw, `${owner}.${raw.name}`, problems),
   };
 }
 

@@ -1,5 +1,6 @@
 import ts from 'typescript';
 import { posix } from '../posix-path';
+import { aliasResolverAt, aliasValuesOf, expandAliases } from './expand-alias';
 import { memberOf } from './member';
 import { isInternal, paragraphsOf, valuesOf, withoutLinks } from './tags';
 import type { ApiMemberJson, ApiTypeJson, TagEntry } from './types';
@@ -83,11 +84,15 @@ export function exportedTypesOf(
       result.push({ kind: 'interface', ...base, fields: fieldsOf(componentName, declaration, problems) });
       continue;
     }
-    const values = valuesOf(tags, exported.name, problems);
+    // An alias of an alias of string literals is written as its union, with the meanings of the inner alias.
+    const resolve = aliasResolverAt(checker, declaration);
+    const written = oneLine(declaration.type.getText());
+    const own = valuesOf(tags, exported.name, problems);
+    const values = own.length > 0 ? own : aliasValuesOf(written, resolve);
     result.push({
       kind: 'alias',
       ...base,
-      text: oneLine(declaration.type.getText()),
+      text: expandAliases(written, resolve),
       fields: [],
       ...(values.length > 0 ? { values } : {}),
     });

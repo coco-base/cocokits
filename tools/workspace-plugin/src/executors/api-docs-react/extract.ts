@@ -1,7 +1,7 @@
 import { basename } from 'node:path';
 import ts from 'typescript';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
-import { aliasResolverAt, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
+import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
@@ -63,7 +63,8 @@ function propOf(
   if (!declaration || !isOwnDeclaration(program, declaration)) return undefined;
   const required = (symbol.flags & ts.SymbolFlags.Optional) === 0;
   const written = withDefaultArguments(typeTextOf(checker, symbol, declaration), enclosingDefaults(declaration));
-  const type = expandAliases(written, aliasResolverAt(checker, declaration));
+  const resolve = aliasResolverAt(checker, declaration);
+  const type = expandAliases(written, resolve);
   const member = memberOf(
     componentName,
     {
@@ -72,6 +73,7 @@ function propOf(
       required,
       description: displayTextOf(symbol.getDocumentationComment(checker)),
       tags: tagsOfSymbol(checker, symbol),
+      aliasValues: aliasValuesOf(written, resolve),
     },
     partName,
     problems,

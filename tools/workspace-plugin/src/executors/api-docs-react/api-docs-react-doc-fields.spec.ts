@@ -46,6 +46,17 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     expect(props.find((prop) => prop.name === 'size')).not.toHaveProperty('shared');
   });
 
+  it('gives a member typed by a documented alias the meanings of the alias', () => {
+    const side = extract('alias-values').parts[0]?.props.find((prop) => prop.name === 'side');
+    expect(side).toMatchObject({
+      type: "'start' | 'end'",
+      values: [
+        { value: 'start', description: 'Before the trigger.' },
+        { value: 'end', description: 'After the trigger.' },
+      ],
+    });
+  });
+
   it('lists every documented interface and alias the entry point exports, except the props type and @internal', () => {
     const types = extract('types').types ?? [];
     expect(types.map((type) => [type.name, type.kind])).toEqual([
