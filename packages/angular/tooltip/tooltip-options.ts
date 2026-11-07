@@ -27,8 +27,8 @@ export interface CckTooltipDefaultOptions {
 }
 
 /**
- * The defaults of every Tooltip. A provided object replaces the built-in `{ showDelay: 0, hideDelay: 0 }`
- * (Angular Material's `MAT_TOOLTIP_DEFAULT_OPTIONS` does the same); an input on a tooltip wins over it.
+ * The defaults of every Tooltip. A provided object replaces the built-in `{ showDelay: 0, hideDelay: 0 }`;
+ * an input on a tooltip wins over it.
  *
  * @example
  * providers: [{ provide: CCK_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 300, hideDelay: 0 } }]

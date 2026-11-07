@@ -16,7 +16,7 @@ export type ThemeAttrsSignal<A extends { readonly parts: object }> = Signal<Them
  * injection context. Without a provided theme every record is empty. The theme directive's input
  * signals are read inside the returned signal, so a change of an input updates the attributes.
  *
- * The `root` part is the host element in Angular, so its record is applied to the host (with
+ * The `root` part is the host element, so its record is applied to the host (with
  * `Renderer2`, in an effect). A root that renders no element (its host is a comment, as with `<ng-container>`)
  * has no attributes to carry, so its record is not applied. The other parts are bound by the template with
  * `[cckAttrs]`.

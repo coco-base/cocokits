@@ -122,7 +122,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
 
   /**
    * Emits `true` or `false` after every change of the open state, including `open()`, `close()` and `toggle()`.
-   * @remarks The reason of a close is in `closePredicate`; the React `onOpenChange` and Vue `update:open` carry it.
+   * @remarks The reason of a close is in `closePredicate`.
+   * @cckParity Emits a `boolean`; it carries no reason.
    * @cckSemantic select.openChange
    */
   readonly openedChange = output<boolean>();
@@ -130,14 +131,14 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Emits after the list opens.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue report an open through `onOpenChange` and `update:open`.
+   * @cckParity Only this framework has this member.
    */
   readonly opened = output();
 
   /**
    * Emits after the list closes.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue report a close through `onOpenChange` and `update:open`.
+   * @cckParity Only this framework has this member.
    */
   readonly closed = output();
 
@@ -173,7 +174,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Orders the values of a `multiple` Select after a choice. Without it they follow the order of the options.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue keep the selection order.
+   * @cckParity Only this framework has this member.
    * @see https://github.com/angular/components/blob/main/src/material/select/select.ts MatSelect.sortComparator
    */
   readonly sortComparator = input<
@@ -183,7 +184,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * How long a pause empties the type-to-find buffer, in milliseconds. A character is matched at once.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue use 500 ms.
+   * @cckParity Only this framework has this member.
    * @defaultValue 500
    */
   readonly typeaheadDebounceInterval = input<number | undefined>(undefined);
@@ -192,7 +193,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * Whether an option whose value is `null` or `undefined` is selected like any other instead of clearing a
    * single Select; it then shows its label.
    * @cckSemantic none
-   * @remarks Angular only: a `null` item always clears in React and Vue.
+   * @cckParity Only this framework has this member.
    * @defaultValue false
    */
   readonly canSelectNullableOptions = input<boolean | undefined, unknown>(undefined, {
@@ -204,7 +205,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * Choosing an option, the trigger, `close()` and focus leaving still close it. Disabling these closes weakens
    * the pattern: a keyboard user can no longer leave with Escape.
    * @defaultValue false
-   * @remarks Angular only: React refuses with `onEscapeKeyDown` and `onPointerDownOutside`, Vue with the matching events.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    * @see https://github.com/angular/components/blob/main/src/cdk/overlay/overlay-directives.ts cdkConnectedOverlayDisableClose
    */
@@ -215,7 +216,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * option), whether it happens: `false` keeps the list open. It runs after `disableClose`. A value chosen in
    * the list still changes. `open()`, `close()`, `toggle()` and focus leaving are never checked: focus leaving
    * chooses the highlighted option and closes. Refusing Escape weakens the pattern.
-   * @remarks Angular only: React refuses with `details.cancel()` in `onOpenChange`, Vue by controlling `open`.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    * @see https://github.com/angular/components/blob/main/src/material/dialog/dialog-config.ts MatDialogConfig.closePredicate
    */
@@ -279,7 +280,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * Whether the user left the control. Signal Forms writes it; a value that is given wins, otherwise it is set
    * after the first blur.
    * @cckSemantic none
-   * @remarks Signal Forms' input; the React and Vue Select take no such prop.
+   * @remarks A Signal Forms input.
+   * @cckParity Signal Forms bind this input.
    */
   override readonly touched = input(false, { transform: booleanAttribute });
 
@@ -287,7 +289,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * Whether the user changed the control. Signal Forms writes it; a value that is given wins, otherwise it is
    * set after the first change.
    * @cckSemantic none
-   * @remarks Signal Forms' input; the React and Vue Select take no such prop.
+   * @remarks A Signal Forms input.
+   * @cckParity Signal Forms bind this input.
    */
   override readonly dirty = input(false, { transform: booleanAttribute });
 
@@ -295,7 +298,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    * Whether a submit of the owner form was attempted. A value that is given wins, also `false`; otherwise a
    * `submit` event of the form sets it and a reset clears it.
    * @cckSemantic none
-   * @remarks Signal Forms' input; the React and Vue Select take no such prop.
+   * @remarks A Signal Forms input.
+   * @cckParity Signal Forms bind this input.
    */
   override readonly submitted = input<boolean | undefined, unknown>(undefined, {
     transform: (value) => (value === undefined ? undefined : booleanAttribute(value)),
@@ -304,7 +308,8 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Whether an asynchronous validator is running.
    * @cckSemantic none
-   * @remarks Signal Forms' input; the React and Vue Select take no such prop.
+   * @remarks A Signal Forms input.
+   * @cckParity Signal Forms bind this input.
    * @defaultValue false
    */
   override readonly pending = input(false, { transform: booleanAttribute });
@@ -379,7 +384,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Whether the list is open.
    * @cckSemantic none
-   * @remarks Angular only (Material): React and Vue own the state with `open` and `defaultOpen`.
+   * @cckParity The methods own the open state; there is no open input.
    */
   get panelOpen(): boolean {
     return this.ctl.isOpen();
@@ -393,7 +398,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Opens the list. A disabled or read-only Select never opens.
    * @cckSemantic none
-   * @remarks Angular only (Material): React and Vue own the state with `open` and `defaultOpen`.
+   * @cckParity The methods own the open state; there is no open input.
    */
   open(): void {
     this.ctl.open();
@@ -402,7 +407,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Closes the list. Nothing is checked: `disableClose` and `closePredicate` guard the user's closes only.
    * @cckSemantic none
-   * @remarks Angular only (Material): React and Vue own the state with `open` and `defaultOpen`.
+   * @cckParity The methods own the open state; there is no open input.
    */
   close(): void {
     this.ctl.close();
@@ -411,7 +416,7 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
   /**
    * Opens the list when it is closed and closes it when it is open.
    * @cckSemantic none
-   * @remarks Angular only (Material): React and Vue own the state with `open` and `defaultOpen`.
+   * @cckParity The methods own the open state; there is no open input.
    */
   toggle(): void {
     this.ctl.toggle();

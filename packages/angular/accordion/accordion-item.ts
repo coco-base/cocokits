@@ -182,13 +182,15 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
    * parent emits nothing; the user's clicks and the methods emit `expandedChange`.
    * @defaultValue false
    * @cckSemantic none
-   * @remarks Angular only: React and Vue hold the open items on the root (`value`).
+   * @remarks Each item holds its own open state; the accordion has no root-wide `value`.
+   * @cckParity The open state lives on each item.
    */
   readonly expanded = model(false);
 
   /**
-   * Whether the item is disabled: the user cannot toggle it and the arrow keys skip it. `[expanded]` and the
-   * methods of the root still apply as the CDK defines them.
+   * Whether the item is disabled: the user cannot toggle it, `openAll` and `closeAll` of the root skip it
+   * and the arrow keys skip it. A write to `[expanded]` by the parent still opens or closes it.
+   * @remarks The accordion has no root-wide `disabled`; set it on each item.
    * @defaultValue false
    * @cckSemantic accordion.item.disabled
    */
@@ -197,7 +199,8 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   /**
    * The text of the trigger.
    * @cckSemantic none
-   * @remarks Angular only: the item renders the trigger; React and Vue write it as its own part.
+   * @remarks The item renders the trigger from this text.
+   * @cckParity Only this framework has this member.
    */
   readonly label = input<string | undefined>(undefined);
 
@@ -214,7 +217,8 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
    * Emits when the item opens by a click, a method of the item or the root, or a key. Never for a write from the
    * parent.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue report the new value on the root.
+   * @remarks The accordion has no change event of its own; listen on each item.
+   * @cckParity The open state lives on each item.
    */
   readonly opened = output();
 
@@ -222,7 +226,8 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
    * Emits when the item closes by a click, a method, or because single mode opened another item. Never for a
    * write from the parent.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue report the new value on the root.
+   * @remarks The accordion has no change event of its own; listen on each item.
+   * @cckParity The open state lives on each item.
    */
   readonly closed = output();
 
@@ -291,7 +296,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   /**
    * Opens the item. Does nothing while the item is disabled.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue change the root value.
+   * @cckParity The open state lives on each item.
    */
   open(): void {
     this.root._send({ type: 'ITEM.OPEN', key: this._id });
@@ -300,7 +305,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   /**
    * Closes the item. Does nothing while the item is disabled.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue change the root value.
+   * @cckParity The open state lives on each item.
    */
   close(): void {
     this.root._send({ type: 'ITEM.CLOSE', key: this._id });
@@ -309,7 +314,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   /**
    * Opens the item when it is closed and closes it when it is open. Does nothing while the item is disabled.
    * @cckSemantic none
-   * @remarks Angular only: React and Vue change the root value.
+   * @cckParity The open state lives on each item.
    */
   toggle(): void {
     if (this.isOpen()) this.close();

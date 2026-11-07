@@ -32,7 +32,7 @@ export interface AttachComponentOptions {
  * of the overlay root, so each overlay has its own. The embedded view is created from the template at its
  * declaration site, so DI and context follow the declaration. It is created in the view container given to
  * `useContainer`, so it is checked with the declaration's change-detection tree (it is not a root view of the application), and its
- * nodes are moved into the host (the Angular CDK's `DomPortalOutlet` does the same). Call
+ * nodes are moved into the host. Call
  * `attach` and `detach` from `afterRenderEffect`, never on the server; the server renders nothing.
  *
  * Use `attachComponent` when the content is a component of your own, such as the bubble of a one-attribute

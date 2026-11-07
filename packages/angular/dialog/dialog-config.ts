@@ -11,7 +11,7 @@ export type CckDialogRestoreFocus = boolean | string | HTMLElement;
 export type CckDialogRole = 'dialog' | 'alertdialog';
 
 /**
- * The behaviour and accessibility members of `CckDialog.open`, as Angular Material's `MatDialogConfig` has them.
+ * The behaviour and accessibility members of `CckDialog.open`.
  * The visual members (`panelClass`, `width`, `position`, animation durations and the like) are the theme's.
  * The field initializers are the defaults; `CckDialog.open` spreads the config of the call over the value of
  * `CCK_DIALOG_DEFAULT_OPTIONS`, or over a new `CckDialogConfig` when that token is not provided.
@@ -82,7 +82,7 @@ export class CckDialogConfig<D = unknown> {
 
   /**
    * Closes the dialog when the location changes: `true` or `'pop-state'` on a history traversal or hash change,
-   * `'url-change'` on any URL change Angular's `Location` reports, `false` never. A close on navigation skips
+   * `'url-change'` on any URL change `Location` reports, `false` never. A close on navigation skips
    * `disableClose` and `closePredicate`.
    */
   closeOnNavigation?: boolean | 'pop-state' | 'url-change' | undefined = true;
@@ -92,7 +92,7 @@ export class CckDialogConfig<D = unknown> {
 }
 
 /**
- * The defaults of every `CckDialog.open` call. The value **replaces** the built-in defaults, as Material's does:
+ * The defaults of every `CckDialog.open` call. The value **replaces** the built-in defaults:
  * `{ disableClose: true }` leaves `autoFocus`, `restoreFocus` and the other members `undefined` (no focus move, no
  * focus restore), except `closeOnNavigation`, which acts as `true` when the key is left out. Spread a new config
  * to keep the defaults: `{ ...new CckDialogConfig(), disableClose: true }`. The config of the call is merged on top.

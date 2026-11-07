@@ -94,7 +94,7 @@ export class CckPopover {
    * `closePredicate`, `open` and `closed`; Close, the trigger and a write from the parent still close.
    * Disabling these closes weakens the pattern: keep a Close button, so a keyboard user can leave.
    * @defaultValue false
-   * @remarks Angular only: React refuses with `onEscapeKeyDown`, `onPointerDownOutside`, `onFocusOutside` and `onInteractOutside`, Vue with the matching events.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    * @see https://github.com/angular/components/blob/main/src/cdk/overlay/overlay-directives.ts cdkConnectedOverlayDisableClose
    */
@@ -104,7 +104,7 @@ export class CckPopover {
    * Decides, for every close the popover makes itself (Close, the trigger, Escape, an outside press, focus
    * leaving), whether it happens: `false` keeps the popover open. It runs after `disableClose`. A write to
    * `open` from the parent is never checked.
-   * @remarks Angular only: React refuses with `details.cancel()` in `onOpenChange`, Vue by not taking `update:open`.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly closePredicate = input<((details: PopoverChangeDetails) => boolean) | undefined>(undefined);
@@ -112,7 +112,7 @@ export class CckPopover {
   /**
    * Whether focus returns to the trigger when the popover closes.
    * @defaultValue true
-   * @remarks Angular only: React refuses with `event.preventDefault()` in `onCloseAutoFocus`, Vue in `closeAutoFocus`.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    * @see https://github.com/angular/components/blob/main/src/material/menu/menu-trigger.ts matMenuTriggerRestoreFocus
    */
@@ -120,7 +120,7 @@ export class CckPopover {
 
   /**
    * Emits after the popover opens by itself (the trigger), with the reason and the event. Never for a write from the parent.
-   * @remarks Angular only: React and Vue report an open through `onOpenChange` and `update:open`.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly opened = output<PopoverChangeDetails>();
@@ -128,7 +128,7 @@ export class CckPopover {
   /**
    * Emits after the popover closes by itself (Close, the trigger, Escape, an outside press, focus leaving), with the reason and the event.
    * Never for a write from the parent.
-   * @remarks Angular only: React and Vue report a close through `onOpenChange` and `update:open`.
+   * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly closed = output<PopoverChangeDetails>();
