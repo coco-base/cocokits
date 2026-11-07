@@ -13,8 +13,17 @@ export interface ApiMemberJson {
   examples?: string[];
   /** A host-defined group of members (`@cckGroup forms`); the docs render a group as its own sub-table. */
   group?: string;
-  /** The title of a common task this member answers (`@cckTask <title>`); needs an `@example`. */
-  task?: string;
+  /** `true` for a member of a props type every part shares (`@cckShared`); the docs list it once. */
+  shared?: boolean;
+  /** One entry per `@cckValue <literal> - <meaning>` tag: what each literal of the union means. */
+  values?: ApiValueJson[];
+}
+
+/** One literal of a union with its meaning, from a `@cckValue` tag. */
+export interface ApiValueJson {
+  /** The literal without its quotes, for example `start`. */
+  value: string;
+  description: string;
 }
 
 /** One slot of a part. */
@@ -76,6 +85,8 @@ export interface ApiTypeJson {
   text?: string;
   /** The fields of an interface. */
   fields: ApiMemberJson[];
+  /** The meaning of each literal of a union alias (`@cckValue`). */
+  values?: ApiValueJson[];
 }
 
 /** The API of one component in one framework: the JSON file an extractor writes. */
@@ -84,7 +95,7 @@ export interface ApiDocJson {
   framework: 'angular' | 'react' | 'vue';
   parts: ApiPartJson[];
   /** Services, classes and constants of the entry point (Angular). */
-  services?: ApiSymbolJson[];
+  symbols?: ApiSymbolJson[];
   /** The interfaces and aliases the entry point exports, except the ones read as a part's members. */
   types?: ApiTypeJson[];
 }

@@ -152,11 +152,15 @@ function scopeOf(
       .find((tagText) => tagText !== '');
     if (text === undefined)
       problems.push(`${owner}: the function parameter "${name}" needs a "@param ${name} - ..." tag`);
+    // The field has no TSDoc of its own: a `@cckParity` reason on the prop says the function form is this
+    // framework's own, so the field exists here only by design.
+    const frameworkOnly = tagsOf(tags, 'cckParity').some((reason) => reason !== '');
     return [
       {
         name,
         type: withDefaultArguments(parameter.getText().replace(/\s+/g, ' '), enclosingDefaults(parameter)),
         description: paragraphsOf(text ?? '')[0] ?? '',
+        ...(frameworkOnly ? { semanticId: 'none' as const } : {}),
       },
     ];
   }
@@ -332,7 +336,9 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
     });
     const partNames = new Set(parts.map((part) => `${part.name}Props`));
     const types =
-      source === undefined ? [] : exportedTypesOf(program, checker, source, name, (item) => partNames.has(item));
+      source === undefined
+        ? []
+        : exportedTypesOf(program, checker, source, name, (item) => partNames.has(item), problems);
     return { component: name, framework: 'react', parts, ...(types.length > 0 ? { types } : {}) };
   });
   if (problems.length > 0) throw problemsError(problems);

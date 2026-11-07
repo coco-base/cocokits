@@ -3,10 +3,11 @@ import {
   defaultDiffersOf,
   defaultOf,
   groupOf,
+  isShared,
   paragraphsOf,
   semanticIdOf,
-  taskOf,
   tagsOf,
+  valuesOf,
   withoutLinks,
 } from './tags';
 import type { ApiMemberJson, TagEntry } from './types';
@@ -25,17 +26,22 @@ export interface RawMember {
   readonly sourceDefault?: string | undefined;
 }
 
-/** The `group` and `task` fields of a member. A `@cckTask` without an `@example` adds a problem naming `label`. */
-function groupAndTaskOf(
+/**
+ * The optional fields a member's tags add: `group` (`@cckGroup`), `shared` (`@cckShared`) and `values` (`@cckValue`).
+ * A malformed `@cckValue` adds a problem naming `label`.
+ */
+function tagFieldsOf(
   tags: readonly TagEntry[],
-  hasExample: boolean,
   label: string,
   problems: string[],
-): { group?: string; task?: string } {
+): Pick<ApiMemberJson, 'group' | 'shared' | 'values'> {
   const group = groupOf(tags);
-  const task = taskOf(tags);
-  if (task !== undefined && !hasExample) problems.push(`${label}: "@cckTask" needs an "@example"`);
-  return { ...(group === undefined ? {} : { group }), ...(task === undefined ? {} : { task }) };
+  const values = valuesOf(tags, label, problems);
+  return {
+    ...(group === undefined ? {} : { group }),
+    ...(isShared(tags) ? { shared: true } : {}),
+    ...(values.length > 0 ? { values } : {}),
+  };
 }
 
 /**
@@ -72,7 +78,7 @@ export function memberOf(
     ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}),
     ...(deprecated === undefined ? {} : { deprecated: deprecated === '' ? 'Deprecated.' : deprecated }),
     ...(examples.length > 0 ? { examples } : {}),
-    ...groupAndTaskOf(raw.tags, examples.length > 0, `${owner}.${raw.name}`, problems),
+    ...tagFieldsOf(raw.tags, `${owner}.${raw.name}`, problems),
   };
 }
 

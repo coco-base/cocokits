@@ -211,13 +211,14 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
     }
     const sourceFile = tsProgram.getSourceFile(file);
     const partNames = new Set(classes.map((entry) => entry.name));
-    const services = sourceFile === undefined ? [] : symbolsOf(checker, sourceFile, name, partNames);
-    const types = sourceFile === undefined ? [] : exportedTypesOf(tsProgram, checker, sourceFile, name, () => false);
+    const symbols = sourceFile === undefined ? [] : symbolsOf(checker, sourceFile, name, partNames, problems);
+    const types =
+      sourceFile === undefined ? [] : exportedTypesOf(tsProgram, checker, sourceFile, name, () => false, problems);
     return {
       component: name,
       framework: 'angular',
       parts,
-      ...(services.length > 0 ? { services } : {}),
+      ...(symbols.length > 0 ? { symbols } : {}),
       ...(types.length > 0 ? { types } : {}),
     };
   });

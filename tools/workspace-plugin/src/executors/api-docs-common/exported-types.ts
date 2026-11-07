@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { posix } from '../posix-path';
 import { memberOf } from './member';
-import { isInternal, paragraphsOf, withoutLinks } from './tags';
+import { isInternal, paragraphsOf, valuesOf, withoutLinks } from './tags';
 import type { ApiMemberJson, ApiTypeJson, TagEntry } from './types';
 
 const tagsOfNode = (node: ts.Node): TagEntry[] =>
@@ -15,9 +15,8 @@ const docTextOf = (node: ts.Node): string =>
 const oneLine = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 /** The documented fields of an interface: its own members, each with the type as written and its TSDoc. */
-function fieldsOf(componentName: string, declaration: ts.InterfaceDeclaration): ApiMemberJson[] {
+function fieldsOf(componentName: string, declaration: ts.InterfaceDeclaration, problems: string[]): ApiMemberJson[] {
   const fields: ApiMemberJson[] = [];
-  const problems: string[] = [];
   for (const member of declaration.members) {
     if (!ts.isPropertySignature(member) && !ts.isMethodSignature(member)) continue;
     if (!ts.isIdentifier(member.name) && !ts.isStringLiteral(member.name)) continue;
@@ -46,8 +45,9 @@ const isOwn = (program: ts.Program, declaration: ts.Declaration): boolean => {
 
 /**
  * The interfaces and type aliases an entry point exports, with their TSDoc: an interface with its documented fields,
- * an alias with its type text. A symbol with no TSDoc description, an `@internal` one and the names `skip` refuses
- * (the types the extractor already reads as a part's members) are left out.
+ * an alias with its type text and the meaning of its literals (`@cckValue`). A symbol with no TSDoc description, an
+ * `@internal` one and the names `skip` refuses (the types the extractor already reads as a part's members) are left
+ * out. A malformed tag adds a problem.
  *
  * @param componentName - The component, for the semantic ids of the fields.
  * @param skip - Whether a name is already shown as a part's members.
@@ -58,6 +58,7 @@ export function exportedTypesOf(
   file: ts.SourceFile,
   componentName: string,
   skip: (name: string) => boolean,
+  problems: string[],
 ): ApiTypeJson[] {
   const moduleSymbol = checker.getSymbolAtLocation(file);
   if (!moduleSymbol) return [];
@@ -78,11 +79,18 @@ export function exportedTypesOf(
       description,
       ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}),
     };
-    result.push(
-      ts.isInterfaceDeclaration(declaration)
-        ? { kind: 'interface', ...base, fields: fieldsOf(componentName, declaration) }
-        : { kind: 'alias', ...base, text: oneLine(declaration.type.getText()), fields: [] },
-    );
+    if (ts.isInterfaceDeclaration(declaration)) {
+      result.push({ kind: 'interface', ...base, fields: fieldsOf(componentName, declaration, problems) });
+      continue;
+    }
+    const values = valuesOf(tags, exported.name, problems);
+    result.push({
+      kind: 'alias',
+      ...base,
+      text: oneLine(declaration.type.getText()),
+      fields: [],
+      ...(values.length > 0 ? { values } : {}),
+    });
   }
   return result.sort((a, b) => a.name.localeCompare(b.name));
 }

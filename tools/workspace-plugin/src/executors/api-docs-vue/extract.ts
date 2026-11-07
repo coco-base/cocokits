@@ -307,7 +307,9 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
       const indexFile = program.getSourceFile(file);
       const own = new Set(parts.flatMap((part) => [`${part.name}Props`, `${part.name}Emits`, `${part.name}Slots`]));
       const types =
-        indexFile === undefined ? [] : exportedTypesOf(program, typeChecker, indexFile, name, (item) => own.has(item));
+        indexFile === undefined
+          ? []
+          : exportedTypesOf(program, typeChecker, indexFile, name, (item) => own.has(item), problems);
       return { component: name, framework: 'vue', parts, ...(types.length > 0 ? { types } : {}) };
     });
     if (problems.length > 0) throw problemsError(problems);

@@ -1,4 +1,4 @@
-import type { TagEntry } from './types';
+import type { ApiValueJson, TagEntry } from './types';
 
 /** The trimmed text of every tag with this name, in source order. */
 export const tagsOf = (tags: readonly TagEntry[], name: string): string[] =>
@@ -58,11 +58,30 @@ export const groupOf = (tags: readonly TagEntry[]): string | undefined => {
   return text === undefined || text === '' ? undefined : text;
 };
 
-/** The title of the `@cckTask <title>` of a member, or undefined. */
-export const taskOf = (tags: readonly TagEntry[]): string | undefined => {
-  const [text] = tagsOf(tags, 'cckTask');
-  return text === undefined || text === '' ? undefined : text.replace(/\s+/g, ' ');
-};
+/** Whether the tags hold `@cckShared`: the member comes from a props type every part shares. */
+export const isShared = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'cckShared');
+
+/**
+ * The meaning of each literal a `@cckValue <literal> - <meaning>` tag names, in source order. The literal may be
+ * written with or without its quotes; the JSON holds it without them. A tag without that shape adds a problem
+ * naming `label`.
+ */
+export function valuesOf(tags: readonly TagEntry[], label: string, problems: string[]): ApiValueJson[] {
+  return tagsOf(tags, 'cckValue').flatMap((text) => {
+    const match = /^(\S+)\s+-\s+(\S[\s\S]*)$/.exec(text);
+    if (match === null) {
+      problems.push(`${label}: "@cckValue ${text}" needs the shape "@cckValue <literal> - <meaning>"`);
+      return [];
+    }
+    const [, literal = '', meaning = ''] = match;
+    return [
+      {
+        value: literal.replace(/^(['"])(.*)\1$/, '$2'),
+        description: withoutLinks(meaning).replace(/\s+/g, ' ').trim(),
+      },
+    ];
+  });
+}
 
 /** Whether the tags hold `@internal`. */
 export const isInternal = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'internal');

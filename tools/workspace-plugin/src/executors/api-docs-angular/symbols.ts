@@ -44,10 +44,10 @@ function memberTypeOf(member: ts.MethodDeclaration | ts.PropertyDeclaration | ts
 function membersOfClass(
   componentName: string,
   declaration: ts.ClassDeclaration,
+  problems: string[],
 ): { props: ApiMemberJson[]; methods: ApiMemberJson[] } {
   const props: ApiMemberJson[] = [];
   const methods: ApiMemberJson[] = [];
-  const problems: string[] = [];
   for (const member of declaration.members) {
     if (!ts.isMethodDeclaration(member) && !ts.isPropertyDeclaration(member) && !ts.isGetAccessorDeclaration(member)) {
       continue;
@@ -99,6 +99,7 @@ function symbolOf(
   declaration: ts.ClassDeclaration | ts.VariableDeclaration,
   componentName: string,
   base: Pick<ApiSymbolJson, 'name' | 'description' | 'remarks' | 'examples'>,
+  problems: string[],
 ): ApiSymbolJson | undefined {
   if (ts.isVariableDeclaration(declaration)) {
     return { kind: 'constant', ...base, type: constantTypeOf(checker, declaration), props: [], methods: [] };
@@ -108,14 +109,14 @@ function symbolOf(
   return {
     kind: decorators.includes('Injectable') ? 'service' : 'class',
     ...base,
-    ...membersOfClass(componentName, declaration),
+    ...membersOfClass(componentName, declaration, problems),
   };
 }
 
 /**
  * The services, classes and constants an Angular entry point exports besides its parts: an `@Injectable` class is a
  * service, another class a class, a `const` a constant. A symbol with no TSDoc description and an `@internal` one are
- * left out, and so is a directive or component (those are parts).
+ * left out, and so is a directive or component (those are parts). A malformed tag on a member adds a problem.
  *
  * @param partNames - The names of the exported directives and components.
  */
@@ -124,6 +125,7 @@ export function symbolsOf(
   file: ts.SourceFile,
   componentName: string,
   partNames: ReadonlySet<string>,
+  problems: string[],
 ): ApiSymbolJson[] {
   const moduleSymbol = checker.getSymbolAtLocation(file);
   if (!moduleSymbol) return [];
@@ -147,7 +149,7 @@ export function symbolsOf(
       ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}),
       ...(examples.length > 0 ? { examples } : {}),
     };
-    const item = symbolOf(checker, declaration, componentName, base);
+    const item = symbolOf(checker, declaration, componentName, base, problems);
     if (item !== undefined) result.push(item);
   }
   return result;
