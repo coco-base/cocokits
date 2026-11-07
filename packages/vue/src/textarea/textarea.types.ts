@@ -22,10 +22,10 @@ export interface TextareaProps {
    */
   readonly ariaDescribedby?: string | undefined;
   /**
-   * The name `FormData` submits. You set it (for example `name="message"` next to `v-model`); no Vue forms library fills it in.
+   * The name `FormData` submits. You set it (for example `name="message"` next to `v-model`); no forms library fills it in.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; only Angular defaults it from the forms control.
+   * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
@@ -38,7 +38,7 @@ export interface TextareaProps {
    * Makes the control read-only; it stays focusable.
    *
    * @cckSemantic textarea.readOnly
-   * @remarks Vue spells it as the native `readonly` attribute.
+   * @cckParity Spelled as the native `readonly` attribute.
    * @defaultValue false
    */
   readonly readonly?: boolean | undefined;
@@ -64,7 +64,7 @@ export interface TextareaProps {
    * Hides the control (native `hidden`).
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute of the element.
    * @defaultValue false
    */
   readonly hidden?: boolean | undefined;
@@ -82,15 +82,15 @@ export interface TextareaProps {
    * a parent that does not accept a change keeps the old text. Unbound, the Textarea keeps its own text.
    *
    * @cckSemantic textarea.value
-   * @remarks Vue's `v-model` (`modelValue`).
+   * @cckParity Bound with `v-model`.
    * @defaultValue ''
    */
   readonly modelValue?: string | null | undefined;
   /**
-   * The modifiers of `v-model` (`.trim`, `.number`, ...) Vue passes; the component only declares them so they do not reach the native element.
+   * The modifiers of `v-model` (`.trim`, `.number`, ...); the component only declares them so they do not reach the native element.
    *
    * @cckSemantic none
-   * @remarks Vue-only: Vue fills it from `v-model.trim` and the like.
+   * @cckParity Only this framework has this member.
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
@@ -99,7 +99,7 @@ export interface TextareaProps {
    * and does not make it controlled.
    *
    * @cckSemantic none
-   * @remarks Vue's uncontrolled start value, as React's `defaultValue`; Angular binds it as a model.
+   * @cckParity The value the component starts with.
    * @defaultValue ''
    */
   readonly defaultValue?: string | undefined;
@@ -111,7 +111,8 @@ export interface TextareaEmits {
    * Emits with the new text for `v-model`, after a change the user makes and after a reset of the owner form that changes the text.
    *
    * @cckSemantic textarea.valueChange
-   * @remarks The `v-model` update event of Vue is the only change event (as Reka UI), so it stands for the change event of the other frameworks: Angular emits `valueChangeDetails` and React calls `onValueChange`. It carries the value only.
+   * @remarks The only change event; it carries the value only.
+   * @cckParity The `update:modelValue` event is the only change event; it carries the value only.
    */
   'update:modelValue': [value: string];
 }

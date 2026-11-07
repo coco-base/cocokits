@@ -158,7 +158,7 @@ describe('transitionPopover', () => {
 });
 
 describe('meta', () => {
-  it('limits the modal Tab row to React and Vue, with a neutral context', () => {
+  it('limits the modal Tab row to the frameworks it names, with a neutral context', () => {
     const modal = popoverMeta.keyboard.filter((row) => row.frameworks !== undefined);
     expect(modal).toHaveLength(1);
     expect(modal[0]).toMatchObject({ context: 'inside the content of a modal popover', frameworks: ['react', 'vue'] });

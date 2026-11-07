@@ -66,7 +66,7 @@ function TabsListImpl({ render, loop = true, ref, onKeyDown, ...rest }: TabsList
     ...themeAttrs.list,
     ...toReactProps(list),
     onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
-      // Shift+arrow is the browser's or the page's (a selection, a gesture): not a tab move (Radix).
+      // Shift+arrow is the browser's or the page's (a selection, a gesture): not a tab move.
       if (!event.shiftKey) roving.handleKeyDown(event.nativeEvent);
     },
     ref: mergedRef,

@@ -21,7 +21,7 @@ const kind = computed(() => buttonPartKind(props.as, props.asChild));
 const machine = computed(
   () => getPopoverProps({ id: ctx.id, open: ctx.open.value, mounted: ctx.mounted.value }, ctx.send).close,
 );
-// A consumer listener runs first and cannot veto the click: it is sent whatever the listener did, as in Reka UI.
+// A consumer listener runs first and cannot veto the click: it is sent whatever the listener did.
 // Only a native button gets `type`; another element gets the button role, a tab stop and the keys.
 const bound = computed(() =>
   mergeProps(themeAttrs.value.close, kind.value === 'non-native' ? NON_NATIVE_DEFAULTS : {}, attrs, {

@@ -2,7 +2,7 @@
 // The content is portaled into a host in the top layer, so it is styled by its own class and never through the
 // trigger. It sets no `position`, `inset` or `transform` (only `transform-origin`, from `--transform-origin`, so a scale grows from the anchor): the positioning module writes `position: fixed` and the
 // coordinates, and publishes `--available-height`. The gap to the trigger is `--side-offset`, the one unprefixed
-// variable a theme sets; a `sideOffset` on the React or Vue content overrides it. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart
+// variable a theme sets; an offset set on the content overrides it. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart
 // only for the inline slide) and runs only with `prefers-reduced-motion: no-preference`; the end state is right
 // without it. The Title and Description are plain text in the content; the Anchor has no rule (it is the author's element).
 // A plain Close part (not a Button) is a small outlined button; the trigger is the author's (usually a Button).

@@ -26,7 +26,7 @@ function SelectValueImpl<V = unknown>({
   });
   let content: ReactNode;
   if (empty) content = placeholder;
-  else if (typeof children === 'function') content = children(context.modelValue as V);
+  else if (typeof children === 'function') content = children(context.selectedValue as V);
   else content = children ?? context.valueText;
   return renderElement<SelectRenderProps, undefined>(render, 'span', { ...props, children: content }, undefined);
 }

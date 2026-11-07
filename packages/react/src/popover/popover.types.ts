@@ -67,7 +67,7 @@ export interface PopoverRootProps {
    *
    * @defaultValue false
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `open` as a model.
+   * @cckParity The uncontrolled start value.
    */
   readonly defaultOpen?: boolean | undefined;
   /**
@@ -76,7 +76,7 @@ export interface PopoverRootProps {
    * an uncontrolled popover keeps its state, and a refused dismissal counts as refused.
    *
    * @cckSemantic popover.openChange
-   * @remarks React's change callback; Angular emits `opened` and `closed`, and Vue emits `update:open`.
+   * @cckParity The change callback of this component.
    */
   readonly onOpenChange?: ((open: boolean, details: PopoverChangeDetails) => void) | undefined;
   /**
@@ -88,7 +88,7 @@ export interface PopoverRootProps {
    *
    * @defaultValue false
    * @cckSemantic popover.modal
-   * @remarks React and Vue only (Radix and Reka); Angular Popover is never modal.
+   * @cckParity Not available in every framework.
    */
   readonly modal?: boolean | undefined;
 }
@@ -113,7 +113,7 @@ export interface PopoverTriggerProps extends Omit<ComponentPropsWithRef<'button'
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity Tells the part what element `render` produces.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -122,7 +122,7 @@ export interface PopoverTriggerProps extends Omit<ComponentPropsWithRef<'button'
    * the props it receives, including `ref`, onto one element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverState> | undefined;
 }
@@ -140,7 +140,7 @@ export interface PopoverAnchorProps extends Omit<ComponentPropsWithRef<'div'>, '
    * The ref is read when the content opens and when this prop changes. While it is empty the content is not placed.
    *
    * @cckSemantic none
-   * @remarks React only (Radix); Vue takes `reference`, and Angular has no virtual anchor.
+   * @cckParity Not available in every framework.
    */
   readonly virtualRef?: RefObject<OverlayVirtualAnchor | null> | undefined;
   /**
@@ -148,7 +148,7 @@ export interface PopoverAnchorProps extends Omit<ComponentPropsWithRef<'div'>, '
    * The function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on any element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverState> | undefined;
 }
@@ -165,7 +165,7 @@ export interface PopoverTitleProps extends Omit<ComponentPropsWithRef<'h2'>, 'co
    * Replaces the rendered `<h2>` with the heading you choose, such as `<h3 />`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on the heading and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverState> | undefined;
 }
@@ -182,7 +182,7 @@ export interface PopoverDescriptionProps extends Omit<ComponentPropsWithRef<'p'>
    * Replaces the rendered `<p>`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverState> | undefined;
 }
@@ -202,7 +202,7 @@ export interface PopoverContentProps
    * that one with `details.cancel()` in `onOpenChange`. Refusing Escape or an outside press can leave the user without a way out: keep another way to close it.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity Not available in every framework.
    */
   readonly onEscapeKeyDown?: ((event: KeyboardEvent) => void) | undefined;
   /**
@@ -210,7 +210,7 @@ export interface PopoverContentProps
    * `event.detail.originalEvent`. Call `event.preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity Not available in every framework.
    */
   readonly onPointerDownOutside?: ((event: PointerDownOutsideEvent) => void) | undefined;
   /**
@@ -218,7 +218,7 @@ export interface PopoverContentProps
    * `event.detail.originalEvent`. Call `event.preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity Not available in every framework.
    */
   readonly onFocusOutside?: ((event: FocusOutsideEvent) => void) | undefined;
   /**
@@ -226,7 +226,7 @@ export interface PopoverContentProps
    * Call `event.preventDefault()` to keep it open.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular refuses with `disableClose` on the root.
+   * @cckParity Not available in every framework.
    */
   readonly onInteractOutside?: ((event: PointerDownOutsideEvent | FocusOutsideEvent) => void) | undefined;
   /**
@@ -234,7 +234,7 @@ export interface PopoverContentProps
    * CocoKits from moving focus.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular has no equivalent.
+   * @cckParity Not available in every framework.
    */
   readonly onOpenAutoFocus?: ((event: Event) => void) | undefined;
   /**
@@ -242,7 +242,7 @@ export interface PopoverContentProps
    * to skip the return.
    *
    * @cckSemantic none
-   * @remarks React and Vue only (Radix and Reka); Angular Popover has `restoreFocus`.
+   * @cckParity Not available in every framework.
    */
   readonly onCloseAutoFocus?: ((event: Event) => void) | undefined;
   /**
@@ -252,7 +252,7 @@ export interface PopoverContentProps
    *
    * @defaultValue false
    * @cckSemantic popover.content.forceMount
-   * @remarks React and Vue only (Radix and Reka); Angular never keeps the content mounted.
+   * @cckParity Not available in every framework.
    */
   readonly forceMount?: boolean | undefined;
   /**
@@ -275,7 +275,7 @@ export interface PopoverContentProps
    * one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular and Vue use their own element mechanism.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverContentState> | undefined;
 }
@@ -283,10 +283,10 @@ export interface PopoverContentProps
 /** Props of the {@link PopoverArrow}. Native `span` props pass through. */
 export interface PopoverArrowProps extends Omit<ComponentPropsWithRef<'span'>, 'color'> {
   /**
-   * Replaces the built-in triangle, as Radix does. The arrow is decorative: keep it free of text.
+   * Replaces the built-in triangle. The arrow is decorative: keep it free of text.
    *
    * @cckSemantic popover.default
-   * @remarks The triangle is built in; Angular replaces it with the content of the attribute element.
+   * @cckParity The triangle is built in.
    */
   readonly children?: ReactNode | undefined;
   /**
@@ -295,7 +295,7 @@ export interface PopoverArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    * must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on any element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverState> | undefined;
 }
@@ -314,7 +314,7 @@ export interface PopoverCloseProps extends Omit<ComponentPropsWithRef<'button'>,
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React's element kind for `render` (Base UI); Vue decides it with `as`.
+   * @cckParity Tells the part what element `render` produces.
    */
   readonly nativeButton?: boolean | undefined;
   /**
@@ -323,7 +323,7 @@ export interface PopoverCloseProps extends Omit<ComponentPropsWithRef<'button'>,
    * one element. An element that is not a `<button>` also needs `nativeButton={false}`.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts a second directive on the element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<PopoverState> | undefined;
 }

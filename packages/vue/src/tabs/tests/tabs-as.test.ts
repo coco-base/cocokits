@@ -74,9 +74,9 @@ describe('Tabs as', () => {
 
 describe('Tabs trigger on a tag other than button', () => {
   const view = (triggerProps: Record<string, unknown> = {}, root: Record<string, unknown> = {}) => {
-    const onValueChange = vi.fn();
+    const onUpdate = vi.fn();
     mountView(() =>
-      h(TabsRoot, { 'onUpdate:modelValue': onValueChange, ...root }, () => [
+      h(TabsRoot, { 'onUpdate:modelValue': onUpdate, ...root }, () => [
         h(TabsList, { 'aria-label': 'x' }, () => [
           h(TabsTrigger, { value: 'a', as: 'div' }, () => 'A'),
           h(TabsTrigger, { value: 'b', as: 'div', ...triggerProps }, () => 'B'),
@@ -87,7 +87,7 @@ describe('Tabs trigger on a tag other than button', () => {
         h(TabsContent, { value: 'c' }, () => 'c'),
       ]),
     );
-    return onValueChange;
+    return onUpdate;
   };
 
   it('keeps role="tab" and the roving tabindex, and has no type', async () => {
@@ -102,26 +102,26 @@ describe('Tabs trigger on a tag other than button', () => {
   });
 
   it.each(['Enter', ' '])('selects the tab on %j at keydown', async (key) => {
-    const onValueChange = view();
+    const onUpdate = view();
     await nextTick();
     const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
     tab('B').dispatchEvent(event);
     await nextTick();
     expect(event.defaultPrevented).toBe(true);
     expect(tab('B').getAttribute('aria-selected')).toBe('true');
-    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onUpdate).toHaveBeenCalledTimes(1);
   });
 
   it('keeps the selection when a consumer keydown listener prevents the default', async () => {
-    const onValueChange = view({ onKeydown: veto });
+    const onUpdate = view({ onKeydown: veto });
     await nextTick();
     await fireEvent.keyDown(tab('B'), { key: 'Enter' });
     expect(tab('A').getAttribute('aria-selected')).toBe('true');
-    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onUpdate).not.toHaveBeenCalled();
   });
 
   it('marks a disabled tab with aria-disabled instead of disabled and ignores activation', async () => {
-    const onValueChange = view({ disabled: true });
+    const onUpdate = view({ disabled: true });
     await nextTick();
     expect(tab('B').getAttribute('aria-disabled')).toBe('true');
     expect(tab('B').hasAttribute('disabled')).toBe(false);
@@ -129,7 +129,7 @@ describe('Tabs trigger on a tag other than button', () => {
     await fireEvent.click(tab('B'));
     await fireEvent.keyDown(tab('B'), { key: 'Enter' });
     await fireEvent.keyDown(tab('B'), { key: ' ' });
-    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onUpdate).not.toHaveBeenCalled();
     expect(tab('A').getAttribute('aria-selected')).toBe('true');
   });
 

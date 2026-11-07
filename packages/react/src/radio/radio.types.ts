@@ -39,14 +39,14 @@ export interface RadioProps extends Omit<
    * group's name applies.
    *
    * @cckSemantic *.name
-   * @remarks A native attribute in React and Vue.
+   * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
    * Hides the control (native `hidden` on the root).
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; in Angular a `hidden` attribute on the host hides the root.
+   * @cckParity A native attribute of the element.
    */
   readonly hidden?: boolean | undefined;
   /**
@@ -56,7 +56,7 @@ export interface RadioProps extends Omit<
    * `RadioGroup` it is never called: the group reports the change.
    *
    * @cckSemantic *.checkedChange
-   * @remarks React's change callback; Angular emits `checkedChangeDetails` and Vue emits `checkedChange`.
+   * @cckParity The change callback of this component.
    */
   readonly onCheckedChange?: ((checked: boolean, details: RadioChangeDetails) => void) | undefined;
 }

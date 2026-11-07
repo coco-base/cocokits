@@ -26,7 +26,7 @@ defineSlots<{
    * The label of the trigger: text and icons.
    *
    * @cckSemantic accordion.label
-   * @remarks Angular takes the label as `label` or as a `cckAccordionLabel` template on the item.
+   * @cckParity The label is the content of the trigger part.
    */
   default?(): unknown;
 }>();

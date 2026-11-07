@@ -134,8 +134,8 @@ describe('RadioGroup value', () => {
     const own = vi.fn();
     mountView(() =>
       h(RadioGroup, { defaultValue: 'free' }, () => [
-        h(Radio, { value: 'free', onCheckedChange: own, 'onUpdate:modelValue': own }, () => 'Free'),
-        h(Radio, { value: 'pro', onCheckedChange: own, 'onUpdate:modelValue': own }, () => 'Pro'),
+        h(Radio, { value: 'free', 'onUpdate:modelValue': own }, () => 'Free'),
+        h(Radio, { value: 'pro', 'onUpdate:modelValue': own }, () => 'Pro'),
       ]),
     );
     await userEvent.click(radio('Pro'));

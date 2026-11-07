@@ -24,7 +24,7 @@ A layer imports only from layers to its left: `utils, shared ← cdk ← machine
 
 ## Make a change
 
-1. Open or pick an issue. For a new component or a public API change, describe the API and the reference library it follows (Angular Material and CDK, Radix UI and Base UI, Reka UI) before you write code. The maintainers agree on the API first.
+1. Open or pick an issue. For a new component or a public API change, describe the API and the reference library it follows in its framework before you write code. The maintainers agree on the API first.
 2. Search the repository for an existing solution before you add code, and keep the change as small as the requirement allows.
 3. Create packages and entry points with the generator, never by hand: `pnpm nx g @cocokits/workspace:library <name> ...` (`--help` lists the options).
 4. Write tests with the change and TSDoc on every public symbol.

@@ -73,7 +73,7 @@ export interface InputProps extends Omit<
    * The text type; any value outside these six renders `text`.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute of the element.
    * @defaultValue 'text'
    */
   readonly type?: InputType | undefined;
@@ -81,21 +81,21 @@ export interface InputProps extends Omit<
    * The name `FormData` submits. With react-hook-form, `register('email')` passes it.
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; only Angular defaults it from the forms control.
+   * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
    * Hides the control (native `hidden`).
    *
    * @cckSemantic none
-   * @remarks A native attribute in React and Vue; Angular declares it as an input.
+   * @cckParity A native attribute of the element.
    */
   readonly hidden?: boolean | undefined;
   /**
    * The ids this control is described by. Inside a FormField the feedback wrapper id is added after them.
    *
    * @cckSemantic input.ariaDescribedBy
-   * @remarks React spells the machine's `ariaDescribedBy` as the native attribute.
+   * @cckParity Spelled as the native `aria-describedby` attribute.
    */
   readonly 'aria-describedby'?: string | undefined;
   /**
@@ -110,7 +110,7 @@ export interface InputProps extends Omit<
    * @defaultValue ''
    *
    * @cckSemantic none
-   * @remarks React's uncontrolled mode; Angular and Vue bind `value` as a model.
+   * @cckParity The uncontrolled start value.
    */
   readonly defaultValue?: string | undefined;
   /**
@@ -118,7 +118,7 @@ export interface InputProps extends Omit<
    * of the owner form; never when the parent sets `value`.
    *
    * @cckSemantic input.valueChange
-   * @remarks React's change callback; Angular emits `valueChangeDetails` and Vue emits `valueChange`.
+   * @cckParity The change callback of this component.
    */
   readonly onValueChange?: ((value: string, details: InputChangeDetails) => void) | undefined;
 }

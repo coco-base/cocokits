@@ -40,7 +40,7 @@ export interface TabNavRootProps extends Omit<ComponentPropsWithRef<'nav'>, 'col
    * The accessible name of the navigation landmark. A page with more than one navigation needs it.
    *
    * @cckSemantic none
-   * @remarks A native attribute of the `nav`; Angular and Vue take it as a plain attribute too.
+   * @cckParity A native attribute of the element.
    */
   readonly 'aria-label'?: string | undefined;
   /**
@@ -48,7 +48,7 @@ export interface TabNavRootProps extends Omit<ComponentPropsWithRef<'nav'>, 'col
    * `tab`s with one Tab stop and arrow keys, and the panel is a `tabpanel`. Leave it out for plain links.
    *
    * @cckSemantic tab-nav.tabPanel
-   * @remarks React and Vue pass the panel's id; Angular passes the `cckTabNavPanel` directive (`tabPanel`).
+   * @cckParity Not available in every framework.
    */
   readonly tabPanel?: string | undefined;
   /**
@@ -56,7 +56,7 @@ export interface TabNavRootProps extends Omit<ComponentPropsWithRef<'nav'>, 'col
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<TabNavState> | undefined;
 }
@@ -74,7 +74,7 @@ export interface TabNavListProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the list and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<TabNavState> | undefined;
 }
@@ -86,7 +86,7 @@ export interface TabNavIndicatorProps extends Omit<ComponentPropsWithRef<'span'>
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular renders the indicator itself and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<TabNavState> | undefined;
 }
@@ -103,7 +103,7 @@ export interface TabNavPanelProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * The id of the panel, the same as the Root's `tabPanel`. The panel may sit anywhere in the page.
    *
    * @cckSemantic none
-   * @remarks Angular takes the `cckTabNavPanel` directive itself (`id` input) and learns the active link from the nav.
+   * @cckParity Not available in every framework.
    */
   readonly id: string;
   /**
@@ -114,7 +114,7 @@ export interface TabNavPanelProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    *
    * @defaultValue true
    * @cckSemantic none
-   * @remarks React and Vue only; the Angular panel learns it from the nav.
+   * @cckParity Not available in every framework.
    */
   readonly hasActiveLink?: boolean | undefined;
   /**
@@ -122,7 +122,7 @@ export interface TabNavPanelProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * function form must spread all the props it receives, including `ref`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on your element and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<TabNavState> | undefined;
 }
@@ -155,7 +155,7 @@ export interface TabNavLinkProps extends Omit<ComponentPropsWithRef<'a'>, 'color
    * onto one element. The element form works from a Server Component; the function form does not.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI); Angular puts the directive on the router's `a` and Vue uses `as` or `asChild`.
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: ReactElement | ((props: TabNavRenderProps, state: TabNavLinkState) => ReactElement) | undefined;
 }

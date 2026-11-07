@@ -139,7 +139,7 @@ function buildMiddleware(
     }),
     ...(options.avoidCollisions === false
       ? []
-      : // As Radix and Reka order them: shift first, then flip; `prioritizePosition` flips first, so the content
+      : // Shift first, then flip; `prioritizePosition` flips first, so the content
         // stays in view even where it covers the anchor.
         options.prioritizePosition
         ? [flipping(), shifting()]

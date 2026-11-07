@@ -59,7 +59,7 @@ export interface SelectContextValue<T = unknown> {
   /** Whether nothing is selected: the placeholder shows. */
   readonly empty: boolean;
   /** The value of the model, as the children function of the value part gets it. */
-  readonly modelValue: unknown;
+  readonly selectedValue: unknown;
   /** The trigger text: the selected labels joined with `, `. */
   readonly valueText: string;
   /** Registers (or updates) an item; returns the function that removes it. */

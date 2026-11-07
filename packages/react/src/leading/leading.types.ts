@@ -26,7 +26,7 @@ export interface LeadingProps extends Omit<ComponentPropsWithRef<'div'>, 'color'
    * form must spread all the props it receives, including `ref` and `children`, onto one element.
    *
    * @cckSemantic none
-   * @remarks React's element override (Base UI).
+   * @cckParity Replaces the rendered element with the `render` prop.
    */
   readonly render?: RenderProp<LeadingRenderProps, LeadingState> | undefined;
 }

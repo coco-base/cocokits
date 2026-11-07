@@ -25,14 +25,14 @@ export interface TabNavRootProps {
    * none active, the first enabled link is the one Tab stop. Leave it out for plain links.
    *
    * @cckSemantic tab-nav.tabPanel
-   * @remarks Angular's `tabPanel` takes the panel directive; here the panel is a sibling part found by its id.
+   * @cckParity Not available in every framework.
    */
   readonly tabPanel?: string | undefined;
   /**
    * The tag or component to render, in place of the `nav`. The part keeps its state.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'nav'
    */
   readonly as?: AsTag | Component | undefined;
@@ -40,7 +40,7 @@ export interface TabNavRootProps {
    * Whether the root merges onto its first element or component child instead of rendering a `nav`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -65,7 +65,7 @@ export interface TabNavListProps {
    * `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -73,7 +73,7 @@ export interface TabNavListProps {
    * Whether the list merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -118,7 +118,7 @@ export interface TabNavLinkProps extends Pick<TabNavLinkState, 'active' | 'disab
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'a'
    */
   readonly as?: AsTag | Component | undefined;
@@ -128,7 +128,7 @@ export interface TabNavLinkProps extends Pick<TabNavLinkState, 'active' | 'disab
    * `tabindex` and state markers.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one link child.
+   * @cckParity Not available in every framework.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -151,7 +151,7 @@ export interface TabNavIndicatorProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'span'
    */
   readonly as?: AsTag | Component | undefined;
@@ -159,7 +159,7 @@ export interface TabNavIndicatorProps {
    * Whether the indicator merges onto its first element or component child instead of rendering a `span`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;
@@ -180,7 +180,7 @@ export interface TabNavPanelProps {
    * The id of the panel: the `tabPanel` of the root, and the target of each link's `aria-controls`.
    *
    * @cckSemantic none
-   * @remarks Angular's `cckTabNavPanel` has an `id` input and is linked as a directive.
+   * @cckParity Not available in every framework.
    */
   readonly id: string;
   /**
@@ -188,8 +188,8 @@ export interface TabNavPanelProps {
    * from the same router state that sets each link's `active`.
    *
    * @cckSemantic none
-   * @remarks Vue-only: the panel is not inside the root and cannot learn the active link from it; Angular's panel
-   * does.
+   * @remarks The panel is not inside the root, so it cannot learn the active link from it.
+   * @cckParity Not available in every framework.
    * @defaultValue true
    */
   readonly hasActiveLink?: boolean | undefined;
@@ -198,7 +198,7 @@ export interface TabNavPanelProps {
    * with `asChild`.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -206,7 +206,7 @@ export interface TabNavPanelProps {
    * Whether the panel merges onto its first element or component child instead of rendering a `div`.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

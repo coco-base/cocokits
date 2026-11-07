@@ -49,7 +49,7 @@ defineSlots<{
      * open values in `multiple` mode.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the model of the root, as in Reka UI.
+     * @cckParity Slot prop: the model of the root.
      */
     modelValue: string | string[] | undefined;
   }): unknown;
@@ -65,7 +65,7 @@ const instance = getCurrentInstance();
 // A single accordion the user emptied. The model cannot say it: an unbound `undefined` reads as `defaultValue`.
 const emptied = shallowRef(false);
 
-// A list is `multiple`, anything else `single` (Reka UI).
+// A list is `multiple`, anything else `single`.
 const type = computed(() => props.type ?? (Array.isArray(model.value) ? 'multiple' : 'single'));
 // The open keys. `single` holds at most one.
 const keys = computed<readonly string[]>(() => {
@@ -141,7 +141,7 @@ function dispatch(event: AccordionEvent): void {
   if (result.value) {
     const next = [...result.value];
     if (type.value === 'single' && next.length === 0) {
-      // `single` reports `undefined` when the last item closes (Reka UI).
+      // `single` reports `undefined` when the last item closes.
       emptied.value = true;
       emit('update:modelValue', undefined);
     } else {

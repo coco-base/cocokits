@@ -20,7 +20,7 @@ export type ThemeAttrsByPart<A extends { readonly parts: object }> = {
  * @param themeConfig - The theme's options and defaults.
  * @param anatomy - The component anatomy; its block names the component in `themeConfig` and its
  *   parts are the parts resolved. Only options that list a part in `partNames` (default `root`) apply to it.
- * @param ownValues - The component's own option values (a theme directive's inputs).
+ * @param ownValues - The component's own option values (a theme component's inputs).
  * @param overrideValues - Option values from the nearest theme provider.
  * @returns For each part, attribute name (`data-size`) to value. Absent attributes are not in the
  *   record. Every record is `{}` when the component is not in the config.

@@ -30,7 +30,7 @@ type TabsScope = Parameters<
 >[0];
 
 describe('the types of the root slot props', () => {
-  it('are the fields of Reka UI', () => {
+  it('are the documented fields', () => {
     expectTypeOf<ScopeOf<typeof DialogRoot>>().toEqualTypeOf<{ open: boolean; close: () => void }>();
     expectTypeOf<ScopeOf<typeof PopoverRoot>>().toEqualTypeOf<{ open: boolean; close: () => void }>();
     expectTypeOf<ScopeOf<typeof TooltipRoot>>().toEqualTypeOf<{ open: boolean }>();
@@ -70,7 +70,7 @@ describe.each([
     expect(update).toHaveBeenCalledWith(false);
   });
 
-  it('gives open: false while closed, and the new state after an uncontrolled change', async () => {
+  it('gives open: false while closed, and the new state after a change nobody bound', async () => {
     const seen: boolean[] = [];
     mountView(() => [
       h(Root as Component, null, {

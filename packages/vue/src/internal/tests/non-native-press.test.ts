@@ -9,7 +9,7 @@ import { PopoverClose, PopoverContent, PopoverRoot, PopoverTrigger } from '../..
 import { settle, stubOverlayBrowser as stubPopoverBrowser } from '../../popover/tests/fixtures';
 import { mountView } from './mount-helpers';
 
-/** The four button-default parts that carry the Base UI `useButton` policy on a non-native element. */
+/** The four button-default parts that carry the button-default policy on a non-native element. */
 interface PartCase {
   readonly name: string;
   readonly Root: Component;

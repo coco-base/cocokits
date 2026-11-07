@@ -144,26 +144,26 @@ describe('Tooltip rendered contract', () => {
 describe('Tooltip hover', () => {
   it('opens after the delay on a mouse hover and emits update:open', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.hover(trigger());
     await elapse(699);
     expect(isOpen()).toBe(false);
     await elapse(1);
     expect(isOpen()).toBe(true);
-    expect(onOpenChange).toHaveBeenCalledExactlyOnceWith(true);
+    expect(onUpdateOpen).toHaveBeenCalledExactlyOnceWith(true);
   });
 
   it('does not open when the pointer leaves before the delay', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.hover(trigger());
     await elapse(300);
     await user.unhover(trigger());
     await elapse(1000);
     expect(isOpen()).toBe(false);
-    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(onUpdateOpen).not.toHaveBeenCalled();
   });
 
   it('uses the delayDuration prop', async () => {
@@ -176,15 +176,15 @@ describe('Tooltip hover', () => {
 
   it('closes after the pointer leaves', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.hover(trigger());
     await elapse(700);
     expect(isOpen()).toBe(true);
     await user.unhover(trigger());
     await elapse(100);
     expect(isOpen()).toBe(false);
-    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+    expect(onUpdateOpen.mock.calls).toEqual([[true], [false]]);
   });
 
   it('hides at once with disableHoverableContent, and the pointer on the content does not keep it open', async () => {
@@ -217,8 +217,8 @@ describe('Tooltip hover', () => {
 describe('Tooltip focus and keyboard', () => {
   it('opens at once on keyboard focus and closes on blur', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.tab();
     await user.tab();
     await elapse(0);
@@ -226,13 +226,13 @@ describe('Tooltip focus and keyboard', () => {
     await user.tab();
     await elapse(0);
     expect(isOpen()).toBe(false);
-    expect(onOpenChange.mock.calls).toEqual([[true], [false]]);
+    expect(onUpdateOpen.mock.calls).toEqual([[true], [false]]);
   });
 
   it('closes on Escape and keeps focus on the trigger', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.tab();
     await user.tab();
     await elapse(0);
@@ -240,37 +240,37 @@ describe('Tooltip focus and keyboard', () => {
     await elapse(0);
     expect(isOpen()).toBe(false);
     expect(document.activeElement).toBe(trigger());
-    expect(onOpenChange.mock.calls.at(-1)).toEqual([false]);
+    expect(onUpdateOpen.mock.calls.at(-1)).toEqual([false]);
   });
 
   it('does not open on a mouse click: the press cancels the pending hover', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.click(trigger());
     await elapse(2000);
     expect(isOpen()).toBe(false);
-    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(onUpdateOpen).not.toHaveBeenCalled();
   });
 
   it('closes on a press on the trigger', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.hover(trigger());
     await elapse(700);
     await user.pointer({ keys: '[MouseLeft>]', target: trigger() });
     await elapse(0);
     expect(isOpen()).toBe(false);
-    expect(onOpenChange.mock.calls.at(-1)).toEqual([false]);
+    expect(onUpdateOpen.mock.calls.at(-1)).toEqual([false]);
   });
 });
 
 describe('Tooltip touch', () => {
   it('never opens on a touch hover or a tap', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     const touch = async (type: string): Promise<void> => {
       const event = new Event(type, { bubbles: true });
       Object.defineProperty(event, 'pointerType', { value: 'touch' });
@@ -282,7 +282,7 @@ describe('Tooltip touch', () => {
     await user.pointer({ keys: '[TouchA]', target: trigger() });
     await elapse(2000);
     expect(isOpen()).toBe(false);
-    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(onUpdateOpen).not.toHaveBeenCalled();
   });
 });
 
@@ -290,14 +290,14 @@ describe('Tooltip open state', () => {
   it('v-model: updates the bound value and emits update:open for a change the user makes', async () => {
     const user = setup();
     const open = ref(false);
-    const onOpenChange = vi.fn();
+    const onUpdateOpen = vi.fn();
     mountView(
       tooltipView({
         rootProps: () => ({
           open: open.value,
           'onUpdate:open': (value: boolean) => {
             open.value = value;
-            onOpenChange(value);
+            onUpdateOpen(value);
           },
         }),
       }),
@@ -307,16 +307,16 @@ describe('Tooltip open state', () => {
     await elapse(0);
     expect(open.value).toBe(true);
     expect(isOpen()).toBe(true);
-    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onUpdateOpen).toHaveBeenCalledTimes(1);
   });
 
   it('follows the open prop without reporting', async () => {
     useRealClock();
     const open = ref(false);
-    const onOpenChange = vi.fn();
+    const onUpdateOpen = vi.fn();
     mountView(
       tooltipView({
-        rootProps: () => ({ open: open.value, 'onUpdate:open': onOpenChange }),
+        rootProps: () => ({ open: open.value, 'onUpdate:open': onUpdateOpen }),
       }),
     );
     open.value = true;
@@ -325,7 +325,7 @@ describe('Tooltip open state', () => {
     open.value = false;
     await settle();
     expect(isOpen()).toBe(false);
-    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(onUpdateOpen).not.toHaveBeenCalled();
   });
 
   it('never opens while disabled, and closes when it becomes disabled', async () => {
@@ -386,12 +386,12 @@ describe('Tooltip open state', () => {
 
   it('clears its timer and layer when it unmounts while pending or open', async () => {
     const user = setup();
-    const onOpenChange = vi.fn();
-    const view = mountView(tooltipView({ rootProps: { 'onUpdate:open': onOpenChange } }));
+    const onUpdateOpen = vi.fn();
+    const view = mountView(tooltipView({ rootProps: { 'onUpdate:open': onUpdateOpen } }));
     await user.hover(trigger());
     view.unmount();
     await elapse(2000);
-    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(onUpdateOpen).not.toHaveBeenCalled();
     expect(document.querySelector('[popover]')).toBeNull();
   });
 });

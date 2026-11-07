@@ -31,9 +31,8 @@ export async function settleAnimations(animations: readonly Animation[]): Promis
 }
 
 /**
- * Waits for the element's CSS animations, as Radix `Presence` does for the exit (Material waits a
- * configured timer instead): resolves when every CSS animation on the element that is running and
- * finite, read at the call, has finished or been canceled, and in the next microtask when there is
+ * Waits for the element's CSS animations, for the exit: resolves when every CSS animation on the element that is
+ * running and finite, read at the call, has finished or been canceled, and in the next microtask when there is
  * none. CSS transitions, paused or infinite animations and `element.animate()` animations are not
  * awaited. It never times out. Call it after the state that starts the animation is rendered, so the
  * animation already exists when it is read.

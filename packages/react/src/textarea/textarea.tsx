@@ -72,8 +72,8 @@ interface TextareaComponent {
  * Renders a native `<textarea>` for several lines of text. It follows the contract of the Input: a real
  * form control, so `FormData`, constraint validation, the `form` attribute and `fieldset[disabled]` work,
  * and it works with react-hook-form `register()` and `Controller`. Without `value` it is uncontrolled
- * (`defaultValue`, the DOM holds the text); with `value` it is controlled and React restores a change the
- * parent rejects. Enter inserts a line break and never submits the form. A value with CR or CRLF shows
+ * (`defaultValue`, the DOM holds the text); with `value` it is controlled and a change the
+ * parent rejects is restored. Enter inserts a line break and never submits the form. A value with CR or CRLF shows
  * with LF, as the element does, and the DOM is not rewritten for that.
  *
  * Inside a FormField it gets the id `<fieldId>-control`, the Label names it, and its

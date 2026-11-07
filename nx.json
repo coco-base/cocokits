@@ -51,7 +51,17 @@
       "inputs": ["default", "^production"]
     },
     "lint": {
-      "cache": true
+      "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/eslint.config.mjs",
+        "{projectRoot}/eslint.config.mjs",
+        "{workspaceRoot}/tsconfig.strict.json",
+        "{workspaceRoot}/tools/eslint-rules/**/*",
+        { "externalDependencies": ["eslint"] },
+        "{workspaceRoot}/tools/eslint/**/*"
+      ]
     },
     "docs-data": {
       "cache": true,

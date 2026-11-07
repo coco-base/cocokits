@@ -18,7 +18,7 @@ import { isDevelopment } from './dev';
 /** A tag name for `as`. `'template'` merges onto the first element or component child like `asChild`. */
 export type AsTag = 'a' | 'button' | 'div' | 'span' | 'template' | (string & Record<never, never>);
 
-/** Props of the {@link Primitive}, the shape of Reka UI's `PrimitiveProps`. */
+/** Props of the {@link Primitive}. */
 export interface PrimitiveProps {
   /**
    * Whether the attrs merge onto the first element or component child (text and comments are skipped) instead of rendering an element.

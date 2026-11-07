@@ -13,7 +13,7 @@ export interface DismissLayerOptions {
   readonly getInsideElements: () => readonly (Element | null)[];
   /** Called for each intent; call `intent.preventDefault()` to refuse, otherwise close. The layer never closes anything itself. */
   readonly onDismiss: (intent: DismissIntent) => void;
-  /** The causes this layer listens for. An outside press and a focus-out skip a layer that does not listen and go on below it; Escape considers only the topmost layer (as Radix DismissableLayer does), so a topmost layer that does not listen leaves Escape unhandled. @defaultValue ['escape', 'outside-press'] */
+  /** The causes this layer listens for. An outside press and a focus-out skip a layer that does not listen and go on below it; Escape considers only the topmost layer, so a topmost layer that does not listen leaves Escape unhandled. @defaultValue ['escape', 'outside-press'] */
   readonly dismissOn?: readonly DismissReason[] | undefined;
   /** The layer this one opened from (a popover inside a dialog), read when the stack is used. A press inside this layer is inside the parent too, and this layer is always above the parent. */
   readonly getParent?: (() => DismissLayer | null) | undefined;

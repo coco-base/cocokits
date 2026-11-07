@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { SelectRoot } from '../../select';
 import { TabsRoot } from '../../tabs';
 
-/** R-VUE-1: a Root reports a change through `update:*` only, as Reka UI does. */
+/** R-VUE-1: a Root reports a change through `update:*` only. */
 describe('Root emits', () => {
   it('SelectRoot emits update:modelValue and update:open only', () => {
     expect((SelectRoot as { emits?: readonly string[] }).emits).toEqual(['update:modelValue', 'update:open']);

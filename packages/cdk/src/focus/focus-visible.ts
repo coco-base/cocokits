@@ -38,7 +38,7 @@ function start(doc: Document): Tracking {
 /**
  * Tracks the input modality of a document so a component can render `data-focus-visible`. The
  * listeners are shared and counted per document. A focus that arrives when the window regains
- * focus reports the modality of the last input, as Angular CDK FocusMonitor and React Aria do.
+ * focus reports the modality of the last input.
  *
  * @param doc - The document to track.
  * @returns A tracker; call `destroy()` when the component is disposed.

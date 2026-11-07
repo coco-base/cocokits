@@ -16,17 +16,17 @@ type ByFramework<T> = Map<string, T>;
 /**
  * Semantic ids a framework lacks by design, for a reason that is no single member. The Angular Accordion keeps its open
  * state on each item (the `expanded` model, tagged `none`) and is always vertical, collapsible and mounted, so React and
- * Vue have the root members and the item key that Angular has no input for. The Angular Tooltip follows Material and has no
+ * Vue have the root members and the item key that Angular has no input for. The Angular Tooltip has no
  * open model and no change output, which the playground controls still need for React and Vue (`tooltip.open`,
  * `tooltip.openChange`), so `none` would drop them. Angular selects a tab by its index, so the Angular tab and its section
  * have no value, and no `forceMount` (the root keeps every panel with `preserveContent`); the Angular nav takes the panel
  * directive itself, not its id. The Angular `ng-template[cckTabContent]` slot has no counterpart in React and Vue (the
  * content is the children), and neither has the default slot Angular copies onto the indicator it renders: the React and
  * Vue indicators take no content. The Angular Select takes the labels from the
- * text of its options and matches the text of the option itself, and it has no `open` model (Material's methods are
+ * text of its options and matches the text of the option itself, and it has no `open` model (its methods are
  * tagged `none`), so React and Vue have `items`, `itemToStringLabel`, `open` and the item `textValue` that Angular has
  * no input for; its `ng-template[cckSelectTrigger]` is the `Select.Value` children of React and the default slot of the Vue
- * `SelectValue`. Material's Dialog is always modal and keeps nothing mounted, and Angular gets no keep-mounted option, so the
+ * `SelectValue`. The Angular Dialog is always modal and keeps nothing mounted, and Angular gets no keep-mounted option, so the
  * `modal` switch of the Dialog and the Popover and the `forceMount` of the Dialog, Popover, Tooltip and Select contents are
  * React and Vue only.
  */
@@ -64,7 +64,7 @@ const LACKING_BY_DESIGN: ReadonlyMap<string, ReadonlySet<string>> = new Map([
 ]);
 
 /**
- * Semantic ids whose `required` and `default` are not compared: Radix requires the Accordion `type` and Reka infers it
+ * Semantic ids whose `required` and `default` are not compared: React requires the Accordion `type` and Vue infers it
  * from the value (default `single`), so React and Vue differ by design.
  */
 const NOT_COMPARED: ReadonlySet<string> = new Set(['accordion.type']);

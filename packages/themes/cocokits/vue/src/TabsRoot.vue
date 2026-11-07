@@ -30,7 +30,7 @@ defineSlots<{
      * The value of the selected tab, `undefined` until a tab is selected and no value was given.
      *
      * @cckSemantic none
-     * @remarks Vue-only slot prop: the model of the root, as in Reka UI.
+     * @remarks Slot prop: the model of the root.
      */
     modelValue: T | undefined;
   }): unknown;

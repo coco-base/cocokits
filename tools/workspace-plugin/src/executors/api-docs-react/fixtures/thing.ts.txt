@@ -15,6 +15,7 @@ export interface ThingProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>
    *
    * @cckSemantic none
    * @remarks The element override.
+   * @cckParity Another framework has no override.
    */
   readonly render?: ReactElement | ((props: ThingProps) => ReactElement) | undefined;
   /** The content of the thing. */

@@ -17,7 +17,7 @@ export const textareaMeta: ComponentMeta<'root'> = {
     {
       key: 'Text keys, IME',
       context: 'textarea',
-      action: 'Edit the value. Each `input` event fires the change callback with the reason `user`.',
+      action: 'Edit the value. Each `input` event reports the change.',
     },
     { key: 'Enter', context: 'textarea', action: 'Inserts a line break; it never submits the form (native).' },
   ],

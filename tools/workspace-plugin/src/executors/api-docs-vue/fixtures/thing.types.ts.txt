@@ -12,6 +12,7 @@ export interface ThingProps {
    * The tag to render.
    * @cckSemantic none
    * @remarks The element override.
+   * @cckParity Another framework has no override.
    * @defaultValue 'button'
    */
   readonly as?: string;

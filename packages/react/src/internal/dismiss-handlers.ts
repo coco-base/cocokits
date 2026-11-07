@@ -1,9 +1,9 @@
 import type { DismissIntent } from '@cocokits/cdk/dismissal';
 
-/** The cancelable event `onPointerDownOutside` receives (Radix): the press is `detail.originalEvent`. */
+/** The cancelable event `onPointerDownOutside` receives: the press is `detail.originalEvent`. */
 export type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>;
 
-/** The cancelable event `onFocusOutside` receives (Radix): the focus is `detail.originalEvent`. */
+/** The cancelable event `onFocusOutside` receives: the focus is `detail.originalEvent`. */
 export type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>;
 
 /** The Content handlers that can refuse a dismissal. A handler refuses with `event.preventDefault()`. */
@@ -15,7 +15,7 @@ export interface DismissHandlers {
 }
 
 /**
- * Gives a dismiss intent to the Content handlers, in Radix order: the specific handler, then `onInteractOutside`
+ * Gives a dismiss intent to the Content handlers in this order: the specific handler, then `onInteractOutside`
  * with the same event. A handler that calls `preventDefault()` refuses the intent. A close request with no key
  * (the dialog's `cancel`) reaches no key handler.
  *

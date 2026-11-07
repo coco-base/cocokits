@@ -64,7 +64,7 @@ describe('the Accordion shapes', () => {
     expect(compareApiDocs([angular, react, both]).failures).toEqual([]);
   });
 
-  it('does not compare the required flag and the default of the type, which Radix requires and Reka infers', () => {
+  it('does not compare the required flag and the default of the type, which React requires and Vue infers', () => {
     const type = (over: Partial<ApiMemberJson>): ApiMemberJson =>
       member({ name: 'type', semanticId: 'accordion.type', type: "'single' | 'multiple'", ...over });
     const react = docOf('react', [part('accordion.root', { props: [type({ required: true })] })]);

@@ -20,7 +20,7 @@ export interface Description {
 
 /**
  * Creates a hidden `role="tooltip"` element that holds the description of `target`, so that a screen reader
- * announces it while the visible overlay is closed (Angular CDK's `AriaDescriber`, kept per element: one
+ * announces it while the visible overlay is closed (kept per element: one
  * element per description, in the container of the target's overlay, so that an `aria-describedby` id
  * resolves inside a shadow root or an open modal dialog). The element is made in the container that
  * {@link resolveOverlayContainer} returns when it is first needed, and stays there. The helper never writes

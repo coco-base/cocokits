@@ -17,7 +17,7 @@ export interface SuffixProps {
    * The tag or component to render.
    *
    * @cckSemantic none
-   * @remarks Vue's element override (Reka).
+   * @cckParity Replaces the rendered element with `as`.
    * @defaultValue 'div'
    */
   readonly as?: AsTag | Component | undefined;
@@ -26,7 +26,7 @@ export interface SuffixProps {
    * default slot instead of rendering an element.
    *
    * @cckSemantic none
-   * @remarks Vue's merge onto one child.
+   * @cckParity Merges the props onto the single child.
    * @defaultValue false
    */
   readonly asChild?: boolean | undefined;

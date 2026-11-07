@@ -6,7 +6,12 @@
   "tags": ["type:tool", "scope:shared"],
   "targets": {
     "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/tools/scripts/package-manifest.mjs"]
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/tools/scripts/package-manifest.mjs",
+        "{workspaceRoot}/tools/eslint/**/*"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",

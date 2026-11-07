@@ -79,7 +79,7 @@ function TabsTriggerImpl({
       // element selects the tab on keydown.
       if (nativeButton || event.defaultPrevented || event.target !== event.currentTarget) return;
       if (event.key === 'Enter' || event.key === ' ') {
-        // A disabled tab selects nothing, but Space still must not scroll the page (Base UI).
+        // A disabled tab selects nothing, but Space still must not scroll the page.
         if (!disabled) trigger.onClick(event.nativeEvent);
         event.preventDefault();
       }

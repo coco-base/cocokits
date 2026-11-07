@@ -83,7 +83,7 @@ export function arrowMiddleware(size: ArrowSize, padding: number, hideShifted: b
   };
 }
 
-/** The point where the content meets its anchor, as the value of `transform-origin`. Radix's `transformOrigin`. */
+/** The point where the content meets its anchor, as the value of `transform-origin`. */
 export function transformOriginMiddleware(size: ArrowSize | null, dir: () => Direction): Middleware {
   return {
     name: 'cckTransformOrigin',

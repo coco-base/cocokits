@@ -133,23 +133,23 @@ describe('Tabs rendered contract', () => {
 });
 
 describe('Tabs value', () => {
-  it('is uncontrolled: a click selects and emits update:modelValue', async () => {
-    const onValueChange = vi.fn();
-    mountView(tabsView({ root: { 'onUpdate:modelValue': onValueChange } }));
+  it('keeps its own state: a click selects and emits update:modelValue', async () => {
+    const onUpdate = vi.fn();
+    mountView(tabsView({ root: { 'onUpdate:modelValue': onUpdate } }));
     await nextTick();
     await userEvent.click(tab('Password'));
     expect(selectedTabs()).toEqual(['Password']);
     expect(panelOf('Password').hidden).toBe(false);
-    expect(onValueChange).toHaveBeenCalledExactlyOnceWith('password');
+    expect(onUpdate).toHaveBeenCalledExactlyOnceWith('password');
   });
 
   it('reports nothing for a click on the selected tab or a disabled tab', async () => {
-    const onValueChange = vi.fn();
-    mountView(tabsView({ root: { modelValue: 'account', 'onUpdate:modelValue': onValueChange }, lockPassword: true }));
+    const onUpdate = vi.fn();
+    mountView(tabsView({ root: { modelValue: 'account', 'onUpdate:modelValue': onUpdate }, lockPassword: true }));
     await nextTick();
     await userEvent.click(tab('Account'));
     await userEvent.click(tab('Password'));
-    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onUpdate).not.toHaveBeenCalled();
   });
 
   it('is controlled with v-model: a parent that refuses the change keeps the old value', async () => {
@@ -163,14 +163,14 @@ describe('Tabs value', () => {
 
   it('follows a parent write without reporting it', async () => {
     const value = ref('account');
-    const onValueChange = vi.fn();
+    const onUpdate = vi.fn();
     mountView(() =>
       tabsView({
         root: {
           modelValue: value.value,
           'onUpdate:modelValue': (next: string) => {
             value.value = next;
-            onValueChange(next);
+            onUpdate(next);
           },
         },
       })(),
@@ -179,7 +179,7 @@ describe('Tabs value', () => {
     value.value = 'notifications';
     await nextTick();
     expect(selectedTabs()).toEqual(['Notifications']);
-    expect(onValueChange).not.toHaveBeenCalled();
+    expect(onUpdate).not.toHaveBeenCalled();
     await userEvent.click(tab('Account'));
     expect(value.value).toBe('account');
   });
@@ -230,8 +230,8 @@ describe('Tabs keyboard', () => {
 
   it('moves with the arrows, wraps, and selects in automatic mode', async () => {
     const user = userEvent.setup();
-    const onValueChange = vi.fn();
-    mountView(tabsView({ root: { 'onUpdate:modelValue': onValueChange } }));
+    const onUpdate = vi.fn();
+    mountView(tabsView({ root: { 'onUpdate:modelValue': onUpdate } }));
     await nextTick();
     tab('Account').focus();
     await user.keyboard('{ArrowRight}');
@@ -241,7 +241,7 @@ describe('Tabs keyboard', () => {
     expect(document.activeElement).toBe(tab('Account'));
     await user.keyboard('{ArrowLeft}');
     expect(document.activeElement).toBe(tab('Notifications'));
-    expect(onValueChange.mock.calls.map((call: unknown[]) => call[0])).toEqual([
+    expect(onUpdate.mock.calls.map((call: unknown[]) => call[0])).toEqual([
       'password',
       'notifications',
       'account',
