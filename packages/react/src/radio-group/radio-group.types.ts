@@ -4,122 +4,143 @@ import type { ChangeDetails, Direction } from '@cocokits/shared';
 
 export type { RadioGroupChangeReason, RadioGroupOrientation };
 
-/** What `onValueChange` receives besides the value: the reason and the event behind it. */
+/** What `onValueChange` receives besides the value: the `reason` and the `event` behind the change. */
 export type RadioGroupChangeDetails = ChangeDetails<RadioGroupChangeReason>;
 
-/** The public state of the RadioGroup, passed to the function form of `render`. */
+/** The state of the RadioGroup that the function form of `render` receives. */
 export interface RadioGroupState {
-  /** The checked value, `null` while no radio is checked. */
+  /** The value of the checked radio, or `null` while no radio is checked. */
   readonly value: string | null;
   /** Whether the group is disabled. */
   readonly disabled: boolean;
   /** Whether the group is required. */
   readonly required: boolean;
-  /** The orientation, `undefined` while both axes move. */
+  /** The axis of the arrow keys, or `undefined` while the arrow keys of both axes move. */
   readonly orientation: RadioGroupOrientation | undefined;
 }
 
 /**
- * The props the function form of `render` receives: the native props merged with the group's own. Spread all of
- * them, including `ref`, onto one element.
+ * The props that the function form of `render` receives: the native props merged with the props of the group. Pass
+ * all of them, `ref` included, to one element.
  */
 export interface RadioGroupRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
   /** Any `data-*` attribute, such as `data-disabled` and `data-orientation`. */
   readonly [attribute: `data-${string}`]: string | undefined;
-  /** The merged ref: the group's `ref`, the rendered element's own `ref` and the group's internal one. */
+  /** The merged ref: the `ref` of the group, the `ref` of the rendered element and the `ref` of the group itself. */
   readonly ref: RefCallback<HTMLElement>;
 }
 
 /**
  * Props of the {@link RadioGroup}. Native `div` props pass through to the root. Name the group with
- * `aria-labelledby` (a visible caption) or `aria-label`, and describe it with `aria-describedby`.
+ * `aria-labelledby` for a visible caption, or with `aria-label`, and describe it with `aria-describedby`.
  */
 export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'defaultValue' | 'dir'> {
   /**
-   * The radios: any markup that contains `Radio` components.
+   * The radios of the group: any markup that holds `Radio` elements. When not set, the group is empty.
+   *
+   * @example
+   * <RadioGroup aria-label="Plan">
+   *   <Radio value="free">Free</Radio>
+   *   <Radio value="pro">Pro</Radio>
+   * </RadioGroup>
    *
    * @cckSemantic radio-group.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * The value of the checked radio, which makes the group controlled; `null` checks none. A parent that does
-   * not update it after `onValueChange` keeps the old value and the inputs are written back. A value that
-   * matches no radio is kept and checks none.
+   * The value of the checked radio. Setting it makes the group controlled, and `null` checks no radio. If you do not
+   * update it after `onValueChange`, the old value stays.
+   *
+   * A value that matches no radio stays and checks no radio. When not set, the group keeps its own value, which
+   * starts as `defaultValue`.
    *
    * @cckSemantic radio-group.value
    */
   readonly value?: string | null | undefined;
   /**
-   * The initial value of an uncontrolled group, read once. A form reset restores it.
+   * The start value of a group that you do not control with `value`. A form reset restores it. When not set, no
+   * radio is checked at the start.
    *
    * @cckSemantic none
    * @cckParity The uncontrolled start value.
    */
   readonly defaultValue?: string | undefined;
   /**
-   * Called after every check the user makes (a click, a label click, Space or an arrow key), and after a reset
-   * of the owner form that changes the value, with the new value and the reason. Never when the parent sets
-   * `value`. The radios inside report nothing of their own.
+   * Called after the user checks a radio, and after a form reset that changes the value. It receives the new value
+   * and a details object with the `reason` and the `event`.
+   *
+   * The user can check a radio with a click, a click on its label, Space or an arrow key. It is never called when you
+   * change `value` yourself. The radios inside call no change of their own.
+   *
+   * @example
+   * <RadioGroup aria-label="Plan" value={plan} onValueChange={(value) => setPlan(value)}>
+   *   ...
+   * </RadioGroup>
    *
    * @cckSemantic radio-group.valueChange
    * @cckParity The change callback of this component.
    */
   readonly onValueChange?: ((value: string | null, details: RadioGroupChangeDetails) => void) | undefined;
   /**
-   * The `name` every radio of the group submits. Generated and stable between server and client when left out.
-   * Not rendered on the root.
+   * The `name` that every radio of the group sends with the form. It is not written on the root. When not set, the
+   * group makes a name that is the same on the server and the client.
    *
    * @cckSemantic radio-group.name
    * @defaultValue generated
    */
   readonly name?: string | undefined;
   /**
-   * Disables every radio and removes the tab stop. Adds to each radio's own `disabled`.
+   * Whether every radio is disabled. The group then has no tab stop. A radio can also be disabled by its own
+   * `disabled`.
    *
    * @cckSemantic radio-group.disabled
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
   /**
-   * Requires one radio to be checked (native `required` on every input, `aria-required` on the root).
+   * Whether a radio must be checked before the form can submit. It sets the native `required` on every input, and
+   * `aria-required` on the root.
    *
    * @cckSemantic radio-group.required
    * @defaultValue false
    */
   readonly required?: boolean | undefined;
   /**
-   * The `form` attribute for the radios that have none of their own. Not rendered on the root.
+   * The `id` of the form that the radios belong to, for each radio without its own `form`. It is not written on the
+   * root. When not set, the form around the group owns the radios.
    *
    * @cckSemantic radio-group.form
    */
   readonly form?: string | undefined;
   /**
-   * Limits the arrow keys to one axis: `horizontal` moves with Left and Right, `vertical` with Up and Down.
-   * Unset, both axes move.
+   * The axis of the arrow keys that move between the radios. When not set, the arrow keys of both axes move.
    *
    * @cckSemantic radio-group.orientation
    * @defaultValue both axes
    */
   readonly orientation?: RadioGroupOrientation | undefined;
   /**
-   * Whether the arrow keys wrap from the last radio to the first and back.
+   * Whether the arrow keys move from the last radio to the first, and from the first to the last.
    *
    * @cckSemantic radio-group.loop
    * @defaultValue true
    */
   readonly loop?: boolean | undefined;
   /**
-   * The text direction of the group and everything inside it, like a `DirectionProvider`: Left and Right swap
-   * in `rtl`. Without it the nearest `DirectionProvider` applies, then `'ltr'`. Only a `dir` you pass is rendered.
+   * The text direction of the group and everything inside it. In `rtl`, Left and Right swap. When not set, the
+   * nearest `DirectionProvider` applies, and then `'ltr'`.
+   *
+   * Only a `dir` you pass is written on the element.
    *
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly dir?: Direction | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the
-   * {@link RadioGroupState}. The function form must spread all the props it receives, including `ref`, onto one
-   * element.
+   * Replaces the `<div>` of the group. Pass an element, or a function of the merged props and the
+   * {@link RadioGroupState}. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the group renders a `<div>`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

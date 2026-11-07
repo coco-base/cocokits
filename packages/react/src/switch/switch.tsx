@@ -89,21 +89,25 @@ interface SwitchComponent {
 }
 
 /**
- * Renders a `div` root around a native `<input type="checkbox" role="switch">` and its label: the children
- * are the caption, so `<Switch>Email notifications</Switch>` is a complete control. It behaves like the
- * Checkbox without the mixed state: a real form control (`FormData`, `required`, reset, the `form`
- * attribute, `fieldset[disabled]`, the label click), uncontrolled with `defaultChecked` or controlled with
- * `checked`, and usable with react-hook-form `register()` and `Controller`. Its state is the native `checked`,
- * never `aria-checked`, and `readOnly` blocks every user toggle while keeping the focus and the submitted
- * value.
+ * A control that turns a setting on or off. It renders a `<div>` around a native
+ * `<input type="checkbox" role="switch">` and a label with the children as caption.
  *
- * Inside a FormField the input gets the id `<fieldId>-control`, the field's Label and the caption both name
- * it, and its `aria-describedby` ends with the feedback wrapper. The state facts are `data-*` attributes on
- * the root. `className`, `style`, `hidden` and `render` belong to the root; every other attribute and `ref`
- * belong to the input.
+ * It is a native form control. `FormData`, `required`, a form reset, the `form` prop, a disabled `fieldset` and a
+ * click on the label work as for a native checkbox. It works with react-hook-form `register()` and `Controller`.
+ *
+ * Control it with `checked` and `onCheckedChange`, or set `defaultChecked` and let the DOM keep the state. Its
+ * state is the native `checked`, never `aria-checked`.
+ *
+ * Inside a `FormField`, the input gets the id `<fieldId>-control`, and the field label and the caption both name
+ * it. The ids of the hints and errors of the field describe it.
+ *
+ * The root has the state as `data-*` attributes. `className`, `style`, `hidden` and `render` go to the root; every
+ * other prop and `ref` go to the input.
  *
  * @example
- * <Switch onCheckedChange={(checked) => setNotify(checked)}>Email notifications</Switch>
+ * <Switch name="notify" onCheckedChange={(checked) => setNotify(checked)}>
+ *   Email notifications
+ * </Switch>
  * @cckPart root
  * @cckPart label
  * @cckPart track

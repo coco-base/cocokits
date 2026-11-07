@@ -210,17 +210,23 @@ interface RadioGroupComponent {
 }
 
 /**
- * Renders the `<div role="radiogroup">` around a set of `Radio` components that share one value. The
- * group is one tab stop: the checked radio, else the first enabled one. The arrow keys move the focus and the
- * check to the next or previous enabled radio, wrapping with `loop`, limited by `orientation` and flipped
- * for Left and Right in `rtl`; Home, End, Page Up and Page Down are left to the browser.
+ * A set of radios with one value. It renders a `<div role="radiogroup">` around the `Radio` elements. Name it with
+ * `aria-labelledby` or `aria-label`.
  *
- * Uncontrolled with `defaultValue`, or controlled with `value` and `onValueChange`; a change the parent
- * rejects is written back to the inputs. Inside the group each Radio takes its checked state, `name`,
- * `disabled`, `required` and tab stop from the group and reports no change of its own; a Radio identifies
- * itself by its `value`. The radios are native inputs, so `FormData` holds the checked radio's value and a
- * reset of the owner form restores the value the group had at mount (reason `'form-reset'`, only when the value
- * changes). Name the group with `aria-labelledby` or `aria-label`.
+ * The group is one tab stop: the checked radio, or else the first enabled radio. The arrow keys move the focus and
+ * the check to the next or previous enabled radio.
+ *
+ * The arrow keys wrap with `loop`, and `orientation` limits them to one axis. In `rtl`, Left and Right swap. The
+ * browser handles Home, End, Page Up and Page Down.
+ *
+ * Control the value with `value` and `onValueChange`, or set `defaultValue` and let the group keep it. A change
+ * that you do not take is undone in the inputs.
+ *
+ * Each Radio takes its checked state, `name`, `disabled`, `required` and tab stop from the group. The group knows
+ * a Radio by its `value`.
+ *
+ * The radios are native inputs, so `FormData` holds the value of the checked radio. A form reset restores the
+ * value that the group had at mount.
  *
  * @example
  * <span id="plan-label">Plan</span>

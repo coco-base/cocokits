@@ -4,12 +4,14 @@ import type { ChangeDetails } from '@cocokits/shared';
 import type { RenderProp } from './render-element';
 
 /**
- * Why the checked value of a choice control changed: the user toggled it, or checked another radio of its
- * group (`'user'`), or the owner form was reset (`'form-reset'`).
+ * Why the checked value of a choice control changed.
+ *
+ * @cckValue user - The user checked or unchecked the control, or checked another radio of its group.
+ * @cckValue form-reset - The form of the control was reset.
  */
 export type ChoiceControlChangeReason = 'user' | 'form-reset';
 
-/** What `onCheckedChange` receives besides the value: the reason and the event behind it. */
+/** What `onCheckedChange` receives besides the value: the `reason` and the `event` behind the change. */
 export type ChoiceControlChangeDetails = ChangeDetails<ChoiceControlChangeReason>;
 
 /** The attributes of the native input that the choice controls take their own typed props for, or never accept. */
@@ -33,21 +35,22 @@ type ChoiceOmitted =
   | 'aria-labelledby';
 
 /**
- * Props every choice control shares. The root takes `className`, `style`, `hidden` and `render`; every other
- * native `input` attribute passes through to the native input, and `ref` reaches the input. Native
- * `onChange`, `onFocus`, `onBlur` and `onClick` run before the control's own handlers.
+ * Props that every choice control shares. The root takes `className`, `style`, `hidden` and `render`. Every other
+ * native `input` prop passes through to the native input, and `ref` reaches the input.
+ *
+ * Native `onChange`, `onFocus`, `onBlur` and `onClick` run before the handlers of the control.
  */
 export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>, ChoiceOmitted> {
   /**
-   * The checked value, which makes the control controlled: `null` renders unchecked, and `undefined` leaves
-   * the control uncontrolled. A parent that does not update it after `onCheckedChange` keeps the old state.
+   * Whether the control is checked. Setting it makes the control controlled, and `null` shows it unchecked. If you
+   * do not update it after `onCheckedChange`, the old state stays.
    *
    * @defaultValue false
    */
   readonly checked?: boolean | null | undefined;
   /**
-   * The initial checked state of an uncontrolled control. The DOM is the source, so a state written through
-   * the ref (react-hook-form `register()`) stays across renders. A form reset restores it.
+   * The start state of a control that you do not control with `checked`. The DOM holds the state, so a state that
+   * react-hook-form `register()` writes through the ref stays. A form reset restores it.
    *
    * @defaultValue false
    *
@@ -56,75 +59,89 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    */
   readonly defaultChecked?: boolean | undefined;
   /**
-   * Called after every change the user makes, from the input's native `change` event, and after a reset of the
-   * owner form; never when the parent sets `checked`. `details.event` is that event, or the `reset` event after a reset.
+   * Called after the user checks or unchecks the control, and after a reset of its form. It receives the new state
+   * and a details object with the `reason` and the `event`.
    *
+   * The `event` is the native `change` event, or the `reset` event after a reset. It is never called when you
+   * change `checked` yourself.
+   *
+   * @example
+   * onCheckedChange={(checked, details) => {
+   *   if (details.reason === 'user') setAccepted(checked);
+   * }}
    * @cckSemantic *.checkedChange
    * @cckParity The change callback of this component.
    */
   readonly onCheckedChange?: ((checked: boolean, details: ChoiceControlChangeDetails) => void) | undefined;
-  /** The `id` of the native input; generated when left out. An `id` you write replaces the generated one, and the label follows it. */
+  /**
+   * The `id` of the native input. An `id` you write replaces the made one, and the label follows it. When not set,
+   * the control makes a unique `id`.
+   */
   readonly id?: string | undefined;
   /**
-   * The name `FormData` submits. With react-hook-form, `register('terms')` passes it.
+   * The name that `FormData` sends. With react-hook-form, `register('terms')` passes it. When not set, the form
+   * does not send the control.
    *
    * @cckSemantic none
    * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
-   * The value `FormData` submits while the control is checked; left out, the browser submits `on`.
+   * The value that `FormData` sends while the control is checked. When not set, the browser sends `on`.
    *
    * @cckSemantic *.value
    * @cckParity A native attribute of the element.
    */
   readonly value?: string | undefined;
   /**
-   * Disables the control. A disabling `fieldset` adds to it.
+   * Whether the control is disabled. A disabled `fieldset` around it also disables it.
    *
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
   /**
-   * Makes the control required (native `required`).
+   * Whether the control must be checked before the form can submit. It sets the native `required`.
    *
    * @defaultValue false
    */
   readonly required?: boolean | undefined;
   /**
-   * Hides the control (native `hidden` on the root).
+   * Whether the control is hidden. It sets the native `hidden` on the root. When not set, the control shows.
    *
    * @cckSemantic none
    * @cckParity A native attribute of the element.
    */
   readonly hidden?: boolean | undefined;
   /**
-   * The ids this control is described by.
+   * The ids of the elements that describe the control. When not set, the control has no description of its own.
    *
    * @cckSemantic *.ariaDescribedBy
    * @cckParity Spelled as the native `aria-describedby` attribute.
    */
   readonly 'aria-describedby'?: string | undefined;
   /**
-   * The accessible name of the input, for a control without content.
+   * The accessible name of the input. Use it for a control without a caption. When not set, the caption names the
+   * control.
    *
    * @cckSemantic *.ariaLabel
    * @cckParity A native attribute of the element.
    */
   readonly 'aria-label'?: string | undefined;
   /**
-   * The id of the element that names the input.
+   * The id of the element that names the input. When not set, the caption names the control.
    *
    * @cckSemantic *.ariaLabelledBy
    * @cckParity A native attribute of the element.
    */
   readonly 'aria-labelledby'?: string | undefined;
-  /** The label content: the caption that names the control. */
+  /** The caption that names the control. */
   readonly children?: ReactNode;
   /**
-   * Replaces the root element (a `div` by default): an element, or a function of the root props and the
-   * state. The label content and the parts stay. `ref` reaches the input, not the root: the element form keeps
-   * the element's own `ref`, and the function form receives no `ref`.
+   * Replaces the root element. Pass an element, or a function of the root props and the state. The caption and the
+   * inner parts stay.
+   *
+   * When not set, the root is a `<div>`. The `ref` reaches the input, not the root. The element form keeps the
+   * `ref` of the element, and the function form receives no `ref`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -132,78 +149,92 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
   readonly render?: RenderProp<ChoiceRootProps, S> | undefined;
 }
 
-/** Props of the root the function form of `render` receives. Spread all of them, including `children`, onto one element. */
+/** The root props that the function form of `render` receives. Pass all of them, `children` too, to one element. */
 export interface ChoiceRootProps {
-  /** The class of the block and of the author. */
+  /** The class of the block and your own class. */
   readonly className?: string | undefined;
-  /** Any `data-*` attribute: the facts, the theme options. */
+  /** Any `data-*` attribute: the state of the control and the theme options. */
   readonly [attribute: `data-${string}`]: string | undefined;
-  /** The author's style. */
+  /** Your own style. */
   readonly style?: ComponentPropsWithRef<'div'>['style'];
-  /** Native `hidden`. */
+  /** The native `hidden`. */
   readonly hidden?: true | undefined;
-  /** The parts. */
+  /** The inner parts and the caption. */
   readonly children: ReactNode;
 }
 
 /** Props of a Checkbox or a Switch: the shared choice props and the form state. */
 export interface ChoiceControlBaseProps<S> extends ChoiceBaseProps<S> {
-  /** The `id` of the native input. Inside a FormField it defaults to `<fieldId>-control`; otherwise it is generated. An `id` you write wins and both labels follow it. */
+  /**
+   * The `id` of the native input. An `id` you write replaces the made one, and both labels follow it. When not set,
+   * the input inside a `FormField` gets `<fieldId>-control`, and any other input gets a unique `id`.
+   */
   readonly id?: string | undefined;
   /**
-   * The name `FormData` submits. With react-hook-form, `register('terms')` passes it.
+   * The name that `FormData` sends. With react-hook-form, `register('terms')` passes it. When not set, the form
+   * does not send the control.
    *
    * @cckSemantic none
    * @cckParity A native attribute of the element.
    */
   readonly name?: string | undefined;
   /**
-   * Disables the control. A disabling `fieldset` and the field's `disabled` add to it.
+   * Whether the control is disabled. A disabled `fieldset` around it, or a disabled `FormField`, also disables it.
    *
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
   /**
-   * The ids this control is described by. Inside a FormField the ids of its hints, then of its errors, are added after them.
+   * The ids of the elements that describe the control. Inside a `FormField`, the ids of its hints and then of its
+   * errors follow them. When not set, only the field describes the control.
    *
    * @cckSemantic *.ariaDescribedBy
    * @cckParity Spelled as the native `aria-describedby` attribute.
    */
   readonly 'aria-describedby'?: string | undefined;
   /**
-   * Makes the control read-only: a click, a label click and Space change nothing and report nothing. It stays
-   * focusable and is submitted.
+   * Whether the control is read-only. A click, a click on the label and Space change nothing and call nothing. The
+   * control can still take the focus, and the form still sends it.
    *
    * @defaultValue false
    */
   readonly readOnly?: boolean | undefined;
   /**
-   * Marks the control invalid. `aria-invalid` waits for `touched` or `submitted`.
+   * Whether the value is not valid. The control gets `aria-invalid` only after the user has left it or has tried to
+   * submit the form.
    *
    * @defaultValue false
    */
   readonly invalid?: boolean | undefined;
   /**
-   * An asynchronous validator is running.
+   * Whether an async check of the value is running.
    *
    * @defaultValue false
    */
   readonly pending?: boolean | undefined;
-  /** Whether the user left the control. Given, it wins; otherwise it is set after the first blur. */
+  /**
+   * Whether the user has left the control. A value you pass wins. When not set, the control sets it after the first
+   * blur.
+   */
   readonly touched?: boolean | undefined;
-  /** Whether the user changed the control. Given, it wins; otherwise it is set after the first change. */
+  /**
+   * Whether the user has changed the control. A value you pass wins. When not set, the control sets it after the
+   * first change.
+   */
   readonly dirty?: boolean | undefined;
   /**
-   * Whether a submit of the owner form was attempted. Given, it wins (bind it to the forms library's submit
-   * state); otherwise a `submit` event of the form sets it, canceled ones included, and a reset clears it.
+   * Whether the user has tried to submit the form. A value you pass wins, so you can bind the submit state of a
+   * form library.
+   *
+   * When not set, a `submit` event of the form sets it, also a canceled one, and a form reset clears it.
    */
   readonly submitted?: boolean | undefined;
 }
 
 /**
- * The public state of a Checkbox or a Switch, passed to the function form of `render`: the checked value and
- * the resolved facts (`disabled`, `readOnly`, `required`, `invalid`, `pending`, `touched`, `dirty`,
- * `submitted`, `focused`, `hidden`).
+ * The state of a Checkbox or a Switch that the function form of `render` receives. It holds the checked value and
+ * the state of the control: `disabled`, `readOnly`, `required`, `invalid`, `pending`, `touched`, `dirty`,
+ * `submitted`, `focused` and `hidden`.
  */
 export interface ChoiceControlState extends Omit<FormFieldState, 'filled'> {
   /** Whether the control is checked. */
