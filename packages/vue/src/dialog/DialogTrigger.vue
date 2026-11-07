@@ -11,7 +11,13 @@ defineOptions({ name: 'CckDialogTrigger', inheritAttrs: false });
 
 const props = withDefaults(defineProps<DialogTriggerProps>(), { as: 'button', asChild: false });
 defineSlots<{
-  /** The content of the trigger: text and icons. An icon-only trigger needs `aria-label`. */
+  /**
+   * The content of the trigger: text and icons. An icon-only trigger needs `aria-label`. When not set, the trigger is
+   * empty and needs `aria-label`.
+   *
+   * @example
+   * <DialogTrigger>Delete project</DialogTrigger>
+   */
   default?(): unknown;
 }>();
 

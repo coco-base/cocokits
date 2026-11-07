@@ -11,7 +11,12 @@ defineOptions({ name: 'CckPopoverAnchor', inheritAttrs: false });
 
 const props = withDefaults(defineProps<PopoverAnchorProps>(), { reference: undefined, as: 'div', asChild: false });
 defineSlots<{
-  /** The content of the anchor. */
+  /**
+   * The content of the anchor. When not set, the anchor is an empty element.
+   *
+   * @example
+   * <PopoverAnchor><PopoverTrigger>Share</PopoverTrigger></PopoverAnchor>
+   */
   default?(): unknown;
 }>();
 

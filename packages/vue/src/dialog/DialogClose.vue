@@ -10,7 +10,13 @@ defineOptions({ name: 'CckDialogClose', inheritAttrs: false });
 
 const props = withDefaults(defineProps<DialogCloseProps>(), { as: 'button', asChild: false });
 defineSlots<{
-  /** The content of the Close: text and icons. An icon-only Close needs `aria-label`. */
+  /**
+   * The content of the Close: text and icons. An icon-only Close needs `aria-label`. When not set, the Close is
+   * empty and needs `aria-label`.
+   *
+   * @example
+   * <DialogClose aria-label="Close"><XIcon aria-hidden="true" /></DialogClose>
+   */
   default?(): unknown;
 }>();
 

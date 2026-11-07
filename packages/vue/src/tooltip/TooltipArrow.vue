@@ -10,7 +10,15 @@ defineOptions({ name: 'CckTooltipArrow', inheritAttrs: false });
 
 withDefaults(defineProps<TooltipArrowProps>(), { as: 'span', asChild: false });
 defineSlots<{
-  /** Replaces the triangle: it renders inside the `svg` of the arrow. Unused with `asChild`, where the child is the arrow. */
+  /**
+   * Your own shape for the arrow. It renders inside the `<svg>` of the arrow. When not set, the arrow shows a
+   * triangle.
+   *
+   * It is not used with `asChild`, where the child is the arrow.
+   *
+   * @example
+   * <TooltipArrow><circle cx="5" cy="5" r="5" /></TooltipArrow>
+   */
   default?(): unknown;
 }>();
 

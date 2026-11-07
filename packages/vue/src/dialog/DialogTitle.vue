@@ -9,7 +9,12 @@ defineOptions({ name: 'CckDialogTitle', inheritAttrs: false });
 
 withDefaults(defineProps<DialogTitleProps>(), { as: 'h2', asChild: false });
 defineSlots<{
-  /** The title text. */
+  /**
+   * The text of the title. When not set, the title is empty and the dialog has no name.
+   *
+   * @example
+   * <DialogTitle>Delete project</DialogTitle>
+   */
   default?(): unknown;
 }>();
 

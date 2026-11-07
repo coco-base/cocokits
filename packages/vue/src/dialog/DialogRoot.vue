@@ -16,7 +16,21 @@ const props = withDefaults(defineProps<DialogRootProps>(), {
 });
 defineEmits<DialogRootEmits>();
 defineSlots<{
-  /** The parts of the dialog: a trigger and the content. The root renders no element around them. It receives `open` and `close`. */
+  /**
+   * The parts of the dialog: a trigger and the content. The slot gives you the open state and a close function. When
+   * not set, the dialog has no parts.
+   *
+   * The root renders no element around them.
+   *
+   * @example
+   * <DialogRoot #default="{ close }">
+   *   <DialogTrigger>Delete project</DialogTrigger>
+   *   <DialogContent>
+   *     <DialogTitle>Delete project</DialogTitle>
+   *     <button type="button" @click="remove(); close()">Delete</button>
+   *   </DialogContent>
+   * </DialogRoot>
+   */
   default?(props: {
     /**
      * Whether the dialog is open.
@@ -26,7 +40,7 @@ defineSlots<{
      */
     open: boolean;
     /**
-     * Closes the dialog the way `DialogClose` does and emits `update:open` with `false`.
+     * Closes the dialog as `DialogClose` does, and emits `update:open` with `false`.
      *
      * @cckSemantic none
      * @cckParity Slot prop: the close function of the root.
