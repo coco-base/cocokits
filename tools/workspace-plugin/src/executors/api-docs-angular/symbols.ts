@@ -1,17 +1,8 @@
 import ts from 'typescript';
+import { docTextOf, oneLine, tagsOfNode } from '../api-docs-common/jsdoc';
 import { memberOf } from '../api-docs-common/member';
 import { isInternal, paragraphsOf, tagsOf, withoutLinks } from '../api-docs-common/tags';
 import type { ApiMemberJson, ApiSymbolJson, TagEntry } from '../api-docs-common/types';
-
-const tagsOfNode = (node: ts.Node): TagEntry[] =>
-  ts
-    .getJSDocTags(node)
-    .map((tag) => ({ name: tag.tagName.text, comment: ts.getTextOfJSDocComment(tag.comment) ?? '' }));
-
-const docTextOf = (node: ts.Node): string =>
-  ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '';
-
-const oneLine = (text: string): string => text.replace(/\s+/g, ' ').trim();
 
 const decoratorNames = (node: ts.ClassDeclaration): string[] =>
   (ts.getDecorators(node) ?? []).map((decorator) => {

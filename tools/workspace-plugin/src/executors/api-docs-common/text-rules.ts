@@ -1,3 +1,4 @@
+import { topLevelMembers } from './expand-alias';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, ApiSymbolJson, ApiTypeJson } from './types';
 
 /** The most words a sentence may have; a code span counts as one word. */
@@ -50,33 +51,14 @@ function checkText(
   for (const value of item.values ?? []) checkProse(`${label} @cckValue ${value.value}`, value.description, problems);
 }
 
-/** The members of a union at its top level, outside brackets, generics and function types. */
-export function unionMembersOf(type: string): string[] {
-  const members: string[] = [];
-  let depth = 0;
-  let quote = '';
-  let start = 0;
-  for (let index = 0; index < type.length; index += 1) {
-    const char = type.charAt(index);
-    if (quote !== '') {
-      if (char === quote) quote = '';
-    } else if (char === '"' || char === "'") quote = char;
-    else if ('([{<'.includes(char)) depth += 1;
-    else if (')]}>'.includes(char) && type.charAt(index - 1) !== '=') depth -= 1;
-    else if (char === '|' && depth === 0) {
-      members.push(type.slice(start, index).trim());
-      start = index + 1;
-    }
-  }
-  return [...members, type.slice(start).trim()].filter((member) => member !== '');
-}
-
 /**
  * The literals of a literal union, without their quotes: the string and number members of a union with at least one
  * literal and one other member that is not `undefined` or `null`. A single literal is no union and has none.
  */
 export function unionLiteralsOf(type: string): string[] {
-  const members = unionMembersOf(type).filter((member) => member !== 'undefined' && member !== 'null');
+  const members = topLevelMembers(type)
+    .map((member) => member.trim())
+    .filter((member) => member !== '' && member !== 'undefined' && member !== 'null');
   const literals = members.flatMap((member) => {
     const match = /^(?:(['"])(.*)\1|(-?\d+(?:\.\d+)?))$/.exec(member);
     return match === null ? [] : [match[2] ?? match[3] ?? ''];

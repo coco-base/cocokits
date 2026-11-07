@@ -1,19 +1,10 @@
 import ts from 'typescript';
 import { posix } from '../posix-path';
 import { aliasResolverAt, aliasValuesOf, expandAliases } from './expand-alias';
+import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
 import { memberOf } from './member';
 import { isInternal, paragraphsOf, valuesOf, withoutLinks } from './tags';
-import type { ApiMemberJson, ApiTypeJson, TagEntry } from './types';
-
-const tagsOfNode = (node: ts.Node): TagEntry[] =>
-  ts
-    .getJSDocTags(node)
-    .map((tag) => ({ name: tag.tagName.text, comment: ts.getTextOfJSDocComment(tag.comment) ?? '' }));
-
-const docTextOf = (node: ts.Node): string =>
-  ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '';
-
-const oneLine = (text: string): string => text.replace(/\s+/g, ' ').trim();
+import type { ApiMemberJson, ApiTypeJson } from './types';
 
 /** The documented fields of an interface: its own members, each with the type as written and its TSDoc. */
 function fieldsOf(componentName: string, declaration: ts.InterfaceDeclaration, problems: string[]): ApiMemberJson[] {

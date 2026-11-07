@@ -9,6 +9,7 @@ import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
 import { exportedTypesOf } from '../api-docs-common/exported-types';
+import { docTextOf, tagsOfNode } from '../api-docs-common/jsdoc';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
 import type {
@@ -60,13 +61,7 @@ interface NodeDoc {
   tags: TagEntry[];
 }
 
-const docOf = (node: ts.Node): NodeDoc => ({
-  description: ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '',
-  tags: ts.getJSDocTags(node).map((tag) => ({
-    name: tag.tagName.text,
-    comment: ts.getTextOfJSDocComment(tag.comment) ?? '',
-  })),
-});
+const docOf = (node: ts.Node): NodeDoc => ({ description: docTextOf(node), tags: tagsOfNode(node) });
 
 /** The interface or type alias `typeName`, declared in a `*.types.ts` file of the folder. */
 function typeDeclarationOf(

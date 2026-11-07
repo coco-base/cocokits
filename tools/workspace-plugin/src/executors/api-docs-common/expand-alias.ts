@@ -1,6 +1,7 @@
 import { dirname } from 'node:path/posix';
 import ts from 'typescript';
 import { posix } from '../posix-path';
+import { tagsOfNode } from './jsdoc';
 import { valuesOf } from './tags';
 import type { ApiValueJson } from './types';
 
@@ -31,10 +32,7 @@ function literalUnionOf(checker: ts.TypeChecker, symbol: ts.Symbol, depth = 0): 
   const target = symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
   const declaration = target.declarations?.find(ts.isTypeAliasDeclaration);
   if (declaration === undefined || declaration.typeParameters !== undefined) return undefined;
-  const tags = ts
-    .getJSDocTags(declaration)
-    .map((tag) => ({ name: tag.tagName.text, comment: ts.getTextOfJSDocComment(tag.comment) ?? '' }));
-  const own = valuesOf(tags, declaration.name.text, []);
+  const own = valuesOf(tagsOfNode(declaration), declaration.name.text, []);
   const inner = ts.isTypeReferenceNode(declaration.type)
     ? checker.getSymbolAtLocation(declaration.type.typeName)
     : undefined;
@@ -84,7 +82,7 @@ function buildResolver(checker: ts.TypeChecker, location: ts.Node): AliasResolve
 }
 
 /** The members of a union written at the top level of the text, with their white space; brackets and quotes nest. */
-function topLevelMembers(typeText: string): string[] {
+export function topLevelMembers(typeText: string): string[] {
   const members: string[] = [];
   let depth = 0;
   let quote = '';
