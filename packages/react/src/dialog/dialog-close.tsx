@@ -35,10 +35,11 @@ function DialogCloseImpl({ render, nativeButton = true, ref, ...rest }: DialogCl
 }
 
 /**
- * Renders a `<button type="button">` that closes the dialog. Put it inside the content. With
- * `nativeButton={false}` it renders another element through `render` and gives it `role="button"`,
- * `tabindex="0"` and Enter and Space activation, and no `type`. Native button props
- * pass through, and `ref` reaches the element. Compose it with another component through `render`.
+ * A button that closes the dialog. It renders a `<button type="button">`; put it inside the content. Native button
+ * props pass through, and `ref` reaches the element.
+ *
+ * To render another element or component, use `render`. An element that is not a `<button>` also needs
+ * `nativeButton={false}`.
  *
  * @example
  * <Dialog.Close>Cancel</Dialog.Close>

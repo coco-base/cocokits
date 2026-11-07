@@ -217,22 +217,31 @@ function DialogContentImpl(props: DialogContentProps): ReactElement {
 }
 
 /**
- * Renders a `<dialog>` opened with `showModal()` (or `show()` when the Root is not `modal`) in a top-layer host: in the open modal dialog that holds
- * the trigger, else at the end of `<body>`. With `modal`, the rest of the page is inert and Tab moves through its
- * controls; the browser decides what follows the last one, so there is no focus trap of our own; focus starts where the browser puts it (an `autofocus` element, else the first
- * focusable). It renders nothing while closed (unless `forceMount`, which keeps the closed `dialog` in the document after hydration), on the server and in the first client render, so a dialog that is
- * open by default appears right after hydration. It is named by `Dialog.Title` and described by
- * `Dialog.Description` while they are mounted; without a Title give it `aria-label`. Escape closes the topmost
- * layer only; a press on the backdrop closes it. Refuse either with `onEscapeKeyDown`, `onPointerDownOutside` or
- * `onInteractOutside` (`event.preventDefault()`), or any change with `details.cancel()` in `onOpenChange`. Refusing
- * Escape weakens the dialog pattern: keep another way to close it. The page does not scroll while it is open, and
- * focus returns to the trigger when the trigger opened it, else to the element that had focus when it opened
- * (whatever opened it from code), when it closes; `onOpenAutoFocus` and `onCloseAutoFocus` can stop CocoKits from moving focus. A dialog needs no
- * `Dialog.Trigger`: open it with `open`.
+ * The window of the dialog. It renders a native `<dialog>` in the overlay container, not next to the trigger. A
+ * `Dialog.Title` names it and a `Dialog.Description` describes it; without a Title, give it an `aria-label`.
+ *
+ * It opens with `showModal()`, or with `show()` when the Root is not `modal`. The overlay container is the open
+ * modal dialog that holds the trigger, or else the end of `<body>`.
+ *
+ * A modal dialog makes the rest of the page inert, and Tab moves through its own controls. The browser decides
+ * what comes after the last control. The focus starts on an `autofocus` element, or else on the first control.
+ *
+ * It renders nothing while closed, on the server and in the first client render. So a dialog that starts open
+ * appears right after hydration. With `forceMount`, the closed `dialog` stays in the document after hydration.
+ *
+ * Escape closes only the top layer, and a press on the backdrop closes the dialog. To refuse one, call
+ * `event.preventDefault()` in `onEscapeKeyDown`, `onPointerDownOutside` or `onInteractOutside`. If you refuse
+ * Escape, give the user another way to close the dialog.
+ *
+ * The page does not scroll while the dialog is open. On close, the focus returns to the trigger, or to the element
+ * that had the focus when the dialog opened. Stop these focus moves with `onOpenAutoFocus` and `onCloseAutoFocus`.
+ *
+ * A dialog needs no `Dialog.Trigger`: you can open it with `open`.
  *
  * @example
  * <Dialog.Content>
  *   <Dialog.Title>Delete project</Dialog.Title>
+ *   <Dialog.Description>You cannot undo this.</Dialog.Description>
  *   <Dialog.Close>Cancel</Dialog.Close>
  * </Dialog.Content>
  * @cckPart content

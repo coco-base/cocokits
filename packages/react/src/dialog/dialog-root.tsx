@@ -103,18 +103,21 @@ function DialogRootImpl({
 }
 
 /**
- * Provides the open state to the Trigger, the Content, the Title, the Description and the Close part. It renders
- * no element. Uncontrolled with `defaultOpen`, or controlled with `open` and `onOpenChange`. The dialog is modal
- * unless `modal` is `false`. It closes on Close, on Escape (the topmost layer only), on a press on the backdrop
- * (outside, when it is not modal) and when a `<form method="dialog">` inside it is submitted. A dialog that is not
- * modal also closes when focus moves to an element outside it.
+ * A window over the page that asks the user to read or act. The Root renders no element; it gives the open state to
+ * its parts. The dialog is modal unless `modal` is `false`.
+ *
+ * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the dialog keep it.
+ *
+ * It closes on a Close, on Escape, on a press on the backdrop and when a `<form method="dialog">` inside it is
+ * submitted. Escape closes only the top layer. A dialog that is not modal also closes when the focus moves outside
+ * it.
  *
  * @example
  * <Dialog.Root>
  *   <Dialog.Trigger>Delete project</Dialog.Trigger>
  *   <Dialog.Content>
  *     <Dialog.Title>Delete project</Dialog.Title>
- *     <Dialog.Description>This cannot be undone.</Dialog.Description>
+ *     <Dialog.Description>You cannot undo this.</Dialog.Description>
  *     <Dialog.Close>Cancel</Dialog.Close>
  *   </Dialog.Content>
  * </Dialog.Root>
