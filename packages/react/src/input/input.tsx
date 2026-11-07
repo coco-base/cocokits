@@ -66,23 +66,24 @@ interface InputComponent {
 }
 
 /**
- * Renders a native `<input>` for a line of text: `text`, `email`, `password`, `search`, `tel` or
- * `url`. It is a real form control, so `FormData`, constraint validation, the `form` attribute,
- * implicit submission and `fieldset[disabled]` work, and it works with react-hook-form `register()`
- * and `Controller`. Without `value` it is uncontrolled (`defaultValue`, the DOM holds the text); with
- * `value` it is controlled and a change the parent rejects is restored.
+ * A box for one line of text. It renders a native `<input>` of the type `text`, `email`, `password`, `search`, `tel`
+ * or `url`. Native `input` props pass through, and `ref` reaches the element.
  *
- * Inside a FormField it gets the id `<fieldId>-control`, the Label names it, and its
- * `aria-describedby` ends with the feedback wrapper that holds the hints. An `id`,
- * `aria-describedby` or `type` you write replaces or comes before the default (`type` is `text`).
- * The state facts are `data-*` attributes, and `aria-invalid="true"` appears only while the control
- * is invalid and was touched or the form was submitted. Native `required`, `disabled`, `readOnly`
- * and `hidden` pass through. Native attributes pass through, and `ref` reaches the `input`.
+ * It is a native form control. `FormData`, the native checks, the `form` prop, submit by Enter and a disabled
+ * `fieldset` work. It works with react-hook-form `register()` and `Controller`.
+ *
+ * Control the text with `value` and `onValueChange`, or set `defaultValue` and let the DOM keep it. A change that
+ * you do not take is undone.
+ *
+ * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and
+ * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.
+ *
+ * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and
+ * the user has left it or tried to submit.
  *
  * @example
- * <FormField label={<Label>Email address</Label>}>
- *   <Input type="email" onValueChange={(value) => setEmail(value)} />
- * </FormField>
+ * <label htmlFor="email">Email address</label>
+ * <Input id="email" type="email" onValueChange={(value) => setEmail(value)} />
  * @cckPart root
  * @param props - The Input props.
  * @returns The rendered input.

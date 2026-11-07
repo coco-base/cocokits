@@ -188,27 +188,36 @@ interface FormFieldComponent {
 }
 
 /**
- * Renders a `<div>` by default that lays out a label, a control, its zones and its hints in fixed
- * places: the `label` prop; inside the wrapper the `leading` prop, then the input wrapper (the
- * `prefix` prop, the `children` (the control), the `suffix` prop), then the `trailing` prop; and the
- * `hint` and `error` props inside a feedback wrapper that is always rendered. The places fix the
- * order, not the order the props are written in. Pass the zone components (`Prefix`, `Suffix`,
- * `Leading`, `Trailing`, `FieldError`) to the props. A click on the input wrapper (its padding, a
- * prefix or a suffix) focuses the control, unless it lands on interactive content, on a disabled
- * control or after selecting text.
+ * A label, a control, its zones, its hints and its errors, each in a fixed place. It renders a `<div>`. Native `div`
+ * props pass through, and `ref` reaches the element.
  *
- * It wires a CocoKits control for you. The field has an id (your `id`, or a generated one); the
- * control (an Input or a Textarea) gets `<id>-control`, the Label's `htmlFor` points at it, and the
- * control's `aria-describedby` ends with the ids of its hints, then of its errors (an `id` on a Hint or a
- * FieldError wins; otherwise `<id>-hint-<n>` or `<id>-error-<n>`), so every hint and error describes the control. An `id`, `htmlFor` or `aria-describedby` you write wins or comes first.
- * `disabled`, `readOnly`, `required` and `invalid` reach the control, and the facts of the control (those
- * and `touched`, `dirty`, `submitted`, `focused`, `filled`, `pending`) are `data-*` attributes on the field root. A control
- * that is not a CocoKits control gets none of this: give it an `id`, give the Label the same
- * `htmlFor`, and add the hint ids to its `aria-describedby`. The field holds one control. Native div
- * attributes pass through, and `ref` reaches the div.
+ * The `label` comes first. Then come `leading`, the box with `prefix`, the control and `suffix`, and `trailing`.
+ * Last come `hint` and `error`, in a feedback wrapper that is always rendered. The order of your props does not
+ * change this order.
+ *
+ * A click on the box, its padding, a prefix or a suffix moves the focus to the control. It does not when the click
+ * lands on a link or a button, on a disabled control, or ends a text selection.
+ *
+ * The field links its CocoKits control for you. The control, an `Input` or a `Textarea`, gets the id
+ * `<id>-control`, and the `htmlFor` of the `Label` points to it.
+ *
+ * The ids of the hints and then of the errors follow the `aria-describedby` of the control. A hint or error without
+ * an `id` gets `<id>-hint-<n>` or `<id>-error-<n>`. An `id`, `htmlFor` or `aria-describedby` you write wins or comes
+ * first.
+ *
+ * `disabled`, `readOnly`, `required` and `invalid` reach the control. The root has the state of the control as
+ * `data-*` attributes, also `touched`, `dirty`, `submitted`, `focused`, `filled` and `pending`.
+ *
+ * A control that is not a CocoKits control gets none of this. Give it an `id` and the `Label` the same `htmlFor`,
+ * and add the ids of the hints to its `aria-describedby`.
  *
  * @example
- * <FormField label={<Label>Email address</Label>} hint={<Hint>We never share it.</Hint>} required>
+ * <FormField
+ *   label={<Label>Email address</Label>}
+ *   hint={<Hint>We never share it.</Hint>}
+ *   error={<FieldError>Enter an email address.</FieldError>}
+ *   required
+ * >
  *   <Input type="email" />
  * </FormField>
  * @cckPart root

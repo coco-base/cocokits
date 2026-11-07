@@ -35,13 +35,16 @@ interface TrailingComponent {
 }
 
 /**
- * Renders a `<div>` by default with content outside the box, after it. It is a plain wrapper: it adds no ARIA and
- * wires nothing, and its text is not part of the control's name or description. Give an icon
- * `aria-hidden="true"` and a button its own accessible name. Pass it to the `trailing` prop of a FormField to place it; it
- * also works outside a FormField. Native div attributes pass through, and `ref` reaches the div.
+ * An icon, a short text or a button after the box of a field, outside it.
+ * It renders a `<div>`. Native `div` props pass through, and `ref` reaches the element.
+ *
+ * Pass it to the `trailing` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.
+ *
+ * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. Give
+ * an icon `aria-hidden="true"`, and give a button its own accessible name.
  *
  * @example
- * <FormField trailing={<Trailing>$</Trailing>} label={<Label>Price</Label>}>
+ * <FormField label={<Label>Code</Label>} trailing={<Trailing>6 digits</Trailing>}>
  *   <Input />
  * </FormField>
  * @cckPart root

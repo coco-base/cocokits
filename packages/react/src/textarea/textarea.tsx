@@ -69,24 +69,27 @@ interface TextareaComponent {
 }
 
 /**
- * Renders a native `<textarea>` for several lines of text. It follows the contract of the Input: a real
- * form control, so `FormData`, constraint validation, the `form` attribute and `fieldset[disabled]` work,
- * and it works with react-hook-form `register()` and `Controller`. Without `value` it is uncontrolled
- * (`defaultValue`, the DOM holds the text); with `value` it is controlled and a change the
- * parent rejects is restored. Enter inserts a line break and never submits the form. A value with CR or CRLF shows
- * with LF, as the element does, and the DOM is not rewritten for that.
+ * A box for several lines of text. It renders a native `<textarea>`. Native `textarea` props such as `rows` pass
+ * through, and `ref` reaches the element.
  *
- * Inside a FormField it gets the id `<fieldId>-control`, the Label names it, and its
- * `aria-describedby` ends with the feedback wrapper that holds the hints and the FieldError. An `id` or `aria-describedby`
- * you write replaces or comes before the default. The state facts are `data-*` attributes, and
- * `aria-invalid="true"` appears only while the control is invalid and was touched or the form was
- * submitted. Native `required`, `disabled`, `readOnly`, `hidden`, `rows` and the other textarea attributes
- * pass through, and `ref` reaches the `textarea`.
+ * It is a native form control. `FormData`, the native checks, the `form` prop and a disabled `fieldset` work. It
+ * works with react-hook-form `register()` and `Controller`.
+ *
+ * Control the text with `value` and `onValueChange`, or set `defaultValue` and let the DOM keep it. A change that
+ * you do not take is undone.
+ *
+ * Enter adds a line break and never submits the form. A line break written as CR or CRLF shows as LF, as in the
+ * native element, and the DOM is not written again for it.
+ *
+ * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and
+ * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.
+ *
+ * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and
+ * the user has left it or tried to submit.
  *
  * @example
- * <FormField label={<Label>Message</Label>}>
- *   <Textarea rows={4} onValueChange={(value) => setMessage(value)} />
- * </FormField>
+ * <label htmlFor="message">Message</label>
+ * <Textarea id="message" rows={4} onValueChange={(value) => setMessage(value)} />
  * @cckPart root
  * @param props - The Textarea props.
  * @returns The rendered textarea.

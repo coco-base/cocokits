@@ -38,19 +38,22 @@ interface FieldErrorComponent {
 }
 
 /**
- * Renders a `<div>` by default with the error message of a field. The `div` is a polite live region
- * (`aria-live="polite"`) that is always rendered; its content is inserted only while it shows, so the
- * message is announced when it appears. Inside a FormField it shows while the field is invalid and was
- * touched or the form was submitted, or with `force`; outside a FormField it always shows, and you render
- * the content conditionally. The message is not rendered while hidden, so a hidden FieldError adds nothing to
- * the description of the control. Passed to the `error` prop of a FormField it describes the control (an error
- * without an `id` gets `<fieldId>-error-<n>`). Pass it to the `error` prop of a FormField; several are allowed. It has
- * no role and does not move focus. Native div attributes pass through, and `ref` reaches the div.
+ * The error message of a field. It renders a `<div aria-live="polite">` that is always in the document. The message
+ * is added only while it shows, so screen readers read it when it appears.
+ *
+ * Pass it to the `error` prop of a `FormField`, which can take several. There it shows while the field is not valid
+ * and the user has left it or tried to submit, or with `force`.
+ *
+ * In a `FormField`, it describes the control. An error without an `id` gets `<fieldId>-error-<n>`. A hidden error
+ * renders no message, so it adds nothing to the description of the control.
+ *
+ * Outside a `FormField`, it always shows, so you decide when to render it. It has no role and does not move the
+ * focus. Native `div` props pass through, and `ref` reaches the element.
  *
  * @example
- * <FormField error={<FieldError>Enter an email address.</FieldError>} label={<Label>Email</Label>}>
- *   <Input type="email" invalid />
- * </FormField>
+ * <label htmlFor="email">Email</label>
+ * <input id="email" type="email" aria-invalid="true" aria-describedby="email-error" />
+ * <FieldError id="email-error">Enter an email address.</FieldError>
  * @cckPart root
  * @param props - The FieldError props.
  * @returns The rendered div.
