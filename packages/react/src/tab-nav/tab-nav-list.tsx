@@ -65,10 +65,14 @@ function TabNavListImpl({ render, ref, onKeyDown, ...rest }: TabNavListProps): R
 }
 
 /**
- * Renders the `<div>` list inside the `TabNav.Root` that holds the links and the `TabNav.Indicator` as direct
- * children. With a `tabPanel` on the Root it is the `tablist`; without one it has no role. In panel mode the arrow
- * keys, Home and End move focus between the enabled links, wrapping and flipped in right-to-left, and scroll the
- * link into view when the list overflows. Native `div` props pass through, and `ref` reaches the element.
+ * The list of links. It renders a `<div>` that holds the links and the `TabNav.Indicator` as direct children.
+ * Native `div` props pass through, and `ref` reaches the element.
+ *
+ * With a `tabPanel` on the Root, it is the `tablist`; without one, it has no role. In panel mode, the arrow keys,
+ * Home and End move the focus between the enabled links.
+ *
+ * The arrow keys wrap, and in `rtl` Left and Right swap. When the list overflows, it scrolls the focused link into
+ * view.
  *
  * @example
  * <TabNav.List>

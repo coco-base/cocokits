@@ -76,11 +76,14 @@ function TabsListImpl({ render, loop = true, ref, onKeyDown, ...rest }: TabsList
 }
 
 /**
- * Renders the `<div role="tablist">` that holds the triggers and the `Tabs.Indicator`. Name it with `aria-label`
- * or `aria-labelledby`. It handles the arrow keys, Home and End: they move focus between the enabled triggers
- * (flipped in right-to-left for the horizontal arrows), wrap unless `loop` is `false`, and in `automatic` mode
- * select the focused tab. A tab that is selected or focused is scrolled into view in the list when the list
- * overflows; only the list scrolls. Native `div` props pass through, and `ref` reaches the element.
+ * The row of tabs. It renders a `<div role="tablist">` that holds the triggers and the `Tabs.Indicator`. Name it
+ * with `aria-label` or `aria-labelledby`.
+ *
+ * The arrow keys, Home and End move the focus between the enabled triggers. In `rtl`, Left and Right swap. The
+ * arrow keys wrap unless `loop` is `false`, and in `automatic` mode they select the focused tab.
+ *
+ * When the list overflows, it scrolls the selected or focused tab into view. Only the list scrolls. Native `div`
+ * props pass through, and `ref` reaches the element.
  *
  * @example
  * <Tabs.List aria-label="Account settings">

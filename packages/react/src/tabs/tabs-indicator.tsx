@@ -59,14 +59,19 @@ function TabsIndicatorImpl({ render, ref, ...rest }: TabsIndicatorProps): ReactE
 }
 
 /**
- * Renders the decorative `<span>` that marks the selected tab. Place it as a direct child of `Tabs.List`, after the
- * triggers; without it no indicator is rendered. After mount the base writes `--active-tab-left`,
- * `--active-tab-top`, `--active-tab-width` and `--active-tab-height` on it, the box of the selected trigger inside
- * the list, and keeps them current when the list or any trigger resizes. Native `span` props pass through, and
- * `ref` reaches the element.
+ * A mark under the selected tab. It renders a decorative `<span>`. Put it in `Tabs.List` after the triggers;
+ * without it, the tabs have no indicator.
+ *
+ * After mount, it sets `--active-tab-left`, `--active-tab-top`, `--active-tab-width` and `--active-tab-height`. They
+ * hold the box of the selected trigger in the list, and change when the list or a trigger changes size.
+ *
+ * Native `span` props pass through, and `ref` reaches the element.
  *
  * @example
- * <Tabs.Indicator />
+ * <Tabs.List aria-label="Account settings">
+ *   <Tabs.Trigger value="account">Account</Tabs.Trigger>
+ *   <Tabs.Indicator />
+ * </Tabs.List>
  * @cckPart indicator
  * @param props - The Indicator props.
  * @returns The rendered element.

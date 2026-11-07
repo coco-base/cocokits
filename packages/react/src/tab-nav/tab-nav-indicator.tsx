@@ -58,14 +58,19 @@ function TabNavIndicatorImpl({ render, ref, ...rest }: TabNavIndicatorProps): Re
 }
 
 /**
- * Renders the decorative `<span>` that marks the active link. Place it as a direct child of `TabNav.List`, after
- * the links; without it no indicator is rendered. After mount the base writes `--active-tab-left`,
- * `--active-tab-top`, `--active-tab-width` and `--active-tab-height` on it, the box of the active link inside the
- * list, and keeps them current when the list or any link resizes. Native `span` props pass through, and `ref`
- * reaches the element.
+ * A mark under the active link. It renders a decorative `<span>`. Put it in `TabNav.List` after the links; without
+ * it, the nav has no indicator.
+ *
+ * After mount, it sets `--active-tab-left`, `--active-tab-top`, `--active-tab-width` and `--active-tab-height`. They
+ * hold the box of the active link in the list, and change when the list or a link changes size.
+ *
+ * Native `span` props pass through, and `ref` reaches the element.
  *
  * @example
- * <TabNav.Indicator />
+ * <TabNav.List>
+ *   <TabNav.Link href="/overview" active>Overview</TabNav.Link>
+ *   <TabNav.Indicator />
+ * </TabNav.List>
  * @cckPart indicator
  * @param props - The Indicator props.
  * @returns The rendered element.
