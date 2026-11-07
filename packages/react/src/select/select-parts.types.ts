@@ -24,6 +24,11 @@ interface SelectRenderOption {
 export interface SelectIconProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
    * The icon to draw in place of the icon of the theme. When not set, the icon of the theme shows.
+   *
+   * @example
+   * <Select.Icon>
+   *   <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" /></svg>
+   * </Select.Icon>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -32,7 +37,13 @@ export interface SelectIconProps extends Omit<ComponentPropsWithRef<'span'>, 'co
 /** Props of the {@link SelectItemText}: native `span` props and `render`. */
 export interface SelectItemTextProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * The text of the item. Type-to-search matches it, and the trigger can show it. It must not be interactive.
+   * The text of the item. Type-to-search matches it, and the trigger can show it. When not set, the item shows no
+   * text.
+   *
+   * It must not be interactive.
+   *
+   * @example
+   * <Select.ItemText>Pasta</Select.ItemText>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -42,6 +53,9 @@ export interface SelectItemTextProps extends Omit<ComponentPropsWithRef<'span'>,
 export interface SelectItemIndicatorProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
    * A mark to draw in place of the mark of the theme. When not set, the mark of the theme shows.
+   *
+   * @example
+   * <Select.ItemIndicator>✓</Select.ItemIndicator>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -50,7 +64,10 @@ export interface SelectItemIndicatorProps extends Omit<ComponentPropsWithRef<'sp
 /** Props of the {@link SelectLabel}: native `div` props and `render`. */
 export interface SelectLabelProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, SelectRenderOption {
   /**
-   * The label of the group, as text or markup. It must not be interactive.
+   * The label of the group, as text or markup. It must not be interactive. When not set, the group has no name.
+   *
+   * @example
+   * <Select.Label>Hot dishes</Select.Label>
    * @cckSemantic select.label
    */
   readonly children?: ReactNode | undefined;
@@ -62,7 +79,18 @@ export interface SelectSeparatorProps extends Omit<ComponentPropsWithRef<'div'>,
 /** Props of the {@link SelectContent}. Native `div` props pass through. */
 export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, OverlayPositioningProps {
   /**
-   * The items, the groups and the separators.
+   * The items, the groups and the separators. When not set, the list is empty.
+   *
+   * @example
+   * <Select.Content>
+   *   <Select.Item value="pasta">
+   *     <Select.ItemText>Pasta</Select.ItemText>
+   *   </Select.Item>
+   *   <Select.Separator />
+   *   <Select.Item value="soup">
+   *     <Select.ItemText>Soup</Select.ItemText>
+   *   </Select.Item>
+   * </Select.Content>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -157,6 +185,13 @@ export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<
   readonly id?: string | undefined;
   /**
    * The content of the item: a `Select.ItemIndicator` and a `Select.ItemText`. It must not be interactive.
+   * When not set, the item shows no text.
+   *
+   * @example
+   * <Select.Item value="pasta">
+   *   <Select.ItemIndicator />
+   *   <Select.ItemText>Pasta</Select.ItemText>
+   * </Select.Item>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -181,7 +216,15 @@ export interface SelectGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    */
   readonly disabled?: boolean | undefined;
   /**
-   * A `Select.Label` and the items of the group.
+   * A `Select.Label` and the items of the group. When not set, the group is empty.
+   *
+   * @example
+   * <Select.Group>
+   *   <Select.Label>Hot dishes</Select.Label>
+   *   <Select.Item value="soup">
+   *     <Select.ItemText>Soup</Select.ItemText>
+   *   </Select.Item>
+   * </Select.Group>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;

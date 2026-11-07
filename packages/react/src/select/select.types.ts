@@ -72,7 +72,15 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
   'color' | 'defaultValue' | 'onChange' | 'dir'
 > {
   /**
-   * The trigger and the list: a `Select.Trigger` and a `Select.Content`.
+   * The trigger and the list: a `Select.Trigger` and a `Select.Content`. When not set, nothing shows.
+   *
+   * @example
+   * <Select.Root defaultValue="pasta">
+   *   <Select.Trigger aria-label="Dish">
+   *     <Select.Value placeholder="Choose a dish" />
+   *   </Select.Trigger>
+   *   <Select.Content>...</Select.Content>
+   * </Select.Root>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
@@ -265,7 +273,13 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
 /** Props of the {@link SelectTrigger}. Native button props pass through, `aria-*` included. */
 export interface SelectTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 'color'> {
   /**
-   * The content of the trigger: a `Select.Value` and a `Select.Icon`.
+   * The content of the trigger: a `Select.Value` and a `Select.Icon`. When not set, the trigger is empty.
+   *
+   * @example
+   * <Select.Trigger aria-label="Dish">
+   *   <Select.Value placeholder="Choose a dish" />
+   *   <Select.Icon />
+   * </Select.Trigger>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;
