@@ -6,7 +6,7 @@ import { problemsError } from '../api-docs-common/run';
 import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, aliasValuesOf, expandAliases } from '../api-docs-common/expand-alias';
-import { exportedTypesOf } from '../api-docs-common/exported-types';
+import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
@@ -203,7 +203,7 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
         continue;
       }
       if (ts.getCombinedModifierFlags(cls) & ts.ModifierFlags.Abstract) continue;
-      const resolve = aliasResolverAt(checker, cls);
+      const resolve = aliasResolverAt(tsProgram, cls);
       const expand = (type: string): ExpandedType => ({
         text: expandAliases(type, resolve),
         values: aliasValuesOf(type, resolve),
@@ -216,7 +216,9 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
     const partNames = new Set(classes.map((entry) => entry.name));
     const symbols = sourceFile === undefined ? [] : symbolsOf(checker, sourceFile, name, partNames, problems);
     const types =
-      sourceFile === undefined ? [] : exportedTypesOf(tsProgram, checker, sourceFile, name, () => false, problems);
+      sourceFile === undefined
+        ? []
+        : exportedTypesOf(tsProgram, checker, sourceFile, name, () => false, problems, memberTypeTexts(parts, symbols));
     return {
       component: name,
       framework: 'angular',

@@ -12,6 +12,13 @@ const FILES: Record<string, string> = {
     "export type Position = 'top-left' | 'top-right';",
     "export type Single = 'only';",
     "export type Mixed = 'a' | 1;",
+    'export const kinds = { text: 1, email: 2 };',
+    '/**',
+    ' * A kind of text.',
+    ' * @cckValue text - Plain text.',
+    ' * @cckValue email - An email address.',
+    ' */',
+    'export type Kind = keyof typeof kinds;',
     'export type Box<T> = T;',
     'export type Corner = Position;',
     '/** @cckValue only - The one value. */',
@@ -19,7 +26,18 @@ const FILES: Record<string, string> = {
     '',
   ].join('\n'),
   '/use.ts':
-    "import type { Position, Single, Mixed, Box, Corner, Sole } from './pos';\ntype Local = 'x';\nexport const keep = 1;\n",
+    "import type { Position, Single, Mixed, Box, Corner, Sole, Kind } from './pos';\ntype Local = 'x';\nexport const keep = 1;\n",
+  '/far.ts': [
+    '/**',
+    ' * A way that no import of use.ts names.',
+    ' * @cckValue up - Upward.',
+    ' * @cckValue down - Downward.',
+    ' */',
+    "export type Far = 'up' | 'down';",
+    "export type Twice = 'a';",
+    '',
+  ].join('\n'),
+  '/again.ts': "export type Twice = 'b';\n",
 };
 
 function resolver(): ReturnType<typeof aliasResolverAt> {
@@ -32,10 +50,10 @@ function resolver(): ReturnType<typeof aliasResolverAt> {
     const text = FILES[name];
     return text === undefined ? undefined : ts.createSourceFile(name, text, version, true);
   };
-  const program = ts.createProgram({ rootNames: ['/use.ts'], options, host });
+  const program = ts.createProgram({ rootNames: ['/use.ts', '/far.ts', '/again.ts'], options, host });
   const source = program.getSourceFile('/use.ts');
   if (source === undefined) throw new Error('no source');
-  return aliasResolverAt(program.getTypeChecker(), source);
+  return aliasResolverAt(program, source);
 }
 
 describe('expandAliases', () => {
@@ -63,6 +81,20 @@ describe('expandAliases', () => {
     expect(expandAliases("(() => Position) | 'a|b' | Position", resolve)).toBe(
       "(() => Position) | 'a|b' | 'top-left' | 'top-right'",
     );
+  });
+
+  it('expands an alias whose union the checker computes, as from the keys of a const object', () => {
+    expect(expandAliases('Kind | undefined', resolve)).toBe("'text' | 'email' | undefined");
+    expect(aliasValuesOf('Kind', resolve)).toEqual([
+      { value: 'text', description: 'Plain text.' },
+      { value: 'email', description: 'An email address.' },
+    ]);
+  });
+
+  it('expands an alias of the program that is not in scope, when only one declaration has the name', () => {
+    expect(expandAliases('Far | undefined', resolve)).toBe("'up' | 'down' | undefined");
+    expect(aliasValuesOf('Far', resolve)).toHaveLength(2);
+    expect(expandAliases('Twice', resolve)).toBe('Twice');
   });
 
   it('leaves other types, generics, member accesses, quoted text and unknown names as written', () => {

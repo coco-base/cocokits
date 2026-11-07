@@ -5,7 +5,7 @@ import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases } from '
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
-import { exportedTypesOf } from '../api-docs-common/exported-types';
+import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
 import {
   checkParity,
   checkPartDoc,
@@ -63,7 +63,7 @@ function propOf(
   if (!declaration || !isOwnDeclaration(program, declaration)) return undefined;
   const required = (symbol.flags & ts.SymbolFlags.Optional) === 0;
   const written = withDefaultArguments(typeTextOf(checker, symbol, declaration), enclosingDefaults(declaration));
-  const resolve = aliasResolverAt(checker, declaration);
+  const resolve = aliasResolverAt(program, declaration);
   const type = expandAliases(written, resolve);
   const member = memberOf(
     componentName,
@@ -340,7 +340,15 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
     const types =
       source === undefined
         ? []
-        : exportedTypesOf(program, checker, source, name, (item) => partNames.has(item), problems);
+        : exportedTypesOf(
+            program,
+            checker,
+            source,
+            name,
+            (item) => partNames.has(item),
+            problems,
+            memberTypeTexts(parts),
+          );
     return { component: name, framework: 'react', parts, ...(types.length > 0 ? { types } : {}) };
   });
   if (problems.length > 0) throw problemsError(problems);

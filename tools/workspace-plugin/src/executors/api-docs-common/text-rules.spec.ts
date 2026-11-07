@@ -144,6 +144,12 @@ describe('textRuleProblems', () => {
     ]);
   });
 
+  it('fails an example in a code fence, which the page would show and copy', () => {
+    expect(problemsOf({ examples: ['```ts\nopen();\n```'] })).toEqual([
+      'react/thing Thing: an @example is code without a ``` fence',
+    ]);
+  });
+
   it('asks an example of every constant and of every service or class method', () => {
     const method = member({ name: 'open', type: '() => void' });
     const symbols = [

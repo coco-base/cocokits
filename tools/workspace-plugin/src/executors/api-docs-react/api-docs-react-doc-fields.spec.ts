@@ -57,11 +57,39 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     });
   });
 
+  it('expands an alias made from the items of a const list, in the order of the list', () => {
+    const order = [
+      "const orders = ['end', 'start'] as const;",
+      '/**',
+      ' * An order.',
+      ' * @cckValue end - The end first.',
+      ' * @cckValue start - The start first.',
+      ' */',
+      'type ThingOrder = (typeof orders)[number];',
+      '',
+    ].join('\n');
+    const props =
+      extract('const-list', (text) =>
+        `${text}\n${order}`.replace(
+          '  /** The content, or a function of the state that returns it. */',
+          '  /** The order of the thing. */\n  readonly order: ThingOrder;\n  /** The content, or a function of the state that returns it. */',
+        ),
+      ).parts[0]?.props ?? [];
+    expect(props.find((prop) => prop.name === 'order')).toMatchObject({
+      type: "'end' | 'start'",
+      values: [
+        { value: 'end', description: 'The end first.' },
+        { value: 'start', description: 'The start first.' },
+      ],
+    });
+  });
+
   it('lists every documented interface and alias the entry point exports, except the props type and @internal', () => {
     const types = extract('types').types ?? [];
     expect(types.map((type) => [type.name, type.kind])).toEqual([
       ['ThingChange', 'interface'],
       ['ThingSide', 'alias'],
+      ['ThingState', 'interface'],
     ]);
     expect(types[1]).toEqual({
       kind: 'alias',
@@ -76,6 +104,51 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     });
     expect(types[0]?.fields.find((field) => field.name === 'reason')?.values).toEqual([
       { value: 'user', description: 'The user changed it.' },
+    ]);
+  });
+
+  it('adds a documented own type that a member names and the entry point does not export, and the types it names', () => {
+    // A name a row writes is read in the scope of the row, so a type parameter is no type of the program.
+    const anchor = [
+      '/** A point the thing can open from. */',
+      "interface ThingAnchor<Reason extends string = 'near'> {",
+      '  /** The corner of the point. */',
+      '  readonly corner: ThingCorner;',
+      '  /** Why it opens there. */',
+      '  readonly why?: Reason;',
+      '  readonly bare?: Bare;',
+      '}',
+      '/**',
+      ' * A corner.',
+      ' * @cckValue top - The top corner.',
+      ' * @cckValue bottom - The bottom corner.',
+      ' */',
+      "type ThingCorner = 'top' | 'bottom';",
+      '/** A type parameter of ThingAnchor has the same name, so this alias gets no row. */',
+      "type Reason = 'x' | 'y';",
+      'interface Bare {',
+      '  readonly x: 1;',
+      '}',
+      '',
+    ].join('\n');
+    const types =
+      extract('referenced', (text) =>
+        `${text}\n${anchor}`.replace(
+          '  /** The side the thing opens on. */',
+          '  /** The point the thing opens from. */\n  readonly anchor?: ThingAnchor;\n  /** The side the thing opens on. */',
+        ),
+      ).types ?? [];
+    expect(types.map((type) => type.name)).toEqual([
+      'ThingAnchor',
+      'ThingChange',
+      'ThingCorner',
+      'ThingSide',
+      'ThingState',
+    ]);
+    expect(types.find((type) => type.name === 'ThingCorner')?.values).toHaveLength(2);
+    expect(types.find((type) => type.name === 'ThingAnchor')?.fields.map((field) => field.name)).toEqual([
+      'corner',
+      'why',
     ]);
   });
 

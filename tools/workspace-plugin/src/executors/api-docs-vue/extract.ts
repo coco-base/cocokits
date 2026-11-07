@@ -8,7 +8,7 @@ import { enclosingDefaults, typeParameterDefaults, withDefaultArguments } from '
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
-import { exportedTypesOf } from '../api-docs-common/exported-types';
+import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
 import { docTextOf, tagsOfNode } from '../api-docs-common/jsdoc';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
@@ -105,8 +105,9 @@ function emitDocsOf(dir: string, typeName: string): Map<string, NodeDoc> {
 /** Expands the aliases of string literals in the type text of a member, with the `@cckValue` meanings of them. */
 type Expand = (type: string, member: string) => { text: string; values: ApiValueJson[] };
 
-/** The checker and every types file of a component folder. */
+/** The program, its checker and every types file of a component folder. */
 interface Scope {
+  readonly program: ts.Program;
   readonly checker: ts.TypeChecker;
   readonly sources: readonly ts.SourceFile[];
 }
@@ -119,7 +120,7 @@ interface Scope {
 function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   const first = scope?.sources[0];
   if (scope === undefined || first === undefined) return (type) => ({ text: type, values: [] });
-  const { checker, sources } = scope;
+  const { program, checker, sources } = scope;
   const declaration = sources
     .flatMap((source) => source.statements)
     .find(
@@ -131,7 +132,7 @@ function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   return (type, member) => {
     const property = propsType?.getProperty(member)?.declarations?.[0];
     const written = withDefaultArguments(type, enclosingDefaults(property));
-    const resolve = aliasResolverAt(checker, property ?? declaration ?? first);
+    const resolve = aliasResolverAt(program, property ?? declaration ?? first);
     return { text: expandAliases(written, resolve), values: aliasValuesOf(written, resolve) };
   };
 }
@@ -299,7 +300,7 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
   try {
     const docs = entries.map(({ name, dir, file }, index): ApiDocJson => {
       const sources = (typeFiles[index] ?? []).flatMap((file) => program.getSourceFile(file) ?? []);
-      const scope = sources.length === 0 ? undefined : { checker: typeChecker, sources };
+      const scope = sources.length === 0 ? undefined : { program, checker: typeChecker, sources };
       const files = readdirSync(dir)
         .filter((file) => file.endsWith('.vue'))
         .sort();
@@ -312,7 +313,15 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
       const types =
         indexFile === undefined
           ? []
-          : exportedTypesOf(program, typeChecker, indexFile, name, (item) => own.has(item), problems);
+          : exportedTypesOf(
+              program,
+              typeChecker,
+              indexFile,
+              name,
+              (item) => own.has(item),
+              problems,
+              memberTypeTexts(parts),
+            );
       return { component: name, framework: 'vue', parts, ...(types.length > 0 ? { types } : {}) };
     });
     if (problems.length > 0) throw problemsError(problems);

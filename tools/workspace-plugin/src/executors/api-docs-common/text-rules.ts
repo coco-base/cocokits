@@ -37,12 +37,20 @@ function checkProse(label: string, text: string | undefined, problems: string[])
   if (word !== null) problems.push(`${label}: "${word[0]}" is not allowed (text rules)`);
 }
 
-/** Checks a description (the first paragraph), its remarks and the meanings of its values. */
+/** Checks a description (the first paragraph), its remarks, the meanings of its values and its examples. */
 function checkText(
   label: string,
-  item: { description: string; remarks?: string; values?: readonly { value: string; description: string }[] },
+  item: {
+    description: string;
+    remarks?: string;
+    values?: readonly { value: string; description: string }[];
+    examples?: readonly string[];
+  },
   problems: string[],
 ): void {
+  // The page shows an example as code and copies it as it is, so a fence would end up in the copied code.
+  if ((item.examples ?? []).some((example) => example.trimStart().startsWith('```')))
+    problems.push(`${label}: an @example is code without a \`\`\` fence`);
   checkProse(label, item.description, problems);
   const sentences = sentencesOf(item.description).length;
   if (sentences > MAX_FIRST_SENTENCES)
