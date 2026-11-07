@@ -3,16 +3,21 @@ import type { Typeahead } from '@cocokits/cdk/roving-focus';
 import type { FormFieldControlProps, FormFieldControlState } from '../form-field';
 
 /**
- * Why the open state changed. It is one of five values.
+ * Why the open state changed.
  *
- * `'trigger'`: the user pressed the trigger. `'escape'`: the user pressed Escape. `'outside-press'`: the user pressed outside the list. `'select'`: the user chose an item. `'blur'`: the focus left the trigger.
+ * @cckValue trigger - The user pressed the trigger.
+ * @cckValue escape - The user pressed Escape.
+ * @cckValue outside-press - The user pressed outside the list.
+ * @cckValue select - The user chose an item.
+ * @cckValue blur - The focus left the trigger.
  */
 export type SelectOpenReason = 'trigger' | 'escape' | 'outside-press' | 'select' | 'blur';
 
 /**
- * Why the value changed. It is one of two values.
+ * Why the value changed.
  *
- * `'user'`: the user chose an item. `'form-reset'`: the form was reset.
+ * @cckValue user - The user chose an item.
+ * @cckValue form-reset - The form was reset.
  */
 export type SelectValueReason = 'user' | 'form-reset';
 
