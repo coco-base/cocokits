@@ -147,14 +147,12 @@ export abstract class CckFormControlBase {
   /**
    * Whether the user has left the control. Signal Forms sets this member. When not set, the control becomes touched after the first blur.
    * @cckGroup forms
-   * @defaultValue false
    */
   readonly touched = input(false, { transform: booleanAttribute });
 
   /**
    * Whether the user has changed the control. Signal Forms sets this member. When not set, the control becomes dirty after the first change.
    * @cckGroup forms
-   * @defaultValue false
    */
   readonly dirty = input(false, { transform: booleanAttribute });
 

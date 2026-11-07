@@ -89,7 +89,6 @@ export class CckSelectOptionGroup {
  *
  * The group uses this template instead of the text of the `label` input. The markup must not be interactive.
  *
- * @defaultValue The group shows the text of the `label` input.
  * @example
  * <cck-select-option-group>
  *   <ng-template cckSelectOptionGroupLabel><b>Desserts</b></ng-template>

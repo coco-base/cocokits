@@ -118,7 +118,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *   <cck-select-option value="Pizza">Pizza</cck-select-option>
    * </cck-select>
    * <!-- In the class: readonly dish = signal<string | null>('Pizza'); -->
-   * @cckTask Read and set the value
    * @cckSemantic select.value
    */
   readonly value = model<V | null | undefined>(undefined);
@@ -131,7 +130,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *   <cck-select-option value="Cake">Cake</cck-select-option>
    * </cck-select>
    * <!-- In the class: onChange(change: CckSelectChange) { console.log(change.value, change.reason); } -->
-   * @cckTask Respond to a choice
    * @cckSemantic select.valueChange
    */
   readonly selectionChange = output<CckSelectChange<V>>();
@@ -166,7 +164,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *   <cck-select-option value="Pizza">Pizza</cck-select-option>
    * </cck-select>
    * <!-- In the class: readonly dishes = signal<string[]>(['Cake']); -->
-   * @cckTask Choose several options
    * @defaultValue false
    */
   readonly multiple = input(false, { transform: booleanAttribute });
@@ -188,7 +185,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *   }
    * </cck-select>
    * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->
-   * @cckTask Use objects as values
    * @cckSemantic select.isItemEqual
    * @defaultValue Object.is
    */
@@ -245,7 +241,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *   <cck-select-option value="Cake">Cake</cck-select-option>
    * </cck-select>
    * <!-- In the class: canClose = (details: SelectOpenChangeDetails) => details.reason !== 'escape'; -->
-   * @cckTask Keep the list open
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
@@ -273,7 +268,6 @@ export class CckSelect<V = string> extends CckFormControlBase implements FormVal
    *   </cck-select>
    *   <button type="submit">Send</button>
    * </form>
-   * @cckTask Send the value with a form
    * @cckSemantic select.name
    * @defaultValue ''
    */
