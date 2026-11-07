@@ -15,6 +15,7 @@ interface SelectRenderOption {
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }
@@ -120,6 +121,7 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }
@@ -165,6 +167,7 @@ export interface SelectItemProps<T = string> extends Omit<ComponentPropsWithRef<
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }
@@ -189,6 +192,7 @@ export interface SelectGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }

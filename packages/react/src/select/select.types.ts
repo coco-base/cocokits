@@ -86,7 +86,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * <Select.Root value={dish} onValueChange={setDish}>
    *   ...
    * </Select.Root>
-   * @cckTask Read and set the value
    * @cckSemantic select.value
    */
   readonly value?: SelectValueOf<T, M> | undefined;
@@ -106,7 +105,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * <Select.Root onValueChange={(value, details) => console.log(value, details.reason)}>
    *   ...
    * </Select.Root>
-   * @cckTask Respond to a choice
    * @cckSemantic select.valueChange
    * @cckParity The change callback of this component.
    */
@@ -140,7 +138,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * >
    *   ...
    * </Select.Root>
-   * @cckTask Keep the list open
    * @cckSemantic select.openChange
    * @cckParity The change callback of this component.
    */
@@ -153,7 +150,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * <Select.Root multiple value={dishes} onValueChange={setDishes}>
    *   ...
    * </Select.Root>
-   * @cckTask Choose several options
    * @defaultValue false
    */
   readonly multiple?: M | undefined;
@@ -195,7 +191,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * >
    *   ...
    * </Select.Root>
-   * @cckTask Use objects as values
    * @cckSemantic select.isItemEqual
    * @cckParity A function of the item value and the selected value.
    * @defaultValue Object.is
@@ -238,7 +233,6 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    *   </Select.Root>
    *   <button type="submit">Send</button>
    * </form>
-   * @cckTask Send the value with a form
    * @cckSemantic select.name
    * @defaultValue ''
    */
@@ -263,6 +257,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }
@@ -310,6 +305,7 @@ export interface SelectTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    * </Select.Trigger>
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }
@@ -327,12 +323,11 @@ export interface SelectValueProps<V = unknown> extends Omit<ComponentPropsWithRe
    */
   readonly placeholder?: string | undefined;
   /**
-   * Your own content for the trigger, in place of the labels of the selected items. Pass a node, or a function that receives the selected value and returns a node.
+   * Your own content for the trigger, in place of the labels of the selected items. Pass a node, or a function that receives the selected value and returns a node. When not set, the trigger shows the labels of the selected items, joined with a comma.
    *
    * The function is called only while something is selected. While nothing is selected, the placeholder shows.
    *
    * @param value - The selected value. A single Select gives one value. A Select with `multiple` gives the list of values.
-   * @defaultValue The trigger shows the labels of the selected items, joined with a comma.
    * @example
    * <Select.Value placeholder="Choose a dish">{(value) => `Dish: ${value}`}</Select.Value>
    * @cckSemantic select.default
@@ -346,6 +341,7 @@ export interface SelectValueProps<V = unknown> extends Omit<ComponentPropsWithRe
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
   readonly render?: SelectRender | undefined;
 }
