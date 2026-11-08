@@ -11,7 +11,7 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, domOrderedList, themeAttrs, type DomOrderedList } from '@cocokits/angular-core';
 import {
   formFieldAnatomy,
   formFieldIds,
@@ -22,42 +22,54 @@ import {
 } from '@cocokits/machines/form-field';
 import { shouldFocusControl } from '@cocokits/utils';
 
+/** A Hint or a FieldError the field lists: its host element, for the document order, and the author's id. */
+interface FieldPart {
+  readonly element: HTMLElement;
+  readonly ownId: Signal<string | undefined>;
+}
+
+type FieldPartKind = 'hints' | 'errors';
+
+const elementOf = (part: FieldPart): HTMLElement => part.element;
+
 /**
- * Lays out a label, a control, its zones and its hints in fixed places: the label first; inside the
- * wrapper the leading zone, then the input wrapper (prefix, control, suffix), then the trailing zone;
- * the hints and the field errors last.
+ * Places a label, one control, its extra content, hints and errors in fixed places. The order you write them in does not matter.
  *
- * The places, not the order the author writes things, fix the order. A click on the input wrapper (its
- * padding, a prefix or a suffix) focuses the control, unless it lands on interactive content, on a
- * disabled control or after selecting text. With a CocoKits control (the
- * Input or the Textarea) inside, the field works out the ids: the control gets `<fieldId>-control`, the label's
- * `for` points at it, and the control's `aria-describedby` ends with the feedback wrapper that holds
- * the hints. Set `id` on the field to choose the `<fieldId>` part. The field state props
- * (`disabled`, `readonly`, `required`, `invalid`) reach the control, and the control's own state
- * reaches the field root as `data-*` facts. A native or third-party control gets no defaults: give it
- * an `id`, the label a matching `for`, and the control its own `aria-describedby`.
+ * The label comes first. Then come the leading content, the box with the prefix, the control and the suffix, and the trailing content. The hints and the errors come last.
+ *
+ * A click in the box focuses the control. This does not happen on interactive content, on a disabled control or after the user selects text.
+ *
+ * @remarks With a CocoKits control inside, the field links the parts for you. The control gets the id `<fieldId>-control`, and the label points at it. The control is described by the hints, then by the errors. Set `id` on the field to choose `<fieldId>`.
+ *
+ * The `disabled`, `readonly`, `required` and `invalid` inputs of the field reach the control. The state of the control shows on the field as `data-*` attributes.
+ *
+ * A native or third-party control gets none of this. Give it an `id`, give the label a matching `for`, and give the control its own `aria-describedby`.
  *
  * @example
- * <div cckFormField>
- *   <label cckLabel>Email address</label>
- *   <input cckInput type="email" />
- *   <div cckHint>We only use it for the receipt.</div>
- * </div>
+ * <cck-form-field>
+ *   <label cckLabel>Amount</label>
+ *   <span cckPrefix>€</span>
+ *   <input cckInput type="number" required />
+ *   <span cckSuffix>.00</span>
+ *   <button cckTrailing type="button">Max</button>
+ *   <cck-hint>You can send up to 500 euros.</cck-hint>
+ *   <cck-field-error>Enter an amount.</cck-field-error>
+ * </cck-form-field>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
  * @cckPart feedbackWrapper
- * @cckSlot label [cckLabel] - The label of the control.
- * @cckSlot default - The control.
- * @cckSlot leading [cckLeading] - Content outside the box, before it.
- * @cckSlot prefix [cckPrefix] - Content inside the box, before the control.
- * @cckSlot suffix [cckSuffix] - Content inside the box, after the control.
- * @cckSlot trailing [cckTrailing] - Content outside the box, after it.
- * @cckSlot hint [cckHint] - The hints.
- * @cckSlot error [cckFieldError] - The field errors, after the hints.
+ * @cckSlot label [cckLabel] - The label of the control. When not set, the field shows no label, so name the control another way.
+ * @cckSlot default - The control. When not set, the field has no control.
+ * @cckSlot leading [cckLeading] - Content outside the box, before it. When not set, nothing shows there.
+ * @cckSlot prefix [cckPrefix] - Content inside the box, before the control. When not set, nothing shows there.
+ * @cckSlot suffix [cckSuffix] - Content inside the box, after the control. When not set, nothing shows there.
+ * @cckSlot trailing [cckTrailing] - Content outside the box, after it. When not set, nothing shows there.
+ * @cckSlot hint cck-hint - The hints. When not set, the field shows no hint.
+ * @cckSlot error cck-field-error - The errors, after the hints. When not set, the field shows no error.
  */
 @Component({
-  selector: '[cckFormField]',
+  selector: 'cck-form-field',
   exportAs: 'cckFormField',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
@@ -98,58 +110,62 @@ import { shouldFocusControl } from '@cocokits/utils';
       [attr.id]="parts().feedbackWrapper.id"
       [cckAttrs]="theme().feedbackWrapper"
     >
-      <ng-content select="[cckHint]" />
-      <ng-content select="[cckFieldError]" />
+      <ng-content select="cck-hint" />
+      <ng-content select="cck-field-error" />
     </div>
   `,
 })
 export class CckFormField {
   private readonly generatedId = inject(IdGenerator).getId(formFieldAnatomy.classes.root);
   private readonly reported = signal<Signal<FormFieldControlState> | undefined>(undefined);
+  /** The registered parts in document order, also on the server and at the first client render. */
+  private readonly registered: Record<FieldPartKind, DomOrderedList<FieldPart>> = {
+    hints: domOrderedList(elementOf),
+    errors: domOrderedList(elementOf),
+  };
   private owner: object | undefined;
   private controlElement: (() => HTMLElement | null | undefined) | null = null;
   private readonly inputWrapper = viewChild<ElementRef<HTMLElement>>('inputWrapper');
 
   /**
-   * The id of the field, reflected to the host. Without it the host renders no `id` and a generated one
-   * is used. The control id is `<id>-control` and the feedback wrapper id `<id>-feedback`.
+   * The `id` of the field. The ids of the parts start with it, like `<id>-control` for the control. When not set, the host gets no `id`, and the parts use a generated id.
    */
   readonly id = input<string | undefined>(undefined);
 
   /**
-   * Whether the field disables its control. The control's own `disabled` adds to it; neither can turn the
-   * other off.
+   * Whether the user cannot use the control. The control can also be disabled on its own.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field makes its control read-only.
+   * Whether the control is read-only. The user can focus it but cannot change it.
    * @cckSemantic form-field.readOnly
    * @defaultValue false
    */
   readonly readonly = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field makes its control required and shows the label's required marker.
+   * Whether the control needs a value. The label then shows its required marker.
    * @defaultValue false
    */
   readonly required = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field marks its control invalid.
+   * Whether the value of the control is not valid.
    * @defaultValue false
    */
   readonly invalid = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the label's required marker is hidden. It does not change `required`.
+   * Whether the required marker of the label is hidden. It does not change `required`.
    * @defaultValue false
    */
   readonly hideRequiredMarker = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the field root is hidden. It is also hidden while its control is.
+   * Whether the field is hidden with the native `hidden` attribute. The field also hides while its control is hidden, which Signal Forms sets through `[formField]`.
+   * @cckGroup forms
    * @cckSemantic none
    * @cckParity Declared as an input.
    * @defaultValue false
@@ -176,9 +192,28 @@ export class CckFormField {
    * @internal
    */
   readonly _ids = computed(() => {
-    const ids = formFieldIds(this._fieldId());
+    const ownIds = (kind: FieldPartKind): (string | undefined)[] =>
+      this.registered[kind].items().map((part) => part.ownId());
+    const ids = formFieldIds(this._fieldId(), { hints: ownIds('hints'), errors: ownIds('errors') });
     return { ...ids, label: this._labelId() ?? ids.label };
   });
+
+  /**
+   * Registers a Hint or a FieldError. Call it in the part's injection context: the host element of the part gives
+   * its place. The control's `aria-describedby` lists the ids of the registered parts: hints first, then errors,
+   * each in document order, in the same render.
+   *
+   * @param kind - `hints` for a Hint, `errors` for a FieldError.
+   * @param ownId - The `id` the author gives the part; an empty or missing id gets a generated one.
+   * @returns The id the part renders: the author's, or `<fieldId>-hint-<n>` / `<fieldId>-error-<n>`.
+   * @internal
+   */
+  _registerPart(kind: FieldPartKind, ownId: Signal<string | undefined>): Signal<string | undefined> {
+    const list = this.registered[kind];
+    const part: FieldPart = { element: inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, ownId };
+    inject(DestroyRef).onDestroy(list.add(part));
+    return computed(() => this._ids()[kind]?.[list.items().indexOf(part)]);
+  }
 
   /**
    * The facts the author set on the field.

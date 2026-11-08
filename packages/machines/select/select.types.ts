@@ -2,10 +2,23 @@ import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import type { Typeahead } from '@cocokits/cdk/roving-focus';
 import type { FormFieldControlProps, FormFieldControlState } from '../form-field';
 
-/** Why the open state changed. */
+/**
+ * Why the open state changed.
+ *
+ * @cckValue trigger - The user pressed the trigger.
+ * @cckValue escape - The user pressed Escape.
+ * @cckValue outside-press - The user pressed outside the list.
+ * @cckValue select - The user chose an item.
+ * @cckValue blur - The focus left the trigger.
+ */
 export type SelectOpenReason = 'trigger' | 'escape' | 'outside-press' | 'select' | 'blur';
 
-/** Why the value changed: the user chose an option, or the owner form was reset. */
+/**
+ * Why the value changed.
+ *
+ * @cckValue user - The user chose an item.
+ * @cckValue form-reset - The form was reset.
+ */
 export type SelectValueReason = 'user' | 'form-reset';
 
 /** The side of the trigger (or field box) the list sits on. `start` and `end` follow the direction. */
@@ -214,7 +227,7 @@ export interface SelectTriggerProps extends SelectPartProps {
   readonly 'aria-required'?: 'true' | undefined;
   /** `'true'` only while invalid and (touched or submitted). */
   readonly 'aria-invalid'?: 'true' | undefined;
-  /** The author's ids first, then the feedback id of the field. */
+  /** The author's ids first, then the field's hint ids, then its error ids. */
   readonly 'aria-describedby'?: string | undefined;
   /** Native `disabled`. */
   readonly disabled?: true | undefined;

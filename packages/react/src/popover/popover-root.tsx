@@ -118,16 +118,24 @@ function PopoverRootImpl({
 }
 
 /**
- * Provides the open state to the Trigger, the Anchor, the Content, the Title, the Description and the Close part. It renders no element. Uncontrolled
- * with `defaultOpen`, or controlled with `open` and `onOpenChange`. The popover closes on the trigger, on Close,
- * on Escape (the topmost layer only), on a press outside and when focus leaves the trigger and the content. With
- * `modal` it also makes the page outside inert, locks scroll and keeps Tab inside the content.
+ * A panel that opens next to a trigger, with content the user can act on. The Root renders no element; it gives the
+ * open state to its parts.
+ *
+ * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the popover keep it.
+ *
+ * It closes on the trigger, on a Close, on Escape, on a press outside, and when the focus leaves the trigger and
+ * the content. Escape closes only the top layer. With `modal`, the page outside is inert and Tab stays in the
+ * content.
  *
  * @example
  * <Popover.Root>
- *   <Popover.Trigger>Share</Popover.Trigger>
- *   <Popover.Content aria-label="Share">
- *     Anyone with the link can view.
+ *   <Popover.Anchor>
+ *     <Popover.Trigger>Share</Popover.Trigger>
+ *   </Popover.Anchor>
+ *   <Popover.Content>
+ *     <Popover.Arrow />
+ *     <Popover.Title>Share this page</Popover.Title>
+ *     <Popover.Description>Anyone with the link can view it.</Popover.Description>
  *     <Popover.Close>Done</Popover.Close>
  *   </Popover.Content>
  * </Popover.Root>

@@ -10,7 +10,12 @@ defineOptions({ name: 'CckHint' });
 withDefaults(defineProps<HintProps>(), { as: 'div', asChild: false });
 
 defineSlots<{
-  /** The text of the hint, optionally with an icon. */
+  /**
+   * The text of the hint, with an icon if you like. When not set, the hint is empty.
+   *
+   * @example
+   * <Hint><InfoIcon aria-hidden="true" /> We only use it for the receipt.</Hint>
+   */
   default?(): unknown;
 }>();
 
@@ -21,8 +26,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the Hint: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the Hint: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Hint ref="hint">We only use it for the receipt.</Hint>
+   * <!-- In the script: const hint = useTemplateRef('hint'); then hint.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

@@ -205,11 +205,14 @@ function AccordionRootImpl({
 }
 
 /**
- * Renders the `<div>` around the items and provides the open value to them. `type="single"` keeps at most one
- * item open, `type="multiple"` lets each toggle on its own. Uncontrolled with `defaultValue`, or controlled with
- * `value` and `onValueChange`. In single mode the open item closes again only with `collapsible`. Arrow keys,
- * Home and End move between the enabled triggers. When an item closes while focus is inside its content, the
- * trigger takes focus. Native `div` props pass through, and `ref` reaches the element.
+ * A stack of sections that the user opens and closes. It renders a `<div>` and gives the open value to its items.
+ * With `type="single"` at most one item is open; with `type="multiple"` each item opens on its own.
+ *
+ * Control the open value with `value` and `onValueChange`, or set `defaultValue` and let the accordion keep it. A
+ * single accordion closes its open item again only with `collapsible`.
+ *
+ * The arrow keys, Home and End move between the enabled triggers. When an item closes while the focus is in its
+ * content, the focus moves to its trigger. Native `div` props pass through, and `ref` reaches the element.
  *
  * @example
  * <Accordion.Root type="single" collapsible defaultValue="shipping">
@@ -218,6 +221,12 @@ function AccordionRootImpl({
  *       <Accordion.Trigger>Shipping</Accordion.Trigger>
  *     </Accordion.Header>
  *     <Accordion.Content>Orders leave in two days.</Accordion.Content>
+ *   </Accordion.Item>
+ *   <Accordion.Item value="returns">
+ *     <Accordion.Header>
+ *       <Accordion.Trigger>Returns</Accordion.Trigger>
+ *     </Accordion.Header>
+ *     <Accordion.Content>You can return an item within 30 days.</Accordion.Content>
  *   </Accordion.Item>
  * </Accordion.Root>
  * @cckPart root

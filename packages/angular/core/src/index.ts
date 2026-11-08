@@ -17,6 +17,8 @@ export type { Direction } from './direction';
 export { CckPortal } from './portal';
 export type { AttachComponentOptions } from './portal';
 export { mergeIds } from './merge-ids';
+export { domOrderedList, sortByDomOrderOf } from './dom-order';
+export type { DomOrderedList } from './dom-order';
 export { afterReplay, listenFirst, listenLast } from './listen-last';
 export { CckOverlayLayer } from './overlay-layer';
 export { injectZoneBoundary } from './zone-boundary';

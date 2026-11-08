@@ -14,8 +14,7 @@ import { dataNames, expectDefaultElements, must } from './fixtures';
 @Component({
   imports: [...CckCheckboxImports, ...CckSwitchImports],
   template: `
-    <div
-      cckCheckbox
+    <cck-checkbox
       [checked]="true"
       [indeterminate]="true"
       [disabled]="disabled()"
@@ -28,10 +27,10 @@ import { dataNames, expectDefaultElements, must } from './fixtures';
       submitted
     >
       Box
-    </div>
-    <div cckSwitch [checked]="true" [disabled]="disabled()" readonly required invalid pending touched dirty submitted>
+    </cck-checkbox>
+    <cck-switch [checked]="true" [disabled]="disabled()" readonly required invalid pending touched dirty submitted>
       Toggle
-    </div>
+    </cck-switch>
   `,
 })
 class AllFacts {
@@ -40,12 +39,12 @@ class AllFacts {
 
 describe('Checkbox, Switch and Radio parts', () => {
   it.each([
-    ['cckCheckbox', 'checkbox', checkboxMeta],
-    ['cckSwitch', 'switch', switchMeta],
-    ['cckRadio', 'radio', radioMeta],
+    ['cck-checkbox', 'checkbox', checkboxMeta],
+    ['cck-switch', 'switch', switchMeta],
+    ['cck-radio', 'radio', radioMeta],
   ] as const)('renders the default element of every part of %s', async (selector, block, meta) => {
     const imports = [...CckCheckboxImports, ...CckSwitchImports, ...CckRadioImports];
-    const { container } = await render(`<div ${selector} name="n">Caption</div>`, { imports });
+    const { container } = await render(`<${selector} name="n">Caption</${selector}>`, { imports });
     expectDefaultElements(must(container.querySelector(`.cck-${block}`)), block, meta.defaultElements);
   });
 
@@ -70,16 +69,19 @@ describe('Checkbox, Switch and Radio parts', () => {
   });
 
   it('renders exactly the root data attributes of the Radio meta', async () => {
-    const { container } = await render(`<div cckRadio name="n" disabled required [checked]="true">Caption</div>`, {
+    const { container } = await render(`<cck-radio name="n" disabled required [checked]="true">Caption</cck-radio>`, {
       imports: [...CckRadioImports],
     });
     expect(dataNames(must(container.querySelector('.cck-radio')))).toEqual([...radioMeta.dataAttrs.root].sort());
   });
 
   it('renders the types, the switch role and the decorative parts from the machine', async () => {
-    const { container } = await render(`<div cckCheckbox>A</div><div cckSwitch>B</div><div cckRadio name="n">C</div>`, {
-      imports: [...CckCheckboxImports, ...CckSwitchImports, ...CckRadioImports],
-    });
+    const { container } = await render(
+      `<cck-checkbox>A</cck-checkbox><cck-switch>B</cck-switch><cck-radio name="n">C</cck-radio>`,
+      {
+        imports: [...CckCheckboxImports, ...CckSwitchImports, ...CckRadioImports],
+      },
+    );
     const inputs = [...container.querySelectorAll('input')];
     expect(inputs.map((input) => input.getAttribute('type'))).toEqual(['checkbox', 'checkbox', 'radio']);
     expect(inputs.map((input) => input.getAttribute('role'))).toEqual([null, 'switch', null]);
@@ -99,11 +101,11 @@ describe('Checkbox, Switch and Radio parts', () => {
 
 describe('Keyboard', () => {
   describe.each([
-    ['cckCheckbox', 'checkbox'],
-    ['cckSwitch', 'switch'],
+    ['cck-checkbox', 'checkbox'],
+    ['cck-switch', 'switch'],
   ])('%s', (selector, role) => {
     const template = (): string =>
-      `<div ${selector} aria-label="A"></div><div ${selector} aria-label="B" disabled></div><div ${selector} aria-label="C" readonly></div><div ${selector} aria-label="D"></div>`;
+      `<${selector} aria-label="A"></${selector}><${selector} aria-label="B" disabled></${selector}><${selector} aria-label="C" readonly></${selector}><${selector} aria-label="D"></${selector}>`;
 
     it('skips a disabled control with Tab and reaches a read-only one', async () => {
       await render(template(), { imports: [...CckCheckboxImports, ...CckSwitchImports] });
@@ -123,7 +125,7 @@ describe('Keyboard', () => {
   describe('Radio', () => {
     const imports = [...CckRadioImports];
     const group = (...radios: string[]): string => `<fieldset>${radios.join('')}</fieldset>`;
-    const radio = (label: string, attrs = ''): string => `<div cckRadio name="plan" ${attrs}>${label}</div>`;
+    const radio = (label: string, attrs = ''): string => `<cck-radio name="plan" ${attrs}>${label}</cck-radio>`;
     const input = (name: string): HTMLInputElement => screen.getByRole<HTMLInputElement>('radio', { name });
 
     it('checks the focused radio with Space', async () => {

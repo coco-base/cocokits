@@ -2,15 +2,14 @@ import { Directive } from '@angular/core';
 import { CckButtonBase } from './button-base';
 
 /**
- * The Button root on a native `<a>`. It renders the `cck-button` class and stays a link (role
- * `link`, Enter only); it never renders `type`. When disabled it sets `aria-disabled="true"`,
- * `tabindex="-1"` and `data-disabled`, keeps `href`, and blocks activation with a click guard
- * that also stops a consumer `(click)` and `RouterLink` on the same element. The theme styles it.
+ * A link that looks like a button, on a native `<a>`. It stays a link: Enter opens it, and it has no `type`. The theme gives it its look.
+ *
+ * A disabled link gets `aria-disabled="true"` and `tabindex="-1"`, and keeps its `href`. A click on it does nothing. Your own `(click)` and a `routerLink` on the same element do not run.
  *
  * @example
  * <a cckButton href="/docs">Read the docs</a>
  * @cckPart root
- * @cckSlot default - The link label, as written.
+ * @cckSlot default - The label of the link. When not set, the link is empty, so name it with `aria-label`.
  * @cckDataAttr data-disabled - present when disabled
  */
 @Directive({

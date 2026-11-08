@@ -210,21 +210,29 @@ function TooltipContentImpl({ 'aria-label': ariaLabel, ...props }: TooltipConten
 }
 
 /**
- * Renders the `<div role="tooltip">` next to the trigger, in a top-layer host outside the trigger's parent. It
- * renders nothing while hidden (unless `forceMount`), on the server and in the first client render. It is placed on `side` and
- * `align`, flips and shifts to stay in view, and reports where it is as `data-side` and `data-align`. It never
- * takes focus and stays open while the pointer is over it (not with `disableHoverableContent` on the Root). Keep
- * it free of interactive content. Text-only children, or `aria-label`, are also the description of the trigger:
- * a hidden copy exists after hydration while the tooltip is closed, and the visible content is then hidden from
- * assistive technology. Positioning props (`sideOffset`, `alignOffset`, `avoidCollisions`, `collisionPadding`,
- * `sticky`, `hideWhenDetached`, `collisionBoundary`, `arrowPadding`, `updatePositionStrategy`) tune where it sits. Put a
- * `Tooltip.Arrow` inside it for a pointer to the trigger. It closes on
- * Escape and on a press outside; refuse either with `onEscapeKeyDown` or `onPointerDownOutside`
- * (`event.preventDefault()`), or any change with `details.cancel()` in `onOpenChange`. WCAG 1.4.13 asks for a
- * tooltip that stays dismissible, so refuse Escape only when you offer another way to hide it.
+ * The text of the tooltip. It renders a `<div role="tooltip">` in the overlay container, not next to the trigger.
+ * It never takes the focus, so keep links and buttons out of it.
+ *
+ * It renders nothing while hidden, on the server and in the first client render. With `forceMount`, the closed
+ * content stays in the document.
+ *
+ * It opens on `side` and `align` of the trigger. It flips and shifts to stay in view, and says where it is with
+ * `data-side` and `data-align`. The other positioning props fine-tune where it sits.
+ *
+ * It stays open while the pointer is over it, unless the Root has `disableHoverableContent`. Put a `Tooltip.Arrow`
+ * inside it for a pointer to the trigger.
+ *
+ * Text children, or `aria-label`, also describe the trigger. After hydration, a hidden copy of that text stays
+ * while the tooltip is closed. Screen readers then skip the visible content.
+ *
+ * It hides on Escape and on a press outside. To refuse one, call `event.preventDefault()` in `onEscapeKeyDown` or
+ * `onPointerDownOutside`. WCAG 1.4.13 asks that the user can hide a tooltip, so keep another way to hide it.
  *
  * @example
- * <Tooltip.Content side="bottom">Copy link</Tooltip.Content>
+ * <Tooltip.Content side="bottom">
+ *   Copy link
+ *   <Tooltip.Arrow />
+ * </Tooltip.Content>
  * @cckPart content
  * @param props - The Content props.
  * @returns The portal, or nothing while hidden.

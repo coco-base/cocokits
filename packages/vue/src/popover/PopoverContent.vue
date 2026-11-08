@@ -69,7 +69,15 @@ const props = withDefaults(defineProps<PopoverContentProps>(), {
 });
 const emit = defineEmits<PopoverContentEmits>();
 defineSlots<{
-  /** The content of the popover: text, form controls and a `PopoverClose`. */
+  /**
+   * The content of the popover: text, form controls and a `PopoverClose`. When not set, the popover is empty.
+   *
+   * @example
+   * <PopoverContent>
+   *   <PopoverTitle>Share</PopoverTitle>
+   *   <PopoverClose>Close</PopoverClose>
+   * </PopoverContent>
+   */
   default?(): unknown;
 }>();
 

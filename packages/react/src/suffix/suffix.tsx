@@ -35,14 +35,17 @@ interface SuffixComponent {
 }
 
 /**
- * Renders a `<div>` by default with content inside the box, after the control: a unit, an icon or a button. It is a plain wrapper: it adds no ARIA and
- * wires nothing, and its text is not part of the control's name or description. Give an icon
- * `aria-hidden="true"` and a button its own accessible name. Pass it to the `suffix` prop of a FormField to place it; it
- * also works outside a FormField. Native div attributes pass through, and `ref` reaches the div.
+ * A unit, an icon or a button in the box of a field, after the control.
+ * It renders a `<div>`. Native `div` props pass through, and `ref` reaches the element.
+ *
+ * Pass it to the `suffix` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.
+ *
+ * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. Give
+ * an icon `aria-hidden="true"`, and give a button its own accessible name.
  *
  * @example
- * <FormField suffix={<Suffix>$</Suffix>} label={<Label>Price</Label>}>
- *   <Input />
+ * <FormField label={<Label>Weight</Label>} suffix={<Suffix>kg</Suffix>}>
+ *   <Input type="number" />
  * </FormField>
  * @cckPart root
  * @param props - The Suffix props.

@@ -15,7 +15,7 @@ import { stubOverlayApis } from './overlay-stubs';
     >
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share this page">Text</div>
+        <cck-popover-content aria-label="Share this page">Text</cck-popover-content>
       </ng-template>
     </ng-container>
   `,

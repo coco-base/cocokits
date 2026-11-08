@@ -10,8 +10,8 @@ import { providers } from './helpers';
   selector: 'app-root',
   imports: [CckBadgeImports, CckBadgeTheme],
   template: `
-    <span cckBadge id="b" content="120" [max]="max" color="danger" size="lg"></span>
-    <span cckBadge id="d"></span>
+    <cck-badge id="b" content="120" [max]="max" color="danger" size="lg"></cck-badge>
+    <cck-badge id="d"></cck-badge>
   `,
 })
 class Root {

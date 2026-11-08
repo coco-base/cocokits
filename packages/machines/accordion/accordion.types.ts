@@ -1,12 +1,26 @@
 import type { Direction } from '@cocokits/shared';
 
-/** The direction the headers are laid out in; it decides the arrow keys. */
+/**
+ * The direction the headers are laid out in. It decides the arrow keys.
+ *
+ * @cckValue horizontal - The headers sit in a row. ArrowLeft and ArrowRight move the focus.
+ * @cckValue vertical - The headers sit in a column. ArrowUp and ArrowDown move the focus.
+ */
 export type AccordionOrientation = 'horizontal' | 'vertical';
 
-/** `single` keeps at most one item open; `multiple` lets every item toggle on its own. */
+/**
+ * How many items can be open at the same time.
+ *
+ * @cckValue single - At most one item is open. Opening an item closes the open one.
+ * @cckValue multiple - Each item opens and closes on its own.
+ */
 export type AccordionType = 'single' | 'multiple';
 
-/** Why the open items changed. Only the user changes them. */
+/**
+ * Why the open items changed.
+ *
+ * @cckValue user - The user opened or closed an item.
+ */
 export type AccordionChangeReason = 'user';
 
 /** One registered item, read in document order by the adapter. */

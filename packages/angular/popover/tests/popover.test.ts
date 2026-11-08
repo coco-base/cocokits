@@ -16,10 +16,10 @@ const SHARE = `
   <ng-container cckPopover [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">
     <button cckPopoverTrigger>Share</button>
     <ng-template cckPopoverPortal>
-      <div cckPopoverContent aria-label="Share this page" [side]="side()" [align]="align()">
+      <cck-popover-content aria-label="Share this page" [side]="side()" [align]="align()">
         <a href="#x">First</a>
         <button cckPopoverClose>Close</button>
-      </div>
+      </cck-popover-content>
     </ng-template>
   </ng-container>
   <button id="after">After</button>
@@ -65,9 +65,9 @@ class VetoClick {
   >
     <button cckPopoverTrigger vetoClick>Share</button>
     <ng-template cckPopoverPortal>
-      <div cckPopoverContent aria-label="Share this page">
+      <cck-popover-content aria-label="Share this page">
         <button cckPopoverClose vetoClick>Close</button>
-      </div>
+      </cck-popover-content>
     </ng-template>
   </ng-container>`,
 })
@@ -85,9 +85,9 @@ class VetoHost {
   >
     <button cckPopoverTrigger (click)="$event.preventDefault()">Share</button>
     <ng-template cckPopoverPortal>
-      <div cckPopoverContent aria-label="Share this page">
+      <cck-popover-content aria-label="Share this page">
         <button cckPopoverClose (click)="$event.preventDefault()">Close</button>
-      </div>
+      </cck-popover-content>
     </ng-template>
   </ng-container>`,
 })
@@ -227,7 +227,7 @@ describe('Popover', () => {
       await render(
         `<ng-container cckPopover>
           <button cckPopoverTrigger>Open</button>
-          <ng-template cckPopoverPortal><div cckPopoverContent aria-label="Plain">Text</div></ng-template>
+          <ng-template cckPopoverPortal><cck-popover-content aria-label="Plain">Text</cck-popover-content></ng-template>
         </ng-container>`,
         { imports },
       );
@@ -368,14 +368,14 @@ describe('Popover', () => {
       <ng-container cckPopover>
         <button cckPopoverTrigger>Outer</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-label="Outer panel">
+          <cck-popover-content aria-label="Outer panel">
             <ng-container cckPopover>
               <button cckPopoverTrigger>Inner</button>
               <ng-template cckPopoverPortal>
-                <div cckPopoverContent aria-label="Inner panel"><button>Deep</button></div>
+                <cck-popover-content aria-label="Inner panel"><button>Deep</button></cck-popover-content>
               </ng-template>
             </ng-container>
-          </div>
+          </cck-popover-content>
         </ng-template>
       </ng-container>`;
 
@@ -404,7 +404,7 @@ describe('Popover', () => {
         `<div cckDir dir="rtl">
           <ng-container cckPopover>
             <button cckPopoverTrigger>Open</button>
-            <ng-template cckPopoverPortal><div cckPopoverContent aria-label="L" side="start"><button>x</button></div></ng-template>
+            <ng-template cckPopoverPortal><cck-popover-content aria-label="L" side="start"><button>x</button></cck-popover-content></ng-template>
           </ng-container>
         </div>`,
         { imports },
@@ -423,7 +423,7 @@ describe('Popover', () => {
       await render(
         `<ng-container cckPopover>
           <button cckPopoverTrigger>Open</button>
-          <ng-template cckPopoverPortal><div cckPopoverContent>Unnamed</div></ng-template>
+          <ng-template cckPopoverPortal><cck-popover-content>Unnamed</cck-popover-content></ng-template>
         </ng-container>`,
         { imports },
       );

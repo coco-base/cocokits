@@ -6,21 +6,23 @@ import { injectCckPopover } from './popover';
 import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
 
 /**
- * The content of the Popover: a non-modal `dialog` next to the trigger. It renders in the overlay
- * container, not next to the trigger, and is positioned with flip and shift. Name it with `aria-label` or
- * `aria-labelledby`, or add a `cckPopoverTitle`. Focus moves to its first focusable element on open, or to the content itself.
+ * The panel of the popover, a `dialog` that does not block the page. It shows in the overlay container, not next to the trigger. Name it with `aria-label`, `aria-labelledby` or a `cckPopoverTitle`.
+ *
+ * The content opens on the preferred side of the trigger, and moves to the other side when there is no room. On open, the focus moves to its first focusable element, or to the content.
  *
  * @example
- * <div cckPopoverContent side="top" aria-label="Share this page">...</div>
+ * <ng-template cckPopoverPortal>
+ *   <cck-popover-content side="top" aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+ * </ng-template>
  * @cckPart content
  * @cckTemplate ng-template[cckPopoverPortal]
- * @cckSlot default - The content.
+ * @cckSlot default - The content of the panel. When not set, the panel is empty.
  * @cckDataAttr data-state - `open` or `closed`
  * @cckDataAttr data-side - the resolved side: `top`, `bottom`, `start` or `end`
  * @cckDataAttr data-align - the resolved alignment: `start`, `center` or `end`
  */
 @Directive({
-  selector: '[cckPopoverContent]',
+  selector: 'cck-popover-content',
   exportAs: 'cckPopoverContent',
   host: {
     '[class]': 'props().class',
@@ -36,17 +38,16 @@ import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
 })
 export class CckPopoverContent {
   /**
-   * The side of the trigger the content prefers. `start` and `end` follow the direction; it flips when there
-   * is no room.
+   * The side of the trigger where the content prefers to open. `start` and `end` follow the text direction. The content opens on the other side when there is no room.
    * @defaultValue 'bottom'
-   * @remarks The default comes from `CCK_POPOVER_DEFAULT_OPTIONS`.
+   * @remarks `CCK_POPOVER_DEFAULT_OPTIONS` can change the default.
    */
   readonly side = input<OverlaySide>(inject(CCK_POPOVER_DEFAULT_OPTIONS).side);
 
   /**
-   * How the content lines up along the trigger's edge.
+   * How the content lines up with the edge of the trigger.
    * @defaultValue 'center'
-   * @remarks The default comes from `CCK_POPOVER_DEFAULT_OPTIONS`.
+   * @remarks `CCK_POPOVER_DEFAULT_OPTIONS` can change the default.
    */
   readonly align = input<OverlayAlign>(inject(CCK_POPOVER_DEFAULT_OPTIONS).align);
 
@@ -70,7 +71,7 @@ export class CckPopoverContent {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(element)) {
         console.warn(
-          'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle, or an aria-label or aria-labelledby to the element with cckPopoverContent.',
+          'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle, or an aria-label or aria-labelledby to the <cck-popover-content>.',
         );
       }
     });

@@ -25,12 +25,12 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
     <ng-container cckTooltip>
       <button cckTooltipTrigger>Copy</button>
       <ng-template cckTooltipPortal>
-        <div cckTooltipContent>
+        <cck-tooltip-content>
           @if (arrow()) {
-            <span cckTooltipArrow data-testid="arrow"></span>
+            <cck-tooltip-arrow data-testid="arrow"></cck-tooltip-arrow>
           }
           Text
-        </div>
+        </cck-tooltip-content>
       </ng-template>
     </ng-container>
   `,
@@ -46,9 +46,9 @@ class Host {
     <ng-container cckTooltip>
       <button cckTooltipTrigger>Copy</button>
       <ng-template cckTooltipPortal>
-        <div cckTooltipContent>
-          <span cckTooltipArrow class="mine" data-testid="arrow"><circle r="1" /></span>
-        </div>
+        <cck-tooltip-content>
+          <cck-tooltip-arrow class="mine" data-testid="arrow"><circle r="1" /></cck-tooltip-arrow>
+        </cck-tooltip-content>
       </ng-template>
     </ng-container>
   `,
@@ -68,11 +68,11 @@ describe('Tooltip arrow', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders a decorative span with the class and the built-in triangle inside the content', async () => {
+  it('renders a decorative element with the class and the built-in triangle inside the content', async () => {
     const { fixture } = await render(Host);
     fixture.componentInstance.tooltip().show(0);
     const arrow = await screen.findByTestId('arrow');
-    expect(arrow.tagName).toBe('SPAN');
+    expect(arrow.tagName).toBe('CCK-TOOLTIP-ARROW');
     expect(arrow.classList.contains(tooltipAnatomy.classes.arrow)).toBe(true);
     expect(arrow.getAttribute('aria-hidden')).toBe('true');
     expect(arrow.hasAttribute('hidden')).toBe(false);

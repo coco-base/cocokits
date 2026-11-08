@@ -22,7 +22,7 @@ import {
   type Signal,
   type TemplateRef,
 } from '@angular/core';
-import { CckAttrs, CckDirection, IdGenerator, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { scrollItemIntoList, trackActiveIndicator, type ActiveIndicator } from '@cocokits/cdk/active-indicator';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
 import { createRovingFocus } from '@cocokits/cdk/roving-focus';
@@ -38,10 +38,9 @@ import {
   type TabsParts,
   type TabsState,
 } from '@cocokits/machines/tabs';
-import { sortByDomOrder } from '@cocokits/utils';
 import { CCK_TABS_CONFIG } from './tabs-config';
 
-/** What a Tabs knows about one `cckTab`: the tab a change event reports. */
+/** What a Tabs knows about one `cck-tab`: the tab a change event reports. */
 export interface CckTabRegistration {
   /** The section element, which is the panel. */
   readonly _element: HTMLElement;
@@ -61,45 +60,36 @@ export interface CckTabRegistration {
   readonly _item: Signal<TabsItem>;
 }
 
-/** What the `selectedTabChange` and `focusChange` outputs of a Tabs emit. */
+/** What `selectedTabChange` and `focusChange` send: the position of the tab and the tab. */
 export interface CckTabChangeEvent {
   /** The position of the tab among the tabs, in document order, starting at 0. */
   readonly index: number;
-  /** The tab. */
+  /** The tab, with its `label`, its `disabled` state and the `id` of its trigger. */
   readonly tab: CckTabRegistration;
 }
 
 /**
- * Sorts the tabs into document order.
+ * A row of tabs with one panel for each tab. One tab is selected at a time. You write one `cck-tab` for each tab.
  *
- * @param tabs - The registered tabs.
- * @returns A new array in document order.
- */
-function inDomOrder(tabs: readonly CckTabRegistration[]): CckTabRegistration[] {
-  const byElement = new Map(tabs.map((tab) => [tab._element, tab]));
-  return sortByDomOrder(tabs.map((tab) => tab._element)).flatMap((element) => byElement.get(element) ?? []);
-}
-
-/**
- * Tabs: a list of triggers and one panel per trigger, one tab selected at a time. Write one `cckTab` section
- * per tab inside the host; the host renders the list (with the triggers and one sliding indicator) before the
- * sections, which are the panels. Arrow keys, Home and End move between the enabled triggers; with `automatic`
- * activation the focused trigger is selected, with `manual` Enter or Space selects it. A panel holds its content
- * only while its tab is selected (see `preserveContent`). Name the list with `aria-label` or `aria-labelledby`
- * on the host: they are forwarded to the list and never stay on the host.
+ * The tabs make the list with the buttons, called triggers, and one moving indicator. The list comes before the panels. Name the list with `aria-label` or `aria-labelledby`.
+ *
+ * The arrow keys, Home and End move the focus between the enabled triggers. A panel holds its content only while its tab is selected, unless `preserveContent` is set.
  *
  * @example
- * <div cckTabs aria-label="Account settings" [(selectedIndex)]="tab">
- *   <div cckTab label="Account">Change your name.</div>
- *   <div cckTab label="Password">Change your password.</div>
- * </div>
+ * <cck-tabs aria-label="Account settings" [(selectedIndex)]="tab">
+ *   <cck-tab label="Account">Change your name.</cck-tab>
+ *   <cck-tab>
+ *     <ng-template cckTabLabel><b>Password</b></ng-template>
+ *     <ng-template cckTabContent>Change your password.</ng-template>
+ *   </cck-tab>
+ * </cck-tabs>
  * @cckPart root
  * @cckPart list
  * @cckPart indicator
- * @cckSlot default - The `cckTab` sections.
+ * @cckSlot default - The `cck-tab` elements. When not set, the list and the panels are empty.
  */
 @Component({
-  selector: '[cckTabs]',
+  selector: 'cck-tabs',
   exportAs: 'cckTabs',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
@@ -165,28 +155,26 @@ function inDomOrder(tabs: readonly CckTabRegistration[]): CckTabRegistration[] {
 })
 export class CckTabs {
   /**
-   * The position of the selected tab, starting at 0. Two-way, one-way (the start position) or unbound; `null`
-   * selects the first enabled tab and stays `null` until the user selects. A position outside the tabs selects
-   * the nearest tab, and the position follows the selected tab when tabs are added or removed.
+   * The position of the selected tab, starting at 0. Use `[(selectedIndex)]` to read and change it. When not set, the first enabled tab is selected, and the value stays `null` until the user selects a tab.
+   * @remarks A position outside the tabs selects the nearest tab. When you add or remove tabs, the position follows the selected tab.
    * @cckSemantic tabs.value
    */
   readonly selectedIndex = model<number | null>(null);
 
   /**
-   * Whether the tabs are laid out in a row or a column; `vertical` moves with Up and Down.
+   * Whether the triggers sit in a row or in a column.
    * @defaultValue 'horizontal'
    */
   readonly orientation = input<TabsOrientation>('horizontal');
 
   /**
-   * `automatic` selects a tab when it receives focus by an arrow key; `manual` waits for Enter or Space.
+   * When a trigger that gets the focus from an arrow key is selected.
    * @defaultValue 'automatic'
    */
   readonly activationMode = input<TabsActivationMode>('automatic');
 
   /**
-   * Whether a panel keeps its content once its tab was selected, hidden while the tab is not selected. Without
-   * it the content of a panel is removed when the tab is left. The default comes from `CCK_TABS_CONFIG`.
+   * Whether a panel keeps its content after its tab was selected once. The panel is hidden while its tab is not selected. When not set, the value of `CCK_TABS_CONFIG` is used, and without it the content is removed when the tab is left.
    * @defaultValue false
    * @cckSemantic none
    * @cckParity Only this framework has this member.
@@ -196,27 +184,39 @@ export class CckTabs {
   });
 
   /**
-   * The accessible name of the list. It is forwarded to the list element and does not stay on the host.
+   * The accessible name of the list. The list gets it, and the host does not keep it. When not set, name the list with `aria-labelledby`.
    * @cckSemantic tabs.list.aria-label
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
-   * The id of the element that names the list. It is forwarded to the list element and does not stay on the host.
+   * The `id` of the element that names the list. The list gets it, and the host does not keep it. When not set, name the list with `aria-label`.
    * @cckSemantic tabs.list.aria-labelledby
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });
 
   /**
-   * Emits after every selection the user makes (a click, or a key), with the position and the tab. Never for a
-   * write from the parent.
+   * Emits after the user selects a tab with a click or a key. It sends a `CckTabChangeEvent` with the position and the tab.
+   * @remarks It never emits when the parent changes `selectedIndex`.
+   * @example
+   * <cck-tabs aria-label="Account settings" (selectedTabChange)="onSelect($event)">
+   *   <cck-tab label="Account">Change your name.</cck-tab>
+   *   <cck-tab label="Password">Change your password.</cck-tab>
+   * </cck-tabs>
+   * <!-- In the class: onSelect(event: CckTabChangeEvent) { console.log(event.index, event.tab.label()); } -->
    * @cckSemantic tabs.valueChange
    */
   readonly selectedTabChange = output<CckTabChangeEvent>();
 
   /**
-   * Emits when keyboard focus reaches a tab: an arrow key, Home or End, or Tab into the list. Not for pointer
-   * focus.
+   * Emits when the keyboard moves the focus to a trigger. It sends a `CckTabChangeEvent` with the position and the tab.
+   * @remarks An arrow key, Home, End or Tab into the list moves the focus. A click does not emit.
+   * @example
+   * <cck-tabs aria-label="Account settings" (focusChange)="onFocus($event)">
+   *   <cck-tab label="Account">Change your name.</cck-tab>
+   *   <cck-tab label="Password">Change your password.</cck-tab>
+   * </cck-tabs>
+   * <!-- In the class: onFocus(event: CckTabChangeEvent) { console.log(event.index); } -->
    * @cckSemantic none
    * @cckParity Only this framework has this member.
    */
@@ -230,7 +230,7 @@ export class CckTabs {
   /** The tabs in document order. */
   protected readonly ordered = linkedSignal<ReadonlySet<CckTabRegistration>, readonly CckTabRegistration[]>({
     source: this.registry,
-    computation: (tabs) => inDomOrder([...tabs]),
+    computation: (tabs) => sortByDomOrderOf([...tabs], (tab) => tab._element),
   });
 
   /**
@@ -327,7 +327,7 @@ export class CckTabs {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (tab) => tab._element);
         if (sorted.some((tab, index) => tab !== current[index])) this.ordered.set(sorted);
       },
     });
@@ -476,6 +476,6 @@ export class CckTabs {
  */
 export function injectCckTabs(part: string): CckTabs {
   const root = inject(CckTabs, { optional: true });
-  if (!root) throw new Error(`CocoKits: ${part} must be placed inside an element with cckTabs.`);
+  if (!root) throw new Error(`CocoKits: ${part} must be placed inside a <cck-tabs>.`);
   return root;
 }

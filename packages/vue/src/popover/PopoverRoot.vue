@@ -12,8 +12,18 @@ const props = withDefaults(defineProps<PopoverRootProps>(), { open: undefined, d
 defineEmits<PopoverRootEmits>();
 defineSlots<{
   /**
-   * The parts of the popover: a trigger, the content and a Close. The root renders no element around them. It
-   * receives `open` and `close`.
+   * The parts of the popover: a trigger, the content and a Close. The slot gives you the open state and a close function. When
+   * not set, the popover has no parts.
+   *
+   * The root renders no element around them.
+   *
+   * @example
+   * <PopoverRoot #default="{ close }">
+   *   <PopoverTrigger>Share</PopoverTrigger>
+   *   <PopoverContent aria-label="Share">
+   *     <button type="button" @click="copyLink(); close()">Copy link</button>
+   *   </PopoverContent>
+   * </PopoverRoot>
    */
   default?(props: {
     /**
@@ -24,7 +34,7 @@ defineSlots<{
      */
     open: boolean;
     /**
-     * Closes the popover the way `PopoverClose` does and emits `update:open` with `false`.
+     * Closes the popover as `PopoverClose` does, and emits `update:open` with `false`.
      *
      * @cckSemantic none
      * @cckParity Slot prop: the close function of the root.

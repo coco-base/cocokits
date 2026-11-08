@@ -11,7 +11,13 @@ defineOptions({ name: 'CckPopoverTrigger', inheritAttrs: false });
 
 const props = withDefaults(defineProps<PopoverTriggerProps>(), { as: 'button', asChild: false });
 defineSlots<{
-  /** The content of the trigger: text and icons. An icon-only trigger needs `aria-label`. */
+  /**
+   * The content of the trigger: text and icons. An icon-only trigger needs `aria-label`. When not set, the trigger is
+   * empty and needs `aria-label`.
+   *
+   * @example
+   * <PopoverTrigger aria-label="Share"><ShareIcon aria-hidden="true" /></PopoverTrigger>
+   */
   default?(): unknown;
 }>();
 

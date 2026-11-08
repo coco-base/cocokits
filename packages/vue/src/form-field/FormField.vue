@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import {
+  cloneVNode,
   computed,
   h,
+  onBeforeUpdate,
   onMounted,
   provide,
   shallowRef,
+  triggerRef,
   ref,
   useId,
   useAttrs,
@@ -22,7 +25,9 @@ import {
   type FormFieldControlState,
 } from '@cocokits/machines/form-field';
 import { shouldFocusControl } from '@cocokits/utils';
-import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
+import { isDevelopment, Primitive, useThemeAttrs } from '@cocokits/vue-core';
+import { FieldError } from '../field-error';
+import { Hint } from '../hint';
 import {
   FORM_FIELD_KEY,
   FORM_FIELD_LABEL_KEY,
@@ -31,6 +36,7 @@ import {
   type FormFieldContextValue,
   type FormFieldLabelContextValue,
 } from '../internal/form-field-context';
+import { readZone, withPartIds } from '../internal/field-parts';
 import { rootElementOf } from '../internal/root-element';
 import type { FormFieldProps } from './form-field.types';
 
@@ -49,21 +55,67 @@ const props = withDefaults(defineProps<FormFieldProps>(), {
 });
 
 defineSlots<{
-  /** The label of the control. */
+  /**
+   * The label of the control. When not set, the field has no label, and the control needs another name.
+   *
+   * @example
+   * <template #label><Label>Email</Label></template>
+   */
   label?(): unknown;
-  /** The control. */
+  /**
+   * The control: an Input, a Textarea or your own control. When not set, the field has no control.
+   *
+   * @example
+   * <FormField><template #label><Label>Email</Label></template><Input type="email" /></FormField>
+   */
   default?(): unknown;
-  /** The hints. Several are allowed. */
+  /**
+   * The hints. Several are allowed. When not set, the field shows no hint.
+   *
+   * Put each Hint directly in the slot. A plain text renders inside a Hint. Anything else is not listed, and the
+   * field warns once in development.
+   *
+   * @example
+   * <template #hint><Hint>We only use it for the receipt.</Hint></template>
+   */
   hint?(): unknown;
-  /** Content outside the box, before it. */
+  /**
+   * Content outside the box, before it. When not set, nothing shows there.
+   *
+   * @example
+   * <template #leading><Leading>To</Leading></template>
+   */
   leading?(): unknown;
-  /** Content inside the box, before the control. */
+  /**
+   * Content inside the box, before the control. When not set, nothing shows there.
+   *
+   * @example
+   * <template #prefix><Prefix>$</Prefix></template>
+   */
   prefix?(): unknown;
-  /** Content inside the box, after the control. */
+  /**
+   * Content inside the box, after the control. When not set, nothing shows there.
+   *
+   * @example
+   * <template #suffix><Suffix>kg</Suffix></template>
+   */
   suffix?(): unknown;
-  /** Content outside the box, after it. */
+  /**
+   * Content outside the box, after it. When not set, nothing shows there.
+   *
+   * @example
+   * <template #trailing><Trailing><Button>Check</Button></Trailing></template>
+   */
   trailing?(): unknown;
-  /** The error messages, after the hints. Several are allowed. */
+  /**
+   * The error messages, after the hints. Several are allowed. When not set, the field shows no error.
+   *
+   * Put each FieldError directly in the slot. A plain text renders inside a FieldError that always shows. Anything
+   * else is not listed, and the field warns once in development.
+   *
+   * @example
+   * <template #error><FieldError>Enter an email address.</FieldError></template>
+   */
   error?(): unknown;
 }>();
 
@@ -76,10 +128,30 @@ const themeAttrs = useThemeAttrs(formFieldAnatomy);
 const generatedId = useId();
 const fieldId = computed(() => nonEmpty(props.id) ?? generatedId);
 const authorLabelId = shallowRef<string | undefined>(undefined);
+const isHint = (node: VNode): boolean => node.type === Hint;
+const isFieldError = (node: VNode): boolean => node.type === FieldError;
+// The slots as a ref, triggered before each render of the field: the author's render can pass new slot functions.
+const currentSlots = shallowRef(slots);
+onBeforeUpdate(() => {
+  triggerRef(currentSlots);
+});
+// The hint and error zones, read once and shared by the render and the ids. The read tracks what the slots read,
+// so a part that a slot adds or removes reads the zones again. The ids do not depend on which reads them first,
+// and the control lists them from the first render, also on the server.
+const zoneParts = computed(() => {
+  const { hint, error } = currentSlots.value;
+  return {
+    hints: readZone(hint?.() ?? [], isHint, (text) => h(Hint, null, () => text)),
+    // A plain text error was always shown before it became a FieldError; `force` keeps that.
+    errors: readZone(error?.() ?? [], isFieldError, (text) => h(FieldError, { force: true }, () => text)),
+  };
+});
 const ids = computed(() => {
-  const generated = formFieldIds(fieldId.value);
+  const { hints, errors } = zoneParts.value;
+  const generated = formFieldIds(fieldId.value, { hints: hints.ownIds, errors: errors.ownIds });
   return authorLabelId.value === undefined ? generated : { ...generated, label: authorLabelId.value };
 });
+let warnedUnlisted = false;
 const own = computed(() => ({
   disabled: props.disabled,
   readOnly: props.readonly,
@@ -162,8 +234,24 @@ function slotNodes(name: keyof typeof slots): VNode[] {
   return slots[name]?.() ?? [];
 }
 
+/** The cached zone nodes for this render: a node mounted by an earlier render is copied, as a render must not reuse one. */
+function mountedOnce(nodes: readonly VNode[]): VNode[] {
+  return nodes.map((node) => (node.el ? cloneVNode(node) : node));
+}
+
 /** The zones around a control, written once for both renderings. */
 function zones(control: VNode[] = []): VNode[] {
+  const { hints, errors } = zoneParts.value;
+  // A console message, not state: it is said once per field.
+  if ((hints.unlisted || errors.unlisted) && !warnedUnlisted && isDevelopment()) {
+    warnedUnlisted = true;
+    console.warn(
+      'CocoKits: a FormField lists only the Hint and FieldError parts and the plain text put directly in its hint ' +
+        'or error zone. Other content there, such as an element, a wrapper or a component, is not listed and does ' +
+        'not describe the control.',
+    );
+  }
+  const partIds = ids.value;
   return [
     ...slotNodes('label'),
     h('div', { ...themeAttrs.value.wrapper, class: parts.value.wrapper.class }, [
@@ -184,8 +272,8 @@ function zones(control: VNode[] = []): VNode[] {
       ...slotNodes('trailing'),
     ]),
     h('div', { ...themeAttrs.value.feedbackWrapper, ...parts.value.feedbackWrapper }, [
-      ...slotNodes('hint'),
-      ...slotNodes('error'),
+      ...withPartIds(mountedOnce(hints.nodes), isHint, partIds.hints),
+      ...withPartIds(mountedOnce(errors.nodes), isFieldError, partIds.errors),
     ]),
   ];
 }
@@ -196,8 +284,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the FormField: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the FormField: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <FormField ref="field"><template #label><Label>Email</Label></template><Input /></FormField>
+   * <!-- In the script: const field = useTemplateRef('field'); then field.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

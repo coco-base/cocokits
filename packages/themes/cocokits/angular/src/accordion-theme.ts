@@ -20,19 +20,19 @@ const toHideToggle = (
 
 /**
  * The cocokits theme options of the Accordion. It sits on the same element as the base component
- * (`[cckAccordion]`) and provides the values to it; the base renders the `data-*` attributes on the root, and the
+ * (`cck-accordion`) and provides the values to it; the base renders the `data-*` attributes on the root, and the
  * theme styles the items, the triggers and the contents from them. Each option resolves in order: the input, then
  * the `provideCckTheme` override, then the config default; `null` removes the attribute. The theme needs
  * `provideCckTheme`; without it no theme attribute renders.
  *
  * @example
- * <div cckAccordion variant="group" size="sm" togglePosition="before">
- *   <div cckAccordionItem label="Shipping">Orders leave in two days.</div>
- * </div>
+ * <cck-accordion variant="group" size="sm" togglePosition="before">
+ *   <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+ * </cck-accordion>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckAccordion]',
+  selector: 'cck-accordion',
   providers: [
     provideThemeOptions(
       'accordion',

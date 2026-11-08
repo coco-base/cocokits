@@ -38,21 +38,21 @@ import { CckTextareaImports } from '../index';
   ],
   template: `
     <form [formGroup]="group">
-      <div cckFormField id="message-field">
-        <div cckFieldError>Write a message.</div>
+      <cck-form-field id="message-field">
+        <cck-field-error>Write a message.</cck-field-error>
         <div cckTrailing>trail</div>
         <label cckLabel>Message</label>
         <div cckSuffix>suf</div>
         <textarea cckTextarea formControlName="message" rows="4"></textarea>
         <div cckPrefix>pre</div>
         <div cckLeading>lead</div>
-        <div cckHint>Be kind.</div>
-        <div cckFieldError force>Forced.</div>
-      </div>
-      <div cckFormField>
+        <cck-hint>Be kind.</cck-hint>
+        <cck-field-error force>Forced.</cck-field-error>
+      </cck-form-field>
+      <cck-form-field>
         <label cckLabel>Name</label>
         <input cckInput formControlName="name" />
-      </div>
+      </cck-form-field>
     </form>
   `,
 })

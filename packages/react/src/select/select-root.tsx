@@ -387,37 +387,39 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
 }
 
 /**
- * Renders the Select root: a `<div>` (or your `render` element) that holds the parts, the hidden form inputs and
- * the message of a blocked submit, and provides the value and the open state to them. Write the parts inside it: a
- * `Select.Trigger` with a `Select.Value` and a `Select.Icon`, and a `Select.Content` with `Select.Item`s. It is a
- * custom listbox, not a native `<select>`. The items mount with the list, so the list renders nothing while
- * closed, on the server and in the first client render.
+ * Holds the value and the open state of a custom listbox. It renders a `<div>` that contains the parts, the hidden form inputs and the message of a blocked submit. It is not a native `<select>`.
  *
- * The value is a `T` or `null` (a list of `T` with `multiple`), controlled with `value` and `onValueChange` or
- * uncontrolled with `defaultValue`. `T` is `string` unless the items carry something else, and then `items`,
- * `itemToStringLabel`, `itemToStringValue` and `isItemEqualToValue` tell the Select how to show, submit and
- * compare it. `onValueChange` and `onOpenChange` can refuse a change with `details.cancel()`. In a single Select an
- * item whose value is `null` or `''` clears the value and shows the placeholder. With `name` (or `required`) it
- * renders hidden native inputs, so `FormData`, constraint validation, `form`, a form reset and a browser autofill
- * work.
+ * Write the parts inside it: a `Select.Trigger` with a `Select.Value` and a `Select.Icon`, and a `Select.Content` with `Select.Item` elements. The items mount with the list, so the list renders nothing while closed, on the server and in the first client render.
  *
- * Inside a `FormField` the trigger is the field's control (`<fieldId>-control`) and the list lines up with the
- * field's input wrapper. Name the Select with the field's label, or `aria-label` or `aria-labelledby` on the
- * trigger. Native div props pass through to the root element.
+ * The value is a `T` or `null`, or a list of `T` with `multiple`. Control it with `value` and `onValueChange`, or leave it uncontrolled and set `defaultValue`. `T` is `string` unless the items carry something else. Then `items`, `itemToStringLabel`, `itemToStringValue` and `isItemEqualToValue` tell the Select how to show, send and compare the values.
+ *
+ * With `name` or `required`, the Select renders hidden native inputs. Then `FormData`, constraint validation, `form`, a form reset and a browser autofill work.
+ *
+ * Inside a `FormField`, the trigger is the control of the field, and the list lines up with the input of the field. Native `div` props pass through to the root element.
  *
  * @example
- * <Select.Root onValueChange={(dish) => setDish(dish)}>
+ * <Select.Root defaultValue="Pizza">
  *   <Select.Trigger aria-label="Dish">
  *     <Select.Value placeholder="Choose a dish" />
  *     <Select.Icon />
  *   </Select.Trigger>
  *   <Select.Content>
- *     <Select.Item value="Cake"><Select.ItemIndicator /><Select.ItemText>Cake</Select.ItemText></Select.Item>
- *     <Select.Item value="Pizza"><Select.ItemIndicator /><Select.ItemText>Pizza</Select.ItemText></Select.Item>
+ *     <Select.Group>
+ *       <Select.Label>Desserts</Select.Label>
+ *       <Select.Item value="Cake">
+ *         <Select.ItemIndicator />
+ *         <Select.ItemText>Cake</Select.ItemText>
+ *       </Select.Item>
+ *     </Select.Group>
+ *     <Select.Separator />
+ *     <Select.Item value="Pizza">
+ *       <Select.ItemIndicator />
+ *       <Select.ItemText>Pizza</Select.ItemText>
+ *     </Select.Item>
  *   </Select.Content>
  * </Select.Root>
- * @typeParam T - The type of an item's value. Defaults to `string`.
- * @typeParam M - The type of `multiple`: `true` makes the value a list. Defaults to `false`.
+ * @typeParam T - The type of the value of an item. The default is `string`.
+ * @typeParam M - The type of `multiple`. `true` makes the value a list. The default is `false`.
  * @cckPart root
  * @param props - The Root props.
  * @returns The rendered root.

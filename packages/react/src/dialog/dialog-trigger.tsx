@@ -51,11 +51,13 @@ function DialogTriggerImpl({ render, nativeButton = true, ref, ...rest }: Dialog
 }
 
 /**
- * Renders a `<button type="button">` that opens the dialog (and closes it when the Root is not `modal`). With `nativeButton={false}` it renders another
- * element through `render` and gives it `role="button"`, `tabindex="0"` and Enter and Space activation, and no
- * `type`. It carries `aria-haspopup="dialog"`,
- * `aria-expanded` and, while the content is mounted, `aria-controls`. Native button props pass through, and
- * `ref` reaches the element. Compose it with another component through `render`, for example `<Button />`.
+ * The button that opens the dialog. It renders a `<button type="button">` with `aria-haspopup="dialog"` and
+ * `aria-expanded`. Native button props pass through, and `ref` reaches the element.
+ *
+ * It has `aria-controls` while the content is mounted. When the Root is not `modal`, it also closes the dialog.
+ *
+ * To render another element or component, use `render`. An element that is not a `<button>` also needs
+ * `nativeButton={false}`.
  *
  * @example
  * <Dialog.Trigger>Delete project</Dialog.Trigger>

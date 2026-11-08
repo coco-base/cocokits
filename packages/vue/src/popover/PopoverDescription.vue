@@ -9,7 +9,12 @@ defineOptions({ name: 'CckPopoverDescription', inheritAttrs: false });
 
 withDefaults(defineProps<PopoverDescriptionProps>(), { as: 'p', asChild: false });
 defineSlots<{
-  /** The description text. */
+  /**
+   * The text of the description. When not set, the description is empty.
+   *
+   * @example
+   * <PopoverDescription>Anyone with the link can view.</PopoverDescription>
+   */
   default?(): unknown;
 }>();
 

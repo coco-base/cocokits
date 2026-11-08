@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { formFieldIds } from '../../form-field';
 import { getInputProps, inputAnatomy, inputMeta } from '../index';
 
-const ids = formFieldIds('email');
+const ids = formFieldIds('email', { hints: [undefined], errors: [undefined] });
 
 function dataKeys(root: object): string[] {
   return Object.entries(root)
@@ -97,10 +97,10 @@ describe('getInputProps', () => {
   });
 
   describe('inside a field', () => {
-    it('defaults the id to the control id and describes by the feedback id', () => {
+    it('defaults the id to the control id and describes by the hint and error ids', () => {
       const { root, control } = getInputProps({}, { ids });
       expect(root.id).toBe('email-control');
-      expect(root['aria-describedby']).toBe('email-feedback');
+      expect(root['aria-describedby']).toBe('email-hint-1 email-error-1');
       expect(control.id).toBe('email-control');
     });
 
@@ -110,10 +110,12 @@ describe('getInputProps', () => {
       expect(control.id).toBe('mine');
     });
 
-    it('puts the author ids before the feedback id, without duplicates', () => {
-      expect(getInputProps({ ariaDescribedBy: 'a b' }, { ids }).root['aria-describedby']).toBe('a b email-feedback');
-      expect(getInputProps({ ariaDescribedBy: 'email-feedback a' }, { ids }).root['aria-describedby']).toBe(
-        'email-feedback a',
+    it('puts the author ids before the hint and error ids, without duplicates', () => {
+      expect(getInputProps({ ariaDescribedBy: 'a b' }, { ids }).root['aria-describedby']).toBe(
+        'a b email-hint-1 email-error-1',
+      );
+      expect(getInputProps({ ariaDescribedBy: 'email-hint-1 a' }, { ids }).root['aria-describedby']).toBe(
+        'email-hint-1 a email-error-1',
       );
     });
 

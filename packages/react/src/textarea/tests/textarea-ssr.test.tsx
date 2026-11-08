@@ -37,7 +37,7 @@ describe('Textarea and the zones on the server', () => {
     const html = renderToString(<MessageField id="msg" />);
     expect(html).toContain('id="msg-control"');
     expect(html).toContain('for="msg-control"');
-    expect(html).toContain('aria-describedby="msg-feedback"');
+    expect(html).toContain('aria-describedby="msg-hint-1 msg-hint-2 msg-error-1"');
     for (const idref of [...idsIn(html, 'for'), ...idsIn(html, 'aria-describedby')]) {
       expect(html, idref).toContain(`id="${idref}"`);
     }
@@ -63,14 +63,14 @@ describe('Textarea and the zones on the server', () => {
         <Textarea invalid />
       </FormField>,
     );
-    expect(hidden).toContain('<div class="cck-field-error" aria-live="polite"></div>');
+    expect(hidden).toContain('<div class="cck-field-error" aria-live="polite" id="f-error-1"></div>');
     expect(hidden).not.toContain('Message');
     const forced = renderToString(
       <FormField id="f" error={<FieldError force>Message</FieldError>} label={<Label>Name</Label>}>
         <Textarea />
       </FormField>,
     );
-    expect(forced).toContain('aria-live="polite">Message</div>');
+    expect(forced).toContain('id="f-error-1">Message</div>');
     expect(renderToString(<FieldError>Alone</FieldError>)).toContain('>Alone</div>');
   });
 });

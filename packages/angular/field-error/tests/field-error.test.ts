@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { render } from '@testing-library/angular';
 import { provideCckTheme } from '@cocokits/angular-core';
-import { fieldErrorAnatomy, fieldErrorMeta } from '@cocokits/machines/field-error';
+import { fieldErrorAnatomy } from '@cocokits/machines/field-error';
 import { defineThemeConfig } from '@cocokits/shared';
 import { describe, expect, it } from 'vitest';
 import { CckFieldError, CckFieldErrorImports } from '../index';
@@ -10,9 +10,9 @@ const imports = [...CckFieldErrorImports];
 
 describe('CckFieldError', () => {
   it('renders the meta default element, the class, a polite live region and no role', async () => {
-    const { container } = await render(`<div cckFieldError>Oops</div>`, { imports });
+    const { container } = await render(`<cck-field-error>Oops</cck-field-error>`, { imports });
     const error = container.querySelector('.cck-field-error');
-    expect(error?.tagName.toLowerCase()).toBe(fieldErrorMeta.defaultElements?.root);
+    expect(error?.tagName.toLowerCase()).toBe('cck-field-error');
     expect(error?.className).toBe(fieldErrorAnatomy.classes.root);
     expect(error?.getAttribute('aria-live')).toBe('polite');
     expect(error?.hasAttribute('role')).toBe(false);
@@ -21,7 +21,7 @@ describe('CckFieldError', () => {
 
   it('shows the content outside a field, and follows force there too', async () => {
     const force = signal(false);
-    const { container, fixture } = await render(`<div cckFieldError [force]="force()">Oops</div>`, {
+    const { container, fixture } = await render(`<cck-field-error [force]="force()">Oops</cck-field-error>`, {
       imports,
       componentProperties: { force },
     });
@@ -32,7 +32,7 @@ describe('CckFieldError', () => {
   });
 
   it('exports the component under the exportAs name', async () => {
-    const { fixture } = await render(`<div cckFieldError #e="cckFieldError">Oops</div>`, { imports });
+    const { fixture } = await render(`<cck-field-error #e="cckFieldError">Oops</cck-field-error>`, { imports });
     expect(fixture.debugElement.children[0]?.injector.get(CckFieldError)).toBeInstanceOf(CckFieldError);
   });
 
@@ -45,7 +45,7 @@ describe('CckFieldError', () => {
         },
       },
     });
-    const { container } = await render(`<div cckFieldError>Oops</div>`, {
+    const { container } = await render(`<cck-field-error>Oops</cck-field-error>`, {
       imports,
       providers: [provideCckTheme(themeConfig)],
     });

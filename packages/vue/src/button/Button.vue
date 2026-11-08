@@ -10,7 +10,13 @@ defineOptions({ name: 'CckButton', inheritAttrs: false });
 const props = withDefaults(defineProps<ButtonProps>(), { disabled: undefined, as: 'button', asChild: false });
 
 defineSlots<{
-  /** The content of the Button: text and icons. An icon-only Button needs `aria-label` or `aria-labelledby`. */
+  /**
+   * The content of the Button: text and icons. When not set, the Button is empty and needs `aria-label` or
+   * `aria-labelledby` for its name. An icon-only Button needs them too.
+   *
+   * @example
+   * <Button aria-label="Delete"><TrashIcon aria-hidden="true" /></Button>
+   */
   default?(): unknown;
 }>();
 
@@ -60,8 +66,12 @@ function rootElement(): Element | null {
 
 defineExpose({
   /**
-   * The DOM element of the Button: the `<button>`, the `<a>` or the element of the `as` component.
-   * `null` before mount.
+   * The DOM element of the Button: the `<button>`, the `<a>` or the element of the `as` component. It is `null`
+   * before mount.
+   *
+   * @example
+   * <Button ref="button" @click="save">Save</Button>
+   * <!-- In the script: const button = useTemplateRef('button'); then button.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

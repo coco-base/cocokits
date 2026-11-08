@@ -3,15 +3,15 @@ import { injectCckSelect } from './select';
 import type { SelectTriggerContext } from './select-types';
 
 /**
- * Replaces the text of the trigger with your own markup. The template receives the selected values as
- * `selected`; the Select renders it only while something is selected. Without it, the trigger shows the labels
- * of the selected options joined with `, `.
+ * Your own markup for the trigger, in place of the labels of the selected options. When not set, the trigger shows the text of the selected options, joined with a comma.
+ *
+ * The Select shows this template only while something is selected. While nothing is selected, the placeholder shows. The template receives the selected values as `selected`.
  *
  * @example
- * <div cckSelect multiple [(value)]="dishes" placeholder="Choose dishes">
+ * <cck-select multiple [(value)]="dishes" placeholder="Choose dishes" aria-label="Dishes">
  *   <ng-template cckSelectTrigger let-selected="selected">{{ selected.length }} selected</ng-template>
- *   <div cckSelectOption value="Cake">Cake</div>
- * </div>
+ *   <cck-select-option value="Cake">Cake</cck-select-option>
+ * </cck-select>
  * @cckTemplate ng-template[cckSelectTrigger]
  */
 @Directive({ selector: 'ng-template[cckSelectTrigger]', exportAs: 'cckSelectTrigger' })
@@ -27,13 +27,13 @@ export class CckSelectTrigger<T = unknown> {
     directive: CckSelectTrigger<T>,
     context: unknown,
   ): context is {
-    /** The selected values; empty while nothing is selected (the placeholder shows then). */
+    /** The values that are selected, as a list. A single Select gives a list of one value. */
     readonly selected: readonly T[];
   } {
     return directive instanceof CckSelectTrigger && typeof context === 'object';
   }
 
-  private readonly root = injectCckSelect<unknown>('Trigger');
+  private readonly root = injectCckSelect<unknown>('cckSelectTrigger');
   private readonly template = inject<TemplateRef<SelectTriggerContext<T>>>(TemplateRef);
 
   constructor() {

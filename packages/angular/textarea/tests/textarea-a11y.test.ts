@@ -21,7 +21,7 @@ const imports = [
 ];
 
 const field = (attrs: string, textarea: string, extra = ''): string =>
-  `<div cckFormField ${attrs}><label cckLabel>Message</label>${extra}<textarea cckTextarea ${textarea}></textarea><div cckHint>Be kind.</div><div cckFieldError force>Write a message.</div></div>`;
+  `<cck-form-field ${attrs}><label cckLabel>Message</label>${extra}<textarea cckTextarea ${textarea}></textarea><cck-hint>Be kind.</cck-hint><cck-field-error force>Write a message.</cck-field-error></cck-form-field>`;
 
 describe('Textarea accessibility', () => {
   it.each([
@@ -100,7 +100,7 @@ describe('Textarea in a FormField: the accessible name warning', () => {
 
   it('warns after mount when nothing names the Textarea', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckFormField><textarea cckTextarea></textarea></div>`, { imports });
+    await render(`<cck-form-field><textarea cckTextarea></textarea></cck-form-field>`, { imports });
     expect(warned(warn)).toBe(true);
   });
 
@@ -110,7 +110,7 @@ describe('Textarea in a FormField: the accessible name warning', () => {
     ['aria-labelledby', `<span id="x">A</span><textarea cckTextarea aria-labelledby="x"></textarea>`],
   ])('does not warn when %s names it', async (_name, inner) => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckFormField>${inner}</div>`, { imports });
+    await render(`<cck-form-field>${inner}</cck-form-field>`, { imports });
     expect(warned(warn)).toBe(false);
   });
 });

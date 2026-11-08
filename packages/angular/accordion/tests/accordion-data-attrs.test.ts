@@ -8,10 +8,10 @@ describe('Accordion data attributes', () => {
   it('only emits data-* declared in the meta, on every part', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckAccordion>
-        <div cckAccordionItem label="A" [expanded]="true">A body</div>
-        <div cckAccordionItem label="B" disabled>B body</div>
-      </div>`,
+      `<cck-accordion>
+        <cck-accordion-item label="A" [expanded]="true">A body</cck-accordion-item>
+        <cck-accordion-item label="B" disabled>B body</cck-accordion-item>
+      </cck-accordion>`,
       { imports: [...CckAccordionImports] },
     );
     await user.tab();
@@ -32,7 +32,7 @@ describe('Accordion data attributes', () => {
 
   it('renders data-focus-visible on the trigger that the keyboard focused', async () => {
     const user = userEvent.setup();
-    await render(`<div cckAccordion><div cckAccordionItem label="A">A</div></div>`, {
+    await render(`<cck-accordion><cck-accordion-item label="A">A</cck-accordion-item></cck-accordion>`, {
       imports: [...CckAccordionImports],
     });
     await user.tab();

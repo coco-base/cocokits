@@ -9,7 +9,14 @@ defineOptions({ name: 'CckSelectIcon', inheritAttrs: false });
 
 withDefaults(defineProps<SelectIconProps>(), { as: 'span', asChild: false });
 defineSlots<{
-  /** The icon. Leave it empty for the icon of the theme. */
+  /**
+   * The icon to draw in place of the icon of the theme. When not set, the icon of the theme shows.
+   *
+   * @example
+   * <SelectIcon>
+   *   <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" /></svg>
+   * </SelectIcon>
+   */
   default?(): unknown;
 }>();
 

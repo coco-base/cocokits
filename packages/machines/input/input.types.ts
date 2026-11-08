@@ -3,7 +3,16 @@ import type { FormFieldControlProps, FormFieldControlRootProps, FormFieldControl
 /** The text types the Input supports, stated once: `InputType` and the fallback in `getInputProps` derive from it. */
 export const inputTypes = ['text', 'email', 'password', 'search', 'tel', 'url'] as const;
 
-/** The text types the Input supports. */
+/**
+ * The text types the Input supports.
+ *
+ * @cckValue text - Plain text.
+ * @cckValue email - An email address. The browser checks its form.
+ * @cckValue password - A password. The browser hides the characters.
+ * @cckValue search - A search term.
+ * @cckValue tel - A phone number. Phones show a number keypad.
+ * @cckValue url - A web address. The browser checks its form.
+ */
 export type InputType = (typeof inputTypes)[number];
 
 /**

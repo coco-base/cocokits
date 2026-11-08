@@ -25,7 +25,7 @@ const imports = [ReactiveFormsModule, FormsModule, ...CckCheckboxImports];
   imports,
   template: `
     <form [formGroup]="group">
-      <div cckCheckbox formControlName="terms" (checkedChangeDetails)="emitted.update((n) => n + 1)">Accept</div>
+      <cck-checkbox formControlName="terms" (checkedChangeDetails)="emitted.update((n) => n + 1)">Accept</cck-checkbox>
     </form>
   `,
 })
@@ -37,7 +37,7 @@ class ReactiveHost {
 
 @Component({
   imports,
-  template: `<div cckCheckbox [formControl]="control">Accept</div>`,
+  template: `<cck-checkbox [formControl]="control">Accept</cck-checkbox>`,
 })
 class StandaloneHost {
   readonly control = new FormControl<boolean | null>(true);
@@ -47,7 +47,7 @@ class StandaloneHost {
   imports,
   template: `
     <form>
-      <div cckCheckbox name="terms" [(ngModel)]="terms">Accept</div>
+      <cck-checkbox name="terms" [(ngModel)]="terms">Accept</cck-checkbox>
     </form>
   `,
 })
@@ -60,10 +60,10 @@ class TemplateHost {
   imports,
   template: `
     <form [formGroup]="group">
-      <div cckCheckbox formControlName="email">Email</div>
-      <div cckCheckbox formControlName="own" name="custom">Own</div>
-      <div formGroupName="prefs"><div cckCheckbox formControlName="email">Prefs</div></div>
-      <div formArrayName="items"><div cckCheckbox [formControlName]="0">Item</div></div>
+      <cck-checkbox formControlName="email">Email</cck-checkbox>
+      <cck-checkbox formControlName="own" name="custom">Own</cck-checkbox>
+      <div formGroupName="prefs"><cck-checkbox formControlName="email">Prefs</cck-checkbox></div>
+      <div formArrayName="items"><cck-checkbox [formControlName]="0">Item</cck-checkbox></div>
     </form>
   `,
 })

@@ -7,29 +7,23 @@ import {
   type CheckControlChangeReason,
 } from './check-control-base';
 
-/** Why the checked value of a Checkbox changed: the user toggled it (`'user'`) or the form was reset (`'form-reset'`). */
+/** Why the checked value of a Checkbox changed. */
 export type CheckboxChangeReason = CheckControlChangeReason;
 
-/** The `reason` and `event` of a change. The `checkedChangeDetails` output emits them with the `value`. */
+/** The `reason` and the `event` of a change. The `checkedChangeDetails` output sends them with the `value`. */
 export type CheckboxChangeDetails = CheckControlChangeDetails;
 
 /**
- * A checkbox around a native `<input type="checkbox">` with its label. The host is the root (a `<div>` by
- * default) and the content you write becomes the label. It is a Signal Forms checkbox control
- * (`[formField]` binds `checked`) and, through the static `ngNoCva` attribute, also binds to
- * `formControlName`, `[formControl]` and `ngModel` with no ControlValueAccessor. The input is the form control,
- * so `FormData`, `required`, reset, the `form` attribute and `fieldset[disabled]` are native.
+ * A checkbox with its label. It wraps a native `<input type="checkbox">`. The content you write inside it becomes the label.
  *
- * Inside a `[cckFormField]` the input gets the id `<fieldId>-control`, the field label's `for` points at it
- * and its `aria-describedby` ends with the field's feedback wrapper. `name` defaults to the path of the bound
- * forms control. `aria-invalid="true"` appears only while the control is invalid and was touched or the form was
- * submitted. Use `submitValue` for the value the form submits (Signal Forms rejects a `value` binding here).
+ * The checkbox works with Signal Forms through `[formField]`. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. The native input is the form control, so `FormData`, `required`, form reset and a disabled `fieldset` work as usual.
  *
- * `indeterminate` is one-way: the component never changes it. A parent that owns the mixed state recomputes it
- * in its `checkedChangeDetails` handler.
+ * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the control or has tried to submit the form.
+ *
+ * The component never changes `indeterminate`. When you own the mixed state, set it again in your `checkedChangeDetails` handler.
  *
  * @example
- * <div cckCheckbox [(checked)]="accepted">Accept the terms</div>
+ * <cck-checkbox [(checked)]="accepted">Accept the terms</cck-checkbox>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper
@@ -37,10 +31,10 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  * @cckPart backdrop
  * @cckPart background
  * @cckPart label
- * @cckSlot default - The label content.
+ * @cckSlot default - The text of the label. When not set, the label is empty, so name the checkbox with `aria-label`.
  */
 @Component({
-  selector: '[cckCheckbox]',
+  selector: 'cck-checkbox',
   exportAs: 'cckCheckbox',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
@@ -91,8 +85,8 @@ export class CckCheckbox extends CckCheckControlBase {
   protected readonly idPrefix = checkboxAnatomy.classes.root;
 
   /**
-   * Whether the checkbox shows the mixed state. One-way: the component never changes it and never emits for
-   * it. `data-indeterminate` renders on the server; the DOM property is set after mount.
+   * Whether the checkbox shows the mixed state. The component never changes it and never emits for it.
+   * @remarks `data-indeterminate` is rendered on the server too. The DOM property is set after the first render.
    * @defaultValue false
    */
   readonly indeterminate = input(false, { transform: booleanAttribute });

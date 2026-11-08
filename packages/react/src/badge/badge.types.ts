@@ -2,7 +2,7 @@ import type { ComponentPropsWithRef, HTMLAttributes, ReactNode, RefCallback } fr
 import type { BadgeProps as MachineBadgeProps } from '@cocokits/machines/badge';
 import type { RenderProp } from '../internal/render-element';
 
-/** The public state of the Badge, passed to the function form of `render`. */
+/** The state of the Badge that the function form of `render` receives. */
 export interface BadgeState {
   /** Whether no text is shown. */
   readonly empty: boolean;
@@ -13,31 +13,32 @@ export interface BadgeState {
 }
 
 /**
- * The props the function form of `render` receives: the native span props, merged with the
- * Badge's own, with the content parts as `children`. Spread all of them, including `ref`, onto one element.
+ * The props that the function form of `render` receives: the native `span` props merged with the props of the
+ * Badge, and the content as `children`. Pass all of them, `ref` included, to one element.
  */
 export interface BadgeRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'children'> {
   /** Any `data-*` attribute, such as `data-empty` and the theme options. */
   readonly [attribute: `data-${string}`]: string | undefined;
-  /** The merged ref: the Badge's `ref`, and the rendered element's own `ref`. */
+  /** The merged ref: the `ref` of the Badge and the `ref` of the rendered element. */
   readonly ref: RefCallback<HTMLElement>;
-  /** The content and max indicator parts. */
+  /** The content of the Badge, with the `+` of a count above `max`. */
   readonly children: ReactNode;
 }
 
 /**
- * Props of the {@link Badge}. Native `span` attributes pass through to the root, and `ref`
- * reaches it. The badge draws its own content, so it takes no `children`.
+ * Props of the {@link Badge}. Native `span` props pass through, and `ref` reaches the element. The Badge draws its
+ * own content, so it takes no `children`.
  */
 export interface BadgeProps
   extends
     Omit<ComponentPropsWithRef<'span'>, 'color' | 'children' | 'content'>,
     Pick<MachineBadgeProps, 'content' | 'max' | 'hide'> {
   /**
-   * Replaces the rendered `<span>`: an element, or a function of the merged props and the
-   * {@link BadgeState}. The element form (its own children are replaced by the parts) works from a Server Component; the function form
-   * does not (a function is not serialisable). The function form must spread all the props it
-   * receives, including `ref`, onto one element. Keep a phrasing element, so the Badge stays valid inside a `<button>`.
+   * Replaces the `<span>` of the Badge. Pass an element, or a function of the merged props and the
+   * {@link BadgeState}. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the Badge renders a `<span>`. Keep a phrasing element, so that the Badge stays valid inside a
+   * `<button>`. The Badge replaces the children of the element with its content.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

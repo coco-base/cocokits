@@ -24,8 +24,7 @@ function SelectSeparatorImpl({ render, ref, ...rest }: SelectSeparatorProps): Re
 }
 
 /**
- * Renders a decorative line between items or groups: a `<div aria-hidden="true">` (or your `render` element). Keys
- * never land on it. Native div props pass through.
+ * A line between items or groups. It renders a `<div aria-hidden="true">`. Keys never stop on it.
  *
  * @example
  * <Select.Separator />

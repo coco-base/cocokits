@@ -18,7 +18,7 @@ const DELETE = `
     <ng-template cckDialogPortal>
       <dialog cckDialogContent>
         <h2 cckDialogTitle>Delete project</h2>
-        <p cckDialogDescription>This cannot be undone.</p>
+        <cck-dialog-description>This cannot be undone.</cck-dialog-description>
         <a href="#x">First</a>
         <button cckDialogClose>Cancel</button>
       </dialog>
@@ -437,7 +437,7 @@ const POPOVER_IN_DIALOG = `
         <ng-container cckPopover>
           <button cckPopoverTrigger>More</button>
           <ng-template cckPopoverPortal>
-            <div cckPopoverContent aria-label="More options"><button>Inside popover</button></div>
+            <cck-popover-content aria-label="More options"><button>Inside popover</button></cck-popover-content>
           </ng-template>
         </ng-container>
       </dialog>

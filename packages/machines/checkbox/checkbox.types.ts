@@ -66,7 +66,7 @@ export interface CheckboxInputProps extends CheckboxPartProps {
   readonly 'aria-readonly'?: 'true' | undefined;
   /** `'true'` only while invalid and (touched or submitted). Never `'false'`. */
   readonly 'aria-invalid'?: 'true' | undefined;
-  /** The author's ids first, then the feedback id. */
+  /** The author's ids first, then the hint ids, then the error ids. */
   readonly 'aria-describedby'?: string | undefined;
 }
 

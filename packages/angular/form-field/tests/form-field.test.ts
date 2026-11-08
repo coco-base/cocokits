@@ -20,11 +20,11 @@ const classesOf = (el: Element): string[] => Array.from(el.children, (child) => 
 describe('CckFormField', () => {
   it('renders the label, wrapper > inputWrapper > control and feedbackWrapper > hint, in that order', async () => {
     const { container } = await render(
-      `<div cckFormField>
+      `<cck-form-field>
          <label cckLabel for="a">Name</label>
          <input id="a" />
-         <div cckHint>Help</div>
-       </div>`,
+         <cck-hint>Help</cck-hint>
+       </cck-form-field>`,
       { imports },
     );
     const field = root(container);
@@ -37,11 +37,11 @@ describe('CckFormField', () => {
 
   it('gives the same order when the author writes the Hint, the control and the Label in reverse', async () => {
     const { container } = await render(
-      `<div cckFormField>
-         <div cckHint>Help</div>
+      `<cck-form-field>
+         <cck-hint>Help</cck-hint>
          <input id="a" />
          <label cckLabel for="a">Name</label>
-       </div>`,
+       </cck-form-field>`,
       { imports },
     );
     const field = root(container);
@@ -52,7 +52,7 @@ describe('CckFormField', () => {
 
   it('keeps several hints in the feedback wrapper, in author order', async () => {
     const { container } = await render(
-      `<div cckFormField><div cckHint id="h1">One</div><input /><div cckHint id="h2">Two</div></div>`,
+      `<cck-form-field><cck-hint id="h1">One</cck-hint><input /><cck-hint id="h2">Two</cck-hint></cck-form-field>`,
       { imports },
     );
     const ids = Array.from(container.querySelectorAll(`.${classes.feedbackWrapper} > .cck-hint`), (el) => el.id);
@@ -60,7 +60,7 @@ describe('CckFormField', () => {
   });
 
   it('renders an empty feedback wrapper when there is no hint', async () => {
-    const { container } = await render(`<div cckFormField><label cckLabel>Name</label><input /></div>`, {
+    const { container } = await render(`<cck-form-field><label cckLabel>Name</label><input /></cck-form-field>`, {
       imports,
     });
     const feedback = container.querySelector<HTMLElement>(`.${classes.feedbackWrapper}`);
@@ -69,27 +69,29 @@ describe('CckFormField', () => {
   });
 
   it('renders the anatomy classes on the meta default elements, with no role, ARIA or style', async () => {
-    const { container } = await render(`<div cckFormField><input /></div>`, { imports });
+    const { container } = await render(`<cck-form-field><input /></cck-form-field>`, { imports });
     for (const [part, className] of Object.entries(classes)) {
       const el = container.querySelector(`.${className}`);
-      expect(el?.tagName.toLowerCase(), className).toBe(formFieldMeta.defaultElements?.[part as keyof typeof classes]);
+      expect(el?.tagName.toLowerCase(), className).toBe(
+        part === 'root' ? 'cck-form-field' : formFieldMeta.defaultElements?.[part as keyof typeof classes],
+      );
       const attrNames = Array.from(el?.attributes ?? [], (a) => a.name);
       expect(attrNames.filter((n) => n === 'role' || n === 'style' || n.startsWith('aria-'))).toEqual([]);
     }
   });
 
-  it('works on any element through the attribute selector', async () => {
-    const { container } = await render(`<section cckFormField><input /></section>`, { imports });
-    expect(root(container).tagName).toBe('SECTION');
+  it('renders on the cck-form-field tag', async () => {
+    const { container } = await render(`<cck-form-field><input /></cck-form-field>`, { imports });
+    expect(root(container).tagName).toBe('CCK-FORM-FIELD');
   });
 
   it('exports the component under the exportAs name', async () => {
-    const { fixture } = await render(`<div cckFormField #f="cckFormField"></div>`, { imports });
+    const { fixture } = await render(`<cck-form-field #f="cckFormField"></cck-form-field>`, { imports });
     expect(fixture.debugElement.children[0]?.injector.get(CckFormField)).toBeInstanceOf(CckFormField);
   });
 
   it('passes native attributes through to the root', async () => {
-    const { container } = await render(`<div cckFormField id="f" data-x="1"><input /></div>`, { imports });
+    const { container } = await render(`<cck-form-field id="f" data-x="1"><input /></cck-form-field>`, { imports });
     expect(root(container).id).toBe('f');
     expect(root(container).getAttribute('data-x')).toBe('1');
   });

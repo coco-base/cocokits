@@ -5,5 +5,9 @@ export type { CheckboxChangeDetails, CheckboxChangeReason } from './checkbox';
 export { CckCheckControlBase } from './check-control-base';
 export type { CheckControlChangeDetails, CheckControlChangeReason, CheckControlParts } from './check-control-base';
 
-/** Everything needed to author a Checkbox: `imports: [CckCheckboxImports]`. */
+/**
+ * Everything you need to write a Checkbox in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckCheckboxImports]
+ */
 export const CckCheckboxImports = [CckCheckbox] as const;

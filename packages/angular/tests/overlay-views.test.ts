@@ -24,18 +24,18 @@ import { CckTooltip, CckTooltipImports } from '../tooltip';
     <ng-container cckPopover [(open)]="popover" (closed)="events.push('popover')">
       <button cckPopoverTrigger>Popover</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Popover">Text {{ label() }}</div>
+        <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>
       </ng-template>
     </ng-container>
     <ng-container cckTooltip [cckTooltipShowDelay]="delay()">
       <button cckTooltipTrigger aria-label="Tooltip trigger">Tooltip</button>
       <ng-template cckTooltipPortal>
-        <div cckTooltipContent>Text {{ label() }}</div>
+        <cck-tooltip-content>Text {{ label() }}</cck-tooltip-content>
       </ng-template>
     </ng-container>
-    <div cckSelect aria-label="Select">
-      <div cckSelectOption value="a">A {{ label() }}</div>
-    </div>
+    <cck-select aria-label="Select">
+      <cck-select-option value="a">A {{ label() }}</cck-select-option>
+    </cck-select>
   `,
 })
 class OverlaysHost {

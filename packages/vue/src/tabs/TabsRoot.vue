@@ -31,10 +31,19 @@ const props = withDefaults(defineProps<TabsRootProps<T>>(), {
 });
 defineEmits<TabsRootEmits<T>>();
 defineSlots<{
-  /** The tabs: a `TabsList` and one `TabsContent` per trigger. It receives `modelValue`. */
+  /**
+   * The tabs: a `TabsList` and one `TabsContent` per trigger. The slot gives you the selected value. When not set,
+   * the tabs are empty.
+   *
+   * @example
+   * <TabsRoot v-model="tab" #default="{ modelValue }">
+   *   <TabsList aria-label="Account settings">...</TabsList>
+   *   <p>Selected: {{ modelValue }}</p>
+   * </TabsRoot>
+   */
   default?(props: {
     /**
-     * The value of the selected tab, `undefined` until a tab is selected and no value was given.
+     * The value of the selected tab. It is `undefined` until a tab is selected, when no value was given.
      *
      * @cckSemantic none
      * @cckParity Slot prop: the model of the root.

@@ -11,12 +11,12 @@ const imports = [...CckTabsImports, CckDir];
 const { classes } = tabsAnatomy;
 
 const THREE = `
-  <div cckTabs aria-label="Account settings" [(selectedIndex)]="index" [orientation]="orientation()"
+  <cck-tabs aria-label="Account settings" [(selectedIndex)]="index" [orientation]="orientation()"
     [activationMode]="mode()" (selectedTabChange)="changes.push($event)">
-    <div cckTab label="Account">Account panel</div>
-    <div cckTab label="Password" [disabled]="lockPassword()">Password panel</div>
-    <div cckTab label="Notifications">Notifications panel</div>
-  </div>`;
+    <cck-tab label="Account">Account panel</cck-tab>
+    <cck-tab label="Password" [disabled]="lockPassword()">Password panel</cck-tab>
+    <cck-tab label="Notifications">Notifications panel</cck-tab>
+  </cck-tabs>`;
 
 function hostState(): {
   index: ReturnType<typeof signal<number | null>>;
@@ -56,9 +56,10 @@ afterEach(() => {
 describe('Tabs rendered contract', () => {
   it('renders the meta default element for every part', async () => {
     const { container } = await render(Host);
+    const tags: Record<string, string> = { root: 'cck-tabs', panel: 'cck-tab' };
     for (const [part, tagName] of Object.entries(tabsMeta.defaultElements ?? {})) {
       const element = container.querySelector(`.${classes[part as keyof typeof classes]}`);
-      expect(element?.tagName.toLowerCase(), part).toBe(tagName);
+      expect(element?.tagName.toLowerCase(), part).toBe(tags[part] ?? tagName);
     }
   });
 
@@ -113,7 +114,7 @@ describe('Tabs rendered contract', () => {
 
   it('forwards aria-labelledby to the list', async () => {
     await render(
-      `<h2 id="title">Settings</h2><div cckTabs aria-labelledby="title"><div cckTab label="A">a</div></div>`,
+      `<h2 id="title">Settings</h2><cck-tabs aria-labelledby="title"><cck-tab label="A">a</cck-tab></cck-tabs>`,
       { imports },
     );
     expect(screen.getByRole('tablist', { name: 'Settings' })).toBeTruthy();
@@ -141,9 +142,9 @@ describe('Tabs rendered contract', () => {
 
   it('renders the label markup of a cckTabLabel template in the trigger label', async () => {
     await render(
-      `<div cckTabs aria-label="x">
-        <div cckTab><ng-template cckTabLabel><b>Bold</b> tab</ng-template>Body</div>
-      </div>`,
+      `<cck-tabs aria-label="x">
+        <cck-tab><ng-template cckTabLabel><b>Bold</b> tab</ng-template>Body</cck-tab>
+      </cck-tabs>`,
       { imports },
     );
     expect(tab('Bold tab').querySelector('b')).not.toBeNull();
@@ -155,9 +156,9 @@ describe('Tabs selection', () => {
     const user = userEvent.setup();
     const changes: CckTabChangeEvent[] = [];
     await render(
-      `<div cckTabs aria-label="x" (selectedTabChange)="changes.push($event)">
-        <div cckTab label="A">a</div><div cckTab label="B">b</div>
-      </div>`,
+      `<cck-tabs aria-label="x" (selectedTabChange)="changes.push($event)">
+        <cck-tab label="A">a</cck-tab><cck-tab label="B">b</cck-tab>
+      </cck-tabs>`,
       { imports, componentProperties: { changes } },
     );
     await user.click(tab('B'));
@@ -194,7 +195,7 @@ describe('Tabs selection', () => {
 
   it('starts at a one-way index', async () => {
     await render(
-      `<div cckTabs aria-label="x" [selectedIndex]="1"><div cckTab label="A">a</div><div cckTab label="B">b</div></div>`,
+      `<cck-tabs aria-label="x" [selectedIndex]="1"><cck-tab label="A">a</cck-tab><cck-tab label="B">b</cck-tab></cck-tabs>`,
       { imports },
     );
     expect(tab('B').getAttribute('aria-selected')).toBe('true');
@@ -205,11 +206,11 @@ describe('Tabs selection', () => {
   it('skips a disabled first tab for the start tab, and keeps the selection when that tab becomes disabled', async () => {
     const lock = signal(false);
     await render(
-      `<div cckTabs aria-label="x">
-        <div cckTab label="A" disabled>a</div>
-        <div cckTab label="B" [disabled]="lock()">b</div>
-        <div cckTab label="C">c</div>
-      </div>`,
+      `<cck-tabs aria-label="x">
+        <cck-tab label="A" disabled>a</cck-tab>
+        <cck-tab label="B" [disabled]="lock()">b</cck-tab>
+        <cck-tab label="C">c</cck-tab>
+      </cck-tabs>`,
       { imports, componentProperties: { lock } },
     );
     expect(tab('B').getAttribute('aria-selected')).toBe('true');
@@ -339,9 +340,9 @@ describe('Tabs collection', () => {
     const tabs = signal(['a', 'b', 'c']);
     const user = userEvent.setup();
     await render(
-      `<div cckTabs aria-label="x">
-        @for (name of tabs(); track name) { <div cckTab [label]="name">{{ name }} body</div> }
-      </div>`,
+      `<cck-tabs aria-label="x">
+        @for (name of tabs(); track name) { <cck-tab [label]="name">{{ name }} body</cck-tab> }
+      </cck-tabs>`,
       { imports, componentProperties: { tabs } },
     );
     expect(labels()).toEqual(['a', 'b', 'c']);

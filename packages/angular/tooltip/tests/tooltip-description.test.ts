@@ -12,7 +12,7 @@ import { stubOverlayApis } from './overlay-stubs';
     <ng-container [cckTooltip]="compoundMessage()">
       <button cckTooltipTrigger id="rich">Rich</button>
       <ng-template cckTooltipPortal
-        ><div cckTooltipContent><b>Rich</b> text</div></ng-template
+        ><cck-tooltip-content><b>Rich</b> text</cck-tooltip-content></ng-template
       >
     </ng-container>
   `,

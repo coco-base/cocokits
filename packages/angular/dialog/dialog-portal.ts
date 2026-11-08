@@ -3,8 +3,9 @@ import { CckPortal } from '@cocokits/angular-core';
 import { injectCckDialogRoot } from './dialog-root';
 
 /**
- * Holds the content of the Dialog. The content renders in the overlay container while the Dialog is open, and
- * nowhere else; keep one root element in the template. It renders no part.
+ * Holds the content of the dialog. The content shows in the overlay container only while the dialog is open.
+ *
+ * Keep one root element, the `<dialog cckDialogContent>`, in the template. The template makes no part of its own.
  *
  * @example
  * <ng-template cckDialogPortal><dialog cckDialogContent>...</dialog></ng-template>

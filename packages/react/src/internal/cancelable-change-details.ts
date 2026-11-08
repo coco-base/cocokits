@@ -4,6 +4,8 @@ import type { ChangeDetails } from '@cocokits/shared';
  * What an overlay's `onOpenChange` receives besides the open state: the reason and the event behind the change,
  * and a way to refuse it. Calling `cancel()` keeps an uncontrolled overlay as it was; a dismissal (Escape, an
  * outside press, focus leaving) that is canceled counts as refused.
+ *
+ * @typeParam Reason - The reasons of this overlay, such as `'trigger'` or `'escape'`.
  */
 export interface CancelableChangeDetails<Reason extends string> extends ChangeDetails<Reason> {
   /** Refuses the change. Call it inside `onOpenChange`; it has no effect later. */

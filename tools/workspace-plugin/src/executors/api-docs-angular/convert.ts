@@ -4,13 +4,14 @@ import {
   checkPartDoc,
   frameworkOnlyOf,
   paragraphsOf,
+  partDocFields,
   parseSlotTag,
   partsOf,
   sectionOf,
   tagsOf,
   templateOf,
 } from '../api-docs-common/tags';
-import type { ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
+import type { ApiMemberJson, ApiPartJson, ApiSlotJson, ApiValueJson, TagEntry } from '../api-docs-common/types';
 import type { MemberInfo } from './members';
 
 /** The fields of a member entry of `getApiDocumentation` that the conversion reads. */
@@ -34,11 +35,19 @@ export interface DocDirective {
   readonly members: readonly DocMember[];
 }
 
-function typeOf(info: MemberInfo, doc: DocMember, expand: (type: string) => string): string {
+/** A type text with its aliases of string literals expanded, and the `@cckValue` meanings of those aliases. */
+export interface ExpandedType {
+  readonly text: string;
+  readonly values: readonly ApiValueJson[];
+}
+
+const asWritten = (type: string): ExpandedType => ({ text: type, values: [] });
+
+function typeOf(info: MemberInfo, doc: DocMember, expand: (type: string) => ExpandedType): ExpandedType {
   const [signature] = doc.signatures ?? [];
   if (info.kind === 'method' && signature) {
     const params = signature.params.map((param) => `${param.name}${param.isOptional ? '?' : ''}: ${param.type}`);
-    return `(${params.join(', ')}) => ${signature.returnType}`;
+    return asWritten(`(${params.join(', ')}) => ${signature.returnType}`);
   }
   return expand(readType(doc.type ?? 'unknown'));
 }
@@ -48,15 +57,17 @@ function angularMemberOf(
   componentName: string,
   info: MemberInfo,
   doc: DocMember,
-  expand: (type: string) => string,
+  expand: (type: string) => ExpandedType,
   owner: string,
   problems: string[],
 ): ApiMemberJson | undefined {
+  const type = typeOf(info, doc, expand);
   return memberOf(
     componentName,
     {
       name: info.publicName,
-      type: typeOf(info, doc, expand),
+      type: type.text,
+      aliasValues: type.values,
       required: info.required,
       description: doc.description,
       tags: doc.jsdocTags,
@@ -104,7 +115,7 @@ export function partOf(
   entry: DocDirective,
   members: readonly MemberInfo[],
   problems: string[],
-  expand: (type: string) => string = (type) => type,
+  expand: (type: string) => ExpandedType = asWritten,
 ): ApiPartJson {
   const part = checkPartDoc(entry.name, entry.jsdocTags, entry.description, problems);
   const [, ...renders] = partsOf(entry.jsdocTags);
@@ -126,6 +137,7 @@ export function partOf(
     ...(template === undefined ? {} : { templateSelector: template }),
     ...frameworkOnlyOf(entry.name, entry.jsdocTags, problems),
     description: paragraphsOf(entry.description)[0] ?? '',
+    ...partDocFields(entry.description, entry.jsdocTags),
     props: [],
     events: [],
     slots: slotsOf(componentName, entry, problems),

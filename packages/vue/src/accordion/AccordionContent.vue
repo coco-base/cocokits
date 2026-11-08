@@ -21,7 +21,12 @@ defineOptions({ name: 'CckAccordionContent', inheritAttrs: false });
 
 const props = withDefaults(defineProps<AccordionContentProps>(), { forceMount: false, as: 'div', asChild: false });
 defineSlots<{
-  /** The body of the section. */
+  /**
+   * The body of the section. When not set, the section is empty.
+   *
+   * @example
+   * <AccordionContent>Orders leave in two days.</AccordionContent>
+   */
   default?(): unknown;
 }>();
 

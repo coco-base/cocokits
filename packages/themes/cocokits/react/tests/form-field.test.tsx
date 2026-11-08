@@ -2,6 +2,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField as BaseFormField } from '@cocokits/react/form-field';
+import { Hint } from '@cocokits/react/hint';
 import { Input } from '@cocokits/react/input';
 import { ThemeProvider } from '@cocokits/react-core';
 import { defineAnatomy } from '@cocokits/shared';
@@ -69,7 +70,7 @@ describe('theme FormField', () => {
   it('forwards the base props, the label, the control and the hint', () => {
     render(
       themed(
-        <FormField data-testid="field" required label={<span>Email</span>} hint={<span>Hint</span>}>
+        <FormField data-testid="field" required label={<span>Email</span>} hint={<Hint>Hint</Hint>}>
           <Input data-testid="input" />
         </FormField>,
       ),
@@ -79,7 +80,7 @@ describe('theme FormField', () => {
     expect(root().hasAttribute('data-required')).toBe(true);
     expect(inputWrapper().contains(input)).toBe(true);
     expect(input.getAttribute('id')).toMatch(/-control$/);
-    expect(input.getAttribute('aria-describedby')).toMatch(/-feedback$/);
+    expect(input.getAttribute('aria-describedby')).toMatch(/-hint-1$/);
   });
 
   it('renders a div by default and keeps data-size on an element chosen with render', () => {

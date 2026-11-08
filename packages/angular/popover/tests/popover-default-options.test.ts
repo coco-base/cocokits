@@ -10,7 +10,7 @@ function template(attrs: string): string {
   return `
     <ng-container cckPopover [open]="true">
       <button cckPopoverTrigger>Open</button>
-      <ng-template cckPopoverPortal><div cckPopoverContent aria-label="Panel" ${attrs}>Text</div></ng-template>
+      <ng-template cckPopoverPortal><cck-popover-content aria-label="Panel" ${attrs}>Text</cck-popover-content></ng-template>
     </ng-container>`;
 }
 

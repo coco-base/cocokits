@@ -6,5 +6,9 @@ export { CckTabNav } from './tab-nav';
 export { CckTabNavLink } from './tab-nav-link';
 export { CckTabNavPanel } from './tab-nav-panel';
 
-/** Everything needed to author TabNav: `imports: [CckTabNavImports]`. */
+/**
+ * Everything you need to write a Tab nav in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckTabNavImports]
+ */
 export const CckTabNavImports = [CckTabNav, CckTabNavLink, CckTabNavPanel] as const;

@@ -92,19 +92,18 @@ function SelectItemImpl<T = string>({
 }
 
 /**
- * Renders an item of the Select: a `<div role="option">` (or your `render` element). Put a `Select.ItemIndicator`
- * and a `Select.ItemText` inside it, never a control. In a single Select an item whose value is `null` or `''`
- * clears the value and shows the placeholder. A press or a click chooses it unless it is disabled; a
- * `preventDefault()` in your own `onClick` vetoes the choice, and `details.cancel()` in `onValueChange` refuses
- * it. The text type-to-search matches is the `textValue`, else the text of the `Select.ItemText`, else the label of
- * the value. Native div props pass through; `id` becomes the option id.
+ * One choice in the list. It renders a `<div role="option">`. Put a `Select.ItemIndicator` and a `Select.ItemText` inside it, and no control.
+ *
+ * A press or a click chooses it, unless it is disabled. A `preventDefault()` in your own `onClick` refuses the choice. The `details.cancel()` call in `onValueChange` refuses it too.
+ *
+ * In a single Select, an item with the value `null` or `''` clears the value and shows the placeholder. Native `div` props pass through, and `id` becomes the id of the item.
  *
  * @example
  * <Select.Item value="Cake">
  *   <Select.ItemIndicator />
  *   <Select.ItemText>Cake</Select.ItemText>
  * </Select.Item>
- * @typeParam T - The type of the value. Defaults to `string`.
+ * @typeParam T - The type of the value. The default is `string`.
  * @cckPart option
  * @param props - The Item props.
  * @returns The rendered item.

@@ -9,10 +9,10 @@ import { renderThemedApp } from './ssr-helpers';
 @Component({
   selector: 'app-root',
   imports: [CckAccordionImports, CckAccordionTheme],
-  template: `<div cckAccordion variant="group" size="sm" togglePosition="before" hideToggle>
-    <div cckAccordionItem [label]="first" [expanded]="true">Orders leave in two days.</div>
-    <div cckAccordionItem label="Returns">Send it back within 30 days.</div>
-  </div>`,
+  template: `<cck-accordion variant="group" size="sm" togglePosition="before" hideToggle>
+    <cck-accordion-item [label]="first" [expanded]="true">Orders leave in two days.</cck-accordion-item>
+    <cck-accordion-item label="Returns">Send it back within 30 days.</cck-accordion-item>
+  </cck-accordion>`,
 })
 class Root {
   protected readonly first = 'Shipping';
@@ -22,7 +22,7 @@ describe('theme accordion on the server', () => {
   it('has no window access and renders the options on the root', async () => {
     expect(typeof window).toBe('undefined');
     const html = await renderThemedApp(Root, true);
-    const root = /<div[^>]*class="cck-accordion"[^>]*>/.exec(html)?.[0] ?? '';
+    const root = /<cck-accordion[^>]*class="cck-accordion"[^>]*>/.exec(html)?.[0] ?? '';
     for (const part of [
       'data-variant="group"',
       'data-size="sm"',
@@ -41,6 +41,6 @@ describe('theme accordion on the server', () => {
 
   it('renders no theme attribute without a provider', async () => {
     const html = await renderThemedApp(Root, false);
-    expect(/<div[^>]*class="cck-accordion"[^>]*>/.exec(html)?.[0] ?? '').not.toContain('data-variant');
+    expect(/<cck-accordion[^>]*class="cck-accordion"[^>]*>/.exec(html)?.[0] ?? '').not.toContain('data-variant');
   });
 });

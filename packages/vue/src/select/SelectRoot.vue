@@ -76,10 +76,26 @@ const props = withDefaults(defineProps<SelectRootProps<T, M>>(), {
 });
 defineEmits<SelectRootEmits<T, M>>();
 defineSlots<{
-  /** The trigger and the list. It receives `modelValue` and `open`. */
+  /**
+   * The trigger and the list. The slot gives you the value and the open state. When not set, nothing shows.
+   *
+   * The slot is always rendered. Use the fields only when you need the value or the open state in the template.
+   *
+   * @example
+   * <SelectRoot v-model="dish" #default="{ open }">
+   *   <SelectTrigger aria-label="Dish">
+   *     <SelectValue placeholder="Choose a dish" />
+   *     <SelectIcon />
+   *   </SelectTrigger>
+   *   <SelectContent>...</SelectContent>
+   *   <p>The list is {{ open ? 'open' : 'closed' }}.</p>
+   * </SelectRoot>
+   */
   default?(props: {
     /**
-     * The selected value: a `T` or `null`, or a list of `T` with `multiple`; `''`, `null` and an empty list mean nothing is selected.
+     * The selected value. A single Select gives one value or `null`. A Select with `multiple` gives a list of values.
+     *
+     * `''`, `null` and an empty list mean nothing is selected.
      *
      * @cckSemantic none
      * @cckParity Slot prop: the model of the root.
@@ -87,7 +103,6 @@ defineSlots<{
     modelValue: SelectValueOf<T, M>;
     /**
      * Whether the list is open.
-     *
      * @cckSemantic none
      * @cckParity Slot prop: the open state of the root.
      */

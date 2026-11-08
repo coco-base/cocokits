@@ -2,37 +2,46 @@ import { InjectionToken, type ComponentRef } from '@angular/core';
 import { ReplaySubject, Subject, type Observable } from 'rxjs';
 
 /**
- * The data given to `CckDialog.open`, injectable in the opened component. It is typed `unknown`; read it as
- * `inject(CCK_DIALOG_DATA) as MyData`.
+ * The `data` of the `CckDialog.open` call. The opened component injects it. Its type is `unknown`, so read it as `inject(CCK_DIALOG_DATA) as MyData`.
+ * @example
+ * readonly project = inject(CCK_DIALOG_DATA) as Project;
  */
 export const CCK_DIALOG_DATA = new InjectionToken<unknown>('CCK_DIALOG_DATA');
 
-/** Where a dialog is in its life: `'open'` until a close begins, `'closing'` until it has left the document, then `'closed'`. */
+/**
+ * Where a dialog is in its life.
+ * @cckValue 'open' - The dialog is open, and no close has begun.
+ * @cckValue 'closing' - A close has begun, and the dialog is still in the page.
+ * @cckValue 'closed' - The dialog has left the page.
+ */
 export type CckDialogState = 'open' | 'closing' | 'closed';
 
 /** What the service gives its ref to ask for a close. @internal */
 export type CckDialogCloseRequest<R> = (result: R | undefined) => void;
 
 /**
- * The handle of a dialog opened by `CckDialog.open`; injectable in the
- * opened component. The notification Observables complete when the dialog closes.
+ * The handle of a dialog that `CckDialog.open` opened. The opened component can inject it. Its Observables complete when the dialog closes.
+ *
+ * @example
+ * const ref = this.dialog.open(ConfirmDialog);
+ * ref.afterClosed().subscribe((result) => console.log(result));
  *
  * @typeParam T - The type of the opened component.
  * @typeParam R - The type of the result.
  */
 export class CckDialogRef<T = unknown, R = unknown> {
-  /** The id of the dialog, also the `id` of its `<dialog>`. */
+  /** The id of the dialog. It is also the `id` of its `<dialog>`. */
   readonly id: string;
 
-  /** The opened component; `null` for a template, and after the dialog has closed. */
+  /** The opened component. It is `null` for a template, and after the dialog has closed. */
   componentInstance: T;
 
-  /** The reference of the opened component; `null` for a template. */
+  /** The `ComponentRef` of the opened component. It is `null` for a template. */
   componentRef: ComponentRef<T> | null = null;
 
   /**
-   * Whether Escape and a press on the backdrop leave the dialog open. Starts from the config; change it while the
-   * dialog is open and the next Escape or press reads the new value. `close()` still works.
+   * Whether Escape and a press on the backdrop leave the dialog open. It starts with the value of the config. `close()` still works.
+   * @remarks When you change it, the next Escape or press uses the new value.
    */
   disableClose: boolean | undefined;
 
@@ -61,43 +70,68 @@ export class CckDialogRef<T = unknown, R = unknown> {
   }
 
   /**
-   * Asks the dialog to close. `closePredicate` runs first and may refuse. Ignored once a close has begun.
+   * Asks the dialog to close. `closePredicate` runs first and can refuse. It does nothing once a close has begun.
    *
-   * @param result - What `beforeClosed()` and `afterClosed()` emit.
+   * @remarks The result is `undefined` for a `cckDialogClose` without a value, Escape, a press on the backdrop, a `<form method="dialog">`, a navigation and `closeAll()`.
+   * @param result - The value that `beforeClosed()` and `afterClosed()` emit.
+   * @example
+   * this.ref.close(true);
    */
   close(result?: R): void {
     if (this.state === 'open') this.request(result);
   }
 
-  /** Emits once, after the dialog has opened, focus is placed and its CSS enter animations have finished; then completes. A later subscriber gets it too. */
+  /**
+   * Emits once after the dialog has opened, the focus has moved and the enter animation has ended. Then it completes. A later subscriber gets it too.
+   * @example
+   * ref.afterOpened().subscribe(() => console.log('open'));
+   */
   afterOpened(): Observable<void> {
     return this.opened.asObservable();
   }
 
-  /** Emits the result once when a close begins (before the exit animation); then completes. A later subscriber gets it too. */
+  /**
+   * Emits the result once when a close begins, before the exit animation. Then it completes. A later subscriber gets it too.
+   * @example
+   * ref.beforeClosed().subscribe((result) => console.log('closing with', result));
+   */
   beforeClosed(): Observable<R | undefined> {
     return this.beforeClose.asObservable();
   }
 
   /**
-   * Emits the result once, after the dialog has left the document and focus has gone back, so a subscriber
-   * can move focus elsewhere; then completes. A subscriber after the close gets only the completion.
+   * Emits the result once after the dialog has left the page and the focus has gone back. Then it completes. So your subscriber can move the focus somewhere else.
+   * @remarks A subscriber after the close gets only the completion.
+   * @example
+   * ref.afterClosed().subscribe((result) => console.log('closed with', result));
    */
   afterClosed(): Observable<R | undefined> {
     return this.closed.asObservable();
   }
 
-  /** Emits each press on the backdrop, also while `disableClose` is `true`; completes when the dialog closes. */
+  /**
+   * Emits each press on the backdrop, also while `disableClose` is `true`. It completes when the dialog closes.
+   * @example
+   * ref.backdropClick().subscribe(() => console.log('backdrop'));
+   */
   backdropClick(): Observable<MouseEvent> {
     return this.backdrop.asObservable();
   }
 
-  /** Emits each keydown inside this dialog (not inside a dialog opened above it), Escape included; completes when the dialog closes. */
+  /**
+   * Emits each `keydown` inside this dialog, Escape too. Keys in a dialog opened above it do not count. It completes when the dialog closes.
+   * @example
+   * ref.keydownEvents().subscribe((event) => console.log(event.key));
+   */
   keydownEvents(): Observable<KeyboardEvent> {
     return this.keydown.asObservable();
   }
 
-  /** Where the dialog is in its life. */
+  /**
+   * Tells where the dialog is in its life: `'open'`, `'closing'` or `'closed'`.
+   * @example
+   * if (ref.getState() === 'open') ref.close();
+   */
   getState(): CckDialogState {
     return this.state;
   }

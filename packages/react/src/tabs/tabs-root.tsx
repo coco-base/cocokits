@@ -203,16 +203,22 @@ function TabsRootImpl({
 }
 
 /**
- * Renders the `<div>` around the tabs and provides the selected value to the list, the triggers and the panels.
- * Uncontrolled with `defaultValue`, or controlled with `value` and `onValueChange`. Arrow keys, Home and End (on the list) move
- * between the enabled triggers; with `automatic` activation the focused trigger is selected, with `manual`
- * Enter or Space selects it. Native `div` props pass through, and `ref` reaches the element.
+ * Panels of content that show one at a time, picked by a row of tabs. It renders a `<div>` and gives the selected
+ * value to the list, the triggers and the panels.
+ *
+ * Control the value with `value` and `onValueChange`, or set `defaultValue` and let the tabs keep it.
+ *
+ * On the list, the arrow keys, Home and End move between the enabled triggers. With `automatic` activation, the
+ * focused tab is selected; with `manual`, Enter or Space selects it.
+ *
+ * Native `div` props pass through, and `ref` reaches the element.
  *
  * @example
  * <Tabs.Root defaultValue="account">
  *   <Tabs.List aria-label="Account settings">
  *     <Tabs.Trigger value="account">Account</Tabs.Trigger>
  *     <Tabs.Trigger value="password">Password</Tabs.Trigger>
+ *     <Tabs.Indicator />
  *   </Tabs.List>
  *   <Tabs.Content value="account">Change your name.</Tabs.Content>
  *   <Tabs.Content value="password">Change your password.</Tabs.Content>

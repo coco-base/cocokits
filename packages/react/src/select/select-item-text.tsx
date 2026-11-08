@@ -25,8 +25,7 @@ function SelectItemTextImpl({ render, ref, ...rest }: SelectItemTextProps): Reac
 }
 
 /**
- * Renders the text of an item: a `<span>` (or your `render` element). Type-to-search matches its text unless the
- * item has a `textValue`. Native span props pass through.
+ * The text of an item. It renders a `<span>`. Type-to-search matches its text, unless the item has a `textValue`.
  *
  * @example
  * <Select.ItemText>Cake</Select.ItemText>

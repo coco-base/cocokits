@@ -1,5 +1,5 @@
+import { sortByDomOrderOf } from '@cocokits/angular-core';
 import type { SelectItem } from '@cocokits/machines/select';
-import { sortByDomOrder } from '@cocokits/utils';
 import type { CckSelectOptionRef, SelectOptionRegistration } from './select-types';
 
 /**
@@ -31,11 +31,7 @@ export function toSelectItems<T>(options: readonly SelectOptionRegistration[]): 
  * @internal
  */
 export function sortOptionsByDom(options: readonly SelectOptionRegistration[]): readonly SelectOptionRegistration[] {
-  const byElement = new Map(options.map((option) => [option.element, option]));
-  const sorted = sortByDomOrder(options.map((option) => option.element)).flatMap((element) => {
-    const option = byElement.get(element);
-    return option ? [option] : [];
-  });
+  const sorted = sortByDomOrderOf(options, (option) => option.element);
   return sorted.some((option, index) => option !== options[index]) ? sorted : options;
 }
 

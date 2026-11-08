@@ -11,7 +11,9 @@ import { CckTooltipImports } from '../index';
     <ng-container cckTooltip="Copy the link">
       <button cckTooltipTrigger aria-label="Copy link">Copy</button>
       <ng-template cckTooltipPortal
-        ><div cckTooltipContent><span cckTooltipArrow></span>Copy <b>the</b> link</div></ng-template
+        ><cck-tooltip-content
+          ><cck-tooltip-arrow></cck-tooltip-arrow>Copy <b>the</b> link</cck-tooltip-content
+        ></ng-template
       >
     </ng-container>
     <button cckTooltip="Information" id="mine" aria-describedby="note">Info</button>

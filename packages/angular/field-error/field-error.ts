@@ -4,31 +4,26 @@ import { CckFormField } from '@cocokits/angular/form-field';
 import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-error';
 
 /**
- * An error message of the field, on the author's element (a `<div>` by default). Inside a
- * `[cckFormField]` it shows its content while the field is invalid and was touched or submitted (the
- * gate of `aria-invalid`), or always with `force`; outside a field the content always shows. The
- * root is a polite live region (`aria-live="polite"`) that is always rendered, so the text is
- * announced when it appears; it has no role. Inside a field it sits in the feedback wrapper, which
- * the control's `aria-describedby` names, so the text is also read as the description on focus.
+ * An error message for a control. Inside a `cck-form-field`, it shows while the field is invalid and the user has left the control or has tried to submit. Outside a field, it always shows.
  *
- * The content you write is created once and only inserted while it shows, so keep it cheap (text, an
- * icon).
+ * The element is always there and is a polite live region, so screen readers announce the text when it shows. It has no role. Inside a field, the control is described by the error, so the text is also read on focus.
+ *
+ * An error without an `id` inside a field gets `<fieldId>-error-<n>`. The content is made once and added only while the error shows, so keep it small, like text or an icon.
  *
  * @example
- * <div cckFormField>
- *   <label cckLabel>Email address</label>
- *   <input cckInput type="email" required />
- *   <div cckFieldError>Enter an email address.</div>
- * </div>
+ * <label for="email">Email address</label>
+ * <input id="email" type="email" aria-describedby="email-error" />
+ * <cck-field-error id="email-error">Enter an email address.</cck-field-error>
  * @cckPart root
- * @cckSlot default - The message; inserted only while the error shows.
+ * @cckSlot default - The text of the message. It is added only while the error shows. When not set, the error is empty.
  */
 @Component({
-  selector: '[cckFieldError]',
+  selector: 'cck-field-error',
   exportAs: 'cckFieldError',
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class]': 'parts().root.class',
+    '[attr.id]': 'renderedId() || null',
     '[attr.aria-live]': 'parts().root["aria-live"]',
   },
   template: `
@@ -38,10 +33,20 @@ import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-
   `,
 })
 export class CckFieldError {
+  /**
+   * The `id` of the error. A bound id can change, and the control description follows it. When not set, the error gets `<fieldId>-error-<n>` inside a `cck-form-field`, or no id outside one.
+   * @cckSemantic none
+   * @cckParity Declared as an input; the directive forwards it to the element.
+   */
+  readonly id = input<string | undefined>(undefined);
+
   private readonly field = inject(CckFormField, { optional: true });
 
+  /** The id of the host: the author's, or the one the field gives it (`<fieldId>-error-<n>`). */
+  protected readonly renderedId = this.field?._registerPart('errors', this.id) ?? this.id;
+
   /**
-   * Whether the content shows regardless of the field state.
+   * Whether the message always shows, whatever the state of the field is.
    * @defaultValue false
    */
   readonly force = input(false, { transform: booleanAttribute });

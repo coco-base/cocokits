@@ -1,34 +1,33 @@
 import { InjectionToken } from '@angular/core';
 import type { TooltipAlign, TooltipSide } from '@cocokits/machines/tooltip';
 
-/** The defaults of every Tooltip, provided with {@link CCK_TOOLTIP_DEFAULT_OPTIONS}. */
+/** The defaults of every Tooltip. Provide them with {@link CCK_TOOLTIP_DEFAULT_OPTIONS}. */
 export interface CckTooltipDefaultOptions {
-  /** Milliseconds between a mouse or pen hover and the tooltip showing. */
+  /** How long a tooltip waits to show after a mouse or pen hover, in milliseconds. */
   showDelay: number;
-  /** Milliseconds between the pointer leaving and the tooltip hiding; at least 100 apply while the content is hoverable. */
+  /** How long a tooltip waits to hide after the pointer leaves, in milliseconds. While the pointer can move onto the content, it waits at least 100. */
   hideDelay: number;
   /**
-   * The pointer leaving the trigger hides the tooltip at once and the pointer on the content does not keep it
-   * open. The content then is not hoverable, which fails WCAG 1.4.13 (Content on Hover or Focus); use it only
-   * when the content adds nothing a pointer user must reach.
+   * Whether the tooltip hides at once when the pointer leaves the trigger. The pointer then cannot move onto the content.
+   * @remarks This fails WCAG 1.4.13. Use it only when the content holds nothing that a pointer user must reach.
    * @defaultValue false
    */
   disableTooltipInteractivity?: boolean;
   /**
-   * Place a tooltip the pointer opens against the point where the pointer entered the trigger, not the trigger
-   * box; `cckTooltipPositionAtOrigin` on a tooltip wins.
+   * Whether a tooltip that the pointer opens shows at the point where the pointer entered the trigger. `cckTooltipPositionAtOrigin` on a tooltip wins over it.
    * @defaultValue false
    */
   positionAtOrigin?: boolean;
-  /** The side of the one-attribute form. @defaultValue 'top' */
+  /** The side where a tooltip with only a text prefers to open. @defaultValue 'top' */
   side?: TooltipSide;
-  /** The alignment of the one-attribute form. @defaultValue 'center' */
+  /** How a tooltip with only a text lines up with the edge of the trigger. @defaultValue 'center' */
   align?: TooltipAlign;
 }
 
 /**
- * The defaults of every Tooltip. A provided object replaces the built-in `{ showDelay: 0, hideDelay: 0 }`;
- * an input on a tooltip wins over it.
+ * Sets the defaults of every Tooltip below the provider. An input on a tooltip wins over it.
+ *
+ * Your object replaces the built-in `{ showDelay: 0, hideDelay: 0 }`, so give both delays.
  *
  * @example
  * providers: [{ provide: CCK_TOOLTIP_DEFAULT_OPTIONS, useValue: { showDelay: 300, hideDelay: 0 } }]

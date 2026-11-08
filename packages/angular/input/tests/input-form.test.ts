@@ -95,7 +95,7 @@ describe('Input in a real form', () => {
   describe('fieldset', () => {
     it('renders data-disabled on the Input and the field root under fieldset[disabled]', async () => {
       const { container, fixture } = await render(
-        `<form><fieldset disabled><div cckFormField><input cckInput aria-label="Name" /></div></fieldset></form>`,
+        `<form><fieldset disabled><cck-form-field><input cckInput aria-label="Name" /></cck-form-field></fieldset></form>`,
         { imports },
       );
       await fixture.whenStable();

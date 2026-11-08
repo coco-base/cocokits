@@ -18,7 +18,15 @@ const props = withDefaults(defineProps<BadgeContainerProps>(), {
 });
 
 defineSlots<{
-  /** The host element and its Badges, which must be direct children. */
+  /**
+   * The host element and its Badges. Each Badge must be a direct child. When not set, the container is empty.
+   *
+   * @example
+   * <BadgeContainer position="top-right">
+   *   <Button>Inbox</Button>
+   *   <Badge :content="2" />
+   * </BadgeContainer>
+   */
   default?(): unknown;
 }>();
 
@@ -29,8 +37,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the BadgeContainer: the `<div>`, or the element of the `as` component or `asChild` child.
-   * `null` before mount.
+   * The DOM element of the BadgeContainer: the `<div>`, or the element of the `as` component or the `asChild`
+   * child. It is `null` before mount.
+   *
+   * @example
+   * <BadgeContainer ref="box"><Button>Inbox</Button><Badge :content="2" /></BadgeContainer>
+   * <!-- In the script: const box = useTemplateRef('box'); then box.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

@@ -10,7 +10,7 @@ import { stubOverlayApis } from './overlay-stubs';
     <ng-container cckPopover [open]="startOpen">
       <button cckPopoverTrigger id="mine">Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share this page">Text</div>
+        <cck-popover-content aria-label="Share this page">Text</cck-popover-content>
       </ng-template>
     </ng-container>
   `,
@@ -44,7 +44,7 @@ describe('Popover trigger id', () => {
     <ng-container cckPopover>
       <button cckPopoverTrigger [id]="id()">Bound</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Bound">Text</div>
+        <cck-popover-content aria-label="Bound">Text</cck-popover-content>
       </ng-template>
     </ng-container>
   `,

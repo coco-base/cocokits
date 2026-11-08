@@ -19,7 +19,13 @@ defineOptions({ name: 'CckSelectItemText', inheritAttrs: false });
 
 withDefaults(defineProps<SelectItemTextProps>(), { as: 'span', asChild: false });
 defineSlots<{
-  /** The text of the item. */
+  /**
+   * The text of the item. Type-to-search matches it, and the trigger can show it. When not set, the item shows no
+   * text.
+   *
+   * @example
+   * <SelectItemText>Pasta</SelectItemText>
+   */
   default?(): unknown;
 }>();
 

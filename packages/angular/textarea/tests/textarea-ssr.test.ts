@@ -22,7 +22,7 @@ describe('Textarea, zones and FieldError on the server', () => {
     expect(textarea.id).toBe('message-field-control');
     expect(textarea.name).toBe('message');
     expect(textarea.rows).toBe('4');
-    expect(textarea['aria-describedby']).toBe('message-field-feedback');
+    expect(textarea['aria-describedby']).toBe('message-field-hint-1 message-field-error-1 message-field-error-2');
     expect(textarea.type).toBeUndefined();
     const ids = new Set([...html.matchAll(/\sid="([^"]*)"/g)].map((match) => match[1]));
     const references = [
@@ -45,7 +45,9 @@ describe('Textarea, zones and FieldError on the server', () => {
   it('renders the FieldError roots as polite live regions, with content only for force', async () => {
     const html = clean(await renderOnServer());
     const errors = [
-      ...html.matchAll(/<div[^>]*aria-live="polite"[^>]*class="cck-field-error"[^>]*>([^<]*)<\/div>/g),
+      ...html.matchAll(
+        /<cck-field-error[^>]*aria-live="polite"[^>]*class="cck-field-error"[^>]*>([^<]*)<\/cck-field-error>/g,
+      ),
     ].map((match) => match[1]);
     expect(errors).toEqual(['', 'Forced.']);
   });

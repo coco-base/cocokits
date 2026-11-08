@@ -42,7 +42,11 @@ const { text, className, boundAttrs, onInput, onFocus, onBlur } = useTextControl
 
 defineExpose({
   /**
-   * The native `<input>`. `null` before mount.
+   * The native `<input>`. It is `null` before mount.
+   *
+   * @example
+   * <Input ref="email" v-model="email" type="email" aria-label="Email" />
+   * <!-- In the script: const email = useTemplateRef('email'); then email.value?.element?.focus(). -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

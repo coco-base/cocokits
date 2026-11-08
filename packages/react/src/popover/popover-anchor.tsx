@@ -41,14 +41,16 @@ function PopoverAnchorImpl({ render, virtualRef, ref, ...rest }: PopoverAnchorPr
 }
 
 /**
- * Renders the `<div>` the content is placed against instead of the trigger. It has no role and no ARIA: the
- * trigger keeps `aria-expanded` and the focus return. With `virtualRef` it renders nothing and the content is
- * placed against the object the ref holds (read when the content opens); while the ref is empty the content is
- * not placed. One Anchor counts: the last one mounted.
+ * The element that the content lines up with, in place of the trigger. It renders a `<div>` with no role and no
+ * ARIA. The trigger keeps `aria-expanded`, and the focus still returns to it.
+ *
+ * With `virtualRef`, it renders nothing, and the content lines up with the object that the ref holds. Only one
+ * Anchor counts: the last one mounted.
  *
  * @example
  * <Popover.Anchor>
- *   <Popover.Trigger>Share</Popover.Trigger>
+ *   <input aria-label="City" />
+ *   <Popover.Trigger>Pick</Popover.Trigger>
  * </Popover.Anchor>
  * @cckPart anchor
  * @param props - The Anchor props.

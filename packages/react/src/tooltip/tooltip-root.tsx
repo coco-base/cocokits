@@ -187,19 +187,32 @@ function TooltipRootImpl({
 }
 
 /**
- * Provides the open state to the Trigger and the Content. It renders no element. Uncontrolled with
- * `defaultOpen`, or controlled with `open` and `onOpenChange`. The tooltip opens after `delayDuration` on a mouse
- * or pen hover and at once on keyboard focus; touch never opens it. It closes shortly after the pointer leaves the
- * trigger and the content (at once with `disableHoverableContent`), on blur, on Escape (the topmost layer only),
- * on a press on the trigger and when an ancestor of the trigger scrolls. `delayDuration` and
- * `disableHoverableContent` default to the values of the `Tooltip.Provider` around it. Text children of the
- * Content, or its `aria-label`, describe the trigger while the tooltip is closed.
+ * A short text that describes a focusable element, shown on hover and on keyboard focus. The Root renders no
+ * element; it gives the open state to the Trigger and the Content.
+ *
+ * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the tooltip keep it.
+ *
+ * It shows after `delayDuration` on a mouse or pen hover, and at once on keyboard focus. A touch never shows it.
+ *
+ * It hides shortly after the pointer leaves the trigger and the content, or at once with
+ * `disableHoverableContent`. It also hides on blur, on Escape, on a press on the trigger and when a parent of the
+ * trigger scrolls.
+ *
+ * `delayDuration` and `disableHoverableContent` take the values of the `Tooltip.Provider` around it. Text children
+ * of the Content, or its `aria-label`, describe the trigger while the tooltip is closed.
  *
  * @example
- * <Tooltip.Root>
- *   <Tooltip.Trigger aria-label="Copy link">...</Tooltip.Trigger>
- *   <Tooltip.Content>Copy link</Tooltip.Content>
- * </Tooltip.Root>
+ * <Tooltip.Provider>
+ *   <Tooltip.Root>
+ *     <Tooltip.Trigger aria-label="Copy link">
+ *       <svg aria-hidden="true">...</svg>
+ *     </Tooltip.Trigger>
+ *     <Tooltip.Content>
+ *       Copy link
+ *       <Tooltip.Arrow />
+ *     </Tooltip.Content>
+ *   </Tooltip.Root>
+ * </Tooltip.Provider>
  * @cckPart root
  * @param props - The Root props.
  * @returns The children inside the provider.

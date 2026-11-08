@@ -20,9 +20,8 @@ const region = (name: string): HTMLElement => {
 @Component({
   imports,
   template: `
-    <div cckAccordion [multi]="multi()" #accordion="cckAccordion">
-      <div
-        cckAccordionItem
+    <cck-accordion [multi]="multi()" #accordion="cckAccordion">
+      <cck-accordion-item
         #shipping="cckAccordionItem"
         label="Shipping"
         [(expanded)]="shippingOpen"
@@ -30,9 +29,8 @@ const region = (name: string): HTMLElement => {
         (closed)="log.push('shipping closed')"
       >
         Shipping body <a href="#rates">Rates</a>
-      </div>
-      <div
-        cckAccordionItem
+      </cck-accordion-item>
+      <cck-accordion-item
         label="Returns"
         [expanded]="returnsOpen()"
         (expandedChange)="log.push('returns ' + $event)"
@@ -40,10 +38,10 @@ const region = (name: string): HTMLElement => {
         (closed)="log.push('returns closed')"
       >
         Returns body
-      </div>
-      <div cckAccordionItem label="Warranty" [disabled]="locked()">Warranty body</div>
-      <div cckAccordionItem label="Care" [disabled]="true">Care body</div>
-    </div>
+      </cck-accordion-item>
+      <cck-accordion-item label="Warranty" [disabled]="locked()">Warranty body</cck-accordion-item>
+      <cck-accordion-item label="Care" [disabled]="true">Care body</cck-accordion-item>
+    </cck-accordion>
     <button type="button" (click)="accordion.openAll()">open all</button>
     <button type="button" (click)="accordion.closeAll()">close all</button>
     <button type="button" (click)="shipping.toggle()">toggle shipping</button>
@@ -101,10 +99,10 @@ describe('Accordion rendered contract', () => {
 
   it('renders the label template and the heading level', async () => {
     const { container } = await render(
-      `<div cckAccordion>
-        <div cckAccordionItem headingLevel="2"><ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>Body</div>
-        <div cckAccordionItem [headingLevel]="6" label="Six">Six body</div>
-      </div>`,
+      `<cck-accordion>
+        <cck-accordion-item headingLevel="2"><ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>Body</cck-accordion-item>
+        <cck-accordion-item [headingLevel]="6" label="Six">Six body</cck-accordion-item>
+      </cck-accordion>`,
       { imports },
     );
     expect(container.querySelector(`h2.${classes.header} button b`)?.textContent).toBe('Returns');
@@ -114,8 +112,8 @@ describe('Accordion rendered contract', () => {
   });
 
   it('throws a CocoKits error for an item outside an accordion', async () => {
-    await expect(render('<div cckAccordionItem label="A">A</div>', { imports })).rejects.toThrow(
-      /CocoKits: cckAccordionItem must be placed inside an element with cckAccordion/,
+    await expect(render('<cck-accordion-item label="A">A</cck-accordion-item>', { imports })).rejects.toThrow(
+      /cck-accordion-item must be placed inside a <cck-accordion>/,
     );
   });
 });
@@ -177,11 +175,11 @@ describe('Accordion open state', () => {
 
   it('single mode keeps the last open item when several start expanded', async () => {
     await render(
-      `<div cckAccordion>
-        <div cckAccordionItem label="A" [expanded]="true">A</div>
-        <div cckAccordionItem label="B" [expanded]="true">B</div>
-        <div cckAccordionItem label="C">C</div>
-      </div>`,
+      `<cck-accordion>
+        <cck-accordion-item label="A" [expanded]="true">A</cck-accordion-item>
+        <cck-accordion-item label="B" [expanded]="true">B</cck-accordion-item>
+        <cck-accordion-item label="C">C</cck-accordion-item>
+      </cck-accordion>`,
       { imports },
     );
     expect(expanded('A')).toBe('false');
@@ -190,10 +188,10 @@ describe('Accordion open state', () => {
 
   it('multi mode keeps every item that starts expanded', async () => {
     await render(
-      `<div cckAccordion multi>
-        <div cckAccordionItem label="A" [expanded]="true">A</div>
-        <div cckAccordionItem label="B" [expanded]="true">B</div>
-      </div>`,
+      `<cck-accordion multi>
+        <cck-accordion-item label="A" [expanded]="true">A</cck-accordion-item>
+        <cck-accordion-item label="B" [expanded]="true">B</cck-accordion-item>
+      </cck-accordion>`,
       { imports },
     );
     expect(expanded('A')).toBe('true');
@@ -223,11 +221,11 @@ describe('Accordion methods', () => {
   it('do nothing for a disabled item', async () => {
     const user = userEvent.setup();
     const { fixture } = await render(
-      `<div cckAccordion multi>
-        <div cckAccordionItem #a="cckAccordionItem" label="A" disabled (opened)="opened.push(1)">A</div>
-        <div cckAccordionItem #b="cckAccordionItem" label="B" disabled [expanded]="true" (closed)="closed.push(1)">B</div>
+      `<cck-accordion multi>
+        <cck-accordion-item #a="cckAccordionItem" label="A" disabled (opened)="opened.push(1)">A</cck-accordion-item>
+        <cck-accordion-item #b="cckAccordionItem" label="B" disabled [expanded]="true" (closed)="closed.push(1)">B</cck-accordion-item>
         <button type="button" (click)="a.open(); a.toggle(); b.close()">go</button>
-      </div>`,
+      </cck-accordion>`,
       { imports, componentProperties: { opened: [] as number[], closed: [] as number[] } },
     );
     await user.click(screen.getByRole('button', { name: 'go' }));
@@ -251,9 +249,12 @@ describe('Accordion disabled', () => {
   });
 
   it('a parent write can still open a disabled item', async () => {
-    await render(`<div cckAccordion><div cckAccordionItem label="A" disabled [expanded]="true">A</div></div>`, {
-      imports,
-    });
+    await render(
+      `<cck-accordion><cck-accordion-item label="A" disabled [expanded]="true">A</cck-accordion-item></cck-accordion>`,
+      {
+        imports,
+      },
+    );
     expect(expanded('A')).toBe('true');
     expect(trigger('A').hasAttribute('disabled')).toBe(true);
   });
@@ -304,15 +305,15 @@ describe('Accordion keyboard', () => {
   it('never reaches the triggers of a nested accordion', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckAccordion>
-        <div cckAccordionItem label="Outer 1" [expanded]="true">
-          <div cckAccordion>
-            <div cckAccordionItem label="Inner 1">I1</div>
-            <div cckAccordionItem label="Inner 2">I2</div>
-          </div>
-        </div>
-        <div cckAccordionItem label="Outer 2">O2</div>
-      </div>`,
+      `<cck-accordion>
+        <cck-accordion-item label="Outer 1" [expanded]="true">
+          <cck-accordion>
+            <cck-accordion-item label="Inner 1">I1</cck-accordion-item>
+            <cck-accordion-item label="Inner 2">I2</cck-accordion-item>
+          </cck-accordion>
+        </cck-accordion-item>
+        <cck-accordion-item label="Outer 2">O2</cck-accordion-item>
+      </cck-accordion>`,
       { imports },
     );
     trigger('Outer 1').focus();
@@ -347,11 +348,11 @@ describe('Accordion focus when content closes', () => {
   it('falls back to the next enabled trigger when its own trigger is disabled', async () => {
     const open = signal(true);
     const { fixture } = await render(
-      `<div cckAccordion>
-        <div cckAccordionItem label="A">A</div>
-        <div cckAccordionItem label="B" [disabled]="true" [expanded]="open()"><a href="#b">link b</a></div>
-        <div cckAccordionItem label="C">C</div>
-      </div>`,
+      `<cck-accordion>
+        <cck-accordion-item label="A">A</cck-accordion-item>
+        <cck-accordion-item label="B" [disabled]="true" [expanded]="open()"><a href="#b">link b</a></cck-accordion-item>
+        <cck-accordion-item label="C">C</cck-accordion-item>
+      </cck-accordion>`,
       { imports, componentProperties: { open } },
     );
     screen.getByRole('link', { name: 'link b' }).focus();
@@ -374,7 +375,7 @@ describe('Accordion animation', () => {
   it('writes the size variables on a change after mount, never on the first render', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckAccordion><div cckAccordionItem label="A" [expanded]="true">A</div><div cckAccordionItem label="B">B</div></div>`,
+      `<cck-accordion><cck-accordion-item label="A" [expanded]="true">A</cck-accordion-item><cck-accordion-item label="B">B</cck-accordion-item></cck-accordion>`,
       { imports },
     );
     expect(region('A').style.getPropertyValue('--accordion-content-height')).toBe('');
@@ -387,7 +388,7 @@ describe('Accordion animation', () => {
   it('keeps the closing content shown until its exit animation has finished, then hides it', async () => {
     const user = userEvent.setup();
     const { fixture } = await render(
-      `<div cckAccordion><div cckAccordionItem label="A" [expanded]="true">A</div></div>`,
+      `<cck-accordion><cck-accordion-item label="A" [expanded]="true">A</cck-accordion-item></cck-accordion>`,
       { imports },
     );
     const content = region('A');

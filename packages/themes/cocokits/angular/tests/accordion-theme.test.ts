@@ -16,16 +16,15 @@ import { providers } from './helpers';
 @Component({
   imports: [CckAccordionImports, CckAccordionTheme],
   template: `
-    <div
-      cckAccordion
+    <cck-accordion
       [variant]="variant()"
       [size]="size()"
       [togglePosition]="togglePosition()"
       [hideToggle]="hideToggle()"
     >
-      <div cckAccordionItem label="Shipping">Orders leave in two days.</div>
-      <div cckAccordionItem label="Returns" [disabled]="off">Send it back within 30 days.</div>
-    </div>
+      <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+      <cck-accordion-item label="Returns" [disabled]="off">Send it back within 30 days.</cck-accordion-item>
+    </cck-accordion>
   `,
 })
 class Host {
@@ -39,10 +38,10 @@ class Host {
 @Component({
   imports: [CckAccordionImports, CckAccordionTheme],
   template: `
-    <div cckAccordion size="sm" hideToggle>
-      <div cckAccordionItem [label]="first">Orders leave in two days.</div>
-      <div cckAccordionItem label="Returns">Send it back within 30 days.</div>
-    </div>
+    <cck-accordion size="sm" hideToggle>
+      <cck-accordion-item [label]="first">Orders leave in two days.</cck-accordion-item>
+      <cck-accordion-item label="Returns">Send it back within 30 days.</cck-accordion-item>
+    </cck-accordion>
   `,
 })
 class Fixed {

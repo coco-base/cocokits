@@ -25,24 +25,28 @@ import { CCK_DIALOG_DATA, CckDialogRef } from './dialog-ref';
 import { CckDialogRoot } from './dialog-root';
 
 /**
- * Opens a component or a template in a modal dialog from code. The
- * dialog is the declarative Dialog (the same presence, dismissal, scroll lock and focus return), and the same
- * `cckDialogTitle`, `cckDialogDescription` and `cckDialogClose` parts work inside the opened view.
+ * Opens a component or a template in a modal dialog from code. It needs no trigger. It returns a `CckDialogRef`.
  *
- * It renders in the overlay container: an open modal dialog that holds the focused element, else the end of
- * `<body>`. On the server it opens nothing and returns a ref that is already finished. Provide `CckDialog` in a
- * component's `providers` to close the dialogs that component opened when it is destroyed; the registry
- * (`openDialogs`, `afterOpened`, `afterAllClosed`) is shared with the nearest parent `CckDialog`.
+ * The dialog works like the `cckDialog` you write in a template. It has the same backdrop, Escape, scroll lock and focus return. The `cckDialogTitle`, `cck-dialog-description` and `cckDialogClose` parts work inside the opened view.
+ *
+ * The opened component reads the data with `inject(CCK_DIALOG_DATA)` and the ref with `inject(CckDialogRef)`. A template gets the data as its `let-` value and the ref as `let-dialogRef="dialogRef"`.
+ *
+ * @remarks The dialog shows in the overlay container. That is an open modal dialog that holds the focused element, or else the end of `<body>`. So a dialog opened from a dialog sits inside it.
+ *
+ * Provide `CckDialog` in the `providers` of a component to close the dialogs of that component when it is destroyed. It shares `openDialogs`, `afterOpened` and `afterAllClosed` with the nearest parent `CckDialog`.
+ *
+ * On the server, `open()` shows nothing and returns a ref that is already closed.
  *
  * @example
- * ```ts
- * // A component: data in through CCK_DIALOG_DATA, the result out through afterClosed().
- * const ref = inject(CckDialog).open(ConfirmDialog, { data: 'Delete project', ariaLabel: 'Confirm' });
+ * // In the class of your component.
+ * private readonly dialog = inject(CckDialog);
+ *
+ * // A component: the data goes in with CCK_DIALOG_DATA, and the result comes out with afterClosed().
+ * const ref = this.dialog.open(ConfirmDialog, { data: 'Delete project', ariaLabel: 'Confirm' });
  * ref.afterClosed().subscribe((confirmed) => confirmed && deleteProject());
  *
- * // A template: `let-data` is the data and `let-ref="dialogRef"` the ref.
- * dialog.open(this.template(), { data: project });
- * ```
+ * // A template: `let-data` is the data, and `let-dialogRef="dialogRef"` is the ref.
+ * this.dialog.open(this.template(), { data: project, ariaLabel: 'Project' });
  */
 @Injectable({ providedIn: 'root' })
 export class CckDialog {
@@ -60,17 +64,17 @@ export class CckDialog {
   private readonly opened = new Subject<CckDialogRef>();
   private readonly allClosed = new Subject<void>();
 
-  /** The dialogs that are open, in the order they opened; shared with the parent `CckDialog`. */
+  /** The dialogs that are open, in the order they opened. A child `CckDialog` shares this list with its parent. */
   get openDialogs(): readonly CckDialogRef[] {
     return this.openList();
   }
 
-  /** Emits each ref synchronously at the end of `open()`; shared with the parent `CckDialog`. */
+  /** Emits the ref of each dialog at the end of `open()`. A child `CckDialog` shares it with its parent. */
   get afterOpened(): Observable<CckDialogRef> {
     return this.parent ? this.parent.afterOpened : this.opened;
   }
 
-  /** Emits when the last open dialog has finished, and at once for a subscriber when none is open. */
+  /** Emits when the last open dialog has closed. A new subscriber gets it at once while no dialog is open. */
   readonly afterAllClosed: Observable<void> = defer(() =>
     this.openList().length > 0 ? this.sharedAllClosed() : this.sharedAllClosed().pipe(startWith(undefined)),
   );
@@ -86,16 +90,18 @@ export class CckDialog {
   }
 
   /**
-   * Opens a modal dialog.
+   * Opens a modal dialog with a component or a template.
    *
    * @typeParam T - The type of the opened component.
    * @typeParam D - The type of the data.
    * @typeParam R - The type of the result.
-   * @param content - A component, created with an injector that provides `CckDialogRef` and `CCK_DIALOG_DATA`, or
-   * a template, rendered with `{ $implicit: data, dialogRef }`.
-   * @param config - The config of this dialog, merged over `CCK_DIALOG_DEFAULT_OPTIONS`.
-   * @returns The ref.
+   * @param content - A component, which can inject `CckDialogRef` and `CCK_DIALOG_DATA`. Or a template, which gets `{ $implicit: data, dialogRef }`.
+   * @param config - The config of this dialog. It is merged over `CCK_DIALOG_DEFAULT_OPTIONS`.
+   * @returns The ref of the dialog.
    * @throws In development, when a dialog with the same `id` is open.
+   * @example
+   * const ref = this.dialog.open(ConfirmDialog, { data: 'Delete project', ariaLabel: 'Confirm' });
+   * ref.afterClosed().subscribe((confirmed) => console.log(confirmed));
    */
   open<T, D = unknown, R = unknown>(
     content: Type<T> | TemplateRef<T>,
@@ -164,9 +170,11 @@ export class CckDialog {
   }
 
   /**
-   * Closes every open dialog, the last opened first. A dialog whose predicate refuses stays open.
+   * Closes the open dialogs, the last opened first. A dialog whose `closePredicate` returns `false` stays open.
    *
-   * @param dialogs - The dialogs to close. @defaultValue all open dialogs
+   * @param dialogs - The dialogs to close. When not set, all open dialogs close.
+   * @example
+   * this.dialog.closeAll();
    */
   closeAll(dialogs: readonly CckDialogRef[] = this.openList()): void {
     let i = dialogs.length;
@@ -174,10 +182,12 @@ export class CckDialog {
   }
 
   /**
-   * Finds an open dialog.
+   * Finds an open dialog by its `id`.
    *
    * @param id - The `id` of the dialog.
-   * @returns The ref, or `undefined`.
+   * @returns The ref, or `undefined` when no open dialog has this id.
+   * @example
+   * this.dialog.getDialogById('confirm-delete')?.close(false);
    */
   getDialogById(id: string): CckDialogRef | undefined {
     return this.openList().find((dialog) => dialog.id === id);

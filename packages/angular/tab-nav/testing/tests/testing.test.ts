@@ -18,7 +18,7 @@ import { CckTabNavHarness, CckTabNavLinkHarness, CckTabNavPanelHarness } from '.
       <a cckTabNavLink href="#a">A</a>
       <a cckTabNavLink href="#b" active>B</a>
     </nav>
-    <div cckTabNavPanel #panel="cckTabNavPanel">Panel text</div>
+    <cck-tab-nav-panel #panel="cckTabNavPanel">Panel text</cck-tab-nav-panel>
   `,
 })
 class Host {

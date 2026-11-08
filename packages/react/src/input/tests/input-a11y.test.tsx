@@ -49,8 +49,8 @@ describe('Input accessibility', () => {
     );
     const input = screen.getByRole('textbox', { name: 'Email address' });
     const described = (input.getAttribute('aria-describedby') ?? '').split(' ');
-    expect(described).toHaveLength(1);
-    expect(document.getElementById(described[0] ?? '')?.textContent).toBe('OneTwo');
+    expect(described).toHaveLength(2);
+    expect(described.map((id) => document.getElementById(id)?.textContent)).toEqual(['One', 'Two']);
     expect(input.hasAttribute('aria-invalid')).toBe(false);
     await userEvent.click(input);
     await userEvent.tab();

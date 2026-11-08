@@ -3,11 +3,12 @@ import { CckPortal } from '@cocokits/angular-core';
 import { injectCckTooltip } from './tooltip';
 
 /**
- * Holds the content of the Tooltip. The content renders in the overlay container while the tooltip is shown,
- * and nowhere else; keep one root element in the template. It renders no part.
+ * Holds the content of the tooltip. The content shows in the overlay container only while the tooltip shows.
+ *
+ * Keep one root element, the `cck-tooltip-content`, in the template. The template makes no part of its own.
  *
  * @example
- * <ng-template cckTooltipPortal><div cckTooltipContent>Copy link</div></ng-template>
+ * <ng-template cckTooltipPortal><cck-tooltip-content>Copy link</cck-tooltip-content></ng-template>
  */
 @Directive({ selector: 'ng-template[cckTooltipPortal]', exportAs: 'cckTooltipPortal' })
 export class CckTooltipPortal {

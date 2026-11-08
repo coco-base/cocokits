@@ -34,12 +34,12 @@ const off: Flags = { required: false, disabled: false, readonly: false, hidden: 
   imports: [FormField, FormRoot, CckInputImports, CckFormFieldImports, CckLabelImports],
   template: `
     <form [formRoot]="f">
-      <div cckFormField>
+      <cck-form-field>
         <label cckLabel>Email</label>
         @if (!f.email().hidden() || showHidden) {
           <input cckInput [formField]="f.email" />
         }
-      </div>
+      </cck-form-field>
       <button type="submit">Send</button>
     </form>
   `,

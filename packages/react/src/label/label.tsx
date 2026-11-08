@@ -48,20 +48,23 @@ interface LabelComponent {
 }
 
 /**
- * Renders a native `<label>` with the text of a control. Inside a FormField with a CocoKits control
- * `htmlFor` defaults to the control's id, so a click on the label focuses the control and the label
- * names it; an `htmlFor` you write wins. Outside a field, or for a control that is not a CocoKits
- * control, set `htmlFor` to the `id` of the control. For a control that is not labelable, give the
- * Label an `id` and set `aria-labelledby` on the control. While the control is required, the label
- * ends with a `*` marker that is hidden from assistive technology (the native `required` is
- * announced); `hideRequiredMarker` on the FormField hides it. Inside a FormField the label has an `id` that
- * names the open list of a Select. Native label attributes pass through,
- * and `ref` reaches the label.
+ * The text that names a control. It renders a native `<label>`. Native `label` props pass through, and `ref`
+ * reaches the element.
+ *
+ * Inside a `FormField` with a CocoKits control, `htmlFor` points to the control by itself. A click on the label then
+ * moves the focus to the control. An `htmlFor` you write wins.
+ *
+ * Outside a field, or for a control that is not a CocoKits control, set `htmlFor` to the `id` of the control. For a
+ * control that a label cannot name, give the Label an `id` and the control `aria-labelledby`.
+ *
+ * While the control is required, the label ends with a `*` marker that screen readers skip, because they read the
+ * native `required`. `hideRequiredMarker` on the `FormField` hides it.
+ *
+ * Inside a `FormField`, the label has an `id` that names the open list of a Select.
  *
  * @example
- * <FormField label={<Label>Email address</Label>}>
- *   <Input type="email" required />
- * </FormField>
+ * <Label htmlFor="email">Email address</Label>
+ * <input id="email" type="email" required />
  * @cckPart root
  * @cckPart requiredMarker
  * @param props - The Label props.

@@ -10,7 +10,12 @@ defineOptions({ name: 'CckLeading' });
 withDefaults(defineProps<LeadingProps>(), { as: 'div', asChild: false });
 
 defineSlots<{
-  /** The content. */
+  /**
+   * The content of the Leading. When not set, the Leading is an empty element.
+   *
+   * @example
+   * <Leading>Search</Leading>
+   */
   default?(): unknown;
 }>();
 
@@ -21,8 +26,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the Leading: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the Leading: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Leading ref="leading">Search</Leading>
+   * <!-- In the script: const leading = useTemplateRef('leading'); then leading.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

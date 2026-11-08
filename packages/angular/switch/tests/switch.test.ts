@@ -19,7 +19,7 @@ function must<T>(value: T | null | undefined): T {
 
 @Component({
   imports: [FormField, ...CckSwitchImports],
-  template: `<div cckSwitch [formField]="f.on" submitValue="yes">Notify me</div>`,
+  template: `<cck-switch [formField]="f.on" submitValue="yes">Notify me</cck-switch>`,
 })
 class SignalHost {
   readonly state = signal({ on: false });
@@ -28,7 +28,7 @@ class SignalHost {
 
 @Component({
   imports: [ReactiveFormsModule, ...CckSwitchImports],
-  template: `<div cckSwitch [formControl]="control">Notify me</div>`,
+  template: `<cck-switch [formControl]="control">Notify me</cck-switch>`,
 })
 class ReactiveHost {
   readonly control = new FormControl<boolean | null>(false);
@@ -40,9 +40,9 @@ describe('Switch', () => {
   });
 
   it('renders a label that wraps the track and the content around a native checkbox with role switch', async () => {
-    const { container } = await render(`<div cckSwitch name="n" submitValue="yes">Notify me</div>`, { imports });
+    const { container } = await render(`<cck-switch name="n" submitValue="yes">Notify me</cck-switch>`, { imports });
     const root = must(container.querySelector('.cck-switch'));
-    expect(root.tagName).toBe('DIV');
+    expect(root.tagName).toBe('CCK-SWITCH');
     const label = must(root.querySelector(':scope > label.cck-switch__label'));
     expect(label.querySelector(':scope > .cck-switch__track > input.cck-switch__input')).toBe(toggle());
     expect(label.textContent.trim()).toBe('Notify me');
@@ -61,10 +61,13 @@ describe('Switch', () => {
 
   it('toggles from a click on the label, emits once with the user reason and shows the fact', async () => {
     const events: { value: boolean; reason: string }[] = [];
-    const { container } = await render(`<div cckSwitch (checkedChangeDetails)="events.push($event)">Notify me</div>`, {
-      imports,
-      componentProperties: { events },
-    });
+    const { container } = await render(
+      `<cck-switch (checkedChangeDetails)="events.push($event)">Notify me</cck-switch>`,
+      {
+        imports,
+        componentProperties: { events },
+      },
+    );
     await userEvent.setup().click(must(container.querySelector('label')));
     expect(toggle().checked).toBe(true);
     expect(container.querySelector('.cck-switch')?.hasAttribute('data-checked')).toBe(true);
@@ -74,7 +77,7 @@ describe('Switch', () => {
   it('blocks every user toggle while read-only', async () => {
     const events: unknown[] = [];
     const { container } = await render(
-      `<div cckSwitch readonly [checked]="true" (checkedChangeDetails)="events.push($event)">Notify me</div>`,
+      `<cck-switch readonly [checked]="true" (checkedChangeDetails)="events.push($event)">Notify me</cck-switch>`,
       { imports, componentProperties: { events } },
     );
     const user = userEvent.setup();
@@ -89,19 +92,19 @@ describe('Switch', () => {
 
   it('names the input from the label and warns for an empty one', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckSwitch>Notify me</div>`, { imports });
+    await render(`<cck-switch>Notify me</cck-switch>`, { imports });
     expect(warn).not.toHaveBeenCalled();
   });
 
   it('warns when the label holds only the track', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckSwitch></div>`, { imports });
+    await render(`<cck-switch></cck-switch>`, { imports });
     expect(warn).toHaveBeenCalledTimes(1);
   });
 
   it('is named by the field label and the inner label in a field', async () => {
     const { container } = await render(
-      `<div cckFormField id="f"><label cckLabel>Alerts</label><div cckSwitch>Notify me</div></div>`,
+      `<cck-form-field id="f"><label cckLabel>Alerts</label><cck-switch>Notify me</cck-switch></cck-form-field>`,
       { imports },
     );
     expect(toggle().id).toBe('f-control');

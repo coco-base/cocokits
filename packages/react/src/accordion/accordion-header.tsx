@@ -32,8 +32,10 @@ function AccordionHeaderImpl({ render, ref, ...rest }: AccordionHeaderProps): Re
 }
 
 /**
- * Renders the `<h3>` heading of one item, which holds the trigger. Pick the level that fits the page outline with
- * `render`, for example `render={<h2 />}`. Native heading props pass through, and `ref` reaches the element.
+ * The heading of one item, which holds its trigger. It renders an `<h3>`, and `render={<h2 />}` gives the level
+ * that fits the outline of the page.
+ *
+ * Native heading props pass through, and `ref` reaches the element.
  *
  * @example
  * <Accordion.Header render={<h2 />}>

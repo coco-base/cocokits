@@ -10,7 +10,7 @@ import { box, isSet, must } from './fixtures';
 const imports = [...CckCheckboxImports, ...CckFormFieldImports, ...CckLabelImports, ...CckHintImports];
 
 const field = (fieldAttrs: string, checkboxAttrs = ''): string =>
-  `<div cckFormField id="f" ${fieldAttrs}><label cckLabel>Notifications</label><div cckCheckbox ${checkboxAttrs}>Email me</div><div cckHint>Weekly only.</div></div>`;
+  `<cck-form-field id="f" ${fieldAttrs}><label cckLabel>Notifications</label><cck-checkbox ${checkboxAttrs}>Email me</cck-checkbox><cck-hint>Weekly only.</cck-hint></cck-form-field>`;
 
 describe('Checkbox in a FormField', () => {
   afterEach(() => {
@@ -30,9 +30,9 @@ describe('Checkbox in a FormField', () => {
     expect(screen.getByRole('checkbox', { name: 'Notifications Email me' })).toBe(box());
   });
 
-  it('ends aria-describedby with the feedback wrapper', async () => {
+  it('ends aria-describedby with the hint id', async () => {
     await render(field('', 'aria-describedby="note"'), { imports });
-    expect(box().getAttribute('aria-describedby')).toBe('note f-feedback');
+    expect(box().getAttribute('aria-describedby')).toBe('note f-hint-1');
   });
 
   it('is described by the hint', async () => {
@@ -79,7 +79,7 @@ describe('Checkbox in a FormField', () => {
   it('keeps its own generated id as a second control and warns', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const { container } = await render(
-      `<div cckFormField id="g"><div cckCheckbox>One</div><div cckCheckbox>Two</div></div>`,
+      `<cck-form-field id="g"><cck-checkbox>One</cck-checkbox><cck-checkbox>Two</cck-checkbox></cck-form-field>`,
       { imports },
     );
     const [first, second] = [...container.querySelectorAll('input')];

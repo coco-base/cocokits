@@ -25,10 +25,10 @@ describe('Select accessibility', () => {
   it('is a select-only combobox: a named button with the listbox popup, owning a listbox of options', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckSelect aria-label="Dish" value="Cake">
-        <div cckSelectOptionGroup label="Desserts"><div cckSelectOption value="Cake">Cake</div></div>
-        <div cckSelectOption value="Pizza" disabled>Pizza</div>
-      </div>`,
+      `<cck-select aria-label="Dish" value="Cake">
+        <cck-select-option-group label="Desserts"><cck-select-option value="Cake">Cake</cck-select-option></cck-select-option-group>
+        <cck-select-option value="Pizza" disabled>Pizza</cck-select-option>
+      </cck-select>`,
       { imports },
     );
     const trigger = screen.getByRole('combobox', { name: 'Dish' });
@@ -52,13 +52,13 @@ describe('Select accessibility', () => {
   it('has no axe violations closed, open, multiple, and inside a FormField', async () => {
     const user = userEvent.setup();
     await render(
-      `<main><div cckFormField>
+      `<main><cck-form-field>
         <label cckLabel>Dish</label>
-        <div cckSelect multiple placeholder="Choose" name="dish" required>
-          <div cckSelectOptionGroup label="Desserts"><div cckSelectOption value="Cake">Cake</div></div>
-          <div cckSelectOption value="Pizza">Pizza</div>
-        </div>
-      </div></main>`,
+        <cck-select multiple placeholder="Choose" name="dish" required>
+          <cck-select-option-group label="Desserts"><cck-select-option value="Cake">Cake</cck-select-option></cck-select-option-group>
+          <cck-select-option value="Pizza">Pizza</cck-select-option>
+        </cck-select>
+      </cck-form-field></main>`,
       { imports },
     );
     expect((await axe(document.body)).violations).toEqual([]);
@@ -74,7 +74,7 @@ describe('Select accessibility', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const user = userEvent.setup();
     await render(
-      `<div cckSelect aria-label="Dish"><div cckSelectOption value="Cake"><a href="#x">Cake</a></div></div>`,
+      `<cck-select aria-label="Dish"><cck-select-option value="Cake"><a href="#x">Cake</a></cck-select-option></cck-select>`,
       { imports },
     );
     await user.click(screen.getByRole('combobox'));
@@ -87,7 +87,7 @@ describe('Select accessibility', () => {
 
   it('warns in dev mode about a Select with no accessible name', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<div cckSelect><div cckSelectOption value="Cake">Cake</div></div>`, { imports });
+    await render(`<cck-select><cck-select-option value="Cake">Cake</cck-select-option></cck-select>`, { imports });
     await waitFor(() => {
       expect(warn.mock.calls.some(([message]) => String(message).includes('accessible name'))).toBe(true);
     });
@@ -95,26 +95,26 @@ describe('Select accessibility', () => {
 
   it('keeps an author aria-describedby on the trigger, after the ids of the field', async () => {
     await render(
-      `<div cckFormField>
+      `<cck-form-field>
         <label cckLabel>Dish</label>
-        <div cckSelect aria-describedby="mine"><div cckSelectOption value="Cake">Cake</div></div>
-        <span cckHint>Pick one</span>
-      </div>`,
+        <cck-select aria-describedby="mine"><cck-select-option value="Cake">Cake</cck-select-option></cck-select>
+        <cck-hint>Pick one</cck-hint>
+      </cck-form-field>`,
       { imports: [...imports, ...CckHintImports] },
     );
     const described = screen.getByRole('combobox').getAttribute('aria-describedby') ?? '';
     expect(described.split(' ')).toContain('mine');
     expect(described.split(' ').length).toBeGreaterThan(1);
-    expect(screen.getByRole('combobox').closest('[cckSelect]')?.hasAttribute('aria-describedby')).toBe(false);
+    expect(screen.getByRole('combobox').closest('cck-select')?.hasAttribute('aria-describedby')).toBe(false);
   });
 
   it('names the open list by the label of the field, with no axe violation, and aria-label still wins', async () => {
     const user = userEvent.setup();
     await render(
-      `<main><div cckFormField>
+      `<main><cck-form-field>
         <label cckLabel>Dish</label>
-        <div cckSelect><div cckSelectOption value="Cake">Cake</div></div>
-      </div></main>`,
+        <cck-select><cck-select-option value="Cake">Cake</cck-select-option></cck-select>
+      </cck-form-field></main>`,
       { imports },
     );
     await user.click(screen.getByRole('combobox'));
@@ -126,8 +126,8 @@ describe('Select accessibility', () => {
   it('lets an author aria-label name the list inside a field', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckFormField><label cckLabel>Dish</label>
-        <div cckSelect aria-label="Mine"><div cckSelectOption value="Cake">Cake</div></div></div>`,
+      `<cck-form-field><label cckLabel>Dish</label>
+        <cck-select aria-label="Mine"><cck-select-option value="Cake">Cake</cck-select-option></cck-select></cck-form-field>`,
       { imports },
     );
     await user.click(screen.getByRole('combobox'));
@@ -137,8 +137,8 @@ describe('Select accessibility', () => {
   it('names the open list by the id the author wrote on the label inside a field', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckFormField><label cckLabel id="my-label">Dish</label>
-        <div cckSelect><div cckSelectOption value="Cake">Cake</div></div></div>`,
+      `<cck-form-field><label cckLabel id="my-label">Dish</label>
+        <cck-select><cck-select-option value="Cake">Cake</cck-select-option></cck-select></cck-form-field>`,
       { imports },
     );
     expect(document.querySelector('label')?.id).toBe('my-label');
@@ -151,8 +151,8 @@ describe('Select accessibility', () => {
     const user = userEvent.setup();
     const labelId = signal('first');
     await render(
-      `<div cckFormField><label cckLabel [id]="labelId()">Dish</label>
-        <div cckSelect><div cckSelectOption value="Cake">Cake</div></div></div>`,
+      `<cck-form-field><label cckLabel [id]="labelId()">Dish</label>
+        <cck-select><cck-select-option value="Cake">Cake</cck-select-option></cck-select></cck-form-field>`,
       { imports, componentProperties: { labelId } },
     );
     await user.click(screen.getByRole('combobox'));

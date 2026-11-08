@@ -30,13 +30,15 @@ function SelectGroupImpl({ disabled = false, render, ref, ...rest }: SelectGroup
 }
 
 /**
- * Renders a group of items: a `<div role="group">` (or your `render` element) named by its `Select.Label`.
- * Disabling the group disables every item in it. Native div props pass through.
+ * A group of items with a label. It renders a `<div role="group">` that its `Select.Label` names. Disabling the group disables every item in it.
  *
  * @example
  * <Select.Group>
  *   <Select.Label>Desserts</Select.Label>
- *   <Select.Item value="Cake"><Select.ItemIndicator /><Select.ItemText>Cake</Select.ItemText></Select.Item>
+ *   <Select.Item value="Cake">
+ *     <Select.ItemIndicator />
+ *     <Select.ItemText>Cake</Select.ItemText>
+ *   </Select.Item>
  * </Select.Group>
  * @cckPart optionGroup
  * @param props - The Group props.

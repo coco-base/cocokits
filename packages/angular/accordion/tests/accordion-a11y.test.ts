@@ -8,11 +8,11 @@ import { CckAccordionImports } from '../index';
 const imports = [...CckAccordionImports];
 
 const TEMPLATE = `
-  <div cckAccordion>
-    <div cckAccordionItem label="Shipping">Orders leave in two days.</div>
-    <div cckAccordionItem label="Returns" [expanded]="true">Send it back.</div>
-    <div cckAccordionItem label="Warranty" disabled>One year.</div>
-  </div>`;
+  <cck-accordion>
+    <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+    <cck-accordion-item label="Returns" [expanded]="true">Send it back.</cck-accordion-item>
+    <cck-accordion-item label="Warranty" disabled>One year.</cck-accordion-item>
+  </cck-accordion>`;
 
 describe('Accordion accessibility', () => {
   it('has no axe violations when closed, open and disabled', async () => {
@@ -25,9 +25,9 @@ describe('Accordion accessibility', () => {
 
   it('has no axe violations with a label template and a heading level', async () => {
     const { container } = await render(
-      `<div cckAccordion multi>
-        <div cckAccordionItem headingLevel="2"><ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>Body</div>
-      </div>`,
+      `<cck-accordion multi>
+        <cck-accordion-item headingLevel="2"><ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>Body</cck-accordion-item>
+      </cck-accordion>`,
       { imports },
     );
     expect((await axe(container)).violations).toEqual([]);

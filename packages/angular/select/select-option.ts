@@ -17,25 +17,25 @@ import { injectCckSelect } from './select';
 import { CckSelectOptionGroup } from './select-option-group';
 
 /**
- * An option of a Select. Its value is `value`; its content is what you write inside it, which must not be
- * interactive. A decorative indicator (a check, or a box with `multiple`) is rendered for you. The trigger and
- * type-to-find use the trimmed text of the content as the option's label. In a single Select an option whose
- * value is `null` or `undefined` clears the value (unless `canSelectNullableOptions`), and one whose value is
- * `''` clears it and shows the placeholder.
+ * One choice in the list of a Select. Its `value` is the value that the Select holds when the user chooses it. You write the text of the option inside it.
+ *
+ * The content must not be interactive. A mark that shows the choice is made for you: a check, or a box with `multiple`. The trigger and type-to-find use the text of the option as its label.
+ *
+ * In a single Select, an option with the value `null` or `undefined` clears the value, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder.
  *
  * @example
- * <div cckSelectOption value="Cake">Cake</div>
- * @typeParam T - The type of the value. Defaults to `string`.
+ * <cck-select-option value="Cake">Cake</cck-select-option>
+ * @typeParam T - The type of the value. The default is `string`.
  * @cckPart option
  * @cckPart optionIndicator
  * @cckPart optionContent
- * @cckSlot default - The content of the option.
+ * @cckSlot default - The text of the option. When not set, the option shows no text.
  * @cckDataAttr data-selected - present when the option is selected
  * @cckDataAttr data-highlighted - present on the active option
  * @cckDataAttr data-disabled - present when the option or its group is disabled
  */
 @Component({
-  selector: '[cckSelectOption]',
+  selector: 'cck-select-option',
   exportAs: 'cckSelectOption',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
@@ -61,27 +61,26 @@ import { CckSelectOptionGroup } from './select-option-group';
 })
 export class CckSelectOption<T = string> implements OnInit {
   /**
-   * The value the option stands for.
+   * The value of the option. The Select holds it when the user chooses the option.
    * @cckSemantic select.option.value
    */
   readonly value = input.required<T | null | undefined>();
 
   /**
-   * The `id` of the option element, which is also the trigger's `aria-activedescendant` while the option is
-   * highlighted.
+   * The `id` of the option element. The trigger uses it as `aria-activedescendant` while the option is highlighted. When not set, an id is made for you.
    * @cckSemantic select.option.id
    * @defaultValue generated
    */
   readonly id = input<string | undefined>(undefined);
 
   /**
-   * Whether the option is disabled: it cannot be chosen and keys skip it. Its group adds to it.
+   * Whether the option is disabled. The user cannot choose it, and keys skip it. A disabled group also disables it.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** @internal */
-  readonly _root = injectCckSelect<unknown>('Option');
+  readonly _root = injectCckSelect<unknown>('cck-select-option');
   private readonly group = inject(CckSelectOptionGroup, { optional: true });
   private readonly key = inject(IdGenerator).getId(selectAnatomy.classes.option);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;

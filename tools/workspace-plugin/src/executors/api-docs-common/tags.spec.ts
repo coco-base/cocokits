@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { checkParity, paragraphsOf, parseSlotTag, withoutLinks } from './tags';
+import { checkParity, isShared, paragraphsOf, parseSlotTag, valuesOf, withoutLinks } from './tags';
 
 describe('parseSlotTag', () => {
   it('reads the default slot, which has no selector', () => {
@@ -72,5 +72,36 @@ describe('checkParity', () => {
     const problems: string[] = [];
     expect(checkParity('Thing.size', [tag('cckParity', 'Differs by design.')], problems)).toBe(false);
     expect(problems).toEqual([]);
+  });
+});
+
+describe('valuesOf', () => {
+  const tag = (comment: string) => ({ name: 'cckValue', comment });
+
+  it('reads each literal with its meaning in source order, without the quotes of the literal', () => {
+    const problems: string[] = [];
+    const values = valuesOf(
+      [tag('start - Before the\n  trigger.'), tag("'end' - After {@link Thing}."), { name: 'remarks', comment: 'x' }],
+      'Thing.side',
+      problems,
+    );
+    expect(values).toEqual([
+      { value: 'start', description: 'Before the trigger.' },
+      { value: 'end', description: 'After `Thing`.' },
+    ]);
+    expect(problems).toEqual([]);
+  });
+
+  it.each(['start', 'start -', '- Before.', 'start Before.'])('reports %j as malformed', (text) => {
+    const problems: string[] = [];
+    expect(valuesOf([tag(text)], 'Thing.side', problems)).toEqual([]);
+    expect(problems).toEqual([`Thing.side: "@cckValue ${text}" needs the shape "@cckValue <literal> - <meaning>"`]);
+  });
+});
+
+describe('isShared', () => {
+  it('is true only with a @cckShared tag', () => {
+    expect(isShared([{ name: 'cckShared', comment: '' }])).toBe(true);
+    expect(isShared([{ name: 'cckGroup', comment: 'forms' }])).toBe(false);
   });
 });

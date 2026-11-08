@@ -86,7 +86,7 @@ describe('FormField zones', () => {
 });
 
 describe('FormField with a Textarea', () => {
-  it('gives it the control id, points the Label at it and describes it by the feedback wrapper', () => {
+  it('gives it the control id, points the Label at it and describes it by the hint', () => {
     render(
       <FormField id="msg" label={<Label>Message</Label>} hint={<Hint>Help</Hint>}>
         <Textarea />
@@ -94,7 +94,7 @@ describe('FormField with a Textarea', () => {
     );
     const area = screen.getByRole('textbox', { name: 'Message' });
     expect(area.id).toBe('msg-control');
-    expect(area.getAttribute('aria-describedby')).toBe('msg-feedback');
+    expect(area.getAttribute('aria-describedby')).toBe('msg-hint-1');
     expect(document.querySelector('.cck-form-field__input-wrapper:has(> .cck-textarea)')).not.toBeNull();
   });
 
@@ -227,5 +227,31 @@ describe('FormField container click', () => {
     rerender(field(<span />));
     await userEvent.click(inputWrapper());
     expect(document.activeElement).toBe(document.body);
+  });
+});
+
+describe('FormField description without a theme', () => {
+  it('reads the hint and the shown error as two phrases', () => {
+    render(
+      <FormField
+        id="msg"
+        label={<Label>Message</Label>}
+        hint={<Hint>Help</Hint>}
+        error={<FieldError force>Enter a message.</FieldError>}
+      >
+        <Textarea />
+      </FormField>,
+    );
+    const area = screen.getByRole('textbox', { description: 'Help Enter a message.' });
+    expect(area.getAttribute('aria-describedby')).toBe('msg-hint-1 msg-error-1');
+  });
+
+  it('keeps an author id on a part and lists it', () => {
+    render(
+      <FormField id="msg" label={<Label>Message</Label>} hint={<Hint id="mine">Help</Hint>}>
+        <Textarea aria-describedby="first" />
+      </FormField>,
+    );
+    expect(screen.getByRole('textbox').getAttribute('aria-describedby')).toBe('first mine');
   });
 });

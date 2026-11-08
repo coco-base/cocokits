@@ -76,15 +76,16 @@ interface ButtonComponent {
 }
 
 /**
- * Renders a `<button>` with `type="button"`, or link semantics (an `<a>`, or a link component that
- * renders one) with `render` and `nativeButton={false}`. A disabled `<button>` takes native
- * `disabled`; a disabled link gets `aria-disabled="true"` and `tabindex="-1"`, and its activation is
- * blocked in the capture phase, before any other click listener of the element: a consumer
- * `onClickCapture` runs first and may veto with `preventDefault()`, otherwise no `onClick` of the
- * Button or of the element given through `render` runs. Native button props pass through, and `ref`
- * reaches the element.
+ * A button that runs an action. It renders a `<button type="button">`, or a link with `render` and
+ * `nativeButton={false}`. Native button props pass through, and `ref` reaches the element.
  *
- * The name is its content. An icon-only Button needs `aria-label` or `aria-labelledby`.
+ * A disabled `<button>` gets the native `disabled`. A disabled link gets `aria-disabled="true"` and
+ * `tabindex="-1"`, and the Button stops its clicks.
+ *
+ * The Button stops the click of a disabled link in the capture phase, so no `onClick` runs. Your `onClickCapture`
+ * runs before that. When it calls `preventDefault()`, the Button does not stop the click.
+ *
+ * The name of the Button is its content. A Button with only an icon needs `aria-label` or `aria-labelledby`.
  *
  * @example
  * <Button onClick={save}>Save</Button>

@@ -11,10 +11,10 @@ import { providers, strip } from './helpers';
 @Component({
   selector: 'app-root',
   imports: [CckCheckbox, CckCheckboxTheme, CckSwitch, CckSwitchTheme, CckRadio, CckRadioTheme],
-  template: `<div cckCheckbox id="c" [checked]="on" size="sm" color="success">Accept</div>
-    <div cckSwitch id="s" labelPosition="before">Alerts</div>
-    <div cckRadio id="r1" name="plan" [checked]="on">A</div>
-    <div cckRadio id="r2" name="plan" size="lg">B</div>`,
+  template: `<cck-checkbox id="c" [checked]="on" size="sm" color="success">Accept</cck-checkbox>
+    <cck-switch id="s" labelPosition="before">Alerts</cck-switch>
+    <cck-radio id="r1" name="plan" [checked]="on">A</cck-radio>
+    <cck-radio id="r2" name="plan" size="lg">B</cck-radio>`,
 })
 class Root {
   protected readonly on = true;

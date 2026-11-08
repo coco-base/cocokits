@@ -48,7 +48,16 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
 // `update:modelValue` is emitted by the model.
 defineEmits<RadioGroupEmits>();
 defineSlots<{
-  /** The radios, in any markup. */
+  /**
+   * The radios, in any markup. When not set, the group is empty.
+   *
+   * @example
+   * <RadioGroup v-model="plan" aria-label="Plan">
+   *   <p>Pick one.</p>
+   *   <Radio value="free">Free</Radio>
+   *   <Radio value="pro">Pro</Radio>
+   * </RadioGroup>
+   */
   default?(): unknown;
 }>();
 
@@ -205,8 +214,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the root: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the root: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <RadioGroup ref="plans" v-model="plan" aria-label="Plan">...</RadioGroup>
+   * <!-- In the script: const plans = useTemplateRef('plans'); then plans.value?.element is the root. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

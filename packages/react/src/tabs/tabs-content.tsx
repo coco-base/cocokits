@@ -35,11 +35,14 @@ function TabsContentImpl({ value, forceMount, render, ref, children, ...rest }: 
 }
 
 /**
- * Renders the `<div role="tabpanel">` of one tab. It is named by its trigger (`aria-labelledby`), is reachable
- * with Tab (`tabindex="0"`) and carries the native `hidden` attribute while its tab is not selected; the element
- * is always rendered, so the trigger's `aria-controls` resolves. The children are rendered only while the tab is
- * selected, or always with `forceMount` (the panel then stays `hidden`). Native `div` props pass through, and
- * `ref` reaches the element.
+ * The panel of one tab. It renders a `<div role="tabpanel" tabindex="0">` that its trigger names with
+ * `aria-labelledby`.
+ *
+ * The element is always rendered, so the `aria-controls` of the trigger points to it. It has the native `hidden`
+ * attribute while its tab is not selected.
+ *
+ * The children render only while the tab is selected, or always with `forceMount`. Native `div` props pass
+ * through, and `ref` reaches the element.
  *
  * @example
  * <Tabs.Content value="account">Change your name.</Tabs.Content>

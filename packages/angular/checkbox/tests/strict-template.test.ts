@@ -66,12 +66,12 @@ describe('strict template checking of a [formField] choice control', { timeout: 
   });
 
   it.each([
-    ['cckCheckbox', 'checkbox', 'CckCheckbox'],
-    ['cckSwitch', 'switch', 'CckSwitch'],
+    ['cck-checkbox', 'checkbox', 'CckCheckbox'],
+    ['cck-switch', 'switch', 'CckSwitch'],
   ])('compiles %s with [formField] and submitValue', (selector, entry, cls) => {
     const result = compile(
       `ok-${entry}`,
-      `<div ${selector} [formField]="f.terms" submitValue="yes">Accept</div>`,
+      `<${selector} [formField]="f.terms" submitValue="yes">Accept</${selector}>`,
       entry,
       cls,
     );
@@ -80,12 +80,12 @@ describe('strict template checking of a [formField] choice control', { timeout: 
   });
 
   it.each([
-    ['cckCheckbox', 'checkbox', 'CckCheckbox'],
-    ['cckSwitch', 'switch', 'CckSwitch'],
+    ['cck-checkbox', 'checkbox', 'CckCheckbox'],
+    ['cck-switch', 'switch', 'CckSwitch'],
   ])('rejects a value on %s with [formField]', (selector, entry, cls) => {
     const result = compile(
       `bad-${entry}`,
-      `<div ${selector} [formField]="f.terms" value="yes">Accept</div>`,
+      `<${selector} [formField]="f.terms" value="yes">Accept</${selector}>`,
       entry,
       cls,
     );

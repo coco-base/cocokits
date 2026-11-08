@@ -24,8 +24,7 @@ function SelectIconImpl({ render, ref, ...rest }: SelectIconProps): ReactElement
 }
 
 /**
- * Renders the decorative dropdown icon: a `<span aria-hidden="true">` (or your `render` element). Its content, if
- * any, replaces the theme's icon. Native span props pass through.
+ * The icon that shows the trigger opens a list. It renders a `<span aria-hidden="true">`. Content you give it replaces the icon of the theme.
  *
  * @example
  * <Select.Icon />

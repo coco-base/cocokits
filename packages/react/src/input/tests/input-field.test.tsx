@@ -23,7 +23,7 @@ describe('Input in a FormField: ids, label and description', () => {
     render(strict(<EmailField id="email" />));
     expect(control().id).toBe('email-control');
     expect(label().getAttribute('for')).toBe('email-control');
-    expect(control().getAttribute('aria-describedby')).toBe('email-feedback');
+    expect(control().getAttribute('aria-describedby')).toBe('email-hint-1 email-hint-2');
     const feedback = document.getElementById('email-feedback');
     expect(feedback?.querySelectorAll('.cck-hint')).toHaveLength(2);
     expect(screen.getByRole('textbox', { name: 'Email address' })).toBe(control());
@@ -37,7 +37,7 @@ describe('Input in a FormField: ids, label and description', () => {
     );
     expect(field().hasAttribute('id')).toBe(false);
     expect(control().id).toMatch(/-control$/);
-    expect(control().getAttribute('aria-describedby')).toBe(`${control().id.replace(/-control$/, '')}-feedback`);
+    expect(control().getAttribute('aria-describedby')).toBeNull();
   });
 
   it('works whatever order the label is written in, and as children', () => {
@@ -61,13 +61,13 @@ describe('Input in a FormField: ids, label and description', () => {
     expect(screen.getByText('Name').getAttribute('for')).toBe('mine');
   });
 
-  it('keeps the author description first and adds the feedback id once', () => {
+  it('keeps the author description first and adds the hint id once', () => {
     render(
-      <FormField id="f" label={<Label>Name</Label>}>
-        <Input aria-describedby="mine f-feedback" />
+      <FormField id="f" label={<Label>Name</Label>} hint={<Hint>Help</Hint>}>
+        <Input aria-describedby="mine f-hint-1" />
       </FormField>,
     );
-    expect(control().getAttribute('aria-describedby')).toBe('mine f-feedback');
+    expect(control().getAttribute('aria-describedby')).toBe('mine f-hint-1');
   });
 
   it('follows a bound field id', () => {
@@ -94,7 +94,7 @@ describe('Input in a FormField: ids, label and description', () => {
     });
     expect(control().id).toBe('two-control');
     expect(screen.getByText('Name').getAttribute('for')).toBe('two-control');
-    expect(control().getAttribute('aria-describedby')).toBe('two-feedback');
+    expect(control().getAttribute('aria-describedby')).toBe('two-hint-1');
   });
 
   it('keeps an explicit htmlFor and drops the default for a native input', () => {

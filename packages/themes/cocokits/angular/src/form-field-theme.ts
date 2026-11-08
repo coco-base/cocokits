@@ -9,17 +9,17 @@ export type CckFormFieldSize = FormFieldOptions['size']['values'][number];
 
 /**
  * The cocokits theme options of the FormField. It sits on the same element as the base component
- * (`[cckFormField]`) and provides the value to it; the base renders the `data-size` attribute on the
+ * (`cck-form-field`) and provides the value to it; the base renders the `data-size` attribute on the
  * root and on the input wrapper. The option resolves in order: the input, then the `provideCckTheme`
  * override, then the config default; `null` removes the attribute. The theme needs `provideCckTheme`;
  * without it no theme attribute renders.
  *
  * @example
- * <div cckFormField size="lg"><input cckInput /></div>
+ * <cck-form-field size="lg"><input cckInput /></cck-form-field>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckFormField]',
+  selector: 'cck-form-field',
   providers: [
     provideThemeOptions(
       'form-field',

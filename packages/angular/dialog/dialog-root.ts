@@ -36,7 +36,7 @@ import { deepActiveOrBody } from './dialog-focus';
 /** Why the open state of a Dialog changed. */
 export type DialogOpenChangeReason = DialogChangeReason;
 
-/** What `opened`, `closed` and `closePredicate` of a Dialog receive: why the change happened and the event behind it. */
+/** What `opened`, `closed` and `closePredicate` receive: the `reason` of the change and the `event` behind it. */
 export type DialogChangeDetails = ChangeDetails<DialogOpenChangeReason>;
 
 /**
@@ -73,30 +73,32 @@ export interface DialogServiceAttrs {
 }
 
 /**
- * The root of a Dialog: it renders no element, it holds the open state and connects the trigger, the
- * content, the title, the description and the Close button. The content is a native `dialog` declared in a
- * `cckDialogPortal` template and rendered in the overlay container (an open modal dialog that holds the
- * trigger, else the end of `<body>`), then opened with `showModal()`: the rest of the page is inert, Tab moves
- * through its controls (the browser decides what follows the last one) and focus starts where the browser puts it (an `autofocus` element, else the first focusable).
- * It closes on Close, on Escape (the topmost layer only), on a press on the backdrop and when a
- * `<form method="dialog">` inside it is submitted. The page does not scroll while it is open, and focus returns
- * to the element that had it when the dialog opened (the trigger, usually). The trigger is optional: a
- * dialog without one opens from `open` and renders next to the element that had focus.
+ * A modal window over the page. Put the root on an `ng-container`; it makes no element. It holds the open state and links the trigger, the content, the title, the description and the close button.
+ *
+ * You write the content as a native `<dialog>` in a `cckDialogPortal` template. It shows in the overlay container and opens with `showModal()`. The rest of the page cannot be used, and it does not scroll.
+ *
+ * The dialog closes on the close button, Escape, a press on the backdrop and the submit of a `<form method="dialog">` inside it. Then the focus goes back to the element that had it, which is usually the trigger.
+ *
+ * @remarks The focus starts on an element with `autofocus`, or else on the first focusable element. The browser decides what Tab reaches after the last control. Escape closes only the top dialog.
+ *
+ * The trigger is optional. A dialog without one opens from `open`, and shows next to the element that had the focus.
+ *
+ * To open a dialog from code, use the `CckDialog` service.
  *
  * @example
  * <ng-container cckDialog [(open)]="deleting">
- *   <button cckDialogTrigger>Delete project</button>
+ *   <button cckDialogTrigger type="button">Delete project</button>
  *   <ng-template cckDialogPortal>
  *     <dialog cckDialogContent>
  *       <h2 cckDialogTitle>Delete project</h2>
- *       <p cckDialogDescription>This cannot be undone.</p>
- *       <button cckDialogClose>Cancel</button>
+ *       <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+ *       <button cckDialogClose type="button">Cancel</button>
  *     </dialog>
  *   </ng-template>
  * </ng-container>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The trigger and the portal template.
+ * @cckSlot default - The trigger and the `cckDialogPortal` template. When not set, there is nothing to open.
  */
 @Directive({
   selector: '[cckDialog]',
@@ -105,45 +107,64 @@ export interface DialogServiceAttrs {
 })
 export class CckDialogRoot {
   /**
-   * Whether the dialog is open. Two-way, one-way (the start value) or unbound.
-   * @remarks The model output `openChange` emits the new value when the dialog changes itself. `opened` and `closed` emit the reason, for the dialog's own changes only.
+   * Whether the dialog is open. Use `[(open)]` to read and change it.
+   * @remarks `openChange` emits the new value when the dialog opens or closes itself. `opened` and `closed` also send the reason.
    * @defaultValue false
    */
   readonly open = model(false);
 
   /**
-   * Whether Escape and a press on the backdrop leave the dialog open. The check runs first, before
-   * `closePredicate`, `open` and `closed`; Close, `<form method="dialog">`, the trigger and a write from the
-   * parent still close. Disabling these closes weakens the dialog pattern: a keyboard user then has only the
-   * controls inside the dialog to leave it, so keep a Close button.
+   * Whether Escape and a press on the backdrop leave the dialog open. The close button, a `<form method="dialog">`, the trigger and a change from the parent still close it.
+   * @remarks It runs before `closePredicate`. Without Escape, a keyboard user can leave only with the controls inside the dialog, so keep a close button.
    * @defaultValue false
    * @cckParity Only this framework has this member.
    * @cckSemantic none
-   * @see https://github.com/angular/components/blob/main/src/cdk/dialog/dialog-config.ts DialogConfig.disableClose
    */
   readonly disableClose = input(false, { transform: booleanAttribute });
 
   /**
-   * Decides, for every close the dialog makes itself (Close, the trigger, `<form method="dialog">`, Escape, a
-   * press on the backdrop), whether it happens: `false` keeps the dialog open. It runs after `disableClose`.
-   * A write to `open` from the parent is never checked. A refused `<form method="dialog">` shows the dialog
-   * again. Refusing weakens the dialog pattern (see `disableClose`).
+   * A function that decides whether a close that the dialog starts happens. Return `false` to keep it open. When not set, every close happens.
+   * @remarks It runs for the close button, the trigger, a `<form method="dialog">`, Escape and a press on the backdrop, after `disableClose`. It does not run when the parent changes `open`. A refused `<form method="dialog">` shows the dialog again.
+   * @example
+   * <ng-container cckDialog [closePredicate]="canClose">
+   *   <button cckDialogTrigger type="button">Edit</button>
+   *   <ng-template cckDialogPortal>
+   *     <dialog cckDialogContent aria-label="Edit">…</dialog>
+   *   </ng-template>
+   * </ng-container>
+   * <!-- In the class: canClose = (details: DialogChangeDetails) => details.reason !== 'escape'; -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
-   * @see https://github.com/angular/components/blob/main/src/material/dialog/dialog-config.ts MatDialogConfig.closePredicate
    */
   readonly closePredicate = input<((details: DialogChangeDetails) => boolean) | undefined>(undefined);
 
   /**
-   * Emits after the dialog opens by itself (the trigger), with the reason and the event. Never for a write from the parent.
+   * Emits after the user opens the dialog with the trigger. It sends the `reason` and the `event`.
+   * @remarks It never emits when the parent changes `open`.
+   * @example
+   * <ng-container cckDialog (opened)="onOpen($event)">
+   *   <button cckDialogTrigger type="button">Edit</button>
+   *   <ng-template cckDialogPortal>
+   *     <dialog cckDialogContent aria-label="Edit">…</dialog>
+   *   </ng-template>
+   * </ng-container>
+   * <!-- In the class: onOpen(details: DialogChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
   readonly opened = output<DialogChangeDetails>();
 
   /**
-   * Emits after the dialog closes by itself (Close, `<form method="dialog">`, Escape, a press on the backdrop), with the reason and the event.
-   * Never for a write from the parent.
+   * Emits after the dialog closes itself. It sends the `reason` and the `event`.
+   * @remarks The close button, a `<form method="dialog">`, Escape and a press on the backdrop close it. It never emits when the parent changes `open`.
+   * @example
+   * <ng-container cckDialog (closed)="onClose($event)">
+   *   <button cckDialogTrigger type="button">Edit</button>
+   *   <ng-template cckDialogPortal>
+   *     <dialog cckDialogContent aria-label="Edit">…</dialog>
+   *   </ng-template>
+   * </ng-container>
+   * <!-- In the class: onClose(details: DialogChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */

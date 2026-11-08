@@ -29,7 +29,7 @@ describe('Input on the server', () => {
     const html = renderToString(<EmailField id="email" />);
     expect(html).toContain('id="email-control"');
     expect(html).toContain('for="email-control"');
-    expect(html).toContain('aria-describedby="email-feedback"');
+    expect(html).toContain('aria-describedby="email-hint-1 email-hint-2"');
     expect(html).toContain('id="email-feedback"');
     for (const idref of [...idsIn(html, 'for'), ...idsIn(html, 'aria-describedby')]) {
       expect(html, idref).toContain(`id="${idref}"`);

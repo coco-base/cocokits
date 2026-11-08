@@ -19,7 +19,7 @@ describe('Dialog data attributes', () => {
         <ng-template cckDialogPortal>
           <dialog cckDialogContent>
             <h2 cckDialogTitle>Title</h2>
-            <p cckDialogDescription>Text</p>
+            <cck-dialog-description>Text</cck-dialog-description>
             <button cckDialogClose>Close</button>
           </dialog>
         </ng-template>

@@ -14,7 +14,7 @@ import { CckTooltipHarness } from '../index';
     <ng-container cckTooltip cckTooltipShowDelay="0" cckTooltipHideDelay="0">
       <button cckTooltipTrigger>{{ info }}</button>
       <ng-template cckTooltipPortal>
-        <div cckTooltipContent><strong>Rich</strong> help</div>
+        <cck-tooltip-content><strong>Rich</strong> help</cck-tooltip-content>
       </ng-template>
     </ng-container>
     <button cckTooltip="Never" cckTooltipDisabled>Off</button>

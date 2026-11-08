@@ -22,18 +22,18 @@ describe('Select parts', () => {
     it('renders a decorative line that keys skip', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckSelect aria-label="Dish">
-          <div cckSelectOption value="a">Apple</div>
-          <div cckSelectSeparator></div>
-          <div cckSelectOption value="b">Banana</div>
-        </div>`,
+        `<cck-select aria-label="Dish">
+          <cck-select-option value="a">Apple</cck-select-option>
+          <cck-select-separator></cck-select-separator>
+          <cck-select-option value="b">Banana</cck-select-option>
+        </cck-select>`,
         { imports },
       );
       await user.tab();
       await user.keyboard('{ArrowDown}');
       const list = await screen.findByRole('listbox');
       const separator = must(list.querySelector(`.${classes.separator}`));
-      expect(separator.tagName).toBe('DIV');
+      expect(separator.tagName).toBe('CCK-SELECT-SEPARATOR');
       expect(separator.getAttribute('aria-hidden')).toBe('true');
       expect(separator.className).toBe(classes.separator);
       expect(activeName()).toBe('Apple');
@@ -47,10 +47,10 @@ describe('Select parts', () => {
     it('is the id of the option element and the active descendant', async () => {
       const user = userEvent.setup();
       await render(
-        `<div cckSelect aria-label="Dish">
-          <div cckSelectOption value="a" id="apple">Apple</div>
-          <div cckSelectOption value="b">Banana</div>
-        </div>`,
+        `<cck-select aria-label="Dish">
+          <cck-select-option value="a" id="apple">Apple</cck-select-option>
+          <cck-select-option value="b">Banana</cck-select-option>
+        </cck-select>`,
         { imports },
       );
       await user.tab();
@@ -67,14 +67,14 @@ describe('Select parts', () => {
       const user = userEvent.setup();
       const value = signal<string | null | undefined>(undefined);
       await render(
-        `<div cckSelect aria-label="Dish" [(value)]="value">
-          <div cckSelectOption value="a">Apple</div>
-          <div cckSelectOption value="b" disabled>Banana</div>
-          <div cckSelectOptionGroup label="Berries" disabled>
-            <div cckSelectOption value="c">Cranberry</div>
-          </div>
-          <div cckSelectOption value="d">Date</div>
-        </div>`,
+        `<cck-select aria-label="Dish" [(value)]="value">
+          <cck-select-option value="a">Apple</cck-select-option>
+          <cck-select-option value="b" disabled>Banana</cck-select-option>
+          <cck-select-option-group label="Berries" disabled>
+            <cck-select-option value="c">Cranberry</cck-select-option>
+          </cck-select-option-group>
+          <cck-select-option value="d">Date</cck-select-option>
+        </cck-select>`,
         { imports, componentProperties: { value } },
       );
       await user.tab();
@@ -95,14 +95,14 @@ describe('Select parts', () => {
   });
 
   describe('type to search', () => {
-    const options = `<div cckSelectOption value="e1">Éclair</div>
-      <div cckSelectOption value="n1">New York</div>
-      <div cckSelectOption value="n2">Nice</div>
-      <div cckSelectOption value="a">apple</div>`;
+    const options = `<cck-select-option value="e1">Éclair</cck-select-option>
+      <cck-select-option value="n1">New York</cck-select-option>
+      <cck-select-option value="n2">Nice</cck-select-option>
+      <cck-select-option value="a">apple</cck-select-option>`;
 
     it('ignores case and accents', async () => {
       const user = userEvent.setup();
-      await render(`<div cckSelect aria-label="Dish">${options}</div>`, { imports });
+      await render(`<cck-select aria-label="Dish">${options}</cck-select>`, { imports });
       await user.tab();
       await user.keyboard('e');
       await screen.findByRole('listbox');
@@ -115,7 +115,7 @@ describe('Select parts', () => {
     it('takes a space as part of a running search, closed or open, and does not choose', async () => {
       const user = userEvent.setup();
       const value = signal<string | null | undefined>(undefined);
-      await render(`<div cckSelect aria-label="Dish" [(value)]="value">${options}</div>`, {
+      await render(`<cck-select aria-label="Dish" [(value)]="value">${options}</cck-select>`, {
         imports,
         componentProperties: { value },
       });
@@ -132,7 +132,7 @@ describe('Select parts', () => {
     it('opens on a space with no search running, and chooses with Space when open', async () => {
       const user = userEvent.setup();
       const value = signal<string | null | undefined>(undefined);
-      await render(`<div cckSelect aria-label="Dish" [(value)]="value">${options}</div>`, {
+      await render(`<cck-select aria-label="Dish" [(value)]="value">${options}</cck-select>`, {
         imports,
         componentProperties: { value },
       });
@@ -146,7 +146,9 @@ describe('Select parts', () => {
 
     it('ends the search after typeaheadDebounceInterval', async () => {
       const user = userEvent.setup();
-      await render(`<div cckSelect aria-label="Dish" [typeaheadDebounceInterval]="30">${options}</div>`, { imports });
+      await render(`<cck-select aria-label="Dish" [typeaheadDebounceInterval]="30">${options}</cck-select>`, {
+        imports,
+      });
       await user.tab();
       await user.keyboard('n');
       await screen.findByRole('listbox');
@@ -158,7 +160,7 @@ describe('Select parts', () => {
 
     it('takes the interval from CCK_SELECT_CONFIG', async () => {
       const user = userEvent.setup();
-      await render(`<div cckSelect aria-label="Dish">${options}</div>`, {
+      await render(`<cck-select aria-label="Dish">${options}</cck-select>`, {
         imports,
         providers: [{ provide: CCK_SELECT_CONFIG, useValue: { typeaheadDebounceInterval: 30 } }],
       });
@@ -172,12 +174,12 @@ describe('Select parts', () => {
   });
 
   describe('hidden inputs and autofill', () => {
-    const template = (attributes: string): string => `<form><div cckSelect aria-label="Dish" name="dish" ${attributes}
+    const template = (attributes: string): string => `<form><cck-select aria-label="Dish" name="dish" ${attributes}
       [(value)]="value" (selectionChange)="changes.push($event)" [itemToStringValue]="toForm">
-        <div cckSelectOption value="cake">Cake</div>
-        <div cckSelectOption value="pizza" disabled>Pizza</div>
-        <div cckSelectOptionGroup label="Mains" disabled><div cckSelectOption value="steak">Steak</div></div>
-      </div></form>`;
+        <cck-select-option value="cake">Cake</cck-select-option>
+        <cck-select-option value="pizza" disabled>Pizza</cck-select-option>
+        <cck-select-option-group label="Mains" disabled><cck-select-option value="steak">Steak</cck-select-option></cck-select-option-group>
+      </cck-select></form>`;
     const setup = (attributes = '', multiple = false) => {
       const value = signal<unknown>(multiple ? [] : undefined);
       const changes: CckSelectChange[] = [];

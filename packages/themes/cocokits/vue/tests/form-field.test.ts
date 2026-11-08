@@ -3,6 +3,7 @@ import { cleanup, render, screen } from '@testing-library/vue';
 import { h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField as BaseFormField } from '@cocokits/vue/form-field';
+import { Hint } from '@cocokits/vue/hint';
 import { Input } from '@cocokits/vue/input';
 import { defineAnatomy } from '@cocokits/shared';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
@@ -100,7 +101,7 @@ describe('theme FormField', () => {
           {
             label: () => h('span', 'Email'),
             default: () => h(Input, { 'data-testid': 'input' }),
-            hint: () => h('span', 'Hint'),
+            hint: () => h(Hint, () => 'Hint'),
           },
         ),
       ),
@@ -111,7 +112,7 @@ describe('theme FormField', () => {
     expect(root().hasAttribute('data-required')).toBe(true);
     expect(inputWrapper().contains(input)).toBe(true);
     expect(input.getAttribute('id')).toMatch(/-control$/);
-    expect(input.getAttribute('aria-describedby')).toMatch(/-feedback$/);
+    expect(input.getAttribute('aria-describedby')).toMatch(/-hint-1$/);
     expect(screen.getByText('Email')).toBeTruthy();
     expect(screen.getByText('Hint')).toBeTruthy();
   });

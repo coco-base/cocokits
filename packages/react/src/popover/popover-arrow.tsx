@@ -36,15 +36,23 @@ function PopoverArrowImpl({ render, ref, children, ...rest }: PopoverArrowProps)
 }
 
 /**
- * Renders the pointer from the content to the trigger: a decorative `<span aria-hidden="true">` that holds a
- * triangle `<svg>`. Put it inside `Popover.Content`. CocoKits places it on the content edge that faces the
- * trigger, centred on the trigger and turned to point at it, and adds its height to the gap between the trigger
- * and the content. It gets the native `hidden` attribute while it cannot point at the trigger (the content has
- * shifted along the edge). Children replace the triangle. An element chosen with `render` that is not an HTML
- * element, such as an `<svg>`, is not hidden by `hidden`: hide it with CSS.
+ * A pointer from the content to the trigger. It renders a decorative `<span aria-hidden="true">` with a triangle
+ * `<svg>`; put it inside `Popover.Content`.
+ *
+ * It sits on the edge of the content that faces the trigger, centered on the trigger and pointing at it. Its
+ * height adds to the gap between the trigger and the content.
+ *
+ * It gets the native `hidden` attribute while it cannot point at the trigger, because the content has shifted.
+ * Children replace the triangle.
+ *
+ * An element from `render` that is not an HTML element, such as an `<svg>`, does not hide with `hidden`. Hide it
+ * with CSS.
  *
  * @example
- * <Popover.Content aria-label="Share"><Popover.Arrow />Anyone with the link can view.</Popover.Content>
+ * <Popover.Content aria-label="Share">
+ *   <Popover.Arrow />
+ *   Anyone with the link can view it.
+ * </Popover.Content>
  * @cckPart arrow
  * @param props - The Arrow props.
  * @returns The rendered element.

@@ -13,17 +13,17 @@ export type CckBadgeSize = BadgeOptions['size']['values'][number];
 
 /**
  * The cocokits theme options of the Badge. It sits on the same element as the base component
- * (`[cckBadge]`) and provides the values to it; the base renders the `data-*` attributes. Each
+ * (`cck-badge`) and provides the values to it; the base renders the `data-*` attributes. Each
  * option resolves in order: the input, then the `provideCckTheme` override, then the config
  * default; `null` removes the attribute. The theme needs `provideCckTheme`; without it no theme
  * attribute renders.
  *
  * @example
- * <span cckBadge [content]="5" variant="rectangle" color="danger" size="lg"></span>
+ * <cck-badge [content]="5" variant="rectangle" color="danger" size="lg"></cck-badge>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckBadge]',
+  selector: 'cck-badge',
   providers: [
     provideThemeOptions(
       'badge',

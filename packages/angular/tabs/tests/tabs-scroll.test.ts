@@ -6,9 +6,9 @@ import { CckTabsImports } from '../index';
 
 const imports = [...CckTabsImports];
 const TEMPLATE = `
-  <div cckTabs aria-label="x" [(selectedIndex)]="index">
-    <div cckTab label="A">a</div><div cckTab label="B">b</div><div cckTab label="C">c</div><div cckTab label="D">d</div>
-  </div>`;
+  <cck-tabs aria-label="x" [(selectedIndex)]="index">
+    <cck-tab label="A">a</cck-tab><cck-tab label="B">b</cck-tab><cck-tab label="C">c</cck-tab><cck-tab label="D">d</cck-tab>
+  </cck-tabs>`;
 const list = (): HTMLElement => screen.getByRole('tablist');
 
 /** A 300px list showing four 200px triggers: the list scrolls horizontally and the boxes follow its scroll offset. */

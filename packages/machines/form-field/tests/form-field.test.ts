@@ -98,7 +98,23 @@ describe('getFormFieldProps', () => {
 
 describe('formFieldIds', () => {
   it('derives the control and the feedback id from the field id', () => {
-    expect(formFieldIds('r1')).toEqual({ control: 'r1-control', feedback: 'r1-feedback', label: 'r1-label' });
+    expect(formFieldIds('r1')).toMatchObject({ control: 'r1-control', feedback: 'r1-feedback', label: 'r1-label' });
+  });
+});
+
+describe('formFieldIds with hints and errors', () => {
+  it('lists no hint and no error id by default', () => {
+    expect(formFieldIds('r1')).toMatchObject({ hints: [], errors: [] });
+  });
+
+  it('numbers a part without its own id from 1, and lets an author id win', () => {
+    const ids = formFieldIds('r1', { hints: [undefined, 'mine', undefined], errors: [undefined] });
+    expect(ids.hints).toEqual(['r1-hint-1', 'mine', 'r1-hint-3']);
+    expect(ids.errors).toEqual(['r1-error-1']);
+  });
+
+  it('treats an empty author id as none', () => {
+    expect(formFieldIds('r1', { hints: [''] }).hints).toEqual(['r1-hint-1']);
   });
 });
 
@@ -124,6 +140,10 @@ describe('mergeDescribedBy', () => {
 
   it('keeps only the author ids without a feedback id', () => {
     expect(mergeDescribedBy('a', undefined)).toBe('a');
+  });
+
+  it('takes any number of ids after the author ids, in order', () => {
+    expect(mergeDescribedBy('a', 'h1', 'h2', undefined, 'e1')).toBe('a h1 h2 e1');
   });
 
   it('returns undefined when there is no id', () => {

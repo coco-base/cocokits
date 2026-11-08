@@ -25,8 +25,7 @@ function SelectLabelImpl({ render, ref, ...rest }: SelectLabelProps): ReactEleme
 }
 
 /**
- * Renders the label of a group: a `<div>` (or your `render` element) that the group refers to with
- * `aria-labelledby`. Its content is text or markup, never a control. Native div props pass through.
+ * The label of a group. It renders a `<div>` that the group refers to with `aria-labelledby`. Its content is text or markup, and no control.
  *
  * @example
  * <Select.Label>Desserts</Select.Label>

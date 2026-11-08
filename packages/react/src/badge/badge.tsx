@@ -57,15 +57,19 @@ interface BadgeComponent {
 }
 
 /**
- * Renders a `<span>` by default that shows a count or a short text, and nothing when it has no content (`data-empty`). A numeric
- * content above `max` shows `max` followed by a `+`. Native span attributes pass through, and `ref` reaches the span.
+ * A small count or text, such as the number of new messages. It renders a `<span>`, which is empty without
+ * content. A number above `max` shows as `max` and a `+`.
  *
- * It has no role. Its text is read in place, so inside a Button it becomes part of the button's
- * name. An empty badge has no text: put the meaning in the host's name, for example
- * `aria-label="Notifications, 2 new"` on an icon-only Button.
+ * Native `span` props pass through, and `ref` reaches the element.
+ *
+ * It has no role. Screen readers read its text in place, so inside a Button it is part of the name of the button.
+ * An empty Badge has no text, so put its meaning in the name of the host. For example, write
+ * `aria-label="Notifications, 2 new"` on a Button with only an icon.
  *
  * @example
- * <Badge content={5} max={99} />
+ * <button type="button">
+ *   Inbox <Badge content={5} max={99} />
+ * </button>
  * @cckPart root
  * @param props - The Badge props.
  * @returns The rendered span.

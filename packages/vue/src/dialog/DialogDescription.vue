@@ -9,7 +9,12 @@ defineOptions({ name: 'CckDialogDescription', inheritAttrs: false });
 
 withDefaults(defineProps<DialogDescriptionProps>(), { as: 'p', asChild: false });
 defineSlots<{
-  /** The description text. */
+  /**
+   * The text of the description. When not set, the description is empty.
+   *
+   * @example
+   * <DialogDescription>This cannot be undone.</DialogDescription>
+   */
   default?(): unknown;
 }>();
 

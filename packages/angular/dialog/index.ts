@@ -20,7 +20,11 @@ export type { CckDialogState } from './dialog-ref';
 export { CckDialogTitle } from './dialog-title';
 export { CckDialogTrigger } from './dialog-trigger';
 
-/** Everything needed to author a Dialog: `imports: [CckDialogImports]`. */
+/**
+ * Everything you need to write a Dialog in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckDialogImports]
+ */
 export const CckDialogImports = [
   CckDialogRoot,
   CckDialogTrigger,

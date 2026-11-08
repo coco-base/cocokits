@@ -25,12 +25,12 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
     <ng-container cckPopover [open]="true">
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share">
+        <cck-popover-content aria-label="Share">
           @if (arrow()) {
-            <span cckPopoverArrow data-testid="arrow"></span>
+            <cck-popover-arrow data-testid="arrow"></cck-popover-arrow>
           }
           Text
-        </div>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
   `,
@@ -45,9 +45,9 @@ class Host {
     <ng-container cckPopover [open]="true">
       <button cckPopoverTrigger>Share</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share">
-          <span cckPopoverArrow class="mine" data-testid="arrow"><circle r="1" /></span>
-        </div>
+        <cck-popover-content aria-label="Share">
+          <cck-popover-arrow class="mine" data-testid="arrow"><circle r="1" /></cck-popover-arrow>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
   `,
@@ -67,10 +67,10 @@ describe('Popover arrow', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders a decorative span with the class and the built-in triangle inside the content', async () => {
+  it('renders a decorative element with the class and the built-in triangle inside the content', async () => {
     await render(Host);
     const arrow = await screen.findByTestId('arrow');
-    expect(arrow.tagName).toBe('SPAN');
+    expect(arrow.tagName).toBe('CCK-POPOVER-ARROW');
     expect(arrow.classList.contains(popoverAnatomy.classes.arrow)).toBe(true);
     expect(arrow.getAttribute('aria-hidden')).toBe('true');
     expect(arrow.hasAttribute('hidden')).toBe(false);

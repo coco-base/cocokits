@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'tab-nav.css');
 
@@ -37,8 +37,9 @@ describe('tab-nav output', () => {
     expect(css).not.toMatch(/\[aria-|\[role|data-selected|\.cck-tab-nav--|\.is-/);
   });
 
-  it('has no orientation rule, and no rule for the panel: it sits anywhere, so no child combinator reaches it', () => {
-    expect(css).not.toContain('cck-tab-nav__panel');
+  it('has no orientation rule, and only the block layout of the tag for the panel: it sits anywhere, so no child combinator reaches it', () => {
+    expect(declarationsOf(css, '.cck-tab-nav__panel')).toMatch(/^\s*display:\s*block;\s*$/);
+    expect(css.match(/cck-tab-nav__panel/g)).toHaveLength(2);
     expect(css).not.toContain('data-orientation');
   });
 

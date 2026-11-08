@@ -14,7 +14,7 @@ import {
   untracked,
   type Signal,
 } from '@angular/core';
-import { themeAttrs } from '@cocokits/angular-core';
+import { sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
 import {
   accordionAnatomy,
@@ -24,7 +24,6 @@ import {
   type AccordionRootProps,
   type AccordionState,
 } from '@cocokits/machines/accordion';
-import { sortByDomOrder } from '@cocokits/utils';
 
 /** What the root needs to know about one item. @internal */
 export interface CckAccordionItemRegistration {
@@ -43,32 +42,25 @@ export interface CckAccordionItemRegistration {
 }
 
 /**
- * Sorts the items into document order.
+ * A stack of sections that open and close. You write one `cck-accordion-item` for each section. Each item makes its own heading, button and content.
  *
- * @param items - The registered items.
- * @returns A new array in document order.
- */
-function inDomOrder(items: readonly CckAccordionItemRegistration[]): CckAccordionItemRegistration[] {
-  const byElement = new Map(items.map((item) => [item._element, item]));
-  return sortByDomOrder(items.map((item) => item._element)).flatMap((element) => byElement.get(element) ?? []);
-}
-
-/**
- * Accordion: a stack of sections that open and close. Write one `cckAccordionItem` per section inside the
- * host; each item renders its own heading, button and content. By default one item is open at a time;
- * `multi` lets every item toggle on its own. ArrowDown and ArrowUp, Home and End move between the enabled
- * triggers of this accordion. Items of a nested accordion belong to the nearest root.
+ * One item is open at a time. With `multi`, each item opens and closes on its own.
+ *
+ * Down Arrow, Up Arrow, Home and End move the focus between the enabled buttons. The items of a nested accordion belong to the nearest accordion.
  *
  * @example
- * <div cckAccordion multi>
- *   <div cckAccordionItem label="Shipping" [(expanded)]="shippingOpen">Orders leave in two days.</div>
- *   <div cckAccordionItem label="Returns">Send it back within 30 days.</div>
- * </div>
+ * <cck-accordion multi>
+ *   <cck-accordion-item label="Shipping" [(expanded)]="shippingOpen">Orders leave in two days.</cck-accordion-item>
+ *   <cck-accordion-item>
+ *     <ng-template cckAccordionLabel><b>Returns</b> policy</ng-template>
+ *     Send it back within 30 days.
+ *   </cck-accordion-item>
+ * </cck-accordion>
  * @cckPart root
- * @cckSlot default - The `cckAccordionItem` sections.
+ * @cckSlot default - The `cck-accordion-item` sections. When not set, the accordion is empty.
  */
 @Directive({
-  selector: '[cckAccordion]',
+  selector: 'cck-accordion',
   exportAs: 'cckAccordion',
   host: {
     '[class]': 'rootProps().class',
@@ -79,7 +71,7 @@ function inDomOrder(items: readonly CckAccordionItemRegistration[]): CckAccordio
 })
 export class CckAccordion {
   /**
-   * Whether several items can be open at once. Without it, opening an item closes the open one.
+   * Whether several items can be open at the same time. When not set, opening an item closes the open item.
    * @defaultValue false
    * @cckSemantic none
    * @cckParity Lets several items stay open at once; each item keeps its own open state.
@@ -97,7 +89,7 @@ export class CckAccordion {
     readonly CckAccordionItemRegistration[]
   >({
     source: this.registry,
-    computation: (items) => inDomOrder([...items]),
+    computation: (items) => sortByDomOrderOf([...items], (item) => item._element),
   });
 
   /** The id of the item whose trigger has keyboard focus visible. @internal */
@@ -136,7 +128,7 @@ export class CckAccordion {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (item) => item._element);
         if (sorted.some((item, index) => item !== current[index])) this.ordered.set(sorted);
       },
     });
@@ -165,13 +157,15 @@ export class CckAccordion {
   }
 
   /**
-   * Opens every item that is not disabled. Does nothing unless `multi` is set.
+   * Opens every item that is not disabled. It does nothing without `multi`.
    *
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    * @example
-   * <div cckAccordion multi #accordion="cckAccordion"></div>
-   * <button (click)="accordion.openAll()">Open all</button>
+   * <cck-accordion multi #accordion="cckAccordion">
+   *   <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="accordion.openAll()">Open all</button>
    */
   openAll(): void {
     if (!this.multi()) return;
@@ -180,6 +174,11 @@ export class CckAccordion {
 
   /**
    * Closes every item that is not disabled.
+   * @example
+   * <cck-accordion #accordion="cckAccordion">
+   *   <cck-accordion-item label="Shipping">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="accordion.closeAll()">Close all</button>
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */
@@ -266,6 +265,6 @@ export class CckAccordion {
  */
 export function injectCckAccordion(part: string): CckAccordion {
   const root = inject(CckAccordion, { optional: true });
-  if (!root) throw new Error(`CocoKits: ${part} must be placed inside an element with cckAccordion.`);
+  if (!root) throw new Error(`CocoKits: ${part} must be placed inside a <cck-accordion>.`);
   return root;
 }

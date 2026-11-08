@@ -8,5 +8,9 @@ export type {
   RadioGroupOrientation,
 } from './radio-group';
 
-/** Everything needed to author a Radio group: `imports: [CckRadioGroupImports]`. Add `CckRadioImports` for the radios. */
+/**
+ * Everything you need to write a Radio group in a template. Add it to the `imports` of your component. Add `CckRadioImports` for the radios too.
+ * @example
+ * imports: [CckRadioGroupImports, CckRadioImports]
+ */
 export const CckRadioGroupImports = [CckRadioGroup] as const;

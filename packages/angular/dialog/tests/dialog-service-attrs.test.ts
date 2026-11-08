@@ -17,7 +17,7 @@ import { dialogElement, must, setup, settle } from './service-fixtures';
       <h2 cckDialogTitle [id]="titleId()">Title</h2>
     }
     @if (description()) {
-      <p cckDialogDescription>Description</p>
+      <cck-dialog-description>Description</cck-dialog-description>
     }
   `,
 })
@@ -95,7 +95,7 @@ describe('attributes of the service dialog', () => {
     const { host } = await setup();
     const ref = host.service.open(ToggleBody, { ariaDescribedBy: 'hint' });
     const dialog = await dialogElement();
-    const description = must(dialog.querySelector('p'));
+    const description = must(dialog.querySelector('cck-dialog-description'));
     expect(dialog.getAttribute('aria-describedby')).toBe(`hint ${description.id}`);
     ref.componentInstance.description.set(false);
     await settle();

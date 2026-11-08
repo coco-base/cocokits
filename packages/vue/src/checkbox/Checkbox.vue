@@ -33,7 +33,13 @@ const props = withDefaults(defineProps<CheckboxProps>(), {
 defineEmits<CheckboxEmits>();
 
 defineSlots<{
-  /** The label content: the caption of the checkbox. */
+  /**
+   * The label content: the caption of the checkbox. When not set, the checkbox has no caption and needs
+   * `aria-label` or `aria-labelledby`.
+   *
+   * @example
+   * <Checkbox v-model="accepted">Accept the <a href="/terms">terms</a></Checkbox>
+   */
   default?(): unknown;
 }>();
 
@@ -61,8 +67,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the root: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the root: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Checkbox ref="terms" v-model="accepted">Accept the terms</Checkbox>
+   * <!-- In the script: const terms = useTemplateRef('terms'); then terms.value?.element is the root. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.
@@ -71,7 +81,11 @@ defineExpose({
     return rootElementOf(root.value);
   },
   /**
-   * The native `<input>`. `null` before mount.
+   * The native `<input>`. It is `null` before mount.
+   *
+   * @example
+   * <Checkbox ref="terms" v-model="accepted">Accept the terms</Checkbox>
+   * <!-- In the script: const terms = useTemplateRef('terms'); then terms.value?.inputElement?.focus(). -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

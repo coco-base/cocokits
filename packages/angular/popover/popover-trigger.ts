@@ -3,13 +3,16 @@ import { afterReplay, bindAttrs, listenLast } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * The button that toggles the Popover. Compose it with another component by placing both directives on the
- * element (`<button cckButton cckPopoverTrigger>`). Enter and Space toggle through the native click.
+ * The button that opens and closes the popover, on a native `<button>`. Enter and Space work through the native click.
+ *
+ * To use it with another component, put both attributes on one element, like `<button cckButton cckPopoverTrigger>`.
  *
  * @example
- * <button cckPopoverTrigger>Share</button>
+ * <ng-container cckPopover>
+ *   <button cckPopoverTrigger type="button">Share</button>
+ * </ng-container>
  * @cckPart trigger
- * @cckSlot default - The trigger label.
+ * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
  * @cckDataAttr data-state - `open` or `closed`
  */
 @Directive({
@@ -30,8 +33,7 @@ export class CckPopoverTrigger {
   private readonly root = injectCckPopover('Trigger');
   protected readonly props = computed(() => this.root._parts().trigger);
   /**
-   * The id of the trigger. It wins over the generated one and follows changes.
-   * @defaultValue generated
+   * The `id` of the trigger. When not set, the trigger gets a generated id.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
    */

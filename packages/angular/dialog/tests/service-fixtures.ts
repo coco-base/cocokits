@@ -8,7 +8,7 @@ import { CCK_DIALOG_DATA, CckDialog, CckDialogImports, CckDialogRef } from '../i
   imports: [CckDialogImports],
   template: `
     <h2 cckDialogTitle>{{ label() }}</h2>
-    <p cckDialogDescription>Details</p>
+    <cck-dialog-description>Details</cck-dialog-description>
     <button cckDialogClose>Cancel</button>
     <button [cckDialogClose]="'saved'">Save</button>
     <form method="dialog"><button id="submit">Submit</button></form>

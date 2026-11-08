@@ -9,7 +9,12 @@ defineOptions({ name: 'CckSelectItemIndicator', inheritAttrs: false });
 
 withDefaults(defineProps<SelectItemIndicatorProps>(), { as: 'span', asChild: false });
 defineSlots<{
-  /** What marks the item, if the theme draws nothing. */
+  /**
+   * A mark to draw in place of the mark of the theme. When not set, the mark of the theme shows.
+   *
+   * @example
+   * <SelectItemIndicator>✓</SelectItemIndicator>
+   */
   default?(): unknown;
 }>();
 

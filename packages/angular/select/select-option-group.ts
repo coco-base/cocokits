@@ -17,21 +17,21 @@ import { selectAnatomy, type SelectGroupItem } from '@cocokits/machines/select';
 import { injectCckSelect } from './select';
 
 /**
- * A group of options with a label. The label is the `label` text or, for markup, an
- * `ng-template[cckSelectOptionGroupLabel]` inside the group; the markup must not be interactive. Disabling the
- * group disables every option in it.
+ * A group of options with a label. Disabling the group disables every option in it. The label is the `label` text, or your own markup.
+ *
+ * For markup, put a `cckSelectOptionGroupLabel` template inside the group. The markup must not be interactive.
  *
  * @example
- * <div cckSelectOptionGroup label="Desserts">
- *   <div cckSelectOption value="Cake">Cake</div>
- * </div>
+ * <cck-select-option-group label="Desserts">
+ *   <cck-select-option value="Cake">Cake</cck-select-option>
+ * </cck-select-option-group>
  * @cckPart optionGroup
  * @cckSection optionGroupLabel label label
- * @cckSlot default - The options of the group.
- * @cckSlot label ng-template[cckSelectOptionGroupLabel] - The markup of the label, in place of the label text.
+ * @cckSlot default - The options of the group. When not set, the group is empty.
+ * @cckSlot label ng-template[cckSelectOptionGroupLabel] - Your own markup for the label, in place of the `label` text. When not set, the label shows the `label` text.
  */
 @Component({
-  selector: '[cckSelectOptionGroup]',
+  selector: 'cck-select-option-group',
   exportAs: 'cckSelectOptionGroup',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
@@ -55,22 +55,21 @@ import { injectCckSelect } from './select';
 })
 export class CckSelectOptionGroup {
   /**
-   * The text of the label. Use the `cckSelectOptionGroupLabel` template for markup.
+   * The text of the label of the group. When not set, the group has no label text. To write markup, use the `cckSelectOptionGroupLabel` template.
    * @cckSemantic none
-   * @remarks Text shortcut of the `label` slot.
    * @cckParity Only this framework has this member.
    * @defaultValue ''
    */
   readonly label = input('');
 
   /**
-   * Whether the group is disabled: its options cannot be chosen.
+   * Whether the group is disabled. The user cannot choose its options.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /** @internal */
-  readonly _root = injectCckSelect<unknown>('OptionGroup');
+  readonly _root = injectCckSelect<unknown>('cck-select-option-group');
   /** @internal */
   readonly _labelTemplate = signal<TemplateRef<object> | null>(null);
 
@@ -86,12 +85,15 @@ export class CckSelectOptionGroup {
 }
 
 /**
- * The markup of the label of an option group, in place of the `label` text. It must not be interactive.
+ * Your own markup for the label of an option group, in place of the `label` text.
+ *
+ * The group uses this template instead of the text of the `label` input. The markup must not be interactive.
  *
  * @example
- * <div cckSelectOptionGroup>
+ * <cck-select-option-group>
  *   <ng-template cckSelectOptionGroupLabel><b>Desserts</b></ng-template>
- * </div>
+ *   <cck-select-option value="Cake">Cake</cck-select-option>
+ * </cck-select-option-group>
  * @cckTemplate ng-template[cckSelectOptionGroupLabel]
  */
 @Directive({ selector: 'ng-template[cckSelectOptionGroupLabel]', exportAs: 'cckSelectOptionGroupLabel' })

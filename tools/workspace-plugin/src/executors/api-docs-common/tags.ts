@@ -1,4 +1,4 @@
-import type { TagEntry } from './types';
+import type { ApiValueJson, TagEntry } from './types';
 
 /** The trimmed text of every tag with this name, in source order. */
 export const tagsOf = (tags: readonly TagEntry[], name: string): string[] =>
@@ -31,6 +31,76 @@ export const defaultOf = (tags: readonly TagEntry[]): string | undefined => {
   const [text] = tagsOf(tags, 'defaultValue');
   return text === undefined || text === '' ? undefined : text.replace(/^`([^`]*)`$/, '$1');
 };
+
+/** The text after the first paragraph of a part's TSDoc, with its `@remarks`: what the page shows under the description. */
+export function partRemarksOf(description: string, tags: readonly TagEntry[]): string | undefined {
+  const [, ...rest] = paragraphsOf(description);
+  const text = [...rest, ...tagsOf(tags, 'remarks').map(withoutLinks)].filter((item) => item !== '');
+  return text.length === 0 ? undefined : text.join('\n\n');
+}
+
+/** The optional `remarks` and `examples` fields of a part: the text after its first paragraph and its `@example` tags. */
+export function partDocFields(
+  description: string,
+  tags: readonly TagEntry[],
+): { remarks?: string; examples?: string[] } {
+  const remarks = partRemarksOf(description, tags);
+  const examples = tagsOf(tags, 'example');
+  return {
+    ...(remarks === undefined ? {} : { remarks }),
+    ...(examples.length > 0 ? { examples } : {}),
+  };
+}
+
+/** The `@cckGroup <name>` of a member, or undefined. */
+export const groupOf = (tags: readonly TagEntry[]): string | undefined => {
+  const [text] = tagsOf(tags, 'cckGroup');
+  return text === undefined || text === '' ? undefined : text;
+};
+
+/** Whether the tags hold `@cckShared`: the member comes from a props type every part shares. */
+export const isShared = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'cckShared');
+
+/**
+ * The meaning of each literal a `@cckValue <literal> - <meaning>` tag names, in source order. The literal may be
+ * written with or without its quotes; the JSON holds it without them. A tag without that shape adds a problem
+ * naming `label`.
+ */
+export function valuesOf(tags: readonly TagEntry[], label: string, problems: string[]): ApiValueJson[] {
+  return tagsOf(tags, 'cckValue').flatMap((text) => {
+    const match = /^(\S+)\s+-\s+(\S[\s\S]*)$/.exec(text);
+    if (match === null) {
+      problems.push(`${label}: "@cckValue ${text}" needs the shape "@cckValue <literal> - <meaning>"`);
+      return [];
+    }
+    const [, literal = '', meaning = ''] = match;
+    return [
+      {
+        value: literal.replace(/^(['"])(.*)\1$/, '$2'),
+        description: withoutLinks(meaning).replace(/\s+/g, ' ').trim(),
+      },
+    ];
+  });
+}
+
+/**
+ * The `@param` texts of a function member as remark lines, `` `name`: text `` each: the page has no parameter table,
+ * so the text of each parameter goes under the member's description.
+ */
+export const paramRemarksOf = (tags: readonly TagEntry[], tag = 'param'): string[] =>
+  tagsOf(tags, tag).flatMap((text) => {
+    const match = /^(\S+)\s+(?:-\s+)?(\S[\s\S]*)$/.exec(text);
+    return match === null
+      ? []
+      : [
+          `\`${match[1] ?? ''}\`: ${withoutLinks(match[2] ?? '')
+            .replace(/\s+/g, ' ')
+            .trim()}`,
+        ];
+  });
+
+/** Whether the tags hold `@internal`. */
+export const isInternal = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'internal');
 
 /**
  * The canonical id of a member: its `@cckSemantic` tag when it has one, else `<component>.<name>`

@@ -15,19 +15,19 @@ export type CckTabsHeaderAlign = TabsOptions['headerAlign']['values'][number];
 
 /**
  * The cocokits theme options of the Tabs. It sits on the same element as the base component
- * (`[cckTabs]`) and provides the values to it; the base renders the `data-*` attributes on the root, and the
+ * (`cck-tabs`) and provides the values to it; the base renders the `data-*` attributes on the root, and the
  * theme styles the list, the triggers and the indicator from them. Each option resolves in order: the input,
  * then the `provideCckTheme` override, then the config default; `null` removes the attribute. The theme needs
  * `provideCckTheme`; without it no theme attribute renders.
  *
  * @example
- * <div cckTabs variant="line" color="brand" size="lg" headerAlign="stretch" aria-label="Account settings">
- *   <div cckTab label="Account">Change your name.</div>
- * </div>
+ * <cck-tabs variant="line" color="brand" size="lg" headerAlign="stretch" aria-label="Account settings">
+ *   <cck-tab label="Account">Change your name.</cck-tab>
+ * </cck-tabs>
  * @cckPart root
  */
 @Directive({
-  selector: '[cckTabs]',
+  selector: 'cck-tabs',
   providers: [
     provideThemeOptions(
       'tabs',

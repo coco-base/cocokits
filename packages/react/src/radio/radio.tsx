@@ -107,23 +107,24 @@ interface RadioComponent {
 }
 
 /**
- * Renders one standalone `div` root around a native `<input type="radio">` and its label: the children are
- * the caption. Radios with the same `name` form a native group: the browser unchecks the others and the arrow
- * keys move focus and the check. When the user checks another radio of the group, this radio's state becomes
- * unchecked and `onCheckedChange` fires with `false`, the reason `'user'` and the other radio's event. A
- * parent that sets one radio's `checked` and not the others gets no event for the others: write every radio's
- * `checked` from one selected value. A radio without `name` has no group mate, so it warns in development.
+ * One option of a set, of which the user checks one. It renders a `<div>` around a native `<input type="radio">` and
+ * a label with the children as caption.
  *
- * Inside a `RadioGroup` the group owns the value: a Radio is identified by its `value`, is checked while the group
- * value equals it, and takes `name`, `disabled`, `required`, `form` (its own wins) and its tab stop from the group.
- * Its own `checked`, `defaultChecked`, `name` and `tabIndex` are ignored and `onCheckedChange` never fires; the
- * group's keys apply. A Radio without a `value` in a group can never be checked and warns in development.
+ * Radios with the same `name` form a native group. The browser unchecks the others, and the arrow keys move the
+ * focus and the check. When the user checks another radio of the group, this radio calls `onCheckedChange` with
+ * `false`.
  *
- * Without `checked` it is uncontrolled (`defaultChecked`, the DOM holds the state); with `checked` it is
- * controlled and a change the parent rejects is restored. It is a real form control (`FormData`,
- * `required`, reset, the `form` attribute, `fieldset[disabled]`). It takes no part in the FormField contract,
- * and has no read-only state or form state facts. `className`, `style`, `hidden` and `render` belong to the root; every
- * other attribute and `ref` belong to the input.
+ * If you control one radio with `checked`, control every radio of the group from one value. A radio without `name`
+ * has no group, so it warns in development.
+ *
+ * Inside a `RadioGroup`, the group owns the value. The Radio with the `value` of the group is checked. It takes
+ * `name`, `disabled`, `required`, `form` and its tab stop from the group, and its own `form` wins.
+ *
+ * Inside a `RadioGroup`, its own `checked`, `defaultChecked`, `name` and `tabIndex` have no effect. A Radio without
+ * a `value` in a group can never be checked, and it warns in development.
+ *
+ * It is a native form control: `FormData`, `required`, a form reset, the `form` prop and a disabled `fieldset` work.
+ * `className`, `style`, `hidden` and `render` go to the root; every other prop and `ref` go to the input.
  *
  * @example
  * <fieldset>

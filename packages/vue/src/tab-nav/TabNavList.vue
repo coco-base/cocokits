@@ -12,7 +12,12 @@ defineOptions({ name: 'CckTabNavList', inheritAttrs: false });
 
 withDefaults(defineProps<TabNavListProps>(), { as: 'div', asChild: false });
 defineSlots<{
-  /** The `TabNavLink`s and the `TabNavIndicator`. */
+  /**
+   * The `TabNavLink` parts and the `TabNavIndicator`. When not set, the list is empty.
+   *
+   * @example
+   * <TabNavList><TabNavLink href="/profile" active>Profile</TabNavLink><TabNavIndicator /></TabNavList>
+   */
   default?(): unknown;
 }>();
 

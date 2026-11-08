@@ -5,36 +5,42 @@ import type {
 } from '@cocokits/machines/badge-container';
 import type { RenderProp } from '../internal/render-element';
 
-/** The public state of the BadgeContainer, passed to the function form of `render`. */
+/** The state of the BadgeContainer that the function form of `render` receives. */
 export interface BadgeContainerState {
-  /** The corner its badge is pinned to. */
+  /** The corner that the Badge sits on. */
   readonly position: BadgeContainerPosition;
 }
 
 /**
- * The props the function form of `render` receives: the native div props, merged with the
- * BadgeContainer's own. Spread all of them, including `ref` and `children`, onto one element.
+ * The props that the function form of `render` receives: the native `div` props merged with the props of the
+ * BadgeContainer. Pass all of them, `ref` and `children` included, to one element.
  */
 export interface BadgeContainerRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'children'> {
-  /** The merged ref: the BadgeContainer's `ref`, and the rendered element's own `ref`. */
+  /** The merged ref: the `ref` of the BadgeContainer and the `ref` of the rendered element. */
   readonly ref: RefCallback<HTMLElement>;
-  /** The children, rendered unchanged. */
+  /** The children of the BadgeContainer, as you wrote them. */
   readonly children: ReactNode;
 }
 
-/**
- * Props of the {@link BadgeContainer}. Native `div` attributes pass through to the root, and
- * `ref` reaches it.
- */
+/** Props of the {@link BadgeContainer}. Native `div` props pass through, and `ref` reaches the element. */
 export interface BadgeContainerProps
   extends Omit<ComponentPropsWithRef<'div'>, 'color'>, Pick<MachineBadgeContainerProps, 'position'> {
-  /** The wrapped element and its Badge, rendered as written. */
+  /**
+   * The element to mark and its Badge, in the order you write them. The Badge must be a direct child. When not
+   * set, the container is empty.
+   *
+   * @example
+   * <BadgeContainer position="top-right">
+   *   <button type="button">Inbox</button>
+   *   <Badge content={2} />
+   * </BadgeContainer>
+   */
   children?: ReactNode | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the
-   * {@link BadgeContainerState}. The element form (its own children are replaced by the children of the container) works from a Server Component; the function form
-   * does not (a function is not serialisable). The function form must spread all the props it
-   * receives, including `ref` and `children`, onto one element.
+   * Replaces the `<div>` of the container. Pass an element, or a function of the merged props and the
+   * {@link BadgeContainerState}. The function must pass all props on, `ref` and `children` included, to one element.
+   *
+   * When not set, the container renders a `<div>`. The container replaces the children of the element with its own.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

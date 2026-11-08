@@ -26,7 +26,7 @@ export function dataNames(root: Element): string[] {
     .sort();
 }
 
-/** Asserts that every part of the meta renders its default element below the block root, with its class. */
+/** Asserts that every part of the meta renders its default element below the block root, which is the `cck-<block>` tag. */
 export function expectDefaultElements(
   root: Element,
   block: string,
@@ -36,6 +36,6 @@ export function expectDefaultElements(
   for (const [part, tag] of Object.entries(defaultElements)) {
     const element = part === 'root' ? root : root.querySelector(`.cck-${block}__${kebab(part)}`);
     if (!element) throw new Error(`The ${block} renders no ${part} part.`);
-    expect(element.localName, `${block} ${part}`).toBe(tag);
+    expect(element.localName, `${block} ${part}`).toBe(part === 'root' ? `cck-${block}` : tag);
   }
 }

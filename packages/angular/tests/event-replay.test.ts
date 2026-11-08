@@ -35,19 +35,21 @@ import { CckSelectImports } from '../select';
     <ng-container cckPopover>
       <button id="popover-open" cckPopoverTrigger>Open popover</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Share"><button id="popover-close" cckPopoverClose>Close</button></div>
+        <cck-popover-content aria-label="Share"
+          ><button id="popover-close" cckPopoverClose>Close</button></cck-popover-content
+        >
       </ng-template>
     </ng-container>
     <ng-container cckPopover>
       <button id="popover-veto" cckPopoverTrigger (click)="$event.preventDefault()">Vetoed popover</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent aria-label="Vetoed">Text</div>
+        <cck-popover-content aria-label="Vetoed">Text</cck-popover-content>
       </ng-template>
     </ng-container>
-    <div cckSelect aria-label="Dish">
-      <div cckSelectOption value="Cake">Cake</div>
-      <div cckSelectOption value="Pizza">Pizza</div>
-    </div>
+    <cck-select aria-label="Dish">
+      <cck-select-option value="Cake">Cake</cck-select-option>
+      <cck-select-option value="Pizza">Pizza</cck-select-option>
+    </cck-select>
   `,
 })
 class Root {

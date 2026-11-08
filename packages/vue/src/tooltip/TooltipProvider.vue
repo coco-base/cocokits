@@ -15,7 +15,14 @@ const props = withDefaults(defineProps<TooltipProviderProps>(), {
 });
 defineSlots<{
   /**
-   * The tooltips the provider gives its defaults and its delay group. The provider renders no element around them.
+   * The tooltips that take the defaults and the delay group of the provider. The provider renders no element around
+   * them. When not set, the provider has no effect.
+   *
+   * @example
+   * <TooltipProvider :delay-duration="300">
+   *   <TooltipRoot>...</TooltipRoot>
+   *   <TooltipRoot>...</TooltipRoot>
+   * </TooltipProvider>
    *
    * @cckSemantic none
    * @cckParity Not available in every framework.

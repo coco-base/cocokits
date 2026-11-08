@@ -8,7 +8,12 @@ defineOptions({ name: 'CckTabNavPanel', inheritAttrs: false });
 
 const props = withDefaults(defineProps<TabNavPanelProps>(), { hasActiveLink: true, as: 'div', asChild: false });
 defineSlots<{
-  /** The routed content, usually a router outlet. */
+  /**
+   * The routed content, usually a router outlet. When not set, the panel is empty.
+   *
+   * @example
+   * <TabNavPanel id="account-panel">The routed page.</TabNavPanel>
+   */
   default?(): unknown;
 }>();
 

@@ -36,11 +36,11 @@ function DialogDescriptionImpl({ render, ref, ...rest }: DialogDescriptionProps)
 }
 
 /**
- * Renders the `<p>` that describes the dialog; the content refers to it with `aria-describedby` while it is
- * mounted.
+ * The text that describes the dialog. It renders a `<p>`, which the content points to with `aria-describedby`
+ * while the description is mounted.
  *
  * @example
- * <Dialog.Description>This cannot be undone.</Dialog.Description>
+ * <Dialog.Description>You cannot undo this.</Dialog.Description>
  * @cckPart description
  * @param props - The Description props.
  * @returns The rendered element.

@@ -1,29 +1,34 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactNode, RefCallback } from 'react';
 import type { RenderProp } from '../internal/render-element';
 
-/** The public state of the Leading, passed to the function form of `render`. It has none. */
+/** The state of the Leading that the function form of `render` receives. The Leading has no state. */
 export type LeadingState = Readonly<Record<string, never>>;
 
 /**
- * The props the function form of `render` receives: the native div props, merged with the
- * Leading's own. Spread all of them, including `ref` and `children`, onto one element.
+ * The props that the function form of `render` receives: the native `div` props merged with the props of the
+ * Leading. Pass all of them, `ref` and `children` included, to one element.
  */
 export interface LeadingRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'children'> {
-  /** The merged ref: the Leading's `ref`, and the rendered element's own `ref`. */
+  /** The merged ref: the `ref` of the Leading and the `ref` of the rendered element. */
   readonly ref: RefCallback<HTMLElement>;
-  /** The children, rendered unchanged. */
+  /** The children of the Leading, as you wrote them. */
   readonly children: ReactNode;
 }
 
-/** Props of the {@link Leading}. Native `div` attributes pass through to the root, and `ref` reaches it. */
+/** Props of the {@link Leading}. Native `div` props pass through, and `ref` reaches the element. */
 export interface LeadingProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'children'> {
-  /** The content. */
+  /**
+   * The content of the Leading: an icon, a short text or a button. When not set, the Leading is empty.
+   *
+   * @example
+   * <Leading aria-hidden="true">@</Leading>
+   */
   readonly children?: ReactNode;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the
-   * {@link LeadingState}. The element form (its own children are replaced by the children of the Leading) works from a
-   * Server Component; the function form does not (a function is not serialisable). The function
-   * form must spread all the props it receives, including `ref` and `children`, onto one element.
+   * Replaces the `<div>` of the Leading. Pass an element, or a function of the merged props and the
+   * {@link LeadingState}. The function must pass all props on, `ref` and `children` included, to one element.
+   *
+   * When not set, the Leading renders a `<div>`. The Leading replaces the children of the element with its own.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

@@ -19,7 +19,7 @@ const themeConfig = defineThemeConfig({
   },
 });
 
-const template = `<div cckTabs aria-label="x"><div cckTab label="A">a</div></div>`;
+const template = `<cck-tabs aria-label="x"><cck-tab label="A">a</cck-tab></cck-tabs>`;
 
 describe('Tabs theme', () => {
   it('puts the theme attribute on every part with an element', async () => {

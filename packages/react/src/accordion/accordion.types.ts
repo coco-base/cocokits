@@ -1,53 +1,53 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, RefCallback } from 'react';
 import type { ChangeDetails, Direction } from '@cocokits/shared';
 import type { AccordionChangeReason, AccordionOrientation, AccordionType } from '@cocokits/machines/accordion';
+import type { RenderProp } from '../internal/render-element';
 
 export type { AccordionChangeReason, AccordionOrientation, AccordionType };
 
-/** What `onValueChange` receives besides the open value: the reason and the event behind it. */
+/** What `onValueChange` receives besides the open value: the `reason` and the `event` behind the change. */
 export type AccordionChangeDetails = ChangeDetails<AccordionChangeReason>;
 
-/** The public state of the Root, passed to the function form of `render`. */
+/** The state of the Root that the function form of `render` receives. */
 export interface AccordionState {
-  /** The orientation of the headers. */
+  /** The direction in which the headers are laid out. */
   readonly orientation: AccordionOrientation;
 }
 
-/** The public state of one Item, Header, Trigger or Content, passed to the function form of `render`. */
+/** The state of one Item, Header, Trigger or Content that the function form of `render` receives. */
 export interface AccordionItemState extends AccordionState {
   /** Whether the item is open. */
   readonly open: boolean;
-  /** Whether the item is disabled, by its own `disabled` or the Root's. */
+  /** Whether the item is disabled, by its own `disabled` or by the `disabled` of the Root. */
   readonly disabled: boolean;
 }
 
 /**
- * The props the function form of `render` receives: the native props merged with the part's own. Spread all of
- * them, including `ref`, onto one element.
+ * The props that the function form of `render` receives: the native props merged with the props of the part. Pass
+ * all of them, `ref` included, to one element.
  */
 export interface AccordionRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
   /** Any `data-*` attribute, such as `data-state` and the theme options. */
   readonly [attribute: `data-${string}`]: string | undefined;
-  /** The merged ref: the part's `ref`, the rendered element's own `ref` and the part's internal one. */
+  /** The merged ref: the `ref` of the part, the `ref` of the rendered element and the `ref` of the part itself. */
   readonly ref: RefCallback<HTMLElement>;
 }
 
-/**
- * The `render` prop of a part: an element, or a function of the merged props and the part's state. The function
- * form does not work from a Server Component.
- */
-type RenderProp<S> = ReactElement | ((props: AccordionRenderProps, state: S) => ReactElement);
-
-/** Props both kinds of Root share. Native `div` props pass through. */
+/** Props that both kinds of Root share. Native `div` props pass through. */
 interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'defaultValue' | 'dir'> {
   /**
-   * The items.
+   * The sections of the accordion: one `Accordion.Item` for each section. When not set, the accordion is empty.
    *
+   * @example
+   * <Accordion.Root type="single">
+   *   <Accordion.Item value="shipping">...</Accordion.Item>
+   *   <Accordion.Item value="returns">...</Accordion.Item>
+   * </Accordion.Root>
    * @cckSemantic accordion.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Whether every item is disabled: none is toggled by the user and the arrow keys skip them.
+   * Whether every item is disabled. The user cannot open or close an item, and the arrow keys skip the triggers.
    *
    * @defaultValue false
    * @cckSemantic accordion.disabled
@@ -55,7 +55,7 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    */
   readonly disabled?: boolean | undefined;
   /**
-   * Whether the headers are laid out in a column or a row; `horizontal` moves with Left and Right.
+   * The direction in which the headers are laid out. It also sets the arrow keys that move between the triggers.
    *
    * @defaultValue 'vertical'
    * @cckSemantic accordion.orientation
@@ -63,44 +63,51 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    */
   readonly orientation?: AccordionOrientation | undefined;
   /**
-   * The text direction of the accordion and everything inside it, like a `DirectionProvider`: the horizontal
-   * arrow keys follow it. Without it the nearest `DirectionProvider` applies, then `'ltr'`. Only a `dir` you pass
-   * is rendered on the element.
+   * The text direction of the accordion and everything inside it. The Left and Right arrow keys follow it. When
+   * not set, the nearest `DirectionProvider` applies, and then `'ltr'`.
+   *
+   * Only a `dir` you pass is written on the element.
    *
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly dir?: Direction | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the {@link AccordionState}.
-   * The function form must spread all the props it receives, including `ref`, onto one element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
+   * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
-  readonly render?: RenderProp<AccordionState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionState> | undefined;
 }
 
-/** Props of a {@link AccordionRoot} with `type="single"`: at most one item is open. */
+/** Props of an {@link AccordionRoot} with `type="single"`: at most one item is open. */
 export interface AccordionSingleRootProps extends AccordionRootBaseProps {
   /**
-   * `single` keeps at most one item open; `multiple` lets every item toggle on its own.
+   * How many items can be open at the same time.
    *
+   * @cckValue single - At most one item is open. Opening an item closes the open one.
    * @cckSemantic accordion.type
    * @cckParity Not available in every framework.
    */
   readonly type: 'single';
   /**
-   * The value of the open item, `''` when none is open. It makes the accordion controlled: a parent that does not
-   * update it after `onValueChange` keeps the old value. Without a value or `defaultValue` the accordion starts
-   * with every item closed.
+   * The value of the open item, or `''` when no item is open. Setting it makes the accordion controlled. If you do
+   * not update it after `onValueChange`, the old value stays.
+   *
+   * When not set, the accordion keeps its own value, which starts as `defaultValue`.
    *
    * @cckSemantic accordion.value
    * @cckParity The controlled value.
    */
   readonly value?: string | undefined;
   /**
-   * The initial value of an uncontrolled accordion, read once. Pass it for an open item in the server output.
+   * The start value of an accordion that you do not control with `value`. Pass it to render an open item on the
+   * server.
    *
    * @defaultValue ''
    * @cckSemantic none
@@ -108,15 +115,23 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    */
   readonly defaultValue?: string | undefined;
   /**
-   * Called after every change the user makes, with the new value (`''` when the open item closed) and the reason.
-   * Never when the parent sets `value`.
+   * Called after the user opens or closes an item. It receives the new value and a details object with the
+   * `reason` and the `event`. The value is `''` when the open item closed.
    *
+   * It is never called when you change `value` yourself.
+   *
+   * @example
+   * const [open, setOpen] = useState('shipping');
+   * <Accordion.Root type="single" collapsible value={open} onValueChange={(value) => setOpen(value)}>
+   *   ...
+   * </Accordion.Root>
    * @cckSemantic accordion.valueChange
    * @cckParity Not available in every framework.
    */
   readonly onValueChange?: ((value: string, details: AccordionChangeDetails) => void) | undefined;
   /**
-   * Whether the open item can be closed by clicking it again. The open trigger then has no `aria-disabled`.
+   * Whether the user can close the open item by pressing its trigger again. Without it, the open trigger has
+   * `aria-disabled="true"`.
    *
    * @defaultValue false
    * @cckSemantic accordion.collapsible
@@ -125,25 +140,29 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
   readonly collapsible?: boolean | undefined;
 }
 
-/** Props of a {@link AccordionRoot} with `type="multiple"`: every item toggles on its own. */
+/** Props of an {@link AccordionRoot} with `type="multiple"`: each item opens and closes on its own. */
 export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
   /**
-   * `single` keeps at most one item open; `multiple` lets every item toggle on its own.
+   * How many items can be open at the same time.
    *
+   * @cckValue multiple - Each item opens and closes on its own.
    * @cckSemantic accordion.type
    * @cckParity Not available in every framework.
    */
   readonly type: 'multiple';
   /**
-   * The values of the open items. It makes the accordion controlled: a parent that does not update it after
-   * `onValueChange` keeps the old value.
+   * The values of the open items. Setting it makes the accordion controlled. If you do not update it after
+   * `onValueChange`, the old value stays.
+   *
+   * When not set, the accordion keeps its own value, which starts as `defaultValue`.
    *
    * @cckSemantic accordion.value
    * @cckParity The controlled value.
    */
   readonly value?: readonly string[] | undefined;
   /**
-   * The initial values of an uncontrolled accordion, read once. Pass it for open items in the server output.
+   * The start values of an accordion that you do not control with `value`. Pass it to render open items on the
+   * server.
    *
    * @defaultValue []
    * @cckSemantic none
@@ -151,8 +170,10 @@ export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
    */
   readonly defaultValue?: readonly string[] | undefined;
   /**
-   * Called after every change the user makes, with the new list of open values and the reason. Never when the
-   * parent sets `value`.
+   * Called after the user opens or closes an item. It receives the new list of open values and a details object
+   * with the `reason` and the `event`.
+   *
+   * It is never called when you change `value` yourself.
    *
    * @cckSemantic accordion.valueChange
    * @cckParity Not available in every framework.
@@ -166,70 +187,89 @@ export type AccordionRootProps = AccordionSingleRootProps | AccordionMultipleRoo
 /** Props of the {@link AccordionItem}. Native `div` props pass through. */
 export interface AccordionItemProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
-   * The header and the content of the item.
+   * The header and the content of the item: an `Accordion.Header` and an `Accordion.Content`. When not set, the
+   * item is empty.
    *
+   * @example
+   * <Accordion.Item value="shipping">
+   *   <Accordion.Header>
+   *     <Accordion.Trigger>Shipping</Accordion.Trigger>
+   *   </Accordion.Header>
+   *   <Accordion.Content>Orders leave in two days.</Accordion.Content>
+   * </Accordion.Item>
    * @cckSemantic accordion.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * The key of the item in the open value. Unique inside the Root.
+   * The key of the item in the open value. It must be unique inside the Root.
    *
    * @cckSemantic accordion.item.value
    * @cckParity Not available in every framework.
    */
   readonly value: string;
   /**
-   * Whether the item is disabled: the user cannot toggle it and the arrow keys skip it. A controlled `value` can
-   * still open it.
+   * Whether the item is disabled. The user cannot open or close it, and the arrow keys skip its trigger. A
+   * controlled `value` can still open it.
    *
    * @defaultValue false
    * @cckSemantic accordion.item.disabled
    */
   readonly disabled?: boolean | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the
-   * {@link AccordionItemState}. The function form must spread all the props it receives, including `ref`, onto
-   * one element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
+   * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** Props of the {@link AccordionHeader}. Native `h3` props pass through. */
 export interface AccordionHeaderProps extends Omit<ComponentPropsWithRef<'h3'>, 'color'> {
   /**
-   * The trigger.
+   * The trigger of the item: an `Accordion.Trigger`. When not set, the heading is empty.
    *
+   * @example
+   * <Accordion.Header>
+   *   <Accordion.Trigger>Shipping</Accordion.Trigger>
+   * </Accordion.Header>
    * @cckSemantic accordion.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Replaces the rendered `<h3>`: an element such as `<h2 />`, or a function of the merged props and the
-   * {@link AccordionItemState}. Pick the level that fits the page outline. The function form must spread all the
-   * props it receives, including `ref`, onto one element.
+   * Replaces the `<h3>` of the header. Pass a heading such as `<h2 />` for the level that fits the page. You can
+   * also pass a function of the merged props and the state of the item.
+   *
+   * The function must pass all props on, `ref` included, to one element.
    *
    * @defaultValue 'h3'
    * @cckSemantic accordion.header.headingLevel
    * @cckParity Sets the heading level by replacing the rendered element.
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** Props of the {@link AccordionTrigger}. Native button props pass through. */
 export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 'color' | 'disabled' | 'value'> {
   /**
-   * The trigger text, which is also its accessible name.
+   * The text of the trigger, which is also its accessible name. When not set, the trigger has no name, so you
+   * must give it an `aria-label`.
    *
+   * @example
+   * <Accordion.Trigger>Shipping</Accordion.Trigger>
    * @cckSemantic accordion.label
    * @cckParity The label is the content of the trigger part.
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Whether the rendered element is a native `<button>`. Set `false` when `render` gives another element: it
-   * then gets `role="button"`, `tabindex="0"` and Enter and Space activation, no `type`, and `aria-disabled="true"`
-   * instead of `disabled`. In development a tag that does not match logs a `CocoKits:` error.
+   * Whether the rendered element is a native `<button>`. Set it to `false` when `render` gives another element.
+   *
+   * That element then gets `role="button"`, `tabindex="0"` and activation by Enter and Space. It gets no `type`,
+   * and `aria-disabled="true"` in place of `disabled`. In development, a tag that does not match logs an error.
    *
    * @defaultValue true
    * @cckSemantic none
@@ -237,27 +277,32 @@ export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'butto
    */
   readonly nativeButton?: boolean | undefined;
   /**
-   * Replaces the rendered `<button>`: an element, or a function of the merged props and the
-   * {@link AccordionItemState}. The function form must spread all the props it receives, including `ref`, onto
-   * one element. An element that is not a `<button>` also needs `nativeButton={false}`.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
+   * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element. An element that is not a `<button>` also needs
+   * `nativeButton={false}`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** Props of the {@link AccordionContent}. Native `div` props pass through. */
 export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
-   * The section body.
+   * The body of the section, shown while the item is open. When not set, the open section is empty.
    *
+   * @example
+   * <Accordion.Content>Orders leave in two days.</Accordion.Content>
    * @cckSemantic accordion.default
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Keeps the element and its children rendered while the item is closed. The element then has the native
-   * `hidden` attribute, so a form control inside still takes part in the form.
+   * Whether the content stays rendered while the item is closed. The element then has the native `hidden`
+   * attribute, so a form control inside still takes part in the form.
    *
    * @defaultValue false
    * @cckSemantic accordion.content.forceMount
@@ -265,14 +310,16 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    */
   readonly forceMount?: boolean | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the
-   * {@link AccordionItemState}. The function form must spread all the props it receives, including `ref`, onto
-   * one element.
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
+   * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders its own element.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** An Accordion part: a function component with its `displayName`. The Content renders nothing while closed. */

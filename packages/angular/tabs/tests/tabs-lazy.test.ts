@@ -29,11 +29,11 @@ beforeEach(() => {
 
 describe('Tabs lazy panels', () => {
   const DIRECT = `
-    <div cckTabs aria-label="x" [preserveContent]="keep">
-      <div cckTab label="A"><span class="a-body">A body</span></div>
-      <div cckTab label="B"><app-probe /></div>
-      <div cckTab label="C"><span class="c-body">C body</span></div>
-    </div>`;
+    <cck-tabs aria-label="x" [preserveContent]="keep">
+      <cck-tab label="A"><span class="a-body">A body</span></cck-tab>
+      <cck-tab label="B"><app-probe /></cck-tab>
+      <cck-tab label="C"><span class="c-body">C body</span></cck-tab>
+    </cck-tabs>`;
 
   it('renders every panel element with its attributes but only the selected panel content', async () => {
     const { container } = await render(DIRECT, { imports, componentProperties: { keep: false } });
@@ -77,10 +77,10 @@ describe('Tabs lazy panels', () => {
 
 describe('Tabs cckTabContent', () => {
   const LAZY = `
-    <div cckTabs aria-label="x" [preserveContent]="keep">
-      <div cckTab label="A">A body</div>
-      <div cckTab label="B"><ng-template cckTabContent><app-probe /></ng-template></div>
-    </div>`;
+    <cck-tabs aria-label="x" [preserveContent]="keep">
+      <cck-tab label="A">A body</cck-tab>
+      <cck-tab label="B"><ng-template cckTabContent><app-probe /></ng-template></cck-tab>
+    </cck-tabs>`;
 
   it('creates the template the first time its tab is selected and destroys it when the tab is left', async () => {
     const user = userEvent.setup();
@@ -124,10 +124,10 @@ describe('Tabs cckTabContent', () => {
   it('uses the config default when the input is left out', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckTabs aria-label="x">
-        <div cckTab label="A">A body</div>
-        <div cckTab label="B"><ng-template cckTabContent><app-probe /></ng-template></div>
-      </div>`,
+      `<cck-tabs aria-label="x">
+        <cck-tab label="A">A body</cck-tab>
+        <cck-tab label="B"><ng-template cckTabContent><app-probe /></ng-template></cck-tab>
+      </cck-tabs>`,
       { imports, providers: [{ provide: CCK_TABS_CONFIG, useValue: { preserveContent: true } }] },
     );
     await user.click(tab('B'));

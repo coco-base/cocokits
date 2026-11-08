@@ -31,26 +31,33 @@ import { containsDeep } from '@cocokits/utils';
 import { injectCckAccordion, type CckAccordionItemRegistration } from './accordion';
 import { CckAccordionLabel } from './accordion-label';
 
-/** The level of the heading that wraps the trigger: `1` renders an `h1`, `6` an `h6`. */
+/**
+ * The level of the heading that holds the button of an item.
+ * @cckValue 1 - An `h1` heading.
+ * @cckValue 2 - An `h2` heading.
+ * @cckValue 3 - An `h3` heading.
+ * @cckValue 4 - An `h4` heading.
+ * @cckValue 5 - An `h5` heading.
+ * @cckValue 6 - An `h6` heading.
+ */
 export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 /**
- * One section of an Accordion. The item renders its heading with one button (the trigger) and its content, and
- * the element you write holds the content. Give the trigger text with `label`, or markup with a
- * `cckAccordionLabel` template. `label`, `expanded`, `disabled` and `headingLevel` do not stay on the host
- * element. Closed content stays in the DOM and is `hidden`.
+ * One section of an accordion. It makes a heading with a button, called the trigger, and the content. The content you write inside it is the content of the section.
+ *
+ * Give the trigger its text with `label`, or its markup with a `cckAccordionLabel` template. The content of a closed item stays in the page and is `hidden`.
  *
  * @example
- * <div cckAccordionItem label="Shipping" [(expanded)]="open">Orders leave in two days.</div>
+ * <cck-accordion-item label="Shipping" [(expanded)]="open">Orders leave in two days.</cck-accordion-item>
  * @cckPart item
  * @cckPart header
  * @cckPart content
  * @cckSection trigger label label
- * @cckSlot default - The content of the section.
- * @cckSlot label ng-template[cckAccordionLabel] - The markup of the trigger, instead of the `label` text.
+ * @cckSlot default - The content of the section. When not set, the section is empty.
+ * @cckSlot label ng-template[cckAccordionLabel] - Your own markup for the trigger. When not set, the trigger shows the `label` text.
  */
 @Component({
-  selector: '[cckAccordionItem]',
+  selector: 'cck-accordion-item',
   exportAs: 'cckAccordionItem',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
@@ -178,34 +185,31 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 })
 export class CckAccordionItem implements CckAccordionItemRegistration {
   /**
-   * Whether the item is open. Two-way (`[(expanded)]`), one-way (the start state) or unbound. A write from the
-   * parent emits nothing; the user's clicks and the methods emit `expandedChange`.
+   * Whether the item is open. Use `[(expanded)]` to read and change it.
+   * @remarks Each item holds its own open state, and the accordion has no `value`. A change from the parent emits nothing. A click, a key and the methods emit `expandedChange`.
    * @defaultValue false
    * @cckSemantic none
-   * @remarks Each item holds its own open state; the accordion has no root-wide `value`.
    * @cckParity The open state lives on each item.
    */
   readonly expanded = model(false);
 
   /**
-   * Whether the item is disabled: the user cannot toggle it, `openAll` and `closeAll` of the root skip it
-   * and the arrow keys skip it. A write to `[expanded]` by the parent still opens or closes it.
-   * @remarks The accordion has no root-wide `disabled`; set it on each item.
+   * Whether the user cannot open or close the item. The arrow keys, `openAll` and `closeAll` skip it.
+   * @remarks The accordion has no `disabled` of its own, so set it on each item. A change of `[expanded]` from the parent still opens or closes it.
    * @defaultValue false
    * @cckSemantic accordion.item.disabled
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * The text of the trigger.
+   * The text of the trigger. When not set, the trigger shows the `cckAccordionLabel` template, or no text.
    * @cckSemantic none
-   * @remarks The item renders the trigger from this text.
    * @cckParity Only this framework has this member.
    */
   readonly label = input<string | undefined>(undefined);
 
   /**
-   * The level of the heading that wraps the trigger. Choose the level that fits the page outline.
+   * The level of the heading that holds the trigger. Choose the level that fits the outline of your page.
    * @defaultValue 3
    * @cckSemantic accordion.header.headingLevel
    */
@@ -214,19 +218,17 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   });
 
   /**
-   * Emits when the item opens by a click, a method of the item or the root, or a key. Never for a write from the
-   * parent.
+   * Emits when the item opens by a click, a key or a method. It never emits when the parent changes `expanded`.
+   * @remarks The accordion has no change event of its own, so listen on each item.
    * @cckSemantic none
-   * @remarks The accordion has no change event of its own; listen on each item.
    * @cckParity The open state lives on each item.
    */
   readonly opened = output();
 
   /**
-   * Emits when the item closes by a click, a method, or because single mode opened another item. Never for a
-   * write from the parent.
+   * Emits when the item closes by a click, a key or a method, or because another item opened. It never emits when the parent changes `expanded`.
+   * @remarks The accordion has no change event of its own, so listen on each item.
    * @cckSemantic none
-   * @remarks The accordion has no change event of its own; listen on each item.
    * @cckParity The open state lives on each item.
    */
   readonly closed = output();
@@ -238,7 +240,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   readonly _element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
   /** The accordion the item sits in. @internal */
-  protected readonly root = injectCckAccordion('cckAccordionItem');
+  protected readonly root = injectCckAccordion('cck-accordion-item');
 
   /** Whether the item is open: in single mode only one item is. */
   protected readonly isOpen = computed(() => this.root._openKeys().includes(this._id));
@@ -294,7 +296,12 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   }
 
   /**
-   * Opens the item. Does nothing while the item is disabled.
+   * Opens the item. It does nothing while the item is disabled.
+   * @example
+   * <cck-accordion>
+   *   <cck-accordion-item label="Shipping" #shipping="cckAccordionItem">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="shipping.open()">Show shipping</button>
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */
@@ -303,7 +310,12 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   }
 
   /**
-   * Closes the item. Does nothing while the item is disabled.
+   * Closes the item. It does nothing while the item is disabled.
+   * @example
+   * <cck-accordion>
+   *   <cck-accordion-item label="Shipping" #shipping="cckAccordionItem">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="shipping.close()">Hide shipping</button>
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */
@@ -312,7 +324,12 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   }
 
   /**
-   * Opens the item when it is closed and closes it when it is open. Does nothing while the item is disabled.
+   * Opens the item when it is closed, and closes it when it is open. It does nothing while the item is disabled.
+   * @example
+   * <cck-accordion>
+   *   <cck-accordion-item label="Shipping" #shipping="cckAccordionItem">Orders leave in two days.</cck-accordion-item>
+   * </cck-accordion>
+   * <button type="button" (click)="shipping.toggle()">Shipping</button>
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */

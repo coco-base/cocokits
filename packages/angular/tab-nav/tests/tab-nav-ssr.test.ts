@@ -36,7 +36,7 @@ describe('TabNav on the server', () => {
       expect(links.map((link) => attr(link, 'tabindex'))).toEqual(['-1', '0', '-1']);
       expect(links.map((link) => attr(link, 'aria-controls'))).toEqual(['first-panel', 'first-panel', 'first-panel']);
       for (const link of links) expect(link).not.toContain('aria-current');
-      const panel = /<div\b[^>]*id="first-panel"[^>]*>/.exec(html)?.[0] ?? '';
+      const panel = /<cck-tab-nav-panel\b[^>]*id="first-panel"[^>]*>/.exec(html)?.[0] ?? '';
       expect(attr(panel, 'role')).toBe('tabpanel');
       expect(attr(panel, 'tabindex')).toBe('0');
       expect(attr(panel, 'aria-labelledby')).toBe('link-b');

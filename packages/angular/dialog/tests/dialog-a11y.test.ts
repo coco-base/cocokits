@@ -23,7 +23,7 @@ describe('Dialog accessibility', () => {
         <ng-template cckDialogPortal>
           <dialog cckDialogContent>
             <h2 cckDialogTitle>Delete project</h2>
-            <p cckDialogDescription>This cannot be undone.</p>
+            <cck-dialog-description>This cannot be undone.</cck-dialog-description>
             <button cckDialogClose>Cancel</button>
           </dialog>
         </ng-template>
@@ -42,7 +42,7 @@ describe('Dialog accessibility', () => {
       `<ng-container cckDialog>
         <button cckDialogTrigger>Open</button>
         <ng-template cckDialogPortal>
-          <dialog cckDialogContent><h2 cckDialogTitle>Settings</h2><p cckDialogDescription>Change things.</p></dialog>
+          <dialog cckDialogContent><h2 cckDialogTitle>Settings</h2><cck-dialog-description>Change things.</cck-dialog-description></dialog>
         </ng-template>
       </ng-container>`,
       { imports },

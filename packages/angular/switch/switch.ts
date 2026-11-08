@@ -7,30 +7,31 @@ import {
 } from '@cocokits/angular/checkbox';
 import { getSwitchProps, switchAnatomy } from '@cocokits/machines/switch';
 
-/** Why the checked value of a Switch changed: the user toggled it (`'user'`) or the form was reset (`'form-reset'`). */
+/** Why the checked value of a Switch changed. */
 export type SwitchChangeReason = CheckControlChangeReason;
 
-/** The `reason` and `event` of a change. The `checkedChangeDetails` output emits them with the `value`. */
+/** The `reason` and the `event` of a change. The `checkedChangeDetails` output sends them with the `value`. */
 export type SwitchChangeDetails = CheckControlChangeDetails;
 
 /**
- * A switch: a native `<input type="checkbox" role="switch">` on a track, with its label. It is the Checkbox
- * without the mixed state, and everything the Checkbox says about forms, the FormField, `submitValue` and
- * `checked` applies. The host is the root (a `<div>` by default) and the content you write becomes the label,
- * next to the track.
+ * A switch that turns one setting on or off. It wraps a native `<input type="checkbox" role="switch">` on a track. The content you write inside it becomes the label, next to the track.
+ *
+ * The switch works with Signal Forms through `[formField]`. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. The native input is the form control, so `FormData`, `required`, form reset and a disabled `fieldset` work as usual.
+ *
+ * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the control or has tried to submit the form.
  *
  * @example
- * <div cckSwitch [(checked)]="notifications">Notifications</div>
+ * <cck-switch [(checked)]="notifications">Notifications</cck-switch>
  * @cckPart root
  * @cckPart label
  * @cckPart track
  * @cckPart input
  * @cckPart thumb
  * @cckPart backdrop
- * @cckSlot default - The label content.
+ * @cckSlot default - The text of the label. When not set, the label is empty, so name the switch with `aria-label`.
  */
 @Component({
-  selector: '[cckSwitch]',
+  selector: 'cck-switch',
   exportAs: 'cckSwitch',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],

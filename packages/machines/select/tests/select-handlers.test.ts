@@ -101,11 +101,11 @@ describe('blocked submit', () => {
     expect(parts.control).toMatchObject({ invalid: true, submitted: true });
   });
 
-  it('puts the message before the id of the field feedback', () => {
+  it('puts the message before the ids of the field hints', () => {
     const parts = getSelectProps(base({ blockedSubmit: true, ariaDescribedBy: 'hint' }), vi.fn(), {
-      ids: { control: 'ctl', feedback: 'fb', label: 'lb' },
+      ids: { control: 'ctl', feedback: 'fb', label: 'lb', hints: ['fh'] },
     });
-    expect(parts.trigger['aria-describedby']).toBe('hint s1-validation fb');
+    expect(parts.trigger['aria-describedby']).toBe('hint s1-validation fh');
   });
 
   it('changes nothing without a blocked submit', () => {

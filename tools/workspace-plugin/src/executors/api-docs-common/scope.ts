@@ -1,12 +1,12 @@
 import ts from 'typescript';
 import { withDefaultArguments } from './generic';
+import { docTextOf, tagsOfNode } from './jsdoc';
 import { checkParity, paragraphsOf } from './tags';
 import type { ApiSlotJson } from './types';
 
 type ScopeFields = NonNullable<ApiSlotJson['scope']>;
 
-const docOf = (node: ts.Node): string =>
-  paragraphsOf(ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '')[0] ?? '';
+const docOf = (node: ts.Node): string => paragraphsOf(docTextOf(node))[0] ?? '';
 
 /**
  * The scope a type literal declares, `{ /** The selected values. *\/ readonly selected: readonly string[] }`: one field
@@ -27,10 +27,7 @@ export function scopeOfType(
     if (!ts.isPropertySignature(member) || !ts.isIdentifier(member.name)) continue;
     const description = docOf(member);
     if (description === '') problems.push(`${owner}: the scope field "${member.name.text}" has no TSDoc description`);
-    const tags = ts.getJSDocTags(member).map((tag) => ({
-      name: tag.tagName.text,
-      comment: ts.getTextOfJSDocComment(tag.comment) ?? '',
-    }));
+    const tags = tagsOfNode(member);
     const frameworkOnly = checkParity(`${owner}: the scope field "${member.name.text}"`, tags, problems);
     fields.push({
       name: member.name.text,

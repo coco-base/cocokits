@@ -9,7 +9,12 @@ defineOptions({ name: 'CckPopoverTitle', inheritAttrs: false });
 
 withDefaults(defineProps<PopoverTitleProps>(), { as: 'h2', asChild: false });
 defineSlots<{
-  /** The title text. */
+  /**
+   * The text of the title. When not set, the title is empty and the popover needs another name.
+   *
+   * @example
+   * <PopoverTitle>Share</PopoverTitle>
+   */
   default?(): unknown;
 }>();
 

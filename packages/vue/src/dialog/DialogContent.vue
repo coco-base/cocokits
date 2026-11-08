@@ -36,7 +36,17 @@ defineOptions({ name: 'CckDialogContent', inheritAttrs: false });
 
 const props = withDefaults(defineProps<DialogContentProps>(), { forceMount: false });
 defineSlots<{
-  /** The content of the dialog: a `DialogTitle`, a `DialogDescription`, the body and `DialogClose` buttons. */
+  /**
+   * The content of the dialog: a `DialogTitle`, a `DialogDescription`, the body and `DialogClose` buttons. When not
+   * set, the dialog is empty.
+   *
+   * @example
+   * <DialogContent>
+   *   <DialogTitle>Delete project</DialogTitle>
+   *   <DialogDescription>This cannot be undone.</DialogDescription>
+   *   <DialogClose>Cancel</DialogClose>
+   * </DialogContent>
+   */
   default?(): unknown;
 }>();
 

@@ -32,15 +32,13 @@ function SelectValueImpl<V = unknown>({
 }
 
 /**
- * Renders what the trigger shows: a `<span>` (or your `render` element) with the placeholder while nothing is
- * selected, and the selected labels joined with `, ` otherwise. The labels come from the Root's `items`, else
- * `itemToStringLabel`, else the value as text, so they are in the server render. Give it children to show
- * something else: a node, or a function of the value (a `T`, or the list with `multiple`) that is not called while
- * nothing is selected. Native span props pass through.
+ * The text that the trigger shows. It renders a `<span>` with the placeholder while nothing is selected, and with the selected labels, joined with a comma, otherwise.
+ *
+ * The labels come from the `items` of the Root, then from `itemToStringLabel`, then from the value as text. So they are in the server render. Give it children to show something else. Native `span` props pass through.
  *
  * @example
  * <Select.Value placeholder="Choose a dish" />
- * @typeParam V - The type of the value the children function receives.
+ * @typeParam V - The type of the value that the children function receives.
  * @cckPart value
  * @cckPart placeholder
  * @param props - The Value props.

@@ -58,8 +58,13 @@ const props = withDefaults(defineProps<TooltipContentProps>(), {
 const emit = defineEmits<TooltipContentEmits>();
 defineSlots<{
   /**
-   * The text of the tooltip. Keep it free of interactive content: it never takes focus. Text only, it is also the
-   * description of the trigger while the tooltip is closed, unless `ariaLabel` is set.
+   * The text of the tooltip. Keep it free of interactive content, because it never takes the focus. When not set,
+   * the tooltip is empty.
+   *
+   * While the tooltip is closed, its text also describes the trigger, unless `ariaLabel` is set.
+   *
+   * @example
+   * <TooltipContent>Save the draft</TooltipContent>
    */
   default?(): unknown;
 }>();

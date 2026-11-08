@@ -15,7 +15,7 @@ import {
   type Signal,
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
-import { CckDirection, IdGenerator, themeAttrs } from '@cocokits/angular-core';
+import { CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import {
   getRadioGroupProps,
   radioGroupAnatomy,
@@ -28,15 +28,14 @@ import {
   type RadioGroupState,
 } from '@cocokits/machines/radio-group';
 import type { ValueChangeDetails } from '@cocokits/shared';
-import { sortByDomOrder } from '@cocokits/utils';
 
-/** Why the value of a Radio group changed: the user checked a radio (`'user'`) or the form was reset (`'form-reset'`). */
+/** Why the value of a Radio group changed. */
 export type RadioGroupChangeReason = MachineChangeReason;
 
 /** Which arrow keys move through the radios of a group. */
 export type RadioGroupOrientation = MachineOrientation;
 
-/** What the value details output of a Radio group emits. */
+/** What `valueChangeDetails` sends: the new `value`, the `reason` and the `event`. */
 export type RadioGroupChangeDetails = ValueChangeDetails<string | null, RadioGroupChangeReason>;
 
 /** What a radio tells the group about itself. @internal */
@@ -54,40 +53,27 @@ export interface CckRadioGroupRegistration {
 }
 
 /**
- * Sorts the radios into document order.
+ * A group of radios with one value. You write `cck-radio` elements inside it. The group is the `radiogroup` element.
  *
- * @param radios - The registered radios.
- * @returns A new array in document order.
- */
-function inDomOrder(radios: readonly CckRadioGroupRegistration[]): CckRadioGroupRegistration[] {
-  const byElement = new Map(radios.map((radio) => [radio.element, radio]));
-  return sortByDomOrder(radios.map((radio) => radio.element)).flatMap((element) => byElement.get(element) ?? []);
-}
-
-/**
- * A group of Radios with one value. Put it on the element that holds the `cckRadio` elements (a `div` by
- * default); the host is the `radiogroup`. The group is one tab stop: Tab enters at the checked radio, else the
- * first enabled one, and the arrow keys move the focus and the check to the next enabled radio. Each radio is
- * identified by its `submitValue`; it is checked while that equals the group's `value`, and it takes the
- * group's `name`, `disabled` and `required`. Name the group with `aria-labelledby` (a visible caption) or
- * `aria-label` on the host.
+ * Each radio is checked while its `submitValue` equals the `value` of the group. Each radio takes the `name`, `disabled` and `required` of the group. Name the group with `aria-labelledby` or `aria-label`.
  *
- * The value is a model: `[(value)]`, `[value]` or unbound. The group is a Signal Forms custom control and,
- * through the static `ngNoCva` attribute, also binds to `formControlName`, `[formControl]` and `ngModel`. The
- * radios are native inputs, so `FormData`, `required`, `form` and `reset` work; a reset restores the value the
- * group had when it mounted.
+ * The group is one tab stop. Tab moves the focus to the checked radio, or to the first enabled radio. The arrow keys move the focus and the check to the next enabled radio.
+ *
+ * The value is a model. Use `[(value)]` to read and change it, `[value]` to only set it, or no binding. The group works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`.
+ *
+ * The radios are native inputs, so `FormData`, `required`, `form` and form reset work. A form reset sets the value back to the value at the first render.
  *
  * @example
  * <span id="plan-label">Plan</span>
- * <div cckRadioGroup aria-labelledby="plan-label" [(value)]="plan">
- *   <div cckRadio submitValue="free">Free</div>
- *   <div cckRadio submitValue="pro">Pro</div>
- * </div>
+ * <cck-radio-group aria-labelledby="plan-label" [(value)]="plan">
+ *   <cck-radio submitValue="free">Free</cck-radio>
+ *   <cck-radio submitValue="pro">Pro</cck-radio>
+ * </cck-radio-group>
  * @cckPart root
- * @cckSlot default - The `cckRadio` elements.
+ * @cckSlot default - The `cck-radio` elements. When not set, the group is empty.
  */
 @Directive({
-  selector: '[cckRadioGroup]',
+  selector: 'cck-radio-group',
   exportAs: 'cckRadioGroup',
   host: {
     ngNoCva: '',
@@ -107,68 +93,73 @@ function inDomOrder(radios: readonly CckRadioGroupRegistration[]): CckRadioGroup
 })
 export class CckRadioGroup implements FormValueControl<string | null> {
   /**
-   * The value of the checked radio; `null` checks none. A value that matches no radio is kept and checks none.
-   * Two-way, one-way (the start value) or unbound. A write from the parent or a forms library never emits the
-   * details output.
+   * The `submitValue` of the checked radio. `null` checks no radio.
+   * @remarks A value that matches no radio is kept, and no radio is checked. Changing the value from code never emits `valueChangeDetails`.
    * @cckSemantic radio-group.value
    * @defaultValue null
    */
   readonly value = model<string | null>(null);
 
   /**
-   * Emits after every change the user makes (a radio checked by click, label, Space or an arrow key) and after
-   * a form reset that changes the value, with the new value and the reason. Never for a write from the parent.
+   * Emits after the user checks a radio, and after a form reset that changes the value. It sends the new `value`, the `reason` and the `event`.
+   * @remarks The user can check a radio with a click, the label, Space or an arrow key. It never emits when the parent or a forms library changes the value.
+   * @example
+   * <cck-radio-group aria-label="Plan" (valueChangeDetails)="onChange($event)">
+   *   <cck-radio submitValue="free">Free</cck-radio>
+   *   <cck-radio submitValue="pro">Pro</cck-radio>
+   * </cck-radio-group>
+   * <!-- In the class: onChange(details: RadioGroupChangeDetails) { console.log(details.value, details.reason); } -->
    * @cckSemantic radio-group.valueChange
    */
   readonly valueChangeDetails = output<RadioGroupChangeDetails>();
 
   /**
-   * The `name` every radio of the group shares and that `FormData` submits. Left out, a stable name is
-   * generated, so the browser unchecks the peers and `required` works. Not rendered on the host.
+   * The `name` that every radio of the group shares. `FormData` sends it with the value. When not set, the group makes a stable name, so `required` still works.
+   * @remarks The host does not get the attribute.
    * @cckSemantic radio-group.name
    * @defaultValue generated
    */
   readonly name = input('');
 
   /**
-   * Whether every radio is disabled. A radio's own `disabled` and a disabling `fieldset` add to it.
+   * Whether the user cannot use any radio of the group. A radio can also be disabled on its own or by a disabled `fieldset`.
    * @cckSemantic radio-group.disabled
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether one radio must be checked (native `required` on every radio, `aria-required` on the host).
+   * Whether one radio must be checked before the form can submit. Every radio gets the native `required`, and the group gets `aria-required`.
    * @cckSemantic radio-group.required
    * @defaultValue false
    */
   readonly required = input(false, { transform: booleanAttribute });
 
   /**
-   * The id of the form the radios belong to (native `form`), for radios that have none of their own. Not
-   * rendered on the host.
+   * The `id` of the form that the radios belong to. A radio with its own `form` keeps it. When not set, the form around the group owns the radios.
    * @cckSemantic radio-group.form
    */
   readonly form = input<string | undefined>(undefined);
 
   /**
-   * Limits the arrow keys to one axis; unset, both axes move. It also sets `aria-orientation`.
+   * Which arrow keys move between the radios. It also sets `aria-orientation`. When not set, all four arrow keys move.
    * @cckSemantic radio-group.orientation
    * @defaultValue both axes
    */
-  readonly orientation = input<'horizontal' | 'vertical' | undefined>(undefined);
+  readonly orientation = input<RadioGroupOrientation | undefined>(undefined);
 
   /**
-   * Whether the arrow keys wrap from the last radio to the first and back.
+   * Whether the arrow keys go from the last radio to the first, and from the first to the last.
    * @cckSemantic radio-group.loop
    * @defaultValue true
    */
   readonly loop = input(true, { transform: booleanAttribute });
 
   /**
-   * Emits when focus leaves the group (not when it moves between its radios), for Signal Forms' touched state.
+   * Emits when the focus leaves the group. Signal Forms listens to it to mark the field as touched.
+   * @remarks It does not emit when the focus moves between the radios.
+   * @cckGroup forms
    * @cckSemantic none
-   * @remarks A Signal Forms output.
    * @cckParity Signal Forms bind this output.
    */
   readonly touch = output();
@@ -182,7 +173,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   private readonly ordered = linkedSignal<ReadonlySet<CckRadioGroupRegistration>, readonly CckRadioGroupRegistration[]>(
     {
       source: this.registry,
-      computation: (radios) => inDomOrder([...radios]),
+      computation: (radios) => sortByDomOrderOf([...radios], (radio) => radio.element),
     },
   );
 
@@ -223,7 +214,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (radio) => radio.element);
         if (sorted.some((radio, index) => radio !== current[index])) this.ordered.set(sorted);
       },
     });

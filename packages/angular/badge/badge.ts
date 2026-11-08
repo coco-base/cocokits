@@ -3,15 +3,14 @@ import { CckAttrs, themeAttrs } from '@cocokits/angular-core';
 import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
 
 /**
- * A count, a short text or an empty badge. It renders the content part and, when the number is above
- * `max`, the max indicator (`+`) into the author's element (a `<span>` by default, inside a button
- * a phrasing element). To pin it to a corner, make it a direct child of a `[cckBadgeContainer]`; the
- * badge itself knows nothing about the position.
- * It has no role and no ARIA: the shown text is read in place, so put the meaning of an empty badge in
- * the host's name.
+ * A small mark that shows a count, a short text or nothing. When the count is above `max`, it shows `max` and a `+`.
+ *
+ * To pin the badge to a corner of an element, put it directly inside a `cck-badge-container`.
+ *
+ * The badge has no role and no ARIA attributes, so screen readers read its text where it is. An empty badge says nothing, so put its meaning in the name of the element it marks.
  *
  * @example
- * <span cckBadge [content]="5"></span>
+ * <cck-badge [content]="5" [max]="99"></cck-badge>
  * @cckPart root
  * @cckPart content
  * @cckPart maxIndicator
@@ -19,7 +18,7 @@ import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
  * @cckDataAttr data-truncated - present when the content is above `max`
  */
 @Component({
-  selector: '[cckBadge]',
+  selector: 'cck-badge',
   exportAs: 'cckBadge',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
@@ -40,18 +39,18 @@ import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
 })
 export class CckBadge {
   /**
-   * The count or text to show. `null`, `undefined`, an empty string and the number `0` show an empty badge.
+   * The count or the text to show. When not set, the badge is empty.
+   * @remarks `null`, an empty string and the number `0` also show an empty badge.
    */
   readonly content = input<number | string | null | undefined>();
 
   /**
-   * The largest count shown. A numeric content above it shows this value and a `+`. Unset or `0`
-   * never truncates.
+   * The largest count to show. A larger count shows this value and a `+`. When not set, or when `0`, every count shows in full.
    */
   readonly max = input<number | undefined, unknown>(undefined, { transform: numberAttribute });
 
   /**
-   * Whether the badge is hidden with the native `hidden` attribute and renders no content.
+   * Whether the badge is hidden with the native `hidden` attribute. A hidden badge shows no content.
    * @defaultValue false
    */
   readonly hide = input(false, { transform: booleanAttribute });

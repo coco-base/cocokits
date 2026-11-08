@@ -10,7 +10,7 @@ import { CckInputImports } from '../index';
 const imports = [...CckInputImports, ...CckFormFieldImports, ...CckLabelImports, ...CckHintImports];
 
 const field = (attrs: string, input: string): string =>
-  `<div cckFormField ${attrs}><label cckLabel>Email address</label><input cckInput ${input} /><div cckHint>We only use it for the receipt.</div><div cckHint>Second hint.</div></div>`;
+  `<cck-form-field ${attrs}><label cckLabel>Email address</label><input cckInput ${input} /><cck-hint>We only use it for the receipt.</cck-hint><cck-hint>Second hint.</cck-hint></cck-form-field>`;
 
 describe('Input accessibility', () => {
   it.each([

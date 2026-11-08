@@ -5,21 +5,18 @@ import { formFieldIds } from '@cocokits/machines/form-field';
 import { getLabelProps, labelAnatomy } from '@cocokits/machines/label';
 
 /**
- * The visible label of a control, on a native `<label>`. Inside a `[cckFormField]` with a CocoKits
- * control (the Input), `for` points at that control by itself, whatever order the two are written in,
- * and the label ends with a `*` marker while the field's control is required. Set `for` to choose
- * another control or to label a native control; set `hideRequiredMarker` on the field to hide the
- * marker. A control that is not labelable names itself with `aria-labelledby` and the id of the label.
- * It works on its own, outside a field, and sets no style.
+ * The visible label of a control, on a native `<label>`. It works inside a `cck-form-field` and on its own.
+ *
+ * Inside a form field with a CocoKits control, `for` points at that control without your help. The order of the label and the control does not matter. While the control is required, the label ends with a `*` marker. To hide the marker, set `hideRequiredMarker` on the field.
+ *
+ * A control that cannot take a `<label>` names itself with `aria-labelledby` and the id of the label.
  *
  * @example
- * <div cckFormField>
- *   <label cckLabel>Email address</label>
- *   <input cckInput type="email" required />
- * </div>
+ * <label cckLabel for="email">Email address</label>
+ * <input id="email" type="email" required />
  * @cckPart root
  * @cckPart requiredMarker
- * @cckSlot default - The label text, as written.
+ * @cckSlot default - The text of the label. When not set, the label is empty and names nothing.
  */
 @Component({
   selector: 'label[cckLabel]',
@@ -44,14 +41,13 @@ export class CckLabel {
   private readonly field = inject(CckFormField, { optional: true });
 
   /**
-   * The id of the control to label. Inside a field with a CocoKits control it defaults to that control's
-   * id; an explicit value always wins.
+   * The `id` of the control that the label names. Use it for a native control or for another control. When not set, the label points at the CocoKits control of the form field, or at nothing outside a field.
    */
   readonly forId = input<string | undefined>(undefined, { alias: 'for' });
 
   /**
-   * The id of the label, static or bound. Without one, inside a field, the label takes the field's generated
-   * label id; either way the field hands the id on to a control that names itself by the label.
+   * The `id` of the label. When not set, the label gets an id from the form field, or no id outside a field.
+   * @remarks The form field gives the id to a control that names itself with the label.
    * @cckSemantic none
    * @cckParity Declared as an input.
    */

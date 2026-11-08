@@ -28,17 +28,16 @@ describe('Select value and labels', () => {
   describe('a single Select', () => {
     @Component({
       imports: [...CckSelectImports],
-      template: `<div
-        cckSelect
+      template: `<cck-select
         aria-label="Dish"
         placeholder="Choose"
         [(value)]="value"
         (selectionChange)="changes.push($event)"
       >
-        <div cckSelectOption [value]="null">None</div>
-        <div cckSelectOption value="cake">Cake</div>
-        <div cckSelectOption value="pizza"><span aria-hidden="true">*</span> Pizza</div>
-      </div>`,
+        <cck-select-option [value]="null">None</cck-select-option>
+        <cck-select-option value="cake">Cake</cck-select-option>
+        <cck-select-option value="pizza"><span aria-hidden="true">*</span> Pizza</cck-select-option>
+      </cck-select>`,
     })
     class Single {
       readonly value = signal<string | null | undefined>(undefined);
@@ -88,7 +87,7 @@ describe('Select value and labels', () => {
     it('keeps the text of an option up to date', async () => {
       const text = signal('Cake');
       const { fixture } = await render(
-        `<div cckSelect aria-label="Dish" value="cake"><div cckSelectOption value="cake">{{ text() }}</div></div>`,
+        `<cck-select aria-label="Dish" value="cake"><cck-select-option value="cake">{{ text() }}</cck-select-option></cck-select>`,
         { imports: [...CckSelectImports], componentProperties: { text } },
       );
       expect(shown()).toBe('Cake');
@@ -101,11 +100,11 @@ describe('Select value and labels', () => {
   });
 
   describe('canSelectNullableOptions', () => {
-    const template = (attribute: string): string => `<div cckSelect aria-label="Dish" placeholder="Choose" ${attribute}
+    const template = (attribute: string): string => `<cck-select aria-label="Dish" placeholder="Choose" ${attribute}
       [(value)]="value">
-        <div cckSelectOption [value]="null">Nothing</div>
-        <div cckSelectOption value="cake">Cake</div>
-      </div>`;
+        <cck-select-option [value]="null">Nothing</cck-select-option>
+        <cck-select-option value="cake">Cake</cck-select-option>
+      </cck-select>`;
 
     it('selects a null option like any other and shows its label', async () => {
       const user = userEvent.setup();
@@ -158,9 +157,9 @@ describe('Select value and labels', () => {
       ];
       const value = signal<Dish | null | undefined>({ id: 2, name: 'copy' });
       const { container } = await render(
-        `<div cckSelect aria-label="Dish" name="dish" [(value)]="value" [compareWith]="same" [itemToStringValue]="id">
-          @for (dish of dishes; track dish.id) { <div cckSelectOption [value]="dish">{{ dish.name }}</div> }
-        </div>`,
+        `<cck-select aria-label="Dish" name="dish" [(value)]="value" [compareWith]="same" [itemToStringValue]="id">
+          @for (dish of dishes; track dish.id) { <cck-select-option [value]="dish">{{ dish.name }}</cck-select-option> }
+        </cck-select>`,
         {
           imports: [...CckSelectImports],
           componentProperties: {
@@ -181,11 +180,11 @@ describe('Select value and labels', () => {
   describe('a multiple Select', () => {
     @Component({
       imports: [...CckSelectImports],
-      template: `<div cckSelect multiple aria-label="Dish" [(value)]="value" [sortComparator]="comparator()">
-        <div cckSelectOption value="a">Apple</div>
-        <div cckSelectOption value="b">Banana</div>
-        <div cckSelectOption value="c">Cherry</div>
-      </div>`,
+      template: `<cck-select multiple aria-label="Dish" [(value)]="value" [sortComparator]="comparator()">
+        <cck-select-option value="a">Apple</cck-select-option>
+        <cck-select-option value="b">Banana</cck-select-option>
+        <cck-select-option value="c">Cherry</cck-select-option>
+      </cck-select>`,
     })
     class Multiple {
       readonly select = viewChild.required(CckSelect);
@@ -222,10 +221,10 @@ describe('Select value and labels', () => {
   describe('custom trigger', () => {
     it('gives the template the selected values', async () => {
       await render(
-        `<div cckSelect aria-label="Dish" placeholder="Choose" value="cake">
+        `<cck-select aria-label="Dish" placeholder="Choose" value="cake">
           <ng-template cckSelectTrigger let-selected="selected">{{ selected.length }} chosen: {{ selected[0] }}</ng-template>
-          <div cckSelectOption value="cake">Cake</div>
-        </div>`,
+          <cck-select-option value="cake">Cake</cck-select-option>
+        </cck-select>`,
         { imports: [...CckSelectImports] },
       );
       expect(shown()).toBe('1 chosen: cake');

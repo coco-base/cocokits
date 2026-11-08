@@ -10,14 +10,14 @@ import { stubOverlayApis } from './overlay-stubs';
     <ng-container cckPopover [open]="true">
       <button cckPopoverTrigger>Open</button>
       <ng-template cckPopoverPortal>
-        <div cckPopoverContent>
+        <cck-popover-content>
           @if (titled()) {
             <h2 cckPopoverTitle>Settings</h2>
           }
           @if (described()) {
-            <p cckPopoverDescription>Change how it looks.</p>
+            <cck-popover-description>Change how it looks.</cck-popover-description>
           }
-        </div>
+        </cck-popover-content>
       </ng-template>
     </ng-container>
   `,
@@ -61,7 +61,7 @@ describe('Popover title and description', () => {
     await render(
       `<ng-container cckPopover [open]="true">
         <button cckPopoverTrigger>Open</button>
-        <ng-template cckPopoverPortal><div cckPopoverContent>Unnamed</div></ng-template>
+        <ng-template cckPopoverPortal><cck-popover-content>Unnamed</cck-popover-content></ng-template>
       </ng-container>`,
       { imports: [...CckPopoverImports] },
     );

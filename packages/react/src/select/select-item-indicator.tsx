@@ -24,9 +24,7 @@ function SelectItemIndicatorImpl({ render, ref, ...rest }: SelectItemIndicatorPr
 }
 
 /**
- * Renders the decorative mark of an item (a check, or a box with `multiple`): a `<span aria-hidden="true">` (or your
- * `render` element). Its look comes from the theme and the `data-selected` of the item. Native span props pass
- * through.
+ * The mark that shows an item is selected: a check, or a box with `multiple`. It renders a `<span aria-hidden="true">`. Its look comes from the theme and from the `data-selected` of the item.
  *
  * @example
  * <Select.ItemIndicator />

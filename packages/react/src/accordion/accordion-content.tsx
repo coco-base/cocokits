@@ -50,11 +50,13 @@ function AccordionContentImpl({
 }
 
 /**
- * Renders the `<div role="region">` of one item, named by its trigger. Closed content is not rendered; with
- * `forceMount` the element and its children stay rendered and the element has the native `hidden` attribute. After
- * mount it carries `--accordion-content-height` and `--accordion-content-width` for the open and close animation,
- * and stays rendered until the exit animation has finished. Native `div` props pass through, and `ref` reaches the
- * element.
+ * The body of one item. It renders a `<div role="region">` that its trigger names. Native `div` props pass through,
+ * and `ref` reaches the element.
+ *
+ * Closed content is not rendered. With `forceMount`, it stays rendered with the native `hidden` attribute.
+ *
+ * After mount, it sets `--accordion-content-height` and `--accordion-content-width` for the open and close
+ * animation. It stays rendered until the close animation has finished.
  *
  * @example
  * <Accordion.Content>Orders leave in two days.</Accordion.Content>

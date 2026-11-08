@@ -36,11 +36,11 @@ function PopoverDescriptionImpl({ render, ref, ...rest }: PopoverDescriptionProp
 }
 
 /**
- * Renders the `<p>` that describes the popover; the content refers to it with `aria-describedby` while it is
- * mounted.
+ * The text that describes the popover. It renders a `<p>`, which the content points to with `aria-describedby`
+ * while the description is mounted.
  *
  * @example
- * <Popover.Description>Anyone with the link can view.</Popover.Description>
+ * <Popover.Description>Anyone with the link can view it.</Popover.Description>
  * @cckPart description
  * @param props - The Description props.
  * @returns The rendered element.

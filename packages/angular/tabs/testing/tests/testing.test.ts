@@ -9,17 +9,17 @@ import { CckTabHarness, CckTabsHarness } from '../index';
 @Component({
   imports: [CckTabsImports],
   template: `
-    <div cckTabs aria-label="Account" [selectedIndex]="1">
-      <div cckTab label="Account">Account body</div>
-      <div cckTab label="Password">
+    <cck-tabs aria-label="Account" [selectedIndex]="1">
+      <cck-tab label="Account">Account body</cck-tab>
+      <cck-tab label="Password">
         <ng-template cckTabContent>Password body <b class="bold">strong</b></ng-template>
-      </div>
-      <div cckTab [label]="locked" aria-label="Locked tab" disabled>Locked body</div>
-    </div>
-    <div cckTabs aria-label="Kept">
-      <div cckTab label="First">First body</div>
-      <div cckTab label="Second">Second body</div>
-    </div>
+      </cck-tab>
+      <cck-tab [label]="locked" aria-label="Locked tab" disabled>Locked body</cck-tab>
+    </cck-tabs>
+    <cck-tabs aria-label="Kept">
+      <cck-tab label="First">First body</cck-tab>
+      <cck-tab label="Second">Second body</cck-tab>
+    </cck-tabs>
   `,
 })
 class Host {

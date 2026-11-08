@@ -18,8 +18,8 @@ import { CckTabNavImports } from '../index';
       <a cckTabNavLink href="#b" active id="link-b">B</a>
       <a cckTabNavLink href="#c">C</a>
     </nav>
-    <div cckTabNavPanel #first="cckTabNavPanel" id="first-panel">First panel</div>
-    <div cckTabNavPanel #second="cckTabNavPanel" id="second-panel">Second panel</div>
+    <cck-tab-nav-panel #first="cckTabNavPanel" id="first-panel">First panel</cck-tab-nav-panel>
+    <cck-tab-nav-panel #second="cckTabNavPanel" id="second-panel">Second panel</cck-tab-nav-panel>
     <nav cckTabNav aria-label="None active" [tabPanel]="second">
       <a cckTabNavLink href="#d" disabled>D</a>
       <a cckTabNavLink href="#e">E</a>

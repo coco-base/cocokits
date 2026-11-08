@@ -35,12 +35,18 @@ interface HintComponent {
 }
 
 /**
- * Renders a `<div>` by default with a short help text under a control. It has no role and
- * wires nothing: the author sets `id` on the Hint and `aria-describedby` with that id on the
- * control. It works the same outside a FormField. Native div attributes pass through, and `ref`
- * reaches the div.
+ * A short help text under a control. It renders a `<div>` with no role. Native `div` props pass through, and `ref`
+ * reaches the element.
+ *
+ * Pass it to the `hint` prop of a `FormField`, and it describes the control. A Hint without an `id` gets
+ * `<fieldId>-hint-<n>`.
+ *
+ * Outside a `FormField`, it links to nothing by itself. Set an `id` on the Hint, and the same id in the
+ * `aria-describedby` of the control.
  *
  * @example
+ * <label htmlFor="email">Email</label>
+ * <input id="email" type="email" aria-describedby="email-hint" />
  * <Hint id="email-hint">We only use it for the receipt.</Hint>
  * @cckPart root
  * @param props - The Hint props.

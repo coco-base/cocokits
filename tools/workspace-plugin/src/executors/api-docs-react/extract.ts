@@ -1,23 +1,36 @@
 import { basename } from 'node:path';
 import ts from 'typescript';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
-import { aliasResolverAt, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
+import {
+  aliasResolverAt,
+  aliasValuesOf,
+  createTsProgram,
+  expandAliases,
+  isOwn,
+  sharedTypeProblems,
+} from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
+import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
-import { checkParity, checkPartDoc, frameworkOnlyOf, paragraphsOf } from '../api-docs-common/tags';
-import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
-import { posix } from '../posix-path';
+import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
+import {
+  checkParity,
+  checkPartDoc,
+  frameworkOnlyOf,
+  paragraphsOf,
+  partDocFields,
+  tagsOf,
+} from '../api-docs-common/tags';
+import type {
+  ApiDocJson,
+  ApiMemberJson,
+  ApiPartJson,
+  ApiSlotJson,
+  ApiValueJson,
+  TagEntry,
+} from '../api-docs-common/types';
 import { displayTextOf } from './display-text';
-
-/**
- * Whether a declaration belongs to the package or the workspace: native button props, the DOM and the React types
- * come from `node_modules` or the TypeScript library and are not part of the CocoKits API.
- */
-function isOwnDeclaration(program: ts.Program, declaration: ts.Declaration): boolean {
-  const file = declaration.getSourceFile();
-  return !program.isSourceFileDefaultLibrary(file) && !posix(file.fileName).includes('/node_modules/');
-}
 
 const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
   symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
@@ -52,10 +65,11 @@ function propOf(
   asSlot: boolean,
 ): ApiMemberJson | undefined {
   const declaration = symbol.valueDeclaration ?? symbol.declarations?.[0];
-  if (!declaration || !isOwnDeclaration(program, declaration)) return undefined;
+  if (!declaration || !isOwn(program, declaration)) return undefined;
   const required = (symbol.flags & ts.SymbolFlags.Optional) === 0;
   const written = withDefaultArguments(typeTextOf(checker, symbol, declaration), enclosingDefaults(declaration));
-  const type = expandAliases(written, aliasResolverAt(checker, declaration));
+  const resolve = aliasResolverAt(program, declaration);
+  const type = expandAliases(written, resolve);
   const member = memberOf(
     componentName,
     {
@@ -64,6 +78,7 @@ function propOf(
       required,
       description: displayTextOf(symbol.getDocumentationComment(checker)),
       tags: tagsOfSymbol(checker, symbol),
+      aliasValues: aliasValuesOf(written, resolve),
     },
     partName,
     problems,
@@ -72,7 +87,7 @@ function propOf(
     const where = basename(declaration.getSourceFile().fileName);
     problems.push(`${partName}.${symbol.name}: no TSDoc description (declared in ${where})`);
   }
-  return member;
+  return member && placeAt(member, declaration);
 }
 
 /** Whether a prop is a slot: its declared type is `ReactNode` or `React.ReactNode`, with or without `undefined` or `null`. */
@@ -123,10 +138,40 @@ function scopeOf(
   fn: ts.FunctionTypeNode,
   owner: string,
   problems: string[],
+  tags: readonly TagEntry[],
 ): NonNullable<ApiSlotJson['scope']> {
   const parameter = fn.parameters[0]?.type;
   const type = parameter === undefined ? undefined : checker.getTypeFromTypeNode(parameter);
-  return (type?.getProperties() ?? []).map((property) => {
+  const properties = (type?.getProperties() ?? []).filter((property) => !isPrimitiveMember(type, property));
+  if (properties.length === 0 && parameter !== undefined) {
+    // A parameter that is not an object (`(value: V) => ReactNode`) is one field, named after the parameter; its text
+    // is the `@param` tag of the prop.
+    const name = fn.parameters[0]?.name.getText() ?? 'value';
+    const text = tagsOf(tags, 'param')
+      .map((tag) =>
+        tag.startsWith(`${name} `)
+          ? tag
+              .slice(name.length)
+              .replace(/^\s*-?\s*/, '')
+              .trim()
+          : '',
+      )
+      .find((tagText) => tagText !== '');
+    if (text === undefined)
+      problems.push(`${owner}: the function parameter "${name}" needs a "@param ${name} - ..." tag`);
+    // The field has no TSDoc of its own: a `@cckParity` reason on the prop says the function form is this
+    // framework's own, so the field exists here only by design.
+    const frameworkOnly = tagsOf(tags, 'cckParity').some((reason) => reason !== '');
+    return [
+      {
+        name,
+        type: withDefaultArguments(parameter.getText().replace(/\s+/g, ' '), enclosingDefaults(parameter)),
+        description: paragraphsOf(text ?? '')[0] ?? '',
+        ...(frameworkOnly ? { semanticId: 'none' as const } : {}),
+      },
+    ];
+  }
+  return properties.map((property) => {
     const declaration = property.valueDeclaration ?? property.declarations?.[0];
     const description = paragraphsOf(displayTextOf(property.getDocumentationComment(checker)))[0] ?? '';
     if (description === '') problems.push(`${owner}: the scope field "${property.name}" has no TSDoc description`);
@@ -149,6 +194,15 @@ function scopeOf(
   });
 }
 
+/** Whether a member belongs to a primitive's apparatus (`toString` of a string), not to a scope object. */
+function isPrimitiveMember(type: ts.Type | undefined, property: ts.Symbol): boolean {
+  return (
+    type !== undefined &&
+    (type.flags & (ts.TypeFlags.StringLike | ts.TypeFlags.NumberLike | ts.TypeFlags.BooleanLike)) !== 0 &&
+    property.name !== ''
+  );
+}
+
 /** Whether a prop is an event: a CocoKits callback named `on<Thing>` (the native `on*` handlers are not own declarations). */
 function isEvent(symbol: ts.Symbol): boolean {
   return /^on[A-Z]/.test(symbol.name);
@@ -157,7 +211,8 @@ function isEvent(symbol: ts.Symbol): boolean {
 /**
  * The members of the branches of a union props type, in one list. A member of every branch keeps its first branch's
  * text, with the types of the other branches joined by `|` (`'single' | 'multiple'`), and is required only when every
- * branch requires it; a member of some branches only is optional.
+ * branch requires it; a member of some branches only is optional. Its value meanings are those of every branch, the
+ * first meaning of a value winning, so each branch can mean its own literal.
  */
 function mergeBranches(branches: readonly ApiMemberJson[][]): ApiMemberJson[] {
   const names = [...new Set(branches.flatMap((list) => list.map((member) => member.name)))];
@@ -167,13 +222,19 @@ function mergeBranches(branches: readonly ApiMemberJson[][]): ApiMemberJson[] {
     const [head] = own;
     if (head === undefined) return [];
     const types = [...new Set(own.map((member) => member.type))];
-    return [
-      {
-        ...head,
-        type: types.join(' | '),
-        required: found.every((member) => member?.required === true),
-      },
-    ];
+    const meanings = new Map<string, ApiValueJson>();
+    for (const value of own.flatMap((member) => member.values ?? [])) {
+      if (!meanings.has(value.value)) meanings.set(value.value, value);
+    }
+    const values = [...meanings.values()];
+    const merged: ApiMemberJson = {
+      ...head,
+      type: types.join(' | '),
+      required: found.every((member) => member?.required === true),
+      ...(values.length > 0 ? { values } : {}),
+    };
+    // The merged member keeps the place of its first branch, where its type names are read.
+    return [placeAt(merged, placeOf(head))];
   });
 }
 
@@ -261,7 +322,21 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
           if (member === undefined) return [];
           return fn === undefined
             ? [member]
-            : [{ ...member, scope: scopeOf(checker, fn, `${component.name}.${symbol.name}`, problems) }];
+            : [
+                placeAt(
+                  {
+                    ...member,
+                    scope: scopeOf(
+                      checker,
+                      fn,
+                      `${component.name}.${symbol.name}`,
+                      problems,
+                      tagsOfSymbol(checker, symbol),
+                    ),
+                  },
+                  placeOf(member),
+                ),
+              ];
         }) ?? [];
       return {
         name: component.name,
@@ -269,14 +344,29 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
         anatomyPart: part,
         ...frameworkOnlyOf(component.name, tags, problems),
         description: paragraphsOf(displayTextOf(component.getDocumentationComment(checker)))[0] ?? '',
+        ...partDocFields(displayTextOf(component.getDocumentationComment(checker)), tags),
         props,
         events,
         slots,
         methods: [],
       };
     });
-    return { component: name, framework: 'react', parts };
+    const partNames = new Set(parts.map((part) => `${part.name}Props`));
+    const types =
+      source === undefined
+        ? []
+        : exportedTypesOf(
+            program,
+            checker,
+            source,
+            name,
+            (item) => partNames.has(item),
+            problems,
+            memberTypeTexts(parts),
+          );
+    return { component: name, framework: 'react', parts, ...(types.length > 0 ? { types } : {}) };
   });
+  problems.push(...sharedTypeProblems(program));
   if (problems.length > 0) throw problemsError(problems);
   return docs;
 }

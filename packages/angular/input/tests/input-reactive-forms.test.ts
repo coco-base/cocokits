@@ -24,14 +24,14 @@ const imports = [ReactiveFormsModule, FormsModule, ...CckInputImports, ...CckFor
   imports,
   template: `
     <form [formGroup]="group" (ngSubmit)="submits.update((n) => n + 1)">
-      <div cckFormField>
+      <cck-form-field>
         <input
           cckInput
           formControlName="email"
           aria-label="Email"
           (valueChangeDetails)="emitted.update((n) => n + 1)"
         />
-      </div>
+      </cck-form-field>
     </form>
   `,
 })

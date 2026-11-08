@@ -39,6 +39,16 @@ describe('getFormFieldControlProps', () => {
     expect(root['aria-describedby']).toBe('a');
   });
 
+  it('lists the author ids, then every hint id, then every error id, and not the feedback wrapper', () => {
+    const described = formFieldIds('f', { hints: [undefined, 'mine'], errors: [undefined] });
+    const { root } = getFormFieldControlProps({ ariaDescribedBy: 'a' }, { ids: described });
+    expect(root['aria-describedby']).toBe('a f-hint-1 mine f-error-1');
+  });
+
+  it('has no description from the field when it holds no hint and no error', () => {
+    expect(getFormFieldControlProps({}, { ids }).root['aria-describedby']).toBeUndefined();
+  });
+
   it('reports the effective id and facts, with filled', () => {
     const { control } = getFormFieldControlProps({ filled: true, touched: true }, { ids });
     expect(control).toMatchObject({ id: 'f-control', filled: true, touched: true });

@@ -2,19 +2,24 @@ import type { Component } from 'vue';
 import type { AsTag } from '@cocokits/vue-core';
 
 /**
- * Renders a `<div>` by default with content inside the box, after the control: a unit, an icon or a button. It is a
- * plain wrapper: it adds no ARIA and wires nothing, and its text is not part of the control's name or description.
- * Give an icon `aria-hidden="true"` and a button its own accessible name. Pass it to the `suffix` slot of a
- * FormField to place it; it also works outside a FormField. Native attributes fall through to the root.
+ * Content inside the box, after the control: a unit, an icon or a button. It renders a `<div>` and adds no ARIA. Its
+ * text is not part of the name or the description of the control.
+ *
+ * Give an icon `aria-hidden="true"`, and give a button its own accessible name. Put it in the `suffix` slot of a
+ * FormField to place it. It also works outside a FormField. Native attributes fall through to the root.
  *
  * @example
- * <FormField><template #suffix><Suffix>kg</Suffix></template><template #label><Label>Weight</Label></template><Input /></FormField>
+ * <FormField>
+ *   <template #label><Label>Weight</Label></template>
+ *   <template #suffix><Suffix>kg</Suffix></template>
+ *   <Input />
+ * </FormField>
  *
  * @cckPart root
  */
 export interface SuffixProps {
   /**
-   * The tag or component to render.
+   * The tag or component to render. It is ignored with `asChild`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with `as`.
@@ -22,8 +27,8 @@ export interface SuffixProps {
    */
   readonly as?: AsTag | Component | undefined;
   /**
-   * Whether the Suffix merges its attributes onto the one element or component child of its
-   * default slot instead of rendering an element.
+   * Whether the Suffix merges its attributes onto the one element or component child of its default slot,
+   * instead of rendering an element.
    *
    * @cckSemantic none
    * @cckParity Merges the props onto the single child.

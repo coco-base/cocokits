@@ -12,7 +12,7 @@ function tags(html: string, tag: string): Record<string, string | undefined>[] {
 describe('Radio group on the server', () => {
   it('renders the root facts, one generated name, the checked attribute and no tabindex', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
-    const root = tags(html, 'div').find((div) => div.role === 'radiogroup');
+    const root = tags(html, 'cck-radio-group').find((div) => div.role === 'radiogroup');
     expect(root).toBeDefined();
     expect(root?.class).toContain('cck-radio-group');
     expect(root?.['aria-required']).toBe('true');

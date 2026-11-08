@@ -263,13 +263,13 @@ describe('Select in a FormField', () => {
     );
   }
 
-  it('is the control of the field: control id, label for, described by the feedback, required marker', () => {
+  it('is the control of the field: control id, label for, described by the hint, required marker', () => {
     const { container } = render(<Field />);
     const label = screen.getByText('Dish', { selector: 'label' });
     expect(trigger().id).toMatch(/-control$/);
     expect(label.getAttribute('for')).toBe(trigger().id);
-    const feedback = must(container.querySelector<HTMLElement>('.cck-form-field__feedback-wrapper'));
-    expect(trigger().getAttribute('aria-describedby')).toBe(feedback.id);
+    const hint = must(container.querySelector<HTMLElement>('.cck-hint'));
+    expect(trigger().getAttribute('aria-describedby')).toBe(hint.id);
     expect(trigger().getAttribute('aria-required')).toBe('true');
     expect(label.textContent).toContain('*');
     expect(screen.getByRole('combobox', { name: /Dish/ })).toBe(trigger());
@@ -290,13 +290,13 @@ describe('Select in a FormField', () => {
       );
     }
     const { container } = render(<Described />);
-    const feedback = must(container.querySelector<HTMLElement>('.cck-form-field__feedback-wrapper'));
+    const hint = must(container.querySelector<HTMLElement>('.cck-hint'));
     const ids = (): string[] => (trigger().getAttribute('aria-describedby') ?? '').split(' ').sort();
-    expect(ids()).toEqual(['mine', feedback.id].sort());
+    expect(ids()).toEqual(['mine', hint.id].sort());
     await user.click(trigger());
     await user.click(await screen.findByRole('option', { name: 'Cake' }));
     await gone();
-    expect(ids()).toEqual(['mine', feedback.id].sort());
+    expect(ids()).toEqual(['mine', hint.id].sort());
   });
 
   it('gives the field its facts: filled, focused, required', async () => {

@@ -10,14 +10,13 @@ import { providers } from './helpers';
 
 @Component({
   imports: [CckBadgeImports, CckBadgeTheme],
-  template: `<span
-    cckBadge
+  template: `<cck-badge
     data-testid="badge"
     [content]="5"
     [variant]="variant()"
     [color]="color()"
     [size]="size()"
-  ></span>`,
+  ></cck-badge>`,
 })
 class Host {
   readonly variant = signal<CckBadgeVariant | null | undefined>(undefined);
@@ -27,9 +26,9 @@ class Host {
 
 @Component({
   imports: [CckBadgeImports, CckBadgeContainerImports, CckBadgeTheme],
-  template: `<div cckBadgeContainer [position]="position">
-    <span cckBadge data-testid="badge" color="danger"></span>
-  </div>`,
+  template: `<cck-badge-container [position]="position">
+    <cck-badge data-testid="badge" color="danger"></cck-badge>
+  </cck-badge-container>`,
 })
 class InContainer {
   readonly position = 'bottom-left';
@@ -37,9 +36,9 @@ class InContainer {
 
 @Component({
   imports: [CckBadgeImports, CckBadgeTheme],
-  template: `<strong cckBadge data-testid="badge" [size]="size"></strong>`,
+  template: `<cck-badge data-testid="badge" [size]="size"></cck-badge>`,
 })
-class OnStrong {
+class WithSize {
   readonly size = 'lg';
 }
 
@@ -107,9 +106,9 @@ describe('CckBadgeTheme', () => {
     expect(badge().getAttribute('data-cck-color')).toBe('danger');
   });
 
-  it('themes the attribute selector on a non-span element', async () => {
-    await render(OnStrong, themed);
-    expect(badge().tagName).toBe('STRONG');
+  it('themes the tag selector', async () => {
+    await render(WithSize, themed);
+    expect(badge().tagName).toBe('CCK-BADGE');
     expect(attrs()).toEqual({ variant: 'rounded', color: 'contrast', size: 'lg' });
   });
 });

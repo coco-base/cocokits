@@ -26,7 +26,7 @@ describe('Tabs on the server', () => {
     expect(tabs[3]).toContain('aria-selected="false"');
     expect(tabs[4]).toContain('aria-selected="true"');
     expect(html).toContain('aria-orientation="vertical"');
-    const panels = [...html.matchAll(/<div\b[^>]*role="tabpanel"[^>]*>/g)].map((match) => match[0]);
+    const panels = [...html.matchAll(/<cck-tab\b[^>]*role="tabpanel"[^>]*>/g)].map((match) => match[0]);
     expect(panels).toHaveLength(7);
     expect(panels[0]).toContain('hidden');
     expect(panels[1]).not.toContain('hidden');
@@ -48,7 +48,7 @@ describe('Tabs on the server', () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
     const ids = new Set([...html.matchAll(/\sid="([^"]*)"/g)].map((match) => match[1]));
     const tabs = [...html.matchAll(/<button\b[^>]*role="tab"[^>]*>/g)].map((match) => match[0]);
-    const panels = [...html.matchAll(/<div\b[^>]*role="tabpanel"[^>]*>/g)].map((match) => match[0]);
+    const panels = [...html.matchAll(/<cck-tab\b[^>]*role="tabpanel"[^>]*>/g)].map((match) => match[0]);
     for (const tab of tabs) expect(ids.has(attr(tab, 'aria-controls') ?? ''), tab).toBe(true);
     for (const panel of panels) expect(ids.has(attr(panel, 'aria-labelledby') ?? ''), panel).toBe(true);
     expect(attr(tabs[1] ?? '', 'id')).toBe('password-tab');

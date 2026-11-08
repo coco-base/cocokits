@@ -9,10 +9,10 @@ import { CckRadioHarness } from '../index';
 @Component({
   imports: [CckRadioImports],
   template: `
-    <div cckRadio name="plan" submitValue="free" [(checked)]="free" required>Free</div>
-    <div cckRadio name="plan" submitValue="pro" [(checked)]="pro">Pro</div>
-    <div cckRadio name="plan" submitValue="team" disabled>Team</div>
-    <div cckRadio name="other" submitValue="x">Other</div>
+    <cck-radio name="plan" submitValue="free" [(checked)]="free" required>Free</cck-radio>
+    <cck-radio name="plan" submitValue="pro" [(checked)]="pro">Pro</cck-radio>
+    <cck-radio name="plan" submitValue="team" disabled>Team</cck-radio>
+    <cck-radio name="other" submitValue="x">Other</cck-radio>
   `,
 })
 class Host {

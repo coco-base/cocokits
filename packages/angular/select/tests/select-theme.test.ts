@@ -32,9 +32,9 @@ const themeConfig = defineThemeConfig({
 });
 
 const template = `
-  <div cckSelect aria-label="Dish" value="Cake">
-    <div cckSelectOptionGroup label="Desserts"><div cckSelectOption value="Cake">Cake</div></div>
-  </div>`;
+  <cck-select aria-label="Dish" value="Cake">
+    <cck-select-option-group label="Desserts"><cck-select-option value="Cake">Cake</cck-select-option></cck-select-option-group>
+  </cck-select>`;
 
 describe('Select theme', () => {
   beforeEach(() => {
@@ -47,7 +47,7 @@ describe('Select theme', () => {
   it('puts the theme attribute on every part, the internal and the portaled ones included', async () => {
     const user = userEvent.setup();
     await render(
-      `<div cckSelect aria-label="Dish" placeholder="Choose"><div cckSelectOptionGroup label="D"><div cckSelectOption value="Cake">Cake</div></div></div>`,
+      `<cck-select aria-label="Dish" placeholder="Choose"><cck-select-option-group label="D"><cck-select-option value="Cake">Cake</cck-select-option></cck-select-option-group></cck-select>`,
       {
         imports: [...CckSelectImports],
         providers: [provideCckTheme(themeConfig)],

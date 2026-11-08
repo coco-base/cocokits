@@ -3,13 +3,14 @@ import { afterReplay, bindAttrs, listenLast } from '@cocokits/angular-core';
 import { injectCckPopover } from './popover';
 
 /**
- * A button that closes the Popover. Place it in the content. It gives no label: write one, or an
- * `aria-label` for an icon-only button.
+ * A button that closes the popover, on a native `<button>`. Put it inside the content. It gets no label of its own, so write one, or add `aria-label` to a button with only an icon.
  *
  * @example
- * <button cckPopoverClose>Close</button>
+ * <cck-popover-content aria-label="Share this page">
+ *   <button cckPopoverClose type="button">Close</button>
+ * </cck-popover-content>
  * @cckPart close
- * @cckSlot default - The button label.
+ * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
  */
 @Directive({
   selector: 'button[cckPopoverClose]',

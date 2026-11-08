@@ -25,7 +25,10 @@ defineOptions({ name: 'CckTabsTrigger', inheritAttrs: false });
 const props = withDefaults(defineProps<TabsTriggerProps>(), { disabled: false, as: 'button', asChild: false });
 defineSlots<{
   /**
-   * The label of the trigger: text and icons.
+   * The label of the trigger: text and icons. When not set, the trigger has no accessible name.
+   *
+   * @example
+   * <TabsTrigger value="account">Account</TabsTrigger>
    *
    * @cckSemantic tabs.label
    * @cckParity The label is the content of the trigger part.

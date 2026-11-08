@@ -57,7 +57,11 @@ function rootProps(
     readonly: native(facts.readOnly),
     required: native(facts.required),
     'aria-invalid': invalidShown(facts) ? 'true' : undefined,
-    'aria-describedby': mergeDescribedBy(props.ariaDescribedBy, field?.ids?.feedback),
+    'aria-describedby': mergeDescribedBy(
+      props.ariaDescribedBy,
+      ...(field?.ids?.hints ?? []),
+      ...(field?.ids?.errors ?? []),
+    ),
   };
 }
 

@@ -16,11 +16,11 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { CckAttrs, CckDirection, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, CckDirection, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { scrollItemIntoList, trackActiveIndicator, type ActiveIndicator } from '@cocokits/cdk/active-indicator';
 import { createRovingFocus } from '@cocokits/cdk/roving-focus';
 import { getTabNavProps, resolveTabNavStop, tabNavAnatomy, type TabNavParts } from '@cocokits/machines/tab-nav';
-import { hasAccessibleName, sortByDomOrder } from '@cocokits/utils';
+import { hasAccessibleName } from '@cocokits/utils';
 
 import type { CckTabNavPanel } from './tab-nav-panel';
 
@@ -37,35 +37,22 @@ export interface CckTabNavRegistration {
 }
 
 /**
- * Sorts the links into document order.
+ * Navigation links that look like tabs, on a native `<nav>`. You write one `<a cckTabNavLink>` for each page. Name the `nav` with `aria-label` or `aria-labelledby`.
  *
- * @param links - The registered links.
- * @returns A new array in document order.
- */
-function inDomOrder(links: readonly CckTabNavRegistration[]): CckTabNavRegistration[] {
-  const byElement = new Map(links.map((link) => [link._element, link]));
-  return sortByDomOrder(links.map((link) => link._element)).flatMap((element) => byElement.get(element) ?? []);
-}
-
-/**
- * TabNav: navigation links that look like tabs. Write one `a[cckTabNavLink]` per destination inside the host;
- * the host renders the list around them, with one sliding indicator that follows the active link. The links
- * stay links: there is no selection state here, so the author marks the current link `active` (from the
- * router). Name the `nav` with `aria-label` or `aria-labelledby`; they stay on the host.
+ * The nav makes the list around the links, with one moving indicator under the active link. The links stay links, and the nav keeps no selection. Mark the link of the current page with `active`.
  *
- * Link a `cckTabNavPanel` with `tabPanel` when the links drive an outlet: the list becomes a `tablist`, the
- * links become `tab`s that control the panel, the active link is the one Tab stop and the arrow keys move
- * focus between the links without navigating.
+ * @remarks When the links show their pages in one outlet, put the outlet in a `cck-tab-nav-panel` and pass it to `tabPanel`. The list then becomes a `tablist`, and the links become tabs that control the panel. The active link is the one Tab stop, and the arrow keys move the focus without opening a page.
  *
  * @example
- * <nav cckTabNav aria-label="Project">
- *   <a cckTabNavLink href="#overview" active>Overview</a>
- *   <a cckTabNavLink href="#activity">Activity</a>
+ * <nav cckTabNav aria-label="Project" [tabPanel]="panel">
+ *   <a cckTabNavLink routerLink="/overview" [active]="true">Overview</a>
+ *   <a cckTabNavLink routerLink="/activity">Activity</a>
  * </nav>
+ * <cck-tab-nav-panel #panel="cckTabNavPanel"><router-outlet /></cck-tab-nav-panel>
  * @cckPart root
  * @cckPart list
  * @cckPart indicator
- * @cckSlot default - The `cckTabNavLink` anchors.
+ * @cckSlot default - The `<a cckTabNavLink>` links. When not set, the list is empty.
  */
 @Component({
   selector: 'nav[cckTabNav]',
@@ -95,10 +82,9 @@ function inDomOrder(links: readonly CckTabNavRegistration[]): CckTabNavRegistrat
 })
 export class CckTabNav {
   /**
-   * The panel the links control, from a `cckTabNavPanel` template reference. It switches the nav to panel mode
-   * (tabs with one Tab stop and arrow keys); leave it out for plain links.
+   * The panel that the links control. Pass the template reference of a `cck-tab-nav-panel`, not its id. When not set, the links are plain links.
+   * @remarks With a panel, the links become tabs with one Tab stop, and the arrow keys move between them.
    * @cckSemantic none
-   * @remarks Takes the panel directive itself, not its id.
    * @cckParity Takes the panel directive, not its id, because the nav reads its id and tells it the active link.
    */
   readonly tabPanel = input<CckTabNavPanel | undefined>(undefined);
@@ -114,7 +100,7 @@ export class CckTabNav {
   /** The links in document order. */
   private readonly ordered = linkedSignal<ReadonlySet<CckTabNavRegistration>, readonly CckTabNavRegistration[]>({
     source: this.registry,
-    computation: (links) => inDomOrder([...links]),
+    computation: (links) => sortByDomOrderOf([...links], (link) => link._element),
   });
 
   private readonly direction = inject(CckDirection);
@@ -154,7 +140,7 @@ export class CckTabNav {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (link) => link._element);
         if (sorted.some((link, index) => link !== current[index])) this.ordered.set(sorted);
       },
     });

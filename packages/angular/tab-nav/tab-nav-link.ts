@@ -13,16 +13,18 @@ import { tabNavAnatomy } from '@cocokits/machines/tab-nav';
 import { injectCckTabNav, type CckTabNavRegistration } from './tab-nav';
 
 /**
- * One link of a TabNav. It stays a native link (also a router link: put it on the `a` that carries
- * `routerLink`). The active link renders `aria-current="page"`; a disabled link renders `aria-disabled="true"`,
- * leaves the tab order, keeps its `href` and does not navigate. With a linked panel the links are `tab`s
- * instead: the active one has `aria-selected="true"` and no `aria-current`, Space activates a link. `active`
- * and `disabled` do not stay on the host element.
+ * One link of a tab nav, on a native `<a>`. It stays a native link, and it can carry `routerLink`. The active link gets `aria-current="page"`.
+ *
+ * A disabled link gets `aria-disabled="true"`, leaves the tab order and keeps its `href`. A click on it does not open the page.
+ *
+ * With a panel, the links are tabs. The active link then gets `aria-selected="true"` and no `aria-current`. Space opens a link.
  *
  * @example
- * <a cckTabNavLink href="/overview" active>Overview</a>
+ * <nav cckTabNav aria-label="Project">
+ *   <a cckTabNavLink routerLink="/overview" [active]="true">Overview</a>
+ * </nav>
  * @cckPart link
- * @cckSlot default - The link content.
+ * @cckSlot default - The text of the link. When not set, the link is empty, so name it with `aria-label`.
  * @cckDataAttr data-active - present on the active link
  * @cckDataAttr data-disabled - present when disabled
  */
@@ -47,19 +49,19 @@ import { injectCckTabNav, type CckTabNavRegistration } from './tab-nav';
 })
 export class CckTabNavLink implements CckTabNavRegistration, OnInit {
   /**
-   * Whether this link is the current page; the author sets it from the router. The indicator follows it.
+   * Whether the link is the link of the current page. Set it from your router. The indicator moves under the active link.
    * @defaultValue false
    */
   readonly active = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the link is disabled: it is out of the tab order and its activation is prevented.
+   * Whether the user cannot use the link. It leaves the tab order, and a click does not open its page.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * The id of the link, which the linked panel is labelled by while the link is active. Generated when left out.
+   * The `id` of the link. While the link is active, the panel is named by it. When not set, the link gets a generated id.
    * @cckSemantic none
    * @cckParity Declared as an input; the directive forwards it to the element.
    */

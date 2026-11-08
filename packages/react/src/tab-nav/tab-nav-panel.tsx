@@ -42,13 +42,14 @@ function TabNavPanelImpl({ id, hasActiveLink = true, render, ref, children, ...r
 }
 
 /**
- * Renders the `<div role="tabpanel">` that the links of a `TabNav.Root` with `tabPanel` drive, usually around a
- * router outlet. It may sit anywhere in the page. It is reachable with Tab (`tabindex="0"`) and labelled by the
- * active link (`aria-labelledby="<id>-tab"`) while `hasActiveLink` is `true`; an `aria-labelledby` you pass wins.
- * Native `div` props pass through, and `ref` reaches the element.
+ * The panel that the links of a `TabNav.Root` with `tabPanel` drive, most often around the outlet of the router. It
+ * renders a `<div role="tabpanel" tabindex="0">` and can sit anywhere in the page.
+ *
+ * While `hasActiveLink` is `true`, the active link names it with `aria-labelledby="<id>-tab"`. An
+ * `aria-labelledby` you pass wins. Native `div` props pass through, and `ref` reaches the element.
  *
  * @example
- * <TabNav.Panel id="project-panel">The routed page.</TabNav.Panel>
+ * <TabNav.Panel id="project-panel">The page of the active link.</TabNav.Panel>
  * @cckPart panel
  * @param props - The Panel props.
  * @returns The rendered element.

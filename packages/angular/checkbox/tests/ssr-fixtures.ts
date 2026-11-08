@@ -27,23 +27,23 @@ import { CckCheckboxImports } from '../index';
     CckHintImports,
   ],
   template: `
-    <div cckFormField id="news" required>
+    <cck-form-field id="news" required>
       <label cckLabel>Newsletter</label>
-      <div cckCheckbox [checked]="true" name="news" submitValue="yes">Email me</div>
-      <div cckHint>Weekly only.</div>
-    </div>
-    <div cckFormField id="push">
+      <cck-checkbox [checked]="true" name="news" submitValue="yes">Email me</cck-checkbox>
+      <cck-hint>Weekly only.</cck-hint>
+    </cck-form-field>
+    <cck-form-field id="push">
       <label cckLabel>Push</label>
-      <div cckSwitch name="push">Notify me</div>
-    </div>
-    <div cckCheckbox id="mixed" [indeterminate]="true" aria-describedby="note">All</div>
-    <div cckCheckbox disabled>Disabled</div>
-    <div cckCheckbox readonly [checked]="checked()">Read-only</div>
-    <div cckSwitch [checked]="true" required>On</div>
+      <cck-switch name="push">Notify me</cck-switch>
+    </cck-form-field>
+    <cck-checkbox id="mixed" [indeterminate]="true" aria-describedby="note">All</cck-checkbox>
+    <cck-checkbox disabled>Disabled</cck-checkbox>
+    <cck-checkbox readonly [checked]="checked()">Read-only</cck-checkbox>
+    <cck-switch [checked]="true" required>On</cck-switch>
     <fieldset>
       <legend>Plan</legend>
-      <div cckRadio name="plan" submitValue="free" [checked]="true">Free</div>
-      <div cckRadio name="plan" submitValue="pro">Pro</div>
+      <cck-radio name="plan" submitValue="free" [checked]="true">Free</cck-radio>
+      <cck-radio name="plan" submitValue="pro">Pro</cck-radio>
     </fieldset>
     <p id="note">A note</p>
   `,

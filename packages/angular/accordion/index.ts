@@ -7,5 +7,9 @@ export { CckAccordionItem } from './accordion-item';
 export type { AccordionHeadingLevel } from './accordion-item';
 export { CckAccordionLabel } from './accordion-label';
 
-/** Everything needed to author an Accordion: `imports: [CckAccordionImports]`. */
+/**
+ * Everything you need to write an Accordion in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckAccordionImports]
+ */
 export const CckAccordionImports = [CckAccordion, CckAccordionItem, CckAccordionLabel] as const;

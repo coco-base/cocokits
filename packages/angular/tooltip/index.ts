@@ -13,7 +13,11 @@ export { CckTooltipContent } from './tooltip-content';
 export { CckTooltipPortal } from './tooltip-portal';
 export { CckTooltipTrigger } from './tooltip-trigger';
 
-/** Everything needed to author a Tooltip: `imports: [CckTooltipImports]`. */
+/**
+ * Everything you need to write a Tooltip in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckTooltipImports]
+ */
 export const CckTooltipImports = [
   CckTooltip,
   CckTooltipTrigger,

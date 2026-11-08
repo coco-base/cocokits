@@ -21,7 +21,7 @@ const { classes } = tooltipAnatomy;
     >
       <button cckTooltipTrigger aria-label="Copy link">Copy</button>
       <ng-template cckTooltipPortal>
-        <div cckTooltipContent [side]="side()" [align]="align()">Copy the link</div>
+        <cck-tooltip-content [side]="side()" [align]="align()">Copy the link</cck-tooltip-content>
       </ng-template>
     </ng-container>
     <p id="empty">Empty space</p>
@@ -87,7 +87,7 @@ describe('Tooltip', () => {
       await render(
         `<ng-container cckTooltip>
           <button cckTooltipTrigger aria-label="Copy" aria-describedby="mine">x</button>
-          <ng-template cckTooltipPortal><div cckTooltipContent>Tip</div></ng-template>
+          <ng-template cckTooltipPortal><cck-tooltip-content>Tip</cck-tooltip-content></ng-template>
         </ng-container>`,
         { imports: [...CckTooltipImports] },
       );
@@ -350,12 +350,12 @@ describe('Tooltip', () => {
       <ng-container cckPopover>
         <button cckPopoverTrigger>Share</button>
         <ng-template cckPopoverPortal>
-          <div cckPopoverContent aria-label="Share panel">
+          <cck-popover-content aria-label="Share panel">
             <ng-container cckTooltip>
               <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-              <ng-template cckTooltipPortal><div cckTooltipContent>Copy the link</div></ng-template>
+              <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
             </ng-container>
-          </div>
+          </cck-popover-content>
         </ng-template>
       </ng-container>`;
     const imports = [...CckPopoverImports, ...CckTooltipImports];

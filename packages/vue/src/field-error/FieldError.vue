@@ -11,7 +11,13 @@ defineOptions({ name: 'CckFieldError' });
 const props = withDefaults(defineProps<FieldErrorProps>(), { as: 'div', asChild: false, force: false });
 
 defineSlots<{
-  /** The message. Keep it cheap: it is created on every render of the owner, and rendered only while shown. */
+  /**
+   * The message. Keep it cheap: it is created on every render of the owner, and rendered only while shown. When not
+   * set, the FieldError is an empty live region.
+   *
+   * @example
+   * <FieldError>Enter an email address.</FieldError>
+   */
   default?(): unknown;
 }>();
 
@@ -28,8 +34,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the FieldError: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the FieldError: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <FieldError ref="error">Enter an email address.</FieldError>
+   * <!-- In the script: const error = useTemplateRef('error'); then error.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

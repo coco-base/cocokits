@@ -11,5 +11,9 @@ export { CckTabContent } from './tab-content';
 export { CCK_TABS_CONFIG } from './tabs-config';
 export type { CckTabsConfig } from './tabs-config';
 
-/** Everything needed to author Tabs: `imports: [CckTabsImports]`. */
+/**
+ * Everything you need to write Tabs in a template. Add it to the `imports` of your component.
+ * @example
+ * imports: [CckTabsImports]
+ */
 export const CckTabsImports = [CckTabs, CckTab, CckTabLabel, CckTabContent] as const;

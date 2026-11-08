@@ -24,7 +24,7 @@ const imports = [
 ];
 const { classes } = selectAnatomy;
 
-const OPTIONS = `<div cckSelectOption value="Cake">Cake</div><div cckSelectOption value="Pizza">Pizza</div>`;
+const OPTIONS = `<cck-select-option value="Cake">Cake</cck-select-option><cck-select-option value="Pizza">Pizza</cck-select-option>`;
 const submitHandler = (): ReturnType<typeof vi.fn> =>
   vi.fn((event: SubmitEvent) => {
     event.preventDefault();
@@ -45,7 +45,7 @@ describe('Select forms', () => {
       const handler = submitHandler();
       const user = userEvent.setup();
       const { container } = await render(
-        `<form (submit)="handler($event)"><div cckSelect aria-label="Dish" name="dish">${OPTIONS}</div></form>`,
+        `<form (submit)="handler($event)"><cck-select aria-label="Dish" name="dish">${OPTIONS}</cck-select></form>`,
         { imports, componentProperties: { handler } },
       );
       container.querySelector('form')?.requestSubmit();
@@ -59,7 +59,7 @@ describe('Select forms', () => {
     it('submits one entry per value with multiple, and none while empty', async () => {
       const handler = submitHandler();
       const { container } = await render(
-        `<form (submit)="handler($event)"><div cckSelect multiple aria-label="Dish" name="dish" [value]="value">${OPTIONS}</div></form>`,
+        `<form (submit)="handler($event)"><cck-select multiple aria-label="Dish" name="dish" [value]="value">${OPTIONS}</cck-select></form>`,
         { imports, componentProperties: { handler, value: ['Cake', 'Pizza'] } },
       );
       container.querySelector('form')?.requestSubmit();
@@ -69,7 +69,7 @@ describe('Select forms', () => {
     it('blocks the submit of a required multiple Select with no value', async () => {
       const handler = submitHandler();
       const { container } = await render(
-        `<form ngNativeValidate (submit)="handler($event)"><div cckSelect multiple required aria-label="Dish" name="dish">${OPTIONS}</div></form>`,
+        `<form ngNativeValidate (submit)="handler($event)"><cck-select multiple required aria-label="Dish" name="dish">${OPTIONS}</cck-select></form>`,
         { imports, componentProperties: { handler } },
       );
       const form = must(container.querySelector<HTMLFormElement>('form'));
@@ -84,7 +84,7 @@ describe('Select forms', () => {
     it('submits nothing with multiple while nothing is selected', async () => {
       const handler = submitHandler();
       const { container } = await render(
-        `<form (submit)="handler($event)"><div cckSelect multiple aria-label="Dish" name="dish">${OPTIONS}</div></form>`,
+        `<form (submit)="handler($event)"><cck-select multiple aria-label="Dish" name="dish">${OPTIONS}</cck-select></form>`,
         { imports, componentProperties: { handler } },
       );
       container.querySelector('form')?.requestSubmit();
@@ -94,7 +94,7 @@ describe('Select forms', () => {
     it('renders hidden inputs only while name is set', async () => {
       const name = signal('');
       const { container, fixture } = await render(
-        `<div cckSelect aria-label="Dish" [name]="name()" value="Cake">${OPTIONS}</div>`,
+        `<cck-select aria-label="Dish" [name]="name()" value="Cake">${OPTIONS}</cck-select>`,
         { imports, componentProperties: { name } },
       );
       expect(container.querySelector('input')).toBeNull();
@@ -112,7 +112,7 @@ describe('Select forms', () => {
       const handler = submitHandler();
       const { container } = await render(
         `<form id="orders" (submit)="handler($event)"></form>
-         <div cckSelect aria-label="Dish" name="dish" form="orders" value="Cake">${OPTIONS}</div>`,
+         <cck-select aria-label="Dish" name="dish" form="orders" value="Cake">${OPTIONS}</cck-select>`,
         { imports, componentProperties: { handler } },
       );
       container.querySelector('form')?.requestSubmit();
@@ -123,7 +123,7 @@ describe('Select forms', () => {
       const user = userEvent.setup();
       const handler = submitHandler();
       const { container } = await render(
-        `<form ngNativeValidate (submit)="handler($event)"><div cckSelect aria-label="Dish" name="dish" required>${OPTIONS}</div></form>`,
+        `<form ngNativeValidate (submit)="handler($event)"><cck-select aria-label="Dish" name="dish" required>${OPTIONS}</cck-select></form>`,
         { imports, componentProperties: { handler } },
       );
       const form = must(container.querySelector<HTMLFormElement>('form'));
@@ -144,7 +144,7 @@ describe('Select forms', () => {
     it('does not submit a disabled Select, and a disabling fieldset disables it', async () => {
       const handler = submitHandler();
       const { container } = await render(
-        `<form (submit)="handler($event)"><fieldset disabled><div cckSelect aria-label="Dish" name="dish" value="Cake">${OPTIONS}</div></fieldset></form>`,
+        `<form (submit)="handler($event)"><fieldset disabled><cck-select aria-label="Dish" name="dish" value="Cake">${OPTIONS}</cck-select></fieldset></form>`,
         { imports, componentProperties: { handler } },
       );
       container.querySelector('form')?.requestSubmit();
@@ -159,7 +159,7 @@ describe('Select forms', () => {
       const value = signal<string | undefined>('Cake');
       const seen: CckSelectChange[] = [];
       const { container, fixture } = await render(
-        `<form><div cckSelect aria-label="Dish" name="dish" [(value)]="value" (selectionChange)="seen.push($event)">${OPTIONS}</div></form>`,
+        `<form><cck-select aria-label="Dish" name="dish" [(value)]="value" (selectionChange)="seen.push($event)">${OPTIONS}</cck-select></form>`,
         { imports, componentProperties: { value, seen } },
       );
       await user.click(trigger());
@@ -179,7 +179,7 @@ describe('Select forms', () => {
     it('restores an empty single value on reset', async () => {
       const user = userEvent.setup();
       const { container, fixture } = await render(
-        `<form><div cckSelect aria-label="Dish" name="dish" placeholder="Choose">${OPTIONS}</div></form>`,
+        `<form><cck-select aria-label="Dish" name="dish" placeholder="Choose">${OPTIONS}</cck-select></form>`,
         { imports },
       );
       await user.click(trigger());
@@ -194,20 +194,20 @@ describe('Select forms', () => {
 
   describe('in a FormField', () => {
     const FIELD = `
-      <div cckFormField>
+      <cck-form-field>
         <label cckLabel>Dish</label>
-        <div cckSelect placeholder="Choose" [required]="true" [value]="value">${OPTIONS}</div>
-        <div cckHint>Pick one</div>
-      </div>`;
+        <cck-select placeholder="Choose" [required]="true" [value]="value">${OPTIONS}</cck-select>
+        <cck-hint>Pick one</cck-hint>
+      </cck-form-field>`;
 
-    it('is the control of the field: control id, label for, described by the feedback, required marker', async () => {
+    it('is the control of the field: control id, label for, described by the hint, required marker', async () => {
       await render(FIELD, { imports, componentProperties: { value: undefined } });
-      const field = must(document.querySelector<HTMLElement>('[cckFormField]'));
+      const field = must(document.querySelector<HTMLElement>('cck-form-field'));
       const label = screen.getByText('Dish', { selector: 'label' });
       expect(trigger().id).toMatch(/-control$/);
       expect(label.getAttribute('for')).toBe(trigger().id);
-      const feedback = must(field.querySelector<HTMLElement>('.cck-form-field__feedback-wrapper'));
-      expect(trigger().getAttribute('aria-describedby')).toBe(feedback.id);
+      const hint = must(field.querySelector<HTMLElement>('cck-hint'));
+      expect(trigger().getAttribute('aria-describedby')).toBe(hint.id);
       expect(trigger().getAttribute('aria-required')).toBe('true');
       expect(label.textContent).toContain('*');
       expect(screen.getByRole('combobox', { name: /Dish/ })).toBe(trigger());
@@ -216,7 +216,7 @@ describe('Select forms', () => {
     it('gives the field its facts: filled, focused, required', async () => {
       const user = userEvent.setup();
       await render(FIELD, { imports, componentProperties: { value: undefined } });
-      const field = must(document.querySelector<HTMLElement>('[cckFormField]'));
+      const field = must(document.querySelector<HTMLElement>('cck-form-field'));
       expect(field.hasAttribute('data-required')).toBe(true);
       expect(field.hasAttribute('data-filled')).toBe(false);
       await user.tab();
@@ -227,9 +227,12 @@ describe('Select forms', () => {
     });
 
     it('takes the field state: a disabled field disables the Select', async () => {
-      await render(`<div cckFormField disabled><label cckLabel>Dish</label><div cckSelect>${OPTIONS}</div></div>`, {
-        imports,
-      });
+      await render(
+        `<cck-form-field disabled><label cckLabel>Dish</label><cck-select>${OPTIONS}</cck-select></cck-form-field>`,
+        {
+          imports,
+        },
+      );
       expect(trigger().disabled).toBe(true);
     });
 
@@ -257,7 +260,7 @@ describe('Select forms', () => {
 
     it('lines the list up with the trigger outside a field', async () => {
       const user = userEvent.setup();
-      await render(`<div cckSelect aria-label="Dish">${OPTIONS}</div>`, { imports });
+      await render(`<cck-select aria-label="Dish">${OPTIONS}</cck-select>`, { imports });
       trigger().getBoundingClientRect = () => new DOMRect(0, 0, 180, 40);
       await user.click(trigger());
       const list = await screen.findByRole('listbox');
@@ -271,10 +274,10 @@ describe('Select forms', () => {
     @Component({
       imports,
       template: `<form [formGroup]="group">
-        <div cckFormField>
+        <cck-form-field>
           <label cckLabel>Dish</label>
-          <div cckSelect formControlName="dish" placeholder="Choose">${OPTIONS}</div>
-        </div>
+          <cck-select formControlName="dish" placeholder="Choose">${OPTIONS}</cck-select>
+        </cck-form-field>
       </form>`,
     })
     class ReactiveHost {
@@ -309,7 +312,7 @@ describe('Select forms', () => {
     it('binds ngModel', async () => {
       const user = userEvent.setup();
       const value = signal('Pizza');
-      const { fixture } = await render(`<div cckSelect aria-label="Dish" [(ngModel)]="value">${OPTIONS}</div>`, {
+      const { fixture } = await render(`<cck-select aria-label="Dish" [(ngModel)]="value">${OPTIONS}</cck-select>`, {
         imports,
         componentProperties: { value },
       });
@@ -326,10 +329,10 @@ describe('Select forms', () => {
     @Component({
       imports,
       template: `<form [formRoot]="f">
-        <div cckFormField>
+        <cck-form-field>
           <label cckLabel>Dish</label>
-          <div cckSelect [formField]="f.dish" placeholder="Choose">${OPTIONS}</div>
-        </div>
+          <cck-select [formField]="f.dish" placeholder="Choose">${OPTIONS}</cck-select>
+        </cck-form-field>
       </form>`,
     })
     class SignalHost {

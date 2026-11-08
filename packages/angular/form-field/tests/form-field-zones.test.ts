@@ -38,16 +38,16 @@ afterEach(() => {
 
 describe('FormField zones', () => {
   const scrambled = `
-    <div cckFormField>
-      <div cckFieldError force>Too short</div>
+    <cck-form-field>
+      <cck-field-error force>Too short</cck-field-error>
       <div cckTrailing>trail</div>
       <div cckSuffix>suf</div>
-      <div cckHint>Help</div>
+      <cck-hint>Help</cck-hint>
       <textarea cckTextarea></textarea>
       <div cckPrefix>pre</div>
       <label cckLabel>Message</label>
       <div cckLeading>lead</div>
-    </div>`;
+    </cck-form-field>`;
 
   it.each([
     ['Textarea', scrambled],
@@ -67,7 +67,9 @@ describe('FormField zones', () => {
   });
 
   it('renders nothing for an empty zone', async () => {
-    const { container } = await render(`<div cckFormField><input cckInput aria-label="A" /></div>`, { imports });
+    const { container } = await render(`<cck-form-field><input cckInput aria-label="A" /></cck-form-field>`, {
+      imports,
+    });
     expect(classesOf(part(container, 'wrapper'))).toEqual(['cck-form-field__input-wrapper']);
     expect(classesOf(part(container, 'input-wrapper'))).toEqual(['cck-input']);
     expect(classesOf(part(container, 'feedback-wrapper'))).toEqual([]);
@@ -75,7 +77,7 @@ describe('FormField zones', () => {
 
   it('renders the zones next to a native input, which gets no container focus', async () => {
     const { container } = await render(
-      `<div cckFormField><div cckLeading>lead</div><input aria-label="A" /><div cckTrailing>trail</div></div>`,
+      `<cck-form-field><div cckLeading>lead</div><input aria-label="A" /><div cckTrailing>trail</div></cck-form-field>`,
       { imports },
     );
     expect(classesOf(part(container, 'wrapper'))).toEqual([
@@ -89,7 +91,7 @@ describe('FormField zones', () => {
 
   it('keeps an author id and attributes on a zone', async () => {
     const { container } = await render(
-      `<div cckFormField><input cckInput aria-label="A" /><div cckPrefix id="p" data-x="1">$</div></div>`,
+      `<cck-form-field><input cckInput aria-label="A" /><div cckPrefix id="p" data-x="1">$</div></cck-form-field>`,
       { imports },
     );
     const prefix = container.querySelector('.cck-prefix');
@@ -101,13 +103,13 @@ describe('FormField zones', () => {
 
 describe('FormField container click', () => {
   const box = (control: string): string => `
-    <div cckFormField>
+    <cck-form-field>
       <label cckLabel>Message</label>
       <div cckLeading id="lead">lead</div>
       <div cckPrefix id="pre">pre</div>
       ${control}
       <div cckSuffix id="suf">suf <button type="button">Go</button></div>
-    </div>`;
+    </cck-form-field>`;
 
   describe.each([
     ['Textarea', '<textarea cckTextarea></textarea>', 'textarea'],
@@ -183,11 +185,11 @@ describe('FormField container click', () => {
 
 describe('FormField with a Textarea', () => {
   const field = `
-    <div cckFormField>
+    <cck-form-field>
       <label cckLabel>Message</label>
       <textarea cckTextarea></textarea>
-      <div cckHint>Help</div>
-    </div>`;
+      <cck-hint>Help</cck-hint>
+    </cck-form-field>`;
 
   it('wires the id, the label for and the description like the Input', async () => {
     const { container } = await render(field, { imports });
@@ -196,7 +198,7 @@ describe('FormField with a Textarea', () => {
     const textarea = screen.getByRole('textbox', { name: 'Message' });
     expect(textarea.id).toBe(`${fieldId}-control`);
     expect(container.querySelector('label')?.htmlFor).toBe(textarea.id);
-    expect(textarea.getAttribute('aria-describedby')).toBe(feedback.id);
+    expect(textarea.getAttribute('aria-describedby')).toBe(`${fieldId}-hint-1`);
     expect(part(container, 'input-wrapper').matches(':has(> .cck-textarea)')).toBe(true);
   });
 
@@ -211,7 +213,7 @@ describe('FormField with a Textarea', () => {
   it('makes the first control of a mixed field the control and warns for the second', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const { container } = await render(
-      `<div cckFormField><label cckLabel>Message</label><textarea cckTextarea></textarea><input cckInput aria-label="Other" /></div>`,
+      `<cck-form-field><label cckLabel>Message</label><textarea cckTextarea></textarea><input cckInput aria-label="Other" /></cck-form-field>`,
       { imports },
     );
     const textarea = container.querySelector('textarea');
@@ -224,15 +226,16 @@ describe('FormField with a Textarea', () => {
 describe('FieldError', () => {
   const live = (container: HTMLElement): HTMLElement =>
     container.querySelector<HTMLElement>('.cck-field-error') ?? document.body;
-  const field = (control: string, error = '<div cckFieldError>Enter a message.</div>'): string =>
-    `<form><div cckFormField><label cckLabel>Message</label>${control}<div cckHint>Help</div>${error}</div></form>`;
+  const field = (control: string, error = '<cck-field-error>Enter a message.</cck-field-error>'): string =>
+    `<form><cck-form-field><label cckLabel>Message</label>${control}<cck-hint>Help</cck-hint>${error}</cck-form-field></form>`;
 
   it('is an always rendered polite live region with no role and no content before touch', async () => {
     const { container } = await render(field('<textarea cckTextarea invalid></textarea>'), { imports });
     expect(live(container).getAttribute('aria-live')).toBe('polite');
     expect(live(container).hasAttribute('role')).toBe(false);
     expect(live(container).textContent.trim()).toBe('');
-    expect(screen.getByRole('textbox', { description: 'Help' })).toBeTruthy();
+    // The empty error is listed too, so the description ends with a space.
+    expect(screen.getByRole('textbox', { description: /^Help\s*$/ })).toBeTruthy();
   });
 
   it('shows the content after blur and describes the control with it', async () => {
@@ -265,7 +268,7 @@ describe('FieldError', () => {
 
   it('shows the content with force, also in a valid untouched field', async () => {
     const { container } = await render(
-      field('<textarea cckTextarea></textarea>', '<div cckFieldError force>Always</div>'),
+      field('<textarea cckTextarea></textarea>', '<cck-field-error force>Always</cck-field-error>'),
       {
         imports,
       },
@@ -274,7 +277,7 @@ describe('FieldError', () => {
   });
 
   it('shows the content outside a field and keeps the root', async () => {
-    const { container } = await render(`<div cckFieldError>Standalone</div>`, { imports });
+    const { container } = await render(`<cck-field-error>Standalone</cck-field-error>`, { imports });
     expect(live(container).textContent).toBe('Standalone');
     expect(live(container).getAttribute('aria-live')).toBe('polite');
   });
@@ -283,7 +286,7 @@ describe('FieldError', () => {
     const { container } = await render(
       field(
         '<textarea cckTextarea></textarea>',
-        '<div cckFieldError id="e1" force>One</div><div cckFieldError>Two</div><div cckFieldError force>Three</div>',
+        '<cck-field-error id="e1" force>One</cck-field-error><cck-field-error>Two</cck-field-error><cck-field-error force>Three</cck-field-error>',
       ),
       { imports },
     );
@@ -294,6 +297,28 @@ describe('FieldError', () => {
 
   it('adds no text to the description while not shown', async () => {
     await render(field('<input cckInput invalid />'), { imports });
-    expect(screen.getByRole('textbox', { description: 'Help' })).toBeTruthy();
+    // The empty error is listed too, so the description ends with a space.
+    expect(screen.getByRole('textbox', { description: /^Help\s*$/ })).toBeTruthy();
+  });
+});
+
+describe('FormField description without a theme', () => {
+  const template = (hint: string): string => `<cck-form-field id="msg"><label cckLabel>Message</label>
+    <textarea cckTextarea aria-describedby="first" invalid></textarea>${hint}
+    <cck-field-error force>Enter a message.</cck-field-error></cck-form-field>`;
+
+  it('reads the hint and the shown error as two phrases, in order: author ids, hints, errors', async () => {
+    await render(template('<cck-hint>Help</cck-hint>'), { imports });
+    const area = screen.getByRole('textbox', { description: 'Help Enter a message.' });
+    expect(area.getAttribute('aria-describedby')).toBe('first msg-hint-1 msg-error-1');
+  });
+
+  it('lets an author id win and numbers the others in document order', async () => {
+    await render(template('<cck-hint>One</cck-hint><cck-hint id="mine">Two</cck-hint><cck-hint>Three</cck-hint>'), {
+      imports,
+    });
+    expect(screen.getByRole('textbox').getAttribute('aria-describedby')).toBe(
+      'first msg-hint-1 mine msg-hint-3 msg-error-1',
+    );
   });
 });

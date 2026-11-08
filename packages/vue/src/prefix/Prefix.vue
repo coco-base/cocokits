@@ -10,7 +10,12 @@ defineOptions({ name: 'CckPrefix' });
 withDefaults(defineProps<PrefixProps>(), { as: 'div', asChild: false });
 
 defineSlots<{
-  /** The content. */
+  /**
+   * The content of the Prefix. When not set, the Prefix is an empty element.
+   *
+   * @example
+   * <Prefix>$</Prefix>
+   */
   default?(): unknown;
 }>();
 
@@ -21,8 +26,12 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**
-   * The DOM element of the Prefix: the `<div>`, or the element of the `as` component or `asChild` child.
+   * The DOM element of the Prefix: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
+   *
+   * @example
+   * <Prefix ref="prefix">$</Prefix>
+   * <!-- In the script: const prefix = useTemplateRef('prefix'); then prefix.value?.element is the element. -->
    *
    * @cckSemantic none
    * @cckParity Templates reach the DOM node through the component ref.

@@ -1,38 +1,49 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactNode, RefCallback } from 'react';
 import type { RenderProp } from '../internal/render-element';
 
-/** The public state of the FieldError, passed to the function form of `render`. */
+/** The state of the FieldError that the function form of `render` receives. */
 export interface FieldErrorState {
-  /** Whether the content is inserted: forced, outside a field, or the field is invalid and was touched or submitted. */
+  /**
+   * Whether the message shows. It shows with `force`, outside a field, or while the field is not valid and the user
+   * has left it or tried to submit.
+   */
   readonly shown: boolean;
 }
 
 /**
- * The props the function form of `render` receives: the native div props, merged with the
- * FieldError's own. Spread all of them, including `ref` and `children`, onto one element.
+ * The props that the function form of `render` receives: the native `div` props merged with the props of the
+ * FieldError. Pass all of them, `ref` and `children` included, to one element.
  */
 export interface FieldErrorRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'children'> {
-  /** The merged ref: the FieldError's `ref`, and the rendered element's own `ref`. */
+  /** The merged ref: the `ref` of the FieldError and the `ref` of the rendered element. */
   readonly ref: RefCallback<HTMLElement>;
-  /** The message while it is shown; `undefined` otherwise. */
+  /** The message while it shows, and `undefined` while it is hidden. */
   readonly children: ReactNode;
 }
 
-/** Props of the {@link FieldError}. Native `div` attributes pass through to the root, and `ref` reaches it. */
+/** Props of the {@link FieldError}. Native `div` props pass through, and `ref` reaches the element. */
 export interface FieldErrorProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'children'> {
-  /** The message. Keep it cheap: it is created on every render of the owner, and rendered only while shown. */
+  /**
+   * The error message. When not set, the error shows no text.
+   *
+   * Keep it cheap to create, because it is created on every render of its owner and rendered only while it shows.
+   *
+   * @example
+   * <FieldError>Enter an email address.</FieldError>
+   */
   readonly children?: ReactNode;
   /**
-   * Whether the content shows regardless of the field state.
+   * Whether the message shows, whatever the state of the field.
    *
    * @defaultValue false
    */
   readonly force?: boolean | undefined;
   /**
-   * Replaces the rendered `<div>`: an element, or a function of the merged props and the
-   * {@link FieldErrorState}. The element form (its own children are replaced by the message) works from a
-   * Server Component; the function form does not (a function is not serialisable). The function
-   * form must spread all the props it receives, including `ref` and `children`, onto one element.
+   * Replaces the `<div>` of the FieldError. Pass an element, or a function of the merged props and the
+   * {@link FieldErrorState}. The function must pass all props on, `ref` and `children` included, to one element.
+   *
+   * When not set, the FieldError renders a `<div>`. The FieldError replaces the children of the element with the
+   * message.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

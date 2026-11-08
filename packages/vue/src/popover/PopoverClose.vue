@@ -10,7 +10,13 @@ defineOptions({ name: 'CckPopoverClose', inheritAttrs: false });
 
 const props = withDefaults(defineProps<PopoverCloseProps>(), { as: 'button', asChild: false });
 defineSlots<{
-  /** The content of the Close: text and icons. An icon-only Close needs `aria-label`. */
+  /**
+   * The content of the Close: text and icons. An icon-only Close needs `aria-label`. When not set, the Close is
+   * empty and needs `aria-label`.
+   *
+   * @example
+   * <PopoverClose aria-label="Close"><XIcon aria-hidden="true" /></PopoverClose>
+   */
   default?(): unknown;
 }>();
 

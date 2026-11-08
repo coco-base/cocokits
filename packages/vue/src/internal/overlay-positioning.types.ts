@@ -6,108 +6,91 @@ import type { OverlayCollisionPadding, OverlaySticky } from '@cocokits/cdk/posit
  */
 export interface OverlayPositioningProps {
   /**
-   * The gap between the anchor and the content in px. Unset, the content takes the theme's `--side-offset`.
-   *
+   * The gap in pixels between the trigger and the list. When not set, the list takes the `--side-offset` value of the theme.
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly sideOffset?: number | undefined;
   /**
-   * Moves the content along the anchor's edge, away from the aligned edge, in px. It has no effect with
-   * `align="center"`.
-   *
-   * @defaultValue 0
+   * How far, in pixels, the list moves along the edge of the trigger, away from the aligned edge. It has no effect with `align="center"`.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue 0
    */
   readonly alignOffset?: number | undefined;
   /**
-   * Whether the content flips to the opposite side and shifts to stay in view. With `false` it keeps the wanted
-   * side and alignment even when it overflows.
-   *
-   * @defaultValue true
+   * Whether the list flips to the other side and shifts to stay in view. With `false`, it keeps its side and alignment even when it overflows.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue true
    */
   readonly avoidCollisions?: boolean | undefined;
   /**
-   * The distance in px the content keeps from the viewport edges: one number for all four, or one per side
-   * (`top`, `right`, `bottom`, `left`; unset sides are 0). The sides are physical.
+   * The distance, in pixels, that the list keeps from the edges of the viewport. Pass one number for all four sides, or an object with `top`, `right`, `bottom` and `left`. A missing side is 0.
    *
-   * @defaultValue 5
+   * The sides are physical.
+   *
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue 5
    */
   readonly collisionPadding?: OverlayCollisionPadding | undefined;
   /**
-   * `'partial'` keeps the content in view along the anchor's edge only while the anchor is at least partly in
-   * view; `'always'` keeps it in view regardless.
-   *
-   * @defaultValue 'partial'
+   * How the list stays in view along the edge of the trigger.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue 'partial'
    */
   readonly sticky?: OverlaySticky | undefined;
   /**
-   * Hides the content (the native `hidden` attribute) while the anchor is fully hidden by its clipping
-   * ancestors, such as a scrolled container.
-   *
-   * @defaultValue false
+   * Whether the list is hidden (with the native `hidden` attribute) while its clipping parents fully hide the trigger, such as a scrolled container.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue false
    */
   readonly hideWhenDetached?: boolean | undefined;
   /**
-   * Elements the content must stay inside as well as the viewport: one element, a list of them, or `null` for
-   * none. Entries that are `null` are ignored.
-   *
+   * The elements that the list must also stay inside, besides the viewport. Pass one element, a list of elements, or `null` for none. Entries that are `null` are ignored.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue none
    */
   readonly collisionBoundary?: Element | null | readonly (Element | null)[] | undefined;
   /**
-   * `'optimized'` places the content again only when the anchor or the content moved or resized; `'always'` places
-   * it again on every animation frame.
-   *
-   * @defaultValue 'optimized'
+   * How the position follows the page.
+   * @cckValue optimized - Places the list again only when something moved or changed size.
+   * @cckValue always - Places the list again on every animation frame.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue 'optimized'
    */
   readonly updatePositionStrategy?: 'optimized' | 'always' | undefined;
   /**
-   * Whether the content may flip to the opposite side when there is no room. Has no effect with
-   * `avoidCollisions` off.
-   *
-   * @defaultValue true
+   * Whether the list may flip to the opposite side when there is no room. It has no effect when `avoidCollisions` is off.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
+   * @defaultValue true
    */
   readonly sideFlip?: boolean | undefined;
   /**
-   * Whether the alignment may flip to the opposite one when there is no room. Has no effect with
-   * `avoidCollisions` off.
-   *
-   * @defaultValue true
+   * Whether the alignment may flip to the opposite one when there is no room. It has no effect when `avoidCollisions` is off.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
+   * @defaultValue true
    */
   readonly alignFlip?: boolean | undefined;
   /**
-   * `true` keeps the content in view on both axes even when that makes it cover the anchor; `false` prefers a
-   * position that leaves the anchor uncovered. Has no effect with `avoidCollisions` off.
-   *
-   * @defaultValue false
+   * Whether the list stays in view on both axes, even when it then covers the trigger. With `false`, the list prefers a position that leaves the trigger uncovered. It has no effect when `avoidCollisions` is off.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
+   * @defaultValue false
    */
   readonly prioritizePosition?: boolean | undefined;
   /**
-   * `true` does not place the content again when the layout shifts (the anchor or the content resizes or moves
-   * without a scroll).
-   *
-   * @defaultValue false
+   * Whether the list keeps its place when the layout shifts, that is when the trigger or the list resizes or moves without a scroll. With `false`, the list is placed again.
    * @cckSemantic none
    * @cckParity Only this framework has this member.
+   * @defaultValue false
    */
   readonly disableUpdateOnLayoutShift?: boolean | undefined;
 }
@@ -117,11 +100,10 @@ export interface OverlayPositioningProps {
  */
 export interface OverlayArrowProps {
   /**
-   * The distance in px the arrow keeps from the corners of the content.
-   *
-   * @defaultValue 0
+   * The distance, in pixels, that the arrow keeps from the corners of the content.
    * @cckSemantic none
    * @cckParity Not available in every framework.
+   * @defaultValue 0
    */
   readonly arrowPadding?: number | undefined;
   /**

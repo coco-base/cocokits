@@ -2,15 +2,18 @@ import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import ts from 'typescript';
 import { loadPackage } from '../load-module';
+import { placeAt } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
-import { aliasResolverAt, expandAliases } from '../api-docs-common/expand-alias';
-import { portalSelectors } from '../api-docs-common/tags';
+import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
+import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
+import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
-import { partOf, type DocDirective } from './convert';
+import { partOf, type DocDirective, type ExpandedType } from './convert';
 import { baseClassOf, publicMembersOf } from './members';
+import { symbolsOf } from './symbols';
 
 /** The part of `@angular/compiler-cli` this executor uses. */
 interface NgtscProgramLike {
@@ -121,6 +124,18 @@ function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration
   };
 }
 
+/** What a template directive says about itself: what shows without it, when it is used and an example. */
+function templateDetailOf(directive: DocDirective): { default?: string; remarks?: string; examples?: string[] } {
+  const fallback = defaultOf(directive.jsdocTags);
+  const remarks = partRemarksOf(directive.description, directive.jsdocTags);
+  const examples = tagsOf(directive.jsdocTags, 'example');
+  return {
+    ...(fallback === undefined ? {} : { default: fallback }),
+    ...(remarks === undefined ? {} : { remarks }),
+    ...(examples.length > 0 ? { examples } : {}),
+  };
+}
+
 /**
  * Gives each slot whose selector is an `ng-template` the scope its directive declares: the type after `ctx is` in the
  * `static ngTemplateContextGuard` of the class with that selector.
@@ -139,6 +154,7 @@ function withScopes(
     const cls = entry === undefined ? undefined : classNamed(program, entry);
     // The type parameter of the template directive is the component's own (`T` of the Select), so it takes the
     // default of the component.
+    const detail = directive === undefined ? {} : templateDetailOf(directive);
     const scope =
       cls === undefined
         ? undefined
@@ -148,7 +164,7 @@ function withScopes(
             problems,
             typeParameterDefaults(classNamed(program, owner)?.typeParameters),
           );
-    return scope === undefined ? slot : { ...slot, scope };
+    return scope === undefined || scope.length === 0 ? { ...slot, ...detail } : { ...slot, ...detail, scope };
   });
   return { ...part, slots };
 }
@@ -188,14 +204,31 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
         continue;
       }
       if (ts.getCombinedModifierFlags(cls) & ts.ModifierFlags.Abstract) continue;
-      const resolve = aliasResolverAt(checker, cls);
-      const expand = (type: string): string => expandAliases(type, resolve);
+      const resolve = aliasResolverAt(tsProgram, cls);
+      const expand = (type: string): ExpandedType => ({
+        text: expandAliases(type, resolve),
+        values: aliasValuesOf(type, resolve),
+      });
       const doc = withInstantiatedTypes(checker, cls, entry as unknown as DocDirective);
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
-      parts.push(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems));
+      parts.push(placeAt(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems), cls));
     }
-    return { component: name, framework: 'angular', parts };
+    const sourceFile = tsProgram.getSourceFile(file);
+    const partNames = new Set(classes.map((entry) => entry.name));
+    const symbols = sourceFile === undefined ? [] : symbolsOf(checker, sourceFile, name, partNames, problems);
+    const types =
+      sourceFile === undefined
+        ? []
+        : exportedTypesOf(tsProgram, checker, sourceFile, name, () => false, problems, memberTypeTexts(parts, symbols));
+    return {
+      component: name,
+      framework: 'angular',
+      parts,
+      ...(symbols.length > 0 ? { symbols } : {}),
+      ...(types.length > 0 ? { types } : {}),
+    };
   });
+  problems.push(...sharedTypeProblems(tsProgram));
   if (problems.length > 0) throw problemsError(problems);
   return docs;
 }

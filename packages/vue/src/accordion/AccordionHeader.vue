@@ -9,7 +9,12 @@ defineOptions({ name: 'CckAccordionHeader', inheritAttrs: false });
 
 withDefaults(defineProps<AccordionHeaderProps>(), { as: 'h3', asChild: false });
 defineSlots<{
-  /** The trigger. */
+  /**
+   * The trigger of the item. When not set, the heading is empty and the item cannot be opened by the user.
+   *
+   * @example
+   * <AccordionHeader><AccordionTrigger>Shipping</AccordionTrigger></AccordionHeader>
+   */
   default?(): unknown;
 }>();
 

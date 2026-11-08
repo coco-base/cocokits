@@ -91,25 +91,26 @@ interface CheckboxComponent {
 }
 
 /**
- * Renders a `div` root around a native `<input type="checkbox">` and its label: the children are the
- * caption, so `<Checkbox>Accept the terms</Checkbox>` is a complete control. It is a real form control, so
- * `FormData` (`name=on`, or the `value`, while checked), constraint validation (`required`), reset, the
- * `form` attribute, `fieldset[disabled]` and the label click work natively, and it works with
- * react-hook-form `register()` and `Controller`. Without `checked` it is uncontrolled (`defaultChecked`, the
- * DOM holds the state); with `checked` it is controlled and a change the parent rejects is restored.
+ * A box that the user checks or unchecks. It renders a `<div>` around a native `<input type="checkbox">` and a
+ * label with the children as caption. `<Checkbox>Accept the terms</Checkbox>` is a complete control.
  *
- * `indeterminate` shows the mixed state and is one-way: the Checkbox never changes it, so the parent that
- * owns it recomputes it in `onCheckedChange`. `readOnly` blocks every user toggle, keeps the focus and the
- * submitted value, and renders `aria-readonly`.
+ * It is a native form control. `FormData`, `required`, a form reset, the `form` prop, a disabled `fieldset` and a
+ * click on the label work as for a native checkbox. It works with react-hook-form `register()` and `Controller`.
  *
- * Inside a FormField the input gets the id `<fieldId>-control`, the field's Label and the caption both name
- * it ("Notifications Email me"), and its `aria-describedby` ends with the feedback wrapper. The state facts
- * are `data-*` attributes on the root, and `aria-invalid="true"` appears only while the control is invalid and
- * was touched or the form was submitted. `className`, `style`, `hidden` and `render` belong to the root;
- * every other attribute and `ref` belong to the input.
+ * Control it with `checked` and `onCheckedChange`, or set `defaultChecked` and let the DOM keep the state. A
+ * change that you do not take is undone.
+ *
+ * Inside a `FormField`, the input gets the id `<fieldId>-control`, and the field label and the caption both name
+ * it. The ids of the hints and errors of the field describe it.
+ *
+ * The root has the state as `data-*` attributes. The input gets `aria-invalid="true"` only while it is not valid
+ * and the user has left it or tried to submit. `className`, `style`, `hidden` and `render` go to the root; every
+ * other prop and `ref` go to the input.
  *
  * @example
- * <Checkbox onCheckedChange={(checked) => setAccepted(checked)}>Accept the terms</Checkbox>
+ * <Checkbox name="terms" defaultChecked>
+ *   Accept the terms
+ * </Checkbox>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper

@@ -10,23 +10,23 @@ import { CckSelectHarness, CckSelectOptionGroupHarness, CckSelectOptionHarness }
 @Component({
   imports: [CckSelectImports],
   template: `
-    <div cckSelect aria-label="Dish" placeholder="Choose a dish" [(value)]="dish" required>
-      <div cckSelectOption value="Cake">Cake</div>
-      <div cckSelectOption value="Pizza" disabled>Pizza</div>
-      <div cckSelectOption value="Burger">Burger</div>
-    </div>
-    <div cckSelect aria-label="Toppings" [multiple]="true" [(value)]="toppings">
-      <div cckSelectOptionGroup label="Veg">
-        <div cckSelectOption value="Onion">Onion</div>
-        <div cckSelectOption value="Olive">Olive</div>
-      </div>
-      <div cckSelectOptionGroup label="Meat" disabled>
-        <div cckSelectOption value="Ham">Ham</div>
-      </div>
-    </div>
-    <div cckSelect aria-label="Off" disabled>
-      <div cckSelectOption value="x">X</div>
-    </div>
+    <cck-select aria-label="Dish" placeholder="Choose a dish" [(value)]="dish" required>
+      <cck-select-option value="Cake">Cake</cck-select-option>
+      <cck-select-option value="Pizza" disabled>Pizza</cck-select-option>
+      <cck-select-option value="Burger">Burger</cck-select-option>
+    </cck-select>
+    <cck-select aria-label="Toppings" [multiple]="true" [(value)]="toppings">
+      <cck-select-option-group label="Veg">
+        <cck-select-option value="Onion">Onion</cck-select-option>
+        <cck-select-option value="Olive">Olive</cck-select-option>
+      </cck-select-option-group>
+      <cck-select-option-group label="Meat" disabled>
+        <cck-select-option value="Ham">Ham</cck-select-option>
+      </cck-select-option-group>
+    </cck-select>
+    <cck-select aria-label="Off" disabled>
+      <cck-select-option value="x">X</cck-select-option>
+    </cck-select>
   `,
 })
 class Host {

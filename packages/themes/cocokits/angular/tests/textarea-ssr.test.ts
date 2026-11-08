@@ -12,10 +12,10 @@ import { renderThemedApp } from './ssr-helpers';
 @Component({
   selector: 'app-root',
   imports: [CckFormField, CckTextarea, CckTextareaTheme, CckPrefix, CckFieldError],
-  template: `<div cckFormField>
+  template: `<cck-form-field>
       <span cckPrefix>P</span><textarea cckTextarea aria-label="Message" autoResize></textarea>
-      <div cckFieldError>Enter a message.</div>
-    </div>
+      <cck-field-error>Enter a message.</cck-field-error>
+    </cck-form-field>
     <textarea cckTextarea aria-label="Plain" [rows]="rows"></textarea>`,
 })
 class Root {
@@ -32,7 +32,7 @@ describe('theme Textarea on the server', () => {
 
   it('renders the FieldError as a live region with no child node but comments', async () => {
     const html = await renderThemedApp(Root, true);
-    expect(html).toMatch(/<div[^>]*aria-live="polite"[^>]*>(<!--[^>]*-->)*<\/div>/);
+    expect(html).toMatch(/<cck-field-error[^>]*aria-live="polite"[^>]*>(<!--[^>]*-->)*<\/cck-field-error>/);
   });
 
   it('renders no data-auto-resize without a theme', async () => {

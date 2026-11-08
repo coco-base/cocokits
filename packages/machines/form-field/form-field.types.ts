@@ -72,6 +72,14 @@ export interface FormFieldControlState {
   readonly hidden?: boolean | undefined;
 }
 
+/** The author's ids of the hints and of the errors a field holds, in document order; `undefined` means none. */
+export interface FormFieldPartIds {
+  /** One entry per Hint, in document order. */
+  readonly hints?: readonly (string | undefined)[] | undefined;
+  /** One entry per FieldError, in document order. */
+  readonly errors?: readonly (string | undefined)[] | undefined;
+}
+
 /** The ids derived from one field id. */
 export interface FormFieldIds {
   /** The id of the control: `<fieldId>-control`. */
@@ -80,6 +88,10 @@ export interface FormFieldIds {
   readonly feedback: string;
   /** The id of the Label: `<fieldId>-label`. A control without its own name falls back to it. */
   readonly label: string;
+  /** The ids of the field's hints in document order: the author's `id`, or `<fieldId>-hint-<n>`. */
+  readonly hints?: readonly string[] | undefined;
+  /** The ids of the field's errors in document order: the author's `id`, or `<fieldId>-error-<n>`. */
+  readonly errors?: readonly string[] | undefined;
 }
 
 /** Input of `getFormFieldProps`. Both parts are optional so a field without a control renders as before. */

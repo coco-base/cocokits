@@ -222,7 +222,7 @@ describe('Textarea with formControlName, [formControl] and ngModel', () => {
   imports: [FormField, FormRoot, ...CckTextareaImports, ...CckFormFieldImports],
   template: `
     <form [formRoot]="f">
-      <div cckFormField><textarea cckTextarea [formField]="f.note" aria-label="Note"></textarea></div>
+      <cck-form-field><textarea cckTextarea [formField]="f.note" aria-label="Note"></textarea></cck-form-field>
     </form>
   `,
 })

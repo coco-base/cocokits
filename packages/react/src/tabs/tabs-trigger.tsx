@@ -108,12 +108,13 @@ function TabsTriggerImpl({
 }
 
 /**
- * Renders a `<button role="tab" type="button">` that selects the panel with the same `value`. It carries
- * `aria-selected`, `aria-controls` and `data-selected`; only the selected tab is in the tab order, the others are
- * reached with the arrow keys (handled by `Tabs.List`). With `nativeButton={false}` it renders another element through `render`: no
- * `type`, Enter and Space select the tab on keydown, and a disabled tab gets `aria-disabled="true"` instead of
- * `disabled`. The children are wrapped in a label `<span>`. Native button props pass through, and
- * `ref` reaches the element. Compose it with another component through `render`.
+ * The tab that selects the panel with the same `value`. It renders a `<button role="tab" type="button">` with
+ * `aria-selected`, `aria-controls` and `data-selected`. The children sit in a label `<span>`.
+ *
+ * Only the selected tab is in the tab order. The user reaches the others with the arrow keys of the `Tabs.List`.
+ *
+ * To render another element or component, use `render` and `nativeButton={false}`. Native button props pass
+ * through, and `ref` reaches the element.
  *
  * @example
  * <Tabs.Trigger value="account">Account</Tabs.Trigger>

@@ -15,8 +15,7 @@ import { buttonAnatomy, getButtonProps } from '@cocokits/machines/button';
 })
 export abstract class CckButtonBase {
   /**
-   * Whether the button is disabled. A disabled button is skipped by Tab and fires no click;
-   * a disabled link does not navigate.
+   * Whether the user cannot use the button. Tab skips a disabled button, and it sends no click. A disabled link does not open its page.
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });

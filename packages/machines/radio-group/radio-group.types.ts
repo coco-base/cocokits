@@ -1,9 +1,19 @@
 import type { Direction } from '@cocokits/shared';
 
-/** Which arrow keys move through the radios. Unset, both axes do. */
+/**
+ * Which arrow keys move through the radios. When not set, all four arrow keys do.
+ *
+ * @cckValue horizontal - ArrowLeft and ArrowRight move through the radios.
+ * @cckValue vertical - ArrowUp and ArrowDown move through the radios.
+ */
 export type RadioGroupOrientation = 'horizontal' | 'vertical';
 
-/** Why the group value changed: a user check, or the reset of the owner form. */
+/**
+ * Why the group value changed.
+ *
+ * @cckValue user - The user checked a radio.
+ * @cckValue form-reset - The form was reset.
+ */
 export type RadioGroupChangeReason = 'user' | 'form-reset';
 
 /** One registered radio, read in document order by the adapter. */

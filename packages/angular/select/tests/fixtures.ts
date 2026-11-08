@@ -9,13 +9,13 @@ import { CckSelectImports } from '../index';
   imports: [CckSelectImports],
   template: `
     <form>
-      <div cckSelect aria-label="Dish" name="dish" [value]="'Pizza'" placeholder="Choose">
-        <div cckSelectOption value="Cake">Cake</div>
-        <div cckSelectOption value="Pizza">Pizza</div>
-      </div>
-      <div cckSelect aria-label="Side" multiple [value]="side">
-        <div cckSelectOption value="Rice">Rice</div>
-      </div>
+      <cck-select aria-label="Dish" name="dish" [value]="'Pizza'" placeholder="Choose">
+        <cck-select-option value="Cake">Cake</cck-select-option>
+        <cck-select-option value="Pizza">Pizza</cck-select-option>
+      </cck-select>
+      <cck-select aria-label="Side" multiple [value]="side">
+        <cck-select-option value="Rice">Rice</cck-select-option>
+      </cck-select>
     </form>
   `,
 })

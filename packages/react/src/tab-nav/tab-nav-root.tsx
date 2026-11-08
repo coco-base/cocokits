@@ -141,18 +141,23 @@ function TabNavRootImpl({ tabPanel, render, ref, children, ...rest }: TabNavRoot
 }
 
 /**
- * Renders the `<nav>` landmark around the list of links. Name it with `aria-label` or `aria-labelledby`. Give
- * `tabPanel` the id of a `TabNav.Panel` to enter panel mode: the list becomes a `tablist`, the links `tab`s with
- * one Tab stop and arrow keys. Native `nav` props pass through, and `ref` reaches the element.
+ * Links to pages that look like a row of tabs. It renders a `<nav>` landmark around the list of links; name it with
+ * `aria-label` or `aria-labelledby`.
+ *
+ * Each link goes to a page, so the links stay links. Give `tabPanel` the id of a `TabNav.Panel` for panel mode.
+ * The list then is a `tablist`, and the links are tabs with one Tab stop and the arrow keys.
+ *
+ * Native `nav` props pass through, and `ref` reaches the element.
  *
  * @example
- * <TabNav.Root aria-label="Project">
+ * <TabNav.Root aria-label="Project" tabPanel="project-panel">
  *   <TabNav.List>
  *     <TabNav.Link href="/overview" active>Overview</TabNav.Link>
  *     <TabNav.Link href="/activity">Activity</TabNav.Link>
  *     <TabNav.Indicator />
  *   </TabNav.List>
  * </TabNav.Root>
+ * <TabNav.Panel id="project-panel">The page of the active link.</TabNav.Panel>
  * @cckPart root
  * @param props - The Root props.
  * @returns The rendered element inside the provider.

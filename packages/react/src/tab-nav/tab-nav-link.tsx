@@ -82,15 +82,23 @@ function TabNavLinkImpl({
 }
 
 /**
- * Renders an `<a>` that goes to a page, or a router link through `render={<Link to="/" />}`. The current page's
- * link has `active`: it renders `aria-current="page"` and `data-active`, and the indicator moves to it. A disabled
- * link renders `aria-disabled="true"` and `tabindex="-1"`, and its activation is blocked in the capture phase,
- * before any other click listener of the element. In link mode there are no tab roles and no roving focus: Tab
- * moves between the links and Enter follows one. When the Root has a `tabPanel` the link is a `tab`
- * (`aria-selected`, `aria-controls`, no `aria-current`) and the one Tab stop: the active link, else the first
- * enabled one; the arrow keys, Home and End move focus (never navigate) and Space activates it. The active link
- * gets the id `<panel id>-tab` unless you pass an `id`. Native `a` props pass through, and `ref` reaches the
- * element.
+ * A link to one page. It renders an `<a>`, or a router link with `render`. Native `a` props pass through, and `ref`
+ * reaches the element.
+ *
+ * The link of the current page has `active`. It gets `aria-current="page"` and `data-active`, and the indicator
+ * moves to it.
+ *
+ * A disabled link gets `aria-disabled="true"` and `tabindex="-1"`. It stops its clicks in the capture phase, before
+ * any other click listener of the element.
+ *
+ * Without a `tabPanel` on the Root, the links have no tab roles. Tab moves between the links, and Enter follows
+ * one.
+ *
+ * With a `tabPanel`, the link is a tab with `aria-selected` and `aria-controls`, and no `aria-current`. The active
+ * link, or else the first enabled link, is the one Tab stop.
+ *
+ * In panel mode, the arrow keys, Home and End move the focus and never go to a page. Space follows the link. The
+ * active link gets the id `<panel id>-tab` unless you pass an `id`.
  *
  * @example
  * <TabNav.Link href="/overview" active>Overview</TabNav.Link>

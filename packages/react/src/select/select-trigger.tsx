@@ -76,12 +76,9 @@ function SelectTriggerImpl({ nativeButton = true, render, ref, ...rest }: Select
 }
 
 /**
- * Renders the `<button role="combobox">` that shows the selection and opens the list (or your `render` element
- * with `nativeButton={false}`, which gets `tabindex="0"` and no `type`). It carries `aria-haspopup="listbox"`,
- * `aria-expanded` and, while the list is mounted, `aria-controls`; focus stays on it while the list is open and
- * the highlighted item is its `aria-activedescendant`. Name it with the label of a FormField, or with `aria-label`
- * or `aria-labelledby` (the list takes the same name); `aria-describedby` joins the ids of the field. Put a
- * `Select.Value` and a `Select.Icon` inside it. Native button props pass through, and `ref` reaches the element.
+ * The button that shows the choice and opens the list. It renders a `<button>` with the role `combobox`. It sets `aria-expanded`, `aria-haspopup="listbox"` and, while the list is mounted, `aria-controls`.
+ *
+ * Name it with the label of a `FormField`, or with `aria-label` or `aria-labelledby`. The list gets the same name. `aria-describedby` joins the ids of the field. Put a `Select.Value` and a `Select.Icon` inside it. Native button props pass through, and `ref` reaches the element.
  *
  * @example
  * <Select.Trigger aria-label="Dish">

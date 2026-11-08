@@ -194,6 +194,19 @@ describe('extractReactApiDocs: hostile input', () => {
   });
 });
 
+/** The thing fixture with the text the text rules ask for: a root example and the "When not set" sentences. */
+const FOLLOWS_TEXT_RULES = fixture('thing.ts')
+  .replace(' * @cckPart root\n */', ' * @cckPart root\n * @example\n * <Thing label="Save">Save</Thing>\n */')
+  .replace('   * Replaces the element.\n', '   * Replaces the element. When not set, the thing renders a button.\n')
+  .replace(
+    '/** The content of the thing. */',
+    '/**\n   * The content. When not set, the thing is empty.\n   * @example\n   * <Thing label="Save">Save</Thing>\n   */',
+  )
+  .replace(
+    '/** A hint zone. */',
+    '/**\n   * A hint zone. When not set, no hint shows.\n   * @example\n   * <Thing label="Save" hint="Saved." />\n   */',
+  );
+
 describe('api-docs-react executor', () => {
   beforeEach(() => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
@@ -203,7 +216,7 @@ describe('api-docs-react executor', () => {
   });
 
   it('writes one ApiDoc file per entry point into the project, deterministically', async () => {
-    createPackage('run');
+    createPackage('run', FOLLOWS_TEXT_RULES);
     const out = join(area.dir, 'run', 'out');
     const outputDir = `tools/workspace-plugin/tmp/api-docs-react/run/out`;
     expect((await executor({ outputDir }, area.context('run'))).success).toBe(true);
@@ -213,6 +226,16 @@ describe('api-docs-react executor', () => {
     expect(first.endsWith('}\n')).toBe(true);
     await executor({ outputDir }, area.context('run'));
     expect(readFileSync(join(out, 'thing.json'), 'utf8')).toBe(first);
+  });
+
+  it('fails on TSDoc that breaks a text rule, names the item and writes nothing', async () => {
+    createPackage('rules');
+    const outputDir = 'tools/workspace-plugin/tmp/api-docs-react/rules/out';
+    expect((await executor({ outputDir }, area.context('rules'))).success).toBe(false);
+    expect(vi.mocked(console.error).mock.calls.join('\n')).toMatch(
+      /react\/thing Thing \(root part\): needs an @example/,
+    );
+    expect(existsSync(join(area.dir, 'rules', 'out'))).toBe(false);
   });
 
   it('fails on a prop without TSDoc and writes nothing', async () => {
@@ -384,6 +407,23 @@ describe('extractReactApiDocs: a props type that is a union', () => {
       ['collapsible', 'boolean', false],
       ['disabled', 'boolean', false],
       ['type', "'single' | 'multiple'", true],
+    ]);
+  });
+
+  it('joins the value meanings of every branch, each value once', () => {
+    const withValues = union
+      .replace(
+        "  /** The mode. */\n  readonly type: 'single';",
+        "  /**\n   * The mode.\n   * @cckValue single - One open at a time.\n   */\n  readonly type: 'single';",
+      )
+      .replace(
+        "  /** The mode. */\n  readonly type: 'multiple';",
+        "  /**\n   * The mode.\n   * @cckValue multiple - Many open at a time.\n   * @cckValue single - Said again.\n   */\n  readonly type: 'multiple';",
+      );
+    const type = extract('union-values', withValues)[0]?.parts[0]?.props.find((prop) => prop.name === 'type');
+    expect(type?.values).toEqual([
+      { value: 'single', description: 'One open at a time.' },
+      { value: 'multiple', description: 'Many open at a time.' },
     ]);
   });
 });

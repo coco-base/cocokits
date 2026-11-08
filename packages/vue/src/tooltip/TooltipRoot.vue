@@ -32,10 +32,21 @@ const props = withDefaults(defineProps<TooltipRootProps>(), {
 });
 defineEmits<TooltipRootEmits>();
 defineSlots<{
-  /** The parts of the tooltip: a trigger and the content. The root renders no element around them. It receives `open`. */
+  /**
+   * The parts of the tooltip: a trigger and the content. The slot gives you the open state. When not set, the
+   * tooltip has no parts.
+   *
+   * The root renders no element around them.
+   *
+   * @example
+   * <TooltipRoot #default="{ open }">
+   *   <TooltipTrigger>Save {{ open ? '(hint shown)' : '' }}</TooltipTrigger>
+   *   <TooltipContent>Save the draft</TooltipContent>
+   * </TooltipRoot>
+   */
   default?(props: {
     /**
-     * Whether the tooltip is open. A disabled tooltip is never shown, whatever this says.
+     * Whether the tooltip is open. A disabled tooltip is never shown, even when this is `true`.
      *
      * @cckSemantic none
      * @cckParity Slot prop: the state of the root.

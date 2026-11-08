@@ -21,20 +21,22 @@ const root = (): HTMLElement => screen.getByTestId('field');
 const named = (text: string): HTMLElement => screen.getByText(text, { exact: false });
 
 describe('Input in a FormField: ids, label and description', () => {
-  it('wires the id, the label for and the description with nothing written', () => {
+  it('wires the id, the label for and the description with nothing written', async () => {
     mountView(() => emailField('email'));
+    await nextTick();
     expect(control().id).toBe('email-control');
     expect(named('Email').getAttribute('for')).toBe('email-control');
-    expect(control().getAttribute('aria-describedby')).toBe('email-feedback');
+    expect(control().getAttribute('aria-describedby')).toBe('email-hint-1 email-hint-2');
     expect(document.getElementById('email-feedback')?.querySelectorAll('.cck-hint')).toHaveLength(2);
     expect(screen.getByRole('textbox', { name: 'Email address' })).toBe(control());
   });
 
-  it('generates the field id and renders no id on the root', () => {
+  it('generates the field id and renders no id on the root', async () => {
     mountView(() => field());
+    await nextTick();
     expect(root().hasAttribute('id')).toBe(false);
     expect(control().id).toMatch(/-control$/);
-    expect(control().getAttribute('aria-describedby')).toBe(`${control().id.replace(/-control$/, '')}-feedback`);
+    expect(control().getAttribute('aria-describedby')).toBeNull();
   });
 
   it('works whatever order the label is written in, and in the default slot', () => {
@@ -50,10 +52,16 @@ describe('Input in a FormField: ids, label and description', () => {
     expect(named('Name').getAttribute('for')).toBe('mine');
   });
 
-  it('keeps the author description first and adds the feedback id once', () => {
-    mountView(() => field({ id: 'f' }, () => h(Input, { 'aria-describedby': 'mine f-feedback' })));
-    expect(control().getAttribute('aria-describedby')).toBe('mine f-feedback');
-    expect(control().getAttribute('aria-describedby')).not.toBe('mine f-feedback f-feedback');
+  it('keeps the author description first and adds the hint id once', async () => {
+    mountView(() =>
+      h(
+        FormField,
+        { id: 'f' },
+        { default: () => h(Input, { 'aria-describedby': 'mine f-hint-1' }), hint: () => h(Hint, null, () => 'H') },
+      ),
+    );
+    await nextTick();
+    expect(control().getAttribute('aria-describedby')).toBe('mine f-hint-1');
   });
 
   it('follows a bound field id', async () => {
@@ -69,7 +77,7 @@ describe('Input in a FormField: ids, label and description', () => {
     await nextTick();
     expect(control().id).toBe('two-control');
     expect(named('Name').getAttribute('for')).toBe('two-control');
-    expect(control().getAttribute('aria-describedby')).toBe('two-feedback');
+    expect(control().getAttribute('aria-describedby')).toBeNull();
     expect(root().id).toBe('two');
   });
 
@@ -195,8 +203,8 @@ describe('Input in a FormField: state', () => {
     expect(root().hasAttribute('id')).toBe(false);
     expect(control().id).toMatch(/-control$/);
     expect(control().id).not.toBe('-control');
-    const feedback = control().getAttribute('aria-describedby') ?? '';
-    expect(document.getElementById(feedback)?.className).toBe('cck-form-field__feedback-wrapper');
+    expect(control().getAttribute('aria-describedby')).toBeNull();
+    expect(control().closest('.cck-form-field')?.querySelector('.cck-form-field__feedback-wrapper')).not.toBeNull();
   });
 
   it('keeps the facts of the machine over an author data-* attribute on the root', () => {
@@ -278,7 +286,7 @@ describe('Input accessible name warning', () => {
     expect(warned(warn)).toBe(false);
   });
 
-  it('keeps several Hints inside the described feedback wrapper', () => {
+  it('keeps several Hints inside the feedback wrapper and describes the control by each', async () => {
     mountView(() =>
       h(
         FormField,
@@ -286,7 +294,9 @@ describe('Input accessible name warning', () => {
         { default: () => h(Input), hint: () => [h(Hint, null, () => 'One'), h(Hint, null, () => 'Two')] },
       ),
     );
+    await nextTick();
     const feedback = document.getElementById('f-feedback');
     expect(feedback?.querySelectorAll('.cck-hint')).toHaveLength(2);
+    expect(control().getAttribute('aria-describedby')).toBe('f-hint-1 f-hint-2');
   });
 });

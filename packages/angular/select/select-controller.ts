@@ -125,7 +125,7 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
     if (trigger && (typeof ngDevMode === 'undefined' || ngDevMode) && !hasAccessibleName(trigger)) {
       console.warn(
         'CocoKits: a Select has no accessible name. Add a <label cckLabel> to its FormField, ' +
-          'or an aria-label or aria-labelledby to the element with cckSelect.',
+          'or an aria-label or aria-labelledby to the <cck-select>.',
       );
     }
   });
