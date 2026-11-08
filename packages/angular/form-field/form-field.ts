@@ -3,18 +3,15 @@ import {
   DestroyRef,
   ElementRef,
   ViewEncapsulation,
-  afterEveryRender,
   booleanAttribute,
   computed,
   inject,
   input,
   signal,
   viewChild,
-  untracked,
   type Signal,
-  type WritableSignal,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, domOrderedList, themeAttrs, type DomOrderedList } from '@cocokits/angular-core';
 import {
   formFieldAnatomy,
   formFieldIds,
@@ -121,19 +118,10 @@ const elementOf = (part: FieldPart): HTMLElement => part.element;
 export class CckFormField {
   private readonly generatedId = inject(IdGenerator).getId(formFieldAnatomy.classes.root);
   private readonly reported = signal<Signal<FormFieldControlState> | undefined>(undefined);
-  private readonly registered: Record<FieldPartKind, WritableSignal<readonly FieldPart[]>> = {
-    hints: signal([]),
-    errors: signal([]),
-  };
-  /** Changes when a render moved a registered part, so the order below is read again. */
-  private readonly moved = signal(0);
-  /**
-   * The registered parts in document order, read when the ids are computed. So the server render and the first
-   * client render are in order, also for a part that `@if` or `@for` created after its static siblings.
-   */
-  private readonly ordered: Record<FieldPartKind, Signal<readonly FieldPart[]>> = {
-    hints: computed(() => this.inDocumentOrder('hints')),
-    errors: computed(() => this.inDocumentOrder('errors')),
+  /** The registered parts in document order, also on the server and at the first client render. */
+  private readonly registered: Record<FieldPartKind, DomOrderedList<FieldPart>> = {
+    hints: domOrderedList(elementOf),
+    errors: domOrderedList(elementOf),
   };
   private owner: object | undefined;
   private controlElement: (() => HTMLElement | null | undefined) | null = null;
@@ -204,33 +192,27 @@ export class CckFormField {
    * @internal
    */
   readonly _ids = computed(() => {
-    const ownIds = (kind: FieldPartKind): (string | undefined)[] => this.ordered[kind]().map((part) => part.ownId());
+    const ownIds = (kind: FieldPartKind): (string | undefined)[] =>
+      this.registered[kind].items().map((part) => part.ownId());
     const ids = formFieldIds(this._fieldId(), { hints: ownIds('hints'), errors: ownIds('errors') });
     return { ...ids, label: this._labelId() ?? ids.label };
   });
 
   /**
-   * Registers a Hint or a FieldError. Call it in the part's injection context. The control's `aria-describedby`
+   * Registers a Hint or a FieldError. Call it in the part's injection context: the host element of the part gives
+   * its place. The control's `aria-describedby`
    * lists the ids of the registered parts: hints first, then errors, each in document order, in the same render.
    *
    * @param kind - `hints` for a Hint, `errors` for a FieldError.
-   * @param element - The host element of the part.
    * @param ownId - The `id` the author gives the part; an empty or missing id gets a generated one.
    * @returns The id the part renders: the author's, or `<fieldId>-hint-<n>` / `<fieldId>-error-<n>`.
    * @internal
    */
-  _registerPart(
-    kind: FieldPartKind,
-    element: HTMLElement,
-    ownId: Signal<string | undefined>,
-  ): Signal<string | undefined> {
+  _registerPart(kind: FieldPartKind, ownId: Signal<string | undefined>): Signal<string | undefined> {
     const list = this.registered[kind];
-    const part: FieldPart = { element, ownId };
-    list.update((parts) => [...parts, part]);
-    inject(DestroyRef).onDestroy(() => {
-      list.update((parts) => parts.filter((other) => other !== part));
-    });
-    return computed(() => this._ids()[kind]?.[this.ordered[kind]().indexOf(part)]);
+    const part: FieldPart = { element: inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, ownId };
+    inject(DestroyRef).onDestroy(list.add(part));
+    return computed(() => this._ids()[kind]?.[list.items().indexOf(part)]);
   }
 
   /**
@@ -261,25 +243,6 @@ export class CckFormField {
 
   /** The theme attributes of every part; the root's are applied to the host. */
   protected readonly theme = themeAttrs(formFieldAnatomy);
-
-  constructor() {
-    // A part that moves (a reordered `@for`) registers nothing new: compare the order after every render.
-    afterEveryRender({
-      read: () => {
-        for (const list of Object.values(this.ordered)) {
-          const current = untracked(list);
-          const sorted = sortByDomOrderOf(current, elementOf);
-          if (sorted.some((part, index) => part !== current[index])) this.moved.update((count) => count + 1);
-        }
-      },
-    });
-  }
-
-  /** The registered parts of one kind in document order. */
-  private inDocumentOrder(kind: FieldPartKind): readonly FieldPart[] {
-    this.moved();
-    return sortByDomOrderOf(this.registered[kind](), elementOf);
-  }
 
   /**
    * Registers the control that is being created. Call it in the control's injection context. The first

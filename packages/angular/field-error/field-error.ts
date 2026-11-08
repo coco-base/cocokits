@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewEncapsulation, booleanAttribute, computed, inject, input } from '@angular/core';
+import { Component, ViewEncapsulation, booleanAttribute, computed, inject, input } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-error';
@@ -43,8 +43,7 @@ export class CckFieldError {
   private readonly field = inject(CckFormField, { optional: true });
 
   /** The id of the host: the author's, or the one the field gives it (`<fieldId>-error-<n>`). */
-  protected readonly renderedId =
-    this.field?._registerPart('errors', inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, this.id) ?? this.id;
+  protected readonly renderedId = this.field?._registerPart('errors', this.id) ?? this.id;
 
   /**
    * Whether the message always shows, whatever the state of the field is.

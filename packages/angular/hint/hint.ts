@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, input } from '@angular/core';
+import { Directive, inject, input } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
 import { CckFormField } from '@cocokits/angular/form-field';
 import { getHintProps, hintAnatomy } from '@cocokits/machines/hint';
@@ -34,8 +34,7 @@ export class CckHint {
   private readonly field = inject(CckFormField, { optional: true });
 
   /** The id of the host: the author's, or the one the field gives it (`<fieldId>-hint-<n>`). */
-  protected readonly renderedId =
-    this.field?._registerPart('hints', inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, this.id) ?? this.id;
+  protected readonly renderedId = this.field?._registerPart('hints', this.id) ?? this.id;
 
   protected readonly parts = getHintProps();
 
