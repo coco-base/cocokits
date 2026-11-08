@@ -7,12 +7,15 @@ export type { SelectOpenReason, SelectValueReason };
 /**
  * The value of a Select. A single Select holds a `T`, or `null` for nothing. A Select with `multiple` holds a list of `T`.
  *
- * `M` is the type of the `multiple` prop.
+ * @typeParam T - The type of the value of one item. When not set, it is `string`.
+ * @typeParam M - Whether the Select is `multiple`: `true` makes the value a list. When not set, it is `false`.
  */
 export type SelectValueOf<T = string, M extends boolean = false> = M extends true ? readonly T[] : T | null;
 
 /**
  * One entry of the `items` prop: a value, the label that the trigger shows for it, and whether it is disabled.
+ *
+ * @typeParam T - The type of the value. When not set, it is `string`.
  */
 export interface SelectItemData<T = string> {
   /** The value of the item. */
@@ -30,6 +33,8 @@ export interface SelectItemData<T = string> {
 
 /**
  * The `items` of a Select: a list of entries, or, for text values, an object from value to label.
+ *
+ * @typeParam T - The type of the value of one item. When not set, it is `string`.
  */
 export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Record<string, string>>;
 
