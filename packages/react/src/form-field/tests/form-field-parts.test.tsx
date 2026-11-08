@@ -14,6 +14,12 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+/** The development warning, word for word the same in both frameworks. */
+const WARNING =
+  'CocoKits: a FormField lists only the Hint and FieldError parts and the plain text put directly in its hint or ' +
+  'error zone. Other content there, such as an element, a wrapper or a component, is not listed and does not ' +
+  'describe the control.';
+
 const describedBy = (): string | null => screen.getByRole('textbox').getAttribute('aria-describedby');
 
 function field(zones: { hint?: ReactNode; error?: ReactNode }): ReactElement {
@@ -25,8 +31,6 @@ function field(zones: { hint?: ReactNode; error?: ReactNode }): ReactElement {
 }
 
 describe('FormField hint and error parts', () => {
-  const NOT_LISTED = 'is not listed and does not describe the control';
-
   it('gives no id to a plain element in a zone, does not list it and warns once in development', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const { rerender } = render(
@@ -43,7 +47,7 @@ describe('FormField hint and error parts', () => {
     expect(describedBy()).toBe('f-hint-1');
     rerender(field({ hint: <span data-testid="plain">Note again</span> }));
     expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+    expect(warn).toHaveBeenCalledWith(WARNING);
   });
 
   it('gives no id to a component that renders a Hint itself, does not list it and warns', () => {
@@ -52,7 +56,22 @@ describe('FormField hint and error parts', () => {
     render(field({ hint: <MyHint /> }));
     expect(screen.getByText('Mine').hasAttribute('id')).toBe(false);
     expect(describedBy()).toBeNull();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+    expect(warn).toHaveBeenCalledWith(WARNING);
+  });
+
+  it('gives no id to a FieldError in hint and a Hint in error, does not list them and warns', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    render(
+      field({
+        hint: <FieldError force>Wrong zone error</FieldError>,
+        error: <Hint>Wrong zone hint</Hint>,
+      }),
+    );
+    expect(screen.getByText('Wrong zone error').hasAttribute('id')).toBe(false);
+    expect(screen.getByText('Wrong zone hint').hasAttribute('id')).toBe(false);
+    expect(describedBy()).toBeNull();
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(WARNING);
   });
 
   it('does not warn for Hints, FieldErrors and plain text', () => {
@@ -85,7 +104,7 @@ describe('FormField hint and error parts', () => {
     expect(screen.getByTestId('wrapper').hasAttribute('id')).toBe(false);
     expect(document.querySelectorAll('.cck-hint[id]')).toHaveLength(0);
     expect(describedBy()).toBeNull();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+    expect(warn).toHaveBeenCalledWith(WARNING);
   });
 
   it('renders plain hint text in a Hint whose id is listed', () => {
