@@ -10,8 +10,8 @@ import {
 import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
 import { memberOf, withoutUndefined } from './member';
 import { placeOf } from './places';
-import { isInternal, paragraphsOf, valuesOf, withoutLinks } from './tags';
-import type { ApiMemberJson, ApiPartJson, ApiSymbolJson, ApiTypeJson } from './types';
+import { isInternal, paragraphsOf, paramRemarksOf, valuesOf, withoutLinks } from './tags';
+import type { ApiMemberJson, ApiPartJson, ApiSymbolJson, ApiTypeJson, TagEntry } from './types';
 
 /** The documented fields an interface declares itself, each with the type as written and its TSDoc. */
 function ownFieldsOf(componentName: string, declaration: ts.InterfaceDeclaration, problems: string[]): ApiMemberJson[] {
@@ -75,34 +75,81 @@ function inheritedFieldOf(
   );
 }
 
+/** The own interface a heritage type stands for, through `Omit`, `Pick` and the like, or undefined. */
+function ownInterfaceOf(
+  program: ts.Program,
+  node: ts.ExpressionWithTypeArguments | ts.TypeNode,
+): ts.InterfaceDeclaration | undefined {
+  if (!ts.isExpressionWithTypeArguments(node) && !ts.isTypeReferenceNode(node)) return undefined;
+  const checker = program.getTypeChecker();
+  const head = ts.isExpressionWithTypeArguments(node) ? node.expression : node.typeName;
+  const symbol = checker.getSymbolAtLocation(head);
+  const target =
+    symbol !== undefined && symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
+  const declaration = target?.declarations?.find(ts.isInterfaceDeclaration);
+  if (declaration !== undefined) return isOwn(program, declaration) ? declaration : undefined;
+  // A utility type of the library (`Omit<Base, 'id'>`) stands for its first type argument.
+  const [first] = node.typeArguments ?? [];
+  return first === undefined ? undefined : ownInterfaceOf(program, first);
+}
+
+/**
+ * The bases outside the workspace that an interface extends, directly or through its own bases, as written: the
+ * native attributes it has. An own base is never named; the native bases it extends are.
+ */
+function nativeBasesOf(program: ts.Program, declaration: ts.InterfaceDeclaration, depth = 0): string[] {
+  const checker = program.getTypeChecker();
+  return (declaration.heritageClauses ?? []).flatMap((clause) =>
+    clause.types.flatMap((base) => {
+      const own = ownInterfaceOf(program, base);
+      if (own !== undefined) return depth < 8 ? nativeBasesOf(program, own, depth + 1) : [];
+      const native = checker
+        .getPropertiesOfType(checker.getTypeAtLocation(base))
+        .some((property) => property.declarations?.some((item) => !isOwn(program, item)) ?? true);
+      return native ? [oneLine(base.getText())] : [];
+    }),
+  );
+}
+
 /**
  * The fields of an interface: its own, then the documented fields of its own bases, as the checker sees them on the
- * interface (an `Omit`ted key is gone, a type argument is filled in). A base outside the workspace (`HTMLAttributes`)
- * is named in `natives` instead, because its attributes are the element's own.
+ * interface (an `Omit`ted key is gone, a type argument is filled in). A field a base outside the workspace declares
+ * (`HTMLAttributes`) is left out; {@link nativeBasesOf} names those bases.
  */
 function fieldsOf(
   program: ts.Program,
   componentName: string,
   declaration: ts.InterfaceDeclaration,
   problems: string[],
-): { fields: ApiMemberJson[]; natives: string[] } {
+): ApiMemberJson[] {
   const fields = ownFieldsOf(componentName, declaration, problems);
   const checker = program.getTypeChecker();
   const listed = new Set(fields.map((field) => field.name));
-  const natives = new Set<string>();
   for (const base of (declaration.heritageClauses ?? []).flatMap((clause) => clause.types)) {
     for (const property of checker.getPropertiesOfType(checker.getTypeAtLocation(base))) {
       const source = property.declarations?.find((item) => ts.isPropertySignature(item) || ts.isMethodSignature(item));
-      if (source === undefined || !isOwn(program, source)) {
-        natives.add(oneLine(base.getText()));
-      } else if (!listed.has(property.name)) {
-        listed.add(property.name);
-        const field = inheritedFieldOf(program, componentName, declaration, property, source, problems);
-        if (field !== undefined) fields.push(field);
-      }
+      if (source === undefined || !isOwn(program, source) || listed.has(property.name)) continue;
+      listed.add(property.name);
+      const field = inheritedFieldOf(program, componentName, declaration, property, source, problems);
+      if (field !== undefined) fields.push(field);
     }
   }
-  return { fields, natives: [...natives] };
+  return fields;
+}
+
+/**
+ * What each type parameter of a generic row stands for: its `@typeParam` text, else that each use fills it in, with
+ * its constraint. Without it, a field typed `Reason` would name a type the page never defines.
+ */
+function typeParamRemarksOf(name: string, declaration: TypeDeclaration, tags: readonly TagEntry[]): string[] {
+  const written = paramRemarksOf(tags, 'typeParam');
+  return (declaration.typeParameters ?? []).map((parameter) => {
+    const own = written.find((line) => line.startsWith(`\`${parameter.name.text}\`:`));
+    if (own !== undefined) return own;
+    const constraint =
+      parameter.constraint === undefined ? '' : ` It must be a \`${oneLine(parameter.constraint.getText())}\`.`;
+    return `\`${parameter.name.text}\`: the type that each use of \`${name}\` fills in.${constraint}`;
+  });
 }
 
 /** The Types row of a documented interface or alias, or undefined for an `@internal` or undocumented one. */
@@ -116,16 +163,18 @@ function typeRowOf(
   const tags = tagsOfNode(declaration);
   const [description] = paragraphsOf(docTextOf(declaration));
   if (isInternal(tags) || description === undefined) return undefined;
-  const remarks = tags.filter((tag) => tag.name === 'remarks').map((tag) => withoutLinks(tag.comment.trim()));
-  const read = ts.isInterfaceDeclaration(declaration)
-    ? fieldsOf(program, componentName, declaration, problems)
-    : undefined;
-  if (read !== undefined && read.natives.length > 0) {
-    remarks.push(`It also has the native attributes of ${read.natives.map((native) => `\`${native}\``).join(', ')}.`);
+  const remarks = [
+    ...tags.filter((tag) => tag.name === 'remarks').map((tag) => withoutLinks(tag.comment.trim())),
+    ...typeParamRemarksOf(name, declaration, tags),
+  ];
+  const natives = ts.isInterfaceDeclaration(declaration) ? [...new Set(nativeBasesOf(program, declaration))] : [];
+  if (natives.length > 0) {
+    remarks.push(`It also has the native attributes of ${natives.map((native) => `\`${native}\``).join(', ')}.`);
   }
   const base = { name, description, ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}) };
-  if (read !== undefined) return { kind: 'interface', ...base, fields: read.fields };
-  if (!ts.isTypeAliasDeclaration(declaration)) return undefined;
+  if (ts.isInterfaceDeclaration(declaration)) {
+    return { kind: 'interface', ...base, fields: fieldsOf(program, componentName, declaration, problems) };
+  }
   // An alias of an alias of string literals is written as its union, with the meanings of the inner alias.
   const resolve = aliasResolverAt(program, declaration);
   const written = oneLine(declaration.type.getText());

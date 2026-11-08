@@ -192,6 +192,59 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     expect(change?.remarks).toBe("It also has the native attributes of `Pick<HTMLAttributes<HTMLElement>, 'id'>`.");
   });
 
+  it('names the native bases an own base extends, never the own base', () => {
+    const bases = [
+      '/** What every change has. */',
+      "interface ThingRootBase extends Omit<HTMLAttributes<HTMLElement>, 'color'> {",
+      '  /** The name of the base. */',
+      '  readonly base?: string;',
+      '}',
+      '',
+    ].join('\n');
+    const change = (
+      extract('native-of-base', (text) =>
+        `${text}\n${bases}`
+          .replace('export interface ThingChange {', 'export interface ThingChange extends Omit<ThingRootBase, "id"> {')
+          .replace(
+            "import type { ReactElement, ReactNode } from 'react';",
+            "import type { HTMLAttributes, ReactElement, ReactNode } from 'react';",
+          ),
+      ).types ?? []
+    ).find((type) => type.name === 'ThingChange');
+    expect(change?.fields.map((field) => field.name)).toContain('base');
+    expect(change?.remarks).toBe("It also has the native attributes of `Omit<HTMLAttributes<HTMLElement>, 'color'>`.");
+  });
+
+  it('says what a type parameter of a row stands for', () => {
+    const generic = [
+      '/** A change of some kind. */',
+      'interface ThingKind<Kind extends string> {',
+      '  /** The kind. */',
+      '  readonly kind: Kind;',
+      '}',
+      '/**',
+      ' * A change with a name.',
+      ' * @typeParam Name - The name of the change.',
+      ' */',
+      'interface ThingNamed<Name> {',
+      '  /** The name. */',
+      '  readonly name: Name;',
+      '}',
+      '',
+    ].join('\n');
+    const types =
+      extract('type-params', (text) =>
+        `${text}\n${generic}`.replace(
+          '  /** The side the thing opens on. */',
+          "  /** A kind. */\n  readonly kind?: ThingKind<'a'>;\n  /** A name. */\n  readonly named?: ThingNamed<string>;\n  /** The side the thing opens on. */",
+        ),
+      ).types ?? [];
+    expect(types.find((type) => type.name === 'ThingKind')?.remarks).toBe(
+      '`Kind`: the type that each use of `ThingKind` fills in. It must be a `string`.',
+    );
+    expect(types.find((type) => type.name === 'ThingNamed')?.remarks).toBe('`Name`: The name of the change.');
+  });
+
   it('reads a name of a member type where the member is declared, also when another folder has the same name', () => {
     const doc = extract(
       'placed',

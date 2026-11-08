@@ -87,8 +87,8 @@ export function valuesOf(tags: readonly TagEntry[], label: string, problems: str
  * The `@param` texts of a function member as remark lines, `` `name`: text `` each: the page has no parameter table,
  * so the text of each parameter goes under the member's description.
  */
-export const paramRemarksOf = (tags: readonly TagEntry[]): string[] =>
-  tagsOf(tags, 'param').flatMap((text) => {
+export const paramRemarksOf = (tags: readonly TagEntry[], tag = 'param'): string[] =>
+  tagsOf(tags, tag).flatMap((text) => {
     const match = /^(\S+)\s+(?:-\s+)?(\S[\s\S]*)$/.exec(text);
     return match === null
       ? []
