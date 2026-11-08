@@ -409,6 +409,23 @@ describe('extractReactApiDocs: a props type that is a union', () => {
       ['type', "'single' | 'multiple'", true],
     ]);
   });
+
+  it('joins the value meanings of every branch, each value once', () => {
+    const withValues = union
+      .replace(
+        "  /** The mode. */\n  readonly type: 'single';",
+        "  /**\n   * The mode.\n   * @cckValue single - One open at a time.\n   */\n  readonly type: 'single';",
+      )
+      .replace(
+        "  /** The mode. */\n  readonly type: 'multiple';",
+        "  /**\n   * The mode.\n   * @cckValue multiple - Many open at a time.\n   * @cckValue single - Said again.\n   */\n  readonly type: 'multiple';",
+      );
+    const type = extract('union-values', withValues)[0]?.parts[0]?.props.find((prop) => prop.name === 'type');
+    expect(type?.values).toEqual([
+      { value: 'single', description: 'One open at a time.' },
+      { value: 'multiple', description: 'Many open at a time.' },
+    ]);
+  });
 });
 
 describe('extractReactApiDocs: parts and defaults that differ by design', () => {

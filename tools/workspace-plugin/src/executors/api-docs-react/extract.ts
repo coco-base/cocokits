@@ -22,7 +22,14 @@ import {
   partDocFields,
   tagsOf,
 } from '../api-docs-common/tags';
-import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
+import type {
+  ApiDocJson,
+  ApiMemberJson,
+  ApiPartJson,
+  ApiSlotJson,
+  ApiValueJson,
+  TagEntry,
+} from '../api-docs-common/types';
 import { displayTextOf } from './display-text';
 
 const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
@@ -204,7 +211,8 @@ function isEvent(symbol: ts.Symbol): boolean {
 /**
  * The members of the branches of a union props type, in one list. A member of every branch keeps its first branch's
  * text, with the types of the other branches joined by `|` (`'single' | 'multiple'`), and is required only when every
- * branch requires it; a member of some branches only is optional.
+ * branch requires it; a member of some branches only is optional. Its value meanings are those of every branch, the
+ * first meaning of a value winning, so each branch can mean its own literal.
  */
 function mergeBranches(branches: readonly ApiMemberJson[][]): ApiMemberJson[] {
   const names = [...new Set(branches.flatMap((list) => list.map((member) => member.name)))];
@@ -214,13 +222,19 @@ function mergeBranches(branches: readonly ApiMemberJson[][]): ApiMemberJson[] {
     const [head] = own;
     if (head === undefined) return [];
     const types = [...new Set(own.map((member) => member.type))];
+    const meanings = new Map<string, ApiValueJson>();
+    for (const value of own.flatMap((member) => member.values ?? [])) {
+      if (!meanings.has(value.value)) meanings.set(value.value, value);
+    }
+    const values = [...meanings.values()];
+    const merged: ApiMemberJson = {
+      ...head,
+      type: types.join(' | '),
+      required: found.every((member) => member?.required === true),
+      ...(values.length > 0 ? { values } : {}),
+    };
     // The merged member keeps the place of its first branch, where its type names are read.
-    return [
-      placeAt(
-        { ...head, type: types.join(' | '), required: found.every((member) => member?.required === true) },
-        placeOf(head),
-      ),
-    ];
+    return [placeAt(merged, placeOf(head))];
   });
 }
 
