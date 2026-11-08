@@ -1,7 +1,7 @@
 import { basename } from 'node:path';
 import ts from 'typescript';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
-import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
+import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases, isOwn } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { problemsError } from '../api-docs-common/run';
@@ -15,17 +15,7 @@ import {
   tagsOf,
 } from '../api-docs-common/tags';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, TagEntry } from '../api-docs-common/types';
-import { posix } from '../posix-path';
 import { displayTextOf } from './display-text';
-
-/**
- * Whether a declaration belongs to the package or the workspace: native button props, the DOM and the React types
- * come from `node_modules` or the TypeScript library and are not part of the CocoKits API.
- */
-function isOwnDeclaration(program: ts.Program, declaration: ts.Declaration): boolean {
-  const file = declaration.getSourceFile();
-  return !program.isSourceFileDefaultLibrary(file) && !posix(file.fileName).includes('/node_modules/');
-}
 
 const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
   symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
@@ -60,7 +50,7 @@ function propOf(
   asSlot: boolean,
 ): ApiMemberJson | undefined {
   const declaration = symbol.valueDeclaration ?? symbol.declarations?.[0];
-  if (!declaration || !isOwnDeclaration(program, declaration)) return undefined;
+  if (!declaration || !isOwn(program, declaration)) return undefined;
   const required = (symbol.flags & ts.SymbolFlags.Optional) === 0;
   const written = withDefaultArguments(typeTextOf(checker, symbol, declaration), enclosingDefaults(declaration));
   const resolve = aliasResolverAt(program, declaration);
