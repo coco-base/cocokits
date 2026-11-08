@@ -8,12 +8,12 @@ import {
   type TypeDeclaration,
 } from './expand-alias';
 import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
-import { memberOf } from './member';
+import { memberOf, withoutUndefined } from './member';
 import { isInternal, paragraphsOf, valuesOf, withoutLinks } from './tags';
 import type { ApiMemberJson, ApiPartJson, ApiSymbolJson, ApiTypeJson } from './types';
 
-/** The documented fields of an interface: its own members, each with the type as written and its TSDoc. */
-function fieldsOf(componentName: string, declaration: ts.InterfaceDeclaration, problems: string[]): ApiMemberJson[] {
+/** The documented fields an interface declares itself, each with the type as written and its TSDoc. */
+function ownFieldsOf(componentName: string, declaration: ts.InterfaceDeclaration, problems: string[]): ApiMemberJson[] {
   const fields: ApiMemberJson[] = [];
   for (const member of declaration.members) {
     if (!ts.isPropertySignature(member) && !ts.isMethodSignature(member)) continue;
@@ -35,6 +35,75 @@ function fieldsOf(componentName: string, declaration: ts.InterfaceDeclaration, p
   return fields;
 }
 
+const INHERITED_TYPE_FLAGS: ts.TypeFormatFlags =
+  ts.TypeFormatFlags.NoTruncation |
+  ts.TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
+  ts.TypeFormatFlags.UseSingleQuotesForStringLiteralType;
+
+/** The field of an interface that a base declares, as the checker sees it on the interface. */
+function inheritedFieldOf(
+  program: ts.Program,
+  componentName: string,
+  declaration: ts.InterfaceDeclaration,
+  property: ts.Symbol,
+  source: ts.Declaration,
+  problems: string[],
+): ApiMemberJson | undefined {
+  const tags = tagsOfNode(source);
+  if (isInternal(tags)) return undefined;
+  const checker = program.getTypeChecker();
+  const resolve = aliasResolverAt(program, declaration);
+  const required = (property.flags & ts.SymbolFlags.Optional) === 0;
+  const read = checker.typeToString(
+    checker.getTypeOfSymbolAtLocation(property, declaration),
+    declaration,
+    INHERITED_TYPE_FLAGS,
+  );
+  return memberOf(
+    componentName,
+    {
+      name: property.name,
+      type: withoutUndefined(expandAliases(read, resolve), required),
+      required,
+      description: docTextOf(source),
+      tags,
+      aliasValues: aliasValuesOf(read, resolve),
+    },
+    declaration.name.text,
+    problems,
+  );
+}
+
+/**
+ * The fields of an interface: its own, then the documented fields of its own bases, as the checker sees them on the
+ * interface (an `Omit`ted key is gone, a type argument is filled in). A base outside the workspace (`HTMLAttributes`)
+ * is named in `natives` instead, because its attributes are the element's own.
+ */
+function fieldsOf(
+  program: ts.Program,
+  componentName: string,
+  declaration: ts.InterfaceDeclaration,
+  problems: string[],
+): { fields: ApiMemberJson[]; natives: string[] } {
+  const fields = ownFieldsOf(componentName, declaration, problems);
+  const checker = program.getTypeChecker();
+  const listed = new Set(fields.map((field) => field.name));
+  const natives = new Set<string>();
+  for (const base of (declaration.heritageClauses ?? []).flatMap((clause) => clause.types)) {
+    for (const property of checker.getPropertiesOfType(checker.getTypeAtLocation(base))) {
+      const source = property.declarations?.find((item) => ts.isPropertySignature(item) || ts.isMethodSignature(item));
+      if (source === undefined || !isOwn(program, source)) {
+        natives.add(oneLine(base.getText()));
+      } else if (!listed.has(property.name)) {
+        listed.add(property.name);
+        const field = inheritedFieldOf(program, componentName, declaration, property, source, problems);
+        if (field !== undefined) fields.push(field);
+      }
+    }
+  }
+  return { fields, natives: [...natives] };
+}
+
 /** The Types row of a documented interface or alias, or undefined for an `@internal` or undocumented one. */
 function typeRowOf(
   program: ts.Program,
@@ -47,10 +116,15 @@ function typeRowOf(
   const [description] = paragraphsOf(docTextOf(declaration));
   if (isInternal(tags) || description === undefined) return undefined;
   const remarks = tags.filter((tag) => tag.name === 'remarks').map((tag) => withoutLinks(tag.comment.trim()));
-  const base = { name, description, ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}) };
-  if (ts.isInterfaceDeclaration(declaration)) {
-    return { kind: 'interface', ...base, fields: fieldsOf(componentName, declaration, problems) };
+  const read = ts.isInterfaceDeclaration(declaration)
+    ? fieldsOf(program, componentName, declaration, problems)
+    : undefined;
+  if (read !== undefined && read.natives.length > 0) {
+    remarks.push(`It also has the native attributes of ${read.natives.map((native) => `\`${native}\``).join(', ')}.`);
   }
+  const base = { name, description, ...(remarks.length > 0 ? { remarks: remarks.join('\n\n') } : {}) };
+  if (read !== undefined) return { kind: 'interface', ...base, fields: read.fields };
+  if (!ts.isTypeAliasDeclaration(declaration)) return undefined;
   // An alias of an alias of string literals is written as its union, with the meanings of the inner alias.
   const resolve = aliasResolverAt(program, declaration);
   const written = oneLine(declaration.type.getText());

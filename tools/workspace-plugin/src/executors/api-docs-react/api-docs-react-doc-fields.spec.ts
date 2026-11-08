@@ -152,6 +152,38 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     ]);
   });
 
+  it('lists the inherited fields of an interface, without the omitted ones, and names a native base', () => {
+    const bases = [
+      '/** What every change sends. */',
+      'interface ThingBase<R extends string> {',
+      '  /** Why it changed. */',
+      '  readonly cause: R;',
+      '  /** The event that changed it. */',
+      '  readonly source?: Event;',
+      '}',
+      '',
+    ].join('\n');
+    const types =
+      extract('inherited', (text) =>
+        `${text}\n${bases}`
+          .replace(
+            'export interface ThingChange {',
+            "export interface ThingChange extends Omit<ThingBase<'user'>, 'source'>, Pick<HTMLAttributes<HTMLElement>, 'id'> {",
+          )
+          .replace(
+            "import type { ReactElement, ReactNode } from 'react';",
+            "import type { HTMLAttributes, ReactElement, ReactNode } from 'react';",
+          ),
+      ).types ?? [];
+    const change = types.find((type) => type.name === 'ThingChange');
+    expect(change?.fields.map((field) => [field.name, field.type])).toEqual([
+      ['value', 'string'],
+      ['reason', "'user'"],
+      ['cause', "'user'"],
+    ]);
+    expect(change?.remarks).toBe("It also has the native attributes of `Pick<HTMLAttributes<HTMLElement>, 'id'>`.");
+  });
+
   it('reads a slot typed ReactNode or a render function: the object fields, or one field from @param', () => {
     const slots = extract('scope').parts[0]?.slots ?? [];
     expect(slots.find((slot) => slot.name === 'default')?.scope).toEqual([
