@@ -221,9 +221,11 @@ describe('extractReactApiDocs: the fields of the API page', () => {
   it('says what a type parameter of a row stands for', () => {
     const generic = [
       '/** A change of some kind. */',
-      'interface ThingKind<Kind extends string> {',
+      "interface ThingKind<Kind extends string, Size = 'md'> {",
       '  /** The kind. */',
       '  readonly kind: Kind;',
+      '  /** The size. */',
+      '  readonly size?: Size;',
       '}',
       '/**',
       ' * A change with a name.',
@@ -243,7 +245,8 @@ describe('extractReactApiDocs: the fields of the API page', () => {
         ),
       ).types ?? [];
     expect(types.find((type) => type.name === 'ThingKind')?.remarks).toBe(
-      '`Kind`: the type that each use of `ThingKind` fills in. It must be a `string`.',
+      '`Kind`: the type you write in its place in `ThingKind<Kind, Size>`. It must be a `string`.\n\n' +
+        "`Size`: the type you write in its place in `ThingKind<Kind, Size>`. When not set, it is `'md'`.",
     );
     expect(types.find((type) => type.name === 'ThingNamed')?.remarks).toBe('`Name`: The name of the change.');
   });

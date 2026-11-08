@@ -146,17 +146,21 @@ function fieldsOf(
 }
 
 /**
- * What each type parameter of a generic row stands for: its `@typeParam` text, else that each use fills it in, with
- * its constraint. Without it, a field typed `Reason` would name a type the page never defines.
+ * What each type parameter of a generic row stands for: its `@typeParam` text, else where you write it, with its
+ * constraint and its default. Without it, a field typed `Reason` would name a type the page never defines.
  */
 function typeParamRemarksOf(name: string, declaration: TypeDeclaration, tags: readonly TagEntry[]): string[] {
   const written = paramRemarksOf(tags, 'typeParam');
-  return (declaration.typeParameters ?? []).map((parameter) => {
+  const parameters = declaration.typeParameters ?? [];
+  const usage = `\`${name}<${parameters.map((parameter) => parameter.name.text).join(', ')}>\``;
+  return parameters.map((parameter) => {
     const own = written.find((line) => line.startsWith(`\`${parameter.name.text}\`:`));
     if (own !== undefined) return own;
     const constraint =
       parameter.constraint === undefined ? '' : ` It must be a \`${oneLine(parameter.constraint.getText())}\`.`;
-    return `\`${parameter.name.text}\`: the type that each use of \`${name}\` fills in.${constraint}`;
+    const fallback =
+      parameter.default === undefined ? '' : ` When not set, it is \`${oneLine(parameter.default.getText())}\`.`;
+    return `\`${parameter.name.text}\`: the type you write in its place in ${usage}.${constraint}${fallback}`;
   });
 }
 
