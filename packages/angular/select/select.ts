@@ -36,6 +36,8 @@ import type {
 
 /**
  * What `selectionChange` sends: the Select, the new value, the reason and the event.
+ *
+ * @typeParam V - The type of the value of the Select. When not set, it is `string`.
  */
 export interface CckSelectChange<V = string> {
   /**

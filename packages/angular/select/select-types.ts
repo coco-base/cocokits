@@ -23,6 +23,8 @@ export type SelectValueChangeReason = SelectValueReason;
 
 /**
  * The type of the value of one option. For a single Select it is `V`. For a Select with `multiple`, it is the type of one item of the list.
+ *
+ * @typeParam V - The type of the value of the Select.
  */
 export type CckSelectItem<V> = V extends readonly (infer Item)[] ? Item : V;
 
@@ -40,6 +42,8 @@ export interface CckSelectOptionRef {
 
 /**
  * What the `cckSelectTrigger` template receives: the selected values, as `selected`.
+ *
+ * @typeParam T - The type of the value of one option. When not set, it is `string`.
  */
 export interface SelectTriggerContext<T = string> {
   /**
