@@ -24,4 +24,16 @@ describe('sortByDomOrderOf', () => {
     ];
     expect(sortByDomOrderOf(items, (entry) => entry.element)).toEqual([items[1], items[0], items[2]]);
   });
+
+  it('keeps every item when two items name the same element, in the given order', () => {
+    document.body.innerHTML = '<p id="a"></p><p id="b"></p>';
+    const a = must(document.getElementById('a'));
+    const b = must(document.getElementById('b'));
+    const items = [
+      { name: 'b', element: b },
+      { name: 'a1', element: a },
+      { name: 'a2', element: a },
+    ];
+    expect(sortByDomOrderOf(items, (entry) => entry.element).map((entry) => entry.name)).toEqual(['a1', 'a2', 'b']);
+  });
 });
