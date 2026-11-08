@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {
+  cloneVNode,
   computed,
   h,
-  nextTick,
+  onBeforeUpdate,
   onMounted,
   provide,
   shallowRef,
+  triggerRef,
   ref,
   useId,
   useAttrs,
@@ -70,7 +72,8 @@ defineSlots<{
   /**
    * The hints. Several are allowed. When not set, the field shows no hint.
    *
-   * Put each Hint directly in the slot. A plain text renders inside a Hint.
+   * Put each Hint directly in the slot. A plain text renders inside a Hint. Anything else is not listed, and the
+   * field warns once in development.
    *
    * @example
    * <template #hint><Hint>We only use it for the receipt.</Hint></template>
@@ -107,7 +110,8 @@ defineSlots<{
   /**
    * The error messages, after the hints. Several are allowed. When not set, the field shows no error.
    *
-   * Put each FieldError directly in the slot. A plain text renders inside a FieldError that always shows.
+   * Put each FieldError directly in the slot. A plain text renders inside a FieldError that always shows. Anything
+   * else is not listed, and the field warns once in development.
    *
    * @example
    * <template #error><FieldError>Enter an email address.</FieldError></template>
@@ -124,38 +128,30 @@ const themeAttrs = useThemeAttrs(formFieldAnatomy);
 const generatedId = useId();
 const fieldId = computed(() => nonEmpty(props.id) ?? generatedId);
 const authorLabelId = shallowRef<string | undefined>(undefined);
-interface OwnParts {
-  readonly hints: (string | undefined)[];
-  readonly errors: (string | undefined)[];
-}
-// The `id` the author wrote on each hint and error, read from the slots by the render (`zones`). The render runs
-// before the control renders, also on the server, so the control lists the ids from the first render. It is a plain
-// variable, so the render writes no reactive state. When an update changed the parts, `committedParts` takes them
-// after the flush (`nextTick`) and the controls follow. The zones render inside the slot of the root element, so a
-// hook of this component would not see their updates.
-let renderedParts: OwnParts = { hints: [], errors: [] };
-let listedParts: OwnParts = renderedParts;
-const committedParts = shallowRef<OwnParts | undefined>(undefined);
-const sameList = (a: readonly unknown[], b: readonly unknown[]): boolean =>
-  a.length === b.length && a.every((id, index) => id === b[index]);
-const sameParts = (a: OwnParts, b: OwnParts): boolean => sameList(a.hints, b.hints) && sameList(a.errors, b.errors);
+const isHint = (node: VNode): boolean => node.type === Hint;
+const isFieldError = (node: VNode): boolean => node.type === FieldError;
+// The slots as a ref, triggered before each render of the field: the author's render can pass new slot functions.
+const currentSlots = shallowRef(slots);
+onBeforeUpdate(() => {
+  triggerRef(currentSlots);
+});
+// The hint and error zones, read once and shared by the render and the ids. The read tracks what the slots read,
+// so a part that a slot adds or removes reads the zones again. The ids do not depend on which reads them first,
+// and the control lists them from the first render, also on the server.
+const zoneParts = computed(() => {
+  const { hint, error } = currentSlots.value;
+  return {
+    hints: readZone(hint?.() ?? [], isHint, (text) => h(Hint, null, () => text)),
+    // A plain text error was always shown before it became a FieldError; `force` keeps that.
+    errors: readZone(error?.() ?? [], isFieldError, (text) => h(FieldError, { force: true }, () => text)),
+  };
+});
 const ids = computed(() => {
-  listedParts = committedParts.value ?? renderedParts;
-  const generated = formFieldIds(fieldId.value, renderedParts);
+  const { hints, errors } = zoneParts.value;
+  const generated = formFieldIds(fieldId.value, { hints: hints.ownIds, errors: errors.ownIds });
   return authorLabelId.value === undefined ? generated : { ...generated, label: authorLabelId.value };
 });
-let mounted = false;
-let listing = false;
-/** After the flush of an update, tells the controls when the parts changed. The first render needs no telling. */
-function listChangedParts(): void {
-  if (!mounted || listing || sameParts(listedParts, renderedParts)) return;
-  listing = true;
-  void nextTick(() => {
-    listing = false;
-    if (!sameParts(listedParts, renderedParts)) committedParts.value = renderedParts;
-  });
-}
-let warnedWrapper = false;
+let warnedUnlisted = false;
 const own = computed(() => ({
   disabled: props.disabled,
   readOnly: props.readonly,
@@ -172,7 +168,6 @@ let controlElement: HTMLElement | null = null;
 const settled = ref(false);
 onMounted(() => {
   settled.value = true;
-  mounted = true;
 });
 
 const inputWrapper = shallowRef<HTMLElement | null>(null);
@@ -239,24 +234,24 @@ function slotNodes(name: keyof typeof slots): VNode[] {
   return slots[name]?.() ?? [];
 }
 
-const isHint = (node: VNode): boolean => node.type === Hint;
-const isFieldError = (node: VNode): boolean => node.type === FieldError;
+/** The cached zone nodes for this render: a node mounted by an earlier render is copied, as a render must not reuse one. */
+function mountedOnce(nodes: readonly VNode[]): VNode[] {
+  return nodes.map((node) => (node.el ? cloneVNode(node) : node));
+}
 
 /** The zones around a control, written once for both renderings. */
 function zones(control: VNode[] = []): VNode[] {
-  const hints = readZone(slotNodes('hint'), isHint, (text) => h(Hint, null, () => text));
-  // A plain text error was always shown before it became a FieldError; `force` keeps that.
-  const errors = readZone(slotNodes('error'), isFieldError, (text) => h(FieldError, { force: true }, () => text));
-  if ((hints.wrapped || errors.wrapped) && !warnedWrapper && isDevelopment()) {
-    warnedWrapper = true;
+  const { hints, errors } = zoneParts.value;
+  // A console message, not state: it is said once per field.
+  if ((hints.unlisted || errors.unlisted) && !warnedUnlisted && isDevelopment()) {
+    warnedUnlisted = true;
     console.warn(
-      'CocoKits: <FormField> does not read into a wrapper element or a component. Put each Hint and FieldError ' +
-        'directly in the hint or error slot, so it gets an id and describes the control.',
+      'CocoKits: a FormField lists only the Hint and FieldError parts and the plain text put directly in its hint ' +
+        'or error zone. Other content there, such as an element, a wrapper or a component, is not listed and does ' +
+        'not describe the control.',
     );
   }
-  renderedParts = { hints: hints.ownIds, errors: errors.ownIds };
-  listChangedParts();
-  const partIds = formFieldIds(fieldId.value, renderedParts);
+  const partIds = ids.value;
   return [
     ...slotNodes('label'),
     h('div', { ...themeAttrs.value.wrapper, class: parts.value.wrapper.class }, [
@@ -277,8 +272,8 @@ function zones(control: VNode[] = []): VNode[] {
       ...slotNodes('trailing'),
     ]),
     h('div', { ...themeAttrs.value.feedbackWrapper, ...parts.value.feedbackWrapper }, [
-      ...withPartIds(hints.nodes, isHint, partIds.hints),
-      ...withPartIds(errors.nodes, isFieldError, partIds.errors),
+      ...withPartIds(mountedOnce(hints.nodes), isHint, partIds.hints),
+      ...withPartIds(mountedOnce(errors.nodes), isFieldError, partIds.errors),
     ]),
   ];
 }

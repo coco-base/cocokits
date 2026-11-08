@@ -9,8 +9,11 @@ export interface ReadZone {
   readonly nodes: VNode[];
   /** One entry per part in document order: its `id`, or `undefined`. */
   readonly ownIds: (string | undefined)[];
-  /** Whether a node that is not a part holds parts, or is a component the field cannot read into. */
-  readonly wrapped: boolean;
+  /**
+   * Whether the zone holds anything that is not a part or plain text: an element, a wrapper or a custom component,
+   * also one that renders a part itself. The field cannot see what a component renders, so it lists none of them.
+   */
+  readonly unlisted: boolean;
 }
 
 const idOf = (node: VNode): string | undefined => {
@@ -21,15 +24,10 @@ const idOf = (node: VNode): string | undefined => {
 const childrenOf = (node: VNode): VNode[] =>
   Array.isArray(node.children) ? node.children.filter((child): child is VNode => isVNode(child)) : [];
 
-/** Whether an element holds a part anywhere in the vnodes it was written with. */
-function holdsPart(node: VNode, isPart: IsPart): boolean {
-  return childrenOf(node).some((child) => isPart(child) || holdsPart(child, isPart));
-}
-
 /**
  * Reads a zone of a FormField (the `hint` or the `error` slot). Only the nodes `isPart` accepts are parts. A Fragment is read
- * through, and a plain text becomes a part, so it keeps describing the control. Any other node stays as it is and
- * is not read into.
+ * through, and a plain text becomes a part, so it keeps describing the control. Any other node stays as it is, is
+ * not read into and is not listed.
  *
  * @param nodes - The nodes of the slot.
  * @param isPart - Whether a node is a part: a Hint or a FieldError.
@@ -38,7 +36,7 @@ function holdsPart(node: VNode, isPart: IsPart): boolean {
  */
 export function readZone(nodes: readonly VNode[], isPart: IsPart, wrapText: (text: string) => VNode): ReadZone {
   const ownIds: (string | undefined)[] = [];
-  let wrapped = false;
+  let unlisted = false;
   const walk = (zone: readonly VNode[]): VNode[] =>
     zone.map((node) => {
       if (node.type === Comment) return node;
@@ -55,10 +53,10 @@ export function readZone(nodes: readonly VNode[], isPart: IsPart, wrapText: (tex
         ownIds.push(idOf(node));
         return node;
       }
-      if (typeof node.type !== 'string' || holdsPart(node, isPart)) wrapped = true;
+      unlisted = true;
       return node;
     });
-  return { nodes: walk(nodes), ownIds, wrapped };
+  return { nodes: walk(nodes), ownIds, unlisted };
 }
 
 /**

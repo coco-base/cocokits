@@ -15,6 +15,9 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+/** The part of the development warning both frameworks share. */
+const NOT_LISTED = 'is not listed';
+
 const describedBy = (): string | null => screen.getByRole('textbox').getAttribute('aria-describedby');
 
 interface Zones {
@@ -55,7 +58,37 @@ describe('FormField hint and error parts', () => {
     expect(screen.getByTestId('wrapper').hasAttribute('id')).toBe(false);
     expect(document.querySelectorAll('.cck-hint[id]')).toHaveLength(0);
     expect(describedBy()).toBeNull();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('directly in the hint or error'));
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+  });
+
+  it('warns once in development for a plain element, also across renders', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const count = ref(0);
+    mountView(() => field({ hint: () => [h('span', `Note ${String(count.value)}`), h(Hint, null, () => 'Help')] }));
+    await nextTick();
+    count.value += 1;
+    await settle();
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+  });
+
+  it('gives no id to a custom component that renders a Hint itself, does not list it and warns', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const MyHint = defineComponent({ setup: () => () => h(Hint, null, () => 'Mine') });
+    mountView(() => field({ hint: () => h(MyHint) }));
+    await nextTick();
+    expect(screen.getByText('Mine').hasAttribute('id')).toBe(false);
+    expect(describedBy()).toBeNull();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+  });
+
+  it('does not warn for Hints, FieldErrors and plain text', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(() =>
+      field({ hint: () => ['Help', h(Hint, null, () => 'More')], error: () => h(FieldError, null, () => 'Wrong') }),
+    );
+    await settle();
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it('renders plain hint text in a Hint whose id is listed', async () => {
