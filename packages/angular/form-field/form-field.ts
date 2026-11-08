@@ -200,8 +200,8 @@ export class CckFormField {
 
   /**
    * Registers a Hint or a FieldError. Call it in the part's injection context: the host element of the part gives
-   * its place. The control's `aria-describedby`
-   * lists the ids of the registered parts: hints first, then errors, each in document order, in the same render.
+   * its place. The control's `aria-describedby` lists the ids of the registered parts: hints first, then errors,
+   * each in document order, in the same render.
    *
    * @param kind - `hints` for a Hint, `errors` for a FieldError.
    * @param ownId - The `id` the author gives the part; an empty or missing id gets a generated one.

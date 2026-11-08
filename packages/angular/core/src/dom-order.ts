@@ -22,7 +22,10 @@ export function sortByDomOrderOf<T>(items: readonly T[], elementOf: (item: T) =>
   return sortByDomOrder([...byElement.keys()]).flatMap((element) => byElement.get(element) ?? []);
 }
 
-/** A list of items that keeps itself in the document order of their elements. */
+/**
+ * A list of items that keeps itself in the document order of their elements.
+ * @internal
+ */
 export interface DomOrderedList<T> {
   /** The items in document order. */
   readonly items: Signal<readonly T[]>;
