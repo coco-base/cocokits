@@ -2,6 +2,7 @@ import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, Re
 import type { DialogChangeReason } from '@cocokits/machines/dialog';
 import type { CancelableChangeDetails } from '../internal/cancelable-change-details';
 import type { FocusOutsideEvent, PointerDownOutsideEvent } from '../internal/dismiss-handlers';
+import type { RenderProp } from '../internal/render-element';
 
 export type { CancelableChangeDetails, DialogChangeReason, FocusOutsideEvent, PointerDownOutsideEvent };
 
@@ -95,12 +96,6 @@ export interface DialogRootProps {
   readonly modal?: boolean | undefined;
 }
 
-/**
- * The `render` prop of a part: an element, or a function of the merged props and the state of the part. The
- * function form does not work from a Server Component.
- */
-type RenderProp = ReactElement | ((props: DialogRenderProps, state: DialogState) => ReactElement);
-
 /** Props of the {@link DialogTrigger}. Native button props pass through. */
 export interface DialogTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 'color'> {
   /**
@@ -134,7 +129,7 @@ export interface DialogTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp | undefined;
+  readonly render?: RenderProp<DialogRenderProps, DialogState> | undefined;
 }
 
 /** Props of the {@link DialogContent}. Native `dialog` props pass through. */
@@ -241,7 +236,7 @@ export interface DialogTitleProps extends Omit<ComponentPropsWithRef<'h2'>, 'col
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp | undefined;
+  readonly render?: RenderProp<DialogRenderProps, DialogState> | undefined;
 }
 
 /** Props of the {@link DialogDescription}. Native `p` props pass through. */
@@ -264,7 +259,7 @@ export interface DialogDescriptionProps extends Omit<ComponentPropsWithRef<'p'>,
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp | undefined;
+  readonly render?: RenderProp<DialogRenderProps, DialogState> | undefined;
 }
 
 /** Props of the {@link DialogClose}. Native button props pass through. */
@@ -300,7 +295,7 @@ export interface DialogCloseProps extends Omit<ComponentPropsWithRef<'button'>, 
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp | undefined;
+  readonly render?: RenderProp<DialogRenderProps, DialogState> | undefined;
 }
 
 /** A Dialog part: a function component with its `displayName`. */

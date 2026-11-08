@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, RefCallback } from 'react';
 import type { ChangeDetails, Direction } from '@cocokits/shared';
 import type { TabsActivationMode, TabsChangeReason, TabsOrientation } from '@cocokits/machines/tabs';
+import type { RenderProp } from '../internal/render-element';
 
 export type { TabsActivationMode, TabsChangeReason, TabsOrientation };
 
@@ -37,12 +38,6 @@ export interface TabsRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'colo
   /** The merged ref: the `ref` of the part, the `ref` of the rendered element and the `ref` of the part itself. */
   readonly ref: RefCallback<HTMLElement>;
 }
-
-/**
- * The `render` prop of a part: an element, or a function of the merged props and the state of the part. The
- * function form does not work from a Server Component.
- */
-type RenderProp<S> = ReactElement | ((props: TabsRenderProps, state: S) => ReactElement);
 
 /** Props of the {@link TabsRoot}. Native `div` props pass through. */
 export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'defaultValue' | 'dir'> {
@@ -122,7 +117,7 @@ export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabsState> | undefined;
+  readonly render?: RenderProp<TabsRenderProps, TabsState> | undefined;
 }
 
 /** Props of the {@link TabsList}. Native `div` props pass through. Name the list with `aria-label`. */
@@ -171,7 +166,7 @@ export interface TabsListProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabsState> | undefined;
+  readonly render?: RenderProp<TabsRenderProps, TabsState> | undefined;
 }
 
 /** Props of the {@link TabsTrigger}. Native button props pass through. */
@@ -221,7 +216,7 @@ export interface TabsTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabsTriggerState> | undefined;
+  readonly render?: RenderProp<TabsRenderProps, TabsTriggerState> | undefined;
 }
 
 /** Props of the {@link TabsContent}. Native `div` props pass through. */
@@ -262,7 +257,7 @@ export interface TabsContentProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabsContentState> | undefined;
+  readonly render?: RenderProp<TabsRenderProps, TabsContentState> | undefined;
 }
 
 /** Props of the {@link TabsIndicator}. Native `span` props pass through. */
@@ -277,7 +272,7 @@ export interface TabsIndicatorProps extends Omit<ComponentPropsWithRef<'span'>, 
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabsState> | undefined;
+  readonly render?: RenderProp<TabsRenderProps, TabsState> | undefined;
 }
 
 /** A Tabs part: a function component with its `displayName`. */

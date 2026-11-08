@@ -4,6 +4,7 @@ import type { TooltipAlign, TooltipChangeReason, TooltipSide } from '@cocokits/m
 import type { CancelableChangeDetails } from '../internal/cancelable-change-details';
 import type { PointerDownOutsideEvent } from '../internal/dismiss-handlers';
 import type { OverlayArrowProps, OverlayPositioningProps } from '../internal/overlay-positioning.types';
+import type { RenderProp } from '../internal/render-element';
 
 export type { CancelableChangeDetails, PointerDownOutsideEvent, TooltipAlign, TooltipChangeReason, TooltipSide };
 
@@ -162,12 +163,6 @@ export interface TooltipProviderProps {
   readonly disableHoverableContent?: boolean | undefined;
 }
 
-/**
- * The `render` prop of a part: an element, or a function of the merged props and the state of the part. The
- * function form does not work from a Server Component.
- */
-type RenderProp<S> = ReactElement | ((props: TooltipRenderProps, state: S) => ReactElement);
-
 /** Props of the {@link TooltipTrigger}. Native button props pass through. */
 export interface TooltipTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 'color'> {
   /**
@@ -204,7 +199,7 @@ export interface TooltipTriggerProps extends Omit<ComponentPropsWithRef<'button'
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TooltipState> | undefined;
+  readonly render?: RenderProp<TooltipRenderProps, TooltipState> | undefined;
 }
 
 /** Props of the {@link TooltipContent}. Native `div` props pass through. */
@@ -294,7 +289,7 @@ export interface TooltipContentProps
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TooltipContentState> | undefined;
+  readonly render?: RenderProp<TooltipRenderProps, TooltipContentState> | undefined;
 }
 
 /** Props of the {@link TooltipArrow}. Native `span` props pass through. */
@@ -324,7 +319,7 @@ export interface TooltipArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TooltipState> | undefined;
+  readonly render?: RenderProp<TooltipRenderProps, TooltipState> | undefined;
 }
 
 /** A Tooltip part: a function component with its `displayName`. */

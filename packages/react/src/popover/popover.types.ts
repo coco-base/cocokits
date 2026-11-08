@@ -4,6 +4,7 @@ import type { PopoverAlign, PopoverChangeReason, PopoverSide } from '@cocokits/m
 import type { CancelableChangeDetails } from '../internal/cancelable-change-details';
 import type { FocusOutsideEvent, PointerDownOutsideEvent } from '../internal/dismiss-handlers';
 import type { OverlayArrowProps, OverlayPositioningProps } from '../internal/overlay-positioning.types';
+import type { RenderProp } from '../internal/render-element';
 
 export type {
   CancelableChangeDetails,
@@ -111,12 +112,6 @@ export interface PopoverRootProps {
   readonly modal?: boolean | undefined;
 }
 
-/**
- * The `render` prop of a part: an element, or a function of the merged props and the state of the part. The
- * function form does not work from a Server Component.
- */
-type RenderProp<S> = ReactElement | ((props: PopoverRenderProps, state: S) => ReactElement);
-
 /** Props of the {@link PopoverTrigger}. Native button props pass through. */
 export interface PopoverTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 'color'> {
   /**
@@ -150,7 +145,7 @@ export interface PopoverTriggerProps extends Omit<ComponentPropsWithRef<'button'
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverState> | undefined;
 }
 
 /** Props of the {@link PopoverAnchor}. Native `div` props pass through. */
@@ -187,7 +182,7 @@ export interface PopoverAnchorProps extends Omit<ComponentPropsWithRef<'div'>, '
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverState> | undefined;
 }
 
 /** Props of the {@link PopoverTitle}. Native `h2` props pass through. */
@@ -211,7 +206,7 @@ export interface PopoverTitleProps extends Omit<ComponentPropsWithRef<'h2'>, 'co
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverState> | undefined;
 }
 
 /** Props of the {@link PopoverDescription}. Native `p` props pass through. */
@@ -234,7 +229,7 @@ export interface PopoverDescriptionProps extends Omit<ComponentPropsWithRef<'p'>
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverState> | undefined;
 }
 
 /** Props of the {@link PopoverContent}. Native `div` props pass through. Give the content an accessible name. */
@@ -354,7 +349,7 @@ export interface PopoverContentProps
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverContentState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverContentState> | undefined;
 }
 
 /** Props of the {@link PopoverArrow}. Native `span` props pass through. */
@@ -384,7 +379,7 @@ export interface PopoverArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverState> | undefined;
 }
 
 /** Props of the {@link PopoverClose}. Native button props pass through. */
@@ -420,7 +415,7 @@ export interface PopoverCloseProps extends Omit<ComponentPropsWithRef<'button'>,
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<PopoverState> | undefined;
+  readonly render?: RenderProp<PopoverRenderProps, PopoverState> | undefined;
 }
 
 /** A Popover part: a function component with its `displayName`. */

@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, RefCallback } from 'react';
+import type { RenderProp } from '../internal/render-element';
 
 /**
  * The props that the function form of `render` receives: the native props merged with the props of the part. Pass
@@ -24,9 +25,6 @@ export interface TabNavLinkState {
   /** Whether this link is disabled. */
   readonly disabled: boolean;
 }
-
-/** The `render` prop of a part: an element, or a function of the merged props and the state of the part. */
-type RenderProp<S> = ReactElement | ((props: TabNavRenderProps, state: S) => ReactElement);
 
 /** Props of the {@link TabNavRoot}. Native `nav` props pass through. Name the landmark with `aria-label`. */
 export interface TabNavRootProps extends Omit<ComponentPropsWithRef<'nav'>, 'color'> {
@@ -69,7 +67,7 @@ export interface TabNavRootProps extends Omit<ComponentPropsWithRef<'nav'>, 'col
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabNavState> | undefined;
+  readonly render?: RenderProp<TabNavRenderProps, TabNavState> | undefined;
 }
 
 /** Props of the {@link TabNavList}. Native `div` props pass through. */
@@ -96,7 +94,7 @@ export interface TabNavListProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabNavState> | undefined;
+  readonly render?: RenderProp<TabNavRenderProps, TabNavState> | undefined;
 }
 
 /** Props of the {@link TabNavIndicator}. Native `span` props pass through. */
@@ -111,7 +109,7 @@ export interface TabNavIndicatorProps extends Omit<ComponentPropsWithRef<'span'>
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabNavState> | undefined;
+  readonly render?: RenderProp<TabNavRenderProps, TabNavState> | undefined;
 }
 
 /** Props of the {@link TabNavPanel}. Native `div` props pass through. */
@@ -157,7 +155,7 @@ export interface TabNavPanelProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<TabNavState> | undefined;
+  readonly render?: RenderProp<TabNavRenderProps, TabNavState> | undefined;
 }
 
 /** Props of the {@link TabNavLink}. Native `a` props pass through. */

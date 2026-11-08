@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, RefCallback } from 'react';
 import type { ChangeDetails, Direction } from '@cocokits/shared';
 import type { AccordionChangeReason, AccordionOrientation, AccordionType } from '@cocokits/machines/accordion';
+import type { RenderProp } from '../internal/render-element';
 
 export type { AccordionChangeReason, AccordionOrientation, AccordionType };
 
@@ -31,12 +32,6 @@ export interface AccordionRenderProps extends Omit<HTMLAttributes<HTMLElement>, 
   /** The merged ref: the `ref` of the part, the `ref` of the rendered element and the `ref` of the part itself. */
   readonly ref: RefCallback<HTMLElement>;
 }
-
-/**
- * The `render` prop of a part: an element, or a function of the merged props and the state of the part. The
- * function form does not work from a Server Component.
- */
-type RenderProp<S> = ReactElement | ((props: AccordionRenderProps, state: S) => ReactElement);
 
 /** Props that both kinds of Root share. Native `div` props pass through. */
 interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'defaultValue' | 'dir'> {
@@ -87,7 +82,7 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<AccordionState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionState> | undefined;
 }
 
 /** Props of an {@link AccordionRoot} with `type="single"`: at most one item is open. */
@@ -230,7 +225,7 @@ export interface AccordionItemProps extends Omit<ComponentPropsWithRef<'div'>, '
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** Props of the {@link AccordionHeader}. Native `h3` props pass through. */
@@ -255,7 +250,7 @@ export interface AccordionHeaderProps extends Omit<ComponentPropsWithRef<'h3'>, 
    * @cckSemantic accordion.header.headingLevel
    * @cckParity Sets the heading level by replacing the rendered element.
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** Props of the {@link AccordionTrigger}. Native button props pass through. */
@@ -292,7 +287,7 @@ export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'butto
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** Props of the {@link AccordionContent}. Native `div` props pass through. */
@@ -324,7 +319,7 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
    */
-  readonly render?: RenderProp<AccordionItemState> | undefined;
+  readonly render?: RenderProp<AccordionRenderProps, AccordionItemState> | undefined;
 }
 
 /** An Accordion part: a function component with its `displayName`. The Content renders nothing while closed. */
