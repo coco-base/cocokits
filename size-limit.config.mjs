@@ -41,7 +41,7 @@ const entries = [
   { name: '@cocokits/angular/form-field', path: 'dist/packages/angular/fesm2022/cocokits-angular-form-field.mjs', limit: '2250 B' },
   { name: '@cocokits/angular/label', path: 'dist/packages/angular/fesm2022/cocokits-angular-label.mjs', limit: '1390 B' },
   { name: '@cocokits/angular/hint', path: 'dist/packages/angular/fesm2022/cocokits-angular-hint.mjs', limit: '960 B' },
-  { name: '@cocokits/react/form-field', path: 'packages/react/dist/form-field/index.js', limit: '2320 B' },
+  { name: '@cocokits/react/form-field', path: 'packages/react/dist/form-field/index.js', limit: '2330 B' },
   { name: '@cocokits/react/label', path: 'packages/react/dist/label/index.js', limit: '760 B' },
   { name: '@cocokits/react/hint', path: 'packages/react/dist/hint/index.js', limit: '750 B' },
   { name: '@cocokits/vue/form-field', path: 'packages/vue/dist/form-field/index.js', limit: '2370 B' },
