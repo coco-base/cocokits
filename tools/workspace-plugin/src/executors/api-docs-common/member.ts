@@ -13,6 +13,13 @@ import {
 } from './tags';
 import type { ApiMemberJson, ApiValueJson, TagEntry } from './types';
 
+/**
+ * Whether a type text is a function type, also in parentheses: `(value: string) => void`, `(() => void)`. A type in
+ * parentheses that starts with anything but a parameter list, such as `('a' | 'b')[]`, is none.
+ */
+const isFunctionType = (type: string): boolean =>
+  /^\(*\s*(?:\)|\.\.\.|[\w$]+\??\s*[:,)])/.test(type.trim()) && type.includes('=>');
+
 /** What an extractor read of a member, before it becomes an `ApiMember`. */
 export interface RawMember {
   /** The name a consumer uses. */
@@ -63,7 +70,7 @@ export function memberOf(
   const [description, ...rest] = paragraphsOf(raw.description);
   if (description === undefined) return undefined;
   // A function member (a method or a callback) shows the text of its parameters after its remarks.
-  const params = raw.type.trimStart().startsWith('(') ? paramRemarksOf(raw.tags) : [];
+  const params = isFunctionType(raw.type) ? paramRemarksOf(raw.tags) : [];
   const remarks = [...rest, ...tagsOf(raw.tags, 'remarks').map(withoutLinks), ...params].filter((text) => text !== '');
   const [deprecatedText] = tagsOf(raw.tags, 'deprecated');
   const deprecated = deprecatedText === undefined ? undefined : withoutLinks(deprecatedText);
