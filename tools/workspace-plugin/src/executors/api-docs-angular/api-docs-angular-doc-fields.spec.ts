@@ -69,6 +69,26 @@ describe('extractAngularApiDocs: the fields of the API page', () => {
     expect(imports?.type).toBe('readonly [Thing]');
   });
 
+  it('writes a defaulted method parameter as optional and the @param text in the remarks', () => {
+    const ref = extract('params', (text) =>
+      text.replace(
+        '  /** Closes the thing. */\n  close(): void {}',
+        [
+          '  /**',
+          '   * Closes the thing.',
+          '   * @param reason - Why it closes. When not set, the reason is `done`.',
+          '   * @param later - Whether it waits.',
+          '   */',
+          "  close(reason: string = 'done', later?: boolean): void {}",
+        ].join('\n'),
+      ),
+    ).symbols?.find((symbol) => symbol.name === 'ThingRef');
+    expect(ref?.methods[0]).toMatchObject({
+      type: '(reason?: string, later?: boolean) => void',
+      remarks: '`reason`: Why it closes. When not set, the reason is `done`.\n\n`later`: Whether it waits.',
+    });
+  });
+
   it('lists every documented interface and alias the entry point exports, except @internal ones', () => {
     const types = doc().types ?? [];
     expect(types.map((type) => [type.name, type.kind])).toEqual([

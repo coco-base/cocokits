@@ -4,6 +4,7 @@ import {
   defaultOf,
   groupOf,
   isShared,
+  paramRemarksOf,
   paragraphsOf,
   semanticIdOf,
   tagsOf,
@@ -61,7 +62,9 @@ export function memberOf(
 ): ApiMemberJson | undefined {
   const [description, ...rest] = paragraphsOf(raw.description);
   if (description === undefined) return undefined;
-  const remarks = [...rest, ...tagsOf(raw.tags, 'remarks').map(withoutLinks)].filter((text) => text !== '');
+  // A function member (a method or a callback) shows the text of its parameters after its remarks.
+  const params = raw.type.trimStart().startsWith('(') ? paramRemarksOf(raw.tags) : [];
+  const remarks = [...rest, ...tagsOf(raw.tags, 'remarks').map(withoutLinks), ...params].filter((text) => text !== '');
   const [deprecatedText] = tagsOf(raw.tags, 'deprecated');
   const deprecated = deprecatedText === undefined ? undefined : withoutLinks(deprecatedText);
   checkParity(`${owner}.${raw.name}`, raw.tags, problems);

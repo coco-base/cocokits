@@ -24,15 +24,27 @@ function isPublicMember(member: ts.ClassElement, tags: readonly TagEntry[]): boo
   );
 }
 
-/** The type text of a property, a getter or a method (as a function type). */
-function memberTypeOf(member: ts.MethodDeclaration | ts.PropertyDeclaration | ts.GetAccessorDeclaration): string {
+/**
+ * The type text of a property, a getter or a method (as a function type). A parameter is written `name: type`, and a
+ * parameter with a default is optional to the caller (`dialogs?: readonly CckDialogRef[]`); the default itself is
+ * code of the class, not API.
+ */
+function memberTypeOf(
+  checker: ts.TypeChecker,
+  member: ts.MethodDeclaration | ts.PropertyDeclaration | ts.GetAccessorDeclaration,
+): string {
   if (!ts.isMethodDeclaration(member)) return member.type?.getText() ?? 'unknown';
-  const parameters = member.parameters.map((parameter) => parameter.getText()).join(', ');
-  return `(${parameters}) => ${member.type?.getText() ?? 'void'}`;
+  const parameters = member.parameters.map((parameter) => {
+    const optional = parameter.questionToken !== undefined || parameter.initializer !== undefined;
+    const type = parameter.type?.getText() ?? checker.typeToString(checker.getTypeAtLocation(parameter));
+    return `${parameter.dotDotDotToken === undefined ? '' : '...'}${parameter.name.getText()}${optional ? '?' : ''}: ${type}`;
+  });
+  return `(${parameters.join(', ')}) => ${member.type?.getText() ?? 'void'}`;
 }
 
 /** The documented public properties and methods a class declares itself. */
 function membersOfClass(
+  checker: ts.TypeChecker,
   componentName: string,
   declaration: ts.ClassDeclaration,
   problems: string[],
@@ -49,7 +61,7 @@ function membersOfClass(
       componentName,
       {
         name: member.name.getText(),
-        type: oneLine(memberTypeOf(member)),
+        type: oneLine(memberTypeOf(checker, member)),
         required: !(ts.isPropertyDeclaration(member) && member.questionToken !== undefined),
         description: docTextOf(member),
         tags,
@@ -100,7 +112,7 @@ function symbolOf(
   return {
     kind: decorators.includes('Injectable') ? 'service' : 'class',
     ...base,
-    ...membersOfClass(componentName, declaration, problems),
+    ...membersOfClass(checker, componentName, declaration, problems),
   };
 }
 

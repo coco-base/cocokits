@@ -1,11 +1,18 @@
 import ts from 'typescript';
 import type { TagEntry } from './types';
 
-/** The TSDoc tags of a declaration, each with its name and its text. */
+/**
+ * The TSDoc tags of a declaration, each with its name and its text. The text of a `@param` starts with the parameter
+ * name (`dialogs - The dialogs to close.`), as the checker writes it.
+ */
 export const tagsOfNode = (node: ts.Node): TagEntry[] =>
-  ts
-    .getJSDocTags(node)
-    .map((tag) => ({ name: tag.tagName.text, comment: ts.getTextOfJSDocComment(tag.comment) ?? '' }));
+  ts.getJSDocTags(node).map((tag) => {
+    const comment = ts.getTextOfJSDocComment(tag.comment) ?? '';
+    return {
+      name: tag.tagName.text,
+      comment: ts.isJSDocParameterTag(tag) ? `${tag.name.getText()} ${comment}`.trim() : comment,
+    };
+  });
 
 /** The TSDoc text of a declaration without its tags, or an empty string. */
 export const docTextOf = (node: ts.Node): string =>
