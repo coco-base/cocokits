@@ -24,11 +24,6 @@ export type OverlayAlign = 'start' | 'center' | 'end';
  * An anchor that is not an element: any object that measures itself.
  * Use it to place an overlay at a point, such as the pointer.
  * The position is computed from the box that `getBoundingClientRect` returns.
- *
- * @example
- * const anchor = {
- *   getBoundingClientRect: () => ({ x: 120, y: 80, width: 0, height: 0, top: 80, right: 120, bottom: 80, left: 120 }),
- * };
  */
 export interface OverlayVirtualAnchor {
   /** Returns the box of the anchor in viewport pixels. It is called again whenever the position is computed. */
