@@ -22,7 +22,7 @@ import {
   type Signal,
   type TemplateRef,
 } from '@angular/core';
-import { CckAttrs, CckDirection, IdGenerator, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { scrollItemIntoList, trackActiveIndicator, type ActiveIndicator } from '@cocokits/cdk/active-indicator';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
 import { createRovingFocus } from '@cocokits/cdk/roving-focus';
@@ -38,7 +38,6 @@ import {
   type TabsParts,
   type TabsState,
 } from '@cocokits/machines/tabs';
-import { sortByDomOrder } from '@cocokits/utils';
 import { CCK_TABS_CONFIG } from './tabs-config';
 
 /** What a Tabs knows about one `cck-tab`: the tab a change event reports. */
@@ -67,17 +66,6 @@ export interface CckTabChangeEvent {
   readonly index: number;
   /** The tab, with its `label`, its `disabled` state and the `id` of its trigger. */
   readonly tab: CckTabRegistration;
-}
-
-/**
- * Sorts the tabs into document order.
- *
- * @param tabs - The registered tabs.
- * @returns A new array in document order.
- */
-function inDomOrder(tabs: readonly CckTabRegistration[]): CckTabRegistration[] {
-  const byElement = new Map(tabs.map((tab) => [tab._element, tab]));
-  return sortByDomOrder(tabs.map((tab) => tab._element)).flatMap((element) => byElement.get(element) ?? []);
 }
 
 /**
@@ -242,7 +230,7 @@ export class CckTabs {
   /** The tabs in document order. */
   protected readonly ordered = linkedSignal<ReadonlySet<CckTabRegistration>, readonly CckTabRegistration[]>({
     source: this.registry,
-    computation: (tabs) => inDomOrder([...tabs]),
+    computation: (tabs) => sortByDomOrderOf([...tabs], (tab) => tab._element),
   });
 
   /**
@@ -339,7 +327,7 @@ export class CckTabs {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (tab) => tab._element);
         if (sorted.some((tab, index) => tab !== current[index])) this.ordered.set(sorted);
       },
     });

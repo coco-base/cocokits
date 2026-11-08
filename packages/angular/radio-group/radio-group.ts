@@ -15,7 +15,7 @@ import {
   type Signal,
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
-import { CckDirection, IdGenerator, themeAttrs } from '@cocokits/angular-core';
+import { CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import {
   getRadioGroupProps,
   radioGroupAnatomy,
@@ -28,7 +28,6 @@ import {
   type RadioGroupState,
 } from '@cocokits/machines/radio-group';
 import type { ValueChangeDetails } from '@cocokits/shared';
-import { sortByDomOrder } from '@cocokits/utils';
 
 /** Why the value of a Radio group changed. */
 export type RadioGroupChangeReason = MachineChangeReason;
@@ -51,17 +50,6 @@ export interface CckRadioGroupRegistration {
   readonly required: Signal<boolean>;
   /** The radio's own `form`. */
   readonly form: Signal<string | undefined>;
-}
-
-/**
- * Sorts the radios into document order.
- *
- * @param radios - The registered radios.
- * @returns A new array in document order.
- */
-function inDomOrder(radios: readonly CckRadioGroupRegistration[]): CckRadioGroupRegistration[] {
-  const byElement = new Map(radios.map((radio) => [radio.element, radio]));
-  return sortByDomOrder(radios.map((radio) => radio.element)).flatMap((element) => byElement.get(element) ?? []);
 }
 
 /**
@@ -185,7 +173,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   private readonly ordered = linkedSignal<ReadonlySet<CckRadioGroupRegistration>, readonly CckRadioGroupRegistration[]>(
     {
       source: this.registry,
-      computation: (radios) => inDomOrder([...radios]),
+      computation: (radios) => sortByDomOrderOf([...radios], (radio) => radio.element),
     },
   );
 
@@ -226,7 +214,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (radio) => radio.element);
         if (sorted.some((radio, index) => radio !== current[index])) this.ordered.set(sorted);
       },
     });

@@ -16,11 +16,11 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { CckAttrs, CckDirection, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, CckDirection, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { scrollItemIntoList, trackActiveIndicator, type ActiveIndicator } from '@cocokits/cdk/active-indicator';
 import { createRovingFocus } from '@cocokits/cdk/roving-focus';
 import { getTabNavProps, resolveTabNavStop, tabNavAnatomy, type TabNavParts } from '@cocokits/machines/tab-nav';
-import { hasAccessibleName, sortByDomOrder } from '@cocokits/utils';
+import { hasAccessibleName } from '@cocokits/utils';
 
 import type { CckTabNavPanel } from './tab-nav-panel';
 
@@ -34,17 +34,6 @@ export interface CckTabNavRegistration {
   readonly disabled: Signal<boolean>;
   /** The id of the link. */
   readonly id: Signal<string>;
-}
-
-/**
- * Sorts the links into document order.
- *
- * @param links - The registered links.
- * @returns A new array in document order.
- */
-function inDomOrder(links: readonly CckTabNavRegistration[]): CckTabNavRegistration[] {
-  const byElement = new Map(links.map((link) => [link._element, link]));
-  return sortByDomOrder(links.map((link) => link._element)).flatMap((element) => byElement.get(element) ?? []);
 }
 
 /**
@@ -111,7 +100,7 @@ export class CckTabNav {
   /** The links in document order. */
   private readonly ordered = linkedSignal<ReadonlySet<CckTabNavRegistration>, readonly CckTabNavRegistration[]>({
     source: this.registry,
-    computation: (links) => inDomOrder([...links]),
+    computation: (links) => sortByDomOrderOf([...links], (link) => link._element),
   });
 
   private readonly direction = inject(CckDirection);
@@ -151,7 +140,7 @@ export class CckTabNav {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (link) => link._element);
         if (sorted.some((link, index) => link !== current[index])) this.ordered.set(sorted);
       },
     });

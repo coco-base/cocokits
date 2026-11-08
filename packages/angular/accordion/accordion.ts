@@ -14,7 +14,7 @@ import {
   untracked,
   type Signal,
 } from '@angular/core';
-import { themeAttrs } from '@cocokits/angular-core';
+import { sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
 import {
   accordionAnatomy,
@@ -24,7 +24,6 @@ import {
   type AccordionRootProps,
   type AccordionState,
 } from '@cocokits/machines/accordion';
-import { sortByDomOrder } from '@cocokits/utils';
 
 /** What the root needs to know about one item. @internal */
 export interface CckAccordionItemRegistration {
@@ -40,17 +39,6 @@ export interface CckAccordionItemRegistration {
   _commit(open: boolean): void;
   /** Moves focus to the trigger of the item. */
   _focusTrigger(): void;
-}
-
-/**
- * Sorts the items into document order.
- *
- * @param items - The registered items.
- * @returns A new array in document order.
- */
-function inDomOrder(items: readonly CckAccordionItemRegistration[]): CckAccordionItemRegistration[] {
-  const byElement = new Map(items.map((item) => [item._element, item]));
-  return sortByDomOrder(items.map((item) => item._element)).flatMap((element) => byElement.get(element) ?? []);
 }
 
 /**
@@ -101,7 +89,7 @@ export class CckAccordion {
     readonly CckAccordionItemRegistration[]
   >({
     source: this.registry,
-    computation: (items) => inDomOrder([...items]),
+    computation: (items) => sortByDomOrderOf([...items], (item) => item._element),
   });
 
   /** The id of the item whose trigger has keyboard focus visible. @internal */
@@ -140,7 +128,7 @@ export class CckAccordion {
     afterEveryRender({
       read: () => {
         const current = untracked(this.ordered);
-        const sorted = inDomOrder(current);
+        const sorted = sortByDomOrderOf(current, (item) => item._element);
         if (sorted.some((item, index) => item !== current[index])) this.ordered.set(sorted);
       },
     });
