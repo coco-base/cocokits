@@ -75,11 +75,14 @@ function inheritedFieldOf(
   );
 }
 
-/** The own interface a heritage type stands for, through `Omit`, `Pick` and the like, or undefined. */
+/**
+ * The own interface a heritage type stands for, through `Omit`, `Pick` and the like, with the utility types around it:
+ * `wrap` writes a native base of the interface inside them (`Omit<Base, 'id'>` gives `Omit<<native>, 'id'>`).
+ */
 function ownInterfaceOf(
   program: ts.Program,
   node: ts.ExpressionWithTypeArguments | ts.TypeNode,
-): ts.InterfaceDeclaration | undefined {
+): { declaration: ts.InterfaceDeclaration; wrap: (native: string) => string } | undefined {
   if (!ts.isExpressionWithTypeArguments(node) && !ts.isTypeReferenceNode(node)) return undefined;
   const checker = program.getTypeChecker();
   const head = ts.isExpressionWithTypeArguments(node) ? node.expression : node.typeName;
@@ -87,22 +90,27 @@ function ownInterfaceOf(
   const target =
     symbol !== undefined && symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol;
   const declaration = target?.declarations?.find(ts.isInterfaceDeclaration);
-  if (declaration !== undefined) return isOwn(program, declaration) ? declaration : undefined;
+  if (declaration !== undefined)
+    return isOwn(program, declaration) ? { declaration, wrap: (native) => native } : undefined;
   // A utility type of the library (`Omit<Base, 'id'>`) stands for its first type argument.
-  const [first] = node.typeArguments ?? [];
-  return first === undefined ? undefined : ownInterfaceOf(program, first);
+  const [first, ...rest] = node.typeArguments ?? [];
+  const inner = first === undefined ? undefined : ownInterfaceOf(program, first);
+  if (inner === undefined) return undefined;
+  const others = rest.map((argument) => `, ${oneLine(argument.getText())}`).join('');
+  return { declaration: inner.declaration, wrap: (native) => `${head.getText()}<${inner.wrap(native)}${others}>` };
 }
 
 /**
  * The bases outside the workspace that an interface extends, directly or through its own bases, as written: the
- * native attributes it has. An own base is never named; the native bases it extends are.
+ * native attributes it has. An own base is never named; the native bases it extends are, inside the `Omit` or `Pick`
+ * that the own base sits in. TypeScript rejects a base that extends itself, so the walk ends.
  */
-function nativeBasesOf(program: ts.Program, declaration: ts.InterfaceDeclaration, depth = 0): string[] {
+function nativeBasesOf(program: ts.Program, declaration: ts.InterfaceDeclaration): string[] {
   const checker = program.getTypeChecker();
   return (declaration.heritageClauses ?? []).flatMap((clause) =>
     clause.types.flatMap((base) => {
       const own = ownInterfaceOf(program, base);
-      if (own !== undefined) return depth < 8 ? nativeBasesOf(program, own, depth + 1) : [];
+      if (own !== undefined) return nativeBasesOf(program, own.declaration).map(own.wrap);
       const native = checker
         .getPropertiesOfType(checker.getTypeAtLocation(base))
         .some((property) => property.declarations?.some((item) => !isOwn(program, item)) ?? true);

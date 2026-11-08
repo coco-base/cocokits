@@ -212,7 +212,10 @@ describe('extractReactApiDocs: the fields of the API page', () => {
       ).types ?? []
     ).find((type) => type.name === 'ThingChange');
     expect(change?.fields.map((field) => field.name)).toContain('base');
-    expect(change?.remarks).toBe("It also has the native attributes of `Omit<HTMLAttributes<HTMLElement>, 'color'>`.");
+    // The outer `Omit` of the own base also leaves its key out of the native attributes.
+    expect(change?.remarks).toBe(
+      'It also has the native attributes of `Omit<Omit<HTMLAttributes<HTMLElement>, \'color\'>, "id">`.',
+    );
   });
 
   it('says what a type parameter of a row stands for', () => {
