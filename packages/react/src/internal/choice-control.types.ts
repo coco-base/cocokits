@@ -58,7 +58,20 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * @cckParity The uncontrolled start value.
    */
   readonly defaultChecked?: boolean | undefined;
-  /** Called after the user checks or unchecks the control. Each control declares it with its own details type. */
+  /**
+   * Called after the user checks or unchecks the control, and after a reset of its form. It receives the new state
+   * and a details object with the `reason` and the `event`.
+   *
+   * The `event` is the native `change` event, or the `reset` event after a reset. It is never called when you
+   * change `checked` yourself.
+   *
+   * @example
+   * onCheckedChange={(checked, details) => {
+   *   if (details.reason === 'user') setAccepted(checked);
+   * }}
+   * @cckSemantic *.checkedChange
+   * @cckParity The change callback of this component.
+   */
   readonly onCheckedChange?: ((checked: boolean, details: ChoiceControlChangeDetails) => void) | undefined;
   /**
    * The `id` of the native input. An `id` you write replaces the made one, and the label follows it. When not set,
@@ -123,7 +136,16 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
   readonly 'aria-labelledby'?: string | undefined;
   /** The caption that names the control. */
   readonly children?: ReactNode;
-  /** Replaces the root element. Each control declares it with its own state type. */
+  /**
+   * Replaces the root element. Pass an element, or a function of the root props and the state of the control. The
+   * caption and the inner parts stay.
+   *
+   * When not set, the root is a `<div>`. The `ref` reaches the input, not the root. The element form keeps the
+   * `ref` of the element, and the function form receives no `ref`.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   */
   readonly render?: RenderProp<ChoiceRootProps, S> | undefined;
 }
 
