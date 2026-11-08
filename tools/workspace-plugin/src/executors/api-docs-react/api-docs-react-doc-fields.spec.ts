@@ -289,4 +289,15 @@ describe('extractReactApiDocs: the fields of the API page', () => {
       extract('bad-alias', (text) => text.replace('@cckValue start - Before', '@cckValue start Before')),
     ).toThrow(/ThingSide: "@cckValue start Before the trigger\." needs the shape/);
   });
+
+  it('fails on an @example of a type, which no page can show', () => {
+    expect(() =>
+      extract('type-example', (text) =>
+        text.replace(
+          ' * Where the thing opens.',
+          " * Where the thing opens.\n * @example\n * const side: ThingSide = 'start';",
+        ),
+      ),
+    ).toThrow(/ThingSide: a Types row cannot show an @example/);
+  });
 });

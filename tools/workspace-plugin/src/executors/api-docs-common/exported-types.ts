@@ -10,7 +10,7 @@ import {
 import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
 import { memberOf, withoutUndefined } from './member';
 import { placeOf } from './places';
-import { isInternal, paragraphsOf, paramRemarksOf, valuesOf, withoutLinks } from './tags';
+import { isInternal, paragraphsOf, paramRemarksOf, tagsOf, valuesOf, withoutLinks } from './tags';
 import type { ApiMemberJson, ApiPartJson, ApiSymbolJson, ApiTypeJson, TagEntry } from './types';
 
 /** The documented fields an interface declares itself, each with the type as written and its TSDoc. */
@@ -163,6 +163,10 @@ function typeRowOf(
   const tags = tagsOfNode(declaration);
   const [description] = paragraphsOf(docTextOf(declaration));
   if (isInternal(tags) || description === undefined) return undefined;
+  // A Types row has no example; the members that use the type show one.
+  if (tagsOf(tags, 'example').length > 0) {
+    problems.push(`${name}: a Types row cannot show an @example; put it on a member that uses the type`);
+  }
   const remarks = [
     ...tags.filter((tag) => tag.name === 'remarks').map((tag) => withoutLinks(tag.comment.trim())),
     ...typeParamRemarksOf(name, declaration, tags),
