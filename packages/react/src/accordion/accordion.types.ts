@@ -93,7 +93,6 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
    * How many items can be open at the same time.
    *
    * @cckValue single - At most one item is open. Opening an item closes the open one.
-   * @cckValue multiple - Each item opens and closes on its own.
    * @cckSemantic accordion.type
    * @cckParity Not available in every framework.
    */
@@ -146,8 +145,9 @@ export interface AccordionSingleRootProps extends AccordionRootBaseProps {
 /** Props of an {@link AccordionRoot} with `type="multiple"`: each item opens and closes on its own. */
 export interface AccordionMultipleRootProps extends AccordionRootBaseProps {
   /**
-   * How many items can be open at the same time. `multiple` lets each item open and close on its own.
+   * How many items can be open at the same time.
    *
+   * @cckValue multiple - Each item opens and closes on its own.
    * @cckSemantic accordion.type
    * @cckParity Not available in every framework.
    */
