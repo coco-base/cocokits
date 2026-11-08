@@ -59,6 +59,22 @@ class AddedParts {
   readonly extra = signal(false);
 }
 
+@Component({
+  imports,
+  template: `
+    <cck-form-field id="msg">
+      <label cckLabel>Message</label>
+      <textarea cckTextarea></textarea>
+      @for (hint of hints(); track hint) {
+        <cck-hint [id]="hint">{{ hint }}</cck-hint>
+      }
+    </cck-form-field>
+  `,
+})
+class MovedParts {
+  readonly hints = signal(['a', 'b', 'c']);
+}
+
 /** Runs change detection and waits until the renders it scheduled are done. */
 const stable = async (fixture: ComponentFixture<unknown>): Promise<void> => {
   fixture.detectChanges();
@@ -113,5 +129,16 @@ describe('Hints and errors added after the first render', () => {
     await stable(fixture);
     expect(describedBy()).toBe('msg-hint-1 msg-error-1');
     expect(screen.getByText('Second').id).toBe('msg-hint-1');
+  });
+});
+
+describe('Hints that a render moves', () => {
+  it('lists them in their new document order after a reversed @for', async () => {
+    const { fixture } = await render(MovedParts);
+    expect(describedBy()).toBe('a b c');
+    fixture.componentInstance.hints.update((hints) => [...hints].reverse());
+    await stable(fixture);
+    expect(describedBy()).toBe('c b a');
+    expect(screen.getByRole('textbox', { description: 'c b a' })).toBeTruthy();
   });
 });
