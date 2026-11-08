@@ -1,6 +1,7 @@
 import ts from 'typescript';
 import { docTextOf, oneLine, tagsOfNode } from '../api-docs-common/jsdoc';
 import { memberOf } from '../api-docs-common/member';
+import { placeAt } from '../api-docs-common/places';
 import { isInternal, paragraphsOf, tagsOf, withoutLinks } from '../api-docs-common/tags';
 import type { ApiMemberJson, ApiSymbolJson, TagEntry } from '../api-docs-common/types';
 
@@ -153,7 +154,7 @@ export function symbolsOf(
       ...(examples.length > 0 ? { examples } : {}),
     };
     const item = symbolOf(checker, declaration, componentName, base, problems);
-    if (item !== undefined) result.push(item);
+    if (item !== undefined) result.push(placeAt(item, declaration));
   }
   return result;
 }

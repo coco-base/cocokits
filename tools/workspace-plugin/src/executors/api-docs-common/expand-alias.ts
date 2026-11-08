@@ -85,37 +85,64 @@ export function isOwn(program: ts.Program, declaration: ts.Declaration): boolean
 /** An interface or a type alias: a declaration that can have a Types row. */
 export type TypeDeclaration = ts.InterfaceDeclaration | ts.TypeAliasDeclaration;
 
-const OWN_TYPES = new WeakMap<ts.Program, Map<string, TypeDeclaration | undefined>>();
+interface OwnTypes {
+  /** The declarations of each name; a source file hides the `.d.ts` files of the same name. */
+  readonly byName: Map<string, TypeDeclaration[]>;
+  /** The names a type text asked for that two declarations share. */
+  readonly shared: Set<string>;
+}
+
+const OWN_TYPES = new WeakMap<ts.Program, OwnTypes>();
 
 /** The top-level interfaces and type aliases of the program's own files, by name (see {@link ownTypeNamed}). */
-function ownTypesOf(program: ts.Program): Map<string, TypeDeclaration | undefined> {
+function ownTypesOf(program: ts.Program): OwnTypes {
   const known = OWN_TYPES.get(program);
   if (known !== undefined) return known;
-  const found = new Map<string, TypeDeclaration | undefined>();
+  const byName = new Map<string, TypeDeclaration[]>();
   for (const file of program.getSourceFiles()) {
     for (const statement of file.statements) {
       if (!(ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement))) continue;
       if (!isOwn(program, statement)) continue;
-      const name = statement.name.text;
-      const before = found.get(name);
-      if (!found.has(name) || (before?.getSourceFile().isDeclarationFile === true && !file.isDeclarationFile)) {
-        found.set(name, statement);
-      } else if (before === undefined || before.getSourceFile().isDeclarationFile === file.isDeclarationFile) {
-        found.set(name, undefined);
-      }
+      byName.set(statement.name.text, [...(byName.get(statement.name.text) ?? []), statement]);
     }
   }
-  OWN_TYPES.set(program, found);
-  return found;
+  for (const [name, declarations] of byName) {
+    const sources = declarations.filter((declaration) => !declaration.getSourceFile().isDeclarationFile);
+    if (sources.length > 0) byName.set(name, sources);
+  }
+  const types = { byName, shared: new Set<string>() };
+  OWN_TYPES.set(program, types);
+  return types;
 }
 
 /**
  * The interface or type alias of the program's own files with this name: a type text from the checker can name a type
- * the source never imports (`OverlaySide` for `TooltipSide`). A source file wins over a `.d.ts` file; a name that two
- * declarations of the same kind of file share stands for none of them.
+ * the source never imports (`OverlaySide` for `TooltipSide`). A source file wins over a `.d.ts` file. Of a name that
+ * several declarations share, the one in the folder of `near` wins (the local `RenderProp` of a component); else the
+ * name stands for none of them, and {@link sharedTypeProblems} reports it.
  */
-export const ownTypeNamed = (program: ts.Program, name: string): TypeDeclaration | undefined =>
-  ownTypesOf(program).get(name);
+export function ownTypeNamed(program: ts.Program, name: string, near: ts.Node): TypeDeclaration | undefined {
+  const types = ownTypesOf(program);
+  const declarations = types.byName.get(name) ?? [];
+  if (declarations.length <= 1) return declarations[0];
+  const folder = dirname(posix(near.getSourceFile().fileName));
+  const local = declarations.filter((declaration) => dirname(posix(declaration.getSourceFile().fileName)) === folder);
+  if (local.length === 1) return local[0];
+  types.shared.add(name);
+  return undefined;
+}
+
+/**
+ * One problem for each name a type text asked for that two own types share: the lookup by name cannot pick one, so
+ * the member would lose its values or its Types row without a word. The extractors fail on it.
+ */
+export function sharedTypeProblems(program: ts.Program): string[] {
+  const types = ownTypesOf(program);
+  return [...types.shared].sort().map((name) => {
+    const files = (types.byName.get(name) ?? []).map((declaration) => posix(declaration.getSourceFile().fileName));
+    return `${name}: ${String(files.length)} types of the workspace have this name (${files.join(', ')}), so a type text that names it gets no values and no Types row; rename one`;
+  });
+}
 
 /**
  * The resolver for the names visible at `location` (kept per node); a name not in scope is looked up among the aliases
@@ -129,6 +156,14 @@ export function aliasResolverAt(program: ts.Program, location: ts.Node): AliasRe
   return resolver;
 }
 
+/** The symbol of the program's own type alias with this name ({@link ownTypeNamed}), for a name not in scope. */
+function programAliasNamed(program: ts.Program, name: string, near: ts.Node): ts.Symbol | undefined {
+  const declaration = ownTypeNamed(program, name, near);
+  return declaration !== undefined && ts.isTypeAliasDeclaration(declaration)
+    ? program.getTypeChecker().getSymbolAtLocation(declaration.name)
+    : undefined;
+}
+
 function buildResolver(program: ts.Program, location: ts.Node): AliasResolver {
   const checker = program.getTypeChecker();
   const scope = new Map(
@@ -139,12 +174,7 @@ function buildResolver(program: ts.Program, location: ts.Node): AliasResolver {
   const cache = new Map<string, LiteralAlias | undefined>();
   return (typeName) => {
     if (!cache.has(typeName)) {
-      const global = ownTypeNamed(program, typeName);
-      const symbol =
-        scope.get(typeName) ??
-        (global !== undefined && ts.isTypeAliasDeclaration(global)
-          ? checker.getSymbolAtLocation(global.name)
-          : undefined);
+      const symbol = scope.get(typeName) ?? programAliasNamed(program, typeName, location);
       cache.set(typeName, symbol === undefined ? undefined : literalUnionOf(checker, symbol));
     }
     return cache.get(typeName);

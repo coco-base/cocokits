@@ -1,9 +1,17 @@
 import { basename } from 'node:path';
 import ts from 'typescript';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
-import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases, isOwn } from '../api-docs-common/expand-alias';
+import {
+  aliasResolverAt,
+  aliasValuesOf,
+  createTsProgram,
+  expandAliases,
+  isOwn,
+  sharedTypeProblems,
+} from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
+import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
 import {
@@ -72,7 +80,7 @@ function propOf(
     const where = basename(declaration.getSourceFile().fileName);
     problems.push(`${partName}.${symbol.name}: no TSDoc description (declared in ${where})`);
   }
-  return member;
+  return member && placeAt(member, declaration);
 }
 
 /** Whether a prop is a slot: its declared type is `ReactNode` or `React.ReactNode`, with or without `undefined` or `null`. */
@@ -206,12 +214,12 @@ function mergeBranches(branches: readonly ApiMemberJson[][]): ApiMemberJson[] {
     const [head] = own;
     if (head === undefined) return [];
     const types = [...new Set(own.map((member) => member.type))];
+    // The merged member keeps the place of its first branch, where its type names are read.
     return [
-      {
-        ...head,
-        type: types.join(' | '),
-        required: found.every((member) => member?.required === true),
-      },
+      placeAt(
+        { ...head, type: types.join(' | '), required: found.every((member) => member?.required === true) },
+        placeOf(head),
+      ),
     ];
   });
 }
@@ -301,16 +309,19 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
           return fn === undefined
             ? [member]
             : [
-                {
-                  ...member,
-                  scope: scopeOf(
-                    checker,
-                    fn,
-                    `${component.name}.${symbol.name}`,
-                    problems,
-                    tagsOfSymbol(checker, symbol),
-                  ),
-                },
+                placeAt(
+                  {
+                    ...member,
+                    scope: scopeOf(
+                      checker,
+                      fn,
+                      `${component.name}.${symbol.name}`,
+                      problems,
+                      tagsOfSymbol(checker, symbol),
+                    ),
+                  },
+                  placeOf(member),
+                ),
               ];
         }) ?? [];
       return {
@@ -341,6 +352,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
           );
     return { component: name, framework: 'react', parts, ...(types.length > 0 ? { types } : {}) };
   });
+  problems.push(...sharedTypeProblems(program));
   if (problems.length > 0) throw problemsError(problems);
   return docs;
 }

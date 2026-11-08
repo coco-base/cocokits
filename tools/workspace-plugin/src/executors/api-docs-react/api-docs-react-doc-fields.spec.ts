@@ -9,10 +9,18 @@ const FIXTURES = join(import.meta.dirname, 'fixtures');
 const fixture = (name: string): string => readFileSync(join(FIXTURES, `${name}.txt`), 'utf8');
 const area = scratchArea('api-docs-react-doc-fields');
 
-function extract(name: string, change: (text: string) => string = (text) => text): ApiDocJson {
+function extract(
+  name: string,
+  change: (text: string) => string = (text) => text,
+  more: Record<string, string> = {},
+): ApiDocJson {
   const { project, tsConfig } = area.create(
     name,
-    { 'src/thing/thing.ts': change(fixture('doc-fields.ts')), 'src/thing/index.ts': fixture('doc-fields-index.ts') },
+    {
+      'src/thing/thing.ts': change(fixture('doc-fields.ts')),
+      'src/thing/index.ts': fixture('doc-fields-index.ts'),
+      ...more,
+    },
     { compilerOptions: { jsx: 'react-jsx', strict: true, types: [], noEmit: true, paths: {} }, include: ['**/*.ts'] },
   );
   const [doc] = extractReactApiDocs(REPO, project, tsConfig);
@@ -182,6 +190,23 @@ describe('extractReactApiDocs: the fields of the API page', () => {
       ['cause', "'user'"],
     ]);
     expect(change?.remarks).toBe("It also has the native attributes of `Pick<HTMLAttributes<HTMLElement>, 'id'>`.");
+  });
+
+  it('reads a name of a member type where the member is declared, also when another folder has the same name', () => {
+    const doc = extract(
+      'placed',
+      (text) =>
+        `import type { ThingRender } from '../internal/render';\nimport '../other/render';\n${text}`.replace(
+          '  /** The side the thing opens on. */',
+          '  /** How the thing renders. */\n  readonly look?: ThingRender;\n  /** The side the thing opens on. */',
+        ),
+      {
+        'src/internal/render.ts':
+          '/** How a thing renders: a name or a tag. */\nexport type ThingRender = string | number;\n',
+        'src/other/render.ts': '/** Another type of the same name. */\nexport type ThingRender = boolean;\n',
+      },
+    );
+    expect(doc.types?.find((type) => type.name === 'ThingRender')?.text).toBe('string | number');
   });
 
   it('reads a slot typed ReactNode or a render function: the object fields, or one field from @param', () => {

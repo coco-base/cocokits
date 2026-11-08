@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
-import { aliasResolverAt, aliasValuesOf, expandAliases } from './expand-alias';
+import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from './expand-alias';
 
 const FILES: Record<string, string> = {
   '/pos.ts': [
@@ -38,9 +38,12 @@ const FILES: Record<string, string> = {
     '',
   ].join('\n'),
   '/again.ts': "export type Twice = 'b';\n",
+  '/pkg/one/dup.ts': "/**\n * Near.\n * @cckValue p - P.\n * @cckValue q - Q.\n */\nexport type Dup = 'p' | 'q';\n",
+  '/pkg/one/use.ts': 'export const one = 1;\n',
+  '/pkg/two/dup.ts': "export type Dup = 'r';\n",
 };
 
-function resolver(): ReturnType<typeof aliasResolverAt> {
+function programOf(): ts.Program {
   const options: ts.CompilerOptions = { noEmit: true, types: [], strict: true };
   const host = ts.createCompilerHost(options);
   const read = host.readFile.bind(host);
@@ -50,8 +53,15 @@ function resolver(): ReturnType<typeof aliasResolverAt> {
     const text = FILES[name];
     return text === undefined ? undefined : ts.createSourceFile(name, text, version, true);
   };
-  const program = ts.createProgram({ rootNames: ['/use.ts', '/far.ts', '/again.ts'], options, host });
-  const source = program.getSourceFile('/use.ts');
+  return ts.createProgram({
+    rootNames: ['/use.ts', '/far.ts', '/again.ts', '/pkg/one/dup.ts', '/pkg/one/use.ts', '/pkg/two/dup.ts'],
+    options,
+    host,
+  });
+}
+
+function resolver(program = programOf(), file = '/use.ts'): ReturnType<typeof aliasResolverAt> {
+  const source = program.getSourceFile(file);
   if (source === undefined) throw new Error('no source');
   return aliasResolverAt(program, source);
 }
@@ -95,6 +105,22 @@ describe('expandAliases', () => {
     expect(expandAliases('Far | undefined', resolve)).toBe("'up' | 'down' | undefined");
     expect(aliasValuesOf('Far', resolve)).toHaveLength(2);
     expect(expandAliases('Twice', resolve)).toBe('Twice');
+  });
+
+  it('takes the one type of a shared name that sits in the folder of the location', () => {
+    const program = programOf();
+    expect(expandAliases('Dup', resolver(program, '/pkg/one/use.ts'))).toBe("'p' | 'q'");
+    expect(sharedTypeProblems(program)).toEqual([]);
+  });
+
+  it('reports a name that two types share once a type text asks for it, so no value is dropped in silence', () => {
+    const program = programOf();
+    const ask = resolver(program);
+    expect(sharedTypeProblems(program)).toEqual([]);
+    expandAliases('Far | Twice', ask);
+    expect(sharedTypeProblems(program)).toEqual([
+      'Twice: 2 types of the workspace have this name (/far.ts, /again.ts), so a type text that names it gets no values and no Types row; rename one',
+    ]);
   });
 
   it('leaves other types, generics, member accesses, quoted text and unknown names as written', () => {

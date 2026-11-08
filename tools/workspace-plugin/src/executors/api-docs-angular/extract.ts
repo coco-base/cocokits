@@ -2,10 +2,11 @@ import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import ts from 'typescript';
 import { loadPackage } from '../load-module';
+import { placeAt } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
-import { aliasResolverAt, aliasValuesOf, expandAliases } from '../api-docs-common/expand-alias';
+import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
@@ -210,7 +211,7 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       });
       const doc = withInstantiatedTypes(checker, cls, entry as unknown as DocDirective);
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
-      parts.push(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems));
+      parts.push(placeAt(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems), cls));
     }
     const sourceFile = tsProgram.getSourceFile(file);
     const partNames = new Set(classes.map((entry) => entry.name));
@@ -227,6 +228,7 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       ...(types.length > 0 ? { types } : {}),
     };
   });
+  problems.push(...sharedTypeProblems(tsProgram));
   if (problems.length > 0) throw problemsError(problems);
   return docs;
 }

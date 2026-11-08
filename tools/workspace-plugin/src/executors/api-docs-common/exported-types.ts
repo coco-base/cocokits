@@ -9,6 +9,7 @@ import {
 } from './expand-alias';
 import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
 import { memberOf, withoutUndefined } from './member';
+import { placeOf } from './places';
 import { isInternal, paragraphsOf, valuesOf, withoutLinks } from './tags';
 import type { ApiMemberJson, ApiPartJson, ApiSymbolJson, ApiTypeJson } from './types';
 
@@ -144,9 +145,9 @@ const typeNamesIn = (text: string): string[] =>
   text.replace(/'[^']*'|"[^"]*"|`[^`]*`/g, '').match(/\b[A-Z][\w$]*\b/g) ?? [];
 
 /** A type text to read names from, with the declaration whose scope it is written in (none for a member type). */
-interface TypeText {
+export interface TypeText {
   readonly text: string;
-  readonly at?: TypeDeclaration;
+  readonly at?: ts.Node | undefined;
 }
 
 /** The type texts a Types row writes, in the scope of its declaration: the alias text and the field types. */
@@ -161,7 +162,12 @@ const textsOfRow = (row: ApiTypeJson, at: TypeDeclaration): TypeText[] =>
  * (`Reason` in `ChangeDetails<Reason>`) is none; else, or when the scope does not know the name, the program's type
  * of that name ({@link ownTypeNamed}).
  */
-function typeNamed(program: ts.Program, name: string, at: TypeDeclaration | undefined): TypeDeclaration | null {
+function typeNamed(
+  program: ts.Program,
+  name: string,
+  at: ts.Node | undefined,
+  entry: ts.SourceFile,
+): TypeDeclaration | null {
   const checker = program.getTypeChecker();
   const inScope =
     at === undefined
@@ -169,7 +175,7 @@ function typeNamed(program: ts.Program, name: string, at: TypeDeclaration | unde
       : checker
           .getSymbolsInScope(at, ts.SymbolFlags.Type | ts.SymbolFlags.Alias)
           .find((symbol) => symbol.name === name);
-  if (inScope === undefined) return ownTypeNamed(program, name) ?? null;
+  if (inScope === undefined) return ownTypeNamed(program, name, at ?? entry) ?? null;
   if (inScope.flags & ts.SymbolFlags.TypeParameter) return null;
   const target = inScope.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(inScope) : inScope;
   const declaration = target.declarations?.find(
@@ -179,15 +185,17 @@ function typeNamed(program: ts.Program, name: string, at: TypeDeclaration | unde
 }
 
 /** The type texts of the members of the parts and symbols of an `ApiDoc`, slot scopes and constants included. */
-export function memberTypeTexts(parts: readonly ApiPartJson[], symbols: readonly ApiSymbolJson[] = []): string[] {
-  const members = [
-    ...parts.flatMap((part) => [...part.props, ...part.events, ...part.slots, ...part.methods]),
-    ...symbols.flatMap((symbol) => [...symbol.props, ...symbol.methods]),
-  ];
+export function memberTypeTexts(parts: readonly ApiPartJson[], symbols: readonly ApiSymbolJson[] = []): TypeText[] {
+  // Each text is read where its member was declared ({@link placeAt}), else where its part or symbol was.
+  const of = (owner: object, member: { type: string }): TypeText => ({
+    text: member.type,
+    at: placeOf(member) ?? placeOf(owner),
+  });
   return [
-    ...members.map((member) => member.type),
-    ...parts.flatMap((part) => part.slots.flatMap((slot) => (slot.scope ?? []).map((field) => field.type))),
-    ...symbols.flatMap((symbol) => (symbol.type === undefined ? [] : [symbol.type])),
+    ...parts.flatMap((part) => [...part.props, ...part.events, ...part.slots, ...part.methods].map((m) => of(part, m))),
+    ...parts.flatMap((part) => part.slots.flatMap((slot) => (slot.scope ?? []).map((field) => of(slot, field)))),
+    ...symbols.flatMap((symbol) => [...symbol.props, ...symbol.methods].map((m) => of(symbol, m))),
+    ...symbols.flatMap((symbol) => (symbol.type === undefined ? [] : [of(symbol, { type: symbol.type })])),
   ];
 }
 
@@ -211,12 +219,12 @@ export function exportedTypesOf(
   componentName: string,
   skip: (name: string) => boolean,
   problems: string[],
-  used: readonly string[] = [],
+  used: readonly TypeText[] = [],
 ): ApiTypeJson[] {
   const moduleSymbol = checker.getSymbolAtLocation(file);
   if (!moduleSymbol) return [];
   const result: ApiTypeJson[] = [];
-  const texts: TypeText[] = used.map((text) => ({ text }));
+  const texts: TypeText[] = [...used];
   const seen = new Set<string>();
   for (const exported of checker.getExportsOfModule(moduleSymbol)) {
     seen.add(exported.name);
@@ -232,7 +240,7 @@ export function exportedTypesOf(
   }
   for (let item = texts.shift(); item !== undefined; item = texts.shift()) {
     for (const name of typeNamesIn(item.text).filter((name) => !seen.has(name) && !skip(name))) {
-      const declaration = typeNamed(program, name, item.at);
+      const declaration = typeNamed(program, name, item.at, file);
       if (declaration === null) continue;
       seen.add(name);
       const row = typeRowOf(program, name, declaration, componentName, problems);

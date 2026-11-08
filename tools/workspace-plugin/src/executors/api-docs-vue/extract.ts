@@ -3,9 +3,16 @@ import { basename, join } from 'node:path';
 import ts from 'typescript';
 import { loadPackage } from '../load-module';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
-import { aliasResolverAt, aliasValuesOf, createTsProgram, expandAliases } from '../api-docs-common/expand-alias';
+import {
+  aliasResolverAt,
+  aliasValuesOf,
+  createTsProgram,
+  expandAliases,
+  sharedTypeProblems,
+} from '../api-docs-common/expand-alias';
 import { enclosingDefaults, typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
+import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
@@ -103,7 +110,7 @@ function emitDocsOf(dir: string, typeName: string): Map<string, NodeDoc> {
 }
 
 /** Expands the aliases of string literals in the type text of a member, with the `@cckValue` meanings of them. */
-type Expand = (type: string, member: string) => { text: string; values: ApiValueJson[] };
+type Expand = (type: string, member: string) => { text: string; values: ApiValueJson[]; at?: ts.Node };
 
 /** The program, its checker and every types file of a component folder. */
 interface Scope {
@@ -132,8 +139,9 @@ function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   return (type, member) => {
     const property = propsType?.getProperty(member)?.declarations?.[0];
     const written = withDefaultArguments(type, enclosingDefaults(property));
-    const resolve = aliasResolverAt(program, property ?? declaration ?? first);
-    return { text: expandAliases(written, resolve), values: aliasValuesOf(written, resolve) };
+    const at = property ?? declaration ?? first;
+    const resolve = aliasResolverAt(program, at);
+    return { text: expandAliases(written, resolve), values: aliasValuesOf(written, resolve), at };
   };
 }
 
@@ -164,7 +172,7 @@ function listOf(
       problems,
     );
     if (member === undefined) problems.push(`${partName}.${item.name}: no TSDoc description`);
-    else result.push(member);
+    else result.push(placeAt(member, expanded.at));
   }
   return result;
 }
@@ -181,7 +189,7 @@ function withScopes(
   const scopes = vueSlotScopes(script, owner, problems, defaults);
   return slots.map((slot) => {
     const scope = scopes.get(slot.name);
-    return scope === undefined || scope.length === 0 ? slot : { ...slot, scope };
+    return scope === undefined || scope.length === 0 ? slot : placeAt({ ...slot, scope }, placeOf(slot));
   });
 }
 
@@ -324,6 +332,7 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
             );
       return { component: name, framework: 'vue', parts, ...(types.length > 0 ? { types } : {}) };
     });
+    problems.push(...sharedTypeProblems(program));
     if (problems.length > 0) throw problemsError(problems);
     return docs;
   } finally {
