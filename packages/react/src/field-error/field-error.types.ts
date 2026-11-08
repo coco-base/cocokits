@@ -45,9 +45,6 @@ export interface FieldErrorProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * When not set, the FieldError renders a `<div>`. The FieldError replaces the children of the element with the
    * message.
    *
-   * The element form works from a Server Component. The function form does not, because a function cannot be sent
-   * from the server.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    */

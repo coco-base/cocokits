@@ -195,8 +195,6 @@ export interface TooltipTriggerProps extends Omit<ComponentPropsWithRef<'button'
    * When not set, the part renders its own element. The element must take the focus, and one that is not a
    * `<button>` also needs `nativeButton={false}`.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -287,8 +285,6 @@ export interface TooltipContentProps
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -318,8 +314,6 @@ export interface TooltipArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    *
    * When not set, the part renders its own element. The Arrow hides with the native `hidden` attribute, which hides
    * HTML elements only.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

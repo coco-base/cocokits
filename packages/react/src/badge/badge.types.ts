@@ -40,9 +40,6 @@ export interface BadgeProps
    * When not set, the Badge renders a `<span>`. Keep a phrasing element, so that the Badge stays valid inside a
    * `<button>`. The Badge replaces the children of the element with its content.
    *
-   * The element form works from a Server Component. The function form does not, because a function cannot be sent
-   * from the server.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    */

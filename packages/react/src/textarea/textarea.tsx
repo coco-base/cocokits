@@ -89,7 +89,7 @@ interface TextareaComponent {
  *
  * @example
  * <label htmlFor="message">Message</label>
- * <Textarea id="message" rows={4} onValueChange={(value) => setMessage(value)} />
+ * <Textarea id="message" rows={4} defaultValue="Hello" />
  * @cckPart root
  * @param props - The Textarea props.
  * @returns The rendered textarea.

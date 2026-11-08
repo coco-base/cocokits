@@ -125,8 +125,6 @@ export interface DialogTriggerProps extends Omit<ComponentPropsWithRef<'button'>
    * When not set, the part renders its own element. An element that is not a `<button>` also needs
    * `nativeButton={false}`.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -234,8 +232,6 @@ export interface DialogTitleProps extends Omit<ComponentPropsWithRef<'h2'>, 'col
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -258,8 +254,6 @@ export interface DialogDescriptionProps extends Omit<ComponentPropsWithRef<'p'>,
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -296,8 +290,6 @@ export interface DialogCloseProps extends Omit<ComponentPropsWithRef<'button'>, 
    *
    * When not set, the part renders its own element. An element that is not a `<button>` also needs
    * `nativeButton={false}`.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

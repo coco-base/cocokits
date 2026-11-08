@@ -18,12 +18,15 @@ export type SelectOpenChangeDetails = CancelableChangeDetails<SelectOpenReason>;
 /**
  * The value of a Select. A single Select holds a `T`, or `null` for nothing. A Select with `multiple` holds a list of `T`.
  *
- * `M` is the type of the `multiple` prop.
+ * @typeParam T - The type of the value of an item. The default is `string`.
+ * @typeParam M - Whether the Select is `multiple`: the type of the `multiple` prop. `true` makes the value a list.
  */
 export type SelectValueOf<T = string, M extends boolean = false> = M extends true ? readonly T[] : T | null;
 
 /**
  * One entry of the `items` prop: a value, the label that the trigger shows for it, and whether it is disabled.
+ *
+ * @typeParam T - The type of the value of the item. The default is `string`.
  */
 export interface SelectItemData<T = string> {
   /**
@@ -43,6 +46,8 @@ export interface SelectItemData<T = string> {
 
 /**
  * The `items` of a Select: a list of entries, or, for text values, an object from value to label.
+ *
+ * @typeParam T - The type of the value of an item. The default is `string`.
  */
 export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Record<string, string>>;
 
@@ -58,7 +63,10 @@ export interface SelectRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'co
   readonly ref: RefCallback<HTMLElement>;
 }
 
-/** The `render` prop of a Select part: an element, or a function of the merged props. */
+/**
+ * The `render` prop of a Select part: an element, or a function of the merged props. The function form does not work
+ * from a Server Component.
+ */
 export type SelectRender = ReactElement | ((props: SelectRenderProps) => ReactElement);
 
 /**
@@ -190,6 +198,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    * It must give the same answer when its two arguments swap places, because the order is not fixed.
    *
    * @example
+   * const [dish, setDish] = useState<{ id: number; name: string } | null>(null);
    * <Select.Root
    *   value={dish}
    *   onValueChange={setDish}

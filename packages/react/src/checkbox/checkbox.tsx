@@ -108,7 +108,7 @@ interface CheckboxComponent {
  * other prop and `ref` go to the input.
  *
  * @example
- * <Checkbox name="terms" onCheckedChange={(checked) => setAccepted(checked)}>
+ * <Checkbox name="terms" defaultChecked>
  *   Accept the terms
  * </Checkbox>
  * @cckPart root

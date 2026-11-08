@@ -35,7 +35,9 @@ export interface SwitchProps extends ChoiceControlBaseProps<SwitchState> {
   // The text comes from `ChoiceBaseProps`. This block names the details type and gives an example of this control.
   /**
    * @example
+   * const [notify, setNotify] = useState(true);
    * <Switch
+   *   checked={notify}
    *   onCheckedChange={(checked, details) => {
    *     if (details.reason === 'user') setNotify(checked);
    *   }}

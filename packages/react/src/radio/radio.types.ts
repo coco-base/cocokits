@@ -65,7 +65,8 @@ export interface RadioProps extends Omit<
    * gained it. It is never called when you change `checked` yourself, and never inside a `RadioGroup`.
    *
    * @example
-   * <Radio name="plan" value="pro" onCheckedChange={(checked) => checked && setPlan('pro')}>
+   * const [plan, setPlan] = useState('free');
+   * <Radio name="plan" value="pro" checked={plan === 'pro'} onCheckedChange={(checked) => checked && setPlan('pro')}>
    *   Pro
    * </Radio>
    * @cckSemantic *.checkedChange

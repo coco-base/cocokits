@@ -142,6 +142,7 @@ export interface InputProps extends Omit<
    * It is never called when you change `value` yourself.
    *
    * @example
+   * const [text, setText] = useState('');
    * <Input aria-label="Email" value={text} onValueChange={(value) => setText(value)} />
    *
    * @cckSemantic input.valueChange

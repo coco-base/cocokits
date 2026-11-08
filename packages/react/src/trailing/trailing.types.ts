@@ -30,9 +30,6 @@ export interface TrailingProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    *
    * When not set, the Trailing renders a `<div>`. The Trailing replaces the children of the element with its own.
    *
-   * The element form works from a Server Component. The function form does not, because a function cannot be sent
-   * from the server.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    */

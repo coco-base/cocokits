@@ -63,8 +63,6 @@ export interface TabNavRootProps extends Omit<ComponentPropsWithRef<'nav'>, 'col
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -92,8 +90,6 @@ export interface TabNavListProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -108,8 +104,6 @@ export interface TabNavIndicatorProps extends Omit<ComponentPropsWithRef<'span'>
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -156,8 +150,6 @@ export interface TabNavPanelProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

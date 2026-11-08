@@ -141,8 +141,6 @@ export interface PopoverTriggerProps extends Omit<ComponentPropsWithRef<'button'
    * When not set, the part renders its own element. An element that is not a `<button>` also needs
    * `nativeButton={false}`.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -180,8 +178,6 @@ export interface PopoverAnchorProps extends Omit<ComponentPropsWithRef<'div'>, '
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -206,8 +202,6 @@ export interface PopoverTitleProps extends Omit<ComponentPropsWithRef<'h2'>, 'co
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -230,8 +224,6 @@ export interface PopoverDescriptionProps extends Omit<ComponentPropsWithRef<'p'>
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -353,8 +345,6 @@ export interface PopoverContentProps
    *
    * When not set, the part renders its own element.
    *
-   * The function form does not work from a Server Component.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -384,8 +374,6 @@ export interface PopoverArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    *
    * When not set, the part renders its own element. The Arrow hides with the native `hidden` attribute, which hides
    * HTML elements only.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -422,8 +410,6 @@ export interface PopoverCloseProps extends Omit<ComponentPropsWithRef<'button'>,
    *
    * When not set, the part renders its own element. An element that is not a `<button>` also needs
    * `nativeButton={false}`.
-   *
-   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

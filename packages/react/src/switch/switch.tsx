@@ -105,7 +105,7 @@ interface SwitchComponent {
  * other prop and `ref` go to the input.
  *
  * @example
- * <Switch name="notify" onCheckedChange={(checked) => setNotify(checked)}>
+ * <Switch name="notify" defaultChecked>
  *   Email notifications
  * </Switch>
  * @cckPart root

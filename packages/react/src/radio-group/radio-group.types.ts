@@ -73,6 +73,7 @@ export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    * change `value` yourself. The radios inside call no change of their own.
    *
    * @example
+   * const [plan, setPlan] = useState<string | null>('free');
    * <RadioGroup aria-label="Plan" value={plan} onValueChange={(value) => setPlan(value)}>
    *   ...
    * </RadioGroup>

@@ -42,9 +42,6 @@ export interface BadgeContainerProps
    *
    * When not set, the container renders a `<div>`. The container replaces the children of the element with its own.
    *
-   * The element form works from a Server Component. The function form does not, because a function cannot be sent
-   * from the server.
-   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    */

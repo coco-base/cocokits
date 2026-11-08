@@ -83,7 +83,7 @@ interface InputComponent {
  *
  * @example
  * <label htmlFor="email">Email address</label>
- * <Input id="email" type="email" onValueChange={(value) => setEmail(value)} />
+ * <Input id="email" type="email" defaultValue="ana@example.com" />
  * @cckPart root
  * @param props - The Input props.
  * @returns The rendered input.

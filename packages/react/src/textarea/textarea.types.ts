@@ -132,6 +132,7 @@ export interface TextareaProps extends Omit<
    * It is never called when you change `value` yourself.
    *
    * @example
+   * const [text, setText] = useState('');
    * <Textarea aria-label="Message" value={text} onValueChange={(value) => setText(value)} />
    *
    * @cckSemantic textarea.valueChange

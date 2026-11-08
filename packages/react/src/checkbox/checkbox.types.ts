@@ -50,7 +50,9 @@ export interface CheckboxProps extends ChoiceControlBaseProps<CheckboxState> {
   // The text comes from `ChoiceBaseProps`. This block names the details type and gives an example of this control.
   /**
    * @example
+   * const [accepted, setAccepted] = useState(false);
    * <Checkbox
+   *   checked={accepted}
    *   onCheckedChange={(checked, details) => {
    *     if (details.reason === 'user') setAccepted(checked);
    *   }}
