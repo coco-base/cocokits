@@ -47,7 +47,19 @@ export interface CheckboxProps extends ChoiceControlBaseProps<CheckboxState> {
    * @defaultValue false
    */
   readonly indeterminate?: boolean | undefined;
-  // The text comes from `ChoiceBaseProps`; this line only names the details type of this control.
+  // The text comes from `ChoiceBaseProps`. This block names the details type and gives an example of this control.
+  /**
+   * @example
+   * <Checkbox
+   *   onCheckedChange={(checked, details) => {
+   *     if (details.reason === 'user') setAccepted(checked);
+   *   }}
+   * >
+   *   Accept the terms
+   * </Checkbox>
+   * @cckSemantic *.checkedChange
+   * @cckParity The change callback of this component.
+   */
   readonly onCheckedChange?: ((checked: boolean, details: CheckboxChangeDetails) => void) | undefined;
   // The text comes from `ChoiceBaseProps`; this line only names the render props and state of this control.
   readonly render?: RenderProp<CheckboxRenderProps, CheckboxState> | undefined;

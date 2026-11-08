@@ -113,6 +113,8 @@ export interface TabsRootProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    *
    * When not set, the part renders its own element.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -161,6 +163,8 @@ export interface TabsListProps extends Omit<ComponentPropsWithRef<'div'>, 'color
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
+   *
+   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -212,6 +216,8 @@ export interface TabsTriggerProps extends Omit<ComponentPropsWithRef<'button'>, 
    * When not set, the part renders its own element. An element that is not a `<button>` also needs
    * `nativeButton={false}`.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -253,6 +259,8 @@ export interface TabsContentProps extends Omit<ComponentPropsWithRef<'div'>, 'co
    *
    * When not set, the part renders its own element.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -267,6 +275,8 @@ export interface TabsIndicatorProps extends Omit<ComponentPropsWithRef<'span'>, 
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
+   *
+   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

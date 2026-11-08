@@ -143,6 +143,8 @@ export interface ChoiceBaseProps<S> extends Omit<ComponentPropsWithRef<'input'>,
    * When not set, the root is a `<div>`. The `ref` reaches the input, not the root. The element form keeps the
    * `ref` of the element, and the function form receives no `ref`.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    */

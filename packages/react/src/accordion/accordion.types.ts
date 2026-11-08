@@ -78,6 +78,8 @@ interface AccordionRootBaseProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    *
    * When not set, the part renders its own element.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -221,6 +223,8 @@ export interface AccordionItemProps extends Omit<ComponentPropsWithRef<'div'>, '
    *
    * When not set, the part renders its own element.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -244,7 +248,8 @@ export interface AccordionHeaderProps extends Omit<ComponentPropsWithRef<'h3'>, 
    * Replaces the `<h3>` of the header. Pass a heading such as `<h2 />` for the level that fits the page. You can
    * also pass a function of the merged props and the state of the item.
    *
-   * The function must pass all props on, `ref` included, to one element.
+   * The function must pass all props on, `ref` included, to one element. The function form does not work from a
+   * Server Component.
    *
    * @defaultValue 'h3'
    * @cckSemantic accordion.header.headingLevel
@@ -283,6 +288,8 @@ export interface AccordionTriggerProps extends Omit<ComponentPropsWithRef<'butto
    * When not set, the part renders its own element. An element that is not a `<button>` also needs
    * `nativeButton={false}`.
    *
+   * The function form does not work from a Server Component.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -314,6 +321,8 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
    * When not set, the part renders its own element.
+   *
+   * The function form does not work from a Server Component.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

@@ -398,7 +398,7 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
  * Inside a `FormField`, the trigger is the control of the field, and the list lines up with the input of the field. Native `div` props pass through to the root element.
  *
  * @example
- * <Select.Root value={dish} onValueChange={setDish}>
+ * <Select.Root defaultValue="Pizza">
  *   <Select.Trigger aria-label="Dish">
  *     <Select.Value placeholder="Choose a dish" />
  *     <Select.Icon />

@@ -32,7 +32,19 @@ export interface SwitchProps extends ChoiceControlBaseProps<SwitchState> {
    * <Switch>Email notifications</Switch>
    */
   readonly children?: ReactNode;
-  // The text comes from `ChoiceBaseProps`; this line only names the details type of this control.
+  // The text comes from `ChoiceBaseProps`. This block names the details type and gives an example of this control.
+  /**
+   * @example
+   * <Switch
+   *   onCheckedChange={(checked, details) => {
+   *     if (details.reason === 'user') setNotify(checked);
+   *   }}
+   * >
+   *   Email notifications
+   * </Switch>
+   * @cckSemantic *.checkedChange
+   * @cckParity The change callback of this component.
+   */
   readonly onCheckedChange?: ((checked: boolean, details: SwitchChangeDetails) => void) | undefined;
   // The text comes from `ChoiceBaseProps`; this line only names the render props and state of this control.
   readonly render?: RenderProp<SwitchRenderProps, SwitchState> | undefined;

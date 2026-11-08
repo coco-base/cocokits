@@ -1,7 +1,10 @@
 import { cloneElement, createElement, isValidElement, type ReactElement } from 'react';
 import { mergeProps } from './merge-props';
 
-/** The `render` prop: an element, or a function that receives the merged props and the part state. */
+/**
+ * The `render` prop: an element, or a function that receives the merged props and the part state. The function
+ * form does not work from a Server Component.
+ */
 export type RenderProp<P, S> = ReactElement | ((props: P, state: S) => ReactElement);
 
 /**
