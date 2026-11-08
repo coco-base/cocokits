@@ -25,8 +25,11 @@ function field(zones: { hint?: ReactNode; error?: ReactNode }): ReactElement {
 }
 
 describe('FormField hint and error parts', () => {
-  it('gives no id to a plain element in a zone and does not list it', () => {
-    render(
+  const NOT_LISTED = 'is not listed and does not describe the control';
+
+  it('gives no id to a plain element in a zone, does not list it and warns once in development', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { rerender } = render(
       field({
         hint: (
           <>
@@ -38,6 +41,33 @@ describe('FormField hint and error parts', () => {
     );
     expect(screen.getByTestId('plain').hasAttribute('id')).toBe(false);
     expect(describedBy()).toBe('f-hint-1');
+    rerender(field({ hint: <span data-testid="plain">Note again</span> }));
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+  });
+
+  it('gives no id to a component that renders a Hint itself, does not list it and warns', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const MyHint = (): ReactElement => <Hint>Mine</Hint>;
+    render(field({ hint: <MyHint /> }));
+    expect(screen.getByText('Mine').hasAttribute('id')).toBe(false);
+    expect(describedBy()).toBeNull();
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+  });
+
+  it('does not warn for Hints, FieldErrors and plain text', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    render(
+      field({
+        hint: (
+          <>
+            Help <Hint>More</Hint>
+          </>
+        ),
+        error: <FieldError>Wrong</FieldError>,
+      }),
+    );
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it('does not read into a wrapper, gives it no id and warns in development', () => {
@@ -55,7 +85,7 @@ describe('FormField hint and error parts', () => {
     expect(screen.getByTestId('wrapper').hasAttribute('id')).toBe(false);
     expect(document.querySelectorAll('.cck-hint[id]')).toHaveLength(0);
     expect(describedBy()).toBeNull();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('directly in the hint or error'));
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
   });
 
   it('renders plain hint text in a Hint whose id is listed', () => {

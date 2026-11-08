@@ -16,21 +16,12 @@ export interface ZoneParts {
   readonly items: readonly ReactNode[];
   /** The `id` the author wrote on each part, in document order; `undefined` for none. */
   readonly ownIds: readonly (string | undefined)[];
-  /** Whether an element that is not a part holds a Hint or a FieldError, which the field does not read into. */
-  readonly hasWrapper: boolean;
+  /** Whether the zone holds an element that is not its part, which the field does not list or read into. */
+  readonly hasOther: boolean;
 }
 
 const partOf = (zone: FieldZone): unknown => (zone === 'hint' ? Hint : FieldError);
 const isText = (node: ReactNode): node is string | number => typeof node === 'string' || typeof node === 'number';
-
-/** Whether a node holds a Hint or a FieldError element at any depth. */
-function holdsPart(node: ReactNode): boolean {
-  return Children.toArray(node).some(
-    (child) =>
-      isValidElement<PartProps>(child) &&
-      (child.type === Hint || child.type === FieldError || holdsPart(child.props.children)),
-  );
-}
 
 /** The children of a node in document order, with Fragments read through and keys that stay unique. */
 function flatten(node: ReactNode, prefix: string): ReactNode[] {
@@ -48,20 +39,26 @@ function flatten(node: ReactNode, prefix: string): ReactNode[] {
  *
  * @param node - The `hint` or `error` prop.
  * @param zone - Which zone it is.
- * @returns The items, the own ids of the parts and whether a wrapper hides parts.
+ * @returns The items, the own ids of the parts and whether the zone holds another element.
  */
 export function readZone(node: ReactNode, zone: FieldZone): ZoneParts {
   const items: ReactNode[] = [];
   const ownIds: (string | undefined)[] = [];
   let text: (string | number)[] = [];
-  let hasWrapper = false;
+  let hasOther = false;
   const endText = (): void => {
     if (text.length === 0) return;
+    const joined = text.join('');
+    text = [];
+    // Blank text is layout whitespace, not a message.
+    if (joined.trim() === '') {
+      items.push(joined);
+      return;
+    }
     const key = `text-${String(items.length)}`;
     const props = zone === 'hint' ? { key } : { key, force: true };
-    items.push(createElement(partOf(zone) as typeof Hint, props, text.join('')));
+    items.push(createElement(partOf(zone) as typeof Hint, props, joined));
     ownIds.push(undefined);
-    text = [];
   };
   for (const child of flatten(node, '')) {
     if (isText(child)) {
@@ -70,12 +67,15 @@ export function readZone(node: ReactNode, zone: FieldZone): ZoneParts {
     }
     endText();
     items.push(child);
-    if (!isValidElement<PartProps>(child)) continue;
+    if (!isValidElement<PartProps>(child)) {
+      hasOther = true;
+      continue;
+    }
     if (child.type === partOf(zone)) ownIds.push(child.props.id === '' ? undefined : child.props.id);
-    else if (holdsPart(child.props.children)) hasWrapper = true;
+    else hasOther = true;
   }
   endText();
-  return { items, ownIds, hasWrapper };
+  return { items, ownIds, hasOther };
 }
 
 /**

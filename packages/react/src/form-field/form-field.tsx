@@ -99,16 +99,20 @@ function FormFieldImpl({
 
   const [authorLabelId, setLabelId] = useState<string | undefined>(undefined);
   // The ids of the hints and errors come from the props, so the first render and the server render have them.
-  const hintKey = JSON.stringify(readZone(hint, 'hint').ownIds);
-  const errorKey = JSON.stringify(readZone(error, 'error').ownIds);
-  const hasWrapper = readZone(hint, 'hint').hasWrapper || readZone(error, 'error').hasWrapper;
+  // Each zone is read once per change of its prop; the memo keeps the result frozen for the render below.
+  const hintZone = useMemo(() => readZone(hint, 'hint'), [hint]);
+  const errorZone = useMemo(() => readZone(error, 'error'), [error]);
+  const hintKey = JSON.stringify(hintZone.ownIds);
+  const errorKey = JSON.stringify(errorZone.ownIds);
+  const hasOther = hintZone.hasOther || errorZone.hasOther;
+  const warned = useRef(false);
   useEffect(() => {
-    if (hasWrapper && isDevelopment()) {
-      console.warn(
-        'CocoKits: a FormField lists only the Hint and FieldError elements put directly in the hint or error prop. An element around them hides them: the control is not described by them.',
-      );
-    }
-  }, [hasWrapper]);
+    if (!hasOther || warned.current || !isDevelopment()) return;
+    warned.current = true;
+    console.warn(
+      'CocoKits: a FormField lists only the Hint and FieldError parts and the plain text put directly in its hint or error zone. Other content there, such as an element, a wrapper or a component, is not listed and does not describe the control.',
+    );
+  }, [hasOther]);
   const ids = useMemo(
     () => ({
       ...formFieldIds(fieldId, {
@@ -168,8 +172,8 @@ function FormFieldImpl({
             {trailing}
           </div>
           <div {...themeAttrs.feedbackWrapper} {...toReactProps(parts.feedbackWrapper)}>
-            {withPartIds(readZone(hint, 'hint'), 'hint', ids.hints)}
-            {withPartIds(readZone(error, 'error'), 'error', ids.errors)}
+            {withPartIds(hintZone, 'hint', ids.hints)}
+            {withPartIds(errorZone, 'error', ids.errors)}
           </div>
         </FormFieldLabelContext>
       </FormFieldStateContext>

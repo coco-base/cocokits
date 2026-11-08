@@ -82,8 +82,9 @@ export interface FormFieldProps extends Omit<ComponentPropsWithRef<'div'>, 'colo
    * The help texts under the control: one or more `Hint` elements, or plain text. When not set, the field shows no
    * help text.
    *
-   * Plain text renders in a `Hint`. Put each `Hint` directly in the prop: the field does not read into another
-   * element, so a `Hint` inside one does not describe the control.
+   * Plain text renders in a `Hint`. Put each `Hint` directly in the prop. Any other content, such as a `<span>`, a
+   * wrapper or a component that renders a `Hint`, does not describe the control. In development, the field then
+   * warns once.
    *
    * @example
    * <FormField label={<Label>Email address</Label>} hint={<Hint>We never share it.</Hint>}>
@@ -133,8 +134,9 @@ export interface FormFieldProps extends Omit<ComponentPropsWithRef<'div'>, 'colo
    * The errors of the field, after the hints: one or more `FieldError` elements, or plain text. When not set, the
    * field shows no error.
    *
-   * Plain text renders in a `FieldError` that always shows. Put each `FieldError` directly in the prop: the field
-   * does not read into another element, so a `FieldError` inside one does not describe the control.
+   * Plain text renders in a `FieldError` that always shows. Put each `FieldError` directly in the prop. Any other
+   * content, such as a `<span>`, a wrapper or a component that renders a `FieldError`, does not describe the
+   * control. In development, the field then warns once.
    *
    * @example
    * <FormField
