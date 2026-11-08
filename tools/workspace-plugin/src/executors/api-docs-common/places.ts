@@ -11,5 +11,8 @@ export function placeAt<T extends object>(item: T, node: ts.Node | undefined): T
   return item;
 }
 
-/** The declaration {@link placeAt} noted for a member or a part, or undefined. */
+/**
+ * The declaration {@link placeAt} noted for a member or a part, or undefined. The note belongs to the object: a
+ * copy (`{ ...member }`) has none, so code that copies a member must call `placeAt` on the copy.
+ */
 export const placeOf = (item: object): ts.Node | undefined => PLACES.get(item);
