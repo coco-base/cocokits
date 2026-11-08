@@ -15,8 +15,11 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-/** The part of the development warning both frameworks share. */
-const NOT_LISTED = 'is not listed';
+/** The development warning, word for word the same in both frameworks. */
+const WARNING =
+  'CocoKits: a FormField lists only the Hint and FieldError parts and the plain text put directly in its hint or ' +
+  'error zone. Other content there, such as an element, a wrapper or a component, is not listed and does not ' +
+  'describe the control.';
 
 const describedBy = (): string | null => screen.getByRole('textbox').getAttribute('aria-describedby');
 
@@ -58,7 +61,7 @@ describe('FormField hint and error parts', () => {
     expect(screen.getByTestId('wrapper').hasAttribute('id')).toBe(false);
     expect(document.querySelectorAll('.cck-hint[id]')).toHaveLength(0);
     expect(describedBy()).toBeNull();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+    expect(warn).toHaveBeenCalledWith(WARNING);
   });
 
   it('warns once in development for a plain element, also across renders', async () => {
@@ -69,7 +72,7 @@ describe('FormField hint and error parts', () => {
     count.value += 1;
     await settle();
     expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+    expect(warn).toHaveBeenCalledWith(WARNING);
   });
 
   it('gives no id to a custom component that renders a Hint itself, does not list it and warns', async () => {
@@ -79,7 +82,23 @@ describe('FormField hint and error parts', () => {
     await nextTick();
     expect(screen.getByText('Mine').hasAttribute('id')).toBe(false);
     expect(describedBy()).toBeNull();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining(NOT_LISTED));
+    expect(warn).toHaveBeenCalledWith(WARNING);
+  });
+
+  it('gives no id to a FieldError in the hint zone or a Hint in the error zone, lists neither and warns', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(() =>
+      field({
+        hint: () => h(FieldError, { force: true }, () => 'Wrong zone'),
+        error: () => h(Hint, null, () => 'Also'),
+      }),
+    );
+    await nextTick();
+    expect(screen.getByText('Wrong zone').hasAttribute('id')).toBe(false);
+    expect(screen.getByText('Also').hasAttribute('id')).toBe(false);
+    expect(describedBy()).toBeNull();
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(WARNING);
   });
 
   it('does not warn for Hints, FieldErrors and plain text', async () => {
