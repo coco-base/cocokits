@@ -359,7 +359,7 @@ describe('tagLikeLineProblems', () => {
 
   it('reports a line of a description or a tag text that starts with a word that is no tag', () => {
     expect(tagLikeLineProblems('Thing', doc('Opens it.\n@exmaple <Thing />'))).toEqual([
-      'Thing: a line starts with "@exmaple", which is no TSDoc tag; write it in backticks or fix the tag name',
+      'Thing: a line starts with "@exmaple", which is no TSDoc block or modifier tag and no cck tag; write it in backticks or fix the tag name',
     ]);
     expect(tagLikeLineProblems('Thing', doc('Text.', ['remarks', 'More.\n@click fires.']))).toHaveLength(1);
   });

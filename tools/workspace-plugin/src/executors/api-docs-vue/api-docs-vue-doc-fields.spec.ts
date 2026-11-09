@@ -70,6 +70,8 @@ describe('extractVueApiDocs: the fields of the API page', () => {
   });
 });
 
+// Not here: row H of the merge (a class that `implements` a documented interface). A props type is an interface or a type
+// alias, which cannot implement an interface, and a Vue slot or exposed member is a literal member, which inherits nothing.
 describe('extractVueApiDocs: an @ that is no tag', () => {
   const EXAMPLE = '<Thing @click="save">Save</Thing>';
 
@@ -116,6 +118,44 @@ describe('extractVueApiDocs: an @ that is no tag', () => {
       examples: ['<Thing @click="save" />'],
     });
     expect(prop('keepsExample')).toMatchObject({ description: 'Use @click to listen.', examples: ['<Thing />'] });
+  });
+
+  it('merges the text of an event like a prop: an inherited event, and a redeclared one with no comment', () => {
+    const events = extract('at-sign-events', 'at-sign').parts[0]?.events ?? [];
+    const event = (name: string) => events.find((candidate) => candidate.name === name);
+    expect(event('baseEvent')?.description).toBe('The base event. Use @click to listen.');
+    expect(event('redeclaredEvent')?.description).toBe('The redeclared event. Use @click to listen.');
+  });
+
+  it('D: joins both texts of a props type that is an intersection', () => {
+    const types = [
+      'interface ThingMixA {',
+      '  /** First. Use @click here. */',
+      '  readonly mixed?: string;',
+      '}',
+      'interface ThingMixB {',
+      '  /** Second. */',
+      '  readonly mixed?: string;',
+      '}',
+      '/**',
+      ' * Props of the Thing.',
+      ' *',
+      ' * @example',
+      ' * <Thing />',
+      ' *',
+      ' * @cckPart root',
+      ' */',
+      'export type ThingProps = ThingMixA & ThingMixB;',
+      '/** Emits of the Thing. */',
+      'export interface ThingEmits {',
+      '  /** Emitted with the new value. */',
+      "  'update:modelValue': [value: string];",
+      '}',
+    ].join(String.fromCharCode(10));
+    const mixed = extract('at-sign-mixed', 'at-sign', () => types).parts[0]?.props.find(
+      (prop) => prop.name === 'mixed',
+    );
+    expect(mixed?.description).toBe('First. Use @click here. Second.');
   });
 
   it('reports an exposed member that has no comment, and does not read the checker text for it', () => {

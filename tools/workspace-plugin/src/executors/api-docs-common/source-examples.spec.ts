@@ -129,7 +129,7 @@ describe('the check of a line that starts like a tag', () => {
     const raw = { name: 'size', type: 'string', required: true, description: 'Use it.\n@exmaple <Thing />', tags: [] };
     memberOf('button', raw, 'Button', problems);
     expect(problems).toContain(
-      'Button.size: a line starts with "@exmaple", which is no TSDoc tag; write it in backticks or fix the tag name',
+      'Button.size: a line starts with "@exmaple", which is no TSDoc block or modifier tag and no cck tag; write it in backticks or fix the tag name',
     );
   });
 });

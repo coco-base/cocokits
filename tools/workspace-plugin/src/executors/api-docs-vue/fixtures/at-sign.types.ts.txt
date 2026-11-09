@@ -42,8 +42,16 @@ export interface ThingProps extends ThingBase {
   readonly keepsExample?: string;
 }
 
+/** The events that the Thing takes from its base. */
+interface ThingEmitsBase {
+  /** The base event. Use @click to listen. */
+  baseEvent: [value: string];
+  /** The redeclared event. Use @click to listen. */
+  redeclaredEvent: [value: string];
+}
+
 /** Emits of the Thing. */
-export type ThingEmits = {
+export interface ThingEmits extends ThingEmitsBase {
   /**
    * Emitted with the new value. Use @click to listen.
    *
@@ -51,4 +59,5 @@ export type ThingEmits = {
    * <Thing @click="save">Save</Thing>
    */
   'update:modelValue': [value: string];
-};
+  redeclaredEvent: [value: string];
+}

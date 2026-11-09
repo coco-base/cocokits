@@ -143,8 +143,8 @@ function blockAfter(name: string, rest: string, column: number): Block {
   return { name, lines: [], margin };
 }
 
-/** The text of a declaration without its tags and its tags: no text, and no tags. */
-const EMPTY: TsDocText = { description: '', tags: [] };
+/** The text of a declaration that has none: no description and no tags, so the run reports a missing description. */
+export const NO_DOC: TsDocText = { description: '', tags: [] };
 
 const unique = <T>(items: readonly T[]): T[] => [...new Set(items)];
 
@@ -180,8 +180,8 @@ export const docTextOf = (node: ts.Node): string => docOfNode(node).description;
 function inheritedFrom<T>(
   checker: ts.TypeChecker,
   declaration: ts.Declaration,
-  name: string,
-  read: (base: ts.Symbol) => T | undefined,
+  memberName: string,
+  readBase: (base: ts.Symbol) => T | undefined,
 ): T | undefined {
   const owner = ts.isConstructorDeclaration(declaration.parent) ? declaration.parent.parent : declaration.parent;
   if (!ts.isClassLike(owner) && !ts.isInterfaceDeclaration(owner)) return undefined;
@@ -193,8 +193,8 @@ function inheritedFrom<T>(
       const baseType = checker.getTypeAtLocation(superTypeNode);
       const baseSymbol = baseType.getSymbol();
       const type = isStatic && baseSymbol ? checker.getTypeOfSymbol(baseSymbol) : baseType;
-      const base = checker.getPropertyOfType(type, name);
-      const result = base === undefined ? undefined : read(base);
+      const base = checker.getPropertyOfType(type, memberName);
+      const result = base === undefined ? undefined : readBase(base);
       if (result !== undefined) return result;
     }
   }
@@ -216,10 +216,10 @@ function inheritedFrom<T>(
  */
 export function docOfSymbol(checker: ts.TypeChecker, symbol: ts.Symbol | undefined): TsDocText {
   const declarations = unique(symbol?.declarations ?? []);
-  if (symbol === undefined || declarations.length === 0) return EMPTY;
-  const own = declarations.map(docOfNode);
-  let description = unique(own.map((doc) => doc.description).filter((text) => text !== '')).join('\n');
-  let tags = own.flatMap((doc) => doc.tags);
+  if (symbol === undefined || declarations.length === 0) return NO_DOC;
+  const ownDocs = declarations.map(docOfNode);
+  let description = unique(ownDocs.map((doc) => doc.description).filter((text) => text !== '')).join('\n');
+  let tags = ownDocs.flatMap((doc) => doc.tags);
   if (description === '') {
     const seen = new Set<ts.Symbol>();
     for (const declaration of declarations) {
@@ -260,7 +260,7 @@ export function tagLikeLineProblems(label: string, doc: TsDocText): string[] {
       }),
   ).map(
     (name) =>
-      `${label}: a line starts with "@${name}", which is no TSDoc tag; write it in backticks or fix the tag name`,
+      `${label}: a line starts with "@${name}", which is no TSDoc block or modifier tag and no cck tag; write it in backticks or fix the tag name`,
   );
 }
 

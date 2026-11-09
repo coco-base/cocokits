@@ -135,11 +135,11 @@ function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration
 function withSourceText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry: DocDirective): DocDirective {
   const symbol = cls.name ? checker.getSymbolAtLocation(cls.name) : undefined;
   const instance = symbol ? checker.getDeclaredTypeOfSymbol(symbol) : undefined;
-  const own = docOfNode(cls);
+  const classDoc = docOfNode(cls);
   return {
     ...entry,
-    description: own.description,
-    jsdocTags: own.tags,
+    description: classDoc.description,
+    jsdocTags: classDoc.tags,
     members: entry.members.map((member) => {
       const doc = docOfSymbol(checker, instance?.getProperty(member.name));
       return { ...member, description: doc.description, jsdocTags: doc.tags };

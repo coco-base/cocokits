@@ -16,7 +16,7 @@ import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { docOfNode, docOfSymbol } from '../api-docs-common/jsdoc';
+import { NO_DOC, docOfNode, docOfSymbol } from '../api-docs-common/jsdoc';
 import type { TsDocText } from '../api-docs-common/jsdoc';
 import { declarationReader } from './declaration-reader';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
@@ -57,9 +57,6 @@ interface MetaModule {
 const sourceDefaultOf = (value: string | undefined): string | undefined =>
   value === undefined || value === 'undefined' ? undefined : value;
 
-/** The text of a member that has no declaration to read: no description, so the run reports it. */
-const NO_DOC: TsDocText = { description: '', tags: [] };
-
 /** The interface or type alias `typeName`, declared in a `*.types.ts` file of the folder. */
 function typeDeclarationOf(
   dir: string,
@@ -77,26 +74,6 @@ function typeDeclarationOf(
     }
   }
   return undefined;
-}
-
-/**
- * The TSDoc of each event of a `<Name>Emits` type of the folder, by event name. `vue-component-meta` reads an event's
- * TSDoc from a call signature and loses the comment of the named-tuple form, which the guide asks for, so the
- * comments are read from the type itself.
- */
-function emitDocsOf(dir: string, typeName: string): Map<string, TsDocText> {
-  const declaration = typeDeclarationOf(dir, typeName);
-  const literal = declaration && ts.isTypeAliasDeclaration(declaration) ? declaration.type : declaration;
-  const members =
-    literal && (ts.isTypeLiteralNode(literal) || ts.isInterfaceDeclaration(literal)) ? literal.members : [];
-  const docs = new Map<string, TsDocText>();
-  for (const member of members) {
-    const name = member.name;
-    if (name && (ts.isIdentifier(name) || ts.isStringLiteral(name))) {
-      docs.set(name.text, docOfNode(member));
-    }
-  }
-  return docs;
 }
 
 /** Expands the aliases of string literals in the type text of a member, with the `@cckValue` meanings of them. */
@@ -246,13 +223,14 @@ function partOf(
   const partProblems = doc ? problems : [];
   const part = checkPartDoc(typeName, tags, text, partProblems);
   // The text of a member comes from the source, as the language service merges it: a prop from its symbol in the
-  // `<Name>Props` type (it inherits from the types it extends), an event from `<Name>Emits`, and a slot or an exposed
+  // `<Name>Props` type (it inherits from the types it extends), an event from its symbol in `<Name>Emits` (the same merge), and a slot or an exposed
   // member from its declaration in the `.vue` file.
   const propsType = propsTypeOf(scope, typeName);
   const docOfProp = (prop: MetaMember): TsDocText =>
     scope === undefined ? NO_DOC : docOfSymbol(scope.checker, propsType?.getProperty(prop.name));
-  const emitDocs = emitDocsOf(dir, `${name}Emits`);
-  const docOfEvent = (event: MetaMember): TsDocText => emitDocs.get(event.name) ?? NO_DOC;
+  const emitsType = propsTypeOf(scope, `${name}Emits`);
+  const docOfEvent = (event: MetaMember): TsDocText =>
+    scope === undefined ? NO_DOC : docOfSymbol(scope.checker, emitsType?.getProperty(event.name));
   const docOfDeclaration = (member: MetaMember): TsDocText => {
     const place = member.getDeclarations?.()[0];
     const node = place === undefined ? undefined : readDeclaration(place.file, place.range[0]);

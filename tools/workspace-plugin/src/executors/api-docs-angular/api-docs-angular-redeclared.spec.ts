@@ -29,6 +29,8 @@ afterEach(() => {
   area.clean();
 });
 
+// Not here: row D of the merge (an intersection). A class member is declared once in a class, so no two types of an
+// intersection can both declare it.
 describe('extractAngularApiDocs: the text of a redeclared member', () => {
   const SAVE = '<button thing @click="save">Save</button>';
   const REDECLARED = 'override readonly disabled = input(false, { transform: booleanAttribute });';

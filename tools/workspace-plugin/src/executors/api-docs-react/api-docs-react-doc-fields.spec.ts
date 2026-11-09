@@ -335,6 +335,8 @@ describe('extractReactApiDocs: an @ that is no tag in a redeclared member', () =
   });
 });
 
+// Not here: row H of the merge (a class that `implements` a documented interface). A props type is an interface or a
+// type alias, which cannot implement an interface.
 describe('extractReactApiDocs: the merge of the texts of a member', () => {
   const extra = (change: (text: string) => string, name: string) =>
     extract(name, change).parts[0]?.props.find((prop) => prop.name === 'extra');
