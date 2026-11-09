@@ -152,8 +152,8 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `event.preventDefault()` to keep it open.
    *
    * It is not called for a close request without a key, such as a back gesture. Refuse that one with
-   * `details.cancel()` in `onOpenChange`. A Close part still closes it, and so does a press on the backdrop of a modal
-   * dialog or the trigger of a dialog that is not modal. Keep one of them.
+   * `details.cancel()` in `onOpenChange`. A Close part still closes it. So does a press on the backdrop of a modal
+   * dialog. The trigger closes a dialog that is not modal. Keep one of them.
    *
    * @example
    * const [saving, setSaving] = useState(false);
