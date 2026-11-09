@@ -228,7 +228,9 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       return cls ? withSourceText(checker, cls, entry as unknown as DocDirective) : (entry as unknown as DocDirective);
     });
     const portals = portalSelectors(wholeClasses);
-    for (const entry of classes) {
+    for (const [index, entry] of classes.entries()) {
+      const whole = wholeClasses[index];
+      if (whole === undefined) continue;
       // A portal directive (`ng-template[cckPopoverPortal]`) renders no anatomy part, so it is no part.
       if (portals.has((entry as unknown as DocDirective).selector.trim())) continue;
       const cls = classNamed(tsProgram, entry);
@@ -244,7 +246,8 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
         text: expandAliases(type, resolve),
         values: aliasValuesOf(type, resolve),
       });
-      const doc = withSourceText(checker, cls, withInstantiatedTypes(checker, cls, entry as unknown as DocDirective));
+      // The class is read once, in `wholeClasses`; the instantiated types change the types of the members only.
+      const doc = withInstantiatedTypes(checker, cls, whole);
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
       parts.push(placeAt(withScopes(part, wholeClasses, tsProgram, entry, problems), cls));
     }

@@ -87,7 +87,7 @@ interface Scope {
 }
 
 /** The interface or type alias `typeName` in any types file of the scope. */
-function propsDeclarationOf(
+function scopeDeclarationOf(
   scope: Scope,
   typeName: string,
 ): ts.TypeAliasDeclaration | ts.InterfaceDeclaration | undefined {
@@ -100,9 +100,9 @@ function propsDeclarationOf(
     );
 }
 
-/** The type of `<Name>Props`, whose properties are the props. */
-function propsTypeOf(scope: Scope | undefined, typeName: string): ts.Type | undefined {
-  const declaration = scope && propsDeclarationOf(scope, typeName);
+/** The type of the interface or alias `typeName` of the types files (`<Name>Props` or `<Name>Emits`), whose properties are the members. */
+function declaredTypeOf(scope: Scope | undefined, typeName: string): ts.Type | undefined {
+  const declaration = scope && scopeDeclarationOf(scope, typeName);
   return scope && declaration && scope.checker.getTypeAtLocation(declaration.name);
 }
 
@@ -115,8 +115,8 @@ function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   const first = scope?.sources[0];
   if (scope === undefined || first === undefined) return (type) => ({ text: type, values: [] });
   const { program } = scope;
-  const declaration = propsDeclarationOf(scope, typeName);
-  const propsType = propsTypeOf(scope, typeName);
+  const declaration = scopeDeclarationOf(scope, typeName);
+  const propsType = declaredTypeOf(scope, typeName);
   return (type, member) => {
     const property = propsType?.getProperty(member)?.declarations?.[0];
     const written = withDefaultArguments(type, enclosingDefaults(property));
@@ -223,12 +223,12 @@ function partOf(
   const partProblems = doc ? problems : [];
   const part = checkPartDoc(typeName, tags, text, partProblems);
   // The text of a member comes from the source, as the language service merges it: a prop from its symbol in the
-  // `<Name>Props` type (it inherits from the types it extends), an event from its symbol in `<Name>Emits` (the same merge), and a slot or an exposed
-  // member from its declaration in the `.vue` file.
-  const propsType = propsTypeOf(scope, typeName);
+  // `<Name>Props` type (it inherits from the types it extends), an event from its symbol in `<Name>Emits` (the same
+  // merge), and a slot or an exposed member from its declaration in the `.vue` file.
+  const propsType = declaredTypeOf(scope, typeName);
   const docOfProp = (prop: MetaMember): TsDocText =>
     scope === undefined ? NO_DOC : docOfSymbol(scope.checker, propsType?.getProperty(prop.name));
-  const emitsType = propsTypeOf(scope, `${name}Emits`);
+  const emitsType = declaredTypeOf(scope, `${name}Emits`);
   const docOfEvent = (event: MetaMember): TsDocText =>
     scope === undefined ? NO_DOC : docOfSymbol(scope.checker, emitsType?.getProperty(event.name));
   const docOfDeclaration = (member: MetaMember): TsDocText => {

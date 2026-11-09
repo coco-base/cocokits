@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { docTextOf, oneLine, tagLikeLineProblems, tagsOfNode } from '../api-docs-common/jsdoc';
+import { docOfNode, oneLine, tagLikeLineProblems } from '../api-docs-common/jsdoc';
 import { memberOf } from '../api-docs-common/member';
 import { placeAt } from '../api-docs-common/places';
 import { isInternal, paragraphsOf, tagsOf, withoutLinks } from '../api-docs-common/tags';
@@ -56,7 +56,8 @@ function membersOfClass(
     if (!ts.isMethodDeclaration(member) && !ts.isPropertyDeclaration(member) && !ts.isGetAccessorDeclaration(member)) {
       continue;
     }
-    const tags = tagsOfNode(member);
+    const doc = docOfNode(member);
+    const tags = doc.tags;
     if (!isPublicMember(member, tags)) continue;
     const item = memberOf(
       componentName,
@@ -64,7 +65,7 @@ function membersOfClass(
         name: member.name.getText(),
         type: oneLine(memberTypeOf(checker, member)),
         required: !(ts.isPropertyDeclaration(member) && member.questionToken !== undefined),
-        description: docTextOf(member),
+        description: doc.description,
         tags,
       },
       declaration.name?.text ?? 'class',
@@ -142,12 +143,11 @@ export function symbolsOf(
         ts.isClassDeclaration(item) || ts.isVariableDeclaration(item),
     );
     if (declaration === undefined || declaration.getSourceFile().fileName.includes('/node_modules/')) continue;
-    const tags = tagsOfNode(declaration);
-    const [description] = paragraphsOf(docTextOf(declaration));
+    const doc = docOfNode(declaration);
+    const tags = doc.tags;
+    const [description] = paragraphsOf(doc.description);
     if (isInternal(tags) || description === undefined) continue;
-    problems.push(
-      ...tagLikeLineProblems(`${componentName} ${exported.name}`, { description: docTextOf(declaration), tags }),
-    );
+    problems.push(...tagLikeLineProblems(`${componentName} ${exported.name}`, doc));
     const remarks = tagsOf(tags, 'remarks').map(withoutLinks);
     const examples = tagsOf(tags, 'example');
     const base = {

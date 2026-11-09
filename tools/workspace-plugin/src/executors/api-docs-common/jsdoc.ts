@@ -212,7 +212,8 @@ function inheritedFrom<T>(
  * - with no tags, each declaration takes the tags of that member when the base member has one declaration, before
  *   its own.
  *
- * Not ported: `{@inheritDoc}` and the accessor-pair variant, which `packages/` does not use.
+ * Not ported: `{@inheritDoc}`, the accessor-pair variant and the `@param` text that TypeScript gives a parameter
+ * declaration, which `packages/` does not use.
  */
 export function docOfSymbol(checker: ts.TypeChecker, symbol: ts.Symbol | undefined): TsDocText {
   const declarations = unique(symbol?.declarations ?? []);

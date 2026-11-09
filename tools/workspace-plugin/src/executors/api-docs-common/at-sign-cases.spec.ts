@@ -15,6 +15,8 @@ const trimmed = (text: string): string =>
 describe('the rows of at-sign-cases.ts', () => {
   it.each(SOURCE_ROWS.map((row) => [row.name, row] as const))('%s matches its source file', (_name, row) => {
     const text = readFileSync(join(REPO, row.file), 'utf8');
+    // The name is the file and the line, without `packages/` and `src/`.
+    expect(row.name).toBe(`${row.file.replace(/^packages\//, '').replace('/src/', '/')}:${String(row.line)}`);
     expect(text.split(NEW_LINE)[row.line - 1]).toContain('@example');
     expect(trimmed(text)).toContain(trimmed(row.comment));
   });

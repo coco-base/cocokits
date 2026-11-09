@@ -12,13 +12,20 @@ const SCRIPT = new RegExp('<script[^>]*>([^]*?)</script>', 'g');
  */
 export function declarationReader(root: string): (file: string, position: number) => ts.Node | undefined {
   const parsed = new Map<string, ts.SourceFile>();
-  return (file, position) => {
-    let text: string;
-    try {
-      text = readFileSync(insideRoot(root, file, 'declaration file'), 'utf8');
-    } catch {
-      return undefined;
+  const texts = new Map<string, string | undefined>();
+  const read = (file: string): string | undefined => {
+    if (!texts.has(file)) {
+      try {
+        texts.set(file, readFileSync(insideRoot(root, file, 'declaration file'), 'utf8'));
+      } catch {
+        texts.set(file, undefined);
+      }
     }
+    return texts.get(file);
+  };
+  return (file, position) => {
+    const text = read(file);
+    if (text === undefined) return undefined;
     let offset = 0;
     let code = text;
     if (file.endsWith('.vue')) {
@@ -30,7 +37,7 @@ export function declarationReader(root: string): (file: string, position: number
       offset = block.index + block[0].indexOf('>') + 1;
       code = block[1] ?? '';
     }
-    const key = `${String(offset)}:${code}`;
+    const key = `${file}:${String(offset)}`;
     let source = parsed.get(key);
     if (source === undefined) {
       source = ts.createSourceFile('declaration.ts', code, ts.ScriptTarget.Latest, true);
