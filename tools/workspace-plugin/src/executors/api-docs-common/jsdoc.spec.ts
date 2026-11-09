@@ -286,13 +286,18 @@ const SYMBOL_SOURCE = [
   '  extra?: string;',
   '}',
   "type TypeK = Pick<BaseK, 'extra'> & BaseK;",
-  '// L: a base declared in a .d.ts of node_modules gives no text',
+  '// L: a base declared in a .d.ts of node_modules gives no text; M: an own text is kept',
   'class ImplForeign implements ForeignHints {',
+  '  extra?: string;',
+  '}',
+  'class OwnOverForeign implements ForeignHints {',
+  '  /** Own text. */',
   '  extra?: string;',
   '}',
 ].join('\n');
 
 describe('docOfSymbol', () => {
+  let program: ts.Program;
   let checker: ts.TypeChecker;
   let file: ts.SourceFile;
 
@@ -314,7 +319,9 @@ describe('docOfSymbol', () => {
         : ts.createSourceFile(name, text, languageVersion, true);
     };
     host.fileExists = (name) => virtual(name) !== undefined || ts.sys.fileExists(name);
-    const program = ts.createProgram(['symbols.ts'], { strict: true, noEmit: true, types: [] }, host);
+    // Module resolution asks for the folders first.
+    host.directoryExists = (dir) => /(^|\/)node_modules(\/foreign)?$/.test(dir) || ts.sys.directoryExists(dir);
+    program = ts.createProgram(['symbols.ts'], { strict: true, noEmit: true, types: [] }, host);
     checker = program.getTypeChecker();
     const source = program.getSourceFile('symbols.ts');
     if (source === undefined) throw new Error('no source');
@@ -358,8 +365,18 @@ describe('docOfSymbol', () => {
     ['J: the texts of two bases, the later first', 'Merged', 'From B.\nFrom A.', []],
     ['K: a Pick and its base list the example once', 'TypeK', 'K text.', example('<K />')],
     ['L: the text of an interface in node_modules is not inherited', 'ImplForeign', '', []],
+    ['M: a member that implements it keeps its own text', 'OwnOverForeign', 'Own text.', []],
   ])('merges the texts of a symbol as TypeScript does: %s', (_row, name, description, tags) => {
     expect(textOf(name)).toEqual({ description, tags });
+  });
+
+  it('resolves the virtual import of a .d.ts in node_modules, so that row L tests the skip', () => {
+    expect(program.getSourceFiles().some((source) => source.fileName.endsWith('node_modules/foreign/index.d.ts'))).toBe(
+      true,
+    );
+    expect(
+      file.statements.some((statement) => ts.isClassDeclaration(statement) && statement.name?.text === 'ImplForeign'),
+    ).toBe(true);
   });
 
   it('gives no text for a member that has no symbol', () => {

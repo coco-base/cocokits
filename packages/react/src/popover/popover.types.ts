@@ -251,7 +251,7 @@ export interface PopoverContentProps
    * `event.preventDefault()` to keep it open.
    *
    * It is not called for a close request without a key, such as a back gesture. Refuse that one with
-   * `details.cancel()` in `onOpenChange`. If you refuse Escape, give the user another way to close the popover.
+   * `details.cancel()` in `onOpenChange`. A Close part, a press outside, moving the focus away and the trigger still close it, so keep one of them.
    *
    * @example
    * const [saving, setSaving] = useState(false);

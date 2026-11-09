@@ -202,11 +202,13 @@ function inheritedFrom<T>(
 }
 
 /**
- * Whether a symbol is declared outside the code of the package: in a `node_modules` folder (the default library files of TypeScript are there too).
- * Its text is never inherited (the same test as `isOwn` of `expand-alias.ts`, which needs a program).
+ * Whether a base member is declared only outside the code of the package: every declaration is in a `node_modules`
+ * folder (the default library files of TypeScript are there too). Its text is never inherited. This is the
+ * `node_modules` part of `isOwn` of `expand-alias.ts`, which needs a program; a base member that a file of the package
+ * also declares is not foreign.
  */
 const isForeign = (symbol: ts.Symbol): boolean =>
-  (symbol.declarations ?? []).some((declaration) => declaration.getSourceFile().fileName.includes('/node_modules/'));
+  (symbol.declarations ?? []).every((declaration) => declaration.getSourceFile().fileName.includes('/node_modules/'));
 
 /**
  * The TSDoc of a symbol over all its declarations and the types it inherits from, read from the source. It ports what

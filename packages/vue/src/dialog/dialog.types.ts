@@ -180,6 +180,8 @@ export interface DialogContentEmits {
   /**
    * Emits before Escape closes the dialog, with the keydown event. Call `preventDefault()` to keep the dialog open.
    *
+   * A Close part, a press on the backdrop of a modal dialog and the trigger still close it.
+   *
    * @example
    * <DialogContent @escape-key-down="(event) => saving && event.preventDefault()">...</DialogContent>
    *
