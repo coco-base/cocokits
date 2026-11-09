@@ -298,7 +298,7 @@ export interface PopoverContentProps
    * the focus where it is.
    *
    * @example
-   * <Popover.Content onOpenAutoFocus={(event) => event.preventDefault()}>...</Popover.Content>
+   * <Popover.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Popover.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
@@ -308,7 +308,7 @@ export interface PopoverContentProps
    * to keep the focus where it is.
    *
    * @example
-   * <Popover.Content onCloseAutoFocus={(event) => event.preventDefault()}>...</Popover.Content>
+   * <Popover.Content onCloseAutoFocus={(event) => { event.preventDefault(); search.current?.focus(); }}>...</Popover.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */

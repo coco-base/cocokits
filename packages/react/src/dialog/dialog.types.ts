@@ -198,7 +198,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * focus where the browser put it.
    *
    * @example
-   * <Dialog.Content onOpenAutoFocus={(event) => event.preventDefault()}>...</Dialog.Content>
+   * <Dialog.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
@@ -208,7 +208,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `event.preventDefault()` to keep the focus where it is.
    *
    * @example
-   * <Dialog.Content onCloseAutoFocus={(event) => event.preventDefault()}>...</Dialog.Content>
+   * <Dialog.Content onCloseAutoFocus={(event) => { event.preventDefault(); searchInput.current?.focus(); }}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
