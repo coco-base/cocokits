@@ -9,13 +9,18 @@ const FIXTURES = join(import.meta.dirname, 'fixtures');
 const fixture = (name: string): string => readFileSync(join(FIXTURES, `${name}.txt`), 'utf8');
 const area = scratchArea('api-docs-vue-doc-fields');
 
-function extract(name: string): ApiDocJson {
+function extract(
+  name: string,
+  prefix = 'doc-fields',
+  change: (text: string) => string = (text) => text,
+  changeVue: (text: string) => string = (text) => text,
+): ApiDocJson {
   const { project, tsConfig } = area.create(
     name,
     {
-      'src/thing/Thing.vue': fixture('doc-fields.vue'),
-      'src/thing/thing.types.ts': fixture('doc-fields.types.ts'),
-      'src/thing/index.ts': fixture('doc-fields-index.ts'),
+      'src/thing/Thing.vue': changeVue(fixture(`${prefix}.vue`)),
+      'src/thing/thing.types.ts': change(fixture(`${prefix}.types.ts`)),
+      'src/thing/index.ts': fixture(`${prefix}-index.ts`),
     },
     { compilerOptions: { strict: true, types: [], noEmit: true, paths: {} }, include: ['**/*.ts', '**/*.vue'] },
   );
@@ -62,5 +67,102 @@ describe('extractVueApiDocs: the fields of the API page', () => {
       { value: 'small', description: 'A small thing.' },
       { value: 'large', description: 'A large thing.' },
     ]);
+  });
+});
+
+// Not here: row H of the merge (a class that `implements` a documented interface). A props type is an interface or a type
+// alias, which cannot implement an interface, and a Vue slot or exposed member is a literal member, which inherits nothing.
+describe('extractVueApiDocs: an @ that is no tag', () => {
+  const EXAMPLE = '<Thing @click="save">Save</Thing>';
+
+  it('reads the text of a part, a prop, an event, an exposed member and a slot to its end', () => {
+    const part = extract('at-sign', 'at-sign').parts[0];
+    expect(part?.description).toBe('Props of the Thing. Use @click to listen.');
+    expect(part?.examples).toEqual([EXAMPLE]);
+    expect(part?.props.find((prop) => prop.name === 'side')).toMatchObject({
+      description: 'The side the thing opens on. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(part?.events[0]).toMatchObject({
+      description: 'Emitted with the new value. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(part?.methods[0]).toMatchObject({
+      name: 'focus',
+      description: 'Moves focus into the thing. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(part?.slots[0]).toMatchObject({
+      description: 'The content of the thing. Use @click to listen. When not set, the thing is empty.',
+      examples: [EXAMPLE],
+    });
+  });
+
+  it('reads an example whole when a line of it holds a tag name', () => {
+    const part = extract('at-sign-tag', 'at-sign', (text) =>
+      text.replaceAll('<Thing @click="save">', '<Thing @see @param>'),
+    ).parts[0];
+    expect(part?.examples).toEqual(['<Thing @see @param>Save</Thing>']);
+    expect(part?.props.find((prop) => prop.name === 'side')?.examples).toEqual(['<Thing @see @param>Save</Thing>']);
+  });
+
+  it('merges the texts of a prop that redeclares a base prop (A, B, C)', () => {
+    const props = extract('at-sign-merge', 'at-sign').parts[0]?.props ?? [];
+    const prop = (name: string) => props.find((candidate) => candidate.name === name);
+    expect(prop('baseCut')).toMatchObject({
+      description: 'The first text. Use @click to listen.',
+      examples: ['<Thing />'],
+    });
+    expect(prop('overrideCut')).toMatchObject({
+      description: 'The second text.',
+      examples: ['<Thing @click="save" />'],
+    });
+    expect(prop('keepsExample')).toMatchObject({ description: 'Use @click to listen.', examples: ['<Thing />'] });
+  });
+
+  it('merges the text of an event like a prop: an inherited event, and a redeclared one with no comment', () => {
+    const events = extract('at-sign-events', 'at-sign').parts[0]?.events ?? [];
+    const event = (name: string) => events.find((candidate) => candidate.name === name);
+    expect(event('baseEvent')?.description).toBe('The base event. Use @click to listen.');
+    expect(event('redeclaredEvent')?.description).toBe('The redeclared event. Use @click to listen.');
+  });
+
+  it('D: joins both texts of a props type that is an intersection', () => {
+    const types = [
+      'interface ThingMixA {',
+      '  /** First. Use @click here. */',
+      '  readonly mixed?: string;',
+      '}',
+      'interface ThingMixB {',
+      '  /** Second. */',
+      '  readonly mixed?: string;',
+      '}',
+      '/**',
+      ' * Props of the Thing.',
+      ' *',
+      ' * @example',
+      ' * <Thing />',
+      ' *',
+      ' * @cckPart root',
+      ' */',
+      'export type ThingProps = ThingMixA & ThingMixB;',
+      '/** Emits of the Thing. */',
+      'export interface ThingEmits {',
+      '  /** Emitted with the new value. */',
+      "  'update:modelValue': [value: string];",
+      '}',
+    ].join(String.fromCharCode(10));
+    const mixed = extract('at-sign-mixed', 'at-sign', () => types).parts[0]?.props.find(
+      (prop) => prop.name === 'mixed',
+    );
+    expect(mixed?.description).toBe('First. Use @click here. Second.');
+  });
+
+  it('reports an exposed member that has no comment, and does not read the checker text for it', () => {
+    expect(() =>
+      extract('at-sign-bare', 'at-sign', undefined, (text) =>
+        text.replace('defineExpose({', 'defineExpose({ plain: () => undefined,'),
+      ),
+    ).toThrow(/Thing\.plain: no TSDoc description/);
   });
 });

@@ -4,6 +4,7 @@ import { insideRoot } from '../inside-root';
 import { expandOption, projectRootOf } from '../options';
 import { writeJsonFiles } from '../write-json';
 import type { ApiDocsSchema } from './schema';
+import { exampleProblems, sourceExamplesOf } from './source-examples';
 import { textRuleProblems } from './text-rules';
 import type { ApiDocJson } from './types';
 
@@ -17,8 +18,8 @@ export function problemsError(problems: readonly string[]): Error {
 
 /**
  * Runs an extraction as an executor. Both path options must stay inside the workspace, the `ApiDoc` files replace the
- * JSON of the output folder, and a failure (the extractor throws, or the text breaks a text rule) is logged and writes
- * nothing.
+ * JSON of the output folder, and a failure (the extractor throws, the text breaks a text rule or an example is not the
+ * whole source example) is logged and writes nothing.
  */
 export function runApiDocs(
   options: ApiDocsSchema,
@@ -30,7 +31,8 @@ export function runApiDocs(
     const tsConfig = insideRoot(context.root, expandOption(options.tsConfig ?? DEFAULT_TSCONFIG, context), 'tsConfig');
     const projectRoot = resolve(context.root, projectRootOf(context));
     const docs = extract(context.root, projectRoot, tsConfig);
-    const problems = docs.flatMap(textRuleProblems);
+    const sourceExamples = sourceExamplesOf(context.root, projectRoot);
+    const problems = docs.flatMap((doc) => [...textRuleProblems(doc), ...exampleProblems(doc, sourceExamples)]);
     if (problems.length > 0) throw problemsError(problems);
     writeJsonFiles(
       outputDir,

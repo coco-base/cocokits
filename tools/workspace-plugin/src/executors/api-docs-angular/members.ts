@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { tagsOfNode } from '../api-docs-common/jsdoc';
 
 /** What a public member of a directive is for a template. */
 export type MemberKind = 'input' | 'model' | 'output' | 'method' | 'property';
@@ -151,7 +152,7 @@ function chainOf(checker: ts.TypeChecker, cls: ts.ClassDeclaration): ts.ClassDec
 
 function modifiersOf(member: Member): { hidden: boolean; abstract: boolean } {
   const flags = ts.getCombinedModifierFlags(member);
-  const internal = ts.getJSDocTags(member).some((tag) => tag.tagName.text === 'internal');
+  const internal = tagsOfNode(member).some((tag) => tag.name === 'internal');
   const hidden =
     internal || (flags & (ts.ModifierFlags.Private | ts.ModifierFlags.Protected | ts.ModifierFlags.Static)) !== 0;
   return { hidden, abstract: (flags & ts.ModifierFlags.Abstract) !== 0 };

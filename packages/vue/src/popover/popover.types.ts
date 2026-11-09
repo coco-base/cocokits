@@ -219,6 +219,8 @@ export interface PopoverContentEmits {
   /**
    * Emits before Escape closes the popover, with the keydown event. Call `preventDefault()` to keep the popover open.
    *
+   * A Close part, a press outside, moving the focus away and the trigger still close it.
+   *
    * @example
    * <PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>
    *

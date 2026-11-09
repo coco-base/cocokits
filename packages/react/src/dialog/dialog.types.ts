@@ -152,10 +152,12 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `event.preventDefault()` to keep it open.
    *
    * It is not called for a close request without a key, such as a back gesture. Refuse that one with
-   * `details.cancel()` in `onOpenChange`. If you refuse Escape, give the user another way to close the dialog.
+   * `details.cancel()` in `onOpenChange`. A Close part still closes it. So does a press on the backdrop of a modal
+   * dialog. The trigger closes a dialog that is not modal. Keep one of them.
    *
    * @example
-   * <Dialog.Content onEscapeKeyDown={(event) => event.preventDefault()}>...</Dialog.Content>
+   * const [saving, setSaving] = useState(false);
+   * <Dialog.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
@@ -197,18 +199,20 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * Called when the dialog opens and the focus is about to move into it. Call `event.preventDefault()` to keep the
    * focus where the browser put it.
    *
+   * Move the focus in your handler to choose the element.
+   *
    * @example
-   * <Dialog.Content onOpenAutoFocus={(event) => event.preventDefault()}>...</Dialog.Content>
+   * <Dialog.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly onOpenAutoFocus?: ((event: Event) => void) | undefined;
   /**
    * Called when the dialog closes and the focus is about to return to where the dialog opened from. Call
-   * `event.preventDefault()` to keep the focus where it is.
+   * `event.preventDefault()` to skip the return and move the focus yourself.
    *
    * @example
-   * <Dialog.Content onCloseAutoFocus={(event) => event.preventDefault()}>...</Dialog.Content>
+   * <Dialog.Content onCloseAutoFocus={(event) => { event.preventDefault(); searchInput.current?.focus(); }}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */

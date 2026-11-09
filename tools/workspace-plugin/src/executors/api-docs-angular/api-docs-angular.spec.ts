@@ -397,6 +397,18 @@ describe('extractAngularApiDocs: compound components', () => {
     expect(content).toMatchObject({ semanticId: 'thing.content', templateSelector: 'ng-template[thingPortal]' });
   });
 
+  it('reads the text a template directive gives its slot to its end', () => {
+    const [doc] = extract('compound-at-sign', 'compound', (text) =>
+      text.replace(
+        ' * The template of the preview slot.\n',
+        ' * The template of the preview slot.\n * @remarks Use @click to listen.\n * @example\n * <ng-template thingPreview @click="x" />\n',
+      ),
+    );
+    const preview = doc?.parts[0]?.slots.find((slot) => slot.name === 'preview');
+    expect(preview?.remarks).toBe('Use @click to listen.');
+    expect(preview?.examples).toEqual(['<ng-template thingPreview @click="x" />']);
+  });
+
   it('does not list a portal directive or a slot template as a part', () => {
     expect(parts('compound-skip').map((part) => part.name)).not.toContain('ThingPortal');
     expect(parts('compound-skip-2').map((part) => part.name)).not.toContain('ThingPreview');

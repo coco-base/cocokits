@@ -10,6 +10,7 @@ import {
   sharedTypeProblems,
 } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
+import { docOfSymbol, tagLikeLineProblems } from '../api-docs-common/jsdoc';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
@@ -30,10 +31,6 @@ import type {
   ApiValueJson,
   TagEntry,
 } from '../api-docs-common/types';
-import { displayTextOf } from './display-text';
-
-const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
-  symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
 
 /**
  * The type as the author wrote it when the declaration has a type annotation (so `ReactElement` stays `ReactElement`
@@ -70,14 +67,15 @@ function propOf(
   const written = withDefaultArguments(typeTextOf(checker, symbol, declaration), enclosingDefaults(declaration));
   const resolve = aliasResolverAt(program, declaration);
   const type = expandAliases(written, resolve);
+  const doc = docOfSymbol(checker, symbol);
   const member = memberOf(
     componentName,
     {
       name: asSlot && symbol.name === 'children' ? 'default' : symbol.name,
       type: withoutUndefined(type, required),
       required,
-      description: displayTextOf(symbol.getDocumentationComment(checker)),
-      tags: tagsOfSymbol(checker, symbol),
+      description: doc.description,
+      tags: doc.tags,
       aliasValues: aliasValuesOf(written, resolve),
     },
     partName,
@@ -173,18 +171,16 @@ function scopeOf(
   }
   return properties.map((property) => {
     const declaration = property.valueDeclaration ?? property.declarations?.[0];
-    const description = paragraphsOf(displayTextOf(property.getDocumentationComment(checker)))[0] ?? '';
+    const doc = docOfSymbol(checker, property);
+    const description = paragraphsOf(doc.description)[0] ?? '';
     if (description === '') problems.push(`${owner}: the scope field "${property.name}" has no TSDoc description`);
+    problems.push(...tagLikeLineProblems(`${owner}: the scope field "${property.name}"`, doc));
     const text =
       declaration !== undefined && ts.isPropertySignature(declaration) && declaration.type !== undefined
         ? declaration.type.getText().replace(/\s+/g, ' ')
         : checker.typeToString(checker.getTypeOfSymbol(property));
     // A type parameter of the scope type is written with its default, as the members of a generic component are.
-    const frameworkOnly = checkParity(
-      `${owner}: the scope field "${property.name}"`,
-      tagsOfSymbol(checker, property),
-      problems,
-    );
+    const frameworkOnly = checkParity(`${owner}: the scope field "${property.name}"`, doc.tags, problems);
     return {
       name: property.name,
       type: withDefaultArguments(text, enclosingDefaults(declaration)),
@@ -263,7 +259,7 @@ function componentsOf(checker: ts.TypeChecker, file: ts.SourceFile): ts.Symbol[]
       const declaration = symbol.valueDeclaration ?? symbol.declarations?.[0];
       return !!declaration && checker.getTypeOfSymbolAtLocation(symbol, declaration).getCallSignatures().length > 0;
     })
-    .filter((symbol) => !symbol.getJsDocTags(checker).some((tag) => tag.name === 'internal'));
+    .filter((symbol) => !docOfSymbol(checker, symbol).tags.some((tag) => tag.name === 'internal'));
 }
 
 /**
@@ -289,13 +285,8 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
     const components = source ? componentsOf(checker, source) : [];
     if (components.length === 0) problems.push(`${name}: the entry point exports no component`);
     const parts = components.map((component): ApiPartJson => {
-      const tags = tagsOfSymbol(checker, component);
-      const part = checkPartDoc(
-        component.name,
-        tags,
-        displayTextOf(component.getDocumentationComment(checker)),
-        problems,
-      );
+      const { description: text, tags } = docOfSymbol(checker, component);
+      const part = checkPartDoc(component.name, tags, text, problems);
       // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
       const idScope = part === 'root' || part === '' ? name : `${name}.${part}`;
       const propsType = propsTypeOf(checker, component);
@@ -331,7 +322,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
                       fn,
                       `${component.name}.${symbol.name}`,
                       problems,
-                      tagsOfSymbol(checker, symbol),
+                      docOfSymbol(checker, symbol).tags,
                     ),
                   },
                   placeOf(member),
@@ -343,8 +334,8 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
         semanticId: `${name}.${part}`,
         anatomyPart: part,
         ...frameworkOnlyOf(component.name, tags, problems),
-        description: paragraphsOf(displayTextOf(component.getDocumentationComment(checker)))[0] ?? '',
-        ...partDocFields(displayTextOf(component.getDocumentationComment(checker)), tags),
+        description: paragraphsOf(text)[0] ?? '',
+        ...partDocFields(text, tags),
         props,
         events,
         slots,

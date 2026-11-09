@@ -207,6 +207,8 @@ describe('runApiDocs with the text rules', () => {
 
   it('fails on a broken rule, names the item and writes nothing', async () => {
     const outputDir = 'tools/workspace-plugin/tmp/api-docs-text-rules/out';
+    // The part example of `doc()` must be a whole example of the source of the project.
+    area.create('run', { 'src/thing.ts': '/**\n * @example\n * <Thing />\n */\nexport const thing = 1;\n' }, {});
     const broken = doc({ parts: [part({ description: 'You can simply show it.' })] });
     const result = await runApiDocs({ outputDir }, area.context('run'), () => [broken]);
     expect(result.success).toBe(false);

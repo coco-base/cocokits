@@ -251,10 +251,12 @@ export interface PopoverContentProps
    * `event.preventDefault()` to keep it open.
    *
    * It is not called for a close request without a key, such as a back gesture. Refuse that one with
-   * `details.cancel()` in `onOpenChange`. If you refuse Escape, give the user another way to close the popover.
+   * `details.cancel()` in `onOpenChange`. A Close part, a press outside, moving the focus away and the trigger still
+   * close it, so keep one of them.
    *
    * @example
-   * <Popover.Content onEscapeKeyDown={(event) => event.preventDefault()}>...</Popover.Content>
+   * const [saving, setSaving] = useState(false);
+   * <Popover.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Popover.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
@@ -295,20 +297,20 @@ export interface PopoverContentProps
   readonly onInteractOutside?: ((event: PointerDownOutsideEvent | FocusOutsideEvent) => void) | undefined;
   /**
    * Called when the popover opens and the focus is about to move into it. Call `event.preventDefault()` to keep
-   * the focus where it is.
+   * the focus where it is, or to move it yourself.
    *
    * @example
-   * <Popover.Content onOpenAutoFocus={(event) => event.preventDefault()}>...</Popover.Content>
+   * <Popover.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Popover.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly onOpenAutoFocus?: ((event: Event) => void) | undefined;
   /**
    * Called when the popover closes and the focus is about to return to the trigger. Call `event.preventDefault()`
-   * to keep the focus where it is.
+   * to skip the return and move the focus yourself.
    *
    * @example
-   * <Popover.Content onCloseAutoFocus={(event) => event.preventDefault()}>...</Popover.Content>
+   * <Popover.Content onCloseAutoFocus={(event) => { event.preventDefault(); search.current?.focus(); }}>...</Popover.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */

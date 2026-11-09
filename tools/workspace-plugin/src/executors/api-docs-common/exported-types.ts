@@ -7,7 +7,7 @@ import {
   ownTypeNamed,
   type TypeDeclaration,
 } from './expand-alias';
-import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
+import { docOfNode, oneLine, tagLikeLineProblems } from './jsdoc';
 import { memberOf, withoutUndefined } from './member';
 import { placeOf } from './places';
 import { isInternal, paragraphsOf, paramRemarksOf, tagsOf, valuesOf, withoutLinks } from './tags';
@@ -19,7 +19,8 @@ function ownFieldsOf(componentName: string, declaration: ts.InterfaceDeclaration
   for (const member of declaration.members) {
     if (!ts.isPropertySignature(member) && !ts.isMethodSignature(member)) continue;
     if (!ts.isIdentifier(member.name) && !ts.isStringLiteral(member.name)) continue;
-    const tags = tagsOfNode(member);
+    const doc = docOfNode(member);
+    const tags = doc.tags;
     if (isInternal(tags)) continue;
     const required = member.questionToken === undefined;
     const written = ts.isPropertySignature(member)
@@ -27,7 +28,7 @@ function ownFieldsOf(componentName: string, declaration: ts.InterfaceDeclaration
       : `(${member.parameters.map((parameter) => parameter.getText()).join(', ')}) => ${member.type?.getText() ?? 'void'}`;
     const field = memberOf(
       componentName,
-      { name: member.name.text, type: oneLine(written), required, description: docTextOf(member), tags },
+      { name: member.name.text, type: oneLine(written), required, description: doc.description, tags },
       declaration.name.text,
       problems,
     );
@@ -50,7 +51,8 @@ function inheritedFieldOf(
   source: ts.Declaration,
   problems: string[],
 ): ApiMemberJson | undefined {
-  const tags = tagsOfNode(source);
+  const doc = docOfNode(source);
+  const tags = doc.tags;
   if (isInternal(tags)) return undefined;
   const checker = program.getTypeChecker();
   const resolve = aliasResolverAt(program, declaration);
@@ -66,7 +68,7 @@ function inheritedFieldOf(
       name: property.name,
       type: withoutUndefined(expandAliases(read, resolve), required),
       required,
-      description: docTextOf(source),
+      description: doc.description,
       tags,
       aliasValues: aliasValuesOf(read, resolve),
     },
@@ -172,9 +174,11 @@ function typeRowOf(
   componentName: string,
   problems: string[],
 ): ApiTypeJson | undefined {
-  const tags = tagsOfNode(declaration);
-  const [description] = paragraphsOf(docTextOf(declaration));
+  const doc = docOfNode(declaration);
+  const tags = doc.tags;
+  const [description] = paragraphsOf(doc.description);
   if (isInternal(tags) || description === undefined) return undefined;
+  problems.push(...tagLikeLineProblems(name, doc));
   // A Types row has no example; the members that use the type show one.
   if (tagsOf(tags, 'example').length > 0) {
     problems.push(`${name}: a Types row cannot show an @example; put it on a member that uses the type`);

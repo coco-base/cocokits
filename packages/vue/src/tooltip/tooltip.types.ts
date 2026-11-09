@@ -246,8 +246,11 @@ export interface TooltipContentEmits {
    * Emits before Escape closes the tooltip, with the keydown event. Call `preventDefault()` to keep the tooltip
    * shown.
    *
+   * A tooltip must stay dismissible, so refuse Escape rarely and only while another way hides it, such as moving the
+   * pointer or the focus away.
+   *
    * @example
-   * <TooltipContent @escape-key-down.prevent>Copy link</TooltipContent>
+   * <TooltipContent @escape-key-down="(event) => saving && event.preventDefault()">Copy link</TooltipContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.

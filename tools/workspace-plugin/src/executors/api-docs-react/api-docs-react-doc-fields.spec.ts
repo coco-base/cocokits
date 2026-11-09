@@ -307,3 +307,108 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     ).toThrow(/ThingSide: a Types row cannot show an @example/);
   });
 });
+
+describe('extractReactApiDocs: an @ that is no tag in a redeclared member', () => {
+  /** `ThingProps` extends a base that documents `extra`, and redeclares `extra` with the given comment. */
+  const withBase = (baseComment: string, overrideComment: string) => (text: string) =>
+    text.replace(
+      '/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+      `interface ThingBase {\n  ${baseComment}\n  readonly extra?: string;\n}\n\n/** Props of the {@link Thing}. */\nexport interface ThingProps extends ThingBase {\n  ${overrideComment}\n  readonly extra?: string;`,
+    );
+
+  it('keeps the base description, read to its end, and the tags of the override', () => {
+    const extra = extract(
+      'inherited-cut',
+      withBase('/** The extra text. Use @click to listen. */', '/**\n   * @example\n   * <Thing />\n   */'),
+    ).parts[0]?.props.find((prop) => prop.name === 'extra');
+    expect(extra?.description).toBe('The extra text. Use @click to listen.');
+    expect(extra?.examples).toEqual(['<Thing />']);
+  });
+
+  it('keeps the base description and reads the example of the override to its end', () => {
+    const extra = extract(
+      'override-cut',
+      withBase('/** The extra text. */', '/**\n   * @example\n   * <Thing @click="save" />\n   */'),
+    ).parts[0]?.props.find((prop) => prop.name === 'extra');
+    expect(extra?.description).toBe('The extra text.');
+    expect(extra?.examples).toEqual(['<Thing @click="save" />']);
+  });
+});
+
+// Not here: row H of the merge (a class that `implements` a documented interface). A props type is an interface or a
+// type alias, which cannot implement an interface.
+describe('extractReactApiDocs: the merge of the texts of a member', () => {
+  const extra = (change: (text: string) => string, name: string) =>
+    extract(name, change).parts[0]?.props.find((prop) => prop.name === 'extra');
+
+  it('C: reads an override text with an @click and keeps the example of the base', () => {
+    const member = extra(
+      (text) =>
+        text.replace(
+          '/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+          '/** Base props. */\ninterface ThingBase {\n  /**\n   * Base text.\n   * @example\n   * <Thing />\n   */\n  readonly extra?: string;\n}\n\n/** Props of the {@link Thing}. */\nexport interface ThingProps extends ThingBase {\n  /** Use @click to listen. */\n  readonly extra?: string;',
+        ),
+      'merge-c',
+    );
+    expect(member?.description).toBe('Use @click to listen.');
+    expect(member?.examples).toEqual(['<Thing />']);
+  });
+
+  it('D: joins both texts of an intersection, each read to its end', () => {
+    const member = extra(
+      (text) =>
+        text
+          .replace(
+            '/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+            'interface ExtraA {\n  /** First. Use @click here. */\n  readonly extra?: string;\n}\n\ninterface ExtraB {\n  /** Second. */\n  readonly extra?: string;\n}\n\n/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+          )
+          .replace(
+            'export function Thing(props: ThingProps)',
+            'export function Thing(props: ThingProps & ExtraA & ExtraB)',
+          ),
+      'merge-d',
+    );
+    expect(member?.description).toBe('First. Use @click here. Second.');
+  });
+});
+
+describe('extractReactApiDocs: an @ that is no tag in a scoped slot', () => {
+  it('reads the text of an object scope field and of a primitive scope field to its end', () => {
+    const slots =
+      extract('at-sign-scope', (text) =>
+        text
+          .replace('/** Whether the thing is open. */', '/** Whether the thing is open. Use @click to listen. */')
+          .replace(
+            '@param value - The value the thing holds.',
+            '@param value - The value the thing holds. Use @click to listen.',
+          ),
+      ).parts[0]?.slots ?? [];
+    expect(slots.find((slot) => slot.name === 'default')?.scope?.[0]?.description).toBe(
+      'Whether the thing is open. Use @click to listen.',
+    );
+    expect(slots.find((slot) => slot.name === 'label')?.scope?.[0]?.description).toBe(
+      'The value the thing holds. Use @click to listen.',
+    );
+  });
+});
+
+describe('extractReactApiDocs: an @ that is no tag', () => {
+  it('reads the text of a part and a prop to its end', () => {
+    const EXAMPLE = '<Thing @click="save">Save</Thing>';
+    const part = extract('at-sign', (text) =>
+      text
+        .replace(' * Renders a thing.\n', ' * Renders a thing. Use @click to listen.\n')
+        .replace(' * <Thing size="small" />', ` * ${EXAMPLE}`)
+        .replace(
+          '   * The size of the thing.\n',
+          `   * The size of the thing. Use @click to listen.\n   * @example\n   * ${EXAMPLE}\n`,
+        ),
+    ).parts[0];
+    expect(part?.description).toBe('Renders a thing. Use @click to listen.');
+    expect(part?.examples).toEqual([EXAMPLE]);
+    expect(part?.props.find((prop) => prop.name === 'size')).toMatchObject({
+      description: 'The size of the thing. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+  });
+});

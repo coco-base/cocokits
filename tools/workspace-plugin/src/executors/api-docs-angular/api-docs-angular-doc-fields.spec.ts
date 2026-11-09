@@ -106,3 +106,60 @@ describe('extractAngularApiDocs: the fields of the API page', () => {
     ).toThrow(/Thing\.side: "@cckValue end" needs the shape/);
   });
 });
+
+describe('extractAngularApiDocs: the @param text of a part method', () => {
+  it('names each parameter in the remarks', () => {
+    const doc = extract('part-params', (text) =>
+      text.replace(
+        '  /** Emits when the user leaves the thing. */',
+        [
+          '  /**',
+          '   * Opens the thing.',
+          '   * @param delay - How long to wait. When not set, it does not wait.',
+          '   * @param origin - Where it opens. When not set, it opens at the trigger.',
+          '   * @example',
+          '   * thing.open();',
+          '   */',
+          '  open(delay?: number, origin?: string): void {}',
+          '  /** Emits when the user leaves the thing. */',
+        ].join('\n'),
+      ),
+    );
+    expect(doc.parts[0]?.methods[0]?.remarks).toBe(
+      '`delay`: How long to wait. When not set, it does not wait.\n\n`origin`: Where it opens. When not set, it opens at the trigger.',
+    );
+  });
+});
+
+describe('extractAngularApiDocs: an @ that is no tag', () => {
+  const EXAMPLE = '<cck-thing @click="save">Save</cck-thing>';
+  const PART = ['<cck-thing (click)="save()" />', '@for (item of items; track item) {', '  <cck-thing />', '}'];
+  const COMPONENT = [
+    '@Component({',
+    "  providers: [{ provide: THING_CONFIG, useValue: { side: 'end' } }],",
+    '})',
+    'export class Form {}',
+  ];
+  const lines = (text: string[]): string => text.map((line) => ` * ${line}`.trimEnd()).join('\n');
+
+  it('reads the text of a part, an input and a constant to its end', () => {
+    const read = extract('at-sign', (text) =>
+      text
+        .replace(' * Put it where the thing shows.\n', ' * Put it where the thing shows. Use @click to listen.\n')
+        .replace(' * <cck-thing side="start" />', lines(PART))
+        .replace(
+          '   * The side the thing opens on.\n',
+          `   * The side the thing opens on. Use @click to listen.\n   * @example\n   * ${EXAMPLE}\n`,
+        )
+        .replace(" * providers: [{ provide: THING_CONFIG, useValue: { side: 'end' } }]", lines(COMPONENT)),
+    );
+    const part = read.parts[0];
+    expect(part?.remarks).toBe('Put it where the thing shows. Use @click to listen.');
+    expect(part?.examples).toEqual([PART.join('\n')]);
+    expect(part?.props.find((prop) => prop.name === 'side')).toMatchObject({
+      description: 'The side the thing opens on. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(read.symbols?.find((symbol) => symbol.name === 'THING_CONFIG')?.examples).toEqual([COMPONENT.join('\n')]);
+  });
+});

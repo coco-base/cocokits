@@ -8,6 +8,7 @@ import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
+import { docOfNode, docOfSymbol, tagLikeLineProblems } from '../api-docs-common/jsdoc';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
@@ -124,6 +125,28 @@ function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration
   };
 }
 
+/**
+ * The directive entry with the text of the class and of its members read from the source ({@link docOfNode},
+ * {@link docOfSymbol}), not from the docs extractor of the Angular compiler. That extractor reads one declaration with
+ * the TypeScript parser, which cuts a text at an `@` that is no tag (`@click`) and loses the text of a `@param`
+ * name, and it does not inherit the text of a base member as TypeScript does. A member that the class type does not
+ * have gets no text, so the run reports it.
+ */
+function withSourceText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry: DocDirective): DocDirective {
+  const symbol = cls.name ? checker.getSymbolAtLocation(cls.name) : undefined;
+  const instance = symbol ? checker.getDeclaredTypeOfSymbol(symbol) : undefined;
+  const classDoc = docOfNode(cls);
+  return {
+    ...entry,
+    description: classDoc.description,
+    jsdocTags: classDoc.tags,
+    members: entry.members.map((member) => {
+      const doc = docOfSymbol(checker, instance?.getProperty(member.name));
+      return { ...member, description: doc.description, jsdocTags: doc.tags };
+    }),
+  };
+}
+
 /** What a template directive says about itself: what shows without it, when it is used and an example. */
 function templateDetailOf(directive: DocDirective): { default?: string; remarks?: string; examples?: string[] } {
   const fallback = defaultOf(directive.jsdocTags);
@@ -155,6 +178,13 @@ function withScopes(
     // The type parameter of the template directive is the component's own (`T` of the Select), so it takes the
     // default of the component.
     const detail = directive === undefined ? {} : templateDetailOf(directive);
+    if (directive !== undefined)
+      problems.push(
+        ...tagLikeLineProblems(`${owner.name}.${slot.name}`, {
+          description: directive.description,
+          tags: directive.jsdocTags,
+        }),
+      );
     const scope =
       cls === undefined
         ? undefined
@@ -192,8 +222,15 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
     const classes = program
       .getApiDocumentation(file, new Set())
       .entries.filter((entry) => entry.entryType === 'directive' || entry.entryType === 'component');
-    const portals = portalSelectors(classes as unknown as DocDirective[]);
-    for (const entry of classes) {
+    // The template directives give their slot its text, so they are read to their end too.
+    const wholeClasses = classes.map((entry) => {
+      const cls = classNamed(tsProgram, entry);
+      return cls ? withSourceText(checker, cls, entry as unknown as DocDirective) : (entry as unknown as DocDirective);
+    });
+    const portals = portalSelectors(wholeClasses);
+    for (const [index, entry] of classes.entries()) {
+      const whole = wholeClasses[index];
+      if (whole === undefined) continue;
       // A portal directive (`ng-template[cckPopoverPortal]`) renders no anatomy part, so it is no part.
       if (portals.has((entry as unknown as DocDirective).selector.trim())) continue;
       const cls = classNamed(tsProgram, entry);
@@ -209,9 +246,10 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
         text: expandAliases(type, resolve),
         values: aliasValuesOf(type, resolve),
       });
-      const doc = withInstantiatedTypes(checker, cls, entry as unknown as DocDirective);
+      // The class is read once, in `wholeClasses`; the instantiated types change the types of the members only.
+      const doc = withInstantiatedTypes(checker, cls, whole);
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
-      parts.push(placeAt(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems), cls));
+      parts.push(placeAt(withScopes(part, wholeClasses, tsProgram, entry, problems), cls));
     }
     const sourceFile = tsProgram.getSourceFile(file);
     const partNames = new Set(classes.map((entry) => entry.name));

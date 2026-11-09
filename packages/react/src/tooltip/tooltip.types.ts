@@ -233,10 +233,11 @@ export interface TooltipContentProps
    *
    * It is not called for a close request without a key, such as a back gesture. Refuse that one with
    * `details.cancel()` in `onOpenChange`. WCAG 1.4.13 asks that the user can hide a tooltip, so refuse Escape only
-   * with another way to hide it.
+   * while another way hides it. Moving the pointer or the focus away still hides the tooltip.
    *
    * @example
-   * <Tooltip.Content onEscapeKeyDown={(event) => event.preventDefault()}>...</Tooltip.Content>
+   * const [saving, setSaving] = useState(false);
+   * <Tooltip.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Tooltip.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */

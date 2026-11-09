@@ -11,6 +11,7 @@ import {
   valuesOf,
   withoutLinks,
 } from './tags';
+import { tagLikeLineProblems } from './jsdoc';
 import type { ApiMemberJson, ApiValueJson, TagEntry } from './types';
 
 /**
@@ -74,6 +75,7 @@ export function memberOf(
   const remarks = [...rest, ...tagsOf(raw.tags, 'remarks').map(withoutLinks), ...params].filter((text) => text !== '');
   const [deprecatedText] = tagsOf(raw.tags, 'deprecated');
   const deprecated = deprecatedText === undefined ? undefined : withoutLinks(deprecatedText);
+  problems.push(...tagLikeLineProblems(`${owner}.${raw.name}`, raw));
   checkParity(`${owner}.${raw.name}`, raw.tags, problems);
   const examples = tagsOf(raw.tags, 'example');
   const defaultDiffers = defaultDiffersOf(raw.tags);
