@@ -81,8 +81,8 @@ export interface SelectContentEmits {
    *
    * When not set, Escape closes the list.
    *
-   * A Select that Escape cannot close is harder to leave with the keyboard. Keep the refusal short. Choosing an item
-   * still closes the list.
+   * A Select that Escape cannot close is harder to leave with the keyboard. Keep the refusal short. A focus leave
+   * always closes the list, and so does choosing an item in a single Select.
    *
    * @example
    * <SelectContent @escape-key-down="(event) => saving && event.preventDefault()">
