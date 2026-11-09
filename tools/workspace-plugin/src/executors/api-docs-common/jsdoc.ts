@@ -202,6 +202,13 @@ function inheritedFrom<T>(
 }
 
 /**
+ * Whether a symbol is declared outside the code of the package: in a `node_modules` folder (the default library files of TypeScript are there too).
+ * Its text is never inherited (the same test as `isOwn` of `expand-alias.ts`, which needs a program).
+ */
+const isForeign = (symbol: ts.Symbol): boolean =>
+  (symbol.declarations ?? []).some((declaration) => declaration.getSourceFile().fileName.includes('/node_modules/'));
+
+/**
  * The TSDoc of a symbol over all its declarations and the types it inherits from, read from the source. It ports what
  * the language service does for `symbol.getDocumentationComment` and `symbol.getJsDocTags` (`getDocumentationComment`,
  * `getJsDocTagsOfDeclarations`, `findBaseOfDeclaration` of `services.ts`), so the parsers' text is never needed:
@@ -211,6 +218,10 @@ function inheritedFrom<T>(
  *   implemented type that has the member, even with no text, and a later declaration's is put before it;
  * - with no tags, each declaration takes the tags of that member when the base member has one declaration, before
  *   its own.
+ *
+ * Deviation from TypeScript: the text of a base member declared outside the package (an interface of a `.d.ts` in
+ * `node_modules`, such as `FormValueControl`) is never inherited, so a member that implements it still needs its own
+ * text.
  *
  * Not ported: `{@inheritDoc}`, the accessor-pair variant and the `@param` text that TypeScript gives a parameter
  * declaration, which `packages/` does not use.
@@ -225,7 +236,7 @@ export function docOfSymbol(checker: ts.TypeChecker, symbol: ts.Symbol | undefin
     const seen = new Set<ts.Symbol>();
     for (const declaration of declarations) {
       const inherited = inheritedFrom(checker, declaration, symbol.name, (base) => {
-        if (seen.has(base)) return undefined;
+        if (seen.has(base) || isForeign(base)) return undefined;
         seen.add(base);
         return docOfSymbol(checker, base).description;
       });
@@ -236,7 +247,7 @@ export function docOfSymbol(checker: ts.TypeChecker, symbol: ts.Symbol | undefin
     const seen = new Set<ts.Symbol>();
     for (const declaration of declarations) {
       const inherited = inheritedFrom(checker, declaration, symbol.name, (base) => {
-        if (seen.has(base)) return undefined;
+        if (seen.has(base) || isForeign(base)) return undefined;
         seen.add(base);
         return base.declarations?.length === 1 ? docOfSymbol(checker, base).tags : undefined;
       });

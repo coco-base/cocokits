@@ -160,6 +160,7 @@ describe('docOfNode', () => {
 
 /** The source of the `docOfSymbol` rows: each shape has its own names, in one program. */
 const SYMBOL_SOURCE = [
+  "import type { ForeignHints } from './node_modules/foreign/index';",
   '// A: the base text is cut by an @click, the override has only a whole example',
   'interface BaseA {',
   '  /** The extra text. Use @click to listen. */',
@@ -285,6 +286,10 @@ const SYMBOL_SOURCE = [
   '  extra?: string;',
   '}',
   "type TypeK = Pick<BaseK, 'extra'> & BaseK;",
+  '// L: a base declared in a .d.ts of node_modules gives no text',
+  'class ImplForeign implements ForeignHints {',
+  '  extra?: string;',
+  '}',
 ].join('\n');
 
 describe('docOfSymbol', () => {
@@ -294,11 +299,21 @@ describe('docOfSymbol', () => {
   beforeAll(() => {
     const host = ts.createCompilerHost({});
     const original = host.getSourceFile.bind(host);
-    host.getSourceFile = (name, languageVersion) =>
+    const virtual = (name: string): string | undefined =>
       name === 'symbols.ts'
-        ? ts.createSourceFile(name, SYMBOL_SOURCE, languageVersion, true)
-        : original(name, languageVersion);
-    host.fileExists = (name) => name === 'symbols.ts' || ts.sys.fileExists(name);
+        ? SYMBOL_SOURCE
+        : name.endsWith('node_modules/foreign/index.d.ts')
+          ? ['export interface ForeignHints {', '  /** Foreign text. */', '  extra?: string;', '}'].join(
+              String.fromCharCode(10),
+            )
+          : undefined;
+    host.getSourceFile = (name, languageVersion) => {
+      const text = virtual(name);
+      return text === undefined
+        ? original(name, languageVersion)
+        : ts.createSourceFile(name, text, languageVersion, true);
+    };
+    host.fileExists = (name) => virtual(name) !== undefined || ts.sys.fileExists(name);
     const program = ts.createProgram(['symbols.ts'], { strict: true, noEmit: true, types: [] }, host);
     checker = program.getTypeChecker();
     const source = program.getSourceFile('symbols.ts');
@@ -342,6 +357,7 @@ describe('docOfSymbol', () => {
     ['I: an own text wins over the base', 'OverI', 'Own I.', []],
     ['J: the texts of two bases, the later first', 'Merged', 'From B.\nFrom A.', []],
     ['K: a Pick and its base list the example once', 'TypeK', 'K text.', example('<K />')],
+    ['L: the text of an interface in node_modules is not inherited', 'ImplForeign', '', []],
   ])('merges the texts of a symbol as TypeScript does: %s', (_row, name, description, tags) => {
     expect(textOf(name)).toEqual({ description, tags });
   });
