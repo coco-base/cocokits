@@ -10,18 +10,25 @@ function comparePaths(first: readonly number[], second: readonly number[]): numb
 }
 
 /**
- * Sorts elements into rendered order: the order a depth-first walk of what is drawn visits them. An
- * open shadow tree takes the place of its host's children and a slot's assigned nodes take the place
- * of the slot; without shadow roots this is document order. Use it to re-read the items of a
- * collection after they mount, unmount or move. It reads the DOM only when called.
+ * Sorts elements into rendered order, which is the order that a depth-first walk of the drawn page visits them.
+ * Use it to read the items of a collection again after they mount, unmount or move.
  *
- * The primary document is the document of the first connected element. An element that is not
- * rendered (detached, in another document, or a light child of a shadow host that no slot takes) goes
- * after all rendered ones, in the order it was given. For a set of rendered elements of one document
- * the result is the same for every input order. An empty or one-element list is returned as a copy.
+ * @remarks
+ * An open shadow tree takes the place of the children of its host. The assigned nodes of a slot take the place of the slot.
+ * Without shadow roots, rendered order is document order. It reads the DOM only when you call it.
  *
- * @param elements - The elements to order; not changed.
+ * The main document is the document of the first connected element. An element that is not rendered goes after all
+ * rendered ones, in the order you gave it. Not rendered means detached, in another document, or a light child of a
+ * shadow host that no slot takes.
+ *
+ * For rendered elements of one document, the result is the same for every input order.
+ * An empty or one-element list is returned as a copy.
+ *
+ * @param elements - The elements to order. The list is not changed.
  * @returns A new array in rendered order.
+ * @example
+ * const items = [...document.querySelectorAll<HTMLElement>('[role="tab"]')].reverse();
+ * const ordered = sortByDomOrder(items);
  */
 export function sortByDomOrder<T extends Element>(elements: readonly T[]): T[] {
   const doc = elements.find((element) => element.isConnected)?.ownerDocument;

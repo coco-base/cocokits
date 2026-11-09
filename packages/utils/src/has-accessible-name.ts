@@ -1,18 +1,28 @@
-/** The part of a native form control that {@link hasAccessibleName} reads; any `HTMLInputElement` fits. */
+/** The part of a native form control that {@link hasAccessibleName} reads. Any `HTMLInputElement` fits. */
 export interface NameableElement {
-  /** The labels that name the control (`<label for>` and a wrapping `<label>`). */
+  /** The labels that name the control, which are the `<label for>` and a wrapping `<label>`. */
   readonly labels?: { readonly length: number } | null;
-  /** Whether the attribute is present. */
+  /**
+   * Whether the attribute is present.
+   * @param name - The attribute name.
+   * @returns `true` when the element has the attribute.
+   */
   hasAttribute(name: string): boolean;
 }
 
 /**
- * Whether a native form control has something that names it: a label (`<label for>` or a wrapping
- * `<label>`, through `element.labels`), `aria-label`, `aria-labelledby` or `title`. It checks that a
- * name source exists, not that it is non-empty or resolves. Use it in a development check after mount.
+ * Checks whether a native form control has something that names it. A name source is a label, `aria-label`,
+ * `aria-labelledby` or `title`. A label is a `<label for>` or a wrapping `<label>`, found through `element.labels`.
  *
- * @param element - The control, mounted in a document.
+ * @remarks
+ * It checks that a name source exists. It does not check that the source has text or that it points to a real element.
+ * Use it in a development check, after the control is in the document.
+ *
+ * @param element - The control, in a document.
  * @returns `true` when at least one name source is present.
+ * @example
+ * const input = document.querySelector<HTMLInputElement>('input')!;
+ * if (!hasAccessibleName(input)) console.warn('This input has no accessible name.');
  */
 export function hasAccessibleName(element: NameableElement): boolean {
   return (
@@ -21,23 +31,29 @@ export function hasAccessibleName(element: NameableElement): boolean {
   );
 }
 
-/** What {@link hasChoiceControlName} reads of the label part that every choice control renders. */
+/** What {@link hasChoiceControlName} reads of the label that a choice control renders. */
 export interface ChoiceLabelPart {
-  /** The nodes in the label: the author's content, and for a Switch its track too. */
+  /** The nodes in the label. They are the content you wrote, and they can include decoration such as a switch track. */
   readonly childNodes: ArrayLike<unknown>;
 }
 
 /**
- * Whether a checkbox, switch or radio has something that names it. A choice control always renders its own
- * `<label for>`, so that label counts only when it holds content; the name sources are then the same as in
- * {@link hasAccessibleName} (another label, `aria-label`, `aria-labelledby`, `title`), `title` included. A
- * framework whose input cannot carry `title` simply never meets that source. Use it in a development check
- * after mount.
+ * Checks whether a checkbox, a switch or a radio has something that names it.
+ * The control always renders its own `<label for>`, so that label counts only when it holds content.
  *
- * @param input - The native input, mounted in a document.
- * @param label - The control's own label part.
- * @param ignoredLabelNodes - Nodes of the label that are not the author's content (the Switch's track).
+ * @remarks
+ * Other name sources are the same as in {@link hasAccessibleName}: another label, `aria-label`, `aria-labelledby` and `title`.
+ *
+ * Use it in a development check, after the input is in the document.
+ *
+ * @param input - The native input, in a document.
+ * @param label - The label that the control renders.
+ * @param ignoredLabelNodes - Nodes of the label that are decoration and not your content, such as a switch track.
  * @returns `true` when the label has content or another name source exists.
+ * @example
+ * const input = document.querySelector<HTMLInputElement>('input[type="checkbox"]')!;
+ * const label = document.querySelector<HTMLLabelElement>(`label[for="${input.id}"]`)!;
+ * const named = hasChoiceControlName(input, label);
  */
 export function hasChoiceControlName(
   input: NameableElement,
