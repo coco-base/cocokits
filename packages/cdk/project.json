@@ -35,6 +35,9 @@
       "dependsOn": ["cycles"]
     },
     "pack": {},
+    "api-docs": {
+      "executor": "@cocokits/workspace:api-docs-ts"
+    },
     "publint": {},
     "attw": {}
   }
