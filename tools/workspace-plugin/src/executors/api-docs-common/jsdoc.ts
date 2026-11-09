@@ -241,6 +241,15 @@ function docCommentAt(place: SourcePlace): string | undefined {
   return doc === undefined ? undefined : file.text.slice(doc.pos, doc.end);
 }
 
+/** The description and tags of the first doc comment found at one of the `places`, read with {@link readTsDoc}. */
+export function sourceDocOf(places: readonly SourcePlace[]): TsDocText | undefined {
+  for (const place of places) {
+    const comment = docCommentAt(place);
+    if (comment !== undefined) return readTsDoc(comment);
+  }
+  return undefined;
+}
+
 /**
  * The description and tags a reader got from a parser (`parsedDoc`) that may have cut them at an `@` that is no tag.
  * They are read from the doc comment of the declaration at one of the `places` ({@link readTsDoc}); the parsed text is

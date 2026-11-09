@@ -107,6 +107,30 @@ describe('extractAngularApiDocs: the fields of the API page', () => {
   });
 });
 
+describe('extractAngularApiDocs: the @param text of a part method', () => {
+  it('names each parameter in the remarks', () => {
+    const doc = extract('part-params', (text) =>
+      text.replace(
+        '  /** Emits when the user leaves the thing. */',
+        [
+          '  /**',
+          '   * Opens the thing.',
+          '   * @param delay - How long to wait. When not set, it does not wait.',
+          '   * @param origin - Where it opens. When not set, it opens at the trigger.',
+          '   * @example',
+          '   * thing.open();',
+          '   */',
+          '  open(delay?: number, origin?: string): void {}',
+          '  /** Emits when the user leaves the thing. */',
+        ].join('\n'),
+      ),
+    );
+    expect(doc.parts[0]?.methods[0]?.remarks).toBe(
+      '`delay`: How long to wait. When not set, it does not wait.\n\n`origin`: Where it opens. When not set, it opens at the trigger.',
+    );
+  });
+});
+
 describe('extractAngularApiDocs: an @ that is no tag', () => {
   const EXAMPLE = '<cck-thing @click="save">Save</cck-thing>';
   const PART = ['<cck-thing (click)="save()" />', '@for (item of items; track item) {', '  <cck-thing />', '}'];

@@ -8,7 +8,7 @@ import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { placeOfNode, unrealTagProblems, wholeDocOf } from '../api-docs-common/jsdoc';
+import { placeOfNode, sourceDocOf, unrealTagProblems, wholeDocOf } from '../api-docs-common/jsdoc';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
@@ -141,8 +141,12 @@ function withWholeText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry:
     members: entry.members.map((member) => {
       const parsedDoc = { description: member.description, tags: member.jsdocTags };
       const declarations = instance?.getProperty(member.name)?.declarations ?? [];
-      const doc = wholeDocOf(parsedDoc, declarations.map(placeOfNode));
-      return { ...member, description: doc.description, jsdocTags: doc.tags };
+      const places = declarations.map(placeOfNode);
+      const doc = wholeDocOf(parsedDoc, places);
+      // The compiler keeps the text of a `@param` without its name (`- How long to wait.`), so the tags come from the source.
+      const params = sourceDocOf(places)?.tags.filter((tag) => tag.name === 'param') ?? [];
+      const tags = params.length === 0 ? doc.tags : [...doc.tags.filter((tag) => tag.name !== 'param'), ...params];
+      return { ...member, description: doc.description, jsdocTags: tags };
     }),
   };
 }
