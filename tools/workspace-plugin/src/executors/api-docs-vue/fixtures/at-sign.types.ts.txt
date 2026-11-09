@@ -1,3 +1,17 @@
+/** The props that the Thing takes from its base. */
+interface ThingBase {
+  /** The first text. Use @click to listen. */
+  readonly baseCut?: string;
+  /** The second text. */
+  readonly overrideCut?: string;
+  /**
+   * The third text.
+   * @example
+   * <Thing />
+   */
+  readonly keepsExample?: string;
+}
+
 /**
  * Props of the Thing. Use @click to listen.
  *
@@ -6,7 +20,7 @@
  *
  * @cckPart root
  */
-export interface ThingProps {
+export interface ThingProps extends ThingBase {
   /**
    * The side the thing opens on. Use @click to listen.
    *
@@ -14,6 +28,18 @@ export interface ThingProps {
    * <Thing @click="save">Save</Thing>
    */
   readonly side?: string;
+  /**
+   * @example
+   * <Thing />
+   */
+  readonly baseCut?: string;
+  /**
+   * @example
+   * <Thing @click="save" />
+   */
+  readonly overrideCut?: string;
+  /** Use @click to listen. */
+  readonly keepsExample?: string;
 }
 
 /** Emits of the Thing. */

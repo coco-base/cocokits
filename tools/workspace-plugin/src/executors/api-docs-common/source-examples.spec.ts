@@ -1,7 +1,6 @@
 import { mkdirSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { unrealTagProblems } from './jsdoc';
 import { memberOf } from './member';
 import { exampleProblems, sourceExamplesOf } from './source-examples';
 import { scratchArea, withJunction } from './testing/scratch';
@@ -124,25 +123,13 @@ describe('exampleProblems', () => {
   });
 });
 
-describe('unrealTagProblems', () => {
-  it('names a tag that is not a TSDoc tag: the text before it was cut', () => {
-    expect(unrealTagProblems('vue/button Button', [{ name: 'click', comment: 'Save' }])).toEqual([
-      'vue/button Button: "@click" is not a TSDoc tag; the text before it was cut',
-    ]);
-  });
-
-  it('passes the standard tags and the cck tags', () => {
-    const tags = [
-      { name: 'example', comment: '' },
-      { name: 'cckPart', comment: 'root' },
-    ];
-    expect(unrealTagProblems('x', tags)).toEqual([]);
-  });
-
-  it('fails the run of a member whose tags hold a tag that is not real', () => {
+describe('the check of a line that starts like a tag', () => {
+  it('fails the run of a member whose text has a line that starts with a word that is no tag', () => {
     const problems: string[] = [];
-    const tags = [{ name: 'click', comment: '' }];
-    memberOf('button', { name: 'size', type: 'string', required: true, description: 'Use', tags }, 'Button', problems);
-    expect(problems).toContain('Button.size: "@click" is not a TSDoc tag; the text before it was cut');
+    const raw = { name: 'size', type: 'string', required: true, description: 'Use it.\n@exmaple <Thing />', tags: [] };
+    memberOf('button', raw, 'Button', problems);
+    expect(problems).toContain(
+      'Button.size: a line starts with "@exmaple", which is no TSDoc tag; write it in backticks or fix the tag name',
+    );
   });
 });

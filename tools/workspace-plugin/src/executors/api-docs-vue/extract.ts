@@ -1,7 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import ts from 'typescript';
-import { insideRoot } from '../inside-root';
 import { loadPackage } from '../load-module';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
 import {
@@ -17,18 +16,12 @@ import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { docTextOf, tagsOfNode, wholeDocOf } from '../api-docs-common/jsdoc';
-import type { SourcePlace, TsDocText } from '../api-docs-common/jsdoc';
+import { docOfNode, docOfSymbol } from '../api-docs-common/jsdoc';
+import type { TsDocText } from '../api-docs-common/jsdoc';
+import { declarationReader } from './declaration-reader';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
-import type {
-  ApiDocJson,
-  ApiMemberJson,
-  ApiPartJson,
-  ApiSlotJson,
-  ApiValueJson,
-  TagEntry,
-} from '../api-docs-common/types';
+import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, ApiValueJson } from '../api-docs-common/types';
 
 /** The part of `vue-component-meta` this executor uses. */
 interface MetaTag {
@@ -60,36 +53,12 @@ interface MetaModule {
   createChecker: (tsConfig: string, options: { forceUseTs: boolean; schema: { ignore: string[] } }) => MetaChecker;
 }
 
-const tagEntriesOf = (tags: readonly MetaTag[]): TagEntry[] =>
-  tags.map((tag) => ({ name: tag.name, comment: tag.text ?? '' }));
-
-/**
- * The description and tags of a member. `vue-component-meta` reads them with the TypeScript parser, which cuts a text
- * at an `@` that is no tag (`@click` in an example), so they are read again from the comment above the declaration of
- * the member ({@link wholeDocOf}). A declaration file outside the workspace `root` is not read.
- */
-function memberDocOf(root: string, member: MetaMember): TsDocText {
-  const parsedDoc = { description: member.description, tags: tagEntriesOf(member.tags) };
-  const places = (member.getDeclarations?.() ?? []).flatMap(({ file, range }): SourcePlace[] => {
-    try {
-      return [{ text: readFileSync(insideRoot(root, file, 'declaration file'), 'utf8'), position: range[0] }];
-    } catch {
-      return [];
-    }
-  });
-  return wholeDocOf(parsedDoc, places);
-}
-
 /** The text of a source default, unless it says nothing (`withDefaults` with `undefined`). */
 const sourceDefaultOf = (value: string | undefined): string | undefined =>
   value === undefined || value === 'undefined' ? undefined : value;
 
-interface NodeDoc {
-  description: string;
-  tags: TagEntry[];
-}
-
-const docOf = (node: ts.Node): NodeDoc => ({ description: docTextOf(node), tags: tagsOfNode(node) });
+/** The text of a member that has no declaration to read: no description, so the run reports it. */
+const NO_DOC: TsDocText = { description: '', tags: [] };
 
 /** The interface or type alias `typeName`, declared in a `*.types.ts` file of the folder. */
 function typeDeclarationOf(
@@ -115,16 +84,16 @@ function typeDeclarationOf(
  * TSDoc from a call signature and loses the comment of the named-tuple form, which the guide asks for, so the
  * comments are read from the type itself.
  */
-function emitDocsOf(dir: string, typeName: string): Map<string, NodeDoc> {
+function emitDocsOf(dir: string, typeName: string): Map<string, TsDocText> {
   const declaration = typeDeclarationOf(dir, typeName);
   const literal = declaration && ts.isTypeAliasDeclaration(declaration) ? declaration.type : declaration;
   const members =
     literal && (ts.isTypeLiteralNode(literal) || ts.isInterfaceDeclaration(literal)) ? literal.members : [];
-  const docs = new Map<string, NodeDoc>();
+  const docs = new Map<string, TsDocText>();
   for (const member of members) {
     const name = member.name;
     if (name && (ts.isIdentifier(name) || ts.isStringLiteral(name))) {
-      docs.set(name.text, docOf(member));
+      docs.set(name.text, docOfNode(member));
     }
   }
   return docs;
@@ -140,6 +109,26 @@ interface Scope {
   readonly sources: readonly ts.SourceFile[];
 }
 
+/** The interface or type alias `typeName` in any types file of the scope. */
+function propsDeclarationOf(
+  scope: Scope,
+  typeName: string,
+): ts.TypeAliasDeclaration | ts.InterfaceDeclaration | undefined {
+  return scope.sources
+    .flatMap((source) => source.statements)
+    .find(
+      (statement): statement is ts.TypeAliasDeclaration | ts.InterfaceDeclaration =>
+        (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) &&
+        statement.name.text === typeName,
+    );
+}
+
+/** The type of `<Name>Props`, whose properties are the props. */
+function propsTypeOf(scope: Scope | undefined, typeName: string): ts.Type | undefined {
+  const declaration = scope && propsDeclarationOf(scope, typeName);
+  return scope && declaration && scope.checker.getTypeAtLocation(declaration.name);
+}
+
 /**
  * The expander of the props of `<Name>Props`, declared in any types file of the folder. A prop is usually picked from
  * a machine type, so its alias is in scope where the machine declares the property, not in the types file: the scope
@@ -148,15 +137,9 @@ interface Scope {
 function expanderOf(scope: Scope | undefined, typeName: string): Expand {
   const first = scope?.sources[0];
   if (scope === undefined || first === undefined) return (type) => ({ text: type, values: [] });
-  const { program, checker, sources } = scope;
-  const declaration = sources
-    .flatMap((source) => source.statements)
-    .find(
-      (statement): statement is ts.TypeAliasDeclaration | ts.InterfaceDeclaration =>
-        (ts.isTypeAliasDeclaration(statement) || ts.isInterfaceDeclaration(statement)) &&
-        statement.name.text === typeName,
-    );
-  const propsType = declaration && checker.getTypeAtLocation(declaration.name);
+  const { program } = scope;
+  const declaration = propsDeclarationOf(scope, typeName);
+  const propsType = propsTypeOf(scope, typeName);
   return (type, member) => {
     const property = propsType?.getProperty(member)?.declarations?.[0];
     const written = withDefaultArguments(type, enclosingDefaults(property));
@@ -167,19 +150,19 @@ function expanderOf(scope: Scope | undefined, typeName: string): Expand {
 }
 
 function listOf(
-  root: string,
   componentName: string,
   partName: string,
   items: readonly MetaMember[],
   problems: string[],
   isProp: boolean,
   expand: Expand,
+  docOfMember: (item: MetaMember) => TsDocText,
 ): ApiMemberJson[] {
   const result: ApiMemberJson[] = [];
   for (const item of items) {
     const required = isProp && item.required === true;
     const expanded = expand(withoutUndefined(item.type, required || !isProp), item.name);
-    const doc = memberDocOf(root, item);
+    const doc = docOfMember(item);
     const member = memberOf(
       componentName,
       {
@@ -216,22 +199,9 @@ function withScopes(
   });
 }
 
-/** The events with the comment of the `<Name>Emits` type where the checker lost it (a named tuple). */
-function eventsWithDocs(events: readonly MetaMember[], emitDocs: ReadonlyMap<string, NodeDoc>): MetaMember[] {
-  return events.map((event) => {
-    const documented = emitDocs.get(event.name);
-    if (documented === undefined || event.description !== '') return event;
-    return {
-      ...event,
-      description: documented.description,
-      tags: documented.tags.map((tag) => ({ name: tag.name, text: tag.comment })),
-    };
-  });
-}
-
 /** The props to list: not a global prop (`key`, `ref`), and not one the framework fills itself (`modelModifiers`, `@internal`). */
-function shownProps(props: readonly MetaMember[]): MetaMember[] {
-  return props.filter((prop) => prop.global !== true && !isInternal(tagEntriesOf(prop.tags)));
+function shownProps(props: readonly MetaMember[], docOfProp: (prop: MetaMember) => TsDocText): MetaMember[] {
+  return props.filter((prop) => prop.global !== true && !isInternal(docOfProp(prop).tags));
 }
 
 /** The exposed methods to list: not an instance member named with `$`, and not a prop. */
@@ -258,7 +228,7 @@ function bindingsOf(
 }
 
 function partOf(
-  root: string,
+  readDeclaration: ReturnType<typeof declarationReader>,
   componentName: string,
   name: string,
   dir: string,
@@ -269,15 +239,27 @@ function partOf(
   const expand = expanderOf(scope, `${name}Props`);
   const typeName = `${name}Props`;
   const declaration = typeDeclarationOf(dir, typeName);
-  const doc = declaration && docOf(declaration);
+  const doc = declaration && docOfNode(declaration);
   if (doc === undefined) problems.push(`${name}: the folder needs an exported ${typeName} in a *.types.ts file`);
   const tags = doc?.tags ?? [];
   const text = doc?.description ?? '';
   const partProblems = doc ? problems : [];
   const part = checkPartDoc(typeName, tags, text, partProblems);
-  const props = shownProps(meta.props);
+  // The text of a member comes from the source, as the language service merges it: a prop from its symbol in the
+  // `<Name>Props` type (it inherits from the types it extends), an event from `<Name>Emits`, and a slot or an exposed
+  // member from its declaration in the `.vue` file.
+  const propsType = propsTypeOf(scope, typeName);
+  const docOfProp = (prop: MetaMember): TsDocText =>
+    scope === undefined ? NO_DOC : docOfSymbol(scope.checker, propsType?.getProperty(prop.name));
   const emitDocs = emitDocsOf(dir, `${name}Emits`);
-  const events = eventsWithDocs(meta.events, emitDocs);
+  const docOfEvent = (event: MetaMember): TsDocText => emitDocs.get(event.name) ?? NO_DOC;
+  const docOfDeclaration = (member: MetaMember): TsDocText => {
+    const place = member.getDeclarations?.()[0];
+    const node = place === undefined ? undefined : readDeclaration(place.file, place.range[0]);
+    return node === undefined ? NO_DOC : docOfNode(node);
+  };
+  const props = shownProps(meta.props, docOfProp);
+  const events = meta.events;
   // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
   const idScope = part === 'root' || part === '' ? componentName : `${componentName}.${part}`;
   const result: ApiPartJson = {
@@ -287,16 +269,16 @@ function partOf(
     ...frameworkOnlyOf(typeName, tags, partProblems),
     description: paragraphsOf(text)[0] ?? '',
     ...partDocFields(text, tags),
-    props: listOf(root, idScope, name, props, problems, true, expand),
-    events: listOf(root, idScope, name, events, problems, false, expand),
+    props: listOf(idScope, name, props, problems, true, expand, docOfProp),
+    events: listOf(idScope, name, events, problems, false, expand, docOfEvent),
     slots: withScopes(
-      listOf(root, componentName, name, meta.slots, problems, false, expand),
+      listOf(componentName, name, meta.slots, problems, false, expand, docOfDeclaration),
       join(dir, `${name}.vue`),
       name,
       problems,
       typeParameterDefaults(declaration?.typeParameters),
     ),
-    methods: listOf(root, componentName, name, shownMethods(meta.exposed, props), problems, false, expand),
+    methods: listOf(componentName, name, shownMethods(meta.exposed, props), problems, false, expand, docOfDeclaration),
   };
   const bindings = bindingsOf(result.props, events);
   if (bindings.length > 0) result.bindings = bindings;
@@ -329,6 +311,7 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
   const typeFiles = entries.map(({ dir }) => typesFilesOf(dir));
   const program = createTsProgram(tsConfig, [...typeFiles.flat(), ...entries.map((entry) => entry.file)]);
   const typeChecker = program.getTypeChecker();
+  const readDeclaration = declarationReader(root);
   try {
     const docs = entries.map(({ name, dir, file }, index): ApiDocJson => {
       const sources = (typeFiles[index] ?? []).flatMap((file) => program.getSourceFile(file) ?? []);
@@ -339,7 +322,7 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
       if (files.length === 0) problems.push(`${name}: the entry point has no .vue component`);
       const parts = files.map((file) =>
         partOf(
-          root,
+          readDeclaration,
           name,
           basename(file, '.vue'),
           dir,

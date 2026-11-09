@@ -335,6 +335,41 @@ describe('extractReactApiDocs: an @ that is no tag in a redeclared member', () =
   });
 });
 
+describe('extractReactApiDocs: the merge of the texts of a member', () => {
+  const extra = (change: (text: string) => string, name: string) =>
+    extract(name, change).parts[0]?.props.find((prop) => prop.name === 'extra');
+
+  it('C: reads an override text with an @click and keeps the example of the base', () => {
+    const member = extra(
+      (text) =>
+        text.replace(
+          '/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+          '/** Base props. */\ninterface ThingBase {\n  /**\n   * Base text.\n   * @example\n   * <Thing />\n   */\n  readonly extra?: string;\n}\n\n/** Props of the {@link Thing}. */\nexport interface ThingProps extends ThingBase {\n  /** Use @click to listen. */\n  readonly extra?: string;',
+        ),
+      'merge-c',
+    );
+    expect(member?.description).toBe('Use @click to listen.');
+    expect(member?.examples).toEqual(['<Thing />']);
+  });
+
+  it('D: joins both texts of an intersection, each read to its end', () => {
+    const member = extra(
+      (text) =>
+        text
+          .replace(
+            '/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+            'interface ExtraA {\n  /** First. Use @click here. */\n  readonly extra?: string;\n}\n\ninterface ExtraB {\n  /** Second. */\n  readonly extra?: string;\n}\n\n/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+          )
+          .replace(
+            'export function Thing(props: ThingProps)',
+            'export function Thing(props: ThingProps & ExtraA & ExtraB)',
+          ),
+      'merge-d',
+    );
+    expect(member?.description).toBe('First. Use @click here. Second.');
+  });
+});
+
 describe('extractReactApiDocs: an @ that is no tag in a scoped slot', () => {
   it('reads the text of an object scope field and of a primitive scope field to its end', () => {
     const slots =

@@ -10,8 +10,7 @@ import {
   sharedTypeProblems,
 } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
-import { unrealTagProblems, wholeInheritedDocOf } from '../api-docs-common/jsdoc';
-import type { TsDocText } from '../api-docs-common/jsdoc';
+import { docOfSymbol, tagLikeLineProblems } from '../api-docs-common/jsdoc';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
@@ -32,41 +31,6 @@ import type {
   ApiValueJson,
   TagEntry,
 } from '../api-docs-common/types';
-import { displayTextOf } from './display-text';
-
-const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
-  symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
-
-/** The declarations of a member in a props type, then the ones of the same member in the types it extends. */
-function declarationsWithBases(checker: ts.TypeChecker, symbol: ts.Symbol): ts.Declaration[] {
-  const found = [...(symbol.declarations ?? [])];
-  const visit = (type: ts.Type): void => {
-    if (!type.isClassOrInterface()) return;
-    for (const base of checker.getBaseTypes(type)) {
-      found.push(...(base.getProperty(symbol.name)?.declarations ?? []));
-      visit(base);
-    }
-  };
-  for (const declaration of symbol.declarations ?? []) {
-    const owner = declaration.parent;
-    if (ts.isInterfaceDeclaration(owner) || ts.isClassDeclaration(owner)) visit(checker.getTypeAtLocation(owner));
-  }
-  return found;
-}
-
-/**
- * The description and the tags of a symbol. The checker reads them with the TypeScript parser, which cuts a text at an
- * `@` that is no tag (`@click` in an example), so then they are read again from the comment of the declaration that
- * owns them: a member that redeclares a base member keeps the base description and has tags of its own.
- */
-const docOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TsDocText =>
-  wholeInheritedDocOf(
-    {
-      description: displayTextOf(symbol.getDocumentationComment(checker)),
-      tags: tagsOfSymbol(checker, symbol),
-    },
-    declarationsWithBases(checker, symbol),
-  );
 
 /**
  * The type as the author wrote it when the declaration has a type annotation (so `ReactElement` stays `ReactElement`
@@ -210,7 +174,7 @@ function scopeOf(
     const doc = docOfSymbol(checker, property);
     const description = paragraphsOf(doc.description)[0] ?? '';
     if (description === '') problems.push(`${owner}: the scope field "${property.name}" has no TSDoc description`);
-    problems.push(...unrealTagProblems(`${owner}: the scope field "${property.name}"`, doc.tags));
+    problems.push(...tagLikeLineProblems(`${owner}: the scope field "${property.name}"`, doc));
     const text =
       declaration !== undefined && ts.isPropertySignature(declaration) && declaration.type !== undefined
         ? declaration.type.getText().replace(/\s+/g, ' ')
@@ -295,7 +259,7 @@ function componentsOf(checker: ts.TypeChecker, file: ts.SourceFile): ts.Symbol[]
       const declaration = symbol.valueDeclaration ?? symbol.declarations?.[0];
       return !!declaration && checker.getTypeOfSymbolAtLocation(symbol, declaration).getCallSignatures().length > 0;
     })
-    .filter((symbol) => !symbol.getJsDocTags(checker).some((tag) => tag.name === 'internal'));
+    .filter((symbol) => !docOfSymbol(checker, symbol).tags.some((tag) => tag.name === 'internal'));
 }
 
 /**

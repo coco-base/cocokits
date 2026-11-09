@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import ts from 'typescript';
-import { docTextOf, isRealTag, readTsDoc, tagsOfNode, wholeDocOf } from './jsdoc';
+import { docOfNode, docOfSymbol, docTextOf, isRealTag, readTsDoc, tagLikeLineProblems, tagsOfNode } from './jsdoc';
+import type { TsDocText } from './jsdoc';
 import { SOURCE_ROWS } from './testing/at-sign-cases';
 import type { SourceRow } from './testing/at-sign-cases';
 
@@ -141,18 +142,231 @@ describe('the TSDoc of a declaration', () => {
   it('keeps a tag in a code span of a description as text', () => {
     expect(docTextOf(declarationOf('/** Use `foo @see bar` here. */'))).toBe('Use `foo @see bar` here.');
   });
+});
 
-  it('reads the comment of a declaration in a .vue text, by its position', () => {
-    const vue = [
-      '<template><b /></template>',
-      '<script setup lang="ts">',
-      '/** Use @click. */',
-      'const a = 1;',
-      '</script>',
-    ].join('\n');
-    const place = { text: vue, position: vue.indexOf('const a') };
-    const parsed = { description: 'Use', tags: [{ name: 'click', comment: '' }] };
-    expect(wholeDocOf(parsed, [place])).toEqual({ description: 'Use @click.', tags: [] });
-    expect(wholeDocOf(parsed, [{ text: vue, position: 0 }])).toBe(parsed);
+describe('docOfNode', () => {
+  it('keeps only the last of stacked comments', () => {
+    const node = declarationOf('/** First comment. @example one */', '/** Second comment. @example two */');
+    expect(docOfNode(node)).toEqual({ description: 'Second comment.', tags: [{ name: 'example', comment: 'two' }] });
+  });
+
+  it('joins the comment of an initializer, first, and the comment of its statement', () => {
+    const statement = declarationOf('/** Statement doc. */', 'const stmt = /** inner doc */ (a: number) => a;');
+    if (!ts.isVariableStatement(statement)) throw new Error('not a statement');
+    const [declaration] = statement.declarationList.declarations;
+    expect(declaration && docOfNode(declaration).description).toBe('inner doc\nStatement doc.');
+  });
+});
+
+/** The source of the `docOfSymbol` rows: each shape has its own names, in one program. */
+const SYMBOL_SOURCE = [
+  '// A: the base text is cut by an @click, the override has only a whole example',
+  'interface BaseA {',
+  '  /** The extra text. Use @click to listen. */',
+  '  extra?: string;',
+  '}',
+  'interface OverA extends BaseA {',
+  '  /**',
+  '   * @example',
+  '   * <Thing />',
+  '   */',
+  '  extra?: string;',
+  '}',
+  '// B: the base text is plain, the override example holds an @click',
+  'interface BaseB {',
+  '  /** The extra text. */',
+  '  extra?: string;',
+  '}',
+  'interface OverB extends BaseB {',
+  '  /**',
+  '   * @example',
+  '   * <Thing @click="save" />',
+  '   */',
+  '  extra?: string;',
+  '}',
+  '// C: the override text holds an @click and no tag, the base has an example',
+  'interface BaseC {',
+  '  /**',
+  '   * Base.',
+  '   * @example',
+  '   * <Thing />',
+  '   */',
+  '  extra?: string;',
+  '}',
+  'interface OverC extends BaseC {',
+  '  /** Use @click to listen. */',
+  '  extra?: string;',
+  '}',
+  '// D: an intersection, both parts document the member, one holds an @click',
+  'interface DA {',
+  '  /** First. Use @click here. */',
+  '  extra?: string;',
+  '}',
+  'interface DB {',
+  '  /** Second. */',
+  '  extra?: string;',
+  '}',
+  'type TypeD = DA & DB;',
+  '// E: no comment on the override',
+  'interface OverE extends BaseC {',
+  '  extra?: string;',
+  '}',
+  '// F: a base declared twice gives no tags',
+  'interface BaseF {',
+  '  /**',
+  '   * One.',
+  '   * @example',
+  '   * <One />',
+  '   */',
+  '  extra?: string;',
+  '}',
+  'interface BaseF {',
+  '  /** Two. */',
+  '  extra?: string;',
+  '}',
+  'interface OverF extends BaseF {',
+  '  /** Own text. */',
+  '  extra?: string;',
+  '}',
+  '// G: a grandparent documents, two levels redeclare without a comment',
+  'interface Grand {',
+  '  /** Grand text. */',
+  '  extra?: string;',
+  '}',
+  'interface Parent extends Grand {',
+  '  extra?: string;',
+  '}',
+  'interface Child extends Parent {',
+  '  extra?: string;',
+  '}',
+  '// H: a class implements a documented interface',
+  'interface Hints {',
+  '  /**',
+  '   * Hint text.',
+  '   * @example',
+  '   * <Hint />',
+  '   */',
+  '  extra?: string;',
+  '}',
+  'class Impl implements Hints {',
+  '  extra?: string;',
+  '}',
+  '// I: an own description wins over the base',
+  'interface BaseI {',
+  '  /** Base I. */',
+  '  extra?: string;',
+  '}',
+  'interface OverI extends BaseI {',
+  '  /** Own I. */',
+  '  extra?: string;',
+  '}',
+  '// J: a merged interface with two bases',
+  'interface FromA {',
+  '  /** From A. */',
+  '  extra?: string;',
+  '}',
+  'interface FromB {',
+  '  /** From B. */',
+  '  extra?: string;',
+  '}',
+  'interface Merged extends FromA {',
+  '  extra?: string;',
+  '}',
+  'interface Merged extends FromB {',
+  '  extra?: string;',
+  '}',
+  '// K: Pick of a base and the base itself list the declaration once',
+  'interface BaseK {',
+  '  /**',
+  '   * K text.',
+  '   * @example',
+  '   * <K />',
+  '   */',
+  '  extra?: string;',
+  '}',
+  "type TypeK = Pick<BaseK, 'extra'> & BaseK;",
+].join('\n');
+
+describe('docOfSymbol', () => {
+  let checker: ts.TypeChecker;
+  let file: ts.SourceFile;
+
+  beforeAll(() => {
+    const host = ts.createCompilerHost({});
+    const original = host.getSourceFile.bind(host);
+    host.getSourceFile = (name, languageVersion) =>
+      name === 'symbols.ts'
+        ? ts.createSourceFile(name, SYMBOL_SOURCE, languageVersion, true)
+        : original(name, languageVersion);
+    host.fileExists = (name) => name === 'symbols.ts' || ts.sys.fileExists(name);
+    const program = ts.createProgram(['symbols.ts'], { strict: true, noEmit: true, types: [] }, host);
+    checker = program.getTypeChecker();
+    const source = program.getSourceFile('symbols.ts');
+    if (source === undefined) throw new Error('no source');
+    file = source;
+  });
+
+  /** The text of the member `extra` of the interface, class or alias `name`. */
+  const textOf = (name: string): TsDocText => {
+    const named = file.statements.find(
+      (statement): statement is ts.InterfaceDeclaration | ts.ClassDeclaration | ts.TypeAliasDeclaration =>
+        (ts.isInterfaceDeclaration(statement) ||
+          ts.isClassDeclaration(statement) ||
+          ts.isTypeAliasDeclaration(statement)) &&
+        statement.name?.text === name,
+    );
+    if (named?.name === undefined) throw new Error(`no declaration ${name}`);
+    return docOfSymbol(checker, checker.getTypeAtLocation(named.name).getProperty('extra'));
+  };
+  const example = (comment: string): TsDocText['tags'] => [{ name: 'example', comment }];
+
+  it.each([
+    [
+      'A: the base text read to its end, the tags of the override',
+      'OverA',
+      'The extra text. Use @click to listen.',
+      example('<Thing />'),
+    ],
+    [
+      'B: the base text, the whole example of the override',
+      'OverB',
+      'The extra text.',
+      example('<Thing @click="save" />'),
+    ],
+    ['C: the own text with an @click, the tags of the base', 'OverC', 'Use @click to listen.', example('<Thing />')],
+    ['D: both texts of an intersection, each to its end', 'TypeD', 'First. Use @click here.\nSecond.', []],
+    ['E: no comment, the text and tags of the base', 'OverE', 'Base.', example('<Thing />')],
+    ['F: a base with two declarations gives no tags', 'OverF', 'Own text.', []],
+    ['G: the text of a grandparent', 'Child', 'Grand text.', []],
+    ['H: the text and tags of an implemented interface', 'Impl', 'Hint text.', example('<Hint />')],
+    ['I: an own text wins over the base', 'OverI', 'Own I.', []],
+    ['J: the texts of two bases, the later first', 'Merged', 'From B.\nFrom A.', []],
+    ['K: a Pick and its base list the example once', 'TypeK', 'K text.', example('<K />')],
+  ])('merges the texts of a symbol as TypeScript does: %s', (_row, name, description, tags) => {
+    expect(textOf(name)).toEqual({ description, tags });
+  });
+
+  it('gives no text for a member that has no symbol', () => {
+    expect(docOfSymbol(checker, undefined)).toEqual({ description: '', tags: [] });
+  });
+});
+
+describe('tagLikeLineProblems', () => {
+  const doc = (description: string, ...tags: [string, string][]): TsDocText => ({
+    description,
+    tags: tags.map(([name, comment]) => ({ name, comment })),
+  });
+
+  it('reports a line of a description or a tag text that starts with a word that is no tag', () => {
+    expect(tagLikeLineProblems('Thing', doc('Opens it.\n@exmaple <Thing />'))).toEqual([
+      'Thing: a line starts with "@exmaple", which is no TSDoc tag; write it in backticks or fix the tag name',
+    ]);
+    expect(tagLikeLineProblems('Thing', doc('Text.', ['remarks', 'More.\n@click fires.']))).toHaveLength(1);
+  });
+
+  it('does not report a real tag, an @ in the middle of a line, a word that is no tag name, or an example line', () => {
+    expect(tagLikeLineProblems('Thing', doc('Listen with @click.\nUse `@click`.\n@click="x" is code.'))).toEqual([]);
+    expect(tagLikeLineProblems('Thing', doc('Text.', ['example', '@for (item of items) {\n  <x />\n}']))).toEqual([]);
+    expect(tagLikeLineProblems('Thing', doc('Text.\n@remarks later'))).toEqual([]);
   });
 });

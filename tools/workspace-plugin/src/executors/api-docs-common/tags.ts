@@ -1,4 +1,4 @@
-import { unrealTagProblems } from './jsdoc';
+import { tagLikeLineProblems } from './jsdoc';
 import type { ApiValueJson, TagEntry } from './types';
 
 /** The trimmed text of every tag with this name, in source order. */
@@ -155,7 +155,7 @@ export function frameworkOnlyOf(
  * Returns the anatomy part the tag names, or an empty string.
  */
 export function checkPartDoc(name: string, tags: readonly TagEntry[], description: string, problems: string[]): string {
-  problems.push(...unrealTagProblems(name, tags));
+  problems.push(...tagLikeLineProblems(name, { description, tags }));
   const part = tagsOf(tags, 'cckPart')[0] ?? '';
   if (part === '') problems.push(`${name}: the TSDoc needs "@cckPart <part>" (the anatomy part it renders)`);
   if (paragraphsOf(description).length === 0) problems.push(`${name}: no TSDoc description`);

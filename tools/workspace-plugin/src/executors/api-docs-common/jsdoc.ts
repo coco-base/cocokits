@@ -37,13 +37,6 @@ const STANDARD_TAGS: ReadonlySet<string> = new Set([
 /** Whether a tag name is a TSDoc standard tag or one of ours (`cck…`). Any other `@word` is text, such as `@click`. */
 export const isRealTag = (tagName: string): boolean => STANDARD_TAGS.has(tagName) || tagName.startsWith('cck');
 
-/** The tags that are not real tags: the sign that the TypeScript parser cut the text before them. */
-export const unrealTagsOf = (tags: readonly TagEntry[]): TagEntry[] => tags.filter((tag) => !isRealTag(tag.name));
-
-/** One problem per tag that is not real: a `@click` in a text was read as a tag, so the text before it was cut. */
-export const unrealTagProblems = (label: string, tags: readonly TagEntry[]): string[] =>
-  unrealTagsOf(tags).map((tag) => `${label}: "@${tag.name}" is not a TSDoc tag; the text before it was cut`);
-
 /** The description and the tags of a declaration. */
 export interface TsDocText {
   readonly description: string;
@@ -150,154 +143,125 @@ function blockAfter(name: string, rest: string, column: number): Block {
   return { name, lines: [], margin };
 }
 
-/** The tags of a declaration as the TypeScript parser reads them. */
-function parsedTagsOf(node: ts.Node): TagEntry[] {
-  return ts.getJSDocTags(node).map((tag) => {
-    const comment = ts.getTextOfJSDocComment(tag.comment) ?? '';
-    return {
-      name: tag.tagName.text,
-      comment: ts.isJSDocParameterTag(tag) ? `${tag.name.getText()} ${comment}`.trim() : comment,
-    };
-  });
-}
+/** The text of a declaration without its tags and its tags: no text, and no tags. */
+const EMPTY: TsDocText = { description: '', tags: [] };
+
+const unique = <T>(items: readonly T[]): T[] => [...new Set(items)];
 
 /**
- * The TSDoc of a declaration: its description (without its tags) and its tags, each with its name and its text. The
- * text of a `@param` starts with the parameter name (`dialogs - The dialogs to close.`), as the checker writes it.
+ * The TSDoc of a declaration, read from the source with {@link readTsDoc}: the doc comments that TypeScript gives the
+ * node (`ts.getJSDocCommentsAndTags`: only the last of stacked comments, and the comment of the initializer of a
+ * variable first). The descriptions are joined by a line break without a repeat, and all tags are kept, as the
+ * language service does for `getDocumentationComment` and `getJsDocTags`. The text of a `@param` starts with the
+ * parameter name (`dialogs - The dialogs to close.`).
  */
-const docOfNode = (node: ts.Node): TsDocText => wholeDocOf(parsedDocOf(node), [placeOfNode(node)]);
+export function docOfNode(node: ts.Node): TsDocText {
+  const source = node.getSourceFile().text;
+  const reads = ts
+    .getJSDocCommentsAndTags(node)
+    .filter(ts.isJSDoc)
+    .map((doc) => readTsDoc(source.slice(doc.pos, doc.end)));
+  return {
+    description: unique(reads.map((read) => read.description).filter((text) => text !== '')).join('\n'),
+    tags: reads.flatMap((read) => read.tags),
+  };
+}
 
-/** The description and tags of a declaration as the TypeScript parser reads them. */
-const parsedDocOf = (node: ts.Node): TsDocText => ({
-  description: ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '',
-  tags: parsedTagsOf(node),
-});
-
-/** The TSDoc tags of a declaration, each with its name and its text; see {@link wholeDocOf}. */
+/** The TSDoc tags of a declaration, each with its name and its text; see {@link docOfNode}. */
 export const tagsOfNode = (node: ts.Node): TagEntry[] => [...docOfNode(node).tags];
 
 /** The TSDoc text of a declaration without its tags, or an empty string. */
 export const docTextOf = (node: ts.Node): string => docOfNode(node).description;
 
 /**
- * A declaration in a source file: where it starts (`position`, after its comment) in `text`. A TypeScript `file` of
- * that text can be given; else `text` is read as a `.ts` file or as a `.vue` file with a script.
+ * The first result of `read` for the member of a declaration in the types that its class or interface extends and
+ * implements, as the language service finds the base of a member (`findBaseOfDeclaration`).
  */
-export interface SourcePlace {
-  readonly text: string;
-  readonly position: number;
-  readonly file?: ts.SourceFile;
-}
-
-/**
- * The place of a declaration in its source file. The comment of a `const` is above its statement, not above the
- * declaration of the variable.
- */
-export function placeOfNode(node: ts.Node): SourcePlace {
-  const statement =
-    ts.isVariableDeclaration(node) && ts.isVariableStatement(node.parent.parent) ? node.parent.parent : node;
-  const file = node.getSourceFile();
-  return { text: file.text, position: statement.getStart(), file };
-}
-
-const SCRIPT = new RegExp('<script[^>]*>([^]*?)</script>', 'g');
-const parsedFiles = new Map<string, ts.SourceFile>();
-
-/** The file to read for a place: the script block of a `.vue` text that holds the position, else the text. */
-function fileOf({ text, position, file }: SourcePlace): { file: ts.SourceFile; offset: number } {
-  if (file !== undefined) return { file, offset: 0 };
-  let offset = 0;
-  let code = text;
-  for (const match of text.matchAll(SCRIPT)) {
-    const start = match.index + match[0].indexOf('>') + 1;
-    if (position >= start && position <= start + (match[1] ?? '').length) {
-      offset = start;
-      code = match[1] ?? '';
+function inheritedFrom<T>(
+  checker: ts.TypeChecker,
+  declaration: ts.Declaration,
+  name: string,
+  read: (base: ts.Symbol) => T | undefined,
+): T | undefined {
+  const owner = ts.isConstructorDeclaration(declaration.parent) ? declaration.parent.parent : declaration.parent;
+  if (!ts.isClassLike(owner) && !ts.isInterfaceDeclaration(owner)) return undefined;
+  const isStatic =
+    ts.canHaveModifiers(declaration) &&
+    ts.getModifiers(declaration)?.some((modifier) => modifier.kind === ts.SyntaxKind.StaticKeyword) === true;
+  for (const clause of owner.heritageClauses ?? []) {
+    for (const superTypeNode of clause.types) {
+      const baseType = checker.getTypeAtLocation(superTypeNode);
+      const baseSymbol = baseType.getSymbol();
+      const type = isStatic && baseSymbol ? checker.getTypeOfSymbol(baseSymbol) : baseType;
+      const base = checker.getPropertyOfType(type, name);
+      const result = base === undefined ? undefined : read(base);
+      if (result !== undefined) return result;
     }
-  }
-  const key = `${String(offset)}:${code}`;
-  let parsed = parsedFiles.get(key);
-  if (parsed === undefined) {
-    parsed = ts.createSourceFile('doc.ts', code, ts.ScriptTarget.Latest, true);
-    parsedFiles.set(key, parsed);
-  }
-  return { file: parsed, offset };
-}
-
-/** The last doc comment of the declaration that starts at the place, as written in the source. */
-function docCommentAt(place: SourcePlace): string | undefined {
-  const { file, offset } = fileOf(place);
-  const position = place.position - offset;
-  let found: readonly ts.JSDoc[] | undefined;
-  const visit = (node: ts.Node): void => {
-    if (position < node.pos || position >= node.end) return;
-    const docs = (node as { jsDoc?: readonly ts.JSDoc[] }).jsDoc;
-    if (docs !== undefined && docs.length > 0 && node.getStart(file) === position) found = docs;
-    ts.forEachChild(node, visit);
-  };
-  visit(file);
-  const doc = found?.[found.length - 1];
-  return doc === undefined ? undefined : file.text.slice(doc.pos, doc.end);
-}
-
-/** The description and tags of the first doc comment found at one of the `places`, read with {@link readTsDoc}. */
-export function sourceDocOf(places: readonly SourcePlace[]): TsDocText | undefined {
-  for (const place of places) {
-    const comment = docCommentAt(place);
-    if (comment !== undefined) return readTsDoc(comment);
   }
   return undefined;
 }
 
 /**
- * The description and tags a reader got from a parser (`parsedDoc`) that may have cut them at an `@` that is no tag.
- * They are read from the doc comment of the declaration at one of the `places` ({@link readTsDoc}); the parsed text is
- * kept when it has the same tags, so text that was not cut stays as the parser wrote it. Without a comment at any place
- * the parsed text stays, and the `api-docs` run reports a tag that is not real.
+ * The TSDoc of a symbol over all its declarations and the types it inherits from, read from the source. It ports what
+ * the language service does for `symbol.getDocumentationComment` and `symbol.getJsDocTags` (`getDocumentationComment`,
+ * `getJsDocTagsOfDeclarations`, `findBaseOfDeclaration` of `services.ts`), so the parsers' text is never needed:
+ *
+ * - the declarations are unique, their descriptions are joined by a line break without a repeat, and their tags kept;
+ * - with no description, each declaration takes the description of the same member of the first extended or
+ *   implemented type that has the member, even with no text, and a later declaration's is put before it;
+ * - with no tags, each declaration takes the tags of that member when the base member has one declaration, before
+ *   its own.
+ *
+ * Not ported: `{@inheritDoc}` and the accessor-pair variant, which `packages/` does not use.
  */
-export function wholeDocOf(parsedDoc: TsDocText, places: readonly SourcePlace[]): TsDocText {
-  for (const place of places) {
-    const comment = docCommentAt(place);
-    if (comment === undefined) continue;
-    const whole = readTsDoc(comment);
-    const same =
-      whole.tags.length === parsedDoc.tags.length &&
-      whole.tags.every((tag, index) => tag.name === parsedDoc.tags[index]?.name);
-    return same ? parsedDoc : whole;
-  }
-  return parsedDoc;
-}
-
-const sameTagNames = (a: readonly TagEntry[], b: readonly TagEntry[]): boolean =>
-  a.length === b.length && a.every((tag, index) => tag.name === b[index]?.name);
-
-/**
- * Like {@link wholeDocOf} for a symbol whose description and tags may come from different declarations: a member that
- * redeclares a base member keeps the description of the base and carries tags of its own. `declarations` run from the
- * symbol's own declarations to the ones it inherits. The first declaration with a description owns the description and
- * the first with tags owns the tags; each is read from its source comment when its own parse was cut, and the
- * parsed text stays otherwise.
- */
-export function wholeInheritedDocOf(parsedDoc: TsDocText, declarations: readonly ts.Node[]): TsDocText {
-  let { description, tags } = parsedDoc;
-  let describedBy = false;
-  let taggedBy = false;
-  for (const node of declarations) {
-    const comment = docCommentAt(placeOfNode(node));
-    if (comment === undefined) continue;
-    const source = readTsDoc(comment);
-    const own = parsedDocOf(node);
-    const cut = !sameTagNames(source.tags, own.tags);
-    if (!describedBy && (own.description !== '' || source.description !== '')) {
-      describedBy = true;
-      if (cut) description = source.description;
+export function docOfSymbol(checker: ts.TypeChecker, symbol: ts.Symbol | undefined): TsDocText {
+  const declarations = unique(symbol?.declarations ?? []);
+  if (symbol === undefined || declarations.length === 0) return EMPTY;
+  const own = declarations.map(docOfNode);
+  let description = unique(own.map((doc) => doc.description).filter((text) => text !== '')).join('\n');
+  let tags = own.flatMap((doc) => doc.tags);
+  if (description === '') {
+    const seen = new Set<ts.Symbol>();
+    for (const declaration of declarations) {
+      const inherited = inheritedFrom(checker, declaration, symbol.name, (base) => {
+        if (seen.has(base)) return undefined;
+        seen.add(base);
+        return docOfSymbol(checker, base).description;
+      });
+      if (inherited !== undefined) description = description === '' ? inherited : `${inherited}\n${description}`;
     }
-    if (!taggedBy && (own.tags.length > 0 || source.tags.length > 0)) {
-      taggedBy = true;
-      if (cut) tags = source.tags;
+  }
+  if (tags.length === 0) {
+    const seen = new Set<ts.Symbol>();
+    for (const declaration of declarations) {
+      const inherited = inheritedFrom(checker, declaration, symbol.name, (base) => {
+        if (seen.has(base)) return undefined;
+        seen.add(base);
+        return base.declarations?.length === 1 ? docOfSymbol(checker, base).tags : undefined;
+      });
+      if (inherited !== undefined) tags = [...inherited, ...tags];
     }
   }
   return { description, tags };
+}
+
+/**
+ * One problem per line of a description or of the text of a tag other than `@example` that starts with a word that
+ * looks like a tag (`@exmaple`) but is none: the author meant a tag, or wrote an `@` word without backticks.
+ */
+export function tagLikeLineProblems(label: string, doc: TsDocText): string[] {
+  const texts = [doc.description, ...doc.tags.filter((tag) => tag.name !== 'example').map((tag) => tag.comment)];
+  return unique(
+    texts
+      .flatMap((text) => text.split('\n'))
+      .flatMap((line) => {
+        const name = TAG_AT_START.exec(line.trimStart())?.[1];
+        return name === undefined || isRealTag(name) ? [] : [name];
+      }),
+  ).map(
+    (name) =>
+      `${label}: a line starts with "@${name}", which is no TSDoc tag; write it in backticks or fix the tag name`,
+  );
 }
 
 /** The text with its white space folded into single spaces: a type as source text on one line. */

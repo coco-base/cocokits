@@ -9,11 +9,16 @@ const FIXTURES = join(import.meta.dirname, 'fixtures');
 const fixture = (name: string): string => readFileSync(join(FIXTURES, `${name}.txt`), 'utf8');
 const area = scratchArea('api-docs-vue-doc-fields');
 
-function extract(name: string, prefix = 'doc-fields', change: (text: string) => string = (text) => text): ApiDocJson {
+function extract(
+  name: string,
+  prefix = 'doc-fields',
+  change: (text: string) => string = (text) => text,
+  changeVue: (text: string) => string = (text) => text,
+): ApiDocJson {
   const { project, tsConfig } = area.create(
     name,
     {
-      'src/thing/Thing.vue': fixture(`${prefix}.vue`),
+      'src/thing/Thing.vue': changeVue(fixture(`${prefix}.vue`)),
       'src/thing/thing.types.ts': change(fixture(`${prefix}.types.ts`)),
       'src/thing/index.ts': fixture(`${prefix}-index.ts`),
     },
@@ -97,5 +102,27 @@ describe('extractVueApiDocs: an @ that is no tag', () => {
     ).parts[0];
     expect(part?.examples).toEqual(['<Thing @see @param>Save</Thing>']);
     expect(part?.props.find((prop) => prop.name === 'side')?.examples).toEqual(['<Thing @see @param>Save</Thing>']);
+  });
+
+  it('merges the texts of a prop that redeclares a base prop (A, B, C)', () => {
+    const props = extract('at-sign-merge', 'at-sign').parts[0]?.props ?? [];
+    const prop = (name: string) => props.find((candidate) => candidate.name === name);
+    expect(prop('baseCut')).toMatchObject({
+      description: 'The first text. Use @click to listen.',
+      examples: ['<Thing />'],
+    });
+    expect(prop('overrideCut')).toMatchObject({
+      description: 'The second text.',
+      examples: ['<Thing @click="save" />'],
+    });
+    expect(prop('keepsExample')).toMatchObject({ description: 'Use @click to listen.', examples: ['<Thing />'] });
+  });
+
+  it('reports an exposed member that has no comment, and does not read the checker text for it', () => {
+    expect(() =>
+      extract('at-sign-bare', 'at-sign', undefined, (text) =>
+        text.replace('defineExpose({', 'defineExpose({ plain: () => undefined,'),
+      ),
+    ).toThrow(/Thing\.plain: no TSDoc description/);
   });
 });
