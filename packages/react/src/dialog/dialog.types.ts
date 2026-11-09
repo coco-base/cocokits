@@ -197,6 +197,8 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * Called when the dialog opens and the focus is about to move into it. Call `event.preventDefault()` to keep the
    * focus where the browser put it.
    *
+   * The focus the browser moved stays. Move the focus in your handler to choose the element.
+   *
    * @example
    * <Dialog.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Dialog.Content>
    * @cckSemantic none
@@ -205,7 +207,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
   readonly onOpenAutoFocus?: ((event: Event) => void) | undefined;
   /**
    * Called when the dialog closes and the focus is about to return to where the dialog opened from. Call
-   * `event.preventDefault()` to keep the focus where it is.
+   * `event.preventDefault()` to skip the return and move the focus yourself.
    *
    * @example
    * <Dialog.Content onCloseAutoFocus={(event) => { event.preventDefault(); searchInput.current?.focus(); }}>...</Dialog.Content>

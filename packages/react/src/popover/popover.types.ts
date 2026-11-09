@@ -295,7 +295,7 @@ export interface PopoverContentProps
   readonly onInteractOutside?: ((event: PointerDownOutsideEvent | FocusOutsideEvent) => void) | undefined;
   /**
    * Called when the popover opens and the focus is about to move into it. Call `event.preventDefault()` to keep
-   * the focus where it is.
+   * the focus where it is, or to move it yourself.
    *
    * @example
    * <Popover.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Popover.Content>
@@ -305,7 +305,7 @@ export interface PopoverContentProps
   readonly onOpenAutoFocus?: ((event: Event) => void) | undefined;
   /**
    * Called when the popover closes and the focus is about to return to the trigger. Call `event.preventDefault()`
-   * to keep the focus where it is.
+   * to skip the return and move the focus yourself.
    *
    * @example
    * <Popover.Content onCloseAutoFocus={(event) => { event.preventDefault(); search.current?.focus(); }}>...</Popover.Content>
