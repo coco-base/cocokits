@@ -39,45 +39,45 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:183',
+    name: 'vue/dialog/dialog.types.ts:186',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 183,
+    line: 186,
     comment:
-      '/**\n * Emits before Escape closes the dialog, with the keydown event. Call `preventDefault()` to keep the dialog open.\n *\n * @example\n * <DialogContent @escape-key-down="(event) => saving && event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
+      '/**\n * Emits before Escape closes the dialog, with the keydown event. Call `preventDefault()` to keep the dialog open.\n *\n * A Close part still closes it. So does a press on the backdrop of a modal dialog. The trigger closes a dialog that\n * is not modal.\n *\n * @example\n * <DialogContent @escape-key-down="(event) => saving && event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @escape-key-down="(event) => saving && event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:196',
+    name: 'vue/dialog/dialog.types.ts:199',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 196,
+    line: 199,
     comment:
       '/**\n * Emits before a press outside the dialog closes it. The `detail.originalEvent` of the event is the press. Call\n * `preventDefault()` to keep the dialog open.\n *\n * A modal dialog emits it for a press on the backdrop. A non-modal dialog emits it for a press anywhere outside.\n *\n * @example\n * <DialogContent @pointer-down-outside="(event) => event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @pointer-down-outside="(event) => event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:209',
+    name: 'vue/dialog/dialog.types.ts:212',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 209,
+    line: 212,
     comment:
       '/**\n * Emits before the focus moving outside closes a dialog that is not `modal`. The `detail.originalEvent` of the\n * event is the focus event. Call `preventDefault()` to keep the dialog open.\n *\n * A modal dialog never emits it, because the focus never leaves it.\n *\n * @example\n * <DialogContent @focus-outside="(event) => event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @focus-outside="(event) => event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:220',
+    name: 'vue/dialog/dialog.types.ts:223',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 220,
+    line: 223,
     comment:
       '/**\n * Emits after `pointerDownOutside` or `focusOutside`, with the same event, before the dialog closes. Call\n * `preventDefault()` to keep the dialog open.\n *\n * @example\n * <DialogContent @interact-outside="(event) => dirty && event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @interact-outside="(event) => dirty && event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:233',
+    name: 'vue/dialog/dialog.types.ts:236',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 233,
+    line: 236,
     comment:
       '/**\n * Emits right after the dialog is shown, when the browser has moved the focus into it. Call `preventDefault()` to\n * keep the component from moving the focus again.\n *\n * The focus the browser moved stays. Move the focus in your listener to choose the element.\n *\n * @example\n * <DialogContent @open-auto-focus="(event) => { event.preventDefault(); nameInput?.focus(); }">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -85,9 +85,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:244',
+    name: 'vue/dialog/dialog.types.ts:247',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 244,
+    line: 247,
     comment:
       '/**\n * Emits before the focus returns to the element that had it when the dialog opened. That is the trigger, or the\n * opener of a dialog without a trigger. Call `preventDefault()` to skip the return and move the focus yourself.\n *\n * @example\n * <DialogContent @close-auto-focus="(event) => { event.preventDefault(); searchInput?.focus(); }">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -105,45 +105,45 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: [],
   },
   {
-    name: 'vue/popover/popover.types.ts:222',
+    name: 'vue/popover/popover.types.ts:224',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 222,
+    line: 224,
     comment:
-      '/**\n * Emits before Escape closes the popover, with the keydown event. Call `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
+      '/**\n * Emits before Escape closes the popover, with the keydown event. Call `preventDefault()` to keep the popover open.\n *\n * A Close part, a press outside, moving the focus away and the trigger still close it.\n *\n * @example\n * <PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:233',
+    name: 'vue/popover/popover.types.ts:235',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 233,
+    line: 235,
     comment:
       '/**\n * Emits before a press outside closes the popover. The `detail.originalEvent` of the event is the press. Call\n * `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @pointer-down-outside="(event) => event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @pointer-down-outside="(event) => event.preventDefault()">...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:244',
+    name: 'vue/popover/popover.types.ts:246',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 244,
+    line: 246,
     comment:
       '/**\n * Emits before the focus moving outside closes the popover. The `detail.originalEvent` of the event is the focus\n * event. Call `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @focus-outside.prevent>...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @focus-outside.prevent>...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:255',
+    name: 'vue/popover/popover.types.ts:257',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 255,
+    line: 257,
     comment:
       '/**\n * Emits after `pointerDownOutside` or `focusOutside`, with the same event, before the popover closes. Call\n * `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @interact-outside="(event) => dirty && event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @interact-outside="(event) => dirty && event.preventDefault()">...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:266',
+    name: 'vue/popover/popover.types.ts:268',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 266,
+    line: 268,
     comment:
       '/**\n * Emits before the focus moves into the popover on open. Call `preventDefault()` to keep the focus where it is,\n * or to move it yourself.\n *\n * @example\n * <PopoverContent @open-auto-focus="(event) => { event.preventDefault(); nameInput?.focus(); }">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -151,9 +151,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:277',
+    name: 'vue/popover/popover.types.ts:279',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 277,
+    line: 279,
     comment:
       '/**\n * Emits before the focus returns to the trigger on close. Call `preventDefault()` to skip the return and move the\n * focus yourself.\n *\n * @example\n * <PopoverContent @close-auto-focus="(event) => { event.preventDefault(); search?.focus(); }">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
