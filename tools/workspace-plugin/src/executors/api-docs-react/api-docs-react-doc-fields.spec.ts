@@ -307,3 +307,24 @@ describe('extractReactApiDocs: the fields of the API page', () => {
     ).toThrow(/ThingSide: a Types row cannot show an @example/);
   });
 });
+
+describe('extractReactApiDocs: an @ that is no tag', () => {
+  it('reads the text of a part and a prop to its end', () => {
+    const EXAMPLE = '<Thing @click="save">Save</Thing>';
+    const part = extract('at-sign', (text) =>
+      text
+        .replace(' * Renders a thing.\n', ' * Renders a thing. Use @click to listen.\n')
+        .replace(' * <Thing size="small" />', ` * ${EXAMPLE}`)
+        .replace(
+          '   * The size of the thing.\n',
+          `   * The size of the thing. Use @click to listen.\n   * @example\n   * ${EXAMPLE}\n`,
+        ),
+    ).parts[0];
+    expect(part?.description).toBe('Renders a thing. Use @click to listen.');
+    expect(part?.examples).toEqual([EXAMPLE]);
+    expect(part?.props.find((prop) => prop.name === 'size')).toMatchObject({
+      description: 'The size of the thing. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+  });
+});

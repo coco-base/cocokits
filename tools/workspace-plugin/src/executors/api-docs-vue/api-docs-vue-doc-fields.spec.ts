@@ -9,13 +9,13 @@ const FIXTURES = join(import.meta.dirname, 'fixtures');
 const fixture = (name: string): string => readFileSync(join(FIXTURES, `${name}.txt`), 'utf8');
 const area = scratchArea('api-docs-vue-doc-fields');
 
-function extract(name: string): ApiDocJson {
+function extract(name: string, prefix = 'doc-fields'): ApiDocJson {
   const { project, tsConfig } = area.create(
     name,
     {
-      'src/thing/Thing.vue': fixture('doc-fields.vue'),
-      'src/thing/thing.types.ts': fixture('doc-fields.types.ts'),
-      'src/thing/index.ts': fixture('doc-fields-index.ts'),
+      'src/thing/Thing.vue': fixture(`${prefix}.vue`),
+      'src/thing/thing.types.ts': fixture(`${prefix}.types.ts`),
+      'src/thing/index.ts': fixture(`${prefix}-index.ts`),
     },
     { compilerOptions: { strict: true, types: [], noEmit: true, paths: {} }, include: ['**/*.ts', '**/*.vue'] },
   );
@@ -62,5 +62,32 @@ describe('extractVueApiDocs: the fields of the API page', () => {
       { value: 'small', description: 'A small thing.' },
       { value: 'large', description: 'A large thing.' },
     ]);
+  });
+});
+
+describe('extractVueApiDocs: an @ that is no tag', () => {
+  const EXAMPLE = '<Thing @click="save">Save</Thing>';
+
+  it('reads the text of a part, a prop, an event, an exposed member and a slot to its end', () => {
+    const part = extract('at-sign', 'at-sign').parts[0];
+    expect(part?.description).toBe('Props of the Thing. Use @click to listen.');
+    expect(part?.examples).toEqual([EXAMPLE]);
+    expect(part?.props.find((prop) => prop.name === 'side')).toMatchObject({
+      description: 'The side the thing opens on. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(part?.events[0]).toMatchObject({
+      description: 'Emitted with the new value. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(part?.methods[0]).toMatchObject({
+      name: 'focus',
+      description: 'Moves focus into the thing. Use @click to listen.',
+      examples: [EXAMPLE],
+    });
+    expect(part?.slots[0]).toMatchObject({
+      description: 'The content of the thing. Use @click to listen. When not set, the thing is empty.',
+      examples: [EXAMPLE],
+    });
   });
 });
