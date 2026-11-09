@@ -123,6 +123,7 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
    * list, and so does choosing an item in a single Select.
    *
    * @example
+   * const [saving, setSaving] = useState(false);
    * <Select.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>
    *   ...
    * </Select.Content>

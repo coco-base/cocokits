@@ -254,6 +254,7 @@ export interface PopoverContentProps
    * `details.cancel()` in `onOpenChange`. If you refuse Escape, give the user another way to close the popover.
    *
    * @example
+   * const [saving, setSaving] = useState(false);
    * <Popover.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Popover.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.

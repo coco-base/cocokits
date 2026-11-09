@@ -236,6 +236,7 @@ export interface TooltipContentProps
    * with another way to hide it.
    *
    * @example
+   * const [saving, setSaving] = useState(false);
    * <Tooltip.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Tooltip.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.

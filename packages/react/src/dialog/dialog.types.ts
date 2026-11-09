@@ -155,6 +155,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `details.cancel()` in `onOpenChange`. If you refuse Escape, give the user another way to close the dialog.
    *
    * @example
+   * const [saving, setSaving] = useState(false);
    * <Dialog.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
@@ -197,7 +198,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * Called when the dialog opens and the focus is about to move into it. Call `event.preventDefault()` to keep the
    * focus where the browser put it.
    *
-   * The focus the browser moved stays. Move the focus in your handler to choose the element.
+   * Move the focus in your handler to choose the element.
    *
    * @example
    * <Dialog.Content onOpenAutoFocus={(event) => { event.preventDefault(); nameInput.current?.focus(); }}>...</Dialog.Content>
