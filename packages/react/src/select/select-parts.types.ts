@@ -119,10 +119,11 @@ export interface SelectContentProps extends Omit<ComponentPropsWithRef<'div'>, '
   /**
    * Called when the user presses Escape with the list open, before it closes. Call `event.preventDefault()` to keep the list open. When not set, Escape closes the list.
    *
-   * A Select that Escape cannot close is harder to leave with the keyboard. Keep the refusal short. A focus leave is never refused.
+   * A Select that Escape cannot close is harder to leave with the keyboard. Keep the refusal short. A focus leave is never refused. Choosing an item
+   * still closes the list.
    *
    * @example
-   * <Select.Content onEscapeKeyDown={(event) => event.preventDefault()}>
+   * <Select.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>
    *   ...
    * </Select.Content>
    * @cckSemantic none

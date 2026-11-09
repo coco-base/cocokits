@@ -155,7 +155,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * `details.cancel()` in `onOpenChange`. If you refuse Escape, give the user another way to close the dialog.
    *
    * @example
-   * <Dialog.Content onEscapeKeyDown={(event) => event.preventDefault()}>...</Dialog.Content>
+   * <Dialog.Content onEscapeKeyDown={(event) => saving && event.preventDefault()}>...</Dialog.Content>
    * @cckSemantic none
    * @cckParity Not available in every framework.
    */
