@@ -308,6 +308,33 @@ describe('extractReactApiDocs: the fields of the API page', () => {
   });
 });
 
+describe('extractReactApiDocs: an @ that is no tag in a redeclared member', () => {
+  /** `ThingProps` extends a base that documents `extra`, and redeclares `extra` with the given comment. */
+  const withBase = (baseComment: string, overrideComment: string) => (text: string) =>
+    text.replace(
+      '/** Props of the {@link Thing}. */\nexport interface ThingProps {',
+      `interface ThingBase {\n  ${baseComment}\n  readonly extra?: string;\n}\n\n/** Props of the {@link Thing}. */\nexport interface ThingProps extends ThingBase {\n  ${overrideComment}\n  readonly extra?: string;`,
+    );
+
+  it('keeps the base description, read to its end, and the tags of the override', () => {
+    const extra = extract(
+      'inherited-cut',
+      withBase('/** The extra text. Use @click to listen. */', '/**\n   * @example\n   * <Thing />\n   */'),
+    ).parts[0]?.props.find((prop) => prop.name === 'extra');
+    expect(extra?.description).toBe('The extra text. Use @click to listen.');
+    expect(extra?.examples).toEqual(['<Thing />']);
+  });
+
+  it('keeps the base description and reads the example of the override to its end', () => {
+    const extra = extract(
+      'override-cut',
+      withBase('/** The extra text. */', '/**\n   * @example\n   * <Thing @click="save" />\n   */'),
+    ).parts[0]?.props.find((prop) => prop.name === 'extra');
+    expect(extra?.description).toBe('The extra text.');
+    expect(extra?.examples).toEqual(['<Thing @click="save" />']);
+  });
+});
+
 describe('extractReactApiDocs: an @ that is no tag in a scoped slot', () => {
   it('reads the text of an object scope field and of a primitive scope field to its end', () => {
     const slots =

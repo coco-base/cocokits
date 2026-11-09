@@ -165,14 +165,13 @@ function parsedTagsOf(node: ts.Node): TagEntry[] {
  * The TSDoc of a declaration: its description (without its tags) and its tags, each with its name and its text. The
  * text of a `@param` starts with the parameter name (`dialogs - The dialogs to close.`), as the checker writes it.
  */
-const docOfNode = (node: ts.Node): TsDocText =>
-  wholeDocOf(
-    {
-      description: ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '',
-      tags: parsedTagsOf(node),
-    },
-    [placeOfNode(node)],
-  );
+const docOfNode = (node: ts.Node): TsDocText => wholeDocOf(parsedDocOf(node), [placeOfNode(node)]);
+
+/** The description and tags of a declaration as the TypeScript parser reads them. */
+const parsedDocOf = (node: ts.Node): TsDocText => ({
+  description: ts.getTextOfJSDocComment(ts.getJSDocCommentsAndTags(node).find(ts.isJSDoc)?.comment) ?? '',
+  tags: parsedTagsOf(node),
+});
 
 /** The TSDoc tags of a declaration, each with its name and its text; see {@link wholeDocOf}. */
 export const tagsOfNode = (node: ts.Node): TagEntry[] => [...docOfNode(node).tags];
@@ -267,6 +266,38 @@ export function wholeDocOf(parsedDoc: TsDocText, places: readonly SourcePlace[])
     return same ? parsedDoc : whole;
   }
   return parsedDoc;
+}
+
+const sameTagNames = (a: readonly TagEntry[], b: readonly TagEntry[]): boolean =>
+  a.length === b.length && a.every((tag, index) => tag.name === b[index]?.name);
+
+/**
+ * Like {@link wholeDocOf} for a symbol whose description and tags may come from different declarations: a member that
+ * redeclares a base member keeps the description of the base and carries tags of its own. `declarations` run from the
+ * symbol's own declarations to the ones it inherits. The first declaration with a description owns the description and
+ * the first with tags owns the tags; each is read from its source comment when its own parse was cut, and the
+ * parsed text stays otherwise.
+ */
+export function wholeInheritedDocOf(parsedDoc: TsDocText, declarations: readonly ts.Node[]): TsDocText {
+  let { description, tags } = parsedDoc;
+  let describedBy = false;
+  let taggedBy = false;
+  for (const node of declarations) {
+    const comment = docCommentAt(placeOfNode(node));
+    if (comment === undefined) continue;
+    const source = readTsDoc(comment);
+    const own = parsedDocOf(node);
+    const cut = !sameTagNames(source.tags, own.tags);
+    if (!describedBy && (own.description !== '' || source.description !== '')) {
+      describedBy = true;
+      if (cut) description = source.description;
+    }
+    if (!taggedBy && (own.tags.length > 0 || source.tags.length > 0)) {
+      taggedBy = true;
+      if (cut) tags = source.tags;
+    }
+  }
+  return { description, tags };
 }
 
 /** The text with its white space folded into single spaces: a type as source text on one line. */

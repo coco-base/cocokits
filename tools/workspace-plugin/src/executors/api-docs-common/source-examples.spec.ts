@@ -81,7 +81,10 @@ describe('sourceExamplesOf: the files it reads', () => {
 
   it('reads a text with many comment openers and no end at once', () => {
     const root = rootOf('openers');
-    writeFileSync(join(root, 'packages', 'a.ts'), '/**'.repeat(60000));
+    // Each opener is followed by a letter, so no `*/` forms where two repeats meet and none of them is closed.
+    const text = '/**x'.repeat(60000);
+    expect(text).not.toContain('*/');
+    writeFileSync(join(root, 'packages', 'a.ts'), text);
     const started = Date.now();
     expect([...sourceExamplesOf(root)]).toEqual([]);
     expect(Date.now() - started).toBeLessThan(1000);

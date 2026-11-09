@@ -10,7 +10,7 @@ import {
   sharedTypeProblems,
 } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
-import { placeOfNode, unrealTagProblems, wholeDocOf } from '../api-docs-common/jsdoc';
+import { unrealTagProblems, wholeInheritedDocOf } from '../api-docs-common/jsdoc';
 import type { TsDocText } from '../api-docs-common/jsdoc';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { placeAt, placeOf } from '../api-docs-common/places';
@@ -37,17 +37,35 @@ import { displayTextOf } from './display-text';
 const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
   symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
 
+/** The declarations of a member in a props type, then the ones of the same member in the types it extends. */
+function declarationsWithBases(checker: ts.TypeChecker, symbol: ts.Symbol): ts.Declaration[] {
+  const found = [...(symbol.declarations ?? [])];
+  const visit = (type: ts.Type): void => {
+    if (!type.isClassOrInterface()) return;
+    for (const base of checker.getBaseTypes(type)) {
+      found.push(...(base.getProperty(symbol.name)?.declarations ?? []));
+      visit(base);
+    }
+  };
+  for (const declaration of symbol.declarations ?? []) {
+    const owner = declaration.parent;
+    if (ts.isInterfaceDeclaration(owner) || ts.isClassDeclaration(owner)) visit(checker.getTypeAtLocation(owner));
+  }
+  return found;
+}
+
 /**
  * The description and the tags of a symbol. The checker reads them with the TypeScript parser, which cuts a text at an
- * `@` that is no tag (`@click` in an example), so then they are read again from the comment of its declaration.
+ * `@` that is no tag (`@click` in an example), so then they are read again from the comment of the declaration that
+ * owns them: a member that redeclares a base member keeps the base description and has tags of its own.
  */
 const docOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TsDocText =>
-  wholeDocOf(
+  wholeInheritedDocOf(
     {
       description: displayTextOf(symbol.getDocumentationComment(checker)),
       tags: tagsOfSymbol(checker, symbol),
     },
-    (symbol.declarations ?? []).map(placeOfNode),
+    declarationsWithBases(checker, symbol),
   );
 
 /**
