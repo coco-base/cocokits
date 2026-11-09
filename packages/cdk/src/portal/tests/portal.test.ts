@@ -334,3 +334,14 @@ describe('createPortalHost on a fullscreen change', () => {
     expect(removed.sort()).toEqual(['fullscreenchange', 'webkitfullscreenchange']);
   });
 });
+
+describe('createPortalHost direction default', () => {
+  it.each([
+    { name: 'a trigger in an rtl ancestor', markup: '<div dir="rtl"><button id="t">t</button></div>', expected: 'rtl' },
+    { name: 'a plain trigger', markup: '<button id="t">t</button>', expected: 'ltr' },
+  ])('with no getDirection, the host follows $name', ({ markup, expected }) => {
+    const host = createPortalHost({ getTrigger: () => mountTrigger(markup) });
+    expect(host.element.getAttribute('dir')).toBe(expected);
+    host.destroy();
+  });
+});

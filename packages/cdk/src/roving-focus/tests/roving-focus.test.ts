@@ -206,3 +206,44 @@ describe('createRovingFocus destroy', () => {
     expect(press(handle, items[0]?.element as Element, { key: 'ArrowRight' }).handled).toBe(false);
   });
 });
+
+describe('createRovingFocus defaults', () => {
+  /** Presses `key` on the item at `target` of three, with orientation, loop and getDirection left out. */
+  function run(key: string, target: number, ancestorDir?: 'rtl'): number[] {
+    const wrapper = document.createElement('div');
+    if (ancestorDir) wrapper.setAttribute('dir', ancestorDir);
+    document.body.append(wrapper);
+    const items = mount(['a', 'b', 'c']);
+    for (const item of items) wrapper.append(item.element);
+    const changes: number[] = [];
+    const roving = createRovingFocus({
+      getItems: () => items,
+      strategy: 'focus',
+      getCurrentIndex: () => 0,
+      onActiveChange: (index) => changes.push(index),
+    });
+    press((event) => roving.handleKeyDown(event), items[target]?.element as Element, { key });
+    return changes;
+  }
+
+  it.each([
+    { name: 'no orientation: ArrowRight moves', key: 'ArrowRight', target: 0, dir: undefined, expected: [1] },
+    { name: 'no orientation: ArrowDown moves', key: 'ArrowDown', target: 0, dir: undefined, expected: [1] },
+    {
+      name: 'no loop: ArrowRight on the last item keeps focus',
+      key: 'ArrowRight',
+      target: 2,
+      dir: undefined,
+      expected: [],
+    },
+    {
+      name: 'no getDirection and an rtl ancestor: ArrowLeft moves forward',
+      key: 'ArrowLeft',
+      target: 0,
+      dir: 'rtl',
+      expected: [1],
+    },
+  ] as const)('$name', ({ key, target, dir, expected }) => {
+    expect(run(key, target, dir)).toEqual(expected);
+  });
+});

@@ -2,6 +2,7 @@ import { autoUpdate, computePosition, flip, hide, limitShift, offset, shift, siz
 import type { AutoUpdateOptions, DetectOverflowOptions, Middleware } from '@floating-ui/dom';
 import type { Direction } from '@cocokits/shared';
 import { isShadowRoot } from '@cocokits/utils';
+import { computedDirection } from '../direction';
 import { arrowMiddleware, transformOriginMiddleware, writeArrow } from './arrow';
 import type { ArrowData, ArrowSize } from './arrow';
 import { fromFloatingPlacement, toFloatingPlacement } from './placement';
@@ -19,12 +20,21 @@ export interface OverlayPositionOptions {
   readonly getAnchor: () => Element | OverlayVirtualAnchor | null;
   /** The overlay content; `null` while it is not rendered. */
   readonly getContent: () => HTMLElement | null;
-  /** The wanted side. */
-  readonly side: OverlaySide;
-  /** The wanted alignment. */
-  readonly align: OverlayAlign;
-  /** The direction of the overlay. */
-  readonly getDirection: () => Direction;
+  /**
+   * The wanted side.
+   * @defaultValue 'bottom'
+   */
+  readonly side?: OverlaySide | undefined;
+  /**
+   * The wanted alignment.
+   * @defaultValue 'center'
+   */
+  readonly align?: OverlayAlign | undefined;
+  /**
+   * The direction of the overlay. It is read on every position update.
+   * @defaultValue The computed `direction` of the anchor, read on every call (of the content for a virtual anchor).
+   */
+  readonly getDirection?: (() => Direction) | undefined;
   /** Called with the side and alignment after flip and shift, when they change (and after the first measure). */
   readonly onPlacementChange: (placement: { side: OverlaySide; align: OverlayAlign }) => void;
   /** The gap between anchor and content in px. When given, the content's `--side-offset` is not read. */
@@ -112,6 +122,17 @@ function autoUpdateOptions(options: OverlayPositionOptions): AutoUpdateOptions |
   };
 }
 
+/** The given `getDirection`, or one that reads the anchor's computed direction on every call (the code polls the getter). */
+function directionGetter(
+  options: OverlayPositionOptions,
+  anchor: Element | OverlayVirtualAnchor,
+  content: HTMLElement,
+): () => Direction {
+  if (options.getDirection) return options.getDirection;
+  const context = 'nodeType' in anchor ? anchor : (anchor.contextElement ?? content);
+  return () => computedDirection(context);
+}
+
 /** The arrow's size, measured once; `null` when there is no arrow part. */
 function measureArrow(arrow: HTMLElement | null): ArrowSize | null {
   return arrow ? { width: arrow.offsetWidth, height: arrow.offsetHeight } : null;
@@ -122,6 +143,7 @@ function buildMiddleware(
   options: OverlayPositionOptions,
   content: HTMLElement,
   arrowSize: ArrowSize | null,
+  getDirection: () => Direction,
 ): Middleware[] {
   const detect = detectOptions(options);
   const limiter = (options.sticky ?? 'partial') === 'partial' ? limitShift() : undefined;
@@ -153,7 +175,7 @@ function buildMiddleware(
       },
     }),
     ...(arrowSize ? [arrowMiddleware(arrowSize, options.arrowPadding ?? 0, options.hideShiftedArrow ?? true)] : []),
-    transformOriginMiddleware(arrowSize, options.getDirection),
+    transformOriginMiddleware(arrowSize, getDirection),
     ...(options.hideWhenDetached ? [hide({ strategy: 'referenceHidden', ...detect })] : []),
   ];
 }
@@ -195,7 +217,10 @@ export function startOverlayPosition(options: OverlayPositionOptions): () => voi
   const arrow = (options.getArrow?.() ?? null) as HTMLElement | null;
   // Out of flow before the measure, so a bare inline part shrinks to its content instead of the content's width.
   if (arrow) arrow.style.position = 'absolute';
-  const middleware = buildMiddleware(options, content, measureArrow(arrow));
+  const getDirection = directionGetter(options, anchor, content);
+  const side = options.side ?? 'bottom';
+  const align = options.align ?? 'center';
+  const middleware = buildMiddleware(options, content, measureArrow(arrow), getDirection);
   const hideWhenDetached = options.hideWhenDetached ?? false;
   let stopped = false;
   let anchorHidden = false;
@@ -203,10 +228,10 @@ export function startOverlayPosition(options: OverlayPositionOptions): () => voi
   let reported: { side: OverlaySide; align: OverlayAlign } | null = null;
 
   const update = (): void => {
-    const dir = options.getDirection();
+    const dir = getDirection();
     void computePosition(anchor, content, {
       strategy: 'fixed',
-      placement: toFloatingPlacement(options.side, options.align, dir),
+      placement: toFloatingPlacement(side, align, dir),
       middleware,
     }).then(({ x, y, placement, middlewareData }) => {
       if (stopped) return;

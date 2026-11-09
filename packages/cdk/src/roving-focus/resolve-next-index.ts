@@ -23,11 +23,21 @@ export interface NextIndexInput {
   readonly current: number;
   /** Whether the item at the index is disabled. */
   readonly isDisabled: (index: number) => boolean;
-  readonly orientation: RovingOrientation;
-  /** Whether the arrows wrap from the last item to the first and back. */
-  readonly loop: boolean;
-  /** The direction of the widget; it flips the horizontal arrows only. */
-  readonly dir: Direction;
+  /**
+   * Which arrow keys move through the items.
+   * @defaultValue 'both'
+   */
+  readonly orientation?: RovingOrientation | undefined;
+  /**
+   * Whether the arrows wrap from the last item to the first and back.
+   * @defaultValue false
+   */
+  readonly loop?: boolean | undefined;
+  /**
+   * The direction of the widget; it flips the horizontal arrows only.
+   * @defaultValue 'ltr'
+   */
+  readonly dir?: Direction | undefined;
   /** The step of PageUp and PageDown; both are unhandled without it. */
   readonly pageSize?: number | undefined;
 }
@@ -44,10 +54,11 @@ function scan(input: NextIndexInput, from: number, step: 1 | -1, wrap: boolean):
 }
 
 function direction(input: NextIndexInput): 1 | -1 | null {
-  const horizontal = input.orientation !== 'vertical';
-  const vertical = input.orientation !== 'horizontal';
-  const forwardHorizontal = input.dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
-  const backwardHorizontal = input.dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+  const { orientation = 'both', dir = 'ltr' } = input;
+  const horizontal = orientation !== 'vertical';
+  const vertical = orientation !== 'horizontal';
+  const forwardHorizontal = dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+  const backwardHorizontal = dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
   if ((horizontal && input.key === forwardHorizontal) || (vertical && input.key === 'ArrowDown')) return 1;
   if ((horizontal && input.key === backwardHorizontal) || (vertical && input.key === 'ArrowUp')) return -1;
   return null;
@@ -85,7 +96,7 @@ export function resolveNextIndex(input: NextIndexInput): number | null {
   const step = direction(input);
   if (step === null) return null;
   if (current < 0) return step === 1 ? scan(input, 0, 1, false) : scan(input, count - 1, -1, false);
-  const next = scan(input, current + step, step, input.loop);
+  const next = scan(input, current + step, step, input.loop ?? false);
   if (next !== null) return next;
   return scan(input, 0, 1, false) === null ? null : current;
 }

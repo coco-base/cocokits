@@ -1,5 +1,6 @@
 import type { Direction } from '@cocokits/shared';
 import { containsDeep, sortByDomOrder } from '@cocokits/utils';
+import { computedDirection } from '../direction';
 import { resolveNextIndex } from './resolve-next-index';
 import type { RovingItem, RovingOrientation } from './resolve-next-index';
 import { createTypeahead } from './typeahead';
@@ -13,11 +14,21 @@ export interface RovingFocusOptions {
    * `active-descendant` only reports the index and focus stays on the widget (select, combobox list).
    */
   readonly strategy: 'focus' | 'active-descendant';
-  readonly orientation: RovingOrientation;
-  /** Whether the arrows wrap around. */
-  readonly loop: boolean;
-  /** The direction from the adapter's direction runtime, never `document.dir`. */
-  readonly getDirection: () => Direction;
+  /**
+   * Which arrow keys move through the items.
+   * @defaultValue 'both'
+   */
+  readonly orientation?: RovingOrientation | undefined;
+  /**
+   * Whether the arrows wrap around.
+   * @defaultValue false
+   */
+  readonly loop?: boolean | undefined;
+  /**
+   * The direction of the widget; it flips the horizontal arrows.
+   * @defaultValue The computed `direction` of the item that gets the key.
+   */
+  readonly getDirection?: (() => Direction) | undefined;
   /** The current index; read for `active-descendant` and when the event target is not an item. */
   readonly getCurrentIndex: () => number;
   /** Called when a key moves to another item. */
@@ -44,6 +55,11 @@ export interface RovingFocus {
 function inDomOrder(items: readonly RovingItem[]): RovingItem[] {
   const byElement = new Map(items.map((item) => [item.element, item]));
   return sortByDomOrder([...byElement.keys()]).flatMap((element) => byElement.get(element) ?? []);
+}
+
+/** The computed direction at the element that gets the key; `'ltr'` when there is no element. */
+function directionAt(target: EventTarget | null): Direction {
+  return target instanceof Element ? computedDirection(target) : 'ltr';
 }
 
 /**
@@ -106,7 +122,7 @@ export function createRovingFocus(options: RovingFocusOptions): RovingFocus {
         isDisabled: (index) => items[index]?.disabled ?? true,
         orientation: options.orientation,
         loop: options.loop,
-        dir: options.getDirection(),
+        dir: options.getDirection?.() ?? directionAt(items[current]?.element ?? event.target),
         pageSize: options.pageSize,
       });
       if (next === null) return false;

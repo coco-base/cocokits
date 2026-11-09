@@ -1,5 +1,6 @@
 import type { Direction, ModeCollection } from '@cocokits/shared';
 import { containsDeep } from '@cocokits/utils';
+import { computedDirection } from '../direction';
 import { deepActiveElement } from '../deep-active-element';
 import { registerHost } from './host-sync';
 import { resolveOverlayContainer } from './resolve-container';
@@ -13,8 +14,11 @@ export interface PortalHostOptions {
    * `componentName`) from the trigger. @defaultValue [] (no modes are copied)
    */
   readonly modeCollections?: readonly ModeCollection[] | undefined;
-  /** The direction from the adapter's direction runtime. */
-  readonly getDirection: () => Direction;
+  /**
+   * The direction the host carries.
+   * @defaultValue The computed `direction` of the trigger.
+   */
+  readonly getDirection?: (() => Direction) | undefined;
 }
 
 /** The element the portal adapter renders the overlay content into. */
@@ -89,7 +93,12 @@ export function createPortalHost(options: PortalHostOptions): PortalHost {
     host,
     getTrigger: options.getTrigger,
     modeAttrNames: pageModeAttrNames(options.modeCollections),
-    getDirection: options.getDirection,
+    getDirection:
+      options.getDirection ??
+      (() => {
+        const current = options.getTrigger();
+        return current ? computedDirection(current) : 'ltr';
+      }),
     relocate: () => {
       relocate(host, options.getTrigger());
     },

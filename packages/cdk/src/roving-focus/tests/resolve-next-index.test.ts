@@ -125,3 +125,36 @@ describe('resolveTabStop', () => {
     expect(resolveTabStop(list, selected)).toBe(expected);
   });
 });
+
+describe('resolveNextIndex defaults', () => {
+  const base = { key: 'ArrowRight', count: 5, current: 4, isDisabled: () => false };
+  it.each([
+    {
+      name: 'no orientation is both',
+      left: { ...base, current: 2 },
+      right: { ...base, current: 2, orientation: 'both' as const },
+    },
+    {
+      name: 'no orientation moves with ArrowDown',
+      left: { ...base, key: 'ArrowDown', current: 2 },
+      right: { ...base, key: 'ArrowDown', current: 2, orientation: 'both' as const },
+    },
+    {
+      name: 'no loop is false',
+      left: base,
+      right: { ...base, loop: false },
+    },
+    {
+      name: 'no dir is ltr',
+      left: { ...base, key: 'ArrowLeft', current: 2 },
+      right: { ...base, key: 'ArrowLeft', current: 2, dir: 'ltr' as const },
+    },
+  ])('$name', ({ left, right }) => {
+    expect(resolveNextIndex(left)).toBe(resolveNextIndex(right));
+  });
+
+  it('no loop stays on the last item, where loop wraps', () => {
+    expect(resolveNextIndex(base)).toBe(4);
+    expect(resolveNextIndex({ ...base, loop: true })).toBe(0);
+  });
+});
