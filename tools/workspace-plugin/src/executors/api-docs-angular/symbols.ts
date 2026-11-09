@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { docTextOf, oneLine, tagsOfNode } from '../api-docs-common/jsdoc';
+import { docTextOf, oneLine, tagsOfNode, unrealTagProblems } from '../api-docs-common/jsdoc';
 import { memberOf } from '../api-docs-common/member';
 import { placeAt } from '../api-docs-common/places';
 import { isInternal, paragraphsOf, tagsOf, withoutLinks } from '../api-docs-common/tags';
@@ -145,6 +145,7 @@ export function symbolsOf(
     const tags = tagsOfNode(declaration);
     const [description] = paragraphsOf(docTextOf(declaration));
     if (isInternal(tags) || description === undefined) continue;
+    problems.push(...unrealTagProblems(`${componentName} ${exported.name}`, tags));
     const remarks = tagsOf(tags, 'remarks').map(withoutLinks);
     const examples = tagsOf(tags, 'example');
     const base = {

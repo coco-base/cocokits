@@ -64,7 +64,7 @@ describe('exampleProblems', () => {
 
   it('passes the whole source example, also with other white space', () => {
     expect(exampleProblems(docWith([WHOLE]), known)).toEqual([]);
-    expect(exampleProblems(docWith(['<Button  @click="save">\n  Save</Button>']), known)).toEqual([]);
+    expect(exampleProblems(docWith(['<Button\n  @click="save">Save</Button>']), known)).toEqual([]);
   });
 
   it('checks the examples of members, slots and symbols too', () => {

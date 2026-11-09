@@ -194,7 +194,7 @@ export const SOURCE_ROWS: readonly SourceRow[] = [
       '/**\n * A function that tells whether an option value is the selected value. Use it when the option values are objects. When not set, the values are compared with `Object.is`.\n * @remarks Pair it with `itemToStringValue`, which turns an object into the text that a form sends.\n * @example\n * <cck-select [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">\n *   @for (item of dishes; track item.id) {\n *     <cck-select-option [value]="item">{{ item.name }}</cck-select-option>\n *   }\n * </cck-select>\n * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->\n * @cckSemantic select.isItemEqual\n * @defaultValue Object.is\n */',
     example:
       '<cck-select [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">\n  @for (item of dishes; track item.id) {\n    <cck-select-option [value]="item">{{ item.name }}</cck-select-option>\n  }\n</cck-select>\n<!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->',
-    others: ['cckSemantic', 'defaultValue'],
+    others: ['remarks', 'cckSemantic', 'defaultValue'],
   },
   {
     name: 'react/input/input.tsx:84',
@@ -202,7 +202,7 @@ export const SOURCE_ROWS: readonly SourceRow[] = [
       '/**\n * A box for one line of text. It renders a native `<input>` of the type `text`, `email`, `password`, `search`, `tel`\n * or `url`. Native `input` props pass through, and `ref` reaches the element.\n *\n * It is a native form control. `FormData`, the native checks, the `form` prop, submit by Enter and a disabled\n * `fieldset` work. It works with react-hook-form `register()` and `Controller`.\n *\n * Control the text with `value` and `onValueChange`, or set `defaultValue` and let the DOM keep it. A change that\n * you do not take is undone.\n *\n * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and\n * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.\n *\n * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and\n * the user has left it or tried to submit.\n *\n * @example\n * <label htmlFor="email">Email address</label>\n * <Input id="email" type="email" defaultValue="ana@example.com" />\n * @cckPart root\n * @param props - The Input props.\n * @returns The rendered input.\n */',
     example:
       '<label htmlFor="email">Email address</label>\n<Input id="email" type="email" defaultValue="ana@example.com" />',
-    others: ['cckPart', 'param'],
+    others: ['cckPart', 'param', 'returns'],
   },
   {
     name: 'react/leading/leading.tsx:46',
@@ -210,7 +210,7 @@ export const SOURCE_ROWS: readonly SourceRow[] = [
       '/**\n * An icon or a short text before the box of a field, outside it.\n * It renders a `<div>`. Native `div` props pass through, and `ref` reaches the element.\n *\n * Pass it to the `leading` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.\n *\n * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. Give\n * an icon `aria-hidden="true"`, and give a button its own accessible name.\n *\n * @example\n * <FormField label={<Label>Search</Label>} leading={<Leading aria-hidden="true">@</Leading>}>\n *   <Input type="search" />\n * </FormField>\n * @cckPart root\n * @param props - The Leading props.\n * @returns The rendered div.\n */',
     example:
       '<FormField label={<Label>Search</Label>} leading={<Leading aria-hidden="true">@</Leading>}>\n  <Input type="search" />\n</FormField>',
-    others: ['cckPart', 'param'],
+    others: ['cckPart', 'param', 'returns'],
   },
   {
     name: 'react/leading/leading.types.ts:23',

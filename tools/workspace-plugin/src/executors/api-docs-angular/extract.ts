@@ -8,6 +8,7 @@ import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
+import { placeOfNode, unrealTagsOf, wholeDocOf } from '../api-docs-common/jsdoc';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
@@ -124,6 +125,29 @@ function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration
   };
 }
 
+/**
+ * The directive entry with the text of the class and of its members read to its end. The docs extractor of the Angular
+ * compiler escapes only its own words (`@Component`, `@for`), so it cuts a text at any other `@` that is no tag
+ * (`@click`); then the text is read again from the comment of the class or of the member.
+ */
+function withWholeText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry: DocDirective): DocDirective {
+  const symbol = cls.name ? checker.getSymbolAtLocation(cls.name) : undefined;
+  const instance = symbol ? checker.getDeclaredTypeOfSymbol(symbol) : undefined;
+  const own = wholeDocOf({ description: entry.description, tags: entry.jsdocTags }, [placeOfNode(cls)]);
+  return {
+    ...entry,
+    description: own.description,
+    jsdocTags: own.tags,
+    members: entry.members.map((member) => {
+      const given = { description: member.description, tags: member.jsdocTags };
+      if (unrealTagsOf(given.tags).length === 0) return member;
+      const declarations = instance?.getProperty(member.name)?.declarations ?? [];
+      const doc = wholeDocOf(given, declarations.map(placeOfNode));
+      return { ...member, description: doc.description, jsdocTags: doc.tags };
+    }),
+  };
+}
+
 /** What a template directive says about itself: what shows without it, when it is used and an example. */
 function templateDetailOf(directive: DocDirective): { default?: string; remarks?: string; examples?: string[] } {
   const fallback = defaultOf(directive.jsdocTags);
@@ -209,7 +233,7 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
         text: expandAliases(type, resolve),
         values: aliasValuesOf(type, resolve),
       });
-      const doc = withInstantiatedTypes(checker, cls, entry as unknown as DocDirective);
+      const doc = withWholeText(checker, cls, withInstantiatedTypes(checker, cls, entry as unknown as DocDirective));
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
       parts.push(placeAt(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems), cls));
     }

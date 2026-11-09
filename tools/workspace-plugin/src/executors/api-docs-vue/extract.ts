@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import ts from 'typescript';
 import { loadPackage } from '../load-module';
@@ -16,7 +16,8 @@ import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { docTextOf, tagsOfNode } from '../api-docs-common/jsdoc';
+import { docTextOf, tagsOfNode, unrealTagsOf, wholeDocOf } from '../api-docs-common/jsdoc';
+import type { SourcePlace, TsDocText } from '../api-docs-common/jsdoc';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
 import type {
@@ -41,6 +42,8 @@ interface MetaMember {
   readonly required?: boolean;
   readonly global?: boolean;
   readonly default?: string;
+  /** Where the member is declared: the file and the start and end of the declaration (not its comment). */
+  getDeclarations?(): readonly { file: string; range: readonly [number, number] }[];
 }
 interface ComponentMeta {
   readonly props: readonly MetaMember[];
@@ -58,6 +61,20 @@ interface MetaModule {
 
 const tagEntriesOf = (tags: readonly MetaTag[]): TagEntry[] =>
   tags.map((tag) => ({ name: tag.name, comment: tag.text ?? '' }));
+
+/**
+ * The description and tags of a member. `vue-component-meta` reads them with the TypeScript parser, which cuts a text
+ * at an `@` that is no tag (`@click` in an example), so then they are read again from the comment above the
+ * declaration of the member.
+ */
+function memberDocOf(member: MetaMember): TsDocText {
+  const given = { description: member.description, tags: tagEntriesOf(member.tags) };
+  if (unrealTagsOf(given.tags).length === 0) return given;
+  const places = (member.getDeclarations?.() ?? []).flatMap(({ file, range }): SourcePlace[] =>
+    existsSync(file) ? [{ text: readFileSync(file, 'utf8'), position: range[0] }] : [],
+  );
+  return wholeDocOf(given, places);
+}
 
 /** The text of a source default, unless it says nothing (`withDefaults` with `undefined`). */
 const sourceDefaultOf = (value: string | undefined): string | undefined =>
@@ -157,6 +174,7 @@ function listOf(
   for (const item of items) {
     const required = isProp && item.required === true;
     const expanded = expand(withoutUndefined(item.type, required || !isProp), item.name);
+    const doc = memberDocOf(item);
     const member = memberOf(
       componentName,
       {
@@ -164,8 +182,8 @@ function listOf(
         type: expanded.text,
         aliasValues: expanded.values,
         required,
-        description: item.description,
-        tags: tagEntriesOf(item.tags),
+        description: doc.description,
+        tags: doc.tags,
         sourceDefault: isProp ? sourceDefaultOf(item.default) : undefined,
       },
       partName,

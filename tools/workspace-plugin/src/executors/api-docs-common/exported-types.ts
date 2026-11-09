@@ -7,7 +7,7 @@ import {
   ownTypeNamed,
   type TypeDeclaration,
 } from './expand-alias';
-import { docTextOf, oneLine, tagsOfNode } from './jsdoc';
+import { docTextOf, oneLine, tagsOfNode, unrealTagProblems } from './jsdoc';
 import { memberOf, withoutUndefined } from './member';
 import { placeOf } from './places';
 import { isInternal, paragraphsOf, paramRemarksOf, tagsOf, valuesOf, withoutLinks } from './tags';
@@ -175,6 +175,7 @@ function typeRowOf(
   const tags = tagsOfNode(declaration);
   const [description] = paragraphsOf(docTextOf(declaration));
   if (isInternal(tags) || description === undefined) return undefined;
+  problems.push(...unrealTagProblems(name, tags));
   // A Types row has no example; the members that use the type show one.
   if (tagsOf(tags, 'example').length > 0) {
     problems.push(`${name}: a Types row cannot show an @example; put it on a member that uses the type`);

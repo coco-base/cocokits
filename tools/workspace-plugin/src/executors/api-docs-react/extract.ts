@@ -10,6 +10,8 @@ import {
   sharedTypeProblems,
 } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
+import { placeOfNode, wholeDocOf } from '../api-docs-common/jsdoc';
+import type { TsDocText } from '../api-docs-common/jsdoc';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
@@ -34,6 +36,19 @@ import { displayTextOf } from './display-text';
 
 const tagsOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TagEntry[] =>
   symbol.getJsDocTags(checker).map((tag) => ({ name: tag.name, comment: displayTextOf(tag.text) }));
+
+/**
+ * The description and the tags of a symbol. The checker reads them with the TypeScript parser, which cuts a text at an
+ * `@` that is no tag (`@click` in an example), so then they are read again from the comment of its declaration.
+ */
+const docOfSymbol = (checker: ts.TypeChecker, symbol: ts.Symbol): TsDocText =>
+  wholeDocOf(
+    {
+      description: displayTextOf(symbol.getDocumentationComment(checker)),
+      tags: tagsOfSymbol(checker, symbol),
+    },
+    (symbol.declarations ?? []).map(placeOfNode),
+  );
 
 /**
  * The type as the author wrote it when the declaration has a type annotation (so `ReactElement` stays `ReactElement`
@@ -70,14 +85,15 @@ function propOf(
   const written = withDefaultArguments(typeTextOf(checker, symbol, declaration), enclosingDefaults(declaration));
   const resolve = aliasResolverAt(program, declaration);
   const type = expandAliases(written, resolve);
+  const doc = docOfSymbol(checker, symbol);
   const member = memberOf(
     componentName,
     {
       name: asSlot && symbol.name === 'children' ? 'default' : symbol.name,
       type: withoutUndefined(type, required),
       required,
-      description: displayTextOf(symbol.getDocumentationComment(checker)),
-      tags: tagsOfSymbol(checker, symbol),
+      description: doc.description,
+      tags: doc.tags,
       aliasValues: aliasValuesOf(written, resolve),
     },
     partName,
@@ -289,13 +305,8 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
     const components = source ? componentsOf(checker, source) : [];
     if (components.length === 0) problems.push(`${name}: the entry point exports no component`);
     const parts = components.map((component): ApiPartJson => {
-      const tags = tagsOfSymbol(checker, component);
-      const part = checkPartDoc(
-        component.name,
-        tags,
-        displayTextOf(component.getDocumentationComment(checker)),
-        problems,
-      );
+      const { description: text, tags } = docOfSymbol(checker, component);
+      const part = checkPartDoc(component.name, tags, text, problems);
       // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
       const idScope = part === 'root' || part === '' ? name : `${name}.${part}`;
       const propsType = propsTypeOf(checker, component);
@@ -343,8 +354,8 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
         semanticId: `${name}.${part}`,
         anatomyPart: part,
         ...frameworkOnlyOf(component.name, tags, problems),
-        description: paragraphsOf(displayTextOf(component.getDocumentationComment(checker)))[0] ?? '',
-        ...partDocFields(displayTextOf(component.getDocumentationComment(checker)), tags),
+        description: paragraphsOf(text)[0] ?? '',
+        ...partDocFields(text, tags),
         props,
         events,
         slots,
