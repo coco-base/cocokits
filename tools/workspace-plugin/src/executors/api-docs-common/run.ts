@@ -31,8 +31,8 @@ export function runApiDocs(
     const tsConfig = insideRoot(context.root, expandOption(options.tsConfig ?? DEFAULT_TSCONFIG, context), 'tsConfig');
     const projectRoot = resolve(context.root, projectRootOf(context));
     const docs = extract(context.root, projectRoot, tsConfig);
-    const known = sourceExamplesOf(context.root, projectRoot);
-    const problems = docs.flatMap((doc) => [...textRuleProblems(doc), ...exampleProblems(doc, known)]);
+    const sourceExamples = sourceExamplesOf(context.root, projectRoot);
+    const problems = docs.flatMap((doc) => [...textRuleProblems(doc), ...exampleProblems(doc, sourceExamples)]);
     if (problems.length > 0) throw problemsError(problems);
     writeJsonFiles(
       outputDir,

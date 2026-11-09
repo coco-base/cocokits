@@ -308,6 +308,26 @@ describe('extractReactApiDocs: the fields of the API page', () => {
   });
 });
 
+describe('extractReactApiDocs: an @ that is no tag in a scoped slot', () => {
+  it('reads the text of an object scope field and of a primitive scope field to its end', () => {
+    const slots =
+      extract('at-sign-scope', (text) =>
+        text
+          .replace('/** Whether the thing is open. */', '/** Whether the thing is open. Use @click to listen. */')
+          .replace(
+            '@param value - The value the thing holds.',
+            '@param value - The value the thing holds. Use @click to listen.',
+          ),
+      ).parts[0]?.slots ?? [];
+    expect(slots.find((slot) => slot.name === 'default')?.scope?.[0]?.description).toBe(
+      'Whether the thing is open. Use @click to listen.',
+    );
+    expect(slots.find((slot) => slot.name === 'label')?.scope?.[0]?.description).toBe(
+      'The value the thing holds. Use @click to listen.',
+    );
+  });
+});
+
 describe('extractReactApiDocs: an @ that is no tag', () => {
   it('reads the text of a part and a prop to its end', () => {
     const EXAMPLE = '<Thing @click="save">Save</Thing>';

@@ -8,7 +8,7 @@ import type { ApiDocJson, ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { placeOfNode, unrealTagsOf, wholeDocOf } from '../api-docs-common/jsdoc';
+import { placeOfNode, unrealTagProblems, wholeDocOf } from '../api-docs-common/jsdoc';
 import { defaultOf, partRemarksOf, portalSelectors, tagsOf } from '../api-docs-common/tags';
 import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/generic';
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
@@ -139,10 +139,9 @@ function withWholeText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry:
     description: own.description,
     jsdocTags: own.tags,
     members: entry.members.map((member) => {
-      const given = { description: member.description, tags: member.jsdocTags };
-      if (unrealTagsOf(given.tags).length === 0) return member;
+      const parsedDoc = { description: member.description, tags: member.jsdocTags };
       const declarations = instance?.getProperty(member.name)?.declarations ?? [];
-      const doc = wholeDocOf(given, declarations.map(placeOfNode));
+      const doc = wholeDocOf(parsedDoc, declarations.map(placeOfNode));
       return { ...member, description: doc.description, jsdocTags: doc.tags };
     }),
   };
@@ -179,6 +178,7 @@ function withScopes(
     // The type parameter of the template directive is the component's own (`T` of the Select), so it takes the
     // default of the component.
     const detail = directive === undefined ? {} : templateDetailOf(directive);
+    if (directive !== undefined) problems.push(...unrealTagProblems(`${owner.name}.${slot.name}`, directive.jsdocTags));
     const scope =
       cls === undefined
         ? undefined
@@ -216,7 +216,12 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
     const classes = program
       .getApiDocumentation(file, new Set())
       .entries.filter((entry) => entry.entryType === 'directive' || entry.entryType === 'component');
-    const portals = portalSelectors(classes as unknown as DocDirective[]);
+    // The template directives give their slot its text, so they are read to their end too.
+    const wholeClasses = classes.map((entry) => {
+      const cls = classNamed(tsProgram, entry);
+      return cls ? withWholeText(checker, cls, entry as unknown as DocDirective) : (entry as unknown as DocDirective);
+    });
+    const portals = portalSelectors(wholeClasses);
     for (const entry of classes) {
       // A portal directive (`ng-template[cckPopoverPortal]`) renders no anatomy part, so it is no part.
       if (portals.has((entry as unknown as DocDirective).selector.trim())) continue;
@@ -235,7 +240,7 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       });
       const doc = withWholeText(checker, cls, withInstantiatedTypes(checker, cls, entry as unknown as DocDirective));
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
-      parts.push(placeAt(withScopes(part, classes as unknown as DocDirective[], tsProgram, entry, problems), cls));
+      parts.push(placeAt(withScopes(part, wholeClasses, tsProgram, entry, problems), cls));
     }
     const sourceFile = tsProgram.getSourceFile(file);
     const partNames = new Set(classes.map((entry) => entry.name));

@@ -9,12 +9,12 @@ const FIXTURES = join(import.meta.dirname, 'fixtures');
 const fixture = (name: string): string => readFileSync(join(FIXTURES, `${name}.txt`), 'utf8');
 const area = scratchArea('api-docs-vue-doc-fields');
 
-function extract(name: string, prefix = 'doc-fields'): ApiDocJson {
+function extract(name: string, prefix = 'doc-fields', change: (text: string) => string = (text) => text): ApiDocJson {
   const { project, tsConfig } = area.create(
     name,
     {
       'src/thing/Thing.vue': fixture(`${prefix}.vue`),
-      'src/thing/thing.types.ts': fixture(`${prefix}.types.ts`),
+      'src/thing/thing.types.ts': change(fixture(`${prefix}.types.ts`)),
       'src/thing/index.ts': fixture(`${prefix}-index.ts`),
     },
     { compilerOptions: { strict: true, types: [], noEmit: true, paths: {} }, include: ['**/*.ts', '**/*.vue'] },
@@ -89,5 +89,13 @@ describe('extractVueApiDocs: an @ that is no tag', () => {
       description: 'The content of the thing. Use @click to listen. When not set, the thing is empty.',
       examples: [EXAMPLE],
     });
+  });
+
+  it('reads an example whole when a line of it holds a tag name', () => {
+    const part = extract('at-sign-tag', 'at-sign', (text) =>
+      text.replaceAll('<Thing @click="save">', '<Thing @see @param>'),
+    ).parts[0];
+    expect(part?.examples).toEqual(['<Thing @see @param>Save</Thing>']);
+    expect(part?.props.find((prop) => prop.name === 'side')?.examples).toEqual(['<Thing @see @param>Save</Thing>']);
   });
 });

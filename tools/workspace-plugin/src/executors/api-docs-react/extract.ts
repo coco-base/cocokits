@@ -10,7 +10,7 @@ import {
   sharedTypeProblems,
 } from '../api-docs-common/expand-alias';
 import { enclosingDefaults, withDefaultArguments } from '../api-docs-common/generic';
-import { placeOfNode, wholeDocOf } from '../api-docs-common/jsdoc';
+import { placeOfNode, unrealTagProblems, wholeDocOf } from '../api-docs-common/jsdoc';
 import type { TsDocText } from '../api-docs-common/jsdoc';
 import { memberOf, withoutUndefined } from '../api-docs-common/member';
 import { placeAt, placeOf } from '../api-docs-common/places';
@@ -189,18 +189,16 @@ function scopeOf(
   }
   return properties.map((property) => {
     const declaration = property.valueDeclaration ?? property.declarations?.[0];
-    const description = paragraphsOf(displayTextOf(property.getDocumentationComment(checker)))[0] ?? '';
+    const doc = docOfSymbol(checker, property);
+    const description = paragraphsOf(doc.description)[0] ?? '';
     if (description === '') problems.push(`${owner}: the scope field "${property.name}" has no TSDoc description`);
+    problems.push(...unrealTagProblems(`${owner}: the scope field "${property.name}"`, doc.tags));
     const text =
       declaration !== undefined && ts.isPropertySignature(declaration) && declaration.type !== undefined
         ? declaration.type.getText().replace(/\s+/g, ' ')
         : checker.typeToString(checker.getTypeOfSymbol(property));
     // A type parameter of the scope type is written with its default, as the members of a generic component are.
-    const frameworkOnly = checkParity(
-      `${owner}: the scope field "${property.name}"`,
-      tagsOfSymbol(checker, property),
-      problems,
-    );
+    const frameworkOnly = checkParity(`${owner}: the scope field "${property.name}"`, doc.tags, problems);
     return {
       name: property.name,
       type: withDefaultArguments(text, enclosingDefaults(declaration)),
@@ -342,7 +340,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
                       fn,
                       `${component.name}.${symbol.name}`,
                       problems,
-                      tagsOfSymbol(checker, symbol),
+                      docOfSymbol(checker, symbol).tags,
                     ),
                   },
                   placeOf(member),

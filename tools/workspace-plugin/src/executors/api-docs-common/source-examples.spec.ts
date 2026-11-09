@@ -1,10 +1,10 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { unrealTagProblems } from './jsdoc';
 import { memberOf } from './member';
 import { exampleProblems, sourceExamplesOf } from './source-examples';
-import { scratchArea } from './testing/scratch';
+import { scratchArea, withJunction } from './testing/scratch';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson } from './types';
 
 const WHOLE = '<Button @click="save">Save</Button>';
@@ -47,6 +47,44 @@ describe('sourceExamplesOf', () => {
     write('packages/vue/a.d.ts', '/**\n * @example\n * <Dts @click="t" />\n */\n');
     write('packages/vue/node_modules/x/x.ts', '/**\n * @example\n * <Dep @click="t" />\n */\n');
     expect([...sourceExamplesOf(root)].sort()).toEqual(['<B @click="b" />', WHOLE]);
+  });
+});
+
+describe('sourceExamplesOf: the files it reads', () => {
+  const rootOf = (name: string): string => {
+    const root = join(area.dir, name);
+    mkdirSync(join(root, 'packages'), { recursive: true });
+    return root;
+  };
+
+  it('does not read a symbolic link to a file', () => {
+    const root = rootOf('link-file');
+    writeFileSync(
+      join(area.dir, 'outside.ts'),
+      ['/**', ' * @example', ' * <Outside @click="x" />', ' */'].join(String.fromCharCode(10)),
+    );
+    try {
+      symlinkSync(join(area.dir, 'outside.ts'), join(root, 'packages', 'linked.ts'), 'file');
+    } catch {
+      return;
+    }
+    expect([...sourceExamplesOf(root)]).toEqual([]);
+  });
+
+  it('fails when a folder to read leaves the workspace through a link', async () => {
+    const root = rootOf('link-folder');
+    await withJunction(join(root, 'packages', 'out'), () => {
+      expect(() => sourceExamplesOf(root, join(root, 'packages', 'out'))).toThrow(/outside the workspace/);
+      return Promise.resolve();
+    });
+  });
+
+  it('reads a text with many comment openers and no end at once', () => {
+    const root = rootOf('openers');
+    writeFileSync(join(root, 'packages', 'a.ts'), '/**'.repeat(60000));
+    const started = Date.now();
+    expect([...sourceExamplesOf(root)]).toEqual([]);
+    expect(Date.now() - started).toBeLessThan(1000);
   });
 });
 

@@ -1,6 +1,7 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import ts from 'typescript';
+import { insideRoot } from '../inside-root';
 import { loadPackage } from '../load-module';
 import { srcEntryPointsOf } from '../api-docs-common/entries';
 import {
@@ -16,7 +17,7 @@ import { placeAt, placeOf } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { posix } from '../posix-path';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { docTextOf, tagsOfNode, unrealTagsOf, wholeDocOf } from '../api-docs-common/jsdoc';
+import { docTextOf, tagsOfNode, wholeDocOf } from '../api-docs-common/jsdoc';
 import type { SourcePlace, TsDocText } from '../api-docs-common/jsdoc';
 import { checkPartDoc, frameworkOnlyOf, isInternal, paragraphsOf, partDocFields } from '../api-docs-common/tags';
 import { vueSlotScopes } from '../api-docs-common/scope';
@@ -64,16 +65,19 @@ const tagEntriesOf = (tags: readonly MetaTag[]): TagEntry[] =>
 
 /**
  * The description and tags of a member. `vue-component-meta` reads them with the TypeScript parser, which cuts a text
- * at an `@` that is no tag (`@click` in an example), so then they are read again from the comment above the
- * declaration of the member.
+ * at an `@` that is no tag (`@click` in an example), so they are read again from the comment above the declaration of
+ * the member ({@link wholeDocOf}). A declaration file outside the workspace `root` is not read.
  */
-function memberDocOf(member: MetaMember): TsDocText {
-  const given = { description: member.description, tags: tagEntriesOf(member.tags) };
-  if (unrealTagsOf(given.tags).length === 0) return given;
-  const places = (member.getDeclarations?.() ?? []).flatMap(({ file, range }): SourcePlace[] =>
-    existsSync(file) ? [{ text: readFileSync(file, 'utf8'), position: range[0] }] : [],
-  );
-  return wholeDocOf(given, places);
+function memberDocOf(root: string, member: MetaMember): TsDocText {
+  const parsedDoc = { description: member.description, tags: tagEntriesOf(member.tags) };
+  const places = (member.getDeclarations?.() ?? []).flatMap(({ file, range }): SourcePlace[] => {
+    try {
+      return [{ text: readFileSync(insideRoot(root, file, 'declaration file'), 'utf8'), position: range[0] }];
+    } catch {
+      return [];
+    }
+  });
+  return wholeDocOf(parsedDoc, places);
 }
 
 /** The text of a source default, unless it says nothing (`withDefaults` with `undefined`). */
@@ -163,6 +167,7 @@ function expanderOf(scope: Scope | undefined, typeName: string): Expand {
 }
 
 function listOf(
+  root: string,
   componentName: string,
   partName: string,
   items: readonly MetaMember[],
@@ -174,7 +179,7 @@ function listOf(
   for (const item of items) {
     const required = isProp && item.required === true;
     const expanded = expand(withoutUndefined(item.type, required || !isProp), item.name);
-    const doc = memberDocOf(item);
+    const doc = memberDocOf(root, item);
     const member = memberOf(
       componentName,
       {
@@ -253,6 +258,7 @@ function bindingsOf(
 }
 
 function partOf(
+  root: string,
   componentName: string,
   name: string,
   dir: string,
@@ -281,16 +287,16 @@ function partOf(
     ...frameworkOnlyOf(typeName, tags, partProblems),
     description: paragraphsOf(text)[0] ?? '',
     ...partDocFields(text, tags),
-    props: listOf(idScope, name, props, problems, true, expand),
-    events: listOf(idScope, name, events, problems, false, expand),
+    props: listOf(root, idScope, name, props, problems, true, expand),
+    events: listOf(root, idScope, name, events, problems, false, expand),
     slots: withScopes(
-      listOf(componentName, name, meta.slots, problems, false, expand),
+      listOf(root, componentName, name, meta.slots, problems, false, expand),
       join(dir, `${name}.vue`),
       name,
       problems,
       typeParameterDefaults(declaration?.typeParameters),
     ),
-    methods: listOf(componentName, name, shownMethods(meta.exposed, props), problems, false, expand),
+    methods: listOf(root, componentName, name, shownMethods(meta.exposed, props), problems, false, expand),
   };
   const bindings = bindingsOf(result.props, events);
   if (bindings.length > 0) result.bindings = bindings;
@@ -332,7 +338,15 @@ export function extractVueApiDocs(root: string, projectRoot: string, tsConfig: s
         .sort();
       if (files.length === 0) problems.push(`${name}: the entry point has no .vue component`);
       const parts = files.map((file) =>
-        partOf(name, basename(file, '.vue'), dir, checker.getComponentMeta(posix(join(dir, file))), problems, scope),
+        partOf(
+          root,
+          name,
+          basename(file, '.vue'),
+          dir,
+          checker.getComponentMeta(posix(join(dir, file))),
+          problems,
+          scope,
+        ),
       );
       const indexFile = program.getSourceFile(file);
       const own = new Set(parts.flatMap((part) => [`${part.name}Props`, `${part.name}Emits`, `${part.name}Slots`]));

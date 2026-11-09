@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { withDefaultArguments } from './generic';
-import { docTextOf, tagsOfNode } from './jsdoc';
+import { docTextOf, tagsOfNode, unrealTagProblems } from './jsdoc';
 import { checkParity, paragraphsOf } from './tags';
 import type { ApiSlotJson } from './types';
 
@@ -28,6 +28,7 @@ export function scopeOfType(
     const description = docOf(member);
     if (description === '') problems.push(`${owner}: the scope field "${member.name.text}" has no TSDoc description`);
     const tags = tagsOfNode(member);
+    problems.push(...unrealTagProblems(`${owner}: the scope field "${member.name.text}"`, tags));
     const frameworkOnly = checkParity(`${owner}: the scope field "${member.name.text}"`, tags, problems);
     fields.push({
       name: member.name.text,
