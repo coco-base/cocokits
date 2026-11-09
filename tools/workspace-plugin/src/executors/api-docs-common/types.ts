@@ -62,15 +62,40 @@ export interface ApiPartJson {
   bindings?: { semanticId: string; value: string; syntax: string }[];
 }
 
-/** A public symbol that is not a part: a service, a class or a constant (Angular entry points). */
+/** One parameter of a function symbol, from its declaration and its `@param` tag. */
+export interface ApiParamJson {
+  name: string;
+  /** The type as written in the source. */
+  type: string;
+  /** `true` for a parameter with `?`, a default value or a rest parameter. */
+  optional: boolean;
+  description: string;
+}
+
+/** What a function symbol returns: the type as written and the text of its `@returns` tag (empty for `void`). */
+export interface ApiReturnsJson {
+  type: string;
+  description: string;
+}
+
+/**
+ * A public symbol that is not a part: a service, a class, a constant (Angular entry points) or a function (`ts`
+ * entry points of `cdk` and `utils`).
+ */
 export interface ApiSymbolJson {
-  kind: 'service' | 'class' | 'constant';
+  kind: 'service' | 'class' | 'constant' | 'function';
   name: string;
   description: string;
   remarks?: string;
   examples?: string[];
   /** The type of a constant, as source text. */
   type?: string;
+  /** The parameters of a function, in order. */
+  params?: ApiParamJson[];
+  /** The result of a function. */
+  returns?: ApiReturnsJson;
+  /** One text per `@throws` tag of a function. */
+  throws?: string[];
   props: ApiMemberJson[];
   methods: ApiMemberJson[];
 }
@@ -89,12 +114,15 @@ export interface ApiTypeJson {
   values?: ApiValueJson[];
 }
 
-/** The API of one component in one framework: the JSON file an extractor writes. */
+/**
+ * The API of one component in one framework, or of one module of a framework-free package (`ts`, with no parts): the
+ * JSON file an extractor writes.
+ */
 export interface ApiDocJson {
   component: string;
-  framework: 'angular' | 'react' | 'vue';
+  framework: 'angular' | 'react' | 'vue' | 'ts';
   parts: ApiPartJson[];
-  /** Services, classes and constants of the entry point (Angular). */
+  /** Services, classes and constants of the entry point (Angular), and the functions and constants of a `ts` module. */
   symbols?: ApiSymbolJson[];
   /** The interfaces and aliases the entry point exports, except the ones read as a part's members. */
   types?: ApiTypeJson[];

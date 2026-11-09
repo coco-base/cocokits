@@ -268,6 +268,10 @@ export function memberTypeTexts(parts: readonly ApiPartJson[], symbols: readonly
   ];
 }
 
+/** The exports of a module, or only the ones with a name in `only`. */
+export const exportsOf = (checker: ts.TypeChecker, module: ts.Symbol, only?: ReadonlySet<string>): ts.Symbol[] =>
+  checker.getExportsOfModule(module).filter((exported) => only?.has(exported.name) ?? true);
+
 /**
  * The interfaces and type aliases an entry point exports, with their TSDoc: an interface with its documented fields,
  * an alias with its type text and the meaning of its literals (`@cckValue`). A symbol with no TSDoc description, an
@@ -279,6 +283,7 @@ export function memberTypeTexts(parts: readonly ApiPartJson[], symbols: readonly
  *
  * @param componentName - The component, for the semantic ids of the fields.
  * @param skip - Whether a name is already shown as a part's members.
+ * @param only - The export names to list, when the module exports more than the entry point shows.
  * @param used - The type texts of the members ({@link memberTypeTexts}).
  */
 export function exportedTypesOf(
@@ -289,13 +294,14 @@ export function exportedTypesOf(
   skip: (name: string) => boolean,
   problems: string[],
   used: readonly TypeText[] = [],
+  only?: ReadonlySet<string>,
 ): ApiTypeJson[] {
   const moduleSymbol = checker.getSymbolAtLocation(file);
   if (!moduleSymbol) return [];
   const result: ApiTypeJson[] = [];
   const texts: TypeText[] = [...used];
   const seen = new Set<string>();
-  for (const exported of checker.getExportsOfModule(moduleSymbol)) {
+  for (const exported of exportsOf(checker, moduleSymbol, only)) {
     seen.add(exported.name);
     const symbol = exported.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(exported) : exported;
     const declaration = symbol.declarations?.find(

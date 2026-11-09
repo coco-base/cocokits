@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { runApiDocs } from './run';
 import { scratchArea } from './testing/scratch';
 import { hasObjectPayload, sentencesOf, textRuleProblems, unionLiteralsOf } from './text-rules';
-import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson } from './types';
+import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiSlotJson, ApiSymbolJson, ApiTypeJson } from './types';
 
 const member = (fields: Partial<ApiMemberJson> = {}): ApiMemberJson => ({
   name: 'size',
@@ -160,6 +160,81 @@ describe('textRuleProblems', () => {
     expect(textRuleProblems(doc({ symbols }, 'angular'))).toEqual([
       'angular/thing constant THING: needs an @example',
       'angular/thing service Things.open(): needs an @example',
+    ]);
+  });
+});
+
+describe('textRuleProblems for the functions of a ts module', () => {
+  const fn = (fields: Partial<ApiSymbolJson> = {}): ApiSymbolJson => ({
+    kind: 'function',
+    name: 'openThing',
+    description: 'Opens the thing.',
+    examples: ['openThing(element);'],
+    params: [{ name: 'element', type: 'Element', optional: false, description: 'The element to open.' }],
+    returns: { type: 'boolean', description: 'Whether it opened.' },
+    props: [],
+    methods: [],
+    ...fields,
+  });
+  const tsProblems = (symbol: ApiSymbolJson, types: ApiTypeJson[] = []): string[] =>
+    textRuleProblems({ component: 'thing', framework: 'ts', parts: [], symbols: [symbol], types });
+
+  it('passes a function with an example, a text per parameter and a result text', () => {
+    expect(tsProblems(fn())).toEqual([]);
+    expect(tsProblems(fn({ params: [], returns: { type: 'void', description: '' } }))).toEqual([]);
+  });
+
+  it.each([
+    ['has no @example', fn({ examples: [] }), ['ts/thing function openThing: needs an @example']],
+    [
+      'has a parameter with no @param',
+      fn({ params: [{ name: 'element', type: 'Element', optional: false, description: '' }] }),
+      ['ts/thing function openThing(element): needs a @param text'],
+    ],
+    [
+      'returns a value with no @returns',
+      fn({ returns: { type: 'boolean', description: '' } }),
+      ['ts/thing function openThing: needs a @returns text'],
+    ],
+    [
+      'has a parameter text over 25 words',
+      fn({
+        params: [{ name: 'element', type: 'Element', optional: false, description: `The ${'long '.repeat(25)}text.` }],
+      }),
+      ['ts/thing function openThing(element): a sentence has 27 words (25 at most)'],
+    ],
+  ])('fails a function that %s', (_name, symbol, problems) => {
+    expect(tsProblems(symbol)).toEqual(problems);
+  });
+
+  it.each([['Default `5`.'], ['Defaults to 5.'], ['Default: 5.'], ['The default is 5.'], ['It defaults to 5.']])(
+    'fails an option field with the prose default "%s"',
+    (text) => {
+      const type: ApiTypeJson = {
+        kind: 'interface',
+        name: 'ThingOptions',
+        description: 'Options.',
+        fields: [member({ name: 'gap', required: false, description: `The gap. ${text}` })],
+      };
+      expect(tsProblems(fn(), [type])).toEqual([
+        'ts/thing type ThingOptions.gap: a default is written as prose; use "@defaultValue" and leave it out of the text',
+      ]);
+    },
+  );
+
+  it('passes a field with @defaultValue and a text that only uses the word default', () => {
+    const type: ApiTypeJson = {
+      kind: 'interface',
+      name: 'ThingOptions',
+      description: 'Options.',
+      fields: [member({ name: 'gap', required: false, default: '5', description: 'Replaces the default gap.' })],
+    };
+    expect(tsProblems(fn(), [type])).toEqual([]);
+  });
+
+  it('keeps the prose default allowed for a component framework', () => {
+    expect(problemsOf({ props: [member({ required: false, description: 'The size. Defaults to 5.' })] })).toEqual([
+      'react/thing Thing.size: optional with no default; say what happens in a "When not set, …" sentence',
     ]);
   });
 });
