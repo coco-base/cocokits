@@ -7,11 +7,13 @@ import { resolveOverlayContainer } from './resolve-container';
 
 /** Options of {@link createPortalHost}. */
 export interface PortalHostOptions {
-  /** The trigger the overlay belongs to; its ancestors give the container, the modes and the direction. */
+  /** Returns the trigger the overlay belongs to, or `null` when it is gone. The host takes its container, modes and direction from the trigger. */
   readonly getTrigger: () => Element | null;
   /**
-   * The theme's `modeCollections`. The host copies the modes of the page-wide ones (those without a
-   * `componentName`) from the trigger. @defaultValue [] (no modes are copied)
+   * The mode collections of your theme, such as light and dark. The host copies the page-wide modes from the
+   * trigger, which are the collections without a `componentName`.
+   * When not set, no mode attribute is copied.
+   * @defaultValue []
    */
   readonly modeCollections?: readonly ModeCollection[] | undefined;
   /**
@@ -21,11 +23,11 @@ export interface PortalHostOptions {
   readonly getDirection?: (() => Direction) | undefined;
 }
 
-/** The element the portal adapter renders the overlay content into. */
+/** The element that holds the content of one overlay. */
 export interface PortalHost {
-  /** The host element, in the top layer. */
+  /** The host element. It is in the top layer. */
   readonly element: HTMLElement;
-  /** Removes the host and stops the sync. Idempotent. */
+  /** Removes the host and stops the sync. Calling it again does nothing. */
   destroy(): void;
 }
 
@@ -59,20 +61,32 @@ function relocate(host: HTMLElement, trigger: Element | null): void {
 }
 
 /**
- * Creates the host of one overlay: a `popover="manual"` element appended to the container of the
- * trigger (see {@link resolveOverlayContainer}) and shown, so it sits in the top layer above earlier
- * layers and is not clipped by an ancestor's `overflow` or `transform`. It carries the trigger's
- * `dir` and mode attributes and follows their changes. It never moves nodes other than its own host,
- * on a fullscreen change: a fullscreen element is drawn above hosts shown earlier, so every open host
- * then moves to the container of the trigger (the fullscreen element, or back) and is shown again, in
- * creation order, with its focus kept. The framework portal renders into `element`, which stays the same. Call it in the browser when the overlay opens.
+ * Creates the element that holds an overlay, such as a popup or a menu. The host is shown in the top layer, so it
+ * is drawn above earlier layers and is not clipped by an ancestor's `overflow` or `transform`.
  *
- * Inline styles on the host are allowed because the host is not a part: it is the only element a
- * shared layer adds.
+ * @remarks
+ * The host is a `popover="manual"` element. It is appended to the container that
+ * {@link resolveOverlayContainer} returns for the trigger, and then shown.
  *
- * @param options - The trigger, the theme's mode collections and the direction.
- * @returns The host; call `destroy()` when the overlay closes.
- * @throws When there is no trigger; the host cannot find its container without one.
+ * It carries the `dir` and the mode attributes of the trigger, and it follows their changes. Modes are
+ * copied only when you pass `modeCollections`. Without them, only `dir` is copied.
+ *
+ * When an element goes fullscreen, it is drawn above the hosts shown earlier. Every open host then moves to
+ * the container of its trigger, in creation order, and is shown again with its focus kept. Only the hosts
+ * move. The `element` stays the same, so content you rendered into it stays too.
+ *
+ * Call it in the browser when the overlay opens. The host has inline styles, because it is not part of your
+ * component: it is the one element that this module adds.
+ *
+ * @param options - The trigger, the mode collections and the direction.
+ * @returns The host. Call `destroy()` when the overlay closes.
+ * @throws When there is no trigger, because the host cannot find its container without one.
+ * @example
+ * const trigger = document.querySelector<HTMLElement>('#trigger')!;
+ * const host = createPortalHost({ getTrigger: () => trigger });
+ * host.element.append(document.createTextNode('Overlay content'));
+ * // When the overlay closes:
+ * host.destroy();
  */
 export function createPortalHost(options: PortalHostOptions): PortalHost {
   const trigger = options.getTrigger();

@@ -13,12 +13,15 @@ function fieldsetDisables(fieldset: Element, element: Element): boolean {
 }
 
 /**
- * Whether an ancestor `fieldset[disabled]` disables the element (HTML "concept-fe-disabled"). The
- * element's own `disabled` attribute is not looked at, and neither is a disabled fieldset whose
- * first `legend` contains the element.
+ * Whether an ancestor `fieldset[disabled]` disables the element, as HTML defines it.
+ * The element's own `disabled` attribute is not read.
+ * A disabled fieldset does not count when its first `legend` contains the element.
  *
  * @param element - The control to check.
  * @returns `true` when a disabling ancestor fieldset exists.
+ * @example
+ * const input = document.querySelector<HTMLInputElement>('input')!;
+ * console.log(isDisabledByFieldset(input));
  */
 export function isDisabledByFieldset(element: Element): boolean {
   let fieldset = element.parentElement?.closest('fieldset[disabled]') ?? null;
@@ -46,13 +49,22 @@ function acquire(doc: Document): Registry | null {
 }
 
 /**
- * Reports whether an ancestor fieldset disables the element: once now, then whenever a fieldset's
- * `disabled` attribute changes and the answer differs. A move into a disabled fieldset is seen on
- * the next change. Observers are per document and ref-counted.
+ * Reports whether an ancestor fieldset disables the element. It reports once now, then again whenever the
+ * `disabled` attribute of a fieldset changes and the answer is different.
+ *
+ * @remarks
+ * A move into a disabled fieldset is seen on the next change. One observer serves each document.
  *
  * @param element - The control to watch.
  * @param onChange - Called with the current answer, then with each different answer.
- * @returns An idempotent cleanup.
+ * @returns The stop function. Calling it again does nothing.
+ * @example
+ * const input = document.querySelector<HTMLInputElement>('input')!;
+ * const stop = watchFieldsetDisabled(input, (disabled) => {
+ *   input.toggleAttribute('data-disabled', disabled);
+ * });
+ * // Later, when you are done:
+ * stop();
  */
 export function watchFieldsetDisabled(element: Element, onChange: (disabled: boolean) => void): () => void {
   let last = isDisabledByFieldset(element);

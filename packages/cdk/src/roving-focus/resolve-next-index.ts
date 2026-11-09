@@ -1,27 +1,33 @@
 import type { Direction } from '@cocokits/shared';
 
-/** Which arrow keys move through the items. */
+/**
+ * Which arrow keys move through the items.
+ *
+ * @cckValue horizontal - Only the left and right arrows move.
+ * @cckValue vertical - Only the up and down arrows move.
+ * @cckValue both - All four arrows move.
+ */
 export type RovingOrientation = 'horizontal' | 'vertical' | 'both';
 
 /** One item of a composite widget, read live by the caller. */
 export interface RovingItem {
-  /** The item's element (the one that takes focus under the `focus` strategy). */
+  /** The element of the item. With the `'focus'` strategy, this element takes focus. */
   readonly element: HTMLElement;
-  /** Disabled items are skipped by every key but stay visible. */
+  /** Whether the item is disabled. Every key skips a disabled item, but the item stays visible. */
   readonly disabled: boolean;
-  /** The text typeahead matches against; the element's text content when omitted. */
+  /** The text that typeahead matches against. When not set, the text content of the element is used. */
   readonly text?: string | undefined;
 }
 
 /** Input of {@link resolveNextIndex}. */
 export interface NextIndexInput {
-  /** `KeyboardEvent.key`. */
+  /** The `key` of the keyboard event. */
   readonly key: string;
   /** The number of items. */
   readonly count: number;
-  /** The current index, or `-1` when none is current. */
+  /** The current index, or `-1` when no item is current. */
   readonly current: number;
-  /** Whether the item at the index is disabled. */
+  /** Returns whether the item at the index is disabled. */
   readonly isDisabled: (index: number) => boolean;
   /**
    * Which arrow keys move through the items.
@@ -38,7 +44,7 @@ export interface NextIndexInput {
    * @defaultValue 'ltr'
    */
   readonly dir?: Direction | undefined;
-  /** The step of PageUp and PageDown; both are unhandled without it. */
+  /** The number of items that PageUp and PageDown move. When not set, both keys are not handled. */
   readonly pageSize?: number | undefined;
 }
 
@@ -64,7 +70,7 @@ function direction(input: NextIndexInput): 1 | -1 | null {
   return null;
 }
 
-/** PageUp and PageDown: a jump of `pageSize` that lands on the nearest enabled item; unhandled without a size. */
+/** PageUp and PageDown: a jump of `pageSize` that lands on the nearest enabled item. Without a size, the key is not handled. */
 function resolvePage(input: NextIndexInput): number | null {
   if (!input.pageSize || input.pageSize <= 0) return null;
   const step = input.key === 'PageDown' ? 1 : -1;
@@ -74,18 +80,28 @@ function resolvePage(input: NextIndexInput): number | null {
 }
 
 /**
- * Decides which index a key moves to, skipping disabled items. Horizontal arrows flip in `rtl`;
- * vertical ones never do. Pure.
+ * Decides which index a key moves to, and skips disabled items. It is a pure function.
+ * Horizontal arrows flip in `rtl`, and vertical arrows never do.
  *
- * - Arrows step to the next or previous enabled item; with `loop` they wrap, without it they stop at
- *   the end (the current index is returned).
- * - Home and End go to the first and last enabled item.
- * - PageUp and PageDown move by `pageSize` without wrapping and land on the nearest enabled item.
- * - With no current item (`-1`) a forward key goes to the first enabled item, a backward key to the last.
+ * @remarks
+ * - An arrow steps to the next or previous enabled item. With `loop` it wraps around. Without `loop` it stops at the end and returns the current index.
+ * - Home and End go to the first and the last enabled item.
+ * - PageUp and PageDown move by `pageSize` without wrapping, and land on the nearest enabled item.
+ * - With no current item (`-1`), a forward key goes to the first enabled item and a backward key to the last.
+ *
+ * Without `orientation`, all four arrows move. Without `loop`, the arrows stop at the ends. Without `dir`, the direction is `'ltr'`.
  *
  * @param input - The key, the list and the options.
- * @returns The new index (the current one when it cannot move), or `null` when the key is not handled
- * or no item is enabled.
+ * @returns The new index. It is the current index when the item cannot move. It is `null` when the key is not handled or no item is enabled.
+ * @example
+ * const next = resolveNextIndex({
+ *   key: 'ArrowRight',
+ *   count: 3,
+ *   current: 2,
+ *   isDisabled: () => false,
+ *   loop: true,
+ * });
+ * console.log(next); // 0
  */
 export function resolveNextIndex(input: NextIndexInput): number | null {
   if (input.count <= 0) return null;
@@ -102,12 +118,18 @@ export function resolveNextIndex(input: NextIndexInput): number | null {
 }
 
 /**
- * The index that holds the single tab stop: the selected item while it exists and is enabled,
- * otherwise the first enabled item. Computed from the items alone, so server and client agree.
+ * Finds the index of the item that holds the single tab stop. It is the selected item while that item exists and
+ * is enabled. Otherwise it is the first enabled item.
+ *
+ * @remarks
+ * The result comes from the items alone, so a server and a browser agree.
  *
  * @param items - The items in DOM order.
  * @param selectedIndex - The selected index, or `-1`.
- * @returns The tab stop index, or `-1` when every item is disabled.
+ * @returns The index of the tab stop, or `-1` when every item is disabled.
+ * @example
+ * const stop = resolveTabStop([{ disabled: true }, { disabled: false }], -1);
+ * console.log(stop); // 1
  */
 export function resolveTabStop(items: readonly { readonly disabled: boolean }[], selectedIndex: number): number {
   if (items[selectedIndex] && !items[selectedIndex].disabled) return selectedIndex;

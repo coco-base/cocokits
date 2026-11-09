@@ -9,53 +9,91 @@ const DEFAULT_DISMISS_ON: readonly DismissReason[] = ['escape', 'outside-press']
 
 /** Options of {@link createDismissLayer}. */
 export interface DismissLayerOptions {
-  /** Elements that count as inside: the trigger and the content. Layers opened from this one count as inside automatically. */
+  /**
+   * Returns the elements that count as inside the layer, which are usually the trigger and the content.
+   * Layers opened from this one count as inside automatically.
+   *
+   * The layer needs at least one element to find its document. With none, the layer is inert: it registers nothing and raises no intent.
+   */
   readonly getInsideElements: () => readonly (Element | null)[];
-  /** Called for each intent; call `intent.preventDefault()` to refuse, otherwise close. The layer never closes anything itself. */
+  /** Called for each request to close. Call `intent.preventDefault()` to refuse it, or close the overlay. The layer never closes anything itself. */
   readonly onDismiss: (intent: DismissIntent) => void;
-  /** The causes this layer listens for. An outside press and a focus-out skip a layer that does not listen and go on below it; Escape considers only the topmost layer, so a topmost layer that does not listen leaves Escape unhandled. @defaultValue ['escape', 'outside-press'] */
+  /**
+   * The causes this layer listens for.
+   * An outside press and a focus-out skip a layer that does not listen and go on to the layer below it.
+   *
+   * Escape goes only to the topmost layer. When that layer does not listen for Escape, Escape is not handled.
+   * @defaultValue ['escape', 'outside-press']
+   */
   readonly dismissOn?: readonly DismissReason[] | undefined;
-  /** The layer this one opened from (a popover inside a dialog), read when the stack is used. A press inside this layer is inside the parent too, and this layer is always above the parent. */
+  /**
+   * Returns the layer that this one opened from, such as a popup inside a dialog. It is read when the stack is used.
+   * A press inside this layer is also inside the parent, and this layer is always above the parent.
+   *
+   * When not set, the layer has no parent.
+   */
   readonly getParent?: (() => DismissLayer | null) | undefined;
   /**
-   * A native `<dialog>`: a barrier for the layers below it while it is modal; its `cancel` is routed through the stack
-   * as `escape`. A dialog that is open but not modal (`show()`) is no barrier: it is a layer like a non-modal popover.
+   * Returns the native `<dialog>` of the layer. While the dialog is modal it is a barrier for the layers below it, and its `cancel` event is raised as `escape`.
+   *
+   * A dialog that is open but not modal, opened with `show()`, is no barrier. It is a layer like a popup.
+   *
+   * When not set, the layer has no native dialog.
    */
   readonly getNativeDialog?: (() => HTMLDialogElement | null) | undefined;
-  /** `true` makes a layer without a native dialog a barrier too (a popover whose outside is inert): an outside press or focus-out ends the walk here. @defaultValue false */
+  /**
+   * Whether a layer without a native dialog is a barrier too, such as a popup whose outside is inert.
+   * An outside press or a focus-out then ends the walk at this layer.
+   * @defaultValue false
+   */
   readonly modal?: boolean | undefined;
 }
 
 /** A registered layer. */
 export interface DismissLayer {
   /**
-   * Stops intents at once. Containment, and a modal's barrier, stay until `destroy()`: call it when the overlay
-   * starts to close, then `destroy()` when a modal has left the document. Idempotent.
+   * Stops requests to close at once. Call it when the overlay starts to close.
+   * The layer still counts as inside, and a modal layer stays a barrier, until you call `destroy()`.
+   *
+   * Calling it again does nothing.
    */
   exit(): void;
-  /** Removes the layer from the stack. Idempotent. */
+  /** Removes the layer from the stack. Call it when a modal has left the document. Calling it again does nothing. */
   destroy(): void;
 }
 
 /**
- * Registers an open overlay in the per-document layer stack and raises a cancelable {@link DismissIntent}
- * for each cause it listens for.
+ * Registers an open overlay and asks you to close it when the user presses Escape, presses outside it, or moves
+ * focus out of it. Each request is a {@link DismissIntent} that you can refuse.
  *
- * - Escape goes to the topmost layer only, in the bubble phase, so an element inside that stops or prevents the
- *   keydown keeps every layer open. A handled Escape is default-prevented, so a dialog's native `cancel` does not
- *   follow. A keydown while composing is ignored. A `cancel` with no key before it is a close request and is
- *   raised as `escape`.
- * - An outside press or a focus-out walks the stack from the top down: a layer that contains the target ends the
- *   walk, a layer that does not listen is skipped, a modal ends the walk. The collected layers get their intents
- *   top-down and a refused intent stops the rest. A touch press is decided at `pointerdown` and dispatched on the
- *   `click` that follows; a press on a scrollbar never counts.
+ * @remarks
+ * Open overlays form one stack for each document. The layer never closes anything. You decide in `onDismiss`.
  *
- * Create it after the content is mounted: the document comes from the first element of `getInsideElements()` (or
- * the native dialog). With no element yet, nothing is registered. Inside and outside are decided from the
- * registered elements, never from DOM nesting.
+ * **Escape.** It goes to the topmost layer only, in the bubble phase. An element inside that stops or prevents the
+ * keydown keeps every layer open. A handled Escape is default-prevented, so a dialog's native `cancel` does not follow.
+ * A keydown while composing text is ignored. A `cancel` with no key before it is a close request, and it is raised as `escape`.
+ *
+ * **Outside press and focus-out.** They walk the stack from the top down. A layer that contains the target ends the walk.
+ * A layer that does not listen for the cause is skipped. A modal layer ends the walk. The collected layers get their
+ * intents from the top down, and a refused intent stops the rest. A touch press is decided at `pointerdown` and raised
+ * on the `click` that follows. A press on a scrollbar never counts.
+ *
+ * Create the layer after the content is in the document. The document comes from the first element of
+ * `getInsideElements()`, or from the native dialog. With no element, the layer is inert: nothing is registered and no
+ * request is raised. Inside and outside come from the elements you return, never from DOM nesting.
  *
  * @param options - The inside elements, the callback and the causes.
- * @returns The layer; call `exit()` when the overlay starts to close and `destroy()` when it is gone.
+ * @returns The layer. Call `exit()` when the overlay starts to close and `destroy()` when it is gone.
+ * @example
+ * const panel = document.querySelector<HTMLElement>('#panel')!;
+ * const layer = createDismissLayer({
+ *   getInsideElements: () => [panel],
+ *   onDismiss: (intent) => {
+ *     if (intent.reason === 'escape') panel.hidden = true;
+ *   },
+ * });
+ * // When the panel is gone:
+ * layer.destroy();
  */
 export function createDismissLayer(options: DismissLayerOptions): DismissLayer {
   const doc = [...options.getInsideElements(), options.getNativeDialog?.() ?? null].find(Boolean)?.ownerDocument;

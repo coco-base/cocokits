@@ -83,17 +83,26 @@ function bodyBorders(body: HTMLElement, view: Window): number {
 }
 
 /**
- * Locks the scroll of a document: sets `overflow: hidden` on the root element and pads it on the right
- * by the scrollbar width so the page does not shift. It does nothing when the page does not scroll (the
- * root and the body fit); adds no padding when the root has
- * `scrollbar-gutter: stable`, which keeps the layout; and also hides and pads `<body>` when the body is
- * a scroll container of its own. While it holds, `--scrollbar-width` on `<html>` is the width in px
- * the lock padded (written only above 0), for fixed elements to offset with
- * `right: var(--scrollbar-width, 0px)`. Locks are counted per document; the last unlock restores the
- * previous inline values and removes the variable. Call it when a modal overlay opens.
+ * Stops a document from scrolling while a modal overlay is open, and keeps the page from shifting.
+ * It sets `overflow: hidden` on the root element and adds right padding for the width of the scrollbar.
+ *
+ * @remarks
+ * - It does nothing when the page does not scroll, which is when the root and the body fit.
+ * - It adds no padding when the root has `scrollbar-gutter: stable`, because that keeps the layout.
+ * - It also hides and pads `<body>` when the body is a scroll container of its own.
+ *
+ * While the lock holds, the custom property `--scrollbar-width` on `<html>` is the width in px that the lock padded. It is
+ * written only above `0`. Use it to offset fixed elements, for example `right: var(--scrollbar-width, 0px)`.
+ *
+ * Locks are counted for each document. The last unlock restores the previous inline values and removes the custom property.
+ * Call it when a modal overlay opens.
  *
  * @param doc - The document to lock.
- * @returns An idempotent unlock; call it when the overlay closes.
+ * @returns The unlock function. Call it when the overlay closes. Calling it again does nothing.
+ * @example
+ * const unlock = lockScroll(document);
+ * // When the overlay closes:
+ * unlock();
  */
 export function lockScroll(doc: Document): () => void {
   let lock = locks.get(doc);

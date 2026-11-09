@@ -16,63 +16,114 @@ import type {
 
 /** Options of {@link startOverlayPosition}. */
 export interface OverlayPositionOptions {
-  /** The element or virtual anchor the content is placed against; `null` while it is not rendered. */
+  /** Returns the element or virtual anchor that the content is placed against, or `null` while it is not rendered. */
   readonly getAnchor: () => Element | OverlayVirtualAnchor | null;
-  /** The overlay content; `null` while it is not rendered. */
+  /** Returns the overlay content, or `null` while it is not rendered. */
   readonly getContent: () => HTMLElement | null;
   /**
-   * The wanted side.
+   * The side of the anchor that you want the content on. It can flip to the opposite side when there is no room.
    * @defaultValue 'bottom'
    */
   readonly side?: OverlaySide | undefined;
   /**
-   * The wanted alignment.
+   * How you want the content to line up along the edge of the anchor.
    * @defaultValue 'center'
    */
   readonly align?: OverlayAlign | undefined;
   /**
-   * The direction of the overlay. It is read on every position update.
-   * @defaultValue The computed `direction` of the anchor, read on every call (of the content for a virtual anchor).
+   * Returns the text direction of the overlay. The function is read on every position update.
+   * @defaultValue The computed `direction` of the anchor, read on every call. For a virtual anchor without a `contextElement`, it is the direction of the content.
    */
   readonly getDirection?: (() => Direction) | undefined;
-  /** Called with the side and alignment after flip and shift, when they change (and after the first measure). */
+  /** Called with the side and alignment that were used, after flip and shift. It runs after the first measure and again when they change. */
   readonly onPlacementChange: (placement: { side: OverlaySide; align: OverlayAlign }) => void;
-  /** The gap between anchor and content in px. When given, the content's `--side-offset` is not read. */
+  /**
+   * The gap between the anchor and the content, in px. When you set it, the `--side-offset` custom property of the content is not read.
+   * When not set, the gap is the computed `--side-offset` of the content, or `0` when that is not set either.
+   */
   readonly sideOffset?: number;
-  /** Moves the content along the anchor's edge, away from the aligned edge, in px. No effect with `align: 'center'`. Default `0`. */
+  /**
+   * Moves the content along the edge of the anchor, away from the aligned edge, in px. It has no effect with `align: 'center'`.
+   * @defaultValue 0
+   */
   readonly alignOffset?: number;
-  /** `false` turns flip and shift off: the content keeps the wanted side and alignment. Default `true`. */
+  /**
+   * Whether the content flips and shifts to stay in view. With `false`, the content keeps the side and alignment you asked for.
+   * @defaultValue true
+   */
   readonly avoidCollisions?: boolean;
-  /** The distance from the viewport edges that flip, shift, size and the hidden check keep. Default `5`. */
+  /**
+   * The distance in px that the content keeps from the viewport edges. A number applies to all four edges, and an object sets single edges.
+   * Flip, shift, the size check and the hidden check all use it.
+   * @defaultValue 5
+   */
   readonly collisionPadding?: OverlayCollisionPadding;
-  /** `partial` keeps the content in view along the edge only while the anchor is partly in view; `always` keeps it in view regardless. Default `partial`. */
+  /**
+   * How the content stays in view along the edge of the anchor.
+   * `'partial'` keeps it in view only while the anchor is partly in view, and `'always'` keeps it in view in every case.
+   * @defaultValue 'partial'
+   */
   readonly sticky?: OverlaySticky;
-  /** Reports through `onAnchorHiddenChange` when the anchor is fully hidden by its clipping ancestors. Default `false`. */
+  /**
+   * Whether to report, through `onAnchorHiddenChange`, when the anchor is fully hidden by its clipping ancestors.
+   * @defaultValue false
+   */
   readonly hideWhenDetached?: boolean;
   /**
-   * Called with `true` when the anchor becomes fully hidden, with `false` when it is visible again and
-   * when the position stops while hidden. Only with `hideWhenDetached`.
+   * Called with `true` when the anchor becomes fully hidden, and with `false` when it is visible again.
+   * It also runs with `false` when the position stops while the anchor is hidden.
+   * It runs only with `hideWhenDetached`.
    */
   readonly onAnchorHiddenChange?: (hidden: boolean) => void;
-  /** The arrow part inside the content; `null` or unset: no arrow. Measured once when the position starts. */
+  /** Returns the arrow element inside the content. It is measured once, when the position starts. When not set, or when it returns `null`, there is no arrow. */
   readonly getArrow?: () => Element | null;
-  /** The distance in px between the arrow and the content's corners. Default `0`. */
+  /**
+   * The distance in px between the arrow and the corners of the content.
+   * @defaultValue 0
+   */
   readonly arrowPadding?: number;
-  /** Reports the arrow as hidden while it cannot point at the anchor's centre. `false` never reports it. Default `true`. */
+  /**
+   * Whether to report the arrow as hidden while it cannot point at the centre of the anchor. With `false`, it is never reported.
+   * @defaultValue true
+   */
   readonly hideShiftedArrow?: boolean;
-  /** Called with `true` when the arrow cannot point at the anchor and should be hidden, with `false` when it can again and when the position stops while hidden. */
+  /**
+   * Called with `true` when the arrow cannot point at the anchor and should be hidden, and with `false` when it can again.
+   * It also runs with `false` when the position stops while the arrow is hidden.
+   */
   readonly onArrowHiddenChange?: (hidden: boolean) => void;
-  /** Elements the content must also stay inside, besides the viewport; `null` entries are ignored. Default none. */
+  /**
+   * Elements that the content must also stay inside, besides the viewport. `null` entries are ignored.
+   * @defaultValue [] (no extra boundary)
+   */
   readonly collisionBoundary?: Element | null | readonly (Element | null)[];
-  /** `always` re-places the content on every animation frame; `optimized` only when something moved. Default `optimized`. */
+  /**
+   * When the content is placed again.
+   *
+   * @cckValue optimized - Places the content only when something moved.
+   * @cckValue always - Places the content on every animation frame.
+   * @defaultValue 'optimized'
+   */
   readonly updatePositionStrategy?: 'optimized' | 'always';
-  /** Whether the content may flip to the opposite side. Default `true`. */
+  /**
+   * Whether the content may flip to the opposite side.
+   * @defaultValue true
+   */
   readonly sideFlip?: boolean;
-  /** Whether the alignment may flip to the opposite one. Default `true`. */
+  /**
+   * Whether the alignment may flip to the opposite one.
+   * @defaultValue true
+   */
   readonly alignFlip?: boolean;
-  /** `true` also shifts the content along the side axis, so it stays in view even when it covers the anchor. Default `false`. */
+  /**
+   * Whether the content also shifts along the side axis, so it stays in view even when it covers the anchor.
+   * @defaultValue false
+   */
   readonly prioritizePosition?: boolean;
-  /** `true` does not re-place the content when the layout shifts (the element resizes or moves without scrolling). Default `false`. */
+  /**
+   * Whether to skip placing the content again when the layout shifts, which is when an element resizes or moves without scrolling.
+   * @defaultValue false
+   */
   readonly disableUpdateOnLayoutShift?: boolean;
 }
 
@@ -181,29 +232,49 @@ function buildMiddleware(
 }
 
 /**
- * Places an overlay's content next to its anchor with Floating UI (this module is the only importer of
- * `@floating-ui/dom`). The strategy is `fixed`; the middlewares are offset, shift, flip (flip, shift with `prioritizePosition`), size and, with
- * `hideWhenDetached`, hide, plus the arrow and the transform origin; the position follows scroll, resize and layout changes until the returned
- * stop is called.
+ * Places the content of an overlay next to its anchor, and keeps it there while the page scrolls, resizes or changes.
+ * It uses the `fixed` position strategy. It stops when you call the function it returns.
  *
- * It writes inline styles on the content and nothing else: `position: fixed` with `top: 0; left: 0`
- * at the start (so the content never takes space in flow or flashes before the first measure), then
- * `top` and `left` from each update, and the measured geometry `--anchor-width`,
- * `--available-width` and `--available-height`. The gap is `sideOffset` when given; otherwise the
- * content's computed `--side-offset` (a px, rem or em length the theme sets; `0` when unset), read once
- * when the position starts. With the theme's `<length>` registration the browser computes `calc()`,
- * `rem` and `em` to px; without it a plain px, rem or em number is still parsed. The anchor may be a
- * virtual anchor; auto update then follows the ancestors of its `contextElement`. `hideWhenDetached`
- * writes no style: the fact goes out through `onAnchorHiddenChange`. The content also gets `--transform-origin`,
- * the point where it meets its anchor (the arrow tip with an arrow). With an arrow part (`getArrow`), the
- * gap grows by the arrow's height, measured once at the start, and the arrow gets `position: absolute`, its
- * edge, offset and a turn inline; whether it cannot point at the anchor goes out through `onArrowHiddenChange`
- * (the adapter renders the native `hidden`; the module never writes `display` or `visibility`). The resolved side and alignment
- * are reported as logical values through `onPlacementChange`; the machine renders them as `data-side`
- * and `data-align`. Nothing is created, moved or read back from the DOM.
+ * @remarks
+ * It writes inline styles on the content and nothing else. At the start it sets `position: fixed` with
+ * `top: 0` and `left: 0`, so the content never takes space or flashes before the first measure. Each update then
+ * sets `top` and `left`.
  *
- * @param options - The anchor, the content, the wanted placement, the optional positioning options and the callbacks.
- * @returns The stop; call it when the overlay closes. Idempotent.
+ * It also writes the custom properties `--anchor-width`, `--available-width` and `--available-height`, which hold the
+ * measured geometry. Your CSS can use them to size the content. It writes `--transform-origin` too, which is the
+ * point where the content meets its anchor, or the tip of the arrow when there is an arrow.
+ *
+ * The gap between anchor and content is `sideOffset` when you set it. Otherwise it is the computed
+ * `--side-offset` of the content, read once when the position starts. Your theme can set `--side-offset` as a length
+ * in px, rem or em. When it is not set, the gap is `0`.
+ *
+ * The anchor can be a virtual anchor. Updates then follow the scrolling ancestors of its `contextElement`.
+ *
+ * With an arrow element, the gap grows by the height of the arrow, measured once at the start. The arrow gets
+ * `position: absolute`, its edge, its offset and a turn as inline styles. When it cannot point at the anchor,
+ * `onArrowHiddenChange` reports it. The function never writes `display` or `visibility`, so you hide the arrow yourself.
+ *
+ * The side and alignment that were used are reported as logical values through `onPlacementChange`. You can write
+ * them as `data-side` and `data-align`. A change of `dir` on an ancestor places the content again.
+ *
+ * @param options - The anchor, the content, the placement, the optional settings and the callbacks.
+ * @returns The stop function. Call it when the overlay closes. Calling it again does nothing.
+ * @example
+ * const anchor = document.querySelector<HTMLElement>('#anchor')!;
+ * const content = document.querySelector<HTMLElement>('#content')!;
+ * const stop = startOverlayPosition({
+ *   getAnchor: () => anchor,
+ *   getContent: () => content,
+ *   side: 'bottom',
+ *   align: 'start',
+ *   sideOffset: 8,
+ *   onPlacementChange: ({ side, align }) => {
+ *     content.dataset['side'] = side;
+ *     content.dataset['align'] = align;
+ *   },
+ * });
+ * // When the overlay closes:
+ * stop();
  */
 export function startOverlayPosition(options: OverlayPositionOptions): () => void {
   const anchor = options.getAnchor();

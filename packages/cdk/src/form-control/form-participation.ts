@@ -2,37 +2,43 @@ import { watchFieldsetDisabled } from './fieldset-disabled';
 
 /** Options shared by both modes of {@link createFormParticipation}. */
 export interface FormParticipationBaseOptions {
-  /** Called after an uncanceled reset of the owner form, once the browser has reset the element. */
+  /** Called after a reset of the owner form that nobody canceled, once the browser has reset the element. */
   readonly onReset?: ((event: Event) => void) | undefined;
-  /** Called with whether an ancestor fieldset disables the element; once after creation, then on change. */
+  /** Called with whether an ancestor fieldset disables the element. It runs once after creation, then on each change. */
   readonly onFieldsetDisabledChange?: ((disabled: boolean) => void) | undefined;
-  /** Called with `true` on every `submit` event of the owner form (canceled ones included), and with `false` after an uncanceled reset. */
+  /**
+   * Called with `true` on every `submit` event of the owner form, canceled ones included.
+   * Called with `false` after a reset that nobody canceled.
+   */
   readonly onSubmittedChange?: ((submitted: boolean) => void) | undefined;
 }
 
-/** Text mode: `syncValue()` writes `.value`. */
+/** Text mode: `syncValue()` writes the `value` of the element. */
 export interface FormParticipationTextOptions extends FormParticipationBaseOptions {
   /**
-   * The native text control, after mount. A `button` (the trigger of a custom control such as the Select)
-   * takes part for the reset, the submit attempt and the disabling fieldset; its own `value` is left alone if
-   * `getValue` returns it.
+   * The native text control, after it is in the document.
+   * A `button` also works, as the trigger of a custom control.
+   *
+   * A button takes part in the reset, the submit attempt and the disabling fieldset. Its own `value` is left alone when `getValue` returns it.
    */
   readonly element: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement;
-  /** The model value as the DOM should show it; read on every sync. */
+  /** Returns the value the element should show. It is read on every sync. */
   readonly getValue: () => string;
+  /** Not used in text mode. Leave it out; it is the key that tells the two modes apart. */
   readonly getChecked?: undefined;
 }
 
-/** Checked mode: `syncValue()` writes `.checked`. */
+/** Checked mode: `syncValue()` writes the `checked` state of the element. */
 export interface FormParticipationCheckedOptions extends FormParticipationBaseOptions {
-  /** The native checkbox or radio, after mount. */
+  /** The native checkbox or radio, after it is in the document. */
   readonly element: HTMLInputElement;
-  /** The model's checked state as the DOM should show it; read on every sync. */
+  /** Returns the checked state the element should show. It is read on every sync. */
   readonly getChecked: () => boolean;
+  /** Not used in checked mode. Leave it out; it is the key that tells the two modes apart. */
   readonly getValue?: undefined;
   /**
-   * Radio: called with the `change` event when the user checked another radio of the same group
-   * (same non-empty `name`, form owner and root node) and this element is now unchecked.
+   * For a radio. Called with the `change` event when the user checks another radio of the same group, so this one is now unchecked.
+   * The group has the same non-empty `name`, the same form owner and the same root node.
    */
   readonly onUncheckedByGroup?: ((event: Event) => void) | undefined;
 }
@@ -42,23 +48,42 @@ export type FormParticipationOptions = FormParticipationTextOptions | FormPartic
 
 /** The handle {@link createFormParticipation} returns. */
 export interface FormParticipation {
-  /** Writes `getValue()` (or `getChecked()`) to the element when the two differ. Does nothing after `destroy()`. */
+  /** Writes the result of `getValue()` or `getChecked()` to the element when it differs. After `destroy()` it does nothing. */
   syncValue(): void;
-  /** Removes every listener and observer; idempotent. */
+  /** Removes every listener and observer. Calling it again does nothing. */
   destroy(): void;
 }
 
 /**
- * Lets a native text, checkbox or radio control take part in its owner form: reports a reset, a submit attempt and a
- * disabling fieldset, and writes the model value (`value` or `checked`) to the element. In checked mode it also reports
- * a radio that another radio of its group unchecked, from a `change` listener on the radio's root node (the
- * document or its shadow root; `change` is not composed). The owner is read when the event
- * happens, so a change of the `form` attribute or a move needs no re-setup. A reset is reported
- * in a later task, after the browser has reset the element and every listener has run, so
- * a canceled reset reports nothing. Create it after mount; it touches no DOM at import.
+ * Lets a native text, checkbox or radio control take part in its form. It reports a reset, a submit attempt
+ * and a disabling fieldset, and it writes your value to the element (`value` or `checked`).
  *
- * @param options - The element and the callbacks.
- * @returns The handle; call `destroy()` when the element goes away.
+ * @remarks
+ * The form is read when the event happens, so a change of the `form` attribute or a move needs no new setup.
+ *
+ * A reset is reported in a later task, after the browser has reset the element and every listener has run.
+ * A canceled reset reports nothing.
+ *
+ * In checked mode it also reports a radio that another radio of its group unchecked. It listens for `change`
+ * on the root node of the radio, which is the document or its shadow root, because `change` is not composed.
+ *
+ * Call it after the element is in the document. It touches no DOM when imported.
+ *
+ * @param options - The element, how to read the value, and the callbacks.
+ * @returns The handle. Call `destroy()` when the element goes away.
+ * @example
+ * const input = document.querySelector<HTMLInputElement>('input[name="colour"]')!;
+ * let value = 'red';
+ * const participation = createFormParticipation({
+ *   element: input,
+ *   getValue: () => value,
+ *   onReset: () => {
+ *     value = input.defaultValue;
+ *   },
+ * });
+ * participation.syncValue();
+ * // When the element goes away:
+ * participation.destroy();
  */
 export function createFormParticipation(options: FormParticipationOptions): FormParticipation {
   const { element } = options;

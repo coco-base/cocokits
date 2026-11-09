@@ -5,22 +5,24 @@ import { getTabbables } from './tabbables';
 
 /** Options of {@link connectFocusGuards}. */
 export interface FocusGuardsOptions {
-  /** The overlay content between the guards. */
+  /** Returns the overlay content that sits between the guards, or `null` while it is not rendered. */
   readonly getContent: () => HTMLElement | null;
-  /** The element that opened the overlay. */
+  /** Returns the element that opened the overlay, or `null` when it is gone. */
   readonly getTrigger: () => HTMLElement | null;
-  /** The start and the end guard the adapter rendered; `null` while one is not rendered. */
+  /** Returns the start guard and the end guard, or `null` for a guard that is not rendered. */
   readonly getGuards: () => readonly [HTMLElement | null, HTMLElement | null];
   /**
-   * `true` wraps Tab inside the content: the end guard sends focus to the first tabbable element of the
-   * content, the start guard to the last, and the trigger is not involved. For a modal overlay. Default `false`.
+   * Whether Tab wraps inside the content, for a modal overlay.
+   * The end guard sends focus to the first tabbable element of the content, and the start guard sends it to the last.
+   * The trigger is not involved.
+   * @defaultValue false
    */
   readonly loop?: boolean;
 }
 
 /** The connection of the guards. */
 export interface FocusGuards {
-  /** Removes the listener. Idempotent. */
+  /** Removes the listener. Calling it again does nothing. */
   destroy(): void;
 }
 
@@ -57,16 +59,32 @@ function wrapInside(
 }
 
 /**
- * Connects the focus guards of a non-modal overlay that takes focus. The moment the end guard receives
- * focus, Tab goes on to the element after the trigger in rendered order, shadow roots crossed (inside the modal dialog that holds the trigger, if any, where
- * it wraps to the start of the dialog when nothing follows); the moment the start guard does, Shift+Tab goes
- * to the trigger. A guard is never the focused element afterwards. The adapter renders the guards: two
- * empty `span tabindex="0"` without `aria-hidden`, visually hidden.
+ * Connects the focus guards of an overlay that takes focus but does not trap it, such as a popup next to its
+ * trigger. Tab leaves the overlay in the right place, and focus never stays on a guard.
+ *
+ * @remarks
+ * You render the guards: two empty `span` elements with `tabindex="0"`, visually hidden, without `aria-hidden`.
+ * Put one before the content and one after it.
+ *
+ * When the end guard gets focus, Tab goes on to the element after the trigger, in rendered order and across
+ * shadow roots. When the start guard gets focus, Shift+Tab goes to the trigger. When no element follows the
+ * trigger, focus is removed from the page. Inside a modal dialog that holds the trigger, Tab wraps to the start of the dialog.
  *
  * With `loop`, Tab and Shift+Tab wrap inside the content instead.
  *
- * @param options - Getters for the content, trigger and guards, and `loop`.
- * @returns The connection.
+ * @param options - Functions that return the content, the trigger and the guards, and the `loop` flag.
+ * @returns The connection. Call `destroy()` when the overlay closes.
+ * @example
+ * const trigger = document.querySelector<HTMLElement>('#trigger')!;
+ * const content = document.querySelector<HTMLElement>('#content')!;
+ * const guards = [...document.querySelectorAll<HTMLElement>('.guard')] as [HTMLElement, HTMLElement];
+ * const connection = connectFocusGuards({
+ *   getContent: () => content,
+ *   getTrigger: () => trigger,
+ *   getGuards: () => guards,
+ * });
+ * // When the overlay closes:
+ * connection.destroy();
  */
 export function connectFocusGuards(options: FocusGuardsOptions): FocusGuards {
   const doc = (options.getTrigger() ?? options.getContent())?.ownerDocument;
