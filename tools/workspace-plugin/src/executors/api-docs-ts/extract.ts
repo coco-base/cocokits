@@ -23,24 +23,30 @@ function functionOf(declaration: ts.Declaration): FunctionLike | undefined {
 /** A tag text with links as plain text, on one line. */
 const plain = (text: string): string => withoutLinks(text).replace(/\s+/g, ' ').trim();
 
-/** The `@typeParam` texts by type parameter name, read as the `@param` texts are. */
-function typeParamTextsOf(doc: TsDocText): Map<string, string> {
+/** The texts of a `@param` or `@typeParam` tag by name; a tag text starts with the name and may continue after a dash. */
+function namedTagTextsOf(doc: TsDocText, tag: 'param' | 'typeParam'): Map<string, string> {
   const texts = new Map<string, string>();
-  for (const text of tagsOf(doc.tags, 'typeParam')) {
+  for (const text of tagsOf(doc.tags, tag)) {
     const match = /^(\S+)\s+(?:-\s+)?(\S[\s\S]*)$/.exec(text);
     if (match !== null) texts.set(match[1] ?? '', plain(match[2] ?? ''));
   }
   return texts;
 }
 
-/** The `@param` texts by parameter name; the text of a tag starts with the name and may continue after a dash. */
-function paramTextsOf(doc: TsDocText): Map<string, string> {
-  const texts = new Map<string, string>();
-  for (const text of tagsOf(doc.tags, 'param')) {
-    const match = /^(\S+)\s+(?:-\s+)?(\S[\s\S]*)$/.exec(text);
-    if (match !== null) texts.set(match[1] ?? '', plain(match[2] ?? ''));
+/** Adds a problem for each tag text whose name is none of the declared names. */
+function namedTagProblems(
+  label: string,
+  tag: 'param' | 'typeParam',
+  texts: ReadonlyMap<string, string>,
+  declared: readonly string[],
+  problems: string[],
+): void {
+  for (const known of texts.keys()) {
+    if (!declared.includes(known)) {
+      const what = tag === 'param' ? 'parameter' : 'type parameter';
+      problems.push(`${label}: "@${tag} ${known}" names no ${what} of the function`);
+    }
   }
-  return texts;
 }
 
 /** The `function` symbol of a declaration, with every parameter read from the source and its `@param` text. */
@@ -53,7 +59,7 @@ function functionSymbolOf(
   doc: TsDocText,
   problems: string[],
 ): ApiSymbolJson {
-  const texts = paramTextsOf(doc);
+  const texts = namedTagTextsOf(doc, 'param');
   const params = fn.parameters.map((parameter): ApiParamJson => {
     if (!ts.isIdentifier(parameter.name)) problems.push(`${label}: a parameter is destructured; give it a name`);
     const name = ts.isIdentifier(parameter.name) ? parameter.name.text : 'options';
@@ -67,11 +73,14 @@ function functionSymbolOf(
       description: texts.get(name) ?? '',
     };
   });
-  for (const known of texts.keys()) {
-    if (!params.some((param) => param.name === known))
-      problems.push(`${label}: "@param ${known}" names no parameter of the function`);
-  }
-  const typeTexts = typeParamTextsOf(doc);
+  namedTagProblems(
+    label,
+    'param',
+    texts,
+    params.map((param) => param.name),
+    problems,
+  );
+  const typeTexts = namedTagTextsOf(doc, 'typeParam');
   const typeParams = (fn.typeParameters ?? []).map((parameter): ApiTypeParamJson => {
     const name = parameter.name.text;
     return {
@@ -80,10 +89,13 @@ function functionSymbolOf(
       description: typeTexts.get(name) ?? '',
     };
   });
-  for (const known of typeTexts.keys()) {
-    if (!typeParams.some((param) => param.name === known))
-      problems.push(`${label}: "@typeParam ${known}" names no type parameter of the function`);
-  }
+  namedTagProblems(
+    label,
+    'typeParam',
+    typeTexts,
+    typeParams.map((param) => param.name),
+    problems,
+  );
   const signature = checker.getSignatureFromDeclaration(fn);
   const returnType =
     fn.type?.getText() ??
