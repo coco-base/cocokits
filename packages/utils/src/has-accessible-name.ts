@@ -41,6 +41,7 @@ export interface ChoiceLabelPart {
 }
 
 /** `Node.TEXT_NODE` and `Node.ELEMENT_NODE`, as numbers so the module needs no `Node` global (server rendering). */
+/** `Node.TEXT_NODE` and `Node.ELEMENT_NODE`, as numbers so the module needs no `Node` global (server rendering). */
 const TEXT_NODE = 3;
 const ELEMENT_NODE = 1;
 
