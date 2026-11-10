@@ -34,7 +34,10 @@ export interface RovingFocusOptions {
   readonly getDirection?: (() => Direction) | undefined;
   /** Returns the current index. It is read for `'active-descendant'`, and for `'focus'` when the event target is not an item. */
   readonly getCurrentIndex: () => number;
-  /** Called when a key moves to another item, with the new index and the reason (`'keyboard'` or `'typeahead'`). Update your state here. */
+  /**
+   * Called when a key moves to another item, with the new index and the reason (`'keyboard'` or `'typeahead'`).
+   * A press or a call to `focus()` does not call it, so also update your state when an item gets focus.
+   */
   readonly onActiveChange: (index: number, details: { reason: 'keyboard' | 'typeahead'; event: Event }) => void;
   /**
    * Whether printable keys move to the item whose text starts with what the user types.
@@ -78,10 +81,11 @@ function directionAt(target: EventTarget | null): Direction {
  *
  * @remarks
  * You attach `handleKeyDown` to the element you want, such as the list or the trigger. You own the tab
- * stop, see {@link resolveTabStop}, and you update your state from `onActiveChange`.
+ * stop, see {@link resolveTabStop}. Update your active index from `onActiveChange`, and also when an item gets focus,
+ * because a pointer press or `focus()` does not call `onActiveChange`.
  *
- * With the `'focus'` strategy, the current index is the item that holds the event target. Pointer focus and
- * code focus never leave a stale state.
+ * With the `'focus'` strategy, the current index is the item that holds the event target, so a key never starts from a
+ * stale index. That index is internal. It does not move your own tab stop.
  *
  * Only `getItems`, `strategy`, `getCurrentIndex` and `onActiveChange` are required. Without `orientation`, both arrow
  * axes move. Without `loop`, the arrows stop at the ends. Without `getDirection`, the text direction is read from the
