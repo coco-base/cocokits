@@ -108,15 +108,10 @@ const PROSE_DEFAULT = /(^|[.!?]\s+)Defaults?(?::|\s+(?:to|is)\b|\s+`)|\bdefaults
 function checkProseDefault(
   label: string,
   item: { description: string; remarks?: string },
-  framework: ApiDocJson['framework'],
+  framework: ApiDocJson['framework'] | undefined,
   problems: string[],
 ): void {
-  if (
-    framework === 'ts' &&
-    PROSE_DEFAULT.test(`${item.description}
-
-${item.remarks ?? ''}`)
-  )
+  if (framework === 'ts' && PROSE_DEFAULT.test([item.description, item.remarks ?? ''].join('\n\n')))
     problems.push(`${label}: a default is written as prose; use "@defaultValue" and leave it out of the text`);
 }
 
@@ -127,7 +122,7 @@ function checkMember(
   framework?: ApiDocJson['framework'],
 ): void {
   checkText(label, member, problems);
-  if (framework !== undefined) checkProseDefault(label, member, framework, problems);
+  checkProseDefault(label, member, framework, problems);
   checkProse(`${label} (deprecated)`, member.deprecated, problems);
   checkValues(label, member.type, member.values, problems);
 }

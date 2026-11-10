@@ -40,6 +40,7 @@ export interface ChoiceLabelPart {
   readonly childNodes: ArrayLike<{ readonly nodeType: number; readonly textContent: string | null }>;
 }
 
+/** `Node.TEXT_NODE` and `Node.ELEMENT_NODE`, as numbers so the module needs no `Node` global (server rendering). */
 const TEXT_NODE = 3;
 const ELEMENT_NODE = 1;
 
