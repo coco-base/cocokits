@@ -69,7 +69,6 @@ function inDomOrder(items: readonly RovingItem[]): RovingItem[] {
 /** The computed direction at the element that gets the key; `'ltr'` when there is no element. */
 function directionAt(target: EventTarget | null): Direction {
   // `nodeType === 1` is `Node.ELEMENT_NODE`, written as a number so the module needs no `Node` global.
-  // `nodeType === 1` is `Node.ELEMENT_NODE`, written as a number so the module needs no `Node` global.
   return (target as Node | null)?.nodeType === 1 ? computedDirection(target as Element) : 'ltr';
 }
 
