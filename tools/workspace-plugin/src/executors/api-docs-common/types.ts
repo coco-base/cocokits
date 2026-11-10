@@ -62,6 +62,15 @@ export interface ApiPartJson {
   bindings?: { semanticId: string; value: string; syntax: string }[];
 }
 
+/** One type parameter of a function symbol, from its declaration and its `@typeParam` tag. */
+export interface ApiTypeParamJson {
+  name: string;
+  /** The `extends` constraint as written in the source; absent for an unconstrained parameter. */
+  constraint?: string;
+  /** What the type parameter stands for. */
+  description: string;
+}
+
 /** One parameter of a function symbol, from its declaration and its `@param` tag. */
 export interface ApiParamJson {
   name: string;
@@ -90,6 +99,8 @@ export interface ApiSymbolJson {
   examples?: string[];
   /** The type of a constant, as source text. */
   type?: string;
+  /** The type parameters of a generic function, in order. */
+  typeParams?: ApiTypeParamJson[];
   /** The parameters of a function, in order. */
   params?: ApiParamJson[];
   /** The result of a function. */

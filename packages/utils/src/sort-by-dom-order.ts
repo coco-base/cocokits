@@ -24,6 +24,7 @@ function comparePaths(first: readonly number[], second: readonly number[]): numb
  * For rendered elements of one document, the result is the same for every input order.
  * An empty or one-element list is returned as a copy.
  *
+ * @typeParam T - The type of the elements. It must be an `Element`, and the result keeps the same type.
  * @param elements - The elements to order. The list is not changed.
  * @returns A new array in rendered order.
  * @example

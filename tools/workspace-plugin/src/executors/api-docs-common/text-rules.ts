@@ -167,6 +167,11 @@ function checkFunction(
   problems: string[],
 ): void {
   needsExample(label, symbol, problems);
+  for (const param of symbol.typeParams ?? []) {
+    const where = `${label}<${param.name}>`;
+    if (param.description === '') problems.push(`${where}: needs a @typeParam text`);
+    checkProse(where, param.description, problems);
+  }
   for (const param of symbol.params ?? []) {
     const where = `${label}(${param.name})`;
     if (param.description === '') problems.push(`${where}: needs a @param text`);

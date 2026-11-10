@@ -88,6 +88,48 @@ describe('extractTsApiDocs', () => {
     });
   });
 
+  const GENERIC = `
+/**
+ * Keeps the elements of one kind.
+ *
+ * @typeParam T - The type of the elements. It must be an element.
+ * @typeParam K - A key of the element type.
+ * @param items - The elements.
+ * @param key - The key to read.
+ * @returns The elements.
+ * @example
+ * keepAll([document.body], 'id');
+ */
+export function keepAll<T extends Element, K extends keyof T = 'id'>(items: readonly T[], key: K): T[] {
+  return items.filter((item) => key in item);
+}
+`;
+
+  const withGeneric = (text: string): string => [fixture('tools.ts'), text].join('\n');
+
+  it('reads the type parameters of a generic function with their constraint and text', () => {
+    const doc = extractFolder('generic', withGeneric(GENERIC))[0];
+    const symbol = doc?.symbols?.find((item) => item.name === 'keepAll');
+    expect(symbol?.typeParams).toEqual([
+      { name: 'T', constraint: 'Element', description: 'The type of the elements. It must be an element.' },
+      { name: 'K', constraint: 'keyof T', description: 'A key of the element type.' },
+    ]);
+  });
+
+  it('writes no typeParams for a function that is not generic', () => {
+    const open = extractFolder('plain')[0]?.symbols?.find((item) => item.name === 'openTool');
+    expect(open?.typeParams).toBeUndefined();
+  });
+
+  it('fails a type parameter without @typeParam and a @typeParam that names none', () => {
+    const missing = GENERIC.replace(' * @typeParam K - A key of the element type.\n', '');
+    expect(extractFolder('generic-missing', withGeneric(missing)).flatMap(textRuleProblems)).toEqual([
+      'ts/tools function keepAll<K>: needs a @typeParam text',
+    ]);
+    const ghost = GENERIC.replace(' * @param items', ' * @typeParam X - Nothing.\n * @param items');
+    expect(() => extractFolder('generic-ghost', withGeneric(ghost))).toThrow(/"@typeParam X" names no type parameter/);
+  });
+
   it('gives a void function an empty returns text and no throws', () => {
     const clear = extractFolder('void')[0]?.symbols?.find((symbol) => symbol.name === 'clearTool');
     expect(clear).toMatchObject({ params: [], returns: { type: 'void', description: '' } });

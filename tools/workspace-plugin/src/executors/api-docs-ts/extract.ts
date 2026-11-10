@@ -6,7 +6,7 @@ import { docOfNode, oneLine, tagLikeLineProblems, type TsDocText } from '../api-
 import { placeAt } from '../api-docs-common/places';
 import { problemsError } from '../api-docs-common/run';
 import { isInternal, paragraphsOf, partDocFields, tagsOf, withoutLinks } from '../api-docs-common/tags';
-import type { ApiDocJson, ApiParamJson, ApiSymbolJson } from '../api-docs-common/types';
+import type { ApiDocJson, ApiParamJson, ApiSymbolJson, ApiTypeParamJson } from '../api-docs-common/types';
 
 /** A function the entry point exports: a `function` declaration, or a `const` with an arrow or function expression. */
 type FunctionLike = ts.FunctionDeclaration | ts.ArrowFunction | ts.FunctionExpression;
@@ -22,6 +22,16 @@ function functionOf(declaration: ts.Declaration): FunctionLike | undefined {
 
 /** A tag text with links as plain text, on one line. */
 const plain = (text: string): string => withoutLinks(text).replace(/\s+/g, ' ').trim();
+
+/** The `@typeParam` texts by type parameter name, read as the `@param` texts are. */
+function typeParamTextsOf(doc: TsDocText): Map<string, string> {
+  const texts = new Map<string, string>();
+  for (const text of tagsOf(doc.tags, 'typeParam')) {
+    const match = /^(\S+)\s+(?:-\s+)?(\S[\s\S]*)$/.exec(text);
+    if (match !== null) texts.set(match[1] ?? '', plain(match[2] ?? ''));
+  }
+  return texts;
+}
 
 /** The `@param` texts by parameter name; the text of a tag starts with the name and may continue after a dash. */
 function paramTextsOf(doc: TsDocText): Map<string, string> {
@@ -61,6 +71,19 @@ function functionSymbolOf(
     if (!params.some((param) => param.name === known))
       problems.push(`${label}: "@param ${known}" names no parameter of the function`);
   }
+  const typeTexts = typeParamTextsOf(doc);
+  const typeParams = (fn.typeParameters ?? []).map((parameter): ApiTypeParamJson => {
+    const name = parameter.name.text;
+    return {
+      name,
+      ...(parameter.constraint === undefined ? {} : { constraint: oneLine(parameter.constraint.getText()) }),
+      description: typeTexts.get(name) ?? '',
+    };
+  });
+  for (const known of typeTexts.keys()) {
+    if (!typeParams.some((param) => param.name === known))
+      problems.push(`${label}: "@typeParam ${known}" names no type parameter of the function`);
+  }
   const signature = checker.getSignatureFromDeclaration(fn);
   const returnType =
     fn.type?.getText() ??
@@ -71,6 +94,7 @@ function functionSymbolOf(
     {
       kind: 'function',
       ...base,
+      ...(typeParams.length > 0 ? { typeParams } : {}),
       params,
       returns: { type: oneLine(returnType), description: plain(returns) },
       ...(throws.length > 0 ? { throws } : {}),
