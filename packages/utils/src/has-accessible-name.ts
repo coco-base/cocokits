@@ -33,13 +33,20 @@ export function hasAccessibleName(element: NameableElement): boolean {
 
 /** What {@link hasChoiceControlName} reads of the label that a choice control renders. */
 export interface ChoiceLabelPart {
-  /** The nodes in the label. They are the content you wrote, and they can include decoration such as a switch track. */
-  readonly childNodes: ArrayLike<unknown>;
+  /**
+   * The nodes in the label. They are the content you wrote, and they can include decoration such as a switch track.
+   * Comments and text with only whitespace do not count as content.
+   */
+  readonly childNodes: ArrayLike<{ readonly nodeType: number; readonly textContent: string | null }>;
 }
+
+const TEXT_NODE = 3;
+const ELEMENT_NODE = 1;
 
 /**
  * Checks whether a checkbox, a switch or a radio has something that names it.
- * The control always renders its own `<label for>`, so that label counts only when it holds content.
+ * The control always renders its own `<label for>`, so that label counts only when it holds content: an element or text.
+ * A comment or whitespace-only text, such as the anchor a framework leaves for an empty branch, is not content.
  *
  * @remarks
  * Other name sources are the same as in {@link hasAccessibleName}: another label, `aria-label`, `aria-labelledby` and `title`.
@@ -60,7 +67,12 @@ export function hasChoiceControlName(
   label: ChoiceLabelPart,
   ignoredLabelNodes: readonly unknown[] = [],
 ): boolean {
-  if (Array.from(label.childNodes).some((node) => !ignoredLabelNodes.includes(node))) return true;
+  const hasContent = Array.from(label.childNodes).some(
+    (node) =>
+      !ignoredLabelNodes.includes(node) &&
+      (node.nodeType === ELEMENT_NODE || (node.nodeType === TEXT_NODE && (node.textContent ?? '').trim() !== '')),
+  );
+  if (hasContent) return true;
   const otherLabels = Math.max((input.labels?.length ?? 0) - 1, 0);
   return hasAccessibleName({ labels: { length: otherLabels }, hasAttribute: (name) => input.hasAttribute(name) });
 }

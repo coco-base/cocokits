@@ -52,4 +52,15 @@ describe('hasChoiceControlName', () => {
     expect(check('<input id="a"><label class="own" for="a"><span></span></label>', true)).toBe(false);
     expect(check('<input id="a"><label class="own" for="a"><span></span>Name</label>', true)).toBe(true);
   });
+
+  it('does not count comments and whitespace-only text as content', () => {
+    document.body.innerHTML = '<input id="a"><label class="own" for="a"></label>';
+    const input = document.querySelector('input');
+    const label = document.querySelector('label.own');
+    if (!input || !label) throw new Error('No control.');
+    label.append(document.createComment(''), document.createTextNode(''), document.createTextNode(' \t '));
+    expect(hasChoiceControlName(input, label)).toBe(false);
+    label.append(document.createTextNode('Name'));
+    expect(hasChoiceControlName(input, label)).toBe(true);
+  });
 });
