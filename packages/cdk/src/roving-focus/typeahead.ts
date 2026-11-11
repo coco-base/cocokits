@@ -16,7 +16,7 @@ export interface Typeahead {
    * start with it. A longer string refines the search from the current item.
    *
    * Disabled items are skipped. A space does not start a buffer, but it extends a running one. Case and accents are
-   * ignored, so `e` finds "Éclair".
+   * ignored, so `e` finds "Ã‰clair".
    *
    * @param char - The `key` of a printable keyboard event.
    * @param items - The items in DOM order.
