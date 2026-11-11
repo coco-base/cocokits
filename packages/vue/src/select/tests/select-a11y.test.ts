@@ -159,7 +159,7 @@ describe('Select accessibility', () => {
     mountView(() => selectRoot({}, { unnamed: true, items: () => item('Cake') }));
     await waitFor(() => {
       expect(warn).toHaveBeenCalledWith(
-        'CocoKits: a Select has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.',
+        'CocoKits: a Select has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the SelectTrigger.',
       );
     });
   });

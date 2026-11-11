@@ -132,6 +132,19 @@ describe('Dialog rendered contract', () => {
     await settle();
     expect(warn).not.toHaveBeenCalled();
   });
+
+  it.each<[string, Record<string, unknown>, (() => VNode[]) | undefined]>([
+    ['a dangling aria-labelledby', { 'aria-labelledby': 'nowhere' }, () => [h('p', 'x')]],
+    ['an empty aria-label', { 'aria-label': '' }, () => [h('p', 'x')]],
+    ['an empty Title', {}, () => [h(DialogTitle)]],
+  ])('warns with the full text for %s', async (_name, contentProps, inner) => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(dialogView({ rootProps: { open: true }, contentProps, ...(inner ? { inner } : {}) }));
+    await settle();
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: <DialogContent> has no accessible name. Add a <DialogTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
+  });
 });
 
 describe('Dialog open model', () => {

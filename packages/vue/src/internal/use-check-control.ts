@@ -1,17 +1,4 @@
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  useAttrs,
-  useId,
-  watchEffect,
-  type ComputedRef,
-  type Ref,
-  type ShallowRef,
-} from 'vue';
-import { hasAccessibleName } from '@cocokits/utils';
-import { isDevelopment } from '@cocokits/vue-core';
+import { computed, ref, useAttrs, useId, watchEffect, type ComputedRef, type Ref, type ShallowRef } from 'vue';
 import type { CheckboxProps } from '@cocokits/machines/checkbox';
 import type { FormFieldControlContext, FormFieldControlState } from '@cocokits/machines/form-field';
 import type { CheckControlProps } from './check-control.types';
@@ -20,6 +7,7 @@ import { nonEmpty, useFormFieldContext } from './form-field-context';
 import { declaredInputAttrs } from './record';
 import { useCheckedState } from './use-checked-state';
 import { useFieldControl } from './use-field-control';
+import { useUnnamedWarning } from './use-unnamed-warning';
 
 /** The parts of a machine call that the composable reads: the root, the input and the report for the field. */
 export interface CheckControlMachine {
@@ -125,24 +113,7 @@ export function useCheckControl<P extends CheckControlMachine>(
     { flush: 'post' },
   );
 
-  /** Development only: warns when nothing names the input. */
-  function warnWithoutName(): void {
-    const input = inputRef.value;
-    if (!input || hasAccessibleName(input)) return;
-    console.warn(
-      `CocoKits: a ${componentName} has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.`,
-    );
-  }
-
-  onMounted(() => {
-    if (isDevelopment() && typeof requestAnimationFrame === 'function') {
-      // After the field Label's `for` has committed.
-      const frame = requestAnimationFrame(warnWithoutName);
-      onBeforeUnmount(() => {
-        cancelAnimationFrame(frame);
-      });
-    }
-  });
+  useUnnamedWarning(componentName, inputRef);
 
   // The attrs are not reactive, so the template reads them through functions. The facts the machine renders are
   // reserved: they replace the same attribute of the author, `hidden` (a prop here) included. The author's `class`

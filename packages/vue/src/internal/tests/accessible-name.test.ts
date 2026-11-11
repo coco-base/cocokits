@@ -34,7 +34,9 @@ const textFixOutside =
 const textFixInField =
   'Add a Label with text to the FormField, or an aria-label, a title, or an aria-labelledby that points to an element with text.';
 const selectWarning =
-  'CocoKits: a Select in a FormField has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.';
+  'CocoKits: a Select in a FormField has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the SelectTrigger.';
+const selectOutsideWarning =
+  'CocoKits: a Select has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the SelectTrigger.';
 const tabNavWarning =
   'CocoKits: <TabNavRoot> has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.';
 
@@ -145,6 +147,16 @@ describe('Select name check', () => {
     mountView(() => inField());
     await nextFrame();
     expect(warnings(spy)).toEqual([selectWarning]);
+  });
+
+  it.each<[string, Record<string, unknown>]>([
+    ['a dangling aria-labelledby', { 'aria-labelledby': 'nowhere' }],
+    ['an empty aria-label', { 'aria-label': '' }],
+  ])('warns with %s on the trigger', async (_name, trigger) => {
+    const spy = spyWarn();
+    mountView(() => selectRoot({}, { trigger }));
+    await nextFrame();
+    expect(warnings(spy)).toEqual([selectOutsideWarning]);
   });
 
   it('does not warn with a Label with text, also inside <div hidden> or a closed <details>', async () => {
