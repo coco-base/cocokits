@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, type RefObject } from 'react';
 import type { ChoiceControlChangeDetails } from '../internal/choice-control.types';
-import { hasAccessibleName } from '@cocokits/utils';
 import { isDevelopment } from '../internal/dev';
+import { useUnnamedWarning } from '../internal/use-choice-control';
 import type { RadioGroupContextValue, RadioGroupRegistration } from '../internal/radio-group-context';
 import type { CheckedStateOptions } from '../internal/use-checked-state';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
@@ -111,20 +111,7 @@ export function useRadioGroupItem(options: RadioGroupItemOptions): RadioItemFact
     }
   }, [name, inGroup, itemValue]);
 
-  // After the frame, so that the label's `for` and the group's own parts have committed.
-  useEffect(() => {
-    if (!isDevelopment()) return undefined;
-    const frame = requestAnimationFrame(() => {
-      if (elementRef.current && !hasAccessibleName(elementRef.current)) {
-        console.warn(
-          'CocoKits: a Radio has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.',
-        );
-      }
-    });
-    return () => {
-      cancelAnimationFrame(frame);
-    };
-  }, [elementRef]);
+  useUnnamedWarning('Radio', elementRef);
 
   if (!group) return { name, disabled, required: required === true, form: undefined, tabIndex: undefined };
   const facts = group.facts({ value: itemValue, disabled, required, form });

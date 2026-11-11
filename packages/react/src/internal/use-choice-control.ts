@@ -50,10 +50,10 @@ export interface ChoiceControl<P> {
 }
 
 /**
- * Development only: warns after mount when nothing names the input. It waits a frame so that the field's
+ * Development only: warns after mount when nothing names the input of a Checkbox, a Switch or a Radio. It waits a frame so that the field's
  * Label has committed its `for`.
  */
-function useUnnamedWarning(componentName: string, elementRef: RefObject<HTMLInputElement | null>): void {
+export function useUnnamedWarning(componentName: string, elementRef: RefObject<HTMLInputElement | null>): void {
   useEffect(() => {
     if (!isDevelopment()) return undefined;
     const frame = requestAnimationFrame(() => {

@@ -40,7 +40,7 @@ const DIALOG =
 const POPOVER =
   'CocoKits: <Popover.Content> has no accessible name. Add a <Popover.Title> with text, or an aria-label, or an aria-labelledby that points to an element with text.';
 const SELECT =
-  'CocoKits: a Select in a FormField has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.';
+  'CocoKits: a Select in a FormField has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the Select.Trigger.';
 const TAB_NAV =
   'CocoKits: <TabNav.Root> has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.';
 const FIELD_CONTROL = (article: string, name: string): string =>
@@ -152,8 +152,14 @@ describe('Checkbox, Switch and Radio name', () => {
     expect(await nameWarnings(<Checkbox>{icon}</Checkbox>)).toEqual([CHOICE('Checkbox')]);
     expect(await nameWarnings(<Checkbox>{<span />}</Checkbox>)).toEqual([CHOICE('Checkbox')]);
     expect(await nameWarnings(<Switch aria-labelledby="nowhere" />)).toEqual([CHOICE('Switch')]);
+    expect(await nameWarnings(<Switch aria-label="" />)).toEqual([CHOICE('Switch')]);
     expect(await nameWarnings(<Switch>{icon}</Switch>)).toEqual([CHOICE('Switch')]);
     expect(await nameWarnings(<Switch>{<span />}</Switch>)).toEqual([CHOICE('Switch')]);
+  });
+
+  it('warns for a Radio with a dangling aria-labelledby or an empty aria-label (AN9)', async () => {
+    expect(await nameWarnings(<Radio name="g" value="a" aria-labelledby="nowhere" />)).toEqual([CHOICE('Radio')]);
+    expect(await nameWarnings(<Radio name="g" value="a" aria-label="" />)).toEqual([CHOICE('Radio')]);
   });
 
   it('warns for a Radio with no name, an aria-hidden icon or an empty span (AN9)', async () => {
