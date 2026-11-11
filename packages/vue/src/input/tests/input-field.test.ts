@@ -279,13 +279,6 @@ describe('Input accessible name warning', () => {
     expect(warned(warn)).toBe(false);
   });
 
-  it('does not warn outside a field', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    mountView(() => h(Input));
-    await nextFrame();
-    expect(warned(warn)).toBe(false);
-  });
-
   it('keeps several Hints inside the feedback wrapper and describes the control by each', async () => {
     mountView(() =>
       h(

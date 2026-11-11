@@ -45,14 +45,12 @@ const model = useDefaultModel(props, 'modelValue', props.defaultChecked);
 
 const slots: { default?: () => VNode[] } = useSlots();
 const themeAttrs = useThemeAttrs(switchAnatomy);
-const { parts, inputRef, labelRef, rootAttrs, inputProps } = useCheckControl(props, {
+const { parts, inputRef, rootAttrs, inputProps } = useCheckControl(props, {
   componentName: 'Switch',
   model,
   rootThemeAttrs: () => themeAttrs.value.root,
   inputThemeAttrs: () => themeAttrs.value.input,
   getParts: getSwitchProps,
-  // The track holds the input and the decoration, not the caption.
-  ignoredLabelNodes: (label) => [...label.querySelectorAll(`.${switchAnatomy.classes.track}`)],
 });
 
 /** The label with the track and the content, written once for both renderings. */
@@ -60,7 +58,7 @@ function tree(content: VNode[] = []): VNode[] {
   const { track, thumb, backdrop, label } = parts.value;
   const theme = themeAttrs.value;
   return [
-    h('label', { ...theme.label, ...label, ref: labelRef }, [
+    h('label', { ...theme.label, ...label }, [
       h('span', { ...theme.track, class: track.class }, [
         h('input', inputProps()),
         h('span', { ...theme.thumb, ...thumb }),

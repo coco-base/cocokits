@@ -16,6 +16,9 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
+const CHECKBOX_WARNING =
+  'CocoKits: a Checkbox has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.';
+
 const isSet = (element: Element, name: string): boolean => element.hasAttribute(name);
 
 /** A v-model checkbox whose parent records every change. */
@@ -335,19 +338,32 @@ describe('Checkbox', () => {
       mountView(() => h(Checkbox));
       await nextFrame();
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(String(spy.mock.calls[0]?.[0])).toContain('no accessible name');
+      expect(spy).toHaveBeenCalledWith(CHECKBOX_WARNING);
     });
 
     it.each<[string, Record<string, unknown>, string | undefined]>([
       ['content', {}, 'Caption'],
       ['aria-label', { 'aria-label': 'Name' }, undefined],
-      ['aria-labelledby', { 'aria-labelledby': 'x' }, undefined],
       ['title', { title: 'Name' }, undefined],
     ])('does not warn with %s', async (_name, attrs, text) => {
       const spy = warn();
       mountView(() => h(Checkbox, attrs, text ? () => text : undefined));
       await nextFrame();
       expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not warn with an aria-labelledby that points to an element with text', async () => {
+      const spy = warn();
+      mountView(() => [h('span', { id: 'x' }, 'Name'), h(Checkbox, { 'aria-labelledby': 'x' })]);
+      await nextFrame();
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('warns for an aria-labelledby that points nowhere', async () => {
+      const spy = warn();
+      mountView(() => h(Checkbox, { 'aria-labelledby': 'x' }));
+      await nextFrame();
+      expect(spy).toHaveBeenCalledWith(CHECKBOX_WARNING);
     });
 
     it('does not warn when a label outside points at the id', async () => {

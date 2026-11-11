@@ -123,7 +123,9 @@ describe('Dialog rendered contract', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     mountView(dialogView({ rootProps: { open: true }, inner: () => h('p', 'x') }));
     await settle();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('needs an accessible name'));
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: <DialogContent> has no accessible name. Add a <DialogTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
     cleanup();
     warn.mockClear();
     mountView(dialogView({ rootProps: { open: true } }));

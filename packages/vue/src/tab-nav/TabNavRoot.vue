@@ -150,7 +150,9 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 onMounted(() => {
   const nav = rootElementOf(root.value);
   if (isDevelopment() && nav && !hasAccessibleName(nav)) {
-    console.warn('CocoKits: <TabNavRoot> has no accessible name. Add an aria-label or aria-labelledby.');
+    console.warn(
+      'CocoKits: <TabNavRoot> has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.',
+    );
   }
 });
 </script>

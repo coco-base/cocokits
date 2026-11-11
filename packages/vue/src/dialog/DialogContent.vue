@@ -267,7 +267,7 @@ watch(
       ? doc.defaultView?.requestAnimationFrame(() => {
           if (!hasAccessibleName(element)) {
             console.warn(
-              'CocoKits: <DialogContent> needs an accessible name: add a <DialogTitle>, or set aria-label or aria-labelledby.',
+              'CocoKits: <DialogContent> has no accessible name. Add a <DialogTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
             );
           }
         })

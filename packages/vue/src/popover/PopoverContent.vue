@@ -192,7 +192,7 @@ watch(
       ? doc.defaultView?.requestAnimationFrame(() => {
           if (!hasAccessibleName(element)) {
             console.warn(
-              'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle>, or an aria-label or aria-labelledby.',
+              'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
             );
           }
         })

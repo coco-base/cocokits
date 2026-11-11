@@ -69,7 +69,7 @@ describe('Popover name warning', () => {
     mountView(view(() => 'text'));
     await settle();
     expect(warn).toHaveBeenCalledWith(
-      'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle>, or an aria-label or aria-labelledby.',
+      'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
     );
   });
 });

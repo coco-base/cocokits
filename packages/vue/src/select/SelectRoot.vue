@@ -267,7 +267,7 @@ onMounted(() => {
     const frame = requestAnimationFrame(() => {
       if (triggerElement.value && !hasAccessibleName(triggerElement.value)) {
         console.warn(
-          `CocoKits: a Select ${field ? 'in a FormField ' : ''}has no accessible name. Add a Label to the FormField, or an aria-label or aria-labelledby to the SelectTrigger.`,
+          `CocoKits: a Select ${field ? 'in a FormField ' : ''}has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.`,
         );
       }
     });

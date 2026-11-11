@@ -51,7 +51,9 @@ describe('TabNav parts', () => {
   it('warns in development when the Root has no accessible name', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     mountView(() => h(TabNavRoot, null, () => h(TabNavLink, { href: '#a' }, () => 'A')));
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('<TabNavRoot> has no accessible name'));
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: <TabNavRoot> has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.',
+    );
   });
 
   it('does not warn when the Root has a name', () => {

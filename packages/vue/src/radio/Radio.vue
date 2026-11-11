@@ -13,6 +13,7 @@ import {
   type VNode,
 } from 'vue';
 import { getRadioProps, radioAnatomy } from '@cocokits/machines/radio';
+import { hasAccessibleName } from '@cocokits/utils';
 import { isDevelopment, Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { useDefaultModel } from '../internal/use-default-model';
 import { boxTree } from '../internal/box-tree';
@@ -101,6 +102,21 @@ onMounted(() => {
   } else if (!group && !inputRef.value?.name) {
     console.warn('CocoKits: a Radio has no name, so it has no group mate. Give every radio of a group the same name.');
   }
+});
+onMounted(() => {
+  if (!isDevelopment() || typeof requestAnimationFrame !== 'function') return;
+  // After the group and a label outside have committed.
+  const frame = requestAnimationFrame(() => {
+    const input = inputRef.value;
+    if (input && !hasAccessibleName(input)) {
+      console.warn(
+        'CocoKits: a Radio has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.',
+      );
+    }
+  });
+  onBeforeUnmount(() => {
+    cancelAnimationFrame(frame);
+  });
 });
 onMounted(() => {
   unregister = group?.register({
