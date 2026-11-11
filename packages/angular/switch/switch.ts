@@ -36,7 +36,7 @@ export type SwitchChangeDetails = CheckControlChangeDetails;
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   template: `
-    <label #label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
+    <label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
       <span [class]="parts().track.class" [cckAttrs]="theme().track">
         <input
           #input

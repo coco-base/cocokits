@@ -140,8 +140,8 @@ export abstract class CckTextControlBase<R extends Reason = Reason>
     if (!hasAccessibleName(this.element)) {
       const [article, name] = this.element instanceof HTMLTextAreaElement ? ['a', 'Textarea'] : ['an', 'Input'];
       const fix = this.field
-        ? `Add a <label cckLabel> with text to the FormField, or an aria-label, a title, or an aria-labelledby that points to an element with text, to the ${name}.`
-        : `Add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id, to the ${name}.`;
+        ? 'Add a <label cckLabel> with text to the FormField, or an aria-label, a title, or an aria-labelledby that points to an element with text.'
+        : 'Add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.';
       console.warn(`CocoKits: ${article} ${name}${this.field ? ' in a FormField' : ''} has no accessible name. ${fix}`);
     }
   }

@@ -69,7 +69,7 @@ describe('Popover title and description', () => {
       expect(warn).toHaveBeenCalledTimes(1);
     });
     expect(warn).toHaveBeenCalledWith(
-      'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle with text, or an aria-label, or an aria-labelledby that points to an element with text, to the <cck-popover-content>.',
+      'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.',
     );
   });
 });

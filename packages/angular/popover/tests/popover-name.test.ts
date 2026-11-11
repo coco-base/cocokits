@@ -6,7 +6,7 @@ import { stubOverlayApis } from './overlay-stubs';
 
 const imports = [...CckPopoverImports];
 const TEXT =
-  'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle with text, or an aria-label, or an aria-labelledby that points to an element with text, to the <cck-popover-content>.';
+  'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.';
 const popover = (content: string): string => `
   <ng-container cckPopover>
     <button cckPopoverTrigger>Open</button>

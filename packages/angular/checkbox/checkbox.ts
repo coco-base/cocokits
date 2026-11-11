@@ -75,7 +75,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
           [cckAttrs]="theme().background"
         ></span>
       </span>
-      <label #label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
+      <label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
         <ng-content />
       </label>
     </span>

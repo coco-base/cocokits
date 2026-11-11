@@ -38,7 +38,7 @@ export type CheckControlParts = Pick<CheckboxParts, 'root' | 'input' | 'label'> 
 /**
  * The control contract that `CckCheckbox` and `CckSwitch` share: the checked model, the change output, the
  * form participation and the host bindings; the model-free part is `CckFormControlBase`. A subclass adds its
- * selector, its template (the native input, `#input`, and the label, `#label`, inside it), its machine call
+ * selector, its template (the native input, `#input`, inside it), its machine call
  * (`parts`) and what is its own (the Checkbox's `indeterminate`).
  *
  * The host is the root; the control attributes (`id`, `name`, `aria-*`) belong to the native input in the
@@ -177,7 +177,10 @@ export abstract class CckCheckControlBase extends CckFormControlBase implements 
     this.checkedChangeDetails.emit({ value: this.mountValue, reason: 'form-reset', event });
   }
 
-  /** Development only: warns when nothing names the input. */
+  /**
+   * Development only: warns when nothing names the input. The fix text is copied in `radio/radio.ts`, because
+   * the entry points cannot import each other; change both together.
+   */
   private warnWithoutName(): void {
     if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
     const input = this.inputRef()?.nativeElement;

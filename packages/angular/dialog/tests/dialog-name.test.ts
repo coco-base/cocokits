@@ -6,7 +6,7 @@ import { stubOverlayApis } from './overlay-stubs';
 
 const imports = [...CckDialogImports];
 const TEXT =
-  'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text, to the element with cckDialogContent.';
+  'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.';
 const dialog = (content: string): string => `
   <ng-container cckDialog>
     <button cckDialogTrigger>Open</button>

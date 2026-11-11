@@ -131,7 +131,7 @@ describe('attributes of the service dialog', () => {
     await dialogElement();
     await settle();
     expect(warn).toHaveBeenCalledWith(
-      'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text, to the element with cckDialogContent.',
+      'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.',
     );
   });
 });

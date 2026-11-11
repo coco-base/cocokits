@@ -298,6 +298,7 @@ export class CckRadio {
     this.checkedChangeDetails.emit({ value: false, reason: 'user', event });
   }
 
+  /** The fix text is a copy of `checkbox/check-control-base.ts` (entry points cannot import each other); change both. */
   private warnWithoutName(): void {
     if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
     const input = this.inputRef()?.nativeElement;

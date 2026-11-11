@@ -77,7 +77,7 @@ export class CckDialogContent {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(element)) {
         console.warn(
-          'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text, to the element with cckDialogContent.',
+          'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.',
         );
       }
     });

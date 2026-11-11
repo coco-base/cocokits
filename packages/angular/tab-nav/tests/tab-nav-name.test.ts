@@ -4,7 +4,7 @@ import { CckTabNavImports } from '../index';
 
 const imports = [...CckTabNavImports];
 const TEXT =
-  'CocoKits: a TabNav has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text, to the element with cckTabNav.';
+  'CocoKits: a TabNav has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.';
 const nav = (attrs: string): string => `<nav cckTabNav${attrs}><a cckTabNavLink href="#x">X</a></nav>`;
 
 describe('the accessible name warning of a TabNav', () => {
