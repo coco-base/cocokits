@@ -1,42 +1,65 @@
 import type { Direction } from '@cocokits/shared';
 import { containsDeep, sortByDomOrder } from '@cocokits/utils';
+import { computedDirection } from '../direction';
 import { resolveNextIndex } from './resolve-next-index';
 import type { RovingItem, RovingOrientation } from './resolve-next-index';
 import { createTypeahead } from './typeahead';
 
 /** Options of {@link createRovingFocus}. */
 export interface RovingFocusOptions {
-  /** The items, read on every key press. They are put into DOM order here, and every index below refers to that order. */
+  /** Returns the items. It is read on every key press. The items are put into DOM order, and every index refers to that order. */
   readonly getItems: () => readonly RovingItem[];
   /**
-   * `focus` moves DOM focus to the item (tabs, radio group, menu, accordion headers);
-   * `active-descendant` only reports the index and focus stays on the widget (select, combobox list).
+   * How the active item is shown.
+   * Use `'focus'` for a tab list, a radio group or a menu, and `'active-descendant'` for a list box.
+   *
+   * @cckValue focus - Moves DOM focus to the item.
+   * @cckValue active-descendant - Only reports the index, and focus stays on the widget.
    */
   readonly strategy: 'focus' | 'active-descendant';
-  readonly orientation: RovingOrientation;
-  /** Whether the arrows wrap around. */
-  readonly loop: boolean;
-  /** The direction from the adapter's direction runtime, never `document.dir`. */
-  readonly getDirection: () => Direction;
-  /** The current index; read for `active-descendant` and when the event target is not an item. */
+  /**
+   * Which arrow keys move through the items.
+   * @defaultValue 'both'
+   */
+  readonly orientation?: RovingOrientation | undefined;
+  /**
+   * Whether the arrows wrap around.
+   * @defaultValue false
+   */
+  readonly loop?: boolean | undefined;
+  /**
+   * Returns the text direction of the widget. It flips the horizontal arrows.
+   * @defaultValue The computed `direction` of the item that gets the key. It sees a `dir` attribute on an ancestor.
+   */
+  readonly getDirection?: (() => Direction) | undefined;
+  /** Returns the current index. It is read for `'active-descendant'`, and for `'focus'` when the event target is not an item. */
   readonly getCurrentIndex: () => number;
-  /** Called when a key moves to another item. */
+  /**
+   * Called when a key moves to another item, with the new index and the reason (`'keyboard'` or `'typeahead'`).
+   * A press or a call to `focus()` does not call it, so also update your state when an item gets focus.
+   */
   readonly onActiveChange: (index: number, details: { reason: 'keyboard' | 'typeahead'; event: Event }) => void;
-  /** Type-to-find on printable keys. @defaultValue false */
+  /**
+   * Whether printable keys move to the item whose text starts with what the user types.
+   * @defaultValue false
+   */
   readonly typeahead?: boolean | undefined;
-  /** The step of PageUp and PageDown; unhandled when omitted. */
+  /** The number of items that PageUp and PageDown move. When not set, both keys are not handled. */
   readonly pageSize?: number | undefined;
 }
 
-/** The keyboard handler of a composite widget. */
+/** The keyboard handler of a widget with many items, where one item is the tab stop. */
 export interface RovingFocus {
   /**
-   * Handles one `keydown`. Returns `true` when it moved (or typed to) an item and called
-   * `preventDefault()`. Events that are default-prevented, composing, or carry Ctrl, Meta or Alt are
-   * not handled.
+   * Handles one `keydown`. Events that are default-prevented, composing, or carry Ctrl, Meta or Alt are not handled.
+   *
+   * @param event - The keyboard event.
+   * @returns `true` when the key moved to an item, or typed to one, and the event was default-prevented.
+   * @example
+   * list.addEventListener('keydown', (event) => roving.handleKeyDown(event));
    */
   handleKeyDown(event: KeyboardEvent): boolean;
-  /** Clears the typeahead buffer. After it, `handleKeyDown` returns `false`. */
+  /** Clears the typeahead buffer. After this, `handleKeyDown` returns `false`. */
   destroy(): void;
 }
 
@@ -46,14 +69,46 @@ function inDomOrder(items: readonly RovingItem[]): RovingItem[] {
   return sortByDomOrder([...byElement.keys()]).flatMap((element) => byElement.get(element) ?? []);
 }
 
+/** The computed direction at the element that gets the key; `'ltr'` when there is no element. */
+function directionAt(target: EventTarget | null): Direction {
+  // `nodeType === 1` is `Node.ELEMENT_NODE`, written as a number so the module needs no `Node` global.
+  return (target as Node | null)?.nodeType === 1 ? computedDirection(target as Element) : 'ltr';
+}
+
 /**
- * Creates the roving keyboard navigation of one widget. The caller attaches `handleKeyDown` where it
- * wants (the list, the trigger), owns the tab stop (see `resolveTabStop`) and updates its state from
- * `onActiveChange`. Under the `focus` strategy the current index is the item that holds the event
- * target, so pointer and programmatic focus never leave stale state.
+ * Creates the arrow-key navigation of a widget with many items, such as a tab list, a menu or a list box.
+ * Arrow keys, Home and End move to the next enabled item.
+ *
+ * @remarks
+ * You attach `handleKeyDown` to the element you want, such as the list or the trigger. You own the tab
+ * stop, see {@link resolveTabStop}. Update your active index from `onActiveChange`, and also when an item gets focus,
+ * because a pointer press or `focus()` does not call `onActiveChange`.
+ *
+ * With the `'focus'` strategy, the current index is the item that holds the event target, so a key never starts from a
+ * stale index. That index is internal. It does not move your own tab stop.
+ *
+ * Only `getItems`, `strategy`, `getCurrentIndex` and `onActiveChange` are required. Without `orientation`, both arrow
+ * axes move. Without `loop`, the arrows stop at the ends. Without `getDirection`, the text direction is read from the
+ * item that gets the key.
  *
  * @param options - The items, the strategy and the callbacks.
- * @returns The handler.
+ * @returns The handler. Call `destroy()` when you are done.
+ * @example
+ * const items = [...document.querySelectorAll<HTMLElement>('[role="tab"]')];
+ * let current = 0;
+ * const roving = createRovingFocus({
+ *   getItems: () => items.map((element) => ({ element, disabled: false })),
+ *   strategy: 'focus',
+ *   getCurrentIndex: () => current,
+ *   onActiveChange: (index) => {
+ *     current = index;
+ *   },
+ * });
+ * document.querySelector('[role="tablist"]')!.addEventListener('keydown', (event) => {
+ *   roving.handleKeyDown(event as KeyboardEvent);
+ * });
+ * // When you are done:
+ * roving.destroy();
  */
 export function createRovingFocus(options: RovingFocusOptions): RovingFocus {
   const typeahead = options.typeahead ? createTypeahead() : undefined;
@@ -106,7 +161,7 @@ export function createRovingFocus(options: RovingFocusOptions): RovingFocus {
         isDisabled: (index) => items[index]?.disabled ?? true,
         orientation: options.orientation,
         loop: options.loop,
-        dir: options.getDirection(),
+        dir: options.getDirection?.() ?? directionAt(items[current]?.element ?? event.target),
         pageSize: options.pageSize,
       });
       if (next === null) return false;

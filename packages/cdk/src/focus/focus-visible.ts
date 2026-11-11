@@ -1,8 +1,8 @@
 /** Whether the last input of a document was the keyboard. */
 export interface FocusVisibleTracker {
-  /** `true` when focus should show as focus-visible: after a key press, or before any input. */
+  /** Returns `true` when focus should look visible: after a key press, or before any input. */
   readonly isFocusVisible: () => boolean;
-  /** Releases the tracker; the listeners go with the last one. Idempotent. */
+  /** Releases the tracker. The listeners go away with the last tracker of the document. Calling it again does nothing. */
   destroy(): void;
 }
 
@@ -36,12 +36,23 @@ function start(doc: Document): Tracking {
 }
 
 /**
- * Tracks the input modality of a document so a component can render `data-focus-visible`. The
- * listeners are shared and counted per document. A focus that arrives when the window regains
- * focus reports the modality of the last input.
+ * Tracks whether the last input in a document was the keyboard. Use it to decide when to draw a focus ring,
+ * for example by setting a `data-focus-visible` attribute.
+ *
+ * @remarks
+ * The listeners are shared and counted per document. A focus that arrives when the window regains focus
+ * reports the kind of the last input.
  *
  * @param doc - The document to track.
- * @returns A tracker; call `destroy()` when the component is disposed.
+ * @returns The tracker. Call `destroy()` when you are done.
+ * @example
+ * const tracker = trackFocusVisible(document);
+ * const button = document.querySelector<HTMLElement>('button')!;
+ * button.addEventListener('focus', () => {
+ *   button.toggleAttribute('data-focus-visible', tracker.isFocusVisible());
+ * });
+ * // Later, when you are done:
+ * tracker.destroy();
  */
 export function trackFocusVisible(doc: Document): FocusVisibleTracker {
   let tracking = trackings.get(doc);

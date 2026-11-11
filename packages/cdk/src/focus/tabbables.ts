@@ -8,10 +8,7 @@ function isFirstSummary(summary: Element): boolean {
   return details?.localName === 'details' && details.querySelector(':scope > summary') === summary;
 }
 
-/**
- * The enabled checked radio of the group of `radio` (same `name`, same form owner or tree), if any: a disabled one
- * takes no focus, so its peers stay reachable.
- */
+/** Whether the group of `radio` has an enabled checked radio. A disabled one takes no focus, so its peers stay reachable. */
 function groupHasChecked(radio: HTMLInputElement): boolean {
   const scope = radio.form ?? radio.getRootNode();
   const members: Iterable<Element> = radio.form
@@ -45,9 +42,10 @@ function isTabbable(element: Element, view: Window): boolean {
 }
 
 /**
- * The elements drawn inside `parent`, in order: an open shadow root replaces the light children of
- * its host, a slot yields the elements assigned to it (its own children when it has none), and a
- * closed `<details>` yields only its first `<summary>`.
+ * The elements drawn inside `parent`, in order.
+ * An open shadow root replaces the light children of its host.
+ *
+ * A slot yields its assigned elements, or its own children when it has none. A closed `<details>` yields only its first `<summary>`.
  */
 function renderedChildren(parent: ParentNode): Element[] {
   const element = parent as Element;
@@ -73,16 +71,24 @@ function collect(parent: ParentNode, view: Window, found: HTMLElement[]): void {
 }
 
 /**
- * The elements inside `container` that Tab can reach, in rendered order: an open shadow root is
- * entered at its host and a slot yields its assigned elements at its position, so a slotted element
- * is listed once. It skips disabled controls, `tabindex="-1"`, `inert` and `hidden` subtrees,
- * `display: none` and `visibility: hidden`. Radios of one group (same `name`, same form owner or
- * tree) are one stop: the checked one, or all when none is checked. A closed `<details>` yields only
- * its first `<summary>`. A checked radio that is disabled does not count, so the enabled peers stay stops. A positive `tabindex` does not reorder. The container itself is not part of
- * the result. Pure query: it changes nothing.
+ * Lists the elements inside a container that Tab can reach, in rendered order. It only reads the page and changes nothing.
+ *
+ * @remarks
+ * An open shadow root is entered at its host. A slot lists its assigned elements at its position, once each. It skips
+ * disabled controls, `tabindex="-1"`, `inert` and `hidden` subtrees, `display: none` and `visibility: hidden`.
+ *
+ * Radios of one group (same `name`, same form owner or tree) are one stop. That is the checked one, or all when none is
+ * checked. A disabled radio does not count, so its enabled peers stay stops.
+ *
+ * A closed `<details>` lists only its first `<summary>`. A positive `tabindex` does not reorder the list. The container
+ * itself is not in the result.
  *
  * @param container - The element to search.
- * @returns The tabbable descendants.
+ * @returns The tabbable descendants, in rendered order.
+ * @example
+ * const dialog = document.querySelector<HTMLElement>('#dialog')!;
+ * const tabbables = getTabbables(dialog);
+ * console.log(tabbables.length);
  */
 export function getTabbables(container: Element): HTMLElement[] {
   const view = container.ownerDocument.defaultView;
@@ -116,10 +122,17 @@ function findAutofocus(container: HTMLElement): HTMLElement | undefined {
 }
 
 /**
- * Moves focus to the first focusable element of the container that has `autofocus`, else to the first
- * tabbable element, or to the container itself when it has none (the adapter gives it `tabindex="-1"`).
+ * Moves focus into a container. It picks the first focusable element with `autofocus`, else the first
+ * tabbable element, else the container itself.
+ *
+ * @remarks
+ * Give the container `tabindex="-1"` so it can take focus when it holds nothing tabbable.
  *
  * @param container - The overlay content.
+ * @example
+ * const dialog = document.querySelector<HTMLElement>('#dialog')!;
+ * dialog.tabIndex = -1;
+ * focusFirst(dialog);
  */
 export function focusFirst(container: HTMLElement): void {
   const [first] = getTabbables(container);

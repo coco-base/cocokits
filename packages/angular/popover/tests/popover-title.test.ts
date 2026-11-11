@@ -68,6 +68,8 @@ describe('Popover title and description', () => {
     await waitFor(() => {
       expect(warn).toHaveBeenCalledTimes(1);
     });
-    expect(String(warn.mock.calls[0]?.[0])).toContain('Add a cckPopoverTitle, or an aria-label or aria-labelledby');
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
   });
 });

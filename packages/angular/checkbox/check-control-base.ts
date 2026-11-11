@@ -15,7 +15,7 @@ import { IdGenerator, injectFormParticipation } from '@cocokits/angular-core';
 import { CckFormControlBase, type FormControlParts } from '@cocokits/angular/form-control';
 import type { CheckboxParts, CheckboxProps } from '@cocokits/machines/checkbox';
 import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
-import { hasChoiceControlName } from '@cocokits/utils';
+import { hasAccessibleName } from '@cocokits/utils';
 
 /**
  * Why the checked value of a checkbox or switch changed.
@@ -38,7 +38,7 @@ export type CheckControlParts = Pick<CheckboxParts, 'root' | 'input' | 'label'> 
 /**
  * The control contract that `CckCheckbox` and `CckSwitch` share: the checked model, the change output, the
  * form participation and the host bindings; the model-free part is `CckFormControlBase`. A subclass adds its
- * selector, its template (the native input, `#input`, and the label, `#label`, inside it), its machine call
+ * selector, its template (the native input, `#input`, inside it), its machine call
  * (`parts`) and what is its own (the Checkbox's `indeterminate`).
  *
  * The host is the root; the control attributes (`id`, `name`, `aria-*`) belong to the native input in the
@@ -64,7 +64,6 @@ export type CheckControlParts = Pick<CheckboxParts, 'root' | 'input' | 'label'> 
 export abstract class CckCheckControlBase extends CckFormControlBase implements FormCheckboxControl {
   private readonly idGenerator = inject(IdGenerator);
   protected readonly inputRef = viewChild<ElementRef<HTMLInputElement>>('input');
-  protected readonly labelRef = viewChild<ElementRef<HTMLLabelElement>>('label');
   private mountValue = false;
 
   protected readonly participation = injectFormParticipation({
@@ -151,11 +150,6 @@ export abstract class CckCheckControlBase extends CckFormControlBase implements 
     });
   }
 
-  /** The nodes in the label that are not the author's content: the Switch's track. */
-  protected labelTrackNodes(): readonly ChildNode[] {
-    return [];
-  }
-
   /** Whether the control shows the mixed state; only the Checkbox does. The prop owns it. */
   protected isMixed(): boolean {
     return false;
@@ -183,16 +177,16 @@ export abstract class CckCheckControlBase extends CckFormControlBase implements 
     this.checkedChangeDetails.emit({ value: this.mountValue, reason: 'form-reset', event });
   }
 
-  /** Development only: warns when nothing names the input (an empty label part and no other name source). */
+  /**
+   * Development only: warns when nothing names the input. The fix text is copied in `radio/radio.ts`, because
+   * the entry points cannot import each other; change both together.
+   */
   private warnWithoutName(): void {
     if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
     const input = this.inputRef()?.nativeElement;
-    const label = this.labelRef()?.nativeElement;
-    if (!input || !label) return;
-    const named = hasChoiceControlName(input, label, this.labelTrackNodes());
-    if (!named) {
+    if (input && !hasAccessibleName(input)) {
       console.warn(
-        'CocoKits: a Checkbox or Switch has no accessible name. Put the caption inside it, or add an aria-label, aria-labelledby or title, or a <label for> that points at its id.',
+        'CocoKits: a Checkbox or Switch has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.',
       );
     }
   }

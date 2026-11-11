@@ -127,7 +127,9 @@ function TabNavRootImpl({ tabPanel, render, ref, children, ...rest }: TabNavRoot
   useEffect(() => {
     if (!isDevelopment()) return;
     if (rootRef.current && !hasAccessibleName(rootRef.current)) {
-      console.warn('CocoKits: <TabNav.Root> has no accessible name. Add an aria-label or aria-labelledby.');
+      console.warn(
+        'CocoKits: <TabNav.Root> has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.',
+      );
     }
   }, []);
 

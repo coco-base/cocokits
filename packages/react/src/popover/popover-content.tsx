@@ -212,7 +212,7 @@ function PopoverContentLayer({
     const frame = requestAnimationFrame(() => {
       if (contentRef.current && !hasAccessibleName(contentRef.current)) {
         console.warn(
-          'CocoKits: <Popover.Content> has no accessible name. Add a <Popover.Title>, or an aria-label or aria-labelledby.',
+          'CocoKits: <Popover.Content> has no accessible name. Add a <Popover.Title> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
         );
       }
     });

@@ -45,14 +45,23 @@ function outsideOf(inside: readonly Element[], found: Set<Element>): void {
 }
 
 /**
- * Makes everything outside the given elements inert, so it takes no pointer, focus or assistive-technology
- * access: it sets `inert` on the siblings of every ancestor of the elements, up to the `<body>`, shadow
- * roots crossed. What is added to the document later (an overlay host opened from the content) is not
- * touched, so it stays usable. An element that was already `inert` is left alone, and the release removes
- * only what this call set (two calls that share an element keep it inert until both are released).
+ * Makes everything outside the given elements inert. Inert content takes no pointer input, no focus and
+ * no screen reader access. Use it for a modal overlay.
  *
- * @param inside - The elements that stay usable, read once now; `null` entries are skipped.
- * @returns The release; call it when the overlay closes. Idempotent.
+ * @remarks
+ * It sets `inert` on the siblings of every ancestor of the elements, up to the `<body>`, across shadow roots.
+ * Content that is added to the document later stays usable, such as an overlay opened from the content.
+ *
+ * An element that was already `inert` is left alone. The release removes only what this call set. Two calls
+ * that share an element keep it inert until both are released.
+ *
+ * @param inside - Returns the elements that stay usable. It is read once, now. `null` entries are skipped.
+ * @returns The release function. Call it when the overlay closes. Calling it again does nothing.
+ * @example
+ * const dialog = document.querySelector<HTMLElement>('#dialog')!;
+ * const release = makeOutsideInert(() => [dialog]);
+ * // When the dialog closes:
+ * release();
  */
 export function makeOutsideInert(inside: () => readonly (Element | null)[]): () => void {
   const elements = inside().filter((element): element is Element => element !== null);

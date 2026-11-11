@@ -21,9 +21,9 @@ export type OverlaySide = 'top' | 'bottom' | 'start' | 'end';
 export type OverlayAlign = 'start' | 'center' | 'end';
 
 /**
- * An anchor that is not an element: any object that measures itself.
+ * An anchor that is not an element: any object that can measure itself.
  * Use it to place an overlay at a point, such as the pointer.
- * The position is computed from the box that `getBoundingClientRect` returns.
+ * The position comes from the box that `getBoundingClientRect` returns.
  */
 export interface OverlayVirtualAnchor {
   /** Returns the box of the anchor in viewport pixels. It is called again whenever the position is computed. */
@@ -37,11 +37,11 @@ export interface OverlayVirtualAnchor {
     readonly bottom: number;
     readonly left: number;
   };
-  /** An element whose scrolling ancestors the position follows. Leave it out for an anchor that does not scroll. */
+  /** An element whose scrolling ancestors the position follows. When not set, the position follows no scrolling ancestor. */
   readonly contextElement?: Element;
 }
 
-/** Distance from the viewport edges: one number for all four, or per physical side (unset sides are `0`). */
+/** A distance from the viewport edges, in px: one number for all four edges, or an object for single physical edges. Edges that you leave out are `0`. */
 export type OverlayCollisionPadding = number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>;
 
 /**
@@ -60,15 +60,19 @@ const PHYSICAL: Record<Direction, Record<'start' | 'end', PhysicalSide>> = {
 };
 
 /**
- * Maps a logical side and alignment to a Floating UI placement (`top`, `left-end`, ...). `start` and
- * `end` sides become `left` and `right` by direction. The alignment stays logical: Floating UI mirrors
- * it for `top` and `bottom` from the direction of the content, which inherits `dir` from the portal
- * host. Pure.
+ * Turns a logical side and alignment into a placement string such as `top` or `left-end`. It is a pure function.
+ *
+ * @remarks
+ * The sides `start` and `end` become `left` and `right`, depending on the direction. The alignment stays logical.
+ * Floating UI mirrors it for `top` and `bottom` from the direction of the content, which inherits `dir` from the portal host.
  *
  * @param side - The logical side.
  * @param align - The logical alignment.
- * @param dir - The direction of the overlay.
+ * @param dir - The text direction of the overlay.
  * @returns The placement string.
+ * @example
+ * toFloatingPlacement('start', 'center', 'rtl'); // 'right'
+ * toFloatingPlacement('bottom', 'end', 'ltr'); // 'bottom-end'
  */
 export function toFloatingPlacement(side: OverlaySide, align: OverlayAlign, dir: Direction): Placement {
   const physical = side === 'start' || side === 'end' ? PHYSICAL[dir][side] : side;

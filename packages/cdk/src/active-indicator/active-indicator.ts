@@ -1,22 +1,32 @@
 /** The box of an item inside its list, in CSS pixels. */
 export interface ActiveBox {
+  /** The distance from the left edge of the list's padding box, with the list's scroll offset added. */
   readonly left: number;
+  /** The distance from the top edge of the list's padding box, with the list's scroll offset added. */
   readonly top: number;
+  /** The width of the item. */
   readonly width: number;
+  /** The height of the item. */
   readonly height: number;
 }
 
 const VARIABLES = ['--active-tab-left', '--active-tab-top', '--active-tab-width', '--active-tab-height'] as const;
 
 /**
- * Measures an item's box relative to the padding box of its list, including the list's scroll offset,
- * so an absolutely positioned indicator inside the list lines up with it. The offsets are physical
- * (`left`, not `inline-start`), which is what `left` on the indicator needs in both directions.
- * Reads the layout of the two elements it is given and writes nothing.
+ * Measures the box of an item inside its list. An absolutely positioned indicator in the list can use
+ * the result to line up with the item.
+ *
+ * It reads the layout of the two elements and writes nothing. The offsets are physical (`left`, not
+ * `inline-start`), so they work in both text directions.
  *
  * @param list - The list that holds the item and the indicator.
- * @param item - The active item.
- * @returns The box.
+ * @param item - The item to measure.
+ * @returns The box of the item, relative to the padding box of the list.
+ * @example
+ * const list = document.querySelector<HTMLElement>('[role="tablist"]')!;
+ * const item = list.querySelector<HTMLElement>('[aria-selected="true"]')!;
+ * const box = measureActiveBox(list, item);
+ * console.log(box.left, box.width);
  */
 export function measureActiveBox(list: Element, item: Element): ActiveBox {
   const listRect = list.getBoundingClientRect();
@@ -31,38 +41,57 @@ export function measureActiveBox(list: Element, item: Element): ActiveBox {
 
 /** Options of {@link trackActiveIndicator}. */
 export interface ActiveIndicatorOptions {
-  /** The list element; `null` while it is not rendered. */
+  /** Returns the list element, or `null` while it is not in the document. */
   readonly getList: () => HTMLElement | null;
-  /** The selected (active) item; `null` when none is. */
+  /** Returns the active item, or `null` when no item is active. */
   readonly getActiveItem: () => HTMLElement | null;
-  /** The indicator element that receives the variables. */
+  /** Returns the indicator element that receives the custom properties, or `null` while it is not rendered. */
   readonly getIndicator: () => HTMLElement | null;
   /**
-   * Every item of the list, in any order. Each one is observed, so the indicator follows an item that
-   * resizes (an inactive tab before the active one included). `update()` re-reads it, so items that
-   * were added, removed or reordered are picked up. Omit it to observe the list only.
+   * Returns every item of the list, in any order. Every item is observed, and `update()` reads the items again to pick up changes.
+   * When not set, only the list is observed.
    */
   readonly getItems?: () => readonly HTMLElement[];
 }
 
 /** Keeps the `--active-tab-*` variables of one indicator current. */
 export interface ActiveIndicator {
-  /** Measures now and writes the variables; removes them when there is no active item. Call it after the selection or the items change. */
+  /**
+   * Measures now and writes the custom properties. It removes them when there is no active item.
+   * Call it after the active item or the set of items changes.
+   */
   update(): void;
-  /** Stops the observer. Idempotent. */
+  /** Stops observing. Calling it again does nothing. */
   destroy(): void;
 }
 
 /**
- * Writes `--active-tab-left`, `--active-tab-top`, `--active-tab-width` and `--active-tab-height`
- * (unprefixed measured geometry) on the indicator, for Tabs and TabNav. One `ResizeObserver` watches the
- * list and every item, so the indicator follows a resize of the list or of any item; the adapter calls
- * `update()` when the active item or the set of items changes, which re-targets the observer. It also
- * re-measures once `document.fonts.ready` settles (a late web font changes item widths). The variables
- * are removed while there is no active item. Browser only: call it after mount.
+ * Keeps an indicator in line with the active item of a list, such as a tab list. It writes the box of the
+ * active item to four custom properties on the indicator: `--active-tab-left`, `--active-tab-top`,
+ * `--active-tab-width` and `--active-tab-height`. Your CSS moves and sizes the indicator with them.
  *
- * @param options - Getters for the list, the items, the active item and the indicator.
- * @returns The tracker; call `destroy()` on cleanup.
+ * @remarks
+ * One `ResizeObserver` watches the list and every item, so the indicator follows a resize of any of them.
+ * Call `update()` when the active item or the set of items changes. The box is also measured again after
+ * `document.fonts.ready`, because a late web font changes item widths.
+ *
+ * The custom properties are removed while there is no active item. Call it in the browser, after the
+ * elements are in the document.
+ *
+ * @param options - Functions that return the list, the items, the active item and the indicator.
+ * @returns The tracker. Call `destroy()` when you are done.
+ * @example
+ * const list = document.querySelector<HTMLElement>('[role="tablist"]')!;
+ * const indicator = list.querySelector<HTMLElement>('.indicator')!;
+ * const tracker = trackActiveIndicator({
+ *   getList: () => list,
+ *   getActiveItem: () => list.querySelector('[aria-selected="true"]'),
+ *   getIndicator: () => indicator,
+ *   getItems: () => [...list.querySelectorAll<HTMLElement>('[role="tab"]')],
+ * });
+ * tracker.update();
+ * // Later, when you are done:
+ * tracker.destroy();
  */
 export function trackActiveIndicator(options: ActiveIndicatorOptions): ActiveIndicator {
   let observer: ResizeObserver | undefined;
@@ -136,14 +165,19 @@ export function trackActiveIndicator(options: ActiveIndicatorOptions): ActiveInd
 }
 
 /**
- * Scrolls a list so that one of its items lies fully inside the list's visible box. Only the list's own
- * scroll position changes: no ancestor and not the page scrolls (unlike `scrollIntoView`). It reads the
- * rendered boxes and scrolls by the difference, so it works with the negative scroll offsets of a
- * right-to-left list.
- * Does nothing when the item already fits.
+ * Scrolls a list until one of its items is fully inside the visible box of the list.
+ * Only the list scrolls. No ancestor and not the page scrolls, unlike `scrollIntoView`.
+ *
+ * @remarks
+ * It scrolls by the difference between the rendered boxes, so it also works with the negative scroll
+ * offsets of a right-to-left list. It does nothing when the item already fits.
  *
  * @param list - The scrollable list.
- * @param item - The item inside it.
+ * @param item - The item inside the list.
+ * @example
+ * const list = document.querySelector<HTMLElement>('[role="tablist"]')!;
+ * const item = list.querySelector<HTMLElement>('[aria-selected="true"]')!;
+ * scrollItemIntoList(list, item);
  */
 export function scrollItemIntoList(list: HTMLElement, item: Element): void {
   const listRect = list.getBoundingClientRect();

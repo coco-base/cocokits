@@ -102,7 +102,7 @@ describe('Textarea accessibility', () => {
     mountView(() => [
       h(FormField, null, { label: () => h(Label, null, () => 'Message'), default: () => h(Textarea) }),
       h(FormField, null, () => h(Textarea, { 'aria-label': 'Other' })),
-      h(Textarea),
+      h(Textarea, { 'aria-label': 'Third' }),
     ]);
     await nextFrame();
     expect(warned()).toBe(false);

@@ -371,3 +371,35 @@ describe('virtual anchor', () => {
     expect(floating.cleanup).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('startOverlayPosition defaults', () => {
+  const startBare = (): void => {
+    startOverlayPosition({ getAnchor: () => anchor, getContent: () => content, onPlacementChange: () => undefined });
+  };
+
+  it('with no side and align, places the content at the bottom, centred', async () => {
+    startBare();
+    await flush();
+    expect(floating.computePosition).toHaveBeenCalledWith(
+      anchor,
+      content,
+      expect.objectContaining({ placement: 'bottom' }),
+    );
+  });
+
+  it('with no getDirection and an rtl anchor, the start side is the right edge', async () => {
+    anchor.setAttribute('dir', 'rtl');
+    startOverlayPosition({
+      getAnchor: () => anchor,
+      getContent: () => content,
+      side: 'start',
+      onPlacementChange: () => undefined,
+    });
+    await flush();
+    expect(floating.computePosition).toHaveBeenCalledWith(
+      anchor,
+      content,
+      expect.objectContaining({ placement: 'right' }),
+    );
+  });
+});

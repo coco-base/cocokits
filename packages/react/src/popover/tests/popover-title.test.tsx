@@ -80,7 +80,7 @@ describe('Popover.Title and Popover.Description', () => {
     );
     await waitFor(() => {
       expect(warn).toHaveBeenCalledWith(
-        'CocoKits: <Popover.Content> has no accessible name. Add a <Popover.Title>, or an aria-label or aria-labelledby.',
+        'CocoKits: <Popover.Content> has no accessible name. Add a <Popover.Title> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
       );
     });
     cleanup();

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
-import { h, nextTick, ref } from 'vue';
+import { h, nextTick, ref, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DialogClose, DialogContent, DialogRoot, DialogTitle, DialogTrigger } from '../index';
 import { boxAt, button, dialog, dialogView, mountView, pressOn, settle, stubOverlayBrowser, trigger } from './fixtures';
@@ -123,12 +123,27 @@ describe('Dialog rendered contract', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     mountView(dialogView({ rootProps: { open: true }, inner: () => h('p', 'x') }));
     await settle();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('needs an accessible name'));
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: <DialogContent> has no accessible name. Add a <DialogTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
     cleanup();
     warn.mockClear();
     mountView(dialogView({ rootProps: { open: true } }));
     await settle();
     expect(warn).not.toHaveBeenCalled();
+  });
+
+  it.each<[string, Record<string, unknown>, (() => VNode[]) | undefined]>([
+    ['a dangling aria-labelledby', { 'aria-labelledby': 'nowhere' }, () => [h('p', 'x')]],
+    ['an empty aria-label', { 'aria-label': '' }, () => [h('p', 'x')]],
+    ['an empty Title', {}, () => [h(DialogTitle)]],
+  ])('warns with the full text for %s', async (_name, contentProps, inner) => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(dialogView({ rootProps: { open: true }, contentProps, ...(inner ? { inner } : {}) }));
+    await settle();
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: <DialogContent> has no accessible name. Add a <DialogTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
   });
 });
 

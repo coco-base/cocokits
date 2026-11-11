@@ -180,7 +180,7 @@ export class CckTabNav {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(this.host)) {
         console.warn(
-          'CocoKits: a TabNav has no accessible name. Add an aria-label or aria-labelledby to the element with cckTabNav.',
+          'CocoKits: a TabNav has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.',
         );
       }
     });

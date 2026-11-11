@@ -47,7 +47,7 @@ const model = useDefaultModel(props, 'modelValue', props.defaultChecked);
 
 const slots: { default?: () => VNode[] } = useSlots();
 const themeAttrs = useThemeAttrs(checkboxAnatomy);
-const { parts, inputRef, labelRef, rootAttrs, inputProps } = useCheckControl(props, {
+const { parts, inputRef, rootAttrs, inputProps } = useCheckControl(props, {
   componentName: 'Checkbox',
   model,
   rootThemeAttrs: () => themeAttrs.value.root,
@@ -58,7 +58,7 @@ const { parts, inputRef, labelRef, rootAttrs, inputProps } = useCheckControl(pro
 
 /** The box and the label, written once for both renderings. */
 function tree(content: VNode[] = []): VNode[] {
-  return [boxTree(parts.value, themeAttrs.value, h('input', inputProps()), content, labelRef)];
+  return [boxTree(parts.value, themeAttrs.value, h('input', inputProps()), content)];
 }
 /** Renders nodes made in the parent's render, so a changed slot re-renders them. */
 const Nodes = (nodeProps: { nodes: VNode[] }): VNode[] => nodeProps.nodes;

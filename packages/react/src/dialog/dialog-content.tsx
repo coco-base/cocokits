@@ -146,7 +146,7 @@ function DialogContentLayer({
     const frame = requestAnimationFrame(() => {
       if (contentRef.current && !hasAccessibleName(contentRef.current)) {
         console.warn(
-          'CocoKits: <Dialog.Content> has no accessible name. Add a <Dialog.Title>, or an aria-label or aria-labelledby.',
+          'CocoKits: <Dialog.Content> has no accessible name. Add a <Dialog.Title> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
         );
       }
     });

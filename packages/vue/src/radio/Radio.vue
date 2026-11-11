@@ -22,6 +22,7 @@ import { useRadioGroupContext } from '../internal/radio-group-context';
 import { declaredInputAttrs, omit } from '../internal/record';
 import { rootElementOf } from '../internal/root-element';
 import { useCheckedState } from '../internal/use-checked-state';
+import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import type { RadioEmits, RadioProps } from './radio.types';
 
 defineOptions({ name: 'CckRadio', inheritAttrs: false });
@@ -102,6 +103,7 @@ onMounted(() => {
     console.warn('CocoKits: a Radio has no name, so it has no group mate. Give every radio of a group the same name.');
   }
 });
+useUnnamedWarning('Radio', inputRef);
 onMounted(() => {
   unregister = group?.register({
     value: () => props.value,

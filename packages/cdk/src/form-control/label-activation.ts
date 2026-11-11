@@ -1,22 +1,34 @@
 /** The handle {@link trackLabelActivation} returns. */
 export interface LabelActivation {
   /**
-   * Whether the click being handled was raised by the browser because a `label` of the control was clicked.
-   * Call it from the control's click handler; it answers `true` once per label click.
+   * Whether the browser raised the click being handled because a `label` of the control was clicked.
+   * Call it from the click handler of the control. It answers `true` once for each label click.
    */
   consume(): boolean;
-  /** Removes the listener and the pending timer; idempotent. */
+  /** Removes the listener and the pending timer. Calling it again does nothing. */
   destroy(): void;
 }
 
 /**
- * Tells a click that a `label` forwards to its control apart from a click on the control itself. A control
- * that opens on click (a Select trigger) uses it to only take focus when its label is clicked. The browser
- * dispatches the forwarded click in the same task as the label click, so a capture listener on the document
- * sees the label click first and marks the control for the rest of the task. Create it after mount.
+ * Tells a click that a `label` forwards to its control apart from a click on the control itself.
+ * A custom control that opens on click can use it to take focus only when its label is clicked.
  *
- * @param control - The labelable control, for example a button.
- * @returns The handle; call `destroy()` when the control goes away.
+ * @remarks
+ * The browser sends the forwarded click in the same task as the label click. A capture listener on the
+ * document sees the label click first and marks the control for the rest of the task.
+ *
+ * Call it after the control is in the document.
+ *
+ * @param control - The labelable control, for example a `button`.
+ * @returns The handle. Call `destroy()` when the control goes away.
+ * @example
+ * const button = document.querySelector<HTMLButtonElement>('#colour')!;
+ * const activation = trackLabelActivation(button);
+ * button.addEventListener('click', () => {
+ *   if (activation.consume()) button.focus();
+ * });
+ * // When the control goes away:
+ * activation.destroy();
  */
 export function trackLabelActivation(control: HTMLElement): LabelActivation {
   const doc = control.ownerDocument;

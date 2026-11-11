@@ -3,6 +3,7 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import type { ChoiceControlChangeDetails } from '../internal/choice-control.types';
 import { isDevelopment } from '../internal/dev';
+import { useUnnamedWarning } from '../internal/use-choice-control';
 import type { RadioGroupContextValue, RadioGroupRegistration } from '../internal/radio-group-context';
 import type { CheckedStateOptions } from '../internal/use-checked-state';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
@@ -70,7 +71,7 @@ export interface RadioGroupItemOptions {
 /**
  * Registers a Radio with its group, keeps the group's list of radios current and resolves what the input
  * renders. Outside a group it returns the radio's own facts and registers nothing. Warns in development about
- * a radio that can never work: no value inside a group, no name outside one.
+ * a radio that can never work (no value inside a group, no name outside one) and about a radio with no accessible name.
  *
  * @param options - The radio's facts and element.
  * @returns The facts for the input.
@@ -109,6 +110,8 @@ export function useRadioGroupItem(options: RadioGroupItemOptions): RadioItemFact
       );
     }
   }, [name, inGroup, itemValue]);
+
+  useUnnamedWarning('Radio', elementRef);
 
   if (!group) return { name, disabled, required: required === true, form: undefined, tabIndex: undefined };
   const facts = group.facts({ value: itemValue, disabled, required, form });

@@ -3,23 +3,27 @@ import { deepActiveElement } from '../deep-active-element';
 
 /** Options of {@link captureFocusReturn}. */
 export interface FocusReturnOptions {
-  /** The element that opened the overlay; `null` when it is gone or there is none. */
+  /** Returns the element that opened the overlay, or `null` when it is gone or there is none. */
   readonly getTrigger: () => HTMLElement | null;
   /**
-   * Where focus goes back to. `'trigger'` is the trigger. `'opener'` is the element that had focus when
-   * {@link captureFocusReturn} was called, so call it before the overlay attaches: a modal dialog returns focus
-   * to its opener, which a dialog without a trigger needs. With nothing focused the trigger stands in for it, as the trigger is when `restore()` runs, else the body.
+   * Where focus goes back to.
+   * `'trigger'` is the trigger, and `'opener'` is the element that had focus when {@link captureFocusReturn} ran.
+   * Use `'opener'` for a dialog without a trigger.
+   *
+   * @cckValue trigger - Focus goes back to the trigger.
+   * @cckValue opener - Focus goes back to the element that had focus when the function ran.
    * @defaultValue 'trigger'
    */
   readonly restoreTo?: 'opener' | 'trigger' | undefined;
   /**
-   * The document the overlay belongs to, for a capture before the overlay has a trigger or content (a dialog
-   * without a trigger, in an iframe or a shadow tree). Without it the document comes from the trigger or the content.
+   * The document the overlay belongs to. Set it when the overlay has no trigger or content yet, such as a
+   * dialog without a trigger in an iframe or a shadow tree.
+   * When not set, the document comes from the trigger or the content.
    */
   readonly document?: Document | undefined;
   /**
-   * The overlay content. Focus inside it still belongs to the overlay, so closing returns it to the
-   * trigger; focus anywhere else outside is left alone.
+   * Returns the overlay content. Focus inside it still belongs to the overlay, so closing returns it to the trigger.
+   * Focus anywhere else is left alone, and when this is not set, any focused element counts as outside.
    */
   readonly getContent?: (() => Element | null) | undefined;
 }
@@ -27,12 +31,11 @@ export interface FocusReturnOptions {
 /** Returns focus to the trigger when an overlay closes. */
 export interface FocusReturn {
   /**
-   * Focuses the trigger or opener, or the body of its document when it is gone or disconnected. It does
-   * nothing when the user moved focus to another focusable element outside the overlay (an outside
-   * click on a button keeps focus there).
+   * Focuses the trigger or the opener. When it is gone, focus goes to the body of its document.
+   * It does nothing when the user already moved focus to another element outside the overlay, such as a button they clicked.
    */
   restore(): void;
-  /** Stops the return. `restore()` does nothing afterwards. */
+  /** Stops the return. After this, `restore()` does nothing. */
   destroy(): void;
 }
 
@@ -49,12 +52,22 @@ function captureOpener(doc: Document | null): HTMLElement | null {
 }
 
 /**
- * Prepares the focus return of an overlay. Call it when the overlay opens, before it attaches (the
- * document and, with `restoreTo: 'opener'`, the focused element are remembered then, for the case that
- * they are gone later) and `restore()` when it closes.
+ * Prepares the return of focus when an overlay closes. Call it when the overlay opens, and call `restore()` when it closes.
  *
- * @param options - The trigger getter, and optionally the content getter.
- * @returns The focus return.
+ * @remarks
+ * Call it before the overlay attaches. It remembers the document and, with `restoreTo: 'opener'`, the focused
+ * element then, in case they are gone later.
+ *
+ * @param options - The trigger, and optionally the content, the document and where focus goes back to.
+ * @returns The focus return. Call `restore()` when the overlay closes and `destroy()` when you are done.
+ * @example
+ * const trigger = document.querySelector<HTMLElement>('#trigger')!;
+ * const dialog = document.querySelector<HTMLDialogElement>('#dialog')!;
+ * const focusReturn = captureFocusReturn({ getTrigger: () => trigger, getContent: () => dialog });
+ * dialog.showModal();
+ * // When the dialog closes:
+ * focusReturn.restore();
+ * focusReturn.destroy();
  */
 export function captureFocusReturn(options: FocusReturnOptions): FocusReturn {
   const first = options.getTrigger();

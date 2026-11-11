@@ -13,9 +13,15 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-function view(inner: () => VNode | VNode[] | string): () => VNode[] {
+function view(
+  inner: () => VNode | VNode[] | string,
+  contentProps: Record<string, unknown> | null = null,
+): () => VNode[] {
   return () => [
-    h(PopoverRoot, { open: true }, () => [h(PopoverTrigger, null, () => 'Share'), h(PopoverContent, null, inner)]),
+    h(PopoverRoot, { open: true }, () => [
+      h(PopoverTrigger, null, () => 'Share'),
+      h(PopoverContent, contentProps, inner),
+    ]),
   ];
 }
 
@@ -69,7 +75,20 @@ describe('Popover name warning', () => {
     mountView(view(() => 'text'));
     await settle();
     expect(warn).toHaveBeenCalledWith(
-      'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle>, or an aria-label or aria-labelledby.',
+      'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
+  });
+
+  it.each<[string, Record<string, unknown>, () => VNode | string]>([
+    ['a dangling aria-labelledby', { 'aria-labelledby': 'nowhere' }, () => 'text'],
+    ['an empty aria-label', { 'aria-label': '' }, () => 'text'],
+    ['an empty Title', {}, () => h(PopoverTitle)],
+  ])('warns with the full text for %s', async (_name, contentProps, inner) => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(view(inner, contentProps));
+    await settle();
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: <PopoverContent> has no accessible name. Add a <PopoverTitle> with text, or an aria-label, or an aria-labelledby that points to an element with text.',
     );
   });
 });

@@ -1,6 +1,10 @@
-/** What {@link hasInteractiveContent} reads of an element. */
+/** What {@link hasInteractiveContent} reads of an element. Any `Element` fits. */
 export interface QueryableElement {
-  /** Returns the first descendant that matches the selector, or `null`. */
+  /**
+   * Finds the first descendant that matches the selector.
+   * @param selectors - A CSS selector list.
+   * @returns The first match, or `null` when there is none.
+   */
   querySelector(selectors: string): unknown;
 }
 
@@ -20,12 +24,17 @@ const INTERACTIVE = [
 ].join(',');
 
 /**
- * Whether an element holds interactive content: a descendant a user can focus or operate. A Select option
- * is a `role="option"`, so its content must not contain any. Use it in a development check after mount; it
- * also works on an element that is not in the document.
+ * Checks whether an element holds interactive content, which is a descendant that a user can focus or operate.
+ * Use it for an element that must not hold any, such as an item with `role="option"`.
+ *
+ * @remarks
+ * Use it in a development check. It also works on an element that is not in the document.
  *
  * @param element - The element whose descendants are checked.
  * @returns `true` when a descendant is interactive.
+ * @example
+ * const option = document.querySelector<HTMLElement>('[role="option"]')!;
+ * if (hasInteractiveContent(option)) console.warn('An option must not hold a button or a link.');
  */
 export function hasInteractiveContent(element: QueryableElement): boolean {
   return element.querySelector(INTERACTIVE) !== null;

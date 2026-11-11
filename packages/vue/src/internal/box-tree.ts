@@ -1,4 +1,4 @@
-import { h, type Ref, type VNode } from 'vue';
+import { h, type VNode } from 'vue';
 
 /** The parts of a machine result that the box tree renders: the Checkbox and the Radio share them. */
 export interface BoxParts {
@@ -22,22 +22,15 @@ export type BoxTheme = Readonly<
  * @param theme - The theme attributes of the parts.
  * @param input - The input vnode.
  * @param content - The author's label content.
- * @param labelRef - Receives the label element, for the name warning.
  * @returns The wrapper vnode.
  */
-export function boxTree(
-  parts: BoxParts,
-  theme: BoxTheme,
-  input: VNode,
-  content: VNode[],
-  labelRef?: Ref<HTMLLabelElement | null>,
-): VNode {
+export function boxTree(parts: BoxParts, theme: BoxTheme, input: VNode, content: VNode[]): VNode {
   return h('span', { ...theme.wrapper, class: parts.wrapper.class }, [
     h('span', { ...theme.inputWrapper, class: parts.inputWrapper.class }, [
       input,
       h('span', { ...theme.backdrop, ...parts.backdrop }),
       h('span', { ...theme.background, ...parts.background }),
     ]),
-    h('label', { ...theme.label, ...parts.label, ...(labelRef ? { ref: labelRef } : {}) }, content),
+    h('label', { ...theme.label, ...parts.label }, content),
   ]);
 }

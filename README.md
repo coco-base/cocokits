@@ -21,8 +21,10 @@ Every package has the same version.
 | `@cocokits/theme-cocokits-angular`, `-react`, `-vue` | The typed layer of the CocoKits theme for one framework |
 | `@cocokits/theme-frames-x` | The Frames X theme: CSS and `ThemeConfig`, for any framework |
 | `@cocokits/theme-frames-x-angular`, `-react`, `-vue` | The typed layer of the Frames X theme for one framework |
+| `@cocokits/cdk` | Framework-free behaviour for your own components: focus, dismissal, positioning and more, one subpath per module (`@cocokits/cdk/focus`) |
+| `@cocokits/utils` | Small framework-free DOM helpers (`containsDeep`, `sortByDomOrder`, `dataAttr` and more) |
 
-Internal packages that the packages above depend on: `@cocokits/angular-core`, `@cocokits/react-core`, `@cocokits/vue-core` (the framework adapters), `@cocokits/machines` (component behaviour), `@cocokits/cdk` (shared building blocks), `@cocokits/shared` and `@cocokits/utils`. They come in as dependencies; applications do not import them directly.
+Internal packages that the packages above depend on: `@cocokits/angular-core`, `@cocokits/react-core`, `@cocokits/vue-core` (the framework adapters), `@cocokits/machines` (component behaviour) and `@cocokits/shared`. They come in as dependencies; applications do not import them directly.
 
 ## Install
 

@@ -1,7 +1,8 @@
 export { containsDeep } from './contains-deep';
 export { dataAttr } from './data-attr';
-export { hasAccessibleName, hasChoiceControlName } from './has-accessible-name';
+export { hasAccessibleName } from './has-accessible-name';
 export { hasInteractiveContent } from './has-interactive-content';
+export type { QueryableElement } from './has-interactive-content';
 export { shouldFocusControl } from './should-focus-control';
 export { sortByDomOrder } from './sort-by-dom-order';
 export { isShadowRoot } from './is-shadow-root';

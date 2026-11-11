@@ -143,7 +143,9 @@ describe('TabNav', () => {
   it('warns in development when the nav has no accessible name', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     await render(`<nav cckTabNav><a cckTabNavLink href="#x">X</a></nav>`, { imports });
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('TabNav'));
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: a TabNav has no accessible name. Add an aria-label, or an aria-labelledby that points to an element with text.',
+    );
     warn.mockRestore();
   });
 

@@ -5,6 +5,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckCheckboxImports } from '../index';
 import { box, isSet, must } from './fixtures';
 
+const CHECK_WARNING = (kind: string): string =>
+  `CocoKits: a ${kind} has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.`;
+
 @Component({
   imports: [CckCheckboxImports],
   template: `
@@ -189,13 +192,13 @@ describe('Checkbox', () => {
       const spy = warn();
       await render(`<cck-checkbox></cck-checkbox>`, { imports: [...CckCheckboxImports] });
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(String(spy.mock.calls[0]?.[0])).toContain('no accessible name');
+      expect(spy).toHaveBeenCalledWith(CHECK_WARNING('Checkbox or Switch'));
     });
 
     it.each([
       ['content', `<cck-checkbox>Caption</cck-checkbox>`],
       ['aria-label', `<cck-checkbox aria-label="Name"></cck-checkbox>`],
-      ['aria-labelledby', `<cck-checkbox aria-labelledby="x"></cck-checkbox>`],
+      ['aria-labelledby', `<span id="x">Name</span><cck-checkbox aria-labelledby="x"></cck-checkbox>`],
     ])('does not warn with %s', async (_name, template) => {
       const spy = warn();
       await render(template, { imports: [...CckCheckboxImports] });

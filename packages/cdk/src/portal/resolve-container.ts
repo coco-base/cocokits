@@ -1,20 +1,30 @@
 import { isShadowRoot } from '@cocokits/utils';
 import { closestModalDialog } from '../modal-dialog';
 
-/** Where an overlay host goes: an element, or the shadow root of a trigger inside a shadow tree. */
+/** Where an overlay host goes: an element, or the shadow root of a trigger that is inside a shadow tree. */
 export type OverlayContainer = Element | ShadowRoot;
 
 /**
- * Chooses the container of an overlay host for a trigger, in this order: the fullscreen element of the document,
- * whatever the trigger, because only a host inside it is drawn above it; else the closest open modal `<dialog>`
- * that contains the trigger (anything outside a modal dialog is inert, so the host must be inside it); else the
- * trigger's shadow root; else the `<body>` of the trigger's document. Known limit: when an open modal dialog that
- * holds the trigger is inside the fullscreen element, the host goes into the fullscreen element, outside the
- * dialog, so the dialog makes the overlay inert: it is visible but takes no clicks or focus. Pure over the DOM it
- * is given: it reads, never writes.
+ * Chooses the element or shadow root that should hold an overlay for a trigger. It only reads the page.
+ *
+ * @remarks
+ * The choice follows this order. First comes the fullscreen element of the document, whatever the trigger is. Only an
+ * overlay inside it is drawn above it. Second comes the closest open modal `<dialog>` that contains the trigger.
+ * Everything outside a modal dialog is inert, so the overlay must be inside it.
+ *
+ * Third comes the shadow root of the trigger, when the trigger is inside a shadow tree. Last comes the `<body>` of the
+ * document of the trigger.
+ *
+ * There is one known limit. When an open modal dialog that holds the trigger is inside the fullscreen element,
+ * the overlay goes into the fullscreen element, outside the dialog. The dialog then makes it inert, so it is
+ * visible but takes no clicks or focus.
  *
  * @param trigger - The element the overlay belongs to.
- * @returns The container to append the host to.
+ * @returns The container to append the overlay to.
+ * @example
+ * const trigger = document.querySelector<HTMLElement>('#trigger')!;
+ * const container = resolveOverlayContainer(trigger);
+ * container.append(document.createElement('div'));
  */
 export function resolveOverlayContainer(trigger: Element): OverlayContainer {
   const doc = trigger.ownerDocument;

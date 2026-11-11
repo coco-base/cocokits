@@ -35,8 +35,6 @@ function SwitchImpl({
 }: SwitchProps): ReactElement {
   const themeAttrs = useThemeAttrs(switchAnatomy);
   const elementRef = useRef<HTMLInputElement | null>(null);
-  const labelRef = useRef<HTMLLabelElement | null>(null);
-  const trackRef = useRef<HTMLSpanElement | null>(null);
   const mergedRef = useMergedRef<HTMLInputElement>(ref, elementRef, undefined);
   const { parts, inputProps, state } = useChoiceControl(
     {
@@ -56,15 +54,15 @@ function SwitchImpl({
       dirty,
       submitted,
     },
-    { componentName: 'Switch', elementRef, labelRef, trackRef, indeterminate: false, getParts: getSwitchProps },
+    { componentName: 'Switch', elementRef, indeterminate: false, getParts: getSwitchProps },
   );
   const root = mergeProps(
     {
       ...themeAttrs.root,
       ...toReactProps(parts.root),
       children: (
-        <label {...themeAttrs.label} {...toReactProps(parts.label)} ref={labelRef}>
-          <span {...themeAttrs.track} {...toReactProps(parts.track)} ref={trackRef}>
+        <label {...themeAttrs.label} {...toReactProps(parts.label)}>
+          <span {...themeAttrs.track} {...toReactProps(parts.track)}>
             <input
               {...themeAttrs.input}
               {...mergeProps(inputProps, withoutReserved(rest, choiceInputReserved))}

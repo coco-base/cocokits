@@ -1,18 +1,4 @@
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  shallowRef,
-  useAttrs,
-  useId,
-  watchEffect,
-  type ComputedRef,
-  type Ref,
-  type ShallowRef,
-} from 'vue';
-import { hasChoiceControlName } from '@cocokits/utils';
-import { isDevelopment } from '@cocokits/vue-core';
+import { computed, ref, useAttrs, useId, watchEffect, type ComputedRef, type Ref, type ShallowRef } from 'vue';
 import type { CheckboxProps } from '@cocokits/machines/checkbox';
 import type { FormFieldControlContext, FormFieldControlState } from '@cocokits/machines/form-field';
 import type { CheckControlProps } from './check-control.types';
@@ -21,6 +7,7 @@ import { nonEmpty, useFormFieldContext } from './form-field-context';
 import { declaredInputAttrs } from './record';
 import { useCheckedState } from './use-checked-state';
 import { useFieldControl } from './use-field-control';
+import { useUnnamedWarning } from './use-unnamed-warning';
 
 /** The parts of a machine call that the composable reads: the root, the input and the report for the field. */
 export interface CheckControlMachine {
@@ -43,8 +30,6 @@ export interface CheckControlOptions<P extends CheckControlMachine> {
   readonly getParts: (state: CheckboxProps, field?: FormFieldControlContext) => P;
   /** Whether the control shows the mixed state; only the Checkbox does. The prop owns it. Default: never. */
   readonly isMixed?: (() => boolean) | undefined;
-  /** The nodes of the label that are not the author's content; the Switch's track. Default: none. */
-  readonly ignoredLabelNodes?: ((label: HTMLLabelElement) => readonly Node[]) | undefined;
 }
 
 /** What the component binds. */
@@ -53,8 +38,6 @@ export interface CheckControl<P extends CheckControlMachine> {
   readonly parts: ComputedRef<P>;
   /** The template ref of the native input. */
   readonly inputRef: Readonly<ShallowRef<HTMLInputElement | null>>;
-  /** The ref object of the label part; pass it as `ref` of the label vnode. */
-  readonly labelRef: Ref<HTMLLabelElement | null>;
   /** The attributes of the root: the theme, the facts, and the author's `class` and `style`. */
   readonly rootAttrs: () => Record<string, unknown>;
   /** The props of the input vnode: the author's attrs under the machine's, the ref and the handlers. */
@@ -78,7 +61,6 @@ export function useCheckControl<P extends CheckControlMachine>(
   const isMixed = options.isMixed ?? (() => false);
   const attrs = useAttrs();
   const field = useFormFieldContext();
-  const labelRef = shallowRef<HTMLLabelElement | null>(null);
 
   // The input always has an id, because the inner label needs one: the author's, the field's, or a generated one.
   const generatedId = useId();
@@ -131,28 +113,7 @@ export function useCheckControl<P extends CheckControlMachine>(
     { flush: 'post' },
   );
 
-  /** Development only: warns when nothing names the input (an empty label part and no other name source). */
-  function warnWithoutName(): void {
-    const input = inputRef.value;
-    const label = labelRef.value;
-    if (!input || !label) return;
-    const named = hasChoiceControlName(input, label, options.ignoredLabelNodes?.(label));
-    if (!named) {
-      console.warn(
-        `CocoKits: a ${componentName} has no accessible name. Put the caption inside it, or add an aria-label, aria-labelledby or title, or a <label for> that points at its id.`,
-      );
-    }
-  }
-
-  onMounted(() => {
-    if (isDevelopment() && typeof requestAnimationFrame === 'function') {
-      // After the field Label's `for` has committed.
-      const frame = requestAnimationFrame(warnWithoutName);
-      onBeforeUnmount(() => {
-        cancelAnimationFrame(frame);
-      });
-    }
-  });
+  useUnnamedWarning(componentName, inputRef);
 
   // The attrs are not reactive, so the template reads them through functions. The facts the machine renders are
   // reserved: they replace the same attribute of the author, `hidden` (a prop here) included. The author's `class`
@@ -186,5 +147,5 @@ export function useCheckControl<P extends CheckControlMachine>(
       },
     });
 
-  return { parts, inputRef, labelRef, rootAttrs, inputProps };
+  return { parts, inputRef, rootAttrs, inputProps };
 }

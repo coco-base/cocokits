@@ -16,6 +16,7 @@ import { CckAttrs, IdGenerator, injectFormParticipation, themeAttrs } from '@coc
 import { CckRadioGroup } from '@cocokits/angular/radio-group';
 import { getRadioProps, radioAnatomy } from '@cocokits/machines/radio';
 import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
+import { hasAccessibleName } from '@cocokits/utils';
 
 /**
  * Why the checked value of a Radio changed.
@@ -297,8 +298,15 @@ export class CckRadio {
     this.checkedChangeDetails.emit({ value: false, reason: 'user', event });
   }
 
+  /** The fix text is a copy of `checkbox/check-control-base.ts` (entry points cannot import each other); change both. */
   private warnWithoutName(): void {
     if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
+    const input = this.inputRef()?.nativeElement;
+    if (input && !hasAccessibleName(input)) {
+      console.warn(
+        'CocoKits: a Radio has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.',
+      );
+    }
     if (this.group) {
       if (this.submitValue() === undefined) {
         console.warn('CocoKits: a Radio in a Radio group has no submitValue, so it can never be checked.');

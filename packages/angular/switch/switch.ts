@@ -36,7 +36,7 @@ export type SwitchChangeDetails = CheckControlChangeDetails;
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   template: `
-    <label #label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
+    <label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
       <span [class]="parts().track.class" [cckAttrs]="theme().track">
         <input
           #input
@@ -84,11 +84,4 @@ export class CckSwitch extends CckCheckControlBase {
   protected readonly theme = themeAttrs(switchAnatomy);
 
   protected readonly parts = computed(() => getSwitchProps(this.state(), this.fieldContext()));
-
-  /** The label wraps the track, so the node that holds the input is not the author's content. */
-  protected override labelTrackNodes(): readonly ChildNode[] {
-    return Array.from(this.labelRef()?.nativeElement.childNodes ?? []).filter(
-      (node) => node instanceof HTMLElement && node.contains(this.inputRef()?.nativeElement ?? null),
-    );
-  }
 }

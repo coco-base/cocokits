@@ -115,10 +115,14 @@ describe('attributes of the service dialog', () => {
     await vi.waitFor(() => {
       expect(document.querySelector('dialog')).toBeNull();
     });
+    const target = document.body.appendChild(document.createElement('span'));
+    target.id = 'somewhere';
+    target.textContent = 'Somewhere';
     host.service.open(DirectionBody, { ariaLabelledBy: 'somewhere' });
     await dialogElement();
     await settle();
     expect(warn).not.toHaveBeenCalled();
+    target.remove();
     host.service.closeAll();
     await vi.waitFor(() => {
       expect(document.querySelector('dialog')).toBeNull();
@@ -126,7 +130,9 @@ describe('attributes of the service dialog', () => {
     host.service.open(DirectionBody);
     await dialogElement();
     await settle();
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('no accessible name'));
+    expect(warn).toHaveBeenCalledWith(
+      'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.',
+    );
   });
 });
 

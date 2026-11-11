@@ -25,6 +25,12 @@ const EXCEPTIONS = [
     rules: ['@typescript-eslint/no-extraneous-class'],
     reason: 'A template-only test component: the decorator is its only content.',
   },
+  {
+    files: ['packages/utils/tests/has-accessible-name.test.ts'],
+    rules: ['@typescript-eslint/no-implied-eval', '@typescript-eslint/no-unsafe-call'],
+    reason:
+      'Some rows of the case file set their element up with a code string, so the Chromium check in apps/docs-e2e runs the same row; the test runs that code with new Function.',
+  },
 ];
 
 /** Files ESLint does not read at all, each with its reason. */

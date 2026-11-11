@@ -158,7 +158,9 @@ describe('Select accessibility', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     mountView(() => selectRoot({}, { unnamed: true, items: () => item('Cake') }));
     await waitFor(() => {
-      expect(warn.mock.calls.some(([message]) => String(message).includes('accessible name'))).toBe(true);
+      expect(warn).toHaveBeenCalledWith(
+        'CocoKits: a Select has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the SelectTrigger.',
+      );
     });
   });
 

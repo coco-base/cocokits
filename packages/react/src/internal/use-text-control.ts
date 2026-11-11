@@ -141,12 +141,12 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
 
   const inField = field !== null;
   useEffect(() => {
-    if (!inField || !isDevelopment()) return undefined;
+    if (!isDevelopment()) return undefined;
     // After the Label's `for` has committed.
     const frame = requestAnimationFrame(() => {
       if (elementRef.current && !hasAccessibleName(elementRef.current)) {
         console.warn(
-          `CocoKits: ${componentName === 'Input' ? 'an' : 'a'} ${componentName} in a FormField has no accessible name. Add a Label to the FormField, or an aria-label, aria-labelledby or title to the ${componentName}.`,
+          `CocoKits: ${componentName === 'Input' ? 'an' : 'a'} ${componentName}${inField ? ' in a FormField' : ''} has no accessible name. ${inField ? 'Add a Label with text to the FormField, or an aria-label, a title, or an aria-labelledby that points to an element with text.' : 'Add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.'}`,
         );
       }
     });

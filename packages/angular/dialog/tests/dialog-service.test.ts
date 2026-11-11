@@ -92,15 +92,15 @@ describe('CckDialog', () => {
       const { fixture } = await render(Host);
       await user.click(screen.getByRole('button', { name: 'Open' }));
       await screen.findByRole('dialog');
-      const first = fixture.componentInstance.ref;
+      const firstClosed = firstValueFrom(must(fixture.componentInstance.ref).afterClosed());
       await user.click(screen.getByRole('button', { name: 'Save' }));
-      await expect(firstValueFrom(must(first).afterClosed())).resolves.toBe('saved');
+      await expect(firstClosed).resolves.toBe('saved');
       await noDialog();
       await user.click(screen.getByRole('button', { name: 'Open' }));
       await screen.findByRole('dialog');
-      const second = fixture.componentInstance.ref;
+      const secondClosed = firstValueFrom(must(fixture.componentInstance.ref).afterClosed());
       await user.click(screen.getByRole('button', { name: 'Cancel' }));
-      await expect(firstValueFrom(must(second).afterClosed())).resolves.toBeUndefined();
+      await expect(secondClosed).resolves.toBeUndefined();
     });
 
     it('resolves with the result given to ref.close, and only the first close counts', async () => {
@@ -122,8 +122,9 @@ describe('CckDialog', () => {
       const { fixture } = await render(Host);
       await user.click(screen.getByRole('button', { name: 'Open' }));
       await screen.findByRole('dialog');
+      const closed = firstValueFrom(must(fixture.componentInstance.ref).afterClosed());
       await user.keyboard('{Escape}');
-      await expect(firstValueFrom(must(fixture.componentInstance.ref).afterClosed())).resolves.toBeUndefined();
+      await expect(closed).resolves.toBeUndefined();
       await noDialog();
     });
 
@@ -133,10 +134,11 @@ describe('CckDialog', () => {
       await user.click(screen.getByRole('button', { name: 'Open' }));
       const element = await screen.findByRole('dialog');
       element.getBoundingClientRect = () => new DOMRect(100, 100, 200, 200);
+      const closed = firstValueFrom(must(fixture.componentInstance.ref).afterClosed());
       element.dispatchEvent(
         new MouseEvent('pointerdown', { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10 }),
       );
-      await expect(firstValueFrom(must(fixture.componentInstance.ref).afterClosed())).resolves.toBeUndefined();
+      await expect(closed).resolves.toBeUndefined();
       await noDialog();
     });
   });
