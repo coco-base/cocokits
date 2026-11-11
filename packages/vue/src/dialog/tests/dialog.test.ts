@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
-import { h, nextTick, ref } from 'vue';
+import { h, nextTick, ref, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DialogClose, DialogContent, DialogRoot, DialogTitle, DialogTrigger } from '../index';
 import { boxAt, button, dialog, dialogView, mountView, pressOn, settle, stubOverlayBrowser, trigger } from './fixtures';
