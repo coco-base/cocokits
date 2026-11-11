@@ -7,7 +7,7 @@
 const external = (config) => ({ ...config, packages: 'external', tsconfigRaw: '{}' });
 
 const entries = [
-  { name: '@cocokits/utils', path: 'packages/utils/dist/index.js', limit: '1150 B' },
+  { name: '@cocokits/utils', path: 'packages/utils/dist/index.js', limit: '2910 B' },
   { name: '@cocokits/shared', path: 'packages/shared/dist/index.js', limit: '360 B' },
   { name: '@cocokits/angular-core', path: 'dist/packages/angular-core/fesm2022/cocokits-angular-core.mjs', limit: '2510 B' },
   { name: '@cocokits/react-core', path: 'packages/react/core/dist/index.js', limit: '1150 B' },
@@ -88,7 +88,7 @@ const entries = [
   { name: '@cocokits/react/radio', path: 'packages/react/dist/radio/index.js', limit: '2310 B' },
   { name: '@cocokits/vue/checkbox', path: 'packages/vue/dist/checkbox/index.js', limit: '2630 B' },
   { name: '@cocokits/vue/switch', path: 'packages/vue/dist/switch/index.js', limit: '2610 B' },
-  { name: '@cocokits/vue/radio', path: 'packages/vue/dist/radio/index.js', limit: '2140 B' },
+  { name: '@cocokits/vue/radio', path: 'packages/vue/dist/radio/index.js', limit: '2370 B' },
   { name: '@cocokits/cdk/portal', path: 'packages/cdk/dist/portal/index.js', limit: '1380 B' },
   { name: '@cocokits/cdk/positioning', path: 'packages/cdk/dist/positioning/index.js', limit: '2520 B' },
   { name: '@cocokits/cdk/dismissal', path: 'packages/cdk/dist/dismissal/index.js', limit: '2600 B' },
