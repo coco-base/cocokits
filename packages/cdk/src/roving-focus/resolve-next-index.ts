@@ -84,10 +84,11 @@ function resolvePage(input: NextIndexInput): number | null {
  * Horizontal arrows flip in `rtl`, and vertical arrows never do.
  *
  * @remarks
- * - An arrow steps to the next or previous enabled item. With `loop` it wraps around. Without `loop` it stops at the end and returns the current index.
- * - Home and End go to the first and the last enabled item.
- * - PageUp and PageDown move by `pageSize` without wrapping, and land on the nearest enabled item.
- * - With no current item (`-1`), a forward key goes to the first enabled item and a backward key to the last.
+ * An arrow steps to the next or previous enabled item. With `loop` it wraps around. Without `loop` it stops at the end
+ * and returns the current index. Home and End go to the first and the last enabled item.
+ *
+ * PageUp and PageDown move by `pageSize` without wrapping, and land on the nearest enabled item. With no current item
+ * (`-1`), a forward key goes to the first enabled item and a backward key to the last.
  *
  * Without `orientation`, all four arrows move. Without `loop`, the arrows stop at the ends. Without `dir`, the direction is `'ltr'`.
  *

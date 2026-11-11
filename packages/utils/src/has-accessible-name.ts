@@ -262,19 +262,18 @@ function isHiddenLabel(label: Element, control: Element, scan: Scan): boolean {
  * Checks whether an element has an accessible name: the text that a screen reader says for it.
  *
  * @remarks
- * It returns `true` when one of these gives text that is not empty:
+ * It returns `true` when one of these gives text that is not empty. An `aria-labelledby` points to an element with
+ * text, and a hidden element counts here. An `aria-label` is set. A `<label for>` or a wrapping `<label>` has text, for a
+ * native control, and a hidden label does not count. An image has `alt`. A `<fieldset>`, a `<table>` or an `<svg>` has
+ * a first `<legend>`, `<caption>` or `<title>` with text. A submit, reset or image button has a name from the browser,
+ * and an `<input type="button">` has a `value`.
  *
- * - `aria-labelledby` that points to an element with text. A hidden element counts here.
- * - `aria-label`.
- * - A `<label for>` or a wrapping `<label>` with text, for a native control. A hidden label does not count.
- * - `alt` on an image.
- * - The first `<legend>` of a `<fieldset>`, the first `<caption>` of a `<table>` and the first `<title>` of an `<svg>`.
- * - A submit, reset or image button (the browser names it), and the `value` of an `<input type="button">`.
- * - The element's own content, only when its role takes the name from content. A button, a link, a heading, a tab,
- *   an option in its list, a table cell and a row of a grid do. A dialog, a text field, a combobox, a list, a row of
- *   a table and a `<nav>` do not.
- * - `placeholder` or `aria-placeholder` on a text field, and `title`. The browser uses them as a last choice.
- *   A visible label is better.
+ * The element's own content counts only when its role takes the name from content. A button, a link, a heading, a tab,
+ * an option in its list, a table cell and a row of a grid do. A dialog, a text field, a combobox, a list, a row of a
+ * table and a `<nav>` do not.
+ *
+ * `placeholder` or `aria-placeholder` on a text field counts, and so does `title`. The browser uses them as a last
+ * choice. A visible label is better.
  *
  * Text in the content counts when it is a text node, an image `alt`, an `aria-label` or the value of a text field.
  * Content with `aria-hidden="true"`, `inert`, `display: none`, `visibility: hidden` or `visibility: collapse` does
@@ -289,21 +288,20 @@ function isHiddenLabel(label: Element, control: Element, scan: Scan): boolean {
  *
  * It follows the name that Chromium computes, and it does not cover all of it. Where it does not follow the browser
  * it returns `false`. A check can then warn for an element that has a name. It never stays silent for one that has
- * none. It returns `false` for a name that comes only from one of these:
+ * none.
  *
- * - text from CSS `::before` or `::after`.
- * - the `title` of a child.
- * - `title` on an element that is not a control, a landmark, a heading, a list, a table or a table cell.
- * - a second role in the `role` attribute when the first is not a real role.
- * - a `<summary role="none">`.
- * - a control inside a label or an `aria-labelledby` target, unless it is a text field with a value.
- * - a password field, a slider, a date field, a button or a placeholder inside a label or an `aria-labelledby` target.
- * - the browser's own text for `<input type="file">`.
- * - an image map `<area>`.
- * - an `<option>` outside a `<select>`, and an option that its list owns with `aria-owns`.
- * - a `<style>` element that CSS shows.
- * - a label with `content-visibility: hidden` on itself.
- * - an image with `role="none"` that `aria-labelledby` points to.
+ * It returns `false` for a name that comes only from one of the cases below. The first is text from CSS `::before` or
+ * `::after`. The second is the `title` of a child. The third is `title` on an element that is not a control, a landmark,
+ * a heading, a list, a table or a table cell. The fourth is a second role in the `role` attribute when the first is not
+ * a real role, or a `<summary role="none">`.
+ *
+ * Another case is a control inside a label or an `aria-labelledby` target, unless it is a text field with a value. A
+ * password field, a slider, a date field, a button or a placeholder inside a label gives no name. The browser's own
+ * text for `<input type="file">` gives none either.
+ *
+ * The last cases are an image map `<area>`, an `<option>` outside a `<select>`, and an option that its list owns with
+ * `aria-owns`. A `<style>` element that CSS shows is another. So are a label with `content-visibility: hidden` on
+ * itself, and an image with `role="none"` that `aria-labelledby` points to.
  *
  * @param element - The element, in a document.
  * @returns `true` when the element has an accessible name.

@@ -16,13 +16,15 @@ function elementOf(node: EventTarget | null): Element | null {
  * Bind it on the wrapper for `mousedown`, to keep a focused control focused, and for `click`, to focus the control.
  * It reads the DOM only when you call it.
  *
- * It returns `false` in these cases:
- * - The event was already handled (`defaultPrevented`).
- * - The target is the control or is inside it.
- * - The target is, or is inside, interactive content within the wrapper. That is a link, a button, a form control, a label, a summary, or an element with `tabindex` or `contenteditable` other than `"false"`.
- * - There is no control.
- * - The control is disabled, `hidden` or `inert`, itself or through an ancestor.
- * - The document has a selection that is not collapsed and lies outside the control.
+ * It returns `false` when the event was already handled (`defaultPrevented`). It returns `false` when there is no
+ * control, or when the target is the control or is inside it. It also returns `false` when the control is disabled,
+ * `hidden` or `inert`, itself or through an ancestor.
+ *
+ * It returns `false` when the target is, or is inside, interactive content within the wrapper. That is a link, a
+ * button, a form control, a label or a summary. An element with `tabindex` or `contenteditable` other than `"false"` is
+ * too.
+ *
+ * It returns `false` when the document has a selection that is not collapsed and lies outside the control.
  *
  * A read-only control can take focus, so it returns `true` for it.
  *

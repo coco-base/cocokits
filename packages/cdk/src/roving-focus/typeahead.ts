@@ -12,12 +12,11 @@ export interface Typeahead {
    * Adds a typed character to the buffer and finds the item to move to.
    *
    * @remarks
-   * - A single character looks after the current item.
-   * - A repeated character such as `aaa` cycles through the items that start with it.
-   * - A longer string refines the search from the current item.
-   * - Disabled items are skipped.
-   * - A space does not start a buffer, but it extends a running one.
-   * - Case and accents are ignored, so `e` finds "Ã‰clair".
+   * A single character looks after the current item. A repeated character such as `aaa` cycles through the items that
+   * start with it. A longer string refines the search from the current item.
+   *
+   * Disabled items are skipped. A space does not start a buffer, but it extends a running one. Case and accents are
+   * ignored, so `e` finds "Éclair".
    *
    * @param char - The `key` of a printable keyboard event.
    * @param items - The items in DOM order.

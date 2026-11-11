@@ -74,13 +74,14 @@ function collect(parent: ParentNode, view: Window, found: HTMLElement[]): void {
  * Lists the elements inside a container that Tab can reach, in rendered order. It only reads the page and changes nothing.
  *
  * @remarks
- * - An open shadow root is entered at its host. A slot lists its assigned elements at its position, once each.
- * - It skips disabled controls, `tabindex="-1"`, `inert` and `hidden` subtrees, `display: none` and `visibility: hidden`.
- * - Radios of one group (same `name`, same form owner or tree) are one stop: the checked one, or all when none is checked.
- *   A disabled radio does not count, so its enabled peers stay stops.
- * - A closed `<details>` lists only its first `<summary>`.
- * - A positive `tabindex` does not reorder the list.
- * - The container itself is not in the result.
+ * An open shadow root is entered at its host. A slot lists its assigned elements at its position, once each. It skips
+ * disabled controls, `tabindex="-1"`, `inert` and `hidden` subtrees, `display: none` and `visibility: hidden`.
+ *
+ * Radios of one group (same `name`, same form owner or tree) are one stop. That is the checked one, or all when none is
+ * checked. A disabled radio does not count, so its enabled peers stay stops.
+ *
+ * A closed `<details>` lists only its first `<summary>`. A positive `tabindex` does not reorder the list. The container
+ * itself is not in the result.
  *
  * @param container - The element to search.
  * @returns The tabbable descendants, in rendered order.

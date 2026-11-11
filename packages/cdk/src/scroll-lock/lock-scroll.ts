@@ -87,9 +87,9 @@ function bodyBorders(body: HTMLElement, view: Window): number {
  * It sets `overflow: hidden` on the root element and adds right padding for the width of the scrollbar.
  *
  * @remarks
- * - It does nothing when the page does not scroll, which is when the root and the body fit.
- * - It adds no padding when the root has `scrollbar-gutter: stable`, because that keeps the layout.
- * - It also hides and pads `<body>` when the body is a scroll container of its own.
+ * It does nothing when the page does not scroll, which is when the root and the body fit. It adds no padding when the
+ * root has `scrollbar-gutter: stable`, because that keeps the layout. It also hides and pads `<body>` when the body is
+ * a scroll container of its own.
  *
  * While the lock holds, the custom property `--scrollbar-width` on `<html>` is the width in px that the lock padded. It is
  * written only above `0`. Use it to offset fixed elements, for example `right: var(--scrollbar-width, 0px)`.
