@@ -1,21 +1,14 @@
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import { hasAccessibleName, hasChoiceControlName, hasInteractiveContent } from '../src/index';
-import type { ChoiceLabelPart, NameableElement, QueryableElement } from '../src/index';
+import { hasAccessibleName, hasInteractiveContent } from '../src/index';
+import type { QueryableElement } from '../src/index';
 
 describe('public type exports', () => {
   it.each([
     {
-      name: 'NameableElement is the parameter of hasAccessibleName',
+      name: 'the parameter of hasAccessibleName is Element',
       check: () => {
-        expectTypeOf(hasAccessibleName).parameter(0).toEqualTypeOf<NameableElement>();
-        expectTypeOf<HTMLInputElement>().toExtend<NameableElement>();
-      },
-    },
-    {
-      name: 'ChoiceLabelPart is the second parameter of hasChoiceControlName',
-      check: () => {
-        expectTypeOf(hasChoiceControlName).parameter(1).toEqualTypeOf<ChoiceLabelPart>();
-        expectTypeOf<HTMLLabelElement>().toExtend<ChoiceLabelPart>();
+        expectTypeOf(hasAccessibleName).parameter(0).toEqualTypeOf<Element>();
+        expectTypeOf<HTMLInputElement>().toExtend<Parameters<typeof hasAccessibleName>[0]>();
       },
     },
     {

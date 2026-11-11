@@ -1,66 +1,49 @@
 // @vitest-environment jsdom
 /// <reference lib="dom" />
 import { afterEach, describe, expect, it } from 'vitest';
-import { hasAccessibleName, hasChoiceControlName } from '../src/index';
+import { hasAccessibleName } from '../src/index';
+import rows from './has-accessible-name.cases.json';
 
+/**
+ * One row of the case file, which `apps/docs-e2e` also runs in Chromium against the browser's own name.
+ * `relation` is how the expected value stands to Chromium's name: `equal`, `false-false` (a known limit that gives
+ * `false` where Chromium has a name) or `not-in-tree` (the node is not in Chromium's tree, so the expected value is the
+ * "named when shown" answer).
+ */
+interface Row {
+  readonly group: string;
+  readonly name: string;
+  readonly html: string;
+  readonly setup?: string;
+  readonly expected: boolean;
+  readonly relation: 'equal' | 'false-false' | 'not-in-tree';
+}
+
+/** A row can set `document.title` and attributes on `<body>`: every row starts from an empty page. */
 afterEach(() => {
+  document.head.replaceChildren();
   document.body.replaceChildren();
+  document.body.getAttributeNames().forEach((attribute) => {
+    document.body.removeAttribute(attribute);
+  });
 });
 
-const mount = (html: string): HTMLInputElement => {
-  document.body.innerHTML = html;
-  const input = document.querySelector('input');
-  if (!input) throw new Error('No input.');
-  return input;
-};
+const ELEMENT_UNDER_TEST = `return document.getElementById('t');`;
+
+/** The element under test: the row's `setup` code returns it, else it is the element with `id="t"`. */
+const elementOf = (row: Row): Element | null =>
+  new Function('document', row.setup ?? ELEMENT_UNDER_TEST)(document) as Element | null;
 
 describe('hasAccessibleName', () => {
-  it.each([
-    ['nothing', '<input>', false],
-    ['a label for', '<label for="a">Name</label><input id="a">', true],
-    ['a wrapping label', '<label>Name <input></label>', true],
-    ['aria-label', '<input aria-label="Name">', true],
-    ['aria-labelledby', '<input aria-labelledby="x">', true],
-    ['title', '<input title="Name">', true],
-    ['a label for another control', '<label for="b">Name</label><input id="a">', false],
-  ])('%s', (_name, html, expected) => {
-    expect(hasAccessibleName(mount(html))).toBe(expected);
-  });
-});
-
-describe('hasChoiceControlName', () => {
-  const check = (html: string, ignoreFirstChild = false): boolean => {
-    document.body.innerHTML = html;
-    const input = document.querySelector('input');
-    const label = document.querySelector('label.own');
-    if (!input || !label) throw new Error('No control.');
-    return hasChoiceControlName(input, label, ignoreFirstChild ? [label.firstChild] : []);
-  };
-
-  it.each([
-    ['an empty own label', '<input id="a"><label class="own" for="a"></label>', false],
-    ['content in the own label', '<input id="a"><label class="own" for="a">Name</label>', true],
-    ['another label', '<label for="a">Outside</label><input id="a"><label class="own" for="a"></label>', true],
-    ['aria-label', '<input id="a" aria-label="Name"><label class="own" for="a"></label>', true],
-    ['aria-labelledby', '<input id="a" aria-labelledby="x"><label class="own" for="a"></label>', true],
-    ['title', '<input id="a" title="Name"><label class="own" for="a"></label>', true],
-  ])('%s', (_name, html, expected) => {
-    expect(check(html)).toBe(expected);
+  it('has rows in every relation', () => {
+    const relations = new Set((rows as Row[]).map((row) => row.relation));
+    expect([...relations].sort()).toEqual(['equal', 'false-false', 'not-in-tree']);
   });
 
-  it('ignores the nodes that are not the author content', () => {
-    expect(check('<input id="a"><label class="own" for="a"><span></span></label>', true)).toBe(false);
-    expect(check('<input id="a"><label class="own" for="a"><span></span>Name</label>', true)).toBe(true);
-  });
-
-  it('does not count comments and whitespace-only text as content', () => {
-    document.body.innerHTML = '<input id="a"><label class="own" for="a"></label>';
-    const input = document.querySelector('input');
-    const label = document.querySelector('label.own');
-    if (!input || !label) throw new Error('No control.');
-    label.append(document.createComment(''), document.createTextNode(''), document.createTextNode(' \t '));
-    expect(hasChoiceControlName(input, label)).toBe(false);
-    label.append(document.createTextNode('Name'));
-    expect(hasChoiceControlName(input, label)).toBe(true);
+  it.each((rows as Row[]).map((row) => [`${row.group} | ${row.name}`, row] as const))('%s', (_title, row) => {
+    document.body.innerHTML = row.html;
+    const element = elementOf(row);
+    if (!element) throw new Error('The row has no element under test.');
+    expect(hasAccessibleName(element)).toBe(row.expected);
   });
 });
