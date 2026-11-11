@@ -54,7 +54,7 @@ export interface OverlayPositionOptions {
   readonly avoidCollisions?: boolean;
   /**
    * The distance in px that the content keeps from the viewport edges. A number applies to all four edges, and an object sets single edges.
-   * Flip, shift, the size check and the hidden check all use it.
+   * The distance applies to flip, shift, the size check and the hidden check.
    * @defaultValue 5
    */
   readonly collisionPadding?: OverlayCollisionPadding;
