@@ -98,8 +98,31 @@ export function hasObjectPayload(type: string): boolean {
   return /\{|\b[A-Z][\w$]*\b/.test(payload);
 }
 
-function checkMember(label: string, member: ApiMemberJson, problems: string[]): void {
+/**
+ * A default written as prose: a sentence that starts with "Default" or "Defaults" and then a colon, `to`, `is` or a
+ * code span (`Default `5`.`), or "defaults to" / "the default is" anywhere. The `@defaultValue` tag holds it instead.
+ */
+const PROSE_DEFAULT = /(^|[.!?]\s+)Defaults?(?::|\s+(?:to|is)\b|\s+`)|\bdefaults to\b|\bthe default is\b/i;
+
+/** Adds a problem when a member of a `ts` module writes its default as prose (it needs `@defaultValue`). */
+function checkProseDefault(
+  label: string,
+  item: { description: string; remarks?: string },
+  framework: ApiDocJson['framework'] | undefined,
+  problems: string[],
+): void {
+  if (framework === 'ts' && PROSE_DEFAULT.test([item.description, item.remarks ?? ''].join('\n\n')))
+    problems.push(`${label}: a default is written as prose; use "@defaultValue" and leave it out of the text`);
+}
+
+function checkMember(
+  label: string,
+  member: ApiMemberJson,
+  problems: string[],
+  framework?: ApiDocJson['framework'],
+): void {
   checkText(label, member, problems);
+  checkProseDefault(label, member, framework, problems);
   checkProse(`${label} (deprecated)`, member.deprecated, problems);
   checkValues(label, member.type, member.values, problems);
 }
@@ -119,14 +142,14 @@ function checkPart(doc: ApiDocJson, part: ApiPartJson, problems: string[]): void
   checkText(label, part, problems);
   if (part.semanticId.endsWith('.root')) needsExample(`${label} (root part)`, part, problems);
   for (const prop of part.props) {
-    checkMember(`${label}.${prop.name}`, prop, problems);
+    checkMember(`${label}.${prop.name}`, prop, problems, doc.framework);
     if (!prop.required && prop.default === undefined && !saysNotSet(prop))
       problems.push(
         `${label}.${prop.name}: optional with no default; say what happens in a "When not set, …" sentence`,
       );
   }
   for (const event of part.events) {
-    checkMember(`${label}.${event.name}`, event, problems);
+    checkMember(`${label}.${event.name}`, event, problems, doc.framework);
     if (hasObjectPayload(event.type)) needsExample(`${label}.${event.name} (object payload)`, event, problems);
   }
   for (const slot of part.slots) checkSlot(`${label} slot ${slot.name}`, slot, doc.framework, problems);
@@ -136,10 +159,36 @@ function checkPart(doc: ApiDocJson, part: ApiPartJson, problems: string[]): void
   }
 }
 
+/** The rules of a function symbol: an example, a text per parameter, a `@returns` unless it returns `void`, and `@throws`. */
+function checkFunction(
+  label: string,
+  symbol: ApiSymbolJson,
+  framework: ApiDocJson['framework'],
+  problems: string[],
+): void {
+  needsExample(label, symbol, problems);
+  for (const param of symbol.typeParams ?? []) {
+    const where = `${label}<${param.name}>`;
+    if (param.description === '') problems.push(`${where}: needs a @typeParam text`);
+    checkProse(where, param.description, problems);
+  }
+  for (const param of symbol.params ?? []) {
+    const where = `${label}(${param.name})`;
+    if (param.description === '') problems.push(`${where}: needs a @param text`);
+    checkProse(where, param.description, problems);
+    checkProseDefault(where, param, framework, problems);
+  }
+  if (symbol.returns !== undefined && symbol.returns.type !== 'void' && symbol.returns.description === '')
+    problems.push(`${label}: needs a @returns text`);
+  checkProse(`${label} (returns)`, symbol.returns?.description, problems);
+  for (const text of symbol.throws ?? []) checkProse(`${label} (throws)`, text, problems);
+}
+
 function checkSymbol(doc: ApiDocJson, symbol: ApiSymbolJson, problems: string[]): void {
   const label = `${doc.framework}/${doc.component} ${symbol.kind} ${symbol.name}`;
   checkText(label, symbol, problems);
   if (symbol.kind === 'constant') needsExample(label, symbol, problems);
+  if (symbol.kind === 'function') checkFunction(label, symbol, doc.framework, problems);
   for (const prop of symbol.props) checkMember(`${label}.${prop.name}`, prop, problems);
   for (const method of symbol.methods) {
     checkMember(`${label}.${method.name}()`, method, problems);
@@ -151,13 +200,14 @@ function checkType(doc: ApiDocJson, type: ApiTypeJson, problems: string[]): void
   const label = `${doc.framework}/${doc.component} type ${type.name}`;
   checkText(label, type, problems);
   if (type.text !== undefined) checkValues(label, type.text, type.values, problems);
-  for (const field of type.fields) checkMember(`${label}.${field.name}`, field, problems);
+  for (const field of type.fields) checkMember(`${label}.${field.name}`, field, problems, doc.framework);
 }
 
 /**
  * The text rules of the API text an extractor read (style guide `tsdoc.md`): sentence length, first paragraph,
  * words that are not allowed, required examples, a `@cckValue` per literal, the "When not set, …" sentence of an
- * optional prop and of a slot, and no slot `@defaultValue`. One problem per broken rule, naming the item.
+ * optional prop and of a slot, and no slot `@defaultValue`. In a `ts` module also an example, a `@param` text and a
+ * `@returns` text of every function, and no default written as prose. One problem per broken rule, naming the item.
  */
 export function textRuleProblems(doc: ApiDocJson): string[] {
   const problems: string[] = [];

@@ -1,0 +1,22 @@
+/** The options of {@link beta}. */
+export interface BetaOptions {
+  /** Whether to shout. */
+  readonly loud?: boolean;
+}
+
+/** A helper that the package index does not export. */
+export function helper(): void {
+  return undefined;
+}
+
+/**
+ * Greets someone.
+ * @example
+ * beta('Ada', { loud: true });
+ * @param name - Who to greet.
+ * @param options - How to greet.
+ * @returns The greeting.
+ */
+export function beta(name: string, options?: BetaOptions): string {
+  return options?.loud === true ? name.toUpperCase() : name;
+}

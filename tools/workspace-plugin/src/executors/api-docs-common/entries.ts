@@ -1,5 +1,6 @@
-import { existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { basename, join } from 'node:path';
+import ts from 'typescript';
 import { posix } from '../posix-path';
 
 /** Folders of `src` that are never component entry points. */
@@ -23,5 +24,43 @@ export function srcEntryPointsOf(projectRoot: string): { name: string; dir: stri
       dir: posix(join(src, item.name)),
       file: posix(join(src, item.name, 'index.ts')),
     }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** An entry point of a framework-free package: the module that is read, and the export names it lists (none: all). */
+export interface ModuleEntry {
+  name: string;
+  file: string;
+  only?: ReadonlySet<string>;
+}
+
+/**
+ * The entry points of a framework-free package (`cdk`, `utils`): the folders of `src` with an `index.ts` (one entry
+ * each, all its exports), else the files that `src/index.ts` re-exports from (`export { a } from './a'`, one entry
+ * each, the names that line exports). A file with a name that is not kebab-case is none, so a name never reaches a
+ * file path.
+ */
+export function moduleEntryPointsOf(projectRoot: string): ModuleEntry[] {
+  const folders = srcEntryPointsOf(projectRoot);
+  if (folders.length > 0) return folders.map(({ name, file }) => ({ name, file }));
+  const index = join(projectRoot, 'src', 'index.ts');
+  if (!existsSync(index)) return [];
+  const source = ts.createSourceFile(index, readFileSync(index, 'utf8'), ts.ScriptTarget.Latest);
+  const found = new Map<string, { file: string; names: Set<string> | undefined }>();
+  for (const statement of source.statements) {
+    if (!ts.isExportDeclaration(statement) || statement.moduleSpecifier === undefined) continue;
+    if (!ts.isStringLiteral(statement.moduleSpecifier) || !statement.moduleSpecifier.text.startsWith('./')) continue;
+    const name = basename(statement.moduleSpecifier.text);
+    if (!ENTRY_NAME.test(name))
+      throw new Error(`${index}: "${statement.moduleSpecifier.text}" is not a kebab-case file`);
+    const entry = found.get(name) ?? { file: posix(join(projectRoot, 'src', `${name}.ts`)), names: new Set<string>() };
+    const clause = statement.exportClause;
+    if (clause !== undefined && ts.isNamedExports(clause) && entry.names !== undefined) {
+      for (const element of clause.elements) entry.names.add(element.name.text);
+    } else entry.names = undefined;
+    found.set(name, entry);
+  }
+  return [...found]
+    .map(([name, { file, names }]) => ({ name, file, ...(names === undefined ? {} : { only: names }) }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
