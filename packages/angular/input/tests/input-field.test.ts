@@ -207,10 +207,11 @@ describe('Input in a FormField: the accessible name warning', () => {
     expect(warned(warn)).toBe(false);
   });
 
-  it('does not warn outside a field', async () => {
+  it('does not use the FormField text outside a field', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     await render(`<input cckInput />`, { imports });
-    expect(warned(warn)).toBe(false);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]?.[0])).not.toContain('FormField');
   });
 });
 
