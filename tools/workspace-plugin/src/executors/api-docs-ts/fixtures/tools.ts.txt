@@ -1,0 +1,75 @@
+/**
+ * How the tool places its box.
+ *
+ * @cckValue top - The box opens above.
+ * @cckValue bottom - The box opens below.
+ */
+export type ToolSide = 'top' | 'bottom';
+
+/** A box that is not exported by name, only used by an option. */
+interface ToolBox {
+  /** The width in pixels. */
+  readonly width: number;
+}
+
+/** The options of {@link openTool}. */
+export interface ToolOptions {
+  /** The side where the box opens. */
+  readonly side?: ToolSide;
+  /**
+   * The gap in pixels.
+   * @defaultValue 5
+   */
+  readonly gap?: number;
+  /** The box to fill. */
+  readonly box: ToolBox;
+}
+
+/**
+ * Opens the tool and returns a function that closes it.
+ *
+ * @remarks The tool needs the element to be in the document.
+ * @example
+ * const close = openTool(button, { box: { width: 10 } });
+ * close();
+ * @param element - The element that owns the tool.
+ * @param options - How the tool opens.
+ * @returns A function that closes the tool.
+ * @throws When the element is not in the document.
+ */
+export function openTool(element: Element, options: ToolOptions): () => void {
+  void element;
+  void options;
+  return () => undefined;
+}
+
+/**
+ * Counts the words of a text.
+ * @example
+ * countWords('a b');
+ * @param text - The text to count.
+ * @param extra - More words to add.
+ * @returns The number of words.
+ */
+export const countWords = (text: string, extra = 0): number => text.split(' ').length + extra;
+
+/**
+ * Clears the tool.
+ * @example
+ * clearTool();
+ */
+export function clearTool(): void {
+  return undefined;
+}
+
+/**
+ * The name of the tool.
+ * @example
+ * console.log(TOOL_NAME);
+ */
+export const TOOL_NAME: string = 'tool';
+
+/** Used inside the package only. @internal */
+export function hiddenTool(): void {
+  return undefined;
+}
