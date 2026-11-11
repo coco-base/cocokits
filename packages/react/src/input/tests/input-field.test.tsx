@@ -337,9 +337,9 @@ describe('Input accessible name warning', () => {
     expect(warned(warn)).toBe(false);
   });
 
-  it('does not warn outside a field', async () => {
+  it('does not warn outside a field when an aria-label names it', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    render(<Input />);
+    render(<Input aria-label="Name" />);
     await nextFrame();
     expect(warned(warn)).toBe(false);
   });

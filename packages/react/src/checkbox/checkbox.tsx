@@ -36,7 +36,6 @@ function CheckboxImpl({
 }: CheckboxProps): ReactElement {
   const themeAttrs = useThemeAttrs(checkboxAnatomy);
   const elementRef = useRef<HTMLInputElement | null>(null);
-  const labelRef = useRef<HTMLLabelElement | null>(null);
   const mergedRef = useMergedRef<HTMLInputElement>(ref, elementRef, undefined);
   const { parts, inputProps, state } = useChoiceControl(
     {
@@ -56,7 +55,7 @@ function CheckboxImpl({
       dirty,
       submitted,
     },
-    { componentName: 'Checkbox', elementRef, labelRef, indeterminate, getParts: getCheckboxProps },
+    { componentName: 'Checkbox', elementRef, indeterminate, getParts: getCheckboxProps },
   );
   const root = mergeProps(
     {
@@ -73,7 +72,7 @@ function CheckboxImpl({
             <span {...themeAttrs.backdrop} {...toReactProps(parts.backdrop)} />
             <span {...themeAttrs.background} {...toReactProps(parts.background)} />
           </span>
-          <label {...themeAttrs.label} {...toReactProps(parts.label)} ref={labelRef}>
+          <label {...themeAttrs.label} {...toReactProps(parts.label)}>
             {children}
           </label>
         </span>

@@ -8,7 +8,7 @@ import {
   type FormFieldControlContext,
   type FormFieldControlState,
 } from '@cocokits/machines/form-field';
-import { hasChoiceControlName } from '@cocokits/utils';
+import { hasAccessibleName } from '@cocokits/utils';
 import type { ChoiceControlBaseProps, ChoiceControlState } from './choice-control.types';
 import { isDevelopment } from './dev';
 import { useFormFieldContext } from './form-field-context';
@@ -33,10 +33,6 @@ export interface ChoiceControlOptions<P extends ChoiceMachineParts> {
   readonly componentName: 'Checkbox' | 'Switch';
   /** The ref of the native input; the component merges it with the author's `ref`. */
   readonly elementRef: RefObject<HTMLInputElement | null>;
-  /** The ref of the native label; the Switch's holds the track as well as the content. */
-  readonly labelRef: RefObject<HTMLLabelElement | null>;
-  /** The track element the Switch's label holds besides the content. */
-  readonly trackRef?: RefObject<HTMLElement | null> | undefined;
   /** Whether the Checkbox shows the mixed state. */
   readonly indeterminate: boolean;
   /** The machine call of the control. */
@@ -54,31 +50,24 @@ export interface ChoiceControl<P> {
 }
 
 /**
- * Development only: warns after mount when nothing names the input (an empty label part and no other name
- * source). It waits a frame so that the field's Label has committed its `for`.
+ * Development only: warns after mount when nothing names the input. It waits a frame so that the field's
+ * Label has committed its `for`.
  */
-function useUnnamedWarning(
-  componentName: string,
-  elementRef: RefObject<HTMLInputElement | null>,
-  labelRef: RefObject<HTMLLabelElement | null>,
-  trackRef: RefObject<HTMLElement | null> | undefined,
-): void {
+function useUnnamedWarning(componentName: string, elementRef: RefObject<HTMLInputElement | null>): void {
   useEffect(() => {
     if (!isDevelopment()) return undefined;
     const frame = requestAnimationFrame(() => {
       const input = elementRef.current;
-      const label = labelRef.current;
-      if (!input || !label) return;
-      if (!hasChoiceControlName(input, label, trackRef?.current ? [trackRef.current] : [])) {
+      if (input && !hasAccessibleName(input)) {
         console.warn(
-          `CocoKits: a ${componentName} has no accessible name. Put the caption inside it, or add an aria-label, aria-labelledby or title, or a <label for> that points at its id.`,
+          `CocoKits: a ${componentName} has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.`,
         );
       }
     });
     return () => {
       cancelAnimationFrame(frame);
     };
-  }, [componentName, elementRef, labelRef, trackRef]);
+  }, [componentName, elementRef]);
 }
 
 /**
@@ -95,7 +84,7 @@ export function useChoiceControl<P extends ChoiceMachineParts>(
   options: ChoiceControlOptions<P>,
 ): ChoiceControl<P> {
   const { checked, defaultChecked, onCheckedChange, id, name, hidden, disabled, readOnly, required } = props;
-  const { componentName, elementRef, labelRef, trackRef, indeterminate, getParts } = options;
+  const { componentName, elementRef, indeterminate, getParts } = options;
   const field = useFormFieldContext();
   const generatedId = useId();
   const authorId = id === '' ? undefined : id;
@@ -157,7 +146,7 @@ export function useChoiceControl<P extends ChoiceMachineParts>(
     const element = elementRef.current;
     if (element && element.indeterminate !== indeterminate) element.indeterminate = indeterminate;
   });
-  useUnnamedWarning(componentName, elementRef, labelRef, trackRef);
+  useUnnamedWarning(componentName, elementRef);
 
   // `filled` is `checked`, which the state already has.
   const facts = withoutReserved({ ...resolveFormFieldState(undefined, parts.control) }, ['filled']) as Omit<

@@ -114,7 +114,7 @@ function useNameWarning(triggerRef: RefObject<HTMLElement | null>, inField: bool
     const frame = requestAnimationFrame(() => {
       if (triggerRef.current && !hasAccessibleName(triggerRef.current)) {
         console.warn(
-          `CocoKits: a Select ${inField ? 'in a FormField ' : ''}has no accessible name. Add a Label to the FormField, or an aria-label or aria-labelledby to the Select.Trigger.`,
+          `CocoKits: a Select ${inField ? 'in a FormField ' : ''}has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.`,
         );
       }
     });

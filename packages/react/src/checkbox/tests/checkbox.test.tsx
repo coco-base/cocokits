@@ -413,7 +413,13 @@ describe('Checkbox accessible name warning', () => {
   it.each([
     ['content', <Checkbox key="a">Caption</Checkbox>],
     ['aria-label', <Checkbox key="b" aria-label="Name" />],
-    ['aria-labelledby', <Checkbox key="c" aria-labelledby="x" />],
+    [
+      'aria-labelledby',
+      <>
+        <span id="x">Name</span>
+        <Checkbox key="c" aria-labelledby="x" />
+      </>,
+    ],
     ['title', <Checkbox key="d" title="Name" />],
   ])('does not warn with %s', async (_name, ui) => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);

@@ -127,7 +127,7 @@ describe('Textarea accessibility', () => {
         <FormField>
           <Textarea aria-label="Other" />
         </FormField>
-        <Textarea />
+        <Textarea aria-label="Alone" />
       </>,
     );
     await frame();
