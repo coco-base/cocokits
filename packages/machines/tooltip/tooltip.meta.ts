@@ -9,6 +9,22 @@ export const tooltipMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'arrow'
     content: ['data-state', 'data-side', 'data-align'],
     arrow: [],
   },
+  dataAttrDetails: {
+    'data-state': {
+      values: ['open', 'closed'],
+      setWhen: 'Always set: `open` while the tooltip is shown, `closed` otherwise.',
+    },
+    'data-side': {
+      values: ['top', 'bottom', 'start', 'end'],
+      setWhen:
+        'Always set: the side of the trigger the content sits on, the `side` asked for (`top` by default) until positioning flips the content to fit.',
+    },
+    'data-align': {
+      values: ['start', 'center', 'end'],
+      setWhen:
+        'Always set: how the content lines up with the trigger, the `align` asked for (`center` by default) until positioning shifts the content to fit.',
+    },
+  },
   roles: { root: null, trigger: null, content: 'tooltip', arrow: null },
   keyboard: [
     {

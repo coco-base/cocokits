@@ -38,6 +38,33 @@ export const selectMeta: ComponentMeta<
     optionGroupLabel: [],
     separator: [],
   },
+  dataAttrDetails: {
+    'data-state': {
+      values: ['open', 'closed'],
+      setWhen: 'Always set: `open` while the list is open, `closed` otherwise.',
+    },
+    'data-multiple': { setWhen: 'The Select takes several values.' },
+    'data-disabled': {
+      setWhen:
+        'The Select is disabled; on an option, the option or its group is disabled; on a group, the group is disabled.',
+    },
+    'data-readonly': { setWhen: 'The Select is read-only.' },
+    'data-required': { setWhen: 'The Select is required.' },
+    'data-invalid': { setWhen: 'The Select is invalid, also before any error shows.' },
+    'data-placeholder-shown': { setWhen: 'The Select has no value, so the placeholder shows.' },
+    'data-side': {
+      values: ['top', 'bottom', 'start', 'end'],
+      setWhen:
+        'Always set: the side of the trigger the content sits on, the `side` asked for (`bottom` by default) until positioning flips the content to fit.',
+    },
+    'data-align': {
+      values: ['start', 'center', 'end'],
+      setWhen:
+        'Always set: how the content lines up with the trigger, the `align` asked for (`start` by default) until positioning shifts the content to fit.',
+    },
+    'data-selected': { setWhen: 'The option is selected.' },
+    'data-highlighted': { setWhen: 'The option is the active one, by keyboard or pointer.' },
+  },
   roles: {
     root: null,
     trigger: 'combobox',

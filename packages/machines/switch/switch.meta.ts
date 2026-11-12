@@ -12,6 +12,18 @@ export const switchMeta: ComponentMeta<'root' | 'label' | 'track' | 'input' | 't
     thumb: [],
     backdrop: [],
   },
+  dataAttrDetails: {
+    'data-disabled': { setWhen: 'The switch is disabled.' },
+    'data-readonly': { setWhen: 'The switch is read-only.' },
+    'data-required': { setWhen: 'The switch is required.' },
+    'data-invalid': { setWhen: 'The switch is invalid, also before any error shows.' },
+    'data-pending': { setWhen: 'A validator is still running on the switch.' },
+    'data-touched': { setWhen: 'The user has left the switch.' },
+    'data-dirty': { setWhen: 'The user has edited the switch.' },
+    'data-submitted': { setWhen: 'A submit of the form that holds the switch was attempted.' },
+    'data-focused': { setWhen: 'The switch has focus.' },
+    'data-checked': { setWhen: 'The switch is on.' },
+  },
   roles: { root: null, label: null, track: null, input: 'switch', thumb: null, backdrop: null },
   keyboard: [
     {

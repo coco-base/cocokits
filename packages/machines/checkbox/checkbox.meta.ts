@@ -21,6 +21,19 @@ export const checkboxMeta: ComponentMeta<
     background: [],
     label: [],
   },
+  dataAttrDetails: {
+    'data-disabled': { setWhen: 'The checkbox is disabled.' },
+    'data-readonly': { setWhen: 'The checkbox is read-only.' },
+    'data-required': { setWhen: 'The checkbox is required.' },
+    'data-invalid': { setWhen: 'The checkbox is invalid, also before any error shows.' },
+    'data-pending': { setWhen: 'A validator is still running on the checkbox.' },
+    'data-touched': { setWhen: 'The user has left the checkbox.' },
+    'data-dirty': { setWhen: 'The user has edited the checkbox.' },
+    'data-submitted': { setWhen: 'A submit of the form that holds the checkbox was attempted.' },
+    'data-focused': { setWhen: 'The checkbox has focus.' },
+    'data-checked': { setWhen: 'The checkbox is checked.' },
+    'data-indeterminate': { setWhen: 'The indeterminate prop is true: the checkbox shows the mixed state.' },
+  },
   roles: { root: null, wrapper: null, inputWrapper: null, input: null, backdrop: null, background: null, label: null },
   keyboard: [
     {

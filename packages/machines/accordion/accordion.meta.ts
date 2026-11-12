@@ -10,6 +10,21 @@ export const accordionMeta: ComponentMeta<'root' | 'item' | 'header' | 'trigger'
     trigger: ['data-state', 'data-disabled', 'data-orientation', 'data-focus-visible'],
     content: ['data-state', 'data-disabled', 'data-orientation'],
   },
+  dataAttrDetails: {
+    'data-orientation': {
+      values: ['horizontal', 'vertical'],
+      setWhen: 'Always set: the direction of the accordion, `vertical` unless the orientation prop says otherwise.',
+    },
+    'data-disabled': {
+      setWhen: 'The accordion is disabled; on an item, header, trigger or content, that item is disabled.',
+    },
+    'data-multiple': { setWhen: 'The accordion lets several items be open at once.' },
+    'data-state': {
+      values: ['open', 'closed'],
+      setWhen: 'Always set: `open` while the item is expanded, `closed` while it is collapsed.',
+    },
+    'data-focus-visible': { setWhen: 'The trigger has focus that came from the keyboard.' },
+  },
   roles: { root: null, item: null, header: null, trigger: null, content: 'region' },
   keyboard: [
     {

@@ -7,6 +7,7 @@ import { formFieldMeta } from '../form-field';
  */
 export const textareaMeta: ComponentMeta<'root'> = {
   dataAttrs: { root: formFieldMeta.dataAttrs.root },
+  ...(formFieldMeta.dataAttrDetails ? { dataAttrDetails: formFieldMeta.dataAttrDetails } : {}),
   roles: { root: null },
   keyboard: [
     {
