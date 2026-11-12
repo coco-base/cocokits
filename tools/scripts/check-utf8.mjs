@@ -4,11 +4,17 @@
 // skipped. Run by `pnpm check:utf8` and by `pnpm ci:local`.
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { pathToFileURL } from 'node:url';
 
 /** The characters a Windows-1252 decode gives the bytes 0x80-0xBF (Latin-1 symbols and the cp1252 punctuation). */
 const CONTINUATION =
-  '[\u0080-\u00bf\u0152\u0153\u0160\u0161\u0178\u017d\u017e\u0192\u02c6\u02dc\u2013\u2014\u2018-\u201a\u201c-\u201e\u2020-\u2022\u2026\u2030\u2039\u203a\u20ac\u2122]';
+  '[' +
+  [
+    '\u0080-\u00bf',
+    '\u0152\u0153\u0160\u0161\u0178\u017d\u017e\u0192\u02c6\u02dc',
+    '\u2013\u2014\u2018-\u201a\u201c-\u201e\u2020-\u2022',
+    '\u2026\u2030\u2039\u203a\u20ac\u2122',
+  ].join('') +
+  ']';
 /** Two-byte characters (lead C2 or C3) and three-byte characters (lead E2) read as single-byte text. */
 const MOJIBAKE = new RegExp(`[\u00c2\u00c3]${CONTINUATION}|\u00e2${CONTINUATION}{2}`);
 const decoder = new TextDecoder('utf-8', { fatal: true });
@@ -52,4 +58,4 @@ function main() {
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+if (import.meta.main) main();
