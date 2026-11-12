@@ -55,12 +55,12 @@ export const selectMeta: ComponentMeta<
     'data-side': {
       values: ['top', 'bottom', 'start', 'end'],
       setWhen:
-        'Always set: the side of the trigger the content sits on. Before positioning measures it is the `side` asked for (`bottom` by default); after, the side left once the content flips to fit.',
+        'Always set: the side of the trigger the content sits on, the `side` asked for (`bottom` by default) until positioning flips the content to fit.',
     },
     'data-align': {
       values: ['start', 'center', 'end'],
       setWhen:
-        'Always set: how the content lines up with the trigger. Before positioning measures it is the `align` asked for (`start` by default); after, the alignment left once the content shifts to fit.',
+        'Always set: how the content lines up with the trigger, the `align` asked for (`start` by default) until positioning shifts the content to fit.',
     },
     'data-selected': { setWhen: 'The option is selected.' },
     'data-highlighted': { setWhen: 'The option is the active one, by keyboard or pointer.' },

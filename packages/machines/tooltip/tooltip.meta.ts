@@ -17,12 +17,12 @@ export const tooltipMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'arrow'
     'data-side': {
       values: ['top', 'bottom', 'start', 'end'],
       setWhen:
-        'Always set: the side of the trigger the content sits on. Before positioning measures it is the `side` asked for (`top` by default); after, the side left once the content flips to fit. The default options of the app can change the default.',
+        'Always set: the side of the trigger the content sits on, the `side` asked for (`top` by default) until positioning flips the content to fit.',
     },
     'data-align': {
       values: ['start', 'center', 'end'],
       setWhen:
-        'Always set: how the content lines up with the trigger. Before positioning measures it is the `align` asked for (`center` by default); after, the alignment left once the content shifts to fit. The default options of the app can change the default.',
+        'Always set: how the content lines up with the trigger, the `align` asked for (`center` by default) until positioning shifts the content to fit.',
     },
   },
   roles: { root: null, trigger: null, content: 'tooltip', arrow: null },
