@@ -14,6 +14,7 @@
     "format:check": "nx format:check",
     "lint": "nx run-many -t lint --max-warnings 0",
     "lint:files": "eslint --max-warnings 0 --ignore-pattern \"packages/**\" --ignore-pattern \"tools/workspace-plugin/**\" .",
+    "check:utf8": "node tools/scripts/check-utf8.mjs",
     "typecheck": "nx run-many -t typecheck",
     "test": "nx run-many -t test",
     "build": "nx run-many -t build",

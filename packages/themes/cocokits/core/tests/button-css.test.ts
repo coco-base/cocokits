@@ -38,7 +38,7 @@ const INLINE_PROPERTIES = [
   '--cck-select-slide-y',
   // Documented custom property: the author sets it, the theme reads it with a 220px fallback.
   '--cck-select-content-max-height',
-  // Written by the base on the Accordion content: measured geometry, not a token (architecture �4).
+  // Written by the base on the Accordion content: measured geometry, not a token (architecture §4).
   '--accordion-content-height',
 ];
 /** The blocks with a hover look (a text box shows it on its border; a Switch, Checkbox and Radio on the halo and the border; the Popover and Dialog Close on their fill; choice-css.test.ts asserts those rules and bans :active in the shared partial; Tabs and TabNav (the same partial, `_tabs.scss`) only let the pointer switch the slide of its indicator on, and tabs-css.test.ts asserts that no color rule reads :hover); every other block has none. */
