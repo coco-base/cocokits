@@ -16,7 +16,9 @@ export const tabNavMeta: ComponentMeta<'root' | 'list' | 'link' | 'indicator' | 
     panel: [],
   },
   dataAttrDetails: {
-    'data-active': { setWhen: 'The link points to the current page.' },
+    'data-active': {
+      setWhen: 'The link is the active one: the current page, or the selected tab when the TabNav shows panels.',
+    },
     'data-disabled': { setWhen: 'The link is disabled.' },
   },
   roles: { root: null, list: null, link: null, indicator: null, panel: 'tabpanel' },

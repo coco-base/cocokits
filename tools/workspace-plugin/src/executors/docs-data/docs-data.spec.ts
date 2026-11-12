@@ -181,6 +181,16 @@ ${META.replace('alphaMeta', 'betaMeta').replace("dataAttrs: { root: ['data-disab
       /\.\/beta: dataAttrDetails has an entry for data-ghost, which no part lists in dataAttrs/,
     ],
     [
+      'a dataAttrDetails that is not a record',
+      `dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: ['data-disabled']`,
+      /\.\/beta: dataAttrDetails is not a record by attribute name/,
+    ],
+    [
+      'an attribute named like an inherited key',
+      `dataAttrs: { root: ['constructor'] }, dataAttrDetails: {}`,
+      /\.\/beta: constructor is named in dataAttrs but has no entry in dataAttrDetails/,
+    ],
+    [
       'an empty setWhen',
       `dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { setWhen: ' ' } }`,
       /\.\/beta: dataAttrDetails data-disabled has an empty setWhen/,

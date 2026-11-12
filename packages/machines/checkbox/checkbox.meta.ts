@@ -25,7 +25,7 @@ export const checkboxMeta: ComponentMeta<
     'data-disabled': { setWhen: 'The checkbox is disabled.' },
     'data-readonly': { setWhen: 'The checkbox is read-only.' },
     'data-required': { setWhen: 'The checkbox is required.' },
-    'data-invalid': { setWhen: 'The checkbox is invalid, before any error shows.' },
+    'data-invalid': { setWhen: 'The checkbox is invalid, also before any error shows.' },
     'data-pending': { setWhen: 'A validator is still running on the checkbox.' },
     'data-touched': { setWhen: 'The user has left the checkbox.' },
     'data-dirty': { setWhen: 'The user has edited the checkbox.' },

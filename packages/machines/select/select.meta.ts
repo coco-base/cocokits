@@ -50,17 +50,17 @@ export const selectMeta: ComponentMeta<
     },
     'data-readonly': { setWhen: 'The Select is read-only.' },
     'data-required': { setWhen: 'The Select is required.' },
-    'data-invalid': { setWhen: 'The Select is invalid, before any error shows.' },
+    'data-invalid': { setWhen: 'The Select is invalid, also before any error shows.' },
     'data-placeholder-shown': { setWhen: 'The Select has no value, so the placeholder shows.' },
     'data-side': {
       values: ['top', 'bottom', 'start', 'end'],
       setWhen:
-        'Always set: the side of the trigger the list sits on, as resolved by positioning (`bottom` until it is measured).',
+        'Always set: the side of the trigger the content sits on. Before positioning measures it is the `side` asked for (`bottom` by default); after, the side left once the content flips to fit.',
     },
     'data-align': {
       values: ['start', 'center', 'end'],
       setWhen:
-        'Always set: how the list lines up with the trigger, as resolved by positioning (`start` until it is measured).',
+        'Always set: how the content lines up with the trigger. Before positioning measures it is the `align` asked for (`start` by default); after, the alignment left once the content shifts to fit.',
     },
     'data-selected': { setWhen: 'The option is selected.' },
     'data-highlighted': { setWhen: 'The option is the active one, by keyboard or pointer.' },

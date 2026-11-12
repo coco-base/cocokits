@@ -16,7 +16,7 @@ export const switchMeta: ComponentMeta<'root' | 'label' | 'track' | 'input' | 't
     'data-disabled': { setWhen: 'The switch is disabled.' },
     'data-readonly': { setWhen: 'The switch is read-only.' },
     'data-required': { setWhen: 'The switch is required.' },
-    'data-invalid': { setWhen: 'The switch is invalid, before any error shows.' },
+    'data-invalid': { setWhen: 'The switch is invalid, also before any error shows.' },
     'data-pending': { setWhen: 'A validator is still running on the switch.' },
     'data-touched': { setWhen: 'The user has left the switch.' },
     'data-dirty': { setWhen: 'The user has edited the switch.' },

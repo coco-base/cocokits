@@ -64,7 +64,7 @@ function checkDataAttrDetails(subpath: string, meta: Record<string, unknown>): v
   }
   const entries = details ?? {};
   for (const attr of listed) {
-    if (!(attr in entries)) {
+    if (!Object.hasOwn(entries, attr)) {
       throw new Error(`${subpath}: ${attr} is named in dataAttrs but has no entry in dataAttrDetails`);
     }
   }

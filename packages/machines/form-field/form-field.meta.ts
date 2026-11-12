@@ -13,7 +13,7 @@ export const formFieldMeta: ComponentMeta<'root' | 'wrapper' | 'inputWrapper' | 
     'data-disabled': { setWhen: 'The field or its control is disabled.' },
     'data-readonly': { setWhen: 'The field or its control is read-only.' },
     'data-required': { setWhen: 'The field or its control is required.' },
-    'data-invalid': { setWhen: 'The field or its control is invalid, before any error shows.' },
+    'data-invalid': { setWhen: 'The field or its control is invalid, also before any error shows.' },
     'data-pending': { setWhen: 'A validator is still running on the field or its control.' },
     'data-touched': { setWhen: 'The user has left the field or its control.' },
     'data-dirty': { setWhen: 'The user has edited the field or its control.' },
