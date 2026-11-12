@@ -1,19 +1,11 @@
-import type { ComponentMeta, DataAttrDetail } from '@cocokits/shared';
-import { formFieldFactDetails, formFieldStateAttrs } from '../form-field';
+import type { ComponentMeta } from '@cocokits/shared';
+import { formFieldStateAttrs } from '../form-field';
 
 /** The root facts of a choice control: the field facts without `data-filled`, plus `data-checked`. */
 const choiceRootAttrs: readonly string[] = [
   ...formFieldStateAttrs.filter((attr) => attr !== 'data-filled'),
   'data-checked',
 ];
-
-/** The `setWhen` text of the facts on a choice root: the field facts without `data-filled`, plus `data-checked`. */
-export function choiceAttrDetails(subject: string): Readonly<Record<string, DataAttrDetail>> {
-  const facts: Record<string, DataAttrDetail> = { ...formFieldFactDetails(subject) };
-  delete facts['data-filled'];
-  const first = `${subject.charAt(0).toUpperCase()}${subject.slice(1)}`;
-  return { ...facts, 'data-checked': { setWhen: `${first} is checked.` } };
-}
 
 /** Checkbox meta: data for tests and docs, never read at runtime. */
 export const checkboxMeta: ComponentMeta<
@@ -30,7 +22,16 @@ export const checkboxMeta: ComponentMeta<
     label: [],
   },
   dataAttrDetails: {
-    ...choiceAttrDetails('the checkbox'),
+    'data-disabled': { setWhen: 'The checkbox is disabled.' },
+    'data-readonly': { setWhen: 'The checkbox is read-only.' },
+    'data-required': { setWhen: 'The checkbox is required.' },
+    'data-invalid': { setWhen: 'The checkbox is invalid, before any error shows.' },
+    'data-pending': { setWhen: 'A validator is still running on the checkbox.' },
+    'data-touched': { setWhen: 'The user has left the checkbox.' },
+    'data-dirty': { setWhen: 'The user has edited the checkbox.' },
+    'data-submitted': { setWhen: 'A submit of the form that holds the checkbox was attempted.' },
+    'data-focused': { setWhen: 'The checkbox has focus.' },
+    'data-checked': { setWhen: 'The checkbox is checked.' },
     'data-indeterminate': { setWhen: 'The indeterminate prop is true: the checkbox shows the mixed state.' },
   },
   roles: { root: null, wrapper: null, inputWrapper: null, input: null, backdrop: null, background: null, label: null },

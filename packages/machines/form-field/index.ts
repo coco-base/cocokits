@@ -1,5 +1,5 @@
 export { formFieldAnatomy } from './form-field.anatomy';
-export { formFieldFactDetails, formFieldMeta } from './form-field.meta';
+export { formFieldMeta } from './form-field.meta';
 export { getFormFieldControlProps, invalidShown, isFilledText } from './form-field-control';
 export {
   formFieldIds,
