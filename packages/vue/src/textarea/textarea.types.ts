@@ -2,8 +2,7 @@
  * A native `<textarea>` for several lines of text. It is a real form control, so `FormData`, constraint validation,
  * the `form` attribute and `fieldset[disabled]` work. Bind the text with `v-model`.
  *
- * The Label of its FormField names it. Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>`
- * with text.
+ * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * Enter inserts a line break and never submits the form. A text with CR or CRLF shows with LF, as the element does,
  * and the DOM is not written again for that.

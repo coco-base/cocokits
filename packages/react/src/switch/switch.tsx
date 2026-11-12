@@ -90,7 +90,8 @@ interface SwitchComponent {
  * A control that turns a setting on or off. It renders a `<div>` around a native
  * `<input type="checkbox" role="switch">` and a label with the children as caption.
  *
- * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`.
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`, or a
+ * `<label for>` with text.
  *
  * It is a native form control. `FormData`, `required`, a form reset, the `form` prop, a disabled `fieldset` and a
  * click on the label work as for a native checkbox. It works with react-hook-form `register()` and `Controller`.

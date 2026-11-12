@@ -31,7 +31,7 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
 /**
  * One radio with its label. It wraps a native `<input type="radio">`. The content you write inside it becomes the label.
  *
- * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`.
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * Radios with the same `name` form a native group. The browser unchecks the other radios and moves the focus with the arrow keys. When the user checks another radio of the group, this radio's `checked` becomes `false` and `checkedChangeDetails` emits.
  *

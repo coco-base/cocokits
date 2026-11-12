@@ -16,7 +16,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
 /**
  * A checkbox with its label. It wraps a native `<input type="checkbox">`. The content you write inside it becomes the label.
  *
- * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`.
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * The checkbox works with Signal Forms through `[formField]`. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. The native input is the form control, so `FormData`, `required`, form reset and a disabled `fieldset` work as usual.
  *

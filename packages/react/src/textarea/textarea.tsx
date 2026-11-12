@@ -72,8 +72,7 @@ interface TextareaComponent {
  * A box for several lines of text. It renders a native `<textarea>`. Native `textarea` props such as `rows` pass
  * through, and `ref` reaches the element.
  *
- * The Label of its FormField names it. Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>`
- * with text.
+ * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * It is a native form control. `FormData`, the native checks, the `form` prop and a disabled `fieldset` work. It
  * works with react-hook-form `register()` and `Controller`.

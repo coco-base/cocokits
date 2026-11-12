@@ -69,8 +69,7 @@ interface InputComponent {
  * A box for one line of text. It renders a native `<input>` of the type `text`, `email`, `password`, `search`, `tel`
  * or `url`. Native `input` props pass through, and `ref` reaches the element.
  *
- * The Label of its FormField names it. Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>`
- * with text.
+ * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * It is a native form control. `FormData`, the native checks, the `form` prop, submit by Enter and a disabled
  * `fieldset` work. It works with react-hook-form `register()` and `Controller`.

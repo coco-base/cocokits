@@ -5,8 +5,7 @@ import type { InputType } from '@cocokits/machines/input';
  * control, so `FormData`, constraint validation, the `form` attribute, implicit submission and `fieldset[disabled]`
  * work. Bind the text with `v-model`.
  *
- * The Label of its FormField names it. Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>`
- * with text.
+ * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * Inside a FormField, it gets the id `<fieldId>-control`, and the Label names it. Its `aria-describedby` ends with
  * the ids of the hints, then of the errors. Native attributes and listeners fall through to the `<input>`.
