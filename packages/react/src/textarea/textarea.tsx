@@ -72,8 +72,6 @@ interface TextareaComponent {
  * A box for several lines of text. It renders a native `<textarea>`. Native `textarea` props such as `rows` pass
  * through, and `ref` reaches the element.
  *
- * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
- *
  * It is a native form control. `FormData`, the native checks, the `form` prop and a disabled `fieldset` work. It
  * works with react-hook-form `register()` and `Controller`.
  *
@@ -85,6 +83,7 @@ interface TextareaComponent {
  *
  * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and
  * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.
+ * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and
  * the user has left it or tried to submit.
