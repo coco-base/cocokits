@@ -11,6 +11,15 @@ export const tabsMeta: ComponentMeta<'root' | 'list' | 'trigger' | 'triggerLabel
     indicator: [],
     panel: ['data-orientation', 'data-selected'],
   },
+  dataAttrDetails: {
+    'data-orientation': {
+      values: ['horizontal', 'vertical'],
+      setWhen: 'Always set: the direction of the tabs, `horizontal` unless the orientation prop says otherwise.',
+    },
+    'data-selected': { setWhen: 'The tab is selected; on a panel, its tab is selected.' },
+    'data-disabled': { setWhen: 'The tab is disabled.' },
+    'data-focus-visible': { setWhen: 'The tab has focus that came from the keyboard.' },
+  },
   roles: { root: null, list: 'tablist', trigger: 'tab', triggerLabel: null, indicator: null, panel: 'tabpanel' },
   keyboard: [
     { key: 'Tab', context: 'outside the list', action: 'Native. Focuses the tab stop: the selected tab.' },

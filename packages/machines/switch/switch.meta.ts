@@ -1,5 +1,5 @@
 import type { ComponentMeta } from '@cocokits/shared';
-import { checkboxMeta } from '../checkbox';
+import { checkboxMeta, choiceAttrDetails } from '../checkbox';
 
 /** Switch meta: data for tests and docs, never read at runtime. */
 export const switchMeta: ComponentMeta<'root' | 'label' | 'track' | 'input' | 'thumb' | 'backdrop'> = {
@@ -12,6 +12,7 @@ export const switchMeta: ComponentMeta<'root' | 'label' | 'track' | 'input' | 't
     thumb: [],
     backdrop: [],
   },
+  dataAttrDetails: choiceAttrDetails('the switch'),
   roles: { root: null, label: null, track: null, input: 'switch', thumb: null, backdrop: null },
   keyboard: [
     {

@@ -53,6 +53,35 @@ function checkKeyboardFrameworks(subpath: string, keyboard: readonly unknown[]):
   }
 }
 
+/** `dataAttrDetails` must hold one entry, with a `setWhen` and no empty `values`, for each attribute some part lists. */
+function checkDataAttrDetails(subpath: string, meta: Record<string, unknown>): void {
+  const listed = new Set(
+    Object.values(meta['dataAttrs'] as Record<string, unknown>).flatMap((names) => names as string[]),
+  );
+  const details = meta['dataAttrDetails'];
+  if (details !== undefined && !isRecord(details)) {
+    throw new Error(`${subpath}: dataAttrDetails is not a record by attribute name`);
+  }
+  const entries = details ?? {};
+  for (const attr of listed) {
+    if (!(attr in entries)) {
+      throw new Error(`${subpath}: ${attr} is named in dataAttrs but has no entry in dataAttrDetails`);
+    }
+  }
+  for (const [attr, detail] of Object.entries(entries)) {
+    if (!listed.has(attr)) {
+      throw new Error(`${subpath}: dataAttrDetails has an entry for ${attr}, which no part lists in dataAttrs`);
+    }
+    if (!isRecord(detail) || typeof detail['setWhen'] !== 'string' || detail['setWhen'].trim() === '') {
+      throw new Error(`${subpath}: dataAttrDetails ${attr} has an empty setWhen`);
+    }
+    const values = detail['values'];
+    if (values !== undefined && (!Array.isArray(values) || values.length === 0)) {
+      throw new Error(`${subpath}: dataAttrDetails ${attr} has an empty values list`);
+    }
+  }
+}
+
 function checkMeta(subpath: string, meta: unknown): Record<string, unknown> {
   if (
     !isRecord(meta) ||
@@ -67,6 +96,7 @@ function checkMeta(subpath: string, meta: unknown): Record<string, unknown> {
     );
   }
   checkKeyboardFrameworks(subpath, meta['keyboard'] as unknown[]);
+  checkDataAttrDetails(subpath, meta);
   return meta;
 }
 

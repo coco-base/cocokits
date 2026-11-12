@@ -1,5 +1,5 @@
 export { checkboxAnatomy } from './checkbox.anatomy';
-export { checkboxMeta } from './checkbox.meta';
+export { checkboxMeta, choiceAttrDetails } from './checkbox.meta';
 export { getCheckboxProps } from './checkbox';
 export type {
   CheckboxDecorativeProps,

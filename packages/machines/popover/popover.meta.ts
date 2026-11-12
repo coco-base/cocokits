@@ -18,6 +18,22 @@ export const popoverMeta: ComponentMeta<
     description: [],
     close: [],
   },
+  dataAttrDetails: {
+    'data-state': {
+      values: ['open', 'closed'],
+      setWhen: 'Always set: `open` while the popover is open, `closed` otherwise.',
+    },
+    'data-side': {
+      values: ['top', 'bottom', 'start', 'end'],
+      setWhen:
+        'Always set: the side of the anchor the content sits on, as resolved by positioning (`bottom` until it is measured).',
+    },
+    'data-align': {
+      values: ['start', 'center', 'end'],
+      setWhen:
+        'Always set: how the content lines up with the anchor, as resolved by positioning (`center` until it is measured).',
+    },
+  },
   roles: {
     root: null,
     trigger: null,

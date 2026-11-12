@@ -47,7 +47,7 @@ function errors(): string {
 }
 
 const ANATOMY = `export const alphaAnatomy = { block: 'alpha', parts: { root: { name: 'Root', description: 'The root.' } }, classes: { root: 'cck-alpha' } };`;
-const META = `export const alphaMeta = { apg: 'https://example.test/alpha', dataAttrs: { root: ['data-disabled'] }, roles: { root: null }, keyboard: [{ key: 'Enter', context: 'root', action: 'Activates.' }], form: 'Native.' };`;
+const META = `export const alphaMeta = { apg: 'https://example.test/alpha', dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { setWhen: 'The alpha is disabled.' } }, roles: { root: null }, keyboard: [{ key: 'Enter', context: 'root', action: 'Activates.' }], form: 'Native.' };`;
 
 /** A fake machines package with built `dist` files: `./alpha` complete and, optionally, `./beta`. */
 function machines(beta: string | undefined): void {
@@ -78,6 +78,7 @@ describe('docs-data: machines', () => {
       meta: {
         apg: 'https://example.test/alpha',
         dataAttrs: { root: ['data-disabled'] },
+        dataAttrDetails: { 'data-disabled': { setWhen: 'The alpha is disabled.' } },
         roles: { root: null },
         keyboard: [{ key: 'Enter', context: 'root', action: 'Activates.' }],
         form: 'Native.',
@@ -142,6 +143,62 @@ ${META.replace('alphaMeta', 'betaMeta').replace("action: 'Activates.'", `action:
     );
     expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(false);
     expect(errors()).toMatch(message);
+  });
+
+  const betaWith = (details: string): string =>
+    `${ANATOMY.replace('alpha', 'beta').replace("'alpha'", "'beta'")}
+${META.replace('alphaMeta', 'betaMeta').replace("dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { setWhen: 'The alpha is disabled.' } }", details)}
+`;
+  const ATTRS = "dataAttrs: { root: ['data-disabled', 'data-state'] }";
+
+  it('keeps dataAttrDetails, values and set when, in the docs data', async () => {
+    machines(
+      betaWith(
+        `${ATTRS}, dataAttrDetails: { 'data-disabled': { setWhen: 'Off.' }, 'data-state': { values: ['open', 'closed'], setWhen: 'Always.' } }`,
+      ),
+    );
+    expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(true);
+    expect(readJson('dist/docs-data/m/beta.json')).toHaveProperty('meta.dataAttrDetails', {
+      'data-disabled': { setWhen: 'Off.' },
+      'data-state': { values: ['open', 'closed'], setWhen: 'Always.' },
+    });
+  });
+
+  it.each([
+    [
+      'an attribute with no entry',
+      `${ATTRS}, dataAttrDetails: { 'data-disabled': { setWhen: 'Off.' } }`,
+      /\.\/beta: data-state is named in dataAttrs but has no entry in dataAttrDetails/,
+    ],
+    [
+      'no dataAttrDetails at all',
+      ATTRS,
+      /\.\/beta: data-disabled is named in dataAttrs but has no entry in dataAttrDetails/,
+    ],
+    [
+      'an entry for an attribute no part lists',
+      `dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { setWhen: 'Off.' }, 'data-ghost': { setWhen: 'Never.' } }`,
+      /\.\/beta: dataAttrDetails has an entry for data-ghost, which no part lists in dataAttrs/,
+    ],
+    [
+      'an empty setWhen',
+      `dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { setWhen: ' ' } }`,
+      /\.\/beta: dataAttrDetails data-disabled has an empty setWhen/,
+    ],
+    [
+      'empty values',
+      `dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { values: [], setWhen: 'Off.' } }`,
+      /\.\/beta: dataAttrDetails data-disabled has an empty values list/,
+    ],
+  ])('fails on %s and names the component and the attribute', async (_label, details, message) => {
+    machines(betaWith(details));
+    expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(false);
+    expect(errors()).toMatch(message);
+  });
+
+  it('accepts a meta with no attribute and no dataAttrDetails', async () => {
+    machines(betaWith('dataAttrs: { root: [] }'));
+    expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(true);
   });
 
   it('keeps a keyboard row frameworks list in the docs data', async () => {

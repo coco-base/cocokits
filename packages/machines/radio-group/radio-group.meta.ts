@@ -6,6 +6,14 @@ export const radioGroupMeta: ComponentMeta<'root'> = {
   dataAttrs: {
     root: ['data-disabled', 'data-required', 'data-orientation'],
   },
+  dataAttrDetails: {
+    'data-disabled': { setWhen: 'The radio group is disabled.' },
+    'data-required': { setWhen: 'A choice in the radio group is required.' },
+    'data-orientation': {
+      values: ['horizontal', 'vertical'],
+      setWhen: 'The orientation prop is set; the attribute is left out otherwise.',
+    },
+  },
   roles: { root: 'radiogroup' },
   keyboard: [
     {

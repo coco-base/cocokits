@@ -11,6 +11,12 @@ export const dialogMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'title' 
     description: [],
     close: [],
   },
+  dataAttrDetails: {
+    'data-state': {
+      values: ['open', 'closed'],
+      setWhen: 'Always set: `open` while the dialog is open, `closed` otherwise.',
+    },
+  },
   roles: { root: null, trigger: null, content: null, title: null, description: null, close: null },
   keyboard: [
     { key: 'Enter / Space', context: 'trigger', action: 'Native. Opens the dialog.' },

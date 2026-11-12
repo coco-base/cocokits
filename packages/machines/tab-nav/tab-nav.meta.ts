@@ -15,6 +15,10 @@ export const tabNavMeta: ComponentMeta<'root' | 'list' | 'link' | 'indicator' | 
     indicator: [],
     panel: [],
   },
+  dataAttrDetails: {
+    'data-active': { setWhen: 'The link points to the current page.' },
+    'data-disabled': { setWhen: 'The link is disabled.' },
+  },
   roles: { root: null, list: null, link: null, indicator: null, panel: 'tabpanel' },
   keyboard: [
     {

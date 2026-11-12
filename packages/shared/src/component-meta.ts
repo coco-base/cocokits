@@ -13,6 +13,14 @@ export interface MetaKeyboardRow {
   readonly frameworks?: readonly ('angular' | 'react' | 'vue')[];
 }
 
+/** The values of a `data-*` attribute and when it is set. */
+export interface DataAttrDetail {
+  /** The values the attribute takes. Leave it out for a presence-only attribute, which is set to `""` or not at all. */
+  readonly values?: readonly string[];
+  /** One sentence: when the attribute is on the element. For an enumerated attribute, also what each value means. */
+  readonly setWhen: string;
+}
+
 /**
  * What code cannot express about a component: data attributes per part, keyboard table,
  * expected roles and form contract. Data for tests and docs, never read at runtime.
@@ -22,6 +30,8 @@ export interface ComponentMeta<Part extends string = string> {
   readonly apg?: string;
   /** Every base `data-*` name each part emits (theme options excluded). */
   readonly dataAttrs: Readonly<Record<Part, readonly string[]>>;
+  /** The values of each base `data-*` attribute and when it is set, by attribute name. Leave it out when no part emits one. */
+  readonly dataAttrDetails?: Readonly<Record<string, DataAttrDetail>>;
   /** Expected role per part; `null` when the native element's role is used. */
   readonly roles: Readonly<Partial<Record<Part, string | null>>>;
   /** Keys the component handles or relies on. */

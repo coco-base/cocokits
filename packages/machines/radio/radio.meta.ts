@@ -14,6 +14,11 @@ export const radioMeta: ComponentMeta<
     background: [],
     label: [],
   },
+  dataAttrDetails: {
+    'data-checked': { setWhen: 'The radio is selected.' },
+    'data-disabled': { setWhen: 'The radio is disabled.' },
+    'data-required': { setWhen: 'A choice in the radio group is required.' },
+  },
   roles: { root: null, wrapper: null, inputWrapper: null, input: null, backdrop: null, background: null, label: null },
   keyboard: [
     {
