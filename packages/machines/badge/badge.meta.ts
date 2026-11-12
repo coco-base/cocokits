@@ -8,7 +8,7 @@ export const badgeMeta: ComponentMeta<'root' | 'content' | 'maxIndicator'> = {
     maxIndicator: [],
   },
   dataAttrDetails: {
-    'data-empty': { setWhen: 'The badge shows no text: the content is empty, null or 0.' },
+    'data-empty': { setWhen: 'The badge shows no text: the content is empty, undefined, null or 0.' },
     'data-truncated': { setWhen: 'The content is a number above `max`, so the badge shows `max` instead.' },
   },
   roles: { root: null, content: null, maxIndicator: null },
