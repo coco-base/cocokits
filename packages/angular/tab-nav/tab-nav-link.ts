@@ -25,8 +25,6 @@ import { injectCckTabNav, type CckTabNavRegistration } from './tab-nav';
  * </nav>
  * @cckPart link
  * @cckSlot default - The text of the link. When not set, the link is empty, so name it with `aria-label`.
- * @cckDataAttr data-active - present on the active link
- * @cckDataAttr data-disabled - present when disabled
  */
 @Directive({
   selector: 'a[cckTabNavLink]',

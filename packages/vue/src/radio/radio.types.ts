@@ -4,6 +4,9 @@ import type { ChoiceControlProps } from '../internal/check-control.types';
  * One radio around a native `<input type="radio">` with its label. It renders a `<div>`, and the content you write
  * becomes the label. Bind the value with `v-model`.
  *
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`, or a
+ * `<label for>` with text.
+ *
  * Radios with the same `name` form a native group: the browser unchecks the others and moves the focus with the
  * arrow keys. When the user checks another radio of the group, the value of this radio becomes `false`, and
  * `update:modelValue` emits `false`.

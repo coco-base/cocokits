@@ -15,9 +15,6 @@ import { injectCckTooltip } from './tooltip';
  * @cckPart content
  * @cckTemplate ng-template[cckTooltipPortal]
  * @cckSlot default - The content of the tooltip. When not set, the tooltip is empty.
- * @cckDataAttr data-state - `open` or `closed`
- * @cckDataAttr data-side - the resolved side: `top`, `bottom`, `start` or `end`
- * @cckDataAttr data-align - the resolved alignment: `start`, `center` or `end`
  */
 @Directive({
   selector: 'cck-tooltip-content',

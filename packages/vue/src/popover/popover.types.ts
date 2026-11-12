@@ -402,6 +402,8 @@ export interface PopoverDescriptionProps {
  * A `<button>` that closes the popover. Native button attributes and listeners fall through to it. A listener that
  * calls `preventDefault()` does not stop it from closing the popover.
  *
+ * A Close button with only an icon needs `aria-label` or `aria-labelledby`.
+ *
  * With `as`, a tag or component other than `button` gets `role="button"`, `tabindex="0"` and no `type`. Enter
  * activates it on keydown and Space on keyup. A key listener that calls `preventDefault()` stops that. With
  * `asChild`, the child must render a `<button>`.

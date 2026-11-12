@@ -20,11 +20,11 @@ export interface PackageRow extends SourceRow {
 /** Every `@` in an `@example` of `packages/`: the comment and its whole example, copied from the source. */
 export const SOURCE_ROWS: readonly PackageRow[] = [
   {
-    name: 'vue/button/button.types.ts:12',
+    name: 'vue/button/button.types.ts:14',
     file: 'packages/vue/src/button/button.types.ts',
-    line: 12,
+    line: 14,
     comment:
-      '/**\n * A button for actions. It renders a native `<button type="button">`. With an `as` other than `\'button\'`, or with\n * `asChild`, it renders a link (an `<a>`).\n *\n * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in\n * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.\n *\n * @example\n * <Button @click="save">Save</Button>\n *\n * @cckPart root\n */',
+      '/**\n * A button for actions. It renders a native `<button type="button">`. With an `as` other than `\'button\'`, or with\n * `asChild`, it renders a link (an `<a>`).\n *\n * A Button with only an icon needs `aria-label` or `aria-labelledby`.\n *\n * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in\n * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.\n *\n * @example\n * <Button @click="save">Save</Button>\n *\n * @cckPart root\n */',
     example: '<Button @click="save">Save</Button>',
     others: ['cckPart'],
   },
@@ -198,9 +198,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/select/select.types.ts:264',
+    name: 'vue/select/select.types.ts:266',
     file: 'packages/vue/src/select/select.types.ts',
-    line: 264,
+    line: 266,
     comment:
       '/**\n * Emits with the new value after the Select accepts a change. `v-model` listens to it. The value is one value or `null`, or a list with `multiple`.\n *\n * It carries the new value only, and no reason.\n *\n * @example\n * <SelectRoot :model-value="dish" @update:model-value="(value) => console.log(value)">\n *   ...\n * </SelectRoot>\n * @cckSemantic select.valueChange\n * @cckParity The `update:modelValue` event is the only change event; it carries no reason.\n */',
     example:
@@ -256,11 +256,11 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['remarks', 'cckSemantic', 'defaultValue'],
   },
   {
-    name: 'react/input/input.tsx:84',
+    name: 'react/input/input.tsx:85',
     file: 'packages/react/src/input/input.tsx',
-    line: 84,
+    line: 85,
     comment:
-      '/**\n * A box for one line of text. It renders a native `<input>` of the type `text`, `email`, `password`, `search`, `tel`\n * or `url`. Native `input` props pass through, and `ref` reaches the element.\n *\n * It is a native form control. `FormData`, the native checks, the `form` prop, submit by Enter and a disabled\n * `fieldset` work. It works with react-hook-form `register()` and `Controller`.\n *\n * Control the text with `value` and `onValueChange`, or set `defaultValue` and let the DOM keep it. A change that\n * you do not take is undone.\n *\n * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and\n * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.\n *\n * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and\n * the user has left it or tried to submit.\n *\n * @example\n * <label htmlFor="email">Email address</label>\n * <Input id="email" type="email" defaultValue="ana@example.com" />\n * @cckPart root\n * @param props - The Input props.\n * @returns The rendered input.\n */',
+      '/**\n * A box for one line of text. It renders a native `<input>` of the type `text`, `email`, `password`, `search`, `tel`\n * or `url`. Native `input` props pass through, and `ref` reaches the element.\n *\n * It is a native form control. `FormData`, the native checks, the `form` prop, submit by Enter and a disabled\n * `fieldset` work. It works with react-hook-form `register()` and `Controller`.\n *\n * Control the text with `value` and `onValueChange`, or set `defaultValue` and let the DOM keep it. A change that\n * you do not take is undone.\n *\n * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and\n * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.\n * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.\n *\n * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and\n * the user has left it or tried to submit.\n *\n * @example\n * <label htmlFor="email">Email address</label>\n * <Input id="email" type="email" defaultValue="ana@example.com" />\n * @cckPart root\n * @param props - The Input props.\n * @returns The rendered input.\n */',
     example:
       '<label htmlFor="email">Email address</label>\n<Input id="email" type="email" defaultValue="ana@example.com" />',
     others: ['cckPart', 'param', 'returns'],

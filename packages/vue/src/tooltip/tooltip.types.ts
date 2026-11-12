@@ -194,8 +194,8 @@ export interface TooltipRootEmits {
  * element. Native attributes and listeners fall through to it.
  *
  * While the content is mounted, it gets `aria-describedby`, added to any description you wrote. A disabled button
- * cannot take the focus, so it never shows the tooltip. Its accessible name must not depend on the tooltip, so an
- * icon-only trigger needs `aria-label`.
+ * cannot take the focus, so it never shows the tooltip. Its accessible name must not come from the tooltip. A
+ * trigger with only an icon needs `aria-label` or `aria-labelledby`.
  *
  * With `as`, a tag or component other than `button` gets `tabindex="0"` and no `type`. With `asChild`, the child
  * must take the focus. Its own props win, except `aria-describedby`, `id` and `data-state`.

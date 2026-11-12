@@ -93,6 +93,9 @@ interface CheckboxComponent {
  * A box that the user checks or unchecks. It renders a `<div>` around a native `<input type="checkbox">` and a
  * label with the children as caption. `<Checkbox>Accept the terms</Checkbox>` is a complete control.
  *
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`, or a
+ * `<label for>` with text.
+ *
  * It is a native form control. `FormData`, `required`, a form reset, the `form` prop, a disabled `fieldset` and a
  * click on the label work as for a native checkbox. It works with react-hook-form `register()` and `Controller`.
  *

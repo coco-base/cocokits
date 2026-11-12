@@ -84,6 +84,8 @@ function TooltipTriggerImpl({ render, nativeButton = true, ref, ...rest }: Toolt
  * The element that the tooltip describes. It renders a `<button type="button">`. Native button props pass through,
  * and `ref` reaches the element.
  *
+ * A trigger with only an icon needs `aria-label` or `aria-labelledby`. Its name must not come from the tooltip.
+ *
  * Its `aria-describedby` adds the tooltip to any ids you wrote. It points to a hidden copy of the text of the
  * Content after hydration, or to the content while it is mounted.
  *

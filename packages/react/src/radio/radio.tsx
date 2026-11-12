@@ -110,6 +110,9 @@ interface RadioComponent {
  * One option of a set, of which the user checks one. It renders a `<div>` around a native `<input type="radio">` and
  * a label with the children as caption.
  *
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`, or a
+ * `<label for>` with text.
+ *
  * Radios with the same `name` form a native group. The browser unchecks the others, and the arrow keys move the
  * focus and the check. When the user checks another radio of the group, this radio calls `onCheckedChange` with
  * `false`.

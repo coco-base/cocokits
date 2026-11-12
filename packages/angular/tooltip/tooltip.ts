@@ -55,6 +55,8 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
 /**
  * A short text that shows when the user points at or focuses an element. Put `cckTooltip="Copy link"` on a focusable element. That element is the trigger, and the text describes it.
  *
+ * An element with `cckTooltip` that has only an icon needs `aria-label` or `aria-labelledby`.
+ *
  * For rich content, put the root on an `ng-container`. Inside it, write a `cckTooltipTrigger`, and a `cckTooltipPortal` template with a `cck-tooltip-content`. The text of `cckTooltip` then only describes the trigger.
  *
  * The tooltip opens after `cckTooltipShowDelay` on a mouse or pen hover, and at once on keyboard focus. A touch never opens it. It closes after `cckTooltipHideDelay` when the pointer leaves, and at once on blur, Escape, a press on the trigger or a scroll.

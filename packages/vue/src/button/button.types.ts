@@ -6,6 +6,8 @@ import type { AsTag } from '@cocokits/vue-core';
  * A button for actions. It renders a native `<button type="button">`. With an `as` other than `'button'`, or with
  * `asChild`, it renders a link (an `<a>`).
  *
+ * A Button with only an icon needs `aria-label` or `aria-labelledby`.
+ *
  * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in
  * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.
  *

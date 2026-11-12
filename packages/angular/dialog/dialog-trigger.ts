@@ -13,7 +13,6 @@ import { injectCckDialogRoot } from './dialog-root';
  * </ng-container>
  * @cckPart trigger
  * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
- * @cckDataAttr data-state - `open` or `closed`
  */
 @Directive({
   selector: 'button[cckDialogTrigger]',

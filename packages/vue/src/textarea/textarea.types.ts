@@ -8,6 +8,7 @@
  * Inside a FormField, it gets the id `<fieldId>-control`, and the Label names it. Its `aria-describedby` ends with
  * the ids of the hints, then of the errors. Native attributes, such as `rows` and `placeholder`, and listeners fall
  * through to the `<textarea>`.
+ * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.
  *
  * @example
  * <FormField>

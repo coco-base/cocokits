@@ -43,6 +43,8 @@ function PopoverCloseImpl({ render, nativeButton = true, ref, ...rest }: Popover
  * A button that closes the popover. It renders a `<button type="button">`; put it inside the content. Native button
  * props pass through, and `ref` reaches the element.
  *
+ * A Close button with only an icon needs `aria-label` or `aria-labelledby`.
+ *
  * To render another element or component, use `render`. An element that is not a `<button>` also needs
  * `nativeButton={false}`.
  *
