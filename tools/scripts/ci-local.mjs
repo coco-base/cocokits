@@ -1,6 +1,6 @@
 // The local run of the GitHub pipeline (.github/workflows/ci.yml). Every pull request runs it before the push:
 //   pnpm ci:local --title "<PR title>"
-// Steps, stopping at the first failure: install, format, lint:files, affected lint/typecheck/test/build, affected
+// Steps, stopping at the first failure: install, format, lint:files, check:utf8, affected lint/typecheck/test/build, affected
 // publint (it also fails a package that is not publishable as it is) and attw, size (every entry has a budget),
 // commitlint of the commits since the base, commitlint of the PR title, and the library generator proof when the
 // change touches it.
@@ -57,6 +57,7 @@ function changedPaths() {
 step('install', 'pnpm', ['install', '--frozen-lockfile']);
 step('format', 'pnpm', ['exec', 'nx', 'format:check']);
 step('lint workspace files', 'pnpm', ['run', 'lint:files']);
+step('UTF-8 check', 'pnpm', ['run', 'check:utf8']);
 step('affected: lint typecheck test build', 'pnpm', [
   'exec',
   'nx',
