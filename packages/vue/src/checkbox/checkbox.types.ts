@@ -4,6 +4,8 @@ import type { CheckControlProps } from '../internal/check-control.types';
  * A checkbox around a native `<input type="checkbox">` with its label. It renders a `<div>`, and the content you
  * write becomes the label. Bind the value with `v-model`.
  *
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`.
+ *
  * The input is the form control, so `FormData`, `required`, reset, the `form` attribute and `fieldset[disabled]` are
  * native. Other native input attributes and listeners, such as `form` and `onFocus`, go to the `<input>`. `class`,
  * `style` and `hidden` stay on the root, and `role` is reserved.

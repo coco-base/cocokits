@@ -16,6 +16,8 @@ export type SwitchChangeDetails = CheckControlChangeDetails;
 /**
  * A switch that turns one setting on or off. It wraps a native `<input type="checkbox" role="switch">` on a track. The content you write inside it becomes the label, next to the track.
  *
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`.
+ *
  * The switch works with Signal Forms through `[formField]`. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. The native input is the form control, so `FormData`, `required`, form reset and a disabled `fieldset` work as usual.
  *
  * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the control or has tried to submit the form.

@@ -4,6 +4,8 @@ import type { CheckControlProps } from '../internal/check-control.types';
  * A switch around a native `<input type="checkbox" role="switch">` with its label. It works as the Checkbox
  * without `indeterminate`. Bind the value with `v-model`.
  *
+ * The caption text names the control. With no caption text, add `aria-label` or `aria-labelledby`.
+ *
  * The input is the form control, so `FormData`, `required`, reset, the `form` attribute and `fieldset[disabled]` are
  * native. The label holds the track and the content you write. Other native input attributes and listeners go to
  * the `<input>`. `class`, `style` and `hidden` stay on the root, and `role` is reserved.

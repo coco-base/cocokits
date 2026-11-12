@@ -389,6 +389,8 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
 /**
  * Holds the value and the open state of a custom listbox. It renders a `<div>` that contains the parts, the hidden form inputs and the message of a blocked submit. It is not a native `<select>`.
  *
+ * The Label of its FormField names the Select. Without one, add `aria-label` or `aria-labelledby` to the trigger.
+ *
  * Write the parts inside it: a `Select.Trigger` with a `Select.Value` and a `Select.Icon`, and a `Select.Content` with `Select.Item` elements. The items mount with the list, so the list renders nothing while closed, on the server and in the first client render.
  *
  * The value is a `T` or `null`, or a list of `T` with `multiple`. Control it with `value` and `onValueChange`, or leave it uncontrolled and set `defaultValue`. `T` is `string` unless the items carry something else. Then `items`, `itemToStringLabel`, `itemToStringValue` and `isItemEqualToValue` tell the Select how to show, send and compare the values.

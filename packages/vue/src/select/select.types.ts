@@ -41,6 +41,8 @@ export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Re
 /**
  * Holds the value and the open state of a custom listbox. It renders a `<div>` that contains the parts, the hidden form inputs and the message of a blocked submit. It is not a native `<select>`.
  *
+ * The Label of its FormField names the Select. Without one, add `aria-label` or `aria-labelledby` to the trigger.
+ *
  * Write the parts inside it: a `SelectTrigger` with a `SelectValue` and a `SelectIcon`, and a `SelectContent` with `SelectItem` elements. The items mount with the list, so the list renders nothing while closed, on the server and in the first client render.
  *
  * Bind the value with `v-model`. It is a `T` or `null`, or a list of `T` with `multiple`. `T` is `string` unless the items carry something else. Then `itemToStringLabel`, `itemToStringValue` and `by` tell the Select how to show, send and compare the values.

@@ -5,6 +5,8 @@ import { injectCckTooltip } from './tooltip';
 /**
  * The element that the tooltip describes, in the rich form. Put the attribute on any focusable element, also next to the attribute of another component.
  *
+ * A trigger with only an icon needs `aria-label` or `aria-labelledby`. Its name must not come from the tooltip.
+ *
  * The trigger is described by the text of `cckTooltip`, or by the content while it shows. A disabled button cannot get the focus, so it never shows a tooltip. Put the trigger on a focusable element around it.
  *
  * @example
