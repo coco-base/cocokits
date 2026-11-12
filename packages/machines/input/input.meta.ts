@@ -1,9 +1,10 @@
 import type { ComponentMeta } from '@cocokits/shared';
-import { formFieldMeta } from '../form-field';
+import { formFieldFactDetails, formFieldMeta } from '../form-field';
 
 /** Input meta: data for tests and docs, never read at runtime. */
 export const inputMeta: ComponentMeta<'root'> = {
   dataAttrs: { root: formFieldMeta.dataAttrs.root },
+  dataAttrDetails: formFieldFactDetails('the input'),
   roles: { root: null },
   keyboard: [
     {

@@ -1,5 +1,5 @@
 import type { ComponentMeta } from '@cocokits/shared';
-import { formFieldMeta } from '../form-field';
+import { formFieldFactDetails, formFieldMeta } from '../form-field';
 
 /**
  * Textarea meta: data for tests and docs, never read at runtime. No APG widget pattern applies: it is a
@@ -7,6 +7,7 @@ import { formFieldMeta } from '../form-field';
  */
 export const textareaMeta: ComponentMeta<'root'> = {
   dataAttrs: { root: formFieldMeta.dataAttrs.root },
+  dataAttrDetails: formFieldFactDetails('the textarea'),
   roles: { root: null },
   keyboard: [
     {

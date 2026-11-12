@@ -4,6 +4,11 @@ import type { ComponentMeta } from '@cocokits/shared';
 export const buttonMeta: ComponentMeta<'root'> = {
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
   dataAttrs: { root: ['data-disabled'] },
+  dataAttrDetails: {
+    'data-disabled': {
+      setWhen: 'The button is disabled: a native button gets disabled too, any other element gets aria-disabled.',
+    },
+  },
   roles: { root: null },
   keyboard: [
     {
