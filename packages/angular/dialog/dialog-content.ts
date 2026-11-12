@@ -18,7 +18,6 @@ import { injectCckDialogRoot } from './dialog-root';
  * @cckPart content
  * @cckTemplate ng-template[cckDialogPortal]
  * @cckSlot default - The title, the description, the body and the close buttons. When not set, the dialog is empty.
- * @cckDataAttr data-state - `open` or `closed`
  */
 @Directive({
   selector: 'dialog[cckDialogContent]',

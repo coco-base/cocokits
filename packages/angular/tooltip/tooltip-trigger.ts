@@ -15,7 +15,6 @@ import { injectCckTooltip } from './tooltip';
  * </ng-container>
  * @cckPart trigger
  * @cckSlot default - The content of the trigger. When not set, the trigger is empty, so name it with `aria-label`.
- * @cckDataAttr data-state - `open` or `closed`
  */
 @Directive({
   selector: '[cckTooltipTrigger]',

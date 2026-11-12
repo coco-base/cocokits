@@ -30,9 +30,6 @@ import { CckSelectOptionGroup } from './select-option-group';
  * @cckPart optionIndicator
  * @cckPart optionContent
  * @cckSlot default - The text of the option. When not set, the option shows no text.
- * @cckDataAttr data-selected - present when the option is selected
- * @cckDataAttr data-highlighted - present on the active option
- * @cckDataAttr data-disabled - present when the option or its group is disabled
  */
 @Component({
   selector: 'cck-select-option',

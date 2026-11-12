@@ -12,7 +12,6 @@ import { CckButtonBase } from './button-base';
  * <a cckButton href="/docs">Read the docs</a>
  * @cckPart root
  * @cckSlot default - The label of the link. When not set, the link is empty, so name it with `aria-label`.
- * @cckDataAttr data-disabled - present when disabled
  */
 @Directive({
   selector: 'a[cckButton]',

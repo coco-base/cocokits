@@ -10,7 +10,6 @@ import { CckButtonBase } from './button-base';
  * <button cckButton (click)="save()">Save</button>
  * @cckPart root
  * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
- * @cckDataAttr data-disabled - present when disabled
  */
 @Directive({
   selector: 'button[cckButton]',

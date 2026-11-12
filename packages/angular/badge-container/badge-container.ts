@@ -19,7 +19,6 @@ import {
  * </cck-badge-container>
  * @cckPart root
  * @cckSlot default - The element to mark and its `cck-badge`. When not set, the container is empty.
- * @cckDataAttr data-position - the corner the badge is pinned to
  */
 @Directive({
   selector: 'cck-badge-container',

@@ -14,8 +14,6 @@ import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
  * @cckPart root
  * @cckPart content
  * @cckPart maxIndicator
- * @cckDataAttr data-empty - present when no text is shown
- * @cckDataAttr data-truncated - present when the content is above `max`
  */
 @Component({
   selector: 'cck-badge',

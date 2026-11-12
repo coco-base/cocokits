@@ -17,9 +17,6 @@ import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
  * @cckPart content
  * @cckTemplate ng-template[cckPopoverPortal]
  * @cckSlot default - The content of the panel. When not set, the panel is empty.
- * @cckDataAttr data-state - `open` or `closed`
- * @cckDataAttr data-side - the resolved side: `top`, `bottom`, `start` or `end`
- * @cckDataAttr data-align - the resolved alignment: `start`, `center` or `end`
  */
 @Directive({
   selector: 'cck-popover-content',
