@@ -160,6 +160,12 @@ const entries = [
   { name: '@cocokits/react/avatar', path: 'packages/react/dist/avatar/index.js', limit: '2 kB' },
   { name: '@cocokits/react/avatar-group', path: 'packages/react/dist/avatar-group/index.js', limit: '2 kB' },
   { name: '@cocokits/react/avatar-label', path: 'packages/react/dist/avatar-label/index.js', limit: '2 kB' },
+  { name: '@cocokits/vue/avatar', path: 'packages/vue/dist/avatar/index.js', limit: '2 kB' },
+  { name: '@cocokits/vue/avatar-group', path: 'packages/vue/dist/avatar-group/index.js', limit: '2 kB' },
+  { name: '@cocokits/vue/avatar-label', path: 'packages/vue/dist/avatar-label/index.js', limit: '2 kB' },
+  { name: '@cocokits/angular/avatar-label', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar-label.mjs', limit: '2 kB' },
+  { name: '@cocokits/angular/avatar', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar.mjs', limit: '2 kB' },
+  { name: '@cocokits/angular/avatar-group', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar-group.mjs', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
