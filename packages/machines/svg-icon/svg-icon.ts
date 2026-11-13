@@ -2,7 +2,7 @@ import { svgIconAnatomy } from './svg-icon.anatomy';
 import type { SvgIconPathProps, SvgIconProps, SvgIconRenderProps, SvgIconRootProps } from './svg-icon.types';
 
 /** A theme from untyped data can hold any string; only the two values the SVG attribute allows are bound. */
-function isRule(value: unknown): value is 'nonzero' | 'evenodd' {
+function isSvgFillRule(value: unknown): value is 'nonzero' | 'evenodd' {
   return value === 'nonzero' || value === 'evenodd';
 }
 
@@ -27,8 +27,8 @@ export function getSvgIconProps({ iconName, icons, label }: SvgIconProps): SvgIc
   if (icon === undefined) return { root, svg: { class: classes.svg }, paths: [] };
   const paths = icon.paths.map(({ d, fillRule, clipRule }): SvgIconPathProps => ({
     d,
-    ...(isRule(fillRule) ? { 'fill-rule': fillRule } : {}),
-    ...(isRule(clipRule) ? { 'clip-rule': clipRule } : {}),
+    ...(isSvgFillRule(fillRule) ? { 'fill-rule': fillRule } : {}),
+    ...(isSvgFillRule(clipRule) ? { 'clip-rule': clipRule } : {}),
   }));
   return { root, svg: { class: classes.svg, viewBox: icon.viewBox }, paths };
 }
