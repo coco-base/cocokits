@@ -5,10 +5,11 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
 import type { ChoiceRootProps } from '../internal/choice-control.types';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
-import { usePartIconContent } from '../internal/part-icon-content';
+import { usePartIconName } from '../internal/part-icon-name';
 import { renderChoiceRoot } from '../internal/render-choice-root';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { choiceInputReserved, useChoiceControl } from '../internal/use-choice-control';
+import { SvgIcon } from '../svg-icon';
 import type { CheckboxProps, CheckboxState } from './checkbox.types';
 
 function CheckboxImpl({
@@ -58,7 +59,7 @@ function CheckboxImpl({
     },
     { componentName: 'Checkbox', elementRef, indeterminate, getParts: getCheckboxProps },
   );
-  const tick = usePartIconContent(checkboxAnatomy, 'background', undefined, state.checked && !indeterminate);
+  const tickName = usePartIconName(checkboxAnatomy, 'background', undefined, state.checked && !indeterminate);
   const root = mergeProps(
     {
       ...themeAttrs.root,
@@ -73,7 +74,7 @@ function CheckboxImpl({
             />
             <span {...themeAttrs.backdrop} {...toReactProps(parts.backdrop)} />
             <span {...themeAttrs.background} {...toReactProps(parts.background)}>
-              {tick}
+              {tickName !== undefined && <SvgIcon iconName={tickName} />}
             </span>
           </span>
           <label {...themeAttrs.label} {...toReactProps(parts.label)}>

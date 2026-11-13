@@ -3,8 +3,9 @@
 import type { ReactElement } from 'react';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { toReactProps } from '@cocokits/react-core';
-import { usePartIconContent } from '../internal/part-icon-content';
+import { usePartIconName } from '../internal/part-icon-name';
 import { renderElement } from '../internal/render-element';
+import { SvgIcon } from '../svg-icon';
 import { useSelectContext } from './select-context';
 import type { SelectPart, SelectRenderProps } from './select.types';
 import type { SelectIconProps } from './select-parts.types';
@@ -15,9 +16,13 @@ const RESERVED = ['aria-hidden'];
 
 function SelectIconImpl({ render, ref, children, ...rest }: SelectIconProps): ReactElement {
   const context = useSelectContext<unknown>('Select.Icon');
-  const content = usePartIconContent(selectAnatomy, 'dropdownIcon', children);
+  const iconName = usePartIconName(selectAnatomy, 'dropdownIcon', children);
   const props = useSelectPartProps({
-    ours: { ...context.theme.dropdownIcon, ...toReactProps(context.parts.dropdownIcon), children: content },
+    ours: {
+      ...context.theme.dropdownIcon,
+      ...toReactProps(context.parts.dropdownIcon),
+      children: iconName === undefined ? children : <SvgIcon iconName={iconName} />,
+    },
     rest,
     reserved: RESERVED,
     ref,

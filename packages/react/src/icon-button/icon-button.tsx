@@ -1,14 +1,25 @@
 'use client';
 
-import type { ReactElement } from 'react';
+import { useCallback, useRef, type ReactElement } from 'react';
 import { getIconButtonProps, iconButtonAnatomy } from '@cocokits/machines/icon-button';
 import { useButtonElement } from '../internal/use-button-element';
 import { useMergedRef } from '../internal/use-merged-ref';
-import { useNameCheck } from '../internal/use-name-check';
+import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import type { IconButtonProps } from './icon-button.types';
 
+const NAME_FIX =
+  'Add an aria-label or an aria-labelledby that points to an element with text, or put a SvgIcon with a label inside.';
+
 function IconButtonImpl({ ref, ...rest }: IconButtonProps): ReactElement {
-  const trackNode = useNameCheck('IconButton', [rest['aria-label'], rest['aria-labelledby'], rest.title].join('|'));
+  const node = useRef<HTMLElement | null>(null);
+  const trackNode = useCallback((element: HTMLElement | null) => {
+    node.current = element;
+  }, []);
+  useUnnamedWarning('IconButton', node, {
+    level: 'error',
+    fix: NAME_FIX,
+    key: [rest['aria-label'], rest['aria-labelledby'], rest.title].join('|'),
+  });
   const mergedRef = useMergedRef<HTMLElement>(ref, trackNode, undefined);
   return useButtonElement(
     { ...rest, ref: mergedRef },

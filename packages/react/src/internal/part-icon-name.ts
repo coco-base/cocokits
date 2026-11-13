@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { useThemeIcons } from '@cocokits/react-core';
-import { SvgIcon } from '../svg-icon';
+import { resolvePartIconName } from '@cocokits/shared';
 
 /**
  * Whether the author gave a part content: anything but `undefined`, `null`, `false`, `true`, `''` or an array of
@@ -17,26 +17,23 @@ export function hasContent(children: ReactNode): boolean {
 }
 
 /**
- * The content of an icon-holding part: the author's `children` when they are content, otherwise the SvgIcon of the
- * icon the theme names for the part when `visible`, otherwise the `children` as they are. The server and the first
- * client render give the same result.
+ * The name of the icon an icon-holding part draws: the icon the theme names for the part, when the author gave the
+ * part no content and `visible`. The part renders `<SvgIcon iconName>` itself; the server and the first client
+ * render give the same result.
  *
  * @param anatomy - The anatomy of the component; its block names the component in `partIconNames`.
  * @param part - The part that holds the icon.
  * @param children - The `children` the author gave the part, if the part takes content.
  * @param visible - Whether the state of the part shows the icon. Default `true`.
- * @returns What the part renders inside itself.
+ * @returns The icon name, or `undefined` when the part keeps its `children` as they are.
  */
-export function usePartIconContent<A extends { readonly block: string; readonly parts: object }>(
+export function usePartIconName<A extends { readonly block: string; readonly parts: object }>(
   anatomy: A,
   part: keyof A['parts'] & string,
   children?: ReactNode,
   visible = true,
-): ReactNode {
+): string | undefined {
   const { partIconNames } = useThemeIcons();
-  // A theme names icons for some components and parts only, so every lookup may miss.
-  const names: Readonly<Record<string, Readonly<Record<string, string | undefined>> | undefined>> = partIconNames;
-  const iconName = names[anatomy.block]?.[part];
-  if (hasContent(children) || !visible || iconName === undefined) return children;
-  return <SvgIcon iconName={iconName} />;
+  if (hasContent(children) || !visible) return undefined;
+  return resolvePartIconName(partIconNames, anatomy.block, part);
 }

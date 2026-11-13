@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ReactElement } from 'react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { createElement, type ReactElement } from 'react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { accordionMeta } from '@cocokits/machines/accordion';
 import { must } from '../../internal/tests/choice-fixtures';
 import { iconNamesIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { Accordion, type AccordionRenderProps } from '../index';
@@ -53,7 +54,7 @@ describe('Accordion indicator', () => {
     const button = must(screen.getByText(/Shipping|Own/).closest<HTMLElement>('[aria-expanded]'));
     const last = must(button.lastElementChild) as HTMLElement;
     expect(last.className).toBe('cck-accordion__indicator');
-    expect(last.tagName).toBe('SPAN');
+    expect(last.tagName).toBe(accordionMeta.defaultElements?.indicator?.toUpperCase());
     expect(last.getAttribute('aria-hidden')).toBe('true');
     expect(last.hasAttribute('data-state')).toBe(false);
     expect(iconNamesIn(last)).toEqual(['chevron-down']);
@@ -89,5 +90,40 @@ describe('Accordion indicator', () => {
     const indicator = trigger('Shipping').querySelector('.cck-accordion__indicator');
     expect(indicator).not.toBeNull();
     expect(indicator?.childNodes).toHaveLength(0);
+  });
+});
+
+describe('Accordion indicator and keys', () => {
+  it.each<[string, ReactElement]>([
+    [
+      'text and an icon in the element',
+      item(
+        <button>
+          Own <i />
+        </button>,
+      ),
+    ],
+    ['an array of children in the function form', item((props) => <button {...props}>{[<b key="a" />, 'x']}</button>)],
+    [
+      'text and an icon as the trigger children',
+      <Accordion.Root type="single" collapsible>
+        <Accordion.Item value="a">
+          <Accordion.Header>
+            <Accordion.Trigger>
+              Shipping <i />
+            </Accordion.Trigger>
+          </Accordion.Header>
+        </Accordion.Item>
+      </Accordion.Root>,
+    ],
+    [
+      'children made with createElement, no key',
+      item(createElement('button', null, 'Own ', createElement('i'), createElement('b'))),
+    ],
+  ])('logs no missing-key warning: %s', (_form, ui) => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    render(withPartIcons(ui));
+    expect(error).not.toHaveBeenCalled();
+    error.mockRestore();
   });
 });

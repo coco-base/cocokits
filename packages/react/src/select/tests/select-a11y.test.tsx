@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 import { FormField } from '../../form-field';
 import { Label } from '../../label';
+import { iconNamesIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { Select } from '../index';
 import { Example, stubTopLayer, Dishes, Opt } from './fixtures';
 
@@ -162,5 +163,24 @@ describe('Select accessibility', () => {
     render(<Example />);
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(warn).not.toHaveBeenCalled();
+  });
+});
+
+describe('Select accessibility with the theme icons', () => {
+  it('has no violations with the chevron, and with the check of the selected option in the open list', async () => {
+    render(
+      withPartIcons(
+        <Dishes defaultValue="Cake">
+          <Opt value="Cake">Cake</Opt>
+          <Opt value="Pizza">Pizza</Opt>
+        </Dishes>,
+      ),
+    );
+    expect(iconNamesIn(screen.getByRole('combobox'))).toEqual(['chevron-down']);
+    expect((await axe(document.body, WITHOUT_REGION)).violations).toEqual([]);
+    await userEvent.setup().click(screen.getByRole('combobox'));
+    const cake = await screen.findByRole('option', { name: 'Cake' });
+    expect(iconNamesIn(cake)).toEqual(['check']);
+    expect((await axe(document.body, WITHOUT_REGION)).violations).toEqual([]);
   });
 });

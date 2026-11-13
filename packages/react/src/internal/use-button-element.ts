@@ -3,7 +3,7 @@
 import { isValidElement, useCallback, useEffect, useRef, type ReactElement, type Ref } from 'react';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import type { ButtonProps as MachineButtonProps, ButtonRootProps } from '@cocokits/machines/button';
-import type { ButtonProps, ButtonRenderProps, ButtonState } from '../button/button.types';
+import type { ButtonElementProps, ButtonRenderProps, ButtonState } from './button-element.types';
 import { isDevelopment } from './dev';
 import { mergeProps } from './merge-props';
 import { renderElement } from './render-element';
@@ -51,7 +51,7 @@ function checkElementKind(name: string, element: Element | null, nativeButton: b
  * @returns The rendered element.
  */
 export function useButtonElement(
-  { disabled = false, render, nativeButton = true, ref, children, ...rest }: ButtonProps,
+  { disabled = false, render, nativeButton = true, ref, children, ...rest }: ButtonElementProps,
   { name, anatomy, getProps }: ButtonElementOptions,
 ): ReactElement {
   const element = nativeButton ? 'button' : 'a';

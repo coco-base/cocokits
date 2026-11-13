@@ -3,9 +3,10 @@
 import { useContext, type ReactElement } from 'react';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { toReactProps } from '@cocokits/react-core';
-import { usePartIconContent } from '../internal/part-icon-content';
+import { usePartIconName } from '../internal/part-icon-name';
 import { renderElement } from '../internal/render-element';
 import { SelectItemContext, useSelectContext } from './select-context';
+import { SvgIcon } from '../svg-icon';
 import type { SelectPart, SelectRenderProps } from './select.types';
 import type { SelectItemIndicatorProps } from './select-parts.types';
 import { useSelectPartProps } from './use-select-part';
@@ -16,9 +17,13 @@ const RESERVED = ['aria-hidden'];
 function SelectItemIndicatorImpl({ render, ref, children, ...rest }: SelectItemIndicatorProps): ReactElement {
   const context = useSelectContext<unknown>('Select.ItemIndicator');
   const selected = useContext(SelectItemContext)?.selected === true;
-  const content = usePartIconContent(selectAnatomy, 'optionIndicator', children, selected);
+  const iconName = usePartIconName(selectAnatomy, 'optionIndicator', children, selected);
   const props = useSelectPartProps({
-    ours: { ...context.theme.optionIndicator, ...toReactProps(context.parts.optionIndicator), children: content },
+    ours: {
+      ...context.theme.optionIndicator,
+      ...toReactProps(context.parts.optionIndicator),
+      children: iconName === undefined ? children : <SvgIcon iconName={iconName} />,
+    },
     rest,
     reserved: RESERVED,
     ref,

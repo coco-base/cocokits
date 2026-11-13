@@ -2,7 +2,7 @@
 import { cleanup, render } from '@testing-library/react';
 import { createRef, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { svgIconAnatomy } from '@cocokits/machines/svg-icon';
+import { svgIconAnatomy, svgIconMeta } from '@cocokits/machines/svg-icon';
 import { ThemeProvider } from '@cocokits/react-core';
 import { defineThemeConfig } from '@cocokits/shared';
 import { SvgIcon } from '../index';
@@ -26,7 +26,7 @@ describe('SvgIcon (rendered contract)', () => {
   it('renders the root, the svg and one path per icon path', () => {
     const { container } = render(strictThemed(<SvgIcon iconName="dots" />));
     const root = rootOf(container);
-    expect(root.tagName).toBe('SPAN');
+    expect(root.tagName).toBe(svgIconMeta.defaultElements?.root?.toUpperCase());
     expect(root.className).toBe(svgIconAnatomy.classes.root);
     expect(root.getAttribute('data-icon-name')).toBe('dots');
     const svg = root.querySelector('svg');

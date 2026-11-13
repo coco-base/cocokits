@@ -13,9 +13,10 @@ import { accordionAnatomy } from '@cocokits/machines/accordion';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { nonNativeButtonProps, useElementKind } from '../internal/button-kind';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
-import { usePartIconContent } from '../internal/part-icon-content';
+import { usePartIconName } from '../internal/part-icon-name';
 import { renderElement } from '../internal/render-element';
 import { useMergedRef } from '../internal/use-merged-ref';
+import { SvgIcon } from '../svg-icon';
 import { useAccordionContext, useAccordionItemContext } from './accordion-context';
 import type { AccordionItemState, AccordionPart, AccordionRenderProps, AccordionTriggerProps } from './accordion.types';
 
@@ -40,7 +41,7 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
   const item = useAccordionItemContext('Accordion.Trigger');
   const allThemeAttrs = useThemeAttrs(accordionAnatomy);
   const themeAttrs = allThemeAttrs.trigger;
-  const indicatorIcon = usePartIconContent(accordionAnatomy, 'indicator');
+  const indicatorIconName = usePartIconName(accordionAnatomy, 'indicator');
   const { trigger } = item.parts;
   const machineProps = withoutReserved(
     toReactProps(trigger),
@@ -87,7 +88,7 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
   // the element that `render` gave back, in the element form and in the function form.
   const indicator = (
     <span {...allThemeAttrs.indicator} {...toReactProps(item.parts.indicator)}>
-      {indicatorIcon}
+      {indicatorIconName !== undefined && <SvgIcon iconName={indicatorIconName} />}
     </span>
   );
   return cloneElement(element, undefined, (element.props as { children?: ReactNode }).children, indicator);
