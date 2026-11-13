@@ -67,7 +67,7 @@
     color: var(--cck-select-placeholder-color);
   }
 
-  // The icon comes from the theme's `partIconNames` (or the author's content). The part is a box whose font size is the
+  // The icon comes from the theme's `components.select.icons` (or the author's content). The part is a box whose font size is the
   // icon size, so the icon (1em) and any content follow it; the color is inherited by the icon (`currentColor`).
   .cck-select__dropdown-icon {
     flex: none;
@@ -172,7 +172,7 @@
 
   // The indicator reserves its box in every option, so the text lines up whether or not it is selected. A single
   // list puts the check after the text (the indicator moves to the end); a multiple list puts a box before it. The
-  // check is the theme's icon (its `partIconNames`), shown while the option is selected; the box of a multiple list
+  // check is the theme's icon (its `components.select.icons`), shown while the option is selected; the box of a multiple list
   // stays CSS and the icon takes the mark color inside it.
   .cck-select__option-indicator {
     flex: none;

@@ -3,53 +3,10 @@ import { join } from 'node:path';
 import { defineAnatomy, resolveThemeAttrs } from '@cocokits/shared';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { iconButtonSizeModes, svgIconSizeModes } from '../src/generated/token-modes';
-import { type CocokitsIconName, cocokitsIcons, cocokitsThemeConfig } from '../src/index';
+import { checkIcon, chevronDownIcon, defaultPartIcons } from '@cocokits/icons';
+import { cocokitsThemeConfig, cocokitsThemeIcons } from '../src/index';
+import type { ThemeIconName } from '../src/theme-icons';
 
-/** The names of the pack, in the order of the spec. */
-const NAMES = [
-  'arrow-up',
-  'arrow-down',
-  'arrow-left',
-  'arrow-right',
-  'chevron-up',
-  'chevron-down',
-  'chevron-left',
-  'chevron-right',
-  'check',
-  'check-circle',
-  'close',
-  'plus',
-  'minus',
-  'search',
-  'info',
-  'warning',
-  'email',
-  'link',
-  'copy',
-  'code',
-  'heart',
-  'heart-fill',
-  'user',
-  'menu',
-  'setting',
-  'tools',
-  'trash',
-  'light',
-  'dark',
-  'mic',
-  'card',
-  'dollar',
-  'pizza-slice',
-  'steak',
-  'volume-mute',
-  'volume-off',
-  'volume-low',
-  'volume',
-  'volume-high',
-] as const;
-
-/** `d` holds only path commands, numbers and separators: no markup character can be in it. */
-const PATH_DATA = /^[MmLlHhVvCcSsQqTtAaZz0-9eE.,\s+-]+$/;
 const machines = join(import.meta.dirname, '..', '..', '..', '..', 'machines');
 /** The part names of a machine anatomy, read from its source (the theme package imports no machine). */
 const partsOf = (block: string): string[] =>
@@ -57,60 +14,51 @@ const partsOf = (block: string): string[] =>
     (match) => match[1],
   );
 
-describe('the cocokits icon pack', () => {
-  it('holds exactly the 39 names of the spec, in order', () => {
-    expect(NAMES).toHaveLength(39);
-    expect(Object.keys(cocokitsIcons)).toEqual([...NAMES]);
-    expectTypeOf<CocokitsIconName>().toEqualTypeOf<keyof typeof cocokitsIcons>();
-    expectTypeOf<CocokitsIconName>().toEqualTypeOf<(typeof NAMES)[number]>();
-  });
-
-  it('is the icon set of the theme config', () => {
-    expect(cocokitsThemeConfig.icons).toBe(cocokitsIcons);
-  });
-
-  it.each(NAMES)('%s is path data only: a viewBox and paths with d, fillRule and clipRule', (name) => {
-    const icon = cocokitsIcons[name];
-    expect(Object.keys(icon).sort()).toEqual(['paths', 'viewBox']);
-    expect(icon.viewBox).toBe(name === 'check-circle' || name === 'card' ? '0 0 24 25' : '0 0 24 24');
-    expect(icon.paths.length).toBeGreaterThan(0);
-    for (const path of icon.paths) {
-      expect(Object.keys(path).every((key) => ['d', 'fillRule', 'clipRule'].includes(key))).toBe(true);
-      expect(path.d, name).toMatch(PATH_DATA);
-      for (const rule of [path.fillRule, path.clipRule]) expect([undefined, 'nonzero', 'evenodd']).toContain(rule);
-    }
-  });
-
-  it('carries no markup, colour or style anywhere in the data', () => {
-    const text = JSON.stringify(cocokitsIcons);
-    expect(text).not.toMatch(/[<>]|svg|"(?:fill|stroke|style|href|class|id)":|#[0-9a-f]{3,6}/i);
+describe('cocokitsThemeIcons', () => {
+  it('holds the chevron-down and the check icon of the pack', () => {
+    expect(cocokitsThemeIcons).toEqual({ 'chevron-down': chevronDownIcon, check: checkIcon });
+    expectTypeOf<ThemeIconName>().toEqualTypeOf<'chevron-down' | 'check'>();
   });
 });
 
-describe('cocokitsThemeConfig.partIconNames', () => {
+describe('cocokitsThemeConfig components.*.icons', () => {
+  const { select, accordion, checkbox } = cocokitsThemeConfig.components;
+
   it('names the icon of the Select, the Accordion and the Checkbox', () => {
-    expect(cocokitsThemeConfig.partIconNames).toEqual({
+    expect({ select: select.icons, accordion: accordion.icons, checkbox: checkbox.icons }).toEqual({
       select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
       accordion: { indicator: 'chevron-down' },
       checkbox: { background: 'check' },
     });
   });
 
-  const rows = Object.entries(cocokitsThemeConfig.partIconNames).flatMap(([block, parts]) =>
-    Object.entries(parts).map(([part, icon]) => ({ block, part, icon })),
+  const rows = Object.entries({ select, accordion, checkbox }).flatMap(([block, config]) =>
+    Object.entries(config.icons).map(([part, icon]) => ({ block, part, icon })),
   );
 
-  it.each(rows)('$block.$part names an icon of the pack and a part of the $block anatomy', ({ block, part, icon }) => {
-    expect(Object.keys(cocokitsThemeConfig.icons)).toContain(icon);
-    expect(partsOf(block)).toContain(part);
-  });
+  it.each(rows)(
+    '$block.$part names a key of cocokitsThemeIcons and a part of the $block anatomy',
+    ({ block, part, icon }) => {
+      expect(Object.keys(cocokitsThemeIcons)).toContain(icon);
+      expect(partsOf(block)).toContain(part);
+    },
+  );
+
+  it.each(Object.entries(defaultPartIcons))(
+    'each defaultPartIcons key of %s is a part of that anatomy',
+    (block, icons) => {
+      for (const part of Object.keys(icons)) expect(partsOf(block)).toContain(part);
+    },
+  );
 
   it('is no option: resolveThemeAttrs renders no attribute for it', () => {
     const anatomy = defineAnatomy({
       block: 'select',
       parts: { root: { name: 'Root', description: 'Root.' }, dropdownIcon: { name: 'Icon', description: 'Icon.' } },
     });
-    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomy).dropdownIcon).toEqual({});
+    const attrs = resolveThemeAttrs(cocokitsThemeConfig, anatomy);
+    expect(attrs.dropdownIcon).toEqual({});
+    expect(Object.values(attrs.root)).not.toContain('chevron-down');
   });
 });
 

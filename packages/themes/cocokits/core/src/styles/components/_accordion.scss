@@ -2,7 +2,7 @@
 // The theme options sit on the root (`data-variant`, `data-size`, `data-toggle-position`, `data-hide-toggle`), so every
 // part below the root is reached through child combinators: an Accordion inside a content keeps its own options.
 // The content sets no `display`, so the native `hidden` hides it. The chevron is the `indicator` part, the last child of
-// the trigger, holding the theme's icon (`partIconNames`); it inherits the trigger's color, so it follows the label
+// the trigger, holding the theme's icon (`components.accordion.icons`); it inherits the trigger's color, so it follows the label
 // color, also when disabled and in forced colors, and one icon is turned when the item is open. The content
 // animates its height over `--accordion-content-height`, which the base writes after mount; while it is unset (the
 // first render) both ends of the keyframes are invalid and resolve to `auto`, so nothing moves. The space below the

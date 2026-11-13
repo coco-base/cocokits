@@ -1,6 +1,6 @@
 // Checkbox rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-checkbox-* tokens. The native input lies transparent over the hit area, so focus,
-// the target and :focus-visible stay native; the box and the dash are drawn on `background`, which holds the theme's tick icon (`partIconNames`) while checked.
+// the target and :focus-visible stay native; the box and the dash are drawn on `background`, which holds the theme's tick icon (`components.checkbox.icons`) while checked.
 // Checked, mixed and invalid are shapes (a tick, a dash, a second line), not only colors. The shared
 // pieces and the cascade order are in _choice-box.scss.
 @use '../choice-box' as box;

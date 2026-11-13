@@ -1,5 +1,5 @@
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
-import { type CocokitsIconName, cocokitsIcons } from './icons';
+import type { ThemeIconName } from './theme-icons';
 import {
   type ThemeActiveColorMode,
   accordionSizeDefaultMode,
@@ -87,6 +87,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly size: RootOption<typeof accordionSizeModes>;
       readonly togglePosition: RootOption<typeof ACCORDION_TOGGLE_POSITIONS>;
       readonly hideToggle: RootOption<typeof BOOLEAN_VALUES>;
+      readonly icons: { readonly indicator: ThemeIconName };
     };
     readonly badge: {
       readonly variant: RootOption<typeof BADGE_VARIANTS>;
@@ -110,6 +111,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly size: RootOption<typeof checkboxSizeModes>;
       readonly color: RootOption<typeof themeActiveColorModes>;
       readonly labelPosition: RootOption<typeof LABEL_POSITIONS>;
+      readonly icons: { readonly background: ThemeIconName };
     };
     /** Supported with no options. */
     readonly 'field-error': Record<string, never>;
@@ -145,6 +147,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly 'radio-group': Record<string, never>;
     readonly select: {
       readonly size: RootOption<typeof selectSizeModes>;
+      readonly icons: { readonly dropdownIcon: ThemeIconName; readonly optionIndicator: ThemeIconName };
     };
     readonly switch: {
       readonly size: RootOption<typeof switchSizeModes>;
@@ -167,14 +170,6 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly tooltip: Record<string, never>;
     /** Supported with no options; the field places it. */
     readonly trailing: Record<string, never>;
-  };
-  /** The CocoKits icon pack (path data). */
-  readonly icons: typeof cocokitsIcons;
-  /** The icon each icon-holding part shows; every name is a key of `icons`. */
-  readonly partIconNames: {
-    readonly select: { readonly dropdownIcon: CocokitsIconName; readonly optionIndicator: CocokitsIconName };
-    readonly accordion: { readonly indicator: CocokitsIconName };
-    readonly checkbox: { readonly background: CocokitsIconName };
   };
 }
 
@@ -214,12 +209,6 @@ const TABS_OPTIONS: TabsOptions = {
 export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
   name: 'cocokits',
   modeCollections,
-  icons: cocokitsIcons,
-  partIconNames: {
-    select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
-    accordion: { indicator: 'chevron-down' },
-    checkbox: { background: 'check' },
-  },
   components: {
     accordion: {
       variant: {
@@ -250,6 +239,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Hides the chevron.',
       },
+      icons: { indicator: 'chevron-down' },
     },
     badge: {
       variant: {
@@ -337,6 +327,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Whether the label follows the box or precedes it, in the writing direction.',
       },
+      icons: { background: 'check' },
     },
     'field-error': {},
     'form-field': {
@@ -417,6 +408,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Height, padding and text of the trigger; inside a FormField the field sets them.',
       },
+      icons: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
     },
     switch: {
       size: {
