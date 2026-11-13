@@ -85,6 +85,7 @@ describe('avatar shape', () => {
     expect(image).toContain('object-fit: cover');
     const fallback = declarationsOf(stylesCss, '.cck-avatar__fallback') ?? '';
     expect(fallback).toContain('display: flex');
+    expect(fallback).toContain('border-radius: inherit');
     expect(fallback).toContain('background-color: var(--cck-avatar-fallback-bg)');
     expect(fallback).toContain('color: var(--cck-avatar-fallback-text-color)');
   });

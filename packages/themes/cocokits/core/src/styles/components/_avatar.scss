@@ -43,6 +43,8 @@
     justify-content: center;
     inline-size: 100%;
     block-size: 100%;
+    // The forced-colors border follows the root's round edge.
+    border-radius: inherit;
     background-color: var(--cck-avatar-fallback-bg);
     color: var(--cck-avatar-fallback-text-color);
 
