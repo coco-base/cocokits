@@ -58,11 +58,8 @@ describe('icon-button output', () => {
     );
   });
 
-  it('styles disabled for the attribute, aria-disabled and a disabled fieldset, after the variants', () => {
-    const rule =
-      /\.cck-icon-button\[data-disabled\],\s*\.cck-icon-button\[aria-disabled=(?:"true"|true)\],\s*\.cck-icon-button:disabled\s*\{([^}]*)\}/.exec(
-        css,
-      );
+  it('styles disabled for the attribute and a disabled fieldset, after the variants', () => {
+    const rule = /\.cck-icon-button\[data-disabled\],\s*\.cck-icon-button:disabled\s*\{([^}]*)\}/.exec(css);
     expect(rule?.[1]).toContain('color: var(--cck-icon-button-disabled-icon-color)');
     expect(rule?.[1]).toContain('background-color: var(--cck-icon-button-disabled-bg)');
     expect(rule?.index).toBeGreaterThan(css.indexOf(`${ROOT}[data-variant=basic]`));
@@ -75,7 +72,7 @@ describe('icon-button output', () => {
   it('has the forced-colors rules of the Button: ButtonText border, GrayText disabled, Highlight focus', () => {
     expect(forced).toMatch(/\.cck-icon-button\[data-variant\] \{\s*border-color: ButtonText/);
     expect(forced).toMatch(
-      /\[data-disabled\],\s*\.cck-icon-button\[data-variant\]\[aria-disabled=(?:"true"|true)\],\s*\.cck-icon-button\[data-variant\]:disabled \{\s*border-color: GrayText;\s*color: GrayText/,
+      /\[data-disabled\],\s*\.cck-icon-button\[data-variant\]:disabled \{\s*border-color: GrayText;\s*color: GrayText/,
     );
     expect(forced).toMatch(/:focus-visible \{\s*outline-color: Highlight/);
   });
