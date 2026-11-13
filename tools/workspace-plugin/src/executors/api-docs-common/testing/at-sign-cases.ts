@@ -20,9 +20,9 @@ export interface PackageRow extends SourceRow {
 /** Every `@` in an `@example` of `packages/`: the comment and its whole example, copied from the source. */
 export const SOURCE_ROWS: readonly PackageRow[] = [
   {
-    name: 'vue/button/button.types.ts:14',
+    name: 'vue/button/button.types.ts:12',
     file: 'packages/vue/src/button/button.types.ts',
-    line: 14,
+    line: 12,
     comment:
       '/**\n * A button for actions. It renders a native `<button type="button">`. With an `as` other than `\'button\'`, or with\n * `asChild`, it renders a link (an `<a>`).\n *\n * For a Button with only an icon, use the IconButton; it needs `aria-label` or `aria-labelledby`.\n *\n * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in\n * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.\n *\n * @example\n * <Button @click="save">Save</Button>\n *\n * @cckPart root\n */',
     example: '<Button @click="save">Save</Button>',
