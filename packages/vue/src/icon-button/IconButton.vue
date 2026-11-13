@@ -12,9 +12,11 @@ const props = withDefaults(defineProps<IconButtonProps>(), { disabled: undefined
 
 defineSlots<{
   /**
-   * The icon of the button: a `SvgIcon`, or your own decorative `<svg aria-hidden="true">`. No text. The button
-   * has no name of its own, so give it an `aria-label` or an `aria-labelledby`; in development a missing name
-   * logs a `CocoKits:` error.
+   * The icon of the button: a `SvgIcon`, or your own decorative `<svg aria-hidden="true">`. No text. When not set,
+   * the button is empty.
+   *
+   * The button has no name of its own, so give it an `aria-label` or an `aria-labelledby`. In development a missing
+   * name logs a `CocoKits:` error.
    *
    * @example
    * <IconButton aria-label="Add item"><SvgIcon icon-name="plus" /></IconButton>
