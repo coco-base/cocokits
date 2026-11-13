@@ -17,8 +17,8 @@ describe('resolvePartIconName', () => {
     ['a prototype part', names, 'select', 'constructor'],
     ['a __proto__ part', names, 'select', '__proto__'],
     ['a prototype block and part', names, 'toString', 'toString'],
-  ] as const)('gives undefined for %s', (_name, record, block, part) => {
-    expect(resolvePartIconName(record as PartIconNames, block, part)).toBeUndefined();
+  ] as const)('gives undefined for %s', (_name, record, block, partName) => {
+    expect(resolvePartIconName(record as PartIconNames, block, partName)).toBeUndefined();
   });
 
   it('does not change the input', () => {
