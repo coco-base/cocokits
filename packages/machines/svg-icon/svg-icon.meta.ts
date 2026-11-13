@@ -2,10 +2,10 @@ import type { ComponentMeta } from '@cocokits/shared';
 
 /** SvgIcon meta: data for tests and docs, never read at runtime. */
 export const svgIconMeta: ComponentMeta<'root' | 'svg'> = {
-  dataAttrs: { root: ['data-icon-name'], svg: [] },
+  dataAttrs: { root: ['data-icon'], svg: [] },
   dataAttrDetails: {
-    'data-icon-name': {
-      setWhen: 'Always: it holds the icon name, also when the theme has no icon of that name.',
+    'data-icon': {
+      setWhen: 'The `iconName` input is set: it holds that name, also when no icon of that name is registered.',
     },
   },
   // The root has no role without a label. With a label it is `img` and carries `aria-label`; without one it is

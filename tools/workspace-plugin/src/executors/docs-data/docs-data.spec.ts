@@ -429,38 +429,34 @@ describe('docs-data: theme', () => {
   });
 });
 
-const ICONS = `{ check: { viewBox: '0 0 24 24', paths: [{ d: 'M1 1', fillRule: 'evenodd' }] }, close: { viewBox: '0 0 24 24', paths: [{ d: 'M2 2' }, { d: 'M3 3' }] } }`;
+const PART_ICONS = `{ dropdownIcon: 'chevron-down', optionIndicator: 'check' }`;
 
-describe('docs-data: theme icons', () => {
-  it('writes the icon names in the order of the icons, and neither path data nor partIconNames', async () => {
-    theme(OPTION, '', COLLECTIONS, `, icons: ${ICONS}, partIconNames: { select: { optionIndicator: 'check' } }`);
+describe('docs-data: theme part icons', () => {
+  it('writes the options only: no icons and no iconNames in theme.json', async () => {
+    theme(`${OPTION}, icons: ${PART_ICONS}`);
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
     const written = readJson('dist/docs-data/theme-mood/theme.json');
-    expect(written).toMatchObject({ iconNames: ['check', 'close'] });
-    expect(JSON.stringify(written)).not.toMatch(/M1 1|viewBox|partIconNames|fillRule/);
+    expect(written).toMatchObject({ components: { button: { size: { attrName: 'size' } } } });
+    expect(JSON.stringify(written)).not.toMatch(/icons|iconNames|chevron-down/);
   });
 
-  it.each([
-    ['no icons field', ''],
-    ['an empty icon set', ', icons: {}'],
-  ])('writes no iconNames for %s', async (_name, fields) => {
-    theme(OPTION, '', COLLECTIONS, fields);
+  it('accepts a component that has only icons', async () => {
+    theme(`${OPTION} }, select: { icons: ${PART_ICONS}`);
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
-    expect(readJson('dist/docs-data/theme-mood/theme.json')).not.toHaveProperty('iconNames');
+    expect(readJson('dist/docs-data/theme-mood/theme.json')).toMatchObject({ components: { select: {} } });
   });
 
   it.each([
-    ['icons is a list', ', icons: []', /icons: must be an object/],
-    ['an icon is no object', ', icons: { check: 1 }', /icons\.check: not an object/],
-    ['an icon has no viewBox', ', icons: { check: { paths: [{ d: "M1" }] } }', /icons\.check: viewBox must be text/],
-    ['an icon has no paths list', ', icons: { check: { viewBox: "0 0 1 1" } }', /icons\.check: paths must be a list/],
+    ['icons is a list', '[]', /button: icons must be an object/],
+    ['icons is text', '"check"', /button: icons must be an object/],
     [
-      'a path has no d',
-      ', icons: { check: { viewBox: "0 0 1 1", paths: [{}] } }',
-      /icons\.check\.paths\[0\]: d must be text/,
+      'an icon name is empty',
+      "{ dropdownIcon: '' }",
+      /button\.icons\.dropdownIcon: the icon name must be non-empty text/,
     ],
-  ])('fails when %s, and writes nothing', async (_name, fields, message) => {
-    theme(OPTION, '', COLLECTIONS, fields);
+    ['an icon name is no text', '{ dropdownIcon: 1 }', /button\.icons\.dropdownIcon: the icon name must be/],
+  ])('fails when %s, and writes nothing', async (_name, icons, message) => {
+    theme(`${OPTION}, icons: ${icons}`);
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(false);
     expect(errors()).toMatch(message);
     expect(existsSync(join(dir, 'dist/docs-data/theme-mood'))).toBe(false);

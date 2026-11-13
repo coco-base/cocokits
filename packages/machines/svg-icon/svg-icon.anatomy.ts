@@ -8,12 +8,12 @@ export const svgIconAnatomy: Anatomy<'svg-icon', { readonly root: AnatomyPart; r
       root: {
         name: 'Root',
         description:
-          'The wrapper. It carries the icon name, is hidden from assistive technology unless it has a label, and ' +
+          'The wrapper. It carries the icon name when there is one, is hidden from assistive technology unless it has a label, and ' +
           'then it is an image named by it.',
       },
       svg: {
         name: 'SVG',
-        description: 'The `<svg>` with the `viewBox` of the icon and one `<path>` per path of the icon.',
+        description: "The `<svg>` the component owns: the icon's `viewBox`, with the icon's markup inside.",
       },
     },
   });
