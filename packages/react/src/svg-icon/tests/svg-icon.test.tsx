@@ -261,6 +261,62 @@ describe('IconProvider', () => {
     expect(container.querySelectorAll('path')).toHaveLength(2);
   });
 
+  it('draws a lazy icon of the outer provider inside a nested one', async () => {
+    const { container } = render(
+      <IconProvider lazyIcons={{ later: () => Promise.resolve(heartIcon) }}>
+        <IconProvider icons={{ inner: checkIcon }}>
+          <SvgIcon iconName="later" />
+        </IconProvider>
+      </IconProvider>,
+    );
+    await waitFor(() => {
+      expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    });
+    expect(container.querySelectorAll('path')).toHaveLength(1);
+  });
+
+  it('draws a name registered later in the outer provider inside a nested one', () => {
+    quiet();
+    let registerLate = (): void => undefined;
+    function Grab(): null {
+      const registry = useIconRegistry();
+      useEffect(() => {
+        registerLate = () => {
+          registry.registerIcons({ late: heartIcon });
+        };
+      }, [registry]);
+      return null;
+    }
+    const { container } = render(
+      <IconProvider>
+        <Grab />
+        <IconProvider>
+          <SvgIcon iconName="late" />
+        </IconProvider>
+      </IconProvider>,
+    );
+    expect(container.querySelectorAll('path')).toHaveLength(0);
+    act(registerLate);
+    expect(container.querySelectorAll('path')).toHaveLength(1);
+  });
+
+  it('does not reload an icon when a parent re-render passes the same loader', async () => {
+    const load = vi.fn(() => Promise.resolve(heartIcon));
+    const view = (): ReactElement => (
+      <IconProvider lazyIcons={{ later: load }}>
+        <SvgIcon iconName="later" />
+      </IconProvider>
+    );
+    const { container, rerender } = render(view());
+    await waitFor(() => {
+      expect(container.querySelectorAll('path')).toHaveLength(1);
+    });
+    rerender(view());
+    rerender(view());
+    expect(load).toHaveBeenCalledTimes(1);
+    expect(container.querySelectorAll('path')).toHaveLength(1);
+  });
+
   it('refuses a register call without a provider and logs an error', () => {
     const error = quiet();
     function Register(): null {

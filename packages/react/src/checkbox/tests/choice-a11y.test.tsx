@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
-import { iconNamesIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
+import { drawnIconsIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { FormField } from '../../form-field';
 import { Hint } from '../../hint';
 import { Label } from '../../label';
@@ -129,7 +129,7 @@ describe('Radio accessibility', () => {
 describe('Checkbox accessibility with the theme icons', () => {
   it('has no violations with the tick of a checked Checkbox', async () => {
     const { container } = render(withPartIcons(<Checkbox defaultChecked>Accept the terms</Checkbox>));
-    expect(iconNamesIn(container)).toEqual(['check']);
+    expect(drawnIconsIn(container)).toEqual(['check']);
     expect((await axe(container)).violations).toEqual([]);
   });
 });

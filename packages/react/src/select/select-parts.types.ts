@@ -20,10 +20,10 @@ interface SelectRenderOption {
   readonly render?: SelectRender | undefined;
 }
 
-/** Props of the {@link SelectIcon}: native `span` props and `render`. Its content, if any, replaces the theme's icon. */
+/** Props of the {@link SelectIcon}: native `span` props and `render`. Its content, if any, replaces the icon. */
 export interface SelectIconProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * The icon to draw in place of the icon of the theme. When not set, the icon of the theme shows.
+   * The icon to draw. When not set, the icon the theme names in `components.select.icons` shows, else the default `chevron-down`.
    *
    * @example
    * <Select.Icon>
@@ -52,7 +52,7 @@ export interface SelectItemTextProps extends Omit<ComponentPropsWithRef<'span'>,
 /** Props of the {@link SelectItemIndicator}: native `span` props and `render`. */
 export interface SelectItemIndicatorProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * A mark to draw in place of the mark of the theme. When not set, the mark of the theme shows.
+   * The mark to draw. When not set, the icon the theme names in `components.select.icons` shows, else the default `check`.
    *
    * @example
    * <Select.ItemIndicator>

@@ -8,7 +8,7 @@ import { defineThemeConfig } from '@cocokits/shared';
 import { Accordion } from '../../accordion';
 import { Checkbox } from '../../checkbox';
 import { Select } from '../../select';
-import { iconNamesIn } from './part-icon-fixtures';
+import { drawnIconsIn } from './part-icon-fixtures';
 import { stubTopLayer } from '../../select/tests/fixtures';
 
 beforeEach(() => {
@@ -100,7 +100,7 @@ describe.each(parts)('$block $part: content, theme icon, default', ({ block, par
         <IconProvider icons={registered ? { heart: heartIcon } : {}}>{ui()}</IconProvider>
       </ThemeProvider>,
     );
-    expect(iconNamesIn(baseElement)).toEqual([expected]);
+    expect(drawnIconsIn(baseElement)).toEqual([expected]);
     const messages = error.mock.calls.map(([message]) => String(message));
     if (themeName === 'missing') {
       expect(messages).toHaveLength(1);
@@ -116,7 +116,7 @@ describe.each(parts)('$block $part: content, theme icon, default', ({ block, par
         <IconProvider icons={{ heart: heartIcon }}>{ui(<i data-own="" />)}</IconProvider>
       </ThemeProvider>,
     );
-    expect(iconNamesIn(baseElement)).toEqual([]);
+    expect(drawnIconsIn(baseElement)).toEqual([]);
     expect(baseElement.querySelector('[data-own]')).not.toBeNull();
   });
 });
@@ -140,10 +140,10 @@ describe('a late registration', () => {
         </IconProvider>
       </ThemeProvider>,
     );
-    expect(iconNamesIn(baseElement)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(baseElement)).toEqual(['chevron-down']);
     act(() => {
       registry?.registerIcons({ late: heartIcon });
     });
-    expect(iconNamesIn(baseElement)).toEqual(['late']);
+    expect(drawnIconsIn(baseElement)).toEqual(['late']);
   });
 });

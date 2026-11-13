@@ -3,7 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement, ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { iconNamesIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
+import { drawnIconsIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { Select } from '../index';
 import { Dishes, must, Opt, stubTopLayer, trigger } from './fixtures';
 
@@ -23,7 +23,7 @@ const indicatorOf = (name: string): HTMLElement =>
 describe('Select theme part icons', () => {
   it('draws the theme icon in the dropdown icon, which stays aria-hidden', () => {
     render(withPartIcons(<Dishes />));
-    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+    expect(drawnIconsIn(dropdownIcon())).toEqual(['chevron-down']);
     expect(dropdownIcon().getAttribute('aria-hidden')).toBe('true');
     expect(dropdownIcon().querySelector('.cck-svg-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
@@ -38,8 +38,8 @@ describe('Select theme part icons', () => {
       ),
     );
     await screen.findByRole('listbox');
-    expect(iconNamesIn(indicatorOf('Cake'))).toEqual(['check']);
-    expect(iconNamesIn(indicatorOf('Pizza'))).toEqual([]);
+    expect(drawnIconsIn(indicatorOf('Cake'))).toEqual(['check']);
+    expect(drawnIconsIn(indicatorOf('Pizza'))).toEqual([]);
     expect(indicatorOf('Pizza').getAttribute('aria-hidden')).toBe('true');
   });
 
@@ -54,12 +54,12 @@ describe('Select theme part icons', () => {
       ),
     );
     await screen.findByRole('listbox');
-    expect(iconNamesIn(screen.getByRole('listbox'))).toEqual([]);
+    expect(drawnIconsIn(screen.getByRole('listbox'))).toEqual([]);
     await user.click(screen.getByRole('option', { name: 'Pizza' }));
     await user.click(trigger());
     await screen.findByRole('listbox');
-    expect(iconNamesIn(indicatorOf('Pizza'))).toEqual(['check']);
-    expect(iconNamesIn(indicatorOf('Cake'))).toEqual([]);
+    expect(drawnIconsIn(indicatorOf('Pizza'))).toEqual(['check']);
+    expect(drawnIconsIn(indicatorOf('Cake'))).toEqual([]);
   });
 
   it('draws the check for every selected option of a multiple Select', async () => {
@@ -73,7 +73,7 @@ describe('Select theme part icons', () => {
       ),
     );
     await screen.findByRole('listbox');
-    expect(iconNamesIn(screen.getByRole('listbox'))).toEqual(['check', 'check']);
+    expect(drawnIconsIn(screen.getByRole('listbox'))).toEqual(['check', 'check']);
   });
 
   const content: readonly [string, ReactNode][] = [
@@ -100,7 +100,7 @@ describe('Select theme part icons', () => {
       ),
     );
     await screen.findByRole('listbox');
-    expect(iconNamesIn(document.body)).toEqual([]);
+    expect(drawnIconsIn(document.body)).toEqual([]);
     expect(document.body.textContent).toContain(typeof own === 'string' ? own : '');
     if (typeof own !== 'string') expect(document.querySelectorAll('[data-own]')).toHaveLength(2);
   });
@@ -132,7 +132,7 @@ describe('Select theme part icons', () => {
       ),
     );
     await screen.findByRole('listbox');
-    expect(iconNamesIn(document.body)).toEqual(['chevron-down', 'check']);
+    expect(drawnIconsIn(document.body)).toEqual(['chevron-down', 'check']);
   });
 
   it('keeps the author content of a render element instead of the theme icon', () => {
@@ -154,7 +154,7 @@ describe('Select theme part icons', () => {
     );
     expect(dropdownIcon().tagName).toBe('I');
     expect(dropdownIcon().innerHTML).toBe('<b>v</b>');
-    expect(iconNamesIn(dropdownIcon())).toEqual([]);
+    expect(drawnIconsIn(dropdownIcon())).toEqual([]);
   });
 
   const renders: readonly [string, ReactElement | ((props: object) => ReactElement)][] = [
@@ -187,10 +187,10 @@ describe('Select theme part icons', () => {
       );
       await screen.findByRole('listbox');
       expect(dropdownIcon().tagName).toBe('I');
-      expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+      expect(drawnIconsIn(dropdownIcon())).toEqual(['chevron-down']);
       expect(indicatorOf('Cake').tagName).toBe('I');
-      expect(iconNamesIn(indicatorOf('Cake'))).toEqual(['check']);
-      expect(iconNamesIn(indicatorOf('Pizza'))).toEqual([]);
+      expect(drawnIconsIn(indicatorOf('Cake'))).toEqual(['check']);
+      expect(drawnIconsIn(indicatorOf('Pizza'))).toEqual([]);
       expect(document.querySelectorAll('[data-own]')).toHaveLength(3);
     },
   );
@@ -203,13 +203,13 @@ describe('Select theme part icons', () => {
     );
     render(withoutTheme);
     await screen.findByRole('listbox');
-    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
-    expect(iconNamesIn(indicatorOf('Cake'))).toEqual(['check']);
+    expect(drawnIconsIn(dropdownIcon())).toEqual(['chevron-down']);
+    expect(drawnIconsIn(indicatorOf('Cake'))).toEqual(['check']);
   });
 
   it('draws the default icon when the theme names no icon for the part', () => {
     render(<Dishes />);
-    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+    expect(drawnIconsIn(dropdownIcon())).toEqual(['chevron-down']);
   });
 
   it('keeps the name of the combobox and the option unchanged', async () => {

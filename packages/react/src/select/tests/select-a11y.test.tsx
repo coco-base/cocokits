@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 import { FormField } from '../../form-field';
 import { Label } from '../../label';
-import { iconNamesIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
+import { drawnIconsIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { Select } from '../index';
 import { Example, stubTopLayer, Dishes, Opt } from './fixtures';
 
@@ -176,11 +176,11 @@ describe('Select accessibility with the theme icons', () => {
         </Dishes>,
       ),
     );
-    expect(iconNamesIn(screen.getByRole('combobox'))).toEqual(['chevron-down']);
+    expect(drawnIconsIn(screen.getByRole('combobox'))).toEqual(['chevron-down']);
     expect((await axe(document.body, WITHOUT_REGION)).violations).toEqual([]);
     await userEvent.setup().click(screen.getByRole('combobox'));
     const cake = await screen.findByRole('option', { name: 'Cake' });
-    expect(iconNamesIn(cake)).toEqual(['check']);
+    expect(drawnIconsIn(cake)).toEqual(['check']);
     expect((await axe(document.body, WITHOUT_REGION)).violations).toEqual([]);
   });
 });

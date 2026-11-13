@@ -5,7 +5,7 @@ import { createElement, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { accordionMeta } from '@cocokits/machines/accordion';
 import { must } from '../../internal/tests/choice-fixtures';
-import { iconNamesIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
+import { drawnIconsIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { Accordion, type AccordionRenderProps } from '../index';
 import { trigger } from './fixtures';
 
@@ -57,7 +57,7 @@ describe('Accordion indicator', () => {
     expect(last.tagName).toBe(accordionMeta.defaultElements?.indicator?.toUpperCase());
     expect(last.getAttribute('aria-hidden')).toBe('true');
     expect(last.hasAttribute('data-state')).toBe(false);
-    expect(iconNamesIn(last)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(last)).toEqual(['chevron-down']);
     expect(button.querySelectorAll('.cck-accordion__indicator')).toHaveLength(1);
   });
 
@@ -82,13 +82,13 @@ describe('Accordion indicator', () => {
     await userEvent.setup().click(button);
     expect(button.getAttribute('data-state')).toBe('open');
     expect(button.querySelectorAll('.cck-accordion__indicator')).toHaveLength(1);
-    expect(iconNamesIn(button)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(button)).toEqual(['chevron-down']);
   });
 
   it('draws the default chevron without a theme', () => {
     render(plain);
     const indicator = trigger('Shipping').querySelector('.cck-accordion__indicator');
-    expect(iconNamesIn(indicator)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(indicator)).toEqual(['chevron-down']);
   });
 });
 

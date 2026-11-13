@@ -28,5 +28,5 @@ export const withPartIcons = (ui: ReactElement): ReactElement => (
 );
 
 /** The names of the icons an element holds, in document order. */
-export const iconNamesIn = (element: Element | null): (string | null)[] =>
+export const drawnIconsIn = (element: Element | null): (string | null)[] =>
   [...(element?.querySelectorAll('.cck-svg-icon') ?? [])].map((icon) => icon.getAttribute('data-icon'));

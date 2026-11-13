@@ -92,13 +92,7 @@ function SvgIconImpl({ iconName, svg, label, ref, ...rest }: SvgIconProps): Reac
   // The body is the icon's markup as registered: trusted content only. The component owns the outer `<svg>`.
   return (
     <span {...props} ref={ref}>
-      <svg
-        className={svgProps.class}
-        viewBox={svgProps.viewBox}
-        aria-hidden="true"
-        focusable="false"
-        dangerouslySetInnerHTML={{ __html: body }}
-      />
+      <svg {...toReactProps(svgProps)} dangerouslySetInnerHTML={{ __html: body }} />
     </span>
   );
 }

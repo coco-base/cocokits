@@ -1,7 +1,12 @@
 'use client';
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactElement, type ReactNode } from 'react';
-import { createIconRegistry, type IconLoader, type IconRegistry } from '@cocokits/cdk/icon-registry';
+import {
+  createIconRegistry,
+  createReadOnlyIconRegistry,
+  type IconLoader,
+  type IconRegistry,
+} from '@cocokits/cdk/icon-registry';
 import type { Icon } from '@cocokits/icons';
 
 const IconRegistryContext = createContext<IconRegistry | null>(null);
@@ -34,10 +39,19 @@ interface Memory {
   mounted: boolean;
 }
 
-function register(registry: IconRegistry, { icons, lazyIcons }: Pick<IconProviderProps, 'icons' | 'lazyIcons'>): void {
+/** Registers the icons, and the loaders whose loader differs from the one remembered for that name (one load per name). */
+function register(
+  registry: IconRegistry,
+  { icons, lazyIcons }: Pick<IconProviderProps, 'icons' | 'lazyIcons'>,
+  loaders: Record<string, IconLoader>,
+): void {
   if (icons) registry.registerIcons(icons);
   if (lazyIcons) {
-    for (const [name, load] of Object.entries(lazyIcons)) registry.registerIcon(name, load);
+    for (const [name, load] of Object.entries(lazyIcons)) {
+      if (Object.hasOwn(loaders, name) && loaders[name] === load) continue;
+      loaders[name] = load;
+      registry.registerIcon(name, load);
+    }
   }
 }
 
@@ -65,9 +79,11 @@ function register(registry: IconRegistry, { icons, lazyIcons }: Pick<IconProvide
  */
 export function IconProvider({ icons, lazyIcons, children }: IconProviderProps): ReactElement {
   const parent = useContext(IconRegistryContext);
+  // The last loader registered for each name: a re-render with the same loader does not load again.
+  const [loaders] = useState<Record<string, IconLoader>>({});
   const [registry] = useState<IconRegistry>(() => {
     const created = createIconRegistry(parent ?? undefined);
-    register(created, { icons, lazyIcons });
+    register(created, { icons, lazyIcons }, loaders);
     return created;
   });
   const memory = useRef<Memory>({ icons, lazyIcons, mounted: false });
@@ -77,14 +93,18 @@ export function IconProvider({ icons, lazyIcons, children }: IconProviderProps):
     remembered.mounted = true;
     // The records changed after the first render: register what they hold now.
     if (remembered.icons !== icons || remembered.lazyIcons !== lazyIcons) {
-      register(registry, {
-        icons: remembered.icons === icons ? undefined : icons,
-        lazyIcons: remembered.lazyIcons === lazyIcons ? undefined : lazyIcons,
-      });
+      register(
+        registry,
+        {
+          icons: remembered.icons === icons ? undefined : icons,
+          lazyIcons: remembered.lazyIcons === lazyIcons ? undefined : lazyIcons,
+        },
+        loaders,
+      );
       remembered.icons = icons;
       remembered.lazyIcons = lazyIcons;
     }
-  }, [registry, icons, lazyIcons]);
+  }, [registry, loaders, icons, lazyIcons]);
 
   useEffect(() => {
     const remembered = memory.current;
@@ -104,22 +124,11 @@ export function IconProvider({ icons, lazyIcons, children }: IconProviderProps):
 let baseRegistry: IconRegistry | undefined;
 
 function readOnlyBaseRegistry(): IconRegistry {
-  if (baseRegistry) return baseRegistry;
-  const base = createIconRegistry();
-  const refuse = (): void => {
+  baseRegistry ??= createReadOnlyIconRegistry(createIconRegistry(), () => {
     console.error(
       'CocoKits: there is no IconProvider above, so icons cannot be registered. Wrap your app in IconProvider.',
     );
-  };
-  baseRegistry = {
-    registerIcons: refuse,
-    registerIcon: refuse,
-    has: (name) => base.has(name),
-    get: (name) => base.get(name),
-    load: (name) => base.load(name),
-    subscribe: (listener) => base.subscribe(listener),
-    destroy: () => undefined,
-  };
+  });
   return baseRegistry;
 }
 
