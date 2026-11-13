@@ -151,6 +151,9 @@ const entries = [
   { name: '@cocokits/react/svg-icon', path: 'packages/react/dist/svg-icon/index.js', limit: '790 B' },
   { name: '@cocokits/vue/icon-button', path: 'packages/vue/dist/icon-button/index.js', limit: '1600 B' },
   { name: '@cocokits/vue/svg-icon', path: 'packages/vue/dist/svg-icon/index.js', limit: '790 B' },
+  { name: '@cocokits/icons', path: 'packages/icons/dist/index.js', limit: '2 kB' },
+  { name: '@cocokits/icons, one icon', path: 'packages/icons/dist/index.js', import: '{ checkIcon }', limit: '1 kB' },
+  { name: '@cocokits/cdk/icon-registry', path: 'packages/cdk/dist/icon-registry/index.js', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));

@@ -248,6 +248,9 @@ importers:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../icons
       '@cocokits/machines':
         specifier: workspace:*
         version: link:../machines
@@ -270,6 +273,9 @@ importers:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../../icons
       '@cocokits/shared':
         specifier: workspace:*
         version: link:../../shared
@@ -280,6 +286,9 @@ importers:
 
   packages/cdk:
     dependencies:
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../icons
       '@cocokits/shared':
         specifier: workspace:*
         version: link:../shared
@@ -299,11 +308,16 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
 
+  packages/icons: {}
+
   packages/machines:
     dependencies:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../icons
       '@cocokits/shared':
         specifier: workspace:*
         version: link:../shared
@@ -316,6 +330,9 @@ importers:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../icons
       '@cocokits/machines':
         specifier: workspace:*
         version: link:../machines
@@ -340,6 +357,9 @@ importers:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../../icons
       '@cocokits/shared':
         specifier: workspace:*
         version: link:../../shared
@@ -373,6 +393,9 @@ importers:
 
   packages/themes/cocokits/core:
     dependencies:
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../../../icons
       '@cocokits/shared':
         specifier: workspace:*
         version: link:../../../shared
@@ -472,6 +495,9 @@ importers:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../icons
       '@cocokits/machines':
         specifier: workspace:*
         version: link:../machines
@@ -493,6 +519,9 @@ importers:
       '@cocokits/cdk':
         specifier: workspace:*
         version: link:../../cdk
+      '@cocokits/icons':
+        specifier: workspace:*
+        version: link:../../icons
       '@cocokits/shared':
         specifier: workspace:*
         version: link:../../shared
@@ -6065,6 +6094,7 @@ packages:
 
   tldts-core@7.4.20:
     resolution: {integrity: sha512-C630TWXZCZmLq0F2bW4QqwnaaxCQ/svpAqvJwnC4JvgEM5ohhBnGsEzTLSOXcN+xjz+kEaHS5uoWIw2klnqd0A==}
+    deprecated: Partial release, see https://github.com/remusao/tldts/issues/2735. Use >=7.4.22.
 
   tldts@7.4.19:
     resolution: {integrity: sha512-48dH6aSpQnpbzDUc4vIQZ1VjB8tkK+e8c1yx05/SZK+rkssgjEOlxDd/yU8/a4vGYQ9vRgJr9dwMq9TJ0b3X2Q==}

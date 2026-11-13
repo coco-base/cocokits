@@ -38,13 +38,14 @@ type Parts = Pick<PackageSpec, 'projectName' | 'root' | 'layer' | 'scope' | 'des
 const SHARED_LIBS: Record<string, string> = {
   utils: 'Stateless helpers used by every other layer.',
   shared: 'Shared contracts: anatomy, meta, theme and mode types.',
+  icons: 'Icon type, the icon pack and the base icons: types and data only.',
 };
 
 function sharedLibParts(name: string): Parts {
   return {
     projectName: name,
     root: `packages/${name}`,
-    layer: `layer:${name}`,
+    layer: name === 'icons' ? 'layer:shared' : `layer:${name}`,
     scope: 'scope:shared',
     description: SHARED_LIBS[name] ?? '',
     strict: true,

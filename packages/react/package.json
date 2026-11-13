@@ -125,6 +125,7 @@
   },
   "dependencies": {
     "@cocokits/cdk": "workspace:*",
+    "@cocokits/icons": "workspace:*",
     "@cocokits/machines": "workspace:*",
     "@cocokits/react-core": "workspace:*",
     "@cocokits/shared": "workspace:*",

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@cocokits/cdk": "workspace:*",
+    "@cocokits/icons": "workspace:*",
     "@cocokits/shared": "workspace:*",
     "@cocokits/utils": "workspace:*"
   },

@@ -7,7 +7,7 @@
  *    any subpath of the root-only packages; theme packages only expose their CSS asset files.
  */
 const ROOTLESS = ['cdk', 'machines', 'angular', 'react', 'vue'];
-const ROOT_ONLY = ['utils', 'shared', 'angular-core', 'react-core', 'vue-core'];
+const ROOT_ONLY = ['utils', 'shared', 'icons', 'angular-core', 'react-core', 'vue-core'];
 
 const MESSAGE_ROOT = (name) =>
   `@cocokits/${name} has no root entry. Import a subpath: @cocokits/${name}/<${name === 'cdk' ? 'module' : name === 'machines' ? 'name' : 'component'}>.`;

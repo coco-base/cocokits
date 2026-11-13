@@ -34,6 +34,10 @@
       "types": "./dist/form-control/index.d.ts",
       "default": "./dist/form-control/index.js"
     },
+    "./icon-registry": {
+      "types": "./dist/icon-registry/index.d.ts",
+      "default": "./dist/icon-registry/index.js"
+    },
     "./portal": {
       "types": "./dist/portal/index.d.ts",
       "default": "./dist/portal/index.js"
@@ -56,6 +60,7 @@
     }
   },
   "dependencies": {
+    "@cocokits/icons": "workspace:*",
     "@cocokits/shared": "workspace:*",
     "@cocokits/utils": "workspace:*",
     "alien-signals": "^3.2.1"

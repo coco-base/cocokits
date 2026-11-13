@@ -13,13 +13,17 @@ import {
 } from './testing/workspace';
 
 describe('library generator: shared packages', () => {
-  it.each(['utils', 'shared'])('shared-lib %s: root entry, strict, tsdown', async (name) => {
+  it.each(['utils', 'shared', 'icons'])('shared-lib %s: root entry, strict, tsdown', async (name) => {
     const tree = createWorkspace();
     await generate(tree, { kind: 'shared-lib', name });
     const root = `packages/${name}`;
     const expected = [...COMMON_FILES, 'src/index.ts', 'tests/index.test.ts', 'tsdown.config.mjs'];
     expect(missingFiles(tree, root, expected)).toEqual([]);
-    expect(readTags(tree, root)).toEqual([`layer:${name}`, 'scope:shared', 'type:lib']);
+    expect(readTags(tree, root)).toEqual([
+      name === 'icons' ? 'layer:shared' : `layer:${name}`,
+      'scope:shared',
+      'type:lib',
+    ]);
     const pkg = readPackage(tree, root);
     expect(pkg).toMatchObject({
       name: `@cocokits/${name}`,
@@ -93,6 +97,11 @@ describe('library generator: shared packages', () => {
     const { dependencies } = readPackage(tree, 'packages/cdk');
     expect(dependencies).toMatchObject({ '@cocokits/utils': 'workspace:*' });
     expect(dependencies).not.toHaveProperty('@cocokits/shared');
+    expect(dependencies).not.toHaveProperty('@cocokits/icons');
+    const withIcons = createWorkspace();
+    await generate(withIcons, { kind: 'shared-lib', name: 'icons' });
+    await generate(withIcons, { kind: 'cdk' });
+    expect(readPackage(withIcons, 'packages/cdk').dependencies).toMatchObject({ '@cocokits/icons': 'workspace:*' });
   });
 
   it('machines: one project, no root entry, no "." export', async () => {

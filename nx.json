@@ -85,6 +85,7 @@
         "^production",
         "executors",
         "{workspaceRoot}/packages/shared/src/**/*.ts",
+        "{workspaceRoot}/packages/icons/src/**/*.ts",
         "{workspaceRoot}/packages/machines/**/*.types.ts"
       ],
       "outputs": ["{workspaceRoot}/dist/api-docs/{projectName}"]
