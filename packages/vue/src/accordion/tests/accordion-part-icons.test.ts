@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
 import { h, type Component, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { accordionMeta } from '@cocokits/machines/accordion';
 import { iconNamesIn, noPartIconsThemeConfig, themed } from '../../internal/tests/part-icon-fixtures';
 import { AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from '../index';
 import { must } from '../../internal/tests/choice-helpers';
@@ -45,7 +46,7 @@ describe.each(forms)('Accordion indicator with the trigger as %s', (_form, trigg
     expect(element.tagName).toBe(tag);
     const last = must(element.lastElementChild);
     expect(last.className).toBe('cck-accordion__indicator');
-    expect(last.tagName).toBe('SPAN');
+    expect(last.tagName).toBe(accordionMeta.defaultElements?.indicator?.toUpperCase());
     expect(last.getAttribute('aria-hidden')).toBe('true');
     expect(iconNamesIn(last)).toEqual(['chevron-down']);
     expect(element.querySelectorAll('.cck-accordion__indicator')).toHaveLength(1);

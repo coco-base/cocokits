@@ -128,6 +128,46 @@ describe.each(forms)('IconButton as a link (%s)', (_form, link) => {
   });
 });
 
+describe('IconButton keyboard', () => {
+  it('activates the native button with Enter and with Space', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    mountView(() => h(IconButton, { 'aria-label': 'Add', onClick }, plus));
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Add' }));
+    await user.keyboard('{Enter}');
+    await user.keyboard(' ');
+    expect(onClick).toHaveBeenCalledTimes(2);
+  });
+
+  it('does nothing on Space for a link, and Enter follows it', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    mountView(() => h(IconButton, { as: 'a', href: '#go', 'aria-label': 'Go', onClick }, plus));
+    await user.tab();
+    await user.keyboard(' ');
+    expect(onClick).not.toHaveBeenCalled();
+    await user.keyboard('{Enter}');
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('skips a disabled button and a disabled link with Tab, and blocks Enter on the link', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    mountView(() => [
+      h(IconButton, { 'aria-label': 'Off', disabled: true }, plus),
+      h(IconButton, { as: 'a', href: '#go', 'aria-label': 'Gone', disabled: true, onClick }, plus),
+      h(IconButton, { 'aria-label': 'On' }, plus),
+    ]);
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'On' }));
+    screen.getByRole('link', { name: 'Gone' }).focus();
+    await user.keyboard('{Enter}');
+    expect(onClick).not.toHaveBeenCalled();
+    expect(window.location.hash).toBe('');
+  });
+});
+
 describe('IconButton name check (development)', () => {
   const cases: readonly [string, () => VNode, boolean][] = [
     ['no name', () => h(IconButton, null, plus), true],

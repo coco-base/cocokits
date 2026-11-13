@@ -26,7 +26,7 @@ describe('@cocokits/vue/svg-icon', () => {
   it('renders the root, the svg and one path per icon path, with only d, fill-rule and clip-rule', () => {
     const { container } = themed(() => h(SvgIcon, { iconName: 'heart' }));
     const root = pick(container, '.cck-svg-icon');
-    expect(root.tagName).toBe('SPAN');
+    expect(root.tagName).toBe(svgIconMeta.defaultElements?.root?.toUpperCase());
     expect(root.getAttribute('data-icon-name')).toBe('heart');
     const svg = pick(root, 'svg');
     expect(svg.getAttribute('class')).toBe(svgIconAnatomy.classes.svg);

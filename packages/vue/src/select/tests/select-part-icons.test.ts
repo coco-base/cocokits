@@ -5,6 +5,7 @@ import { Comment, createTextVNode, h, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { iconNamesIn, noPartIconsThemeConfig, themed } from '../../internal/tests/part-icon-fixtures';
 import { SelectIcon, SelectItemIndicator, SelectItemText, SelectTrigger } from '../index';
+import { must } from '../../internal/tests/choice-helpers';
 import { ObjectItem, ObjectRoot, mountView, selectRoot, stubOverlayBrowser } from './fixtures';
 
 beforeEach(() => {
@@ -98,6 +99,46 @@ describe('Select part icons (the theme names them)', () => {
     );
     await open();
     expect(indicators().map((indicator) => indicator.innerHTML)).toEqual(['<i>x</i>', '<i>x</i>']);
+  });
+});
+
+describe('Select part icons with the element replaced (asChild, as="template")', () => {
+  const dish =
+    (icon: () => VNode): (() => VNode) =>
+    () =>
+      h(ObjectRoot, { modelValue: 'Cake' }, () => h(SelectTrigger, { 'aria-label': 'Dish' }, () => icon()));
+  const merged: readonly [string, Record<string, unknown>][] = [
+    ['asChild', { asChild: true }],
+    ['as="template"', { as: 'template' }],
+  ];
+
+  it.each(merged)('keeps the theme icon in the child of the dropdown icon with %s', (_name, props) => {
+    mountView(themed(dish(() => h(SelectIcon, props, () => h('i', { class: 'mine' })))));
+    const part = must(dropdownIcon());
+    expect(part.tagName).toBe('I');
+    expect(part.classList.contains('mine')).toBe(true);
+    expect(iconNamesIn(part)).toEqual(['chevron-down']);
+    expect(document.querySelectorAll('.cck-select__dropdown-icon')).toHaveLength(1);
+  });
+
+  it.each(merged)('keeps the own content of the child of the dropdown icon with %s', (_name, props) => {
+    mountView(themed(dish(() => h(SelectIcon, props, () => h('i', null, h('b', 'v'))))));
+    expect(must(dropdownIcon()).innerHTML).toBe('<b>v</b>');
+  });
+
+  it.each(merged)('keeps the check in the child of the selected indicator with %s', async (_name, props) => {
+    mountView(
+      themed(() =>
+        selectRoot(
+          { modelValue: 'Burger' },
+          { items: twoItems(() => h(SelectItemIndicator, props, () => h('i', { class: 'mine' }))) },
+        ),
+      ),
+    );
+    await open();
+    const [cake, burger] = indicators();
+    expect(indicators().map((indicator) => indicator.tagName)).toEqual(['I', 'I']);
+    expect([iconNamesIn(cake), iconNamesIn(burger)]).toEqual([[], ['check']]);
   });
 });
 
