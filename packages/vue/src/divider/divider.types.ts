@@ -1,4 +1,12 @@
-import type { DividerOrientation } from '@cocokits/machines/divider';
+import type { DividerOrientation as MachineDividerOrientation } from '@cocokits/machines/divider';
+
+/**
+ * The direction of the line.
+ *
+ * @cckValue horizontal - A line across the container, between stacked blocks.
+ * @cckValue vertical - A line down the container, between the items of a row.
+ */
+export type DividerOrientation = MachineDividerOrientation;
 
 /**
  * A thin line that separates content: between stacked blocks or between the items of a row. It renders a native
@@ -26,8 +34,6 @@ export interface DividerProps {
    * @cckValue horizontal - A line across the container, between stacked blocks.
    * @cckValue vertical - A line down the container, between the items of a row.
    *
-   * @cckSemantic divider.orientation
-   * @cckParity Same name and default as the reference `orientation`.
    * @defaultValue 'horizontal'
    */
   readonly orientation?: DividerOrientation | undefined;
@@ -35,8 +41,8 @@ export interface DividerProps {
    * Whether the line is purely visual. A decorative line renders `role="none"` and leaves the accessibility tree.
    * Use this prop and never a `role` of your own.
    *
-   * @cckSemantic divider.decorative
-   * @cckParity Same name and default as the reference `decorative`.
+   * @remarks An `aria-label` keeps a decorative divider in the accessibility tree, so give it none.
+   *
    * @defaultValue false
    */
   readonly decorative?: boolean | undefined;

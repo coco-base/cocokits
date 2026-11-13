@@ -25,7 +25,7 @@ export interface DividerProps extends Omit<ComponentPropsWithRef<'hr'>, 'color' 
    * Whether the line is only visual. It sets `role="none"`, so the line leaves the accessibility tree.
    *
    * @remarks Use it where the line repeats a grouping that headings, lists or landmarks already give. Set `decorative`
-   * and do not write a `role` of your own.
+   * and do not write a `role` of your own. An `aria-label` keeps a decorative divider in the accessibility tree, so give it none.
    *
    * @defaultValue false
    */

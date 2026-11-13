@@ -20,6 +20,7 @@ describe('Divider on the server', () => {
             h(Divider),
             h(Divider, { orientation: 'vertical' }),
             h(Divider, { decorative: true }),
+            h(Divider, { orientation: 'vertical', decorative: true }),
           ]),
         ),
       ),
@@ -31,7 +32,11 @@ describe('Divider on the server', () => {
     expect(html).toContain('role="none"');
     expect(html).toContain('data-size="md"');
     expect(html).toContain('data-color="default"');
-    expect(html.match(/<hr /g)).toHaveLength(3);
+    expect(html.match(/<hr /g)).toHaveLength(4);
+    const decorativeVertical = html.split('<hr ')[4] ?? '';
+    expect(decorativeVertical).toContain('data-orientation="vertical"');
+    expect(decorativeVertical).toContain('role="none"');
+    expect(decorativeVertical).not.toContain('aria-orientation');
     expect(html).not.toContain('style=');
     expect(html).not.toContain(' id=');
   });

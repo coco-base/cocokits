@@ -1,6 +1,18 @@
 import { Directive, booleanAttribute, computed, input } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
-import { dividerAnatomy, getDividerProps, type DividerOrientation } from '@cocokits/machines/divider';
+import {
+  dividerAnatomy,
+  getDividerProps,
+  type DividerOrientation as MachineDividerOrientation,
+} from '@cocokits/machines/divider';
+
+/**
+ * The direction of the line.
+ *
+ * @cckValue horizontal - A line across the container, between stacked blocks.
+ * @cckValue vertical - A line down the container, between the items of a row.
+ */
+export type DividerOrientation = MachineDividerOrientation;
 
 /**
  * A thin line that separates content: between stacked blocks (horizontal) or between the items of a row (vertical).
@@ -37,7 +49,7 @@ export class CckDivider {
 
   /**
    * Whether the line is purely visual. A decorative divider has `role="none"` and leaves the accessibility tree.
-   * @remarks Use it where the line only repeats a grouping that headings, lists or landmarks already give. Set this input; do not write your own `role`.
+   * @remarks Use it where the line only repeats a grouping that headings, lists or landmarks already give. Set this input; do not write your own `role`. An `aria-label` keeps a decorative divider in the accessibility tree, so give it none.
    * @defaultValue false
    */
   readonly decorative = input(false, { transform: booleanAttribute });
