@@ -2,7 +2,7 @@
 import { h, type ComponentPublicInstance, type VNode, useSlots, useTemplateRef } from 'vue';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
-import { usePartIconName } from '../internal/part-icon';
+import { Nodes, usePartIconName } from '../internal/part-icon';
 import { useDefaultModel } from '../internal/use-default-model';
 import { boxTree } from '../internal/box-tree';
 import { rootElementOf } from '../internal/root-element';
@@ -69,8 +69,6 @@ function tick(): VNode[] {
 function tree(content: VNode[] = []): VNode[] {
   return [boxTree(parts.value, themeAttrs.value, h('input', inputProps()), content, tick())];
 }
-/** Renders nodes made in the parent's render, so a changed slot re-renders them. */
-const Nodes = (nodeProps: { nodes: VNode[] }): VNode[] => nodeProps.nodes;
 
 const root = useTemplateRef<ComponentPublicInstance>('root');
 

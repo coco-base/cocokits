@@ -3,7 +3,7 @@ import type { ButtonProps as MachineButtonProps, ButtonRootProps } from '@cocoki
 import { buttonAnatomy } from '@cocokits/machines/button';
 import type { iconButtonAnatomy } from '@cocokits/machines/icon-button';
 import { isDevelopment, useThemeAttrs } from '@cocokits/vue-core';
-import type { ButtonProps } from '../button/button.types';
+import type { ButtonBaseProps } from './button-base-props';
 import { rootElementOf } from './root-element';
 
 /** What the Button and the IconButton share: they render the same element with their own class and anatomy. */
@@ -15,7 +15,7 @@ export interface UseButtonOptions {
   /** The machine function of the component. */
   readonly getProps: (props: MachineButtonProps) => ButtonRootProps;
   /** The props of the component. */
-  readonly props: Readonly<Pick<ButtonProps, 'as' | 'asChild' | 'disabled'>>;
+  readonly props: Readonly<ButtonBaseProps>;
   /** The template ref of the `Primitive` that renders the element. */
   readonly root: Readonly<Ref<ComponentPublicInstance | null>>;
 }

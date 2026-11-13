@@ -1,6 +1,6 @@
-import { computed, Comment, Fragment, h, Text, type ComputedRef, type VNode } from 'vue';
+import { computed, Comment, Fragment, Text, type ComputedRef, type VNode } from 'vue';
+import { resolvePartIconName } from '@cocokits/shared';
 import { useThemeIcons } from '@cocokits/vue-core';
-import { SvgIcon } from '../svg-icon';
 
 /**
  * Whether the nodes of a default slot hold no content: no slot, comments, and text that is empty or only white
@@ -33,26 +33,20 @@ export function isEmptyContent(nodes: readonly unknown[] | undefined): boolean {
  */
 export function usePartIconName(block: string, part: string): ComputedRef<string | undefined> {
   const icons = useThemeIcons();
-  return computed(() => {
-    const byBlock: Readonly<Partial<Record<string, Readonly<Record<string, string>>>>> = icons.value.partIconNames;
-    const names = byBlock[block];
-    return names?.[part];
-  });
+  return computed(() => resolvePartIconName(icons.value.partIconNames, block, part));
 }
 
 /**
- * What a part that holds an icon renders inside itself: the author's content when there is any, else the theme's
- * icon through the SvgIcon when the part shows it, else nothing.
+ * What a part that holds an icon renders inside itself: the author's content when there is any, else the icon of
+ * the theme when the part shows it, else nothing. The part builds the icon with its own `SvgIcon`.
  *
  * @internal
- * @param content - What the default slot returned, or `undefined` when no slot was given.
- * @param iconName - The icon of the theme for the part, or `undefined`.
- * @param shown - Whether the state of the part shows the icon.
+ * @param content - What the default slot (or the child of `asChild`) holds, or `undefined` when there is none.
+ * @param icon - The icon node to show when there is no content, or `undefined` when the part shows none.
  * @returns The nodes to render.
  */
-export function partIconNodes(content: VNode[] | undefined, iconName: string | undefined, shown = true): VNode[] {
-  if (iconName === undefined || !shown || !isEmptyContent(content)) return content ?? [];
-  return [h(SvgIcon, { iconName })];
+export function partIconNodes(content: VNode[] | undefined, icon: VNode | undefined): VNode[] {
+  return icon === undefined || !isEmptyContent(content) ? (content ?? []) : [icon];
 }
 
 /** Renders nodes made in the part's own render, so a changed slot or state re-renders them. @internal */
