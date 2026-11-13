@@ -170,6 +170,7 @@ export function provideCckIcons(options: CckIconsOptions = {}): EnvironmentProvi
  * @param block - The anatomy block of the part, for example `selectAnatomy.block`.
  * @param part - The part name, for example `'dropdownIcon'`.
  * @returns A signal of the icon name; it updates when an icon is registered later.
+ * @internal
  */
 export function injectPartIconName<B extends keyof typeof defaultPartIcons>(
   block: B,
