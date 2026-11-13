@@ -26,3 +26,5 @@ export type {
   AccordionTogglePosition,
   AccordionVariant,
 } from './accordion-root';
+export { Divider } from './divider';
+export type { DividerColor, DividerProps, DividerSize } from './divider';

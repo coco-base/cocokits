@@ -59,3 +59,5 @@ export type {
   AccordionTogglePosition,
   AccordionHideToggle,
 } from './accordion.types';
+export { default as Divider } from './Divider.vue';
+export type { DividerProps, DividerSize, DividerColor } from './divider.types';

@@ -25,3 +25,5 @@ export type {
   CckAccordionTogglePosition,
   CckAccordionVariant,
 } from './accordion-theme';
+export { CckDividerTheme } from './divider-theme';
+export type { CckDividerColor, CckDividerSize } from './divider-theme';
