@@ -15,8 +15,9 @@ const props = withDefaults(defineProps<AvatarLabelProps>(), {
 });
 defineSlots<{
   /**
-   * The avatar, a direct child written first. The text follows it. With `asChild`, the one element the label merges
-   * onto. When not set, the label shows only the text.
+   * The avatar, a direct child written first. The text follows it. When not set, the label shows only the text.
+   *
+   * @remarks With `asChild`, the slot holds the one element the label merges onto.
    *
    * @example
    * <AvatarLabel name="Ada Lovelace">

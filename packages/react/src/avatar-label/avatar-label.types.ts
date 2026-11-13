@@ -10,8 +10,10 @@ export interface AvatarLabelState {
 }
 
 /**
- * The props that the function form of `render` receives: the native `div` props merged with the props of the
- * AvatarLabel, and the avatar and the text as `children`. Pass all of them, `ref` included, to one element.
+ * The props that the function form of `render` receives. They are the native `div` props merged with those of the
+ * AvatarLabel. The avatar and the text come as `children`.
+ *
+ * @remarks Pass all of them, `ref` included, to one element.
  */
 export interface AvatarLabelRenderProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'children'> {
   /** The merged ref: the `ref` of the AvatarLabel and the `ref` of the rendered element. */
@@ -26,6 +28,7 @@ export interface AvatarLabelRenderProps extends Omit<HTMLAttributes<HTMLElement>
 export interface AvatarLabelProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
    * The avatar, as you write it. It must be a direct child and come first: the label puts the text after it.
+   * When not set, the label shows only the text.
    *
    * @example
    * <AvatarLabel name="Ada Park" description="Engineer">

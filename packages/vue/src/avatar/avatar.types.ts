@@ -74,15 +74,29 @@ export interface AvatarImageProps {
    */
   readonly src?: string | undefined;
   /**
-   * The CORS mode of the picture, written on the `img` and copied to the probe.
+   * The CORS mode of the picture, written on the `img` and copied to the probe. When not set, the picture loads
+   * without a CORS request.
    *
+   * @cckValue '' - The same as `anonymous`.
+   * @cckValue anonymous - Request the picture with no credentials.
+   * @cckValue use-credentials - Request the picture with cookies and other credentials.
    * @cckSemantic none
    * @cckParity A prop in this framework, written on the `img` as `crossorigin`.
    */
   readonly crossOrigin?: 'anonymous' | 'use-credentials' | '' | undefined;
   /**
-   * The referrer policy of the picture, written on the `img` and copied to the probe.
+   * The referrer policy of the picture, written on the `img` and copied to the probe. When not set, the browser
+   * default applies.
    *
+   * @cckValue '' - The browser default.
+   * @cckValue no-referrer - Send no referrer.
+   * @cckValue no-referrer-when-downgrade - Send the referrer unless the request goes from https to http.
+   * @cckValue origin - Send only the origin of the page.
+   * @cckValue origin-when-cross-origin - Send the full address to the same origin, only the origin to others.
+   * @cckValue same-origin - Send the referrer to the same origin only.
+   * @cckValue strict-origin - Send only the origin, and nothing when the request goes from https to http.
+   * @cckValue strict-origin-when-cross-origin - Send the full address to the same origin, the origin to others.
+   * @cckValue unsafe-url - Always send the full address.
    * @cckSemantic none
    * @cckParity A prop in this framework, written on the `img` as `referrerpolicy`.
    */
@@ -117,8 +131,10 @@ export interface AvatarImageEmits {
  */
 export interface AvatarFallbackProps {
   /**
-   * How many milliseconds to wait, after mount, before the fallback shows. Until then it is hidden, also in the
-   * server render. When not set, it shows at once. A new value starts the wait again.
+   * How many milliseconds to wait, after mount, before the fallback shows. When not set, it shows at once.
+   *
+   * @remarks Until the wait is over the fallback is hidden, also in the server render. A new value starts the wait
+   * again.
    *
    * @cckSemantic avatar.fallback.delayMs
    * @cckParity Read after mount; the server render hides the fallback when it is set.
