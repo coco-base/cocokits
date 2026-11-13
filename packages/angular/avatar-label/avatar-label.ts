@@ -14,7 +14,9 @@ import { avatarLabelAnatomy, getAvatarLabelProps } from '@cocokits/machines/avat
  *   </cck-avatar>
  * </cck-avatar-label>
  * @cckPart root
- * @cckSection text name description
+ * @cckPart text
+ * @cckPart name
+ * @cckPart description
  * @cckSlot default - The avatar, written first. When not set, only the text shows.
  */
 @Component({
