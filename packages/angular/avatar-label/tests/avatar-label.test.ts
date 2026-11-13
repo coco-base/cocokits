@@ -2,7 +2,7 @@ import { signal } from '@angular/core';
 import { render } from '@testing-library/angular';
 import { avatarLabelAnatomy } from '@cocokits/machines/avatar-label';
 import { describe, expect, it } from 'vitest';
-import { CckAvatarImports } from '../../avatar';
+import { CckAvatarImports } from '@cocokits/angular/avatar';
 import { CckAvatarLabel, CckAvatarLabelImports } from '../index';
 
 const imports = [...CckAvatarLabelImports, ...CckAvatarImports];

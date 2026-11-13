@@ -31,20 +31,22 @@ export class CckAvatar {
    * Whether the picture is ready. The image writes it; the parts read it.
    * @internal
    */
-  readonly status = signal<AvatarImageLoadingStatus>('idle');
+  readonly _status = signal<AvatarImageLoadingStatus>('idle');
+
+  /**
+   * The theme records of the parts. The root's record is applied to the host; the image and the fallback bind their own.
+   * @internal
+   */
+  readonly _theme = themeAttrs(avatarAnatomy);
 
   private images = 0;
   private warned = false;
-
-  constructor() {
-    themeAttrs(avatarAnatomy); // applies the root part's theme attributes to the host
-  }
 
   /**
    * Counts an image, and in development warns once when there is more than one.
    * @internal
    */
-  registerImage(): void {
+  _registerImage(): void {
     this.images += 1;
     if (this.images > 1 && !this.warned && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       this.warned = true;
@@ -53,7 +55,7 @@ export class CckAvatar {
   }
 
   /** @internal */
-  unregisterImage(): void {
+  _unregisterImage(): void {
     this.images -= 1;
   }
 }

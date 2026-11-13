@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, computed, input } from '@angular/core';
-import { themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, themeAttrs } from '@cocokits/angular-core';
 import { avatarLabelAnatomy, getAvatarLabelProps } from '@cocokits/machines/avatar-label';
 
 /**
@@ -23,6 +23,7 @@ import { avatarLabelAnatomy, getAvatarLabelProps } from '@cocokits/machines/avat
   selector: 'cck-avatar-label',
   exportAs: 'cckAvatarLabel',
   encapsulation: ViewEncapsulation.None,
+  imports: [CckAttrs],
   host: {
     '[class]': 'parts().root.class',
     '[attr.name]': 'null',
@@ -31,12 +32,12 @@ import { avatarLabelAnatomy, getAvatarLabelProps } from '@cocokits/machines/avat
   template: `
     <ng-content />
     @if (parts().text; as text) {
-      <span [class]="text.class">
+      <span [class]="text.class" [cckAttrs]="theme().text">
         @if (parts().name; as nameProps) {
-          <span [class]="nameProps.class">{{ name() }}</span>
+          <span [class]="nameProps.class" [cckAttrs]="theme().name">{{ name() }}</span>
         }
         @if (parts().description; as descriptionProps) {
-          <span [class]="descriptionProps.class">{{ description() }}</span>
+          <span [class]="descriptionProps.class" [cckAttrs]="theme().description">{{ description() }}</span>
         }
       </span>
     }
@@ -53,11 +54,9 @@ export class CckAvatarLabel {
    */
   readonly description = input<string | undefined>();
 
+  protected readonly theme = themeAttrs(avatarLabelAnatomy); // applies the root part's record to the host
+
   protected readonly parts = computed(() =>
     getAvatarLabelProps({ name: this.name(), description: this.description() }),
   );
-
-  constructor() {
-    themeAttrs(avatarLabelAnatomy); // applies the root part's theme attributes to the host
-  }
 }

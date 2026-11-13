@@ -1,4 +1,15 @@
-import { Directive, afterRenderEffect, computed, input, linkedSignal, numberAttribute, untracked } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  afterRenderEffect,
+  computed,
+  input,
+  linkedSignal,
+  inject,
+  numberAttribute,
+  untracked,
+} from '@angular/core';
+import { bindAttrs } from '@cocokits/angular-core';
 import { getAvatarProps } from '@cocokits/machines/avatar';
 import { injectCckAvatar } from './avatar';
 
@@ -35,10 +46,11 @@ export class CckAvatarFallback {
   private readonly delayPassed = linkedSignal(() => this.delayMs() === undefined);
 
   protected readonly parts = computed(
-    () => getAvatarProps({ status: this.root.status(), delayPassed: this.delayPassed() }).fallback,
+    () => getAvatarProps({ status: this.root._status(), delayPassed: this.delayPassed() }).fallback,
   );
 
   constructor() {
+    bindAttrs(inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, () => this.root._theme().fallback);
     // Client only (after render), restarted on each change of `delayMs`.
     afterRenderEffect((onCleanup) => {
       const delay = this.delayMs();

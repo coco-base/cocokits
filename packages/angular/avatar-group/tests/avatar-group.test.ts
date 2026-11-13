@@ -1,7 +1,7 @@
 import { render } from '@testing-library/angular';
 import { avatarGroupAnatomy } from '@cocokits/machines/avatar-group';
 import { describe, expect, it } from 'vitest';
-import { CckAvatarImports } from '../../avatar';
+import { CckAvatarImports } from '@cocokits/angular/avatar';
 import { CckAvatarGroup, CckAvatarGroupImports } from '../index';
 
 const imports = [...CckAvatarGroupImports, ...CckAvatarImports];

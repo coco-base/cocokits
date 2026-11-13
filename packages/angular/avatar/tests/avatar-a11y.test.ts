@@ -1,7 +1,7 @@
 import { render } from '@testing-library/angular';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { CckAvatarLabelImports } from '../../avatar-label';
+import { CckAvatarLabelImports } from '@cocokits/angular/avatar-label';
 import { CckAvatarImports } from '../index';
 import { installFakeImage, lastProbe } from './fake-image';
 

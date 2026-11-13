@@ -1,4 +1,5 @@
 import { DestroyRef, Directive, ElementRef, afterRenderEffect, computed, inject, input, output } from '@angular/core';
+import { bindAttrs } from '@cocokits/angular-core';
 import { getAvatarProps, watchImageLoadingStatus, type AvatarImageLoadingStatus } from '@cocokits/machines/avatar';
 import { injectCckAvatar } from './avatar';
 
@@ -35,13 +36,14 @@ export class CckAvatarImage {
   private readonly element = inject<ElementRef<HTMLImageElement>>(ElementRef).nativeElement;
   private lastReported: AvatarImageLoadingStatus = 'idle';
 
-  protected readonly parts = computed(() => getAvatarProps({ status: this.root.status() }).image);
+  protected readonly parts = computed(() => getAvatarProps({ status: this.root._status() }).image);
 
   constructor() {
-    this.root.registerImage();
+    bindAttrs(this.element, () => this.root._theme().image);
+    this.root._registerImage();
     inject(DestroyRef).onDestroy(() => {
-      this.root.unregisterImage();
-      this.root.status.set('idle');
+      this.root._unregisterImage();
+      this.root._status.set('idle');
     });
 
     // Client only (after render), once per mount and per change of the source.
@@ -54,7 +56,7 @@ export class CckAvatarImage {
           referrerPolicy: this.element.getAttribute('referrerpolicy'),
         },
         (status) => {
-          this.root.status.set(status);
+          this.root._status.set(status);
           if (status !== this.lastReported) {
             this.lastReported = status;
             this.loadingStatusChange.emit(status);

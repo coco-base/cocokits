@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { CckAvatarGroupImports } from '../../avatar-group';
-import { CckAvatarLabelImports } from '../../avatar-label';
+import { CckAvatarGroupImports } from '@cocokits/angular/avatar-group';
+import { CckAvatarLabelImports } from '@cocokits/angular/avatar-label';
 import { CckAvatarImports } from '../index';
 
 /** The app both the server and the client render: every part of the three components. */
