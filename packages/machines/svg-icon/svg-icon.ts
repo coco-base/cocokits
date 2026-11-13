@@ -1,10 +1,15 @@
 import { svgIconAnatomy } from './svg-icon.anatomy';
 import type { SvgIconPathProps, SvgIconProps, SvgIconRenderProps, SvgIconRootProps } from './svg-icon.types';
 
+/** A theme from untyped data can hold any string; only the two values the SVG attribute allows are bound. */
+function isRule(value: unknown): value is 'nonzero' | 'evenodd' {
+  return value === 'nonzero' || value === 'evenodd';
+}
+
 /**
  * Computes what an SvgIcon renders. Pure: no DOM, no mutation of `icons`, same result on server and client.
  * An icon that is not found (no icons, unknown name) gives an `<svg>` with no `viewBox` and no path; the adapter
- * reports it. Only `d`, `fill-rule` and `clip-rule` leave the icon data, and they are values to bind as attributes,
+ * reports it. Only `d`, `fill-rule` and `clip-rule` leave the icon data (a rule other than `nonzero` or `evenodd` is dropped), and they are values to bind as attributes,
  * never markup to parse.
  *
  * @param props - The icon name, the theme icons and the optional label.
@@ -22,8 +27,8 @@ export function getSvgIconProps({ iconName, icons, label }: SvgIconProps): SvgIc
   if (icon === undefined) return { root, svg: { class: classes.svg }, paths: [] };
   const paths = icon.paths.map(({ d, fillRule, clipRule }): SvgIconPathProps => ({
     d,
-    ...(fillRule === undefined ? {} : { 'fill-rule': fillRule }),
-    ...(clipRule === undefined ? {} : { 'clip-rule': clipRule }),
+    ...(isRule(fillRule) ? { 'fill-rule': fillRule } : {}),
+    ...(isRule(clipRule) ? { 'clip-rule': clipRule } : {}),
   }));
   return { root, svg: { class: classes.svg, viewBox: icon.viewBox }, paths };
 }

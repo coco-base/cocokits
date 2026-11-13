@@ -32,6 +32,15 @@ describe('getSvgIconProps', () => {
     });
   });
 
+  it.each(['evenodd; x', '', 'inherit', '" onload="x', 'EVENODD'])(
+    'drops the rule value %j an untyped theme gives',
+    (bad) => {
+      const untyped = { odd: { viewBox: '0 0 24 24', paths: [{ d: 'M1 1', fillRule: bad, clipRule: bad }] } };
+      const { paths } = getSvgIconProps({ iconName: 'odd', icons: untyped as unknown as SvgIconSet });
+      expect(paths).toEqual([{ d: 'M1 1' }]);
+    },
+  );
+
   it('does not render the rule keys an icon path leaves out', () => {
     const { paths } = getSvgIconProps({ iconName: 'check', icons });
     expect(paths).toEqual([{ d: 'M1 1' }]);
