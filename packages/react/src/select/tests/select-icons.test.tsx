@@ -135,6 +135,28 @@ describe('Select theme part icons', () => {
     expect(iconNamesIn(document.body)).toEqual(['chevron-down', 'check']);
   });
 
+  it('keeps the author content of a render element instead of the theme icon', () => {
+    render(
+      withPartIcons(
+        <Select.Root defaultValue="Cake">
+          <Select.Trigger aria-label="Dish">
+            <Select.Value />
+            <Select.Icon
+              render={
+                <i>
+                  <b>v</b>
+                </i>
+              }
+            />
+          </Select.Trigger>
+        </Select.Root>,
+      ),
+    );
+    expect(dropdownIcon().tagName).toBe('I');
+    expect(dropdownIcon().innerHTML).toBe('<b>v</b>');
+    expect(iconNamesIn(dropdownIcon())).toEqual([]);
+  });
+
   const renders: readonly [string, ReactElement | ((props: object) => ReactElement)][] = [
     ['an element', <i key="own" data-own="" />],
     ['a function', (props) => <i data-own="" {...props} />],
