@@ -1,4 +1,6 @@
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
+import { type AvatarComponentsConfig, avatarComponents } from './avatar-config';
+import type { OptionalOption, Option, RootOption } from './option-types';
 import type { ThemeIconName } from './theme-icons';
 import {
   type ThemeActiveColorMode,
@@ -51,22 +53,6 @@ const BADGE_DEFAULT_COLOR: ThemeActiveColorMode = 'contrast';
 /** The Tabs indicator is neutral until the author picks a family; the type makes a value that is not a mode an error. */
 const TABS_DEFAULT_COLOR: ThemeActiveColorMode = 'neutral';
 
-interface Option<V extends readonly (string | boolean)[], P extends readonly string[]> {
-  readonly attrName: string;
-  readonly values: V;
-  readonly default: V[number];
-  readonly partNames: P;
-  readonly description: string;
-}
-
-/** An option that renders nothing until the author gives it (`default: null`). */
-type OptionalOption<V extends readonly (string | boolean)[]> = Omit<RootOption<V>, 'default'> & {
-  readonly default: null;
-};
-
-/** An option on the root part only. */
-type RootOption<V extends readonly (string | boolean)[]> = Option<V, readonly ['root']>;
-
 /**
  * The options of Tabs and TabNav (they share the look and the tokens). Not an interface: an interface has no index
  * signature, which `ThemeConfig` needs.
@@ -81,7 +67,7 @@ type TabsOptions = Readonly<{
 /** The type of `cocokitsThemeConfig`; theme layers derive their option unions from it. */
 export interface CocokitsThemeConfig extends ThemeConfig {
   readonly name: 'cocokits';
-  readonly components: {
+  readonly components: AvatarComponentsConfig & {
     readonly accordion: {
       readonly variant: RootOption<typeof ACCORDION_VARIANTS>;
       readonly size: RootOption<typeof accordionSizeModes>;
@@ -210,6 +196,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
   name: 'cocokits',
   modeCollections,
   components: {
+    ...avatarComponents,
     accordion: {
       variant: {
         attrName: 'variant',

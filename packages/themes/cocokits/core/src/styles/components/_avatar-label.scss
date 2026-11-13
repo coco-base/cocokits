@@ -1,0 +1,68 @@
+// AvatarLabel rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The label owns the layout and the size of its direct avatar. `end` and `bottom` reverse the visual order only;
+// the DOM order stays the avatar first.
+@mixin rules {
+  .cck-avatar-label {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--cck-avatar-label-gap);
+
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-avatar-position='end'] {
+      flex-direction: row-reverse;
+      text-align: end;
+    }
+
+    &[data-avatar-position='top'] {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &[data-avatar-position='bottom'] {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+
+    > .cck-avatar {
+      inline-size: var(--cck-avatar-label-avatar-size);
+      block-size: var(--cck-avatar-label-avatar-size);
+      font-family: var(--cck-avatar-label-avatar-font-family);
+      font-size: var(--cck-avatar-label-avatar-font-size);
+      line-height: var(--cck-avatar-label-avatar-line-height);
+      letter-spacing: var(--cck-avatar-label-avatar-letter-spacing);
+    }
+  }
+
+  .cck-avatar-label__text {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    font-family: var(--cck-avatar-label-font-family);
+    font-size: var(--cck-avatar-label-font-size);
+    line-height: var(--cck-avatar-label-line-height);
+    letter-spacing: var(--cck-avatar-label-letter-spacing);
+    font-weight: var(--cck-avatar-label-font-weight);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-avatar-label[data-text-layout='inline'] > .cck-avatar-label__text {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--cck-avatar-label-gap);
+  }
+
+  .cck-avatar-label__name {
+    color: var(--cck-avatar-label-name-color);
+  }
+
+  .cck-avatar-label__description {
+    color: var(--cck-avatar-label-description-color);
+  }
+}

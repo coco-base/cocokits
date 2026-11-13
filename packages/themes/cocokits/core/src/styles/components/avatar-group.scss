@@ -1,0 +1,5 @@
+@use '_avatar-group' as avatar-group;
+
+@layer cocokits {
+  @include avatar-group.rules;
+}
