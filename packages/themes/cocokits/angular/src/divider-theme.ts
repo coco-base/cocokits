@@ -39,7 +39,7 @@ export class CckDividerTheme {
    */
   readonly size = input<CckDividerSize | null>();
   /**
-   * Strength of the line: a light, the default or a dark border colour. Rendered as `data-color`.
+   * How strong the line is. Rendered as `data-color`.
    */
   readonly color = input<CckDividerColor | null>();
 }

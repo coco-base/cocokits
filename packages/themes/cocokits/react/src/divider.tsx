@@ -19,7 +19,7 @@ export interface DividerProps extends BaseDividerProps {
    */
   readonly size?: DividerSize | null | undefined;
   /**
-   * Strength of the line: a light, the default or a dark border colour. Rendered as `data-color`.
+   * How strong the line is. Rendered as `data-color`.
    */
   readonly color?: DividerColor | null | undefined;
 }

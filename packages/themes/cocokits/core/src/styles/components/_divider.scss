@@ -7,6 +7,7 @@
     box-sizing: border-box;
     flex-shrink: 0;
     margin: 0;
+    // The default strength: `data-color="default"` needs no rule of its own.
     border: 0 solid var(--cck-divider-color-default);
     background: none;
 
@@ -31,10 +32,6 @@
 
     &[data-color='light'] {
       border-color: var(--cck-divider-color-light);
-    }
-
-    &[data-color='default'] {
-      border-color: var(--cck-divider-color-default);
     }
 
     &[data-color='dark'] {
