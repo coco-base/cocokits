@@ -20,6 +20,7 @@ import {
 import type { FormValueControl } from '@angular/forms/signals';
 import { CckAttrs, CckOverlayLayer, CckPortal, injectFormParticipation, themeAttrs } from '@cocokits/angular-core';
 import { CckFormControlBase } from '@cocokits/angular/form-control';
+import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import { selectAnatomy, type SelectParts } from '@cocokits/machines/select';
 import { visuallyHiddenStyleText } from '@cocokits/utils';
@@ -89,7 +90,7 @@ export interface CckSelectChange<V = string> {
   selector: 'cck-select',
   exportAs: 'cckSelect',
   encapsulation: ViewEncapsulation.None,
-  imports: [CckAttrs, CckSelectContent, NgTemplateOutlet],
+  imports: [CckAttrs, CckSelectContent, CckSvgIcon, NgTemplateOutlet],
   providers: [
     CckPortal,
     CckOverlayLayer,

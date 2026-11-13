@@ -7,7 +7,7 @@ import { Directive, TemplateRef, inject } from '@angular/core';
  *
  * @example
  * <cck-tab>
- *   <ng-template cckTabLabel><svg aria-hidden="true">…</svg> Account</ng-template>
+ *   <ng-template cckTabLabel><cck-svg-icon iconName="email" /> Inbox</ng-template>
  *   Change your name.
  * </cck-tab>
  */

@@ -37,7 +37,11 @@
     [class]="parts().dropdownIcon.class"
     [attr.aria-hidden]="parts().dropdownIcon['aria-hidden']"
     [cckAttrs]="_theme().dropdownIcon"
-  ></span>
+  >
+    @if (ctl.dropdownIconName; as iconName) {
+    <cck-svg-icon [iconName]="iconName" />
+    }
+  </span>
 </button>
 @for (entry of ctl.formInputs(); track $index) {
 <input

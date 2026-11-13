@@ -5,7 +5,7 @@ import { getLeadingProps, leadingAnatomy } from '@cocokits/machines/leading';
 /**
  * Content outside the box of a `cck-form-field`, before the box. Put the attribute on any element, like a `<span>` or a `<button>`. Outside a field, it has no place of its own.
  *
- * It adds no ARIA and no style. Its text is not part of the name or the description of the control. Give an icon without text `aria-hidden="true"`. Make an interactive leading content a real `<button>` or `<a>` with its own accessible name.
+ * It adds no ARIA and no style. Its text is not part of the name or the description of the control. An SVG icon is hidden from screen readers by default; give your own `<svg>` `aria-hidden="true"`. Make an interactive leading content a real `<button>` or `<a>` with its own accessible name.
  *
  * @example
  * <cck-form-field>

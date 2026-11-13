@@ -17,7 +17,8 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, bindAttrs } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, bindAttrs, themePartIcon } from '@cocokits/angular-core';
+import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { createPresence } from '@cocokits/cdk/presence';
 import { writeContentSize } from '@cocokits/cdk/content-size';
@@ -60,7 +61,7 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
   selector: 'cck-accordion-item',
   exportAs: 'cckAccordionItem',
   encapsulation: ViewEncapsulation.None,
-  imports: [CckAttrs, NgTemplateOutlet],
+  imports: [CckAttrs, CckSvgIcon, NgTemplateOutlet],
   host: {
     '[class]': 'parts().item.class',
     '[attr.data-state]': 'parts().item["data-state"]',
@@ -97,6 +98,15 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
         } @else {
           {{ label() }}
         }
+        <span
+          [class]="parts().indicator.class"
+          [attr.aria-hidden]="parts().indicator['aria-hidden']"
+          [cckAttrs]="root._theme().indicator"
+        >
+          @if (indicatorIconName) {
+            <cck-svg-icon [iconName]="indicatorIconName" />
+          }
+        </span>
       </button>
     </ng-template>
     @switch (headingLevel()) {
@@ -250,6 +260,9 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
     source: this.isOpen,
     computation: (open, previous) => open || (previous?.value ?? false),
   });
+
+  /** The icon the theme names for the indicator; the part shows it always. */
+  protected readonly indicatorIconName = themePartIcon(accordionAnatomy, 'indicator');
 
   /** The label template, when the author wrote one. @internal */
   protected readonly labelSlot = contentChild(CckAccordionLabel);

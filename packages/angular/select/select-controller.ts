@@ -11,10 +11,11 @@ import {
   type TemplateRef,
   type WritableSignal,
 } from '@angular/core';
-import { CckDirection, CckOverlayLayer, CckPortal, injectZoneBoundary } from '@cocokits/angular-core';
+import { CckDirection, CckOverlayLayer, CckPortal, injectZoneBoundary, themePartIcon } from '@cocokits/angular-core';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { trackLabelActivation, type LabelActivation } from '@cocokits/cdk/form-control';
 import {
+  selectAnatomy,
   transitionSelect,
   valueToFormString,
   type SelectEvent,
@@ -59,6 +60,8 @@ export interface SelectControllerOptions<V> extends Omit<SelectStateInputs<V>, '
 export interface SelectController<V> extends SelectStateController<V> {
   /** The text of the validation message of a blocked submit. */
   readonly validationMessage: Signal<string>;
+  /** The icon the theme names for the dropdown icon; the part shows it always. */
+  readonly dropdownIconName: string | undefined;
   readonly open: () => void;
   readonly close: () => void;
   readonly toggle: () => void;
@@ -229,6 +232,7 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
   return {
     ...model,
     validationMessage,
+    dropdownIconName: themePartIcon(selectAnatomy, 'dropdownIcon'),
     open,
     close,
     toggle: () => {

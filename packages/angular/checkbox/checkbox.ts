@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, afterRenderEffect, booleanAttribute, computed, input } from '@angular/core';
-import { CckAttrs, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, themeAttrs, themePartIcon } from '@cocokits/angular-core';
+import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
 import {
   CckCheckControlBase,
@@ -39,7 +40,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
   selector: 'cck-checkbox',
   exportAs: 'cckCheckbox',
   encapsulation: ViewEncapsulation.None,
-  imports: [CckAttrs],
+  imports: [CckAttrs, CckSvgIcon],
   template: `
     <span [class]="parts().wrapper.class" [cckAttrs]="theme().wrapper">
       <span [class]="parts().inputWrapper.class" [cckAttrs]="theme().inputWrapper">
@@ -75,7 +76,11 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
           [class]="parts().background.class"
           [attr.aria-hidden]="parts().background['aria-hidden']"
           [cckAttrs]="theme().background"
-        ></span>
+        >
+          @if (tickIconName && parts().input.checked && !indeterminate()) {
+            <cck-svg-icon [iconName]="tickIconName" />
+          }
+        </span>
       </span>
       <label [class]="parts().label.class" [cckAttrs]="theme().label" [attr.for]="parts().label.for">
         <ng-content />
@@ -95,6 +100,9 @@ export class CckCheckbox extends CckCheckControlBase {
 
   /** The theme attributes of every part; the root's are applied to the host. */
   protected readonly theme = themeAttrs(checkboxAnatomy);
+
+  /** The icon the theme names for the background; the part shows it while checked and not indeterminate. */
+  protected readonly tickIconName = themePartIcon(checkboxAnatomy, 'background');
 
   protected readonly parts = computed(() =>
     getCheckboxProps({ ...this.state(), indeterminate: this.indeterminate() }, this.fieldContext()),
