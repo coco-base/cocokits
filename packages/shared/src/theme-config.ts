@@ -1,4 +1,5 @@
 import type { ModeCollection } from './mode-collection';
+import type { PartIconNames, SvgIconSet } from './svg-icon';
 
 /** Base `data-*` names a theme option cannot reuse. */
 export type ReservedDataName =
@@ -47,6 +48,34 @@ export interface ThemeConfig {
    * Optional: a theme without it mirrors no modes.
    */
   readonly modeCollections?: readonly ModeCollection[];
+  /**
+   * The theme's icon set as path data, by kebab-case name (no markup). SvgIcon draws an icon of the provided theme
+   * by name. These are no options and render no attribute. Optional: a theme without it has no icons.
+   *
+   * @example
+   * An app adds an icon without losing the theme's:
+   * ```ts
+   * const appTheme = { ...cocokitsThemeConfig, icons: { ...cocokitsThemeConfig.icons, logo } };
+   * ```
+   */
+  readonly icons?: SvgIconSet;
+  /**
+   * The icon name each icon-holding part shows, by component name (the anatomy block), then part name. The part
+   * draws it through SvgIcon unless the author gave it content. Optional: a theme without it shows no part icons.
+   *
+   * @example
+   * An app changes the icon of the Select arrow:
+   * ```ts
+   * const appTheme = {
+   *   ...cocokitsThemeConfig,
+   *   partIconNames: {
+   *     ...cocokitsThemeConfig.partIconNames,
+   *     select: { ...cocokitsThemeConfig.partIconNames.select, dropdownIcon: 'arrow-down' },
+   *   },
+   * };
+   * ```
+   */
+  readonly partIconNames?: PartIconNames;
 }
 
 interface RejectReserved<T extends ThemeConfig> {

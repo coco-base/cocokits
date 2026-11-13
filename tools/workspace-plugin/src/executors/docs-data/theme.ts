@@ -45,19 +45,43 @@ const looksLikeThemeConfig = (value: unknown): value is { name: string; componen
   isRecord(value) && isText(value['name']) && isRecord(value['components']);
 
 /** The one export of the theme's entry module that is a `ThemeConfig`, checked option by option. */
-export function themeConfigOf(exported: Fields, entry: string): { name: string; components: Fields } {
+export function themeConfigOf(exported: Fields, entry: string): { name: string; components: Fields; icons?: unknown } {
   const configs = Object.entries(exported).filter(([, value]) => looksLikeThemeConfig(value));
   const [first, ...more] = configs;
   if (first === undefined) throw new Error(`${entry} exports no ThemeConfig (an object with a name and components)`);
   if (more.length > 0) {
     throw new Error(`${entry} exports more than one ThemeConfig: ${configs.map(([name]) => name).join(', ')}`);
   }
-  const config = first[1] as { name: string; components: Fields };
+  const config = first[1] as { name: string; components: Fields; icons?: unknown };
   for (const [component, options] of Object.entries(config.components)) {
     if (!isRecord(options)) throw new Error(`${first[0]}.components.${component}: not an object`);
     for (const [option, value] of Object.entries(options)) checkOption(`${component}.${option}`, value);
   }
   return config;
+}
+
+/**
+ * The names of the theme's icons, in the order of `config.icons`; `undefined` when it has none. The icons are checked
+ * for their shape only: the path data and `partIconNames` stay in the package and never reach the docs data.
+ */
+export function iconNamesOf(config: { icons?: unknown }): string[] | undefined {
+  const { icons } = config;
+  if (icons === undefined) return undefined;
+  if (!isRecord(icons)) throw new Error('icons: must be an object');
+  for (const [name, icon] of Object.entries(icons)) {
+    const where = `icons.${name}`;
+    if (!isRecord(icon)) throw new Error(`${where}: not an object`);
+    if (!isText(icon['viewBox'])) throw new Error(`${where}: viewBox must be text`);
+    const paths = icon['paths'];
+    if (!Array.isArray(paths)) throw new Error(`${where}: paths must be a list`);
+    paths.forEach((path: unknown, index) => {
+      if (!isRecord(path) || typeof path['d'] !== 'string') {
+        throw new Error(`${where}.paths[${String(index)}]: d must be text`);
+      }
+    });
+  }
+  const names = Object.keys(icons);
+  return names.length === 0 ? undefined : names;
 }
 
 /** The fields of a `ModeCollection` (`@cocokits/shared`). Anything else is not a field of the modes index. */
@@ -106,8 +130,8 @@ export function modeCollectionsOf(exported: Fields, entry: string): unknown[] {
 }
 
 /**
- * `ThemeDocData` of a theme: the options of its built `ThemeConfig` and its `modeCollections`, both exports of its
- * built entry.
+ * `ThemeDocData` of a theme: the options of its built `ThemeConfig`, its `modeCollections` and the names of its icons
+ * (`iconNames`, absent without icons), all from its built entry.
  *
  * @param root - The workspace root.
  * @param projectRoot - The absolute folder of the theme core package.
@@ -122,7 +146,17 @@ export function themeDocsData(root: string, projectRoot: string): JsonFile[] {
   const exported = loadBuiltModule(root, join(projectRoot, file), 'run the build first');
   const config = themeConfigOf(exported, file);
   const modeCollections = modeCollectionsOf(exported, file);
+  const iconNames = iconNamesOf(config);
   return [
-    { name: 'theme.json', data: { kind: 'theme', name: config.name, components: config.components, modeCollections } },
+    {
+      name: 'theme.json',
+      data: {
+        kind: 'theme',
+        name: config.name,
+        components: config.components,
+        modeCollections,
+        ...(iconNames === undefined ? {} : { iconNames }),
+      },
+    },
   ];
 }

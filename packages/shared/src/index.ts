@@ -9,3 +9,5 @@ export { resolveThemeAttrs } from './resolve-theme-attrs';
 export type { ThemeAttrs, ThemeAttrsByPart, ThemeOptionValues } from './resolve-theme-attrs';
 export type { ModeCollection, ModeValue } from './mode-collection';
 export type { Direction } from './direction';
+export type { PartIconNames, SvgIconDefinition, SvgIconPath, SvgIconSet, ThemeIcons } from './svg-icon';
+export { resolveThemeIcons } from './resolve-theme-icons';

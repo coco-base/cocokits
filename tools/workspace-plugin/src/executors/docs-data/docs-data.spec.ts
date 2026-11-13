@@ -274,7 +274,7 @@ ${META.replace("action: 'Activates.'", "action: 'Activates.', frameworks: ['reac
 const OPTION = `{ attrName: 'size', values: ['sm', 'md'], default: 'md', partNames: ['root'], description: 'Size.' }`;
 
 /** A fake theme core whose built entry exports a `ThemeConfig` (one `button.size` option) and `modeCollections` (none for `null`). */
-function theme(option = OPTION, extraExport = '', collections: unknown = COLLECTIONS): void {
+function theme(option = OPTION, extraExport = '', collections: unknown = COLLECTIONS, configFields = ''): void {
   write(
     'packages/t/package.json',
     JSON.stringify({ type: 'module', exports: { '.': { default: './dist/index.js' } } }),
@@ -282,7 +282,7 @@ function theme(option = OPTION, extraExport = '', collections: unknown = COLLECT
   const index = collections === null ? '' : `export const modeCollections = ${JSON.stringify(collections)};\n`;
   write(
     'packages/t/dist/index.js',
-    `export const moodThemeConfig = { name: 'mood', components: { button: { size: ${option} } } };\n${index}${extraExport}`,
+    `export const moodThemeConfig = { name: 'mood', components: { button: { size: ${option} } }${configFields} };\n${index}${extraExport}`,
   );
 }
 
@@ -426,6 +426,44 @@ describe('docs-data: theme', () => {
     expect(readJson('dist/docs-data/theme-mood/theme.json')).toMatchObject({
       modeCollections: [{ attrName: 'x9-density' }],
     });
+  });
+});
+
+const ICONS = `{ check: { viewBox: '0 0 24 24', paths: [{ d: 'M1 1', fillRule: 'evenodd' }] }, close: { viewBox: '0 0 24 24', paths: [{ d: 'M2 2' }, { d: 'M3 3' }] } }`;
+
+describe('docs-data: theme icons', () => {
+  it('writes the icon names in the order of the icons, and neither path data nor partIconNames', async () => {
+    theme(OPTION, '', COLLECTIONS, `, icons: ${ICONS}, partIconNames: { select: { optionIndicator: 'check' } }`);
+    expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
+    const written = readJson('dist/docs-data/theme-mood/theme.json');
+    expect(written).toMatchObject({ iconNames: ['check', 'close'] });
+    expect(JSON.stringify(written)).not.toMatch(/M1 1|viewBox|partIconNames|fillRule/);
+  });
+
+  it.each([
+    ['no icons field', ''],
+    ['an empty icon set', ', icons: {}'],
+  ])('writes no iconNames for %s', async (_name, fields) => {
+    theme(OPTION, '', COLLECTIONS, fields);
+    expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
+    expect(readJson('dist/docs-data/theme-mood/theme.json')).not.toHaveProperty('iconNames');
+  });
+
+  it.each([
+    ['icons is a list', ', icons: []', /icons: must be an object/],
+    ['an icon is no object', ', icons: { check: 1 }', /icons\.check: not an object/],
+    ['an icon has no viewBox', ', icons: { check: { paths: [{ d: "M1" }] } }', /icons\.check: viewBox must be text/],
+    ['an icon has no paths list', ', icons: { check: { viewBox: "0 0 1 1" } }', /icons\.check: paths must be a list/],
+    [
+      'a path has no d',
+      ', icons: { check: { viewBox: "0 0 1 1", paths: [{}] } }',
+      /icons\.check\.paths\[0\]: d must be text/,
+    ],
+  ])('fails when %s, and writes nothing', async (_name, fields, message) => {
+    theme(OPTION, '', COLLECTIONS, fields);
+    expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(false);
+    expect(errors()).toMatch(message);
+    expect(existsSync(join(dir, 'dist/docs-data/theme-mood'))).toBe(false);
   });
 });
 
