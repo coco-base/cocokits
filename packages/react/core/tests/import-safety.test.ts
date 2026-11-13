@@ -7,5 +7,6 @@ describe('react-core import safety', () => {
     const mod = await import('../src/index');
     expect(typeof mod.Portal).toBe('function');
     expect(typeof mod.DirectionProvider).toBe('function');
+    expect(typeof mod.useThemeIcons).toBe('function');
   });
 });
