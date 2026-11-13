@@ -50,6 +50,7 @@
 
     // After the variants, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
     &[data-disabled],
+    &[aria-disabled='true'],
     &:disabled {
       background-color: var(--cck-icon-button-disabled-bg);
       border-color: var(--cck-icon-button-disabled-bg);
@@ -68,6 +69,7 @@
       border-color: ButtonText;
 
       &[data-disabled],
+      &[aria-disabled='true'],
       &:disabled {
         border-color: GrayText;
         color: GrayText;

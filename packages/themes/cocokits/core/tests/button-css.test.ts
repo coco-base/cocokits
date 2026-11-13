@@ -102,12 +102,25 @@ describe('button output', () => {
   });
 
   it.each(['styles.css', 'components/button.css'])(
-    'gives :disabled (fieldset) the same disabled styling as [data-disabled] in dist/%s',
+    'gives :disabled (fieldset) and aria-disabled the same disabled styling as [data-disabled] in dist/%s',
     (name) => {
       const css = readThemeFile('dist', name);
-      const rule = /\.cck-button\[data-disabled\],\s*\.cck-button:disabled\s*\{([^}]*)\}/.exec(css)?.[1] ?? '';
+      const rule =
+        /\.cck-button\[data-disabled\],\s*\.cck-button\[aria-disabled=(?:"true"|true)\],\s*\.cck-button:disabled\s*\{([^}]*)\}/.exec(
+          css,
+        )?.[1] ?? '';
       expect(rule).toContain('background-color: var(--cck-button-disabled-bg)');
       expect(rule).toContain('color: var(--cck-button-disabled-label-color)');
+    },
+  );
+
+  it.each(['styles.css', 'components/button.css'])(
+    'gives aria-disabled the GrayText forced-colors look of [data-disabled] in dist/%s',
+    (name) => {
+      const css = readThemeFile('dist', name);
+      expect(css).toMatch(
+        /\.cck-button\[data-variant\]\[aria-disabled=(?:"true"|true)\],\s*\.cck-button\[data-variant\]:disabled\s*\{\s*border-color: GrayText;\s*color: GrayText/,
+      );
     },
   );
 
