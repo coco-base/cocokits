@@ -18,6 +18,18 @@
       "types": "./dist/accordion/index.d.ts",
       "default": "./dist/accordion/index.js"
     },
+    "./avatar": {
+      "types": "./dist/avatar/index.d.ts",
+      "default": "./dist/avatar/index.js"
+    },
+    "./avatar-group": {
+      "types": "./dist/avatar-group/index.d.ts",
+      "default": "./dist/avatar-group/index.js"
+    },
+    "./avatar-label": {
+      "types": "./dist/avatar-label/index.d.ts",
+      "default": "./dist/avatar-label/index.js"
+    },
     "./badge": {
       "types": "./dist/badge/index.d.ts",
       "default": "./dist/badge/index.js"

@@ -154,6 +154,9 @@ const entries = [
   { name: '@cocokits/icons', path: 'packages/icons/dist/index.js', limit: '11750 B' },
   { name: '@cocokits/icons, one icon', path: 'packages/icons/dist/index.js', import: '{ checkIcon }', limit: '250 B' },
   { name: '@cocokits/cdk/icon-registry', path: 'packages/cdk/dist/icon-registry/index.js', limit: '1100 B' },
+  { name: '@cocokits/machines/avatar', path: 'packages/machines/dist/avatar/index.js', limit: '2 kB' },
+  { name: '@cocokits/machines/avatar-group', path: 'packages/machines/dist/avatar-group/index.js', limit: '2 kB' },
+  { name: '@cocokits/machines/avatar-label', path: 'packages/machines/dist/avatar-label/index.js', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
