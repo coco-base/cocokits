@@ -24,14 +24,14 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     file: 'packages/vue/src/button/button.types.ts',
     line: 14,
     comment:
-      '/**\n * A button for actions. It renders a native `<button type="button">`. With an `as` other than `\'button\'`, or with\n * `asChild`, it renders a link (an `<a>`).\n *\n * A Button with only an icon needs `aria-label` or `aria-labelledby`.\n *\n * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in\n * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.\n *\n * @example\n * <Button @click="save">Save</Button>\n *\n * @cckPart root\n */',
+      '/**\n * A button for actions. It renders a native `<button type="button">`. With an `as` other than `\'button\'`, or with\n * `asChild`, it renders a link (an `<a>`).\n *\n * For a Button with only an icon, use the IconButton; it needs `aria-label` or `aria-labelledby`.\n *\n * Native button attributes and listeners fall through to the rendered element. A disabled link blocks its click in\n * the capture phase. So your `@click.capture` runs first and can stop the guard with `preventDefault()`.\n *\n * @example\n * <Button @click="save">Save</Button>\n *\n * @cckPart root\n */',
     example: '<Button @click="save">Save</Button>',
     others: ['cckPart'],
   },
   {
-    name: 'vue/button/Button.vue:72',
+    name: 'vue/button/Button.vue:37',
     file: 'packages/vue/src/button/Button.vue',
-    line: 72,
+    line: 37,
     comment:
       '/**\n * The DOM element of the Button: the `<button>`, the `<a>` or the element of the `as` component. It is `null`\n * before mount.\n *\n * @example\n * <Button ref="button" @click="save">Save</Button>\n * <!-- In the script: const button = useTemplateRef(\'button\'); then button.value?.element is the element. -->\n *\n * @cckSemantic none\n * @cckParity Templates reach the DOM node through the component ref.\n */',
     example:
@@ -246,9 +246,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: [],
   },
   {
-    name: 'angular/select/select.ts:183',
+    name: 'angular/select/select.ts:184',
     file: 'packages/angular/select/select.ts',
-    line: 183,
+    line: 184,
     comment:
       '/**\n * A function that tells whether an option value is the selected value. Use it when the option values are objects. When not set, the values are compared with `Object.is`.\n * @remarks Pair it with `itemToStringValue`, which turns an object into the text that a form sends.\n * @example\n * <cck-select [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">\n *   @for (item of dishes; track item.id) {\n *     <cck-select-option [value]="item">{{ item.name }}</cck-select-option>\n *   }\n * </cck-select>\n * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->\n * @cckSemantic select.isItemEqual\n * @defaultValue Object.is\n */',
     example:
@@ -266,11 +266,11 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckPart', 'param', 'returns'],
   },
   {
-    name: 'react/leading/leading.tsx:46',
+    name: 'react/leading/leading.tsx:47',
     file: 'packages/react/src/leading/leading.tsx',
-    line: 46,
+    line: 47,
     comment:
-      '/**\n * An icon or a short text before the box of a field, outside it.\n * It renders a `<div>`. Native `div` props pass through, and `ref` reaches the element.\n *\n * Pass it to the `leading` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.\n *\n * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. Give\n * an icon `aria-hidden="true"`, and give a button its own accessible name.\n *\n * @example\n * <FormField label={<Label>Search</Label>} leading={<Leading aria-hidden="true">@</Leading>}>\n *   <Input type="search" />\n * </FormField>\n * @cckPart root\n * @param props - The Leading props.\n * @returns The rendered div.\n */',
+      '/**\n * An icon or a short text before the box of a field, outside it.\n * It renders a `<div>`. Native `div` props pass through, and `ref` reaches the element.\n *\n * Pass it to the `leading` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.\n *\n * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. An SVG\n * icon is hidden from screen readers by default; give your own `<svg>` `aria-hidden="true"`, and give a button its\n * own accessible name.\n *\n * @example\n * <FormField label={<Label>Search</Label>} leading={<Leading aria-hidden="true">@</Leading>}>\n *   <Input type="search" />\n * </FormField>\n * @cckPart root\n * @param props - The Leading props.\n * @returns The rendered div.\n */',
     example:
       '<FormField label={<Label>Search</Label>} leading={<Leading aria-hidden="true">@</Leading>}>\n  <Input type="search" />\n</FormField>',
     others: ['cckPart', 'param', 'returns'],
