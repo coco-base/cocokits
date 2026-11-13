@@ -135,6 +135,44 @@ describe('Select theme part icons', () => {
     expect(iconNamesIn(document.body)).toEqual(['chevron-down', 'check']);
   });
 
+  const renders: readonly [string, ReactElement | ((props: object) => ReactElement)][] = [
+    ['an element', <i key="own" data-own="" />],
+    ['a function', (props) => <i data-own="" {...props} />],
+  ];
+
+  it.each(renders)(
+    'draws the theme icons inside an empty author element given through render (%s)',
+    async (_name, make) => {
+      render(
+        withPartIcons(
+          <Select.Root defaultValue="Cake" defaultOpen>
+            <Select.Trigger aria-label="Dish">
+              <Select.Value />
+              <Select.Icon render={make} />
+            </Select.Trigger>
+            <Select.Content>
+              <Select.Item value="Cake">
+                <Select.ItemIndicator render={make} />
+                <Select.ItemText>Cake</Select.ItemText>
+              </Select.Item>
+              <Select.Item value="Pizza">
+                <Select.ItemIndicator render={make} />
+                <Select.ItemText>Pizza</Select.ItemText>
+              </Select.Item>
+            </Select.Content>
+          </Select.Root>,
+        ),
+      );
+      await screen.findByRole('listbox');
+      expect(dropdownIcon().tagName).toBe('I');
+      expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+      expect(indicatorOf('Cake').tagName).toBe('I');
+      expect(iconNamesIn(indicatorOf('Cake'))).toEqual(['check']);
+      expect(iconNamesIn(indicatorOf('Pizza'))).toEqual([]);
+      expect(document.querySelectorAll('[data-own]')).toHaveLength(3);
+    },
+  );
+
   it('leaves the parts empty without a theme, as before', async () => {
     const withoutTheme: ReactElement = (
       <Dishes defaultValue="Cake" defaultOpen>

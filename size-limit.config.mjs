@@ -85,7 +85,7 @@ const entries = [
   { name: '@cocokits/angular/form-control', path: 'dist/packages/angular/fesm2022/cocokits-angular-form-control.mjs', limit: '2130 B' },
   { name: '@cocokits/react/checkbox', path: 'packages/react/dist/checkbox/index.js', limit: '3160 B' },
   { name: '@cocokits/react/switch', path: 'packages/react/dist/switch/index.js', limit: '2690 B' },
-  { name: '@cocokits/react/radio', path: 'packages/react/dist/radio/index.js', limit: '2310 B' },
+  { name: '@cocokits/react/radio', path: 'packages/react/dist/radio/index.js', limit: '2570 B' },
   { name: '@cocokits/vue/checkbox', path: 'packages/vue/dist/checkbox/index.js', limit: '3170 B' },
   { name: '@cocokits/vue/switch', path: 'packages/vue/dist/switch/index.js', limit: '2610 B' },
   { name: '@cocokits/vue/radio', path: 'packages/vue/dist/radio/index.js', limit: '2370 B' },

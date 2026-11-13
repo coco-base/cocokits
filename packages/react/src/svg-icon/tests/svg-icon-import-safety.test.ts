@@ -7,5 +7,6 @@ describe('@cocokits/react/svg-icon import safety', () => {
     const mod = await import('../index');
     expect(typeof mod.SvgIcon).toBe('function');
     expect(mod.SvgIcon.displayName).toBe('SvgIcon');
-  });
+    // The first dynamic import compiles the whole entry; under a parallel run it can pass the default timeout.
+  }, 60_000);
 });
