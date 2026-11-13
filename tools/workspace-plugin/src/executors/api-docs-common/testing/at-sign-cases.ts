@@ -246,9 +246,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: [],
   },
   {
-    name: 'angular/select/select.ts:184',
+    name: 'angular/select/select.ts:185',
     file: 'packages/angular/select/select.ts',
-    line: 184,
+    line: 185,
     comment:
       '/**\n * A function that tells whether an option value is the selected value. Use it when the option values are objects. When not set, the values are compared with `Object.is`.\n * @remarks Pair it with `itemToStringValue`, which turns an object into the text that a form sends.\n * @example\n * <cck-select [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">\n *   @for (item of dishes; track item.id) {\n *     <cck-select-option [value]="item">{{ item.name }}</cck-select-option>\n *   }\n * </cck-select>\n * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->\n * @cckSemantic select.isItemEqual\n * @defaultValue Object.is\n */',
     example:
