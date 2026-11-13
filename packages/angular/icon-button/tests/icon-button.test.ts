@@ -110,6 +110,17 @@ describe('CckIconButton on a button', () => {
     expect(onClick).toHaveBeenCalledTimes(2);
   });
 
+  it('a disabled button is skipped by Tab', async () => {
+    await render(
+      `<input aria-label="before" /><button cckIconButton aria-label="Off" disabled></button><input aria-label="after" />`,
+      { imports },
+    );
+    const user = userEvent.setup();
+    screen.getByLabelText('before').focus();
+    await user.tab();
+    expect(document.activeElement).toBe(screen.getByLabelText('after'));
+  });
+
   it('only emits data-* declared in the meta', async () => {
     await render(`<button cckIconButton aria-label="Add" disabled></button>`, { imports });
     const declared: readonly string[] = iconButtonMeta.dataAttrs.root;

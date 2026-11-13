@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { provideCckTheme } from '@cocokits/angular-core';
-import { accordionAnatomy } from '@cocokits/machines/accordion';
+import { accordionAnatomy, accordionMeta } from '@cocokits/machines/accordion';
 import { defineThemeConfig } from '@cocokits/shared';
 import { describe, expect, it } from 'vitest';
 import { CckAccordionImports } from '../index';
@@ -30,6 +30,7 @@ describe('Accordion indicator', () => {
     expect(triggers).toHaveLength(2);
     for (const trigger of triggers) {
       const indicator = must(trigger.lastElementChild);
+      expect(indicator.tagName.toLowerCase()).toBe(accordionMeta.defaultElements?.indicator);
       expect(indicator.className).toBe(classes.indicator);
       expect(indicator.getAttribute('aria-hidden')).toBe('true');
       const icon = must(indicator.querySelector('.cck-svg-icon'));

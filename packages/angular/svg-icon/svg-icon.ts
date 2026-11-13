@@ -66,7 +66,9 @@ export class CckSvgIcon {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       const name = this.iconName();
       if (!Object.hasOwn(this.icons, name)) {
-        console.error(`CocoKits: the theme has no icon named "${name}". Add it to ThemeConfig.icons.`);
+        console.error(
+          `CocoKits: the theme has no icon named "${name}". Check the name, or add the icon to the icons of the theme config.`,
+        );
       }
     });
   }

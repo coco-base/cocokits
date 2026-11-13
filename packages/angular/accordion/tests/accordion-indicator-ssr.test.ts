@@ -5,6 +5,7 @@ import { provideServerRendering, renderApplication } from '@angular/platform-ser
 import { provideCckTheme } from '@cocokits/angular-core';
 import { defineThemeConfig } from '@cocokits/shared';
 import { describe, expect, it } from 'vitest';
+import { accordionMeta } from '@cocokits/machines/accordion';
 import { CckAccordionImports } from '../index';
 
 @Component({
@@ -64,7 +65,10 @@ describe('Accordion indicator on the server', () => {
   it('ends the trigger with the decorative indicator that holds the theme icon', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
     const trigger = /<button\b[^>]*class="cck-accordion__trigger"[^>]*>.*?<\/button>/.exec(html)?.[0] ?? '';
-    expect(trigger).toMatch(/Shipping\s*<span[^>]*class="cck-accordion__indicator"[^>]*aria-hidden="true"[^>]*>/);
+    const indicator = accordionMeta.defaultElements?.indicator ?? '';
+    expect(trigger).toMatch(
+      new RegExp(`Shipping\\s*<${indicator}[^>]*class="cck-accordion__indicator"[^>]*aria-hidden="true"[^>]*>`),
+    );
     expect(trigger).toContain('data-icon-name="chevron-down"');
     expect(trigger).toContain('d="M-chevron"');
     expect(trigger).toMatch(/<\/svg>\s*<\/cck-svg-icon>\s*<\/span>\s*<\/button>$/);

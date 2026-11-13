@@ -10,9 +10,10 @@ import {
   input,
   type OnInit,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, bindAttrs, listenLast, themePartIcon } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, bindAttrs, listenLast, themeIcons } from '@cocokits/angular-core';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { selectAnatomy, type SelectItem } from '@cocokits/machines/select';
+import { resolvePartIconName } from '@cocokits/shared';
 import { hasInteractiveContent } from '@cocokits/utils';
 import { injectCckSelect } from './select';
 import { CckSelectOptionGroup } from './select-option-group';
@@ -95,7 +96,11 @@ export class CckSelectOption<T = string> implements OnInit {
   }));
   protected readonly parts = this._root.parts;
   /** The icon the theme names for the option indicator; the part shows it while the option is selected. */
-  protected readonly indicatorIconName = themePartIcon(selectAnatomy, 'optionIndicator');
+  protected readonly indicatorIconName = resolvePartIconName(
+    themeIcons().partIconNames,
+    selectAnatomy.block,
+    'optionIndicator',
+  );
   protected readonly props = computed(() => this._root.parts().option(this.item()));
 
   private unregister: (() => void) | undefined;

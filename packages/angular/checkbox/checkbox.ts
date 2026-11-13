@@ -1,7 +1,8 @@
 import { Component, ViewEncapsulation, afterRenderEffect, booleanAttribute, computed, input } from '@angular/core';
-import { CckAttrs, themeAttrs, themePartIcon } from '@cocokits/angular-core';
+import { CckAttrs, themeAttrs, themeIcons } from '@cocokits/angular-core';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
+import { resolvePartIconName } from '@cocokits/shared';
 import {
   CckCheckControlBase,
   type CheckControlChangeDetails,
@@ -102,7 +103,11 @@ export class CckCheckbox extends CckCheckControlBase {
   protected readonly theme = themeAttrs(checkboxAnatomy);
 
   /** The icon the theme names for the background; the part shows it while checked and not indeterminate. */
-  protected readonly tickIconName = themePartIcon(checkboxAnatomy, 'background');
+  protected readonly tickIconName = resolvePartIconName(
+    themeIcons().partIconNames,
+    checkboxAnatomy.block,
+    'background',
+  );
 
   protected readonly parts = computed(() =>
     getCheckboxProps({ ...this.state(), indeterminate: this.indeterminate() }, this.fieldContext()),

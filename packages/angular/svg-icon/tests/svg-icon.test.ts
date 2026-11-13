@@ -29,6 +29,7 @@ describe('CckSvgIcon', () => {
     expect(icon.className).toBe(classes.root);
     expect(icon.getAttribute('data-icon-name')).toBe('pair');
     const svg = must(icon.querySelector('svg'));
+    expect(svg.tagName.toLowerCase()).toBe(svgIconMeta.defaultElements?.svg);
     expect(svg.getAttribute('class')).toBe(classes.svg);
     expect(svg.getAttribute('viewBox')).toBe('0 0 10 10');
     const paths = [...icon.querySelectorAll('path')];
@@ -106,7 +107,7 @@ describe('CckSvgIcon', () => {
       expect(icon.querySelectorAll('path')).toHaveLength(0);
       expect(icon.getAttribute('data-icon-name')).toBe(iconName);
       expect(String(error.mock.calls[0]?.[0])).toBe(
-        `CocoKits: the theme has no icon named "${iconName}". Add it to ThemeConfig.icons.`,
+        `CocoKits: the theme has no icon named "${iconName}". Check the name, or add the icon to the icons of the theme config.`,
       );
     });
 

@@ -17,7 +17,7 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, bindAttrs, themePartIcon } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, bindAttrs, themeIcons } from '@cocokits/angular-core';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { createPresence } from '@cocokits/cdk/presence';
@@ -28,6 +28,7 @@ import {
   getAccordionItemProps,
   type AccordionItemParts,
 } from '@cocokits/machines/accordion';
+import { resolvePartIconName } from '@cocokits/shared';
 import { containsDeep } from '@cocokits/utils';
 import { injectCckAccordion, type CckAccordionItemRegistration } from './accordion';
 import { CckAccordionLabel } from './accordion-label';
@@ -262,7 +263,11 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   });
 
   /** The icon the theme names for the indicator; the part shows it always. */
-  protected readonly indicatorIconName = themePartIcon(accordionAnatomy, 'indicator');
+  protected readonly indicatorIconName = resolvePartIconName(
+    themeIcons().partIconNames,
+    accordionAnatomy.block,
+    'indicator',
+  );
 
   /** The label template, when the author wrote one. @internal */
   protected readonly labelSlot = contentChild(CckAccordionLabel);

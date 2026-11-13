@@ -11,7 +11,7 @@ import {
   type TemplateRef,
   type WritableSignal,
 } from '@angular/core';
-import { CckDirection, CckOverlayLayer, CckPortal, injectZoneBoundary, themePartIcon } from '@cocokits/angular-core';
+import { CckDirection, CckOverlayLayer, CckPortal, injectZoneBoundary, themeIcons } from '@cocokits/angular-core';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { trackLabelActivation, type LabelActivation } from '@cocokits/cdk/form-control';
 import {
@@ -21,6 +21,7 @@ import {
   type SelectEvent,
   type SelectTransition,
 } from '@cocokits/machines/select';
+import { resolvePartIconName } from '@cocokits/shared';
 import { hasAccessibleName } from '@cocokits/utils';
 import { mayClose, sortOptionsByDom } from './select-helpers';
 import { createSelectOverlay } from './select-overlay';
@@ -232,7 +233,7 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
   return {
     ...model,
     validationMessage,
-    dropdownIconName: themePartIcon(selectAnatomy, 'dropdownIcon'),
+    dropdownIconName: resolvePartIconName(themeIcons().partIconNames, selectAnatomy.block, 'dropdownIcon'),
     open,
     close,
     toggle: () => {
