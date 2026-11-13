@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, mergeProps, useAttrs } from 'vue';
+import { computed, mergeProps, useAttrs, useSlots } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
+import { Nodes, partIconNodes, usePartIconName } from '../internal/part-icon';
 import { useSelectContext } from './select.context';
 import type { SelectIconProps } from './select.types';
 
@@ -13,9 +14,7 @@ defineSlots<{
    * The icon to draw in place of the icon of the theme. When not set, the icon of the theme shows.
    *
    * @example
-   * <SelectIcon>
-   *   <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" /></svg>
-   * </SelectIcon>
+   * <SelectIcon><SvgIcon icon-name="arrow-down" /></SelectIcon>
    */
   default?(): unknown;
 }>();
@@ -24,10 +23,13 @@ const ctx = useSelectContext<unknown>('SelectIcon');
 const themeAttrs = useThemeAttrs(selectAnatomy);
 const attrs = useAttrs();
 const bound = computed(() => mergeProps(themeAttrs.value.dropdownIcon, attrs, { ...ctx.parts.value.dropdownIcon }));
+const slots = useSlots();
+const iconName = usePartIconName(selectAnatomy.block, 'dropdownIcon');
 </script>
 
 <template>
   <Primitive v-bind="bound" :as="as" :as-child="asChild">
-    <slot />
+    <slot v-if="asChild" />
+    <Nodes v-else :nodes="partIconNodes(slots.default?.(), iconName)" />
   </Primitive>
 </template>
