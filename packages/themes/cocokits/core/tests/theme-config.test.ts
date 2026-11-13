@@ -3,6 +3,8 @@ import { describe, expect, expectTypeOf, it } from 'vitest';
 import {
   accordionSizeDefaultMode,
   accordionSizeModes,
+  dividerSizeDefaultMode,
+  dividerSizeModes,
   formFieldSizeDefaultMode,
   formFieldSizeModes,
   badgeSizeDefaultMode,
@@ -114,6 +116,46 @@ describe('cocokitsThemeConfig badge', () => {
   it('keeps the exact literal tuples in the type', () => {
     expectTypeOf(badge.variant.values).toEqualTypeOf<readonly ['rounded', 'rectangle']>();
     expectTypeOf(badge.size.values).toEqualTypeOf<readonly ['sm', 'md', 'lg', 'xl']>();
+  });
+});
+
+describe('cocokitsThemeConfig divider', () => {
+  const divider = cocokitsThemeConfig.components.divider;
+  const dividerAnatomy = defineAnatomy({
+    block: 'divider',
+    parts: { root: { name: 'Root', description: 'The divider.' } },
+  });
+
+  it.each([
+    ['size', 'size', 'md', ['md', 'lg']],
+    ['color', 'color', 'default', ['light', 'default', 'dark']],
+  ] as const)(
+    'the %s option renders %s with its default and values on the root',
+    (option, attrName, fallback, values) => {
+      expect(divider[option].attrName).toBe(attrName);
+      expect(divider[option].default).toBe(fallback);
+      expect(divider[option].values).toEqual(values);
+      expect(divider[option].partNames).toEqual(['root']);
+    },
+  );
+
+  it('renders data-size and data-color, not the Active Color marker, and null removes them', () => {
+    expect(resolveThemeAttrs(cocokitsThemeConfig, dividerAnatomy).root).toEqual({
+      'data-size': 'md',
+      'data-color': 'default',
+    });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, dividerAnatomy, { size: 'lg', color: 'dark' }).root).toEqual({
+      'data-size': 'lg',
+      'data-color': 'dark',
+    });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, dividerAnatomy, { size: null, color: null }).root).toEqual({});
+  });
+
+  it('takes the size from the generated index and types the values', () => {
+    expect(divider.size.values).toBe(dividerSizeModes);
+    expect(divider.size.default).toBe(dividerSizeDefaultMode);
+    expectTypeOf(divider.size.values).toEqualTypeOf<readonly ['md', 'lg']>();
+    expectTypeOf(divider.color.values).toEqualTypeOf<readonly ['light', 'default', 'dark']>();
   });
 });
 
