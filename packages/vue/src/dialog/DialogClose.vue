@@ -15,7 +15,7 @@ defineSlots<{
    * empty and needs `aria-label`.
    *
    * @example
-   * <DialogClose aria-label="Close"><XIcon aria-hidden="true" /></DialogClose>
+   * <DialogClose aria-label="Close"><SvgIcon icon-name="close" /></DialogClose>
    */
   default?(): unknown;
 }>();

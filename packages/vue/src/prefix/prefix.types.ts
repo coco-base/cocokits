@@ -5,7 +5,7 @@ import type { AsTag } from '@cocokits/vue-core';
  * Content inside the box, before the control: an icon, a currency sign or a short text. It renders a `<div>` and adds
  * no ARIA. Its text is not part of the name or the description of the control.
  *
- * Give an icon `aria-hidden="true"`, and give a button its own accessible name. Put it in the `prefix` slot of a
+ * An SVG icon is hidden from screen readers by default; give your own `<svg>` `aria-hidden="true"`. Give a button its own accessible name. Put it in the `prefix` slot of a
  * FormField to place it. It also works outside a FormField. Native attributes fall through to the root.
  *
  * @example

@@ -26,7 +26,7 @@ defineSlots<{
    * empty and needs `aria-label`.
    *
    * @example
-   * <TooltipTrigger aria-label="Save"><SaveIcon aria-hidden="true" /></TooltipTrigger>
+   * <TooltipTrigger aria-label="Copy"><SvgIcon icon-name="copy" /></TooltipTrigger>
    */
   default?(): unknown;
 }>();

@@ -16,7 +16,7 @@ defineSlots<{
    * empty and needs `aria-label`.
    *
    * @example
-   * <PopoverTrigger aria-label="Share"><ShareIcon aria-hidden="true" /></PopoverTrigger>
+   * <PopoverTrigger aria-label="Share link"><SvgIcon icon-name="link" /></PopoverTrigger>
    */
   default?(): unknown;
 }>();
