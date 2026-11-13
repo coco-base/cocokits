@@ -91,8 +91,8 @@ async function resolveLoaded(name: string, load: IconLoader): Promise<Icon | und
 }
 
 /**
- * Creates an icon registry. It starts with the base icons (`chevron-down`, `check`, `minus`, `close`) and looks a
- * name up in the parent registry when it has none of its own.
+ * Creates an icon registry. It starts with the base icons (`chevron-down`, `check`, `minus`, `close`).
+ * It looks a name up in the parent registry when it has none of its own.
  *
  * @remarks
  * Make one registry per app or per rendered tree, never a module-level one: a server that renders several requests
