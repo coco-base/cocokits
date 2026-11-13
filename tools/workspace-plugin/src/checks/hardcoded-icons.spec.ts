@@ -7,18 +7,31 @@ import { describe, expect, it } from 'vitest';
  * example or a theme file does not draw an inline `<svg>`, `<path>` or `<polygon>`, does not use a `<…Icon>`
  * component that the package does not export, and shows no icon glyph. Icons come from `SvgIcon` and the icon pack.
  *
+ * `packages/icons/src` is no root: it is the one home of icon markup and path data. Path data (`d="M`) or an icon body
+ * (`body: '<`) in any root fails like an inline `<svg>`.
+ *
  * Allowed: the svg-icon sources, the overlay arrow files and their TSDoc (the arrow draws its own triangle), a
  * mention of `<svg>` in inline code of a comment (prose), and the `*Icon` names that the packages export. The allowed
  * names are read from the export lists of the entry `index.ts` files, so a later `*Icon` part is allowed by its
  * export and nothing is listed by hand here.
  */
 const REPO = resolve(import.meta.dirname, '..', '..', '..', '..');
-const ROOTS = ['packages/angular', 'packages/react/src', 'packages/vue/src', 'packages/themes'];
+const ROOTS = [
+  'packages/angular',
+  'packages/react/src',
+  'packages/vue/src',
+  'packages/themes',
+  'packages/machines',
+  'packages/shared',
+  'packages/utils',
+  'packages/cdk',
+];
 const SKIPPED_DIRS = new Set(['node_modules', 'dist', 'tests', 'tmp', 'generated']);
 const SOURCE_FILE = /\.(?:ts|tsx|vue|html)$/;
 const TEST_FILE = /\.(?:test|spec)\.[a-z]+$/;
 
 const MARKUP = /<(?:svg|path|polygon)\b/g;
+const PATH_DATA = /d="M|body: '</g;
 const COMPONENT = /<([A-Z][\w.]*)/g;
 const GLYPH = /[✓✕×✔▾▼›‹→←★−]|&times;/g;
 const COMMENT = /\/\*[\s\S]*?\*\/|<!--[\s\S]*?-->/g;
@@ -72,15 +85,16 @@ function hardcodedIcons(path: string, text: string, exported: ReadonlySet<string
   const code = text.replaceAll(COMMENT, '');
   const hits: Hit[] = [];
 
-  const check = (unit: string, allowMarkup: boolean): void => {
-    if (!allowMarkup) hits.push(...(unit.match(MARKUP) ?? []));
-    for (const [, name = ''] of unit.matchAll(COMPONENT)) {
+  const check = (unit: string, allowMarkup: boolean, allowComponents = false): void => {
+    if (!allowMarkup) hits.push(...(unit.match(MARKUP) ?? []), ...(unit.match(PATH_DATA) ?? []));
+    for (const [, name = ''] of allowComponents ? [] : unit.matchAll(COMPONENT)) {
       if (name.endsWith('Icon') && !isExported(name, exported)) hits.push(`<${name}`);
     }
     hits.push(...(unit.match(GLYPH) ?? []));
   };
 
-  check(code, isArrowFile);
+  // A `.ts` file has no JSX or template: `Promise<Icon>` is a generic, not a component.
+  check(code, isArrowFile, file.endsWith('.ts'));
   for (const comment of comments) {
     // Inline code in prose names an element ("give your own `<svg>` aria-hidden"); it is not an example.
     const unit = comment.replaceAll(INLINE_CODE, '');
@@ -118,9 +132,16 @@ describe('hardcoded icons (AC 19)', () => {
         'an inline svg in code',
         'x/button.tsx',
         'const a = <svg viewBox="0 0 1 1"><path d="M0 0" /></svg>;',
-        ['<svg', '<path'],
+        ['<svg', '<path', 'd="M'],
       ],
       ['an svg in a TSDoc example', 'x/button.tsx', '/**\n * @example\n * <Button><svg /></Button>\n */', ['<svg']],
+      [
+        'path data in a string',
+        'x/icons.ts',
+        'const a = { body: \'<path d="M0 0" />\' };',
+        ['<path', "body: '<", 'd="M'],
+      ],
+      ['a path d attribute alone', 'x/icons.ts', 'const a = `d="M0 0"`;', ['d="M']],
       ['a polygon', 'x/button.tsx', 'const a = "<polygon points=\'0,0\' />";', ['<polygon']],
       [
         'a made-up icon component',
