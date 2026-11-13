@@ -35,7 +35,7 @@ export const selectAnatomy: Anatomy<
     },
     dropdownIcon: {
       name: 'Dropdown icon',
-      description: "Decorative: the open and close affordance; holds the theme's icon or your own content.",
+      description: "Decorative: the open and close affordance; holds the theme's icon.",
     },
     content: {
       name: 'Content',
@@ -46,7 +46,7 @@ export const selectAnatomy: Anatomy<
       name: 'Option indicator',
       description:
         "Decorative: the check (single) or box (multiple) of the selection; holds the theme's icon while its option is " +
-        'selected, or your own content.',
+        'selected.',
     },
     optionContent: { name: 'Option content', description: 'Holds the author content of an option.' },
     optionGroup: { name: 'Option group', description: 'Groups options under a label; role `group`.' },

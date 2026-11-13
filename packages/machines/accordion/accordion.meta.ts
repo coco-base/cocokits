@@ -52,6 +52,6 @@ export const accordionMeta: ComponentMeta<'root' | 'item' | 'header' | 'trigger'
     },
     { key: 'Home / End', context: 'trigger', action: 'Moves to the first or last enabled trigger.' },
   ],
-  defaultElements: { root: 'div', item: 'div', header: 'h3', trigger: 'button', content: 'div' },
+  defaultElements: { root: 'div', item: 'div', header: 'h3', trigger: 'button', indicator: 'span', content: 'div' },
   form: 'None: Accordion is not a form control.',
 };

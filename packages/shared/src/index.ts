@@ -11,3 +11,4 @@ export type { ModeCollection, ModeValue } from './mode-collection';
 export type { Direction } from './direction';
 export type { PartIconNames, SvgIconDefinition, SvgIconPath, SvgIconSet, ThemeIcons } from './svg-icon';
 export { resolveThemeIcons } from './resolve-theme-icons';
+export { resolvePartIconName } from './resolve-part-icon-name';

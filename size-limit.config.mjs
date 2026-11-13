@@ -8,7 +8,7 @@ const external = (config) => ({ ...config, packages: 'external', tsconfigRaw: '{
 
 const entries = [
   { name: '@cocokits/utils', path: 'packages/utils/dist/index.js', limit: '2910 B' },
-  { name: '@cocokits/shared', path: 'packages/shared/dist/index.js', limit: '360 B' },
+  { name: '@cocokits/shared', path: 'packages/shared/dist/index.js', limit: '372 B' },
   { name: '@cocokits/angular-core', path: 'dist/packages/angular-core/fesm2022/cocokits-angular-core.mjs', limit: '2810 B' },
   { name: '@cocokits/react-core', path: 'packages/react/core/dist/index.js', limit: '1150 B' },
   { name: '@cocokits/vue-core', path: 'packages/vue/core/dist/index.js', limit: '2040 B' },

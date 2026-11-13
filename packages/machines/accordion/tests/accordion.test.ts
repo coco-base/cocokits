@@ -452,6 +452,7 @@ describe('meta', () => {
       item: 'div',
       header: 'h3',
       trigger: 'button',
+      indicator: 'span',
       content: 'div',
     });
     expect(accordionMeta.form).toMatch(/^None/);
