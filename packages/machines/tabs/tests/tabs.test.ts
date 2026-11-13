@@ -303,3 +303,11 @@ describe('meta', () => {
     }
   });
 });
+
+describe('meta defaults', () => {
+  it('names the orientation the root renders with no input', () => {
+    expect(getTabsProps(base(), vi.fn()).root['data-orientation']).toBe(
+      tabsMeta.dataAttrDetails?.['data-orientation']?.default,
+    );
+  });
+});

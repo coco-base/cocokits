@@ -19,6 +19,7 @@
 @use 'components/_tooltip' as tooltip;
 @use 'components/_select' as select;
 @use 'components/_accordion' as accordion;
+@use 'components/_divider' as divider;
 @use 'components/_side-offset' as side-offset;
 
 @include side-offset.register;
@@ -44,4 +45,5 @@
   @include tooltip.rules;
   @include select.rules;
   @include accordion.rules;
+  @include divider.rules;
 }

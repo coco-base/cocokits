@@ -9,6 +9,8 @@ import {
   buttonSizeModes,
   checkboxSizeDefaultMode,
   checkboxSizeModes,
+  dividerSizeDefaultMode,
+  dividerSizeModes,
   formFieldSizeDefaultMode,
   formFieldSizeModes,
   radioSizeDefaultMode,
@@ -36,6 +38,8 @@ const TABS_VARIANTS = ['border', 'fill', 'line', 'basic'] as const;
 const TABS_HEADER_ALIGNS = ['start', 'center', 'end', 'stretch'] as const;
 /** Where the label sits against the box or track; no token collection holds it. */
 const LABEL_POSITIONS = ['after', 'before'] as const;
+/** The strength of the line is a border colour, not an Active Color family, so no token collection holds it. */
+const DIVIDER_COLORS = ['light', 'default', 'dark'] as const;
 /** A two-state option: its `data-*` is present when true and absent when false. */
 const BOOLEAN_VALUES = [true, false] as const;
 /** The Badge picks its own colour default, `contrast`; the type makes a value that is not a mode an error. */
@@ -84,6 +88,10 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly 'badge-container': Record<string, never>;
     /** Supported with no options. */
     readonly dialog: Record<string, never>;
+    readonly divider: {
+      readonly size: RootOption<typeof dividerSizeModes>;
+      readonly color: RootOption<typeof DIVIDER_COLORS>;
+    };
     readonly button: {
       readonly variant: RootOption<typeof BUTTON_VARIANTS>;
       readonly color: RootOption<typeof themeActiveColorModes>;
@@ -233,6 +241,22 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     },
     'badge-container': {},
     dialog: {},
+    divider: {
+      size: {
+        attrName: 'size',
+        values: dividerSizeModes,
+        default: dividerSizeDefaultMode,
+        partNames: ['root'],
+        description: 'Thickness of the line.',
+      },
+      color: {
+        attrName: 'color',
+        values: DIVIDER_COLORS,
+        default: 'default',
+        partNames: ['root'],
+        description: 'Strength of the line: a light, the default or a dark border colour.',
+      },
+    },
     button: {
       variant: {
         attrName: 'variant',

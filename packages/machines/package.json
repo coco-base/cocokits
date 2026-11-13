@@ -38,6 +38,10 @@
       "types": "./dist/dialog/index.d.ts",
       "default": "./dist/dialog/index.js"
     },
+    "./divider": {
+      "types": "./dist/divider/index.d.ts",
+      "default": "./dist/divider/index.js"
+    },
     "./field-error": {
       "types": "./dist/field-error/index.d.ts",
       "default": "./dist/field-error/index.js"

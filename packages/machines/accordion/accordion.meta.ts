@@ -13,6 +13,7 @@ export const accordionMeta: ComponentMeta<'root' | 'item' | 'header' | 'trigger'
   dataAttrDetails: {
     'data-orientation': {
       values: ['horizontal', 'vertical'],
+      default: 'vertical',
       setWhen: 'Always set: the direction of the accordion, `vertical` unless the orientation prop says otherwise.',
     },
     'data-disabled': {

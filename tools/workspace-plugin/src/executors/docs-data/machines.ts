@@ -53,6 +53,14 @@ function checkKeyboardFrameworks(subpath: string, keyboard: readonly unknown[]):
   }
 }
 
+/** A `default` must be one of the `values`, so an attribute with no `values` has none. */
+function checkDefault(subpath: string, attr: string, fallback: unknown, values: unknown): void {
+  if (fallback === undefined) return;
+  if (typeof fallback !== 'string' || !Array.isArray(values) || !values.includes(fallback)) {
+    throw new Error(`${subpath}: dataAttrDetails ${attr} has a default that is not one of its values`);
+  }
+}
+
 /** `dataAttrDetails` must hold one entry, with a `setWhen` and no empty `values`, for each attribute some part lists. */
 function checkDataAttrDetails(subpath: string, meta: Record<string, unknown>): void {
   const listed = new Set(
@@ -79,6 +87,7 @@ function checkDataAttrDetails(subpath: string, meta: Record<string, unknown>): v
     if (values !== undefined && (!Array.isArray(values) || values.length === 0)) {
       throw new Error(`${subpath}: dataAttrDetails ${attr} has an empty values list`);
     }
+    checkDefault(subpath, attr, detail['default'], values);
   }
 }
 

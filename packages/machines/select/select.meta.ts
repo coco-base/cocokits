@@ -54,13 +54,15 @@ export const selectMeta: ComponentMeta<
     'data-placeholder-shown': { setWhen: 'The Select has no value, so the placeholder shows.' },
     'data-side': {
       values: ['top', 'bottom', 'start', 'end'],
+      default: 'bottom',
       setWhen:
-        'Always set: the side of the trigger the content sits on, the `side` asked for (`bottom` by default) until positioning flips the content to fit.',
+        'Always set: the side of the trigger the content sits on, the `side` asked for until positioning flips the content to fit.',
     },
     'data-align': {
       values: ['start', 'center', 'end'],
+      default: 'start',
       setWhen:
-        'Always set: how the content lines up with the trigger, the `align` asked for (`start` by default) until positioning shifts the content to fit.',
+        'Always set: how the content lines up with the trigger, the `align` asked for until positioning shifts the content to fit.',
     },
     'data-selected': { setWhen: 'The option is selected.' },
     'data-highlighted': { setWhen: 'The option is the active one, by keyboard or pointer.' },

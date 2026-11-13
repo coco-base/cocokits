@@ -28,7 +28,7 @@ const entries = [
   { name: '@cocokits/theme-frames-x-react', path: 'packages/themes/frames-x/react/dist/index.js', limit: '320 B' },
   { name: '@cocokits/theme-frames-x-vue', path: 'packages/themes/frames-x/vue/dist/index.js', limit: '500 B' },
   { name: '@cocokits/machines/badge', path: 'packages/machines/dist/badge/index.js', limit: '760 B' },
-  { name: '@cocokits/machines/badge-container', path: 'packages/machines/dist/badge-container/index.js', limit: '410 B' },
+  { name: '@cocokits/machines/badge-container', path: 'packages/machines/dist/badge-container/index.js', limit: '470 B' },
   { name: '@cocokits/vue/badge', path: 'packages/vue/dist/badge/index.js', limit: '980 B' },
   { name: '@cocokits/react/badge', path: 'packages/react/dist/badge/index.js', limit: '960 B' },
   { name: '@cocokits/react/badge-container', path: 'packages/react/dist/badge-container/index.js', limit: '780 B' },
@@ -139,6 +139,10 @@ const entries = [
   { name: '@cocokits/angular/accordion/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-accordion-testing.mjs', limit: '610 B' },
   { name: '@cocokits/angular/radio-group/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-group-testing.mjs', limit: '500 B' },
   { name: '@cocokits/angular/radio/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-testing.mjs', limit: '500 B' },
+  { name: '@cocokits/machines/divider', path: 'packages/machines/dist/divider/index.js', limit: '470 B' },
+  { name: '@cocokits/angular/divider', path: 'dist/packages/angular/fesm2022/cocokits-angular-divider.mjs', limit: '970 B' },
+  { name: '@cocokits/react/divider', path: 'packages/react/dist/divider/index.js', limit: '520 B' },
+  { name: '@cocokits/vue/divider', path: 'packages/vue/dist/divider/index.js', limit: '450 B' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));

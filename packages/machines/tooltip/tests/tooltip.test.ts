@@ -336,3 +336,11 @@ describe('arrow and kept content', () => {
     expect(getTooltipProps({ ...open, keptClosed: false }, vi.fn()).content.hidden).toBeUndefined();
   });
 });
+
+describe('meta defaults', () => {
+  it('names the side and the align the content renders with no input', () => {
+    const { content } = getTooltipProps(open, vi.fn());
+    expect(content['data-side']).toBe(tooltipMeta.dataAttrDetails?.['data-side']?.default);
+    expect(content['data-align']).toBe(tooltipMeta.dataAttrDetails?.['data-align']?.default);
+  });
+});

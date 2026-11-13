@@ -75,6 +75,7 @@ describe('emitted modules keep their "use client"', () => {
       'dialog/dialog-root.js',
       'dialog/dialog-title.js',
       'dialog/dialog-trigger.js',
+      'divider/divider.js',
       'field-error/field-error.js',
       'form-field/form-field.js',
       'hint/hint.js',

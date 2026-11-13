@@ -34,3 +34,11 @@ describe('getBadgeContainerProps', () => {
     expect(Object.keys(getBadgeContainerProps().root)).toEqual(['class', 'data-position']);
   });
 });
+
+describe('meta defaults', () => {
+  it('names the position the root renders with no input', () => {
+    expect(getBadgeContainerProps().root['data-position']).toBe(
+      badgeContainerMeta.dataAttrDetails?.['data-position']?.default,
+    );
+  });
+});

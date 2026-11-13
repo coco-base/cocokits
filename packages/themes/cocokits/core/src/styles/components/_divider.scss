@@ -1,0 +1,53 @@
+// Divider rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The line is a border, not a background: forced colors keep a border visible. The rule sets the style, width and
+// colour of every border side itself, so the obsolete `size` and `color` attributes that may stay on the `hr`
+// and the UA `hr` styles change nothing. The root has no margin; the layout around it sets the space.
+@mixin rules {
+  .cck-divider {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin: 0;
+    // The default strength: `data-color="default"` needs no rule of its own.
+    border: 0 solid var(--cck-divider-color-default);
+    background: none;
+
+    &[data-orientation='horizontal'] {
+      display: block;
+      inline-size: auto;
+      block-size: 0;
+      border-block-start-width: var(--cck-divider-thickness);
+    }
+
+    // Across a flex or grid row the line spans the cross size. Elsewhere it is an inline box at least 1em tall,
+    // centred on the line of text: a percentage height would be 0 when the container's height follows its content.
+    &[data-orientation='vertical'] {
+      display: inline-block;
+      align-self: stretch;
+      inline-size: 0;
+      block-size: auto;
+      min-block-size: 1em;
+      vertical-align: middle;
+      border-inline-start-width: var(--cck-divider-thickness);
+    }
+
+    &[data-color='light'] {
+      border-color: var(--cck-divider-color-light);
+    }
+
+    &[data-color='dark'] {
+      border-color: var(--cck-divider-color-dark);
+    }
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-divider,
+    .cck-divider[data-color] {
+      border-color: CanvasText;
+    }
+  }
+}
