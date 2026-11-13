@@ -157,6 +157,9 @@ const entries = [
   { name: '@cocokits/machines/avatar', path: 'packages/machines/dist/avatar/index.js', limit: '2 kB' },
   { name: '@cocokits/machines/avatar-group', path: 'packages/machines/dist/avatar-group/index.js', limit: '2 kB' },
   { name: '@cocokits/machines/avatar-label', path: 'packages/machines/dist/avatar-label/index.js', limit: '2 kB' },
+  { name: '@cocokits/react/avatar', path: 'packages/react/dist/avatar/index.js', limit: '2 kB' },
+  { name: '@cocokits/react/avatar-group', path: 'packages/react/dist/avatar-group/index.js', limit: '2 kB' },
+  { name: '@cocokits/react/avatar-label', path: 'packages/react/dist/avatar-label/index.js', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
