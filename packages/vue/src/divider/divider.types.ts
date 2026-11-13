@@ -31,9 +31,6 @@ export interface DividerProps {
   /**
    * The direction of the line. A vertical line sets `aria-orientation="vertical"`; `data-orientation` is always set.
    *
-   * @cckValue horizontal - A line across the container, between stacked blocks.
-   * @cckValue vertical - A line down the container, between the items of a row.
-   *
    * @defaultValue 'horizontal'
    */
   readonly orientation?: DividerOrientation | undefined;

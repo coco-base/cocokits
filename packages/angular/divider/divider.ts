@@ -42,8 +42,6 @@ export class CckDivider {
   /**
    * The direction of the line. A `horizontal` line runs across its container; a `vertical` line runs down it, so put it in a row.
    * @defaultValue 'horizontal'
-   * @cckValue horizontal - A line across the container, between stacked blocks.
-   * @cckValue vertical - A line down the container, between the items of a row.
    */
   readonly orientation = input<DividerOrientation>('horizontal');
 
