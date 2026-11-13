@@ -3,7 +3,7 @@ import { basename, join, relative, resolve, sep } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 /**
- * No hardcoded icon in the sources of the framework packages and the themes (job 054, AC 19). A component, a TSDoc
+ * No hardcoded icon in the sources of the framework packages and the themes. A component, a TSDoc
  * example or a theme file does not draw an inline `<svg>`, `<path>` or `<polygon>`, does not use a `<…Icon>`
  * component that the package does not export, and shows no icon glyph. Icons come from `SvgIcon` and the icon pack.
  *
