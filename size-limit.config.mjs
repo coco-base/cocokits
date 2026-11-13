@@ -140,6 +140,9 @@ const entries = [
   { name: '@cocokits/angular/radio-group/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-group-testing.mjs', limit: '500 B' },
   { name: '@cocokits/angular/radio/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-testing.mjs', limit: '500 B' },
   { name: '@cocokits/machines/divider', path: 'packages/machines/dist/divider/index.js', limit: '2 kB' },
+  { name: '@cocokits/angular/divider', path: 'dist/packages/angular/fesm2022/cocokits-angular-divider.mjs', limit: '2 kB' },
+  { name: '@cocokits/react/divider', path: 'packages/react/dist/divider/index.js', limit: '2 kB' },
+  { name: '@cocokits/vue/divider', path: 'packages/vue/dist/divider/index.js', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
