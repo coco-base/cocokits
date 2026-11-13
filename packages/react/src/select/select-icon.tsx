@@ -28,8 +28,9 @@ function SelectIconImpl({ render, ref, children, ...rest }: SelectIconProps): Re
 
 /**
  * The icon that shows the trigger opens a list. It renders a `<span aria-hidden="true">` that holds the icon the
- * theme names for it, drawn with `SvgIcon`. Content you give it replaces that icon. Without a theme icon and without
- * content it is empty.
+ * theme names for it, drawn with `SvgIcon`.
+ *
+ * Content you give it replaces that icon. Without a theme icon and without content it is empty.
  *
  * @example
  * <Select.Icon />

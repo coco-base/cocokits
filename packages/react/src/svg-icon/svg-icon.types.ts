@@ -2,10 +2,10 @@ import type { ComponentPropsWithRef } from 'react';
 
 /**
  * Props of the {@link SvgIcon}. Native `span` props pass through to the root, and `ref` reaches it. The theme
- * wrapper adds `color`, so the native `color` prop is left out. It takes no children: the icon is drawn from
+ * wrapper adds `color`, so the native `color` prop is left out. Children are ignored: the icon is drawn from
  * `iconName`.
  */
-export interface SvgIconProps extends Omit<ComponentPropsWithRef<'span'>, 'color' | 'children'> {
+export interface SvgIconProps extends Omit<ComponentPropsWithRef<'span'>, 'color'> {
   /**
    * The name of the icon in the icons of the provided theme, for example `heart`. A name the theme does not have
    * renders an empty icon, and in development logs a `CocoKits:` error.

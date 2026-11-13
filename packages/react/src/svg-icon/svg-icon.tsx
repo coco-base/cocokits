@@ -47,7 +47,9 @@ interface SvgIconComponent {
 
 /**
  * An icon of the provided theme, drawn by name. It renders a `<span>` with an `<svg>` that holds one `<path>` per
- * path of the icon. The icon data is the theme's (`ThemeConfig.icons`); it is bound as attributes only, never parsed
+ * path of the icon.
+ *
+ * The icon data is the theme's (`ThemeConfig.icons`). It is bound as attributes only, never parsed
  * or injected as markup, and it is in the server HTML.
  *
  * The icon is decorative by default: the root has `aria-hidden="true"`. Set `label` for a meaningful icon; the root

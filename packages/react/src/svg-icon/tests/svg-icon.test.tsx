@@ -16,6 +16,13 @@ afterEach(() => {
 const rootOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
 
 describe('SvgIcon (rendered contract)', () => {
+  it('ignores children: the svg is still drawn from the icon name', () => {
+    const { container } = render(strictThemed(<SvgIcon iconName="dots">text</SvgIcon>));
+    const root = rootOf(container);
+    expect(root.textContent).toBe('');
+    expect(root.querySelectorAll('path')).toHaveLength(2);
+  });
+
   it('renders the root, the svg and one path per icon path', () => {
     const { container } = render(strictThemed(<SvgIcon iconName="dots" />));
     const root = rootOf(container);

@@ -29,8 +29,9 @@ function SelectItemIndicatorImpl({ render, ref, children, ...rest }: SelectItemI
 
 /**
  * The mark that shows an item is selected: a check, or a box with `multiple`. It renders a `<span aria-hidden="true">`.
- * While its item is selected it holds the icon the theme names for it, drawn with `SvgIcon`; content you give it
- * replaces that icon. Its look comes from the theme and from the `data-selected` of the item.
+ * While its item is selected it holds the icon the theme names for it, drawn with `SvgIcon`.
+ *
+ * Content you give it replaces that icon. Its look comes from the theme and from the `data-selected` of the item.
  *
  * @example
  * <Select.ItemIndicator />
