@@ -13,6 +13,10 @@ const themeConfig = defineThemeConfig({
       thumbSize: { attrName: 'thumb', values: ['sm', 'lg'], default: 'sm', partNames: ['thumb'] },
     },
     separator: {},
+    select: {
+      size: { attrName: 'size', values: ['sm', 'lg'], default: 'sm' },
+      icons: { dropdownIcon: 'chevron-down' },
+    },
   },
 });
 
@@ -87,6 +91,13 @@ describe('resolveThemeAttrs', () => {
   it.each(['separator', 'missing'])('returns {} for every part of %s', (block) => {
     const anatomy = defineAnatomy({ block, parts: { root: part, thumb: part } });
     expect(resolveThemeAttrs(themeConfig, anatomy)).toEqual({ root: {}, thumb: {} });
+  });
+});
+
+describe('resolveThemeAttrs icons key', () => {
+  it('renders no attribute for the part icons of a component', () => {
+    const anatomy = defineAnatomy({ block: 'select', parts: { root: part } });
+    expect(resolveThemeAttrs(themeConfig, anatomy)).toEqual({ root: { 'data-size': 'sm' } });
   });
 });
 
