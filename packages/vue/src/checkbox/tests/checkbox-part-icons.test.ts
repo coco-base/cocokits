@@ -5,7 +5,7 @@ import { h, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   customPartIconsThemeConfig,
-  iconNamesIn,
+  drawnIconsIn,
   missingPartIconsThemeConfig,
   noPartIconsThemeConfig,
   themed,
@@ -31,7 +31,7 @@ describe('Checkbox part icon (the theme names it)', () => {
   ];
   it.each(states)('while %s, the background holds %j', (_name, props, expected) => {
     mountView(themed(() => h(Checkbox, { 'aria-label': 'Terms', ...props })));
-    expect(iconNamesIn(background())).toEqual(expected);
+    expect(drawnIconsIn(background())).toEqual(expected);
     expect(background()?.getAttribute('aria-hidden')).toBe('true');
   });
 
@@ -48,11 +48,11 @@ describe('Checkbox part icon (the theme names it)', () => {
         }),
       ),
     );
-    expect(iconNamesIn(background())).toEqual([]);
+    expect(drawnIconsIn(background())).toEqual([]);
     await userEvent.click(box());
-    expect(iconNamesIn(background())).toEqual(['check']);
+    expect(drawnIconsIn(background())).toEqual(['check']);
     await userEvent.click(box());
-    expect(iconNamesIn(background())).toEqual([]);
+    expect(drawnIconsIn(background())).toEqual([]);
   });
 
   const rows: readonly [string, Parameters<typeof themed>[1] | undefined, string, boolean][] = [
@@ -65,7 +65,7 @@ describe('Checkbox part icon (the theme names it)', () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const render = () => h(Checkbox, { 'aria-label': 'Terms', modelValue: true });
     mountView(config === undefined ? render : themed(render, config));
-    expect(iconNamesIn(background())).toEqual([expected]);
+    expect(drawnIconsIn(background())).toEqual([expected]);
     const messages = error.mock.calls.map((call) => String(call[0]));
     expect(messages.some((message) => message.includes('"nope"') && message.includes('background'))).toBe(logs);
     if (!logs) expect(error).not.toHaveBeenCalled();

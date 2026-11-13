@@ -5,7 +5,7 @@ import { Comment, createTextVNode, h, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   customPartIconsThemeConfig,
-  iconNamesIn,
+  drawnIconsIn,
   missingPartIconsThemeConfig,
   noPartIconsThemeConfig,
   themed,
@@ -41,7 +41,7 @@ const twoItems = (indicator: () => VNode): (() => VNode[]) => {
 describe('Select part icons (the theme names them)', () => {
   it('puts the theme chevron in the dropdown icon, also while closed, and keeps the part aria-hidden', () => {
     mountView(themed(() => selectRoot({ modelValue: 'Cake' })));
-    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+    expect(drawnIconsIn(dropdownIcon())).toEqual(['chevron-down']);
     expect(dropdownIcon()?.getAttribute('aria-hidden')).toBe('true');
     expect(dropdownIcon()?.querySelector('.cck-svg-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
@@ -50,8 +50,8 @@ describe('Select part icons (the theme names them)', () => {
     mountView(themed(() => selectRoot({ modelValue: 'Burger' }, { items: twoItems(() => h(SelectItemIndicator)) })));
     await open();
     const [cake, burger] = indicators();
-    expect(iconNamesIn(cake)).toEqual([]);
-    expect(iconNamesIn(burger)).toEqual(['check']);
+    expect(drawnIconsIn(cake)).toEqual([]);
+    expect(drawnIconsIn(burger)).toEqual(['check']);
   });
 
   it('moves the check with the selection', async () => {
@@ -60,7 +60,7 @@ describe('Select part icons (the theme names them)', () => {
     await userEvent.click(screen.getByRole('option', { name: 'Burger' }));
     await open();
     const [cake, burger] = indicators();
-    expect([iconNamesIn(cake), iconNamesIn(burger)]).toEqual([[], ['check']]);
+    expect([drawnIconsIn(cake), drawnIconsIn(burger)]).toEqual([[], ['check']]);
   });
 
   it('shows the author content of the dropdown icon instead of the theme icon', () => {
@@ -78,7 +78,7 @@ describe('Select part icons (the theme names them)', () => {
       ),
     );
     expect(dropdownIcon()?.innerHTML).toBe('<b>v</b>');
-    expect(iconNamesIn(dropdownIcon())).toEqual([]);
+    expect(drawnIconsIn(dropdownIcon())).toEqual([]);
   });
 
   const noContent: readonly [string, () => unknown][] = [
@@ -94,7 +94,7 @@ describe('Select part icons (the theme names them)', () => {
         ),
       ),
     );
-    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+    expect(drawnIconsIn(dropdownIcon())).toEqual(['chevron-down']);
   });
 
   it('shows the author content in the indicator of every option, selected or not', async () => {
@@ -123,7 +123,7 @@ describe('Select part icons with the element replaced (asChild, as="template")',
     const part = must(dropdownIcon());
     expect(part.tagName).toBe('I');
     expect(part.classList.contains('mine')).toBe(true);
-    expect(iconNamesIn(part)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(part)).toEqual(['chevron-down']);
     expect(document.querySelectorAll('.cck-select__dropdown-icon')).toHaveLength(1);
   });
 
@@ -144,7 +144,7 @@ describe('Select part icons with the element replaced (asChild, as="template")',
     await open();
     const [cake, burger] = indicators();
     expect(indicators().map((indicator) => indicator.tagName)).toEqual(['I', 'I']);
-    expect([iconNamesIn(cake), iconNamesIn(burger)]).toEqual([[], ['check']]);
+    expect([drawnIconsIn(cake), drawnIconsIn(burger)]).toEqual([[], ['check']]);
   });
 });
 
@@ -159,10 +159,10 @@ describe('Select part icons (the fallback order)', () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const render = () => selectRoot({ modelValue: 'Burger' }, { items: twoItems(() => h(SelectItemIndicator)) });
     mountView(themeConfig === undefined ? render : themed(render, themeConfig));
-    expect(iconNamesIn(dropdownIcon())).toEqual([dropdown]);
+    expect(drawnIconsIn(dropdownIcon())).toEqual([dropdown]);
     await open();
     const [cake, burger] = indicators();
-    expect([iconNamesIn(cake), iconNamesIn(burger)]).toEqual([[], [mark]]);
+    expect([drawnIconsIn(cake), drawnIconsIn(burger)]).toEqual([[], [mark]]);
     const messages = error.mock.calls.map((call) => String(call[0]));
     expect(messages.some((message) => message.includes('"nope"') && message.includes('dropdownIcon'))).toBe(logs);
     expect(messages.some((message) => message.includes('"nope"') && message.includes('optionIndicator'))).toBe(logs);

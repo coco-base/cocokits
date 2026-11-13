@@ -11,7 +11,7 @@ export type SvgIconColor = SvgIconOptions['color']['values'][number];
 export type SvgIconRtlMirror = SvgIconOptions['rtlMirror']['values'][number];
 
 /**
- * Props of the cocokits SvgIcon. It renders the base icon of the provided theme and supplies `size`, `color` and
+ * Props of the cocokits SvgIcon. It renders the base icon, drawn from the icons you registered (for example with `IconProvider`), and supplies `size`, `color` and
  * `rtlMirror` to it. Each option resolves as own option, then `ThemeProvider` override, then config default;
  * `null` removes the attribute. Native attributes and listeners fall through to the root `<span>`.
  *

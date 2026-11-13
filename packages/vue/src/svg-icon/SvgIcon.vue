@@ -13,7 +13,7 @@ const props = defineProps<SvgIconProps>();
 
 const themeAttrs = useThemeAttrs(svgIconAnatomy);
 const registry = useIconRegistry();
-const { track, bump } = useIconVersion(registry);
+const { track } = useIconVersion(registry);
 /** The icon parsed from `svg`, set after mount. */
 const parsed = shallowRef<Icon | undefined>();
 const name = computed(() => (props.iconName === undefined || props.iconName === '' ? undefined : props.iconName));
@@ -32,9 +32,7 @@ function report(message: string): void {
 function loadIfNeeded(): void {
   const wanted = name.value;
   if (wanted === undefined || registry.get(wanted) !== undefined || !registry.has(wanted)) return;
-  void registry.load(wanted).then((found) => {
-    if (found !== undefined) bump();
-  });
+  void registry.load(wanted);
 }
 
 /** After mount, so the server render and the first client render are the same. */

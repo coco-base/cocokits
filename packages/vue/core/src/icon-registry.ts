@@ -1,5 +1,10 @@
 import { inject, type InjectionKey } from 'vue';
-import { createIconRegistry, type IconLoader, type IconRegistry } from '@cocokits/cdk/icon-registry';
+import {
+  createIconRegistry,
+  createReadOnlyIconRegistry,
+  type IconLoader,
+  type IconRegistry,
+} from '@cocokits/cdk/icon-registry';
 import type { Icon } from '@cocokits/icons';
 
 /**
@@ -47,22 +52,11 @@ export const ICON_REGISTRY_KEY: InjectionKey<IconRegistry> = Symbol('cck-icon-re
 let baseRegistry: IconRegistry | undefined;
 
 function readOnlyBaseRegistry(): IconRegistry {
-  if (baseRegistry) return baseRegistry;
-  const base = createIconRegistry();
-  const refuse = (): void => {
+  baseRegistry ??= createReadOnlyIconRegistry(createIconRegistry(), () => {
     console.error(
       'CocoKits: there is no IconProvider above, so icons cannot be registered. Wrap your app in IconProvider.',
     );
-  };
-  baseRegistry = {
-    registerIcons: refuse,
-    registerIcon: refuse,
-    has: (name) => base.has(name),
-    get: (name) => base.get(name),
-    load: (name) => base.load(name),
-    subscribe: (listener) => base.subscribe(listener),
-    destroy: () => undefined,
-  };
+  });
   return baseRegistry;
 }
 

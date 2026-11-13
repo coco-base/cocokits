@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { accordionMeta } from '@cocokits/machines/accordion';
 import {
   customPartIconsThemeConfig,
-  iconNamesIn,
+  drawnIconsIn,
   missingPartIconsThemeConfig,
   noPartIconsThemeConfig,
   themed,
@@ -54,7 +54,7 @@ describe.each(forms)('Accordion indicator with the trigger as %s', (_form, trigg
     expect(last.className).toBe('cck-accordion__indicator');
     expect(last.tagName).toBe(accordionMeta.defaultElements?.indicator?.toUpperCase());
     expect(last.getAttribute('aria-hidden')).toBe('true');
-    expect(iconNamesIn(last)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(last)).toEqual(['chevron-down']);
     expect(element.querySelectorAll('.cck-accordion__indicator')).toHaveLength(1);
   });
 
@@ -77,7 +77,7 @@ describe.each(forms)('Accordion indicator with the trigger as %s', (_form, trigg
     mountView(config ? themed(() => accordion(trigger), config) : () => accordion(trigger));
     const last = must(pick(document.body, '.cck-accordion__trigger').lastElementChild);
     expect(last.className).toBe('cck-accordion__indicator');
-    expect(iconNamesIn(last)).toEqual([expected]);
+    expect(drawnIconsIn(last)).toEqual([expected]);
     const messages = error.mock.calls.map((call) => String(call[0]));
     expect(messages.some((message) => message.includes('"nope"') && message.includes('indicator'))).toBe(logs);
     if (!logs) expect(error).not.toHaveBeenCalled();
@@ -89,7 +89,7 @@ describe('Accordion indicator', () => {
     mountView(themed(() => accordion(() => h(AccordionTrigger, null, () => 'Shipping'))));
     await userEvent.click(triggerElement());
     expect(triggerElement().getAttribute('aria-expanded')).toBe('true');
-    expect(iconNamesIn(triggerElement().lastElementChild)).toEqual(['chevron-down']);
+    expect(drawnIconsIn(triggerElement().lastElementChild)).toEqual(['chevron-down']);
     await userEvent.click(triggerElement());
     expect(triggerElement().lastElementChild?.className).toBe('cck-accordion__indicator');
   });

@@ -7,10 +7,9 @@ import type { IconRegistry } from '@cocokits/cdk/icon-registry';
  *
  * @internal
  * @param registry - The registry to watch.
- * @returns `track` reads the counter (call it before you read the registry); `bump` changes it, for a load that a
- *   parent registry ran.
+ * @returns `track` reads the counter (call it before you read the registry).
  */
-export function useIconVersion(registry: IconRegistry): { readonly track: () => number; readonly bump: () => void } {
+export function useIconVersion(registry: IconRegistry): { readonly track: () => number } {
   const version = ref(0);
   let stop: (() => void) | undefined;
   onMounted(() => {
@@ -21,10 +20,5 @@ export function useIconVersion(registry: IconRegistry): { readonly track: () => 
   onBeforeUnmount(() => {
     stop?.();
   });
-  return {
-    track: () => version.value,
-    bump: () => {
-      version.value++;
-    },
-  };
+  return { track: () => version.value };
 }

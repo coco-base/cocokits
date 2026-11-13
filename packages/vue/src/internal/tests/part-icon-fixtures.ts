@@ -46,5 +46,5 @@ export const themed =
     h(IconProvider, { icons: customIcons }, () => h(ThemeProvider, { themeConfig }, render));
 
 /** The names of the icons a part holds, in order. */
-export const iconNamesIn = (part: Element | null): string[] =>
+export const drawnIconsIn = (part: Element | null): string[] =>
   [...(part?.querySelectorAll('.cck-svg-icon') ?? [])].map((icon) => icon.getAttribute('data-icon') ?? '');

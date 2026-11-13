@@ -123,6 +123,34 @@ describe('@cocokits/vue/svg-icon', () => {
     expect(pick(container, 'svg').innerHTML).toBe(plusIcon.body);
   });
 
+  it('draws a name registered later in the outer provider inside a nested one', async () => {
+    spyError();
+    const { container } = mountView(() =>
+      h(IconProvider, null, () => [
+        h(IconProvider, null, () => h(SvgIcon, { iconName: 'late' })),
+        h({
+          setup() {
+            const registry = useIconRegistry();
+            return () =>
+              h(
+                'button',
+                {
+                  onClick: () => {
+                    registry.registerIcons({ late: plusIcon });
+                  },
+                },
+                'add',
+              );
+          },
+        }),
+      ]),
+    );
+    expect(pick(container, 'svg').innerHTML).toBe('');
+    pick(container, 'button').click();
+    await nextTick();
+    expect(pick(container, 'svg').innerHTML).toBe(plusIcon.body);
+  });
+
   it('draws a lazy icon after mount, calls the loader once for several icons, and logs nothing', async () => {
     const error = spyError();
     const load = vi.fn(() => Promise.resolve(plusIcon));
