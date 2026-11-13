@@ -139,6 +139,7 @@ const entries = [
   { name: '@cocokits/angular/accordion/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-accordion-testing.mjs', limit: '610 B' },
   { name: '@cocokits/angular/radio-group/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-group-testing.mjs', limit: '500 B' },
   { name: '@cocokits/angular/radio/testing', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-testing.mjs', limit: '500 B' },
+  { name: '@cocokits/machines/divider', path: 'packages/machines/dist/divider/index.js', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
