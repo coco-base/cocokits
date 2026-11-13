@@ -161,3 +161,21 @@ describe('icon registry: lazy icons', () => {
     expect(registry.get('logo')).toBeUndefined();
   });
 });
+
+describe('icon registry: parent changes', () => {
+  it('fires a child listener on a parent register and on a finished parent load, until unsubscribed', async () => {
+    const parent = createIconRegistry();
+    const child = createIconRegistry(parent);
+    const listener = vi.fn();
+    const stop = child.subscribe(listener);
+    parent.registerIcons({ search: searchIcon });
+    expect(listener).toHaveBeenCalledTimes(1);
+    parent.registerIcon('lazy', () => Promise.resolve(checkIcon));
+    expect(listener).toHaveBeenCalledTimes(2);
+    await child.load('lazy');
+    expect(listener).toHaveBeenCalledTimes(3);
+    stop();
+    parent.registerIcons({ other: searchIcon });
+    expect(listener).toHaveBeenCalledTimes(3);
+  });
+});

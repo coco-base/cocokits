@@ -168,8 +168,10 @@ export function createIconRegistry(parent?: IconRegistry): IconRegistry {
     },
     subscribe(listener) {
       listeners.add(listener);
+      const stopParent = parent?.subscribe(listener);
       return () => {
         listeners.delete(listener);
+        stopParent?.();
       };
     },
     destroy() {
