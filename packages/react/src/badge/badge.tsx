@@ -64,7 +64,7 @@ interface BadgeComponent {
  *
  * It has no role. Screen readers read its text in place, so inside a Button it is part of the name of the button.
  * An empty Badge has no text, so put its meaning in the name of the host. For example, write
- * `aria-label="Notifications, 2 new"` on a Button with only an icon.
+ * `aria-label="Messages, 2 new"` on an Icon button.
  *
  * @example
  * <button type="button">

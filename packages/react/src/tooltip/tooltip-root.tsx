@@ -205,7 +205,7 @@ function TooltipRootImpl({
  * <Tooltip.Provider>
  *   <Tooltip.Root>
  *     <Tooltip.Trigger aria-label="Copy link">
- *       <svg aria-hidden="true">...</svg>
+ *       <SvgIcon iconName="link" />
  *     </Tooltip.Trigger>
  *     <Tooltip.Content>
  *       Copy link

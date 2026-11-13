@@ -173,7 +173,7 @@ export interface TooltipTriggerProps extends Omit<ComponentPropsWithRef<'button'
    *
    * @example
    * <Tooltip.Trigger aria-label="Save">
-   *   <svg aria-hidden="true">...</svg>
+   *   <SvgIcon iconName="link" />
    * </Tooltip.Trigger>
    * @cckSemantic tooltip.default
    */

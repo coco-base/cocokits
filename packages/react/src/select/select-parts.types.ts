@@ -27,7 +27,7 @@ export interface SelectIconProps extends Omit<ComponentPropsWithRef<'span'>, 'co
    *
    * @example
    * <Select.Icon>
-   *   <svg aria-hidden="true" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" /></svg>
+   *   <SvgIcon iconName="arrow-down" />
    * </Select.Icon>
    * @cckSemantic select.default
    */
@@ -55,7 +55,9 @@ export interface SelectItemIndicatorProps extends Omit<ComponentPropsWithRef<'sp
    * A mark to draw in place of the mark of the theme. When not set, the mark of the theme shows.
    *
    * @example
-   * <Select.ItemIndicator>✓</Select.ItemIndicator>
+   * <Select.ItemIndicator>
+   *   <SvgIcon iconName="check" />
+   * </Select.ItemIndicator>
    * @cckSemantic select.default
    */
   readonly children?: ReactNode | undefined;

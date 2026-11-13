@@ -1,10 +1,19 @@
 'use client';
 
-import { isValidElement, type KeyboardEvent, type MouseEvent, type ReactElement, type Ref } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
+  type Ref,
+} from 'react';
 import { accordionAnatomy } from '@cocokits/machines/accordion';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { nonNativeButtonProps, useElementKind } from '../internal/button-kind';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
+import { usePartIconContent } from '../internal/part-icon-content';
 import { renderElement } from '../internal/render-element';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useAccordionContext, useAccordionItemContext } from './accordion-context';
@@ -29,7 +38,9 @@ const RESERVED = [
 function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: AccordionTriggerProps): ReactElement {
   const root = useAccordionContext('Accordion.Trigger');
   const item = useAccordionItemContext('Accordion.Trigger');
-  const themeAttrs = useThemeAttrs(accordionAnatomy).trigger;
+  const allThemeAttrs = useThemeAttrs(accordionAnatomy);
+  const themeAttrs = allThemeAttrs.trigger;
+  const indicatorIcon = usePartIconContent(accordionAnatomy, 'indicator');
   const { trigger } = item.parts;
   const machineProps = withoutReserved(
     toReactProps(trigger),
@@ -67,11 +78,19 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
     ref: mergedRef,
   };
   const props = mergeProps(ours, withoutReserved(rest, RESERVED)) as unknown as AccordionRenderProps;
-  return renderElement<AccordionRenderProps, AccordionItemState>(render, 'button', props, {
+  const element = renderElement<AccordionRenderProps, AccordionItemState>(render, 'button', props, {
     open: item.open,
     disabled: item.disabled,
     orientation: root.orientation,
   });
+  // The indicator is the last child of the trigger, whatever element renders it: it goes after the children of
+  // the element that `render` gave back, in the element form and in the function form.
+  const indicator = (
+    <span {...allThemeAttrs.indicator} {...toReactProps(item.parts.indicator)}>
+      {indicatorIcon}
+    </span>
+  );
+  return cloneElement(element, undefined, (element.props as { children?: ReactNode }).children, indicator);
 }
 
 /**
@@ -83,6 +102,10 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
  *
  * To render another element or component, use `render`. An element that is not a `<button>` also needs
  * `nativeButton={false}`.
+ *
+ * The last child of the trigger is the indicator, a `<span aria-hidden="true">` that holds the icon the theme
+ * names for it, drawn with `SvgIcon`. It is there whichever element renders the trigger, and its look is the
+ * theme's.
  *
  * @example
  * <Accordion.Trigger>Shipping</Accordion.Trigger>

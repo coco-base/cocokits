@@ -40,8 +40,9 @@ interface PrefixComponent {
  *
  * Pass it to the `prefix` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.
  *
- * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. Give
- * an icon `aria-hidden="true"`, and give a button its own accessible name.
+ * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. An SVG
+ * icon is hidden from screen readers by default; give your own `<svg>` `aria-hidden="true"`, and give a button its
+ * own accessible name.
  *
  * @example
  * <FormField label={<Label>Price</Label>} prefix={<Prefix>$</Prefix>}>

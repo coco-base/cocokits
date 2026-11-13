@@ -83,6 +83,8 @@ export const SelectGroupContext: Context<SelectGroupContextValue | null> =
 export interface SelectItemContextValue {
   /** Tells the item which element holds its text; `null` on unmount. */
   readonly setTextElement: (element: HTMLElement | null) => void;
+  /** Whether the item is selected; the item indicator shows the theme's icon only while it is. */
+  readonly selected: boolean;
 }
 
 /** The context of an item; `null` outside an item. */

@@ -97,7 +97,7 @@ function TooltipTriggerImpl({ render, nativeButton = true, ref, ...rest }: Toolt
  *
  * @example
  * <Tooltip.Trigger aria-label="Copy link">
- *   <svg aria-hidden="true">...</svg>
+ *   <SvgIcon iconName="link" />
  * </Tooltip.Trigger>
  * @cckPart trigger
  * @param props - The Trigger props.
