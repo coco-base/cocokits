@@ -11,7 +11,7 @@ const cases: readonly [string, ReactElement][] = [
   [
     'button',
     <IconButton aria-label="Add">
-      <SvgIcon iconName="star" />
+      <SvgIcon iconName="heart" />
     </IconButton>,
   ],
   ['disabled button', <IconButton aria-label="Add" disabled />],

@@ -3,9 +3,10 @@ import { cleanup, render } from '@testing-library/react';
 import { type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ThemeProvider } from '@cocokits/react-core';
-import { cocokitsIcons, cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { heartIcon } from '@cocokits/icons';
+import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { SvgIcon, type SvgIconProps } from '../src/index';
-import { themed } from './helpers';
+import { packIcons, themed } from './helpers';
 
 afterEach(() => {
   cleanup();
@@ -18,13 +19,13 @@ const rootOf = (container: HTMLElement): HTMLElement => container.firstElementCh
 const icon = (props: Partial<SvgIconProps> = {}): ReactElement => <SvgIcon iconName="heart" {...props} />;
 
 describe('theme SvgIcon', () => {
-  it('renders the icon of the cocokits pack with no option attribute by default', () => {
+  it('renders a registered icon with no option attribute by default', () => {
     const { container } = render(themed(icon()));
     const root = rootOf(container);
     expect(root.className).toBe('cck-svg-icon');
-    expect(root.getAttribute('data-icon-name')).toBe('heart');
-    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(cocokitsIcons.heart.viewBox);
-    expect(container.querySelectorAll('path')).toHaveLength(cocokitsIcons.heart.paths.length);
+    expect(root.getAttribute('data-icon')).toBe('heart');
+    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(container.querySelectorAll('path')).toHaveLength(1);
     expect(['data-size', 'data-cck-color', 'data-rtl-mirror'].filter((name) => root.hasAttribute(name))).toEqual([]);
   });
 
@@ -70,7 +71,7 @@ describe('theme SvgIcon', () => {
 
   it('draws every icon of the pack without an error', () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    for (const name of Object.keys(cocokitsIcons)) {
+    for (const name of Object.keys(packIcons)) {
       const { container } = render(themed(<SvgIcon iconName={name} />));
       expect(container.querySelectorAll('path').length, name).toBeGreaterThan(0);
       cleanup();

@@ -45,7 +45,7 @@ interface SvgIconComponent {
 }
 
 /**
- * The cocokits SvgIcon. It renders the base icon of the provided theme and supplies `size`, `color` and
+ * The cocokits SvgIcon. It renders the base icon, drawn from the icons you registered (for example with `IconProvider`), and supplies `size`, `color` and
  * `rtlMirror` to it, which renders the `data-*` attributes. Each option resolves in order: the prop, then the
  * `ThemeProvider` override, then the config default; `null` removes the attribute. The theme needs a `ThemeProvider`.
  *

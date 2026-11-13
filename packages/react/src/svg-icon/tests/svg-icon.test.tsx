@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
-import { cleanup, render } from '@testing-library/react';
-import { createRef, type ReactElement } from 'react';
+import { act, cleanup, render, waitFor } from '@testing-library/react';
+import { createRef, useEffect, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { checkIcon, heartIcon } from '@cocokits/icons';
 import { svgIconAnatomy, svgIconMeta } from '@cocokits/machines/svg-icon';
-import { ThemeProvider } from '@cocokits/react-core';
-import { defineThemeConfig } from '@cocokits/shared';
+import { IconProvider, useIconRegistry } from '@cocokits/react-core';
 import { SvgIcon } from '../index';
-import { strictThemed, themed } from '../../internal/tests/icon-fixtures';
+import { strictThemed, svgOf, themed } from '../../internal/tests/icon-fixtures';
 
 afterEach(() => {
   cleanup();
@@ -14,6 +14,8 @@ afterEach(() => {
 });
 
 const rootOf = (container: HTMLElement): HTMLElement => container.firstElementChild as HTMLElement;
+const quiet = () => vi.spyOn(console, 'error').mockImplementation(() => undefined);
+const messages = (spy: ReturnType<typeof quiet>): string[] => spy.mock.calls.map(([message]) => String(message));
 
 describe('SvgIcon (rendered contract)', () => {
   it('ignores children: the svg is still drawn from the icon name', () => {
@@ -23,43 +25,36 @@ describe('SvgIcon (rendered contract)', () => {
     expect(root.querySelectorAll('path')).toHaveLength(2);
   });
 
-  it('renders the root, the svg and one path per icon path', () => {
-    const { container } = render(strictThemed(<SvgIcon iconName="dots" />));
+  it('renders the root, the owned svg and the body of the icon', () => {
+    const { container } = render(strictThemed(<SvgIcon iconName="heart" />));
     const root = rootOf(container);
     expect(root.tagName).toBe(svgIconMeta.defaultElements?.root?.toUpperCase());
     expect(root.className).toBe(svgIconAnatomy.classes.root);
-    expect(root.getAttribute('data-icon-name')).toBe('dots');
+    expect(root.getAttribute('data-icon')).toBe('heart');
     const svg = root.querySelector('svg');
     expect(svg?.getAttribute('class')).toBe(svgIconAnatomy.classes.svg);
-    expect(svg?.getAttribute('viewBox')).toBe('0 0 10 10');
-    expect([...root.querySelectorAll('path')].map((path) => path.getAttribute('d'))).toEqual(['M1 1h2', 'M5 5h2']);
-    expect(root.querySelector('path')?.hasAttribute('fill-rule')).toBe(false);
-    expect(root.querySelector('path')?.hasAttribute('clip-rule')).toBe(false);
-  });
-
-  it('maps fillRule and clipRule to the fill-rule and clip-rule attributes', () => {
-    const { container } = render(themed(<SvgIcon iconName="star" />));
-    const path = container.querySelector('path');
-    expect(path?.getAttribute('fill-rule')).toBe('evenodd');
-    expect(path?.getAttribute('clip-rule')).toBe('nonzero');
-    expect(container.innerHTML).not.toContain('fillRule');
+    expect(svg?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(svg?.getAttribute('aria-hidden')).toBe('true');
+    expect(svg?.getAttribute('focusable')).toBe('false');
+    expect(svg?.querySelectorAll('path')).toHaveLength(1);
+    expect(svg?.querySelector('path')?.getAttribute('fill')).toBe('currentColor');
   });
 
   it('is hidden from assistive technology without a label, and has no role', () => {
-    const { container } = render(themed(<SvgIcon iconName="star" />));
+    const { container } = render(themed(<SvgIcon iconName="heart" />));
     expect(rootOf(container).getAttribute('aria-hidden')).toBe('true');
     expect(rootOf(container).hasAttribute('role')).toBe(false);
     expect(rootOf(container).hasAttribute('aria-label')).toBe(false);
   });
 
   it('treats an empty label as no label', () => {
-    const { container } = render(themed(<SvgIcon iconName="star" label="" />));
+    const { container } = render(themed(<SvgIcon iconName="heart" label="" />));
     expect(rootOf(container).getAttribute('aria-hidden')).toBe('true');
     expect(rootOf(container).hasAttribute('role')).toBe(false);
   });
 
   it('is an image with the label as its name', () => {
-    const { container } = render(themed(<SvgIcon iconName="star" label="Favourite" />));
+    const { container } = render(themed(<SvgIcon iconName="heart" label="Favourite" />));
     expect(rootOf(container).getAttribute('role')).toBe('img');
     expect(rootOf(container).getAttribute('aria-label')).toBe('Favourite');
     expect(rootOf(container).hasAttribute('aria-hidden')).toBe(false);
@@ -68,7 +63,7 @@ describe('SvgIcon (rendered contract)', () => {
   it('joins className, merges style, passes native props and puts ref on the span', () => {
     const ref = createRef<HTMLSpanElement>();
     const { container } = render(
-      themed(<SvgIcon iconName="star" className="mine" style={{ opacity: 0.5 }} id="one" data-x="1" ref={ref} />),
+      themed(<SvgIcon iconName="heart" className="mine" style={{ opacity: 0.5 }} id="one" data-x="1" ref={ref} />),
     );
     const root = rootOf(container);
     expect(root.className).toBe('cck-svg-icon mine');
@@ -79,64 +74,206 @@ describe('SvgIcon (rendered contract)', () => {
   });
 
   it('puts the theme options on the root only', () => {
-    const { container } = render(themed(<SvgIcon iconName="star" />));
+    const { container } = render(themed(<SvgIcon iconName="heart" />));
     expect(rootOf(container).getAttribute('data-size')).toBe('sm');
-    expect(container.querySelector('svg')?.getAttributeNames().sort()).toEqual(['class', 'viewBox']);
+    expect(container.querySelector('svg')?.getAttributeNames().sort()).toEqual([
+      'aria-hidden',
+      'class',
+      'focusable',
+      'viewBox',
+    ]);
+  });
+
+  it('draws the base icons without a provider', () => {
+    const { container } = render(<SvgIcon iconName="check" />);
+    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(checkIcon.viewBox);
   });
 });
 
-describe('SvgIcon (icon not found)', () => {
+describe('SvgIcon (name not registered)', () => {
   it.each<[string, (ui: ReactElement) => ReactElement]>([
-    ['an unknown name', themed],
-    ['no theme', (ui) => ui],
-    [
-      'a theme without icons',
-      (ui) => <ThemeProvider themeConfig={defineThemeConfig({ name: 'bare', components: {} })}>{ui}</ThemeProvider>,
-    ],
+    ['a provider without the name', themed],
+    ['no provider', (ui) => ui],
   ])('renders an empty svg, keeps the name and logs one error: %s', (_label, wrap) => {
-    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const error = quiet();
     const { container } = render(wrap(<SvgIcon iconName="nope" />));
     const root = rootOf(container);
-    expect(root.getAttribute('data-icon-name')).toBe('nope');
+    expect(root.getAttribute('data-icon')).toBe('nope');
     const svg = root.querySelector('svg');
     expect(svg).not.toBeNull();
     expect(svg?.hasAttribute('viewBox')).toBe(false);
-    expect(root.querySelectorAll('path')).toHaveLength(0);
-    expect(error).toHaveBeenCalledTimes(1);
-    expect(String(error.mock.calls[0]?.[0])).toMatch(/^CocoKits: .*"nope"/);
+    expect(svg?.childNodes).toHaveLength(0);
+    expect(messages(error)).toHaveLength(1);
+    expect(messages(error)[0]).toMatch(/^CocoKits: .*"nope"/);
   });
 
   it('logs once per mount in StrictMode and once more for each new missing name', () => {
-    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const error = quiet();
     const { rerender } = render(strictThemed(<SvgIcon iconName="nope" />));
     expect(error).toHaveBeenCalledTimes(1);
     rerender(strictThemed(<SvgIcon iconName="nope" label="Same name" />));
     expect(error).toHaveBeenCalledTimes(1);
     rerender(strictThemed(<SvgIcon iconName="other" />));
     expect(error).toHaveBeenCalledTimes(2);
-    rerender(strictThemed(<SvgIcon iconName="star" />));
+    rerender(strictThemed(<SvgIcon iconName="heart" />));
     expect(error).toHaveBeenCalledTimes(2);
   });
 
-  it('does not log for a found icon', () => {
-    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    render(strictThemed(<SvgIcon iconName="star" />));
+  it('does not log for a registered icon', () => {
+    const error = quiet();
+    render(strictThemed(<SvgIcon iconName="heart" />));
     expect(error).not.toHaveBeenCalled();
   });
 
   it('does not take a name that only the prototype has', () => {
-    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    quiet();
     const { container } = render(themed(<SvgIcon iconName="constructor" />));
     expect(container.querySelectorAll('path')).toHaveLength(0);
   });
+
+  it('draws the icon once it is registered, with no second error', () => {
+    const error = quiet();
+    let registerLate = (): void => undefined;
+    function Grab(): null {
+      const registry = useIconRegistry();
+      useEffect(() => {
+        registerLate = () => {
+          registry.registerIcons({ late: heartIcon });
+        };
+      }, [registry]);
+      return null;
+    }
+    const { container } = render(
+      <IconProvider>
+        <Grab />
+        <SvgIcon iconName="late" />
+      </IconProvider>,
+    );
+    expect(container.querySelectorAll('path')).toHaveLength(0);
+    act(registerLate);
+    expect(container.querySelectorAll('path')).toHaveLength(1);
+    expect(error).toHaveBeenCalledTimes(1);
+  });
 });
 
-describe('SvgIcon (safety)', () => {
-  it('renders path data that holds markup as attribute text and adds no element', () => {
-    const { container } = render(themed(<SvgIcon iconName="evil" />));
-    expect(container.querySelector('script')).toBeNull();
-    expect([...container.querySelectorAll('*')].map((element) => element.localName)).toEqual(['span', 'svg', 'path']);
-    expect(container.querySelector('path')?.getAttribute('d')).toBe('"/><script>alert(1)</script><path d="');
-    expect(container.querySelector('path')?.getAttributeNames()).toEqual(['d']);
+describe('SvgIcon (lazy icon)', () => {
+  it('is empty first, then drawn after one load shared by every icon of that name, with no error', async () => {
+    const error = quiet();
+    const load = vi.fn(() => Promise.resolve(heartIcon));
+    const { container } = render(
+      <IconProvider lazyIcons={{ later: load }}>
+        <SvgIcon iconName="later" />
+        <SvgIcon iconName="later" />
+      </IconProvider>,
+    );
+    expect(container.querySelector('svg')?.hasAttribute('viewBox')).toBe(false);
+    await waitFor(() => {
+      expect(container.querySelectorAll('path')).toHaveLength(2);
+    });
+    expect(load).toHaveBeenCalledTimes(1);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('draws an icon the loader resolves as an svg string', async () => {
+    const { container } = render(
+      <IconProvider lazyIcons={{ later: () => Promise.resolve(svgOf(checkIcon)) }}>
+        <SvgIcon iconName="later" />
+      </IconProvider>,
+    );
+    await waitFor(() => {
+      expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(checkIcon.viewBox);
+    });
+    expect(container.querySelectorAll('path')).toHaveLength(1);
+  });
+});
+
+describe('SvgIcon (svg string)', () => {
+  it('draws the string after mount, without data-icon', () => {
+    const { container } = render(<SvgIcon svg={svgOf(heartIcon)} />);
+    const root = rootOf(container);
+    expect(root.hasAttribute('data-icon')).toBe(false);
+    expect(root.querySelector('svg')?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(root.querySelectorAll('svg')).toHaveLength(1);
+    expect(root.querySelector('svg')?.getAttribute('class')).toBe(svgIconAnatomy.classes.svg);
+    expect(root.querySelectorAll('path')).toHaveLength(1);
+  });
+
+  it('follows a new string', () => {
+    const { container, rerender } = render(<SvgIcon svg={svgOf(heartIcon)} />);
+    rerender(<SvgIcon svg={svgOf(checkIcon)} />);
+    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(checkIcon.viewBox);
+  });
+
+  it('renders empty and logs an error for text that is not an svg', () => {
+    const error = quiet();
+    const { container } = render(<SvgIcon svg="<p>no</p>" />);
+    expect(container.querySelector('svg')?.childNodes).toHaveLength(0);
+    expect(messages(error)).toHaveLength(1);
+    expect(messages(error)[0]).toMatch(/^CocoKits: /);
+  });
+});
+
+describe('SvgIcon (both inputs or none)', () => {
+  it('uses iconName and logs an error when both are given', () => {
+    const error = quiet();
+    const { container } = render(themed(<SvgIcon iconName="heart" svg={svgOf(checkIcon)} />));
+    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(rootOf(container).getAttribute('data-icon')).toBe('heart');
+    expect(messages(error)).toHaveLength(1);
+    expect(messages(error)[0]).toMatch(/both iconName and svg/);
+  });
+
+  it('renders empty and logs an error when neither is given', () => {
+    const error = quiet();
+    const { container } = render(<SvgIcon />);
+    expect(container.querySelector('svg')?.childNodes).toHaveLength(0);
+    expect(rootOf(container).hasAttribute('data-icon')).toBe(false);
+    expect(messages(error)).toHaveLength(1);
+  });
+});
+
+describe('IconProvider', () => {
+  it('registers the records of a later render too', () => {
+    const { container, rerender } = render(
+      <IconProvider icons={{ one: heartIcon }}>
+        <SvgIcon iconName="two" />
+      </IconProvider>,
+    );
+    quiet();
+    expect(container.querySelectorAll('path')).toHaveLength(0);
+    rerender(
+      <IconProvider icons={{ two: checkIcon }}>
+        <SvgIcon iconName="two" />
+      </IconProvider>,
+    );
+    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(checkIcon.viewBox);
+  });
+
+  it('falls back to the outer provider', () => {
+    const { container } = render(
+      <IconProvider icons={{ outer: heartIcon }}>
+        <IconProvider icons={{ inner: checkIcon }}>
+          <SvgIcon iconName="outer" />
+          <SvgIcon iconName="inner" />
+        </IconProvider>
+      </IconProvider>,
+    );
+    expect(container.querySelectorAll('path')).toHaveLength(2);
+  });
+
+  it('refuses a register call without a provider and logs an error', () => {
+    const error = quiet();
+    function Register(): null {
+      useIconRegistry().registerIcons({ x: heartIcon });
+      return null;
+    }
+    const { container } = render(
+      <>
+        <Register />
+        <SvgIcon iconName="x" />
+      </>,
+    );
+    expect(container.querySelectorAll('path')).toHaveLength(0);
+    expect(messages(error).some((message) => message.startsWith('CocoKits:'))).toBe(true);
   });
 });

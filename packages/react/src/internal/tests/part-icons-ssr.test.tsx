@@ -27,7 +27,7 @@ describe('part icons on the server', () => {
     const html = renderToString(withPartIcons(accordion));
     const button = /<button\b[\s\S]*?<\/button>/.exec(html)?.[0] ?? '';
     expect(button).toMatch(
-      /Shipping<span class="cck-accordion__indicator" aria-hidden="true"><span [^>]*data-icon-name="chevron-down"[\s\S]*<\/svg><\/span><\/span><\/button>$/,
+      /Shipping<span class="cck-accordion__indicator" aria-hidden="true"><span [^>]*data-icon="chevron-down"[\s\S]*<\/svg><\/span><\/span><\/button>$/,
     );
   });
 
@@ -42,18 +42,18 @@ describe('part icons on the server', () => {
         </Select.Root>,
       ),
     );
-    expect(html).toMatch(/cck-select__dropdown-icon[^>]*><span [^>]*data-icon-name="chevron-down"/);
+    expect(html).toMatch(/cck-select__dropdown-icon[^>]*><span [^>]*data-icon="chevron-down"/);
   });
 
   it('has the Checkbox tick while checked, and none while unchecked or mixed', () => {
     const tick = (props: object): boolean =>
-      renderToString(withPartIcons(<Checkbox {...props}>Accept</Checkbox>)).includes('data-icon-name="check"');
+      renderToString(withPartIcons(<Checkbox {...props}>Accept</Checkbox>)).includes('data-icon="check"');
     expect(tick({ defaultChecked: true })).toBe(true);
     expect(tick({})).toBe(false);
     expect(tick({ defaultChecked: true, indeterminate: true })).toBe(false);
   });
 
-  it('has no icon without a theme', () => {
-    expect(renderToString(accordion)).not.toContain('cck-svg-icon');
+  it('has the default icon without a theme and without a provider', () => {
+    expect(renderToString(accordion)).toContain('data-icon="chevron-down"');
   });
 });

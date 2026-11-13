@@ -7,7 +7,7 @@ import { themed } from './helpers';
 afterEach(cleanup);
 
 const names = (element: Element | null): (string | null)[] =>
-  [...(element?.querySelectorAll('.cck-svg-icon') ?? [])].map((icon) => icon.getAttribute('data-icon-name'));
+  [...(element?.querySelectorAll('.cck-svg-icon') ?? [])].map((icon) => icon.getAttribute('data-icon'));
 
 describe('part icons under the cocokits theme', () => {
   it('draws chevron-down in the Select dropdown icon', () => {

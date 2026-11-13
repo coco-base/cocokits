@@ -195,7 +195,7 @@ describe('Select theme part icons', () => {
     },
   );
 
-  it('leaves the parts empty without a theme, as before', async () => {
+  it('draws the default icons without a theme', async () => {
     const withoutTheme: ReactElement = (
       <Dishes defaultValue="Cake" defaultOpen>
         <Opt value="Cake">Cake</Opt>
@@ -203,14 +203,13 @@ describe('Select theme part icons', () => {
     );
     render(withoutTheme);
     await screen.findByRole('listbox');
-    expect(document.querySelectorAll('.cck-svg-icon')).toHaveLength(0);
-    expect(dropdownIcon().childNodes).toHaveLength(0);
-    expect(indicatorOf('Cake').childNodes).toHaveLength(0);
+    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
+    expect(iconNamesIn(indicatorOf('Cake'))).toEqual(['check']);
   });
 
-  it('leaves a part empty when the theme names no icon for it', () => {
+  it('draws the default icon when the theme names no icon for the part', () => {
     render(<Dishes />);
-    expect(dropdownIcon().childNodes).toHaveLength(0);
+    expect(iconNamesIn(dropdownIcon())).toEqual(['chevron-down']);
   });
 
   it('keeps the name of the combobox and the option unchanged', async () => {

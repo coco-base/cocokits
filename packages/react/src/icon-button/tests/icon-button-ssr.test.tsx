@@ -16,7 +16,7 @@ describe('IconButton on the server', () => {
       themed(
         <>
           <IconButton aria-label="Add">
-            <SvgIcon iconName="star" />
+            <SvgIcon iconName="heart" />
           </IconButton>
           <IconButton aria-label="Off" disabled />
         </>,
@@ -26,7 +26,7 @@ describe('IconButton on the server', () => {
     expect(on).toContain('class="cck-icon-button"');
     expect(on).toContain('type="button"');
     expect(on).not.toContain('disabled');
-    expect(html).toContain('data-icon-name="star"');
+    expect(html).toContain('data-icon="heart"');
     const off = /<button[^>]*aria-label="Off"[^>]*>/.exec(html)?.[0] ?? '';
     expect(off).toContain('disabled=""');
     expect(off).toContain('data-disabled=""');

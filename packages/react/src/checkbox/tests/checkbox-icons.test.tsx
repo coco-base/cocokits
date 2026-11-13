@@ -53,8 +53,8 @@ describe('Checkbox theme part icon', () => {
     expect(iconNamesIn(background())).toEqual(['check']);
   });
 
-  it('leaves the background empty without a theme', () => {
+  it('draws the default tick without a theme, while checked', () => {
     render(<Checkbox defaultChecked>Accept</Checkbox>);
-    expect(background().childNodes).toHaveLength(0);
+    expect(iconNamesIn(background())).toEqual(['check']);
   });
 });

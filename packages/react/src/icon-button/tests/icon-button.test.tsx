@@ -38,7 +38,7 @@ const optionsConfig = defineThemeConfig({
 });
 
 const strict = (ui: ReactElement): ReactElement => <StrictMode>{ui}</StrictMode>;
-const icon = <SvgIcon iconName="star" />;
+const icon = <SvgIcon iconName="heart" />;
 
 describe('IconButton (rendered contract)', () => {
   it('renders a button with the cck-icon-button class and type="button"', () => {
@@ -205,7 +205,7 @@ describe('IconButton name check (development)', () => {
     [
       'a labelled SvgIcon inside',
       <IconButton>
-        <SvgIcon iconName="star" label="Add" />
+        <SvgIcon iconName="heart" label="Add" />
       </IconButton>,
     ],
   ])('logs nothing with %s', async (_name, ui) => {

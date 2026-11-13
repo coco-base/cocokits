@@ -3,8 +3,8 @@
 import { useContext, type ReactElement } from 'react';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { toReactProps } from '@cocokits/react-core';
-import { usePartIconName } from '../internal/part-icon-name';
 import { renderElement } from '../internal/render-element';
+import { usePartIcon } from '../internal/use-part-icon';
 import { SelectItemContext, useSelectContext } from './select-context';
 import { SvgIcon } from '../svg-icon';
 import type { SelectPart, SelectRenderProps } from './select.types';
@@ -17,7 +17,7 @@ const RESERVED = ['aria-hidden'];
 function SelectItemIndicatorImpl({ render, ref, children, ...rest }: SelectItemIndicatorProps): ReactElement {
   const context = useSelectContext<unknown>('Select.ItemIndicator');
   const selected = useContext(SelectItemContext)?.selected === true;
-  const iconName = usePartIconName(selectAnatomy, 'optionIndicator', children, selected);
+  const iconName = usePartIcon(selectAnatomy, 'optionIndicator', children, selected);
   const props = useSelectPartProps({
     ours: {
       ...context.theme.optionIndicator,
@@ -34,9 +34,11 @@ function SelectItemIndicatorImpl({ render, ref, children, ...rest }: SelectItemI
 
 /**
  * The mark that shows an item is selected: a check, or a box with `multiple`. It renders a `<span aria-hidden="true">`.
- * While its item is selected it holds the icon the theme names for it, drawn with `SvgIcon`.
+ * While its item is selected it holds an icon drawn with `SvgIcon`.
  *
- * Content you give it replaces that icon. Its look comes from the theme and from the `data-selected` of the item.
+ * @remarks
+ * The icon is your content, else the icon the theme names in `components.select.icons`, else the default `check`.
+ * Its look comes from the theme and from the `data-selected` of the item.
  *
  * @example
  * <Select.ItemIndicator />

@@ -85,11 +85,10 @@ describe('Accordion indicator', () => {
     expect(iconNamesIn(button)).toEqual(['chevron-down']);
   });
 
-  it('is rendered empty without a theme', () => {
+  it('draws the default chevron without a theme', () => {
     render(plain);
     const indicator = trigger('Shipping').querySelector('.cck-accordion__indicator');
-    expect(indicator).not.toBeNull();
-    expect(indicator?.childNodes).toHaveLength(0);
+    expect(iconNamesIn(indicator)).toEqual(['chevron-down']);
   });
 });
 

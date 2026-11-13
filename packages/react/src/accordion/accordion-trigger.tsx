@@ -13,9 +13,9 @@ import { accordionAnatomy } from '@cocokits/machines/accordion';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { nonNativeButtonProps, useElementKind } from '../internal/button-kind';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
-import { usePartIconName } from '../internal/part-icon-name';
 import { renderElement } from '../internal/render-element';
 import { useMergedRef } from '../internal/use-merged-ref';
+import { usePartIcon } from '../internal/use-part-icon';
 import { SvgIcon } from '../svg-icon';
 import { useAccordionContext, useAccordionItemContext } from './accordion-context';
 import type { AccordionItemState, AccordionPart, AccordionRenderProps, AccordionTriggerProps } from './accordion.types';
@@ -41,7 +41,7 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
   const item = useAccordionItemContext('Accordion.Trigger');
   const allThemeAttrs = useThemeAttrs(accordionAnatomy);
   const themeAttrs = allThemeAttrs.trigger;
-  const indicatorIconName = usePartIconName(accordionAnatomy, 'indicator');
+  const indicatorIconName = usePartIcon(accordionAnatomy, 'indicator');
   const { trigger } = item.parts;
   const machineProps = withoutReserved(
     toReactProps(trigger),
@@ -104,9 +104,9 @@ function AccordionTriggerImpl({ nativeButton = true, render, ref, ...rest }: Acc
  * To render another element or component, use `render`. An element that is not a `<button>` also needs
  * `nativeButton={false}`.
  *
- * The last child of the trigger is the indicator, a `<span aria-hidden="true">` that holds the icon the theme
- * names for it, drawn with `SvgIcon`. It is there whichever element renders the trigger, and its look is the
- * theme's.
+ * The last child of the trigger is the indicator, a `<span aria-hidden="true">` that holds an icon drawn with
+ * `SvgIcon`. It is the icon the theme names in `components.accordion.icons`, else the default `chevron-down`. It is
+ * there whichever element renders the trigger.
  *
  * @example
  * <Accordion.Trigger>Shipping</Accordion.Trigger>

@@ -5,9 +5,9 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
 import type { ChoiceRootProps } from '../internal/choice-control.types';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
-import { usePartIconName } from '../internal/part-icon-name';
 import { renderChoiceRoot } from '../internal/render-choice-root';
 import { useMergedRef } from '../internal/use-merged-ref';
+import { usePartIcon } from '../internal/use-part-icon';
 import { choiceInputReserved, useChoiceControl } from '../internal/use-choice-control';
 import { SvgIcon } from '../svg-icon';
 import type { CheckboxProps, CheckboxState } from './checkbox.types';
@@ -59,7 +59,7 @@ function CheckboxImpl({
     },
     { componentName: 'Checkbox', elementRef, indeterminate, getParts: getCheckboxProps },
   );
-  const tickName = usePartIconName(checkboxAnatomy, 'background', undefined, state.checked && !indeterminate);
+  const tickName = usePartIcon(checkboxAnatomy, 'background', undefined, state.checked && !indeterminate);
   const root = mergeProps(
     {
       ...themeAttrs.root,
@@ -110,8 +110,8 @@ interface CheckboxComponent {
  * Inside a `FormField`, the input gets the id `<fieldId>-control`, and the field label and the caption both name
  * it. The ids of the hints and errors of the field describe it.
  *
- * While the checkbox is checked and not indeterminate, its background holds the tick icon that the theme names for
- * it, drawn with `SvgIcon`.
+ * While the checkbox is checked and not indeterminate, its background holds an icon drawn with `SvgIcon`. It is the
+ * icon the theme names in `components.checkbox.icons`, else the default `check`.
  *
  * The root has the state as `data-*` attributes. The input gets `aria-invalid="true"` only while it is not valid
  * and the user has left it or tried to submit. `className`, `style`, `hidden` and `render` go to the root; every

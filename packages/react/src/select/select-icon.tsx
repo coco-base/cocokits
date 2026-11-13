@@ -3,8 +3,8 @@
 import type { ReactElement } from 'react';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { toReactProps } from '@cocokits/react-core';
-import { usePartIconName } from '../internal/part-icon-name';
 import { renderElement } from '../internal/render-element';
+import { usePartIcon } from '../internal/use-part-icon';
 import { SvgIcon } from '../svg-icon';
 import { useSelectContext } from './select-context';
 import type { SelectPart, SelectRenderProps } from './select.types';
@@ -16,7 +16,7 @@ const RESERVED = ['aria-hidden'];
 
 function SelectIconImpl({ render, ref, children, ...rest }: SelectIconProps): ReactElement {
   const context = useSelectContext<unknown>('Select.Icon');
-  const iconName = usePartIconName(selectAnatomy, 'dropdownIcon', children);
+  const iconName = usePartIcon(selectAnatomy, 'dropdownIcon', children);
   const props = useSelectPartProps({
     ours: {
       ...context.theme.dropdownIcon,
@@ -32,10 +32,10 @@ function SelectIconImpl({ render, ref, children, ...rest }: SelectIconProps): Re
 }
 
 /**
- * The icon that shows the trigger opens a list. It renders a `<span aria-hidden="true">` that holds the icon the
- * theme names for it, drawn with `SvgIcon`.
+ * The icon that shows the trigger opens a list. It renders a `<span aria-hidden="true">` that holds an icon drawn
+ * with `SvgIcon`: your content, else the icon the theme names in `components.select.icons`, else `chevron-down`.
  *
- * Content you give it replaces that icon. Without a theme icon and without content it is empty.
+ * Content you give it replaces the icon. A theme icon must be registered, for example with `IconProvider`.
  *
  * @example
  * <Select.Icon />

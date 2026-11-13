@@ -10,8 +10,8 @@ afterEach(cleanup);
 
 describe('SvgIcon accessibility (axe)', () => {
   it.each<[string, ReactElement]>([
-    ['decorative', <SvgIcon iconName="star" />],
-    ['labelled', <SvgIcon iconName="star" label="Favourite" />],
+    ['decorative', <SvgIcon iconName="heart" />],
+    ['labelled', <SvgIcon iconName="heart" label="Favourite" />],
     [
       'in text',
       <p>

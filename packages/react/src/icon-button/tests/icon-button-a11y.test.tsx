@@ -9,7 +9,7 @@ import { IconButton } from '../index';
 
 afterEach(cleanup);
 
-const icon = <SvgIcon iconName="star" />;
+const icon = <SvgIcon iconName="heart" />;
 
 describe('IconButton accessibility (axe)', () => {
   it.each<[string, ReactElement]>([
@@ -41,7 +41,7 @@ describe('IconButton accessibility (axe)', () => {
     [
       'labelled icon inside',
       <IconButton>
-        <SvgIcon iconName="star" label="Add" />
+        <SvgIcon iconName="heart" label="Add" />
       </IconButton>,
     ],
   ])('has no violations: %s', async (_name, ui) => {
