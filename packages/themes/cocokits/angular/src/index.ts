@@ -36,3 +36,9 @@ export type {
 } from './accordion-theme';
 export { CckDividerTheme } from './divider-theme';
 export type { CckDividerColor, CckDividerSize } from './divider-theme';
+export { CckAvatarTheme } from './avatar-theme';
+export type { CckAvatarSize } from './avatar-theme';
+export { CckAvatarGroupTheme } from './avatar-group-theme';
+export type { CckAvatarGroupSize } from './avatar-group-theme';
+export { CckAvatarLabelTheme } from './avatar-label-theme';
+export type { CckAvatarLabelAvatarPosition, CckAvatarLabelSize, CckAvatarLabelTextLayout } from './avatar-label-theme';

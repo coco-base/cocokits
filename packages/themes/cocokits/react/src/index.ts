@@ -38,3 +38,14 @@ export type {
 } from './accordion-root';
 export { Divider } from './divider';
 export type { DividerColor, DividerProps, DividerSize } from './divider';
+export { Avatar } from './avatar';
+export type { AvatarRootProps, AvatarSize } from './avatar-root';
+export { AvatarGroup } from './avatar-group';
+export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group';
+export { AvatarLabel } from './avatar-label';
+export type {
+  AvatarLabelAvatarPosition,
+  AvatarLabelProps,
+  AvatarLabelSize,
+  AvatarLabelTextLayout,
+} from './avatar-label';
