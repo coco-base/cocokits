@@ -51,7 +51,7 @@ interface BadgeComponent {
  * `null` removes the attribute. The theme needs a `ThemeProvider`.
  *
  * It has no role. A dot has no text: put the meaning in the host's name, for example
- * `aria-label="Notifications, 2 new"` on an icon-only Button.
+ * `aria-label="Messages, 2 new"` on an Icon button.
  *
  * @example
  * <Badge content={5} variant="rectangle" color="danger" size="lg" />

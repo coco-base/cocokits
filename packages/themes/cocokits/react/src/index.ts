@@ -2,6 +2,16 @@ export { Badge } from './badge';
 export type { BadgeColor, BadgeProps, BadgeSize, BadgeVariant } from './badge';
 export { Button } from './button';
 export type { ButtonColor, ButtonProps, ButtonSize, ButtonVariant } from './button';
+export { IconButton } from './icon-button';
+export type {
+  IconButtonColor,
+  IconButtonProps,
+  IconButtonRounded,
+  IconButtonSize,
+  IconButtonVariant,
+} from './icon-button';
+export { SvgIcon } from './svg-icon';
+export type { SvgIconColor, SvgIconProps, SvgIconRtlMirror, SvgIconSize } from './svg-icon';
 export { FormField } from './form-field';
 export type { FormFieldProps, FormFieldSize } from './form-field';
 export { Textarea } from './textarea';

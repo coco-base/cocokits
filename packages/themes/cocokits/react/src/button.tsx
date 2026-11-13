@@ -50,7 +50,8 @@ interface ButtonComponent {
  * attributes. Each option resolves in order: the prop, then the `ThemeProvider` override, then the
  * config default; `null` removes the attribute. The theme needs a `ThemeProvider`.
  *
- * The name is its content. An icon-only Button needs `aria-label` or `aria-labelledby`.
+ * The name is its content. For a button with only an icon, use the Icon button; it needs `aria-label` or
+ * `aria-labelledby`.
  *
  * @example
  * <Button variant="outline" color="danger" size="lg">Delete</Button>
