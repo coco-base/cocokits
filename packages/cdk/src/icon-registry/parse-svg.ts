@@ -25,9 +25,9 @@ function readViewBox(root: Element): string | undefined {
  * The `body` is the markup inside the `<svg>`. Trusted content only: the markup is not sanitised.
  *
  * @param svg - A string whose root element is an `<svg>`.
- * @returns The icon, or `undefined` when the string is not an `<svg>` or gives no `viewBox`.
+ * @returns The icon, or `undefined` when the string is not an SVG element or gives no `viewBox`.
  * @example
- * const icon = parseSvg('<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>');
+ * const icon = parseSvg(await fetch(url).then((response) => response.text()));
  */
 export function parseSvg(svg: string): Icon | undefined {
   if (typeof DOMParser === 'undefined') return undefined;

@@ -86,7 +86,7 @@ async function resolveLoaded(name: string, load: IconLoader): Promise<Icon | und
   }
   if (typeof loaded !== 'string') return loaded;
   const icon = parseSvg(loaded);
-  if (!icon) logLoadError(name, 'the loader did not return an <svg> with a viewBox');
+  if (!icon) logLoadError(name, 'the loader did not return an SVG element with a viewBox');
   return icon;
 }
 
