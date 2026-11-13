@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, useTemplateRef, watch } from 'vue';
+import { computed, onMounted, shallowRef, useTemplateRef, watch } from 'vue';
+import { parseSvg } from '@cocokits/cdk/icon-registry';
+import type { Icon } from '@cocokits/icons';
 import { getSvgIconProps, svgIconAnatomy } from '@cocokits/machines/svg-icon';
-import { isDevelopment, useThemeAttrs, useThemeIcons } from '@cocokits/vue-core';
+import { isDevelopment, useIconRegistry, useThemeAttrs } from '@cocokits/vue-core';
+import { useIconVersion } from '../internal/use-icon-version';
 import type { SvgIconProps } from './svg-icon.types';
 
 defineOptions({ name: 'CckSvgIcon' });
@@ -9,26 +12,58 @@ defineOptions({ name: 'CckSvgIcon' });
 const props = defineProps<SvgIconProps>();
 
 const themeAttrs = useThemeAttrs(svgIconAnatomy);
-const icons = useThemeIcons();
-const parts = computed(() =>
-  getSvgIconProps({ iconName: props.iconName, icons: icons.value.icons, label: props.label }),
-);
-const found = computed(() => parts.value.svg.viewBox !== undefined);
+const registry = useIconRegistry();
+const { track, bump } = useIconVersion(registry);
+/** The icon parsed from `svg`, set after mount. */
+const parsed = shallowRef<Icon | undefined>();
+const name = computed(() => (props.iconName === undefined || props.iconName === '' ? undefined : props.iconName));
+const icon = computed(() => {
+  track();
+  return name.value === undefined ? parsed.value : registry.get(name.value);
+});
+const parts = computed(() => getSvgIconProps({ iconName: name.value, icon: icon.value, label: props.label }));
 const rootAttrs = computed(() => ({ ...themeAttrs.value.root, ...parts.value.root }));
 
-/** Development only: the name is not in the theme. After mount, so the server render has no effect. */
-function reportMissing(): void {
-  if (!found.value && isDevelopment()) {
-    console.error(
-      `CocoKits: the theme has no icon named "${props.iconName}". Check the name, or add the icon to the icons of the theme config.`,
-    );
-  }
+function report(message: string): void {
+  if (isDevelopment()) console.error(`CocoKits: ${message}`);
 }
-onMounted(reportMissing);
-watch(() => [props.iconName, found.value], reportMissing, { flush: 'post' });
 
-// The template writes only `svg` and `path` elements with bound attributes: no icon data is parsed or injected as
-// markup.
+/** Starts the load of a lazy icon that is registered but not loaded yet. */
+function loadIfNeeded(): void {
+  const wanted = name.value;
+  if (wanted === undefined || registry.get(wanted) !== undefined || !registry.has(wanted)) return;
+  void registry.load(wanted).then((found) => {
+    if (found !== undefined) bump();
+  });
+}
+
+/** After mount, so the server render and the first client render are the same. */
+function sync(): void {
+  const wanted = name.value;
+  const svg = props.svg ?? '';
+  const given = svg !== '';
+  if (wanted !== undefined && given) {
+    report('SvgIcon got both iconName and svg; iconName is used. Give one of them.');
+  }
+  if (wanted === undefined && !given) {
+    report('SvgIcon needs an iconName or an svg, and got neither, so it draws nothing.');
+  }
+  if (wanted !== undefined) {
+    parsed.value = undefined;
+    if (!registry.has(wanted)) {
+      report(`no icon named "${wanted}" is registered; register it with registerIcons or registerIcon.`);
+    }
+    loadIfNeeded();
+    return;
+  }
+  parsed.value = given ? parseSvg(svg) : undefined;
+  if (given && parsed.value === undefined) report('the svg is not an <svg> element with a viewBox or a size.');
+}
+onMounted(sync);
+watch([name, () => props.svg], sync, { flush: 'post' });
+// A name that is registered, or a lazy icon that arrives later, is drawn then.
+watch(track, loadIfNeeded, { flush: 'post' });
+
 const root = useTemplateRef<HTMLElement>('root');
 
 defineExpose({
@@ -50,14 +85,12 @@ defineExpose({
 
 <template>
   <span ref="root" v-bind="rootAttrs">
-    <svg :class="parts.svg.class" :viewBox="parts.svg.viewBox">
-      <path
-        v-for="(path, index) in parts.paths"
-        :key="index"
-        :d="path.d"
-        :fill-rule="path['fill-rule']"
-        :clip-rule="path['clip-rule']"
-      />
-    </svg>
+    <svg
+      :class="parts.svg.class"
+      :viewBox="parts.svg.viewBox"
+      :aria-hidden="parts.svg['aria-hidden']"
+      :focusable="parts.svg.focusable"
+      v-html="parts.body"
+    />
   </span>
 </template>

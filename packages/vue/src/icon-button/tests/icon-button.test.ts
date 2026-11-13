@@ -4,8 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { h, nextTick, type Component, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { iconButtonAnatomy } from '@cocokits/machines/icon-button';
-import { ThemeProvider } from '@cocokits/vue-core';
-import { linkForms, makeLink, mountView, iconThemeConfig } from './fixtures';
+import { linkForms, makeLink, mountView, inTheme } from './fixtures';
 import { nextFrame } from '../../internal/tests/choice-helpers';
 import { SvgIcon } from '../../svg-icon';
 import * as entry from '../index';
@@ -57,11 +56,7 @@ describe('@cocokits/vue/icon-button', () => {
   });
 
   it('renders the theme data-* of its own anatomy and falls class and attrs through', () => {
-    mountView(() =>
-      h(ThemeProvider, { themeConfig: iconThemeConfig }, () =>
-        h(IconButton, { 'aria-label': 'Add', class: 'mine', id: 'x' }, plus),
-      ),
-    );
+    mountView(() => inTheme(() => h(IconButton, { 'aria-label': 'Add', class: 'mine', id: 'x' }, plus)));
     const button = screen.getByRole('button', { name: 'Add' });
     expect(button.getAttribute('data-variant')).toBe('primary');
     expect(button.getAttribute('data-size')).toBe('md');
@@ -184,7 +179,7 @@ describe('IconButton name check (development)', () => {
     ],
   ];
   it.each(cases)('with %s', async (_name, render, logs) => {
-    mountView(() => h(ThemeProvider, { themeConfig: iconThemeConfig }, render));
+    mountView(() => inTheme(render));
     await nextFrame();
     await nextTick();
     expect(unnamed()).toHaveLength(logs ? 1 : 0);

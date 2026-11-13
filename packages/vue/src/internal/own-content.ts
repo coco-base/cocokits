@@ -1,6 +1,4 @@
-import { computed, Comment, Fragment, Text, type ComputedRef, type VNode } from 'vue';
-import { resolvePartIconName } from '@cocokits/shared';
-import { useThemeIcons } from '@cocokits/vue-core';
+import { Comment, Fragment, Text, type VNode } from 'vue';
 
 /**
  * Whether the nodes of a default slot hold no content: no slot, comments, and text that is empty or only white
@@ -24,21 +22,9 @@ export function isEmptyContent(nodes: readonly unknown[] | undefined): boolean {
 }
 
 /**
- * The name of the icon the provided theme gives a part of a component, from `partIconNames`. Call it in `setup`.
- *
- * @internal
- * @param block - The anatomy block of the component, never a literal name.
- * @param part - The name of the part.
- * @returns A computed with the icon name, or `undefined` when there is no theme or the theme names none.
- */
-export function usePartIconName(block: string, part: string): ComputedRef<string | undefined> {
-  const icons = useThemeIcons();
-  return computed(() => resolvePartIconName(icons.value.partIconNames, block, part));
-}
-
-/**
  * What a part that holds an icon renders inside itself: the author's content when there is any, else the icon of
- * the theme when the part shows it, else nothing. The part builds the icon with its own `SvgIcon`.
+ * the part (the theme's, else the default) when the part shows it, else nothing. The part builds the icon with its
+ * own `SvgIcon`.
  *
  * @internal
  * @param content - What the default slot (or the child of `asChild`) holds, or `undefined` when there is none.

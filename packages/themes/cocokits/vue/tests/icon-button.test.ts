@@ -100,7 +100,7 @@ describe('theme IconButton content', () => {
   it('draws the pack icon of the theme, hidden from assistive technology', () => {
     const el = mountIconButton('button');
     const icon = el.querySelector('.cck-svg-icon');
-    expect(icon?.getAttribute('data-icon-name')).toBe('plus');
+    expect(icon?.getAttribute('data-icon')).toBe('plus');
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
     expect(icon?.querySelectorAll('path').length).toBeGreaterThan(0);
   });

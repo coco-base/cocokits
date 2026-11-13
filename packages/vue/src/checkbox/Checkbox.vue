@@ -2,7 +2,8 @@
 import { h, type ComponentPublicInstance, type VNode, useSlots, useTemplateRef } from 'vue';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
-import { Nodes, usePartIconName } from '../internal/part-icon';
+import { Nodes } from '../internal/own-content';
+import { usePartIcon } from '../internal/use-part-icon';
 import { useDefaultModel } from '../internal/use-default-model';
 import { boxTree } from '../internal/box-tree';
 import { rootElementOf } from '../internal/root-element';
@@ -58,11 +59,11 @@ const { parts, inputRef, rootAttrs, inputProps } = useCheckControl(props, {
   isMixed: () => props.indeterminate,
 });
 
-const tickIcon = usePartIconName(checkboxAnatomy.block, 'background');
-/** The tick of the theme: in the background while the box is checked and not indeterminate. */
+const tickIcon = usePartIcon(checkboxAnatomy.block, 'background');
+/** The tick (the theme's icon, else `check`): in the background while the box is checked and not indeterminate. */
 function tick(): VNode[] {
   const shown = parts.value.root['data-checked'] !== undefined && !props.indeterminate;
-  return shown && tickIcon.value !== undefined ? [h(SvgIcon, { iconName: tickIcon.value })] : [];
+  return shown ? [h(SvgIcon, { iconName: tickIcon.value })] : [];
 }
 
 /** The box and the label, written once for both renderings. */

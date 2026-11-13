@@ -1,35 +1,50 @@
 import { h, type VNode } from 'vue';
+import { arrowDownIcon, arrowUpIcon, heartIcon, plusIcon } from '@cocokits/icons';
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
-import { ThemeProvider } from '@cocokits/vue-core';
+import { IconProvider, ThemeProvider } from '@cocokits/vue-core';
 
-/** A theme that names an icon for the icon-holding parts of the Select, the Accordion and the Checkbox. */
+/** A theme that names the base icons for the icon-holding parts of the Select, the Accordion and the Checkbox. */
 export const partIconsThemeConfig: ThemeConfig = defineThemeConfig({
   name: 'test',
-  components: {},
-  icons: {
-    'chevron-down': { viewBox: '0 0 24 24', paths: [{ d: 'M6 9l6 6 6-6' }] },
-    check: { viewBox: '0 0 24 24', paths: [{ d: 'M5 12l5 5 9-9' }] },
-  },
-  partIconNames: {
-    select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
-    accordion: { indicator: 'chevron-down' },
-    checkbox: { background: 'check' },
+  components: {
+    select: { icons: { dropdownIcon: 'chevron-down', optionIndicator: 'check' } },
+    accordion: { icons: { indicator: 'chevron-down' } },
+    checkbox: { icons: { background: 'check' } },
   },
 });
 
-/** The same theme without any part icon names. */
-export const noPartIconsThemeConfig: ThemeConfig = defineThemeConfig({
-  name: 'bare',
-  components: {},
-  icons: partIconsThemeConfig.icons ?? {},
+/** A theme that names other icons, which {@link customIcons} registers. */
+export const customPartIconsThemeConfig: ThemeConfig = defineThemeConfig({
+  name: 'custom',
+  components: {
+    select: { icons: { dropdownIcon: 'arrow-down', optionIndicator: 'plus' } },
+    accordion: { icons: { indicator: 'arrow-up' } },
+    checkbox: { icons: { background: 'heart' } },
+  },
 });
 
-/** Wraps a render function in the provider of the theme that has part icons. */
+/** A theme that names an icon nobody registered for every part. */
+export const missingPartIconsThemeConfig: ThemeConfig = defineThemeConfig({
+  name: 'missing',
+  components: {
+    select: { icons: { dropdownIcon: 'nope', optionIndicator: 'nope' } },
+    accordion: { icons: { indicator: 'nope' } },
+    checkbox: { icons: { background: 'nope' } },
+  },
+});
+
+/** A theme that names no part icon. */
+export const noPartIconsThemeConfig: ThemeConfig = defineThemeConfig({ name: 'bare', components: {} });
+
+/** The icons the custom theme names. */
+export const customIcons = { 'arrow-down': arrowDownIcon, 'arrow-up': arrowUpIcon, plus: plusIcon, heart: heartIcon };
+
+/** Wraps a render function in an icon provider and the provider of the theme. */
 export const themed =
   (render: () => VNode | VNode[], themeConfig: ThemeConfig = partIconsThemeConfig) =>
   (): VNode =>
-    h(ThemeProvider, { themeConfig }, render);
+    h(IconProvider, { icons: customIcons }, () => h(ThemeProvider, { themeConfig }, render));
 
 /** The names of the icons a part holds, in order. */
 export const iconNamesIn = (part: Element | null): string[] =>
-  [...(part?.querySelectorAll('.cck-svg-icon') ?? [])].map((icon) => icon.getAttribute('data-icon-name') ?? '');
+  [...(part?.querySelectorAll('.cck-svg-icon') ?? [])].map((icon) => icon.getAttribute('data-icon') ?? '');

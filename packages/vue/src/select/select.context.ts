@@ -118,7 +118,7 @@ export const SELECT_GROUP_KEY: InjectionKey<SelectGroupContext> = Symbol('cck-se
 export interface SelectItemContext {
   /** Tells the item which element holds its text; `null` on unmount. */
   readonly setTextElement: (element: HTMLElement | null) => void;
-  /** Whether the item is selected: its indicator then holds the icon of the theme. */
+  /** Whether the item is selected: its indicator then holds its icon. */
   readonly selected: ComputedRef<boolean>;
 }
 

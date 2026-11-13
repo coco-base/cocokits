@@ -3,19 +3,18 @@ import { cleanup, screen } from '@testing-library/vue';
 import { h, nextTick, ref, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { svgIconAnatomy, svgIconMeta } from '@cocokits/machines/svg-icon';
-import { ThemeProvider } from '@cocokits/vue-core';
+import { IconProvider, useIconRegistry } from '@cocokits/vue-core';
 import * as entry from '../index';
 import { SvgIcon } from '../index';
 import { pick } from '../../internal/tests/mount-helpers';
-import { iconsThemeConfig, mountView } from './fixtures';
+import { checkIcon, heartIcon, mountView, plusIcon, svgOf, withIcons } from './fixtures';
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
 });
 
-const themed = (child: () => VNode | VNode[]) =>
-  mountView(() => h(ThemeProvider, { themeConfig: iconsThemeConfig }, child));
+const provided = (child: () => VNode | VNode[]) => mountView(() => h(withIcons(child)));
 const spyError = () => vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
 describe('@cocokits/vue/svg-icon', () => {
@@ -23,23 +22,21 @@ describe('@cocokits/vue/svg-icon', () => {
     expect(Object.keys(entry)).toEqual(['SvgIcon']);
   });
 
-  it('renders the root, the svg and one path per icon path, with only d, fill-rule and clip-rule', () => {
-    const { container } = themed(() => h(SvgIcon, { iconName: 'heart' }));
+  it('renders the host, the owned svg and the body of a registered icon', () => {
+    const { container } = provided(() => h(SvgIcon, { iconName: 'heart' }));
     const root = pick(container, '.cck-svg-icon');
     expect(root.tagName).toBe(svgIconMeta.defaultElements?.root?.toUpperCase());
-    expect(root.getAttribute('data-icon-name')).toBe('heart');
+    expect(root.getAttribute('data-icon')).toBe('heart');
     const svg = pick(root, 'svg');
     expect(svg.getAttribute('class')).toBe(svgIconAnatomy.classes.svg);
-    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24');
-    const paths = [...svg.querySelectorAll('path')];
-    expect(paths.map((path) => path.getAttributeNames().sort())).toEqual([['d'], ['clip-rule', 'd', 'fill-rule']]);
-    expect(paths.map((path) => path.getAttribute('d'))).toEqual(['M1 1h2', 'M3 3h2']);
-    expect(paths[1]?.getAttribute('fill-rule')).toBe('evenodd');
-    expect(paths[1]?.getAttribute('clip-rule')).toBe('nonzero');
+    expect(svg.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(svg.getAttribute('aria-hidden')).toBe('true');
+    expect(svg.getAttribute('focusable')).toBe('false');
+    expect(svg.innerHTML).toBe(heartIcon.body);
   });
 
   it('is decorative without a label, and named with one', () => {
-    const { container } = themed(() => [
+    const { container } = provided(() => [
       h(SvgIcon, { iconName: 'plus' }),
       h(SvgIcon, { iconName: 'plus', label: 'Add' }),
       h(SvgIcon, { iconName: 'plus', label: '' }),
@@ -59,7 +56,7 @@ describe('@cocokits/vue/svg-icon', () => {
   });
 
   it('falls attrs and the class through to the root, and keeps the theme data-*', () => {
-    const { container } = themed(() => h(SvgIcon, { iconName: 'plus', class: 'mine', id: 'x' }));
+    const { container } = provided(() => h(SvgIcon, { iconName: 'plus', class: 'mine', id: 'x' }));
     const root = pick(container, '.cck-svg-icon');
     expect([...root.classList].sort()).toEqual(['cck-svg-icon', 'mine']);
     expect(root.id).toBe('x');
@@ -67,22 +64,27 @@ describe('@cocokits/vue/svg-icon', () => {
     expect(root.hasAttribute('data-rtl-mirror')).toBe(false);
   });
 
-  it('renders nothing from the theme but data-icon-name without a provider, and logs one error', async () => {
+  it('draws a base icon without any provider', () => {
+    const { container } = mountView(() => h(SvgIcon, { iconName: 'check' }));
+    expect(pick(container, 'svg').innerHTML).toBe(checkIcon.body);
+  });
+
+  it('renders an empty svg for a name that is not registered, and logs one error', async () => {
     const error = spyError();
     const { container } = mountView(() => h(SvgIcon, { iconName: 'heart' }));
-    const svg = container.querySelector('svg') as SVGElement;
+    const svg = pick(container, 'svg');
     expect(svg.hasAttribute('viewBox')).toBe(false);
-    expect(svg.querySelector('path')).toBeNull();
-    expect(container.querySelector('.cck-svg-icon')?.getAttribute('data-icon-name')).toBe('heart');
+    expect(svg.innerHTML).toBe('');
+    expect(container.querySelector('.cck-svg-icon')?.getAttribute('data-icon')).toBe('heart');
     await nextTick();
     expect(error).toHaveBeenCalledTimes(1);
-    expect(error.mock.calls[0]?.[0]).toContain('CocoKits: the theme has no icon named "heart"');
+    expect(error.mock.calls[0]?.[0]).toContain('CocoKits: no icon named "heart" is registered');
   });
 
   it('logs once per mount and once more per changed unknown name, and never for a found icon', async () => {
     const error = spyError();
     const name = ref('missing');
-    themed(() => h(SvgIcon, { iconName: name.value }));
+    provided(() => h(SvgIcon, { iconName: name.value }));
     await nextTick();
     expect(error).toHaveBeenCalledTimes(1);
     name.value = 'other-missing';
@@ -93,21 +95,107 @@ describe('@cocokits/vue/svg-icon', () => {
     expect(error).toHaveBeenCalledTimes(2);
   });
 
-  it('renders markup in the data as attribute text and adds no element', () => {
-    const attack = '"/><script>alert(1)</script><path d="';
-    const config = { ...iconsThemeConfig, icons: { evil: { viewBox: '0 0 1 1', paths: [{ d: attack }] } } };
+  it('draws a name that is registered later', async () => {
+    spyError();
     const { container } = mountView(() =>
-      h(ThemeProvider, { themeConfig: config }, () => h(SvgIcon, { iconName: 'evil' })),
+      h(IconProvider, null, () => [
+        h(SvgIcon, { iconName: 'late' }),
+        h({
+          setup() {
+            const registry = useIconRegistry();
+            return () =>
+              h(
+                'button',
+                {
+                  onClick: () => {
+                    registry.registerIcons({ late: plusIcon });
+                  },
+                },
+                'add',
+              );
+          },
+        }),
+      ]),
     );
+    expect(pick(container, 'svg').innerHTML).toBe('');
+    pick(container, 'button').click();
+    await nextTick();
+    expect(pick(container, 'svg').innerHTML).toBe(plusIcon.body);
+  });
+
+  it('draws a lazy icon after mount, calls the loader once for several icons, and logs nothing', async () => {
+    const error = spyError();
+    const load = vi.fn(() => Promise.resolve(plusIcon));
+    const { container } = mountView(() =>
+      h(IconProvider, { lazyIcons: { plus: load } }, () => [
+        h(SvgIcon, { iconName: 'plus' }),
+        h(SvgIcon, { iconName: 'plus' }),
+      ]),
+    );
+    expect(container.querySelectorAll('path')).toHaveLength(0);
+    await vi.waitFor(() => {
+      expect([...container.querySelectorAll('svg')].map((svg) => svg.innerHTML)).toEqual([
+        plusIcon.body,
+        plusIcon.body,
+      ]);
+    });
+    expect(load).toHaveBeenCalledTimes(1);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('draws a lazy icon of the outer provider inside a nested one', async () => {
+    const { container } = mountView(() =>
+      h(IconProvider, { lazyIcons: { plus: () => Promise.resolve(plusIcon) } }, () =>
+        h(IconProvider, null, () => h(SvgIcon, { iconName: 'plus' })),
+      ),
+    );
+    await vi.waitFor(() => {
+      expect(pick(container, 'svg').innerHTML).toBe(plusIcon.body);
+    });
+  });
+
+  it('draws an svg string after mount, without data-icon', async () => {
+    const { container } = provided(() => h(SvgIcon, { svg: svgOf(heartIcon) }));
+    await nextTick();
     const root = pick(container, '.cck-svg-icon');
-    expect([...root.querySelectorAll('*')].map((element) => element.tagName.toLowerCase())).toEqual(['svg', 'path']);
-    expect(root.querySelector('path')?.getAttribute('d')).toBe(attack);
-    expect(container.querySelector('script')).toBeNull();
+    expect(root.hasAttribute('data-icon')).toBe(false);
+    const svg = pick(root, 'svg');
+    expect(svg.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(svg.getAttribute('class')).toBe(svgIconAnatomy.classes.svg);
+    expect(svg.getAttribute('aria-hidden')).toBe('true');
+    expect(svg.innerHTML).toBe(heartIcon.body);
+  });
+
+  it('draws an empty icon and logs an error for a string that is not an svg', async () => {
+    const error = spyError();
+    const { container } = provided(() => h(SvgIcon, { svg: '<div>no</div>' }));
+    await nextTick();
+    expect(pick(container, 'svg').innerHTML).toBe('');
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(error.mock.calls[0]?.[0]).toContain('CocoKits:');
+  });
+
+  it('uses iconName when both are given, and logs an error', async () => {
+    const error = spyError();
+    const { container } = provided(() => h(SvgIcon, { iconName: 'plus', svg: svgOf(heartIcon) }));
+    await nextTick();
+    expect(pick(container, 'svg').innerHTML).toBe(plusIcon.body);
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(error.mock.calls[0]?.[0]).toContain('iconName');
+  });
+
+  it('draws nothing and logs an error when neither is given', async () => {
+    const error = spyError();
+    const { container } = provided(() => h(SvgIcon));
+    await nextTick();
+    expect(pick(container, 'svg').innerHTML).toBe('');
+    expect(pick(container, '.cck-svg-icon').hasAttribute('data-icon')).toBe(false);
+    expect(error).toHaveBeenCalledTimes(1);
   });
 
   it('exposes the root element, null before mount', () => {
     let exposed: { element: Element | null } | undefined;
-    const { container } = themed(() =>
+    const { container } = provided(() =>
       h(SvgIcon, {
         iconName: 'plus',
         ref: (instance) => {
@@ -118,10 +206,10 @@ describe('@cocokits/vue/svg-icon', () => {
     expect(exposed?.element).toBe(container.querySelector('.cck-svg-icon'));
   });
 
-  it('declares the data-icon-name of the meta on the root', () => {
-    expect(svgIconMeta.dataAttrs.root).toContain('data-icon-name');
-    const { container } = themed(() => h(SvgIcon, { iconName: 'plus' }));
+  it('declares the data-icon of the meta on the root', () => {
+    expect(svgIconMeta.dataAttrs.root).toContain('data-icon');
+    const { container } = provided(() => h(SvgIcon, { iconName: 'plus' }));
     const root = pick(container, '.cck-svg-icon');
-    expect(root.getAttributeNames().filter((name) => name.startsWith('data-'))).toEqual(['data-icon-name']);
+    expect(root.getAttributeNames().filter((name) => name.startsWith('data-'))).toEqual(['data-icon']);
   });
 });

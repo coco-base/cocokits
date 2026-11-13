@@ -7,6 +7,8 @@ import type { SvgIconProps } from './svg-icon.types';
 defineOptions({ name: 'SvgIcon' });
 
 const props = withDefaults(defineProps<SvgIconProps>(), {
+  iconName: undefined,
+  svg: undefined,
   label: undefined,
   size: undefined,
   color: undefined,
@@ -31,5 +33,5 @@ provideThemeOptions('svg-icon', () => ({ size: props.size, color: props.color, r
 </script>
 
 <template>
-  <BaseSvgIcon ref="base" :icon-name="iconName" :label="label" />
+  <BaseSvgIcon ref="base" :icon-name="iconName" :svg="svg" :label="label" />
 </template>

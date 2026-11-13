@@ -2,7 +2,8 @@
 import { createSSRApp, defineComponent, h } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { describe, expect, it } from 'vitest';
-import { ThemeProvider } from '@cocokits/vue-core';
+import { heartIcon, plusIcon } from '@cocokits/icons';
+import { IconProvider, ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { IconButton, SvgIcon } from '../src/index';
 
@@ -11,12 +12,14 @@ const render = (): Promise<string> =>
     createSSRApp(
       defineComponent({
         setup: () => () =>
-          h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, () => [
-            h(IconButton, { 'aria-label': 'Add', variant: 'outline', size: 'lg', rounded: true }, () =>
-              h(SvgIcon, { iconName: 'plus', size: 'sm', rtlMirror: true }),
-            ),
-            h(SvgIcon, { iconName: 'heart', label: 'Favourite', color: 'danger' }),
-          ]),
+          h(IconProvider, { icons: { heart: heartIcon, plus: plusIcon } }, () =>
+            h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, () => [
+              h(IconButton, { 'aria-label': 'Add', variant: 'outline', size: 'lg', rounded: true }, () =>
+                h(SvgIcon, { iconName: 'plus', size: 'sm', rtlMirror: true }),
+              ),
+              h(SvgIcon, { iconName: 'heart', label: 'Favourite', color: 'danger' }),
+            ]),
+          ),
       }),
     ),
   );
@@ -39,7 +42,7 @@ describe('theme IconButton and SvgIcon on the server', () => {
     expect(icons[0]).toMatch(/ data-rtl-mirror[ >=]/);
     expect(icons[1]).toContain('data-cck-color="danger"');
     expect(icons[1]).toContain('role="img"');
-    expect(html).toContain('<svg class="cck-svg-icon__svg" viewBox="0 0 24 24">');
+    expect(html).toContain(`<svg class="cck-svg-icon__svg" viewBox="${heartIcon.viewBox}"`);
     expect(html).toMatch(/<path d="[^"]+"/);
   });
 });

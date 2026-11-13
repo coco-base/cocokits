@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { createCommentVNode, createTextVNode, Fragment, h, type VNode } from 'vue';
 import { describe, expect, it } from 'vitest';
-import { isEmptyContent } from '../part-icon';
+import { isEmptyContent } from '../own-content';
 
 const fragment = (...children: VNode[]): VNode => h(Fragment, null, children);
 

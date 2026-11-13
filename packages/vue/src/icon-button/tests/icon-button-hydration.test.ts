@@ -3,8 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { createSSRApp, h, type App } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ThemeProvider } from '@cocokits/vue-core';
-import { iconThemeConfig, view } from './fixtures';
+import { inTheme, view } from './fixtures';
 import { SvgIcon } from '../../svg-icon';
 import { IconButton } from '../index';
 
@@ -20,7 +19,7 @@ afterEach(() => {
 const makeApp = (onClick: () => void): App =>
   createSSRApp(
     view(() =>
-      h(ThemeProvider, { themeConfig: iconThemeConfig }, () => [
+      inTheme(() => [
         h(IconButton, { 'aria-label': 'Add', onClick }, () => h(SvgIcon, { iconName: 'plus' })),
         h(IconButton, { asChild: true, disabled: true, onClick }, () => h('a', { href: '#go', 'aria-label': 'Go' })),
       ]),

@@ -2,7 +2,8 @@
 import { createSSRApp, defineComponent, h, type App } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ThemeProvider } from '@cocokits/vue-core';
+import { heartIcon, plusIcon } from '@cocokits/icons';
+import { IconProvider, ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { IconButton, SvgIcon } from '../src/index';
 
@@ -19,12 +20,14 @@ const makeApp = (): App =>
   createSSRApp(
     defineComponent({
       setup: () => () =>
-        h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, () => [
-          h(IconButton, { 'aria-label': 'Add', variant: 'outline', rounded: true }, () =>
-            h(SvgIcon, { iconName: 'plus' }),
-          ),
-          h(SvgIcon, { iconName: 'heart', label: 'Favourite', size: 'lg' }),
-        ]),
+        h(IconProvider, { icons: { heart: heartIcon, plus: plusIcon } }, () =>
+          h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, () => [
+            h(IconButton, { 'aria-label': 'Add', variant: 'outline', rounded: true }, () =>
+              h(SvgIcon, { iconName: 'plus' }),
+            ),
+            h(SvgIcon, { iconName: 'heart', label: 'Favourite', size: 'lg' }),
+          ]),
+        ),
     }),
   );
 

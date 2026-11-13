@@ -2,6 +2,7 @@
 import { createSSRApp, h, type VNode } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { describe, expect, it } from 'vitest';
+import { chevronDownIcon } from '@cocokits/icons';
 import { AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from '../../accordion';
 import { Checkbox } from '../../checkbox';
 import { selectRoot } from '../../select/tests/fixtures';
@@ -31,23 +32,23 @@ describe('part icons on the server', () => {
 
   it('puts the Select chevron in the server HTML', async () => {
     const html = await render(() => selectRoot({ modelValue: 'Cake' }));
-    expect(partOf(html, 'cck-select__dropdown-icon')).toContain('data-icon-name="chevron-down"');
-    expect(html).toContain('<path d="M6 9l6 6 6-6"></path>');
+    expect(partOf(html, 'cck-select__dropdown-icon')).toContain('data-icon="chevron-down"');
+    expect(html).toContain(chevronDownIcon.body);
   });
 
   it('puts the Accordion chevron in the indicator, the last child of the trigger', async () => {
     const html = await render(accordion);
     const clean = html.replaceAll('<!--[-->', '').replaceAll('<!--]-->', '');
     expect(clean).toMatch(
-      /<button[^>]*cck-accordion__trigger[^>]*>Shipping<span class="cck-accordion__indicator" aria-hidden="true"><span class="cck-svg-icon" data-icon-name="chevron-down"/,
+      /<button[^>]*cck-accordion__trigger[^>]*>Shipping<span class="cck-accordion__indicator" aria-hidden="true"><span class="cck-svg-icon" data-icon="chevron-down"/,
     );
     expect(clean).toMatch(/<\/svg><\/span><\/span><\/button>/);
   });
 
   it('puts the tick in the checked Checkbox only', async () => {
     const checked = await render(() => h(Checkbox, { 'aria-label': 'Terms', modelValue: true }));
-    expect(partOf(checked, 'cck-checkbox__background')).toContain('data-icon-name="check"');
+    expect(partOf(checked, 'cck-checkbox__background')).toContain('data-icon="check"');
     const unchecked = await render(() => h(Checkbox, { 'aria-label': 'Terms', modelValue: false }));
-    expect(unchecked).not.toContain('data-icon-name');
+    expect(unchecked).not.toContain('data-icon=');
   });
 });

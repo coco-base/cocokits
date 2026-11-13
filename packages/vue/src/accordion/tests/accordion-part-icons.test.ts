@@ -4,7 +4,13 @@ import { cleanup, screen } from '@testing-library/vue';
 import { h, type Component, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { accordionMeta } from '@cocokits/machines/accordion';
-import { iconNamesIn, noPartIconsThemeConfig, themed } from '../../internal/tests/part-icon-fixtures';
+import {
+  customPartIconsThemeConfig,
+  iconNamesIn,
+  missingPartIconsThemeConfig,
+  noPartIconsThemeConfig,
+  themed,
+} from '../../internal/tests/part-icon-fixtures';
 import { AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from '../index';
 import { must } from '../../internal/tests/choice-helpers';
 import { pick } from '../../internal/tests/mount-helpers';
@@ -60,14 +66,21 @@ describe.each(forms)('Accordion indicator with the trigger as %s', (_form, trigg
     if (tag === 'BUTTON') expect(screen.getByRole('button', { name: 'Shipping' })).toBe(element);
   });
 
-  it('renders the empty indicator without a theme, and with a theme that names no icon', () => {
-    for (const config of [undefined, noPartIconsThemeConfig]) {
-      mountView(config ? themed(() => accordion(trigger), config) : () => accordion(trigger));
-      const last = must(pick(document.body, '.cck-accordion__trigger').lastElementChild);
-      expect(last.className).toBe('cck-accordion__indicator');
-      expect(last.innerHTML).toBe('');
-      cleanup();
-    }
+  const rows: readonly [string, Parameters<typeof themed>[1] | undefined, string, boolean][] = [
+    ['no theme', undefined, 'chevron-down', false],
+    ['a theme that names none', noPartIconsThemeConfig, 'chevron-down', false],
+    ['a theme icon the registry has', customPartIconsThemeConfig, 'arrow-up', false],
+    ['a theme icon the registry lacks', missingPartIconsThemeConfig, 'chevron-down', true],
+  ];
+  it.each(rows)('draws the icon of the fallback order with %s', (_name, config, expected, logs) => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    mountView(config ? themed(() => accordion(trigger), config) : () => accordion(trigger));
+    const last = must(pick(document.body, '.cck-accordion__trigger').lastElementChild);
+    expect(last.className).toBe('cck-accordion__indicator');
+    expect(iconNamesIn(last)).toEqual([expected]);
+    const messages = error.mock.calls.map((call) => String(call[0]));
+    expect(messages.some((message) => message.includes('"nope"') && message.includes('indicator'))).toBe(logs);
+    if (!logs) expect(error).not.toHaveBeenCalled();
   });
 });
 

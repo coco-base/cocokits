@@ -3,10 +3,9 @@ import { cleanup } from '@testing-library/vue';
 import { h, type VNode } from 'vue';
 import { afterEach, describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
-import { ThemeProvider } from '@cocokits/vue-core';
 import { SvgIcon } from '../../svg-icon';
 import { IconButton } from '../index';
-import { iconThemeConfig, mountView } from './fixtures';
+import { inTheme, mountView } from './fixtures';
 
 afterEach(cleanup);
 
@@ -21,7 +20,7 @@ describe('IconButton accessibility (axe)', () => {
     ['a disabled link', () => h(IconButton, { as: 'a', href: '#go', disabled: true, 'aria-label': 'Go' }, plus)],
     ['named by a labelled icon', () => h(IconButton, null, () => h(SvgIcon, { iconName: 'plus', label: 'Add item' }))],
   ])('has no violations: %s', async (_name, make) => {
-    const { container } = mountView(() => h(ThemeProvider, { themeConfig: iconThemeConfig }, make));
+    const { container } = mountView(() => inTheme(make));
     const results = await axe(container);
     expect(results.violations).toEqual([]);
   });

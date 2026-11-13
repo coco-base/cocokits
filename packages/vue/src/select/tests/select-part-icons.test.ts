@@ -3,7 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
 import { Comment, createTextVNode, h, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { iconNamesIn, noPartIconsThemeConfig, themed } from '../../internal/tests/part-icon-fixtures';
+import {
+  customPartIconsThemeConfig,
+  iconNamesIn,
+  missingPartIconsThemeConfig,
+  noPartIconsThemeConfig,
+  themed,
+} from '../../internal/tests/part-icon-fixtures';
 import { SelectIcon, SelectItemIndicator, SelectItemText, SelectTrigger } from '../index';
 import { must } from '../../internal/tests/choice-helpers';
 import { ObjectItem, ObjectRoot, mountView, selectRoot, stubOverlayBrowser } from './fixtures';
@@ -142,16 +148,24 @@ describe('Select part icons with the element replaced (asChild, as="template")',
   });
 });
 
-describe('Select part icons (no icon names)', () => {
-  const configs: readonly [string, Parameters<typeof themed>[1]][] = [
-    ['without a theme', undefined],
-    ['with a theme that names none', noPartIconsThemeConfig],
+describe('Select part icons (the fallback order)', () => {
+  const rows: readonly [string, Parameters<typeof themed>[1] | undefined, string, string, boolean][] = [
+    ['no theme', undefined, 'chevron-down', 'check', false],
+    ['a theme that names none', noPartIconsThemeConfig, 'chevron-down', 'check', false],
+    ['a theme icon the registry has', customPartIconsThemeConfig, 'arrow-down', 'plus', false],
+    ['a theme icon the registry lacks', missingPartIconsThemeConfig, 'chevron-down', 'check', true],
   ];
-  it.each(configs)('leaves both parts empty %s', async (name, themeConfig) => {
-    const render = () => selectRoot({ modelValue: 'Cake' }, { items: twoItems(() => h(SelectItemIndicator)) });
-    mountView(name === 'without a theme' ? render : themed(render, themeConfig));
-    expect(dropdownIcon()?.innerHTML).toBe('');
+  it.each(rows)('with %s the parts draw the right icon', async (_name, themeConfig, dropdown, mark, logs) => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const render = () => selectRoot({ modelValue: 'Burger' }, { items: twoItems(() => h(SelectItemIndicator)) });
+    mountView(themeConfig === undefined ? render : themed(render, themeConfig));
+    expect(iconNamesIn(dropdownIcon())).toEqual([dropdown]);
     await open();
-    expect(indicators().map((indicator) => indicator.innerHTML)).toEqual(['', '']);
+    const [cake, burger] = indicators();
+    expect([iconNamesIn(cake), iconNamesIn(burger)]).toEqual([[], [mark]]);
+    const messages = error.mock.calls.map((call) => String(call[0]));
+    expect(messages.some((message) => message.includes('"nope"') && message.includes('dropdownIcon'))).toBe(logs);
+    expect(messages.some((message) => message.includes('"nope"') && message.includes('optionIndicator'))).toBe(logs);
+    if (!logs) expect(error).not.toHaveBeenCalled();
   });
 });

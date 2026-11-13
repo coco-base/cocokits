@@ -2,7 +2,8 @@
 import { cleanup, render } from '@testing-library/vue';
 import { h, nextTick, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cocokitsIcons, cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { heartIcon } from '@cocokits/icons';
+import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { SvgIcon, type SvgIconProps } from '../src/index';
 import { themed } from './helpers';
 
@@ -29,13 +30,21 @@ function mountIcon(props: Record<string, unknown> = {}, overrides?: Overrides): 
 }
 
 describe('theme SvgIcon', () => {
-  it('draws the icon of the cocokits pack, with every path of it', () => {
+  it('draws the registered icon of the pack, with its markup', () => {
     const el = mountIcon();
-    expect(el.getAttribute('data-icon-name')).toBe('heart');
-    expect(el.querySelector('svg')?.getAttribute('viewBox')).toBe(cocokitsIcons.heart.viewBox);
-    expect([...el.querySelectorAll('path')].map((path) => path.getAttribute('d'))).toEqual(
-      cocokitsIcons.heart.paths.map((path) => path.d),
-    );
+    expect(el.getAttribute('data-icon')).toBe('heart');
+    expect(el.querySelector('svg')?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(el.querySelector('svg')?.innerHTML).toBe(heartIcon.body);
+  });
+
+  it('forwards svg to the base icon, drawn after mount and without data-icon', async () => {
+    const svg = `<svg viewBox="${heartIcon.viewBox}">${heartIcon.body}</svg>`;
+    const { container } = render(themed(() => h(SvgIcon, { svg })));
+    await nextTick();
+    const el = rootOf(container);
+    expect(el.hasAttribute('data-icon')).toBe(false);
+    expect(el.querySelector('svg')?.getAttribute('viewBox')).toBe(heartIcon.viewBox);
+    expect(el.querySelector('path')).not.toBeNull();
   });
 
   it('renders no theme option by default: it is 1em and takes the text color', () => {

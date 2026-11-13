@@ -3,7 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/vue';
 import { h, ref } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { iconNamesIn, noPartIconsThemeConfig, themed } from '../../internal/tests/part-icon-fixtures';
+import {
+  customPartIconsThemeConfig,
+  iconNamesIn,
+  missingPartIconsThemeConfig,
+  noPartIconsThemeConfig,
+  themed,
+} from '../../internal/tests/part-icon-fixtures';
 import { Radio } from '../../radio';
 import { Checkbox } from '../index';
 import { box } from './fixtures';
@@ -49,12 +55,20 @@ describe('Checkbox part icon (the theme names it)', () => {
     expect(iconNamesIn(background())).toEqual([]);
   });
 
-  it('draws no tick without a theme, and with a theme that names none', () => {
-    mountView(() => h(Checkbox, { 'aria-label': 'Terms', modelValue: true }));
-    expect(background()?.innerHTML).toBe('');
-    cleanup();
-    mountView(themed(() => h(Checkbox, { 'aria-label': 'Terms', modelValue: true }), noPartIconsThemeConfig));
-    expect(background()?.innerHTML).toBe('');
+  const rows: readonly [string, Parameters<typeof themed>[1] | undefined, string, boolean][] = [
+    ['no theme', undefined, 'check', false],
+    ['a theme that names none', noPartIconsThemeConfig, 'check', false],
+    ['a theme icon the registry has', customPartIconsThemeConfig, 'heart', false],
+    ['a theme icon the registry lacks', missingPartIconsThemeConfig, 'check', true],
+  ];
+  it.each(rows)('draws the tick of the fallback order with %s', (_name, config, expected, logs) => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const render = () => h(Checkbox, { 'aria-label': 'Terms', modelValue: true });
+    mountView(config === undefined ? render : themed(render, config));
+    expect(iconNamesIn(background())).toEqual([expected]);
+    const messages = error.mock.calls.map((call) => String(call[0]));
+    expect(messages.some((message) => message.includes('"nope"') && message.includes('background'))).toBe(logs);
+    if (!logs) expect(error).not.toHaveBeenCalled();
   });
 
   it('gives the Radio no icon', () => {

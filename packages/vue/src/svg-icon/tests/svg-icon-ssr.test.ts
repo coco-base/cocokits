@@ -2,9 +2,9 @@
 import { createSSRApp, h } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { describe, expect, it } from 'vitest';
-import { ThemeProvider } from '@cocokits/vue-core';
+import { IconProvider } from '@cocokits/vue-core';
 import { SvgIcon } from '../index';
-import { iconsThemeConfig, view } from './fixtures';
+import { heartIcon, plusIcon, svgOf, view, withIcons } from './fixtures';
 
 /** The markup without the fragment anchors Vue writes around lists and slots. */
 const unanchored = (html: string): string => html.replaceAll('<!--[-->', '').replaceAll('<!--]-->', '');
@@ -15,26 +15,40 @@ describe('SvgIcon on the server', () => {
     expect(typeof document).toBe('undefined');
   });
 
-  it('puts the full icon in the server HTML', async () => {
+  it('puts a registered icon in the server HTML, as the markup contract says', async () => {
     const html = await renderToString(
       createSSRApp(
         view(() =>
-          h(ThemeProvider, { themeConfig: iconsThemeConfig }, () => [
-            h(SvgIcon, { iconName: 'heart' }),
-            h(SvgIcon, { iconName: 'plus', label: 'Add' }),
-          ]),
+          h(withIcons(() => [h(SvgIcon, { iconName: 'heart' }), h(SvgIcon, { iconName: 'plus', label: 'Add' })])),
         ),
       ),
     );
     expect(unanchored(html)).toContain(
-      '<span class="cck-svg-icon" data-icon-name="heart" aria-hidden="true"><svg class="cck-svg-icon__svg" viewBox="0 0 24 24"><path d="M1 1h2"></path><path d="M3 3h2" fill-rule="evenodd" clip-rule="nonzero"></path></svg></span>',
+      `<span class="cck-svg-icon" data-icon="heart" aria-hidden="true"><svg class="cck-svg-icon__svg" viewBox="${heartIcon.viewBox}" aria-hidden="true" focusable="false">${heartIcon.body}</svg></span>`,
     );
     expect(html).toContain('role="img" aria-label="Add"');
+    expect(html).toContain(plusIcon.body);
   });
 
-  it('renders an empty svg for an unknown name, without a throw or an error log', async () => {
+  it('renders an empty svg for a name that is not registered, without a throw or an error log', async () => {
     const html = await renderToString(createSSRApp(view(() => h(SvgIcon, { iconName: 'heart' }))));
-    expect(unanchored(html)).toContain('<svg class="cck-svg-icon__svg"></svg>');
-    expect(html).toContain('data-icon-name="heart"');
+    expect(unanchored(html)).toContain('<svg class="cck-svg-icon__svg" aria-hidden="true" focusable="false"></svg>');
+    expect(html).toContain('data-icon="heart"');
+  });
+
+  it('leaves a lazy icon and an svg string empty on the server', async () => {
+    const html = await renderToString(
+      createSSRApp(
+        view(() =>
+          h(IconProvider, { lazyIcons: { plus: () => Promise.resolve(plusIcon) } }, () => [
+            h(SvgIcon, { iconName: 'plus' }),
+            h(SvgIcon, { svg: svgOf(heartIcon) }),
+          ]),
+        ),
+      ),
+    );
+    expect(html).not.toContain('<path');
+    expect(html).not.toContain('viewBox');
+    expect(html).not.toContain('data-icon="heart"');
   });
 });

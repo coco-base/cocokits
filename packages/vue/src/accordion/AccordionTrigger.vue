@@ -17,7 +17,8 @@ import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { buttonPartKind, NON_NATIVE_DEFAULTS, nonNativePress, typedForKind } from '../internal/button-part';
 import { toVueListeners } from '../internal/listeners';
 import { omit } from '../internal/record';
-import { Nodes, usePartIconName } from '../internal/part-icon';
+import { Nodes } from '../internal/own-content';
+import { usePartIcon } from '../internal/use-part-icon';
 import { rootElementOf } from '../internal/root-element';
 import { SvgIcon } from '../svg-icon';
 import { useAccordionContext, useAccordionItemContext } from './accordion.context';
@@ -28,8 +29,8 @@ defineOptions({ name: 'CckAccordionTrigger', inheritAttrs: false });
 const props = withDefaults(defineProps<AccordionTriggerProps>(), { as: 'button', asChild: false });
 defineSlots<{
   /**
-   * The label of the trigger: text and icons. When not set, the trigger has no accessible name. The indicator of the
-   * theme follows it as the last child of the trigger.
+   * The label of the trigger: text and icons. When not set, the trigger has no accessible name. The indicator follows
+   * it as the last child of the trigger.
    *
    * @example
    * <AccordionTrigger>Shipping</AccordionTrigger>
@@ -45,7 +46,7 @@ const item = useAccordionItemContext('AccordionTrigger');
 const themeAttrs = useThemeAttrs(accordionAnatomy);
 const attrs = useAttrs();
 const slots = useSlots();
-const iconName = usePartIconName(accordionAnatomy.block, 'indicator');
+const iconName = usePartIcon(accordionAnatomy.block, 'indicator');
 const kind = computed(() => buttonPartKind(props.as, props.asChild));
 const parts = computed(() =>
   getAccordionItemProps(
@@ -98,14 +99,11 @@ const priorityAttrs = [
 
 /** The element that renders the trigger is the child of `asChild` or of `as="template"`. */
 const isChild = computed(() => props.asChild || props.as === 'template');
-/** The indicator part: always rendered, decorative, holding the icon of the theme. */
+/** The indicator part: always rendered, decorative, holding the icon of the part (the theme's, else `chevron-down`). */
 function indicator(): VNode {
-  const icon = iconName.value;
-  return h(
-    'span',
-    { ...themeAttrs.value.indicator, ...parts.value.indicator },
-    icon === undefined ? undefined : [h(SvgIcon, { iconName: icon })],
-  );
+  return h('span', { ...themeAttrs.value.indicator, ...parts.value.indicator }, [
+    h(SvgIcon, { iconName: iconName.value }),
+  ]);
 }
 /** With `asChild` the indicator goes after the children of the child, so it stays the last child of the trigger. */
 const withIndicator = (hostChildren: VNode[] = []): VNode[] => [...hostChildren, indicator()];
