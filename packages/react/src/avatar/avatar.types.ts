@@ -36,6 +36,16 @@ export interface AvatarPart<P> {
 /** Props of the {@link AvatarRoot}. Native `span` props pass through, and `ref` reaches the element. */
 export interface AvatarRootProps extends Omit<ComponentPropsWithRef<'span'>, 'color'> {
   /**
+   * The `Avatar.Image` and the `Avatar.Fallback`. When not set, the avatar is empty.
+   *
+   * @example
+   * <Avatar.Root>
+   *   <Avatar.Image src="/ada.webp" alt="Ada Park" />
+   *   <Avatar.Fallback>AP</Avatar.Fallback>
+   * </Avatar.Root>
+   */
+  children?: ReactNode | undefined;
+  /**
    * Replaces the `<span>` of the root. Pass an element, or a function of the merged props and the
    * {@link AvatarState}. The function must pass all props on, `ref` and `children` included, to one element.
    *
@@ -71,6 +81,15 @@ export interface AvatarImageProps extends Omit<ComponentPropsWithRef<'img'>, 'co
 
 /** Props of the {@link AvatarFallback}. Native `span` props pass through, and `ref` reaches the element. */
 export interface AvatarFallbackProps extends Omit<ComponentPropsWithRef<'span'>, 'color'> {
+  /**
+   * The content shown while the picture is not loaded: initials, an icon or any content. When not set, the fallback
+   * is empty.
+   *
+   * @example
+   * <Avatar.Fallback>AP</Avatar.Fallback>
+   * @cckSemantic avatar.default
+   */
+  children?: ReactNode | undefined;
   /**
    * Milliseconds to wait, after mount, before the fallback may show. Until then it is `hidden`, also on the
    * server. A new value restarts the wait.
