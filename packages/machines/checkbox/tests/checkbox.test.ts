@@ -182,3 +182,9 @@ describe('getCheckboxProps', () => {
     expect(checkboxMeta.keyboard.map((row) => row.key)).toEqual(['Tab / Shift+Tab', 'Space']);
   });
 });
+
+describe('icon-holding part description', () => {
+  it('says the background holds the theme tick icon while checked', () => {
+    expect(checkboxAnatomy.parts.background.description).toMatch(/theme's tick icon while checked/);
+  });
+});

@@ -1,6 +1,9 @@
 import { defineAnatomy, type Anatomy, type AnatomyPart } from '@cocokits/shared';
 
-/** Accordion anatomy: a root around items; each item has a header with one trigger, and a content. */
+/**
+ * Accordion anatomy: a root around items; each item has a header with one trigger (which ends with the indicator),
+ * and a content.
+ */
 export const accordionAnatomy: Anatomy<
   'accordion',
   {
@@ -8,6 +11,7 @@ export const accordionAnatomy: Anatomy<
     readonly item: AnatomyPart;
     readonly header: AnatomyPart;
     readonly trigger: AnatomyPart;
+    readonly indicator: AnatomyPart;
     readonly content: AnatomyPart;
   }
 > = defineAnatomy({
@@ -25,6 +29,12 @@ export const accordionAnatomy: Anatomy<
     trigger: {
       name: 'Trigger',
       description: 'The native `button` that opens and closes its item. It is the only child of the header.',
+    },
+    indicator: {
+      name: 'Indicator',
+      description:
+        "Decorative: the open and close affordance; holds the theme's icon. It is the last child of the trigger and " +
+        'is always rendered.',
     },
     content: {
       name: 'Content',

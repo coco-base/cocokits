@@ -122,7 +122,7 @@ const entries = [
   { name: '@cocokits/react/tab-nav', path: 'packages/react/dist/tab-nav/index.js', limit: '3000 B' },
   { name: '@cocokits/vue/tab-nav', path: 'packages/vue/dist/tab-nav/index.js', limit: '2920 B' },
   { name: '@cocokits/cdk/content-size', path: 'packages/cdk/dist/content-size/index.js', limit: '120 B' },
-  { name: '@cocokits/machines/accordion', path: 'packages/machines/dist/accordion/index.js', limit: '1980 B' },
+  { name: '@cocokits/machines/accordion', path: 'packages/machines/dist/accordion/index.js', limit: '2240 B' },
   { name: '@cocokits/machines/radio-group', path: 'packages/machines/dist/radio-group/index.js', limit: '1630 B' },
   { name: '@cocokits/angular/radio-group', path: 'dist/packages/angular/fesm2022/cocokits-angular-radio-group.mjs', limit: '2200 B' },
   { name: '@cocokits/vue/radio-group', path: 'packages/vue/dist/radio-group/index.js', limit: '1740 B' },
@@ -143,6 +143,8 @@ const entries = [
   { name: '@cocokits/angular/divider', path: 'dist/packages/angular/fesm2022/cocokits-angular-divider.mjs', limit: '970 B' },
   { name: '@cocokits/react/divider', path: 'packages/react/dist/divider/index.js', limit: '520 B' },
   { name: '@cocokits/vue/divider', path: 'packages/vue/dist/divider/index.js', limit: '450 B' },
+  { name: '@cocokits/machines/icon-button', path: 'packages/machines/dist/icon-button/index.js', limit: '750 B' },
+  { name: '@cocokits/machines/svg-icon', path: 'packages/machines/dist/svg-icon/index.js', limit: '690 B' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));

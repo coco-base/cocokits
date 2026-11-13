@@ -1,13 +1,14 @@
 import type { ComponentMeta } from '@cocokits/shared';
 
 /** Accordion meta: data for tests and docs, never read at runtime. */
-export const accordionMeta: ComponentMeta<'root' | 'item' | 'header' | 'trigger' | 'content'> = {
+export const accordionMeta: ComponentMeta<'root' | 'item' | 'header' | 'trigger' | 'indicator' | 'content'> = {
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/accordion/',
   dataAttrs: {
     root: ['data-orientation', 'data-disabled', 'data-multiple'],
     item: ['data-state', 'data-disabled', 'data-orientation'],
     header: ['data-state', 'data-disabled', 'data-orientation'],
     trigger: ['data-state', 'data-disabled', 'data-orientation', 'data-focus-visible'],
+    indicator: [],
     content: ['data-state', 'data-disabled', 'data-orientation'],
   },
   dataAttrDetails: {
@@ -26,7 +27,7 @@ export const accordionMeta: ComponentMeta<'root' | 'item' | 'header' | 'trigger'
     },
     'data-focus-visible': { setWhen: 'The trigger has focus that came from the keyboard.' },
   },
-  roles: { root: null, item: null, header: null, trigger: null, content: 'region' },
+  roles: { root: null, item: null, header: null, trigger: null, indicator: null, content: 'region' },
   keyboard: [
     {
       key: 'Enter / Space',

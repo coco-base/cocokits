@@ -62,6 +62,7 @@ describe('anatomy, ids and size variables', () => {
       item: 'cck-accordion__item',
       header: 'cck-accordion__header',
       trigger: 'cck-accordion__trigger',
+      indicator: 'cck-accordion__indicator',
       content: 'cck-accordion__content',
     });
     const root = getAccordionProps(base());
@@ -71,6 +72,15 @@ describe('anatomy, ids and size variables', () => {
     expect(parts.header.class).toBe('cck-accordion__header');
     expect(parts.trigger.class).toBe('cck-accordion__trigger');
     expect(parts.content.class).toBe('cck-accordion__content');
+    expect(parts.indicator.class).toBe('cck-accordion__indicator');
+  });
+
+  it('gives the indicator only the class and aria-hidden, in both states', () => {
+    for (const value of [[], ['a']]) {
+      const { indicator } = getAccordionItemProps(base({ value }), { id: 'a', key: 'a' }, vi.fn());
+      expect(indicator).toEqual({ class: 'cck-accordion__indicator', 'aria-hidden': 'true' });
+      expect(accordionMeta.dataAttrs.indicator).toEqual([]);
+    }
   });
 
   it('derives the trigger and content ids from the item id', () => {
@@ -434,6 +444,7 @@ describe('meta', () => {
       item: null,
       header: null,
       trigger: null,
+      indicator: null,
       content: 'region',
     });
     expect(accordionMeta.defaultElements).toEqual({
