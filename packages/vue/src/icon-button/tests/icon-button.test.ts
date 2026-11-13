@@ -188,7 +188,7 @@ describe('IconButton name check (development)', () => {
     await nextFrame();
     await nextTick();
     expect(unnamed()).toHaveLength(logs ? 1 : 0);
-    if (logs) expect(unnamed()[0]).toMatch(/^CocoKits: a IconButton has no accessible name\. Add an aria-label/);
+    if (logs) expect(unnamed()[0]).toMatch(/^CocoKits: an IconButton has no accessible name\. Add an aria-label/);
   });
 
   it('logs no error in production', async () => {

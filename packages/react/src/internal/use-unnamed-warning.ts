@@ -35,7 +35,9 @@ export function useUnnamedWarning(
     const frame = requestAnimationFrame(() => {
       const element = elementRef.current;
       if (element && !hasAccessibleName(element)) {
-        console[level](`CocoKits: a ${componentName} has no accessible name. ${fix}`);
+        console[level](
+          `CocoKits: ${/^[AEIOU]/.test(componentName) ? 'an' : 'a'} ${componentName} has no accessible name. ${fix}`,
+        );
       }
     });
     return () => {

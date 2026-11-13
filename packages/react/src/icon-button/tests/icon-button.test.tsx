@@ -189,7 +189,7 @@ describe('IconButton name check (development)', () => {
     render(strictThemed(<IconButton>{icon}</IconButton>));
     await settle();
     expect(error).toHaveBeenCalledTimes(1);
-    expect(String(error.mock.calls[0]?.[0])).toMatch(/^CocoKits: a IconButton has no accessible name/);
+    expect(String(error.mock.calls[0]?.[0])).toMatch(/^CocoKits: an IconButton has no accessible name/);
   });
 
   it.each<[string, ReactElement]>([
