@@ -2,7 +2,8 @@ export { CCK_THEME, provideCckTheme, provideThemeOptions } from './theme-provide
 export type { CckThemeOptions, CckThemeOverrides, CckThemeState } from './theme-provider';
 export { themeAttrs } from './theme-attrs';
 export type { ThemeAttrsSignal } from './theme-attrs';
-export { themeIcons } from './theme-icons';
+export { CckIconRegistry, injectPartIconName, provideCckIcons } from './icon-registry';
+export type { CckIconsOptions } from './icon-registry';
 export { CckAttrs, bindAttrs } from './attrs';
 export { IdGenerator } from './id-generator';
 export { injectFormParticipation } from './form-participation';

@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { render, screen } from '@testing-library/angular';
 import { provideCckTheme } from '@cocokits/angular-core';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
-import { cocokitsIcons, cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { cocokitsThemeConfig, cocokitsThemeIcons } from '@cocokits/theme-cocokits';
 import { describe, expect, it } from 'vitest';
 import { CckSvgIconTheme, type CckSvgIconColor, type CckSvgIconSize } from '../src/index';
 import { providers } from './helpers';
@@ -10,7 +10,7 @@ import { providers } from './helpers';
 @Component({
   imports: [CckSvgIcon, CckSvgIconTheme],
   template: `
-    <cck-svg-icon iconName="heart" data-testid="icon" [size]="size()" [color]="color()" [rtlMirror]="rtlMirror()" />
+    <cck-svg-icon iconName="check" data-testid="icon" [size]="size()" [color]="color()" [rtlMirror]="rtlMirror()" />
   `,
 })
 class Host {
@@ -22,10 +22,10 @@ class Host {
 @Component({
   imports: [CckSvgIcon, CckSvgIconTheme],
   template: `
-    <cck-svg-icon iconName="heart" data-testid="bare" rtlMirror />
-    <cck-svg-icon iconName="heart" data-testid="empty" rtlMirror="" />
-    <cck-svg-icon iconName="heart" data-testid="false" rtlMirror="false" />
-    <cck-svg-icon iconName="heart" data-testid="size" size="2xl" />
+    <cck-svg-icon iconName="check" data-testid="bare" rtlMirror />
+    <cck-svg-icon iconName="check" data-testid="empty" rtlMirror="" />
+    <cck-svg-icon iconName="check" data-testid="false" rtlMirror="false" />
+    <cck-svg-icon iconName="check" data-testid="size" size="2xl" />
   `,
 })
 class AttributeHost {
@@ -83,13 +83,11 @@ describe('CckSvgIconTheme', () => {
     expect(screen.getByTestId('icon').getAttribute('data-size')).toBe('lg');
   });
 
-  it('draws the icon of the cocokits pack from the provided theme, and renders no option without one', async () => {
+  it('draws a registered icon of the theme, and renders no option without one', async () => {
     const { container } = await render(Host, themed);
-    const heart = cocokitsIcons.heart;
-    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(heart.viewBox);
-    expect([...container.querySelectorAll('path')].map((path) => path.getAttribute('d'))).toEqual(
-      heart.paths.map((path) => path.d),
-    );
+    expect(container.querySelector('svg')?.getAttribute('viewBox')).toBe(cocokitsThemeIcons.check.viewBox);
+    expect(container.querySelector('cck-svg-icon')?.getAttribute('data-icon')).toBe('check');
+    expect(container.querySelectorAll('path')).toHaveLength(1);
   });
 
   it('renders no theme data-* without a theme provider', async () => {

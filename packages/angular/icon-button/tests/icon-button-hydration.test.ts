@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons } from '@cocokits/angular-core';
 import { CckSvgIconImports } from '@cocokits/angular/svg-icon';
-import { defineThemeConfig } from '@cocokits/shared';
+import { plusIcon } from '@cocokits/icons';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckIconButtonImports } from '../index';
 
@@ -30,19 +30,13 @@ class Root {
   protected count = 0;
 }
 
-const themeConfig = defineThemeConfig({
-  name: 'test',
-  components: {},
-  icons: { plus: { viewBox: '0 0 1 1', paths: [{ d: 'M0 0h1' }] } },
-});
-
 const page = '<html><head></head><body><app-root></app-root></body></html>';
 
 type AnyProvider = Provider | EnvironmentProviders;
 
 const providers = (...extra: AnyProvider[]): AnyProvider[] => [
   provideZonelessChangeDetection(),
-  provideCckTheme(themeConfig),
+  provideCckIcons({ icons: { plus: plusIcon } }),
   ...extra,
 ];
 
@@ -122,7 +116,7 @@ describe('Icon button hydration', () => {
     expect(logs.some(([message]) => String(message).startsWith('Angular hydrated'))).toBe(true);
     expect(problems).toEqual([]);
     expect(normalized(must(document.querySelector('app-root')))).toBe(first);
-    expect(first).toContain('d="M0 0h1"');
+    expect(first).toContain('data-icon="plus"');
 
     must(document.querySelector<HTMLElement>('button[aria-label="Add"]')).click();
     await app.whenStable();

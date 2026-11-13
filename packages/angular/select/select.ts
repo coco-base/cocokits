@@ -68,6 +68,7 @@ export interface CckSelectChange<V = string> {
  *
  * The Select works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes hidden native inputs, so `FormData`, `required`, `form`, reset and autofill work. Inside a `cck-form-field`, the trigger is the control of the field, and the list lines up with the input of the field. Name the Select with the label of the field, `aria-label` or `aria-labelledby`. The focus stays on the trigger while the list is open. The highlighted option is the `aria-activedescendant`.
  *
+ * @remarks The dropdown icon and the option indicator draw the icons your theme names in `components.select.icons` (`dropdownIcon`, `optionIndicator`), else the defaults `chevron-down` and `check`. Register a theme icon with `provideCckIcons`.
  * @example
  * <cck-select [(value)]="dish" placeholder="Choose a dish" aria-label="Dish">
  *   <cck-select-option-group label="Desserts">

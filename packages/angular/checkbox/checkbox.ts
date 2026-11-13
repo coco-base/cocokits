@@ -1,8 +1,7 @@
 import { Component, ViewEncapsulation, afterRenderEffect, booleanAttribute, computed, input } from '@angular/core';
-import { CckAttrs, themeAttrs, themeIcons } from '@cocokits/angular-core';
+import { CckAttrs, injectPartIconName, themeAttrs } from '@cocokits/angular-core';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
-import { resolvePartIconName } from '@cocokits/shared';
 import {
   CckCheckControlBase,
   type CheckControlChangeDetails,
@@ -25,6 +24,8 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the control or has tried to submit the form.
  *
  * The component never changes `indeterminate`. When you own the mixed state, set it again in your `checkedChangeDetails` handler.
+ *
+ * The tick in the background draws the icon your theme names in `components.checkbox.icons.background`, else the default `check`. Register a theme icon with `provideCckIcons`.
  *
  * @example
  * <cck-checkbox [(checked)]="accepted">Accept the terms</cck-checkbox>
@@ -78,8 +79,8 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
           [attr.aria-hidden]="parts().background['aria-hidden']"
           [cckAttrs]="theme().background"
         >
-          @if (tickIconName && parts().input.checked && !indeterminate()) {
-            <cck-svg-icon [iconName]="tickIconName" />
+          @if (parts().input.checked && !indeterminate()) {
+            <cck-svg-icon [iconName]="tickIconName()" />
           }
         </span>
       </span>
@@ -102,12 +103,8 @@ export class CckCheckbox extends CckCheckControlBase {
   /** The theme attributes of every part; the root's are applied to the host. */
   protected readonly theme = themeAttrs(checkboxAnatomy);
 
-  /** The icon the theme names for the background; the part shows it while checked and not indeterminate. */
-  protected readonly tickIconName = resolvePartIconName(
-    themeIcons().partIconNames,
-    checkboxAnatomy.block,
-    'background',
-  );
+  /** The theme's icon when registered, else the default; the part shows it while checked and not indeterminate. */
+  protected readonly tickIconName = injectPartIconName(checkboxAnatomy.block, 'background');
 
   protected readonly parts = computed(() =>
     getCheckboxProps({ ...this.state(), indeterminate: this.indeterminate() }, this.fieldContext()),

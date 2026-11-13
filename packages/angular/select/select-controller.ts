@@ -11,7 +11,13 @@ import {
   type TemplateRef,
   type WritableSignal,
 } from '@angular/core';
-import { CckDirection, CckOverlayLayer, CckPortal, injectZoneBoundary, themeIcons } from '@cocokits/angular-core';
+import {
+  CckDirection,
+  CckOverlayLayer,
+  CckPortal,
+  injectPartIconName,
+  injectZoneBoundary,
+} from '@cocokits/angular-core';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { trackLabelActivation, type LabelActivation } from '@cocokits/cdk/form-control';
 import {
@@ -21,7 +27,6 @@ import {
   type SelectEvent,
   type SelectTransition,
 } from '@cocokits/machines/select';
-import { resolvePartIconName } from '@cocokits/shared';
 import { hasAccessibleName } from '@cocokits/utils';
 import { mayClose, sortOptionsByDom } from './select-helpers';
 import { createSelectOverlay } from './select-overlay';
@@ -61,8 +66,8 @@ export interface SelectControllerOptions<V> extends Omit<SelectStateInputs<V>, '
 export interface SelectController<V> extends SelectStateController<V> {
   /** The text of the validation message of a blocked submit. */
   readonly validationMessage: Signal<string>;
-  /** The icon the theme names for the dropdown icon; the part shows it always. */
-  readonly dropdownIconName: string | undefined;
+  /** The icon of the dropdown icon part: the theme's icon when registered, else the default; the part shows it always. */
+  readonly dropdownIconName: Signal<string>;
   readonly open: () => void;
   readonly close: () => void;
   readonly toggle: () => void;
@@ -233,7 +238,7 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
   return {
     ...model,
     validationMessage,
-    dropdownIconName: resolvePartIconName(themeIcons().partIconNames, selectAnatomy.block, 'dropdownIcon'),
+    dropdownIconName: injectPartIconName(selectAnatomy.block, 'dropdownIcon'),
     open,
     close,
     toggle: () => {

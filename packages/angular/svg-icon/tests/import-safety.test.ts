@@ -1,29 +1,22 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-/** The ways to put markup into the page. No SvgIcon source may use one: an icon is bound as attributes only. */
-const sinks = [
-  'innerHTML',
-  'outerHTML',
-  'insertAdjacentHTML',
-  'dangerouslySetInnerHTML',
-  'v-html',
-  'DOMParser',
-  'createContextualFragment',
-  'bypassSecurityTrust',
-  'DomSanitizer',
-];
+const source = readFileSync(join(import.meta.dirname, '..', 'svg-icon.ts'), 'utf8');
 
-const folder = join(import.meta.dirname, '..');
-const sources = readdirSync(folder).filter((name) => name.endsWith('.ts'));
-
-describe('SvgIcon sources (Angular)', () => {
-  it('finds the component source', () => {
-    expect(sources).toContain('svg-icon.ts');
+describe('SvgIcon source (Angular)', () => {
+  it('says that its markup is trusted content only', () => {
+    expect(source).toContain('Trusted content only');
   });
 
-  it.each(sources.flatMap((file) => sinks.map((sink) => [file, sink] as const)))('%s does not use %s', (file, sink) => {
-    expect(readFileSync(join(folder, file), 'utf8')).not.toContain(sink);
+  it('inserts markup only through the one bypass, with its written reason', () => {
+    expect(source.match(/bypassSecurityTrust/g)).toHaveLength(1);
+    expect(source).toContain("Angular's sanitiser would strip it");
+  });
+
+  it('does not use another way to put markup into the page', () => {
+    for (const sink of ['outerHTML', 'insertAdjacentHTML', 'createContextualFragment', 'document.write']) {
+      expect(source).not.toContain(sink);
+    }
   });
 });

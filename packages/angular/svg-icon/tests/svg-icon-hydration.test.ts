@@ -34,7 +34,7 @@ describe('SvgIcon hydration', () => {
     const problems: unknown[][] = [];
     vi.spyOn(console, 'error').mockImplementation((...args) => {
       // The unknown icon of the test app logs its own error; it is not a hydration problem.
-      if (!String(args[0]).startsWith('CocoKits: the theme has no icon')) problems.push(args);
+      if (!String(args[0]).startsWith('CocoKits: no icon named')) problems.push(args);
     });
     vi.spyOn(console, 'warn').mockImplementation((...args) => {
       problems.push(args);

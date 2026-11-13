@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons, provideCckTheme } from '@cocokits/angular-core';
+import { heartIcon, plusIcon } from '@cocokits/icons';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { defineThemeConfig } from '@cocokits/shared';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -11,13 +12,12 @@ import { stubOverlayApis } from './overlay-stubs';
 const { classes } = selectAnatomy;
 const imports = [...CckSelectImports];
 
-const icon = (d: string) => ({ viewBox: '0 0 24 24', paths: [{ d }] });
 const themeConfig = defineThemeConfig({
   name: 'test',
-  components: {},
-  icons: { 'chevron-down': icon('M-chevron'), check: icon('M-check') },
-  partIconNames: { select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' } },
+  components: { select: { icons: { dropdownIcon: 'plus', optionIndicator: 'heart' } } },
 });
+const registry = provideCckIcons({ icons: { plus: plusIcon, heart: heartIcon } });
+const themed = [provideCckTheme(themeConfig), registry];
 
 const template = `
   <cck-select aria-label="Dish" value="Pizza" placeholder="Choose">
@@ -25,11 +25,9 @@ const template = `
     <cck-select-option value="Pizza">Pizza</cck-select-option>
   </cck-select>`;
 
-/** The icon the part holds: its name and the path, or null when the part is empty. */
-function held(part: Element): { name: string | null; d: string | null } | null {
-  const root = part.querySelector('.cck-svg-icon');
-  if (!root) return null;
-  return { name: root.getAttribute('data-icon-name'), d: root.querySelector('path')?.getAttribute('d') ?? null };
+/** The name of the icon the part holds, or null when the part is empty. */
+function held(part: Element): string | null {
+  return part.querySelector('.cck-svg-icon')?.getAttribute('data-icon') ?? null;
 }
 
 describe('Select part icons', () => {
@@ -41,9 +39,9 @@ describe('Select part icons', () => {
   });
 
   it('holds the theme icon in the dropdown icon, and the part stays decorative', async () => {
-    await render(template, { imports, providers: [provideCckTheme(themeConfig)] });
+    await render(template, { imports, providers: themed });
     const part = must(trigger().querySelector(`.${classes.dropdownIcon}`));
-    expect(held(part)).toEqual({ name: 'chevron-down', d: 'M-chevron' });
+    expect(held(part)).toBe('plus');
     expect(part.getAttribute('aria-hidden')).toBe('true');
     expect(must(part.querySelector('.cck-svg-icon')).getAttribute('aria-hidden')).toBe('true');
     expect(trigger().getAttribute('aria-label')).toBe('Dish');
@@ -51,24 +49,25 @@ describe('Select part icons', () => {
 
   it('holds the theme icon in the indicator of the selected option only', async () => {
     const user = userEvent.setup();
-    await render(template, { imports, providers: [provideCckTheme(themeConfig)] });
+    await render(template, { imports, providers: themed });
     await user.click(trigger());
     const options = await screen.findAllByRole('option');
     const indicators = options.map((option) => held(must(option.querySelector(`.${classes.optionIndicator}`))));
     expect(options.map((option) => option.getAttribute('aria-selected'))).toEqual(['false', 'true']);
-    expect(indicators).toEqual([null, { name: 'check', d: 'M-check' }]);
+    expect(indicators).toEqual([null, 'heart']);
   });
 
   it('moves the indicator icon with the selection', async () => {
     const user = userEvent.setup();
-    await render(template, { imports, providers: [provideCckTheme(themeConfig)] });
+    await render(template, { imports, providers: themed });
     await user.click(trigger());
     await user.click(await screen.findByRole('option', { name: 'Cake' }));
     await user.click(trigger());
     const options = await screen.findAllByRole('option');
-    expect(
-      options.map((option) => held(must(option.querySelector(`.${classes.optionIndicator}`)))?.name ?? null),
-    ).toEqual(['check', null]);
+    expect(options.map((option) => held(must(option.querySelector(`.${classes.optionIndicator}`))))).toEqual([
+      'heart',
+      null,
+    ]);
   });
 
   it('holds the icon in the indicator of every selected option with multiple', async () => {
@@ -79,40 +78,50 @@ describe('Select part icons', () => {
         <cck-select-option value="Beans">Beans</cck-select-option>
         <cck-select-option value="Corn">Corn</cck-select-option>
       </cck-select>`,
-      { imports, providers: [provideCckTheme(themeConfig)] },
+      { imports, providers: themed },
     );
     await user.click(trigger());
     const options = await screen.findAllByRole('option');
-    expect(
-      options.map((option) => held(must(option.querySelector(`.${classes.optionIndicator}`)))?.name ?? null),
-    ).toEqual(['check', 'check', null]);
+    expect(options.map((option) => held(must(option.querySelector(`.${classes.optionIndicator}`))))).toEqual([
+      'heart',
+      'heart',
+      null,
+    ]);
   });
 
   it.each([
     ['no theme', []],
     ['a theme with no part icons', [provideCckTheme(defineThemeConfig({ name: 'bare', components: {} }))]],
-  ])('leaves the parts empty as before: %s', async (_name, providers) => {
+  ])('draws the default icons: %s', async (_name, providers) => {
     const user = userEvent.setup();
     await render(template, { imports, providers });
-    expect(must(trigger().querySelector(`.${classes.dropdownIcon}`)).children).toHaveLength(0);
+    expect(held(must(trigger().querySelector(`.${classes.dropdownIcon}`)))).toBe('chevron-down');
     await user.click(trigger());
-    for (const option of await screen.findAllByRole('option')) {
-      expect(must(option.querySelector(`.${classes.optionIndicator}`)).children).toHaveLength(0);
-    }
+    const options = await screen.findAllByRole('option');
+    expect(options.map((option) => held(must(option.querySelector(`.${classes.optionIndicator}`))))).toEqual([
+      null,
+      'check',
+    ]);
   });
 
-  it('draws an empty icon and reports it when the theme names an icon its set lacks', async () => {
-    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-    const gap = defineThemeConfig({
-      name: 'gap',
-      components: {},
-      icons: {},
-      partIconNames: { select: { dropdownIcon: 'gone' } },
+  it('draws a theme icon that is registered lazily', async () => {
+    await render(template, {
+      imports,
+      providers: [
+        provideCckTheme(themeConfig),
+        provideCckIcons({ lazyIcons: { plus: () => Promise.resolve(plusIcon) } }),
+      ],
     });
-    await render(template, { imports, providers: [provideCckTheme(gap)] });
-    expect(held(must(trigger().querySelector(`.${classes.dropdownIcon}`)))?.d).toBeNull();
+    expect(held(must(trigger().querySelector(`.${classes.dropdownIcon}`)))).toBe('plus');
+  });
+
+  it('draws the default and reports it when the theme names an icon that is not registered', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    await render(template, { imports, providers: [provideCckTheme(themeConfig)] });
+    expect(held(must(trigger().querySelector(`.${classes.dropdownIcon}`)))).toBe('chevron-down');
+    const messages = (): string[] => error.mock.calls.map((call) => String(call[0]));
     await vi.waitFor(() => {
-      expect(error).toHaveBeenCalledTimes(1);
+      expect(messages().filter((message) => message.includes('"plus" for select.dropdownIcon'))).toHaveLength(1);
     });
   });
 });

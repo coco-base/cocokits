@@ -1,21 +1,13 @@
 import { render } from '@testing-library/angular';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons } from '@cocokits/angular-core';
 import { CckSvgIconImports } from '@cocokits/angular/svg-icon';
-import { defineThemeConfig } from '@cocokits/shared';
+import { plusIcon } from '@cocokits/icons';
 import { describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 import { CckIconButtonImports } from '../index';
 
 const imports = [...CckIconButtonImports, ...CckSvgIconImports];
-const providers = [
-  provideCckTheme(
-    defineThemeConfig({
-      name: 'test',
-      components: {},
-      icons: { plus: { viewBox: '0 0 1 1', paths: [{ d: 'M0 0' }] } },
-    }),
-  ),
-];
+const providers = [provideCckIcons({ icons: { plus: plusIcon } })];
 
 describe('Icon button accessibility (axe)', () => {
   it.each([

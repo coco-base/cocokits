@@ -10,10 +10,9 @@ import {
   input,
   type OnInit,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, bindAttrs, listenLast, themeIcons } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, bindAttrs, injectPartIconName, listenLast } from '@cocokits/angular-core';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { selectAnatomy, type SelectItem } from '@cocokits/machines/select';
-import { resolvePartIconName } from '@cocokits/shared';
 import { hasInteractiveContent } from '@cocokits/utils';
 import { injectCckSelect } from './select';
 import { CckSelectOptionGroup } from './select-option-group';
@@ -55,8 +54,8 @@ import { CckSelectOptionGroup } from './select-option-group';
       [attr.aria-hidden]="parts().optionIndicator['aria-hidden']"
       [cckAttrs]="_root._theme().optionIndicator"
     >
-      @if (indicatorIconName && props()['data-selected'] !== undefined) {
-        <cck-svg-icon [iconName]="indicatorIconName" />
+      @if (props()['data-selected'] !== undefined) {
+        <cck-svg-icon [iconName]="indicatorIconName()" />
       }
     </span>
     <span [class]="parts().optionContent.class" [cckAttrs]="_root._theme().optionContent"><ng-content /></span>
@@ -95,12 +94,8 @@ export class CckSelectOption<T = string> implements OnInit {
     id: this.id(),
   }));
   protected readonly parts = this._root.parts;
-  /** The icon the theme names for the option indicator; the part shows it while the option is selected. */
-  protected readonly indicatorIconName = resolvePartIconName(
-    themeIcons().partIconNames,
-    selectAnatomy.block,
-    'optionIndicator',
-  );
+  /** The theme's icon when registered, else the default; the part shows it while the option is selected. */
+  protected readonly indicatorIconName = injectPartIconName(selectAnatomy.block, 'optionIndicator');
   protected readonly props = computed(() => this._root.parts().option(this.item()));
 
   private unregister: (() => void) | undefined;

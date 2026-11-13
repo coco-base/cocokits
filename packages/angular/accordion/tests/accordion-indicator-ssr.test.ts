@@ -2,7 +2,8 @@
 import { Component, destroyPlatform, provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons, provideCckTheme } from '@cocokits/angular-core';
+import { plusIcon } from '@cocokits/icons';
 import { defineThemeConfig } from '@cocokits/shared';
 import { describe, expect, it } from 'vitest';
 import { accordionMeta } from '@cocokits/machines/accordion';
@@ -23,9 +24,7 @@ class Root {
 
 const themeConfig = defineThemeConfig({
   name: 'test',
-  components: {},
-  icons: { 'chevron-down': { viewBox: '0 0 24 24', paths: [{ d: 'M-chevron' }] } },
-  partIconNames: { accordion: { indicator: 'chevron-down' } },
+  components: { accordion: { icons: { indicator: 'plus' } } },
 });
 
 async function renderOnServer(): Promise<string> {
@@ -43,6 +42,7 @@ async function renderOnServer(): Promise<string> {
             providers: [
               provideZonelessChangeDetection(),
               provideCckTheme(themeConfig),
+              provideCckIcons({ icons: { plus: plusIcon } }),
               provideClientHydration(),
               provideServerRendering(),
             ],
@@ -69,8 +69,8 @@ describe('Accordion indicator on the server', () => {
     expect(trigger).toMatch(
       new RegExp(`Shipping\\s*<${indicator}[^>]*class="cck-accordion__indicator"[^>]*aria-hidden="true"[^>]*>`),
     );
-    expect(trigger).toContain('data-icon-name="chevron-down"');
-    expect(trigger).toContain('d="M-chevron"');
+    expect(trigger).toContain('data-icon="plus"');
+    expect(trigger).toContain(plusIcon.body.slice(0, 30));
     expect(trigger).toMatch(/<\/svg>\s*<\/cck-svg-icon>\s*<\/span>\s*<\/button>$/);
   });
 });

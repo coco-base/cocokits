@@ -1,4 +1,5 @@
 // @vitest-environment node
+import { plusIcon } from '@cocokits/icons';
 import { describe, expect, it } from 'vitest';
 import { renderPartIconsOnServer } from './part-icons-fixtures';
 
@@ -18,15 +19,15 @@ describe('Part icons on the server', () => {
     const html = (await renderPartIconsOnServer()).replace(/<!--[^>]*-->/g, '');
 
     const [chevron] = parts(html, 'cck-select__dropdown-icon');
-    expect(chevron).toContain('data-icon-name="chevron-down"');
-    expect(chevron).toContain('d="M-chevron"');
+    expect(chevron).toContain('data-icon="plus"');
+    expect(chevron).toContain(plusIcon.body.slice(0, 30));
 
     const [indicator] = parts(html, 'cck-accordion__indicator');
-    expect(indicator).toContain('data-icon-name="chevron-down"');
-    expect(indicator).toContain('d="M-chevron"');
+    expect(indicator).toContain('data-icon="plus"');
+    expect(indicator).toContain(plusIcon.body.slice(0, 30));
 
     // The Checkbox background holds the tick only while it is checked and not indeterminate.
-    const ticks = parts(html, 'cck-checkbox__background').map((background) => background.includes('d="M-check"'));
+    const ticks = parts(html, 'cck-checkbox__background').map((background) => background.includes('data-icon="heart"'));
     expect(ticks).toEqual([true, false, false]);
   });
 });

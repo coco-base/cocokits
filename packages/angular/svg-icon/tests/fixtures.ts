@@ -7,29 +7,26 @@ import {
 } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
-import { defineThemeConfig, type SvgIconSet } from '@cocokits/shared';
+import { provideCckIcons } from '@cocokits/angular-core';
+import { checkIcon, heartIcon, type Icon } from '@cocokits/icons';
 import { CckSvgIconImports } from '../index';
 
-/** A small icon set: one path with both rules, two paths, and the markup attack in `d`. */
-export const testIcons: SvgIconSet = {
-  star: {
-    viewBox: '0 0 24 24',
-    paths: [{ d: 'M12 2l3 7h7l-5 5 2 8-7-4-7 4 2-8-5-5h7z', fillRule: 'evenodd', clipRule: 'evenodd' }],
-  },
-  pair: { viewBox: '0 0 10 10', paths: [{ d: 'M0 0h5' }, { d: 'M5 5h5' }] },
-  attack: { viewBox: '0 0 1 1', paths: [{ d: '"/><script>alert(1)</script><path d="' }] },
+/** A small icon set built from pack icons: one path, and two paths. */
+export const testIcons: Readonly<Record<string, Icon>> = {
+  heart: heartIcon,
+  check: checkIcon,
+  pair: { viewBox: '0 0 10 10', body: `${heartIcon.body}${checkIcon.body}` },
 };
 
-/** A theme that carries the test icons. */
-export const testThemeConfig = defineThemeConfig({ name: 'test', components: {}, icons: testIcons });
+/** A full SVG string of a pack icon, for the `svg` input. */
+export const checkSvg = `<svg viewBox="${checkIcon.viewBox}">${checkIcon.body}</svg>`;
 
 /** The app both the server and the client render. */
 @Component({
   selector: 'app-root',
   imports: [CckSvgIconImports],
   template: `
-    <cck-svg-icon iconName="star" />
+    <cck-svg-icon iconName="heart" />
     <cck-svg-icon iconName="pair" label="Pair" />
     <cck-svg-icon iconName="missing" />
   `,
@@ -44,7 +41,7 @@ type AnyProvider = Provider | EnvironmentProviders;
 
 const providers = (...extra: AnyProvider[]): AnyProvider[] => [
   provideZonelessChangeDetection(),
-  provideCckTheme(testThemeConfig),
+  provideCckIcons({ icons: testIcons }),
   ...extra,
 ];
 

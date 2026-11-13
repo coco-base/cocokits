@@ -50,13 +50,13 @@ describe('Part icons hydration', () => {
     expect(logs.some(([message]) => String(message).startsWith('Angular hydrated'))).toBe(true);
     expect(problems).toEqual([]);
     expect(normalized(must(document.querySelector('app-root')))).toBe(first);
-    expect(first).toContain('data-icon-name="chevron-down"');
-    expect(first).toContain('d="M-check"');
+    expect(first).toContain('data-icon="plus"');
+    expect(first).toContain('data-icon="heart"');
 
     must(document.querySelector<HTMLElement>('button[role="combobox"]')).click();
     await app.whenStable();
     const indicators = [...document.querySelectorAll('[role="option"] .cck-select__option-indicator')];
-    const held = indicators.map((part) => part.querySelector('.cck-svg-icon')?.getAttribute('data-icon-name') ?? null);
-    expect(held).toEqual([null, 'check']);
+    const held = indicators.map((part) => part.querySelector('.cck-svg-icon')?.getAttribute('data-icon') ?? null);
+    expect(held).toEqual([null, 'heart']);
   });
 });

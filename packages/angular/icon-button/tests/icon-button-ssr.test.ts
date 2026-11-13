@@ -2,9 +2,9 @@
 import { Component, destroyPlatform, provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons } from '@cocokits/angular-core';
 import { CckSvgIconImports } from '@cocokits/angular/svg-icon';
-import { defineThemeConfig } from '@cocokits/shared';
+import { plusIcon } from '@cocokits/icons';
 import { describe, expect, it } from 'vitest';
 import { CckIconButtonImports } from '../index';
 
@@ -21,12 +21,6 @@ class Root {
   readonly root = true;
 }
 
-const themeConfig = defineThemeConfig({
-  name: 'test',
-  components: {},
-  icons: { plus: { viewBox: '0 0 1 1', paths: [{ d: 'M0 0h1' }] } },
-});
-
 async function renderOnServer(): Promise<string> {
   destroyPlatform();
   const flags = globalThis as { ngDevMode?: unknown };
@@ -41,7 +35,7 @@ async function renderOnServer(): Promise<string> {
           {
             providers: [
               provideZonelessChangeDetection(),
-              provideCckTheme(themeConfig),
+              provideCckIcons({ icons: { plus: plusIcon } }),
               provideClientHydration(),
               provideServerRendering(),
             ],

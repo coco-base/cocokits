@@ -8,10 +8,10 @@ import { axe } from 'vitest-axe';
 import { CckSelectImports } from '../index';
 import { trigger } from './helpers';
 import { stubOverlayApis } from './overlay-stubs';
-import { partIconsTheme } from './part-icons-fixtures';
+import { partIconsRegistry, partIconsTheme } from './part-icons-fixtures';
 
 const imports = [...CckSelectImports, ...CckAccordionImports, ...CckCheckboxImports];
-const providers = [provideCckTheme(partIconsTheme)];
+const providers = [provideCckTheme(partIconsTheme), partIconsRegistry];
 
 describe('Part icons accessibility (axe)', () => {
   beforeEach(() => {

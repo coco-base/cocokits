@@ -7,25 +7,25 @@ import {
 } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons, provideCckTheme } from '@cocokits/angular-core';
 import { CckAccordionImports } from '@cocokits/angular/accordion';
 import { CckCheckboxImports } from '@cocokits/angular/checkbox';
+import { heartIcon, plusIcon } from '@cocokits/icons';
 import { defineThemeConfig } from '@cocokits/shared';
 import { CckSelectImports } from '../index';
 
-const icon = (d: string) => ({ viewBox: '0 0 24 24', paths: [{ d }] });
-
-/** A theme that names an icon for every part that holds one. */
+/** A theme that names a registered icon (not the default) for every part that holds one. */
 export const partIconsTheme = defineThemeConfig({
   name: 'test',
-  components: {},
-  icons: { 'chevron-down': icon('M-chevron'), check: icon('M-check') },
-  partIconNames: {
-    select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
-    accordion: { indicator: 'chevron-down' },
-    checkbox: { background: 'check' },
+  components: {
+    select: { icons: { dropdownIcon: 'plus', optionIndicator: 'heart' } },
+    accordion: { icons: { indicator: 'plus' } },
+    checkbox: { icons: { background: 'heart' } },
   },
 });
+
+/** The icons the theme names, registered for the app. */
+export const partIconsRegistry = provideCckIcons({ icons: { plus: plusIcon, heart: heartIcon } });
 
 /** The app both the server and the client render: a Select, an Accordion and three Checkboxes. */
 @Component({
@@ -55,6 +55,7 @@ type AnyProvider = Provider | EnvironmentProviders;
 const providers = (...extra: AnyProvider[]): AnyProvider[] => [
   provideZonelessChangeDetection(),
   provideCckTheme(partIconsTheme),
+  partIconsRegistry,
   ...extra,
 ];
 

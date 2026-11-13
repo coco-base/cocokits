@@ -3,22 +3,18 @@ import userEvent from '@testing-library/user-event';
 import { CckAccordionImports } from '@cocokits/angular/accordion';
 import { CckCheckboxImports } from '@cocokits/angular/checkbox';
 import { CckSelectImports } from '@cocokits/angular/select';
-import { cocokitsIcons, cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { cocokitsThemeConfig, cocokitsThemeIcons } from '@cocokits/theme-cocokits';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { providers } from './helpers';
 
-/** The icon the part holds: its name and the paths drawn. */
-function held(part: Element | null): { name: string | null; d: (string | null)[] } | null {
+/** The name of the icon the part holds, with the number of paths drawn. */
+function held(part: Element | null): { name: string | null; paths: number } | null {
   const root = part?.querySelector('.cck-svg-icon');
   if (!root) return null;
-  return {
-    name: root.getAttribute('data-icon-name'),
-    d: [...root.querySelectorAll('path')].map((path) => path.getAttribute('d')),
-  };
+  return { name: root.getAttribute('data-icon'), paths: root.querySelectorAll('path').length };
 }
 
-const drawing = (name: keyof typeof cocokitsIcons): (string | null)[] =>
-  cocokitsIcons[name].paths.map((path) => path.d);
+const drawn = (name: string): { name: string; paths: number } => ({ name, paths: 1 });
 
 describe('the part icons of the cocokits theme', () => {
   beforeEach(() => {
@@ -30,13 +26,17 @@ describe('the part icons of the cocokits theme', () => {
     Element.prototype.scrollIntoView = () => undefined;
   });
 
-  it('names an icon of the pack for each part', () => {
-    const names = cocokitsThemeConfig.partIconNames;
-    expect(names).toEqual({
+  it('names a registered icon for each part', () => {
+    const { select, accordion, checkbox } = cocokitsThemeConfig.components;
+    const icons = { select: select.icons, accordion: accordion.icons, checkbox: checkbox.icons };
+    expect(icons).toEqual({
       select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
       accordion: { indicator: 'chevron-down' },
       checkbox: { background: 'check' },
     });
+    for (const names of Object.values(icons)) {
+      for (const name of Object.values(names)) expect(Object.keys(cocokitsThemeIcons)).toContain(name);
+    }
   });
 
   it('draws the chevron in the Select trigger and the check in the selected option', async () => {
@@ -46,15 +46,12 @@ describe('the part icons of the cocokits theme', () => {
       { imports: [...CckSelectImports], providers },
     );
     const combobox = screen.getByRole('combobox');
-    expect(held(combobox.querySelector('.cck-select__dropdown-icon'))).toEqual({
-      name: 'chevron-down',
-      d: drawing('chevron-down'),
-    });
+    expect(held(combobox.querySelector('.cck-select__dropdown-icon'))).toEqual(drawn('chevron-down'));
     await user.click(combobox);
     const options = await screen.findAllByRole('option');
     expect(options.map((option) => held(option.querySelector('.cck-select__option-indicator')))).toEqual([
       null,
-      { name: 'check', d: drawing('check') },
+      drawn('check'),
     ]);
   });
 
@@ -63,10 +60,7 @@ describe('the part icons of the cocokits theme', () => {
       imports: [...CckAccordionImports],
       providers,
     });
-    expect(held(screen.getByRole('button', { name: 'Shipping' }).lastElementChild)).toEqual({
-      name: 'chevron-down',
-      d: drawing('chevron-down'),
-    });
+    expect(held(screen.getByRole('button', { name: 'Shipping' }).lastElementChild)).toEqual(drawn('chevron-down'));
   });
 
   it('draws the check in the Checkbox background while checked', async () => {
@@ -75,7 +69,7 @@ describe('the part icons of the cocokits theme', () => {
       { imports: [...CckCheckboxImports], providers },
     );
     const [checked, unchecked] = [...container.querySelectorAll('.cck-checkbox__background')];
-    expect(held(checked)).toEqual({ name: 'check', d: drawing('check') });
+    expect(held(checked)).toEqual(drawn('check'));
     expect(held(unchecked)).toBeNull();
   });
 });

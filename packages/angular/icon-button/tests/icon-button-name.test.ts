@@ -1,21 +1,13 @@
 import { signal } from '@angular/core';
 import { render, waitFor } from '@testing-library/angular';
-import { provideCckTheme } from '@cocokits/angular-core';
+import { provideCckIcons } from '@cocokits/angular-core';
 import { CckSvgIconImports } from '@cocokits/angular/svg-icon';
-import { defineThemeConfig } from '@cocokits/shared';
+import { plusIcon } from '@cocokits/icons';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckIconButtonImports } from '../index';
 
 const imports = [...CckIconButtonImports, ...CckSvgIconImports];
-const providers = [
-  provideCckTheme(
-    defineThemeConfig({
-      name: 'test',
-      components: {},
-      icons: { plus: { viewBox: '0 0 1 1', paths: [{ d: 'M0 0' }] } },
-    }),
-  ),
-];
+const providers = [provideCckIcons({ icons: { plus: plusIcon } })];
 
 const WARNING =
   'CocoKits: an IconButton has no accessible name. Add an aria-label or an aria-labelledby that points to an element with text, or put a cck-svg-icon with a label inside.';
