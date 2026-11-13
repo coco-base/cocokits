@@ -1,12 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import type { Icon } from '@cocokits/icons';
+import { checkIcon, heartIcon } from '@cocokits/icons';
 import { getSvgIconProps, svgIconAnatomy, svgIconMeta } from '../index';
 
-const check: Icon = { viewBox: '0 0 24 24', body: '<path d="M1 1" fill="currentColor"></path>' };
-const ring: Icon = {
-  viewBox: '0 0 24 25',
-  body: '<g><circle cx="12" cy="12" r="4"></circle><path d="M2 2" fill-rule="evenodd"></path></g>',
-};
+const check = checkIcon;
+const ring = { viewBox: heartIcon.viewBox, body: `<g>${heartIcon.body}</g>` };
 
 describe('anatomy', () => {
   it('has a root and the svg with their classes', () => {
@@ -19,7 +16,7 @@ describe('getSvgIconProps', () => {
   it('a found icon gives the viewBox, the body as it is and the name', () => {
     expect(getSvgIconProps({ iconName: 'ring', icon: ring })).toEqual({
       root: { class: 'cck-svg-icon', 'data-icon': 'ring', 'aria-hidden': 'true' },
-      svg: { class: 'cck-svg-icon__svg', viewBox: '0 0 24 25', 'aria-hidden': 'true', focusable: 'false' },
+      svg: { class: 'cck-svg-icon__svg', viewBox: ring.viewBox, 'aria-hidden': 'true', focusable: 'false' },
       body: ring.body,
     });
   });

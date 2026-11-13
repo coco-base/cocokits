@@ -432,12 +432,13 @@ describe('docs-data: theme', () => {
 const PART_ICONS = `{ dropdownIcon: 'chevron-down', optionIndicator: 'check' }`;
 
 describe('docs-data: theme part icons', () => {
-  it('writes the options only: no icons and no iconNames in theme.json', async () => {
+  it('writes the options only, never the part icons', async () => {
     theme(`${OPTION}, icons: ${PART_ICONS}`);
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
-    const written = readJson('dist/docs-data/theme-mood/theme.json');
+    const written = readJson('dist/docs-data/theme-mood/theme.json') as { components: { button: object } };
     expect(written).toMatchObject({ components: { button: { size: { attrName: 'size' } } } });
-    expect(JSON.stringify(written)).not.toMatch(/icons|iconNames|chevron-down/);
+    expect(Object.keys(written)).toEqual(['kind', 'name', 'components', 'modeCollections']);
+    expect(Object.keys(written.components.button)).toEqual(['size']);
   });
 
   it('accepts a component that has only icons', async () => {
