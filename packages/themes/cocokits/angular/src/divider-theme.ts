@@ -16,6 +16,9 @@ export type CckDividerColor = DividerOptions['color']['values'][number];
  * `null` removes the attribute. The theme needs `provideCckTheme`; without it no theme attribute
  * renders.
  *
+ * It has no margin. The layout around it, such as a `gap`, sets the space. Where the line is the only cue of a
+ * grouping, use `color="dark"`, the one strength that reaches a 3:1 contrast in both colour modes.
+ *
  * @example
  * <hr cckDivider size="lg" color="dark" />
  * @cckPart root

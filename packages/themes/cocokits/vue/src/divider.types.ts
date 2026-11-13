@@ -13,6 +13,8 @@ export type DividerColor = DividerOptions['color']['values'][number];
  * resolves as own option, then `ThemeProvider` override, then config default; `null` removes the attribute. The
  * Divider has no margin: the layout around it, such as a `gap`, sets the space.
  *
+ * Where the line is the only cue of a grouping, use `color="dark"`, the one strength that reaches a 3:1 contrast in both colour modes.
+ *
  * @example
  * <Divider size="lg" color="dark" />
  * @cckPart root

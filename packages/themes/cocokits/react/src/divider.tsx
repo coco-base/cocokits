@@ -13,7 +13,7 @@ export type DividerSize = DividerOptions['size']['values'][number];
 export type DividerColor = DividerOptions['color']['values'][number];
 
 /** Props of the themed {@link Divider}: the base props plus the two cocokits options. */
-export interface DividerProps extends Omit<BaseDividerProps, 'size'> {
+export interface DividerProps extends BaseDividerProps {
   /**
    * Thickness of the line.
    */
