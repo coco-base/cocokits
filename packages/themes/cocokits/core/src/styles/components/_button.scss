@@ -22,6 +22,11 @@
     text-decoration: none;
     cursor: pointer;
 
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
     &[data-variant='primary'] {
       background-color: var(--cck-button-solid-bg);
       color: var(--cck-button-solid-label-color);

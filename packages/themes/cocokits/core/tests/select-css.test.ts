@@ -160,4 +160,16 @@ describe('select list tokens', () => {
     );
     expect(missing).toEqual([]);
   });
+
+  it('restates [hidden] on the icon boxes it sets to display', () => {
+    expect(css).toMatch(/\.cck-select__dropdown-icon\[hidden\]\s*\{\s*display: none/);
+    expect(css).toMatch(/\.cck-select__option-indicator\[hidden\]\s*\{\s*display: none/);
+  });
+
+  it('gives the indicator of a highlighted option HighlightText in forced colors', () => {
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(
+      /\.cck-select__option\[data-highlighted\] \.cck-select__option-indicator\s*\{[^}]*color: HighlightText/,
+    );
+  });
 });

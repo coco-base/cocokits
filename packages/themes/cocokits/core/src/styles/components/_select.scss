@@ -74,6 +74,11 @@
     display: inline-flex;
     font-size: var(--cck-select-icon-size);
     color: var(--cck-select-icon-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   // One icon turned when the list is open; the chevron is symmetric, so a right-to-left page needs no counterpart.
@@ -180,6 +185,11 @@
     font-size: var(--cck-select-indicator-size);
     color: var(--cck-select-indicator-color);
     order: 1;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-select__content[data-multiple] .cck-select__option-indicator {
@@ -297,6 +307,11 @@
 
     .cck-select__option[data-highlighted] {
       background-color: Highlight;
+      color: HighlightText;
+    }
+
+    // The indicator sets its own color, so it does not inherit the option's HighlightText.
+    .cck-select__option[data-highlighted] .cck-select__option-indicator {
       color: HighlightText;
     }
 

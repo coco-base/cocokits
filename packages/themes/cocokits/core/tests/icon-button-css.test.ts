@@ -88,4 +88,8 @@ describe('icon-button output', () => {
       /(^|[\s{;])(left|right|width|height|margin-left|margin-right|padding-left|padding-right)\s*:/,
     );
   });
+
+  it('restates [hidden] on the box it sets to display', () => {
+    expect(own).toMatch(/\.cck-icon-button\[hidden\]\s*\{\s*display: none/);
+  });
 });

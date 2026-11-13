@@ -149,3 +149,26 @@ describe('choice controls (WCAG 1.4.11 non-text 3:1, 1.4.3 text 4.5:1)', () => {
     expect(contrast(resolve('Theme / Color#text/1', mode), surface(mode))).toBeGreaterThanOrEqual(4.5);
   });
 });
+
+describe('svg icon color option on the surface (WCAG 1.4.11, 3:1)', () => {
+  const MODES = ['Light', 'Dark'];
+  const FAMILIES = ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast'];
+  const tokens = JSON.parse(
+    readFileSync(join(import.meta.dirname, '..', 'src', 'tokens', 'svg-icon.tokens.json'), 'utf8'),
+  ) as { collections: Collection[] };
+  const activeColor = base.collections.find((c) => c.name === 'Theme / Active Color');
+  const color = tokens.collections.find((c) => c.name === 'Svg Icon / Structure')?.tokens[0];
+
+  it('points at the Active Color edge, the foreground that reaches 3:1', () => {
+    expect(color?.valuesByMode.Default).toBe('{Theme / Active Color#edge}');
+  });
+
+  it.each(MODES.flatMap((mode) => FAMILIES.map((family) => [family, mode] as const)))(
+    '%s in %s mode',
+    (family, mode) => {
+      const value = String(activeColor?.tokens.find((t) => t.name === 'edge')?.valuesByMode[family]);
+      const icon = resolve(/^\{(.+)\}$/.exec(value)?.[1] ?? '', mode);
+      expect(contrast(icon, resolve('Theme / Color#surface/1', mode))).toBeGreaterThanOrEqual(3);
+    },
+  );
+});

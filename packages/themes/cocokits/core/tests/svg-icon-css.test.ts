@@ -37,7 +37,7 @@ describe('svg-icon output', () => {
   it('emits the sizes xs to 2xl on the class and the color from the Active Color, never on :root', () => {
     for (const mode of ['xs', 'sm', 'lg', 'xl', '"2xl"']) expect(tokensCss).toContain(`${ROOT}[data-size=${mode}] {`);
     expect(tokensCss).toContain(`${ROOT}, ${ROOT}[data-size=md] {`);
-    expect(tokensCss).toMatch(/\.cck-svg-icon \{\s*--cck-svg-icon-color: var\(--cck-color\)/);
+    expect(tokensCss).toMatch(/\.cck-svg-icon \{\s*--cck-svg-icon-color: var\(--cck-edge\)/);
     const onRoot = tokensCss
       .split('  }')
       .filter((block) => block.includes(':root'))
@@ -102,5 +102,9 @@ describe('styles.css (AC 23)', () => {
       expect(rules, block).not.toContain('.cck-svg-icon');
       expect(rules, block).not.toContain('svg-icon');
     }
+  });
+
+  it('restates [hidden] on the box it sets to display', () => {
+    expect(sheet('svg-icon')).toMatch(/\.cck-svg-icon\[hidden\]\s*\{\s*display: none/);
   });
 });

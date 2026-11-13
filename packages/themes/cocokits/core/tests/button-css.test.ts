@@ -116,4 +116,8 @@ describe('button output', () => {
     expect(source).toContain('min-block-size: var(--cck-button-height);');
     expect(source).not.toMatch(/(^|[\s{;])(block-size|height)\s*:/);
   });
+
+  it('restates [hidden] on the box it sets to display', () => {
+    expect(readThemeFile('dist', 'components', 'button.css')).toMatch(/\.cck-button\[hidden\]\s*\{\s*display: none/);
+  });
 });

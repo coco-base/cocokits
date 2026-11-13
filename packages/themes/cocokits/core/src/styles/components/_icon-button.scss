@@ -20,6 +20,11 @@
     text-decoration: none;
     cursor: pointer;
 
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
     &[data-rounded] {
       border-radius: var(--cck-icon-button-radius-rounded);
     }

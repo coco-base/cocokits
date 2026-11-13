@@ -13,6 +13,11 @@
     block-size: 1em;
     vertical-align: middle;
 
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
     &[data-size] {
       font-size: var(--cck-svg-icon-size);
     }

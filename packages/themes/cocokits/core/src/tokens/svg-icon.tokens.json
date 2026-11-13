@@ -15,7 +15,7 @@
       "prefix": "svg-icon",
       "defaultMode": "Default",
       "modes": ["Default"],
-      "tokens": [{ "name": "color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } }]
+      "tokens": [{ "name": "color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#edge}" } }]
     }
   ]
 }
