@@ -38,6 +38,8 @@ describe.each(BLOCKS)('%s output', (block) => {
     const names = [...new Set([...css.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]))];
     expect(names.length).toBeGreaterThan(0);
     for (const name of names) {
+      // The SvgIcon rules of the entry sheet read their own tokens (svg-icon-css.test.ts).
+      if (name.startsWith('--cck-svg-icon-')) continue;
       expect(name.startsWith(`--cck-${block}-`), name).toBe(true);
       expect(tokensCss, name).toContain(`${name}:`);
     }
@@ -195,11 +197,29 @@ describe('checkbox look', () => {
     `.cck-checkbox:where(${facts}) > .cck-checkbox__wrapper > .cck-checkbox__input-wrapper > .cck-checkbox__background`;
   const FILLED = '[data-checked], [data-indeterminate]';
 
-  it('draws the tick for checked and the dash for mixed, and the dash wins', () => {
-    expect(css).toMatch(/\.cck-checkbox__background::after \{[^}]*clip-path: polygon\(/);
+  const tick = '.cck-checkbox > .cck-checkbox__wrapper > .cck-checkbox__input-wrapper > .cck-checkbox__background';
+
+  it('fills the box for checked and mixed, shows the dash for mixed only, and draws the tick as an icon', () => {
+    expect(css).not.toContain('clip-path');
     expect(declarationsOf(css, box(FILLED))).toContain('background-color: var(--cck-checkbox-box-checked-bg)');
-    expect(declarationsOf(css, `${box('[data-indeterminate]')}::after`)).toContain('clip-path: none');
-    expect(css.indexOf('clip-path: none')).toBeGreaterThan(css.indexOf(`${box(FILLED)} {`));
+    expect(declarationsOf(css, box(FILLED))).not.toContain('opacity');
+    expect(declarationsOf(css, `${box('[data-indeterminate]')}::after`)).toContain('opacity: 1');
+    const icon = declarationsOf(css, tick) ?? '';
+    expect(icon).toContain('font-size: var(--cck-checkbox-box-icon-size)');
+    expect(icon).toContain('color: var(--cck-checkbox-box-mark-color)');
+  });
+
+  it('colours the tick from the state: the disabled mark color, and HighlightText on the Highlight fill in forced colors', () => {
+    const normal = css.slice(0, css.indexOf('@media'));
+    expect(normal).toMatch(
+      /\[data-disabled\][^{]*__background \{\s*color: var\(--cck-checkbox-box-disabled-mark-color\)/,
+    );
+    const forced = forcedOf(css);
+    expect(forced).toMatch(/\.cck-checkbox:where\(\[data-checked\]\) > [^{]*__background \{\s*color: HighlightText/);
+    expect(forced).toMatch(
+      /\.cck-checkbox:where\(\[data-checked\], \[data-indeterminate\]\) > [^{]*__background \{[^}]*background-color: Highlight/,
+    );
+    expect(forced).toMatch(/\[data-disabled\][^{]*__background \{[^}]*color: GrayText/);
   });
 
   it('shows invalid with a second line and read-only with a dashed border, not by color alone', () => {

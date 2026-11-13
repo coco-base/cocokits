@@ -1,0 +1,21 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Svg Icon / Size",
+      "tier": 3,
+      "prefix": "svg-icon",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg", "xl", "2xl"],
+      "tokens": [{ "name": "size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-12}", "sm": "{Core / Size#size-16}", "md": "{Core / Size#size-20}", "lg": "{Core / Size#size-24}", "xl": "{Core / Size#size-32}", "2xl": "{Core / Size#size-40}" } }]
+    },
+    {
+      "name": "Svg Icon / Structure",
+      "tier": 3,
+      "prefix": "svg-icon",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [{ "name": "color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } }]
+    }
+  ]
+}

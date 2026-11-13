@@ -1,0 +1,5 @@
+@use '_svg-icon' as svg-icon;
+
+@layer cocokits {
+  @include svg-icon.rules;
+}

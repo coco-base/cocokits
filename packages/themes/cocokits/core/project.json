@@ -31,7 +31,9 @@
           "packages/themes/cocokits/core/src/tokens/dialog.tokens.json",
           "packages/themes/cocokits/core/src/tokens/select.tokens.json",
           "packages/themes/cocokits/core/src/tokens/accordion.tokens.json",
-          "packages/themes/cocokits/core/src/tokens/divider.tokens.json"
+          "packages/themes/cocokits/core/src/tokens/divider.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/icon-button.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/svg-icon.tokens.json"
         ],
         "output": "packages/themes/cocokits/core/src/styles/generated/_tokens.scss",
         "modesOutput": "packages/themes/cocokits/core/src/generated/token-modes.ts",

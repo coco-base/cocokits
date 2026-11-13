@@ -1,8 +1,10 @@
 @use '_side-offset' as side-offset;
 @use '_select' as select;
+@use '_svg-icon' as svg-icon;
 
 @include side-offset.register;
 
 @layer cocokits {
   @include select.rules;
+  @include svg-icon.rules;
 }

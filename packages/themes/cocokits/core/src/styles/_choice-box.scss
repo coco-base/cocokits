@@ -131,14 +131,17 @@
   }
 }
 
-// The checked look. `$facts` lists the root facts that fill the box (a Checkbox adds the mixed one).
-@mixin checked($block, $facts: '[data-checked]') {
+// The checked look. `$facts` lists the root facts that fill the box (a Checkbox adds the mixed one). `$mark: false`
+// leaves the `::after` hidden: the Checkbox shows its tick as an icon and the `::after` only as the dash.
+@mixin checked($block, $facts: '[data-checked]', $mark: true) {
   .cck-#{$block}:where(#{$facts}) #{box($block)} {
     border-color: token($block, box-checked-border-color);
     background-color: token($block, box-checked-bg);
 
-    &::after {
-      opacity: 1;
+    @if $mark {
+      &::after {
+        opacity: 1;
+      }
     }
   }
 }

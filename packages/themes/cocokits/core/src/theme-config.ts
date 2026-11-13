@@ -1,4 +1,5 @@
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
+import { type CocokitsIconName, cocokitsIcons } from './icons';
 import {
   type ThemeActiveColorMode,
   accordionSizeDefaultMode,
@@ -13,10 +14,13 @@ import {
   dividerSizeModes,
   formFieldSizeDefaultMode,
   formFieldSizeModes,
+  iconButtonSizeDefaultMode,
+  iconButtonSizeModes,
   radioSizeDefaultMode,
   radioSizeModes,
   selectSizeDefaultMode,
   selectSizeModes,
+  svgIconSizeModes,
   switchSizeDefaultMode,
   switchSizeModes,
   tabsSizeDefaultMode,
@@ -54,6 +58,11 @@ interface Option<V extends readonly (string | boolean)[], P extends readonly str
   readonly partNames: P;
   readonly description: string;
 }
+
+/** An option that renders nothing until the author gives it (`default: null`). */
+type OptionalOption<V extends readonly (string | boolean)[]> = Omit<RootOption<V>, 'default'> & {
+  readonly default: null;
+};
 
 /** An option on the root part only. */
 type RootOption<V extends readonly (string | boolean)[]> = Option<V, readonly ['root']>;
@@ -109,6 +118,12 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     };
     /** Supported with no options. */
     readonly hint: Record<string, never>;
+    readonly 'icon-button': {
+      readonly variant: RootOption<typeof BUTTON_VARIANTS>;
+      readonly color: RootOption<typeof themeActiveColorModes>;
+      readonly size: RootOption<typeof iconButtonSizeModes>;
+      readonly rounded: RootOption<typeof BOOLEAN_VALUES>;
+    };
     /** Supported with no options; the Input is sized by the FormField. */
     readonly input: Record<string, never>;
     /** Supported with no options. */
@@ -136,6 +151,12 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly color: RootOption<typeof themeActiveColorModes>;
       readonly labelPosition: RootOption<typeof LABEL_POSITIONS>;
     };
+    /** The icon is 1em and `currentColor` until the author gives a size or a color. */
+    readonly 'svg-icon': {
+      readonly size: OptionalOption<typeof svgIconSizeModes>;
+      readonly color: OptionalOption<typeof themeActiveColorModes>;
+      readonly rtlMirror: RootOption<typeof BOOLEAN_VALUES>;
+    };
     readonly tabs: TabsOptions;
     /** Link tabs: the Tabs options, the same look. */
     readonly 'tab-nav': TabsOptions;
@@ -146,6 +167,14 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly tooltip: Record<string, never>;
     /** Supported with no options; the field places it. */
     readonly trailing: Record<string, never>;
+  };
+  /** The CocoKits icon pack (path data). */
+  readonly icons: typeof cocokitsIcons;
+  /** The icon each icon-holding part shows; every name is a key of `icons`. */
+  readonly partIconNames: {
+    readonly select: { readonly dropdownIcon: CocokitsIconName; readonly optionIndicator: CocokitsIconName };
+    readonly accordion: { readonly indicator: CocokitsIconName };
+    readonly checkbox: { readonly background: CocokitsIconName };
   };
 }
 
@@ -185,6 +214,12 @@ const TABS_OPTIONS: TabsOptions = {
 export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
   name: 'cocokits',
   modeCollections,
+  icons: cocokitsIcons,
+  partIconNames: {
+    select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
+    accordion: { indicator: 'chevron-down' },
+    checkbox: { background: 'check' },
+  },
   components: {
     accordion: {
       variant: {
@@ -314,6 +349,36 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       },
     },
     hint: {},
+    'icon-button': {
+      variant: {
+        attrName: 'variant',
+        values: BUTTON_VARIANTS,
+        default: 'primary',
+        partNames: ['root'],
+        description: 'Fill and border style.',
+      },
+      color: {
+        attrName: 'cck-color',
+        values: themeActiveColorModes,
+        default: themeActiveColorDefaultMode,
+        partNames: ['root'],
+        description: 'Color family; renders the Active Color marker data-cck-color.',
+      },
+      size: {
+        attrName: 'size',
+        values: iconButtonSizeModes,
+        default: iconButtonSizeDefaultMode,
+        partNames: ['root'],
+        description: 'Side of the square and size of the icon.',
+      },
+      rounded: {
+        attrName: 'rounded',
+        values: BOOLEAN_VALUES,
+        default: false,
+        partNames: ['root'],
+        description: 'Fully round corners (a circle).',
+      },
+    },
     input: {},
     label: {},
     leading: {},
@@ -374,6 +439,30 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         default: 'after',
         partNames: ['root'],
         description: 'Whether the label follows the track or precedes it, in the writing direction.',
+      },
+    },
+    'svg-icon': {
+      size: {
+        attrName: 'size',
+        values: svgIconSizeModes,
+        default: null,
+        partNames: ['root'],
+        description: 'Size of the icon. Without it the icon is 1em and follows the font size around it.',
+      },
+      color: {
+        attrName: 'cck-color',
+        values: themeActiveColorModes,
+        default: null,
+        partNames: ['root'],
+        description:
+          'Color family; renders the Active Color marker data-cck-color. Without it the icon is currentColor.',
+      },
+      rtlMirror: {
+        attrName: 'rtl-mirror',
+        values: BOOLEAN_VALUES,
+        default: false,
+        partNames: ['root'],
+        description: 'Mirrors the icon in a right-to-left context, for an icon that points along the text.',
       },
     },
     tabs: TABS_OPTIONS,

@@ -1,0 +1,36 @@
+// SvgIcon rules. Wrapped in `@layer cocokits` by the entries that include this mixin. The entry sheet of every
+// component whose parts show an icon (select, accordion, checkbox, icon-button) includes it next to its own rules, so
+// an app that imports only that sheet gets a sized icon; `styles.scss` includes it once. It is not included by the
+// rules mixins of those components: a mixin emits its CSS on every include, and `styles.css` must hold it once.
+// Reads only its own --cck-svg-icon-* tokens. The icon is `1em` square and `currentColor`, so it follows the font
+// size and the color of the part, button or text it sits in; `size` and `color` are optional theme options.
+@mixin rules {
+  .cck-svg-icon {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-shrink: 0;
+    inline-size: 1em;
+    block-size: 1em;
+    vertical-align: middle;
+
+    &[data-size] {
+      font-size: var(--cck-svg-icon-size);
+    }
+
+    &[data-cck-color] {
+      color: var(--cck-svg-icon-color);
+    }
+
+    // Opt in, for an icon that points along the text. The pack's chevrons are symmetric and need none.
+    &[data-rtl-mirror]:dir(rtl) {
+      scale: -1 1;
+    }
+  }
+
+  .cck-svg-icon > .cck-svg-icon__svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    fill: currentColor;
+  }
+}

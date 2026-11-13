@@ -60,10 +60,23 @@ describe('select output', () => {
     expect(css).toMatch(/\.cck-select__content\[hidden\]\s*\{\s*display: none/);
   });
 
-  it('draws the chevron, the check and the box with CSS only, no image and no text', () => {
+  it('draws the multiple box with CSS and the chevron and the check as theme icons: no image, no pseudo-element', () => {
     expect(css).not.toMatch(/url\(/);
-    expect(css).toContain('.cck-select__option[data-selected] .cck-select__option-indicator::after');
+    expect(css).not.toContain('.cck-select__option-indicator::after');
+    expect(css).not.toContain('.cck-select__dropdown-icon:dir(rtl)');
     expect(css).toContain('.cck-select__content[data-multiple] .cck-select__option-indicator');
+    const chevron = declarationsOf(css, '.cck-select__dropdown-icon') ?? '';
+    expect(chevron).toContain('font-size: var(--cck-select-icon-size)');
+    expect(chevron).toContain('color: var(--cck-select-icon-color)');
+    expect(chevron).not.toContain('border');
+    const open = declarationsOf(
+      css,
+      '.cck-select[data-state=open] > .cck-select__trigger > .cck-select__dropdown-icon',
+    );
+    expect(open).toContain('rotate: 180deg');
+    const check = declarationsOf(css, '.cck-select__option-indicator') ?? '';
+    expect(check).toContain('font-size: var(--cck-select-indicator-size)');
+    expect(check).toContain('color: var(--cck-select-indicator-color)');
   });
 
   it('has a focus ring on the trigger and a hover border', () => {
