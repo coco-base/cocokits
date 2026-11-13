@@ -22,9 +22,10 @@ export interface DividerProps extends Omit<ComponentPropsWithRef<'hr'>, 'color' 
    */
   readonly orientation?: DividerOrientation | undefined;
   /**
-   * Whether the line is only visual. It sets `role="none"`, so the line leaves the accessibility tree. Use it where
-   * the line repeats a grouping that headings, lists or landmarks already give. Set `decorative` and do not write a
-   * `role` of your own.
+   * Whether the line is only visual. It sets `role="none"`, so the line leaves the accessibility tree.
+   *
+   * @remarks Use it where the line repeats a grouping that headings, lists or landmarks already give. Set `decorative`
+   * and do not write a `role` of your own.
    *
    * @defaultValue false
    */
