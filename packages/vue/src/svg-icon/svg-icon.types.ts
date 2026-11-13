@@ -15,11 +15,27 @@
  * Unstyled, the browser sizes an `<svg>` that has a `viewBox` and no size to its default and fills it black. Size
  * `.cck-svg-icon__svg` and set `fill: currentColor`.
  *
- * To add an icon or change the icon of a part, provide an extended theme config:
- * `{ ...cocokitsThemeConfig, icons: { ...cocokitsThemeConfig.icons, logo } }`.
+ * To add an icon of your own, or to change the icon of a part, provide an extended theme config, as the second
+ * example shows.
  *
  * @example
  * <SvgIcon icon-name="heart" />
+ *
+ * @example
+ * <script setup lang="ts">
+ * import { SvgIcon } from '@cocokits/vue/svg-icon';
+ * import { ThemeProvider } from '@cocokits/vue-core';
+ * import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+ *
+ * const logo = { viewBox: '0 0 24 24', paths: [{ d: 'M12 2 2 22h20z' }] };
+ * const appTheme = { ...cocokitsThemeConfig, icons: { ...cocokitsThemeConfig.icons, logo } };
+ * </script>
+ *
+ * <template>
+ *   <ThemeProvider :theme-config="appTheme">
+ *     <SvgIcon icon-name="logo" label="Acme" />
+ *   </ThemeProvider>
+ * </template>
  *
  * @cckPart root
  * @cckPart svg

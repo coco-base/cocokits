@@ -14,6 +14,16 @@ import { getSvgIconProps, svgIconAnatomy } from '@cocokits/machines/svg-icon';
  * @example
  * <cck-svg-icon iconName="heart" />
  * <cck-svg-icon iconName="search" label="Search" />
+ * @example
+ * import { provideCckTheme } from '@cocokits/angular-core';
+ * import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
+ *
+ * const logo = { viewBox: '0 0 24 24', paths: [{ d: 'M12 2 2 22h20z' }] };
+ * const appTheme = { ...cocokitsThemeConfig, icons: { ...cocokitsThemeConfig.icons, logo } };
+ *
+ * // In the app config: providers: [provideCckTheme(appTheme)]
+ * // In a component that has imports: [CckSvgIconImports] from '@cocokits/angular/svg-icon':
+ * <cck-svg-icon iconName="logo" label="Acme" />
  * @cckPart root
  * @cckPart svg
  */
