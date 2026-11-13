@@ -48,7 +48,11 @@ function AvatarImageImpl({
     };
   }, [src, crossOrigin, referrerPolicy, setStatus]);
 
-  const props = mergeProps({ ...themeAttrs, ...toReactProps(image) }, { ...rest, src, crossOrigin, referrerPolicy });
+  // An empty `src` is a supported input (status `error`); React warns when it reaches the DOM.
+  const props = mergeProps(
+    { ...themeAttrs, ...toReactProps(image) },
+    { ...rest, src: src === '' ? undefined : src, crossOrigin, referrerPolicy },
+  );
   // `hidden` is the base's promise: a `hidden={false}` of the consumer cannot show an image that has not loaded.
   return <img {...props} {...(image.hidden ? { hidden: true } : {})} ref={ref} />;
 }

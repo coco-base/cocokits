@@ -147,6 +147,13 @@ describe('Avatar loading status callback', () => {
     render(<Example src="" image={{ onLoadingStatusChange }} />);
     expect(seen).toEqual(['error']);
   });
+
+  it('does not pass an empty src to the img, so React logs no error', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const { container } = render(<Example src="" />);
+    expect(image(container).hasAttribute('src')).toBe(false);
+    expect(error).not.toHaveBeenCalled();
+  });
 });
 
 describe('Avatar fallback delay', () => {
