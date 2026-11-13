@@ -25,11 +25,13 @@ export const popoverMeta: ComponentMeta<
     },
     'data-side': {
       values: ['top', 'bottom', 'start', 'end'],
+      default: 'bottom',
       setWhen:
         'Always set: the side of the anchor the content sits on, the `side` asked for (`bottom` by default) until positioning flips the content to fit.',
     },
     'data-align': {
       values: ['start', 'center', 'end'],
+      default: 'center',
       setWhen:
         'Always set: how the content lines up with the anchor, the `align` asked for (`center` by default) until positioning shifts the content to fit.',
     },

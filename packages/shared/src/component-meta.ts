@@ -17,6 +17,11 @@ export interface MetaKeyboardRow {
 export interface DataAttrDetail {
   /** The values the attribute takes. Leave it out for a presence-only attribute, which is set to `""` or not at all. */
   readonly values?: readonly string[];
+  /**
+   * The value the attribute has when the author sets nothing. Set it only for an attribute that is always set; leave it
+   * out for a presence attribute or one that is set on a condition. The docs show it in the markup sample of the part.
+   */
+  readonly default?: string;
   /** One sentence: when the attribute is on the element. For an enumerated attribute, also what each value means. */
   readonly setWhen: string;
 }

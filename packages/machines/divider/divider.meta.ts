@@ -6,6 +6,7 @@ export const dividerMeta: ComponentMeta<'root'> = {
   dataAttrDetails: {
     'data-orientation': {
       values: ['horizontal', 'vertical'],
+      default: 'horizontal',
       setWhen: 'Always set: the direction of the line, `horizontal` unless `orientation` says otherwise.',
     },
   },

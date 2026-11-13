@@ -14,6 +14,7 @@ export const tabsMeta: ComponentMeta<'root' | 'list' | 'trigger' | 'triggerLabel
   dataAttrDetails: {
     'data-orientation': {
       values: ['horizontal', 'vertical'],
+      default: 'horizontal',
       setWhen: 'Always set: the direction of the tabs, `horizontal` unless the orientation prop says otherwise.',
     },
     'data-selected': { setWhen: 'The tab is selected; on a panel, its tab is selected.' },

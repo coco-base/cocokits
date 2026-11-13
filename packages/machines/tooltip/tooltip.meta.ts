@@ -16,11 +16,13 @@ export const tooltipMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'arrow'
     },
     'data-side': {
       values: ['top', 'bottom', 'start', 'end'],
+      default: 'top',
       setWhen:
         'Always set: the side of the trigger the content sits on, the `side` asked for (`top` by default) until positioning flips the content to fit.',
     },
     'data-align': {
       values: ['start', 'center', 'end'],
+      default: 'center',
       setWhen:
         'Always set: how the content lines up with the trigger, the `align` asked for (`center` by default) until positioning shifts the content to fit.',
     },

@@ -6,6 +6,7 @@ export const badgeContainerMeta: ComponentMeta<'root'> = {
   dataAttrDetails: {
     'data-position': {
       values: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+      default: 'top-right',
       setWhen: 'Always set: the corner of the container the badge is pinned to.',
     },
   },
