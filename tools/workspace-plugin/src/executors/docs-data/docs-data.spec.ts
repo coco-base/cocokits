@@ -205,6 +205,11 @@ ${META.replace('alphaMeta', 'betaMeta').replace("dataAttrs: { root: ['data-disab
       `dataAttrs: { root: ['data-side'] }, dataAttrDetails: { 'data-side': { values: ['top'], default: 'left', setWhen: 'Set.' } }`,
       /\.\/beta: dataAttrDetails data-side has a default that is not one of its values/,
     ],
+    [
+      'a default on an attribute with no values',
+      `dataAttrs: { root: ['data-disabled'] }, dataAttrDetails: { 'data-disabled': { default: 'true', setWhen: 'Off.' } }`,
+      /\.\/beta: dataAttrDetails data-disabled has a default that is not one of its values/,
+    ],
   ])('fails on %s and names the component and the attribute', async (_label, details, message) => {
     machines(betaWith(details));
     expect((await executor({ source: 'machines' }, context('m', 'packages/m'))).success).toBe(false);

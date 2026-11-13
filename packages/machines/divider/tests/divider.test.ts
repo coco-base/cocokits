@@ -51,3 +51,9 @@ describe('dividerMeta', () => {
     expect(Object.keys(dividerMeta.dataAttrs)).toEqual(Object.keys(dividerAnatomy.parts));
   });
 });
+
+describe('meta defaults', () => {
+  it('names the value the root renders with no input', () => {
+    expect(getDividerProps().root['data-orientation']).toBe(dividerMeta.dataAttrDetails?.['data-orientation']?.default);
+  });
+});

@@ -455,3 +455,11 @@ describe('meta', () => {
     }
   });
 });
+
+describe('meta defaults', () => {
+  it('names the orientation the root renders with no input', () => {
+    expect(getAccordionProps(base())['data-orientation']).toBe(
+      accordionMeta.dataAttrDetails?.['data-orientation']?.default,
+    );
+  });
+});

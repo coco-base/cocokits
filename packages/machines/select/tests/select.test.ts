@@ -372,3 +372,11 @@ describe('root facts and the value', () => {
     expect(getSelectProps(base({ value: '' }), vi.fn()).control.filled).toBe(false);
   });
 });
+
+describe('meta defaults', () => {
+  it('names the side and the align the content renders with no input', () => {
+    const { content } = getSelectProps(opened(), vi.fn());
+    expect(content['data-side']).toBe(selectMeta.dataAttrDetails?.['data-side']?.default);
+    expect(content['data-align']).toBe(selectMeta.dataAttrDetails?.['data-align']?.default);
+  });
+});

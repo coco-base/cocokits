@@ -53,10 +53,10 @@ function checkKeyboardFrameworks(subpath: string, keyboard: readonly unknown[]):
   }
 }
 
-/** A `default` must be a string, and one of the `values` when the attribute lists them. */
+/** A `default` must be one of the `values`, so an attribute with no `values` has none. */
 function checkDefault(subpath: string, attr: string, fallback: unknown, values: unknown): void {
   if (fallback === undefined) return;
-  if (typeof fallback !== 'string' || (Array.isArray(values) && !values.includes(fallback))) {
+  if (typeof fallback !== 'string' || !Array.isArray(values) || !values.includes(fallback)) {
     throw new Error(`${subpath}: dataAttrDetails ${attr} has a default that is not one of its values`);
   }
 }
