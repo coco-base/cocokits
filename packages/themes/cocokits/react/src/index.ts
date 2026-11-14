@@ -53,3 +53,5 @@ export { Chip } from './chip';
 export type { ChipProps, ChipSize } from './chip';
 export { ChipList } from './chip-list';
 export type { ChipListProps, ChipListSize } from './chip-list';
+export { Menu } from './menu';
+export type { MenuContentProps, MenuSize } from './menu-content';
