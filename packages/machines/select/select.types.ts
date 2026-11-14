@@ -1,6 +1,6 @@
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import type { Typeahead } from '@cocokits/cdk/roving-focus';
-import type { FormFieldControlProps, FormFieldControlState } from '../form-field';
+import type { FormFieldControlProps, FormFieldControlState, FormHiddenInputProps } from '../form-field';
 
 /**
  * Why the open state changed.
@@ -309,20 +309,11 @@ export interface SelectOptionGroupLabelProps extends SelectPartProps {
   readonly id: string;
 }
 
-/** What the hidden native inputs of the Select need; the adapter renders one per value. */
-export interface SelectFormInputProps {
-  /** The effective `name` (the author's, or the joined path of a bound forms control); absent when there is none. */
-  readonly name?: string | undefined;
-  /** Native `disabled`: the Select or its field is disabled. */
-  readonly disabled?: true | undefined;
-  /** Native `required`. */
-  readonly required?: true | undefined;
-  /**
-   * The strings the form submits: exactly one with a single Select (`''` while nothing is selected), one per
-   * selected value with `multiple` (none while nothing is selected).
-   */
-  readonly values: readonly string[];
-}
+/**
+ * What the hidden native inputs of the Select need; the adapter renders one per value. The shape is the one
+ * every control with hidden inputs shares: {@link FormHiddenInputProps}.
+ */
+export type SelectFormInputProps = FormHiddenInputProps;
 
 /** What `getSelectProps` returns. */
 export interface SelectParts<T = string> {

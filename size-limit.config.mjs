@@ -13,11 +13,11 @@ const entries = [
   { name: '@cocokits/react-core', path: 'packages/react/core/dist/index.js', limit: '1550 B' },
   { name: '@cocokits/vue-core', path: 'packages/vue/core/dist/index.js', limit: '2350 B' },
   { name: '@cocokits/theme-cocokits', path: 'packages/themes/cocokits/core/dist/index.js', limit: '2210 B' },
-  { name: '@cocokits/theme-cocokits/styles.css', path: 'packages/themes/cocokits/core/dist/styles.css', limit: '13650 B' },
+  { name: '@cocokits/theme-cocokits/styles.css', path: 'packages/themes/cocokits/core/dist/styles.css', limit: '13680 B' },
   { name: '@cocokits/theme-cocokits/tokens.css', path: 'packages/themes/cocokits/core/dist/tokens.css', limit: '5960 B' },
   { name: '@cocokits/theme-cocokits-angular', path: 'dist/packages/theme-cocokits-angular/fesm2022/cocokits-theme-cocokits-angular.mjs', limit: '2190 B' },
   { name: '@cocokits/theme-cocokits-react', path: 'packages/themes/cocokits/react/dist/index.js', limit: '1350 B' },
-  { name: '@cocokits/theme-cocokits-vue', path: 'packages/themes/cocokits/vue/dist/index.js', limit: '3310 B' },
+  { name: '@cocokits/theme-cocokits-vue', path: 'packages/themes/cocokits/vue/dist/index.js', limit: '3360 B' },
   { name: '@cocokits/machines/button', path: 'packages/machines/dist/button/index.js', limit: '640 B' },
   { name: '@cocokits/angular/button', path: 'dist/packages/angular/fesm2022/cocokits-angular-button.mjs', limit: '1190 B' },
   { name: '@cocokits/react/button', path: 'packages/react/dist/button/index.js', limit: '1070 B' },
@@ -166,6 +166,14 @@ const entries = [
   { name: '@cocokits/angular/avatar-label', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar-label.mjs', limit: '1180 B' },
   { name: '@cocokits/angular/avatar', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar.mjs', limit: '1780 B' },
   { name: '@cocokits/angular/avatar-group', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar-group.mjs', limit: '760 B' },
+  { name: '@cocokits/machines/chip', path: 'packages/machines/dist/chip/index.js', limit: '860 B' },
+  { name: '@cocokits/machines/chip-list', path: 'packages/machines/dist/chip-list/index.js', limit: '2070 B' },
+  { name: '@cocokits/vue/chip', path: 'packages/vue/dist/chip/index.js', limit: '2020 B' },
+  { name: '@cocokits/vue/chip-list', path: 'packages/vue/dist/chip-list/index.js', limit: '4040 B' },
+  { name: '@cocokits/react/chip', path: 'packages/react/dist/chip/index.js', limit: '2050 B' },
+  { name: '@cocokits/react/chip-list', path: 'packages/react/dist/chip-list/index.js', limit: '4380 B' },
+  { name: '@cocokits/angular/chip', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip.mjs', limit: '1470 B' },
+  { name: '@cocokits/angular/chip-list', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip-list.mjs', limit: '3040 B' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));

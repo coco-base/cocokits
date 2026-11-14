@@ -37,6 +37,7 @@ import {
   useThemeAttrs,
 } from '@cocokits/vue-core';
 import { useFormFieldContext } from '../internal/form-field-context';
+import { formHiddenEntries, formHiddenInputs } from '../internal/form-hidden-inputs';
 import { liveElementRef } from '../internal/live-element';
 import { omit } from '../internal/record';
 import { useFieldControl } from '../internal/use-field-control';
@@ -418,10 +419,8 @@ provideSelect({
 const slotProps = computed(() => ({ modelValue: current.value, open: isOpen.value }));
 /** The hidden inputs render for a name or for required; a cleared single Select carries `nullableValue`. */
 const formEntries = computed(() => {
-  const { name, required, values } = parts.value.formInput;
-  if (!name && !required) return [];
-  if (multiple.value) return values.length === 0 && required ? [''] : values;
-  return isSelectEmpty(state.value) ? [props.nullableValue] : values;
+  const entries = formHiddenEntries(parts.value.formInput, multiple.value);
+  return !multiple.value && entries.length > 0 && isSelectEmpty(state.value) ? [props.nullableValue] : entries;
 });
 /**
  * The attrs are not reactive, so the template reads them through a function. The machine's facts win. The element
@@ -440,24 +439,15 @@ function inner(content?: VNode[]): VNode[] {
   const { formInput, validationMessage } = parts.value;
   return [
     ...(content ?? []),
-    ...formEntries.value.map((entry, index) =>
-      h('input', {
-        key: [inputsKey.value, index].join(':'),
-        type: 'text',
-        tabindex: -1,
-        'aria-hidden': 'true',
-        autocomplete: props.autocomplete ?? 'off',
-        style: visuallyHiddenStyle,
-        name: formInput.name,
-        form: props.form,
-        required: formInput.required,
-        disabled: formInput.disabled,
-        value: entry,
-        onInvalid,
-        onInput: onFormWrite,
-        onChange: onFormWrite,
-      }),
-    ),
+    ...formHiddenInputs({
+      entries: formEntries.value,
+      formInput,
+      form: props.form,
+      autocomplete: props.autocomplete ?? 'off',
+      generation: inputsKey.value,
+      onInvalid,
+      onWrite: onFormWrite,
+    }),
     ...(rejected.value ? [h('span', { ...validationMessage, style: visuallyHiddenStyle }, rejection.value)] : []),
   ];
 }

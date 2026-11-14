@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { defineAnatomy, resolveThemeAttrs } from '@cocokits/shared';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { iconButtonSizeModes, svgIconSizeModes } from '../src/generated/token-modes';
-import { checkIcon, chevronDownIcon, defaultPartIcons } from '@cocokits/icons';
+import { checkIcon, chevronDownIcon, closeIcon, defaultPartIcons } from '@cocokits/icons';
 import { cocokitsThemeConfig, cocokitsThemeIcons } from '../src/index';
 import type { ThemeIconName } from '../src/theme-icons';
 
@@ -15,24 +15,25 @@ const partsOf = (block: string): string[] =>
   );
 
 describe('cocokitsThemeIcons', () => {
-  it('holds the chevron-down and the check icon of the pack', () => {
-    expect(cocokitsThemeIcons).toEqual({ 'chevron-down': chevronDownIcon, check: checkIcon });
-    expectTypeOf<ThemeIconName>().toEqualTypeOf<'chevron-down' | 'check'>();
+  it('holds the chevron-down, the check and the close icon of the pack', () => {
+    expect(cocokitsThemeIcons).toEqual({ 'chevron-down': chevronDownIcon, check: checkIcon, close: closeIcon });
+    expectTypeOf<ThemeIconName>().toEqualTypeOf<'chevron-down' | 'check' | 'close'>();
   });
 });
 
 describe('cocokitsThemeConfig components.*.icons', () => {
-  const { select, accordion, checkbox } = cocokitsThemeConfig.components;
+  const { select, accordion, checkbox, chip } = cocokitsThemeConfig.components;
 
-  it('names the icon of the Select, the Accordion and the Checkbox', () => {
-    expect({ select: select.icons, accordion: accordion.icons, checkbox: checkbox.icons }).toEqual({
+  it('names the icon of the Select, the Accordion, the Checkbox and the Chip', () => {
+    expect({ select: select.icons, accordion: accordion.icons, checkbox: checkbox.icons, chip: chip.icons }).toEqual({
       select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
       accordion: { indicator: 'chevron-down' },
       checkbox: { background: 'check' },
+      chip: { remove: 'close' },
     });
   });
 
-  const rows = Object.entries({ select, accordion, checkbox }).flatMap(([block, config]) =>
+  const rows = Object.entries({ select, accordion, checkbox, chip }).flatMap(([block, config]) =>
     Object.entries(config.icons).map(([part, icon]) => ({ block, part, icon })),
   );
 

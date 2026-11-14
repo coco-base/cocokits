@@ -1,11 +1,11 @@
 // FormField rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Layout, the four zones, and the box of an input wrapper that holds an Input or a Textarea
-// (`:has(> .cck-input, > .cck-textarea)`): a native control of another kind keeps its own box, and a Select
-// draws its own box and only takes the size of the field. The
+// (`:has(> .cck-input, > .cck-textarea, > .cck-chip-list)`): a native control of another kind keeps its own box, and
+// a Select draws its own box and only takes the size of the field. The
 // look follows the facts the root renders, reached through child combinators only. The balance
 // indent is padding on the Label, not a margin on a component root; the feedback wrapper is an
 // internal part, so it may take a margin. A zone sets `display`, so it restates its `[hidden]`.
-$controls: '> .cck-input, > .cck-textarea';
+$controls: '> .cck-input, > .cck-textarea, > .cck-chip-list';
 $box: '.cck-form-field__input-wrapper:has(#{$controls})';
 
 @mixin rules {
@@ -155,6 +155,40 @@ $box: '.cck-form-field__input-wrapper:has(#{$controls})';
       font-size: var(--cck-form-field-font-size);
       line-height: var(--cck-form-field-line-height);
       letter-spacing: var(--cck-form-field-letter-spacing);
+    }
+  }
+
+  // A Chip list inside the box is borderless and fills it, as the Input. Its chips and its text box take the field's
+  // size: the list's `chip-height` is the one of the field root's `data-size` (same mode names), and the block padding
+  // centres one row of chips in the box, so the box keeps the height of the field. Wrapped rows grow the box.
+  .cck-form-field__input-wrapper > .cck-chip-list {
+    flex: 1;
+    min-inline-size: 0;
+    padding-block: max(
+      0px,
+      calc((var(--cck-form-field-height) - var(--cck-chip-list-chip-height)) / 2 - var(--cck-form-field-border-width))
+    );
+    padding-inline: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    font: inherit;
+    letter-spacing: inherit;
+
+    &:focus-within {
+      outline: none;
+    }
+  }
+
+  // The list's own size mode would win over an inherited value, so the field sets it on the list itself.
+  .cck-form-field > .cck-form-field__wrapper > .cck-form-field__input-wrapper > .cck-chip-list {
+    --cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-md);
+  }
+
+  @each $mode in sm, lg {
+    .cck-form-field[data-size='#{$mode}'] > .cck-form-field__wrapper > .cck-form-field__input-wrapper > .cck-chip-list {
+      --cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-#{$mode});
     }
   }
 

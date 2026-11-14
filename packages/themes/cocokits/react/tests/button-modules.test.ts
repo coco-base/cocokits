@@ -64,6 +64,8 @@ describe('emitted modules keep their "use client"', () => {
       'badge.js',
       'button.js',
       'checkbox.js',
+      'chip-list.js',
+      'chip.js',
       'divider.js',
       'form-field.js',
       'icon-button.js',

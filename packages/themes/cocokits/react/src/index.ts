@@ -49,3 +49,7 @@ export type {
   AvatarLabelSize,
   AvatarLabelTextLayout,
 } from './avatar-label';
+export { Chip } from './chip';
+export type { ChipProps, ChipSize } from './chip';
+export { ChipList } from './chip-list';
+export type { ChipListProps, ChipListSize } from './chip-list';

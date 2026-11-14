@@ -145,3 +145,18 @@ export interface FormFieldParts {
   /** The props of the part that holds the hints. */
   readonly feedbackWrapper: FormFieldFeedbackWrapperProps;
 }
+
+/**
+ * What the hidden native inputs of a form control need (the multiple Select, the Chip list); the adapter renders
+ * one per string in `values`.
+ */
+export interface FormHiddenInputProps {
+  /** The effective `name` (the author's, or the joined path of a bound forms control); absent when there is none. */
+  readonly name?: string | undefined;
+  /** Native `disabled`: the control or its field is disabled. */
+  readonly disabled?: true | undefined;
+  /** Native `required`. */
+  readonly required?: true | undefined;
+  /** The strings the form submits, one hidden input each. The control says what an empty value submits. */
+  readonly values: readonly string[];
+}

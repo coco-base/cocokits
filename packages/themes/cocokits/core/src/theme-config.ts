@@ -12,6 +12,10 @@ import {
   buttonSizeModes,
   checkboxSizeDefaultMode,
   checkboxSizeModes,
+  chipListSizeDefaultMode,
+  chipListSizeModes,
+  chipSizeDefaultMode,
+  chipSizeModes,
   dividerSizeDefaultMode,
   dividerSizeModes,
   formFieldSizeDefaultMode,
@@ -99,6 +103,14 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly labelPosition: RootOption<typeof LABEL_POSITIONS>;
       readonly icons: { readonly background: ThemeIconName };
     };
+    readonly chip: {
+      readonly size: RootOption<typeof chipSizeModes>;
+      readonly icons: { readonly remove: ThemeIconName };
+    };
+    /** The list sizes its own chips and its text box; inside a FormField the field's size wins. */
+    readonly 'chip-list': {
+      readonly size: RootOption<typeof chipListSizeModes>;
+    };
     /** Supported with no options. */
     readonly 'field-error': Record<string, never>;
     readonly 'form-field': {
@@ -159,6 +171,19 @@ export interface CocokitsThemeConfig extends ThemeConfig {
   };
 }
 
+/** The `size` option on the root, from the modes of its token collection. */
+const rootSize = <V extends readonly string[]>(
+  values: V,
+  defaultMode: V[number],
+  description: string,
+): RootOption<V> => ({
+  attrName: 'size',
+  values,
+  default: defaultMode,
+  partNames: ['root'],
+  description,
+});
+
 /** The options of Tabs and TabNav. */
 const TABS_OPTIONS: TabsOptions = {
   variant: {
@@ -175,13 +200,7 @@ const TABS_OPTIONS: TabsOptions = {
     partNames: ['root'],
     description: 'Color family of the indicator; renders the Active Color marker data-cck-color.',
   },
-  size: {
-    attrName: 'size',
-    values: tabsSizeModes,
-    default: tabsSizeDefaultMode,
-    partNames: ['root'],
-    description: 'Height, padding and text of the triggers.',
-  },
+  size: rootSize(tabsSizeModes, tabsSizeDefaultMode, 'Height, padding and text of the triggers.'),
   headerAlign: {
     attrName: 'header-align',
     values: TABS_HEADER_ALIGNS,
@@ -205,13 +224,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Look of the sections: separate bordered items, one bordered group with dividers, or no chrome.',
       },
-      size: {
-        attrName: 'size',
-        values: accordionSizeModes,
-        default: accordionSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Height, padding and text of the triggers.',
-      },
+      size: rootSize(accordionSizeModes, accordionSizeDefaultMode, 'Height, padding and text of the triggers.'),
       togglePosition: {
         attrName: 'toggle-position',
         values: ACCORDION_TOGGLE_POSITIONS,
@@ -243,24 +256,12 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Color family; renders the Active Color marker data-cck-color.',
       },
-      size: {
-        attrName: 'size',
-        values: badgeSizeModes,
-        default: badgeSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Height, padding, dot size and text.',
-      },
+      size: rootSize(badgeSizeModes, badgeSizeDefaultMode, 'Height, padding, dot size and text.'),
     },
     'badge-container': {},
     dialog: {},
     divider: {
-      size: {
-        attrName: 'size',
-        values: dividerSizeModes,
-        default: dividerSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Thickness of the line.',
-      },
+      size: rootSize(dividerSizeModes, dividerSizeDefaultMode, 'Thickness of the line.'),
       color: {
         attrName: 'color',
         values: DIVIDER_COLORS,
@@ -284,22 +285,10 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Color family; renders the Active Color marker data-cck-color.',
       },
-      size: {
-        attrName: 'size',
-        values: buttonSizeModes,
-        default: buttonSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Minimum height, padding and text.',
-      },
+      size: rootSize(buttonSizeModes, buttonSizeDefaultMode, 'Minimum height, padding and text.'),
     },
     checkbox: {
-      size: {
-        attrName: 'size',
-        values: checkboxSizeModes,
-        default: checkboxSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Size of the box and its label text.',
-      },
+      size: rootSize(checkboxSizeModes, checkboxSizeDefaultMode, 'Size of the box and its label text.'),
       color: {
         attrName: 'cck-color',
         values: themeActiveColorModes,
@@ -315,6 +304,17 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         description: 'Whether the label follows the box or precedes it, in the writing direction.',
       },
       icons: { background: 'check' },
+    },
+    chip: {
+      size: rootSize(chipSizeModes, chipSizeDefaultMode, 'Height of the chip.'),
+      icons: { remove: 'close' },
+    },
+    'chip-list': {
+      size: rootSize(
+        chipListSizeModes,
+        chipListSizeDefaultMode,
+        'Height of its chips and its text box; inside a FormField the field sets it.',
+      ),
     },
     'field-error': {},
     'form-field': {
@@ -342,13 +342,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root'],
         description: 'Color family; renders the Active Color marker data-cck-color.',
       },
-      size: {
-        attrName: 'size',
-        values: iconButtonSizeModes,
-        default: iconButtonSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Side of the square and size of the icon.',
-      },
+      size: rootSize(iconButtonSizeModes, iconButtonSizeDefaultMode, 'Side of the square and size of the icon.'),
       rounded: {
         attrName: 'rounded',
         values: BOOLEAN_VALUES,
@@ -364,13 +358,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     suffix: {},
     popover: {},
     radio: {
-      size: {
-        attrName: 'size',
-        values: radioSizeModes,
-        default: radioSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Size of the radio and its label text.',
-      },
+      size: rootSize(radioSizeModes, radioSizeDefaultMode, 'Size of the radio and its label text.'),
       color: {
         attrName: 'cck-color',
         values: themeActiveColorModes,
@@ -388,23 +376,15 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     },
     'radio-group': {},
     select: {
-      size: {
-        attrName: 'size',
-        values: selectSizeModes,
-        default: selectSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Height, padding and text of the trigger; inside a FormField the field sets them.',
-      },
+      size: rootSize(
+        selectSizeModes,
+        selectSizeDefaultMode,
+        'Height, padding and text of the trigger; inside a FormField the field sets them.',
+      ),
       icons: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
     },
     switch: {
-      size: {
-        attrName: 'size',
-        values: switchSizeModes,
-        default: switchSizeDefaultMode,
-        partNames: ['root'],
-        description: 'Size of the track and its label text.',
-      },
+      size: rootSize(switchSizeModes, switchSizeDefaultMode, 'Size of the track and its label text.'),
       color: {
         attrName: 'cck-color',
         values: themeActiveColorModes,
