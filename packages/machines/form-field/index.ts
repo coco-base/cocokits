@@ -26,4 +26,5 @@ export type {
   FormFieldProps,
   FormFieldRootProps,
   FormFieldState,
+  FormHiddenInputProps,
 } from './form-field.types';

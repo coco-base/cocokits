@@ -70,6 +70,8 @@
       "@cocokits/machines/badge-container": ["./packages/machines/badge-container/index.ts"],
       "@cocokits/machines/button": ["./packages/machines/button/index.ts"],
       "@cocokits/machines/checkbox": ["./packages/machines/checkbox/index.ts"],
+      "@cocokits/machines/chip": ["./packages/machines/chip/index.ts"],
+      "@cocokits/machines/chip-list": ["./packages/machines/chip-list/index.ts"],
       "@cocokits/machines/dialog": ["./packages/machines/dialog/index.ts"],
       "@cocokits/machines/divider": ["./packages/machines/divider/index.ts"],
       "@cocokits/machines/field-error": ["./packages/machines/field-error/index.ts"],
