@@ -174,6 +174,7 @@ const entries = [
   { name: '@cocokits/react/chip-list', path: 'packages/react/dist/chip-list/index.js', limit: '4380 B' },
   { name: '@cocokits/angular/chip', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip.mjs', limit: '1470 B' },
   { name: '@cocokits/angular/chip-list', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip-list.mjs', limit: '3040 B' },
+  { name: '@cocokits/machines/menu', path: 'packages/machines/dist/menu/index.js', limit: '2470 B' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));

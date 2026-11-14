@@ -83,6 +83,7 @@
       "@cocokits/machines/input": ["./packages/machines/input/index.ts"],
       "@cocokits/machines/label": ["./packages/machines/label/index.ts"],
       "@cocokits/machines/leading": ["./packages/machines/leading/index.ts"],
+      "@cocokits/machines/menu": ["./packages/machines/menu/index.ts"],
       "@cocokits/machines/popover": ["./packages/machines/popover/index.ts"],
       "@cocokits/machines/prefix": ["./packages/machines/prefix/index.ts"],
       "@cocokits/machines/radio": ["./packages/machines/radio/index.ts"],
