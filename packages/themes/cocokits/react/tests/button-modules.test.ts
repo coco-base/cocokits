@@ -58,6 +58,9 @@ describe('emitted modules keep their "use client"', () => {
     const withDirective = [...emitted].filter(([, code]) => startsWithDirective(code)).map(([name]) => name);
     expect(withDirective).toEqual([
       'accordion-root.js',
+      'avatar-group.js',
+      'avatar-label.js',
+      'avatar-root.js',
       'badge.js',
       'button.js',
       'checkbox.js',

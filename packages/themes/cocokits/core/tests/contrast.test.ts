@@ -172,3 +172,19 @@ describe('svg icon color option on the surface (WCAG 1.4.11, 3:1)', () => {
     },
   );
 });
+
+describe('avatar text (WCAG 1.4.3, 4.5:1)', () => {
+  it.each(['Light', 'Dark'])('the fallback text on the fallback background in %s mode', (mode) => {
+    const ratio = contrast(
+      resolve('Theme / Color#brand/on-container', mode),
+      resolve('Theme / Color#brand/container', mode),
+    );
+    expect(ratio).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['Light', 'Dark'])('the label name and description on the surface in %s mode', (mode) => {
+    const surface = resolve('Theme / Color#surface/1', mode);
+    expect(contrast(resolve('Theme / Color#on-surface/1', mode), surface)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(resolve('Theme / Color#text/2', mode), surface)).toBeGreaterThanOrEqual(4.5);
+  });
+});

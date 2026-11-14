@@ -22,6 +22,9 @@
 @use 'components/_divider' as divider;
 @use 'components/_icon-button' as icon-button;
 @use 'components/_svg-icon' as svg-icon;
+@use 'components/_avatar' as avatar;
+@use 'components/_avatar-group' as avatar-group;
+@use 'components/_avatar-label' as avatar-label;
 @use 'components/_side-offset' as side-offset;
 
 @include side-offset.register;
@@ -50,4 +53,7 @@
   @include divider.rules;
   @include icon-button.rules;
   @include svg-icon.rules;
+  @include avatar.rules;
+  @include avatar-group.rules;
+  @include avatar-label.rules;
 }

@@ -71,3 +71,15 @@ export type {
 } from './accordion.types';
 export { default as Divider } from './Divider.vue';
 export type { DividerProps, DividerSize, DividerColor } from './divider.types';
+export { default as AvatarRoot } from './AvatarRoot.vue';
+export { AvatarFallback, AvatarImage } from '@cocokits/vue/avatar';
+export type { AvatarRootProps, AvatarSize } from './avatar.types';
+export { default as AvatarGroup } from './AvatarGroup.vue';
+export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group.types';
+export { default as AvatarLabel } from './AvatarLabel.vue';
+export type {
+  AvatarLabelAvatarPosition,
+  AvatarLabelProps,
+  AvatarLabelSize,
+  AvatarLabelTextLayout,
+} from './avatar-label.types';
