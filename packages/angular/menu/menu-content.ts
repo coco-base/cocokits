@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input, signal } from '@angular/core';
 import { bindAttrs, themeAttrs } from '@cocokits/angular-core';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import { menuAnatomy } from '@cocokits/machines/menu';
@@ -28,7 +28,7 @@ import { injectCckMenu } from './menu';
     '[id]': 'props().id',
     '[attr.role]': 'props().role',
     '[attr.tabindex]': 'props().tabIndex',
-    '[attr.aria-labelledby]': 'props()["aria-labelledby"] ?? null',
+    '[attr.aria-labelledby]': 'authorLabelledby ?? props()["aria-labelledby"] ?? null',
     '[attr.data-state]': 'props()["data-state"]',
     '[attr.data-side]': 'props()["data-side"]',
     '[attr.data-align]': 'props()["data-align"]',
@@ -51,10 +51,15 @@ export class CckMenuContent {
   private readonly root = injectCckMenu('Content');
   protected readonly props = computed(() => this.root._parts().content);
 
+  /** A static `aria-labelledby` the author wrote; it wins over the trigger's. */
+  protected readonly authorLabelledby: string | null;
+
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-    // A name the author wrote on the content wins over the trigger's.
-    const named = element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby');
+    this.authorLabelledby = element.getAttribute('aria-labelledby');
+    // A name the author wrote on the content wins over the trigger's. A bound name appears after the first render.
+    const hasName = (): boolean => element.hasAttribute('aria-label') || this.authorLabelledby !== null;
+    const named = signal(hasName());
     const registration = { element, side: this.side, align: this.align, named };
     this.root._content.set(registration);
     inject(DestroyRef).onDestroy(() => {
@@ -64,6 +69,7 @@ export class CckMenuContent {
     const theme = themeAttrs(menuAnatomy);
     bindAttrs(element, () => theme().content);
     afterNextRender(() => {
+      named.set(hasName());
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(element)) {
         console.warn(

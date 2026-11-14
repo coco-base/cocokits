@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { CckDir } from '@cocokits/angular-core';
@@ -33,6 +33,27 @@ import { item, trigger } from './queries';
 })
 class Host {
   readonly dir = input<'ltr' | 'rtl'>('ltr');
+  readonly log: string[] = [];
+}
+
+@Component({
+  imports: [...CckMenuImports],
+  template: `
+    <ng-container cckMenu>
+      <button cckMenuTrigger>Actions</button>
+      <ng-template cckMenuPortal>
+        <cck-menu-content>
+          @if (show()) {
+            <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
+          }
+          <cck-menu-item [disabled]="true">Move</cck-menu-item>
+        </cck-menu-content>
+      </ng-template>
+    </ng-container>
+  `,
+})
+class Removable {
+  readonly show = signal(true);
   readonly log: string[] = [];
 }
 
@@ -185,6 +206,23 @@ describe.each(['ltr', 'rtl'] as const)('Menu keyboard (%s)', (dir) => {
       expect(screen.queryByRole('menu')).toBeNull();
     });
     expect(fixture.componentInstance.log).toEqual(['Delete', 'closed:item', 'Edit', 'closed:item']);
+  });
+
+  it('Enter and Space on the content after its focused item was removed run nothing', async () => {
+    const { fixture } = await render(Removable);
+    const user = userEvent.setup();
+    trigger().focus();
+    await user.keyboard('{Enter}');
+    await screen.findByRole('menu');
+    await focused('Edit');
+    fixture.componentInstance.show.set(false);
+    await waitFor(() => {
+      expect(document.activeElement).toBe(screen.getByRole('menu'));
+    });
+    await user.keyboard('{Enter}');
+    await user.keyboard(' ');
+    expect(fixture.componentInstance.log).toEqual([]);
+    expect(screen.queryByRole('menu')).not.toBeNull();
   });
 
   it('Escape closes the menu and focuses the trigger', async () => {

@@ -21,7 +21,7 @@ import { injectCckMenu } from './menu';
     '[class]': 'props().class',
     '(click)': 'replayed($event)',
     '(keydown)': 'props().onKeyDown($event)',
-    '[id]': 'id() ?? props().id',
+    '[id]': 'props().id',
     '[attr.type]': 'props().type',
     '[attr.aria-haspopup]': 'props()["aria-haspopup"]',
     '[attr.aria-expanded]': 'props()["aria-expanded"]',
@@ -42,7 +42,9 @@ export class CckMenuTrigger {
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
     this.root._trigger.set(element);
+    this.root._triggerId.set(this.id);
     inject(DestroyRef).onDestroy(() => {
+      this.root._triggerId.update((current) => (current === this.id ? null : current));
       this.root._trigger.update((current) => (current === element ? null : current));
     });
     bindAttrs(element, () => this.root._theme().trigger);

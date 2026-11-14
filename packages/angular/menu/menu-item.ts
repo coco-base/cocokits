@@ -22,6 +22,7 @@ import { injectCckMenu } from './menu';
     '[attr.aria-disabled]': 'props()["aria-disabled"] ?? null',
     '[attr.data-disabled]': 'props()["data-disabled"] ?? null',
     '(focus)': 'props().onFocus($event)',
+    '(keydown)': 'props().onKeyDown($event)',
   },
 })
 export class CckMenuItem {

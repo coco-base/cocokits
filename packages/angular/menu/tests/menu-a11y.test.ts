@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/angular';
+import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
@@ -53,6 +53,52 @@ describe('Menu accessibility', () => {
     await user.click(trigger());
     expect(await screen.findByRole('menu', { name: 'Row actions' })).toBeTruthy();
     expect(screen.getByRole('menu').getAttribute('aria-labelledby')).toBeNull();
+  });
+
+  it('names the menu by the id of an author id on the trigger', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<ng-container cckMenu>
+        <button cckMenuTrigger id="mine">Actions</button>
+        <ng-template cckMenuPortal><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
+      </ng-container>`,
+      { imports },
+    );
+    await user.click(trigger());
+    const menu = await screen.findByRole('menu', { name: 'Actions' });
+    expect(trigger().id).toBe('mine');
+    expect(menu.getAttribute('aria-labelledby')).toBe('mine');
+  });
+
+  it('keeps a static aria-labelledby on the content and names the menu by it', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<span id="label">Row menu</span>
+      <ng-container cckMenu>
+        <button cckMenuTrigger>Actions</button>
+        <ng-template cckMenuPortal><cck-menu-content aria-labelledby="label"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
+      </ng-container>`,
+      { imports },
+    );
+    await user.click(trigger());
+    const menu = await screen.findByRole('menu', { name: 'Row menu' });
+    expect(menu.getAttribute('aria-labelledby')).toBe('label');
+  });
+
+  it('a bound aria-label names the menu and no aria-labelledby is rendered', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<ng-container cckMenu>
+        <button cckMenuTrigger>Actions</button>
+        <ng-template cckMenuPortal><cck-menu-content [attr.aria-label]="name"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
+      </ng-container>`,
+      { imports, componentProperties: { name: 'Bound name' } },
+    );
+    await user.click(trigger());
+    const menu = await screen.findByRole('menu', { name: 'Bound name' });
+    await waitFor(() => {
+      expect(menu.getAttribute('aria-labelledby')).toBeNull();
+    });
   });
 
   it('warns once in development when the trigger has no name', async () => {

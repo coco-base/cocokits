@@ -54,7 +54,7 @@ export interface MenuContentRegistration {
   /** The wanted alignment. */
   readonly align: Signal<MenuAlign>;
   /** Whether the author named the content with `aria-label` or `aria-labelledby`. */
-  readonly named: boolean;
+  readonly named: Signal<boolean>;
 }
 
 /** What an item part tells the root about itself. @internal */
@@ -109,7 +109,7 @@ export class CckMenu {
   readonly open = model(false);
 
   /**
-   * Whether Escape, a press outside and a focus leave keep the menu open. The trigger, an item and a change from the parent still close it.
+   * Whether Escape and a press outside keep the menu open. The trigger, an item, a focus leave and a change from the parent still close it.
    * @remarks It runs before `closePredicate`. Keep a way to close the menu for keyboard users, such as the trigger.
    * @defaultValue false
    * @cckParity Only this framework has this member.
@@ -170,6 +170,8 @@ export class CckMenu {
 
   /** @internal */
   readonly _trigger = signal<HTMLElement | null>(null);
+  /** The `id` input of the trigger, so the content can be named by the id the trigger renders. @internal */
+  readonly _triggerId = signal<Signal<string | undefined> | null>(null);
   /** @internal */
   readonly _content = signal<MenuContentRegistration | null>(null);
   /** @internal */
@@ -177,7 +179,6 @@ export class CckMenu {
   /** The mounted items in document order. @internal */
   readonly _items = domOrderedList<MenuItemRegistration>((item) => item.element);
   private itemCount = 0;
-
   /** Whether the content is in the document: open, or closed with an exit animation still running. */
   private readonly mounted = signal(false);
   private readonly placement = signal<{ side: MenuSide; align: MenuAlign } | null>(null);
@@ -216,7 +217,8 @@ export class CckMenu {
       },
     })),
     activeKey: this.activeKey(),
-    named: this._content()?.named ?? false,
+    named: this._content()?.named() ?? false,
+    triggerId: this._triggerId()?.(),
     typeahead: this.typeahead,
   }));
 
@@ -419,8 +421,9 @@ export class CckMenu {
         onDismiss: (intent) => {
           const { reason, event } = intent;
           this.zone.inside(() => {
+            const refused = this.disableClose() && (reason === 'escape' || reason === 'outside-press');
             // A refused close keeps the layers below open too.
-            if (this.disableClose() || !this.send({ type: 'CONTENT.DISMISS', reason, event })) intent.preventDefault();
+            if (refused || !this.send({ type: 'CONTENT.DISMISS', reason, event })) intent.preventDefault();
           });
         },
         dismissOn: ['escape', 'outside-press', 'focus-out'],

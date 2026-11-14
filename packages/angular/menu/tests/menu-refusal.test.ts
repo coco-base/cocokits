@@ -55,7 +55,7 @@ describe('Menu refusal', () => {
     vi.restoreAllMocks();
   });
 
-  it('disableClose keeps it open on Escape, a press outside and a focus leave, with no change and no predicate call', async () => {
+  it('disableClose keeps it open on Escape and a press outside, with no change and no predicate call', async () => {
     const user = userEvent.setup();
     const { fixture } = await render(Host);
     const host = fixture.componentInstance;
@@ -63,13 +63,25 @@ describe('Menu refusal', () => {
     await opened(user, host);
     await user.keyboard('{Escape}');
     await user.click(screen.getByText('Empty space'));
-    await user.click(screen.getByRole('button', { name: 'Outside' }));
-    await user.tab();
     await frame();
     expect(screen.queryByRole('menu')).not.toBeNull();
     expect(host.open()).toBe(true);
     expect(host.calls).toEqual([]);
     expect(host.log).toEqual(['opened:trigger']);
+  });
+
+  it('disableClose does not refuse a focus leave: Tab closes it with reason focus-out', async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(Host);
+    const host = fixture.componentInstance;
+    host.disableClose.set(true);
+    await opened(user, host);
+    await user.tab();
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).toBeNull();
+    });
+    expect(host.calls.map((details) => details.reason)).toEqual(['focus-out']);
+    expect(host.log).toEqual(['opened:trigger', 'closed:focus-out']);
   });
 
   // The trigger, an item and the parent still close a menu that disableClose guards.
