@@ -1,0 +1,69 @@
+import type { ReactElement, ReactNode } from 'react';
+
+/**
+ * Where the thing opens.
+ * @cckValue start - Before the trigger.
+ * @cckValue 'end' - After the trigger.
+ */
+export type ThingSide = 'start' | 'end';
+
+/** What a change of the thing sends. */
+export interface ThingChange {
+  /** The new value. */
+  readonly value: string;
+  /**
+   * Why it changed.
+   * @cckValue user - The user changed it.
+   */
+  readonly reason?: 'user';
+}
+
+/**
+ * A type only the package uses.
+ * @internal
+ */
+export type ThingSecret = string;
+
+/** What a render function of the thing receives. */
+interface ThingState {
+  /** Whether the thing is open. */
+  readonly open: boolean;
+}
+
+/** Props of the {@link Thing}. */
+export interface ThingProps {
+  /**
+   * Replaces the element that the part renders.
+   * @cckShared
+   */
+  readonly render?: ReactElement | undefined;
+  /**
+   * The size of the thing.
+   * @cckValue small - A small thing.
+   * @cckValue large - A large thing.
+   * @cckGroup forms
+   */
+  readonly size?: 'small' | 'large' | undefined;
+  /** The side the thing opens on. */
+  readonly side?: ThingSide | undefined;
+  /** The content, or a function of the state that returns it. */
+  readonly children?: ReactNode | ((state: ThingState) => ReactNode);
+  /**
+   * The label, or a function of the value that returns it.
+   * @param value - The value the thing holds.
+   */
+  readonly label?: ReactNode | ((value: string) => ReactNode) | undefined;
+}
+
+/**
+ * Renders a thing.
+ *
+ * Put it where the thing shows.
+ * @remarks It needs a label.
+ * @cckPart root
+ * @example
+ * <Thing size="small" />
+ */
+export function Thing(props: ThingProps): ReactElement {
+  return props as unknown as ReactElement;
+}

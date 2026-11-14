@@ -1,0 +1,79 @@
+// Button rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-button-* tokens. No color change on hover or press.
+@mixin rules {
+  .cck-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cck-button-gap);
+    padding-inline: var(--cck-button-padding-inline);
+    padding-block: 0;
+    min-block-size: var(--cck-button-height);
+    border: var(--cck-button-border-width) solid transparent;
+    border-radius: var(--cck-button-radius);
+    background-color: transparent;
+    color: inherit;
+    font-family: var(--cck-button-label-font-family);
+    font-size: var(--cck-button-label-font-size);
+    line-height: var(--cck-button-label-line-height);
+    letter-spacing: var(--cck-button-label-letter-spacing);
+    font-weight: var(--cck-button-label-font-weight);
+    text-decoration: none;
+    cursor: pointer;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-variant='primary'] {
+      background-color: var(--cck-button-solid-bg);
+      color: var(--cck-button-solid-label-color);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--cck-button-border-color);
+      color: var(--cck-button-soft-label-color);
+    }
+
+    &[data-variant='light'] {
+      background-color: var(--cck-button-soft-bg);
+      color: var(--cck-button-soft-label-color);
+    }
+
+    &[data-variant='basic'] {
+      color: var(--cck-button-soft-label-color);
+    }
+
+    // After the variants, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    &[data-disabled],
+    &:disabled {
+      background-color: var(--cck-button-disabled-bg);
+      border-color: var(--cck-button-disabled-bg);
+      color: var(--cck-button-disabled-label-color);
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: var(--cck-button-focus-width) solid var(--cck-button-focus-color);
+      outline-offset: var(--cck-button-focus-offset);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-button[data-variant] {
+      border-color: ButtonText;
+
+      &[data-disabled],
+      &:disabled {
+        border-color: GrayText;
+        color: GrayText;
+      }
+
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+  }
+}

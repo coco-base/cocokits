@@ -1,0 +1,56 @@
+import type { ApplicationRef } from '@angular/core';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { bootstrapOnClient, renderOnServer } from './fixtures';
+import { stubOverlayApis } from './overlay-stubs';
+import { must } from './service-fixtures';
+
+/** Markup without the hydration and event-replay bookkeeping Angular adds. */
+function normalized(root: Element): string {
+  return root.innerHTML.replace(/\s+(?:ngh|jsaction)="[^"]*"/g, '').replace(/<!--[^>]*-->/g, '');
+}
+
+describe('Dialog hydration', () => {
+  const apps: ApplicationRef[] = [];
+  beforeEach(stubOverlayApis);
+  afterEach(() => {
+    for (const app of apps.splice(0)) app.destroy();
+    document.body.innerHTML = '';
+    document.documentElement.removeAttribute('style');
+    vi.restoreAllMocks();
+  });
+
+  it('matches the first client render of an open dialog, logs no hydration problem, then shows the content', async () => {
+    document.body.innerHTML = '<app-root></app-root>';
+    const reference = await bootstrapOnClient(false);
+    await reference.whenStable();
+    const first = normalized(must(document.querySelector('app-root')));
+    reference.destroy();
+    document.body.innerHTML = '';
+
+    const html = await renderOnServer();
+    document.body.innerHTML = /<body[^>]*>([\s\S]*)<\/body>/.exec(html)?.[1] ?? '';
+    const problems: unknown[][] = [];
+    vi.spyOn(console, 'error').mockImplementation((...args) => {
+      problems.push(args);
+    });
+    vi.spyOn(console, 'warn').mockImplementation((...args) => {
+      problems.push(args);
+    });
+    const logs: unknown[][] = [];
+    vi.spyOn(console, 'log').mockImplementation((...args) => {
+      logs.push(args);
+    });
+    const app = await bootstrapOnClient(true);
+    apps.push(app);
+    await app.whenStable();
+
+    expect(logs.some(([m]) => String(m).startsWith('Angular hydrated'))).toBe(true);
+    expect(problems).toEqual([]);
+    expect(normalized(must(document.querySelector('app-root')))).toBe(first);
+    // After hydration the open dialog has attached its content outside the app root, like the reference.
+    const dialog = must(document.querySelector<HTMLDialogElement>('dialog.cck-dialog__content'));
+    expect(dialog.closest('app-root')).toBeNull();
+    expect(dialog.closest('[popover="manual"]')).not.toBeNull();
+    expect(dialog.open).toBe(true);
+  });
+});

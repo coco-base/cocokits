@@ -1,0 +1,5 @@
+@use '_avatar' as avatar;
+
+@layer cocokits {
+  @include avatar.rules;
+}

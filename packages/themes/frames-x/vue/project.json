@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "theme-frames-x-vue",
+  "projectType": "library",
+  "sourceRoot": "packages/themes/frames-x/vue/src",
+  "tags": ["layer:theme", "scope:vue", "type:lib"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "commands": [
+          "vite build -c vite.config.lib.mjs",
+          "vue-tsc -p tsconfig.lib.json --declaration --emitDeclarationOnly --noEmit false --outDir dist --rootDir src",
+          "node ../../../../tools/scripts/fix-declaration-imports.mjs dist"
+        ],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      },
+      "inputs": ["production", "^production", "{workspaceRoot}/tools/scripts/fix-declaration-imports.mjs"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["vue-tsc --noEmit -p tsconfig.lib.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      }
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
+  }
+}

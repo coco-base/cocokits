@@ -1,0 +1,84 @@
+import { Directive, Injectable, InjectionToken, input, output } from '@angular/core';
+
+/**
+ * Where the thing opens.
+ * @cckValue start - Before the trigger.
+ * @cckValue end - After the trigger.
+ */
+export type ThingSide = 'start' | 'end';
+
+/** The settings every thing of the app starts with. */
+export interface ThingConfig {
+  /** The side a thing opens on. */
+  readonly side: ThingSide;
+}
+
+/**
+ * A type only the package uses.
+ * @internal
+ */
+export type ThingSecret = string;
+
+/**
+ * The root of a thing.
+ *
+ * Put it where the thing shows.
+ * @cckPart root
+ * @example
+ * <cck-thing side="start" />
+ */
+@Directive({ selector: 'cck-thing' })
+export class Thing {
+  /**
+   * The side the thing opens on.
+   * @cckValue start - Before the trigger.
+   * @cckValue end - After the trigger.
+   */
+  readonly side = input<'start' | 'end'>('start');
+  /**
+   * Whether the user touched the thing.
+   * @cckGroup forms
+   */
+  readonly touched = input(false);
+  /** Emits when the user leaves the thing. */
+  readonly touch = output<void>();
+}
+
+/** Opens things from code. */
+@Injectable({ providedIn: 'root' })
+export class ThingOpener {
+  /**
+   * Opens a thing.
+   * @example
+   * opener.open();
+   */
+  open(): void {}
+
+  /** Whether a thing is open. */
+  readonly isOpen = false;
+
+  /** The count of open things. */
+  private count = 0;
+}
+
+/** A handle on one open thing. */
+export class ThingRef {
+  /** Closes the thing. */
+  close(): void {}
+}
+
+/**
+ * The settings every thing of the app starts with.
+ * @example
+ * providers: [{ provide: THING_CONFIG, useValue: { side: 'end' } }]
+ */
+export const THING_CONFIG = new InjectionToken<ThingConfig>('THING_CONFIG');
+
+/** The parts to import together. */
+export const ThingImports = [Thing] as const;
+
+/**
+ * A helper only sibling packages use.
+ * @internal
+ */
+export class ThingHelper {}

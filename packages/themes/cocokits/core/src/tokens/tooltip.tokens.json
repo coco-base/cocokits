@@ -1,0 +1,31 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Tooltip__content / Structure",
+      "tier": 3,
+      "prefix": "tooltip",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
+        { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "shadow", "type": "string", "valuesByMode": { "Default": "{Theme / Shadow#shadow-md}" } },
+        { "name": "padding-inline", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-3}" } },
+        { "name": "padding-block", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } },
+        { "name": "side-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-2}" } },
+        { "name": "max-inline-size", "type": "number", "unit": "px", "valuesByMode": { "Default": 240 } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-xs/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-xs/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-xs/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-xs/letter-spacing}" } },
+        { "name": "arrow-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
+        { "name": "arrow-width", "type": "number", "unit": "px", "valuesByMode": { "Default": 10 } },
+        { "name": "arrow-height", "type": "number", "unit": "px", "valuesByMode": { "Default": 5 } },
+        { "name": "motion-duration", "type": "string", "valuesByMode": { "Default": "120ms" } },
+        { "name": "motion-distance", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+// Popover rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The content is portaled into a host in the top layer, so it is styled by its own class and never through the
+// trigger. It sets no `position`, `inset` or `transform` (only `transform-origin`, from `--transform-origin`, so a scale grows from the anchor): the positioning module writes `position: fixed` and the
+// coordinates, and publishes `--available-height`. The gap to the trigger is `--side-offset`, the one unprefixed
+// variable a theme sets; an offset set on the content overrides it. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart
+// only for the inline slide) and runs only with `prefers-reduced-motion: no-preference`; the end state is right
+// without it. The Title and Description are plain text in the content; the Anchor has no rule (it is the author's element).
+// A plain Close part (not a Button) is a small outlined button; the trigger is the author's (usually a Button).
+@mixin rules {
+  .cck-popover__content {
+    --side-offset: var(--cck-popover-side-offset);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cck-popover-gap);
+    max-inline-size: min(var(--cck-popover-max-inline-size), calc(100vw - 2 * var(--cck-popover-padding)));
+    max-block-size: var(--available-height, none);
+    overflow: auto;
+    transform-origin: var(--transform-origin);
+    padding: var(--cck-popover-padding);
+    border: var(--cck-popover-border-width) solid var(--cck-popover-border-color);
+    border-radius: var(--cck-popover-radius);
+    background-color: var(--cck-popover-bg);
+    box-shadow: var(--cck-popover-shadow);
+    color: var(--cck-popover-text-color);
+    font-family: var(--cck-popover-font-family);
+    font-size: var(--cck-popover-font-size);
+    line-height: var(--cck-popover-line-height);
+    letter-spacing: var(--cck-popover-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // Focus lands on the content when it holds nothing focusable.
+    &:focus-visible {
+      outline: var(--cck-popover-focus-width) solid var(--cck-popover-focus-color);
+      outline-offset: calc(-1 * var(--cck-popover-focus-width));
+    }
+  }
+
+  // The arrow sits outside the content's border box, so a content that holds one cannot clip: it gives up its
+  // own scrolling (the author bounds its height or scrolls an inner element).
+  .cck-popover__content:has(> .cck-popover__arrow) {
+    overflow: visible;
+  }
+
+  // The positioning module places and turns the arrow and sets `hidden` through the machine; the theme only sizes
+  // and fills the triangle. An author rule beats the user-agent [hidden] rule, so the theme restates it.
+  .cck-popover__arrow {
+    &[hidden] {
+      display: none;
+    }
+
+    svg {
+      display: block;
+      inline-size: var(--cck-popover-arrow-width);
+      block-size: var(--cck-popover-arrow-height);
+      fill: var(--cck-popover-arrow-bg);
+    }
+  }
+
+  .cck-popover__title {
+    margin: 0;
+    color: var(--cck-popover-title-color);
+    font-family: var(--cck-popover-title-font-family);
+    font-size: var(--cck-popover-title-font-size);
+    font-weight: var(--cck-popover-title-font-weight);
+    line-height: var(--cck-popover-title-line-height);
+    letter-spacing: var(--cck-popover-title-letter-spacing);
+  }
+
+  .cck-popover__description {
+    display: block;
+    margin: 0;
+    color: var(--cck-popover-description-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-popover__close:not(.cck-button):focus-visible {
+    outline: var(--cck-popover-focus-width) solid var(--cck-popover-focus-color);
+    outline-offset: var(--cck-popover-focus-offset);
+  }
+
+  .cck-popover__close:not(.cck-button) {
+    box-sizing: border-box;
+    min-block-size: 24px;
+    min-inline-size: 24px;
+    padding: var(--cck-popover-close-padding-block) var(--cck-popover-close-padding-inline);
+    border: var(--cck-popover-border-width) solid var(--cck-popover-border-color);
+    border-radius: var(--cck-popover-close-radius);
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+
+    &:hover {
+      background-color: var(--cck-popover-close-hover-bg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cck-popover__content[data-state='open'] {
+      animation: cck-popover-in var(--cck-popover-motion-duration) ease-out;
+    }
+
+    .cck-popover__content[data-state='closed'] {
+      animation: cck-popover-out var(--cck-popover-motion-duration) ease-in forwards;
+    }
+
+    .cck-popover__content[data-side='top'] {
+      --cck-popover-slide-x: 0px;
+      --cck-popover-slide-y: var(--cck-popover-motion-distance);
+    }
+
+    .cck-popover__content[data-side='bottom'] {
+      --cck-popover-slide-x: 0px;
+      --cck-popover-slide-y: calc(-1 * var(--cck-popover-motion-distance));
+    }
+
+    .cck-popover__content[data-side='start'] {
+      --cck-popover-slide-x: var(--cck-popover-motion-distance);
+      --cck-popover-slide-y: 0px;
+
+      &:dir(rtl) {
+        --cck-popover-slide-x: calc(-1 * var(--cck-popover-motion-distance));
+      }
+    }
+
+    .cck-popover__content[data-side='end'] {
+      --cck-popover-slide-x: calc(-1 * var(--cck-popover-motion-distance));
+      --cck-popover-slide-y: 0px;
+
+      &:dir(rtl) {
+        --cck-popover-slide-x: var(--cck-popover-motion-distance);
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-popover__content {
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .cck-popover__title,
+    .cck-popover__description {
+      color: CanvasText;
+    }
+
+    .cck-popover__arrow svg {
+      fill: CanvasText;
+    }
+
+    .cck-popover__close:not(.cck-button) {
+      border-color: ButtonText;
+    }
+
+    .cck-popover__content:focus-visible,
+    .cck-popover__close:not(.cck-button):focus-visible {
+      outline-color: Highlight;
+    }
+  }
+
+  @keyframes cck-popover-in {
+    from {
+      opacity: 0;
+      translate: var(--cck-popover-slide-x, 0px) var(--cck-popover-slide-y, 0px);
+    }
+  }
+
+  @keyframes cck-popover-out {
+    to {
+      opacity: 0;
+      translate: var(--cck-popover-slide-x, 0px) var(--cck-popover-slide-y, 0px);
+    }
+  }
+}

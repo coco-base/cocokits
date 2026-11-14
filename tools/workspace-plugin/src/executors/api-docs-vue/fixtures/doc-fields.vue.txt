@@ -1,0 +1,10 @@
+<script setup lang="ts">
+import type { ThingEmits, ThingProps } from './thing.types';
+
+defineProps<ThingProps>();
+defineEmits<ThingEmits>();
+</script>
+
+<template>
+  <button />
+</template>

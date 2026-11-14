@@ -1,0 +1,23 @@
+// Radio rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-radio-* tokens. A round box with a dot drawn by CSS on `background`; the
+// shared pieces and the cascade order are in _choice-box.scss. The Radio renders only the checked,
+// disabled and required facts, so it has no read-only, mixed or invalid look.
+@use '../choice-box' as box;
+
+$block: 'radio';
+
+@mixin rules {
+  @include box.layout($block);
+
+  // The dot, inside the round box.
+  .cck-radio__background::after {
+    inset: 25%;
+    border-radius: 50%;
+  }
+
+  @include box.checked($block);
+  @include box.disabled($block);
+  @include box.focus($block);
+  @include box.motion($block);
+  @include box.forced($block);
+}

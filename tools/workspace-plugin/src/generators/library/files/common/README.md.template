@@ -1,0 +1,9 @@
+# <%= packageName %>
+
+<%= description %>
+
+## Install
+
+```bash
+npm install <%= packageName %>
+```

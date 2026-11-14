@@ -1,0 +1,112 @@
+// Tooltip rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The content is portaled into a host in the top layer, so it is styled by its own class and never through the
+// trigger. It sets no `position`, `inset` or `transform`: the positioning module writes `position: fixed` and the
+// coordinates. The gap to the trigger is `--side-offset`, the one unprefixed variable a theme sets. The bubble is
+// an inverse surface (the text color of the page as its fill), so it reads in light and dark. It is never
+// focusable and holds no control, so it has no focus ring; the trigger is the author's (usually a Button) and keeps
+// its own. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart only for the
+// inline slide) and runs only with `prefers-reduced-motion: no-preference`; the end state is right without it.
+@mixin rules {
+  .cck-tooltip__content {
+    --side-offset: var(--cck-tooltip-side-offset);
+    box-sizing: border-box;
+    display: block;
+    max-inline-size: min(var(--cck-tooltip-max-inline-size), calc(100vw - 2 * var(--cck-tooltip-padding-inline)));
+    padding: var(--cck-tooltip-padding-block) var(--cck-tooltip-padding-inline);
+    border-radius: var(--cck-tooltip-radius);
+    background-color: var(--cck-tooltip-bg);
+    box-shadow: var(--cck-tooltip-shadow);
+    color: var(--cck-tooltip-text-color);
+    font-family: var(--cck-tooltip-font-family);
+    font-size: var(--cck-tooltip-font-size);
+    line-height: var(--cck-tooltip-line-height);
+    letter-spacing: var(--cck-tooltip-letter-spacing);
+    overflow-wrap: anywhere;
+    transform-origin: var(--transform-origin);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The positioning module places and turns the arrow; the theme only sizes and fills the triangle. An author rule
+  // beats the user-agent [hidden] rule, so the theme restates it.
+  .cck-tooltip__arrow {
+    &[hidden] {
+      display: none;
+    }
+
+    svg {
+      display: block;
+      inline-size: var(--cck-tooltip-arrow-width);
+      block-size: var(--cck-tooltip-arrow-height);
+      fill: var(--cck-tooltip-arrow-bg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cck-tooltip__content[data-state='open'] {
+      animation: cck-tooltip-in var(--cck-tooltip-motion-duration) ease-out;
+    }
+
+    .cck-tooltip__content[data-state='closed'] {
+      animation: cck-tooltip-out var(--cck-tooltip-motion-duration) ease-in forwards;
+    }
+
+    .cck-tooltip__content[data-side='top'] {
+      --cck-tooltip-slide-x: 0px;
+      --cck-tooltip-slide-y: var(--cck-tooltip-motion-distance);
+    }
+
+    .cck-tooltip__content[data-side='bottom'] {
+      --cck-tooltip-slide-x: 0px;
+      --cck-tooltip-slide-y: calc(-1 * var(--cck-tooltip-motion-distance));
+    }
+
+    .cck-tooltip__content[data-side='start'] {
+      --cck-tooltip-slide-x: var(--cck-tooltip-motion-distance);
+      --cck-tooltip-slide-y: 0px;
+
+      &:dir(rtl) {
+        --cck-tooltip-slide-x: calc(-1 * var(--cck-tooltip-motion-distance));
+      }
+    }
+
+    .cck-tooltip__content[data-side='end'] {
+      --cck-tooltip-slide-x: calc(-1 * var(--cck-tooltip-motion-distance));
+      --cck-tooltip-slide-y: 0px;
+
+      &:dir(rtl) {
+        --cck-tooltip-slide-x: var(--cck-tooltip-motion-distance);
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-tooltip__content {
+      border: 1px solid CanvasText;
+      background-color: Canvas;
+      box-shadow: none;
+      color: CanvasText;
+    }
+
+    .cck-tooltip__arrow svg {
+      fill: CanvasText;
+    }
+  }
+
+  @keyframes cck-tooltip-in {
+    from {
+      opacity: 0;
+      translate: var(--cck-tooltip-slide-x, 0px) var(--cck-tooltip-slide-y, 0px);
+    }
+  }
+
+  @keyframes cck-tooltip-out {
+    to {
+      opacity: 0;
+      translate: var(--cck-tooltip-slide-x, 0px) var(--cck-tooltip-slide-y, 0px);
+    }
+  }
+}

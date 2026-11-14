@@ -1,0 +1,106 @@
+// Input rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// A standalone Input draws its own md box. Inside a FormField input wrapper the wrapper draws the
+// box (_form-field.scss) and the Input is borderless and fills it. The Input sets no `display`,
+// so the native `hidden` attribute needs no restatement. State rules keep the specificity of the
+// base rule (`:where()`), so the wrapper reset below always wins and source order decides between
+// the states.
+@mixin rules {
+  .cck-input {
+    box-sizing: border-box;
+    min-block-size: var(--cck-input-height);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--cck-input-padding-inline);
+    border: var(--cck-input-border-width) solid var(--cck-input-border-color);
+    border-radius: var(--cck-input-radius);
+    background-color: var(--cck-input-bg);
+    color: var(--cck-input-text-color);
+    font-family: var(--cck-input-font-family);
+    font-size: var(--cck-input-font-size);
+    line-height: var(--cck-input-line-height);
+    letter-spacing: var(--cck-input-letter-spacing);
+
+    &::placeholder {
+      color: var(--cck-input-placeholder-color);
+      opacity: 1;
+    }
+
+    &:where(:hover) {
+      border-color: var(--cck-input-hover-border-color);
+    }
+
+    &:where([data-invalid]):where([data-touched], [data-submitted]) {
+      border-color: var(--cck-input-invalid-border-color);
+      // A second line of the same width inside the border: the cue does not rest on hue alone.
+      // Forced colors drop the shadow, so the border gets thicker there.
+      box-shadow: inset 0 0 0 var(--cck-input-border-width) var(--cck-input-invalid-border-color);
+    }
+
+    &:where([data-readonly]) {
+      background-color: var(--cck-input-readonly-bg);
+      // A dashed border tells it from an editable box without color, also in forced colors.
+      border-style: dashed;
+    }
+
+    // After the other states, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    &:where([data-disabled], :disabled) {
+      border-color: var(--cck-input-disabled-border-color);
+      background-color: var(--cck-input-disabled-bg);
+      // Disabled wins over invalid: no invalid line.
+      box-shadow: none;
+      color: var(--cck-input-disabled-text-color);
+
+      &::placeholder {
+        color: var(--cck-input-disabled-text-color);
+      }
+    }
+
+    &:focus-visible {
+      outline: var(--cck-input-focus-width) solid var(--cck-input-focus-color);
+      outline-offset: var(--cck-input-focus-offset);
+    }
+  }
+
+  // In a field the wrapper holds the box and its focus ring, so the Input keeps no box of its own.
+  .cck-form-field__input-wrapper > .cck-input {
+    flex: 1;
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    font: inherit;
+    letter-spacing: inherit;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-input {
+      border-color: CanvasText;
+
+      &:where([data-invalid]):where([data-touched], [data-submitted]) {
+        border-width: var(--cck-input-invalid-border-width);
+      }
+
+      &:where([data-disabled], :disabled) {
+        border-color: GrayText;
+        // The invalid border is thicker here; disabled wins over it.
+        border-width: var(--cck-input-border-width);
+        color: GrayText;
+
+        &::placeholder {
+          color: GrayText;
+        }
+      }
+
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+  }
+}

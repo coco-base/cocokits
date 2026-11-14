@@ -1,0 +1,37 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "name": "theme-frames-x",
+  "projectType": "library",
+  "sourceRoot": "packages/themes/frames-x/core/src",
+  "tags": ["layer:theme", "scope:shared", "type:lib"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "commands": ["tsdown -c tsdown.config.mjs --config-loader native"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      },
+      "dependsOn": ["^build"]
+    },
+    "docs-data": {
+      "executor": "@cocokits/workspace:docs-data",
+      "options": {
+        "source": "theme"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["tsc --noEmit -p tsconfig.lib.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
+      },
+      "dependsOn": ["^build"]
+    },
+    "pack": {},
+    "publint": {},
+    "attw": {}
+  }
+}

@@ -1,0 +1,61 @@
+import { Directive, booleanAttribute, input } from '@angular/core';
+
+/**
+ * The root of a thing: it renders its list itself.
+ * @cckPart root
+ * @cckPart list
+ * @cckSlot default - The content.
+ * @cckSlot preview ng-template[thingPreview] - What the trigger shows.
+ */
+@Directive({ selector: 'div[thing]' })
+export class Thing {
+  /** The label of the list. @cckSemantic thing.list.aria-label */
+  readonly label = input<string>('', { alias: 'aria-label' });
+}
+
+/**
+ * The template of the preview slot.
+ */
+@Directive({ selector: 'ng-template[thingPreview]' })
+export class ThingPreview {
+  static ngTemplateContextGuard(
+    _directive: ThingPreview,
+    _context: unknown,
+  ): _context is {
+    /** The values that are selected. */
+    readonly selected: readonly string[];
+  } {
+    return true;
+  }
+}
+
+/**
+ * A panel that also stands for its trigger.
+ * @cckPart panel
+ * @cckSection trigger header header
+ */
+@Directive({ selector: 'div[thingItem]' })
+export class ThingItem {
+  /** Whether the item is disabled. */
+  readonly disabled = input(false, { transform: booleanAttribute });
+}
+
+/**
+ * The root of an overlay: it renders no element.
+ * @cckPart root
+ * @cckNoElement
+ */
+@Directive({ selector: '[thingOverlay]' })
+export class ThingOverlay {}
+
+/**
+ * The content of an overlay.
+ * @cckPart content
+ * @cckTemplate ng-template[thingPortal]
+ */
+@Directive({ selector: '[thingContent]' })
+export class ThingContent {}
+
+/** The portal of the content: it renders no part. */
+@Directive({ selector: 'ng-template[thingPortal]' })
+export class ThingPortal {}

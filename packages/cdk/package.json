@@ -1,0 +1,87 @@
+{
+  "name": "@cocokits/cdk",
+  "version": "2.0.0",
+  "description": "Framework-free primitives and stateful runtime, one subpath per module.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/cdk"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./active-indicator": {
+      "types": "./dist/active-indicator/index.d.ts",
+      "default": "./dist/active-indicator/index.js"
+    },
+    "./content-size": {
+      "types": "./dist/content-size/index.d.ts",
+      "default": "./dist/content-size/index.js"
+    },
+    "./dismissal": {
+      "types": "./dist/dismissal/index.d.ts",
+      "default": "./dist/dismissal/index.js"
+    },
+    "./focus": {
+      "types": "./dist/focus/index.d.ts",
+      "default": "./dist/focus/index.js"
+    },
+    "./form-control": {
+      "types": "./dist/form-control/index.d.ts",
+      "default": "./dist/form-control/index.js"
+    },
+    "./icon-registry": {
+      "types": "./dist/icon-registry/index.d.ts",
+      "default": "./dist/icon-registry/index.js"
+    },
+    "./portal": {
+      "types": "./dist/portal/index.d.ts",
+      "default": "./dist/portal/index.js"
+    },
+    "./positioning": {
+      "types": "./dist/positioning/index.d.ts",
+      "default": "./dist/positioning/index.js"
+    },
+    "./presence": {
+      "types": "./dist/presence/index.d.ts",
+      "default": "./dist/presence/index.js"
+    },
+    "./roving-focus": {
+      "types": "./dist/roving-focus/index.d.ts",
+      "default": "./dist/roving-focus/index.js"
+    },
+    "./scroll-lock": {
+      "types": "./dist/scroll-lock/index.d.ts",
+      "default": "./dist/scroll-lock/index.js"
+    }
+  },
+  "dependencies": {
+    "@cocokits/icons": "workspace:*",
+    "@cocokits/shared": "workspace:*",
+    "@cocokits/utils": "workspace:*",
+    "alien-signals": "^3.2.1"
+  },
+  "peerDependencies": {
+    "@floating-ui/dom": "^1.0.0",
+    "@internationalized/date": "^3.0.0",
+    "@internationalized/number": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@floating-ui/dom": {
+      "optional": true
+    },
+    "@internationalized/date": {
+      "optional": true
+    },
+    "@internationalized/number": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

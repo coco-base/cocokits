@@ -1,15 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "lib": ["es2022", "dom"],
-    "declaration": true,
-    "types": ["node"]
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/generators/example-story/files/src/angular-inline/_story.source.ts.template",
-    "src/generators/ui-core-component/files/angular-storybook/__libraryName.fileName__.template/__componentName.fileName__.template/index.stories.ts.template"
-  ],
-  "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": ["node_modules", "src/**/files/**", "src/**/*.spec.ts", "src/**/testing/**"]
 }

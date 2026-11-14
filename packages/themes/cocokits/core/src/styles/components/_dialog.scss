@@ -1,0 +1,155 @@
+// Dialog rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The content is a native modal `dialog` in the top layer: the user agent centres it (`margin: auto`, `inset: 0`) and
+// the theme only sizes it, so it sets no `position`, `inset` or `transform`. The page behind is the `::backdrop`, which
+// inherits the tokens of the content. The content takes `display: flex` only while `[open]`, so a closed dialog stays
+// hidden by the user agent. Motion keys off `data-state` and runs only with `prefers-reduced-motion: no-preference`;
+// the end state is right without it. A plain Close part (not a Button) is a small outlined button; the trigger is the author's (usually
+// a Button).
+@mixin rules {
+  .cck-dialog__content {
+    box-sizing: border-box;
+    inline-size: calc(100% - 2 * var(--cck-dialog-viewport-margin));
+    max-inline-size: var(--cck-dialog-max-inline-size);
+    max-block-size: calc(100% - 2 * var(--cck-dialog-viewport-margin));
+    overflow: auto;
+    padding: var(--cck-dialog-padding);
+    border: var(--cck-dialog-border-width) solid var(--cck-dialog-border-color);
+    border-radius: var(--cck-dialog-radius);
+    background-color: var(--cck-dialog-bg);
+    box-shadow: var(--cck-dialog-shadow);
+    color: var(--cck-dialog-text-color);
+    font-family: var(--cck-dialog-font-family);
+    font-size: var(--cck-dialog-font-size);
+    line-height: var(--cck-dialog-line-height);
+    letter-spacing: var(--cck-dialog-letter-spacing);
+
+    &[open] {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--cck-dialog-gap);
+    }
+
+    // Focus lands on the content when it holds nothing focusable.
+    &:focus-visible {
+      outline: var(--cck-dialog-focus-width) solid var(--cck-dialog-focus-color);
+      outline-offset: calc(-1 * var(--cck-dialog-focus-width));
+    }
+
+    &::backdrop {
+      background-color: var(--cck-dialog-backdrop-bg);
+    }
+  }
+
+  // A dialog opened non-modal (`modal` off) is not in the top layer and the user agent does not centre it, so the
+  // theme does: fixed, `inset: 0` with auto margins, the size rules above. No backdrop.
+  .cck-dialog__content[open]:not(:modal) {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    block-size: fit-content;
+  }
+
+  .cck-dialog__title {
+    margin: 0;
+    color: var(--cck-dialog-title-color);
+    font-family: var(--cck-dialog-title-font-family);
+    font-size: var(--cck-dialog-title-font-size);
+    font-weight: var(--cck-dialog-title-font-weight);
+    line-height: var(--cck-dialog-title-line-height);
+    letter-spacing: var(--cck-dialog-title-letter-spacing);
+  }
+
+  .cck-dialog__description {
+    display: block;
+    margin: 0;
+    color: var(--cck-dialog-description-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-dialog__close:not(.cck-button):focus-visible {
+    outline: var(--cck-dialog-focus-width) solid var(--cck-dialog-focus-color);
+    outline-offset: var(--cck-dialog-focus-offset);
+  }
+
+  .cck-dialog__close:not(.cck-button) {
+    box-sizing: border-box;
+    min-block-size: 24px;
+    min-inline-size: 24px;
+    padding: var(--cck-dialog-close-padding-block) var(--cck-dialog-close-padding-inline);
+    border: var(--cck-dialog-border-width) solid var(--cck-dialog-border-color);
+    border-radius: var(--cck-dialog-close-radius);
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+
+    &:hover {
+      background-color: var(--cck-dialog-close-hover-bg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cck-dialog__content[data-state='open'] {
+      animation: cck-dialog-in var(--cck-dialog-motion-duration) ease-out;
+
+      &::backdrop {
+        animation: cck-dialog-backdrop-in var(--cck-dialog-motion-duration) ease-out;
+      }
+    }
+
+    .cck-dialog__content[data-state='closed'] {
+      animation: cck-dialog-out var(--cck-dialog-motion-duration) ease-in forwards;
+
+      &::backdrop {
+        animation: cck-dialog-backdrop-out var(--cck-dialog-motion-duration) ease-in forwards;
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-dialog__content {
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .cck-dialog__close:not(.cck-button) {
+      border-color: ButtonText;
+    }
+
+    .cck-dialog__content:focus-visible,
+    .cck-dialog__close:not(.cck-button):focus-visible {
+      outline-color: Highlight;
+    }
+  }
+
+  @keyframes cck-dialog-in {
+    from {
+      opacity: 0;
+      translate: 0 var(--cck-dialog-motion-distance);
+    }
+  }
+
+  @keyframes cck-dialog-out {
+    to {
+      opacity: 0;
+      translate: 0 var(--cck-dialog-motion-distance);
+    }
+  }
+
+  @keyframes cck-dialog-backdrop-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes cck-dialog-backdrop-out {
+    to {
+      opacity: 0;
+    }
+  }
+}

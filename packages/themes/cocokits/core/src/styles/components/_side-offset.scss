@@ -1,0 +1,10 @@
+// Registers `--side-offset` as a `<length>` so `calc()`, `rem` and `em` reach the positioning module as px.
+// Included once at the top level (outside `@layer` and outside the `rules` mixins) by each sheet that sets
+// `--side-offset`, so a compiled file carries the rule exactly once.
+@mixin register {
+  @property --side-offset {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 0px;
+  }
+}

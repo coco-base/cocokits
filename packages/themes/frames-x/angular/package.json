@@ -1,0 +1,24 @@
+{
+  "name": "@cocokits/theme-frames-x-angular",
+  "version": "2.0.0",
+  "description": "Typed frames-x theme layer for Angular.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coco-base/cocokits.git",
+    "directory": "packages/themes/frames-x/angular"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "exports": {},
+  "peerDependencies": {
+    "@angular/core": "^22.0.0",
+    "@cocokits/angular": "workspace:*",
+    "@cocokits/angular-core": "workspace:*",
+    "@cocokits/theme-frames-x": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../../../dist/packages/theme-frames-x-angular"
+  }
+}

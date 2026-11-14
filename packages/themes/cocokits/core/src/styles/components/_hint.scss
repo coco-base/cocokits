@@ -1,0 +1,18 @@
+// Hint rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+@mixin rules {
+  .cck-hint {
+    display: flex;
+    gap: var(--cck-hint-gap);
+    color: var(--cck-hint-text-color);
+    font-family: var(--cck-hint-font-family);
+    font-size: var(--cck-hint-font-size);
+    line-height: var(--cck-hint-line-height);
+    letter-spacing: var(--cck-hint-letter-spacing);
+    font-weight: var(--cck-hint-font-weight);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+}

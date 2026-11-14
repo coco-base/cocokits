@@ -1,0 +1,62 @@
+// Avatar rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The root owns the edge and the font; the fallback inherits the font and adds the colours, so a container
+// (avatar-group, avatar-label) sets the size of its direct avatars on the root alone.
+@mixin rules {
+  .cck-avatar {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    inline-size: var(--cck-avatar-size);
+    block-size: var(--cck-avatar-size);
+    border-radius: var(--cck-avatar-radius);
+    overflow: hidden;
+    vertical-align: middle;
+    font-family: var(--cck-avatar-fallback-font-family);
+    font-size: var(--cck-avatar-fallback-font-size);
+    line-height: var(--cck-avatar-fallback-line-height);
+    letter-spacing: var(--cck-avatar-fallback-letter-spacing);
+    font-weight: var(--cck-avatar-fallback-font-weight);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it on every part with a display.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-avatar__image {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-avatar__fallback {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    block-size: 100%;
+    // The forced-colors border follows the root's round edge.
+    border-radius: inherit;
+    background-color: var(--cck-avatar-fallback-bg);
+    color: var(--cck-avatar-fallback-text-color);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Forced colors remove the background, so a border keeps the fallback visible.
+  @media (forced-colors: active) {
+    .cck-avatar__fallback {
+      border: 1px solid CanvasText;
+    }
+  }
+}

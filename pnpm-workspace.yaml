@@ -1,4 +1,25 @@
 packages:
-  - 'apps/**'
   - 'packages/**'
-  - 'tools/**'
+  - 'tools/*'
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
+  esbuild: false
+  lmdb: false
+  msgpackr-extract: false
+  nx: false
+minimumReleaseAgeExclude:
+  - '@typescript-eslint/eslint-plugin@8.72.0'
+  - '@typescript-eslint/parser@8.72.0'
+  - '@typescript-eslint/project-service@8.72.0'
+  - '@typescript-eslint/scope-manager@8.72.0'
+  - '@typescript-eslint/tsconfig-utils@8.72.0'
+  - '@typescript-eslint/type-utils@8.72.0'
+  - '@typescript-eslint/types@8.72.0'
+  - '@typescript-eslint/typescript-estree@8.72.0'
+  - '@typescript-eslint/utils@8.72.0'
+  - '@typescript-eslint/visitor-keys@8.72.0'
+  - typescript-eslint@8.72.0
+allowedDeprecatedVersions:
+  # Dev-server-only transitive dependency (@nx/angular > @nx/web > http-server); no maintained replacement upstream.
+  whatwg-encoding: 2.0.0

@@ -1,39 +1,40 @@
 {
+  "$schema": "http://json-schema.org/schema",
   "executors": {
-    "scss-builder": {
-      "implementation": "./src/executors/scss-builder/executor",
-      "schema": "./src/executors/scss-builder/schema.json",
-      "description": "Build style package and generate css and source map files from scss "
+    "tokens": {
+      "implementation": "./src/executors/tokens/executor",
+      "schema": "./src/executors/tokens/schema.json",
+      "description": "Turn a token JSON file into a CSS or SCSS file, with optional TypeScript mode lists and the modes index."
     },
-    "pnpm-workspace-list": {
-      "implementation": "./src/executors/pnpm-workspace-list/executor",
-      "schema": "./src/executors/pnpm-workspace-list/schema.json",
-      "description": "The pnpm-workspace-list executor lists the names of all packages in a pnpm workspace. It provides a quick and easy way to view all package names within your Nx workspace."
+    "docs-data": {
+      "implementation": "./src/executors/docs-data/executor",
+      "schema": "./src/executors/docs-data/schema.json",
+      "description": "Write the docs data of a project (component anatomy and meta, or the options and mode axes of a theme) as JSON."
     },
-    "figma-to-image": {
-      "implementation": "./src/executors/figma-to-image/executor",
-      "schema": "./src/executors/figma-to-image/schema.json",
-      "description": "figma-to-image executor"
+    "api-docs-angular": {
+      "implementation": "./src/executors/api-docs-angular/executor",
+      "schema": "./src/executors/api-docs-common/schema.json",
+      "description": "Extract the API of every Angular entry point of a package from its TSDoc into ApiDoc JSON."
     },
-    "token-generator": {
-      "implementation": "./src/executors/token-generator/executor",
-      "schema": "./src/executors/token-generator/schema.json",
-      "description": "token-generator executor"
+    "api-docs-react": {
+      "implementation": "./src/executors/api-docs-react/executor",
+      "schema": "./src/executors/api-docs-common/schema.json",
+      "description": "Extract the API of every React entry point of a package from its TSDoc, through the TypeScript checker, into ApiDoc JSON."
     },
-    "build-typedoc": {
-      "implementation": "./src/executors/build-typedoc/executor",
-      "schema": "./src/executors/build-typedoc/schema.json",
-      "description": "Build the storybook mdx doc page from the utils source code with help of typeDoc"
+    "api-docs-vue": {
+      "implementation": "./src/executors/api-docs-vue/executor",
+      "schema": "./src/executors/api-docs-common/schema.json",
+      "description": "Extract the API of every Vue entry point of a package from its TSDoc, through vue-component-meta, into ApiDoc JSON."
     },
-    "example-story-source": {
-      "implementation": "./src/executors/example-story-source/executor",
-      "schema": "./src/executors/example-story-source/schema.json",
-      "description": "example-story-source executor"
+    "api-docs-ts": {
+      "implementation": "./src/executors/api-docs-ts/executor",
+      "schema": "./src/executors/api-docs-common/schema.json",
+      "description": "Extract the API of every module of a framework-free package (cdk, utils) from its TSDoc, through the TypeScript checker, into ApiDoc JSON with a function model."
     },
-    "depcheck": {
-      "implementation": "./src/executors/depcheck/executor",
-      "schema": "./src/executors/depcheck/schema.json",
-      "description": "check which dependencies are missing from package.json"
+    "api-parity": {
+      "implementation": "./src/executors/api-parity/executor",
+      "schema": "./src/executors/api-parity/schema.json",
+      "description": "Compare the Angular, React and Vue ApiDoc files by semantic id."
     }
   }
 }

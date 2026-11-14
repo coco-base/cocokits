@@ -1,0 +1,249 @@
+// FormField rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Layout, the four zones, and the box of an input wrapper that holds an Input or a Textarea
+// (`:has(> .cck-input, > .cck-textarea, > .cck-chip-list)`): a native control of another kind keeps its own box, and
+// a Select draws its own box and only takes the size of the field. The
+// look follows the facts the root renders, reached through child combinators only. The balance
+// indent is padding on the Label, not a margin on a component root; the feedback wrapper is an
+// internal part, so it may take a margin. A zone sets `display`, so it restates its `[hidden]`.
+$controls: '> .cck-input, > .cck-textarea, > .cck-chip-list';
+$box: '.cck-form-field__input-wrapper:has(#{$controls})';
+
+@mixin rules {
+  .cck-form-field {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cck-form-field-gap);
+    min-inline-size: var(--cck-form-field-min-inline-size);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    > .cck-label {
+      padding-inline-start: var(--cck-form-field-balance-indent);
+    }
+  }
+
+  .cck-form-field__wrapper {
+    display: flex;
+    inline-size: 100%;
+    align-items: stretch;
+    gap: var(--cck-form-field-zone-gap);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-form-field__input-wrapper {
+    display: flex;
+    flex: 1;
+    min-inline-size: 0;
+    align-items: center;
+    gap: var(--cck-form-field-zone-gap);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // A Textarea box grows with it and keeps the zones on its first line.
+  .cck-form-field__input-wrapper:has(> .cck-textarea) {
+    align-items: flex-start;
+  }
+
+  // The Textarea inside the box owns the padding-block of the field size, so its scroll area and its
+  // resize handle stay inside the border. Auto-resize bounds count that padding and no border.
+  .cck-form-field__input-wrapper > .cck-textarea {
+    padding-block: var(--cck-form-field-padding-block);
+
+    &[data-auto-resize] {
+      min-block-size: calc(var(--cck-textarea-min-rows, 2) * 1lh + 2 * var(--cck-form-field-padding-block));
+      max-block-size: calc(var(--cck-textarea-max-rows, 5) * 1lh + 2 * var(--cck-form-field-padding-block));
+    }
+  }
+
+  // Prefix and Suffix sit inside the box, Leading and Trailing outside it. Each is as high as the
+  // box's first line, so an icon or a button is centred on it for an Input and for a Textarea.
+  .cck-form-field__input-wrapper > .cck-prefix,
+  .cck-form-field__input-wrapper > .cck-suffix {
+    display: flex;
+    flex: none;
+    align-items: center;
+    min-block-size: calc(var(--cck-form-field-height) - 2 * var(--cck-form-field-border-width));
+    color: var(--cck-form-field-affix-text-color);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-form-field__wrapper > .cck-leading,
+  .cck-form-field__wrapper > .cck-trailing {
+    display: flex;
+    flex: none;
+    align-items: center;
+    align-self: flex-start;
+    min-block-size: var(--cck-form-field-height);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-form-field__feedback-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-inline-start: var(--cck-form-field-balance-indent);
+
+    // The part is always rendered; with no hint it takes no space.
+    &:empty,
+    &[hidden] {
+      display: none;
+    }
+
+    // A FieldError is always rendered (a live region) and is empty until it shows. With nothing
+    // visible in the part, the gap the field puts before it is undone, so it takes no space.
+    &:not(:has(> :not(:empty))) {
+      margin-block-start: calc(-1 * var(--cck-form-field-gap));
+    }
+  }
+
+  // Padding, not a margin on the FieldError root: an empty one takes no space. The first visible
+  // message sits under the Label's gap; a message after another one is spaced from it.
+  .cck-form-field__feedback-wrapper > :not(:empty) ~ .cck-field-error:not(:empty) {
+    padding-block-start: var(--cck-form-field-gap);
+  }
+
+  // The box. Tokens come from the root: its `data-size` mode, inherited by the wrapper.
+  #{$box} {
+    box-sizing: border-box;
+    min-block-size: var(--cck-form-field-height);
+    padding-inline: var(--cck-form-field-padding-inline);
+    font-family: var(--cck-form-field-font-family);
+    font-size: var(--cck-form-field-font-size);
+    line-height: var(--cck-form-field-line-height);
+    letter-spacing: var(--cck-form-field-letter-spacing);
+    border: var(--cck-form-field-border-width) solid var(--cck-form-field-border-color);
+    border-radius: var(--cck-form-field-radius);
+    background-color: var(--cck-form-field-bg);
+
+    &:where(:hover) {
+      border-color: var(--cck-form-field-hover-border-color);
+    }
+
+    // The ring is on the box, not on the borderless Input.
+    &:focus-within {
+      outline: var(--cck-form-field-focus-width) solid var(--cck-form-field-focus-color);
+      outline-offset: var(--cck-form-field-focus-offset);
+    }
+  }
+
+  // A Select keeps its own box (its trigger draws it), but the field sizes it: it fills the wrapper and its trigger
+  // takes the height, padding and text of the field root's `data-size`, whatever size the Select itself has.
+  .cck-form-field__input-wrapper > .cck-select {
+    flex: 1;
+    min-inline-size: 0;
+
+    > .cck-select__trigger {
+      min-block-size: var(--cck-form-field-height);
+      padding-inline: var(--cck-form-field-padding-inline);
+      font-family: var(--cck-form-field-font-family);
+      font-size: var(--cck-form-field-font-size);
+      line-height: var(--cck-form-field-line-height);
+      letter-spacing: var(--cck-form-field-letter-spacing);
+    }
+  }
+
+  // A Chip list inside the box is borderless and fills it, as the Input. Its chips and its text box take the field's
+  // size: the list's `chip-height` is the one of the field root's `data-size` (same mode names), and the block padding
+  // centres one row of chips in the box, so the box keeps the height of the field. Wrapped rows grow the box.
+  .cck-form-field__input-wrapper > .cck-chip-list {
+    flex: 1;
+    min-inline-size: 0;
+    padding-block: max(
+      0px,
+      calc((var(--cck-form-field-height) - var(--cck-chip-list-chip-height)) / 2 - var(--cck-form-field-border-width))
+    );
+    padding-inline: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    font: inherit;
+    letter-spacing: inherit;
+
+    &:focus-within {
+      outline: none;
+    }
+  }
+
+  // The list's own size mode would win over an inherited value, so the field sets it on the list itself.
+  .cck-form-field > .cck-form-field__wrapper > .cck-form-field__input-wrapper > .cck-chip-list {
+    --cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-md);
+  }
+
+  @each $mode in sm, lg {
+    .cck-form-field[data-size='#{$mode}'] > .cck-form-field__wrapper > .cck-form-field__input-wrapper > .cck-chip-list {
+      --cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-#{$mode});
+    }
+  }
+
+  // The states come from the facts of the field root. Later rules win, so disabled is last.
+  .cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > #{$box} {
+    border-color: var(--cck-form-field-invalid-border-color);
+    // A second line of the same width inside the border: the cue does not rest on hue alone.
+    // Forced colors drop the shadow, so the border gets thicker there.
+    box-shadow: inset 0 0 0 var(--cck-form-field-border-width) var(--cck-form-field-invalid-border-color);
+  }
+
+  .cck-form-field:where([data-readonly]) > .cck-form-field__wrapper > #{$box} {
+    background-color: var(--cck-form-field-readonly-bg);
+    // A dashed border tells it from an editable box without color, also in forced colors.
+    border-style: dashed;
+  }
+
+  .cck-form-field:where([data-disabled]) > .cck-form-field__wrapper > #{$box} {
+    border-color: var(--cck-form-field-disabled-border-color);
+    background-color: var(--cck-form-field-disabled-bg);
+    // Disabled wins over invalid: no invalid line.
+    box-shadow: none;
+  }
+
+  .cck-form-field:where([data-disabled])
+    > .cck-form-field__wrapper
+    > .cck-form-field__input-wrapper
+    > :is(.cck-prefix, .cck-suffix) {
+    color: var(--cck-form-field-affix-disabled-text-color);
+  }
+
+  @media (forced-colors: active) {
+    #{$box} {
+      border-color: CanvasText;
+
+      &:focus-within {
+        outline-color: Highlight;
+      }
+    }
+
+    .cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > #{$box} {
+      border-width: var(--cck-form-field-invalid-border-width);
+    }
+
+    .cck-form-field:where([data-disabled]) > .cck-form-field__wrapper > #{$box} {
+      border-color: GrayText;
+      // The invalid border is thicker here; disabled wins over it.
+      border-width: var(--cck-form-field-border-width);
+    }
+
+    .cck-form-field:where([data-disabled])
+      > .cck-form-field__wrapper
+      > .cck-form-field__input-wrapper
+      > :is(.cck-prefix, .cck-suffix) {
+      color: GrayText;
+    }
+  }
+}

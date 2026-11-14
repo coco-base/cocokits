@@ -1,0 +1,81 @@
+// IconButton rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-icon-button-* tokens. The box is a square; its `font-size` is the icon size, which a
+// SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. No color change on hover or press.
+@mixin rules {
+  .cck-icon-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--cck-icon-button-size);
+    block-size: var(--cck-icon-button-size);
+    padding: 0;
+    border: var(--cck-icon-button-border-width) solid transparent;
+    border-radius: var(--cck-icon-button-radius);
+    background-color: transparent;
+    color: inherit;
+    font-size: var(--cck-icon-button-icon-size);
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-rounded] {
+      border-radius: var(--cck-icon-button-radius-rounded);
+    }
+
+    &[data-variant='primary'] {
+      background-color: var(--cck-icon-button-solid-bg);
+      color: var(--cck-icon-button-solid-icon-color);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--cck-icon-button-border-color);
+      color: var(--cck-icon-button-soft-icon-color);
+    }
+
+    &[data-variant='light'] {
+      background-color: var(--cck-icon-button-soft-bg);
+      color: var(--cck-icon-button-soft-icon-color);
+    }
+
+    &[data-variant='basic'] {
+      color: var(--cck-icon-button-soft-icon-color);
+    }
+
+    // After the variants, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    &[data-disabled],
+    &:disabled {
+      background-color: var(--cck-icon-button-disabled-bg);
+      border-color: var(--cck-icon-button-disabled-bg);
+      color: var(--cck-icon-button-disabled-icon-color);
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: var(--cck-icon-button-focus-width) solid var(--cck-icon-button-focus-color);
+      outline-offset: var(--cck-icon-button-focus-offset);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-icon-button[data-variant] {
+      border-color: ButtonText;
+
+      &[data-disabled],
+      &:disabled {
+        border-color: GrayText;
+        color: GrayText;
+      }
+
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+  }
+}

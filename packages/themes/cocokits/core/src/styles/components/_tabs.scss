@@ -1,0 +1,262 @@
+// Tabs and TabNav rules. Wrapped in `@layer cocokits` by the entries that include these mixins.
+// Both read only the --cck-tabs-* tokens (the Tabs token collections are also emitted for `.cck-tab-nav`, `alsoFor`).
+// The theme options sit on the root (`data-variant`, `data-cck-color`, `data-size`, `data-header-align`), so every part
+// below the root is reached through child combinators: a Tabs in a panel of another Tabs keeps its own options. The
+// one indicator is drawn from the box the base writes on it (`--active-tab-left`, `--active-tab-top`,
+// `--active-tab-width`, `--active-tab-height`, in px, relative to the padding box of the list); the items sit above
+// it. No color change on hover or press; the pointer only switches the slide of the indicator on, so
+// the first placement after mount never slides in from the corner.
+// The variants whose indicator is a filled block behind the selected label.
+$filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="basic"])';
+
+// The root, the list, the items and the indicator of the block `$block`. `$item` is the part of the item (`trigger` or
+// `link`), `$selected` the attribute of the selected one. `$vertical` adds the rules of `data-orientation="vertical"`
+// (only Tabs has an orientation).
+@mixin list-rules($block, $item, $selected, $vertical) {
+  $root: '.cck-#{$block}';
+  $list: '#{$root} > .cck-#{$block}__list';
+  $trigger: '#{$list} > .cck-#{$block}__#{$item}';
+  $indicator: '#{$list} > .cck-#{$block}__indicator';
+
+  #{$root} {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cck-tabs-gap);
+  }
+
+  // The root sets `display`, so the theme restates the native `hidden`.
+  #{$root}[hidden] {
+    display: none;
+  }
+
+  #{$list} {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    align-self: start;
+    gap: var(--cck-tabs-list-gap);
+    max-inline-size: 100%;
+  }
+
+  #{$list}[hidden] {
+    display: none;
+  }
+
+  #{$root}[data-header-align='center'] > .cck-#{$block}__list {
+    align-self: center;
+  }
+
+  #{$root}[data-header-align='end'] > .cck-#{$block}__list {
+    align-self: end;
+  }
+
+  #{$root}[data-header-align='stretch'] > .cck-#{$block}__list {
+    align-self: stretch;
+  }
+
+  #{$root}[data-header-align='stretch'] > .cck-#{$block}__list > .cck-#{$block}__#{$item} {
+    flex: 1;
+  }
+
+  // The look of the list.
+  #{$root}[data-variant='border'] > .cck-#{$block}__list {
+    padding: var(--cck-tabs-list-padding);
+    border: var(--cck-tabs-list-border-width) solid var(--cck-tabs-list-border-color);
+    border-radius: var(--cck-tabs-list-radius);
+  }
+
+  #{$root}[data-variant='fill'] > .cck-#{$block}__list {
+    padding: var(--cck-tabs-list-padding);
+    border-radius: var(--cck-tabs-list-radius);
+    background-color: var(--cck-tabs-list-bg);
+  }
+
+  #{$root}[data-variant='line'] > .cck-#{$block}__list {
+    border-block-end: var(--cck-tabs-line-width) solid var(--cck-tabs-line-color);
+  }
+
+  // Above the indicator, so the label and the focus ring are never painted under it. `text-decoration` is for the link.
+  #{$trigger} {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--cck-tabs-trigger-height);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--cck-tabs-trigger-padding-inline);
+    border: 0;
+    border-radius: var(--cck-tabs-trigger-radius);
+    background-color: transparent;
+    color: var(--cck-tabs-label-color);
+    font-family: var(--cck-tabs-label-font-family);
+    font-size: var(--cck-tabs-label-font-size);
+    line-height: var(--cck-tabs-label-line-height);
+    letter-spacing: var(--cck-tabs-label-letter-spacing);
+    font-weight: var(--cck-tabs-label-font-weight);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  #{$trigger}[#{$selected}] {
+    color: var(--cck-tabs-selected-label-color);
+  }
+
+  #{$root}#{$filled} > .cck-#{$block}__list > .cck-#{$block}__#{$item}[#{$selected}] {
+    color: var(--cck-tabs-indicator-label-color);
+  }
+
+  // After the selected rules, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+  #{$trigger}[data-disabled],
+  #{$trigger}:disabled {
+    color: var(--cck-tabs-disabled-label-color);
+    cursor: default;
+  }
+
+  #{$trigger}:focus-visible {
+    outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
+    outline-offset: var(--cck-tabs-focus-offset);
+  }
+
+  // The indicator is hidden until the base has measured the selected item (on the server and before mount it
+  // has no variables): its box is empty and, drawn with a fill or a line, it has nothing to show.
+  #{$indicator} {
+    position: absolute;
+    z-index: 0;
+    // The base measures from the physical left edge, so `inset-inline-start` would mirror it in RTL.
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    inline-size: var(--active-tab-width, 0);
+    block-size: var(--active-tab-height, 0);
+    translate: var(--active-tab-left, 0) var(--active-tab-top, 0);
+    border-radius: var(--cck-tabs-trigger-radius);
+    pointer-events: none;
+  }
+
+  #{$root}#{$filled} > .cck-#{$block}__list > .cck-#{$block}__indicator {
+    background-color: var(--cck-tabs-indicator-bg);
+  }
+
+  // The line sits on the edge of the list that carries the list border and covers it.
+  #{$root}[data-variant='line'] > .cck-#{$block}__list > .cck-#{$block}__indicator {
+    border-radius: 0;
+  }
+
+  #{$root}[data-variant='line'] > .cck-#{$block}__list > .cck-#{$block}__indicator::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: calc(var(--cck-tabs-line-width) * -1);
+    block-size: var(--cck-tabs-indicator-line-width);
+    background-color: var(--cck-tabs-indicator-line-color);
+  }
+
+  @if $vertical {
+    #{$root}[data-orientation='vertical'] {
+      flex-direction: row;
+    }
+
+    #{$list}[data-orientation='vertical'] {
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+
+    #{$root}[data-variant='line'][data-orientation='vertical'] > .cck-#{$block}__list {
+      border-block-end: 0;
+      border-inline-end: var(--cck-tabs-line-width) solid var(--cck-tabs-line-color);
+    }
+
+    #{$root}[data-variant='line'][data-orientation='vertical']
+      > .cck-#{$block}__list
+      > .cck-#{$block}__indicator::after {
+      inset-inline: auto calc(var(--cck-tabs-line-width) * -1);
+      inset-block: 0;
+      inline-size: var(--cck-tabs-indicator-line-width);
+      block-size: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    // Only while the user is in the list, so the first placement after mount is not an animation.
+    #{$list}:where(:hover, :focus-within) > .cck-#{$block}__indicator {
+      transition:
+        translate var(--cck-tabs-motion-duration) ease,
+        inline-size var(--cck-tabs-motion-duration) ease,
+        block-size var(--cck-tabs-motion-duration) ease;
+    }
+  }
+
+  @media (forced-colors: active) {
+    #{$root}#{$filled} > .cck-#{$block}__list > .cck-#{$block}__indicator {
+      background-color: Highlight;
+    }
+
+    #{$root}#{$filled} > .cck-#{$block}__list > .cck-#{$block}__#{$item}[#{$selected}] {
+      color: HighlightText;
+    }
+
+    #{$root}[data-variant='line'] > .cck-#{$block}__list > .cck-#{$block}__indicator::after {
+      background-color: Highlight;
+    }
+
+    #{$trigger}[data-disabled],
+    #{$trigger}:disabled {
+      color: GrayText;
+    }
+
+    #{$trigger}:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}
+
+@mixin rules {
+  @include list-rules('tabs', 'trigger', 'data-selected', true);
+
+  // The panel is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
+  .cck-tabs__panel {
+    display: block;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-tabs[data-orientation='vertical'] > .cck-tabs__panel {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  .cck-tabs > .cck-tabs__panel:focus-visible {
+    outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
+    outline-offset: var(--cck-tabs-focus-offset);
+  }
+
+  @media (forced-colors: active) {
+    .cck-tabs > .cck-tabs__panel:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}
+
+@mixin nav-rules {
+  @include list-rules('tab-nav', 'link', 'data-active', false);
+
+  // The panel is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
+  .cck-tab-nav__panel {
+    display: block;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+}

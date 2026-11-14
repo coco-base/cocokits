@@ -1,57 +1,22 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
+node_modules
 dist
 tmp
-/out-tsc
-
-# dependencies
-node_modules
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+.tmp/
+coverage
+.nx/cache
+.nx/workspace-data
+.nx/installation
+*.tsbuildinfo
+.angular
+.vite
 .DS_Store
 Thumbs.db
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.log
+*.local
 
-.nx
-migrations.json
-
-
-storybook-static
-migration-storybook.log
-.angular
-.env
-
-# Next.js
-.next
-out
-
-vite.config.*.timestamp*
-vitest.config.*.timestamp*
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
+# generated, never hand-edited
+**/src/styles/generated/
+**/src/generated/

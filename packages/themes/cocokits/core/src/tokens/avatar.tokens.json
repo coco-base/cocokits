@@ -1,0 +1,87 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Avatar / Size",
+      "tier": 3,
+      "prefix": "avatar",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg"],
+      "tokens": [
+        { "name": "size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-28}", "sm": "{Core / Size#size-32}", "md": "{Core / Size#size-40}", "lg": "{Core / Size#size-48}" } },
+        { "name": "fallback-font-family", "type": "string", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-family}", "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-lg/font-family}" } },
+        { "name": "fallback-font-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-size}", "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-lg/font-size}" } },
+        { "name": "fallback-line-height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/line-height}", "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "fallback-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/letter-spacing}", "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-lg/letter-spacing}" } },
+        { "name": "fallback-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "xs": "{Core / Typography#font-weight/semibold}", "sm": "{Core / Typography#font-weight/semibold}", "md": "{Core / Typography#font-weight/semibold}", "lg": "{Core / Typography#font-weight/semibold}" } }
+      ]
+    },
+    {
+      "name": "Avatar / Structure",
+      "tier": 3,
+      "prefix": "avatar",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-full}" } },
+        { "name": "fallback-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#brand/container}" } },
+        { "name": "fallback-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#brand/on-container}" } }
+      ]
+    },
+    {
+      "name": "Avatar Group / Size",
+      "tier": 3,
+      "prefix": "avatar-group",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg"],
+      "tokens": [
+        { "name": "overlap", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-10}", "sm": "{Core / Size#size-10}", "md": "{Core / Size#size-14}", "lg": "{Core / Size#size-16}" } },
+        { "name": "ring-width", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Border Width#border-width-2}", "sm": "{Theme / Border Width#border-width-2}", "md": "{Theme / Border Width#border-width-2}", "lg": "{Theme / Border Width#border-width-2}" } },
+        { "name": "avatar-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-28}", "sm": "{Core / Size#size-32}", "md": "{Core / Size#size-40}", "lg": "{Core / Size#size-48}" } },
+        { "name": "avatar-font-family", "type": "string", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-family}", "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-lg/font-family}" } },
+        { "name": "avatar-font-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-size}", "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-lg/font-size}" } },
+        { "name": "avatar-line-height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/line-height}", "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "avatar-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/letter-spacing}", "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-lg/letter-spacing}" } }
+      ]
+    },
+    {
+      "name": "Avatar Group / Structure",
+      "tier": 3,
+      "prefix": "avatar-group",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [{ "name": "ring-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } }]
+    },
+    {
+      "name": "Avatar Label / Size",
+      "tier": 3,
+      "prefix": "avatar-label",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg"],
+      "tokens": [
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-12}", "sm": "{Core / Size#size-12}", "md": "{Core / Size#size-12}", "lg": "{Core / Size#size-20}" } },
+        { "name": "avatar-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-28}", "sm": "{Core / Size#size-32}", "md": "{Core / Size#size-40}", "lg": "{Core / Size#size-48}" } },
+        { "name": "avatar-font-family", "type": "string", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-family}", "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-lg/font-family}" } },
+        { "name": "avatar-font-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-size}", "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-lg/font-size}" } },
+        { "name": "avatar-line-height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/line-height}", "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "avatar-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/letter-spacing}", "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-lg/letter-spacing}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-family}", "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-md/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-size}", "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-md/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/line-height}", "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-md/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/letter-spacing}", "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-md/letter-spacing}" } },
+        { "name": "font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "xs": "{Core / Typography#font-weight/medium}", "sm": "{Core / Typography#font-weight/medium}", "md": "{Core / Typography#font-weight/medium}", "lg": "{Core / Typography#font-weight/medium}" } }
+      ]
+    },
+    {
+      "name": "Avatar Label / Structure",
+      "tier": 3,
+      "prefix": "avatar-label",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "name-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#on-surface/1}" } },
+        { "name": "description-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } }
+      ]
+    }
+  ]
+}

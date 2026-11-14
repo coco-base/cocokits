@@ -1,0 +1,7 @@
+@use '_icon-button' as icon-button;
+@use '_svg-icon' as svg-icon;
+
+@layer cocokits {
+  @include icon-button.rules;
+  @include svg-icon.rules;
+}
