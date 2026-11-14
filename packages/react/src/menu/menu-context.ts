@@ -22,6 +22,10 @@ export interface MenuContextValue {
   readonly activeKey: string | undefined;
   /** The type-to-find buffer of the menu. */
   readonly typeahead: Typeahead;
+  /** The `id` the author gave the trigger, `undefined` when the machine generates it. */
+  readonly triggerId: string | undefined;
+  /** Reports the author's trigger id; the Trigger calls it. */
+  readonly setTriggerId: (id: string | undefined) => void;
   /** Registers the trigger element; the Trigger puts it in its ref. */
   readonly setTrigger: (element: HTMLElement | null) => void;
   /** Reports whether the content is in the document. */

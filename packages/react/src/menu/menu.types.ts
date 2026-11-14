@@ -72,6 +72,8 @@ export interface MenuRootProps {
    * `onOpenChange`, the old state stays.
    *
    * @defaultValue false
+   * @example
+   * <Menu.Root open={open} onOpenChange={(next) => setOpen(next)}>…</Menu.Root>
    * @cckSemantic menu.open
    */
   readonly open?: boolean | undefined;

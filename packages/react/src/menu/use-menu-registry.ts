@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 import type { MenuItemEntry } from '@cocokits/machines/menu';
+import { sortByDomOrder } from '@cocokits/utils';
 
 /** What {@link useMenuRegistry} returns. */
 export interface MenuRegistry {
@@ -29,9 +30,11 @@ export function useMenuRegistry(): MenuRegistry {
   const [keys, setKeys] = useState<readonly string[]>([]);
 
   const ordered = useCallback((): [string, HTMLElement][] => {
-    return [...nodes.current.entries()].sort(([, a], [, b]) =>
-      a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1,
-    );
+    const keyOf = new Map([...nodes.current.entries()].map(([key, element]) => [element, key]));
+    return sortByDomOrder([...keyOf.keys()]).map((element): [string, HTMLElement] => [
+      keyOf.get(element) ?? '',
+      element,
+    ]);
   }, []);
 
   const sync = useCallback(() => {

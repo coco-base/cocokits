@@ -30,6 +30,21 @@ describe('Menu accessibility (axe)', () => {
     expect((await axe(document.body, noPageLandmarks)).violations).toEqual([]);
   });
 
+  it('an author id on the trigger is rendered and names the menu', async () => {
+    render(
+      <Menu.Root>
+        <Menu.Trigger id="mine">Actions</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Edit</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+    expect(trigger().id).toBe('mine');
+    await userEvent.click(trigger());
+    expect(menu()?.getAttribute('aria-labelledby')).toBe('mine');
+    expect(screen.getByRole('menu', { name: 'Actions' })).toBe(menu());
+  });
+
   it('names the menu by the trigger text and points the trigger at it', async () => {
     render(<Example />);
     await userEvent.click(trigger());

@@ -6,6 +6,7 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { nonNativeButtonProps, useElementKind } from '../internal/button-kind';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
+import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import { useMenuContext } from './menu-context';
@@ -15,8 +16,8 @@ interface ElementProps {
   readonly ref?: Ref<HTMLElement>;
 }
 
-/** The attributes that state the open state; a consumer value can never replace them. */
-const RESERVED = ['aria-expanded', 'aria-controls', 'aria-haspopup', 'data-state'];
+/** The attributes that state the open state, and the id the machine renders; a consumer value can never replace them. */
+const RESERVED = ['id', 'aria-expanded', 'aria-controls', 'aria-haspopup', 'data-state'];
 
 const UNNAMED_FIX =
   'Put text inside it, or add an aria-label or an aria-labelledby that points to an element with text.';
@@ -24,7 +25,11 @@ const UNNAMED_FIX =
 function MenuTriggerImpl({ render, nativeButton = true, ref, ...rest }: MenuTriggerProps): ReactElement {
   const context = useMenuContext('Menu.Trigger');
   const themeAttrs = useThemeAttrs(menuAnatomy).trigger;
-  const { trigger } = getMenuProps({ id: context.id, open: context.open, mounted: context.mounted }, context.dispatch);
+  const { setTriggerId } = context;
+  const { trigger } = getMenuProps(
+    { id: context.id, open: context.open, mounted: context.mounted, triggerId: rest.id },
+    context.dispatch,
+  );
   const machineProps = withoutReserved(toReactProps(trigger), [
     'onClick',
     'onKeyDown',
@@ -37,6 +42,13 @@ function MenuTriggerImpl({ render, nativeButton = true, ref, ...rest }: MenuTrig
     nativeButton,
     useMergedRef<HTMLElement>(ref, elementRef, useMergedRef<HTMLElement>(context.setTrigger, node, undefined)),
   );
+  // The Content names itself by this id; the server renders it from the same prop.
+  useIsomorphicLayoutEffect(() => {
+    setTriggerId(rest.id);
+    return () => {
+      setTriggerId(undefined);
+    };
+  }, [setTriggerId, rest.id]);
   useUnnamedWarning('Menu', node, { fix: UNNAMED_FIX });
 
   const ours = {

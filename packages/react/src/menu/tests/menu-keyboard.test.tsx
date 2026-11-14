@@ -128,6 +128,21 @@ describe.each<Direction>(['ltr', 'rtl'])('Menu keyboard (%s)', (dir) => {
     expect(document.activeElement).toBe(item('Move'));
   });
 
+  it('menu: Enter and Space on the content after the focused item was removed run nothing', async () => {
+    const onSelect = { Duplicate: vi.fn() };
+    const names = ['Edit', 'Duplicate', 'Move', 'Delete'];
+    const { rerender } = render(<Example root={{ open: true }} onSelect={onSelect} />);
+    await expectFocus(item('Edit'));
+    rerender(<Example root={{ open: true }} onSelect={onSelect} items={names.filter((name) => name !== 'Edit')} />);
+    await waitFor(() => {
+      expect(document.activeElement).toBe(menu());
+    });
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    expect(onSelect.Duplicate).not.toHaveBeenCalled();
+    expect(menu()).not.toBeNull();
+  });
+
   it('menu: Escape closes the menu and focuses the trigger', async () => {
     render(page(dir));
     await openWith('{ArrowDown}', 'Edit');

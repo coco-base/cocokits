@@ -20,6 +20,7 @@ function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, child
     cancelable: true,
   });
   const [trigger, setTrigger] = useState<HTMLElement | null>(null);
+  const [triggerId, setTriggerId] = useState<string | undefined>(undefined);
   const [mounted, setMounted] = useState(false);
   const [exited, setExited] = useState(true);
   const [activeKey, setActiveKey] = useState<string | undefined>(undefined);
@@ -105,6 +106,8 @@ function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, child
       mounted,
       keepMounted: open || (mounted && !exited),
       trigger,
+      triggerId,
+      setTriggerId,
       keys: registry.keys,
       activeKey,
       typeahead,
@@ -123,6 +126,7 @@ function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, child
       mounted,
       exited,
       trigger,
+      triggerId,
       registry.keys,
       registry.getEntries,
       activeKey,

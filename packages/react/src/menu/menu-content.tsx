@@ -144,6 +144,7 @@ function MenuContentLayer({
       side: resolved.side,
       align: resolved.align,
       named,
+      triggerId: context.triggerId,
     },
     dispatch,
   );

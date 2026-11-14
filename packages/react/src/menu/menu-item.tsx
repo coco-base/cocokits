@@ -1,6 +1,15 @@
 'use client';
 
-import { isValidElement, useCallback, useId, useMemo, type MouseEvent, type ReactElement, type Ref } from 'react';
+import {
+  isValidElement,
+  useCallback,
+  useId,
+  useMemo,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactElement,
+  type Ref,
+} from 'react';
 import { getMenuProps, menuAnatomy, type MenuEvent } from '@cocokits/machines/menu';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
@@ -37,16 +46,19 @@ function MenuItemImpl({ disabled = false, onSelect, render, ref, ...rest }: Menu
   };
   const entries = useMemo(() => context.keys.map((entry) => ({ key: entry, text: '' })), [context.keys]);
   const { item } = getMenuProps(
-    { id: context.id, open: context.open, items: entries, activeKey: context.activeKey },
+    { id: context.id, open: context.open, items: entries, activeKey: context.activeKey, typeahead: context.typeahead },
     send,
   );
-  const machineProps = withoutReserved(toReactProps(item({ key, text: '', disabled })), ['onClick']);
+  const machineProps = withoutReserved(toReactProps(item({ key, text: '', disabled })), ['onClick', 'onKeyDown']);
 
   const ours = {
     ...themeAttrs,
     ...machineProps,
     onClick: (event: MouseEvent<HTMLElement>) => {
       item({ key, text: '', disabled }).onClick(event.nativeEvent);
+    },
+    onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
+      item({ key, text: '', disabled }).onKeyDown(event.nativeEvent);
     },
     ref: mergedRef,
   };
@@ -65,6 +77,8 @@ function MenuItemImpl({ disabled = false, onSelect, render, ref, ...rest }: Menu
  *
  * @example
  * <Menu.Item onSelect={() => remove()}>Delete</Menu.Item>
+ * @example
+ * <Menu.Item render={<a href="/settings" />}>Settings</Menu.Item>
  * @cckPart item
  * @param props - The Item props.
  * @returns The rendered element.
