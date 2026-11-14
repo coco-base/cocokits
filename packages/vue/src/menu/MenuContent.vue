@@ -89,22 +89,15 @@ const machine = computed(
         side: placement.value?.side ?? props.side,
         align: placement.value?.align ?? props.align,
         named: named.value,
+        triggerId: ctx.triggerId.value,
       },
       ctx.send,
     ).content,
 );
 
-// Enter and Space press the active item, not the content: with focus on the content nothing runs.
-function onKeydown(event: KeyboardEvent): void {
-  if (event.target === ctx.contentElement.value && (event.key === 'Enter' || event.key === ' ')) return;
-  machine.value.onKeyDown(event);
-}
-
 const bound = computed(() =>
   mergeProps(themeAttrs.value.content, attrs, {
     ...vueProps(machine.value),
-    ...(named.value ? {} : { 'aria-labelledby': ctx.triggerId.value }),
-    onKeydown,
   }),
 );
 const priorityAttrs = ['id', 'role', 'tabindex', 'data-state', 'data-side', 'data-align'];

@@ -117,6 +117,17 @@ describe.each([
     expect(focusedText()).toBe('Move');
   });
 
+  it('runs nothing on Enter or Space with focus on the content itself', async () => {
+    const run = vi.fn();
+    mountView(menuView({ itemProps: { Edit: { onSelect: run } } }));
+    await open();
+    menu()?.focus();
+    expect(document.activeElement).toBe(menu());
+    await press('{Enter} ');
+    expect(run).not.toHaveBeenCalled();
+    expect(menu()).not.toBeNull();
+  });
+
   it('does not run an item while Space continues a search', async () => {
     const run = vi.fn();
     mountView(menuView({ itemProps: { Duplicate: { onSelect: run } } }));

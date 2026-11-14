@@ -28,6 +28,9 @@ export interface MenuRootProps {
    * If you listen for changes and do not accept one, the old value stays. A menu that is open on the server renders
    * its content after hydration.
    *
+   * @example
+   * <MenuRoot v-model:open="open">�</MenuRoot>
+   *
    * @cckSemantic menu.open
    * @cckParity Bound with `v-model:open`.
    * @defaultValue false

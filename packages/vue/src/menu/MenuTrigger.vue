@@ -2,7 +2,6 @@
 import { computed, mergeProps, onBeforeUnmount, useAttrs, watchEffect, type ComponentPublicInstance } from 'vue';
 import { getMenuProps, menuAnatomy } from '@cocokits/machines/menu';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
-import { idOf } from '../internal/id-of';
 import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import { vueProps } from './menu-props';
 import { useMenuContext } from './menu.context';
@@ -25,20 +24,16 @@ defineSlots<{
 const ctx = useMenuContext('MenuTrigger');
 const themeAttrs = useThemeAttrs(menuAnatomy);
 const attrs = useAttrs();
-const machine = computed(() => getMenuProps(ctx.state.value, ctx.send).trigger);
-const bound = computed(() =>
-  mergeProps(themeAttrs.value.trigger, attrs, {
-    ...vueProps(machine.value),
-    id: idOf(attrs.id, machine.value.id),
-  }),
-);
+const authoredId = computed(() => (typeof attrs.id === 'string' ? attrs.id : undefined));
+const machine = computed(() => getMenuProps({ ...ctx.state.value, triggerId: authoredId.value }, ctx.send).trigger);
+const bound = computed(() => mergeProps(themeAttrs.value.trigger, attrs, vueProps(machine.value)));
 // The state markers win over an `asChild` child's own props; its own `id` stays, like one on the part.
 const priorityAttrs = ['type', 'aria-haspopup', 'aria-expanded', 'aria-controls', 'data-state'];
 
-// The content is labelled by the id the trigger really has.
+// The content is labelled by the id the author gave the trigger; the machine derives the rest.
 watchEffect(
   () => {
-    ctx.triggerId.value = idOf(attrs.id, machine.value.id);
+    ctx.triggerId.value = authoredId.value;
   },
   { flush: 'sync' },
 );
