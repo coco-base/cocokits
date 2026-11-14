@@ -1,6 +1,7 @@
-import { cloneElement, isValidElement, type ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import type { ChoiceRootProps } from './choice-control.types';
-import { renderElement, type RenderProp } from './render-element';
+import { renderContainerRoot } from './render-container-root';
+import type { RenderProp } from './render-element';
 
 /**
  * Renders the root of a choice control (a `div` by default). The parts in `props.children` win over the
@@ -16,8 +17,5 @@ export function renderChoiceRoot<S>(
   props: ChoiceRootProps,
   state: S,
 ): ReactElement {
-  const element = isValidElement<{ children?: undefined }>(render)
-    ? cloneElement(render, { children: undefined })
-    : render;
-  return renderElement<ChoiceRootProps, S>(element, 'div', props, state);
+  return renderContainerRoot(render, props, state);
 }

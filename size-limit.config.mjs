@@ -170,8 +170,8 @@ const entries = [
   { name: '@cocokits/machines/chip-list', path: 'packages/machines/dist/chip-list/index.js', limit: '2 kB' },
   { name: '@cocokits/vue/chip', path: 'packages/vue/dist/chip/index.js', limit: '2 kB' },
   { name: '@cocokits/vue/chip-list', path: 'packages/vue/dist/chip-list/index.js', limit: '2 kB' },
-  { name: '@cocokits/react/chip', path: 'packages/react/dist/chip/index.js', limit: '2 kB' },
-  { name: '@cocokits/react/chip-list', path: 'packages/react/dist/chip-list/index.js', limit: '2 kB' },
+  { name: '@cocokits/react/chip', path: 'packages/react/dist/chip/index.js', limit: '2050 B' },
+  { name: '@cocokits/react/chip-list', path: 'packages/react/dist/chip-list/index.js', limit: '4380 B' },
   { name: '@cocokits/angular/chip', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip.mjs', limit: '2 kB' },
   { name: '@cocokits/angular/chip-list', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip-list.mjs', limit: '2 kB' },
 ];

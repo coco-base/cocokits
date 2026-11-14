@@ -34,6 +34,7 @@ import {
 import { hasAccessibleName } from '@cocokits/utils';
 import { isDevelopment } from '../internal/dev';
 import { useFormFieldContext } from '../internal/form-field-context';
+import { FormHiddenInputs } from '../internal/form-hidden-inputs';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
 import { useControlClaim, useControlReport } from '../internal/use-field-control';
@@ -46,7 +47,6 @@ import {
   type SelectTriggerAria,
 } from './select-context';
 import { applySelectTransition } from './select-dispatch';
-import { SelectFormInputs } from './select-form-inputs';
 import { findCandidate, normalizeItems } from './select-items';
 import { SelectNativeError } from './select-native-error';
 import type { SelectRenderProps, SelectRootComponent, SelectRootProps } from './select.types';
@@ -366,7 +366,7 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     <>
       {children}
       <SelectNativeError part={parts.validationMessage} message={blockedMessage} />
-      <SelectFormInputs
+      <FormHiddenInputs
         input={parts.formInput}
         multiple={isMultiple}
         form={form}
