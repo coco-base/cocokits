@@ -216,6 +216,9 @@ describe('chip colors on the surface (text 4.5:1, 1.4.11 non-text 3:1)', () => {
       structure?.tokens.find((t) => t.name === name)?.valuesByMode.Default;
     expect(value('remove-color')).toBe('{Theme / Color#text/2}');
     expect(value('text-color')).toBe('{Theme / Color#text/1}');
+  });
+});
+
 describe('menu items on the panel (WCAG 1.4.3, 4.5:1)', () => {
   const surface = (mode: string): string => resolve('Theme / Color#surface/1', mode);
   const highlight = (mode: string): string => resolve('Theme / Color#surface/2', mode);
