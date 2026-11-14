@@ -216,5 +216,21 @@ describe('chip colors on the surface (text 4.5:1, 1.4.11 non-text 3:1)', () => {
       structure?.tokens.find((t) => t.name === name)?.valuesByMode.Default;
     expect(value('remove-color')).toBe('{Theme / Color#text/2}');
     expect(value('text-color')).toBe('{Theme / Color#text/1}');
+describe('menu items on the panel (WCAG 1.4.3, 4.5:1)', () => {
+  const surface = (mode: string): string => resolve('Theme / Color#surface/1', mode);
+  const highlight = (mode: string): string => resolve('Theme / Color#surface/2', mode);
+
+  it.each(['Light', 'Dark'])('item text on the panel and on the highlighted item in %s mode', (mode) => {
+    const text = resolve('Theme / Color#text/1', mode);
+    expect(contrast(text, surface(mode))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(text, highlight(mode))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['Light', 'Dark'])('disabled item text on the panel in %s mode', (mode) => {
+    expect(contrast(resolve('Theme / Color#disabled/on-surface', mode), surface(mode))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['Light', 'Dark'])('the focus ring on the panel in %s mode (non-text, 3:1)', (mode) => {
+    expect(contrast(resolve('Theme / Color#focus/2', mode), surface(mode))).toBeGreaterThanOrEqual(3);
   });
 });
