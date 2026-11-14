@@ -163,6 +163,31 @@ describe('Chip list removing', () => {
     expect(chipTexts(container)).toEqual(['a', 'c']);
   });
 
+  it.each(['click', 'Enter', 'Space'])('reports the %s event of the remove button', async (how) => {
+    const h = host('', ['a', 'b']);
+    const { container } = await render(h.template, { imports, componentProperties: h.properties });
+    const button = removeButtons(container)[1];
+    const user = userEvent.setup();
+    if (how === 'click') await user.click(button);
+    else {
+      button.focus();
+      await user.keyboard(how === 'Enter' ? '{Enter}' : ' ');
+    }
+    const event = h.seen[0]?.event;
+    expect(event).toBeInstanceOf(MouseEvent);
+    expect(button.contains(event?.target as Node)).toBe(true);
+  });
+
+  it('reports nothing for a click on the chip text', async () => {
+    const h = host('', ['a', 'b']);
+    const { container } = await render(h.template, { imports, componentProperties: h.properties });
+    const chip = container.querySelector<HTMLElement>('.cck-chip');
+    if (!chip) throw new Error('no chip');
+    await userEvent.setup().click(chip);
+    expect(h.seen).toHaveLength(0);
+    expect(h.state()).toEqual(['a', 'b']);
+  });
+
   it('removes only the second chip of a value with duplicates', async () => {
     const h = host('', ['Pizza', 'Pizza']);
     const { container } = await render(h.template, { imports, componentProperties: h.properties });

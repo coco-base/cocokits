@@ -130,10 +130,13 @@ describe('ChipList removing', () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn<(value: readonly string[], details: ChipListChangeDetails) => void>();
     render(<ChipList aria-label="Toppings" defaultValue={['A', 'B', 'C']} onValueChange={onValueChange} />);
-    await user.click(removeOf('B'));
+    const remove = removeOf('B');
+    await user.click(remove);
     expect(chipTexts()).toEqual(['A', 'C']);
     expect(onValueChange).toHaveBeenCalledWith(['A', 'C'], expect.objectContaining({ reason: 'remove' }));
-    expect(onValueChange.mock.calls[0]?.[1].event).toBeInstanceOf(Event);
+    const event = onValueChange.mock.calls[0]?.[1].event;
+    expect(event).toBeInstanceOf(MouseEvent);
+    expect(remove.contains(event?.target as Node)).toBe(true);
   });
 
   it('removes only the chip at that position when the parent value holds duplicates, with no warning', async () => {

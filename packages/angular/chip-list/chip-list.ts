@@ -70,7 +70,13 @@ export type ChipListChangeDetails = ValueChangeDetails<string[], ChipListChangeR
   },
   template: `
     @for (item of value(); track $index) {
-      <cck-chip removable [disabled]="parts().chipDisabled" (removed)="onRemove($index)">{{ item }}</cck-chip>
+      <cck-chip
+        removable
+        [disabled]="parts().chipDisabled"
+        (removed)="onRemove($index)"
+        (click)="onChipClick($event)"
+        >{{ item }}</cck-chip
+      >
     }
     <input
       #input
@@ -201,6 +207,7 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('input');
   private mountValue: string[] = [];
+  private pendingRemoveIndex: number | null = null;
 
   /** Whether a submit was blocked because the list is required and empty. The next value change clears it. */
   private readonly blockedSubmit = linkedSignal<unknown, boolean>({ source: this.value, computation: () => false });
@@ -284,12 +291,20 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
     if (!(next instanceof Node && this.element.contains(next))) this.onBlur();
   }
 
+  /** The remove button emits `removed` first; the same click then reaches `onChipClick`, which has the event. */
   protected onRemove(index: number): void {
-    const value = this.value();
-    const next = removeChipListValue(value, index);
     // The focus moves first: the button is still in the document and the focus never leaves the list.
     this.inputRef().nativeElement.focus();
-    if (next !== value) this.commit([...next], 'remove', null);
+    this.pendingRemoveIndex = index;
+  }
+
+  protected onChipClick(event: Event): void {
+    const index = this.pendingRemoveIndex;
+    this.pendingRemoveIndex = null;
+    if (index === null) return;
+    const value = this.value();
+    const next = removeChipListValue(value, index);
+    if (next !== value) this.commit([...next], 'remove', event);
   }
 
   protected onInvalid(event: Event): void {
