@@ -359,7 +359,7 @@ export interface SelectValueProps {
 }
 
 /**
- * The icon that shows the trigger opens a list. It renders a `<span aria-hidden="true">`. Content you give it replaces the icon of the theme.
+ * The icon that shows the trigger opens a list. It renders a `<span aria-hidden="true">`. Content you give it replaces the icon: your content, else the icon the theme names in `components.select.icons`, else the default `chevron-down`.
  *
  * @example
  * <SelectIcon />

@@ -5,7 +5,7 @@ import { tokensCss } from './css-test-helpers';
 const byName = (name: string) => modeCollections.find((collection) => collection.name === name);
 
 describe('modeCollections, the modes index the theme exports', () => {
-  it('lists every Theme collection and the Button, Badge, Form Field, Checkbox, Switch, Radio, Tabs, Select, Accordion and Divider sizes in token-file order, without Core or Structure', () => {
+  it('lists every Theme collection and the Button, Badge, Form Field, Checkbox, Switch, Radio, Tabs, Select, Accordion, Divider, Icon Button and Svg Icon sizes in token-file order, without Core or Structure', () => {
     expect(modeCollections.map((collection) => [collection.name, collection.attrName])).toEqual([
       ['Theme / Brand', 'cck-brand'],
       ['Theme / Color', 'cck-color-mode'],
@@ -26,6 +26,8 @@ describe('modeCollections, the modes index the theme exports', () => {
       ['Select / Size', 'size'],
       ['Accordion / Size', 'size'],
       ['Divider / Size', 'size'],
+      ['Icon Button / Size', 'size'],
+      ['Svg Icon / Size', 'size'],
     ]);
   });
 
@@ -66,7 +68,11 @@ describe('modeCollections, the modes index the theme exports', () => {
 
   it('names the attributes and values the built CSS selects on', () => {
     for (const collection of modeCollections.filter((item) => item.modes.length > 1)) {
-      for (const mode of collection.modes) expect(tokensCss).toContain(`[data-${collection.attrName}=${mode.value}]`);
+      for (const mode of collection.modes) {
+        // The compiler keeps the quotes of a value that is not an identifier, such as 2xl.
+        const value = /^[a-z][\w-]*$/.test(mode.value) ? mode.value : `"${mode.value}"`;
+        expect(tokensCss).toContain(`[data-${collection.attrName}=${value}]`);
+      }
     }
   });
 

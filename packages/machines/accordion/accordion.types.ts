@@ -168,6 +168,14 @@ export interface AccordionTriggerProps extends AccordionItemPartProps {
   readonly onKeyDown: (event: KeyboardEvent) => void;
 }
 
+/** Props of the indicator: decorative, so it carries no state; the theme reads the trigger state. */
+export interface AccordionIndicatorProps {
+  /** The `cck-accordion__indicator` class. */
+  readonly class: string;
+  /** Always `'true'`: the indicator is decorative. */
+  readonly 'aria-hidden': 'true';
+}
+
 /** Props of one content. */
 export interface AccordionContentProps extends AccordionItemPartProps {
   /** `<itemId>-content`. */
@@ -188,6 +196,8 @@ export interface AccordionItemParts {
   readonly header: AccordionItemPartProps;
   /** The trigger props. */
   readonly trigger: AccordionTriggerProps;
+  /** The indicator props. It is the last child of the trigger. */
+  readonly indicator: AccordionIndicatorProps;
   /** The content props. */
   readonly content: AccordionContentProps;
 }

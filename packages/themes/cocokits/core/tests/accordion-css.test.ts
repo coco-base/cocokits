@@ -5,6 +5,9 @@ const css = read('dist', 'components', 'accordion.css');
 /** The compiled CSS drops the quotes of an attribute value. */
 const trigger = '.cck-accordion > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
 const content = '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
+const indicator = `${trigger} > .cck-accordion__indicator`;
+/** The built sheet also holds the SvgIcon rules (own tokens, own root); the rules below are about the accordion. */
+const ownSelectors = (): string[] => selectorsOf(css).filter((selector) => !selector.startsWith('.cck-svg-icon'));
 /** The text of the first block that opens with `at`, up to its closing brace at the same indent. */
 const mediaBlock = (text: string, at: string): string => {
   const start = text.indexOf(at);
@@ -32,7 +35,8 @@ describe('accordion output', () => {
     const names = [...new Set([...css.matchAll(/var\((--[\w-]+)/g)].map((match) => match[1]))];
     expect(names.length).toBeGreaterThan(10);
     for (const name of names) {
-      if (name === '--accordion-content-height') continue;
+      // The SvgIcon rules of the entry sheet read their own tokens (svg-icon-css.test.ts).
+      if (name === '--accordion-content-height' || name.startsWith('--cck-svg-icon-')) continue;
       expect(name.startsWith('--cck-accordion-'), name).toBe(true);
       expect(tokensCss, name).toContain(`${name}:`);
     }
@@ -54,7 +58,7 @@ describe('accordion output', () => {
   });
 
   it('reaches the parts of its own root only: no rule starts at an item, a header, a trigger or a content', () => {
-    for (const selector of selectorsOf(css)) {
+    for (const selector of ownSelectors()) {
       const flat = selector.replace(/\([^()]*\)/g, '()');
       for (const part of flat.split(',')) expect(part.trim(), selector).toMatch(/^\.cck-accordion(?![\w-])/);
     }
@@ -79,13 +83,19 @@ describe('accordion output', () => {
     expect(css).not.toContain('data-hide-toggle=');
   });
 
-  it('draws the chevron on ::after with currentColor borders, turned when open, moved by the toggle position', () => {
-    const chevron = declarationsOf(css, `${trigger}::after`) ?? '';
-    expect(chevron).toContain('content: ""');
-    expect(chevron).toContain('currentColor');
-    expect(declarationsOf(css, `${trigger}[data-state=open]::after`)).toContain('rotate: 225deg');
-    expect(css).toMatch(/\[data-toggle-position=before\][^{]*::after \{\s*order: -1;/);
-    expect(css).toMatch(/\[data-hide-toggle\][^{]*::after \{\s*display: none;/);
+  it('sizes the indicator part that holds the theme icon, turns it when open, moves or hides it with the options', () => {
+    const box = declarationsOf(css, indicator) ?? '';
+    expect(box).toContain('font-size: var(--cck-accordion-icon-size)');
+    expect(box).not.toMatch(/border|content:|clip-path/);
+    expect(declarationsOf(css, `${trigger}[data-state=open] > .cck-accordion__indicator`)).toContain('rotate: 180deg');
+    expect(css).toMatch(/\[data-toggle-position=before\][^{]*__indicator \{\s*order: -1;/);
+    expect(css).toMatch(/\[data-hide-toggle\][^{]*__indicator \{\s*display: none;/);
+  });
+
+  it('draws nothing on the trigger and keeps no right-to-left rule, because the icon is symmetric', () => {
+    expect(css).not.toMatch(/__trigger::after/);
+    expect(ownSelectors().filter((selector) => selector.includes(':dir(rtl)'))).toEqual([]);
+    expect(tokensCss).not.toContain('--cck-accordion-icon-width');
   });
 
   it('makes the trigger full width, at least 24px high through the size tokens, with wrapping text', () => {
@@ -134,12 +144,13 @@ describe('accordion output', () => {
     expect(declarationsOf(css, content) ?? '').not.toContain('display');
   });
 
-  it('keeps the focus ring and the chevron in forced colors', () => {
+  it('keeps the focus ring and lets the indicator follow the trigger color in forced colors', () => {
     const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
     expect(forced).toContain('outline-color: Highlight');
     expect(forced).toContain('GrayText');
     expect(forced).toContain('CanvasText');
     expect(css).not.toContain('forced-color-adjust');
-    expect(declarationsOf(css, `${trigger}::after`)).toContain('currentColor');
+    expect(declarationsOf(css, indicator)).not.toMatch(/(^|[\s;])color:/);
+    expect(declarationsOf(css, `${trigger}[data-disabled]`)).toContain('color: var(--cck-accordion-disabled-color)');
   });
 });

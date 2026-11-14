@@ -67,31 +67,23 @@
     color: var(--cck-select-placeholder-color);
   }
 
-  // A chevron drawn with two borders, so there is no image and no text on a decorative part. The box is a square
-  // rotated by 45 degrees and moved a quarter of its side, so the point sits on the middle of the line.
+  // The icon comes from the theme's `components.select.icons` (or the author's content). The part is a box whose font size is the
+  // icon size, so the icon (1em) and any content follow it; the color is inherited by the icon (`currentColor`).
   .cck-select__dropdown-icon {
     flex: none;
-    box-sizing: border-box;
-    inline-size: var(--cck-select-icon-size);
-    block-size: var(--cck-select-icon-size);
-    border-block-end: var(--cck-select-border-width) solid var(--cck-select-icon-color);
-    border-inline-end: var(--cck-select-border-width) solid var(--cck-select-icon-color);
-    translate: 0 -25%;
-    rotate: 45deg;
+    display: inline-flex;
+    font-size: var(--cck-select-icon-size);
+    color: var(--cck-select-icon-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
+  // One icon turned when the list is open; the chevron is symmetric, so a right-to-left page needs no counterpart.
   .cck-select[data-state='open'] > .cck-select__trigger > .cck-select__dropdown-icon {
-    translate: 0 25%;
-    rotate: 225deg;
-  }
-
-  // The corner is on the inline end, so in a right-to-left page the turn is mirrored: the point still faces down (closed) or up (open).
-  .cck-select__dropdown-icon:dir(rtl) {
-    rotate: -45deg;
-  }
-
-  .cck-select[data-state='open'] > .cck-select__trigger > .cck-select__dropdown-icon:dir(rtl) {
-    rotate: -225deg;
+    rotate: 180deg;
   }
 
   // The states come from the facts the root renders. Later rules win, so disabled is last.
@@ -122,7 +114,6 @@
   .cck-select:where([data-disabled]) > .cck-select__trigger :is(.cck-select__placeholder, .cck-select__dropdown-icon),
   .cck-select__trigger:disabled :is(.cck-select__placeholder, .cck-select__dropdown-icon) {
     color: var(--cck-select-disabled-text-color);
-    border-color: var(--cck-select-disabled-text-color);
   }
 
   .cck-select__content {
@@ -180,33 +171,31 @@
   }
 
   // The indicator reserves its box in every option, so the text lines up whether or not it is selected. A single
-  // list puts the check after the text (the indicator moves to the end); a multiple list puts a box before it.
+  // list puts the check after the text (the indicator moves to the end); a multiple list puts a box before it. The
+  // check is the theme's icon (its `components.select.icons`), shown while the option is selected; the box of a multiple list
+  // stays CSS and the icon takes the mark color inside it.
   .cck-select__option-indicator {
     flex: none;
     box-sizing: border-box;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     inline-size: var(--cck-select-indicator-size);
     block-size: var(--cck-select-indicator-size);
+    font-size: var(--cck-select-indicator-size);
     color: var(--cck-select-indicator-color);
     order: 1;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-select__content[data-multiple] .cck-select__option-indicator {
     order: 0;
     border: var(--cck-select-indicator-box-border-width) solid var(--cck-select-indicator-box-border-color);
     border-radius: var(--cck-select-indicator-box-radius);
-  }
-
-  .cck-select__option[data-selected] .cck-select__option-indicator::after {
-    content: '';
-    position: absolute;
-    inset-block-start: 10%;
-    inset-inline-start: 34%;
-    inline-size: 28%;
-    block-size: 56%;
-    border-block-end: 2px solid currentcolor;
-    border-inline-end: 2px solid currentcolor;
-    rotate: 45deg;
   }
 
   .cck-select__content[data-multiple] .cck-select__option[data-selected] .cck-select__option-indicator {
@@ -294,10 +283,6 @@
       }
     }
 
-    .cck-select__dropdown-icon {
-      border-color: CanvasText;
-    }
-
     .cck-select:where([data-invalid]) > .cck-select__trigger {
       border-width: var(--cck-select-invalid-border-width);
     }
@@ -312,7 +297,6 @@
 
     .cck-select:where([data-disabled]) > .cck-select__trigger :is(.cck-select__placeholder, .cck-select__dropdown-icon),
     .cck-select__trigger:disabled :is(.cck-select__placeholder, .cck-select__dropdown-icon) {
-      border-color: GrayText;
       color: GrayText;
     }
 
@@ -323,6 +307,11 @@
 
     .cck-select__option[data-highlighted] {
       background-color: Highlight;
+      color: HighlightText;
+    }
+
+    // The indicator sets its own color, so it does not inherit the option's HighlightText.
+    .cck-select__option[data-highlighted] .cck-select__option-indicator {
       color: HighlightText;
     }
 

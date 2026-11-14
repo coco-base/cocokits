@@ -20,6 +20,7 @@ import {
 import type { FormValueControl } from '@angular/forms/signals';
 import { CckAttrs, CckOverlayLayer, CckPortal, injectFormParticipation, themeAttrs } from '@cocokits/angular-core';
 import { CckFormControlBase } from '@cocokits/angular/form-control';
+import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import { selectAnatomy, type SelectParts } from '@cocokits/machines/select';
 import { visuallyHiddenStyleText } from '@cocokits/utils';
@@ -67,6 +68,7 @@ export interface CckSelectChange<V = string> {
  *
  * The Select works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes hidden native inputs, so `FormData`, `required`, `form`, reset and autofill work. Inside a `cck-form-field`, the trigger is the control of the field, and the list lines up with the input of the field. Name the Select with the label of the field, `aria-label` or `aria-labelledby`. The focus stays on the trigger while the list is open. The highlighted option is the `aria-activedescendant`.
  *
+ * @remarks The dropdown icon and the option indicator draw the icons your theme names in `components.select.icons` (`dropdownIcon`, `optionIndicator`), else the defaults `chevron-down` and `check`. Register a theme icon with `provideCckIcons`.
  * @example
  * <cck-select [(value)]="dish" placeholder="Choose a dish" aria-label="Dish">
  *   <cck-select-option-group label="Desserts">
@@ -89,7 +91,7 @@ export interface CckSelectChange<V = string> {
   selector: 'cck-select',
   exportAs: 'cckSelect',
   encapsulation: ViewEncapsulation.None,
-  imports: [CckAttrs, CckSelectContent, NgTemplateOutlet],
+  imports: [CckAttrs, CckSelectContent, CckSvgIcon, NgTemplateOutlet],
   providers: [
     CckPortal,
     CckOverlayLayer,

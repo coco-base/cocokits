@@ -40,6 +40,14 @@ function checkOption(where: string, option: unknown): void {
     throw new Error(`${where}: description must be text`);
 }
 
+/** The part icons of a component (`components.<name>.icons`): a record of part name to non-empty icon name. */
+function checkPartIcons(where: string, icons: unknown): void {
+  if (!isRecord(icons)) throw new Error(`${where}: icons must be an object of part names to icon names`);
+  for (const [part, name] of Object.entries(icons)) {
+    if (!isText(name)) throw new Error(`${where}.icons.${part}: the icon name must be non-empty text`);
+  }
+}
+
 /** Whether `value` has the shape of a `ThemeConfig`: a `name` and an object of `components`. */
 const looksLikeThemeConfig = (value: unknown): value is { name: string; components: Fields } =>
   isRecord(value) && isText(value['name']) && isRecord(value['components']);
@@ -55,7 +63,10 @@ export function themeConfigOf(exported: Fields, entry: string): { name: string; 
   const config = first[1] as { name: string; components: Fields };
   for (const [component, options] of Object.entries(config.components)) {
     if (!isRecord(options)) throw new Error(`${first[0]}.components.${component}: not an object`);
-    for (const [option, value] of Object.entries(options)) checkOption(`${component}.${option}`, value);
+    for (const [option, value] of Object.entries(options)) {
+      if (option === 'icons') checkPartIcons(component, value);
+      else checkOption(`${component}.${option}`, value);
+    }
   }
   return config;
 }
@@ -105,9 +116,19 @@ export function modeCollectionsOf(exported: Fields, entry: string): unknown[] {
   return collections as unknown[];
 }
 
+/** The options of every component, without the part icons (`icons` is no option and stays out of `theme.json`). */
+function optionsOnly(components: Fields): Fields {
+  return Object.fromEntries(
+    Object.entries(components).map(([component, options]) => [
+      component,
+      Object.fromEntries(Object.entries(options as Fields).filter(([name]) => name !== 'icons')),
+    ]),
+  );
+}
+
 /**
- * `ThemeDocData` of a theme: the options of its built `ThemeConfig` and its `modeCollections`, both exports of its
- * built entry.
+ * `ThemeDocData` of a theme: the options of its built `ThemeConfig` (never its part icons) and its `modeCollections`,
+ * all from its built entry.
  *
  * @param root - The workspace root.
  * @param projectRoot - The absolute folder of the theme core package.
@@ -123,6 +144,14 @@ export function themeDocsData(root: string, projectRoot: string): JsonFile[] {
   const config = themeConfigOf(exported, file);
   const modeCollections = modeCollectionsOf(exported, file);
   return [
-    { name: 'theme.json', data: { kind: 'theme', name: config.name, components: config.components, modeCollections } },
+    {
+      name: 'theme.json',
+      data: {
+        kind: 'theme',
+        name: config.name,
+        components: optionsOnly(config.components),
+        modeCollections,
+      },
+    },
   ];
 }

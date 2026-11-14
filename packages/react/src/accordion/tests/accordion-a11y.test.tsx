@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
 import { accordionMeta } from '@cocokits/machines/accordion';
+import { drawnIconsIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { Example } from './fixtures';
 
 afterEach(cleanup);
@@ -44,5 +45,15 @@ describe('Accordion accessibility (axe)', () => {
     expect(screen.getByRole('region', { name: 'Shipping' }).textContent).toContain('Orders leave');
     expect(accordionMeta.apg).toContain('/patterns/accordion/');
     expect(accordionMeta.roles.content).toBe('region');
+  });
+});
+
+describe('Accordion accessibility with the theme icons', () => {
+  it('has no violations with the indicator icon, closed and open', async () => {
+    const { container } = render(withPartIcons(<Example />));
+    expect(drawnIconsIn(container)).toContain('chevron-down');
+    expect((await axe(container)).violations).toEqual([]);
+    await userEvent.click(screen.getByRole('button', { name: 'Shipping' }));
+    expect((await axe(container)).violations).toEqual([]);
   });
 });

@@ -1,5 +1,7 @@
 @use '_checkbox' as checkbox;
+@use '_svg-icon' as svg-icon;
 
 @layer cocokits {
   @include checkbox.rules;
+  @include svg-icon.rules;
 }

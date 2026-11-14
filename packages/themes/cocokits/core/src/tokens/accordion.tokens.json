@@ -34,8 +34,7 @@
         { "name": "trigger-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
         { "name": "disabled-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/on-surface}" } },
         { "name": "content-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
-        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-8}" } },
-        { "name": "icon-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-16}" } },
         { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
         { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
         { "name": "motion-duration", "type": "string", "valuesByMode": { "Default": "200ms" } }

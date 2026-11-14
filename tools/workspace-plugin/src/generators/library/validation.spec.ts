@@ -48,9 +48,9 @@ describe('library generator: validation', () => {
     await expectError({ kind: 'cdk-module', name: 'x', theme: 'x' }, /does not take --theme/, [{ kind: 'cdk' }]);
   });
 
-  it('rejects a shared-lib that is not utils or shared', async () => {
-    await expectError({ kind: 'shared-lib', name: 'helpers' }, /utils or shared/);
-    await expectError({ kind: 'shared-lib' }, /utils or shared/);
+  it('rejects a shared-lib that is not utils, shared or icons', async () => {
+    await expectError({ kind: 'shared-lib', name: 'helpers' }, /utils, shared, icons/);
+    await expectError({ kind: 'shared-lib' }, /utils, shared, icons/);
   });
 
   it('rejects a name that differs from the canonical project name', async () => {

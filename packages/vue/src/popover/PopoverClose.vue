@@ -15,7 +15,7 @@ defineSlots<{
    * empty and needs `aria-label`.
    *
    * @example
-   * <PopoverClose aria-label="Close"><XIcon aria-hidden="true" /></PopoverClose>
+   * <PopoverClose aria-label="Close"><SvgIcon icon-name="close" /></PopoverClose>
    */
   default?(): unknown;
 }>();

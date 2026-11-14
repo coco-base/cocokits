@@ -220,7 +220,7 @@ export interface SelectItemTextProps {
 }
 
 /**
- * The mark that shows an item is selected: a check, or a box with `multiple`. It renders a `<span aria-hidden="true">`. Its look comes from the theme and from the `data-selected` of the item.
+ * The mark that shows an item is selected: a check, or a box with `multiple`. It renders a `<span aria-hidden="true">` with your content, else the theme's icon (`components.select.icons`), else the default `check`. Its look comes from the theme and from the `data-selected` of the item.
  *
  * @example
  * <SelectItemIndicator />

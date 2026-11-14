@@ -1,12 +1,14 @@
 // Accordion rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // The theme options sit on the root (`data-variant`, `data-size`, `data-toggle-position`, `data-hide-toggle`), so every
 // part below the root is reached through child combinators: an Accordion inside a content keeps its own options.
-// The content sets no `display`, so the native `hidden` hides it. The chevron is drawn on the trigger's `::after` with
-// two borders and `currentColor`, so it follows the label color, also when disabled and in forced colors. The content
+// The content sets no `display`, so the native `hidden` hides it. The chevron is the `indicator` part, the last child of
+// the trigger, holding the theme's icon (`components.accordion.icons`); it inherits the trigger's color, so it follows the label
+// color, also when disabled and in forced colors, and one icon is turned when the item is open. The content
 // animates its height over `--accordion-content-height`, which the base writes after mount; while it is unset (the
 // first render) both ends of the keyframes are invalid and resolve to `auto`, so nothing moves. The space below the
 // content is a pseudo-element, so it is inside the measured height and needs no animation of its own.
 $trigger: '.cck-accordion > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
+$indicator: '#{$trigger} > .cck-accordion__indicator';
 $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
 
 @mixin rules {
@@ -104,41 +106,31 @@ $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
     border-radius: 0;
   }
 
-  // The chevron: a square with two borders, turned by 45 degrees and moved a quarter of its side.
-  #{$trigger}::after {
-    content: '';
+  // The icon box: its font size is the icon size, and the icon (1em) takes the trigger's color.
+  #{$indicator} {
     flex: none;
-    box-sizing: border-box;
-    inline-size: var(--cck-accordion-icon-size);
-    block-size: var(--cck-accordion-icon-size);
-    border-block-end: var(--cck-accordion-icon-width) solid currentColor;
-    border-inline-end: var(--cck-accordion-icon-width) solid currentColor;
-    translate: 0 -25%;
-    rotate: 45deg;
+    display: inline-flex;
+    font-size: var(--cck-accordion-icon-size);
   }
 
-  #{$trigger}[data-state='open']::after {
-    translate: 0 25%;
-    rotate: 225deg;
-  }
-
-  // The corner is on the inline end, so in a right-to-left page the turn is mirrored: the point still faces down (closed) or up (open).
-  #{$trigger}:dir(rtl)::after {
-    rotate: -45deg;
-  }
-
-  #{$trigger}[data-state='open']:dir(rtl)::after {
-    rotate: -225deg;
+  // The chevron is symmetric, so a right-to-left page needs no counterpart.
+  #{$trigger}[data-state='open'] > .cck-accordion__indicator {
+    rotate: 180deg;
   }
 
   .cck-accordion[data-toggle-position='before']
     > .cck-accordion__item
     > .cck-accordion__header
-    > .cck-accordion__trigger::after {
+    > .cck-accordion__trigger
+    > .cck-accordion__indicator {
     order: -1;
   }
 
-  .cck-accordion[data-hide-toggle] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger::after {
+  .cck-accordion[data-hide-toggle]
+    > .cck-accordion__item
+    > .cck-accordion__header
+    > .cck-accordion__trigger
+    > .cck-accordion__indicator {
     display: none;
   }
 

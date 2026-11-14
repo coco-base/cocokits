@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState, type RefObject } from 'react';
+import { useId, useState, type RefObject } from 'react';
 import type { CheckboxProps } from '@cocokits/machines/checkbox';
 import {
   resolveFormFieldState,
@@ -8,14 +8,13 @@ import {
   type FormFieldControlContext,
   type FormFieldControlState,
 } from '@cocokits/machines/form-field';
-import { hasAccessibleName } from '@cocokits/utils';
 import type { ChoiceControlBaseProps, ChoiceControlState } from './choice-control.types';
-import { isDevelopment } from './dev';
 import { useFormFieldContext } from './form-field-context';
 import { withoutReserved } from './merge-props';
 import { useControlClaim, useControlReport } from './use-field-control';
 import { machineInputProps, useCheckedState } from './use-checked-state';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
+import { useUnnamedWarning } from './use-unnamed-warning';
 
 /** The attributes the machine owns on the input: a value the author passes for them is ignored. */
 export const choiceInputReserved: readonly string[] = ['aria-invalid', 'aria-readonly', 'type', 'role'];
@@ -47,27 +46,6 @@ export interface ChoiceControl<P> {
   readonly inputProps: Record<string, unknown>;
   /** The state for the function form of `render`. */
   readonly state: ChoiceControlState;
-}
-
-/**
- * Development only: warns after mount when nothing names the input of a Checkbox, a Switch or a Radio. It waits a
- * frame so that the field's Label has committed its `for`.
- */
-export function useUnnamedWarning(componentName: string, elementRef: RefObject<HTMLInputElement | null>): void {
-  useEffect(() => {
-    if (!isDevelopment()) return undefined;
-    const frame = requestAnimationFrame(() => {
-      const input = elementRef.current;
-      if (input && !hasAccessibleName(input)) {
-        console.warn(
-          `CocoKits: a ${componentName} has no accessible name. Put the caption text inside it, or add an aria-label, a title, an aria-labelledby that points to an element with text, or a <label for> with text that points at its id.`,
-        );
-      }
-    });
-    return () => {
-      cancelAnimationFrame(frame);
-    };
-  }, [componentName, elementRef]);
 }
 
 /**

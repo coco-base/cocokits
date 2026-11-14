@@ -4,7 +4,7 @@ import { CckButtonBase } from './button-base';
 /**
  * A button on a native `<button>`. Its `type` is `button` unless you write `type="submit"` or `type="reset"`. The theme gives it its look.
  *
- * A button with only an icon needs `aria-label` or `aria-labelledby`.
+ * For a button with only an icon, use the Icon button (`cckIconButton`); it needs `aria-label` or `aria-labelledby`.
  *
  * @example
  * <button cckButton (click)="save()">Save</button>

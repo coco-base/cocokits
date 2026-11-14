@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/schema",
   "title": "Docs data executor",
-  "description": "Write the docs data of a project (component anatomy and meta, or the options and mode collections of a theme) as JSON.",
+  "description": "Write the docs data of a project (component anatomy and meta, or the options, mode collections and icon names of a theme) as JSON.",
   "type": "object",
   "properties": {
     "source": {
       "type": "string",
       "enum": ["machines", "theme"],
-      "description": "machines: one ComponentDocData file per component subpath of the built package. theme: ThemeDocData from the ThemeConfig and the modeCollections export of the built entry."
+      "description": "machines: one ComponentDocData file per component subpath of the built package. theme: ThemeDocData from the ThemeConfig (options and icon names) and the modeCollections export of the built entry."
     },
     "outputDir": {
       "type": "string",

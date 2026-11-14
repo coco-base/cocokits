@@ -14,7 +14,7 @@ defineSlots<{
    * The text of the hint, with an icon if you like. When not set, the hint is empty.
    *
    * @example
-   * <Hint><InfoIcon aria-hidden="true" /> We only use it for the receipt.</Hint>
+   * <Hint><SvgIcon icon-name="info" /> We only use it for the receipt.</Hint>
    */
   default?(): unknown;
 }>();

@@ -33,7 +33,10 @@ export const selectAnatomy: Anatomy<
       name: 'Value',
       description: 'The selection: the labels of the selected values joined, or the custom trigger content.',
     },
-    dropdownIcon: { name: 'Dropdown icon', description: 'Empty, decorative: the open and close affordance.' },
+    dropdownIcon: {
+      name: 'Dropdown icon',
+      description: "Decorative: the open and close affordance; holds the theme's icon.",
+    },
     content: {
       name: 'Content',
       description: 'The `listbox`, portaled and positioned under the trigger or the FormField box.',
@@ -41,7 +44,9 @@ export const selectAnatomy: Anatomy<
     option: { name: 'Option', description: 'An option of the list. Its content must not be interactive.' },
     optionIndicator: {
       name: 'Option indicator',
-      description: 'Empty, decorative: the check (single) or box (multiple) of the selection.',
+      description:
+        "Decorative: the check (single) or box (multiple) of the selection; holds the theme's icon while its option is " +
+        'selected.',
     },
     optionContent: { name: 'Option content', description: 'Holds the author content of an option.' },
     optionGroup: { name: 'Option group', description: 'Groups options under a label; role `group`.' },

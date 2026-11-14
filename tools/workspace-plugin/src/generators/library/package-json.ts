@@ -16,12 +16,12 @@ const CDK_OPTIONAL_PEERS = ['@floating-ui/dom', '@internationalized/date', '@int
 export function internalDependencyNames(spec: PackageSpec): string[] {
   switch (spec.kind) {
     case 'cdk':
-      return ['utils', 'shared'];
+      return ['utils', 'shared', 'icons'];
     case 'machines':
     case 'fw-core':
-      return ['utils', 'shared', 'cdk'];
+      return ['utils', 'shared', 'icons', 'cdk'];
     case 'fw':
-      return ['utils', 'shared', 'cdk', 'machines', `${spec.framework ?? ''}-core`];
+      return ['utils', 'shared', 'icons', 'cdk', 'machines', `${spec.framework ?? ''}-core`];
     default:
       return [];
   }

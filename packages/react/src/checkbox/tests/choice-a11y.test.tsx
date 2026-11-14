@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { axe } from 'vitest-axe';
+import { drawnIconsIn, withPartIcons } from '../../internal/tests/part-icon-fixtures';
 import { FormField } from '../../form-field';
 import { Hint } from '../../hint';
 import { Label } from '../../label';
@@ -122,5 +123,13 @@ describe('Radio accessibility', () => {
     expect(document.activeElement).toBe(screen.getByRole('radio', { name: 'Free' }));
     await user.keyboard('{ArrowDown}');
     expect(screen.getByRole<HTMLInputElement>('radio', { name: 'Pro' }).checked).toBe(true);
+  });
+});
+
+describe('Checkbox accessibility with the theme icons', () => {
+  it('has no violations with the tick of a checked Checkbox', async () => {
+    const { container } = render(withPartIcons(<Checkbox defaultChecked>Accept the terms</Checkbox>));
+    expect(drawnIconsIn(container)).toEqual(['check']);
+    expect((await axe(container)).violations).toEqual([]);
   });
 });

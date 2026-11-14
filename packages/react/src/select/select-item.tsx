@@ -57,15 +57,6 @@ function SelectItemImpl<T = string>({
     });
   }, [registerItem, key, isDisabled, id]);
 
-  const itemContext = useMemo(
-    () => ({
-      setTextElement: (node: HTMLElement | null) => {
-        textElement.current = node;
-      },
-    }),
-    [],
-  );
-
   useEffect(() => {
     if (!isDevelopment()) return;
     if (element.current && hasInteractiveContent(element.current)) {
@@ -76,6 +67,16 @@ function SelectItemImpl<T = string>({
   }, []);
 
   const optionProps = context.parts.option({ key, value, disabled: isDisabled, ...(id === undefined ? {} : { id }) });
+  const selected = optionProps['aria-selected'] === 'true';
+  const itemContext = useMemo(
+    () => ({
+      setTextElement: (node: HTMLElement | null) => {
+        textElement.current = node;
+      },
+      selected,
+    }),
+    [selected],
+  );
   const props = useSelectPartProps({
     ours: { ...context.theme.option, ...toReactProps(optionProps) },
     rest,

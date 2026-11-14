@@ -54,6 +54,10 @@
       "types": "./dist/hint/index.d.ts",
       "default": "./dist/hint/index.js"
     },
+    "./icon-button": {
+      "types": "./dist/icon-button/index.d.ts",
+      "default": "./dist/icon-button/index.js"
+    },
     "./input": {
       "types": "./dist/input/index.d.ts",
       "default": "./dist/input/index.js"
@@ -90,6 +94,10 @@
       "types": "./dist/suffix/index.d.ts",
       "default": "./dist/suffix/index.js"
     },
+    "./svg-icon": {
+      "types": "./dist/svg-icon/index.d.ts",
+      "default": "./dist/svg-icon/index.js"
+    },
     "./switch": {
       "types": "./dist/switch/index.d.ts",
       "default": "./dist/switch/index.js"
@@ -117,6 +125,7 @@
   },
   "dependencies": {
     "@cocokits/cdk": "workspace:*",
+    "@cocokits/icons": "workspace:*",
     "@cocokits/machines": "workspace:*",
     "@cocokits/shared": "workspace:*",
     "@cocokits/utils": "workspace:*",

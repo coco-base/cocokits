@@ -23,7 +23,7 @@ defineSlots<{
    * The text of the link, with an icon if you like. When not set, the link has no accessible name.
    *
    * @example
-   * <TabNavLink href="/profile"><UserIcon aria-hidden="true" /> Profile</TabNavLink>
+   * <TabNavLink href="/profile"><SvgIcon icon-name="user" /> Profile</TabNavLink>
    */
   default?(): unknown;
 }>();

@@ -25,7 +25,7 @@ export type { TooltipChangeReason };
  * <TooltipProvider>
  *   <TooltipRoot>
  *     <TooltipTrigger aria-label="Copy link">
- *       <svg aria-hidden="true">...</svg>
+ *       <SvgIcon icon-name="link" />
  *     </TooltipTrigger>
  *     <TooltipContent>
  *       Copy link
@@ -202,7 +202,7 @@ export interface TooltipRootEmits {
  *
  * @example
  * <TooltipTrigger aria-label="Copy link">
- *   <svg aria-hidden="true">...</svg>
+ *   <SvgIcon icon-name="link" />
  * </TooltipTrigger>
  *
  * @cckPart trigger

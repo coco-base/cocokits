@@ -1,5 +1,7 @@
 @use '_accordion' as accordion;
+@use '_svg-icon' as svg-icon;
 
 @layer cocokits {
   @include accordion.rules;
+  @include svg-icon.rules;
 }

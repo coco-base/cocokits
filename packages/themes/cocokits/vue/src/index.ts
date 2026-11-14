@@ -2,6 +2,16 @@ export { default as Badge } from './Badge.vue';
 export type { BadgeProps, BadgeVariant, BadgeColor, BadgeSize } from './badge.types';
 export { default as Button } from './Button.vue';
 export type { ButtonProps, ButtonVariant, ButtonColor, ButtonSize } from './button.types';
+export { default as IconButton } from './IconButton.vue';
+export type {
+  IconButtonProps,
+  IconButtonVariant,
+  IconButtonColor,
+  IconButtonSize,
+  IconButtonRounded,
+} from './icon-button.types';
+export { default as SvgIcon } from './SvgIcon.vue';
+export type { SvgIconProps, SvgIconSize, SvgIconColor, SvgIconRtlMirror } from './svg-icon.types';
 export { default as FormField } from './FormField.vue';
 export type { FormFieldProps, FormFieldSize } from './form-field.types';
 export { default as Textarea } from './Textarea.vue';

@@ -17,7 +17,8 @@ import {
   viewChild,
   type Signal,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, bindAttrs } from '@cocokits/angular-core';
+import { CckAttrs, IdGenerator, bindAttrs, injectPartIconName } from '@cocokits/angular-core';
+import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { createPresence } from '@cocokits/cdk/presence';
 import { writeContentSize } from '@cocokits/cdk/content-size';
@@ -47,6 +48,8 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
  *
  * Give the trigger its text with `label`, or its markup with a `cckAccordionLabel` template. The content of a closed item stays in the page and is `hidden`.
  *
+ * The indicator draws the icon your theme names in `components.accordion.icons.indicator`, else the default `chevron-down`. Register a theme icon with `provideCckIcons`.
+ *
  * @example
  * <cck-accordion-item label="Shipping" [(expanded)]="open">Orders leave in two days.</cck-accordion-item>
  * @cckPart item
@@ -60,7 +63,7 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
   selector: 'cck-accordion-item',
   exportAs: 'cckAccordionItem',
   encapsulation: ViewEncapsulation.None,
-  imports: [CckAttrs, NgTemplateOutlet],
+  imports: [CckAttrs, CckSvgIcon, NgTemplateOutlet],
   host: {
     '[class]': 'parts().item.class',
     '[attr.data-state]': 'parts().item["data-state"]',
@@ -97,6 +100,13 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
         } @else {
           {{ label() }}
         }
+        <span
+          [class]="parts().indicator.class"
+          [attr.aria-hidden]="parts().indicator['aria-hidden']"
+          [cckAttrs]="root._theme().indicator"
+        >
+          <cck-svg-icon [iconName]="indicatorIconName()" />
+        </span>
       </button>
     </ng-template>
     @switch (headingLevel()) {
@@ -250,6 +260,9 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
     source: this.isOpen,
     computation: (open, previous) => open || (previous?.value ?? false),
   });
+
+  /** The theme's icon when registered, else the default; the part shows it always. */
+  protected readonly indicatorIconName = injectPartIconName(accordionAnatomy.block, 'indicator');
 
   /** The label template, when the author wrote one. @internal */
   protected readonly labelSlot = contentChild(CckAccordionLabel);

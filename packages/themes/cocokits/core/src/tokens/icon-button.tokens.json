@@ -1,0 +1,38 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Icon Button / Size",
+      "tier": 3,
+      "prefix": "icon-button",
+      "defaultMode": "md",
+      "modes": ["sm", "md", "lg"],
+      "tokens": [
+        { "name": "size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-32}", "md": "{Core / Size#size-40}", "lg": "{Core / Size#size-48}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-16}", "md": "{Core / Size#size-20}", "lg": "{Core / Size#size-24}" } }
+      ]
+    },
+    {
+      "name": "Icon Button / Structure",
+      "tier": 3,
+      "prefix": "icon-button",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "radius-rounded", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-full}" } },
+        { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } },
+        { "name": "solid-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "solid-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } },
+        { "name": "soft-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
+        { "name": "soft-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } },
+        { "name": "border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
+        { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
+        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-2}" } },
+        { "name": "disabled-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/surface}" } },
+        { "name": "disabled-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/on-surface}" } }
+      ]
+    }
+  ]
+}

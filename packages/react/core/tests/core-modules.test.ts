@@ -55,6 +55,8 @@ describe('emitted react-core modules keep their "use client"', () => {
     expect(startsWithDirective(emitted.get('direction.js') ?? '')).toBe(true);
     expect(startsWithDirective(emitted.get('portal.js') ?? '')).toBe(true);
     expect(startsWithDirective(emitted.get('use-theme-attrs.js') ?? '')).toBe(true);
+    expect(startsWithDirective(emitted.get('use-theme-config.js') ?? '')).toBe(true);
+    expect(startsWithDirective(emitted.get('icon-registry.js') ?? '')).toBe(true);
     expect(startsWithDirective(emitted.get('use-form-participation.js') ?? '')).toBe(true);
   });
 
@@ -62,10 +64,12 @@ describe('emitted react-core modules keep their "use client"', () => {
     const withDirective = [...emitted].filter(([, code]) => startsWithDirective(code)).map(([name]) => name);
     expect(withDirective.sort()).toEqual([
       'direction.js',
+      'icon-registry.js',
       'portal.js',
       'theme-context.js',
       'use-form-participation.js',
       'use-theme-attrs.js',
+      'use-theme-config.js',
     ]);
     expect(emitted.has('index.js')).toBe(true);
     expect(emitted.has('to-react-props.js')).toBe(true);

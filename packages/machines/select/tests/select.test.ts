@@ -380,3 +380,12 @@ describe('meta defaults', () => {
     expect(content['data-align']).toBe(selectMeta.dataAttrDetails?.['data-align']?.default);
   });
 });
+
+describe('icon-holding part descriptions', () => {
+  it.each([
+    ['dropdownIcon', /holds the theme's icon\.$/],
+    ['optionIndicator', /holds the theme's icon while its option is selected\.$/],
+  ] as const)('%s says where its icon comes from', (part, text) => {
+    expect(selectAnatomy.parts[part].description).toMatch(text);
+  });
+});

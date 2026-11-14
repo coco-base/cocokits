@@ -1,4 +1,4 @@
-import type { ThemeConfig } from './theme-config';
+import type { ThemeConfig, ThemeOption } from './theme-config';
 
 /** Option values by option name. `null` removes the option; `undefined` defers to the next level. */
 export type ThemeOptionValues = Readonly<Record<string, string | boolean | null | undefined>>;
@@ -15,6 +15,7 @@ export type ThemeAttrsByPart<A extends { readonly parts: object }> = {
  * Resolves the theme options of every part of a component to `data-*` attributes. Pure: no input
  * is mutated and a new object is returned. The anatomy is the only source of the part names.
  * Per option the value is: `ownValues`, then `overrideValues`, then the config default.
+ * The key `icons` names part icons, not an option, and is skipped.
  * `null` renders nothing; `true` renders `''`; `false` renders nothing.
  *
  * @param themeConfig - The theme's options and defaults.
@@ -31,7 +32,9 @@ export function resolveThemeAttrs<A extends { readonly block: string; readonly p
   ownValues: ThemeOptionValues = {},
   overrideValues: ThemeOptionValues = {},
 ): ThemeAttrsByPart<A> {
-  const options = Object.entries(themeConfig.components[anatomy.block] ?? {});
+  const options = Object.entries(themeConfig.components[anatomy.block] ?? {}).filter(
+    (entry): entry is [string, ThemeOption] => entry[0] !== 'icons',
+  );
   return Object.fromEntries(
     Object.keys(anatomy.parts).map((partName) => {
       const attrs: Partial<Record<`data-${string}`, string>> = {};

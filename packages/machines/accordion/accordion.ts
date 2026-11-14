@@ -188,6 +188,7 @@ export function getAccordionItemProps(
       },
       onKeyDown: onKeyDown(state, item.key, send),
     },
+    indicator: { class: classes.indicator, 'aria-hidden': 'true' },
     content: {
       class: classes.content,
       ...shared,

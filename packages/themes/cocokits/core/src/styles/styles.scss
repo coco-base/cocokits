@@ -20,6 +20,8 @@
 @use 'components/_select' as select;
 @use 'components/_accordion' as accordion;
 @use 'components/_divider' as divider;
+@use 'components/_icon-button' as icon-button;
+@use 'components/_svg-icon' as svg-icon;
 @use 'components/_side-offset' as side-offset;
 
 @include side-offset.register;
@@ -46,4 +48,6 @@
   @include select.rules;
   @include accordion.rules;
   @include divider.rules;
+  @include icon-button.rules;
+  @include svg-icon.rules;
 }

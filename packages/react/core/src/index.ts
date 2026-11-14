@@ -1,6 +1,9 @@
 export { ThemeProvider, ThemeOptionsProvider } from './theme-context';
 export type { ThemeProviderProps, ThemeOptionsProviderProps, ThemeState, ThemeOptionsState } from './theme-context';
 export { useThemeAttrs } from './use-theme-attrs';
+export { useThemeConfig } from './use-theme-config';
+export { IconProvider, useIconRegistry } from './icon-registry';
+export type { IconProviderProps } from './icon-registry';
 export { toReactProps } from './to-react-props';
 export type { ReactEventLike, ReactProps } from './to-react-props';
 export { useFormParticipation } from './use-form-participation';

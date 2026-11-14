@@ -274,7 +274,7 @@ ${META.replace("action: 'Activates.'", "action: 'Activates.', frameworks: ['reac
 const OPTION = `{ attrName: 'size', values: ['sm', 'md'], default: 'md', partNames: ['root'], description: 'Size.' }`;
 
 /** A fake theme core whose built entry exports a `ThemeConfig` (one `button.size` option) and `modeCollections` (none for `null`). */
-function theme(option = OPTION, extraExport = '', collections: unknown = COLLECTIONS): void {
+function theme(option = OPTION, extraExport = '', collections: unknown = COLLECTIONS, configFields = ''): void {
   write(
     'packages/t/package.json',
     JSON.stringify({ type: 'module', exports: { '.': { default: './dist/index.js' } } }),
@@ -282,7 +282,7 @@ function theme(option = OPTION, extraExport = '', collections: unknown = COLLECT
   const index = collections === null ? '' : `export const modeCollections = ${JSON.stringify(collections)};\n`;
   write(
     'packages/t/dist/index.js',
-    `export const moodThemeConfig = { name: 'mood', components: { button: { size: ${option} } } };\n${index}${extraExport}`,
+    `export const moodThemeConfig = { name: 'mood', components: { button: { size: ${option} } }${configFields} };\n${index}${extraExport}`,
   );
 }
 
@@ -426,6 +426,41 @@ describe('docs-data: theme', () => {
     expect(readJson('dist/docs-data/theme-mood/theme.json')).toMatchObject({
       modeCollections: [{ attrName: 'x9-density' }],
     });
+  });
+});
+
+const PART_ICONS = `{ dropdownIcon: 'chevron-down', optionIndicator: 'check' }`;
+
+describe('docs-data: theme part icons', () => {
+  it('writes the options only, never the part icons', async () => {
+    theme(`${OPTION}, icons: ${PART_ICONS}`);
+    expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
+    const written = readJson('dist/docs-data/theme-mood/theme.json') as { components: { button: object } };
+    expect(written).toMatchObject({ components: { button: { size: { attrName: 'size' } } } });
+    expect(Object.keys(written)).toEqual(['kind', 'name', 'components', 'modeCollections']);
+    expect(Object.keys(written.components.button)).toEqual(['size']);
+  });
+
+  it('accepts a component that has only icons', async () => {
+    theme(`${OPTION} }, select: { icons: ${PART_ICONS}`);
+    expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
+    expect(readJson('dist/docs-data/theme-mood/theme.json')).toMatchObject({ components: { select: {} } });
+  });
+
+  it.each([
+    ['icons is a list', '[]', /button: icons must be an object/],
+    ['icons is text', '"check"', /button: icons must be an object/],
+    [
+      'an icon name is empty',
+      "{ dropdownIcon: '' }",
+      /button\.icons\.dropdownIcon: the icon name must be non-empty text/,
+    ],
+    ['an icon name is no text', '{ dropdownIcon: 1 }', /button\.icons\.dropdownIcon: the icon name must be/],
+  ])('fails when %s, and writes nothing', async (_name, icons, message) => {
+    theme(`${OPTION}, icons: ${icons}`);
+    expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(false);
+    expect(errors()).toMatch(message);
+    expect(existsSync(join(dir, 'dist/docs-data/theme-mood'))).toBe(false);
   });
 });
 

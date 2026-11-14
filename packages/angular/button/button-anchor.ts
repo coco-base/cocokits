@@ -4,7 +4,7 @@ import { CckButtonBase } from './button-base';
 /**
  * A link that looks like a button, on a native `<a>`. It stays a link: Enter opens it, and it has no `type`. The theme gives it its look.
  *
- * A link with only an icon needs `aria-label` or `aria-labelledby`.
+ * For a link with only an icon, use the Icon button (`a[cckIconButton]`); it needs `aria-label` or `aria-labelledby`.
  *
  * A disabled link gets `aria-disabled="true"` and `tabindex="-1"`, and keeps its `href`. A click on it does nothing. Your own `(click)` and a `routerLink` on the same element do not run.
  *

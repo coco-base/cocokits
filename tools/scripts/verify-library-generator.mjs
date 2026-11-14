@@ -29,6 +29,7 @@ const SKIPPED = new Set([
 const PACKAGES = [
   { kind: 'shared-lib', name: 'utils' },
   { kind: 'shared-lib', name: 'shared' },
+  { kind: 'shared-lib', name: 'icons' },
   { kind: 'cdk' },
   { kind: 'machines' },
   ...['angular', 'react', 'vue'].flatMap((framework) => [
@@ -126,6 +127,7 @@ const moduleSource = (name, imports) =>
 const WIRED = [
   { name: 'utils', file: 'packages/utils/src/index.ts', imports: [], dist: 'packages/utils/dist' },
   { name: 'shared', file: 'packages/shared/src/index.ts', imports: [], dist: 'packages/shared/dist' },
+  { name: 'icons', file: 'packages/icons/src/index.ts', imports: [], dist: 'packages/icons/dist' },
   {
     name: 'cdk-reactive',
     file: 'packages/cdk/src/reactive/index.ts',

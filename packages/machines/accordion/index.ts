@@ -12,6 +12,7 @@ export type {
   AccordionChangeReason,
   AccordionContentProps,
   AccordionContentSizeVariables,
+  AccordionIndicatorProps,
   AccordionEvent,
   AccordionIds,
   AccordionItem,

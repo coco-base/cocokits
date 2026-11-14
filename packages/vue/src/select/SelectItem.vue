@@ -63,6 +63,7 @@ provide(SELECT_ITEM_KEY, {
   setTextElement: (next: HTMLElement | null) => {
     textElement.value = next;
   },
+  selected: computed(() => machine.value['aria-selected'] === 'true'),
 });
 
 // A consumer listener runs first (`mergeProps` chains it before ours); the machine skips a vetoed click. The

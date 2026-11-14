@@ -35,7 +35,7 @@
         { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
         { "name": "placeholder-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
         { "name": "icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
-        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-8}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-16}" } },
         { "name": "readonly-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
         { "name": "disabled-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/surface}" } },
         { "name": "disabled-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/border}" } },

@@ -27,6 +27,7 @@
     "./logo-dark.svg": "./dist/logo-dark.svg"
   },
   "peerDependencies": {
+    "@cocokits/icons": "workspace:*",
     "@cocokits/shared": "workspace:*"
   },
   "publishConfig": {

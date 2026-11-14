@@ -2,6 +2,15 @@ export { CckBadgeTheme } from './badge-theme';
 export type { CckBadgeColor, CckBadgeSize, CckBadgeVariant } from './badge-theme';
 export { CckButtonTheme } from './button-theme';
 export type { CckButtonColor, CckButtonSize, CckButtonVariant } from './button-theme';
+export { CckIconButtonTheme } from './icon-button-theme';
+export type {
+  CckIconButtonColor,
+  CckIconButtonRounded,
+  CckIconButtonSize,
+  CckIconButtonVariant,
+} from './icon-button-theme';
+export { CckSvgIconTheme } from './svg-icon-theme';
+export type { CckSvgIconColor, CckSvgIconRtlMirror, CckSvgIconSize } from './svg-icon-theme';
 export { CckFormFieldTheme } from './form-field-theme';
 export type { CckFormFieldSize } from './form-field-theme';
 export { CckTextareaTheme } from './textarea-theme';

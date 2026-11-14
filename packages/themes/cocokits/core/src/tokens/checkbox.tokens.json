@@ -9,6 +9,7 @@
       "modes": ["sm", "md", "lg"],
       "tokens": [
         { "name": "box-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-16}", "md": "{Core / Size#size-20}", "lg": "{Core / Size#size-24}" } },
+        { "name": "box-icon-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-12}", "md": "{Core / Size#size-16}", "lg": "{Core / Size#size-20}" } },
         { "name": "hit-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-24}", "md": "{Core / Size#size-24}", "lg": "{Core / Size#size-28}" } },
         { "name": "halo-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-28}", "md": "{Core / Size#size-32}", "lg": "{Core / Size#size-36}" } },
         { "name": "label-font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-lg/font-family}" } },

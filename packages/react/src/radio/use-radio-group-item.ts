@@ -3,7 +3,7 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import type { ChoiceControlChangeDetails } from '../internal/choice-control.types';
 import { isDevelopment } from '../internal/dev';
-import { useUnnamedWarning } from '../internal/use-choice-control';
+import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import type { RadioGroupContextValue, RadioGroupRegistration } from '../internal/radio-group-context';
 import type { CheckedStateOptions } from '../internal/use-checked-state';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';

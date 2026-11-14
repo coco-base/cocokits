@@ -10,7 +10,7 @@ import type { AsTag } from '@cocokits/vue-core';
  *
  * The Badge has no role. Its text is read in place, so inside a Button it becomes part of the name of the button.
  * An empty Badge has no text. Put the meaning in the name of the host, for example
- * `aria-label="Notifications, 2 new"` on an icon-only Button.
+ * `aria-label="Messages, 2 new"` on an IconButton.
  *
  * @example
  * <Badge :content="5" />

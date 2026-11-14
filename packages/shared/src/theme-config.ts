@@ -35,12 +35,31 @@ export interface ThemeOption {
   readonly description?: string;
 }
 
+/** The icon name each icon-holding part of a component shows, by part name. Names are plain strings. */
+export type ThemePartIcons = Readonly<Record<string, string>>;
+
+/**
+ * One component of a theme: its options by option name, and the icons of its parts. `icons` is no option: it
+ * renders no attribute, and no option may be named `icons`.
+ *
+ * @example
+ * The Select names the icons of its arrow and its selected option:
+ * ```ts
+ * const select = { icons: { dropdownIcon: 'chevron-down', optionIndicator: 'check' } };
+ * ```
+ */
+export interface ThemeComponentConfig {
+  /** The icon each part shows, by part name. The part draws it unless the author gave it content. */
+  readonly icons?: ThemePartIcons;
+  readonly [optionName: string]: ThemeOption | ThemePartIcons | undefined;
+}
+
 /** A theme's options per component. A missing component is unsupported; `{}` has no options. */
 export interface ThemeConfig {
   /** The theme name, for example `cocokits`. */
   readonly name: string;
   /** Options per component name, then per option name. */
-  readonly components: Readonly<Record<string, Readonly<Record<string, ThemeOption>>>>;
+  readonly components: Readonly<Record<string, ThemeComponentConfig>>;
   /**
    * The token collections that have a mode attribute: the theme's `modeCollections` index. The portal
    * host of an overlay copies the page-wide ones (no `componentName`) from the trigger's ancestors.
@@ -52,7 +71,7 @@ export interface ThemeConfig {
 interface RejectReserved<T extends ThemeConfig> {
   readonly components: {
     readonly [C in keyof T['components']]: {
-      readonly [O in keyof T['components'][C]]: {
+      readonly [O in Exclude<keyof T['components'][C], 'icons'>]: {
         readonly attrName: T['components'][C][O] extends { attrName: infer A }
           ? A extends ReservedDataName
             ? never

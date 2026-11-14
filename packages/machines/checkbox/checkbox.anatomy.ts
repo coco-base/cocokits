@@ -20,7 +20,10 @@ export const checkboxAnatomy: Anatomy<
     inputWrapper: { name: 'Input wrapper', description: 'The box and hit area that the native input lies over.' },
     input: { name: 'Input', description: 'The native `input type="checkbox"`. The focus and ref target.' },
     backdrop: { name: 'Backdrop', description: 'Empty, decorative: the hover and press halo hook.' },
-    background: { name: 'Background', description: 'Empty, decorative: the box, tick and dash are drawn on it.' },
+    background: {
+      name: 'Background',
+      description: "Decorative: the box and the dash are drawn on it; it holds the theme's tick icon while checked.",
+    },
     label: { name: 'Label', description: 'The native `label` of the input; it holds the author content.' },
   },
 });

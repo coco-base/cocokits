@@ -27,7 +27,7 @@ export interface EntrySpec {
 export type Resolved =
   { readonly type: 'package'; readonly spec: PackageSpec } | { readonly type: 'entry'; readonly spec: EntrySpec };
 
-const SHARED_LIB_NAMES = ['utils', 'shared'];
+const SHARED_LIB_NAMES = ['utils', 'shared', 'icons'];
 /** Folder names with a meaning in a package (sources, outputs, tooling); no entry point may use them. */
 const RESERVED_ENTRY_NAMES = [
   'index',
@@ -76,7 +76,7 @@ function requireTheme(kind: string, value: string | undefined): string {
 /** Checks the name rules that belong to one kind (the names of shared libraries and canonical projects). */
 function checkKindName(kind: PackageKind, spec: PackageSpec, options: LibraryGeneratorSchema): void {
   if (kind === 'shared-lib' && !SHARED_LIB_NAMES.includes(options.name ?? '')) {
-    throw new Error(`Kind "shared-lib" needs a name: ${SHARED_LIB_NAMES.join(' or ')}.`);
+    throw new Error(`Kind "shared-lib" needs a name: ${SHARED_LIB_NAMES.join(', ')}.`);
   }
   if (options.name !== undefined && options.name !== spec.projectName) {
     throw new Error(`The name for kind "${kind}" must be "${spec.projectName}" (or omitted), got "${options.name}".`);

@@ -460,7 +460,7 @@ describe('cocokitsThemeConfig select', () => {
   });
 
   it('has the size option, rendered as data-size on the root only, default md', () => {
-    expect(Object.keys(options)).toEqual(['size']);
+    expect(Object.keys(options).filter((key) => key !== 'icons')).toEqual(['size']);
     expect(options.size.attrName).toBe('size');
     expect(options.size.default).toBe('md');
     expect(options.size.values).toEqual(['sm', 'md', 'lg']);

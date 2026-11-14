@@ -114,6 +114,7 @@ describe('library generator: entry points', () => {
 const SEQUENCE: Parameters<typeof generate>[1][] = [
   { kind: 'shared-lib', name: 'utils' },
   { kind: 'shared-lib', name: 'shared' },
+  { kind: 'shared-lib', name: 'icons' },
   { kind: 'cdk' },
   { kind: 'cdk-module', name: 'reactive' },
   { kind: 'machines' },
