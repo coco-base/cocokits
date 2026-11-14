@@ -11,9 +11,9 @@ describe('toReactProps', () => {
     expect(props).toEqual({ className: 'cck-button', tabIndex: -1, 'aria-disabled': 'true', 'data-disabled': '' });
   });
 
-  it('maps readonly to readOnly and for to htmlFor', () => {
-    const props = toReactProps({ readonly: true, for: 'email-control' });
-    expect(props).toEqual({ readOnly: true, htmlFor: 'email-control' });
+  it('maps readonly to readOnly, for to htmlFor and autocomplete to autoComplete', () => {
+    const props = toReactProps({ readonly: true, for: 'email-control', autocomplete: 'off' });
+    expect(props).toEqual({ readOnly: true, htmlFor: 'email-control', autoComplete: 'off' });
   });
 
   it('keeps absent keys absent', () => {

@@ -16,6 +16,7 @@ interface ReactNames {
   readonly tabindex: 'tabIndex';
   readonly readonly: 'readOnly';
   readonly for: 'htmlFor';
+  readonly autocomplete: 'autoComplete';
 }
 
 /** Machine props with React names; every `on*` handler takes a React event. */
@@ -30,11 +31,12 @@ const NAMES: Readonly<Record<string, string>> = {
   tabindex: 'tabIndex',
   readonly: 'readOnly',
   for: 'htmlFor',
+  autocomplete: 'autoComplete',
 };
 
 /**
  * Converts machine props (HTML names) to React props: `class` becomes `className`, `tabindex`
- * becomes `tabIndex`, `readonly` becomes `readOnly` and `for` becomes `htmlFor`. Every `on*` handler gets an event whose `stopImmediatePropagation()`
+ * becomes `tabIndex`, `readonly` becomes `readOnly`, `for` becomes `htmlFor` and `autocomplete` becomes `autoComplete`. Every `on*` handler gets an event whose `stopImmediatePropagation()`
  * calls the React event's `stopPropagation()`, because React has no `stopImmediatePropagation`
  * and a machine guard must keep ancestors' handlers from running.
  *
