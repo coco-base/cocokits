@@ -42,3 +42,7 @@ export { CckAvatarGroupTheme } from './avatar-group-theme';
 export type { CckAvatarGroupSize } from './avatar-group-theme';
 export { CckAvatarLabelTheme } from './avatar-label-theme';
 export type { CckAvatarLabelAvatarPosition, CckAvatarLabelSize, CckAvatarLabelTextLayout } from './avatar-label-theme';
+export { CckChipTheme } from './chip-theme';
+export type { CckChipSize } from './chip-theme';
+export { CckChipListTheme } from './chip-list-theme';
+export type { CckChipListSize } from './chip-list-theme';
