@@ -18,6 +18,12 @@ const entries = [
   { name: '@cocokits/theme-cocokits-angular', path: 'dist/packages/theme-cocokits-angular/fesm2022/cocokits-theme-cocokits-angular.mjs', limit: '2190 B' },
   { name: '@cocokits/theme-cocokits-react', path: 'packages/themes/cocokits/react/dist/index.js', limit: '1350 B' },
   { name: '@cocokits/theme-cocokits-vue', path: 'packages/themes/cocokits/vue/dist/index.js', limit: '3360 B' },
+  { name: '@cocokits/theme-cocokits', path: 'packages/themes/cocokits/core/dist/index.js', limit: '2030 B' },
+  { name: '@cocokits/theme-cocokits/styles.css', path: 'packages/themes/cocokits/core/dist/styles.css', limit: '13200 B' },
+  { name: '@cocokits/theme-cocokits/tokens.css', path: 'packages/themes/cocokits/core/dist/tokens.css', limit: '5710 B' },
+  { name: '@cocokits/theme-cocokits-angular', path: 'dist/packages/theme-cocokits-angular/fesm2022/cocokits-theme-cocokits-angular.mjs', limit: '2010 B' },
+  { name: '@cocokits/theme-cocokits-react', path: 'packages/themes/cocokits/react/dist/index.js', limit: '1250 B' },
+  { name: '@cocokits/theme-cocokits-vue', path: 'packages/themes/cocokits/vue/dist/index.js', limit: '3190 B' },
   { name: '@cocokits/machines/button', path: 'packages/machines/dist/button/index.js', limit: '640 B' },
   { name: '@cocokits/angular/button', path: 'dist/packages/angular/fesm2022/cocokits-angular-button.mjs', limit: '1190 B' },
   { name: '@cocokits/react/button', path: 'packages/react/dist/button/index.js', limit: '1070 B' },
@@ -176,8 +182,8 @@ const entries = [
   { name: '@cocokits/angular/chip-list', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip-list.mjs', limit: '3040 B' },
   { name: '@cocokits/machines/menu', path: 'packages/machines/dist/menu/index.js', limit: '2470 B' },
   { name: '@cocokits/react/menu', path: 'packages/react/dist/menu/index.js', limit: '5150 B' },
-  { name: '@cocokits/vue/menu', path: 'packages/vue/dist/menu/index.js', limit: '2 kB' },
-  { name: '@cocokits/angular/menu', path: 'dist/packages/angular/fesm2022/cocokits-angular-menu.mjs', limit: '2 kB' },
+  { name: '@cocokits/vue/menu', path: 'packages/vue/dist/menu/index.js', limit: '4650 B' },
+  { name: '@cocokits/angular/menu', path: 'dist/packages/angular/fesm2022/cocokits-angular-menu.mjs', limit: '4280 B' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
