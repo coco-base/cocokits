@@ -17,6 +17,8 @@ const PARTS = [
   { tag: 'cck-field-error', cls: 'cck-field-error', element: 'div' },
   { tag: 'cck-form-field', cls: 'cck-form-field', element: 'div' },
   { tag: 'cck-hint', cls: 'cck-hint', element: 'div' },
+  { tag: 'cck-menu-content', cls: 'cck-menu__content', element: 'div' },
+  { tag: 'cck-menu-item', cls: 'cck-menu__item', element: 'div', parent: 'cck-menu__content' },
   { tag: 'cck-popover-arrow', cls: 'cck-popover__arrow', element: 'span' },
   { tag: 'cck-popover-content', cls: 'cck-popover__content', element: 'div' },
   { tag: 'cck-popover-description', cls: 'cck-popover__description', element: 'p' },

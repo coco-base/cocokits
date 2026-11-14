@@ -90,6 +90,10 @@
       "types": "./dist/leading/index.d.ts",
       "default": "./dist/leading/index.js"
     },
+    "./menu": {
+      "types": "./dist/menu/index.d.ts",
+      "default": "./dist/menu/index.js"
+    },
     "./popover": {
       "types": "./dist/popover/index.d.ts",
       "default": "./dist/popover/index.js"

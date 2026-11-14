@@ -46,3 +46,5 @@ export { CckChipTheme } from './chip-theme';
 export type { CckChipSize } from './chip-theme';
 export { CckChipListTheme } from './chip-list-theme';
 export type { CckChipListSize } from './chip-list-theme';
+export { CckMenuTheme } from './menu-theme';
+export type { CckMenuSize } from './menu-theme';
