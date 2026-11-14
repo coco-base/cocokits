@@ -50,3 +50,19 @@ export function formHiddenInputs(options: FormHiddenInputsOptions): VNode[] {
     }),
   );
 }
+
+/**
+ * The strings a custom form control submits: none without a `name` and without `required`; with `multiple`, one empty
+ * string while the list is empty and required, so the browser blocks the submit.
+ *
+ * @internal
+ * @param formInput - The machine's form-input facts.
+ * @param multiple - Whether the control holds a list of values.
+ * @returns The entries to render, one input each.
+ */
+export function formHiddenEntries(formInput: FormHiddenInputProps, multiple: boolean): readonly string[] {
+  const { name, required, values } = formInput;
+  if (!name && !required) return [];
+  if (multiple && values.length === 0 && required) return [''];
+  return values;
+}

@@ -24,7 +24,7 @@ import { formFieldStateAttrs } from '@cocokits/machines/form-field';
 import { Primitive, useFormParticipation, useThemeAttrs } from '@cocokits/vue-core';
 import { Chip } from '../chip';
 import { useFormFieldContext } from '../internal/form-field-context';
-import { formHiddenInputs } from '../internal/form-hidden-inputs';
+import { formHiddenEntries, formHiddenInputs } from '../internal/form-hidden-inputs';
 import { Nodes } from '../internal/own-content';
 import { omit } from '../internal/record';
 import { rootElementOf } from '../internal/root-element';
@@ -74,6 +74,7 @@ defineSlots<{
 
 const startValue: readonly string[] = props.defaultValue ?? [];
 const model = useDefaultModel(props, 'modelValue', startValue);
+const mountValue: readonly string[] = [...(model.value ?? [])];
 const current = computed<readonly string[]>(() => model.value ?? []);
 
 const attrs = useAttrs();
@@ -112,7 +113,7 @@ const participation = useFormParticipation({
     rejected.value = false;
     draft.value = '';
     inputsKey.value += 1;
-    model.value = [...startValue];
+    model.value = [...mountValue];
   },
 });
 
@@ -229,11 +230,7 @@ function onInvalid(): void {
 }
 
 /** The hidden inputs render for a name or for required; one empty input blocks the submit of an empty required list. */
-const formEntries = computed(() => {
-  const { name, required, values } = parts.value.formInput;
-  if (!name && !required) return [];
-  return values.length === 0 && required ? [''] : values;
-});
+const formEntries = computed(() => formHiddenEntries(parts.value.formInput, true));
 
 /** The attrs are not reactive, so the template reads them through a function. The machine's facts win. */
 const rootBound = (): Record<string, unknown> =>

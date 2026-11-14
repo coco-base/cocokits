@@ -37,7 +37,7 @@ import {
   useThemeAttrs,
 } from '@cocokits/vue-core';
 import { useFormFieldContext } from '../internal/form-field-context';
-import { formHiddenInputs } from '../internal/form-hidden-inputs';
+import { formHiddenEntries, formHiddenInputs } from '../internal/form-hidden-inputs';
 import { liveElementRef } from '../internal/live-element';
 import { omit } from '../internal/record';
 import { useFieldControl } from '../internal/use-field-control';
@@ -419,10 +419,8 @@ provideSelect({
 const slotProps = computed(() => ({ modelValue: current.value, open: isOpen.value }));
 /** The hidden inputs render for a name or for required; a cleared single Select carries `nullableValue`. */
 const formEntries = computed(() => {
-  const { name, required, values } = parts.value.formInput;
-  if (!name && !required) return [];
-  if (multiple.value) return values.length === 0 && required ? [''] : values;
-  return isSelectEmpty(state.value) ? [props.nullableValue] : values;
+  const entries = formHiddenEntries(parts.value.formInput, multiple.value);
+  return !multiple.value && entries.length > 0 && isSelectEmpty(state.value) ? [props.nullableValue] : entries;
 });
 /**
  * The attrs are not reactive, so the template reads them through a function. The machine's facts win. The element

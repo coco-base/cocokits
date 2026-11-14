@@ -167,6 +167,20 @@ describe('ChipList in a native form', () => {
     expect(entries('toppings')).toEqual(['A']);
   });
 
+  it('restores the value at mount on reset when the list has no default value', async () => {
+    const onUpdate = vi.fn();
+    const parent = bound(['A'], onUpdate);
+    mountView(() =>
+      h('form', [list({ ...parent.props(), name: 'toppings' }), h('button', { type: 'reset' }, 'Reset')]),
+    );
+    await userEvent.type(box(), 'B{Enter}');
+    onUpdate.mockClear();
+    await userEvent.click(screen.getByText('Reset'));
+    await nextTask();
+    expect(onUpdate).toHaveBeenCalledExactlyOnceWith(['A']);
+    expect(chipTexts()).toEqual(['A']);
+  });
+
   it('is disabled by a disabled fieldset: the text box, the buttons and the fact', async () => {
     mountView(() => h('form', [h('fieldset', { disabled: true }, [list({ name: 't', defaultValue: ['A'] })])]));
     await nextTask();
