@@ -1,5 +1,6 @@
 import { computed, inject, linkedSignal, signal, type Signal, type WritableSignal } from '@angular/core';
 import { IdGenerator } from '@cocokits/angular-core';
+import { hiddenInputEntries } from '@cocokits/angular/form-control';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import { createTypeahead } from '@cocokits/cdk/roving-focus';
 import type { FormFieldControlContext, FormFieldControlProps } from '@cocokits/machines/form-field';
@@ -168,11 +169,6 @@ export function createSelectState<V>(inputs: SelectStateInputs<V>): SelectStateC
     empty: computed(() => isSelectEmpty(state())),
     text: computed(() => getSelectValueText(state())),
     triggerContext: computed(() => ({ selected: getSelectPreviewValues(state()) })),
-    formInputs: computed<readonly string[]>(() => {
-      const formInput = parts().formInput;
-      if (!formInput.name) return [];
-      if (!inputs.multiple()) return formInput.values;
-      return formInput.values.length === 0 && formInput.required ? [''] : formInput.values;
-    }),
+    formInputs: computed<readonly string[]>(() => hiddenInputEntries(parts().formInput, inputs.multiple())),
   };
 }

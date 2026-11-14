@@ -18,6 +18,7 @@ import {
   injectPartIconName,
   injectZoneBoundary,
 } from '@cocokits/angular-core';
+import { handleHiddenInputInvalid } from '@cocokits/angular/form-control';
 import { deepActiveElement } from '@cocokits/cdk/focus';
 import { trackLabelActivation, type LabelActivation } from '@cocokits/cdk/form-control';
 import {
@@ -283,12 +284,12 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
      * after the event, so the trigger takes the focus back in the next task.
      */
     onInvalid: (event) => {
-      validationMessage.set((event.target as HTMLInputElement).validationMessage);
+      validationMessage.set(
+        handleHiddenInputInvalid(event, () => {
+          o.trigger()?.nativeElement.focus();
+        }),
+      );
       model.blockedSubmit.set(true);
-      o.trigger()?.nativeElement.focus();
-      setTimeout(() => {
-        o.trigger()?.nativeElement.focus();
-      }, 0);
     },
     /**
      * The browser wrote into a hidden input (autofill). A single Select chooses the enabled option whose form
