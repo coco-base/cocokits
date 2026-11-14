@@ -49,7 +49,7 @@ export type ChipListChangeDetails = ValueChangeDetails<string[], ChipListChangeR
  *
  * @example
  * <cck-chip-list [(value)]="dishes" placeholder="Add a dish" aria-label="Dishes" />
- * <!-- In the class: readonly dishes = signal<string[]>(['Pizza']); -->
+ * <!-- In the class: readonly dishes = signal(['Pizza']); -->
  * @cckPart root
  * @cckPart input
  */
@@ -118,7 +118,7 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
    * @remarks Changing the value from code never emits `valueChangeDetails`.
    * @example
    * <cck-chip-list [(value)]="dishes" aria-label="Dishes" />
-   * <!-- In the class: readonly dishes = signal<string[]>(['Pizza', 'Salad']); -->
+   * <!-- In the class: readonly dishes = signal(['Pizza', 'Salad']); -->
    * @cckSemantic chip-list.value
    * @defaultValue []
    */
