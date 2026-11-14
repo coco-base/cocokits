@@ -162,6 +162,7 @@
       "@cocokits/vue/label": ["./packages/vue/src/label/index.ts"],
       "@cocokits/vue/leading": ["./packages/vue/src/leading/index.ts"],
       "@cocokits/vue/popover": ["./packages/vue/src/popover/index.ts"],
+      "@cocokits/vue/menu": ["./packages/vue/src/menu/index.ts"],
       "@cocokits/vue/prefix": ["./packages/vue/src/prefix/index.ts"],
       "@cocokits/vue/radio": ["./packages/vue/src/radio/index.ts"],
       "@cocokits/vue/radio-group": ["./packages/vue/src/radio-group/index.ts"],

@@ -176,6 +176,8 @@ const entries = [
   { name: '@cocokits/angular/chip-list', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip-list.mjs', limit: '3040 B' },
   { name: '@cocokits/machines/menu', path: 'packages/machines/dist/menu/index.js', limit: '2470 B' },
   { name: '@cocokits/react/menu', path: 'packages/react/dist/menu/index.js', limit: '5150 B' },
+  { name: '@cocokits/vue/menu', path: 'packages/vue/dist/menu/index.js', limit: '2 kB' },
+  { name: '@cocokits/angular/menu', path: 'dist/packages/angular/fesm2022/cocokits-angular-menu.mjs', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
