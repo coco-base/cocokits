@@ -1,7 +1,7 @@
 export { menuAnatomy } from './menu.anatomy';
 export { menuMeta } from './menu.meta';
 export { getMenuProps, menuIds, transitionMenu } from './menu';
-export { createMenuContentKeyDown, createMenuTriggerKeyDown, menuKeymap } from './menu-keyboard';
+export { createMenuContentKeyDown, createMenuItemKeyDown, createMenuTriggerKeyDown, menuKeymap } from './menu-keyboard';
 export type {
   MenuAlign,
   MenuChangeReason,

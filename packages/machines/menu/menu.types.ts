@@ -43,6 +43,8 @@ export interface MenuState {
   readonly side?: MenuSide | undefined;
   /** The resolved alignment, from the adapter's placement state. @defaultValue 'start' */
   readonly align?: MenuAlign | undefined;
+  /** The id the trigger renders: the author's. @defaultValue the generated `<id>-trigger` */
+  readonly triggerId?: string | undefined;
   /** The mounted items in DOM order. @defaultValue [] */
   readonly items?: readonly MenuItemEntry[] | undefined;
   /**
@@ -162,6 +164,8 @@ export interface MenuItemProps extends MenuPartProps {
   readonly onClick: (event: Event) => void;
   /** Sends `ITEM.FOCUS`. */
   readonly onFocus: (event: Event) => void;
+  /** Enter and Space press the item; a disabled item only holds the default action. */
+  readonly onKeyDown: (event: KeyboardEvent) => void;
 }
 
 /** What `getMenuProps` returns. The root renders no element, so it has no props. */

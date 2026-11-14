@@ -93,19 +93,11 @@ function typeahead(state: MenuState, event: KeyboardEvent): KeyResult | null {
   return { send: { type: 'CONTENT.MOVE', key, event }, prevent: true };
 }
 
-/** Enter or Space presses the active item; a disabled one only holds the default. */
-function press(state: MenuState, event: KeyboardEvent): KeyResult {
-  const active = items(state).find((item) => item.key === activeKeyOf(state));
-  if (!active || active.disabled) return { send: null, prevent: true };
-  return { send: { type: 'ITEM.PRESS', key: active.key, event }, prevent: true };
-}
-
 /** One action per intent the content handles. `native` and `layer` rows belong to the browser and the layers. */
 const contentActions: Partial<Record<MenuKeyBinding['intent'], KeyAction>> = {
   step: moved,
   edge: moved,
   typeahead,
-  press,
 };
 
 /**
@@ -132,7 +124,7 @@ export function createMenuTriggerKeyDown(
 
 /**
  * Builds the `keydown` handler of the content: the arrows, Home and End move between items, a printable
- * character finds an item by its text, Enter and Space press the active item. Escape, Tab and Shift+Tab are
+ * character finds an item by its text. A key on the content itself never presses an item. Escape, Tab and Shift+Tab are
  * left to the dismissal stack and the focus guards. A key the menu does not handle is left alone, as is a
  * vetoed, composing or modified key.
  *
@@ -147,11 +139,38 @@ export function createMenuContentKeyDown(
   return (event) => {
     if (shouldIgnore(event)) return;
     if (event.shiftKey && event.key.length > 1) return;
-    const binding = find(['Menu', 'Menu item'], state, event);
-    const action = binding ? contentActions[binding.intent] : isPrintable(event) ? typeahead : undefined;
+    const binding = find(['Menu'], state, event);
+    const action = binding
+      ? contentActions[binding.intent]
+      : isPrintable(event) && event.key !== ' '
+        ? typeahead
+        : undefined;
     const result = action?.(state, event);
     if (!result) return;
     if (result.prevent) event.preventDefault();
     if (result.send) send(result.send);
+  };
+}
+
+/**
+ * Builds the `keydown` handler of one item: Enter and Space press it, and a disabled item only holds the
+ * default action. Space belongs to the content's typeahead while a search is running. A vetoed, composing or
+ * modified key, and Shift with Enter, are left alone.
+ *
+ * @param state - The menu state, with its typeahead.
+ * @param entry - The item the handler is for.
+ * @param send - Receives the event the key stands for.
+ * @returns The handler.
+ */
+export function createMenuItemKeyDown(
+  state: MenuState,
+  entry: MenuItemEntry,
+  send: (event: MenuEvent) => void,
+): (event: KeyboardEvent) => void {
+  return (event) => {
+    if (shouldIgnore(event) || event.shiftKey) return;
+    if (event.key !== 'Enter' && (event.key !== ' ' || isTypingSpace(state, event))) return;
+    event.preventDefault();
+    if (entry.disabled !== true) send({ type: 'ITEM.PRESS', key: entry.key, event });
   };
 }

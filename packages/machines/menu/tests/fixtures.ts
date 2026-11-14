@@ -2,6 +2,7 @@ import { vi, type Mock } from 'vitest';
 import type { Typeahead } from '@cocokits/cdk/roving-focus';
 import {
   createMenuContentKeyDown,
+  createMenuItemKeyDown,
   createMenuTriggerKeyDown,
   type MenuEvent,
   type MenuItemEntry,
@@ -71,6 +72,12 @@ export function keyOnTrigger(state: MenuState, keyName: string, init: KeyInit = 
 export function keyInContent(state: MenuState, keyName: string, init: KeyInit = {}): KeyRun {
   const send = vi.fn<(sent: MenuEvent) => void>();
   return run(createMenuContentKeyDown(state, send), send, keyName, init);
+}
+
+/** Presses a key on one item of the state. */
+export function keyOnItem(state: MenuState, entry: MenuItemEntry, keyName: string, init: KeyInit = {}): KeyRun {
+  const send = vi.fn<(sent: MenuEvent) => void>();
+  return run(createMenuItemKeyDown(state, entry, send), send, keyName, init);
 }
 
 /** A fake typeahead with a fixed match, for tests that only look at what the keymap sends. */

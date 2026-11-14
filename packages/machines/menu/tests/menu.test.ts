@@ -63,6 +63,15 @@ describe('content', () => {
     });
   });
 
+  it('uses the author trigger id for the trigger and the name of the content', () => {
+    const parts = getMenuProps(opened({ triggerId: 'mine' }), vi.fn());
+    expect(parts.trigger.id).toBe('mine');
+    expect(parts.content['aria-labelledby']).toBe('mine');
+    const plain = getMenuProps(opened(), vi.fn());
+    expect(plain.trigger.id).toBe('m1-trigger');
+    expect(plain.content['aria-labelledby']).toBe('m1-trigger');
+  });
+
   it('leaves the name to the author, and renders the resolved placement', () => {
     const content = getMenuProps(opened({ named: true, side: 'top', align: 'end' }), vi.fn()).content;
     expect(content['aria-labelledby']).toBeUndefined();

@@ -1,4 +1,4 @@
-import { createMenuContentKeyDown, createMenuTriggerKeyDown } from './menu-keyboard';
+import { createMenuContentKeyDown, createMenuItemKeyDown, createMenuTriggerKeyDown } from './menu-keyboard';
 import { menuAnatomy } from './menu.anatomy';
 import type {
   MenuEvent,
@@ -50,13 +50,14 @@ export function transitionMenu(state: MenuState, event: MenuEvent): MenuTransiti
 export function getMenuProps(state: MenuState, send: (event: MenuEvent) => void): MenuParts {
   const { classes } = menuAnatomy;
   const ids = menuIds(state.id);
+  const triggerId = state.triggerId ?? ids.trigger;
   const dataState = state.open ? 'open' : 'closed';
   const first = state.items?.[0]?.key;
   const activeKey = state.items?.some((item) => item.key === state.activeKey) ? state.activeKey : first;
   return {
     trigger: {
       class: classes.trigger,
-      id: ids.trigger,
+      id: triggerId,
       type: 'button',
       'aria-haspopup': 'menu',
       'aria-expanded': state.open ? 'true' : 'false',
@@ -72,7 +73,7 @@ export function getMenuProps(state: MenuState, send: (event: MenuEvent) => void)
       id: ids.content,
       role: 'menu',
       tabIndex: -1,
-      'aria-labelledby': state.named ? undefined : ids.trigger,
+      'aria-labelledby': state.named ? undefined : triggerId,
       'data-state': dataState,
       'data-side': state.side ?? 'bottom',
       'data-align': state.align ?? 'start',
@@ -91,6 +92,7 @@ export function getMenuProps(state: MenuState, send: (event: MenuEvent) => void)
       onFocus: () => {
         send({ type: 'ITEM.FOCUS', key: entry.key });
       },
+      onKeyDown: createMenuItemKeyDown(state, entry, send),
     }),
   };
 }

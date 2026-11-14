@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createTypeahead } from '@cocokits/cdk/roving-focus';
 import { menuKeymap, menuMeta, type MenuItemEntry } from '../index';
-import { base, edit, fakeTypeahead, keyInContent, keyOnTrigger, opened } from './fixtures';
+import { base, duplicate, edit, fakeTypeahead, keyInContent, keyOnItem, keyOnTrigger, move, opened } from './fixtures';
 
 describe('keymap and meta', () => {
   it('has one meta keyboard row for every binding row, and a binding for every meta row', () => {
@@ -139,25 +139,44 @@ describe('typeahead', () => {
     const noMatch = keyInContent(opened({ typeahead: fakeTypeahead(() => null, true) }), ' ');
     expect(noMatch.send).not.toHaveBeenCalled();
     expect(noMatch.event.defaultPrevented).toBe(true);
-    const idle = keyInContent(opened({ typeahead: fakeTypeahead(() => 1, false) }), ' ');
+    const idle = keyOnItem(opened({ typeahead: fakeTypeahead(() => 1, false) }), edit, ' ');
     expect(idle.sent).toMatchObject({ type: 'ITEM.PRESS', key: 'edit' });
+    const typing = keyOnItem(opened({ typeahead: fakeTypeahead(() => 1, true) }), edit, ' ');
+    expect(typing.send).not.toHaveBeenCalled();
+    expect(typing.event.defaultPrevented).toBe(false);
   });
 });
 
 describe('pressing an item', () => {
-  it('presses the active item with Enter and Space and holds the default', () => {
+  it('presses the item the key is on with Enter and Space and holds the default', () => {
     for (const name of ['Enter', ' ']) {
-      const result = keyInContent(opened({ activeKey: 'duplicate' }), name);
+      const result = keyOnItem(opened(), duplicate, name);
       expect(result.sent).toMatchObject({ type: 'ITEM.PRESS', key: 'duplicate' });
       expect(result.event.defaultPrevented).toBe(true);
     }
   });
 
-  it('sends nothing for a disabled item', () => {
+  it('sends nothing for a disabled item, but holds the default', () => {
     for (const name of ['Enter', ' ']) {
-      const result = keyInContent(opened({ activeKey: 'move' }), name);
+      const result = keyOnItem(opened(), move, name);
       expect(result.send).not.toHaveBeenCalled();
       expect(result.event.defaultPrevented).toBe(true);
+    }
+  });
+
+  it('ignores other keys, Shift with Enter, and modified, composing or prevented keys', () => {
+    expect(keyOnItem(opened(), edit, 'ArrowDown').send).not.toHaveBeenCalled();
+    for (const init of [{ shiftKey: true }, { ctrlKey: true }, { isComposing: true }, { defaultPrevented: true }]) {
+      const result = keyOnItem(opened(), edit, 'Enter', init);
+      expect(result.send).not.toHaveBeenCalled();
+    }
+  });
+
+  it('presses nothing for a key on the content itself', () => {
+    for (const name of ['Enter', ' ']) {
+      const result = keyInContent(opened({ typeahead: fakeTypeahead(() => null) }), name);
+      expect(result.send).not.toHaveBeenCalled();
+      expect(result.event.defaultPrevented).toBe(false);
     }
   });
 });
