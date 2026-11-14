@@ -87,4 +87,24 @@ describe('theme menu', () => {
     expect(content.getAttribute('data-side')).toBe('bottom');
     expect(screen.getAllByRole('menuitem')).toHaveLength(2);
   });
+
+  it.each([
+    ['escapeKeyDown', 'onEscapeKeyDown', async () => userEvent.setup().keyboard('{Escape}')],
+    [
+      'pointerDownOutside',
+      'onPointerDownOutside',
+      async () =>
+        userEvent.setup().pointer([{ target: document.body }, { keys: '[MouseLeft>]', target: document.body }]),
+    ],
+  ] as const)('forwards %s to the listener on the themed content', async (_name, listener, act) => {
+    const handler = vi.fn((event: Event) => {
+      event.preventDefault();
+    });
+    const content = await open(themed(() => example({ [listener]: handler })));
+    await act();
+    expect(handler).toHaveBeenCalled();
+    // The listener refused the close, so the menu is still open.
+    expect(content.isConnected).toBe(true);
+    expect(content.getAttribute('data-state')).toBe('open');
+  });
 });

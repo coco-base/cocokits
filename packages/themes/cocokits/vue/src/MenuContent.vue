@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { MenuContent as BaseMenuContent } from '@cocokits/vue/menu';
+import { MenuContent as BaseMenuContent, type MenuContentEmits } from '@cocokits/vue/menu';
 import { provideThemeOptions } from '@cocokits/vue-core';
 import type { MenuContentProps } from './menu.types';
 
 defineOptions({ name: 'MenuContent' });
 
-// `undefined` lets the base decide each default. The listeners of the base emits arrive as attributes and fall
-// through to the base component.
+// `undefined` lets the base decide each default.
 const props = withDefaults(defineProps<MenuContentProps>(), {
   side: undefined,
   align: undefined,
@@ -16,6 +15,8 @@ const props = withDefaults(defineProps<MenuContentProps>(), {
   asChild: undefined,
   size: undefined,
 });
+
+const emit = defineEmits<MenuContentEmits>();
 
 provideThemeOptions('menu', () => ({ size: props.size }));
 </script>
@@ -28,6 +29,10 @@ provideThemeOptions('menu', () => ({ size: props.size }));
     :align-offset="alignOffset"
     :as="as"
     :as-child="asChild"
+    @escape-key-down="emit('escapeKeyDown', $event)"
+    @pointer-down-outside="emit('pointerDownOutside', $event)"
+    @focus-outside="emit('focusOutside', $event)"
+    @interact-outside="emit('interactOutside', $event)"
   >
     <slot />
   </BaseMenuContent>
