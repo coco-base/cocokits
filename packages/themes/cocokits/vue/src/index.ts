@@ -83,3 +83,7 @@ export type {
   AvatarLabelSize,
   AvatarLabelTextLayout,
 } from './avatar-label.types';
+export { default as Chip } from './Chip.vue';
+export type { ChipProps, ChipSize } from './chip.types';
+export { default as ChipList } from './ChipList.vue';
+export type { ChipListProps, ChipListSize } from './chip-list.types';
