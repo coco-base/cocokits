@@ -161,6 +161,9 @@ export interface ChipListProps extends Omit<
   readonly submitted?: boolean | undefined;
   /**
    * Whether the list is hidden. It sets the native `hidden`. When not set, the list shows.
+   *
+   * @cckSemantic none
+   * @cckParity A native attribute of the element.
    */
   readonly hidden?: boolean | undefined;
   /**
