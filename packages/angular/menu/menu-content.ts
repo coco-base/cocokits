@@ -1,6 +1,7 @@
 import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input } from '@angular/core';
-import { bindAttrs } from '@cocokits/angular-core';
+import { bindAttrs, themeAttrs } from '@cocokits/angular-core';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
+import { menuAnatomy } from '@cocokits/machines/menu';
 import { hasAccessibleName } from '@cocokits/utils';
 import { injectCckMenu } from './menu';
 
@@ -59,7 +60,9 @@ export class CckMenuContent {
     inject(DestroyRef).onDestroy(() => {
       this.root._content.update((current) => (current === registration ? null : current));
     });
-    bindAttrs(element, () => this.root._theme().content);
+    // The content reads the theme options of its own element (a theme directive on `cck-menu-content`), not the root's.
+    const theme = themeAttrs(menuAnatomy);
+    bindAttrs(element, () => theme().content);
     afterNextRender(() => {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(element)) {
