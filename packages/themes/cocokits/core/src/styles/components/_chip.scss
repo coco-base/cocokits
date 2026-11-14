@@ -1,0 +1,108 @@
+// Chip rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-chip-* tokens: the size mode on the root, the rest from the structure. The remove
+// button's SvgIcon is 1em, so the button's `font-size` is the icon size (the IconButton precedent). The chip sets
+// `display`, so it restates its `[hidden]`. A Chip list may set the height of the chips it renders (_chip-list.scss).
+@mixin rules {
+  .cck-chip {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--cck-chip-gap);
+    block-size: var(--cck-chip-height);
+    padding-block: 0;
+    padding-inline: var(--cck-chip-padding-inline);
+    border: var(--cck-chip-border-width) solid var(--cck-chip-border-color);
+    border-radius: var(--cck-chip-radius);
+    color: var(--cck-chip-text-color);
+    font-family: var(--cck-chip-font-family);
+    font-size: var(--cck-chip-font-size);
+    font-weight: var(--cck-chip-font-weight);
+    line-height: var(--cck-chip-line-height);
+    letter-spacing: var(--cck-chip-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-disabled] {
+      border-color: var(--cck-chip-disabled-border-color);
+      color: var(--cck-chip-disabled-text-color);
+    }
+  }
+
+  .cck-chip__content-wrapper {
+    display: inline-flex;
+    align-items: center;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-chip__remove {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--cck-chip-remove-size);
+    block-size: var(--cck-chip-remove-size);
+    // Leaves the end of the chip a small inset instead of the full padding: the button sits close to the edge.
+    margin-inline-end: calc(var(--cck-chip-remove-end-inset) - var(--cck-chip-padding-inline));
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--cck-chip-remove-color);
+    font-size: var(--cck-chip-remove-icon-size);
+    line-height: 1;
+    cursor: pointer;
+
+    &[hidden] {
+      display: none;
+    }
+
+    &:hover {
+      background-color: var(--cck-chip-remove-hover-bg);
+    }
+
+    // After the hover, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    &[data-disabled],
+    &:disabled {
+      background-color: transparent;
+      color: var(--cck-chip-disabled-text-color);
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: var(--cck-chip-focus-width) solid var(--cck-chip-focus-color);
+      outline-offset: var(--cck-chip-focus-offset);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-chip {
+      border-color: CanvasText;
+
+      &[data-disabled] {
+        border-color: GrayText;
+        color: GrayText;
+      }
+    }
+
+    .cck-chip__remove {
+      color: ButtonText;
+
+      &[data-disabled],
+      &:disabled {
+        color: GrayText;
+      }
+
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+  }
+}

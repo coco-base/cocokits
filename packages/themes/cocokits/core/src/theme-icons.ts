@@ -1,7 +1,7 @@
-import { checkIcon, chevronDownIcon, type Icon } from '@cocokits/icons';
+import { checkIcon, chevronDownIcon, closeIcon, type Icon } from '@cocokits/icons';
 
 /**
- * The icons the cocokits theme names in `components.<name>.icons`. Both are base icons, so they are always
+ * The icons the cocokits theme names in `components.<name>.icons`. All are base icons, so they are always
  * registered. An app that names another icon in `components.<name>.icons` must register it, or the part draws its
  * default and development logs an error.
  *
@@ -11,9 +11,14 @@ import { checkIcon, chevronDownIcon, type Icon } from '@cocokits/icons';
  * provideCckIcons({ icons: cocokitsThemeIcons });
  * ```
  */
-export const cocokitsThemeIcons: { readonly 'chevron-down': Icon; readonly check: Icon } = {
+export const cocokitsThemeIcons: {
+  readonly 'chevron-down': Icon;
+  readonly check: Icon;
+  readonly close: Icon;
+} = {
   'chevron-down': chevronDownIcon,
   check: checkIcon,
+  close: closeIcon,
 };
 
 /** The name of an icon of `cocokitsThemeIcons`. */

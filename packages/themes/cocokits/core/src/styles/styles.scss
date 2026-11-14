@@ -25,6 +25,8 @@
 @use 'components/_avatar' as avatar;
 @use 'components/_avatar-group' as avatar-group;
 @use 'components/_avatar-label' as avatar-label;
+@use 'components/_chip' as chip;
+@use 'components/_chip-list' as chip-list;
 @use 'components/_side-offset' as side-offset;
 
 @include side-offset.register;
@@ -52,6 +54,8 @@
   @include accordion.rules;
   @include divider.rules;
   @include icon-button.rules;
+  @include chip.rules;
+  @include chip-list.rules;
   @include svg-icon.rules;
   @include avatar.rules;
   @include avatar-group.rules;

@@ -5,7 +5,7 @@ const stylesCss = ['form-field', 'label', 'hint', 'input', 'textarea', 'field-er
   .map((name) => read('dist', 'components', `${name}.css`))
   .join('\n');
 /** The input wrapper that holds a text control: the box. */
-const BOX = '.cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea)';
+const BOX = '.cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
 const scss = ['_form-field.scss', '_label.scss', '_hint.scss', '_input.scss', '_textarea.scss', '_field-error.scss']
   .map((file) => read('src', 'styles', 'components', file))
   .join('\n');
@@ -177,13 +177,14 @@ describe('the box of the input wrapper', () => {
 
   it('shows the invalid border only when invalid and (touched or submitted)', () => {
     const selector =
-      '.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea)';
+      '.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
     expect(declarationsOf(stylesCss, selector)).toContain('border-color: var(--cck-form-field-invalid-border-color)');
     expect(scss).not.toMatch(/(^|\n)\s*\[data-/);
   });
 
   it('gives invalid and read-only a cue that is not color, outside forced colors too', () => {
-    const wrapper = '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea)';
+    const wrapper =
+      '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
     const invalid = declarationsOf(
       stylesCss,
       `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) ${wrapper}`,
@@ -197,7 +198,8 @@ describe('the box of the input wrapper', () => {
   });
 
   it('lets disabled win over invalid and touched: no invalid line and the disabled border', () => {
-    const wrapper = '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea)';
+    const wrapper =
+      '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
     const disabled = declarationsOf(stylesCss, `.cck-form-field:where([data-disabled]) ${wrapper}`) ?? '';
     expect(disabled).toContain('box-shadow: none');
     expect(disabled).toContain('border-color: var(--cck-form-field-disabled-border-color)');
@@ -216,7 +218,8 @@ describe('the box of the input wrapper', () => {
   });
 
   it('colours the disabled and read-only boxes from the facts of the root', () => {
-    const wrapper = '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea)';
+    const wrapper =
+      '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
     expect(declarationsOf(stylesCss, `.cck-form-field:where([data-disabled]) ${wrapper}`)).toContain(
       'background-color: var(--cck-form-field-disabled-bg)',
     );

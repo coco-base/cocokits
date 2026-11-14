@@ -188,3 +188,33 @@ describe('avatar text (WCAG 1.4.3, 4.5:1)', () => {
     expect(contrast(resolve('Theme / Color#text/2', mode), surface)).toBeGreaterThanOrEqual(4.5);
   });
 });
+
+describe('chip colors on the surface (text 4.5:1, 1.4.11 non-text 3:1)', () => {
+  const MODES = ['Light', 'Dark'];
+  const surface = (mode: string): string => resolve('Theme / Color#surface/1', mode);
+
+  it.each(MODES)('the chip text on the surface in %s mode', (mode) => {
+    expect(contrast(resolve('Theme / Color#text/1', mode), surface(mode))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(MODES)('the remove icon and the chip border on the surface in %s mode', (mode) => {
+    expect(contrast(resolve('Theme / Color#text/2', mode), surface(mode))).toBeGreaterThanOrEqual(3);
+    expect(contrast(resolve('Theme / Color#border/3', mode), surface(mode))).toBeGreaterThanOrEqual(3);
+  });
+
+  it.each(MODES)('the remove icon on its hover tint in %s mode', (mode) => {
+    const hover = resolve('Theme / Color#contrast/container', mode);
+    expect(contrast(resolve('Theme / Color#text/2', mode), hover)).toBeGreaterThanOrEqual(3);
+  });
+
+  it('points the remove icon at text/2 and the text at text/1', () => {
+    const tokens = JSON.parse(
+      readFileSync(join(import.meta.dirname, '..', 'src', 'tokens', 'chip.tokens.json'), 'utf8'),
+    ) as { collections: Collection[] };
+    const structure = tokens.collections.find((c) => c.name === 'Chip / Structure');
+    const value = (name: string): string | number | undefined =>
+      structure?.tokens.find((t) => t.name === name)?.valuesByMode.Default;
+    expect(value('remove-color')).toBe('{Theme / Color#text/2}');
+    expect(value('text-color')).toBe('{Theme / Color#text/1}');
+  });
+});
