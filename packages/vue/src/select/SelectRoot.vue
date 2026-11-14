@@ -37,6 +37,7 @@ import {
   useThemeAttrs,
 } from '@cocokits/vue-core';
 import { useFormFieldContext } from '../internal/form-field-context';
+import { formHiddenInputs } from '../internal/form-hidden-inputs';
 import { liveElementRef } from '../internal/live-element';
 import { omit } from '../internal/record';
 import { useFieldControl } from '../internal/use-field-control';
@@ -440,24 +441,15 @@ function inner(content?: VNode[]): VNode[] {
   const { formInput, validationMessage } = parts.value;
   return [
     ...(content ?? []),
-    ...formEntries.value.map((entry, index) =>
-      h('input', {
-        key: [inputsKey.value, index].join(':'),
-        type: 'text',
-        tabindex: -1,
-        'aria-hidden': 'true',
-        autocomplete: props.autocomplete ?? 'off',
-        style: visuallyHiddenStyle,
-        name: formInput.name,
-        form: props.form,
-        required: formInput.required,
-        disabled: formInput.disabled,
-        value: entry,
-        onInvalid,
-        onInput: onFormWrite,
-        onChange: onFormWrite,
-      }),
-    ),
+    ...formHiddenInputs({
+      entries: formEntries.value,
+      formInput,
+      form: props.form,
+      autocomplete: props.autocomplete ?? 'off',
+      generation: inputsKey.value,
+      onInvalid,
+      onWrite: onFormWrite,
+    }),
     ...(rejected.value ? [h('span', { ...validationMessage, style: visuallyHiddenStyle }, rejection.value)] : []),
   ];
 }

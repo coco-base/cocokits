@@ -168,6 +168,12 @@ const entries = [
   { name: '@cocokits/angular/avatar-group', path: 'dist/packages/angular/fesm2022/cocokits-angular-avatar-group.mjs', limit: '760 B' },
   { name: '@cocokits/machines/chip', path: 'packages/machines/dist/chip/index.js', limit: '2 kB' },
   { name: '@cocokits/machines/chip-list', path: 'packages/machines/dist/chip-list/index.js', limit: '2 kB' },
+  { name: '@cocokits/vue/chip', path: 'packages/vue/dist/chip/index.js', limit: '2 kB' },
+  { name: '@cocokits/vue/chip-list', path: 'packages/vue/dist/chip-list/index.js', limit: '2 kB' },
+  { name: '@cocokits/react/chip', path: 'packages/react/dist/chip/index.js', limit: '2 kB' },
+  { name: '@cocokits/react/chip-list', path: 'packages/react/dist/chip-list/index.js', limit: '2 kB' },
+  { name: '@cocokits/angular/chip', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip.mjs', limit: '2 kB' },
+  { name: '@cocokits/angular/chip-list', path: 'dist/packages/angular/fesm2022/cocokits-angular-chip-list.mjs', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
