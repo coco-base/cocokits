@@ -29,7 +29,7 @@ export interface MenuRootProps {
    * its content after hydration.
    *
    * @example
-   * <MenuRoot v-model:open="open">�</MenuRoot>
+   * <MenuRoot v-model:open="open">...</MenuRoot>
    *
    * @cckSemantic menu.open
    * @cckParity Bound with `v-model:open`.
