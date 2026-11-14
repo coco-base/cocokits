@@ -118,6 +118,7 @@
       "@cocokits/react/label": ["./packages/react/src/label/index.ts"],
       "@cocokits/react/leading": ["./packages/react/src/leading/index.ts"],
       "@cocokits/react/popover": ["./packages/react/src/popover/index.ts"],
+      "@cocokits/react/menu": ["./packages/react/src/menu/index.ts"],
       "@cocokits/react/prefix": ["./packages/react/src/prefix/index.ts"],
       "@cocokits/react/radio": ["./packages/react/src/radio/index.ts"],
       "@cocokits/react/radio-group": ["./packages/react/src/radio-group/index.ts"],
