@@ -393,3 +393,54 @@ describe('checkbox disabled border and radio dot', () => {
     expect(structureTokenOf('.cck-checkbox', 'checkbox-box-invalid-border-width')).toBe(ref('size-3'));
   });
 });
+
+// The design: Switch, Contained style (S1 to S9). Halo, invalid and read-only keep today's look (D7).
+describe('switch design match', () => {
+  const ROOT = '.cck-switch';
+  const css = cssOf('switch');
+  const size = (mode: string, name: string): string | undefined => sizeTokenOf(ROOT, mode, `switch-${name}`);
+  const own = (name: string): string | undefined => structureTokenOf(ROOT, `switch-${name}`);
+
+  it.each([
+    ['sm', 'size-36', 'size-20', 'size-16'],
+    ['md', 'size-44', 'size-24', 'size-20'],
+    ['lg', '52px', 'size-28', 'size-24'],
+  ])('size %s: track %s by %s, thumb %s', (mode, width, height, thumb) => {
+    expect(size(mode, 'track-width')).toBe(width.endsWith('px') ? width : ref(width));
+    expect(size(mode, 'track-height')).toBe(ref(height));
+    expect(size(mode, 'thumb-size')).toBe(ref(thumb));
+  });
+
+  it.each([
+    ['thumb-offset', 'size-2'],
+    ['track-bg', 'surface-3'],
+    ['track-border-color', 'surface-3'],
+    ['track-hover-border-color', 'surface-3'],
+    ['track-disabled-border-color', 'disabled-surface'],
+    ['thumb-color', 'white'],
+    ['thumb-hover-color', 'white'],
+    ['thumb-border-width', 'border-width-1'],
+    ['thumb-border-color', 'on-surface-3'],
+    ['thumb-shadow', 'shadow-xs'],
+    ['thumb-disabled-color', 'disabled-border'],
+    ['thumb-checked-color', 'on-color'],
+    ['track-checked-bg', 'color'],
+    ['track-checked-border-color', 'edge'],
+  ])('structure token %s is %s', (name, value) => {
+    expect(own(name)).toBe(ref(value));
+  });
+
+  it('draws the thumb as a bordered, shadowed circle that keeps its size', () => {
+    const thumb = declarationsOf(css, '.cck-switch__thumb') ?? '';
+    expect(thumb).toContain('box-sizing: border-box');
+    expect(thumb).toContain('border: var(--cck-switch-thumb-border-width) solid var(--cck-switch-thumb-border-color)');
+    expect(thumb).toContain('box-shadow: var(--cck-switch-thumb-shadow)');
+  });
+
+  it('colours the disabled thumb border like its fill, and the forced-colors thumb border CanvasText or GrayText', () => {
+    expect(css).toMatch(/\[data-disabled\][^{]*__thumb \{\s*border-color: var\(--cck-switch-thumb-disabled-color\)/);
+    const forced = forcedOf(css);
+    expect(forced).toMatch(/__thumb \{\s*border-color: CanvasText/);
+    expect(forced).toMatch(/\[data-disabled\][^{]*__thumb \{\s*border-color: GrayText/);
+  });
+});
