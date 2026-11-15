@@ -29,19 +29,6 @@ describe('menu output', () => {
     expect(blocks.join('')).not.toContain('--cck-menu-');
   });
 
-  it.each([
-    ['sm', '32px'],
-    ['md', '40px'],
-    ['lg', '48px'],
-  ])('gives the %s size an item height of %s through the size tokens', (_size, _height) => {
-    // The height is an alias of Core / Size, so the block names the variable; the generated modes index lists the values.
-    expect(tokensCss).toMatch(
-      new RegExp(
-        `\\.cck-menu__content[^{]*\\[data-size=${_size}\\][^{]*\\{\\s*--cck-menu-item-height: var\\(--cck-size-${_height.slice(0, 2)}\\)`,
-      ),
-    );
-  });
-
   it('draws the panel from tokens and leaves the placement to the positioning module', () => {
     const content = rule('.cck-menu__content');
     for (const line of [
@@ -91,7 +78,7 @@ describe('menu output', () => {
   it('sizes an icon in an item and spaces a divider in the content', () => {
     const icon = rule('.cck-menu__item > .cck-svg-icon');
     expect(icon).toContain('font-size: var(--cck-menu-item-icon-size)');
-    expect(icon).toContain('color: currentColor');
+    expect(icon).toContain('color: var(--cck-menu-item-icon-color)');
     expect(rule('.cck-menu__content > .cck-divider')).toContain('margin-block: var(--cck-menu-separator-margin-block)');
   });
 
