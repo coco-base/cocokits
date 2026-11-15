@@ -13,15 +13,15 @@ export type {
 export { SvgIcon } from './svg-icon';
 export type { SvgIconColor, SvgIconProps, SvgIconRtlMirror, SvgIconSize } from './svg-icon';
 export { FormField } from './form-field';
-export type { FormFieldProps, FormFieldSize } from './form-field';
+export type { FormFieldProps, FormFieldSize, FormFieldWidth } from './form-field';
 export { Textarea } from './textarea';
-export type { TextareaAutoResize, TextareaProps } from './textarea';
+export type { TextareaAutoResize, TextareaProps, TextareaResize } from './textarea';
 export { Checkbox } from './checkbox';
 export type { CheckboxColor, CheckboxLabelPosition, CheckboxProps, CheckboxSize } from './checkbox';
 export { Radio } from './radio';
 export type { RadioColor, RadioLabelPosition, RadioProps, RadioSize } from './radio';
 export { Switch } from './switch';
-export type { SwitchColor, SwitchLabelPosition, SwitchProps, SwitchSize } from './switch';
+export type { SwitchColor, SwitchLabelPosition, SwitchProps, SwitchSize, SwitchVariant } from './switch';
 export { Tabs } from './tabs';
 export type { TabsColor, TabsHeaderAlign, TabsRootProps, TabsSize, TabsVariant } from './tabs-root';
 export { TabNav } from './tab-nav';
@@ -39,7 +39,7 @@ export type {
 export { Divider } from './divider';
 export type { DividerColor, DividerProps, DividerSize } from './divider';
 export { Avatar } from './avatar';
-export type { AvatarRootProps, AvatarSize } from './avatar-root';
+export type { AvatarColor, AvatarRootProps, AvatarSize } from './avatar-root';
 export { AvatarGroup } from './avatar-group';
 export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group';
 export { AvatarLabel } from './avatar-label';

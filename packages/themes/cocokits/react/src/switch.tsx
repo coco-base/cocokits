@@ -7,6 +7,8 @@ import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 
 type SwitchOptions = CocokitsThemeConfig['components']['switch'];
 
+/** The `variant` values of the cocokits theme. */
+export type SwitchVariant = SwitchOptions['variant']['values'][number];
 /** The `size` values of the cocokits theme. */
 export type SwitchSize = SwitchOptions['size']['values'][number];
 /** The `color` values of the cocokits theme. */
@@ -14,8 +16,12 @@ export type SwitchColor = SwitchOptions['color']['values'][number];
 /** The `labelPosition` values of the cocokits theme. */
 export type SwitchLabelPosition = SwitchOptions['labelPosition']['values'][number];
 
-/** Props of the themed {@link Switch}: the base props plus the three cocokits options. */
+/** Props of the themed {@link Switch}: the base props plus the four cocokits options. */
 export interface SwitchProps extends BaseSwitchProps {
+  /**
+   * Look of the track: a contained pill with the thumb inside, or a thin rail with the thumb on it.
+   */
+  readonly variant?: SwitchVariant | null | undefined;
   /**
    * Size of the track and its label text.
    */
@@ -30,9 +36,9 @@ export interface SwitchProps extends BaseSwitchProps {
   readonly labelPosition?: SwitchLabelPosition | null | undefined;
 }
 
-function ThemedSwitch({ size, color, labelPosition, ...props }: SwitchProps): ReactElement {
+function ThemedSwitch({ variant, size, color, labelPosition, ...props }: SwitchProps): ReactElement {
   return (
-    <ThemeOptionsProvider componentName="switch" options={{ size, color, labelPosition }}>
+    <ThemeOptionsProvider componentName="switch" options={{ variant, size, color, labelPosition }}>
       <BaseSwitch {...props} />
     </ThemeOptionsProvider>
   );
@@ -45,7 +51,7 @@ interface SwitchComponent {
 }
 
 /**
- * The cocokits Switch. It renders the base Switch and supplies `size`, `color` and `labelPosition` to it,
+ * The cocokits Switch. It renders the base Switch and supplies `variant`, `size`, `color` and `labelPosition` to it,
  * which renders the `data-*` attributes on the root. Each option resolves in order: the prop, then the
  * `ThemeProvider` override, then the config default; `null` removes the attribute. The theme needs a
  * `ThemeProvider`.
