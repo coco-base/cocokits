@@ -3,7 +3,7 @@
 // the theme only sizes it, so it sets no `position`, `inset` or `transform`. The page behind is the `::backdrop`, which
 // inherits the tokens of the content. The content takes `display: flex` only while `[open]`, so a closed dialog stays
 // hidden by the user agent. Motion keys off `data-state` and runs only with `prefers-reduced-motion: no-preference`;
-// the end state is right without it. A plain Close part (not a Button) is a small outlined button; the trigger is the author's (usually
+// the end state is right without it. A plain Close part (not a Button) is a bare 24px icon; the trigger is the author's (usually
 // a Button).
 @mixin rules {
   .cck-dialog__content {
@@ -81,12 +81,13 @@
     min-block-size: 24px;
     min-inline-size: 24px;
     padding: var(--cck-dialog-close-padding-block) var(--cck-dialog-close-padding-inline);
-    border: var(--cck-dialog-border-width) solid var(--cck-dialog-border-color);
+    border: 0;
     border-radius: var(--cck-dialog-close-radius);
     background-color: transparent;
-    color: inherit;
+    color: var(--cck-dialog-close-color);
     cursor: pointer;
     font: inherit;
+    font-size: var(--cck-dialog-close-icon-size);
 
     &:hover {
       background-color: var(--cck-dialog-close-hover-bg);
@@ -115,10 +116,6 @@
     .cck-dialog__content {
       border-color: CanvasText;
       box-shadow: none;
-    }
-
-    .cck-dialog__close:not(.cck-button) {
-      border-color: ButtonText;
     }
 
     .cck-dialog__content:focus-visible,
