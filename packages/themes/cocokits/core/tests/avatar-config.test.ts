@@ -5,6 +5,7 @@ import {
   avatarLabelSizeDefaultMode,
   avatarLabelSizeModes,
   avatarSizeModes,
+  themeActiveColorModes,
 } from '../src/generated/token-modes';
 import { cocokitsThemeConfig } from '../src/index';
 
@@ -12,7 +13,7 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
   const { avatar, 'avatar-group': group, 'avatar-label': label } = cocokitsThemeConfig.components;
   const anatomyOf = (block: string) =>
     defineAnatomy({ block, parts: { root: { name: 'Root', description: `The ${block}.` } } });
-  const SIZES = ['xs', 'sm', 'md', 'lg'];
+  const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'];
 
   it.each([
     ['avatar', avatar],
@@ -50,12 +51,27 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
   });
 
   it('resolves the defaults to data attributes on the root', () => {
-    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar')).root).toEqual({ 'data-size': 'md' });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar')).root).toEqual({
+      'data-size': 'md',
+      'data-cck-color': 'contrast',
+    });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-group')).root).toEqual({ 'data-size': 'md' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-label')).root).toEqual({
       'data-size': 'md',
       'data-avatar-position': 'start',
       'data-text-layout': 'stacked',
+    });
+  });
+
+  it('gives the avatar a color option from the Active Color modes, contrast by default', () => {
+    expect(avatar.color).toMatchObject({ attrName: 'cck-color', default: 'contrast', partNames: ['root'] });
+    expect(avatar.color.values).toBe(themeActiveColorModes);
+    expect(avatar.color.values).toEqual(['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']);
+    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: 'danger', size: null }).root).toEqual({
+      'data-cck-color': 'danger',
+    });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: null }).root).toEqual({
+      'data-size': 'md',
     });
   });
 

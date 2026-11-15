@@ -5,7 +5,7 @@ import { tokensCss } from './css-test-helpers';
 const byName = (name: string) => modeCollections.find((collection) => collection.name === name);
 
 describe('modeCollections, the modes index the theme exports', () => {
-  it('lists every Theme collection and the Button, Badge, Form Field, Checkbox, Switch, Radio, Tabs, Select, Menu, Accordion, Divider, Icon Button, Svg Icon, Avatar, Avatar Group, Avatar Label, Chip and Chip List sizes in token-file order, without Core or Structure', () => {
+  it('lists every Theme collection and the Button, Badge, Form Field, Form Field Width, Checkbox, Switch, Radio, Tabs, Select, Menu, Accordion, Divider, Icon Button, Svg Icon, Avatar, Avatar Group, Avatar Label, Chip and Chip List sizes in token-file order, without Core or Structure', () => {
     expect(modeCollections.map((collection) => [collection.name, collection.attrName])).toEqual([
       ['Theme / Brand', 'cck-brand'],
       ['Theme / Color', 'cck-color-mode'],
@@ -19,6 +19,7 @@ describe('modeCollections, the modes index the theme exports', () => {
       ['Button / Size', 'size'],
       ['Badge / Size', 'size'],
       ['Form Field / Size', 'size'],
+      ['Form Field / Width', 'width'],
       ['Checkbox / Size', 'size'],
       ['Switch / Size', 'size'],
       ['Radio / Size', 'size'],

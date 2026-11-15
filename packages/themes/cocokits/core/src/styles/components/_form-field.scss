@@ -25,6 +25,12 @@ $box: '.cck-form-field__input-wrapper:has(#{$controls})';
     > .cck-label {
       padding-inline-start: var(--cck-form-field-balance-indent);
     }
+
+    // The width option sets both sizes, so the minimum above does not stop a narrow field.
+    &[data-width] {
+      inline-size: var(--cck-form-field-inline-size);
+      min-inline-size: var(--cck-form-field-inline-size);
+    }
   }
 
   .cck-form-field__wrapper {

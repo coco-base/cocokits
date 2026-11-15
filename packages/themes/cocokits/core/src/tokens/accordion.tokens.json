@@ -6,19 +6,19 @@
       "tier": 3,
       "prefix": "accordion",
       "defaultMode": "md",
-      "modes": ["sm", "md"],
+      "modes": ["sm", "md", "lg"],
       "tokens": [
-        { "name": "trigger-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-48}", "md": "{Core / Size#size-56}" } },
-        { "name": "trigger-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}" } },
-        { "name": "trigger-padding-inline-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-6}", "md": "{Theme / Spacing#spacing-6}" } },
-        { "name": "content-padding-block-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}" } },
-        { "name": "content-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-6}", "md": "{Theme / Spacing#spacing-6}" } },
-        { "name": "content-padding-block-end", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-7}", "md": "{Theme / Spacing#spacing-7}" } },
-        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-5}" } },
-        { "name": "font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-md/font-family}", "md": "{Theme / Typography#text-md/font-family}" } },
-        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-md/font-size}", "md": "{Theme / Typography#text-md/font-size}" } },
-        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-md/line-height}", "md": "{Theme / Typography#text-md/line-height}" } },
-        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-md/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}" } }
+        { "name": "trigger-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-48}", "md": "{Core / Size#size-56}", "lg": "{Core / Size#size-64}" } },
+        { "name": "trigger-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-5}" } },
+        { "name": "trigger-padding-inline-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-6}", "md": "{Theme / Spacing#spacing-6}", "lg": "{Theme / Spacing#spacing-6}" } },
+        { "name": "content-padding-block-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-5}" } },
+        { "name": "content-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-6}", "md": "{Theme / Spacing#spacing-6}", "lg": "{Theme / Spacing#spacing-6}" } },
+        { "name": "content-padding-block-end", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-7}", "md": "{Theme / Spacing#spacing-7}", "lg": "{Theme / Spacing#spacing-7}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-md/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-md/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-md/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-md/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-md/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-md/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-md/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-md/letter-spacing}" } }
       ]
     },
     {

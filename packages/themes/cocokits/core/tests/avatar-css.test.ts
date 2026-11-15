@@ -77,9 +77,9 @@ describe('avatar output', () => {
     expect(tokenBlock('avatar-label', size)).toContain('--cck-avatar-label-font-weight: var(--cck-font-weight-medium)');
   });
 
-  it('colours the fallback with the contrast family and the description with on-surface/3 in regular weight', () => {
-    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('contrast-color'));
-    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('contrast-on-color'));
+  it('colours the fallback with the Active Color of its option and the description with on-surface/3 in regular weight', () => {
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('color'));
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('on-color'));
     expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-color')).toBe(ref('on-surface-3'));
     expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-font-weight')).toBe(
       ref('font-weight-regular'),

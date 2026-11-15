@@ -16,7 +16,9 @@
         { "name": "label-font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-lg/font-family}" } },
         { "name": "label-font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-lg/font-size}" } },
         { "name": "label-line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-lg/line-height}" } },
-        { "name": "label-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-lg/letter-spacing}" } }
+        { "name": "label-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-lg/letter-spacing}" } },
+        { "name": "rail-track-width", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-28}", "md": "{Core / Size#size-36}", "lg": "{Core / Size#size-40}" } },
+        { "name": "rail-track-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-8}", "md": "{Core / Size#size-10}", "lg": "{Core / Size#size-12}" } }
       ]
     },
     {

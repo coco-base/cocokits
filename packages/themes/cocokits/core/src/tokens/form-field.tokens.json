@@ -27,6 +27,14 @@
       ]
     },
     {
+      "name": "Form Field / Width",
+      "tier": 3,
+      "prefix": "form-field",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg", "xl"],
+      "tokens": [{ "name": "inline-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-80}", "sm": 160, "md": 240, "lg": 320, "xl": 480 } }]
+    },
+    {
       "name": "Form Field / Structure",
       "tier": 3,
       "prefix": "form-field",

@@ -6,16 +6,16 @@
       "tier": 3,
       "prefix": "button",
       "defaultMode": "md",
-      "modes": ["sm", "md", "lg"],
+      "modes": ["xs", "sm", "md", "lg", "xl"],
       "tokens": [
-        { "name": "height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-36}", "md": "{Core / Size#size-44}", "lg": 52 } },
-        { "name": "padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } },
-        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-2}", "md": "{Theme / Spacing#spacing-3}", "lg": "{Theme / Spacing#spacing-3}" } },
-        { "name": "label-font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-md/font-family}" } },
-        { "name": "label-font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-md/font-size}" } },
-        { "name": "label-line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-md/line-height}" } },
-        { "name": "label-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-md/letter-spacing}" } },
-        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-20}", "md": "{Core / Size#size-24}", "lg": "{Core / Size#size-24}" } }
+        { "name": "height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-32}", "sm": "{Core / Size#size-36}", "md": "{Core / Size#size-44}", "lg": 52, "xl": "{Core / Size#size-56}" } },
+        { "name": "padding-inline", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#spacing-4}", "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}", "xl": "{Theme / Spacing#spacing-6}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#spacing-2}", "sm": "{Theme / Spacing#spacing-2}", "md": "{Theme / Spacing#spacing-3}", "lg": "{Theme / Spacing#spacing-3}", "xl": "{Theme / Spacing#spacing-4}" } },
+        { "name": "label-font-family", "type": "string", "valuesByMode": { "xs": "{Theme / Typography#text-sm/font-family}", "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-md/font-family}", "xl": "{Theme / Typography#text-lg/font-family}" } },
+        { "name": "label-font-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-sm/font-size}", "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-md/font-size}", "xl": "{Theme / Typography#text-lg/font-size}" } },
+        { "name": "label-line-height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-sm/line-height}", "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-md/line-height}", "xl": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "label-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-sm/letter-spacing}", "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-md/letter-spacing}", "xl": "{Theme / Typography#text-lg/letter-spacing}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-20}", "sm": "{Core / Size#size-20}", "md": "{Core / Size#size-24}", "lg": "{Core / Size#size-24}", "xl": "{Core / Size#size-32}" } }
       ]
     },
     {

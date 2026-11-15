@@ -96,7 +96,7 @@ describe('icon-button and svg-icon options', () => {
   it('takes the IconButton variants like the Button and the sizes from the token modes', () => {
     expect(iconButton.variant.values).toEqual(cocokitsThemeConfig.components.button.variant.values);
     expect(iconButton.size.values).toBe(iconButtonSizeModes);
-    expect(iconButton.size.values).toEqual(['sm', 'md', 'lg']);
+    expect(iconButton.size.values).toEqual(['xs', 'sm', 'md', 'lg', 'xl']);
     expect(iconButton.rounded.default).toBe(false);
   });
 
