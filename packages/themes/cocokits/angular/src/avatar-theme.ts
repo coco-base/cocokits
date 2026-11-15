@@ -6,10 +6,12 @@ type AvatarOptions = CocokitsThemeConfig['components']['avatar'];
 
 /** The `size` values of the cocokits theme. */
 export type CckAvatarSize = AvatarOptions['size']['values'][number];
+/** The `color` values of the cocokits theme. */
+export type CckAvatarColor = AvatarOptions['color']['values'][number];
 
 /**
  * The cocokits theme options of the Avatar. It sits on the same element as the base component (`cck-avatar`) and
- * provides the value to it; the base renders the `data-*` attribute on the root. The option resolves in order: the
+ * provides the values to it; the base renders the `data-*` attributes on the root. Each option resolves in order: the
  * input, then the `provideCckTheme` override, then the config default; `null` removes the attribute. The theme needs
  * `provideCckTheme`; without it no theme attribute renders. Inside a `cck-avatar-group` or `cck-avatar-label`, the
  * size of the container wins.
@@ -27,7 +29,7 @@ export type CckAvatarSize = AvatarOptions['size']['values'][number];
     provideThemeOptions(
       'avatar',
       forwardRef(() => CckAvatarTheme),
-      (theme: CckAvatarTheme) => ({ size: theme.size }),
+      (theme: CckAvatarTheme) => ({ size: theme.size, color: theme.color }),
     ),
   ],
 })
@@ -36,4 +38,8 @@ export class CckAvatarTheme {
    * Side of the circle and size of the fallback text.
    */
   readonly size = input<CckAvatarSize | null>();
+  /**
+   * Color family of the fallback, rendered as `data-cck-color`.
+   */
+  readonly color = input<CckAvatarColor | null>();
 }

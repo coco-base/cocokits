@@ -29,7 +29,7 @@ describe('theme Badge server render', () => {
     expect(first).toContain('data-size="lg"');
     expect(html).toContain('>5</span>');
     const dot = /<cck-badge[^>]*data-empty[^>]*>/.exec(html)?.[0] ?? '';
-    expect(dot).toContain('data-cck-color="contrast"');
+    expect(dot).toContain('data-cck-color="brand"');
   });
 
   it('renders no theme data-* without a theme', async () => {

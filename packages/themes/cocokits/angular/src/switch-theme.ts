@@ -4,6 +4,8 @@ import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 
 type SwitchOptions = CocokitsThemeConfig['components']['switch'];
 
+/** The `variant` values of the cocokits theme. */
+export type CckSwitchVariant = SwitchOptions['variant']['values'][number];
 /** The `size` values of the cocokits theme. */
 export type CckSwitchSize = SwitchOptions['size']['values'][number];
 /** The `color` values of the cocokits theme. */
@@ -28,11 +30,20 @@ export type CckSwitchLabelPosition = SwitchOptions['labelPosition']['values'][nu
     provideThemeOptions(
       'switch',
       forwardRef(() => CckSwitchTheme),
-      (theme: CckSwitchTheme) => ({ size: theme.size, color: theme.color, labelPosition: theme.labelPosition }),
+      (theme: CckSwitchTheme) => ({
+        variant: theme.variant,
+        size: theme.size,
+        color: theme.color,
+        labelPosition: theme.labelPosition,
+      }),
     ),
   ],
 })
 export class CckSwitchTheme {
+  /**
+   * Look of the track: a contained pill with the thumb inside, or a thin rail with the thumb on it.
+   */
+  readonly variant = input<CckSwitchVariant | null>();
   /**
    * Size of the track and its label text.
    */
