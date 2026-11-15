@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'icon-button.css');
 /** The rules of the IconButton itself: the entry sheet also holds the SvgIcon rules (svg-icon-css.test.ts). */
@@ -32,7 +32,7 @@ describe('icon-button output', () => {
       const block = new RegExp(
         String.raw`\.cck-icon-button(?:, \.cck-icon-button)?\[data-size=${mode}\] \{([^}]*)\}`,
       ).exec(tokensCss)?.[1];
-      const size = /--cck-icon-button-size: var\(--cck-size-(\d+)\)/.exec(block ?? '')?.[1];
+      const size = /--cck-icon-button-size: (?:var\(--cck-size-)?(\d+)/.exec(block ?? '')?.[1];
       expect(Number(size), mode).toBeGreaterThanOrEqual(24);
     }
   });
@@ -77,8 +77,9 @@ describe('icon-button output', () => {
     expect(forced).toMatch(/:focus-visible \{\s*outline-color: Highlight/);
   });
 
-  it('changes no color on hover or press, and reaches no part but its own root', () => {
-    expect(own).not.toMatch(/:hover|:active/);
+  it('tints only the outline and basic variants on hover, changes no color on press, and reaches no part but its own root', () => {
+    expect(own.match(/:hover/g)).toHaveLength(1);
+    expect(own).not.toMatch(/:active/);
     for (const selector of selectorsOf(own)) expect(selector, selector).toMatch(/^\.cck-icon-button(?![\w-])/);
   });
 
@@ -91,5 +92,35 @@ describe('icon-button output', () => {
 
   it('restates [hidden] on the box it sets to display', () => {
     expect(own).toMatch(/\.cck-icon-button\[hidden\]\s*\{\s*display: none/);
+  });
+});
+
+describe('icon-button design match', () => {
+  const sizes = [
+    ['sm', 'size-36', 'size-20'],
+    ['md', 'size-44', 'size-24'],
+    ['lg', '52px', 'size-32'],
+  ] as const;
+
+  it.each(sizes)('size %s: the square and the icon', (mode, size, icon) => {
+    const at = (name: string): string | undefined => sizeTokenOf(ROOT, mode, name);
+    expect(at('icon-button-size')).toBe(size.endsWith('px') ? size : ref(size));
+    expect(at('icon-button-icon-size')).toBe(ref(icon));
+  });
+
+  it('fills the outline with surface/1 and the hover with surface/2', () => {
+    expect(structureTokenOf(ROOT, 'icon-button-outline-bg')).toBe(ref('surface-1'));
+    expect(structureTokenOf(ROOT, 'icon-button-hover-bg')).toBe(ref('surface-2'));
+    expect(declarationsOf(css, `${ROOT}[data-variant=outline]`)).toContain(
+      'background-color: var(--cck-icon-button-outline-bg)',
+    );
+  });
+
+  it('tints outline and basic on hover after the variants, never a disabled one, with no forced-colors rule', () => {
+    const selector = `${ROOT}:where([data-variant=outline], [data-variant=basic]):hover:not([data-disabled], :disabled)`;
+    expect(declarationsOf(css, selector)).toContain('background-color: var(--cck-icon-button-hover-bg)');
+    expect(css.indexOf(':hover')).toBeGreaterThan(css.indexOf(`${ROOT}[data-variant=basic]`));
+    expect(css.indexOf(':hover')).toBeLessThan(css.indexOf('[data-disabled],'));
+    expect(forced).not.toContain(':hover');
   });
 });

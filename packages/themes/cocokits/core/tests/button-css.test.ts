@@ -55,8 +55,9 @@ const INLINE_PROPERTIES = [
 ];
 /** The blocks with a hover look (a text box shows it on its border; the Menu item on its fill; a Switch, Checkbox and Radio on the halo and the border; the Popover and Dialog Close on their fill; choice-css.test.ts asserts those rules and bans :active in the shared partial; Tabs and TabNav (the same partial, `_tabs.scss`) only let the pointer switch the slide of its indicator on, and tabs-css.test.ts asserts that no color rule reads :hover); every other block has none. */
 const HOVER_BLOCKS = [
-  // The outline and basic variants tint on hover (button-css.test.ts asserts it).
+  // The outline and basic variants tint on hover (button-css.test.ts and icon-button-css.test.ts assert it).
   'button',
+  'icon-button',
   'form-field',
   'input',
   'textarea',

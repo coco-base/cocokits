@@ -1,6 +1,7 @@
 // IconButton rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-icon-button-* tokens. The box is a square; its `font-size` is the icon size, which a
-// SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. No color change on hover or press.
+// SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. The outline and basic variants take a light
+// fill on hover; primary and light do not change.
 @mixin rules {
   .cck-icon-button {
     box-sizing: border-box;
@@ -36,6 +37,7 @@
 
     &[data-variant='outline'] {
       border-color: var(--cck-icon-button-border-color);
+      background-color: var(--cck-icon-button-outline-bg);
       color: var(--cck-icon-button-soft-icon-color);
     }
 
@@ -46,6 +48,11 @@
 
     &[data-variant='basic'] {
       color: var(--cck-icon-button-soft-icon-color);
+    }
+
+    // After the variant rules. Disabled is excluded, so it keeps its own fill.
+    &:where([data-variant='outline'], [data-variant='basic']):hover:not([data-disabled], :disabled) {
+      background-color: var(--cck-icon-button-hover-bg);
     }
 
     // After the variants, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
