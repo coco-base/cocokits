@@ -22,6 +22,8 @@ import {
   formFieldSizeModes,
   iconButtonSizeDefaultMode,
   iconButtonSizeModes,
+  menuContentSizeDefaultMode,
+  menuContentSizeModes,
   radioSizeDefaultMode,
   radioSizeModes,
   selectSizeDefaultMode,
@@ -67,6 +69,9 @@ type TabsOptions = Readonly<{
   size: RootOption<typeof tabsSizeModes>;
   headerAlign: RootOption<typeof TABS_HEADER_ALIGNS>;
 }>;
+
+/** An option on the content part only. */
+type ContentOption<V extends readonly (string | boolean)[]> = Option<V, readonly ['content']>;
 
 /** The type of `cocokitsThemeConfig`; theme layers derive their option unions from it. */
 export interface CocokitsThemeConfig extends ThemeConfig {
@@ -123,6 +128,10 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly color: RootOption<typeof themeActiveColorModes>;
       readonly size: RootOption<typeof iconButtonSizeModes>;
       readonly rounded: RootOption<typeof BOOLEAN_VALUES>;
+    };
+    /** The menu draws no icon of its own: item icons are the author's content, so there is no `icons` key. */
+    readonly menu: {
+      readonly size: ContentOption<typeof menuContentSizeModes>;
     };
     /** Supported with no options; the Input is sized by the FormField. */
     readonly input: Record<string, never>;
@@ -352,6 +361,15 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       },
     },
     input: {},
+    menu: {
+      size: {
+        attrName: 'size',
+        values: menuContentSizeModes,
+        default: menuContentSizeDefaultMode,
+        partNames: ['content'],
+        description: 'Height of the items, set on the content; the items follow it.',
+      },
+    },
     label: {},
     leading: {},
     prefix: {},

@@ -69,6 +69,7 @@ describe('emitted modules keep their "use client"', () => {
       'divider.js',
       'form-field.js',
       'icon-button.js',
+      'menu-content.js',
       'radio.js',
       'select-root.js',
       'svg-icon.js',

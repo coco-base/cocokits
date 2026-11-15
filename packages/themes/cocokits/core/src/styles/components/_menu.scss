@@ -1,0 +1,96 @@
+// Menu rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The content is portaled into a host in the top layer, so it is styled by its own class and never through the
+// trigger. It sets no `position`, `inset` or `transform`: the positioning module writes `position: fixed`, the
+// coordinates and `--available-height`. The gap to the trigger is `--side-offset`, the one unprefixed variable a
+// theme sets. The size tokens sit on the content (`data-size`), so every item reads its height from the container.
+// The content takes focus only when it holds no item, so it has no outline rule. No motion: the content appears
+// and goes at once. The content and item tags a framework renders for these parts are laid out by these class rules.
+@mixin rules {
+  .cck-menu__content {
+    --side-offset: var(--cck-menu-side-offset);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    max-block-size: var(--available-height, none);
+    overflow: auto;
+    padding-block: var(--cck-menu-padding-block);
+    border: var(--cck-menu-border-width) solid var(--cck-menu-border-color);
+    border-radius: var(--cck-menu-radius);
+    background-color: var(--cck-menu-bg);
+    box-shadow: var(--cck-menu-shadow);
+    color: var(--cck-menu-text-color);
+    font-family: var(--cck-menu-font-family);
+    font-size: var(--cck-menu-font-size);
+    line-height: var(--cck-menu-line-height);
+    letter-spacing: var(--cck-menu-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    > .cck-divider {
+      margin-block: var(--cck-menu-separator-margin-block);
+    }
+  }
+
+  .cck-menu__item {
+    box-sizing: border-box;
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--cck-menu-item-gap);
+    // The height is a minimum, so a long label wraps instead of overflowing.
+    min-block-size: var(--cck-menu-item-height);
+    margin-inline: var(--cck-menu-item-margin-inline);
+    padding-inline: var(--cck-menu-item-padding-inline);
+    border-radius: var(--cck-menu-item-radius);
+    cursor: pointer;
+    user-select: none;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &:hover:not([data-disabled]),
+    &:focus-visible {
+      background-color: var(--cck-menu-item-highlight-bg);
+    }
+
+    // The background alone is faint on the panel, so the focused item also gets a ring inside its box.
+    &:focus-visible {
+      outline: var(--cck-menu-item-focus-width) solid var(--cck-menu-item-focus-color);
+      outline-offset: calc(-1 * var(--cck-menu-item-focus-width));
+    }
+
+    &[data-disabled] {
+      color: var(--cck-menu-item-disabled-text-color);
+      cursor: default;
+    }
+
+    // An icon in the item follows the text color and takes the icon size.
+    > .cck-svg-icon {
+      flex: none;
+      font-size: var(--cck-menu-item-icon-size);
+      color: currentColor;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-menu__content {
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .cck-menu__item {
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+
+      &[data-disabled] {
+        color: GrayText;
+      }
+    }
+  }
+}

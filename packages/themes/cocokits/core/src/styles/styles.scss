@@ -18,6 +18,7 @@
 @use 'components/_popover' as popover;
 @use 'components/_tooltip' as tooltip;
 @use 'components/_select' as select;
+@use 'components/_menu' as menu;
 @use 'components/_accordion' as accordion;
 @use 'components/_divider' as divider;
 @use 'components/_icon-button' as icon-button;
@@ -51,6 +52,7 @@
   @include popover.rules;
   @include tooltip.rules;
   @include select.rules;
+  @include menu.rules;
   @include accordion.rules;
   @include divider.rules;
   @include icon-button.rules;

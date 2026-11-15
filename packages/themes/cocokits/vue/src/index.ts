@@ -87,3 +87,15 @@ export { default as Chip } from './Chip.vue';
 export type { ChipProps, ChipSize } from './chip.types';
 export { default as ChipList } from './ChipList.vue';
 export type { ChipListProps, ChipListSize } from './chip-list.types';
+export { default as MenuContent } from './MenuContent.vue';
+export { MenuItem, MenuRoot, MenuTrigger } from '@cocokits/vue/menu';
+export type {
+  MenuChangeReason,
+  MenuContentEmits,
+  MenuItemEmits,
+  MenuItemProps,
+  MenuRootEmits,
+  MenuRootProps,
+  MenuTriggerProps,
+} from '@cocokits/vue/menu';
+export type { MenuContentProps, MenuSize } from './menu.types';

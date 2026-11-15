@@ -46,7 +46,7 @@ const INLINE_PROPERTIES = [
   '--cck-chip-list-field-chip-height-md',
   '--cck-chip-list-field-chip-height-',
 ];
-/** The blocks with a hover look (a text box shows it on its border; a Switch, Checkbox and Radio on the halo and the border; the Popover and Dialog Close on their fill; choice-css.test.ts asserts those rules and bans :active in the shared partial; Tabs and TabNav (the same partial, `_tabs.scss`) only let the pointer switch the slide of its indicator on, and tabs-css.test.ts asserts that no color rule reads :hover); every other block has none. */
+/** The blocks with a hover look (a text box shows it on its border; the Menu item on its fill; a Switch, Checkbox and Radio on the halo and the border; the Popover and Dialog Close on their fill; choice-css.test.ts asserts those rules and bans :active in the shared partial; Tabs and TabNav (the same partial, `_tabs.scss`) only let the pointer switch the slide of its indicator on, and tabs-css.test.ts asserts that no color rule reads :hover); every other block has none. */
 const HOVER_BLOCKS = [
   'form-field',
   'input',
@@ -61,6 +61,7 @@ const HOVER_BLOCKS = [
   // A chip's remove button tints on hover; a chip list's box shows it on its border, as a text box.
   'chip',
   'chip-list',
+  'menu',
 ];
 const defined = (name: string): boolean => INLINE_PROPERTIES.includes(name) || tokensCss.includes(`${name}:`);
 
