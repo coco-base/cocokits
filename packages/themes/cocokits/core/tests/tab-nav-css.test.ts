@@ -64,12 +64,13 @@ describe('tab-nav output', () => {
     }
   });
 
-  it('slides the indicator only inside @media (prefers-reduced-motion: no-preference), and never colors on :hover', () => {
+  it('slides the indicator only inside @media (prefers-reduced-motion: no-preference), and colors on :hover only the link fill', () => {
     const outside = css.replace(/@media \(prefers-reduced-motion: no-preference\) \{[\s\S]*?\n {2}\}\n/, '');
     expect(css).toContain('@media (prefers-reduced-motion: no-preference)');
     expect(outside).not.toContain('transition');
     const hovers = css.split('\n').filter((line) => line.includes(':hover'));
     expect(hovers).toEqual([
+      expect.stringContaining('.cck-tab-nav__link:hover:not([data-active], [data-disabled], :disabled) {'),
       '    .cck-tab-nav > .cck-tab-nav__list:where(:hover, :focus-within) > .cck-tab-nav__indicator {',
     ]);
     expect(css).not.toMatch(/:active/);

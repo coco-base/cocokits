@@ -21,18 +21,25 @@ const valueIn = (block: string | undefined, name: string): string | undefined =>
     ?.split(';')
     .flatMap((line) => (line.trim().startsWith(`--cck-${name}:`) ? [line.slice(line.indexOf(':') + 1).trim()] : []))[0];
 
-/**
- * The value of `--cck-<name>` in the size mode block of `root` (`.cck-button`, mode `md`), or undefined. The default
- * mode's block also holds the bare root selector.
- */
-export function sizeTokenOf(root: string, mode: string, name: string): string | undefined {
-  const selector = `${root}[data-size=${mode}]`;
-  return valueIn(declarationsOf(tokensCss, selector) ?? declarationsOf(tokensCss, `${root}, ${selector}`), name);
-}
+/** The selector list and the declarations of every token rule whose list holds `selector` as one of its items. */
+const tokenRules = (selector: string): { selectors: string; body: string }[] =>
+  [...tokensCss.matchAll(/(?<=^|[{}])\s*([^{}@]+?)\s*\{([^}]*)\}/g)]
+    .filter((match) => match[1].split(',').some((item) => item.trim() === selector))
+    .map((match) => ({ selectors: match[1], body: match[2] }));
 
-/** The value of `--cck-<name>` in the structure block of `root`, or undefined. */
+/**
+ * The value of `--cck-<name>` in the size mode block of `root` (`.cck-button`, mode `md`), or undefined. The block
+ * may share its selector list with the default mode (the bare root) or with another root (`alsoFor`).
+ */
+export const sizeTokenOf = (root: string, mode: string, name: string): string | undefined =>
+  valueIn(tokenRules(`${root}[data-size=${mode}]`)[0]?.body, name);
+
+/** The value of `--cck-<name>` in the structure block of `root` (the rule with no size mode), or undefined. */
 export const structureTokenOf = (root: string, name: string): string | undefined =>
-  valueIn(declarationsOf(tokensCss, root), name);
+  tokenRules(root)
+    .filter((rule) => !rule.selectors.includes('[data-size='))
+    .map((rule) => valueIn(rule.body, name))
+    .find((value) => value !== undefined);
 
 /** A token reference as the generated sheet writes an alias: `ref('size-36')` is `var(--cck-size-36)`. */
 export const ref = (name: string): string => `var(--cck-${name})`;
