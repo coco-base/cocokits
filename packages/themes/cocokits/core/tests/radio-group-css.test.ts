@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'radio-group.css');
 
@@ -32,5 +32,11 @@ describe('radio-group output', () => {
   it('selects only its own class and attributes', () => {
     const selectors = [...css.matchAll(/([^{}]+)\{/g)].map((match) => match[1].trim()).filter((s) => s.startsWith('.'));
     for (const selector of selectors) expect(selector).toMatch(/^\.cck-radio-group(\[[^\]]+\])*$/);
+  });
+});
+
+describe('radio-group design match', () => {
+  it.each(['gap', 'inline-gap'])('sets the %s to spacing-5 in both orientations', (name) => {
+    expect(structureTokenOf('.cck-radio-group', `radio-group-${name}`)).toBe(ref('spacing-5'));
   });
 });
