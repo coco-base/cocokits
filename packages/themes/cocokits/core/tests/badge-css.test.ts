@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, sizeTokenOf, tokensCss } from './css-test-helpers';
 
 const stylesCss = read('dist', 'styles.css');
 const scss = ['_badge.scss', '_badge-container.scss']
@@ -58,9 +58,19 @@ describe('badge output', () => {
     expect(blocks.join('')).not.toContain('--cck-badge');
   });
 
-  it('sizes the sm and md heights with literals and the others with Core sizes', () => {
-    expect(tokensCss).toMatch(/\.cck-badge\[data-size=sm\] \{[^}]*--cck-badge-height: 18px/);
-    expect(tokensCss).toMatch(/\.cck-badge\[data-size=md\][^{]*\{[^}]*--cck-badge-height: 22px/);
+  // Height, inline padding, dot, count text and weight per size (design: Badge, Count and Dot). `xl` is library-only.
+  it.each([
+    ['sm', 'size-16', 'spacing-2', 'size-6', 'text-xs'],
+    ['md', 'size-20', 'spacing-3', 'size-8', 'text-xs'],
+    ['lg', 'size-24', 'spacing-4', 'size-10', 'text-sm'],
+    ['xl', 'size-28', 'spacing-4', 'size-16', 'text-md'],
+  ])('size %s: height %s, padding %s, dot %s, count %s semibold', (mode, height, padding, dot, text) => {
+    const at = (name: string): string | undefined => sizeTokenOf('.cck-badge', mode, `badge-${name}`);
+    expect(at('height')).toBe(ref(height));
+    expect(at('padding-inline')).toBe(ref(padding));
+    expect(at('dot-size')).toBe(ref(dot));
+    expect(at('font-size')).toBe(ref(`${text}-font-size`));
+    expect(at('font-weight')).toBe(ref('font-weight-semibold'));
   });
 
   it('selects the radius by variant', () => {
