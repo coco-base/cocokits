@@ -9,9 +9,9 @@ $block: 'radio';
 @mixin rules {
   @include box.layout($block);
 
-  // The dot, inside the round box.
+  // The dot, inside the round box: `box-dot-size` wide, centred in the padding box.
   .cck-radio__background::after {
-    inset: 25%;
+    inset: calc((100% - var(--cck-radio-box-dot-size)) / 2);
     border-radius: 50%;
   }
 

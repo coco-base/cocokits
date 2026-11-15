@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const BLOCKS = ['checkbox', 'switch', 'radio'] as const;
 
@@ -224,7 +224,7 @@ describe('checkbox look', () => {
 
   it('shows invalid with a second line and read-only with a dashed border, not by color alone', () => {
     expect(css).toContain(
-      'box-shadow: inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color)',
+      'box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-invalid-border-color)',
     );
     expect(css).toMatch(/\[data-readonly\][^{]*\{[^}]*border-style: dashed/);
   });
@@ -297,9 +297,9 @@ describe('halo size', () => {
     return Number(/size-(\d+)\}/.exec(String(token?.valuesByMode[mode]))?.[1]);
   };
 
-  /** The `gap` token, followed from its Theme Spacing alias to the Core Size it names, in px. */
-  const gap = (block: string): number => {
-    const alias = String(tokensJson(block).collections[1]?.tokens.find((t) => t.name === 'gap')?.valuesByMode.Default);
+  /** The `gap` token of a size, followed from its Theme Spacing alias to the Core Size it names, in px. */
+  const gap = (block: string, mode: string): number => {
+    const alias = String(tokensJson(block).collections[0]?.tokens.find((t) => t.name === 'gap')?.valuesByMode[mode]);
     const base = JSON.parse(read('src', 'tokens', 'base.tokens.json')) as TokenFile;
     const spacing = base.collections
       .flatMap((c) => c.tokens)
@@ -311,7 +311,9 @@ describe('halo size', () => {
     'keeps the %s halo inside the gap to the label, so it never covers the text',
     (block) => {
       for (const mode of ['sm', 'md', 'lg']) {
-        expect((px(block, 'halo-size', mode) - px(block, 'hit-size', mode)) / 2, mode).toBeLessThanOrEqual(gap(block));
+        expect((px(block, 'halo-size', mode) - px(block, 'hit-size', mode)) / 2, mode).toBeLessThanOrEqual(
+          gap(block, mode),
+        );
       }
     },
   );
@@ -325,5 +327,69 @@ describe('box sizes', () => {
       md: '{Core / Size#size-20}',
       lg: '{Core / Size#size-24}',
     });
+  });
+});
+
+// The design: Checkbox and Radio (CB1 to CB9, R1 to R8). Halo, invalid and read-only keep today's look (D7).
+describe.each([
+  ['checkbox', 'size-16', 'size-20', 'size-24'],
+  ['radio', 'size-16', 'size-20', 'size-24'],
+] as const)('%s design match', (block, ...boxes) => {
+  const ROOT = `.cck-${block}`;
+  const size = (mode: string, name: string): string | undefined => sizeTokenOf(ROOT, mode, `${block}-${name}`);
+  const own = (name: string): string | undefined => structureTokenOf(ROOT, `${block}-${name}`);
+
+  it.each([
+    ['sm', 0, 'spacing-4', 'text-sm'],
+    ['md', 1, 'spacing-5', 'text-md'],
+    ['lg', 2, 'spacing-6', 'text-md'],
+  ] as const)('size %s: box, gap and label text', (mode, index, gap, text) => {
+    expect(size(mode, 'box-size')).toBe(ref(boxes[index]));
+    expect(size(mode, 'gap')).toBe(ref(gap));
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing'])
+      expect(size(mode, `label-${part}`), part).toBe(ref(`${text}-${part}`));
+  });
+
+  it('draws a 1px on-surface/1 border that the hover keeps, and a medium label', () => {
+    expect(own('box-border-width')).toBe(ref('border-width-1'));
+    expect(own('box-border-color')).toBe(ref('on-surface-1'));
+    expect(own('box-hover-border-color')).toBe(ref('on-surface-1'));
+    expect(own('label-font-weight')).toBe(ref('font-weight-medium'));
+    expect(declarationsOf(cssOf(block), `${ROOT}__label`)).toContain(
+      `font-weight: var(--cck-${block}-label-font-weight)`,
+    );
+  });
+
+  it('moves the gap to the size collection: the structure block no longer holds it', () => {
+    expect(own('gap')).toBeUndefined();
+  });
+});
+
+describe('checkbox disabled border and radio dot', () => {
+  it('borders a disabled checkbox box with disabled/on-surface', () => {
+    expect(structureTokenOf('.cck-checkbox', 'checkbox-box-disabled-border-color')).toBe(ref('disabled-on-surface'));
+  });
+
+  it.each([
+    ['sm', 'size-6'],
+    ['md', 'size-8'],
+    ['lg', 'size-10'],
+  ])('sizes the radio dot %s to %s and centres it in the box', (mode, dot) => {
+    expect(sizeTokenOf('.cck-radio', mode, 'radio-box-dot-size')).toBe(ref(dot));
+    expect(cssOf('radio')).toMatch(
+      /\.cck-radio__background::after \{[^}]*inset: calc\(\(100% - var\(--cck-radio-box-dot-size\)\) \/ 2\)/,
+    );
+  });
+
+  it('fills a checked radio box with surface/1 and draws the border and the dot in edge', () => {
+    expect(structureTokenOf('.cck-radio', 'radio-box-checked-bg')).toBe(ref('surface-1'));
+    expect(structureTokenOf('.cck-radio', 'radio-box-checked-border-color')).toBe(ref('edge'));
+    expect(structureTokenOf('.cck-radio', 'radio-box-mark-color')).toBe(ref('edge'));
+  });
+
+  it('keeps the dash two borders high and the invalid line as thick as the forced-colors border', () => {
+    const css = cssOf('checkbox');
+    expect(css).toContain('inset-block: calc(50% - var(--cck-checkbox-box-border-width))');
+    expect(structureTokenOf('.cck-checkbox', 'checkbox-box-invalid-border-width')).toBe(ref('size-3'));
   });
 });

@@ -34,23 +34,24 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
   // The fill follows both facts; the mark (`::after`) only the mixed one, because a checked box shows the icon.
   @include box.checked($block, $facts, $mark: false);
 
-  // The dash: a bar across the middle, as high as the border is wide.
+  // The dash: a bar across the middle, twice as high as the border is wide.
   .cck-checkbox:where([data-indeterminate]) #{box.box($block)}::after {
-    inset-block: calc(50% - var(--cck-checkbox-box-border-width) / 2);
+    inset-block: calc(50% - var(--cck-checkbox-box-border-width));
     inset-inline: 20%;
     opacity: 1;
   }
 
   .cck-checkbox#{$invalid} #{box.box($block)} {
     border-color: var(--cck-checkbox-box-invalid-border-color);
-    // A second line of the same width inside the border: the cue does not rest on hue alone.
+    // A second line inside the border, as wide as the invalid border is in forced colors: the cue does not rest on hue
+    // alone.
     // Forced colors drop the shadow, so the border gets thicker there.
-    box-shadow: inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color);
+    box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-invalid-border-color);
   }
 
   // On a filled box the inner line takes the mark color, which reads against the fill; the border stays danger.
   .cck-checkbox:where(#{$facts})#{$invalid} #{box.box($block)} {
-    box-shadow: inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-mark-color);
+    box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-mark-color);
   }
 
   @include box.disabled($block);
