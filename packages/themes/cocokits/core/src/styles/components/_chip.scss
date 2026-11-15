@@ -14,6 +14,7 @@
     padding-inline: var(--cck-chip-padding-inline);
     border: var(--cck-chip-border-width) solid var(--cck-chip-border-color);
     border-radius: var(--cck-chip-radius);
+    background-color: var(--cck-chip-bg);
     color: var(--cck-chip-text-color);
     font-family: var(--cck-chip-font-family);
     font-size: var(--cck-chip-font-size);
@@ -28,6 +29,7 @@
 
     &[data-disabled] {
       border-color: var(--cck-chip-disabled-border-color);
+      background-color: var(--cck-chip-disabled-bg);
       color: var(--cck-chip-disabled-text-color);
     }
   }
