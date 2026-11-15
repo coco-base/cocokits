@@ -1,7 +1,14 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { read as readThemeFile, tokensCss } from './css-test-helpers';
+import {
+  declarationsOf,
+  read as readThemeFile,
+  ref,
+  sizeTokenOf,
+  structureTokenOf,
+  tokensCss,
+} from './css-test-helpers';
 
 const root = join(import.meta.dirname, '..');
 const componentsDir = join(root, 'src', 'styles', 'components');
@@ -48,6 +55,8 @@ const INLINE_PROPERTIES = [
 ];
 /** The blocks with a hover look (a text box shows it on its border; the Menu item on its fill; a Switch, Checkbox and Radio on the halo and the border; the Popover and Dialog Close on their fill; choice-css.test.ts asserts those rules and bans :active in the shared partial; Tabs and TabNav (the same partial, `_tabs.scss`) only let the pointer switch the slide of its indicator on, and tabs-css.test.ts asserts that no color rule reads :hover); every other block has none. */
 const HOVER_BLOCKS = [
+  // The outline and basic variants tint on hover (button-css.test.ts asserts it).
+  'button',
   'form-field',
   'input',
   'textarea',
@@ -99,7 +108,7 @@ describe('button output', () => {
       expect(css.startsWith('@layer cocokits {')).toBe(true);
       expect(css).toContain('.cck-button');
       expect(css.trimEnd().endsWith('}')).toBe(true);
-      expect(css).not.toMatch(name === 'styles.css' ? /:active/ : /:hover|:active/);
+      expect(css).not.toMatch(/:active/);
     },
   );
 
@@ -128,5 +137,56 @@ describe('button output', () => {
 
   it('restates [hidden] on the box it sets to display', () => {
     expect(readThemeFile('dist', 'components', 'button.css')).toMatch(/\.cck-button\[hidden\]\s*\{\s*display: none/);
+  });
+});
+
+describe('button design match', () => {
+  const css = readThemeFile('dist', 'components', 'button.css');
+  const own = css.slice(0, css.indexOf('@media (forced-colors'));
+  const sizes = [
+    ['sm', 'size-36', 'spacing-5', 'spacing-2', 'text-sm', 'size-20'],
+    ['md', 'size-44', 'spacing-5', 'spacing-3', 'text-md', 'size-24'],
+    ['lg', '52px', 'spacing-6', 'spacing-3', 'text-md', 'size-24'],
+  ] as const;
+
+  it.each(sizes)('size %s: height, padding, gap, label text and icon size', (mode, height, pad, gap, text, icon) => {
+    const at = (name: string): string | undefined => sizeTokenOf('.cck-button', mode, name);
+    expect(at('button-height')).toBe(height.endsWith('px') ? height : ref(height));
+    expect(at('button-padding-inline')).toBe(ref(pad));
+    expect(at('button-gap')).toBe(ref(gap));
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing'])
+      expect(at(`button-label-${part}`), part).toBe(ref(`${text}-${part}`));
+    expect(at('button-icon-size')).toBe(ref(icon));
+  });
+
+  it('fills the outline with surface/1 and the hover with surface/2, in the structure block', () => {
+    expect(structureTokenOf('.cck-button', 'button-outline-bg')).toBe(ref('surface-1'));
+    expect(structureTokenOf('.cck-button', 'button-hover-bg')).toBe(ref('surface-2'));
+  });
+
+  it('paints the outline fill and leaves basic transparent', () => {
+    expect(declarationsOf(css, '.cck-button[data-variant=outline]')).toContain(
+      'background-color: var(--cck-button-outline-bg)',
+    );
+    expect(declarationsOf(css, '.cck-button[data-variant=basic]')).not.toContain('background-color');
+  });
+
+  it('tints outline and basic on hover, not primary or light, and never a disabled button', () => {
+    const rule = declarationsOf(
+      css,
+      '.cck-button:where([data-variant=outline], [data-variant=basic]):hover:not([data-disabled], :disabled)',
+    );
+    expect(rule).toContain('background-color: var(--cck-button-hover-bg)');
+    expect(own.match(/:hover/g)).toHaveLength(1);
+  });
+
+  it('puts the hover rule after the variants and before the disabled rule, with no forced-colors rule of its own', () => {
+    expect(css.indexOf(':hover')).toBeGreaterThan(css.indexOf('[data-variant=basic]'));
+    expect(css.indexOf(':hover')).toBeLessThan(css.indexOf('[data-disabled],'));
+    expect(css.slice(css.indexOf('@media (forced-colors'))).not.toContain(':hover');
+  });
+
+  it('sizes a direct SvgIcon child with the icon size', () => {
+    expect(declarationsOf(css, '.cck-button > .cck-svg-icon')).toContain('font-size: var(--cck-button-icon-size)');
   });
 });
