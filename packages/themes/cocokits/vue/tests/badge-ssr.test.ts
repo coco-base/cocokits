@@ -27,7 +27,7 @@ describe('theme Badge on the server', () => {
     expect(first).toContain('data-size="lg"');
     expect(html).toContain('>5</span>');
     const dot = /<span[^>]*data-empty[^>]*>/.exec(html)?.[0] ?? '';
-    expect(dot).toContain('data-cck-color="contrast"');
+    expect(dot).toContain('data-cck-color="brand"');
     expect(dot).toContain('data-variant="rounded"');
   });
 });

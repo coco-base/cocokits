@@ -24,7 +24,7 @@ describe('theme Badge', () => {
   it('renders the config defaults', () => {
     const el = mountBadge({ content: 5 });
     expect(el.getAttribute('data-variant')).toBe('rounded');
-    expect(el.getAttribute('data-cck-color')).toBe('contrast');
+    expect(el.getAttribute('data-cck-color')).toBe('brand');
     expect(el.getAttribute('data-size')).toBe('md');
     expect(el.classList.contains('cck-badge')).toBe(true);
     expect(el.textContent).toBe('5');

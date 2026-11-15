@@ -6,7 +6,12 @@ import type { AvatarRootProps } from './avatar.types';
 
 defineOptions({ name: 'AvatarRoot' });
 
-const props = withDefaults(defineProps<AvatarRootProps>(), { as: undefined, asChild: undefined, size: undefined });
+const props = withDefaults(defineProps<AvatarRootProps>(), {
+  as: undefined,
+  asChild: undefined,
+  size: undefined,
+  color: undefined,
+});
 
 defineSlots<{
   /** The `AvatarImage` and the `AvatarFallback`, or any content. */
@@ -28,7 +33,7 @@ defineExpose({
   },
 });
 
-provideThemeOptions('avatar', () => ({ size: props.size }));
+provideThemeOptions('avatar', () => ({ size: props.size, color: props.color }));
 </script>
 
 <template>
