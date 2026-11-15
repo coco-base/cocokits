@@ -31,6 +31,7 @@
 
     &:where(:hover) {
       border-color: var(--cck-textarea-hover-border-color);
+      background-color: var(--cck-textarea-hover-bg);
     }
 
     &:where([data-invalid]):where([data-touched], [data-submitted]) {
@@ -57,6 +58,10 @@
       &::placeholder {
         color: var(--cck-textarea-disabled-text-color);
       }
+    }
+
+    &:not([data-auto-resize]) {
+      min-block-size: var(--cck-textarea-min-height);
     }
 
     &:focus-visible {

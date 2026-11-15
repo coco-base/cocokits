@@ -27,6 +27,7 @@
 
     &:where(:hover) {
       border-color: var(--cck-input-hover-border-color);
+      background-color: var(--cck-input-hover-bg);
     }
 
     &:where([data-invalid]):where([data-touched], [data-submitted]) {
