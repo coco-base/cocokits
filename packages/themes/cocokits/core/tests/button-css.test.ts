@@ -58,6 +58,8 @@ const HOVER_BLOCKS = [
   // The outline and basic variants tint on hover (button-css.test.ts and icon-button-css.test.ts assert it).
   'button',
   'icon-button',
+  // The header of a default or group item fills on hover (accordion-css.test.ts asserts it).
+  'accordion',
   'form-field',
   'input',
   'textarea',

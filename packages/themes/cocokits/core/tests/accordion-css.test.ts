@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'accordion.css');
 /** The compiled CSS drops the quotes of an attribute value. */
@@ -116,7 +116,7 @@ describe('accordion output', () => {
     expect(css).toContain(`${trigger}[data-disabled] {`);
     expect(css).not.toContain(':focus-visible');
     expect(css).not.toContain(':disabled');
-    expect(css).not.toContain(':hover');
+    expect(css.match(/:hover/g)).toHaveLength(1);
   });
 
   it('animates the height over the size variable, with both ends open when the variable is unset', () => {
@@ -137,7 +137,8 @@ describe('accordion output', () => {
     expect(motion).toContain('animation: cck-accordion-close var(--cck-accordion-motion-duration)');
     expect(motion).toContain('overflow: hidden');
     const outside = css.replace(motion, '');
-    expect(outside).not.toMatch(/animation:|overflow:|transition/);
+    // The item and the group clip their rounded corners with `overflow: clip`, which is not motion.
+    expect(outside).not.toMatch(/animation:|overflow: (?!clip)|transition/);
   });
 
   it('sets no display on the content, so the native hidden hides it', () => {
@@ -152,5 +153,95 @@ describe('accordion output', () => {
     expect(css).not.toContain('forced-color-adjust');
     expect(declarationsOf(css, indicator)).not.toMatch(/(^|[\s;])color:/);
     expect(declarationsOf(css, `${trigger}[data-disabled]`)).toContain('color: var(--cck-accordion-disabled-color)');
+  });
+});
+
+describe('accordion design match', () => {
+  const ROOT = '.cck-accordion';
+  const filled = `${ROOT}:where([data-variant=default], [data-variant=group]) > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger`;
+  const size = (mode: string, name: string): string | undefined => sizeTokenOf(ROOT, mode, `accordion-${name}`);
+  const own = (name: string): string | undefined => structureTokenOf(ROOT, `accordion-${name}`);
+
+  it.each([
+    ['sm', 'size-48', 'spacing-4'],
+    ['md', 'size-56', 'spacing-5'],
+  ])('size %s: trigger %s high, item gap %s, medium text, padding and content space', (mode, height, gap) => {
+    expect(size(mode, 'trigger-height')).toBe(ref(height));
+    expect(size(mode, 'gap')).toBe(ref(gap));
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing'])
+      expect(size(mode, part), part).toBe(ref(`text-md-${part}`));
+    expect(size(mode, 'trigger-padding-inline')).toBe(ref('spacing-5'));
+    expect(size(mode, 'trigger-padding-inline-start')).toBe(ref('spacing-6'));
+    expect(size(mode, 'content-padding-block-start')).toBe(ref('spacing-5'));
+    expect(size(mode, 'content-padding-inline')).toBe(ref('spacing-6'));
+    expect(size(mode, 'content-padding-block-end')).toBe(ref('spacing-7'));
+  });
+
+  it.each([
+    ['radius', 'radius-md'],
+    ['group-radius', 'radius-2xl'],
+    ['icon-size', 'size-24'],
+    ['trigger-bg', 'surface-2'],
+    ['trigger-open-bg', 'surface-1'],
+    ['trigger-hover-bg', 'surface-3'],
+    ['trigger-disabled-bg', 'disabled-surface'],
+    ['content-color', 'on-surface-1'],
+    ['focus-color', 'brand-on-container'],
+  ])('structure token %s is %s', (name, value) => {
+    expect(own(name)).toBe(ref(value));
+  });
+
+  it('moves the item gap to the size collection: the structure block no longer holds it', () => {
+    expect(own('gap')).toBeUndefined();
+  });
+
+  it('clips the item and the group at their rounded corners, the group with its own radius', () => {
+    expect(declarationsOf(css, `${ROOT}[data-variant=default] > .cck-accordion__item`)).toContain('overflow: clip');
+    const group = declarationsOf(css, `${ROOT}[data-variant=group]`) ?? '';
+    expect(group).toContain('border-radius: var(--cck-accordion-group-radius)');
+    expect(group).toContain('overflow: clip');
+  });
+
+  it('pads the trigger start and end apart and the content with its own inline padding', () => {
+    const rule = declarationsOf(css, trigger) ?? '';
+    expect(rule).toContain('padding-inline-start: var(--cck-accordion-trigger-padding-inline-start)');
+    expect(rule).toContain('padding-inline-end: var(--cck-accordion-trigger-padding-inline)');
+    expect(declarationsOf(css, content)).toContain('padding-inline: var(--cck-accordion-content-padding-inline)');
+  });
+
+  it('measures the space above and below the content as pseudo-elements', () => {
+    expect(declarationsOf(css, `${content}::before`)).toContain(
+      'block-size: var(--cck-accordion-content-padding-block-start)',
+    );
+    expect(declarationsOf(css, `${content}::after`)).toContain(
+      'block-size: var(--cck-accordion-content-padding-block-end)',
+    );
+  });
+
+  it('fills the header of default and group: closed, open, hover (not disabled), disabled, in this order', () => {
+    const closed = declarationsOf(css, filled) ?? '';
+    const open = declarationsOf(css, `${filled}[data-state=open]`) ?? '';
+    const hover = declarationsOf(css, `${filled}:hover:not([data-disabled])`) ?? '';
+    const disabled = declarationsOf(css, `${filled}[data-disabled]`) ?? '';
+    expect(closed).toContain('background-color: var(--cck-accordion-trigger-bg)');
+    expect(open).toContain('background-color: var(--cck-accordion-trigger-open-bg)');
+    expect(hover).toContain('background-color: var(--cck-accordion-trigger-hover-bg)');
+    expect(disabled).toContain('background-color: var(--cck-accordion-trigger-disabled-bg)');
+    const at = (selector: string): number => css.indexOf(`${selector} {`);
+    expect(at(filled)).toBeLessThan(at(`${filled}[data-state=open]`));
+    expect(at(`${filled}[data-state=open]`)).toBeLessThan(at(`${filled}:hover:not([data-disabled])`));
+    expect(at(`${filled}:hover:not([data-disabled])`)).toBeLessThan(at(`${filled}[data-disabled]`));
+  });
+
+  it('leaves the basic variant unfilled and gives hover no forced-colors rule', () => {
+    expect(declarationsOf(css, trigger)).toContain('background-color: transparent');
+    expect(css).not.toContain(
+      '[data-variant=basic] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger:hover',
+    );
+    expect(css.slice(css.indexOf('@media (forced-colors: active)'))).not.toContain(':hover');
+  });
+
+  it('hides the chevron of a disabled trigger', () => {
+    expect(declarationsOf(css, `${trigger}[data-disabled] > .cck-accordion__indicator`)).toContain('display: none');
   });
 });
