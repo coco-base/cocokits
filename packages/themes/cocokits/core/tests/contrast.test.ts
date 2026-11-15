@@ -237,3 +237,92 @@ describe('menu items on the panel (WCAG 1.4.3, 4.5:1)', () => {
     expect(contrast(resolve('Theme / Color#focus/2', mode), surface(mode))).toBeGreaterThanOrEqual(3);
   });
 });
+
+describe('design match pairs (WCAG 1.4.3 text 4.5:1, 1.4.11 non-text 3:1)', () => {
+  const MODES = ['Light', 'Dark'];
+  const FAMILIES = ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast'];
+  const color = (name: string, mode: string): string => resolve(`Theme / Color#${name}`, mode);
+  const activeColor = base.collections.find((c) => c.name === 'Theme / Active Color');
+  /** An Active Color token of one family, resolved to hex in a color mode. */
+  const active = (name: string, family: string, mode: string): string => {
+    const value = String(activeColor?.tokens.find((t) => t.name === name)?.valuesByMode[family]);
+    return resolve(/^\{(.+)\}$/.exec(value)?.[1] ?? '', mode);
+  };
+  const ratio = (foreground: string, background: string, mode: string): number =>
+    contrast(color(foreground, mode), color(background, mode));
+  const families = MODES.flatMap((mode) => FAMILIES.map((family) => [family, mode] as const));
+
+  it.each(
+    MODES.flatMap((mode) =>
+      [
+        ['Hint', 'on-surface/3', 'surface/1'],
+        ['placeholder', 'text/2', 'surface/1'],
+        ['placeholder on the hover and read-only fill', 'text/2', 'surface/2'],
+        ['Tabs label', 'on-surface/3', 'surface/1'],
+        ['Tabs fill label', 'text/2', 'surface/2'],
+        ['Tabs hover label', 'text/2', 'surface/3'],
+        ['Avatar label description', 'on-surface/3', 'surface/1'],
+        ['Tooltip text', 'contrast/on-color', 'contrast/color'],
+        ['Avatar fallback', 'contrast/on-color', 'contrast/color'],
+        ['Select option label', 'text/1', 'brand/container'],
+        ['Accordion label on the header', 'on-surface/1', 'surface/2'],
+        ['Accordion label on the item', 'on-surface/1', 'surface/1'],
+        ['Accordion label on the hover fill', 'on-surface/1', 'surface/3'],
+        ['Chip label', 'on-surface/1', 'surface/2'],
+        ['prefix and suffix', 'on-surface/2', 'surface/1'],
+        ['prefix and suffix on the hover fill', 'on-surface/2', 'surface/2'],
+        ['Field error', 'danger/text', 'surface/1'],
+        ['field value on the hover fill', 'text/1', 'surface/2'],
+        ['Leading and Trailing text on the addon fill', 'on-surface/2', 'surface/2'],
+      ].map(([name, text, fill]) => [name, text, fill, mode] as const),
+    ),
+  )('text: %s, %s on %s in %s mode', (_, text, fill, mode) => {
+    expect(ratio(text, fill, mode)).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(families)(
+    'text: the Button outline and basic label on-container of %s on the page and hover fill in %s mode',
+    (family, mode) => {
+      const label = active('on-container', family, mode);
+      expect(contrast(label, color('surface/1', mode))).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(label, color('surface/2', mode))).toBeGreaterThanOrEqual(4.5);
+    },
+  );
+
+  it.each(
+    MODES.flatMap((mode) =>
+      [
+        ['Checkbox and Radio border', 'on-surface/1', 'surface/1'],
+        ['Select check', 'brand/on-container', 'brand/container'],
+        ['Switch thumb border on the track', 'on-surface/3', 'surface/3'],
+        ['Switch thumb border on the page', 'on-surface/3', 'surface/1'],
+        ['field active outline', 'focus/2', 'surface/1'],
+        ['Accordion, Tabs, Menu item and Chip remove ring on the page', 'brand/on-container', 'surface/1'],
+        ['Accordion, Tabs, Menu item and Chip remove ring on the second surface', 'brand/on-container', 'surface/2'],
+        ['Accordion, Tabs, Menu item and Chip remove ring on the third surface', 'brand/on-container', 'surface/3'],
+        ['Chip remove ring on the remove hover tint', 'brand/on-container', 'contrast/container'],
+        ['Menu item icon on the panel', 'text/3', 'surface/1'],
+        ['Menu item icon on the highlight', 'text/3', 'surface/2'],
+        ['Dialog Close icon', 'text/3', 'surface/1'],
+        ['Dialog Close icon on its hover fill', 'text/3', 'surface/2'],
+      ].map(([name, foreground, background]) => [name, foreground, background, mode] as const),
+    ),
+  )('non-text: %s, %s on %s in %s mode', (_, foreground, background, mode) => {
+    expect(ratio(foreground, background, mode)).toBeGreaterThanOrEqual(3);
+  });
+
+  it.each(families)(
+    'non-text: the Radio dot (edge) of %s on the checked box fill, and the IconButton icon, in %s mode',
+    (family, mode) => {
+      expect(contrast(active('edge', family, mode), color('surface/1', mode))).toBeGreaterThanOrEqual(3);
+      for (const background of ['surface/1', 'surface/2'])
+        expect(contrast(active('on-container', family, mode), color(background, mode))).toBeGreaterThanOrEqual(3);
+    },
+  );
+
+  // By design the off Switch track (`surface/3` with a `surface/3` border) is not a 3:1 boundary on the page (1.18:1
+  // Light, 1.95:1 Dark): the thumb, whose border passes on the track and on the page above, and its position tell the state.
+  it.each(MODES)('reports the off Switch track on the page in %s mode without asserting 3:1', (mode) => {
+    expect(ratio('surface/3', 'surface/1', mode)).toBeGreaterThan(1);
+  });
+});
