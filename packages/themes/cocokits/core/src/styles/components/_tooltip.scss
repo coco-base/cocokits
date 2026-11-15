@@ -2,7 +2,7 @@
 // The content is portaled into a host in the top layer, so it is styled by its own class and never through the
 // trigger. It sets no `position`, `inset` or `transform`: the positioning module writes `position: fixed` and the
 // coordinates. The gap to the trigger is `--side-offset`, the one unprefixed variable a theme sets. The bubble is
-// an inverse surface (the text color of the page as its fill), so it reads in light and dark. It is never
+// an inverse surface (the contrast family as its fill), so it reads in light and dark. It is never
 // focusable and holds no control, so it has no focus ring; the trigger is the author's (usually a Button) and keeps
 // its own. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart only for the
 // inline slide) and runs only with `prefers-reduced-motion: no-preference`; the end state is right without it.
@@ -19,6 +19,7 @@
     color: var(--cck-tooltip-text-color);
     font-family: var(--cck-tooltip-font-family);
     font-size: var(--cck-tooltip-font-size);
+    font-weight: var(--cck-tooltip-font-weight);
     line-height: var(--cck-tooltip-line-height);
     letter-spacing: var(--cck-tooltip-letter-spacing);
     overflow-wrap: anywhere;
