@@ -233,6 +233,20 @@ describe('group inheritance in the Angular theme (D29, AC 12)', () => {
     expect(lists.map((list) => list.injector.get(CckChipListTheme)._size())).toEqual(['lg', 'sm', undefined]);
   });
 
+  it.each(['sm', 'md', 'lg'])(
+    'keeps the chips a populated Chip list renders at the default chip size, whatever the list size: %s (C14)',
+    async (size) => {
+      const { container } = await render(
+        `<cck-form-field size="lg"><cck-chip-list aria-label="Tags" [value]="['a', 'b']" size="${size}" /></cck-form-field>`,
+        { imports, providers },
+      );
+      expect(container.querySelector('.cck-chip-list')?.getAttribute('data-size')).toBe(size);
+      const chips = [...container.querySelectorAll('.cck-chip')];
+      expect(chips).toHaveLength(2);
+      expect(chips.map((chip) => chip.getAttribute('data-size'))).toEqual(['md', 'md']);
+    },
+  );
+
   it('takes the avatar size from the nearest listed parent: the label before the group', async () => {
     await render(
       `<cck-avatar-group size="sm"><cck-avatar-label name="Ada" size="xl">
