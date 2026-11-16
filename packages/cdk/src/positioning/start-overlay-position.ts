@@ -112,6 +112,8 @@ export interface OverlayPositionOptions {
   readonly sideFlip?: boolean;
   /**
    * The sides to try, in this order, when there is no room on `side`. Each one keeps the `align`.
+   *
+   * @remarks
    * When the list is set, the content does not flip to the opposite side unless you list it.
    * With none of them fitting, the content takes the one with the most room. `sideFlip: false` turns the list off.
    * @defaultValue [] (the content flips to the opposite side)
