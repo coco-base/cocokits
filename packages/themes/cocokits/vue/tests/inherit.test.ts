@@ -226,6 +226,22 @@ describe('group inheritance in the Vue theme (D29, AC 12)', () => {
     expect(container.querySelector('.cck-avatar')?.getAttribute('data-size')).toBe('xl');
   });
 
+  it.each(['sm', 'md', 'lg'])(
+    'keeps the chips a populated Chip list renders at the default chip size, whatever the list size: %s (C14)',
+    (size) => {
+      const { container } = render({
+        render: () =>
+          h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, () =>
+            field('lg', h(ChipList, { 'aria-label': 'Tags', defaultValue: ['a', 'b'], size } as never)),
+          ),
+      });
+      expect(container.querySelector('.cck-chip-list')?.getAttribute('data-size')).toBe(size);
+      const chips = [...container.querySelectorAll('.cck-chip')];
+      expect(chips).toHaveLength(2);
+      expect(chips.map((chip) => chip.getAttribute('data-size'))).toEqual(['md', 'md']);
+    },
+  );
+
   it('resolves the Form field size through the Chip list: its own, else the field size, else the default', () => {
     const { container } = render({
       render: () =>
