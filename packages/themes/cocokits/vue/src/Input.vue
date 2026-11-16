@@ -2,8 +2,8 @@
 import { inject, useTemplateRef } from 'vue';
 import { Input as BaseInput, type InputEmits } from '@cocokits/vue/input';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { resolveInheritedValue } from '@cocokits/theme-cocokits';
 import { forwardModels } from './forward-models';
-import { inherited } from './inherit';
 import { formFieldThemeKey } from './theme-keys';
 import type { InputProps } from './input.types';
 
@@ -51,7 +51,7 @@ defineExpose({
 });
 
 const field = inject(formFieldThemeKey, null);
-provideThemeOptions('input', () => ({ size: inherited(props.size, field?.().size) }));
+provideThemeOptions('input', () => ({ size: resolveInheritedValue(props.size, field?.().size) }));
 </script>
 
 <template>

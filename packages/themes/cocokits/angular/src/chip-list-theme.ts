@@ -1,8 +1,7 @@
 import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckFormFieldTheme } from './form-field-theme';
-import { inherited } from './inherit';
 
 type ChipListOptions = CocokitsThemeConfig['components']['chip-list'];
 
@@ -38,5 +37,5 @@ export class CckChipListTheme {
   readonly size = input<CckChipListSize | null>();
   private readonly field = inject(CckFormFieldTheme, { optional: true });
   /** The size of the list: its own, else the one of its field. The chips of a future composition read it. @internal */
-  readonly _size = computed(() => inherited(this.size(), this.field?.size()));
+  readonly _size = computed(() => resolveInheritedValue(this.size(), this.field?.size()));
 }

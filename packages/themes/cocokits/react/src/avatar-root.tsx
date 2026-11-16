@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Avatar as BaseAvatar, type AvatarRootProps as BaseAvatarRootProps } from '@cocokits/react/avatar';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { AvatarGroupThemeContext, AvatarLabelThemeContext } from './theme-contexts';
 
 type AvatarOptions = CocokitsThemeConfig['components']['avatar'];
@@ -30,7 +29,10 @@ function ThemedAvatarRoot({ size, color, ...props }: AvatarRootProps): ReactElem
   const label = useContext(AvatarLabelThemeContext);
   const group = useContext(AvatarGroupThemeContext);
   return (
-    <ThemeOptionsProvider componentName="avatar" options={{ size: inherited(size, label.size, group.size), color }}>
+    <ThemeOptionsProvider
+      componentName="avatar"
+      options={{ size: resolveInheritedValue(size, label.size, group.size), color }}
+    >
       <BaseAvatar.Root {...props} />
     </ThemeOptionsProvider>
   );

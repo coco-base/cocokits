@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Select as BaseSelect, type SelectRootProps as BaseSelectRootProps } from '@cocokits/react/select';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormFieldThemeContext } from './theme-contexts';
 
 type SelectOptions = CocokitsThemeConfig['components']['select'];
@@ -34,7 +33,7 @@ function ThemedSelectRoot<T = string, M extends boolean = false>({
 }: SelectRootProps<T, M>): ReactElement {
   const field = useContext(FormFieldThemeContext);
   return (
-    <ThemeOptionsProvider componentName="select" options={{ size: inherited(size, field.size), indicator }}>
+    <ThemeOptionsProvider componentName="select" options={{ size: resolveInheritedValue(size, field.size), indicator }}>
       <BaseSelect.Root<T, M> {...props} />
     </ThemeOptionsProvider>
   );

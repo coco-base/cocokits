@@ -1,7 +1,6 @@
 import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckRadioGroupTheme } from './radio-group-theme';
 
 type RadioOptions = CocokitsThemeConfig['components']['radio'];
@@ -49,9 +48,9 @@ export class CckRadioTheme {
   readonly labelPosition = input<CckRadioLabelPosition | null>();
   private readonly group = inject(CckRadioGroupTheme, { optional: true });
   /** The size of the radio: its own, else the one of its group. @internal */
-  readonly _size = computed(() => inherited(this.size(), this.group?.size()));
+  readonly _size = computed(() => resolveInheritedValue(this.size(), this.group?.size()));
   /** The color of the radio: its own, else the one of its group. @internal */
-  readonly _color = computed(() => inherited(this.color(), this.group?.color()));
+  readonly _color = computed(() => resolveInheritedValue(this.color(), this.group?.color()));
   /** The label side of the radio: its own, else the one of its group. @internal */
-  readonly _labelPosition = computed(() => inherited(this.labelPosition(), this.group?.labelPosition()));
+  readonly _labelPosition = computed(() => resolveInheritedValue(this.labelPosition(), this.group?.labelPosition()));
 }

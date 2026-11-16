@@ -154,7 +154,9 @@
     }
   }
 
+  // Options and group labels keep their height: a height-limited list scrolls instead of shrinking them.
   .cck-select__option {
+    flex: none;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -242,6 +244,7 @@
   }
 
   .cck-select__option-group-label {
+    flex: none;
     padding: var(--cck-select-option-padding-block) var(--cck-select-option-padding-inline);
     color: var(--cck-select-group-label-color);
     font-size: var(--cck-select-group-label-font-size);
@@ -334,6 +337,13 @@
     .cck-select__content {
       border-color: CanvasText;
       box-shadow: none;
+    }
+
+    // Without the indicator the selected fill is the only cue and forced colors drop it: an outline stays, and the
+    // highlight (a background) does not use one.
+    .cck-select__content[data-indicator='none'] .cck-select__option[data-selected] {
+      outline: 2px solid CanvasText;
+      outline-offset: -2px;
     }
 
     .cck-select__option[data-highlighted] {

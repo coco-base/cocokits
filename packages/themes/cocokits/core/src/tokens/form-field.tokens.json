@@ -14,7 +14,6 @@
         { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-4}", "lg": "{Theme / Spacing#spacing-5}" } },
         { "name": "zone-gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } },
         { "name": "affix-padding", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-4}", "lg": "{Theme / Spacing#spacing-5}" } },
-        { "name": "textarea-min-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-80}", "md": "{Core / Size#size-80}", "lg": "{Core / Size#size-96}" } },
         { "name": "addon-padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } },
         { "name": "addon-font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-xs/font-family}", "md": "{Theme / Typography#text-sm/font-family}", "lg": "{Theme / Typography#text-sm/font-family}" } },
         { "name": "addon-font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-xs/font-size}", "md": "{Theme / Typography#text-sm/font-size}", "lg": "{Theme / Typography#text-sm/font-size}" } },

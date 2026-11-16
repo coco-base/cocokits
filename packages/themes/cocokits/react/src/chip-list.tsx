@@ -1,11 +1,10 @@
 'use client';
 
-import { useContext, useMemo, type ReactElement } from 'react';
+import { useContext, type ReactElement } from 'react';
 import { ChipList as BaseChipList, type ChipListProps as BaseChipListProps } from '@cocokits/react/chip-list';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
-import { ChipListThemeContext, FormFieldThemeContext } from './theme-contexts';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { FormFieldThemeContext } from './theme-contexts';
 
 type ChipListOptions = CocokitsThemeConfig['components']['chip-list'];
 
@@ -22,14 +21,11 @@ export interface ChipListProps extends BaseChipListProps {
 
 function ThemedChipList({ size, ...props }: ChipListProps): ReactElement {
   const field = useContext(FormFieldThemeContext);
-  const resolved = inherited(size, field.size);
-  const parent = useMemo(() => ({ size: resolved }), [resolved]);
+  const resolved = resolveInheritedValue(size, field.size);
   return (
-    <ChipListThemeContext value={parent}>
-      <ThemeOptionsProvider componentName="chip-list" options={{ size: resolved }}>
-        <BaseChipList {...props} />
-      </ThemeOptionsProvider>
-    </ChipListThemeContext>
+    <ThemeOptionsProvider componentName="chip-list" options={{ size: resolved }}>
+      <BaseChipList {...props} />
+    </ThemeOptionsProvider>
   );
 }
 

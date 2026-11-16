@@ -1,8 +1,7 @@
 import { Directive, booleanAttribute, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckFormFieldTheme } from './form-field-theme';
-import { inherited } from './inherit';
 
 type TextareaOptions = CocokitsThemeConfig['components']['textarea'];
 
@@ -50,7 +49,7 @@ export class CckTextareaTheme {
   readonly size = input<CckTextareaSize | null>();
   private readonly field = inject(CckFormFieldTheme, { optional: true });
   /** The size of the textarea: its own, else the one of its field. @internal */
-  readonly _size = computed(() => inherited(this.size(), this.field?.size()));
+  readonly _size = computed(() => resolveInheritedValue(this.size(), this.field?.size()));
   /**
    * Grows with its content between the min and max rows.
    */

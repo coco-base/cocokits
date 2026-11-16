@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Textarea as BaseTextarea, type TextareaProps as BaseTextareaProps } from '@cocokits/react/textarea';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormFieldThemeContext } from './theme-contexts';
 
 type TextareaOptions = CocokitsThemeConfig['components']['textarea'];
@@ -35,7 +34,10 @@ export interface TextareaProps extends BaseTextareaProps {
 function ThemedTextarea({ size, autoResize, resize, ...props }: TextareaProps): ReactElement {
   const field = useContext(FormFieldThemeContext);
   return (
-    <ThemeOptionsProvider componentName="textarea" options={{ size: inherited(size, field.size), autoResize, resize }}>
+    <ThemeOptionsProvider
+      componentName="textarea"
+      options={{ size: resolveInheritedValue(size, field.size), autoResize, resize }}
+    >
       <BaseTextarea {...props} />
     </ThemeOptionsProvider>
   );

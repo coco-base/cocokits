@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Radio as BaseRadio, type RadioProps as BaseRadioProps } from '@cocokits/react/radio';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { RadioGroupThemeContext } from './theme-contexts';
 
 type RadioOptions = CocokitsThemeConfig['components']['radio'];
@@ -38,9 +37,9 @@ function ThemedRadio({ size, color, labelPosition, ...props }: RadioProps): Reac
     <ThemeOptionsProvider
       componentName="radio"
       options={{
-        size: inherited(size, group.size),
-        color: inherited(color, group.color),
-        labelPosition: inherited(labelPosition, group.labelPosition),
+        size: resolveInheritedValue(size, group.size),
+        color: resolveInheritedValue(color, group.color),
+        labelPosition: resolveInheritedValue(labelPosition, group.labelPosition),
       }}
     >
       <BaseRadio {...props} />

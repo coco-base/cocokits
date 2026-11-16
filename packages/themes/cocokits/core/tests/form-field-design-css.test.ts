@@ -11,18 +11,17 @@ const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
 
 describe('form field design match: tokens', () => {
   it.each([
-    ['sm', 'spacing-3', 'spacing-4', 'spacing-3', 'size-80', 'text-sm', 'text-xs'],
-    ['md', 'spacing-4', 'spacing-5', 'spacing-4', 'size-80', 'text-md', 'text-sm'],
-    ['lg', 'spacing-5', 'spacing-6', 'spacing-5', 'size-96', 'text-md', 'text-sm'],
+    ['sm', 'spacing-3', 'spacing-4', 'spacing-3', 'text-sm', 'text-xs'],
+    ['md', 'spacing-4', 'spacing-5', 'spacing-4', 'text-md', 'text-sm'],
+    ['lg', 'spacing-5', 'spacing-6', 'spacing-5', 'text-md', 'text-sm'],
   ])(
-    'size %s: gap %s, block and zone %s, affix %s, textarea %s, text %s, addon text %s',
-    (mode, gap, inline, affix, textarea, text, addonText) => {
+    'size %s: gap %s, block and zone %s, affix %s, text %s, addon text %s',
+    (mode, gap, inline, affix, text, addonText) => {
       expect(size(mode, 'gap')).toBe(ref(gap));
       expect(size(mode, 'padding-block')).toBe(ref(inline));
       expect(size(mode, 'zone-gap')).toBe(ref(inline));
       expect(size(mode, 'addon-padding-inline')).toBe(ref(inline));
       expect(size(mode, 'affix-padding')).toBe(ref(affix));
-      expect(size(mode, 'textarea-min-height')).toBe(ref(textarea));
       for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing']) {
         expect(size(mode, part), part).toBe(ref(`${text}-${part}`));
         expect(size(mode, `addon-${part}`), `addon-${part}`).toBe(ref(`${addonText}-${part}`));

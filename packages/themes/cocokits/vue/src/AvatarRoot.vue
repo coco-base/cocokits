@@ -2,7 +2,7 @@
 import { inject, useTemplateRef } from 'vue';
 import { AvatarRoot as BaseAvatarRoot } from '@cocokits/vue/avatar';
 import { provideThemeOptions } from '@cocokits/vue-core';
-import { inherited } from './inherit';
+import { resolveInheritedValue } from '@cocokits/theme-cocokits';
 import { avatarGroupThemeKey, avatarLabelThemeKey } from './theme-keys';
 import type { AvatarRootProps } from './avatar.types';
 
@@ -38,7 +38,7 @@ defineExpose({
 const label = inject(avatarLabelThemeKey, null);
 const group = inject(avatarGroupThemeKey, null);
 provideThemeOptions('avatar', () => ({
-  size: inherited(props.size, label?.().size, group?.().size),
+  size: resolveInheritedValue(props.size, label?.().size, group?.().size),
   color: props.color,
 }));
 </script>

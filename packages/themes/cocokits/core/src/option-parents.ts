@@ -14,3 +14,11 @@ export const optionParents: OptionParents = {
   avatar: { size: ['avatar-label', 'avatar-group'] },
   radio: { size: ['radio-group'], color: ['radio-group'], labelPosition: ['radio-group'] },
 };
+
+/**
+ * The first value that is not `undefined`: the own value, then the value of the nearest parent that sets one. `null` is a value
+ * (it removes the option), so it stops the search. The framework layers use it to resolve the group inheritance. @internal
+ */
+export function resolveInheritedValue<T>(ownValue: T | undefined, ...parentValues: (T | undefined)[]): T | undefined {
+  return [ownValue, ...parentValues].find((value) => value !== undefined);
+}

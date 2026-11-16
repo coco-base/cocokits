@@ -79,6 +79,17 @@ describe('select design match: rules', () => {
     expect(declarationsOf(css, '.cck-select__option-group')).toContain('gap: var(--cck-select-content-gap)');
   });
 
+  it('keeps the row height of options and group labels in a height-limited list', () => {
+    expect(declarationsOf(css, '.cck-select__option')).toContain('flex: none');
+    expect(declarationsOf(css, '.cck-select__option-group-label')).toContain('flex: none');
+  });
+
+  it('marks a selected option without a background in forced colors when the indicator is none', () => {
+    const rule = declarationsOf(forced, '.cck-select__content[data-indicator=none] .cck-select__option[data-selected]');
+    expect(rule).toContain('outline: 2px solid CanvasText');
+    expect(rule).toContain('outline-offset: -2px');
+  });
+
   it('fills a selected option after the highlight rule, so a highlighted selected option keeps it', () => {
     const highlight = css.indexOf('.cck-select__option[data-highlighted] {');
     const selected = css.indexOf('.cck-select__option[data-selected] {');
