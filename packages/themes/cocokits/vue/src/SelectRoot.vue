@@ -2,8 +2,8 @@
 import { inject, provide, useTemplateRef } from 'vue';
 import { SelectRoot as BaseSelectRoot, type SelectRootEmits } from '@cocokits/vue/select';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { inherited } from '@cocokits/theme-cocokits';
 import { forwardModels } from './forward-models';
-import { inherited } from './inherit';
 import { formFieldThemeKey, selectThemeKey } from './theme-keys';
 import type { SelectRootProps } from './select.types';
 

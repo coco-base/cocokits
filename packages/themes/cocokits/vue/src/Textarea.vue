@@ -2,8 +2,8 @@
 import { inject, useTemplateRef } from 'vue';
 import { Textarea as BaseTextarea, type TextareaEmits } from '@cocokits/vue/textarea';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { inherited } from '@cocokits/theme-cocokits';
 import { forwardModels } from './forward-models';
-import { inherited } from './inherit';
 import { formFieldThemeKey } from './theme-keys';
 import type { TextareaProps } from './textarea.types';
 

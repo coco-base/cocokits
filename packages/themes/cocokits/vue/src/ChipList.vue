@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { inject, provide, useTemplateRef } from 'vue';
+import { inject, useTemplateRef } from 'vue';
 import { ChipList as BaseChipList, type ChipListEmits } from '@cocokits/vue/chip-list';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { inherited } from '@cocokits/theme-cocokits';
 import { forwardModels } from './forward-models';
-import { inherited } from './inherit';
-import { chipListThemeKey, formFieldThemeKey } from './theme-keys';
+import { formFieldThemeKey } from './theme-keys';
 import type { ChipListProps } from './chip-list.types';
 
 defineOptions({ name: 'ChipList' });
@@ -78,8 +78,6 @@ defineExpose({
 const field = inject(formFieldThemeKey, null);
 const size = () => inherited(props.size, field?.().size);
 provideThemeOptions('chip-list', () => ({ size: size() }));
-// The chips of a composition will read the size of their list.
-provide(chipListThemeKey, () => ({ size: size() }));
 </script>
 
 <template>

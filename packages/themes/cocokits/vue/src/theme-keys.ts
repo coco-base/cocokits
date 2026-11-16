@@ -15,8 +15,6 @@ type Values<C extends keyof Components, O extends keyof Components[C]> = Compone
  */
 export interface ParentThemeValues {
   readonly formField: { readonly size?: Values<'form-field', 'size'> };
-  /** The size a list resolves for itself (its own, else the field's); the chips of a composition will read it. */
-  readonly chipList: { readonly size?: Values<'chip-list', 'size'> };
   readonly avatarGroup: { readonly size?: Values<'avatar-group', 'size'> };
   readonly avatarLabel: { readonly size?: Values<'avatar-label', 'size'> };
   readonly radioGroup: {
@@ -33,7 +31,6 @@ export interface ParentThemeValues {
 type ParentKey<K extends keyof ParentThemeValues> = InjectionKey<() => ParentThemeValues[K]>;
 
 export const formFieldThemeKey: ParentKey<'formField'> = Symbol('cck-form-field-theme');
-export const chipListThemeKey: ParentKey<'chipList'> = Symbol('cck-chip-list-theme');
 export const avatarGroupThemeKey: ParentKey<'avatarGroup'> = Symbol('cck-avatar-group-theme');
 export const avatarLabelThemeKey: ParentKey<'avatarLabel'> = Symbol('cck-avatar-label-theme');
 export const radioGroupThemeKey: ParentKey<'radioGroup'> = Symbol('cck-radio-group-theme');

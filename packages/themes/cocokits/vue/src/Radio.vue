@@ -2,8 +2,8 @@
 import { inject, useTemplateRef } from 'vue';
 import { Radio as BaseRadio, type RadioEmits } from '@cocokits/vue/radio';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { inherited } from '@cocokits/theme-cocokits';
 import { forwardModels } from './forward-models';
-import { inherited } from './inherit';
 import { radioGroupThemeKey } from './theme-keys';
 import type { RadioProps } from './radio.types';
 

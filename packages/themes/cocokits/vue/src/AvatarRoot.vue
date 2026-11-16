@@ -2,7 +2,7 @@
 import { inject, useTemplateRef } from 'vue';
 import { AvatarRoot as BaseAvatarRoot } from '@cocokits/vue/avatar';
 import { provideThemeOptions } from '@cocokits/vue-core';
-import { inherited } from './inherit';
+import { inherited } from '@cocokits/theme-cocokits';
 import { avatarGroupThemeKey, avatarLabelThemeKey } from './theme-keys';
 import type { AvatarRootProps } from './avatar.types';
 
