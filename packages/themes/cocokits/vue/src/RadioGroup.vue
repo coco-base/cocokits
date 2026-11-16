@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
   name: undefined,
   disabled: undefined,
   required: undefined,
+  touched: undefined,
   form: undefined,
   orientation: undefined,
   loop: undefined,
@@ -68,6 +69,7 @@ provide(radioGroupThemeKey, values);
     :name="name"
     :disabled="disabled"
     :required="required"
+    :touched="touched"
     :form="form"
     :orientation="orientation"
     :loop="loop"

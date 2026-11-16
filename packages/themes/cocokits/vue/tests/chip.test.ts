@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/vue';
 import { h, nextTick, ref, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Chip as BaseChip } from '@cocokits/vue/chip';
-import { ChipList as BaseChipList } from '@cocokits/vue/chip-list';
+import { ChipList as BaseChipList, type ChipListEntry } from '@cocokits/vue/chip-list';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Chip, ChipList } from '../src/index';
 import { themed } from './helpers';
@@ -128,14 +128,14 @@ describe('theme ChipList', () => {
 
   it('keeps the model: a start value, and update:modelValue when a chip is removed', async () => {
     const onUpdate = vi.fn();
-    const value = ref<string[]>(['Ham', 'Olives']);
+    const value = ref<ChipListEntry[]>(['Ham', 'Olives']);
     render(
       themed(() =>
         h(ChipList, {
           'data-testid': 'root',
           ariaLabel: 'Toppings',
           modelValue: value.value,
-          'onUpdate:modelValue': (next: string[]) => {
+          'onUpdate:modelValue': (next: ChipListEntry[]) => {
             onUpdate(next);
             value.value = next;
           },

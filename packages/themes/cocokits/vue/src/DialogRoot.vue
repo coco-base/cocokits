@@ -13,6 +13,18 @@ const props = withDefaults(defineProps<DialogRootProps>(), {
   defaultOpen: undefined,
   modal: undefined,
   unmountOnHide: undefined,
+  role: undefined,
+  disableClose: undefined,
+  closePredicate: undefined,
+  autoFocus: undefined,
+  restoreFocus: undefined,
+  closeOnNavigation: undefined,
+  width: undefined,
+  height: undefined,
+  minWidth: undefined,
+  minHeight: undefined,
+  maxWidth: undefined,
+  maxHeight: undefined,
   size: undefined,
 });
 const emit = defineEmits<DialogRootEmits>();
@@ -49,7 +61,24 @@ provide(dialogThemeKey, () => ({ size: props.size }));
 </script>
 
 <template>
-  <BaseDialogRoot v-bind="models()" :default-open="defaultOpen" :modal="modal" :unmount-on-hide="unmountOnHide">
+  <BaseDialogRoot
+    v-bind="models()"
+    :default-open="defaultOpen"
+    :modal="modal"
+    :unmount-on-hide="unmountOnHide"
+    :role="role"
+    :disable-close="disableClose"
+    :close-predicate="closePredicate"
+    :auto-focus="autoFocus"
+    :restore-focus="restoreFocus"
+    :close-on-navigation="closeOnNavigation"
+    :width="width"
+    :height="height"
+    :min-width="minWidth"
+    :min-height="minHeight"
+    :max-width="maxWidth"
+    :max-height="maxHeight"
+  >
     <template #default="slotProps">
       <slot v-bind="slotProps" />
     </template>

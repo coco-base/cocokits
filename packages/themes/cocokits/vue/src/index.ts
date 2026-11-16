@@ -35,12 +35,18 @@ export type { TabNavRootProps, TabNavVariant, TabNavColor, TabNavSize, TabNavHea
 export { default as SelectRoot } from './SelectRoot.vue';
 export { default as SelectContent } from './SelectContent.vue';
 export {
+  SelectEmpty,
+  SelectFooter,
   SelectGroup,
+  SelectHeader,
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
+  SelectOptionDescription,
+  SelectOptionLeading,
+  SelectSearch,
   SelectSeparator,
   SelectTrigger,
   SelectValue,
@@ -48,7 +54,10 @@ export {
 export type {
   SelectContentEmits,
   SelectContentProps,
+  SelectEmptyProps,
+  SelectFooterProps,
   SelectGroupProps,
+  SelectHeaderProps,
   SelectIconProps,
   SelectItemData,
   SelectItemEmits,
@@ -57,7 +66,10 @@ export type {
   SelectItems,
   SelectItemTextProps,
   SelectLabelProps,
+  SelectOptionDescriptionProps,
+  SelectOptionLeadingProps,
   SelectRootEmits,
+  SelectSearchProps,
   SelectSeparatorProps,
   SelectTriggerProps,
   SelectValueOf,
@@ -92,26 +104,75 @@ export type { ChipProps, ChipSize } from './chip.types';
 export { default as ChipList } from './ChipList.vue';
 export type { ChipListProps, ChipListSize } from './chip-list.types';
 export { default as MenuContent } from './MenuContent.vue';
-export { MenuItem, MenuRoot, MenuTrigger } from '@cocokits/vue/menu';
+export { default as MenuItem } from './MenuItem.vue';
+export { default as MenuCheckboxItem } from './MenuCheckboxItem.vue';
+export { default as MenuRadioItem } from './MenuRadioItem.vue';
+export { default as MenuSubTrigger } from './MenuSubTrigger.vue';
+export {
+  MenuGroup,
+  MenuGroupLabel,
+  MenuItemIndicator,
+  MenuItemLeading,
+  MenuItemShortcut,
+  MenuItemSupportingText,
+  MenuItemTrailing,
+  MenuRadioGroup,
+  MenuRoot,
+  MenuSub,
+  MenuSubContent,
+  MenuTrigger,
+} from '@cocokits/vue/menu';
 export type {
   MenuChangeReason,
+  MenuCheckboxItemEmits,
   MenuContentEmits,
+  MenuGroupLabelProps,
+  MenuGroupProps,
   MenuItemEmits,
-  MenuItemProps,
+  MenuItemIndicatorProps,
+  MenuItemLeadingProps,
+  MenuItemShortcutProps,
+  MenuItemSupportingTextProps,
+  MenuItemTrailingProps,
+  MenuRadioGroupEmits,
+  MenuRadioGroupProps,
+  MenuRadioItemEmits,
   MenuRootEmits,
   MenuRootProps,
+  MenuSubContentEmits,
+  MenuSubContentProps,
+  MenuSubEmits,
+  MenuSubProps,
   MenuTriggerProps,
 } from '@cocokits/vue/menu';
 export type { MenuContentProps, MenuSize } from './menu.types';
+export type {
+  MenuCheckboxItemProps,
+  MenuItemColor,
+  MenuItemProps,
+  MenuRadioItemProps,
+  MenuSubTriggerProps,
+} from './menu-item.types';
 export { default as DialogRoot } from './DialogRoot.vue';
 export { default as DialogContent } from './DialogContent.vue';
-export { DialogClose, DialogDescription, DialogTitle, DialogTrigger } from '@cocokits/vue/dialog';
+export {
+  DialogBody,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@cocokits/vue/dialog';
 export type {
+  DialogBodyProps,
   DialogChangeReason,
   DialogCloseProps,
   DialogContentEmits,
   DialogContentProps,
   DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
   DialogRootEmits,
   DialogTitleProps,
   DialogTriggerProps,
@@ -119,14 +180,16 @@ export type {
 export type { DialogRootProps, DialogSize } from './dialog.types';
 export { default as TooltipRoot } from './TooltipRoot.vue';
 export { default as TooltipContent } from './TooltipContent.vue';
-export { TooltipArrow, TooltipProvider, TooltipTrigger } from '@cocokits/vue/tooltip';
+export { TooltipArrow, TooltipDescription, TooltipProvider, TooltipTitle, TooltipTrigger } from '@cocokits/vue/tooltip';
 export type {
   TooltipArrowProps,
   TooltipChangeReason,
   TooltipContentEmits,
   TooltipContentProps,
+  TooltipDescriptionProps,
   TooltipProviderProps,
   TooltipRootEmits,
+  TooltipTitleProps,
   TooltipTriggerProps,
 } from '@cocokits/vue/tooltip';
 export type { TooltipRootProps, TooltipSize } from './tooltip.types';

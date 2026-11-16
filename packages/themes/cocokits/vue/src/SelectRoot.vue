@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<SelectRootProps<T, M>>(), {
   defaultValue: undefined,
   open: undefined,
   defaultOpen: undefined,
+  filter: undefined,
   items: undefined,
   itemToStringLabel: undefined,
   itemToStringValue: undefined,
@@ -93,6 +94,7 @@ defineExpose({
     :default-open="defaultOpen"
     :as-child="asChild"
     :multiple="multiple"
+    :filter="filter"
     :items="items"
     :item-to-string-label="itemToStringLabel"
     :item-to-string-value="itemToStringValue"
