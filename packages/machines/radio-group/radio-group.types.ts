@@ -43,6 +43,12 @@ export interface RadioGroupState {
   readonly disabled?: boolean | undefined;
   /** Requires one radio to be checked. @defaultValue false */
   readonly required?: boolean | undefined;
+  /** The group is invalid, for example by a forms library. A required group with no value is invalid too. @defaultValue false */
+  readonly invalid?: boolean | undefined;
+  /** The user left the group. The invalid state shows only after this or `submitted`. @defaultValue false */
+  readonly touched?: boolean | undefined;
+  /** A submit of the owner form was attempted. The invalid state shows only after this or `touched`. @defaultValue false */
+  readonly submitted?: boolean | undefined;
   /** The `form` for radios that have none of their own. */
   readonly form?: string | undefined;
   /** Limits the arrow keys to one axis; unset, both axes move. */
@@ -91,12 +97,16 @@ export interface RadioGroupRootProps {
   readonly 'aria-required'?: 'true' | undefined;
   /** `'true'` while disabled. */
   readonly 'aria-disabled'?: 'true' | undefined;
+  /** `'true'` only while invalid and (touched or submitted). Never `'false'`. */
+  readonly 'aria-invalid'?: 'true' | undefined;
   /** The orientation, only while it is set. */
   readonly 'aria-orientation'?: RadioGroupOrientation | undefined;
   /** Present (empty) while disabled. */
   readonly 'data-disabled'?: '' | undefined;
   /** Present (empty) while required. */
   readonly 'data-required'?: '' | undefined;
+  /** Present (empty) only while invalid and (touched or submitted), as `aria-invalid`. */
+  readonly 'data-invalid'?: '' | undefined;
   /** The orientation, only while it is set. */
   readonly 'data-orientation'?: RadioGroupOrientation | undefined;
   /**

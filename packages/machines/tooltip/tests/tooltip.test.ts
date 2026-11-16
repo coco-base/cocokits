@@ -17,6 +17,30 @@ const event = new Event('x');
 
 const enter = (pointerType: string): TooltipEvent => ({ type: 'TRIGGER.POINTER_ENTER', pointerType, event });
 
+describe('title and description parts (tooltip-02)', () => {
+  it('renders the classes of the Anatomy table and nothing else: no role, no id, no data attribute', () => {
+    const { title, description } = getTooltipProps(open, vi.fn());
+    expect(tooltipAnatomy.classes).toMatchObject({
+      title: 'cck-tooltip__title',
+      description: 'cck-tooltip__description',
+    });
+    expect(title).toEqual({ class: 'cck-tooltip__title' });
+    expect(description).toEqual({ class: 'cck-tooltip__description' });
+  });
+
+  it('declares them in the meta with no role, no data attribute and the div element', () => {
+    expect(tooltipMeta.roles).toMatchObject({ content: 'tooltip', title: null, description: null });
+    expect(tooltipMeta.dataAttrs).toMatchObject({ title: [], description: [] });
+    expect(tooltipMeta.defaultElements).toMatchObject({ title: 'div', description: 'div' });
+  });
+
+  it('keeps them inside the tooltip text: the trigger description is the content, which holds both', () => {
+    const parts = getTooltipProps(open, vi.fn());
+    expect(parts.trigger['aria-describedby']).toBe(tooltipIds('t1').content);
+    expect(parts.content.role).toBe('tooltip');
+  });
+});
+
 describe('classes and ARIA', () => {
   it('renders the part classes', () => {
     const parts = getTooltipProps(open, vi.fn());

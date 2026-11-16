@@ -73,11 +73,24 @@ describe('anatomy and root', () => {
     expect(root['aria-disabled']).toBe('true');
     expect(root['aria-orientation']).toBe('vertical');
     expect(root['data-orientation']).toBe('vertical');
+    expect(dataKeys(root)).toEqual(['data-disabled', 'data-orientation', 'data-required']);
+  });
+
+  it('renders exactly the data attributes of the meta while everything holds', () => {
+    const { root } = getRadioGroupProps(
+      base({ disabled: true, required: true, orientation: 'vertical', invalid: true, touched: true }),
+      vi.fn(),
+    );
     expect(dataKeys(root)).toEqual([...radioGroupMeta.dataAttrs.root].sort());
   });
 
   it('declares the data attributes, the role, the APG link and the default element in the meta', () => {
-    expect(radioGroupMeta.dataAttrs.root).toEqual(['data-disabled', 'data-required', 'data-orientation']);
+    expect(radioGroupMeta.dataAttrs.root).toEqual([
+      'data-disabled',
+      'data-required',
+      'data-invalid',
+      'data-orientation',
+    ]);
     expect(radioGroupMeta.roles.root).toBe('radiogroup');
     expect(radioGroupMeta.apg).toBe('https://www.w3.org/WAI/ARIA/apg/patterns/radio/');
     expect(radioGroupMeta.defaultElements?.root).toBe('div');

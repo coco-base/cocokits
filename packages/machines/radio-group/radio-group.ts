@@ -88,15 +88,32 @@ function onKeyDown(
   };
 }
 
+/**
+ * Whether the invalid state shows: the group is invalid (the `invalid` fact, or required with no value)
+ * and the user left it or tried to submit. `aria-invalid` and `data-invalid` both use it, so they cannot disagree.
+ *
+ * @param state - The group state.
+ * @returns `true` while the invalid state should be shown.
+ */
+export function isRadioGroupInvalidShown(state: RadioGroupState): boolean {
+  // The value, not the registered radios, says whether the group is empty: an adapter may register the radios
+  // after the server render, and a required group that has a value must not render invalid on the server.
+  const empty = state.value === undefined || state.value === null || state.value === '';
+  const invalid = state.invalid === true || (state.required === true && empty);
+  return invalid && (state.touched === true || state.submitted === true);
+}
+
 function rootProps(state: RadioGroupState, send: (event: RadioGroupEvent) => void): RadioGroupRootProps {
   return {
     class: radioGroupAnatomy.classes.root,
     role: 'radiogroup',
     'aria-required': state.required === true ? 'true' : undefined,
     'aria-disabled': state.disabled === true ? 'true' : undefined,
+    'aria-invalid': isRadioGroupInvalidShown(state) ? 'true' : undefined,
     'aria-orientation': state.orientation,
     'data-disabled': dataAttr(state.disabled),
     'data-required': dataAttr(state.required),
+    'data-invalid': dataAttr(isRadioGroupInvalidShown(state)),
     'data-orientation': state.orientation,
     onKeyDown: onKeyDown(state, send),
   };
