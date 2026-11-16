@@ -1,9 +1,11 @@
 'use client';
 
-import type { ReactElement } from 'react';
+import { useContext, type ReactElement } from 'react';
 import { Avatar as BaseAvatar, type AvatarRootProps as BaseAvatarRootProps } from '@cocokits/react/avatar';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { inherited } from './inherit';
+import { AvatarGroupThemeContext, AvatarLabelThemeContext } from './theme-contexts';
 
 type AvatarOptions = CocokitsThemeConfig['components']['avatar'];
 
@@ -25,8 +27,10 @@ export interface AvatarRootProps extends BaseAvatarRootProps {
 }
 
 function ThemedAvatarRoot({ size, color, ...props }: AvatarRootProps): ReactElement {
+  const label = useContext(AvatarLabelThemeContext);
+  const group = useContext(AvatarGroupThemeContext);
   return (
-    <ThemeOptionsProvider componentName="avatar" options={{ size, color }}>
+    <ThemeOptionsProvider componentName="avatar" options={{ size: inherited(size, label.size, group.size), color }}>
       <BaseAvatar.Root {...props} />
     </ThemeOptionsProvider>
   );
@@ -40,9 +44,9 @@ export interface AvatarRootComponent {
 
 /**
  * The cocokits Avatar root. It renders the base `<span>` and supplies `size` and `color` to it, which renders the
- * `data-size` and `data-cck-color` attributes. Each option resolves in order: the prop, then the `ThemeProvider` override, then the config default;
- * `null` removes the attribute. The theme needs a `ThemeProvider`. Inside an `AvatarGroup` or `AvatarLabel`, the
- * size of the container wins.
+ * `data-size` and `data-cck-color` attributes. Each option resolves in order: the prop, then (for `size`) the one of
+ * the `AvatarLabel` or `AvatarGroup` around it, then the `ThemeProvider` override, then the config default; `null`
+ * removes the attribute. The theme needs a `ThemeProvider`.
  *
  * @example
  * <Avatar.Root size="lg">

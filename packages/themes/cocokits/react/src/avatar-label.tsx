@@ -1,12 +1,13 @@
 'use client';
 
-import type { ReactElement } from 'react';
+import { useMemo, type ReactElement } from 'react';
 import {
   AvatarLabel as BaseAvatarLabel,
   type AvatarLabelProps as BaseAvatarLabelProps,
 } from '@cocokits/react/avatar-label';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { AvatarLabelThemeContext } from './theme-contexts';
 
 type AvatarLabelOptions = CocokitsThemeConfig['components']['avatar-label'];
 
@@ -20,7 +21,7 @@ export type AvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'][n
 /** Props of the themed {@link AvatarLabel}: the base props plus the three cocokits options. */
 export interface AvatarLabelProps extends BaseAvatarLabelProps {
   /**
-   * Gap, text size and the size of its direct avatar; it wins over its own size.
+   * Gap and text size; its avatar that sets no size of its own takes its size.
    */
   readonly size?: AvatarLabelSize | null | undefined;
   /**
@@ -34,10 +35,13 @@ export interface AvatarLabelProps extends BaseAvatarLabelProps {
 }
 
 function ThemedAvatarLabel({ size, avatarPosition, textLayout, ...props }: AvatarLabelProps): ReactElement {
+  const parent = useMemo(() => ({ size }), [size]);
   return (
-    <ThemeOptionsProvider componentName="avatar-label" options={{ size, avatarPosition, textLayout }}>
-      <BaseAvatarLabel {...props} />
-    </ThemeOptionsProvider>
+    <AvatarLabelThemeContext value={parent}>
+      <ThemeOptionsProvider componentName="avatar-label" options={{ size, avatarPosition, textLayout }}>
+        <BaseAvatarLabel {...props} />
+      </ThemeOptionsProvider>
+    </AvatarLabelThemeContext>
   );
 }
 

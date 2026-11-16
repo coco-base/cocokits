@@ -66,10 +66,14 @@ describe('emitted modules keep their "use client"', () => {
       'checkbox.js',
       'chip-list.js',
       'chip.js',
+      'dialog-content.js',
+      'dialog-root.js',
       'divider.js',
       'form-field.js',
       'icon-button.js',
+      'input.js',
       'menu-content.js',
+      'radio-group.js',
       'radio.js',
       'select-root.js',
       'svg-icon.js',
@@ -77,6 +81,9 @@ describe('emitted modules keep their "use client"', () => {
       'tab-nav-root.js',
       'tabs-root.js',
       'textarea.js',
+      'theme-contexts.js',
+      'tooltip-content.js',
+      'tooltip-root.js',
     ]);
     expect(emitted.has('index.js')).toBe(true);
   });

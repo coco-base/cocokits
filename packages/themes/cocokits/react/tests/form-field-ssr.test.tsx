@@ -1,10 +1,9 @@
 // @vitest-environment node
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { Input } from '@cocokits/react/input';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { FormField } from '../src/index';
+import { FormField, Input } from '../src/index';
 
 const render = (themed: boolean): string => {
   const ui = (
@@ -28,8 +27,9 @@ describe('theme FormField on the server', () => {
 
   it('renders data-size on the root and the input wrapper, lg and the default md', () => {
     const html = render(true);
-    expect(html.match(/data-size="lg"/g)).toHaveLength(2);
-    expect(html.match(/data-size="md"/g)).toHaveLength(2);
+    // Root, input wrapper and input (it takes the size of its field).
+    expect(html.match(/data-size="lg"/g)).toHaveLength(3);
+    expect(html.match(/data-size="md"/g)).toHaveLength(3);
     expect(html).toMatch(
       /<div[^>]*data-size="lg"[^>]*class="cck-form-field"|<div[^>]*class="cck-form-field"[^>]*data-size="lg"/,
     );
