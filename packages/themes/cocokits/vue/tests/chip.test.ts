@@ -92,8 +92,8 @@ describe('theme Chip', () => {
     const onRemove = vi.fn();
     render(themed(() => h(Chip, { 'data-testid': 'root', removable: true, onRemove }, () => 'Pizza')));
     const icon = root().querySelector('.cck-chip__remove .cck-svg-icon');
-    expect(chip.icons.remove).toBe('close');
-    expect(icon?.getAttribute('data-icon')).toBe('close');
+    expect(chip.icons.remove).toBe('circle-xmark');
+    expect(icon?.getAttribute('data-icon')).toBe('circle-xmark');
     await fireEvent.click(removeButton());
     expect(onRemove).toHaveBeenCalledTimes(1);
   });
@@ -122,7 +122,7 @@ describe('theme ChipList', () => {
     expect(chips).toHaveLength(2);
     for (const element of chips) {
       expect(element.getAttribute('data-size')).toBe('md');
-      expect(element.querySelector('.cck-svg-icon')?.getAttribute('data-icon')).toBe('close');
+      expect(element.querySelector('.cck-svg-icon')?.getAttribute('data-icon')).toBe('circle-xmark');
     }
   });
 

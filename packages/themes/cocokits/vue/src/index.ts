@@ -85,7 +85,7 @@ export type {
   AvatarLabelAvatarPosition,
   AvatarLabelProps,
   AvatarLabelSize,
-  AvatarLabelTextLayout,
+  AvatarLabelAlignment,
 } from './avatar-label.types';
 export { default as Chip } from './Chip.vue';
 export type { ChipProps, ChipSize } from './chip.types';
@@ -130,3 +130,6 @@ export type {
   TooltipTriggerProps,
 } from '@cocokits/vue/tooltip';
 export type { TooltipRootProps, TooltipSize } from './tooltip.types';
+
+/** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
+export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

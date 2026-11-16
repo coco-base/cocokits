@@ -30,7 +30,8 @@ export interface TextareaProps extends BaseTextareaProps {
    */
   readonly autoResize?: TextareaAutoResize | null | undefined;
   /**
-   * Shows the handle that resizes the height. It has no effect with `auto-resize`.
+   * Which way the grip resizes the box: `true` or `vertical`, `horizontal` or `both`. `false` shows no grip. It has no
+   * effect with `auto-resize`.
    */
   readonly resize?: TextareaResize | null | undefined;
 }
