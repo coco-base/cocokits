@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, provide, shallowRef, useId, watch } from 'vue';
+import { computed, onMounted, provide, shallowRef, useId, watch } from 'vue';
 import { transitionDialog, type DialogEvent } from '@cocokits/machines/dialog';
 import { DIALOG_KEY } from './dialog.context';
+import { watchNavigation } from './dialog-focus';
 import { liveElementRef } from '../internal/live-element';
 import { useDefaultModel } from '../internal/use-default-model';
 import type { DialogRootEmits, DialogRootProps } from './dialog.types';
@@ -13,6 +14,18 @@ const props = withDefaults(defineProps<DialogRootProps>(), {
   defaultOpen: false,
   modal: true,
   unmountOnHide: true,
+  role: undefined,
+  disableClose: undefined,
+  closePredicate: undefined,
+  autoFocus: undefined,
+  restoreFocus: undefined,
+  closeOnNavigation: true,
+  width: undefined,
+  height: undefined,
+  minWidth: undefined,
+  minHeight: undefined,
+  maxWidth: undefined,
+  maxHeight: undefined,
 });
 defineEmits<DialogRootEmits>();
 defineSlots<{
@@ -60,8 +73,10 @@ watch(open, (isOpen) => {
 });
 
 function send(event: DialogEvent): void {
-  const next = transitionDialog({ id, open: open.value }, event);
+  const next = transitionDialog({ id, open: open.value, disableClose: props.disableClose }, event);
   if (!next || next.open === open.value) return;
+  // `disableClose` has been asked already; the predicate sees every other close the dialog starts.
+  if (!next.open && props.closePredicate?.({ reason: next.reason, event: event.event }) === false) return;
   openedByTrigger.value = next.open && next.reason === 'trigger';
   model.value = next.open; // emits update:open
 }
@@ -71,12 +86,40 @@ function close(): void {
   send({ type: 'CLOSE.CLICK', event: new Event('close') });
 }
 
+// A change of the location closes an open dialog, and skips `disableClose` and `closePredicate`.
+onMounted(() => {
+  watch(
+    open,
+    (isOpen, _previous, onCleanup) => {
+      if (!isOpen || props.closeOnNavigation === false) return;
+      onCleanup(
+        watchNavigation(props.closeOnNavigation, () => {
+          model.value = false; // emits update:open
+        }),
+      );
+    },
+    { immediate: true },
+  );
+});
+
 const trigger = liveElementRef();
 
 provide(DIALOG_KEY, {
   id,
   open,
   modal: computed(() => props.modal),
+  role: computed(() => props.role),
+  disableClose: computed(() => props.disableClose === true),
+  autoFocus: computed(() => props.autoFocus),
+  restoreFocus: computed(() => props.restoreFocus),
+  size: computed(() => ({
+    width: props.width,
+    height: props.height,
+    minWidth: props.minWidth,
+    minHeight: props.minHeight,
+    maxWidth: props.maxWidth,
+    maxHeight: props.maxHeight,
+  })),
   unmountOnHide: computed(() => props.unmountOnHide),
   // Nothing is mounted on the server or in the first client render, so the markup matches.
   mounted: shallowRef(false),

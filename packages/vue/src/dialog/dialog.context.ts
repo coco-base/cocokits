@@ -1,5 +1,6 @@
 import { inject, type ComputedRef, type InjectionKey, type ShallowRef, type ComponentPublicInstance } from 'vue';
-import type { DialogEvent } from '@cocokits/machines/dialog';
+import type { DialogEvent, DialogRole, DialogSize } from '@cocokits/machines/dialog';
+import type { DialogAutoFocus, DialogRestoreFocus } from './dialog.types';
 
 /** What a DialogRoot gives its parts. */
 export interface DialogContextValue {
@@ -9,6 +10,16 @@ export interface DialogContextValue {
   readonly open: ComputedRef<boolean>;
   /** Whether the dialog opens modal (`showModal()`); `false` opens it non-modal (`show()`). */
   readonly modal: ComputedRef<boolean>;
+  /** The role of the content. */
+  readonly role: ComputedRef<DialogRole | undefined>;
+  /** Whether Escape and a press on the backdrop leave the dialog open. */
+  readonly disableClose: ComputedRef<boolean>;
+  /** Which element gets the focus when the dialog opens. */
+  readonly autoFocus: ComputedRef<DialogAutoFocus | undefined>;
+  /** Where the focus goes when the dialog closes. */
+  readonly restoreFocus: ComputedRef<DialogRestoreFocus | undefined>;
+  /** The size members of the content. */
+  readonly size: ComputedRef<DialogSize>;
   /** Whether the content leaves the document when the dialog closes; `false` keeps it, closed. */
   readonly unmountOnHide: ComputedRef<boolean>;
   /** Whether the content is in the document: open, or closed with its exit animation still running. */

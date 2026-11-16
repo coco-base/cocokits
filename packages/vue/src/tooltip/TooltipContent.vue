@@ -28,6 +28,8 @@ import { toVueListeners } from '../internal/listeners';
 import { useOverlayPositioning } from '../internal/overlay-positioning';
 import { rootElementOf } from '../internal/root-element';
 import { warnWithoutTrigger } from '../internal/trigger-warning';
+import TooltipDescription from './TooltipDescription.vue';
+import TooltipTitle from './TooltipTitle.vue';
 import { useTooltipContext } from './tooltip.context';
 import type { TooltipContentEmits, TooltipContentProps } from './tooltip.types';
 
@@ -69,19 +71,41 @@ defineSlots<{
   default?(): unknown;
 }>();
 
-/** The text of a slot that renders text only, else `null`: rich content has no description text. */
+/** The nodes a title or description part renders: its default slot, called now. */
+function partNodes(node: VNode): VNode[] | null {
+  const { children } = node;
+  const slot = children !== null && typeof children === 'object' && !Array.isArray(children) ? children : null;
+  const render = slot === null ? undefined : (slot as { default?: () => VNode[] }).default;
+  return typeof render === 'function' ? render() : null;
+}
+
+/**
+ * The text of a slot that renders text, a title part or a description part only, else `null`: rich content has no
+ * description text. The parts are part of the tooltip text, so the trigger is described by the title and the
+ * description, one after the other.
+ */
 function textOf(nodes: readonly VNode[] | undefined): string | null {
-  let text = '';
-  const walk = (list: readonly VNode[]): boolean =>
-    list.every((node) => {
-      if (node.type === Comment) return true;
+  const seen = { part: false };
+  const walk = (list: readonly VNode[]): string | null => {
+    let text = '';
+    for (const node of list) {
+      if (node.type === Comment) continue;
       if (node.type === Text) {
         text += typeof node.children === 'string' ? node.children : '';
-        return true;
+        continue;
       }
-      return node.type === Fragment && Array.isArray(node.children) && walk(node.children as VNode[]);
-    });
-  return nodes && walk(nodes) && text.trim() ? text : null;
+      const part = node.type === TooltipTitle || node.type === TooltipDescription;
+      seen.part ||= part;
+      const inner = part ? partNodes(node) : node.type === Fragment ? (node.children as VNode[] | null) : null;
+      const piece = Array.isArray(inner) ? walk(inner) : null;
+      if (piece === null) return null;
+      text += part ? ` ${piece} ` : piece;
+    }
+    return text;
+  };
+  const text = nodes ? walk(nodes) : null;
+  if (!text?.trim()) return null;
+  return seen.part ? text.replace(/\s+/g, ' ').trim() : text;
 }
 
 const ctx = useTooltipContext('TooltipContent');

@@ -351,6 +351,74 @@ export interface TooltipContentProps extends OverlayPositioningProps, OverlayArr
 }
 
 /**
+ * The first line of the content: a short title. It renders a `<div>`, adds no role, and is part of the tooltip text, so the description of the trigger reads it. Write it inside `TooltipContent`, before the `TooltipDescription`.
+ *
+ * @example
+ * <TooltipContent>
+ *   <TooltipTitle>Save</TooltipTitle>
+ * </TooltipContent>
+ *
+ * @cckPart title
+ */
+export interface TooltipTitleProps {
+  /**
+   * The tag or component to render in place of the element of the part. The part keeps its class. It is ignored with
+   * `asChild`.
+   *
+   * When not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with `as`.
+   */
+  readonly as?: AsTag | Component | undefined;
+  /**
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. When
+   * not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Merges the props onto the single child.
+   * @defaultValue false
+   */
+  readonly asChild?: boolean | undefined;
+}
+
+/**
+ * An optional smaller text after the title. It renders a `<div>`, adds no role, and is part of the tooltip text, so the description of the trigger reads it. Write it inside `TooltipContent`.
+ *
+ * @example
+ * <TooltipContent>
+ *   <TooltipDescription>Save</TooltipDescription>
+ * </TooltipContent>
+ *
+ * @cckPart description
+ */
+export interface TooltipDescriptionProps {
+  /**
+   * The tag or component to render in place of the element of the part. The part keeps its class. It is ignored with
+   * `asChild`.
+   *
+   * When not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with `as`.
+   */
+  readonly as?: AsTag | Component | undefined;
+  /**
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. When
+   * not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Merges the props onto the single child.
+   * @defaultValue false
+   */
+  readonly asChild?: boolean | undefined;
+}
+
+/**
  * A pointer from the content to the anchor, written inside `TooltipContent`. It renders a `<span>` that holds a
  * triangle `<svg>`. Assistive technology does not see it.
  *

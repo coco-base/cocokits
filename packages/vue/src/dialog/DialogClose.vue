@@ -4,7 +4,7 @@ import { dialogAnatomy, getDialogProps } from '@cocokits/machines/dialog';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { buttonPartKind, NON_NATIVE_DEFAULTS, nonNativePress, typedForKind } from '../internal/button-part';
 import { useDialogContext } from './dialog.context';
-import type { DialogCloseProps } from './dialog.types';
+import type { DialogCloseProps } from './dialog-parts.types';
 
 defineOptions({ name: 'CckDialogClose', inheritAttrs: false });
 

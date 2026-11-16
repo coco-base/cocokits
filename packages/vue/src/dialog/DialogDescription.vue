@@ -3,7 +3,7 @@ import { computed, mergeProps, onBeforeUnmount, onMounted, useAttrs } from 'vue'
 import { dialogAnatomy, getDialogProps } from '@cocokits/machines/dialog';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { useDialogContext } from './dialog.context';
-import type { DialogDescriptionProps } from './dialog.types';
+import type { DialogDescriptionProps } from './dialog-parts.types';
 
 defineOptions({ name: 'CckDialogDescription', inheritAttrs: false });
 

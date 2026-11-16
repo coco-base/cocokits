@@ -1,8 +1,46 @@
 import type { Component } from 'vue';
 import type { AsTag, FocusOutsideEvent, PointerDownOutsideEvent } from '@cocokits/vue-core';
-import type { DialogChangeReason } from '@cocokits/machines/dialog';
+import type { DialogChangeReason, DialogLength, DialogRole } from '@cocokits/machines/dialog';
 
-export type { DialogChangeReason };
+export type { DialogChangeReason, DialogLength, DialogRole };
+
+/**
+ * Which element gets the focus when a dialog opens. Any other string is a selector, and the first element that
+ * matches it gets the focus.
+ *
+ * @cckValue 'first-tabbable' - The first element with `autofocus`, or else the first element that Tab reaches, or else the dialog. The browser does this.
+ * @cckValue 'dialog' - The dialog itself.
+ * @cckValue 'first-heading' - The first heading in the dialog.
+ * @cckValue true - The same as `'first-tabbable'`.
+ * @cckValue false - The same as `'dialog'`.
+ */
+export type DialogAutoFocus = 'dialog' | 'first-tabbable' | 'first-heading' | (string & {}) | boolean;
+
+/**
+ * Where the focus goes when a dialog closes. A string is a selector, and an element gets the focus itself.
+ *
+ * @cckValue true - The element that had the focus when the dialog opened, which is the trigger of a dialog with one.
+ * @cckValue false - The focus does not move.
+ */
+export type DialogRestoreFocus = boolean | string | HTMLElement;
+
+/**
+ * When the dialog closes because the location changes.
+ *
+ * @cckValue true - The same as `'pop-state'`.
+ * @cckValue 'pop-state' - The dialog closes when the user goes back or forward in the history, or the hash changes.
+ * @cckValue 'url-change' - The same, and also on every change of the address that the browser reports with the Navigation API.
+ * @cckValue false - The dialog never closes on navigation.
+ */
+export type DialogCloseOnNavigation = boolean | 'pop-state' | 'url-change';
+
+/** What `closePredicate` receives: why the dialog asks to close, and the event behind it. */
+export interface DialogCloseDetails {
+  /** Why the dialog asks to close. */
+  readonly reason: DialogChangeReason;
+  /** The event behind the request: the click, the key, the press or the platform close event. */
+  readonly event: Event | null;
+}
 
 /**
  * Groups a trigger and its content, and holds the open state. It renders no element, so write the parts directly
@@ -54,8 +92,8 @@ export interface DialogRootProps {
    */
   readonly defaultOpen?: boolean | undefined;
   /**
-   * Whether the dialog is modal. A modal dialog is the native modal `<dialog>`: the page is inert and locked, and
-   * the focus stays inside.
+   * Whether the dialog is modal. `modal` adds the backdrop and makes the page inert: the dialog is the native modal
+   * `<dialog>`, the page behind it is locked, and the focus stays inside.
    *
    * With `false`, the dialog has no backdrop and no `aria-modal`. The page stays usable, and the focus can leave.
    * Escape, a press outside and the focus moving outside close it, and a press on the trigger toggles it.
@@ -77,6 +115,95 @@ export interface DialogRootProps {
    * @defaultValue true
    */
   readonly unmountOnHide?: boolean | undefined;
+  /**
+   * The role of the dialog. Only `'alertdialog'` is written, because the native `<dialog>` has the role `dialog`
+   * already. An `alertdialog` asks for an answer at once, such as a confirmation, and needs a `DialogDescription`.
+   *
+   * @cckSemantic dialog.role
+   * @defaultValue 'dialog'
+   */
+  readonly role?: DialogRole | undefined;
+  /**
+   * Whether Escape and a press on the backdrop leave the dialog open. The Close part, a `<form method="dialog">` and
+   * the trigger still close it. It runs before `closePredicate`.
+   *
+   * Without Escape, a keyboard user can leave only with the controls inside the dialog, so keep a Close part.
+   *
+   * @cckSemantic dialog.disableClose
+   * @defaultValue false
+   */
+  readonly disableClose?: boolean | undefined;
+  /**
+   * A function that decides whether a close that the dialog starts happens. Return `false` to keep it open. It runs
+   * for the Close part, a `<form method="dialog">`, Escape and a press on the backdrop, after `disableClose`. It does
+   * not run when your code changes `v-model:open`, nor for a close on navigation. When not set, every close happens.
+   *
+   * @example
+   * <DialogRoot :close-predicate="({ reason }) => reason !== 'escape'">...</DialogRoot>
+   *
+   * @cckSemantic dialog.closePredicate
+   */
+  readonly closePredicate?: ((details: DialogCloseDetails) => boolean) | undefined;
+  /**
+   * Which element gets the focus when the dialog opens.
+   *
+   * @cckSemantic dialog.autoFocus
+   * @defaultValue 'first-tabbable'
+   */
+  readonly autoFocus?: DialogAutoFocus | undefined;
+  /**
+   * Where the focus goes when the dialog closes. It moves only when the close was not caused by a press or a focus
+   * move outside the dialog.
+   *
+   * @cckSemantic dialog.restoreFocus
+   * @defaultValue true
+   */
+  readonly restoreFocus?: DialogRestoreFocus | undefined;
+  /**
+   * When the dialog closes because the location changes. A close on navigation skips `disableClose` and
+   * `closePredicate`.
+   *
+   * @cckSemantic dialog.closeOnNavigation
+   * @defaultValue true
+   */
+  readonly closeOnNavigation?: DialogCloseOnNavigation | undefined;
+  /**
+   * The width of the content. A number is px; a string is a CSS length such as `'40rem'`. This is the one inline
+   * style a base part writes, and it is the same in every framework. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.width
+   */
+  readonly width?: DialogLength | undefined;
+  /**
+   * The height of the content. A number is px; a string is a CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.height
+   */
+  readonly height?: DialogLength | undefined;
+  /**
+   * The smallest width of the content. A number is px; a string is a CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.minWidth
+   */
+  readonly minWidth?: DialogLength | undefined;
+  /**
+   * The smallest height of the content. A number is px; a string is a CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.minHeight
+   */
+  readonly minHeight?: DialogLength | undefined;
+  /**
+   * The largest width of the content. A number is px; a string is a CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.maxWidth
+   */
+  readonly maxWidth?: DialogLength | undefined;
+  /**
+   * The largest height of the content. A number is px; a string is a CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.maxHeight
+   */
+  readonly maxHeight?: DialogLength | undefined;
 }
 
 /** The events of the DialogRoot. */
@@ -251,113 +378,4 @@ export interface DialogContentEmits {
    * @cckParity The Content part emits it.
    */
   closeAutoFocus: [event: Event];
-}
-
-/**
- * The heading that names the dialog. It renders an `<h2>`. Use `as` or `asChild` for another heading level.
- *
- * The content refers to it with `aria-labelledby` while it is mounted.
- *
- * @example
- * <DialogTitle>Delete project</DialogTitle>
- *
- * @cckPart title
- */
-export interface DialogTitleProps {
-  /**
-   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
-   * handlers. It is ignored with `asChild`.
-   *
-   * When not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Replaces the rendered element with `as`.
-   */
-  readonly as?: AsTag | Component | undefined;
-  /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
-   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
-   * the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Merges the props onto the single child.
-   * @defaultValue false
-   */
-  readonly asChild?: boolean | undefined;
-}
-
-/**
- * The text that describes the dialog. It renders a `<p>`. The content refers to it with `aria-describedby` while it
- * is mounted.
- *
- * @example
- * <DialogDescription>This cannot be undone.</DialogDescription>
- *
- * @cckPart description
- */
-export interface DialogDescriptionProps {
-  /**
-   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
-   * handlers. It is ignored with `asChild`.
-   *
-   * When not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Replaces the rendered element with `as`.
-   */
-  readonly as?: AsTag | Component | undefined;
-  /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
-   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
-   * the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Merges the props onto the single child.
-   * @defaultValue false
-   */
-  readonly asChild?: boolean | undefined;
-}
-
-/**
- * A `<button>` that closes the dialog. Native button attributes and listeners fall through to it. A listener that
- * calls `preventDefault()` does not stop it from closing the dialog.
- *
- * A Close button with only an icon needs `aria-label` or `aria-labelledby`.
- *
- * With `as`, a tag or component other than `button` gets `role="button"`, `tabindex="0"` and no `type`. Enter
- * activates it on keydown and Space on keyup. A key listener that calls `preventDefault()` stops that. With
- * `asChild`, the child must render a `<button>`.
- *
- * @example
- * <DialogClose>Cancel</DialogClose>
- *
- * @cckPart close
- */
-export interface DialogCloseProps {
-  /**
-   * The tag or component to render in place of the element of the part. The part keeps its role, state, ids and
-   * handlers. It is ignored with `asChild`.
-   *
-   * When not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Replaces the rendered element with `as`.
-   */
-  readonly as?: AsTag | Component | undefined;
-  /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own element. The
-   * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
-   * the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Merges the props onto the single child.
-   * @defaultValue false
-   */
-  readonly asChild?: boolean | undefined;
 }
