@@ -287,7 +287,10 @@ describe('Accordion keyboard', () => {
 
   it('Enter and Space toggle the focused item', async () => {
     const user = userEvent.setup();
-    await render(Host);
+    await render(
+      `<cck-accordion collapsible><cck-accordion-item label="Returns">Returns body</cck-accordion-item></cck-accordion>`,
+      { imports },
+    );
     trigger('Returns').focus();
     await user.keyboard('{Enter}');
     expect(expanded('Returns')).toBe('true');
@@ -389,7 +392,7 @@ describe('Accordion animation', () => {
   it('keeps the closing content shown until its exit animation has finished, then hides it', async () => {
     const user = userEvent.setup();
     const { fixture } = await render(
-      `<cck-accordion><cck-accordion-item label="A" [expanded]="true">A</cck-accordion-item></cck-accordion>`,
+      `<cck-accordion collapsible><cck-accordion-item label="A" [expanded]="true">A</cck-accordion-item></cck-accordion>`,
       { imports },
     );
     const content = region('A');

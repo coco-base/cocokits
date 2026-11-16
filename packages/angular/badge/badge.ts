@@ -21,6 +21,9 @@ import { badgeAnatomy, getBadgeProps } from '@cocokits/machines/badge';
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   host: {
+    '[attr.content]': 'null',
+    '[attr.max]': 'null',
+    '[attr.hide]': 'null',
     '[class]': 'parts().root.class',
     '[attr.data-empty]': 'parts().root["data-empty"] ?? null',
     '[attr.data-truncated]': 'parts().root["data-truncated"] ?? null',

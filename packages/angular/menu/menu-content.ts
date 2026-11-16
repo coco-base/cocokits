@@ -55,14 +55,14 @@ export class CckMenuContent {
   /**
    * The gap between the trigger and the content, in px. When not set, the gap is the `--side-offset` of the theme.
    * @remarks A number is px. It is an exception to the rule that the theme owns the look: the gap is a position, and the author can set it per menu.
-   * @cckSemantic menu.content.sideOffset
+   * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly sideOffset = input<number | undefined>(undefined);
 
   /**
-   * How far the content moves along the edge of the trigger, in px. When not set, the content is not moved.
-   * @cckSemantic menu.content.alignOffset
+   * How far, in px, the content moves along the edge of the trigger, away from the aligned edge. It has no effect with `align="center"`.
+   * @cckSemantic none
    * @cckParity Not available in every framework.
    */
   readonly alignOffset = input<number | undefined>(undefined);

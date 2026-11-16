@@ -9,7 +9,7 @@ import { CckAccordionHarness, CckAccordionItemHarness } from '../index';
 @Component({
   imports: [CckAccordionImports],
   template: `
-    <cck-accordion>
+    <cck-accordion collapsible>
       <cck-accordion-item label="Shipping">Ships in two days</cck-accordion-item>
       <cck-accordion-item label="Returns" [expanded]="true">Return within 30 days</cck-accordion-item>
       <cck-accordion-item [label]="locked" disabled>Locked body</cck-accordion-item>
@@ -50,7 +50,7 @@ describe('CckAccordionHarness', () => {
     expect(await Promise.all(items.map((item) => item.getLabel()))).toEqual(['Shipping', 'Returns', 'Locked']);
     expect(await Promise.all(items.map((item) => item.isExpanded()))).toEqual([false, true, false]);
     expect(await Promise.all(items.map((item) => item.isDisabled()))).toEqual([false, false, true]);
-    expect(await items[0]?.getTextContent()).toBe('Ships in two days');
+    expect(await items[0]?.getTextContent()).toBe('');
     expect(await items[1]?.getTextContent()).toBe('Return within 30 days');
   });
 

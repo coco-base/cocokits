@@ -66,7 +66,7 @@ export class CckAccordionItemHarness extends ContentContainerComponentHarness {
     if (await this.isExpanded()) await this.toggle();
   }
 
-  /** Gets the text of the content, also while it is collapsed and hidden; empty when the content is not mounted. */
+  /** Gets the text of the content; it is empty while the item is collapsed, because the content has no children then. */
   async getTextContent(): Promise<string> {
     return (await (await this.content())?.text()) ?? '';
   }

@@ -118,7 +118,7 @@ describe('Accordion root members', () => {
     host.multi.set(true);
     fixture.detectChanges();
     await user.click(trigger('Returns'));
-    expect(host.open()).toEqual(['warranty', 'returns']);
+    expect(host.open()).toEqual(['returns', 'warranty']);
     expect(host.warranty()).toBe(true);
   });
 

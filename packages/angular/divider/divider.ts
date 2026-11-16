@@ -32,6 +32,8 @@ export type DividerOrientation = MachineDividerOrientation;
   selector: 'hr[cckDivider]',
   exportAs: 'cckDivider',
   host: {
+    '[attr.orientation]': 'null',
+    '[attr.decorative]': 'null',
     '[class]': 'parts().root.class',
     '[attr.data-orientation]': 'parts().root["data-orientation"]',
     '[attr.role]': 'parts().root.role ?? null',

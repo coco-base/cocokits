@@ -366,13 +366,15 @@ export abstract class CckMenuBase {
    */
   private engage(trigger: HTMLElement, content: HTMLElement): () => void {
     const host = content.parentElement;
-    const guards = this.guarded ? [createMenuGuard(this.renderer), createMenuGuard(this.renderer)] : [];
-    if (host && this.guarded) {
+    const guards: readonly [HTMLElement, HTMLElement] | null = this.guarded
+      ? [createMenuGuard(this.renderer), createMenuGuard(this.renderer)]
+      : null;
+    if (host && guards) {
       this.renderer.insertBefore(host, guards[0], content);
       this.renderer.appendChild(host, guards[1]);
     }
     this.startDismissLayer();
-    const connected = this.guarded
+    const connected = guards
       ? connectFocusGuards({
           getContent: () => this._content()?.element ?? null,
           getTrigger: () => this._trigger(),
@@ -390,7 +392,7 @@ export abstract class CckMenuBase {
       cancelFocus();
       this.stopDismissLayer();
       connected?.destroy();
-      for (const guard of guards) this.renderer.removeChild(guard.parentNode, guard);
+      for (const guard of guards ?? []) this.renderer.removeChild(guard.parentNode, guard);
       this.typeahead.reset();
       // A cleanup caused by closing returns focus; one caused by the menu being destroyed does not. It waits
       // a frame, so a press on empty space (which blurs to the body after the layer saw it) cannot undo it.

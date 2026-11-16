@@ -75,6 +75,11 @@ const elementOf = (part: FieldPart): HTMLElement => part.element;
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   host: {
+    '[attr.disabled]': 'null',
+    '[attr.readonly]': 'null',
+    '[attr.required]': 'null',
+    '[attr.invalid]': 'null',
+    '[attr.hiderequiredmarker]': 'null',
     '[class]': 'parts().root.class',
     '[attr.id]': 'id() || null',
     '[attr.hidden]': 'hidden() || parts().root.hidden ? "" : null',

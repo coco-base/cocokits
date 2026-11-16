@@ -76,7 +76,7 @@ describe('Tooltip title and description', () => {
     await screen.findByRole('tooltip');
     expect(start).toHaveBeenCalled();
     for (const [options] of start.mock.calls as [Options][]) {
-      expect(options.getContent().classList.contains(classes.content)).toBe(true);
+      expect(options.getContent()?.classList.contains(classes.content)).toBe(true);
     }
   });
 });

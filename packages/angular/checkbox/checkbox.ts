@@ -54,6 +54,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
   exportAs: 'cckCheckbox',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, CckSvgIcon],
+  host: { '[attr.indeterminate]': 'null' },
   template: `
     <span [class]="parts().wrapper.class" [cckAttrs]="theme().wrapper">
       <span [class]="parts().inputWrapper.class" [cckAttrs]="theme().inputWrapper">
