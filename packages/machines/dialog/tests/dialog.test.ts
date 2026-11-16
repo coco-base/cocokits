@@ -1,5 +1,13 @@
 import { describe, expect, it, vi } from 'vitest';
-import { dialogAnatomy, dialogIds, dialogMeta, getDialogProps, transitionDialog, type DialogState } from '../index';
+import {
+  dialogAnatomy,
+  dialogIds,
+  dialogMeta,
+  getDialogContentStyle,
+  getDialogProps,
+  transitionDialog,
+  type DialogState,
+} from '../index';
 
 const closed: DialogState = { id: 'd1', open: false };
 const open: DialogState = { id: 'd1', open: true };
@@ -46,7 +54,7 @@ describe('trigger ARIA', () => {
 describe('content', () => {
   it('has no role (the native dialog has it) and renders the state', () => {
     const content = getDialogProps(open, vi.fn()).content;
-    expect(content).not.toHaveProperty('role');
+    expect(content.role).toBeUndefined();
     expect(content['data-state']).toBe('open');
     expect(content.id).toBe(dialogIds('d1').content);
   });
@@ -80,6 +88,9 @@ describe('content', () => {
     const parts = getDialogProps(open, vi.fn());
     expect(dataKeys(parts.trigger)).toEqual([...dialogMeta.dataAttrs.trigger]);
     expect(dataKeys(parts.content)).toEqual([...dialogMeta.dataAttrs.content]);
+    expect(dataKeys(parts.header)).toEqual([...dialogMeta.dataAttrs.header]);
+    expect(dataKeys(parts.body)).toEqual([...dialogMeta.dataAttrs.body]);
+    expect(dataKeys(parts.footer)).toEqual([...dialogMeta.dataAttrs.footer]);
     expect(dataKeys(parts.title)).toEqual([...dialogMeta.dataAttrs.title]);
     expect(dataKeys(parts.description)).toEqual([...dialogMeta.dataAttrs.description]);
     expect(dataKeys(parts.close)).toEqual([...dialogMeta.dataAttrs.close]);
@@ -146,6 +157,81 @@ describe('transitionDialog', () => {
     expect(transitionDialog(closed, { type: 'CLOSE.CLICK', event })).toBeNull();
     expect(transitionDialog(closed, { type: 'CONTENT.CLOSE', event })).toBeNull();
     expect(transitionDialog(closed, { type: 'CONTENT.DISMISS', reason: 'escape', event })).toBeNull();
+  });
+});
+
+describe('header, body and footer (dialog-01)', () => {
+  it('renders the classes of the Anatomy table and nothing else: no role, no data attribute, no id', () => {
+    const { header, body, footer } = getDialogProps(open, vi.fn());
+    expect(dialogAnatomy.classes).toMatchObject({
+      header: 'cck-dialog__header',
+      body: 'cck-dialog__body',
+      footer: 'cck-dialog__footer',
+    });
+    expect(header).toEqual({ class: 'cck-dialog__header' });
+    expect(body).toEqual({ class: 'cck-dialog__body' });
+    expect(footer).toEqual({ class: 'cck-dialog__footer' });
+  });
+
+  it('adds no role to the parts: the Title still names the dialog', () => {
+    const parts = getDialogProps({ ...open, hasTitle: true }, vi.fn());
+    expect(parts.content['aria-labelledby']).toBe(dialogIds('d1').title);
+    expect(dialogMeta.roles).toMatchObject({ header: null, body: null, footer: null });
+    expect(dialogMeta.defaultElements).toMatchObject({ header: 'div', body: 'div', footer: 'div' });
+  });
+});
+
+describe('role (dialog-03)', () => {
+  it.each([
+    ['not set', undefined, undefined],
+    ['dialog', 'dialog', undefined],
+    ['alertdialog', 'alertdialog', 'alertdialog'],
+  ] as const)('writes the content role for %s', (_name, role, written) => {
+    expect(getDialogProps({ ...open, role }, vi.fn()).content.role).toBe(written);
+  });
+});
+
+describe('size members (dialog-03, Q16)', () => {
+  it.each([
+    ['none', {}, undefined],
+    ['numbers are px', { width: 480, maxHeight: 600 }, { width: '480px', maxHeight: '600px' }],
+    ['strings are lengths', { minWidth: '20rem', maxWidth: '90vw' }, { minWidth: '20rem', maxWidth: '90vw' }],
+    ['an empty string is not set', { width: '' }, undefined],
+    ['zero is a length', { minHeight: 0 }, { minHeight: '0px' }],
+    [
+      'all six',
+      { width: 1, height: 2, minWidth: 3, minHeight: 4, maxWidth: 5, maxHeight: 6 },
+      { width: '1px', height: '2px', minWidth: '3px', minHeight: '4px', maxWidth: '5px', maxHeight: '6px' },
+    ],
+  ])('turns %s into the content style', (_name, size, expected) => {
+    expect(getDialogContentStyle(size)).toEqual(expected);
+    expect(getDialogProps({ ...open, ...size }, vi.fn()).content.style).toEqual(expected);
+  });
+});
+
+describe('disableClose (dialog-03)', () => {
+  const event = click();
+
+  it.each([
+    ['escape', { type: 'CONTENT.DISMISS', reason: 'escape', event }],
+    ['outside-press', { type: 'CONTENT.DISMISS', reason: 'outside-press', event }],
+  ] as const)('keeps the dialog open on %s', (_name, sent) => {
+    expect(transitionDialog({ ...open, disableClose: true }, sent)).toBeNull();
+    expect(transitionDialog({ ...open, disableClose: false }, sent)).toMatchObject({ open: false });
+  });
+
+  it.each([
+    ['the Close part', { type: 'CLOSE.CLICK', event }],
+    ['the platform close event', { type: 'CONTENT.CLOSE', event }],
+  ] as const)('still closes from %s', (_name, sent) => {
+    expect(transitionDialog({ ...open, disableClose: true }, sent)).toEqual({ open: false, reason: 'close' });
+  });
+
+  it('still opens from the trigger', () => {
+    expect(transitionDialog({ ...closed, disableClose: true }, { type: 'TRIGGER.CLICK', event })).toEqual({
+      open: true,
+      reason: 'trigger',
+    });
   });
 });
 
