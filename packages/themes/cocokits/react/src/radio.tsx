@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Radio as BaseRadio, type RadioProps as BaseRadioProps } from '@cocokits/react/radio';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { RadioGroupThemeContext } from './theme-contexts';
 
 type RadioOptions = CocokitsThemeConfig['components']['radio'];

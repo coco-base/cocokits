@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Avatar as BaseAvatar, type AvatarRootProps as BaseAvatarRootProps } from '@cocokits/react/avatar';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { AvatarGroupThemeContext, AvatarLabelThemeContext } from './theme-contexts';
 
 type AvatarOptions = CocokitsThemeConfig['components']['avatar'];

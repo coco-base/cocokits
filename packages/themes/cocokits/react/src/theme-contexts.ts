@@ -17,8 +17,6 @@ type Values<C extends keyof Components, O extends keyof Components[C]> = Compone
  */
 export interface ParentThemeValues {
   readonly formField: { readonly size?: Values<'form-field', 'size'> };
-  /** The size a list resolves for itself (its own, else the field's); the chips of a composition will read it. */
-  readonly chipList: { readonly size?: Values<'chip-list', 'size'> };
   readonly avatarGroup: { readonly size?: Values<'avatar-group', 'size'> };
   readonly avatarLabel: { readonly size?: Values<'avatar-label', 'size'> };
   readonly radioGroup: {
@@ -34,7 +32,6 @@ const parentContext = <K extends keyof ParentThemeValues>(): Context<ParentTheme
   createContext<ParentThemeValues[K]>({});
 
 export const FormFieldThemeContext: Context<ParentThemeValues['formField']> = parentContext<'formField'>();
-export const ChipListThemeContext: Context<ParentThemeValues['chipList']> = parentContext<'chipList'>();
 export const AvatarGroupThemeContext: Context<ParentThemeValues['avatarGroup']> = parentContext<'avatarGroup'>();
 export const AvatarLabelThemeContext: Context<ParentThemeValues['avatarLabel']> = parentContext<'avatarLabel'>();
 export const RadioGroupThemeContext: Context<ParentThemeValues['radioGroup']> = parentContext<'radioGroup'>();

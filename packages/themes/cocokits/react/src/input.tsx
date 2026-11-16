@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Input as BaseInput, type InputProps as BaseInputProps } from '@cocokits/react/input';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormFieldThemeContext } from './theme-contexts';
 
 type InputOptions = CocokitsThemeConfig['components']['input'];

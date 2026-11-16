@@ -3,8 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Select as BaseSelect, type SelectRootProps as BaseSelectRootProps } from '@cocokits/react/select';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormFieldThemeContext } from './theme-contexts';
 
 type SelectOptions = CocokitsThemeConfig['components']['select'];
