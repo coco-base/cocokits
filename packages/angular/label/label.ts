@@ -61,7 +61,7 @@ export class CckLabel {
   protected readonly parts = computed(() => {
     const own = this.forId();
     return getLabelProps({
-      for: own === undefined || own === '' ? this.field?._controlId() : own,
+      for: own === undefined || own === '' ? this.field?._labelFor() : own,
       id: this.id(),
       required: this.field?._state().required,
       hideRequiredMarker: this.field?._fieldInput().hideRequiredMarker,
