@@ -140,7 +140,7 @@ describe('Select pointer', () => {
 });
 
 describe('Select multiple', () => {
-  it('toggles values, stays open, and shows the values joined with a comma', async () => {
+  it('toggles values, stays open, and shows the first value with the count of the others', async () => {
     const user = userEvent.setup();
     const recorded = record();
     mountView(selectView({ multiple: true, ...recorded.props }));
@@ -150,7 +150,8 @@ describe('Select multiple', () => {
     expect(recorded.values.at(-1)).toEqual(['Cake', 'Steak']);
     expect(screen.getByRole('listbox')).toBeTruthy();
     expect(option('Cake').getAttribute('aria-selected')).toBe('true');
-    expect(valueText()).toBe('Cake, Steak');
+    expect(valueText()).toBe('Cake');
+    expect(document.querySelector('.cck-select__count')?.textContent).toBe('+1');
     await user.click(option('Cake'));
     expect(recorded.values.at(-1)).toEqual(['Steak']);
     expect(recorded.values).toHaveLength(3);
