@@ -20,7 +20,7 @@ describe('theme Badge', () => {
   it('renders the config defaults', () => {
     render(themed(<Badge data-testid="badge" content={5} />));
     expect(badge().getAttribute('data-variant')).toBe('rounded');
-    expect(badge().getAttribute('data-cck-color')).toBe('contrast');
+    expect(badge().getAttribute('data-cck-color')).toBe('brand');
     expect(badge().getAttribute('data-size')).toBe('md');
     expect(badge().className).toBe('cck-badge');
     expect(badge().textContent).toBe('5');

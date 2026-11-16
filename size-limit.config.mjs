@@ -12,7 +12,7 @@ const entries = [
   { name: '@cocokits/angular-core', path: 'dist/packages/angular-core/fesm2022/cocokits-angular-core.mjs', limit: '3220 B' },
   { name: '@cocokits/react-core', path: 'packages/react/core/dist/index.js', limit: '1550 B' },
   { name: '@cocokits/vue-core', path: 'packages/vue/core/dist/index.js', limit: '2350 B' },
-  { name: '@cocokits/theme-cocokits', path: 'packages/themes/cocokits/core/dist/index.js', limit: '2210 B' },
+  { name: '@cocokits/theme-cocokits', path: 'packages/themes/cocokits/core/dist/index.js', limit: '2350 B' },
   { name: '@cocokits/theme-cocokits/styles.css', path: 'packages/themes/cocokits/core/dist/styles.css', limit: '15800 B' },
   { name: '@cocokits/theme-cocokits/tokens.css', path: 'packages/themes/cocokits/core/dist/tokens.css', limit: '6850 B' },
   { name: '@cocokits/theme-cocokits-angular', path: 'dist/packages/theme-cocokits-angular/fesm2022/cocokits-theme-cocokits-angular.mjs', limit: '2190 B' },

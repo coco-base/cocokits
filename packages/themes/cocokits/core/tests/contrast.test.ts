@@ -289,6 +289,14 @@ describe('design match pairs (WCAG 1.4.3 text 4.5:1, 1.4.11 non-text 3:1)', () =
     },
   );
 
+  it.each(families)('text: the Avatar fallback on-color on the color of %s in %s mode', (family, mode) => {
+    expect(contrast(active('on-color', family, mode), active('color', family, mode))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(families)('non-text: the checked Switch rail edge of %s on the page in %s mode', (family, mode) => {
+    expect(contrast(active('edge', family, mode), color('surface/1', mode))).toBeGreaterThanOrEqual(3);
+  });
+
   it.each(
     MODES.flatMap((mode) =>
       [

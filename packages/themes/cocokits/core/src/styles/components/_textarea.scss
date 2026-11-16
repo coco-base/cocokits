@@ -60,6 +60,11 @@
       }
     }
 
+    // The handle shows only when the theme's `resize` option is on.
+    &:not([data-resize]) {
+      resize: none;
+    }
+
     &:not([data-auto-resize]) {
       min-block-size: var(--cck-textarea-min-height);
     }

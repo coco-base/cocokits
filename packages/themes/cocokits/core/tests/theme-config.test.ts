@@ -38,7 +38,7 @@ describe('cocokitsThemeConfig button', () => {
   it.each([
     ['variant', 'variant', 'primary', ['primary', 'outline', 'light', 'basic']],
     ['color', 'cck-color', 'brand', ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']],
-    ['size', 'size', 'md', ['sm', 'md', 'lg']],
+    ['size', 'size', 'md', ['xs', 'sm', 'md', 'lg', 'xl']],
   ] as const)('%s renders data-%s, defaults to %s', (option, attrName, fallback, values) => {
     expect(button[option].attrName).toBe(attrName);
     expect(button[option].default).toBe(fallback);
@@ -73,7 +73,7 @@ describe('cocokitsThemeConfig button', () => {
     expectTypeOf(button.color.values).toEqualTypeOf<
       readonly ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']
     >();
-    expectTypeOf(button.size.values).toEqualTypeOf<readonly ['sm', 'md', 'lg']>();
+    expectTypeOf(button.size.values).toEqualTypeOf<readonly ['xs', 'sm', 'md', 'lg', 'xl']>();
   });
 });
 
@@ -82,7 +82,7 @@ describe('cocokitsThemeConfig badge', () => {
 
   it.each([
     ['variant', 'variant', 'rounded', ['rounded', 'rectangle']],
-    ['color', 'cck-color', 'contrast', ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']],
+    ['color', 'cck-color', 'brand', ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']],
     ['size', 'size', 'md', ['sm', 'md', 'lg', 'xl']],
   ] as const)('%s renders data-%s, defaults to %s', (option, attrName, fallback, values) => {
     expect(badge[option].attrName).toBe(attrName);
@@ -94,7 +94,7 @@ describe('cocokitsThemeConfig badge', () => {
   it('resolves the defaults to the data attributes on the root', () => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, badgeAnatomy).root).toEqual({
       'data-variant': 'rounded',
-      'data-cck-color': 'contrast',
+      'data-cck-color': 'brand',
       'data-size': 'md',
     });
   });
@@ -109,6 +109,7 @@ describe('cocokitsThemeConfig badge', () => {
 
   it('takes color and size from the generated token modes', () => {
     expect(badge.color.values).toBe(themeActiveColorModes);
+    expect(badge.color.default).toBe(themeActiveColorDefaultMode);
     expect(badge.size.values).toBe(badgeSizeModes);
     expect(badge.size.default).toBe(badgeSizeDefaultMode);
   });
@@ -246,23 +247,27 @@ describe('cocokitsThemeConfig textarea', () => {
   });
 
   it('renders data-auto-resize only when true', () => {
-    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy).root).toEqual({});
+    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy).root).toEqual({ 'data-resize': '' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: true }).root).toEqual({
+      'data-resize': '',
       'data-auto-resize': '',
     });
-    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: false }).root).toEqual({});
+    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: false }).root).toEqual({
+      'data-resize': '',
+    });
     expect(
       resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: null }, { autoResize: true }).root,
-    ).toEqual({});
+    ).toEqual({ 'data-resize': '' });
   });
 
   it('takes the provider override when the own option is left out, and the own option over it', () => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, {}, { autoResize: true }).root).toEqual({
+      'data-resize': '',
       'data-auto-resize': '',
     });
     expect(
       resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: false }, { autoResize: true }).root,
-    ).toEqual({});
+    ).toEqual({ 'data-resize': '' });
   });
 });
 
@@ -282,14 +287,17 @@ describe.each(['checkbox', 'switch', 'radio'] as const)('cocokitsThemeConfig %s'
   });
 
   it('resolves the defaults, an own option and null', () => {
+    // Only the Switch has a variant.
+    const variant = name === 'switch' ? { 'data-variant': 'contained' } : {};
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomy).root).toEqual({
+      ...variant,
       'data-size': 'md',
       'data-cck-color': 'brand',
       'data-label-position': 'after',
     });
     expect(
       resolveThemeAttrs(cocokitsThemeConfig, anatomy, { size: 'lg', labelPosition: 'before', color: null }).root,
-    ).toEqual({ 'data-size': 'lg', 'data-label-position': 'before' });
+    ).toEqual({ ...variant, 'data-size': 'lg', 'data-label-position': 'before' });
   });
 
   it('takes the color values and default from the generated token modes', () => {
@@ -313,7 +321,7 @@ describe('cocokitsThemeConfig accordion', () => {
 
   it.each([
     ['variant', 'variant', 'default', ['default', 'group', 'basic']],
-    ['size', 'size', 'md', ['sm', 'md']],
+    ['size', 'size', 'md', ['sm', 'md', 'lg']],
     ['togglePosition', 'toggle-position', 'after', ['after', 'before']],
     ['hideToggle', 'hide-toggle', false, [true, false]],
   ] as const)('%s renders data-%s on the root only, defaults to %s', (option, attrName, fallback, values) => {

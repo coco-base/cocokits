@@ -12,15 +12,15 @@ export type {
 export { CckSvgIconTheme } from './svg-icon-theme';
 export type { CckSvgIconColor, CckSvgIconRtlMirror, CckSvgIconSize } from './svg-icon-theme';
 export { CckFormFieldTheme } from './form-field-theme';
-export type { CckFormFieldSize } from './form-field-theme';
+export type { CckFormFieldSize, CckFormFieldWidth } from './form-field-theme';
 export { CckTextareaTheme } from './textarea-theme';
-export type { CckTextareaAutoResize } from './textarea-theme';
+export type { CckTextareaAutoResize, CckTextareaResize } from './textarea-theme';
 export { CckCheckboxTheme } from './checkbox-theme';
 export type { CckCheckboxColor, CckCheckboxLabelPosition, CckCheckboxSize } from './checkbox-theme';
 export { CckRadioTheme } from './radio-theme';
 export type { CckRadioColor, CckRadioLabelPosition, CckRadioSize } from './radio-theme';
 export { CckSwitchTheme } from './switch-theme';
-export type { CckSwitchColor, CckSwitchLabelPosition, CckSwitchSize } from './switch-theme';
+export type { CckSwitchColor, CckSwitchLabelPosition, CckSwitchSize, CckSwitchVariant } from './switch-theme';
 export { CckSelectTheme } from './select-theme';
 export type { CckSelectSize } from './select-theme';
 export { CckTabsTheme } from './tabs-theme';
@@ -37,7 +37,7 @@ export type {
 export { CckDividerTheme } from './divider-theme';
 export type { CckDividerColor, CckDividerSize } from './divider-theme';
 export { CckAvatarTheme } from './avatar-theme';
-export type { CckAvatarSize } from './avatar-theme';
+export type { CckAvatarColor, CckAvatarSize } from './avatar-theme';
 export { CckAvatarGroupTheme } from './avatar-group-theme';
 export type { CckAvatarGroupSize } from './avatar-group-theme';
 export { CckAvatarLabelTheme } from './avatar-label-theme';

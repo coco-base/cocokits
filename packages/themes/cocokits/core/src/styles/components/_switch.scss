@@ -99,6 +99,20 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     pointer-events: none;
   }
 
+  // Rail: a thin pill the thumb sits on, with no inset. The thumb keeps its border in every state.
+  // The offset is a variable the thumb and halo rules read, so it is set once on the root.
+  .cck-switch[data-variant='rail'] {
+    --cck-switch-thumb-offset: 0px;
+
+    #{$track} {
+      inline-size: var(--cck-switch-rail-track-width);
+    }
+
+    #{$pill} {
+      block-size: var(--cck-switch-rail-track-height);
+    }
+  }
+
   // The halo sits behind the thumb and follows it.
   .cck-switch__backdrop {
     position: absolute;

@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   dirty: undefined,
   submitted: undefined,
   autoResize: undefined,
+  resize: undefined,
 });
 const emit = defineEmits<TextareaEmits>();
 
@@ -47,7 +48,7 @@ defineExpose({
   },
 });
 
-provideThemeOptions('textarea', () => ({ autoResize: props.autoResize }));
+provideThemeOptions('textarea', () => ({ autoResize: props.autoResize, resize: props.resize }));
 </script>
 
 <template>

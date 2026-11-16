@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<SwitchProps>(), {
   dirty: undefined,
   submitted: undefined,
   asChild: undefined,
+  variant: undefined,
   size: undefined,
   color: undefined,
   labelPosition: undefined,
@@ -70,7 +71,12 @@ defineExpose({
   },
 });
 
-provideThemeOptions('switch', () => ({ size: props.size, color: props.color, labelPosition: props.labelPosition }));
+provideThemeOptions('switch', () => ({
+  variant: props.variant,
+  size: props.size,
+  color: props.color,
+  labelPosition: props.labelPosition,
+}));
 </script>
 
 <template>

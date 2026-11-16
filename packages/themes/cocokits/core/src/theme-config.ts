@@ -20,6 +20,7 @@ import {
   dividerSizeModes,
   formFieldSizeDefaultMode,
   formFieldSizeModes,
+  formFieldWidthModes,
   iconButtonSizeDefaultMode,
   iconButtonSizeModes,
   menuContentSizeDefaultMode,
@@ -45,6 +46,8 @@ const BADGE_VARIANTS = ['rounded', 'rectangle'] as const;
 const ACCORDION_VARIANTS = ['default', 'group', 'basic'] as const;
 /** Which side of the label the chevron sits on, in the writing direction; no token collection holds it. */
 const ACCORDION_TOGGLE_POSITIONS = ['after', 'before'] as const;
+/** The look of the track: a contained pill with the thumb inside, or a thin rail with the thumb on it. */
+const SWITCH_VARIANTS = ['contained', 'rail'] as const;
 const TABS_VARIANTS = ['border', 'fill', 'line', 'basic'] as const;
 /** Where the list sits across the tabs, in the writing direction; no token collection holds it. */
 const TABS_HEADER_ALIGNS = ['start', 'center', 'end', 'stretch'] as const;
@@ -54,8 +57,6 @@ const LABEL_POSITIONS = ['after', 'before'] as const;
 const DIVIDER_COLORS = ['light', 'default', 'dark'] as const;
 /** A two-state option: its `data-*` is present when true and absent when false. */
 const BOOLEAN_VALUES = [true, false] as const;
-/** The Badge picks its own colour default, `contrast`; the type makes a value that is not a mode an error. */
-const BADGE_DEFAULT_COLOR: ThemeActiveColorMode = 'contrast';
 /** The Tabs indicator is neutral until the author picks a family; the type makes a value that is not a mode an error. */
 const TABS_DEFAULT_COLOR: ThemeActiveColorMode = 'neutral';
 
@@ -120,6 +121,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly 'field-error': Record<string, never>;
     readonly 'form-field': {
       readonly size: Option<typeof formFieldSizeModes, readonly ['root', 'inputWrapper']>;
+      readonly width: OptionalOption<typeof formFieldWidthModes>;
     };
     /** Supported with no options. */
     readonly hint: Record<string, never>;
@@ -157,6 +159,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly icons: { readonly dropdownIcon: ThemeIconName; readonly optionIndicator: ThemeIconName };
     };
     readonly switch: {
+      readonly variant: RootOption<typeof SWITCH_VARIANTS>;
       readonly size: RootOption<typeof switchSizeModes>;
       readonly color: RootOption<typeof themeActiveColorModes>;
       readonly labelPosition: RootOption<typeof LABEL_POSITIONS>;
@@ -171,6 +174,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     /** Link tabs: the Tabs options, the same look. */
     readonly 'tab-nav': TabsOptions;
     readonly textarea: {
+      readonly resize: RootOption<typeof BOOLEAN_VALUES>;
       readonly autoResize: RootOption<typeof BOOLEAN_VALUES>;
     };
     /** Supported with no options. */
@@ -261,7 +265,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       color: {
         attrName: 'cck-color',
         values: themeActiveColorModes,
-        default: BADGE_DEFAULT_COLOR,
+        default: themeActiveColorDefaultMode,
         partNames: ['root'],
         description: 'Color family; renders the Active Color marker data-cck-color.',
       },
@@ -334,6 +338,13 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         partNames: ['root', 'inputWrapper'],
         description: 'Height, padding and text of the input box.',
       },
+      width: {
+        attrName: 'width',
+        values: formFieldWidthModes,
+        default: null,
+        partNames: ['root'],
+        description: 'Width of the field. Without it the field keeps the width its layout gives it.',
+      },
     },
     hint: {},
     'icon-button': {
@@ -402,6 +413,13 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       icons: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
     },
     switch: {
+      variant: {
+        attrName: 'variant',
+        values: SWITCH_VARIANTS,
+        default: 'contained',
+        partNames: ['root'],
+        description: 'Look of the track: a contained pill with the thumb inside, or a thin rail with the thumb on it.',
+      },
       size: rootSize(switchSizeModes, switchSizeDefaultMode, 'Size of the track and its label text.'),
       color: {
         attrName: 'cck-color',
@@ -445,6 +463,13 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     tabs: TABS_OPTIONS,
     'tab-nav': TABS_OPTIONS,
     textarea: {
+      resize: {
+        attrName: 'resize',
+        values: BOOLEAN_VALUES,
+        default: true,
+        partNames: ['root'],
+        description: 'Shows the handle that resizes the height. It has no effect with autoResize.',
+      },
       autoResize: {
         attrName: 'auto-resize',
         values: BOOLEAN_VALUES,

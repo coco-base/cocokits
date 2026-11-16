@@ -53,7 +53,7 @@ const attrs = (): Record<string, string | null> => ({
 describe('CckBadgeTheme', () => {
   it('renders the config defaults', async () => {
     await render(Host, themed);
-    expect(attrs()).toEqual({ variant: 'rounded', color: 'contrast', size: 'md' });
+    expect(attrs()).toEqual({ variant: 'rounded', color: 'brand', size: 'md' });
   });
 
   it.each([
@@ -109,6 +109,6 @@ describe('CckBadgeTheme', () => {
   it('themes the tag selector', async () => {
     await render(WithSize, themed);
     expect(badge().tagName).toBe('CCK-BADGE');
-    expect(attrs()).toEqual({ variant: 'rounded', color: 'contrast', size: 'lg' });
+    expect(attrs()).toEqual({ variant: 'rounded', color: 'brand', size: 'lg' });
   });
 });

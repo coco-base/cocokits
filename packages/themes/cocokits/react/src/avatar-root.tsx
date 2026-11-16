@@ -9,18 +9,24 @@ type AvatarOptions = CocokitsThemeConfig['components']['avatar'];
 
 /** The `size` values of the cocokits theme. */
 export type AvatarSize = AvatarOptions['size']['values'][number];
+/** The `color` values of the cocokits theme. */
+export type AvatarColor = AvatarOptions['color']['values'][number];
 
-/** Props of the themed {@link Avatar.Root}: the base props plus the cocokits `size`. */
+/** Props of the themed {@link Avatar.Root}: the base props plus the two cocokits options. */
 export interface AvatarRootProps extends BaseAvatarRootProps {
   /**
    * Side of the circle and size of the fallback text.
    */
   readonly size?: AvatarSize | null | undefined;
+  /**
+   * Color family of the fallback, rendered as `data-cck-color`.
+   */
+  readonly color?: AvatarColor | null | undefined;
 }
 
-function ThemedAvatarRoot({ size, ...props }: AvatarRootProps): ReactElement {
+function ThemedAvatarRoot({ size, color, ...props }: AvatarRootProps): ReactElement {
   return (
-    <ThemeOptionsProvider componentName="avatar" options={{ size }}>
+    <ThemeOptionsProvider componentName="avatar" options={{ size, color }}>
       <BaseAvatar.Root {...props} />
     </ThemeOptionsProvider>
   );
@@ -33,8 +39,8 @@ export interface AvatarRootComponent {
 }
 
 /**
- * The cocokits Avatar root. It renders the base `<span>` and supplies `size` to it, which renders the `data-size`
- * attribute. The option resolves in order: the prop, then the `ThemeProvider` override, then the config default;
+ * The cocokits Avatar root. It renders the base `<span>` and supplies `size` and `color` to it, which renders the
+ * `data-size` and `data-cck-color` attributes. Each option resolves in order: the prop, then the `ThemeProvider` override, then the config default;
  * `null` removes the attribute. The theme needs a `ThemeProvider`. Inside an `AvatarGroup` or `AvatarLabel`, the
  * size of the container wins.
  *

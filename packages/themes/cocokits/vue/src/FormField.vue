@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<FormFieldProps>(), {
   as: undefined,
   asChild: undefined,
   size: undefined,
+  width: undefined,
 });
 
 defineSlots<{
@@ -53,7 +54,7 @@ defineExpose({
   },
 });
 
-provideThemeOptions('form-field', () => ({ size: props.size }));
+provideThemeOptions('form-field', () => ({ size: props.size, width: props.width }));
 </script>
 
 <template>
