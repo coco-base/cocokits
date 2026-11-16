@@ -77,7 +77,7 @@ describe('Select filter (select-07)', () => {
     expect(document.activeElement).toBe(search());
     expect(document.querySelector('.cck-select__header')?.contains(search())).toBe(true);
     // The trigger gives up the highlighted option while the search keeps the focus.
-    expect(trigger().hasAttribute('aria-activedescendant')).toBe(false);
+    expect(screen.getByRole('combobox', { name: 'Dish' }).hasAttribute('aria-activedescendant')).toBe(false);
   });
 
   it('renders neither the header nor the search without filter', async () => {
