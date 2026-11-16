@@ -220,6 +220,9 @@ describe('chipListMeta', () => {
       'Enter | text box with text',
       'Enter | text box without text',
       'Enter, Space | remove button',
+      'Enter, Space | selectable chip',
+      'Backspace | empty text box',
+      'Backspace, Delete | focused chip',
       'Tab, Shift+Tab | chip list',
     ]);
   });

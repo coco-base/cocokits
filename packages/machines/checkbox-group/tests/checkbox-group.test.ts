@@ -48,7 +48,7 @@ describe('getCheckboxGroupProps root', () => {
 
   it('declares the group role and the div element in the meta', () => {
     expect(checkboxGroupMeta.roles.root).toBe('group');
-    expect(checkboxGroupMeta.defaultElements.root).toBe('div');
+    expect(checkboxGroupMeta.defaultElements?.root).toBe('div');
   });
 });
 

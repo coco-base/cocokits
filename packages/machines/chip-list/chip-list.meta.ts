@@ -24,6 +24,23 @@ export const chipListMeta: ComponentMeta<'root' | 'input'> = {
       action: 'Removes the chip (native button activation) and moves focus to the text box.',
     },
     {
+      key: 'Enter, Space',
+      context: 'selectable chip',
+      action: 'Toggles `selected` of the item (native button activation) and reports the change.',
+    },
+    {
+      key: 'Backspace',
+      context: 'empty text box',
+      action:
+        'Focuses the last chip that holds a focus stop. With text in the box, or during an IME composition, it deletes a character as usual.',
+    },
+    {
+      key: 'Backspace, Delete',
+      context: 'focused chip',
+      action:
+        'Removes the chip unless it is not removable or is disabled. Focus goes to the previous chip (Delete: the next one), else to the text box.',
+    },
+    {
       key: 'Tab, Shift+Tab',
       context: 'chip list',
       action: 'Native order: each enabled remove button, then the text box.',

@@ -10,9 +10,43 @@ import type {
  *
  * @cckValue add - The user added a value.
  * @cckValue remove - The user removed a value.
+ * @cckValue toggle - The user toggled a selectable chip.
  * @cckValue form-reset - The form was reset.
  */
-export type ChipListChangeReason = 'add' | 'remove' | 'form-reset';
+export type ChipListChangeReason = 'add' | 'remove' | 'toggle' | 'form-reset';
+
+/**
+ * One entry of the value list: an item object, or a plain string for a removable chip with no options.
+ * An item with `selected` set is selectable.
+ */
+export interface ChipListItem {
+  /** The text of the chip and the string the form submits. */
+  readonly value: string;
+  /** Whether the chip shows its remove button. @defaultValue true */
+  readonly removable?: boolean | undefined;
+  /** Whether the chip is disabled: no remove button and no toggle. @defaultValue false */
+  readonly disabled?: boolean | undefined;
+  /** The selected state of a selectable chip; the chip is not selectable while this is `undefined`. */
+  readonly selected?: boolean | undefined;
+}
+
+/** One entry of the value list: a string, or a {@link ChipListItem}. */
+export type ChipListEntry = string | ChipListItem;
+
+/** What the list gives one chip: the same facts for a string and for an item object. */
+export interface ChipListChipFacts {
+  /** The text of the chip and the string the form submits. */
+  readonly value: string;
+  /** Whether the chip shows its remove button. */
+  readonly removable: boolean;
+  /** Whether the chip is disabled: the item's own, or the list's (disabled or read-only). */
+  readonly disabled: boolean;
+  /** The selected state; `undefined` while the chip is not selectable. */
+  readonly selected: boolean | undefined;
+}
+
+/** Where focus goes after a chip is removed with the keyboard: a position in the list after the removal, or the text box. */
+export type ChipListFocusTarget = number | 'input';
 
 /** The keydown facts `isChipListAddKey` reads; a DOM `KeyboardEvent` fits. */
 export interface ChipListKeyEvent {
@@ -37,8 +71,8 @@ export interface ChipListKeyEvent {
  * draft text and the placeholder. A missing fact is `false`.
  */
 export interface ChipListProps extends Omit<FormFieldControlProps, 'filled'> {
-  /** The values, in the order they were added. */
-  readonly value: readonly string[];
+  /** The entries, in the order they were added: strings and {@link ChipListItem} objects. */
+  readonly value: readonly ChipListEntry[];
   /** The text in the text box that is not yet a value. @defaultValue '' */
   readonly draft?: string | undefined;
   /** The placeholder of the text box. An empty string counts as none. */
@@ -81,6 +115,8 @@ export interface ChipListParts {
   readonly root: ChipListRootProps;
   /** The text box props. */
   readonly input: ChipListInputProps;
+  /** The facts of one chip, from its entry; a disabled or read-only list disables every chip. */
+  readonly chip: (entry: ChipListEntry) => ChipListChipFacts;
   /** What the hidden native inputs carry: `name`, `disabled`, `required` and one string per value. */
   readonly formInput: FormHiddenInputProps;
   /** Whether the chips the list renders are disabled: the list is disabled or read-only. */
