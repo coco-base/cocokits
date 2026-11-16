@@ -12,7 +12,7 @@ let clicks = 0;
   selector: 'app-root',
   imports: [CckButton, CckButtonAnchor, CckButtonTheme],
   template: `
-    <button cckButton id="b" variant="light" color="danger" (click)="clicks = clicks + 1">Save</button>
+    <button cckButton id="b" variant="basic" color="danger" (click)="clicks = clicks + 1">Save</button>
     <a cckButton id="a" href="/x" disabled (click)="clicks = clicks + 1">Go</a>
   `,
 })

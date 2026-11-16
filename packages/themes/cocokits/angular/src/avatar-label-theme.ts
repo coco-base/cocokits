@@ -8,8 +8,8 @@ type AvatarLabelOptions = CocokitsThemeConfig['components']['avatar-label'];
 export type CckAvatarLabelSize = AvatarLabelOptions['size']['values'][number];
 /** The `avatarPosition` values of the cocokits theme. */
 export type CckAvatarLabelAvatarPosition = AvatarLabelOptions['avatarPosition']['values'][number];
-/** The `textLayout` values of the cocokits theme. */
-export type CckAvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'][number];
+/** The `labelAlignment` values of the cocokits theme. */
+export type CckAvatarLabelAlignment = AvatarLabelOptions['labelAlignment']['values'][number];
 
 /**
  * The cocokits theme options of the Avatar label. It sits on the same element as the base component
@@ -18,7 +18,7 @@ export type CckAvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'
  * the attribute. The theme needs `provideCckTheme`; without it no theme attribute renders.
  *
  * @example
- * <cck-avatar-label name="Ada Lovelace" description="Mathematician" size="lg" avatarPosition="end">
+ * <cck-avatar-label name="Ada Lovelace" description="Mathematician" size="lg" avatarPosition="right">
  *   <cck-avatar aria-hidden="true"><cck-avatar-fallback>AL</cck-avatar-fallback></cck-avatar>
  * </cck-avatar-label>
  * @cckPart root
@@ -32,7 +32,7 @@ export type CckAvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'
       (theme: CckAvatarLabelTheme) => ({
         size: theme.size,
         avatarPosition: theme.avatarPosition,
-        textLayout: theme.textLayout,
+        labelAlignment: theme.labelAlignment,
       }),
     ),
   ],
@@ -43,11 +43,11 @@ export class CckAvatarLabelTheme {
    */
   readonly size = input<CckAvatarLabelSize | null>();
   /**
-   * Which side of the text the avatar sits on, in the writing direction.
+   * Which side of the text the avatar sits on: left, top, right or bottom.
    */
   readonly avatarPosition = input<CckAvatarLabelAvatarPosition | null>();
   /**
    * Name and description on two lines or side by side.
    */
-  readonly textLayout = input<CckAvatarLabelTextLayout | null>();
+  readonly labelAlignment = input<CckAvatarLabelAlignment | null>();
 }

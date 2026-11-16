@@ -13,7 +13,7 @@ import {
   type CckAvatarGroupSize,
   type CckAvatarLabelAvatarPosition,
   type CckAvatarLabelSize,
-  type CckAvatarLabelTextLayout,
+  type CckAvatarLabelAlignment,
   type CckAvatarSize,
 } from '../src/index';
 import { providers } from './helpers';
@@ -35,7 +35,7 @@ import { providers } from './helpers';
       name="Ada"
       [size]="labelSize()"
       [avatarPosition]="position()"
-      [textLayout]="layout()"
+      [labelAlignment]="layout()"
     ></cck-avatar-label>
   `,
 })
@@ -44,7 +44,7 @@ class Host {
   readonly group = signal<CckAvatarGroupSize | null | undefined>(undefined);
   readonly labelSize = signal<CckAvatarLabelSize | null | undefined>(undefined);
   readonly position = signal<CckAvatarLabelAvatarPosition | null | undefined>(undefined);
-  readonly layout = signal<CckAvatarLabelTextLayout | null | undefined>(undefined);
+  readonly layout = signal<CckAvatarLabelAlignment | null | undefined>(undefined);
 }
 
 @Component({
@@ -67,8 +67,8 @@ describe('avatar theme layers', () => {
     expect(attr('avatar', 'data-size')).toBe('md');
     expect(attr('group', 'data-size')).toBe('md');
     expect(attr('label', 'data-size')).toBe('md');
-    expect(attr('label', 'data-avatar-position')).toBe('start');
-    expect(attr('label', 'data-text-layout')).toBe('stacked');
+    expect(attr('label', 'data-avatar-position')).toBe('left');
+    expect(attr('label', 'data-label-alignment')).toBe('vertical');
   });
 
   it.each([
@@ -76,7 +76,7 @@ describe('avatar theme layers', () => {
     ['group', 'group', 'data-size', group.size.values],
     ['label', 'labelSize', 'data-size', label.size.values],
     ['label', 'position', 'data-avatar-position', label.avatarPosition.values],
-    ['label', 'layout', 'data-text-layout', label.textLayout.values],
+    ['label', 'layout', 'data-label-alignment', label.labelAlignment.values],
   ] as const)('the %s %s input renders %s for every value', async (id, option, name, values) => {
     const { fixture } = await render(Host, { providers });
     for (const value of values) {
@@ -97,11 +97,11 @@ describe('avatar theme layers', () => {
       null,
       null,
     ]);
-    expect([attr('label', 'data-avatar-position'), attr('label', 'data-text-layout')]).toEqual([null, null]);
+    expect([attr('label', 'data-avatar-position'), attr('label', 'data-label-alignment')]).toEqual([null, null]);
     for (const s of all) s.set(undefined);
     await fixture.whenStable();
     expect(attr('avatar', 'data-size')).toBe('md');
-    expect(attr('label', 'data-text-layout')).toBe('stacked');
+    expect(attr('label', 'data-label-alignment')).toBe('vertical');
   });
 
   it('let an own input win over a provider override', async () => {
@@ -111,9 +111,9 @@ describe('avatar theme layers', () => {
 
   it('let a provider override win over the config default', async () => {
     await render(Host, {
-      providers: [provideCckTheme(cocokitsThemeConfig, { 'avatar-label': { textLayout: 'inline' } })],
+      providers: [provideCckTheme(cocokitsThemeConfig, { 'avatar-label': { labelAlignment: 'horizontal' } })],
     });
-    expect(attr('label', 'data-text-layout')).toBe('inline');
+    expect(attr('label', 'data-label-alignment')).toBe('horizontal');
   });
 
   it('render no theme data-* without a theme provider', async () => {

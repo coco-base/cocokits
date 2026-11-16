@@ -100,15 +100,15 @@ describe('theme directives of the chip and the chip list', () => {
     expect(chips).toHaveLength(2);
     for (const chip of chips) {
       expect(chip.getAttribute('data-size')).toBe('md');
-      expect(chip.querySelector('.cck-chip__remove .cck-svg-icon')?.getAttribute('data-icon')).toBe('close');
+      expect(chip.querySelector('.cck-chip__remove .cck-svg-icon')?.getAttribute('data-icon')).toBe('circle-xmark');
     }
   });
 
   it('draws the icon the theme names for the remove button', async () => {
     const { container } = await render(ChipHost, themed);
     const icon = first(container, '.cck-chip__remove .cck-svg-icon');
-    expect(cocokitsThemeConfig.components.chip.icons.remove).toBe('close');
-    expect(icon.getAttribute('data-icon')).toBe('close');
+    expect(cocokitsThemeConfig.components.chip.icons.remove).toBe('circle-xmark');
+    expect(icon.getAttribute('data-icon')).toBe('circle-xmark');
     expect(icon.querySelectorAll('path')).toHaveLength(1);
   });
 });

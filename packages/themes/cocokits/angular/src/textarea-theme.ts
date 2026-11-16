@@ -17,9 +17,16 @@ const toAutoResize = (
   value: CckTextareaAutoResize | string | null | undefined,
 ): CckTextareaAutoResize | null | undefined => (value == null ? value : booleanAttribute(value));
 
-/** Reads the attribute form: `resize` alone and `resize=""` mean true; `null` and `undefined` pass through. */
-const toResize = (value: CckTextareaResize | string | null | undefined): CckTextareaResize | null | undefined =>
-  value == null ? value : booleanAttribute(value);
+/**
+ * Reads the attribute form: `resize` alone and `resize=""` mean true, a direction stays a direction; `null` and
+ * `undefined` pass through.
+ */
+const toResize = (value: boolean | string | null | undefined): CckTextareaResize | null | undefined =>
+  value == null
+    ? value
+    : value === 'vertical' || value === 'horizontal' || value === 'both'
+      ? value
+      : booleanAttribute(value);
 
 /**
  * The cocokits theme options of the Textarea. It sits on the same element as the base component
@@ -60,10 +67,10 @@ export class CckTextareaTheme {
     transform: toAutoResize,
   });
   /**
-   * Shows the handle that resizes the height. It has no effect with `autoResize`.
+   * Which way the grip resizes the box: `true` or `vertical`, `horizontal` or `both`. `false` shows no grip. It has no
+   * effect with `autoResize`.
    */
-  readonly resize = input<CckTextareaResize | null | undefined, CckTextareaResize | string | null | undefined>(
-    undefined,
-    { transform: toResize },
-  );
+  readonly resize = input<CckTextareaResize | null | undefined, boolean | string | null | undefined>(undefined, {
+    transform: toResize,
+  });
 }
