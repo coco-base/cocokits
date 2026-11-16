@@ -111,6 +111,18 @@ export function isSameFormFieldControlState(
   );
 }
 
+/**
+ * The `for` a Label renders by default: the id of the control the field holds. A control that is a group of
+ * controls has no `for`, because a `div` cannot be labelled that way; the group points at the Label instead
+ * (`aria-labelledby`).
+ *
+ * @param control - What the control reported to the field; leave it out while no control is registered.
+ * @returns The control id, or `undefined` while there is no control or the control is a group.
+ */
+export function getFormFieldLabelFor(control?: FormFieldControlState): string | undefined {
+  return control?.group === true ? undefined : control?.id;
+}
+
 /** The `hidden` and the ten `data-*` attributes of the facts: the field root and its controls render the same. */
 export function getFormFieldFactAttrs(state: FormFieldState): Omit<FormFieldRootProps, 'class'> {
   return {

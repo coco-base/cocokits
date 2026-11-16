@@ -50,6 +50,11 @@ export interface FormFieldControlContext {
   readonly ids?: FormFieldIds | undefined;
   /** The facts the author set on the FormField; they reach the control by OR. */
   readonly state?: FormFieldOwnFacts | undefined;
+  /**
+   * Whether the field holds a Label that renders `ids.label`. A group that the Label names (`aria-labelledby`)
+   * points at it only while it does. @defaultValue false
+   */
+  readonly hasLabel?: boolean | undefined;
 }
 
 /**

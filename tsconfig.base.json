@@ -73,6 +73,7 @@
       "@cocokits/machines/badge-container": ["./packages/machines/badge-container/index.ts"],
       "@cocokits/machines/button": ["./packages/machines/button/index.ts"],
       "@cocokits/machines/checkbox": ["./packages/machines/checkbox/index.ts"],
+      "@cocokits/machines/checkbox-group": ["./packages/machines/checkbox-group/index.ts"],
       "@cocokits/machines/chip": ["./packages/machines/chip/index.ts"],
       "@cocokits/machines/chip-list": ["./packages/machines/chip-list/index.ts"],
       "@cocokits/machines/dialog": ["./packages/machines/dialog/index.ts"],

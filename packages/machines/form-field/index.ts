@@ -3,6 +3,7 @@ export { formFieldMeta } from './form-field.meta';
 export { getFormFieldControlProps, invalidShown, isFilledText } from './form-field-control';
 export {
   formFieldIds,
+  getFormFieldLabelFor,
   getFormFieldProps,
   mergeDescribedBy,
   formFieldStateAttrs,
