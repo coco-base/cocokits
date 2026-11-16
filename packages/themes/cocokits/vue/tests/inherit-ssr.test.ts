@@ -11,7 +11,7 @@ const server = (ui: () => VNode): Promise<string> =>
     createSSRApp(defineComponent({ setup: () => () => h(ThemeProvider, { themeConfig: cocokitsThemeConfig }, ui) })),
   );
 
-describe.each(inheritCases.map((c) => [c.name, c] as const))('group inheritance on the server: %s', (_name, c) => {
+describe.each(inheritCases)('group inheritance on the server: $name', (c) => {
   const attr = async (parent: string | null | undefined, own: string | null | undefined): Promise<string | null> =>
     attrIn(await server(() => c.ui(parent, own)), c.root, c.attr);
 

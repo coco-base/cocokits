@@ -2,7 +2,7 @@
 import { inject, useTemplateRef } from 'vue';
 import { ChipList as BaseChipList, type ChipListEmits } from '@cocokits/vue/chip-list';
 import { provideThemeOptions } from '@cocokits/vue-core';
-import { inherited } from '@cocokits/theme-cocokits';
+import { resolveInheritedValue } from '@cocokits/theme-cocokits';
 import { forwardModels } from './forward-models';
 import { formFieldThemeKey } from './theme-keys';
 import type { ChipListProps } from './chip-list.types';
@@ -76,7 +76,7 @@ defineExpose({
 });
 
 const field = inject(formFieldThemeKey, null);
-const size = () => inherited(props.size, field?.().size);
+const size = () => resolveInheritedValue(props.size, field?.().size);
 provideThemeOptions('chip-list', () => ({ size: size() }));
 </script>
 
