@@ -60,7 +60,7 @@ export interface SelectContextValue<T = unknown> {
   readonly empty: boolean;
   /** The value of the model, as the children function of the value part gets it. */
   readonly selectedValue: unknown;
-  /** The trigger text: the selected labels joined with `, `. */
+  /** The trigger text: the label of the first selected value. */
   readonly valueText: string;
   /** The keys of the options of one group, so the group hides while the query matches none of them. */
   readonly groupItemKeys: (groupKey: string) => readonly string[];

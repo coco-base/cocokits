@@ -62,7 +62,7 @@ export interface CckSelectChange<V = string> {
  *
  * The value is a model. Use `[(value)]` to read and change it, `[value]` to only set it, or no binding. `V` is the type of the value and comes from the binding.
  *
- * A single Select holds the value of one option. With `multiple`, it holds a list. `undefined` means the value is not bound, and `null` means nothing is selected. An option with the value `null` or `undefined` clears a single Select, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder. The trigger shows the text of the selected options, joined with a comma. To show something else, write a `cckSelectTrigger` template.
+ * A single Select holds the value of one option. With `multiple`, it holds a list. `undefined` means the value is not bound, and `null` means nothing is selected. An option with the value `null` or `undefined` clears a single Select, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder. The trigger shows the text of the first selected option, and with `multiple` a count such as `+2` for the others. To show something else, write a `cckSelectTrigger` template.
  *
  * The Select works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes hidden native inputs, so `FormData`, `required`, `form`, reset and autofill work. Inside a `cck-form-field`, the trigger is the control of the field, and the list lines up with the input of the field. Name the Select with the label of the field, `aria-label` or `aria-labelledby`. The focus stays on the trigger while the list is open. The highlighted option is the `aria-activedescendant`.
  *
@@ -80,10 +80,11 @@ export interface CckSelectChange<V = string> {
  * @cckPart root
  * @cckPart trigger
  * @cckPart value
+ * @cckPart count
  * @cckPart dropdownIcon
  * @cckPart content
  * @cckSlot default - The options, the option groups and the separators. When not set, the list is empty.
- * @cckSlot trigger ng-template[cckSelectTrigger] - Your own markup for the trigger, in place of the labels of the selected options. When not set, the trigger shows the labels joined with a comma.
+ * @cckSlot trigger ng-template[cckSelectTrigger] - Your own markup for the trigger, in place of the labels of the selected options. When not set, the trigger shows the first label and the count.
  */
 @Component({
   selector: 'cck-select',

@@ -32,7 +32,7 @@ function SelectValueImpl<V = unknown>({
 }
 
 /**
- * The text that the trigger shows. It renders a `<span>` with the placeholder while nothing is selected, and with the selected labels, joined with a comma, otherwise.
+ * The text that the trigger shows. It renders a `<span>` with the placeholder while nothing is selected, and with the label of the first selected value otherwise. The count of the others is the `Select.Count` part.
  *
  * The labels come from the `items` of the Root, then from `itemToStringLabel`, then from the value as text. So they are in the server render. Give it children to show something else. Native `span` props pass through.
  *
