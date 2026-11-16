@@ -80,18 +80,27 @@ function valueLabel<T>(state: SelectState<T>, value: T): string {
 }
 
 /**
- * The text of the trigger when there is no custom trigger: the label of each selected value, joined with
- * `, ` in value order. Empty while nothing is selected.
+ * The text of the trigger when there is no custom trigger: the label of the selected value, or, with `multiple`,
+ * of the first selected value (the others are the count, see {@link getSelectCountText}). Empty while nothing is
+ * selected.
  *
  * @param state - The Select state.
  * @returns The text.
  */
 export function getSelectValueText<T>(state: SelectState<T>): string {
-  return isSelectEmpty(state)
-    ? ''
-    : selectedValues(state)
-        .map((value) => valueLabel(state, value))
-        .join(', ');
+  const [first] = isSelectEmpty(state) ? [] : selectedValues(state);
+  return first === undefined ? '' : valueLabel(state, first);
+}
+
+/**
+ * The text of the count: `+N` for the N selected values after the first one, with `multiple`.
+ *
+ * @param state - The Select state.
+ * @returns The text, or `undefined` while fewer than two values are selected or the Select is single.
+ */
+export function getSelectCountText<T>(state: SelectState<T>): string | undefined {
+  const others = state.multiple ? selectedValues(state).length - 1 : 0;
+  return others > 0 ? `+${String(others)}` : undefined;
 }
 
 /** The string a value submits with the form: `itemToStringValue(value)`, else `String(value)`; `''` for a nullish value. */
@@ -112,11 +121,34 @@ export function selectFormValues<T>(state: SelectState<T>): readonly string[] {
   return [isSelectEmpty(state) ? '' : valueToFormString(state, selectedValues(state)[0] as T)];
 }
 
-/** The items as typeahead items: the option text, else its label. */
+/** The text an option is found by: its `text`, else its label. */
+function itemText<T>(state: SelectState<T>, item: SelectItem<T>): string {
+  return item.text?.trim() ? item.text : itemLabel(state, item);
+}
+
+/**
+ * Whether the query shows the option: always without `filter` or with an empty query, otherwise when the text of
+ * the option contains the trimmed query, ignoring case.
+ *
+ * @param state - The Select state.
+ * @param item - The option.
+ * @returns `true` while the option is shown.
+ */
+export function isSelectItemVisible<T>(state: SelectState<T>, item: SelectItem<T>): boolean {
+  const query = state.filter === true ? (state.query ?? '').trim().toLowerCase() : '';
+  return query === '' || itemText(state, item).toLowerCase().includes(query);
+}
+
+/** The options the query shows, in document order: every option without `filter`. */
+export function visibleSelectItems<T>(state: SelectState<T>): readonly SelectItem<T>[] {
+  return state.items.filter((item) => isSelectItemVisible(state, item));
+}
+
+/** The items as typeahead items: the option text, else its label. An option the query hides is disabled. */
 export function toTypeaheadItems<T>(state: SelectState<T>): TypeaheadItem[] {
   return state.items.map((item) => ({
-    disabled: item.disabled === true,
-    text: item.text?.trim() ? item.text : itemLabel(state, item),
+    disabled: item.disabled === true || !isSelectItemVisible(state, item),
+    text: itemText(state, item),
   }));
 }
 

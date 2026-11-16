@@ -1,5 +1,6 @@
 import { resolveNextIndex } from '@cocokits/cdk/roving-focus';
-import { selectedIndex, toTypeaheadItems } from './select-values';
+import { isSelectItemVisible, selectedIndex, toTypeaheadItems } from './select-values';
+import type { SelectSearchKeyBinding } from './select-search.types';
 import type { SelectEvent, SelectKeyBinding, SelectState } from './select.types';
 
 /** How far PageUp and PageDown move the highlight. */
@@ -37,6 +38,17 @@ export const selectKeymap: readonly SelectKeyBinding[] = [
   { keys: ['Escape'], when: 'open', alt: 'no', intent: 'escape', row: 'Escape' },
 ];
 
+/**
+ * The handled keys of the search input, as data. The meta keyboard table has one row with the context
+ * `search input` for each `row`. The other keys, Home and End included, belong to the text field.
+ */
+export const selectSearchKeymap: readonly SelectSearchKeyBinding[] = [
+  { keys: ['ArrowDown', 'ArrowUp'], intent: 'step', row: 'ArrowDown / ArrowUp' },
+  { keys: ['Enter'], intent: 'choose', row: 'Enter' },
+  { keys: ['Escape'], intent: 'escape', row: 'Escape' },
+  { keys: ['Tab'], intent: 'tab', row: 'Tab' },
+];
+
 /** The facts the handlers need, with the field's facts already merged in. */
 export interface SelectKeyFacts {
   /** Whether the Select reacts at all: not disabled and not read-only. */
@@ -70,7 +82,10 @@ function moveTarget(state: SelectState<unknown>, key: string): string | undefine
     key,
     count: state.items.length,
     current,
-    isDisabled: (index) => state.items[index]?.disabled === true,
+    isDisabled: (index) => {
+      const item = state.items[index];
+      return item === undefined || item.disabled === true || !isSelectItemVisible(state, item);
+    },
     orientation: 'vertical',
     loop: false,
     dir: 'ltr',
@@ -115,6 +130,45 @@ function typeahead(state: SelectState<unknown>, event: KeyboardEvent): KeyResult
   return {
     send: state.open ? { type: 'LIST.MOVE', key, event } : { type: 'TRIGGER.OPEN', initial: { key }, event },
     prevent: true,
+  };
+}
+
+/**
+ * Builds the `keydown` handler of the search input. ArrowDown and ArrowUp move the highlight through the options
+ * the query shows, Enter chooses the highlighted option, Escape closes and Tab closes as it does on the trigger
+ * (the browser moves focus). Any other key, a vetoed, composing or modified one included, belongs to the text field.
+ *
+ * @param state - The Select state, with its query.
+ * @param send - Receives the event the key stands for.
+ * @returns The handler.
+ */
+export function createSelectSearchKeyDown(
+  state: SelectState<unknown>,
+  send: (event: SelectEvent) => void,
+): (event: KeyboardEvent) => void {
+  return (event) => {
+    if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.shiftKey && event.key !== 'Tab') return;
+    const binding = selectSearchKeymap.find((candidate) => candidate.keys.includes(event.key));
+    if (!binding) return;
+    switch (binding.intent) {
+      case 'step': {
+        event.preventDefault();
+        const key = moveTarget(state, event.key);
+        if (key !== undefined && key !== state.highlighted) send({ type: 'LIST.MOVE', key, event });
+        return;
+      }
+      case 'choose':
+        event.preventDefault();
+        send({ type: 'LIST.CHOOSE', event });
+        return;
+      case 'escape':
+        event.preventDefault();
+        send({ type: 'LIST.DISMISS', reason: 'escape', event });
+        return;
+      case 'tab':
+        send({ type: 'LIST.DISMISS', reason: 'blur', event });
+    }
   };
 }
 

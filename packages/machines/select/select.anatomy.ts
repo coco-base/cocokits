@@ -13,7 +13,14 @@ export const selectAnatomy: Anatomy<
     readonly value: AnatomyPart;
     readonly dropdownIcon: AnatomyPart;
     readonly content: AnatomyPart;
+    readonly header: AnatomyPart;
+    readonly search: AnatomyPart;
+    readonly empty: AnatomyPart;
+    readonly footer: AnatomyPart;
+    readonly count: AnatomyPart;
     readonly option: AnatomyPart;
+    readonly optionLeading: AnatomyPart;
+    readonly optionDescription: AnatomyPart;
     readonly optionIndicator: AnatomyPart;
     readonly optionContent: AnatomyPart;
     readonly optionGroup: AnatomyPart;
@@ -41,7 +48,36 @@ export const selectAnatomy: Anatomy<
       name: 'Content',
       description: 'The `listbox`, portaled and positioned under the trigger or the FormField box.',
     },
+    header: {
+      name: 'Header',
+      description: 'The area above the options. It holds the search while the Select has a `filter`; it has no role.',
+    },
+    search: {
+      name: 'Search',
+      description:
+        'A native `input type="search"` with role `combobox`. DOM focus stays in it while the list is open; typing narrows the options.',
+    },
+    empty: {
+      name: 'Empty',
+      description: 'The text shown while no option matches the query. A polite status.',
+    },
+    footer: {
+      name: 'Footer',
+      description: "The area below the options. It holds the author's actions and does not close the list.",
+    },
+    count: {
+      name: 'Count',
+      description: 'In the trigger of a multiple Select: `+N` for the selected values after the first one.',
+    },
     option: { name: 'Option', description: 'An option of the list. Its content must not be interactive.' },
+    optionLeading: {
+      name: 'Option leading',
+      description: 'Decorative: an icon or a picture before the text of an option; it holds the author content.',
+    },
+    optionDescription: {
+      name: 'Option description',
+      description: 'A smaller text under or beside the text of an option. It describes the option.',
+    },
     optionIndicator: {
       name: 'Option indicator',
       description:

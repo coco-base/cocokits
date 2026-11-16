@@ -1,4 +1,4 @@
-import { isSameValue, isSelectEmpty, isValueSelected, selectedValues } from './select-values';
+import { isSameValue, isSelectEmpty, isSelectItemVisible, isValueSelected, selectedValues } from './select-values';
 import type {
   SelectEvent,
   SelectInitialHighlight,
@@ -17,11 +17,11 @@ const interactive = <T>(state: SelectState<T>): boolean => state.disabled !== tr
  *
  * @param state - The Select state.
  * @param initial - Where the highlight starts.
- * @returns The key, or `null` when no option is enabled.
+ * @returns The key, or `null` when no option is enabled and shown.
  */
 export function resolveSelectHighlight<T>(state: SelectState<T>, initial: SelectInitialHighlight): string | null {
   if (typeof initial === 'object') return initial.key;
-  const enabled = state.items.filter((item) => item.disabled !== true);
+  const enabled = state.items.filter((item) => item.disabled !== true && isSelectItemVisible(state, item));
   if (initial === 'first') return enabled[0]?.key ?? null;
   if (initial === 'last') return enabled.at(-1)?.key ?? null;
   return (enabled.find((item) => isValueSelected(state, item.value)) ?? enabled[0])?.key ?? null;
@@ -33,10 +33,20 @@ function openList<T>(state: SelectState<T>, initial: SelectInitialHighlight): Se
     open: { open: true, reason: 'trigger' },
     highlight: resolveSelectHighlight(state, initial),
     reveal: true,
+    ...(state.filter === true ? { focus: 'search' as const } : {}),
   };
 }
 
-const closedBy = (reason: SelectOpenReason) => ({ open: { open: false, reason }, highlight: null }) as const;
+/**
+ * A close. With `filter` it also clears the query, and focus returns to the trigger unless it already left it
+ * (`blur`, or an outside press).
+ */
+function closedBy<T>(state: SelectState<T>, reason: SelectOpenReason): SelectTransition<T> {
+  const base = { open: { open: false, reason }, highlight: null } as const;
+  if (state.filter !== true) return base;
+  const returns = reason === 'trigger' || reason === 'escape' || reason === 'select';
+  return { ...base, query: '', ...(returns ? { focus: 'trigger' as const } : {}) };
+}
 
 /** Whether choosing the option clears a single Select: its value is `null` or `undefined` and nullable options are not selectable. */
 function clearsSelection<T>(state: SelectState<T>, item: SelectItem<T>): boolean {
@@ -60,17 +70,17 @@ function choose<T>(
       ? current.filter((selected) => !isSameValue(state, selected, item.value))
       : [...current, item.value];
     const value = state.orderValues ? state.orderValues(toggled) : toggled;
-    return closeAfter ? { value, ...closedBy(reason) } : { value };
+    return closeAfter ? { value, ...closedBy(state, reason) } : { value };
   }
   const clears = clearsSelection(state, item);
-  if (clears ? isSelectEmpty(state) : isValueSelected(state, item.value)) return closedBy(reason);
-  return { value: clears ? null : item.value, ...closedBy(reason) };
+  if (clears ? isSelectEmpty(state) : isValueSelected(state, item.value)) return closedBy(state, reason);
+  return { value: clears ? null : item.value, ...closedBy(state, reason) };
 }
 
 function chooseHighlighted<T>(state: SelectState<T>, closeAfter: boolean): SelectTransition<T> | null {
   const item = findItem(state, state.highlighted);
   if (item) return choose(state, item, closeAfter);
-  return closeAfter && state.open ? closedBy('blur') : null;
+  return closeAfter && state.open ? closedBy(state, 'blur') : null;
 }
 
 /** A dismissal: focus leaving the trigger first commits the highlighted enabled option of a single Select. */
@@ -84,7 +94,7 @@ function dismiss<T>(
     const item = findItem(state, state.highlighted);
     if (item && item.disabled !== true) return choose(state, item, true, event.reason);
   }
-  return closedBy(event.reason);
+  return closedBy(state, event.reason);
 }
 
 function findItem<T>(state: SelectState<T>, key: string | undefined): SelectItem<T> | undefined {
@@ -93,9 +103,19 @@ function findItem<T>(state: SelectState<T>, key: string | undefined): SelectItem
 
 function pointerMove<T>(state: SelectState<T>, key: string): SelectTransition<T> | null {
   const item = findItem(state, key);
-  return state.open && item !== undefined && item.disabled !== true && key !== state.highlighted
+  return state.open &&
+    item !== undefined &&
+    item.disabled !== true &&
+    isSelectItemVisible(state, item) &&
+    key !== state.highlighted
     ? { highlight: key }
     : null;
+}
+
+/** Typing narrows the options and puts the highlight on the first one that is shown and enabled. */
+function search<T>(state: SelectState<T>, value: string): SelectTransition<T> | null {
+  if (!state.open || state.filter !== true || value === (state.query ?? '')) return null;
+  return { query: value, highlight: resolveSelectHighlight({ ...state, query: value }, 'first'), reveal: true };
 }
 
 /**
@@ -107,6 +127,9 @@ function pointerMove<T>(state: SelectState<T>, key: string): SelectTransition<T>
  * - A single Select closes when an option is chosen (reason `select`); a multiple one toggles the value
  *   and stays open.
  * - A disabled option is never highlighted by the pointer and never chosen.
+ * - With `filter`, the list opens with focus in the search input, typing sets `query` and highlights the first
+ *   option that is shown, and every close clears the query (and returns focus to the trigger after a choice,
+ *   Escape or a trigger press). An option the query hides is never highlighted, found or chosen.
  * - Focus leaving the trigger (`blur`, or an outside press that moved focus) chooses the highlighted enabled
  *   option of a single Select, then closes with the reason of the dismissal; Escape never chooses.
  * - An option whose value is `null` or `undefined` clears a single Select (value `null`) unless
@@ -119,10 +142,12 @@ function pointerMove<T>(state: SelectState<T>, key: string): SelectTransition<T>
 export function transitionSelect<T>(state: SelectState<T>, event: SelectEvent): SelectTransition<T> | null {
   switch (event.type) {
     case 'TRIGGER.CLICK':
-      if (state.open) return { open: { open: false, reason: 'trigger' }, highlight: null };
+      if (state.open) return closedBy(state, 'trigger');
       return openList(state, 'selected');
     case 'TRIGGER.OPEN':
       return openList(state, event.initial);
+    case 'SEARCH.INPUT':
+      return search(state, event.value);
     case 'LIST.MOVE':
       return state.open ? { highlight: event.key, reveal: true } : null;
     case 'OPTION.POINTER_MOVE':
