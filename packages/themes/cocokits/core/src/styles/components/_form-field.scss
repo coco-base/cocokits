@@ -27,10 +27,11 @@ $box: '.cck-form-field__input-wrapper:has(#{$controls})';
       padding-inline-start: var(--cck-form-field-balance-indent);
     }
 
-    // The width option sets both sizes, so the minimum above does not stop a narrow field.
+    // The width option sets both sizes, so the minimum above does not stop a narrow field. The cap keeps a wide one
+    // inside a narrow screen.
     &[data-width] {
-      inline-size: var(--cck-form-field-inline-size);
-      min-inline-size: var(--cck-form-field-inline-size);
+      inline-size: min(var(--cck-form-field-inline-size), 100%);
+      min-inline-size: min(var(--cck-form-field-inline-size), 100%);
     }
   }
 

@@ -49,9 +49,12 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
     box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-invalid-border-color);
   }
 
-  // On a filled box the inner line takes the mark color, which reads against the fill; the border stays danger.
+  // On a filled box the danger edge is as wide as the border and the inner line takes the mark color, which reads
+  // against the fill: the look before the box had a drawn border.
   .cck-checkbox:where(#{$facts})#{$invalid} #{box.box($block)} {
-    box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-mark-color);
+    box-shadow:
+      inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color),
+      inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-mark-color);
   }
 
   @include box.disabled($block);

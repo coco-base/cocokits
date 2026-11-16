@@ -160,7 +160,9 @@ describe('filled controls', () => {
     const css = cssOf('checkbox');
     const filled = css.indexOf('[data-checked], [data-indeterminate]):where([data-invalid])');
     expect(filled).toBeGreaterThan(css.indexOf('--cck-checkbox-box-invalid-border-color)'));
-    expect(css.slice(filled, filled + 400)).toContain('var(--cck-checkbox-box-mark-color)');
+    expect(css.slice(filled, filled + 400)).toContain(
+      'inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color), inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-mark-color)',
+    );
   });
 
   it('the switch draws the invalid line in the thumb color on a filled track', () => {

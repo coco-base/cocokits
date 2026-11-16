@@ -133,8 +133,8 @@ describe('form field width', () => {
 
   it('sets the inline size and the minimum only under the width attribute, so xs computes 80px', () => {
     const rule = declarationsOf(css, '.cck-form-field[data-width]') ?? '';
-    expect(rule).toContain('inline-size: var(--cck-form-field-inline-size)');
-    expect(rule).toContain('min-inline-size: var(--cck-form-field-inline-size)');
+    expect(rule).toContain('inline-size: min(var(--cck-form-field-inline-size), 100%)');
+    expect(rule).toContain('min-inline-size: min(var(--cck-form-field-inline-size), 100%)');
     expect(declarationsOf(css, '.cck-form-field')).toContain('min-inline-size: var(--cck-form-field-min-inline-size)');
     expect(css.match(/var\(--cck-form-field-inline-size\)/g)).toHaveLength(2);
   });
