@@ -1,4 +1,5 @@
 import { resolveNextIndex, type TypeaheadItem } from '@cocokits/cdk/roving-focus';
+import type { Direction } from '@cocokits/shared';
 import type { MenuEvent, MenuItemEntry, MenuKeyBinding, MenuState } from './menu.types';
 
 /**
@@ -15,6 +16,17 @@ export const menuKeymap: readonly MenuKeyBinding[] = [
   // Only while a search is running; `find` skips it otherwise, so Space presses the item.
   { keys: [' '], shift: 'either', context: 'Menu', intent: 'typeahead', row: 'Printable character' },
   { keys: ['Enter', ' '], shift: 'no', context: 'Menu item', intent: 'press', row: 'Enter, Space' },
+  { keys: ['Enter'], shift: 'no', context: 'Menu checkbox or radio item', intent: 'press', row: 'Enter' },
+  { keys: [' '], shift: 'no', context: 'Menu checkbox or radio item', intent: 'check', row: 'Space' },
+  {
+    keys: ['ArrowRight', 'Enter', ' '],
+    shift: 'no',
+    context: 'Sub-trigger',
+    intent: 'open-sub',
+    row: 'ArrowRight, Enter, Space',
+  },
+  { keys: ['ArrowLeft'], shift: 'no', context: 'Submenu', intent: 'close-sub', row: 'ArrowLeft' },
+  { keys: ['Escape'], shift: 'no', context: 'Submenu', intent: 'layer', row: 'Escape' },
   { keys: ['Escape'], shift: 'no', context: 'Menu', intent: 'layer', row: 'Escape' },
   { keys: ['Tab'], shift: 'no', context: 'Menu', intent: 'layer', row: 'Tab' },
   { keys: ['Tab'], shift: 'yes', context: 'Menu', intent: 'layer', row: 'Shift+Tab' },
@@ -30,11 +42,24 @@ type KeyAction = (state: MenuState, event: KeyboardEvent) => KeyResult | null;
 
 const items = (state: MenuState): readonly MenuItemEntry[] => state.items ?? [];
 
-/** The key of the active item: the one asked for while it is mounted, else the first item. */
-function activeKeyOf(state: MenuState): string | undefined {
+/**
+ * The key of the active item: the one asked for while it is mounted, else the first item.
+ *
+ * @param state - The menu state, with its items.
+ * @returns The key, or `undefined` while the menu has no item.
+ */
+export function resolveMenuActiveKey(state: MenuState): string | undefined {
   const all = items(state);
   return all.find((item) => item.key === state.activeKey)?.key ?? all[0]?.key;
 }
+
+const activeKeyOf = resolveMenuActiveKey;
+
+/** The key that opens a submenu from its trigger: ArrowRight, ArrowLeft in rtl. The key that closes it is the other one. */
+const openKey = (dir: Direction | undefined): 'ArrowRight' | 'ArrowLeft' =>
+  dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+const closeKey = (dir: Direction | undefined): 'ArrowRight' | 'ArrowLeft' =>
+  dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
 
 const shouldIgnore = (event: KeyboardEvent): boolean =>
   event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey;
@@ -124,8 +149,9 @@ export function createMenuTriggerKeyDown(
 
 /**
  * Builds the `keydown` handler of the content: the arrows, Home and End move between items, a printable
- * character finds an item by its text. A key on the content itself never presses an item. Escape, Tab and Shift+Tab are
- * left to the dismissal stack and the focus guards. A key the menu does not handle is left alone, as is a
+ * character finds an item by its text. In a submenu (`state.sub`), ArrowLeft (ArrowRight in rtl) sends
+ * `SUB.CLOSE`. A key on the content itself never presses an item. Escape, Tab and Shift+Tab are
+ * left to the dismissal stack and the focus guards (Escape closes only the topmost layer, so only the submenu). A key the menu does not handle is left alone, as is a
  * vetoed, composing or modified key.
  *
  * @param state - The menu state, with its items and the active one.
@@ -139,6 +165,11 @@ export function createMenuContentKeyDown(
   return (event) => {
     if (shouldIgnore(event)) return;
     if (event.shiftKey && event.key.length > 1) return;
+    if (state.sub === true && !event.shiftKey && event.key === closeKey(state.dir)) {
+      event.preventDefault();
+      send({ type: 'SUB.CLOSE', event });
+      return;
+    }
     const binding = find(['Menu'], state, event);
     const action = binding
       ? contentActions[binding.intent]
@@ -154,8 +185,9 @@ export function createMenuContentKeyDown(
 
 /**
  * Builds the `keydown` handler of one item: Enter and Space press it, and a disabled item only holds the
- * default action. Space belongs to the content's typeahead while a search is running. A vetoed, composing or
- * modified key, and Shift with Enter, are left alone.
+ * default action. On a checkbox or radio item Enter presses it (the menu closes) and Space sends `ITEM.CHECK`
+ * (the menu stays open). Space belongs to the content's typeahead while a search is running. A vetoed,
+ * composing or modified key, and Shift with Enter, are left alone.
  *
  * @param state - The menu state, with its typeahead.
  * @param entry - The item the handler is for.
@@ -171,6 +203,37 @@ export function createMenuItemKeyDown(
     if (shouldIgnore(event) || event.shiftKey) return;
     if (event.key !== 'Enter' && (event.key !== ' ' || isTypingSpace(state, event))) return;
     event.preventDefault();
-    if (entry.disabled !== true) send({ type: 'ITEM.PRESS', key: entry.key, event });
+    if (entry.disabled === true) return;
+    const checkable = entry.kind === 'checkbox' || entry.kind === 'radio';
+    send(
+      event.key === ' ' && checkable
+        ? { type: 'ITEM.CHECK', key: entry.key, event }
+        : { type: 'ITEM.PRESS', key: entry.key, event },
+    );
+  };
+}
+
+/**
+ * Builds the `keydown` handler of a sub-trigger: ArrowRight (ArrowLeft in rtl), Enter and Space open the
+ * submenu on its first item. A disabled sub-trigger only holds the default action. Space belongs to the content's
+ * typeahead while a search is running. A vetoed, composing, modified or Shift key is left alone.
+ *
+ * @param state - The state of the menu the sub-trigger is an item of.
+ * @param entry - The sub-trigger's entry.
+ * @param send - Receives `SUB.TRIGGER.OPEN`.
+ * @returns The handler.
+ */
+export function createMenuSubTriggerKeyDown(
+  state: MenuState,
+  entry: MenuItemEntry,
+  send: (event: MenuEvent) => void,
+): (event: KeyboardEvent) => void {
+  return (event) => {
+    if (shouldIgnore(event) || event.shiftKey) return;
+    const opens =
+      event.key === 'Enter' || event.key === openKey(state.dir) || (event.key === ' ' && !isTypingSpace(state, event));
+    if (!opens) return;
+    event.preventDefault();
+    if (entry.disabled !== true) send({ type: 'SUB.TRIGGER.OPEN', initial: 'first', event });
   };
 }

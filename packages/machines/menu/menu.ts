@@ -1,24 +1,10 @@
-import { createMenuContentKeyDown, createMenuItemKeyDown, createMenuTriggerKeyDown } from './menu-keyboard';
+import { menuIds } from './menu-ids';
+import { getMenuItemProps } from './menu-item';
+import { createMenuContentKeyDown, createMenuTriggerKeyDown } from './menu-keyboard';
+import { getMenuItemContentParts } from './menu-parts';
+import { getMenuSubTriggerProps } from './menu-sub';
 import { menuAnatomy } from './menu.anatomy';
-import type {
-  MenuEvent,
-  MenuIds,
-  MenuItemEntry,
-  MenuItemProps,
-  MenuParts,
-  MenuState,
-  MenuTransition,
-} from './menu.types';
-
-/**
- * Derives the ids of the menu parts that link to each other.
- *
- * @param id - The id of the menu, from the adapter.
- * @returns The trigger and content ids.
- */
-export function menuIds(id: string): MenuIds {
-  return { trigger: `${id}-trigger`, content: `${id}-content` };
-}
+import type { MenuEvent, MenuParts, MenuState, MenuTransition } from './menu.types';
 
 /**
  * Decides the open change an event asks for. Pure. Only the trigger events act while the menu is closed.
@@ -45,16 +31,17 @@ export function transitionMenu(state: MenuState, event: MenuEvent): MenuTransiti
  *
  * @param state - The author's props and the tracked facts, with the resolved placement and the mounted items.
  * @param send - Receives the events of the handlers; pass them to {@link transitionMenu}.
- * @returns The props of the trigger and the content, and a function that returns the props of one item.
+ * @returns The props of the trigger and the content, a function that returns the props of one item (plain,
+ * checkbox or radio) or of a sub-trigger, and the props of the groups and of the parts inside an item. With
+ * `state.sub` the content is the sub-content of a submenu.
  */
 export function getMenuProps(state: MenuState, send: (event: MenuEvent) => void): MenuParts {
   const { classes } = menuAnatomy;
   const ids = menuIds(state.id);
   const triggerId = state.triggerId ?? ids.trigger;
   const dataState = state.open ? 'open' : 'closed';
-  const first = state.items?.[0]?.key;
-  const activeKey = state.items?.some((item) => item.key === state.activeKey) ? state.activeKey : first;
   return {
+    ...getMenuItemContentParts(state.id),
     trigger: {
       class: classes.trigger,
       id: triggerId,
@@ -69,7 +56,7 @@ export function getMenuProps(state: MenuState, send: (event: MenuEvent) => void)
       onKeyDown: createMenuTriggerKeyDown(state, send),
     },
     content: {
-      class: classes.content,
+      class: state.sub === true ? classes.subContent : classes.content,
       id: ids.content,
       role: 'menu',
       tabIndex: -1,
@@ -79,20 +66,7 @@ export function getMenuProps(state: MenuState, send: (event: MenuEvent) => void)
       'data-align': state.align ?? 'start',
       onKeyDown: createMenuContentKeyDown(state, send),
     },
-    item: (entry: MenuItemEntry): MenuItemProps => ({
-      class: classes.item,
-      role: 'menuitem',
-      tabIndex: entry.key === activeKey ? 0 : -1,
-      'aria-disabled': entry.disabled ? 'true' : undefined,
-      'data-disabled': entry.disabled ? '' : undefined,
-      onClick: (event) => {
-        if (!event.defaultPrevented)
-          send({ type: 'ITEM.RUN', key: entry.key, disabled: entry.disabled === true, event });
-      },
-      onFocus: () => {
-        send({ type: 'ITEM.FOCUS', key: entry.key });
-      },
-      onKeyDown: createMenuItemKeyDown(state, entry, send),
-    }),
+    item: (entry) => getMenuItemProps(state, entry, send),
+    subTrigger: (entry, sub) => getMenuSubTriggerProps(state, entry, sub, send),
   };
 }
