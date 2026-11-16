@@ -2,10 +2,9 @@
 import { createSSRApp, defineComponent, h } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { describe, expect, it } from 'vitest';
-import { Input } from '@cocokits/vue/input';
 import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { FormField } from '../src/index';
+import { FormField, Input } from '../src/index';
 
 const render = async (themed: boolean): Promise<string> => {
   const fields = () => [
@@ -28,8 +27,9 @@ describe('theme FormField on the server', () => {
 
   it('renders data-size on the root and the input wrapper, lg and the default md', async () => {
     const html = await render(true);
-    expect(html.match(/data-size="lg"/g)).toHaveLength(2);
-    expect(html.match(/data-size="md"/g)).toHaveLength(2);
+    // Root, input wrapper and input (it takes the size of its field).
+    expect(html.match(/data-size="lg"/g)).toHaveLength(3);
+    expect(html.match(/data-size="md"/g)).toHaveLength(3);
     expect(html).toMatch(
       /<div[^>]*data-size="lg"[^>]*class="cck-form-field__input-wrapper"|<div[^>]*class="cck-form-field__input-wrapper"[^>]*data-size="lg"/,
     );

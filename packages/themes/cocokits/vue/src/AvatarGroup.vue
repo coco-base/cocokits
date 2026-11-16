@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { provide, useTemplateRef } from 'vue';
 import { AvatarGroup as BaseAvatarGroup } from '@cocokits/vue/avatar-group';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { avatarGroupThemeKey } from './theme-keys';
 import type { AvatarGroupProps } from './avatar-group.types';
 
 defineOptions({ name: 'AvatarGroup' });
@@ -29,6 +30,7 @@ defineExpose({
 });
 
 provideThemeOptions('avatar-group', () => ({ size: props.size }));
+provide(avatarGroupThemeKey, () => ({ size: props.size }));
 </script>
 
 <template>

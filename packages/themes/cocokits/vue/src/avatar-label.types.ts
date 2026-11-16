@@ -23,7 +23,7 @@ export type AvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'][n
  */
 export interface AvatarLabelProps extends BaseAvatarLabelProps {
   /**
-   * Gap, text size and the size of its direct avatar; it wins over its own size.
+   * Gap and text size; its avatar that sets no size of its own takes its size.
    */
   readonly size?: AvatarLabelSize | null | undefined;
   /**

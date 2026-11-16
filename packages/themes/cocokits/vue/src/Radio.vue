@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { inject, useTemplateRef } from 'vue';
 import { Radio as BaseRadio, type RadioEmits } from '@cocokits/vue/radio';
 import { provideThemeOptions } from '@cocokits/vue-core';
 import { forwardModels } from './forward-models';
+import { inherited } from './inherit';
+import { radioGroupThemeKey } from './theme-keys';
 import type { RadioProps } from './radio.types';
 
 defineOptions({ name: 'Radio' });
@@ -63,7 +65,12 @@ defineExpose({
   },
 });
 
-provideThemeOptions('radio', () => ({ size: props.size, color: props.color, labelPosition: props.labelPosition }));
+const group = inject(radioGroupThemeKey, null);
+provideThemeOptions('radio', () => ({
+  size: inherited(props.size, group?.().size),
+  color: inherited(props.color, group?.().color),
+  labelPosition: inherited(props.labelPosition, group?.().labelPosition),
+}));
 </script>
 
 <template>

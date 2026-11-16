@@ -5,11 +5,14 @@ type SelectOptions = CocokitsThemeConfig['components']['select'];
 
 /** The `size` values of the cocokits theme. */
 export type SelectSize = SelectOptions['size']['values'][number];
+/** The `indicator` values of the cocokits theme. */
+export type SelectIndicator = SelectOptions['indicator']['values'][number];
 
 /**
- * Props of the cocokits SelectRoot. It renders the base SelectRoot and supplies `size` to it, which renders
- * `data-size` on the root. The option resolves as own option, then `ThemeProvider` override, then config default;
- * `null` removes the attribute. Inside a FormField the field sets the size of the trigger. Bind the value with
+ * Props of the cocokits SelectRoot. It renders the base SelectRoot and supplies `size` and `indicator` to it, which
+ * render `data-size` on the root and `data-indicator` on the list. Each option resolves as own option, then (for
+ * `size`) the size of the `FormField` around it, then `ThemeProvider` override, then config default; `null` removes
+ * the attribute. Bind the value with
  * `v-model`; native attributes and listeners fall through to the base.
  *
  * @example
@@ -26,7 +29,12 @@ export type SelectSize = SelectOptions['size']['values'][number];
  */
 export interface SelectRootProps<T = string, M extends boolean = false> extends BaseSelectRootProps<T, M> {
   /**
-   * Height, padding and text of the trigger.
+   * Height, padding and text of the trigger. Inside a `FormField` it takes the size of the field.
    */
   readonly size?: SelectSize | null | undefined;
+  /**
+   * Mark of the selected option, rendered on the list: a check after the text, a box before it, or none. Without it
+   * a single list shows a check and a multiple list a box.
+   */
+  readonly indicator?: SelectIndicator | null | undefined;
 }

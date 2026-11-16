@@ -12,8 +12,8 @@ export type RadioLabelPosition = RadioOptions['labelPosition']['values'][number]
 
 /**
  * Props of the cocokits Radio. It renders the base Radio and supplies `size`, `color` and `labelPosition` to it,
- * which renders the `data-*` attributes on the root. Each option resolves as own option, then `ThemeProvider`
- * override, then config default; `null` removes the attribute. Bind the value with `v-model`; native attributes
+ * which renders the `data-*` attributes on the root. Each option resolves as own option, then the one of the
+ * `RadioGroup` around it, then `ThemeProvider` override, then config default; `null` removes the attribute. Bind the value with `v-model`; native attributes
  * and listeners fall through to the base.
  *
  * @example

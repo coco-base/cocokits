@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { inject, useTemplateRef } from 'vue';
 import { Textarea as BaseTextarea, type TextareaEmits } from '@cocokits/vue/textarea';
 import { provideThemeOptions } from '@cocokits/vue-core';
 import { forwardModels } from './forward-models';
+import { inherited } from './inherit';
+import { formFieldThemeKey } from './theme-keys';
 import type { TextareaProps } from './textarea.types';
 
 defineOptions({ name: 'Textarea' });
@@ -22,6 +24,7 @@ const props = withDefaults(defineProps<TextareaProps>(), {
   touched: undefined,
   dirty: undefined,
   submitted: undefined,
+  size: undefined,
   autoResize: undefined,
   resize: undefined,
 });
@@ -48,7 +51,12 @@ defineExpose({
   },
 });
 
-provideThemeOptions('textarea', () => ({ autoResize: props.autoResize, resize: props.resize }));
+const field = inject(formFieldThemeKey, null);
+provideThemeOptions('textarea', () => ({
+  size: inherited(props.size, field?.().size),
+  autoResize: props.autoResize,
+  resize: props.resize,
+}));
 </script>
 
 <template>

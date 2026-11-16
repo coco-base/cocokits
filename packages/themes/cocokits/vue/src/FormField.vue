@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { provide, useTemplateRef } from 'vue';
 import { FormField as BaseFormField } from '@cocokits/vue/form-field';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { formFieldThemeKey } from './theme-keys';
 import type { FormFieldProps } from './form-field.types';
 
 defineOptions({ name: 'FormField' });
@@ -55,6 +56,8 @@ defineExpose({
 });
 
 provideThemeOptions('form-field', () => ({ size: props.size, width: props.width }));
+// The controls inside the field that set no `size` take this one.
+provide(formFieldThemeKey, () => ({ size: props.size }));
 </script>
 
 <template>

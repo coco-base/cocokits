@@ -251,6 +251,23 @@ describe('group inheritance in the React theme (D29, AC 12)', () => {
     expect(sizes).toEqual(['lg', 'sm', 'md']);
   });
 
+  it.each(['sm', 'md', 'lg'])(
+    'keeps the chips a populated Chip list renders at the default chip size, whatever the list size: %s (C14)',
+    (size) => {
+      const { container } = render(
+        <ThemeProvider themeConfig={cocokitsThemeConfig}>
+          <FormField size="lg">
+            <ChipList aria-label="Tags" defaultValue={['a', 'b']} size={loose(size)} />
+          </FormField>
+        </ThemeProvider>,
+      );
+      expect(container.querySelector('.cck-chip-list')?.getAttribute('data-size')).toBe(size);
+      const chips = [...container.querySelectorAll('.cck-chip')];
+      expect(chips).toHaveLength(2);
+      expect(chips.map((chip) => chip.getAttribute('data-size'))).toEqual(['md', 'md']);
+    },
+  );
+
   it('inherits nothing into a base child that has no themed wrapper: it shows the config default', () => {
     const { container } = render(
       <ThemeProvider themeConfig={cocokitsThemeConfig}>

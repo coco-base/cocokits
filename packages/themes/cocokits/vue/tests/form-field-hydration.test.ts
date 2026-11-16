@@ -2,10 +2,9 @@
 import { createSSRApp, defineComponent, h, type App } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Input } from '@cocokits/vue/input';
 import { ThemeProvider } from '@cocokits/vue-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { FormField } from '../src/index';
+import { FormField, Input } from '../src/index';
 
 let app: App | undefined;
 
@@ -41,9 +40,12 @@ describe('theme FormField hydration', () => {
     expect(error).not.toHaveBeenCalled();
     expect(warn).not.toHaveBeenCalled();
     expect(container.innerHTML).toBe(serverHtml);
+    // Root, input wrapper and input (it takes the size of its field); the second field has none and shows the default.
     expect([...container.querySelectorAll('[data-size]')].map((el) => el.getAttribute('data-size'))).toEqual([
       'lg',
       'lg',
+      'lg',
+      'md',
       'md',
       'md',
     ]);
