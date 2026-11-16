@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, tokensCss } from './css-test-helpers';
 
 const ROOT = '.cck-svg-icon';
 const SVG = '.cck-svg-icon > .cck-svg-icon__svg';
@@ -106,5 +106,19 @@ describe('styles.css (AC 23)', () => {
 
   it('restates [hidden] on the box it sets to display', () => {
     expect(sheet('svg-icon')).toMatch(/\.cck-svg-icon\[hidden\]\s*\{\s*display: none/);
+  });
+});
+
+describe('svg-icon design match', () => {
+  it.each([
+    ['xs', 'size-16'],
+    ['sm', 'size-20'],
+    ['md', 'size-24'],
+    ['lg', 'size-32'],
+    ['xl', 'size-48'],
+    // 2xl is a library-only value: it stays above the design's largest step (D8).
+    ['"2xl"', 'size-64'],
+  ])('size %s is %s', (mode, size) => {
+    expect(sizeTokenOf(ROOT, mode, 'svg-icon-size')).toBe(ref(size));
   });
 });

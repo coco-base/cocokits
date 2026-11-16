@@ -4,8 +4,9 @@
 // below the root is reached through child combinators: a Tabs in a panel of another Tabs keeps its own options. The
 // one indicator is drawn from the box the base writes on it (`--active-tab-left`, `--active-tab-top`,
 // `--active-tab-width`, `--active-tab-height`, in px, relative to the padding box of the list); the items sit above
-// it. No color change on hover or press; the pointer only switches the slide of the indicator on, so
-// the first placement after mount never slides in from the corner.
+// it. A tab that is neither selected nor disabled takes a hover fill in the variants with a block indicator (not the
+// line); the pointer also switches the slide of the indicator on, so the first placement after mount never slides in
+// from the corner.
 // The variants whose indicator is a filled block behind the selected label.
 $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="basic"])';
 
@@ -65,7 +66,7 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
   #{$root}[data-variant='border'] > .cck-#{$block}__list {
     padding: var(--cck-tabs-list-padding);
     border: var(--cck-tabs-list-border-width) solid var(--cck-tabs-list-border-color);
-    border-radius: var(--cck-tabs-list-radius);
+    border-radius: var(--cck-tabs-list-border-radius);
   }
 
   #{$root}[data-variant='fill'] > .cck-#{$block}__list {
@@ -104,6 +105,11 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     cursor: pointer;
   }
 
+  // On the `fill` list the label is `text/2`: `on-surface/3` is under 4.5:1 on the list fill.
+  #{$root}[data-variant='fill'] > .cck-#{$block}__list > .cck-#{$block}__#{$item} {
+    color: var(--cck-tabs-fill-label-color);
+  }
+
   #{$trigger}[#{$selected}] {
     color: var(--cck-tabs-selected-label-color);
   }
@@ -117,6 +123,15 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
   #{$trigger}:disabled {
     color: var(--cck-tabs-disabled-label-color);
     cursor: default;
+  }
+
+  // Hover: a pill fill and the hover label color. The selected and the disabled tab are excluded; the colors have no
+  // forced-colors rule of their own, because forced colors replace backgrounds and the state is not told by them.
+  #{$root}#{$filled}
+    > .cck-#{$block}__list
+    > .cck-#{$block}__#{$item}:hover:not([#{$selected}], [data-disabled], :disabled) {
+    background-color: var(--cck-tabs-hover-bg);
+    color: var(--cck-tabs-hover-label-color);
   }
 
   #{$trigger}:focus-visible {
@@ -228,6 +243,11 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     &[hidden] {
       display: none;
     }
+  }
+
+  // The panel holds the author's content: it gets padding only, no text color or size.
+  .cck-tabs > .cck-tabs__panel {
+    padding: var(--cck-tabs-panel-padding);
   }
 
   .cck-tabs[data-orientation='vertical'] > .cck-tabs__panel {

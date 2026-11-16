@@ -119,6 +119,7 @@
     font-size: token($block, label-font-size);
     line-height: token($block, label-line-height);
     letter-spacing: token($block, label-letter-spacing);
+    font-weight: token($block, label-font-weight);
     cursor: pointer;
   }
 

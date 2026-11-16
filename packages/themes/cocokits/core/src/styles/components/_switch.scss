@@ -90,9 +90,12 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     inset-inline-start: $thumb-start;
     inline-size: var(--cck-switch-thumb-size);
     block-size: var(--cck-switch-thumb-size);
+    box-sizing: border-box;
     translate: 0 -50%;
+    border: var(--cck-switch-thumb-border-width) solid var(--cck-switch-thumb-border-color);
     border-radius: 50%;
     background-color: var(--cck-switch-thumb-color);
+    box-shadow: var(--cck-switch-thumb-shadow);
     pointer-events: none;
   }
 
@@ -170,6 +173,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     }
 
     #{$thumb} {
+      border-color: var(--cck-switch-thumb-disabled-color);
       background-color: var(--cck-switch-thumb-disabled-color);
     }
 
@@ -212,6 +216,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     }
 
     #{$root} #{$thumb} {
+      border-color: CanvasText;
       background-color: CanvasText;
     }
 
@@ -244,6 +249,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
       }
 
       #{$thumb} {
+        border-color: GrayText;
         background-color: GrayText;
       }
 

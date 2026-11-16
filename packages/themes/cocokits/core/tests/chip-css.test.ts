@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const chipCss = read('dist', 'components', 'chip.css');
 const listCss = read('dist', 'components', 'chip-list.css');
@@ -34,7 +34,7 @@ describe('chip output', () => {
   it.each([
     ['sm', 28],
     ['md', 32],
-    ['lg', 40],
+    ['lg', 36],
   ])('gives the %s chip and the %s list chip the height %i', (mode, height) => {
     for (const [block, name] of [
       ['chip', '--cck-chip-height'],
@@ -227,5 +227,59 @@ describe('chip forced colors and selectors', () => {
       expect(selector).not.toContain(':nth-');
       expect(selector).not.toMatch(/(^|[\s>+~(,])(div|span|input|button|svg|p)([\s.:[>+~),]|$)/);
     }
+  });
+});
+
+describe('chip design match', () => {
+  const size = (mode: string, name: string): string | undefined => sizeTokenOf('.cck-chip', mode, `chip-${name}`);
+  const own = (name: string): string | undefined => structureTokenOf('.cck-chip', `chip-${name}`);
+
+  it.each([
+    ['sm', 'spacing-4', 'spacing-2', 'spacing-3', 'text-xs'],
+    ['md', 'spacing-5', 'spacing-3', 'spacing-4', 'text-sm'],
+    ['lg', 'spacing-6', 'spacing-4', 'spacing-5', 'text-md'],
+  ])('size %s: padding %s, gap %s, remove inset %s and %s text', (mode, padding, gap, inset, text) => {
+    expect(size(mode, 'padding-inline')).toBe(ref(padding));
+    expect(size(mode, 'gap')).toBe(ref(gap));
+    expect(size(mode, 'remove-end-inset')).toBe(ref(inset));
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing'])
+      expect(size(mode, part), part).toBe(ref(`${text}-${part}`));
+  });
+
+  it.each([
+    ['radius', 'radius-full'],
+    ['bg', 'surface-2'],
+    ['border-color', 'border-2'],
+    ['text-color', 'text-1'],
+    ['disabled-bg', 'disabled-surface'],
+    ['focus-color', 'brand-on-container'],
+  ])('structure token %s is %s', (name, value) => {
+    expect(own(name)).toBe(ref(value));
+  });
+
+  it('moves padding, gap, remove inset and the font tokens to the size collection', () => {
+    for (const name of ['padding-inline', 'gap', 'remove-end-inset', 'font-family', 'font-size']) {
+      expect(own(name), name).toBeUndefined();
+    }
+  });
+
+  it('fills the chip, and the disabled chip with its own fill', () => {
+    expect(declarationsOf(chipCss, '.cck-chip')).toContain('background-color: var(--cck-chip-bg)');
+    expect(declarationsOf(chipCss, '.cck-chip[data-disabled]')).toContain(
+      'background-color: var(--cck-chip-disabled-bg)',
+    );
+  });
+
+  it.each([
+    ['sm', 'spacing-4'],
+    ['md', 'spacing-5'],
+    ['lg', 'spacing-6'],
+  ])('moves the chip list gap to its size collection: %s is %s', (mode, gap) => {
+    expect(sizeTokenOf('.cck-chip-list', mode, 'chip-list-gap')).toBe(ref(gap));
+    expect(structureTokenOf('.cck-chip-list', 'chip-list-gap')).toBeUndefined();
+  });
+
+  it('keeps the field chip height of lg in step with the 36px chip', () => {
+    expect(structureTokenOf('.cck-chip-list', 'chip-list-field-chip-height-lg')).toBe(ref('size-36'));
   });
 });

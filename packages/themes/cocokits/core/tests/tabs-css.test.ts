@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'tabs.css');
 const source = read('src', 'styles', 'components', '_tabs.scss');
@@ -62,9 +62,9 @@ describe('tabs output', () => {
     expect(outside).not.toContain('transition');
   });
 
-  it('uses :hover only to switch the slide on, never for a color', () => {
+  it('uses :hover to switch the slide on and for the hover fill of the block variants', () => {
     const hovers = source.split('\n').filter((line) => line.includes(':hover'));
-    expect(hovers).toHaveLength(1);
+    expect(hovers).toHaveLength(2);
     expect(source).toContain(':where(:hover, :focus-within) > .cck-#{$block}__indicator {\n      transition:');
     expect(source).not.toMatch(/:active/);
   });
@@ -83,5 +83,73 @@ describe('tabs output', () => {
       const height = /--cck-tabs-trigger-height: var\(--cck-size-(\d+)\)/.exec(block ?? '')?.[1];
       expect(Number(height), mode).toBeGreaterThanOrEqual(24);
     }
+  });
+});
+
+describe('tabs design match', () => {
+  const ROOT = '.cck-tabs';
+  const size = (mode: string, name: string): string | undefined => sizeTokenOf(ROOT, mode, `tabs-${name}`);
+  const own = (name: string): string | undefined => structureTokenOf(ROOT, `tabs-${name}`);
+  const triggers = '.cck-tabs > .cck-tabs__list > .cck-tabs__trigger';
+  const navCss = read('dist', 'components', 'tab-nav.css');
+
+  it.each([
+    ['sm', 'size-32', 'spacing-5', 'text-sm'],
+    ['md', 'size-40', 'spacing-5', 'text-md'],
+    ['lg', 'size-40', 'spacing-7', 'text-md'],
+  ])('size %s: trigger %s high, padding %s, label %s from one text group', (mode, height, padding, text) => {
+    expect(size(mode, 'trigger-height')).toBe(ref(height));
+    expect(size(mode, 'trigger-padding-inline')).toBe(ref(padding));
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing'])
+      expect(size(mode, `label-${part}`), part).toBe(ref(`${text}-${part}`));
+  });
+
+  it.each([
+    ['gap', 'spacing-0'],
+    ['list-gap', 'spacing-0'],
+    ['panel-padding', 'spacing-6'],
+    ['list-radius', 'radius-xl'],
+    ['list-border-radius', 'radius-2xl'],
+    ['trigger-radius', 'radius-xl'],
+    ['label-font-weight', 'font-weight-regular'],
+    ['label-color', 'on-surface-3'],
+    ['fill-label-color', 'text-2'],
+    ['hover-bg', 'surface-3'],
+    ['hover-label-color', 'text-2'],
+    ['focus-color', 'brand-on-container'],
+  ])('structure token %s is %s', (name, value) => {
+    expect(own(name)).toBe(ref(value));
+  });
+
+  it('rounds the border list with its own radius and the fill list with the list radius', () => {
+    expect(declarationsOf(css, `${ROOT}[data-variant=border] > .cck-tabs__list`)).toContain(
+      'border-radius: var(--cck-tabs-list-border-radius)',
+    );
+    expect(declarationsOf(css, `${ROOT}[data-variant=fill] > .cck-tabs__list`)).toContain(
+      'border-radius: var(--cck-tabs-list-radius)',
+    );
+  });
+
+  it('colours the fill label before the selected rule, so the selected label wins', () => {
+    const fill = `${ROOT}[data-variant=fill] > .cck-tabs__list > .cck-tabs__trigger`;
+    expect(declarationsOf(css, fill)).toContain('color: var(--cck-tabs-fill-label-color)');
+    expect(css.indexOf(`${fill} {`)).toBeLessThan(css.indexOf(`${triggers}[data-selected] {`));
+  });
+
+  it.each([
+    ['tabs', 'trigger', 'data-selected', css],
+    ['tab-nav', 'link', 'data-active', navCss],
+  ])('hovers the %s %s in the block variants only, never selected or disabled', (block, part, selected, sheet) => {
+    const selector = `.cck-${block}:is([data-variant=border], [data-variant=fill], [data-variant=basic]) > .cck-${block}__list > .cck-${block}__${part}:hover:not([${selected}], [data-disabled], :disabled)`;
+    const rule = declarationsOf(sheet, selector) ?? '';
+    expect(rule).toContain('background-color: var(--cck-tabs-hover-bg)');
+    expect(rule).toContain('color: var(--cck-tabs-hover-label-color)');
+    expect(sheet.indexOf(`${selector} {`)).toBeGreaterThan(sheet.indexOf(`[data-disabled],`));
+  });
+
+  it('gives hover no forced-colors rule, and pads the Tabs panel only', () => {
+    expect(css.slice(css.indexOf('@media (forced-colors: active)'))).not.toContain(':hover');
+    expect(declarationsOf(css, '.cck-tabs > .cck-tabs__panel')).toContain('padding: var(--cck-tabs-panel-padding)');
+    expect(navCss).not.toContain('panel-padding');
   });
 });

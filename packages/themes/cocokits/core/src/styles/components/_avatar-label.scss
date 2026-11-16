@@ -46,6 +46,8 @@
     line-height: var(--cck-avatar-label-line-height);
     letter-spacing: var(--cck-avatar-label-letter-spacing);
     font-weight: var(--cck-avatar-label-font-weight);
+    // Stacked: the name above the description. The inline layout takes its own gap below.
+    gap: var(--cck-avatar-label-text-gap);
 
     &[hidden] {
       display: none;
@@ -55,7 +57,7 @@
   .cck-avatar-label[data-text-layout='inline'] > .cck-avatar-label__text {
     flex-direction: row;
     align-items: baseline;
-    gap: var(--cck-avatar-label-gap);
+    gap: var(--cck-avatar-label-text-inline-gap);
   }
 
   .cck-avatar-label__name {
@@ -64,5 +66,6 @@
 
   .cck-avatar-label__description {
     color: var(--cck-avatar-label-description-color);
+    font-weight: var(--cck-avatar-label-description-font-weight);
   }
 }

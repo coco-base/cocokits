@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, selectorsOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 /** The rules without the tokens: the token blocks share class selectors with the rules. */
 const allCss = read('dist', 'styles.css');
@@ -41,23 +41,49 @@ describe('avatar output', () => {
     expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-avatar-size: ${coreSize(EDGES[size])}`);
   });
 
-  it('uses the old overlaps and gaps', () => {
-    for (const [size, overlap] of [
-      ['xs', 10],
-      ['sm', 10],
-      ['md', 14],
-      ['lg', 16],
+  it('uses the design overlaps, avatar-to-text gaps and text gaps', () => {
+    const spacing = (name: string): string => `var(--cck-${name})`;
+    for (const [size, overlap, gap, textGap, inlineGap] of [
+      ['xs', 8, 'spacing-3', 'spacing-1', 'spacing-2'],
+      ['sm', 10, 'spacing-3', 'spacing-2', 'spacing-3'],
+      ['md', 12, 'spacing-4', 'spacing-2', 'spacing-3'],
+      ['lg', 14, 'spacing-5', 'spacing-3', 'spacing-3'],
     ] as const) {
       expect(tokenBlock('avatar-group', size)).toContain(`--cck-avatar-group-overlap: ${coreSize(overlap)}`);
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-gap: ${spacing(gap)}`);
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-text-gap: ${spacing(textGap)}`);
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-text-inline-gap: ${spacing(inlineGap)}`);
     }
-    for (const [size, gap] of [
-      ['xs', 12],
-      ['sm', 12],
-      ['md', 12],
-      ['lg', 20],
-    ] as const) {
-      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-gap: ${coreSize(gap)}`);
+  });
+
+  // The avatar text of xs reads text-sm; the label name takes text-xs, sm, md and lg (design: Avatar, AvatarLabel).
+  it.each([
+    ['xs', 'text-sm', 'text-xs'],
+    ['sm', 'text-sm', 'text-sm'],
+    ['md', 'text-md', 'text-md'],
+    ['lg', 'text-lg', 'text-lg'],
+  ] as const)('sets the fallback and name text of %s to %s and %s, medium', (size, avatarText, nameText) => {
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing']) {
+      expect(tokenBlock('avatar', size)).toContain(`--cck-avatar-fallback-${part}: var(--cck-${avatarText}-${part})`);
+      expect(tokenBlock('avatar-group', size)).toContain(
+        `--cck-avatar-group-avatar-${part}: var(--cck-${avatarText}-${part})`,
+      );
+      expect(tokenBlock('avatar-label', size)).toContain(
+        `--cck-avatar-label-avatar-${part}: var(--cck-${avatarText}-${part})`,
+      );
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-${part}: var(--cck-${nameText}-${part})`);
     }
+    expect(tokenBlock('avatar', size)).toContain('--cck-avatar-fallback-font-weight: var(--cck-font-weight-medium)');
+    expect(tokenBlock('avatar-label', size)).toContain('--cck-avatar-label-font-weight: var(--cck-font-weight-medium)');
+  });
+
+  it('colours the fallback with the contrast family and the description with on-surface/3 in regular weight', () => {
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('contrast-color'));
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('contrast-on-color'));
+    expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-color')).toBe(ref('on-surface-3'));
+    expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-font-weight')).toBe(
+      ref('font-weight-regular'),
+    );
   });
 });
 
@@ -150,13 +176,17 @@ describe('avatar label', () => {
     expect(declarationsOf(stylesCss, '.cck-avatar-label__text')).toContain('flex-direction: column');
     const inline = declarationsOf(stylesCss, '.cck-avatar-label[data-text-layout=inline] > .cck-avatar-label__text');
     expect(inline).toContain('flex-direction: row');
-    expect(inline).toContain('gap: var(--cck-avatar-label-gap)');
+    expect(inline).toContain('gap: var(--cck-avatar-label-text-inline-gap)');
+    expect(declarationsOf(stylesCss, '.cck-avatar-label__text')).toContain('gap: var(--cck-avatar-label-text-gap)');
   });
 
   it('colours the name and the description', () => {
     expect(declarationsOf(stylesCss, '.cck-avatar-label__name')).toContain('color: var(--cck-avatar-label-name-color)');
     expect(declarationsOf(stylesCss, '.cck-avatar-label__description')).toContain(
       'color: var(--cck-avatar-label-description-color)',
+    );
+    expect(declarationsOf(stylesCss, '.cck-avatar-label__description')).toContain(
+      'font-weight: var(--cck-avatar-label-description-font-weight)',
     );
   });
 });

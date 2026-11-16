@@ -6,10 +6,14 @@
 // color, also when disabled and in forced colors, and one icon is turned when the item is open. The content
 // animates its height over `--accordion-content-height`, which the base writes after mount; while it is unset (the
 // first render) both ends of the keyframes are invalid and resolve to `auto`, so nothing moves. The space below the
-// content is a pseudo-element, so it is inside the measured height and needs no animation of its own.
+// content is a pseudo-element, so it is inside the measured height and needs no animation of its own; so is the space
+// above it. The header of the default and group variants is filled (closed, open, hover, disabled); the basic variant
+// has no fill.
 $trigger: '.cck-accordion > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
 $indicator: '#{$trigger} > .cck-accordion__indicator';
 $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
+// The variants whose header is filled.
+$filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
 
 @mixin rules {
   .cck-accordion {
@@ -49,13 +53,16 @@ $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
     border: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
     border-radius: var(--cck-accordion-radius);
     background-color: var(--cck-accordion-bg);
+    // The header fill follows the rounded corners.
+    overflow: clip;
   }
 
   .cck-accordion[data-variant='group'] {
     gap: 0;
     border: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
-    border-radius: var(--cck-accordion-radius);
+    border-radius: var(--cck-accordion-group-radius);
     background-color: var(--cck-accordion-bg);
+    overflow: clip;
   }
 
   .cck-accordion[data-variant='group'] > .cck-accordion__item + .cck-accordion__item {
@@ -85,7 +92,8 @@ $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
     min-block-size: max(24px, var(--cck-accordion-trigger-height));
     margin: 0;
     padding-block: 0;
-    padding-inline: var(--cck-accordion-trigger-padding-inline);
+    padding-inline-start: var(--cck-accordion-trigger-padding-inline-start);
+    padding-inline-end: var(--cck-accordion-trigger-padding-inline);
     border: 0;
     border-radius: var(--cck-accordion-radius);
     background-color: transparent;
@@ -134,10 +142,32 @@ $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
     display: none;
   }
 
-  // The state comes from the facts the base renders. Later rules win, so disabled is last.
+  // The header fill, from the facts the base renders. Later rules win: open, then hover (never on a disabled
+  // trigger), then disabled last.
+  #{$filled} {
+    background-color: var(--cck-accordion-trigger-bg);
+  }
+
+  #{$filled}[data-state='open'] {
+    background-color: var(--cck-accordion-trigger-open-bg);
+  }
+
+  #{$filled}:hover:not([data-disabled]) {
+    background-color: var(--cck-accordion-trigger-hover-bg);
+  }
+
+  #{$filled}[data-disabled] {
+    background-color: var(--cck-accordion-trigger-disabled-bg);
+  }
+
   #{$trigger}[data-disabled] {
     color: var(--cck-accordion-disabled-color);
     cursor: default;
+  }
+
+  // A disabled trigger shows no chevron.
+  #{$trigger}[data-disabled] > .cck-accordion__indicator {
+    display: none;
   }
 
   // Inside the trigger's own box, so the ring is never clipped by the item.
@@ -148,12 +178,18 @@ $content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
 
   #{$content} {
     box-sizing: border-box;
-    padding-inline: var(--cck-accordion-trigger-padding-inline);
+    padding-inline: var(--cck-accordion-content-padding-inline);
     color: var(--cck-accordion-content-color);
     font-family: var(--cck-accordion-font-family);
     font-size: var(--cck-accordion-font-size);
     line-height: var(--cck-accordion-line-height);
     letter-spacing: var(--cck-accordion-letter-spacing);
+  }
+
+  #{$content}::before {
+    content: '';
+    display: block;
+    block-size: var(--cck-accordion-content-padding-block-start);
   }
 
   #{$content}::after {
