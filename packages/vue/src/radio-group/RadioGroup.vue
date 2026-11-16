@@ -38,6 +38,7 @@ const props = withDefaults(defineProps<RadioGroupProps>(), {
   name: undefined,
   disabled: undefined,
   required: undefined,
+  touched: undefined,
   form: undefined,
   orientation: undefined,
   loop: true,
@@ -83,6 +84,7 @@ const state = computed<RadioGroupState>(() => ({
   items: items.value,
   disabled: props.disabled,
   required: props.required,
+  touched: props.touched,
   form: props.form,
   orientation: props.orientation,
   loop: props.loop,
@@ -204,9 +206,11 @@ const priorityAttrs = [
   'role',
   'aria-required',
   'aria-disabled',
+  'aria-invalid',
   'aria-orientation',
   'data-disabled',
   'data-required',
+  'data-invalid',
   'data-orientation',
 ];
 

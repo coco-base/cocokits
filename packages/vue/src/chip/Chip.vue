@@ -3,6 +3,7 @@ import { computed, h, useAttrs, useId, useSlots, useTemplateRef, type ComponentP
 import { chipAnatomy, getChipProps } from '@cocokits/machines/chip';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { Nodes } from '../internal/own-content';
+import { useDefaultModel } from '../internal/use-default-model';
 import { omit } from '../internal/record';
 import { rootElementOf } from '../internal/root-element';
 import { usePartIcon } from '../internal/use-part-icon';
@@ -16,6 +17,9 @@ const props = withDefaults(defineProps<ChipProps>(), {
   id: undefined,
   removable: undefined,
   disabled: undefined,
+  selected: undefined,
+  defaultSelected: undefined,
+  removeLabel: undefined,
   as: 'div',
   asChild: false,
 });
@@ -37,8 +41,17 @@ const attrs = useAttrs();
 const generatedId = useId();
 const themeAttrs = useThemeAttrs(chipAnatomy);
 const removeIcon = usePartIcon(chipAnatomy.block, 'remove');
+const checkIcon = usePartIcon(chipAnatomy.block, 'check');
+// `undefined` is a plain chip; `true` or `false` is a selectable one.
+const selected = useDefaultModel(props, 'selected', props.defaultSelected);
 const parts = computed(() =>
-  getChipProps({ id: props.id ?? generatedId, removable: props.removable, disabled: props.disabled }),
+  getChipProps({
+    id: props.id ?? generatedId,
+    removable: props.removable,
+    disabled: props.disabled,
+    selected: selected.value,
+    removeLabel: props.removeLabel,
+  }),
 );
 
 /** The attrs are not reactive, so the template reads them through a function. The machine's facts win. */
@@ -54,11 +67,19 @@ function onRemove(): void {
   if (props.disabled !== true) emit('remove');
 }
 
-/** The text wrapper and the remove button, written once for both renderings. */
+/** A press on the toggle of a selectable chip flips `selected`. */
+function onToggle(): void {
+  if (props.disabled !== true && selected.value !== undefined) selected.value = !selected.value;
+}
+
+/** The check, the text wrapper (a toggle button on a selectable chip) and the remove button, written once for both renderings. */
 function tree(content: VNode[] = []): VNode[] {
-  const { contentWrapper, remove } = parts.value;
+  const { contentWrapper, check, remove } = parts.value;
   return [
-    h('span', { ...themeAttrs.value.contentWrapper, ...contentWrapper }, content),
+    ...(check ? [h('span', { ...themeAttrs.value.check, ...check }, [h(SvgIcon, { iconName: checkIcon.value })])] : []),
+    contentWrapper.type === 'button'
+      ? h('button', { ...themeAttrs.value.contentWrapper, ...contentWrapper, onClick: onToggle }, content)
+      : h('span', { ...themeAttrs.value.contentWrapper, ...contentWrapper }, content),
     ...(remove
       ? [
           h('button', { ...themeAttrs.value.remove, ...remove, onClick: onRemove }, [
