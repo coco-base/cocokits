@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, ElementRef, computed, inject, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input, signal } from '@angular/core';
 import { bindAttrs } from '@cocokits/angular-core';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import { injectCckTooltip } from './tooltip';
@@ -29,6 +29,8 @@ import { injectCckTooltip } from './tooltip';
     '[attr.data-align]': 'props()["data-align"]',
     '(pointerenter)': 'props().onPointerEnter($event)',
     '(pointerleave)': 'props().onPointerLeave($event)',
+    '[attr.side]': 'null',
+    '[attr.align]': 'null',
   },
 })
 export class CckTooltipContent {
@@ -49,8 +51,12 @@ export class CckTooltipContent {
 
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-    const registration = { element, side: this.side, align: this.align };
+    const ready = signal(false);
+    const registration = { element, side: this.side, align: this.align, ready };
     this.root._content.set(registration);
+    afterNextRender(() => {
+      ready.set(true);
+    });
     inject(DestroyRef).onDestroy(() => {
       this.root._content.update((current) => (current === registration ? null : current));
     });

@@ -158,7 +158,7 @@ export function createTooltipOverlay(o: TooltipOverlayOptions): TooltipOverlay {
         o.arrow(),
         o.anchorPoint(),
       ];
-      if (!isMounted || !trigger || !content) return;
+      if (!isMounted || !trigger || !content?.ready()) return;
       const [side, align] = [content.side(), content.align()];
       const stop = untracked(() =>
         o.zone.outside(() =>

@@ -3,7 +3,9 @@ import {
   DestroyRef,
   ElementRef,
   InjectionToken,
+  afterNextRender,
   inject,
+  signal,
   type Signal,
   type WritableSignal,
 } from '@angular/core';
@@ -19,6 +21,8 @@ export interface TooltipContentRegistration {
   readonly side: Signal<TooltipSide>;
   /** The wanted alignment. */
   readonly align: Signal<TooltipAlign>;
+  /** Whether the content has rendered once, so it has its class and theme attributes: only then it is positioned. */
+  readonly ready: Signal<boolean>;
 }
 
 /** What the root gives the bubble of a one-attribute tooltip. @internal */
@@ -67,8 +71,12 @@ export class CckTooltipBubble {
 
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-    const registration = { element, side: this.context.side, align: this.context.align };
+    const ready = signal(false);
+    const registration = { element, side: this.context.side, align: this.context.align, ready };
     this.context.content.set(registration);
+    afterNextRender(() => {
+      ready.set(true);
+    });
     inject(DestroyRef).onDestroy(() => {
       this.context.content.update((current) => (current === registration ? null : current));
     });
