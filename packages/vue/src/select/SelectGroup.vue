@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, mergeProps, provide, useAttrs, useId } from 'vue';
+import { computed, mergeProps, provide, shallowRef, useAttrs, useId } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { omit } from '../internal/record';
@@ -29,8 +29,21 @@ const themeAttrs = useThemeAttrs(selectAnatomy);
 const attrs = useAttrs();
 const key = useId();
 const disabled = computed(() => props.disabled);
-const machine = computed(() => ctx.parts.value.optionGroup({ key, disabled: disabled.value }));
-provide(SELECT_GROUP_KEY, { key, disabled });
+const itemKeys = shallowRef<readonly string[]>([]);
+const machine = computed(() =>
+  ctx.parts.value.optionGroup({ key, disabled: disabled.value, itemKeys: itemKeys.value }),
+);
+provide(SELECT_GROUP_KEY, {
+  key,
+  disabled,
+  itemKeys,
+  addKey: (itemKey) => {
+    itemKeys.value = [...itemKeys.value, itemKey];
+    return () => {
+      itemKeys.value = itemKeys.value.filter((candidate) => candidate !== itemKey);
+    };
+  },
+});
 
 // The machine's attributes are reserved: they replace the same attribute of the author.
 const bound = computed(() =>

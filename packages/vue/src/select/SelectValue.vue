@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, mergeProps, useAttrs } from 'vue';
+import { computed, mergeProps, useAttrs, useSlots } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { useSelectContext } from './select.context';
@@ -38,7 +38,11 @@ defineSlots<{
 const ctx = useSelectContext<unknown>('SelectValue');
 const themeAttrs = useThemeAttrs(selectAnatomy);
 const attrs = useAttrs();
+const slots = useSlots();
 const empty = computed(() => ctx.empty.value);
+// A multiple Select shows its first value and `+N` for the others: not when the author writes the content.
+const count = computed(() => (slots.default || empty.value ? null : ctx.parts.value.count));
+const countBound = computed(() => mergeProps(themeAttrs.value.count, { class: count.value?.class }));
 const bound = computed(() =>
   mergeProps(empty.value ? themeAttrs.value.placeholder : themeAttrs.value.value, attrs, {
     class: empty.value ? ctx.parts.value.placeholder.class : ctx.parts.value.value.class,
@@ -53,4 +57,5 @@ const bound = computed(() =>
     }}</slot>
     <template v-else>{{ placeholder }}</template>
   </Primitive>
+  <span v-if="count && !asChild" v-bind="countBound">{{ count.text }}</span>
 </template>

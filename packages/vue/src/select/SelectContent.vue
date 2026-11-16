@@ -105,6 +105,7 @@ const priorityAttrs = [
   'aria-label',
   'data-state',
   'data-multiple',
+  'data-empty',
   'data-side',
   'data-align',
   'hidden',
@@ -173,7 +174,13 @@ watch(
       },
       press: (intent, focusLeft) => {
         if (dismissRefused(intent, handlers)) return false;
-        ctx.send({ type: 'LIST.DISMISS', reason: 'outside-press', event: intent.event, focusLeft });
+        // With a search the focus is in the list, not on the trigger: leaving it chooses nothing.
+        ctx.send({
+          type: 'LIST.DISMISS',
+          reason: 'outside-press',
+          event: intent.event,
+          focusLeft: focusLeft && !ctx.filter.value,
+        });
         return true;
       },
       holdFocusOut: ctx.holdFocusOut,

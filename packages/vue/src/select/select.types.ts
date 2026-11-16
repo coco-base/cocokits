@@ -142,6 +142,19 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    */
   readonly multiple?: (M & boolean) | undefined;
   /**
+   * Whether the list has a search. The `SelectSearch` in the `SelectHeader` then shows, the focus moves into it when
+   * the list opens, and typing keeps the items whose text contains the query, ignoring case. When no item matches,
+   * the `SelectEmpty` shows. The query clears when the list closes.
+   *
+   * @example
+   * <SelectRoot filter v-model="dish">
+   *   ...
+   * </SelectRoot>
+   * @cckSemantic select.filter
+   * @defaultValue false
+   */
+  readonly filter?: boolean | undefined;
+  /**
    * The labels that the trigger shows, as data. Pass a list of `{ value, label }` entries, or, for text values, an object from value to label. When not set, the trigger shows the text from `itemToStringLabel`, or the value as text.
    *
    * The trigger shows the label of each selected value, joined with a comma. The labels are in the server render, because no part reports its text to the Select. The text of an item should be equal to its label. A closed Select also uses these entries to match a browser autofill.
