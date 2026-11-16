@@ -104,13 +104,13 @@ export class CckCheckboxGroup extends CckFormControlBase implements FormValueCon
   readonly orientation = input<CheckboxGroupOrientation>('vertical');
 
   /**
-   * The accessible name of the group, as `aria-label`. Inside a form field with a label, the label names the group instead.
+   * The accessible name of the group, as `aria-label`. When not set, the label of the form field names the group, or nothing does.
    * @cckSemantic *.ariaLabel
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /**
-   * The ids of the elements that name the group, as `aria-labelledby`. It wins over the label of the form field.
+   * The ids of the elements that name the group, as `aria-labelledby`. It wins over the label of the form field. When not set, the label of the form field names the group.
    * @cckSemantic *.ariaLabelledBy
    */
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });

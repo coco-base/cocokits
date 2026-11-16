@@ -90,6 +90,7 @@ export abstract class CckMenuBase {
 
   private itemCount = 0;
   /** Whether the content is in the document: open, or closed with an exit animation still running. */
+  /** @internal */
   readonly _mounted = signal(false);
   private readonly placement = signal<{ side: MenuSide; align: MenuAlign } | null>(null);
   /** The key of the item that has or last had focus. */

@@ -50,11 +50,11 @@ export interface CckAccordionItemRegistration {
 /**
  * A stack of sections that open and close. You write one `cck-accordion-item` for each section. Each item makes its own heading, button and content.
  *
- * One item is open at a time, and the open item stays open when you press it again, unless you set `collapsible`. With `multi`, each item opens and closes on its own.
+ * One item is open at a time. The open item stays open when you press it again, unless you set `collapsible`. With `multi`, each item opens and closes on its own.
  *
- * Read and write the open items from the root with `[(value)]`: it lists the `value` of every open item and stays in step with the `[(expanded)]` of each item.
+ * Use `[(value)]` to read and write the open items. It lists the `value` of every open item and follows the `[(expanded)]` of each item.
  *
- * With `orientation="horizontal"`, Left Arrow and Right Arrow move the focus between the buttons instead of Up Arrow and Down Arrow; the text direction of `CckDirection` flips them.
+ * With `orientation="horizontal"`, Left Arrow and Right Arrow move the focus between the buttons. The text direction of `CckDirection` flips them.
  *
  * Down Arrow, Up Arrow, Home and End move the focus between the enabled buttons. The items of a nested accordion belong to the nearest accordion.
  *

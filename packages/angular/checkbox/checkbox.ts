@@ -32,7 +32,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  *
  * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the control or has tried to submit the form.
  *
- * Inside a `cck-checkbox-group`, the group owns the value: the checkbox is checked while its `submitValue` is in the `value` of the group, and it takes the `name` and `disabled` of the group. Its own `checked` and `checkedChangeDetails` still work, but the group value decides what shows.
+ * Inside a `cck-checkbox-group`, the group owns the value. The checkbox is checked while its `submitValue` is in the `value` of the group. It takes the `name` and `disabled` of the group.
  *
  * The component never changes `indeterminate`. When you own the mixed state, set it again in your `checkedChangeDetails` handler.
  *

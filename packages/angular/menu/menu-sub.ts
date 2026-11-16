@@ -15,7 +15,7 @@ import { CckMenuBase, type MenuChangeDetails, type MenuContentRegistration, type
  *
  * Write the sub-trigger, then a `cckMenuPortal` template with the sub-content, inside the submenu. The sub-content opens at the bottom end corner of the sub-trigger, a gap away. When there is no room, it opens on the start side, and then above.
  *
- * The submenu opens when the pointer rests on the sub-trigger, and with Enter, Space, a click or the arrow key that points toward the content (Right Arrow, Left Arrow in right-to-left text). It closes when the pointer moves to another item of the parent menu, and with Escape or the arrow key that points back. A press on an item of the submenu closes the whole menu.
+ * The submenu opens when the pointer rests on the sub-trigger. It also opens with Enter, Space, a click or the arrow key that points toward the content (Right Arrow, Left Arrow in right-to-left text). It closes when the pointer moves to another item of the parent menu. It also closes with Escape or the arrow key that points back. A press on an item of the submenu closes the whole menu.
  *
  * @example
  * <cck-menu-content>
@@ -40,6 +40,7 @@ import { CckMenuBase, type MenuChangeDetails, type MenuContentRegistration, type
 })
 export class CckMenuSub extends CckMenuBase implements MenuSubHandle {
   private readonly openState = signal(false);
+  /** Whether the submenu is open. It follows the sub-trigger, a key, the pointer and the parent menu; it has no model of its own. @internal */
   readonly open = this.openState.asReadonly();
 
   /** Whether the sub-trigger is disabled. @internal */

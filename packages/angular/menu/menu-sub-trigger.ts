@@ -4,9 +4,9 @@ import { getMenuSubTriggerProps, type MenuEvent, type MenuItemEntry } from '@coc
 import { injectCckMenuSub } from './menu-sub';
 
 /**
- * The item of a menu that opens a submenu. It has `role="menuitem"`, `aria-haspopup="menu"` and `aria-expanded`. Its content is yours: text, and an icon if you like. Put it first in a `cckMenuSub`.
+ * The item of a menu that opens a submenu. It has `role="menuitem"`, `aria-haspopup="menu"` and `aria-expanded`. Its content is yours: text, and an icon if you like.
  *
- * A disabled sub-trigger stays in the menu and can have focus, but it opens nothing.
+ * @remarks Put it first in a `cckMenuSub`. A disabled sub-trigger stays in the menu and can have focus, but it opens nothing.
  *
  * @example
  * <ng-container cckMenuSub>

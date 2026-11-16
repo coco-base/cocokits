@@ -3,7 +3,9 @@ import { injectCckMenu } from './menu-inject';
 import { CckMenuItemBase } from './menu-item-base';
 
 /**
- * The mark of a checkbox item or a radio item. It is decorative, so it has `aria-hidden`. It has `data-state` of `checked` or `unchecked`, and the theme shows it only while the item is checked. Put your own icon or text in it.
+ * The mark of a checkbox item or a radio item. It is decorative, so it has `aria-hidden`. Put your own icon or text in it.
+ *
+ * @remarks It has `data-state` of `checked` or `unchecked`, and the theme shows it only while the item is checked.
  *
  * @example
  * <cck-menu-checkbox-item [(checked)]="on"><cck-menu-item-indicator>✓</cck-menu-item-indicator>Show</cck-menu-checkbox-item>

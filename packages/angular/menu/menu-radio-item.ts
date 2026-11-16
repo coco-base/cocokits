@@ -4,9 +4,11 @@ import { CckMenuRadioGroup } from './menu-group';
 import { CckMenuItemBase } from './menu-item-base';
 
 /**
- * An item that sets the value of its radio group. It has `role="menuitemradio"` and `aria-checked`. Put a `cck-menu-item-indicator` in it to show the mark. It is checked while its `value` is the value of the group.
+ * An item that sets the value of its radio group. It has `role="menuitemradio"` and `aria-checked`, and it is checked while its `value` is the value of the group.
  *
- * Use it instead of a `cck-radio` inside a menu. It has the role that screen readers expect in a menu, the focus stays in the menu, the menu keys work on it, and a press sets the value once: a `cck-radio` in an item would act twice for one click.
+ * @remarks Put a `cck-menu-item-indicator` in it to show the mark.
+ *
+ * Use it instead of a `cck-radio` inside a menu, for four reasons. It has the role that screen readers expect in a menu. The focus stays in the menu. The menu keys work on it. A press sets the value once, where a `cck-radio` in an item would act twice for one click.
  *
  * A click or Enter sets the value and closes the menu. Space sets it and keeps the menu open.
  *

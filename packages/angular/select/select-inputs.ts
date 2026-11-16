@@ -95,8 +95,8 @@ export abstract class CckSelectInputs<V> extends CckFormControlBase {
   readonly align = input<OverlayAlign>('start');
 
   /**
-   * Whether the list has a search. Write a `cck-select-header` with an `input[cckSelectSearch]` in it. Typing narrows the options to those whose text contains the query, without regard to case. While nothing matches, the list shows its `cck-select-empty`. The query clears when the list closes.
-   * @remarks While the list is open with a search, the focus is in the search input. Down Arrow and Up Arrow move the highlight, Enter chooses it, Escape closes the list and returns the focus to the trigger. The trigger does not close the list when it loses the focus to the search.
+   * Whether the list has a search. Write a `cck-select-header` with an `input[cckSelectSearch]` in it. Typing narrows the options to those whose text contains the query, without regard to case.
+   * @remarks While nothing matches, the list shows its `cck-select-empty`. The query clears when the list closes. While the list is open with a search, the focus is in the search input. Down Arrow and Up Arrow move the highlight, Enter chooses it, Escape closes the list and returns the focus to the trigger. The trigger does not close the list when it loses the focus to the search.
    * @cckSemantic select.filter
    * @cckParity Not available in every framework.
    * @defaultValue false

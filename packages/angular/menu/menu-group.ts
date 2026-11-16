@@ -54,7 +54,9 @@ export class CckMenuGroup extends CckMenuGroupBase {
 }
 
 /**
- * A group of radio items with one value. It has `role="group"`. Put a `cck-menu-group-label` in it to name it. Each `cck-menu-radio-item` is checked while its `value` is the value of the group.
+ * A group of radio items with one value. It has `role="group"`. Each `cck-menu-radio-item` is checked while its `value` is the value of the group.
+ *
+ * @remarks Put a `cck-menu-group-label` in it to name it.
  *
  * The value is a model. Use `[(value)]` to read and change it. A press on a radio item sets it and closes the menu; Space sets it and keeps the menu open.
  *

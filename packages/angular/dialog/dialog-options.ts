@@ -72,7 +72,11 @@ export abstract class CckDialogOptions {
 
   /**
    * When the dialog closes because the location changes. A close on navigation skips `disableClose` and `closePredicate`.
-   * @remarks `true` is the same as `'pop-state'`: the dialog closes when the user goes back or forward in the history, or the hash changes. `'url-change'` closes it on any change of the URL that `Location` reports. A dialog that the `CckDialog` service opens uses the config instead.
+   * @cckValue true - The same as `'pop-state'`.
+   * @cckValue 'pop-state' - The dialog closes when the user goes back or forward in the history, or the hash changes.
+   * @cckValue 'url-change' - The dialog closes on any change of the URL that `Location` reports.
+   * @cckValue false - The dialog never closes on navigation.
+   * @remarks A dialog that the `CckDialog` service opens uses the config instead.
    * @defaultValue true
    * @cckSemantic dialog.closeOnNavigation
    * @cckParity Not available in every framework.
@@ -80,42 +84,43 @@ export abstract class CckDialogOptions {
   readonly closeOnNavigation = input<boolean | 'pop-state' | 'url-change'>(true);
 
   /**
-   * The width of the dialog. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. The size members are the one inline style a part writes; they belong to the author, not to a theme.
+   * The width of the dialog. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. When not set, the theme decides the width.
+   * @remarks The size members are the one inline style a part writes.
    * @cckSemantic dialog.width
    * @cckParity Not available in every framework.
    */
   readonly width = input<DialogLength | undefined>(undefined);
 
   /**
-   * The height of the dialog. A number is px, a string is any CSS length.
+   * The height of the dialog. A number is px, a string is any CSS length. When not set, the height follows the content.
    * @cckSemantic dialog.height
    * @cckParity Not available in every framework.
    */
   readonly height = input<DialogLength | undefined>(undefined);
 
   /**
-   * The smallest width of the dialog. A number is px, a string is any CSS length.
+   * The smallest width of the dialog. A number is px, a string is any CSS length. When not set, the theme decides.
    * @cckSemantic dialog.minWidth
    * @cckParity Not available in every framework.
    */
   readonly minWidth = input<DialogLength | undefined>(undefined);
 
   /**
-   * The smallest height of the dialog. A number is px, a string is any CSS length.
+   * The smallest height of the dialog. A number is px, a string is any CSS length. When not set, the theme decides.
    * @cckSemantic dialog.minHeight
    * @cckParity Not available in every framework.
    */
   readonly minHeight = input<DialogLength | undefined>(undefined);
 
   /**
-   * The largest width of the dialog. A number is px, a string is any CSS length.
+   * The largest width of the dialog. A number is px, a string is any CSS length. When not set, the theme decides.
    * @cckSemantic dialog.maxWidth
    * @cckParity Not available in every framework.
    */
   readonly maxWidth = input<DialogLength | undefined>(undefined);
 
   /**
-   * The largest height of the dialog. A number is px, a string is any CSS length.
+   * The largest height of the dialog. A number is px, a string is any CSS length. When not set, the theme decides.
    * @cckSemantic dialog.maxHeight
    * @cckParity Not available in every framework.
    */

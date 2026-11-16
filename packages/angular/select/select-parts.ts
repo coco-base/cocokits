@@ -30,7 +30,7 @@ export class CckSelectHeader {
 /**
  * The search input of the list. Typing narrows the options to those whose text contains the text, without regard to case. It needs `filter` on the `cck-select`.
  *
- * While the list is open, the focus is in the search input, which has `role="combobox"`, and `aria-activedescendant` names the highlighted option. Down Arrow and Up Arrow move the highlight, Enter chooses it, Escape closes the list and returns the focus to the trigger, and Tab closes the list.
+ * While the list is open, the focus is in the search input, which has `role="combobox"`. Its `aria-activedescendant` names the highlighted option. Down Arrow and Up Arrow move the highlight, and Enter chooses it. Escape closes the list and returns the focus to the trigger. Tab closes the list.
  *
  * @example
  * <cck-select-header><input cckSelectSearch /></cck-select-header>
@@ -97,7 +97,9 @@ export class CckSelectEmpty {
 }
 
 /**
- * The area below the options of the list. It holds your own actions, such as a button that adds an option. A press in it does not close the list. Write it last in the `cck-select`.
+ * The area below the options of the list. It holds your own actions, such as a button that adds an option. A press in it does not close the list.
+ *
+ * @remarks Write it last in the `cck-select`.
  *
  * @example
  * <cck-select-footer><button type="button" (click)="add()">Add a dish</button></cck-select-footer>

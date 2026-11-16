@@ -12,7 +12,7 @@ export type MenuCheckboxItemChangeDetails = ValueChangeDetails<boolean, MenuChec
 /**
  * An item that toggles a state. It has `role="menuitemcheckbox"` and `aria-checked`. Put a `cck-menu-item-indicator` in it to show the mark.
  *
- * Use it instead of a `cck-checkbox` inside a menu. It has the role that screen readers expect in a menu, the focus stays in the menu, the menu keys work on it, and a press changes the state once: a `cck-checkbox` in an item would act twice for one click, once as the item and once as the checkbox.
+ * Use it instead of a `cck-checkbox` inside a menu, for four reasons. It has the role that screen readers expect in a menu. The focus stays in the menu. The menu keys work on it. A press changes the state once, where a `cck-checkbox` in an item would act twice for one click.
  *
  * A click or Enter toggles it and closes the menu. Space toggles it and keeps the menu open. Use `[(checked)]` to read and change the state.
  *
