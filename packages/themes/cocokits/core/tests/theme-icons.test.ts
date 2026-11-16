@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { defineAnatomy, resolveThemeAttrs } from '@cocokits/shared';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { iconButtonSizeModes, svgIconSizeModes } from '../src/generated/token-modes';
-import { checkIcon, chevronDownIcon, closeIcon, defaultPartIcons } from '@cocokits/icons';
+import { checkIcon, chevronDownIcon, circleXmarkIcon, defaultPartIcons } from '@cocokits/icons';
 import { cocokitsThemeConfig, cocokitsThemeIcons } from '../src/index';
 import type { ThemeIconName } from '../src/theme-icons';
 
@@ -15,9 +15,13 @@ const partsOf = (block: string): string[] =>
   );
 
 describe('cocokitsThemeIcons', () => {
-  it('holds the chevron-down, the check and the close icon of the pack', () => {
-    expect(cocokitsThemeIcons).toEqual({ 'chevron-down': chevronDownIcon, check: checkIcon, close: closeIcon });
-    expectTypeOf<ThemeIconName>().toEqualTypeOf<'chevron-down' | 'check' | 'close'>();
+  it('holds the chevron-down, the check and the circle-xmark icon of the pack', () => {
+    expect(cocokitsThemeIcons).toEqual({
+      'chevron-down': chevronDownIcon,
+      check: checkIcon,
+      'circle-xmark': circleXmarkIcon,
+    });
+    expectTypeOf<ThemeIconName>().toEqualTypeOf<'chevron-down' | 'check' | 'circle-xmark'>();
   });
 });
 
@@ -29,7 +33,7 @@ describe('cocokitsThemeConfig components.*.icons', () => {
       select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
       accordion: { indicator: 'chevron-down' },
       checkbox: { background: 'check' },
-      chip: { remove: 'close' },
+      chip: { remove: 'circle-xmark' },
     });
   });
 
@@ -85,12 +89,12 @@ describe('icon-button and svg-icon options', () => {
   it('renders every IconButton option on the root', () => {
     expect(
       resolveThemeAttrs(cocokitsThemeConfig, iconButtonAnatomy, {
-        variant: 'light',
+        variant: 'outline',
         color: 'danger',
         size: 'lg',
         rounded: true,
       }).root,
-    ).toEqual({ 'data-variant': 'light', 'data-cck-color': 'danger', 'data-size': 'lg', 'data-rounded': '' });
+    ).toEqual({ 'data-variant': 'outline', 'data-cck-color': 'danger', 'data-size': 'lg', 'data-rounded': '' });
   });
 
   it('takes the IconButton variants like the Button and the sizes from the token modes', () => {

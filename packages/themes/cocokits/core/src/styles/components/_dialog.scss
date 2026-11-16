@@ -51,6 +51,7 @@
   }
 
   .cck-dialog__title {
+    box-sizing: border-box;
     margin: 0;
     color: var(--cck-dialog-title-color);
     font-family: var(--cck-dialog-title-font-family);
@@ -61,6 +62,7 @@
   }
 
   .cck-dialog__description {
+    box-sizing: border-box;
     display: block;
     margin: 0;
     color: var(--cck-dialog-description-color);

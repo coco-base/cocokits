@@ -32,6 +32,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
   }
 
   .cck-switch__label {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     gap: var(--cck-switch-gap);
@@ -115,6 +116,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
 
   // The halo sits behind the thumb and follows it.
   .cck-switch__backdrop {
+    box-sizing: border-box;
     position: absolute;
     inset-block-start: 50%;
     inset-inline-start: calc(#{$thumb-start} + (var(--cck-switch-thumb-size) - var(--cck-switch-halo-size)) / 2);
@@ -141,6 +143,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
   // Read-only: a dashed border tells it from an editable track without color, also in forced colors.
   #{$root}:where([data-readonly]) #{$pill} {
     border-style: dashed;
+    border-color: var(--cck-switch-track-readonly-border-color);
     // The fill stops at the border, so the gaps between the dashes show the surface also when checked.
     background-clip: padding-box;
     background-color: var(--cck-switch-track-readonly-bg);
@@ -162,16 +165,14 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     }
   }
 
-  #{$root}#{$invalid} #{$pill} {
-    border-color: var(--cck-switch-track-invalid-border-color);
-    // A second line of the same width inside the border: the cue does not rest on hue alone.
-    // Forced colors drop the shadow, so the border gets thicker there.
-    box-shadow: inset 0 0 0 var(--cck-switch-track-border-width) var(--cck-switch-track-invalid-border-color);
+  // A checked read-only track keeps the dashed edge in the read-only colour.
+  #{$root}:where([data-readonly][data-checked]) #{$pill} {
+    border-color: var(--cck-switch-track-readonly-border-color);
   }
 
-  // On a filled track the inner line takes the thumb color, which reads against the fill; the border stays danger.
-  #{$root}:where([data-checked])#{$invalid} #{$pill} {
-    box-shadow: inset 0 0 0 var(--cck-switch-track-border-width) var(--cck-switch-thumb-checked-color);
+  // Invalid changes only the colour of the existing border.
+  #{$root}#{$invalid} #{$pill} {
+    border-color: var(--cck-switch-track-invalid-border-color);
   }
 
   #{$root}#{$disabled} {
@@ -182,8 +183,6 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     #{$pill} {
       border-color: var(--cck-switch-track-disabled-border-color);
       background-color: var(--cck-switch-track-disabled-bg);
-      // Disabled wins over invalid: no invalid line.
-      box-shadow: none;
     }
 
     #{$thumb} {
@@ -201,7 +200,8 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     }
   }
 
-  #{$root}:has(#{$input}:focus-visible) #{$pill} {
+  #{$root}:not([data-variant='rail']):has(#{$input}:focus-visible) #{$pill},
+  #{$root}[data-variant='rail']:has(#{$input}:focus-visible) #{$track} {
     outline: var(--cck-switch-focus-width) solid var(--cck-switch-focus-color);
     outline-offset: var(--cck-switch-focus-offset);
   }
@@ -239,7 +239,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
       background-color: transparent;
     }
 
-    // The border is CanvasText, so a dashed (read-only) or thicker (invalid) edge shows on the Highlight fill.
+    // The border is CanvasText, so a dashed (read-only) edge shows on the Highlight fill.
     #{$root}:where([data-checked]) {
       #{$pill} {
         border-color: CanvasText;
@@ -251,14 +251,9 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
       }
     }
 
-    #{$root}#{$invalid} #{$pill} {
-      border-width: var(--cck-switch-track-invalid-border-width);
-    }
-
     #{$root}#{$disabled} {
       #{$pill} {
         border-color: GrayText;
-        border-width: var(--cck-switch-track-border-width);
         background-color: Canvas;
       }
 
@@ -272,7 +267,8 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
       }
     }
 
-    #{$root}:has(#{$input}:focus-visible) #{$pill} {
+    #{$root}:not([data-variant='rail']):has(#{$input}:focus-visible) #{$pill},
+    #{$root}[data-variant='rail']:has(#{$input}:focus-visible) #{$track} {
       outline-color: Highlight;
     }
   }

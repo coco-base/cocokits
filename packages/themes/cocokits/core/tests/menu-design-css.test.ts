@@ -30,17 +30,33 @@ describe('menu design match: tokens', () => {
   it.each([
     ['border-color', 'border-2'],
     ['radius', 'radius-md'],
-    ['shadow', 'shadow-lg'],
     ['item-radius', 'radius-sm'],
     ['item-margin-inline', 'spacing-0'],
     ['item-font-weight', 'font-weight-medium'],
-    ['item-icon-size', 'size-20'],
     ['item-icon-color', 'text-3'],
     ['item-highlight-bg', 'surface-2'],
-    ['item-focus-color', 'brand-on-container'],
+    ['item-focus-color', 'focus-2'],
+    ['side-offset', 'spacing-4'],
     ['item-disabled-text-color', 'disabled-on-surface'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
+  });
+});
+
+describe('menu design match: design values', () => {
+  it('draws the design shadow, a raw value of the Menu, and a panel at least 220px wide', () => {
+    expect(own('shadow')).toBe('0 4px 6px -2px rgba(15, 18, 26, 0.06), 0 12px 16px -4px rgba(15, 18, 26, 0.1)');
+    expect(own('min-inline-size')).toBe('220px');
+    expect(declarationsOf(css, ROOT)).toContain('min-inline-size: var(--cck-menu-min-inline-size)');
+  });
+
+  it.each([
+    ['sm', 'size-16'],
+    ['md', 'size-20'],
+    ['lg', 'size-24'],
+  ])('size %s: the item icon is %s, set by the size collection', (mode, icon) => {
+    expect(size(mode, 'item-icon-size')).toBe(ref(icon));
+    expect(own('item-icon-size')).toBeUndefined();
   });
 });
 

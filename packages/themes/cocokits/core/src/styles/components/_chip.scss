@@ -1,6 +1,7 @@
 // Chip rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-chip-* tokens: the size mode on the root, the rest from the structure. The remove
-// button's SvgIcon is 1em, so the button's `font-size` is the icon size (the IconButton precedent). The chip sets
+// button's SvgIcon is 1em, so the button's `font-size` is the icon size (the IconButton precedent). The focus ring is
+// drawn on the pill when the remove button has focus, never on the button. The chip sets
 // `display`, so it restates its `[hidden]`. A Chip list may set the height of the chips it renders (_chip-list.scss).
 @mixin rules {
   .cck-chip {
@@ -35,6 +36,7 @@
   }
 
   .cck-chip__content-wrapper {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
 
@@ -58,19 +60,14 @@
     border-radius: 50%;
     background-color: transparent;
     color: var(--cck-chip-remove-color);
-    font-size: var(--cck-chip-remove-icon-size);
-    line-height: 1;
+    font-size: var(--cck-chip-icon-size);
     cursor: pointer;
 
     &[hidden] {
       display: none;
     }
 
-    &:hover {
-      background-color: var(--cck-chip-remove-hover-bg);
-    }
-
-    // After the hover, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    // `:disabled` covers `<fieldset disabled>`.
     &[data-disabled],
     &:disabled {
       background-color: transparent;
@@ -79,9 +76,13 @@
     }
 
     &:focus-visible {
-      outline: var(--cck-chip-focus-width) solid var(--cck-chip-focus-color);
-      outline-offset: var(--cck-chip-focus-offset);
+      outline: none;
     }
+  }
+
+  .cck-chip:has(> .cck-chip__remove:focus-visible) {
+    outline: var(--cck-chip-focus-width) solid var(--cck-chip-focus-color);
+    outline-offset: var(--cck-chip-focus-offset);
   }
 
   @media (forced-colors: active) {
@@ -101,10 +102,10 @@
       &:disabled {
         color: GrayText;
       }
+    }
 
-      &:focus-visible {
-        outline-color: Highlight;
-      }
+    .cck-chip:has(> .cck-chip__remove:focus-visible) {
+      outline-color: Highlight;
     }
   }
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'textarea.css');
 const scss = read('src', 'styles', 'components', '_textarea.scss');
@@ -33,7 +33,7 @@ describe('standalone textarea box', () => {
       'border-radius: var(--cck-textarea-radius)',
       'background-color: var(--cck-textarea-bg)',
       'color: var(--cck-textarea-text-color)',
-      'resize: vertical',
+      'resize: none',
       'vertical-align: top',
     ]) {
       expect(rule).toContain(line);
@@ -55,25 +55,30 @@ describe('standalone textarea box', () => {
     expect(declarationsOf(css, '.cck-textarea::placeholder')).toContain('color: var(--cck-textarea-placeholder-color)');
   });
 
-  it('gives invalid and read-only a cue that is not color', () => {
-    expect(declarationsOf(css, INVALID)).toContain(
-      'box-shadow: inset 0 0 0 var(--cck-textarea-border-width) var(--cck-textarea-invalid-border-color)',
-    );
+  it('shows invalid by the border colour only, and read-only with a dashed border', () => {
+    expect(declarationsOf(css, INVALID)).not.toMatch(/box-shadow|outline|border-width/);
     expect(declarationsOf(css, '.cck-textarea:where([data-readonly])')).toContain('border-style: dashed');
   });
 
-  it('lets disabled win over invalid and touched, also in forced colors', () => {
-    expect(declarationsOf(css, DISABLED)).toContain('box-shadow: none');
+  it('lets disabled win over invalid and touched, with no thicker invalid border in forced colors', () => {
+    expect(declarationsOf(css, DISABLED)).toContain('border-color: var(--cck-textarea-disabled-border-color)');
     expect(css.indexOf(`${DISABLED} {`)).toBeGreaterThan(css.indexOf(`${INVALID} {`));
     const forced = css.split('@media (forced-colors: active)')[1] ?? '';
-    const thick = forced.indexOf('border-width: var(--cck-textarea-invalid-border-width)');
-    expect(thick).toBeGreaterThan(-1);
-    expect(forced.indexOf('border-width: var(--cck-textarea-border-width)')).toBeGreaterThan(thick);
+    expect(forced).not.toContain('invalid-border-width');
+  });
+
+  it('draws a 1px focus ring with no offset, the border in border/2 and the placeholder in text/3', () => {
+    expect(structureTokenOf('.cck-textarea', 'textarea-focus-width')).toBe(ref('size-1'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-focus-offset')).toBe(ref('spacing-0'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-border-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-hover-border-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-placeholder-color')).toBe(ref('text-3'));
   });
 
   it('keeps the states at the specificity of the base rule', () => {
     expect(scss).not.toMatch(/&\[data-(?!auto-resize)/);
     expect(css).not.toMatch(/\.cck-textarea\[data-(?!auto-resize)/);
+    expect(css).toContain('.cck-textarea:where([data-resize])');
   });
 
   it('rings the focus outside a field and has forced-colors rules', () => {
@@ -93,11 +98,13 @@ describe('auto-resize', () => {
   it('grows with the content and drops the resize handle', () => {
     expect(rule).toContain('field-sizing: content');
     expect(rule).toContain('resize: none');
-    expect(rule).toContain('inline-size: 100%');
+    expect(rule).not.toContain('inline-size');
   });
 
   it('is bounded by the documented rows, 2 and 5 by default, plus the padding and the border', () => {
-    expect(rule).toMatch(/min-block-size: calc\(\s*var\(--cck-textarea-min-rows, 2\) \* 1lh/);
+    expect(rule).toMatch(
+      /min-block-size: max\(var\(--cck-textarea-min-height\), var\(--cck-textarea-min-rows, 2\) \* 1lh/,
+    );
     expect(rule).toMatch(/max-block-size: calc\(\s*var\(--cck-textarea-max-rows, 5\) \* 1lh/);
     expect(rule).toContain('var(--cck-textarea-padding-block)');
     expect(rule).toContain('var(--cck-textarea-border-width)');
@@ -117,7 +124,6 @@ describe('textarea inside a field input wrapper', () => {
       'padding-inline: 0',
       'border: 0',
       'background-color: transparent',
-      'box-shadow: none',
     ]) {
       expect(rule).toContain(line);
     }

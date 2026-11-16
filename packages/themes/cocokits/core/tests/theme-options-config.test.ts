@@ -65,9 +65,9 @@ describe('cocokitsThemeConfig textarea resize', () => {
   });
   const { resize } = cocokitsThemeConfig.components.textarea;
 
-  it('has the boolean resize option on the root, on by default', () => {
+  it('has the resize option on the root, on (vertical) by default, with a direction for horizontal and both', () => {
     expect(resize.attrName).toBe('resize');
-    expect(resize.values).toEqual([true, false]);
+    expect(resize.values).toEqual([true, false, 'vertical', 'horizontal', 'both']);
     expect(resize.default).toBe(true);
     expect(resize.partNames).toEqual(['root']);
     expect(resize.description).toBeTruthy();
@@ -76,6 +76,9 @@ describe('cocokitsThemeConfig textarea resize', () => {
   it.each([
     ['unset', undefined, { 'data-size': 'md', 'data-resize': '' }],
     ['true', true, { 'data-size': 'md', 'data-resize': '' }],
+    ['vertical', 'vertical', { 'data-size': 'md', 'data-resize': 'vertical' }],
+    ['horizontal', 'horizontal', { 'data-size': 'md', 'data-resize': 'horizontal' }],
+    ['both', 'both', { 'data-size': 'md', 'data-resize': 'both' }],
     ['false', false, { 'data-size': 'md' }],
     ['null', null, { 'data-size': 'md' }],
   ] as const)('renders data-resize for %s', (_name, value, attrs) => {

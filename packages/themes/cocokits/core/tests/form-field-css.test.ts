@@ -33,7 +33,7 @@ describe('form-field, label and hint output', () => {
     expect(tokensCss).toMatch(/--cck-form-field-gap: var\(--cck-spacing-4\)/);
     expect(tokensCss).toMatch(/--cck-form-field-balance-indent: var\(--cck-spacing-0\)/);
     expect(tokensCss).toMatch(/--cck-form-field-min-inline-size: 100px/);
-    expect(tokensCss).toMatch(/--cck-hint-gap: var\(--cck-spacing-3\)/);
+    expect(tokensCss).toMatch(/--cck-hint-gap: var\(--cck-spacing-4\)/);
     expect(tokensCss).toMatch(/--cck-label-text-color: var\(--cck-text-1\)/);
     expect(tokensCss).toMatch(/--cck-hint-text-color: var\(--cck-on-surface-3\)/);
     expect(tokensCss).toMatch(/--cck-label-font-weight: var\(--cck-font-weight-regular\)/);
@@ -63,7 +63,7 @@ describe('form-field layout', () => {
     }
     for (const part of ['wrapper', 'input-wrapper']) {
       const rule = declarationsOf(stylesCss, `.cck-form-field__${part}`) ?? '';
-      expect(rule).not.toMatch(/border|radius|background|block-size|height|padding/);
+      expect(rule).not.toMatch(/border(?!-box)|radius|background|block-size|height|padding/);
     }
   });
 
@@ -146,7 +146,7 @@ describe('form-field, label and hint selectors and units', () => {
     expect(forced).toContain('border-color: CanvasText');
     expect(forced).toContain('border-color: GrayText');
     expect(forced).toContain('outline-color: Highlight');
-    expect(forced).toContain('border-width: var(--cck-form-field-invalid-border-width)');
+    expect(forced).not.toContain('invalid-border-width');
     expect(read('src', 'styles', 'components', '_label.scss')).not.toContain('forced-colors');
   });
 });
@@ -182,26 +182,24 @@ describe('the box of the input wrapper', () => {
     expect(scss).not.toMatch(/(^|\n)\s*\[data-/);
   });
 
-  it('gives invalid and read-only a cue that is not color, outside forced colors too', () => {
+  it('shows invalid by the border colour only and read-only with a dashed border', () => {
     const wrapper =
       '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
     const invalid = declarationsOf(
       stylesCss,
       `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) ${wrapper}`,
     );
-    expect(invalid).toContain(
-      'box-shadow: inset 0 0 0 var(--cck-form-field-border-width) var(--cck-form-field-invalid-border-color)',
-    );
+    expect(invalid).not.toMatch(/box-shadow|outline|border-width|border-style/);
     expect(declarationsOf(stylesCss, `.cck-form-field:where([data-readonly]) ${wrapper}`)).toContain(
       'border-style: dashed',
     );
   });
 
-  it('lets disabled win over invalid and touched: no invalid line and the disabled border', () => {
+  it('lets disabled win over invalid and touched, and over read-only: the disabled border, solid', () => {
     const wrapper =
       '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
     const disabled = declarationsOf(stylesCss, `.cck-form-field:where([data-disabled]) ${wrapper}`) ?? '';
-    expect(disabled).toContain('box-shadow: none');
+    expect(disabled).toContain('border-style: solid');
     expect(disabled).toContain('border-color: var(--cck-form-field-disabled-border-color)');
     const invalid = `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) ${wrapper}`;
     expect(stylesCss.indexOf(`.cck-form-field:where([data-disabled]) ${wrapper} {`)).toBeGreaterThan(
@@ -209,12 +207,10 @@ describe('the box of the input wrapper', () => {
     );
   });
 
-  it('lets disabled win over invalid in forced colors too: GrayText and the thin border, after the thick one', () => {
+  it('keeps the thin border in forced colors, GrayText when disabled', () => {
     const forced = stylesCss.split('@media (forced-colors: active)')[1] ?? '';
-    const invalid = forced.indexOf('border-width: var(--cck-form-field-invalid-border-width)');
-    const disabled = forced.indexOf('border-width: var(--cck-form-field-border-width)');
-    expect(invalid).toBeGreaterThan(-1);
-    expect(disabled).toBeGreaterThan(invalid);
+    expect(forced).not.toContain('invalid-border-width');
+    expect(forced).toContain('border-color: GrayText');
   });
 
   it('colours the disabled and read-only boxes from the facts of the root', () => {

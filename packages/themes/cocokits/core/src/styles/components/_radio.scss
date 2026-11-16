@@ -1,7 +1,7 @@
 // Radio rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-radio-* tokens. A round box with a dot drawn by CSS on `background`; the
-// shared pieces and the cascade order are in _choice-box.scss. The Radio renders only the checked,
-// disabled and required facts, so it has no read-only, mixed or invalid look.
+// shared pieces and the cascade order are in _choice-box.scss. The Radio has no read-only or mixed look; a group
+// with `data-invalid` changes only the colour of the border of its radios.
 @use '../choice-box' as box;
 
 $block: 'radio';
@@ -16,6 +16,11 @@ $block: 'radio';
   }
 
   @include box.checked($block);
+
+  .cck-radio-group:where([data-invalid]) .cck-radio #{box.box($block)} {
+    border-color: var(--cck-radio-box-invalid-border-color);
+  }
+
   @include box.disabled($block);
   @include box.focus($block);
   @include box.motion($block);

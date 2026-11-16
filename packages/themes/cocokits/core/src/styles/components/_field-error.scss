@@ -6,6 +6,7 @@
 // empty one takes none. The text is the cue besides the color.
 @mixin rules {
   .cck-field-error {
+    box-sizing: border-box;
     display: block;
     color: var(--cck-field-error-text-color);
     font-family: var(--cck-field-error-font-family);

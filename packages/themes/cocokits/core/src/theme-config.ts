@@ -47,7 +47,7 @@ import {
 } from './generated/token-modes';
 
 /** No token collection holds the variants, so they are written by hand. */
-const BUTTON_VARIANTS = ['primary', 'outline', 'light', 'basic'] as const;
+const BUTTON_VARIANTS = ['primary', 'outline', 'basic'] as const;
 const BADGE_VARIANTS = ['rounded', 'rectangle'] as const;
 /** No token collection holds the Accordion looks, so they are written by hand. */
 const ACCORDION_VARIANTS = ['default', 'group', 'basic'] as const;
@@ -63,6 +63,8 @@ const LABEL_POSITIONS = ['after', 'before'] as const;
 const DIVIDER_COLORS = ['light', 'default', 'dark'] as const;
 /** A two-state option: its `data-*` is present when true and absent when false. */
 const BOOLEAN_VALUES = [true, false] as const;
+/** The grip of the Textarea: `true` and `vertical` resize the height, then the width or both; `false` shows none. */
+const TEXTAREA_RESIZES = [true, false, 'vertical', 'horizontal', 'both'] as const;
 /** An option on the content part only. */
 type ContentOption<V extends readonly (string | boolean)[]> = Option<V, readonly ['content']>;
 
@@ -175,7 +177,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly 'tab-nav': TabsOptions;
     readonly textarea: {
       readonly size: RootOption<typeof textareaSizeModes>;
-      readonly resize: RootOption<typeof BOOLEAN_VALUES>;
+      readonly resize: RootOption<typeof TEXTAREA_RESIZES>;
       readonly autoResize: RootOption<typeof BOOLEAN_VALUES>;
     };
     /** The size is set on the themed root and drawn on the content. */
@@ -224,16 +226,16 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         values: BADGE_VARIANTS,
         default: 'rounded',
         partNames: ['root'],
-        description: 'Corner radius: a pill or a small radius.',
+        description: 'Pill or small radius.',
       },
       color: {
         attrName: 'cck-color',
         values: themeActiveColorModes,
         default: themeActiveColorDefaultMode,
         partNames: ['root'],
-        description: 'Color family; renders the Active Color marker data-cck-color.',
+        description: 'Seven colours.',
       },
-      size: rootSize(badgeSizeModes, badgeSizeDefaultMode, 'Height, padding, dot size and text.'),
+      size: rootSize(badgeSizeModes, badgeSizeDefaultMode, 'Four sizes.'),
     },
     'badge-container': {},
     dialog: {
@@ -268,7 +270,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         values: themeActiveColorModes,
         default: themeActiveColorDefaultMode,
         partNames: ['root'],
-        description: 'Color family; renders the Active Color marker data-cck-color.',
+        description: 'Colour family of the button.',
       },
       size: rootSize(buttonSizeModes, buttonSizeDefaultMode, 'Minimum height, padding and text.'),
     },
@@ -279,7 +281,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         values: themeActiveColorModes,
         default: themeActiveColorDefaultMode,
         partNames: ['root'],
-        description: 'Color family of the checked state; renders the Active Color marker data-cck-color.',
+        description: 'Colour family of the checked state.',
       },
       labelPosition: {
         attrName: 'label-position',
@@ -292,7 +294,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     },
     chip: {
       size: rootSize(chipSizeModes, chipSizeDefaultMode, 'Height of the chip.'),
-      icons: { remove: 'close' },
+      icons: { remove: 'circle-xmark' },
     },
     'chip-list': {
       size: rootSize(
@@ -332,7 +334,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         values: themeActiveColorModes,
         default: themeActiveColorDefaultMode,
         partNames: ['root'],
-        description: 'Color family; renders the Active Color marker data-cck-color.',
+        description: 'Colour family of the button.',
       },
       size: rootSize(iconButtonSizeModes, iconButtonSizeDefaultMode, 'Side of the square and size of the icon.'),
       rounded: {
@@ -365,13 +367,13 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     suffix: {},
     popover: {},
     radio: {
-      size: rootSize(radioSizeModes, radioSizeDefaultMode, 'Size of the radio and its label text.'),
+      size: rootSize(radioSizeModes, radioSizeDefaultMode, 'Size of the radio.'),
       color: {
         attrName: 'cck-color',
         values: themeActiveColorModes,
         default: themeActiveColorDefaultMode,
         partNames: ['root'],
-        description: 'Color family of the checked state; renders the Active Color marker data-cck-color.',
+        description: 'Colour family of the checked state.',
       },
       labelPosition: {
         attrName: 'label-position',
@@ -416,7 +418,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         values: themeActiveColorModes,
         default: themeActiveColorDefaultMode,
         partNames: ['root'],
-        description: 'Color family of the checked state; renders the Active Color marker data-cck-color.',
+        description: 'Colour family of the checked state.',
       },
       labelPosition: {
         attrName: 'label-position',
@@ -439,8 +441,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         values: themeActiveColorModes,
         default: null,
         partNames: ['root'],
-        description:
-          'Color family; renders the Active Color marker data-cck-color. Without it the icon is currentColor.',
+        description: 'Colour family. Without it the icon takes the colour of the text around it.',
       },
       rtlMirror: {
         attrName: 'rtl-mirror',
@@ -460,10 +461,11 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       ),
       resize: {
         attrName: 'resize',
-        values: BOOLEAN_VALUES,
+        values: TEXTAREA_RESIZES,
         default: true,
         partNames: ['root'],
-        description: 'Shows the handle that resizes the height. It has no effect with autoResize.',
+        description:
+          'Which way the grip resizes the box: vertical (true), horizontal or both. False shows no grip. It has no effect with autoResize.',
       },
       autoResize: {
         attrName: 'auto-resize',

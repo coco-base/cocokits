@@ -25,6 +25,7 @@
   }
 
   .cck-avatar__image {
+    box-sizing: border-box;
     display: block;
     inline-size: 100%;
     block-size: 100%;

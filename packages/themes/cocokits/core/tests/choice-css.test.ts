@@ -53,6 +53,8 @@ describe.each(BLOCKS)('%s output', (block) => {
       for (const part of flat.split(',')) {
         const tokens = part.trim().split(/\s+/);
         expect(tokens[0], selector).toMatch(/^\.cck-/);
+        // The invalid group of the Radio reaches its radios with one descendant combinator, from the group.
+        if (selector.startsWith('.cck-radio-group:where([data-invalid]) .cck-radio >')) continue;
         tokens.forEach((token, index) => {
           if (index % 2 === 1) expect(token, selector).toMatch(/^[>~+]$/);
         });
@@ -125,15 +127,12 @@ describe.each(BLOCKS)('%s output', (block) => {
 });
 
 describe('hover', () => {
-  it.each(['checkbox', 'radio'] as const)('the %s shows a halo and a hover border on the box', (block) => {
+  it.each(['checkbox', 'radio'] as const)('the %s shows no halo and no hover border (C9)', (block) => {
     const css = cssOf(block);
-    const tail = `> .cck-${block}__wrapper > .cck-${block}__input-wrapper`;
-    expect(declarationsOf(css, `.cck-${block}:where(:hover) ${tail} > .cck-${block}__backdrop`)).toContain(
-      `background-color: var(--cck-${block}-halo-bg)`,
-    );
-    expect(declarationsOf(css, `.cck-${block}:where(:hover) ${tail} > .cck-${block}__background`)).toContain(
-      `border-color: var(--cck-${block}-box-hover-border-color)`,
-    );
+    expect(css).not.toContain(':hover');
+    expect(css).not.toContain('__backdrop');
+    expect(css).not.toContain('halo');
+    expect(css).not.toContain('hover-border');
   });
 
   it('the switch shows a halo, a hover border and a hover thumb', () => {
@@ -156,19 +155,15 @@ describe('filled controls', () => {
     expect(cssOf(block)).toMatch(/\[data-readonly\][^{]*\{[^}]*border-style: dashed;[^}]*background-clip: padding-box/);
   });
 
-  it('the checkbox draws the invalid line in the mark color on a filled box, after the plain invalid rule', () => {
-    const css = cssOf('checkbox');
-    const filled = css.indexOf('[data-checked], [data-indeterminate]):where([data-invalid])');
-    expect(filled).toBeGreaterThan(css.indexOf('--cck-checkbox-box-invalid-border-color)'));
-    expect(css.slice(filled, filled + 400)).toContain(
-      'inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color), inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-mark-color)',
-    );
-  });
-
-  it('the switch draws the invalid line in the thumb color on a filled track', () => {
-    expect(cssOf('switch')).toMatch(
-      /\[data-checked\]\):where\(\[data-invalid\]\)[^{]*\{[^}]*--cck-switch-thumb-checked-color/,
-    );
+  it('the checkbox and the switch change only the border colour when invalid, also on a filled control', () => {
+    for (const block of ['checkbox', 'switch'] as const) {
+      const css = cssOf(block);
+      expect(css).not.toContain('box-shadow: inset');
+      expect(css).not.toMatch(/\[data-invalid\][^{]*\{[^}]*(?:box-shadow|outline|border-width)/);
+      expect(css).toMatch(
+        new RegExp(`\\[data-invalid\\][^{]*\\{\\s*border-color: var\\(--cck-${block}-[\\w-]*invalid-border-color\\)`),
+      );
+    }
   });
 
   it.each(['checkbox', 'switch', 'radio'] as const)(
@@ -182,8 +177,12 @@ describe('filled controls', () => {
     },
   );
 
-  it.each(['checkbox', 'switch', 'radio'] as const)('the %s halo is transparent in forced colors', (block) => {
-    expect(forcedOf(cssOf(block))).toMatch(/__backdrop \{\s*background-color: transparent/);
+  it.each(['checkbox', 'radio'] as const)('the %s has no halo to reset in forced colors', (block) => {
+    expect(forcedOf(cssOf(block))).not.toContain('__backdrop');
+  });
+
+  it('the switch halo is transparent in forced colors', () => {
+    expect(forcedOf(cssOf('switch'))).toMatch(/__backdrop \{\s*background-color: transparent/);
   });
 
   it('the switch halo is painted behind the pill and the thumb', () => {
@@ -224,23 +223,14 @@ describe('checkbox look', () => {
     expect(forced).toMatch(/\[data-disabled\][^{]*__background \{[^}]*color: GrayText/);
   });
 
-  it('shows invalid with a second line and read-only with a dashed border, not by color alone', () => {
-    expect(css).toContain(
-      'box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-invalid-border-color)',
-    );
+  it('shows invalid by the border colour only and read-only with a dashed border', () => {
+    expect(css).toContain('border-color: var(--cck-checkbox-box-invalid-border-color)');
+    expect(css).not.toContain('box-shadow');
     expect(css).toMatch(/\[data-readonly\][^{]*\{[^}]*border-style: dashed/);
   });
 
-  it('thickens the invalid border in forced colors and lets disabled reset it, last', () => {
-    const forced = forcedOf(css);
-    const thick = forced.indexOf('border-width: var(--cck-checkbox-box-invalid-border-width)');
-    expect(thick).toBeGreaterThan(-1);
-    expect(forced.indexOf('border-width: var(--cck-checkbox-box-border-width)')).toBeGreaterThan(thick);
-  });
-
-  it('removes the invalid line when disabled', () => {
-    const normal = css.slice(0, css.indexOf('@media'));
-    expect(normal.lastIndexOf('box-shadow: none')).toBeGreaterThan(normal.lastIndexOf('box-shadow: inset'));
+  it('keeps the 1px border in forced colors: no thicker invalid border', () => {
+    expect(forcedOf(css)).not.toContain('border-width');
   });
 
   it('makes the hit area a grid cell with the native input over it, transparent', () => {
@@ -254,10 +244,21 @@ describe('checkbox look', () => {
 describe('radio look', () => {
   const css = cssOf('radio');
 
-  it('is round, with a round dot, and has no invalid, read-only or mixed rule', () => {
+  it('is round, with a round dot, and has no read-only or mixed rule', () => {
     expect(declarationsOf(css, '.cck-radio__background')).toContain('border-radius: var(--cck-radio-box-radius)');
     expect(css).toMatch(/\.cck-radio__background::after \{[^}]*border-radius: 50%/);
-    expect(css).not.toMatch(/data-invalid|data-readonly|data-indeterminate/);
+    expect(css).not.toMatch(/data-readonly|data-indeterminate/);
+  });
+
+  it('shows an invalid group by the border colour of its radios only', () => {
+    const rule = declarationsOf(
+      css,
+      '.cck-radio-group:where([data-invalid]) .cck-radio > .cck-radio__wrapper > .cck-radio__input-wrapper > .cck-radio__background',
+    );
+    expect(rule).toContain('border-color: var(--cck-radio-box-invalid-border-color)');
+    expect(rule).not.toMatch(/box-shadow|outline|border-width/);
+    expect(structureTokenOf('.cck-radio', 'radio-box-invalid-border-color')).toBe(ref('danger-color'));
+    expect(css.indexOf('[data-invalid]')).toBeLessThan(css.indexOf(':where([data-disabled], :has('));
   });
 
   it('has a full-radius box token', () => {
@@ -280,10 +281,19 @@ describe('switch look', () => {
     expect(declarationsOf(css, '.cck-switch__track::before')).toContain('block-size: var(--cck-switch-track-height)');
   });
 
-  it('shows invalid with a second line, read-only with a dashed border and a thicker invalid border in forced colors', () => {
-    expect(css).toContain('box-shadow: inset 0 0 0 var(--cck-switch-track-border-width)');
+  it('shows invalid by the border colour only and read-only with a dashed border in border/3', () => {
+    expect(css).not.toContain('box-shadow: inset');
     expect(css).toMatch(/\[data-readonly\][^{]*\{[^}]*border-style: dashed/);
-    expect(forcedOf(css)).toContain('border-width: var(--cck-switch-track-invalid-border-width)');
+    expect(css).toMatch(/\[data-readonly\][^{]*\{[^}]*border-color: var\(--cck-switch-track-readonly-border-color\)/);
+    expect(structureTokenOf('.cck-switch', 'switch-track-readonly-border-color')).toBe(ref('border-3'));
+    expect(forcedOf(css)).not.toContain('border-width');
+  });
+
+  it('draws the rail focus ring on the track box and the contained one on the pill', () => {
+    const input = '> .cck-switch__label > .cck-switch__track > .cck-switch__input:focus-visible';
+    const track = '> .cck-switch__label > .cck-switch__track';
+    expect(css).toContain(`.cck-switch[data-variant=rail]:has(${input}) ${track} {`);
+    expect(css).toContain(`.cck-switch:not([data-variant=rail]):has(${input}) ${track}::before,`);
   });
 
   it('recolors the thumb in forced colors for both positions', () => {
@@ -294,31 +304,10 @@ describe('switch look', () => {
 });
 
 describe('halo size', () => {
-  const px = (block: string, name: string, mode: string): number => {
-    const token = tokensJson(block).collections[0]?.tokens.find((t) => t.name === name);
-    return Number(/size-(\d+)\}/.exec(String(token?.valuesByMode[mode]))?.[1]);
-  };
-
-  /** The `gap` token of a size, followed from its Theme Spacing alias to the Core Size it names, in px. */
-  const gap = (block: string, mode: string): number => {
-    const alias = String(tokensJson(block).collections[0]?.tokens.find((t) => t.name === 'gap')?.valuesByMode[mode]);
-    const base = JSON.parse(read('src', 'tokens', 'base.tokens.json')) as TokenFile;
-    const spacing = base.collections
-      .flatMap((c) => c.tokens)
-      .find((token) => token.name === /#(spacing-\d+)\}/.exec(alias)?.[1]);
-    return Number(/size-(\d+)\}/.exec(String(spacing?.valuesByMode.Normal))?.[1]);
-  };
-
-  it.each(['checkbox', 'radio'])(
-    'keeps the %s halo inside the gap to the label, so it never covers the text',
-    (block) => {
-      for (const mode of ['sm', 'md', 'lg']) {
-        expect((px(block, 'halo-size', mode) - px(block, 'hit-size', mode)) / 2, mode).toBeLessThanOrEqual(
-          gap(block, mode),
-        );
-      }
-    },
-  );
+  it.each(['checkbox', 'radio'])('the %s has no halo size', (block) => {
+    for (const collection of tokensJson(block).collections)
+      expect(collection.tokens.map((t) => t.name).filter((name) => name.startsWith('halo'))).toEqual([]);
+  });
 });
 
 describe('box sizes', () => {
@@ -352,10 +341,10 @@ describe.each([
       expect(size(mode, `label-${part}`), part).toBe(ref(`${text}-${part}`));
   });
 
-  it('draws a 1px on-surface/1 border that the hover keeps, and a medium label', () => {
+  it('draws a 1px on-surface/1 border with no hover look, and a medium label', () => {
     expect(own('box-border-width')).toBe(ref('border-width-1'));
     expect(own('box-border-color')).toBe(ref('on-surface-1'));
-    expect(own('box-hover-border-color')).toBe(ref('on-surface-1'));
+    expect(own('box-hover-border-color')).toBeUndefined();
     expect(own('label-font-weight')).toBe(ref('font-weight-medium'));
     expect(declarationsOf(cssOf(block), `${ROOT}__label`)).toContain(
       `font-weight: var(--cck-${block}-label-font-weight)`,
@@ -389,10 +378,10 @@ describe('checkbox disabled border and radio dot', () => {
     expect(structureTokenOf('.cck-radio', 'radio-box-mark-color')).toBe(ref('edge'));
   });
 
-  it('keeps the dash two borders high and the invalid line as thick as the forced-colors border', () => {
+  it('keeps the dash two borders high and holds no invalid border width', () => {
     const css = cssOf('checkbox');
     expect(css).toContain('inset-block: calc(50% - var(--cck-checkbox-box-border-width))');
-    expect(structureTokenOf('.cck-checkbox', 'checkbox-box-invalid-border-width')).toBe(ref('size-3'));
+    expect(structureTokenOf('.cck-checkbox', 'checkbox-box-invalid-border-width')).toBeUndefined();
   });
 });
 
@@ -406,9 +395,9 @@ describe('switch design match', () => {
   it.each([
     ['sm', 'size-36', 'size-20', 'size-16'],
     ['md', 'size-44', 'size-24', 'size-20'],
-    ['lg', '52px', 'size-28', 'size-24'],
+    ['lg', 'size-52', 'size-28', 'size-24'],
   ])('size %s: track %s by %s, thumb %s', (mode, width, height, thumb) => {
-    expect(size(mode, 'track-width')).toBe(width.endsWith('px') ? width : ref(width));
+    expect(size(mode, 'track-width')).toBe(ref(width));
     expect(size(mode, 'track-height')).toBe(ref(height));
     expect(size(mode, 'thumb-size')).toBe(ref(thumb));
   });
@@ -422,14 +411,18 @@ describe('switch design match', () => {
     ['thumb-color', 'white'],
     ['thumb-hover-color', 'white'],
     ['thumb-border-width', 'border-width-1'],
-    ['thumb-border-color', 'on-surface-3'],
-    ['thumb-shadow', 'shadow-xs'],
+    ['thumb-border-color', 'ramp-contrast-light'],
     ['thumb-disabled-color', 'disabled-border'],
-    ['thumb-checked-color', 'on-color'],
+    ['thumb-checked-color', 'white'],
     ['track-checked-bg', 'color'],
-    ['track-checked-border-color', 'edge'],
+    ['track-checked-border-color', 'color'],
+    ['halo-bg', 'surface-3'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
+  });
+
+  it('gives the thumb the design shadow, a raw value of the Switch', () => {
+    expect(own('thumb-shadow')).toBe('0 1px 2px 0 rgba(0, 0, 0, 0.18)');
   });
 
   it('draws the thumb as a bordered, shadowed circle that keeps its size', () => {

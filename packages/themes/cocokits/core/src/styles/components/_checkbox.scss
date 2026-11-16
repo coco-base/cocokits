@@ -41,20 +41,9 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
     opacity: 1;
   }
 
+  // Invalid changes only the colour of the existing 1px border.
   .cck-checkbox#{$invalid} #{box.box($block)} {
     border-color: var(--cck-checkbox-box-invalid-border-color);
-    // A second line inside the border, as wide as the invalid border is in forced colors: the cue does not rest on hue
-    // alone.
-    // Forced colors drop the shadow, so the border gets thicker there.
-    box-shadow: inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-invalid-border-color);
-  }
-
-  // On a filled box the danger edge is as wide as the border and the inner line takes the mark color, which reads
-  // against the fill: the look before the box had a drawn border.
-  .cck-checkbox:where(#{$facts})#{$invalid} #{box.box($block)} {
-    box-shadow:
-      inset 0 0 0 var(--cck-checkbox-box-border-width) var(--cck-checkbox-box-invalid-border-color),
-      inset 0 0 0 var(--cck-checkbox-box-invalid-border-width) var(--cck-checkbox-box-mark-color);
   }
 
   @include box.disabled($block);
@@ -70,16 +59,10 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
     .cck-checkbox:where([data-checked]) #{box.box($block)} {
       color: HighlightText;
     }
-
-    .cck-checkbox#{$invalid} #{box.box($block)} {
-      border-width: var(--cck-checkbox-box-invalid-border-width);
-    }
   }
 
-  // Disabled wins over invalid in forced colors too: the thin border again.
   @media (forced-colors: active) {
     .cck-checkbox#{box.disabled($block)} #{box.box($block)} {
-      border-width: var(--cck-checkbox-box-border-width);
       color: GrayText;
     }
   }

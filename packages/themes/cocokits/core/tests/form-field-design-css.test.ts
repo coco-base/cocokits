@@ -32,12 +32,11 @@ describe('form field design match: tokens', () => {
   it.each([
     [FIELD, 'form-field-balance-indent', 'spacing-0'],
     [FIELD, 'form-field-affix-text-color', 'on-surface-2'],
-    [FIELD, 'form-field-affix-icon-size', 'size-24'],
     [FIELD, 'form-field-addon-bg', 'surface-2'],
     [FIELD, 'form-field-addon-text-color', 'on-surface-2'],
     [FIELD, 'form-field-disabled-text-color', 'disabled-on-surface'],
     [FIELD, 'form-field-hover-bg', 'surface-2'],
-    [FIELD, 'form-field-hover-border-color', 'border-3'],
+    [FIELD, 'form-field-hover-border-color', 'border-2'],
     ['.cck-label', 'label-font-weight', 'font-weight-regular'],
     ['.cck-label', 'label-font-size', 'text-md-font-size'],
     ['.cck-label', 'label-text-color', 'text-1'],
@@ -46,23 +45,35 @@ describe('form field design match: tokens', () => {
     ['.cck-field-error', 'field-error-font-size', 'text-md-font-size'],
     ['.cck-field-error', 'field-error-text-color', 'danger-text'],
     ['.cck-input', 'input-hover-bg', 'surface-2'],
-    ['.cck-input', 'input-hover-border-color', 'border-3'],
+    ['.cck-input', 'input-hover-border-color', 'border-2'],
     ['.cck-textarea', 'textarea-hover-bg', 'surface-2'],
-    ['.cck-textarea', 'textarea-hover-border-color', 'border-3'],
+    ['.cck-textarea', 'textarea-hover-border-color', 'border-2'],
 
     ['.cck-chip-list', 'chip-list-hover-bg', 'surface-2'],
-    ['.cck-chip-list', 'chip-list-hover-border-color', 'border-3'],
+    ['.cck-chip-list', 'chip-list-hover-border-color', 'border-2'],
   ])('structure token of %s: %s is %s', (root, name, value) => {
     expect(structureTokenOf(root, name)).toBe(ref(value));
   });
 
-  it.each([FIELD, '.cck-input', '.cck-textarea', '.cck-chip-list'])(
-    '%s: the active edge is a -2px focus offset',
-    (root) => {
-      const name = root.replace('.cck-', '');
-      expect(structureTokenOf(root, `${name}-focus-offset`)).toBe('-2px');
-    },
-  );
+  it.each([
+    [FIELD, ref('size-3'), ref('size-1')],
+    ['.cck-input', ref('spacing-0'), ref('size-1')],
+    ['.cck-textarea', ref('spacing-0'), ref('size-1')],
+    ['.cck-chip-list', '-2px', ref('size-2')],
+  ])('%s: the focus ring is offset %s and %s wide', (root, offset, width) => {
+    const name = root.replace('.cck-', '');
+    expect(structureTokenOf(root, `${name}-focus-offset`)).toBe(offset);
+    expect(structureTokenOf(root, `${name}-focus-width`)).toBe(width);
+  });
+
+  it.each([
+    ['sm', 'size-20', 'size-16'],
+    ['md', 'size-24', 'size-16'],
+    ['lg', 'size-24', 'size-20'],
+  ])('size %s: the zone icon is %s and the hint icon %s', (mode, zone, hint) => {
+    expect(size(mode, 'affix-icon-size')).toBe(ref(zone));
+    expect(size(mode, 'hint-icon-size')).toBe(ref(hint));
+  });
 });
 
 describe('form field design match: rules', () => {

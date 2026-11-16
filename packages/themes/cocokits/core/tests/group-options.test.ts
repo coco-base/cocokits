@@ -94,6 +94,17 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'translate',
   ],
   'menu divider': ['margin-block'],
+  // Q13: a parent that renders its children passes its size to them through CSS, from its own size tokens.
+  'chip-list chip': [
+    'block-size',
+    'gap',
+    'padding-inline',
+    'font-family',
+    'font-size',
+    'line-height',
+    'letter-spacing',
+    'margin-inline-end',
+  ],
 };
 
 interface CrossRule {
@@ -169,6 +180,7 @@ describe('no theme CSS rule sets an option of a child from a parent selector (D3
     const bad = crossRules.filter(
       (rule) =>
         sized.includes(rule.last) &&
+        !PLACEMENT[`${rule.first} ${rule.last}`] &&
         rule.properties.some((property) =>
           /^(block-size|inline-size|font|font-[a-z]+|line-height|letter-spacing)$/.test(property),
         ),

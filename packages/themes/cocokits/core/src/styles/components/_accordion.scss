@@ -21,6 +21,8 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
     display: flex;
     flex-direction: column;
     gap: var(--cck-accordion-gap);
+    // Fills its container; opening an item never changes the width.
+    inline-size: 100%;
   }
 
   // The root sets `display`, so the theme restates the native `hidden`.
@@ -35,6 +37,7 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
 
   // The item is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
   .cck-accordion > .cck-accordion__item {
+    box-sizing: border-box;
     display: block;
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
@@ -79,6 +82,7 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
   }
 
   .cck-accordion > .cck-accordion__item > .cck-accordion__header {
+    box-sizing: border-box;
     margin: 0;
   }
 
@@ -107,6 +111,11 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
     cursor: pointer;
   }
 
+  // The item border sits outside the trigger, so a closed item is as high as the size says.
+  .cck-accordion[data-variant='default'] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger {
+    min-block-size: max(24px, calc(var(--cck-accordion-trigger-height) - 2 * var(--cck-accordion-border-width)));
+  }
+
   .cck-accordion:is([data-variant='group'], [data-variant='basic'])
     > .cck-accordion__item
     > .cck-accordion__header
@@ -116,6 +125,7 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
 
   // The icon box: its font size is the icon size, and the icon (1em) takes the trigger's color.
   #{$indicator} {
+    box-sizing: border-box;
     flex: none;
     display: inline-flex;
     font-size: var(--cck-accordion-icon-size);
@@ -132,6 +142,14 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
     > .cck-accordion__trigger
     > .cck-accordion__indicator {
     order: -1;
+  }
+
+  // The chevron, then the label, both at the start, `trigger-gap` apart.
+  .cck-accordion[data-toggle-position='before']
+    > .cck-accordion__item
+    > .cck-accordion__header
+    > .cck-accordion__trigger {
+    justify-content: flex-start;
   }
 
   .cck-accordion[data-hide-toggle]
@@ -188,12 +206,14 @@ $filled: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .
 
   #{$content}::before {
     content: '';
+    box-sizing: border-box;
     display: block;
     block-size: var(--cck-accordion-content-padding-block-start);
   }
 
   #{$content}::after {
     content: '';
+    box-sizing: border-box;
     display: block;
     block-size: var(--cck-accordion-content-padding-block-end);
   }

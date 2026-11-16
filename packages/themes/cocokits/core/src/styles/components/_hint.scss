@@ -1,6 +1,7 @@
 // Hint rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 @mixin rules {
   .cck-hint {
+    box-sizing: border-box;
     display: flex;
     gap: var(--cck-hint-gap);
     color: var(--cck-hint-text-color);

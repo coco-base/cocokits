@@ -70,7 +70,7 @@ describe('select output', () => {
     const chevron = declarationsOf(css, '.cck-select__dropdown-icon') ?? '';
     expect(chevron).toContain('font-size: var(--cck-select-icon-size)');
     expect(chevron).toContain('color: var(--cck-select-icon-color)');
-    expect(chevron).not.toContain('border');
+    expect(chevron).not.toMatch(/border(?!-box)/);
     const open = declarationsOf(
       css,
       '.cck-select[data-state=open] > .cck-select__trigger > .cck-select__dropdown-icon',
@@ -86,11 +86,12 @@ describe('select output', () => {
     expect(css).toContain(':where(:hover)');
   });
 
-  it('shows invalid with a second line, read-only with a dashed border and disabled over invalid', () => {
-    expect(css).toMatch(/\[data-invalid\][^{]*\{[^}]*box-shadow: inset 0 0 0 var\(--cck-select-border-width\)/);
+  it('shows invalid by the border colour only, read-only with a dashed border and disabled over invalid', () => {
+    expect(css).toMatch(/\[data-invalid\][^{]*\{\s*border-color: var\(--cck-select-invalid-border-color\);\s*\}/);
+    expect(css).not.toContain('box-shadow: inset');
+    expect(css).not.toContain('invalid-border-width');
     expect(css).toMatch(/\[data-readonly\][^{]*\{[^}]*border-style: dashed/);
     expect(css.indexOf('[data-disabled]')).toBeGreaterThan(css.indexOf('[data-invalid]'));
-    expect(css).toMatch(/\[data-disabled\][^{]*\{[^}]*box-shadow: none/);
   });
 
   it('runs its motion only without a reduced-motion preference, keyed on data-state', () => {

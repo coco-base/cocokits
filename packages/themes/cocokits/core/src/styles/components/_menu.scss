@@ -11,6 +11,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    min-inline-size: var(--cck-menu-min-inline-size);
     max-block-size: var(--available-height, none);
     overflow: auto;
     gap: var(--cck-menu-gap);

@@ -34,6 +34,8 @@
   // The positioning module places and turns the arrow; the theme only sizes and fills the triangle. An author rule
   // beats the user-agent [hidden] rule, so the theme restates it.
   .cck-tooltip__arrow {
+    box-sizing: border-box;
+
     &[hidden] {
       display: none;
     }

@@ -37,9 +37,14 @@ describe('tab-nav output', () => {
     expect(css).not.toMatch(/\[aria-|\[role|data-selected|\.cck-tab-nav--|\.is-/);
   });
 
-  it('has no orientation rule, and only the block layout of the tag for the panel: it sits anywhere, so no child combinator reaches it', () => {
-    expect(declarationsOf(css, '.cck-tab-nav__panel')).toMatch(/^\s*display:\s*block;\s*$/);
-    expect(css.match(/cck-tab-nav__panel/g)).toHaveLength(2);
+  it('has no orientation rule, and one panel rule with the Tabs panel: block layout, padding and focus', () => {
+    expect(declarationsOf(css, '.cck-tab-nav__panel')).toMatch(/^\s*box-sizing:\s*border-box;\s*display:\s*block;\s*$/);
+    expect(declarationsOf(css, '.cck-tab-nav > .cck-tab-nav__panel')).toContain(
+      'padding: var(--cck-tabs-panel-padding)',
+    );
+    expect(declarationsOf(css, '.cck-tab-nav > .cck-tab-nav__panel:focus-visible')).toContain(
+      'outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color)',
+    );
     expect(css).not.toContain('data-orientation');
   });
 
@@ -64,13 +69,12 @@ describe('tab-nav output', () => {
     }
   });
 
-  it('slides the indicator only inside @media (prefers-reduced-motion: no-preference), and colors on :hover only the link fill', () => {
+  it('slides the indicator only inside @media (prefers-reduced-motion: no-preference), and has no hover look', () => {
     const outside = css.replace(/@media \(prefers-reduced-motion: no-preference\) \{[\s\S]*?\n {2}\}\n/, '');
     expect(css).toContain('@media (prefers-reduced-motion: no-preference)');
     expect(outside).not.toContain('transition');
     const hovers = css.split('\n').filter((line) => line.includes(':hover'));
     expect(hovers).toEqual([
-      expect.stringContaining('.cck-tab-nav__link:hover:not([data-active], [data-disabled], :disabled) {'),
       '    .cck-tab-nav > .cck-tab-nav__list:where(:hover, :focus-within) > .cck-tab-nav__indicator {',
     ]);
     expect(css).not.toMatch(/:active/);

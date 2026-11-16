@@ -10,10 +10,10 @@ import {
 } from './generated/token-modes';
 import type { RootOption } from './option-types';
 
-/** Which side of the text the avatar sits on, in the writing direction; no token collection holds it. */
-const AVATAR_POSITIONS = ['start', 'end', 'top', 'bottom'] as const;
-/** Name and description on two lines or side by side; no token collection holds it. */
-const TEXT_LAYOUTS = ['stacked', 'inline'] as const;
+/** Which side of the text the avatar sits on, physical (left stays left in a right-to-left page); no token collection holds it. */
+const AVATAR_POSITIONS = ['left', 'top', 'right', 'bottom'] as const;
+/** Name and description on two lines (vertical) or side by side (horizontal); no token collection holds it. */
+const LABEL_ALIGNMENTS = ['horizontal', 'vertical'] as const;
 /** The fallback is the neutral dark family the design's frames use; the type makes a value that is not a mode an error. */
 const AVATAR_DEFAULT_COLOR: ThemeActiveColorMode = 'contrast';
 
@@ -30,7 +30,7 @@ export type AvatarComponentsConfig = Readonly<{
   readonly 'avatar-label': {
     readonly size: RootOption<typeof avatarLabelSizeModes>;
     readonly avatarPosition: RootOption<typeof AVATAR_POSITIONS>;
-    readonly textLayout: RootOption<typeof TEXT_LAYOUTS>;
+    readonly labelAlignment: RootOption<typeof LABEL_ALIGNMENTS>;
   };
 }>;
 
@@ -48,7 +48,7 @@ export const avatarComponents: AvatarComponentsConfig = {
       values: themeActiveColorModes,
       default: AVATAR_DEFAULT_COLOR,
       partNames: ['root'],
-      description: 'Color family of the fallback; renders the Active Color marker data-cck-color.',
+      description: 'Colour of the fallback; the default is contrast.',
     },
   },
   'avatar-group': {
@@ -71,14 +71,14 @@ export const avatarComponents: AvatarComponentsConfig = {
     avatarPosition: {
       attrName: 'avatar-position',
       values: AVATAR_POSITIONS,
-      default: 'start',
+      default: 'left',
       partNames: ['root'],
-      description: 'Which side of the text the avatar sits on, in the writing direction.',
+      description: 'Which side of the text the avatar sits on: left, top, right or bottom.',
     },
-    textLayout: {
-      attrName: 'text-layout',
-      values: TEXT_LAYOUTS,
-      default: 'stacked',
+    labelAlignment: {
+      attrName: 'label-alignment',
+      values: LABEL_ALIGNMENTS,
+      default: 'vertical',
       partNames: ['root'],
       description: 'Name and description on two lines or side by side.',
     },

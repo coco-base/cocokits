@@ -62,9 +62,9 @@ describe('tabs output', () => {
     expect(outside).not.toContain('transition');
   });
 
-  it('uses :hover to switch the slide on and for the hover fill of the block variants', () => {
+  it('uses :hover only to switch the slide on: a tab has no hover look', () => {
     const hovers = source.split('\n').filter((line) => line.includes(':hover'));
-    expect(hovers).toHaveLength(2);
+    expect(hovers).toHaveLength(1);
     expect(source).toContain(':where(:hover, :focus-within) > .cck-#{$block}__indicator {\n      transition:');
     expect(source).not.toMatch(/:active/);
   });
@@ -114,9 +114,10 @@ describe('tabs design match', () => {
     ['label-font-weight', 'font-weight-regular'],
     ['label-color', 'on-surface-3'],
     ['fill-label-color', 'text-2'],
-    ['hover-bg', 'surface-3'],
-    ['hover-label-color', 'text-2'],
-    ['focus-color', 'brand-on-container'],
+    ['focus-color', 'focus-2'],
+    ['trigger-gap', 'spacing-3'],
+    ['disabled-bg', 'disabled-surface'],
+    ['indicator-line-neutral-color', 'border-3'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
   });
@@ -139,17 +140,51 @@ describe('tabs design match', () => {
   it.each([
     ['tabs', 'trigger', 'data-selected', css],
     ['tab-nav', 'link', 'data-active', navCss],
-  ])('hovers the %s %s in the block variants only, never selected or disabled', (block, part, selected, sheet) => {
-    const selector = `.cck-${block}:is([data-variant=border], [data-variant=fill], [data-variant=basic]) > .cck-${block}__list > .cck-${block}__${part}:hover:not([${selected}], [data-disabled], :disabled)`;
-    const rule = declarationsOf(sheet, selector) ?? '';
-    expect(rule).toContain('background-color: var(--cck-tabs-hover-bg)');
-    expect(rule).toContain('color: var(--cck-tabs-hover-label-color)');
-    expect(sheet.indexOf(`${selector} {`)).toBeGreaterThan(sheet.indexOf(`[data-disabled],`));
+  ])('gives the %s %s no hover look, only the pointer cursor, and a disabled fill', (block, part, selected, sheet) => {
+    expect(sheet).not.toMatch(/__${part}:hover/);
+    expect(sheet).not.toContain('hover-bg');
+    expect(sheet).not.toContain('hover-label-color');
+    const trigger = `.cck-${block} > .cck-${block}__list > .cck-${block}__${part}`;
+    expect(sheet).toMatch(new RegExp(`${trigger.replace(/[.>]/g, '\\$&')} \\{[^}]*cursor: pointer`));
+    expect(sheet).toMatch(
+      new RegExp(
+        `${trigger.replace(/[.>]/g, '\\$&')}\\[data-disabled\\],[^{]*:disabled \\{[^}]*background-color: var\\(--cck-tabs-disabled-bg\\)`,
+      ),
+    );
+    expect(selected).toMatch(/^data-/);
   });
 
-  it('gives hover no forced-colors rule, and pads the Tabs panel only', () => {
+  it('pads the Tabs and the TabNav panel with one rule, and gives hover no forced-colors rule', () => {
     expect(css.slice(css.indexOf('@media (forced-colors: active)'))).not.toContain(':hover');
-    expect(declarationsOf(css, '.cck-tabs > .cck-tabs__panel')).toContain('padding: var(--cck-tabs-panel-padding)');
-    expect(navCss).not.toContain('panel-padding');
+    for (const [block, sheet] of [
+      ['tabs', css],
+      ['tab-nav', navCss],
+    ] as const) {
+      expect(declarationsOf(sheet, `.cck-${block} > .cck-${block}__panel`)).toContain(
+        'padding: var(--cck-tabs-panel-padding)',
+      );
+    }
+    expect(source).toContain('@mixin panel-rules($block)');
+  });
+
+  it('draws the neutral line indicator in border/3, keeps the list on one row and scrolls it', () => {
+    expect(css).toContain(
+      `${ROOT}[data-variant=line][data-cck-color=neutral] > .cck-tabs__list > .cck-tabs__indicator::after`,
+    );
+    const list = declarationsOf(css, `${ROOT} > .cck-tabs__list`) ?? '';
+    expect(list).toContain('flex-flow: row nowrap');
+    expect(list).toContain('overflow-x: auto');
+    expect(declarationsOf(css, ROOT)).toContain('inline-size: 100%');
+  });
+
+  it.each([
+    ['sm', 'size-16'],
+    ['md', 'size-20'],
+    ['lg', 'size-20'],
+  ])('size %s: the trigger icon is %s and the trigger gap is 4px', (mode, icon) => {
+    expect(size(mode, 'trigger-icon-size')).toBe(ref(icon));
+    expect(declarationsOf(css, `${ROOT} > .cck-tabs__list > .cck-tabs__trigger`)).toContain(
+      'gap: var(--cck-tabs-trigger-gap)',
+    );
   });
 });

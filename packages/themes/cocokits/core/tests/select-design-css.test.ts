@@ -27,27 +27,54 @@ describe('select design match: tokens', () => {
   it.each([
     ['hover-bg', 'surface-2'],
     ['hover-border-color', 'border-3'],
-    ['border-color', 'border-3'],
+    ['border-color', 'border-2'],
     ['value-font-weight', 'font-weight-medium'],
-    ['placeholder-color', 'text-2'],
+    ['placeholder-color', 'text-3'],
     ['icon-color', 'on-surface-2'],
-    ['icon-size', 'size-24'],
     ['content-border-color', 'border-2'],
-    ['content-shadow', 'shadow-md'],
-    ['content-padding', 'spacing-4'],
+    ['content-padding', 'spacing-0'],
     ['content-gap', 'spacing-3'],
     ['option-padding-block', 'spacing-4'],
     ['option-padding-inline', 'spacing-7'],
     ['option-gap', 'spacing-5'],
     ['option-radius', 'radius-md'],
     ['option-font-weight', 'font-weight-medium'],
-    ['option-selected-bg', 'brand-container'],
+    ['option-selected-bg', 'surface-2'],
+    ['option-highlight-ring-color', 'focus-2'],
+    ['option-highlight-ring-width', 'size-1'],
     ['option-highlight-bg', 'surface-2'],
     ['indicator-size', 'size-20'],
-    ['indicator-color', 'brand-on-container'],
+    ['indicator-color', 'brand-color'],
     ['indicator-box-border-color', 'on-surface-1'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
+  });
+
+  it('draws the Figma shadow, a raw value of the list, and a trigger 236px wide that the value never changes', () => {
+    expect(own('content-shadow')).toBe('0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04)');
+    expect(own('min-inline-size')).toBe('236px');
+    const root = declarationsOf(css, '.cck-select') ?? '';
+    expect(root).toContain('inline-size: var(--cck-select-min-inline-size)');
+    expect(root).toContain('max-inline-size: 100%');
+    expect(css).not.toContain('--cck-select-option-min-height');
+  });
+
+  it.each([
+    ['sm', 'size-20'],
+    ['md', 'size-24'],
+    ['lg', 'size-24'],
+  ])('size %s: the chevron is %s, set by the size collection', (mode, icon) => {
+    expect(size(mode, 'icon-size')).toBe(ref(icon));
+    expect(own('icon-size')).toBeUndefined();
+  });
+
+  it('dims the label of a disabled group', () => {
+    expect(structureTokenOf('.cck-select__content', 'select-group-label-disabled-color')).toBe(
+      ref('disabled-on-surface'),
+    );
+    expect(declarationsOf(css, '.cck-select__option-group[data-disabled] > .cck-select__option-group-label')).toContain(
+      'color: var(--cck-select-group-label-disabled-color)',
+    );
   });
 
   it('puts the active edge on a -2px focus offset', () => {

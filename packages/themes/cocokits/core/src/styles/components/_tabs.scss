@@ -4,9 +4,8 @@
 // below the root is reached through child combinators: a Tabs in a panel of another Tabs keeps its own options. The
 // one indicator is drawn from the box the base writes on it (`--active-tab-left`, `--active-tab-top`,
 // `--active-tab-width`, `--active-tab-height`, in px, relative to the padding box of the list); the items sit above
-// it. A tab that is neither selected nor disabled takes a hover fill in the variants with a block indicator (not the
-// line); the pointer also switches the slide of the indicator on, so the first placement after mount never slides in
-// from the corner.
+// it. A tab has no hover look, only the pointer cursor; the pointer switches the slide of the indicator on, so the
+// first placement after mount never slides in from the corner.
 // The variants whose indicator is a filled block behind the selected label.
 $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="basic"])';
 
@@ -24,6 +23,8 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     display: flex;
     flex-direction: column;
     gap: var(--cck-tabs-gap);
+    // Fills its container, so the list can align across it.
+    inline-size: 100%;
   }
 
   // The root sets `display`, so the theme restates the native `hidden`.
@@ -36,10 +37,11 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     isolation: isolate;
     box-sizing: border-box;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     align-self: start;
     gap: var(--cck-tabs-list-gap);
     max-inline-size: 100%;
+    overflow-x: auto;
   }
 
   #{$list}[hidden] {
@@ -87,6 +89,7 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: var(--cck-tabs-trigger-gap);
     min-block-size: var(--cck-tabs-trigger-height);
     margin: 0;
     padding-block: 0;
@@ -105,6 +108,11 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     cursor: pointer;
   }
 
+  // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+  #{$trigger} > .cck-svg-icon:not([data-size]) {
+    font-size: var(--cck-tabs-trigger-icon-size);
+  }
+
   // On the `fill` list the label is `text/2`: `on-surface/3` is under 4.5:1 on the list fill.
   #{$root}[data-variant='fill'] > .cck-#{$block}__list > .cck-#{$block}__#{$item} {
     color: var(--cck-tabs-fill-label-color);
@@ -121,17 +129,9 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
   // After the selected rules, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
   #{$trigger}[data-disabled],
   #{$trigger}:disabled {
+    background-color: var(--cck-tabs-disabled-bg);
     color: var(--cck-tabs-disabled-label-color);
     cursor: default;
-  }
-
-  // Hover: a pill fill and the hover label color. The selected and the disabled tab are excluded; the colors have no
-  // forced-colors rule of their own, because forced colors replace backgrounds and the state is not told by them.
-  #{$root}#{$filled}
-    > .cck-#{$block}__list
-    > .cck-#{$block}__#{$item}:hover:not([#{$selected}], [data-disabled], :disabled) {
-    background-color: var(--cck-tabs-hover-bg);
-    color: var(--cck-tabs-hover-label-color);
   }
 
   #{$trigger}:focus-visible {
@@ -166,11 +166,17 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
 
   #{$root}[data-variant='line'] > .cck-#{$block}__list > .cck-#{$block}__indicator::after {
     content: '';
+    box-sizing: border-box;
     position: absolute;
     inset-inline: 0;
     inset-block-end: calc(var(--cck-tabs-line-width) * -1);
     block-size: var(--cck-tabs-indicator-line-width);
     background-color: var(--cck-tabs-indicator-line-color);
+  }
+
+  // The neutral line is the strong border colour: the neutral family colour is too pale on the page.
+  #{$root}[data-variant='line'][data-cck-color='neutral'] > .cck-#{$block}__list > .cck-#{$block}__indicator::after {
+    background-color: var(--cck-tabs-indicator-line-neutral-color);
   }
 
   @if $vertical {
@@ -232,11 +238,11 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
   }
 }
 
-@mixin rules {
-  @include list-rules('tabs', 'trigger', 'data-selected', true);
-
-  // The panel is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
-  .cck-tabs__panel {
+// The panel of Tabs and of TabNav: one rule. It is a tag, so it takes the block layout of a `div`; the theme restates
+// the native `hidden`. It holds the author's content, so it gets padding only, no text color or size.
+@mixin panel-rules($block) {
+  .cck-#{$block}__panel {
+    box-sizing: border-box;
     display: block;
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
@@ -245,38 +251,33 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     }
   }
 
-  // The panel holds the author's content: it gets padding only, no text color or size.
-  .cck-tabs > .cck-tabs__panel {
+  .cck-#{$block} > .cck-#{$block}__panel {
     padding: var(--cck-tabs-panel-padding);
-  }
 
-  .cck-tabs[data-orientation='vertical'] > .cck-tabs__panel {
-    flex: 1;
-    min-inline-size: 0;
-  }
-
-  .cck-tabs > .cck-tabs__panel:focus-visible {
-    outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
-    outline-offset: var(--cck-tabs-focus-offset);
+    &:focus-visible {
+      outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
+      outline-offset: var(--cck-tabs-focus-offset);
+    }
   }
 
   @media (forced-colors: active) {
-    .cck-tabs > .cck-tabs__panel:focus-visible {
+    .cck-#{$block} > .cck-#{$block}__panel:focus-visible {
       outline-color: Highlight;
     }
   }
 }
 
+@mixin rules {
+  @include list-rules('tabs', 'trigger', 'data-selected', true);
+  @include panel-rules('tabs');
+
+  .cck-tabs[data-orientation='vertical'] > .cck-tabs__panel {
+    flex: 1;
+    min-inline-size: 0;
+  }
+}
+
 @mixin nav-rules {
   @include list-rules('tab-nav', 'link', 'data-active', false);
-
-  // The panel is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
-  .cck-tab-nav__panel {
-    display: block;
-
-    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
-    &[hidden] {
-      display: none;
-    }
-  }
+  @include panel-rules('tab-nav');
 }

@@ -38,7 +38,7 @@ export const tabsOptions: TabsOptions = {
     values: themeActiveColorModes,
     default: TABS_DEFAULT_COLOR,
     partNames: ['root'],
-    description: 'Color family of the indicator; renders the Active Color marker data-cck-color.',
+    description: 'Colour family of the indicator.',
   },
   size: rootSize(tabsSizeModes, tabsSizeDefaultMode, 'Height, padding and text of the triggers.'),
   headerAlign: {

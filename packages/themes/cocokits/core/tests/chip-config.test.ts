@@ -40,8 +40,8 @@ describe.each(['chip', 'chip-list'] as const)('cocokitsThemeConfig %s', (name) =
 });
 
 describe('cocokitsThemeConfig chip icons', () => {
-  it('names the close icon for the remove button, and the chip list names none', () => {
-    expect(cocokitsThemeConfig.components.chip.icons).toEqual({ remove: 'close' });
+  it('names the circle-xmark icon for the remove button, and the chip list names none', () => {
+    expect(cocokitsThemeConfig.components.chip.icons).toEqual({ remove: 'circle-xmark' });
     expect(cocokitsThemeConfig.components['chip-list']).not.toHaveProperty('icons');
   });
 });

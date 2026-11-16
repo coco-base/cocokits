@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'input.css');
 const scss = read('src', 'styles', 'components', '_input.scss');
@@ -50,27 +50,36 @@ describe('standalone input box', () => {
     expect(declarationsOf(css, '.cck-input::placeholder')).toContain('color: var(--cck-input-placeholder-color)');
   });
 
-  it('gives invalid and read-only a cue that is not color', () => {
-    expect(declarationsOf(css, '.cck-input:where([data-invalid]):where([data-touched], [data-submitted])')).toContain(
-      'box-shadow: inset 0 0 0 var(--cck-input-border-width) var(--cck-input-invalid-border-color)',
-    );
+  it('shows invalid by the border colour only, and read-only with a dashed border', () => {
+    const invalid =
+      declarationsOf(css, '.cck-input:where([data-invalid]):where([data-touched], [data-submitted])') ?? '';
+    expect(invalid).toContain('border-color: var(--cck-input-invalid-border-color)');
+    expect(invalid).not.toMatch(/box-shadow|outline|border-width/);
     expect(declarationsOf(css, '.cck-input:where([data-readonly])')).toContain('border-style: dashed');
   });
 
-  it('lets disabled win over invalid and touched: no invalid line, and it comes later', () => {
+  it('lets disabled win over invalid and touched, and it comes later', () => {
     const disabled = declarationsOf(css, '.cck-input:where([data-disabled], :disabled)') ?? '';
-    expect(disabled).toContain('box-shadow: none');
+    expect(disabled).toContain('border-color: var(--cck-input-disabled-border-color)');
     expect(css.indexOf('.cck-input:where([data-disabled], :disabled) {')).toBeGreaterThan(
       css.indexOf('.cck-input:where([data-invalid]):where([data-touched], [data-submitted]) {'),
     );
   });
 
-  it('lets disabled win over invalid in forced colors too: the thin border, after the thick one', () => {
+  it('keeps the 1px border in forced colors: no thicker invalid border', () => {
     const forced = css.split('@media (forced-colors: active)')[1] ?? '';
-    const invalid = forced.indexOf('border-width: var(--cck-input-invalid-border-width)');
-    const disabled = forced.indexOf('border-width: var(--cck-input-border-width)');
-    expect(invalid).toBeGreaterThan(-1);
-    expect(disabled).toBeGreaterThan(invalid);
+    expect(forced).not.toContain('invalid-border-width');
+  });
+
+  it('draws a 1px focus ring with no offset', () => {
+    expect(structureTokenOf('.cck-input', 'input-focus-width')).toBe(ref('size-1'));
+    expect(structureTokenOf('.cck-input', 'input-focus-offset')).toBe(ref('spacing-0'));
+  });
+
+  it('draws the border and the hover border in border/2 and the placeholder in text/3', () => {
+    expect(structureTokenOf('.cck-input', 'input-border-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-input', 'input-hover-border-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-input', 'input-placeholder-color')).toBe(ref('text-3'));
   });
 
   it('keeps the states at the specificity of the base rule, so no state selector is stronger', () => {
@@ -84,10 +93,9 @@ describe('standalone input box', () => {
     );
   });
 
-  it('has a forced-colors border, a thicker invalid border and GrayText when disabled', () => {
+  it('has a forced-colors border and GrayText when disabled', () => {
     const forced = css.split('@media (forced-colors: active)')[1] ?? '';
     expect(forced).toContain('border-color: CanvasText');
-    expect(forced).toContain('border-width: var(--cck-input-invalid-border-width)');
     expect(forced).toContain('border-color: GrayText');
     expect(forced).toContain('outline-color: Highlight');
   });
@@ -96,14 +104,7 @@ describe('standalone input box', () => {
 describe('input inside a field input wrapper', () => {
   it('is borderless and transparent, fills the wrapper and keeps its own text (F25)', () => {
     const rule = declarationsOf(css, '.cck-form-field__input-wrapper > .cck-input') ?? '';
-    for (const line of [
-      'flex: 1',
-      'min-inline-size: 0',
-      'padding: 0',
-      'border: 0',
-      'background-color: transparent',
-      'box-shadow: none',
-    ]) {
+    for (const line of ['flex: 1', 'min-inline-size: 0', 'padding: 0', 'border: 0', 'background-color: transparent']) {
       expect(rule).toContain(line);
     }
   });
