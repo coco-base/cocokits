@@ -15,7 +15,7 @@ export type { SvgIconColor, SvgIconProps, SvgIconRtlMirror, SvgIconSize } from '
 export { FormField } from './form-field';
 export type { FormFieldProps, FormFieldSize, FormFieldWidth } from './form-field';
 export { Textarea } from './textarea';
-export type { TextareaAutoResize, TextareaProps, TextareaResize } from './textarea';
+export type { TextareaAutoResize, TextareaProps, TextareaResize, TextareaSize } from './textarea';
 export { Checkbox } from './checkbox';
 export type { CheckboxColor, CheckboxLabelPosition, CheckboxProps, CheckboxSize } from './checkbox';
 export { Radio } from './radio';
@@ -27,7 +27,7 @@ export type { TabsColor, TabsHeaderAlign, TabsRootProps, TabsSize, TabsVariant }
 export { TabNav } from './tab-nav';
 export type { TabNavColor, TabNavHeaderAlign, TabNavRootProps, TabNavSize, TabNavVariant } from './tab-nav-root';
 export { Select } from './select';
-export type { SelectRootProps, SelectSize } from './select-root';
+export type { SelectIndicator, SelectRootProps, SelectSize } from './select-root';
 export { Accordion } from './accordion';
 export type {
   AccordionHideToggle,
@@ -55,3 +55,11 @@ export { ChipList } from './chip-list';
 export type { ChipListProps, ChipListSize } from './chip-list';
 export { Menu } from './menu';
 export type { MenuContentProps, MenuSize } from './menu-content';
+export { Input } from './input';
+export type { InputProps, InputSize } from './input';
+export { RadioGroup } from './radio-group';
+export type { RadioGroupColor, RadioGroupLabelPosition, RadioGroupProps, RadioGroupSize } from './radio-group';
+export { Dialog } from './dialog';
+export type { DialogRootProps, DialogSize } from './dialog-root';
+export { Tooltip } from './tooltip';
+export type { TooltipRootProps, TooltipSize } from './tooltip-root';

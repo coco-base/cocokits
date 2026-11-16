@@ -1,9 +1,11 @@
 'use client';
 
-import type { ReactElement } from 'react';
+import { useContext, type ReactElement } from 'react';
 import { Radio as BaseRadio, type RadioProps as BaseRadioProps } from '@cocokits/react/radio';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { inherited } from './inherit';
+import { RadioGroupThemeContext } from './theme-contexts';
 
 type RadioOptions = CocokitsThemeConfig['components']['radio'];
 
@@ -31,8 +33,16 @@ export interface RadioProps extends BaseRadioProps {
 }
 
 function ThemedRadio({ size, color, labelPosition, ...props }: RadioProps): ReactElement {
+  const group = useContext(RadioGroupThemeContext);
   return (
-    <ThemeOptionsProvider componentName="radio" options={{ size, color, labelPosition }}>
+    <ThemeOptionsProvider
+      componentName="radio"
+      options={{
+        size: inherited(size, group.size),
+        color: inherited(color, group.color),
+        labelPosition: inherited(labelPosition, group.labelPosition),
+      }}
+    >
       <BaseRadio {...props} />
     </ThemeOptionsProvider>
   );
@@ -46,9 +56,9 @@ interface RadioComponent {
 
 /**
  * The cocokits Radio. It renders the base Radio and supplies `size`, `color` and `labelPosition` to it,
- * which renders the `data-*` attributes on the root. Each option resolves in order: the prop, then the
- * `ThemeProvider` override, then the config default; `null` removes the attribute. The theme needs a
- * `ThemeProvider`.
+ * which renders the `data-*` attributes on the root. Each option resolves in order: the prop, then the one of the
+ * `RadioGroup` around it, then the `ThemeProvider` override, then the config default; `null` removes the attribute.
+ * The theme needs a `ThemeProvider`.
  *
  * @example
  * <Radio size="lg" color="success" labelPosition="before">Label</Radio>

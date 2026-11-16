@@ -3,10 +3,9 @@ import { cleanup, render } from '@testing-library/react';
 import { StrictMode, type ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Input } from '@cocokits/react/input';
 import { ThemeProvider } from '@cocokits/react-core';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { FormField } from '../src/index';
+import { FormField, Input } from '../src/index';
 
 afterEach(() => {
   cleanup();
@@ -41,9 +40,12 @@ describe('theme FormField hydration', () => {
     expect(error).not.toHaveBeenCalled();
     expect(warn).not.toHaveBeenCalled();
     expect(container.innerHTML).toBe(serverHtml);
+    // Root, input wrapper and input (it takes the size of its field); the second field has none and shows the default.
     expect([...container.querySelectorAll('[data-size]')].map((el) => el.getAttribute('data-size'))).toEqual([
       'lg',
       'lg',
+      'lg',
+      'md',
       'md',
       'md',
     ]);

@@ -1,9 +1,10 @@
 'use client';
 
-import type { ReactElement } from 'react';
+import { useMemo, type ReactElement } from 'react';
 import { FormField as BaseFormField, type FormFieldProps as BaseFormFieldProps } from '@cocokits/react/form-field';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { FormFieldThemeContext } from './theme-contexts';
 
 type FormFieldOptions = CocokitsThemeConfig['components']['form-field'];
 
@@ -25,10 +26,13 @@ export interface FormFieldProps extends BaseFormFieldProps {
 }
 
 function ThemedFormField({ size, width, ...props }: FormFieldProps): ReactElement {
+  const parent = useMemo(() => ({ size }), [size]);
   return (
-    <ThemeOptionsProvider componentName="form-field" options={{ size, width }}>
-      <BaseFormField {...props} />
-    </ThemeOptionsProvider>
+    <FormFieldThemeContext value={parent}>
+      <ThemeOptionsProvider componentName="form-field" options={{ size, width }}>
+        <BaseFormField {...props} />
+      </ThemeOptionsProvider>
+    </FormFieldThemeContext>
   );
 }
 
@@ -41,8 +45,8 @@ interface FormFieldComponent {
 /**
  * The cocokits FormField. It lays out a label, a control and its hints, and supplies `size` and `width` to
  * the base FormField, which renders `data-size` on the root and on the input wrapper and `data-width` on the
- * root. Each option
- * resolves in order: the prop, then the `ThemeProvider` override, then the config default; `null`
+ * root. The `Input`, `Textarea`, `ChipList` and `Select` inside it that set no `size` take the size of the field.
+ * Each option resolves in order: the prop, then the `ThemeProvider` override, then the config default; `null`
  * removes the attribute. The theme needs a `ThemeProvider`.
  *
  * @example

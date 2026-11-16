@@ -1,12 +1,13 @@
 'use client';
 
-import type { ReactElement } from 'react';
+import { useMemo, type ReactElement } from 'react';
 import {
   AvatarGroup as BaseAvatarGroup,
   type AvatarGroupProps as BaseAvatarGroupProps,
 } from '@cocokits/react/avatar-group';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { AvatarGroupThemeContext } from './theme-contexts';
 
 type AvatarGroupOptions = CocokitsThemeConfig['components']['avatar-group'];
 
@@ -16,16 +17,19 @@ export type AvatarGroupSize = AvatarGroupOptions['size']['values'][number];
 /** Props of the themed {@link AvatarGroup}: the base props plus the cocokits `size`. */
 export interface AvatarGroupProps extends BaseAvatarGroupProps {
   /**
-   * Overlap, ring and the size of its direct avatars; it wins over their own size.
+   * Overlap and ring; its avatars that set no size of their own take its size.
    */
   readonly size?: AvatarGroupSize | null | undefined;
 }
 
 function ThemedAvatarGroup({ size, ...props }: AvatarGroupProps): ReactElement {
+  const parent = useMemo(() => ({ size }), [size]);
   return (
-    <ThemeOptionsProvider componentName="avatar-group" options={{ size }}>
-      <BaseAvatarGroup {...props} />
-    </ThemeOptionsProvider>
+    <AvatarGroupThemeContext value={parent}>
+      <ThemeOptionsProvider componentName="avatar-group" options={{ size }}>
+        <BaseAvatarGroup {...props} />
+      </ThemeOptionsProvider>
+    </AvatarGroupThemeContext>
   );
 }
 
