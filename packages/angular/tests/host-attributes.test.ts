@@ -1,6 +1,7 @@
 import { render } from '@testing-library/angular';
 import { CckBadgeImports } from '@cocokits/angular/badge';
 import { CckBadgeContainerImports } from '@cocokits/angular/badge-container';
+import { CckButtonImports } from '@cocokits/angular/button';
 import { CckCheckboxImports } from '@cocokits/angular/checkbox';
 import { CckChipImports } from '@cocokits/angular/chip';
 import { CckChipListImports } from '@cocokits/angular/chip-list';
@@ -33,6 +34,12 @@ const rows = [
     imports: CckBadgeContainerImports,
     markup: '<cck-badge-container position="top-end">x</cck-badge-container>',
     check: ['position'],
+  },
+  {
+    host: 'a',
+    imports: CckButtonImports,
+    markup: '<a cckButton href="#go" disabled>Go</a>',
+    check: ['disabled'],
   },
   {
     host: 'cck-checkbox',
