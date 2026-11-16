@@ -1,6 +1,6 @@
 import { DestroyRef, Directive, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { CckPortal } from '@cocokits/angular-core';
-import { injectCckMenu } from './menu';
+import { injectCckMenu } from './menu-inject';
 
 /**
  * Holds the content of the menu. The content shows in the overlay container only while the menu is open.

@@ -1,6 +1,6 @@
 import { DestroyRef, Directive, ElementRef, computed, inject, input } from '@angular/core';
 import { afterReplay, bindAttrs, listenLast } from '@cocokits/angular-core';
-import { injectCckMenu } from './menu';
+import { injectCckMenu } from './menu-inject';
 
 /**
  * The button that opens and closes the menu, on a native `<button>`. Enter and Space work through the native click. ArrowDown opens the menu on the first item and ArrowUp on the last.

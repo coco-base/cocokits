@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { render, screen, waitFor } from '@testing-library/angular';
 import { CckDir } from '@cocokits/angular-core';
+import { menuAnatomy } from '@cocokits/machines/menu';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckMenuImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
@@ -91,4 +92,51 @@ describe('Menu placement', () => {
     expect(options.getDirection()).toBe('rtl');
     expect(screen.getByRole('menu').closest('[popover]')?.getAttribute('dir')).toBe('rtl');
   });
+
+  it('has the class and the theme attributes of the content when the positioning module starts', async () => {
+    await render(Host);
+    await screen.findByRole('menu');
+    expect(start).toHaveBeenCalled();
+    for (const [options] of start.mock.calls as [{ getContent: () => HTMLElement }][]) {
+      expect(options.getContent().classList.contains(menuAnatomy.classes.content)).toBe(true);
+    }
+  });
+});
+
+const offsets = [
+  { name: 'none set', attributes: '', expected: {}, absent: ['sideOffset', 'alignOffset'] },
+  { name: 'sideOffset', attributes: '[sideOffset]="12"', expected: { sideOffset: 12 }, absent: ['alignOffset'] },
+  { name: 'alignOffset', attributes: '[alignOffset]="-4"', expected: { alignOffset: -4 }, absent: ['sideOffset'] },
+  {
+    name: 'both',
+    attributes: '[sideOffset]="0" [alignOffset]="8"',
+    expected: { sideOffset: 0, alignOffset: 8 },
+    absent: [],
+  },
+];
+
+describe('Menu content sideOffset and alignOffset', () => {
+  beforeEach(() => {
+    start.mockClear();
+    placement.flip = undefined;
+    stubOverlayApis();
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it.each(offsets)(
+    'passes $name to the positioning module and leaves no attribute',
+    async ({ attributes, expected, absent }) => {
+      await render(
+        `<ng-container cckMenu [open]="true"><button cckMenuTrigger>Actions</button><ng-template cckMenuPortal><cck-menu-content ${attributes}><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template></ng-container>`,
+        { imports: [...CckMenuImports] },
+      );
+      const menu = await screen.findByRole('menu');
+      const options = start.mock.lastCall?.[0] as Record<string, unknown>;
+      expect(options).toMatchObject(expected);
+      for (const name of absent) expect(name in options, name).toBe(false);
+      for (const name of ['sideoffset', 'alignoffset']) expect(menu.hasAttribute(name), name).toBe(false);
+    },
+  );
 });
