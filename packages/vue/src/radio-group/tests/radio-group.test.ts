@@ -30,7 +30,7 @@ describe('RadioGroup anatomy and root', () => {
   });
 
   it('renders the root contract and only the declared data attributes', () => {
-    mountView(groupView({ group: { required: true, disabled: true, orientation: 'vertical' } }));
+    mountView(groupView({ group: { required: true, disabled: true, orientation: 'vertical', touched: true } }));
     const root = group();
     expect(root.tagName).toBe('DIV');
     expect(root.className).toBe('cck-radio-group');
@@ -38,6 +38,7 @@ describe('RadioGroup anatomy and root', () => {
     expect(root.getAttribute('aria-required')).toBe('true');
     expect(root.getAttribute('aria-disabled')).toBe('true');
     expect(root.getAttribute('aria-orientation')).toBe('vertical');
+    expect(root.getAttribute('aria-invalid')).toBe('true');
     const declared = [...radioGroupMeta.dataAttrs.root].sort();
     const rendered = root.getAttributeNames().filter((name) => name.startsWith('data-'));
     expect(rendered.sort()).toEqual(declared);

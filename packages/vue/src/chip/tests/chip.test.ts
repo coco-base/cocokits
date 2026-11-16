@@ -34,12 +34,15 @@ describe('Chip', () => {
     expect(pick(document.body, '.cck-chip__content-wrapper').id).toBe('mine-content');
   });
 
-  it('renders a native remove button named by the text, with the close icon', () => {
+  it('renders a native remove button named "Remove" and the text of the chip, with the close icon', () => {
     mountView(() => h(Chip, { removable: true }, () => 'Pizza'));
     expect(remove().tagName).toBe('BUTTON');
     expect(remove().type).toBe('button');
-    expect(remove().getAttribute('aria-labelledby')).toBe(pick(document.body, '.cck-chip__content-wrapper').id);
-    expect(screen.getByRole('button', { name: 'Pizza' })).toBe(remove());
+    expect(remove().getAttribute('aria-label')).toBe('Remove');
+    expect(remove().getAttribute('aria-labelledby')).toBe(
+      `${remove().id} ${pick(document.body, '.cck-chip__content-wrapper').id}`,
+    );
+    expect(screen.getByRole('button', { name: 'Remove Pizza' })).toBe(remove());
     expect(iconOf(remove())).toBe('close');
     expect(remove().querySelector('.cck-svg-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
@@ -64,14 +67,10 @@ describe('Chip', () => {
     expect(root()).toBeTruthy();
   });
 
-  it('disabled: data-disabled on the root, native disabled on the button, nothing emitted', async () => {
-    const onRemove = vi.fn();
-    mountView(() => h(Chip, { removable: true, disabled: true, onRemove }, () => 'Pizza'));
+  it('disabled: data-disabled on the root and no remove button at all (chip-06)', () => {
+    mountView(() => h(Chip, { removable: true, disabled: true }, () => 'Pizza'));
     expect(root().hasAttribute('data-disabled')).toBe(true);
-    expect(remove().disabled).toBe(true);
-    expect(remove().hasAttribute('data-disabled')).toBe(true);
-    await userEvent.click(remove());
-    expect(onRemove).not.toHaveBeenCalled();
+    expect(document.querySelector('.cck-chip__remove')).toBeNull();
   });
 
   it('lets native attributes, class and listeners fall through to the root', async () => {
@@ -112,6 +111,6 @@ describe('Chip', () => {
   });
 
   it('describes its parts in the meta', () => {
-    expect(Object.keys(chipMeta.dataAttrs)).toEqual(['root', 'contentWrapper', 'remove']);
+    expect(Object.keys(chipMeta.dataAttrs)).toEqual(['root', 'contentWrapper', 'check', 'remove']);
   });
 });

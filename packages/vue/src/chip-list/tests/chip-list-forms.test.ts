@@ -38,12 +38,12 @@ describe('ChipList in a FormField', () => {
     mountView(() => field({ disabled: true }, { defaultValue: ['A'] }));
     await nextTick();
     expect(box().disabled).toBe(true);
-    expect(removeButtons()[0]?.disabled).toBe(true);
+    expect(removeButtons()).toHaveLength(0);
     cleanup();
     mountView(() => field({ readonly: true }, { defaultValue: ['A'] }));
     await nextTick();
     expect(box().readOnly).toBe(true);
-    expect(removeButtons()[0]?.disabled).toBe(true);
+    expect(removeButtons()).toHaveLength(0);
     cleanup();
     mountView(() => field({ invalid: true }, {}));
     await nextTick();
@@ -185,7 +185,7 @@ describe('ChipList in a native form', () => {
     mountView(() => h('form', [h('fieldset', { disabled: true }, [list({ name: 't', defaultValue: ['A'] })])]));
     await nextTask();
     expect(box().disabled).toBe(true);
-    expect(removeButtons()[0]?.disabled).toBe(true);
+    expect(removeButtons()).toHaveLength(0);
     expect(listRoot().hasAttribute('data-disabled')).toBe(true);
     expect(entries('t')).toEqual([]);
   });

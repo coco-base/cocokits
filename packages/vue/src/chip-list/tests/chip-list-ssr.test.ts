@@ -47,7 +47,8 @@ describe('ChipList on the server', () => {
     expect(html).toContain('id="f-control"');
     expect(html).toContain('for="f-control"');
     const labelled = idsIn(html, 'aria-labelledby');
-    expect(labelled).toHaveLength(1);
+    // The remove button is named by its own text and the chip text.
+    expect(labelled).toHaveLength(2);
     for (const idref of [...idsIn(html, 'for'), ...idsIn(html, 'aria-describedby'), ...labelled]) {
       expect(html, idref).toContain(`id="${idref}"`);
     }

@@ -32,7 +32,7 @@ describe('ChipList accessibility', () => {
     await nextTick();
     expect(screen.getByRole('textbox', { name: 'Toppings' })).toBe(box());
     expect(screen.getByRole('textbox', { description: 'Press Enter to add.' })).toBe(box());
-    expect(screen.getByRole('button', { name: 'Pizza' }).tagName).toBe('BUTTON');
+    expect(screen.getByRole('button', { name: 'Remove Pizza' }).tagName).toBe('BUTTON');
   });
 
   it('has no composite role and keeps its root free of a role', () => {

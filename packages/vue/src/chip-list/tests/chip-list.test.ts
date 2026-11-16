@@ -156,12 +156,11 @@ describe('ChipList adding', () => {
     await userEvent.type(box(), 'Salad');
     enter();
     expect(onUpdate).not.toHaveBeenCalled();
-    expect(removeButtons()[0]?.disabled).toBe(true);
+    expect(removeButtons()).toHaveLength(0);
     cleanup();
     mountView(() => list({ defaultValue: ['A'], disabled: true, 'onUpdate:modelValue': onUpdate }));
     expect(box().disabled).toBe(true);
-    expect(removeButtons()[0]?.disabled).toBe(true);
-    await userEvent.click(removeButtons()[0]);
+    expect(removeButtons()).toHaveLength(0);
     expect(onUpdate).not.toHaveBeenCalled();
   });
 });
