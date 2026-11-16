@@ -16,6 +16,7 @@ export function toSelectItems<T>(options: readonly SelectOptionRegistration[]): 
     value: option.value() as T,
     disabled: option.disabled(),
     id: option.id(),
+    hasDescription: option.hasDescription(),
     get label() {
       return option.label();
     },

@@ -46,6 +46,7 @@ export const CCK_SELECT_CONTENT_HOST = new InjectionToken<SelectContentHost>('CC
     '[attr.aria-label]': 'props()["aria-label"]',
     '[attr.data-state]': 'props()["data-state"]',
     '[attr.data-multiple]': 'props()["data-multiple"]',
+    '[attr.data-empty]': 'props()["data-empty"] ?? null',
     '[attr.data-side]': 'props()["data-side"]',
     '[attr.data-align]': 'props()["data-align"]',
     '(mousedown)': 'props().onMouseDown($event)',

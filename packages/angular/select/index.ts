@@ -1,6 +1,14 @@
 import { CckSelect } from './select';
 import { CckSelectOption } from './select-option';
 import { CckSelectOptionGroup, CckSelectOptionGroupLabel } from './select-option-group';
+import {
+  CckSelectEmpty,
+  CckSelectFooter,
+  CckSelectHeader,
+  CckSelectOptionDescription,
+  CckSelectOptionLeading,
+  CckSelectSearch,
+} from './select-parts';
 import { CckSelectSeparator } from './select-separator';
 import { CckSelectTrigger } from './select-trigger';
 
@@ -18,6 +26,14 @@ export type {
 } from './select-types';
 export { CckSelectOption } from './select-option';
 export { CckSelectOptionGroup, CckSelectOptionGroupLabel } from './select-option-group';
+export {
+  CckSelectEmpty,
+  CckSelectFooter,
+  CckSelectHeader,
+  CckSelectOptionDescription,
+  CckSelectOptionLeading,
+  CckSelectSearch,
+} from './select-parts';
 export { CckSelectSeparator } from './select-separator';
 export { CckSelectTrigger } from './select-trigger';
 
@@ -33,4 +49,10 @@ export const CckSelectImports = [
   CckSelectOptionGroupLabel,
   CckSelectSeparator,
   CckSelectTrigger,
+  CckSelectHeader,
+  CckSelectSearch,
+  CckSelectEmpty,
+  CckSelectFooter,
+  CckSelectOptionDescription,
+  CckSelectOptionLeading,
 ] as const;

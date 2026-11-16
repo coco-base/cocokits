@@ -36,6 +36,8 @@ export interface SelectStateInputs<V> {
   >;
   readonly typeaheadDebounceInterval: Signal<number | undefined>;
   readonly canSelectNullableOptions: Signal<boolean | undefined>;
+  readonly filter: Signal<boolean>;
+  readonly searchLabel: Signal<string | undefined>;
   readonly ariaLabel: Signal<string | undefined>;
   readonly ariaLabelledBy: Signal<string | undefined>;
   readonly side: Signal<OverlaySide>;
@@ -63,6 +65,7 @@ export interface SelectStateController<V> {
   readonly labelVersion: WritableSignal<number>;
   /** The key of the highlighted option. The highlight starts on the selected option, else the first enabled. */
   readonly highlighted: WritableSignal<string | undefined>;
+  readonly query: WritableSignal<string>;
   /**
    * Whether a submit was blocked because the Select is required and empty. It marks the trigger and the root
    * invalid and describes the trigger by the browser's message, because the focus move to the trigger hides
@@ -103,6 +106,7 @@ export function createSelectState<V>(inputs: SelectStateInputs<V>): SelectStateC
   const mounted = signal(false);
   const placement = signal<{ side: OverlaySide; align: OverlayAlign } | null>(null);
   const labelVersion = signal(0);
+  const query = signal('');
 
   const interactive = computed(() => {
     const field = inputs.fieldContext()?.state;
@@ -134,6 +138,9 @@ export function createSelectState<V>(inputs: SelectStateInputs<V>): SelectStateC
     side: placement()?.side ?? inputs.side(),
     align: placement()?.align ?? inputs.align(),
     typeahead: typeahead(),
+    filter: inputs.filter(),
+    query: query(),
+    searchLabel: inputs.searchLabel(),
   }));
 
   const highlighted = linkedSignal<boolean, string | undefined>({
@@ -161,6 +168,7 @@ export function createSelectState<V>(inputs: SelectStateInputs<V>): SelectStateC
     placement,
     labelVersion,
     highlighted,
+    query,
     blockedSubmit,
     baseState,
     state,

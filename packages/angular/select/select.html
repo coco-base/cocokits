@@ -32,6 +32,8 @@
     <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="ctl.triggerContext()" />
     } @else { {{ ctl.text() }} }
   </span>
+  } @if (parts().count; as count) {
+  <span [class]="count.class" [cckAttrs]="_theme().count">{{ count.text }}</span>
   }
   <span
     [class]="parts().dropdownIcon.class"
