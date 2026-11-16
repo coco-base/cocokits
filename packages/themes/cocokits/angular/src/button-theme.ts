@@ -24,6 +24,11 @@ export type CckButtonSize = ButtonOptions['size']['values'][number];
  */
 @Directive({
   selector: 'button[cckButton], a[cckButton]',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.color]': 'null',
+    '[attr.size]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'button',

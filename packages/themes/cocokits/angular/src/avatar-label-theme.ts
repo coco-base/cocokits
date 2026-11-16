@@ -25,6 +25,11 @@ export type CckAvatarLabelAlignment = AvatarLabelOptions['labelAlignment']['valu
  */
 @Directive({
   selector: 'cck-avatar-label',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.avatarposition]': 'null',
+    '[attr.labelalignment]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'avatar-label',

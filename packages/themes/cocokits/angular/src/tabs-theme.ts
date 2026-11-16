@@ -28,6 +28,12 @@ export type CckTabsHeaderAlign = TabsOptions['headerAlign']['values'][number];
  */
 @Directive({
   selector: 'cck-tabs',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.color]': 'null',
+    '[attr.size]': 'null',
+    '[attr.headeralign]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'tabs',

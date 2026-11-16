@@ -28,6 +28,12 @@ export type CckTabNavHeaderAlign = TabNavOptions['headerAlign']['values'][number
  */
 @Directive({
   selector: 'nav[cckTabNav]',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.color]': 'null',
+    '[attr.size]': 'null',
+    '[attr.headeralign]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'tab-nav',

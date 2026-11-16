@@ -24,6 +24,11 @@ export type CckCheckboxLabelPosition = CheckboxOptions['labelPosition']['values'
  */
 @Directive({
   selector: 'cck-checkbox',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.color]': 'null',
+    '[attr.labelposition]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'checkbox',

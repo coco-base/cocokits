@@ -41,6 +41,11 @@ const toResize = (value: boolean | string | null | undefined): CckTextareaResize
  */
 @Directive({
   selector: 'textarea[cckTextarea]',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.autoresize]': 'null',
+    '[attr.resize]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'textarea',

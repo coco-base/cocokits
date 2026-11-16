@@ -22,6 +22,10 @@ export type CckFormFieldWidth = FormFieldOptions['width']['values'][number];
  */
 @Directive({
   selector: 'cck-form-field',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.width]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'form-field',

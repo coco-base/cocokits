@@ -24,6 +24,11 @@ export type CckBadgeSize = BadgeOptions['size']['values'][number];
  */
 @Directive({
   selector: 'cck-badge',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.color]': 'null',
+    '[attr.size]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'badge',

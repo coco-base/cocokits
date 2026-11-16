@@ -28,6 +28,11 @@ export type CckRadioGroupLabelPosition = RadioGroupOptions['labelPosition']['val
  */
 @Directive({
   selector: 'cck-radio-group',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.color]': 'null',
+    '[attr.labelposition]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'radio-group',

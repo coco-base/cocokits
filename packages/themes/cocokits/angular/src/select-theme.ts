@@ -25,6 +25,10 @@ export type CckSelectIndicator = SelectOptions['indicator']['values'][number];
  */
 @Directive({
   selector: 'cck-select',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.indicator]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'select',
