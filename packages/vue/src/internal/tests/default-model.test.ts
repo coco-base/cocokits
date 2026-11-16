@@ -243,7 +243,9 @@ describe('SelectRoot default-open and default-value', () => {
     renders.value += 1;
     await nextTick();
     await settle();
-    expect(valueText()).toContain('Pizza');
+    // The trigger shows the first value and the count of the others: Cake and Pizza are both selected.
+    expect(valueText()).toBe('Cake');
+    expect(document.querySelector('.cck-select__count')?.textContent).toBe('+1');
   });
 
   it('ignores default-value when model-value is bound with a listener', async () => {
