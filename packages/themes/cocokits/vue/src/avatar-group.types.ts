@@ -20,7 +20,7 @@ export type AvatarGroupSize = AvatarGroupOptions['size']['values'][number];
  */
 export interface AvatarGroupProps extends BaseAvatarGroupProps {
   /**
-   * Overlap, ring and the size of its direct avatars; it wins over their own size.
+   * Overlap and ring; its avatars that set no size of their own take its size.
    */
   readonly size?: AvatarGroupSize | null | undefined;
 }

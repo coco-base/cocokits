@@ -10,8 +10,9 @@ export type AvatarColor = AvatarOptions['color']['values'][number];
 
 /**
  * Props of the cocokits AvatarRoot. It renders the base AvatarRoot (a `<span>`) and supplies `size` and `color` to it,
- * which render the `data-size` and `data-cck-color` attributes. Each option resolves as own option, then
- * `ThemeProvider` override, then config default; `null` removes the attribute. Inside an `AvatarGroup` or `AvatarLabel`, the size of the container wins.
+ * which render the `data-size` and `data-cck-color` attributes. Each option resolves as own option, then (for
+ * `size`) the one of the `AvatarLabel` or `AvatarGroup` around it, then `ThemeProvider` override, then config
+ * default; `null` removes the attribute.
  *
  * @example
  * <AvatarRoot size="lg">

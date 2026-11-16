@@ -11,7 +11,8 @@ export type FormFieldWidth = FormFieldOptions['width']['values'][number];
 /**
  * Props of the cocokits FormField. It lays out a label, a control and its hints, and supplies `size` and `width`
  * to the base FormField, which renders `data-size` on the root and on the input wrapper and `data-width` on the
- * root. Each option resolves as own option, then `ThemeProvider` override, then config default; `null` removes the
+ * root. The `Input`, `Textarea`, `ChipList` and `SelectRoot` inside it that set no `size` take the size of the field.
+ * Each option resolves as own option, then `ThemeProvider` override, then config default; `null` removes the
  * attribute.
  *
  * @example

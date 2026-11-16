@@ -1,8 +1,10 @@
 <script setup lang="ts" generic="T, M extends boolean = false">
-import { useTemplateRef } from 'vue';
+import { inject, provide, useTemplateRef } from 'vue';
 import { SelectRoot as BaseSelectRoot, type SelectRootEmits } from '@cocokits/vue/select';
 import { provideThemeOptions } from '@cocokits/vue-core';
 import { forwardModels } from './forward-models';
+import { inherited } from './inherit';
+import { formFieldThemeKey, selectThemeKey } from './theme-keys';
 import type { SelectRootProps } from './select.types';
 
 defineOptions({ name: 'SelectRoot' });
@@ -27,6 +29,7 @@ const props = withDefaults(defineProps<SelectRootProps<T, M>>(), {
   form: undefined,
   dir: undefined,
   size: undefined,
+  indicator: undefined,
   asChild: false,
 });
 const emit = defineEmits<SelectRootEmits<T, M>>();
@@ -62,7 +65,11 @@ const models = forwardModels(props, {
   },
 });
 
-provideThemeOptions('select', () => ({ size: props.size }));
+const field = inject(formFieldThemeKey, null);
+const options = () => ({ size: inherited(props.size, field?.().size), indicator: props.indicator });
+provideThemeOptions('select', options);
+// The themed list reads them, so another theme wrapper between the root and the list does not hide them.
+provide(selectThemeKey, options);
 
 const base = useTemplateRef<{ element: HTMLElement | null }>('base');
 defineExpose({

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { provide, useTemplateRef } from 'vue';
 import { AvatarLabel as BaseAvatarLabel } from '@cocokits/vue/avatar-label';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { avatarLabelThemeKey } from './theme-keys';
 import type { AvatarLabelProps } from './avatar-label.types';
 
 defineOptions({ name: 'AvatarLabel' });
@@ -36,6 +37,7 @@ defineExpose({
   },
 });
 
+provide(avatarLabelThemeKey, () => ({ size: props.size }));
 provideThemeOptions('avatar-label', () => ({
   size: props.size,
   avatarPosition: props.avatarPosition,

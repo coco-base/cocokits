@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
+import { inject, useTemplateRef } from 'vue';
 import { AvatarRoot as BaseAvatarRoot } from '@cocokits/vue/avatar';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { inherited } from './inherit';
+import { avatarGroupThemeKey, avatarLabelThemeKey } from './theme-keys';
 import type { AvatarRootProps } from './avatar.types';
 
 defineOptions({ name: 'AvatarRoot' });
@@ -33,7 +35,12 @@ defineExpose({
   },
 });
 
-provideThemeOptions('avatar', () => ({ size: props.size, color: props.color }));
+const label = inject(avatarLabelThemeKey, null);
+const group = inject(avatarGroupThemeKey, null);
+provideThemeOptions('avatar', () => ({
+  size: inherited(props.size, label?.().size, group?.().size),
+  color: props.color,
+}));
 </script>
 
 <template>
