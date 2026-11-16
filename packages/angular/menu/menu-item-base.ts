@@ -9,8 +9,8 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { bindAttrs, listenLast } from '@cocokits/angular-core';
-import type { MenuItemChange, MenuItemEntry, MenuItemKind } from '@cocokits/machines/menu';
+import { bindAttrs, listenLast, themeAttrs } from '@cocokits/angular-core';
+import { menuAnatomy, type MenuItemChange, type MenuItemEntry, type MenuItemKind } from '@cocokits/machines/menu';
 import { injectCckMenu } from './menu-inject';
 
 /**
@@ -65,6 +65,8 @@ export abstract class CckMenuItemBase {
   /** The item element. */
   protected readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   protected readonly root = injectCckMenu('Item');
+  /** The theme options of the item's own element (a theme directive on it), else the ones of the menu around it. */
+  private readonly theme = themeAttrs(menuAnatomy);
   private readonly registration: { readonly key: string; readonly remove: () => void };
 
   /** What the machine reads of the item. */
@@ -94,7 +96,7 @@ export abstract class CckMenuItemBase {
     });
     this._key = this.registration.key;
     inject(DestroyRef).onDestroy(this.registration.remove);
-    bindAttrs(this.element, () => this.root._theme().item);
+    bindAttrs(this.element, () => this.theme().item);
     // After the consumer's own click listeners, so their `preventDefault()` on the click vetoes the run.
     listenLast(this.element, 'click', (event) => {
       if (event.defaultPrevented) return;

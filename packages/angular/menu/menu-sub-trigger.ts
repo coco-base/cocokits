@@ -1,6 +1,6 @@
 import { DestroyRef, Directive, ElementRef, booleanAttribute, computed, inject, input } from '@angular/core';
-import { bindAttrs } from '@cocokits/angular-core';
-import { getMenuSubTriggerProps, type MenuEvent, type MenuItemEntry } from '@cocokits/machines/menu';
+import { bindAttrs, themeAttrs } from '@cocokits/angular-core';
+import { getMenuSubTriggerProps, menuAnatomy, type MenuEvent, type MenuItemEntry } from '@cocokits/machines/menu';
 import { injectCckMenuSub } from './menu-sub';
 
 /**
@@ -90,7 +90,9 @@ export class CckMenuSubTrigger {
       sub._trigger.update((current) => (current === this.element ? null : current));
       this.registration.remove();
     });
-    bindAttrs(this.element, () => sub._theme().subTrigger);
+    // The theme options of the sub-trigger's own element (a theme directive on it), else the ones of the menu around it.
+    const theme = themeAttrs(menuAnatomy);
+    bindAttrs(this.element, () => theme().subTrigger);
     // A disabled sub-trigger opens nothing; the submenu reads it through the sub-trigger.
     sub._disabled = this.disabled;
   }
