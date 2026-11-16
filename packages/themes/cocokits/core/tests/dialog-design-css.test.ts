@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, ref, structureTokenOf } from './css-test-helpers';
+import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf } from './css-test-helpers';
 
 const css = read('dist', 'components', 'dialog.css');
 const ROOT = '.cck-dialog__content';
@@ -9,8 +9,6 @@ describe('dialog design match', () => {
   it.each([
     ['border-color', 'border-2'],
     ['radius', 'radius-lg'],
-    ['padding', 'spacing-6'],
-    ['gap', 'spacing-4'],
     ['title-font-size', 'text-lg-font-size'],
     ['title-font-weight', 'font-weight-semibold'],
     ['close-color', 'text-3'],
@@ -22,9 +20,23 @@ describe('dialog design match', () => {
     expect(own(name)).toBe(ref(value));
   });
 
-  it('is 576px wide at most, keeping the viewport margin', () => {
-    expect(own('max-inline-size')).toBe('576px');
-    expect(declarationsOf(css, ROOT)).toContain('max-inline-size: var(--cck-dialog-max-inline-size)');
+  it.each([
+    ['xs', 320, 'spacing-5', 'spacing-3'],
+    ['sm', 480, 'spacing-5', 'spacing-3'],
+    ['md', 576, 'spacing-6', 'spacing-4'],
+    ['lg', 768, 'spacing-6', 'spacing-4'],
+    ['xl', 1152, 'spacing-7', 'spacing-5'],
+  ])('size %s: %ipx wide at most, padding %s and gap %s (D8r)', (mode, width, padding, gap) => {
+    const size = (name: string): string | undefined => sizeTokenOf(ROOT, mode, `dialog-${name}`);
+    expect(size('max-inline-size')).toBe(`${String(width)}px`);
+    expect(size('padding')).toBe(ref(padding));
+    expect(size('gap')).toBe(ref(gap));
+  });
+
+  it('keeps the viewport margin and reads the size variables', () => {
+    const rule = declarationsOf(css, ROOT) ?? '';
+    expect(rule).toContain('max-inline-size: var(--cck-dialog-max-inline-size)');
+    expect(rule).toContain('padding: var(--cck-dialog-padding)');
   });
 
   it('draws a plain Close as a bare 24px icon: no border, its own colour and icon size, at least 24 by 24', () => {

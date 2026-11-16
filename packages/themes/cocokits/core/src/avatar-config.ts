@@ -18,7 +18,7 @@ const TEXT_LAYOUTS = ['stacked', 'inline'] as const;
 const AVATAR_DEFAULT_COLOR: ThemeActiveColorMode = 'contrast';
 
 /**
- * The options of the three avatar components; a container's size wins over its direct avatars' own. Not an
+ * The options of the three avatar components; an avatar's own size wins over the one of its container. Not an
  * interface: an interface has no index signature, which `ThemeConfig` needs.
  */
 export type AvatarComponentsConfig = Readonly<{
@@ -57,7 +57,7 @@ export const avatarComponents: AvatarComponentsConfig = {
       values: avatarGroupSizeModes,
       default: avatarGroupSizeDefaultMode,
       partNames: ['root'],
-      description: 'Overlap, ring and the size of its direct avatars; it wins over their own size.',
+      description: 'Overlap and ring; its avatars that set no size of their own take its size.',
     },
   },
   'avatar-label': {
@@ -66,7 +66,7 @@ export const avatarComponents: AvatarComponentsConfig = {
       values: avatarLabelSizeModes,
       default: avatarLabelSizeDefaultMode,
       partNames: ['root'],
-      description: 'Gap, text size and the size of its direct avatar; it wins over its own size.',
+      description: 'Gap and text size; its avatar that sets no size of its own takes its size.',
     },
     avatarPosition: {
       attrName: 'avatar-position',

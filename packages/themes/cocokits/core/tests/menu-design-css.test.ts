@@ -55,8 +55,8 @@ describe('menu design match: rules', () => {
   });
 
   it('colours an icon with the icon colour, and a disabled item icon with the disabled text colour after it', () => {
-    const icon = '.cck-menu__item > .cck-svg-icon';
-    const disabled = '.cck-menu__item[data-disabled] > .cck-svg-icon';
+    const icon = '.cck-menu__item > .cck-svg-icon:not([data-cck-color])';
+    const disabled = '.cck-menu__item[data-disabled] > .cck-svg-icon:not([data-cck-color])';
     expect(declarationsOf(css, icon)).toContain('color: var(--cck-menu-item-icon-color)');
     expect(declarationsOf(css, disabled)).toContain('color: var(--cck-menu-item-disabled-text-color)');
     expect(css.indexOf(`${disabled} {`)).toBeGreaterThan(css.indexOf(`${icon} {`));

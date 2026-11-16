@@ -1,5 +1,6 @@
 // Chip list rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
-// Reads only its own --cck-chip-list-* tokens (its size mode on the root, the rest from the structure). A standalone
+// Reads only its own --cck-chip-list-* tokens (its size mode on the root, the rest from the structure). The chips the
+// list renders keep the size of a Chip: the list's size sizes its own row and text box. A standalone
 // list draws its own box as the standalone Input does; inside a FormField input wrapper the wrapper draws the box
 // (_form-field.scss) and the list is borderless. State rules keep the specificity of the base rule (`:where()`), so
 // the wrapper reset in _form-field.scss always wins and source order decides between the states. The list sets
@@ -59,10 +60,23 @@
       outline: var(--cck-chip-list-focus-width) solid var(--cck-chip-list-focus-color);
       outline-offset: var(--cck-chip-list-focus-offset);
     }
+  }
 
-    // The list sizes its own chips: its `chip-height` wins over the size the chip itself has.
-    &[data-size] > .cck-chip {
-      block-size: var(--cck-chip-list-chip-height);
+  // In a field the wrapper holds the box and its focus ring, so the list keeps no box of its own. The box keeps the
+  // height of the field: the list's block padding is its own Size token, which centres one row of its text box in
+  // it. Wrapped rows grow the box.
+  .cck-form-field__input-wrapper > .cck-chip-list {
+    flex: 1;
+    min-inline-size: 0;
+    padding-block: var(--cck-chip-list-inset-padding-block);
+    padding-inline: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+
+    &:focus-within {
+      outline: none;
     }
   }
 

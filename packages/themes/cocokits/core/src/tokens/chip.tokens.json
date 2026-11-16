@@ -51,7 +51,8 @@
       "modes": ["sm", "md", "lg"],
       "tokens": [
         { "name": "chip-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-28}", "md": "{Core / Size#size-32}", "lg": "{Core / Size#size-36}" } },
-        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } }
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-5}", "lg": "{Theme / Spacing#spacing-6}" } },
+        { "name": "inset-padding-block", "type": "number", "unit": "px", "valuesByMode": { "sm": 1, "md": 3, "lg": 5 } }
       ]
     },
     {

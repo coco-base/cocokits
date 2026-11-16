@@ -2,6 +2,18 @@
   "$meta": { "globalPrefix": "cck" },
   "collections": [
     {
+      "name": "Dialog__content / Size",
+      "tier": 3,
+      "prefix": "dialog",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg", "xl"],
+      "tokens": [
+        { "name": "max-inline-size", "type": "number", "unit": "px", "valuesByMode": { "xs": 320, "sm": 480, "md": 576, "lg": 768, "xl": 1152 } },
+        { "name": "padding", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#spacing-5}", "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-6}", "lg": "{Theme / Spacing#spacing-6}", "xl": "{Theme / Spacing#spacing-7}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#spacing-3}", "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-4}", "lg": "{Theme / Spacing#spacing-4}", "xl": "{Theme / Spacing#spacing-5}" } }
+      ]
+    },
+    {
       "name": "Dialog__content / Structure",
       "tier": 3,
       "prefix": "dialog",
@@ -14,10 +26,7 @@
         { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } },
         { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-lg}" } },
         { "name": "shadow", "type": "string", "valuesByMode": { "Default": "{Theme / Shadow#shadow-lg}" } },
-        { "name": "padding", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-6}" } },
-        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
         { "name": "viewport-margin", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-5}" } },
-        { "name": "max-inline-size", "type": "number", "unit": "px", "valuesByMode": { "Default": 576 } },
         { "name": "backdrop-bg", "type": "color", "valuesByMode": { "Default": "{Core / Color#black-alpha/50}" } },
         { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-family}" } },
         { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-size}" } },

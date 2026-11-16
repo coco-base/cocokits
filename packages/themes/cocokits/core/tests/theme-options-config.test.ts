@@ -74,10 +74,10 @@ describe('cocokitsThemeConfig textarea resize', () => {
   });
 
   it.each([
-    ['unset', undefined, { 'data-resize': '' }],
-    ['true', true, { 'data-resize': '' }],
-    ['false', false, {}],
-    ['null', null, {}],
+    ['unset', undefined, { 'data-size': 'md', 'data-resize': '' }],
+    ['true', true, { 'data-size': 'md', 'data-resize': '' }],
+    ['false', false, { 'data-size': 'md' }],
+    ['null', null, { 'data-size': 'md' }],
   ] as const)('renders data-resize for %s', (_name, value, attrs) => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { resize: value }).root).toEqual(attrs);
   });

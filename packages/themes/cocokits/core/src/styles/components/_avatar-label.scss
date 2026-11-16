@@ -1,5 +1,6 @@
 // AvatarLabel rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
-// The label owns the layout and the size of its direct avatar. `end` and `bottom` reverse the visual order only;
+// The label owns the layout; its direct avatar sizes itself (the theme layer gives it the label's `size` when it has
+// none). `end` and `bottom` reverse the visual order only;
 // the DOM order stays the avatar first.
 @mixin rules {
   .cck-avatar-label {
@@ -25,15 +26,6 @@
     &[data-avatar-position='bottom'] {
       flex-direction: column-reverse;
       text-align: center;
-    }
-
-    > .cck-avatar {
-      inline-size: var(--cck-avatar-label-avatar-size);
-      block-size: var(--cck-avatar-label-avatar-size);
-      font-family: var(--cck-avatar-label-avatar-font-family);
-      font-size: var(--cck-avatar-label-avatar-font-size);
-      line-height: var(--cck-avatar-label-avatar-line-height);
-      letter-spacing: var(--cck-avatar-label-avatar-letter-spacing);
     }
   }
 
