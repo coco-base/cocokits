@@ -252,6 +252,11 @@ describe('tier 3 component tokens', () => {
     expect(css).toContain('  .cck-button, .cck-button-bar {\n    --cck-button-bg: var(--cck-color);');
   });
 
+  it('takes a part of a block (with __) in alsoFor, so a portaled sub-part shares the tokens', () => {
+    const shared = file(core, color, active, { ...structure3, alsoFor: ['button__sub-bar'] });
+    expect(emitTokens(shared, 'css')).toContain('  .cck-button, .cck-button__sub-bar {');
+  });
+
   it('refuses an alsoFor entry that is not a block slug', () => {
     const bad = file(core, color, active, { ...structure3, alsoFor: ['Button Bar{'] });
     expect(() => emitTokens(bad, 'css')).toThrow(/alsoFor.*"Button Bar\{".*block slug/);
