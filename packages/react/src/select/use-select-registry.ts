@@ -12,13 +12,19 @@ export interface SelectRegistry<T> {
   readonly registry: readonly SelectItemRegistration<T>[];
   /** The options as machine items. */
   readonly items: readonly SelectItem<T>[];
+  /** The keys of the registered options of one group, in document order. */
+  readonly groupItemKeys: (groupKey: string) => readonly string[];
   /** Registers (or updates) an option; returns the function that removes it. */
   readonly registerItem: (option: SelectItemRegistration<T>) => () => void;
 }
 
 /** Whether the registry already holds this item: the value and the text are read live, so they are not compared. */
 const isSame = <T>(a: SelectItemRegistration<T> | undefined, b: SelectItemRegistration<T>): boolean =>
-  a?.element === b.element && a.disabled === b.disabled && a.id === b.id;
+  a?.element === b.element &&
+  a.disabled === b.disabled &&
+  a.id === b.id &&
+  a.hasDescription === b.hasDescription &&
+  a.groupKey === b.groupKey;
 
 /**
  * The options that have mounted. They mount with the list, so the registry is empty while the Select is
@@ -53,6 +59,7 @@ export function useSelectRegistry<T>(isOpen: boolean): SelectRegistry<T> {
         },
         disabled: option.disabled,
         id: option.id,
+        hasDescription: option.hasDescription,
         // Read when a key is pressed: the text of an item can change without a render.
         get text() {
           return option.text;
@@ -71,5 +78,11 @@ export function useSelectRegistry<T>(isOpen: boolean): SelectRegistry<T> {
     if (sorted.some((option, index) => option !== registry[index])) setRegistry(sorted);
   });
 
-  return { registry, items, registerItem };
+  const groupItemKeys = useCallback(
+    (groupKey: string): readonly string[] =>
+      registry.filter((option) => option.groupKey === groupKey).map((option) => option.key),
+    [registry],
+  );
+
+  return { registry, items, groupItemKeys, registerItem };
 }

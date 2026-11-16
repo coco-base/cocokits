@@ -93,7 +93,7 @@ describe('Select clearing items', () => {
 });
 
 describe('Select multiple order', () => {
-  it('keeps the values in selection order and shows the labels in that order', async () => {
+  it('keeps the values in selection order and shows the first label in that order', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
     render(
@@ -107,7 +107,7 @@ describe('Select multiple order', () => {
     await user.click(await screen.findByRole('option', { name: 'Steak' }));
     await user.click(screen.getByRole('option', { name: 'Cake' }));
     expect(onValueChange.mock.calls.at(-1)?.[0]).toEqual(['Steak', 'Cake']);
-    expect(valueText()).toBe('Steak, Cake');
+    expect(valueText()).toBe('Steak');
   });
 });
 

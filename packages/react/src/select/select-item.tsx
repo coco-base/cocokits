@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useId, useMemo, useRef, type ReactElement } from 'react';
+import { useCallback, useContext, useEffect, useId, useMemo, useRef, useState, type ReactElement } from 'react';
 import { toReactProps } from '@cocokits/react-core';
 import { hasInteractiveContent } from '@cocokits/utils';
 import { isDevelopment } from '../internal/dev';
@@ -29,6 +29,16 @@ function SelectItemImpl<T = string>({
   const element = useRef<HTMLElement | null>(null);
   const textElement = useRef<HTMLElement | null>(null);
   const isDisabled = disabled || group?.disabled === true;
+  const groupKey = group?.key;
+  // A description part tells the item it is mounted: the item is described by it.
+  const [descriptions, setDescriptions] = useState(0);
+  const hasDescription = descriptions > 0;
+  const registerDescription = useCallback((): (() => void) => {
+    setDescriptions((count) => count + 1);
+    return () => {
+      setDescriptions((count) => count - 1);
+    };
+  }, []);
   const { registerItem } = context;
 
   // The Root reads the value and the text through this ref, so a new object with the same meaning (an inline
@@ -51,11 +61,13 @@ function SelectItemImpl<T = string>({
       },
       disabled: isDisabled,
       id,
+      hasDescription,
+      groupKey,
       get text() {
         return latest.current.textValue ?? textElement.current?.textContent;
       },
     });
-  }, [registerItem, key, isDisabled, id]);
+  }, [registerItem, key, isDisabled, id, hasDescription, groupKey]);
 
   useEffect(() => {
     if (!isDevelopment()) return;
@@ -66,16 +78,24 @@ function SelectItemImpl<T = string>({
     }
   }, []);
 
-  const optionProps = context.parts.option({ key, value, disabled: isDisabled, ...(id === undefined ? {} : { id }) });
+  const optionProps = context.parts.option({
+    key,
+    value,
+    disabled: isDisabled,
+    hasDescription,
+    ...(id === undefined ? {} : { id }),
+  });
   const selected = optionProps['aria-selected'] === 'true';
   const itemContext = useMemo(
     () => ({
+      item: { key, value, ...(id === undefined ? {} : { id }) },
+      registerDescription,
       setTextElement: (node: HTMLElement | null) => {
         textElement.current = node;
       },
       selected,
     }),
-    [selected],
+    [key, value, id, registerDescription, selected],
   );
   const props = useSelectPartProps({
     ours: { ...context.theme.option, ...toReactProps(optionProps) },

@@ -11,6 +11,10 @@ export interface SelectTransitionEffects {
   readonly highlight: (key: string | undefined) => void;
   /** Scrolls the highlighted item into view. */
   readonly reveal: () => void;
+  /** Sets the text of the search input (`''` when the list closes). */
+  readonly query: (text: string) => void;
+  /** Moves the DOM focus: into the search input, or back to the trigger. */
+  readonly focus: (target: 'search' | 'trigger') => void;
 }
 
 /**
@@ -49,7 +53,14 @@ export function applySelectTransition<T>(
   opened ??= commitOpen();
   if (!opened) return false;
   if (next.open?.open) effects.begin(event);
+  applyViewEffects(next, effects);
+  return true;
+}
+
+/** The highlight, the scroll, the query and the focus a transition asks for. */
+function applyViewEffects<T>(next: SelectTransition<T>, effects: SelectTransitionEffects): void {
   if (next.highlight !== undefined) effects.highlight(next.highlight ?? undefined);
   if (next.reveal) effects.reveal();
-  return true;
+  if (next.query !== undefined) effects.query(next.query);
+  if (next.focus) effects.focus(next.focus);
 }

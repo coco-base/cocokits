@@ -15,8 +15,10 @@ function SelectGroupImpl({ disabled = false, render, ref, ...rest }: SelectGroup
   const context = useSelectContext<unknown>('Select.Group');
   const key = useId();
   const group = useMemo(() => ({ key, disabled }), [key, disabled]);
+  // With a search, the group hides while the query matches none of its options.
+  const itemKeys = context.groupItemKeys(key);
   const props = useSelectPartProps({
-    ours: { ...context.theme.optionGroup, ...toReactProps(context.parts.optionGroup(group)) },
+    ours: { ...context.theme.optionGroup, ...toReactProps(context.parts.optionGroup({ ...group, itemKeys })) },
     rest,
     reserved: RESERVED,
     ref,

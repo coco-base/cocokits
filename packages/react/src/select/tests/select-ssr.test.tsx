@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
+import { Select } from '../index';
 import { Example, Dishes, Opt } from './fixtures';
 
 describe('Select on the server', () => {
@@ -58,5 +59,30 @@ describe('Select on the server', () => {
     expect(renderToString(<Dishes defaultValue="steak" itemToStringLabel={(value) => value.toUpperCase()} />)).toMatch(
       /cck-select__value[^>]*>STEAK</,
     );
+  });
+
+  it('renders the first value and the count of a multiple Select with a search, and no list', () => {
+    const html = renderToString(
+      <Select.Root multiple filter defaultValue={['Cake', 'Pizza', 'Steak']}>
+        <Select.Trigger aria-label="Dishes">
+          <Select.Value placeholder="Choose" />
+          <Select.Count />
+          <Select.Icon />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Header>
+            <Select.Search />
+          </Select.Header>
+          <Opt value="Cake">Cake</Opt>
+          <Select.Empty>No dish</Select.Empty>
+          <Select.Footer>Actions</Select.Footer>
+        </Select.Content>
+      </Select.Root>,
+    );
+    expect(html).toContain('<span class="cck-select__count">+2</span>');
+    expect(html).toMatch(/cck-select__value[^>]*>Cake</);
+    expect(html).not.toContain('aria-activedescendant');
+    expect(html).not.toContain('cck-select__search');
+    expect(html).not.toContain('cck-select__footer');
   });
 });

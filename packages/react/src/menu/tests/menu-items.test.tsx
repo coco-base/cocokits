@@ -26,7 +26,11 @@ const closed = (): Promise<void> =>
 const checkbox = (name: string): HTMLElement => screen.getByRole('menuitemcheckbox', { name });
 const radio = (name: string): HTMLElement => screen.getByRole('menuitemradio', { name });
 
-function Checks({ onCheckedChange }: { readonly onCheckedChange?: (checked: boolean) => void }): ReactElement {
+function Checks({
+  onCheckedChange,
+}: {
+  readonly onCheckedChange?: (checked: boolean, details: MenuItemChangeDetails) => void;
+}): ReactElement {
   return (
     <Menu.Root>
       <Menu.Trigger>Actions</Menu.Trigger>

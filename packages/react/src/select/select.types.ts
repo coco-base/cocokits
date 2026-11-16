@@ -170,6 +170,28 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    */
   readonly multiple?: M | undefined;
   /**
+   * Whether the list has a search. The list then shows a header with a `Select.Search` input, and typing narrows the
+   * options to those whose text contains the query, without regard to case. The query clears when the list closes.
+   * While nothing matches, a `Select.Empty` part shows.
+   *
+   * The focus is in the search input while the list is open, and returns to the trigger when the list closes by a
+   * choice, Escape or a press on the trigger. Put the `Select.Header`, `Select.Search`, `Select.Empty` and
+   * `Select.Footer` parts inside the `Select.Content`.
+   *
+   * @example
+   * <Select.Root filter>
+   *   ...
+   *   <Select.Content>
+   *     <Select.Header><Select.Search /></Select.Header>
+   *     ...
+   *     <Select.Empty>No match</Select.Empty>
+   *   </Select.Content>
+   * </Select.Root>
+   * @cckSemantic select.filter
+   * @defaultValue false
+   */
+  readonly filter?: boolean | undefined;
+  /**
    * The labels that the trigger shows, as data. Pass a list of `{ value, label }` entries, or, for text values, an object from value to label. When not set, the trigger shows the text from `itemToStringLabel`, or the value as text.
    *
    * The trigger shows the label of each selected value, joined with a comma. The labels are in the server render, because no part reports its text to the Select. The text of an item should be equal to its label. A closed Select also uses these entries to match a browser autofill.
@@ -370,8 +392,8 @@ export interface SelectValueProps<V = unknown> extends Omit<ComponentPropsWithRe
 }
 
 /** A Select part: a function component with its `displayName`. */
-export interface SelectPart<P> {
-  (props: P): ReactElement;
+export interface SelectPart<P, R extends ReactElement | null = ReactElement> {
+  (props: P): R;
   displayName: string;
 }
 
