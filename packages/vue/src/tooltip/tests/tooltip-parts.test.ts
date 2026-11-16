@@ -25,7 +25,7 @@ afterEach(() => {
 });
 
 /** A tooltip whose content is the given nodes. */
-function view(content: () => VNode | VNode[] | string, rootProps: Record<string, unknown> = {}) {
+function view(content: () => (VNode | string)[] | string, rootProps: Record<string, unknown> = {}) {
   return () =>
     h(TooltipRoot, rootProps, () => [
       h(TooltipTrigger, { id: 'trigger', 'aria-label': 'Save' }, () => 'Save'),

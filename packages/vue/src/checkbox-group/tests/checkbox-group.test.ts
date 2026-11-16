@@ -46,7 +46,7 @@ describe('CheckboxGroup contract (checkbox-06)', () => {
       group()
         .getAttributeNames()
         .filter((name) => name.startsWith('data-')),
-    ).toEqual(expect.arrayContaining(checkboxGroupMeta.dataAttrs.root));
+    ).toEqual(expect.arrayContaining([...checkboxGroupMeta.dataAttrs.root]));
     expect(group().getAttribute('data-orientation')).toBe('horizontal');
   });
 
