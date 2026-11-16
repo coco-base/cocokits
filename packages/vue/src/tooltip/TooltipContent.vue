@@ -71,12 +71,14 @@ defineSlots<{
   default?(): unknown;
 }>();
 
-/** The nodes a title or description part renders: its default slot, called now. */
-function partNodes(node: VNode): VNode[] | null {
+/** The nodes a title or description part renders: its default slot, called now. A render function may return text. */
+function partNodes(node: VNode): readonly unknown[] | null {
   const { children } = node;
   const slot = children !== null && typeof children === 'object' && !Array.isArray(children) ? children : null;
-  const render = slot === null ? undefined : (slot as { default?: () => VNode[] }).default;
-  return typeof render === 'function' ? render() : null;
+  const render = slot === null ? undefined : (slot as { default?: () => unknown }).default;
+  if (typeof render !== 'function') return null;
+  const out = render();
+  return Array.isArray(out) ? (out as unknown[]) : [out];
 }
 
 /**
@@ -86,9 +88,14 @@ function partNodes(node: VNode): VNode[] | null {
  */
 function textOf(nodes: readonly VNode[] | undefined): string | null {
   const seen = { part: false };
-  const walk = (list: readonly VNode[]): string | null => {
+  const walk = (list: readonly unknown[]): string | null => {
     let text = '';
-    for (const node of list) {
+    for (const entry of list) {
+      if (typeof entry === 'string' || typeof entry === 'number') {
+        text += String(entry);
+        continue;
+      }
+      const node = entry as VNode;
       if (node.type === Comment) continue;
       if (node.type === Text) {
         text += typeof node.children === 'string' ? node.children : '';
