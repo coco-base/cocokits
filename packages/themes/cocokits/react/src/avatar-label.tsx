@@ -15,8 +15,8 @@ type AvatarLabelOptions = CocokitsThemeConfig['components']['avatar-label'];
 export type AvatarLabelSize = AvatarLabelOptions['size']['values'][number];
 /** The `avatarPosition` values of the cocokits theme. */
 export type AvatarLabelAvatarPosition = AvatarLabelOptions['avatarPosition']['values'][number];
-/** The `textLayout` values of the cocokits theme. */
-export type AvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'][number];
+/** The `labelAlignment` values of the cocokits theme. */
+export type AvatarLabelAlignment = AvatarLabelOptions['labelAlignment']['values'][number];
 
 /** Props of the themed {@link AvatarLabel}: the base props plus the three cocokits options. */
 export interface AvatarLabelProps extends BaseAvatarLabelProps {
@@ -25,20 +25,20 @@ export interface AvatarLabelProps extends BaseAvatarLabelProps {
    */
   readonly size?: AvatarLabelSize | null | undefined;
   /**
-   * Which side of the text the avatar sits on, in the writing direction.
+   * Which side of the text the avatar sits on: left, top, right or bottom.
    */
   readonly avatarPosition?: AvatarLabelAvatarPosition | null | undefined;
   /**
    * Name and description on two lines or side by side.
    */
-  readonly textLayout?: AvatarLabelTextLayout | null | undefined;
+  readonly labelAlignment?: AvatarLabelAlignment | null | undefined;
 }
 
-function ThemedAvatarLabel({ size, avatarPosition, textLayout, ...props }: AvatarLabelProps): ReactElement {
+function ThemedAvatarLabel({ size, avatarPosition, labelAlignment, ...props }: AvatarLabelProps): ReactElement {
   const parent = useMemo(() => ({ size }), [size]);
   return (
     <AvatarLabelThemeContext value={parent}>
-      <ThemeOptionsProvider componentName="avatar-label" options={{ size, avatarPosition, textLayout }}>
+      <ThemeOptionsProvider componentName="avatar-label" options={{ size, avatarPosition, labelAlignment }}>
         <BaseAvatarLabel {...props} />
       </ThemeOptionsProvider>
     </AvatarLabelThemeContext>
@@ -52,12 +52,12 @@ interface AvatarLabelComponent {
 }
 
 /**
- * The cocokits Avatar label. It renders the base `<div>` and supplies `size`, `avatarPosition` and `textLayout` to
+ * The cocokits Avatar label. It renders the base `<div>` and supplies `size`, `avatarPosition` and `labelAlignment` to
  * it, which renders the `data-*` attributes. Each option resolves in order: the prop, then the `ThemeProvider`
  * override, then the config default; `null` removes the attribute. The theme needs a `ThemeProvider`.
  *
  * @example
- * <AvatarLabel name="Ada Lovelace" description="Mathematician" size="lg" avatarPosition="end">
+ * <AvatarLabel name="Ada Lovelace" description="Mathematician" size="lg" avatarPosition="right">
  *   <Avatar.Root aria-hidden="true"><Avatar.Fallback>AL</Avatar.Fallback></Avatar.Root>
  * </AvatarLabel>
  * @cckPart root

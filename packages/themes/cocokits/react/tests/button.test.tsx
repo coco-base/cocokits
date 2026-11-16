@@ -50,11 +50,11 @@ describe('theme Button', () => {
 
   it('lets a provider override win over the default, and the own prop win over the override', () => {
     render(
-      <ThemeProvider themeConfig={cocokitsThemeConfig} overrides={{ button: { variant: 'light', size: 'lg' } }}>
+      <ThemeProvider themeConfig={cocokitsThemeConfig} overrides={{ button: { variant: 'basic', size: 'lg' } }}>
         <Button size="sm">Save</Button>
       </ThemeProvider>,
     );
-    expect(button().getAttribute('data-variant')).toBe('light');
+    expect(button().getAttribute('data-variant')).toBe('basic');
     expect(button().getAttribute('data-size')).toBe('sm');
   });
 
@@ -148,11 +148,11 @@ describe('theme Button on both root kinds', () => {
 
     it('lets the provider override win over the default and the own prop over the override', () => {
       render(
-        <ThemeProvider themeConfig={cocokitsThemeConfig} overrides={{ button: { variant: 'light', size: 'lg' } }}>
+        <ThemeProvider themeConfig={cocokitsThemeConfig} overrides={{ button: { variant: 'basic', size: 'lg' } }}>
           {ui({ size: 'sm' })}
         </ThemeProvider>,
       );
-      expect(root().getAttribute('data-variant')).toBe('light');
+      expect(root().getAttribute('data-variant')).toBe('basic');
       expect(root().getAttribute('data-size')).toBe('sm');
     });
 

@@ -38,8 +38,8 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
     expect(attr('avatar', 'data-size')).toBe('md');
     expect(attr('group', 'data-size')).toBe('md');
     expect(attr('label', 'data-size')).toBe('md');
-    expect(attr('label', 'data-avatar-position')).toBe('start');
-    expect(attr('label', 'data-text-layout')).toBe('stacked');
+    expect(attr('label', 'data-avatar-position')).toBe('left');
+    expect(attr('label', 'data-label-alignment')).toBe('vertical');
   });
 
   it.each([
@@ -47,7 +47,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
     ['group', 'size', 'data-size', group.size.values],
     ['label', 'size', 'data-size', label.size.values],
     ['label', 'avatarPosition', 'data-avatar-position', label.avatarPosition.values],
-    ['label', 'textLayout', 'data-text-layout', label.textLayout.values],
+    ['label', 'labelAlignment', 'data-label-alignment', label.labelAlignment.values],
   ] as const)('the %s %s prop renders %s for every value', (id, option, name, values) => {
     for (const value of values) {
       render(themed(make(id, { [option]: value })));
@@ -62,7 +62,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
         <>
           {make('avatar', { size: null })}
           {make('group', { size: null })}
-          {make('label', { size: null, avatarPosition: null, textLayout: null })}
+          {make('label', { size: null, avatarPosition: null, labelAlignment: null })}
         </>,
       ),
     );
@@ -71,7 +71,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
       ['group', 'data-size'],
       ['label', 'data-size'],
       ['label', 'data-avatar-position'],
-      ['label', 'data-text-layout'],
+      ['label', 'data-label-alignment'],
     ] as const) {
       expect(el(id).hasAttribute(name)).toBe(false);
     }
@@ -81,14 +81,14 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
     render(
       <ThemeProvider
         themeConfig={cocokitsThemeConfig}
-        overrides={{ avatar: { size: 'xs' }, 'avatar-label': { textLayout: 'inline' } }}
+        overrides={{ avatar: { size: 'xs' }, 'avatar-label': { labelAlignment: 'horizontal' } }}
       >
         <Avatar.Root data-testid="avatar" size="lg" />
         <AvatarLabel data-testid="label" />
       </ThemeProvider>,
     );
     expect(attr('avatar', 'data-size')).toBe('lg');
-    expect(attr('label', 'data-text-layout')).toBe('inline');
+    expect(attr('label', 'data-label-alignment')).toBe('horizontal');
   });
 
   it('update a mounted root and keep the element and the ref', () => {

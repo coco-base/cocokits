@@ -47,7 +47,7 @@ export type {
   AvatarLabelAvatarPosition,
   AvatarLabelProps,
   AvatarLabelSize,
-  AvatarLabelTextLayout,
+  AvatarLabelAlignment,
 } from './avatar-label';
 export { Chip } from './chip';
 export type { ChipProps, ChipSize } from './chip';
@@ -63,3 +63,6 @@ export { Dialog } from './dialog';
 export type { DialogRootProps, DialogSize } from './dialog-root';
 export { Tooltip } from './tooltip';
 export type { TooltipRootProps, TooltipSize } from './tooltip-root';
+
+/** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
+export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';
