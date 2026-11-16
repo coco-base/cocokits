@@ -1,13 +1,11 @@
 'use client';
 
 import { useCallback, useId, useMemo, useRef, useState, type ReactElement } from 'react';
-import { createPresence, type Presence } from '@cocokits/cdk/presence';
-import { createTypeahead } from '@cocokits/cdk/roving-focus';
 import { transitionMenu, type MenuEvent } from '@cocokits/machines/menu';
 import { useControllableState } from '../internal/use-controllable-state';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { MenuContext, type MenuContextValue } from './menu-context';
-import { useMenuRegistry } from './use-menu-registry';
+import { useMenuSurface } from './use-menu-surface';
 import type { MenuChangeDetails, MenuPart, MenuRootProps } from './menu.types';
 
 function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, children }: MenuRootProps): ReactElement {
@@ -21,25 +19,23 @@ function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, child
   });
   const [trigger, setTrigger] = useState<HTMLElement | null>(null);
   const [triggerId, setTriggerId] = useState<string | undefined>(undefined);
-  const [mounted, setMounted] = useState(false);
-  const [exited, setExited] = useState(true);
-  const [activeKey, setActiveKey] = useState<string | undefined>(undefined);
-  const [typeahead] = useState(() => createTypeahead());
-  const registry = useMenuRegistry();
-  const contentRef = useRef<HTMLElement | null>(null);
-  const initialFocus = useRef<'first' | 'last'>('first');
+  const surface = useMenuSurface(open);
 
-  // Read by `dispatch` and the item cleanups, which the dismissal listeners and refs created once call.
+  // Read by `dispatch`, which the dismissal listeners created once call.
   const latest = useRef({ id, open, setOpen });
   useIsomorphicLayoutEffect(() => {
     latest.current = { id, open, setOpen };
   });
 
-  const { getItem, register } = registry;
+  const { getItem, setActiveKey, setInitialFocus, notifyPointerMove } = surface;
   const dispatch = useCallback(
     (event: MenuEvent): boolean => {
       if (event.type === 'ITEM.FOCUS') {
         setActiveKey(event.key);
+        return true;
+      }
+      if (event.type === 'ITEM.POINTER_MOVE') {
+        notifyPointerMove(event.key, event.event);
         return true;
       }
       if (event.type === 'CONTENT.MOVE') {
@@ -50,92 +46,20 @@ function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, child
         getItem(event.key)?.click();
         return true;
       }
+      // The submenu events belong to the submenu, and a checkbox or radio item applies its own change on Space.
+      if (event.type === 'ITEM.CHECK' || event.type.startsWith('SUB.')) return true;
       const state = latest.current;
       const next = transitionMenu({ id: state.id, open: state.open }, event);
       if (!next) return true;
-      if (next.open) initialFocus.current = next.initial ?? 'first';
+      if (next.open) setInitialFocus(next.initial ?? 'first');
       return state.setOpen(next.open, { reason: next.reason, event: event.event });
     },
-    [getItem],
+    [getItem, setActiveKey, setInitialFocus, notifyPointerMove],
   );
-
-  // An item that has focus and goes away while the menu stays open hands the focus to the content.
-  const registerItem = useCallback(
-    (key: string, element: HTMLElement) => {
-      const remove = register(key, element);
-      return () => {
-        const focused = element.ownerDocument.activeElement === element;
-        remove();
-        if (focused && latest.current.open) contentRef.current?.focus();
-      };
-    },
-    [register],
-  );
-
-  const takeInitialFocus = useCallback((): 'first' | 'last' => {
-    const initial = initialFocus.current;
-    initialFocus.current = 'first';
-    return initial;
-  }, []);
-
-  // The content stays in the document after `open` turns false until the exit animation has finished: it is
-  // rendered while it is mounted and the presence has not reported `unmounted`.
-  const presence = useRef<Presence | null>(null);
-  useIsomorphicLayoutEffect(() => {
-    const created = createPresence({
-      getElement: () => contentRef.current,
-      onStateChange: (state) => {
-        setExited(state === 'unmounted');
-      },
-    });
-    presence.current = created;
-    return () => {
-      created.destroy();
-      presence.current = null;
-    };
-  }, []);
-  // After the closed state is rendered, so the exit animation already exists when it is read.
-  useIsomorphicLayoutEffect(() => {
-    presence.current?.setOpen(open);
-  }, [open]);
 
   const context = useMemo<MenuContextValue>(
-    () => ({
-      id,
-      open,
-      mounted,
-      keepMounted: open || (mounted && !exited),
-      trigger,
-      triggerId,
-      setTriggerId,
-      keys: registry.keys,
-      activeKey,
-      typeahead,
-      setTrigger,
-      setMounted,
-      contentRef,
-      registerItem,
-      getEntries: registry.getEntries,
-      getItem,
-      takeInitialFocus,
-      dispatch,
-    }),
-    [
-      id,
-      open,
-      mounted,
-      exited,
-      trigger,
-      triggerId,
-      registry.keys,
-      registry.getEntries,
-      activeKey,
-      typeahead,
-      registerItem,
-      getItem,
-      takeInitialFocus,
-      dispatch,
-    ],
+    () => ({ ...surface, id, open, trigger, triggerId, setTriggerId, setTrigger, dispatch, sub: null }),
+    [surface, id, open, trigger, triggerId, dispatch],
   );
 
   return <MenuContext.Provider value={context}>{children}</MenuContext.Provider>;

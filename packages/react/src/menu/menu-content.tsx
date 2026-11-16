@@ -4,7 +4,14 @@ import { isValidElement, useContext, useRef, useState, type KeyboardEvent, type 
 import { createDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { captureFocusReturn, connectFocusGuards, scheduleFocus } from '@cocokits/cdk/focus';
 import { startOverlayPosition } from '@cocokits/cdk/positioning';
-import { getMenuProps, menuAnatomy, type MenuAlign, type MenuSide } from '@cocokits/machines/menu';
+import {
+  getMenuProps,
+  getMenuSubPlacement,
+  menuAnatomy,
+  type MenuAlign,
+  type MenuEvent,
+  type MenuSide,
+} from '@cocokits/machines/menu';
 import { Portal, toReactProps, useDirection, useThemeAttrs } from '@cocokits/react-core';
 import { visuallyHiddenStyle } from '@cocokits/utils';
 import { runDismissHandlers } from '../internal/dismiss-handlers';
@@ -40,7 +47,8 @@ function MenuContentLayer({
   ...rest
 }: MenuContentProps): ReactElement {
   const context = useMenuContext('Menu.Content');
-  const { open, trigger, dispatch, contentRef, setMounted, typeahead, getEntries, getItem, takeInitialFocus } = context;
+  const { open, trigger, dispatch, contentRef, setMounted, typeahead, getEntries, getItem, takeInitialFocus, sub } =
+    context;
   const themeAttrs = useThemeAttrs(menuAnatomy).content;
   const direction = useDirection();
   const parentLayer = useContext(DismissLayerContext);
@@ -77,12 +85,15 @@ function MenuContentLayer({
     const content = contentRef.current;
     if (!open || !content || !trigger) return undefined;
     const doc = content.ownerDocument;
-    const focusReturn = captureFocusReturn({ getTrigger: () => trigger, getContent: () => contentRef.current });
+    // A submenu returns the focus by itself: a key that closes it focuses its sub-trigger, a pointer leaves it.
+    const focusReturn =
+      sub === null ? captureFocusReturn({ getTrigger: () => trigger, getContent: () => contentRef.current }) : null;
     // The guards listen first: a focus on a guard closes the menu (it is outside), and the close removes the guard in
-    // the same event, so a listener that ran after the layer's would find no guard to forward the focus from.
+    // the same event, so a listener that ran after the layer's would find no guard to forward the focus from. Tab in
+    // a submenu leaves for the element after the trigger of the root menu, and closes the whole menu.
     const guards = connectFocusGuards({
       getContent: () => contentRef.current,
-      getTrigger: () => trigger,
+      getTrigger: () => sub?.rootTrigger ?? trigger,
       getGuards: () => [startGuard.current, endGuard.current],
       loop: false,
     });
@@ -92,18 +103,29 @@ function MenuContentLayer({
         runDismissHandlers(intent, handlers.current);
         if (intent.defaultPrevented) return;
         const { reason, event } = intent;
-        // `onOpenChange` can refuse too, with `details.cancel()`: the layers below then stay open as well.
-        if (!dispatch({ type: 'CONTENT.DISMISS', reason, event })) intent.preventDefault();
+        // `onOpenChange` can refuse too, with `details.cancel()`: the layers below then stay open as well. A
+        // submenu does not listen for the focus leaving: the menu below it does.
+        if (reason === 'focus-out') {
+          if (!dispatch({ type: 'CONTENT.DISMISS', reason, event })) intent.preventDefault();
+          return;
+        }
+        const request: MenuEvent = sub
+          ? { type: 'SUB.DISMISS', reason, event }
+          : { type: 'CONTENT.DISMISS', reason, event };
+        if (!dispatch(request)) intent.preventDefault();
       },
-      dismissOn: ['escape', 'outside-press', 'focus-out'],
+      dismissOn: sub ? ['escape', 'outside-press'] : ['escape', 'outside-press', 'focus-out'],
       getParent: () => parentLayer?.current ?? null,
       modal: false,
     });
     layerRef.current = layer;
     // Focus goes to the first or the last item, or to the content when it holds none.
     const cancelFocus = scheduleFocus(doc, () => {
+      const initial = takeInitialFocus();
+      // A pointer opened the submenu: the focus stays where it is.
+      if (initial === 'none') return;
       const entries = getEntries();
-      const target = takeInitialFocus() === 'last' ? entries.at(-1) : entries[0];
+      const target = initial === 'last' ? entries.at(-1) : entries[0];
       (target ? getItem(target.key) : contentRef.current)?.focus();
     });
     return () => {
@@ -116,14 +138,15 @@ function MenuContentLayer({
       scheduleFocus(doc, () => {
         // Not when it opened again meanwhile (StrictMode runs this cleanup on a mounted menu).
         if (openNow.current) return;
-        focusReturn.restore();
+        focusReturn?.restore();
       });
     };
-  }, [open, trigger, dispatch, parentLayer, contentRef, typeahead, getEntries, getItem, takeInitialFocus]);
+  }, [open, trigger, sub, dispatch, parentLayer, contentRef, typeahead, getEntries, getItem, takeInitialFocus]);
 
   useIsomorphicLayoutEffect(() => {
     if (!open || !trigger || !contentRef.current) return undefined;
-    // Nothing is passed for an unset option, so the positioning defaults apply.
+    // Nothing is passed for an unset option, so the positioning defaults apply. A submenu opens at the bottom-end
+    // corner of its sub-trigger, then flips to the start side and then above.
     return startOverlayPosition({
       getAnchor: () => trigger,
       getContent: () => contentRef.current,
@@ -132,8 +155,9 @@ function MenuContentLayer({
       getDirection: () => direction,
       onPlacementChange: setPlacement,
       ...positioning,
+      ...(sub === null ? {} : getMenuSubPlacement(trigger.offsetWidth)),
     });
-  }, [open, trigger, side, align, positioning, direction, contentRef]);
+  }, [open, trigger, sub, side, align, positioning, direction, contentRef]);
 
   const named = rest['aria-label'] !== undefined || rest['aria-labelledby'] !== undefined;
   const { content } = getMenuProps(
@@ -145,6 +169,8 @@ function MenuContentLayer({
       align: resolved.align,
       named,
       triggerId: context.triggerId,
+      sub: sub !== null,
+      dir: direction,
     },
     dispatch,
   );
@@ -152,7 +178,16 @@ function MenuContentLayer({
     // A key from a layer opened inside an item reaches this handler through the React tree; it is not ours.
     if (!event.currentTarget.contains(event.target as Node)) return;
     getMenuProps(
-      { id: context.id, open, items: getEntries(), activeKey: context.activeKey, named, typeahead },
+      {
+        id: context.id,
+        open,
+        items: getEntries(),
+        activeKey: context.activeKey,
+        named,
+        typeahead,
+        sub: sub !== null,
+        dir: direction,
+      },
       dispatch,
     ).content.onKeyDown(event.nativeEvent);
   };

@@ -38,8 +38,15 @@ export interface MenuContextValue {
   readonly getEntries: () => readonly MenuItemEntry[];
   /** The element of an item, `undefined` once it is gone. */
   readonly getItem: (key: string) => HTMLElement | undefined;
-  /** Takes the item focus goes to on open, and sets it back to the first item. */
-  readonly takeInitialFocus: () => 'first' | 'last';
+  /** Takes the item focus goes to on open, and sets it back to the first item. `none` leaves the focus alone. */
+  readonly takeInitialFocus: () => 'first' | 'last' | 'none';
+  /** Listens for the pointer moving over an item of this menu; returns the function that stops listening. */
+  readonly subscribePointerMove: (listener: (key: string, event: Event) => void) => () => void;
+  /**
+   * What makes the menu a submenu, `null` for the root menu: the trigger of the root menu, where Tab leaves to.
+   * The `trigger` of a submenu is its sub-trigger.
+   */
+  readonly sub: { readonly rootTrigger: HTMLElement | null } | null;
   /**
    * Sends a machine event. The Root decides the open change and reports it, and runs the focus and press events
    * of the items. `false` when `onOpenChange` canceled the change.
