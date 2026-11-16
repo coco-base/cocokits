@@ -19,7 +19,7 @@ const chip = (): HTMLElement => {
   if (!found) throw new Error('Expected a chip.');
   return found;
 };
-const remove = (): HTMLElement => screen.getByRole('button', { name: 'Pizza' });
+const remove = (): HTMLElement => screen.getByRole('button', { name: 'Remove Pizza' });
 
 describe('Chip parts', () => {
   it('renders a div root with the content wrapper and no remove button', () => {
@@ -45,7 +45,8 @@ describe('Chip parts', () => {
     expect(button.tagName).toBe('BUTTON');
     expect(button.getAttribute('type')).toBe('button');
     expect(button.className).toBe('cck-chip__remove');
-    expect(button.getAttribute('aria-labelledby')).toBe(`${chip().id}-content`);
+    expect(button.getAttribute('aria-label')).toBe('Remove');
+    expect(button.getAttribute('aria-labelledby')).toBe(`${chip().id}-remove ${chip().id}-content`);
     expect(button.hasAttribute('data-disabled')).toBe(false);
   });
 
@@ -111,19 +112,24 @@ describe('Chip remove event', () => {
     expect(chip()).toBeTruthy();
   });
 
-  it('marks the chip and the button disabled and reports nothing', async () => {
-    const user = userEvent.setup();
-    const onRemove = vi.fn();
+  it('marks a disabled chip and renders no remove button', () => {
     render(
-      <Chip removable disabled onRemove={onRemove}>
+      <Chip removable disabled>
         Pizza
       </Chip>,
     );
     expect(chip().hasAttribute('data-disabled')).toBe(true);
-    expect(remove().hasAttribute('disabled')).toBe(true);
-    expect(remove().hasAttribute('data-disabled')).toBe(true);
-    await user.click(remove());
-    expect(onRemove).not.toHaveBeenCalled();
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
+  it('names the remove button with removeLabel alone', () => {
+    render(
+      <Chip removable removeLabel="Delete Pizza">
+        Pizza
+      </Chip>,
+    );
+    const button = screen.getByRole('button', { name: 'Delete Pizza' });
+    expect(button.hasAttribute('aria-labelledby')).toBe(false);
   });
 });
 

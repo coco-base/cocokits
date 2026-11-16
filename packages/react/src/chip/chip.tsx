@@ -3,12 +3,13 @@
 import { isValidElement, useId, type ReactElement, type Ref } from 'react';
 import { chipAnatomy, getChipProps } from '@cocokits/machines/chip';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
+import { useControllableState } from '../internal/use-controllable-state';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderContainerRoot } from '../internal/render-container-root';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { usePartIcon } from '../internal/use-part-icon';
 import { SvgIcon } from '../svg-icon';
-import type { ChipProps, ChipRenderProps } from './chip.types';
+import type { ChipChangeDetails, ChipProps, ChipRenderProps } from './chip.types';
 
 /** The attributes the machine owns; a consumer value can never replace them. */
 const RESERVED = ['data-disabled'];
@@ -17,6 +18,10 @@ function ChipImpl({
   removable = false,
   disabled = false,
   onRemove,
+  selected: selectedProp,
+  defaultSelected,
+  onSelectedChange,
+  removeLabel,
   id,
   render,
   children,
@@ -25,8 +30,17 @@ function ChipImpl({
 }: ChipProps): ReactElement {
   const generatedId = useId();
   const themeAttrs = useThemeAttrs(chipAnatomy);
-  const parts = getChipProps({ id: id ?? generatedId, removable, disabled });
-  const iconName = usePartIcon(chipAnatomy, 'remove', undefined, removable);
+  const [selected, setSelected] = useControllableState<boolean | undefined, ChipChangeDetails>({
+    value: selectedProp,
+    defaultValue: defaultSelected,
+    onChange: (next, details) => {
+      if (next !== undefined) onSelectedChange?.(next, details);
+    },
+    name: '<Chip selected>',
+  });
+  const parts = getChipProps({ id: id ?? generatedId, removable, disabled, selected, removeLabel });
+  const iconName = usePartIcon(chipAnatomy, 'remove', undefined, parts.remove !== null);
+  const checkName = usePartIcon(chipAnatomy, 'check', undefined, parts.check !== null);
   const elementRef = isValidElement<{ ref?: Ref<HTMLElement> }>(render) ? render.props.ref : undefined;
   const rootRef = useMergedRef<HTMLElement>(ref, elementRef, undefined);
   const root = mergeProps(
@@ -36,9 +50,26 @@ function ChipImpl({
       ref: rootRef,
       children: (
         <>
-          <span {...themeAttrs.contentWrapper} {...toReactProps(parts.contentWrapper)}>
-            {children}
-          </span>
+          {parts.check && (
+            <span {...themeAttrs.check} {...toReactProps(parts.check)}>
+              {checkName !== undefined && <SvgIcon iconName={checkName} />}
+            </span>
+          )}
+          {selected === undefined ? (
+            <span {...themeAttrs.contentWrapper} {...toReactProps(parts.contentWrapper)}>
+              {children}
+            </span>
+          ) : (
+            <button
+              {...themeAttrs.contentWrapper}
+              {...toReactProps(parts.contentWrapper)}
+              onClick={(event) => {
+                setSelected(!selected, { reason: 'user', event: event.nativeEvent });
+              }}
+            >
+              {children}
+            </button>
+          )}
           {parts.remove && (
             <button
               {...themeAttrs.remove}
@@ -66,11 +97,17 @@ interface ChipComponent {
 
 /**
  * A short value, such as a tag, a filter or a choice. It renders a `<div>` that holds a `<span>` with the content
- * and, with `removable`, a `<button type="button">` that asks to remove the chip.
+ * and, with `removable`, a `<button type="button">` that asks to remove the chip. A disabled chip renders no
+ * remove button.
  *
- * The remove button is named by the content, so a screen reader reads the chip text and then a button with the same
- * name. It draws an icon with `SvgIcon`: the icon the theme names in `components.chip.icons`, else the default
+ * The remove button is named "Remove" and the text of the chip, for example "Remove Pizza". `removeLabel` replaces
+ * the whole name. It draws an icon with `SvgIcon`: the icon the theme names in `components.chip.icons`, else the default
  * `close`. A theme icon must be registered, for example with `IconProvider`.
+ *
+ * Set `selected` or `defaultSelected` to make the chip selectable. The content then is a toggle
+ * `<button type="button">` with `aria-pressed` and `data-selected`, and a check part with the theme icon
+ * `components.chip.icons.check` (default `check`) shows while it is selected. The remove button is a sibling of the
+ * toggle, never inside it.
  *
  * The chip does not remove itself. Handle `onRemove` and drop the value from your data.
  *
@@ -80,6 +117,7 @@ interface ChipComponent {
  * </Chip>
  * @cckPart root
  * @cckPart contentWrapper
+ * @cckPart check
  * @cckPart remove
  * @param props - The Chip props.
  * @returns The rendered chip.

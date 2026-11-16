@@ -1,5 +1,16 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactNode, RefCallback } from 'react';
+import type { ChangeDetails } from '@cocokits/shared';
 import type { RenderProp } from '../internal/render-element';
+
+/**
+ * Why the selected state of a Chip changed.
+ *
+ * @cckValue user - The user pressed the toggle with a click, Enter or Space.
+ */
+export type ChipChangeReason = 'user';
+
+/** What `onSelectedChange` receives besides the value: the `reason` and the `event` behind the change. */
+export type ChipChangeDetails = ChangeDetails<ChipChangeReason>;
 
 /**
  * The root props that the function form of `render` receives: the native props merged with the props of the chip.
@@ -31,12 +42,48 @@ export interface ChipProps extends Omit<ComponentPropsWithRef<'div'>, 'children'
    */
   readonly removable?: boolean | undefined;
   /**
-   * Whether the chip is disabled. The root and the remove button get `data-disabled`, and the button is natively
-   * disabled, so a disabled chip never reports a removal.
+   * Whether the chip is disabled. The root gets `data-disabled`, a selectable chip's toggle is natively disabled, and
+   * a disabled chip renders no remove button, so it never reports a removal.
    *
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
+  /**
+   * Whether the chip is selected. Setting it, to `true` or `false`, makes the chip selectable and controlled: the
+   * content is a toggle `<button>` with `aria-pressed`, and a check shows while selected. If you do not update it
+   * after `onSelectedChange`, the old state stays. When not set, the chip is not selectable.
+   *
+   * @cckSemantic chip.selected
+   */
+  readonly selected?: boolean | undefined;
+  /**
+   * The start state of a selectable chip that you do not control with `selected`. Setting it, to `true` or `false`,
+   * makes the chip selectable. When not set, the chip is not selectable.
+   *
+   * @cckSemantic none
+   * @cckParity The uncontrolled start value.
+   */
+  readonly defaultSelected?: boolean | undefined;
+  /**
+   * Called after the user presses the toggle of a selectable chip. It receives the new state and a details object
+   * with the `reason` and the `event`. It is never called when you change `selected` yourself.
+   *
+   * @example
+   * <Chip selected={on} onSelectedChange={(selected) => setOn(selected)}>
+   *   Pizza
+   * </Chip>
+   * @cckSemantic chip.selectedChange
+   * @cckParity The change callback of this component.
+   */
+  readonly onSelectedChange?: ((selected: boolean, details: ChipChangeDetails) => void) | undefined;
+  /**
+   * The accessible name of the remove button. When not set, the name is "Remove" and the text of the chip, for
+   * example "Remove Pizza". An empty string counts as not set.
+   *
+   * @cckSemantic chip.removeLabel
+   * @defaultValue "Remove <chip text>"
+   */
+  readonly removeLabel?: string | undefined;
   /**
    * The `id` of the chip. The content wrapper gets the id `<id>-content`. When not set, the chip gets a generated
    * id that is the same on the server and in the browser.

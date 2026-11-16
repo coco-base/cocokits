@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import { createRef, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ChipList, type ChipListChangeDetails } from '../index';
+import { ChipList, type ChipListChangeDetails, type ChipListEntry } from '../index';
 import { chipTexts, chips, Controlled, listRoot, removeOf, textbox } from './fixtures';
 
 afterEach(() => {
@@ -58,7 +58,7 @@ describe('ChipList parts', () => {
 describe('ChipList adding', () => {
   it('adds a trimmed text on Enter, clears the draft and keeps the form from submitting', async () => {
     const user = userEvent.setup();
-    const onValueChange = vi.fn<(value: readonly string[], details: ChipListChangeDetails) => void>();
+    const onValueChange = vi.fn<(value: readonly ChipListEntry[], details: ChipListChangeDetails) => void>();
     render(<ChipList aria-label="Toppings" onValueChange={onValueChange} />);
     await user.type(textbox(), '  Pizza  ');
     const notPrevented = fireEvent.keyDown(textbox(), { key: 'Enter' });
@@ -128,7 +128,7 @@ describe('ChipList adding', () => {
 describe('ChipList removing', () => {
   it('removes the value at the position of the chip and reports the reason', async () => {
     const user = userEvent.setup();
-    const onValueChange = vi.fn<(value: readonly string[], details: ChipListChangeDetails) => void>();
+    const onValueChange = vi.fn<(value: readonly ChipListEntry[], details: ChipListChangeDetails) => void>();
     render(<ChipList aria-label="Toppings" defaultValue={['A', 'B', 'C']} onValueChange={onValueChange} />);
     const remove = removeOf('B');
     await user.click(remove);
@@ -146,7 +146,7 @@ describe('ChipList removing', () => {
     const onChange = vi.fn();
     render(<Controlled initial={['Pizza', 'Pizza']} onChange={onChange} />);
     expect(chipTexts()).toEqual(['Pizza', 'Pizza']);
-    await user.click(screen.getAllByRole('button', { name: 'Pizza' })[1]);
+    await user.click(screen.getAllByRole('button', { name: 'Remove Pizza' })[1]);
     expect(onChange).toHaveBeenCalledWith(['Pizza'], expect.objectContaining({ reason: 'remove' }));
     expect(chipTexts()).toEqual(['Pizza']);
     expect(error).not.toHaveBeenCalled();
@@ -169,17 +169,15 @@ describe('ChipList disabled and read-only', () => {
   it.each([
     ['disabled', { disabled: true }],
     ['read-only', { readOnly: true }],
-  ])('adds and removes nothing while %s', async (_name, props) => {
-    const user = userEvent.setup();
+  ])('adds and removes nothing while %s', (_name, props) => {
     const onValueChange = vi.fn();
     render(<ChipList aria-label="Toppings" defaultValue={['A']} onValueChange={onValueChange} {...props} />);
     fireEvent.change(textbox(), { target: { value: 'B' } });
     fireEvent.keyDown(textbox(), { key: 'Enter' });
-    await user.click(removeOf('A'));
+    expect(screen.queryByRole('button')).toBeNull();
     expect(chipTexts()).toEqual(['A']);
     expect(onValueChange).not.toHaveBeenCalled();
-    expect(removeOf('A').hasAttribute('disabled')).toBe(true);
-    expect(removeOf('A').closest('.cck-chip')?.hasAttribute('data-disabled')).toBe(true);
+    expect(chips()[0]?.hasAttribute('data-disabled')).toBe(true);
   });
 
   it('disables the text box natively when disabled and makes it readonly when read-only', () => {
@@ -269,7 +267,7 @@ interface FocusRow {
   /** The chip whose remove button has focus, or `'input'`. */
   readonly focus: string;
   readonly change: 'activate' | 'shrink' | 'read-only' | 'other-value' | 'disable' | 'add';
-  readonly after: 'input' | 'stays';
+  readonly after: 'input' | 'stays' | 'body';
 }
 
 const focusRows: readonly FocusRow[] = [
@@ -280,7 +278,13 @@ const focusRows: readonly FocusRow[] = [
   { name: 'the list turns read-only', start: ['A', 'B'], focus: 'B', change: 'read-only', after: 'input' },
   { name: 'the position stays', start: ['A', 'B', 'C'], focus: 'A', change: 'other-value', after: 'stays' },
   { name: 'the input adds', start: ['A'], focus: 'input', change: 'add', after: 'input' },
-  { name: 'the list turns disabled', start: ['A', 'B'], focus: 'B', change: 'disable', after: 'stays' },
+  {
+    name: 'the list turns disabled and renders no remove button',
+    start: ['A', 'B'],
+    focus: 'B',
+    change: 'disable',
+    after: 'body',
+  },
 ];
 
 describe('ChipList focus when a remove button goes away', () => {
@@ -300,7 +304,9 @@ describe('ChipList focus when a remove button goes away', () => {
     if (change === 'other-value') rerender(ui({ value: ['A', 'X', 'Y'] }));
     if (change === 'disable') rerender(ui({ value: start, disabled: true }));
     if (change === 'add') await user.keyboard('X{Enter}');
+    // A disabled list renders no remove button, and its text box is disabled too: the focus has nowhere to go.
     if (after === 'input') expect(document.activeElement).toBe(textbox());
+    else if (after === 'body') expect(document.activeElement).toBe(document.body);
     else expect(document.activeElement).toBe(target);
   });
 });
