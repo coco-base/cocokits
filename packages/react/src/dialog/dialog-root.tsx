@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useRef, useState, type ReactElement } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactElement } from 'react';
 import { createPresence, type Presence } from '@cocokits/cdk/presence';
 import { transitionDialog, type DialogEvent } from '@cocokits/machines/dialog';
 import { useControllableState } from '../internal/use-controllable-state';
@@ -13,6 +13,9 @@ function DialogRootImpl({
   defaultOpen = false,
   onOpenChange,
   modal = true,
+  disableClose = false,
+  closePredicate,
+  closeOnNavigation = true,
   children,
 }: DialogRootProps): ReactElement {
   const id = useId();
@@ -33,21 +36,38 @@ function DialogRootImpl({
   const openedByTrigger = useRef(false);
 
   // Read by `dispatch`, which the dismissal listeners created once call.
-  const latest = useRef({ id, open, setOpen });
+  const latest = useRef({ id, open, setOpen, disableClose, closePredicate });
   useIsomorphicLayoutEffect(() => {
-    latest.current = { id, open, setOpen };
+    latest.current = { id, open, setOpen, disableClose, closePredicate };
   });
 
   const dispatch = useCallback((event: DialogEvent): boolean => {
     const state = latest.current;
-    const next = transitionDialog({ id: state.id, open: state.open }, event);
-    if (!next) return true;
+    const next = transitionDialog({ id: state.id, open: state.open, disableClose: state.disableClose }, event);
+    // A dismissal that `disableClose` refuses is refused for the layers below too, and the native dialog stays.
+    if (!next) return !(event.type === 'CONTENT.DISMISS' && state.open && state.disableClose);
+    if (!next.open && state.closePredicate?.({ reason: next.reason, event: event.event }) === false) return false;
     const accepted = state.setOpen(next.open, { reason: next.reason, event: event.event });
     if (accepted) openedByTrigger.current = next.open && next.reason === 'trigger';
     return accepted;
   }, []);
 
   const isOpen = useCallback(() => latest.current.open, []);
+
+  // A close on navigation (history back or forward, a hash change) skips `disableClose` and `closePredicate`.
+  useEffect(() => {
+    if (!closeOnNavigation || !open) return undefined;
+    const close = (event: Event): void => {
+      const state = latest.current;
+      state.setOpen(false, { reason: 'close', event });
+    };
+    window.addEventListener('popstate', close);
+    window.addEventListener('hashchange', close);
+    return () => {
+      window.removeEventListener('popstate', close);
+      window.removeEventListener('hashchange', close);
+    };
+  }, [closeOnNavigation, open]);
 
   const countTitle = useCallback((delta: 1 | -1) => {
     setTitles((count) => count + delta);
@@ -104,13 +124,15 @@ function DialogRootImpl({
 
 /**
  * A window over the page that asks the user to read or act. The Root renders no element; it gives the open state to
- * its parts. The dialog is modal unless `modal` is `false`.
+ * its parts. The dialog is modal unless `modal` is `false`. `modal` adds the backdrop and makes the rest of the page
+ * inert.
  *
  * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the dialog keep it.
  *
- * It closes on a Close, on Escape, on a press on the backdrop and when a `<form method="dialog">` inside it is
- * submitted. Escape closes only the top layer. A dialog that is not modal also closes when the focus moves outside
- * it.
+ * It closes on a Close, on Escape, on a press on the backdrop, when a `<form method="dialog">` inside it is
+ * submitted and, with `closeOnNavigation`, when the user goes back or forward in the history. `disableClose` keeps
+ * Escape and the backdrop from closing it, and `closePredicate` can refuse a close. Escape closes only the top
+ * layer. A dialog that is not modal also closes when the focus moves outside it.
  *
  * @example
  * <Dialog.Root>

@@ -7,9 +7,12 @@ describe('@cocokits/react/dialog import safety', () => {
     const entry = await import('../index');
     expect(Object.keys(entry).sort()).toEqual([
       'Dialog',
+      'DialogBody',
       'DialogClose',
       'DialogContent',
       'DialogDescription',
+      'DialogFooter',
+      'DialogHeader',
       'DialogRoot',
       'DialogTitle',
       'DialogTrigger',
@@ -20,6 +23,9 @@ describe('@cocokits/react/dialog import safety', () => {
     expect(entry.Dialog.Title).toBe(entry.DialogTitle);
     expect(entry.Dialog.Description).toBe(entry.DialogDescription);
     expect(entry.Dialog.Close).toBe(entry.DialogClose);
+    expect(entry.Dialog.Header).toBe(entry.DialogHeader);
+    expect(entry.Dialog.Body).toBe(entry.DialogBody);
+    expect(entry.Dialog.Footer).toBe(entry.DialogFooter);
     expect(
       [
         entry.DialogRoot,
@@ -28,6 +34,9 @@ describe('@cocokits/react/dialog import safety', () => {
         entry.DialogTitle,
         entry.DialogDescription,
         entry.DialogClose,
+        entry.DialogHeader,
+        entry.DialogBody,
+        entry.DialogFooter,
       ].map((part) => part.displayName),
     ).toEqual([
       'Dialog.Root',
@@ -36,6 +45,9 @@ describe('@cocokits/react/dialog import safety', () => {
       'Dialog.Title',
       'Dialog.Description',
       'Dialog.Close',
+      'Dialog.Header',
+      'Dialog.Body',
+      'Dialog.Footer',
     ]);
   });
 });
