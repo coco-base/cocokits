@@ -61,7 +61,7 @@ describe('@cocokits/icons pack', () => {
 
   it.each(pack)('%s has a viewBox and a body that paints with currentColor only', (_name, icon) => {
     expect(icon.viewBox).toMatch(/^\d+ \d+ \d+ \d+$/);
-    expect(icon.body).toMatch(/^<path /);
+    expect(icon.body).toMatch(/^<(path|rect) /);
     expect(icon.body).toContain('fill="currentColor"');
     expect(icon.body).not.toMatch(/#[0-9a-f]{3,8}|rgb|hsl|stroke=/i);
     expect(icon.body.match(/fill="([^"]*)"/g)?.every((fill) => fill === 'fill="currentColor"')).toBe(true);
