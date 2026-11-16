@@ -15,12 +15,17 @@ afterEach(() => {
 });
 
 describe('Accordion closed content', () => {
-  it('does not render closed content and renders it when the item opens', async () => {
+  it('keeps the element of closed content, hidden and empty, and fills it when the item opens', async () => {
     render(<Example />);
+    const closed = document.getElementById(trigger('Shipping').getAttribute('aria-controls') ?? '');
+    expect(closed?.hasAttribute('hidden')).toBe(true);
+    expect(closed?.getAttribute('data-state')).toBe('closed');
+    expect(closed?.childNodes).toHaveLength(0);
     expect(region('Shipping')).toBeNull();
     expect(screen.queryByText(/Orders leave/)).toBeNull();
     await userEvent.click(trigger('Shipping'));
     expect(region('Shipping')).not.toBeNull();
+    expect(screen.queryByText(/Orders leave/)).not.toBeNull();
   });
 
   it('keeps the element and its children with forceMount, hidden while closed', async () => {
@@ -39,13 +44,16 @@ describe('Accordion closed content', () => {
     });
   });
 
-  it('points aria-controls at the content only while the element is in the document', async () => {
+  it('always points aria-controls at the content, which keeps its element', async () => {
     render(<Example />);
-    expect(trigger('Shipping').hasAttribute('aria-controls')).toBe(false);
+    const id = trigger('Shipping').getAttribute('aria-controls') ?? '';
+    expect(document.getElementById(id)?.getAttribute('role')).toBe('region');
     await userEvent.click(trigger('Shipping'));
-    expect(trigger('Shipping').getAttribute('aria-controls')).toBe(region('Shipping')?.id);
+    expect(trigger('Shipping').getAttribute('aria-controls')).toBe(id);
+    expect(region('Shipping')?.id).toBe(id);
     await userEvent.click(trigger('Returns'));
-    expect(trigger('Shipping').hasAttribute('aria-controls')).toBe(false);
+    expect(trigger('Shipping').getAttribute('aria-controls')).toBe(id);
+    expect(document.getElementById(id)).not.toBeNull();
   });
 });
 
@@ -204,9 +212,12 @@ describe('Accordion animation and size', () => {
     expect(trigger('Shipping').getAttribute('aria-controls')).toBe(content?.id);
     finish();
     await waitFor(() => {
-      expect(content?.isConnected).toBe(false);
+      expect(content?.hasAttribute('hidden')).toBe(true);
     });
-    expect(trigger('Shipping').hasAttribute('aria-controls')).toBe(false);
+    // The element stays, without its children.
+    expect(content?.isConnected).toBe(true);
+    expect(content?.childNodes).toHaveLength(0);
+    expect(trigger('Shipping').getAttribute('aria-controls')).toBe(content?.id);
   });
 
   it('keeps force-mounted content shown until the exit animation has finished, then hides it', async () => {

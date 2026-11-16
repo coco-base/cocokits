@@ -55,7 +55,7 @@ describe('Accordion rendered contract', () => {
     expect(button.id).not.toContain('shipping');
     expect(content?.getAttribute('aria-labelledby')).toBe(button.id);
     expect(content?.getAttribute('role')).toBe('region');
-    expect(trigger('Returns').hasAttribute('aria-controls')).toBe(false);
+    expect(trigger('Returns').hasAttribute('aria-controls')).toBe(true);
   });
 
   it('renders only the data attributes the meta declares', () => {
@@ -201,7 +201,8 @@ describe('Accordion disabled', () => {
     const button = trigger('Returns');
     expect(button.hasAttribute('disabled')).toBe(true);
     expect(button.hasAttribute('data-disabled')).toBe(true);
-    expect(document.querySelectorAll('[data-disabled]')).toHaveLength(3);
+    // The item, its header, its trigger and its content.
+    expect(document.querySelectorAll('[data-disabled]')).toHaveLength(4);
     await userEvent.click(button);
     expect(onValueChange).not.toHaveBeenCalled();
     expect(openNames()).toEqual([]);

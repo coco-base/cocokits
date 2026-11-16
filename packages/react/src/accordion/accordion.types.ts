@@ -301,8 +301,9 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Whether the content stays rendered while the item is closed. The element then has the native `hidden`
-   * attribute, so a form control inside still takes part in the form.
+   * Whether the children of the content stay rendered while the item is closed. The element itself is always
+   * rendered, with the native `hidden` attribute while closed and no children unless this is set. Kept children are
+   * hidden, so a form control inside still takes part in the form.
    *
    * @defaultValue false
    * @cckSemantic accordion.content.forceMount
