@@ -1,4 +1,4 @@
-import { Location, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import {
   ApplicationRef,
   DOCUMENT,
@@ -21,6 +21,7 @@ import { Subject, defer, startWith, type Observable } from 'rxjs';
 import { CckDialogContainer, startDialogSession, type DialogSession } from './dialog-container';
 import { CCK_DIALOG_DEFAULT_OPTIONS, CckDialogConfig } from './dialog-config';
 import { deepActiveOrBody } from './dialog-focus';
+import { watchNavigation } from './dialog-navigation';
 import { CCK_DIALOG_DATA, CckDialogRef } from './dialog-ref';
 import { CckDialogRoot } from './dialog-root';
 
@@ -159,7 +160,7 @@ export class CckDialog {
         },
       }),
     );
-    const stopNavigation = this.watchNavigation(merged.closeOnNavigation, () => session()?.forceClose());
+    const stopNavigation = watchNavigation(this.injector, merged.closeOnNavigation, () => session()?.forceClose());
     this.track(ref as CckDialogRef, stopNavigation);
 
     // The focused element stands in for the trigger: it gives the container and receives focus back.
@@ -272,18 +273,6 @@ export class CckDialog {
       destroy: () => {
         component.destroy();
       },
-    };
-  }
-
-  /** Subscribes to the location for `closeOnNavigation`; returns the unsubscribe. */
-  private watchNavigation(mode: boolean | 'pop-state' | 'url-change' | undefined, onNavigate: () => void): () => void {
-    if (mode !== true && mode !== 'pop-state' && mode !== 'url-change') return () => undefined;
-    // Asked for here, in the browser only: `Location` reads the DOM when it is created.
-    const location = this.injector.get(Location);
-    if (mode === 'url-change') return location.onUrlChange(onNavigate);
-    const subscription = location.subscribe(onNavigate);
-    return () => {
-      subscription.unsubscribe();
     };
   }
 

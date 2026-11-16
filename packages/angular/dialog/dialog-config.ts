@@ -1,5 +1,6 @@
 import { InjectionToken, type Binding, type Injector, type ViewContainerRef } from '@angular/core';
 import type { Direction } from '@cocokits/angular-core';
+import type { DialogLength } from '@cocokits/machines/dialog';
 
 /**
  * Which element gets the focus when a dialog opens. Any other string is a selector, and the first element that matches it gets the focus.
@@ -65,6 +66,34 @@ export class CckDialogConfig<D = unknown> {
    * @param componentInstance - The opened component, `null` for a template.
    */
   closePredicate?: ((result: unknown, config: CckDialogConfig<D>, componentInstance: unknown) => boolean) | undefined;
+
+  /**
+   * Whether the dialog is modal. A modal dialog has a backdrop, makes the rest of the page inert and stops the page from scrolling.
+   * @remarks A dialog that is not modal opens as a native non-modal `<dialog>`. It has no backdrop and no `aria-modal`, and the page stays usable. It closes on Escape, on a press outside and when the focus moves outside it.
+   * @defaultValue true
+   */
+  modal?: boolean | undefined = true;
+
+  /** The width of the dialog. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. The size members are the one inline style a part writes. */
+  width?: DialogLength | undefined;
+
+  /** The height of the dialog. A number is px, a string is any CSS length. */
+  height?: DialogLength | undefined;
+
+  /** The smallest width of the dialog. A number is px, a string is any CSS length. */
+  minWidth?: DialogLength | undefined;
+
+  /** The smallest height of the dialog. A number is px, a string is any CSS length. */
+  minHeight?: DialogLength | undefined;
+
+  /** The largest width of the dialog. A number is px, a string is any CSS length. */
+  maxWidth?: DialogLength | undefined;
+
+  /** The largest height of the dialog. A number is px, a string is any CSS length. */
+  maxHeight?: DialogLength | undefined;
+
+  /** One class or a list of classes added to the `<dialog>`. When not set, no class is added. */
+  panelClass?: string | readonly string[] | undefined;
 
   /** The data for the opened view. A component reads it with `inject(CCK_DIALOG_DATA)`, and a template gets it as its `$implicit` value. */
   data?: D | null | undefined = null;

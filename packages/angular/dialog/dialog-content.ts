@@ -24,6 +24,8 @@ import { injectCckDialogRoot } from './dialog-root';
   exportAs: 'cckDialogContent',
   host: {
     '[class]': 'props().class',
+    '[style]': 'props().style',
+    '[attr.role]': 'props().role ?? null',
     '[id]': 'attrs()?.id ?? props().id',
     '[attr.aria-labelledby]': 'labelledBy()',
     '[attr.aria-describedby]': 'describedBy()',
@@ -60,13 +62,14 @@ export class CckDialogContent {
     const renderer = inject(Renderer2);
     effect(() => {
       const attrs = this.attrs();
-      if (!attrs) return;
       const values: Record<string, string | null> = {
-        role: attrs.role === 'alertdialog' ? 'alertdialog' : null,
-        'aria-label': attrs.label ?? null,
-        'aria-modal': attrs.modal ? 'true' : null,
-        autofocus: attrs.autofocus ? '' : null,
+        // The native focusing steps focus the `<dialog>` itself.
+        autofocus: this.root._autoFocusDialog() ? '' : null,
       };
+      if (attrs) {
+        values['aria-label'] = attrs.label ?? null;
+        values['aria-modal'] = attrs.ariaModal ? 'true' : null;
+      }
       for (const [name, value] of Object.entries(values)) {
         if (value === null) renderer.removeAttribute(element, name);
         else renderer.setAttribute(element, name, value);

@@ -2,7 +2,7 @@ import { vi } from 'vitest';
 
 /**
  * jsdom has no Popover API and no modal `dialog`. Stubs `showPopover` (shows the host), `showModal` (opens the
- * dialog and marks it `data-modal`), `close` (closes it and fires `close`, as the platform does) and the `:modal`
+ * dialog and marks it `data-modal`), `show` (opens it without the mark), `close` (closes it and fires `close`, as the platform does) and the `:modal`
  * selector the portal asks. Nothing else is faked; the inert page and the top layer are not emulated. Call it in
  * `beforeEach` and `vi.restoreAllMocks()` in `afterEach`.
  */
@@ -26,6 +26,10 @@ export function stubOverlayApis(): void {
     this.setAttribute('open', '');
     this.setAttribute('data-modal', '');
     // The native focusing steps: an `autofocus` element, else the first focusable one.
+    this.querySelector<HTMLElement>('[autofocus], a[href], button, input, select, textarea')?.focus();
+  };
+  HTMLDialogElement.prototype.show = function (this: HTMLDialogElement) {
+    this.setAttribute('open', '');
     this.querySelector<HTMLElement>('[autofocus], a[href], button, input, select, textarea')?.focus();
   };
   HTMLDialogElement.prototype.close = function (this: HTMLDialogElement) {

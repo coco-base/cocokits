@@ -14,7 +14,8 @@ import { applyAutoFocus } from './dialog-focus';
 import type { CckDialogRef } from './dialog-ref';
 import { CckDialogContent } from './dialog-content';
 import { CckDialogPortal } from './dialog-portal';
-import { CckDialogRoot, type DialogChangeDetails } from './dialog-root';
+import { CckDialogRoot } from './dialog-root';
+import type { DialogChangeDetails } from './dialog-types';
 
 /**
  * The hidden root and the `<dialog>` of a dialog that `CckDialog.open` renders: the declarative Dialog without
@@ -26,7 +27,23 @@ import { CckDialogRoot, type DialogChangeDetails } from './dialog-root';
 @Component({
   selector: 'cck-dialog-container',
   imports: [CckDialogPortal, CckDialogContent],
-  hostDirectives: [{ directive: CckDialogRoot, inputs: ['closePredicate'] }],
+  hostDirectives: [
+    {
+      directive: CckDialogRoot,
+      inputs: [
+        'closePredicate',
+        'modal',
+        'role',
+        'autoFocus',
+        'width',
+        'height',
+        'minWidth',
+        'minHeight',
+        'maxWidth',
+        'maxHeight',
+      ],
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-template cckDialogPortal>
@@ -93,6 +110,11 @@ export function startDialogSession<D, T, R>(options: DialogSessionOptions<D, T, 
     return true;
   };
   container.setInput('closePredicate', decide);
+  container.setInput('modal', config.modal ?? true);
+  container.setInput('role', config.role ?? 'dialog');
+  for (const member of ['width', 'height', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight'] as const) {
+    container.setInput(member, config[member]);
+  }
 
   const finish = (): void => {
     if (finished) return;
@@ -106,13 +128,12 @@ export function startDialogSession<D, T, R>(options: DialogSessionOptions<D, T, 
 
   root._serviceAttrs.set({
     id: ref.id,
-    role: config.role,
     label: config.ariaLabel,
     labelledBy: ids(config.ariaLabelledBy),
     describedBy: ids(config.ariaDescribedBy),
-    modal: config.ariaModal,
-    autofocus: config.autoFocus === 'dialog' || config.autoFocus === false,
+    ariaModal: config.ariaModal,
   });
+  container.setInput('autoFocus', config.autoFocus);
 
   const restore = config.restoreFocus;
   root._hooks = {
@@ -129,6 +150,12 @@ export function startDialogSession<D, T, R>(options: DialogSessionOptions<D, T, 
     },
     beforeShow: (dialog) => {
       shown = true;
+      const panelClass = config.panelClass;
+      if (panelClass !== undefined) {
+        for (const name of typeof panelClass === 'string' ? panelClass.split(/\s+/) : panelClass) {
+          if (name !== '') renderer.addClass(dialog, name);
+        }
+      }
       dialog.append(...nodes);
       zone.outside(() =>
         renderer.listen(dialog, 'keydown', (event: KeyboardEvent) => {

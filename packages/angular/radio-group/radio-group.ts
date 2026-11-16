@@ -81,11 +81,19 @@ export interface CckRadioGroupRegistration {
     '[attr.role]': '_parts().root.role',
     '[attr.name]': 'null',
     '[attr.form]': 'null',
+    '[attr.value]': 'null',
+    '[attr.disabled]': 'null',
+    '[attr.required]': 'null',
+    '[attr.touched]': 'null',
+    '[attr.orientation]': 'null',
+    '[attr.loop]': 'null',
+    '[attr.aria-invalid]': '_parts().root["aria-invalid"] ?? null',
     '[attr.aria-required]': '_parts().root["aria-required"] ?? null',
     '[attr.aria-disabled]': '_parts().root["aria-disabled"] ?? null',
     '[attr.aria-orientation]': '_parts().root["aria-orientation"] ?? null',
     '[attr.data-disabled]': '_parts().root["data-disabled"] ?? null',
     '[attr.data-required]': '_parts().root["data-required"] ?? null',
+    '[attr.data-invalid]': '_parts().root["data-invalid"] ?? null',
     '[attr.data-orientation]': '_parts().root["data-orientation"] ?? null',
     '(keydown)': 'onKeyDown($event)',
     '(focusout)': 'onFocusOut($event)',
@@ -156,6 +164,15 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   readonly loop = input(true, { transform: booleanAttribute });
 
   /**
+   * Whether the user has left the group. Signal Forms sets this member. When not set, the group becomes touched after the focus left it once.
+   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched.
+   * @cckSemantic radio-group.touched
+   * @cckGroup forms
+   * @defaultValue false
+   */
+  readonly touched = input(false, { transform: booleanAttribute });
+
+  /**
    * Emits when the focus leaves the group. Signal Forms listens to it to mark the field as touched.
    * @remarks It does not emit when the focus moves between the radios.
    * @cckGroup forms
@@ -177,6 +194,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     },
   );
 
+  private readonly touchedState = linkedSignal(() => this.touched());
   private readonly generatedName = inject(IdGenerator).getId(radioGroupAnatomy.classes.root);
   private readonly direction = inject(CckDirection);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -196,6 +214,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     disabled: this.disabled(),
     required: this.required(),
     form: this.form(),
+    touched: this.touchedState(),
     orientation: this.orientation(),
     loop: this.loop(),
     dir: this.direction.dir(),
@@ -279,7 +298,9 @@ export class CckRadioGroup implements FormValueControl<string | null> {
 
   protected onFocusOut(event: FocusEvent): void {
     const next = event.relatedTarget;
-    if (!(next instanceof Node) || !this.host.contains(next)) this.touch.emit();
+    if (next instanceof Node && this.host.contains(next)) return;
+    this.touchedState.set(true);
+    this.touch.emit();
   }
 
   private send(event: RadioGroupEvent): void {
