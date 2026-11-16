@@ -15,8 +15,8 @@ import type { CheckControlProps } from '../internal/check-control.types';
  * `aria-describedby` ends with the ids of the hints of the field, then of its errors. `aria-invalid="true"` appears
  * only while the control is invalid and was touched, or the form was submitted.
  *
- * Inside a `CheckboxGroup`, the group owns the checked state: the checkbox is checked while its `value` is in the list of
- * the group, its own `v-model` is ignored, and it takes the `name` and `disabled` of the group. The group, not the
+ * Inside a `CheckboxGroup`, the group owns the checked state. The checkbox is checked while its `value` is in the list
+ * of the group. Its own `v-model` is ignored, and it takes the `name` and `disabled` of the group. The group, not the
  * checkbox, is the control of a FormField around it.
  *
  * `indeterminate` goes one way: the component never changes it. A parent that owns the mixed state computes it again

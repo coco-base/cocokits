@@ -16,7 +16,7 @@ export type { ChipListEntry, ChipListItem };
  * that is already in the list is not added twice. Enter on an empty text box does nothing, so the form submits as
  * usual. Tab reaches each remove button or toggle, then the text box. A remove button removes the chip and moves the
  * focus to the text box. Backspace in an empty text box moves the focus to the last chip. Backspace or Delete on a
- * focused chip removes it, and the focus goes to the previous chip (Delete: the next one), else to the text box.
+ * focused chip removes it. The focus goes to the previous chip (Delete: the next one), else to the text box.
  *
  * Inside a FormField the text box is the control of the field: the Label names it, and the hints and errors describe
  * it. Outside a FormField, give the list `aria-label` or `aria-labelledby`; they go to the text box, as do `id`,
@@ -195,7 +195,10 @@ export interface ChipListProps {
 export interface ChipListEmits {
   /**
    * Emits the new entries for `v-model` when the user adds, removes or toggles a chip, and when a reset of the form
-   * restores the default. It is the only change event, and it carries the entries only. It never fires when your code sets
+   * restores the default. It is the only change event, and it carries the entries only.
+   *
+   * @example
+   * <ChipList aria-label="Toppings" :model-value="toppings" @update:model-value="(next) => (toppings = next)" /> It never fires when your code sets
    * the values.
    *
    * @cckSemantic chip-list.valueChange

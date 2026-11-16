@@ -92,7 +92,7 @@ export interface DialogRootProps {
    */
   readonly defaultOpen?: boolean | undefined;
   /**
-   * Whether the dialog is modal. `modal` adds the backdrop and makes the page inert: the dialog is the native modal
+   * Whether the dialog is modal. `modal` adds the backdrop and makes the page inert. The dialog is the native modal
    * `<dialog>`, the page behind it is locked, and the focus stays inside.
    *
    * With `false`, the dialog has no backdrop and no `aria-modal`. The page stays usable, and the focus can leave.
@@ -134,9 +134,11 @@ export interface DialogRootProps {
    */
   readonly disableClose?: boolean | undefined;
   /**
-   * A function that decides whether a close that the dialog starts happens. Return `false` to keep it open. It runs
-   * for the Close part, a `<form method="dialog">`, Escape and a press on the backdrop, after `disableClose`. It does
-   * not run when your code changes `v-model:open`, nor for a close on navigation. When not set, every close happens.
+   * A function that decides whether a close that the dialog starts happens. Return `false` to keep it open. When not
+   * set, every close happens.
+   *
+   * @remarks It runs for the Close part, a `<form method="dialog">`, Escape and a press on the backdrop, after
+   * `disableClose`. It does not run when your code changes `v-model:open`, nor for a close on navigation.
    *
    * @example
    * <DialogRoot :close-predicate="({ reason }) => reason !== 'escape'">...</DialogRoot>
@@ -168,8 +170,10 @@ export interface DialogRootProps {
    */
   readonly closeOnNavigation?: DialogCloseOnNavigation | undefined;
   /**
-   * The width of the content. A number is px; a string is a CSS length such as `'40rem'`. This is the one inline
-   * style a base part writes, and it is the same in every framework. When not set, the theme decides.
+   * The width of the content. A number is px; a string is a CSS length such as `'40rem'`. When not set, the theme
+   * decides.
+   *
+   * @remarks The size members are the one inline style a base part writes.
    *
    * @cckSemantic dialog.width
    */

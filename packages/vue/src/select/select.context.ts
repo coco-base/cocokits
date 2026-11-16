@@ -83,7 +83,7 @@ export interface SelectContextValue<T = unknown> {
   readonly modelValue: ComputedRef<unknown>;
   /** The label of each selected value, in value order; none while nothing is selected. */
   readonly selectedLabels: ComputedRef<readonly string[]>;
-  /** The trigger text: the selected labels joined with `, `. */
+  /** The trigger text: the label of the first selected value; the others are the count. */
   readonly valueText: ComputedRef<string>;
   /** Hands an event of a part to the machine and applies the changes it accepts. */
   readonly send: (event: SelectEvent) => void;

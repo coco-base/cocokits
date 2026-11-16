@@ -4,9 +4,9 @@ import type { AsTag } from '@cocokits/vue-core';
 /**
  * One item of the menu that is a checkbox. It renders a `<div>` with `role="menuitemcheckbox"` and `aria-checked`. Bind the state with `v-model`.
  *
- * Use it instead of a `Checkbox` or a `Radio` inside a menu. It gives the roles a screen reader expects in a menu,
- * keeps the focus in the menu, follows the menu keys, and runs a press once: a native checkbox or radio inside an item
- * would act twice on one click.
+ * Use it instead of a `Checkbox` or a `Radio` inside a menu. It gives the roles a screen reader expects in a menu.
+ * It keeps the focus in the menu and follows the menu keys. It runs a press once, where a native checkbox or radio
+ * inside an item would act twice on one click.
  *
  * A click, Enter or Space toggles it. Enter and a click close the menu, after `select`. Space keeps the menu open. A
  * disabled item stays focusable and changes nothing.
@@ -89,7 +89,12 @@ export interface MenuCheckboxItemEmits {
   'update:modelValue': [checked: boolean];
   /**
    * Emits when the item is pressed, with a cancelable event that is not the click. Call `preventDefault()` to keep the
-   * menu open. The state still changes. A disabled item emits nothing.
+   * menu open.
+   *
+   * @remarks The state still changes. A disabled item emits nothing.
+   *
+   * @example
+   * <MenuCheckboxItem v-model="showGrid" @select="(event) => event.preventDefault()">Show grid</MenuCheckboxItem>
    *
    * @cckSemantic menu.item.activate
    * @cckParity The Item part emits it.
@@ -131,7 +136,8 @@ export interface MenuRadioGroupProps {
    */
   readonly modelModifiers?: Record<string, true> | undefined;
   /**
-   * The start value of a group whose `v-model` is not bound. It is read once, when the group is created.
+   * The start value of a group whose `v-model` is not bound. It is read once, when the group is created. When not set,
+   * no radio item starts checked.
    *
    * @cckSemantic none
    * @cckParity The value the component starts with.
@@ -175,9 +181,9 @@ export interface MenuRadioGroupEmits {
 /**
  * One item of a `MenuRadioGroup`. It renders a `<div>` with `role="menuitemradio"` and `aria-checked`. It is checked while its `value` is the value of the group.
  *
- * Use it instead of a `Checkbox` or a `Radio` inside a menu. It gives the roles a screen reader expects in a menu,
- * keeps the focus in the menu, follows the menu keys, and runs a press once: a native checkbox or radio inside an item
- * would act twice on one click.
+ * Use it instead of a `Checkbox` or a `Radio` inside a menu. It gives the roles a screen reader expects in a menu.
+ * It keeps the focus in the menu and follows the menu keys. It runs a press once, where a native checkbox or radio
+ * inside an item would act twice on one click.
  *
  * A click or Enter checks it and closes the menu, after `select`. Space checks it and keeps the menu open.
  *
@@ -230,7 +236,12 @@ export interface MenuRadioItemProps {
 export interface MenuRadioItemEmits {
   /**
    * Emits when the item is pressed, with a cancelable event that is not the click. Call `preventDefault()` to keep the
-   * menu open. The value still changes. A disabled item emits nothing.
+   * menu open.
+   *
+   * @remarks The value still changes. A disabled item emits nothing.
+   *
+   * @example
+   * <MenuRadioItem value="name" @select="(event) => event.preventDefault()">Name</MenuRadioItem>
    *
    * @cckSemantic menu.item.activate
    * @cckParity The Item part emits it.

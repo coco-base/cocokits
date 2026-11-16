@@ -5,9 +5,9 @@ import type { AsTag, FocusOutsideEvent, PointerDownOutsideEvent } from '@cocokit
  * Groups a sub-trigger and its sub-content, and holds the open state of the submenu. It renders no element: write it inside a `MenuContent`, as an item of the menu, and put the parts directly inside it. Bind the state with `v-model:open`.
  *
  * The submenu opens when the pointer rests on the sub-trigger, and with ArrowRight (ArrowLeft in right-to-left), Enter
- * and Space on it. It closes when the pointer moves to another item of the parent menu, and with ArrowLeft (ArrowRight in
- * right-to-left) and Escape inside it, and the focus goes back to the sub-trigger. A press on an item closes the whole
- * menu.
+ * and Space on it. It closes when the pointer moves to another item of the parent menu. It also closes with ArrowLeft
+ * (ArrowRight in right-to-left) and Escape, and the focus goes back to the sub-trigger. A press on an item closes the
+ * whole menu.
  *
  * @example
  * <MenuSub>
@@ -62,7 +62,9 @@ export interface MenuSubEmits {
 }
 
 /**
- * The item of the menu that opens a submenu. It renders a `<div>` with `role="menuitem"`, `aria-haspopup="menu"` and `aria-expanded`. Write it inside a `MenuSub`. A press on it opens the submenu and does not close the menu.
+ * The item of the menu that opens a submenu. It renders a `<div>` with `role="menuitem"`, `aria-haspopup="menu"` and `aria-expanded`. Write it inside a `MenuSub`.
+ *
+ * @remarks A press on it opens the submenu and does not close the menu.
  *
  * @example
  * <MenuSubTrigger>Share</MenuSubTrigger>
@@ -125,8 +127,8 @@ export interface MenuSubContentProps {
    */
   readonly sideOffset?: number | undefined;
   /**
-   * How far, in pixels, the content moves along the edge of the sub-trigger, in addition to the move that places it
-   * at the end of the sub-trigger.
+   * How far, in pixels, the content moves along the edge of the sub-trigger. It adds to the move that places the
+   * content at the end of the sub-trigger.
    *
    * @cckSemantic none
    * @cckParity Not available in every framework.
@@ -162,6 +164,9 @@ export interface MenuSubContentEmits {
   /**
    * Emits before Escape closes the submenu, with the keydown event. Call `preventDefault()` to keep it open.
    *
+   * @example
+   * <MenuSubContent @escape-key-down="(event) => saving && event.preventDefault()">...</MenuSubContent>
+   *
    * @cckSemantic none
    * @cckParity The Content part emits it.
    */
@@ -170,6 +175,9 @@ export interface MenuSubContentEmits {
    * Emits before a press outside closes the submenu. The `detail.originalEvent` of the event is the press. Call
    * `preventDefault()` to keep it open.
    *
+   * @example
+   * <MenuSubContent @pointer-down-outside="(event) => event.preventDefault()">...</MenuSubContent>
+   *
    * @cckSemantic none
    * @cckParity The Content part emits it.
    */
@@ -177,6 +185,9 @@ export interface MenuSubContentEmits {
   /**
    * Emits after `pointerDownOutside`, with the same event, before the submenu closes. Call `preventDefault()` to keep
    * it open.
+   *
+   * @example
+   * <MenuSubContent @interact-outside="(event) => dirty && event.preventDefault()">...</MenuSubContent>
    *
    * @cckSemantic none
    * @cckParity The Content part emits it.

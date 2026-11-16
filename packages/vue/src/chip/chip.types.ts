@@ -6,8 +6,8 @@ import type { AsTag } from '@cocokits/vue-core';
  * `<div>`, and the content you write is the text of the chip. With `removable`, a native button follows the text.
  *
  * Set `selected` (or `defaultSelected`) to make the chip selectable. The content is then a toggle `<button>` with
- * `aria-pressed` and `data-selected`, and a check part shows the theme icon of the part `check`, else `check`, while
- * the chip is selected. The label of the toggle never changes. The remove button is a sibling of the toggle.
+ * `aria-pressed` and `data-selected`. A check part shows while the chip is selected, with the theme icon of the part
+ * `check`, else `check`. The label of the toggle never changes. The remove button is a sibling of the toggle.
  *
  * @remarks The chip never removes itself: the button emits `remove`, and your code takes the chip away.
  *
@@ -65,8 +65,10 @@ export interface ChipProps {
    */
   readonly selectedModifiers?: Record<string, true> | undefined;
   /**
-   * The start selected state of a chip whose `v-model:selected` is not bound. It is read once, when the chip is
-   * created. Setting it makes the chip selectable.
+   * The start selected state of a chip whose `v-model:selected` is not bound. Setting it makes the chip selectable.
+   * When not set, the chip is not selectable until `selected` is.
+   *
+   * @remarks It is read once, when the chip is created.
    *
    * @cckSemantic none
    * @cckParity The value the component starts with.
@@ -105,6 +107,9 @@ export interface ChipEmits {
   /**
    * Emits the new selected state for `v-model:selected` when the user presses the toggle of a selectable chip, with a
    * click, Enter or Space. It never fires when your code sets `selected`.
+   *
+   * @example
+   * <Chip :selected="vegan" aria-label="Vegan" @update:selected="(next) => (vegan = next)">Vegan</Chip>
    *
    * @cckSemantic chip.selectedChange
    * @cckParity The `update:selected` event is the only change event; it carries the value only.

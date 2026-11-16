@@ -34,9 +34,9 @@ export interface SelectHeaderProps {
 }
 
 /**
- * The search box of a Select with `filter`. It renders a native `<input type="search">` with `role="combobox"`, written inside the `SelectHeader`. The focus stays in it while the list is open, and `aria-activedescendant` points at the highlighted option. Typing keeps the options whose text contains the query, ignoring case; the query clears when the list closes. ArrowDown and ArrowUp move the highlight, Enter chooses it, Escape closes the list and returns the focus to the trigger, and Tab closes it too.
+ * The search box of a Select with `filter`. It renders a native `<input type="search">` with `role="combobox"`, written inside the `SelectHeader`. It renders nothing without `filter`.
  *
- * Its name is "Search". Give it `aria-label` for another name. It renders nothing without `filter`.
+ * @remarks The focus stays in it while the list is open, and `aria-activedescendant` points at the highlighted option. Typing keeps the options whose text contains the query, ignoring case. The query clears when the list closes. ArrowDown and ArrowUp move the highlight, and Enter chooses it. Escape closes the list and returns the focus to the trigger, and Tab closes it too. Its name is "Search"; give it `aria-label` for another name.
  *
  * @example
  * <SelectSearch aria-label="Search dishes" />
@@ -100,7 +100,9 @@ export interface SelectEmptyProps {
 }
 
 /**
- * The area at the bottom of the list, written inside `SelectContent` after the items. It renders a `<div>` that holds your own actions, such as a button or a link. A press in it does not close the list. It adds no role.
+ * The area at the bottom of the list, written inside `SelectContent` after the items. It renders a `<div>` that holds your own actions, such as a button or a link. It adds no role.
+ *
+ * @remarks A press in it does not close the list.
  *
  * @example
  * <SelectFooter><button type="button">Add a dish</button></SelectFooter>

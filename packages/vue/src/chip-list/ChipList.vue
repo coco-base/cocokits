@@ -69,8 +69,10 @@ defineEmits<ChipListEmits>();
 defineSlots<{
   /**
    * The one child the root merges onto, used with `asChild` only. The list puts its chips and its text box inside it.
-   * Without `asChild` the list has no content slot, because it renders a chip for each value of `v-model`, and this
-   * slot is ignored. When not set, the list renders its own element.
+   * When not set, the list renders its own element.
+   *
+   * @remarks Without `asChild` the list has no content slot. It renders a chip for each value of `v-model`, and this
+   * slot is ignored.
    *
    * @example
    * <ChipList as-child v-model="toppings" aria-label="Toppings"><section /></ChipList>
