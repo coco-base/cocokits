@@ -4,12 +4,12 @@ import { provideServerRendering, renderApplication } from '@angular/platform-ser
 import { CckFormField } from '@cocokits/angular/form-field';
 import { CckInput } from '@cocokits/angular/input';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { CckFormFieldTheme } from '../src/index';
+import { CckFormFieldTheme, CckInputTheme } from '../src/index';
 import { providers, strip } from './helpers';
 
 @Component({
   selector: 'app-root',
-  imports: [CckFormField, CckFormFieldTheme, CckInput],
+  imports: [CckFormField, CckFormFieldTheme, CckInput, CckInputTheme],
   template: `
     <cck-form-field [size]="large" id="a"><input cckInput aria-label="Email" /></cck-form-field>
     <cck-form-field id="b"><input cckInput aria-label="Email" /></cck-form-field>
@@ -54,9 +54,12 @@ describe('theme FormField hydration', () => {
     expect(document.getElementById('a')).toBe(first);
     expect(strip(document.body.innerHTML)).toBe(before);
     expect(logged).toEqual([]);
+    // Root, input wrapper and input (it takes the size of its field); the second field has none and shows the default.
     expect([...document.querySelectorAll('[data-size]')].map((el) => el.getAttribute('data-size'))).toEqual([
       'lg',
       'lg',
+      'lg',
+      'md',
       'md',
       'md',
     ]);

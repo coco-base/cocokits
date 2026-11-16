@@ -1,6 +1,9 @@
-import { Directive, forwardRef, input } from '@angular/core';
+import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { CckAvatarGroupTheme } from './avatar-group-theme';
+import { CckAvatarLabelTheme } from './avatar-label-theme';
+import { inherited } from './inherit';
 
 type AvatarOptions = CocokitsThemeConfig['components']['avatar'];
 
@@ -12,9 +15,9 @@ export type CckAvatarColor = AvatarOptions['color']['values'][number];
 /**
  * The cocokits theme options of the Avatar. It sits on the same element as the base component (`cck-avatar`) and
  * provides the values to it; the base renders the `data-*` attributes on the root. Each option resolves in order: the
- * input, then the `provideCckTheme` override, then the config default; `null` removes the attribute. The theme needs
- * `provideCckTheme`; without it no theme attribute renders. Inside a `cck-avatar-group` or `cck-avatar-label`, the
- * size of the container wins.
+ * input, then (for `size`) the one of the `cck-avatar-label` or `cck-avatar-group` around it, then the
+ * `provideCckTheme` override, then the config default; `null` removes the attribute. The theme needs
+ * `provideCckTheme`; without it no theme attribute renders.
  *
  * @example
  * <cck-avatar size="lg">
@@ -29,7 +32,7 @@ export type CckAvatarColor = AvatarOptions['color']['values'][number];
     provideThemeOptions(
       'avatar',
       forwardRef(() => CckAvatarTheme),
-      (theme: CckAvatarTheme) => ({ size: theme.size, color: theme.color }),
+      (theme: CckAvatarTheme) => ({ size: theme._size, color: theme.color }),
     ),
   ],
 })
@@ -38,6 +41,10 @@ export class CckAvatarTheme {
    * Side of the circle and size of the fallback text.
    */
   readonly size = input<CckAvatarSize | null>();
+  private readonly label = inject(CckAvatarLabelTheme, { optional: true });
+  private readonly group = inject(CckAvatarGroupTheme, { optional: true });
+  /** The size of the avatar: its own, else the one of its label, else the one of its group. @internal */
+  readonly _size = computed(() => inherited(this.size(), this.label?.size(), this.group?.size()));
   /**
    * Color family of the fallback, rendered as `data-cck-color`.
    */

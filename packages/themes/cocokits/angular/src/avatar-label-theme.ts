@@ -39,7 +39,7 @@ export type CckAvatarLabelTextLayout = AvatarLabelOptions['textLayout']['values'
 })
 export class CckAvatarLabelTheme {
   /**
-   * Gap, text size and the size of its direct avatar; it wins over its own size.
+   * Gap and text size; its avatar that sets no size of its own takes its size.
    */
   readonly size = input<CckAvatarLabelSize | null>();
   /**

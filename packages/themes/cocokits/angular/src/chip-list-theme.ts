@@ -1,6 +1,8 @@
-import { Directive, forwardRef, input } from '@angular/core';
+import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { CckFormFieldTheme } from './form-field-theme';
+import { inherited } from './inherit';
 
 type ChipListOptions = CocokitsThemeConfig['components']['chip-list'];
 
@@ -10,9 +12,10 @@ export type CckChipListSize = ChipListOptions['size']['values'][number];
 /**
  * The cocokits theme options of the Chip list. It sits on the same element as the base component
  * (`cck-chip-list`) and provides the value to it; the base renders the `data-size` attribute on the root, and the
- * theme sizes the chips and the text box from it. The option resolves in order: the input, then the
- * `provideCckTheme` override, then the config default; `null` removes the attribute. Inside a `cck-form-field` the
- * field sets the size. The theme needs `provideCckTheme`; without it no theme attribute renders.
+ * theme sizes the row and the text box from it. The chips the list renders keep the size of a chip. The option
+ * resolves in order: the input, then the `size` of the `cck-form-field` around it, then the `provideCckTheme`
+ * override, then the config default; `null` removes the attribute. The theme needs `provideCckTheme`; without it no
+ * theme attribute renders.
  *
  * @example
  * <cck-chip-list size="lg" aria-label="Toppings" [(value)]="toppings" />
@@ -24,13 +27,16 @@ export type CckChipListSize = ChipListOptions['size']['values'][number];
     provideThemeOptions(
       'chip-list',
       forwardRef(() => CckChipListTheme),
-      (theme: CckChipListTheme) => ({ size: theme.size }),
+      (theme: CckChipListTheme) => ({ size: theme._size }),
     ),
   ],
 })
 export class CckChipListTheme {
   /**
-   * Height of its chips and its text box.
+   * Height of its text box and its row.
    */
   readonly size = input<CckChipListSize | null>();
+  private readonly field = inject(CckFormFieldTheme, { optional: true });
+  /** The size of the list: its own, else the one of its field. The chips of a future composition read it. @internal */
+  readonly _size = computed(() => inherited(this.size(), this.field?.size()));
 }
