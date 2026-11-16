@@ -240,6 +240,13 @@ describe('design match pairs (WCAG 1.4.3 text 4.5:1, 1.4.11 non-text 3:1)', () =
         ['Leading and Trailing text on the addon fill', 'on-surface/2', 'surface/2'],
         ['Menu disabled item', 'disabled/on-surface', 'surface/1'],
         ['Select disabled group label', 'disabled/on-surface', 'surface/1'],
+        ['Menu supporting text, shortcut and group label', 'text/3', 'surface/1'],
+        ['Menu supporting text and shortcut on the highlight and checked fill', 'text/3', 'surface/2'],
+        ['Menu danger item', 'danger/text', 'surface/1'],
+        ['Menu danger item on the highlight and checked fill', 'danger/text', 'surface/2'],
+        ['Select empty message and count', 'text/3', 'surface/1'],
+        ['Select option description', 'text/2', 'surface/1'],
+        ['Select option description on the highlight', 'text/2', 'surface/2'],
       ].map(([name, text, fill]) => [name, text, fill, mode] as const),
     ),
   )('text: %s, %s on %s in %s mode', (name, text, fill, mode) => {

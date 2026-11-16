@@ -32,6 +32,21 @@ export const ACCEPTED: Readonly<Record<string, { readonly ratio: string; readonl
   'design text: Avatar label description Light': { ratio: '4.48', decision: 'Q2' },
   'design text: Menu disabled item Light': { ratio: '4.48', decision: 'Q2' },
   'design text: Select disabled group label Light': { ratio: '4.48', decision: 'Q2' },
+  // The secondary text of the new parts (Menu, Select) is text/3, as the design says: the same accepted pair as above.
+  'design text: Menu supporting text, shortcut and group label Light': { ratio: '4.48', decision: 'Q2' },
+  'design text: Menu supporting text, shortcut and group label Dark': { ratio: '3.37', decision: 'Q2' },
+  'design text: Menu supporting text and shortcut on the highlight and checked fill Light': {
+    ratio: '4.02',
+    decision: 'Q2',
+  },
+  'design text: Menu supporting text and shortcut on the highlight and checked fill Dark': {
+    ratio: '2.19',
+    decision: 'Q2',
+  },
+  'design text: Menu danger item Dark': { ratio: '3.42', decision: 'Q2' },
+  'design text: Menu danger item on the highlight and checked fill Dark': { ratio: '2.22', decision: 'Q2' },
+  'design text: Select empty message and count Light': { ratio: '4.48', decision: 'Q2' },
+  'design text: Select empty message and count Dark': { ratio: '3.37', decision: 'Q2' },
   'design text: placeholder Dark': { ratio: '3.37', decision: 'Q2' },
   'design text: placeholder on the hover and read-only fill Dark': { ratio: '2.19', decision: 'Q2' },
   'design text: Tabs disabled label on its fill Dark': { ratio: '4.22', decision: 'Q2' },
