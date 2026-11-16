@@ -86,14 +86,15 @@ describe('Accordion rendered contract', () => {
     }
   });
 
-  it('keeps closed content and its children in the DOM, hidden, and shows the open one', async () => {
+  it('keeps the closed content element, hidden and without children, and fills the open one', async () => {
     const user = userEvent.setup();
     await render(Host);
     expect(region('Shipping').hidden).toBe(true);
-    expect(region('Shipping').textContent).toContain('Shipping body');
+    expect(region('Shipping').textContent).toBe('');
     expect(region('Shipping').getAttribute('data-state')).toBe('closed');
     await user.click(trigger('Shipping'));
     expect(region('Shipping').hidden).toBe(false);
+    expect(region('Shipping').textContent).toContain('Shipping body');
     expect(region('Shipping').getAttribute('data-state')).toBe('open');
   });
 
@@ -136,13 +137,13 @@ describe('Accordion open state', () => {
     ]);
   });
 
-  it('single mode can always close the open item', async () => {
+  it('single mode closes the open item by a second press only with collapsible', async () => {
     const user = userEvent.setup();
     await render(Host);
     await user.click(trigger('Shipping'));
     await user.click(trigger('Shipping'));
-    expect(expanded('Shipping')).toBe('false');
-    expect(trigger('Shipping').hasAttribute('aria-disabled')).toBe(false);
+    expect(expanded('Shipping')).toBe('true');
+    expect(trigger('Shipping').getAttribute('aria-disabled')).toBe('true');
   });
 
   it('multi mode toggles each item on its own', async () => {

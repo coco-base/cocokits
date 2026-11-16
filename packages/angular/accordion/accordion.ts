@@ -10,17 +10,19 @@ import {
   inject,
   input,
   linkedSignal,
+  model,
   signal,
   untracked,
   type Signal,
 } from '@angular/core';
-import { sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
+import { CckDirection, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
 import {
   accordionAnatomy,
   getAccordionProps,
   transitionAccordion,
   type AccordionEvent,
+  type AccordionOrientation,
   type AccordionRootProps,
   type AccordionState,
 } from '@cocokits/machines/accordion';
@@ -29,14 +31,18 @@ import {
 export interface CckAccordionItemRegistration {
   /** The item element. */
   readonly _element: HTMLElement;
-  /** The generated id of the item; it is the key in the open value. */
+  /** The id of the item; the ids of its trigger and content derive from it. */
   readonly _id: string;
+  /** The key of the item in the open value: its `value`, else its id. */
+  readonly _key: Signal<string>;
   /** Whether the item is disabled. */
   readonly disabled: Signal<boolean>;
   /** The value the item or its parent wrote, before single mode picks one item. */
   readonly expanded: Signal<boolean>;
   /** Writes the open state as the component's own change: it emits `expandedChange`, `opened` or `closed`. */
   _commit(open: boolean): void;
+  /** Writes the open state for the parent: it emits `expandedChange` but not `opened` or `closed`. */
+  _write(open: boolean): void;
   /** Moves focus to the trigger of the item. */
   _focusTrigger(): void;
 }
@@ -44,7 +50,11 @@ export interface CckAccordionItemRegistration {
 /**
  * A stack of sections that open and close. You write one `cck-accordion-item` for each section. Each item makes its own heading, button and content.
  *
- * One item is open at a time. With `multi`, each item opens and closes on its own.
+ * One item is open at a time, and the open item stays open when you press it again, unless you set `collapsible`. With `multi`, each item opens and closes on its own.
+ *
+ * Read and write the open items from the root with `[(value)]`: it lists the `value` of every open item and stays in step with the `[(expanded)]` of each item.
+ *
+ * With `orientation="horizontal"`, Left Arrow and Right Arrow move the focus between the buttons instead of Up Arrow and Down Arrow; the text direction of `CckDirection` flips them.
  *
  * Down Arrow, Up Arrow, Home and End move the focus between the enabled buttons. The items of a nested accordion belong to the nearest accordion.
  *
@@ -67,6 +77,11 @@ export interface CckAccordionItemRegistration {
     '[attr.data-orientation]': 'rootProps()["data-orientation"]',
     '[attr.data-disabled]': 'rootProps()["data-disabled"] ?? null',
     '[attr.data-multiple]': 'rootProps()["data-multiple"] ?? null',
+    '[attr.multi]': 'null',
+    '[attr.collapsible]': 'null',
+    '[attr.disabled]': 'null',
+    '[attr.orientation]': 'null',
+    '[attr.value]': 'null',
   },
 })
 export class CckAccordion {
@@ -77,6 +92,35 @@ export class CckAccordion {
    * @cckParity Lets several items stay open at once; each item keeps its own open state.
    */
   readonly multi = input(false, { transform: booleanAttribute });
+
+  /**
+   * Whether the open item can be closed by pressing it again in single mode. Without it the open trigger is `aria-disabled`. It has no effect with `multi`.
+   * @defaultValue false
+   * @cckSemantic accordion.collapsible
+   */
+  readonly collapsible = input(false, { transform: booleanAttribute });
+
+  /**
+   * Whether every item is disabled. A disabled accordion keeps its items closed or open as they are.
+   * @defaultValue false
+   * @cckSemantic accordion.disabled
+   */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /**
+   * The direction the buttons are laid out in. It decides the arrow keys: Up Arrow and Down Arrow when vertical, Left Arrow and Right Arrow when horizontal.
+   * @defaultValue 'vertical'
+   * @cckSemantic accordion.orientation
+   */
+  readonly orientation = input<AccordionOrientation>('vertical');
+
+  /**
+   * The `value` of every open item. Use `[(value)]` to read and change it. An item without a `value` has a generated one, so it cannot be written from here.
+   * @remarks Each item keeps its own `[(expanded)]`, and the two stay in step. In single mode only one value is kept: the last one written.
+   * @defaultValue []
+   * @cckSemantic accordion.value
+   */
+  readonly value = model<readonly string[]>([]);
 
   /** The theme attributes of every part; the root's are applied to the host. @internal */
   readonly _theme = themeAttrs(accordionAnatomy);
@@ -96,13 +140,14 @@ export class CckAccordion {
   readonly _focusVisibleKey = signal<string | undefined>(undefined);
 
   private readonly doc = inject(DOCUMENT);
+  private readonly direction = inject(CckDirection);
   private focusTracker: FocusVisibleTracker | undefined;
   private previousOpen: ReadonlySet<string> = new Set();
 
   private readonly requestedOpen = computed(() =>
     this.ordered()
       .filter((item) => item.expanded())
-      .map((item) => item._id),
+      .map((item) => item._key()),
   );
 
   /** The ids of the open items. In single mode only one stays open: the last in document order. @internal */
@@ -113,10 +158,13 @@ export class CckAccordion {
 
   /** The machine state of the accordion. @internal */
   readonly _state = computed<AccordionState>(() => ({
-    items: this.ordered().map((item) => ({ key: item._id, disabled: item.disabled() })),
+    items: this.ordered().map((item) => ({ key: item._key(), disabled: item.disabled() })),
     value: this._openKeys(),
     type: this.multi() ? 'multiple' : 'single',
-    collapsible: true,
+    collapsible: this.collapsible(),
+    disabled: this.disabled(),
+    orientation: this.orientation(),
+    dir: this.direction.dir(),
     focusVisibleKey: this._focusVisibleKey(),
   }));
 
@@ -147,7 +195,31 @@ export class CckAccordion {
         this.previousOpen = new Set(requested);
         if (multi || requested.length < 2) return;
         const keep = opened.at(-1) ?? requested.at(-1);
-        for (const item of this.ordered()) if (item._id !== keep && item.expanded()) item._commit(false);
+        for (const item of this.ordered()) if (item._key() !== keep && item.expanded()) item._commit(false);
+      });
+    });
+
+    // `value` to the items. The first run keeps what the items say when `value` is still empty.
+    let first = true;
+    effect(() => {
+      const written = this.value();
+      untracked(() => {
+        const skip = first && written.length === 0;
+        first = false;
+        if (skip) return;
+        const open = new Set(written);
+        for (const item of this.ordered()) {
+          if (item.expanded() !== open.has(item._key())) item._write(open.has(item._key()));
+        }
+      });
+    });
+
+    // The items to `value`.
+    effect(() => {
+      const open = this._openKeys();
+      untracked(() => {
+        const current = this.value();
+        if (current.length !== open.length || open.some((key, index) => key !== current[index])) this.value.set(open);
       });
     });
 
@@ -169,7 +241,7 @@ export class CckAccordion {
    */
   openAll(): void {
     if (!this.multi()) return;
-    for (const item of this.ordered()) this._send({ type: 'ITEM.OPEN', key: item._id });
+    for (const item of this.ordered()) this._send({ type: 'ITEM.OPEN', key: item._key() });
   }
 
   /**
@@ -183,7 +255,7 @@ export class CckAccordion {
    * @cckParity The open state lives on each item.
    */
   closeAll(): void {
-    for (const item of this.ordered()) this._send({ type: 'ITEM.CLOSE', key: item._id });
+    for (const item of this.ordered()) this._send({ type: 'ITEM.CLOSE', key: item._key() });
   }
 
   /**
@@ -214,7 +286,9 @@ export class CckAccordion {
     const result = transitionAccordion(this._state(), event);
     if (result.value !== undefined) {
       const open = new Set(result.value);
-      for (const item of this.ordered()) if (item.expanded() !== open.has(item._id)) item._commit(open.has(item._id));
+      for (const item of this.ordered()) {
+        if (item.expanded() !== open.has(item._key())) item._commit(open.has(item._key()));
+      }
     }
     if (result.focus !== undefined) this._focusTrigger(result.focus);
   }
@@ -241,7 +315,7 @@ export class CckAccordion {
    */
   _focusTrigger(key: string): void {
     this.ordered()
-      .find((item) => item._id === key)
+      .find((item) => item._key() === key)
       ?._focusTrigger();
   }
 
