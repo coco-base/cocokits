@@ -62,7 +62,7 @@ const fieldOf = (child: string, wrap: (inner: string) => string): string =>
   `<cck-form-field [size]="parent()">${wrap(child)}</cck-form-field>`;
 const radioOf = (option: string) => (wrap: (inner: string) => string) =>
   `<cck-radio-group aria-label="Plan" [${option}]="parent()">${wrap(
-    `<cck-radio data-testid="child" value="a" [${option}]="own()">A</cck-radio>`,
+    `<cck-radio data-testid="child" submitValue="a" [${option}]="own()">A</cck-radio>`,
   )}</cck-radio-group>`;
 const avatar =
   '<cck-avatar data-testid="child" [size]="own()"><cck-avatar-fallback>AL</cck-avatar-fallback></cck-avatar>';

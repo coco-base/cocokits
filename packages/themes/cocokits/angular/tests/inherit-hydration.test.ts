@@ -12,16 +12,16 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe.each(rows.map((row) => [`${row.child} ${row.option} from ${row.parent}`, row] as const))(
-  'group inheritance hydration: %s',
-  (_name, row) => {
+describe.each(rows.map((row) => ({ name: `${row.child} ${row.option} from ${row.parent}`, row })))(
+  'group inheritance hydration: $name',
+  ({ row }) => {
     const v = values[row.option];
 
     it.each([
-      ['the parent value', v.parent, undefined, v.parent],
-      ['an own value over the parent', v.parent, v.own, v.own],
-      ['an own null', v.parent, null, null],
-    ])('keeps %s unchanged after hydration', async (_label, parent, own, expected) => {
+      { label: 'the parent value', parent: v.parent, own: undefined, expected: v.parent },
+      { label: 'an own value over the parent', parent: v.parent, own: v.own, expected: v.own },
+      { label: 'an own null', parent: v.parent, own: null, expected: null },
+    ])('keeps $label unchanged after hydration', async ({ parent, own, expected }) => {
       const Root = rootOf(row, parent, own);
       const server = await renderApplication(
         (context) =>
@@ -45,8 +45,7 @@ describe.each(rows.map((row) => [`${row.child} ${row.option} from ${row.parent}`
       const app = await bootstrapApplication(Root, { providers: [provideClientHydration(), ...providers] });
       await app.injector.get(ApplicationRef).whenStable();
 
-      // The base logs its own usage warnings for the bare template of a row; a hydration problem is an `NG0` error.
-      expect(logged.filter(([message]) => String(message).includes('NG0'))).toEqual([]);
+      expect(logged).toEqual([]);
       expect(dataAttrsIn(document.body.innerHTML)).toEqual(dataAttrsIn(server.slice(server.indexOf('<body'))));
       expect(attrIn(document.body.innerHTML, row)).toBe(expected);
       app.destroy();

@@ -4,9 +4,9 @@ import { describe, expect, it } from 'vitest';
 import { attrIn, rootOf, rows, values } from './inherit-cases';
 import { renderThemedApp } from './ssr-helpers';
 
-describe.each(rows.map((row) => [`${row.child} ${row.option} from ${row.parent}`, row] as const))(
-  'group inheritance on the server: %s',
-  (_name, row) => {
+describe.each(rows.map((row) => ({ name: `${row.child} ${row.option} from ${row.parent}`, row })))(
+  'group inheritance on the server: $name',
+  ({ row }) => {
     const v = values[row.option];
     const attr = async (parent: string | null | undefined, own: string | null | undefined): Promise<string | null> =>
       attrIn(await renderThemedApp(rootOf(row, parent, own), true), row);

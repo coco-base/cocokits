@@ -1,6 +1,6 @@
 import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckAvatarGroupTheme } from './avatar-group-theme';
 import { CckAvatarLabelTheme } from './avatar-label-theme';
 
@@ -43,7 +43,7 @@ export class CckAvatarTheme {
   private readonly label = inject(CckAvatarLabelTheme, { optional: true });
   private readonly group = inject(CckAvatarGroupTheme, { optional: true });
   /** The size of the avatar: its own, else the one of its label, else the one of its group. @internal */
-  readonly _size = computed(() => inherited(this.size(), this.label?.size(), this.group?.size()));
+  readonly _size = computed(() => resolveInheritedValue(this.size(), this.label?.size(), this.group?.size()));
   /**
    * Color family of the fallback, rendered as `data-cck-color`.
    */

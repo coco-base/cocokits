@@ -1,6 +1,6 @@
 import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckFormFieldTheme } from './form-field-theme';
 
 type InputOptions = CocokitsThemeConfig['components']['input'];
@@ -35,5 +35,5 @@ export class CckInputTheme {
   readonly size = input<CckInputSize | null>();
   private readonly field = inject(CckFormFieldTheme, { optional: true });
   /** The size of the input: its own, else the one of its field. @internal */
-  readonly _size = computed(() => inherited(this.size(), this.field?.size()));
+  readonly _size = computed(() => resolveInheritedValue(this.size(), this.field?.size()));
 }
