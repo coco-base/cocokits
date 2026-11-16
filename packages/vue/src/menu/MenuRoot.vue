@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, provide, shallowRef, useId, watch } from 'vue';
-import { createTypeahead } from '@cocokits/cdk/roving-focus';
+import { computed, onBeforeUnmount, provide, shallowRef, useId, watch } from 'vue';
 import { transitionMenu, type MenuEvent, type MenuInitialFocus, type MenuState } from '@cocokits/machines/menu';
+import { useDirection } from '@cocokits/vue-core';
 import { liveElementRef } from '../internal/live-element';
 import { useDefaultModel } from '../internal/use-default-model';
 import { MENU_KEY } from './menu.context';
 import type { MenuRootEmits, MenuRootProps } from './menu.types';
-import { useMenuRegistry } from './use-menu-registry';
+import { useMenuItems } from './use-menu-items';
 
 defineOptions({ name: 'CckMenuRoot', inheritAttrs: false });
 
@@ -32,9 +32,8 @@ defineSlots<{
 const model = useDefaultModel(props, 'open', props.defaultOpen);
 const open = computed(() => model.value === true);
 const id = useId();
-const registry = useMenuRegistry();
-const typeahead = createTypeahead();
-const activeKey = shallowRef<string | undefined>(undefined);
+const direction = useDirection();
+const menu = useMenuItems();
 const initial = shallowRef<MenuInitialFocus>('first');
 const mounted = shallowRef(false);
 
@@ -42,43 +41,31 @@ const state = computed<MenuState>(() => ({
   id,
   open: open.value,
   mounted: mounted.value,
-  // The text is read when a key is pressed: an item can change its text without a new registration.
-  items: registry.items.value.map((item) => ({
-    key: item.key,
-    disabled: item.disabled,
-    get text() {
-      return item.element.textContent;
-    },
-  })),
-  activeKey: activeKey.value,
-  typeahead,
+  items: menu.entries.value,
+  activeKey: menu.activeKey.value,
+  typeahead: menu.typeahead,
+  dir: direction.value,
 }));
 
-function itemElement(key: string): HTMLElement | undefined {
-  return registry.items.value.find((item) => item.key === key)?.element;
+/** A press on an item closes the menu, and so every menu it is the submenu of. */
+function closeAll(): void {
+  if (open.value) model.value = false; // emits update:open
 }
 
 function send(event: MenuEvent): void {
-  if (event.type === 'ITEM.FOCUS') {
-    activeKey.value = event.key;
-  } else if (event.type === 'ITEM.PRESS') {
-    // The click runs the item as a pointer does, so a link item follows its link.
-    itemElement(event.key)?.click();
-  } else if (event.type === 'CONTENT.MOVE') {
-    itemElement(event.key)?.focus();
-  } else {
-    const next = transitionMenu(state.value, event);
-    if (!next || next.open === open.value) return;
-    if (next.open) initial.value = next.initial ?? 'first';
-    model.value = next.open; // emits update:open
-  }
+  if (menu.handle(event) === 'handled') return;
+  const next = transitionMenu(state.value, event);
+  if (!next || next.open === open.value) return;
+  if (next.open) initial.value = next.initial ?? 'first';
+  model.value = next.open; // emits update:open
 }
 
 // A closed menu starts the next search and the next tab stop afresh.
 watch(open, (isOpen) => {
-  if (isOpen) return;
-  typeahead.reset();
-  activeKey.value = undefined;
+  if (!isOpen) menu.reset();
+});
+onBeforeUnmount(() => {
+  menu.typeahead.reset();
 });
 
 const trigger = liveElementRef();
@@ -94,9 +81,12 @@ provide(MENU_KEY, {
   contentElement: shallowRef(null),
   state,
   initial,
-  items: registry.items,
+  items: menu.items,
   send,
-  registerItem: registry.registerItem,
+  registerItem: menu.registerItem,
+  pointerMoved: menu.pointerMoved,
+  onPointerMoved: menu.onPointerMoved,
+  closeAll,
 });
 </script>
 
