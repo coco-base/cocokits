@@ -30,13 +30,13 @@ describe('form-field, label and hint output', () => {
   });
 
   it('aliases the gaps and the indent to Theme Spacing and the colors to Theme Color', () => {
-    expect(tokensCss).toMatch(/--cck-form-field-gap: var\(--cck-spacing-3\)/);
-    expect(tokensCss).toMatch(/--cck-form-field-balance-indent: var\(--cck-spacing-2\)/);
+    expect(tokensCss).toMatch(/--cck-form-field-gap: var\(--cck-spacing-4\)/);
+    expect(tokensCss).toMatch(/--cck-form-field-balance-indent: var\(--cck-spacing-0\)/);
     expect(tokensCss).toMatch(/--cck-form-field-min-inline-size: 100px/);
     expect(tokensCss).toMatch(/--cck-hint-gap: var\(--cck-spacing-3\)/);
     expect(tokensCss).toMatch(/--cck-label-text-color: var\(--cck-text-1\)/);
-    expect(tokensCss).toMatch(/--cck-hint-text-color: var\(--cck-text-2\)/);
-    expect(tokensCss).toMatch(/--cck-label-font-weight: var\(--cck-font-weight-medium\)/);
+    expect(tokensCss).toMatch(/--cck-hint-text-color: var\(--cck-on-surface-3\)/);
+    expect(tokensCss).toMatch(/--cck-label-font-weight: var\(--cck-font-weight-regular\)/);
     expect(tokensCss).toMatch(/--cck-hint-font-weight: var\(--cck-font-weight-regular\)/);
   });
 });

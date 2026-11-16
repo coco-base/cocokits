@@ -13,7 +13,9 @@
     flex-direction: column;
     max-block-size: var(--available-height, none);
     overflow: auto;
+    gap: var(--cck-menu-gap);
     padding-block: var(--cck-menu-padding-block);
+    padding-inline: var(--cck-menu-padding-inline);
     border: var(--cck-menu-border-width) solid var(--cck-menu-border-color);
     border-radius: var(--cck-menu-radius);
     background-color: var(--cck-menu-bg);
@@ -43,9 +45,11 @@
     // The height is a minimum, so a long label wraps instead of overflowing.
     min-block-size: var(--cck-menu-item-height);
     margin-inline: var(--cck-menu-item-margin-inline);
+    padding-block: var(--cck-menu-item-padding-block);
     padding-inline: var(--cck-menu-item-padding-inline);
     border-radius: var(--cck-menu-item-radius);
     cursor: pointer;
+    font-weight: var(--cck-menu-item-font-weight);
     user-select: none;
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
@@ -69,11 +73,15 @@
       cursor: default;
     }
 
-    // An icon in the item follows the text color and takes the icon size.
+    // An icon in the item takes the icon size and colour; a disabled item's icon keeps the disabled text colour.
     > .cck-svg-icon {
       flex: none;
       font-size: var(--cck-menu-item-icon-size);
-      color: currentColor;
+      color: var(--cck-menu-item-icon-color);
+    }
+
+    &[data-disabled] > .cck-svg-icon {
+      color: var(--cck-menu-item-disabled-text-color);
     }
   }
 
@@ -88,7 +96,8 @@
         outline-color: Highlight;
       }
 
-      &[data-disabled] {
+      &[data-disabled],
+      &[data-disabled] > .cck-svg-icon {
         color: GrayText;
       }
     }

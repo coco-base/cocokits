@@ -29,6 +29,7 @@
 
     &:where(:hover) {
       border-color: var(--cck-chip-list-hover-border-color);
+      background-color: var(--cck-chip-list-hover-bg);
     }
 
     &:where([data-invalid]):where([data-touched], [data-submitted]) {

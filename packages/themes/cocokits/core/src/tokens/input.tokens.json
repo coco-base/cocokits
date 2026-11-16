@@ -21,7 +21,8 @@
         { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } },
         { "name": "invalid-border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
         { "name": "border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/3}" } },
-        { "name": "hover-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
+        { "name": "hover-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/3}" } },
+        { "name": "hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
         { "name": "invalid-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#danger/color}" } },
         { "name": "bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
         { "name": "readonly-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
@@ -29,7 +30,7 @@
         { "name": "disabled-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/border}" } },
         { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
         { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
-        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } }
+        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": -2 } }
       ]
     }
   ]

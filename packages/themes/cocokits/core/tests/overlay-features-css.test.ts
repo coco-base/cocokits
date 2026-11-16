@@ -43,7 +43,7 @@ describe.each([
 describe('arrow fill', () => {
   it('is the content surface: the popover surface and the tooltip inverse surface', () => {
     expect(tokensCss).toMatch(/--cck-popover-arrow-bg: var\(--cck-surface-1\)/);
-    expect(tokensCss).toMatch(/--cck-tooltip-arrow-bg: var\(--cck-text-1\)/);
+    expect(tokensCss).toMatch(/--cck-tooltip-arrow-bg: var\(--cck-contrast-color\)/);
   });
 });
 

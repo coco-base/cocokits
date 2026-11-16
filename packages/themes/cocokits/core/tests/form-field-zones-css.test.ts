@@ -36,10 +36,11 @@ describe('the zones', () => {
     }
   });
 
-  it('puts the gap on the two wrappers, so an empty zone (nothing rendered) leaves no gap', () => {
-    for (const selector of ['.cck-form-field__wrapper', '.cck-form-field__input-wrapper']) {
-      expect(declarationsOf(stylesCss, selector)).toContain('gap: var(--cck-form-field-zone-gap)');
-    }
+  it('puts the zone gap on the input wrapper only: Leading and Trailing are attached to the box', () => {
+    expect(declarationsOf(stylesCss, '.cck-form-field__input-wrapper')).toContain(
+      'gap: var(--cck-form-field-zone-gap)',
+    );
+    expect(declarationsOf(stylesCss, '.cck-form-field__wrapper')).not.toContain('gap');
   });
 
   it('restates the native hidden on every zone, because the zones set display', () => {
@@ -86,12 +87,12 @@ describe('the box of a Textarea', () => {
 
   it.each([
     ['sm', 4],
-    ['md', 6],
-    ['lg', 10],
+    ['md', 5],
+    ['lg', 6],
   ] as const)('takes the padding-block of %s from the Form Field / Size modes', (mode, step) => {
     expect(tokensCss).toMatch(
       new RegExp(
-        `\\.cck-form-field\\[data-size=${mode}\\][^{]*\\{[^}]*--cck-form-field-padding-block: var\\(--cck-size-${String(step)}\\)`,
+        `\\.cck-form-field\\[data-size=${mode}\\][^{]*\\{[^}]*--cck-form-field-padding-block: var\\(--cck-spacing-${String(step)}\\)`,
       ),
     );
   });
