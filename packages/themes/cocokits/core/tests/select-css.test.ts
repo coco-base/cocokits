@@ -64,7 +64,9 @@ describe('select output', () => {
     expect(css).not.toMatch(/url\(/);
     expect(css).not.toContain('.cck-select__option-indicator::after');
     expect(css).not.toContain('.cck-select__dropdown-icon:dir(rtl)');
-    expect(css).toContain('.cck-select__content[data-multiple] .cck-select__option-indicator');
+    expect(css).toContain(
+      '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox]) .cck-select__option-indicator',
+    );
     const chevron = declarationsOf(css, '.cck-select__dropdown-icon') ?? '';
     expect(chevron).toContain('font-size: var(--cck-select-icon-size)');
     expect(chevron).toContain('color: var(--cck-select-icon-color)');
@@ -131,11 +133,22 @@ describe('select separator', () => {
 describe('select inside a form field', () => {
   const fieldCss = read('dist', 'components', 'form-field.css');
 
-  it('fills the input wrapper and takes the size of the field, not its own', () => {
+  it('fills the input wrapper and keeps its own size, which the theme layer takes from the field (F23)', () => {
     expect(fieldCss).toMatch(/\.cck-form-field__input-wrapper > \.cck-select\s*\{[^}]*flex: 1/);
-    expect(fieldCss).toMatch(
-      /\.cck-form-field__input-wrapper > \.cck-select > \.cck-select__trigger\s*\{[^}]*min-block-size: var\(--cck-form-field-height\)/,
+    expect(fieldCss).not.toMatch(/\.cck-select__trigger\s*\{[^}]*(min-block-size|padding|font|letter-spacing)/);
+  });
+
+  it('draws the indicator option: a box before the text, the check after it, or nothing (SE21)', () => {
+    const box = '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox])';
+    expect(declarationsOf(css, `${box} .cck-select__option-indicator`)).toContain('order: 0');
+    expect(declarationsOf(css, `${box} .cck-select__option[data-selected] .cck-select__option-indicator`)).toContain(
+      'background-color: var(--cck-select-indicator-box-checked-bg)',
     );
+    expect(declarationsOf(css, '.cck-select__content[data-indicator=none] .cck-select__option-indicator')).toContain(
+      'display: none',
+    );
+    // `checkmark` has no rule of its own: it is the single list look, so it also undoes the box of a multiple list.
+    expect(css).not.toContain('data-indicator=checkmark');
   });
 });
 

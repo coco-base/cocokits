@@ -109,7 +109,7 @@ describe('auto-resize', () => {
 });
 
 describe('textarea inside a field input wrapper', () => {
-  it('is borderless and transparent, fills the wrapper and keeps the wrapper font', () => {
+  it('is borderless and transparent, fills the wrapper and keeps its own text (F25)', () => {
     const rule = declarationsOf(css, '.cck-form-field__input-wrapper > .cck-textarea') ?? '';
     for (const line of [
       'flex: 1',
@@ -117,12 +117,11 @@ describe('textarea inside a field input wrapper', () => {
       'padding-inline: 0',
       'border: 0',
       'background-color: transparent',
-      'font: inherit',
       'box-shadow: none',
     ]) {
       expect(rule).toContain(line);
     }
-    expect(rule).not.toContain('padding-block');
+    expect(rule).not.toMatch(/padding-block|font|letter-spacing/);
   });
 
   it('leaves the focus ring to the wrapper', () => {

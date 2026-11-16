@@ -11,6 +11,9 @@ export interface Option<V extends readonly (string | boolean)[], P extends reado
 export type RootOption<V extends readonly (string | boolean)[]> = Option<V, readonly ['root']>;
 
 /** An option that renders nothing until the author gives it (`default: null`). */
-export type OptionalOption<V extends readonly (string | boolean)[]> = Omit<RootOption<V>, 'default'> & {
+export type OptionalOption<
+  V extends readonly (string | boolean)[],
+  P extends readonly string[] = readonly ['root'],
+> = Omit<Option<V, P>, 'default'> & {
   readonly default: null;
 };

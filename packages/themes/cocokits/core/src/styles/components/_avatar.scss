@@ -1,6 +1,5 @@
 // Avatar rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
-// The root owns the edge and the font; the fallback inherits the font and adds the colours, so a container
-// (avatar-group, avatar-label) sets the size of its direct avatars on the root alone.
+// The root owns the edge and the font; the fallback inherits the font and adds the colours.
 @mixin rules {
   .cck-avatar {
     box-sizing: border-box;

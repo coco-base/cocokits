@@ -1,7 +1,8 @@
 // FormField rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Layout, the four zones, and the box of an input wrapper that holds an Input or a Textarea
 // (`:has(> .cck-input, > .cck-textarea, > .cck-chip-list)`): a native control of another kind keeps its own box, and
-// a Select draws its own box and only takes the size of the field. The
+// a Select draws its own box. The size of the field reaches an Input, a Textarea, a Chip list and a Select through the
+// theme layer (each takes its own `size` from the field), never through this sheet. The
 // look follows the facts the root renders, reached through child combinators only. The balance
 // indent is padding on the Label, not a margin on a component root; the feedback wrapper is an
 // internal part, so it may take a margin. A zone sets `display`, so it restates its `[hidden]`.
@@ -60,22 +61,6 @@ $box: '.cck-form-field__input-wrapper:has(#{$controls})';
     align-items: flex-start;
   }
 
-  // The Textarea inside the box owns the padding-block of the field size, so its scroll area and its
-  // resize handle stay inside the border. Auto-resize bounds count that padding and no border.
-  .cck-form-field__input-wrapper > .cck-textarea {
-    padding-block: var(--cck-form-field-padding-block);
-
-    // An auto-resize Textarea keeps the minimum rows of its own rule.
-    &:not([data-auto-resize]) {
-      min-block-size: var(--cck-form-field-textarea-min-height);
-    }
-
-    &[data-auto-resize] {
-      min-block-size: calc(var(--cck-textarea-min-rows, 2) * 1lh + 2 * var(--cck-form-field-padding-block));
-      max-block-size: calc(var(--cck-textarea-max-rows, 5) * 1lh + 2 * var(--cck-form-field-padding-block));
-    }
-  }
-
   // Prefix and Suffix sit inside the box, Leading and Trailing outside it. Each is as high as the
   // box's first line, so an icon or a button is centred on it for an Input and for a Textarea.
   .cck-form-field__input-wrapper > .cck-prefix,
@@ -90,8 +75,8 @@ $box: '.cck-form-field__input-wrapper:has(#{$controls})';
       display: none;
     }
 
-    // A direct SvgIcon child takes the icon size; an author icon of another kind keeps its own.
-    > .cck-svg-icon {
+    // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+    > .cck-svg-icon:not([data-size]) {
       font-size: var(--cck-form-field-affix-icon-size);
     }
   }
@@ -207,54 +192,11 @@ $box: '.cck-form-field__input-wrapper:has(#{$controls})';
     }
   }
 
-  // A Select keeps its own box (its trigger draws it), but the field sizes it: it fills the wrapper and its trigger
-  // takes the height, padding and text of the field root's `data-size`, whatever size the Select itself has.
+  // A Select keeps its own box (its trigger draws it) and its own size, which the theme layer takes from the field:
+  // it only fills the wrapper.
   .cck-form-field__input-wrapper > .cck-select {
     flex: 1;
     min-inline-size: 0;
-
-    > .cck-select__trigger {
-      min-block-size: var(--cck-form-field-height);
-      padding-inline: var(--cck-form-field-padding-inline);
-      font-family: var(--cck-form-field-font-family);
-      font-size: var(--cck-form-field-font-size);
-      line-height: var(--cck-form-field-line-height);
-      letter-spacing: var(--cck-form-field-letter-spacing);
-    }
-  }
-
-  // A Chip list inside the box is borderless and fills it, as the Input. Its chips and its text box take the field's
-  // size: the list's `chip-height` is the one of the field root's `data-size` (same mode names), and the block padding
-  // centres one row of chips in the box, so the box keeps the height of the field. Wrapped rows grow the box.
-  .cck-form-field__input-wrapper > .cck-chip-list {
-    flex: 1;
-    min-inline-size: 0;
-    padding-block: max(
-      0px,
-      calc((var(--cck-form-field-height) - var(--cck-chip-list-chip-height)) / 2 - var(--cck-form-field-border-width))
-    );
-    padding-inline: 0;
-    border: 0;
-    border-radius: 0;
-    background-color: transparent;
-    box-shadow: none;
-    font: inherit;
-    letter-spacing: inherit;
-
-    &:focus-within {
-      outline: none;
-    }
-  }
-
-  // The list's own size mode would win over an inherited value, so the field sets it on the list itself.
-  .cck-form-field > .cck-form-field__wrapper > .cck-form-field__input-wrapper > .cck-chip-list {
-    --cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-md);
-  }
-
-  @each $mode in sm, lg {
-    .cck-form-field[data-size='#{$mode}'] > .cck-form-field__wrapper > .cck-form-field__input-wrapper > .cck-chip-list {
-      --cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-#{$mode});
-    }
   }
 
   // The states come from the facts of the field root. Later rules win, so disabled is last.

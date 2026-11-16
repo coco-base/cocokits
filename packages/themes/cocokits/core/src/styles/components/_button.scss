@@ -48,8 +48,8 @@
       color: var(--cck-button-soft-label-color);
     }
 
-    // A direct SvgIcon child takes the icon size; an author icon of another kind keeps its own.
-    > .cck-svg-icon {
+    // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+    > .cck-svg-icon:not([data-size]) {
       font-size: var(--cck-button-icon-size);
     }
 

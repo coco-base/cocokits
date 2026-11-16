@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, ref, structureTokenOf } from './css-test-helpers';
+import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf } from './css-test-helpers';
 
 const css = read('dist', 'components', 'tooltip.css');
 const ROOT = '.cck-tooltip__content';
@@ -12,20 +12,27 @@ describe('tooltip design match', () => {
     ['text-color', 'contrast-on-color'],
     ['radius', 'radius-sm'],
     ['shadow', 'shadow-none'],
-    ['padding-inline', 'spacing-5'],
-    ['padding-block', 'spacing-4'],
     ['font-weight', 'font-weight-medium'],
-    ['font-family', 'text-sm-font-family'],
-    ['font-size', 'text-sm-font-size'],
-    ['line-height', 'text-sm-line-height'],
-    ['letter-spacing', 'text-sm-letter-spacing'],
     ['arrow-width', 'size-14'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
   });
 
-  it('is 320px wide at most with a 14 by 7 arrow', () => {
-    expect(own('max-inline-size')).toBe('320px');
+  it.each([
+    ['sm', 'spacing-4', 'spacing-3', 192, 'text-xs'],
+    ['md', 'spacing-5', 'spacing-4', 320, 'text-sm'],
+    ['lg', 'spacing-6', 'spacing-5', 384, 'text-md'],
+  ])('size %s: padding %s and %s, %ipx wide at most, %s text (TT9)', (mode, inline, block, width, text) => {
+    const size = (name: string): string | undefined => sizeTokenOf(ROOT, mode, `tooltip-${name}`);
+    expect(size('padding-inline')).toBe(ref(inline));
+    expect(size('padding-block')).toBe(ref(block));
+    expect(size('max-inline-size')).toBe(`${String(width)}px`);
+    for (const name of ['font-family', 'font-size', 'line-height', 'letter-spacing']) {
+      expect(size(name)).toBe(ref(`${text}-${name}`));
+    }
+  });
+
+  it('has a 14 by 7 arrow', () => {
     expect(own('arrow-height')).toBe('7px');
   });
 

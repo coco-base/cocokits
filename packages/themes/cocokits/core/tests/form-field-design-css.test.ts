@@ -50,8 +50,7 @@ describe('form field design match: tokens', () => {
     ['.cck-input', 'input-hover-border-color', 'border-3'],
     ['.cck-textarea', 'textarea-hover-bg', 'surface-2'],
     ['.cck-textarea', 'textarea-hover-border-color', 'border-3'],
-    ['.cck-textarea', 'textarea-padding-block', 'spacing-5'],
-    ['.cck-textarea', 'textarea-min-height', 'size-80'],
+
     ['.cck-chip-list', 'chip-list-hover-bg', 'surface-2'],
     ['.cck-chip-list', 'chip-list-hover-border-color', 'border-3'],
   ])('structure token of %s: %s is %s', (root, name, value) => {
@@ -137,9 +136,10 @@ describe('form field design match: rules', () => {
     expect(gray.slice(0, gray.indexOf('}'))).toContain('color: GrayText');
   });
 
-  it('gives a Textarea in a field the field minimum height, an auto-resize one its rows', () => {
-    expect(declarationsOf(css, '.cck-form-field__input-wrapper > .cck-textarea:not([data-auto-resize])')).toContain(
-      'min-block-size: var(--cck-form-field-textarea-min-height)',
+  it('gives a Textarea its own minimum height, an auto-resize one its rows, in a field too (F24)', () => {
+    expect(css).not.toContain('--cck-form-field-textarea-min-height');
+    expect(declarationsOf(css, '.cck-form-field__input-wrapper > .cck-textarea:not([data-auto-resize])')).toBe(
+      undefined,
     );
     expect(declarationsOf(css, '.cck-textarea:not([data-auto-resize])')).toContain(
       'min-block-size: var(--cck-textarea-min-height)',

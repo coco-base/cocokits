@@ -144,19 +144,15 @@ describe('avatar group', () => {
     expect(direct).toContain('box-shadow: 0 0 0 var(--cck-avatar-group-ring-width) var(--cck-avatar-group-ring-color)');
   });
 
-  it('sets the size and the fallback text of its direct avatars', () => {
+  it('leaves the size and the fallback text of its direct avatars to the avatar itself (AG5)', () => {
     const direct = declarationsOf(stylesCss, '.cck-avatar-group > .cck-avatar') ?? '';
-    expect(direct).toContain('inline-size: var(--cck-avatar-group-avatar-size)');
-    expect(direct).toContain('block-size: var(--cck-avatar-group-avatar-size)');
-    expect(direct).toContain('font-size: var(--cck-avatar-group-avatar-font-size)');
+    expect(direct).not.toMatch(/inline-size|block-size|font-/);
   });
 });
 
 describe('avatar label', () => {
-  it('sets the size of its direct avatar', () => {
-    const direct = declarationsOf(stylesCss, '.cck-avatar-label > .cck-avatar') ?? '';
-    expect(direct).toContain('inline-size: var(--cck-avatar-label-avatar-size)');
-    expect(direct).toContain('font-size: var(--cck-avatar-label-avatar-font-size)');
+  it('leaves the size of its direct avatar to the avatar itself (AL9)', () => {
+    expect(stylesCss).not.toContain('.cck-avatar-label > .cck-avatar');
   });
 
   it.each([

@@ -1,6 +1,7 @@
 // Input rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
-// A standalone Input draws its own md box. Inside a FormField input wrapper the wrapper draws the
-// box (_form-field.scss) and the Input is borderless and fills it. The Input sets no `display`,
+// A standalone Input draws its own box at its size. Inside a FormField input wrapper the wrapper draws the
+// box (_form-field.scss) and the Input is borderless and fills it; its text follows its own size, which the theme
+// layer takes from the field. The Input sets no `display`,
 // so the native `hidden` attribute needs no restatement. State rules keep the specificity of the
 // base rule (`:where()`), so the wrapper reset below always wins and source order decides between
 // the states.
@@ -72,8 +73,6 @@
     border-radius: 0;
     background-color: transparent;
     box-shadow: none;
-    font: inherit;
-    letter-spacing: inherit;
 
     &:focus-visible {
       outline: none;

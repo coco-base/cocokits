@@ -73,14 +73,21 @@
       cursor: default;
     }
 
-    // An icon in the item takes the icon size and colour; a disabled item's icon keeps the disabled text colour.
+    // An icon in the item takes the icon size and colour unless it has its own `size` or `color`; a disabled item's
+    // icon keeps the disabled text colour.
     > .cck-svg-icon {
       flex: none;
-      font-size: var(--cck-menu-item-icon-size);
-      color: var(--cck-menu-item-icon-color);
+
+      &:not([data-size]) {
+        font-size: var(--cck-menu-item-icon-size);
+      }
+
+      &:not([data-cck-color]) {
+        color: var(--cck-menu-item-icon-color);
+      }
     }
 
-    &[data-disabled] > .cck-svg-icon {
+    &[data-disabled] > .cck-svg-icon:not([data-cck-color]) {
       color: var(--cck-menu-item-disabled-text-color);
     }
   }

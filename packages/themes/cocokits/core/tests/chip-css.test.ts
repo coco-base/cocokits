@@ -161,17 +161,16 @@ describe('chip list', () => {
     }
   });
 
-  it('sizes the chips it holds by a child combinator, over their own size', () => {
-    expect(declarationsOf(listCss, '.cck-chip-list[data-size] > .cck-chip')).toContain(
-      'block-size: var(--cck-chip-list-chip-height)',
-    );
+  it('leaves the size of the chips it renders to the chip: no rule of the list sets a chip height (C14)', () => {
+    expect(listCss).not.toContain('.cck-chip-list[data-size] > .cck-chip');
+    expect(stylesCss).not.toMatch(/\.cck-chip-list[^{]*>\s*\.cck-chip\s*\{/);
   });
 });
 
 describe('chip list in a form field', () => {
   it('lets the input wrapper draw the box of a list, and leaves the list borderless', () => {
     expect(declarationsOf(fieldCss, BOX)).toContain('border: var(--cck-form-field-border-width) solid');
-    const rule = declarationsOf(fieldCss, '.cck-form-field__input-wrapper > .cck-chip-list') ?? '';
+    const rule = declarationsOf(listCss, '.cck-form-field__input-wrapper > .cck-chip-list') ?? '';
     for (const line of [
       'flex: 1',
       'border: 0',
@@ -181,25 +180,33 @@ describe('chip list in a form field', () => {
     ]) {
       expect(rule).toContain(line);
     }
-    expect(declarationsOf(fieldCss, '.cck-form-field__input-wrapper > .cck-chip-list:focus-within')).toContain(
+    expect(declarationsOf(listCss, '.cck-form-field__input-wrapper > .cck-chip-list:focus-within')).toContain(
       'outline: none',
     );
   });
 
-  it.each([
-    ['md', `.cck-form-field > ${FIELD_LIST}`],
-    ['sm', `.cck-form-field[data-size=sm] > ${FIELD_LIST}`],
-    ['lg', `.cck-form-field[data-size=lg] > ${FIELD_LIST}`],
-  ])('takes the %s height of the chips from the field size', (mode, selector) => {
-    expect(declarationsOf(fieldCss, selector)).toContain(
-      `--cck-chip-list-chip-height: var(--cck-chip-list-field-chip-height-${mode})`,
-    );
+  it('no longer sets the chip height or the text of the list from the field (C15, F25)', () => {
+    expect(fieldCss).not.toContain('--cck-chip-list-chip-height');
+    expect(fieldCss).not.toContain('--cck-chip-list-field-chip-height');
+    expect(fieldCss).not.toContain(FIELD_LIST);
+    const rule = declarationsOf(listCss, '.cck-form-field__input-wrapper > .cck-chip-list') ?? '';
+    expect(rule).not.toMatch(/font|letter-spacing/);
   });
 
-  it('keeps one row of chips inside the height of the field box', () => {
-    const rule = declarationsOf(fieldCss, '.cck-form-field__input-wrapper > .cck-chip-list') ?? '';
-    expect(rule).toContain('var(--cck-form-field-height) - var(--cck-chip-list-chip-height)');
-  });
+  it.each([
+    ['sm', 1, 28, 32],
+    ['md', 3, 32, 40],
+    ['lg', 5, 36, 48],
+  ])(
+    'keeps one row of the %s list inside the field box: inset %ipx, row %ipx, field %ipx',
+    (mode, inset, row, field) => {
+      const rule = declarationsOf(listCss, '.cck-form-field__input-wrapper > .cck-chip-list') ?? '';
+      expect(rule).toContain('padding-block: var(--cck-chip-list-inset-padding-block)');
+      expect(sizeTokenOf('.cck-chip-list', mode, 'chip-list-inset-padding-block')).toBe(`${String(inset)}px`);
+      // The inset centres the row in the field box: field height = row + 2 * inset + 2 * border (1px).
+      expect(row + 2 * inset + 2).toBe(field);
+    },
+  );
 });
 
 describe('chip forced colors and selectors', () => {

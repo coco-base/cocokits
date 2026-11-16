@@ -168,7 +168,7 @@ describe('cocokitsThemeConfig badge-container', () => {
   });
 });
 
-describe.each(['label', 'hint', 'input', 'field-error', 'prefix', 'suffix', 'leading', 'trailing'] as const)(
+describe.each(['label', 'hint', 'field-error', 'prefix', 'suffix', 'leading', 'trailing'] as const)(
   'cocokitsThemeConfig %s',
   (name) => {
     const anatomy = defineAnatomy({
@@ -247,27 +247,27 @@ describe('cocokitsThemeConfig textarea', () => {
   });
 
   it('renders data-auto-resize only when true', () => {
-    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy).root).toEqual({ 'data-resize': '' });
+    const base = { 'data-size': 'md', 'data-resize': '' };
+    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy).root).toEqual(base);
     expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: true }).root).toEqual({
-      'data-resize': '',
+      ...base,
       'data-auto-resize': '',
     });
-    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: false }).root).toEqual({
-      'data-resize': '',
-    });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: false }).root).toEqual(base);
     expect(
       resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: null }, { autoResize: true }).root,
-    ).toEqual({ 'data-resize': '' });
+    ).toEqual(base);
   });
 
   it('takes the provider override when the own option is left out, and the own option over it', () => {
+    const base = { 'data-size': 'md', 'data-resize': '' };
     expect(resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, {}, { autoResize: true }).root).toEqual({
-      'data-resize': '',
+      ...base,
       'data-auto-resize': '',
     });
     expect(
       resolveThemeAttrs(cocokitsThemeConfig, textareaAnatomy, { autoResize: false }, { autoResize: true }).root,
-    ).toEqual({ 'data-resize': '' });
+    ).toEqual(base);
   });
 });
 
@@ -468,7 +468,7 @@ describe('cocokitsThemeConfig select', () => {
   });
 
   it('has the size option, rendered as data-size on the root only, default md', () => {
-    expect(Object.keys(options).filter((key) => key !== 'icons')).toEqual(['size']);
+    expect(Object.keys(options).filter((key) => key !== 'icons')).toEqual(['size', 'indicator']);
     expect(options.size.attrName).toBe('size');
     expect(options.size.default).toBe('md');
     expect(options.size.values).toEqual(['sm', 'md', 'lg']);
@@ -491,7 +491,7 @@ describe('cocokitsThemeConfig select', () => {
 });
 
 describe('cocokitsThemeConfig overlays', () => {
-  it.each(['dialog', 'popover', 'radio-group', 'tooltip'] as const)('supports %s with no options', (name) => {
-    expect(cocokitsThemeConfig.components[name]).toEqual({});
+  it('supports the popover with no options', () => {
+    expect(cocokitsThemeConfig.components.popover).toEqual({});
   });
 });

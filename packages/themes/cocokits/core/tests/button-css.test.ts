@@ -47,11 +47,6 @@ const INLINE_PROPERTIES = [
   '--cck-select-content-max-height',
   // Written by the base on the Accordion content: measured geometry, not a token (architecture §4).
   '--accordion-content-height',
-  // The FormField sets the chip height on the Chip list it holds (its own size mode would win over an inherited
-  // one) and centres one row of chips with it: the tokens belong to the Chip list (the name ends at the Sass mode).
-  '--cck-chip-list-chip-height',
-  '--cck-chip-list-field-chip-height-md',
-  '--cck-chip-list-field-chip-height-',
 ];
 /** The blocks with a hover look (a text box shows it on its border; the Menu item on its fill; a Switch, Checkbox and Radio on the halo and the border; the Popover and Dialog Close on their fill; choice-css.test.ts asserts those rules and bans :active in the shared partial; Tabs and TabNav (the same partial, `_tabs.scss`) only let the pointer switch the slide of its indicator on, and tabs-css.test.ts asserts that no color rule reads :hover); every other block has none. */
 const HOVER_BLOCKS = [
@@ -190,6 +185,8 @@ describe('button design match', () => {
   });
 
   it('sizes a direct SvgIcon child with the icon size', () => {
-    expect(declarationsOf(css, '.cck-button > .cck-svg-icon')).toContain('font-size: var(--cck-button-icon-size)');
+    expect(declarationsOf(css, '.cck-button > .cck-svg-icon:not([data-size])')).toContain(
+      'font-size: var(--cck-button-icon-size)',
+    );
   });
 });

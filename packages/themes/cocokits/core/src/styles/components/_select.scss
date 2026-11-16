@@ -209,16 +209,24 @@
     }
   }
 
-  .cck-select__content[data-multiple] .cck-select__option-indicator {
+  // The `indicator` option picks the mark: `checkbox` draws the box, `checkmark` keeps the check after the text and
+  // `none` hides the part. Without it a multiple list draws the box.
+  $box: ':is([data-multiple]:not([data-indicator]), [data-indicator="checkbox"])';
+
+  .cck-select__content#{$box} .cck-select__option-indicator {
     order: 0;
     border: var(--cck-select-indicator-box-border-width) solid var(--cck-select-indicator-box-border-color);
     border-radius: var(--cck-select-indicator-box-radius);
   }
 
-  .cck-select__content[data-multiple] .cck-select__option[data-selected] .cck-select__option-indicator {
+  .cck-select__content#{$box} .cck-select__option[data-selected] .cck-select__option-indicator {
     border-color: var(--cck-select-indicator-box-checked-bg);
     background-color: var(--cck-select-indicator-box-checked-bg);
     color: var(--cck-select-indicator-box-checked-mark-color);
+  }
+
+  .cck-select__content[data-indicator='none'] .cck-select__option-indicator {
+    display: none;
   }
 
   .cck-select__option-group {
@@ -346,11 +354,11 @@
       border-block-start-color: CanvasText;
     }
 
-    .cck-select__content[data-multiple] .cck-select__option-indicator {
+    .cck-select__content#{$box} .cck-select__option-indicator {
       border-color: CanvasText;
     }
 
-    .cck-select__content[data-multiple] .cck-select__option[data-selected] .cck-select__option-indicator {
+    .cck-select__content#{$box} .cck-select__option[data-selected] .cck-select__option-indicator {
       border-color: CanvasText;
       background-color: CanvasText;
       color: Canvas;

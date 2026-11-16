@@ -76,13 +76,16 @@ describe('the box of a Textarea', () => {
     );
   });
 
-  it('gives the textarea in the box the padding-block of the field size, and bounds without a border', () => {
+  it('leaves the padding-block and the auto-resize bounds of the textarea in the box to the textarea (F24)', () => {
     const selector = '.cck-form-field__input-wrapper > .cck-textarea';
-    expect(declarationsOf(stylesCss, selector)).toContain('padding-block: var(--cck-form-field-padding-block)');
-    const bounds = declarationsOf(stylesCss, `${selector}[data-auto-resize]`) ?? '';
+    const rule = declarationsOf(stylesCss, selector) ?? '';
+    expect(rule).not.toMatch(/padding-block|min-block-size|max-block-size|font|letter-spacing/);
+    expect(declarationsOf(stylesCss, `${selector}[data-auto-resize]`)).toBeUndefined();
+    const bounds = declarationsOf(stylesCss, '.cck-textarea[data-auto-resize]') ?? '';
     expect(bounds).toContain('var(--cck-textarea-min-rows, 2)');
     expect(bounds).toContain('var(--cck-textarea-max-rows, 5)');
-    expect(bounds).toContain('2 * var(--cck-form-field-padding-block)');
+    expect(bounds).toContain('2 * var(--cck-textarea-padding-block)');
+    expect(stylesCss).not.toMatch(/\.cck-form-field[^{]*\{[^}]*--cck-form-field-padding-block/);
   });
 
   it.each([

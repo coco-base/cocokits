@@ -94,7 +94,7 @@ describe('standalone input box', () => {
 });
 
 describe('input inside a field input wrapper', () => {
-  it('is borderless and transparent, fills the wrapper and keeps the wrapper font', () => {
+  it('is borderless and transparent, fills the wrapper and keeps its own text (F25)', () => {
     const rule = declarationsOf(css, '.cck-form-field__input-wrapper > .cck-input') ?? '';
     for (const line of [
       'flex: 1',
@@ -102,7 +102,6 @@ describe('input inside a field input wrapper', () => {
       'padding: 0',
       'border: 0',
       'background-color: transparent',
-      'font: inherit',
       'box-shadow: none',
     ]) {
       expect(rule).toContain(line);

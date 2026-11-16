@@ -1,9 +1,10 @@
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
 import { type AvatarComponentsConfig, avatarComponents } from './avatar-config';
 import type { OptionalOption, Option, RootOption } from './option-types';
+import { inheritable, rootSize } from './option-helpers';
+import { type TabsOptions, tabsOptions } from './tabs-config';
 import type { ThemeIconName } from './theme-icons';
 import {
-  type ThemeActiveColorMode,
   accordionSizeDefaultMode,
   accordionSizeModes,
   badgeSizeDefaultMode,
@@ -16,6 +17,8 @@ import {
   chipListSizeModes,
   chipSizeDefaultMode,
   chipSizeModes,
+  dialogContentSizeDefaultMode,
+  dialogContentSizeModes,
   dividerSizeDefaultMode,
   dividerSizeModes,
   formFieldSizeDefaultMode,
@@ -23,6 +26,8 @@ import {
   formFieldWidthModes,
   iconButtonSizeDefaultMode,
   iconButtonSizeModes,
+  inputSizeDefaultMode,
+  inputSizeModes,
   menuContentSizeDefaultMode,
   menuContentSizeModes,
   radioSizeDefaultMode,
@@ -32,11 +37,13 @@ import {
   svgIconSizeModes,
   switchSizeDefaultMode,
   switchSizeModes,
-  tabsSizeDefaultMode,
-  tabsSizeModes,
+  textareaSizeDefaultMode,
+  textareaSizeModes,
   themeActiveColorDefaultMode,
   modeCollections,
   themeActiveColorModes,
+  tooltipContentSizeDefaultMode,
+  tooltipContentSizeModes,
 } from './generated/token-modes';
 
 /** No token collection holds the variants, so they are written by hand. */
@@ -48,29 +55,14 @@ const ACCORDION_VARIANTS = ['default', 'group', 'basic'] as const;
 const ACCORDION_TOGGLE_POSITIONS = ['after', 'before'] as const;
 /** The look of the track: a contained pill with the thumb inside, or a thin rail with the thumb on it. */
 const SWITCH_VARIANTS = ['contained', 'rail'] as const;
-const TABS_VARIANTS = ['border', 'fill', 'line', 'basic'] as const;
-/** Where the list sits across the tabs, in the writing direction; no token collection holds it. */
-const TABS_HEADER_ALIGNS = ['start', 'center', 'end', 'stretch'] as const;
+/** Which mark an option of the Select list shows; no token collection holds it. */
+const SELECT_INDICATORS = ['checkmark', 'checkbox', 'none'] as const;
 /** Where the label sits against the box or track; no token collection holds it. */
 const LABEL_POSITIONS = ['after', 'before'] as const;
 /** The strength of the line is a border colour, not an Active Color family, so no token collection holds it. */
 const DIVIDER_COLORS = ['light', 'default', 'dark'] as const;
 /** A two-state option: its `data-*` is present when true and absent when false. */
 const BOOLEAN_VALUES = [true, false] as const;
-/** The Tabs indicator is neutral until the author picks a family; the type makes a value that is not a mode an error. */
-const TABS_DEFAULT_COLOR: ThemeActiveColorMode = 'neutral';
-
-/**
- * The options of Tabs and TabNav (they share the look and the tokens). Not an interface: an interface has no index
- * signature, which `ThemeConfig` needs.
- */
-type TabsOptions = Readonly<{
-  variant: RootOption<typeof TABS_VARIANTS>;
-  color: RootOption<typeof themeActiveColorModes>;
-  size: RootOption<typeof tabsSizeModes>;
-  headerAlign: RootOption<typeof TABS_HEADER_ALIGNS>;
-}>;
-
 /** An option on the content part only. */
 type ContentOption<V extends readonly (string | boolean)[]> = Option<V, readonly ['content']>;
 
@@ -92,8 +84,10 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     };
     /** Supported with no options. */
     readonly 'badge-container': Record<string, never>;
-    /** Supported with no options. */
-    readonly dialog: Record<string, never>;
+    /** The size is set on the themed root and drawn on the content. */
+    readonly dialog: {
+      readonly size: ContentOption<typeof dialogContentSizeModes>;
+    };
     readonly divider: {
       readonly size: RootOption<typeof dividerSizeModes>;
       readonly color: RootOption<typeof DIVIDER_COLORS>;
@@ -113,7 +107,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly size: RootOption<typeof chipSizeModes>;
       readonly icons: { readonly remove: ThemeIconName };
     };
-    /** The list sizes its own chips and its text box; inside a FormField the field's size wins. */
+    /** The list sizes its own row and its text box; inside a FormField it takes the field's size. */
     readonly 'chip-list': {
       readonly size: RootOption<typeof chipListSizeModes>;
     };
@@ -135,8 +129,9 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly menu: {
       readonly size: ContentOption<typeof menuContentSizeModes>;
     };
-    /** Supported with no options; the Input is sized by the FormField. */
-    readonly input: Record<string, never>;
+    readonly input: {
+      readonly size: RootOption<typeof inputSizeModes>;
+    };
     /** Supported with no options. */
     readonly label: Record<string, never>;
     /** Supported with no options; the field places it. */
@@ -152,10 +147,15 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly color: RootOption<typeof themeActiveColorModes>;
       readonly labelPosition: RootOption<typeof LABEL_POSITIONS>;
     };
-    /** Supported with no options; the layout is CSS on its own attributes. */
-    readonly 'radio-group': Record<string, never>;
+    /** The options exist to be inherited by its radios; the layout is CSS on its own attributes. */
+    readonly 'radio-group': {
+      readonly size: OptionalOption<typeof radioSizeModes>;
+      readonly color: OptionalOption<typeof themeActiveColorModes>;
+      readonly labelPosition: OptionalOption<typeof LABEL_POSITIONS>;
+    };
     readonly select: {
       readonly size: RootOption<typeof selectSizeModes>;
+      readonly indicator: OptionalOption<typeof SELECT_INDICATORS, readonly ['content']>;
       readonly icons: { readonly dropdownIcon: ThemeIconName; readonly optionIndicator: ThemeIconName };
     };
     readonly switch: {
@@ -174,54 +174,18 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     /** Link tabs: the Tabs options, the same look. */
     readonly 'tab-nav': TabsOptions;
     readonly textarea: {
+      readonly size: RootOption<typeof textareaSizeModes>;
       readonly resize: RootOption<typeof BOOLEAN_VALUES>;
       readonly autoResize: RootOption<typeof BOOLEAN_VALUES>;
     };
-    /** Supported with no options. */
-    readonly tooltip: Record<string, never>;
+    /** The size is set on the themed root and drawn on the content. */
+    readonly tooltip: {
+      readonly size: ContentOption<typeof tooltipContentSizeModes>;
+    };
     /** Supported with no options; the field places it. */
     readonly trailing: Record<string, never>;
   };
 }
-
-/** The `size` option on the root, from the modes of its token collection. */
-const rootSize = <V extends readonly string[]>(
-  values: V,
-  defaultMode: V[number],
-  description: string,
-): RootOption<V> => ({
-  attrName: 'size',
-  values,
-  default: defaultMode,
-  partNames: ['root'],
-  description,
-});
-
-/** The options of Tabs and TabNav. */
-const TABS_OPTIONS: TabsOptions = {
-  variant: {
-    attrName: 'variant',
-    values: TABS_VARIANTS,
-    default: 'border',
-    partNames: ['root'],
-    description: 'Look of the list and the indicator: a bordered list, a filled list, a line, or the indicator alone.',
-  },
-  color: {
-    attrName: 'cck-color',
-    values: themeActiveColorModes,
-    default: TABS_DEFAULT_COLOR,
-    partNames: ['root'],
-    description: 'Color family of the indicator; renders the Active Color marker data-cck-color.',
-  },
-  size: rootSize(tabsSizeModes, tabsSizeDefaultMode, 'Height, padding and text of the triggers.'),
-  headerAlign: {
-    attrName: 'header-align',
-    values: TABS_HEADER_ALIGNS,
-    default: 'start',
-    partNames: ['root'],
-    description: 'Where the list sits across the tabs, or stretched over their whole width.',
-  },
-};
 
 /** The options of the cocokits theme per component. */
 export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
@@ -272,7 +236,15 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       size: rootSize(badgeSizeModes, badgeSizeDefaultMode, 'Height, padding, dot size and text.'),
     },
     'badge-container': {},
-    dialog: {},
+    dialog: {
+      size: {
+        attrName: 'size',
+        values: dialogContentSizeModes,
+        default: dialogContentSizeDefaultMode,
+        partNames: ['content'],
+        description: 'Width, padding and gap of the window, set on the root and drawn on the content.',
+      },
+    },
     divider: {
       size: rootSize(dividerSizeModes, dividerSizeDefaultMode, 'Thickness of the line.'),
       color: {
@@ -326,7 +298,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       size: rootSize(
         chipListSizeModes,
         chipListSizeDefaultMode,
-        'Height of its chips and its text box; inside a FormField the field sets it.',
+        'Height of its text box and its row; inside a FormField it takes the size of the field.',
       ),
     },
     'field-error': {},
@@ -371,7 +343,13 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         description: 'Fully round corners (a circle).',
       },
     },
-    input: {},
+    input: {
+      size: rootSize(
+        inputSizeModes,
+        inputSizeDefaultMode,
+        'Height, padding and text; inside a FormField it takes the size of the field.',
+      ),
+    },
     menu: {
       size: {
         attrName: 'size',
@@ -403,13 +381,25 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         description: 'Whether the label follows the radio or precedes it, in the writing direction.',
       },
     },
-    'radio-group': {},
+    'radio-group': {
+      size: inheritable('size', radioSizeModes, 'Size of its radios that set none of their own.'),
+      color: inheritable('cck-color', themeActiveColorModes, 'Color family of its radios that set none of their own.'),
+      labelPosition: inheritable('label-position', LABEL_POSITIONS, 'Label side of its radios that set none.'),
+    },
     select: {
       size: rootSize(
         selectSizeModes,
         selectSizeDefaultMode,
-        'Height, padding and text of the trigger; inside a FormField the field sets them.',
+        'Height, padding and text of the trigger; inside a FormField it takes the size of the field.',
       ),
+      indicator: {
+        attrName: 'indicator',
+        values: SELECT_INDICATORS,
+        default: null,
+        partNames: ['content'],
+        description:
+          'Mark of the selected option: a check after the text, a box before it, or none. Without it a single list shows a check and a multiple list a box.',
+      },
       icons: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
     },
     switch: {
@@ -460,9 +450,14 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         description: 'Mirrors the icon in a right-to-left context, for an icon that points along the text.',
       },
     },
-    tabs: TABS_OPTIONS,
-    'tab-nav': TABS_OPTIONS,
+    tabs: tabsOptions,
+    'tab-nav': tabsOptions,
     textarea: {
+      size: rootSize(
+        textareaSizeModes,
+        textareaSizeDefaultMode,
+        'Padding and text; inside a FormField it takes the size of the field.',
+      ),
       resize: {
         attrName: 'resize',
         values: BOOLEAN_VALUES,
@@ -478,7 +473,15 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         description: 'Grows with its content between the min and max rows.',
       },
     },
-    tooltip: {},
+    tooltip: {
+      size: {
+        attrName: 'size',
+        values: tooltipContentSizeModes,
+        default: tooltipContentSizeDefaultMode,
+        partNames: ['content'],
+        description: 'Padding, width and text of the bubble, set on the root and drawn on the content.',
+      },
+    },
     trailing: {},
   },
 });

@@ -76,8 +76,10 @@ describe('menu output', () => {
   });
 
   it('sizes an icon in an item and spaces a divider in the content', () => {
-    const icon = rule('.cck-menu__item > .cck-svg-icon');
-    expect(icon).toContain('font-size: var(--cck-menu-item-icon-size)');
+    const icon = rule('.cck-menu__item > .cck-svg-icon:not([data-cck-color])');
+    expect(rule('.cck-menu__item > .cck-svg-icon:not([data-size])')).toContain(
+      'font-size: var(--cck-menu-item-icon-size)',
+    );
     expect(icon).toContain('color: var(--cck-menu-item-icon-color)');
     expect(rule('.cck-menu__content > .cck-divider')).toContain('margin-block: var(--cck-menu-separator-margin-block)');
   });
