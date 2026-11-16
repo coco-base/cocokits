@@ -260,6 +260,18 @@ describe('icon size (C13): the parent sets the size of its icon, per size mode, 
     },
   );
 
+  it('gives the Chip check and the Chip list check an icon size per mode, an alias of Core / Size', () => {
+    for (const [collection, name] of [
+      ['Chip / Size', 'check-icon-size'],
+      ['Chip List / Size', 'chip-check-icon-size'],
+    ] as const) {
+      const found = token(collection, name);
+      expect(Object.keys(found.valuesByMode)).toEqual(['sm', 'md', 'lg']);
+      for (const mode of ['sm', 'md', 'lg']) expect(found.valuesByMode[mode]).toMatch(/^\{Core \/ Size#size-\d+\}$/);
+    }
+    expect(styles).toContain('font-size: var(--cck-chip-check-icon-size)');
+  });
+
   it('gives the Hint of a field a 16px icon at md and a gap of 8px', () => {
     expect(value('Form Field / Size', 'hint-icon-size', 'md')).toBe('{Core / Size#size-16}');
     expect(value('Hint / Structure', 'gap')).toBe('{Theme / Spacing#spacing-4}');

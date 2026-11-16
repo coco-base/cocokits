@@ -25,7 +25,11 @@ describe.each([
   it('restates [hidden] and leaves the placement to the positioning module', () => {
     expect(css).toMatch(new RegExp(String.raw`\.cck-${name}__arrow\[hidden\]\s*\{\s*display: none`));
     const rule = declarationsOf(css, `.cck-${name}__arrow`) ?? '';
-    expect(rule).not.toMatch(/(^|[\s;])(position|inset|top|left|right|bottom|transform|display|visibility)\s*:/);
+    expect(rule).not.toMatch(/(^|[\s;])(position|inset|top|left|right|bottom|transform|visibility)\s*:/);
+  });
+
+  it('is a block, because an arrow may be a custom tag that is inline by default', () => {
+    expect(declarationsOf(css, `.cck-${name}__arrow`)).toContain('display: block');
   });
 
   it('is CanvasText in forced colors', () => {

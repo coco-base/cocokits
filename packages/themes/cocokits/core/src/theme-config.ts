@@ -1,5 +1,6 @@
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
 import { type AvatarComponentsConfig, avatarComponents } from './avatar-config';
+import { type MenuOptions, menuOptions } from './menu-config';
 import type { OptionalOption, Option, RootOption } from './option-types';
 import { inheritable, rootSize } from './option-helpers';
 import { type TabsOptions, tabsOptions } from './tabs-config';
@@ -28,8 +29,6 @@ import {
   iconButtonSizeModes,
   inputSizeDefaultMode,
   inputSizeModes,
-  menuContentSizeDefaultMode,
-  menuContentSizeModes,
   radioSizeDefaultMode,
   radioSizeModes,
   selectSizeDefaultMode,
@@ -107,8 +106,10 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     };
     readonly chip: {
       readonly size: RootOption<typeof chipSizeModes>;
-      readonly icons: { readonly remove: ThemeIconName };
+      readonly icons: { readonly remove: ThemeIconName; readonly check: ThemeIconName };
     };
+    /** Supported with no options: the checkboxes keep their own, the group is a column or a row with a gap. */
+    readonly 'checkbox-group': Record<string, never>;
     /** The list sizes its own row and its text box; inside a FormField it takes the field's size. */
     readonly 'chip-list': {
       readonly size: RootOption<typeof chipListSizeModes>;
@@ -127,10 +128,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
       readonly size: RootOption<typeof iconButtonSizeModes>;
       readonly rounded: RootOption<typeof BOOLEAN_VALUES>;
     };
-    /** The menu draws no icon of its own: item icons are the author's content, so there is no `icons` key. */
-    readonly menu: {
-      readonly size: ContentOption<typeof menuContentSizeModes>;
-    };
+    readonly menu: MenuOptions;
     readonly input: {
       readonly size: RootOption<typeof inputSizeModes>;
     };
@@ -294,8 +292,9 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     },
     chip: {
       size: rootSize(chipSizeModes, chipSizeDefaultMode, 'Height of the chip.'),
-      icons: { remove: 'circle-xmark' },
+      icons: { remove: 'circle-xmark', check: 'check' },
     },
+    'checkbox-group': {},
     'chip-list': {
       size: rootSize(
         chipListSizeModes,
@@ -352,15 +351,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
         'Height, padding and text; inside a FormField it takes the size of the field.',
       ),
     },
-    menu: {
-      size: {
-        attrName: 'size',
-        values: menuContentSizeModes,
-        default: menuContentSizeDefaultMode,
-        partNames: ['content'],
-        description: 'Height of the items, set on the content; the items follow it.',
-      },
-    },
+    menu: menuOptions,
     label: {},
     leading: {},
     prefix: {},

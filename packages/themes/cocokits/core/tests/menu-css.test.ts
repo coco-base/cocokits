@@ -1,30 +1,32 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, selectorsOf, tokensCss } from './css-test-helpers';
+import { declarationsInList, read, selectorsOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'menu.css');
-const rule = (selector: string): string => declarationsOf(css, selector) ?? '';
+const rule = (selector: string): string => declarationsInList(css, selector) ?? '';
 
 describe('menu output', () => {
   it('puts the rules inside @layer cocokits and into the whole theme', () => {
     expect(css.replace(/^@property --side-offset \{[^}]*\}\n/, '').startsWith('@layer cocokits {')).toBe(true);
-    expect(read('dist', 'styles.css')).toContain('.cck-menu__content {');
-    expect(read('dist', 'styles.css')).toContain('.cck-menu__item {');
+    expect(read('dist', 'styles.css')).toMatch(/\.cck-menu__content,\s*\.cck-menu__sub-content \{/);
+    expect(read('dist', 'styles.css')).toContain('.cck-menu__item,');
   });
 
-  it('names only the content, the item, the divider and the icon, never a tag or the nth-child', () => {
+  it('names only the Menu parts, the divider and the icon, never a tag or the nth-child', () => {
     const selectors = selectorsOf(css).flatMap((list) => list.split(/,\s*/));
     expect(selectors.length).toBeGreaterThan(0);
     for (const selector of selectors) {
-      expect(selector).toMatch(/^\.cck-menu__(content|item)/);
+      expect(selector).toMatch(/^(:is\()?\.cck-menu__[a-z-]+/);
       expect(selector).not.toContain('nth-child');
       expect(selector).not.toMatch(/(^|[\s>])[a-z][\w-]*(\s|$|\[|:)/);
     }
   });
 
   it('emits the size modes and the structure tokens on the content class and nothing on :root', () => {
-    expect(tokensCss).toContain('.cck-menu__content[data-size=sm] {');
-    expect(tokensCss).toContain('.cck-menu__content, .cck-menu__content[data-size=md] {');
-    expect(tokensCss).toContain('.cck-menu__content[data-size=lg] {');
+    expect(tokensCss).toContain('.cck-menu__content[data-size=sm], .cck-menu__sub-content[data-size=sm] {');
+    expect(tokensCss).toContain(
+      '.cck-menu__content, .cck-menu__content[data-size=md], .cck-menu__sub-content, .cck-menu__sub-content[data-size=md] {',
+    );
+    expect(tokensCss).toContain('.cck-menu__content[data-size=lg], .cck-menu__sub-content[data-size=lg] {');
     const blocks = tokensCss.split('  }').filter((block) => block.includes(':root'));
     expect(blocks.join('')).not.toContain('--cck-menu-');
   });
@@ -53,7 +55,7 @@ describe('menu output', () => {
       'min-block-size: var(--cck-menu-item-height)',
       'padding-inline: var(--cck-menu-item-padding-inline)',
       'margin-inline: var(--cck-menu-item-margin-inline)',
-      'gap: var(--cck-menu-item-gap)',
+      'gap: 0 var(--cck-menu-item-gap)',
       'border-radius: var(--cck-menu-item-radius)',
       'cursor: pointer',
     ]) {
@@ -63,10 +65,11 @@ describe('menu output', () => {
   });
 
   it('highlights a hovered enabled item and a focused one, and rings the focused one', () => {
-    expect(css).toMatch(
-      /\.cck-menu__item:hover:not\(\[data-disabled\]\),\s*\.cck-menu__item:focus-visible\s*\{\s*background-color: var\(--cck-menu-item-highlight-bg\)/,
+    expect(rule('.cck-menu__item:hover:not([data-disabled])')).toContain(
+      'background-color: var(--cck-menu-item-highlight-bg)',
     );
-    expect(rule('.cck-menu__item:focus-visible')).toContain('outline: var(--cck-menu-item-focus-width) solid');
+    expect(rule('.cck-menu__item:focus-visible')).toContain('background-color: var(--cck-menu-item-highlight-bg)');
+    expect(css).toMatch(/\.cck-menu__item:focus-visible[^{]*\{[^}]*outline: var\(--cck-menu-item-focus-width\) solid/);
   });
 
   it('greys a disabled item and drops the pointer cursor', () => {

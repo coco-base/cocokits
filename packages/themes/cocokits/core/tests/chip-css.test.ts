@@ -101,11 +101,16 @@ describe('chip box', () => {
     );
   });
 
-  it('draws the focus ring on the pill when the remove button has focus, and none on the button', () => {
-    const pill = declarationsOf(chipCss, '.cck-chip:has(> .cck-chip__remove:focus-visible)') ?? '';
+  it('draws the focus ring on the pill when the toggle or the remove button has focus, and none on the buttons', () => {
+    const pill =
+      declarationsOf(
+        chipCss,
+        '.cck-chip:has(> .cck-chip__content-wrapper:focus-visible, > .cck-chip__remove:focus-visible)',
+      ) ?? '';
     expect(pill).toContain('outline: var(--cck-chip-focus-width) solid var(--cck-chip-focus-color)');
     expect(pill).toContain('outline-offset: var(--cck-chip-focus-offset)');
     expect(declarationsOf(chipCss, '.cck-chip__remove:focus-visible')).toContain('outline: none');
+    expect(declarationsOf(chipCss, '.cck-chip__content-wrapper:focus-visible')).toContain('outline: none');
   });
 
   it('takes the icon size per size mode, 16px and 20px at lg', () => {
@@ -246,9 +251,12 @@ describe('chip forced colors and selectors', () => {
   it('keeps the chip border, greys the disabled chip and keeps the remove focus ring visible', () => {
     expect(declarationsOf(forced(chipCss), '.cck-chip')).toContain('border-color: CanvasText');
     expect(declarationsOf(forced(chipCss), '.cck-chip[data-disabled]')).toContain('GrayText');
-    expect(declarationsOf(forced(chipCss), '.cck-chip:has(> .cck-chip__remove:focus-visible)')).toContain(
-      'outline-color: Highlight',
-    );
+    expect(
+      declarationsOf(
+        forced(chipCss),
+        '.cck-chip:has(> .cck-chip__content-wrapper:focus-visible, > .cck-chip__remove:focus-visible)',
+      ),
+    ).toContain('outline-color: Highlight');
   });
 
   it('keeps the list border and greys the disabled one; an invalid list only changes the colour', () => {

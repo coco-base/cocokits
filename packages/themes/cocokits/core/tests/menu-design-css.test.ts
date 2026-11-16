@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf } from './css-test-helpers';
+import { declarationsInList as declarationsOf, read, ref, sizeTokenOf, structureTokenOf } from './css-test-helpers';
 
 const css = read('dist', 'components', 'menu.css');
 const ROOT = '.cck-menu__content';
@@ -75,7 +75,7 @@ describe('menu design match: rules', () => {
     const disabled = '.cck-menu__item[data-disabled] > .cck-svg-icon:not([data-cck-color])';
     expect(declarationsOf(css, icon)).toContain('color: var(--cck-menu-item-icon-color)');
     expect(declarationsOf(css, disabled)).toContain('color: var(--cck-menu-item-disabled-text-color)');
-    expect(css.indexOf(`${disabled} {`)).toBeGreaterThan(css.indexOf(`${icon} {`));
+    expect(css.indexOf(disabled)).toBeGreaterThan(css.indexOf(icon));
   });
 
   it('turns a disabled item icon GrayText in forced colors', () => {

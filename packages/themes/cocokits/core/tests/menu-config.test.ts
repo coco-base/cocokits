@@ -15,12 +15,12 @@ describe('cocokitsThemeConfig menu', () => {
     },
   });
 
-  it('has the size option only, rendered as data-size on the content, default md', () => {
-    expect(Object.keys(options)).toEqual(['size']);
+  it('has a size option on the content and the submenu content, default md', () => {
+    expect(Object.keys(options)).toEqual(['size', 'color', 'icons']);
     expect(options.size.attrName).toBe('size');
     expect(options.size.default).toBe('md');
     expect(options.size.values).toEqual(['sm', 'md', 'lg']);
-    expect(options.size.partNames).toEqual(['content']);
+    expect(options.size.partNames).toEqual(['content', 'subContent']);
   });
 
   it('takes the size modes from the generated token modes', () => {
@@ -33,7 +33,7 @@ describe('cocokitsThemeConfig menu', () => {
     expect(resolved.content).toEqual({ 'data-size': 'md' });
     expect(resolved.root).toEqual({});
     expect(resolved.trigger).toEqual({});
-    expect(resolved.item).toEqual({});
+    expect(resolved.item).toEqual({ 'data-color': 'default' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomy, { size: 'lg' }).content).toEqual({ 'data-size': 'lg' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomy, { size: null }).content).toEqual({});
   });

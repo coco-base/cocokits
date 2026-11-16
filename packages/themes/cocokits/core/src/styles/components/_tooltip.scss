@@ -31,10 +31,38 @@
     }
   }
 
-  // The positioning module places and turns the arrow; the theme only sizes and fills the triangle. An author rule
-  // beats the user-agent [hidden] rule, so the theme restates it.
+  // The title is the text of the bubble; the description is a smaller, regular line under it. Both are blocks, as the
+  // other parts take the display of their default element. An author rule beats the user-agent [hidden] rule, so the
+  // theme restates it.
+  .cck-tooltip__title,
+  .cck-tooltip__description {
+    box-sizing: border-box;
+    display: block;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-tooltip__description {
+    font-family: var(--cck-tooltip-description-font-family);
+    font-size: var(--cck-tooltip-description-font-size);
+    font-weight: var(--cck-tooltip-description-font-weight);
+    line-height: var(--cck-tooltip-description-line-height);
+    letter-spacing: var(--cck-tooltip-description-letter-spacing);
+  }
+
+  // The space between the title and the description is padding, because a part takes no margin.
+  .cck-tooltip__title + .cck-tooltip__description {
+    padding-block-start: var(--cck-tooltip-text-gap);
+  }
+
+  // The positioning module places and turns the arrow; the theme only sizes and fills the triangle. An arrow rendered as a custom tag
+  // (`cck-tooltip-arrow`) is inline by default, so the theme makes it a block, as a span is. An author rule beats
+  // the user-agent [hidden] rule, so the theme restates it.
   .cck-tooltip__arrow {
     box-sizing: border-box;
+    display: block;
 
     &[hidden] {
       display: none;

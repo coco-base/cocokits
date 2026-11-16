@@ -1,0 +1,25 @@
+// Checkbox group rules: layout only. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The group is a `div` with `role="group"`; the checkboxes keep their own look, size and 24 by 24 target.
+@mixin rules {
+  // The checkboxes stack in a column; `--cck-checkbox-group-gap` is the space between them (12px).
+  .cck-checkbox-group {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cck-checkbox-group-gap);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // A row that wraps instead of overflowing (WCAG 1.4.10).
+    &[data-orientation='horizontal'] {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: var(--cck-checkbox-group-inline-gap);
+    }
+  }
+}

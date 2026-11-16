@@ -47,3 +47,19 @@ export const ref = (name: string): string => `var(--cck-${name})`;
 /** The selectors of every rule that names a CocoKits class. */
 export const selectorsOf = (css: string): string[] =>
   [...css.matchAll(/(?:^|[{}])\s*([^{}@]+?)\s*\{/g)].map((match) => match[1]).filter((s) => s.includes('.cck-'));
+
+/**
+ * The declarations of the rule whose selector list holds `selector` as one item, or undefined. The parts that share a
+ * look (the four kinds of Menu item, the Menu content and the submenu content) are written as one rule with a list.
+ */
+export function declarationsInList(css: string, selector: string): string | undefined {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?:^|[{}])\\s*(?:[^{}]*,\\s*)?${escaped}\\s*(?:,[^{}]*)?\\{([^}]*)\\}`).exec(css)?.[1];
+}
+
+/** The declarations of every rule whose selector list holds `selector` as one item, joined (the rules of one part). */
+export function declarationsOfAll(css: string, selector: string): string {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = `(?:^|[{}])\\s*(?:[^{}]*,\\s*)?${escaped}\\s*(?:,[^{}]*)?\\{([^}]*)\\}`;
+  return [...css.matchAll(new RegExp(pattern, 'g'))].map((match) => match[1]).join('\n');
+}

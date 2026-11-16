@@ -33,7 +33,7 @@ describe('cocokitsThemeConfig components.*.icons', () => {
       select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
       accordion: { indicator: 'chevron-down' },
       checkbox: { background: 'check' },
-      chip: { remove: 'circle-xmark' },
+      chip: { remove: 'circle-xmark', check: 'check' },
     });
   });
 

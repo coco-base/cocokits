@@ -25,6 +25,7 @@
           "packages/themes/cocokits/core/src/tokens/switch.tokens.json",
           "packages/themes/cocokits/core/src/tokens/radio.tokens.json",
           "packages/themes/cocokits/core/src/tokens/radio-group.tokens.json",
+          "packages/themes/cocokits/core/src/tokens/checkbox-group.tokens.json",
           "packages/themes/cocokits/core/src/tokens/tabs.tokens.json",
           "packages/themes/cocokits/core/src/tokens/popover.tokens.json",
           "packages/themes/cocokits/core/src/tokens/tooltip.tokens.json",

@@ -50,9 +50,11 @@
   // The positioning module places and turns the arrow and sets `hidden` through the machine; the theme only sizes
   // and fills the triangle. An author rule beats the user-agent [hidden] rule, so the theme restates it.
   // The outline runs along the two sloping sides only: the dash pattern skips the base (the first side of the
-  // triangle) and draws the other two, in screen units (`non-scaling-stroke`).
+  // triangle) and draws the other two, in screen units (`non-scaling-stroke`). An arrow rendered as a custom tag
+  // (`cck-popover-arrow`) is inline by default, so the theme makes it a block, as a span is.
   .cck-popover__arrow {
     box-sizing: border-box;
+    display: block;
 
     &[hidden] {
       display: none;

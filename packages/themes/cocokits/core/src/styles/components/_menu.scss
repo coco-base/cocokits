@@ -1,12 +1,23 @@
 // Menu rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
-// The content is portaled into a host in the top layer, so it is styled by its own class and never through the
-// trigger. It sets no `position`, `inset` or `transform`: the positioning module writes `position: fixed`, the
-// coordinates and `--available-height`. The gap to the trigger is `--side-offset`, the one unprefixed variable a
-// theme sets. The size tokens sit on the content (`data-size`), so every item reads its height from the container.
-// The content takes focus only when it holds no item, so it has no outline rule. No motion: the content appears
-// and goes at once. The content and item tags a framework renders for these parts are laid out by these class rules.
+// The content and the submenu content are portaled into a host in the top layer, so each is styled by its own class
+// and never through the trigger. They set no `position`, `inset` or `transform`: the positioning module writes
+// `position: fixed`, the coordinates and `--available-height`. The gap to the trigger is `--side-offset`, the one
+// unprefixed variable a theme sets. The size tokens sit on the content (`data-size`), so every item reads its height
+// from its container; the submenu content has its own `data-size` and the same tokens. The content takes focus only
+// when it holds no item, so it has no outline rule. No motion: the content appears and goes at once. The content and
+// item tags a framework renders for these parts are laid out by these class rules.
+//
+// The four kinds of item (item, checkbox item, radio item, sub-trigger) share one look. An item that holds a leading
+// part, supporting text, a shortcut or a trailing part lays them out in a wrapping row: the supporting text is one
+// line under the text, indented by the leading part, and the shortcut and the trailing part go to the end.
+$items: '.cck-menu__item, .cck-menu__checkbox-item, .cck-menu__radio-item, .cck-menu__sub-trigger';
+// The same list as one compound, for a rule that adds a state or a child to it (a list cannot take a suffix).
+$item: ':is(#{$items})';
+$secondary: '.cck-menu__item-supporting-text, .cck-menu__item-shortcut';
+
 @mixin rules {
-  .cck-menu__content {
+  .cck-menu__content,
+  .cck-menu__sub-content {
     --side-offset: var(--cck-menu-side-offset);
     box-sizing: border-box;
     display: flex;
@@ -37,12 +48,13 @@
     }
   }
 
-  .cck-menu__item {
+  #{$items} {
     box-sizing: border-box;
     display: flex;
     flex: none;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--cck-menu-item-gap);
+    gap: 0 var(--cck-menu-item-gap);
     // The height is a minimum, so a long label wraps instead of overflowing.
     min-block-size: var(--cck-menu-item-height);
     margin-inline: var(--cck-menu-item-margin-inline);
@@ -69,6 +81,16 @@
       outline-offset: calc(-1 * var(--cck-menu-item-focus-width));
     }
 
+    // A checked item and an open sub-trigger keep a fill, so the state is not the check alone.
+    &[data-state='checked'],
+    &[data-state='open'] {
+      background-color: var(--cck-menu-item-selected-bg);
+    }
+
+    &[data-color='danger'] {
+      color: var(--cck-menu-item-danger-color);
+    }
+
     &[data-disabled] {
       color: var(--cck-menu-item-disabled-text-color);
       cursor: default;
@@ -88,18 +110,142 @@
       }
     }
 
+    &[data-color='danger'] > .cck-svg-icon:not([data-cck-color]) {
+      color: var(--cck-menu-item-danger-color);
+    }
+
     &[data-disabled] > .cck-svg-icon:not([data-cck-color]) {
       color: var(--cck-menu-item-disabled-text-color);
     }
   }
 
+  // The parts that hold an icon are boxes whose font size is the icon size, so the icon (1em) follows it.
+  .cck-menu__item-leading,
+  .cck-menu__item-trailing,
+  .cck-menu__item-indicator {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--cck-menu-item-icon-size);
+    color: var(--cck-menu-item-icon-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The indicator keeps its box while the item is not checked, so the text lines up either way.
+  .cck-menu__item-indicator {
+    color: var(--cck-menu-item-indicator-color);
+
+    &:not([data-state='checked']) {
+      visibility: hidden;
+    }
+  }
+
+  #{$item}[data-color='danger'] > :is(.cck-menu__item-leading, .cck-menu__item-trailing) {
+    color: var(--cck-menu-item-danger-color);
+  }
+
+  #{$item}[data-disabled] > :is(.cck-menu__item-leading, .cck-menu__item-trailing, .cck-menu__item-indicator) {
+    color: var(--cck-menu-item-disabled-text-color);
+  }
+
+  // The shortcut and the trailing part go to the end; with both, the shortcut takes the free space.
+  .cck-menu__item-shortcut,
+  .cck-menu__item-trailing {
+    margin-inline-start: auto;
+  }
+
+  .cck-menu__item-shortcut ~ .cck-menu__item-trailing {
+    margin-inline-start: 0;
+  }
+
+  #{$secondary} {
+    box-sizing: border-box;
+    color: var(--cck-menu-item-secondary-color);
+    font-family: var(--cck-menu-item-secondary-font-family);
+    font-size: var(--cck-menu-item-secondary-font-size);
+    font-weight: var(--cck-menu-item-secondary-font-weight);
+    line-height: var(--cck-menu-item-secondary-line-height);
+    letter-spacing: var(--cck-menu-item-secondary-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-menu__item-shortcut {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  // A second line under the text, as wide as the row. It is indented by the leading part when there is one.
+  .cck-menu__item-supporting-text {
+    display: block;
+    flex: 1 0 100%;
+    order: 1;
+  }
+
+  #{$item}:has(> .cck-menu__item-leading) > .cck-menu__item-supporting-text,
+  #{$item}:has(> .cck-menu__item-indicator) > .cck-menu__item-supporting-text {
+    padding-inline-start: calc(var(--cck-menu-item-icon-size) + var(--cck-menu-item-gap));
+  }
+
+  #{$item}[data-disabled] > :is(#{$secondary}) {
+    color: var(--cck-menu-item-disabled-text-color);
+  }
+
+  .cck-menu__group,
+  .cck-menu__radio-group {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cck-menu-gap);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The label of a group is not an item: the item's inline padding, the secondary text style and no fill.
+  .cck-menu__group-label {
+    box-sizing: border-box;
+    padding-block: var(--cck-menu-item-padding-block);
+    padding-inline: var(--cck-menu-item-padding-inline);
+    color: var(--cck-menu-item-secondary-color);
+    font-family: var(--cck-menu-item-secondary-font-family);
+    font-size: var(--cck-menu-item-secondary-font-size);
+    font-weight: var(--cck-menu-item-secondary-font-weight);
+    line-height: var(--cck-menu-item-secondary-line-height);
+    letter-spacing: var(--cck-menu-item-secondary-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
   @media (forced-colors: active) {
-    .cck-menu__content {
+    .cck-menu__content,
+    .cck-menu__sub-content {
       border-color: CanvasText;
       box-shadow: none;
     }
 
-    .cck-menu__item {
+    #{$items} {
+      // The fill is dropped in forced colors; a checked item and an open sub-trigger keep an outline.
+      &[data-state='checked'],
+      &[data-state='open'] {
+        outline: 1px solid CanvasText;
+        outline-offset: -1px;
+      }
+
       &:focus-visible {
         outline-color: Highlight;
       }
@@ -108,6 +254,14 @@
       &[data-disabled] > .cck-svg-icon {
         color: GrayText;
       }
+    }
+
+    #{$item}[data-disabled] > :is(.cck-menu__item-leading, .cck-menu__item-trailing, .cck-menu__item-indicator) {
+      color: GrayText;
+    }
+
+    #{$item}[data-disabled] > :is(#{$secondary}) {
+      color: GrayText;
     }
   }
 }

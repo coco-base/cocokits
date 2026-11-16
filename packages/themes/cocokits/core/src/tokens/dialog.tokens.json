@@ -49,7 +49,10 @@
         { "name": "close-icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-24}" } },
         { "name": "close-padding-block", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-0}" } },
         { "name": "close-radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
-        { "name": "close-hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } }
+        { "name": "close-hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
+        { "name": "section-gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
+        { "name": "divider-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/2}" } },
+        { "name": "divider-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } }
       ]
     }
   ]

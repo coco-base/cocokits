@@ -86,6 +86,14 @@
     letter-spacing: var(--cck-chip-list-chip-letter-spacing);
   }
 
+  .cck-chip-list .cck-chip__check {
+    font-size: var(--cck-chip-list-chip-check-icon-size);
+  }
+
+  .cck-chip-list .cck-chip:has(> .cck-chip__check[data-state='checked']) {
+    padding-inline-start: var(--cck-chip-list-chip-check-padding-inline-start);
+  }
+
   .cck-chip-list .cck-chip__remove {
     margin-inline-end: calc(var(--cck-chip-list-chip-remove-end-inset) - var(--cck-chip-list-chip-padding-inline));
     font-size: var(--cck-chip-list-chip-icon-size);

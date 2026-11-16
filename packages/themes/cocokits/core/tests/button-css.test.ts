@@ -16,7 +16,12 @@ const componentsDir = join(root, 'src', 'styles', 'components');
 /** `_button.scss` is the rules of the `button` block. Entries without rules have no `var()`. */
 const sources = readdirSync(componentsDir)
   .filter((file) => file.endsWith('.scss'))
-  .map((file) => ({ file, block: basename(file, '.scss').replace(/^_/, '') }));
+  .map((file) => ({
+    file,
+    block: basename(file, '.scss')
+      .replace(/^_/, '')
+      .replace(/-parts$/, ''),
+  }));
 /** Documented custom properties the author sets: the theme reads them and defines no token. */
 const INLINE_PROPERTIES = [
   '--cck-badge-container-radius',

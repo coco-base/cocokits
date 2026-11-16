@@ -99,6 +99,7 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'block-size',
     'gap',
     'padding-inline',
+    'padding-inline-start',
     'font-family',
     'font-size',
     'line-height',
