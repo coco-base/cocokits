@@ -37,3 +37,8 @@ export { volumeOffIcon } from './volume-off';
 export { volumeLowIcon } from './volume-low';
 export { volumeIcon } from './volume';
 export { volumeHighIcon } from './volume-high';
+export { circleXmarkIcon } from './circle-xmark';
+export { diamondsIcon } from './diamonds';
+export { resizeIcon } from './resize';
+export { houseIcon } from './house';
+export { chevronUpDownIcon } from './chevron-up-down';

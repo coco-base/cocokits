@@ -44,14 +44,19 @@ const NAMES = [
   'volume-low',
   'volume',
   'volume-high',
+  'circle-xmark',
+  'diamonds',
+  'resize',
+  'house',
+  'chevron-up-down',
 ];
 
 const camel = (name: string): string => name.replace(/-([a-z])/g, (_, letter: string) => letter.toUpperCase()) + 'Icon';
 
 describe('@cocokits/icons pack', () => {
-  it('exports exactly the 39 icons, one per name', () => {
+  it('exports exactly the 44 icons, one per name', () => {
     expect(pack.map(([name]) => name).sort()).toEqual(NAMES.map(camel).sort());
-    expect(NAMES).toHaveLength(39);
+    expect(NAMES).toHaveLength(44);
   });
 
   it.each(pack)('%s has a viewBox and a body that paints with currentColor only', (_name, icon) => {
