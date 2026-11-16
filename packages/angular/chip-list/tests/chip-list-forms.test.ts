@@ -171,7 +171,7 @@ describe('Chip list in a real form', () => {
       expect(container.querySelector('cck-chip-list')?.hasAttribute('data-disabled')).toBe(true);
     });
     expect(textbox().disabled).toBe(true);
-    expect(container.querySelector<HTMLButtonElement>('.cck-chip__remove')?.disabled).toBe(true);
+    expect(container.querySelector('.cck-chip__remove')).toBeNull();
   });
 
   it('does not add on Enter while a fieldset disables it', async () => {
@@ -229,6 +229,6 @@ describe('Chip list with Signal Forms [formField]', () => {
     fixture.componentInstance.off.set(true);
     await fixture.whenStable();
     expect(textbox().disabled).toBe(true);
-    expect(container.querySelector<HTMLButtonElement>('.cck-chip__remove')?.disabled).toBe(true);
+    expect(container.querySelector('.cck-chip__remove')).toBeNull();
   });
 });

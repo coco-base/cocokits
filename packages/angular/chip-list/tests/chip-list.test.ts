@@ -203,13 +203,12 @@ describe('Chip list removing', () => {
     h.disabled.set(flags.disabled);
     h.readonly.set(flags.readonly);
     const { container } = await render(h.template, { imports, componentProperties: h.properties });
-    expect(removeButtons(container)[0]?.disabled).toBe(true);
+    expect(removeButtons(container)).toHaveLength(0);
     expect(textbox().disabled).toBe(flags.disabled);
     expect(textbox().readOnly).toBe(flags.readonly);
     textbox().value = 'Salad';
     textbox().dispatchEvent(new Event('input'));
     fireEvent.keyDown(textbox(), { key: 'Enter' });
-    await userEvent.setup().click(removeButtons(container)[0]);
     expect(h.state()).toEqual(['Pizza']);
     expect(h.seen).toEqual([]);
     expect(container.querySelector('.cck-chip')?.hasAttribute('data-disabled')).toBe(true);
@@ -330,7 +329,7 @@ describe('Chip list in a FormField', () => {
     const root = must(container.querySelector('cck-chip-list'));
     expect(root.hasAttribute(`data-${attr}`)).toBe(true);
     if (attr === 'required') expect(textbox().getAttribute('aria-required')).toBe('true');
-    else expect(removeButtons(container)[0]?.disabled).toBe(true);
+    else expect(removeButtons(container)).toHaveLength(0);
   });
 
   it('shows aria-invalid once the user left the list', async () => {

@@ -11,14 +11,16 @@ describe('Chip on the server', () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
     expect(html).toContain('class="cck-chip"');
     expect(html).toContain('id="removable-content"');
-    expect(html).toMatch(/<button[^>]*aria-labelledby="removable-content"/);
-    expect(html).toMatch(/<button[^>]*type="button"[^>]*disabled=""/);
+    expect(html).toMatch(/<button[^>]*aria-labelledby="removable-remove removable-content"/);
+    expect(html).not.toMatch(/<button[^>]*disabled=""/);
   });
 
   it('gives every chip id and content id once, and every reference resolves', async () => {
     const html = await renderOnServer();
     const ids = [...html.matchAll(/\sid="([^"]*)"/g)].map((match) => match[1]);
     expect(new Set(ids).size).toBe(ids.length);
-    for (const [, reference] of html.matchAll(/\saria-labelledby="([^"]*)"/g)) expect(ids).toContain(reference);
+    for (const [, references] of html.matchAll(/\saria-labelledby="([^"]*)"/g)) {
+      for (const reference of references.split(' ')) expect(ids).toContain(reference);
+    }
   });
 });

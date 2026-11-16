@@ -7,6 +7,7 @@ import {
   computed,
   effect,
   inject,
+  Injector,
   input,
   linkedSignal,
   model,
@@ -23,25 +24,34 @@ import { chipAnatomy } from '@cocokits/machines/chip';
 import {
   addChipListValue,
   chipListAnatomy,
+  getChipListBackspaceTarget,
+  getChipListFocusAfterRemove,
   getChipListProps,
+  getChipListRemoveKey,
   isChipListAddKey,
   removeChipListValue,
+  toggleChipListItem,
   type ChipListChangeReason,
+  type ChipListFocusTarget,
+  type ChipListItem,
 } from '@cocokits/machines/chip-list';
 import type { ValueChangeDetails } from '@cocokits/shared';
 import { hasAccessibleName, visuallyHiddenStyleText } from '@cocokits/utils';
 
-export type { ChipListChangeReason } from '@cocokits/machines/chip-list';
+export type { ChipListChangeReason, ChipListItem } from '@cocokits/machines/chip-list';
+
+/** One entry of the value: a text, or a {@link ChipListItem} with its own options. */
+export type ChipListEntry = string | ChipListItem;
 
 /** The `value`, the `reason` and the `event` of a change. The `valueChangeDetails` output sends them. */
-export type ChipListChangeDetails = ValueChangeDetails<string[], ChipListChangeReason>;
+export type ChipListChangeDetails = ValueChangeDetails<readonly ChipListEntry[], ChipListChangeReason>;
 
 /**
  * A text box for entering several values. Each value the user types and confirms with Enter becomes a removable chip in front of the text box. Inside a `cck-form-field` it is the control of the field.
  *
- * The value is a list of distinct texts, in the order they were added. It is a model: use `[(value)]` to read and change it, `[value]` to only set it, or no binding. The list shows one chip for each value, so it needs no content. A value you set that has duplicates or empty texts is shown as it is; only what the user types is checked.
+ * The value is a list, in the order the entries were added. An entry is a text, or a `ChipListItem` with `value`, `removable`, `disabled` and `selected`. A text is a removable chip with no options. An item with `selected` set is selectable: a press on it toggles `selected`. It is a model: use `[(value)]` to read and change it, `[value]` to only set it, or no binding. The list shows one chip for each entry, so it needs no content, and the chips take the size of the list through the theme. An entry you set that has duplicates or empty texts is shown as it is; only what the user types is checked.
  *
- * Enter adds the text, trimmed, unless the list has it already, and keeps the form from submitting. Enter with no text submits the form as usual. With `addOnBlur`, leaving the text box adds the text too. Each remove button is a tab stop before the text box. Removing a chip moves the focus to the text box.
+ * Enter adds the text, trimmed, unless the list has it already, and keeps the form from submitting. Enter with no text submits the form as usual. With `addOnBlur`, leaving the text box adds the text too. Each remove button and each toggle is a tab stop before the text box. Backspace in an empty text box moves the focus to the last chip. Backspace or Delete on a focused chip removes it, unless it is not removable or is disabled, and moves the focus to the previous chip (Delete: the next one), else to the text box. Removing a chip with its button moves the focus to the text box.
  *
  * The chip list works with Signal Forms. Through `ngNoCva` it also works with `formControlName`, `[formControl]` and `ngModel`. With a `name`, it makes one hidden native input for each value, so `FormData`, `required`, `form` and reset work. While `required` and empty, one empty hidden input blocks the submit; the blocked submit moves the focus to the text box. The text box has no `name` of its own.
  *
@@ -64,18 +74,24 @@ export type ChipListChangeDetails = ValueChangeDetails<string[], ChipListChangeR
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-describedby]': 'null',
     '[attr.placeholder]': 'null',
+    '[attr.value]': 'null',
+    '[attr.addonblur]': 'null',
     '[attr.data-filled]': 'parts().root["data-filled"]',
     '(focusin)': 'focused.set(true)',
     '(focusout)': 'onFocusOut($event)',
   },
   template: `
-    @for (item of value(); track $index) {
+    @for (entry of value(); track $index) {
+      @let chip = parts().chip(entry);
       <cck-chip
-        removable
-        [disabled]="parts().chipDisabled"
+        [removable]="chip.removable"
+        [disabled]="chip.disabled"
+        [selected]="chip.selected"
         (removed)="onRemove($index)"
+        (selectedChange)="onToggle($index)"
         (click)="onChipClick($event)"
-        >{{ item }}</cck-chip
+        (keydown)="onChipKeyDown($event, $index)"
+        >{{ chip.value }}</cck-chip
       >
     }
     <input
@@ -115,7 +131,7 @@ export type ChipListChangeDetails = ValueChangeDetails<string[], ChipListChangeR
     }
   `,
 })
-export class CckChipList extends CckFormControlBase implements FormValueControl<string[]> {
+export class CckChipList extends CckFormControlBase implements FormValueControl<readonly ChipListEntry[]> {
   /**
    * The values, in the order they were added. Each one is a chip.
    *
@@ -128,14 +144,14 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
    * @cckSemantic chip-list.value
    * @defaultValue []
    */
-  readonly value = model<string[]>([]);
+  readonly value = model<readonly ChipListEntry[]>([]);
 
   /**
-   * Emits after the user adds or removes a value, and after a form reset. It sends the new `value`, the `reason` (`'add'`, `'remove'` or `'form-reset'`) and the `event`.
+   * Emits after the user adds or removes a value, toggles a selectable chip, and after a form reset. It sends the new `value`, the `reason` (`'add'`, `'remove'`, `'toggle'` or `'form-reset'`) and the `event`.
    * @remarks It never emits when the parent or a forms library changes the value. An added text that is empty or already in the list changes nothing and emits nothing.
    * @example
    * <cck-chip-list aria-label="Dishes" (valueChangeDetails)="onChange($event.value, $event.reason)" />
-   * <!-- In the class: onChange(dishes: string[], reason: ChipListChangeReason) { console.log(dishes, reason); } -->
+   * <!-- In the class: onChange(dishes: readonly ChipListEntry[], reason: ChipListChangeReason) { console.log(dishes, reason); } -->
    * @cckSemantic chip-list.valueChange
    */
   readonly valueChangeDetails = output<ChipListChangeDetails>();
@@ -206,8 +222,9 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   protected readonly draft = signal('');
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('input');
-  private mountValue: string[] = [];
-  private pendingRemoveIndex: number | null = null;
+  private readonly injector = inject(Injector);
+  private mountValue: readonly ChipListEntry[] = [];
+  private chipAction: { readonly kind: 'remove' | 'toggle'; readonly index: number } | null = null;
 
   /** Whether a submit was blocked because the list is required and empty. The next value change clears it. */
   private readonly blockedSubmit = linkedSignal<unknown, boolean>({ source: this.value, computation: () => false });
@@ -241,7 +258,7 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   constructor() {
     super();
     afterNextRender(() => {
-      this.mountValue = [...this.value()];
+      this.mountValue = this.value();
       this.warnWithoutName();
     });
     // Runs before the view updates, while the focused remove button is still in the document: the focus goes to the
@@ -266,7 +283,7 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   }
 
   protected restoreMount(event: Event): void {
-    const value = [...this.mountValue];
+    const value = this.mountValue;
     this.value.set(value);
     this.valueChangeDetails.emit({ value, reason: 'form-reset', event });
   }
@@ -276,6 +293,12 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
+    const last = getChipListBackspaceTarget(event, this.draft(), this.value());
+    if (last !== null && !this.parts().chipDisabled) {
+      event.preventDefault();
+      this.chipStop(last)?.focus();
+      return;
+    }
     if (this.parts().chipDisabled || !isChipListAddKey(event) || this.draft().trim() === '') return;
     event.preventDefault();
     this.add(event);
@@ -295,16 +318,35 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   protected onRemove(index: number): void {
     // The focus moves first: the button is still in the document and the focus never leaves the list.
     this.inputRef().nativeElement.focus();
-    this.pendingRemoveIndex = index;
+    this.chipAction = { kind: 'remove', index };
+  }
+
+  /** A press on the toggle of a selectable chip emits `selectedChange` first; the same click then reaches `onChipClick`. */
+  protected onToggle(index: number): void {
+    this.chipAction = { kind: 'toggle', index };
   }
 
   protected onChipClick(event: Event): void {
-    const index = this.pendingRemoveIndex;
-    this.pendingRemoveIndex = null;
-    if (index === null) return;
+    const action = this.chipAction;
+    this.chipAction = null;
+    if (action === null) return;
+    const value = this.value();
+    const next =
+      action.kind === 'remove' ? removeChipListValue(value, action.index) : toggleChipListItem(value, action.index);
+    if (next !== value) this.commit(next, action.kind, event);
+  }
+
+  /** Backspace or Delete on a focused chip removes it, and the focus moves to a neighbour or the text box. */
+  protected onChipKeyDown(event: KeyboardEvent, index: number): void {
+    const key = getChipListRemoveKey(event);
+    if (key === null) return;
     const value = this.value();
     const next = removeChipListValue(value, index);
-    if (next !== value) this.commit([...next], 'remove', event);
+    if (next === value) return;
+    event.preventDefault();
+    const target = getChipListFocusAfterRemove(value, index, key);
+    this.commit(next, 'remove', event);
+    this.focusAfterRender(target);
   }
 
   protected onInvalid(event: Event): void {
@@ -319,10 +361,34 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
     const value = this.value();
     const next = addChipListValue(value, this.draft());
     this.draft.set('');
-    if (next !== value) this.commit([...next], 'add', event);
+    if (next !== value) this.commit(next, 'add', event);
   }
 
-  private commit(value: string[], reason: ChipListChangeReason, event: Event | null): void {
+  /** The element of a chip that takes focus: its toggle while it is selectable, else its remove button. */
+  private chipStop(index: number): HTMLElement | null {
+    const { classes } = chipAnatomy;
+    const chip = Array.from(this.element.children)
+      .filter((child) => child.classList.contains(classes.root))
+      .at(index);
+    return (
+      chip?.querySelector<HTMLElement>(`button.${classes.contentWrapper}`) ??
+      chip?.querySelector<HTMLElement>(`.${classes.remove}`) ??
+      null
+    );
+  }
+
+  /** Focuses a chip, or the text box, once the list has rendered the removal. */
+  private focusAfterRender(target: ChipListFocusTarget): void {
+    afterNextRender(
+      () => {
+        const element = target === 'input' ? this.inputRef().nativeElement : this.chipStop(target);
+        element?.focus();
+      },
+      { injector: this.injector },
+    );
+  }
+
+  private commit(value: readonly ChipListEntry[], reason: ChipListChangeReason, event: Event | null): void {
     this.value.set(value);
     this.dirtyState.set(true);
     this.valueChangeDetails.emit({ value, reason, event });

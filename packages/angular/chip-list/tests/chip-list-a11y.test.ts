@@ -29,12 +29,12 @@ describe('Chip list accessibility', () => {
     expect((await axe(container)).violations).toEqual([]);
   });
 
-  it('is named by the label, described by the hint, and each remove button by its chip text', async () => {
+  it('is named by the label, described by the hint, and each remove button by "Remove" and its chip text', async () => {
     await render(field('', ''), { imports });
     const input = screen.getByRole('textbox', { name: 'Dishes', description: 'Press Enter to add.' });
     expect(input.getAttribute('aria-required')).toBeNull();
-    expect(screen.getByRole('button', { name: 'Pizza' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Salad' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Remove Pizza' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Remove Salad' })).toBeTruthy();
   });
 
   it('keeps the hidden inputs out of the accessibility tree', async () => {
