@@ -1,5 +1,5 @@
 import { autoUpdate, computePosition, flip, hide, limitShift, offset, shift, size } from '@floating-ui/dom';
-import type { AutoUpdateOptions, DetectOverflowOptions, Middleware } from '@floating-ui/dom';
+import type { AutoUpdateOptions, DetectOverflowOptions, Middleware, OffsetOptions } from '@floating-ui/dom';
 import type { Direction } from '@cocokits/shared';
 import { isShadowRoot } from '@cocokits/utils';
 import { computedDirection } from '../direction';
@@ -111,6 +111,13 @@ export interface OverlayPositionOptions {
    */
   readonly sideFlip?: boolean;
   /**
+   * The sides to try, in this order, when there is no room on `side`. Each one keeps the `align`.
+   * When the list is set, the content does not flip to the opposite side unless you list it.
+   * With none of them fitting, the content takes the one with the most room. `sideFlip: false` turns the list off.
+   * @defaultValue [] (the content flips to the opposite side)
+   */
+  readonly fallbackSides?: readonly OverlaySide[];
+  /**
    * Whether the alignment may flip to the opposite one.
    * @defaultValue true
    */
@@ -189,6 +196,19 @@ function measureArrow(arrow: HTMLElement | null): ArrowSize | null {
   return arrow ? { width: arrow.offsetWidth, height: arrow.offsetHeight } : null;
 }
 
+/**
+ * The offset of the content. With `fallbackSides`, `alignOffset` belongs to the preferred side only: on a fallback
+ * side the content lines up with the anchor without it.
+ */
+function offsetValue(options: OverlayPositionOptions, gap: number, getDirection: () => Direction): OffsetOptions {
+  const alignmentAxis = options.alignOffset ?? 0;
+  if (!options.fallbackSides?.length || alignmentAxis === 0) return { mainAxis: gap, alignmentAxis };
+  return ({ placement }) => {
+    const preferred = toFloatingPlacement(options.side ?? 'bottom', 'center', getDirection());
+    return { mainAxis: gap, alignmentAxis: placement.split('-')[0] === preferred ? alignmentAxis : 0 };
+  };
+}
+
 /** The Floating UI middlewares for the options, built once per start. The `size` one writes the measured geometry. */
 function buildMiddleware(
   options: OverlayPositionOptions,
@@ -202,14 +222,31 @@ function buildMiddleware(
     ...(options.sideFlip === undefined ? {} : { mainAxis: options.sideFlip }),
     ...(options.alignFlip === undefined ? {} : { crossAxis: options.alignFlip }),
   };
-  const flipping = (): Middleware => flip({ ...detect, ...flipAxes });
+  const flipping = (): Middleware => {
+    const sides = options.fallbackSides ?? [];
+    if (sides.length === 0) return flip({ ...detect, ...flipAxes });
+    // The sides `start` and `end` depend on the direction, which is read on every update: one flip per direction.
+    const align = options.align ?? 'center';
+    const byDirection: Partial<Record<Direction, Middleware>> = {};
+    return {
+      name: 'flip',
+      async fn(state) {
+        const dir = getDirection();
+        byDirection[dir] ??= flip({
+          ...detect,
+          ...flipAxes,
+          fallbackPlacements: sides.map((side) => toFloatingPlacement(side, align, dir)),
+        });
+        return byDirection[dir].fn(state);
+      },
+    };
+  };
   const shifting = (): Middleware =>
     shift({ ...detect, limiter, ...(options.prioritizePosition ? { crossAxis: true } : {}) });
   return [
-    offset({
-      mainAxis: (options.sideOffset ?? readSideOffset(content)) + (arrowSize?.height ?? 0),
-      alignmentAxis: options.alignOffset ?? 0,
-    }),
+    offset(
+      offsetValue(options, (options.sideOffset ?? readSideOffset(content)) + (arrowSize?.height ?? 0), getDirection),
+    ),
     ...(options.avoidCollisions === false
       ? []
       : // Shift first, then flip; `prioritizePosition` flips first, so the content
