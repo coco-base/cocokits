@@ -1,6 +1,7 @@
 import { h, type VNode } from 'vue';
 import {
   SelectContent,
+  SelectCount,
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
@@ -28,6 +29,7 @@ export interface PartsOptions {
 export const selectParts = ({ items = () => [item('Cake'), item('Pizza')], valueSlot }: PartsOptions = {}): VNode[] => [
   h(SelectTrigger, { 'aria-label': 'Dish' }, () => [
     h(SelectValue, { placeholder: 'Choose a dish' }, valueSlot ? { default: valueSlot } : undefined),
+    ...(valueSlot ? [] : [h(SelectCount)]),
     h(SelectIcon),
   ]),
   h(SelectContent, null, items),

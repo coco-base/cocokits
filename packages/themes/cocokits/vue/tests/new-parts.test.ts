@@ -37,6 +37,7 @@ import {
   RadioGroup,
   Radio,
   SelectContent,
+  SelectCount,
   SelectEmpty,
   SelectFooter,
   SelectHeader,
@@ -350,7 +351,7 @@ describe('the Select forwards filter and draws the new parts', () => {
     render(
       themed(() =>
         c(SelectRoot, { filter: true, multiple: true, modelValue: ['a', 'b'] }, () => [
-          c(SelectTrigger, { ariaLabel: 'Dish' }, () => c(SelectValue, null)),
+          c(SelectTrigger, { ariaLabel: 'Dish' }, () => [c(SelectValue, null), c(SelectCount, null)]),
           c(SelectContent, null, () => [
             c(SelectHeader, null, () => c(SelectSearch, { ariaLabel: 'Search' })),
             c(SelectItem, { value: 'a' }, () => [

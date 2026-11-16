@@ -37,6 +37,7 @@ export { default as SelectContent } from './SelectContent.vue';
 export {
   SelectEmpty,
   SelectFooter,
+  SelectCount,
   SelectGroup,
   SelectHeader,
   SelectIcon,
@@ -54,6 +55,7 @@ export {
 export type {
   SelectContentEmits,
   SelectContentProps,
+  SelectCountProps,
   SelectEmptyProps,
   SelectFooterProps,
   SelectGroupProps,

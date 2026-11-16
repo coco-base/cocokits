@@ -1,6 +1,7 @@
 export { default as SelectRoot } from './SelectRoot.vue';
 export { default as SelectTrigger } from './SelectTrigger.vue';
 export { default as SelectValue } from './SelectValue.vue';
+export { default as SelectCount } from './SelectCount.vue';
 export { default as SelectIcon } from './SelectIcon.vue';
 export { default as SelectContent } from './SelectContent.vue';
 export { default as SelectItem } from './SelectItem.vue';
@@ -39,6 +40,7 @@ export type {
   SelectSeparatorProps,
 } from './select-list.types';
 export type {
+  SelectCountProps,
   SelectEmptyProps,
   SelectFooterProps,
   SelectHeaderProps,

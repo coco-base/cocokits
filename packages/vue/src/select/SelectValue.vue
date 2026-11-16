@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, mergeProps, useAttrs, useSlots } from 'vue';
+import { computed, mergeProps, useAttrs } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { useSelectContext } from './select.context';
@@ -13,7 +13,7 @@ defineSlots<{
    * Your own content for the trigger, in place of the labels of the selected items. The slot gives you the labels and the value.
    * When not set, the trigger shows the label of the selected item.
    *
-   * @remarks A Select with `multiple` shows the first label and `+N` for the others.
+   * @remarks A Select with `multiple` shows the first label; `SelectCount` shows `+N` for the others.
    *
    * The slot is used only while something is selected. While nothing is selected, the placeholder shows.
    *
@@ -41,11 +41,7 @@ defineSlots<{
 const ctx = useSelectContext<unknown>('SelectValue');
 const themeAttrs = useThemeAttrs(selectAnatomy);
 const attrs = useAttrs();
-const slots = useSlots();
 const empty = computed(() => ctx.empty.value);
-// A multiple Select shows its first value and `+N` for the others: not when the author writes the content.
-const count = computed(() => (slots.default || empty.value ? null : ctx.parts.value.count));
-const countBound = computed(() => mergeProps(themeAttrs.value.count, { class: count.value?.class }));
 const bound = computed(() =>
   mergeProps(empty.value ? themeAttrs.value.placeholder : themeAttrs.value.value, attrs, {
     class: empty.value ? ctx.parts.value.placeholder.class : ctx.parts.value.value.class,
@@ -60,5 +56,4 @@ const bound = computed(() =>
     }}</slot>
     <template v-else>{{ placeholder }}</template>
   </Primitive>
-  <span v-if="count && !asChild" v-bind="countBound">{{ count.text }}</span>
 </template>
