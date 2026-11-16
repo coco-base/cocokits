@@ -1,7 +1,6 @@
 import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
-import { inherited } from './inherit';
+import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckRadioGroupTheme } from './radio-group-theme';
 
 type RadioOptions = CocokitsThemeConfig['components']['radio'];

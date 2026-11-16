@@ -1,5 +1,6 @@
 import { ElementRef, Renderer2, afterRenderEffect, inject } from '@angular/core';
 import { CCK_THEME } from '@cocokits/angular-core';
+import { inherited } from '@cocokits/theme-cocokits';
 
 /** The part of a `ThemeOption` this helper reads. */
 interface SizeOption {
@@ -23,7 +24,7 @@ export function bindContentSize(componentName: string, own: () => string | null 
   afterRenderEffect(() => {
     const option = theme?.themeConfig.components[componentName]?.size as SizeOption | undefined;
     if (!theme || !option) return;
-    const value = [own(), theme.overrides[componentName]?.size, option.default].find((v) => v !== undefined);
+    const value = inherited(own(), theme.overrides[componentName]?.size, option.default);
     const name = `data-${option.attrName}`;
     if (typeof value === 'string') renderer.setAttribute(element, name, value);
     else renderer.removeAttribute(element, name);

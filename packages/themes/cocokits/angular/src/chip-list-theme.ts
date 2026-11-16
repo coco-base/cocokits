@@ -1,8 +1,7 @@
 import { Directive, computed, forwardRef, inject, input } from '@angular/core';
 import { provideThemeOptions } from '@cocokits/angular-core';
-import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { CckFormFieldTheme } from './form-field-theme';
-import { inherited } from './inherit';
 
 type ChipListOptions = CocokitsThemeConfig['components']['chip-list'];
 
