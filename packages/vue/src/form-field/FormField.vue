@@ -19,6 +19,7 @@ import {
 import {
   formFieldAnatomy,
   formFieldIds,
+  getFormFieldLabelFor,
   getFormFieldProps,
   resolveFormFieldState,
   isSameFormFieldControlState,
@@ -174,6 +175,7 @@ const inputWrapper = shallowRef<HTMLElement | null>(null);
 const context: FormFieldContextValue = {
   ids,
   own,
+  hasLabel: computed(() => currentSlots.value.label !== undefined),
   inputWrapper,
   claim: (token, element) => {
     if (owner === null) {
@@ -197,7 +199,9 @@ const labelContext: FormFieldLabelContextValue = {
   required: computed(() => state.value.required),
   hideRequiredMarker: computed(() => props.hideRequiredMarker),
   authorId: authorLabelId,
-  controlId: computed(() => (reported.value ? reported.value.id : settled.value ? undefined : ids.value.control)),
+  controlId: computed(() =>
+    reported.value ? getFormFieldLabelFor(reported.value) : settled.value ? undefined : ids.value.control,
+  ),
 };
 provide(FORM_FIELD_KEY, context);
 provide(FORM_FIELD_LABEL_KEY, labelContext);

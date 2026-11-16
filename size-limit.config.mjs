@@ -179,6 +179,7 @@ const entries = [
   { name: '@cocokits/vue/menu', path: 'packages/vue/dist/menu/index.js', limit: '4650 B' },
   { name: '@cocokits/angular/menu', path: 'dist/packages/angular/fesm2022/cocokits-angular-menu.mjs', limit: '4280 B' },
   { name: '@cocokits/machines/checkbox-group', path: 'packages/machines/dist/checkbox-group/index.js', limit: '1600 B' },
+  { name: '@cocokits/react/checkbox-group', path: 'packages/react/dist/checkbox-group/index.js', limit: '2 kB' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));

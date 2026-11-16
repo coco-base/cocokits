@@ -46,6 +46,10 @@
       "types": "./dist/checkbox/index.d.ts",
       "default": "./dist/checkbox/index.js"
     },
+    "./checkbox-group": {
+      "types": "./dist/checkbox-group/index.d.ts",
+      "default": "./dist/checkbox-group/index.js"
+    },
     "./chip": {
       "types": "./dist/chip/index.d.ts",
       "default": "./dist/chip/index.js"

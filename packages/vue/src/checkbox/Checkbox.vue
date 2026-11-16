@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { h, type ComponentPublicInstance, type VNode, useSlots, useTemplateRef } from 'vue';
+import { computed, h, type ComponentPublicInstance, type VNode, useSlots, useTemplateRef } from 'vue';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
-import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
+import { isDevelopment, Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { Nodes } from '../internal/own-content';
 import { usePartIcon } from '../internal/use-part-icon';
 import { useDefaultModel } from '../internal/use-default-model';
 import { boxTree } from '../internal/box-tree';
+import { useCheckboxGroupContext } from '../internal/checkbox-group-context';
 import { rootElementOf } from '../internal/root-element';
 import { useCheckControl } from '../internal/use-check-control';
 import { SvgIcon } from '../svg-icon';
@@ -46,7 +47,20 @@ defineSlots<{
   default?(): unknown;
 }>();
 
-const model = useDefaultModel(props, 'modelValue', props.defaultChecked);
+const own = useDefaultModel(props, 'modelValue', props.defaultChecked);
+// Inside a CheckboxGroup the group owns the checked state: this checkbox is checked while its value is in the list,
+// and its own `v-model` is ignored.
+const group = useCheckboxGroupContext();
+if (group && props.value === undefined && isDevelopment()) {
+  console.warn('CocoKits: a Checkbox in a CheckboxGroup has no value, so it can never join the list. Give it a value.');
+}
+const model = computed<boolean | null | undefined>({
+  get: () => (group && props.value !== undefined ? group.value.value.includes(props.value) : own.value),
+  set: (checked) => {
+    if (group && props.value !== undefined) group.set(props.value, checked === true);
+    else own.value = checked;
+  },
+});
 
 const slots: { default?: () => VNode[] } = useSlots();
 const themeAttrs = useThemeAttrs(checkboxAnatomy);
@@ -57,6 +71,7 @@ const { parts, inputRef, rootAttrs, inputProps } = useCheckControl(props, {
   inputThemeAttrs: () => themeAttrs.value.input,
   getParts: (state, field) => getCheckboxProps({ ...state, indeterminate: props.indeterminate }, field),
   isMixed: () => props.indeterminate,
+  group,
 });
 
 const tickIcon = usePartIcon(checkboxAnatomy.block, 'background');

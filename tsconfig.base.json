@@ -108,6 +108,7 @@
       "@cocokits/react/badge-container": ["./packages/react/src/badge-container/index.ts"],
       "@cocokits/react/button": ["./packages/react/src/button/index.ts"],
       "@cocokits/react/checkbox": ["./packages/react/src/checkbox/index.ts"],
+      "@cocokits/react/checkbox-group": ["./packages/react/src/checkbox-group/index.ts"],
       "@cocokits/react/chip": ["./packages/react/src/chip/index.ts"],
       "@cocokits/react/chip-list": ["./packages/react/src/chip-list/index.ts"],
       "@cocokits/react/dialog": ["./packages/react/src/dialog/index.ts"],
