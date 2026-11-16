@@ -35,7 +35,8 @@ export interface CheckboxGroupRenderProps extends Omit<HTMLAttributes<HTMLElemen
  */
 export interface CheckboxGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'defaultValue'> {
   /**
-   * The checkboxes of the group: any markup that holds `Checkbox` elements, each with a `value`.
+   * The checkboxes of the group: any markup that holds `Checkbox` elements, each with a `value`. When not set, the
+   * group is empty.
    *
    * @example
    * <CheckboxGroup aria-label="Toppings">
@@ -47,8 +48,10 @@ export interface CheckboxGroupProps extends Omit<ComponentPropsWithRef<'div'>, '
    */
   readonly children?: ReactNode | undefined;
   /**
-   * The `value` of every checked checkbox. Setting it makes the group controlled. If you do not update it after
-   * `onValueChange`, the old list stays. The list keeps the order in which the user checked the boxes.
+   * The `value` of every checked checkbox, in the order the user checked them. Setting it makes the group controlled.
+   *
+   * @remarks
+   * If you do not update it after `onValueChange`, the old list stays.
    *
    * @cckSemantic checkbox-group.value
    * @defaultValue []

@@ -152,11 +152,15 @@ function MenuSubImpl({ open: openProp, defaultOpen = false, onOpenChange, childr
  * One submenu inside a menu. The Sub renders no element; it holds the open state of the submenu and links its
  * `Menu.SubTrigger` and `Menu.SubContent`. Put it among the items of a `Menu.Content`, or of another submenu.
  *
- * The submenu opens at the bottom-end corner of the sub-trigger, on the start side when there is no room there, and
- * above it when there is none either. It opens on a click, on Enter, Space or the arrow key that points to the
- * content, and when the pointer rests on the sub-trigger. It closes when the pointer moves to another item of the
- * parent menu, on Escape (only the submenu) and on the arrow key that points back; focus then returns to the
- * sub-trigger. An item of the submenu closes the whole menu.
+ * The submenu opens at the bottom-end corner of the sub-trigger. With no room there, it moves to the start side,
+ * then above.
+ *
+ * It opens on a click, on Enter or Space, and on the arrow key that points to the content. It also opens when the
+ * pointer rests on the sub-trigger.
+ *
+ * It closes when the pointer moves to another item of the parent menu, and on Escape, which closes only the
+ * submenu. It also closes on the arrow key that points back. Focus then returns to the sub-trigger. An item of the
+ * submenu closes the whole menu.
  *
  * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the submenu keep it. A closed
  * parent menu closes its submenus.

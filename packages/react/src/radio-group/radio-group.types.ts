@@ -107,9 +107,12 @@ export interface RadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'col
    */
   readonly required?: boolean | undefined;
   /**
-   * Whether the user has left the group. A value you pass wins, so a story or a form library can start with the
-   * invalid state showing. When not set, the group sets it after the focus first leaves it. The invalid state
-   * (`aria-invalid` and `data-invalid`) shows while the group is `required` with no value and `touched`.
+   * Whether the user has left the group. A value you pass wins. When not set, the group sets it after the focus
+   * first leaves it.
+   *
+   * @remarks
+   * The invalid state (`aria-invalid` and `data-invalid`) shows while the group is `required`, has no value and is
+   * touched. Pass `true` to start with it showing.
    *
    * @cckSemantic radio-group.touched
    * @defaultValue false

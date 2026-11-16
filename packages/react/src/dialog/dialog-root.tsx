@@ -124,15 +124,15 @@ function DialogRootImpl({
 
 /**
  * A window over the page that asks the user to read or act. The Root renders no element; it gives the open state to
- * its parts. The dialog is modal unless `modal` is `false`. `modal` adds the backdrop and makes the rest of the page
- * inert.
+ * its parts. The dialog is modal unless `modal` is `false`.
  *
- * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the dialog keep it.
+ * `modal` adds the backdrop and makes the rest of the page inert. Control the open state with `open` and
+ * `onOpenChange`, or set `defaultOpen` and let the dialog keep it.
  *
- * It closes on a Close, on Escape, on a press on the backdrop, when a `<form method="dialog">` inside it is
- * submitted and, with `closeOnNavigation`, when the user goes back or forward in the history. `disableClose` keeps
- * Escape and the backdrop from closing it, and `closePredicate` can refuse a close. Escape closes only the top
- * layer. A dialog that is not modal also closes when the focus moves outside it.
+ * It closes on a Close, on Escape, on a press on the backdrop, and when a `<form method="dialog">` inside it is
+ * submitted. With `closeOnNavigation`, it also closes when the user goes back or forward in the history.
+ * `disableClose` keeps Escape and the backdrop from closing it, and `closePredicate` can refuse a close. Escape
+ * closes only the top layer. A dialog that is not modal also closes when the focus moves outside it.
  *
  * @example
  * <Dialog.Root>

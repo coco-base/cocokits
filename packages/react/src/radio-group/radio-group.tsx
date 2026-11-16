@@ -245,8 +245,8 @@ interface RadioGroupComponent {
  * Each Radio takes its checked state, `name`, `disabled`, `required` and tab stop from the group. The group knows
  * a Radio by its `value`.
  *
- * While the group is `required` and has no value, it gets `aria-invalid="true"` and `data-invalid`, but only after
- * the user has left it or `touched` is `true`. A form reset clears what the group tracked.
+ * A `required` group with no value gets `aria-invalid="true"` and `data-invalid`, but only after the user has left
+ * it or `touched` is `true`. A form reset clears what the group tracked.
  *
  * The radios are native inputs, so `FormData` holds the value of the checked radio. A form reset restores the
  * value that the group had at mount.

@@ -316,43 +316,46 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    */
   readonly restoreFocus?: DialogRestoreFocus | undefined;
   /**
-   * The width of the content. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. The size
-   * members are the one inline style a part writes; they belong to the author, not to a theme.
+   * The width of the content. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. When not
+   * set, the theme sets the width.
+   *
+   * @remarks
+   * The size members are the one inline style a part writes; they belong to the author, not to a theme.
    *
    * @cckSemantic dialog.width
    * @cckParity Not available in every framework.
    */
   readonly width?: DialogLength | undefined;
   /**
-   * The height of the content. A number is px, a string is any CSS length.
+   * The height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
    *
    * @cckSemantic dialog.height
    * @cckParity Not available in every framework.
    */
   readonly height?: DialogLength | undefined;
   /**
-   * The smallest width of the content. A number is px, a string is any CSS length.
+   * The smallest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
    *
    * @cckSemantic dialog.minWidth
    * @cckParity Not available in every framework.
    */
   readonly minWidth?: DialogLength | undefined;
   /**
-   * The smallest height of the content. A number is px, a string is any CSS length.
+   * The smallest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
    *
    * @cckSemantic dialog.minHeight
    * @cckParity Not available in every framework.
    */
   readonly minHeight?: DialogLength | undefined;
   /**
-   * The largest width of the content. A number is px, a string is any CSS length.
+   * The largest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
    *
    * @cckSemantic dialog.maxWidth
    * @cckParity Not available in every framework.
    */
   readonly maxWidth?: DialogLength | undefined;
   /**
-   * The largest height of the content. A number is px, a string is any CSS length.
+   * The largest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
    *
    * @cckSemantic dialog.maxHeight
    * @cckParity Not available in every framework.
@@ -363,7 +366,7 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
 /** Props of the {@link DialogHeader}, the {@link DialogBody} and the {@link DialogFooter}. Native `div` props pass through. */
 export interface DialogSectionProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
-   * The content of the section.
+   * The content of the section. When not set, the section is empty.
    *
    * @example
    * <Dialog.Header>

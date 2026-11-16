@@ -326,7 +326,7 @@ export interface TooltipArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
 /** Props of the {@link TooltipTitle} and the {@link TooltipDescription}. Native `div` props pass through. */
 export interface TooltipTextProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
-   * The text of the part.
+   * The text of the part. When not set, the part is empty.
    *
    * @example
    * <Tooltip.Title>Copy link</Tooltip.Title>

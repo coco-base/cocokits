@@ -170,13 +170,13 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    */
   readonly multiple?: M | undefined;
   /**
-   * Whether the list has a search. The list then shows a header with a `Select.Search` input, and typing narrows the
-   * options to those whose text contains the query, without regard to case. The query clears when the list closes.
-   * While nothing matches, a `Select.Empty` part shows.
+   * Whether the list has a search. Typing narrows the options to those whose text contains the query, without
+   * regard to case. While nothing matches, a `Select.Empty` part shows.
    *
-   * The focus is in the search input while the list is open, and returns to the trigger when the list closes by a
-   * choice, Escape or a press on the trigger. Put the `Select.Header`, `Select.Search`, `Select.Empty` and
-   * `Select.Footer` parts inside the `Select.Content`.
+   * @remarks
+   * The query clears when the list closes. The focus is in the search input while the list is open. It returns to
+   * the trigger when the list closes by a choice, Escape or a press on the trigger. Put the `Select.Header`,
+   * `Select.Search`, `Select.Empty` and `Select.Footer` parts inside the `Select.Content`.
    *
    * @example
    * <Select.Root filter>

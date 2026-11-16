@@ -21,8 +21,9 @@ function MenuSubContentImpl(props: MenuSubContentProps): ReactElement {
  * The panel of a submenu. It renders a `<div role="menu">` in the overlay container, named by its sub-trigger. It
  * renders nothing while closed, on the server and in the first client render.
  *
- * It opens at the bottom-end corner of the sub-trigger, on the start side when there is no room there, and above it
- * when there is none either; `data-side` says where it is. A key that opens it moves the focus to its first item.
+ * It opens at the bottom-end corner of the sub-trigger. With no room there, it moves to the start side, then above;
+ * `data-side` says where it is. A key that opens it moves the focus to its first item.
+ *
  * Left Arrow (Right Arrow in `rtl`) and Escape close only the submenu and return the focus to the sub-trigger. An
  * item of the submenu closes the whole menu, and Tab leaves the menu.
  *

@@ -26,9 +26,10 @@ function SelectCountImpl({ children, render, ref, ...rest }: SelectCountProps): 
 
 /**
  * The count of the other selected values of a Select with `multiple`. It renders a `<span>` with the text `+N`,
- * where N is the number of selected values after the first one, which `Select.Value` shows. It renders nothing while
- * fewer than two values are selected. Put it in the `Select.Trigger`, after the `Select.Value`: its text is part of
- * the text of the trigger.
+ * where N is the number of selected values after the first one, which `Select.Value` shows.
+ *
+ * It renders nothing while fewer than two values are selected. Put it in the `Select.Trigger`, after the
+ * `Select.Value`. Its text is part of the text of the trigger.
  *
  * @example
  * <Select.Trigger aria-label="Dishes">

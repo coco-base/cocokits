@@ -22,8 +22,8 @@ function MenuItemSupportingTextImpl({ render, ref, ...rest }: MenuSpanProps): Re
 }
 
 /**
- * A second line of text under the text of an item, such as a hint. It renders a `<span>`, and the item points to it
- * with `aria-describedby` while it is mounted, so a screen reader reads it after the name of the item.
+ * A second line of text under the text of an item, such as a hint. It renders a `<span>`. The item points to it with
+ * `aria-describedby` while it is mounted, so a screen reader reads it after the name of the item.
  *
  * @example
  * <Menu.Item>

@@ -142,8 +142,8 @@ interface CheckboxGroupComponent {
  * `aria-label` or `aria-labelledby`. In development, a group with no name warns.
  *
  * Control the list with `value` and `onValueChange`, or set `defaultValue` and let the group keep it. Each
- * Checkbox takes its checked state from the list and its `name` and `disabled` from the group, and a user change
- * adds or removes its `value`. A form reset restores the list that the group had at mount.
+ * Checkbox takes its checked state from the list, and its `name` and `disabled` from the group. A user change adds
+ * or removes its `value`. A form reset restores the list that the group had at mount.
  *
  * @example
  * <CheckboxGroup aria-label="Toppings" defaultValue={['cheese']}>

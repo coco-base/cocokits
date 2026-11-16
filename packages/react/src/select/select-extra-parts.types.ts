@@ -18,7 +18,8 @@ interface SelectRenderOption {
 /** Props of the {@link SelectHeader}: native `div` props and `render`. */
 export interface SelectHeaderProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, SelectRenderOption {
   /**
-   * The content of the header: the `Select.Search`, and anything else you want above the options.
+   * The content of the header: the `Select.Search`, and anything else you want above the options. When not set,
+   * the header is empty.
    *
    * @example
    * <Select.Header>
@@ -59,7 +60,8 @@ export interface SelectSearchProps
 /** Props of the {@link SelectEmpty}: native `div` props and `render`. */
 export interface SelectEmptyProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, SelectRenderOption {
   /**
-   * What to say while no option matches the query, as text or markup. A screen reader announces it politely.
+   * What to say while no option matches the query, as text or markup. A screen reader announces it politely. When
+   * not set, the part is empty.
    *
    * @example
    * <Select.Empty>No dish found</Select.Empty>
@@ -71,8 +73,8 @@ export interface SelectEmptyProps extends Omit<ComponentPropsWithRef<'div'>, 'co
 /** Props of the {@link SelectFooter}: native `div` props and `render`. */
 export interface SelectFooterProps extends Omit<ComponentPropsWithRef<'div'>, 'color'>, SelectRenderOption {
   /**
-   * The content of the footer: your own actions, such as a button that adds a choice. A press in the footer does not
-   * close the list.
+   * The content of the footer: your own actions, such as a button that adds a choice. When not set, the footer is
+   * empty.
    *
    * @example
    * <Select.Footer>
@@ -90,6 +92,8 @@ export interface SelectCountProps
    * The text of the count. When not set, the count shows `+N`, where N is the number of selected values after the
    * first one.
    *
+   * @example
+   * <Select.Count>and more</Select.Count>
    * @cckSemantic select.count.children
    * @cckParity The count is built in.
    */
@@ -99,7 +103,7 @@ export interface SelectCountProps
 /** Props of the {@link SelectOptionDescription}: native `span` props and `render`. */
 export interface SelectOptionDescriptionProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
-   * The text under the text of the option, such as a hint. The option points to it with `aria-describedby`.
+   * The text under the text of the option, such as a hint. When not set, the part is empty.
    *
    * @example
    * <Select.OptionDescription>Baked in a stone oven</Select.OptionDescription>
@@ -112,7 +116,7 @@ export interface SelectOptionDescriptionProps extends Omit<ComponentPropsWithRef
 export interface SelectOptionLeadingProps extends Omit<ComponentPropsWithRef<'span'>, 'color'>, SelectRenderOption {
   /**
    * The decorative content before the text of the option, such as an icon or an avatar. It is hidden from assistive
-   * technology, so the text of the option names the option.
+   * technology, so the text of the option names the option. When not set, the part is empty.
    *
    * @example
    * <Select.OptionLeading>

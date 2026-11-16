@@ -110,12 +110,12 @@ function MenuSubTriggerImpl({ disabled = false, render, ref, ...rest }: MenuSubT
 
 /**
  * The item of a menu that opens a submenu. It renders a `<div role="menuitem">` with `aria-haspopup="menu"`,
- * `aria-expanded` and `aria-controls`. It is an item of the parent menu: the arrow keys, Home, End and typing
- * reach it like any item. A press on it opens the submenu and never closes the menu.
+ * `aria-expanded` and `aria-controls`. A press on it opens the submenu and never closes the menu.
  *
- * The arrow key that points to the content (Right Arrow, Left Arrow in `rtl`), Enter and Space open the submenu on
- * its first item. A pointer that rests on it opens the submenu after a short wait. A disabled sub-trigger stays in
- * the order of the items and never opens the submenu.
+ * It is an item of the parent menu, so the arrow keys, Home, End and typing reach it like any item. The arrow key
+ * that points to the content (Right Arrow, Left Arrow in `rtl`), Enter and Space open the submenu on its first item.
+ * A pointer that rests on it opens the submenu after a short wait. A disabled sub-trigger stays in the order of the
+ * items and never opens the submenu.
  *
  * @example
  * <Menu.SubTrigger>Share</Menu.SubTrigger>

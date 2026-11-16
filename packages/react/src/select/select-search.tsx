@@ -61,9 +61,11 @@ function SelectSearchImpl({ render, ref, ...rest }: SelectSearchProps): ReactEle
  * role `combobox`. Put it in the `Select.Header`.
  *
  * The focus stays in this input while the list is open, and `aria-activedescendant` points to the highlighted
- * option. Typing narrows the options to those whose text contains the query, without regard to case, and highlights
- * the first one that is left. Arrow Down and Arrow Up move the highlight, Enter chooses it, Escape closes the list
- * and returns the focus to the trigger, and Tab closes the list.
+ * option. Typing narrows the options to those whose text contains the query, without regard to case. The first
+ * option that is left gets the highlight.
+ *
+ * Arrow Down and Arrow Up move the highlight, and Enter chooses it. Escape closes the list and returns the focus to
+ * the trigger. Tab closes the list.
  *
  * Give it an `aria-label` to change its name, which is "Search" without one.
  *

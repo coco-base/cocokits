@@ -105,8 +105,8 @@ interface ChipComponent {
  * `close`. A theme icon must be registered, for example with `IconProvider`.
  *
  * Set `selected` or `defaultSelected` to make the chip selectable. The content then is a toggle
- * `<button type="button">` with `aria-pressed` and `data-selected`, and a check part with the theme icon
- * `components.chip.icons.check` (default `check`) shows while it is selected. The remove button is a sibling of the
+ * `<button type="button">` with `aria-pressed` and `data-selected`. A check part shows while the chip is selected,
+ * with the theme icon `components.chip.icons.check` (default `check`). The remove button is a sibling of the
  * toggle, never inside it.
  *
  * The chip does not remove itself. Handle `onRemove` and drop the value from your data.

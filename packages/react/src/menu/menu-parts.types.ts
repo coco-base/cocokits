@@ -33,8 +33,10 @@ export interface MenuCheckboxItemProps extends Omit<MenuItemProps, 'render'> {
    */
   readonly checked?: boolean | undefined;
   /**
-   * The start state of an item that you do not control with `checked`. The items of a closed menu are not in the
-   * document, so the state starts again at this value each time the menu opens.
+   * The start state of an item that you do not control with `checked`. When not set, the item starts unchecked.
+   *
+   * @remarks
+   * The items of a closed menu are not in the document, so the state starts again at this value on each open.
    *
    * @cckSemantic none
    * @cckParity The uncontrolled start value.
@@ -42,10 +44,11 @@ export interface MenuCheckboxItemProps extends Omit<MenuItemProps, 'render'> {
   readonly defaultChecked?: boolean | undefined;
   /**
    * Called after the user presses the item with a click, Enter or Space. It receives the new state and a details
-   * object with the `reason` and the `event`. It is never called when you change `checked` yourself.
+   * object with the `reason` and the `event`.
    *
-   * Enter and a click then close the menu, as for any item; Space keeps it open. Call `event.preventDefault()` in
-   * `onSelect` to keep the menu open after a click or Enter.
+   * @remarks
+   * It is never called when you change `checked` yourself. Enter and a click close the menu, as for any item;
+   * Space keeps it open. Call `event.preventDefault()` in `onSelect` to keep the menu open.
    *
    * @example
    * <Menu.CheckboxItem checked={bold} onCheckedChange={(next) => setBold(next)}>Bold</Menu.CheckboxItem>
@@ -57,6 +60,8 @@ export interface MenuCheckboxItemProps extends Omit<MenuItemProps, 'render'> {
    * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
+   * When not set, the part renders a `<div>`.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -67,7 +72,7 @@ export interface MenuCheckboxItemProps extends Omit<MenuItemProps, 'render'> {
 /** Props of the {@link MenuRadioGroup}. Native `div` props pass through. */
 export interface MenuRadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 'color' | 'defaultValue'> {
   /**
-   * The radio items of the group, and a `Menu.GroupLabel` that names it.
+   * The radio items of the group, and a `Menu.GroupLabel` that names it. When not set, the group is empty.
    *
    * @example
    * <Menu.RadioGroup value={sort} onValueChange={(next) => setSort(next)}>
@@ -78,15 +83,17 @@ export interface MenuRadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 
    */
   readonly children?: ReactNode | undefined;
   /**
-   * The `value` of the checked radio item. Setting it makes the group controlled. If you do not update it after
-   * `onValueChange`, the old value stays.
+   * The `value` of the checked radio item. Setting it makes the group controlled. When not set, the group keeps its
+   * own value, which starts as `defaultValue`.
    *
    * @cckSemantic menu.radioGroup.value
    */
   readonly value?: string | undefined;
   /**
-   * The start value of a group that you do not control with `value`. When not set, no radio item is checked. The
-   * items of a closed menu are not in the document, so the value starts again here each time the menu opens.
+   * The start value of a group that you do not control with `value`. When not set, no radio item is checked.
+   *
+   * @remarks
+   * The items of a closed menu are not in the document, so the value starts again here on each open.
    *
    * @cckSemantic none
    * @cckParity The uncontrolled start value.
@@ -96,6 +103,10 @@ export interface MenuRadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 
    * Called after the user presses a radio item that is not checked. It receives the value of the item and a
    * details object with the `reason` and the `event`. It is never called when you change `value` yourself.
    *
+   * @example
+   * <Menu.RadioGroup value={sort} onValueChange={(next, details) => setSort(next)}>
+   *   ...
+   * </Menu.RadioGroup>
    * @cckSemantic menu.radioGroup.valueChange
    * @cckParity The change callback of this component.
    */
@@ -103,6 +114,8 @@ export interface MenuRadioGroupProps extends Omit<ComponentPropsWithRef<'div'>, 
   /**
    * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
    * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders a `<div>`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -123,6 +136,8 @@ export interface MenuRadioItemProps extends Omit<MenuItemProps, 'render'> {
    * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
    * of the part. The function must pass all props on, `ref` included, to one element.
    *
+   * When not set, the part renders a `<div>`.
+   *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
    * @cckShared
@@ -133,14 +148,18 @@ export interface MenuRadioItemProps extends Omit<MenuItemProps, 'render'> {
 /** Props of the {@link MenuGroup} and the {@link MenuGroupLabel}. Native `div` props pass through. */
 export interface MenuDivProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
   /**
-   * The content of the part: the items of a group, or the text of a label.
+   * The content of the part: the items of a group, or the text of a label. When not set, the part is empty.
    *
+   * @example
+   * <Menu.GroupLabel>File</Menu.GroupLabel>
    * @cckSemantic menu.default
    */
   readonly children?: ReactNode | undefined;
   /**
    * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
    * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders a `<div>`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -155,14 +174,18 @@ export interface MenuDivProps extends Omit<ComponentPropsWithRef<'div'>, 'color'
  */
 export interface MenuSpanProps extends Omit<ComponentPropsWithRef<'span'>, 'color'> {
   /**
-   * The content of the part: an icon or a text.
+   * The content of the part: an icon or a text. When not set, the part is empty.
    *
+   * @example
+   * <Menu.ItemShortcut>Ctrl+S</Menu.ItemShortcut>
    * @cckSemantic menu.default
    */
   readonly children?: ReactNode | undefined;
   /**
    * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
    * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders a `<span>`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.
@@ -175,7 +198,7 @@ export interface MenuSpanProps extends Omit<ComponentPropsWithRef<'span'>, 'colo
 export interface MenuSubProps {
   /**
    * The parts of the submenu: a `Menu.SubTrigger` and a `Menu.SubContent`. Put the Sub among the items of a
-   * `Menu.Content`. The Sub renders no element around them.
+   * `Menu.Content`. When not set, nothing renders.
    *
    * @example
    * <Menu.Sub>
@@ -207,6 +230,11 @@ export interface MenuSubProps {
    * Called before the user opens or closes the submenu. It receives the new open state and a details object with
    * the `reason`, the `event` and `cancel()`. It is never called when you change `open` yourself.
    *
+   * @example
+   * <Menu.Sub onOpenChange={(open, details) => details.reason === 'pointer' && details.cancel()}>
+   *   ...
+   * </Menu.Sub>
+   *
    * @cckSemantic menu.sub.openChange
    * @cckParity The change callback of this component.
    */
@@ -221,6 +249,8 @@ export interface MenuSubTriggerProps extends Omit<MenuItemProps, 'onSelect'> {
   /**
    * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
    * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders a `<div>`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

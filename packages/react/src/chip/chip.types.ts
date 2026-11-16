@@ -49,9 +49,12 @@ export interface ChipProps extends Omit<ComponentPropsWithRef<'div'>, 'children'
    */
   readonly disabled?: boolean | undefined;
   /**
-   * Whether the chip is selected. Setting it, to `true` or `false`, makes the chip selectable and controlled: the
-   * content is a toggle `<button>` with `aria-pressed`, and a check shows while selected. If you do not update it
-   * after `onSelectedChange`, the old state stays. When not set, the chip is not selectable.
+   * Whether the chip is selected. Setting it, to `true` or `false`, makes the chip selectable and controlled. When
+   * not set, the chip is not selectable.
+   *
+   * @remarks
+   * The content is then a toggle `<button>` with `aria-pressed`, and a check shows while selected. If you do not
+   * update it after `onSelectedChange`, the old state stays.
    *
    * @cckSemantic chip.selected
    */

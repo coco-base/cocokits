@@ -29,10 +29,12 @@ export interface ChipListProps extends Omit<
 > {
   /**
    * The entries of the list, in the order they were added: a string, or a {@link ChipListItem} with options. An
-   * item with `selected` set is a selectable chip. Setting `value` makes the list controlled. If you do not update
-   * it after `onValueChange`, the old entries stay.
+   * item with `selected` set is a selectable chip. Setting `value` makes the list controlled.
    *
    * When not set, the list keeps its own entries, which start as `defaultValue`.
+   *
+   * @remarks
+   * If you do not update it after `onValueChange`, the old entries stay.
    *
    * @cckSemantic chip-list.value
    * @defaultValue []

@@ -30,8 +30,8 @@ function SelectOptionDescriptionImpl({ render, ref, ...rest }: SelectOptionDescr
 }
 
 /**
- * A smaller text under the text of an option, such as a hint. It renders a `<span>` inside `Select.Item`, and the
- * option points to it with `aria-describedby` while it is mounted, so a screen reader reads it after the option.
+ * A smaller text under the text of an option, such as a hint. It renders a `<span>` inside `Select.Item`. The option
+ * points to it with `aria-describedby` while it is mounted, so a screen reader reads it after the option.
  *
  * @example
  * <Select.Item value="pizza">

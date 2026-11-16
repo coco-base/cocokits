@@ -38,14 +38,14 @@ function MenuCheckboxItemImpl({
 
 /**
  * An item that turns a setting on or off. It renders a `<div role="menuitemcheckbox">` with `aria-checked` and
- * `data-state`. Use it instead of a Checkbox inside a menu: the menu roles that screen readers expect, the focus
- * that stays in the menu, the menu keys, and a click that would otherwise act twice.
+ * `data-state`. Use it instead of a Checkbox inside a menu.
  *
- * Enter and a click toggle it and close the menu, as for any item. Space toggles it and keeps the menu open.
+ * It has the menu roles that screen readers expect, keeps the focus in the menu and answers the menu keys. It never
+ * acts twice on one click. Enter and a click toggle it and close the menu, as for any item. Space toggles it and
+ * keeps the menu open.
  *
- * Control it with `checked` and `onCheckedChange`. The items of a closed menu are not in the document, so a state
- * that you do not control starts again at `defaultChecked` each time the menu opens. Put a `Menu.ItemIndicator`
- * inside it to show the state.
+ * Control it with `checked` and `onCheckedChange`. A state that you do not control starts again at `defaultChecked`
+ * on each open, because a closed menu holds no items. Put a `Menu.ItemIndicator` inside it to show the state.
  *
  * @example
  * <Menu.CheckboxItem defaultChecked>
