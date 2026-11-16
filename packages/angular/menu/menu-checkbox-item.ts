@@ -33,7 +33,7 @@ export type MenuCheckboxItemChangeDetails = ValueChangeDetails<boolean, MenuChec
 export class CckMenuCheckboxItem extends CckMenuItemBase {
   /**
    * Whether the item is checked. Use `[(checked)]` to read and change it.
-   * @cckSemantic menu-checkbox-item.checked
+   * @cckSemantic menu.checkboxItem.checked
    * @defaultValue false
    */
   readonly checked = model(false);
@@ -43,7 +43,7 @@ export class CckMenuCheckboxItem extends CckMenuItemBase {
    * @remarks It never emits when the parent changes `checked`.
    * @example
    * <cck-menu-checkbox-item (checkedChangeDetails)="onToggle($event.value)">Show hidden</cck-menu-checkbox-item>
-   * @cckSemantic menu-checkbox-item.checkedChange
+   * @cckSemantic menu.checkboxItem.checkedChange
    */
   readonly checkedChangeDetails = output<MenuCheckboxItemChangeDetails>();
 

@@ -48,6 +48,8 @@ export class CckMenuSubTrigger {
   /**
    * The `id` of the sub-trigger. When not set, the sub-trigger gets a generated id.
    * @remarks The sub-content is named by the id the sub-trigger renders.
+   * @cckParity Declared as an input; the directive forwards it to the element.
+   * @cckSemantic none
    */
   readonly id = input<string | undefined>(undefined);
 

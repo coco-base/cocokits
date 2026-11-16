@@ -28,7 +28,7 @@ import { CckMenuItemBase } from './menu-item-base';
 export class CckMenuRadioItem extends CckMenuItemBase {
   /**
    * The value the item sets in its radio group.
-   * @cckSemantic menu-radio-item.value
+   * @cckSemantic menu.radioItem.value
    */
   readonly value = input.required<string>();
 

@@ -83,7 +83,7 @@ export class CckMenuGroup extends CckMenuGroupBase {
 export class CckMenuRadioGroup extends CckMenuGroupBase {
   /**
    * The `value` of the checked radio item. `null` checks none.
-   * @cckSemantic menu-radio-group.value
+   * @cckSemantic menu.radioGroup.value
    * @defaultValue null
    */
   readonly value = model<string | null>(null);
@@ -93,7 +93,7 @@ export class CckMenuRadioGroup extends CckMenuGroupBase {
    * @remarks It never emits when the parent changes `value`.
    * @example
    * <cck-menu-radio-group (valueChangeDetails)="onSort($event.value)">...</cck-menu-radio-group>
-   * @cckSemantic menu-radio-group.valueChange
+   * @cckSemantic menu.radioGroup.valueChange
    */
   readonly valueChangeDetails = output<MenuRadioGroupChangeDetails>();
 
