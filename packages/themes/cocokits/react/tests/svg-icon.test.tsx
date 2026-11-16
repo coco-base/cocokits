@@ -73,7 +73,7 @@ describe('theme SvgIcon', () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     for (const name of Object.keys(packIcons)) {
       const { container } = render(themed(<SvgIcon iconName={name} />));
-      expect(container.querySelectorAll('path').length, name).toBeGreaterThan(0);
+      expect(container.querySelectorAll('path, rect').length, name).toBeGreaterThan(0);
       cleanup();
     }
     expect(error).not.toHaveBeenCalled();

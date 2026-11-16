@@ -55,6 +55,13 @@ export { ChipList } from './chip-list';
 export type { ChipListProps, ChipListSize } from './chip-list';
 export { Menu } from './menu';
 export type { MenuContentProps, MenuSize } from './menu-content';
+export type {
+  MenuCheckboxItemProps,
+  MenuItemColor,
+  MenuItemProps,
+  MenuRadioItemProps,
+  MenuSubTriggerProps,
+} from './menu-items';
 export { Input } from './input';
 export type { InputProps, InputSize } from './input';
 export { RadioGroup } from './radio-group';

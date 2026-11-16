@@ -14,12 +14,21 @@ interface SelectNamespace {
   readonly Group: typeof BaseSelect.Group;
   readonly Label: typeof BaseSelect.Label;
   readonly Separator: typeof BaseSelect.Separator;
+  readonly Header: typeof BaseSelect.Header;
+  readonly Search: typeof BaseSelect.Search;
+  readonly Empty: typeof BaseSelect.Empty;
+  readonly Footer: typeof BaseSelect.Footer;
+  readonly Count: typeof BaseSelect.Count;
+  readonly OptionDescription: typeof BaseSelect.OptionDescription;
+  readonly OptionLeading: typeof BaseSelect.OptionLeading;
 }
 
 /**
  * The cocokits Select as a namespace: the themed `Select.Root` and the base `Select.Trigger`, `Select.Value`,
  * `Select.Icon`, `Select.Content`, `Select.Item`, `Select.ItemText`, `Select.ItemIndicator`, `Select.Group`,
- * `Select.Label` and `Select.Separator`, which the theme styles through the option of the root.
+ * `Select.Label`, `Select.Separator`, `Select.Header`, `Select.Search`, `Select.Empty`, `Select.Footer`,
+ * `Select.Count`, `Select.OptionDescription` and `Select.OptionLeading`, which the theme styles through the option of
+ * the root.
  */
 export const Select: SelectNamespace = {
   Root: SelectRoot,
@@ -33,4 +42,11 @@ export const Select: SelectNamespace = {
   Group: BaseSelect.Group,
   Label: BaseSelect.Label,
   Separator: BaseSelect.Separator,
+  Header: BaseSelect.Header,
+  Search: BaseSelect.Search,
+  Empty: BaseSelect.Empty,
+  Footer: BaseSelect.Footer,
+  Count: BaseSelect.Count,
+  OptionDescription: BaseSelect.OptionDescription,
+  OptionLeading: BaseSelect.OptionLeading,
 };
