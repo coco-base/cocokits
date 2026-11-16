@@ -9,7 +9,7 @@ import { attrIn, inheritCases } from './inherit-cases';
 const server = (ui: ReactElement): string =>
   renderToString(<ThemeProvider themeConfig={cocokitsThemeConfig}>{ui}</ThemeProvider>);
 
-describe.each(inheritCases.map((c) => [c.name, c] as const))('group inheritance on the server: %s', (_name, c) => {
+describe.each(inheritCases)('group inheritance on the server: $name', (c) => {
   const attr = (parent: string | null | undefined, own: string | null | undefined): string | null =>
     attrIn(server(c.ui(parent, own)), c.root, c.attr);
 

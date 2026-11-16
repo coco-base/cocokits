@@ -18,13 +18,13 @@ const app = (ui: ReactElement): ReactElement => (
   </StrictMode>
 );
 
-describe.each(inheritCases.map((c) => [c.name, c] as const))('group inheritance hydration: %s', (_name, c) => {
+describe.each(inheritCases)('group inheritance hydration: $name', (c) => {
   it.each([
-    ['the parent value', c.parent, undefined, c.parent],
-    ['an own value over the parent', c.parent, c.own, c.own],
-    ['an own null', c.parent, null, null],
-    ['a null parent', null, undefined, null],
-  ])('keeps %s unchanged after hydration', (_label, parent, own, expected) => {
+    { label: 'the parent value', parent: c.parent, own: undefined, expected: c.parent },
+    { label: 'an own value over the parent', parent: c.parent, own: c.own, expected: c.own },
+    { label: 'an own null', parent: c.parent, own: null, expected: null },
+    { label: 'a null parent', parent: null, own: undefined, expected: null },
+  ])('keeps $label unchanged after hydration', ({ parent, own, expected }) => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const container = document.body.appendChild(document.createElement('div'));
     container.innerHTML = renderToString(app(c.ui(parent, own)));

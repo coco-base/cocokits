@@ -3,7 +3,7 @@
 import { useContext, type ReactElement } from 'react';
 import { Input as BaseInput, type InputProps as BaseInputProps } from '@cocokits/react/input';
 import { ThemeOptionsProvider } from '@cocokits/react-core';
-import { inherited, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
+import { resolveInheritedValue, type CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { FormFieldThemeContext } from './theme-contexts';
 
 type InputOptions = CocokitsThemeConfig['components']['input'];
@@ -22,7 +22,7 @@ export interface InputProps extends Omit<BaseInputProps, 'size'> {
 function ThemedInput({ size, ...props }: InputProps): ReactElement {
   const field = useContext(FormFieldThemeContext);
   return (
-    <ThemeOptionsProvider componentName="input" options={{ size: inherited(size, field.size) }}>
+    <ThemeOptionsProvider componentName="input" options={{ size: resolveInheritedValue(size, field.size) }}>
       <BaseInput {...props} />
     </ThemeOptionsProvider>
   );
