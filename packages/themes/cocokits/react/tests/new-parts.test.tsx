@@ -36,12 +36,7 @@ describe('the new parts of the namespaces', () => {
   it.each([
     ['Dialog', Dialog, BaseDialog, ['Header', 'Body', 'Footer']],
     ['Tooltip', Tooltip, BaseTooltip, ['Title', 'Description']],
-    [
-      'Select',
-      Select,
-      BaseSelect,
-      ['Header', 'Search', 'Empty', 'Footer', 'Count', 'OptionDescription', 'OptionLeading'],
-    ],
+    ['Select', Select, BaseSelect, ['Header', 'Search', 'Empty', 'Footer', 'OptionDescription', 'OptionLeading']],
   ] as const)('%s shares each new part with the base', (_name, themedNamespace, base, parts) => {
     for (const part of parts) {
       expect(themedNamespace[part as keyof typeof themedNamespace], part).toBe(base[part as keyof typeof base]);
@@ -93,13 +88,12 @@ describe('the new parts render their class and no theme attribute', () => {
     }
   });
 
-  it('Select: count in the trigger, then the header with the search, the empty message, the footer and the option parts', async () => {
+  it('Select: count in the trigger, the header with the search, the empty message, the footer and the option parts', async () => {
     render(
       themed(
         <Select.Root multiple filter defaultValue={['a', 'b']}>
           <Select.Trigger aria-label="Dish">
             <Select.Value />
-            <Select.Count />
             <Select.Icon />
           </Select.Trigger>
           <Select.Content>

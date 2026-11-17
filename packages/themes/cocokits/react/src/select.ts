@@ -18,7 +18,6 @@ interface SelectNamespace {
   readonly Search: typeof BaseSelect.Search;
   readonly Empty: typeof BaseSelect.Empty;
   readonly Footer: typeof BaseSelect.Footer;
-  readonly Count: typeof BaseSelect.Count;
   readonly OptionDescription: typeof BaseSelect.OptionDescription;
   readonly OptionLeading: typeof BaseSelect.OptionLeading;
 }
@@ -27,7 +26,7 @@ interface SelectNamespace {
  * The cocokits Select as a namespace: the themed `Select.Root` and the base `Select.Trigger`, `Select.Value`,
  * `Select.Icon`, `Select.Content`, `Select.Item`, `Select.ItemText`, `Select.ItemIndicator`, `Select.Group`,
  * `Select.Label`, `Select.Separator`, `Select.Header`, `Select.Search`, `Select.Empty`, `Select.Footer`,
- * `Select.Count`, `Select.OptionDescription` and `Select.OptionLeading`, which the theme styles through the option of
+ * `Select.OptionDescription` and `Select.OptionLeading`, which the theme styles through the option of
  * the root.
  */
 export const Select: SelectNamespace = {
@@ -46,7 +45,6 @@ export const Select: SelectNamespace = {
   Search: BaseSelect.Search,
   Empty: BaseSelect.Empty,
   Footer: BaseSelect.Footer,
-  Count: BaseSelect.Count,
   OptionDescription: BaseSelect.OptionDescription,
   OptionLeading: BaseSelect.OptionLeading,
 };
