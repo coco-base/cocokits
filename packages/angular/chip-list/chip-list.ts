@@ -283,6 +283,28 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
   }
 
   /** The text box, which takes the focus. */
+  /**
+   * Moves the focus to the control. Signal Forms calls it to focus the first invalid field.
+   * @example
+   * // control = viewChild.required(<your form control class>)
+   * this.control().focus();
+   * @cckSemantic chip-list.focus
+   */
+  override focus(options?: FocusOptions): void {
+    super.focus(options);
+  }
+
+  /**
+   * Clears the touched, dirty and submitted state that the control keeps itself. It does not change the value. Signal Forms calls it when the field resets.
+   * @example
+   * // control = viewChild.required(<your form control class>)
+   * this.control().reset();
+   * @cckSemantic chip-list.reset
+   */
+  override reset(): void {
+    super.reset();
+  }
+
   protected controlElement(): HTMLElement {
     return this.inputRef().nativeElement;
   }
