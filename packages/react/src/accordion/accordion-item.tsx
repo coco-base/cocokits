@@ -20,7 +20,7 @@ interface ElementProps {
 const RESERVED = ['data-state', 'data-disabled', 'data-orientation'];
 
 function AccordionItemImpl({
-  value,
+  value: valueProp,
   disabled = false,
   render,
   ref,
@@ -29,6 +29,7 @@ function AccordionItemImpl({
 }: AccordionItemProps): ReactElement {
   const context = useAccordionContext('Accordion.Item');
   const id = useId();
+  const value = valueProp ?? `item-${id}`;
   const themeAttrs = useThemeAttrs(accordionAnatomy).item;
   const { state, register } = context;
   const open = state.value.includes(value);
