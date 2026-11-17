@@ -18,7 +18,7 @@ export type MenuCheckboxItemChangeDetails = ValueChangeDetails<boolean, MenuChec
  *
  * @example
  * <cck-menu-checkbox-item [(checked)]="showHidden">
- *   <cck-menu-item-indicator>✓</cck-menu-item-indicator>
+ *   <cck-menu-item-indicator><cck-svg-icon iconName="check" /></cck-menu-item-indicator>
  *   Show hidden files
  * </cck-menu-checkbox-item>
  * @cckPart checkboxItem

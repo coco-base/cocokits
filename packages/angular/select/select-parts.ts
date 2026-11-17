@@ -168,7 +168,7 @@ export class CckSelectOptionDescription {
  * Content before the text of an option, such as an icon or an avatar. It is decorative, so it has `aria-hidden`: the text of the option names the option.
  *
  * @example
- * <cck-select-option value="pro"><cck-select-option-leading><svg /></cck-select-option-leading>Pro</cck-select-option>
+ * <cck-select-option value="pro"><cck-select-option-leading><cck-svg-icon iconName="heart" /></cck-select-option-leading>Pro</cck-select-option>
  * @cckPart optionLeading
  * @cckSlot default - The icon or the avatar. When not set, the part is empty.
  */

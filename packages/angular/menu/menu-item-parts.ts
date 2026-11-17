@@ -8,7 +8,7 @@ import { CckMenuItemBase } from './menu-item-base';
  * @remarks It has `data-state` of `checked` or `unchecked`, and the theme shows it only while the item is checked.
  *
  * @example
- * <cck-menu-checkbox-item [(checked)]="on"><cck-menu-item-indicator>✓</cck-menu-item-indicator>Show</cck-menu-checkbox-item>
+ * <cck-menu-checkbox-item [(checked)]="on"><cck-menu-item-indicator><cck-svg-icon iconName="check" /></cck-menu-item-indicator>Show</cck-menu-checkbox-item>
  * @cckPart itemIndicator
  * @cckSlot default - The mark. When not set, the indicator is empty.
  */
@@ -31,7 +31,7 @@ export class CckMenuItemIndicator {
  * Content before the text of an item, such as an icon. It is decorative, so it has `aria-hidden`: the text of the item names the item. An item with only an icon needs an `aria-label`.
  *
  * @example
- * <cck-menu-item><cck-menu-item-leading><svg /></cck-menu-item-leading>Rename</cck-menu-item>
+ * <cck-menu-item><cck-menu-item-leading><cck-svg-icon iconName="setting" /></cck-menu-item-leading>Rename</cck-menu-item>
  * @cckPart itemLeading
  * @cckSlot default - The icon. When not set, the part is empty.
  */
@@ -49,7 +49,7 @@ export class CckMenuItemLeading {
  * Content after the text of an item, such as an icon. It is decorative, so it has `aria-hidden`.
  *
  * @example
- * <cck-menu-item>Share<cck-menu-item-trailing><svg /></cck-menu-item-trailing></cck-menu-item>
+ * <cck-menu-item>Share<cck-menu-item-trailing><cck-svg-icon iconName="chevron-right" /></cck-menu-item-trailing></cck-menu-item>
  * @cckPart itemTrailing
  * @cckSlot default - The icon. When not set, the part is empty.
  */
