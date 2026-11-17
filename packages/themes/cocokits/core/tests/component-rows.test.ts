@@ -13,7 +13,7 @@ describe('overlay family: one gap, the Popover look (popover-02, -03, -04, -09; 
     expect(structureTokenOf(root, `${block}-side-offset`)).toBe(ref('spacing-4'));
   });
 
-  it('gives the Popover the PrimeNG look from existing tokens: 12px padding, border/2, shadow-md, radius kept', () => {
+  it('gives the Popover its look from existing tokens: 12px padding, border/2, shadow-md, radius kept', () => {
     const own = (name: string): string | undefined => structureTokenOf('.cck-popover__content', `popover-${name}`);
     expect(own('padding')).toBe(ref('spacing-5'));
     expect(own('border-color')).toBe(ref('border-2'));
