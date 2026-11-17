@@ -74,6 +74,24 @@ export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Re
  * </SelectRoot>
  * @typeParam T - The type of the value of an item. The default is `string`.
  * @typeParam M - The type of `multiple`. `true` makes the value a list. The default is `false`.
+ * @example
+ * <SelectRoot v-model="dishes" multiple filter>
+ *   <SelectTrigger aria-label="Dishes">
+ *     <SelectValue placeholder="Choose dishes" />
+ *     <SelectCount />
+ *     <SelectIcon />
+ *   </SelectTrigger>
+ *   <SelectContent>
+ *     <SelectHeader><SelectSearch aria-label="Search dishes" /></SelectHeader>
+ *     <SelectItem value="Cake">
+ *       <SelectOptionLeading><SvgIcon icon-name="heart" /></SelectOptionLeading>
+ *       <SelectItemText>Cake</SelectItemText>
+ *       <SelectOptionDescription>Baked daily</SelectOptionDescription>
+ *     </SelectItem>
+ *     <SelectEmpty>No dish matches.</SelectEmpty>
+ *     <SelectFooter><button type="button">Add a dish</button></SelectFooter>
+ *   </SelectContent>
+ * </SelectRoot>
  * @cckPart root
  */
 export interface SelectRootProps<T = string, M extends boolean = false> {

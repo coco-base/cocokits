@@ -34,6 +34,11 @@ export type { TooltipChangeReason };
  *   </TooltipRoot>
  * </TooltipProvider>
  *
+ * @example
+ * <TooltipContent>
+ *   <TooltipTitle>Copy link</TooltipTitle>
+ *   <TooltipDescription>Copies the address to the clipboard.</TooltipDescription>
+ * </TooltipContent>
  * @cckPart root
  */
 export interface TooltipRootProps {

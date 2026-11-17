@@ -56,6 +56,12 @@ export interface DialogCloseDetails {
  *   </DialogContent>
  * </DialogRoot>
  *
+ * @example
+ * <DialogContent>
+ *   <DialogHeader><DialogTitle>Edit profile</DialogTitle></DialogHeader>
+ *   <DialogBody>Change your name and photo.</DialogBody>
+ *   <DialogFooter><DialogClose>Done</DialogClose></DialogFooter>
+ * </DialogContent>
  * @cckPart root
  */
 export interface DialogRootProps {

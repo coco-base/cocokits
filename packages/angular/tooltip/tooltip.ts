@@ -75,6 +75,11 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
  *     </cck-tooltip-content>
  *   </ng-template>
  * </ng-container>
+ * @example
+ * <cck-tooltip-content>
+ *   <cck-tooltip-title>Copy link</cck-tooltip-title>
+ *   <cck-tooltip-description>Copies the address to the clipboard.</cck-tooltip-description>
+ * </cck-tooltip-content>
  * @cckPart root
  * @cckNoElement
  * @cckSlot default - The trigger and the `cckTooltipPortal` template of the rich form. When not set, the element with `cckTooltip` is the trigger.

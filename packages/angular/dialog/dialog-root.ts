@@ -87,9 +87,9 @@ export interface DialogServiceAttrs {
  *   <button cckDialogTrigger type="button">Delete project</button>
  *   <ng-template cckDialogPortal>
  *     <dialog cckDialogContent>
- *       <h2 cckDialogTitle>Delete project</h2>
- *       <cck-dialog-description>This cannot be undone.</cck-dialog-description>
- *       <button cckDialogClose type="button">Cancel</button>
+ *       <cck-dialog-header><h2 cckDialogTitle>Delete project</h2></cck-dialog-header>
+ *       <cck-dialog-body><cck-dialog-description>This cannot be undone.</cck-dialog-description></cck-dialog-body>
+ *       <cck-dialog-footer><button cckDialogClose type="button">Cancel</button></cck-dialog-footer>
  *     </dialog>
  *   </ng-template>
  * </ng-container>

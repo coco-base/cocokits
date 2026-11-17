@@ -143,6 +143,12 @@ function DialogRootImpl({
  *     <Dialog.Close>Cancel</Dialog.Close>
  *   </Dialog.Content>
  * </Dialog.Root>
+ * @example
+ * <Dialog.Content>
+ *   <Dialog.Header><Dialog.Title>Edit profile</Dialog.Title></Dialog.Header>
+ *   <Dialog.Body>Change your name and photo.</Dialog.Body>
+ *   <Dialog.Footer><Dialog.Close>Done</Dialog.Close></Dialog.Footer>
+ * </Dialog.Content>
  * @cckPart root
  * @param props - The Root props.
  * @returns The children inside the provider.

@@ -29,6 +29,33 @@ export type {
  *     </cck-menu-content>
  *   </ng-template>
  * </ng-container>
+ * @example
+ * <ng-container cckMenu>
+ *   <button cckMenuTrigger>View</button>
+ *   <ng-template cckMenuPortal>
+ *     <cck-menu-content>
+ *       <cck-menu-group>
+ *         <cck-menu-group-label>Layout</cck-menu-group-label>
+ *         <cck-menu-checkbox-item [(checked)]="grid"><cck-menu-item-indicator></cck-menu-item-indicator> Grid</cck-menu-checkbox-item>
+ *         <cck-menu-radio-group [(value)]="sort">
+ *           <cck-menu-radio-item value="name"><cck-menu-item-indicator></cck-menu-item-indicator> Name</cck-menu-radio-item>
+ *           <cck-menu-radio-item value="date"><cck-menu-item-indicator></cck-menu-item-indicator> Date</cck-menu-radio-item>
+ *         </cck-menu-radio-group>
+ *       </cck-menu-group>
+ *       <cck-menu-item>
+ *         <cck-menu-item-leading><cck-svg-icon iconName="copy"></cck-svg-icon></cck-menu-item-leading>
+ *         Duplicate
+ *         <cck-menu-item-supporting-text>Makes a copy.</cck-menu-item-supporting-text>
+ *         <cck-menu-item-shortcut>Ctrl D</cck-menu-item-shortcut>
+ *         <cck-menu-item-trailing><cck-svg-icon iconName="chevron-right"></cck-svg-icon></cck-menu-item-trailing>
+ *       </cck-menu-item>
+ *       <ng-container cckMenuSub>
+ *         <cck-menu-sub-trigger>More</cck-menu-sub-trigger>
+ *         <cck-menu-sub-content><cck-menu-item>Export</cck-menu-item></cck-menu-sub-content>
+ *       </ng-container>
+ *     </cck-menu-content>
+ *   </ng-template>
+ * </ng-container>
  * @cckPart root
  * @cckNoElement
  * @cckSlot default - The trigger and the `cckMenuPortal` template. When not set, there is nothing to open.

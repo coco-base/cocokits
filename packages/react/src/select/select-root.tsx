@@ -439,6 +439,24 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
  * </Select.Root>
  * @typeParam T - The type of the value of an item. The default is `string`.
  * @typeParam M - The type of `multiple`. `true` makes the value a list. The default is `false`.
+ * @example
+ * <Select.Root multiple filter>
+ *   <Select.Trigger aria-label="Dishes">
+ *     <Select.Value placeholder="Choose dishes" />
+ *     <Select.Count />
+ *     <Select.Icon />
+ *   </Select.Trigger>
+ *   <Select.Content>
+ *     <Select.Header><Select.Search aria-label="Search dishes" /></Select.Header>
+ *     <Select.Item value="Cake">
+ *       <Select.OptionLeading><SvgIcon iconName="heart" /></Select.OptionLeading>
+ *       <Select.ItemText>Cake</Select.ItemText>
+ *       <Select.OptionDescription>Baked daily</Select.OptionDescription>
+ *     </Select.Item>
+ *     <Select.Empty>No dish matches.</Select.Empty>
+ *     <Select.Footer><button type="button">Add a dish</button></Select.Footer>
+ *   </Select.Content>
+ * </Select.Root>
  * @cckPart root
  * @param props - The Root props.
  * @returns The rendered root.

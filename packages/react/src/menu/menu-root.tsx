@@ -82,6 +82,31 @@ function MenuRootImpl({ open: openProp, defaultOpen = false, onOpenChange, child
  *     <Menu.Item onSelect={() => remove()}>Delete</Menu.Item>
  *   </Menu.Content>
  * </Menu.Root>
+ * @example
+ * <Menu.Root>
+ *   <Menu.Trigger>View</Menu.Trigger>
+ *   <Menu.Content>
+ *     <Menu.Group>
+ *       <Menu.GroupLabel>Layout</Menu.GroupLabel>
+ *       <Menu.CheckboxItem defaultChecked><Menu.ItemIndicator /> Grid</Menu.CheckboxItem>
+ *       <Menu.RadioGroup defaultValue="name">
+ *         <Menu.RadioItem value="name"><Menu.ItemIndicator /> Name</Menu.RadioItem>
+ *         <Menu.RadioItem value="date"><Menu.ItemIndicator /> Date</Menu.RadioItem>
+ *       </Menu.RadioGroup>
+ *     </Menu.Group>
+ *     <Menu.Item>
+ *       <Menu.ItemLeading><SvgIcon iconName="copy" /></Menu.ItemLeading>
+ *       Duplicate
+ *       <Menu.ItemSupportingText>Makes a copy.</Menu.ItemSupportingText>
+ *       <Menu.ItemShortcut>Ctrl D</Menu.ItemShortcut>
+ *       <Menu.ItemTrailing><SvgIcon iconName="chevron-right" /></Menu.ItemTrailing>
+ *     </Menu.Item>
+ *     <Menu.Sub>
+ *       <Menu.SubTrigger>More</Menu.SubTrigger>
+ *       <Menu.SubContent><Menu.Item>Export</Menu.Item></Menu.SubContent>
+ *     </Menu.Sub>
+ *   </Menu.Content>
+ * </Menu.Root>
  * @cckPart root
  * @param props - The Root props.
  * @returns The children inside the provider.

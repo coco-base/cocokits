@@ -77,6 +77,17 @@ export interface CckSelectChange<V = string> {
  *   <cck-select-option value="Pizza">Pizza</cck-select-option>
  * </cck-select>
  * @typeParam V - The type of the value. It comes from the `value` binding. The default is `string`.
+ * @example
+ * <cck-select [(value)]="dishes" multiple filter aria-label="Dishes">
+ *   <cck-select-header><input cckSelectSearch aria-label="Search dishes" /></cck-select-header>
+ *   <cck-select-option value="Cake">
+ *     <cck-select-option-leading><cck-svg-icon iconName="heart"></cck-svg-icon></cck-select-option-leading>
+ *     Cake
+ *     <cck-select-option-description>Baked daily</cck-select-option-description>
+ *   </cck-select-option>
+ *   <cck-select-empty>No dish matches.</cck-select-empty>
+ *   <cck-select-footer><button type="button">Add a dish</button></cck-select-footer>
+ * </cck-select>
  * @cckPart root
  * @cckPart trigger
  * @cckPart value
