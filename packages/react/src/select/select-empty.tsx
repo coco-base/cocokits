@@ -33,8 +33,11 @@ function SelectEmptyImpl({ render, ref, ...rest }: SelectEmptyProps): ReactEleme
 
 /**
  * What the list says while no option matches the query of the search. It renders a `<div role="status">` inside
- * `Select.Content`, so a screen reader announces it politely. The element is there while the list is open and
- * empty while an option matches, so its text is inserted when nothing matches and the announcement fires.
+ * `Select.Content`, so a screen reader announces it politely.
+ *
+ * @remarks
+ * The element is there while the list is open, and empty while an option matches. Its text is inserted when nothing
+ * matches, so the announcement fires.
  *
  * @example
  * <Select.Empty>No dish found</Select.Empty>
