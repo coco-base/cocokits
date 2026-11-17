@@ -66,7 +66,6 @@ export interface ChipListProps extends Omit<
    * The name of the form entries. With a `name`, `FormData` has one entry per chip. When not set, the form does not
    * send the list.
    *
-   * @defaultValue ''
    * @remarks
    * The list adds one hidden input per value under this name. The text box has no name.
    */

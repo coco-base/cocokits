@@ -57,7 +57,6 @@ export interface ChipProps extends Omit<ComponentPropsWithRef<'div'>, 'children'
    * update it after `onSelectedChange`, the old state stays.
    *
    * @cckSemantic chip.selected
-   * @defaultValue undefined
    */
   readonly selected?: boolean | undefined;
   /**
