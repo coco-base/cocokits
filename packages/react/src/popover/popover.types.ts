@@ -327,6 +327,20 @@ export interface PopoverContentProps
    */
   readonly forceMount?: boolean | undefined;
   /**
+   * The gap in pixels between the trigger and the content. When not set, the content takes the `--side-offset` value
+   * of the theme.
+   *
+   * @cckSemantic popover.content.sideOffset
+   */
+  readonly sideOffset?: number | undefined;
+  /**
+   * How far, in pixels, the content moves along the edge of the trigger, away from the aligned edge. It has no effect
+   * with `align="center"`. When not set, the content is not moved.
+   *
+   * @defaultValue 0
+   */
+  readonly alignOffset?: number | undefined;
+  /**
    * The side of the trigger that the content should sit on. `start` and `end` follow the text direction.
    *
    * The content flips to the other side when it does not fit, and `data-side` says where it is.

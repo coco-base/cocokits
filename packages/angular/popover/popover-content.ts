@@ -55,15 +55,12 @@ export class CckPopoverContent {
   /**
    * The gap between the trigger and the content, in px. When not set, the gap is the `--side-offset` of the theme.
    * @remarks A number is px. The gap is a position, so the author can set it for each popover.
-   * @cckSemantic none
-   * @cckParity Not available in every framework.
    */
   readonly sideOffset = input<number | undefined>(undefined);
 
   /**
    * How far, in px, the content moves along the edge of the trigger, away from the aligned edge. It has no effect with `align="center"`. When not set, the content is not moved.
-   * @cckSemantic none
-   * @cckParity Not available in every framework.
+   * @defaultValue 0
    */
   readonly alignOffset = input<number | undefined>(undefined);
 
