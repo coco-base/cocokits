@@ -19,9 +19,8 @@ export function useControlHandle<E extends HTMLElement>(methods: Readonly<Record
   return useCallback((node: E | null) => {
     if (node === null) return;
     for (const name of Object.keys(latest.current)) {
-      Object.defineProperty(node, name, {
-        configurable: true,
-        value: () => {
+      Object.assign(node, {
+        [name]: () => {
           latest.current[name]();
         },
       });
