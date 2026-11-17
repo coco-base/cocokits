@@ -24,7 +24,8 @@ export const menuOptions: MenuOptions = {
     values: menuContentSizeModes,
     default: menuContentSizeDefaultMode,
     partNames: ['content', 'subContent'],
-    description: 'Height of the items, set on the content or the submenu content; the items follow it.',
+    description:
+      'Height of the items, set on the content or the submenu content; the items follow it. Open each menu to compare the item heights.',
   },
   color: {
     attrName: 'color',
