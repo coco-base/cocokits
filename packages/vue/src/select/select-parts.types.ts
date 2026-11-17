@@ -45,6 +45,21 @@ export interface SelectHeaderProps {
  */
 export interface SelectSearchProps {
   /**
+   * The accessible name of the search box. Write it as `aria-label` in a template.
+   *
+   * @cckSemantic select.search.ariaLabel
+   * @cckParity Written as the native `aria-label` attribute.
+   * @defaultValue 'Search'
+   */
+  readonly ariaLabel?: string | undefined;
+  /**
+   * The text shown in the search box while it is empty. When not set, the box shows no placeholder.
+   *
+   * @cckSemantic select.search.placeholder
+   * @cckParity A native attribute of the element.
+   */
+  readonly placeholder?: string | undefined;
+  /**
    * The tag or component to render in place of the element of the part. The part keeps its class and its state. It
    * is ignored with `asChild`.
    *

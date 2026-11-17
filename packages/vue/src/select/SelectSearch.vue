@@ -18,7 +18,12 @@ import type { SelectSearchProps } from './select-parts.types';
 
 defineOptions({ name: 'CckSelectSearch', inheritAttrs: false });
 
-withDefaults(defineProps<SelectSearchProps>(), { as: 'input', asChild: false });
+const props = withDefaults(defineProps<SelectSearchProps>(), {
+  ariaLabel: 'Search',
+  placeholder: undefined,
+  as: 'input',
+  asChild: false,
+});
 
 const ctx = useSelectContext<unknown>('SelectSearch');
 const themeAttrs = useThemeAttrs(selectAnatomy);
@@ -39,7 +44,6 @@ function onKeydown(event: KeyboardEvent): void {
 // in the box keeps its default, so the caret and the selection work.
 const bound = computed(() => {
   const machine = ctx.parts.value.search;
-  const label = typeof attrs['aria-label'] === 'string' ? attrs['aria-label'] : machine['aria-label'];
   return mergeProps(
     themeAttrs.value.search,
     omit(
@@ -54,7 +58,8 @@ const bound = computed(() => {
     ),
     omit(toVueListeners(machine), 'onKeydown'),
     {
-      'aria-label': label,
+      'aria-label': props.ariaLabel,
+      placeholder: props.placeholder,
       onKeydown,
       onMousedown: (event: MouseEvent) => {
         event.stopPropagation();
