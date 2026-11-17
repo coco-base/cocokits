@@ -121,7 +121,7 @@ export class CckTooltip {
   });
 
   /**
-   * Whether the tooltip never opens. A shown tooltip hides at once when it becomes disabled. A disabled tooltip describes nothing.
+   * Whether the tooltip never opens. A disabled tooltip is closed, its content is not rendered and it no longer describes the trigger. A shown tooltip hides at once when it becomes disabled.
    * @defaultValue false
    * @cckSemantic tooltip.disabled
    */

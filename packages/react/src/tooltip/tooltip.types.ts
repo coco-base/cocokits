@@ -108,7 +108,8 @@ export interface TooltipRootProps {
    */
   readonly disableHoverableContent?: boolean | undefined;
   /**
-   * Whether the tooltip never opens. A disabled tooltip is closed, and its content is not rendered.
+   * Whether the tooltip never opens. A disabled tooltip is closed, its content is not rendered and it no longer
+   * describes the trigger. A shown tooltip hides at once when it becomes disabled.
    *
    * Turning it on while the tooltip shows hides it at once and calls no `onOpenChange`. A tooltip that you do not
    * control stays closed when you turn it off again.

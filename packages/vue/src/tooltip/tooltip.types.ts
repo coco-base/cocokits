@@ -106,8 +106,8 @@ export interface TooltipRootProps {
    */
   readonly disableClosingTrigger?: boolean | undefined;
   /**
-   * Whether the tooltip never opens. A disabled tooltip is closed, and its content is not rendered. It also removes
-   * the description of the trigger.
+   * Whether the tooltip never opens. A disabled tooltip is closed, its content is not rendered and it no longer
+   * describes the trigger. A shown tooltip hides at once when it becomes disabled.
    *
    * Turning it on while the tooltip is open closes it without an `update:open`. A tooltip whose `open` is not bound
    * stays closed when it turns off again.
