@@ -102,8 +102,8 @@ export class CckChip {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the chip is selected. A chip is selectable while this is `true` or `false`; with no value it is a plain chip with no toggle and no check. Use `[(selected)]` to read and change it.
-   * When not set, the chip is a plain chip. A press on the toggle changes it and emits `selectedChange`.
+   * Whether the chip is selected. A chip is selectable while this is `true` or `false`; with no value it is a plain chip. When not set, the chip has no toggle and no check.
+   * @remarks Use `[(selected)]` to read and change it. A press on the toggle changes it and emits `selectedChange`.
    * @cckSemantic chip.selected
    */
   readonly selected = model<boolean | undefined>(undefined);

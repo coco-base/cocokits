@@ -49,6 +49,7 @@ const LACKING_BY_DESIGN: ReadonlyMap<string, ReadonlySet<string>> = new Map([
     'tooltip.open',
     'tooltip.openChange',
     'tabs.trigger.value',
+    'accordion.trigger.value',
     'tabs.panel.value',
     'tabs.panel.forceMount',
     'tab-nav.tabPanel',
