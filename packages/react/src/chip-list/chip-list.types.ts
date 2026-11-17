@@ -30,8 +30,8 @@ export interface ChipListElement extends HTMLElement {
    */
   focus(options?: FocusOptions): void;
   /**
-   * Puts back the values the list had at mount, empties the text box and clears the touched and dirty facts. It
-   * reports the change to `onValueChange` with the reason `form-reset`.
+   * Clears the touched, dirty and submitted facts of the list. The values and the text do not change, and
+   * `onValueChange` is not called.
    *
    * @example
    * ref.current?.reset();

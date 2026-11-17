@@ -77,8 +77,8 @@ const isSameText = (text: string): string => text;
  *
  * @param props - The shared props of the control.
  * @param options - What differs between the controls.
- * @returns The props to put on the element before the author's rest props, and `reset`, which puts back the start
- * text and clears the touched and dirty facts.
+ * @returns The props to put on the element before the author's rest props, and `reset`, which clears the touched
+ * and dirty facts.
  */
 export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>(
   props: TextControlProps,
@@ -156,14 +156,10 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
     };
   }, [inField, componentName, elementRef]);
 
-  // The same as a form reset: the start text comes back and `onValueChange` hears it with the reason `form-reset`.
+  // Clears the facts the control tracks. The value stays, and nobody is told about a change.
   const reset = (): void => {
-    const element = elementRef.current;
-    if (!controlled && element) element.value = toDomText(mountValue);
     setTouchedState(false);
     setDirtyState(false);
-    setDomFilled(mountValue !== '');
-    onValueChange?.(toDomText(mountValue), { reason: 'form-reset', event: null });
   };
 
   const elementProps: Record<string, unknown> = {
@@ -193,6 +189,6 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
 export interface TextControl {
   /** The props to put on the element. */
   readonly props: Record<string, unknown>;
-  /** Puts back the start text and clears the touched and dirty facts. */
+  /** Clears the touched and dirty facts; the value stays. */
   readonly reset: () => void;
 }

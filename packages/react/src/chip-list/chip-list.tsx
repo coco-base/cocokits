@@ -111,13 +111,11 @@ function ChipListImpl({
     },
   });
 
-  // The same as a form reset: the start values come back, the text box empties and the facts clear.
+  // Clears the facts the list tracks. The values and the text stay, and nobody is told about a change.
   const reset = (): void => {
-    updateDraft('');
     setTouchedState(false);
     setDirtyState(false);
     setBlocked(false);
-    setList(mountValue, { reason: 'form-reset', event: null });
   };
   const handleRef = useControlHandle({
     reset,

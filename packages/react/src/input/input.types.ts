@@ -24,8 +24,8 @@ export interface InputElement extends HTMLInputElement {
    */
   focus(options?: FocusOptions): void;
   /**
-   * Puts back the text the input had at mount and clears its touched and dirty facts. It reports the change to
-   * `onValueChange` with the reason `form-reset`, so a controlled input follows.
+   * Clears the touched, dirty and submitted facts of the input. The value does not change, and `onValueChange` is
+   * not called.
    *
    * @example
    * ref.current?.reset();

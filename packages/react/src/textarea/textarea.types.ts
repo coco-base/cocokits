@@ -23,8 +23,8 @@ export interface TextareaElement extends HTMLTextAreaElement {
    */
   focus(options?: FocusOptions): void;
   /**
-   * Puts back the text the textarea had at mount and clears its touched and dirty facts. It reports the change to
-   * `onValueChange` with the reason `form-reset`, so a controlled textarea follows.
+   * Clears the touched, dirty and submitted facts of the textarea. The value does not change, and `onValueChange` is
+   * not called.
    *
    * @example
    * ref.current?.reset();
