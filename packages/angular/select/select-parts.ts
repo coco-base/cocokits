@@ -1,4 +1,14 @@
-import { DestroyRef, Directive, ElementRef, computed, effect, inject, input } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  Directive,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckSelect } from './select';
 import { CckSelectOption } from './select-option';
@@ -95,14 +105,20 @@ export class CckSelectSearch {
  * @cckPart empty
  * @cckSlot default - The text. When not set, the part is empty.
  */
-@Directive({
+@Component({
   selector: 'cck-select-empty',
   exportAs: 'cckSelectEmpty',
+  encapsulation: ViewEncapsulation.None,
   host: {
     '[class]': 'root.parts().empty.class',
     '[attr.role]': 'root.parts().empty.role',
-    '[attr.hidden]': 'shown() ? null : ""',
   },
+  // The status element stays in the DOM while the list is open and is empty; the text is inserted when nothing matches.
+  template: `
+    @if (shown()) {
+      <ng-content />
+    }
+  `,
 })
 export class CckSelectEmpty {
   protected readonly root = injectCckSelect<unknown>('cck-select-empty');

@@ -85,12 +85,14 @@ describe('Select filter', () => {
     expect(screen.getByRole('group', { name: 'Mains' })).toBeTruthy();
     expect(screen.queryByRole('group', { name: 'Desserts' })).toBeNull();
     const empty = document.querySelector('cck-select-empty');
-    expect(empty?.hasAttribute('hidden')).toBe(true);
-    await user.keyboard('zz');
-    expect(visibleOptions()).toEqual([]);
     expect(empty?.hasAttribute('hidden')).toBe(false);
     expect(empty?.getAttribute('role')).toBe('status');
-    expect(empty?.textContent).toBe('No dish found');
+    expect(empty?.textContent).toBe('');
+    await user.keyboard('zz');
+    expect(visibleOptions()).toEqual([]);
+    expect(document.querySelector('cck-select-empty')).toBe(empty);
+    expect(empty?.getAttribute('role')).toBe('status');
+    expect(empty?.textContent.trim()).toBe('No dish found');
     expect(screen.getByRole('listbox').hasAttribute('data-empty')).toBe(true);
   });
 
