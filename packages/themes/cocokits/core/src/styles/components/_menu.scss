@@ -216,6 +216,7 @@ $secondary: '.cck-menu__item-supporting-text, .cck-menu__item-shortcut';
   // The label of a group is not an item: the item's inline padding, the secondary text style and no fill.
   .cck-menu__group-label {
     box-sizing: border-box;
+    display: block;
     padding-block: var(--cck-menu-item-padding-block);
     padding-inline: var(--cck-menu-item-padding-inline);
     color: var(--cck-menu-item-secondary-color);

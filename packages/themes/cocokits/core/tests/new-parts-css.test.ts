@@ -196,6 +196,14 @@ describe('select parts', () => {
     expect(structureTokenOf(content, 'select-search-placeholder-color')).toBe(ref('text-3'));
   });
 
+  it('takes no box while the empty status region has no text, and stays in the accessibility tree', () => {
+    const empty = rule('.cck-select__empty:empty');
+    expect(empty).toContain('padding: 0');
+    expect(empty).toContain('block-size: 0');
+    expect(empty).not.toContain('display');
+    expect(rule('.cck-select__empty')).toContain('display: block');
+  });
+
   it('shows the empty message and the count in text/3, the description in 14px/400 text/2', () => {
     expect(structureTokenOf(content, 'select-empty-color')).toBe(ref('text-3'));
     expect(structureTokenOf('.cck-select', 'select-count-color')).toBe(ref('text-3'));

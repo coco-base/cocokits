@@ -53,8 +53,6 @@ describe.each(BLOCKS)('%s output', (block) => {
       for (const part of flat.split(',')) {
         const tokens = part.trim().split(/\s+/);
         expect(tokens[0], selector).toMatch(/^\.cck-/);
-        // The invalid group of the Radio reaches its radios with one descendant combinator, from the group.
-        if (selector.startsWith('.cck-radio-group:where([data-invalid]) .cck-radio >')) continue;
         tokens.forEach((token, index) => {
           if (index % 2 === 1) expect(token, selector).toMatch(/^[>~+]$/);
         });
@@ -253,7 +251,7 @@ describe('radio look', () => {
   it('shows an invalid group by the border colour of its radios only', () => {
     const rule = declarationsOf(
       css,
-      '.cck-radio-group:where([data-invalid]) .cck-radio > .cck-radio__wrapper > .cck-radio__input-wrapper > .cck-radio__background',
+      '.cck-radio-group:where([data-invalid]) > .cck-radio > .cck-radio__wrapper > .cck-radio__input-wrapper > .cck-radio__background',
     );
     expect(rule).toContain('border-color: var(--cck-radio-box-invalid-border-color)');
     expect(rule).not.toMatch(/box-shadow|outline|border-width/);

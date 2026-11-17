@@ -120,7 +120,7 @@ describe('chip box', () => {
   });
 
   it.each(['sm', 'md', 'lg'])('sizes the chips of a %s list through CSS from the list size tokens', (mode) => {
-    const chip = declarationsOf(listCss, '.cck-chip-list .cck-chip') ?? '';
+    const chip = declarationsOf(listCss, '.cck-chip-list > .cck-chip') ?? '';
     for (const line of [
       'block-size: var(--cck-chip-list-chip-height)',
       'gap: var(--cck-chip-list-chip-gap)',
@@ -129,7 +129,7 @@ describe('chip box', () => {
       'line-height: var(--cck-chip-list-chip-line-height)',
     ])
       expect(chip).toContain(line);
-    expect(declarationsOf(listCss, '.cck-chip-list .cck-chip__remove')).toContain(
+    expect(declarationsOf(listCss, '.cck-chip-list > .cck-chip > .cck-chip__remove')).toContain(
       'font-size: var(--cck-chip-list-chip-icon-size)',
     );
     for (const name of [
@@ -207,7 +207,22 @@ describe('chip list', () => {
 
   it('leaves the size of the chips it renders to the chip: no rule of the list sets a chip height (C14)', () => {
     expect(listCss).not.toContain('.cck-chip-list[data-size] > .cck-chip');
-    expect(stylesCss).not.toMatch(/\.cck-chip-list[^{]*>\s*\.cck-chip\s*\{/);
+    expect(stylesCss).not.toMatch(/\.cck-chip-list\[[^{]*>\s*\.cck-chip\s*\{/);
+  });
+
+  it('reaches its chips with child combinators only, never across blocks with a descendant combinator', () => {
+    for (const selector of selectorsOf(listCss)) {
+      const flat = selector.replace(/\([^()]*(?:\([^()]*(?:\([^()]*\)[^()]*)*\)[^()]*)*\)/g, '()');
+      for (const part of flat.split(',')) {
+        const tokens = part.trim().split(/\s+/);
+        tokens.forEach((token, index) => {
+          if (index % 2 === 1) expect(token, selector).toMatch(/^[>~+]$/);
+        });
+      }
+    }
+    expect(listCss).toContain('.cck-chip-list > .cck-chip {');
+    expect(listCss).toContain('.cck-chip-list > .cck-chip > .cck-chip__check {');
+    expect(listCss).toContain('.cck-chip-list > .cck-chip > .cck-chip__remove {');
   });
 });
 

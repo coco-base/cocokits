@@ -35,6 +35,19 @@ describe('radio-group output', () => {
   });
 });
 
+describe('radio-group invalid look', () => {
+  it('reaches the radios of the group with a child combinator, not across blocks', () => {
+    const radioCss = read('dist', 'components', 'radio.css');
+    expect(radioCss).toContain('.cck-radio-group:where([data-invalid]) > .cck-radio ');
+    expect(radioCss).not.toMatch(/\.cck-radio-group:where\(\[data-invalid\]\) \.cck-radio/);
+    const rule = declarationsOf(
+      radioCss,
+      '.cck-radio-group:where([data-invalid]) > .cck-radio > .cck-radio__wrapper > .cck-radio__input-wrapper > .cck-radio__background',
+    );
+    expect(rule ?? '').toContain('var(--cck-radio-box-invalid-border-color)');
+  });
+});
+
 describe('radio-group design match', () => {
   it.each(['gap', 'inline-gap'])('sets the %s to spacing-5 in both orientations', (name) => {
     expect(structureTokenOf('.cck-radio-group', `radio-group-${name}`)).toBe(ref('spacing-5'));

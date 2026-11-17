@@ -96,10 +96,18 @@
   // The message while no option matches: a line of secondary text, with the option's padding.
   .cck-select__empty {
     box-sizing: border-box;
+    display: block;
     flex: none;
     padding: var(--cck-select-option-padding-block) var(--cck-select-option-padding-inline);
     color: var(--cck-select-empty-color);
     text-align: center;
+
+    // The status region is in the DOM before its message, so while it is empty it takes no box. It keeps its
+    // `display`, so it stays in the accessibility tree.
+    &:empty {
+      padding: 0;
+      block-size: 0;
+    }
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {

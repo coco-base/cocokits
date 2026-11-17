@@ -76,7 +76,7 @@
 
   // The chips take the size of the list. Chip tokens beat any rule of this sheet, so the properties are set here from the
   // list's own size tokens, which alias the same steps.
-  .cck-chip-list .cck-chip {
+  .cck-chip-list > .cck-chip {
     block-size: var(--cck-chip-list-chip-height);
     gap: var(--cck-chip-list-chip-gap);
     padding-inline: var(--cck-chip-list-chip-padding-inline);
@@ -86,15 +86,15 @@
     letter-spacing: var(--cck-chip-list-chip-letter-spacing);
   }
 
-  .cck-chip-list .cck-chip__check {
+  .cck-chip-list > .cck-chip > .cck-chip__check {
     font-size: var(--cck-chip-list-chip-check-icon-size);
   }
 
-  .cck-chip-list .cck-chip:has(> .cck-chip__check[data-state='checked']) {
+  .cck-chip-list > .cck-chip:has(> .cck-chip__check[data-state='checked']) {
     padding-inline-start: var(--cck-chip-list-chip-check-padding-inline-start);
   }
 
-  .cck-chip-list .cck-chip__remove {
+  .cck-chip-list > .cck-chip > .cck-chip__remove {
     margin-inline-end: calc(var(--cck-chip-list-chip-remove-end-inset) - var(--cck-chip-list-chip-padding-inline));
     font-size: var(--cck-chip-list-chip-icon-size);
   }
