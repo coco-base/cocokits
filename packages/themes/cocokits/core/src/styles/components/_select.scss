@@ -163,8 +163,11 @@
     flex: none;
     box-sizing: border-box;
     display: flex;
+    // A description takes a row of its own under the text, with no gap between the rows.
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--cck-select-option-gap);
+    row-gap: 0;
     padding: var(--cck-select-option-padding-block) var(--cck-select-option-padding-inline);
     border-radius: var(--cck-select-option-radius);
     cursor: pointer;

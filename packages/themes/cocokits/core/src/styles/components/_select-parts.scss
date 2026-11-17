@@ -127,10 +127,13 @@
     color: var(--cck-select-option-disabled-text-color);
   }
 
-  // Text and description in one line each: the description is a block, so inside the option's text it falls under it.
+  // A second line under the text, as wide as the row, after the leading part, the text and the check. The indents
+  // below put it under the text: the leading part and the box of a multiple list come before the text.
   .cck-select__option-description {
     box-sizing: border-box;
     display: block;
+    flex: 1 0 100%;
+    order: 4;
     color: var(--cck-select-option-description-color);
     font-family: var(--cck-select-option-description-font-family);
     font-size: var(--cck-select-option-description-font-size);
@@ -142,6 +145,22 @@
     &[hidden] {
       display: none;
     }
+  }
+
+  .cck-select__option:has(> .cck-select__option-leading) > .cck-select__option-description {
+    padding-inline-start: calc(var(--cck-select-option-leading-icon-size) + var(--cck-select-option-gap));
+  }
+
+  $box: '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator="checkbox"])';
+
+  #{$box} .cck-select__option > .cck-select__option-description {
+    padding-inline-start: calc(var(--cck-select-indicator-size) + var(--cck-select-option-gap));
+  }
+
+  #{$box} .cck-select__option:has(> .cck-select__option-leading) > .cck-select__option-description {
+    padding-inline-start: calc(
+      var(--cck-select-indicator-size) + var(--cck-select-option-leading-icon-size) + 2 * var(--cck-select-option-gap)
+    );
   }
 
   .cck-select__option[data-disabled] .cck-select__option-description {

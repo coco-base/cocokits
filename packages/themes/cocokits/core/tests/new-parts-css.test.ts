@@ -206,6 +206,19 @@ describe('select parts', () => {
     expect(rule('.cck-select__count')).toContain('color: var(--cck-select-count-color)');
   });
 
+  it('puts the description on a row of its own under the text, indented past the leading part and the box', () => {
+    const description = rule('.cck-select__option-description');
+    expect(description).toContain('flex: 1 0 100%');
+    expect(description).toContain('order: 4');
+    expect(rule('.cck-select__option')).toContain('flex-wrap: wrap');
+    expect(rule('.cck-select__option:has(> .cck-select__option-leading) > .cck-select__option-description')).toContain(
+      'padding-inline-start: calc(var(--cck-select-option-leading-icon-size) + var(--cck-select-option-gap))',
+    );
+    expect(styles).toContain(
+      '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox]) .cck-select__option > .cck-select__option-description {\n    padding-inline-start: calc(var(--cck-select-indicator-size) + var(--cck-select-option-gap));',
+    );
+  });
+
   it('dims the count in a disabled trigger', () => {
     expect(styles).toMatch(/\.cck-select__count,[^{]*\{[^}]*color: var\(--cck-select-disabled-text-color\)/);
   });
