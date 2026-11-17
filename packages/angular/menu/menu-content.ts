@@ -6,24 +6,13 @@ import { hasAccessibleName } from '@cocokits/utils';
 import { injectCckMenu } from './menu-inject';
 
 /**
- * The panel of the menu, a `menu` that does not block the page. It shows in the overlay container, not next to the trigger. The trigger names it, unless you give it an `aria-label` or an `aria-labelledby`.
- *
- * The content opens on the preferred side of the trigger, and moves to the other side when there is no room. On open, the focus moves to the first item, or to the content when it has none.
- *
- * @example
- * <ng-template cckMenuPortal>
- *   <cck-menu-content side="bottom" align="start">
- *     <cck-menu-item>Rename</cck-menu-item>
- *   </cck-menu-content>
- * </ng-template>
- * @cckPart content
- * @cckTemplate ng-template[cckMenuPortal]
- * @cckSlot default - The items and the dividers. When not set, the panel is empty.
+ * What the menu content and the sub-content share. Not for direct use or extension outside CocoKits.
+ * @internal
  */
 @Directive({
-  selector: 'cck-menu-content',
-  exportAs: 'cckMenuContent',
   host: {
+    '[attr.side]': 'null',
+    '[attr.align]': 'null',
     '[class]': 'props().class',
     '[id]': 'props().id',
     '[attr.role]': 'props().role',
@@ -33,25 +22,11 @@ import { injectCckMenu } from './menu-inject';
     '[attr.data-side]': 'props()["data-side"]',
     '[attr.data-align]': 'props()["data-align"]',
     '(keydown)': 'props().onKeyDown($event)',
-    '[attr.side]': 'null',
-    '[attr.align]': 'null',
     '[attr.sideoffset]': 'null',
     '[attr.alignoffset]': 'null',
   },
 })
-export class CckMenuContent {
-  /**
-   * The side of the trigger where the content prefers to open. `start` and `end` follow the text direction. The content opens on the other side when there is no room.
-   * @defaultValue 'bottom'
-   */
-  readonly side = input<OverlaySide>('bottom');
-
-  /**
-   * How the content lines up with the edge of the trigger.
-   * @defaultValue 'start'
-   */
-  readonly align = input<OverlayAlign>('start');
-
+export abstract class CckMenuContentBase {
   /**
    * The gap between the trigger and the content, in px. When not set, the gap is the `--side-offset` of the theme.
    * @remarks A number is px. The gap is a position, so the author can set it for each menu.
@@ -68,6 +43,13 @@ export class CckMenuContent {
   readonly alignOffset = input<number | undefined>(undefined);
 
   private readonly root = injectCckMenu('Content');
+
+  /** The side the content prefers; a submenu has its own placement. */
+  protected abstract wantedSide(): OverlaySide;
+
+  /** The alignment the content prefers. */
+  protected abstract wantedAlign(): OverlayAlign;
+
   protected readonly props = computed(() => this.root._parts().content);
 
   /** A static `aria-labelledby` the author wrote; it wins over the trigger's. */
@@ -85,8 +67,8 @@ export class CckMenuContent {
     const ready = signal(false);
     const registration = {
       element,
-      side: this.side,
-      align: this.align,
+      side: computed(() => this.wantedSide()),
+      align: computed(() => this.wantedAlign()),
       sideOffset: this.sideOffset,
       alignOffset: this.alignOffset,
       named,
@@ -109,5 +91,46 @@ export class CckMenuContent {
         );
       }
     });
+  }
+}
+
+/**
+ * The panel of the menu, a `menu` that does not block the page. It shows in the overlay container, not next to the trigger. The trigger names it, unless you give it an `aria-label` or an `aria-labelledby`.
+ *
+ * The content opens on the preferred side of the trigger, and moves to the other side when there is no room. On open, the focus moves to the first item, or to the content when it has none.
+ *
+ * @example
+ * <ng-template cckMenuPortal>
+ *   <cck-menu-content side="bottom" align="start">
+ *     <cck-menu-item>Rename</cck-menu-item>
+ *   </cck-menu-content>
+ * </ng-template>
+ * @cckPart content
+ * @cckTemplate ng-template[cckMenuPortal]
+ * @cckSlot default - The items and the dividers. When not set, the panel is empty.
+ */
+@Directive({
+  selector: 'cck-menu-content',
+  exportAs: 'cckMenuContent',
+})
+export class CckMenuContent extends CckMenuContentBase {
+  /**
+   * The side of the trigger where the content prefers to open. `start` and `end` follow the text direction. The content opens on the other side when there is no room.
+   * @defaultValue 'bottom'
+   */
+  readonly side = input<OverlaySide>('bottom');
+
+  /**
+   * How the content lines up with the edge of the trigger.
+   * @defaultValue 'start'
+   */
+  readonly align = input<OverlayAlign>('start');
+
+  protected wantedSide(): OverlaySide {
+    return this.side();
+  }
+
+  protected wantedAlign(): OverlayAlign {
+    return this.align();
   }
 }

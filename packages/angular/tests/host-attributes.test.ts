@@ -151,13 +151,12 @@ const rows = [
     host: 'cck-select',
     imports: CckSelectImports,
     markup:
-      '<cck-select aria-label="x" value="a" multiple placeholder="p" filter searchLabel="s" side="bottom" align="start" disabled readonly required name="n" form="f"></cck-select>',
+      '<cck-select aria-label="x" value="a" multiple placeholder="p" filter side="bottom" align="start" disabled readonly required name="n" form="f"></cck-select>',
     check: [
       'value',
       'multiple',
       'placeholder',
       'filter',
-      'searchlabel',
       'side',
       'align',
       'disabled',

@@ -16,8 +16,7 @@ export abstract class CckDialogOptions {
    * Whether Escape and a press on the backdrop leave the dialog open. The close button, a `<form method="dialog">`, the trigger and a change from the parent still close it.
    * @remarks It runs before `closePredicate`. Without Escape, a keyboard user can leave only with the controls inside the dialog, so keep a close button.
    * @defaultValue false
-   * @cckParity Only this framework has this member.
-   * @cckSemantic none
+   * @cckSemantic dialog.disableClose
    */
   readonly disableClose = input(false, { transform: booleanAttribute });
 
@@ -32,8 +31,7 @@ export abstract class CckDialogOptions {
    *   </ng-template>
    * </ng-container>
    * <!-- In the class: canClose = (details: DialogChangeDetails) => details.reason !== 'escape'; -->
-   * @cckParity Only this framework has this member.
-   * @cckSemantic none
+   * @cckSemantic dialog.closePredicate
    */
   readonly closePredicate = input<((details: DialogChangeDetails) => boolean) | undefined>(undefined);
 

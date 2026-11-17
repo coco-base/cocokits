@@ -306,6 +306,8 @@ export class CckSelect<V = string> extends CckSelectInputs<V> implements FormVal
   readonly _options = signal<readonly SelectOptionRegistration[]>([]);
   /** The search input of the list, when there is one. @internal */
   readonly _searchElement = signal<HTMLInputElement | null>(null);
+  /** The `aria-label` the author gave the search input. @internal */
+  readonly _searchLabel = signal<string | undefined>(undefined);
 
   protected readonly hiddenStyle = visuallyHiddenStyleText;
   private readonly triggerRef = viewChild<ElementRef<HTMLButtonElement>>('trigger');
@@ -336,7 +338,7 @@ export class CckSelect<V = string> extends CckSelectInputs<V> implements FormVal
     disableClose: this.disableClose,
     closePredicate: this.closePredicate,
     filter: this.filter,
-    searchLabel: this.searchLabel,
+    searchLabel: this._searchLabel,
     search: this._searchElement,
     facts: this.facts,
     fieldContext: this.fieldContext,

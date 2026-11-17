@@ -13,8 +13,8 @@ const { classes } = selectAnatomy;
 @Component({
   imports,
   template: `
-    <cck-select filter [multiple]="multiple()" [(value)]="value" aria-label="Dish" searchLabel="Find a dish">
-      <cck-select-header><input cckSelectSearch /></cck-select-header>
+    <cck-select filter [multiple]="multiple()" [(value)]="value" aria-label="Dish">
+      <cck-select-header><input cckSelectSearch aria-label="Find a dish" placeholder="Search" /></cck-select-header>
       <cck-select-option-group label="Mains">
         <cck-select-option value="Pizza">Pizza</cck-select-option>
         <cck-select-option value="Pasta">Pasta</cck-select-option>

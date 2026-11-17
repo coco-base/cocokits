@@ -1,4 +1,14 @@
-import { DestroyRef, Directive, effect, forwardRef, inject, signal, untracked, type Signal } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  effect,
+  forwardRef,
+  inject,
+  model,
+  signal,
+  untracked,
+  type Signal,
+} from '@angular/core';
 import { CckOverlayLayer, CckPortal } from '@cocokits/angular-core';
 import type { OverlayPositionOptions } from '@cocokits/cdk/positioning';
 import {
@@ -39,9 +49,13 @@ import { CckMenuBase, type MenuChangeDetails, type MenuContentRegistration, type
   providers: [CckPortal, CckOverlayLayer, { provide: CckMenuBase, useExisting: forwardRef(() => CckMenuSub) }],
 })
 export class CckMenuSub extends CckMenuBase implements MenuSubHandle {
-  private readonly openState = signal(false);
-  /** Whether the submenu is open. It follows the sub-trigger, a key, the pointer and the parent menu; it has no model of its own. @internal */
-  readonly open = this.openState.asReadonly();
+  /**
+   * Whether the submenu is open. Use `[(open)]` to read and change it.
+   * @remarks The sub-trigger, a key, the pointer and the parent menu change it too. It closes with the parent menu.
+   * @cckSemantic menu.sub.open
+   * @defaultValue false
+   */
+  readonly open = model(false);
 
   /** Whether the sub-trigger is disabled. @internal */
   _disabled: Signal<boolean> = signal(false);
@@ -65,10 +79,10 @@ export class CckMenuSub extends CckMenuBase implements MenuSubHandle {
       if (parent.open()) return;
       untracked(() => {
         this.clearTimer();
-        if (!this.openState()) return;
+        if (!this.open()) return;
         this.returnFocus = false;
         this.stopDismissLayer();
-        this.openState.set(false);
+        this.open.set(false);
       });
     });
   }
@@ -84,7 +98,7 @@ export class CckMenuSub extends CckMenuBase implements MenuSubHandle {
   }
 
   protected setOpen(open: boolean): void {
-    this.openState.set(open);
+    this.open.set(open);
   }
 
   protected announce(next: MenuTransition, details: MenuChangeDetails): void {

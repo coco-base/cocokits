@@ -20,7 +20,6 @@ import type { CckSelectItem, CckSelectOptionRef } from './select-types';
     '[attr.typeaheaddebounceinterval]': 'null',
     '[attr.canselectnullableoptions]': 'null',
     '[attr.filter]': 'null',
-    '[attr.searchlabel]': 'null',
   },
 })
 export abstract class CckSelectInputs<V> extends CckFormControlBase {
@@ -102,11 +101,4 @@ export abstract class CckSelectInputs<V> extends CckFormControlBase {
    * @defaultValue false
    */
   readonly filter = input(false, { transform: booleanAttribute });
-
-  /**
-   * The accessible name of the search input. When not set, the name is "Search".
-   * @cckSemantic select.searchLabel
-   * @cckParity Not available in every framework.
-   */
-  readonly searchLabel = input<string | undefined>(undefined);
 }

@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, ElementRef, computed, inject } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, computed, effect, inject, input } from '@angular/core';
 import { bindAttrs } from '@cocokits/angular-core';
 import { injectCckSelect } from './select';
 import { CckSelectOption } from './select-option';
@@ -48,6 +48,7 @@ export class CckSelectHeader {
     '[attr.aria-autocomplete]': 'props()["aria-autocomplete"]',
     '[attr.aria-activedescendant]': 'props()["aria-activedescendant"] ?? null',
     '[attr.aria-label]': 'props()["aria-label"]',
+    '[attr.placeholder]': 'placeholder() ?? null',
     '[attr.autocomplete]': 'props().autocomplete',
     '[value]': 'props().value',
     '(input)': 'props().onInput($event)',
@@ -57,6 +58,18 @@ export class CckSelectHeader {
   },
 })
 export class CckSelectSearch {
+  /**
+   * The accessible name of the search input. When not set, the name is "Search".
+   * @cckSemantic select.search.ariaLabel
+   */
+  readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
+
+  /**
+   * The text that shows in the search input while it is empty. When not set, the input shows no text then.
+   * @cckSemantic select.search.placeholder
+   */
+  readonly placeholder = input<string | undefined>(undefined);
+
   private readonly root = injectCckSelect<unknown>('cckSelectSearch');
   protected readonly props = computed(() => this.root.parts().search);
 
@@ -67,6 +80,9 @@ export class CckSelectSearch {
       this.root._searchElement.update((current) => (current === element ? null : current));
     });
     bindAttrs(element, () => this.root._theme().search);
+    effect(() => {
+      this.root._searchLabel.set(this.ariaLabel());
+    });
   }
 }
 

@@ -41,6 +41,7 @@ import { injectCckMenu } from './menu-inject';
 export abstract class CckMenuItemBase {
   /**
    * Whether the item is disabled. It stays focusable and runs nothing.
+   * @cckSemantic menu.item.disabled
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -50,6 +51,7 @@ export abstract class CckMenuItemBase {
    * @remarks It never emits for a disabled item.
    * @example
    * <cck-menu-item (triggered)="$event.preventDefault()">Stay</cck-menu-item>
+   * @cckSemantic menu.item.activate
    */
   readonly triggered = output<Event>();
 

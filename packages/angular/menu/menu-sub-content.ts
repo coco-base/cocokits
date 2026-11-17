@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
-import { CckMenuContent } from './menu-content';
+import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
+import { CckMenuContentBase } from './menu-content';
 
 /**
  * The panel of a submenu, a `menu` that does not block the page. It shows in the overlay container, next to the sub-trigger. The sub-trigger names it, unless you give it an `aria-label` or an `aria-labelledby`.
@@ -20,6 +21,14 @@ import { CckMenuContent } from './menu-content';
   selector: 'cck-menu-sub-content',
   exportAs: 'cckMenuSubContent',
 })
-export class CckMenuSubContent extends CckMenuContent {
+export class CckMenuSubContent extends CckMenuContentBase {
   protected override readonly themePart = 'subContent';
+
+  protected wantedSide(): OverlaySide {
+    return 'bottom';
+  }
+
+  protected wantedAlign(): OverlayAlign {
+    return 'start';
+  }
 }

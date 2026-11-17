@@ -41,6 +41,7 @@ import { injectCckMenuSub } from './menu-sub';
 export class CckMenuSubTrigger {
   /**
    * Whether the sub-trigger is disabled. It stays focusable and opens nothing.
+   * @cckSemantic menu.item.disabled
    * @defaultValue false
    */
   readonly disabled = input(false, { transform: booleanAttribute });
