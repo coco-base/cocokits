@@ -59,7 +59,8 @@ export const selectAnatomy: Anatomy<
     },
     empty: {
       name: 'Empty',
-      description: 'The text shown while no option matches the query. A polite status.',
+      description:
+        'A polite status element that is always present and empty while the list is open. Its text is inserted when no option matches the query.',
     },
     footer: {
       name: 'Footer',
