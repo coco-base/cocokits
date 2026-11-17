@@ -59,10 +59,11 @@ export class CckSelectHeader {
 })
 export class CckSelectSearch {
   /**
-   * The accessible name of the search input. When not set, the name is "Search".
+   * The accessible name of the search input. Change it to match your language.
+   * @defaultValue 'Search'
    * @cckSemantic select.search.ariaLabel
    */
-  readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
+  readonly ariaLabel = input('Search', { alias: 'aria-label' });
 
   /**
    * The text that shows in the search input while it is empty. When not set, the input shows no text then.
