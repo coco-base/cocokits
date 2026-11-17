@@ -194,7 +194,7 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
   /**
    * The labels that the trigger shows, as data. Pass a list of `{ value, label }` entries, or, for text values, an object from value to label. When not set, the trigger shows the text from `itemToStringLabel`, or the value as text.
    *
-   * The trigger shows the label of the first selected value, and `Select.Count` shows `+N` for the others. The labels are in the server render, because no part reports its text to the Select. The text of an item should be equal to its label. A closed Select also uses these entries to match a browser autofill.
+   * The trigger shows the label of the first selected value, and `Select.Value` shows `+N` for the others. The labels are in the server render, because no part reports its text to the Select. The text of an item should be equal to its label. A closed Select also uses these entries to match a browser autofill.
    *
    * @cckSemantic select.items
    * @cckParity Not available in every framework.

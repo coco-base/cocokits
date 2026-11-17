@@ -83,6 +83,9 @@ export interface CheckboxGroupProps extends Omit<ComponentPropsWithRef<'div'>, '
   /**
    * Whether every checkbox is disabled. A disabled `FormField` also disables the group.
    *
+   * @remarks
+   * The group renders `data-disabled`.
+   *
    * @cckSemantic checkbox-group.disabled
    * @defaultValue false
    */
@@ -96,7 +99,10 @@ export interface CheckboxGroupProps extends Omit<ComponentPropsWithRef<'div'>, '
    */
   readonly name?: string | undefined;
   /**
-   * How the theme lays the checkboxes out. The group renders it as `data-orientation`.
+   * How the theme lays the checkboxes out, in a column or in a row.
+   *
+   * @remarks
+   * The group renders it as `data-orientation`.
    *
    * @cckSemantic checkbox-group.orientation
    * @defaultValue 'vertical'

@@ -66,7 +66,6 @@ describe('Select on the server', () => {
       <Select.Root multiple filter defaultValue={['Cake', 'Pizza', 'Steak']}>
         <Select.Trigger aria-label="Dishes">
           <Select.Value placeholder="Choose" />
-          <Select.Count />
           <Select.Icon />
         </Select.Trigger>
         <Select.Content>

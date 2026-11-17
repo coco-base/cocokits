@@ -14,7 +14,6 @@ export { SelectHeader } from './select-header';
 export { SelectSearch } from './select-search';
 export { SelectEmpty } from './select-empty';
 export { SelectFooter } from './select-footer';
-export { SelectCount } from './select-count';
 export { SelectOptionDescription } from './select-option-description';
 export { SelectOptionLeading } from './select-option-leading';
 export type {
@@ -32,7 +31,6 @@ export type {
   SelectValueReason,
 } from './select.types';
 export type {
-  SelectCountProps,
   SelectEmptyProps,
   SelectFooterProps,
   SelectHeaderProps,

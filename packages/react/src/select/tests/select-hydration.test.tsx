@@ -73,7 +73,6 @@ describe('Select hydration', () => {
       <Select.Root multiple filter defaultValue={['Cake', 'Steak']}>
         <Select.Trigger aria-label="Dishes">
           <Select.Value />
-          <Select.Count />
         </Select.Trigger>
         <Select.Content>
           <Select.Header>

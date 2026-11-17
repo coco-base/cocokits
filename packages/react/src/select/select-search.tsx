@@ -22,7 +22,7 @@ const RESERVED = [
   'aria-activedescendant',
 ];
 
-function SelectSearchImpl({ render, ref, ...rest }: SelectSearchProps): ReactElement {
+function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement {
   const context = useSelectContext<unknown>('Select.Search');
   const { open, parts, layerActiveRef } = context;
   const { search } = parts;
@@ -50,10 +50,10 @@ function SelectSearchImpl({ render, ref, ...rest }: SelectSearchProps): ReactEle
     rest,
     reserved: RESERVED,
     ref,
-    render,
+    render: undefined,
     internalRef: input,
   });
-  return renderElement<SelectRenderProps, undefined>(render, 'input', props, undefined);
+  return renderElement<SelectRenderProps, undefined>(undefined, 'input', props, undefined);
 }
 
 /**

@@ -78,9 +78,19 @@ describe('Select search', () => {
     expect(search().getAttribute('aria-controls')).toBe(list.id);
     expect(search().getAttribute('aria-autocomplete')).toBe('list');
     expect(search().className).toBe('cck-select__search');
-    expect(list.querySelector('.cck-select__empty')).toBeNull();
+    expect(list.querySelector('.cck-select__empty')?.textContent).toBe('');
     expect(list.hasAttribute('data-empty')).toBe(false);
     expect(list.querySelector('.cck-select__footer')?.textContent).toBe('Add a dish');
+  });
+
+  it('always renders a native search input and accepts no render prop', async () => {
+    render(<Searchable />);
+    await open();
+    expect(search().tagName).toBe('INPUT');
+    expect(search().getAttribute('type')).toBe('search');
+    // @ts-expect-error The search part has no `render` prop: the element is always an input.
+    const rejected = <Select.Search render={<textarea />} />;
+    expect(rejected).toBeDefined();
   });
 
   it('moves the focus into the search input on open and keeps the trigger out of the highlight', async () => {
@@ -107,14 +117,18 @@ describe('Select search', () => {
   it('shows the empty part as a polite status while nothing matches', async () => {
     render(<Searchable />);
     await open();
+    const before = screen.getByRole('status', { hidden: true });
+    expect(before.textContent).toBe('');
     await userEvent.type(search(), 'zzz');
     const empty = screen.getByRole('status');
+    expect(empty).toBe(before);
     expect(empty.textContent).toBe('No dish found');
     expect(empty.className).toBe('cck-select__empty');
     expect(screen.getByRole('listbox').hasAttribute('data-empty')).toBe(true);
     expect(options()).toEqual([]);
     await userEvent.clear(search());
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.getByRole('status', { hidden: true })).toBe(before);
+    expect(before.textContent).toBe('');
   });
 
   it('hides a group while the query matches none of its options', async () => {
@@ -202,7 +216,7 @@ describe('Select search', () => {
     render(<Plain />);
     await userEvent.click(trigger());
     await screen.findByRole('listbox');
-    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.getByRole('status', { hidden: true }).textContent).toBe('');
     expect(screen.queryByRole('combobox', { name: 'Search' })).toBeNull();
   });
 });
@@ -213,7 +227,6 @@ describe('Select count and option parts', () => {
       <Select.Root multiple defaultValue={value}>
         <Select.Trigger aria-label="Dishes">
           <Select.Value placeholder="Choose" />
-          <Select.Count />
           <Select.Icon />
         </Select.Trigger>
         <Select.Content>
@@ -239,6 +252,13 @@ describe('Select count and option parts', () => {
     render(<Multi value={value} />);
     expect(count()?.textContent ?? null).toBe(text);
     expect(document.querySelector('.cck-select__value')?.textContent ?? '').toBe(first);
+  });
+
+  it('renders the count right after the value, without author markup', () => {
+    render(<Multi value={['Cake', 'Steak']} />);
+    const value = document.querySelector('.cck-select__value');
+    expect(value?.nextElementSibling).toBe(count());
+    expect(value?.parentElement).toBe(trigger());
   });
 
   it('follows a choice made in the list', async () => {

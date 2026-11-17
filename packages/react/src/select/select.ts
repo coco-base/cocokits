@@ -1,6 +1,4 @@
-import type { ReactElement } from 'react';
 import { SelectContent } from './select-content';
-import { SelectCount } from './select-count';
 import { SelectEmpty } from './select-empty';
 import { SelectFooter } from './select-footer';
 import { SelectHeader } from './select-header';
@@ -19,7 +17,6 @@ import { SelectTrigger } from './select-trigger';
 import { SelectValue } from './select-value';
 import type { SelectPart, SelectRootComponent, SelectTriggerProps, SelectValueComponent } from './select.types';
 import type {
-  SelectCountProps,
   SelectEmptyProps,
   SelectFooterProps,
   SelectHeaderProps,
@@ -53,9 +50,8 @@ interface SelectNamespace {
   readonly Separator: SelectPart<SelectSeparatorProps>;
   readonly Header: SelectPart<SelectHeaderProps>;
   readonly Search: SelectPart<SelectSearchProps>;
-  readonly Empty: SelectPart<SelectEmptyProps, ReactElement | null>;
+  readonly Empty: SelectPart<SelectEmptyProps>;
   readonly Footer: SelectPart<SelectFooterProps>;
-  readonly Count: SelectPart<SelectCountProps, ReactElement | null>;
   readonly OptionDescription: SelectPart<SelectOptionDescriptionProps>;
   readonly OptionLeading: SelectPart<SelectOptionLeadingProps>;
 }
@@ -63,7 +59,7 @@ interface SelectNamespace {
 /**
  * The Select parts as a namespace: `Select.Root`, `Select.Trigger`, `Select.Value`, `Select.Icon`,
  * `Select.Content`, `Select.Item`, `Select.ItemText`, `Select.ItemIndicator`, `Select.Group`, `Select.Label`,
- * `Select.Separator`, `Select.Header`, `Select.Search`, `Select.Empty`, `Select.Footer`, `Select.Count`,
+ * `Select.Separator`, `Select.Header`, `Select.Search`, `Select.Empty`, `Select.Footer`,
  * `Select.OptionDescription` and `Select.OptionLeading`. A custom listbox in a positioned overlay; the Root holds the value and the open state, the
  * Trigger shows the selection and the Content renders the list.
  */
@@ -83,7 +79,6 @@ export const Select: SelectNamespace = {
   Search: SelectSearch,
   Empty: SelectEmpty,
   Footer: SelectFooter,
-  Count: SelectCount,
   OptionDescription: SelectOptionDescription,
   OptionLeading: SelectOptionLeading,
 };

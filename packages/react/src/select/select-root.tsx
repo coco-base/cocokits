@@ -443,7 +443,6 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
  * <Select.Root multiple filter>
  *   <Select.Trigger aria-label="Dishes">
  *     <Select.Value placeholder="Choose dishes" />
- *     <Select.Count />
  *     <Select.Icon />
  *   </Select.Trigger>
  *   <Select.Content>

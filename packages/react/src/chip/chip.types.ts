@@ -42,8 +42,11 @@ export interface ChipProps extends Omit<ComponentPropsWithRef<'div'>, 'children'
    */
   readonly removable?: boolean | undefined;
   /**
-   * Whether the chip is disabled. The root gets `data-disabled`, a selectable chip's toggle is natively disabled, and
-   * a disabled chip renders no remove button, so it never reports a removal.
+   * Whether the chip is disabled. A selectable chip's toggle is natively disabled, and a disabled chip renders no
+   * remove button, so it never reports a removal.
+   *
+   * @remarks
+   * The root gets `data-disabled`.
    *
    * @defaultValue false
    */

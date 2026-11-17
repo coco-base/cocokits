@@ -33,7 +33,6 @@ function Menu(): ReactElement {
     <Select.Root multiple filter defaultValue={['Cake', 'Steak']}>
       <Select.Trigger aria-label="Dish">
         <Select.Value />
-        <Select.Count />
         <Select.Icon />
       </Select.Trigger>
       <Select.Content>

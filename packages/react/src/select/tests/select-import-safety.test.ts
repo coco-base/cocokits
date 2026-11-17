@@ -21,7 +21,6 @@ describe('@cocokits/react/select import safety', () => {
       'Search',
       'Empty',
       'Footer',
-      'Count',
       'OptionDescription',
       'OptionLeading',
     ];

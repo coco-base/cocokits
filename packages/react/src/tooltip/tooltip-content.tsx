@@ -26,6 +26,8 @@ import { useTriggerWarning } from '../internal/use-trigger-warning';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useTooltipContext } from './tooltip-context';
+import { TooltipDescription } from './tooltip-description';
+import { TooltipTitle } from './tooltip-title';
 import type {
   TooltipAlign,
   TooltipContentProps,
@@ -184,11 +186,32 @@ function TooltipContentLayer({
   );
 }
 
-/** The text of children that are text only (strings and numbers), else `null`. */
+/**
+ * The text of children that are text, a `Tooltip.Title` or a `Tooltip.Description` only, else `null`. The parts are
+ * part of the tooltip text: title first, then description, one space apart.
+ */
 function textOf(children: ReactNode): string | null {
-  const items = Children.toArray(children);
-  if (items.length === 0 || !items.every((item) => typeof item === 'string' || typeof item === 'number')) return null;
-  return items.join('');
+  const seen = { part: false };
+  const walk = (node: ReactNode): string | null => {
+    let text = '';
+    for (const item of Children.toArray(node)) {
+      if (typeof item === 'string' || typeof item === 'number') {
+        text += String(item);
+        continue;
+      }
+      if (!isValidElement<{ readonly children?: ReactNode }>(item)) return null;
+      const part = item.type === TooltipTitle || item.type === TooltipDescription;
+      if (!part) return null;
+      seen.part = true;
+      const piece = walk(item.props.children);
+      if (piece === null) return null;
+      text += ` ${piece} `;
+    }
+    return text;
+  };
+  const text = walk(children);
+  if (!text?.trim()) return null;
+  return seen.part ? text.replace(/\s+/g, ' ').trim() : text;
 }
 
 function TooltipContentImpl({ 'aria-label': ariaLabel, ...props }: TooltipContentProps): ReactElement {

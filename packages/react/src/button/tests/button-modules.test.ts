@@ -156,7 +156,6 @@ describe('emitted modules keep their "use client"', () => {
       'radio/use-radio-group-item.js',
       'select/select-content.js',
       'select/select-context.js',
-      'select/select-count.js',
       'select/select-empty.js',
       'select/select-footer.js',
       'select/select-group.js',

@@ -31,13 +31,13 @@ export interface SelectHeaderProps extends Omit<ComponentPropsWithRef<'div'>, 'c
 }
 
 /**
- * Props of the {@link SelectSearch}: native `input` props and `render`. The `type`, the `role`, the value and the
- * `aria-*` of the combobox belong to the Select.
+ * Props of the {@link SelectSearch}: native `input` props. The element is always an `<input type="search">`, so there
+ * is no `render`. The `type`, the `role`, the value and the `aria-*` of the combobox belong to the Select.
  */
-export interface SelectSearchProps
-  extends
-    Omit<ComponentPropsWithRef<'input'>, 'color' | 'type' | 'role' | 'value' | 'defaultValue' | 'children' | 'onInput'>,
-    SelectRenderOption {
+export interface SelectSearchProps extends Omit<
+  ComponentPropsWithRef<'input'>,
+  'color' | 'type' | 'role' | 'value' | 'defaultValue' | 'children' | 'onInput'
+> {
   /**
    * The accessible name of the search input. When not set, the name is "Search".
    *
@@ -81,21 +81,6 @@ export interface SelectFooterProps extends Omit<ComponentPropsWithRef<'div'>, 'c
    *   <button type="button">Add a dish</button>
    * </Select.Footer>
    * @cckSemantic select.default
-   */
-  readonly children?: ReactNode | undefined;
-}
-
-/** Props of the {@link SelectCount}: native `span` props and `render`. */
-export interface SelectCountProps
-  extends Omit<ComponentPropsWithRef<'span'>, 'color' | 'children'>, SelectRenderOption {
-  /**
-   * The text of the count. When not set, the count shows `+N`, where N is the number of selected values after the
-   * first one.
-   *
-   * @example
-   * <Select.Count>and more</Select.Count>
-   * @cckSemantic select.default
-   * @cckParity The count is built in.
    */
   readonly children?: ReactNode | undefined;
 }

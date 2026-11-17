@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Tooltip } from '../index';
-import { accessibleDescription, stubTopLayer, tooltipContent } from './fixtures';
+import { accessibleDescription, stubTopLayer, tooltipContent, tooltipDescription } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
@@ -37,8 +37,28 @@ describe('Tooltip title and description', () => {
   it('is read by the trigger description, both parts, while the tooltip is shown', () => {
     render(parts);
     expect(accessibleDescription(screen.getByRole('button', { name: 'Copy link' }))).toBe(
-      'Copy linkCopies the address.',
+      'Copy link Copies the address.',
     );
+  });
+
+  it('describes the closed trigger from the title and the description, one space apart', async () => {
+    render(
+      <Tooltip.Root>
+        <Tooltip.Trigger aria-label="Copy link">Copy</Tooltip.Trigger>
+        <Tooltip.Content>
+          <Tooltip.Title>Copy link</Tooltip.Title>
+          <Tooltip.Description>Copies the address</Tooltip.Description>
+        </Tooltip.Content>
+      </Tooltip.Root>,
+    );
+    const trigger = screen.getByRole('button', { name: 'Copy link' });
+    await waitFor(() => {
+      expect(tooltipDescription()).not.toBeNull();
+    });
+    expect(tooltipContent()).toBeNull();
+    expect(tooltipDescription()?.hasAttribute('hidden')).toBe(true);
+    expect(tooltipDescription()?.id).toBe(trigger.getAttribute('aria-describedby'));
+    expect(accessibleDescription(trigger)).toBe('Copy link Copies the address');
   });
 
   it('passes native props and renders the author element', () => {
@@ -52,7 +72,8 @@ describe('Tooltip title and description', () => {
         </Tooltip.Content>
       </Tooltip.Root>,
     );
-    const title = screen.getByText('Title');
+    const title = tooltipContent()?.querySelector('h4');
+    if (!title) throw new Error('no title');
     expect(title.tagName).toBe('H4');
     expect(title.className).toBe('cck-tooltip__title mine');
     expect(title.getAttribute('data-test')).toBe('x');
