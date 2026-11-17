@@ -59,6 +59,7 @@ export interface CheckboxGroupProps {
    * name.
    *
    * @cckSemantic checkbox-group.name
+   * @defaultValue ''
    */
   readonly name?: string | undefined;
   /**

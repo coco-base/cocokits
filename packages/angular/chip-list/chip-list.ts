@@ -170,6 +170,7 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
    *   <button type="submit">Send</button>
    * </form>
    * @cckSemantic chip-list.name
+   * @defaultValue ''
    */
   override readonly name = input('');
 

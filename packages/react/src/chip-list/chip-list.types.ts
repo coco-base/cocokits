@@ -68,6 +68,8 @@ export interface ChipListProps extends Omit<
    *
    * @remarks
    * The list adds one hidden input per value under this name. The text box has no name.
+   *
+   * @defaultValue ''
    */
   readonly name?: string | undefined;
   /**

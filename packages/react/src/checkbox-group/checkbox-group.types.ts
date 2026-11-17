@@ -92,6 +92,7 @@ export interface CheckboxGroupProps extends Omit<ComponentPropsWithRef<'div'>, '
    * checkboxes send no name.
    *
    * @cckSemantic checkbox-group.name
+   * @defaultValue ''
    */
   readonly name?: string | undefined;
   /**

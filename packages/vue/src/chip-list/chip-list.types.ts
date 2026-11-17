@@ -74,6 +74,7 @@ export interface ChipListProps {
    *
    * @cckSemantic chip-list.name
    * @cckParity A native attribute of the hidden inputs that carry the values.
+   * @defaultValue ''
    */
   readonly name?: string | undefined;
   /**

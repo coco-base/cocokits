@@ -106,6 +106,7 @@ export class CckCheckboxGroup implements FormValueControl<readonly string[]> {
   /**
    * The `name` that every checkbox of the group shares. `FormData` sends it with each checked value. When not set, the checkboxes have no shared name.
    * @cckSemantic checkbox-group.name
+   * @defaultValue ''
    */
   readonly name = input('');
 
