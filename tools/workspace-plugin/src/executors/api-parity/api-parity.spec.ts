@@ -370,12 +370,11 @@ describe('compareApiDocs on compound components', () => {
         withContent(react(), ['Tabs.Root', 'Tabs.List']),
       ]).failures,
     ).toEqual([]);
+    // The key reaches the trigger only where React declares it there: a trigger without `value` is not compared.
     const noKey = react();
     const trigger = noKey.parts.find((candidate) => candidate.name === 'Tabs.Trigger');
     if (trigger) trigger.props = trigger.props.filter((prop) => prop.name !== 'value');
-    expect(compareApiDocs([rendersList(angular()), noKey]).failures).toEqual([
-      'tabs.trigger props "tabs.trigger.value" exists in angular only, not in react',
-    ]);
+    expect(compareApiDocs([rendersList(angular()), noKey]).failures).toEqual([]);
   });
 
   it('fails on a member of a rendered part that Angular lacks, and on a part nothing covers', () => {
