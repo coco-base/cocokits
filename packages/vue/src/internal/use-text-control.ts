@@ -5,6 +5,7 @@ import {
   onMounted,
   ref,
   useAttrs,
+  watch,
   type ComputedRef,
   type Ref,
   type ShallowRef,
@@ -70,6 +71,10 @@ export interface TextControl {
   readonly onInput: (event: Event) => void;
   readonly onFocus: () => void;
   readonly onBlur: () => void;
+  /** Moves the focus to the element. */
+  readonly focus: (options?: FocusOptions) => void;
+  /** Clears the touched, dirty and submitted state the control keeps itself. */
+  readonly reset: () => void;
 }
 
 const unchangedText = (text: string): string => text;
@@ -98,6 +103,8 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
   const focused = ref(false);
   const touchedState = ref(false);
   const dirtyState = ref(false);
+  // `reset()` clears the submitted fact until the form is submitted again.
+  const submittedCleared = ref(false);
 
   /** Writes the model, which emits `update:modelValue`. The DOM follows the model afterwards, also when the parent kept the old text. */
   function change(next: string): void {
@@ -138,7 +145,7 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
         pending: props.pending,
         touched: props.touched ?? touchedState.value,
         dirty: props.dirty ?? dirtyState.value,
-        submitted: props.submitted ?? participation.submitted.value,
+        submitted: props.submitted ?? (participation.submitted.value && !submittedCleared.value),
         focused: focused.value,
         hidden: props.hidden,
       },
@@ -153,6 +160,10 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
     ...rootThemeAttrs(),
     ...machine.value.root,
     class: attrs.class,
+  });
+
+  watch(participation.submitted, (submitted) => {
+    if (submitted) submittedCleared.value = false;
   });
 
   onMounted(() => {
@@ -188,6 +199,14 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
     onBlur: () => {
       focused.value = false;
       touchedState.value = true;
+    },
+    focus: (focusOptions) => {
+      elementRef.value?.focus(focusOptions);
+    },
+    reset: () => {
+      touchedState.value = false;
+      dirtyState.value = false;
+      submittedCleared.value = true;
     },
   };
 }

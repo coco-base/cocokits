@@ -34,7 +34,16 @@ const model = useDefaultModel(props, 'modelValue', props.defaultValue);
 
 const themeAttrs = useThemeAttrs(textareaAnatomy);
 const element = useTemplateRef<HTMLTextAreaElement>('element');
-const { text, className, boundAttrs, onInput, onFocus, onBlur } = useTextControl<HTMLTextAreaElement>(props, {
+const {
+  text,
+  className,
+  boundAttrs,
+  onInput,
+  onFocus,
+  onBlur,
+  focus: focusControl,
+  reset: resetControl,
+} = useTextControl<HTMLTextAreaElement>(props, {
   componentName: 'Textarea',
   model,
   elementRef: element,
@@ -56,6 +65,31 @@ defineExpose({
    */
   get element(): HTMLTextAreaElement | null {
     return element.value;
+  },
+
+  /**
+   * Moves the focus to the native textarea. Does nothing before mount.
+   *
+   * @example
+   * <Textarea ref="control" v-model="text" aria-label="Label" />
+   * <!-- In the script: const control = useTemplateRef('control'); then control.value?.focus(). -->
+   *
+   * @cckSemantic textarea.focus
+   */
+  focus(options?: FocusOptions): void {
+    focusControl(options);
+  },
+  /**
+   * Clears the touched, dirty and submitted state that the Textarea keeps itself. The text does not change.
+   *
+   * @example
+   * <Textarea ref="control" v-model="text" aria-label="Label" />
+   * <!-- In the script: const control = useTemplateRef('control'); then control.value?.reset(). -->
+   *
+   * @cckSemantic textarea.reset
+   */
+  reset(): void {
+    resetControl();
   },
 });
 </script>

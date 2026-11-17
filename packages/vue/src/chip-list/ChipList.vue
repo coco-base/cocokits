@@ -98,6 +98,8 @@ const draft = ref('');
 const focused = ref(false);
 const touchedState = ref(false);
 const dirtyState = ref(false);
+// `reset()` clears the submitted fact until the form is submitted again.
+const submittedCleared = ref(false);
 // The hidden inputs' `invalid` event: the list shows the invalid fact until the value changes.
 const rejected = ref(false);
 // A new key makes the hidden inputs again, so the browser's reset (which clears them) cannot leave one empty.
@@ -144,7 +146,7 @@ const parts = computed(() =>
       pending: props.pending,
       touched: props.touched ?? touchedState.value,
       dirty: props.dirty ?? dirtyState.value,
-      submitted: props.submitted ?? participation.submitted.value,
+      submitted: props.submitted ?? (participation.submitted.value && !submittedCleared.value),
       focused: focused.value,
       hidden: props.hidden,
     },
@@ -155,6 +157,10 @@ const parts = computed(() =>
 useUnnamedWarning('Chip list', input, {
   level: 'error',
   fix: 'Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.',
+});
+
+watch(participation.submitted, (submitted) => {
+  if (submitted) submittedCleared.value = false;
 });
 
 /** Moves the focus to the text box. */
@@ -343,6 +349,33 @@ function tree(): VNode[] {
 }
 
 defineExpose({
+  /**
+   * Moves the focus to the text box. Does nothing before mount.
+   *
+   * @example
+   * <ChipList ref="list" v-model="toppings" aria-label="Toppings" />
+   * <!-- In the script: const list = useTemplateRef('list'); then list.value?.focus(). -->
+   *
+   * @cckSemantic chip-list.focus
+   */
+  focus(options?: FocusOptions): void {
+    input.value?.focus(options);
+  },
+  /**
+   * Clears the touched, dirty and submitted state that the list keeps itself. The chips do not change.
+   *
+   * @example
+   * <ChipList ref="list" v-model="toppings" aria-label="Toppings" />
+   * <!-- In the script: const list = useTemplateRef('list'); then list.value?.reset(). -->
+   *
+   * @cckSemantic chip-list.reset
+   */
+  reset(): void {
+    touchedState.value = false;
+    dirtyState.value = false;
+    rejected.value = false;
+    submittedCleared.value = true;
+  },
   /**
    * The DOM element of the root: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.
