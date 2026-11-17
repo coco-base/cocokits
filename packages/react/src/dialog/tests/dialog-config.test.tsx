@@ -190,6 +190,26 @@ describe('Dialog closeOnNavigation', () => {
     expect(closePredicate).not.toHaveBeenCalled();
   });
 
+  it.each<['pop-state' | 'url-change', boolean]>([
+    ['pop-state', false],
+    ['url-change', true],
+  ])('with closeOnNavigation %s, the Navigation API entry change closes it: %s', async (mode, closes) => {
+    const navigation = new EventTarget();
+    Object.defineProperty(window, 'navigation', { value: navigation, configurable: true });
+    try {
+      render(<Configured root={{ closeOnNavigation: mode }} />);
+      await open();
+      act(() => {
+        navigation.dispatchEvent(new Event('currententrychange'));
+      });
+      if (closes) await closed();
+      else await act(nextFrame);
+      expect(isOpen()).toBe(!closes);
+    } finally {
+      Reflect.deleteProperty(window, 'navigation');
+    }
+  });
+
   it('stays open on navigation with closeOnNavigation false', async () => {
     render(<Configured root={{ closeOnNavigation: false }} />);
     await open();

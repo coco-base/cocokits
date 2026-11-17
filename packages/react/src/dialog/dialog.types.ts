@@ -14,6 +14,16 @@ export type {
 };
 
 /**
+ * When the dialog closes because the location changes.
+ *
+ * @cckValue true - The same as `'pop-state'`.
+ * @cckValue 'pop-state' - The dialog closes when the user goes back or forward in the history, or the hash changes.
+ * @cckValue 'url-change' - The same, and also on every change of the address that the browser reports with the Navigation API.
+ * @cckValue false - The dialog never closes on navigation.
+ */
+export type DialogCloseOnNavigation = boolean | 'pop-state' | 'url-change';
+
+/**
  * What `closePredicate` receives: why the dialog would close and the event behind it.
  */
 export interface DialogClosePredicateDetails {
@@ -157,14 +167,14 @@ export interface DialogRootProps {
    */
   readonly closePredicate?: ((details: DialogClosePredicateDetails) => boolean) | undefined;
   /**
-   * Whether the dialog closes when the user goes back or forward in the history, or the hash changes. A close on
-   * navigation skips `disableClose` and `closePredicate`, and reports the reason `close`.
+   * When the dialog closes because the location changes. A close on navigation skips `disableClose` and
+   * `closePredicate`, and reports the reason `close`.
    *
    * @defaultValue true
    * @cckSemantic dialog.closeOnNavigation
    * @cckParity Not available in every framework.
    */
-  readonly closeOnNavigation?: boolean | undefined;
+  readonly closeOnNavigation?: DialogCloseOnNavigation | undefined;
   /**
    * The role of the dialog. A native `<dialog>` has the role `dialog`, so only `'alertdialog'` is written. Use
    * `'alertdialog'` for a message that needs an answer at once, and give it a `Dialog.Description`.

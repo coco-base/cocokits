@@ -12,6 +12,7 @@ export type {
   DialogAutoFocus,
   DialogChangeDetails,
   DialogChangeReason,
+  DialogCloseOnNavigation,
   DialogClosePredicateDetails,
   DialogCloseProps,
   DialogContentProps,

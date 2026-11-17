@@ -70,11 +70,15 @@ function DialogRootImpl({
       const state = latest.current;
       state.setOpen(false, { reason: 'close', event });
     };
-    window.addEventListener('popstate', close);
-    window.addEventListener('hashchange', close);
+    const targets: [EventTarget, string][] = [
+      [window, 'popstate'],
+      [window, 'hashchange'],
+    ];
+    const navigation = (window as { navigation?: EventTarget }).navigation;
+    if (closeOnNavigation === 'url-change' && navigation) targets.push([navigation, 'currententrychange']);
+    for (const [target, name] of targets) target.addEventListener(name, close);
     return () => {
-      window.removeEventListener('popstate', close);
-      window.removeEventListener('hashchange', close);
+      for (const [target, name] of targets) target.removeEventListener(name, close);
     };
   }, [closeOnNavigation, open]);
 
