@@ -91,7 +91,6 @@ export interface CckSelectChange<V = string> {
  * @cckPart root
  * @cckPart trigger
  * @cckPart value
- * @cckPart count
  * @cckPart dropdownIcon
  * @cckPart content
  * @cckSlot default - The options, the option groups and the separators. When not set, the list is empty.

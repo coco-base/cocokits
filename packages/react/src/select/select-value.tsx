@@ -51,7 +51,6 @@ function SelectValueImpl<V = unknown>({
  * @typeParam V - The type of the value that the children function receives.
  * @cckPart value
  * @cckPart placeholder
- * @cckPart count
  * @param props - The Value props.
  * @returns The rendered value.
  */
