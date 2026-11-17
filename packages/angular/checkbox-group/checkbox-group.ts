@@ -111,7 +111,11 @@ export class CckCheckboxGroup implements FormValueControl<readonly string[]> {
   readonly name = input('');
 
   /**
-   * How the theme lays the checkboxes out. It only sets `data-orientation`; the group has no arrow-key navigation.
+   * How the theme lays the checkboxes out. It sets no arrow-key navigation.
+   *
+   * @remarks
+   * The group renders it as `data-orientation`.
+   *
    * @cckSemantic checkbox-group.orientation
    * @defaultValue 'vertical'
    */

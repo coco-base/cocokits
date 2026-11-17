@@ -95,7 +95,11 @@ export class CckChip {
   readonly removable = input(false, { transform: booleanAttribute });
 
   /**
-   * Whether the chip is disabled. A disabled chip has `data-disabled`, shows no remove button and, while selectable, has a disabled toggle.
+   * Whether the chip is disabled. A disabled chip shows no remove button and, while selectable, has a disabled toggle.
+   *
+   * @remarks
+   * The root gets `data-disabled`.
+   *
    * @cckSemantic chip.disabled
    * @defaultValue false
    */
