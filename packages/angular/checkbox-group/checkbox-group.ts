@@ -107,7 +107,7 @@ export class CckCheckboxGroup implements FormValueControl<readonly string[]> {
    * The `name` that every checkbox of the group shares. `FormData` sends it with each checked value. When not set, the checkboxes have no shared name.
    * @cckSemantic checkbox-group.name
    */
-  readonly name = input<string | undefined>(undefined);
+  readonly name = input('');
 
   /**
    * How the theme lays the checkboxes out. It only sets `data-orientation`; the group has no arrow-key navigation.
@@ -156,7 +156,7 @@ export class CckCheckboxGroup implements FormValueControl<readonly string[]> {
     getCheckboxGroupProps(
       {
         id: this.written.id,
-        name: this.name(),
+        name: this.name() || undefined,
         disabled: this.disabled(),
         value: this.value(),
         orientation: this.orientation(),
