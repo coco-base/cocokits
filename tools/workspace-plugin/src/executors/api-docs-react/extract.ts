@@ -234,6 +234,38 @@ function mergeBranches(branches: readonly ApiMemberJson[][]): ApiMemberJson[] {
   });
 }
 
+/**
+ * The methods of a component: the methods that a CocoKits file declares on the element type of its `ref` prop
+ * (`ref?: Ref<ThingElement>`), such as `focus()` and `reset()` of a form control. A method the DOM type already has is
+ * listed only when the element interface redeclares it with its own TSDoc.
+ */
+function methodsOf(
+  program: ts.Program,
+  checker: ts.TypeChecker,
+  idScope: string,
+  componentName: string,
+  props: readonly ts.Symbol[],
+  problems: string[],
+): ApiMemberJson[] {
+  const declaration = props.find((symbol) => symbol.name === 'ref')?.declarations?.[0];
+  if (!declaration || !ts.isPropertySignature(declaration) || !declaration.type) return [];
+  const written = ts.isUnionTypeNode(declaration.type) ? declaration.type.types : [declaration.type];
+  const reference = written.find((node) => ts.isTypeReferenceNode(node) && node.typeArguments !== undefined);
+  const elementNode =
+    reference !== undefined && ts.isTypeReferenceNode(reference) ? reference.typeArguments?.[0] : undefined;
+  if (!elementNode) return [];
+  return (
+    checker
+      .getTypeFromTypeNode(elementNode)
+      .getProperties()
+      .filter((symbol) => (symbol.flags & ts.SymbolFlags.Method) !== 0)
+      .map((symbol) => propOf(program, checker, idScope, componentName, symbol, problems, false))
+      .filter((member): member is ApiMemberJson => member !== undefined)
+      // A method is always there; it is not a value you must pass.
+      .map((member) => ({ ...member, required: false }))
+  );
+}
+
 /** The props type of a component: the type of the first parameter of its call signature. */
 function propsTypeOf(checker: ts.TypeChecker, component: ts.Symbol): ts.Type | undefined {
   const declaration = component.valueDeclaration ?? component.declarations?.[0];
@@ -300,7 +332,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
       const props = mergeBranches(
         perBranch.map((symbols) =>
           membersOf(
-            symbols.filter((symbol) => !isSlot(symbol) && !isEvent(symbol)),
+            symbols.filter((symbol) => symbol.name !== 'ref' && !isSlot(symbol) && !isEvent(symbol)),
             false,
           ),
         ),
@@ -339,7 +371,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
         props,
         events,
         slots,
-        methods: [],
+        methods: methodsOf(program, checker, idScope, component.name, perBranch[0] ?? [], problems),
       };
     });
     const partNames = new Set(parts.map((part) => `${part.name}Props`));
