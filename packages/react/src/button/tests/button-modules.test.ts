@@ -105,6 +105,7 @@ describe('emitted modules keep their "use client"', () => {
       'internal/use-button-element.js',
       'internal/use-checked-state.js',
       'internal/use-choice-control.js',
+      'internal/use-control-handle.js',
       'internal/use-controllable-state.js',
       'internal/use-field-control.js',
       'internal/use-isomorphic-layout-effect.js',

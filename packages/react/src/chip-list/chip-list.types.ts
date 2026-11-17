@@ -63,7 +63,7 @@ export interface ChipListProps extends Omit<
    * @cckSemantic none
    * @cckParity A native attribute of the element.
    */
-  readonly ref?: Ref<ChipListElement> | undefined;
+  readonly ref?: Ref<ChipListElement> | Ref<HTMLDivElement> | undefined;
   /**
    * The entries of the list, in the order they were added: a string, or a {@link ChipListItem} with options. An
    * item with `selected` set is a selectable chip. Setting `value` makes the list controlled.

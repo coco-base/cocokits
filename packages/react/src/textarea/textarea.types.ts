@@ -61,7 +61,7 @@ export interface TextareaProps extends Omit<
    * @cckSemantic none
    * @cckParity A native attribute of the element.
    */
-  readonly ref?: Ref<TextareaElement> | undefined;
+  readonly ref?: Ref<TextareaElement> | Ref<HTMLTextAreaElement> | undefined;
   /**
    * The `id` of the element. An `id` you write wins, and the `Label` follows it. When not set, the control inside a
    * `FormField` gets `<fieldId>-control`.
