@@ -4,6 +4,7 @@ import { useRef, type ReactElement } from 'react';
 import { useThemeAttrs } from '@cocokits/react-core';
 import { getInputProps, inputAnatomy } from '@cocokits/machines/input';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
+import { useControlHandle } from '../internal/use-control-handle';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { textControlReserved, useTextControl } from '../internal/use-text-control';
 import type { InputProps } from './input.types';
@@ -30,8 +31,7 @@ function InputImpl({
 }: InputProps): ReactElement {
   const themeAttrs = useThemeAttrs(inputAnatomy);
   const elementRef = useRef<HTMLInputElement | null>(null);
-  const mergedRef = useMergedRef<HTMLInputElement>(ref, elementRef, undefined);
-  const controlProps = useTextControl<HTMLInputElement>(
+  const control = useTextControl<HTMLInputElement>(
     {
       value,
       defaultValue,
@@ -56,7 +56,8 @@ function InputImpl({
       getParts: (state, field) => getInputProps({ ...state, type }, field),
     },
   );
-  return <input {...mergeProps(controlProps, withoutReserved(rest, textControlReserved))} ref={mergedRef} />;
+  const mergedRef = useMergedRef<HTMLInputElement>(ref, elementRef, useControlHandle({ reset: control.reset }));
+  return <input {...mergeProps(control.props, withoutReserved(rest, textControlReserved))} ref={mergedRef} />;
 }
 
 /** The {@link Input} component and its `displayName`. */

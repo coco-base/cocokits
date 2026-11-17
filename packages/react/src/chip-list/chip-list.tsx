@@ -30,6 +30,7 @@ import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderContainerRoot } from '../internal/render-container-root';
 import { useControllableState } from '../internal/use-controllable-state';
 import { useControlClaim, useControlReport } from '../internal/use-field-control';
+import { useControlHandle } from '../internal/use-control-handle';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import type { ChipListChangeDetails, ChipListProps, ChipListRenderProps } from './chip-list.types';
@@ -73,7 +74,6 @@ function ChipListImpl({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const elementRef = isValidElement<{ ref?: Ref<HTMLElement> }>(render) ? render.props.ref : undefined;
   const rootElement = useRef<HTMLElement | null>(null);
-  const rootRef = useMergedRef<HTMLElement>(ref, elementRef, rootElement);
   const [mountValue] = useState(() => value ?? defaultValue ?? NO_VALUES);
   const [list, setList] = useControllableState<readonly ChipListEntry[], ChipListChangeDetails>({
     value,
@@ -110,6 +110,26 @@ function ChipListImpl({
       setList(mountValue, { reason: 'form-reset', event });
     },
   });
+
+  // The same as a form reset: the start values come back, the text box empties and the facts clear.
+  const reset = (): void => {
+    updateDraft('');
+    setTouchedState(false);
+    setDirtyState(false);
+    setBlocked(false);
+    setList(mountValue, { reason: 'form-reset', event: null });
+  };
+  const handleRef = useControlHandle({
+    reset,
+    focus: () => {
+      inputRef.current?.focus();
+    },
+  });
+  const rootRef = useMergedRef<HTMLElement>(
+    ref,
+    elementRef,
+    useMergedRef<HTMLElement>(rootElement, handleRef, undefined),
+  );
 
   const parts = getChipListProps(
     {

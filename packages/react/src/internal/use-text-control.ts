@@ -77,12 +77,13 @@ const isSameText = (text: string): string => text;
  *
  * @param props - The shared props of the control.
  * @param options - What differs between the controls.
- * @returns The props to put on the element before the author's rest props.
+ * @returns The props to put on the element before the author's rest props, and `reset`, which puts back the start
+ * text and clears the touched and dirty facts.
  */
 export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>(
   props: TextControlProps,
   options: TextControlOptions<E>,
-): Record<string, unknown> {
+): TextControl {
   const { value, defaultValue, onValueChange, id, name, hidden, disabled, readOnly, required } = props;
   const { componentName, elementRef, rootThemeAttrs, getParts, toDomText = isSameText } = options;
   const field = useFormFieldContext();
@@ -155,7 +156,17 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
     };
   }, [inField, componentName, elementRef]);
 
-  return {
+  // The same as a form reset: the start text comes back and `onValueChange` hears it with the reason `form-reset`.
+  const reset = (): void => {
+    const element = elementRef.current;
+    if (!controlled && element) element.value = toDomText(mountValue);
+    setTouchedState(false);
+    setDirtyState(false);
+    setDomFilled(mountValue !== '');
+    onValueChange?.(toDomText(mountValue), { reason: 'form-reset', event: null });
+  };
+
+  const elementProps: Record<string, unknown> = {
     ...rootThemeAttrs,
     ...toReactProps(parts.root),
     ...(controlled ? { value: toDomText(value ?? '') } : { defaultValue }),
@@ -175,4 +186,13 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
       setDomFilled(event.currentTarget.value !== '');
     },
   };
+  return { props: elementProps, reset };
+}
+
+/** What {@link useTextControl} returns. */
+export interface TextControl {
+  /** The props to put on the element. */
+  readonly props: Record<string, unknown>;
+  /** Puts back the start text and clears the touched and dirty facts. */
+  readonly reset: () => void;
 }

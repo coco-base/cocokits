@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, HTMLAttributes, RefCallback } from 'react';
+import type { ComponentPropsWithRef, HTMLAttributes, Ref, RefCallback } from 'react';
 import type { ChipListChangeReason, ChipListEntry, ChipListItem } from '@cocokits/machines/chip-list';
 import type { ChangeDetails } from '@cocokits/shared';
 import type { RenderProp } from '../internal/render-element';
@@ -19,14 +19,51 @@ export interface ChipListRenderProps extends Omit<HTMLAttributes<HTMLElement>, '
   readonly ref: RefCallback<HTMLElement>;
 }
 
+/** The element that `ref` reaches, with the two methods of the ChipList: `focus()` and `reset()`. */
+export interface ChipListElement extends HTMLElement {
+  /**
+   * Moves the focus to the text box of the list.
+   *
+   * @example
+   * ref.current?.focus();
+   * @cckSemantic chip-list.focus
+   */
+  focus(options?: FocusOptions): void;
+  /**
+   * Puts back the values the list had at mount, empties the text box and clears the touched and dirty facts. It
+   * reports the change to `onValueChange` with the reason `form-reset`.
+   *
+   * @example
+   * ref.current?.reset();
+   * @cckSemantic chip-list.reset
+   */
+  reset(): void;
+}
+
 /**
  * Props of the {@link ChipList}. Native `div` props pass through to the root, and `ref` reaches it. `id`,
  * `aria-label`, `aria-labelledby`, `aria-describedby` and `placeholder` go to the text box.
  */
 export interface ChipListProps extends Omit<
   ComponentPropsWithRef<'div'>,
-  'children' | 'color' | 'defaultValue' | 'id' | 'hidden' | 'aria-label' | 'aria-labelledby' | 'aria-describedby'
+  | 'ref'
+  | 'children'
+  | 'color'
+  | 'defaultValue'
+  | 'id'
+  | 'hidden'
+  | 'aria-label'
+  | 'aria-labelledby'
+  | 'aria-describedby'
 > {
+  /**
+   * The ref of the list. It reaches the root element, with the methods `focus()` and `reset()` added. When not
+   * set, the list gives its element to nobody.
+   *
+   * @cckSemantic none
+   * @cckParity A native attribute of the element.
+   */
+  readonly ref?: Ref<ChipListElement> | undefined;
   /**
    * The entries of the list, in the order they were added: a string, or a {@link ChipListItem} with options. An
    * item with `selected` set is a selectable chip. Setting `value` makes the list controlled.

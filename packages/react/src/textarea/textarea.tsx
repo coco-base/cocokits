@@ -4,6 +4,7 @@ import { useRef, type ReactElement } from 'react';
 import { useThemeAttrs } from '@cocokits/react-core';
 import { getTextareaProps, textareaAnatomy } from '@cocokits/machines/textarea';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
+import { useControlHandle } from '../internal/use-control-handle';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { textControlReserved, useTextControl } from '../internal/use-text-control';
 import type { TextareaProps } from './textarea.types';
@@ -32,8 +33,7 @@ function TextareaImpl({
 }: TextareaProps): ReactElement {
   const themeAttrs = useThemeAttrs(textareaAnatomy);
   const elementRef = useRef<HTMLTextAreaElement | null>(null);
-  const mergedRef = useMergedRef<HTMLTextAreaElement>(ref, elementRef, undefined);
-  const controlProps = useTextControl<HTMLTextAreaElement>(
+  const control = useTextControl<HTMLTextAreaElement>(
     {
       value,
       defaultValue,
@@ -59,7 +59,8 @@ function TextareaImpl({
       toDomText: withLineFeeds,
     },
   );
-  return <textarea {...mergeProps(controlProps, withoutReserved(rest, textControlReserved))} ref={mergedRef} />;
+  const mergedRef = useMergedRef<HTMLTextAreaElement>(ref, elementRef, useControlHandle({ reset: control.reset }));
+  return <textarea {...mergeProps(control.props, withoutReserved(rest, textControlReserved))} ref={mergedRef} />;
 }
 
 /** The {@link Textarea} component and its `displayName`. */
