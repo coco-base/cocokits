@@ -39,45 +39,45 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:186',
+    name: 'vue/dialog/dialog.types.ts:323',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 186,
+    line: 323,
     comment:
       '/**\n * Emits before Escape closes the dialog, with the keydown event. Call `preventDefault()` to keep the dialog open.\n *\n * A Close part still closes it. So does a press on the backdrop of a modal dialog. The trigger closes a dialog that\n * is not modal.\n *\n * @example\n * <DialogContent @escape-key-down="(event) => saving && event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @escape-key-down="(event) => saving && event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:199',
+    name: 'vue/dialog/dialog.types.ts:336',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 199,
+    line: 336,
     comment:
       '/**\n * Emits before a press outside the dialog closes it. The `detail.originalEvent` of the event is the press. Call\n * `preventDefault()` to keep the dialog open.\n *\n * A modal dialog emits it for a press on the backdrop. A non-modal dialog emits it for a press anywhere outside.\n *\n * @example\n * <DialogContent @pointer-down-outside="(event) => event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @pointer-down-outside="(event) => event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:212',
+    name: 'vue/dialog/dialog.types.ts:349',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 212,
+    line: 349,
     comment:
       '/**\n * Emits before the focus moving outside closes a dialog that is not `modal`. The `detail.originalEvent` of the\n * event is the focus event. Call `preventDefault()` to keep the dialog open.\n *\n * A modal dialog never emits it, because the focus never leaves it.\n *\n * @example\n * <DialogContent @focus-outside="(event) => event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @focus-outside="(event) => event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:223',
+    name: 'vue/dialog/dialog.types.ts:360',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 223,
+    line: 360,
     comment:
       '/**\n * Emits after `pointerDownOutside` or `focusOutside`, with the same event, before the dialog closes. Call\n * `preventDefault()` to keep the dialog open.\n *\n * @example\n * <DialogContent @interact-outside="(event) => dirty && event.preventDefault()">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<DialogContent @interact-outside="(event) => dirty && event.preventDefault()">...</DialogContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:236',
+    name: 'vue/dialog/dialog.types.ts:373',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 236,
+    line: 373,
     comment:
       '/**\n * Emits right after the dialog is shown, when the browser has moved the focus into it. Call `preventDefault()` to\n * keep the component from moving the focus again.\n *\n * The focus the browser moved stays. Move the focus in your listener to choose the element.\n *\n * @example\n * <DialogContent @open-auto-focus="(event) => { event.preventDefault(); nameInput?.focus(); }">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -85,9 +85,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/dialog.types.ts:247',
+    name: 'vue/dialog/dialog.types.ts:384',
     file: 'packages/vue/src/dialog/dialog.types.ts',
-    line: 247,
+    line: 384,
     comment:
       '/**\n * Emits before the focus returns to the element that had it when the dialog opened. That is the trigger, or the\n * opener of a dialog without a trigger. Call `preventDefault()` to skip the return and move the focus yourself.\n *\n * @example\n * <DialogContent @close-auto-focus="(event) => { event.preventDefault(); searchInput?.focus(); }">...</DialogContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -95,9 +95,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/dialog/DialogRoot.vue:25',
+    name: 'vue/dialog/DialogRoot.vue:38',
     file: 'packages/vue/src/dialog/DialogRoot.vue',
-    line: 25,
+    line: 38,
     comment:
       '/**\n * The parts of the dialog: a trigger and the content. The slot gives you the open state and a close function. When\n * not set, the dialog has no parts.\n *\n * The root renders no element around them.\n *\n * @example\n * <DialogRoot #default="{ close }">\n *   <DialogTrigger>Delete project</DialogTrigger>\n *   <DialogContent>\n *     <DialogTitle>Delete project</DialogTitle>\n *     <button type="button" @click="remove(); close()">Delete</button>\n *   </DialogContent>\n * </DialogRoot>\n */',
     example:
@@ -105,45 +105,45 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: [],
   },
   {
-    name: 'vue/popover/popover.types.ts:224',
+    name: 'vue/popover/popover.types.ts:238',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 224,
+    line: 238,
     comment:
       '/**\n * Emits before Escape closes the popover, with the keydown event. Call `preventDefault()` to keep the popover open.\n *\n * A Close part, a press outside, moving the focus away and the trigger still close it.\n *\n * @example\n * <PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @escape-key-down="(event) => saving && event.preventDefault()">...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:235',
+    name: 'vue/popover/popover.types.ts:249',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 235,
+    line: 249,
     comment:
       '/**\n * Emits before a press outside closes the popover. The `detail.originalEvent` of the event is the press. Call\n * `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @pointer-down-outside="(event) => event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @pointer-down-outside="(event) => event.preventDefault()">...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:246',
+    name: 'vue/popover/popover.types.ts:260',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 246,
+    line: 260,
     comment:
       '/**\n * Emits before the focus moving outside closes the popover. The `detail.originalEvent` of the event is the focus\n * event. Call `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @focus-outside.prevent>...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @focus-outside.prevent>...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:257',
+    name: 'vue/popover/popover.types.ts:271',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 257,
+    line: 271,
     comment:
       '/**\n * Emits after `pointerDownOutside` or `focusOutside`, with the same event, before the popover closes. Call\n * `preventDefault()` to keep the popover open.\n *\n * @example\n * <PopoverContent @interact-outside="(event) => dirty && event.preventDefault()">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<PopoverContent @interact-outside="(event) => dirty && event.preventDefault()">...</PopoverContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:268',
+    name: 'vue/popover/popover.types.ts:282',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 268,
+    line: 282,
     comment:
       '/**\n * Emits before the focus moves into the popover on open. Call `preventDefault()` to keep the focus where it is,\n * or to move it yourself.\n *\n * @example\n * <PopoverContent @open-auto-focus="(event) => { event.preventDefault(); nameInput?.focus(); }">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -151,9 +151,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/popover/popover.types.ts:279',
+    name: 'vue/popover/popover.types.ts:293',
     file: 'packages/vue/src/popover/popover.types.ts',
-    line: 279,
+    line: 293,
     comment:
       '/**\n * Emits before the focus returns to the trigger on close. Call `preventDefault()` to skip the return and move the\n * focus yourself.\n *\n * @example\n * <PopoverContent @close-auto-focus="(event) => { event.preventDefault(); search?.focus(); }">...</PopoverContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -198,9 +198,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/select/select.types.ts:266',
+    name: 'vue/select/select.types.ts:299',
     file: 'packages/vue/src/select/select.types.ts',
-    line: 266,
+    line: 299,
     comment:
       '/**\n * Emits with the new value after the Select accepts a change. `v-model` listens to it. The value is one value or `null`, or a list with `multiple`.\n *\n * It carries the new value only, and no reason.\n *\n * @example\n * <SelectRoot :model-value="dish" @update:model-value="(value) => console.log(value)">\n *   ...\n * </SelectRoot>\n * @cckSemantic select.valueChange\n * @cckParity The `update:modelValue` event is the only change event; it carries no reason.\n */',
     example:
@@ -217,9 +217,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/tooltip/tooltip.types.ts:252',
+    name: 'vue/tooltip/tooltip.types.ts:257',
     file: 'packages/vue/src/tooltip/tooltip.types.ts',
-    line: 252,
+    line: 257,
     comment:
       '/**\n * Emits before Escape closes the tooltip, with the keydown event. Call `preventDefault()` to keep the tooltip\n * shown.\n *\n * A tooltip must stay dismissible, so refuse Escape rarely and only while another way hides it, such as moving the\n * pointer or the focus away.\n *\n * @example\n * <TooltipContent @escape-key-down="(event) => saving && event.preventDefault()">Copy link</TooltipContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example:
@@ -227,18 +227,18 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/tooltip/tooltip.types.ts:263',
+    name: 'vue/tooltip/tooltip.types.ts:268',
     file: 'packages/vue/src/tooltip/tooltip.types.ts',
-    line: 263,
+    line: 268,
     comment:
       '/**\n * Emits before a press outside closes the tooltip. The `detail.originalEvent` of the event is the press. Call\n * `preventDefault()` to keep the tooltip shown.\n *\n * @example\n * <TooltipContent @pointer-down-outside.prevent>Copy link</TooltipContent>\n *\n * @cckSemantic none\n * @cckParity The Content part emits it.\n */',
     example: '<TooltipContent @pointer-down-outside.prevent>Copy link</TooltipContent>',
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'angular/select/select-types.ts:91',
+    name: 'angular/select/select-types.ts:93',
     file: 'packages/angular/select/select-types.ts',
-    line: 91,
+    line: 93,
     comment:
       '/**\n * The default values for every Select below the provider. A value here replaces the built-in default. An input on a Select wins over it.\n * @example\n * @Component({\n *   providers: [{ provide: CCK_SELECT_CONFIG, useValue: { typeaheadDebounceInterval: 300 } }],\n * })\n * export class DishForm {}\n */',
     example:
@@ -246,9 +246,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: [],
   },
   {
-    name: 'angular/select/select.ts:185',
-    file: 'packages/angular/select/select.ts',
-    line: 185,
+    name: 'angular/select/select-inputs.ts:29',
+    file: 'packages/angular/select/select-inputs.ts',
+    line: 29,
     comment:
       '/**\n * A function that tells whether an option value is the selected value. Use it when the option values are objects. When not set, the values are compared with `Object.is`.\n * @remarks Pair it with `itemToStringValue`, which turns an object into the text that a form sends.\n * @example\n * <cck-select [(value)]="dish" [compareWith]="sameDish" [itemToStringValue]="dishId" aria-label="Dish">\n *   @for (item of dishes; track item.id) {\n *     <cck-select-option [value]="item">{{ item.name }}</cck-select-option>\n *   }\n * </cck-select>\n * <!-- In the class: sameDish = (a: Dish, b: Dish) => a.id === b.id; dishId = (dish: Dish) => String(dish.id); -->\n * @cckSemantic select.isItemEqual\n * @defaultValue Object.is\n */',
     example:
@@ -256,9 +256,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['remarks', 'cckSemantic', 'defaultValue'],
   },
   {
-    name: 'react/input/input.tsx:85',
+    name: 'react/input/input.tsx:86',
     file: 'packages/react/src/input/input.tsx',
-    line: 85,
+    line: 86,
     comment:
       '/**\n * A box for one line of text. It renders a native `<input>` of the type `text`, `email`, `password`, `search`, `tel`\n * or `url`. Native `input` props pass through, and `ref` reaches the element.\n *\n * It is a native form control. `FormData`, the native checks, the `form` prop, submit by Enter and a disabled\n * `fieldset` work. It works with react-hook-form `register()` and `Controller`.\n *\n * Control the text with `value` and `onValueChange`, or set `defaultValue` and let the DOM keep it. A change that\n * you do not take is undone.\n *\n * Inside a `FormField`, it gets the id `<fieldId>-control`, and the `Label` names it. The ids of the hints and\n * errors of the field describe it. An `id` or `aria-describedby` you write wins or comes first.\n * Outside a FormField, add `aria-label` or `aria-labelledby`, or a `<label for>` with text.\n *\n * The element has the state as `data-*` attributes. It gets `aria-invalid="true"` only while it is not valid and\n * the user has left it or tried to submit.\n *\n * @example\n * <label htmlFor="email">Email address</label>\n * <Input id="email" type="email" defaultValue="ana@example.com" />\n * @cckPart root\n * @param props - The Input props.\n * @returns The rendered input.\n */',
     example:
