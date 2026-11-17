@@ -54,6 +54,31 @@ describe('focus() and reset() through the ref', () => {
     expect(document.querySelector('[data-dirty]')).toBeNull();
   });
 
+  it.each(['Input', 'Textarea', 'ChipList'] as const)('%s: reset() clears submitted', (name) => {
+    const ref = createRef<InputElement & TextareaElement & ChipListElement>();
+    const control =
+      name === 'Input' ? (
+        <Input ref={ref} aria-label="Name" />
+      ) : name === 'Textarea' ? (
+        <Textarea ref={ref} aria-label="Name" />
+      ) : (
+        <ChipList ref={ref} aria-label="Name" />
+      );
+    const { container } = render(<form>{control}</form>);
+    const form = container.querySelector('form');
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+    });
+    act(() => {
+      form?.requestSubmit();
+    });
+    expect(container.querySelector('[data-submitted]')).not.toBeNull();
+    act(() => {
+      ref.current?.reset();
+    });
+    expect(container.querySelector('[data-submitted]')).toBeNull();
+  });
+
   it('ChipList: focus() focuses the text box and reset() keeps values and text', async () => {
     const user = userEvent.setup();
     const ref = createRef<ChipListElement>();

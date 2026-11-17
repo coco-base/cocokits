@@ -45,6 +45,8 @@ export interface FormParticipationBinding {
   readonly fieldsetDisabled: boolean;
   /** Whether the owner form was submitted since the last reset; `false` until then. */
   readonly submitted: boolean;
+  /** Clears `submitted`, as a form reset does; the next submit of the owner form sets it again. */
+  readonly clearSubmitted: () => void;
   /** Writes the model value to the element when the two differ; does nothing before mount and after unmount. */
   readonly syncValue: () => void;
 }
@@ -98,5 +100,8 @@ export function useFormParticipation(options: UseFormParticipationOptions): Form
   }, [options.elementRef]);
 
   const syncValue = useCallback(() => instance.current?.syncValue(), []);
-  return { fieldsetDisabled, submitted, syncValue };
+  const clearSubmitted = useCallback(() => {
+    setSubmitted(false);
+  }, []);
+  return { fieldsetDisabled, submitted, clearSubmitted, syncValue };
 }

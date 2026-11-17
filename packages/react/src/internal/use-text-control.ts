@@ -77,8 +77,8 @@ const isSameText = (text: string): string => text;
  *
  * @param props - The shared props of the control.
  * @param options - What differs between the controls.
- * @returns The props to put on the element before the author's rest props, and `reset`, which clears the touched
- * and dirty facts.
+ * @returns The props to put on the element before the author's rest props, and `reset`, which clears the touched,
+ * dirty and submitted facts.
  */
 export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>(
   props: TextControlProps,
@@ -160,6 +160,7 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
   const reset = (): void => {
     setTouchedState(false);
     setDirtyState(false);
+    participation.clearSubmitted();
   };
 
   const elementProps: Record<string, unknown> = {
@@ -189,6 +190,6 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
 export interface TextControl {
   /** The props to put on the element. */
   readonly props: Record<string, unknown>;
-  /** Clears the touched and dirty facts; the value stays. */
+  /** Clears the touched, dirty and submitted facts; the value stays. */
   readonly reset: () => void;
 }

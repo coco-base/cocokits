@@ -99,6 +99,27 @@ describe.each(wrappers)('useFormParticipation ($name)', ({ wrap }) => {
     expect(latest?.submitted).toBe(false);
   });
 
+  it('clearSubmitted clears submitted without a reset, and the next submit sets it again', () => {
+    const view = render(wrap(<Probe model="m" disabled={false} />));
+    const form = must(view.container.querySelector('form'));
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+    });
+    act(() => {
+      form.requestSubmit();
+    });
+    expect(latest?.submitted).toBe(true);
+    act(() => {
+      latest?.clearSubmitted();
+    });
+    expect(latest?.submitted).toBe(false);
+    expect(must(view.container.querySelector('input')).value).toBe('start');
+    act(() => {
+      form.requestSubmit();
+    });
+    expect(latest?.submitted).toBe(true);
+  });
+
   it('removes its listeners when the input unmounts while the form stays in the document', async () => {
     const onReset = vi.fn();
     const view = render(wrap(<Probe model="m" disabled={false} onReset={onReset} />));

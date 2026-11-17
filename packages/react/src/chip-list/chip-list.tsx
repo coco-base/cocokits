@@ -116,6 +116,7 @@ function ChipListImpl({
     setTouchedState(false);
     setDirtyState(false);
     setBlocked(false);
+    participation.clearSubmitted();
   };
   const handleRef = useControlHandle({
     reset,
