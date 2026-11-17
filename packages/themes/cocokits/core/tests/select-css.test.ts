@@ -58,6 +58,9 @@ describe('select output', () => {
   it('restates [hidden] on the boxes it sets to display', () => {
     expect(css).toMatch(/\.cck-select\[hidden\]\s*\{\s*display: none/);
     expect(css).toMatch(/\.cck-select__content\[hidden\]\s*\{\s*display: none/);
+    // The search hides an option that does not match, so a visible option would show every one.
+    expect(css).toMatch(/\.cck-select__option\[hidden\]\s*\{\s*display: none/);
+    expect(css).toMatch(/\.cck-select__option-group\[hidden\]\s*\{\s*display: none/);
   });
 
   it('draws the multiple box with CSS and the chevron and the check as theme icons: no image, no pseudo-element', () => {

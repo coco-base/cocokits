@@ -188,6 +188,12 @@
       color: var(--cck-select-option-disabled-text-color);
       cursor: not-allowed;
     }
+
+    // An option that the search does not match is `hidden`. An author rule beats the user-agent [hidden] rule, so the
+    // theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-select__option-content {
