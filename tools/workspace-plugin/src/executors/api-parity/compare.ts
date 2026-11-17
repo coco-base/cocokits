@@ -49,7 +49,6 @@ const LACKING_BY_DESIGN: ReadonlyMap<string, ReadonlySet<string>> = new Map([
     'tooltip.open',
     'tooltip.openChange',
     'tabs.trigger.value',
-    'accordion.trigger.value',
     'tabs.panel.value',
     'tabs.panel.forceMount',
     'tab-nav.tabPanel',
@@ -213,6 +212,8 @@ function compareMembers(
 /** The anatomy part a member belongs to: the part id in its semantic id (`tabs.trigger.disabled`), else the part it sits on. */
 function ownerOf(component: string, member: ApiMemberJson, own: string, known: ReadonlySet<string>): string {
   const [head, name] = member.semanticId.slice(component.length + 1).split('.', 2);
+  // The Menu item kinds (checkbox, radio, sub-trigger) share the ids `menu.item.*`; each keeps them as its own.
+  if (component === 'menu' && head === 'item') return own;
   return member.semanticId.startsWith(`${component}.`) && name !== undefined && head !== undefined && known.has(head)
     ? `${component}.${head}`
     : own;
@@ -259,7 +260,8 @@ function angularViews(
           );
         });
       const keyOfSection = (): ApiMemberJson[] =>
-        id === sectionId && id !== part.semanticId
+        // The Accordion trigger has no `value` in React and Vue: the item `value` is the key of the item only.
+        component !== 'accordion' && id === sectionId && id !== part.semanticId
           ? part.props.filter((prop) => prop.name === 'value').map((prop) => ({ ...prop, semanticId: `${id}.value` }))
           : [];
       return [
