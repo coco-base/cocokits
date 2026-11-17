@@ -13,6 +13,7 @@ import {
   SelectOptionDescription,
   SelectOptionLeading,
   SelectSearch,
+  type SelectSearchProps,
 } from '../index';
 import {
   gone,
@@ -102,11 +103,13 @@ describe('Select filter (select-07)', () => {
 
   it('shows the empty status while nothing matches, and the footer all the time', async () => {
     const user = await openWithFilter();
-    expect(document.querySelector('.cck-select__empty')).toBeNull();
+    const status = screen.getByRole('status');
+    expect(status.textContent).toBe('');
     expect(content().hasAttribute('data-empty')).toBe(false);
     await user.type(search(), 'zzz');
     expect(content().hasAttribute('data-empty')).toBe(true);
-    expect(screen.getByRole('status').textContent).toBe('No dish found');
+    expect(screen.getByRole('status')).toBe(status);
+    expect(status.textContent).toBe('No dish found');
     expect(document.querySelector('.cck-select__footer')).not.toBeNull();
   });
 
@@ -161,6 +164,18 @@ describe('Select filter (select-07)', () => {
   });
 });
 
+describe('Select search element', () => {
+  it('is a native search input and accepts no as or asChild', async () => {
+    const user = await openWithFilter();
+    expect(search().tagName).toBe('INPUT');
+    expect(search().type).toBe('search');
+    await user.keyboard('{Escape}');
+    // @ts-expect-error The search always renders an input.
+    const props: SelectSearchProps = { as: 'div' };
+    expect(props).toBeDefined();
+  });
+});
+
 describe('Select count (select-06)', () => {
   it.each([
     { name: 'one value shows no count', value: ['Cake'], text: 'Cake', count: null },
@@ -173,18 +188,17 @@ describe('Select count (select-06)', () => {
     expect(trigger().querySelector('.cck-select__count')?.textContent ?? null).toBe(count);
   });
 
-  it('renders no count for a single Select or when the author writes the value content', () => {
+  it('renders no count for a single Select', () => {
     mountView(selectView({ modelValue: 'Cake' }));
     expect(document.querySelector('.cck-select__count')).toBeNull();
-    cleanup();
-    mountView(
-      selectView(
-        { multiple: true, modelValue: ['Cake', 'Steak'] },
-        { valueSlot: ({ selectedLabel }) => selectedLabel.join(' and ') },
-      ),
-    );
-    expect(valueText()).toBe('Cake and Steak');
-    expect(document.querySelector('.cck-select__count')).toBeNull();
+  });
+
+  it('renders the count right after the value, without author markup', () => {
+    mountView(selectView({ multiple: true, modelValue: ['Cake', 'Steak'] }));
+    const value = trigger().querySelector('.cck-select__value');
+    expect(value).not.toBeNull();
+    expect(value?.nextElementSibling?.className).toContain('cck-select__count');
+    expect(value?.nextElementSibling?.textContent).toBe('+1');
   });
 
   it('is part of the trigger text for assistive technology', () => {

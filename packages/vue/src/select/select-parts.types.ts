@@ -59,27 +59,6 @@ export interface SelectSearchProps {
    * @cckParity A native attribute of the element.
    */
   readonly placeholder?: string | undefined;
-  /**
-   * The tag or component to render in place of the element of the part. The part keeps its class and its state. It
-   * is ignored with `asChild`.
-   *
-   * When not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Replaces the rendered element with `as`.
-   */
-  readonly as?: AsTag | Component | undefined;
-  /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own element. When
-   * not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Merges the props onto the single child.
-   * @defaultValue false
-   */
-  readonly asChild?: boolean | undefined;
 }
 
 /**
@@ -189,44 +168,6 @@ export interface SelectOptionLeadingProps {
  * @cckPart optionDescription
  */
 export interface SelectOptionDescriptionProps {
-  /**
-   * The tag or component to render in place of the element of the part. The part keeps its class and its state. It
-   * is ignored with `asChild`.
-   *
-   * When not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Replaces the rendered element with `as`.
-   */
-  readonly as?: AsTag | Component | undefined;
-  /**
-   * Whether the part merges onto its first child element or component, instead of rendering its own element. When
-   * not set, the part renders its own element.
-   *
-   * @cckShared
-   * @cckSemantic none
-   * @cckParity Merges the props onto the single child.
-   * @defaultValue false
-   */
-  readonly asChild?: boolean | undefined;
-}
-
-/**
- * The count of the other selected values of a Select with `multiple`. It renders a `<span>` with the text `+N`, where N is the number of selected values after the first one, which `SelectValue` shows.
- *
- * @remarks It renders nothing while fewer than two values are selected. Put it in the `SelectTrigger`, after the `SelectValue`. Its text is part of the text of the trigger.
- *
- * @example
- * <SelectTrigger aria-label="Dishes">
- *   <SelectValue placeholder="Choose dishes" />
- *   <SelectCount />
- *   <SelectIcon />
- * </SelectTrigger>
- *
- * @cckPart count
- */
-export interface SelectCountProps {
   /**
    * The tag or component to render in place of the element of the part. The part keeps its class and its state. It
    * is ignored with `asChild`.

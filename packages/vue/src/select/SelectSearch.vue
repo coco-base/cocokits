@@ -21,8 +21,6 @@ defineOptions({ name: 'CckSelectSearch', inheritAttrs: false });
 const props = withDefaults(defineProps<SelectSearchProps>(), {
   ariaLabel: 'Search',
   placeholder: undefined,
-  as: 'input',
-  asChild: false,
 });
 
 const ctx = useSelectContext<unknown>('SelectSearch');
@@ -79,12 +77,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Primitive
-    v-if="ctx.filter.value"
-    ref="root"
-    v-bind="bound"
-    :as="as"
-    :as-child="asChild"
-    :priority-attrs="priorityAttrs"
-  />
+  <Primitive v-if="ctx.filter.value" ref="root" v-bind="bound" as="input" :priority-attrs="priorityAttrs" />
 </template>

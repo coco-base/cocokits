@@ -38,8 +38,10 @@ export interface ChipProps {
    */
   readonly removable?: boolean | undefined;
   /**
-   * Whether the chip is disabled. The root gets `data-disabled`, it renders no remove button, and the toggle of a
-   * selectable chip is natively disabled.
+   * Whether the chip is disabled. It renders no remove button, and the toggle of a selectable chip is natively
+   * disabled.
+   *
+   * @remarks The root gets `data-disabled`.
    *
    * @defaultValue false
    */

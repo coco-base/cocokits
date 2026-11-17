@@ -5,7 +5,6 @@ import { defineComponent, h, type Component, type VNode } from 'vue';
 import { vi } from 'vitest';
 import {
   SelectContent,
-  SelectCount,
   SelectIcon,
   SelectItem,
   SelectItemIndicator,
@@ -132,7 +131,6 @@ export function selectParts(rootProps: Record<string, unknown> = {}, options: Vi
         { placeholder: (placeholder as string | undefined) ?? 'Choose a dish', ...value },
         valueSlot ? { default: valueSlot } : undefined,
       ),
-      ...(valueSlot ? [] : [h(SelectCount)]),
       h(SelectIcon),
     ]),
     h(SelectContent as Component, contentProps, () => items()),

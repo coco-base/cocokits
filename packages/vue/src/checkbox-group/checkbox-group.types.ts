@@ -63,15 +63,18 @@ export interface CheckboxGroupProps {
    */
   readonly name?: string | undefined;
   /**
-   * Whether every checkbox is disabled. A disabled FormField around the group disables it too. The root gets
-   * `data-disabled`.
+   * Whether every checkbox is disabled. A disabled FormField around the group disables it too.
+   *
+   * @remarks The root gets `data-disabled`.
    *
    * @cckSemantic checkbox-group.disabled
    * @defaultValue false
    */
   readonly disabled?: boolean | undefined;
   /**
-   * How the theme lays the checkboxes out. The root gets `data-orientation`.
+   * How the theme lays the checkboxes out.
+   *
+   * @remarks The root gets `data-orientation`.
    *
    * @cckSemantic checkbox-group.orientation
    * @defaultValue 'vertical'

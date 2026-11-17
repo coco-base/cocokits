@@ -78,7 +78,6 @@ export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Re
  * <SelectRoot v-model="dishes" multiple filter>
  *   <SelectTrigger aria-label="Dishes">
  *     <SelectValue placeholder="Choose dishes" />
- *     <SelectCount />
  *     <SelectIcon />
  *   </SelectTrigger>
  *   <SelectContent>

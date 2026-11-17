@@ -28,7 +28,7 @@ const priorityAttrs = ['role'];
 </script>
 
 <template>
-  <Primitive v-if="shown" v-bind="bound" :as="as" :as-child="asChild" :priority-attrs="priorityAttrs">
-    <slot />
+  <Primitive v-bind="bound" :as="as" :as-child="asChild" :priority-attrs="priorityAttrs">
+    <slot v-if="shown" />
   </Primitive>
 </template>

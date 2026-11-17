@@ -36,7 +36,8 @@ import type { CheckControlProps } from '../internal/check-control.types';
 export interface CheckboxProps extends CheckControlProps {
   /**
    * Whether the checkbox shows the mixed state. The component never changes it and never emits for it.
-   * `data-indeterminate` renders on the server, and the DOM property is set after mount.
+   *
+   * @remarks `data-indeterminate` renders on the server, and the DOM property is set after mount.
    *
    * @defaultValue false
    */
