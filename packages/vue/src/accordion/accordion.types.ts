@@ -30,6 +30,7 @@ export interface AccordionRootProps {
    * If you listen for changes and do not accept one, the old value stays.
    *
    * @cckSemantic accordion.value
+   * @defaultValue []
    * @cckParity Bound with `v-model`.
    */
   readonly modelValue?: string | string[] | undefined;

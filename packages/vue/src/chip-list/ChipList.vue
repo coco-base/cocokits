@@ -74,6 +74,9 @@ defineSlots<{
    * @remarks Without `asChild` the list has no content slot. It renders a chip for each value of `v-model`, and this
    * slot is ignored.
    *
+   * @cckSemantic none
+   * @cckParity Only this framework merges the root onto a child with `asChild`.
+   *
    * @example
    * <ChipList as-child v-model="toppings" aria-label="Toppings"><section /></ChipList>
    */
