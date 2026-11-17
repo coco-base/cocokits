@@ -1,7 +1,16 @@
 'use client';
 
 import { createContext, useContext, type Context, type RefObject } from 'react';
-import type { DialogEvent } from '@cocokits/machines/dialog';
+import type { DialogEvent, DialogRole, DialogSize } from '@cocokits/machines/dialog';
+import type { DialogAutoFocus, DialogRestoreFocus } from './dialog.types';
+
+/** What the Root gives the content besides the open state. */
+export interface DialogConfig {
+  readonly role: DialogRole | undefined;
+  readonly autoFocus: DialogAutoFocus | undefined;
+  readonly restoreFocus: DialogRestoreFocus;
+  readonly size: DialogSize;
+}
 
 /** What the Root gives its parts. */
 export interface DialogContextValue {
@@ -13,6 +22,8 @@ export interface DialogContextValue {
   readonly mounted: boolean;
   /** Whether the content must be rendered: open, or closed with its exit animation still running. */
   readonly keepMounted: boolean;
+  /** The config the Root holds for the content: role, focus moves and size members. */
+  readonly config: DialogConfig;
   /** Whether the dialog is modal (the `modal` prop of the Root). */
   readonly modal: boolean;
   /** Whether a Title is mounted. */

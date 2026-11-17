@@ -30,19 +30,12 @@ function DialogContentLayer({
   onInteractOutside,
   onOpenAutoFocus,
   onCloseAutoFocus,
-  role,
-  autoFocus,
-  restoreFocus = true,
-  width,
-  height,
-  minWidth,
-  minHeight,
-  maxWidth,
-  maxHeight,
   ...rest
 }: DialogContentProps): ReactElement {
   const context = useDialogContext('Dialog.Content');
   const { open, trigger, dispatch, contentRef, setMounted, isOpen, keepMounted, openedByTrigger } = context;
+  // The Root holds the role, the focus moves and the size.
+  const { role, autoFocus, restoreFocus, size } = context.config;
   // The value the dialog opened with, kept until its exit animation is over.
   const modal = useModalAtOpen(keepMounted, context.modal);
   const themeAttrs = useThemeAttrs(dialogAnatomy).content;
@@ -186,12 +179,7 @@ function DialogContentLayer({
       hasTitle: context.hasTitle,
       hasDescription: context.hasDescription,
       role,
-      width,
-      height,
-      minWidth,
-      minHeight,
-      maxWidth,
-      maxHeight,
+      ...size,
     },
     dispatch,
   );

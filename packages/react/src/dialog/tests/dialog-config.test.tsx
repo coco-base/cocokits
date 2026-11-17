@@ -14,13 +14,31 @@ afterEach(() => {
   document.documentElement.removeAttribute('style');
 });
 
-function Configured({ root, ...props }: DialogContentProps & { readonly root?: DialogRootProps }): ReactElement {
+const ROOT_KEYS = [
+  'role',
+  'autoFocus',
+  'restoreFocus',
+  'width',
+  'height',
+  'minWidth',
+  'minHeight',
+  'maxWidth',
+  'maxHeight',
+];
+
+function Configured({
+  root,
+  ...props
+}: DialogContentProps & DialogRootProps & { readonly root?: DialogRootProps }): ReactElement {
+  // The config members belong to the Root; the rest goes to the Content.
+  const own = Object.fromEntries(Object.entries(props).filter(([key]) => ROOT_KEYS.includes(key)));
+  const content = Object.fromEntries(Object.entries(props).filter(([key]) => !ROOT_KEYS.includes(key)));
   return (
     <StrictMode>
       <button>before</button>
-      <Dialog.Root {...root}>
+      <Dialog.Root {...root} {...own}>
         <Dialog.Trigger>Open</Dialog.Trigger>
-        <Dialog.Content aria-label="Settings" {...props}>
+        <Dialog.Content aria-label="Settings" {...content}>
           <Dialog.Header>
             <Dialog.Title>Settings</Dialog.Title>
             <Dialog.Close aria-label="Close dialog">x</Dialog.Close>
@@ -85,7 +103,7 @@ describe('Dialog header, body and footer', () => {
 });
 
 describe('Dialog role and size members', () => {
-  it.each<[string, DialogContentProps, string | null]>([
+  it.each<[string, DialogRootProps, string | null]>([
     ['no role', {}, null],
     ['dialog', { role: 'dialog' }, null],
     ['alertdialog', { role: 'alertdialog' }, 'alertdialog'],
@@ -95,7 +113,7 @@ describe('Dialog role and size members', () => {
     expect(document.querySelector('dialog')?.getAttribute('role') ?? null).toBe(role);
   });
 
-  it.each<[string, DialogContentProps, Record<string, string>]>([
+  it.each<[string, DialogRootProps, Record<string, string>]>([
     ['none', {}, {}],
     ['numbers are px', { width: 480, minHeight: 120 }, { width: '480px', minHeight: '120px' }],
     [
@@ -184,7 +202,7 @@ describe('Dialog closeOnNavigation', () => {
 });
 
 describe('Dialog autoFocus and restoreFocus', () => {
-  it.each<[string, DialogContentProps['autoFocus'], string]>([
+  it.each<[string, DialogRootProps['autoFocus'], string]>([
     ['the native focusing steps by default', undefined, 'Close dialog'],
     ['first-tabbable', 'first-tabbable', 'Close dialog'],
     ['true', true, 'Close dialog'],
@@ -197,7 +215,7 @@ describe('Dialog autoFocus and restoreFocus', () => {
     expect(active?.getAttribute('aria-label') ?? active?.textContent).toBe(expected);
   });
 
-  it.each<[string, DialogContentProps['autoFocus']]>([
+  it.each<[string, DialogRootProps['autoFocus']]>([
     ['dialog', 'dialog'],
     ['false', false],
   ])('focuses the dialog itself for autoFocus %s', async (_name, autoFocus) => {
@@ -206,7 +224,7 @@ describe('Dialog autoFocus and restoreFocus', () => {
     expect(document.activeElement).toBe(content());
   });
 
-  it.each<[string, (other: HTMLElement) => DialogContentProps['restoreFocus'], string]>([
+  it.each<[string, (other: HTMLElement) => DialogRootProps['restoreFocus'], string]>([
     ['true: the trigger', () => true, 'Open'],
     ['a selector', () => '#other', 'other'],
     ['an element', (other) => other, 'other'],

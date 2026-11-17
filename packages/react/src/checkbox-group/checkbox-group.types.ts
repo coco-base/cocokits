@@ -97,8 +97,7 @@ export interface CheckboxGroupProps extends Omit<ComponentPropsWithRef<'div'>, '
   /**
    * How the theme lays the checkboxes out. The group renders it as `data-orientation`.
    *
-   * @cckSemantic none
-   * @cckParity Not available in every framework.
+   * @cckSemantic checkbox-group.orientation
    * @defaultValue 'vertical'
    */
   readonly orientation?: CheckboxGroupOrientation | undefined;

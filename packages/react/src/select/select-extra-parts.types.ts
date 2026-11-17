@@ -94,7 +94,7 @@ export interface SelectCountProps
    *
    * @example
    * <Select.Count>and more</Select.Count>
-   * @cckSemantic select.count.children
+   * @cckSemantic select.default
    * @cckParity The count is built in.
    */
   readonly children?: ReactNode | undefined;

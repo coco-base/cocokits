@@ -165,6 +165,79 @@ export interface DialogRootProps {
    * @cckParity Not available in every framework.
    */
   readonly closeOnNavigation?: boolean | undefined;
+  /**
+   * The role of the dialog. A native `<dialog>` has the role `dialog`, so only `'alertdialog'` is written. Use
+   * `'alertdialog'` for a message that needs an answer at once, and give it a `Dialog.Description`.
+   *
+   * @defaultValue 'dialog'
+   * @cckSemantic dialog.role
+   * @cckParity Not available in every framework.
+   */
+  readonly role?: DialogRole | undefined;
+  /**
+   * Which element gets the focus when the dialog opens. A selector string focuses the first element that matches
+   * it. `onOpenAutoFocus` can still keep the focus where it is.
+   *
+   * @defaultValue 'first-tabbable'
+   * @cckSemantic dialog.autoFocus
+   * @cckParity Not available in every framework.
+   */
+  readonly autoFocus?: DialogAutoFocus | undefined;
+  /**
+   * Where the focus goes when the dialog closes. A string is a selector, and an element gets the focus itself.
+   * `onCloseAutoFocus` can still skip the move.
+   *
+   * @defaultValue true
+   * @cckSemantic dialog.restoreFocus
+   * @cckParity Not available in every framework.
+   */
+  readonly restoreFocus?: DialogRestoreFocus | undefined;
+  /**
+   * The width of the content. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. When not
+   * set, the theme sets the width.
+   *
+   * @remarks
+   * The size members are the one inline style a part writes; they belong to the author, not to a theme.
+   *
+   * @cckSemantic dialog.width
+   * @cckParity Not available in every framework.
+   */
+  readonly width?: DialogLength | undefined;
+  /**
+   * The height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.height
+   * @cckParity Not available in every framework.
+   */
+  readonly height?: DialogLength | undefined;
+  /**
+   * The smallest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.minWidth
+   * @cckParity Not available in every framework.
+   */
+  readonly minWidth?: DialogLength | undefined;
+  /**
+   * The smallest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.minHeight
+   * @cckParity Not available in every framework.
+   */
+  readonly minHeight?: DialogLength | undefined;
+  /**
+   * The largest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.maxWidth
+   * @cckParity Not available in every framework.
+   */
+  readonly maxWidth?: DialogLength | undefined;
+  /**
+   * The largest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.maxHeight
+   * @cckParity Not available in every framework.
+   */
+  readonly maxHeight?: DialogLength | undefined;
 }
 
 /** Props of the {@link DialogTrigger}. Native button props pass through. */
@@ -288,79 +361,6 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * @cckParity Not available in every framework.
    */
   readonly onCloseAutoFocus?: ((event: Event) => void) | undefined;
-  /**
-   * The role of the dialog. A native `<dialog>` has the role `dialog`, so only `'alertdialog'` is written. Use
-   * `'alertdialog'` for a message that needs an answer at once, and give it a `Dialog.Description`.
-   *
-   * @defaultValue 'dialog'
-   * @cckSemantic dialog.role
-   * @cckParity Not available in every framework.
-   */
-  readonly role?: DialogRole | undefined;
-  /**
-   * Which element gets the focus when the dialog opens. A selector string focuses the first element that matches
-   * it. `onOpenAutoFocus` can still keep the focus where it is.
-   *
-   * @defaultValue 'first-tabbable'
-   * @cckSemantic dialog.autoFocus
-   * @cckParity Not available in every framework.
-   */
-  readonly autoFocus?: DialogAutoFocus | undefined;
-  /**
-   * Where the focus goes when the dialog closes. A string is a selector, and an element gets the focus itself.
-   * `onCloseAutoFocus` can still skip the move.
-   *
-   * @defaultValue true
-   * @cckSemantic dialog.restoreFocus
-   * @cckParity Not available in every framework.
-   */
-  readonly restoreFocus?: DialogRestoreFocus | undefined;
-  /**
-   * The width of the content. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. When not
-   * set, the theme sets the width.
-   *
-   * @remarks
-   * The size members are the one inline style a part writes; they belong to the author, not to a theme.
-   *
-   * @cckSemantic dialog.width
-   * @cckParity Not available in every framework.
-   */
-  readonly width?: DialogLength | undefined;
-  /**
-   * The height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
-   *
-   * @cckSemantic dialog.height
-   * @cckParity Not available in every framework.
-   */
-  readonly height?: DialogLength | undefined;
-  /**
-   * The smallest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
-   *
-   * @cckSemantic dialog.minWidth
-   * @cckParity Not available in every framework.
-   */
-  readonly minWidth?: DialogLength | undefined;
-  /**
-   * The smallest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
-   *
-   * @cckSemantic dialog.minHeight
-   * @cckParity Not available in every framework.
-   */
-  readonly minHeight?: DialogLength | undefined;
-  /**
-   * The largest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
-   *
-   * @cckSemantic dialog.maxWidth
-   * @cckParity Not available in every framework.
-   */
-  readonly maxWidth?: DialogLength | undefined;
-  /**
-   * The largest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
-   *
-   * @cckSemantic dialog.maxHeight
-   * @cckParity Not available in every framework.
-   */
-  readonly maxHeight?: DialogLength | undefined;
 }
 
 /** Props of the {@link DialogHeader}, the {@link DialogBody} and the {@link DialogFooter}. Native `div` props pass through. */
