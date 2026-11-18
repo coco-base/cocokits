@@ -22,7 +22,7 @@ const RESERVED = [
   'aria-activedescendant',
 ];
 
-function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement | null {
+function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement {
   const context = useSelectContext<unknown>('Select.Search');
   const { open, parts, layerActiveRef, filter } = context;
   const { search } = parts;
@@ -53,14 +53,20 @@ function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement | n
     render: undefined,
     internalRef: input,
   });
-  return filter ? renderElement<SelectRenderProps, undefined>(undefined, 'input', props, undefined) : null;
+  // Without `filter` the input stays, `hidden`, and takes no focus: the same rendered shape in every framework.
+  return renderElement<SelectRenderProps, undefined>(
+    undefined,
+    'input',
+    filter ? props : { ...props, hidden: true },
+    undefined,
+  );
 }
 
 /**
  * The search input of the list, for a Select with `filter`. It renders a native `<input type="search">` with the role
  * `combobox`.
  *
- * Put it in the `Select.Header`. Without `filter` it renders nothing.
+ * Put it in the `Select.Header`. Without `filter` it is `hidden` and takes no focus.
  *
  * The focus stays in this input while the list is open, and `aria-activedescendant` points to the highlighted
  * option. Typing narrows the options to those whose text contains the query, without regard to case. The first
@@ -75,8 +81,8 @@ function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement | n
  * <Select.Search aria-label="Search dishes" placeholder="Search" />
  * @cckPart search
  * @param props - The Search props.
- * @returns The rendered input, or nothing without `filter`.
+ * @returns The rendered input, `hidden` without `filter`.
  */
-export const SelectSearch: SelectPart<SelectSearchProps, ReactElement | null> = Object.assign(SelectSearchImpl, {
+export const SelectSearch: SelectPart<SelectSearchProps> = Object.assign(SelectSearchImpl, {
   displayName: 'Select.Search',
 });

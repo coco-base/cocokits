@@ -109,6 +109,26 @@ describe('Select search', () => {
     expect(list.querySelectorAll('.cck-select__search')).toHaveLength(count);
   });
 
+  it('renders a search placed outside the header hidden and without focus when there is no filter', async () => {
+    render(
+      <Select.Root>
+        <Select.Trigger aria-label="Dish">
+          <Select.Value placeholder="Choose" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Search />
+          <Opt value="Cake">Cake</Opt>
+        </Select.Content>
+      </Select.Root>,
+    );
+    await userEvent.click(triggerOf());
+    const list = await screen.findByRole('listbox');
+    const input = list.querySelector('.cck-select__search');
+    expect(input?.tagName).toBe('INPUT');
+    expect(input?.hasAttribute('hidden')).toBe(true);
+    expect(document.activeElement).not.toBe(input);
+  });
+
   it('always renders a native search input and accepts no render prop', async () => {
     render(<Searchable />);
     await open();
