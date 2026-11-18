@@ -23,11 +23,19 @@ import { CckSelectOption } from './select-option';
  * </cck-select>
  * @cckPart header
  * @cckSlot default - The search input. When not set, the header is empty.
+ * @remarks It renders only while the `cck-select` has `filter`.
  */
-@Directive({
+@Component({
   selector: 'cck-select-header',
   exportAs: 'cckSelectHeader',
-  host: { '[class]': 'root.parts().header.class' },
+  encapsulation: ViewEncapsulation.None,
+  host: { '[class]': 'root.parts().header.class', '[attr.hidden]': 'root.filter() ? null : ""' },
+  // The header and its search render only for a Select with `filter`.
+  template: `
+    @if (root.filter()) {
+      <ng-content />
+    }
+  `,
 })
 export class CckSelectHeader {
   protected readonly root = injectCckSelect<unknown>('cck-select-header');
@@ -38,7 +46,7 @@ export class CckSelectHeader {
 }
 
 /**
- * The search input of the list. Typing narrows the options to those whose text contains the text, without regard to case. It needs `filter` on the `cck-select`.
+ * The search input of the list. Typing narrows the options to those whose text contains the text, without regard to case. It renders only while the `cck-select` has `filter`.
  *
  * While the list is open, the focus is in the search input, which has `role="combobox"`. Its `aria-activedescendant` names the highlighted option. Down Arrow and Up Arrow move the highlight, and Enter chooses it. Escape closes the list and returns the focus to the trigger. Tab closes the list.
  *
@@ -59,6 +67,7 @@ export class CckSelectHeader {
     '[attr.aria-activedescendant]': 'props()["aria-activedescendant"] ?? null',
     '[attr.aria-label]': 'props()["aria-label"]',
     '[attr.placeholder]': 'placeholder() ?? null',
+    '[attr.hidden]': 'root.filter() ? null : ""',
     '[attr.autocomplete]': 'props().autocomplete',
     '[value]': 'props().value',
     '(input)': 'props().onInput($event)',
@@ -81,12 +90,17 @@ export class CckSelectSearch {
    */
   readonly placeholder = input<string | undefined>(undefined);
 
-  private readonly root = injectCckSelect<unknown>('cckSelectSearch');
+  protected readonly root = injectCckSelect<unknown>('cckSelectSearch');
   protected readonly props = computed(() => this.root.parts().search);
 
   constructor() {
     const element = inject<ElementRef<HTMLInputElement>>(ElementRef).nativeElement;
-    this.root._searchElement.set(element);
+    // Without `filter` the search is not rendered, so it takes no focus and the machine does not know it.
+    effect(() => {
+      this.root._searchElement.update((current) =>
+        this.root.filter() ? element : current === element ? null : current,
+      );
+    });
     inject(DestroyRef).onDestroy(() => {
       this.root._searchElement.update((current) => (current === element ? null : current));
     });

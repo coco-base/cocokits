@@ -37,6 +37,19 @@ class Host {
   readonly added = signal(0);
 }
 
+@Component({
+  imports,
+  template: `
+    <cck-select [filter]="filter()" aria-label="Dish">
+      <cck-select-header><input cckSelectSearch aria-label="Find a dish" /></cck-select-header>
+      <cck-select-option value="Pizza">Pizza</cck-select-option>
+    </cck-select>
+  `,
+})
+class FilterHost {
+  readonly filter = signal(false);
+}
+
 const trigger = (): HTMLButtonElement => screen.getByRole<HTMLButtonElement>('combobox', { name: 'Dish' });
 const search = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('combobox', { name: 'Find a dish' });
 const option = (name: string): HTMLElement => screen.getByRole('option', { name: new RegExp(name) });
@@ -168,5 +181,18 @@ describe('Select filter', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(trigger().querySelector(`.${classes.count}`)).toBeNull();
+  });
+
+  it.each([
+    { filter: false, rendered: false },
+    { filter: true, rendered: true },
+  ])('renders the header and the search only with filter ($filter)', async ({ filter, rendered }) => {
+    const user = userEvent.setup();
+    const { fixture } = await render(FilterHost);
+    fixture.componentInstance.filter.set(filter);
+    await user.click(trigger());
+    expect(document.querySelector('cck-select-header')?.hasAttribute('hidden')).toBe(!rendered);
+    expect(document.querySelector('input[type="search"]') !== null).toBe(rendered);
+    expect(screen.queryByRole('combobox', { name: 'Find a dish' }) !== null).toBe(rendered);
   });
 });
