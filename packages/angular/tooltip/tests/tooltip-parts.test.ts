@@ -91,6 +91,20 @@ describe('Tooltip title and description', () => {
     expect(screen.queryByRole('tooltip')).toBeNull();
   });
 
+  it('does not describe the closed trigger when the content holds another element', async () => {
+    await render(
+      `<ng-container cckTooltip>
+        <button cckTooltipTrigger>Save</button>
+        <ng-template cckTooltipPortal>
+          <cck-tooltip-content><cck-tooltip-title>Autosave</cck-tooltip-title><b>On</b></cck-tooltip-content>
+        </ng-template>
+      </ng-container>`,
+      { imports: [...CckTooltipImports] },
+    );
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen.getByRole('button', { name: 'Save' }).hasAttribute('aria-describedby')).toBe(false);
+  });
+
   it('starts the positioning module after the content has its class', async () => {
     const { fixture } = await render(Host);
     fixture.componentInstance.tooltip().show(0);

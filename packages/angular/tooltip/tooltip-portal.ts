@@ -7,6 +7,8 @@ import { injectCckTooltip } from './tooltip';
  *
  * Keep one root element, the `cck-tooltip-content`, in the template. The template makes no part of its own.
  *
+ * While the tooltip is closed, the template is rendered off the document each time it closes, to read the text of the title and the description, so write no side effects in it.
+ *
  * @example
  * <ng-template cckTooltipPortal><cck-tooltip-content>Copy link</cck-tooltip-content></ng-template>
  */
