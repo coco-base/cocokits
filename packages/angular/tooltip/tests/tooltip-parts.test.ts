@@ -1,5 +1,5 @@
 import { Component, viewChild } from '@angular/core';
-import { render, screen } from '@testing-library/angular';
+import { render, screen, waitFor } from '@testing-library/angular';
 import { tooltipAnatomy } from '@cocokits/machines/tooltip';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckTooltip, CckTooltipImports } from '../index';
@@ -20,6 +20,14 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
 });
 
 const { classes } = tooltipAnatomy;
+
+/** The open content; it is hidden from the accessibility tree while the hidden description copy describes the trigger. */
+const openContent = (): Promise<HTMLElement> =>
+  waitFor(() => {
+    const content = document.querySelector<HTMLElement>('cck-tooltip-content');
+    if (!content) throw new Error('The tooltip content is not rendered.');
+    return content;
+  });
 
 @Component({
   imports: [...CckTooltipImports],
@@ -51,7 +59,7 @@ describe('Tooltip title and description', () => {
   it('renders the parts with their classes inside the tooltip content', async () => {
     const { fixture } = await render(Host);
     fixture.componentInstance.tooltip().show(0);
-    const tooltip = await screen.findByRole('tooltip');
+    const tooltip = await openContent();
     expect(tooltip.querySelector(`cck-tooltip-title.${classes.title}`)?.textContent).toBe('Autosave');
     expect(tooltip.querySelector(`cck-tooltip-description.${classes.description}`)?.textContent).toBe(
       'Changes are saved as you type.',
@@ -64,16 +72,29 @@ describe('Tooltip title and description', () => {
   it('describes the trigger with the title and the description together', async () => {
     const { fixture } = await render(Host);
     fixture.componentInstance.tooltip().show(0);
-    await screen.findByRole('tooltip');
+    const content = await openContent();
     const button = screen.getByRole('button', { name: 'Save' });
-    expect(button.getAttribute('aria-describedby')).toBe(screen.getByRole('tooltip').id);
-    expect(screen.getByRole('tooltip').textContent).toBe('AutosaveChanges are saved as you type.');
+    const copy = document.getElementById(button.getAttribute('aria-describedby') ?? '');
+    expect(copy?.textContent).toBe('Autosave Changes are saved as you type.');
+    expect(content.textContent).toBe('AutosaveChanges are saved as you type.');
+  });
+
+  it('describes the closed trigger by a hidden copy of the title and the description', async () => {
+    await render(Host);
+    const button = screen.getByRole('button', { name: 'Save' });
+    await waitFor(() => {
+      expect(button.getAttribute('aria-describedby')).not.toBeNull();
+    });
+    const copy = document.getElementById(button.getAttribute('aria-describedby') ?? '');
+    expect(copy?.hasAttribute('hidden')).toBe(true);
+    expect(copy?.textContent).toBe('Autosave Changes are saved as you type.');
+    expect(screen.queryByRole('tooltip')).toBeNull();
   });
 
   it('starts the positioning module after the content has its class', async () => {
     const { fixture } = await render(Host);
     fixture.componentInstance.tooltip().show(0);
-    await screen.findByRole('tooltip');
+    await openContent();
     expect(start).toHaveBeenCalled();
     for (const [options] of start.mock.calls as [Options][]) {
       expect(options.getContent()?.classList.contains(classes.content)).toBe(true);

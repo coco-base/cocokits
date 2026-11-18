@@ -41,6 +41,7 @@ import {
 import { type TooltipBubbleContext, type TooltipContentRegistration } from './tooltip-bubble';
 import { closeOnAncestorScroll } from './tooltip-scroll';
 import { describeTrigger } from './tooltip-description';
+import { templateText as templateTextOf } from './tooltip-template-text';
 import { bindTooltipHost } from './tooltip-host';
 import { CCK_TOOLTIP_DEFAULT_OPTIONS } from './tooltip-options';
 import { createTooltipOverlay, type TooltipOverlay, type TooltipOrigin } from './tooltip-overlay';
@@ -366,9 +367,11 @@ export class CckTooltip {
       },
     });
 
+    const templateText = templateTextOf(this._template, this.shown);
     describeTrigger({
       trigger: this._trigger,
-      text: this.text,
+      // The message, else the text of the title and the description in the content template.
+      text: computed(() => this.text() || templateText()),
       disabled: this.disabled,
       id: tooltipIds(this.tooltipId).description,
       state: this.description,
