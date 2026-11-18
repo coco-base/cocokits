@@ -3,12 +3,14 @@ import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
 import { defineComponent, h, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { MENU_SUB_OPEN_DELAY_MS } from '@cocokits/machines/menu';
 import { provideDirection } from '@cocokits/vue-core';
 import { MenuItem, MenuSub, MenuSubContent, MenuSubTrigger } from '../index';
 import { item, menu, menuView, mountView, open, press, settle, stubOverlayBrowser, trigger } from './fixtures';
 
 beforeEach(stubOverlayBrowser);
 afterEach(() => {
+  vi.useRealTimers();
   cleanup();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
@@ -37,7 +39,11 @@ function submenuItems(
 
 const subTrigger = (): HTMLElement => item('Share');
 const menus = (): HTMLElement[] => screen.queryAllByRole('menu');
-const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+/** A pointer whose clock is the fake one: the submenu hover delay passes with `vi.advanceTimersByTime`. */
+function fakeClockPointer(): ReturnType<typeof userEvent.setup> {
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+  return userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+}
 
 /** Opens the menu and moves to the sub-trigger. */
 async function toSubTrigger(): Promise<void> {
@@ -142,13 +148,14 @@ describe('Menu sub-trigger and sub-content (menu-07)', () => {
   it('opens when the pointer rests on the sub-trigger and closes when it moves to another item', async () => {
     mountView(menuView({ items: submenuItems() }));
     await open();
-    await userEvent.hover(subTrigger());
+    const pointer = fakeClockPointer();
+    await pointer.hover(subTrigger());
     expect(menus()).toHaveLength(1);
-    await wait(180);
+    await vi.advanceTimersByTimeAsync(MENU_SUB_OPEN_DELAY_MS);
     expect(menus()).toHaveLength(2);
     // The pointer did not move the focus into the submenu.
     expect(document.activeElement).not.toBe(item('Email'));
-    await userEvent.hover(item('Delete'));
+    await pointer.hover(item('Delete'));
     expect(menus()).toHaveLength(1);
     expect(subTrigger().getAttribute('aria-expanded')).toBe('false');
   });
@@ -156,9 +163,10 @@ describe('Menu sub-trigger and sub-content (menu-07)', () => {
   it('does not open from a pointer that only passes over the sub-trigger', async () => {
     mountView(menuView({ items: submenuItems() }));
     await open();
-    await userEvent.hover(subTrigger());
-    await userEvent.hover(item('Delete'));
-    await wait(180);
+    const pointer = fakeClockPointer();
+    await pointer.hover(subTrigger());
+    await pointer.hover(item('Delete'));
+    await vi.advanceTimersByTimeAsync(MENU_SUB_OPEN_DELAY_MS);
     expect(menus()).toHaveLength(1);
   });
 
