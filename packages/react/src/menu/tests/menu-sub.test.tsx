@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';
+import { MENU_SUB_OPEN_DELAY_MS } from '@cocokits/machines/menu';
 import { DirectionProvider } from '@cocokits/react-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Menu, type MenuSubChangeDetails } from '../index';
@@ -9,6 +10,7 @@ import { expectFocus, stubTopLayer, trigger } from './fixtures';
 
 beforeEach(stubTopLayer);
 afterEach(() => {
+  vi.useRealTimers();
   cleanup();
   vi.restoreAllMocks();
   document.body.innerHTML = '';
@@ -194,9 +196,12 @@ describe('Menu submenu pointer', () => {
   it('does not open when the pointer only passes over', async () => {
     render(<Nested />);
     await openMenu();
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     fireEvent.pointerMove(subTrigger());
     fireEvent.pointerLeave(subTrigger());
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    act(() => {
+      vi.advanceTimersByTime(MENU_SUB_OPEN_DELAY_MS * 2);
+    });
     expect(subMenu()).toBeNull();
   });
 
@@ -223,8 +228,11 @@ describe('Menu submenu pointer', () => {
     await waitFor(() => {
       expect(subMenu()).not.toBeNull();
     });
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     fireEvent.pointerMove(screen.getByRole('menuitem', { name: 'Link' }));
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    act(() => {
+      vi.advanceTimersByTime(MENU_SUB_OPEN_DELAY_MS * 2);
+    });
     expect(subMenu()).not.toBeNull();
   });
 });
