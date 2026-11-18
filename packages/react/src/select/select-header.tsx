@@ -8,7 +8,7 @@ import type { SelectHeaderProps } from './select-extra-parts.types';
 import type { SelectPart, SelectRenderProps } from './select.types';
 import { useSelectPartProps } from './use-select-part';
 
-function SelectHeaderImpl({ render, ref, ...rest }: SelectHeaderProps): ReactElement | null {
+function SelectHeaderImpl({ render, ref, ...rest }: SelectHeaderProps): ReactElement {
   const context = useSelectContext<unknown>('Select.Header');
   const props = useSelectPartProps({
     ours: { ...context.theme.header, ...toReactProps(context.parts.header) },
@@ -17,7 +17,14 @@ function SelectHeaderImpl({ render, ref, ...rest }: SelectHeaderProps): ReactEle
     ref,
     render,
   });
-  return context.filter ? renderElement<SelectRenderProps, undefined>(render, 'div', props, undefined) : null;
+  // Without `filter` the element stays, hidden and empty: the same rendered shape in every framework.
+  const shown = context.filter;
+  return renderElement<SelectRenderProps, undefined>(
+    render,
+    'div',
+    shown ? props : { ...props, hidden: true, children: undefined },
+    undefined,
+  );
 }
 
 /**
@@ -25,7 +32,7 @@ function SelectHeaderImpl({ render, ref, ...rest }: SelectHeaderProps): ReactEle
  *
  * @remarks
  * It renders a `<div>` inside `Select.Content` that holds the search. The options and their groups follow it. Without
- * `filter` it renders nothing.
+ * `filter` it is `hidden` and empty, and the search inside it renders nothing.
  *
  * @example
  * <Select.Header>
@@ -33,8 +40,8 @@ function SelectHeaderImpl({ render, ref, ...rest }: SelectHeaderProps): ReactEle
  * </Select.Header>
  * @cckPart header
  * @param props - The Header props.
- * @returns The rendered element, or nothing without `filter`.
+ * @returns The rendered element, `hidden` and empty without `filter`.
  */
-export const SelectHeader: SelectPart<SelectHeaderProps, ReactElement | null> = Object.assign(SelectHeaderImpl, {
+export const SelectHeader: SelectPart<SelectHeaderProps> = Object.assign(SelectHeaderImpl, {
   displayName: 'Select.Header',
 });

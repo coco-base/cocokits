@@ -102,7 +102,10 @@ describe('Select search', () => {
     );
     await open();
     const list = screen.getByRole('listbox');
-    expect(list.querySelectorAll('.cck-select__header')).toHaveLength(count);
+    const headers = list.querySelectorAll('.cck-select__header');
+    expect(headers).toHaveLength(1);
+    expect(headers[0].hasAttribute('hidden')).toBe(!filter);
+    expect(headers[0].childElementCount).toBe(count);
     expect(list.querySelectorAll('.cck-select__search')).toHaveLength(count);
   });
 
