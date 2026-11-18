@@ -70,15 +70,27 @@ describe('Tooltip title and description parts (tooltip-02)', () => {
     { name: 'a title only', content: () => [h(TooltipTitle, null, () => 'Save the draft')], text: 'Save the draft' },
     { name: 'a description only', content: () => [h(TooltipDescription, null, () => 'Ctrl+S')], text: 'Ctrl+S' },
     {
-      name: 'text before a description',
+      name: 'text before a description, which does not count',
       content: () => ['Save ', h(TooltipDescription, null, () => 'Ctrl+S')],
-      text: 'Save Ctrl+S',
+      text: 'Ctrl+S',
     },
     { name: 'plain text', content: () => 'Save the draft', text: 'Save the draft' },
   ])('describes the trigger for $name', async ({ content, text }) => {
     mountView(view(content));
     await settle();
     expect(accessibleDescription(elementById('trigger'))).toBe(text);
+  });
+
+  it('ignores loose text written beside the parts', async () => {
+    mountView(
+      view(() => [
+        h(TooltipTitle, null, () => 'Autosave'),
+        'note',
+        h(TooltipDescription, null, () => 'Changes are saved as you type.'),
+      ]),
+    );
+    await settle();
+    expect(accessibleDescription(elementById('trigger'))).toBe('Autosave Changes are saved as you type.');
   });
 
   it('gives no description text for a part with rich content', async () => {

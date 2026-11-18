@@ -63,7 +63,8 @@ defineSlots<{
    * The text of the tooltip. Keep it free of interactive content, because it never takes the focus. When not set,
    * the tooltip is empty.
    *
-   * While the tooltip is closed, its text also describes the trigger, unless `ariaLabel` is set.
+   * While the tooltip is closed, its text also describes the trigger, unless `ariaLabel` is set. Text written beside
+   * the title and description parts does not count.
    *
    * @example
    * <TooltipContent>Save the draft</TooltipContent>
@@ -83,36 +84,36 @@ function partNodes(node: VNode): readonly unknown[] | null {
 
 /**
  * The text of a slot that renders text, a title part or a description part only, else `null`: rich content has no
- * description text. The parts are part of the tooltip text, so the trigger is described by the title and the
- * description, one after the other.
+ * description text. Once a part is seen, the trigger is described by the parts, one after the other. Text written
+ * beside the parts does not count.
  */
 function textOf(nodes: readonly VNode[] | undefined): string | null {
-  const seen = { part: false };
-  const walk = (list: readonly unknown[]): string | null => {
-    let text = '';
+  const parts: string[] = [];
+  const walk = (list: readonly unknown[], out: string[]): boolean => {
     for (const entry of list) {
       if (typeof entry === 'string' || typeof entry === 'number') {
-        text += String(entry);
+        out.push(String(entry));
         continue;
       }
       const node = entry as VNode;
       if (node.type === Comment) continue;
       if (node.type === Text) {
-        text += typeof node.children === 'string' ? node.children : '';
+        out.push(typeof node.children === 'string' ? node.children : '');
         continue;
       }
       const part = node.type === TooltipTitle || node.type === TooltipDescription;
-      seen.part ||= part;
       const inner = part ? partNodes(node) : node.type === Fragment ? (node.children as VNode[] | null) : null;
-      const piece = Array.isArray(inner) ? walk(inner) : null;
-      if (piece === null) return null;
-      text += part ? ` ${piece} ` : piece;
+      if (!Array.isArray(inner)) return false;
+      const piece: string[] = [];
+      if (!walk(inner, part ? piece : out)) return false;
+      if (part) parts.push(piece.join('').replace(/\s+/g, ' ').trim());
     }
-    return text;
+    return true;
   };
-  const text = nodes ? walk(nodes) : null;
-  if (!text?.trim()) return null;
-  return seen.part ? text.replace(/\s+/g, ' ').trim() : text;
+  const loose: string[] = [];
+  if (!nodes || !walk(nodes, loose)) return null;
+  const text = parts.length > 0 ? parts.filter(Boolean).join(' ') : loose.join('');
+  return text.trim() ? text : null;
 }
 
 const ctx = useTooltipContext('TooltipContent');
