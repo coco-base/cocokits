@@ -81,15 +81,6 @@ describe('Select filter (select-07)', () => {
     expect(screen.getByRole('combobox', { name: 'Dish' }).hasAttribute('aria-activedescendant')).toBe(false);
   });
 
-  it('renders neither the header nor the search without filter', async () => {
-    const user = userEvent.setup();
-    mountView(selectView({}, { items: searchItems }));
-    await user.click(trigger());
-    await screen.findByRole('listbox');
-    expect(document.querySelector('.cck-select__header')).toBeNull();
-    expect(screen.queryByRole('combobox', { name: 'Search' })).toBeNull();
-  });
-
   it('keeps the options whose text contains the query, ignoring case, and highlights the first', async () => {
     const user = await openWithFilter();
     await user.type(search(), 'UR');
@@ -165,6 +156,15 @@ describe('Select filter (select-07)', () => {
 });
 
 describe('Select search element', () => {
+  it('renders the header and search an author places, without filter', async () => {
+    const user = userEvent.setup();
+    mountView(selectView({}, { items: searchItems }));
+    await user.click(trigger());
+    await screen.findByRole('listbox');
+    expect(document.querySelector('.cck-select__header')).not.toBeNull();
+    expect(search().type).toBe('search');
+  });
+
   it('is a native search input and accepts no as or asChild', async () => {
     const user = await openWithFilter();
     expect(search().tagName).toBe('INPUT');
