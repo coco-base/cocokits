@@ -33,7 +33,7 @@ const bound = computed(() =>
 </script>
 
 <template>
-  <Primitive v-bind="bound" :as="as" :as-child="asChild">
+  <Primitive v-if="ctx.filter.value" v-bind="bound" :as="as" :as-child="asChild">
     <slot />
   </Primitive>
 </template>

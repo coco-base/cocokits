@@ -77,5 +77,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Primitive ref="root" v-bind="bound" as="input" :priority-attrs="priorityAttrs" />
+  <Primitive v-if="ctx.filter.value" ref="root" v-bind="bound" as="input" :priority-attrs="priorityAttrs" />
 </template>
