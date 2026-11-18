@@ -83,6 +83,29 @@ describe('Select search', () => {
     expect(list.querySelector('.cck-select__footer')?.textContent).toBe('Add a dish');
   });
 
+  it.each([
+    ['without filter', false, 0],
+    ['with filter', true, 1],
+  ])('renders the header and the search %s', async (_name, filter, count) => {
+    render(
+      <Select.Root filter={filter}>
+        <Select.Trigger aria-label="Dish">
+          <Select.Value placeholder="Choose" />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Header>
+            <Select.Search />
+          </Select.Header>
+          <Opt value="Cake">Cake</Opt>
+        </Select.Content>
+      </Select.Root>,
+    );
+    await open();
+    const list = screen.getByRole('listbox');
+    expect(list.querySelectorAll('.cck-select__header')).toHaveLength(count);
+    expect(list.querySelectorAll('.cck-select__search')).toHaveLength(count);
+  });
+
   it('always renders a native search input and accepts no render prop', async () => {
     render(<Searchable />);
     await open();

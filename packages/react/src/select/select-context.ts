@@ -54,6 +54,8 @@ export interface SelectContextValue<T = unknown> {
   readonly holdFocusOut: (hold: boolean) => void;
   /** Whether the list's dismiss layer is active, so Escape reaches the Content handlers. */
   readonly layerActiveRef: RefObject<boolean>;
+  /** Whether the Select has `filter`: only then do `Select.Header` and `Select.Search` render. */
+  readonly filter: boolean;
   /** The Content handlers, assigned by the Content. */
   readonly contentHandlersRef: RefObject<SelectContentHandlers>;
   /** Whether nothing is selected: the placeholder shows. */

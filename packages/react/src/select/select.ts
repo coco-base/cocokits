@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react';
 import { SelectContent } from './select-content';
 import { SelectEmpty } from './select-empty';
 import { SelectFooter } from './select-footer';
@@ -48,8 +49,8 @@ interface SelectNamespace {
   readonly Group: SelectPart<SelectGroupProps>;
   readonly Label: SelectPart<SelectLabelProps>;
   readonly Separator: SelectPart<SelectSeparatorProps>;
-  readonly Header: SelectPart<SelectHeaderProps>;
-  readonly Search: SelectPart<SelectSearchProps>;
+  readonly Header: SelectPart<SelectHeaderProps, ReactElement | null>;
+  readonly Search: SelectPart<SelectSearchProps, ReactElement | null>;
   readonly Empty: SelectPart<SelectEmptyProps>;
   readonly Footer: SelectPart<SelectFooterProps>;
   readonly OptionDescription: SelectPart<SelectOptionDescriptionProps>;

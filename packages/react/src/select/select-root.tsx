@@ -365,6 +365,7 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     setTriggerAria,
     holdFocusOut,
     layerActiveRef,
+    filter,
     contentHandlersRef,
     empty,
     selectedValue: model.value,

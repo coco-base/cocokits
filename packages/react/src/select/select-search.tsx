@@ -22,16 +22,16 @@ const RESERVED = [
   'aria-activedescendant',
 ];
 
-function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement {
+function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement | null {
   const context = useSelectContext<unknown>('Select.Search');
-  const { open, parts, layerActiveRef } = context;
+  const { open, parts, layerActiveRef, filter } = context;
   const { search } = parts;
   const input = useRef<HTMLInputElement | null>(null);
 
   // The focus is in the search input while the list is open: it takes the focus when the list mounts, or opens.
   useIsomorphicLayoutEffect(() => {
-    if (open) input.current?.focus();
-  }, [open]);
+    if (open && filter) input.current?.focus();
+  }, [open, filter]);
 
   const machine = withoutReserved(toReactProps(search), ['onInput', 'onKeyDown']);
   const props = useSelectPartProps({
@@ -53,11 +53,11 @@ function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement {
     render: undefined,
     internalRef: input,
   });
-  return renderElement<SelectRenderProps, undefined>(undefined, 'input', props, undefined);
+  return filter ? renderElement<SelectRenderProps, undefined>(undefined, 'input', props, undefined) : null;
 }
 
 /**
- * The search input of the list, for a Select with `filter`. It renders a native `<input type="search">` with the
+ * The search input of the list, for a Select with `filter`; without `filter` it renders nothing. It renders a native `<input type="search">` with the
  * role `combobox`. Put it in the `Select.Header`.
  *
  * The focus stays in this input while the list is open, and `aria-activedescendant` points to the highlighted
@@ -73,8 +73,8 @@ function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement {
  * <Select.Search aria-label="Search dishes" placeholder="Search" />
  * @cckPart search
  * @param props - The Search props.
- * @returns The rendered input.
+ * @returns The rendered input, or nothing without `filter`.
  */
-export const SelectSearch: SelectPart<SelectSearchProps> = Object.assign(SelectSearchImpl, {
+export const SelectSearch: SelectPart<SelectSearchProps, ReactElement | null> = Object.assign(SelectSearchImpl, {
   displayName: 'Select.Search',
 });
