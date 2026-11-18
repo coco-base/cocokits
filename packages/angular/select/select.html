@@ -30,7 +30,7 @@
   <span [class]="parts().value.class" [cckAttrs]="_theme().value">
     @if (_triggerTemplate(); as template) {
     <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="ctl.triggerContext()" />
-    } @else { {{ ctl.text() }} }
+    } @else {<ng-container>{{ ctl.text() }}</ng-container>}
   </span>
   } @if (parts().count; as count) {
   <span [class]="count.class" [cckAttrs]="_theme().count">{{ count.text }}</span>

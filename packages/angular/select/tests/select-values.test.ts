@@ -201,7 +201,9 @@ describe('Select value and labels', () => {
       await user.click(screen.getByRole('option', { name: 'Apple' }));
       expect(host.value()).toEqual(['a', 'c']);
       expect(shown()).toBe('Apple');
+      expect(trigger().querySelector(`.${classes.value}`)?.textContent).toBe('Apple');
       expect(trigger().querySelector(`.${classes.count}`)?.textContent).toBe('+1');
+      expect(trigger().textContent).toBe('Apple+1');
     });
 
     it('orders by sortComparator when one is given', async () => {
