@@ -193,6 +193,10 @@ export interface TooltipParts {
   readonly trigger: TooltipTriggerProps;
   /** The content props. */
   readonly content: TooltipContentProps;
+  /** The title props: the class only; the text is part of the tooltip text. */
+  readonly title: TooltipPartProps;
+  /** The description props: the class only; the text is part of the tooltip text. */
+  readonly description: TooltipPartProps;
   /** The arrow props. */
   readonly arrow: TooltipArrowProps;
 }

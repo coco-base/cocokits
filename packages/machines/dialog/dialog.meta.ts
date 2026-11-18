@@ -1,12 +1,17 @@
 import type { ComponentMeta } from '@cocokits/shared';
 
 /** Dialog meta: data for tests and docs, never read at runtime. */
-export const dialogMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'title' | 'description' | 'close'> = {
+export const dialogMeta: ComponentMeta<
+  'root' | 'trigger' | 'content' | 'header' | 'body' | 'footer' | 'title' | 'description' | 'close'
+> = {
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
   dataAttrs: {
     root: [],
     trigger: ['data-state'],
     content: ['data-state'],
+    header: [],
+    body: [],
+    footer: [],
     title: [],
     description: [],
     close: [],
@@ -17,7 +22,17 @@ export const dialogMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'title' 
       setWhen: 'Always set: `open` while the dialog is open, `closed` otherwise.',
     },
   },
-  roles: { root: null, trigger: null, content: null, title: null, description: null, close: null },
+  roles: {
+    root: null,
+    trigger: null,
+    content: null,
+    header: null,
+    body: null,
+    footer: null,
+    title: null,
+    description: null,
+    close: null,
+  },
   keyboard: [
     { key: 'Enter / Space', context: 'trigger', action: 'Native. Opens the dialog.' },
     {
@@ -34,6 +49,9 @@ export const dialogMeta: ComponentMeta<'root' | 'trigger' | 'content' | 'title' 
   defaultElements: {
     trigger: 'button',
     content: 'dialog',
+    header: 'div',
+    body: 'div',
+    footer: 'div',
     title: 'h2',
     description: 'p',
     close: 'button',

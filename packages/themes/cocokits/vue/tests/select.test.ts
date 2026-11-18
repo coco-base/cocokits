@@ -89,7 +89,7 @@ describe('theme select', () => {
     expect(screen.getByRole('combobox').textContent).toContain('1 chosen');
   });
 
-  it('narrows the model by multiple and joins the labels of items', () => {
+  it('narrows the model by multiple and shows the first label of items with the count of the others', () => {
     render(
       themed(() =>
         example({
@@ -102,7 +102,10 @@ describe('theme select', () => {
         }),
       ),
     );
-    expect(screen.getByRole('combobox').textContent).toContain('Alpha, Beta');
+    const trigger = screen.getByRole('combobox');
+    expect(trigger.querySelector('.cck-select__value')?.textContent).toBe('Alpha');
+    expect(trigger.querySelector('.cck-select__count')?.textContent).toBe('+1');
+    expect(trigger.textContent).not.toContain('Beta');
   });
 
   it('forwards asChild: the child becomes the root and keeps the part class', () => {

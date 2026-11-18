@@ -49,6 +49,12 @@ export interface PopoverContentRegistration {
   readonly side: Signal<PopoverSide>;
   /** The wanted alignment. */
   readonly align: Signal<PopoverAlign>;
+  /** The gap to the anchor in px, when the author set one; else the theme's `--side-offset`. */
+  readonly sideOffset: Signal<number | undefined>;
+  /** The shift along the anchor edge in px, when the author set one. */
+  readonly alignOffset: Signal<number | undefined>;
+  /** Whether the content has rendered once, so it has its class and theme attributes: only then it is positioned. */
+  readonly ready: Signal<boolean>;
 }
 
 /** Why the open state of a Popover changed. */
@@ -260,8 +266,9 @@ export class CckPopover {
           this._anchor(),
           this._arrow(),
         ];
-        if (!mounted || !trigger || !content) return;
+        if (!mounted || !trigger || !content?.ready()) return;
         const [side, align] = [content.side(), content.align()];
+        const [sideOffset, alignOffset] = [content.sideOffset(), content.alignOffset()];
         const stop = untracked(() =>
           this.zone.outside(() =>
             startOverlayPosition({
@@ -269,6 +276,8 @@ export class CckPopover {
               getContent: () => content.element,
               side,
               align,
+              ...(sideOffset === undefined ? {} : { sideOffset }),
+              ...(alignOffset === undefined ? {} : { alignOffset }),
               getDirection: () => this.direction.dir(),
               onPlacementChange: (placement) => {
                 this.zone.inside(() => {

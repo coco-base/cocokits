@@ -8,6 +8,7 @@ import {
   computed,
   inject,
   input,
+  signal,
   type OnInit,
 } from '@angular/core';
 import { CckAttrs, IdGenerator, bindAttrs, injectPartIconName, listenLast } from '@cocokits/angular-core';
@@ -43,6 +44,10 @@ import { CckSelectOptionGroup } from './select-option-group';
     '[attr.role]': 'props().role',
     '[attr.aria-selected]': 'props()["aria-selected"]',
     '[attr.aria-disabled]': 'props()["aria-disabled"]',
+    '[attr.aria-describedby]': 'props()["aria-describedby"] ?? null',
+    '[attr.hidden]': 'props().hidden ? "" : null',
+    '[attr.value]': 'null',
+    '[attr.disabled]': 'null',
     '[attr.data-selected]': 'props()["data-selected"]',
     '[attr.data-highlighted]': 'props()["data-highlighted"]',
     '[attr.data-disabled]': 'props()["data-disabled"]',
@@ -87,23 +92,30 @@ export class CckSelectOption<T = string> implements OnInit {
   private readonly key = inject(IdGenerator).getId(selectAnatomy.classes.option);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly isDisabled = computed(() => this.disabled() || this.group?.disabled() === true);
-  private readonly item = computed<SelectItem<unknown>>(() => ({
+  /** How many description parts are mounted in the option. @internal */
+  readonly _descriptions = signal(0);
+  private readonly hasDescription = computed(() => this._descriptions() > 0);
+  /** What the machine reads of the option. @internal */
+  readonly _item = computed<SelectItem<unknown>>(() => ({
     key: this.key,
     value: this.value(),
     disabled: this.isDisabled(),
     id: this.id(),
+    hasDescription: this.hasDescription(),
   }));
   protected readonly parts = this._root.parts;
   /** The theme's icon when registered, else the default; the part shows it while the option is selected. */
   protected readonly indicatorIconName = injectPartIconName(selectAnatomy.block, 'optionIndicator');
-  protected readonly props = computed(() => this._root.parts().option(this.item()));
+  protected readonly props = computed(() => this._root.parts().option(this._item()));
 
   private unregister: (() => void) | undefined;
 
   constructor() {
     inject(DestroyRef).onDestroy(() => {
       this.unregister?.();
+      this.group?._removeOption(this.key);
     });
+    this.group?._addOption(this.key);
     bindAttrs(this.element, () => this._root._theme().option);
     afterNextRender(() => {
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
@@ -128,6 +140,7 @@ export class CckSelectOption<T = string> implements OnInit {
       value: this.value,
       id: this.id,
       disabled: this.isDisabled,
+      hasDescription: this.hasDescription,
       label: () => this.element.querySelector(`.${selectAnatomy.classes.optionContent}`)?.textContent.trim() ?? '',
     });
   }

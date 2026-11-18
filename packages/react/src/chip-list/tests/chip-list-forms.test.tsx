@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { FormField } from '../../form-field';
 import { Label } from '../../label';
 import { ChipList } from '../index';
-import { chipTexts, listRoot, must, nextTask, removeOf, textbox } from './fixtures';
+import { chipTexts, listRoot, must, nextTask, textbox } from './fixtures';
 
 afterEach(() => {
   cleanup();
@@ -187,7 +187,7 @@ describe('ChipList disabled fieldset', () => {
       </fieldset>,
     );
     expect(textbox().hasAttribute('disabled')).toBe(true);
-    expect(removeOf('A').hasAttribute('disabled')).toBe(true);
+    expect(screen.queryByRole('button')).toBeNull();
     expect(listRoot().hasAttribute('data-disabled')).toBe(true);
     expect(hiddenInputs()[0]?.disabled).toBe(true);
   });

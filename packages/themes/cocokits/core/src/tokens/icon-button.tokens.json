@@ -8,7 +8,7 @@
       "defaultMode": "md",
       "modes": ["xs", "sm", "md", "lg", "xl"],
       "tokens": [
-        { "name": "size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-32}", "sm": "{Core / Size#size-36}", "md": "{Core / Size#size-44}", "lg": 52, "xl": "{Core / Size#size-56}" } },
+        { "name": "size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-32}", "sm": "{Core / Size#size-36}", "md": "{Core / Size#size-44}", "lg": "{Core / Size#size-52}", "xl": "{Core / Size#size-56}" } },
         { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-20}", "sm": "{Core / Size#size-20}", "md": "{Core / Size#size-24}", "lg": "{Core / Size#size-32}", "xl": "{Core / Size#size-32}" } }
       ]
     },
@@ -24,8 +24,8 @@
         { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } },
         { "name": "solid-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
         { "name": "solid-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } },
-        { "name": "soft-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
-        { "name": "soft-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } },
+        { "name": "solid-hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
+        { "name": "outline-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
         { "name": "outline-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
         { "name": "hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
         { "name": "border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },

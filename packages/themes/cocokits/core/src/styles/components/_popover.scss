@@ -49,7 +49,13 @@
 
   // The positioning module places and turns the arrow and sets `hidden` through the machine; the theme only sizes
   // and fills the triangle. An author rule beats the user-agent [hidden] rule, so the theme restates it.
+  // The outline runs along the two sloping sides only: the dash pattern skips the base (the first side of the
+  // triangle) and draws the other two, in screen units (`non-scaling-stroke`). An arrow rendered as a custom tag
+  // (`cck-popover-arrow`) is inline by default, so the theme makes it a block, as a span is.
   .cck-popover__arrow {
+    box-sizing: border-box;
+    display: block;
+
     &[hidden] {
       display: none;
     }
@@ -59,10 +65,21 @@
       inline-size: var(--cck-popover-arrow-width);
       block-size: var(--cck-popover-arrow-height);
       fill: var(--cck-popover-arrow-bg);
+      overflow: visible;
+    }
+
+    svg > * {
+      stroke: var(--cck-popover-arrow-border-color);
+      stroke-width: var(--cck-popover-arrow-border-width);
+      stroke-dasharray: 0 var(--cck-popover-arrow-width)
+        calc(2 * hypot(var(--cck-popover-arrow-width) / 2, var(--cck-popover-arrow-height)));
+      stroke-linejoin: miter;
+      vector-effect: non-scaling-stroke;
     }
   }
 
   .cck-popover__title {
+    box-sizing: border-box;
     margin: 0;
     color: var(--cck-popover-title-color);
     font-family: var(--cck-popover-title-font-family);
@@ -73,6 +90,7 @@
   }
 
   .cck-popover__description {
+    box-sizing: border-box;
     display: block;
     margin: 0;
     color: var(--cck-popover-description-color);
@@ -156,6 +174,10 @@
 
     .cck-popover__arrow svg {
       fill: CanvasText;
+    }
+
+    .cck-popover__arrow svg > * {
+      stroke: CanvasText;
     }
 
     .cck-popover__close:not(.cck-button) {

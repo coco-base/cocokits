@@ -43,6 +43,9 @@ function escapeAttribute(value: string): string {
   exportAs: 'cckSvgIcon',
   encapsulation: ViewEncapsulation.None,
   host: {
+    '[attr.iconname]': 'null',
+    '[attr.svg]': 'null',
+    '[attr.label]': 'null',
     '[class]': 'parts().root.class',
     '[attr.data-icon]': 'parts().root["data-icon"] ?? null',
     '[attr.aria-hidden]': 'parts().root["aria-hidden"] ?? null',

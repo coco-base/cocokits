@@ -41,6 +41,9 @@ import { injectCckSelect } from './select';
     '[attr.aria-labelledby]': 'props()["aria-labelledby"]',
     '[attr.aria-disabled]': 'props()["aria-disabled"]',
     '[attr.data-disabled]': 'props()["data-disabled"]',
+    '[attr.hidden]': 'props().hidden ? "" : null',
+    '[attr.label]': 'null',
+    '[attr.disabled]': 'null',
   },
   template: `
     <div [class]="labelProps().class" [attr.id]="labelProps().id" [cckAttrs]="_root._theme().optionGroupLabel">
@@ -75,12 +78,37 @@ export class CckSelectOptionGroup {
 
   protected readonly labelContext = {};
   private readonly key = inject(IdGenerator).getId(selectAnatomy.classes.optionGroup);
-  private readonly item = computed<SelectGroupItem>(() => ({ key: this.key, disabled: this.disabled() }));
+  private readonly optionKeys = signal<readonly string[]>([]);
+  private readonly item = computed<SelectGroupItem>(() => ({
+    key: this.key,
+    disabled: this.disabled(),
+    itemKeys: this.optionKeys(),
+  }));
   protected readonly props = computed(() => this._root.parts().optionGroup(this.item()));
   protected readonly labelProps = computed(() => this._root.parts().optionGroupLabel(this.item()));
 
   constructor() {
     bindAttrs(inject<ElementRef<HTMLElement>>(ElementRef).nativeElement, () => this._root._theme().optionGroup);
+  }
+
+  /**
+   * An option of this group exists: with a search, the group hides while none of its options matches.
+   *
+   * @param key - The key of the option.
+   * @internal
+   */
+  _addOption(key: string): void {
+    this.optionKeys.update((keys) => [...keys, key]);
+  }
+
+  /**
+   * An option of this group is gone.
+   *
+   * @param key - The key of the option.
+   * @internal
+   */
+  _removeOption(key: string): void {
+    this.optionKeys.update((keys) => keys.filter((candidate) => candidate !== key));
   }
 }
 

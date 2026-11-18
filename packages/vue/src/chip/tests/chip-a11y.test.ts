@@ -23,13 +23,13 @@ describe('Chip accessibility', () => {
     expect((await axe(container)).violations).toEqual([]);
   });
 
-  it('names the button by the text of the chip and reaches it with Tab', async () => {
+  it('names the button "Remove" and the text of the chip and reaches it with Tab', async () => {
     mountView(() => h(Chip, { removable: true }, () => 'Pizza'));
     await userEvent.tab();
-    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Pizza' }));
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Remove Pizza' }));
   });
 
-  it('skips a disabled button when tabbing', async () => {
+  it('has no button to tab to while disabled', async () => {
     mountView(() => h(Chip, { removable: true, disabled: true }, () => 'Pizza'));
     await userEvent.tab();
     expect(document.activeElement).toBe(document.body);

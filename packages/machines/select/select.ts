@@ -5,53 +5,50 @@ import {
   type FormFieldControlContext,
   type FormFieldControlProps,
 } from '../form-field';
+import { selectIds, selectItemId, selectOptionDescriptionId } from './select-ids';
 import { createSelectKeyDown } from './select-keyboard';
-import { isSelectEmpty, isValueSelected, selectFormValues } from './select-values';
+import { getSelectExtraParts, shownSelectKeys } from './select-search';
+import { isSelectEmpty, isSelectItemVisible, isValueSelected, selectFormValues } from './select-values';
 import { selectAnatomy } from './select.anatomy';
 import type {
   SelectEvent,
   SelectGroupItem,
-  SelectIds,
   SelectItem,
+  SelectOptionGroupProps,
   SelectOptionProps,
   SelectParts,
   SelectState,
 } from './select.types';
 
-/**
- * Derives the ids of the Select parts that link to each other.
- *
- * @param id - The id of the Select, from the adapter.
- * @param controlId - The control id a FormField gives the trigger; leave it out outside a field.
- * @returns The trigger, list and validation message ids.
- */
-export function selectIds(id: string, controlId?: string): SelectIds {
-  return { trigger: controlId ?? `${id}-trigger`, content: `${id}-content`, validationMessage: `${id}-validation` };
-}
-
-/**
- * The id of one option. It is made from the registration key, never from the option's value.
- *
- * @param id - The id of the Select.
- * @param key - The option's registration key.
- * @returns The option id.
- */
-export function selectOptionId(id: string, key: string): string {
-  return `${id}-option-${toIdSegment(key)}`;
-}
-
-/**
- * The id of one option element: the option's own `id`, else the one made from the Select id and the key.
- *
- * @param id - The id of the Select.
- * @param item - The option (its `key` and optional `id`).
- * @returns The element id, also the trigger's `aria-activedescendant` while it is highlighted.
- */
-export function selectItemId(id: string, item: Pick<SelectItem<unknown>, 'key' | 'id'>): string {
-  return item.id ?? selectOptionId(id, item.key);
-}
-
 const groupLabelId = (id: string, key: string): string => `${id}-group-label-${toIdSegment(key)}`;
+
+/** The trigger reports the highlighted option only while it keeps DOM focus: with a search, the search does. */
+function triggerActiveId<T>(state: SelectState<T>): string | undefined {
+  const active = state.items.find((item) => item.key === state.highlighted);
+  return state.open && state.filter !== true && active ? selectItemId(state.id, active) : undefined;
+}
+
+/** A blur of the open trigger dismisses, except when the window lost focus or a search takes the focus on purpose. */
+function shouldDismissOnBlur<T>(state: SelectState<T>, event: FocusEvent): boolean {
+  return state.open && state.filter !== true && !windowLostFocus(event);
+}
+
+/** The group is hidden while a query shows none of its options (`shown` is `undefined` without a filter). */
+function groupProps(
+  id: string,
+  group: SelectGroupItem,
+  shown: ReadonlySet<string> | undefined,
+): SelectOptionGroupProps {
+  const noMatch = shown !== undefined && group.itemKeys !== undefined && !group.itemKeys.some((key) => shown.has(key));
+  return {
+    class: selectAnatomy.classes.optionGroup,
+    role: 'group',
+    'aria-labelledby': groupLabelId(id, group.key),
+    'aria-disabled': group.disabled ? 'true' : undefined,
+    'data-disabled': dataAttr(group.disabled),
+    hidden: noMatch ? true : undefined,
+  };
+}
 
 function optionProps<T>(
   state: SelectState<T>,
@@ -69,6 +66,8 @@ function optionProps<T>(
     'data-selected': dataAttr(selected),
     'data-highlighted': dataAttr(state.highlighted === item.key),
     'data-disabled': dataAttr(disabled),
+    'aria-describedby': item.hasDescription === true ? selectOptionDescriptionId(state.id, item) : undefined,
+    hidden: isSelectItemVisible(state, item) ? undefined : true,
     onClick: (event) => {
       if (!disabled && !event.defaultPrevented) send({ type: 'OPTION.CLICK', key: item.key, event });
     },
@@ -132,7 +131,8 @@ export function getSelectProps<T = string>(
   const dataState = state.open ? 'open' : 'closed';
   const multiple = dataAttr(state.multiple);
   const interactive = !root.disabled && !root.readonly;
-  const active = state.items.find((item) => item.key === state.highlighted);
+  const filtering = state.filter === true;
+  const shown = shownSelectKeys(state);
   return {
     root: {
       class: classes.root,
@@ -152,7 +152,8 @@ export function getSelectProps<T = string>(
       'aria-haspopup': 'listbox',
       'aria-expanded': state.open ? 'true' : 'false',
       'aria-controls': (state.mounted ?? state.open) ? ids.content : undefined,
-      'aria-activedescendant': state.open && active ? selectItemId(state.id, active) : undefined,
+      // With a search, DOM focus is in the search input and it reports the highlighted option.
+      'aria-activedescendant': triggerActiveId(state),
       'aria-labelledby': state.labelledBy,
       'aria-label': state.ariaLabel,
       'aria-readonly': root.readonly ? 'true' : undefined,
@@ -169,7 +170,7 @@ export function getSelectProps<T = string>(
         if (event.key === ' ') event.preventDefault();
       },
       onBlur: (event) => {
-        if (state.open && !windowLostFocus(event)) send({ type: 'LIST.DISMISS', reason: 'blur', event });
+        if (shouldDismissOnBlur(state, event)) send({ type: 'LIST.DISMISS', reason: 'blur', event });
       },
     },
     placeholder: { class: classes.placeholder },
@@ -185,23 +186,19 @@ export function getSelectProps<T = string>(
       hidden: state.keptClosed ? true : undefined,
       'data-state': dataState,
       'data-multiple': multiple,
+      'data-empty': dataAttr(filtering && shown.size === 0),
       'data-side': state.side ?? 'bottom',
       'data-align': state.align ?? 'start',
       onMouseDown: (event) => {
         event.preventDefault();
       },
     },
+    ...getSelectExtraParts(state, send, ids.content),
     separator: { class: classes.separator, 'aria-hidden': 'true' },
     optionIndicator: { class: classes.optionIndicator, 'aria-hidden': 'true' },
     optionContent: { class: classes.optionContent },
     option: (item) => optionProps(state, item, send),
-    optionGroup: (group: SelectGroupItem) => ({
-      class: classes.optionGroup,
-      role: 'group',
-      'aria-labelledby': groupLabelId(state.id, group.key),
-      'aria-disabled': group.disabled ? 'true' : undefined,
-      'data-disabled': dataAttr(group.disabled),
-    }),
+    optionGroup: (group: SelectGroupItem) => groupProps(state.id, group, filtering ? shown : undefined),
     optionGroupLabel: (group: SelectGroupItem) => ({
       class: classes.optionGroupLabel,
       id: groupLabelId(state.id, group.key),

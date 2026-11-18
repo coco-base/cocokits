@@ -1,9 +1,10 @@
 // AvatarLabel rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // The label owns the layout; its direct avatar sizes itself (the theme layer gives it the label's `size` when it has
-// none). `end` and `bottom` reverse the visual order only;
+// none). `right` and `bottom` reverse the visual order only;
 // the DOM order stays the avatar first.
 @mixin rules {
   .cck-avatar-label {
+    box-sizing: border-box;
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -13,7 +14,7 @@
       display: none;
     }
 
-    &[data-avatar-position='end'] {
+    &[data-avatar-position='right'] {
       flex-direction: row-reverse;
       text-align: end;
     }
@@ -30,6 +31,7 @@
   }
 
   .cck-avatar-label__text {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     min-inline-size: 0;
@@ -38,7 +40,7 @@
     line-height: var(--cck-avatar-label-line-height);
     letter-spacing: var(--cck-avatar-label-letter-spacing);
     font-weight: var(--cck-avatar-label-font-weight);
-    // Stacked: the name above the description. The inline layout takes its own gap below.
+    // Vertical: the name above the description. The horizontal alignment takes its own gap below.
     gap: var(--cck-avatar-label-text-gap);
 
     &[hidden] {
@@ -46,17 +48,19 @@
     }
   }
 
-  .cck-avatar-label[data-text-layout='inline'] > .cck-avatar-label__text {
+  .cck-avatar-label[data-label-alignment='horizontal'] > .cck-avatar-label__text {
     flex-direction: row;
     align-items: baseline;
     gap: var(--cck-avatar-label-text-inline-gap);
   }
 
   .cck-avatar-label__name {
+    box-sizing: border-box;
     color: var(--cck-avatar-label-name-color);
   }
 
   .cck-avatar-label__description {
+    box-sizing: border-box;
     color: var(--cck-avatar-label-description-color);
     font-weight: var(--cck-avatar-label-description-font-weight);
   }

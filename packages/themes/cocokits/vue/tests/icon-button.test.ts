@@ -67,11 +67,11 @@ describe.each<Kind>(['button', 'link'])('theme IconButton as a %s', (kind) => {
           h(IconButton, { 'aria-label': 'Add', ...linkProps(kind), size: 'sm' }, () =>
             h(SvgIcon, { iconName: 'plus' }),
           ),
-        { 'icon-button': { variant: 'light', size: 'lg', rounded: true } },
+        { 'icon-button': { variant: 'basic', size: 'lg', rounded: true } },
       ),
     );
     const el = screen.getByRole(kind);
-    expect(el.getAttribute('data-variant')).toBe('light');
+    expect(el.getAttribute('data-variant')).toBe('basic');
     expect(el.getAttribute('data-size')).toBe('sm');
     expect(el.hasAttribute('data-rounded')).toBe(true);
   });

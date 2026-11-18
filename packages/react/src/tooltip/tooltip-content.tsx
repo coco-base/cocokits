@@ -26,6 +26,8 @@ import { useTriggerWarning } from '../internal/use-trigger-warning';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useTooltipContext } from './tooltip-context';
+import { TooltipDescription } from './tooltip-description';
+import { TooltipTitle } from './tooltip-title';
 import type {
   TooltipAlign,
   TooltipContentProps,
@@ -184,11 +186,31 @@ function TooltipContentLayer({
   );
 }
 
-/** The text of children that are text only (strings and numbers), else `null`. */
+/**
+ * The text of children that are text, a `Tooltip.Title` or a `Tooltip.Description` only, else `null`. With parts, only
+ * the parts give text: title first, then description, one space apart. Text written beside the parts does not count.
+ */
 function textOf(children: ReactNode): string | null {
-  const items = Children.toArray(children);
-  if (items.length === 0 || !items.every((item) => typeof item === 'string' || typeof item === 'number')) return null;
-  return items.join('');
+  const parts: string[] = [];
+  const read = (node: ReactNode): string | null => {
+    let text = '';
+    for (const item of Children.toArray(node)) {
+      if (typeof item === 'string' || typeof item === 'number') {
+        text += String(item);
+        continue;
+      }
+      if (!isValidElement<{ readonly children?: ReactNode }>(item)) return null;
+      if (item.type !== TooltipTitle && item.type !== TooltipDescription) return null;
+      const inner = read(item.props.children);
+      if (inner === null) return null;
+      parts.push(inner);
+    }
+    return text;
+  };
+  const loose = read(children);
+  if (loose === null) return null;
+  const text = parts.length > 0 ? parts.join(' ').replace(/\s+/g, ' ').trim() : loose;
+  return text.trim() ? text : null;
 }
 
 function TooltipContentImpl({ 'aria-label': ariaLabel, ...props }: TooltipContentProps): ReactElement {
@@ -223,7 +245,8 @@ function TooltipContentImpl({ 'aria-label': ariaLabel, ...props }: TooltipConten
  * inside it for a pointer to the trigger.
  *
  * Text children, or `aria-label`, also describe the trigger. After hydration, a hidden copy of that text stays
- * while the tooltip is closed. Screen readers then skip the visible content.
+ * while the tooltip is closed. Screen readers then skip the visible content. With a `Tooltip.Title` or
+ * `Tooltip.Description`, only those give text. Text written beside the parts does not count.
  *
  * It hides on Escape and on a press outside. To refuse one, call `event.preventDefault()` in `onEscapeKeyDown` or
  * `onPointerDownOutside`. WCAG 1.4.13 asks that the user can hide a tooltip, so keep another way to hide it.

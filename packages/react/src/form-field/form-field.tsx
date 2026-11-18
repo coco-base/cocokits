@@ -19,6 +19,7 @@ import {
   formFieldAnatomy,
   formFieldStateAttrs,
   formFieldIds,
+  getFormFieldLabelFor,
   getFormFieldProps,
   resolveFormFieldState,
   isSameFormFieldControlState,
@@ -97,6 +98,14 @@ function FormFieldImpl({
     setSettled(true);
   }, []);
 
+  const [labelCount, setLabelCount] = useState(0);
+  const registerLabel = useCallback((): (() => void) => {
+    setLabelCount((count) => count + 1);
+    return () => {
+      setLabelCount((count) => count - 1);
+    };
+  }, []);
+  const hasLabel = labelCount > 0;
   const [authorLabelId, setLabelId] = useState<string | undefined>(undefined);
   // The ids of the hints and errors come from the props, so the first render and the server render have them.
   // Each zone is read once per change of its prop; the memo keeps the result frozen for the render below.
@@ -129,10 +138,10 @@ function FormFieldImpl({
   );
   const state = useMemo(() => resolveFormFieldState(own, reported), [own, reported]);
   const control = useMemo<FormFieldContextValue>(
-    () => ({ ids, own, claim, release, report, setLabelId, inputWrapper }),
-    [ids, own, claim, release, report, inputWrapper],
+    () => ({ ids, own, claim, release, report, setLabelId, hasLabel, registerLabel, inputWrapper }),
+    [ids, own, claim, release, report, hasLabel, registerLabel, inputWrapper],
   );
-  const controlId = reported ? reported.id : settled ? undefined : ids.control;
+  const controlId = reported ? getFormFieldLabelFor(reported) : settled ? undefined : ids.control;
   const labelContext = useMemo<FormFieldLabelContextValue>(
     () => ({ required: state.required, hideRequiredMarker: Boolean(hideRequiredMarker), controlId }),
     [state.required, hideRequiredMarker, controlId],

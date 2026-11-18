@@ -21,7 +21,8 @@ interface Entry {
   variable: string;
 }
 
-const BLOCK_SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+/** A block or a part of a block (`menu__sub-content`): lowercase words joined by `-`, one `__` before the part. */
+const BLOCK_SLUG = /^[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?$/;
 const slug = (text: string): string =>
   text
     .toLowerCase()
@@ -62,7 +63,9 @@ function checkFields(collection: Collection): void {
   }
   for (const block of collection.alsoFor ?? []) {
     if (!BLOCK_SLUG.test(block)) {
-      throw new Error(`${collection.name}: alsoFor "${block}" is not a block slug (lowercase letters, digits, "-")`);
+      throw new Error(
+        `${collection.name}: alsoFor "${block}" is not a block slug (lowercase letters, digits, "-" and one "__")`,
+      );
     }
   }
 }

@@ -74,6 +74,23 @@ export type SelectItems<T = string> = readonly SelectItemData<T>[] | Readonly<Re
  * </SelectRoot>
  * @typeParam T - The type of the value of an item. The default is `string`.
  * @typeParam M - The type of `multiple`. `true` makes the value a list. The default is `false`.
+ * @example
+ * <SelectRoot v-model="dishes" multiple filter>
+ *   <SelectTrigger aria-label="Dishes">
+ *     <SelectValue placeholder="Choose dishes" />
+ *     <SelectIcon />
+ *   </SelectTrigger>
+ *   <SelectContent>
+ *     <SelectHeader><SelectSearch aria-label="Search dishes" /></SelectHeader>
+ *     <SelectItem value="Cake">
+ *       <SelectOptionLeading><SvgIcon icon-name="heart" /></SelectOptionLeading>
+ *       <SelectItemText>Cake</SelectItemText>
+ *       <SelectOptionDescription>Baked daily</SelectOptionDescription>
+ *     </SelectItem>
+ *     <SelectEmpty>No dish matches.</SelectEmpty>
+ *     <SelectFooter><button type="button">Add a dish</button></SelectFooter>
+ *   </SelectContent>
+ * </SelectRoot>
  * @cckPart root
  */
 export interface SelectRootProps<T = string, M extends boolean = false> {
@@ -142,9 +159,24 @@ export interface SelectRootProps<T = string, M extends boolean = false> {
    */
   readonly multiple?: (M & boolean) | undefined;
   /**
+   * Whether the list has a search. The `SelectSearch` in the `SelectHeader` then shows, and the focus moves into it
+   * when the list opens.
+   *
+   * @remarks Typing keeps the items whose text contains the query, ignoring case. The `SelectEmpty` shows when no
+   * item matches. The query clears when the list closes.
+   *
+   * @example
+   * <SelectRoot filter v-model="dish">
+   *   ...
+   * </SelectRoot>
+   * @cckSemantic select.filter
+   * @defaultValue false
+   */
+  readonly filter?: boolean | undefined;
+  /**
    * The labels that the trigger shows, as data. Pass a list of `{ value, label }` entries, or, for text values, an object from value to label. When not set, the trigger shows the text from `itemToStringLabel`, or the value as text.
    *
-   * The trigger shows the label of each selected value, joined with a comma. The labels are in the server render, because no part reports its text to the Select. The text of an item should be equal to its label. A closed Select also uses these entries to match a browser autofill.
+   * The trigger shows the label of the selected value; a Select with `multiple` shows the first label and `+N` for the others. The labels are in the server render, because no part reports its text to the Select. The text of an item should be equal to its label. A closed Select also uses these entries to match a browser autofill.
    *
    * @cckSemantic select.items
    * @cckParity Not available in every framework.

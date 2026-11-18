@@ -1,10 +1,57 @@
 import type { ComponentPropsWithRef, HTMLAttributes, ReactElement, ReactNode, RefCallback } from 'react';
-import type { DialogChangeReason } from '@cocokits/machines/dialog';
+import type { DialogChangeReason, DialogLength, DialogRole } from '@cocokits/machines/dialog';
 import type { CancelableChangeDetails } from '../internal/cancelable-change-details';
 import type { FocusOutsideEvent, PointerDownOutsideEvent } from '../internal/dismiss-handlers';
 import type { RenderProp } from '../internal/render-element';
 
-export type { CancelableChangeDetails, DialogChangeReason, FocusOutsideEvent, PointerDownOutsideEvent };
+export type {
+  CancelableChangeDetails,
+  DialogChangeReason,
+  DialogLength,
+  DialogRole,
+  FocusOutsideEvent,
+  PointerDownOutsideEvent,
+};
+
+/**
+ * When the dialog closes because the location changes.
+ *
+ * @cckValue true - The same as `'pop-state'`.
+ * @cckValue 'pop-state' - The dialog closes when the user goes back or forward in the history, or the hash changes.
+ * @cckValue 'url-change' - The same, and also on every change of the address that the browser reports with the Navigation API.
+ * @cckValue false - The dialog never closes on navigation.
+ */
+export type DialogCloseOnNavigation = boolean | 'pop-state' | 'url-change';
+
+/**
+ * What `closePredicate` receives: why the dialog would close and the event behind it.
+ */
+export interface DialogClosePredicateDetails {
+  /** Why the dialog would close. */
+  readonly reason: DialogChangeReason;
+  /** The event behind the close; `null` when none. */
+  readonly event: Event | null;
+}
+
+/**
+ * Which element gets the focus when a dialog opens. Any other string is a selector, and the first element that
+ * matches it gets the focus.
+ *
+ * @cckValue first-tabbable - The first element with `autofocus`, or else the first element that Tab reaches, or else the dialog.
+ * @cckValue dialog - The dialog itself.
+ * @cckValue first-heading - The first heading in the dialog.
+ * @cckValue true - The same as `'first-tabbable'`.
+ * @cckValue false - The same as `'dialog'`.
+ */
+export type DialogAutoFocus = 'dialog' | 'first-tabbable' | 'first-heading' | (string & {}) | boolean;
+
+/**
+ * Where the focus goes when a dialog closes. A string is a selector, and an element gets the focus itself.
+ *
+ * @cckValue true - The element that had the focus when the dialog opened, or the trigger.
+ * @cckValue false - The focus does not move.
+ */
+export type DialogRestoreFocus = boolean | string | HTMLElement;
 
 /**
  * What `onOpenChange` receives besides the open state: the `reason`, the `event` behind the change, and `cancel()`
@@ -94,6 +141,113 @@ export interface DialogRootProps {
    * @cckParity Not available in every framework.
    */
   readonly modal?: boolean | undefined;
+  /**
+   * Whether Escape and a press on the backdrop leave the dialog open. The Close part, a `<form method="dialog">`
+   * and the trigger still change the open state.
+   *
+   * Without Escape, a keyboard user can leave only with the controls inside the dialog. Keep a `Dialog.Close`.
+   *
+   * @defaultValue false
+   * @cckSemantic dialog.disableClose
+   * @cckParity Not available in every framework.
+   */
+  readonly disableClose?: boolean | undefined;
+  /**
+   * A function that decides whether a close happens. Return `false` to keep the dialog open. When not set, every
+   * close happens.
+   *
+   * It runs once for each close the user asks for: Escape, the backdrop, a Close part and a
+   * `<form method="dialog">`. It never runs for a close on navigation, and not for a close that
+   * `disableClose` has already refused.
+   *
+   * @example
+   * <Dialog.Root closePredicate={({ reason }) => reason !== 'outside-press'}>...</Dialog.Root>
+   * @cckSemantic dialog.closePredicate
+   * @cckParity Not available in every framework.
+   */
+  readonly closePredicate?: ((details: DialogClosePredicateDetails) => boolean) | undefined;
+  /**
+   * When the dialog closes because the location changes. A close on navigation skips `disableClose` and
+   * `closePredicate`, and reports the reason `close`.
+   *
+   * @defaultValue true
+   * @cckSemantic dialog.closeOnNavigation
+   * @cckParity Not available in every framework.
+   */
+  readonly closeOnNavigation?: DialogCloseOnNavigation | undefined;
+  /**
+   * The role of the dialog. A native `<dialog>` has the role `dialog`, so only `'alertdialog'` is written. Use
+   * `'alertdialog'` for a message that needs an answer at once, and give it a `Dialog.Description`.
+   *
+   * @defaultValue 'dialog'
+   * @cckSemantic dialog.role
+   * @cckParity Not available in every framework.
+   */
+  readonly role?: DialogRole | undefined;
+  /**
+   * Which element gets the focus when the dialog opens. A selector string focuses the first element that matches
+   * it. `onOpenAutoFocus` can still keep the focus where it is.
+   *
+   * @defaultValue 'first-tabbable'
+   * @cckSemantic dialog.autoFocus
+   * @cckParity Not available in every framework.
+   */
+  readonly autoFocus?: DialogAutoFocus | undefined;
+  /**
+   * Where the focus goes when the dialog closes. A string is a selector, and an element gets the focus itself.
+   * `onCloseAutoFocus` can still skip the move.
+   *
+   * @defaultValue true
+   * @cckSemantic dialog.restoreFocus
+   * @cckParity Not available in every framework.
+   */
+  readonly restoreFocus?: DialogRestoreFocus | undefined;
+  /**
+   * The width of the content. A number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. When not
+   * set, the theme sets the width.
+   *
+   * @remarks
+   * The size members are the one inline style a part writes; they belong to the author, not to a theme.
+   *
+   * @cckSemantic dialog.width
+   * @cckParity Not available in every framework.
+   */
+  readonly width?: DialogLength | undefined;
+  /**
+   * The height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.height
+   * @cckParity Not available in every framework.
+   */
+  readonly height?: DialogLength | undefined;
+  /**
+   * The smallest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.minWidth
+   * @cckParity Not available in every framework.
+   */
+  readonly minWidth?: DialogLength | undefined;
+  /**
+   * The smallest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.minHeight
+   * @cckParity Not available in every framework.
+   */
+  readonly minHeight?: DialogLength | undefined;
+  /**
+   * The largest width of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.maxWidth
+   * @cckParity Not available in every framework.
+   */
+  readonly maxWidth?: DialogLength | undefined;
+  /**
+   * The largest height of the content. A number is px, a string is any CSS length. When not set, the theme decides.
+   *
+   * @cckSemantic dialog.maxHeight
+   * @cckParity Not available in every framework.
+   */
+  readonly maxHeight?: DialogLength | undefined;
 }
 
 /** Props of the {@link DialogTrigger}. Native button props pass through. */
@@ -133,7 +287,7 @@ export interface DialogTriggerProps extends Omit<ComponentPropsWithRef<'button'>
 }
 
 /** Props of the {@link DialogContent}. Native `dialog` props pass through. */
-export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>, 'color'> {
+export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>, 'color' | 'autoFocus' | 'role'> {
   /**
    * The content of the dialog: a `Dialog.Title`, a `Dialog.Description`, the body and `Dialog.Close` buttons. When
    * not set, the dialog is empty.
@@ -217,6 +371,32 @@ export interface DialogContentProps extends Omit<ComponentPropsWithRef<'dialog'>
    * @cckParity Not available in every framework.
    */
   readonly onCloseAutoFocus?: ((event: Event) => void) | undefined;
+}
+
+/** Props of the {@link DialogHeader}, the {@link DialogBody} and the {@link DialogFooter}. Native `div` props pass through. */
+export interface DialogSectionProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
+  /**
+   * The content of the section. When not set, the section is empty.
+   *
+   * @example
+   * <Dialog.Header>
+   *   <Dialog.Title>Delete project</Dialog.Title>
+   *   <Dialog.Close aria-label="Close">x</Dialog.Close>
+   * </Dialog.Header>
+   * @cckSemantic dialog.default
+   */
+  readonly children?: ReactNode | undefined;
+  /**
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
+   * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders a `<div>` with no role.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
+   */
+  readonly render?: RenderProp<DialogRenderProps, DialogState> | undefined;
 }
 
 /** Props of the {@link DialogTitle}. Native `h2` props pass through. */

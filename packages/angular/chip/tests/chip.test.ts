@@ -45,8 +45,9 @@ describe('Chip', () => {
     const button = remove(container);
     expect(button?.tagName).toBe('BUTTON');
     expect(button?.getAttribute('type')).toBe('button');
-    expect(button?.getAttribute('aria-labelledby')).toBe('p-content');
-    expect(screen.getByRole('button', { name: 'Pizza' })).toBe(button);
+    expect(button?.getAttribute('id')).toBe('p-remove');
+    expect(button?.getAttribute('aria-labelledby')).toBe('p-remove p-content');
+    expect(screen.getByRole('button', { name: 'Remove Pizza' })).toBe(button);
   });
 
   it.each([
@@ -77,18 +78,17 @@ describe('Chip', () => {
     expect(root(container)).toBeTruthy();
   });
 
-  it('shows data-disabled on the root and disables the remove button, which emits nothing', async () => {
-    const onRemoved = vi.fn();
-    const { container } = await render(`<cck-chip removable disabled (removed)="onRemoved()">Pizza</cck-chip>`, {
-      imports,
-      componentProperties: { onRemoved },
-    });
+  it('shows data-disabled on the root and renders no remove button while disabled', async () => {
+    const { container } = await render(`<cck-chip removable disabled>Pizza</cck-chip>`, { imports });
     expect(root(container).hasAttribute('data-disabled')).toBe(true);
-    const button = remove(container);
-    expect(button?.disabled).toBe(true);
-    expect(button?.hasAttribute('data-disabled')).toBe(true);
-    await userEvent.setup().click(button as Element);
-    expect(onRemoved).not.toHaveBeenCalled();
+    expect(remove(container)).toBeNull();
+  });
+
+  it('names the remove button with removeLabel, without a labelledby', async () => {
+    const { container } = await render(`<cck-chip removable removeLabel="Delete tag">Pizza</cck-chip>`, { imports });
+    expect(remove(container)?.getAttribute('aria-label')).toBe('Delete tag');
+    expect(remove(container)?.hasAttribute('aria-labelledby')).toBe(false);
+    expect(root(container).hasAttribute('removelabel')).toBe(false);
   });
 
   it('has no data-disabled while enabled', async () => {
@@ -121,5 +121,58 @@ describe('Chip', () => {
       });
       expect(iconOf(container)).toBe('plus');
     });
+  });
+});
+
+describe('Chip selected', () => {
+  const state = (container: Element): { selected: boolean; pressed: string | null; check: boolean; tag: string } => {
+    const content = must(container.querySelector(`.${classes.contentWrapper}`));
+    return {
+      selected: content.hasAttribute('data-selected'),
+      pressed: content.getAttribute('aria-pressed'),
+      check: container.querySelector(`.${classes.check}`) !== null,
+      tag: content.tagName,
+    };
+  };
+
+  it.each([
+    ['unset', 'removable', { selected: false, pressed: null, check: false, tag: 'SPAN' }],
+    ['false', '[selected]="false"', { selected: false, pressed: 'false', check: true, tag: 'BUTTON' }],
+    ['true', '[selected]="true"', { selected: true, pressed: 'true', check: true, tag: 'BUTTON' }],
+  ])('renders the content for selected %s', async (_name, attribute, expected) => {
+    const { container } = await render(`<cck-chip ${attribute}>Pizza</cck-chip>`, { imports });
+    expect(state(container)).toEqual(expected);
+    expect(root(container).hasAttribute('selected')).toBe(false);
+  });
+
+  it('toggles on a click, emits selectedChange and keeps the remove button a sibling of the toggle', async () => {
+    const onChange = vi.fn();
+    const { container } = await render(
+      `<cck-chip removable [(selected)]="on" (selectedChange)="onChange($event)">Pizza</cck-chip>`,
+      { imports, componentProperties: { on: false, onChange } },
+    );
+    const toggle = screen.getByRole('button', { name: 'Pizza' });
+    expect(toggle.getAttribute('type')).toBe('button');
+    expect(toggle.querySelector(`.${classes.remove}`)).toBeNull();
+    await userEvent.setup().click(toggle);
+    expect(onChange).toHaveBeenCalledWith(true);
+    expect(state(container).pressed).toBe('true');
+    expect(screen.getByRole('button', { name: 'Pizza' }).getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('toggles with Space and Enter', async () => {
+    const user = userEvent.setup();
+    const { container } = await render(`<cck-chip [selected]="false">Pizza</cck-chip>`, { imports });
+    screen.getByRole('button', { name: 'Pizza' }).focus();
+    await user.keyboard('{Enter}');
+    expect(state(container).selected).toBe(true);
+    await user.keyboard(' ');
+    expect(state(container).selected).toBe(false);
+  });
+
+  it('disables the toggle and renders no remove button while disabled', async () => {
+    const { container } = await render(`<cck-chip removable disabled [selected]="false">Pizza</cck-chip>`, { imports });
+    expect(screen.getByRole('button', { name: 'Pizza' }).hasAttribute('disabled')).toBe(true);
+    expect(remove(container)).toBeNull();
   });
 });

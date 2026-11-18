@@ -1,7 +1,7 @@
 // IconButton rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-icon-button-* tokens. The box is a square; its `font-size` is the icon size, which a
 // SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. The outline and basic variants take a light
-// fill on hover; primary and light do not change.
+// fill on hover; primary darkens to the container colour.
 @mixin rules {
   .cck-icon-button {
     box-sizing: border-box;
@@ -17,7 +17,6 @@
     background-color: transparent;
     color: inherit;
     font-size: var(--cck-icon-button-icon-size);
-    line-height: 1;
     text-decoration: none;
     cursor: pointer;
 
@@ -38,19 +37,18 @@
     &[data-variant='outline'] {
       border-color: var(--cck-icon-button-border-color);
       background-color: var(--cck-icon-button-outline-bg);
-      color: var(--cck-icon-button-soft-icon-color);
-    }
-
-    &[data-variant='light'] {
-      background-color: var(--cck-icon-button-soft-bg);
-      color: var(--cck-icon-button-soft-icon-color);
+      color: var(--cck-icon-button-outline-icon-color);
     }
 
     &[data-variant='basic'] {
-      color: var(--cck-icon-button-soft-icon-color);
+      color: var(--cck-icon-button-outline-icon-color);
     }
 
     // After the variant rules. Disabled is excluded, so it keeps its own fill.
+    &[data-variant='primary']:hover:not([data-disabled], :disabled) {
+      background-color: var(--cck-icon-button-solid-hover-bg);
+    }
+
     &:where([data-variant='outline'], [data-variant='basic']):hover:not([data-disabled], :disabled) {
       background-color: var(--cck-icon-button-hover-bg);
     }

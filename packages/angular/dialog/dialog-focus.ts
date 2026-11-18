@@ -1,6 +1,6 @@
 import type { Renderer2 } from '@angular/core';
 import { deepActiveElement, focusFirst } from '@cocokits/cdk/focus';
-import type { CckDialogAutoFocus } from './dialog-config';
+import type { CckDialogAutoFocus, CckDialogRestoreFocus } from './dialog-config';
 
 /** The focused element of the document, looking through open shadow roots, else its body. */
 export function deepActiveOrBody(doc: Document): HTMLElement {
@@ -47,4 +47,20 @@ export function applyAutoFocus(
   const selector = autoFocus === 'first-heading' ? 'h1, h2, h3, h4, h5, h6, [role="heading"]' : autoFocus;
   const target = dialog.querySelector<HTMLElement>(selector);
   if (target) forceFocus(target, renderer);
+}
+
+/**
+ * Where the focus goes back to, from the `restoreFocus` option.
+ *
+ * @param restore - The option: `true` for the opener, a selector or an element, or `false` for nowhere.
+ * @param doc - The document the selector searches.
+ * @returns `'opener'`, a function that finds the element, or `null` for nowhere.
+ */
+export function restoreTarget(
+  restore: CckDialogRestoreFocus,
+  doc: Document,
+): 'opener' | (() => HTMLElement | null) | null {
+  if (restore === true) return 'opener';
+  if (typeof restore === 'string') return () => doc.querySelector<HTMLElement>(restore);
+  return restore instanceof HTMLElement ? () => restore : null;
 }

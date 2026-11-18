@@ -12,11 +12,10 @@
         { "name": "box-dot-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-6}", "md": "{Core / Size#size-8}", "lg": "{Core / Size#size-10}" } },
         { "name": "box-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-16}", "md": "{Core / Size#size-20}", "lg": "{Core / Size#size-24}" } },
         { "name": "hit-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-24}", "md": "{Core / Size#size-24}", "lg": "{Core / Size#size-28}" } },
-        { "name": "halo-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-28}", "md": "{Core / Size#size-32}", "lg": "{Core / Size#size-36}" } },
         { "name": "label-font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-md/font-family}", "lg": "{Theme / Typography#text-md/font-family}" } },
         { "name": "label-font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-md/font-size}", "lg": "{Theme / Typography#text-md/font-size}" } },
-        { "name": "label-line-height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-md/line-height}" } },
-        { "name": "label-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-md/letter-spacing}" } }
+        { "name": "label-line-height", "type": "number", "unit": "unitless", "valuesByMode": { "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-md/line-height}", "lg": "{Theme / Typography#text-md/line-height}" } },
+        { "name": "label-letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-md/letter-spacing}", "lg": "{Theme / Typography#text-md/letter-spacing}" } }
       ]
     },
     {
@@ -30,17 +29,16 @@
         { "name": "box-border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Border Width#border-width-1}" } },
         { "name": "box-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
         { "name": "box-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#on-surface/1}" } },
-        { "name": "box-hover-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#on-surface/1}" } },
         { "name": "box-checked-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
         { "name": "box-checked-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#edge}" } },
         { "name": "box-mark-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#edge}" } },
         { "name": "box-disabled-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/surface}" } },
         { "name": "box-disabled-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/border}" } },
         { "name": "box-disabled-mark-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/on-surface}" } },
+        { "name": "box-invalid-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#danger/color}" } },
         { "name": "label-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } },
         { "name": "label-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
         { "name": "label-disabled-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#disabled/on-surface}" } },
-        { "name": "halo-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
         { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
         { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-2}" } },
         { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-1}" } },

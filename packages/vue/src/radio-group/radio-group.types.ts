@@ -85,6 +85,17 @@ export interface RadioGroupProps {
    */
   readonly required?: boolean | undefined;
   /**
+   * Whether the user has left the group. A required group with no value shows the invalid state once it is touched.
+   * The group never sets it itself.
+   *
+   * @remarks The invalid state is `aria-invalid` and `data-invalid` on the root. Set `touched` to show it before the
+   * user has moved, for example when the form was submitted.
+   *
+   * @cckSemantic radio-group.touched
+   * @defaultValue false
+   */
+  readonly touched?: boolean | undefined;
+  /**
    * The id of the form that the radios belong to, for the radios that set no `form` of their own. Use it when the
    * group is outside its form. When not set, the form around the group owns the radios.
    *

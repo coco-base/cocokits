@@ -1,9 +1,9 @@
-import type { ComponentPropsWithRef, HTMLAttributes, RefCallback } from 'react';
-import type { ChipListChangeReason } from '@cocokits/machines/chip-list';
+import type { ComponentPropsWithRef, HTMLAttributes, Ref, RefCallback } from 'react';
+import type { ChipListChangeReason, ChipListEntry, ChipListItem } from '@cocokits/machines/chip-list';
 import type { ChangeDetails } from '@cocokits/shared';
 import type { RenderProp } from '../internal/render-element';
 
-export type { ChipListChangeReason };
+export type { ChipListChangeReason, ChipListEntry, ChipListItem };
 
 /** What `onValueChange` receives besides the list: the `reason` and the `event` behind the change. */
 export type ChipListChangeDetails = ChangeDetails<ChipListChangeReason>;
@@ -19,21 +19,64 @@ export interface ChipListRenderProps extends Omit<HTMLAttributes<HTMLElement>, '
   readonly ref: RefCallback<HTMLElement>;
 }
 
+/** The element that `ref` reaches, with the two methods of the ChipList: `focus()` and `reset()`. */
+export interface ChipListElement extends HTMLElement {
+  /**
+   * Moves the focus to the text box of the list.
+   *
+   * @example
+   * ref.current?.focus();
+   * @cckSemantic chip-list.focus
+   */
+  focus(options?: FocusOptions): void;
+  /**
+   * Clears the touched, dirty and submitted facts of the list. The values and the text do not change, and
+   * `onValueChange` is not called.
+   *
+   * @example
+   * ref.current?.reset();
+   * @cckSemantic chip-list.reset
+   */
+  reset(): void;
+}
+
 /**
  * Props of the {@link ChipList}. Native `div` props pass through to the root, and `ref` reaches it. `id`,
  * `aria-label`, `aria-labelledby`, `aria-describedby` and `placeholder` go to the text box.
  */
 export interface ChipListProps extends Omit<
   ComponentPropsWithRef<'div'>,
-  'children' | 'color' | 'defaultValue' | 'id' | 'hidden' | 'aria-label' | 'aria-labelledby' | 'aria-describedby'
+  | 'ref'
+  | 'children'
+  | 'color'
+  | 'defaultValue'
+  | 'id'
+  | 'hidden'
+  | 'aria-label'
+  | 'aria-labelledby'
+  | 'aria-describedby'
 > {
   /**
-   * The values of the list, in the order they were added. Setting it makes the list controlled. If you do not
-   * update it after `onValueChange`, the old values stay.
+   * The ref of the list. It reaches the root element, with the methods `focus()` and `reset()` added. When not
+   * set, the list gives its element to nobody.
    *
-   * When not set, the list keeps its own values, which start as `defaultValue`.
+   * @cckSemantic none
+   * @cckParity A native attribute of the element.
    */
-  readonly value?: readonly string[] | undefined;
+  readonly ref?: Ref<ChipListElement> | Ref<HTMLDivElement> | undefined;
+  /**
+   * The entries of the list, in the order they were added: a string, or a {@link ChipListItem} with options. An
+   * item with `selected` set is a selectable chip. Setting `value` makes the list controlled.
+   *
+   * When not set, the list keeps its own entries, which start as `defaultValue`.
+   *
+   * @remarks
+   * If you do not update it after `onValueChange`, the old entries stay.
+   *
+   * @cckSemantic chip-list.value
+   * @defaultValue []
+   */
+  readonly value?: readonly ChipListEntry[] | undefined;
   /**
    * The start values of a list that you do not control with `value`. A form reset restores them.
    *
@@ -42,26 +85,28 @@ export interface ChipListProps extends Omit<
    * @cckSemantic none
    * @cckParity The uncontrolled start value.
    */
-  readonly defaultValue?: readonly string[] | undefined;
+  readonly defaultValue?: readonly ChipListEntry[] | undefined;
   /**
-   * Called after the user adds or removes a value, and after a form reset. It receives the new list and a details
+   * Called after the user adds or removes a value, toggles a selectable chip, and after a form reset. It receives the new list and a details
    * object with the `reason` and the `event`. It is never called when you change `value` yourself, and not when
    * the user adds a text that is empty or already in the list.
    *
    * @example
-   * const [tags, setTags] = useState<readonly string[]>([]);
+   * const [tags, setTags] = useState<readonly ChipListEntry[]>([]);
    * <ChipList aria-label="Tags" value={tags} onValueChange={(next) => setTags(next)} />
    *
    * @cckSemantic chip-list.valueChange
    * @cckParity The change callback of this component.
    */
-  readonly onValueChange?: ((value: readonly string[], details: ChipListChangeDetails) => void) | undefined;
+  readonly onValueChange?: ((value: readonly ChipListEntry[], details: ChipListChangeDetails) => void) | undefined;
   /**
    * The name of the form entries. With a `name`, `FormData` has one entry per chip. When not set, the form does not
    * send the list.
    *
    * @remarks
    * The list adds one hidden input per value under this name. The text box has no name.
+   *
+   * @defaultValue ''
    */
   readonly name?: string | undefined;
   /**

@@ -28,6 +28,8 @@ import { toVueListeners } from '../internal/listeners';
 import { useOverlayPositioning } from '../internal/overlay-positioning';
 import { rootElementOf } from '../internal/root-element';
 import { warnWithoutTrigger } from '../internal/trigger-warning';
+import TooltipDescription from './TooltipDescription.vue';
+import TooltipTitle from './TooltipTitle.vue';
 import { useTooltipContext } from './tooltip.context';
 import type { TooltipContentEmits, TooltipContentProps } from './tooltip.types';
 
@@ -61,7 +63,8 @@ defineSlots<{
    * The text of the tooltip. Keep it free of interactive content, because it never takes the focus. When not set,
    * the tooltip is empty.
    *
-   * While the tooltip is closed, its text also describes the trigger, unless `ariaLabel` is set.
+   * While the tooltip is closed, its text also describes the trigger, unless `ariaLabel` is set. Text written beside
+   * the title and description parts does not count.
    *
    * @example
    * <TooltipContent>Save the draft</TooltipContent>
@@ -69,19 +72,48 @@ defineSlots<{
   default?(): unknown;
 }>();
 
-/** The text of a slot that renders text only, else `null`: rich content has no description text. */
+/** The nodes a title or description part renders: its default slot, called now. A render function may return text. */
+function partNodes(node: VNode): readonly unknown[] | null {
+  const { children } = node;
+  const slot = children !== null && typeof children === 'object' && !Array.isArray(children) ? children : null;
+  const render = slot === null ? undefined : (slot as { default?: () => unknown }).default;
+  if (typeof render !== 'function') return null;
+  const out = render();
+  return Array.isArray(out) ? (out as unknown[]) : [out];
+}
+
+/**
+ * The text of a slot that renders text, a title part or a description part only, else `null`: rich content has no
+ * description text. Once a part is seen, the trigger is described by the parts, one after the other. Text written
+ * beside the parts does not count.
+ */
 function textOf(nodes: readonly VNode[] | undefined): string | null {
-  let text = '';
-  const walk = (list: readonly VNode[]): boolean =>
-    list.every((node) => {
-      if (node.type === Comment) return true;
-      if (node.type === Text) {
-        text += typeof node.children === 'string' ? node.children : '';
-        return true;
+  const parts: string[] = [];
+  const walk = (list: readonly unknown[], out: string[]): boolean => {
+    for (const entry of list) {
+      if (typeof entry === 'string' || typeof entry === 'number') {
+        out.push(String(entry));
+        continue;
       }
-      return node.type === Fragment && Array.isArray(node.children) && walk(node.children as VNode[]);
-    });
-  return nodes && walk(nodes) && text.trim() ? text : null;
+      const node = entry as VNode;
+      if (node.type === Comment) continue;
+      if (node.type === Text) {
+        out.push(typeof node.children === 'string' ? node.children : '');
+        continue;
+      }
+      const part = node.type === TooltipTitle || node.type === TooltipDescription;
+      const inner = part ? partNodes(node) : node.type === Fragment ? (node.children as VNode[] | null) : null;
+      if (!Array.isArray(inner)) return false;
+      const piece: string[] = [];
+      if (!walk(inner, part ? piece : out)) return false;
+      if (part) parts.push(piece.join('').replace(/\s+/g, ' ').trim());
+    }
+    return true;
+  };
+  const loose: string[] = [];
+  if (!nodes || !walk(nodes, loose)) return null;
+  const text = parts.length > 0 ? parts.filter(Boolean).join(' ') : loose.join('');
+  return text.trim() ? text : null;
 }
 
 const ctx = useTooltipContext('TooltipContent');

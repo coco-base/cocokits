@@ -86,7 +86,7 @@ describe('accordion output', () => {
   it('sizes the indicator part that holds the theme icon, turns it when open, moves or hides it with the options', () => {
     const box = declarationsOf(css, indicator) ?? '';
     expect(box).toContain('font-size: var(--cck-accordion-icon-size)');
-    expect(box).not.toMatch(/border|content:|clip-path/);
+    expect(box).not.toMatch(/border(?!-box)|content:|clip-path/);
     expect(declarationsOf(css, `${trigger}[data-state=open] > .cck-accordion__indicator`)).toContain('rotate: 180deg');
     expect(css).toMatch(/\[data-toggle-position=before\][^{]*__indicator \{\s*order: -1;/);
     expect(css).toMatch(/\[data-hide-toggle\][^{]*__indicator \{\s*display: none;/);
@@ -180,15 +180,48 @@ describe('accordion design match', () => {
   it.each([
     ['radius', 'radius-md'],
     ['group-radius', 'radius-2xl'],
-    ['icon-size', 'size-24'],
     ['trigger-bg', 'surface-2'],
     ['trigger-open-bg', 'surface-1'],
     ['trigger-hover-bg', 'surface-3'],
     ['trigger-disabled-bg', 'disabled-surface'],
     ['content-color', 'on-surface-1'],
-    ['focus-color', 'brand-on-container'],
+    ['focus-color', 'focus-2'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
+  });
+
+  it.each([
+    ['sm', 'size-20'],
+    ['md', 'size-24'],
+    ['lg', 'size-24'],
+  ])('size %s: the chevron is %s, set by the size collection', (mode, icon) => {
+    expect(size(mode, 'icon-size')).toBe(ref(icon));
+    expect(own('icon-size')).toBeUndefined();
+  });
+
+  it('fills its container, so opening an item never changes the width', () => {
+    expect(declarationsOf(css, ROOT)).toContain('inline-size: 100%');
+  });
+
+  it('makes a closed default item as high as its size: the trigger height includes the item border', () => {
+    expect(
+      declarationsOf(
+        css,
+        `${ROOT}[data-variant=default] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger`,
+      ),
+    ).toContain(
+      'min-block-size: max(24px, var(--cck-accordion-trigger-height) - 2 * var(--cck-accordion-border-width))',
+    );
+  });
+
+  it('starts the label and the chevron at the start when the toggle comes before', () => {
+    expect(
+      declarationsOf(
+        css,
+        `${ROOT}[data-toggle-position=before] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger`,
+      ),
+    ).toContain('justify-content: flex-start');
+    expect(own('trigger-gap')).toBe(ref('spacing-3'));
   });
 
   it('moves the item gap to the size collection: the structure block no longer holds it', () => {

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef, Ref } from 'react';
 import type { InputType } from '@cocokits/machines/input';
 import type { ChangeDetails } from '@cocokits/shared';
 
@@ -13,6 +13,27 @@ export type InputChangeReason = 'user' | 'form-reset';
 /** What `onValueChange` receives besides the value: the `reason` and the `event` behind the change. */
 export type InputChangeDetails = ChangeDetails<InputChangeReason>;
 
+/** The input element that `ref` reaches, with the two methods of the Input: `focus()` and `reset()`. */
+export interface InputElement extends HTMLInputElement {
+  /**
+   * Moves the focus to the input. When not given options, it scrolls the input into view.
+   *
+   * @example
+   * ref.current?.focus();
+   * @cckSemantic input.focus
+   */
+  focus(options?: FocusOptions): void;
+  /**
+   * Clears the touched, dirty and submitted facts of the input. The value does not change, and `onValueChange` is
+   * not called.
+   *
+   * @example
+   * ref.current?.reset();
+   * @cckSemantic input.reset
+   */
+  reset(): void;
+}
+
 /**
  * Props of the {@link Input}. Native `input` props pass through, and `ref` reaches the element. The element is always
  * an `<input>`, so there is no `render`.
@@ -21,6 +42,7 @@ export type InputChangeDetails = ChangeDetails<InputChangeReason>;
  */
 export interface InputProps extends Omit<
   ComponentPropsWithRef<'input'>,
+  | 'ref'
   | 'color'
   | 'children'
   | 'value'
@@ -34,6 +56,14 @@ export interface InputProps extends Omit<
   | 'hidden'
   | 'aria-describedby'
 > {
+  /**
+   * The ref of the input. It reaches the native element, with the methods `focus()` and `reset()` added. When not
+   * set, the Input gives its element to nobody.
+   *
+   * @cckSemantic none
+   * @cckParity A native attribute of the element.
+   */
+  readonly ref?: Ref<InputElement> | Ref<HTMLInputElement> | undefined;
   /**
    * The `id` of the element. An `id` you write wins, and the `Label` follows it. When not set, the control inside a
    * `FormField` gets `<fieldId>-control`.

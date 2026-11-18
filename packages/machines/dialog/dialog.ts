@@ -1,5 +1,36 @@
 import { dialogAnatomy } from './dialog.anatomy';
-import type { DialogEvent, DialogIds, DialogParts, DialogState, DialogTransition } from './dialog.types';
+import type {
+  DialogContentStyle,
+  DialogEvent,
+  DialogIds,
+  DialogLength,
+  DialogParts,
+  DialogSize,
+  DialogState,
+  DialogTransition,
+} from './dialog.types';
+
+const SIZE_MEMBERS = ['width', 'height', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight'] as const;
+
+/** A number is px; a string is a CSS length as written; an empty string counts as not set. */
+function toLength(value: DialogLength | undefined): string | undefined {
+  if (value === undefined || value === '') return undefined;
+  return typeof value === 'number' ? `${String(value)}px` : value;
+}
+
+/**
+ * Turns the size members of a dialog into the inline style of its content.
+ *
+ * @param size - The width, height and their minimum and maximum; a number is px, a string a CSS length.
+ * @returns The members that are set, as CSS lengths; `undefined` when none is set.
+ */
+export function getDialogContentStyle(size: DialogSize): DialogContentStyle | undefined {
+  const entries = SIZE_MEMBERS.flatMap((member) => {
+    const length = toLength(size[member]);
+    return length === undefined ? [] : [[member, length] as const];
+  });
+  return entries.length === 0 ? undefined : Object.fromEntries(entries);
+}
 
 /**
  * Derives the ids of the dialog parts that link to each other.
@@ -17,7 +48,8 @@ export function dialogIds(id: string): DialogIds {
 }
 
 /**
- * Decides the open change an event asks for. Pure.
+ * Decides the open change an event asks for. Pure. With `disableClose`, Escape and an outside press leave the
+ * dialog open; the Close part, the platform close event and the trigger still act.
  *
  * @param state - The dialog state.
  * @param event - The event a handler or the layer stack sent.
@@ -26,7 +58,8 @@ export function dialogIds(id: string): DialogIds {
 export function transitionDialog(state: DialogState, event: DialogEvent): DialogTransition | null {
   if (event.type === 'TRIGGER.CLICK') return state.open ? null : { open: true, reason: 'trigger' };
   if (!state.open) return null;
-  if (event.type === 'CONTENT.DISMISS') return { open: false, reason: event.reason };
+  if (event.type === 'CONTENT.DISMISS')
+    return state.disableClose === true ? null : { open: false, reason: event.reason };
   return { open: false, reason: 'close' };
 }
 
@@ -35,7 +68,8 @@ export function transitionDialog(state: DialogState, event: DialogEvent): Dialog
  *
  * @param state - The author's props and the tracked facts.
  * @param send - Receives the events of the handlers; pass them to {@link transitionDialog}.
- * @returns The props of the trigger, the content, the title, the description and the Close part.
+ * @returns The props of the trigger, the content, the header, the body, the footer, the title, the description and
+ * the Close part.
  */
 export function getDialogProps(state: DialogState, send: (event: DialogEvent) => void): DialogParts {
   const { classes } = dialogAnatomy;
@@ -59,6 +93,8 @@ export function getDialogProps(state: DialogState, send: (event: DialogEvent) =>
     content: {
       class: classes.content,
       id: ids.content,
+      role: state.role === 'alertdialog' ? 'alertdialog' : undefined,
+      style: getDialogContentStyle(state),
       'aria-labelledby': state.hasTitle ? titleId : undefined,
       'aria-describedby': state.hasDescription ? ids.description : undefined,
       'data-state': dataState,
@@ -66,6 +102,9 @@ export function getDialogProps(state: DialogState, send: (event: DialogEvent) =>
         send({ type: 'CONTENT.CLOSE', event });
       },
     },
+    header: { class: classes.header },
+    body: { class: classes.body },
+    footer: { class: classes.footer },
     title: { class: classes.title, id: titleId },
     description: { class: classes.description, id: ids.description },
     close: {

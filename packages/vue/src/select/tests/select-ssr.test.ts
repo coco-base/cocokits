@@ -10,6 +10,18 @@ function app(props: Record<string, unknown> = {}) {
   });
 }
 
+describe('Select count on the server (select-06)', () => {
+  it('renders the first value and the +N count in the trigger markup', async () => {
+    const html = (await renderToString(app({ multiple: true, modelValue: ['Cake', 'Pizza', 'Burger'] }))).replace(
+      /<!--[\s\S]*?-->/g,
+      '',
+    );
+    expect(html).toMatch(/cck-select__value[^>]*>Cake</);
+    expect(html).toMatch(/cck-select__count[^>]*>\+2</);
+    expect(html).not.toContain('cck-select__header');
+  });
+});
+
 describe('Select server render', () => {
   it('renders the closed trigger with its class, ARIA and value, the hidden input, and no list', async () => {
     const html = await renderToString(app({ name: 'dish', modelValue: 'Pizza' }));

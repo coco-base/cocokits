@@ -113,6 +113,9 @@ describe('theme options of the design match', () => {
     ['true', true, ''],
     ['false', false, null],
     ['null', null, null],
+    ['vertical', 'vertical', 'vertical'],
+    ['horizontal', 'horizontal', 'horizontal'],
+    ['both', 'both', 'both'],
   ] as const)('the textarea resize prop %s renders data-resize %j', (_name, value, expected) => {
     render(themed(() => make('textarea', { resize: value })));
     expect(attr('textarea', 'data-resize')).toBe(expected);

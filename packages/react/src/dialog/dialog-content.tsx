@@ -14,6 +14,7 @@ import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useModalAtOpen } from '../internal/use-modal-at-open';
+import { applyAutoFocus, restoreFocusTo } from './dialog-focus';
 import { useDialogContext } from './dialog-context';
 import type { DialogContentProps, DialogPart } from './dialog.types';
 
@@ -33,6 +34,8 @@ function DialogContentLayer({
 }: DialogContentProps): ReactElement {
   const context = useDialogContext('Dialog.Content');
   const { open, trigger, dispatch, contentRef, setMounted, isOpen, keepMounted, openedByTrigger } = context;
+  // The Root holds the role, the focus moves and the size.
+  const { role, autoFocus, restoreFocus, size } = context.config;
   // The value the dialog opened with, kept until its exit animation is over.
   const modal = useModalAtOpen(keepMounted, context.modal);
   const themeAttrs = useThemeAttrs(dialogAnatomy).content;
@@ -53,9 +56,19 @@ function DialogContentLayer({
     onInteractOutside,
     onOpenAutoFocus,
     onCloseAutoFocus,
+    autoFocus,
+    restoreFocus,
   });
   useIsomorphicLayoutEffect(() => {
-    handlers.current = { onEscapeKeyDown, onPointerDownOutside, onInteractOutside, onOpenAutoFocus, onCloseAutoFocus };
+    handlers.current = {
+      onEscapeKeyDown,
+      onPointerDownOutside,
+      onInteractOutside,
+      onOpenAutoFocus,
+      onCloseAutoFocus,
+      autoFocus,
+      restoreFocus,
+    };
     forceMountNow.current = forceMount;
   });
 
@@ -89,7 +102,8 @@ function DialogContentLayer({
       if (modal) dialog.showModal();
       else dialog.show();
       // The native focusing steps have run: the hook can only keep CocoKits from moving focus elsewhere.
-      allowsAutoFocus('focus-open', handlers.current.onOpenAutoFocus);
+      if (allowsAutoFocus('focus-open', handlers.current.onOpenAutoFocus))
+        applyAutoFocus(dialog, handlers.current.autoFocus);
     }
     return () => {
       held.current?.layer.destroy();
@@ -101,7 +115,9 @@ function DialogContentLayer({
       // A frame later, so the removal of the dialog (it is inert until then) and any blur have settled.
       scheduleFocus(doc, () => {
         if (isOpen()) return;
-        if (allowsAutoFocus('focus-close', handlers.current.onCloseAutoFocus)) focusReturn.current?.restore();
+        if (allowsAutoFocus('focus-close', handlers.current.onCloseAutoFocus)) {
+          restoreFocusTo(doc, handlers.current.restoreFocus, focusReturn.current);
+        }
         focusReturn.current = null;
       });
     };
@@ -162,6 +178,8 @@ function DialogContentLayer({
       mounted: true,
       hasTitle: context.hasTitle,
       hasDescription: context.hasDescription,
+      role,
+      ...size,
     },
     dispatch,
   );

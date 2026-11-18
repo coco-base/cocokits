@@ -25,6 +25,11 @@ export type CckRadioLabelPosition = RadioOptions['labelPosition']['values'][numb
  */
 @Directive({
   selector: 'cck-radio',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.color]': 'null',
+    '[attr.labelposition]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'radio',

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef, Ref } from 'react';
 import type { ChangeDetails } from '@cocokits/shared';
 
 /**
@@ -12,6 +12,27 @@ export type TextareaChangeReason = 'user' | 'form-reset';
 /** What `onValueChange` receives besides the value: the `reason` and the `event` behind the change. */
 export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
 
+/** The textarea element that `ref` reaches, with the two methods of the Textarea: `focus()` and `reset()`. */
+export interface TextareaElement extends HTMLTextAreaElement {
+  /**
+   * Moves the focus to the textarea. When not given options, it scrolls the textarea into view.
+   *
+   * @example
+   * ref.current?.focus();
+   * @cckSemantic textarea.focus
+   */
+  focus(options?: FocusOptions): void;
+  /**
+   * Clears the touched, dirty and submitted facts of the textarea. The value does not change, and `onValueChange` is
+   * not called.
+   *
+   * @example
+   * ref.current?.reset();
+   * @cckSemantic textarea.reset
+   */
+  reset(): void;
+}
+
 /**
  * Props of the {@link Textarea}. Native `textarea` props such as `rows` and `placeholder` pass through, and `ref`
  * reaches the element. The element is always a `<textarea>`, so there is no `render` and no `children`.
@@ -20,6 +41,7 @@ export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
  */
 export interface TextareaProps extends Omit<
   ComponentPropsWithRef<'textarea'>,
+  | 'ref'
   | 'color'
   | 'children'
   | 'value'
@@ -32,6 +54,14 @@ export interface TextareaProps extends Omit<
   | 'hidden'
   | 'aria-describedby'
 > {
+  /**
+   * The ref of the textarea. It reaches the native element, with the methods `focus()` and `reset()` added. When not
+   * set, the Textarea gives its element to nobody.
+   *
+   * @cckSemantic none
+   * @cckParity A native attribute of the element.
+   */
+  readonly ref?: Ref<TextareaElement> | Ref<HTMLTextAreaElement> | undefined;
   /**
    * The `id` of the element. An `id` you write wins, and the `Label` follows it. When not set, the control inside a
    * `FormField` gets `<fieldId>-control`.

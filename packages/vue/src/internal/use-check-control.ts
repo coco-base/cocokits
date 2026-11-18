@@ -2,6 +2,7 @@ import { computed, ref, useAttrs, useId, watchEffect, type ComputedRef, type Ref
 import type { CheckboxProps } from '@cocokits/machines/checkbox';
 import type { FormFieldControlContext, FormFieldControlState } from '@cocokits/machines/form-field';
 import type { CheckControlProps } from './check-control.types';
+import type { CheckboxGroupContextValue } from './checkbox-group-context';
 import { choiceInputProps, choiceRootAttrs } from './choice-attrs';
 import { nonEmpty, useFormFieldContext } from './form-field-context';
 import { declaredInputAttrs } from './record';
@@ -30,6 +31,11 @@ export interface CheckControlOptions<P extends CheckControlMachine> {
   readonly getParts: (state: CheckboxProps, field?: FormFieldControlContext) => P;
   /** Whether the control shows the mixed state; only the Checkbox does. The prop owns it. Default: never. */
   readonly isMixed?: (() => boolean) | undefined;
+  /**
+   * The CheckboxGroup around a Checkbox. The group is the control of the FormField, so the checkbox does not
+   * register with the field, and it takes the `name` and `disabled` of the group.
+   */
+  readonly group?: CheckboxGroupContextValue | undefined;
 }
 
 /** What the component binds. */
@@ -60,7 +66,8 @@ export function useCheckControl<P extends CheckControlMachine>(
   const { componentName, model, rootThemeAttrs, inputThemeAttrs, getParts } = options;
   const isMixed = options.isMixed ?? (() => false);
   const attrs = useAttrs();
-  const field = useFormFieldContext();
+  const { group } = options;
+  const field = group ? undefined : useFormFieldContext();
 
   // The input always has an id, because the inner label needs one: the author's, the field's, or a generated one.
   const generatedId = useId();
@@ -89,8 +96,8 @@ export function useCheckControl<P extends CheckControlMachine>(
         checked: model.value,
         id: nonEmpty(props.id) ?? (ids ? undefined : generatedId),
         ariaDescribedBy: props.ariaDescribedby,
-        name: props.name,
-        disabled: props.disabled === true || participation.fieldsetDisabled.value,
+        name: props.name ?? group?.name.value,
+        disabled: props.disabled === true || group?.disabled.value === true || participation.fieldsetDisabled.value,
         readOnly: props.readonly,
         required: props.required,
         invalid: props.invalid,

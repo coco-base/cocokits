@@ -85,7 +85,7 @@ describe('chip box', () => {
       'inline-size: var(--cck-chip-remove-size)',
       'block-size: var(--cck-chip-remove-size)',
       'border-radius: 50%',
-      'font-size: var(--cck-chip-remove-icon-size)',
+      'font-size: var(--cck-chip-icon-size)',
       'margin-inline-end: calc(var(--cck-chip-remove-end-inset) - var(--cck-chip-padding-inline))',
     ]) {
       expect(rule).toContain(line);
@@ -93,17 +93,61 @@ describe('chip box', () => {
     expect(tokensCss).toMatch(/--cck-chip-remove-size: var\(--cck-size-(2[4-9]|[3-9]\d)\)/);
   });
 
-  it('tints the remove button on hover, and not while disabled', () => {
-    expect(declarationsOf(chipCss, '.cck-chip__remove:hover')).toContain('var(--cck-chip-remove-hover-bg)');
-    expect(chipCss.indexOf('.cck-chip__remove:hover')).toBeLessThan(chipCss.indexOf('.cck-chip__remove:disabled'));
+  it('has no hover look on the remove button, and a disabled one stays transparent', () => {
+    expect(chipCss).not.toContain(':hover');
+    expect(tokensCss).not.toContain('--cck-chip-remove-hover-bg');
     expect(declarationsOf(chipCss, '.cck-chip__remove[data-disabled], .cck-chip__remove:disabled')).toContain(
       'background-color: transparent',
     );
   });
 
-  it('shows the focus ring of the theme on the remove button', () => {
-    const rule = declarationsOf(chipCss, '.cck-chip__remove:focus-visible') ?? '';
-    expect(rule).toContain('var(--cck-chip-focus-width) solid var(--cck-chip-focus-color)');
+  it('draws the focus ring on the pill when the toggle or the remove button has focus, and none on the buttons', () => {
+    const pill =
+      declarationsOf(
+        chipCss,
+        '.cck-chip:has(> .cck-chip__content-wrapper:focus-visible, > .cck-chip__remove:focus-visible)',
+      ) ?? '';
+    expect(pill).toContain('outline: var(--cck-chip-focus-width) solid var(--cck-chip-focus-color)');
+    expect(pill).toContain('outline-offset: var(--cck-chip-focus-offset)');
+    expect(declarationsOf(chipCss, '.cck-chip__remove:focus-visible')).toContain('outline: none');
+    expect(declarationsOf(chipCss, '.cck-chip__content-wrapper:focus-visible')).toContain('outline: none');
+  });
+
+  it('takes the icon size per size mode, 16px and 20px at lg', () => {
+    expect(sizeTokenOf('.cck-chip', 'sm', 'chip-icon-size')).toBe(ref('size-16'));
+    expect(sizeTokenOf('.cck-chip', 'md', 'chip-icon-size')).toBe(ref('size-16'));
+    expect(sizeTokenOf('.cck-chip', 'lg', 'chip-icon-size')).toBe(ref('size-20'));
+  });
+
+  it.each(['sm', 'md', 'lg'])('sizes the chips of a %s list through CSS from the list size tokens', (mode) => {
+    const chip = declarationsOf(listCss, '.cck-chip-list > .cck-chip') ?? '';
+    for (const line of [
+      'block-size: var(--cck-chip-list-chip-height)',
+      'gap: var(--cck-chip-list-chip-gap)',
+      'padding-inline: var(--cck-chip-list-chip-padding-inline)',
+      'font-size: var(--cck-chip-list-chip-font-size)',
+      'line-height: var(--cck-chip-list-chip-line-height)',
+    ])
+      expect(chip).toContain(line);
+    expect(declarationsOf(listCss, '.cck-chip-list > .cck-chip > .cck-chip__remove')).toContain(
+      'font-size: var(--cck-chip-list-chip-icon-size)',
+    );
+    for (const name of [
+      'padding-inline',
+      'gap',
+      'remove-end-inset',
+      'font-family',
+      'font-size',
+      'line-height',
+      'letter-spacing',
+      'icon-size',
+    ])
+      expect(sizeTokenOf('.cck-chip-list', mode, `chip-list-chip-${name}`), name).toBe(
+        sizeTokenOf('.cck-chip', mode, `chip-${name}`),
+      );
+    expect(sizeTokenOf('.cck-chip-list', mode, 'chip-list-chip-height')).toBe(
+      sizeTokenOf('.cck-chip', mode, 'chip-height'),
+    );
   });
 
   it.each(['.cck-chip', '.cck-chip__content-wrapper', '.cck-chip__remove', '.cck-chip-list'])(
@@ -163,7 +207,22 @@ describe('chip list', () => {
 
   it('leaves the size of the chips it renders to the chip: no rule of the list sets a chip height (C14)', () => {
     expect(listCss).not.toContain('.cck-chip-list[data-size] > .cck-chip');
-    expect(stylesCss).not.toMatch(/\.cck-chip-list[^{]*>\s*\.cck-chip\s*\{/);
+    expect(stylesCss).not.toMatch(/\.cck-chip-list\[[^{]*>\s*\.cck-chip\s*\{/);
+  });
+
+  it('reaches its chips with child combinators only, never across blocks with a descendant combinator', () => {
+    for (const selector of selectorsOf(listCss)) {
+      const flat = selector.replace(/\([^()]*(?:\([^()]*(?:\([^()]*\)[^()]*)*\)[^()]*)*\)/g, '()');
+      for (const part of flat.split(',')) {
+        const tokens = part.trim().split(/\s+/);
+        tokens.forEach((token, index) => {
+          if (index % 2 === 1) expect(token, selector).toMatch(/^[>~+]$/);
+        });
+      }
+    }
+    expect(listCss).toContain('.cck-chip-list > .cck-chip {');
+    expect(listCss).toContain('.cck-chip-list > .cck-chip > .cck-chip__check {');
+    expect(listCss).toContain('.cck-chip-list > .cck-chip > .cck-chip__remove {');
   });
 });
 
@@ -171,13 +230,7 @@ describe('chip list in a form field', () => {
   it('lets the input wrapper draw the box of a list, and leaves the list borderless', () => {
     expect(declarationsOf(fieldCss, BOX)).toContain('border: var(--cck-form-field-border-width) solid');
     const rule = declarationsOf(listCss, '.cck-form-field__input-wrapper > .cck-chip-list') ?? '';
-    for (const line of [
-      'flex: 1',
-      'border: 0',
-      'padding-inline: 0',
-      'box-shadow: none',
-      'background-color: transparent',
-    ]) {
+    for (const line of ['flex: 1', 'border: 0', 'padding-inline: 0', 'background-color: transparent']) {
       expect(rule).toContain(line);
     }
     expect(declarationsOf(listCss, '.cck-form-field__input-wrapper > .cck-chip-list:focus-within')).toContain(
@@ -213,15 +266,18 @@ describe('chip forced colors and selectors', () => {
   it('keeps the chip border, greys the disabled chip and keeps the remove focus ring visible', () => {
     expect(declarationsOf(forced(chipCss), '.cck-chip')).toContain('border-color: CanvasText');
     expect(declarationsOf(forced(chipCss), '.cck-chip[data-disabled]')).toContain('GrayText');
-    expect(declarationsOf(forced(chipCss), '.cck-chip__remove:focus-visible')).toContain('outline-color: Highlight');
+    expect(
+      declarationsOf(
+        forced(chipCss),
+        '.cck-chip:has(> .cck-chip__content-wrapper:focus-visible, > .cck-chip__remove:focus-visible)',
+      ),
+    ).toContain('outline-color: Highlight');
   });
 
-  it('keeps the list border, thickens the invalid one and greys the disabled one', () => {
+  it('keeps the list border and greys the disabled one; an invalid list only changes the colour', () => {
     const css = forced(listCss, '@media (forced-colors: active) {\n    .cck-chip-list {');
     expect(declarationsOf(css, '.cck-chip-list')).toContain('border-color: CanvasText');
-    expect(
-      declarationsOf(css, '.cck-chip-list:where([data-invalid]):where([data-touched], [data-submitted])'),
-    ).toContain('border-width: var(--cck-chip-list-invalid-border-width)');
+    expect(css).not.toContain('invalid');
     expect(declarationsOf(css, '.cck-chip-list:where([data-disabled])')).toContain('GrayText');
   });
 
@@ -259,7 +315,7 @@ describe('chip design match', () => {
     ['border-color', 'border-2'],
     ['text-color', 'text-1'],
     ['disabled-bg', 'disabled-surface'],
-    ['focus-color', 'brand-on-container'],
+    ['focus-color', 'focus-2'],
   ])('structure token %s is %s', (name, value) => {
     expect(own(name)).toBe(ref(value));
   });

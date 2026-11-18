@@ -22,6 +22,9 @@ export type CckChipListSize = ChipListOptions['size']['values'][number];
  */
 @Directive({
   selector: 'cck-chip-list',
+  host: {
+    '[attr.size]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'chip-list',

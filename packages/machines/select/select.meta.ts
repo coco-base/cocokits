@@ -8,7 +8,14 @@ export const selectMeta: ComponentMeta<
   | 'value'
   | 'dropdownIcon'
   | 'content'
+  | 'header'
+  | 'search'
+  | 'empty'
+  | 'footer'
+  | 'count'
   | 'option'
+  | 'optionLeading'
+  | 'optionDescription'
   | 'optionIndicator'
   | 'optionContent'
   | 'optionGroup'
@@ -30,7 +37,14 @@ export const selectMeta: ComponentMeta<
     placeholder: [],
     value: [],
     dropdownIcon: [],
-    content: ['data-state', 'data-multiple', 'data-side', 'data-align'],
+    content: ['data-state', 'data-multiple', 'data-empty', 'data-side', 'data-align'],
+    header: [],
+    search: [],
+    empty: [],
+    footer: [],
+    count: [],
+    optionLeading: [],
+    optionDescription: [],
     option: ['data-selected', 'data-highlighted', 'data-disabled'],
     optionIndicator: [],
     optionContent: [],
@@ -64,6 +78,7 @@ export const selectMeta: ComponentMeta<
       setWhen:
         'Always set: how the content lines up with the trigger, the `align` asked for until positioning shifts the content to fit.',
     },
+    'data-empty': { setWhen: 'The Select has a `filter` and no option matches the query.' },
     'data-selected': { setWhen: 'The option is selected.' },
     'data-highlighted': { setWhen: 'The option is the active one, by keyboard or pointer.' },
   },
@@ -74,7 +89,14 @@ export const selectMeta: ComponentMeta<
     value: null,
     dropdownIcon: null,
     content: 'listbox',
+    header: null,
+    search: 'combobox',
+    empty: 'status',
+    footer: null,
+    count: null,
     option: 'option',
+    optionLeading: null,
+    optionDescription: null,
     optionIndicator: null,
     optionContent: null,
     optionGroup: 'group',
@@ -123,6 +145,23 @@ export const selectMeta: ComponentMeta<
         'Single: chooses the highlighted option and closes (as any focus move out of the trigger does); focus moves on. Multiple: closes.',
     },
     { key: 'Escape', context: 'open', action: 'Closes without a change unless the app refuses it.' },
+    {
+      key: 'ArrowDown / ArrowUp',
+      context: 'search input',
+      action:
+        'Highlights the next or previous enabled option the query shows, and stops at the ends. Focus stays in the input.',
+    },
+    { key: 'Enter', context: 'search input', action: 'Chooses the highlighted option, as Enter on the trigger does.' },
+    {
+      key: 'Escape',
+      context: 'search input',
+      action: 'Closes the list, clears the query and returns focus to the trigger.',
+    },
+    {
+      key: 'Tab',
+      context: 'search input',
+      action: 'Closes the list, as Tab on the trigger does; focus moves on.',
+    },
   ],
   defaultElements: {
     root: 'div',
@@ -131,7 +170,14 @@ export const selectMeta: ComponentMeta<
     value: 'span',
     dropdownIcon: 'span',
     content: 'div',
+    header: 'div',
+    search: 'input',
+    empty: 'div',
+    footer: 'div',
+    count: 'span',
     option: 'div',
+    optionLeading: 'span',
+    optionDescription: 'span',
     optionIndicator: 'span',
     optionContent: 'span',
     optionGroup: 'div',

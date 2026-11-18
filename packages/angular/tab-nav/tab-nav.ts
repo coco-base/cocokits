@@ -60,6 +60,7 @@ export interface CckTabNavRegistration {
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   host: {
+    '[attr.tabpanel]': 'null',
     '[class]': '_parts().root.class',
   },
   template: `

@@ -50,14 +50,12 @@ export interface AccordionItemContextValue {
   readonly disabled: boolean;
   /** The item value. */
   readonly value: string;
-  /** Whether the content is rendered: open, still closing, or force-mounted. */
+  /** Whether the content shows its children: open, or still closing. */
   readonly present: boolean;
   /** The trigger element, for the Root. */
   readonly triggerRef: RefObject<HTMLElement | null>;
   /** The content element, for the exit animation, the size and the focus check. */
   readonly contentRef: RefObject<HTMLElement | null>;
-  /** Tells the Item whether its content is force-mounted, which decides `aria-controls`. */
-  readonly setForceMounted: (forceMounted: boolean) => void;
 }
 
 /** The context of the Root. */

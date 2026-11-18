@@ -22,6 +22,9 @@ export type CckAvatarGroupSize = AvatarGroupOptions['size']['values'][number];
  */
 @Directive({
   selector: 'cck-avatar-group',
+  host: {
+    '[attr.size]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'avatar-group',

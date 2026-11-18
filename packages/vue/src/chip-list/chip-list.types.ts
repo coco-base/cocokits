@@ -1,13 +1,22 @@
 import type { Component } from 'vue';
 import type { AsTag } from '@cocokits/vue-core';
+import type { ChipListEntry, ChipListItem } from '@cocokits/machines/chip-list';
+
+export type { ChipListEntry, ChipListItem };
 
 /**
  * A text box for entering several values. Each value the user confirms with Enter becomes a removable chip in front
  * of the text box. Bind the values with `v-model`.
  *
- * @remarks Enter adds the trimmed text, clears the text box and keeps the form from submitting. A text that is already in the
- * list is not added twice. Enter on an empty text box does nothing, so the form submits as usual. Tab reaches each
- * remove button, then the text box. A remove button removes the chip and moves the focus to the text box.
+ * Each entry of the list is a string, or a `ChipListItem` object with options for its chip: `removable` (default
+ * `true`), `disabled` and `selected`. An item with `selected` set is a selectable chip, and a press on it flips
+ * `selected` in a new list. The chips take the size of the list through the theme.
+ *
+ * @remarks Enter adds the trimmed text as a string, clears the text box and keeps the form from submitting. A text
+ * that is already in the list is not added twice. Enter on an empty text box does nothing, so the form submits as
+ * usual. Tab reaches each remove button or toggle, then the text box. A remove button removes the chip and moves the
+ * focus to the text box. Backspace in an empty text box moves the focus to the last chip. Backspace or Delete on a
+ * focused chip removes it. The focus goes to the previous chip (Delete: the next one), else to the text box.
  *
  * Inside a FormField the text box is the control of the field: the Label names it, and the hints and errors describe
  * it. Outside a FormField, give the list `aria-label` or `aria-labelledby`; they go to the text box, as do `id`,
@@ -65,6 +74,7 @@ export interface ChipListProps {
    *
    * @cckSemantic chip-list.name
    * @cckParity A native attribute of the hidden inputs that carry the values.
+   * @defaultValue ''
    */
   readonly name?: string | undefined;
   /**
@@ -133,8 +143,8 @@ export interface ChipListProps {
    */
   readonly submitted?: boolean | undefined;
   /**
-   * The values, bound with `v-model`, in the order they were added. When not set, the list keeps its own values,
-   * which start as `defaultValue`.
+   * The entries, bound with `v-model`, in the order they were added: strings and `ChipListItem` objects. When not set,
+   * the list keeps its own entries, which start as `defaultValue`.
    *
    * If you listen for changes and do not accept one, the old values stay. A value you set that holds duplicates or
    * empty texts is shown as given; only what the user types is checked.
@@ -143,7 +153,7 @@ export interface ChipListProps {
    * @cckParity Bound with `v-model`.
    * @defaultValue []
    */
-  readonly modelValue?: readonly string[] | undefined;
+  readonly modelValue?: readonly ChipListEntry[] | undefined;
   /**
    * The modifiers of `v-model`. The framework fills it. The component declares it so the modifiers do not reach the
    * native element.
@@ -161,7 +171,7 @@ export interface ChipListProps {
    * @cckParity The value the component starts with.
    * @defaultValue []
    */
-  readonly defaultValue?: readonly string[] | undefined;
+  readonly defaultValue?: readonly ChipListEntry[] | undefined;
   /**
    * The tag or component to render as the root. The text box is always a native `<input>`. It is ignored with
    * `asChild`.
@@ -185,12 +195,15 @@ export interface ChipListProps {
 /** The events of the ChipList. */
 export interface ChipListEmits {
   /**
-   * Emits the new values for `v-model` when the user adds or removes a chip, and when a reset of the form restores
-   * the default. It is the only change event, and it carries the values only. It never fires when your code sets
+   * Emits the new entries for `v-model` when the user adds, removes or toggles a chip, and when a reset of the form
+   * restores the default. It is the only change event, and it carries the entries only.
+   *
+   * @example
+   * <ChipList aria-label="Toppings" :model-value="toppings" @update:model-value="(next) => (toppings = next)" /> It never fires when your code sets
    * the values.
    *
    * @cckSemantic chip-list.valueChange
    * @cckParity The `update:modelValue` event is the only change event; it carries the value only.
    */
-  'update:modelValue': [value: string[]];
+  'update:modelValue': [value: ChipListEntry[]];
 }

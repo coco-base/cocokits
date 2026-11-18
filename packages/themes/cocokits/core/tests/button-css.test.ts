@@ -16,7 +16,12 @@ const componentsDir = join(root, 'src', 'styles', 'components');
 /** `_button.scss` is the rules of the `button` block. Entries without rules have no `var()`. */
 const sources = readdirSync(componentsDir)
   .filter((file) => file.endsWith('.scss'))
-  .map((file) => ({ file, block: basename(file, '.scss').replace(/^_/, '') }));
+  .map((file) => ({
+    file,
+    block: basename(file, '.scss')
+      .replace(/^_/, '')
+      .replace(/-parts$/, ''),
+  }));
 /** Documented custom properties the author sets: the theme reads them and defines no token. */
 const INLINE_PROPERTIES = [
   '--cck-badge-container-radius',
@@ -144,12 +149,12 @@ describe('button design match', () => {
   const sizes = [
     ['sm', 'size-36', 'spacing-5', 'spacing-2', 'text-sm', 'size-20'],
     ['md', 'size-44', 'spacing-5', 'spacing-3', 'text-md', 'size-24'],
-    ['lg', '52px', 'spacing-6', 'spacing-3', 'text-md', 'size-24'],
+    ['lg', 'size-52', 'spacing-6', 'spacing-3', 'text-md', 'size-24'],
   ] as const;
 
   it.each(sizes)('size %s: height, padding, gap, label text and icon size', (mode, height, pad, gap, text, icon) => {
     const at = (name: string): string | undefined => sizeTokenOf('.cck-button', mode, name);
-    expect(at('button-height')).toBe(height.endsWith('px') ? height : ref(height));
+    expect(at('button-height')).toBe(ref(height));
     expect(at('button-padding-inline')).toBe(ref(pad));
     expect(at('button-gap')).toBe(ref(gap));
     for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing'])
@@ -162,20 +167,41 @@ describe('button design match', () => {
     expect(structureTokenOf('.cck-button', 'button-hover-bg')).toBe(ref('surface-2'));
   });
 
-  it('paints the outline fill and leaves basic transparent', () => {
-    expect(declarationsOf(css, '.cck-button[data-variant=outline]')).toContain(
-      'background-color: var(--cck-button-outline-bg)',
-    );
-    expect(declarationsOf(css, '.cck-button[data-variant=basic]')).not.toContain('background-color');
+  it('paints the outline fill on outline and, at rest, on basic too', () => {
+    for (const variant of ['outline', 'basic'])
+      expect(declarationsOf(css, `.cck-button[data-variant=${variant}]`)).toContain(
+        'background-color: var(--cck-button-outline-bg)',
+      );
   });
 
-  it('tints outline and basic on hover, not primary or light, and never a disabled button', () => {
+  it('labels outline and basic with the Active Color, and keeps no light variant', () => {
+    expect(structureTokenOf('.cck-button', 'button-outline-label-color')).toBe(ref('color'));
+    for (const variant of ['outline', 'basic'])
+      expect(declarationsOf(css, `.cck-button[data-variant=${variant}]`)).toContain(
+        'color: var(--cck-button-outline-label-color)',
+      );
+    expect(css).not.toContain('data-variant=light');
+  });
+
+  it('is at least 64px wide', () => {
+    expect(structureTokenOf('.cck-button', 'button-min-inline-size')).toBe(ref('size-64'));
+    expect(declarationsOf(css, '.cck-button')).toContain('min-inline-size: var(--cck-button-min-inline-size)');
+  });
+
+  it('darkens the primary button to the container colour on hover, never a disabled one', () => {
+    expect(structureTokenOf('.cck-button', 'button-solid-hover-bg')).toBe(ref('container'));
+    expect(declarationsOf(css, '.cck-button[data-variant=primary]:hover:not([data-disabled], :disabled)')).toContain(
+      'background-color: var(--cck-button-solid-hover-bg)',
+    );
+  });
+
+  it('tints outline and basic on hover, and never a disabled button', () => {
     const rule = declarationsOf(
       css,
       '.cck-button:where([data-variant=outline], [data-variant=basic]):hover:not([data-disabled], :disabled)',
     );
     expect(rule).toContain('background-color: var(--cck-button-hover-bg)');
-    expect(own.match(/:hover/g)).toHaveLength(1);
+    expect(own.match(/:hover/g)).toHaveLength(2);
   });
 
   it('puts the hover rule after the variants and before the disabled rule, with no forced-colors rule of its own', () => {

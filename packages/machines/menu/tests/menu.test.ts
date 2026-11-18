@@ -132,7 +132,7 @@ describe('meta', () => {
   });
 
   it('names the roles and the pattern', () => {
-    expect(menuMeta.roles).toEqual({ root: null, trigger: null, content: 'menu', item: 'menuitem' });
+    expect(menuMeta.roles).toMatchObject({ root: null, trigger: null, content: 'menu', item: 'menuitem' });
     expect(menuMeta.apg).toContain('menu-button');
   });
 

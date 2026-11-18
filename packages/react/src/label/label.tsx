@@ -20,6 +20,8 @@ function LabelImpl({ htmlFor, children, ...props }: LabelProps): ReactElement {
       setLabelId?.(undefined);
     };
   }, [setLabelId, props.id]);
+  const registerLabel = control?.registerLabel;
+  useIsomorphicLayoutEffect(() => registerLabel?.(), [registerLabel]);
   const parts = getLabelProps({
     id: labelId,
     for: htmlFor === undefined || htmlFor === '' ? field?.controlId : htmlFor,

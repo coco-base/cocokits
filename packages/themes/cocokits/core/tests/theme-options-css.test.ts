@@ -143,9 +143,17 @@ describe('form field width', () => {
 describe('textarea resize', () => {
   const css = read('dist', 'components', 'textarea.css');
 
-  it('draws the handle by default and none when the resize attribute is absent', () => {
-    expect(declarationsOf(css, '.cck-textarea')).toContain('resize: vertical');
-    expect(declarationsOf(css, '.cck-textarea:not([data-resize])')).toContain('resize: none');
+  it('draws no grip without the resize attribute, vertical by default and per direction', () => {
+    expect(declarationsOf(css, '.cck-textarea')).toContain('resize: none');
+    expect(declarationsOf(css, '.cck-textarea:where([data-resize])')).toContain('resize: vertical');
+    expect(declarationsOf(css, '.cck-textarea:where([data-resize=horizontal])')).toContain('resize: horizontal');
+    expect(declarationsOf(css, '.cck-textarea:where([data-resize=both])')).toContain('resize: both');
+  });
+
+  it('draws the six dot grip on the resizer, from the grip token', () => {
+    const grip = declarationsOf(css, '.cck-textarea::-webkit-resizer') ?? '';
+    expect(grip.match(/radial-gradient/g)).toHaveLength(6);
+    expect(grip).toContain('var(--cck-textarea-grip-color)');
   });
 
   it('keeps the auto-resize rule, which has no handle either', () => {

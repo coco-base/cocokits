@@ -8,12 +8,17 @@
 // `--cck-select-content-max-height` (default 220px) and by the space left in the viewport. Motion keys off
 // `data-state` and `data-side` and runs only with `prefers-reduced-motion: no-preference`. State rules on the
 // trigger use `:where()`, so source order decides between them.
+@use '_select-parts' as parts;
+
 @mixin rules {
   .cck-select {
     position: relative;
     box-sizing: border-box;
     display: inline-flex;
+    // The width does not depend on the value; a long value ellipsizes.
+    inline-size: var(--cck-select-min-inline-size);
     min-inline-size: var(--cck-select-min-inline-size);
+    max-inline-size: 100%;
     vertical-align: middle;
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
@@ -63,6 +68,7 @@
 
   .cck-select__placeholder,
   .cck-select__value {
+    box-sizing: border-box;
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -81,6 +87,7 @@
   // The icon comes from the theme's `components.select.icons` (or the author's content). The part is a box whose font size is the
   // icon size, so the icon (1em) and any content follow it; the color is inherited by the icon (`currentColor`).
   .cck-select__dropdown-icon {
+    box-sizing: border-box;
     flex: none;
     display: inline-flex;
     font-size: var(--cck-select-icon-size);
@@ -100,9 +107,6 @@
   // The states come from the facts the root renders. Later rules win, so disabled is last.
   .cck-select:where([data-invalid]) > .cck-select__trigger {
     border-color: var(--cck-select-invalid-border-color);
-    // A second line of the same width inside the border: the cue does not rest on hue alone.
-    // Forced colors drop the shadow, so the border gets thicker there.
-    box-shadow: inset 0 0 0 var(--cck-select-border-width) var(--cck-select-invalid-border-color);
   }
 
   .cck-select:where([data-readonly]) > .cck-select__trigger {
@@ -116,14 +120,14 @@
   .cck-select__trigger:disabled {
     border-color: var(--cck-select-disabled-border-color);
     background-color: var(--cck-select-disabled-bg);
-    // Disabled wins over invalid: no invalid line.
-    box-shadow: none;
     color: var(--cck-select-disabled-text-color);
     cursor: not-allowed;
   }
 
-  .cck-select:where([data-disabled]) > .cck-select__trigger :is(.cck-select__placeholder, .cck-select__dropdown-icon),
-  .cck-select__trigger:disabled :is(.cck-select__placeholder, .cck-select__dropdown-icon) {
+  .cck-select:where([data-disabled])
+    > .cck-select__trigger
+    :is(.cck-select__placeholder, .cck-select__count, .cck-select__dropdown-icon),
+  .cck-select__trigger:disabled :is(.cck-select__placeholder, .cck-select__count, .cck-select__dropdown-icon) {
     color: var(--cck-select-disabled-text-color);
   }
 
@@ -159,17 +163,22 @@
     flex: none;
     box-sizing: border-box;
     display: flex;
+    // A description takes a row of its own under the text, with no gap between the rows.
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--cck-select-option-gap);
-    min-block-size: var(--cck-select-option-min-height);
+    row-gap: 0;
     padding: var(--cck-select-option-padding-block) var(--cck-select-option-padding-inline);
     border-radius: var(--cck-select-option-radius);
     cursor: pointer;
     font-weight: var(--cck-select-option-font-weight);
     user-select: none;
 
+    // A 1px ring inside the row, so the list never clips it.
     &[data-highlighted] {
       background-color: var(--cck-select-option-highlight-bg);
+      outline: var(--cck-select-option-highlight-ring-width) solid var(--cck-select-option-highlight-ring-color);
+      outline-offset: calc(-1 * var(--cck-select-option-highlight-ring-width));
     }
 
     // After the highlight rule, so a highlighted selected option keeps the selected fill.
@@ -182,11 +191,19 @@
       color: var(--cck-select-option-disabled-text-color);
       cursor: not-allowed;
     }
+
+    // An option that the search does not match is `hidden`. An author rule beats the user-agent [hidden] rule, so the
+    // theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-select__option-content {
+    box-sizing: border-box;
     flex: 1;
     min-inline-size: 0;
+    order: 2;
   }
 
   // The indicator reserves its box in every option, so the text lines up whether or not it is selected. A single
@@ -203,7 +220,7 @@
     block-size: var(--cck-select-indicator-size);
     font-size: var(--cck-select-indicator-size);
     color: var(--cck-select-indicator-color);
-    order: 1;
+    order: 3;
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {
@@ -232,6 +249,7 @@
   }
 
   .cck-select__option-group {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: var(--cck-select-content-gap);
@@ -244,12 +262,17 @@
   }
 
   .cck-select__option-group-label {
+    box-sizing: border-box;
     flex: none;
     padding: var(--cck-select-option-padding-block) var(--cck-select-option-padding-inline);
     color: var(--cck-select-group-label-color);
     font-size: var(--cck-select-group-label-font-size);
     font-weight: var(--cck-select-group-label-font-weight);
     line-height: var(--cck-select-group-label-line-height);
+  }
+
+  .cck-select__option-group[data-disabled] > .cck-select__option-group-label {
+    color: var(--cck-select-group-label-disabled-color);
   }
 
   // A border line (not a background), so forced colors keep it: the border colour is a system colour there.
@@ -317,20 +340,16 @@
       outline-color: Highlight;
     }
 
-    .cck-select:where([data-invalid]) > .cck-select__trigger {
-      border-width: var(--cck-select-invalid-border-width);
-    }
-
     .cck-select:where([data-disabled]) > .cck-select__trigger,
     .cck-select__trigger:disabled {
       border-color: GrayText;
-      // The invalid border is thicker here; disabled wins over it.
-      border-width: var(--cck-select-border-width);
       color: GrayText;
     }
 
-    .cck-select:where([data-disabled]) > .cck-select__trigger :is(.cck-select__placeholder, .cck-select__dropdown-icon),
-    .cck-select__trigger:disabled :is(.cck-select__placeholder, .cck-select__dropdown-icon) {
+    .cck-select:where([data-disabled])
+      > .cck-select__trigger
+      :is(.cck-select__placeholder, .cck-select__count, .cck-select__dropdown-icon),
+    .cck-select__trigger:disabled :is(.cck-select__placeholder, .cck-select__count, .cck-select__dropdown-icon) {
       color: GrayText;
     }
 
@@ -356,7 +375,8 @@
       color: HighlightText;
     }
 
-    .cck-select__option[data-disabled] {
+    .cck-select__option[data-disabled],
+    .cck-select__option-group[data-disabled] > .cck-select__option-group-label {
       color: GrayText;
     }
 
@@ -388,4 +408,7 @@
       translate: var(--cck-select-slide-x, 0px) var(--cck-select-slide-y, 0px);
     }
   }
+
+  // After the list's own rules, so the first forced-colors block is the Select's.
+  @include parts.rules;
 }

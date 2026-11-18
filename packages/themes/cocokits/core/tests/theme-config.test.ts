@@ -36,7 +36,7 @@ const badgeContainerAnatomy = defineAnatomy({
 
 describe('cocokitsThemeConfig button', () => {
   it.each([
-    ['variant', 'variant', 'primary', ['primary', 'outline', 'light', 'basic']],
+    ['variant', 'variant', 'primary', ['primary', 'outline', 'basic']],
     ['color', 'cck-color', 'brand', ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']],
     ['size', 'size', 'md', ['xs', 'sm', 'md', 'lg', 'xl']],
   ] as const)('%s renders data-%s, defaults to %s', (option, attrName, fallback, values) => {
@@ -69,7 +69,7 @@ describe('cocokitsThemeConfig button', () => {
   });
 
   it('keeps the exact literal tuples in the type', () => {
-    expectTypeOf(button.variant.values).toEqualTypeOf<readonly ['primary', 'outline', 'light', 'basic']>();
+    expectTypeOf(button.variant.values).toEqualTypeOf<readonly ['primary', 'outline', 'basic']>();
     expectTypeOf(button.color.values).toEqualTypeOf<
       readonly ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']
     >();

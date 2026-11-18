@@ -16,9 +16,14 @@ import { chipAnatomy } from '@cocokits/machines/chip';
 import {
   addChipListValue,
   chipListAnatomy,
+  getChipListBackspaceTarget,
+  getChipListFocusAfterRemove,
   getChipListProps,
+  getChipListRemoveKey,
   isChipListAddKey,
   removeChipListValue,
+  toggleChipListItem,
+  type ChipListEntry,
 } from '@cocokits/machines/chip-list';
 import { formFieldStateAttrs } from '@cocokits/machines/form-field';
 import { Primitive, useFormParticipation, useThemeAttrs } from '@cocokits/vue-core';
@@ -66,16 +71,22 @@ defineSlots<{
    * The one child the root merges onto, used with `asChild` only. The list puts its chips and its text box inside it.
    * When not set, the list renders its own element.
    *
+   * @remarks Without `asChild` the list has no content slot. It renders a chip for each value of `v-model`, and this
+   * slot is ignored.
+   *
+   * @cckSemantic none
+   * @cckParity Only this framework merges the root onto a child with `asChild`.
+   *
    * @example
    * <ChipList as-child v-model="toppings" aria-label="Toppings"><section /></ChipList>
    */
   default?(): unknown;
 }>();
 
-const startValue: readonly string[] = props.defaultValue ?? [];
+const startValue: readonly ChipListEntry[] = props.defaultValue ?? [];
 const model = useDefaultModel(props, 'modelValue', startValue);
-const mountValue: readonly string[] = [...(model.value ?? [])];
-const current = computed<readonly string[]>(() => model.value ?? []);
+const mountValue: readonly ChipListEntry[] = [...(model.value ?? [])];
+const current = computed<readonly ChipListEntry[]>(() => model.value ?? []);
 
 const attrs = useAttrs();
 const field = useFormFieldContext();
@@ -87,13 +98,15 @@ const draft = ref('');
 const focused = ref(false);
 const touchedState = ref(false);
 const dirtyState = ref(false);
+// `reset()` clears the submitted fact until the form is submitted again.
+const submittedCleared = ref(false);
 // The hidden inputs' `invalid` event: the list shows the invalid fact until the value changes.
 const rejected = ref(false);
 // A new key makes the hidden inputs again, so the browser's reset (which clears them) cannot leave one empty.
 const inputsKey = ref(0);
 
 /** Writes the model, which emits `update:modelValue`. */
-function write(next: readonly string[]): void {
+function write(next: readonly ChipListEntry[]): void {
   dirtyState.value = true;
   model.value = [...next];
 }
@@ -133,7 +146,7 @@ const parts = computed(() =>
       pending: props.pending,
       touched: props.touched ?? touchedState.value,
       dirty: props.dirty ?? dirtyState.value,
-      submitted: props.submitted ?? participation.submitted.value,
+      submitted: props.submitted ?? (participation.submitted.value && !submittedCleared.value),
       focused: focused.value,
       hidden: props.hidden,
     },
@@ -146,6 +159,10 @@ useUnnamedWarning('Chip list', input, {
   fix: 'Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text.',
 });
 
+watch(participation.submitted, (submitted) => {
+  if (submitted) submittedCleared.value = false;
+});
+
 /** Moves the focus to the text box. */
 function focusInput(): void {
   input.value?.focus();
@@ -155,6 +172,17 @@ function focusInput(): void {
 function removeButtons(): HTMLElement[] {
   const container = rootElementOf(root.value);
   return container ? [...container.querySelectorAll<HTMLElement>(`.${chipAnatomy.classes.remove}`)] : [];
+}
+
+/** The chips, in order: the position of a chip is the position of its entry. */
+function chipElements(): HTMLElement[] {
+  const container = rootElementOf(root.value);
+  return container ? [...container.querySelectorAll<HTMLElement>(`.${chipAnatomy.classes.root}`)] : [];
+}
+
+/** Moves focus to the first enabled button of the chip at `position`: its toggle, else its remove button. */
+function focusChip(position: number): void {
+  chipElements().at(position)?.querySelector<HTMLElement>('button:not(:disabled)')?.focus();
 }
 
 /** The position of the remove button that has the focus, or `-1`. */
@@ -194,6 +222,12 @@ function commit(): void {
 }
 
 function onKeydown(event: KeyboardEvent): void {
+  const target = getChipListBackspaceTarget(event, draft.value, current.value);
+  if (target !== null) {
+    event.preventDefault();
+    focusChip(target);
+    return;
+  }
   if (!isChipListAddKey(event) || parts.value.chipDisabled || draft.value.trim() === '') return;
   event.preventDefault();
   commit();
@@ -208,6 +242,29 @@ function removeAt(index: number): void {
   const next = removeChipListValue(current.value, index);
   if (next !== current.value) write(next);
   focusInput();
+}
+
+/** The press of a selectable chip flips the `selected` of its item. */
+function toggleAt(index: number): void {
+  const next = toggleChipListItem(current.value, index);
+  if (next !== current.value) write(next);
+}
+
+/** Backspace or Delete on a focused chip removes it; focus goes to the neighbour chip, else the text box. */
+function onChipKeydown(event: KeyboardEvent): void {
+  if (event.target === input.value) return;
+  const key = getChipListRemoveKey(event);
+  const index = chipElements().findIndex((chip) => chip.contains(event.target as Node));
+  if (key === null || index < 0) return;
+  const next = removeChipListValue(current.value, index);
+  if (next === current.value) return;
+  event.preventDefault();
+  const after = getChipListFocusAfterRemove(current.value, index, key);
+  write(next);
+  void nextTick(() => {
+    if (after === 'input') focusInput();
+    else focusChip(after);
+  });
 }
 
 function onFocusin(): void {
@@ -238,28 +295,34 @@ const rootBound = (): Record<string, unknown> =>
     omit(attrs, 'class', ...formFieldStateAttrs),
     themeAttrs.value.root,
     omit(parts.value.root, 'class'),
-    { onFocusin, onFocusout },
+    { onFocusin, onFocusout, onKeydown: onChipKeydown },
     { class: [parts.value.root.class, attrs.class] },
   );
 
 /** The chips, one per value and tracked by position, then the text box and the hidden form inputs. */
 function tree(): VNode[] {
-  const { input: inputParts, formInput, chipDisabled } = parts.value;
+  const { input: inputParts, formInput } = parts.value;
   return [
-    ...current.value.map((text, index) =>
-      h(
+    ...current.value.map((entry, index) => {
+      const chip = parts.value.chip(entry);
+      return h(
         Chip,
         {
           key: index,
-          removable: true,
-          disabled: chipDisabled,
+          removable: chip.removable,
+          disabled: chip.disabled,
+          // Bound with a listener: the list owns the state, so a press only asks it.
+          selected: chip.selected,
+          'onUpdate:selected': () => {
+            toggleAt(index);
+          },
           onRemove: () => {
             removeAt(index);
           },
         },
-        () => text,
-      ),
-    ),
+        () => chip.value,
+      );
+    }),
     h('input', {
       ...themeAttrs.value.input,
       ...omit(inputParts, 'class'),
@@ -286,6 +349,33 @@ function tree(): VNode[] {
 }
 
 defineExpose({
+  /**
+   * Moves the focus to the text box. Does nothing before mount.
+   *
+   * @example
+   * <ChipList ref="list" v-model="toppings" aria-label="Toppings" />
+   * <!-- In the script: const list = useTemplateRef('list'); then list.value?.focus(). -->
+   *
+   * @cckSemantic chip-list.focus
+   */
+  focus(options?: FocusOptions): void {
+    input.value?.focus(options);
+  },
+  /**
+   * Clears the touched, dirty and submitted state that the list keeps itself. The chips do not change.
+   *
+   * @example
+   * <ChipList ref="list" v-model="toppings" aria-label="Toppings" />
+   * <!-- In the script: const list = useTemplateRef('list'); then list.value?.reset(). -->
+   *
+   * @cckSemantic chip-list.reset
+   */
+  reset(): void {
+    touchedState.value = false;
+    dirtyState.value = false;
+    rejected.value = false;
+    submittedCleared.value = true;
+  },
   /**
    * The DOM element of the root: the `<div>`, or the element of the `as` component or the `asChild` child. It is
    * `null` before mount.

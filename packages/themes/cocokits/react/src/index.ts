@@ -47,7 +47,7 @@ export type {
   AvatarLabelAvatarPosition,
   AvatarLabelProps,
   AvatarLabelSize,
-  AvatarLabelTextLayout,
+  AvatarLabelAlignment,
 } from './avatar-label';
 export { Chip } from './chip';
 export type { ChipProps, ChipSize } from './chip';
@@ -55,6 +55,13 @@ export { ChipList } from './chip-list';
 export type { ChipListProps, ChipListSize } from './chip-list';
 export { Menu } from './menu';
 export type { MenuContentProps, MenuSize } from './menu-content';
+export type {
+  MenuCheckboxItemProps,
+  MenuItemColor,
+  MenuItemProps,
+  MenuRadioItemProps,
+  MenuSubTriggerProps,
+} from './menu-items';
 export { Input } from './input';
 export type { InputProps, InputSize } from './input';
 export { RadioGroup } from './radio-group';
@@ -63,3 +70,6 @@ export { Dialog } from './dialog';
 export type { DialogRootProps, DialogSize } from './dialog-root';
 export { Tooltip } from './tooltip';
 export type { TooltipRootProps, TooltipSize } from './tooltip-root';
+
+/** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
+export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

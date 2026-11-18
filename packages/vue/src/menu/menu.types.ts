@@ -18,6 +18,31 @@ export type { MenuChangeReason };
  *   </MenuContent>
  * </MenuRoot>
  *
+ * @example
+ * <MenuRoot>
+ *   <MenuTrigger>View</MenuTrigger>
+ *   <MenuContent>
+ *     <MenuGroup>
+ *       <MenuGroupLabel>Layout</MenuGroupLabel>
+ *       <MenuCheckboxItem v-model="grid"><MenuItemIndicator /> Grid</MenuCheckboxItem>
+ *       <MenuRadioGroup v-model="sort">
+ *         <MenuRadioItem value="name"><MenuItemIndicator /> Name</MenuRadioItem>
+ *         <MenuRadioItem value="date"><MenuItemIndicator /> Date</MenuRadioItem>
+ *       </MenuRadioGroup>
+ *     </MenuGroup>
+ *     <MenuItem>
+ *       <MenuItemLeading><SvgIcon icon-name="copy" /></MenuItemLeading>
+ *       Duplicate
+ *       <MenuItemSupportingText>Makes a copy.</MenuItemSupportingText>
+ *       <MenuItemShortcut>Ctrl D</MenuItemShortcut>
+ *       <MenuItemTrailing><SvgIcon icon-name="chevron-right" /></MenuItemTrailing>
+ *     </MenuItem>
+ *     <MenuSub>
+ *       <MenuSubTrigger>More</MenuSubTrigger>
+ *       <MenuSubContent><MenuItem>Export</MenuItem></MenuSubContent>
+ *     </MenuSub>
+ *   </MenuContent>
+ * </MenuRoot>
  * @cckPart root
  */
 export interface MenuRootProps {

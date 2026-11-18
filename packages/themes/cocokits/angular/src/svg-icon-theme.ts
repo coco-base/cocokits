@@ -28,6 +28,11 @@ const toRtlMirror = (value: CckSvgIconRtlMirror | string | null | undefined): Cc
  */
 @Directive({
   selector: 'cck-svg-icon',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.color]': 'null',
+    '[attr.rtlmirror]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'svg-icon',

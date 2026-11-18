@@ -69,6 +69,12 @@ export interface SelectContextValue<T = unknown> {
   readonly layerActive: ShallowRef<boolean>;
   /** The `multiple` fact. */
   readonly multiple: ComputedRef<boolean>;
+  /** Whether the list has a search (`filter`). */
+  readonly filter: ComputedRef<boolean>;
+  /** The search input; `null` while it is not rendered. The Root moves the focus into it when the list opens. */
+  readonly searchElement: ShallowRef<HTMLElement | null>;
+  /** Moves the focus to the trigger: the search hands it back before a Tab, so the browser moves on from there. */
+  readonly focusTrigger: () => void;
   /** The `form` of the Select, for a native trigger. */
   readonly form: ComputedRef<string | undefined>;
   /** Whether nothing is selected: the placeholder shows. */
@@ -77,7 +83,7 @@ export interface SelectContextValue<T = unknown> {
   readonly modelValue: ComputedRef<unknown>;
   /** The label of each selected value, in value order; none while nothing is selected. */
   readonly selectedLabels: ComputedRef<readonly string[]>;
-  /** The trigger text: the selected labels joined with `, `. */
+  /** The trigger text: the label of the first selected value; the others are the count. */
   readonly valueText: ComputedRef<string>;
   /** Hands an event of a part to the machine and applies the changes it accepts. */
   readonly send: (event: SelectEvent) => void;
@@ -109,6 +115,10 @@ export interface SelectGroupContext {
   readonly key: string;
   /** Whether the group is disabled. */
   readonly disabled: ComputedRef<boolean>;
+  /** The registration keys of the options of the group: with `filter`, the group hides while none of them matches. */
+  readonly itemKeys: ShallowRef<readonly string[]>;
+  /** An option of the group mounted; returns the function that tells the group it is gone. */
+  readonly addKey: (key: string) => () => void;
 }
 
 /** Injection key of the group context. Not exported from any entry point. */
@@ -116,6 +126,12 @@ export const SELECT_GROUP_KEY: InjectionKey<SelectGroupContext> = Symbol('cck-se
 
 /** What an item gives its text part. Not exported from any entry point. */
 export interface SelectItemContext {
+  /** The registration key of the item. */
+  readonly key: string;
+  /** The item's own `id`, read when used. */
+  readonly itemId: () => string | undefined;
+  /** A description part mounted; returns the function that tells the item it is gone. */
+  readonly describe: () => () => void;
   /** Tells the item which element holds its text; `null` on unmount. */
   readonly setTextElement: (element: HTMLElement | null) => void;
   /** Whether the item is selected: its indicator then holds its icon. */

@@ -4,11 +4,15 @@ import type { ComponentMeta } from '@cocokits/shared';
 export const radioGroupMeta: ComponentMeta<'root'> = {
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/radio/',
   dataAttrs: {
-    root: ['data-disabled', 'data-required', 'data-orientation'],
+    root: ['data-disabled', 'data-required', 'data-invalid', 'data-orientation'],
   },
   dataAttrDetails: {
     'data-disabled': { setWhen: 'The radio group is disabled.' },
     'data-required': { setWhen: 'A choice in the radio group is required.' },
+    'data-invalid': {
+      setWhen:
+        'The group is invalid (the `invalid` fact, or required with no value) and the user left it (`touched`) or tried to submit (`submitted`); `aria-invalid="true"` is set at the same time.',
+    },
     'data-orientation': {
       values: ['horizontal', 'vertical'],
       setWhen: 'The orientation prop is set; the attribute is left out otherwise.',

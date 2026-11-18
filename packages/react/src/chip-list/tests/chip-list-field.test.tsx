@@ -67,7 +67,7 @@ describe('ChipList in a FormField', () => {
   it('disables the text box and the remove buttons when the field is disabled', () => {
     render(<Field disabled />);
     expect(textbox().hasAttribute('disabled')).toBe(true);
-    expect(screen.getByRole('button', { name: 'Pizza' }).hasAttribute('disabled')).toBe(true);
+    expect(screen.queryByRole('button')).toBeNull();
   });
 
   it('renders aria-required on the text box and gates aria-invalid', async () => {

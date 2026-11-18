@@ -130,11 +130,10 @@ interface RadioComponent {
  * `className`, `style`, `hidden` and `render` go to the root; every other prop and `ref` go to the input.
  *
  * @example
- * <fieldset>
- *   <legend>Plan</legend>
- *   <Radio name="plan" value="free" defaultChecked>Free</Radio>
- *   <Radio name="plan" value="pro">Pro</Radio>
- * </fieldset>
+ * <RadioGroup aria-label="Plan" name="plan" defaultValue="free">
+ *   <Radio value="free">Free</Radio>
+ *   <Radio value="pro">Pro</Radio>
+ * </RadioGroup>
  * @cckPart root
  * @cckPart wrapper
  * @cckPart inputWrapper

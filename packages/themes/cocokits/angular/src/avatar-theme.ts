@@ -27,6 +27,10 @@ export type CckAvatarColor = AvatarOptions['color']['values'][number];
  */
 @Directive({
   selector: 'cck-avatar',
+  host: {
+    '[attr.size]': 'null',
+    '[attr.color]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'avatar',

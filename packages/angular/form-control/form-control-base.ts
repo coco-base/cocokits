@@ -1,6 +1,7 @@
 import {
   DestroyRef,
   Directive,
+  InjectionToken,
   afterEveryRender,
   booleanAttribute,
   computed,
@@ -46,6 +47,13 @@ export interface FormControlParts {
   readonly control: FormFieldControlState;
 }
 
+/**
+ * Marks the content of a group of controls (the Checkbox group). A control inside it is a part of the group, so it
+ * does not register with the enclosing FormField: the group is the control of the field.
+ * @internal
+ */
+export const CCK_CONTROL_GROUP = new InjectionToken<true>('CCK_CONTROL_GROUP');
+
 /** The facts every form control tracks and gives its machine: everything but the id and the model. */
 export type FormControlFacts = Omit<FormFieldControlProps, 'id' | 'filled'>;
 
@@ -74,11 +82,20 @@ export type FormControlFacts = Omit<FormFieldControlProps, 'id' | 'filled'>;
     '[attr.data-dirty]': 'parts().root["data-dirty"]',
     '[attr.data-submitted]': 'parts().root["data-submitted"]',
     '[attr.data-focused]': 'parts().root["data-focused"]',
+    '[attr.invalid]': 'null',
+    '[attr.pending]': 'null',
+    '[attr.touched]': 'null',
+    '[attr.dirty]': 'null',
+    '[attr.submitted]': 'null',
+    '[attr.errors]': 'null',
+    '[attr.disabledreasons]': 'null',
   },
 })
 export abstract class CckFormControlBase {
   private readonly ngControl = inject(NgControl, { self: true, optional: true });
-  protected readonly field = inject(CckFormField, { optional: true });
+  protected readonly field = inject(CCK_CONTROL_GROUP, { skipSelf: true, optional: true })
+    ? null
+    : inject(CckFormField, { optional: true });
   private readonly control = this.field?._register(() => this.controlElement());
   private watched: AbstractControl | undefined;
   private resetWatch: Subscription | undefined;
@@ -216,7 +233,13 @@ export abstract class CckFormControlBase {
   /** What the enclosing FormField gives the control; none outside a field. */
   protected readonly fieldContext = computed<FormFieldControlContext | undefined>(() => {
     const field = this.field;
-    return field ? { ids: this.control?.primary ? field._ids() : undefined, state: field._fieldInput() } : undefined;
+    return field
+      ? {
+          ids: this.control?.primary ? field._ids() : undefined,
+          state: field._fieldInput(),
+          hasLabel: field._hasLabel(),
+        }
+      : undefined;
   });
 
   /** The result of the subclass's machine call, from its state and `fieldContext()`. */

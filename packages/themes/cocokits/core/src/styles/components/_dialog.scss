@@ -50,7 +50,47 @@
     block-size: fit-content;
   }
 
+  // The three sections fill the content's width. The header is a row with the title and the Close part at its end,
+  // the body takes the free height, the footer is a row of actions at the end. A divider is a border (so forced
+  // colors keep it) with `--cck-dialog-section-gap` of padding between it and the text.
+  .cck-dialog__header,
+  .cck-dialog__body,
+  .cck-dialog__footer {
+    box-sizing: border-box;
+    align-self: stretch;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cck-dialog-section-gap);
+    padding-block-end: var(--cck-dialog-section-gap);
+    border-block-end: var(--cck-dialog-divider-width) solid var(--cck-dialog-divider-color);
+  }
+
+  .cck-dialog__body {
+    display: block;
+    flex: 1 1 auto;
+    min-block-size: 0;
+  }
+
+  .cck-dialog__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--cck-dialog-section-gap);
+    padding-block-start: var(--cck-dialog-section-gap);
+    border-block-start: var(--cck-dialog-divider-width) solid var(--cck-dialog-divider-color);
+  }
+
   .cck-dialog__title {
+    box-sizing: border-box;
     margin: 0;
     color: var(--cck-dialog-title-color);
     font-family: var(--cck-dialog-title-font-family);
@@ -61,6 +101,7 @@
   }
 
   .cck-dialog__description {
+    box-sizing: border-box;
     display: block;
     margin: 0;
     color: var(--cck-dialog-description-color);
@@ -116,6 +157,14 @@
     .cck-dialog__content {
       border-color: CanvasText;
       box-shadow: none;
+    }
+
+    .cck-dialog__header {
+      border-block-end-color: CanvasText;
+    }
+
+    .cck-dialog__footer {
+      border-block-start-color: CanvasText;
     }
 
     .cck-dialog__content:focus-visible,

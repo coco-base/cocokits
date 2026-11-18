@@ -17,6 +17,12 @@ describe('@cocokits/react/select import safety', () => {
       'Group',
       'Label',
       'Separator',
+      'Header',
+      'Search',
+      'Empty',
+      'Footer',
+      'OptionDescription',
+      'OptionLeading',
     ];
     expect(Object.keys(entry).sort()).toEqual(['Select', ...parts.map((part) => `Select${part}`)].sort());
     expect(Object.keys(entry.Select).sort()).toEqual([...parts].sort());

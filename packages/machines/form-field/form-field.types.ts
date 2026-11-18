@@ -70,6 +70,11 @@ export interface FormFieldControlState {
   readonly filled?: boolean | undefined;
   /** See {@link FormFieldState.hidden}. */
   readonly hidden?: boolean | undefined;
+  /**
+   * The control is a group of controls (a `div` with `role="group"`), not a labelable element. The Label then
+   * names it through `aria-labelledby` and renders no `for`; see `getFormFieldLabelFor`.
+   */
+  readonly group?: true | undefined;
 }
 
 /** The author's ids of the hints and of the errors a field holds, in document order; `undefined` means none. */

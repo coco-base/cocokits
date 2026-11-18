@@ -77,12 +77,13 @@ const isSameText = (text: string): string => text;
  *
  * @param props - The shared props of the control.
  * @param options - What differs between the controls.
- * @returns The props to put on the element before the author's rest props.
+ * @returns The props to put on the element before the author's rest props, and `reset`, which clears the touched,
+ * dirty and submitted facts.
  */
 export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>(
   props: TextControlProps,
   options: TextControlOptions<E>,
-): Record<string, unknown> {
+): TextControl {
   const { value, defaultValue, onValueChange, id, name, hidden, disabled, readOnly, required } = props;
   const { componentName, elementRef, rootThemeAttrs, getParts, toDomText = isSameText } = options;
   const field = useFormFieldContext();
@@ -155,7 +156,14 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
     };
   }, [inField, componentName, elementRef]);
 
-  return {
+  // Clears the facts the control tracks. The value stays, and nobody is told about a change.
+  const reset = (): void => {
+    setTouchedState(false);
+    setDirtyState(false);
+    participation.clearSubmitted();
+  };
+
+  const elementProps: Record<string, unknown> = {
     ...rootThemeAttrs,
     ...toReactProps(parts.root),
     ...(controlled ? { value: toDomText(value ?? '') } : { defaultValue }),
@@ -175,4 +183,13 @@ export function useTextControl<E extends HTMLInputElement | HTMLTextAreaElement>
       setDomFilled(event.currentTarget.value !== '');
     },
   };
+  return { props: elementProps, reset };
+}
+
+/** What {@link useTextControl} returns. */
+export interface TextControl {
+  /** The props to put on the element. */
+  readonly props: Record<string, unknown>;
+  /** Clears the touched, dirty and submitted facts; the value stays. */
+  readonly reset: () => void;
 }

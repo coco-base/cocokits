@@ -59,6 +59,10 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   host: {
+    '[attr.checked]': 'null',
+    '[attr.submitvalue]': 'null',
+    '[attr.disabled]': 'null',
+    '[attr.required]': 'null',
     '[class]': 'parts().root.class',
     '[attr.id]': 'null',
     '[attr.name]': 'null',

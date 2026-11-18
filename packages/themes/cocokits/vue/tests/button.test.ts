@@ -54,11 +54,11 @@ describe.each<Kind>(['button', 'link'])('theme Button as a %s', (kind) => {
   it('lets a provider override win over the default, and the own option win over the override', () => {
     render(
       themed(() => h(Button, { ...linkProps(kind), size: 'sm' }, () => 'Go'), {
-        button: { variant: 'light', size: 'lg' },
+        button: { variant: 'basic', size: 'lg' },
       }),
     );
     const el = screen.getByRole(kind);
-    expect(el.getAttribute('data-variant')).toBe('light');
+    expect(el.getAttribute('data-variant')).toBe('basic');
     expect(el.getAttribute('data-size')).toBe('sm');
   });
 
@@ -73,9 +73,9 @@ describe.each<Kind>(['button', 'link'])('theme Button as a %s', (kind) => {
     value.value = undefined;
     await nextTick();
     expect(el.getAttribute('data-variant')).toBe('primary');
-    value.value = 'light';
+    value.value = 'basic';
     await nextTick();
-    expect(el.getAttribute('data-variant')).toBe('light');
+    expect(el.getAttribute('data-variant')).toBe('basic');
   });
 });
 

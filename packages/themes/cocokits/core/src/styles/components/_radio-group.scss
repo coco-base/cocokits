@@ -2,6 +2,7 @@
 @mixin rules {
   // The radios stack in a column; the row gap is the same between wrapped lines.
   .cck-radio-group {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

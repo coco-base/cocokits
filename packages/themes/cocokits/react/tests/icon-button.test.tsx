@@ -44,7 +44,7 @@ describe('theme IconButton', () => {
   });
 
   it('has the Button values for variant, and the five sizes of its own collection', () => {
-    expect(variant.values).toEqual(['primary', 'outline', 'light', 'basic']);
+    expect(variant.values).toEqual(['primary', 'outline', 'basic']);
     expect(size.values).toEqual(['xs', 'sm', 'md', 'lg', 'xl']);
     expect(rounded.values).toEqual([true, false]);
   });
@@ -62,12 +62,12 @@ describe('theme IconButton', () => {
 
   it('lets a provider override win over the default, and the own prop win over the override', () => {
     render(
-      <ThemeProvider themeConfig={cocokitsThemeConfig} overrides={{ 'icon-button': { variant: 'light', size: 'lg' } }}>
+      <ThemeProvider themeConfig={cocokitsThemeConfig} overrides={{ 'icon-button': { variant: 'basic', size: 'lg' } }}>
         {withIcon({ size: 'sm' })}
       </ThemeProvider>,
     );
     const button = screen.getByRole('button');
-    expect(button.getAttribute('data-variant')).toBe('light');
+    expect(button.getAttribute('data-variant')).toBe('basic');
     expect(button.getAttribute('data-size')).toBe('sm');
   });
 

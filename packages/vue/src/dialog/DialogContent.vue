@@ -27,6 +27,7 @@ import {
   type PointerDownOutsideEvent,
 } from '@cocokits/vue-core';
 import { dismissRefused } from '../internal/dismiss-handlers';
+import { applyAutoFocus, focusesDialog, restoreTarget } from './dialog-focus';
 import { DISMISS_LAYER_KEY } from '../internal/dismiss-layer';
 import { rootElementOf } from '../internal/root-element';
 import { useDialogContext } from './dialog.context';
@@ -81,6 +82,8 @@ const machine = computed(
         mounted: ctx.mounted.value,
         hasTitle: ctx.titles.value > 0,
         hasDescription: ctx.descriptions.value > 0,
+        role: ctx.role.value,
+        ...ctx.size.value,
       },
       ctx.send,
     ).content,
@@ -96,8 +99,24 @@ function onClose(event: Event): void {
     else dialog.show();
   });
 }
-const bound = computed(() => mergeProps(themeAttrs.value.content, attrs, { ...machine.value, onClose }));
+// A part the machine leaves out (`role` of a plain dialog, `style` without a size) stays the author's.
+const bound = computed(() =>
+  mergeProps(
+    themeAttrs.value.content,
+    attrs,
+    omitUnset({ ...machine.value, onClose }),
+    // The native focusing steps focus the dialog itself when it has `autofocus`.
+    focusesDialog(ctx.autoFocus.value) ? { autofocus: true } : {},
+  ),
+);
 const priorityAttrs = ['id', 'data-state'];
+
+/** The `role` and the `style` the machine leaves out stay the author's: only these two are dropped when unset. */
+function omitUnset(props: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(props).filter(([name, value]) => value !== undefined || !['role', 'style'].includes(name)),
+  );
+}
 
 function setContent(instance: unknown): void {
   ctx.contentElement.value = rootElementOf(instance as ComponentPublicInstance | null) as HTMLDialogElement | null;
@@ -200,7 +219,10 @@ function flushFocusReturn(): void {
     if (ctx.open.value) return;
     const event = new Event('focusScope.autoFocusOnUnmount', { cancelable: true });
     emit('closeAutoFocus', event);
-    if (!event.defaultPrevented && !leftOutside) pending.focusReturn.restore();
+    if (event.defaultPrevented || leftOutside) return;
+    const restore = ctx.restoreFocus.value;
+    if (restore === undefined || restore === true) pending.focusReturn.restore();
+    else if (restore !== false) restoreTarget(restore, pending.doc)?.focus();
   });
 }
 
@@ -238,7 +260,9 @@ function showNative(element: HTMLDialogElement): void {
   if (openedModal) element.showModal();
   else element.show();
   // The browser has placed focus in the dialog already; preventing the event only stops CocoKits from moving it.
-  emit('openAutoFocus', new Event('focusScope.autoFocusOnMount', { cancelable: true }));
+  const focusEvent = new Event('focusScope.autoFocusOnMount', { cancelable: true });
+  emit('openAutoFocus', focusEvent);
+  if (!focusEvent.defaultPrevented) applyAutoFocus(element, ctx.autoFocus.value);
 }
 
 // Mount and unmount (with the exit animation), the modal state, and while the dialog is open: the dismiss layer

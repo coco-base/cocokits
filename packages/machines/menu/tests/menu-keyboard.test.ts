@@ -8,7 +8,7 @@ describe('keymap and meta', () => {
     const rows = menuMeta.keyboard.map((row) => `${row.key} | ${row.context}`);
     const bound = new Set(menuKeymap.map((binding) => `${binding.row} | ${binding.context}`));
     expect([...bound].sort()).toEqual([...rows].sort());
-    expect(menuMeta.keyboard).toHaveLength(10);
+    expect(menuMeta.keyboard).toHaveLength(15);
   });
 });
 

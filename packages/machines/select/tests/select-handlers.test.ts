@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { getSelectProps, selectIds, selectKeymap, selectMeta, type SelectEvent } from '../index';
+import { getSelectProps, selectIds, selectKeymap, selectMeta, selectSearchKeymap, type SelectEvent } from '../index';
 import { base, burger, event, key, opened, pizza } from './fixtures';
 
 describe('handlers', () => {
@@ -75,10 +75,13 @@ describe('meta', () => {
   });
 
   it('agrees with the keymap in both directions', () => {
-    const metaKeys = selectMeta.keyboard.map((row) => row.key);
+    const rows = selectMeta.keyboard.filter((row) => row.context !== 'search input');
+    const searchRows = selectMeta.keyboard.filter((row) => row.context === 'search input');
+    const metaKeys = rows.map((row) => row.key);
     for (const binding of selectKeymap) expect(metaKeys).toContain(binding.row);
     const handled = new Set(selectKeymap.map((binding) => binding.row));
-    for (const row of selectMeta.keyboard) expect(handled.has(row.key)).toBe(true);
+    for (const row of rows) expect(handled.has(row.key)).toBe(true);
+    expect(searchRows.map((row) => row.key).sort()).toEqual(selectSearchKeymap.map((binding) => binding.row).sort());
   });
 
   it('describes the form contract', () => {

@@ -12,9 +12,14 @@ import {
 import {
   addChipListValue,
   chipListAnatomy,
+  getChipListBackspaceTarget,
+  getChipListFocusAfterRemove,
   getChipListProps,
+  getChipListRemoveKey,
   isChipListAddKey,
   removeChipListValue,
+  toggleChipListItem,
+  type ChipListEntry,
 } from '@cocokits/machines/chip-list';
 import { formFieldStateAttrs } from '@cocokits/machines/form-field';
 import { toReactProps, useFormParticipation, useThemeAttrs } from '@cocokits/react-core';
@@ -25,6 +30,7 @@ import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderContainerRoot } from '../internal/render-container-root';
 import { useControllableState } from '../internal/use-controllable-state';
 import { useControlClaim, useControlReport } from '../internal/use-field-control';
+import { useControlHandle } from '../internal/use-control-handle';
 import { useMergedRef } from '../internal/use-merged-ref';
 import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import type { ChipListChangeDetails, ChipListProps, ChipListRenderProps } from './chip-list.types';
@@ -33,7 +39,7 @@ import { useChipListFocus } from './use-chip-list-focus';
 /** The attributes the machine owns; a consumer value can never replace them. */
 const RESERVED = [...formFieldStateAttrs];
 
-const NO_VALUES: readonly string[] = [];
+const NO_VALUES: readonly ChipListEntry[] = [];
 
 const NAME_FIX =
   'Put the list in a FormField with a Label, or add an aria-label, or an aria-labelledby that points to an element with text.';
@@ -67,9 +73,9 @@ function ChipListImpl({
   const field = useFormFieldContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const elementRef = isValidElement<{ ref?: Ref<HTMLElement> }>(render) ? render.props.ref : undefined;
-  const rootRef = useMergedRef<HTMLElement>(ref, elementRef, undefined);
+  const rootElement = useRef<HTMLElement | null>(null);
   const [mountValue] = useState(() => value ?? defaultValue ?? NO_VALUES);
-  const [list, setList] = useControllableState<readonly string[], ChipListChangeDetails>({
+  const [list, setList] = useControllableState<readonly ChipListEntry[], ChipListChangeDetails>({
     value,
     defaultValue: defaultValue ?? NO_VALUES,
     onChange: onValueChange,
@@ -105,6 +111,25 @@ function ChipListImpl({
     },
   });
 
+  // Clears the facts the list tracks. The values and the text stay, and nobody is told about a change.
+  const reset = (): void => {
+    setTouchedState(false);
+    setDirtyState(false);
+    setBlocked(false);
+    participation.clearSubmitted();
+  };
+  const handleRef = useControlHandle({
+    reset,
+    focus: () => {
+      inputRef.current?.focus();
+    },
+  });
+  const rootRef = useMergedRef<HTMLElement>(
+    ref,
+    elementRef,
+    useMergedRef<HTMLElement>(rootElement, handleRef, undefined),
+  );
+
   const parts = getChipListProps(
     {
       value: list,
@@ -133,7 +158,11 @@ function ChipListImpl({
     key: [ariaLabel, ariaLabelledBy].join('|'),
   });
 
-  const focus = useChipListFocus(inputRef, parts.control.readOnly === true && parts.control.disabled !== true);
+  const focus = useChipListFocus(
+    inputRef,
+    rootElement,
+    parts.control.readOnly === true && parts.control.disabled !== true,
+  );
 
   const add = (text: string, event: Event): void => {
     updateDraft('');
@@ -154,8 +183,34 @@ function ChipListImpl({
     setList(next, { reason: 'remove', event });
   };
 
+  const toggle = (index: number, event: Event | null): void => {
+    const next = toggleChipListItem(list, index);
+    if (next === list) return;
+    setDirtyState(true);
+    setList(next, { reason: 'toggle', event });
+  };
+
+  // Backspace or Delete on a chip removes it and moves the focus to a neighbour chip, else to the text box.
+  const onChipKeyDown = (index: number, event: KeyboardEvent<HTMLElement>): void => {
+    const key = getChipListRemoveKey(event.nativeEvent);
+    if (key === null || !(event.target instanceof HTMLButtonElement)) return;
+    const next = removeChipListValue(list, index);
+    if (next === list) return;
+    event.preventDefault();
+    setDirtyState(true);
+    setBlocked(false);
+    focus.focusAfterCommit(getChipListFocusAfterRemove(list, index, key));
+    setList(next, { reason: 'remove', event: event.nativeEvent });
+  };
+
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
     const text = event.currentTarget.value;
+    const last = getChipListBackspaceTarget(event.nativeEvent, text, list);
+    if (last !== null) {
+      event.preventDefault();
+      focus.focusChip(last);
+      return;
+    }
     if (!isChipListAddKey(event.nativeEvent) || parts.chipDisabled || text.trim() === '') return;
     event.preventDefault();
     add(text, event.nativeEvent);
@@ -191,25 +246,35 @@ function ChipListImpl({
       },
       children: (
         <>
-          {list.map((text, index) => (
-            // The chips are tracked by position, so a value with equal texts renders without a warning.
-            <Chip
-              key={index}
-              removable
-              disabled={parts.chipDisabled}
-              onRemove={() => {
-                remove(index);
-              }}
-              onFocus={(event) => {
-                if (event.target !== event.currentTarget) focus.rememberFocus(event.target);
-              }}
-              onBlur={(event) => {
-                focus.forgetFocus(event.target, event.relatedTarget);
-              }}
-            >
-              {text}
-            </Chip>
-          ))}
+          {list.map((entry, index) => {
+            const chip = parts.chip(entry);
+            return (
+              // The chips are tracked by position, so a value with equal texts renders without a warning.
+              <Chip
+                key={index}
+                removable={chip.removable}
+                disabled={chip.disabled}
+                selected={chip.selected}
+                onSelectedChange={(_selected, details) => {
+                  toggle(index, details.event);
+                }}
+                onRemove={() => {
+                  remove(index);
+                }}
+                onKeyDown={(event) => {
+                  onChipKeyDown(index, event);
+                }}
+                onFocus={(event) => {
+                  if (event.target !== event.currentTarget) focus.rememberFocus(event.target);
+                }}
+                onBlur={(event) => {
+                  focus.forgetFocus(event.target, event.relatedTarget);
+                }}
+              >
+                {chip.value}
+              </Chip>
+            );
+          })}
           <input
             {...themeAttrs.input}
             {...toReactProps(parts.input)}
@@ -245,7 +310,12 @@ interface ChipListComponent {
  *
  * The list has no role. A screen reader reads each chip text, then its remove button, then the text box. Enter adds
  * the text after trimming it, unless the list has it already. Enter with no text submits the form as usual. Tab
- * reaches each remove button, then the text box. After a removal, focus moves to the text box.
+ * reaches each remove button, then the text box. After a click on a remove button, focus moves to the text box.
+ *
+ * An entry is a string, or a `ChipListItem` with `removable: false` (no remove button), `disabled` and `selected`.
+ * An item with `selected` set is a selectable chip: a press toggles it and reports the change with the reason
+ * `toggle`. Backspace in the empty text box moves focus to the last chip. Backspace or Delete on a focused chip
+ * removes it and moves focus to the previous chip (Delete: the next), else to the text box.
  *
  * Control the values with `value` and `onValueChange`, or set `defaultValue` and let the list keep them. A change
  * that you do not take is undone.

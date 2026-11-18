@@ -28,11 +28,21 @@ function SelectValueImpl<V = unknown>({
   if (empty) content = placeholder;
   else if (typeof children === 'function') content = children(context.selectedValue as V);
   else content = children ?? context.valueText;
-  return renderElement<SelectRenderProps, undefined>(render, 'span', { ...props, children: content }, undefined);
+  const value = renderElement<SelectRenderProps, undefined>(render, 'span', { ...props, children: content }, undefined);
+  const { count } = parts;
+  if (count === null) return value;
+  return (
+    <>
+      {value}
+      <span {...theme.count} {...toReactProps({ class: count.class })}>
+        {count.text}
+      </span>
+    </>
+  );
 }
 
 /**
- * The text that the trigger shows. It renders a `<span>` with the placeholder while nothing is selected, and with the selected labels, joined with a comma, otherwise.
+ * The text that the trigger shows. It renders a `<span>` with the placeholder while nothing is selected, and with the label of the first selected value otherwise. It also renders the count of the other selected values, a `<span>` with `+N`, after the value, while two or more values are selected.
  *
  * The labels come from the `items` of the Root, then from `itemToStringLabel`, then from the value as text. So they are in the server render. Give it children to show something else. Native `span` props pass through.
  *

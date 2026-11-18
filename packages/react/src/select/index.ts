@@ -10,6 +10,12 @@ export { SelectItemIndicator } from './select-item-indicator';
 export { SelectGroup } from './select-group';
 export { SelectLabel } from './select-label';
 export { SelectSeparator } from './select-separator';
+export { SelectHeader } from './select-header';
+export { SelectSearch } from './select-search';
+export { SelectEmpty } from './select-empty';
+export { SelectFooter } from './select-footer';
+export { SelectOptionDescription } from './select-option-description';
+export { SelectOptionLeading } from './select-option-leading';
 export type {
   CancelableChangeDetails,
   SelectChangeDetails,
@@ -24,6 +30,14 @@ export type {
   SelectValueProps,
   SelectValueReason,
 } from './select.types';
+export type {
+  SelectEmptyProps,
+  SelectFooterProps,
+  SelectHeaderProps,
+  SelectOptionDescriptionProps,
+  SelectOptionLeadingProps,
+  SelectSearchProps,
+} from './select-extra-parts.types';
 export type {
   PointerDownOutsideEvent,
   SelectContentProps,

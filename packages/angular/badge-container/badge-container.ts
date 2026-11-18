@@ -24,6 +24,7 @@ import {
   selector: 'cck-badge-container',
   exportAs: 'cckBadgeContainer',
   host: {
+    '[attr.position]': 'null',
     '[class]': 'parts().root.class',
     '[attr.data-position]': 'parts().root["data-position"]',
   },

@@ -66,6 +66,8 @@ export interface SelectOptionRegistration {
   readonly id: Signal<string | undefined>;
   /** Whether the option, or its group, is disabled. */
   readonly disabled: Signal<boolean>;
+  /** Whether a description part is mounted in the option. */
+  readonly hasDescription: Signal<boolean>;
   /** The trimmed text of the option's content, read from the document. */
   readonly label: () => string;
 }

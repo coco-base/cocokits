@@ -276,13 +276,13 @@ describe('Select labels from data', () => {
     expect(screen.queryByRole('listbox')).toBeNull();
   });
 
-  it('accepts a record from value to label, and joins the labels of a multiple Select in value order', () => {
+  it('accepts a record from value to label, and shows the first label of a multiple Select in value order', () => {
     render(
       <Dishes multiple defaultValue={['pizza', 'cake']} items={{ cake: 'Cake', pizza: 'Pizza' }}>
         <Opt value="cake">Cake</Opt>
       </Dishes>,
     );
-    expect(valueText()).toBe('Pizza, Cake');
+    expect(valueText()).toBe('Pizza');
   });
 
   it('falls back to itemToStringLabel, then to the value as text', () => {

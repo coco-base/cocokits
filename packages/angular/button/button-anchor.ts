@@ -17,6 +17,8 @@ import { CckButtonBase } from './button-base';
   selector: 'a[cckButton]',
   exportAs: 'cckButton',
   host: {
+    // A link has no `disabled` attribute: the input is the author's, the markers below are the state.
+    '[attr.disabled]': 'null',
     '[attr.aria-disabled]': 'props()["aria-disabled"] ?? null',
     '[attr.tabindex]': 'props().tabindex ?? null',
   },

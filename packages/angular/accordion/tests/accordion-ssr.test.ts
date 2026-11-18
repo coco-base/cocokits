@@ -22,7 +22,8 @@ describe('Accordion on the server', () => {
     for (const tag of triggers) expect(tag).toContain('aria-controls="');
     expect(html).toContain('<h2');
     expect(html).toContain('<b>Care</b>');
-    expect(html).toContain('Shipping body');
+    expect(html).toContain('Warranty body');
+    expect(html).not.toContain('Shipping body');
   });
 
   it('writes no size variable and keeps no input attribute on the items', async () => {

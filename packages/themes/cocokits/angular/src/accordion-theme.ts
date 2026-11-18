@@ -33,6 +33,12 @@ const toHideToggle = (
  */
 @Directive({
   selector: 'cck-accordion',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.size]': 'null',
+    '[attr.toggleposition]': 'null',
+    '[attr.hidetoggle]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'accordion',

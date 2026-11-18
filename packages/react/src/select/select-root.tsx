@@ -134,6 +134,7 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     itemToStringValue,
     isItemEqualToValue,
     autoComplete,
+    filter = false,
     disabled,
     readOnly,
     required,
@@ -161,6 +162,8 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
   const [focused, setFocused] = useState(false);
   const [touched, setTouched] = useState(false);
   const [dirty, setDirty] = useState(false);
+  // The text of the search input; the list clears it when it closes.
+  const [query, setQuery] = useState('');
   // An outside press is being decided, and whether the list's dismiss layer answers Escape.
   const focusOutHeld = useRef(false);
   const layerActiveRef = useRef(false);
@@ -223,6 +226,8 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     submitted: participation.submitted,
     blockedSubmit: blockedMessage !== null,
     focused,
+    filter,
+    query: isOpen ? query : '',
   };
   const highlight = useSelectHighlight({ isOpen, registry: registry.registry, state: baseState });
   const state: SelectState<T | null> = { ...baseState, highlighted: isOpen ? highlight.highlighted : undefined };
@@ -248,10 +253,20 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
         },
         highlight: setHighlight,
         reveal,
+        query: setQuery,
+        // The search input takes the focus itself when it mounts; a close moves it back to the trigger.
+        focus: (target) => {
+          if (target === 'trigger') triggerRef.current?.focus();
+        },
       });
     },
     [begin, setHighlight, reveal],
   );
+
+  // A list that closes from outside (a controlled `open`) clears the query too.
+  useIsomorphicLayoutEffect(() => {
+    if (!isOpen) setQuery('');
+  }, [isOpen]);
 
   const parts = useSelectParts(state, dispatch, fieldContextOf(field, primary));
   useControlReport(field, triggerRef, primary, parts.control);
@@ -285,6 +300,7 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     itemCount: registry.items.length,
     typeahead,
     dispatch,
+    hasSearch: filter,
     isFocusOutHeld: () => focusOutHeld.current,
     isLayerActive: () => layerActiveRef.current,
     begin,
@@ -349,10 +365,12 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     setTriggerAria,
     holdFocusOut,
     layerActiveRef,
+    filter,
     contentHandlersRef,
     empty,
     selectedValue: model.value,
     valueText,
+    groupItemKeys: registry.groupItemKeys,
     registerItem: registry.registerItem,
   };
   const elementRef = isValidElement<ElementProps>(render) ? render.props.ref : undefined;
@@ -422,6 +440,23 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
  * </Select.Root>
  * @typeParam T - The type of the value of an item. The default is `string`.
  * @typeParam M - The type of `multiple`. `true` makes the value a list. The default is `false`.
+ * @example
+ * <Select.Root multiple filter>
+ *   <Select.Trigger aria-label="Dishes">
+ *     <Select.Value placeholder="Choose dishes" />
+ *     <Select.Icon />
+ *   </Select.Trigger>
+ *   <Select.Content>
+ *     <Select.Header><Select.Search aria-label="Search dishes" /></Select.Header>
+ *     <Select.Item value="Cake">
+ *       <Select.OptionLeading><SvgIcon iconName="heart" /></Select.OptionLeading>
+ *       <Select.ItemText>Cake</Select.ItemText>
+ *       <Select.OptionDescription>Baked daily</Select.OptionDescription>
+ *     </Select.Item>
+ *     <Select.Empty>No dish matches.</Select.Empty>
+ *     <Select.Footer><button type="button">Add a dish</button></Select.Footer>
+ *   </Select.Content>
+ * </Select.Root>
  * @cckPart root
  * @param props - The Root props.
  * @returns The rendered root.

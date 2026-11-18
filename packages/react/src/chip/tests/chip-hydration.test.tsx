@@ -9,6 +9,13 @@ const cases: readonly [string, ReactElement][] = [
   ['plain', <Chip>Pizza</Chip>],
   ['removable', <Chip removable>Pizza</Chip>],
   [
+    'selectable, selected and removable',
+    <Chip id="s" selected removable>
+      Pizza
+    </Chip>,
+  ],
+  ['selectable and not selected', <Chip defaultSelected={false}>Pizza</Chip>],
+  [
     'disabled and removable',
     <Chip removable disabled id="x">
       Pizza

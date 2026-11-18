@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input, signal } from '@angular/core';
 import { bindAttrs } from '@cocokits/angular-core';
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import { hasAccessibleName } from '@cocokits/utils';
@@ -31,6 +31,10 @@ import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
     '[attr.data-state]': 'props()["data-state"]',
     '[attr.data-side]': 'props()["data-side"]',
     '[attr.data-align]': 'props()["data-align"]',
+    '[attr.side]': 'null',
+    '[attr.align]': 'null',
+    '[attr.sideoffset]': 'null',
+    '[attr.alignoffset]': 'null',
   },
 })
 export class CckPopoverContent {
@@ -48,6 +52,18 @@ export class CckPopoverContent {
    */
   readonly align = input<OverlayAlign>(inject(CCK_POPOVER_DEFAULT_OPTIONS).align);
 
+  /**
+   * The gap between the trigger and the content, in px. When not set, the gap is the `--side-offset` of the theme.
+   * @remarks A number is px. The gap is a position, so the author can set it for each popover.
+   */
+  readonly sideOffset = input<number | undefined>(undefined);
+
+  /**
+   * How far, in px, the content moves along the edge of the trigger, away from the aligned edge. It has no effect with `align="center"`. When not set, the content is not moved.
+   * @defaultValue 0
+   */
+  readonly alignOffset = input<number | undefined>(undefined);
+
   private readonly root = injectCckPopover('Content');
   protected readonly props = computed(() => this.root._parts().content);
   /** An `aria-labelledby` or `aria-describedby` the author wrote wins over the Title and Description. */
@@ -58,13 +74,22 @@ export class CckPopoverContent {
 
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-    const registration = { element, side: this.side, align: this.align };
+    const ready = signal(false);
+    const registration = {
+      element,
+      side: this.side,
+      align: this.align,
+      sideOffset: this.sideOffset,
+      alignOffset: this.alignOffset,
+      ready,
+    };
     this.root._content.set(registration);
     inject(DestroyRef).onDestroy(() => {
       this.root._content.update((current) => (current === registration ? null : current));
     });
     bindAttrs(element, () => this.root._theme().content);
     afterNextRender(() => {
+      ready.set(true);
       if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
       if (!hasAccessibleName(element)) {
         console.warn(

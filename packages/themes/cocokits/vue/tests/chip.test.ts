@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/vue';
 import { h, nextTick, ref, type VNode } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Chip as BaseChip } from '@cocokits/vue/chip';
-import { ChipList as BaseChipList } from '@cocokits/vue/chip-list';
+import { ChipList as BaseChipList, type ChipListEntry } from '@cocokits/vue/chip-list';
 import { cocokitsThemeConfig } from '@cocokits/theme-cocokits';
 import { Chip, ChipList } from '../src/index';
 import { themed } from './helpers';
@@ -92,8 +92,8 @@ describe('theme Chip', () => {
     const onRemove = vi.fn();
     render(themed(() => h(Chip, { 'data-testid': 'root', removable: true, onRemove }, () => 'Pizza')));
     const icon = root().querySelector('.cck-chip__remove .cck-svg-icon');
-    expect(chip.icons.remove).toBe('close');
-    expect(icon?.getAttribute('data-icon')).toBe('close');
+    expect(chip.icons.remove).toBe('circle-xmark');
+    expect(icon?.getAttribute('data-icon')).toBe('circle-xmark');
     await fireEvent.click(removeButton());
     expect(onRemove).toHaveBeenCalledTimes(1);
   });
@@ -122,20 +122,20 @@ describe('theme ChipList', () => {
     expect(chips).toHaveLength(2);
     for (const element of chips) {
       expect(element.getAttribute('data-size')).toBe('md');
-      expect(element.querySelector('.cck-svg-icon')?.getAttribute('data-icon')).toBe('close');
+      expect(element.querySelector('.cck-svg-icon')?.getAttribute('data-icon')).toBe('circle-xmark');
     }
   });
 
   it('keeps the model: a start value, and update:modelValue when a chip is removed', async () => {
     const onUpdate = vi.fn();
-    const value = ref<string[]>(['Ham', 'Olives']);
+    const value = ref<ChipListEntry[]>(['Ham', 'Olives']);
     render(
       themed(() =>
         h(ChipList, {
           'data-testid': 'root',
           ariaLabel: 'Toppings',
           modelValue: value.value,
-          'onUpdate:modelValue': (next: string[]) => {
+          'onUpdate:modelValue': (next: ChipListEntry[]) => {
             onUpdate(next);
             value.value = next;
           },

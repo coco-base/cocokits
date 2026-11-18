@@ -25,15 +25,16 @@ describe('Chip on the server', () => {
       .find(Boolean);
     expect(id).toBeTruthy();
     expect(html).toContain(`id="${String(id)}-content"`);
-    expect(html).toContain(`aria-labelledby="${String(id)}-content"`);
+    expect(html).toContain(`aria-labelledby="${String(id)}-remove ${String(id)}-content"`);
+    expect(html).toContain('aria-label="Remove"');
     expect(html).toContain('type="button"');
     expect(html).toContain('>Pizza</span>');
   });
 
-  it('renders the disabled facts and no button without removable', async () => {
+  it('renders the disabled fact and no button while disabled or without removable', async () => {
     const disabled = await markup(() => h(Chip, { removable: true, disabled: true }, () => 'Pizza'));
-    expect(disabled.match(/ data-disabled[ >=]/g)).toHaveLength(2);
-    expect(disabled).toMatch(/<button[^>]* disabled/);
+    expect(disabled.match(/ data-disabled[ >=]/g)).toHaveLength(1);
+    expect(disabled).not.toContain('<button');
     const plain = await markup(() => h(Chip, null, () => 'Pizza'));
     expect(plain).not.toContain('<button');
   });

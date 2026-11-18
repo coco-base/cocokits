@@ -19,7 +19,7 @@ import {
   injectZoneBoundary,
 } from '@cocokits/angular-core';
 import { handleHiddenInputInvalid } from '@cocokits/angular/form-control';
-import { deepActiveElement } from '@cocokits/cdk/focus';
+import { deepActiveElement, scheduleFocus } from '@cocokits/cdk/focus';
 import { trackLabelActivation, type LabelActivation } from '@cocokits/cdk/form-control';
 import {
   selectAnatomy,
@@ -54,6 +54,7 @@ export interface SelectControllerOptions<V> extends Omit<SelectStateInputs<V>, '
   readonly listbox: Signal<TemplateRef<void> | undefined>;
   readonly hiddenInputs: Signal<readonly ElementRef<HTMLInputElement>[]>;
   readonly content: Signal<HTMLElement | null>;
+  readonly search: Signal<HTMLInputElement | null>;
   readonly fieldAnchor: Signal<HTMLElement | null>;
   /** Writes `selectionChange`. */
   readonly emitChange: (value: V | null, reason: SelectValueChangeReason, event: Event | null) => void;
@@ -222,9 +223,20 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
     // Only a choice in the list keeps its value when the close is refused.
     if (refused && closing !== 'select') return false;
     if (!refused) applyOpen(next);
+    if (next.query !== undefined) model.query.set(next.query);
+    if (next.focus !== undefined) moveFocus(next.focus);
     if (next.reveal) revealTick.update((tick) => tick + 1);
     if (next.value !== undefined) commit(next.value, event.event);
     return !refused;
+  }
+
+  // The search input takes the focus when the list opens; the trigger gets it back when the list closes.
+  function moveFocus(target: 'search' | 'trigger'): void {
+    const trigger = o.trigger()?.nativeElement;
+    if (!trigger) return;
+    scheduleFocus(trigger.ownerDocument, () => {
+      (target === 'search' ? o.search() : trigger)?.focus();
+    });
   }
 
   function open(): void {

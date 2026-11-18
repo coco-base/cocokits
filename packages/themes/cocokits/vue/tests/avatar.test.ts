@@ -28,8 +28,8 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
     expect(attr('avatar', 'data-size')).toBe('md');
     expect(attr('group', 'data-size')).toBe('md');
     expect(attr('label', 'data-size')).toBe('md');
-    expect(attr('label', 'data-avatar-position')).toBe('start');
-    expect(attr('label', 'data-text-layout')).toBe('stacked');
+    expect(attr('label', 'data-avatar-position')).toBe('left');
+    expect(attr('label', 'data-label-alignment')).toBe('vertical');
   });
 
   it.each([
@@ -37,7 +37,7 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
     ['group', 'size', 'data-size', group.size.values],
     ['label', 'size', 'data-size', label.size.values],
     ['label', 'avatarPosition', 'data-avatar-position', label.avatarPosition.values],
-    ['label', 'textLayout', 'data-text-layout', label.textLayout.values],
+    ['label', 'labelAlignment', 'data-label-alignment', label.labelAlignment.values],
   ] as const)('the %s %s prop renders %s for every value', (id, option, name, values) => {
     for (const value of values) {
       render(themed(() => make(id, { [option]: value })));
@@ -51,7 +51,7 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
       themed(() => [
         make('avatar', { size: null }),
         make('group', { size: null }),
-        make('label', { size: null, avatarPosition: null, textLayout: null }),
+        make('label', { size: null, avatarPosition: null, labelAlignment: null }),
       ]),
     );
     for (const [id, name] of [
@@ -59,7 +59,7 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
       ['group', 'data-size'],
       ['label', 'data-size'],
       ['label', 'data-avatar-position'],
-      ['label', 'data-text-layout'],
+      ['label', 'data-label-alignment'],
     ] as const) {
       expect(el(id).hasAttribute(name)).toBe(false);
     }
@@ -69,11 +69,11 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
     render(
       themed(() => [make('avatar', { size: 'lg' }), make('label', {})], {
         avatar: { size: 'xs' },
-        'avatar-label': { textLayout: 'inline' },
+        'avatar-label': { labelAlignment: 'horizontal' },
       }),
     );
     expect(attr('avatar', 'data-size')).toBe('lg');
-    expect(attr('label', 'data-text-layout')).toBe('inline');
+    expect(attr('label', 'data-label-alignment')).toBe('horizontal');
   });
 
   it('update a mounted root: value, null, then undefined restores the default', async () => {

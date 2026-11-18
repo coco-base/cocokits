@@ -9,6 +9,7 @@ import type { AccordionItemProps } from './accordion.types';
 defineOptions({ name: 'CckAccordionItem', inheritAttrs: false });
 
 const props = withDefaults(defineProps<AccordionItemProps>(), {
+  value: undefined,
   disabled: false,
   unmountOnHide: undefined,
   as: 'div',
@@ -39,9 +40,11 @@ const ctx = useAccordionContext('AccordionItem');
 const themeAttrs = useThemeAttrs(accordionAnatomy);
 const attrs = useAttrs();
 const id = useId();
+// An item with no `value` is known by its generated id.
+const itemValue = computed(() => props.value ?? id);
 const trigger = shallowRef<HTMLElement | null>(null);
 const content = shallowRef<HTMLElement | null>(null);
-const open = computed(() => ctx.state.value.value.includes(props.value));
+const open = computed(() => ctx.state.value.value.includes(itemValue.value));
 // The exit animation keeps the content shown after the item has closed. It starts when the closed state is rendered.
 const presenceState = shallowRef<PresenceState>('unmounted');
 const shown = computed(() => open.value || presenceState.value !== 'unmounted');
@@ -53,7 +56,7 @@ const presence = createPresence({
 });
 
 provide(ACCORDION_ITEM_KEY, {
-  value: computed(() => props.value),
+  value: itemValue,
   id,
   disabled: computed(() => props.disabled),
   open,
@@ -67,7 +70,7 @@ provide(ACCORDION_ITEM_KEY, {
 const machine = computed(() =>
   getAccordionItemProps(
     ctx.state.value,
-    { id, key: props.value, disabled: props.disabled, contentPresent: shown.value },
+    { id, key: itemValue.value, disabled: props.disabled, contentPresent: shown.value },
     ctx.dispatch,
   ),
 );
@@ -76,7 +79,7 @@ const bound = computed(() => mergeProps(themeAttrs.value.item, attrs, { ...machi
 let unregister: (() => void) | undefined;
 onMounted(() => {
   unregister = ctx.register({
-    value: () => props.value,
+    value: () => itemValue.value,
     disabled: () => props.disabled,
     trigger: () => trigger.value,
     content: () => content.value,

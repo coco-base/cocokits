@@ -26,6 +26,7 @@ import {
   valueToFormString,
   type SelectEvent,
   type SelectState,
+  type SelectTransition,
 } from '@cocokits/machines/select';
 import { hasAccessibleName, visuallyHiddenStyle } from '@cocokits/utils';
 import {
@@ -51,6 +52,7 @@ import type { SelectRootEmits, SelectRootProps, SelectValueOf } from './select.t
 import { useSelectHighlight } from './use-select-highlight';
 import { useSelectModel } from './use-select-model';
 import { useSelectRegistry } from './use-select-registry';
+import { useSelectSearch } from './use-select-search';
 
 defineOptions({ name: 'CckSelectRoot', inheritAttrs: false });
 
@@ -65,6 +67,7 @@ const props = withDefaults(defineProps<SelectRootProps<T, M>>(), {
   itemToStringValue: undefined,
   by: undefined,
   autocomplete: undefined,
+  filter: undefined,
   nullableValue: '',
   disabled: undefined,
   readonly: undefined,
@@ -164,6 +167,11 @@ const interactive = computed(
 );
 const isOpen = computed(() => openModel.value === true && interactive.value);
 const { registry, items, registerItem } = useSelectRegistry<T>(isOpen);
+const { query, searchElement, focusTrigger, focusTriggerSoon } = useSelectSearch({
+  isOpen,
+  filter: () => props.filter === true,
+  triggerElement,
+});
 
 /** The trigger text of a value: its `items` label, else `itemToStringLabel`, else `String`. No item registers it. */
 function labelOf(value: T): string {
@@ -180,6 +188,8 @@ const baseState = computed<SelectState<T>>(() => ({
   items: items.value,
   value: model.value,
   multiple: multiple.value,
+  filter: props.filter === true,
+  query: query.value,
   itemToStringLabel: labelOf,
   itemToStringValue: props.itemToStringValue,
   isItemEqual: same,
@@ -216,6 +226,12 @@ function refusedByItem(event: SelectEvent): boolean {
   return chosenItem(event)?.select(original) ?? false;
 }
 
+/** The search part of a transition: the new query, and the focus back on the trigger after a choice, Escape or the trigger. */
+function applySearch(next: SelectTransition<T>): void {
+  if (next.query !== undefined) query.value = next.query;
+  if (next.focus === 'trigger') focusTriggerSoon();
+}
+
 function send(event: SelectEvent): void {
   const next = transitionSelect(state.value, event);
   if (!next) return;
@@ -230,9 +246,8 @@ function send(event: SelectEvent): void {
     dirty.value = true;
     write(value);
   }
-  if (next.open) {
-    openModel.value = next.open.open;
-  }
+  if (next.open) openModel.value = next.open.open;
+  applySearch(next);
 }
 
 const parts = computed(() =>
@@ -390,6 +405,9 @@ provideSelect({
   keptClosed,
   layerActive,
   multiple,
+  filter: computed(() => props.filter === true),
+  searchElement,
+  focusTrigger,
   form: computed(() => props.form),
   empty: computed(() => isSelectEmpty(state.value)),
   modelValue: current,

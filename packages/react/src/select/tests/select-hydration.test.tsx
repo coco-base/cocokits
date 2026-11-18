@@ -3,6 +3,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Select } from '../index';
 import { Dishes, Example, Opt, stubTopLayer } from './fixtures';
 
 beforeEach(() => {
@@ -64,5 +65,28 @@ describe('Select hydration', () => {
     expect(warn).not.toHaveBeenCalled();
     expect(container.innerHTML).toBe(serverHtml);
     expect(container.querySelector('.cck-select__value')?.textContent).toBe('Pizza');
+  });
+
+  it('hydrates a multiple Select with a count and a search without a mismatch', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const ui = (
+      <Select.Root multiple filter defaultValue={['Cake', 'Steak']}>
+        <Select.Trigger aria-label="Dishes">
+          <Select.Value />
+        </Select.Trigger>
+        <Select.Content>
+          <Select.Header>
+            <Select.Search />
+          </Select.Header>
+          <Opt value="Cake">Cake</Opt>
+        </Select.Content>
+      </Select.Root>
+    );
+    const container = document.body.appendChild(document.createElement('div'));
+    container.innerHTML = renderToString(ui);
+    const serverHtml = container.innerHTML;
+    render(ui, { container, hydrate: true });
+    expect(error).not.toHaveBeenCalled();
+    expect(container.innerHTML).toBe(serverHtml);
   });
 });

@@ -1,0 +1,16 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Checkbox Group / Structure",
+      "tier": 3,
+      "prefix": "checkbox-group",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-5}" } },
+        { "name": "inline-gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-5}" } }
+      ]
+    }
+  ]
+}

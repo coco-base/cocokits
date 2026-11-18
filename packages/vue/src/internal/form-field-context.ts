@@ -13,6 +13,11 @@ export interface FormFieldContextValue {
   /** The facts the author set on the FormField. */
   readonly own: ComputedRef<FormFieldOwnFacts>;
   /**
+   * Whether the field holds a Label in its `label` slot. A group that the Label names (`aria-labelledby`) points at
+   * it only while it does.
+   */
+  readonly hasLabel: ComputedRef<boolean>;
+  /**
    * Makes `token` the field's control when none is yet, and remembers its `element` so a click on the input
    * wrapper can focus it. Call it after mount; the first control to claim is the field's control for as long as
    * it is mounted, and no later control takes over.

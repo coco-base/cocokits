@@ -108,7 +108,8 @@ export interface TooltipRootProps {
    */
   readonly disableHoverableContent?: boolean | undefined;
   /**
-   * Whether the tooltip never opens. A disabled tooltip is closed, and its content is not rendered.
+   * Whether the tooltip never opens. A disabled tooltip is closed, its content is not rendered and it no longer
+   * describes the trigger. A shown tooltip hides at once when it becomes disabled.
    *
    * Turning it on while the tooltip shows hides it at once and calls no `onOpenChange`. A tooltip that you do not
    * control stays closed when you turn it off again.
@@ -315,6 +316,30 @@ export interface TooltipArrowProps extends Omit<ComponentPropsWithRef<'span'>, '
    *
    * When not set, the part renders its own element. The Arrow hides with the native `hidden` attribute, which hides
    * HTML elements only.
+   *
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with the `render` prop.
+   * @cckShared
+   */
+  readonly render?: RenderProp<TooltipRenderProps, TooltipState> | undefined;
+}
+
+/** Props of the {@link TooltipTitle} and the {@link TooltipDescription}. Native `div` props pass through. */
+export interface TooltipTextProps extends Omit<ComponentPropsWithRef<'div'>, 'color'> {
+  /**
+   * The text of the part. When not set, the part is empty.
+   *
+   * @example
+   * <Tooltip.Title>Copy link</Tooltip.Title>
+   * @cckSemantic tooltip.default
+   * @cckParity The text of the part.
+   */
+  readonly children?: ReactNode | undefined;
+  /**
+   * Replaces the element that the part renders. Pass an element, or a function of the merged props and the state
+   * of the part. The function must pass all props on, `ref` included, to one element.
+   *
+   * When not set, the part renders a `<div>`.
    *
    * @cckSemantic none
    * @cckParity Replaces the rendered element with the `render` prop.

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useId, useMemo, useRef, useState, type ReactElement } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactElement } from 'react';
 import { createPresence, type Presence } from '@cocokits/cdk/presence';
 import { transitionDialog, type DialogEvent } from '@cocokits/machines/dialog';
 import { useControllableState } from '../internal/use-controllable-state';
@@ -13,6 +13,18 @@ function DialogRootImpl({
   defaultOpen = false,
   onOpenChange,
   modal = true,
+  disableClose = false,
+  closePredicate,
+  closeOnNavigation = true,
+  role,
+  autoFocus,
+  restoreFocus = true,
+  width,
+  height,
+  minWidth,
+  minHeight,
+  maxWidth,
+  maxHeight,
   children,
 }: DialogRootProps): ReactElement {
   const id = useId();
@@ -33,21 +45,42 @@ function DialogRootImpl({
   const openedByTrigger = useRef(false);
 
   // Read by `dispatch`, which the dismissal listeners created once call.
-  const latest = useRef({ id, open, setOpen });
+  const latest = useRef({ id, open, setOpen, disableClose, closePredicate });
   useIsomorphicLayoutEffect(() => {
-    latest.current = { id, open, setOpen };
+    latest.current = { id, open, setOpen, disableClose, closePredicate };
   });
 
   const dispatch = useCallback((event: DialogEvent): boolean => {
     const state = latest.current;
-    const next = transitionDialog({ id: state.id, open: state.open }, event);
-    if (!next) return true;
+    const next = transitionDialog({ id: state.id, open: state.open, disableClose: state.disableClose }, event);
+    // A dismissal that `disableClose` refuses is refused for the layers below too, and the native dialog stays.
+    if (!next) return !(event.type === 'CONTENT.DISMISS' && state.open && state.disableClose);
+    if (!next.open && state.closePredicate?.({ reason: next.reason, event: event.event }) === false) return false;
     const accepted = state.setOpen(next.open, { reason: next.reason, event: event.event });
     if (accepted) openedByTrigger.current = next.open && next.reason === 'trigger';
     return accepted;
   }, []);
 
   const isOpen = useCallback(() => latest.current.open, []);
+
+  // A close on navigation (history back or forward, a hash change) skips `disableClose` and `closePredicate`.
+  useEffect(() => {
+    if (!closeOnNavigation || !open) return undefined;
+    const close = (event: Event): void => {
+      const state = latest.current;
+      state.setOpen(false, { reason: 'close', event });
+    };
+    const targets: [EventTarget, string][] = [
+      [window, 'popstate'],
+      [window, 'hashchange'],
+    ];
+    const navigation = (window as { navigation?: EventTarget }).navigation;
+    if (closeOnNavigation === 'url-change' && navigation) targets.push([navigation, 'currententrychange']);
+    for (const [target, name] of targets) target.addEventListener(name, close);
+    return () => {
+      for (const [target, name] of targets) target.removeEventListener(name, close);
+    };
+  }, [closeOnNavigation, open]);
 
   const countTitle = useCallback((delta: 1 | -1) => {
     setTitles((count) => count + delta);
@@ -83,6 +116,7 @@ function DialogRootImpl({
       open,
       mounted,
       modal,
+      config: { role, autoFocus, restoreFocus, size: { width, height, minWidth, minHeight, maxWidth, maxHeight } },
       keepMounted: open || (mounted && !exited),
       hasTitle: titles > 0,
       hasDescription: descriptions > 0,
@@ -96,7 +130,29 @@ function DialogRootImpl({
       isOpen,
       dispatch,
     }),
-    [id, open, mounted, modal, exited, titles, descriptions, trigger, countTitle, countDescription, isOpen, dispatch],
+    [
+      id,
+      open,
+      mounted,
+      modal,
+      role,
+      autoFocus,
+      restoreFocus,
+      width,
+      height,
+      minWidth,
+      minHeight,
+      maxWidth,
+      maxHeight,
+      exited,
+      titles,
+      descriptions,
+      trigger,
+      countTitle,
+      countDescription,
+      isOpen,
+      dispatch,
+    ],
   );
 
   return <DialogContext.Provider value={context}>{children}</DialogContext.Provider>;
@@ -106,11 +162,13 @@ function DialogRootImpl({
  * A window over the page that asks the user to read or act. The Root renders no element; it gives the open state to
  * its parts. The dialog is modal unless `modal` is `false`.
  *
- * Control the open state with `open` and `onOpenChange`, or set `defaultOpen` and let the dialog keep it.
+ * `modal` adds the backdrop and makes the rest of the page inert. Control the open state with `open` and
+ * `onOpenChange`, or set `defaultOpen` and let the dialog keep it.
  *
- * It closes on a Close, on Escape, on a press on the backdrop and when a `<form method="dialog">` inside it is
- * submitted. Escape closes only the top layer. A dialog that is not modal also closes when the focus moves outside
- * it.
+ * It closes on a Close, on Escape, on a press on the backdrop, and when a `<form method="dialog">` inside it is
+ * submitted. With `closeOnNavigation`, it also closes when the user goes back or forward in the history.
+ * `disableClose` keeps Escape and the backdrop from closing it, and `closePredicate` can refuse a close. Escape
+ * closes only the top layer. A dialog that is not modal also closes when the focus moves outside it.
  *
  * @example
  * <Dialog.Root>
@@ -121,6 +179,12 @@ function DialogRootImpl({
  *     <Dialog.Close>Cancel</Dialog.Close>
  *   </Dialog.Content>
  * </Dialog.Root>
+ * @example
+ * <Dialog.Content>
+ *   <Dialog.Header><Dialog.Title>Edit profile</Dialog.Title></Dialog.Header>
+ *   <Dialog.Body>Change your name and photo.</Dialog.Body>
+ *   <Dialog.Footer><Dialog.Close>Done</Dialog.Close></Dialog.Footer>
+ * </Dialog.Content>
  * @cckPart root
  * @param props - The Root props.
  * @returns The children inside the provider.

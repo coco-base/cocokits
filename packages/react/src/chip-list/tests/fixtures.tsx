@@ -1,12 +1,12 @@
 import { screen } from '@testing-library/react';
 import { useState, type ReactElement } from 'react';
-import { ChipList, type ChipListChangeDetails, type ChipListProps } from '../index';
+import { ChipList, type ChipListChangeDetails, type ChipListEntry, type ChipListProps } from '../index';
 
 /** The text box. */
 export const textbox = (): HTMLInputElement => screen.getByRole<HTMLInputElement>('textbox');
 
 /** The remove button of the chip with this text. */
-export const removeOf = (text: string): HTMLElement => screen.getByRole('button', { name: text });
+export const removeOf = (text: string): HTMLElement => screen.getByRole('button', { name: `Remove ${text}` });
 
 /** The chips, in document order. */
 export const chips = (container: ParentNode = document): HTMLElement[] => [
@@ -47,10 +47,10 @@ export function Controlled({
   onChange,
   ...rest
 }: Omit<ChipListProps, 'value' | 'onValueChange'> & {
-  readonly initial?: readonly string[];
-  readonly onChange?: (value: readonly string[], details: ChipListChangeDetails) => void;
+  readonly initial?: readonly ChipListEntry[];
+  readonly onChange?: (value: readonly ChipListEntry[], details: ChipListChangeDetails) => void;
 }): ReactElement {
-  const [value, setValue] = useState<readonly string[]>(initial);
+  const [value, setValue] = useState<readonly ChipListEntry[]>(initial);
   return (
     <ChipList
       aria-label="Toppings"

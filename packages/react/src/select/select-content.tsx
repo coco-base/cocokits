@@ -1,8 +1,9 @@
 'use client';
 
-import { useContext, useRef, useState, type ReactElement } from 'react';
+import { useContext, useRef, useState, type MouseEvent, type ReactElement } from 'react';
 import { createTriggerDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { startOverlayPosition, type OverlayAlign, type OverlaySide } from '@cocokits/cdk/positioning';
+import { selectAnatomy } from '@cocokits/machines/select';
 import { Portal, toReactProps, useDirection } from '@cocokits/react-core';
 import { runDismissHandlers } from '../internal/dismiss-handlers';
 import { DismissLayerContext } from '../internal/dismiss-layer-context';
@@ -155,8 +156,20 @@ function SelectContentLayer({
     'data-side': resolved.side,
     'data-align': resolved.align,
   });
+  // A press on the options keeps the focus where it is. The header and the footer hold controls of their own: the
+  // search input and your actions take the focus.
+  const { onMouseDown } = machine;
+  const { header, footer } = selectAnatomy.classes;
   const props = useSelectPartProps({
-    ours: { ...context.theme.content, ...machine },
+    ours: {
+      ...context.theme.content,
+      ...machine,
+      onMouseDown: (event: MouseEvent<HTMLElement>) => {
+        const target = event.target instanceof Element ? event.target : null;
+        if (target?.closest(`.${header}, .${footer}`)) return;
+        onMouseDown(event);
+      },
+    },
     rest,
     reserved: RESERVED,
     ref,

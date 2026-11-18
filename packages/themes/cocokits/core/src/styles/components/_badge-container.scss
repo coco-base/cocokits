@@ -10,6 +10,7 @@ $offset-y: var(--cck-badge-offset-y, 0px);
 
 @mixin rules {
   .cck-badge-container {
+    box-sizing: border-box;
     position: relative;
     display: inline-flex;
     align-items: center;

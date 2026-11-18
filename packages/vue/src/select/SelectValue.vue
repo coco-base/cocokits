@@ -10,7 +10,10 @@ defineOptions({ name: 'CckSelectValue', inheritAttrs: false });
 withDefaults(defineProps<SelectValueProps>(), { placeholder: '', as: 'span', asChild: false });
 defineSlots<{
   /**
-   * Your own content for the trigger, in place of the labels of the selected items. The slot gives you the labels and the value. When not set, the trigger shows the labels of the selected items, joined with a comma.
+   * Your own content for the trigger, in place of the labels of the selected items. The slot gives you the labels and the value.
+   * When not set, the trigger shows the label of the selected item.
+   *
+   * @remarks A Select with `multiple` shows the first label; the part also renders a `+N` count after it for the others.
    *
    * The slot is used only while something is selected. While nothing is selected, the placeholder shows.
    *
@@ -39,6 +42,8 @@ const ctx = useSelectContext<unknown>('SelectValue');
 const themeAttrs = useThemeAttrs(selectAnatomy);
 const attrs = useAttrs();
 const empty = computed(() => ctx.empty.value);
+const count = computed(() => ctx.parts.value.count);
+const countBound = computed(() => mergeProps(themeAttrs.value.count, { class: count.value?.class }));
 const bound = computed(() =>
   mergeProps(empty.value ? themeAttrs.value.placeholder : themeAttrs.value.value, attrs, {
     class: empty.value ? ctx.parts.value.placeholder.class : ctx.parts.value.value.class,
@@ -53,4 +58,5 @@ const bound = computed(() =>
     }}</slot>
     <template v-else>{{ placeholder }}</template>
   </Primitive>
+  <span v-if="count" v-bind="countBound">{{ count.text }}</span>
 </template>

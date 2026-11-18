@@ -32,6 +32,12 @@ const toRounded = (value: CckIconButtonRounded | string | null | undefined): Cck
  */
 @Directive({
   selector: 'button[cckIconButton], a[cckIconButton]',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.color]': 'null',
+    '[attr.size]': 'null',
+    '[attr.rounded]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'icon-button',

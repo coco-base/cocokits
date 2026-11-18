@@ -41,6 +41,7 @@ import {
 import { type TooltipBubbleContext, type TooltipContentRegistration } from './tooltip-bubble';
 import { closeOnAncestorScroll } from './tooltip-scroll';
 import { describeTrigger } from './tooltip-description';
+import { templateText as templateTextOf } from './tooltip-template-text';
 import { bindTooltipHost } from './tooltip-host';
 import { CCK_TOOLTIP_DEFAULT_OPTIONS } from './tooltip-options';
 import { createTooltipOverlay, type TooltipOverlay, type TooltipOrigin } from './tooltip-overlay';
@@ -75,6 +76,11 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
  *     </cck-tooltip-content>
  *   </ng-template>
  * </ng-container>
+ * @example
+ * <cck-tooltip-content>
+ *   <cck-tooltip-title>Copy link</cck-tooltip-title>
+ *   <cck-tooltip-description>Copies the address to the clipboard.</cck-tooltip-description>
+ * </cck-tooltip-content>
  * @cckPart root
  * @cckNoElement
  * @cckSlot default - The trigger and the `cckTooltipPortal` template of the rich form. When not set, the element with `cckTooltip` is the trigger.
@@ -116,7 +122,7 @@ export class CckTooltip {
   });
 
   /**
-   * Whether the tooltip never opens. A shown tooltip hides at once when it becomes disabled. A disabled tooltip describes nothing.
+   * Whether the tooltip never opens. A disabled tooltip is closed, its content is not rendered and it no longer describes the trigger. A shown tooltip hides at once when it becomes disabled.
    * @defaultValue false
    * @cckSemantic tooltip.disabled
    */
@@ -361,9 +367,11 @@ export class CckTooltip {
       },
     });
 
+    const templateText = templateTextOf(this._template, this.shown);
     describeTrigger({
       trigger: this._trigger,
-      text: this.text,
+      // The message, else the text of the title and the description in the content template.
+      text: computed(() => this.text() || templateText()),
       disabled: this.disabled,
       id: tooltipIds(this.tooltipId).description,
       state: this.description,

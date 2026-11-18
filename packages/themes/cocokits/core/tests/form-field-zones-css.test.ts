@@ -24,12 +24,12 @@ describe('the zones', () => {
     }
   });
 
-  it('keeps Leading and Trailing outside the box, on the first line of it', () => {
+  it('keeps Leading and Trailing outside the box, as high as it', () => {
     const rule = declarationsOf(stylesCss, list(OUTSIDE)) ?? '';
     for (const line of [
       'display: flex',
       'flex: none',
-      'align-self: flex-start',
+      'align-self: stretch',
       'min-block-size: var(--cck-form-field-height)',
     ]) {
       expect(rule).toContain(line);

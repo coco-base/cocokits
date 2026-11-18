@@ -115,7 +115,7 @@ describe('Select pointer', () => {
 });
 
 describe('Select multiple', () => {
-  it('toggles values, stays open, and shows the values joined with a comma', async () => {
+  it('toggles values, stays open, and shows the first value with the count of the others', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
     render(<Example multiple onValueChange={onValueChange} />);
@@ -125,7 +125,7 @@ describe('Select multiple', () => {
     expect(onValueChange.mock.calls.at(-1)?.[0]).toEqual(['Cake', 'Steak']);
     expect(screen.getByRole('listbox')).toBeTruthy();
     expect(option('Cake').getAttribute('aria-selected')).toBe('true');
-    expect(valueText()).toBe('Cake, Steak');
+    expect(valueText()).toBe('Cake');
     await user.click(option('Cake'));
     expect(onValueChange.mock.calls.at(-1)?.[0]).toEqual(['Steak']);
     expect(onValueChange).toHaveBeenCalledTimes(3);

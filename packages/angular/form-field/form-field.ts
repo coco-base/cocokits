@@ -15,6 +15,7 @@ import { CckAttrs, IdGenerator, domOrderedList, themeAttrs, type DomOrderedList 
 import {
   formFieldAnatomy,
   formFieldIds,
+  getFormFieldLabelFor,
   getFormFieldProps,
   resolveFormFieldState,
   type FormFieldControlState,
@@ -74,6 +75,11 @@ const elementOf = (part: FieldPart): HTMLElement => part.element;
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs],
   host: {
+    '[attr.disabled]': 'null',
+    '[attr.readonly]': 'null',
+    '[attr.required]': 'null',
+    '[attr.invalid]': 'null',
+    '[attr.hiderequiredmarker]': 'null',
     '[class]': 'parts().root.class',
     '[attr.id]': 'id() || null',
     '[attr.hidden]': 'hidden() || parts().root.hidden ? "" : null',
@@ -238,6 +244,18 @@ export class CckFormField {
    * @internal
    */
   readonly _controlId = computed(() => this.reported()?.().id);
+
+  /**
+   * The `for` of the Label: the id of the control, and nothing while the control is a group of controls (a group names itself with `aria-labelledby`).
+   * @internal
+   */
+  readonly _labelFor = computed(() => getFormFieldLabelFor(this.reported()?.()));
+
+  /**
+   * Whether the field holds a Label; a group points `aria-labelledby` at the Label only while there is one.
+   * @internal
+   */
+  readonly _hasLabel = computed(() => this._labelId() !== undefined);
 
   protected readonly parts = computed(() => getFormFieldProps({ state: this._state(), fieldId: this._fieldId() }));
 

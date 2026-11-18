@@ -16,9 +16,6 @@
 @function input($block) {
   @return '#{input-wrapper($block)} > .cck-#{$block}__input';
 }
-@function backdrop($block) {
-  @return '#{input-wrapper($block)} > .cck-#{$block}__backdrop';
-}
 @function box($block) {
   @return '#{input-wrapper($block)} > .cck-#{$block}__background';
 }
@@ -46,6 +43,7 @@
   }
 
   .cck-#{$block}__wrapper {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: flex-start;
     gap: token($block, gap);
@@ -81,14 +79,6 @@
     cursor: pointer;
   }
 
-  .cck-#{$block}__backdrop {
-    grid-area: 1 / 1;
-    inline-size: token($block, halo-size);
-    block-size: token($block, halo-size);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
   .cck-#{$block}__background {
     position: relative;
     grid-area: 1 / 1;
@@ -103,6 +93,7 @@
     // The mark: the tick, the dash or the dot. It is drawn with CSS and has no text.
     &::after {
       content: '';
+      box-sizing: border-box;
       position: absolute;
       inset: 0;
       background-color: token($block, box-mark-color);
@@ -112,8 +103,10 @@
 
   .cck-#{$block}__label {
     min-inline-size: 0;
-    // The first line sits at the middle of the hit area.
-    padding-block: max(0px, calc((#{token($block, hit-size)} - #{token($block, label-line-height)}) / 2));
+    box-sizing: border-box;
+    // The first line sits at the middle of the hit area. The line height is a ratio, so it takes the font size of the
+    // label (`1em`).
+    padding-block: max(0px, calc((#{token($block, hit-size)} - #{token($block, label-line-height)} * 1em) / 2));
     color: token($block, label-text-color);
     font-family: token($block, label-font-family);
     font-size: token($block, label-font-size);
@@ -121,14 +114,6 @@
     letter-spacing: token($block, label-letter-spacing);
     font-weight: token($block, label-font-weight);
     cursor: pointer;
-  }
-
-  #{$root}:where(:hover) #{backdrop($block)} {
-    background-color: token($block, halo-bg);
-  }
-
-  #{$root}:where(:hover) #{box($block)} {
-    border-color: token($block, box-hover-border-color);
   }
 }
 
@@ -149,15 +134,9 @@
 
 @mixin disabled($block) {
   .cck-#{$block}#{disabled($block)} {
-    #{backdrop($block)} {
-      background-color: transparent;
-    }
-
     #{box($block)} {
       border-color: token($block, box-disabled-border-color);
       background-color: token($block, box-disabled-bg);
-      // Disabled wins over invalid: no invalid line.
-      box-shadow: none;
 
       &::after {
         background-color: token($block, box-disabled-mark-color);
@@ -184,8 +163,7 @@
 
 @mixin motion($block) {
   @media (prefers-reduced-motion: no-preference) {
-    .cck-#{$block}__background,
-    .cck-#{$block}__backdrop {
+    .cck-#{$block}__background {
       transition-property: background-color, border-color;
       transition-duration: token($block, motion-duration);
     }
@@ -211,15 +189,10 @@
       }
     }
 
-    // The border is CanvasText, not Highlight, so a dashed (read-only) or thicker (invalid) edge shows on the fill.
+    // The border is CanvasText, not Highlight, so a dashed (read-only) edge shows on the fill.
     .cck-#{$block}:where(#{$facts}) #{box($block)} {
       border-color: CanvasText;
       background-color: Highlight;
-    }
-
-    // Forced colors give the hover halo no tint, and an opaque Canvas disc would erase the box and the label.
-    .cck-#{$block} #{backdrop($block)} {
-      background-color: transparent;
     }
 
     @content;

@@ -26,6 +26,10 @@ export interface FormFieldContextValue {
   readonly release: (token: object) => void;
   /** Tells the field the `id` an author gave the Label (`undefined` again when it goes); a control names itself by it. */
   readonly setLabelId: (id: string | undefined) => void;
+  /** Whether the field holds a mounted Label. A group that the Label names points at it only while it does. */
+  readonly hasLabel: boolean;
+  /** Tells the field a Label is mounted; returns the function that tells it the Label is gone. Call it in a layout effect. */
+  readonly registerLabel: () => () => void;
   /** Gives the field the control's state. Ignored unless `token` holds the claim. */
   readonly report: (token: object, state: FormFieldControlState) => void;
   /**

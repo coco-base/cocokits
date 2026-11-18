@@ -150,6 +150,20 @@ export interface PopoverTriggerProps {
  */
 export interface PopoverContentProps extends OverlayPositioningProps, OverlayArrowProps {
   /**
+   * The gap in pixels between the trigger and the content. When not set, the content takes the `--side-offset` value
+   * of the theme.
+   *
+   * @cckSemantic popover.content.sideOffset
+   */
+  readonly sideOffset?: number | undefined;
+  /**
+   * How far, in pixels, the content moves along the edge of the trigger, away from the aligned edge. It has no effect
+   * with `align="center"`. When not set, the content is not moved.
+   *
+   * @defaultValue 0
+   */
+  readonly alignOffset?: number | undefined;
+  /**
    * The side of the trigger the content opens on. `start` and `end` follow the direction. The content moves to the
    * opposite side when there is no room, and `data-side` gives the side it ended on.
    *

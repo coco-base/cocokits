@@ -51,6 +51,11 @@ export type CheckControlParts = Pick<CheckboxParts, 'root' | 'input' | 'label'> 
  */
 @Directive({
   host: {
+    '[attr.checked]': 'null',
+    '[attr.submitvalue]': 'null',
+    '[attr.disabled]': 'null',
+    '[attr.readonly]': 'null',
+    '[attr.required]': 'null',
     '[attr.id]': 'null',
     '[attr.name]': 'null',
     '[attr.form]': 'null',

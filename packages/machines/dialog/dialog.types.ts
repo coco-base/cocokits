@@ -8,8 +8,35 @@
  */
 export type DialogChangeReason = 'trigger' | 'close' | 'escape' | 'outside-press';
 
+/**
+ * The role of the native dialog. A native `dialog` has the role `dialog` already, so only `'alertdialog'` is written.
+ *
+ * @cckValue dialog - A dialog.
+ * @cckValue alertdialog - A dialog that asks for an answer at once, such as a confirmation.
+ */
+export type DialogRole = 'dialog' | 'alertdialog';
+
+/** A length of the dialog: a number is px, a string is any CSS length such as `'40rem'` or `'90vw'`. */
+export type DialogLength = string | number;
+
+/** The size members of the dialog content. */
+export interface DialogSize {
+  /** The width of the content. */
+  readonly width?: DialogLength | undefined;
+  /** The height of the content. */
+  readonly height?: DialogLength | undefined;
+  /** The smallest width of the content. */
+  readonly minWidth?: DialogLength | undefined;
+  /** The smallest height of the content. */
+  readonly minHeight?: DialogLength | undefined;
+  /** The largest width of the content. */
+  readonly maxWidth?: DialogLength | undefined;
+  /** The largest height of the content. */
+  readonly maxHeight?: DialogLength | undefined;
+}
+
 /** Inputs of `getDialogProps` and `transitionDialog`. */
-export interface DialogState {
+export interface DialogState extends DialogSize {
   /** The SSR-stable id of the dialog, from the adapter. */
   readonly id: string;
   /** The open model. */
@@ -28,6 +55,13 @@ export interface DialogState {
   readonly titleId?: string | undefined;
   /** Whether a Description is mounted; the content is described by it. @defaultValue false */
   readonly hasDescription?: boolean | undefined;
+  /** The role of the content. @defaultValue 'dialog' */
+  readonly role?: DialogRole | undefined;
+  /**
+   * Whether Escape and a press outside the dialog leave it open. The Close part, a form with `method="dialog"` and
+   * the trigger still change the open state. @defaultValue false
+   */
+  readonly disableClose?: boolean | undefined;
 }
 
 /** The events the handlers send. */
@@ -87,10 +121,21 @@ export interface DialogTriggerProps extends DialogPartProps {
   readonly onClick: (event: Event) => void;
 }
 
-/** Props of the content, a native `dialog`. It has no role of its own: the element has one. */
+/** The inline size of the dialog content, in CSS lengths. Only the members the author set are present. */
+export type DialogContentStyle = Partial<Record<keyof DialogSize, string>>;
+
+/** Props of the content, a native `dialog`. It has the role `dialog`; only `alertdialog` is written. */
 export interface DialogContentProps extends DialogPartProps {
   /** The content id. */
   readonly id: string;
+  /** `'alertdialog'` when the author asked for it; absent otherwise, because the element has the role `dialog`. */
+  readonly role?: 'alertdialog' | undefined;
+  /**
+   * The size members as CSS lengths (a number becomes px), for the inline style of the content; absent when none is
+   * set. The width, height and their minimum and maximum are the one inline style a base part writes
+   * (an approved exception to the theme-only rule for visual values).
+   */
+  readonly style?: DialogContentStyle | undefined;
   /** The title id, only while a Title is mounted. */
   readonly 'aria-labelledby'?: string | undefined;
   /** The description id, only while a Description is mounted. */
@@ -121,6 +166,12 @@ export interface DialogParts {
   readonly trigger: DialogTriggerProps;
   /** The native dialog props. */
   readonly content: DialogContentProps;
+  /** The header props: the class only, no role and no data attribute. */
+  readonly header: DialogPartProps;
+  /** The body props: the class only. */
+  readonly body: DialogPartProps;
+  /** The footer props: the class only. */
+  readonly footer: DialogPartProps;
   /** The title props. */
   readonly title: DialogTextProps;
   /** The description props. */

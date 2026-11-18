@@ -30,13 +30,13 @@
         { "name": "backdrop-bg", "type": "color", "valuesByMode": { "Default": "{Core / Color#black-alpha/50}" } },
         { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-family}" } },
         { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/font-size}" } },
-        { "name": "line-height", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/line-height}" } },
-        { "name": "letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-sm/letter-spacing}" } },
+        { "name": "line-height", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Theme / Typography#text-sm/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "Default": "{Theme / Typography#text-sm/letter-spacing}" } },
         { "name": "title-font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-lg/font-family}" } },
         { "name": "title-font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-lg/font-size}" } },
         { "name": "title-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/semibold}" } },
-        { "name": "title-line-height", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-lg/line-height}" } },
-        { "name": "title-letter-spacing", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-lg/letter-spacing}" } },
+        { "name": "title-line-height", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Theme / Typography#text-lg/line-height}" } },
+        { "name": "title-letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "Default": "{Theme / Typography#text-lg/letter-spacing}" } },
         { "name": "title-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
         { "name": "description-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
         { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
@@ -49,7 +49,10 @@
         { "name": "close-icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-24}" } },
         { "name": "close-padding-block", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-0}" } },
         { "name": "close-radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
-        { "name": "close-hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } }
+        { "name": "close-hover-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/2}" } },
+        { "name": "section-gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
+        { "name": "divider-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/2}" } },
+        { "name": "divider-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-1}" } }
       ]
     }
   ]

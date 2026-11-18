@@ -1,9 +1,10 @@
-import { checkIcon, chevronDownIcon, closeIcon, type Icon } from '@cocokits/icons';
+import { checkIcon, chevronDownIcon, circleXmarkIcon, type Icon } from '@cocokits/icons';
 
 /**
- * The icons the cocokits theme names in `components.<name>.icons`. All are base icons, so they are always
- * registered. An app that names another icon in `components.<name>.icons` must register it, or the part draws its
- * default and development logs an error.
+ * The icons the cocokits theme names in `components.<name>.icons`. The chevron and the check are base icons and
+ * always registered; the `circle-xmark` of the Chip remove button is not, so an app registers this object. An app
+ * that names another icon in `components.<name>.icons` must register it too, or the part draws its default and
+ * development logs an error.
  *
  * @example
  * Pass it as the `icons` option of the app's icon registry:
@@ -14,11 +15,11 @@ import { checkIcon, chevronDownIcon, closeIcon, type Icon } from '@cocokits/icon
 export const cocokitsThemeIcons: {
   readonly 'chevron-down': Icon;
   readonly check: Icon;
-  readonly close: Icon;
+  readonly 'circle-xmark': Icon;
 } = {
   'chevron-down': chevronDownIcon,
   check: checkIcon,
-  close: closeIcon,
+  'circle-xmark': circleXmarkIcon,
 };
 
 /** The name of an icon of `cocokitsThemeIcons`. */

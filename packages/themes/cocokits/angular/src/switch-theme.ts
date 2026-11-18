@@ -26,6 +26,12 @@ export type CckSwitchLabelPosition = SwitchOptions['labelPosition']['values'][nu
  */
 @Directive({
   selector: 'cck-switch',
+  host: {
+    '[attr.variant]': 'null',
+    '[attr.size]': 'null',
+    '[attr.color]': 'null',
+    '[attr.labelposition]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'switch',

@@ -201,12 +201,13 @@ export interface AccordionItemProps extends Omit<ComponentPropsWithRef<'div'>, '
    */
   readonly children?: ReactNode | undefined;
   /**
-   * The key of the item in the open value. It must be unique inside the Root.
+   * The key of the item in the open value. It must be unique inside the Root. When not set, the item gets a
+   * generated key that is the same on the server and in the browser.
    *
    * @cckSemantic accordion.item.value
    * @cckParity Not available in every framework.
    */
-  readonly value: string;
+  readonly value?: string | undefined;
   /**
    * Whether the item is disabled. The user cannot open or close it, and the arrow keys skip its trigger. A
    * controlled `value` can still open it.
@@ -301,8 +302,9 @@ export interface AccordionContentProps extends Omit<ComponentPropsWithRef<'div'>
    */
   readonly children?: ReactNode | undefined;
   /**
-   * Whether the content stays rendered while the item is closed. The element then has the native `hidden`
-   * attribute, so a form control inside still takes part in the form.
+   * Whether the children of the content stay rendered while the item is closed. The element itself is always
+   * rendered, with the native `hidden` attribute while closed and no children unless this is set. Kept children are
+   * hidden, so a form control inside still takes part in the form.
    *
    * @defaultValue false
    * @cckSemantic accordion.content.forceMount

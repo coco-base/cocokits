@@ -192,7 +192,7 @@ describe('Select value and labels', () => {
       readonly comparator = signal<((a: CckSelectOptionRef, b: CckSelectOptionRef) => number) | undefined>(undefined);
     }
 
-    it('works with the bare multiple attribute, keeps option order and joins the labels', async () => {
+    it('works with the bare multiple attribute, keeps option order and shows the first label with a count', async () => {
       const user = userEvent.setup();
       const { fixture } = await render(Multiple);
       const host = fixture.componentInstance;
@@ -200,7 +200,10 @@ describe('Select value and labels', () => {
       await user.click(await screen.findByRole('option', { name: 'Cherry' }));
       await user.click(screen.getByRole('option', { name: 'Apple' }));
       expect(host.value()).toEqual(['a', 'c']);
-      expect(shown()).toBe('Apple, Cherry');
+      expect(shown()).toBe('Apple');
+      expect(trigger().querySelector(`.${classes.value}`)?.textContent).toBe('Apple');
+      expect(trigger().querySelector(`.${classes.count}`)?.textContent).toBe('+1');
+      expect(trigger().textContent).toBe('Apple+1');
     });
 
     it('orders by sortComparator when one is given', async () => {
@@ -214,7 +217,8 @@ describe('Select value and labels', () => {
       await user.click(await screen.findByRole('option', { name: 'Apple' }));
       await user.click(screen.getByRole('option', { name: 'Cherry' }));
       expect(host.value()).toEqual(['c', 'a']);
-      expect(shown()).toBe('Cherry, Apple');
+      expect(shown()).toBe('Cherry');
+      expect(trigger().querySelector(`.${classes.count}`)?.textContent).toBe('+1');
     });
   });
 

@@ -22,6 +22,7 @@ import { fieldErrorAnatomy, getFieldErrorProps } from '@cocokits/machines/field-
   exportAs: 'cckFieldError',
   encapsulation: ViewEncapsulation.None,
   host: {
+    '[attr.force]': 'null',
     '[class]': 'parts().root.class',
     '[attr.id]': 'renderedId() || null',
     '[attr.aria-live]': 'parts().root["aria-live"]',

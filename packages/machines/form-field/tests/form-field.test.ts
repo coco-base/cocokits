@@ -3,6 +3,7 @@ import {
   formFieldAnatomy,
   formFieldIds,
   formFieldMeta,
+  getFormFieldLabelFor,
   getFormFieldProps,
   mergeDescribedBy,
   resolveFormFieldState,
@@ -213,5 +214,16 @@ describe('isSameFormFieldControlState', () => {
   it('is false when only one side is undefined', () => {
     expect(isSameFormFieldControlState(undefined, state)).toBe(false);
     expect(isSameFormFieldControlState(state, undefined)).toBe(false);
+  });
+});
+
+describe('getFormFieldLabelFor', () => {
+  it.each([
+    ['no control registered', undefined, undefined],
+    ['a control', { id: 'f-control' }, 'f-control'],
+    ['a control without an id', {}, undefined],
+    ['a group of controls (a div cannot be labelled by `for`)', { id: 'f-control', group: true as const }, undefined],
+  ])('is the control id for %s only when it is labelable', (_name, control, expected) => {
+    expect(getFormFieldLabelFor(control)).toBe(expected);
   });
 });

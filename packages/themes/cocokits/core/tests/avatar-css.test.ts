@@ -157,20 +157,23 @@ describe('avatar label', () => {
 
   it.each([
     ['.cck-avatar-label', 'row'],
-    ['.cck-avatar-label[data-avatar-position=end]', 'row-reverse'],
+    ['.cck-avatar-label[data-avatar-position=right]', 'row-reverse'],
     ['.cck-avatar-label[data-avatar-position=top]', 'column'],
     ['.cck-avatar-label[data-avatar-position=bottom]', 'column-reverse'],
   ])('lays out %s as %s', (selector, direction) => {
     expect(declarationsOf(stylesCss, selector)).toContain(`flex-direction: ${direction}`);
   });
 
-  it('aligns the text to the end for the end position', () => {
-    expect(declarationsOf(stylesCss, '.cck-avatar-label[data-avatar-position=end]')).toContain('text-align: end');
+  it('aligns the text to the end for the right position', () => {
+    expect(declarationsOf(stylesCss, '.cck-avatar-label[data-avatar-position=right]')).toContain('text-align: end');
   });
 
-  it('stacks the text and puts it on one line for inline', () => {
+  it('stacks the text and puts it on one line for the horizontal label alignment', () => {
     expect(declarationsOf(stylesCss, '.cck-avatar-label__text')).toContain('flex-direction: column');
-    const inline = declarationsOf(stylesCss, '.cck-avatar-label[data-text-layout=inline] > .cck-avatar-label__text');
+    const inline = declarationsOf(
+      stylesCss,
+      '.cck-avatar-label[data-label-alignment=horizontal] > .cck-avatar-label__text',
+    );
     expect(inline).toContain('flex-direction: row');
     expect(inline).toContain('gap: var(--cck-avatar-label-text-inline-gap)');
     expect(declarationsOf(stylesCss, '.cck-avatar-label__text')).toContain('gap: var(--cck-avatar-label-text-gap)');

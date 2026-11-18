@@ -240,6 +240,8 @@ describe('root facts and the value', () => {
       readOnly: true,
       required: true,
       invalid: true,
+      filter: true,
+      query: 'zzz',
     });
     const parts = getSelectProps(all, vi.fn());
     expect(dataKeys(parts.root)).toEqual([...selectMeta.dataAttrs.root].sort());
@@ -252,9 +254,9 @@ describe('root facts and the value', () => {
     );
   });
 
-  it('joins the labels of the selected values with a comma', () => {
+  it('shows the label of the selected value, and of the first one with multiple (the others are the count)', () => {
     expect(getSelectValueText(base({ value: 'Cake' }))).toBe('Cake');
-    expect(getSelectValueText(base({ multiple: true, value: ['Cake', 'Steak'] }))).toBe('Cake, Steak');
+    expect(getSelectValueText(base({ multiple: true, value: ['Cake', 'Steak'] }))).toBe('Cake');
     expect(getSelectValueText(base({ value: '' }))).toBe('');
     const objects: SelectState<{ id: number }> = {
       id: 's',
@@ -273,9 +275,9 @@ describe('root facts and the value', () => {
     ];
     const state = (value: string[], over: Partial<SelectState> = {}): SelectState =>
       base({ items: labelled, multiple: true, value, ...over });
-    expect(getSelectValueText(state(['cake', 'pie', 'tea']))).toBe(' Cake , pie, tea');
-    expect(getSelectValueText(state(['pie', 'cake']))).toBe('pie,  Cake ');
-    expect(getSelectValueText(state(['pie', 'tea'], { itemToStringLabel: (v) => v.toUpperCase() }))).toBe('PIE, TEA');
+    expect(getSelectValueText(state(['cake', 'pie', 'tea']))).toBe(' Cake ');
+    expect(getSelectValueText(state(['pie', 'cake']))).toBe('pie');
+    expect(getSelectValueText(state(['tea', 'pie'], { itemToStringLabel: (v) => v.toUpperCase() }))).toBe('TEA');
   });
 
   it('keeps the label apart from the form string', () => {

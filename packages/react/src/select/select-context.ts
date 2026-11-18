@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type Context, type RefObject } from 'react';
 import type { FormFieldControlContext } from '@cocokits/machines/form-field';
-import type { selectAnatomy, SelectEvent, SelectParts, SelectState } from '@cocokits/machines/select';
+import type { selectAnatomy, SelectEvent, SelectItem, SelectParts, SelectState } from '@cocokits/machines/select';
 import type { ThemeAttrsByPart } from '@cocokits/shared';
 import type { DismissHandlers } from '../internal/dismiss-handlers';
 import type { SelectItemRegistration } from './select-item-registration';
@@ -54,14 +54,18 @@ export interface SelectContextValue<T = unknown> {
   readonly holdFocusOut: (hold: boolean) => void;
   /** Whether the list's dismiss layer is active, so Escape reaches the Content handlers. */
   readonly layerActiveRef: RefObject<boolean>;
+  /** Whether the Select has `filter`: only then do `Select.Header` and `Select.Search` render. */
+  readonly filter: boolean;
   /** The Content handlers, assigned by the Content. */
   readonly contentHandlersRef: RefObject<SelectContentHandlers>;
   /** Whether nothing is selected: the placeholder shows. */
   readonly empty: boolean;
   /** The value of the model, as the children function of the value part gets it. */
   readonly selectedValue: unknown;
-  /** The trigger text: the selected labels joined with `, `. */
+  /** The trigger text: the label of the first selected value. */
   readonly valueText: string;
+  /** The keys of the options of one group, so the group hides while the query matches none of them. */
+  readonly groupItemKeys: (groupKey: string) => readonly string[];
   /** Registers (or updates) an item; returns the function that removes it. */
   readonly registerItem: (item: SelectItemRegistration<T>) => () => void;
 }
@@ -81,6 +85,10 @@ export const SelectGroupContext: Context<SelectGroupContextValue | null> =
 
 /** What an item gives its text part. */
 export interface SelectItemContextValue {
+  /** The item as the machine knows it: the key and the value that ids and descriptions derive from. */
+  readonly item: SelectItem<unknown>;
+  /** Tells the item a description part is mounted; returns the function that tells it the part is gone. */
+  readonly registerDescription: () => () => void;
   /** Tells the item which element holds its text; `null` on unmount. */
   readonly setTextElement: (element: HTMLElement | null) => void;
   /** Whether the item is selected; the item indicator draws its mark (your content, else the icon the theme names in `components.select.icons`, else the default `check`) only while it is. */

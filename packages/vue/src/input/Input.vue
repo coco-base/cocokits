@@ -32,7 +32,16 @@ const model = useDefaultModel(props, 'modelValue', props.defaultValue);
 
 const themeAttrs = useThemeAttrs(inputAnatomy);
 const element = useTemplateRef<HTMLInputElement>('element');
-const { text, className, boundAttrs, onInput, onFocus, onBlur } = useTextControl<HTMLInputElement>(props, {
+const {
+  text,
+  className,
+  boundAttrs,
+  onInput,
+  onFocus,
+  onBlur,
+  focus: focusControl,
+  reset: resetControl,
+} = useTextControl<HTMLInputElement>(props, {
   componentName: 'Input',
   model,
   elementRef: element,
@@ -53,6 +62,31 @@ defineExpose({
    */
   get element(): HTMLInputElement | null {
     return element.value;
+  },
+
+  /**
+   * Moves the focus to the native input. Does nothing before mount.
+   *
+   * @example
+   * <Input ref="control" v-model="text" aria-label="Label" />
+   * <!-- In the script: const control = useTemplateRef('control'); then control.value?.focus(). -->
+   *
+   * @cckSemantic input.focus
+   */
+  focus(options?: FocusOptions): void {
+    focusControl(options);
+  },
+  /**
+   * Clears the touched, dirty and submitted state that the Input keeps itself. The text does not change.
+   *
+   * @example
+   * <Input ref="control" v-model="text" aria-label="Label" />
+   * <!-- In the script: const control = useTemplateRef('control'); then control.value?.reset(). -->
+   *
+   * @cckSemantic input.reset
+   */
+  reset(): void {
+    resetControl();
   },
 });
 </script>

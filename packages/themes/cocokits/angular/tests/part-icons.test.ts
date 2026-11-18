@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { CckAccordionImports } from '@cocokits/angular/accordion';
 import { CckCheckboxImports } from '@cocokits/angular/checkbox';
+import { CckChipImports } from '@cocokits/angular/chip';
 import { CckSelectImports } from '@cocokits/angular/select';
 import { cocokitsThemeConfig, cocokitsThemeIcons } from '@cocokits/theme-cocokits';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -27,12 +28,20 @@ describe('the part icons of the cocokits theme', () => {
   });
 
   it('names a registered icon for each part', () => {
-    const { select, accordion, checkbox } = cocokitsThemeConfig.components;
-    const icons = { select: select.icons, accordion: accordion.icons, checkbox: checkbox.icons };
+    const { select, accordion, checkbox, chip, menu } = cocokitsThemeConfig.components;
+    const icons = {
+      select: select.icons,
+      accordion: accordion.icons,
+      checkbox: checkbox.icons,
+      chip: chip.icons,
+      menu: menu.icons,
+    };
     expect(icons).toEqual({
       select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
       accordion: { indicator: 'chevron-down' },
       checkbox: { background: 'check' },
+      chip: { remove: 'circle-xmark', check: 'check' },
+      menu: { itemIndicator: 'check' },
     });
     for (const names of Object.values(icons)) {
       for (const name of Object.values(names)) expect(Object.keys(cocokitsThemeIcons)).toContain(name);
@@ -71,5 +80,27 @@ describe('the part icons of the cocokits theme', () => {
     const [checked, unchecked] = [...container.querySelectorAll('.cck-checkbox__background')];
     expect(held(checked)).toEqual(drawn('check'));
     expect(held(unchecked)).toBeNull();
+  });
+
+  it('draws the check in a selected Chip, before its content, and the circle-xmark in its remove button', async () => {
+    await render(`<cck-chip removable selected>Pizza</cck-chip>`, { imports: [...CckChipImports], providers });
+    const chip = document.querySelector('.cck-chip');
+    expect(held(chip?.querySelector('.cck-chip__check') ?? null)).toEqual(drawn('check'));
+    expect(held(chip?.querySelector('.cck-chip__remove') ?? null)).toEqual(drawn('circle-xmark'));
+    expect([...(chip?.children ?? [])].map((child) => child.className.split(' ')[0])).toEqual([
+      'cck-chip__check',
+      'cck-chip__content-wrapper',
+      'cck-chip__remove',
+    ]);
+  });
+
+  it('marks the check of a Chip that is selected, and not one that is not (the theme draws it from the mark)', async () => {
+    await render(`<cck-chip [selected]="false">Off</cck-chip><cck-chip [selected]="true">On</cck-chip>`, {
+      imports: [...CckChipImports],
+      providers,
+    });
+    const [off, on] = [...document.querySelectorAll('.cck-chip__check')];
+    expect(off.getAttribute('data-state')).toBeNull();
+    expect(on.getAttribute('data-state')).toBe('checked');
   });
 });

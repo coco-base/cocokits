@@ -94,6 +94,10 @@ export interface CckTabChangeEvent {
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, NgTemplateOutlet],
   host: {
+    '[attr.selectedindex]': 'null',
+    '[attr.orientation]': 'null',
+    '[attr.activationmode]': 'null',
+    '[attr.preservecontent]': 'null',
     '[class]': '_parts().root.class',
     '[attr.data-orientation]': '_parts().root["data-orientation"]',
     '[attr.aria-label]': 'null',

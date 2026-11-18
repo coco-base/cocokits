@@ -6,10 +6,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Select } from '../index';
 import { active, Dishes, Opt, reasonsOf, stubTopLayer, trigger, valueText } from './fixtures';
 
+/** More than the default pause of the type-to-find buffer. */
+const TYPEAHEAD_PAUSE_MS = 600;
+
 beforeEach(() => {
   stubTopLayer();
 });
 afterEach(() => {
+  vi.useRealTimers();
+  Reflect.deleteProperty(globalThis, 'jest');
   cleanup();
   vi.restoreAllMocks();
   document.body.innerHTML = '';
@@ -93,7 +98,7 @@ describe('Select clearing items', () => {
 });
 
 describe('Select multiple order', () => {
-  it('keeps the values in selection order and shows the labels in that order', async () => {
+  it('keeps the values in selection order and shows the first label in that order', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
     render(
@@ -107,7 +112,7 @@ describe('Select multiple order', () => {
     await user.click(await screen.findByRole('option', { name: 'Steak' }));
     await user.click(screen.getByRole('option', { name: 'Cake' }));
     expect(onValueChange.mock.calls.at(-1)?.[0]).toEqual(['Steak', 'Cake']);
-    expect(valueText()).toBe('Steak, Cake');
+    expect(valueText()).toBe('Steak');
   });
 });
 
@@ -162,7 +167,10 @@ describe('Select type to search', () => {
   });
 
   it('takes a space as part of a running search, and a space with no search opens', async () => {
-    const user = userEvent.setup();
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    // Testing Library finds the fake clock through a `jest` global; without it `waitFor` and user-event hang.
+    Reflect.set(globalThis, 'jest', { advanceTimersByTime: (ms: number) => vi.advanceTimersByTime(ms) });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     const onValueChange = vi.fn();
     render(
       <Dishes onValueChange={onValueChange}>
@@ -180,7 +188,8 @@ describe('Select type to search', () => {
     await waitFor(() => {
       expect(screen.queryByRole('listbox')).toBeNull();
     });
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    // The search buffer empties after its pause, so a space opens the list again.
+    vi.advanceTimersByTime(TYPEAHEAD_PAUSE_MS);
     await user.keyboard(' ');
     expect(await screen.findByRole('listbox')).toBeTruthy();
   });

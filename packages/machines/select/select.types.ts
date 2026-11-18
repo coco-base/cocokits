@@ -1,6 +1,14 @@
 import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
 import type { Typeahead } from '@cocokits/cdk/roving-focus';
 import type { FormFieldControlProps, FormFieldControlState, FormHiddenInputProps } from '../form-field';
+import type {
+  SelectCountProps,
+  SelectEmptyProps,
+  SelectExtraDecorativeProps,
+  SelectExtraPartProps,
+  SelectOptionDescriptionProps,
+  SelectSearchProps,
+} from './select-search.types';
 
 /**
  * Why the open state changed.
@@ -44,12 +52,19 @@ export interface SelectItem<T = string> {
   readonly label?: string | undefined;
   /** The text typeahead matches, for example a `textValue`; without it the machine matches `label`. */
   readonly text?: string | undefined;
+  /** The option renders a description part: its `aria-describedby` points at it. @defaultValue false */
+  readonly hasDescription?: boolean | undefined;
 }
 
 /** One registered option group. */
 export interface SelectGroupItem {
   /** A stable key from the registration. */
   readonly key: string;
+  /**
+   * The keys of the group's options. With `filter`, the group is hidden while none of them matches the query.
+   * Without it the group is always shown.
+   */
+  readonly itemKeys?: readonly string[] | undefined;
   /** The group is disabled; its options are disabled in `items`. @defaultValue false */
   readonly disabled?: boolean | undefined;
 }
@@ -111,6 +126,15 @@ export interface SelectState<T = string> extends Omit<FormFieldControlProps, 'id
    * value change and on a form reset. @defaultValue false
    */
   readonly blockedSubmit?: boolean | undefined;
+  /**
+   * The list has a search: typing narrows the options, DOM focus moves to the search input while the list is open
+   * and the trigger no longer reports the highlighted option. @defaultValue false
+   */
+  readonly filter?: boolean | undefined;
+  /** The text in the search input. The transition clears it when the list closes. @defaultValue '' */
+  readonly query?: string | undefined;
+  /** The accessible name of the search input. @defaultValue 'Search' */
+  readonly searchLabel?: string | undefined;
 }
 
 /** Where the highlight starts when the list opens. */
@@ -121,6 +145,8 @@ export type SelectEvent =
   | { readonly type: 'TRIGGER.CLICK'; readonly event: Event }
   /** A key opened the list. */
   | { readonly type: 'TRIGGER.OPEN'; readonly initial: SelectInitialHighlight; readonly event: Event }
+  /** The user typed in the search input. */
+  | { readonly type: 'SEARCH.INPUT'; readonly value: string; readonly event: Event }
   /** A key moved the highlight while the list is open. */
   | { readonly type: 'LIST.MOVE'; readonly key: string; readonly event: Event }
   /** The pointer moved over an option. */
@@ -153,6 +179,10 @@ export interface SelectTransition<T = string> {
   readonly reveal?: boolean;
   /** The new value to report (reason `'user'`): a `T`, a list with `multiple`, or `null` when a clearing option was chosen. */
   readonly value?: T | readonly T[] | null;
+  /** The new text of the search input (`''` when the list closes). Only with `filter`. */
+  readonly query?: string;
+  /** Where DOM focus goes: the search input when the list opens, the trigger when it closes by choice or Escape. Only with `filter`. */
+  readonly focus?: 'search' | 'trigger';
 }
 
 /** The ids of the parts that link to each other. */
@@ -261,6 +291,8 @@ export interface SelectContentProps extends SelectPartProps {
   readonly 'data-state': 'open' | 'closed';
   /** Present with `multiple`. */
   readonly 'data-multiple'?: '' | undefined;
+  /** Present while `filter` is on and no option matches the query. */
+  readonly 'data-empty'?: '' | undefined;
   /** The resolved side. */
   readonly 'data-side': SelectSide;
   /** The resolved alignment. */
@@ -285,6 +317,10 @@ export interface SelectOptionProps extends SelectPartProps {
   readonly 'data-highlighted'?: '' | undefined;
   /** Present on a disabled option. */
   readonly 'data-disabled'?: '' | undefined;
+  /** The id of the option's description, while it has one. */
+  readonly 'aria-describedby'?: string | undefined;
+  /** `true` while the query hides the option (native `hidden`); otherwise absent. */
+  readonly hidden?: true | undefined;
   /** Sends `OPTION.CLICK` unless disabled or vetoed. */
   readonly onClick: (event: Event) => void;
   /** Sends `OPTION.POINTER_MOVE` unless disabled. */
@@ -301,6 +337,8 @@ export interface SelectOptionGroupProps extends SelectPartProps {
   readonly 'aria-disabled'?: 'true' | undefined;
   /** Present on a disabled group. */
   readonly 'data-disabled'?: '' | undefined;
+  /** `true` while `filter` is on and none of the group's options matches the query (native `hidden`). */
+  readonly hidden?: true | undefined;
 }
 
 /** Props of an option group label. */
@@ -335,6 +373,20 @@ export interface SelectParts<T = string> {
   readonly optionIndicator: SelectDecorativeProps;
   /** The option content props. */
   readonly optionContent: SelectPartProps;
+  /** The header props: the area above the options that holds the search. */
+  readonly header: SelectExtraPartProps;
+  /** The search input props; render the part only while `filter` is on. */
+  readonly search: SelectSearchProps;
+  /** The empty part props; render the part only while `content['data-empty']` is present. */
+  readonly empty: SelectEmptyProps;
+  /** The footer props: the area below the options that holds the author's actions. */
+  readonly footer: SelectExtraPartProps;
+  /** The count props (`+N`); `null` unless `multiple` has more than one selected value. */
+  readonly count: SelectCountProps | null;
+  /** The decorative leading part of an option (an icon or an avatar). */
+  readonly optionLeading: SelectExtraDecorativeProps;
+  /** The description props of one option; render it only for an option with `hasDescription`. */
+  readonly optionDescription: (item: SelectItem<T>) => SelectOptionDescriptionProps;
   /** The props of one option. */
   readonly option: (item: SelectItem<T>) => SelectOptionProps;
   /** The props of one option group. */

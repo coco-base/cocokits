@@ -209,9 +209,20 @@ function compareMembers(
   }
 }
 
-/** The anatomy part a member belongs to: the part id in its semantic id (`tabs.trigger.disabled`), else the part it sits on. */
-function ownerOf(component: string, member: ApiMemberJson, own: string, known: ReadonlySet<string>): string {
+/**
+ * The anatomy part a member belongs to: the part id in its semantic id (`tabs.trigger.disabled`), else the part it sits
+ * on. A member stays with the part it sits on when the other frameworks declare its id on that part too (the item kinds
+ * of a Menu share the ids `menu.item.*` and each kind lists them).
+ */
+function ownerOf(
+  component: string,
+  member: ApiMemberJson,
+  own: string,
+  known: ReadonlySet<string>,
+  declared: ReadonlySet<string>,
+): string {
   const [head, name] = member.semanticId.slice(component.length + 1).split('.', 2);
+  if (declared.has(`${own}|${member.semanticId}`)) return own;
   return member.semanticId.startsWith(`${component}.`) && name !== undefined && head !== undefined && known.has(head)
     ? `${component}.${head}`
     : own;
@@ -224,7 +235,8 @@ function ownerOf(component: string, member: ApiMemberJson, own: string, known: R
  * compared with the Angular members that reach them. Three members reach more than the part they sit on:
  *
  * - the slot a section feeds (`CckTab`: `header`) belongs to the part the section stands for, the trigger;
- * - the `value` of a section is the key of both of its halves, so the trigger has it as well (`tabs.trigger.value`);
+ * - the `value` of a section is the key of both of its halves, so the trigger has it as well (`tabs.trigger.value`),
+ *   when the other frameworks declare it on their trigger;
  * - the default slot of a part that renders others is also the default slot of each of them (`tabs.default` of
  *   `CckTabs` is the content of the list).
  */
@@ -233,6 +245,8 @@ function angularViews(
   doc: ApiDocJson,
   known: ReadonlySet<string>,
   others: ReadonlySet<string>,
+  declared: ReadonlySet<string>,
+  onPart: ReadonlySet<string>,
 ): [string, ApiPartJson][] {
   const partIds = (part: ApiPartJson): string[] => {
     const rendered = (part.renders ?? []).filter((id) => others.has(id)).map((id) => `${component}.${id}`);
@@ -248,17 +262,18 @@ function angularViews(
     if (sectionId !== undefined) ids.push(sectionId);
     return [...new Set(ids)].map((id): [string, ApiPartJson] => {
       const pick = (members: ApiMemberJson[]): ApiMemberJson[] =>
-        members.filter((member) => ownerOf(component, member, part.semanticId, known) === id);
+        members.filter((member) => ownerOf(component, member, part.semanticId, known, onPart) === id);
       const pickSlots = (slots: ApiSlotJson[]): ApiSlotJson[] =>
         slots.filter((slot) => {
           if (slot.name === part.section?.slotName) return id === sectionId;
           return (
-            ownerOf(component, slot, part.semanticId, known) === id ||
+            ownerOf(component, slot, part.semanticId, known, onPart) === id ||
             (slot.name === 'default' && rendered.includes(id))
           );
         });
       const keyOfSection = (): ApiMemberJson[] =>
-        id === sectionId && id !== part.semanticId
+        // The section `value` reaches the trigger only where the other frameworks declare it on their trigger part.
+        id === sectionId && id !== part.semanticId && declared.has(`${id}.value`)
           ? part.props.filter((prop) => prop.name === 'value').map((prop) => ({ ...prop, semanticId: `${id}.value` }))
           : [];
       return [
@@ -274,7 +289,7 @@ function angularViews(
       ];
     });
   });
-  return [...views, ...membersOfOtherParts(component, doc, known, new Set(views.map(([id]) => id)), partIds)];
+  return [...views, ...membersOfOtherParts(component, doc, known, new Set(views.map(([id]) => id)), partIds, onPart)];
 }
 
 /**
@@ -288,13 +303,14 @@ function membersOfOtherParts(
   known: ReadonlySet<string>,
   viewIds: ReadonlySet<string>,
   partIds: (part: ApiPartJson) => string[],
+  onPart: ReadonlySet<string>,
 ): [string, ApiPartJson][] {
   const extra = new Map<string, ApiPartJson>();
   for (const part of doc.parts) {
     const own = partIds(part);
     for (const kind of ['props', 'events', 'methods'] as const) {
       for (const member of part[kind]) {
-        const owner = ownerOf(component, member, part.semanticId, known);
+        const owner = ownerOf(component, member, part.semanticId, known, onPart);
         if (own.includes(owner) || !viewIds.has(owner)) continue;
         const view = extra.get(owner) ?? { ...part, semanticId: owner, props: [], events: [], slots: [], methods: [] };
         view[kind].push(member);
@@ -349,12 +365,28 @@ function compareComponent(component: string, docs: readonly ApiDocJson[], result
       .filter((doc) => doc.framework !== 'angular')
       .flatMap((doc) => doc.parts.map((part) => part.semanticId.slice(component.length + 1))),
   );
+  const declared = new Set(
+    docs
+      .filter((doc) => doc.framework !== 'angular')
+      .flatMap((doc) => doc.parts.flatMap((part) => part.props.map((prop) => prop.semanticId))),
+  );
+  const onPart = new Set(
+    docs
+      .filter((doc) => doc.framework !== 'angular')
+      .flatMap((doc) =>
+        doc.parts.flatMap((part) =>
+          [...part.props, ...part.events, ...part.slots, ...part.methods].map(
+            (member) => `${part.semanticId}|${member.semanticId}`,
+          ),
+        ),
+      ),
+  );
   const partsOf: ByFramework<Map<string, ApiPartJson[]>> = new Map();
   for (const doc of docs) {
     const byId = partsOf.get(doc.framework) ?? new Map<string, ApiPartJson[]>();
     const views: [string, ApiPartJson][] =
       doc.framework === 'angular'
-        ? angularViews(component, withModelOutputs(doc), known, otherParts)
+        ? angularViews(component, withModelOutputs(doc), known, otherParts, declared, onPart)
         : doc.parts.map((part) => [part.semanticId, part]);
     for (const [id, part] of views) push(byId, id, part);
     partsOf.set(doc.framework, byId);

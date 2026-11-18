@@ -3,7 +3,8 @@
 import { useRef, type ReactElement } from 'react';
 import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
-import type { ChoiceRootProps } from '../internal/choice-control.types';
+import { useCheckboxGroupContext } from '../internal/checkbox-group-context';
+import type { ChoiceControlChangeDetails, ChoiceRootProps } from '../internal/choice-control.types';
 import { mergeProps, withoutReserved } from '../internal/merge-props';
 import { renderChoiceRoot } from '../internal/render-choice-root';
 import { useMergedRef } from '../internal/use-merged-ref';
@@ -37,17 +38,27 @@ function CheckboxImpl({
   ...rest
 }: CheckboxProps): ReactElement {
   const themeAttrs = useThemeAttrs(checkboxAnatomy);
+  const group = useCheckboxGroupContext();
+  const itemValue = rest.value;
   const elementRef = useRef<HTMLInputElement | null>(null);
   const mergedRef = useMergedRef<HTMLInputElement>(ref, elementRef, undefined);
   const { parts, inputProps, state } = useChoiceControl(
     {
-      checked,
-      defaultChecked,
-      onCheckedChange,
+      // Inside a group the list of the group is the truth, as the value of a RadioGroup is for its radios.
+      ...(group && itemValue !== undefined
+        ? {
+            checked: group.value.includes(itemValue),
+            defaultChecked: undefined,
+            onCheckedChange: (next: boolean, details: ChoiceControlChangeDetails) => {
+              if (details.reason === 'form-reset') group.reset(details.event);
+              else group.toggle(itemValue, next, details);
+            },
+          }
+        : { checked, defaultChecked, onCheckedChange }),
       id,
-      name,
+      name: name ?? group?.facts.name,
       'aria-describedby': ariaDescribedBy,
-      disabled,
+      disabled: disabled === true || group?.facts.disabled === true,
       readOnly,
       required,
       hidden,
@@ -112,6 +123,10 @@ interface CheckboxComponent {
  *
  * While the checkbox is checked and not indeterminate, its background holds an icon drawn with `SvgIcon`. It is the
  * icon the theme names in `components.checkbox.icons`, else the default `check`.
+ *
+ * Inside a `CheckboxGroup`, a Checkbox with a `value` is checked while the list of the group holds the value. It
+ * takes its `name` and `disabled` from the group, and `checked`, `defaultChecked` and `onCheckedChange` are
+ * ignored.
  *
  * The root has the state as `data-*` attributes. The input gets `aria-invalid="true"` only while it is not valid
  * and the user has left it or tried to submit. `className`, `style`, `hidden` and `render` go to the root; every

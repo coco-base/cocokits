@@ -55,11 +55,29 @@ const root = useTemplateRef<ComponentPublicInstance>('root');
 const element = computed(() => rootElementOf(root.value) as HTMLElement | null);
 const textElement = shallowRef<HTMLElement | null>(null);
 const isDisabled = computed(() => props.disabled || group?.disabled.value === true);
+const descriptions = shallowRef(0);
+// The text a search matches: the `textValue`, else the text of the `SelectItemText`.
+const textOf = (): string | undefined => props.textValue ?? textElement.value?.textContent ?? undefined;
 const machine = computed(() =>
-  ctx.parts.value.option({ key, value: props.value, disabled: isDisabled.value, id: props.id }),
+  ctx.parts.value.option({
+    key,
+    value: props.value,
+    disabled: isDisabled.value,
+    id: props.id,
+    text: textOf(),
+    hasDescription: descriptions.value > 0,
+  }),
 );
 
 provide(SELECT_ITEM_KEY, {
+  key,
+  itemId: () => props.id,
+  describe: () => {
+    descriptions.value += 1;
+    return () => {
+      descriptions.value -= 1;
+    };
+  },
   setTextElement: (next: HTMLElement | null) => {
     textElement.value = next;
   },
@@ -110,12 +128,14 @@ function register(): void {
       return props.id;
     },
     get text() {
-      return props.textValue ?? textElement.value?.textContent ?? undefined;
+      return textOf();
     },
     select,
   });
 }
+let leaveGroup: (() => void) | undefined;
 onMounted(() => {
+  leaveGroup = group?.addKey(key);
   register();
   if (isDevelopment() && element.value && hasInteractiveContent(element.value)) {
     console.warn(
@@ -135,6 +155,7 @@ watch(
 watch([isDisabled, element], register, { flush: 'post' });
 onBeforeUnmount(() => {
   unregister?.();
+  leaveGroup?.();
 });
 </script>
 

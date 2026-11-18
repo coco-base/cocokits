@@ -87,7 +87,7 @@ export function transitionTooltip(state: TooltipState, event: TooltipEvent): Too
  *
  * @param state - The author's props and the tracked facts, with the resolved placement.
  * @param send - Receives the events of the handlers; pass them to {@link transitionTooltip}.
- * @returns The props of the trigger, the content and the arrow.
+ * @returns The props of the trigger, the content, the title, the description and the arrow.
  */
 export function getTooltipProps(state: TooltipState, send: (event: TooltipEvent) => void): TooltipParts {
   const { classes } = tooltipAnatomy;
@@ -136,6 +136,8 @@ export function getTooltipProps(state: TooltipState, send: (event: TooltipEvent)
         send({ type: 'CONTENT.POINTER_LEAVE', event });
       },
     },
+    title: { class: classes.title },
+    description: { class: classes.description },
     arrow: { class: classes.arrow, 'aria-hidden': 'true', hidden: state.arrowHidden ? true : undefined },
   };
 }

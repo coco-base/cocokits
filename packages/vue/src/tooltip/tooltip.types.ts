@@ -34,6 +34,11 @@ export type { TooltipChangeReason };
  *   </TooltipRoot>
  * </TooltipProvider>
  *
+ * @example
+ * <TooltipContent>
+ *   <TooltipTitle>Copy link</TooltipTitle>
+ *   <TooltipDescription>Copies the address to the clipboard.</TooltipDescription>
+ * </TooltipContent>
  * @cckPart root
  */
 export interface TooltipRootProps {
@@ -101,8 +106,8 @@ export interface TooltipRootProps {
    */
   readonly disableClosingTrigger?: boolean | undefined;
   /**
-   * Whether the tooltip never opens. A disabled tooltip is closed, and its content is not rendered. It also removes
-   * the description of the trigger.
+   * Whether the tooltip never opens. A disabled tooltip is closed, its content is not rendered and it no longer
+   * describes the trigger. A shown tooltip hides at once when it becomes disabled.
    *
    * Turning it on while the tooltip is open closes it without an `update:open`. A tooltip whose `open` is not bound
    * stays closed when it turns off again.
@@ -341,6 +346,74 @@ export interface TooltipContentProps extends OverlayPositioningProps, OverlayArr
    * Whether the part merges onto its first child element or component, instead of rendering its own element. The
    * child keeps its own props and gets the role, the classes and the `data-*` attributes of the part. When not set,
    * the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Merges the props onto the single child.
+   * @defaultValue false
+   */
+  readonly asChild?: boolean | undefined;
+}
+
+/**
+ * The first line of the content: a short title. It renders a `<div>`, adds no role, and is part of the tooltip text, so the description of the trigger reads it. Write it inside `TooltipContent`, before the `TooltipDescription`.
+ *
+ * @example
+ * <TooltipContent>
+ *   <TooltipTitle>Save</TooltipTitle>
+ * </TooltipContent>
+ *
+ * @cckPart title
+ */
+export interface TooltipTitleProps {
+  /**
+   * The tag or component to render in place of the element of the part. The part keeps its class. It is ignored with
+   * `asChild`.
+   *
+   * When not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with `as`.
+   */
+  readonly as?: AsTag | Component | undefined;
+  /**
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. When
+   * not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Merges the props onto the single child.
+   * @defaultValue false
+   */
+  readonly asChild?: boolean | undefined;
+}
+
+/**
+ * An optional smaller text after the title. It renders a `<div>`, adds no role, and is part of the tooltip text, so the description of the trigger reads it. Write it inside `TooltipContent`.
+ *
+ * @example
+ * <TooltipContent>
+ *   <TooltipDescription>Save</TooltipDescription>
+ * </TooltipContent>
+ *
+ * @cckPart description
+ */
+export interface TooltipDescriptionProps {
+  /**
+   * The tag or component to render in place of the element of the part. The part keeps its class. It is ignored with
+   * `asChild`.
+   *
+   * When not set, the part renders its own element.
+   *
+   * @cckShared
+   * @cckSemantic none
+   * @cckParity Replaces the rendered element with `as`.
+   */
+  readonly as?: AsTag | Component | undefined;
+  /**
+   * Whether the part merges onto its first child element or component, instead of rendering its own element. When
+   * not set, the part renders its own element.
    *
    * @cckShared
    * @cckSemantic none

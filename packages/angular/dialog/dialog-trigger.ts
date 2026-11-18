@@ -50,7 +50,9 @@ export class CckDialogTrigger {
   }
 
   private readonly activate = (event: Event): void => {
-    this.props().onClick(event);
+    // A dialog that is not modal leaves the trigger usable while it is open: a press closes it.
+    if (!this.root._modalNow() && this.root.open()) this.root._parts().close.onClick(event);
+    else this.props().onClick(event);
   };
 
   /** A click made before hydration reaches only a `host` listener; `listenLast` does not see it. */

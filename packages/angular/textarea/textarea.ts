@@ -32,6 +32,7 @@ export type TextareaChangeDetails = ChangeDetails<TextareaChangeReason>;
   selector: 'textarea[cckTextarea]',
   exportAs: 'cckTextarea',
   host: {
+    '[attr.value]': 'null',
     '[value]': 'text()',
   },
 })

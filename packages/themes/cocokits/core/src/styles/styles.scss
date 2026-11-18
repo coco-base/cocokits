@@ -13,6 +13,7 @@
 @use 'components/_switch' as switch;
 @use 'components/_radio' as radio;
 @use 'components/_radio-group' as radio-group;
+@use 'components/_checkbox-group' as checkbox-group;
 @use 'components/_tabs' as tabs;
 @use 'components/_dialog' as dialog;
 @use 'components/_popover' as popover;
@@ -46,6 +47,7 @@
   @include switch.rules;
   @include radio.rules;
   @include radio-group.rules;
+  @include checkbox-group.rules;
   @include tabs.rules;
   @include tabs.nav-rules;
   @include dialog.rules;

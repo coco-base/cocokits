@@ -20,7 +20,7 @@ interface ElementProps {
 const RESERVED = ['data-state', 'data-disabled', 'data-orientation'];
 
 function AccordionItemImpl({
-  value,
+  value: valueProp,
   disabled = false,
   render,
   ref,
@@ -29,14 +29,14 @@ function AccordionItemImpl({
 }: AccordionItemProps): ReactElement {
   const context = useAccordionContext('Accordion.Item');
   const id = useId();
+  const value = valueProp ?? `item-${id}`;
   const themeAttrs = useThemeAttrs(accordionAnatomy).item;
   const { state, register } = context;
   const open = state.value.includes(value);
   const itemRef = useRef<HTMLElement | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLElement | null>(null);
-  const [forceMounted, setForceMounted] = useState(false);
-  // The content stays in the document after the item closes until its exit animation has finished.
+  // The content shows its children after the item closes until its exit animation has finished.
   const [exited, setExited] = useState(!open);
   const present = open || !exited;
 
@@ -84,11 +84,7 @@ function AccordionItemImpl({
     presence.current?.setOpen(open);
   }, [open]);
 
-  const parts = getAccordionItemProps(
-    state,
-    { id, key: value, disabled, contentMounted: present || forceMounted, contentPresent: present },
-    context.dispatch,
-  );
+  const parts = getAccordionItemProps(state, { id, key: value, disabled, contentPresent: present }, context.dispatch);
   const itemDisabled = parts.trigger.disabled === true;
   // Built on every render: `parts` changes with the state of the Root, and so does everything below it.
   const itemContext: AccordionItemContextValue = {
@@ -99,7 +95,6 @@ function AccordionItemImpl({
     present,
     triggerRef,
     contentRef,
-    setForceMounted,
   };
 
   const elementRef = isValidElement<ElementProps>(render) ? render.props.ref : undefined;

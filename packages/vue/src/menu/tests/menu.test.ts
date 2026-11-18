@@ -21,8 +21,26 @@ const tabStops = (): string[] =>
     .map((element) => element.textContent);
 
 describe('@cocokits/vue/menu entry', () => {
-  it('exports the four parts', () => {
-    expect(Object.keys(entry).sort()).toEqual(['MenuContent', 'MenuItem', 'MenuRoot', 'MenuTrigger']);
+  it('exports every part', () => {
+    expect(Object.keys(entry).sort()).toEqual([
+      'MenuCheckboxItem',
+      'MenuContent',
+      'MenuGroup',
+      'MenuGroupLabel',
+      'MenuItem',
+      'MenuItemIndicator',
+      'MenuItemLeading',
+      'MenuItemShortcut',
+      'MenuItemSupportingText',
+      'MenuItemTrailing',
+      'MenuRadioGroup',
+      'MenuRadioItem',
+      'MenuRoot',
+      'MenuSub',
+      'MenuSubContent',
+      'MenuSubTrigger',
+      'MenuTrigger',
+    ]);
   });
 });
 

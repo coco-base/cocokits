@@ -1,9 +1,23 @@
 export { chipListAnatomy } from './chip-list.anatomy';
 export { chipListMeta } from './chip-list.meta';
-export { addChipListValue, getChipListProps, isChipListAddKey, removeChipListValue } from './chip-list';
+export {
+  addChipListValue,
+  getChipListBackspaceTarget,
+  getChipListChipFacts,
+  getChipListFocusAfterRemove,
+  getChipListProps,
+  getChipListRemoveKey,
+  isChipListAddKey,
+  removeChipListValue,
+  toggleChipListItem,
+} from './chip-list';
 export type {
   ChipListChangeReason,
+  ChipListChipFacts,
+  ChipListEntry,
+  ChipListFocusTarget,
   ChipListInputProps,
+  ChipListItem,
   ChipListKeyEvent,
   ChipListParts,
   ChipListProps,

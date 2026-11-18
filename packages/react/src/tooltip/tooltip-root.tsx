@@ -213,6 +213,11 @@ function TooltipRootImpl({
  *     </Tooltip.Content>
  *   </Tooltip.Root>
  * </Tooltip.Provider>
+ * @example
+ * <Tooltip.Content>
+ *   <Tooltip.Title>Copy link</Tooltip.Title>
+ *   <Tooltip.Description>Copies the address to the clipboard.</Tooltip.Description>
+ * </Tooltip.Content>
  * @cckPart root
  * @param props - The Root props.
  * @returns The children inside the provider.

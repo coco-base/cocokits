@@ -33,6 +33,8 @@ export interface SelectTriggerOptions {
   readonly begin: SelectHighlight['begin'];
   /** Records whether the trigger has focus. */
   readonly onFocusChange: (focused: boolean) => void;
+  /** Whether the list has a search, which takes the focus while it is open. */
+  readonly hasSearch: boolean;
   /** Called when the trigger loses focus. */
   readonly onTouched: () => void;
 }
@@ -103,6 +105,8 @@ export function useSelectTrigger(options: SelectTriggerOptions): SelectTriggerHa
     onBlur: (event) => {
       if (!options.isFocusOutHeld()) trigger.onBlur(event.nativeEvent);
       typeahead.reset();
+      // With a search, the focus goes into the list while it is open: the Select has not been left.
+      if (isOpen && options.hasSearch) return;
       options.onFocusChange(false);
       options.onTouched();
     },

@@ -51,8 +51,17 @@ describe('icon-button output', () => {
     expect(declarationsOf(css, `${ROOT}[data-variant=outline]`)).toContain(
       'border-color: var(--cck-icon-button-border-color)',
     );
-    expect(declarationsOf(css, `${ROOT}[data-variant=light]`)).toContain('var(--cck-icon-button-soft-bg)');
-    expect(declarationsOf(css, `${ROOT}[data-variant=basic]`)).toContain('var(--cck-icon-button-soft-icon-color)');
+    expect(css).not.toContain('data-variant=light');
+    for (const variant of ['outline', 'basic'])
+      expect(declarationsOf(css, `${ROOT}[data-variant=${variant}]`)).toContain(
+        'color: var(--cck-icon-button-outline-icon-color)',
+      );
+    expect(structureTokenOf(ROOT, 'icon-button-outline-icon-color')).toBe(ref('color'));
+    expect(declarationsOf(css, ROOT)).not.toContain('line-height');
+    expect(declarationsOf(css, `${ROOT}[data-variant=primary]:hover:not([data-disabled], :disabled)`)).toContain(
+      'background-color: var(--cck-icon-button-solid-hover-bg)',
+    );
+    expect(structureTokenOf(ROOT, 'icon-button-solid-hover-bg')).toBe(ref('container'));
     expect(declarationsOf(css, `${ROOT}[data-rounded]`)).toContain(
       'border-radius: var(--cck-icon-button-radius-rounded)',
     );
@@ -78,7 +87,7 @@ describe('icon-button output', () => {
   });
 
   it('tints only the outline and basic variants on hover, changes no color on press, and reaches no part but its own root', () => {
-    expect(own.match(/:hover/g)).toHaveLength(1);
+    expect(own.match(/:hover/g)).toHaveLength(2);
     expect(own).not.toMatch(/:active/);
     for (const selector of selectorsOf(own)) expect(selector, selector).toMatch(/^\.cck-icon-button(?![\w-])/);
   });
@@ -99,12 +108,12 @@ describe('icon-button design match', () => {
   const sizes = [
     ['sm', 'size-36', 'size-20'],
     ['md', 'size-44', 'size-24'],
-    ['lg', '52px', 'size-32'],
+    ['lg', 'size-52', 'size-32'],
   ] as const;
 
   it.each(sizes)('size %s: the square and the icon', (mode, size, icon) => {
     const at = (name: string): string | undefined => sizeTokenOf(ROOT, mode, name);
-    expect(at('icon-button-size')).toBe(size.endsWith('px') ? size : ref(size));
+    expect(at('icon-button-size')).toBe(ref(size));
     expect(at('icon-button-icon-size')).toBe(ref(icon));
   });
 

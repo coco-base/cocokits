@@ -46,7 +46,7 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 /**
  * One section of an accordion. It makes a heading with a button, called the trigger, and the content. The content you write inside it is the content of the section.
  *
- * Give the trigger its text with `label`, or its markup with a `cckAccordionLabel` template. The content of a closed item stays in the page and is `hidden`.
+ * Give the trigger its text with `label`, or its markup with a `cckAccordionLabel` template. The content element of a closed item stays in the page, empty and `hidden`.
  *
  * The indicator draws the icon your theme names in `components.accordion.icons.indicator`, else the default `chevron-down`. Register a theme icon with `provideCckIcons`.
  *
@@ -73,6 +73,7 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
     '[attr.expanded]': 'null',
     '[attr.disabled]': 'null',
     '[attr.headinglevel]': 'null',
+    '[attr.value]': 'null',
   },
   template: `
     <ng-template #triggerTemplate>
@@ -92,7 +93,7 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
         [cckAttrs]="root._theme().trigger"
         (click)="parts().trigger.onClick($event)"
         (keydown)="parts().trigger.onKeyDown($event)"
-        (focus)="root._onTriggerFocus(_id)"
+        (focus)="root._onTriggerFocus(_key())"
         (blur)="root._focusVisibleKey.set(undefined)"
       >
         @if (labelSlot(); as slot) {
@@ -189,14 +190,16 @@ export type AccordionHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
       [attr.data-orientation]="parts().content['data-orientation']"
       [cckAttrs]="root._theme().content"
     >
-      <ng-content />
+      @if (shown()) {
+        <ng-content />
+      }
     </div>
   `,
 })
 export class CckAccordionItem implements CckAccordionItemRegistration {
   /**
    * Whether the item is open. Use `[(expanded)]` to read and change it.
-   * @remarks Each item holds its own open state, and the accordion has no `value`. A change from the parent emits nothing. A click, a key and the methods emit `expandedChange`.
+   * @remarks Each item holds its own open state, and the `[(value)]` of the accordion follows it. A change from the parent emits nothing. A click, a key and the methods emit `expandedChange`.
    * @defaultValue false
    * @cckSemantic none
    * @cckParity The open state lives on each item.
@@ -205,11 +208,18 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
 
   /**
    * Whether the user cannot open or close the item. The arrow keys, `openAll` and `closeAll` skip it.
-   * @remarks The accordion has no `disabled` of its own, so set it on each item. A change of `[expanded]` from the parent still opens or closes it.
+   * @remarks The accordion `disabled` disables every item. A change of `[expanded]` from the parent still opens or closes it.
    * @defaultValue false
    * @cckSemantic accordion.item.disabled
    */
   readonly disabled = input(false, { transform: booleanAttribute });
+
+  /**
+   * The key of the item in the `value` of the accordion. When not set, the item has a generated one that you cannot write from the accordion.
+   * @cckSemantic accordion.item.value
+   * @cckParity Not available in every framework.
+   */
+  readonly value = input<string | undefined>(undefined);
 
   /**
    * The text of the trigger. When not set, the trigger shows the `cckAccordionLabel` template, or no text.
@@ -229,7 +239,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
 
   /**
    * Emits when the item opens by a click, a key or a method. It never emits when the parent changes `expanded`.
-   * @remarks The accordion has no change event of its own, so listen on each item.
+   * @remarks The accordion reports the open items with `(valueChange)`; these two tell which item changed.
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */
@@ -237,7 +247,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
 
   /**
    * Emits when the item closes by a click, a key or a method, or because another item opened. It never emits when the parent changes `expanded`.
-   * @remarks The accordion has no change event of its own, so listen on each item.
+   * @remarks The accordion reports the open items with `(valueChange)`; these two tell which item changed.
    * @cckSemantic none
    * @cckParity The open state lives on each item.
    */
@@ -246,6 +256,9 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   /** The generated id of the item; the ids of the trigger and the content derive from it. @internal */
   readonly _id = inject(IdGenerator).getId(accordionAnatomy.classes.item);
 
+  /** The key of the item in the open value: its `value`, else its generated id. @internal */
+  readonly _key = computed(() => this.value() ?? this._id);
+
   /** The item element. @internal */
   readonly _element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
@@ -253,7 +266,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   protected readonly root = injectCckAccordion('cck-accordion-item');
 
   /** Whether the item is open: in single mode only one item is. */
-  protected readonly isOpen = computed(() => this.root._openKeys().includes(this._id));
+  protected readonly isOpen = computed(() => this.root._openKeys().includes(this._key()));
 
   /** Whether the content is still shown: open, or closing while its exit animation runs. */
   private readonly shown = linkedSignal<boolean, boolean>({
@@ -271,7 +284,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   protected readonly parts: Signal<AccordionItemParts> = computed(() =>
     getAccordionItemProps(
       this.root._state(),
-      { id: this._id, key: this._id, disabled: this.disabled(), contentMounted: true, contentPresent: this.shown() },
+      { id: this._id, key: this._key(), disabled: this.disabled(), contentMounted: true, contentPresent: this.shown() },
       (event) => {
         this.root._send(event);
       },
@@ -319,7 +332,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
    * @cckParity The open state lives on each item.
    */
   open(): void {
-    this.root._send({ type: 'ITEM.OPEN', key: this._id });
+    this.root._send({ type: 'ITEM.OPEN', key: this._key() });
   }
 
   /**
@@ -333,7 +346,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
    * @cckParity The open state lives on each item.
    */
   close(): void {
-    this.root._send({ type: 'ITEM.CLOSE', key: this._id });
+    this.root._send({ type: 'ITEM.CLOSE', key: this._key() });
   }
 
   /**
@@ -356,6 +369,11 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
     this.expanded.set(open);
     if (open) this.opened.emit();
     else this.closed.emit();
+  }
+
+  /** @internal */
+  _write(open: boolean): void {
+    this.expanded.set(open);
   }
 
   /** @internal */
@@ -382,7 +400,7 @@ export class CckAccordionItem implements CckAccordionItemRegistration {
   /** Focus is inside the closing content: it moves to a trigger before the content is hidden. */
   private refocus(content: HTMLElement): void {
     if (!containsDeep(content, deepActiveElement(content.ownerDocument))) return;
-    const target = this.root._focusTargetOnClose(this._id);
+    const target = this.root._focusTargetOnClose(this._key());
     if (target !== undefined) this.root._focusTrigger(target);
   }
 }

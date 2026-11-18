@@ -1,5 +1,14 @@
-import { Component, ViewEncapsulation, afterRenderEffect, booleanAttribute, computed, input } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  afterRenderEffect,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { CckAttrs, injectPartIconName, themeAttrs } from '@cocokits/angular-core';
+import { CckCheckboxGroup } from '@cocokits/angular/checkbox-group';
 import { CckSvgIcon } from '@cocokits/angular/svg-icon';
 import { checkboxAnatomy, getCheckboxProps } from '@cocokits/machines/checkbox';
 import {
@@ -23,6 +32,8 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
  *
  * Inside a `cck-form-field`, the input gets the id `<fieldId>-control`, and the label of the field points at it. The input is described by the hints and errors of the field. `aria-invalid` shows only after the user has left the control or has tried to submit the form.
  *
+ * Inside a `cck-checkbox-group`, the group owns the value. The checkbox is checked while its `submitValue` is in the `value` of the group. It takes the `name` and `disabled` of the group.
+ *
  * The component never changes `indeterminate`. When you own the mixed state, set it again in your `checkedChangeDetails` handler.
  *
  * The tick in the background draws the icon your theme names in `components.checkbox.icons.background`, else the default `check`. Register a theme icon with `provideCckIcons`.
@@ -43,6 +54,7 @@ export type CheckboxChangeDetails = CheckControlChangeDetails;
   exportAs: 'cckCheckbox',
   encapsulation: ViewEncapsulation.None,
   imports: [CckAttrs, CckSvgIcon],
+  host: { '[attr.indeterminate]': 'null' },
   template: `
     <span [class]="parts().wrapper.class" [cckAttrs]="theme().wrapper">
       <span [class]="parts().inputWrapper.class" [cckAttrs]="theme().inputWrapper">
@@ -106,9 +118,25 @@ export class CckCheckbox extends CckCheckControlBase {
   /** The theme's icon when registered, else the default; the part shows it while checked and not indeterminate. */
   protected readonly tickIconName = injectPartIconName(checkboxAnatomy.block, 'background');
 
-  protected readonly parts = computed(() =>
-    getCheckboxProps({ ...this.state(), indeterminate: this.indeterminate() }, this.fieldContext()),
-  );
+  /** The group the checkbox sits in, when it does. */
+  private readonly group = inject(CckCheckboxGroup, { optional: true });
+
+  protected readonly parts = computed(() => {
+    const state = { ...this.state(), indeterminate: this.indeterminate() };
+    const group = this.group;
+    if (!group) return getCheckboxProps(state, this.fieldContext());
+    const key = this.submitValue();
+    const { name, disabled } = group._parts().checkbox;
+    return getCheckboxProps(
+      {
+        ...state,
+        checked: key !== undefined && group.value().includes(key),
+        name: (state.name ?? '') === '' ? name : state.name,
+        disabled: state.disabled === true || disabled === true,
+      },
+      this.fieldContext(),
+    );
+  });
 
   constructor() {
     super();
@@ -120,5 +148,17 @@ export class CckCheckbox extends CckCheckControlBase {
 
   protected override isMixed(): boolean {
     return this.indeterminate();
+  }
+
+  protected override onChange(event: Event): void {
+    super.onChange(event);
+    const key = this.submitValue();
+    if (this.group && key !== undefined)
+      this.group._userChanged(key, (event.target as HTMLInputElement).checked, event);
+  }
+
+  protected override restoreMount(event: Event): void {
+    if (this.group) this.group._formReset(event);
+    else super.restoreMount(event);
   }
 }

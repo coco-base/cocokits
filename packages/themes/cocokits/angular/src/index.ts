@@ -41,13 +41,13 @@ export type { CckAvatarColor, CckAvatarSize } from './avatar-theme';
 export { CckAvatarGroupTheme } from './avatar-group-theme';
 export type { CckAvatarGroupSize } from './avatar-group-theme';
 export { CckAvatarLabelTheme } from './avatar-label-theme';
-export type { CckAvatarLabelAvatarPosition, CckAvatarLabelSize, CckAvatarLabelTextLayout } from './avatar-label-theme';
+export type { CckAvatarLabelAvatarPosition, CckAvatarLabelSize, CckAvatarLabelAlignment } from './avatar-label-theme';
 export { CckChipTheme } from './chip-theme';
 export type { CckChipSize } from './chip-theme';
 export { CckChipListTheme } from './chip-list-theme';
 export type { CckChipListSize } from './chip-list-theme';
-export { CckMenuTheme } from './menu-theme';
-export type { CckMenuSize } from './menu-theme';
+export { CckMenuItemTheme, CckMenuTheme } from './menu-theme';
+export type { CckMenuItemColor, CckMenuSize } from './menu-theme';
 export { CckRadioGroupTheme } from './radio-group-theme';
 export type { CckRadioGroupColor, CckRadioGroupLabelPosition, CckRadioGroupSize } from './radio-group-theme';
 export { CckInputTheme } from './input-theme';
@@ -56,3 +56,6 @@ export { CckDialogContentTheme, CckDialogTheme } from './dialog-theme';
 export type { CckDialogSize } from './dialog-theme';
 export { CckTooltipContentTheme, CckTooltipTheme } from './tooltip-theme';
 export type { CckTooltipSize } from './tooltip-theme';
+
+/** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
+export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

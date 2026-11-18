@@ -336,14 +336,15 @@ describe('Select labels from data', () => {
     expect(valueText()).toBe('Cake');
   });
 
-  it('takes the labels from a record, joins them for a multiple Select, and falls back to the value', () => {
+  it('takes the labels from a record, shows the first of a multiple Select with a count, and falls back to the value', () => {
     mountView(() =>
       selectRoot(
         { multiple: true, modelValue: ['cake', 'pizza', 'other'], items: { cake: 'Cake', pizza: 'Pizza' } },
         { items: () => [item('cake', 'Cake')] },
       ),
     );
-    expect(valueText()).toBe('Cake, Pizza, other');
+    expect(valueText()).toBe('Cake');
+    expect(document.querySelector('.cck-select__count')?.textContent).toBe('+2');
   });
 
   it('uses itemToStringLabel when `items` has no entry', () => {

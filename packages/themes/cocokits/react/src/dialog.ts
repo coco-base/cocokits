@@ -10,11 +10,15 @@ interface DialogNamespace {
   readonly Title: typeof BaseDialog.Title;
   readonly Description: typeof BaseDialog.Description;
   readonly Close: typeof BaseDialog.Close;
+  readonly Header: typeof BaseDialog.Header;
+  readonly Body: typeof BaseDialog.Body;
+  readonly Footer: typeof BaseDialog.Footer;
 }
 
 /**
  * The cocokits Dialog as a namespace: the themed `Dialog.Root` and `Dialog.Content` and the base `Dialog.Trigger`,
- * `Dialog.Title`, `Dialog.Description` and `Dialog.Close`. The root takes `size`, which the content draws.
+ * `Dialog.Title`, `Dialog.Description`, `Dialog.Close`, `Dialog.Header`, `Dialog.Body` and `Dialog.Footer`. The root
+ * takes `size`, which the content draws.
  */
 export const Dialog: DialogNamespace = {
   Root: DialogRoot,
@@ -23,4 +27,7 @@ export const Dialog: DialogNamespace = {
   Title: BaseDialog.Title,
   Description: BaseDialog.Description,
   Close: BaseDialog.Close,
+  Header: BaseDialog.Header,
+  Body: BaseDialog.Body,
+  Footer: BaseDialog.Footer,
 };

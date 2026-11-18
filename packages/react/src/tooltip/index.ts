@@ -4,6 +4,8 @@ export { TooltipRoot } from './tooltip-root';
 export { TooltipTrigger } from './tooltip-trigger';
 export { TooltipContent } from './tooltip-content';
 export { TooltipArrow } from './tooltip-arrow';
+export { TooltipTitle } from './tooltip-title';
+export { TooltipDescription } from './tooltip-description';
 export type {
   TooltipAlign,
   TooltipArrowProps,
@@ -16,5 +18,6 @@ export type {
   TooltipRootProps,
   TooltipSide,
   TooltipState,
+  TooltipTextProps,
   TooltipTriggerProps,
 } from './tooltip.types';

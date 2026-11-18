@@ -20,6 +20,9 @@ export type CckChipSize = ChipOptions['size']['values'][number];
  */
 @Directive({
   selector: 'cck-chip',
+  host: {
+    '[attr.size]': 'null',
+  },
   providers: [
     provideThemeOptions(
       'chip',

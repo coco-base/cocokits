@@ -30,6 +30,7 @@ export interface AccordionRootProps {
    * If you listen for changes and do not accept one, the old value stays.
    *
    * @cckSemantic accordion.value
+   * @defaultValue []
    * @cckParity Bound with `v-model`.
    */
   readonly modelValue?: string | string[] | undefined;
@@ -159,12 +160,13 @@ export interface AccordionRootEmits {
  */
 export interface AccordionItemProps {
   /**
-   * The key of the item in the open value. It must be unique inside the accordion.
+   * The key of the item in the open value. It must be unique inside the accordion. When not set, the item gets a
+   * generated value.
    *
    * @cckSemantic accordion.item.value
    * @cckParity Not available in every framework.
    */
-  readonly value: string;
+  readonly value?: string | undefined;
   /**
    * Whether the item is disabled. Its trigger is natively disabled, a click does nothing and the arrow keys skip
    * it. A bound value can still open it.

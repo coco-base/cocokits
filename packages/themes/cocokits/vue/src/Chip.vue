@@ -2,6 +2,7 @@
 import { useTemplateRef } from 'vue';
 import { Chip as BaseChip, type ChipEmits } from '@cocokits/vue/chip';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import { forwardModels } from './forward-models';
 import type { ChipProps } from './chip.types';
 
 defineOptions({ name: 'Chip' });
@@ -10,6 +11,9 @@ const props = withDefaults(defineProps<ChipProps>(), {
   id: undefined,
   removable: undefined,
   disabled: undefined,
+  selected: undefined,
+  defaultSelected: undefined,
+  removeLabel: undefined,
   as: undefined,
   asChild: undefined,
   size: undefined,
@@ -20,6 +24,13 @@ defineSlots<{
   /** The text of the chip. When not set, the chip is empty. */
   default?(): unknown;
 }>();
+
+// The base decides between controlled, local state and the start value: it gets the model only as the consumer wrote it.
+const models = forwardModels(props, {
+  selected: (value: boolean) => {
+    emit('update:selected', value);
+  },
+});
 
 const base = useTemplateRef<{ readonly element: Element | null }>('base');
 
@@ -42,9 +53,12 @@ provideThemeOptions('chip', () => ({ size: props.size }));
 <template>
   <BaseChip
     ref="base"
+    v-bind="models()"
     :id="id"
     :removable="removable"
     :disabled="disabled"
+    :default-selected="defaultSelected"
+    :remove-label="removeLabel"
     :as="as"
     :as-child="asChild"
     @remove="emit('remove')"

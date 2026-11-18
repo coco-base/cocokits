@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<AvatarLabelProps>(), {
   asChild: undefined,
   size: undefined,
   avatarPosition: undefined,
-  textLayout: undefined,
+  labelAlignment: undefined,
 });
 
 defineSlots<{
@@ -41,7 +41,7 @@ provide(avatarLabelThemeKey, () => ({ size: props.size }));
 provideThemeOptions('avatar-label', () => ({
   size: props.size,
   avatarPosition: props.avatarPosition,
-  textLayout: props.textLayout,
+  labelAlignment: props.labelAlignment,
 }));
 </script>
 

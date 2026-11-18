@@ -7,6 +7,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type FocusEvent,
   type KeyboardEvent,
   type ReactElement,
   type Ref,
@@ -63,6 +64,7 @@ function RadioGroupImpl({
   name: nameProp,
   disabled = false,
   required = false,
+  touched,
   form,
   orientation,
   loop = true,
@@ -87,6 +89,8 @@ function RadioGroupImpl({
     },
     name: '<RadioGroup value>',
   });
+  // Set when the focus leaves the group; a `touched` you pass wins.
+  const [touchedState, setTouchedState] = useState(false);
   const [items, setItems] = useState<readonly RadioGroupItem[]>([]);
   const [mounted, setMounted] = useState(false);
   // A mutable set the radios fill in their layout effects; state, not a ref, so the key handler can read it.
@@ -95,8 +99,20 @@ function RadioGroupImpl({
 
   const current = value ?? null;
   const machineState = useMemo<MachineState>(
-    () => ({ value: current, name, items, disabled, required, form, orientation, loop, dir, mounted }),
-    [current, name, items, disabled, required, form, orientation, loop, dir, mounted],
+    () => ({
+      value: current,
+      name,
+      items,
+      disabled,
+      required,
+      touched: touched ?? touchedState,
+      form,
+      orientation,
+      loop,
+      dir,
+      mounted,
+    }),
+    [current, name, items, disabled, required, touched, touchedState, form, orientation, loop, dir, mounted],
   );
 
   const getRegistration = (match: (entry: RadioGroupRegistration) => boolean): RadioGroupRegistration | undefined => {
@@ -156,6 +172,7 @@ function RadioGroupImpl({
       // Every radio of the group reports the same reset; the group answers it once.
       if (event !== null && lastReset.current === event) return;
       lastReset.current = event;
+      setTouchedState(false);
       setValue(mountValue, { reason: 'form-reset', event });
     },
     [setValue, mountValue],
@@ -190,6 +207,9 @@ function RadioGroupImpl({
   const props = mergeProps(ours, {
     ...rest,
     onKeyDown: composeEventHandlers(rest.onKeyDown, onKeyDown),
+    onBlur: composeEventHandlers(rest.onBlur, (event: FocusEvent<HTMLElement>) => {
+      if (!event.currentTarget.contains(event.relatedTarget)) setTouchedState(true);
+    }),
     dir: dirProp,
     children,
   }) as unknown as RadioGroupRenderProps;
@@ -224,6 +244,9 @@ interface RadioGroupComponent {
  *
  * Each Radio takes its checked state, `name`, `disabled`, `required` and tab stop from the group. The group knows
  * a Radio by its `value`.
+ *
+ * A `required` group with no value gets `aria-invalid="true"` and `data-invalid`, but only after the user has left
+ * it or `touched` is `true`. A form reset clears what the group tracked.
  *
  * The radios are native inputs, so `FormData` holds the value of the checked radio. A form reset restores the
  * value that the group had at mount.

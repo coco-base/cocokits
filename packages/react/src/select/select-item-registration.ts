@@ -10,6 +10,10 @@ export interface SelectItemRegistration<T> {
   readonly disabled: boolean;
   /** The item's own `id`. */
   readonly id: string | undefined;
+  /** Whether a description part is mounted in the item; read live. */
+  readonly hasDescription: boolean;
+  /** The key of the group the item is in, `undefined` outside a group. */
+  readonly groupKey: string | undefined;
   /** The text type-to-search matches: the `textValue`, else the text of the `Select.ItemText`; read live. */
   readonly text: string | undefined;
 }

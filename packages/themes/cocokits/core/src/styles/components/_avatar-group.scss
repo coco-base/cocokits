@@ -5,6 +5,7 @@
 // vanish in forced colors.
 @mixin rules {
   .cck-avatar-group {
+    box-sizing: border-box;
     display: flex;
 
     &[hidden] {

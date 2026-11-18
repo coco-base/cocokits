@@ -30,13 +30,30 @@ afterEach(() => {
 
 function Menu(): ReactElement {
   return (
-    <Dishes defaultValue="Cake">
-      <Select.Group>
-        <Select.Label>Desserts</Select.Label>
-        <Opt value="Cake">Cake</Opt>
-      </Select.Group>
-      <Select.Separator />
-    </Dishes>
+    <Select.Root multiple filter defaultValue={['Cake', 'Steak']}>
+      <Select.Trigger aria-label="Dish">
+        <Select.Value />
+        <Select.Icon />
+      </Select.Trigger>
+      <Select.Content>
+        <Select.Header>
+          <Select.Search />
+        </Select.Header>
+        <Select.Group>
+          <Select.Label>Desserts</Select.Label>
+          <Select.Item value="Cake">
+            <Select.OptionLeading>L</Select.OptionLeading>
+            <Select.ItemIndicator />
+            <Select.ItemText>Cake</Select.ItemText>
+            <Select.OptionDescription>Sweet</Select.OptionDescription>
+          </Select.Item>
+          <Opt value="Steak">Steak</Opt>
+        </Select.Group>
+        <Select.Separator />
+        <Select.Empty>No dish</Select.Empty>
+        <Select.Footer>Actions</Select.Footer>
+      </Select.Content>
+    </Select.Root>
   );
 }
 
@@ -50,11 +67,24 @@ describe('Select theme', () => {
     );
     await user.click(screen.getByRole('combobox'));
     await screen.findByRole('listbox');
-    for (const part of parts.filter((name) => name !== 'placeholder')) {
+    // The placeholder shows while nothing is selected, the empty part while nothing matches: tested below.
+    for (const part of parts.filter((name) => name !== 'placeholder' && name !== 'empty')) {
       const element = document.querySelector(`.${selectAnatomy.classes[part]}`);
       expect(element, part).not.toBeNull();
       expect(element?.getAttribute('data-probe'), part).toBe('on');
     }
+  });
+
+  it('puts the theme attribute on the empty part while nothing matches', async () => {
+    const user = userEvent.setup();
+    render(
+      <ThemeProvider themeConfig={themeConfig}>
+        <Menu />
+      </ThemeProvider>,
+    );
+    await user.click(screen.getByRole('combobox'));
+    await user.type(await screen.findByRole('combobox', { name: 'Search' }), 'zzz');
+    expect(document.querySelector(`.${selectAnatomy.classes.empty}`)?.getAttribute('data-probe')).toBe('on');
   });
 
   it('puts the theme attribute on the placeholder while nothing is selected', () => {

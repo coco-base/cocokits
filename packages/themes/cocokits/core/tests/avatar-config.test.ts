@@ -36,18 +36,18 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
   it('gives the label its two layout options on the root, with the old defaults', () => {
     expect(label.avatarPosition).toMatchObject({
       attrName: 'avatar-position',
-      values: ['start', 'end', 'top', 'bottom'],
-      default: 'start',
+      values: ['left', 'top', 'right', 'bottom'],
+      default: 'left',
       partNames: ['root'],
     });
-    expect(label.textLayout).toMatchObject({
-      attrName: 'text-layout',
-      values: ['stacked', 'inline'],
-      default: 'stacked',
+    expect(label.labelAlignment).toMatchObject({
+      attrName: 'label-alignment',
+      values: ['horizontal', 'vertical'],
+      default: 'vertical',
       partNames: ['root'],
     });
-    expectTypeOf(label.avatarPosition.values).toEqualTypeOf<readonly ['start', 'end', 'top', 'bottom']>();
-    expectTypeOf(label.textLayout.values).toEqualTypeOf<readonly ['stacked', 'inline']>();
+    expectTypeOf(label.avatarPosition.values).toEqualTypeOf<readonly ['left', 'top', 'right', 'bottom']>();
+    expectTypeOf(label.labelAlignment.values).toEqualTypeOf<readonly ['horizontal', 'vertical']>();
   });
 
   it('resolves the defaults to data attributes on the root', () => {
@@ -58,9 +58,13 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-group')).root).toEqual({ 'data-size': 'md' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-label')).root).toEqual({
       'data-size': 'md',
-      'data-avatar-position': 'start',
-      'data-text-layout': 'stacked',
+      'data-avatar-position': 'left',
+      'data-label-alignment': 'vertical',
     });
+  });
+
+  it('describes the color option in plain words', () => {
+    expect(avatar.color.description).toBe('Colour of the fallback; the default is contrast.');
   });
 
   it('gives the avatar a color option from the Active Color modes, contrast by default', () => {
@@ -80,7 +84,7 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
       resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-label'), {
         size: 'lg',
         avatarPosition: 'bottom',
-        textLayout: null,
+        labelAlignment: null,
       }).root,
     ).toEqual({ 'data-size': 'lg', 'data-avatar-position': 'bottom' });
   });

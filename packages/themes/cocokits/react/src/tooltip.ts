@@ -9,11 +9,14 @@ interface TooltipNamespace {
   readonly Trigger: typeof BaseTooltip.Trigger;
   readonly Content: TooltipContentComponent;
   readonly Arrow: typeof BaseTooltip.Arrow;
+  readonly Title: typeof BaseTooltip.Title;
+  readonly Description: typeof BaseTooltip.Description;
 }
 
 /**
  * The cocokits Tooltip as a namespace: the themed `Tooltip.Root` and `Tooltip.Content` and the base
- * `Tooltip.Provider`, `Tooltip.Trigger` and `Tooltip.Arrow`. The root takes `size`, which the content draws.
+ * `Tooltip.Provider`, `Tooltip.Trigger`, `Tooltip.Arrow`, `Tooltip.Title` and `Tooltip.Description`. The root takes
+ * `size`, which the content draws.
  */
 export const Tooltip: TooltipNamespace = {
   Provider: BaseTooltip.Provider,
@@ -21,4 +24,6 @@ export const Tooltip: TooltipNamespace = {
   Trigger: BaseTooltip.Trigger,
   Content: TooltipContent,
   Arrow: BaseTooltip.Arrow,
+  Title: BaseTooltip.Title,
+  Description: BaseTooltip.Description,
 };

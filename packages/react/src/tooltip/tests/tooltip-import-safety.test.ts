@@ -9,8 +9,10 @@ describe('@cocokits/react/tooltip import safety', () => {
       'Tooltip',
       'TooltipArrow',
       'TooltipContent',
+      'TooltipDescription',
       'TooltipProvider',
       'TooltipRoot',
+      'TooltipTitle',
       'TooltipTrigger',
     ]);
     expect(entry.Tooltip.Provider).toBe(entry.TooltipProvider);
@@ -18,6 +20,8 @@ describe('@cocokits/react/tooltip import safety', () => {
     expect(entry.Tooltip.Trigger).toBe(entry.TooltipTrigger);
     expect(entry.Tooltip.Content).toBe(entry.TooltipContent);
     expect(entry.Tooltip.Arrow).toBe(entry.TooltipArrow);
+    expect(entry.Tooltip.Title).toBe(entry.TooltipTitle);
+    expect(entry.Tooltip.Description).toBe(entry.TooltipDescription);
     expect(
       [entry.TooltipProvider, entry.TooltipRoot, entry.TooltipTrigger, entry.TooltipContent].map(
         (part) => part.displayName,

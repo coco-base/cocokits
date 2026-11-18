@@ -391,7 +391,7 @@ describe('Select', () => {
   });
 
   describe('multiple', () => {
-    it('toggles values, stays open, and shows the values joined with a comma', async () => {
+    it('toggles values, stays open, and shows the first value and the count of the others', async () => {
       const { host, user, fixture } = await renderHost();
       host.multiple.set(true);
       await fixture.whenStable();
@@ -401,7 +401,8 @@ describe('Select', () => {
       expect(host.value()).toEqual(['Cake', 'Steak']);
       expect(screen.getByRole('listbox')).toBeTruthy();
       expect(screen.getByRole('option', { name: 'Cake' }).getAttribute('aria-selected')).toBe('true');
-      expect(trigger().querySelector(`.${classes.value}`)?.textContent.trim()).toBe('Cake, Steak');
+      expect(trigger().querySelector(`.${classes.value}`)?.textContent.trim()).toBe('Cake');
+      expect(trigger().querySelector(`.${classes.count}`)?.textContent).toBe('+1');
       await user.click(screen.getByRole('option', { name: 'Cake' }));
       expect(host.value()).toEqual(['Steak']);
       expect(host.changes.map((change) => change.reason)).toEqual(['user', 'user', 'user']);
