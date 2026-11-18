@@ -183,16 +183,21 @@ describe('Select filter', () => {
     expect(trigger().querySelector(`.${classes.count}`)).toBeNull();
   });
 
-  it.each([
-    { filter: false, rendered: false },
-    { filter: true, rendered: true },
-  ])('renders the header and the search only with filter ($filter)', async ({ filter, rendered }) => {
+  it('keeps the header host hidden and empty without filter, and renders the header and search with it', async () => {
     const user = userEvent.setup();
     const { fixture } = await render(FilterHost);
-    fixture.componentInstance.filter.set(filter);
     await user.click(trigger());
-    expect(document.querySelector('cck-select-header')?.hasAttribute('hidden')).toBe(!rendered);
-    expect(document.querySelector('input[type="search"]') !== null).toBe(rendered);
-    expect(screen.queryByRole('combobox', { name: 'Find a dish' }) !== null).toBe(rendered);
+    const header = document.querySelectorAll('cck-select-header');
+    expect(header).toHaveLength(1);
+    expect(header[0].hasAttribute('hidden')).toBe(true);
+    expect(header[0].childElementCount).toBe(0);
+    expect(header[0].textContent).toBe('');
+    expect(document.querySelector('input[type="search"]')).toBeNull();
+    fixture.componentInstance.filter.set(true);
+    await waitFor(() => {
+      expect(document.querySelector('cck-select-header')?.hasAttribute('hidden')).toBe(false);
+    });
+    expect(document.querySelector('cck-select-header')?.querySelectorAll('input[type="search"]')).toHaveLength(1);
+    expect(search().hasAttribute('hidden')).toBe(false);
   });
 });
