@@ -150,11 +150,11 @@ describe('Dialog root members', () => {
 
   it('restoreFocus false leaves the focus where it is when the dialog closes', async () => {
     const user = userEvent.setup();
-    await render(declare('[restoreFocus]="false"'), { imports });
+    const { fixture } = await render(declare('[restoreFocus]="false"'), { imports });
     await open(user);
     await user.click(screen.getByRole('button', { name: 'Close' }));
     await closed();
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await fixture.whenStable();
     expect(document.activeElement).not.toBe(trigger());
   });
 

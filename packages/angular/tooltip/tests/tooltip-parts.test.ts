@@ -92,8 +92,14 @@ describe('Tooltip title and description', () => {
   });
 
   it('does not describe the closed trigger when the content holds another element', async () => {
-    await render(
+    const { fixture } = await render(
       `<ng-container cckTooltip>
+        <button cckTooltipTrigger>Undo</button>
+        <ng-template cckTooltipPortal>
+          <cck-tooltip-content><cck-tooltip-title>Undo the last change</cck-tooltip-title></cck-tooltip-content>
+        </ng-template>
+      </ng-container>
+      <ng-container cckTooltip>
         <button cckTooltipTrigger>Save</button>
         <ng-template cckTooltipPortal>
           <cck-tooltip-content><cck-tooltip-title>Autosave</cck-tooltip-title><b>On</b></cck-tooltip-content>
@@ -101,8 +107,33 @@ describe('Tooltip title and description', () => {
       </ng-container>`,
       { imports: [...CckTooltipImports] },
     );
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    // The control proves the shared description pass ran.
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Undo' }).getAttribute('aria-describedby')).not.toBeNull();
+    });
+    await fixture.whenStable();
     expect(screen.getByRole('button', { name: 'Save' }).hasAttribute('aria-describedby')).toBe(false);
+  });
+
+  it('describes the closed trigger by the parts only, not by text written beside them', async () => {
+    await render(
+      `<ng-container cckTooltip>
+        <button cckTooltipTrigger>Save</button>
+        <ng-template cckTooltipPortal>
+          <cck-tooltip-content>
+            <cck-tooltip-title>Autosave</cck-tooltip-title>note<cck-tooltip-description>Changes are saved as you type.</cck-tooltip-description>
+          </cck-tooltip-content>
+        </ng-template>
+      </ng-container>`,
+      { imports: [...CckTooltipImports] },
+    );
+    const button = screen.getByRole('button', { name: 'Save' });
+    await waitFor(() => {
+      expect(button.getAttribute('aria-describedby')).not.toBeNull();
+    });
+    expect(document.getElementById(button.getAttribute('aria-describedby') ?? '')?.textContent).toBe(
+      'Autosave Changes are saved as you type.',
+    );
   });
 
   it('starts the positioning module after the content has its class', async () => {
