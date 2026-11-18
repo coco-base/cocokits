@@ -6,6 +6,7 @@ import {
   onMounted,
   useAttrs,
   useTemplateRef,
+  watchEffect,
   type ComponentPublicInstance,
 } from 'vue';
 import { selectAnatomy } from '@cocokits/machines/select';
@@ -68,8 +69,11 @@ const bound = computed(() => {
 const priorityAttrs = ['type', 'role', 'aria-expanded', 'aria-controls', 'aria-autocomplete', 'aria-activedescendant'];
 
 // The Root moves the focus here when the list opens.
+// Without `filter` the search is hidden, so it takes no focus and the Select does not know it.
 onMounted(() => {
-  ctx.searchElement.value = rootElementOf(root.value) as HTMLElement | null;
+  watchEffect(() => {
+    ctx.searchElement.value = ctx.filter.value ? (rootElementOf(root.value) as HTMLElement | null) : null;
+  });
 });
 onBeforeUnmount(() => {
   ctx.searchElement.value = null;
@@ -77,5 +81,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Primitive v-if="ctx.filter.value" ref="root" v-bind="bound" as="input" :priority-attrs="priorityAttrs" />
+  <Primitive
+    ref="root"
+    v-bind="bound"
+    as="input"
+    :hidden="ctx.filter.value ? undefined : true"
+    :priority-attrs="priorityAttrs"
+  />
 </template>

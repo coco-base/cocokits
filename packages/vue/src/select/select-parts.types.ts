@@ -2,7 +2,9 @@ import type { Component } from 'vue';
 import type { AsTag } from '@cocokits/vue-core';
 
 /**
- * The area at the top of the list. It renders a `<div>` while the Select has `filter`, and holds the `SelectSearch`. It adds no role.
+ * The area at the top of the list. It renders a `<div>` and holds the `SelectSearch`.
+ *
+ * @remarks It adds no role. Without `filter` the `<div>` is `hidden` and empty: its children are not rendered.
  *
  * @example
  * <SelectHeader><SelectSearch /></SelectHeader>
@@ -34,7 +36,7 @@ export interface SelectHeaderProps {
 }
 
 /**
- * The search box of a Select with `filter`. It renders a native `<input type="search">` with `role="combobox"`, written inside the `SelectHeader`. It renders nothing without `filter`.
+ * The search box of a Select with `filter`. It renders a native `<input type="search">` with `role="combobox"`, written inside the `SelectHeader`. Without `filter` the `<input>` is `hidden`, takes no focus and is not known to the Select.
  *
  * @remarks The focus stays in it while the list is open, and `aria-activedescendant` points at the highlighted option. Typing keeps the options whose text contains the query, ignoring case. The query clears when the list closes. ArrowDown and ArrowUp move the highlight, and Enter chooses it. Escape closes the list and returns the focus to the trigger, and Tab closes it too. Its name is "Search"; give it `aria-label` for another name.
  *

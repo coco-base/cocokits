@@ -81,19 +81,19 @@ describe('Select filter (select-07)', () => {
     expect(screen.getByRole('combobox', { name: 'Dish' }).hasAttribute('aria-activedescendant')).toBe(false);
   });
 
-  it('renders both the header and the search with filter', async () => {
-    await openWithFilter();
-    expect(document.querySelector('.cck-select__header')).not.toBeNull();
-    expect(search().type).toBe('search');
-  });
-
-  it('renders neither the header nor the search without filter', async () => {
+  it.each([
+    { filter: false, hidden: true, children: 0, search: 0 },
+    { filter: true, hidden: false, children: 1, search: 1 },
+  ])('renders the header hidden and empty without filter ($filter)', async ({ filter, hidden, children, search }) => {
     const user = userEvent.setup();
-    mountView(selectView({}, { items: searchItems }));
+    mountView(selectView({ filter }, { items: searchItems }));
     await user.click(trigger());
     await screen.findByRole('listbox');
-    expect(document.querySelector('.cck-select__header')).toBeNull();
-    expect(screen.queryByRole('combobox', { name: 'Search' })).toBeNull();
+    const header = document.querySelector('.cck-select__header');
+    expect(header?.hasAttribute('hidden')).toBe(hidden);
+    expect(header?.childElementCount).toBe(children);
+    expect(header?.className).toBe('cck-select__header');
+    expect(document.querySelectorAll('.cck-select__search')).toHaveLength(search);
   });
 
   it('keeps the options whose text contains the query, ignoring case, and highlights the first', async () => {
