@@ -61,6 +61,25 @@ describe('Tooltip title and description', () => {
     expect(accessibleDescription(trigger)).toBe('Copy link Copies the address');
   });
 
+  it('ignores text written beside the parts in the description', async () => {
+    render(
+      <Tooltip.Root>
+        <Tooltip.Trigger aria-label="Autosave">Autosave</Tooltip.Trigger>
+        <Tooltip.Content>
+          <Tooltip.Title>Autosave</Tooltip.Title>
+          note
+          <Tooltip.Description>Changes are saved as you type.</Tooltip.Description>
+        </Tooltip.Content>
+      </Tooltip.Root>,
+    );
+    await waitFor(() => {
+      expect(tooltipDescription()).not.toBeNull();
+    });
+    expect(accessibleDescription(screen.getByRole('button', { name: 'Autosave' }))).toBe(
+      'Autosave Changes are saved as you type.',
+    );
+  });
+
   it('passes native props and renders the author element', () => {
     render(
       <Tooltip.Root defaultOpen>
