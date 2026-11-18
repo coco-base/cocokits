@@ -57,8 +57,10 @@ function SelectSearchImpl({ ref, ...rest }: SelectSearchProps): ReactElement | n
 }
 
 /**
- * The search input of the list, for a Select with `filter`; without `filter` it renders nothing. It renders a native `<input type="search">` with the
- * role `combobox`. Put it in the `Select.Header`.
+ * The search input of the list, for a Select with `filter`. It renders a native `<input type="search">` with the role
+ * `combobox`.
+ *
+ * Put it in the `Select.Header`. Without `filter` it renders nothing.
  *
  * The focus stays in this input while the list is open, and `aria-activedescendant` points to the highlighted
  * option. Typing narrows the options to those whose text contains the query, without regard to case. The first

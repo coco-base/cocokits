@@ -21,8 +21,11 @@ function SelectHeaderImpl({ render, ref, ...rest }: SelectHeaderProps): ReactEle
 }
 
 /**
- * The area above the options, for a Select with `filter`. It renders a `<div>` inside `Select.Content` that holds the
- * `Select.Search`. The options and their groups follow it. Without `filter` it renders nothing.
+ * The area above the options, for a Select with `filter`.
+ *
+ * @remarks
+ * It renders a `<div>` inside `Select.Content` that holds the search. The options and their groups follow it. Without
+ * `filter` it renders nothing.
  *
  * @example
  * <Select.Header>
