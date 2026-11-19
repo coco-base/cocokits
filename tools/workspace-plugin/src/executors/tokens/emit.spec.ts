@@ -159,9 +159,17 @@ describe('build errors', () => {
     expect(() => emitTokens(file(unit('pt')), 'css')).toThrow(/size-8.*"pt"/);
   });
 
-  it('rejects a :root token that aliases a multi-mode collection', () => {
-    const bad = first(spacing, { Normal: '{Theme / Color#brand/color}' });
-    expect(() => emitTokens(file(color, bad), 'css')).toThrow(/Theme \/ Spacing: spacing-1.*multi-mode/);
+  it('rejects a :root token that aliases Theme / Active Color', () => {
+    const bad = first(spacing, { Normal: '{Theme / Active Color#color}' });
+    expect(() => emitTokens(file(color, active, bad), 'css')).toThrow(
+      'Theme / Spacing: spacing-1: alias {Theme / Active Color#color} at :root points into Theme / Active Color, ' +
+        'which has no :root values',
+    );
+  });
+
+  it('lets a :root token alias another multi-mode collection and emits var()', () => {
+    const good = first(spacing, { Normal: '{Theme / Color#brand/color}' });
+    expect(emitTokens(file(color, good), 'css')).toContain('--cck-spacing-1: var(--cck-brand-color);');
   });
 
   it('lets Active Color alias a multi-mode collection', () => {
