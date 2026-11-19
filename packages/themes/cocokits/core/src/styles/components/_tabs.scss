@@ -1,13 +1,20 @@
+@use '../state';
+
 // Tabs and TabNav rules. Wrapped in `@layer cocokits` by the entries that include these mixins.
 // Both read only the --cck-tabs-* tokens (the Tabs token collections are also emitted for `.cck-tab-nav`, `alsoFor`).
 // The theme options sit on the root (`data-variant`, `data-cck-color`, `data-size`, `data-header-align`), so every part
 // below the root is reached through child combinators: a Tabs in a panel of another Tabs keeps its own options. The
 // one indicator is drawn from the box the base writes on it (`--active-tab-left`, `--active-tab-top`,
 // `--active-tab-width`, `--active-tab-height`, in px, relative to the padding box of the list); the items sit above
-// it. A tab has no hover look, only the pointer cursor; the pointer switches the slide of the indicator on, so the
-// first placement after mount never slides in from the corner.
+// it. A tab at rest is muted text; hover and selection give it the main text colour, and the indicator alone marks
+// the selected one. The pointer switches the slide of the indicator on, so the first placement after mount never
+// slides in from the corner.
 // The variants whose indicator is a filled block behind the selected label.
 $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="basic"])';
+// The filled variants whose block is a tint of the colour family; the block of `fill` is a neutral card.
+$tinted: ':is([data-variant="border"], [data-variant="basic"])';
+// The variants whose list is a box around the tabs.
+$boxed: ':is([data-variant="border"], [data-variant="fill"])';
 
 // The root, the list, the items and the indicator of the block `$block`. `$item` is the part of the item (`trigger` or
 // `link`), `$selected` the attribute of the selected one. `$vertical` adds the rules of `data-orientation="vertical"`
@@ -64,21 +71,30 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     flex: 1;
   }
 
-  // The look of the list.
+  // The look of the list. A list with a box (`border`, `fill`) is as high as a control of the same size: its tabs are
+  // lower by the padding and the border around them (`--_inset`). The bordered list sits in a row with outlined
+  // controls, so it takes their border and their shadow.
   #{$root}[data-variant='border'] > .cck-#{$block}__list {
+    --_inset: calc(var(--cck-tabs-list-padding) + var(--cck-tabs-list-border-width));
+
     padding: var(--cck-tabs-list-padding);
     border: var(--cck-tabs-list-border-width) solid var(--cck-tabs-list-border-color);
-    border-radius: var(--cck-tabs-list-border-radius);
+    border-radius: var(--_list-radius, var(--cck-tabs-list-radius));
+    box-shadow: var(--cck-tabs-border-list-shadow);
   }
 
   #{$root}[data-variant='fill'] > .cck-#{$block}__list {
+    --_inset: var(--cck-tabs-list-padding);
+
     padding: var(--cck-tabs-list-padding);
-    border-radius: var(--cck-tabs-list-radius);
+    border-radius: var(--_list-radius, var(--cck-tabs-list-radius));
     background-color: var(--cck-tabs-list-bg);
   }
 
+  // The line under the tabs is an inset shadow: it adds no height to the list and nothing leaves the padding box, so
+  // the list never scrolls across its axis.
   #{$root}[data-variant='line'] > .cck-#{$block}__list {
-    border-block-end: var(--cck-tabs-line-width) solid var(--cck-tabs-line-color);
+    box-shadow: inset 0 calc(-1 * var(--cck-tabs-line-width)) 0 var(--cck-tabs-line-color);
   }
 
   // Above the indicator, so the label and the focus ring are never painted under it. `text-decoration` is for the link.
@@ -90,7 +106,7 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     align-items: center;
     justify-content: center;
     gap: var(--cck-tabs-trigger-gap);
-    min-block-size: var(--cck-tabs-trigger-height);
+    min-block-size: calc(var(--cck-tabs-height) - 2 * var(--_inset, 0px));
     margin: 0;
     padding-block: 0;
     padding-inline: var(--cck-tabs-trigger-padding-inline);
@@ -106,6 +122,13 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
+
+    @include state.transition(color);
+  }
+
+  // The item sets `display`, so the theme restates the native `hidden`.
+  #{$trigger}[hidden] {
+    display: none;
   }
 
   // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
@@ -113,30 +136,41 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     font-size: var(--cck-tabs-trigger-icon-size);
   }
 
-  // On the `fill` list the label is `text/2`: `on-surface/3` is under 4.5:1 on the list fill.
-  #{$root}[data-variant='fill'] > .cck-#{$block}__list > .cck-#{$block}__#{$item} {
-    color: var(--cck-tabs-fill-label-color);
+  // The tabs and the indicator of a list with a box keep their corners concentric with the box, never squarer than a
+  // tab.
+  #{$root}#{$boxed} > .cck-#{$block}__list > :is(.cck-#{$block}__#{$item}, .cck-#{$block}__indicator) {
+    border-radius: max(
+      var(--cck-tabs-trigger-radius),
+      calc(var(--_list-radius, var(--cck-tabs-list-radius)) - var(--_inset))
+    );
   }
 
+  // The indicator alone of the `basic` variant is as round as a control.
+  #{$root}[data-variant='basic'] > .cck-#{$block}__list > :is(.cck-#{$block}__#{$item}, .cck-#{$block}__indicator) {
+    border-radius: var(--cck-tabs-basic-trigger-radius);
+  }
+
+  // Disabled is excluded, so it keeps its resting colour.
+  #{$trigger}:hover:not([data-disabled], :disabled) {
+    color: var(--cck-tabs-hover-label-color);
+  }
+
+  // The selected label is the main text colour in every variant: the colour family belongs to the indicator.
   #{$trigger}[#{$selected}] {
     color: var(--cck-tabs-selected-label-color);
   }
 
-  #{$root}#{$filled} > .cck-#{$block}__list > .cck-#{$block}__#{$item}[#{$selected}] {
-    color: var(--cck-tabs-indicator-label-color);
-  }
-
-  // After the selected rules, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+  // `:disabled` covers `<fieldset disabled>`. The tab keeps its look and fades.
   #{$trigger}[data-disabled],
   #{$trigger}:disabled {
-    background-color: var(--cck-tabs-disabled-bg);
-    color: var(--cck-tabs-disabled-label-color);
-    cursor: default;
+    opacity: var(--cck-tabs-disabled-opacity);
+    cursor: not-allowed;
   }
 
+  // Inside the tab's own box: the list scrolls, so it clips a ring drawn outside a tab at its edge.
   #{$trigger}:focus-visible {
     outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
-    outline-offset: var(--cck-tabs-focus-offset);
+    outline-offset: calc(-1 * var(--cck-tabs-focus-width));
   }
 
   // The indicator is hidden until the base has measured the selected item (on the server and before mount it
@@ -155,11 +189,17 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     pointer-events: none;
   }
 
-  #{$root}#{$filled} > .cck-#{$block}__list > .cck-#{$block}__indicator {
+  #{$root}#{$tinted} > .cck-#{$block}__list > .cck-#{$block}__indicator {
     background-color: var(--cck-tabs-indicator-bg);
   }
 
-  // The line sits on the edge of the list that carries the list border and covers it.
+  // The selected tab of a filled list is a raised card.
+  #{$root}[data-variant='fill'] > .cck-#{$block}__list > .cck-#{$block}__indicator {
+    background-color: var(--cck-tabs-fill-indicator-bg);
+    box-shadow: var(--cck-tabs-fill-indicator-shadow);
+  }
+
+  // The line sits inside the list, on the edge that carries the list line, and covers it.
   #{$root}[data-variant='line'] > .cck-#{$block}__list > .cck-#{$block}__indicator {
     border-radius: 0;
   }
@@ -169,12 +209,12 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     box-sizing: border-box;
     position: absolute;
     inset-inline: 0;
-    inset-block-end: calc(var(--cck-tabs-line-width) * -1);
+    inset-block-end: 0;
     block-size: var(--cck-tabs-indicator-line-width);
     background-color: var(--cck-tabs-indicator-line-color);
   }
 
-  // The neutral line is the strong border colour: the neutral family colour is too pale on the page.
+  // The neutral line is the main text colour: the neutral family colour is too pale on the page.
   #{$root}[data-variant='line'][data-cck-color='neutral'] > .cck-#{$block}__list > .cck-#{$block}__indicator::after {
     background-color: var(--cck-tabs-indicator-line-neutral-color);
   }
@@ -189,15 +229,29 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
       flex-wrap: nowrap;
     }
 
+    // A column of tabs is a box of several lines: it takes the radius that stays a box in every radius mode.
+    #{$root}#{$boxed}[data-orientation='vertical'] > .cck-#{$block}__list {
+      --_list-radius: var(--cck-tabs-vertical-list-radius);
+    }
+
+    // The labels of a column of tabs line up at the start.
+    #{$list}[data-orientation='vertical'] > .cck-#{$block}__#{$item} {
+      justify-content: flex-start;
+    }
+
+    // The line of a column of tabs runs along its inline end. A shadow has no logical offset, so RTL mirrors it.
     #{$root}[data-variant='line'][data-orientation='vertical'] > .cck-#{$block}__list {
-      border-block-end: 0;
-      border-inline-end: var(--cck-tabs-line-width) solid var(--cck-tabs-line-color);
+      box-shadow: inset calc(-1 * var(--cck-tabs-line-width)) 0 0 var(--cck-tabs-line-color);
+
+      &:dir(rtl) {
+        box-shadow: inset var(--cck-tabs-line-width) 0 0 var(--cck-tabs-line-color);
+      }
     }
 
     #{$root}[data-variant='line'][data-orientation='vertical']
       > .cck-#{$block}__list
       > .cck-#{$block}__indicator::after {
-      inset-inline: auto calc(var(--cck-tabs-line-width) * -1);
+      inset-inline: auto 0;
       inset-block: 0;
       inline-size: var(--cck-tabs-indicator-line-width);
       block-size: auto;
@@ -223,13 +277,31 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
       color: HighlightText;
     }
 
+    // Forced colours drop shadows, so the list line is a real border; the indicator stays inside the padding box.
+    #{$root}[data-variant='line'] > .cck-#{$block}__list {
+      border-block-end: var(--cck-tabs-line-width) solid CanvasText;
+      box-shadow: none;
+    }
+
+    @if $vertical {
+      #{$root}[data-variant='line'][data-orientation='vertical'] > .cck-#{$block}__list {
+        border-block-end: 0;
+        border-inline-end: var(--cck-tabs-line-width) solid CanvasText;
+      }
+    }
+
     #{$root}[data-variant='line'] > .cck-#{$block}__list > .cck-#{$block}__indicator::after {
       background-color: Highlight;
+    }
+
+    #{$root}[data-variant='fill'] > .cck-#{$block}__list > .cck-#{$block}__indicator {
+      box-shadow: none;
     }
 
     #{$trigger}[data-disabled],
     #{$trigger}:disabled {
       color: GrayText;
+      opacity: 1;
     }
 
     #{$trigger}:focus-visible {
@@ -239,7 +311,8 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
 }
 
 // The panel of Tabs and of TabNav: one rule. It is a tag, so it takes the block layout of a `div`; the theme restates
-// the native `hidden`. It holds the author's content, so it gets padding only, no text color or size.
+// the native `hidden`. It holds the author's content, so it gets no padding, text color or size: the gap of the root
+// keeps it off the list.
 @mixin panel-rules($block) {
   .cck-#{$block}__panel {
     box-sizing: border-box;
@@ -251,13 +324,9 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
     }
   }
 
-  .cck-#{$block} > .cck-#{$block}__panel {
-    padding: var(--cck-tabs-panel-padding);
-
-    &:focus-visible {
-      outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
-      outline-offset: var(--cck-tabs-focus-offset);
-    }
+  .cck-#{$block} > .cck-#{$block}__panel:focus-visible {
+    outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color);
+    outline-offset: var(--cck-tabs-focus-offset);
   }
 
   @media (forced-colors: active) {
@@ -270,6 +339,24 @@ $filled: ':is([data-variant="border"], [data-variant="fill"], [data-variant="bas
 @mixin rules {
   @include list-rules('tabs', 'trigger', 'data-selected', true);
   @include panel-rules('tabs');
+
+  // The label part of a trigger lays its text and icons out in a row, `trigger-gap` apart. An SvgIcon in it without
+  // its own `size` takes the icon size.
+  .cck-tabs > .cck-tabs__list > .cck-tabs__trigger > .cck-tabs__trigger-label {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cck-tabs-trigger-gap);
+
+    // The label sets `display`, so the theme restates the native `hidden`.
+    &[hidden] {
+      display: none;
+    }
+
+    > .cck-svg-icon:not([data-size]) {
+      font-size: var(--cck-tabs-trigger-icon-size);
+    }
+  }
 
   .cck-tabs[data-orientation='vertical'] > .cck-tabs__panel {
     flex: 1;
