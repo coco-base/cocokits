@@ -9,6 +9,7 @@ import {
   checkOwner,
   skipType,
   markDeclaredIn,
+  withPropsOnly,
 } from '../api-docs-common/theme';
 import { posix } from '../posix-path';
 import { partOfComponent } from './extract';
@@ -118,9 +119,8 @@ export function readReactTheme(
       continue;
     }
     const [component] = [...components] as [string];
-    const part = partOfComponent(program, checker, component, target, problems);
+    const part = withPropsOnly({ ...partOfComponent(program, checker, component, target, problems), name });
     if (!checkOwner(base, component, part.semanticId, name, problems)) continue;
-    part.name = name;
     markDeclaredIn(part, projectRoot, name, problems);
     parts.push({ component, part });
     exports.push({ component, name });
@@ -135,7 +135,7 @@ export function readReactTheme(
         checker,
         source,
         component,
-        skipType(program, projectRoot, source),
+        skipType(program, projectRoot),
         problems,
         memberTypeTexts(componentParts),
         new Set<string>(),

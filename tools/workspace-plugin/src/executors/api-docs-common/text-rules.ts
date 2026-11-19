@@ -204,18 +204,16 @@ function checkType(doc: ApiDocJson, type: ApiTypeJson, problems: string[]): void
 }
 
 /**
- * The text rules of a theme doc: the prose rules for its parts, its theme-declared members and its types. A theme
- * option has a one-sentence summary only: its values and default live in the `ThemeConfig`, so the rules that ask
- * for a `@cckValue`, a "When not set, …" sentence or an example do not apply, and the members of the base (their own
- * docs are checked in the base) are not read again.
+ * The text rules of a theme doc: the prose rules for its theme-declared members and its types. A theme option has a
+ * one-sentence summary only: its values and default live in the `ThemeConfig`, so the rules that ask for a `@cckValue`,
+ * a "When not set, …" sentence or an example do not apply. The page shows the base part, not the text of the theme
+ * part, and the members of the base have their own docs (checked in the base).
  */
 function themeTextProblems(doc: ApiDocJson): string[] {
   const problems: string[] = [];
   for (const part of doc.parts) {
     const label = `${doc.framework}/${doc.component} ${part.name}`;
-    checkText(label, part, problems);
-    const members = [...part.props, ...part.events, ...part.slots, ...part.methods];
-    for (const member of members.filter((item) => item.declaredIn === 'theme')) {
+    for (const member of part.props.filter((item) => item.declaredIn === 'theme')) {
       checkText(`${label}.${member.name}`, member, problems);
       checkProse(`${label}.${member.name} (deprecated)`, member.deprecated, problems);
     }

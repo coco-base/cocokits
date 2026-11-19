@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import { aliasResolverAt, aliasValuesOf, expandAliases, sharedTypeProblems } from '../api-docs-common/expand-alias';
 import { exportedTypesOf, memberTypeTexts } from '../api-docs-common/exported-types';
-import { type BasePart, type ThemeRead, skipType, ownersOfSelector } from '../api-docs-common/theme';
+import { type BasePart, type ThemeRead, skipType, ownersOfSelector, withPropsOnly } from '../api-docs-common/theme';
 import { posix } from '../posix-path';
 import { partOf, listOf, type DocDirective, type ExpandedType } from './convert';
 import { classNamed, createProgram, sourceFileOf, withInstantiatedTypes, withSourceText } from './extract';
@@ -46,9 +46,9 @@ export function readAngularTheme(
     const infos = publicMembersOf(checker, cls);
     owners.forEach((owner, index) => {
       // The class is read once for each owner; its problems are reported once.
-      const part = partOf(owner.component, doc, infos, index === 0 ? problems : [], expand, owner.part);
-      for (const info of infos) {
-        const member = part[listOf(info.kind)].find((item) => item.name === info.publicName);
+      const part = withPropsOnly(partOf(owner.component, doc, infos, index === 0 ? problems : [], expand, owner.part));
+      for (const info of infos.filter((item) => listOf(item.kind) === 'props')) {
+        const member = part.props.find((item) => item.name === info.publicName);
         if (member !== undefined) member.declaredIn = posix(info.declaredFile).startsWith(themeRoot) ? 'theme' : 'base';
       }
       parts.push({ component: owner.component, part });
@@ -68,7 +68,7 @@ export function readAngularTheme(
             checker,
             source,
             component,
-            skipType(tsProgram, projectRoot, source),
+            skipType(tsProgram, projectRoot),
             problems,
             memberTypeTexts(componentParts),
             new Set<string>(),

@@ -163,7 +163,7 @@ describe('extractThemeApiDocs, Angular', () => {
       expect.objectContaining({
         name: 'tooltipSize',
         semanticId: 'tooltip.size',
-        type: "'sm' | 'lg' | null | undefined",
+        type: "'sm' | 'lg' | null",
         declaredIn: 'theme',
         description: 'Padding of the bubble.',
       }),

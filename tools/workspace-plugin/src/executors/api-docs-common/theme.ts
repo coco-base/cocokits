@@ -1,10 +1,10 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type ts from 'typescript';
+import ts from 'typescript';
 import { posix } from '../posix-path';
-import { ownTypeNamed } from './expand-alias';
 import { tagsOfNode } from './jsdoc';
 import { placeOf } from './places';
+import { withoutUndefined } from './member';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiTypeJson } from './types';
 
 /** One part of a base `ApiDoc`: what a theme export is matched against. */
@@ -95,11 +95,29 @@ export function checkOwner(
   return found;
 }
 
-/** Sets `declaredIn` on every member of a part: where its declaration was noted, in the theme package or not. */
+/**
+ * The part with its props only. A theme option is a prop; the events, slots and methods of a themed part forward the
+ * base part's, and the base `ApiDoc` documents them.
+ */
+export function withPropsOnly(part: ApiPartJson): ApiPartJson {
+  const result: ApiPartJson = { ...part, props: part.props.map(typeAsWritten), events: [], slots: [], methods: [] };
+  delete result.bindings;
+  return result;
+}
+
+/**
+ * The member with one spelling of its type text, whatever the framework reader wrote: string literals in single quotes
+ * (Angular and Vue read them from the compiler with double quotes) and no closing `| undefined` (Angular keeps it).
+ */
+function typeAsWritten(member: ApiMemberJson): ApiMemberJson {
+  member.type = withoutUndefined(member.type.replace(/"([^"'\\]*)"/g, "'$1'"), member.required);
+  return member;
+}
+
+/** Sets `declaredIn` on every prop of a part: where its declaration was noted, in the theme package or not. */
 export function markDeclaredIn(part: ApiPartJson, projectRoot: string, label: string, problems: string[]): void {
   const root = `${posix(projectRoot).replace(/\/$/, '')}/`;
-  const members: ApiMemberJson[] = [...part.props, ...part.events, ...part.slots, ...part.methods];
-  for (const member of members) {
+  for (const member of part.props) {
     const file = placeOf(member)?.getSourceFile().fileName;
     if (file === undefined) problems.push(`${label}.${member.name}: the declaration of the member is not known`);
     else member.declaredIn = posix(file).startsWith(root) ? 'theme' : 'base';
@@ -128,14 +146,21 @@ export function themeDocsOf(read: ThemeRead, theme: string, framework: 'angular'
 }
 
 /**
- * Whether a type name needs no Types row of a theme doc: the own type it stands for is declared outside the theme
- * package (a base type a member names, which the base `ApiDoc` lists), or is the props type of a part (`@cckPart`).
+ * Whether a type name needs no Types row of a theme doc: it is no interface or alias of the theme package (a base type
+ * a member names, which the base `ApiDoc` lists), or it is the props type of a part (`@cckPart`).
  */
-export function skipType(program: ts.Program, projectRoot: string, near: ts.Node): (name: string) => boolean {
+export function skipType(program: ts.Program, projectRoot: string): (name: string) => boolean {
+  const root = `${posix(projectRoot)}/`;
+  const own = new Map<string, ts.Declaration>();
+  for (const file of program.getSourceFiles().filter((item) => posix(item.fileName).startsWith(root))) {
+    for (const statement of file.statements) {
+      if (ts.isInterfaceDeclaration(statement) || ts.isTypeAliasDeclaration(statement)) {
+        own.set(statement.name.text, statement);
+      }
+    }
+  }
   return (name) => {
-    const declaration = ownTypeNamed(program, name, near);
-    if (declaration === undefined) return false;
-    const outside = !posix(declaration.getSourceFile().fileName).startsWith(`${posix(projectRoot)}/`);
-    return outside || tagsOfNode(declaration).some((tag) => tag.name === 'cckPart');
+    const declaration = own.get(name);
+    return declaration === undefined || tagsOfNode(declaration).some((tag) => tag.name === 'cckPart');
   };
 }

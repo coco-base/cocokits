@@ -10,6 +10,7 @@ import {
   checkOwner,
   skipType,
   markDeclaredIn,
+  withPropsOnly,
 } from '../api-docs-common/theme';
 import { loadPackage } from '../load-module';
 import { posix } from '../posix-path';
@@ -69,15 +70,9 @@ export function readVueTheme(
         continue;
       }
       const [component] = [...components] as [string];
-      const part = partOf(
-        readDeclaration,
-        component,
-        name,
-        dir,
-        metaChecker.getComponentMeta(`${dir}/${file}`),
-        problems,
-        scope,
-      );
+      // Only the props are read: a theme option is a prop, and the events, slots and methods forward the base's.
+      const meta = { ...metaChecker.getComponentMeta(`${dir}/${file}`), events: [], slots: [], exposed: [] };
+      const part = withPropsOnly(partOf(readDeclaration, component, name, dir, meta, problems, scope));
       if (!checkOwner(base, component, part.semanticId, name, problems)) continue;
       markDeclaredIn(part, projectRoot, name, problems);
       ownerOf.set(name, component);
@@ -97,7 +92,7 @@ export function readVueTheme(
               checker,
               entry,
               component,
-              skipType(program, projectRoot, entry),
+              skipType(program, projectRoot),
               problems,
               memberTypeTexts(componentParts),
               new Set<string>(),
