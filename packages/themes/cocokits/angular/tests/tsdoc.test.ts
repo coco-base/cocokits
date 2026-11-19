@@ -21,7 +21,12 @@ describe('the TSDoc of the theme options', () => {
 
   // The site builds the API rows of the overlay options from these texts (the Angular limits of the two options).
   it.each([
-    ['dialog-theme.ts', 'dialogSize', 'dialog.size', 'A dialog opened by `CckDialogService` has no root directive'],
+    [
+      'dialog-theme.ts',
+      'dialogSize',
+      'dialog.size',
+      'A dialog opened by `CckDialogService` has no root directive, so it shows the override or the default',
+    ],
     ['tooltip-theme.ts', 'tooltipSize', 'tooltip.size', 'a size needs a `cck-tooltip-content`'],
   ])('documents %s: the %s description holds its limit and the @cckSemantic %s tag', (file, input, id, sentence) => {
     const source = readFileSync(`${sourceDir}${file}`, 'utf8');
