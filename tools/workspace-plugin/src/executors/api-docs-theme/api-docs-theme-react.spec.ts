@@ -160,6 +160,39 @@ describe('extractThemeApiDocs, React', () => {
     });
   });
 
+  it.each([
+    ['hideToggle', 'AccordionHideToggle', '[true, false]', 'boolean | null'],
+    ['rounded', 'IconButtonRounded', '[true, false]', 'boolean | null'],
+    ['rtlMirror', 'SvgIconRtlMirror', '[true, false]', 'boolean | null'],
+    ['autoResize', 'TextareaAutoResize', '[true, false]', 'boolean | null'],
+    [
+      'resize',
+      'TextareaResize',
+      "[true, false, 'horizontal', 'vertical', 'both']",
+      "boolean | 'horizontal' | 'vertical' | 'both' | null",
+    ],
+  ])(
+    'writes the option member %s typed %s as the checker sees it, not as the alias name',
+    (name, alias, values, text) => {
+      const root = DIALOG_ROOT.replace(
+        '/** The size values. */',
+        `/** The options. */
+export interface Options { readonly ${name}: { readonly values: readonly ${values} } }
+/** The alias. */
+export type ${alias} = Options['${name}']['values'][number];`,
+      ).replace(
+        'readonly size?: DialogSize | null | undefined;',
+        `readonly size?: DialogSize | null | undefined;
+  /** The option. */
+  readonly ${name}?: ${alias} | null | undefined;`,
+      );
+      const member = extract(`boolean-${name}`, { 'src/dialog-root.tsx': root })[0]
+        ?.parts.find((part) => part.name === 'Dialog.Root')
+        ?.props.find((prop) => prop.name === name);
+      expect(member).toMatchObject({ type: text, declaredIn: 'theme' });
+    },
+  );
+
   it('keeps the content a part that declares no member itself', () => {
     const content = extract('content')[0]?.parts.find((part) => part.name === 'Dialog.Content');
     expect(content).toMatchObject({ semanticId: 'dialog.content' });

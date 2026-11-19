@@ -11,6 +11,8 @@ import {
   markDeclaredIn,
   withPropsOnly,
 } from '../api-docs-common/theme';
+import { placeAt, placeOf } from '../api-docs-common/places';
+import type { ApiPartJson } from '../api-docs-common/types';
 import { posix } from '../posix-path';
 import { partOfComponent } from './extract';
 
@@ -34,6 +36,25 @@ function reExportedComponentOf(checker: ts.TypeChecker, expression: ts.Expressio
   return parent !== undefined && ts.isStringLiteral(parent.moduleSpecifier)
     ? baseComponentOf('react', parent.moduleSpecifier.text)
     : undefined;
+}
+
+/**
+ * The part with each member that has a boolean (`true | false`) in its type written as the checker sees it
+ * (`boolean | 'horizontal' | null`), as Angular and Vue write it. The alias of an option type
+ * (`Options['x']['values'][number]`) is no union of literals the alias expansion can read. A member of string literals
+ * keeps the alias expansion's text.
+ */
+function withCheckedBooleans(checker: ts.TypeChecker, part: ApiPartJson): ApiPartJson {
+  const props = part.props.map((member) => {
+    const declaration = placeOf(member);
+    if (declaration === undefined) return member;
+    const type = checker.getTypeAtLocation(declaration);
+    const flags = type.isUnion() ? type.types.filter((item) => item.flags & ts.TypeFlags.BooleanLiteral) : [];
+    if (flags.length !== 2) return member;
+    const text = checker.typeToString(type, declaration, ts.TypeFormatFlags.NoTruncation);
+    return placeAt({ ...member, type: text }, declaration);
+  });
+  return { ...part, props };
 }
 
 /** One value export of the entry point: the name a template writes and the expression that gives it. */
@@ -119,7 +140,9 @@ export function readReactTheme(
       continue;
     }
     const [component] = [...components] as [string];
-    const part = withPropsOnly({ ...partOfComponent(program, checker, component, target, problems), name });
+    const part = withPropsOnly(
+      withCheckedBooleans(checker, { ...partOfComponent(program, checker, component, target, problems), name }),
+    );
     if (!checkOwner(base, component, part.semanticId, name, problems)) continue;
     markDeclaredIn(part, projectRoot, name, problems);
     parts.push({ component, part });

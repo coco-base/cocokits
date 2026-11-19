@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import ts from 'typescript';
 import { posix } from '../posix-path';
 import { tagsOfNode } from './jsdoc';
-import { placeOf } from './places';
+import { placeAt, placeOf } from './places';
 import { withoutUndefined } from './member';
 import type { ApiDocJson, ApiMemberJson, ApiPartJson, ApiTypeJson } from './types';
 
@@ -110,8 +110,8 @@ export function withPropsOnly(part: ApiPartJson): ApiPartJson {
  * (Angular and Vue read them from the compiler with double quotes) and no closing `| undefined` (Angular keeps it).
  */
 function typeAsWritten(member: ApiMemberJson): ApiMemberJson {
-  member.type = withoutUndefined(member.type.replace(/"([^"'\\]*)"/g, "'$1'"), member.required);
-  return member;
+  const type = withoutUndefined(member.type.replace(/"([^"'\\]*)"/g, "'$1'"), member.required);
+  return placeAt({ ...member, type }, placeOf(member));
 }
 
 /** Sets `declaredIn` on every prop of a part: where its declaration was noted, in the theme package or not. */

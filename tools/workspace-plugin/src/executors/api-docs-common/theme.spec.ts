@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { type BasePart, baseComponentOf, ownersOfSelector } from './theme';
+import type { ApiMemberJson, ApiPartJson } from './types';
+import { placeAt, placeOf } from './places';
+import { type BasePart, baseComponentOf, ownersOfSelector, withPropsOnly } from './theme';
 
 const part = (component: string, name: string, selector: string): BasePart => ({
   component,
@@ -71,5 +73,30 @@ describe('baseComponentOf', () => {
     ['react', '@cocokits/theme-cocokits', undefined],
   ] as const)('%s %s', (framework, specifier, expected) => {
     expect(baseComponentOf(framework, specifier)).toBe(expected);
+  });
+});
+
+describe('withPropsOnly', () => {
+  const member = (): ApiMemberJson =>
+    ({ name: 'size', type: '"sm" | "lg" | undefined', required: false }) as ApiMemberJson;
+
+  it('leaves its input part and members unchanged and keeps the place of a member', () => {
+    const node = {} as never;
+    const prop = placeAt(member(), node);
+    const part = {
+      name: 'Dialog.Root',
+      props: [prop],
+      events: [{ name: 'e' }],
+      slots: [],
+      methods: [],
+    } as never as ApiPartJson;
+    const before = structuredClone(part);
+    const result = withPropsOnly(part);
+    expect(part).toEqual(before);
+    expect(part.props[0]).toBe(prop);
+    expect(prop.type).toBe('"sm" | "lg" | undefined');
+    expect(result.props[0]?.type).toBe("'sm' | 'lg'");
+    expect(result.events).toEqual([]);
+    expect(placeOf(result.props.find((item) => item.name === 'size') ?? {})).toBe(node);
   });
 });
