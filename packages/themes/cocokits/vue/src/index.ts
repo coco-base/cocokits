@@ -52,8 +52,6 @@ export {
   SelectValue,
 } from '@cocokits/vue/select';
 export type {
-  SelectContentEmits,
-  SelectContentProps,
   SelectEmptyProps,
   SelectFooterProps,
   SelectGroupProps,
@@ -75,7 +73,13 @@ export type {
   SelectValueOf,
   SelectValueProps,
 } from '@cocokits/vue/select';
-export type { SelectIndicator, SelectRootProps, SelectSize } from './select.types';
+export type {
+  SelectContentEmits,
+  SelectContentProps,
+  SelectIndicator,
+  SelectRootProps,
+  SelectSize,
+} from './select.types';
 export { default as AccordionRoot } from './AccordionRoot.vue';
 export { AccordionContent, AccordionHeader, AccordionItem, AccordionTrigger } from '@cocokits/vue/accordion';
 export type {
@@ -168,8 +172,6 @@ export type {
   DialogBodyProps,
   DialogChangeReason,
   DialogCloseProps,
-  DialogContentEmits,
-  DialogContentProps,
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,
@@ -177,22 +179,20 @@ export type {
   DialogTitleProps,
   DialogTriggerProps,
 } from '@cocokits/vue/dialog';
-export type { DialogRootProps, DialogSize } from './dialog.types';
+export type { DialogContentEmits, DialogContentProps, DialogRootProps, DialogSize } from './dialog.types';
 export { default as TooltipRoot } from './TooltipRoot.vue';
 export { default as TooltipContent } from './TooltipContent.vue';
 export { TooltipArrow, TooltipDescription, TooltipProvider, TooltipTitle, TooltipTrigger } from '@cocokits/vue/tooltip';
 export type {
   TooltipArrowProps,
   TooltipChangeReason,
-  TooltipContentEmits,
-  TooltipContentProps,
   TooltipDescriptionProps,
   TooltipProviderProps,
   TooltipRootEmits,
   TooltipTitleProps,
   TooltipTriggerProps,
 } from '@cocokits/vue/tooltip';
-export type { TooltipRootProps, TooltipSize } from './tooltip.types';
+export type { TooltipContentEmits, TooltipContentProps, TooltipRootProps, TooltipSize } from './tooltip.types';
 
 /** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
 export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

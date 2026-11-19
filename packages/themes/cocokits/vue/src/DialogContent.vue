@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import {
-  DialogContent as BaseDialogContent,
-  type DialogContentEmits,
-  type DialogContentProps,
-} from '@cocokits/vue/dialog';
+import { DialogContent as BaseDialogContent } from '@cocokits/vue/dialog';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import type { DialogContentEmits, DialogContentProps } from './dialog.types';
 import { dialogThemeKey } from './theme-keys';
 
 defineOptions({ name: 'DialogContent' });

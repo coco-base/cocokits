@@ -1,4 +1,8 @@
-import type { DialogRootProps as BaseDialogRootProps } from '@cocokits/vue/dialog';
+import type {
+  DialogContentEmits as BaseDialogContentEmits,
+  DialogContentProps as BaseDialogContentProps,
+  DialogRootProps as BaseDialogRootProps,
+} from '@cocokits/vue/dialog';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 
 type DialogOptions = CocokitsThemeConfig['components']['dialog'];
@@ -25,3 +29,15 @@ export interface DialogRootProps extends BaseDialogRootProps {
    */
   readonly size?: DialogSize | null | undefined;
 }
+
+/**
+ * Props of the cocokits DialogContent. It renders the base DialogContent and draws the window, from the `size` of its `DialogRoot`. It has no option of its own.
+ *
+ * @example
+ * <DialogContent><DialogTitle>Delete project</DialogTitle></DialogContent>
+ * @cckPart content
+ */
+export type DialogContentProps = BaseDialogContentProps;
+
+/** Events of the cocokits DialogContent: the events of the base DialogContent. */
+export type DialogContentEmits = BaseDialogContentEmits;
