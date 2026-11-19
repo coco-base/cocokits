@@ -44,7 +44,7 @@ describe('theme IconButton', () => {
   });
 
   it('has the Button values for variant, and the five sizes of its own collection', () => {
-    expect(variant.values).toEqual(['primary', 'outline', 'basic']);
+    expect(variant.values).toEqual(['primary', 'soft', 'outline', 'basic']);
     expect(size.values).toEqual(['xs', 'sm', 'md', 'lg', 'xl']);
     expect(rounded.values).toEqual([true, false]);
   });

@@ -190,13 +190,19 @@ describe('theme directive on the menu items: color', () => {
   });
 
   it('keeps the size of the content and gives the submenu content the size of the menu around it', async () => {
-    const { content } = await open(Items);
+    const { content, fixture } = await open(Items);
     expect(content.getAttribute('data-size')).toBe('lg');
     screen.getByRole('menuitem', { name: 'Share' }).focus();
     await userEvent.setup().keyboard('{ArrowRight}');
-    await waitFor(() => {
-      expect(document.querySelector('.cck-menu__sub-content')).not.toBeNull();
-    });
+    await fixture.whenStable();
+    // jsdom runs no animation, so the submenu mounts at once; the test alone takes most of the default
+    // 1 s of waitFor, so under the load of a parallel run it needs the longer limit.
+    await waitFor(
+      () => {
+        expect(document.querySelector('.cck-menu__sub-content')).not.toBeNull();
+      },
+      { timeout: 5_000 },
+    );
     const sub = document.querySelector('.cck-menu__sub-content');
     expect(sub?.getAttribute('data-size')).toBe('lg');
     expect(sub?.hasAttribute('size')).toBe(false);

@@ -106,7 +106,7 @@ describe('theme options of the design match', () => {
   });
 
   it.each([
-    ['avatar', 'data-cck-color', 'contrast'],
+    ['avatar', 'data-cck-color', 'neutral'],
     ['switch', 'data-variant', 'contained'],
     ['form-field', 'data-width', null],
     ['badge', 'data-cck-color', 'brand'],
