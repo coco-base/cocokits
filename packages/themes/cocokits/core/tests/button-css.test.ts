@@ -3,7 +3,9 @@ import { basename, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   declarationsOf,
+  outsideReducedMotion,
   read as readThemeFile,
+  reducedMotionBlocks,
   ref,
   sizeTokenOf,
   structureTokenOf,
@@ -76,26 +78,64 @@ const HOVER_BLOCKS = [
   'menu',
 ];
 const defined = (name: string): boolean => INLINE_PROPERTIES.includes(name) || tokensCss.includes(`${name}:`);
+/** A private custom property of one partial (`--_fill`, `--_ink`, `--_focus`): no token, set and read in the partial. */
+const isPrivate = (name: string): boolean => name.startsWith('--_');
+/** The selector items and the declarations of every rule of a built sheet. */
+const rulesOf = (css: string): { items: string[]; body: string }[] =>
+  [...css.matchAll(/(?<=^|[{}])\s*([^{}@]+?)\s*\{([^{}]*)\}/g)].map(([, selector, body]) => ({
+    items: selector.split(/,(?![^(]*\))/).map((item) => item.trim()),
+    body,
+  }));
 
 describe.each(sources)('component styles $file', ({ file, block }) => {
   const source = readFileSync(join(componentsDir, file), 'utf8');
   const names = [...source.matchAll(/var\((--[\w-]+)/g)].map((match) => match[1]);
 
-  it('reads only its own --cck-<block>-* tokens', () => {
-    const foreign = names.filter((name) => !name.startsWith(`--cck-${block}-`) && !INLINE_PROPERTIES.includes(name));
+  it('reads only its own --cck-<block>-* tokens and its private --_* properties', () => {
+    const foreign = names.filter(
+      (name) => !name.startsWith(`--cck-${block}-`) && !INLINE_PROPERTIES.includes(name) && !isPrivate(name),
+    );
     expect(foreign).toEqual([]);
   });
 
-  it.each([...new Set(names)])('reads %s, which exists in dist/tokens.css', (name) => {
-    expect(defined(name)).toBe(true);
+  it.each([...new Set(names.filter((name) => !isPrivate(name)))])(
+    'reads %s, which exists in dist/tokens.css',
+    (name) => {
+      expect(defined(name)).toBe(true);
+    },
+  );
+
+  it.each([...new Set(names.filter(isPrivate))])('sets %s, which it reads, in the same partial', (name) => {
+    expect(source).toMatch(new RegExp(`${name}\\s*:`));
+    expect(tokensCss).not.toContain(`${name}:`);
   });
 
   it.runIf(!HOVER_BLOCKS.includes(block))('has no hover or active rule', () => {
     expect(source).not.toMatch(/:hover|:active/);
   });
+});
 
-  it('has no active rule', () => {
-    expect(source).not.toMatch(/:active/);
+/** The controls with a fill: each variant sets `--_fill` and `--_ink`, and hover and press mix the ink into the fill. */
+const FILL_BLOCKS = sources
+  .filter(({ file }) => /--_fill\s*:/.test(readFileSync(join(componentsDir, file), 'utf8')))
+  .map(({ block }) => block);
+
+describe('controls with a fill', () => {
+  it('are the Button, the Icon button, the Chip and the Switch', () => {
+    expect([...FILL_BLOCKS].sort()).toEqual(['button', 'chip', 'icon-button', 'switch']);
+  });
+
+  it.each(FILL_BLOCKS)('%s has a :hover and an :active state layer, and neither reaches a disabled one', (block) => {
+    const layers = rulesOf(readThemeFile('dist', 'components', `${block}.css`))
+      .filter(({ body }) => body.includes('color-mix(in srgb, var(--_fill), var(--_ink)'))
+      .flatMap(({ items, body }) => items.map((item) => ({ item, body })));
+    const hover = layers.filter(({ item }) => item.includes(':hover'));
+    const active = layers.filter(({ item }) => item.includes(':active'));
+    expect(hover.length, 'hover').toBeGreaterThan(0);
+    expect(active.length, 'active').toBeGreaterThan(0);
+    for (const { body } of hover) expect(body).toContain(`var(--cck-${block}-hover-mix)`);
+    for (const { body } of active) expect(body).toContain(`var(--cck-${block}-active-mix)`);
+    for (const { item } of [...hover, ...active]) expect(item, item).toMatch(/:not\([^)]*disabled/);
   });
 });
 
@@ -111,7 +151,6 @@ describe('button output', () => {
       expect(css.startsWith('@layer cocokits {')).toBe(true);
       expect(css).toContain('.cck-button');
       expect(css.trimEnd().endsWith('}')).toBe(true);
-      expect(css).not.toMatch(/:active/);
     },
   );
 
@@ -123,12 +162,14 @@ describe('button output', () => {
   });
 
   it.each(['styles.css', 'components/button.css'])(
-    'gives :disabled (fieldset) the same disabled styling as [data-disabled] in dist/%s',
+    'gives :disabled (fieldset) the same disabled styling as [data-disabled] in dist/%s: it fades and keeps its look',
     (name) => {
       const css = readThemeFile('dist', name);
       const rule = /\.cck-button\[data-disabled\],\s*\.cck-button:disabled\s*\{([^}]*)\}/.exec(css)?.[1] ?? '';
-      expect(rule).toContain('background-color: var(--cck-button-disabled-bg)');
-      expect(rule).toContain('color: var(--cck-button-disabled-label-color)');
+      expect(rule).toContain('opacity: var(--cck-button-disabled-opacity)');
+      expect(rule).toContain('box-shadow: none');
+      expect(rule).toContain('cursor: not-allowed');
+      expect(rule).not.toMatch(/background-color|(^|[\s;])color:/);
     },
   );
 
@@ -141,15 +182,28 @@ describe('button output', () => {
   it('restates [hidden] on the box it sets to display', () => {
     expect(readThemeFile('dist', 'components', 'button.css')).toMatch(/\.cck-button\[hidden\]\s*\{\s*display: none/);
   });
+
+  it('fades its colours only without a reduced-motion preference', () => {
+    const css = readThemeFile('dist', 'components', 'button.css');
+    expect(reducedMotionBlocks(css).join('\n')).toMatch(
+      /\.cck-button \{\s*transition-property: background-color, border-color, color, box-shadow;/,
+    );
+    expect(outsideReducedMotion(css)).not.toContain('transition');
+  });
 });
 
 describe('button design match', () => {
   const css = readThemeFile('dist', 'components', 'button.css');
   const own = css.slice(0, css.indexOf('@media (forced-colors'));
+  const HOVER = '.cck-button:hover:not([data-disabled], :disabled)';
+  const OPEN = '.cck-button[data-state=open]:not([data-variant=primary], [data-disabled], :disabled)';
+  const ACTIVE = '.cck-button:active:not([data-disabled], :disabled)';
   const sizes = [
-    ['sm', 'size-36', 'spacing-5', 'spacing-2', 'text-sm', 'size-20'],
-    ['md', 'size-44', 'spacing-5', 'spacing-3', 'text-md', 'size-24'],
-    ['lg', 'size-52', 'spacing-6', 'spacing-3', 'text-md', 'size-24'],
+    ['xs', 'control-xs', 'spacing-4', 'spacing-3', 'text-xs', 'size-14'],
+    ['sm', 'control-sm', 'spacing-5', 'spacing-4', 'text-sm', 'size-16'],
+    ['md', 'control-md', 'spacing-6', 'spacing-4', 'text-sm', 'size-16'],
+    ['lg', 'control-lg', 'spacing-7', 'spacing-4', 'text-sm', 'size-20'],
+    ['xl', 'control-xl', 'spacing-8', 'spacing-4', 'text-md', 'size-20'],
   ] as const;
 
   it.each(sizes)('size %s: height, padding, gap, label text and icon size', (mode, height, pad, gap, text, icon) => {
@@ -162,52 +216,74 @@ describe('button design match', () => {
     expect(at('button-icon-size')).toBe(ref(icon));
   });
 
-  it('fills the outline with surface/1 and the hover with surface/2, in the structure block', () => {
-    expect(structureTokenOf('.cck-button', 'button-outline-bg')).toBe(ref('surface-1'));
-    expect(structureTokenOf('.cck-button', 'button-hover-bg')).toBe(ref('surface-2'));
+  it.each([
+    ['button-solid-bg', 'color'],
+    ['button-solid-label-color', 'on-color'],
+    ['button-soft-bg', 'container'],
+    ['button-label-color', 'on-container'],
+    ['button-outline-bg', 'surface-1'],
+    ['button-border-color', 'edge'],
+    ['button-shadow', 'shadow-xs'],
+    ['button-radius', 'radius-md'],
+    ['button-label-font-weight', 'font-weight-medium'],
+    ['button-hover-mix', 'opacity-10'],
+    ['button-active-mix', 'opacity-20'],
+    ['button-focus-color', 'focus-2'],
+    ['button-focus-width', 'border-width-2'],
+    ['button-focus-offset', 'spacing-2'],
+    ['button-disabled-opacity', 'opacity-50'],
+  ])('structure token %s is %s', (name, alias) => {
+    expect(structureTokenOf('.cck-button', name)).toBe(ref(alias));
   });
 
-  it('paints the outline fill on outline and, at rest, on basic too', () => {
-    for (const variant of ['outline', 'basic'])
-      expect(declarationsOf(css, `.cck-button[data-variant=${variant}]`)).toContain(
-        'background-color: var(--cck-button-outline-bg)',
-      );
+  it('keeps no colour token per state and no minimum width', () => {
+    for (const name of ['hover-bg', 'solid-hover-bg', 'disabled-bg', 'disabled-label-color', 'min-inline-size'])
+      expect(tokensCss, name).not.toContain(`--cck-button-${name}:`);
   });
 
-  it('labels outline and basic with the Active Color, and keeps no light variant', () => {
-    expect(structureTokenOf('.cck-button', 'button-outline-label-color')).toBe(ref('color'));
-    for (const variant of ['outline', 'basic'])
-      expect(declarationsOf(css, `.cck-button[data-variant=${variant}]`)).toContain(
-        'color: var(--cck-button-outline-label-color)',
-      );
+  it('gives each variant its fill and ink; basic has no rule and takes the defaults of the root', () => {
+    const root = declarationsOf(css, '.cck-button') ?? '';
+    expect(root).toContain('--_fill: transparent');
+    expect(root).toContain('--_ink: var(--cck-button-label-color)');
+    expect(root).toContain('background-color: var(--_fill)');
+    expect(root).toContain('color: var(--_ink)');
+    const primary = declarationsOf(css, '.cck-button[data-variant=primary]') ?? '';
+    expect(primary).toContain('--_fill: var(--cck-button-solid-bg)');
+    expect(primary).toContain('--_ink: var(--cck-button-solid-label-color)');
+    expect(primary).toContain('box-shadow: var(--cck-button-shadow)');
+    expect(declarationsOf(css, '.cck-button[data-variant=soft]')).toContain('--_fill: var(--cck-button-soft-bg)');
+    const outline = declarationsOf(css, '.cck-button[data-variant=outline]') ?? '';
+    expect(outline).toContain('--_fill: var(--cck-button-outline-bg)');
+    expect(outline).toContain('border-color: var(--cck-button-border-color)');
+    expect(outline).toContain('box-shadow: var(--cck-button-shadow)');
+    expect(css).not.toContain('data-variant=basic');
     expect(css).not.toContain('data-variant=light');
   });
 
-  it('is at least 64px wide', () => {
-    expect(structureTokenOf('.cck-button', 'button-min-inline-size')).toBe(ref('size-64'));
-    expect(declarationsOf(css, '.cck-button')).toContain('min-inline-size: var(--cck-button-min-inline-size)');
-  });
-
-  it('darkens the primary button to the container colour on hover, never a disabled one', () => {
-    expect(structureTokenOf('.cck-button', 'button-solid-hover-bg')).toBe(ref('container'));
-    expect(declarationsOf(css, '.cck-button[data-variant=primary]:hover:not([data-disabled], :disabled)')).toContain(
-      'background-color: var(--cck-button-solid-hover-bg)',
+  it('mixes the ink into the fill on hover and on press, never on a disabled button', () => {
+    expect(declarationsOf(css, `${HOVER}, ${OPEN}`)).toContain(
+      'background-color: color-mix(in srgb, var(--_fill), var(--_ink) var(--cck-button-hover-mix))',
     );
-  });
-
-  it('tints outline and basic on hover, and never a disabled button', () => {
-    const rule = declarationsOf(
-      css,
-      '.cck-button:where([data-variant=outline], [data-variant=basic]):hover:not([data-disabled], :disabled)',
+    expect(declarationsOf(css, ACTIVE)).toContain(
+      'background-color: color-mix(in srgb, var(--_fill), var(--_ink) var(--cck-button-active-mix))',
     );
-    expect(rule).toContain('background-color: var(--cck-button-hover-bg)');
-    expect(own.match(/:hover/g)).toHaveLength(2);
+    expect(own.match(/:hover/g)).toHaveLength(1);
+    expect(own.match(/:active/g)).toHaveLength(1);
   });
 
-  it('puts the hover rule after the variants and before the disabled rule, with no forced-colors rule of its own', () => {
-    expect(css.indexOf(':hover')).toBeGreaterThan(css.indexOf('[data-variant=basic]'));
-    expect(css.indexOf(':hover')).toBeLessThan(css.indexOf('[data-disabled],'));
-    expect(css.slice(css.indexOf('@media (forced-colors'))).not.toContain(':hover');
+  it('rests the trigger of an open overlay on the hover fill, except the primary variant', () => {
+    expect(css).toContain(`${HOVER}, ${OPEN} {`);
+    expect(own.match(/data-state/g)).toHaveLength(1);
+  });
+
+  it('puts the hover, open and pressed rules after the variants and before the disabled rule, with no forced-colors rule of their own', () => {
+    const disabled = css.indexOf('.cck-button[data-disabled],');
+    for (const selector of [HOVER, OPEN, ACTIVE]) {
+      expect(css.indexOf(selector), selector).toBeGreaterThan(css.indexOf('.cck-button[data-variant=outline]'));
+      expect(css.indexOf(selector), selector).toBeLessThan(disabled);
+    }
+    const forced = css.slice(css.indexOf('@media (forced-colors'));
+    expect(forced).not.toMatch(/:hover|:active|data-state/);
   });
 
   it('sizes a direct SvgIcon child with the icon size', () => {

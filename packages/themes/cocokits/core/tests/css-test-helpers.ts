@@ -63,3 +63,43 @@ export function declarationsOfAll(css: string, selector: string): string {
   const pattern = `(?:^|[{}])\\s*(?:[^{}]*,\\s*)?${escaped}\\s*(?:,[^{}]*)?\\{([^}]*)\\}`;
   return [...css.matchAll(new RegExp(pattern, 'g'))].map((match) => match[1]).join('\n');
 }
+
+/** The value of `--cck-<name>` in the first token rule whose selector list holds `selector` as one item. */
+export const tokenOf = (selector: string, name: string): string | undefined =>
+  valueIn(tokenRules(selector)[0]?.body, name);
+
+/** The pixels of a `Core / Size` alias: `sizePx('var(--cck-size-24)')` is 24, read from dist/tokens.css. */
+export function sizePx(alias: string | undefined): number {
+  const step = /^var\(--cck-(size-\d+)\)$/.exec(alias ?? '')?.[1];
+  return step ? Number(new RegExp(`--cck-${step}: (\\d+(?:\\.\\d+)?)px;`).exec(tokensCss)?.[1]) : Number.NaN;
+}
+
+const REDUCED_MOTION = '@media (prefers-reduced-motion: no-preference)';
+
+/** The start and the end (after its closing brace) of every `@media (prefers-reduced-motion: no-preference)` block. */
+function reducedMotionRanges(css: string): [number, number][] {
+  const ranges: [number, number][] = [];
+  for (let start = css.indexOf(REDUCED_MOTION); start !== -1; start = css.indexOf(REDUCED_MOTION, start + 1)) {
+    let depth = 0;
+    let end = css.indexOf('{', start);
+    for (; end < css.length; end++) {
+      if (css[end] === '{') depth++;
+      if (css[end] === '}' && --depth === 0) break;
+    }
+    ranges.push([start, end + 1]);
+  }
+  return ranges;
+}
+
+/**
+ * The body of every `@media (prefers-reduced-motion: no-preference)` block of `css`, in order. `state.transition`
+ * emits one such block per include, so a sheet has many.
+ */
+export const reducedMotionBlocks = (css: string): string[] =>
+  reducedMotionRanges(css).map(([start, end]) => css.slice(css.indexOf('{', start) + 1, end - 1));
+
+/** `css` without its `@media (prefers-reduced-motion: no-preference)` blocks. */
+export const outsideReducedMotion = (css: string): string =>
+  reducedMotionRanges(css)
+    .reverse()
+    .reduce((out, [start, end]) => out.slice(0, start) + out.slice(end), css);
