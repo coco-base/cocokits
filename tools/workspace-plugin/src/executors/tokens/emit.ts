@@ -94,11 +94,16 @@ function atRoot(collection: Collection, mode: string): boolean {
   return collection.name !== NO_ROOT && mode === collection.defaultMode;
 }
 
+/**
+ * A `:root` block may alias a multi-mode Theme collection: the value follows that collection's mode where both
+ * markers sit on one element (a brand marker beside the colour-mode marker, or on the root). A collection without a
+ * `:root` block has no value there, so an alias into it from `:root` would resolve to nothing.
+ */
 function checkAlias(entry: Entry, mode: string, target: Entry | undefined, ref: string): void {
   if (!target) throw new Error(`${where(entry)}: alias ${ref} does not exist`);
-  if (atRoot(entry.collection, mode) && target.collection !== entry.collection && target.collection.modes.length > 1) {
+  if (atRoot(entry.collection, mode) && target.collection.name === NO_ROOT) {
     throw new Error(
-      `${where(entry)}: alias ${ref} at :root points into the multi-mode collection ${target.collection.name}`,
+      `${where(entry)}: alias ${ref} at :root points into ${target.collection.name}, which has no :root values`,
     );
   }
 }
