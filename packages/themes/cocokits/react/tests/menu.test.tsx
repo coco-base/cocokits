@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Menu as BaseMenu } from '@cocokits/react/menu';
@@ -172,11 +172,20 @@ describe('theme menu items: color', () => {
 
   it('gives the submenu content the size of the menu that holds its sub-trigger', async () => {
     await open(themed(kinds({})));
+    // The menu moves the focus to its first item a frame after it opens; focus the sub-trigger only after that.
+    await waitFor(() => {
+      expect(document.activeElement).toBe(screen.getAllByRole('menuitem')[0]);
+    });
     const share = screen.getByRole('menuitem', { name: 'Share' });
     share.focus();
     await userEvent.setup().keyboard('{ArrowRight}');
-    const subContent = document.querySelector<HTMLElement>('.cck-menu__sub-content');
-    expect(subContent?.getAttribute('data-size')).toBe('lg');
+    // The submenu opens after the key press, so wait for it (a longer limit than the 1 s default, for parallel load).
+    await waitFor(
+      () => {
+        expect(document.querySelector('.cck-menu__sub-content')?.getAttribute('data-size')).toBe('lg');
+      },
+      { timeout: 5000 },
+    );
   });
 
   it('keeps the indicator, leading, trailing, supporting text and shortcut as base parts with no theme attribute', async () => {
