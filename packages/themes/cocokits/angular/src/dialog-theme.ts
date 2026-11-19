@@ -29,6 +29,8 @@ export class CckDialogTheme {
    * Width, padding and gap of the window, drawn on the content. It resolves in order: this input, then the
    * `provideCckTheme` override, then the config default; `null` removes the attribute. A dialog opened by
    * `CckDialogService` has no root directive and shows the override or the default.
+   *
+   * @cckSemantic dialog.size
    */
   readonly dialogSize = input<CckDialogSize | null>();
 }
