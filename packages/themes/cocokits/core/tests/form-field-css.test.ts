@@ -1,11 +1,55 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsInList, declarationsOf, read, tokensCss } from './css-test-helpers';
 
 const stylesCss = ['form-field', 'label', 'hint', 'input', 'textarea', 'field-error']
   .map((name) => read('dist', 'components', `${name}.css`))
   .join('\n');
 /** The input wrapper that holds a text control: the box. */
 const BOX = '.cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
+/** The chain from the field root to the box. */
+const WRAPPER = '> .cck-form-field__wrapper > .cck-form-field__input-wrapper';
+/** The box while its text control has the focus. */
+const FOCUSED = `${BOX}:has(> :is(.cck-input, .cck-textarea):focus-visible, > .cck-chip-list > .cck-chip-list__input:focus-visible)`;
+/** The field root when it renders data-disabled or its control is natively disabled. */
+const DISABLED = `.cck-form-field:where([data-disabled], :has(${WRAPPER} > :is(.cck-input, .cck-textarea):disabled, ${WRAPPER} > .cck-chip-list > .cck-chip-list__input:disabled, ${WRAPPER} > .cck-select > .cck-select__trigger:disabled))`;
+const INVALID = `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > ${BOX}`;
+const READONLY = `.cck-form-field:where([data-readonly]) > .cck-form-field__wrapper > ${BOX}`;
+const forced = (css: string): string => css.split('@media (forced-colors: active)')[1] ?? '';
+
+/** Splits a selector list at the commas outside parentheses. */
+function splitList(list: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let current = '';
+  for (const char of list) {
+    if (char === '(') depth += 1;
+    if (char === ')') depth -= 1;
+    if (char === ',' && depth === 0) {
+      parts.push(current.trim());
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  return [...parts, current.trim()];
+}
+
+/** The selector with every parenthesised argument, at any depth, replaced by `()`. */
+function flatten(selector: string): string {
+  let depth = 0;
+  let out = '';
+  for (const char of selector) {
+    if (char === '(') {
+      if (depth === 0) out += '()';
+      depth += 1;
+    } else if (char === ')') {
+      depth -= 1;
+    } else if (depth === 0) {
+      out += char;
+    }
+  }
+  return out;
+}
 const scss = ['_form-field.scss', '_label.scss', '_hint.scss', '_input.scss', '_textarea.scss', '_field-error.scss']
   .map((file) => read('src', 'styles', 'components', file))
   .join('\n');
@@ -32,11 +76,13 @@ describe('form-field, label and hint output', () => {
   it('aliases the gaps and the indent to Theme Spacing and the colors to Theme Color', () => {
     expect(tokensCss).toMatch(/--cck-form-field-gap: var\(--cck-spacing-4\)/);
     expect(tokensCss).toMatch(/--cck-form-field-balance-indent: var\(--cck-spacing-0\)/);
-    expect(tokensCss).toMatch(/--cck-form-field-min-inline-size: 100px/);
-    expect(tokensCss).toMatch(/--cck-hint-gap: var\(--cck-spacing-4\)/);
+    expect(tokensCss).toMatch(/--cck-form-field-feedback-gap: var\(--cck-spacing-3\)/);
+    expect(tokensCss).toMatch(/--cck-form-field-zone-gap: var\(--cck-spacing-4\)/);
+    expect(tokensCss).toMatch(/--cck-form-field-min-inline-size: var\(--cck-size-96\)/);
+    expect(tokensCss).toMatch(/--cck-hint-gap: var\(--cck-spacing-3\)/);
     expect(tokensCss).toMatch(/--cck-label-text-color: var\(--cck-text-1\)/);
-    expect(tokensCss).toMatch(/--cck-hint-text-color: var\(--cck-on-surface-3\)/);
-    expect(tokensCss).toMatch(/--cck-label-font-weight: var\(--cck-font-weight-regular\)/);
+    expect(tokensCss).toMatch(/--cck-hint-text-color: var\(--cck-text-3\)/);
+    expect(tokensCss).toMatch(/--cck-label-font-weight: var\(--cck-font-weight-medium\)/);
     expect(tokensCss).toMatch(/--cck-hint-font-weight: var\(--cck-font-weight-regular\)/);
   });
 });
@@ -62,7 +108,8 @@ describe('form-field layout', () => {
       expect(inputWrapper).toContain(line);
     }
     for (const part of ['wrapper', 'input-wrapper']) {
-      const rule = declarationsOf(stylesCss, `.cck-form-field__${part}`) ?? '';
+      // The private --_radius of the wrapper is the corner the box reads; it draws nothing on the wrapper.
+      const rule = (declarationsOf(stylesCss, `.cck-form-field__${part}`) ?? '').replace(/--_[a-z-]+:[^;]*;/g, '');
       expect(rule).not.toMatch(/border(?!-box)|radius|background|block-size|height|padding/);
     }
   });
@@ -117,7 +164,7 @@ describe('form-field, label and hint selectors and units', () => {
   it('starts every selector with a CocoKits class, so no attribute or tag selector is bare', () => {
     expect(own.length).toBeGreaterThan(0);
     for (const selector of own) {
-      for (const part of selector.split(/,\s*(?![^(]*\))/)) {
+      for (const part of splitList(selector)) {
         expect(part.trim(), selector).toMatch(/^\.cck-/);
       }
     }
@@ -125,8 +172,7 @@ describe('form-field, label and hint selectors and units', () => {
 
   it('joins the blocks with child or sibling combinators only, never a descendant selector', () => {
     for (const selector of own) {
-      const flat = selector.replace(/\([^()]*(?:\([^()]*\)[^()]*)*\)/g, '()');
-      for (const part of flat.split(',')) {
+      for (const part of splitList(selector).map(flatten)) {
         const tokens = part.trim().split(/\s+/);
         tokens.forEach((token, index) => {
           if (index % 2 === 1) expect(token, selector).toMatch(/^[>~+]$/);
@@ -142,22 +188,29 @@ describe('form-field, label and hint selectors and units', () => {
   });
 
   it('gives the box of the input wrapper a forced-colors border, and the label marker none', () => {
-    const forced = stylesCss.split('@media (forced-colors: active)')[1] ?? '';
-    expect(forced).toContain('border-color: CanvasText');
-    expect(forced).toContain('border-color: GrayText');
-    expect(forced).toContain('outline-color: Highlight');
-    expect(forced).not.toContain('invalid-border-width');
+    const sheet = forced(read('dist', 'components', 'form-field.css'));
+    expect(declarationsOf(sheet, BOX)).toContain('border-color: CanvasText');
+    expect(declarationsOf(sheet, `${DISABLED} > .cck-form-field__wrapper > ${BOX}`)).toContain(
+      'border-color: GrayText',
+    );
+    const focus = declarationsOf(sheet, FOCUSED) ?? '';
+    expect(focus).toContain('border-color: Highlight');
+    expect(focus).toContain('outline: var(--cck-form-field-focus-ring-width) solid Highlight');
+    expect(forced(stylesCss)).not.toContain('invalid-border-width');
     expect(read('src', 'styles', 'components', '_label.scss')).not.toContain('forced-colors');
   });
 });
 
 describe('the box of the input wrapper', () => {
+  const sheet = read('dist', 'components', 'form-field.css');
+
   it('draws the box on a wrapper that holds an Input and sizes it from the inherited size tokens', () => {
     const box = declarationsOf(stylesCss, BOX) ?? '';
     for (const line of [
       'border: var(--cck-form-field-border-width) solid var(--cck-form-field-border-color)',
-      'border-radius: var(--cck-form-field-radius)',
+      'border-radius: var(--_radius)',
       'background-color: var(--cck-form-field-bg)',
+      'box-shadow: var(--cck-form-field-shadow)',
     ]) {
       expect(box).toContain(line);
     }
@@ -171,74 +224,83 @@ describe('the box of the input wrapper', () => {
     ]) {
       expect(box).toContain(line);
     }
+    expect(declarationsOf(stylesCss, '.cck-form-field__wrapper')).toContain('--_radius: var(--cck-form-field-radius)');
     // The size does not hang on the data-size of the wrapper, so a null size still gets the md box.
     expect(stylesCss).not.toContain('input-wrapper[data-size]');
   });
 
+  it('caps the radius of a Textarea or Chip list box at half the height of a one-line box', () => {
+    expect(
+      declarationsOf(
+        stylesCss,
+        '.cck-form-field__wrapper:has(> .cck-form-field__input-wrapper > :is(.cck-textarea, .cck-chip-list))',
+      ),
+    ).toContain('--_radius: min(var(--cck-form-field-radius), calc(var(--cck-form-field-height) / 2))');
+  });
+
   it('shows the invalid border only when invalid and (touched or submitted)', () => {
-    const selector =
-      '.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
-    expect(declarationsOf(stylesCss, selector)).toContain('border-color: var(--cck-form-field-invalid-border-color)');
+    expect(declarationsOf(stylesCss, INVALID)).toContain('border-color: var(--cck-form-field-invalid-border-color)');
     expect(scss).not.toMatch(/(^|\n)\s*\[data-/);
   });
 
-  it('shows invalid by the border colour only and read-only with a dashed border', () => {
-    const wrapper =
-      '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
-    const invalid = declarationsOf(
-      stylesCss,
-      `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) ${wrapper}`,
-    );
+  it('shows invalid by the border colour and focus colour only, and read-only by a fill', () => {
+    const invalid = declarationsOf(stylesCss, INVALID) ?? '';
+    expect(invalid).toContain('--_focus: var(--cck-form-field-invalid-border-color)');
     expect(invalid).not.toMatch(/box-shadow|outline|border-width|border-style/);
-    expect(declarationsOf(stylesCss, `.cck-form-field:where([data-readonly]) ${wrapper}`)).toContain(
-      'border-style: dashed',
-    );
+    const readonly = declarationsOf(stylesCss, READONLY) ?? '';
+    expect(readonly).toContain('background-color: var(--cck-form-field-readonly-bg)');
+    expect(readonly).not.toContain('border-style');
+    expect(declarationsOf(forced(sheet), READONLY)).toContain('border-style: dashed');
   });
 
-  it('lets disabled win over invalid and touched, and over read-only: the disabled border, solid', () => {
-    const wrapper =
-      '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
-    const disabled = declarationsOf(stylesCss, `.cck-form-field:where([data-disabled]) ${wrapper}`) ?? '';
-    expect(disabled).toContain('border-style: solid');
-    expect(disabled).toContain('border-color: var(--cck-form-field-disabled-border-color)');
-    const invalid = `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) ${wrapper}`;
-    expect(stylesCss.indexOf(`.cck-form-field:where([data-disabled]) ${wrapper} {`)).toBeGreaterThan(
-      stylesCss.indexOf(`${invalid} {`),
-    );
+  it('lets disabled win over hover, invalid and read-only: the resting border, faded, solid in forced colors', () => {
+    const selector = `${DISABLED} > .cck-form-field__wrapper > ${BOX}`;
+    const disabled = declarationsOf(stylesCss, selector) ?? '';
+    expect(disabled).toContain('border-color: var(--cck-form-field-border-color)');
+    expect(disabled).toContain('opacity: var(--cck-form-field-disabled-opacity)');
+    expect(disabled).toContain('cursor: not-allowed');
+    for (const earlier of [`${BOX}:where(:hover)`, INVALID, READONLY]) {
+      expect(sheet.indexOf(`${selector} {`)).toBeGreaterThan(sheet.indexOf(`${earlier} {`));
+    }
+    const forcedDisabled = declarationsOf(forced(sheet), selector) ?? '';
+    expect(forcedDisabled).toContain('border-style: solid');
+    expect(forcedDisabled).toContain('opacity: 1');
   });
 
   it('keeps the thin border in forced colors, GrayText when disabled', () => {
-    const forced = stylesCss.split('@media (forced-colors: active)')[1] ?? '';
-    expect(forced).not.toContain('invalid-border-width');
-    expect(forced).toContain('border-color: GrayText');
+    expect(forced(stylesCss)).not.toContain('invalid-border-width');
+    expect(forced(stylesCss)).toContain('border-color: GrayText');
   });
 
-  it('colours the disabled and read-only boxes from the facts of the root', () => {
-    const wrapper =
-      '> .cck-form-field__wrapper > .cck-form-field__input-wrapper:has(> .cck-input, > .cck-textarea, > .cck-chip-list)';
-    expect(declarationsOf(stylesCss, `.cck-form-field:where([data-disabled]) ${wrapper}`)).toContain(
-      'background-color: var(--cck-form-field-disabled-bg)',
-    );
-    expect(declarationsOf(stylesCss, `.cck-form-field:where([data-readonly]) ${wrapper}`)).toContain(
-      'background-color: var(--cck-form-field-readonly-bg)',
-    );
+  it('fades the Label, the Hint and a zone without a Button from the facts of the root', () => {
+    const rule = declarationsInList(sheet, `${DISABLED} > .cck-label`) ?? '';
+    expect(rule).toContain('opacity: var(--cck-form-field-disabled-opacity)');
+    for (const part of [
+      `${DISABLED} > .cck-form-field__feedback-wrapper > .cck-hint`,
+      `${DISABLED} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):not(:has(> .cck-button))`,
+    ]) {
+      expect(declarationsInList(sheet, part)).toBe(rule);
+    }
+    expect(sheet).not.toMatch(/\.cck-field-error[^{]*\{[^}]*opacity/);
   });
 
-  it('shows the focus ring on the wrapper while the Input has focus', () => {
-    expect(declarationsOf(stylesCss, `${BOX}:focus-within`)).toContain(
-      'outline: var(--cck-form-field-focus-width) solid var(--cck-form-field-focus-color)',
+  it('shows the focus border and halo on the wrapper while its text control has the focus', () => {
+    const focus = declarationsOf(stylesCss, FOCUSED) ?? '';
+    expect(focus).toContain('border-color: var(--_focus)');
+    expect(focus).toContain(
+      'box-shadow: 0 0 0 var(--cck-form-field-focus-ring-width) color-mix(in srgb, var(--_focus) var(--cck-form-field-focus-ring-mix), transparent)',
     );
+    expect(focus).toContain('z-index: 1');
+    expect(declarationsOf(stylesCss, BOX)).toContain('--_focus: var(--cck-form-field-focus-color)');
+    expect(sheet).not.toContain(`${BOX}:focus-within`);
+    expect(sheet.split('@media (forced-colors: active)')[0]).not.toMatch(/(^|[\s;])outline:/);
   });
 
   it('takes the sizes from the Form Field / Size modes', () => {
-    for (const [mode, step] of [
-      ['sm', 32],
-      ['md', 40],
-      ['lg', 48],
-    ] as const) {
+    for (const mode of ['sm', 'md', 'lg'] as const) {
       expect(tokensCss).toMatch(
         new RegExp(
-          `\\.cck-form-field\\[data-size=${mode}\\][^{]*\\{[^}]*--cck-form-field-height: var\\(--cck-size-${String(step)}\\)`,
+          `\\.cck-form-field\\[data-size=${mode}\\][^{]*\\{[^}]*--cck-form-field-height: var\\(--cck-control-${mode}\\)`,
         ),
       );
     }

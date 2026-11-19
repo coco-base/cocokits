@@ -18,6 +18,10 @@ describe('input output', () => {
 });
 
 describe('standalone input box', () => {
+  const invalidSelector = '.cck-input:where([data-invalid]):where([data-touched], [data-submitted])';
+  const disabledSelector = '.cck-input:where([data-disabled], :disabled)';
+  const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+
   it('draws the md box with the tokens', () => {
     const rule = declarationsOf(css, '.cck-input') ?? '';
     for (const line of [
@@ -26,11 +30,12 @@ describe('standalone input box', () => {
       'border: var(--cck-input-border-width) solid var(--cck-input-border-color)',
       'border-radius: var(--cck-input-radius)',
       'background-color: var(--cck-input-bg)',
+      'box-shadow: var(--cck-input-shadow)',
       'color: var(--cck-input-text-color)',
     ]) {
       expect(rule).toContain(line);
     }
-    expect(tokensCss).toMatch(/--cck-input-height: var\(--cck-size-40\)/);
+    expect(tokensCss).toMatch(/--cck-input-height: var\(--cck-control-md\)/);
   });
 
   it('sets no display, so the native hidden attribute hides it', () => {
@@ -38,47 +43,46 @@ describe('standalone input box', () => {
   });
 
   it('looks different when invalid and touched or submitted, read-only and disabled', () => {
-    expect(declarationsOf(css, '.cck-input:where([data-invalid]):where([data-touched], [data-submitted])')).toContain(
-      'border-color: var(--cck-input-invalid-border-color)',
-    );
+    expect(declarationsOf(css, invalidSelector)).toContain('border-color: var(--cck-input-invalid-border-color)');
     expect(declarationsOf(css, '.cck-input:where([data-readonly])')).toContain(
       'background-color: var(--cck-input-readonly-bg)',
     );
-    const disabled = declarationsOf(css, '.cck-input:where([data-disabled], :disabled)') ?? '';
-    expect(disabled).toContain('background-color: var(--cck-input-disabled-bg)');
-    expect(disabled).toContain('color: var(--cck-input-disabled-text-color)');
+    const disabled = declarationsOf(css, disabledSelector) ?? '';
+    expect(disabled).toContain('opacity: var(--cck-input-disabled-opacity)');
+    expect(disabled).toContain('cursor: not-allowed');
     expect(declarationsOf(css, '.cck-input::placeholder')).toContain('color: var(--cck-input-placeholder-color)');
   });
 
-  it('shows invalid by the border colour only, and read-only with a dashed border', () => {
-    const invalid =
-      declarationsOf(css, '.cck-input:where([data-invalid]):where([data-touched], [data-submitted])') ?? '';
+  it('shows invalid by the border colour only, and read-only by a fill with a dashed border in forced colors', () => {
+    const invalid = declarationsOf(css, invalidSelector) ?? '';
     expect(invalid).toContain('border-color: var(--cck-input-invalid-border-color)');
+    expect(invalid).toContain('--_focus: var(--cck-input-invalid-border-color)');
     expect(invalid).not.toMatch(/box-shadow|outline|border-width/);
-    expect(declarationsOf(css, '.cck-input:where([data-readonly])')).toContain('border-style: dashed');
+    expect(declarationsOf(css, '.cck-input:where([data-readonly])')).not.toContain('border-style');
+    expect(declarationsOf(forced, '.cck-input:where([data-readonly])')).toContain('border-style: dashed');
   });
 
-  it('lets disabled win over invalid and touched, and it comes later', () => {
-    const disabled = declarationsOf(css, '.cck-input:where([data-disabled], :disabled)') ?? '';
-    expect(disabled).toContain('border-color: var(--cck-input-disabled-border-color)');
-    expect(css.indexOf('.cck-input:where([data-disabled], :disabled) {')).toBeGreaterThan(
-      css.indexOf('.cck-input:where([data-invalid]):where([data-touched], [data-submitted]) {'),
-    );
+  it('lets disabled win over hover and invalid with the resting border, and it comes later', () => {
+    const disabled = declarationsOf(css, disabledSelector) ?? '';
+    expect(disabled).toContain('border-color: var(--cck-input-border-color)');
+    expect(css.indexOf(`${disabledSelector} {`)).toBeGreaterThan(css.indexOf(`${invalidSelector} {`));
+    expect(css.indexOf(`${disabledSelector} {`)).toBeGreaterThan(css.indexOf('.cck-input:where([data-readonly]) {'));
+    expect(css.indexOf(`${disabledSelector} {`)).toBeGreaterThan(css.indexOf('.cck-input:where(:hover) {'));
   });
 
   it('keeps the 1px border in forced colors: no thicker invalid border', () => {
-    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
     expect(forced).not.toContain('invalid-border-width');
   });
 
-  it('draws a 1px focus ring with no offset', () => {
-    expect(structureTokenOf('.cck-input', 'input-focus-width')).toBe(ref('size-1'));
-    expect(structureTokenOf('.cck-input', 'input-focus-offset')).toBe(ref('spacing-0'));
+  it('draws a 3px focus halo at 20% of the focus colour', () => {
+    expect(structureTokenOf('.cck-input', 'input-focus-color')).toBe(ref('focus-2'));
+    expect(structureTokenOf('.cck-input', 'input-focus-ring-width')).toBe(ref('size-3'));
+    expect(structureTokenOf('.cck-input', 'input-focus-ring-mix')).toBe(ref('opacity-20'));
   });
 
-  it('draws the border and the hover border in border/2 and the placeholder in text/3', () => {
+  it('draws the border in border/2, the hover border in border/3 and the placeholder in text/3', () => {
     expect(structureTokenOf('.cck-input', 'input-border-color')).toBe(ref('border-2'));
-    expect(structureTokenOf('.cck-input', 'input-hover-border-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-input', 'input-hover-border-color')).toBe(ref('border-3'));
     expect(structureTokenOf('.cck-input', 'input-placeholder-color')).toBe(ref('text-3'));
   });
 
@@ -87,29 +91,50 @@ describe('standalone input box', () => {
     expect(css).not.toMatch(/\.cck-input\[data-/);
   });
 
-  it('rings the focus and never removes the outline outside a field', () => {
-    expect(declarationsOf(css, '.cck-input:focus-visible')).toContain(
-      'outline: var(--cck-input-focus-width) solid var(--cck-input-focus-color)',
+  it('shows the focus as the focus border and a halo, with no outline outside forced colors', () => {
+    const focus = declarationsOf(css, '.cck-input:focus-visible') ?? '';
+    expect(focus).toContain('outline: none');
+    expect(focus).toContain('border-color: var(--_focus)');
+    expect(focus).toContain(
+      'box-shadow: 0 0 0 var(--cck-input-focus-ring-width) color-mix(in srgb, var(--_focus) var(--cck-input-focus-ring-mix), transparent)',
     );
+    expect(declarationsOf(css, '.cck-input')).toContain('--_focus: var(--cck-input-focus-color)');
   });
 
-  it('has a forced-colors border and GrayText when disabled', () => {
-    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+  it('has a forced-colors border, GrayText when disabled and a Highlight outline for the focus', () => {
     expect(forced).toContain('border-color: CanvasText');
-    expect(forced).toContain('border-color: GrayText');
-    expect(forced).toContain('outline-color: Highlight');
+    const disabled = declarationsOf(forced, disabledSelector) ?? '';
+    expect(disabled).toContain('border-color: GrayText');
+    expect(disabled).toContain('opacity: 1');
+    expect(declarationsOf(forced, '.cck-input:focus-visible')).toContain(
+      'outline: var(--cck-input-focus-ring-width) solid Highlight',
+    );
   });
 });
 
 describe('input inside a field input wrapper', () => {
   it('is borderless and transparent, fills the wrapper and keeps its own text (F25)', () => {
     const rule = declarationsOf(css, '.cck-form-field__input-wrapper > .cck-input') ?? '';
-    for (const line of ['flex: 1', 'min-inline-size: 0', 'padding: 0', 'border: 0', 'background-color: transparent']) {
+    for (const line of [
+      'flex: 1',
+      'min-inline-size: 0',
+      'padding: 0',
+      'border: 0',
+      'background-color: transparent',
+      'box-shadow: none',
+      'opacity: 1',
+    ]) {
       expect(rule).toContain(line);
     }
   });
 
-  it('leaves the focus ring to the wrapper', () => {
-    expect(declarationsOf(css, '.cck-form-field__input-wrapper > .cck-input:focus-visible')).toContain('outline: none');
+  it('leaves the focus halo to the wrapper, and the forced-colors outline too', () => {
+    expect(declarationsOf(css, '.cck-form-field__input-wrapper > .cck-input:focus-visible')).toContain(
+      'box-shadow: none',
+    );
+    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+    expect(declarationsOf(forced, '.cck-form-field__input-wrapper > .cck-input:focus-visible')).toContain(
+      'outline: none',
+    );
   });
 });
