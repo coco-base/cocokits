@@ -1,9 +1,14 @@
+@use '../state';
+
 // IconButton rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-icon-button-* tokens. The box is a square; its `font-size` is the icon size, which a
-// SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. The outline and basic variants take a light
-// fill on hover; primary darkens to the container colour.
+// SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. The variants and their states are the
+// Button's: a fill and an ink, and the ink mixed into the fill on hover and press.
 @mixin rules {
   .cck-icon-button {
+    --_fill: transparent;
+    --_ink: var(--cck-icon-button-icon-color);
+
     box-sizing: border-box;
     display: inline-flex;
     flex: none;
@@ -14,11 +19,13 @@
     padding: 0;
     border: var(--cck-icon-button-border-width) solid transparent;
     border-radius: var(--cck-icon-button-radius);
-    background-color: transparent;
-    color: inherit;
+    background-color: var(--_fill);
+    color: var(--_ink);
     font-size: var(--cck-icon-button-icon-size);
     text-decoration: none;
     cursor: pointer;
+
+    @include state.transition(background-color, border-color, color, box-shadow);
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {
@@ -30,36 +37,40 @@
     }
 
     &[data-variant='primary'] {
-      background-color: var(--cck-icon-button-solid-bg);
-      color: var(--cck-icon-button-solid-icon-color);
+      --_fill: var(--cck-icon-button-solid-bg);
+      --_ink: var(--cck-icon-button-solid-icon-color);
+
+      box-shadow: var(--cck-icon-button-shadow);
+    }
+
+    &[data-variant='soft'] {
+      --_fill: var(--cck-icon-button-soft-bg);
     }
 
     &[data-variant='outline'] {
+      --_fill: var(--cck-icon-button-outline-bg);
+
       border-color: var(--cck-icon-button-border-color);
-      background-color: var(--cck-icon-button-outline-bg);
-      color: var(--cck-icon-button-outline-icon-color);
+      box-shadow: var(--cck-icon-button-shadow);
     }
 
-    &[data-variant='basic'] {
-      color: var(--cck-icon-button-outline-icon-color);
+    // After the variant rules. Disabled is excluded, so it keeps its resting fill. The trigger of an open overlay
+    // (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill.
+    &:hover:not([data-disabled], :disabled),
+    &[data-state='open']:not([data-variant='primary'], [data-disabled], :disabled) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-hover-mix));
     }
 
-    // After the variant rules. Disabled is excluded, so it keeps its own fill.
-    &[data-variant='primary']:hover:not([data-disabled], :disabled) {
-      background-color: var(--cck-icon-button-solid-hover-bg);
+    &:active:not([data-disabled], :disabled) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-active-mix));
     }
 
-    &:where([data-variant='outline'], [data-variant='basic']):hover:not([data-disabled], :disabled) {
-      background-color: var(--cck-icon-button-hover-bg);
-    }
-
-    // After the variants, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    // `:disabled` covers `<fieldset disabled>`. The button keeps its look and fades.
     &[data-disabled],
     &:disabled {
-      background-color: var(--cck-icon-button-disabled-bg);
-      border-color: var(--cck-icon-button-disabled-bg);
-      color: var(--cck-icon-button-disabled-icon-color);
-      cursor: default;
+      opacity: var(--cck-icon-button-disabled-opacity);
+      box-shadow: none;
+      cursor: not-allowed;
     }
 
     &:focus-visible {
@@ -76,6 +87,7 @@
       &:disabled {
         border-color: GrayText;
         color: GrayText;
+        opacity: 1;
       }
 
       &:focus-visible {

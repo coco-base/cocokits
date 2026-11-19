@@ -33,15 +33,9 @@
   .cck-avatar-label__text {
     box-sizing: border-box;
     display: flex;
+    // Vertical: the name above the description; the leading of the two lines is the only space between them.
     flex-direction: column;
     min-inline-size: 0;
-    font-family: var(--cck-avatar-label-font-family);
-    font-size: var(--cck-avatar-label-font-size);
-    line-height: var(--cck-avatar-label-line-height);
-    letter-spacing: var(--cck-avatar-label-letter-spacing);
-    font-weight: var(--cck-avatar-label-font-weight);
-    // Vertical: the name above the description. The horizontal alignment takes its own gap below.
-    gap: var(--cck-avatar-label-text-gap);
 
     &[hidden] {
       display: none;
@@ -57,11 +51,20 @@
   .cck-avatar-label__name {
     box-sizing: border-box;
     color: var(--cck-avatar-label-name-color);
+    font-family: var(--cck-avatar-label-name-font-family);
+    font-size: var(--cck-avatar-label-name-font-size);
+    line-height: var(--cck-avatar-label-name-line-height);
+    letter-spacing: var(--cck-avatar-label-name-letter-spacing);
+    font-weight: var(--cck-avatar-label-name-font-weight);
   }
 
   .cck-avatar-label__description {
     box-sizing: border-box;
     color: var(--cck-avatar-label-description-color);
+    font-family: var(--cck-avatar-label-description-font-family);
+    font-size: var(--cck-avatar-label-description-font-size);
+    line-height: var(--cck-avatar-label-description-line-height);
+    letter-spacing: var(--cck-avatar-label-description-letter-spacing);
     font-weight: var(--cck-avatar-label-description-font-weight);
   }
 }

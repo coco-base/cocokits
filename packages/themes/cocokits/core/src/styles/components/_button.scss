@@ -1,8 +1,13 @@
+@use '../state';
+
 // Button rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
-// Reads only its own --cck-button-* tokens. Primary darkens to the container colour on hover; the outline and basic
-// variants take a light fill.
+// Reads only its own --cck-button-* tokens. Each variant sets a fill and an ink; hover and press mix the ink into the
+// fill (`state.layer`), so every colour family and both colour modes get their states from one rule.
 @mixin rules {
   .cck-button {
+    --_fill: transparent;
+    --_ink: var(--cck-button-label-color);
+
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -11,18 +16,21 @@
     padding-inline: var(--cck-button-padding-inline);
     padding-block: 0;
     min-block-size: var(--cck-button-height);
-    min-inline-size: var(--cck-button-min-inline-size);
     border: var(--cck-button-border-width) solid transparent;
     border-radius: var(--cck-button-radius);
-    background-color: transparent;
-    color: inherit;
+    background-color: var(--_fill);
+    color: var(--_ink);
     font-family: var(--cck-button-label-font-family);
     font-size: var(--cck-button-label-font-size);
     line-height: var(--cck-button-label-line-height);
     letter-spacing: var(--cck-button-label-letter-spacing);
     font-weight: var(--cck-button-label-font-weight);
     text-decoration: none;
+    white-space: nowrap;
+    user-select: none;
     cursor: pointer;
+
+    @include state.transition(background-color, border-color, color, box-shadow);
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {
@@ -30,19 +38,21 @@
     }
 
     &[data-variant='primary'] {
-      background-color: var(--cck-button-solid-bg);
-      color: var(--cck-button-solid-label-color);
+      --_fill: var(--cck-button-solid-bg);
+      --_ink: var(--cck-button-solid-label-color);
+
+      box-shadow: var(--cck-button-shadow);
+    }
+
+    &[data-variant='soft'] {
+      --_fill: var(--cck-button-soft-bg);
     }
 
     &[data-variant='outline'] {
-      border-color: var(--cck-button-border-color);
-      background-color: var(--cck-button-outline-bg);
-      color: var(--cck-button-outline-label-color);
-    }
+      --_fill: var(--cck-button-outline-bg);
 
-    &[data-variant='basic'] {
-      background-color: var(--cck-button-outline-bg);
-      color: var(--cck-button-outline-label-color);
+      border-color: var(--cck-button-border-color);
+      box-shadow: var(--cck-button-shadow);
     }
 
     // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
@@ -50,22 +60,23 @@
       font-size: var(--cck-button-icon-size);
     }
 
-    // After the variant rules. Disabled is excluded, so it keeps its own fill.
-    &[data-variant='primary']:hover:not([data-disabled], :disabled) {
-      background-color: var(--cck-button-solid-hover-bg);
+    // After the variant rules. Disabled is excluded, so it keeps its resting fill. The trigger of an open overlay
+    // (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill.
+    &:hover:not([data-disabled], :disabled),
+    &[data-state='open']:not([data-variant='primary'], [data-disabled], :disabled) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-button-hover-mix));
     }
 
-    &:where([data-variant='outline'], [data-variant='basic']):hover:not([data-disabled], :disabled) {
-      background-color: var(--cck-button-hover-bg);
+    &:active:not([data-disabled], :disabled) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-button-active-mix));
     }
 
-    // After the variants, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    // `:disabled` covers `<fieldset disabled>`. The button keeps its look and fades.
     &[data-disabled],
     &:disabled {
-      background-color: var(--cck-button-disabled-bg);
-      border-color: var(--cck-button-disabled-bg);
-      color: var(--cck-button-disabled-label-color);
-      cursor: default;
+      opacity: var(--cck-button-disabled-opacity);
+      box-shadow: none;
+      cursor: not-allowed;
     }
 
     &:focus-visible {
@@ -82,6 +93,7 @@
       &:disabled {
         border-color: GrayText;
         color: GrayText;
+        opacity: 1;
       }
 
       &:focus-visible {

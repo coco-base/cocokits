@@ -1,7 +1,9 @@
 // The shared pieces of the Checkbox and the Radio: one box in a hit area next to a label. A component
 // includes them in the order the cascade needs, because every state rule has the same specificity and
-// source order decides: layout, read-only, checked, mixed, invalid, disabled, focus, then the forced-colors
+// source order decides: layout, read-only, checked, hover, mixed, invalid, disabled, focus, then the forced-colors
 // block. The state part of a selector sits in `:where()`, so only the parts count.
+@use 'state';
+
 @function token($block, $name) {
   @return var(--cck-#{$block}-#{$name});
 }
@@ -48,6 +50,11 @@
     align-items: flex-start;
     gap: token($block, gap);
     min-inline-size: 0;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it on every part with a display.
+    &[hidden] {
+      display: none;
+    }
   }
 
   // Reverses the row with the writing direction, so RTL needs no counterpart.
@@ -55,25 +62,30 @@
     flex-direction: row-reverse;
   }
 
-  // The hit area: at least 24 by 24 CSS px. The input lies over it; the box and the halo are centred in it.
+  // The row of the box: as wide as the box, so the box lines up with the content around it, and as high as the hit
+  // area. The box is centred in it.
   .cck-#{$block}__input-wrapper {
     position: relative;
     box-sizing: border-box;
     display: inline-grid;
     flex: none;
-    // One cell as large as the hit area; the larger halo overflows it evenly.
     grid-template: minmax(0, 1fr) / minmax(0, 1fr);
     place-items: center;
-    inline-size: token($block, hit-size);
+    inline-size: token($block, box-size);
     block-size: token($block, hit-size);
+
+    &[hidden] {
+      display: none;
+    }
   }
 
+  // The hit area: at least 24 by 24 CSS px. The input lies over the box and overflows its row evenly on both sides.
   .cck-#{$block}__input {
     grid-area: 1 / 1;
     z-index: 1;
     box-sizing: border-box;
-    inline-size: 100%;
-    block-size: 100%;
+    inline-size: token($block, hit-size);
+    block-size: token($block, hit-size);
     margin: 0;
     opacity: 0;
     cursor: pointer;
@@ -88,9 +100,10 @@
     border: token($block, box-border-width) solid token($block, box-border-color);
     border-radius: token($block, box-radius);
     background-color: token($block, box-bg);
+    box-shadow: token($block, box-shadow);
     pointer-events: none;
 
-    // The mark: the tick, the dash or the dot. It is drawn with CSS and has no text.
+    // The mark: the dash or the dot. It is drawn with CSS and has no text.
     &::after {
       content: '';
       box-sizing: border-box;
@@ -132,24 +145,44 @@
   }
 }
 
+// Hover of an editable box: an empty box darkens its border, a filled box mixes the mark colour into its fill.
+// Press mixes more of it; the press rule follows the hover rule, so it wins while the pointer is down.
+// `$idle` lists the root facts that keep the resting look (a Checkbox passes the read-only one).
+@mixin hover($block, $facts: '[data-checked]', $idle: '[data-disabled]') {
+  $editable: ':where(:hover):where(:not(#{$idle}, :has(#{input($block)}:disabled)))';
+  $pressed: ':where(:active):where(:not(#{$idle}, :has(#{input($block)}:disabled)))';
+
+  .cck-#{$block}#{$editable}:where(:not(#{$facts})) #{box($block)} {
+    border-color: token($block, box-hover-border-color);
+  }
+
+  .cck-#{$block}#{$editable}:where(#{$facts}) #{box($block)} {
+    $fill: state.layer(token($block, box-checked-bg), token($block, box-mark-color), token($block, hover-mix));
+
+    border-color: $fill;
+    background-color: $fill;
+  }
+
+  .cck-#{$block}#{$pressed}:where(#{$facts}) #{box($block)} {
+    $fill: state.layer(token($block, box-checked-bg), token($block, box-mark-color), token($block, active-mix));
+
+    border-color: $fill;
+    background-color: $fill;
+  }
+}
+
+// The control keeps its look and fades as a whole: the box and the label.
 @mixin disabled($block) {
   .cck-#{$block}#{disabled($block)} {
+    opacity: token($block, disabled-opacity);
+
     #{box($block)} {
-      border-color: token($block, box-disabled-border-color);
-      background-color: token($block, box-disabled-bg);
-
-      &::after {
-        background-color: token($block, box-disabled-mark-color);
-      }
+      box-shadow: none;
     }
 
-    #{label($block)} {
-      color: token($block, label-disabled-text-color);
-      cursor: default;
-    }
-
+    #{label($block)},
     #{input($block)} {
-      cursor: default;
+      cursor: not-allowed;
     }
   }
 }
@@ -161,17 +194,14 @@
   }
 }
 
+// The box and its mark fade between states; the mixin holds the reduced-motion guard.
 @mixin motion($block) {
-  @media (prefers-reduced-motion: no-preference) {
-    .cck-#{$block}__background {
-      transition-property: background-color, border-color;
-      transition-duration: token($block, motion-duration);
-    }
+  .cck-#{$block}__background {
+    @include state.transition(background-color, border-color, box-shadow);
+  }
 
-    .cck-#{$block}__background::after {
-      transition-property: opacity;
-      transition-duration: token($block, motion-duration);
-    }
+  .cck-#{$block}__background::after {
+    @include state.transition(opacity);
   }
 }
 
@@ -197,7 +227,10 @@
 
     @content;
 
+    // System colors tell the disabled state, so the control does not fade.
     .cck-#{$block}#{disabled($block)} {
+      opacity: 1;
+
       #{box($block)} {
         border-color: GrayText;
         background-color: Canvas;

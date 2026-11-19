@@ -14,8 +14,8 @@ import type { RootOption } from './option-types';
 const AVATAR_POSITIONS = ['left', 'top', 'right', 'bottom'] as const;
 /** Name and description on two lines (vertical) or side by side (horizontal); no token collection holds it. */
 const LABEL_ALIGNMENTS = ['horizontal', 'vertical'] as const;
-/** The fallback is the neutral dark family the design's frames use; the type makes a value that is not a mode an error. */
-const AVATAR_DEFAULT_COLOR: ThemeActiveColorMode = 'contrast';
+/** The fallback is the quiet grey family; the type makes a value that is not a mode an error. */
+const AVATAR_DEFAULT_COLOR: ThemeActiveColorMode = 'neutral';
 
 /**
  * The options of the three avatar components; an avatar's own size wins over the one of its container. Not an
@@ -48,7 +48,7 @@ export const avatarComponents: AvatarComponentsConfig = {
       values: themeActiveColorModes,
       default: AVATAR_DEFAULT_COLOR,
       partNames: ['root'],
-      description: 'Colour of the fallback; the default is contrast.',
+      description: 'Colour of the fallback; the default is neutral.',
     },
   },
   'avatar-group': {

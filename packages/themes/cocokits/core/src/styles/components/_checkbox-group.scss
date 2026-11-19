@@ -1,7 +1,7 @@
 // Checkbox group rules: layout only. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // The group is a `div` with `role="group"`; the checkboxes keep their own look, size and 24 by 24 target.
 @mixin rules {
-  // The checkboxes stack in a column; `--cck-checkbox-group-gap` is the space between them (12px).
+  // The checkboxes stack in a column; `--cck-checkbox-group-gap` is the space between them.
   .cck-checkbox-group {
     box-sizing: border-box;
     display: flex;
