@@ -93,6 +93,20 @@ function docsDataTarget(): Target {
   return { executor: '@cocokits/workspace:docs-data', options: { source: 'theme' } };
 }
 
+/**
+ * The API docs of a theme framework package: one `ApiDoc` per base component the theme has a part for, in
+ * `dist/api-docs/theme-<theme>/<framework>`. The base package's `api-docs` runs first; its files are what the theme
+ * parts are matched against.
+ */
+function themeApiDocsTarget(spec: PackageSpec): Target {
+  return {
+    executor: '@cocokits/workspace:api-docs-theme',
+    dependsOn: ['^build', '^api-docs'],
+    outputs: [`{workspaceRoot}/dist/api-docs/theme-${spec.theme ?? ''}/${spec.framework ?? ''}`],
+    options: { framework: spec.framework },
+  };
+}
+
 /** The publish checks; their command, cache and `dependsOn` come from the defaults in nx.json. */
 const PUBLISH_CHECKS: Record<string, Target> = { pack: {}, publint: {}, attw: {} };
 
@@ -102,6 +116,7 @@ function targetsFor(spec: PackageSpec, offset: string): Record<string, Target> {
     build: buildTarget(spec, offset),
     ...(spec.kind === 'theme-core' ? { 'docs-data': docsDataTarget() } : {}),
     typecheck: typecheckTarget(spec),
+    ...(spec.kind === 'theme-fw' ? { 'api-docs': themeApiDocsTarget(spec) } : {}),
     ...PUBLISH_CHECKS,
   };
 }

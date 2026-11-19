@@ -295,6 +295,75 @@ function componentsOf(checker: ts.TypeChecker, file: ts.SourceFile): ts.Symbol[]
 }
 
 /**
+ * The part of one exported component: its props, events, slots and methods, from the checker. `name` is the component
+ * of the entry point (the prefix of the semantic ids).
+ */
+export function partOfComponent(
+  program: ts.Program,
+  checker: ts.TypeChecker,
+  name: string,
+  component: ts.Symbol,
+  problems: string[],
+): ApiPartJson {
+  const { description: text, tags } = docOfSymbol(checker, component);
+  const part = checkPartDoc(component.name, tags, text, problems);
+  // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
+  const idScope = part === 'root' || part === '' ? name : `${name}.${part}`;
+  const propsType = propsTypeOf(checker, component);
+  // A props type that is a union (`type: 'single'` or `type: 'multiple'`) is read branch by branch and merged.
+  const branches = propsType?.isUnion() ? propsType.types : propsType === undefined ? [] : [propsType];
+  const membersOf = (list: readonly ts.Symbol[], asSlot: boolean): ApiMemberJson[] =>
+    list
+      .map((symbol) => propOf(program, checker, idScope, component.name, symbol, problems, asSlot))
+      .filter((member): member is ApiMemberJson => member !== undefined);
+  const perBranch = branches.map((branch) => branch.getProperties());
+  const props = mergeBranches(
+    perBranch.map((symbols) =>
+      membersOf(
+        symbols.filter((symbol) => symbol.name !== 'ref' && !isSlot(symbol) && !isEvent(symbol)),
+        false,
+      ),
+    ),
+  );
+  const events = mergeBranches(perBranch.map((symbols) => membersOf(symbols.filter(isEvent), false)));
+  const slots =
+    perBranch[0]?.filter(isSlot).flatMap((symbol): ApiSlotJson[] => {
+      const [member] = membersOf([symbol], true);
+      const fn = scopedSlotType(symbol);
+      if (member === undefined) return [];
+      return fn === undefined
+        ? [member]
+        : [
+            placeAt(
+              {
+                ...member,
+                scope: scopeOf(
+                  checker,
+                  fn,
+                  `${component.name}.${symbol.name}`,
+                  problems,
+                  docOfSymbol(checker, symbol).tags,
+                ),
+              },
+              placeOf(member),
+            ),
+          ];
+    }) ?? [];
+  return {
+    name: component.name,
+    semanticId: `${name}.${part}`,
+    anatomyPart: part,
+    ...frameworkOnlyOf(component.name, tags, problems),
+    description: paragraphsOf(text)[0] ?? '',
+    ...partDocFields(text, tags),
+    props,
+    events,
+    slots,
+    methods: methodsOf(program, checker, idScope, component.name, perBranch[0] ?? [], problems),
+  };
+}
+
+/**
  * The `ApiDoc` of every React entry point of a package (`src/<component>/index.ts`), from the TypeScript checker. Each
  * exported component is a part. Its props are the properties of its props type that a CocoKits file declares, so the
  * native button props and `ref` it inherits are not listed, and a prop the machine documents (`Pick<MachineProps, ...>`)
@@ -316,64 +385,7 @@ export function extractReactApiDocs(_root: string, projectRoot: string, tsConfig
     const source = program.getSourceFile(file);
     const components = source ? componentsOf(checker, source) : [];
     if (components.length === 0) problems.push(`${name}: the entry point exports no component`);
-    const parts = components.map((component): ApiPartJson => {
-      const { description: text, tags } = docOfSymbol(checker, component);
-      const part = checkPartDoc(component.name, tags, text, problems);
-      // A part other than the root carries its name in the semantic id of its members (`tabs.trigger.value`).
-      const idScope = part === 'root' || part === '' ? name : `${name}.${part}`;
-      const propsType = propsTypeOf(checker, component);
-      // A props type that is a union (`type: 'single'` or `type: 'multiple'`) is read branch by branch and merged.
-      const branches = propsType?.isUnion() ? propsType.types : propsType === undefined ? [] : [propsType];
-      const membersOf = (list: readonly ts.Symbol[], asSlot: boolean): ApiMemberJson[] =>
-        list
-          .map((symbol) => propOf(program, checker, idScope, component.name, symbol, problems, asSlot))
-          .filter((member): member is ApiMemberJson => member !== undefined);
-      const perBranch = branches.map((branch) => branch.getProperties());
-      const props = mergeBranches(
-        perBranch.map((symbols) =>
-          membersOf(
-            symbols.filter((symbol) => symbol.name !== 'ref' && !isSlot(symbol) && !isEvent(symbol)),
-            false,
-          ),
-        ),
-      );
-      const events = mergeBranches(perBranch.map((symbols) => membersOf(symbols.filter(isEvent), false)));
-      const slots =
-        perBranch[0]?.filter(isSlot).flatMap((symbol): ApiSlotJson[] => {
-          const [member] = membersOf([symbol], true);
-          const fn = scopedSlotType(symbol);
-          if (member === undefined) return [];
-          return fn === undefined
-            ? [member]
-            : [
-                placeAt(
-                  {
-                    ...member,
-                    scope: scopeOf(
-                      checker,
-                      fn,
-                      `${component.name}.${symbol.name}`,
-                      problems,
-                      docOfSymbol(checker, symbol).tags,
-                    ),
-                  },
-                  placeOf(member),
-                ),
-              ];
-        }) ?? [];
-      return {
-        name: component.name,
-        semanticId: `${name}.${part}`,
-        anatomyPart: part,
-        ...frameworkOnlyOf(component.name, tags, problems),
-        description: paragraphsOf(text)[0] ?? '',
-        ...partDocFields(text, tags),
-        props,
-        events,
-        slots,
-        methods: methodsOf(program, checker, idScope, component.name, perBranch[0] ?? [], problems),
-      };
-    });
+    const parts = components.map((component) => partOfComponent(program, checker, name, component, problems));
     const partNames = new Set(parts.map((part) => `${part.name}Props`));
     const types =
       source === undefined

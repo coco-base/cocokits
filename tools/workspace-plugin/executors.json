@@ -26,6 +26,11 @@
       "schema": "./src/executors/api-docs-common/schema.json",
       "description": "Extract the API of every Vue entry point of a package from its TSDoc, through vue-component-meta, into ApiDoc JSON."
     },
+    "api-docs-theme": {
+      "implementation": "./src/executors/api-docs-theme/executor",
+      "schema": "./src/executors/api-docs-theme/schema.json",
+      "description": "Extract the API of the theme layer of one framework (a flat package) from its TSDoc into ApiDoc JSON, one file per base component."
+    },
     "api-docs-ts": {
       "implementation": "./src/executors/api-docs-ts/executor",
       "schema": "./src/executors/api-docs-common/schema.json",

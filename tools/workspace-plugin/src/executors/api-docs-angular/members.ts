@@ -15,6 +15,8 @@ export interface MemberInfo {
   readonly required: boolean;
   /** The class that declares the member the reader sees (the most derived declaration). */
   readonly declaredIn: string;
+  /** The file of that class. */
+  readonly declaredFile: string;
 }
 
 interface Declaration {
@@ -189,6 +191,7 @@ export function publicMembersOf(checker: ts.TypeChecker, cls: ts.ClassDeclaratio
         kind: declaration.kind,
         required: declaration.required,
         declaredIn,
+        declaredFile: current.getSourceFile().fileName,
       });
     }
   }

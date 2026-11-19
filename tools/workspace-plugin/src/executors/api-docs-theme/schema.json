@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Theme API docs executor",
+  "description": "Extract the API of the theme layer of one framework (a flat package) from its TSDoc into ApiDoc JSON, one file per base component.",
+  "type": "object",
+  "properties": {
+    "framework": {
+      "type": "string",
+      "enum": ["angular", "react", "vue"],
+      "description": "The framework of the theme package."
+    },
+    "outputDir": {
+      "type": "string",
+      "description": "The output folder, relative to the workspace root. Its JSON files are replaced. Default: dist/api-docs/theme-<theme>/<framework>."
+    },
+    "baseDir": {
+      "type": "string",
+      "default": "{workspaceRoot}/dist/api-docs/{framework}",
+      "description": "The folder of the base ApiDoc files of the framework, which the theme parts are matched against."
+    },
+    "tsConfig": {
+      "type": "string",
+      "default": "{projectRoot}/tsconfig.lib.json",
+      "description": "The tsconfig of the package, relative to the workspace root."
+    }
+  },
+  "required": ["framework"],
+  "additionalProperties": false
+}
