@@ -1,27 +1,45 @@
+@use '../state';
+
 // Chip list rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-chip-list-* tokens (its size mode on the root, the rest from the structure). The chips the
-// list renders keep the size of a Chip: the list's size sizes its own row and text box. A standalone
-// list draws its own box as the standalone Input does; inside a FormField input wrapper the wrapper draws the box
+// list renders take the size of the list. A standalone
+// list draws its own box as the standalone Input does: at least as high as an Input of its size, and higher when its
+// chips wrap. The block padding centres one row of chips in that height, so every further row keeps the same inset
+// from the border. Inside a FormField input wrapper the wrapper draws the box
 // (_form-field.scss) and the list is borderless. State rules keep the specificity of the base rule (`:where()`), so
-// the wrapper reset in _form-field.scss always wins and source order decides between the states. The list sets
-// `display`, so it restates its `[hidden]`.
+// the wrapper reset below always wins and source order decides between the states. The list sets
+// `display`, so it restates its `[hidden]`. Focus is the border in the focus colour and a halo around the box, while
+// its text box has the focus; `--_focus` is that colour, which an invalid list replaces.
 @mixin rules {
   .cck-chip-list {
+    --_focus: var(--cck-chip-list-focus-color);
+
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--cck-chip-list-gap);
-    padding-block: var(--cck-chip-list-padding-block);
+    // A list that is a flex or grid item is not stretched by a long chip.
+    min-inline-size: 0;
+    min-block-size: var(--cck-chip-list-height);
+    // The space a row of chips leaves in the height of the box, half above and half below, inside the border.
+    padding-block: calc(
+      (var(--cck-chip-list-height) - var(--cck-chip-list-chip-height)) / 2 - var(--cck-chip-list-border-width)
+    );
     padding-inline: var(--cck-chip-list-padding-inline);
     border: var(--cck-chip-list-border-width) solid var(--cck-chip-list-border-color);
-    border-radius: var(--cck-chip-list-radius);
+    // The radius of a control, at most half the height of a one-row box: a box whose chips wrap keeps the corners
+    // of the one-row box and is no capsule when the radius is a full pill.
+    border-radius: min(var(--cck-chip-list-radius), calc(var(--cck-chip-list-height) / 2));
     background-color: var(--cck-chip-list-bg);
+    box-shadow: var(--cck-chip-list-shadow);
     color: var(--cck-chip-list-text-color);
     font-family: var(--cck-chip-list-font-family);
     font-size: var(--cck-chip-list-font-size);
     line-height: var(--cck-chip-list-line-height);
     letter-spacing: var(--cck-chip-list-letter-spacing);
+
+    @include state.transition(background-color, border-color, box-shadow);
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {
@@ -30,52 +48,55 @@
 
     &:where(:hover) {
       border-color: var(--cck-chip-list-hover-border-color);
-      background-color: var(--cck-chip-list-hover-bg);
     }
 
     &:where([data-invalid]):where([data-touched], [data-submitted]) {
+      --_focus: var(--cck-chip-list-invalid-border-color);
+
       border-color: var(--cck-chip-list-invalid-border-color);
     }
 
     &:where([data-readonly]) {
       background-color: var(--cck-chip-list-readonly-bg);
-      // A dashed border tells it from an editable box without color, also in forced colors.
-      border-style: dashed;
     }
 
-    // After the other states, so it wins at equal specificity.
-    &:where([data-disabled]) {
-      border-color: var(--cck-chip-list-disabled-border-color);
-      background-color: var(--cck-chip-list-disabled-bg);
-      color: var(--cck-chip-list-disabled-text-color);
+    // After the other states, so it wins at equal specificity. The list keeps its look and fades. The native state
+    // covers a list in a `<fieldset disabled>`, which the root does not tell.
+    &:where([data-disabled], :has(> .cck-chip-list__input:disabled)) {
+      border-color: var(--cck-chip-list-border-color);
+      opacity: var(--cck-chip-list-disabled-opacity);
+      cursor: not-allowed;
     }
 
-    // The box shows the focus of the text box inside it.
-    &:focus-within {
-      outline: var(--cck-chip-list-focus-width) solid var(--cck-chip-list-focus-color);
-      outline-offset: var(--cck-chip-list-focus-offset);
+    // The box shows the focus of the text box inside it; a chip shows its own ring.
+    &:has(> .cck-chip-list__input:focus-visible) {
+      border-color: var(--_focus);
+      box-shadow: 0 0 0 var(--cck-chip-list-focus-ring-width)
+        state.tint(var(--_focus), var(--cck-chip-list-focus-ring-mix));
     }
   }
 
-  // In a field the wrapper holds the box and its focus ring, so the list keeps no box of its own. The box keeps the
-  // height of the field: the list's block padding is its own Size token, which centres one row of its text box in
-  // it. Wrapped rows grow the box.
+  // In a field the wrapper holds the box, its states and its focus halo, so the list keeps no box of its own. It
+  // keeps its block padding, where the border of the wrapper takes the place of its own: one row is centred in a box
+  // as high as the field and wrapped rows grow the box.
   .cck-form-field__input-wrapper > .cck-chip-list {
     flex: 1;
     min-inline-size: 0;
-    padding-block: var(--cck-chip-list-inset-padding-block);
+    min-block-size: 0;
     padding-inline: 0;
     border: 0;
     border-radius: 0;
     background-color: transparent;
+    box-shadow: none;
+    opacity: 1;
 
-    &:focus-within {
-      outline: none;
+    &:has(> .cck-chip-list__input:focus-visible) {
+      box-shadow: none;
     }
   }
 
-  // The chips take the size of the list. Chip tokens beat any rule of this sheet, so the properties are set here from the
-  // list's own size tokens, which alias the same steps.
+  // The chips take the size of the list. Chip tokens beat any rule of this sheet, so the properties are set here
+  // from the list's own size tokens, which alias the steps of the Chip sizes that fit the box.
   .cck-chip-list > .cck-chip {
     block-size: var(--cck-chip-list-chip-height);
     gap: var(--cck-chip-list-chip-gap);
@@ -84,6 +105,18 @@
     font-size: var(--cck-chip-list-chip-font-size);
     line-height: var(--cck-chip-list-chip-line-height);
     letter-spacing: var(--cck-chip-list-chip-letter-spacing);
+  }
+
+  // The chips of a read-only or disabled list are disabled chips. The list shows the state: a disabled list fades
+  // as a whole and gives its chips its cursor, and a read-only one keeps its chips readable, on a fill that stands
+  // out from the read-only box.
+  .cck-chip-list > .cck-chip[data-disabled] {
+    opacity: 1;
+    cursor: inherit;
+  }
+
+  .cck-chip-list:where([data-readonly]) > .cck-chip {
+    background-color: var(--cck-chip-list-readonly-chip-bg);
   }
 
   .cck-chip-list > .cck-chip > .cck-chip__check {
@@ -118,8 +151,8 @@
       opacity: 1;
     }
 
-    &:where(:disabled, [data-disabled])::placeholder {
-      color: var(--cck-chip-list-disabled-text-color);
+    &:where(:disabled, [data-disabled]) {
+      cursor: not-allowed;
     }
   }
 
@@ -127,14 +160,27 @@
     .cck-chip-list {
       border-color: CanvasText;
 
-      &:where([data-disabled]) {
-        border-color: GrayText;
-        color: GrayText;
+      // The fill is dropped, so a dashed border tells a read-only box from an editable one.
+      &:where([data-readonly]) {
+        border-style: dashed;
       }
 
-      &:focus-within {
-        outline-color: Highlight;
+      &:where([data-disabled], :has(> .cck-chip-list__input:disabled)) {
+        border-style: solid;
+        border-color: GrayText;
+        color: GrayText;
+        opacity: 1;
       }
+
+      // The halo is a shadow, which forced colors drop: an outline takes its place.
+      &:has(> .cck-chip-list__input:focus-visible) {
+        border-color: Highlight;
+        outline: var(--cck-chip-list-focus-ring-width) solid Highlight;
+      }
+    }
+
+    .cck-form-field__input-wrapper > .cck-chip-list:has(> .cck-chip-list__input:focus-visible) {
+      outline: none;
     }
   }
 }

@@ -1,3 +1,5 @@
+@use '../state';
+
 // Textarea rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // A standalone Textarea draws its own box at its size. Inside a FormField input wrapper the wrapper draws the
 // box (_form-field.scss) and the Textarea is borderless and fills it. It keeps its own padding-block, so its scroll
@@ -5,16 +7,34 @@
 // Textarea sets no `display`,
 // so the native `hidden` attribute needs no restatement. State rules keep the specificity of the
 // base rule (`:where()`), so the wrapper reset below always wins and source order decides between
-// the states.
+// the states. Focus is the border in the focus colour and a halo around the box; `--_focus` is that colour, which
+// an invalid Textarea replaces.
+
+// The three columns and rows of the dots of the resize grip: the first sits at the inset from the start of the
+// handle, the next ones one gap further each.
+$grip-1: var(--cck-textarea-grip-inset);
+$grip-2: calc(var(--cck-textarea-grip-inset) + var(--cck-textarea-grip-gap));
+$grip-3: calc(var(--cck-textarea-grip-inset) + 2 * var(--cck-textarea-grip-gap));
+
+// One dot of the grip at a column and a row: a hairline in radius, with a soft edge of half a hairline.
+@function grip-dot($x, $y) {
+  @return radial-gradient(circle at #{$x} #{$y}, var(--cck-textarea-grip-color) 1px, transparent calc(1px * 1.5));
+}
+
 @mixin rules {
   .cck-textarea {
+    --_focus: var(--cck-textarea-focus-color);
+
     box-sizing: border-box;
     margin: 0;
     padding-block: var(--cck-textarea-padding-block);
     padding-inline: var(--cck-textarea-padding-inline);
     border: var(--cck-textarea-border-width) solid var(--cck-textarea-border-color);
-    border-radius: var(--cck-textarea-radius);
+    // The corner of a control, at most half the height of a one-line control: a box of several lines is no capsule
+    // in the pill radius mode.
+    border-radius: min(var(--cck-textarea-radius), calc(var(--cck-textarea-control-height) / 2));
     background-color: var(--cck-textarea-bg);
+    box-shadow: var(--cck-textarea-shadow);
     color: var(--cck-textarea-text-color);
     font-family: var(--cck-textarea-font-family);
     font-size: var(--cck-textarea-font-size);
@@ -24,6 +44,8 @@
     // An inline-block box would leave a gap under it.
     vertical-align: top;
 
+    @include state.transition(background-color, border-color, box-shadow);
+
     &::placeholder {
       color: var(--cck-textarea-placeholder-color);
       opacity: 1;
@@ -31,28 +53,24 @@
 
     &:where(:hover) {
       border-color: var(--cck-textarea-hover-border-color);
-      background-color: var(--cck-textarea-hover-bg);
     }
 
     &:where([data-invalid]):where([data-touched], [data-submitted]) {
+      --_focus: var(--cck-textarea-invalid-border-color);
+
       border-color: var(--cck-textarea-invalid-border-color);
     }
 
     &:where([data-readonly]) {
       background-color: var(--cck-textarea-readonly-bg);
-      // A dashed border tells it from an editable box without color, also in forced colors.
-      border-style: dashed;
     }
 
-    // After the other states, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`.
+    // After the other states, so it wins at equal specificity. `:disabled` covers `<fieldset disabled>`. The
+    // Textarea keeps its look and fades.
     &:where([data-disabled], :disabled) {
-      border-color: var(--cck-textarea-disabled-border-color);
-      background-color: var(--cck-textarea-disabled-bg);
-      color: var(--cck-textarea-disabled-text-color);
-
-      &::placeholder {
-        color: var(--cck-textarea-disabled-text-color);
-      }
+      border-color: var(--cck-textarea-border-color);
+      opacity: var(--cck-textarea-disabled-opacity);
+      cursor: not-allowed;
     }
 
     // The grip shows only when the theme's `resize` option gives a direction.
@@ -71,26 +89,36 @@
     // Six dots in a triangle: Chromium and Safari draw them; other browsers keep their native handle.
     &::-webkit-resizer {
       background:
-        radial-gradient(circle at 8px 2px, var(--cck-textarea-grip-color) 1px, transparent 1.5px),
-        radial-gradient(circle at 5px 5px, var(--cck-textarea-grip-color) 1px, transparent 1.5px),
-        radial-gradient(circle at 8px 5px, var(--cck-textarea-grip-color) 1px, transparent 1.5px),
-        radial-gradient(circle at 2px 8px, var(--cck-textarea-grip-color) 1px, transparent 1.5px),
-        radial-gradient(circle at 5px 8px, var(--cck-textarea-grip-color) 1px, transparent 1.5px),
-        radial-gradient(circle at 8px 8px, var(--cck-textarea-grip-color) 1px, transparent 1.5px);
+        grip-dot($grip-3, $grip-1), grip-dot($grip-2, $grip-2), grip-dot($grip-3, $grip-2), grip-dot($grip-1, $grip-3),
+        grip-dot($grip-2, $grip-3), grip-dot($grip-3, $grip-3);
     }
 
     &:not([data-auto-resize]) {
       min-block-size: var(--cck-textarea-min-height);
     }
 
+    // The box reports the room of 20 characters, the native default, as its own width instead of the one the browser
+    // measures, so a Textarea that grows with its content is as wide as one that does not: `field-sizing` follows
+    // the content on both axes and the containment takes the inline one back. Both kinds still stretch in a layout
+    // and take a width the author sets. A `cols` attribute keeps its meaning on a Textarea that does not grow.
+    // Firefox applies the containment only to a Textarea that grows, so one that does not keeps its native width there.
+    @supports (contain-intrinsic-inline-size: none) {
+      &:where(:not([cols]), [data-auto-resize]) {
+        contain: inline-size;
+        contain-intrinsic-inline-size: calc(20 * 1ch);
+      }
+    }
+
     &:focus-visible {
-      outline: var(--cck-textarea-focus-width) solid var(--cck-textarea-focus-color);
-      outline-offset: var(--cck-textarea-focus-offset);
+      outline: none;
+      border-color: var(--_focus);
+      box-shadow: 0 0 0 var(--cck-textarea-focus-ring-width)
+        state.tint(var(--_focus), var(--cck-textarea-focus-ring-mix));
     }
 
     // Grows with its content between the min and max rows (documented custom properties, defaults 2
     // and 5). The bounds count the padding and the border. Where `field-sizing` is unsupported, the
-    // `rows` height and the scrolling remain.
+    // `rows` height and the scrolling remain. Only the height follows the text: the containment above holds the width.
     &[data-auto-resize] {
       field-sizing: content;
       resize: none;
@@ -108,7 +136,7 @@
     }
   }
 
-  // In a field the wrapper holds the box and its focus ring, so the Textarea keeps no box of its own.
+  // In a field the wrapper holds the box, its states and its focus halo, so the Textarea keeps no box of its own.
   .cck-form-field__input-wrapper > .cck-textarea {
     flex: 1;
     min-inline-size: 0;
@@ -116,9 +144,31 @@
     border: 0;
     border-radius: 0;
     background-color: transparent;
+    box-shadow: none;
+    opacity: 1;
+    // The field gives the width, so the Textarea reports the width the browser measures.
+    contain: none;
 
     &:focus-visible {
-      outline: none;
+      box-shadow: none;
+    }
+
+    // The wrapper draws the border, so the bounds leave it out: the box is as high as a standalone Textarea.
+    &:not([data-auto-resize]) {
+      min-block-size: calc(var(--cck-textarea-min-height) - 2 * var(--cck-textarea-border-width));
+    }
+
+    &[data-auto-resize] {
+      min-block-size: max(
+        calc(var(--cck-textarea-min-height) - 2 * var(--cck-textarea-border-width)),
+        calc(var(--cck-textarea-min-rows, 2) * 1lh + 2 * var(--cck-textarea-padding-block))
+      );
+      max-block-size: calc(var(--cck-textarea-max-rows, 5) * 1lh + 2 * var(--cck-textarea-padding-block));
+    }
+
+    // At the end of the box it holds the end padding, so its resize handle and its scrollbar sit in the corner.
+    &:last-child {
+      padding-inline-end: var(--cck-textarea-padding-inline);
     }
   }
 
@@ -126,18 +176,29 @@
     .cck-textarea {
       border-color: CanvasText;
 
+      // The fill is dropped, so a dashed border tells a read-only box from an editable one.
+      &:where([data-readonly]) {
+        border-style: dashed;
+      }
+
       &:where([data-disabled], :disabled) {
         border-color: GrayText;
         color: GrayText;
+        opacity: 1;
 
         &::placeholder {
           color: GrayText;
         }
       }
 
+      // The halo is a shadow, which forced colors drop: an outline takes its place.
       &:focus-visible {
-        outline-color: Highlight;
+        outline: var(--cck-textarea-focus-ring-width) solid Highlight;
       }
+    }
+
+    .cck-form-field__input-wrapper > .cck-textarea:focus-visible {
+      outline: none;
     }
   }
 }

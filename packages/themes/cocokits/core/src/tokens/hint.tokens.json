@@ -8,12 +8,13 @@
       "defaultMode": "Default",
       "modes": ["Default"],
       "tokens": [
-        { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#on-surface/3}" } },
-        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
-        { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-md/font-family}" } },
-        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-md/font-size}" } },
-        { "name": "line-height", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Theme / Typography#text-md/line-height}" } },
-        { "name": "letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "Default": "{Theme / Typography#text-md/letter-spacing}" } },
+        { "name": "text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/3}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-3}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Core / Size#size-14}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "Default": "{Theme / Typography#text-xs/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Typography#text-xs/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Theme / Typography#text-xs/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "Default": "{Theme / Typography#text-xs/letter-spacing}" } },
         { "name": "font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/regular}" } }
       ]
     }
