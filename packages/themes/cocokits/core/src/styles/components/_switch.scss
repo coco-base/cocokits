@@ -116,6 +116,7 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
 
   // The theme draws no halo behind the thumb.
   .cck-switch__backdrop {
+    box-sizing: border-box;
     display: none;
   }
 
