@@ -9,23 +9,23 @@ describe('overlay family: one gap, the Popover look (popover-02, -03, -04, -09; 
     ['.cck-popover__content', 'popover'],
     ['.cck-menu__content', 'menu'],
     ['.cck-tooltip__content', 'tooltip'],
-  ])('%s has an 8px side offset', (root, block) => {
-    expect(structureTokenOf(root, `${block}-side-offset`)).toBe(ref('spacing-4'));
+  ])('%s has a side offset of spacing-3 (4px in Normal)', (root, block) => {
+    expect(structureTokenOf(root, `${block}-side-offset`)).toBe(ref('spacing-3'));
   });
 
-  it('gives the Popover its look from existing tokens: 12px padding, border/2, shadow-md, radius kept', () => {
+  it('gives the Popover its look from existing tokens: spacing-6 padding, border/1, shadow-lg, radius-lg', () => {
     const own = (name: string): string | undefined => structureTokenOf('.cck-popover__content', `popover-${name}`);
-    expect(own('padding')).toBe(ref('spacing-5'));
-    expect(own('border-color')).toBe(ref('border-2'));
-    expect(own('shadow')).toBe(ref('shadow-md'));
+    expect(own('padding')).toBe(ref('spacing-6'));
+    expect(own('border-color')).toBe(ref('border-1'));
+    expect(own('shadow')).toBe(ref('shadow-lg'));
     expect(own('radius')).toBe(ref('radius-lg'));
     expect(structureTokenOf('.cck-tooltip__content', 'tooltip-radius')).toBe(ref('radius-sm'));
   });
 
   it('continues the border along the two sloping sides of the Popover arrow only', () => {
     const own = (name: string): string | undefined => structureTokenOf('.cck-popover__content', `popover-${name}`);
-    expect(own('arrow-border-color')).toBe(ref('border-2'));
-    expect(own('arrow-border-width')).toBe(ref('size-1'));
+    expect(own('arrow-border-color')).toBe(ref('border-1'));
+    expect(own('arrow-border-width')).toBe(ref('border-width-1'));
     const stroke = declarationsOf(styles, '.cck-popover__arrow svg > *') ?? '';
     expect(stroke).toContain('stroke: var(--cck-popover-arrow-border-color)');
     expect(stroke).toContain('stroke-width: var(--cck-popover-arrow-border-width)');
@@ -50,7 +50,7 @@ describe('plain-words descriptions (avatar-08, badge-04, -05, button-10)', () =>
   const { avatar, badge, button } = cocokitsThemeConfig.components;
 
   it.each([
-    ['avatar color', avatar.color.description, 'Colour of the fallback; the default is contrast.'],
+    ['avatar color', avatar.color.description, 'Colour of the fallback; the default is neutral.'],
     ['badge color', badge.color.description, 'Seven colours.'],
     ['badge size', badge.size.description, 'Four sizes.'],
     ['badge variant', badge.variant.description, 'Pill or small radius.'],

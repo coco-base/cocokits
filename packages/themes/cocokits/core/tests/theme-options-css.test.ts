@@ -4,21 +4,28 @@ import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf, tokensCss } f
 /** `px` is a literal value of the collection, anything else an alias of a Core or Theme token. */
 const valueOf = (value: string): string => (value.endsWith('px') ? value : ref(value));
 
+/** The `control-*` value per density mode (`normal`, `compact`, `comfortable`). */
+const density = (name: string): (string | undefined)[] =>
+  ['normal', 'compact', 'comfortable'].map((mode) => structureTokenOf(`[data-cck-spacing=${mode}]`, name));
+
 /** The new Size modes of the theme options: every row is a token of a mode the design has and the theme lacked. */
 describe('new size modes', () => {
-  const text = (step: string): [string, string][] =>
-    ['font-family', 'font-size', 'line-height', 'letter-spacing'].map((part) => [part, `text-${step}-${part}`]);
+  const text = (prefix: string, step: string): [string, string][] =>
+    ['font-family', 'font-size', 'line-height', 'letter-spacing'].map((part) => [
+      `${prefix}${part}`,
+      `text-${step}-${part}`,
+    ]);
   const rows: readonly [string, string, string, Record<string, string>][] = [
     [
       'Button xs',
       '.cck-button',
       'xs',
       {
-        'button-height': 'size-32',
+        'button-height': 'control-xs',
         'button-padding-inline': 'spacing-4',
-        'button-gap': 'spacing-2',
-        'button-icon-size': 'size-20',
-        ...Object.fromEntries(text('sm').map(([part, value]) => [`button-label-${part}`, value])),
+        'button-gap': 'spacing-3',
+        'button-icon-size': 'size-14',
+        ...Object.fromEntries(text('button-label-', 'xs')),
       },
     ],
     [
@@ -26,47 +33,41 @@ describe('new size modes', () => {
       '.cck-button',
       'xl',
       {
-        'button-height': 'size-56',
-        'button-padding-inline': 'spacing-6',
+        'button-height': 'control-xl',
+        'button-padding-inline': 'spacing-8',
         'button-gap': 'spacing-4',
-        'button-icon-size': 'size-32',
-        ...Object.fromEntries(text('lg').map(([part, value]) => [`button-label-${part}`, value])),
+        'button-icon-size': 'size-20',
+        ...Object.fromEntries(text('button-label-', 'md')),
       },
     ],
-    ['IconButton xs', '.cck-icon-button', 'xs', { 'icon-button-size': 'size-32', 'icon-button-icon-size': 'size-20' }],
-    ['IconButton xl', '.cck-icon-button', 'xl', { 'icon-button-size': 'size-56', 'icon-button-icon-size': 'size-32' }],
+    [
+      'IconButton xs',
+      '.cck-icon-button',
+      'xs',
+      { 'icon-button-size': 'control-xs', 'icon-button-icon-size': 'size-14' },
+    ],
+    [
+      'IconButton xl',
+      '.cck-icon-button',
+      'xl',
+      { 'icon-button-size': 'control-xl', 'icon-button-icon-size': 'size-20' },
+    ],
     [
       'Avatar xl',
       '.cck-avatar',
       'xl',
-      {
-        'avatar-size': 'size-56',
-        'avatar-fallback-font-size': 'text-lg-font-size',
-        'avatar-fallback-font-weight': 'font-weight-medium',
-      },
+      { 'avatar-size': 'control-xl', ...Object.fromEntries(text('avatar-fallback-', 'md')) },
     ],
-    [
-      'Avatar group xl',
-      '.cck-avatar-group',
-      'xl',
-      {
-        'avatar-group-overlap': 'size-16',
-        'avatar-group-ring-width': 'border-width-2',
-        'avatar-group-avatar-size': 'size-56',
-        'avatar-group-avatar-font-size': 'text-lg-font-size',
-      },
-    ],
+    ['Avatar group xl', '.cck-avatar-group', 'xl', { 'avatar-group-overlap': 'spacing-4' }],
     [
       'Avatar label xl',
       '.cck-avatar-label',
       'xl',
       {
         'avatar-label-gap': 'spacing-5',
-        'avatar-label-avatar-size': 'size-56',
-        'avatar-label-avatar-font-size': 'text-lg-font-size',
-        'avatar-label-font-size': 'text-lg-font-size',
-        'avatar-label-text-gap': 'spacing-3',
         'avatar-label-text-inline-gap': 'spacing-4',
+        ...Object.fromEntries(text('avatar-label-name-', 'md')),
+        ...Object.fromEntries(text('avatar-label-description-', 'sm')),
       },
     ],
     [
@@ -74,33 +75,31 @@ describe('new size modes', () => {
       '.cck-accordion',
       'lg',
       {
-        'accordion-trigger-height': 'size-64',
-        'accordion-trigger-padding-inline': 'spacing-5',
-        'accordion-trigger-padding-inline-start': 'spacing-6',
-        'accordion-content-padding-block-start': 'spacing-5',
-        'accordion-content-padding-inline': 'spacing-6',
-        'accordion-content-padding-block-end': 'spacing-7',
-        'accordion-gap': 'spacing-6',
-        'accordion-font-size': 'text-md-font-size',
+        'accordion-trigger-padding-block': 'spacing-7',
+        'accordion-padding-inline': 'spacing-6',
+        'accordion-content-padding-block-start': 'spacing-3',
+        'accordion-content-padding-block-end': 'spacing-6',
+        'accordion-icon-size': 'size-16',
+        ...Object.fromEntries(text('accordion-', 'sm')),
       },
     ],
     [
       'Switch sm rail',
       '.cck-switch',
       'sm',
-      { 'switch-rail-track-width': 'size-28', 'switch-rail-track-height': 'size-8' },
+      { 'switch-rail-track-width': 'size-24', 'switch-rail-track-height': 'size-6' },
     ],
     [
       'Switch md rail',
       '.cck-switch',
       'md',
-      { 'switch-rail-track-width': 'size-36', 'switch-rail-track-height': 'size-10' },
+      { 'switch-rail-track-width': 'size-32', 'switch-rail-track-height': 'size-8' },
     ],
     [
       'Switch lg rail',
       '.cck-switch',
       'lg',
-      { 'switch-rail-track-width': 'size-40', 'switch-rail-track-height': 'size-12' },
+      { 'switch-rail-track-width': 'size-40', 'switch-rail-track-height': 'size-10' },
     ],
   ];
 
@@ -108,12 +107,40 @@ describe('new size modes', () => {
     for (const [name, value] of Object.entries(tokens))
       expect(sizeTokenOf(root, mode, name), `${mode} ${name}`).toBe(valueOf(value));
   });
+
+  it('follows the density mode: control-xs and control-xl per Normal, Compact and Comfortable', () => {
+    expect(density('control-xs')).toEqual([ref('size-24'), ref('size-24'), ref('size-28')]);
+    expect(density('control-xl')).toEqual([ref('size-48'), ref('size-40'), ref('size-52')]);
+  });
+
+  it.each([
+    ['.cck-avatar', 'xl', 'avatar-fallback-font-weight'],
+    ['.cck-avatar-group', 'xl', 'avatar-group-ring-width'],
+    ['.cck-avatar-group', 'xl', 'avatar-group-avatar-size'],
+    ['.cck-avatar-label', 'xl', 'avatar-label-avatar-size'],
+    ['.cck-avatar-label', 'xl', 'avatar-label-font-size'],
+    ['.cck-avatar-label', 'xl', 'avatar-label-text-gap'],
+    ['.cck-accordion', 'lg', 'accordion-trigger-height'],
+    ['.cck-accordion', 'lg', 'accordion-trigger-padding-inline'],
+    ['.cck-accordion', 'lg', 'accordion-content-padding-inline'],
+    ['.cck-accordion', 'lg', 'accordion-gap'],
+  ])('%s %s has no size token %s', (root, mode, name) => {
+    expect(sizeTokenOf(root, mode, name)).toBeUndefined();
+  });
+
+  it.each([
+    ['.cck-avatar', 'avatar-fallback-font-weight', 'font-weight-medium'],
+    ['.cck-avatar-group', 'avatar-group-ring-width', 'border-width-2'],
+    ['.cck-avatar-label', 'avatar-label-name-font-weight', 'font-weight-medium'],
+  ])('%s holds %s, %s, in its structure collection', (root, name, value) => {
+    expect(structureTokenOf(root, name)).toBe(ref(value));
+  });
 });
 
 describe('avatar color', () => {
-  it('colours the fallback with the Active Color of its marker', () => {
-    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('color'));
-    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('on-color'));
+  it('colours the fallback with the Active Color container of its marker', () => {
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('container'));
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('on-container'));
   });
 });
 
@@ -150,10 +177,12 @@ describe('textarea resize', () => {
     expect(declarationsOf(css, '.cck-textarea:where([data-resize=both])')).toContain('resize: both');
   });
 
-  it('draws the six dot grip on the resizer, from the grip token', () => {
+  it('draws the six dot grip on the resizer, from the grip tokens', () => {
     const grip = declarationsOf(css, '.cck-textarea::-webkit-resizer') ?? '';
     expect(grip.match(/radial-gradient/g)).toHaveLength(6);
     expect(grip).toContain('var(--cck-textarea-grip-color)');
+    expect(grip).toContain('var(--cck-textarea-grip-inset)');
+    expect(grip).toContain('var(--cck-textarea-grip-gap)');
   });
 
   it('keeps the auto-resize rule, which has no handle either', () => {
@@ -175,9 +204,13 @@ describe('switch rail variant', () => {
     expect(css).not.toContain('data-variant=contained');
   });
 
-  it('keeps the thumb border in every state', () => {
-    expect(declarationsOf(css, '.cck-switch__thumb')).toContain(
-      'border: var(--cck-switch-thumb-border-width) solid var(--cck-switch-thumb-border-color)',
+  it('draws a thumb border on the rail thumb only, from the rail-thumb tokens', () => {
+    expect(declarationsOf(css, `${track} > .cck-switch__thumb`)).toContain(
+      'border: var(--cck-switch-rail-thumb-border-width) solid var(--cck-switch-rail-thumb-border-color)',
     );
+    expect(declarationsOf(css, '.cck-switch__thumb')).not.toMatch(/(^|[\s;])border:/);
+    expect(structureTokenOf('.cck-switch', 'switch-rail-thumb-border-width')).toBe(ref('border-width-1'));
+    expect(structureTokenOf('.cck-switch', 'switch-rail-thumb-border-color')).toBe(ref('border-3'));
+    expect(css).not.toContain('--cck-switch-thumb-border-');
   });
 });
