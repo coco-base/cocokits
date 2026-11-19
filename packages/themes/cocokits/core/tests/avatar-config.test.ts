@@ -53,7 +53,7 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
   it('resolves the defaults to data attributes on the root', () => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar')).root).toEqual({
       'data-size': 'md',
-      'data-cck-color': 'contrast',
+      'data-cck-color': 'neutral',
     });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-group')).root).toEqual({ 'data-size': 'md' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-label')).root).toEqual({
@@ -64,11 +64,11 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
   });
 
   it('describes the color option in plain words', () => {
-    expect(avatar.color.description).toBe('Colour of the fallback; the default is contrast.');
+    expect(avatar.color.description).toBe('Colour of the fallback; the default is neutral.');
   });
 
-  it('gives the avatar a color option from the Active Color modes, contrast by default', () => {
-    expect(avatar.color).toMatchObject({ attrName: 'cck-color', default: 'contrast', partNames: ['root'] });
+  it('gives the avatar a color option from the Active Color modes, neutral by default', () => {
+    expect(avatar.color).toMatchObject({ attrName: 'cck-color', default: 'neutral', partNames: ['root'] });
     expect(avatar.color.values).toBe(themeActiveColorModes);
     expect(avatar.color.values).toEqual(['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']);
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: 'danger', size: null }).root).toEqual({

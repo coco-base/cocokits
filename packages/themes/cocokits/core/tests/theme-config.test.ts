@@ -36,7 +36,7 @@ const badgeContainerAnatomy = defineAnatomy({
 
 describe('cocokitsThemeConfig button', () => {
   it.each([
-    ['variant', 'variant', 'primary', ['primary', 'outline', 'basic']],
+    ['variant', 'variant', 'primary', ['primary', 'soft', 'outline', 'basic']],
     ['color', 'cck-color', 'brand', ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']],
     ['size', 'size', 'md', ['xs', 'sm', 'md', 'lg', 'xl']],
   ] as const)('%s renders data-%s, defaults to %s', (option, attrName, fallback, values) => {
@@ -69,7 +69,7 @@ describe('cocokitsThemeConfig button', () => {
   });
 
   it('keeps the exact literal tuples in the type', () => {
-    expectTypeOf(button.variant.values).toEqualTypeOf<readonly ['primary', 'outline', 'basic']>();
+    expectTypeOf(button.variant.values).toEqualTypeOf<readonly ['primary', 'soft', 'outline', 'basic']>();
     expectTypeOf(button.color.values).toEqualTypeOf<
       readonly ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']
     >();
@@ -274,10 +274,11 @@ describe('cocokitsThemeConfig textarea', () => {
 describe.each(['checkbox', 'switch', 'radio'] as const)('cocokitsThemeConfig %s', (name) => {
   const options = cocokitsThemeConfig.components[name];
   const anatomy = defineAnatomy({ block: name, parts: { root: { name: 'Root', description: 'The root.' } } });
+  const colors = themeActiveColorModes.filter((mode) => name !== 'switch' || mode !== 'neutral');
 
   it.each([
     ['size', 'size', 'md', ['sm', 'md', 'lg']],
-    ['color', 'cck-color', 'brand', ['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']],
+    ['color', 'cck-color', 'brand', colors],
     ['labelPosition', 'label-position', 'after', ['after', 'before']],
   ] as const)('%s renders data-%s on the root, defaults to %s', (option, attrName, fallback, values) => {
     expect(options[option].attrName).toBe(attrName);
@@ -301,7 +302,9 @@ describe.each(['checkbox', 'switch', 'radio'] as const)('cocokitsThemeConfig %s'
   });
 
   it('takes the color values and default from the generated token modes', () => {
-    expect(options.color.values).toBe(themeActiveColorModes);
+    if (name === 'switch') expect(options.color.values).toEqual(colors);
+    else expect(options.color.values).toBe(themeActiveColorModes);
+    expect((options.color.values as readonly string[]).includes('neutral')).toBe(name !== 'switch');
     expect(options.color.default).toBe(themeActiveColorDefaultMode);
   });
 });
