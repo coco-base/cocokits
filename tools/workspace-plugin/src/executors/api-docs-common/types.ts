@@ -17,6 +17,8 @@ export interface ApiMemberJson {
   shared?: boolean;
   /** One entry per `@cckValue <literal> - <meaning>` tag: what each literal of the union means. */
   values?: ApiValueJson[];
+  /** Theme docs only: whether the file of the declaration is in the theme package (`theme`) or in the base (`base`). */
+  declaredIn?: 'theme' | 'base';
 }
 
 /** One literal of a union with its meaning, from a `@cckValue` tag. */
@@ -132,6 +134,13 @@ export interface ApiTypeJson {
 export interface ApiDocJson {
   component: string;
   framework: 'angular' | 'react' | 'vue' | 'ts';
+  /** Theme docs only: the theme the parts belong to (`cocokits`). */
+  theme?: string;
+  /**
+   * Theme docs only: the value exports of the theme package that belong to the component, as a template writes them
+   * (an Angular class, a Vue component, a React `Namespace.Part` or component), re-exported base parts included.
+   */
+  exports?: string[];
   parts: ApiPartJson[];
   /** Services, classes and constants of the entry point (Angular), and the functions and constants of a `ts` module. */
   symbols?: ApiSymbolJson[];

@@ -26,6 +26,7 @@ defineSlots<{
      * Whether the tooltip is open.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the open state of the root.
      * @remarks Slot prop: the open state of the root.
      */
     open: boolean;

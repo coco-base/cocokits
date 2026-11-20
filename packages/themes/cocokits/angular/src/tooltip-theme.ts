@@ -25,7 +25,11 @@ export type CckTooltipSize = TooltipOptions['size']['values'][number];
 export class CckTooltipTheme {
   /**
    * Padding, width and text of the bubble, drawn on the content. It resolves in order: this input, then the
-   * `provideCckTheme` override, then the config default; `null` removes the attribute.
+   * `provideCckTheme` override, then the config default; `null` removes the attribute. The simple form
+   * (`cckTooltip="text"` with no `cck-tooltip-content`) draws its own bubble, which shows the override or the config
+   * default, so a size needs a `cck-tooltip-content`.
+   *
+   * @cckSemantic tooltip.size
    */
   readonly tooltipSize = input<CckTooltipSize | null>();
 }

@@ -36,6 +36,7 @@ defineSlots<{
      * Whether the dialog is open.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the open state of the root.
      * @remarks Slot prop: the open state of the root.
      */
     open: boolean;
@@ -43,6 +44,7 @@ defineSlots<{
      * Closes the dialog and emits `update:open` with `false`.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the close function of the root.
      * @remarks Slot prop: the close function of the root.
      */
     close: () => void;

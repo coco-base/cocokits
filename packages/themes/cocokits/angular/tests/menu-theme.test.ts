@@ -190,18 +190,20 @@ describe('theme directive on the menu items: color', () => {
   });
 
   it('keeps the size of the content and gives the submenu content the size of the menu around it', async () => {
-    const { content, fixture } = await open(Items);
+    const { content } = await open(Items);
     expect(content.getAttribute('data-size')).toBe('lg');
+    // The menu moves the focus to its first item a frame after it opens; focus the sub-trigger only after that.
+    await waitFor(() => {
+      expect(document.activeElement).toBe(screen.getAllByRole('menuitem')[0]);
+    });
     screen.getByRole('menuitem', { name: 'Share' }).focus();
     await userEvent.setup().keyboard('{ArrowRight}');
-    await fixture.whenStable();
-    // jsdom runs no animation, so the submenu mounts at once; the test alone takes most of the default
-    // 1 s of waitFor, so under the load of a parallel run it needs the longer limit.
+    // The submenu opens after the key press; the 1 s default is too tight under the load of parallel projects.
     await waitFor(
       () => {
         expect(document.querySelector('.cck-menu__sub-content')).not.toBeNull();
       },
-      { timeout: 5_000 },
+      { timeout: 5000 },
     );
     const sub = document.querySelector('.cck-menu__sub-content');
     expect(sub?.getAttribute('data-size')).toBe('lg');

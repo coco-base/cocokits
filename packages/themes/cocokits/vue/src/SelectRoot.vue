@@ -42,6 +42,7 @@ defineSlots<{
      * The selected value: a `T` or `null`, or a list of `T` with `multiple`; `''`, `null` and an empty list mean nothing is selected.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the model of the root.
      * @remarks Slot prop: the model of the root.
      */
     modelValue: SelectRootProps<T, M>['modelValue'];
@@ -49,6 +50,7 @@ defineSlots<{
      * Whether the list is open.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the open state of the root.
      * @remarks Slot prop: the open state of the root.
      */
     open: boolean;

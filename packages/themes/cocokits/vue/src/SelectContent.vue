@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import {
-  SelectContent as BaseSelectContent,
-  type SelectContentEmits,
-  type SelectContentProps,
-} from '@cocokits/vue/select';
+import { SelectContent as BaseSelectContent } from '@cocokits/vue/select';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import type { SelectContentEmits, SelectContentProps } from './select.types';
 import { selectThemeKey } from './theme-keys';
 
 defineOptions({ name: 'SelectContent' });

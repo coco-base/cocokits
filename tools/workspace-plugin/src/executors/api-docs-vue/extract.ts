@@ -39,7 +39,7 @@ interface MetaMember {
   /** Where the member is declared: the file and the start and end of the declaration (not its comment). */
   getDeclarations?(): readonly { file: string; range: readonly [number, number] }[];
 }
-interface ComponentMeta {
+export interface ComponentMeta {
   readonly props: readonly MetaMember[];
   readonly events: readonly MetaMember[];
   readonly slots: readonly MetaMember[];
@@ -49,7 +49,7 @@ interface MetaChecker {
   getComponentMeta(file: string): ComponentMeta;
   dispose?: () => void;
 }
-interface MetaModule {
+export interface MetaModule {
   createChecker: (tsConfig: string, options: { forceUseTs: boolean; schema: { ignore: string[] } }) => MetaChecker;
 }
 
@@ -204,7 +204,7 @@ function bindingsOf(
   );
 }
 
-function partOf(
+export function partOf(
   readDeclaration: ReturnType<typeof declarationReader>,
   componentName: string,
   name: string,
@@ -264,7 +264,7 @@ function partOf(
 }
 
 /** Every `*.types.ts` file of a folder: a component may split its part types over several. */
-const typesFilesOf = (dir: string): string[] =>
+export const typesFilesOf = (dir: string): string[] =>
   readdirSync(dir)
     .filter((item) => item.endsWith('.types.ts'))
     .sort()

@@ -1,4 +1,8 @@
-import type { SelectRootProps as BaseSelectRootProps } from '@cocokits/vue/select';
+import type {
+  SelectContentEmits as BaseSelectContentEmits,
+  SelectContentProps as BaseSelectContentProps,
+  SelectRootProps as BaseSelectRootProps,
+} from '@cocokits/vue/select';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 
 type SelectOptions = CocokitsThemeConfig['components']['select'];
@@ -38,3 +42,15 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    */
   readonly indicator?: SelectIndicator | null | undefined;
 }
+
+/**
+ * Props of the cocokits SelectContent. It renders the base SelectContent and draws the list, from the `size` and `indicator` of its `SelectRoot`. It has no option of its own.
+ *
+ * @example
+ * <SelectContent><SelectItem value="Cake"><SelectItemText>Cake</SelectItemText></SelectItem></SelectContent>
+ * @cckPart content
+ */
+export type SelectContentProps = BaseSelectContentProps;
+
+/** Events of the cocokits SelectContent: the events of the base SelectContent. */
+export type SelectContentEmits = BaseSelectContentEmits;

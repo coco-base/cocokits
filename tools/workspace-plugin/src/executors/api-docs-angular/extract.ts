@@ -17,12 +17,12 @@ import { baseClassOf, publicMembersOf } from './members';
 import { symbolsOf } from './symbols';
 
 /** The part of `@angular/compiler-cli` this executor uses. */
-interface NgtscProgramLike {
+export interface NgtscProgramLike {
   getTsProgram(): ts.Program;
   getApiDocumentation(entryPoint: string, privateModules: Set<string>): { entries: DocEntry[] };
 }
 
-interface DocEntry {
+export interface DocEntry {
   readonly entryType: string;
   readonly name: string;
   readonly source?: { readonly filePath: string };
@@ -58,7 +58,7 @@ export function entryPointsOf(projectRoot: string): { name: string; file: string
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function createProgram(root: string, tsConfig: string): NgtscProgramLike {
+export function createProgram(root: string, tsConfig: string): NgtscProgramLike {
   const cli = loadPackage(root, '@angular/compiler-cli') as CompilerCli;
   const config = cli.readConfiguration(posix(tsConfig));
   if (config.errors.length > 0) {
@@ -81,7 +81,7 @@ export function sourceFileOf(
   return program.getSourceFile(filePath) ?? program.getSourceFile(`${directory}${filePath}`);
 }
 
-function classNamed(program: ts.Program, entry: DocEntry): ts.ClassDeclaration | undefined {
+export function classNamed(program: ts.Program, entry: DocEntry): ts.ClassDeclaration | undefined {
   const file = entry.source ? sourceFileOf(program, entry.source.filePath) : undefined;
   return file?.statements.find(
     (statement): statement is ts.ClassDeclaration =>
@@ -100,7 +100,11 @@ function escapeRegExp(text: string): string {
  * chain is generic, the type of a member that names a type parameter is read again from the checker, where the
  * parameter is the subclass's type argument.
  */
-function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry: DocDirective): DocDirective {
+export function withInstantiatedTypes(
+  checker: ts.TypeChecker,
+  cls: ts.ClassDeclaration,
+  entry: DocDirective,
+): DocDirective {
   const parameters: string[] = [];
   for (let current: ts.ClassDeclaration | undefined = cls; current; current = baseClassOf(checker, current)) {
     parameters.push(...(current.typeParameters ?? []).map((parameter) => parameter.name.text));
@@ -132,7 +136,7 @@ function withInstantiatedTypes(checker: ts.TypeChecker, cls: ts.ClassDeclaration
  * name, and it does not inherit the text of a base member as TypeScript does. A member that the class type does not
  * have gets no text, so the run reports it.
  */
-function withSourceText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry: DocDirective): DocDirective {
+export function withSourceText(checker: ts.TypeChecker, cls: ts.ClassDeclaration, entry: DocDirective): DocDirective {
   const symbol = cls.name ? checker.getSymbolAtLocation(cls.name) : undefined;
   const instance = symbol ? checker.getDeclaredTypeOfSymbol(symbol) : undefined;
   const classDoc = docOfNode(cls);

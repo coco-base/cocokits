@@ -106,9 +106,14 @@ export function listOf(kind: MemberInfo['kind']): 'props' | 'events' | 'methods'
   return kind === 'output' ? 'events' : 'methods';
 }
 
+/** The anatomy part of a directive: the part of the base part a theme directive owns, else its `@cckPart`. */
+function anatomyPartOf(entry: DocDirective, ownerPart: string | undefined, problems: string[]): string {
+  return ownerPart ?? checkPartDoc(entry.name, entry.jsdocTags, entry.description, problems);
+}
+
 /**
  * `ApiPart` of a public directive or component. `members` are the public members of the class and of every class it
- * extends. Every problem is added to `problems` (a missing `@cckPart`, a missing TSDoc), so one run reports all.
+ * extends; `ownerPart` is the anatomy part of the base part a theme directive owns. Every problem is added to `problems` (a missing `@cckPart`, a missing TSDoc), so one run reports all.
  */
 export function partOf(
   componentName: string,
@@ -116,8 +121,10 @@ export function partOf(
   members: readonly MemberInfo[],
   problems: string[],
   expand: (type: string) => ExpandedType = asWritten,
+  ownerPart?: string,
 ): ApiPartJson {
-  const part = checkPartDoc(entry.name, entry.jsdocTags, entry.description, problems);
+  // A theme directive stands for the base part its selector names, not the one of its `@cckPart` (a selector list).
+  const part = anatomyPartOf(entry, ownerPart, problems);
   const [, ...renders] = partsOf(entry.jsdocTags);
   const noElement = tagsOf(entry.jsdocTags, 'cckNoElement').length > 0;
   const section = sectionOf(entry.jsdocTags);
