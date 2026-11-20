@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, outsideReducedMotion, read, reducedMotionBlocks, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'dialog.css');
 
@@ -43,13 +43,13 @@ describe('dialog output', () => {
   });
 
   it('runs its motion, backdrop included, only without a reduced-motion preference, keyed on data-state', () => {
-    const motion = css.split('@media (prefers-reduced-motion: no-preference)')[1] ?? '';
+    // `state.transition` emits a reduced-motion block per include, so the motion is in one of many blocks.
+    const motion = reducedMotionBlocks(css).join('\n');
     expect(motion).toContain('.cck-dialog__content[data-state=open]');
     expect(motion).toContain('.cck-dialog__content[data-state=closed]');
     expect(motion).toContain('.cck-dialog__content[data-state=open]::backdrop');
     expect(motion).toContain('.cck-dialog__content[data-state=closed]::backdrop');
-    const outside = css.split('@media (prefers-reduced-motion: no-preference)')[0] ?? '';
-    expect(outside).not.toMatch(/animation:/);
+    expect(outsideReducedMotion(css)).not.toMatch(/animation:|transition/);
   });
 
   it('is CanvasText with a Highlight ring in forced colors', () => {
@@ -68,5 +68,22 @@ describe('dialog output', () => {
     expect(rule).toContain('border:');
     expect(rule).toContain('font: inherit');
     expect(css).not.toMatch(/__close(?!:not\(\.cck-button\))/);
+  });
+
+  it('restates [hidden] on the content, after its open layout, and on the parts that set a display', () => {
+    expect(css).toMatch(/\.cck-dialog__content\[hidden\]\s*\{\s*display: none/);
+    expect(css.indexOf('.cck-dialog__content[hidden]')).toBeGreaterThan(css.indexOf('.cck-dialog__content[open]'));
+    expect(css).toMatch(
+      /\.cck-dialog__header\[hidden\],\s*\.cck-dialog__body\[hidden\],\s*\.cck-dialog__footer\[hidden\]\s*\{\s*display: none/,
+    );
+    expect(css).toMatch(/\.cck-dialog__description\[hidden\]\s*\{\s*display: none/);
+  });
+
+  it('lays the plain Close out as an inline flex box and restates [hidden] after it', () => {
+    expect(declarationsOf(css, '.cck-dialog__close:not(.cck-button)')).toContain('display: inline-flex');
+    expect(css).toMatch(/\.cck-dialog__close:not\(\.cck-button\)\[hidden\]\s*\{\s*display: none/);
+    expect(css.indexOf('.cck-dialog__close:not(.cck-button)[hidden]')).toBeGreaterThan(
+      css.indexOf('.cck-dialog__close:not(.cck-button) {'),
+    );
   });
 });

@@ -3,6 +3,8 @@
   .cck-hint {
     box-sizing: border-box;
     display: flex;
+    // An icon is centred on the text.
+    align-items: center;
     gap: var(--cck-hint-gap);
     color: var(--cck-hint-text-color);
     font-family: var(--cck-hint-font-family);
@@ -14,6 +16,11 @@
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {
       display: none;
+    }
+
+    // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+    > .cck-svg-icon:not([data-size]) {
+      font-size: var(--cck-hint-icon-size);
     }
   }
 }

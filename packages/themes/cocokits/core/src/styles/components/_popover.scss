@@ -1,3 +1,5 @@
+@use '../state';
+
 // Popover rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // The content is portaled into a host in the top layer, so it is styled by its own class and never through the
 // trigger. It sets no `position`, `inset` or `transform` (only `transform-origin`, from `--transform-origin`, so a scale grows from the anchor): the positioning module writes `position: fixed` and the
@@ -5,7 +7,7 @@
 // variable a theme sets; an offset set on the content overrides it. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart
 // only for the inline slide) and runs only with `prefers-reduced-motion: no-preference`; the end state is right
 // without it. The Title and Description are plain text in the content; the Anchor has no rule (it is the author's element).
-// A plain Close part (not a Button) is a small outlined button; the trigger is the author's (usually a Button).
+// A plain Close part (not a Button) is a small quiet button; the trigger is the author's (usually a Button).
 @mixin rules {
   .cck-popover__content {
     --side-offset: var(--cck-popover-side-offset);
@@ -42,7 +44,8 @@
   }
 
   // The arrow sits outside the content's border box, so a content that holds one cannot clip: it gives up its
-  // own scrolling (the author bounds its height or scrolls an inner element).
+  // own scrolling (the author bounds its height or scrolls an inner element). The positioning module adds the height
+  // of the arrow to the gap, so its tip keeps about the same distance as a content without one.
   .cck-popover__content:has(> .cck-popover__arrow) {
     overflow: visible;
   }
@@ -106,20 +109,46 @@
     outline-offset: var(--cck-popover-focus-offset);
   }
 
+  // Muted at rest; hover gives it the highlight fill and the main text colour, a press the stronger fill. A text
+  // label in it is a medium control label.
   .cck-popover__close:not(.cck-button) {
     box-sizing: border-box;
-    min-block-size: 24px;
-    min-inline-size: 24px;
-    padding: var(--cck-popover-close-padding-block) var(--cck-popover-close-padding-inline);
-    border: var(--cck-popover-border-width) solid var(--cck-popover-border-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--cck-popover-close-size);
+    min-inline-size: var(--cck-popover-close-size);
+    padding: 0 var(--cck-popover-close-padding-inline);
+    border: 0;
     border-radius: var(--cck-popover-close-radius);
     background-color: transparent;
-    color: inherit;
+    color: var(--cck-popover-close-color);
     cursor: pointer;
     font: inherit;
+    font-weight: var(--cck-popover-close-font-weight);
+
+    @include state.transition(background-color, color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // A Close with no element child holds only a text label and takes the inline padding of a small button, so its
+    // hover box and its focus ring keep off the text. A Close with an element child (an icon of any kind: SvgIcon,
+    // `svg`, `img`, an icon font) keeps the icon padding and stays square; so does a label wrapped in an element.
+    &:not(:has(> *)) {
+      padding-inline: var(--cck-popover-close-label-padding-inline);
+    }
 
     &:hover {
       background-color: var(--cck-popover-close-hover-bg);
+      color: var(--cck-popover-close-hover-color);
+    }
+
+    &:active {
+      background-color: var(--cck-popover-close-active-bg);
+      color: var(--cck-popover-close-hover-color);
     }
   }
 
@@ -181,7 +210,7 @@
     }
 
     .cck-popover__close:not(.cck-button) {
-      border-color: ButtonText;
+      border: 1px solid ButtonText;
     }
 
     .cck-popover__content:focus-visible,

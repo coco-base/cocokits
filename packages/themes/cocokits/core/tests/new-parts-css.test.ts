@@ -7,16 +7,18 @@ const styles = read('dist', 'styles.css');
 const rule = (selector: string, css = styles): string => declarationsOfAll(css, selector);
 
 describe('checkbox group', () => {
-  it('is a column with a 12px gap (spacing-5), a wrapping row when horizontal, and restates [hidden]', () => {
+  it('is a column with a spacing-4 gap, a wrapping row with a spacing-6 gap when horizontal, and restates [hidden]', () => {
     const css = read('dist', 'components', 'checkbox-group.css');
     expect(css.startsWith('@layer cocokits {')).toBe(true);
-    expect(structureTokenOf('.cck-checkbox-group', 'checkbox-group-gap')).toBe(ref('spacing-5'));
-    expect(structureTokenOf('.cck-checkbox-group', 'checkbox-group-inline-gap')).toBe(ref('spacing-5'));
+    expect(structureTokenOf('.cck-checkbox-group', 'checkbox-group-gap')).toBe(ref('spacing-4'));
+    expect(structureTokenOf('.cck-checkbox-group', 'checkbox-group-inline-gap')).toBe(ref('spacing-6'));
     const group = rule('.cck-checkbox-group', css);
     expect(group).toContain('flex-direction: column');
     expect(group).toContain('gap: var(--cck-checkbox-group-gap)');
     expect(group).toContain('box-sizing: border-box');
-    expect(rule('.cck-checkbox-group[data-orientation=horizontal]', css)).toContain('flex-wrap: wrap');
+    const row = rule('.cck-checkbox-group[data-orientation=horizontal]', css);
+    expect(row).toContain('flex-wrap: wrap');
+    expect(row).toContain('column-gap: var(--cck-checkbox-group-inline-gap)');
     expect(rule('.cck-checkbox-group[hidden]', css)).toContain('display: none');
     expect(styles).toContain('.cck-checkbox-group {');
   });
@@ -30,9 +32,9 @@ describe('chip check and selected chip', () => {
   const chip = '.cck-chip';
 
   it.each([
-    ['sm', 'size-12', 'spacing-3'],
-    ['md', 'size-16', 'spacing-4'],
-    ['lg', 'size-20', 'spacing-5'],
+    ['sm', 'size-14', 'spacing-3'],
+    ['md', 'size-14', 'spacing-3'],
+    ['lg', 'size-16', 'spacing-4'],
   ])('size %s: the check is %s, the chip then starts with %s of padding', (mode, icon, padding) => {
     expect(sizeTokenOf(chip, mode, 'chip-check-icon-size')).toBe(ref(icon));
     expect(sizeTokenOf(chip, mode, 'chip-check-padding-inline-start')).toBe(ref(padding));
@@ -52,14 +54,16 @@ describe('chip check and selected chip', () => {
 
   it('fills a selected chip with the brand colour, in :where() so the disabled look wins by source order', () => {
     const selector = '.cck-chip:where(:has(> .cck-chip__content-wrapper[data-selected]))';
-    const selected = rule(selector);
-    expect(selected).toContain('background-color: var(--cck-chip-selected-bg)');
-    expect(selected).toContain('color: var(--cck-chip-selected-text-color)');
-    expect(selected).toContain('border-color: var(--cck-chip-selected-border-color)');
+    const selected = rule(selector, read('dist', 'components', 'chip.css').split('@media (forced-colors')[0]);
+    expect(selected).toContain('--_fill: var(--cck-chip-selected-bg)');
+    expect(selected).toContain('--_ink: var(--cck-chip-selected-text-color)');
+    expect(selected).toContain('--_remove: var(--cck-chip-selected-text-color)');
+    expect(selected).not.toContain('border-color');
     expect(styles.indexOf('.cck-chip[data-disabled]')).toBeGreaterThan(styles.indexOf(selector));
+    expect(rule('.cck-chip[data-disabled]')).toContain('opacity: var(--cck-chip-disabled-opacity)');
     expect(structureTokenOf(chip, 'chip-selected-bg')).toBe(ref('brand-color'));
     expect(structureTokenOf(chip, 'chip-selected-text-color')).toBe(ref('brand-on-color'));
-    expect(structureTokenOf(chip, 'chip-selected-border-color')).toBe(ref('brand-edge'));
+    expect(structureTokenOf(chip, 'chip-selected-border-color')).toBeUndefined();
   });
 
   it('resets the toggle button to the look of the pill and keeps the pointer for a toggle only', () => {
@@ -85,7 +89,7 @@ describe('menu parts', () => {
       expect(sizeTokenOf(sub, mode, 'menu-item-icon-size')).toBeDefined();
     }
     expect(structureTokenOf(sub, 'menu-min-inline-size')).toBe('220px');
-    expect(structureTokenOf(sub, 'menu-side-offset')).toBe(ref('spacing-4'));
+    expect(structureTokenOf(sub, 'menu-side-offset')).toBe(ref('spacing-3'));
   });
 
   it('draws the content and the submenu content from one rule', () => {
@@ -103,16 +107,18 @@ describe('menu parts', () => {
       expect(item).toContain('min-block-size: var(--cck-menu-item-height)');
       expect(item).toContain('box-sizing: border-box');
       expect(rule(`${selector}[hidden]`)).toContain('display: none');
-      expect(rule(`${selector}[data-disabled]`)).toContain('color: var(--cck-menu-item-disabled-text-color)');
+      expect(rule(`${selector}[data-disabled]`)).toContain('opacity: var(--cck-menu-item-disabled-opacity)');
       expect(rule(`${selector}[data-color=danger]`)).toContain('color: var(--cck-menu-item-danger-color)');
-      expect(rule(`${selector}[data-state=checked]`)).toContain('background-color: var(--cck-menu-item-selected-bg)');
+      expect(rule(`${selector}[data-state=checked]`)).toBe('');
     },
   );
 
-  it('fills a checked item with surface/2, colours the indicator brand and the danger item danger/text', () => {
-    expect(structureTokenOf(content, 'menu-item-selected-bg')).toBe(ref('surface-2'));
-    expect(structureTokenOf(content, 'menu-item-indicator-color')).toBe(ref('brand-color'));
+  it('marks a checked item by its check only, in text/1, and colours the danger item danger/text', () => {
+    expect(structureTokenOf(content, 'menu-item-selected-bg')).toBeUndefined();
+    expect(structureTokenOf(content, 'menu-item-indicator-color')).toBe(ref('text-1'));
+    expect(rule('.cck-menu__item-indicator')).toContain('color: var(--cck-menu-item-indicator-color)');
     expect(structureTokenOf(content, 'menu-item-danger-color')).toBe(ref('danger-text'));
+    expect(structureTokenOf(content, 'menu-item-danger-highlight-bg')).toBe(ref('danger-container'));
   });
 
   it.each(['leading', 'trailing', 'indicator'])(
@@ -129,14 +135,20 @@ describe('menu parts', () => {
     expect(rule('.cck-menu__item-indicator:not([data-state=checked])')).toContain('visibility: hidden');
   });
 
-  it('sets the supporting text, the shortcut and the group label in 14px/400 text/3', () => {
+  it('sets the supporting text and the shortcut in text-xs regular text/3, the group label in medium', () => {
     expect(structureTokenOf(content, 'menu-item-secondary-color')).toBe(ref('text-3'));
-    expect(structureTokenOf(content, 'menu-item-secondary-font-size')).toBe(ref('text-sm-font-size'));
+    expect(structureTokenOf(content, 'menu-item-secondary-font-size')).toBe(ref('text-xs-font-size'));
     expect(structureTokenOf(content, 'menu-item-secondary-font-weight')).toBe(ref('font-weight-regular'));
     for (const selector of ['.cck-menu__item-supporting-text', '.cck-menu__item-shortcut', '.cck-menu__group-label']) {
       expect(rule(selector), selector).toContain('color: var(--cck-menu-item-secondary-color)');
+      expect(rule(selector), selector).toContain('font-size: var(--cck-menu-item-secondary-font-size)');
+    }
+    for (const selector of ['.cck-menu__item-supporting-text', '.cck-menu__item-shortcut']) {
       expect(rule(selector), selector).toContain('font-weight: var(--cck-menu-item-secondary-font-weight)');
     }
+    const label = rule('.cck-menu__group-label');
+    expect(label).toContain('font-weight: var(--cck-menu-group-label-font-weight)');
+    expect(label).toContain('padding-block: var(--cck-menu-group-label-padding-block)');
   });
 
   it('puts the supporting text on a line of its own and the shortcut at the end', () => {
@@ -165,7 +177,7 @@ describe('select parts', () => {
   const content = '.cck-select__content';
 
   it('gives the option leading part an icon size that aliases Core / Size (C13)', () => {
-    expect(structureTokenOf(content, 'select-option-leading-icon-size')).toBe(ref('size-20'));
+    expect(structureTokenOf(content, 'select-option-leading-icon-size')).toBe(ref('size-16'));
     const leading = rule('.cck-select__option-leading');
     expect(leading).toContain('font-size: var(--cck-select-option-leading-icon-size)');
     expect(leading).toContain('order: 1');
@@ -182,17 +194,20 @@ describe('select parts', () => {
     expect(rule('.cck-select__footer')).toContain('border-block-start: var(--cck-select-content-border-width) solid');
     expect(rule('.cck-select__footer')).toContain('justify-content: flex-end');
     expect(structureTokenOf(content, 'select-footer-gap')).toBe(ref('spacing-4'));
-    expect(structureTokenOf(content, 'select-footer-padding')).toBe(ref('spacing-5'));
+    expect(structureTokenOf(content, 'select-footer-padding')).toBe(ref('spacing-4'));
     expect(structureTokenOf(content, 'select-header-padding-inline')).toBe(ref('spacing-5'));
   });
 
-  it('draws the search with no box of its own and rings the header while it has focus', () => {
+  it('draws the search with no box of its own and colours the header divider while it has focus', () => {
     const search = rule('.cck-select__search');
     expect(search).toContain('border: 0');
     expect(search).toContain('background-color: transparent');
-    expect(rule('.cck-select__header:has(> .cck-select__search:focus-visible)')).toContain(
-      'outline: var(--cck-select-focus-width) solid var(--cck-select-focus-color)',
-    );
+    const focused = rule('.cck-select__header:has(> .cck-select__search:focus-visible)');
+    expect(focused).toContain('border-block-end-color: var(--cck-select-search-focus-color)');
+    // The only outline is the Highlight one of forced colors.
+    expect(focused).toContain('outline: var(--cck-select-content-focus-width) solid Highlight');
+    expect(focused.match(/outline:/g)).toHaveLength(1);
+    expect(structureTokenOf(content, 'select-search-focus-color')).toBe(ref('focus-2'));
     expect(structureTokenOf(content, 'select-search-placeholder-color')).toBe(ref('text-3'));
   });
 
@@ -204,11 +219,11 @@ describe('select parts', () => {
     expect(rule('.cck-select__empty')).toContain('display: block');
   });
 
-  it('shows the empty message and the count in text/3, the description in 14px/400 text/2', () => {
+  it('shows the empty message, the count and the description in text/3, the description in text-xs regular', () => {
     expect(structureTokenOf(content, 'select-empty-color')).toBe(ref('text-3'));
     expect(structureTokenOf('.cck-select', 'select-count-color')).toBe(ref('text-3'));
-    expect(structureTokenOf(content, 'select-option-description-color')).toBe(ref('text-2'));
-    expect(structureTokenOf(content, 'select-option-description-font-size')).toBe(ref('text-sm-font-size'));
+    expect(structureTokenOf(content, 'select-option-description-color')).toBe(ref('text-3'));
+    expect(structureTokenOf(content, 'select-option-description-font-size')).toBe(ref('text-xs-font-size'));
     expect(structureTokenOf(content, 'select-option-description-font-weight')).toBe(ref('font-weight-regular'));
     expect(rule('.cck-select__option-description')).toContain('display: block');
     expect(rule('.cck-select__count')).toContain('color: var(--cck-select-count-color)');
@@ -227,26 +242,30 @@ describe('select parts', () => {
     );
   });
 
-  it('dims the count in a disabled trigger', () => {
-    expect(styles).toMatch(/\.cck-select__count,[^{]*\{[^}]*color: var\(--cck-select-disabled-text-color\)/);
+  it('fades the count with a disabled trigger, and turns it GrayText in forced colors', () => {
+    expect(styles).not.toContain('--cck-select-disabled-text-color');
+    expect(rule('.cck-select__trigger:disabled')).toContain('opacity: var(--cck-select-disabled-opacity)');
+    expect(styles).toMatch(
+      /\.cck-select__trigger:disabled :is\(\.cck-select__placeholder, \.cck-select__count, [^{]*\{[^}]*color: GrayText/,
+    );
   });
 });
 
 describe('tooltip parts', () => {
   const content = '.cck-tooltip__content';
 
-  it('puts 4px (spacing-3) between the title and the description, and the description in 12px/400', () => {
-    expect(structureTokenOf(content, 'tooltip-text-gap')).toBe(ref('spacing-3'));
-    expect(structureTokenOf(content, 'tooltip-description-font-weight')).toBe(ref('font-weight-regular'));
-    expect(sizeTokenOf(content, 'md', 'tooltip-description-font-size')).toBe(ref('text-xs-font-size'));
-    expect(sizeTokenOf(content, 'sm', 'tooltip-description-font-size')).toBe(ref('text-xs-font-size'));
-    expect(sizeTokenOf(content, 'lg', 'tooltip-description-font-size')).toBe(ref('text-sm-font-size'));
+  it('puts spacing-2 between the title and the description, and the description in text-xs at every size', () => {
+    expect(structureTokenOf(content, 'tooltip-text-gap')).toBe(ref('spacing-2'));
+    expect(structureTokenOf(content, 'tooltip-description-font-weight')).toBeUndefined();
+    expect(structureTokenOf(content, 'tooltip-description-font-size')).toBe(ref('text-xs-font-size'));
+    for (const mode of ['sm', 'md', 'lg'])
+      expect(sizeTokenOf(content, mode, 'tooltip-description-font-size'), mode).toBeUndefined();
     expect(rule('.cck-tooltip__title + .cck-tooltip__description')).toContain(
       'padding-block-start: var(--cck-tooltip-text-gap)',
     );
     const description = rule('.cck-tooltip__description');
     expect(description).toContain('font-size: var(--cck-tooltip-description-font-size)');
-    expect(description).toContain('font-weight: var(--cck-tooltip-description-font-weight)');
+    expect(description).not.toContain('font-weight');
     expect(description).not.toContain('color:');
   });
 
@@ -263,29 +282,32 @@ describe('tooltip parts', () => {
 });
 
 describe('dialog parts', () => {
-  it('lays the header, the body and the footer across the content with border dividers', () => {
+  it('lays the header, the body and the footer across the content, with no divider between them', () => {
     for (const part of ['header', 'body', 'footer']) {
       expect(rule(`.cck-dialog__${part}`)).toContain('align-self: stretch');
       expect(rule(`.cck-dialog__${part}`)).toContain('box-sizing: border-box');
       expect(rule(`.cck-dialog__${part}[hidden]`)).toContain('display: none');
+      expect(rule(`.cck-dialog__${part}`)).not.toContain('border-block');
     }
-    expect(rule('.cck-dialog__header')).toContain('border-block-end: var(--cck-dialog-divider-width) solid');
-    expect(rule('.cck-dialog__footer')).toContain('border-block-start: var(--cck-dialog-divider-width) solid');
-    expect(structureTokenOf('.cck-dialog__content', 'dialog-divider-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-dialog__content', 'dialog-divider-color')).toBeUndefined();
+    expect(structureTokenOf('.cck-dialog__content', 'dialog-divider-width')).toBeUndefined();
   });
 
-  it('puts the footer actions in one row at the end, 8px apart (spacing-4)', () => {
+  it('puts the footer actions in one row at the end, footer-gap (spacing-4) apart', () => {
     const footer = rule('.cck-dialog__footer');
     expect(footer).toContain('display: flex');
     expect(footer).toContain('justify-content: flex-end');
-    expect(footer).toContain('gap: var(--cck-dialog-section-gap)');
-    expect(structureTokenOf('.cck-dialog__content', 'dialog-section-gap')).toBe(ref('spacing-4'));
+    expect(footer).toContain('gap: var(--cck-dialog-footer-gap)');
+    expect(structureTokenOf('.cck-dialog__content', 'dialog-footer-gap')).toBe(ref('spacing-4'));
+    expect(structureTokenOf('.cck-dialog__content', 'dialog-section-gap')).toBeUndefined();
   });
 
-  it('puts the title and the Close part of the header on one row, apart', () => {
+  it('puts the title and the Close part of the header on one row, header-gap (spacing-4) apart', () => {
     const header = rule('.cck-dialog__header');
     expect(header).toContain('display: flex');
     expect(header).toContain('justify-content: space-between');
+    expect(header).toContain('gap: var(--cck-dialog-header-gap)');
+    expect(structureTokenOf('.cck-dialog__content', 'dialog-header-gap')).toBe(ref('spacing-4'));
   });
 });
 

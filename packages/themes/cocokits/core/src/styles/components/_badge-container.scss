@@ -1,10 +1,17 @@
 // BadgeContainer rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // The container owns the position: it places its direct child `.cck-badge` on a corner (the anatomy
 // the selectors rely on). --cck-badge-container-radius, --cck-badge-offset-x and --cck-badge-offset-y
-// are documented custom properties: the author sets them, the rules read them with a
-// 0px fallback, and no token defines them. The offset adds to the corner; the inline offset is
-// mirrored in RTL like the corner.
-$radius-inset: calc(0.2929 * var(--cck-badge-container-radius, 0px));
+// are documented custom properties: the author sets them and no token defines them. The offset has a
+// 0px fallback and adds to the corner; the inline offset is mirrored in RTL like the corner.
+//
+// The badge centre sits on the arc of the host's corner: 0.2929 (1 - cos 45deg) of the corner radius
+// inward from the corner of the box. The radius is the author's --cck-badge-container-radius, or the
+// --cck-badge-container-host-radius token (the radius of a control, which follows the radius mode).
+// It is clamped to 50%, as a border radius is: half of the host's block size in the block insets and
+// half of its inline size in the inline insets. That is exact for a square or round host; on a pill
+// host that is wider than tall the inline inset is larger than the corner needs.
+$radius: var(--cck-badge-container-radius, var(--cck-badge-container-host-radius));
+$radius-inset: calc(0.2929 * min(#{$radius}, 50%));
 $offset-x: var(--cck-badge-offset-x, 0px);
 $offset-y: var(--cck-badge-offset-y, 0px);
 

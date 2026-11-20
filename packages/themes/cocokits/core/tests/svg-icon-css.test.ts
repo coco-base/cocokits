@@ -4,7 +4,7 @@ import { declarationsOf, read, ref, selectorsOf, sizeTokenOf, tokensCss } from '
 const ROOT = '.cck-svg-icon';
 const SVG = '.cck-svg-icon > .cck-svg-icon__svg';
 /** The per-component sheets whose parts show an icon (or hold a SvgIcon), and the SvgIcon sheet itself. */
-const SHEETS = ['select', 'accordion', 'checkbox', 'icon-button', 'svg-icon'] as const;
+const SHEETS = ['select', 'accordion', 'checkbox', 'chip', 'chip-list', 'icon-button', 'svg-icon'] as const;
 const sheet = (name: string): string => read('dist', 'components', `${name}.css`);
 const occurrences = (css: string, text: string): number => css.split(text).length - 1;
 const layerBody = (css: string): string => css.slice(css.indexOf('@layer cocokits {'));
@@ -37,7 +37,7 @@ describe('svg-icon output', () => {
   it('emits the sizes xs to 2xl on the class and the color from the Active Color, never on :root', () => {
     for (const mode of ['xs', 'sm', 'lg', 'xl', '"2xl"']) expect(tokensCss).toContain(`${ROOT}[data-size=${mode}] {`);
     expect(tokensCss).toContain(`${ROOT}, ${ROOT}[data-size=md] {`);
-    expect(tokensCss).toMatch(/\.cck-svg-icon \{\s*--cck-svg-icon-color: var\(--cck-edge\)/);
+    expect(tokensCss).toMatch(/\.cck-svg-icon \{\s*--cck-svg-icon-color: var\(--cck-on-container\)/);
     const onRoot = tokensCss
       .split('  }')
       .filter((block) => block.includes(':root'))
@@ -89,18 +89,22 @@ describe.each(SHEETS)('the %s sheet (AC 23)', (name) => {
 describe('styles.css (AC 23)', () => {
   const css = read('dist', 'styles.css');
 
-  it('holds the SvgIcon rules once, although four components include them', () => {
+  it('holds the SvgIcon rules once, although six components include them', () => {
     expect(occurrences(css, `${SVG} {`)).toBe(1);
     expect(occurrences(css, 'inline-size: 1em')).toBe(1);
     expect(occurrences(css, `${ROOT}[data-size] {`)).toBe(1);
     expect(occurrences(css, `${ROOT}[data-rtl-mirror]:dir(rtl) {`)).toBe(1);
   });
 
+  // A component may size a direct SvgIcon child (`> .cck-svg-icon:not([data-size])`); the SvgIcon's own rules (the
+  // box, the svg, the size and color options) stay in `_svg-icon.scss` and its entries.
   it('keeps the SvgIcon rules out of the rules mixins of the components, so they cannot repeat', () => {
-    for (const block of ['select', 'accordion', 'checkbox', 'icon-button']) {
+    for (const block of ['select', 'accordion', 'checkbox', 'chip', 'chip-list', 'icon-button']) {
       const rules = read('src', 'styles', 'components', `_${block}.scss`);
-      expect(rules, block).not.toContain('.cck-svg-icon');
-      expect(rules, block).not.toContain('svg-icon');
+      expect(rules, block).not.toMatch(/\.cck-svg-icon\s*\{/);
+      expect(rules, block).not.toContain('.cck-svg-icon__svg');
+      expect(rules, block).not.toMatch(/\.cck-svg-icon\[data-(size|cck-color)\]|data-rtl-mirror/);
+      expect(rules, block).not.toMatch(/@use ['"][^'"]*svg-icon|svg-icon\.rules/);
     }
   });
 
@@ -111,13 +115,12 @@ describe('styles.css (AC 23)', () => {
 
 describe('svg-icon design match', () => {
   it.each([
-    ['xs', 'size-16'],
-    ['sm', 'size-20'],
-    ['md', 'size-24'],
-    ['lg', 'size-32'],
-    ['xl', 'size-48'],
-    // 2xl is a library-only value: it stays above the design's largest step (D8).
-    ['"2xl"', 'size-64'],
+    ['xs', 'size-14'],
+    ['sm', 'size-16'],
+    ['md', 'size-20'],
+    ['lg', 'size-24'],
+    ['xl', 'size-32'],
+    ['"2xl"', 'size-48'],
   ])('size %s is %s', (mode, size) => {
     expect(sizeTokenOf(ROOT, mode, 'svg-icon-size')).toBe(ref(size));
   });

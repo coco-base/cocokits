@@ -1,11 +1,12 @@
-// The parts of the Select that arrived after the first look: the count in the trigger, the search header, the empty
+// The parts of the Select around its options: the count in the trigger, the search header, the empty
 // message, the footer and the option leading and description. Included by `_select.scss`, inside its `rules` mixin,
 // so the Select entries emit them once. The list's own box (`.cck-select__content`) is in `_select.scss`.
 //
 // The header and the footer stay at the top and the bottom of a scrolling list (`position: sticky`) on the list's
-// fill. Their divider is a border, so forced colors keep it. The option's parts follow the option's flex row: the
+// fill, and run from edge to edge of the list, through its padding. Their divider is a border, so forced colors keep
+// it. The option's parts follow the option's flex row: the
 // box of a multiple list, the leading part, the text, then the check of a single list (`order`). A description inside
-// the option's text is a second line (stacked); next to the text it is a column of its own (inline).
+// the option's text is a second line (stacked); next to the text it is a line of its own under the row.
 @mixin rules {
   // The other selected values of a multiple Select: "+N" after the first value, in the placeholder colour.
   .cck-select__count {
@@ -29,6 +30,7 @@
     display: flex;
     flex: none;
     align-items: center;
+    margin-inline: calc(-1 * var(--cck-select-content-padding));
     background-color: var(--cck-select-content-bg);
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
@@ -37,12 +39,28 @@
     }
   }
 
+  // A list with a header has no padding over it, and one with a footer none under it: they touch the list's edge,
+  // and their margin puts the padding back on the side of the options.
+  .cck-select__content:has(> .cck-select__header:not([hidden])) {
+    padding-block-start: 0;
+  }
+
+  .cck-select__content:has(> .cck-select__footer:not([hidden])) {
+    padding-block-end: 0;
+  }
+
   .cck-select__header {
     inset-block-start: 0;
     gap: var(--cck-select-header-gap);
+    margin-block-end: var(--cck-select-content-padding);
     padding-block: var(--cck-select-header-padding-block);
     padding-inline: var(--cck-select-header-padding-inline);
     border-block-end: var(--cck-select-content-border-width) solid var(--cck-select-content-border-color);
+
+    // The header is the box of the search: its divider takes the focus colour while the search has the focus.
+    &:has(> .cck-select__search:focus-visible) {
+      border-block-end-color: var(--cck-select-search-focus-color);
+    }
 
     // The search icon the author puts before the input.
     > .cck-svg-icon {
@@ -56,7 +74,8 @@
     }
   }
 
-  // The search is a native input with no box of its own: the header is its box, so the ring is on the header.
+  // The search is a native input with no box of its own: the header is its box and shows the focus on its divider.
+  // The search keeps the focus while the list is open, so the header takes no ring.
   .cck-select__search {
     box-sizing: border-box;
     flex: 1;
@@ -72,6 +91,7 @@
 
     &::placeholder {
       color: var(--cck-select-search-placeholder-color);
+      opacity: 1;
     }
 
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
@@ -80,25 +100,21 @@
     }
   }
 
-  .cck-select__header:has(> .cck-select__search:focus-visible) {
-    outline: var(--cck-select-focus-width) solid var(--cck-select-focus-color);
-    outline-offset: calc(-1 * var(--cck-select-focus-width));
-  }
-
   .cck-select__footer {
     inset-block-end: 0;
     justify-content: flex-end;
     gap: var(--cck-select-footer-gap);
+    margin-block-start: var(--cck-select-content-padding);
     padding: var(--cck-select-footer-padding);
     border-block-start: var(--cck-select-content-border-width) solid var(--cck-select-content-border-color);
   }
 
-  // The message while no option matches: a line of secondary text, with the option's padding.
+  // The message while no option matches: a centred line of muted text.
   .cck-select__empty {
     box-sizing: border-box;
     display: block;
     flex: none;
-    padding: var(--cck-select-option-padding-block) var(--cck-select-option-padding-inline);
+    padding: var(--cck-select-empty-padding-block) var(--cck-select-option-padding-inline);
     color: var(--cck-select-empty-color);
     text-align: center;
 
@@ -131,16 +147,15 @@
     }
   }
 
-  .cck-select__option[data-disabled] > .cck-select__option-leading {
-    color: var(--cck-select-option-disabled-text-color);
-  }
-
   // A second line under the text, as wide as the row, after the leading part, the text and the check. The indents
-  // below put it under the text: the leading part and the box of a multiple list come before the text.
+  // below put it under the text: the leading part and the box of a multiple list come before the text. Its own
+  // width stays out of the width of the row (`contain`), so the list is as wide as its widest single line and a
+  // long description wraps.
   .cck-select__option-description {
     box-sizing: border-box;
     display: block;
     flex: 1 0 100%;
+    contain: inline-size;
     order: 4;
     color: var(--cck-select-option-description-color);
     font-family: var(--cck-select-option-description-font-family);
@@ -171,16 +186,14 @@
     );
   }
 
-  .cck-select__option[data-disabled] .cck-select__option-description {
-    color: var(--cck-select-option-disabled-text-color);
-  }
-
   @media (forced-colors: active) {
     .cck-select__header {
       border-block-end-color: CanvasText;
 
+      // An outline inside the header shows the focus of the search there.
       &:has(> .cck-select__search:focus-visible) {
-        outline-color: Highlight;
+        outline: var(--cck-select-content-focus-width) solid Highlight;
+        outline-offset: calc(-1 * var(--cck-select-content-focus-width));
       }
     }
 

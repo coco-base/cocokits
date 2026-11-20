@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, outsideReducedMotion, read, reducedMotionBlocks, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'select.css');
 
@@ -63,6 +63,23 @@ describe('select output', () => {
     expect(css).toMatch(/\.cck-select__option-group\[hidden\]\s*\{\s*display: none/);
   });
 
+  it.each([
+    'trigger',
+    'option-group-label',
+    'separator',
+    'count',
+    'option-leading',
+    'option-description',
+    'search',
+    'empty',
+  ])('restates [hidden] on the %s, which sets a display', (part) => {
+    expect(css).toMatch(new RegExp(`\\.cck-select__${part}\\[hidden\\]\\s*\\{\\s*display: none`));
+  });
+
+  it('restates [hidden] on the header and the footer', () => {
+    expect(css).toMatch(/\.cck-select__header\[hidden\],\s*\.cck-select__footer\[hidden\]\s*\{\s*display: none/);
+  });
+
   it('draws the multiple box with CSS and the chevron and the check as theme icons: no image, no pseudo-element', () => {
     expect(css).not.toMatch(/url\(/);
     expect(css).not.toContain('.cck-select__option-indicator::after');
@@ -84,25 +101,63 @@ describe('select output', () => {
     expect(check).toContain('color: var(--cck-select-indicator-color)');
   });
 
-  it('has a focus ring on the trigger and a hover border', () => {
-    expect(css).toMatch(/\.cck-select__trigger:focus-visible\s*\{[^}]*outline: var\(--cck-select-focus-width\)/);
-    expect(css).toContain(':where(:hover)');
+  it('draws the focus of the trigger as a border and a halo, not an outline, and has a hover border', () => {
+    expect(declarationsOf(css, '.cck-select__trigger')).toContain('--_focus: var(--cck-select-focus-color)');
+    expect(declarationsOf(css, '.cck-select__trigger:focus-visible')).toContain('outline: none');
+    const focus =
+      declarationsOf(
+        css,
+        '.cck-select > .cck-select__trigger:focus-visible,\n  .cck-select[data-state=open] > .cck-select__trigger',
+      ) ?? '';
+    expect(focus).toContain('border-color: var(--_focus)');
+    expect(focus).toContain(
+      'box-shadow: 0 0 0 var(--cck-select-focus-ring-width) color-mix(in srgb, var(--_focus) var(--cck-select-focus-ring-mix), transparent)',
+    );
+    expect(focus).not.toContain('outline');
+    expect(declarationsOf(css, '.cck-select__trigger:where(:hover)')).toContain(
+      'border-color: var(--cck-select-hover-border-color)',
+    );
+    // The halo is a shadow, which forced colors drop: the focus is an outline there.
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(
+      /\.cck-select\[data-state=open\] > \.cck-select__trigger \{\s*border-color: Highlight;\s*outline: var\(--cck-select-focus-ring-width\) solid Highlight;/,
+    );
   });
 
-  it('shows invalid by the border colour only, read-only with a dashed border and disabled over invalid', () => {
-    expect(css).toMatch(/\[data-invalid\][^{]*\{\s*border-color: var\(--cck-select-invalid-border-color\);\s*\}/);
+  it('shows invalid by the border colour, read-only with a fill, disabled over invalid with opacity', () => {
+    const own = css.slice(0, css.indexOf('@media (forced-colors: active)'));
+    const invalid = declarationsOf(css, '.cck-select:where([data-invalid]) > .cck-select__trigger') ?? '';
+    expect(invalid).toContain('border-color: var(--cck-select-invalid-border-color)');
+    // The focus border and halo of an invalid trigger take the invalid colour.
+    expect(invalid).toContain('--_focus: var(--cck-select-invalid-border-color)');
+    expect(invalid).not.toMatch(/box-shadow|outline|border-width|border-style/);
     expect(css).not.toContain('box-shadow: inset');
     expect(css).not.toContain('invalid-border-width');
-    expect(css).toMatch(/\[data-readonly\][^{]*\{[^}]*border-style: dashed/);
-    expect(css.indexOf('[data-disabled]')).toBeGreaterThan(css.indexOf('[data-invalid]'));
+    const readonly = declarationsOf(css, '.cck-select:where([data-readonly]) > .cck-select__trigger') ?? '';
+    expect(readonly).toContain('background-color: var(--cck-select-readonly-bg)');
+    expect(readonly).toContain('cursor: default');
+    expect(own).not.toContain('dashed');
+    const disabled =
+      declarationsOf(
+        css,
+        '.cck-select:where([data-disabled]) > .cck-select__trigger,\n  .cck-select__trigger:disabled',
+      ) ?? '';
+    expect(disabled).toContain('border-color: var(--cck-select-border-color)');
+    expect(disabled).toContain('opacity: var(--cck-select-disabled-opacity)');
+    expect(disabled).toContain('cursor: not-allowed');
+    expect(own.indexOf('[data-disabled]')).toBeGreaterThan(own.indexOf('[data-invalid]'));
+    expect(own.indexOf('[data-disabled]')).toBeGreaterThan(own.indexOf('[data-readonly]'));
+    // The fill is dropped in forced colors, so read-only has a dashed border there.
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(/\.cck-select:where\(\[data-readonly\]\) > \.cck-select__trigger \{\s*border-style: dashed/);
   });
 
   it('runs its motion only without a reduced-motion preference, keyed on data-state', () => {
-    const motion = css.split('@media (prefers-reduced-motion: no-preference)')[1] ?? '';
+    // `state.transition` emits a reduced-motion block per include, so the motion is in one of many blocks.
+    const motion = reducedMotionBlocks(css).join('\n');
     expect(motion).toContain('.cck-select__content[data-state=open]');
     expect(motion).toContain('.cck-select__content[data-state=closed]');
-    const outside = css.split('@media (prefers-reduced-motion: no-preference)')[0] ?? '';
-    expect(outside).not.toMatch(/animation:/);
+    expect(outsideReducedMotion(css)).not.toMatch(/animation:|transition/);
   });
 
   it('mirrors the inline slide in right-to-left on the part itself', () => {
@@ -119,12 +174,14 @@ describe('select output', () => {
 });
 
 describe('select separator', () => {
-  it('draws a line in the list border tokens with the option padding as vertical margin', () => {
+  it('draws a line in the list border tokens from edge to edge, spaced by the list padding', () => {
     const rule = declarationsOf(css, '.cck-select__separator') ?? '';
-    expect(rule).toContain('margin-block: var(--cck-select-option-padding-block)');
+    expect(rule).toContain('margin-block: var(--cck-select-content-padding)');
+    expect(rule).toContain('margin-inline: calc(-1 * var(--cck-select-content-padding))');
     expect(rule).toContain(
       'border-block-start: var(--cck-select-content-border-width) solid var(--cck-select-content-border-color)',
     );
+    expect(rule).not.toContain('option-padding-block');
     expect(rule).not.toContain('background');
   });
 

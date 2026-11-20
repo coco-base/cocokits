@@ -1,8 +1,8 @@
 // Checkbox rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Reads only its own --cck-checkbox-* tokens. The native input lies transparent over the hit area, so focus,
-// the target and :focus-visible stay native; the box and the dash are drawn on `background`, which holds the theme's tick icon (`components.checkbox.icons`) while checked.
-// Checked, mixed and invalid are shapes (a tick, a dash, a second line), not only colors. The shared
-// pieces and the cascade order are in _choice-box.scss.
+// the target and :focus-visible stay native; the box and the dash are drawn on `background`, which holds the theme's
+// tick icon (`components.checkbox.icons`) while checked. Checked and mixed are shapes (a tick, a dash), not only
+// colors. The shared pieces and the cascade order are in _choice-box.scss.
 @use '../choice-box' as box;
 
 $block: 'checkbox';
@@ -13,13 +13,20 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
   @include box.layout($block);
 
   // The tick is an icon inside the box: a SvgIcon sized from the box (`box-icon-size`), in the mark color, which
-  // follows the state below. The `::after` is the dash only.
+  // follows the state below. The `::after` is the dash only. The radius is at most 30% of the box, so the box stays
+  // a rounded square in the radius modes with large corners and does not read as a radio.
   .cck-checkbox #{box.box($block)} {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: min(var(--cck-checkbox-box-radius), calc(var(--cck-checkbox-box-size) * 0.3));
     font-size: var(--cck-checkbox-box-icon-size);
     color: var(--cck-checkbox-box-mark-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   // Read-only: a dashed border tells it from an editable box without color, also in forced colors.
@@ -33,6 +40,12 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
 
   // The fill follows both facts; the mark (`::after`) only the mixed one, because a checked box shows the icon.
   @include box.checked($block, $facts, $mark: false);
+  @include box.hover($block, $facts, '[data-disabled], [data-readonly]');
+
+  // A filled read-only box keeps the resting border colour, so the dashes show on the fill.
+  .cck-checkbox:where([data-readonly]):where(#{$facts}) #{box.box($block)} {
+    border-color: var(--cck-checkbox-box-border-color);
+  }
 
   // The dash: a bar across the middle, twice as high as the border is wide.
   .cck-checkbox:where([data-indeterminate]) #{box.box($block)}::after {
@@ -46,11 +59,15 @@ $invalid: ':where([data-invalid]):where([data-touched], [data-submitted])';
     border-color: var(--cck-checkbox-box-invalid-border-color);
   }
 
-  @include box.disabled($block);
-
-  .cck-checkbox#{box.disabled($block)} #{box.box($block)} {
-    color: var(--cck-checkbox-box-disabled-mark-color);
+  // A read-only checkbox does not change, so it shows no pointer cursor.
+  .cck-checkbox:where([data-readonly]) {
+    #{box.label($block)},
+    #{box.input($block)} {
+      cursor: default;
+    }
   }
+
+  @include box.disabled($block);
   @include box.focus($block);
   @include box.motion($block);
 

@@ -1,4 +1,7 @@
 // Badge rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-badge-* tokens: a solid counter in the colour family of its `color` option, or a dot when
+// it is empty. On a host (a direct child of a BadgeContainer) it gets a ring in the surface colour, which parts it
+// from the host under it.
 @mixin rules {
   .cck-badge {
     box-sizing: border-box;
@@ -38,6 +41,11 @@
     &[hidden] {
       display: none;
     }
+  }
+
+  // The ring is a box-shadow, so it does not change the size or the position of the badge.
+  .cck-badge-container > .cck-badge {
+    box-shadow: 0 0 0 var(--cck-badge-ring-width) var(--cck-badge-ring-color);
   }
 
   // Forced colors remove the background, so an outline keeps a dot visible.

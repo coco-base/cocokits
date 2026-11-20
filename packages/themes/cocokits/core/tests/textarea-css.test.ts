@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, ref, structureTokenOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'textarea.css');
 const scss = read('src', 'styles', 'components', '_textarea.scss');
@@ -24,20 +24,41 @@ describe('textarea output', () => {
 });
 
 describe('standalone textarea box', () => {
+  const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+
   it('draws the md box with the tokens, vertical resize and top alignment', () => {
     const rule = declarationsOf(css, '.cck-textarea') ?? '';
     for (const line of [
       'padding-block: var(--cck-textarea-padding-block)',
       'padding-inline: var(--cck-textarea-padding-inline)',
       'border: var(--cck-textarea-border-width) solid var(--cck-textarea-border-color)',
-      'border-radius: var(--cck-textarea-radius)',
       'background-color: var(--cck-textarea-bg)',
+      'box-shadow: var(--cck-textarea-shadow)',
       'color: var(--cck-textarea-text-color)',
       'resize: none',
       'vertical-align: top',
     ]) {
       expect(rule).toContain(line);
     }
+    expect(declarationsOf(css, '.cck-textarea:not([data-auto-resize])')).toContain(
+      'min-block-size: var(--cck-textarea-min-height)',
+    );
+  });
+
+  it('caps the radius at half the height of a one-line control, so the box is no capsule', () => {
+    expect(declarationsOf(css, '.cck-textarea')).toContain(
+      'border-radius: min(var(--cck-textarea-radius), var(--cck-textarea-control-height) / 2)',
+    );
+    for (const size of ['sm', 'md', 'lg']) {
+      expect(sizeTokenOf('.cck-textarea', size, 'textarea-control-height')).toBe(ref(`control-${size}`));
+    }
+  });
+
+  it('reports the width of 20 characters where it can, and a cols attribute keeps its meaning', () => {
+    const width = css.split('@supports (contain-intrinsic-inline-size: none)')[1] ?? '';
+    const rule = declarationsOf(width, '.cck-textarea:where(:not([cols]), [data-auto-resize])') ?? '';
+    expect(rule).toContain('contain: inline-size');
+    expect(rule).toContain('contain-intrinsic-inline-size: 20ch');
   });
 
   it('sets no display, so the native hidden attribute hides it', () => {
@@ -50,28 +71,31 @@ describe('standalone textarea box', () => {
       'background-color: var(--cck-textarea-readonly-bg)',
     );
     const disabled = declarationsOf(css, DISABLED) ?? '';
-    expect(disabled).toContain('background-color: var(--cck-textarea-disabled-bg)');
-    expect(disabled).toContain('color: var(--cck-textarea-disabled-text-color)');
+    expect(disabled).toContain('opacity: var(--cck-textarea-disabled-opacity)');
+    expect(disabled).toContain('cursor: not-allowed');
     expect(declarationsOf(css, '.cck-textarea::placeholder')).toContain('color: var(--cck-textarea-placeholder-color)');
   });
 
-  it('shows invalid by the border colour only, and read-only with a dashed border', () => {
+  it('shows invalid by the border colour only, and read-only by a fill with a dashed border in forced colors', () => {
     expect(declarationsOf(css, INVALID)).not.toMatch(/box-shadow|outline|border-width/);
-    expect(declarationsOf(css, '.cck-textarea:where([data-readonly])')).toContain('border-style: dashed');
+    expect(declarationsOf(css, INVALID)).toContain('--_focus: var(--cck-textarea-invalid-border-color)');
+    expect(declarationsOf(css, '.cck-textarea:where([data-readonly])')).not.toContain('border-style');
+    expect(declarationsOf(forced, '.cck-textarea:where([data-readonly])')).toContain('border-style: dashed');
   });
 
   it('lets disabled win over invalid and touched, with no thicker invalid border in forced colors', () => {
-    expect(declarationsOf(css, DISABLED)).toContain('border-color: var(--cck-textarea-disabled-border-color)');
+    expect(declarationsOf(css, DISABLED)).toContain('border-color: var(--cck-textarea-border-color)');
     expect(css.indexOf(`${DISABLED} {`)).toBeGreaterThan(css.indexOf(`${INVALID} {`));
-    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+    expect(css.indexOf(`${DISABLED} {`)).toBeGreaterThan(css.indexOf('.cck-textarea:where([data-readonly]) {'));
     expect(forced).not.toContain('invalid-border-width');
   });
 
-  it('draws a 1px focus ring with no offset, the border in border/2 and the placeholder in text/3', () => {
-    expect(structureTokenOf('.cck-textarea', 'textarea-focus-width')).toBe(ref('size-1'));
-    expect(structureTokenOf('.cck-textarea', 'textarea-focus-offset')).toBe(ref('spacing-0'));
+  it('draws a 3px halo at 20% of focus/2, the border in border/2, the hover border in border/3', () => {
+    expect(structureTokenOf('.cck-textarea', 'textarea-focus-color')).toBe(ref('focus-2'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-focus-ring-width')).toBe(ref('size-3'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-focus-ring-mix')).toBe(ref('opacity-20'));
     expect(structureTokenOf('.cck-textarea', 'textarea-border-color')).toBe(ref('border-2'));
-    expect(structureTokenOf('.cck-textarea', 'textarea-hover-border-color')).toBe(ref('border-2'));
+    expect(structureTokenOf('.cck-textarea', 'textarea-hover-border-color')).toBe(ref('border-3'));
     expect(structureTokenOf('.cck-textarea', 'textarea-placeholder-color')).toBe(ref('text-3'));
   });
 
@@ -81,14 +105,19 @@ describe('standalone textarea box', () => {
     expect(css).toContain('.cck-textarea:where([data-resize])');
   });
 
-  it('rings the focus outside a field and has forced-colors rules', () => {
-    expect(declarationsOf(css, '.cck-textarea:focus-visible')).toContain(
-      'outline: var(--cck-textarea-focus-width) solid var(--cck-textarea-focus-color)',
+  it('shows the focus as a border and a halo outside a field and has forced-colors rules', () => {
+    const focus = declarationsOf(css, '.cck-textarea:focus-visible') ?? '';
+    expect(focus).toContain('outline: none');
+    expect(focus).toContain('border-color: var(--_focus)');
+    expect(focus).toContain(
+      'box-shadow: 0 0 0 var(--cck-textarea-focus-ring-width) color-mix(in srgb, var(--_focus) var(--cck-textarea-focus-ring-mix), transparent)',
     );
-    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
-    for (const line of ['border-color: CanvasText', 'border-color: GrayText', 'outline-color: Highlight']) {
+    for (const line of ['border-color: CanvasText', 'border-color: GrayText', 'opacity: 1']) {
       expect(forced).toContain(line);
     }
+    expect(declarationsOf(forced, '.cck-textarea:focus-visible')).toContain(
+      'outline: var(--cck-textarea-focus-ring-width) solid Highlight',
+    );
   });
 });
 
@@ -130,8 +159,12 @@ describe('textarea inside a field input wrapper', () => {
     expect(rule).not.toMatch(/padding-block|font|letter-spacing/);
   });
 
-  it('leaves the focus ring to the wrapper', () => {
+  it('leaves the focus halo to the wrapper, and the forced-colors outline too', () => {
     expect(declarationsOf(css, '.cck-form-field__input-wrapper > .cck-textarea:focus-visible')).toContain(
+      'box-shadow: none',
+    );
+    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+    expect(declarationsOf(forced, '.cck-form-field__input-wrapper > .cck-textarea:focus-visible')).toContain(
       'outline: none',
     );
   });

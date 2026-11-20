@@ -16,6 +16,7 @@ $block: 'radio';
   }
 
   @include box.checked($block);
+  @include box.hover($block);
 
   .cck-radio-group:where([data-invalid]) > .cck-radio #{box.box($block)} {
     border-color: var(--cck-radio-box-invalid-border-color);

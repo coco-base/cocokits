@@ -1,14 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, ref, sizeTokenOf, tokensCss } from './css-test-helpers';
+import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf, tokensCss } from './css-test-helpers';
 
 const stylesCss = read('dist', 'styles.css');
+/** The rules without the tokens: the token blocks share class selectors with the rules. */
+const rulesCss = stylesCss.slice(stylesCss.indexOf('\n@layer cocokits {'));
 const scss = ['_badge.scss', '_badge-container.scss']
   .map((file) => read('src', 'styles', 'components', file))
   .join('\n');
 
 const X = 'var(--cck-badge-offset-x, 0px)';
 const Y = 'var(--cck-badge-offset-y, 0px)';
-const INSET = 'calc(0.2929 * var(--cck-badge-container-radius, 0px))';
+/** The author's radius, else the host radius token; the inset caps it at 50%, as a border radius is capped. */
+const RADIUS = 'var(--cck-badge-container-radius, var(--cck-badge-container-host-radius))';
+const INSET = `calc(0.2929 * min(${RADIUS}, 50%))`;
 /** The offset adds to the corner; the inline offset is mirrored in RTL. */
 const CORNERS = [
   {
@@ -58,19 +62,28 @@ describe('badge output', () => {
     expect(blocks.join('')).not.toContain('--cck-badge');
   });
 
-  // Height, inline padding, dot, count text and weight per size (design: Badge, Count and Dot). `xl` is library-only.
+  // Height, inline padding, dot and count text per size; Core / Size, so they ignore the density mode.
   it.each([
-    ['sm', 'size-16', 'spacing-2', 'size-6', 'text-xs'],
-    ['md', 'size-20', 'spacing-3', 'size-8', 'text-xs'],
-    ['lg', 'size-24', 'spacing-4', 'size-10', 'text-sm'],
-    ['xl', 'size-28', 'spacing-4', 'size-16', 'text-md'],
-  ])('size %s: height %s, padding %s, dot %s, count %s semibold', (mode, height, padding, dot, text) => {
+    ['sm', 'size-16', 'size-4', 'size-6', 'text-2xs'],
+    ['md', 'size-20', 'size-4', 'size-8', 'text-xs'],
+    ['lg', 'size-24', 'size-8', 'size-10', 'text-xs'],
+    ['xl', 'size-28', 'size-8', 'size-12', 'text-sm'],
+  ])('size %s: height %s, padding %s, dot %s, count %s', (mode, height, padding, dot, text) => {
     const at = (name: string): string | undefined => sizeTokenOf('.cck-badge', mode, `badge-${name}`);
     expect(at('height')).toBe(ref(height));
     expect(at('padding-inline')).toBe(ref(padding));
     expect(at('dot-size')).toBe(ref(dot));
-    expect(at('font-size')).toBe(ref(`${text}-font-size`));
-    expect(at('font-weight')).toBe(ref('font-weight-semibold'));
+    for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing']) {
+      expect(at(part), part).toBe(ref(`${text}-${part}`));
+    }
+    expect(at('font-weight')).toBeUndefined();
+  });
+
+  it('fills the count with the Active Color pair in medium weight, from the structure collection', () => {
+    expect(structureTokenOf('.cck-badge', 'badge-bg')).toBe(ref('color'));
+    expect(structureTokenOf('.cck-badge', 'badge-text-color')).toBe(ref('on-color'));
+    expect(structureTokenOf('.cck-badge', 'badge-font-weight')).toBe(ref('font-weight-medium'));
+    expect(declarationsOf(rulesCss, '.cck-badge')).toContain('font-weight: var(--cck-badge-font-weight)');
   });
 
   it('selects the radius by variant', () => {
@@ -83,7 +96,7 @@ describe('badge output', () => {
   });
 
   it('keeps the container in flow and centred', () => {
-    const rule = declarationsOf(stylesCss, '.cck-badge-container') ?? '';
+    const rule = declarationsOf(rulesCss, '.cck-badge-container') ?? '';
     for (const line of [
       'position: relative',
       'display: inline-flex',
@@ -130,11 +143,18 @@ describe('badge dot and hidden', () => {
 describe('badge position properties and RTL', () => {
   const properties = (text: string): string[] => [...new Set([...text.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]))];
 
-  it('reads the three documented properties, each with a 0px fallback', () => {
-    for (const name of ['--cck-badge-container-radius', '--cck-badge-offset-x', '--cck-badge-offset-y']) {
+  it('reads the two offsets with a 0px fallback and the radius with the host radius token as its fallback', () => {
+    for (const name of ['--cck-badge-offset-x', '--cck-badge-offset-y']) {
       expect(stylesCss).toContain(`var(${name}, 0px)`);
       expect(stylesCss.match(new RegExp(`var\\(${name}(?!, 0px\\))`, 'g'))).toBeNull();
     }
+    const count = (text: string): number => stylesCss.split(text).length - 1;
+    expect(count(RADIUS)).toBeGreaterThan(0);
+    expect(count('var(--cck-badge-container-radius')).toBe(count(RADIUS));
+  });
+
+  it('takes the host radius from radius-md, the radius of a control, so it follows the radius mode', () => {
+    expect(structureTokenOf('.cck-badge-container', 'badge-container-host-radius')).toBe(ref('radius-md'));
   });
 
   it('never defines the documented properties, in the theme CSS or in the tokens', () => {
@@ -149,6 +169,7 @@ describe('badge position properties and RTL', () => {
       read('dist', 'components', 'badge-container.css').split('.cck-badge-container[data-position] > .cck-badge')[1] ??
       '';
     expect(properties(corner).sort()).toEqual([
+      '--cck-badge-container-host-radius',
       '--cck-badge-container-radius',
       '--cck-badge-offset-x',
       '--cck-badge-offset-y',

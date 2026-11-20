@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, tokensCss } from './css-test-helpers';
+import { declarationsOf, outsideReducedMotion, read, reducedMotionBlocks, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'popover.css');
 
@@ -38,11 +38,11 @@ describe('popover output', () => {
   });
 
   it('runs its motion only without a reduced-motion preference, keyed on data-state', () => {
-    const motion = css.split('@media (prefers-reduced-motion: no-preference)')[1] ?? '';
+    // `state.transition` emits a reduced-motion block per include, so the motion is in one of many blocks.
+    const motion = reducedMotionBlocks(css).join('\n');
     expect(motion).toContain('.cck-popover__content[data-state=open]');
     expect(motion).toContain('.cck-popover__content[data-state=closed]');
-    const outside = css.split('@media (prefers-reduced-motion: no-preference)')[0] ?? '';
-    expect(outside).not.toMatch(/animation:/);
+    expect(outsideReducedMotion(css)).not.toMatch(/animation:|transition/);
   });
 
   it('mirrors the inline slide in right-to-left on the part itself', () => {
@@ -95,5 +95,18 @@ describe('popover output', () => {
     expect(rule).toContain('border:');
     expect(rule).toContain('font: inherit');
     expect(css).not.toMatch(/__close(?!:not\(\.cck-button\))/);
+  });
+
+  it('restates [hidden] on the arrow and the description, which set a display', () => {
+    expect(css).toMatch(/\.cck-popover__arrow\[hidden\]\s*\{\s*display: none/);
+    expect(css).toMatch(/\.cck-popover__description\[hidden\]\s*\{\s*display: none/);
+  });
+
+  it('lays the plain Close out as an inline flex box and restates [hidden] after it', () => {
+    expect(declarationsOf(css, '.cck-popover__close:not(.cck-button)')).toContain('display: inline-flex');
+    expect(css).toMatch(/\.cck-popover__close:not\(\.cck-button\)\[hidden\]\s*\{\s*display: none/);
+    expect(css.indexOf('.cck-popover__close:not(.cck-button)[hidden]')).toBeGreaterThan(
+      css.indexOf('.cck-popover__close:not(.cck-button) {'),
+    );
   });
 });

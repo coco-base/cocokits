@@ -15,9 +15,10 @@ describe('field-error output', () => {
     expect(blocks.join('')).not.toContain('--cck-field-error-');
   });
 
-  it('colours the text with the danger text token and sets text-md', () => {
+  it('colours the text with the danger text token and sets text-xs', () => {
     expect(tokensCss).toMatch(/--cck-field-error-text-color: var\(--cck-danger-text\)/);
-    expect(tokensCss).toMatch(/--cck-field-error-font-size: var\(--cck-text-md-font-size\)/);
+    expect(tokensCss).toMatch(/--cck-field-error-font-size: var\(--cck-text-xs-font-size\)/);
+    expect(tokensCss).toMatch(/--cck-field-error-line-height: var\(--cck-text-xs-line-height\)/);
     const rule = declarationsOf(css, '.cck-field-error') ?? '';
     for (const line of [
       'color: var(--cck-field-error-text-color)',

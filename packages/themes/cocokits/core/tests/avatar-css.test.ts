@@ -6,11 +6,7 @@ const allCss = read('dist', 'styles.css');
 const stylesCss = allCss.slice(allCss.indexOf('\n@layer cocokits {'));
 const COMPONENTS = ['avatar', 'avatar-group', 'avatar-label'] as const;
 const scss = COMPONENTS.map((name) => read('src', 'styles', 'components', `_${name}.scss`)).join('\n');
-const SIZES = ['xs', 'sm', 'md', 'lg'] as const;
-/** The old edges of the four sizes. */
-const EDGES = { xs: 28, sm: 32, md: 40, lg: 48 } as const;
-/** The Core size token an edge resolves to. */
-const coreSize = (px: number): string => `var(--cck-size-${String(px)})`;
+const SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
 /** The token block of a component in one size; the default size shares the block of the bare class. */
 const tokenBlock = (name: string, size: (typeof SIZES)[number]): string => {
@@ -35,52 +31,55 @@ describe('avatar output', () => {
     expect(blocks.join('')).not.toContain('--cck-avatar');
   });
 
-  it.each(SIZES)('gives the avatar, the group avatars and the label avatars the old edge in %s', (size) => {
-    expect(tokenBlock('avatar', size)).toContain(`--cck-avatar-size: ${coreSize(EDGES[size])}`);
-    expect(tokenBlock('avatar-group', size)).toContain(`--cck-avatar-group-avatar-size: ${coreSize(EDGES[size])}`);
-    expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-avatar-size: ${coreSize(EDGES[size])}`);
+  // The edge is the Button height of the size, so the avatar follows the density mode.
+  it.each(SIZES)('gives the avatar the edge control-%s, and the group and the label no avatar size', (size) => {
+    expect(tokenBlock('avatar', size)).toContain(`--cck-avatar-size: var(--cck-control-${size})`);
+    expect(tokenBlock('avatar-group', size)).not.toContain('--cck-avatar-group-avatar-');
+    expect(tokenBlock('avatar-label', size)).not.toContain('--cck-avatar-label-avatar-');
   });
 
-  it('uses the design overlaps, avatar-to-text gaps and text gaps', () => {
-    const spacing = (name: string): string => `var(--cck-${name})`;
-    for (const [size, overlap, gap, textGap, inlineGap] of [
-      ['xs', 8, 'spacing-3', 'spacing-1', 'spacing-2'],
-      ['sm', 10, 'spacing-3', 'spacing-2', 'spacing-3'],
-      ['md', 12, 'spacing-4', 'spacing-2', 'spacing-3'],
-      ['lg', 14, 'spacing-5', 'spacing-3', 'spacing-3'],
+  it('uses the overlaps, avatar-to-text gaps and inline text gaps of the token file, and no text gap', () => {
+    for (const [size, overlap, gap, inlineGap] of [
+      ['xs', 'spacing-1', 'spacing-4', 'spacing-3'],
+      ['sm', 'spacing-3', 'spacing-4', 'spacing-3'],
+      ['md', 'spacing-3', 'spacing-4', 'spacing-4'],
+      ['lg', 'spacing-4', 'spacing-5', 'spacing-4'],
+      ['xl', 'spacing-4', 'spacing-5', 'spacing-4'],
     ] as const) {
-      expect(tokenBlock('avatar-group', size)).toContain(`--cck-avatar-group-overlap: ${coreSize(overlap)}`);
-      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-gap: ${spacing(gap)}`);
-      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-text-gap: ${spacing(textGap)}`);
-      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-text-inline-gap: ${spacing(inlineGap)}`);
+      expect(tokenBlock('avatar-group', size)).toContain(`--cck-avatar-group-overlap: ${ref(overlap)}`);
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-gap: ${ref(gap)}`);
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-text-inline-gap: ${ref(inlineGap)}`);
+      expect(tokenBlock('avatar-label', size)).not.toContain('--cck-avatar-label-text-gap:');
     }
   });
 
-  // The avatar text of xs reads text-sm; the label name takes text-xs, sm, md and lg (design: Avatar, AvatarLabel).
   it.each([
-    ['xs', 'text-sm', 'text-xs'],
-    ['sm', 'text-sm', 'text-sm'],
-    ['md', 'text-md', 'text-md'],
-    ['lg', 'text-lg', 'text-lg'],
-  ] as const)('sets the fallback and name text of %s to %s and %s, medium', (size, avatarText, nameText) => {
+    ['xs', 'text-2xs', 'text-xs', 'text-xs'],
+    ['sm', 'text-xs', 'text-sm', 'text-xs'],
+    ['md', 'text-sm', 'text-sm', 'text-xs'],
+    ['lg', 'text-sm', 'text-sm', 'text-xs'],
+    ['xl', 'text-md', 'text-md', 'text-sm'],
+  ] as const)('sets the fallback, name and description text of %s to %s, %s and %s', (size, fallback, name, text) => {
     for (const part of ['font-family', 'font-size', 'line-height', 'letter-spacing']) {
-      expect(tokenBlock('avatar', size)).toContain(`--cck-avatar-fallback-${part}: var(--cck-${avatarText}-${part})`);
-      expect(tokenBlock('avatar-group', size)).toContain(
-        `--cck-avatar-group-avatar-${part}: var(--cck-${avatarText}-${part})`,
-      );
+      expect(tokenBlock('avatar', size)).toContain(`--cck-avatar-fallback-${part}: var(--cck-${fallback}-${part})`);
+      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-name-${part}: var(--cck-${name}-${part})`);
       expect(tokenBlock('avatar-label', size)).toContain(
-        `--cck-avatar-label-avatar-${part}: var(--cck-${avatarText}-${part})`,
+        `--cck-avatar-label-description-${part}: var(--cck-${text}-${part})`,
       );
-      expect(tokenBlock('avatar-label', size)).toContain(`--cck-avatar-label-${part}: var(--cck-${nameText}-${part})`);
     }
-    expect(tokenBlock('avatar', size)).toContain('--cck-avatar-fallback-font-weight: var(--cck-font-weight-medium)');
-    expect(tokenBlock('avatar-label', size)).toContain('--cck-avatar-label-font-weight: var(--cck-font-weight-medium)');
+    expect(tokenBlock('avatar', size)).not.toContain('font-weight');
+    expect(tokenBlock('avatar-label', size)).not.toContain('font-weight');
   });
 
-  it('colours the fallback with the Active Color of its option and the description with on-surface/3 in regular weight', () => {
-    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('color'));
-    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('on-color'));
-    expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-color')).toBe(ref('on-surface-3'));
+  it('weights the fallback and the name medium, in the structure collections', () => {
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-font-weight')).toBe(ref('font-weight-medium'));
+    expect(structureTokenOf('.cck-avatar-label', 'avatar-label-name-font-weight')).toBe(ref('font-weight-medium'));
+  });
+
+  it('colours the fallback with the container pair of its option and the description with text/3 in regular weight', () => {
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-bg')).toBe(ref('container'));
+    expect(structureTokenOf('.cck-avatar', 'avatar-fallback-text-color')).toBe(ref('on-container'));
+    expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-color')).toBe(ref('text-3'));
     expect(structureTokenOf('.cck-avatar-label', 'avatar-label-description-font-weight')).toBe(
       ref('font-weight-regular'),
     );
@@ -176,7 +175,8 @@ describe('avatar label', () => {
     );
     expect(inline).toContain('flex-direction: row');
     expect(inline).toContain('gap: var(--cck-avatar-label-text-inline-gap)');
-    expect(declarationsOf(stylesCss, '.cck-avatar-label__text')).toContain('gap: var(--cck-avatar-label-text-gap)');
+    // The leading of the two lines is the only space between the name and the description.
+    expect(declarationsOf(stylesCss, '.cck-avatar-label__text')).not.toContain('gap:');
   });
 
   it('colours the name and the description', () => {

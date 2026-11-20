@@ -46,7 +46,7 @@ import {
 } from './generated/token-modes';
 
 /** No token collection holds the variants, so they are written by hand. */
-const BUTTON_VARIANTS = ['primary', 'outline', 'basic'] as const;
+const BUTTON_VARIANTS = ['primary', 'soft', 'outline', 'basic'] as const;
 const BADGE_VARIANTS = ['rounded', 'rectangle'] as const;
 /** No token collection holds the Accordion looks, so they are written by hand. */
 const ACCORDION_VARIANTS = ['default', 'group', 'basic'] as const;
@@ -54,6 +54,8 @@ const ACCORDION_VARIANTS = ['default', 'group', 'basic'] as const;
 const ACCORDION_TOGGLE_POSITIONS = ['after', 'before'] as const;
 /** The look of the track: a contained pill with the thumb inside, or a thin rail with the thumb on it. */
 const SWITCH_VARIANTS = ['contained', 'rail'] as const;
+/** The Active Color families without neutral: its checked track is the colour of the unchecked track. */
+const SWITCH_COLORS = ['brand', 'info', 'success', 'warning', 'danger', 'contrast'] as const;
 /** Which mark an option of the Select list shows; no token collection holds it. */
 const SELECT_INDICATORS = ['checkmark', 'checkbox', 'none'] as const;
 /** Where the label sits against the box or track; no token collection holds it. */
@@ -161,7 +163,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly switch: {
       readonly variant: RootOption<typeof SWITCH_VARIANTS>;
       readonly size: RootOption<typeof switchSizeModes>;
-      readonly color: RootOption<typeof themeActiveColorModes>;
+      readonly color: RootOption<typeof SWITCH_COLORS>;
       readonly labelPosition: RootOption<typeof LABEL_POSITIONS>;
     };
     /** The icon is 1em and `currentColor` until the author gives a size or a color. */
@@ -406,8 +408,8 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
       size: rootSize(switchSizeModes, switchSizeDefaultMode, 'Size of the track and its label text.'),
       color: {
         attrName: 'cck-color',
-        values: themeActiveColorModes,
-        default: themeActiveColorDefaultMode,
+        values: SWITCH_COLORS,
+        default: 'brand',
         partNames: ['root'],
         description: 'Colour family of the checked state.',
       },

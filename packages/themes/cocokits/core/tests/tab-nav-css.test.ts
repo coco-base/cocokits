@@ -21,11 +21,16 @@ describe('tab-nav output', () => {
     expect(onRoot).not.toContain('--cck-tabs-');
   });
 
-  it('reads the Tabs tokens and the geometry of the base only, and every token exists in tokens.css', () => {
+  it('reads the Tabs tokens, the geometry of the base and private properties its partial sets', () => {
     const names = [...new Set([...css.matchAll(/var\((--[\w-]+)/g)].map((match) => match[1]))];
     expect(names.length).toBeGreaterThan(10);
     for (const name of names) {
       if (name.startsWith('--active-tab-')) continue;
+      // A private property is set in the partial; TabNav reads --_list-radius with a fallback, as it has no vertical list.
+      if (name.startsWith('--_')) {
+        expect(read('src', 'styles', 'components', '_tabs.scss'), name).toContain(`${name}:`);
+        continue;
+      }
       expect(name.startsWith('--cck-tabs-'), name).toBe(true);
       expect(tokensCss, name).toContain(`${name}:`);
     }
@@ -37,11 +42,10 @@ describe('tab-nav output', () => {
     expect(css).not.toMatch(/\[aria-|\[role|data-selected|\.cck-tab-nav--|\.is-/);
   });
 
-  it('has no orientation rule, and one panel rule with the Tabs panel: block layout, padding and focus', () => {
+  it('has no orientation rule, and one panel rule with the Tabs panel: block layout, hidden and focus', () => {
     expect(declarationsOf(css, '.cck-tab-nav__panel')).toMatch(/^\s*box-sizing:\s*border-box;\s*display:\s*block;\s*$/);
-    expect(declarationsOf(css, '.cck-tab-nav > .cck-tab-nav__panel')).toContain(
-      'padding: var(--cck-tabs-panel-padding)',
-    );
+    expect(declarationsOf(css, '.cck-tab-nav__panel[hidden]')).toContain('display: none');
+    expect(css).not.toContain('panel-padding');
     expect(declarationsOf(css, '.cck-tab-nav > .cck-tab-nav__panel:focus-visible')).toContain(
       'outline: var(--cck-tabs-focus-width) solid var(--cck-tabs-focus-color)',
     );
@@ -69,12 +73,13 @@ describe('tab-nav output', () => {
     }
   });
 
-  it('slides the indicator only inside @media (prefers-reduced-motion: no-preference), and has no hover look', () => {
-    const outside = css.replace(/@media \(prefers-reduced-motion: no-preference\) \{[\s\S]*?\n {2}\}\n/, '');
+  it('slides the indicator and fades the label only without a reduced-motion preference; hover colours the label', () => {
+    const outside = css.replace(/@media \(prefers-reduced-motion: no-preference\) \{[\s\S]*?\n {2}\}\n/g, '');
     expect(css).toContain('@media (prefers-reduced-motion: no-preference)');
     expect(outside).not.toContain('transition');
     const hovers = css.split('\n').filter((line) => line.includes(':hover'));
     expect(hovers).toEqual([
+      '  .cck-tab-nav > .cck-tab-nav__list > .cck-tab-nav__link:hover:not([data-disabled], :disabled) {',
       '    .cck-tab-nav > .cck-tab-nav__list:where(:hover, :focus-within) > .cck-tab-nav__indicator {',
     ]);
     expect(css).not.toMatch(/:active/);
@@ -86,8 +91,18 @@ describe('tab-nav output', () => {
     for (const word of ['Highlight;', 'HighlightText', 'GrayText']) expect(forced).toContain(word);
   });
 
-  it('removes the link underline and keeps the links at least 24px high', () => {
-    expect(css).toContain('text-decoration: none');
-    expect(css).toContain('min-block-size: var(--cck-tabs-trigger-height)');
+  it('removes the link underline and sizes the links as the Tabs triggers', () => {
+    const link = declarationsOf(css, '.cck-tab-nav > .cck-tab-nav__list > .cck-tab-nav__link') ?? '';
+    expect(link).toContain('text-decoration: none');
+    // The 24px floor of these heights is checked once, for Tabs and TabNav, in tabs-css.test.ts.
+    expect(link).toContain('min-block-size: calc(var(--cck-tabs-height) - 2 * var(--_inset, 0px))');
+  });
+
+  it.each([
+    ['root', '.cck-tab-nav'],
+    ['list', '.cck-tab-nav > .cck-tab-nav__list'],
+    ['link', '.cck-tab-nav > .cck-tab-nav__list > .cck-tab-nav__link'],
+  ])('restates [hidden] on the %s, because it sets display', (_part, selector) => {
+    expect(declarationsOf(css, `${selector}[hidden]`)).toContain('display: none');
   });
 });

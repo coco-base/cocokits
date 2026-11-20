@@ -93,7 +93,8 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'inset-inline-end',
     'translate',
   ],
-  'menu divider': ['margin-block'],
+  // The Divider in a Menu runs from edge to edge of the list: its inline margin undoes the padding of the list.
+  'menu divider': ['margin-block', 'margin-inline'],
   // Q13: a parent that renders its children passes its size to them through CSS, from its own size tokens.
   'chip-list chip': [
     'block-size',
@@ -105,7 +106,23 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'line-height',
     'letter-spacing',
     'margin-inline-end',
+    // A faded (disabled) list fades as a whole: its chips reset their own fade and take the cursor of the list.
+    'opacity',
+    'cursor',
   ],
+};
+
+/**
+ * Resets and placement a box may set on a child besides the slot layout, per pair. The pairs have no `PLACEMENT`
+ * entry, so the other checks of this file still run on them: an entry here only widens the slot layout.
+ */
+const RESETS: Readonly<Record<string, readonly string[] | undefined>> = {
+  // A faded field box fades as a whole: the control in it resets its own fade, so nothing fades twice.
+  'form-field input': ['opacity', 'align-self'],
+  'form-field textarea': ['opacity', 'contain', 'max-block-size', 'padding-inline-end'],
+  'form-field chip-list': ['opacity'],
+  // A Button in a Leading or Trailing zone stretches to the height of the box.
+  'form-field button': ['align-self'],
 };
 
 interface CrossRule {
@@ -156,8 +173,12 @@ describe('no theme CSS rule sets an option of a child from a parent selector (D3
           .map((property) => `${rule.item} { ${property} }`);
       }
       const placement = PLACEMENT[`${rule.first} ${rule.last}`];
+      const resets = RESETS[`${rule.first} ${rule.last}`] ?? [];
       return rule.properties
-        .filter((property) => !(placement ? placement.includes(property) : SLOT_LAYOUT.test(property)))
+        .filter(
+          (property) =>
+            !resets.includes(property) && !(placement ? placement.includes(property) : SLOT_LAYOUT.test(property)),
+        )
         .map((property) => `${rule.item} { ${property} }`);
     });
     expect(bad).toEqual([]);

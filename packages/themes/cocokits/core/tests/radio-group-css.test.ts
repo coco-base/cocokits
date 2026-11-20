@@ -49,7 +49,10 @@ describe('radio-group invalid look', () => {
 });
 
 describe('radio-group design match', () => {
-  it.each(['gap', 'inline-gap'])('sets the %s to spacing-5 in both orientations', (name) => {
-    expect(structureTokenOf('.cck-radio-group', `radio-group-${name}`)).toBe(ref('spacing-5'));
+  it.each([
+    ['gap', 'spacing-4'],
+    ['inline-gap', 'spacing-6'],
+  ])('sets the %s to %s', (name, alias) => {
+    expect(structureTokenOf('.cck-radio-group', `radio-group-${name}`)).toBe(ref(alias));
   });
 });
