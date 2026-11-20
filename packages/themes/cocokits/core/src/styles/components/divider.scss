@@ -1,0 +1,5 @@
+@use '_divider' as divider;
+
+@layer cocokits {
+  @include divider.rules;
+}

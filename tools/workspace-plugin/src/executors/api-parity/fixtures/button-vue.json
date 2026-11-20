@@ -1,0 +1,56 @@
+{
+  "component": "button",
+  "framework": "vue",
+  "parts": [
+    {
+      "name": "Button",
+      "semanticId": "button.root",
+      "anatomyPart": "root",
+      "props": [
+        {
+          "name": "as",
+          "semanticId": "none",
+          "type": "AsTag | Component",
+          "default": "'button'",
+          "required": false,
+          "description": "Fixture text."
+        },
+        {
+          "name": "asChild",
+          "semanticId": "none",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Fixture text."
+        },
+        {
+          "name": "disabled",
+          "semanticId": "button.disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "events": [],
+      "slots": [
+        {
+          "name": "default",
+          "semanticId": "button.default",
+          "type": "any",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "methods": [
+        {
+          "name": "element",
+          "semanticId": "none",
+          "type": "Element | null",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+@use '_radio-group' as radio-group;
+
+@layer cocokits {
+  @include radio-group.rules;
+}

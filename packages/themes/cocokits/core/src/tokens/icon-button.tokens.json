@@ -1,0 +1,41 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Icon Button / Size",
+      "tier": 3,
+      "prefix": "icon-button",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg", "xl"],
+      "tokens": [
+        { "name": "size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#control-xs}", "sm": "{Theme / Spacing#control-sm}", "md": "{Theme / Spacing#control-md}", "lg": "{Theme / Spacing#control-lg}", "xl": "{Theme / Spacing#control-xl}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-14}", "sm": "{Core / Size#size-16}", "md": "{Core / Size#size-16}", "lg": "{Core / Size#size-20}", "xl": "{Core / Size#size-20}" } }
+      ]
+    },
+    {
+      "name": "Icon Button / Structure",
+      "tier": 3,
+      "prefix": "icon-button",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "radius-rounded", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-full}" } },
+        { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Border Width#border-width-1}" } },
+        { "name": "solid-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "solid-icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } },
+        { "name": "soft-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
+        { "name": "icon-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } },
+        { "name": "outline-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
+        { "name": "border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#edge}" } },
+        { "name": "shadow", "type": "string", "valuesByMode": { "Default": "{Theme / Shadow#shadow-xs}" } },
+        { "name": "hover-mix", "type": "number", "unit": "%", "valuesByMode": { "Default": "{Theme / Opacity#opacity-10}" } },
+        { "name": "active-mix", "type": "number", "unit": "%", "valuesByMode": { "Default": "{Theme / Opacity#opacity-20}" } },
+        { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
+        { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Border Width#border-width-2}" } },
+        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-2}" } },
+        { "name": "disabled-opacity", "type": "number", "unit": "%", "valuesByMode": { "Default": "{Theme / Opacity#opacity-50}" } }
+      ]
+    }
+  ]
+}

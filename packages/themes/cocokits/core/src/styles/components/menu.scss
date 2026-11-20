@@ -1,0 +1,8 @@
+@use '_side-offset' as side-offset;
+@use '_menu' as menu;
+
+@include side-offset.register;
+
+@layer cocokits {
+  @include menu.rules;
+}

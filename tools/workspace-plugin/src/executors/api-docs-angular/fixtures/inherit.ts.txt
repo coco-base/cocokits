@@ -1,0 +1,97 @@
+import {
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+  booleanAttribute,
+  input,
+  model,
+  numberAttribute,
+  output,
+} from '@angular/core';
+
+/** The base class: it is not exported, so it has no part. */
+@Directive()
+abstract class ThingBase {
+  /**
+   * Whether the thing is disabled.
+   * @defaultValue false
+   */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /** Emits when the thing is toggled. */
+  readonly toggled = output<boolean>();
+
+  /** The element the directive sits on. */
+  protected abstract readonly tag: 'a' | 'button';
+
+  /** Closes the thing; the subclass makes it public. */
+  abstract close(): void;
+
+  /** A helper nobody should call. */
+  protected helper(): void {}
+
+  /**
+   * Registration for sibling entries.
+   * @internal
+   */
+  register(): void {}
+}
+
+/**
+ * The thing on a native `<button>`.
+ *
+ * It has a second paragraph of text.
+ * @remarks It keeps the focus.
+ * @example
+ * <button thing>Save</button>
+ * @cckPart root
+ * @cckSlot default - The label of the thing.
+ * @cckSlot hint [thingHint] - A hint
+ *   below the thing.
+ */
+@Directive({ selector: 'button[thing]', exportAs: 'thing' })
+export class Thing extends ThingBase {
+  protected readonly tag = 'button';
+
+  /** The value, with two-way binding. */
+  readonly value = model<string | undefined>(undefined);
+
+  /**
+   * Required label.
+   * @cckSemantic thing.title
+   */
+  readonly label = input.required<string>();
+
+  /** A number with an alias. */
+  readonly size = input(3, { alias: 'sizeAlias', transform: numberAttribute });
+
+  /** An old-style input. */
+  @Input() legacy = '';
+
+  /** An old-style output. */
+  @Output() legacyOut = new EventEmitter<number>();
+
+  /**
+   * Opens it by an amount.
+   * @param amount how much
+   */
+  open(amount: number): boolean {
+    return amount > 0;
+  }
+
+  /** Closes the thing. */
+  close(): void {}
+
+  /**
+   * Opens it the old way.
+   * @deprecated Use `open`.
+   */
+  oldOpen(): void {}
+
+  ngOnInit(): void {}
+
+  private secret = 1;
+}
+
+export const ThingImports = [Thing] as const;

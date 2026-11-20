@@ -1,0 +1,333 @@
+@use '../state';
+
+// Accordion rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The theme options sit on the root (`data-variant`, `data-size`, `data-toggle-position`, `data-hide-toggle`), so every
+// part below the root is reached through child combinators: an Accordion inside a content keeps its own options.
+// The content sets no `display`, so the native `hidden` hides it. The chevron is the `indicator` part, the last child of
+// the trigger, holding the theme's icon (`components.accordion.icons`); it is muted at rest, takes the label colour
+// while the trigger is hovered, and one icon is turned when the item is open. The content animates its height over
+// `--accordion-content-height`, which the base writes after mount; while it is unset (the first render) both ends of
+// the keyframes are invalid and resolve to `auto`, so nothing moves. The space above and below the content is a
+// pseudo-element each, so it is inside the measured height and needs no animation of its own. The trigger has no
+// fill at rest; in the default and group variants it is padded and highlights on hover, in the basic variant it is
+// flush with the text.
+$trigger: '.cck-accordion > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
+$indicator: '#{$trigger} > .cck-accordion__indicator';
+$content: '.cck-accordion > .cck-accordion__item > .cck-accordion__content';
+// The trigger of the variants that draw a box around their items.
+$boxed: '.cck-accordion:where([data-variant=default], [data-variant=group]) > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger';
+// The group, by the direction its items follow each other, and the trigger of its first and of its last item.
+$group: ".cck-accordion[data-variant='group']";
+$group-column: "#{$group}:not([data-orientation='horizontal'])";
+$group-row: "#{$group}[data-orientation='horizontal']";
+$first: '> .cck-accordion__item:first-child > .cck-accordion__header > .cck-accordion__trigger';
+$last: '> .cck-accordion__item:last-child > .cck-accordion__header > .cck-accordion__trigger';
+// The radius of a trigger that touches the inside of a bordered box.
+$inner-radius: calc(var(--cck-accordion-radius) - var(--cck-accordion-border-width));
+
+@mixin rules {
+  .cck-accordion {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--cck-accordion-gap);
+    // Fills its container; opening an item never changes the width.
+    inline-size: 100%;
+  }
+
+  // The root sets `display`, so the theme restates the native `hidden`.
+  .cck-accordion[hidden] {
+    display: none;
+  }
+
+  .cck-accordion[data-orientation='horizontal'] {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  // The item is a tag, so it takes the block layout of a `div`; the theme restates the native `hidden`.
+  .cck-accordion > .cck-accordion__item {
+    box-sizing: border-box;
+    display: block;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-accordion[data-orientation='horizontal'] > .cck-accordion__item {
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  // The look of the items.
+  .cck-accordion[data-variant='default'] > .cck-accordion__item {
+    border: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+    border-radius: var(--cck-accordion-radius);
+    background-color: var(--cck-accordion-bg);
+    // The hover fill of the trigger follows the rounded corners.
+    overflow: clip;
+  }
+
+  .cck-accordion[data-variant='group'] {
+    gap: 0;
+    border: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+    border-radius: var(--cck-accordion-radius);
+    background-color: var(--cck-accordion-bg);
+    overflow: clip;
+  }
+
+  // An item draws a divider only when a visible item precedes it.
+  #{$group} > .cck-accordion__item:not([hidden]) ~ .cck-accordion__item {
+    border-block-start: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+  }
+
+  #{$group-row} > .cck-accordion__item:not([hidden]) ~ .cck-accordion__item {
+    border-block-start: 0;
+    border-inline-start: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+  }
+
+  // The basic variant draws a divider under each item and nothing else.
+  .cck-accordion[data-variant='basic'] {
+    gap: 0;
+  }
+
+  // Side by side, the flush triggers need room between the chevron of one item and the label of the next.
+  .cck-accordion[data-variant='basic'][data-orientation='horizontal'] {
+    gap: var(--cck-accordion-padding-inline);
+  }
+
+  .cck-accordion[data-variant='basic'] > .cck-accordion__item {
+    border-block-end: var(--cck-accordion-border-width) solid var(--cck-accordion-border-color);
+  }
+
+  .cck-accordion > .cck-accordion__item > .cck-accordion__header {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  // The label parts sit at the start, `trigger-gap` apart; the chevron goes to the end.
+  #{$trigger} {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--cck-accordion-trigger-gap);
+    inline-size: 100%;
+    margin: 0;
+    padding-block: var(--cck-accordion-trigger-padding-block);
+    padding-inline: 0;
+    border: 0;
+    border-radius: var(--cck-accordion-basic-trigger-radius);
+    background-color: transparent;
+    color: var(--cck-accordion-trigger-color);
+    font-family: var(--cck-accordion-font-family);
+    font-size: var(--cck-accordion-font-size);
+    line-height: var(--cck-accordion-line-height);
+    letter-spacing: var(--cck-accordion-letter-spacing);
+    font-weight: var(--cck-accordion-trigger-font-weight);
+    text-align: start;
+    cursor: pointer;
+
+    @include state.transition(background-color, color);
+  }
+
+  #{$boxed} {
+    padding-inline: var(--cck-accordion-padding-inline);
+    border-radius: 0;
+  }
+
+  // The trigger of a default item follows the inner corners of the item; an open one is square where the content
+  // follows it.
+  .cck-accordion[data-variant='default'] > .cck-accordion__item > .cck-accordion__header > .cck-accordion__trigger {
+    border-radius: $inner-radius;
+
+    &[data-state='open'] {
+      border-end-start-radius: 0;
+      border-end-end-radius: 0;
+    }
+  }
+
+  // The outer triggers of a group follow the inner corners of the box, so the ring keeps the curve of the box. An end
+  // corner is square while a content sits under the trigger: an open last item in a column, any open item in a row.
+  #{$group} #{$first} {
+    border-start-start-radius: $inner-radius;
+  }
+
+  #{$group-column} #{$first},
+  #{$group-row} #{$last} {
+    border-start-end-radius: $inner-radius;
+  }
+
+  #{$group-column} #{$last}:not([data-state='open']) {
+    border-end-start-radius: $inner-radius;
+    border-end-end-radius: $inner-radius;
+  }
+
+  #{$group-row}:not(:has(> .cck-accordion__item > .cck-accordion__header > [data-state='open'])) {
+    #{$first} {
+      border-end-start-radius: $inner-radius;
+    }
+
+    #{$last} {
+      border-end-end-radius: $inner-radius;
+    }
+  }
+
+  // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+  #{$trigger} > .cck-svg-icon:not([data-size]) {
+    font-size: var(--cck-accordion-icon-size);
+  }
+
+  // The icon box: its font size is the icon size, and the icon (1em) takes the box's colour.
+  #{$indicator} {
+    box-sizing: border-box;
+    flex: none;
+    display: inline-flex;
+    margin-inline-start: auto;
+    color: var(--cck-accordion-icon-color);
+    font-size: var(--cck-accordion-icon-size);
+
+    @include state.transition(color);
+  }
+
+  // The chevron is symmetric, so a right-to-left page needs no counterpart.
+  #{$trigger}[data-state='open'] > .cck-accordion__indicator {
+    rotate: 180deg;
+  }
+
+  // The chevron, then the label, both at the start, `trigger-gap` apart.
+  .cck-accordion[data-toggle-position='before']
+    > .cck-accordion__item
+    > .cck-accordion__header
+    > .cck-accordion__trigger
+    > .cck-accordion__indicator {
+    order: -1;
+    margin-inline-start: 0;
+  }
+
+  .cck-accordion[data-hide-toggle]
+    > .cck-accordion__item
+    > .cck-accordion__header
+    > .cck-accordion__trigger
+    > .cck-accordion__indicator {
+    display: none;
+  }
+
+  // Hover, never on a disabled trigger: the chevron takes the label colour, and a boxed trigger highlights.
+  #{$trigger}:hover:not([data-disabled]) > .cck-accordion__indicator {
+    color: var(--cck-accordion-trigger-color);
+  }
+
+  #{$boxed}:hover:not([data-disabled]) {
+    background-color: var(--cck-accordion-trigger-hover-bg);
+  }
+
+  // The trigger keeps its look and fades.
+  #{$trigger}[data-disabled] {
+    opacity: var(--cck-accordion-disabled-opacity);
+    cursor: not-allowed;
+  }
+
+  // The ring of the basic trigger sits around its text.
+  #{$trigger}[data-focus-visible] {
+    outline: var(--cck-accordion-focus-width) solid var(--cck-accordion-focus-color);
+    outline-offset: var(--cck-accordion-focus-offset);
+  }
+
+  // Inside the boxed trigger's own box, so the ring is never clipped by the item.
+  #{$boxed}[data-focus-visible] {
+    outline-offset: calc(-1 * var(--cck-accordion-focus-width));
+  }
+
+  #{$content} {
+    box-sizing: border-box;
+    color: var(--cck-accordion-content-color);
+    font-family: var(--cck-accordion-font-family);
+    font-size: var(--cck-accordion-font-size);
+    line-height: var(--cck-accordion-line-height);
+    letter-spacing: var(--cck-accordion-letter-spacing);
+  }
+
+  .cck-accordion:where([data-variant='default'], [data-variant='group'])
+    > .cck-accordion__item
+    > .cck-accordion__content {
+    padding-inline: var(--cck-accordion-padding-inline);
+  }
+
+  // Keeps the text off the hover fill of the trigger above it.
+  #{$content}::before {
+    content: '';
+    box-sizing: border-box;
+    display: block;
+    block-size: var(--cck-accordion-content-padding-block-start);
+  }
+
+  #{$content}::after {
+    content: '';
+    box-sizing: border-box;
+    display: block;
+    block-size: var(--cck-accordion-content-padding-block-end);
+  }
+
+  @keyframes cck-accordion-open {
+    from {
+      block-size: calc(var(--accordion-content-height) * 0);
+    }
+
+    to {
+      block-size: var(--accordion-content-height);
+    }
+  }
+
+  @keyframes cck-accordion-close {
+    from {
+      block-size: var(--accordion-content-height);
+    }
+
+    to {
+      block-size: calc(var(--accordion-content-height) * 0);
+    }
+  }
+
+  // The base hides the content when its animation ends, so without one (reduced motion) it is hidden at once.
+  // The content is clipped on the block axis only, where its height grows or shrinks; the inline axis stays open for
+  // the focus ring of a child that is flush with the content. The chevron turns over the same time.
+  @media (prefers-reduced-motion: no-preference) {
+    #{$content} {
+      overflow-y: clip;
+    }
+
+    #{$content}[data-state='open'] {
+      animation: cck-accordion-open var(--cck-accordion-motion-duration) ease;
+    }
+
+    #{$content}[data-state='closed'] {
+      animation: cck-accordion-close var(--cck-accordion-motion-duration) ease forwards;
+    }
+
+    #{$indicator} {
+      transition-property: color, rotate;
+      transition-duration: state.$duration, var(--cck-accordion-motion-duration);
+    }
+  }
+
+  @media (forced-colors: active) {
+    #{$trigger}[data-disabled] {
+      color: GrayText;
+      opacity: 1;
+    }
+
+    #{$trigger}[data-focus-visible] {
+      outline-color: Highlight;
+    }
+
+    .cck-accordion[data-variant='default'] > .cck-accordion__item,
+    .cck-accordion[data-variant='group'],
+    .cck-accordion[data-variant='group'] > .cck-accordion__item:not([hidden]) ~ .cck-accordion__item,
+    .cck-accordion[data-variant='basic'] > .cck-accordion__item {
+      border-color: CanvasText;
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Button / Size",
+      "tier": 3,
+      "prefix": "button",
+      "defaultMode": "md",
+      "modes": ["xs", "sm", "md", "lg", "xl"],
+      "tokens": [
+        { "name": "height", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#control-xs}", "sm": "{Theme / Spacing#control-sm}", "md": "{Theme / Spacing#control-md}", "lg": "{Theme / Spacing#control-lg}", "xl": "{Theme / Spacing#control-xl}" } },
+        { "name": "padding-inline", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#spacing-4}", "sm": "{Theme / Spacing#spacing-5}", "md": "{Theme / Spacing#spacing-6}", "lg": "{Theme / Spacing#spacing-7}", "xl": "{Theme / Spacing#spacing-8}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Spacing#spacing-3}", "sm": "{Theme / Spacing#spacing-4}", "md": "{Theme / Spacing#spacing-4}", "lg": "{Theme / Spacing#spacing-4}", "xl": "{Theme / Spacing#spacing-4}" } },
+        { "name": "label-font-family", "type": "string", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-family}", "sm": "{Theme / Typography#text-sm/font-family}", "md": "{Theme / Typography#text-sm/font-family}", "lg": "{Theme / Typography#text-sm/font-family}", "xl": "{Theme / Typography#text-md/font-family}" } },
+        { "name": "label-font-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Theme / Typography#text-xs/font-size}", "sm": "{Theme / Typography#text-sm/font-size}", "md": "{Theme / Typography#text-sm/font-size}", "lg": "{Theme / Typography#text-sm/font-size}", "xl": "{Theme / Typography#text-md/font-size}" } },
+        { "name": "label-line-height", "type": "number", "unit": "unitless", "valuesByMode": { "xs": "{Theme / Typography#text-xs/line-height}", "sm": "{Theme / Typography#text-sm/line-height}", "md": "{Theme / Typography#text-sm/line-height}", "lg": "{Theme / Typography#text-sm/line-height}", "xl": "{Theme / Typography#text-md/line-height}" } },
+        { "name": "label-letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "xs": "{Theme / Typography#text-xs/letter-spacing}", "sm": "{Theme / Typography#text-sm/letter-spacing}", "md": "{Theme / Typography#text-sm/letter-spacing}", "lg": "{Theme / Typography#text-sm/letter-spacing}", "xl": "{Theme / Typography#text-md/letter-spacing}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "xs": "{Core / Size#size-14}", "sm": "{Core / Size#size-16}", "md": "{Core / Size#size-16}", "lg": "{Core / Size#size-20}", "xl": "{Core / Size#size-20}" } }
+      ]
+    },
+    {
+      "name": "Button / Structure",
+      "tier": 3,
+      "prefix": "button",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "label-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } },
+        { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Border Width#border-width-1}" } },
+        { "name": "solid-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "solid-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } },
+        { "name": "soft-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
+        { "name": "label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } },
+        { "name": "outline-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Color#surface/1}" } },
+        { "name": "border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#edge}" } },
+        { "name": "shadow", "type": "string", "valuesByMode": { "Default": "{Theme / Shadow#shadow-xs}" } },
+        { "name": "hover-mix", "type": "number", "unit": "%", "valuesByMode": { "Default": "{Theme / Opacity#opacity-10}" } },
+        { "name": "active-mix", "type": "number", "unit": "%", "valuesByMode": { "Default": "{Theme / Opacity#opacity-20}" } },
+        { "name": "focus-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#focus/2}" } },
+        { "name": "focus-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Border Width#border-width-2}" } },
+        { "name": "focus-offset", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-2}" } },
+        { "name": "disabled-opacity", "type": "number", "unit": "%", "valuesByMode": { "Default": "{Theme / Opacity#opacity-50}" } }
+      ]
+    }
+  ]
+}

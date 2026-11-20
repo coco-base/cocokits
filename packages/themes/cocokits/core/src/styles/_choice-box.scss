@@ -1,0 +1,252 @@
+// The shared pieces of the Checkbox and the Radio: one box in a hit area next to a label. A component
+// includes them in the order the cascade needs, because every state rule has the same specificity and
+// source order decides: layout, read-only, checked, hover, mixed, invalid, disabled, focus, then the forced-colors
+// block. The state part of a selector sits in `:where()`, so only the parts count.
+@use 'state';
+
+@function token($block, $name) {
+  @return var(--cck-#{$block}-#{$name});
+}
+
+// The selector tails of one block, written once. All of them use child combinators.
+@function wrapper($block) {
+  @return '> .cck-#{$block}__wrapper';
+}
+@function input-wrapper($block) {
+  @return '#{wrapper($block)} > .cck-#{$block}__input-wrapper';
+}
+@function input($block) {
+  @return '#{input-wrapper($block)} > .cck-#{$block}__input';
+}
+@function box($block) {
+  @return '#{input-wrapper($block)} > .cck-#{$block}__background';
+}
+@function label($block) {
+  @return '#{wrapper($block)} > .cck-#{$block}__label';
+}
+// A native `fieldset[disabled]` disables the input before the root renders `data-disabled`.
+@function disabled($block) {
+  @return ':where([data-disabled], :has(#{input($block)}:disabled))';
+}
+
+@mixin layout($block) {
+  $root: '.cck-#{$block}';
+
+  #{$root} {
+    box-sizing: border-box;
+    display: inline-flex;
+    max-inline-size: 100%;
+    vertical-align: top;
+  }
+
+  // The root sets `display`, so the theme restates the native `hidden`.
+  #{$root}[hidden] {
+    display: none;
+  }
+
+  .cck-#{$block}__wrapper {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: token($block, gap);
+    min-inline-size: 0;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it on every part with a display.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Reverses the row with the writing direction, so RTL needs no counterpart.
+  #{$root}[data-label-position='before'] #{wrapper($block)} {
+    flex-direction: row-reverse;
+  }
+
+  // The row of the box: as wide as the box, so the box lines up with the content around it, and as high as the hit
+  // area. The box is centred in it.
+  .cck-#{$block}__input-wrapper {
+    position: relative;
+    box-sizing: border-box;
+    display: inline-grid;
+    flex: none;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+    place-items: center;
+    inline-size: token($block, box-size);
+    block-size: token($block, hit-size);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The hit area: at least 24 by 24 CSS px. The input lies over the box and overflows its row evenly on both sides.
+  .cck-#{$block}__input {
+    grid-area: 1 / 1;
+    z-index: 1;
+    box-sizing: border-box;
+    inline-size: token($block, hit-size);
+    block-size: token($block, hit-size);
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .cck-#{$block}__background {
+    position: relative;
+    grid-area: 1 / 1;
+    box-sizing: border-box;
+    inline-size: token($block, box-size);
+    block-size: token($block, box-size);
+    border: token($block, box-border-width) solid token($block, box-border-color);
+    border-radius: token($block, box-radius);
+    background-color: token($block, box-bg);
+    box-shadow: token($block, box-shadow);
+    pointer-events: none;
+
+    // The mark: the dash or the dot. It is drawn with CSS and has no text.
+    &::after {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      inset: 0;
+      background-color: token($block, box-mark-color);
+      opacity: 0;
+    }
+  }
+
+  .cck-#{$block}__label {
+    min-inline-size: 0;
+    box-sizing: border-box;
+    // The first line sits at the middle of the hit area. The line height is a ratio, so it takes the font size of the
+    // label (`1em`).
+    padding-block: max(0px, calc((#{token($block, hit-size)} - #{token($block, label-line-height)} * 1em) / 2));
+    color: token($block, label-text-color);
+    font-family: token($block, label-font-family);
+    font-size: token($block, label-font-size);
+    line-height: token($block, label-line-height);
+    letter-spacing: token($block, label-letter-spacing);
+    font-weight: token($block, label-font-weight);
+    cursor: pointer;
+  }
+}
+
+// The checked look. `$facts` lists the root facts that fill the box (a Checkbox adds the mixed one). `$mark: false`
+// leaves the `::after` hidden: the Checkbox shows its tick as an icon and the `::after` only as the dash.
+@mixin checked($block, $facts: '[data-checked]', $mark: true) {
+  .cck-#{$block}:where(#{$facts}) #{box($block)} {
+    border-color: token($block, box-checked-border-color);
+    background-color: token($block, box-checked-bg);
+
+    @if $mark {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Hover of an editable box: an empty box darkens its border, a filled box mixes the mark colour into its fill.
+// Press mixes more of it; the press rule follows the hover rule, so it wins while the pointer is down.
+// `$idle` lists the root facts that keep the resting look (a Checkbox passes the read-only one).
+@mixin hover($block, $facts: '[data-checked]', $idle: '[data-disabled]') {
+  $editable: ':where(:hover):where(:not(#{$idle}, :has(#{input($block)}:disabled)))';
+  $pressed: ':where(:active):where(:not(#{$idle}, :has(#{input($block)}:disabled)))';
+
+  .cck-#{$block}#{$editable}:where(:not(#{$facts})) #{box($block)} {
+    border-color: token($block, box-hover-border-color);
+  }
+
+  .cck-#{$block}#{$editable}:where(#{$facts}) #{box($block)} {
+    $fill: state.layer(token($block, box-checked-bg), token($block, box-mark-color), token($block, hover-mix));
+
+    border-color: $fill;
+    background-color: $fill;
+  }
+
+  .cck-#{$block}#{$pressed}:where(#{$facts}) #{box($block)} {
+    $fill: state.layer(token($block, box-checked-bg), token($block, box-mark-color), token($block, active-mix));
+
+    border-color: $fill;
+    background-color: $fill;
+  }
+}
+
+// The control keeps its look and fades as a whole: the box and the label.
+@mixin disabled($block) {
+  .cck-#{$block}#{disabled($block)} {
+    opacity: token($block, disabled-opacity);
+
+    #{box($block)} {
+      box-shadow: none;
+    }
+
+    #{label($block)},
+    #{input($block)} {
+      cursor: not-allowed;
+    }
+  }
+}
+
+@mixin focus($block) {
+  .cck-#{$block}:has(#{input($block)}:focus-visible) #{box($block)} {
+    outline: token($block, focus-width) solid token($block, focus-color);
+    outline-offset: token($block, focus-offset);
+  }
+}
+
+// The box and its mark fade between states; the mixin holds the reduced-motion guard.
+@mixin motion($block) {
+  .cck-#{$block}__background {
+    @include state.transition(background-color, border-color, box-shadow);
+  }
+
+  .cck-#{$block}__background::after {
+    @include state.transition(opacity);
+  }
+}
+
+// System colors for every state. `@content` adds the states of one component between checked and disabled.
+@mixin forced($block, $facts: '[data-checked]') {
+  @media (forced-colors: active) {
+    .cck-#{$block} {
+      #{box($block)} {
+        border-color: CanvasText;
+        background-color: Canvas;
+
+        &::after {
+          background-color: HighlightText;
+        }
+      }
+    }
+
+    // The border is CanvasText, not Highlight, so a dashed (read-only) edge shows on the fill.
+    .cck-#{$block}:where(#{$facts}) #{box($block)} {
+      border-color: CanvasText;
+      background-color: Highlight;
+    }
+
+    @content;
+
+    // System colors tell the disabled state, so the control does not fade.
+    .cck-#{$block}#{disabled($block)} {
+      opacity: 1;
+
+      #{box($block)} {
+        border-color: GrayText;
+        background-color: Canvas;
+
+        &::after {
+          background-color: GrayText;
+        }
+      }
+
+      #{label($block)} {
+        color: GrayText;
+      }
+    }
+
+    .cck-#{$block}:has(#{input($block)}:focus-visible) #{box($block)} {
+      outline-color: Highlight;
+    }
+  }
+}

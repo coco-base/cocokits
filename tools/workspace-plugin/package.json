@@ -1,27 +1,11 @@
 {
-  "name": "@cocokits/workspace-plugin",
+  "name": "@cocokits/workspace",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "@nx/devkit": "18.3.3",
-    "@swc/helpers": "~0.5.2",
-    "autoprefixer": "^10.4.19",
-    "chalk": "^4.1.2",
-    "color2k": "^2.0.3",
-    "cssnano": "^7.0.1",
-    "postcss": "^8.4.38",
-    "postcss-discard-comments": "^7.0.3",
-    "sass": "^1.75.0",
-    "fast-glob": "^3.3.3"
-  },
-  "devDependencies": {
-    "@nx/vite": "18.3.5",
-    "vite": "~5.0.0",
-    "vitest": "^1.6.0"
-  },
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "typings": "./src/index.d.ts",
+  "description": "Workspace generators and executors for CocoKits (nx g @cocokits/workspace:library, @cocokits/workspace:tokens).",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "dependencies": {
+    "@nx/devkit": "23.3.0"
+  }
 }

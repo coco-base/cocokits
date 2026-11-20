@@ -1,0 +1,5 @@
+@use '_avatar-label' as avatar-label;
+
+@layer cocokits {
+  @include avatar-label.rules;
+}

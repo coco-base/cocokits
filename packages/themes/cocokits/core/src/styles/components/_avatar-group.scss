@@ -1,0 +1,23 @@
+// AvatarGroup rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The group owns the overlap of its direct avatars (the BadgeContainer pattern); the later avatar
+// paints over the earlier one. Each avatar sizes itself: the theme layer gives it the group's `size` when it has none.
+// The ring is a box-shadow, so it does not change the size; it is decorative and may
+// vanish in forced colors.
+@mixin rules {
+  .cck-avatar-group {
+    box-sizing: border-box;
+    display: flex;
+
+    &[hidden] {
+      display: none;
+    }
+
+    > .cck-avatar {
+      box-shadow: 0 0 0 var(--cck-avatar-group-ring-width) var(--cck-avatar-group-ring-color);
+    }
+
+    > .cck-avatar + .cck-avatar {
+      margin-inline-start: calc(-1 * var(--cck-avatar-group-overlap));
+    }
+  }
+}

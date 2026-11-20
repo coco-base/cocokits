@@ -1,62 +1,48 @@
 {
   "$schema": "https://json-schema.org/schema",
-  "$id": "Library",
-  "title": "",
+  "$id": "CocoKitsLibrary",
+  "title": "Scaffold a CocoKits package or entry point",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?"
+      "description": "Package or entry point name: utils|shared for shared-lib, the module for cdk-module, the machine for machine, the component for fw-entry and angular-testing. Optional for cdk, machines, fw-core, fw, theme-core and theme-fw (the canonical project name is used; a different value is rejected).",
+      "$default": { "$source": "argv", "index": 0 },
+      "pattern": "^[a-z][a-z0-9-]*$"
     },
-    "type": {
+    "kind": {
       "type": "string",
-      "description": "The type of library. Note: 'theme' requires 'shared' as the framework. 'storybook' framework only allows 'utils' type.",
-      "enum": ["ui", "utils", "theme"],
-      "x-prompt": "Select the type of library"
+      "description": "What to create.",
+      "enum": [
+        "shared-lib",
+        "cdk",
+        "machines",
+        "fw-core",
+        "fw",
+        "theme-core",
+        "theme-fw",
+        "cdk-module",
+        "machine",
+        "fw-entry",
+        "angular-testing"
+      ]
     },
     "framework": {
       "type": "string",
-      "description": "The framework for the library. Note: 'angular' and 'react' cannot have 'theme' as a type. 'shared' cannot be used with 'ui' type. 'storybook' framework must use 'utils' type.",
-      "enum": ["angular", "react", "shared", "storybook"],
-      "x-prompt": "Select the framework of library"
+      "description": "Framework of fw-core, fw, theme-fw, fw-entry and angular-testing (angular-testing is always angular).",
+      "enum": ["angular", "react", "vue"]
     },
-    "storybook": {
-      "type": "boolean",
-      "description": "Whether generate storybook for library or not.",
-      "x-prompt": "Is the library has storybook?",
-      "default": true
-    },
-    "directory": {
+    "theme": {
       "type": "string",
-      "description": "The directory for creating the generator file is determined by the `--directoryFormat` option. If set to `as-provided`, the path is relative to the current working directory. Otherwise, it is relative to the workspace root.",
-      "default": "/"
+      "description": "Theme name for theme-core and theme-fw.",
+      "pattern": "^[a-z][a-z0-9-]*$"
     },
-    "directoryFormat": {
-      "type": "string",
-      "description": "Directory configuration. When set to `as-provided`, the generator file is created in the given directory, relative to the current working directory, independent of the project structure ([Working Directory]/[DIRECTORY]). If set to `root`, the file is created relative to the workspace root, incorporating the project structure ([ROOT Directory]/[DIRECTORY]).",
-      "enum": ["as-provided", "root"],
-      "default": "as-provided"
-    },
-    "publishable": {
+    "skipFormat": {
       "type": "boolean",
-      "description": "Generate a publishable library.",
-      "default": true
-    },
-    "importPath": {
-      "type": "string",
-      "description": "The library name used to import it, like `@cocokits/angular-components`. Must be a valid npm name. The default is `@cocokits/[FRAMEWORK]-[NAME]`",
-      "default": ""
-    },
-    "formatFiles": {
-      "type": "boolean",
-      "description": "Format the files after the generator is run.",
-      "default": true
+      "description": "Skip formatting the generated files.",
+      "default": false
     }
   },
-  "required": ["name", "type", "framework"]
+  "required": ["kind"],
+  "additionalProperties": false
 }

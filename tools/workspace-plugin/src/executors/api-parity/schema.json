@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "API parity executor",
+  "description": "Compare the ApiDoc files of the Angular, React and Vue extractions by semantic id.",
+  "type": "object",
+  "properties": {
+    "apiDocsDirs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["dist/api-docs/angular", "dist/api-docs/react", "dist/api-docs/vue"],
+      "description": "The folders of ApiDoc JSON files, relative to the workspace root."
+    }
+  },
+  "additionalProperties": false
+}

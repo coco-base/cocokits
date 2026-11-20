@@ -1,0 +1,30 @@
+<script setup lang="ts">
+import type { ThingEmits, ThingProps } from './thing.types';
+
+defineProps<ThingProps>();
+defineEmits<ThingEmits>();
+defineSlots<{
+  /**
+   * The content of the thing. Use @click to listen. When not set, the thing is empty.
+   *
+   * @example
+   * <Thing @click="save">Save</Thing>
+   */
+  default?(): unknown;
+}>();
+defineExpose({
+  /**
+   * Moves focus into the thing. Use @click to listen.
+   *
+   * @example
+   * <Thing @click="save">Save</Thing>
+   */
+  focus(): void {
+    return undefined;
+  },
+});
+</script>
+
+<template>
+  <button />
+</template>

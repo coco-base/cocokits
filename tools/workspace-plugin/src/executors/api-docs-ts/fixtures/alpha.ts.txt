@@ -1,0 +1,10 @@
+/**
+ * Doubles a number.
+ * @example
+ * alpha(2);
+ * @param value - The number to double.
+ * @returns The double.
+ */
+export function alpha(value: number): number {
+  return value * 2;
+}

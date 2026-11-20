@@ -1,0 +1,5784 @@
+[
+  {
+    "group": "1:docs",
+    "name": "button, nothing",
+    "html": "<button id=\"t\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, text",
+    "html": "<button id=\"t\">Save</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, aria-label",
+    "html": "<button id=\"t\" aria-label=\"Save\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, label for",
+    "html": "<label for=\"t\">Save</label><button id=\"t\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, whitespace only",
+    "html": "<button id=\"t\">  \n </button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, img alt",
+    "html": "<button id=\"t\"><img alt=\"Save\" src=\"data:,\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, img empty alt",
+    "html": "<button id=\"t\"><img alt=\"\" src=\"data:,\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, svg title",
+    "html": "<button id=\"t\"><svg width=\"8\" height=\"8\"><title>Close</title></svg></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, aria-hidden icon only",
+    "html": "<button id=\"t\"><span aria-hidden=\"true\">x</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, display:none text only",
+    "html": "<button id=\"t\"><span style=\"display:none\">x</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, hidden attr text only",
+    "html": "<button id=\"t\"><span hidden>x</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, visibility:hidden text only",
+    "html": "<button id=\"t\"><span style=\"visibility:hidden\">x</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, visually hidden text",
+    "html": "<button id=\"t\"><span style=\"position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\">Close</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, nested aria-label",
+    "html": "<button id=\"t\"><span aria-label=\"Close\"></span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:docs",
+    "name": "button, title",
+    "html": "<button id=\"t\" title=\"Save\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  { "group": "1:text", "name": "input, nothing", "html": "<input id=\"t\">", "expected": false, "relation": "equal" },
+  {
+    "group": "1:text",
+    "name": "input, label for",
+    "html": "<label for=\"t\">Name</label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, wrapping label",
+    "html": "<label>Name <input id=\"t\"></label>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, empty label for",
+    "html": "<label for=\"t\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, wrapping label without text",
+    "html": "<label><input id=\"t\"></label>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, label for another",
+    "html": "<label for=\"b\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, display:none label",
+    "html": "<label for=\"t\" style=\"display:none\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, visually hidden label",
+    "html": "<label for=\"t\" style=\"position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\">Name</label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-label",
+    "html": "<input id=\"t\" aria-label=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, empty aria-label",
+    "html": "<input id=\"t\" aria-label=\"\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, blank aria-label",
+    "html": "<input id=\"t\" aria-label=\"  \">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-labelledby",
+    "html": "<span id=\"x\">Name</span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-labelledby missing id",
+    "html": "<input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-labelledby empty target",
+    "html": "<span id=\"x\"></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-labelledby hidden target",
+    "html": "<span id=\"x\" hidden>Name</span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-labelledby missing + aria-label",
+    "html": "<input id=\"t\" aria-labelledby=\"x\" aria-label=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-labelledby two ids, one real",
+    "html": "<span id=\"y\">Name</span><input id=\"t\" aria-labelledby=\"x y\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, empty aria-label + label for",
+    "html": "<label for=\"t\">Name</label><input id=\"t\" aria-label=\"\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, title",
+    "html": "<input id=\"t\" title=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, empty title",
+    "html": "<input id=\"t\" title=\"\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, placeholder only",
+    "html": "<input id=\"t\" placeholder=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, value only",
+    "html": "<input id=\"t\" value=\"Ann\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "input, aria-describedby only",
+    "html": "<span id=\"x\">Help</span><input id=\"t\" aria-describedby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "textarea, nothing",
+    "html": "<textarea id=\"t\"></textarea>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "textarea, text content only",
+    "html": "<textarea id=\"t\">Hello</textarea>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "textarea, label for",
+    "html": "<label for=\"t\">Bio</label><textarea id=\"t\"></textarea>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:text",
+    "name": "textarea, placeholder only",
+    "html": "<textarea id=\"t\" placeholder=\"Bio\"></textarea>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:select",
+    "name": "combobox button, value text only",
+    "html": "<button id=\"t\" role=\"combobox\" aria-expanded=\"false\">Pizza</button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:select",
+    "name": "combobox button, label for",
+    "html": "<label for=\"t\">Dish</label><button id=\"t\" role=\"combobox\" aria-expanded=\"false\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:select",
+    "name": "combobox button, aria-label",
+    "html": "<button id=\"t\" role=\"combobox\" aria-expanded=\"false\" aria-label=\"Dish\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:select",
+    "name": "combobox button, aria-labelledby",
+    "html": "<span id=\"x\">Dish</span><button id=\"t\" role=\"combobox\" aria-expanded=\"false\" aria-labelledby=\"x\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "dialog, text only",
+    "html": "<dialog id=\"t\" open><p>Are you sure?</p></dialog>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "dialog, title by aria-labelledby",
+    "html": "<dialog id=\"t\" open aria-labelledby=\"x\"><h2 id=\"x\">Delete</h2></dialog>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "dialog, aria-labelledby to a missing title",
+    "html": "<dialog id=\"t\" open aria-labelledby=\"x\"><p>Text</p></dialog>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "dialog, aria-labelledby to an empty title",
+    "html": "<dialog id=\"t\" open aria-labelledby=\"x\"><h2 id=\"x\"></h2></dialog>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "dialog, aria-label",
+    "html": "<dialog id=\"t\" open aria-label=\"Delete\"><p>Text</p></dialog>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "closed dialog, aria-label",
+    "html": "<dialog id=\"t\" aria-label=\"Delete\"><p>Text</p></dialog>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:dialog",
+    "name": "closed dialog, title by aria-labelledby",
+    "html": "<dialog id=\"t\" aria-labelledby=\"x\"><h2 id=\"x\">Delete</h2></dialog>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:dialog",
+    "name": "div role=dialog, text only",
+    "html": "<div id=\"t\" role=\"dialog\"><p>Text</p></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "div role=dialog, title by aria-labelledby",
+    "html": "<div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"><h2 id=\"x\">Filters</h2></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:dialog",
+    "name": "div role=alertdialog, text only",
+    "html": "<div id=\"t\" role=\"alertdialog\"><p>Text</p></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:nav",
+    "name": "nav, links only",
+    "html": "<nav id=\"t\"><a href=\"#a\">A</a></nav>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:nav",
+    "name": "nav, aria-label",
+    "html": "<nav id=\"t\" aria-label=\"Sections\"><a href=\"#a\">A</a></nav>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:nav",
+    "name": "nav, aria-labelledby",
+    "html": "<h2 id=\"x\">Sections</h2><nav id=\"t\" aria-labelledby=\"x\"><a href=\"#a\">A</a></nav>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "a href, text",
+    "html": "<a id=\"t\" href=\"#x\">Home</a>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "a href, empty",
+    "html": "<a id=\"t\" href=\"#x\"></a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "a without href, text",
+    "html": "<a id=\"t\">Home</a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  { "group": "1:other", "name": "h2, text", "html": "<h2 id=\"t\">Title</h2>", "expected": true, "relation": "equal" },
+  {
+    "group": "1:other",
+    "name": "div, text",
+    "html": "<div id=\"t\">Text</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "div role=button, text",
+    "html": "<div id=\"t\" role=\"button\" tabindex=\"0\">Save</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "div role=tab, text",
+    "html": "<div role=\"tablist\"><div id=\"t\" role=\"tab\">One</div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "div role=checkbox, text",
+    "html": "<div id=\"t\" role=\"checkbox\" aria-checked=\"false\" tabindex=\"0\">Accept</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "div role=textbox, text",
+    "html": "<div id=\"t\" role=\"textbox\" contenteditable=\"true\">Hello</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "div role=listbox, options",
+    "html": "<div id=\"t\" role=\"listbox\"><div role=\"option\">A</div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "div role=region, text",
+    "html": "<div id=\"t\" role=\"region\">Text</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "img alt",
+    "html": "<img id=\"t\" alt=\"Logo\" src=\"data:,\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "img empty alt",
+    "html": "<img id=\"t\" alt=\"\" src=\"data:,\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:other",
+    "name": "img no alt",
+    "html": "<img id=\"t\" src=\"data:,\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "input submit",
+    "html": "<input id=\"t\" type=\"submit\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "input reset",
+    "html": "<input id=\"t\" type=\"reset\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "input button, value",
+    "html": "<input id=\"t\" type=\"button\" value=\"Go\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "input button, no value",
+    "html": "<input id=\"t\" type=\"button\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "input image, no alt",
+    "html": "<input id=\"t\" type=\"image\" src=\"data:,\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "input checkbox, nothing",
+    "html": "<input id=\"t\" type=\"checkbox\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "fieldset legend",
+    "html": "<fieldset id=\"t\"><legend>Address</legend></fieldset>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "fieldset, no legend",
+    "html": "<fieldset id=\"t\"><input></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "table caption",
+    "html": "<table id=\"t\"><caption>Prices</caption><tr><td>1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "table, no caption",
+    "html": "<table id=\"t\"><tr><td>1</td></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "select, label for",
+    "html": "<label for=\"t\">Dish</label><select id=\"t\"><option>A</option></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "select, options only",
+    "html": "<select id=\"t\"><option>A</option></select>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "option, text",
+    "html": "<select><option id=\"t\">A</option></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "summary, text",
+    "html": "<details><summary id=\"t\">More</summary>x</details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:other",
+    "name": "td, text",
+    "html": "<table><tr><td id=\"t\">1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "svg root, title child",
+    "html": "<svg id=\"t\" width=\"8\" height=\"8\"><title>Chart</title></svg>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "button, ::before content only",
+    "html": "<style>#t::before{content:\"X\"}</style><button id=\"t\"></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "1:corner",
+    "name": "button, child title attr",
+    "html": "<button id=\"t\"><span title=\"Close\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "button role=none, text",
+    "html": "<button id=\"t\" role=\"none\">Save</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "div role=BUTTON, text",
+    "html": "<div id=\"t\" role=\"BUTTON\">Save</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "div role=\"foo button\", text",
+    "html": "<div id=\"t\" role=\"foo button\">Save</div>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "1:corner",
+    "name": "label with only img alt",
+    "html": "<label for=\"t\"><img alt=\"Name\" src=\"data:,\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "label with aria-hidden text",
+    "html": "<label for=\"t\"><span aria-hidden=\"true\">*</span></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "label with aria-label, no text",
+    "html": "<label for=\"t\" aria-label=\"Name\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "aria-labelledby to input with value",
+    "html": "<input id=\"x\" value=\"Ann\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "aria-labelledby to img alt",
+    "html": "<img id=\"x\" alt=\"Logo\" src=\"data:,\"><div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "aria-labelledby to itself, text",
+    "html": "<div id=\"t\" role=\"dialog\" aria-labelledby=\"t\">Text</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "aria-labelledby target aria-hidden",
+    "html": "<span id=\"x\" aria-hidden=\"true\">Name</span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "aria-labelledby target with hidden child",
+    "html": "<span id=\"x\"><span style=\"display:none\">Name</span></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "aria-labelledby hidden target, hidden child",
+    "html": "<span id=\"x\" hidden><span hidden>Name</span></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "input checkbox, placeholder",
+    "html": "<input id=\"t\" type=\"checkbox\" placeholder=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "input, blank placeholder",
+    "html": "<input id=\"t\" placeholder=\" \">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "input search, placeholder",
+    "html": "<input id=\"t\" type=\"search\" placeholder=\"Search\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "input number, placeholder",
+    "html": "<input id=\"t\" type=\"number\" placeholder=\"Age\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "input date, placeholder",
+    "html": "<input id=\"t\" type=\"date\" placeholder=\"Day\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "input password, placeholder",
+    "html": "<input id=\"t\" type=\"password\" placeholder=\"Password\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "button in display:none parent, text",
+    "html": "<div style=\"display:none\"><button id=\"t\">Save</button></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:corner",
+    "name": "button display:none itself, text",
+    "html": "<button id=\"t\" style=\"display:none\">Save</button>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:corner",
+    "name": "custom element role=dialog, aria-label",
+    "html": "<cck-popover-content id=\"t\" role=\"dialog\" aria-label=\"Filters\"></cck-popover-content>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "button, text in nested spans",
+    "html": "<button id=\"t\"><span><span>Save</span></span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "button, br only",
+    "html": "<button id=\"t\"><br></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "button, script text only",
+    "html": "<button id=\"t\"><script>var a</script></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "figure figcaption",
+    "html": "<figure id=\"t\"><img alt=\"\" src=\"data:,\"><figcaption>Chart</figcaption></figure>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner",
+    "name": "label for, text + own aria-labelledby missing",
+    "html": "<label for=\"t\">Name</label><input id=\"t\" aria-labelledby=\"zz\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "label inside display:none parent",
+    "html": "<div style=\"display:none\"><label for=\"t\">Name</label></div><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "label inside aria-hidden parent",
+    "html": "<div aria-hidden=\"true\"><label for=\"t\">Name</label></div><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "aria-labelledby target, title only",
+    "html": "<span id=\"x\" title=\"Name\"></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "label with only another input value",
+    "html": "<label for=\"t\"><input value=\"Ann\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "button, child ::before content",
+    "html": "<style>.i::before{content:\"X\"}</style><button id=\"t\"><span class=\"i\"></span></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "1:corner3",
+    "name": "button, ::before empty string",
+    "html": "<style>#t::before{content:\"\"}</style><button id=\"t\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "dialog, ::before content only",
+    "html": "<style>#t::before{content:\"X\"}</style><dialog id=\"t\" open></dialog>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "aria-labelledby to textarea with value",
+    "html": "<textarea id=\"x\">Ann</textarea><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "div role=presentation, text",
+    "html": "<div id=\"t\" role=\"presentation\">Text</div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:corner3",
+    "name": "a href role=button, img alt",
+    "html": "<a id=\"t\" href=\"#x\" role=\"button\"><img alt=\"Go\" src=\"data:,\"></a>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "h2 role=presentation, text",
+    "html": "<h2 id=\"t\" role=\"presentation\">Title</h2>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "1:corner3",
+    "name": "input, aria-labelledby to itself, value",
+    "html": "<input id=\"t\" aria-labelledby=\"t\" value=\"Ann\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "select trigger in field, empty label for",
+    "html": "<label for=\"t\"></label><button id=\"t\" role=\"combobox\" aria-expanded=\"false\">Pizza</button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "label aria-hidden itself",
+    "html": "<label for=\"t\" aria-hidden=\"true\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "label visibility:hidden",
+    "html": "<label for=\"t\" style=\"visibility:hidden\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "1:corner3",
+    "name": "dialog, aria-labelledby to title in hidden part",
+    "html": "<div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"><div hidden><h2 id=\"x\">Delete</h2></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "shadow",
+    "name": "button with slot, slotted text",
+    "html": "<x-a id=\"h\">Save</x-a>",
+    "setup": "\n    const h = document.getElementById('h'); const r = h.attachShadow({mode:'open'});\n    r.innerHTML = '<button id=\"t\"><slot></slot></button>'; return r.getElementById('t');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "shadow",
+    "name": "button with slot, fallback text",
+    "html": "<x-a id=\"h\"></x-a>",
+    "setup": "\n    const h = document.getElementById('h'); const r = h.attachShadow({mode:'open'});\n    r.innerHTML = '<button id=\"t\"><slot>Save</slot></button>'; return r.getElementById('t');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "shadow",
+    "name": "role=button host, text in shadow root",
+    "html": "<x-a id=\"t\" role=\"button\" tabindex=\"0\"></x-a>",
+    "setup": "\n    const h = document.getElementById('t'); h.attachShadow({mode:'open'}).innerHTML = '<span>Save</span>'; return h;",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "shadow",
+    "name": "role=button host, light text not slotted",
+    "html": "<x-a id=\"t\" role=\"button\" tabindex=\"0\">Light</x-a>",
+    "setup": "\n    const h = document.getElementById('t'); h.attachShadow({mode:'open'}).innerHTML = '<span></span>'; return h;",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "shadow",
+    "name": "input in shadow, label for in shadow",
+    "html": "<x-a id=\"h\"></x-a>",
+    "setup": "\n    const r = document.getElementById('h').attachShadow({mode:'open'});\n    r.innerHTML = '<label for=\"t\">Name</label><input id=\"t\">'; return r.getElementById('t');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "shadow",
+    "name": "input in shadow, aria-labelledby to light id",
+    "html": "<span id=\"x\">Name</span><x-a id=\"h\"></x-a>",
+    "setup": "\n    const r = document.getElementById('h').attachShadow({mode:'open'});\n    r.innerHTML = '<input id=\"t\" aria-labelledby=\"x\">'; return r.getElementById('t');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "div alt",
+    "html": "<div id=\"t\" alt=\"x\"></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "button, span alt child",
+    "html": "<button id=\"t\"><span alt=\"Save\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "input text alt",
+    "html": "<input id=\"t\" alt=\"Name\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "input image alt empty",
+    "html": "<input id=\"t\" type=\"image\" alt=\"\" src=\"data:,\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "img empty alt + title",
+    "html": "<img id=\"t\" alt=\"\" title=\"Logo\" src=\"data:,\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "a href, img empty alt only",
+    "html": "<a id=\"t\" href=\"#x\"><img alt=\"\" src=\"data:,\"></a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "a href, img no alt",
+    "html": "<a id=\"t\" href=\"#x\"><img src=\"data:,\"></a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "alt",
+    "name": "area alt",
+    "html": "<map name=\"m\"><area id=\"t\" href=\"#x\" alt=\"Home\" shape=\"rect\" coords=\"0,0,1,1\"></map><img usemap=\"#m\" alt=\"Map\" src=\"data:,\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "prohib",
+    "name": "div aria-label",
+    "html": "<div id=\"t\" aria-label=\"x\">Text</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "prohib",
+    "name": "span aria-label",
+    "html": "<span id=\"t\" aria-label=\"x\">Text</span>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "prohib",
+    "name": "p aria-label",
+    "html": "<p id=\"t\" aria-label=\"x\">Text</p>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "prohib",
+    "name": "div role=none aria-label",
+    "html": "<div id=\"t\" role=\"none\" aria-label=\"x\">Text</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "prohib",
+    "name": "div title",
+    "html": "<div id=\"t\" title=\"x\">Text</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "prohib",
+    "name": "div aria-labelledby",
+    "html": "<span id=\"x\">Name</span><div id=\"t\" aria-labelledby=\"x\">Text</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "prohib",
+    "name": "strong aria-label",
+    "html": "<strong id=\"t\" aria-label=\"x\">Text</strong>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=menuitem",
+    "html": "<div role=\"menu\"><div id=\"t\" role=\"menuitem\">Cut</div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "span role=link",
+    "html": "<span id=\"t\" role=\"link\" tabindex=\"0\">Home</span>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=heading",
+    "html": "<div id=\"t\" role=\"heading\" aria-level=\"2\">Title</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=tooltip",
+    "html": "<div id=\"t\" role=\"tooltip\">Tip</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=treeitem",
+    "html": "<div role=\"tree\"><div id=\"t\" role=\"treeitem\">Node</div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=switch",
+    "html": "<div id=\"t\" role=\"switch\" aria-checked=\"false\" tabindex=\"0\">Wifi</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=radio",
+    "html": "<div role=\"radiogroup\"><div id=\"t\" role=\"radio\" aria-checked=\"false\">A</div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=row",
+    "html": "<div role=\"table\"><div id=\"t\" role=\"row\"><div role=\"cell\">1</div></div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=option",
+    "html": "<div role=\"listbox\"><div id=\"t\" role=\"option\">A</div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=group, text",
+    "html": "<div id=\"t\" role=\"group\">Text</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=tabpanel, text",
+    "html": "<div id=\"t\" role=\"tabpanel\">Text</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=tablist, tabs",
+    "html": "<div id=\"t\" role=\"tablist\"><div role=\"tab\">A</div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=menu, items",
+    "html": "<div id=\"t\" role=\"menu\"><div role=\"menuitem\">A</div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=img, text",
+    "html": "<div id=\"t\" role=\"img\">Text</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=status, text",
+    "html": "<div id=\"t\" role=\"status\">Saved</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=alert, text",
+    "html": "<div id=\"t\" role=\"alert\">Error</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=listitem, text",
+    "html": "<div role=\"list\"><div id=\"t\" role=\"listitem\">A</div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "li, text",
+    "html": "<ul><li id=\"t\">A</li></ul>",
+    "expected": false,
+    "relation": "equal"
+  },
+  { "group": "roles", "name": "p, text", "html": "<p id=\"t\">Text</p>", "expected": false, "relation": "equal" },
+  {
+    "group": "roles",
+    "name": "label, text",
+    "html": "<label id=\"t\">Name</label>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "legend, text",
+    "html": "<fieldset><legend id=\"t\">Name</legend></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "th, text",
+    "html": "<table><tr><th id=\"t\">Price</th></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "tr, cells",
+    "html": "<table><tr id=\"t\"><td>1</td></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=tab",
+    "html": "<div role=\"tablist\"><button id=\"t\" role=\"tab\">One</button></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=switch",
+    "html": "<button id=\"t\" role=\"switch\" aria-checked=\"false\">Wifi</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=menuitem",
+    "html": "<div role=\"menu\"><button id=\"t\" role=\"menuitem\">Cut</button></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "a href role=tab",
+    "html": "<div role=\"tablist\"><a id=\"t\" href=\"#x\" role=\"tab\">One</a></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=presentation",
+    "html": "<button id=\"t\" role=\"presentation\">Save</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "a href role=none",
+    "html": "<a id=\"t\" href=\"#x\" role=\"none\">Home</a>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=\"\" (empty)",
+    "html": "<button id=\"t\" role=\"\">Save</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=dialog",
+    "html": "<button id=\"t\" role=\"dialog\">Save</button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "button role=generic",
+    "html": "<button id=\"t\" role=\"generic\">Save</button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=\"button none\"",
+    "html": "<div id=\"t\" role=\"button none\">Save</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "div role=\"none button\"",
+    "html": "<div id=\"t\" role=\"none button\">Save</div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "roles",
+    "name": "h2 role=tab",
+    "html": "<div role=\"tablist\"><h2 id=\"t\" role=\"tab\">One</h2></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "summary without details",
+    "html": "<summary id=\"t\">More</summary>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "details, summary",
+    "html": "<details id=\"t\"><summary>More</summary>x</details>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "output, text",
+    "html": "<output id=\"t\">42</output>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "meter label",
+    "html": "<label for=\"t\">Load</label><meter id=\"t\" value=\"0.5\"></meter>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "progress no label",
+    "html": "<progress id=\"t\" value=\"0.5\"></progress>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "iframe title",
+    "html": "<iframe id=\"t\" title=\"Map\" srcdoc=\"x\"></iframe>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "select, selected option only",
+    "html": "<select id=\"t\"><option selected>A</option></select>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "option label attr",
+    "html": "<select><option id=\"t\" label=\"Alpha\"></option></select>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "optgroup label attr",
+    "html": "<select><optgroup id=\"t\" label=\"Group\"><option>A</option></optgroup></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "section aria-label",
+    "html": "<section id=\"t\" aria-label=\"News\">x</section>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "section, heading only",
+    "html": "<section id=\"t\"><h2>News</h2></section>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "form, text only",
+    "html": "<form id=\"t\">x</form>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "roles",
+    "name": "ul aria-label",
+    "html": "<ul id=\"t\" aria-label=\"Items\"><li>A</li></ul>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, child aria-labelledby",
+    "html": "<span id=\"x\">Name</span><button id=\"t\"><span aria-labelledby=\"x\"></span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, child role=img aria-label",
+    "html": "<button id=\"t\"><span role=\"img\" aria-label=\"Close\"></span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, child input value",
+    "html": "<div id=\"t\" role=\"button\">  <input value=\"Ann\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, child select",
+    "html": "<div id=\"t\" role=\"button\"><select><option>A</option></select></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, svg text",
+    "html": "<button id=\"t\"><svg width=\"20\" height=\"20\"><text x=\"0\" y=\"10\">Hi</text></svg></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, svg title in g",
+    "html": "<button id=\"t\"><svg width=\"8\" height=\"8\"><g><title>Close</title></g></svg></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, svg aria-label",
+    "html": "<button id=\"t\"><svg aria-label=\"Close\" width=\"8\" height=\"8\"></svg></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, svg role=img title",
+    "html": "<button id=\"t\"><svg role=\"img\" width=\"8\" height=\"8\"><title>Close</title></svg></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, svg aria-hidden title",
+    "html": "<button id=\"t\"><svg aria-hidden=\"true\" width=\"8\" height=\"8\"><title>Close</title></svg></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, svg desc only",
+    "html": "<button id=\"t\"><svg width=\"8\" height=\"8\"><desc>Close</desc></svg></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, style child only",
+    "html": "<button id=\"t\"><style>.a{color:red}</style></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, noscript child only",
+    "html": "<button id=\"t\"><noscript>x</noscript></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, template child only",
+    "html": "<button id=\"t\"><template>x</template></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, comment only",
+    "html": "<button id=\"t\"><!-- x --></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, nbsp only",
+    "html": "<button id=\"t\">&nbsp;</button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, zero-width space only",
+    "html": "<button id=\"t\">&#8203;</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, emoji",
+    "html": "<button id=\"t\">✕</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, visibility:hidden child, visible grandchild",
+    "html": "<button id=\"t\"><span style=\"visibility:hidden\"><span style=\"visibility:visible\">Save</span></span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, display:contents child",
+    "html": "<button id=\"t\"><span style=\"display:contents\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, opacity:0 child",
+    "html": "<button id=\"t\"><span style=\"opacity:0\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, font-size:0 child",
+    "html": "<button id=\"t\"><span style=\"font-size:0\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, content-visibility:hidden child",
+    "html": "<button id=\"t\"><span style=\"display:block;content-visibility:hidden\">Save</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, inert child",
+    "html": "<button id=\"t\"><span inert>Save</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, hidden=until-found child",
+    "html": "<button id=\"t\"><span hidden=\"until-found\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, aria-hidden=false child",
+    "html": "<button id=\"t\"><span aria-hidden=\"false\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, child role=presentation text",
+    "html": "<button id=\"t\"><span role=\"presentation\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, img alt aria-hidden",
+    "html": "<button id=\"t\"><img alt=\"Save\" aria-hidden=\"true\" src=\"data:,\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, picture img alt",
+    "html": "<button id=\"t\"><picture><img alt=\"Save\" src=\"data:,\"></picture></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, child title + aria-hidden text",
+    "html": "<button id=\"t\"><span title=\"Close\"><span aria-hidden=\"true\">x</span></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "content",
+    "name": "button, abbr title",
+    "html": "<button id=\"t\"><abbr title=\"Close\"></abbr></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "content",
+    "name": "h2, only aria-hidden anchor",
+    "html": "<h2 id=\"t\"><a aria-hidden=\"true\" href=\"#x\">#</a></h2>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "fieldset, empty first legend, second legend",
+    "html": "<fieldset id=\"t\"><legend></legend><legend>Address</legend></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "fieldset, legend in div",
+    "html": "<fieldset id=\"t\"><div><legend>Address</legend></div></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "fieldset, hidden legend",
+    "html": "<fieldset id=\"t\"><legend hidden>Address</legend></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "fieldset, legend aria-hidden",
+    "html": "<fieldset id=\"t\"><legend aria-hidden=\"true\">Address</legend></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "fieldset, legend with aria-label",
+    "html": "<fieldset id=\"t\"><legend aria-label=\"Address\"></legend></fieldset>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "table, caption not first",
+    "html": "<table id=\"t\"><tr><td>1</td></tr><caption>Prices</caption></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "svg, title not first",
+    "html": "<svg id=\"t\" width=\"8\" height=\"8\"><rect width=\"1\" height=\"1\"/><title>Chart</title></svg>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "svg, title in g",
+    "html": "<svg id=\"t\" width=\"8\" height=\"8\"><g><title>Chart</title></g></svg>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "svg, text only",
+    "html": "<svg id=\"t\" width=\"20\" height=\"20\"><text x=\"0\" y=\"10\">Hi</text></svg>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "svg, aria-label",
+    "html": "<svg id=\"t\" aria-label=\"Chart\" width=\"8\" height=\"8\"></svg>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "div with title child (not svg)",
+    "html": "<div id=\"t\"><title>x</title></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "figure figcaption + img alt",
+    "html": "<figure id=\"t\"><img alt=\"A\" src=\"data:,\"><figcaption>Chart</figcaption></figure>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input email placeholder",
+    "html": "<input id=\"t\" type=\"email\" placeholder=\"Mail\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input tel placeholder",
+    "html": "<input id=\"t\" type=\"tel\" placeholder=\"Phone\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input url placeholder",
+    "html": "<input id=\"t\" type=\"url\" placeholder=\"Site\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input range placeholder",
+    "html": "<input id=\"t\" type=\"range\" placeholder=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input file placeholder",
+    "html": "<input id=\"t\" type=\"file\" placeholder=\"x\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "native",
+    "name": "input hidden aria-label",
+    "html": "<input id=\"t\" type=\"hidden\" aria-label=\"x\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "native",
+    "name": "input TEXT (upper) placeholder",
+    "html": "<input id=\"t\" type=\"TEXT\" placeholder=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input bogus type placeholder",
+    "html": "<input id=\"t\" type=\"bogus\" placeholder=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input aria-placeholder only",
+    "html": "<input id=\"t\" aria-placeholder=\"Name\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "div role=textbox aria-placeholder",
+    "html": "<div id=\"t\" role=\"textbox\" contenteditable aria-placeholder=\"Name\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "div role=textbox placeholder attr",
+    "html": "<div id=\"t\" role=\"textbox\" contenteditable placeholder=\"Name\"></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input role=combobox placeholder",
+    "html": "<input id=\"t\" role=\"combobox\" aria-expanded=\"false\" placeholder=\"Search\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input submit value empty",
+    "html": "<input id=\"t\" type=\"submit\" value=\"\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input checkbox, wrapping label text",
+    "html": "<label><input id=\"t\" type=\"checkbox\"> Accept</label>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "input, value + placeholder empty",
+    "html": "<input id=\"t\" value=\"Ann\" placeholder=\"\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "button value attr only",
+    "html": "<button id=\"t\" value=\"x\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "native",
+    "name": "textarea title",
+    "html": "<textarea id=\"t\" title=\"Bio\"></textarea>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label hidden attr",
+    "html": "<label for=\"t\" hidden>Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label hidden but aria-labelledby to it",
+    "html": "<label id=\"l\" for=\"t\" hidden>Name</label><input id=\"t\" aria-labelledby=\"l\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label with nested button text",
+    "html": "<label for=\"t\"><button type=\"button\">Help</button></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "two labels, first empty",
+    "html": "<label for=\"t\"></label><label for=\"t\">Name</label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label, text in hidden child + visible sr-only",
+    "html": "<label for=\"t\"><span hidden>x</span></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label for on div role=textbox",
+    "html": "<label for=\"t\">Name</label><div id=\"t\" role=\"textbox\" contenteditable></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label for on div role=combobox",
+    "html": "<label for=\"t\">Dish</label><div id=\"t\" role=\"combobox\" tabindex=\"0\" aria-expanded=\"false\">Pizza</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label wraps div role=checkbox",
+    "html": "<label>Accept <div id=\"t\" role=\"checkbox\" aria-checked=\"false\" tabindex=\"0\"></div></label>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label for a disabled input",
+    "html": "<label for=\"t\">Name</label><input id=\"t\" disabled>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label in closed details",
+    "html": "<details><summary>s</summary><label for=\"t\">Name</label></details><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "label",
+    "name": "label for select trigger, label visually hidden",
+    "html": "<label for=\"t\" style=\"position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\">Dish</label><button id=\"t\" role=\"combobox\" aria-expanded=\"false\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "two ids, both empty",
+    "html": "<span id=\"x\"></span><span id=\"y\"> </span><input id=\"t\" aria-labelledby=\"x y\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target is label with aria-hidden child",
+    "html": "<span id=\"x\"><span aria-hidden=\"true\">Name</span></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target display:none parent",
+    "html": "<div style=\"display:none\"><span id=\"x\">Name</span></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target has only aria-labelledby (chain)",
+    "html": "<span id=\"y\">Name</span><span id=\"x\" aria-labelledby=\"y\"></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target is svg with title",
+    "html": "<svg id=\"x\" width=\"8\" height=\"8\"><title>Chart</title></svg><div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target is fieldset with legend only",
+    "html": "<fieldset id=\"x\"><legend>Address</legend></fieldset><div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target is input placeholder",
+    "html": "<input id=\"x\" placeholder=\"Name\"><div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target is input submit",
+    "html": "<input id=\"x\" type=\"submit\"><div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "target ::before only",
+    "html": "<style>#x::before{content:\"Name\"}</style><span id=\"x\"></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "lby",
+    "name": "id with duplicate, first empty",
+    "html": "<span id=\"x\"></span><span id=\"x\">Name</span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "self + label (select pattern)",
+    "html": "<span id=\"l\">Dish</span><button id=\"t\" role=\"combobox\" aria-expanded=\"false\" aria-labelledby=\"l t\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "self only on combobox",
+    "html": "<button id=\"t\" role=\"combobox\" aria-expanded=\"false\" aria-labelledby=\"t\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "lby",
+    "name": "dialog labelledby own heading aria-hidden",
+    "html": "<div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"><h2 id=\"x\" aria-hidden=\"true\">Delete</h2></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "dialog title attr",
+    "html": "<dialog id=\"t\" open title=\"Delete\">x</dialog>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "nav title attr",
+    "html": "<nav id=\"t\" title=\"Sections\"><a href=\"#a\">A</a></nav>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "combobox button title",
+    "html": "<button id=\"t\" role=\"combobox\" aria-expanded=\"false\" title=\"Dish\">Pizza</button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "p title",
+    "html": "<p id=\"t\" title=\"x\">Text</p>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "li title",
+    "html": "<ul><li id=\"t\" title=\"x\">A</li></ul>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "section title",
+    "html": "<section id=\"t\" title=\"x\">Text</section>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "td title",
+    "html": "<table><tr><td id=\"t\" title=\"x\"></td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "span title",
+    "html": "<span id=\"t\" title=\"x\">Text</span>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "div role=group title",
+    "html": "<div id=\"t\" role=\"group\" title=\"x\">Text</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "div role=dialog title",
+    "html": "<div id=\"t\" role=\"dialog\" title=\"x\">Text</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "a href title only",
+    "html": "<a id=\"t\" href=\"#x\" title=\"Home\"></a>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "img title, no alt",
+    "html": "<img id=\"t\" title=\"Logo\" src=\"data:,\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "input file, nothing",
+    "html": "<input id=\"t\" type=\"file\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "title",
+    "name": "input checkbox aria-placeholder",
+    "html": "<input id=\"t\" type=\"checkbox\" aria-placeholder=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "title",
+    "name": "button visibility:hidden itself, text",
+    "html": "<button id=\"t\" style=\"visibility:hidden\">Save</button>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "title",
+    "name": "blank title",
+    "html": "<button id=\"t\" title=\"  \"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "b title",
+    "html": "<b id=\"t\" title=\"x\">Text</b>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "em title",
+    "html": "<em id=\"t\" title=\"x\">Text</em>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "a without href, title",
+    "html": "<a id=\"t\" title=\"x\">Text</a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=listitem title",
+    "html": "<div role=\"list\"><div id=\"t\" role=\"listitem\" title=\"x\">A</div></div>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=foo title",
+    "html": "<div id=\"t\" role=\"foo\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=generic title",
+    "html": "<div id=\"t\" role=\"generic\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=paragraph title",
+    "html": "<div id=\"t\" role=\"paragraph\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=navigation title",
+    "html": "<div id=\"t\" role=\"navigation\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=listbox title",
+    "html": "<div id=\"t\" role=\"listbox\" title=\"x\"><div role=\"option\">A</div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "custom element title",
+    "html": "<x-b id=\"t\" title=\"x\">A</x-b>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "div role=none title",
+    "html": "<div id=\"t\" role=\"none\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:title",
+    "name": "button role=presentation title",
+    "html": "<button id=\"t\" role=\"presentation\" title=\"Save\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:title",
+    "name": "label title",
+    "html": "<label id=\"t\" title=\"x\">A</label>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:title",
+    "name": "tr title",
+    "html": "<table><tr id=\"t\" title=\"x\"><td>1</td></tr></table>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:title",
+    "name": "orphan div role=option title",
+    "html": "<div id=\"t\" role=\"option\" title=\"x\"></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=option, text",
+    "html": "<div id=\"t\" role=\"option\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=treeitem, text",
+    "html": "<div id=\"t\" role=\"treeitem\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "div role=option in group in listbox",
+    "html": "<div role=\"listbox\"><div role=\"group\"><div id=\"t\" role=\"option\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "div role=treeitem in group in tree",
+    "html": "<div role=\"tree\"><div role=\"treeitem\">P<div role=\"group\"><div id=\"t\" role=\"treeitem\">A</div></div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "option outside select",
+    "html": "<option id=\"t\">A</option>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:roles",
+    "name": "option in datalist",
+    "html": "<datalist><option id=\"t\">A</option></datalist>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=tab, text",
+    "html": "<div id=\"t\" role=\"tab\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=menuitem, text",
+    "html": "<div id=\"t\" role=\"menuitem\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=cell, text",
+    "html": "<div id=\"t\" role=\"cell\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=gridcell, text",
+    "html": "<div id=\"t\" role=\"gridcell\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=columnheader, text",
+    "html": "<div id=\"t\" role=\"columnheader\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "orphan div role=radio, text",
+    "html": "<div id=\"t\" role=\"radio\" aria-checked=\"false\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "h2 role=none, text",
+    "html": "<h2 id=\"t\" role=\"none\">Title</h2>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:roles",
+    "name": "summary in details, text",
+    "html": "<details><summary id=\"t\">More</summary>x</details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "second summary in details",
+    "html": "<details open><summary>More</summary><summary id=\"t\">Again</summary></details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:roles",
+    "name": "summary role=none in details",
+    "html": "<details><summary id=\"t\" role=\"none\">More</summary>x</details>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:roles",
+    "name": "input hidden, label + title",
+    "html": "<label for=\"t\">Name</label><input id=\"t\" type=\"hidden\" title=\"x\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:details",
+    "name": "label in open details",
+    "html": "<details open><summary>s</summary><label for=\"t\">Name</label></details><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:details",
+    "name": "label in summary of closed details",
+    "html": "<details><summary><label for=\"t\">Name</label></summary>x</details><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:details",
+    "name": "button, closed details child with text",
+    "html": "<button id=\"t\"><details><summary></summary>Save</details></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:details",
+    "name": "h2, closed details child, summary text",
+    "html": "<h2 id=\"t\"><details><summary>More</summary>Save</details></h2>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:details",
+    "name": "aria-labelledby to text in closed details",
+    "html": "<details><summary>s</summary><span id=\"x\">Name</span></details><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a password input value",
+    "html": "<label for=\"t\"><input type=\"password\" value=\"Ann\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a checkbox",
+    "html": "<label for=\"t\"><input type=\"checkbox\" checked></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a textarea value",
+    "html": "<label for=\"t\"><textarea>Ann</textarea></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a number input value",
+    "html": "<label for=\"t\"><input type=\"number\" value=\"3\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a range input",
+    "html": "<label for=\"t\"><input type=\"range\" value=\"3\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a hidden input value",
+    "html": "<label for=\"t\"><input type=\"hidden\" value=\"Ann\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a select",
+    "html": "<label for=\"t\"><select><option>A</option></select></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "wrapping label, own value only",
+    "html": "<label><input id=\"t\" value=\"Ann\"></label>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a search input value",
+    "html": "<label for=\"t\"><input type=\"search\" value=\"Ann\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a submit input",
+    "html": "<label for=\"t\"><input type=\"submit\" value=\"Go\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:value",
+    "name": "label with only a button with text",
+    "html": "<label for=\"t\"><button type=\"button\">Go</button></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "aria-labelledby to a password value",
+    "html": "<input id=\"x\" type=\"password\" value=\"Ann\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:value",
+    "name": "aria-labelledby to a checkbox",
+    "html": "<input id=\"x\" type=\"checkbox\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "label with input that has placeholder only",
+    "html": "<label for=\"t\"><input placeholder=\"Hint\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:value",
+    "name": "label with input that has aria-label",
+    "html": "<label for=\"t\"><input aria-label=\"Name\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:value",
+    "name": "button, child input with empty value",
+    "html": "<button id=\"t\"><input value=\"\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "noscript in label only",
+    "html": "<label for=\"t\"><noscript>Name</noscript></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "button, hidden=until-found child",
+    "html": "<button id=\"t\"><span hidden=\"until-found\">Save</span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "button, hidden=\"\" child",
+    "html": "<button id=\"t\"><span hidden=\"\">Save</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "area alt and href in a used map",
+    "html": "<map name=\"m\"><area id=\"t\" href=\"#x\" alt=\"Home\" shape=\"rect\" coords=\"0,0,9,9\"></map><img usemap=\"#m\" alt=\"Map\" width=\"20\" height=\"20\" src=\"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:other",
+    "name": "optgroup label",
+    "html": "<select><optgroup id=\"t\" label=\"Group\"><option>A</option></optgroup></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "option, label attr and text",
+    "html": "<select><option id=\"t\" label=\"Alpha\">A</option></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "input password, placeholder",
+    "html": "<input id=\"t\" type=\"password\" placeholder=\"Password\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "input submit, value blank",
+    "html": "<input id=\"t\" type=\"submit\" value=\"  \">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "child aria-labelledby loop",
+    "html": "<button id=\"t\"><span id=\"a\" aria-labelledby=\"b\"></span><span id=\"b\" aria-labelledby=\"a\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "aria-labelledby to itself, no text",
+    "html": "<input id=\"t\" aria-labelledby=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:other",
+    "name": "button, child aria-labelledby to the button",
+    "html": "<button id=\"t\"><span aria-labelledby=\"t\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to text in content-visibility:hidden",
+    "html": "<div style=\"content-visibility:hidden\"><span id=\"x\">Name</span></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby target is content-visibility:hidden itself",
+    "html": "<div id=\"x\" style=\"content-visibility:hidden\">Name</div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "label in content-visibility:hidden",
+    "html": "<div style=\"content-visibility:hidden\"><label for=\"t\">Name</label></div><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to summary of closed details",
+    "html": "<details><summary id=\"x\">Name</summary>y</details><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to closed details itself",
+    "html": "<details id=\"x\"><summary>Name</summary>y</details><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to closed details without summary text",
+    "html": "<details id=\"x\"><summary></summary>Name</details><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to hidden=until-found target",
+    "html": "<div id=\"x\" hidden=\"until-found\">Name</div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to text in a closed dialog",
+    "html": "<dialog><span id=\"x\">Name</span></dialog><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to text in a closed popover",
+    "html": "<div popover><span id=\"x\">Name</span></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to inert target",
+    "html": "<span id=\"x\" inert>Name</span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to text in inert parent",
+    "html": "<div inert><span id=\"x\">Name</span></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "label in inert parent",
+    "html": "<div inert><label for=\"t\">Name</label></div><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to template content id",
+    "html": "<template><span id=\"x\">Name</span></template><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to script",
+    "html": "<script id=\"x\" type=\"text/plain\">Name</script><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to style",
+    "html": "<style id=\"x\">.a{}</style><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip",
+    "name": "aria-labelledby to head title",
+    "html": "<input id=\"t\" aria-labelledby=\"x\">",
+    "setup": "document.title = 'Page'; document.querySelector('title').id = 'x'; return document.getElementById('t');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "svg aria-labelledby to its title",
+    "html": "<svg id=\"t\" aria-labelledby=\"x\" width=\"8\" height=\"8\"><title id=\"x\">Chart</title></svg>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "button aria-labelledby to svg title elsewhere",
+    "html": "<svg width=\"8\" height=\"8\"><title id=\"x\">Chart</title></svg><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "button, style child only",
+    "html": "<button id=\"t\"><style>.a{}</style></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "button, style child display:block",
+    "html": "<button id=\"t\"><style style=\"display:block\">.a{}</style></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:skip2",
+    "name": "button, template child",
+    "html": "<button id=\"t\"><template>Save</template></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "label is content-visibility:hidden itself",
+    "html": "<label for=\"t\" style=\"content-visibility:hidden\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:skip2",
+    "name": "label is inert itself",
+    "html": "<label for=\"t\" inert>Name</label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to text in aria-hidden parent",
+    "html": "<div aria-hidden=\"true\"><span id=\"x\">Name</span></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to text in visibility:hidden parent",
+    "html": "<div style=\"visibility:hidden\"><span id=\"x\">Name</span></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to element in a display:none iframe? no: to a display:none img alt",
+    "html": "<img id=\"x\" alt=\"Logo\" style=\"display:none\" src=\"data:,\"><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to an option",
+    "html": "<select><option id=\"x\">A</option></select><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to a select",
+    "html": "<select id=\"x\"><option>A</option></select><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to br only",
+    "html": "<span id=\"x\"><br></span><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to an input image",
+    "html": "<input id=\"x\" type=\"image\" src=\"data:,\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to an input reset in display:none",
+    "html": "<div style=\"display:none\"><input id=\"x\" type=\"reset\"></div><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to fieldset with legend",
+    "html": "<fieldset id=\"x\"><legend>Address</legend></fieldset><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to textbox with aria-placeholder",
+    "html": "<div id=\"x\" role=\"textbox\" aria-placeholder=\"Hint\"></div><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to optgroup label",
+    "html": "<select><optgroup id=\"x\" label=\"G\"><option>A</option></optgroup></select><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to input title only",
+    "html": "<input id=\"x\" title=\"Tip\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to hidden input value",
+    "html": "<input id=\"x\" type=\"hidden\" value=\"Ann\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to hidden input title",
+    "html": "<input id=\"x\" type=\"hidden\" title=\"Ann\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to img empty alt with title",
+    "html": "<img id=\"x\" alt=\"\" title=\"Logo\" src=\"data:,\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:skip2",
+    "name": "aria-labelledby to div title with text empty",
+    "html": "<div id=\"x\" title=\"Tip\"></div><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:same",
+    "name": "named: label and input in two divs inside one display:none",
+    "html": "<div style=\"display:none\"><div><label for=\"t\">Name</label></div><div><input id=\"t\"></div></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: label and input in two divs inside a closed details",
+    "html": "<details><summary>s</summary><div><label for=\"t\">Name</label></div><div><input id=\"t\"></div></details>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: wrapping label that is display:none itself",
+    "html": "<label style=\"display:none\">Name <input id=\"t\"></label>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: input and its aria-labelledby target in display:none",
+    "html": "<div style=\"display:none\"><span id=\"x\">Name</span><input id=\"t\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: input and its aria-labelledby target in content-visibility:hidden",
+    "html": "<div style=\"content-visibility:hidden\"><span id=\"x\">Name</span><input id=\"t\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: input visibility:hidden, label visible",
+    "html": "<label for=\"t\">Name</label><input id=\"t\" style=\"visibility:hidden\">",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: input in a closed details, label outside",
+    "html": "<label for=\"t\">Name</label><details><summary>s</summary><input id=\"t\"></details>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: label and input in display:none inside inert",
+    "html": "<div inert><div style=\"display:none\"><label for=\"t\">Name</label><input id=\"t\"></div></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: button with img alt in visibility:hidden parent",
+    "html": "<div style=\"visibility:hidden\"><button id=\"t\"><img alt=\"Save\" src=\"data:,\"></button></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: closed dialog with a Title inside",
+    "html": "<dialog id=\"t\" aria-labelledby=\"x\"><div><h2 id=\"x\">Delete</h2></div></dialog>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: nav and its heading in a closed details",
+    "html": "<details><summary>s</summary><h2 id=\"x\">Sections</h2><nav id=\"t\" aria-labelledby=\"x\"><a href=\"#a\">A</a></nav></details>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "named: fieldset with legend in display:none",
+    "html": "<div style=\"display:none\"><fieldset id=\"t\"><legend>Address</legend></fieldset></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input in the summary, label in the closed part",
+    "html": "<details><summary><input id=\"t\"></summary><label for=\"t\">Name</label></details>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input in the summary, aria-labelledby target in the closed part",
+    "html": "<details><summary><input id=\"t\" aria-labelledby=\"x\"></summary><span id=\"x\">Name</span></details>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input shown, label in a display:none div",
+    "html": "<div style=\"display:none\"><label for=\"t\">Name</label></div><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input in a closed details, label in another closed details",
+    "html": "<details><summary>s</summary><label for=\"t\">Name</label></details><details><summary>s</summary><input id=\"t\"></details>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: both in display:none, label display:none itself",
+    "html": "<div style=\"display:none\"><label for=\"t\" style=\"display:none\">Name</label><input id=\"t\"></div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: button without text in display:none",
+    "html": "<div style=\"display:none\"><button id=\"t\"></button></div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input in display:none, label for another control",
+    "html": "<div style=\"display:none\"><label for=\"b\">Name</label><input id=\"t\"></div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input and label in display:none, label text aria-hidden",
+    "html": "<div style=\"display:none\"><label for=\"t\"><span aria-hidden=\"true\">*</span></label><input id=\"t\"></div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input in inert, aria-labelledby target in another inert",
+    "html": "<div inert><span id=\"x\">Name</span></div><div inert><input id=\"t\" aria-labelledby=\"x\"></div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: input shown, label visibility:hidden",
+    "html": "<label for=\"t\" style=\"visibility:hidden\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:same",
+    "name": "unnamed: both in visibility:hidden parent, label empty",
+    "html": "<div style=\"visibility:hidden\"><label for=\"t\"></label><input id=\"t\"></div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "f:row",
+    "name": "row in rowgroup in grid",
+    "html": "<div role=\"grid\"><div role=\"rowgroup\"><div id=\"t\" role=\"row\"><div role=\"gridcell\">A</div></div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "row in rowgroup in table",
+    "html": "<div role=\"table\"><div role=\"rowgroup\"><div id=\"t\" role=\"row\"><div role=\"cell\">A</div></div></div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "tr in tbody in grid table",
+    "html": "<table role=\"grid\"><tbody><tr id=\"t\"><td>1</td></tr></tbody></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "tr in treegrid table",
+    "html": "<table role=\"treegrid\"><tr id=\"t\"><td>1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "orphan role=row, text",
+    "html": "<div id=\"t\" role=\"row\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "tr of a table nested in a grid cell",
+    "html": "<div role=\"grid\"><div role=\"row\"><div role=\"gridcell\"><table><tr id=\"t\"><td>1</td></tr></table></div></div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "role=row of a role=table nested in a grid",
+    "html": "<div role=\"grid\"><div role=\"row\"><div role=\"gridcell\"><div role=\"table\"><div id=\"t\" role=\"row\"><div role=\"cell\">1</div></div></div></div></div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "empty row in grid",
+    "html": "<div role=\"grid\"><div id=\"t\" role=\"row\"><div role=\"gridcell\"></div></div></div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "td in table role=grid",
+    "html": "<table role=\"grid\"><tr><td id=\"t\">1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "td in a normal table inside a presentation table",
+    "html": "<table role=\"presentation\"><tr><td><table><tr><td id=\"t\">1</td></tr></table></td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:row",
+    "name": "th role=columnheader in presentation table",
+    "html": "<table role=\"presentation\"><tr><th id=\"t\" role=\"columnheader\">1</th></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:summary",
+    "name": "summary title in details",
+    "html": "<details><summary id=\"t\" title=\"x\"></summary>y</details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:summary",
+    "name": "second summary title in details",
+    "html": "<details open><summary>a</summary><summary id=\"t\" title=\"x\"></summary></details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:summary",
+    "name": "label in the first summary of a closed details",
+    "html": "<details><summary><label for=\"t\">Name</label></summary>x</details><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:img",
+    "name": "a href, img role=presentation alt",
+    "html": "<a id=\"t\" href=\"#x\"><img role=\"presentation\" alt=\"Home\" src=\"data:,\"></a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:img",
+    "name": "input image role=none alt",
+    "html": "<input id=\"t\" type=\"image\" role=\"none\" alt=\"Go\" src=\"data:,\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:img",
+    "name": "aria-labelledby to img role=none alt",
+    "html": "<img id=\"x\" role=\"none\" alt=\"Logo\" src=\"data:,\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "f:img",
+    "name": "label holds img role=none alt",
+    "html": "<label for=\"t\"><img role=\"none\" alt=\"Name\" src=\"data:,\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:vis",
+    "name": "button, visibility:hidden span with visible img alt",
+    "html": "<button id=\"t\"><span style=\"visibility:hidden\"><img alt=\"Save\" style=\"visibility:visible\" src=\"data:,\"></span></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:vis",
+    "name": "button, input value visibility:hidden",
+    "html": "<button id=\"t\"><input value=\"Ann\" style=\"visibility:hidden\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:vis",
+    "name": "aria-labelledby to visibility:hidden img alt",
+    "html": "<img id=\"x\" alt=\"Logo\" style=\"visibility:hidden\" src=\"data:,\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "f:vis",
+    "name": "aria-labelledby to span holding a visibility:hidden img alt",
+    "html": "<span id=\"x\"><img alt=\"Logo\" style=\"visibility:hidden\" src=\"data:,\"></span><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:vis",
+    "name": "fieldset, legend aria-label visibility:hidden",
+    "html": "<fieldset id=\"t\"><legend aria-label=\"Address\" style=\"visibility:hidden\"></legend></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "f:vis",
+    "name": "input, visible label in visibility:hidden parent",
+    "html": "<div style=\"visibility:hidden\"><label for=\"t\" style=\"visibility:visible\">Name</label></div><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "address title, empty",
+    "html": "<address id=\"t\" title=\"x\"></address>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "article title, empty",
+    "html": "<article id=\"t\" title=\"x\"></article>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "aside title, empty",
+    "html": "<aside id=\"t\" title=\"x\"></aside>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "audio title, empty",
+    "html": "<audio id=\"t\" title=\"x\"></audio>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "blockquote title, empty",
+    "html": "<blockquote id=\"t\" title=\"x\"></blockquote>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "canvas title, empty",
+    "html": "<canvas id=\"t\" title=\"x\"></canvas>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "code title, empty",
+    "html": "<code id=\"t\" title=\"x\"></code>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dd title, empty",
+    "html": "<dd id=\"t\" title=\"x\"></dd>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "details title, empty",
+    "html": "<details id=\"t\" title=\"x\"></details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dfn title, empty",
+    "html": "<dfn id=\"t\" title=\"x\"></dfn>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dl title, empty",
+    "html": "<dl id=\"t\" title=\"x\"></dl>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dt title, empty",
+    "html": "<dt id=\"t\" title=\"x\"></dt>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "embed title, empty",
+    "html": "<embed id=\"t\" title=\"x\"></embed>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "figcaption title, empty",
+    "html": "<figcaption id=\"t\" title=\"x\"></figcaption>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "footer title, empty",
+    "html": "<footer id=\"t\" title=\"x\"></footer>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "form title, empty",
+    "html": "<form id=\"t\" title=\"x\"></form>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "header title, empty",
+    "html": "<header id=\"t\" title=\"x\"></header>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "hr title, empty",
+    "html": "<hr id=\"t\" title=\"x\"></hr>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "legend title, empty",
+    "html": "<legend id=\"t\" title=\"x\"></legend>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "main title, empty",
+    "html": "<main id=\"t\" title=\"x\"></main>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "map title, empty",
+    "html": "<map id=\"t\" title=\"x\"></map>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "menu title, empty",
+    "html": "<menu id=\"t\" title=\"x\"></menu>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "nav title, empty",
+    "html": "<nav id=\"t\" title=\"x\"></nav>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "object title, empty",
+    "html": "<object id=\"t\" title=\"x\"></object>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "ol title, empty",
+    "html": "<ol id=\"t\" title=\"x\"></ol>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "picture title, empty",
+    "html": "<picture id=\"t\" title=\"x\"></picture>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "pre title, empty",
+    "html": "<pre id=\"t\" title=\"x\"></pre>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "search title, empty",
+    "html": "<search id=\"t\" title=\"x\"></search>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "section title, empty",
+    "html": "<section id=\"t\" title=\"x\"></section>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "time title, empty",
+    "html": "<time id=\"t\" title=\"x\"></time>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "ul title, empty",
+    "html": "<ul id=\"t\" title=\"x\"></ul>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "video title, empty",
+    "html": "<video id=\"t\" title=\"x\"></video>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "abbr title, empty",
+    "html": "<abbr id=\"t\" title=\"x\"></abbr>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "cite title, empty",
+    "html": "<cite id=\"t\" title=\"x\"></cite>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "kbd title, empty",
+    "html": "<kbd id=\"t\" title=\"x\"></kbd>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "q title, empty",
+    "html": "<q id=\"t\" title=\"x\"></q>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "small title, empty",
+    "html": "<small id=\"t\" title=\"x\"></small>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "sub title, empty",
+    "html": "<sub id=\"t\" title=\"x\"></sub>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "mark title, empty",
+    "html": "<mark id=\"t\" title=\"x\"></mark>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "ins title, empty",
+    "html": "<ins id=\"t\" title=\"x\"></ins>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "del title, empty",
+    "html": "<del id=\"t\" title=\"x\"></del>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "address title, text",
+    "html": "<address id=\"t\" title=\"x\">Text</address>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "article title, text",
+    "html": "<article id=\"t\" title=\"x\">Text</article>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "aside title, text",
+    "html": "<aside id=\"t\" title=\"x\">Text</aside>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "audio title, text",
+    "html": "<audio id=\"t\" title=\"x\">Text</audio>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "blockquote title, text",
+    "html": "<blockquote id=\"t\" title=\"x\">Text</blockquote>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "canvas title, text",
+    "html": "<canvas id=\"t\" title=\"x\">Text</canvas>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "code title, text",
+    "html": "<code id=\"t\" title=\"x\">Text</code>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dd title, text",
+    "html": "<dd id=\"t\" title=\"x\">Text</dd>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "details title, text",
+    "html": "<details id=\"t\" title=\"x\">Text</details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dfn title, text",
+    "html": "<dfn id=\"t\" title=\"x\">Text</dfn>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dl title, text",
+    "html": "<dl id=\"t\" title=\"x\">Text</dl>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "dt title, text",
+    "html": "<dt id=\"t\" title=\"x\">Text</dt>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "embed title, text",
+    "html": "<embed id=\"t\" title=\"x\">Text</embed>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "figcaption title, text",
+    "html": "<figcaption id=\"t\" title=\"x\">Text</figcaption>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "footer title, text",
+    "html": "<footer id=\"t\" title=\"x\">Text</footer>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "form title, text",
+    "html": "<form id=\"t\" title=\"x\">Text</form>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "header title, text",
+    "html": "<header id=\"t\" title=\"x\">Text</header>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "hr title, text",
+    "html": "<hr id=\"t\" title=\"x\">Text</hr>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "legend title, text",
+    "html": "<legend id=\"t\" title=\"x\">Text</legend>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "main title, text",
+    "html": "<main id=\"t\" title=\"x\">Text</main>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "map title, text",
+    "html": "<map id=\"t\" title=\"x\">Text</map>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "menu title, text",
+    "html": "<menu id=\"t\" title=\"x\">Text</menu>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "nav title, text",
+    "html": "<nav id=\"t\" title=\"x\">Text</nav>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "object title, text",
+    "html": "<object id=\"t\" title=\"x\">Text</object>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "ol title, text",
+    "html": "<ol id=\"t\" title=\"x\">Text</ol>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "picture title, text",
+    "html": "<picture id=\"t\" title=\"x\">Text</picture>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "pre title, text",
+    "html": "<pre id=\"t\" title=\"x\">Text</pre>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "search title, text",
+    "html": "<search id=\"t\" title=\"x\">Text</search>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "section title, text",
+    "html": "<section id=\"t\" title=\"x\">Text</section>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "time title, text",
+    "html": "<time id=\"t\" title=\"x\">Text</time>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "ul title, text",
+    "html": "<ul id=\"t\" title=\"x\">Text</ul>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "video title, text",
+    "html": "<video id=\"t\" title=\"x\">Text</video>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "abbr title, text",
+    "html": "<abbr id=\"t\" title=\"x\">Text</abbr>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "cite title, text",
+    "html": "<cite id=\"t\" title=\"x\">Text</cite>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "kbd title, text",
+    "html": "<kbd id=\"t\" title=\"x\">Text</kbd>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "q title, text",
+    "html": "<q id=\"t\" title=\"x\">Text</q>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "small title, text",
+    "html": "<small id=\"t\" title=\"x\">Text</small>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "sub title, text",
+    "html": "<sub id=\"t\" title=\"x\">Text</sub>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "mark title, text",
+    "html": "<mark id=\"t\" title=\"x\">Text</mark>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "ins title, text",
+    "html": "<ins id=\"t\" title=\"x\">Text</ins>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "del title, text",
+    "html": "<del id=\"t\" title=\"x\">Text</del>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "li title, no list",
+    "html": "<li id=\"t\" title=\"x\">A</li>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "li title in ul",
+    "html": "<ul><li id=\"t\" title=\"x\">A</li></ul>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "header title in article",
+    "html": "<article><header id=\"t\" title=\"x\">A</header></article>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "footer title in section",
+    "html": "<section><footer id=\"t\" title=\"x\">A</footer></section>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "input checkbox title",
+    "html": "<input id=\"t\" type=\"checkbox\" title=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "input range title",
+    "html": "<input id=\"t\" type=\"range\" title=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "option title in select",
+    "html": "<select><option id=\"t\" title=\"x\"></option></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "optgroup title in select",
+    "html": "<select><optgroup id=\"t\" title=\"x\"><option>A</option></optgroup></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "summary title outside details",
+    "html": "<summary id=\"t\" title=\"x\"></summary>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "svg title attribute",
+    "html": "<svg id=\"t\" title=\"x\" width=\"8\" height=\"8\"></svg>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "svg child g title attr",
+    "html": "<svg width=\"8\" height=\"8\"><g id=\"t\" title=\"x\"></g></svg>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "td title, text",
+    "html": "<table><tr><td id=\"t\" title=\"x\">1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "th title",
+    "html": "<table><tr><th id=\"t\" title=\"x\"></th></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "thead title",
+    "html": "<table><thead id=\"t\" title=\"x\"><tr><td>1</td></tr></thead></table>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "custom element title, empty",
+    "html": "<x-c id=\"t\" title=\"x\"></x-c>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "custom element title, display:inline text",
+    "html": "<x-c id=\"t\" title=\"x\">A</x-c>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "custom element with shadow root, title",
+    "html": "<x-d id=\"t\" title=\"x\"></x-d>",
+    "setup": "const h = document.getElementById('t'); h.attachShadow({mode:'open'}).innerHTML = '<span>A</span>'; return h;",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "h2 title, empty",
+    "html": "<h2 id=\"t\" title=\"x\"></h2>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "a without href title, empty",
+    "html": "<a id=\"t\" title=\"x\"></a>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "area href title",
+    "html": "<map name=\"m\"><area id=\"t\" href=\"#x\" title=\"Home\" shape=\"rect\" coords=\"0,0,9,9\"></map><img usemap=\"#m\" alt=\"Map\" width=\"10\" height=\"10\" src=\"data:,\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-tag",
+    "name": "body title",
+    "html": "",
+    "setup": "document.body.title = 'x'; return document.body;",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=alert title",
+    "html": "<div id=\"t\" role=\"alert\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=alertdialog title",
+    "html": "<div id=\"t\" role=\"alertdialog\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=application title",
+    "html": "<div id=\"t\" role=\"application\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=article title",
+    "html": "<div id=\"t\" role=\"article\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=banner title",
+    "html": "<div id=\"t\" role=\"banner\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=blockquote title",
+    "html": "<div id=\"t\" role=\"blockquote\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=caption title",
+    "html": "<div id=\"t\" role=\"caption\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=cell title",
+    "html": "<div id=\"t\" role=\"cell\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=code title",
+    "html": "<div id=\"t\" role=\"code\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=columnheader title",
+    "html": "<div id=\"t\" role=\"columnheader\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=combobox title",
+    "html": "<div id=\"t\" role=\"combobox\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=complementary title",
+    "html": "<div id=\"t\" role=\"complementary\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=contentinfo title",
+    "html": "<div id=\"t\" role=\"contentinfo\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=definition title",
+    "html": "<div id=\"t\" role=\"definition\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=deletion title",
+    "html": "<div id=\"t\" role=\"deletion\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=dialog title",
+    "html": "<div id=\"t\" role=\"dialog\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=directory title",
+    "html": "<div id=\"t\" role=\"directory\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=document title",
+    "html": "<div id=\"t\" role=\"document\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=emphasis title",
+    "html": "<div id=\"t\" role=\"emphasis\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=feed title",
+    "html": "<div id=\"t\" role=\"feed\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=figure title",
+    "html": "<div id=\"t\" role=\"figure\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=form title",
+    "html": "<div id=\"t\" role=\"form\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=generic title",
+    "html": "<div id=\"t\" role=\"generic\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=grid title",
+    "html": "<div id=\"t\" role=\"grid\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=gridcell title",
+    "html": "<div id=\"t\" role=\"gridcell\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=group title",
+    "html": "<div id=\"t\" role=\"group\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=heading title",
+    "html": "<div id=\"t\" role=\"heading\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=img title",
+    "html": "<div id=\"t\" role=\"img\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=insertion title",
+    "html": "<div id=\"t\" role=\"insertion\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=link title",
+    "html": "<div id=\"t\" role=\"link\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=list title",
+    "html": "<div id=\"t\" role=\"list\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=listbox title",
+    "html": "<div id=\"t\" role=\"listbox\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=listitem title",
+    "html": "<div id=\"t\" role=\"listitem\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=log title",
+    "html": "<div id=\"t\" role=\"log\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=main title",
+    "html": "<div id=\"t\" role=\"main\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=marquee title",
+    "html": "<div id=\"t\" role=\"marquee\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=math title",
+    "html": "<div id=\"t\" role=\"math\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=menu title",
+    "html": "<div id=\"t\" role=\"menu\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=menubar title",
+    "html": "<div id=\"t\" role=\"menubar\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=menuitem title",
+    "html": "<div id=\"t\" role=\"menuitem\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=meter title",
+    "html": "<div id=\"t\" role=\"meter\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=navigation title",
+    "html": "<div id=\"t\" role=\"navigation\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=none title",
+    "html": "<div id=\"t\" role=\"none\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=note title",
+    "html": "<div id=\"t\" role=\"note\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=option title",
+    "html": "<div id=\"t\" role=\"option\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=paragraph title",
+    "html": "<div id=\"t\" role=\"paragraph\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=presentation title",
+    "html": "<div id=\"t\" role=\"presentation\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=progressbar title",
+    "html": "<div id=\"t\" role=\"progressbar\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=radio title",
+    "html": "<div id=\"t\" role=\"radio\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=radiogroup title",
+    "html": "<div id=\"t\" role=\"radiogroup\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=region title",
+    "html": "<div id=\"t\" role=\"region\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=row title",
+    "html": "<div id=\"t\" role=\"row\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=rowgroup title",
+    "html": "<div id=\"t\" role=\"rowgroup\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=rowheader title",
+    "html": "<div id=\"t\" role=\"rowheader\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=scrollbar title",
+    "html": "<div id=\"t\" role=\"scrollbar\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=search title",
+    "html": "<div id=\"t\" role=\"search\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=searchbox title",
+    "html": "<div id=\"t\" role=\"searchbox\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=separator title",
+    "html": "<div id=\"t\" role=\"separator\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=slider title",
+    "html": "<div id=\"t\" role=\"slider\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=spinbutton title",
+    "html": "<div id=\"t\" role=\"spinbutton\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=status title",
+    "html": "<div id=\"t\" role=\"status\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=strong title",
+    "html": "<div id=\"t\" role=\"strong\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=subscript title",
+    "html": "<div id=\"t\" role=\"subscript\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=superscript title",
+    "html": "<div id=\"t\" role=\"superscript\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=switch title",
+    "html": "<div id=\"t\" role=\"switch\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=tab title",
+    "html": "<div id=\"t\" role=\"tab\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=table title",
+    "html": "<div id=\"t\" role=\"table\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=tablist title",
+    "html": "<div id=\"t\" role=\"tablist\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=tabpanel title",
+    "html": "<div id=\"t\" role=\"tabpanel\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=term title",
+    "html": "<div id=\"t\" role=\"term\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=textbox title",
+    "html": "<div id=\"t\" role=\"textbox\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=time title",
+    "html": "<div id=\"t\" role=\"time\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=timer title",
+    "html": "<div id=\"t\" role=\"timer\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=toolbar title",
+    "html": "<div id=\"t\" role=\"toolbar\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=tooltip title",
+    "html": "<div id=\"t\" role=\"tooltip\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=tree title",
+    "html": "<div id=\"t\" role=\"tree\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=treegrid title",
+    "html": "<div id=\"t\" role=\"treegrid\" title=\"x\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "div role=treeitem title",
+    "html": "<div id=\"t\" role=\"treeitem\" title=\"x\">A</div>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "row title in table",
+    "html": "<div role=\"table\"><div id=\"t\" role=\"row\" title=\"x\"><div role=\"cell\">1</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "rowgroup title in table",
+    "html": "<div role=\"table\"><div id=\"t\" role=\"rowgroup\" title=\"x\"><div role=\"row\"><div role=\"cell\">1</div></div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "cell title in table",
+    "html": "<div role=\"table\"><div role=\"row\"><div id=\"t\" role=\"cell\" title=\"x\"></div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "gridcell title in grid",
+    "html": "<div role=\"grid\"><div role=\"row\"><div id=\"t\" role=\"gridcell\" title=\"x\"></div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "tab title in tablist",
+    "html": "<div role=\"tablist\"><div id=\"t\" role=\"tab\" title=\"x\"></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "menuitem title in menu",
+    "html": "<div role=\"menu\"><div id=\"t\" role=\"menuitem\" title=\"x\"></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "option title in listbox",
+    "html": "<div role=\"listbox\"><div id=\"t\" role=\"option\" title=\"x\"></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "treeitem title in tree",
+    "html": "<div role=\"tree\"><div id=\"t\" role=\"treeitem\" title=\"x\"></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "listitem title in list",
+    "html": "<div role=\"list\"><div id=\"t\" role=\"listitem\" title=\"x\"></div></div>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:title-role",
+    "name": "span role=img title, empty",
+    "html": "<span id=\"t\" role=\"img\" title=\"x\"></span>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "button role=dialog title",
+    "html": "<button id=\"t\" role=\"dialog\" title=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:title-role",
+    "name": "h2 role=presentation title",
+    "html": "<h2 id=\"t\" role=\"presentation\" title=\"x\">A</h2>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-role",
+    "name": "img role=presentation title, no alt",
+    "html": "<img id=\"t\" role=\"presentation\" title=\"x\" src=\"data:,\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-role",
+    "name": "img role=none alt text",
+    "html": "<img id=\"t\" role=\"none\" alt=\"Logo\" src=\"data:,\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-role",
+    "name": "nav role=none title",
+    "html": "<nav id=\"t\" role=\"none\" title=\"x\">A</nav>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:title-role",
+    "name": "input role=presentation title",
+    "html": "<input id=\"t\" role=\"presentation\" title=\"x\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=cell, text, alone",
+    "html": "<div id=\"t\" role=\"cell\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=gridcell, text, alone",
+    "html": "<div id=\"t\" role=\"gridcell\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=columnheader, text, alone",
+    "html": "<div id=\"t\" role=\"columnheader\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=rowheader, text, alone",
+    "html": "<div id=\"t\" role=\"rowheader\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=tab, text, alone",
+    "html": "<div id=\"t\" role=\"tab\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=menuitem, text, alone",
+    "html": "<div id=\"t\" role=\"menuitem\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=menuitemcheckbox, text, alone",
+    "html": "<div id=\"t\" role=\"menuitemcheckbox\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=menuitemradio, text, alone",
+    "html": "<div id=\"t\" role=\"menuitemradio\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=radio, text, alone",
+    "html": "<div id=\"t\" role=\"radio\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=tooltip, text, alone",
+    "html": "<div id=\"t\" role=\"tooltip\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=heading, text, alone",
+    "html": "<div id=\"t\" role=\"heading\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=link, text, alone",
+    "html": "<div id=\"t\" role=\"link\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=switch, text, alone",
+    "html": "<div id=\"t\" role=\"switch\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=checkbox, text, alone",
+    "html": "<div id=\"t\" role=\"checkbox\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "div role=button, text, alone",
+    "html": "<div id=\"t\" role=\"button\">A</div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "option in listbox through a group",
+    "html": "<div role=\"listbox\"><div role=\"group\"><div id=\"t\" role=\"option\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "option in a div in listbox",
+    "html": "<div role=\"listbox\"><div><div id=\"t\" role=\"option\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "option owned by listbox with aria-owns",
+    "html": "<div role=\"listbox\" aria-owns=\"t\"></div><div id=\"t\" role=\"option\">A</div>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:content-role",
+    "name": "treeitem in group in tree",
+    "html": "<div role=\"tree\"><div role=\"group\"><div id=\"t\" role=\"treeitem\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "option in select role=none",
+    "html": "<select role=\"none\"><option id=\"t\">A</option></select>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "option in datalist",
+    "html": "<datalist id=\"d\"><option id=\"t\">A</option></datalist>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:content-role",
+    "name": "td role=none, text",
+    "html": "<table><tr><td id=\"t\" role=\"none\">1</td></tr></table>",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:content-role",
+    "name": "td in table role=presentation",
+    "html": "<table role=\"presentation\"><tr><td id=\"t\">1</td></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "td in table role=none",
+    "html": "<table role=\"none\"><tr><td id=\"t\">1</td></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "th in table role=presentation",
+    "html": "<table role=\"presentation\"><tr><th id=\"t\">1</th></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:content-role",
+    "name": "h2 with only a text field value",
+    "html": "<h2 id=\"t\"><input value=\"Ann\"></h2>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "tr, cells",
+    "html": "<table><tr id=\"t\"><td>1</td></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "tr tabindex=0, cells",
+    "html": "<table><tr id=\"t\" tabindex=\"0\"><td>1</td></tr></table>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "row in grid, cells",
+    "html": "<div role=\"grid\"><div id=\"t\" role=\"row\"><div role=\"gridcell\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "row in grid tabindex=0",
+    "html": "<div role=\"grid\"><div id=\"t\" role=\"row\" tabindex=\"0\"><div role=\"gridcell\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "row in treegrid",
+    "html": "<div role=\"treegrid\"><div id=\"t\" role=\"row\"><div role=\"gridcell\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "row in treegrid tabindex=0 aria-level",
+    "html": "<div role=\"treegrid\"><div id=\"t\" role=\"row\" tabindex=\"0\" aria-level=\"1\" aria-expanded=\"false\"><div role=\"gridcell\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "row in table, aria-label",
+    "html": "<div role=\"table\"><div id=\"t\" role=\"row\" aria-label=\"First\"><div role=\"cell\">1</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "tr aria-labelledby its cell",
+    "html": "<table><tr id=\"t\" aria-labelledby=\"c\"><td id=\"c\">1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:row",
+    "name": "tr in grid table tabindex=0",
+    "html": "<table role=\"grid\"><tr id=\"t\" tabindex=\"0\"><td>1</td></tr></table>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=text with a value",
+    "html": "<label for=\"t\"><input type=\"text\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=search with a value",
+    "html": "<label for=\"t\"><input type=\"search\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=email with a value",
+    "html": "<label for=\"t\"><input type=\"email\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=tel with a value",
+    "html": "<label for=\"t\"><input type=\"tel\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=url with a value",
+    "html": "<label for=\"t\"><input type=\"url\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=number with a value",
+    "html": "<label for=\"t\"><input type=\"number\" value=\"5\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=password with a value",
+    "html": "<label for=\"t\"><input type=\"password\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=date with a value",
+    "html": "<label for=\"t\"><input type=\"date\" value=\"2026-01-02\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=time with a value",
+    "html": "<label for=\"t\"><input type=\"time\" value=\"10:00\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=color with a value",
+    "html": "<label for=\"t\"><input type=\"color\" value=\"#ff0000\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=range with a value",
+    "html": "<label for=\"t\"><input type=\"range\" value=\"5\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=checkbox with a value",
+    "html": "<label for=\"t\"><input type=\"checkbox\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=bogus with a value",
+    "html": "<label for=\"t\"><input type=\"bogus\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only input type=TEXT with a value",
+    "html": "<label for=\"t\"><input type=\"TEXT\" value=\"ann@example.com\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=text with a value",
+    "html": "<input id=\"x\" type=\"text\" value=\"ann@example.com\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=search with a value",
+    "html": "<input id=\"x\" type=\"search\" value=\"ann@example.com\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=email with a value",
+    "html": "<input id=\"x\" type=\"email\" value=\"ann@example.com\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=tel with a value",
+    "html": "<input id=\"x\" type=\"tel\" value=\"ann@example.com\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=url with a value",
+    "html": "<input id=\"x\" type=\"url\" value=\"ann@example.com\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=number with a value",
+    "html": "<input id=\"x\" type=\"number\" value=\"5\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=date with a value",
+    "html": "<input id=\"x\" type=\"date\" value=\"2026-01-02\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": false,
+    "relation": "false-false"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input type=bogus with a value",
+    "html": "<input id=\"x\" type=\"bogus\" value=\"ann@example.com\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only a textarea with text",
+    "html": "<label for=\"t\"><textarea>Ann</textarea></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only a disabled input with a value",
+    "html": "<label for=\"t\"><input value=\"Ann\" disabled></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only a readonly input with a value",
+    "html": "<label for=\"t\"><input value=\"Ann\" readonly></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an aria-hidden input with a value",
+    "html": "<label for=\"t\"><input value=\"Ann\" aria-hidden=\"true\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only a display:none input with a value",
+    "html": "<label for=\"t\"><input value=\"Ann\" style=\"display:none\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only a visibility:hidden input with a value",
+    "html": "<label for=\"t\"><input value=\"Ann\" style=\"visibility:hidden\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only a visually hidden input with a value",
+    "html": "<label for=\"t\"><input value=\"Ann\" style=\"position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input with a blank value",
+    "html": "<label for=\"t\"><input value=\"  \"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input role=combobox with a value",
+    "html": "<label for=\"t\"><input role=\"combobox\" aria-expanded=\"false\" value=\"Ann\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input role=spinbutton with a value",
+    "html": "<label for=\"t\"><input role=\"spinbutton\" value=\"5\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input role=slider with a value",
+    "html": "<label for=\"t\"><input role=\"slider\" value=\"5\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input role=switch with a value",
+    "html": "<label for=\"t\"><input role=\"switch\" value=\"on\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input role=button with a value",
+    "html": "<label for=\"t\"><input role=\"button\" value=\"Go\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input role=none with a value",
+    "html": "<label for=\"t\"><input role=\"none\" value=\"Ann\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input list= with a value",
+    "html": "<datalist id=\"d\"><option>A</option></datalist><label for=\"t\"><input list=\"d\" value=\"Ann\"></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label holds only an input in a span with a value",
+    "html": "<label for=\"t\"><span><input value=\"Ann\"></span></label><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "wrapping label, own value only",
+    "html": "<label><input id=\"t\" value=\"Ann\"></label>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "label for, own value inside the label",
+    "html": "<label for=\"t\"><input id=\"t\" value=\"Ann\"></label>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "two inputs in one label, the other has a value",
+    "html": "<label><input id=\"t\"><input value=\"Ann\"></label>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "value typed after load (property only)",
+    "html": "<label for=\"t\"><input id=\"o\"></label><input id=\"t\">",
+    "setup": "document.getElementById('o').value = 'Ann'; return document.getElementById('t');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "value attribute, property cleared",
+    "html": "<label for=\"t\"><input id=\"o\" value=\"Ann\"></label><input id=\"t\">",
+    "setup": "document.getElementById('o').value = ''; return document.getElementById('t');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to textarea with text",
+    "html": "<textarea id=\"x\">Ann</textarea><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to a hidden input type=text with a value",
+    "html": "<input id=\"x\" value=\"Ann\" hidden><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to a span that holds an input with a value",
+    "html": "<span id=\"x\"><input value=\"Ann\"></span><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to input with value + aria-label",
+    "html": "<input id=\"x\" value=\"Ann\" aria-label=\"First name\"><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "aria-labelledby to div role=textbox with text",
+    "html": "<div id=\"x\" role=\"textbox\" contenteditable>Ann</div><button id=\"t\" aria-labelledby=\"x\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "button holds only an input with a value",
+    "html": "<button id=\"t\"><input value=\"Ann\"></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "dialog labelled by a title that holds only an input value",
+    "html": "<div id=\"t\" role=\"dialog\" aria-labelledby=\"x\"><h2 id=\"x\"><input value=\"Ann\"></h2></div>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "input alone with a value",
+    "html": "<input id=\"t\" value=\"Ann\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:value",
+    "name": "textarea alone with text",
+    "html": "<textarea id=\"t\">Ann</textarea>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "label after the summary in a closed details, input outside",
+    "html": "<details><summary>s</summary><label for=\"t\">Name</label></details><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "label in an open details inside a closed details",
+    "html": "<details><summary>s</summary><details open><summary>s</summary><label for=\"t\">Name</label></details></details><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "label in the second summary of a closed details",
+    "html": "<details><summary>s</summary><summary><label for=\"t\">Name</label></summary></details><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "label in a closed details without a summary",
+    "html": "<details><label for=\"t\">Name</label></details><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "label in details open=\"\"",
+    "html": "<details open=\"\"><summary>s</summary><label for=\"t\">Name</label></details><input id=\"t\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "label in a details opened by script",
+    "html": "<details id=\"d\"><summary>s</summary><label for=\"t\">Name</label></details><input id=\"t\">",
+    "setup": "document.getElementById('d').open = true; return document.getElementById('t');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "aria-labelledby to a span inside the summary of a closed details",
+    "html": "<details><summary><span id=\"x\">Name</span></summary>y</details><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "aria-labelledby to hidden text in a closed details",
+    "html": "<details><summary>s</summary><span id=\"x\" hidden>Name</span></details><input id=\"t\" aria-labelledby=\"x\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "button holds an open details with text",
+    "html": "<button id=\"t\"><details open><summary></summary>Save</details></button>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "summary of a closed details, text",
+    "html": "<details><summary id=\"t\">More</summary>x</details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:details",
+    "name": "details closed, aria-label",
+    "html": "<details id=\"t\" aria-label=\"More\"><summary>s</summary>x</details>",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in a closed details",
+    "html": "<details><summary>s</summary><label for=\"t\">Name</label><input id=\"t\"></details>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in display:none",
+    "html": "<div style=\"display:none\"><label for=\"t\">Name</label><input id=\"t\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in hidden",
+    "html": "<div hidden><label for=\"t\">Name</label><input id=\"t\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in visibility:hidden",
+    "html": "<div style=\"visibility:hidden\"><label for=\"t\">Name</label><input id=\"t\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in content-visibility:hidden",
+    "html": "<div style=\"content-visibility:hidden\"><label for=\"t\">Name</label><input id=\"t\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in inert",
+    "html": "<div inert><label for=\"t\">Name</label><input id=\"t\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and label in a closed dialog",
+    "html": "<dialog><label for=\"t\">Name</label><input id=\"t\"></dialog>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and its aria-labelledby target in a closed details",
+    "html": "<details><summary>s</summary><span id=\"x\">Name</span><input id=\"t\" aria-labelledby=\"x\"></details>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "input and its aria-labelledby target in inert",
+    "html": "<div inert><span id=\"x\">Name</span><input id=\"t\" aria-labelledby=\"x\"></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "button with text in visibility:hidden parent",
+    "html": "<div style=\"visibility:hidden\"><button id=\"t\">Save</button></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "button with text in a closed details",
+    "html": "<details><summary>s</summary><button id=\"t\">Save</button></details>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "button with text in inert",
+    "html": "<div inert><button id=\"t\">Save</button></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:same",
+    "name": "wrapping label in display:none",
+    "html": "<div style=\"display:none\"><label>Name <input id=\"t\"></label></div>",
+    "expected": true,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:vis",
+    "name": "button, img alt visibility:hidden",
+    "html": "<button id=\"t\"><img alt=\"Save\" style=\"visibility:hidden\" src=\"data:,\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "button, span aria-label visibility:hidden",
+    "html": "<button id=\"t\"><span aria-label=\"Close\" style=\"visibility:hidden\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "button, svg title visibility:hidden",
+    "html": "<button id=\"t\"><svg style=\"visibility:hidden\" width=\"8\" height=\"8\"><title>Close</title></svg></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "button in visibility:hidden span, img alt",
+    "html": "<button id=\"t\"><span style=\"visibility:hidden\"><img alt=\"Save\" src=\"data:,\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "label holds img alt visibility:hidden",
+    "html": "<label for=\"t\"><img alt=\"Name\" style=\"visibility:hidden\" src=\"data:,\"></label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "fieldset, legend visibility:hidden",
+    "html": "<fieldset id=\"t\"><legend style=\"visibility:hidden\">Address</legend></fieldset>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "button, child aria-labelledby visibility:hidden",
+    "html": "<span id=\"x\">Name</span><button id=\"t\"><span aria-labelledby=\"x\" style=\"visibility:hidden\"></span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "a:vis",
+    "name": "img role=presentation alt text",
+    "html": "<img id=\"t\" role=\"presentation\" alt=\"Logo\" src=\"data:,\">",
+    "expected": false,
+    "relation": "not-in-tree"
+  },
+  {
+    "group": "a:vis",
+    "name": "button, img role=none alt",
+    "html": "<button id=\"t\"><img role=\"none\" alt=\"Save\" src=\"data:,\"></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: no name, placeholder shown",
+    "html": "<div><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_0_-trigger\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: no name, value Pizza shown",
+    "html": "<div><div class=\"cck-select\" data-state=\"closed\"><button class=\"cck-select__trigger\" id=\"_r_1_-trigger\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__value\">Pizza</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: aria-label",
+    "html": "<div><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_2_-trigger\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-label=\"Dish\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: aria-labelledby dangling",
+    "html": "<div><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_3_-trigger\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" aria-labelledby=\"nope\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: title",
+    "html": "<div><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_4_-trigger\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" data-state=\"closed\" title=\"Dish\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: field + Label",
+    "html": "<div><div class=\"cck-form-field\"><label class=\"cck-label\" for=\"_r_5_-control\" id=\"_r_5_-label\">Dish</label><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_5_-control\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_5_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: field + empty Label",
+    "html": "<div><div class=\"cck-form-field\"><label class=\"cck-label\" for=\"_r_7_-control\" id=\"_r_7_-label\"></label><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_7_-control\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_7_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "select: field, no label",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><div class=\"cck-select\" data-state=\"closed\" data-placeholder-shown=\"\"><button class=\"cck-select__trigger\" id=\"_r_9_-control\" type=\"button\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" data-state=\"closed\" data-t=\"\"><span class=\"cck-select__placeholder\">Choose a dish</span><span class=\"cck-select__dropdown-icon\" aria-hidden=\"true\"></span></button></div></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_9_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: Title",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_b_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_b_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_b_-content\" data-state=\"open\" open=\"\" data-modal=\"\" aria-labelledby=\"_r_b_-title\" data-t=\"\"><h2 class=\"cck-dialog__title\" id=\"_r_b_-title\">Delete project</h2></dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: empty Title",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_c_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_c_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_c_-content\" data-state=\"open\" open=\"\" data-modal=\"\" aria-labelledby=\"_r_c_-title\" data-t=\"\"><h2 class=\"cck-dialog__title\" id=\"_r_c_-title\"></h2></dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: Title with aria-hidden icon only",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_d_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_d_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_d_-content\" data-state=\"open\" open=\"\" data-modal=\"\" aria-labelledby=\"_r_d_-title\" data-t=\"\"><h2 class=\"cck-dialog__title\" id=\"_r_d_-title\"><span aria-hidden=\"true\">!</span></h2></dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: text only",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_e_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_e_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_e_-content\" data-state=\"open\" open=\"\" data-modal=\"\" data-t=\"\">Are you sure?</dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: aria-label",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_f_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_f_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_f_-content\" data-state=\"open\" aria-label=\"Delete\" open=\"\" data-modal=\"\" data-t=\"\">Are you sure?</dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: aria-label empty",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_g_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_g_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_g_-content\" data-state=\"open\" aria-label=\"\" open=\"\" data-modal=\"\" data-t=\"\">Are you sure?</dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: aria-labelledby dangling",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_h_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_h_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_h_-content\" aria-labelledby=\"nope\" data-state=\"open\" open=\"\" data-modal=\"\" data-t=\"\">Are you sure?</dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "dialog: h2 heading, no Title",
+    "html": "<div><button class=\"cck-dialog__trigger\" id=\"_r_i_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_i_-content\">Delete</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><dialog class=\"cck-dialog__content\" id=\"_r_i_-content\" data-state=\"open\" open=\"\" data-modal=\"\" data-t=\"\"><h2>Delete project</h2></dialog></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "popover: Title",
+    "html": "<div><button class=\"cck-popover__trigger\" id=\"_r_j_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_j_-content\">Share</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span><div class=\"cck-popover__content\" id=\"_r_j_-content\" role=\"dialog\" tabindex=\"-1\" data-state=\"open\" data-side=\"bottom\" data-align=\"center\" style=\"position: fixed; top: 0px; left: 0px; --anchor-width: 0px; --available-width: 0px; --available-height: 0px; --transform-origin: 50% 0px;\" aria-labelledby=\"_r_j_-title\" data-t=\"\"><h2 class=\"cck-popover__title\" id=\"_r_j_-title\">Share</h2></div><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "popover: empty Title",
+    "html": "<div><button class=\"cck-popover__trigger\" id=\"_r_k_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_k_-content\">Share</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span><div class=\"cck-popover__content\" id=\"_r_k_-content\" role=\"dialog\" tabindex=\"-1\" data-state=\"open\" data-side=\"bottom\" data-align=\"center\" style=\"position: fixed; top: 0px; left: 0px; --anchor-width: 0px; --available-width: 0px; --available-height: 0px; --transform-origin: 50% 0px;\" aria-labelledby=\"_r_k_-title\" data-t=\"\"><h2 class=\"cck-popover__title\" id=\"_r_k_-title\"></h2></div><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "popover: text only",
+    "html": "<div><button class=\"cck-popover__trigger\" id=\"_r_l_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_l_-content\">Share</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span><div class=\"cck-popover__content\" id=\"_r_l_-content\" role=\"dialog\" tabindex=\"-1\" data-state=\"open\" data-side=\"bottom\" data-align=\"center\" style=\"position: fixed; top: 0px; left: 0px; --anchor-width: 0px; --available-width: 0px; --available-height: 0px; --transform-origin: 50% 0px;\" data-t=\"\">text</div><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "popover: aria-label",
+    "html": "<div><button class=\"cck-popover__trigger\" id=\"_r_m_-trigger\" type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"true\" data-state=\"open\" aria-controls=\"_r_m_-content\">Share</button></div><div popover=\"manual\" style=\"position: fixed; inset: auto; margin: 0px; padding: 0px; color: inherit; overflow: visible; width: 0px; height: 0px; border: 0px; display: block;\" dir=\"ltr\"><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span><div class=\"cck-popover__content\" id=\"_r_m_-content\" role=\"dialog\" tabindex=\"-1\" data-state=\"open\" data-side=\"bottom\" data-align=\"center\" aria-label=\"Share\" style=\"position: fixed; top: 0px; left: 0px; --anchor-width: 0px; --available-width: 0px; --available-height: 0px; --transform-origin: 50% 0px;\" data-t=\"\">text</div><span tabindex=\"0\" style=\"position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0px; border: 0px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;\"></span></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "tabnav: none",
+    "html": "<div><nav class=\"cck-tab-nav\" data-t=\"\"><a class=\"cck-tab-nav__link\" href=\"#a\">A</a></nav></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "tabnav: aria-label",
+    "html": "<div><nav class=\"cck-tab-nav\" aria-label=\"Sections\" data-t=\"\"><a class=\"cck-tab-nav__link\" href=\"#a\">A</a></nav></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "tabnav: aria-label empty",
+    "html": "<div><nav class=\"cck-tab-nav\" aria-label=\"\" data-t=\"\"><a class=\"cck-tab-nav__link\" href=\"#a\">A</a></nav></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "tabnav: aria-labelledby heading before",
+    "html": "<div><h2 id=\"h\">Sections</h2><nav class=\"cck-tab-nav\" aria-labelledby=\"h\" data-t=\"\"><a class=\"cck-tab-nav__link\" href=\"#a\">A</a></nav></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "tabnav: aria-labelledby dangling",
+    "html": "<div><nav class=\"cck-tab-nav\" aria-labelledby=\"nope\" data-t=\"\"><a class=\"cck-tab-nav__link\" href=\"#a\">A</a></nav></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "tabnav: title",
+    "html": "<div><nav class=\"cck-tab-nav\" title=\"Sections\" data-t=\"\"><a class=\"cck-tab-nav__link\" href=\"#a\">A</a></nav></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field, nothing",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_t_-control\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_t_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field + Label",
+    "html": "<div><div class=\"cck-form-field\"><label class=\"cck-label\" for=\"_r_u_-control\" id=\"_r_u_-label\">Name</label><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_u_-control\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_u_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field + empty Label",
+    "html": "<div><div class=\"cck-form-field\"><label class=\"cck-label\" for=\"_r_v_-control\" id=\"_r_v_-label\"></label><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_v_-control\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_v_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field + Label icon only (aria-hidden)",
+    "html": "<div><div class=\"cck-form-field\"><label class=\"cck-label\" for=\"_r_10_-control\" id=\"_r_10_-label\"><span aria-hidden=\"true\">*</span></label><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_10_-control\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_10_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field, placeholder only",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_11_-control\" placeholder=\"Name\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_11_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field, title only",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_12_-control\" title=\"Name\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_12_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: field, aria-labelledby dangling",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><input class=\"cck-input\" id=\"_r_13_-control\" aria-labelledby=\"nope\" type=\"text\" data-t=\"\"></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_13_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "input: no field, nothing",
+    "html": "<div><input class=\"cck-input\" type=\"text\" data-t=\"\"></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "textarea: field, placeholder only",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><textarea class=\"cck-textarea\" id=\"_r_14_-control\" placeholder=\"Bio\" data-t=\"\"></textarea></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_14_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "textarea: field, nothing",
+    "html": "<div><div class=\"cck-form-field\"><div class=\"cck-form-field__wrapper\"><div class=\"cck-form-field__input-wrapper\"><textarea class=\"cck-textarea\" id=\"_r_15_-control\" data-t=\"\"></textarea></div></div><div class=\"cck-form-field__feedback-wrapper\" id=\"_r_15_-feedback\"></div></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: empty",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_16_\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_16_\"></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: caption",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_17_\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_17_\">Accept</label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: aria-hidden icon only",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_18_\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_18_\"><span aria-hidden=\"true\">*</span></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: empty span only",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_19_\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_19_\"><span></span></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: svg without title only",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_1a_\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_1a_\"><svg width=\"8\" height=\"8\"><path d=\"M0 0h8v8z\"></path></svg></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: img alt only",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_1b_\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_1b_\"><img alt=\"Accept\" src=\"data:,\"></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: aria-labelledby dangling",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_1c_\" aria-labelledby=\"nope\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_1c_\"></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: aria-label",
+    "html": "<div><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"_r_1d_\" aria-label=\"Accept\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"_r_1d_\"></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "checkbox: outer label for",
+    "html": "<div><label for=\"mine\">Outside</label><div class=\"cck-checkbox\"><span class=\"cck-checkbox__wrapper\"><span class=\"cck-checkbox__input-wrapper\"><input class=\"cck-checkbox__input\" id=\"mine\" type=\"checkbox\" data-t=\"\"><span class=\"cck-checkbox__backdrop\" aria-hidden=\"true\"></span><span class=\"cck-checkbox__background\" aria-hidden=\"true\"></span></span><label class=\"cck-checkbox__label\" for=\"mine\"></label></span></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "switch: empty",
+    "html": "<div><div class=\"cck-switch\"><label class=\"cck-switch__label\" for=\"_r_1f_\"><span class=\"cck-switch__track\"><input class=\"cck-switch__input\" id=\"_r_1f_\" role=\"switch\" type=\"checkbox\" data-t=\"\"><span class=\"cck-switch__thumb\" aria-hidden=\"true\"></span><span class=\"cck-switch__backdrop\" aria-hidden=\"true\"></span></span></label></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "switch: caption",
+    "html": "<div><div class=\"cck-switch\"><label class=\"cck-switch__label\" for=\"_r_1g_\"><span class=\"cck-switch__track\"><input class=\"cck-switch__input\" id=\"_r_1g_\" role=\"switch\" type=\"checkbox\" data-t=\"\"><span class=\"cck-switch__thumb\" aria-hidden=\"true\"></span><span class=\"cck-switch__backdrop\" aria-hidden=\"true\"></span></span>Notify</label></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": true,
+    "relation": "equal"
+  },
+  {
+    "group": "caller",
+    "name": "switch: aria-hidden icon only",
+    "html": "<div><div class=\"cck-switch\"><label class=\"cck-switch__label\" for=\"_r_1h_\"><span class=\"cck-switch__track\"><input class=\"cck-switch__input\" id=\"_r_1h_\" role=\"switch\" type=\"checkbox\" data-t=\"\"><span class=\"cck-switch__thumb\" aria-hidden=\"true\"></span><span class=\"cck-switch__backdrop\" aria-hidden=\"true\"></span></span><span aria-hidden=\"true\">*</span></label></div></div>",
+    "setup": "return document.querySelector('[data-t]');",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "e:visibility",
+    "name": "button, content with visibility collapse",
+    "html": "<button id=\"t\"><span style=\"visibility:collapse\">Save</span></button>",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "e:visibility",
+    "name": "label with visibility collapse",
+    "html": "<label for=\"t\" style=\"visibility:collapse\">Name</label><input id=\"t\">",
+    "expected": false,
+    "relation": "equal"
+  },
+  {
+    "group": "e:role-case",
+    "name": "row in role=GRID",
+    "html": "<div role=\"GRID\"><div id=\"t\" role=\"row\"><div role=\"gridcell\">A</div></div></div>",
+    "expected": true,
+    "relation": "equal"
+  }
+]

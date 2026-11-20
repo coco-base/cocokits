@@ -1,0 +1,5 @@
+@use '_button' as button;
+
+@layer cocokits {
+  @include button.rules;
+}

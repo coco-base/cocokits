@@ -1,0 +1,5 @@
+@use '_label' as label;
+
+@layer cocokits {
+  @include label.rules;
+}

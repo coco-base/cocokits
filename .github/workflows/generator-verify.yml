@@ -1,0 +1,28 @@
+# Manual only: slow buildability proof of the library generator. `pnpm ci:local` runs it when a change touches
+# the generator, its script or a root file the script copies (the list is GENERATOR_PATHS in tools/scripts/ci-local.mjs).
+name: generator-verify
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: generator-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verify library generator
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node tools/scripts/verify-library-generator.mjs

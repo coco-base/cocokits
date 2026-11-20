@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Tokens executor",
+  "description": "Turn a token JSON file into a CSS or SCSS file.",
+  "type": "object",
+  "properties": {
+    "input": {
+      "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" }, "minItems": 1 }],
+      "description": "Token JSON path, or several paths merged before indexing, relative to the workspace root."
+    },
+    "output": { "type": "string", "description": "Output file path, relative to the workspace root." },
+    "modesOutput": {
+      "type": "string",
+      "description": "Optional TypeScript file with the mode list, union type and default mode of every collection that has more than one mode, and the modes index modeCollections (attribute, modes and default mode of every collection that has a mode attribute), relative to the workspace root."
+    },
+    "format": { "type": "string", "enum": ["css", "scss"], "default": "css", "description": "Output format." }
+  },
+  "required": ["input", "output"],
+  "additionalProperties": false
+}
