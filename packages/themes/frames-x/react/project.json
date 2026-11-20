@@ -22,6 +22,14 @@
         "parallel": false
       }
     },
+    "api-docs": {
+      "executor": "@cocokits/workspace:api-docs-theme",
+      "dependsOn": ["^build", "^api-docs"],
+      "outputs": ["{workspaceRoot}/dist/api-docs/theme-frames-x/react"],
+      "options": {
+        "framework": "react"
+      }
+    },
     "pack": {},
     "publint": {},
     "attw": {}

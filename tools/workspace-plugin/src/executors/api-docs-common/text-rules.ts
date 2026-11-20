@@ -204,12 +204,33 @@ function checkType(doc: ApiDocJson, type: ApiTypeJson, problems: string[]): void
 }
 
 /**
+ * The text rules of a theme doc: the prose rules for its theme-declared members and its types. A theme option has a
+ * one-sentence summary only: its values and default live in the `ThemeConfig`, so the rules that ask for a `@cckValue`,
+ * a "When not set, …" sentence or an example do not apply. The page shows the base part, not the text of the theme
+ * part, and the members of the base have their own docs (checked in the base).
+ */
+function themeTextProblems(doc: ApiDocJson): string[] {
+  const problems: string[] = [];
+  for (const part of doc.parts) {
+    const label = `${doc.framework}/${doc.component} ${part.name}`;
+    for (const member of part.props.filter((item) => item.declaredIn === 'theme')) {
+      checkText(`${label}.${member.name}`, member, problems);
+      checkProse(`${label}.${member.name} (deprecated)`, member.deprecated, problems);
+    }
+  }
+  for (const type of doc.types ?? []) checkText(`${doc.framework}/${doc.component} type ${type.name}`, type, problems);
+  return problems;
+}
+
+/**
  * The text rules of the API text an extractor read (style guide `tsdoc.md`): sentence length, first paragraph,
  * words that are not allowed, required examples, a `@cckValue` per literal, the "When not set, …" sentence of an
  * optional prop and of a slot, and no slot `@defaultValue`. In a `ts` module also an example, a `@param` text and a
  * `@returns` text of every function, and no default written as prose. One problem per broken rule, naming the item.
+ * A theme doc has its own, smaller set ({@link themeTextProblems}).
  */
 export function textRuleProblems(doc: ApiDocJson): string[] {
+  if (doc.theme !== undefined) return themeTextProblems(doc);
   const problems: string[] = [];
   for (const part of doc.parts) checkPart(doc, part, problems);
   for (const symbol of doc.symbols ?? []) checkSymbol(doc, symbol, problems);

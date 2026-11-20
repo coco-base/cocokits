@@ -192,4 +192,26 @@ describe('library generator: themes', () => {
     expect(Object.keys(pkg.exports)).toEqual(fw === 'angular' ? [] : ['.']);
     expect(tsconfigPaths(tree)[`@cocokits/theme-cocokits-${fw}`]).toEqual([`./${root}/src/index.ts`]);
   });
+
+  it.each(FRAMEWORKS)('theme-fw %s: an api-docs target that writes the theme docs', async (fw) => {
+    const tree = createWorkspace();
+    await generate(tree, { kind: 'theme-fw', theme: 'cocokits', framework: fw });
+    const { targets } = readJson<{ targets: Record<string, unknown> }>(
+      tree,
+      `packages/themes/cocokits/${fw}/project.json`,
+    );
+    expect(targets['api-docs']).toEqual({
+      executor: '@cocokits/workspace:api-docs-theme',
+      dependsOn: ['^build', '^api-docs'],
+      outputs: [`{workspaceRoot}/dist/api-docs/theme-cocokits/${fw}`],
+      options: { framework: fw },
+    });
+  });
+
+  it('theme-core has no api-docs target', async () => {
+    const tree = createWorkspace();
+    await generate(tree, { kind: 'theme-core', theme: 'acme' });
+    const { targets } = readJson<{ targets: Record<string, unknown> }>(tree, 'packages/themes/acme/core/project.json');
+    expect(targets).not.toHaveProperty('api-docs');
+  });
 });

@@ -33,6 +33,7 @@ defineSlots<{
      * open values in `multiple` mode.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the model of the root.
      * @remarks Slot prop: the model of the root.
      */
     modelValue: string | string[] | undefined;

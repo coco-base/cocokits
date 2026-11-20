@@ -30,6 +30,7 @@ defineSlots<{
      * The value of the selected tab, `undefined` until a tab is selected and no value was given.
      *
      * @cckSemantic none
+     * @cckParity Slot prop: the model of the root.
      * @remarks Slot prop: the model of the root.
      */
     modelValue: T | undefined;

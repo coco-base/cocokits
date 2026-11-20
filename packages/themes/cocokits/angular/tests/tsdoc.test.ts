@@ -18,4 +18,26 @@ describe('the TSDoc of the theme options', () => {
       expect(readFileSync(`${sourceDir}${file}`, 'utf8'), file).not.toContain('@defaultValue');
     }
   });
+
+  // The site builds the API rows of the overlay options from these texts (the Angular limits of the two options).
+  it.each([
+    [
+      'dialog-theme.ts',
+      'dialogSize',
+      'dialog.size',
+      'A dialog opened by `CckDialogService` has no root directive, so it shows the override or the default',
+    ],
+    ['tooltip-theme.ts', 'tooltipSize', 'tooltip.size', 'a size needs a `cck-tooltip-content`'],
+  ])('documents %s: the %s description holds its limit and the @cckSemantic %s tag', (file, input, id, sentence) => {
+    const source = readFileSync(`${sourceDir}${file}`, 'utf8');
+    const end = source.indexOf(`readonly ${input} =`);
+    const comment = source
+      .slice(source.lastIndexOf('/**', end), end)
+      .split('\n')
+      .map((line) => line.replace(/^\s*(\/\*\*|\*\/|\*)\s?/, ''))
+      .join(' ')
+      .replace(/\s+/g, ' ');
+    expect(comment).toContain(sentence);
+    expect(comment).toContain(`@cckSemantic ${id}`);
+  });
 });

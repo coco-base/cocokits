@@ -1,4 +1,8 @@
-import type { TooltipRootProps as BaseTooltipRootProps } from '@cocokits/vue/tooltip';
+import type {
+  TooltipContentEmits as BaseTooltipContentEmits,
+  TooltipContentProps as BaseTooltipContentProps,
+  TooltipRootProps as BaseTooltipRootProps,
+} from '@cocokits/vue/tooltip';
 import type { CocokitsThemeConfig } from '@cocokits/theme-cocokits';
 
 type TooltipOptions = CocokitsThemeConfig['components']['tooltip'];
@@ -25,3 +29,15 @@ export interface TooltipRootProps extends BaseTooltipRootProps {
    */
   readonly size?: TooltipSize | null | undefined;
 }
+
+/**
+ * Props of the cocokits TooltipContent. It renders the base TooltipContent and draws the bubble, from the `size` of its `TooltipRoot`. It has no option of its own.
+ *
+ * @example
+ * <TooltipContent>Copies the link</TooltipContent>
+ * @cckPart content
+ */
+export type TooltipContentProps = BaseTooltipContentProps;
+
+/** Events of the cocokits TooltipContent: the events of the base TooltipContent. */
+export type TooltipContentEmits = BaseTooltipContentEmits;

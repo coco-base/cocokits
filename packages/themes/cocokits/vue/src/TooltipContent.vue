@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { inject } from 'vue';
-import {
-  TooltipContent as BaseTooltipContent,
-  type TooltipContentEmits,
-  type TooltipContentProps,
-} from '@cocokits/vue/tooltip';
+import { TooltipContent as BaseTooltipContent } from '@cocokits/vue/tooltip';
 import { provideThemeOptions } from '@cocokits/vue-core';
+import type { TooltipContentEmits, TooltipContentProps } from './tooltip.types';
 import { tooltipThemeKey } from './theme-keys';
 
 defineOptions({ name: 'TooltipContent' });

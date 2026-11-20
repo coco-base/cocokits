@@ -27,6 +27,14 @@
         "parallel": false
       }
     },
+    "api-docs": {
+      "executor": "@cocokits/workspace:api-docs-theme",
+      "dependsOn": ["^build", "^api-docs"],
+      "outputs": ["{workspaceRoot}/dist/api-docs/theme-frames-x/vue"],
+      "options": {
+        "framework": "vue"
+      }
+    },
     "pack": {},
     "publint": {},
     "attw": {}

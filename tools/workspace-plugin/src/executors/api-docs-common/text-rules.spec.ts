@@ -294,3 +294,25 @@ describe('runApiDocs with the text rules', () => {
     expect(existsSync(join(area.dir, 'out', 'thing.json'))).toBe(true);
   });
 });
+
+describe('textRuleProblems of a theme doc', () => {
+  const themed = (fields: Partial<ApiMemberJson>): ApiDocJson =>
+    doc({
+      theme: 'acme',
+      parts: [part({ examples: [], props: [member({ required: false, type: "'sm' | 'lg' | null", ...fields })] })],
+    });
+
+  it('does not ask a theme option for a value meaning, a "When not set" sentence or an example', () => {
+    expect(textRuleProblems(themed({ declaredIn: 'theme' }))).toEqual([]);
+    expect(
+      textRuleProblems(doc({ parts: [part({ examples: [], props: [member({ required: false })] })] })),
+    ).not.toEqual([]);
+  });
+
+  it('keeps the prose rules for a theme-declared member and not for a base member', () => {
+    expect(textRuleProblems(themed({ declaredIn: 'theme', description: 'You can simply show it.' }))).toEqual([
+      'react/thing Thing.size: "simply" is not allowed (text rules)',
+    ]);
+    expect(textRuleProblems(themed({ declaredIn: 'base', description: 'You can simply show it.' }))).toEqual([]);
+  });
+});
