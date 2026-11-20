@@ -79,4 +79,18 @@ describe('docs-data: theme source files', () => {
     write('packages/vue/src/FormFieldRoot.vue', '');
     expect(await sourceFiles()).toEqual({ 'form-field': { vue: 'packages/vue/src/FormFieldRoot.vue' } });
   });
+
+  it('names the namespace file of React and the content file of Vue for a component with an unthemed root', async () => {
+    theme(['menu']);
+    write('packages/angular/src/menu-theme.ts', '');
+    write('packages/react/src/menu.ts', '');
+    write('packages/vue/src/MenuContent.vue', '');
+    expect(await sourceFiles()).toEqual({
+      menu: {
+        angular: 'packages/angular/src/menu-theme.ts',
+        react: 'packages/react/src/menu.ts',
+        vue: 'packages/vue/src/MenuContent.vue',
+      },
+    });
+  });
 });

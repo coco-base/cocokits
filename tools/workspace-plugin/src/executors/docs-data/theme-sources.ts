@@ -15,11 +15,18 @@ const pascal = (name: string): string =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
 
-/** The file names a theme wrapper of `component` can have, most specific first (a compound component wraps its root). */
-const CANDIDATES: Record<Framework, (component: string) => string[]> = {
-  angular: (component) => [`${component}-theme.ts`],
-  react: (component) => [`${component}.tsx`, `${component}-root.tsx`],
-  vue: (component) => [`${pascal(component)}.vue`, `${pascal(component)}Root.vue`],
+/**
+ * The file names a theme wrapper of `componentName` can have, most specific first (a compound component wraps its
+ * root; one whose root is not themed exports the themed namespace from `<name>.ts` or wraps `<Name>Content.vue`).
+ */
+const CANDIDATES: Record<Framework, (componentName: string) => string[]> = {
+  angular: (componentName) => [`${componentName}-theme.ts`],
+  react: (componentName) => [`${componentName}.tsx`, `${componentName}-root.tsx`, `${componentName}.ts`],
+  vue: (componentName) => [
+    `${pascal(componentName)}.vue`,
+    `${pascal(componentName)}Root.vue`,
+    `${pascal(componentName)}Content.vue`,
+  ],
 };
 
 /**
@@ -28,20 +35,20 @@ const CANDIDATES: Record<Framework, (component: string) => string[]> = {
  *
  * @param root - The workspace root.
  * @param projectRoot - The absolute folder of the theme core package.
- * @param components - The component names of the theme config.
+ * @param componentNames - The names of the components of the theme config.
  */
-export function themeSourceFiles(root: string, projectRoot: string, components: string[]): ThemeSourceFiles {
+export function themeSourceFiles(root: string, projectRoot: string, componentNames: string[]): ThemeSourceFiles {
   const sources: ThemeSourceFiles = {};
-  for (const component of components) {
+  for (const componentName of componentNames) {
     const found: Partial<Record<Framework, string>> = {};
     for (const framework of FRAMEWORKS) {
       const folder = join(projectRoot, '..', framework, 'src');
-      const file = CANDIDATES[framework](component)
+      const file = CANDIDATES[framework](componentName)
         .map((name) => join(folder, name))
         .find((path) => existsSync(path));
       if (file !== undefined) found[framework] = relative(root, file).split(sep).join('/');
     }
-    if (Object.keys(found).length > 0) sources[component] = found;
+    if (Object.keys(found).length > 0) sources[componentName] = found;
   }
   return sources;
 }
