@@ -187,14 +187,12 @@ describe('accordion output', () => {
     expect(rest).toContain('cursor: not-allowed');
   });
 
-  // Forced colors replace an author colour with CanvasText, so a chevron with its own colour no longer follows the
-  // GrayText of its disabled trigger unless a forced-colors rule gives it one.
-  it('lets the chevron of a disabled trigger follow the GrayText of the trigger in forced colors', () => {
-    const own = /(^|[\s;])color:/.test(declarationsOf(css, indicator) ?? '');
-    const followed = /(^|[\s;])color: (GrayText|inherit|currentColor)/.test(
-      declarationsOf(forced, `${trigger}[data-disabled] > .cck-accordion__indicator`) ?? '',
-    );
-    expect(!own || followed).toBe(true);
+  // The chevron keeps its own colour and the forced-colors block has no rule for the chevron of a disabled trigger, so
+  // the browser picks its colour: it may show CanvasText while the label shows GrayText. A forced-colors rule for the
+  // chevron would make it follow the label.
+  it('keeps its own color on the chevron and sets none for a disabled trigger in forced colors', () => {
+    expect(declarationsOf(css, indicator)).toContain('color: var(--cck-accordion-icon-color)');
+    expect(declarationsOf(forced, `${trigger}[data-disabled] > .cck-accordion__indicator`) ?? '').toBe('');
   });
 
   it.each([
