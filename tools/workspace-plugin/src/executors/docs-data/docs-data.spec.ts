@@ -313,6 +313,7 @@ describe('docs-data: theme', () => {
         },
       },
       modeCollections: COLLECTIONS,
+      sourceFiles: {},
     });
   });
 
@@ -437,7 +438,7 @@ describe('docs-data: theme part icons', () => {
     expect((await executor(THEME_OPTIONS, context('theme-mood', 'packages/t'))).success).toBe(true);
     const written = readJson('dist/docs-data/theme-mood/theme.json') as { components: { button: object } };
     expect(written).toMatchObject({ components: { button: { size: { attrName: 'size' } } } });
-    expect(Object.keys(written)).toEqual(['kind', 'name', 'components', 'modeCollections']);
+    expect(Object.keys(written)).toEqual(['kind', 'name', 'components', 'modeCollections', 'sourceFiles']);
     expect(Object.keys(written.components.button)).toEqual(['size']);
   });
 

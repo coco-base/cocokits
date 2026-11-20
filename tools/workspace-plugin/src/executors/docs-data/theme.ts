@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadBuiltModule } from '../load-module';
 import type { JsonFile } from '../write-json';
+import { themeSourceFiles } from './theme-sources';
 
 type Fields = Record<string, unknown>;
 
@@ -128,7 +129,7 @@ function optionsOnly(components: Fields): Fields {
 
 /**
  * `ThemeDocData` of a theme: the options of its built `ThemeConfig` (never its part icons) and its `modeCollections`,
- * all from its built entry.
+ * all from its built entry, and the source file of each theme component per framework (`sourceFiles`).
  *
  * @param root - The workspace root.
  * @param projectRoot - The absolute folder of the theme core package.
@@ -151,6 +152,7 @@ export function themeDocsData(root: string, projectRoot: string): JsonFile[] {
         name: config.name,
         components: optionsOnly(config.components),
         modeCollections,
+        sourceFiles: themeSourceFiles(root, projectRoot, Object.keys(config.components)),
       },
     },
   ];
