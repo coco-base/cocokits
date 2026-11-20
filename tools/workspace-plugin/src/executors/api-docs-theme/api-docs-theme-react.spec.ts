@@ -161,19 +161,19 @@ describe('extractThemeApiDocs, React', () => {
   });
 
   it.each([
-    ['hideToggle', 'AccordionHideToggle', '[true, false]', 'boolean | null'],
-    ['rounded', 'IconButtonRounded', '[true, false]', 'boolean | null'],
-    ['rtlMirror', 'SvgIconRtlMirror', '[true, false]', 'boolean | null'],
-    ['autoResize', 'TextareaAutoResize', '[true, false]', 'boolean | null'],
-    [
-      'resize',
-      'TextareaResize',
-      "[true, false, 'horizontal', 'vertical', 'both']",
-      "boolean | 'horizontal' | 'vertical' | 'both' | null",
-    ],
+    { name: 'hideToggle', alias: 'AccordionHideToggle', values: '[true, false]', text: 'boolean | null' },
+    { name: 'rounded', alias: 'IconButtonRounded', values: '[true, false]', text: 'boolean | null' },
+    { name: 'rtlMirror', alias: 'SvgIconRtlMirror', values: '[true, false]', text: 'boolean | null' },
+    { name: 'autoResize', alias: 'TextareaAutoResize', values: '[true, false]', text: 'boolean | null' },
+    {
+      name: 'resize',
+      alias: 'TextareaResize',
+      values: "[true, false, 'horizontal', 'vertical', 'both']",
+      text: "boolean | 'horizontal' | 'vertical' | 'both' | null",
+    },
   ])(
-    'writes the option member %s typed %s as the checker sees it, not as the alias name',
-    (name, alias, values, text) => {
+    'writes the option member $name typed $alias as the checker sees it, not as the alias name',
+    ({ name, alias, values, text }) => {
       const root = DIALOG_ROOT.replace(
         '/** The size values. */',
         `/** The options. */
