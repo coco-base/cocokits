@@ -75,7 +75,7 @@ function withoutArguments(selector: string): string {
 
 const blockOf = (className: string): string => className.slice('.cck-'.length).split('__')[0];
 
-/** The D34 slot layout: what a box owns about a child in it, and what it hands over to the box. */
+/** The slot layout: what a box owns about a child in it, and what it hands over to the box. */
 const SLOT_LAYOUT =
   /^(flex|min-inline-size|min-block-size|padding|padding-block|padding-inline|border(-[a-z-]+)?|background-color|box-shadow|outline(-[a-z]+)?)$/;
 
@@ -95,7 +95,7 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
   ],
   // The Divider in a Menu runs from edge to edge of the list: its inline margin undoes the padding of the list.
   'menu divider': ['margin-block', 'margin-inline'],
-  // Q13: a parent that renders its children passes its size to them through CSS, from its own size tokens.
+  // A parent that renders its children passes its size to them through CSS, from its own size tokens.
   'chip-list chip': [
     'block-size',
     'gap',
@@ -123,6 +123,12 @@ const RESETS: Readonly<Record<string, readonly string[] | undefined>> = {
   'form-field chip-list': ['opacity'],
   // A Button in a Leading or Trailing zone stretches to the height of the box.
   'form-field button': ['align-self'],
+  // The ring that cuts the badge from the host it overlaps belongs to the container that places the badge.
+  'badge-container badge': ['box-shadow'],
+  // Read-only is a state of the list, like the faded list above: its chips take the read-only fill.
+  'chip-list chip': ['background-color'],
+  // The Menu draws a bare Divider in its own separator colour (Menu content and sub-content).
+  'menu divider': ['border-color'],
 };
 
 interface CrossRule {
@@ -154,7 +160,7 @@ const crossRules: CrossRule[] = [...sheet.matchAll(/(?<=^|[{}])\s*([^{}@]+?)\s*\
       }),
 );
 
-describe('no theme CSS rule sets an option of a child from a parent selector (D34, AC 12)', () => {
+describe('no theme CSS rule sets an option of a child from a parent selector', () => {
   it('finds the cross-block rules of the whole sheet', () => {
     expect(crossRules.length).toBeGreaterThan(30);
     expect(crossRules.some((rule) => rule.last === 'chip-list')).toBe(true);
