@@ -56,7 +56,11 @@ class Host {
 
 const openMenu = async (user = userEvent.setup()): Promise<ReturnType<typeof userEvent.setup>> => {
   await user.click(trigger());
-  await screen.findByRole('menu');
+  const menu = await screen.findByRole('menu');
+  // The menu moves focus to its first item a frame after it opens; a test that focuses an item must come later.
+  await waitFor(() => {
+    expect(menu.contains(document.activeElement)).toBe(true);
+  });
   return user;
 };
 const menuOpen = (): boolean => screen.queryByRole('menu') !== null;
@@ -107,9 +111,7 @@ describe('Menu checkbox and radio items', () => {
     const user = await openMenu();
     screen.getByRole('menuitemradio', { name: /Date/ }).focus();
     await user.keyboard(' ');
-    await waitFor(() => {
-      expect(fixture.componentInstance.sort()).toBe('date');
-    });
+    expect(fixture.componentInstance.sort()).toBe('date');
     expect(screen.getByRole('menuitemradio', { name: /Date/ }).getAttribute('aria-checked')).toBe('true');
     expect(screen.getByRole('menuitemradio', { name: /Name/ }).getAttribute('aria-checked')).toBe('false');
     await user.keyboard(' ');
