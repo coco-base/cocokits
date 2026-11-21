@@ -81,7 +81,8 @@ export class CckTab implements CckTabRegistration, OnInit {
   readonly label = input<string | undefined>(undefined);
 
   /**
-   * The value of the tab, such as `'account'`. `selectedTabChange` and `focusChange` send it as `value`. It does not select the tab: use `selectedIndex`. When not set, the events send `undefined`.
+   * The value of the tab, such as `'account'`. `selectedTabChange` and `focusChange` send it as `value`.
+   * @remarks It does not select the tab: use `selectedIndex`. When not set, the events send `undefined`.
    * @cckSemantic tabs.trigger.value
    * @cckParity The tab is still selected by its position.
    */
