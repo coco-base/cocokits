@@ -64,4 +64,13 @@ describe('the Tabs shapes', () => {
       'tabs.trigger props "tabs.trigger.value" exists in react only, not in vue',
     ]);
   });
+
+  it('accepts an optional trigger value in Angular next to the required value of React', () => {
+    const angular = docOf('angular', [
+      part('tabs.root'),
+      part('tabs.trigger', { props: [{ ...value('tabs.trigger.value'), required: false }] }),
+    ]);
+    const react = docOf('react', [part('tabs.root'), part('tabs.trigger', { props: [value('tabs.trigger.value')] })]);
+    expect(compareApiDocs([angular, react]).failures).toEqual([]);
+  });
 });

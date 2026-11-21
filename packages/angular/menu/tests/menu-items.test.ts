@@ -107,7 +107,9 @@ describe('Menu checkbox and radio items', () => {
     const user = await openMenu();
     screen.getByRole('menuitemradio', { name: /Date/ }).focus();
     await user.keyboard(' ');
-    expect(fixture.componentInstance.sort()).toBe('date');
+    await waitFor(() => {
+      expect(fixture.componentInstance.sort()).toBe('date');
+    });
     expect(screen.getByRole('menuitemradio', { name: /Date/ }).getAttribute('aria-checked')).toBe('true');
     expect(screen.getByRole('menuitemradio', { name: /Name/ }).getAttribute('aria-checked')).toBe('false');
     await user.keyboard(' ');
