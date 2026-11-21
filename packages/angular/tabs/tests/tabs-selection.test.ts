@@ -212,3 +212,38 @@ describe('Tabs trigger labelling', () => {
     expect(container.querySelector('#first')).toBe(first);
   });
 });
+
+describe('Tabs value', () => {
+  it('reports the value of the tab in selectedTabChange and leaves no value attribute', async () => {
+    const user = userEvent.setup();
+    const changes: CckTabChangeEvent[] = [];
+    await render(
+      `<cck-tabs aria-label="x" (selectedTabChange)="changes.push($event)">
+        <cck-tab label="A" value="account">a</cck-tab>
+        <cck-tab label="B" value="business">b</cck-tab>
+        <cck-tab label="C">c</cck-tab>
+      </cck-tabs>`,
+      { imports, componentProperties: { changes } },
+    );
+    await user.click(tab('B'));
+    await user.click(tab('C'));
+    expect(changes.map((change) => change.value)).toEqual(['business', undefined]);
+    expect(changes.map((change) => change.index)).toEqual([1, 2]);
+    expect(changes[0]?.tab.value()).toBe('business');
+    expect(document.querySelector('cck-tab[value]')).toBeNull();
+  });
+
+  it('reports the value in focusChange when the keyboard moves the focus', async () => {
+    const user = userEvent.setup();
+    const focused: CckTabChangeEvent[] = [];
+    await render(
+      `<cck-tabs aria-label="x" (focusChange)="focused.push($event)">
+        <cck-tab label="A" value="account">a</cck-tab><cck-tab label="B" value="business">b</cck-tab>
+      </cck-tabs>`,
+      { imports, componentProperties: { focused } },
+    );
+    await user.tab();
+    await user.keyboard('{ArrowRight}');
+    expect(focused.at(-1)).toMatchObject({ index: 1, value: 'business' });
+  });
+});
