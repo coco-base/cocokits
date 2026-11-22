@@ -25,7 +25,7 @@ import { injectCckTabs, type CckTabRegistration } from './tabs';
  *
  * Give the trigger its text with `label`, or its markup with a `cckTabLabel` template. The panel is hidden while its tab is not selected. It holds its content only while the tab is selected, unless `preserveContent` is set on the tabs.
  *
- * A tab is found by its position, so it has no value. The `id` input is the id of the trigger.
+ * A tab is found by its position. Its optional `value` is only reported in the change events. The `id` input is the id of the trigger.
  *
  * @example
  * <cck-tabs aria-label="Account settings">
@@ -53,6 +53,7 @@ import { injectCckTabs, type CckTabRegistration } from './tabs';
     '[attr.data-orientation]': 'props()["data-orientation"]',
     '[attr.data-selected]': 'props()["data-selected"] ?? null',
     '[attr.label]': 'null',
+    '[attr.value]': 'null',
     '[attr.disabled]': 'null',
   },
   template: `
@@ -78,6 +79,14 @@ export class CckTab implements CckTabRegistration, OnInit {
    * @cckParity Only this framework has this member.
    */
   readonly label = input<string | undefined>(undefined);
+
+  /**
+   * The value of the tab, such as `'account'`. `selectedTabChange` and `focusChange` send it as `value`.
+   * @remarks It does not select the tab: use `selectedIndex`. When not set, the events send `undefined`.
+   * @cckSemantic tabs.trigger.value
+   * @cckParity The tab is still selected by its position.
+   */
+  readonly value = input<string | undefined>(undefined);
 
   /**
    * The `id` of the trigger. The panel points at it with `aria-labelledby`. When not set, the trigger gets a generated id.

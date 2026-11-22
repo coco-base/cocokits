@@ -52,6 +52,8 @@ export interface CckTabRegistration {
   readonly _labelTemplate: Signal<TemplateRef<unknown> | undefined>;
   /** The trigger id the author gave, if any. */
   readonly id: Signal<string | undefined>;
+  /** The value the author gave the tab, if any. */
+  readonly value: Signal<string | undefined>;
   /** The accessible name of the trigger. */
   readonly ariaLabel: Signal<string | undefined>;
   /** The id of the element that names the trigger. */
@@ -60,10 +62,12 @@ export interface CckTabRegistration {
   readonly _item: Signal<TabsItem>;
 }
 
-/** What `selectedTabChange` and `focusChange` send: the position of the tab and the tab. */
+/** What `selectedTabChange` and `focusChange` send: the position of the tab, its value and the tab. */
 export interface CckTabChangeEvent {
   /** The position of the tab among the tabs, in document order, starting at 0. */
   readonly index: number;
+  /** The `value` of the tab, or `undefined` when the tab has none. */
+  readonly value: string | undefined;
   /** The tab, with its `label`, its `disabled` state and the `id` of its trigger. */
   readonly tab: CckTabRegistration;
 }
@@ -442,7 +446,7 @@ export class CckTabs {
       return;
     }
     this.focusVisibleTab.set(tab);
-    this.focusChange.emit({ index: this.ordered().indexOf(tab), tab });
+    this.focusChange.emit({ index: this.ordered().indexOf(tab), value: tab.value(), tab });
   }
 
   private selectedIndexOf(): number {
@@ -465,7 +469,7 @@ export class CckTabs {
     if (typeof result.select === 'number') {
       const tab = this.ordered().at(result.select);
       this.selectedIndex.set(result.select);
-      if (tab) this.selectedTabChange.emit({ index: result.select, tab });
+      if (tab) this.selectedTabChange.emit({ index: result.select, value: tab.value(), tab });
     }
     if (typeof result.focus === 'number') this.triggerElement(result.focus)?.focus();
   }

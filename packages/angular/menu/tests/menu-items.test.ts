@@ -56,7 +56,11 @@ class Host {
 
 const openMenu = async (user = userEvent.setup()): Promise<ReturnType<typeof userEvent.setup>> => {
   await user.click(trigger());
-  await screen.findByRole('menu');
+  const menu = await screen.findByRole('menu');
+  // The menu moves focus to its first item a frame after it opens; a test that focuses an item must come later.
+  await waitFor(() => {
+    expect(menu.contains(document.activeElement)).toBe(true);
+  });
   return user;
 };
 const menuOpen = (): boolean => screen.queryByRole('menu') !== null;

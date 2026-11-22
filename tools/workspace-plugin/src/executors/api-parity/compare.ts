@@ -64,10 +64,11 @@ const LACKING_BY_DESIGN: ReadonlyMap<string, ReadonlySet<string>> = new Map([
 ]);
 
 /**
- * Semantic ids whose `required` and `default` are not compared: React requires the Accordion `type` and Vue infers it
- * from the value (default `single`), so React and Vue differ by design.
+ * Semantic ids whose `required` and `default` are not compared, by design: React requires the Accordion `type` and Vue
+ * infers it from the value (default `single`). React and Vue require the Tabs trigger `value`, but Angular tabs select
+ * by position, so its `value` is optional and the existing tabs keep working.
  */
-const NOT_COMPARED: ReadonlySet<string> = new Set(['accordion.type']);
+const NOT_COMPARED: ReadonlySet<string> = new Set(['accordion.type', 'tabs.trigger.value']);
 
 /**
  * Whether the last segment of a semantic id is a native `aria-*` attribute (`tabs.list.aria-label`). Vue takes such an
