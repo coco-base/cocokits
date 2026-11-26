@@ -39,7 +39,7 @@ export type {
 export { Divider } from './divider';
 export type { DividerColor, DividerProps, DividerSize } from './divider';
 export { Avatar } from './avatar';
-export type { AvatarColor, AvatarRootProps, AvatarSize } from './avatar-root';
+export type { AvatarColor, AvatarRootProps, AvatarShape, AvatarSize } from './avatar-root';
 export { AvatarGroup } from './avatar-group';
 export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group';
 export { AvatarLabel } from './avatar-label';

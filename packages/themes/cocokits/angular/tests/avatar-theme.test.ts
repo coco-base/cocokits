@@ -14,6 +14,7 @@ import {
   type CckAvatarLabelAvatarPosition,
   type CckAvatarLabelSize,
   type CckAvatarLabelAlignment,
+  type CckAvatarShape,
   type CckAvatarSize,
 } from '../src/index';
 import { providers } from './helpers';
@@ -28,7 +29,9 @@ import { providers } from './helpers';
     CckAvatarLabelTheme,
   ],
   template: `
-    <cck-avatar data-testid="avatar" [size]="avatar()"><cck-avatar-fallback>AL</cck-avatar-fallback></cck-avatar>
+    <cck-avatar data-testid="avatar" [size]="avatar()" [shape]="shape()"
+      ><cck-avatar-fallback>AL</cck-avatar-fallback></cck-avatar
+    >
     <cck-avatar-group data-testid="group" [size]="group()"></cck-avatar-group>
     <cck-avatar-label
       data-testid="label"
@@ -41,6 +44,7 @@ import { providers } from './helpers';
 })
 class Host {
   readonly avatar = signal<CckAvatarSize | null | undefined>(undefined);
+  readonly shape = signal<CckAvatarShape | null | undefined>(undefined);
   readonly group = signal<CckAvatarGroupSize | null | undefined>(undefined);
   readonly labelSize = signal<CckAvatarLabelSize | null | undefined>(undefined);
   readonly position = signal<CckAvatarLabelAvatarPosition | null | undefined>(undefined);
@@ -65,6 +69,7 @@ describe('avatar theme layers', () => {
     expect(screen.getByTestId('group').className).toBe('cck-avatar-group');
     expect(screen.getByTestId('label').className).toBe('cck-avatar-label');
     expect(attr('avatar', 'data-size')).toBe('md');
+    expect(attr('avatar', 'data-shape')).toBe('circle');
     expect(attr('group', 'data-size')).toBe('md');
     expect(attr('label', 'data-size')).toBe('md');
     expect(attr('label', 'data-avatar-position')).toBe('left');
@@ -73,6 +78,7 @@ describe('avatar theme layers', () => {
 
   it.each([
     ['avatar', 'avatar', 'data-size', avatar.size.values],
+    ['avatar', 'shape', 'data-shape', avatar.shape.values],
     ['group', 'group', 'data-size', group.size.values],
     ['label', 'labelSize', 'data-size', label.size.values],
     ['label', 'position', 'data-avatar-position', label.avatarPosition.values],
@@ -89,7 +95,7 @@ describe('avatar theme layers', () => {
   it('remove an attribute with null and restore the default with undefined', async () => {
     const { fixture } = await render(Host, { providers });
     const host = fixture.componentInstance;
-    const all = [host.avatar, host.group, host.labelSize, host.position, host.layout];
+    const all = [host.avatar, host.shape, host.group, host.labelSize, host.position, host.layout];
     for (const s of all) s.set(null);
     await fixture.whenStable();
     expect([attr('avatar', 'data-size'), attr('group', 'data-size'), attr('label', 'data-size')]).toEqual([
@@ -98,9 +104,11 @@ describe('avatar theme layers', () => {
       null,
     ]);
     expect([attr('label', 'data-avatar-position'), attr('label', 'data-label-alignment')]).toEqual([null, null]);
+    expect(attr('avatar', 'data-shape')).toBeNull();
     for (const s of all) s.set(undefined);
     await fixture.whenStable();
     expect(attr('avatar', 'data-size')).toBe('md');
+    expect(attr('avatar', 'data-shape')).toBe('circle');
     expect(attr('label', 'data-label-alignment')).toBe('vertical');
   });
 

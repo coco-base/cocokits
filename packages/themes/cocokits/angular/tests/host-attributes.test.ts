@@ -58,8 +58,8 @@ const rows = [
   {
     host: 'cck-avatar',
     imports: [...CckAvatarImports, CckAvatarTheme],
-    markup: '<cck-avatar size="lg" color="info"></cck-avatar>',
-    check: ['size', 'color'],
+    markup: '<cck-avatar size="lg" color="info" shape="square"></cck-avatar>',
+    check: ['size', 'color', 'shape'],
   },
   {
     host: 'cck-avatar-group',

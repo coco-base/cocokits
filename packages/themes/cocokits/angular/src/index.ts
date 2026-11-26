@@ -37,7 +37,7 @@ export type {
 export { CckDividerTheme } from './divider-theme';
 export type { CckDividerColor, CckDividerSize } from './divider-theme';
 export { CckAvatarTheme } from './avatar-theme';
-export type { CckAvatarColor, CckAvatarSize } from './avatar-theme';
+export type { CckAvatarColor, CckAvatarShape, CckAvatarSize } from './avatar-theme';
 export { CckAvatarGroupTheme } from './avatar-group-theme';
 export type { CckAvatarGroupSize } from './avatar-group-theme';
 export { CckAvatarLabelTheme } from './avatar-label-theme';

@@ -93,7 +93,7 @@ export { default as Divider } from './Divider.vue';
 export type { DividerProps, DividerSize, DividerColor } from './divider.types';
 export { default as AvatarRoot } from './AvatarRoot.vue';
 export { AvatarFallback, AvatarImage } from '@cocokits/vue/avatar';
-export type { AvatarColor, AvatarRootProps, AvatarSize } from './avatar.types';
+export type { AvatarColor, AvatarRootProps, AvatarShape, AvatarSize } from './avatar.types';
 export { default as AvatarGroup } from './AvatarGroup.vue';
 export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group.types';
 export { default as AvatarLabel } from './AvatarLabel.vue';

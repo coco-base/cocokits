@@ -10,6 +10,8 @@ type AvatarOptions = CocokitsThemeConfig['components']['avatar'];
 export type CckAvatarSize = AvatarOptions['size']['values'][number];
 /** The `color` values of the cocokits theme. */
 export type CckAvatarColor = AvatarOptions['color']['values'][number];
+/** The `shape` values of the cocokits theme. */
+export type CckAvatarShape = AvatarOptions['shape']['values'][number];
 
 /**
  * The cocokits theme options of the Avatar. It sits on the same element as the base component (`cck-avatar`) and
@@ -19,7 +21,7 @@ export type CckAvatarColor = AvatarOptions['color']['values'][number];
  * `provideCckTheme`; without it no theme attribute renders.
  *
  * @example
- * <cck-avatar size="lg">
+ * <cck-avatar size="lg" shape="square">
  *   <img cckAvatarImage src="/ada.webp" alt="Ada Lovelace" />
  *   <cck-avatar-fallback>AL</cck-avatar-fallback>
  * </cck-avatar>
@@ -30,18 +32,19 @@ export type CckAvatarColor = AvatarOptions['color']['values'][number];
   host: {
     '[attr.size]': 'null',
     '[attr.color]': 'null',
+    '[attr.shape]': 'null',
   },
   providers: [
     provideThemeOptions(
       'avatar',
       forwardRef(() => CckAvatarTheme),
-      (theme: CckAvatarTheme) => ({ size: theme._size, color: theme.color }),
+      (theme: CckAvatarTheme) => ({ size: theme._size, color: theme.color, shape: theme.shape }),
     ),
   ],
 })
 export class CckAvatarTheme {
   /**
-   * Side of the circle and size of the fallback text.
+   * Side of the avatar and size of the fallback text.
    */
   readonly size = input<CckAvatarSize | null>();
   private readonly label = inject(CckAvatarLabelTheme, { optional: true });
@@ -52,4 +55,8 @@ export class CckAvatarTheme {
    * Color family of the fallback, rendered as `data-cck-color`.
    */
   readonly color = input<CckAvatarColor | null>();
+  /**
+   * A circle, or a square with rounded corners, rendered as `data-shape`.
+   */
+  readonly shape = input<CckAvatarShape | null>();
 }
