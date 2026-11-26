@@ -31,7 +31,7 @@ describe('Select placement', () => {
   it('starts the positioning module after the list has its class, so the theme gap applies', async () => {
     await render(
       `<cck-select aria-label="Dish"><cck-select-option value="Cake">Cake</cck-select-option></cck-select>`,
-      { imports: [CckSelectImports] },
+      { imports: [...CckSelectImports] },
     );
     await userEvent.click(trigger());
     await vi.waitFor(() => {
