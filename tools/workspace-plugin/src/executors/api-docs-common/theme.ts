@@ -15,6 +15,8 @@ export interface BasePart {
   readonly part: string;
   /** Angular only. */
   readonly selector: string | undefined;
+  /** Angular only: the anatomy part whose directive applies this part as a host directive. */
+  readonly appliedBy?: string | undefined;
 }
 
 /** The parts of every base `ApiDoc` (`<baseDir>/<component>.json`). */
@@ -28,6 +30,7 @@ export function readBaseParts(baseDir: string): BasePart[] {
       semanticId: part.semanticId,
       part: part.semanticId.slice(doc.component.length + 1),
       selector: part.selector,
+      appliedBy: part.appliedBy,
     }));
   });
 }
@@ -40,9 +43,20 @@ const names = (alternative: string, baseSelector: string): boolean =>
   alternative === baseSelector || (baseSelector.startsWith('[') && withoutElement(alternative) === baseSelector);
 
 /**
+ * The base part that owns an alternative naming `part`: the root of its component when `part` applies that root as a
+ * host directive (the members of the root sit on the element of `part`), else `part` itself.
+ */
+const ownerOf = (part: BasePart, base: readonly BasePart[]): BasePart =>
+  base.find(
+    (candidate) =>
+      candidate.component === part.component && candidate.part === 'root' && candidate.appliedBy === part.part,
+  ) ?? part;
+
+/**
  * The neutral base parts a theme directive owns, by its selector list (Decision 2): each alternative names one base
  * part, and alternatives that name the classes of one neutral part (`button[cckButton]`, `a[cckButton]`) count once.
- * An alternative that names no base part, or parts of two base components, adds a problem.
+ * An alternative that names a part which applies the root through `hostDirectives` (`button[cckDialogTriggerFor]`) is
+ * owned by the root. An alternative that names no base part, or parts of two base components, adds a problem.
  */
 export function ownersOfSelector(
   selector: string,
@@ -54,7 +68,7 @@ export function ownersOfSelector(
   for (const alternative of selector.split(',').map((item) => item.trim())) {
     const found = base.filter((part) => part.selector !== undefined && names(alternative, part.selector));
     if (found.length === 0) problems.push(`${label}: the selector "${alternative}" names no base part`);
-    for (const part of found) owners.set(part.semanticId, part);
+    for (const part of found.map((item) => ownerOf(item, base))) owners.set(part.semanticId, part);
   }
   const components = new Set([...owners.values()].map((part) => part.component));
   if (components.size > 1) {
