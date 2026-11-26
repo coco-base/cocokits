@@ -124,7 +124,13 @@ export class CckMenuSubTrigger {
 
   /** The submenu answers its own events; the parent menu answers the rest. */
   private send(event: MenuEvent): void {
-    if (event.type.startsWith('SUB.')) this.sub._send(event);
-    else this.parent._send(event);
+    if (!event.type.startsWith('SUB.')) {
+      this.parent._send(event);
+      return;
+    }
+    // The pointer on this sub-trigger closes the other submenus of the parent menu, as on any other item.
+    if (event.type === 'SUB.TRIGGER.POINTER_MOVE')
+      for (const sub of this.parent._subs()) if (sub !== this.sub) sub._pointerLeft(event.event);
+    this.sub._send(event);
   }
 }

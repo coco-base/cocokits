@@ -25,6 +25,10 @@ const { classes } = menuAnatomy;
               <cck-menu-item>Link</cck-menu-item>
             </cck-menu-sub-content>
           </ng-template>
+          <cck-menu-sub-trigger [cckMenuTriggerFor]="move">Move</cck-menu-sub-trigger>
+          <ng-template #move>
+            <cck-menu-sub-content><cck-menu-item>Archive</cck-menu-item></cck-menu-sub-content>
+          </ng-template>
           <cck-menu-item>Delete</cck-menu-item>
         </cck-menu-content>
       </ng-template>
@@ -143,6 +147,23 @@ describe('Menu submenu', () => {
         expect(subMenu()).toBeNull();
       });
       expect(screen.getByRole('menu', { name: 'Actions' })).toBeTruthy();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('closes the open submenu when the pointer rests on another sub-trigger', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      await render(Host);
+      const user = await openRoot();
+      await user.hover(subTrigger());
+      await vi.advanceTimersByTimeAsync(300);
+      await screen.findByRole('menu', { name: 'Share' });
+      await user.hover(screen.getByRole('menuitem', { name: 'Move' }));
+      await vi.advanceTimersByTimeAsync(300);
+      await screen.findByRole('menu', { name: 'Move' });
+      expect(subMenu()).toBeNull();
     } finally {
       vi.useRealTimers();
     }
