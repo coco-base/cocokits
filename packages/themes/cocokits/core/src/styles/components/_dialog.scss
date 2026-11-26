@@ -79,10 +79,33 @@
     gap: var(--cck-dialog-header-gap);
   }
 
+  // The body scrolls when the content reaches its maximum height, so the header and the footer stay in view. Its
+  // scroll box reaches into the padding of the content by the room of a focus ring, and the padding gives the room
+  // back, so the text keeps its place and the box does not cut the ring of a control at its edge.
   .cck-dialog__body {
+    --_room: calc(var(--cck-dialog-focus-width) + var(--cck-dialog-focus-offset));
+
     display: block;
     flex: 1 1 auto;
     min-block-size: 0;
+    overflow: auto;
+    margin: calc(-1 * var(--_room));
+    padding: var(--_room);
+  }
+
+  // A wrapper of the author (a form around the body and the footer) stretches as the sections do and is a column that
+  // can shrink, so the body in it scrolls too. It has no gap: the footer in it keeps its own space (below).
+  .cck-dialog__content > :has(> .cck-dialog__body, > .cck-dialog__footer) {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    flex: 1 1 auto;
+    min-block-size: 0;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-dialog__footer {

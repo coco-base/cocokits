@@ -4,6 +4,10 @@ import { declarationsOf, outsideReducedMotion, read, reducedMotionBlocks, tokens
 const css = read('dist', 'components', 'dialog.css');
 /** The plain Close: a Button or an IconButton used as Close keeps its own look. */
 const CLOSE = '.cck-dialog__close:not(.cck-button, .cck-icon-button)';
+/** A wrapper of the author (a form) that holds the Body or the Footer. */
+const WRAPPER = '.cck-dialog__content > :has(> .cck-dialog__body, > .cck-dialog__footer)';
+/** The room the Body keeps around its controls, so its scroll box does not cut a focus ring. */
+const ROOM = 'calc(var(--cck-dialog-focus-width) + var(--cck-dialog-focus-offset))';
 
 describe('dialog output', () => {
   it('puts the rules inside @layer cocokits and into the whole theme', () => {
@@ -85,5 +89,33 @@ describe('dialog output', () => {
     expect(declarationsOf(css, CLOSE)).toContain('display: inline-flex');
     expect(css).toMatch(/\.cck-dialog__close:not\(\.cck-button, \.cck-icon-button\)\[hidden\]\s*\{\s*display: none/);
     expect(css.indexOf(`${CLOSE}[hidden]`)).toBeGreaterThan(css.indexOf(`${CLOSE} {`));
+  });
+
+  it('stretches a wrapper of the author that holds the Body or the Footer, as a column that can shrink', () => {
+    const rule = declarationsOf(css, WRAPPER) ?? '';
+    for (const line of [
+      'display: flex',
+      'flex-direction: column',
+      'align-self: stretch',
+      'flex: 1 1 auto',
+      'min-block-size: 0',
+    ])
+      expect(rule, line).toContain(line);
+    expect(rule).not.toContain('gap:');
+    expect(css).toMatch(
+      /\.cck-dialog__content > :has\(> \.cck-dialog__body, > \.cck-dialog__footer\)\[hidden\]\s*\{\s*display: none/,
+    );
+    expect(css).not.toMatch(/(^|[\s,>(])form\b/);
+  });
+
+  it('scrolls the Body when the content reaches its maximum height, with room for a focus ring at its edges', () => {
+    const rule = declarationsOf(css, '.cck-dialog__body') ?? '';
+    expect(rule).toContain('flex: 1 1 auto');
+    expect(rule).toContain('min-block-size: 0');
+    expect(rule).toContain('overflow: auto');
+    // The padding and the negative margin cancel out: the text keeps its place, the scroll box grows by the room.
+    expect(rule).toContain(`--_room: ${ROOM}`);
+    expect(rule).toContain('padding: var(--_room)');
+    expect(rule).toContain('margin: calc(-1 * var(--_room))');
   });
 });
