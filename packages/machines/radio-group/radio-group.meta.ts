@@ -7,8 +7,8 @@ export const radioGroupMeta: ComponentMeta<'root'> = {
     root: ['data-disabled', 'data-required', 'data-invalid', 'data-orientation'],
   },
   dataAttrDetails: {
-    'data-disabled': { setWhen: 'The radio group is disabled.' },
-    'data-required': { setWhen: 'A choice in the radio group is required.' },
+    'data-disabled': { setWhen: 'The radio group, or its FormField, is disabled.' },
+    'data-required': { setWhen: 'A choice in the radio group, or its FormField, is required.' },
     'data-invalid': {
       setWhen:
         'The group is invalid (the `invalid` fact, or required with no value) and the user left it (`touched`) or tried to submit (`submitted`); `aria-invalid="true"` is set at the same time.',
@@ -60,5 +60,6 @@ export const radioGroupMeta: ComponentMeta<'root'> = {
     "Native: each radio's own input is the form control and all share one `name` (the author's or a generated one); " +
     'no hidden input. FormData holds `name=value` of the checked radio and nothing when none is checked. ' +
     'Group `required` blocks submit while none is checked. After a reset of the owner form the group restores ' +
-    'the value it had at mount. No FormField contract.',
+    'the value it had at mount. Inside a FormField the group is the labelled element: the Label names it through ' +
+    '`aria-labelledby`, and the hints and errors describe it.',
 };

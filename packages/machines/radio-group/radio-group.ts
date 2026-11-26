@@ -1,5 +1,6 @@
 import { resolveNextIndex, resolveTabStop } from '@cocokits/cdk/roving-focus';
 import { dataAttr } from '@cocokits/utils';
+import { getFormFieldControlProps, type FormFieldControlContext } from '../form-field';
 import { radioGroupAnatomy } from './radio-group.anatomy';
 import type {
   RadioGroupEvent,
@@ -89,6 +90,18 @@ function onKeyDown(
 }
 
 /**
+ * The value, not the registered radios, says whether the group is empty: an adapter may register the radios
+ * after the server render, and a required group that has a value must not render invalid on the server.
+ */
+const isEmpty = (state: RadioGroupState): boolean =>
+  state.value === undefined || state.value === null || state.value === '';
+
+/** The group is invalid: the `invalid` fact, or required with no value. */
+function isInvalid(state: RadioGroupState): boolean {
+  return state.invalid === true || (state.required === true && isEmpty(state));
+}
+
+/**
  * Whether the invalid state shows: the group is invalid (the `invalid` fact, or required with no value)
  * and the user left it or tried to submit. `aria-invalid` and `data-invalid` both use it, so they cannot disagree.
  *
@@ -96,17 +109,28 @@ function onKeyDown(
  * @returns `true` while the invalid state should be shown.
  */
 export function isRadioGroupInvalidShown(state: RadioGroupState): boolean {
-  // The value, not the registered radios, says whether the group is empty: an adapter may register the radios
-  // after the server render, and a required group that has a value must not render invalid on the server.
-  const empty = state.value === undefined || state.value === null || state.value === '';
-  const invalid = state.invalid === true || (state.required === true && empty);
-  return invalid && (state.touched === true || state.submitted === true);
+  return isInvalid(state) && (state.touched === true || state.submitted === true);
 }
 
-function rootProps(state: RadioGroupState, send: (event: RadioGroupEvent) => void): RadioGroupRootProps {
+/** The Label of the field names the group only while the author gave no `aria-label` and the field holds a Label. */
+function labelledBy(state: RadioGroupState, field?: FormFieldControlContext): string | undefined {
+  if (state.ariaLabelledBy !== undefined && state.ariaLabelledBy !== '') return state.ariaLabelledBy;
+  return state.ariaLabel === undefined && field?.hasLabel === true ? field.ids?.label : undefined;
+}
+
+function rootProps(
+  state: RadioGroupState,
+  send: (event: RadioGroupEvent) => void,
+  field: FormFieldControlContext | undefined,
+  control: { readonly id?: string | undefined; readonly 'aria-describedby'?: string | undefined },
+): RadioGroupRootProps {
   return {
     class: radioGroupAnatomy.classes.root,
     role: 'radiogroup',
+    id: control.id,
+    'aria-label': state.ariaLabel === '' ? undefined : state.ariaLabel,
+    'aria-labelledby': labelledBy(state, field),
+    'aria-describedby': control['aria-describedby'],
     'aria-required': state.required === true ? 'true' : undefined,
     'aria-disabled': state.disabled === true ? 'true' : undefined,
     'aria-invalid': isRadioGroupInvalidShown(state) ? 'true' : undefined,
@@ -120,30 +144,61 @@ function rootProps(state: RadioGroupState, send: (event: RadioGroupEvent) => voi
 }
 
 /**
- * Computes the props of the root and the facts of each radio. Pure: no DOM, same result on the server and
- * the client. The key handler sends events; it computes nothing while the props are computed.
+ * Computes the props of the root, the facts of each radio and the state the group reports to its field. Pure:
+ * no DOM, same result on the server and the client. The key handler sends events; it computes nothing while the
+ * props are computed.
+ *
+ * Inside a FormField the group is the labelled element of the field: the Label names it through
+ * `aria-labelledby` unless the author named it, the hints and errors describe it, and the disabled, required and
+ * invalid facts of the field reach it by OR. It reports `group`, so the Label renders no `for`.
  *
  * @param state - The author's props and the tracked facts.
  * @param send - Receives the event of the key handler; pass it to {@link transitionRadioGroup}.
- * @returns The root props and a function per radio for its facts.
+ * @param field - What the enclosing FormField gives the group; leave it out outside a field.
+ * @returns The root props, a function per radio for its facts, and the control state.
  */
-export function getRadioGroupProps(state: RadioGroupState, send: (event: RadioGroupEvent) => void): RadioGroupParts {
-  const stop = tabStop(state);
+export function getRadioGroupProps(
+  state: RadioGroupState,
+  send: (event: RadioGroupEvent) => void,
+  field?: FormFieldControlContext,
+): RadioGroupParts {
+  const { root, control } = getFormFieldControlProps(
+    {
+      id: state.id,
+      ariaDescribedBy: state.ariaDescribedBy,
+      disabled: state.disabled,
+      required: state.required,
+      invalid: state.invalid,
+      touched: state.touched,
+      submitted: state.submitted,
+      filled: !isEmpty(state),
+    },
+    field,
+  );
+  // The facts of the field join the group's own, so the radios, the tab stop and the keys follow them.
+  const resolved: RadioGroupState = {
+    ...state,
+    disabled: control.disabled,
+    required: control.required,
+    invalid: control.invalid,
+  };
+  const stop = tabStop(resolved);
   return {
-    root: rootProps(state, send),
+    root: rootProps(resolved, send, field, root),
     radio(item): RadioGroupRadioFacts {
-      const disabled = state.disabled === true || item.disabled === true;
-      const required = state.required === true || item.required === true;
+      const disabled = resolved.disabled === true || item.disabled === true;
+      const required = resolved.required === true || item.required === true;
       let tabIndex: 0 | -1 | undefined;
-      if (state.mounted === true) tabIndex = item.value !== undefined && item.value === stop ? 0 : -1;
+      if (resolved.mounted === true) tabIndex = item.value !== undefined && item.value === stop ? 0 : -1;
       return {
-        checked: item.value !== undefined && item.value === state.value,
-        name: state.name === '' ? undefined : state.name,
+        checked: item.value !== undefined && item.value === resolved.value,
+        name: resolved.name === '' ? undefined : resolved.name,
         disabled: disabled ? true : undefined,
         required: required ? true : undefined,
-        form: item.form ?? state.form,
+        form: item.form ?? resolved.form,
         tabIndex,
       };
     },
+    control: { ...control, invalid: isInvalid(resolved), group: true },
   };
 }
