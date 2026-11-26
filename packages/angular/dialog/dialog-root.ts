@@ -6,6 +6,8 @@ import {
   Injector,
   PLATFORM_ID,
   Renderer2,
+  TemplateRef,
+  ViewContainerRef,
   afterRenderEffect,
   computed,
   effect,
@@ -15,7 +17,6 @@ import {
   signal,
   untracked,
   type Signal,
-  type TemplateRef,
 } from '@angular/core';
 import { IdGenerator, createOverlayOutlet, injectZoneBoundary, themeAttrs } from '@cocokits/angular-core';
 import { createDismissLayer, type DismissIntent, type DismissLayer } from '@cocokits/cdk/dismissal';
@@ -68,7 +69,7 @@ export interface DialogServiceAttrs {
 }
 
 /**
- * A window over the page. The trigger applies the root, so it makes no element: write its inputs and outputs on the `cckDialogTriggerFor` button. It holds the open state and links the trigger, the content, the title, the description and the close button.
+ * A window over the page. It makes no element: write its inputs and outputs on the `cckDialogTriggerFor` button, or on the `ng-template cckDialog` of a dialog without one. It holds the open state and links the trigger, the content, the title, the description and the close button.
  *
  * You write the content as a native `<dialog>` in an `ng-template` and give it to the trigger by reference. It shows in the overlay container. It is modal unless you set `[modal]="false"`: `modal` adds the backdrop, makes the rest of the page inert and stops the page from scrolling. A dialog that is not modal has no backdrop, and the page stays usable. It closes on Escape, on a press outside and when the focus moves outside it, and its trigger opens and closes it.
  *
@@ -78,7 +79,7 @@ export interface DialogServiceAttrs {
  *
  * @remarks The focus starts on an element with `autofocus`, or else on the first focusable element. The browser decides what Tab reaches after the last control. Escape closes only the top dialog.
  *
- * The trigger is optional. A dialog without one sits on an `ng-container` with a `cckDialogPortal` template inside. It opens from `open` and shows next to the element that had the focus.
+ * The trigger is optional. A dialog without one sits on its own template, `<ng-template cckDialog [(open)]="renaming">`, with the `<dialog cckDialogContent>` inside. It opens from `open` and shows next to the element that had the focus. When it closes, the focus goes back to that element.
  *
  * To open a dialog from code, use the `CckDialog` service.
  *
@@ -93,9 +94,9 @@ export interface DialogServiceAttrs {
  * </ng-template>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The `ng-template` you give to `cckDialogTriggerFor`, with the `<dialog cckDialogContent>` inside. When not set, the build fails, because the input is required.
+ * @cckSlot default - The `ng-template` you give to `cckDialogTriggerFor`, or the `ng-template cckDialog` itself, with the `<dialog cckDialogContent>` inside. When not set, no dialog shows.
  */
-@Directive({ selector: '[cckDialog]', exportAs: 'cckDialog' })
+@Directive({ selector: 'ng-template[cckDialog]', exportAs: 'cckDialog' })
 export class CckDialogRoot extends CckDialogOptions {
   /**
    * Whether the dialog is open. Use `[(open)]` to read and change it.
@@ -139,8 +140,10 @@ export class CckDialogRoot extends CckDialogOptions {
   private readonly anchor = computed(() => this._trigger() ?? this.opener());
   /** @internal */
   readonly _content = signal<HTMLDialogElement | null>(null);
-  /** The template of the content; the trigger gives its input. @internal */
-  _template: Signal<TemplateRef<unknown> | undefined> = signal(undefined);
+  /** The template of the content: the root's own template, else the trigger gives its input. @internal */
+  _template: Signal<TemplateRef<unknown> | undefined> = signal(
+    inject(TemplateRef, { optional: true, self: true }) ?? undefined,
+  );
   /** The `id` input of each mounted Title; the content is labelled by the first while there is one. @internal */
   readonly _titles = signal<readonly Signal<string | undefined>[]>([]);
   /** Set by the dialog service; a declarative Dialog has none. @internal */
@@ -218,6 +221,8 @@ export class CckDialogRoot extends CckDialogOptions {
 
   constructor() {
     super();
+    // A root on its own template creates the content at the template's anchor, so it is checked with the declaring view.
+    if (this._template()) this._portal.useContainer(inject(ViewContainerRef));
     inject(DestroyRef).onDestroy(() => {
       this.presence.destroy();
       this.modalState.release();
@@ -440,6 +445,9 @@ export class CckDialogRoot extends CckDialogOptions {
  */
 export function injectCckDialogRoot(part: string): CckDialogRoot {
   const root = inject(CckDialogRoot, { optional: true });
-  if (!root) throw new Error(`CocoKits: cckDialog${part} must be placed inside the template of a cckDialogTriggerFor.`);
+  if (!root)
+    throw new Error(
+      `CocoKits: cckDialog${part} must be placed inside an ng-template cckDialog or the template of a cckDialogTriggerFor.`,
+    );
   return root;
 }

@@ -401,7 +401,7 @@ describe('Dialog', () => {
 
     it('throws a clear error for a part outside the root', async () => {
       await expect(render(`<button cckDialogClose>Orphan</button>`, { imports })).rejects.toThrow(
-        /cckDialogClose must be placed inside the template of a cckDialogTriggerFor/,
+        /cckDialogClose must be placed inside an ng-template cckDialog or the template of a cckDialogTriggerFor/,
       );
     });
   });

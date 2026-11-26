@@ -10,7 +10,7 @@ export type CckDialogSize = DialogOptions['size']['values'][number];
 
 /**
  * The cocokits theme option of the Dialog root. It sits on the same element as the base root (the
- * `[cckDialogTriggerFor]` button that applies it, or the `[cckDialog]` of a dialog without a trigger) and only holds
+ * `[cckDialogTriggerFor]` button that applies it, or the `ng-template cckDialog` of a dialog without a trigger) and only holds
  * `dialogSize`; it provides nothing on that element, so it never clashes with another theme directive there. The
  * `dialog[cckDialogContent]` of this dialog reads it (see {@link CckDialogContentTheme}). The name is `dialogSize`, not
  * `size`, because the root sits on an element that may have a `size` of its own.
@@ -22,7 +22,7 @@ export type CckDialogSize = DialogOptions['size']['values'][number];
  * </ng-template>
  * @cckPart root
  */
-@Directive({ selector: '[cckDialog], button[cckDialogTriggerFor]' })
+@Directive({ selector: 'button[cckDialogTriggerFor], ng-template[cckDialog]' })
 export class CckDialogTheme {
   /**
    * Width, padding and gap of the window, drawn on the content. It resolves in order: this input, then the
@@ -34,7 +34,7 @@ export class CckDialogTheme {
   readonly dialogSize = input<CckDialogSize | null>();
 
   constructor() {
-    // A static `dialogSize` would also stay on the trigger. A root on an `ng-container` has no element and no host
+    // A static `dialogSize` would also stay on the trigger. A root on an `ng-template` has no element and no host
     // binding, so the attribute is removed here and only from an element.
     const host = inject<ElementRef<Node>>(ElementRef).nativeElement;
     if (host.nodeType === ELEMENT_NODE) inject(Renderer2).removeAttribute(host, 'dialogsize');

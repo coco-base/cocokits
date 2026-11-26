@@ -7,11 +7,9 @@ import { stubOverlayApis } from './overlay-stubs';
 import { frame } from './queries';
 
 const DIALOG = `
-  <ng-container cckDialog [(open)]="open">
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent><h2 cckDialogTitle>Notice</h2><button cckDialogClose>Close</button></dialog>
-    </ng-template>
-  </ng-container>`;
+  <ng-template cckDialog [(open)]="open">
+    <dialog cckDialogContent><h2 cckDialogTitle>Notice</h2><button cckDialogClose>Close</button></dialog>
+  </ng-template>`;
 
 @Component({
   imports: [...CckDialogImports],
@@ -38,11 +36,9 @@ class ShadowPage {
     <ng-template #outerDialog>
       <dialog cckDialogContent aria-label="outer">
         <button (click)="inner.set(true)">Inner</button>
-        <ng-container cckDialog [(open)]="inner">
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent aria-label="inner"><button cckDialogClose>Close inner</button></dialog>
-          </ng-template>
-        </ng-container>
+        <ng-template cckDialog [(open)]="inner">
+          <dialog cckDialogContent aria-label="inner"><button cckDialogClose>Close inner</button></dialog>
+        </ng-template>
       </dialog>
     </ng-template>
   `,
@@ -52,7 +48,7 @@ class Stacked {
   readonly inner = signal(false);
 }
 
-describe('Dialog without a trigger (XF-1)', () => {
+describe('Dialog without a trigger', () => {
   beforeEach(stubOverlayApis);
   afterEach(() => {
     vi.restoreAllMocks();
