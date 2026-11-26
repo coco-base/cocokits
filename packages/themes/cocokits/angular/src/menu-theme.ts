@@ -17,7 +17,8 @@ export type CckMenuItemColor = MenuOptions['color']['values'][number];
  * default; `null` removes the attribute. The theme needs `provideCckTheme`; without it no theme attribute renders.
  *
  * @example
- * <ng-template cckMenuPortal>
+ * <button [cckMenuTriggerFor]="menu">Actions</button>
+ * <ng-template #menu>
  *   <cck-menu-content size="lg">
  *     <cck-menu-item>Rename</cck-menu-item>
  *   </cck-menu-content>
