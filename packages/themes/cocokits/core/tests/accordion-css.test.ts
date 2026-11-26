@@ -346,6 +346,15 @@ describe('accordion design match', () => {
     expect(forced).not.toContain(':hover');
   });
 
+  it('gives the free width of a horizontal accordion to the open item and keeps a closed one as wide as its trigger', () => {
+    const item = `${ROOT}[data-orientation=horizontal] > .cck-accordion__item`;
+    expect(declarationsOf(css, item)).toBeUndefined();
+    expect(css).not.toMatch(/__item(?:\[data-state=closed\])? \{[^}]*flex:/);
+    const open = declarationsOf(css, `${item}[data-state=open]`) ?? '';
+    expect(open).toContain('flex: 1 1 auto');
+    expect(open).toContain('min-inline-size: 0');
+  });
+
   it('draws the focus ring outside a basic trigger and inside a boxed one', () => {
     expect(declarationsOf(css, `${trigger}[data-focus-visible]`)).toContain(
       'outline-offset: var(--cck-accordion-focus-offset)',
