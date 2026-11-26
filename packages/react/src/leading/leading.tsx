@@ -5,6 +5,7 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { getLeadingProps, leadingAnatomy } from '@cocokits/machines/leading';
 import { mergeProps } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
+import { FieldZoneContext } from '../internal/use-field-control';
 import { useMergedRef } from '../internal/use-merged-ref';
 import type { LeadingProps, LeadingRenderProps, LeadingState } from './leading.types';
 
@@ -25,7 +26,12 @@ function LeadingImpl({ render, ref, children, ...rest }: LeadingProps): ReactEle
   const element = isValidElement<{ children?: undefined }>(render)
     ? cloneElement(render, { children: undefined })
     : render;
-  return renderElement<LeadingRenderProps, LeadingState>(element, 'div', props, {});
+  // A control in the Leading is not the field's control.
+  return (
+    <FieldZoneContext.Provider value>
+      {renderElement<LeadingRenderProps, LeadingState>(element, 'div', props, {})}
+    </FieldZoneContext.Provider>
+  );
 }
 
 /** The {@link Leading} component and its `displayName`. */

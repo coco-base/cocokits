@@ -5,6 +5,7 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { getTrailingProps, trailingAnatomy } from '@cocokits/machines/trailing';
 import { mergeProps } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
+import { FieldZoneContext } from '../internal/use-field-control';
 import { useMergedRef } from '../internal/use-merged-ref';
 import type { TrailingProps, TrailingRenderProps, TrailingState } from './trailing.types';
 
@@ -25,7 +26,12 @@ function TrailingImpl({ render, ref, children, ...rest }: TrailingProps): ReactE
   const element = isValidElement<{ children?: undefined }>(render)
     ? cloneElement(render, { children: undefined })
     : render;
-  return renderElement<TrailingRenderProps, TrailingState>(element, 'div', props, {});
+  // A control in the Trailing is not the field's control.
+  return (
+    <FieldZoneContext.Provider value>
+      {renderElement<TrailingRenderProps, TrailingState>(element, 'div', props, {})}
+    </FieldZoneContext.Provider>
+  );
 }
 
 /** The {@link Trailing} component and its `displayName`. */
