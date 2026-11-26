@@ -12,7 +12,13 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, injectFormParticipation, themeAttrs } from '@cocokits/angular-core';
+import {
+  CckAttrs,
+  IdGenerator,
+  checkNameWhenAttached,
+  injectFormParticipation,
+  themeAttrs,
+} from '@cocokits/angular-core';
 import { CckRadioGroup } from '@cocokits/angular/radio-group';
 import { getRadioProps, radioAnatomy } from '@cocokits/machines/radio';
 import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
@@ -259,8 +265,13 @@ export class CckRadio {
         });
         this.destroyRef.onDestroy(unregister);
       }
-      this.warnWithoutName();
     });
+    checkNameWhenAttached(
+      () => this.inputRef()?.nativeElement,
+      () => {
+        this.warnWithoutName();
+      },
+    );
   }
 
   /**

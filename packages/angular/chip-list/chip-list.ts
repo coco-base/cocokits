@@ -17,7 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
-import { CckAttrs, injectFormParticipation, themeAttrs } from '@cocokits/angular-core';
+import { CckAttrs, checkNameWhenAttached, injectFormParticipation, themeAttrs } from '@cocokits/angular-core';
 import { CckChip } from '@cocokits/angular/chip';
 import { CckFormControlBase, handleHiddenInputInvalid, hiddenInputEntries } from '@cocokits/angular/form-control';
 import { chipAnatomy } from '@cocokits/machines/chip';
@@ -264,8 +264,13 @@ export class CckChipList extends CckFormControlBase implements FormValueControl<
     super();
     afterNextRender(() => {
       this.mountValue = this.value();
-      this.warnWithoutName();
     });
+    checkNameWhenAttached(
+      () => this.inputRef().nativeElement,
+      () => {
+        this.warnWithoutName();
+      },
+    );
     // Runs before the view updates, while the focused remove button is still in the document: the focus goes to the
     // text box when the button goes away (its position is no longer in the value) or the list turns read-only.
     effect(() => {
