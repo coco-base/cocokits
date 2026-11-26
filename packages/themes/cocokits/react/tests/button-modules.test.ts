@@ -81,6 +81,7 @@ describe('emitted modules keep their "use client"', () => {
       'switch.js',
       'tab-nav-root.js',
       'tabs-root.js',
+      'tag.js',
       'textarea.js',
       'theme-contexts.js',
       'tooltip-content.js',
