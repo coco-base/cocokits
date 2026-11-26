@@ -21,7 +21,7 @@ const INVALID = ':where([data-invalid]):where([data-touched], [data-submitted])'
 const DISABLED = ':where([data-disabled], :has(> .cck-chip-list__input:disabled))';
 const MODES = ['sm', 'md', 'lg'] as const;
 /** The rules of the Chip itself: the entry sheets also hold the SvgIcon rules (svg-icon-css.test.ts). */
-const own = (css: string): string => css.slice(0, css.indexOf('.cck-svg-icon'));
+const own = (css: string): string => css.slice(0, css.indexOf('.cck-svg-icon {'));
 const forced = (css: string, from = '@media (forced-colors: active)'): string => css.slice(css.indexOf(from));
 /** The forced-colors block of the Chip list (the list entry also holds the Chip rules, with their own block). */
 const LIST_FORCED = '@media (forced-colors: active) {\n    .cck-chip-list {';
