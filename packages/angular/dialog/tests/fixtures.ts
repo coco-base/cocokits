@@ -8,21 +8,17 @@ import { CckDialogImports } from '../index';
   selector: 'app-root',
   imports: [CckDialogImports],
   template: `
-    <ng-container cckDialog [open]="startOpen">
-      <button cckDialogTrigger>Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent>
-          <h2 cckDialogTitle>Delete project</h2>
-          <button cckDialogClose>Cancel</button>
-        </dialog>
-      </ng-template>
-    </ng-container>
-    <ng-container cckDialog>
-      <button cckDialogTrigger>Info</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Info">Text</dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [open]="startOpen">Delete</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>Delete project</h2>
+        <button cckDialogClose>Cancel</button>
+      </dialog>
+    </ng-template>
+    <button [cckDialogTriggerFor]="dialog2">Info</button>
+    <ng-template #dialog2>
+      <dialog cckDialogContent aria-label="Info">Text</dialog>
+    </ng-template>
   `,
 })
 export class Root {

@@ -12,12 +12,10 @@ const { classes } = dialogAnatomy;
 
 const declare = (attributes: string, body = '<h2 cckDialogTitle>Title</h2>'): string =>
   `<button id="before">Before</button>
-  <ng-container cckDialog ${attributes}>
-    <button cckDialogTrigger>Open</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>${body}<button id="inside">Inside</button><button cckDialogClose>Close</button></dialog>
-    </ng-template>
-  </ng-container>
+  <button [cckDialogTriggerFor]="dialog" ${attributes}>Open</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>${body}<button id="inside">Inside</button><button cckDialogClose>Close</button></dialog>
+  </ng-template>
   <button id="after">After</button>`;
 
 const trigger = (): HTMLElement => screen.getByRole('button', { name: 'Open' });

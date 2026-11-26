@@ -23,16 +23,14 @@ const themeConfig = defineThemeConfig({
 });
 
 const template = `
-  <ng-container cckDialog>
-    <button cckDialogTrigger>Open</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>
-        <h2 cckDialogTitle>Panel</h2>
-        <cck-dialog-description>Text</cck-dialog-description>
-        <button cckDialogClose>Close</button>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog">Open</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>
+      <h2 cckDialogTitle>Panel</h2>
+      <cck-dialog-description>Text</cck-dialog-description>
+      <button cckDialogClose>Close</button>
+    </dialog>
+  </ng-template>`;
 
 describe('Dialog theme', () => {
   beforeEach(stubOverlayApis);

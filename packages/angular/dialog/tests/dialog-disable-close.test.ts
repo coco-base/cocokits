@@ -7,17 +7,15 @@ import { stubOverlayApis } from './overlay-stubs';
 import { boxAt, closed, dialog, pressBackdrop } from './queries';
 
 const DELETE = `
-  <ng-container cckDialog [disableClose]="true" [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">
-    <button cckDialogTrigger>Delete</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>
-        <h2 cckDialogTitle>Delete project</h2>
-        <cck-dialog-description>This cannot be undone.</cck-dialog-description>
-        <a href="#x">First</a>
-        <button cckDialogClose>Cancel</button>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog" [disableClose]="true" [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">Delete</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>
+      <h2 cckDialogTitle>Delete project</h2>
+      <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+      <a href="#x">First</a>
+      <button cckDialogClose>Cancel</button>
+    </dialog>
+  </ng-template>`;
 
 @Component({ imports: [...CckDialogImports], template: DELETE })
 class LockedHost {

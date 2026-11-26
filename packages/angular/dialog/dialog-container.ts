@@ -1,11 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  type AfterViewInit,
   RendererFactory2,
+  ViewContainerRef,
   effect,
   inject,
   untracked,
+  viewChild,
   type ComponentRef,
+  type TemplateRef,
 } from '@angular/core';
 import type { ZoneBoundary } from '@cocokits/angular-core';
 import { waitForAnimations } from '@cocokits/cdk/presence';
@@ -13,7 +17,6 @@ import type { CckDialogConfig } from './dialog-config';
 import { applyAutoFocus } from './dialog-focus';
 import type { CckDialogRef } from './dialog-ref';
 import { CckDialogContent } from './dialog-content';
-import { CckDialogPortal } from './dialog-portal';
 import { CckDialogRoot } from './dialog-root';
 import type { DialogChangeDetails } from './dialog-types';
 
@@ -26,7 +29,7 @@ import type { DialogChangeDetails } from './dialog-types';
  */
 @Component({
   selector: 'cck-dialog-container',
-  imports: [CckDialogPortal, CckDialogContent],
+  imports: [CckDialogContent],
   hostDirectives: [
     {
       directive: CckDialogRoot,
@@ -46,14 +49,26 @@ import type { DialogChangeDetails } from './dialog-types';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-template cckDialogPortal>
+    <ng-template #content>
       <dialog cckDialogContent></dialog>
     </ng-template>
   `,
 })
-export class CckDialogContainer {
+export class CckDialogContainer implements AfterViewInit {
   /** The root the service drives. */
   readonly _root = inject(CckDialogRoot);
+  private readonly template = viewChild<TemplateRef<unknown>>('content');
+  /** The anchor of the template: inside the container, so no node is left where the service created it. */
+  private readonly anchor = viewChild.required('content', { read: ViewContainerRef });
+
+  constructor() {
+    this._root._template = this.template;
+  }
+
+  /** The view is ready before the root attaches its content after the render. */
+  ngAfterViewInit(): void {
+    this._root._portal.useContainer(this.anchor());
+  }
 }
 
 /** What a dialog session needs from `CckDialog.open`. */

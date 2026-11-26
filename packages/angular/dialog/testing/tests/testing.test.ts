@@ -10,16 +10,14 @@ import { CckDialogHarness } from '../index';
 @Component({
   imports: [CckDialogImports],
   template: `
-    <ng-container cckDialog>
-      <button cckDialogTrigger>Open declarative</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent>
-          <h2 cckDialogTitle>Delete project</h2>
-          <cck-dialog-description>This cannot be undone.</cck-dialog-description>
-          <button cckDialogClose>Cancel</button>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button id="declarative" [cckDialogTriggerFor]="dialog">Open declarative</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>Delete project</h2>
+        <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+        <button cckDialogClose>Cancel</button>
+      </dialog>
+    </ng-template>
     <button id="service" (click)="open()">Open service</button>
   `,
 })
@@ -65,7 +63,7 @@ describe('CckDialogHarness', () => {
   it('finds no dialog while closed and reads the declarative dialog once open', async () => {
     const { root, click } = await setup();
     expect(await root.getAllHarnesses(CckDialogHarness)).toEqual([]);
-    await click('button[cckDialogTrigger]');
+    await click('#declarative');
     const dialog = await root.getHarness(CckDialogHarness);
     expect(await dialog.getRole()).toBe('dialog');
     expect(await dialog.getTitleText()).toBe('Delete project');
@@ -90,7 +88,7 @@ describe('CckDialogHarness', () => {
 
   it('closes the dialog with Escape', async () => {
     const { root, click, fixture } = await setup();
-    await click('button[cckDialogTrigger]');
+    await click('#declarative');
     const dialog = await root.getHarness(CckDialogHarness);
     await dialog.close();
     await fixture.whenStable();

@@ -24,12 +24,8 @@ export abstract class CckDialogOptions {
    * A function that decides whether a close that the dialog starts happens. Return `false` to keep it open. When not set, every close happens.
    * @remarks It runs for the close button, the trigger, a `<form method="dialog">`, Escape and a press on the backdrop, after `disableClose`. It does not run when the parent changes `open`. A refused `<form method="dialog">` shows the dialog again.
    * @example
-   * <ng-container cckDialog [closePredicate]="canClose">
-   *   <button cckDialogTrigger type="button">Edit</button>
-   *   <ng-template cckDialogPortal>
-   *     <dialog cckDialogContent aria-label="Edit">…</dialog>
-   *   </ng-template>
-   * </ng-container>
+   * <button type="button" [cckDialogTriggerFor]="edit" [closePredicate]="canClose">Edit</button>
+   * <ng-template #edit><dialog cckDialogContent aria-label="Edit">…</dialog></ng-template>
    * <!-- In the class: canClose = (details: DialogChangeDetails) => details.reason !== 'escape'; -->
    * @cckSemantic dialog.closePredicate
    */

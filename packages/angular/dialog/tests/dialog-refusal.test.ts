@@ -7,22 +7,17 @@ import { stubOverlayApis } from './overlay-stubs';
 import { boxAt, frame, pressBackdrop } from './queries';
 
 const TEMPLATE = `
-  <ng-container
-    cckDialog
-    [(open)]="open"
+  <button [cckDialogTriggerFor]="dialog" [(open)]="open"
     [closePredicate]="predicate"
     (opened)="log.push('opened:' + $event.reason)"
-    (closed)="log.push('closed:' + $event.reason)"
-  >
-    <button cckDialogTrigger>Edit</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>
-        <h2 cckDialogTitle>Edit draft</h2>
-        <form method="dialog"><button id="submit">Submit</button></form>
-        <button cckDialogClose>Cancel</button>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+    (closed)="log.push('closed:' + $event.reason)">Edit</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>
+      <h2 cckDialogTitle>Edit draft</h2>
+      <form method="dialog"><button id="submit">Submit</button></form>
+      <button cckDialogClose>Cancel</button>
+    </dialog>
+  </ng-template>`;
 
 @Component({ imports: [...CckDialogImports], template: TEMPLATE })
 class Host {
@@ -108,10 +103,8 @@ describe('Dialog closePredicate', () => {
   it('runs after disableClose: a disabled cause never reaches it', async () => {
     const user = userEvent.setup();
     const { fixture } = await render(
-      `<ng-container cckDialog [disableClose]="true" [closePredicate]="predicate">
-         <button cckDialogTrigger>Edit</button>
-         <ng-template cckDialogPortal><dialog cckDialogContent aria-label="x"><button cckDialogClose>Cancel</button></dialog></ng-template>
-       </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog" [disableClose]="true" [closePredicate]="predicate">Edit</button>
+       <ng-template #dialog><dialog cckDialogContent aria-label="x"><button cckDialogClose>Cancel</button></dialog></ng-template>`,
       {
         imports: [...CckDialogImports],
         componentProperties: { predicate: vi.fn(() => true) },
@@ -150,10 +143,8 @@ describe('Dialog opened and closed', () => {
     const user = userEvent.setup();
     const seen: DialogChangeDetails[] = [];
     await render(
-      `<ng-container cckDialog (opened)="seen.push($event)" (closed)="seen.push($event)">
-         <button cckDialogTrigger>Edit</button>
-         <ng-template cckDialogPortal><dialog cckDialogContent aria-label="x"><button cckDialogClose>Cancel</button></dialog></ng-template>
-       </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog" (opened)="seen.push($event)" (closed)="seen.push($event)">Edit</button>
+       <ng-template #dialog><dialog cckDialogContent aria-label="x"><button cckDialogClose>Cancel</button></dialog></ng-template>`,
       { imports: [...CckDialogImports], componentProperties: { seen } },
     );
     await user.click(screen.getByRole('button', { name: 'Edit' }));

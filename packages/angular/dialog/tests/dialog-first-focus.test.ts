@@ -10,19 +10,17 @@ const imports = [...CckDialogImports, ...CckRadioGroupImports, ...CckRadioImport
 
 /** A dialog whose first control is a RadioGroup with the second radio checked. */
 const declare = (attributes: string): string =>
-  `<ng-container cckDialog ${attributes}>
-    <button cckDialogTrigger>Open</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>
-        <h2 cckDialogTitle>Plan</h2>
-        <cck-radio-group aria-label="Plan" value="pro">
-          <cck-radio submitValue="free">Free</cck-radio>
-          <cck-radio submitValue="pro">Pro</cck-radio>
-        </cck-radio-group>
-        <button cckDialogClose>Cancel</button>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  `<button [cckDialogTriggerFor]="dialog" ${attributes}>Open</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>
+      <h2 cckDialogTitle>Plan</h2>
+      <cck-radio-group aria-label="Plan" value="pro">
+        <cck-radio submitValue="free">Free</cck-radio>
+        <cck-radio submitValue="pro">Pro</cck-radio>
+      </cck-radio-group>
+      <button cckDialogClose>Cancel</button>
+    </dialog>
+  </ng-template>`;
 
 const opened = (): Promise<HTMLDialogElement> =>
   waitFor(() => {

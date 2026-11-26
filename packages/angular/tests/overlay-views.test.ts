@@ -15,12 +15,10 @@ import { CckTooltip, CckTooltipImports } from '../tooltip';
   selector: 'overlays-host',
   imports: [CckDialogImports, CckPopoverImports, CckTooltipImports, CckSelectImports],
   template: `
-    <ng-container cckDialog [(open)]="dialog" (closed)="events.push('dialog')">
-      <button cckDialogTrigger>Dialog</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Dialog">Text {{ label() }}</dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [(open)]="dialog" (closed)="events.push('dialog')">Dialog</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="Dialog">Text {{ label() }}</dialog>
+    </ng-template>
     <button [cckPopoverTriggerFor]="panel" [(open)]="popover" (closed)="events.push('popover')">Popover</button>
     <ng-template #panel>
       <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>

@@ -18,20 +18,16 @@ import { CckSelectImports } from '../select';
   selector: 'app-root',
   imports: [CckDialogImports, CckPopoverImports, CckSelectImports],
   template: `
-    <ng-container cckDialog>
-      <button id="dialog-open" cckDialogTrigger>Open dialog</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent [attr.aria-label]="label">
-          <button id="dialog-close" cckDialogClose>Close</button>
-        </dialog>
-      </ng-template>
-    </ng-container>
-    <ng-container cckDialog>
-      <button id="dialog-veto" cckDialogTrigger (click)="$event.preventDefault()">Vetoed dialog</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Vetoed">Text</dialog>
-      </ng-template>
-    </ng-container>
+    <button id="dialog-open" [cckDialogTriggerFor]="dialog">Open dialog</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent [attr.aria-label]="label">
+        <button id="dialog-close" cckDialogClose>Close</button>
+      </dialog>
+    </ng-template>
+    <button id="dialog-veto" [cckDialogTriggerFor]="dialog2" (click)="$event.preventDefault()">Vetoed dialog</button>
+    <ng-template #dialog2>
+      <dialog cckDialogContent aria-label="Vetoed">Text</dialog>
+    </ng-template>
     <button id="popover-open" [cckPopoverTriggerFor]="popover">Open popover</button>
     <ng-template #popover>
       <cck-popover-content aria-label="Share"

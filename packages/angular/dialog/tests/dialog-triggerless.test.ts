@@ -34,19 +34,17 @@ class ShadowPage {
 @Component({
   imports: [...CckDialogImports],
   template: `
-    <ng-container cckDialog [(open)]="outer">
-      <button cckDialogTrigger>Outer</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="outer">
-          <button (click)="inner.set(true)">Inner</button>
-          <ng-container cckDialog [(open)]="inner">
-            <ng-template cckDialogPortal>
-              <dialog cckDialogContent aria-label="inner"><button cckDialogClose>Close inner</button></dialog>
-            </ng-template>
-          </ng-container>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="outerDialog" [(open)]="outer">Outer</button>
+    <ng-template #outerDialog>
+      <dialog cckDialogContent aria-label="outer">
+        <button (click)="inner.set(true)">Inner</button>
+        <ng-container cckDialog [(open)]="inner">
+          <ng-template cckDialogPortal>
+            <dialog cckDialogContent aria-label="inner"><button cckDialogClose>Close inner</button></dialog>
+          </ng-template>
+        </ng-container>
+      </dialog>
+    </ng-template>
   `,
 })
 class Stacked {

@@ -10,14 +10,12 @@ import { renderThemedApp } from './ssr-helpers';
   selector: 'app-root',
   imports: [CckDialogImports, CckDialogTheme, CckDialogContentTheme],
   template: `
-    <ng-container cckDialog [open]="true" dialogSize="lg">
-      <button cckDialogTrigger type="button">Open</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent>
-          <h2 cckDialogTitle>{{ title }}</h2>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [open]="true" dialogSize="lg" type="button">Open</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>{{ title }}</h2>
+      </dialog>
+    </ng-template>
   `,
 })
 class Root {

@@ -20,7 +20,6 @@ export { CckDialogContent } from './dialog-content';
 export { CckDialogDescription } from './dialog-description';
 export { CckDialogFooter } from './dialog-footer';
 export { CckDialogHeader } from './dialog-header';
-export { CckDialogPortal } from './dialog-portal';
 export { CCK_DIALOG_DATA, CckDialogRef } from './dialog-ref';
 export type { CckDialogState } from './dialog-ref';
 export { CckDialogTitle } from './dialog-title';

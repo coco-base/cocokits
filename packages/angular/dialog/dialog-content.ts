@@ -9,14 +9,15 @@ import { injectCckDialogRoot } from './dialog-root';
  * Name it with a `cckDialogTitle`, `aria-label` or `aria-labelledby`.
  *
  * @example
- * <ng-template cckDialogPortal>
+ * <button type="button" [cckDialogTriggerFor]="deleteProject">Delete project</button>
+ * <ng-template #deleteProject>
  *   <dialog cckDialogContent>
  *     <h2 cckDialogTitle>Delete project</h2>
  *     <button cckDialogClose type="button">Cancel</button>
  *   </dialog>
  * </ng-template>
  * @cckPart content
- * @cckTemplate ng-template[cckDialogPortal]
+ * @cckTemplate input trigger cckDialogTriggerFor
  * @cckSlot default - The title, the description, the body and the close buttons. When not set, the dialog is empty.
  */
 @Directive({

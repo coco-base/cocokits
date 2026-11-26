@@ -336,18 +336,16 @@ describe('Select features', () => {
       const user = userEvent.setup();
       const value = signal<string | undefined>(undefined);
       await render(
-        `<ng-container cckDialog>
-          <button cckDialogTrigger>Order</button>
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent aria-label="Order">
-              <cck-select aria-label="Dish" [(value)]="value">
-                <cck-select-option value="Cake">Cake</cck-select-option>
-                <cck-select-option value="Pizza">Pizza</cck-select-option>
-              </cck-select>
-              <button cckDialogClose>Cancel</button>
-            </dialog>
-          </ng-template>
-        </ng-container>`,
+        `<button [cckDialogTriggerFor]="dialog">Order</button>
+        <ng-template #dialog>
+          <dialog cckDialogContent aria-label="Order">
+            <cck-select aria-label="Dish" [(value)]="value">
+              <cck-select-option value="Cake">Cake</cck-select-option>
+              <cck-select-option value="Pizza">Pizza</cck-select-option>
+            </cck-select>
+            <button cckDialogClose>Cancel</button>
+          </dialog>
+        </ng-template>`,
         { imports, componentProperties: { value } },
       );
       await user.click(screen.getByRole('button', { name: 'Order' }));

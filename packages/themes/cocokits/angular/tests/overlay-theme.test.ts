@@ -50,12 +50,10 @@ const { dialog: dialogConfig, tooltip: tooltipConfig } = cocokitsThemeConfig.com
 @Component({
   imports: [...CckDialogImports, CckDialogTheme, CckDialogContentTheme],
   template: `
-    <ng-container cckDialog [dialogSize]="$any(size())">
-      <button cckDialogTrigger type="button">Open</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent><h2 cckDialogTitle>Panel</h2></dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [dialogSize]="$any(size())" type="button">Open</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent><h2 cckDialogTitle>Panel</h2></dialog>
+    </ng-template>
   `,
 })
 class DialogHost {
@@ -296,6 +294,27 @@ describe('a Dialog opened by the dialog service', () => {
     await render(ServiceOpener, { providers: p, routes: [{ path: '**', children: [] }] });
     await userEvent.setup().click(screen.getByRole('button', { name: 'Open' }));
     expect((await screen.findByRole('dialog')).getAttribute('data-size')).toBe(expected);
+  });
+});
+
+describe('a Button theme and a Dialog theme on one Angular trigger', () => {
+  beforeEach(stubOverlayApis);
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.documentElement.removeAttribute('style');
+  });
+
+  it('keeps the Button size, leaves no dialogsize attribute and sizes the content', async () => {
+    await render(
+      `<button cckButton [cckDialogTriggerFor]="panel" size="xl" dialogSize="sm" type="button">Open</button>
+      <ng-template #panel><dialog cckDialogContent aria-label="Panel">Text</dialog></ng-template>`,
+      { imports: [CckButton, CckButtonTheme, ...CckDialogImports, CckDialogTheme, CckDialogContentTheme], providers },
+    );
+    const trigger = screen.getByRole('button', { name: 'Open' });
+    expect(trigger.getAttribute('data-size')).toBe('xl');
+    expect(trigger.hasAttribute('dialogsize')).toBe(false);
+    await userEvent.setup().click(trigger);
+    expect((await screen.findByRole('dialog', { name: 'Panel' })).getAttribute('data-size')).toBe('sm');
   });
 });
 

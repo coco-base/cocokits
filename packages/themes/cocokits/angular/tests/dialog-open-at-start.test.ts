@@ -8,12 +8,10 @@ import { providers } from './helpers';
 @Component({
   imports: [...CckDialogImports, CckDialogTheme, CckDialogContentTheme],
   template: `
-    <ng-container cckDialog [open]="true" [dialogSize]="size()">
-      <button cckDialogTrigger type="button">Open</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent><h2 cckDialogTitle>Delete project</h2></dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [open]="true" [dialogSize]="size()" type="button">Open</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent><h2 cckDialogTitle>Delete project</h2></dialog>
+    </ng-template>
   `,
 })
 class Host {

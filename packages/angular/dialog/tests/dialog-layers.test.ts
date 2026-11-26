@@ -31,33 +31,27 @@ function animate(element: HTMLElement): () => void {
 }
 
 const SINGLE = `
-  <ng-container cckDialog>
-    <button cckDialogTrigger>Delete</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>
-        <h2 cckDialogTitle>Delete project</h2>
-        <button cckDialogClose>Cancel</button>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog">Delete</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>
+      <h2 cckDialogTitle>Delete project</h2>
+      <button cckDialogClose>Cancel</button>
+    </dialog>
+  </ng-template>`;
 
 const NESTED = `
-  <ng-container cckDialog [(open)]="outerOpen" (opened)="outerLog.push($event.reason)" (closed)="outerLog.push($event.reason)">
-    <button cckDialogTrigger>Outer</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent aria-label="outer">
-        <ng-container cckDialog>
-          <button cckDialogTrigger>Inner</button>
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent>
-              <h2 cckDialogTitle>Inner dialog</h2>
-              <button cckDialogClose>Cancel</button>
-            </dialog>
-          </ng-template>
-        </ng-container>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog" [(open)]="outerOpen" (opened)="outerLog.push($event.reason)" (closed)="outerLog.push($event.reason)">Outer</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent aria-label="outer">
+      <button [cckDialogTriggerFor]="dialog2">Inner</button>
+      <ng-template #dialog2>
+        <dialog cckDialogContent>
+          <h2 cckDialogTitle>Inner dialog</h2>
+          <button cckDialogClose>Cancel</button>
+        </dialog>
+      </ng-template>
+    </dialog>
+  </ng-template>`;
 
 @Component({ imports: [...CckDialogImports], template: NESTED })
 class Nested {
@@ -120,16 +114,14 @@ describe('A modal that exits', () => {
     @if (present()) {
       <button (click)="open.set(true)">Open it</button>
     }
-    <ng-container cckDialog [(open)]="open">
-      <button cckDialogTrigger>Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent>
-          <h2 cckDialogTitle>Delete project</h2>
-          <button (click)="present.set(false)">Remove opener</button>
-          <button cckDialogClose>Cancel</button>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [(open)]="open">Delete</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>Delete project</h2>
+        <button (click)="present.set(false)">Remove opener</button>
+        <button cckDialogClose>Cancel</button>
+      </dialog>
+    </ng-template>
   `,
 })
 class Controlled {
@@ -171,18 +163,18 @@ describe('Dialog focus return to the opener', () => {
 @Component({
   imports: [...CckDialogImports],
   template: `
-    <ng-container
-      cckDialog
+    <button
+      [cckDialogTriggerFor]="dialog"
       [disableClose]="true"
       [(open)]="open"
       (opened)="reasons.push($event.reason)"
       (closed)="reasons.push($event.reason)"
     >
-      <button cckDialogTrigger>Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Locked"><button cckDialogClose>Cancel</button></dialog>
-      </ng-template>
-    </ng-container>
+      Delete
+    </button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="Locked"><button cckDialogClose>Cancel</button></dialog>
+    </ng-template>
   `,
 })
 class Locked {
@@ -221,18 +213,16 @@ describe('A close the browser forced after a refused cancel', () => {
   imports: [...CckDialogImports, ...CckPopoverImports],
   template: `
     <button>Outside</button>
-    <ng-container cckDialog>
-      <button cckDialogTrigger>Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="d">
-          <button [cckPopoverTriggerFor]="popover">More</button>
-          <ng-template #popover>
-            <cck-popover-content aria-label="more"><button>Inside</button></cck-popover-content>
-          </ng-template>
-          <button>After popover</button>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog">Delete</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="d">
+        <button [cckPopoverTriggerFor]="popover">More</button>
+        <ng-template #popover>
+          <cck-popover-content aria-label="more"><button>Inside</button></cck-popover-content>
+        </ng-template>
+        <button>After popover</button>
+      </dialog>
+    </ng-template>
   `,
 })
 class PopoverInModal {
@@ -275,10 +265,8 @@ describe('Dialog that is open from the start', () => {
     document.body.append(opener);
     opener.focus();
     await render(
-      `<ng-container cckDialog [open]="true">
-        <button cckDialogTrigger>Delete</button>
-        <ng-template cckDialogPortal><dialog cckDialogContent aria-label="Early"><button cckDialogClose>Cancel</button></dialog></ng-template>
-      </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog" [open]="true">Delete</button>
+      <ng-template #dialog><dialog cckDialogContent aria-label="Early"><button cckDialogClose>Cancel</button></dialog></ng-template>`,
       { imports: [...CckDialogImports] },
     );
     await screen.findByRole('dialog', { name: 'Early' });

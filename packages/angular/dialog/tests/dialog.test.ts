@@ -13,17 +13,15 @@ const { classes } = dialogAnatomy;
 
 const DELETE = `
   <button id="before">Before</button>
-  <ng-container cckDialog [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">
-    <button cckDialogTrigger>Delete</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent>
-        <h2 cckDialogTitle>Delete project</h2>
-        <cck-dialog-description>This cannot be undone.</cck-dialog-description>
-        <a href="#x">First</a>
-        <button cckDialogClose>Cancel</button>
-      </dialog>
-    </ng-template>
-  </ng-container>
+  <button [cckDialogTriggerFor]="dialog" [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">Delete</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent>
+      <h2 cckDialogTitle>Delete project</h2>
+      <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+      <a href="#x">First</a>
+      <button cckDialogClose>Cancel</button>
+    </dialog>
+  </ng-template>
   <button id="after">After</button>
   <p id="empty">Empty space</p>`;
 
@@ -35,18 +33,19 @@ class Host {
 
 @Component({
   imports,
-  template: `<ng-container
-    cckDialog
-    (opened)="details.push({ ...$event, value: true })"
-    (closed)="details.push({ ...$event, value: false })"
-  >
-    <button cckDialogTrigger (click)="$event.preventDefault()">Delete</button>
-    <ng-template cckDialogPortal>
+  template: `<button
+      [cckDialogTriggerFor]="dialog"
+      (opened)="details.push({ ...$event, value: true })"
+      (closed)="details.push({ ...$event, value: false })"
+      (click)="$event.preventDefault()"
+    >
+      Delete
+    </button>
+    <ng-template #dialog>
       <dialog cckDialogContent aria-label="Delete project">
         <button cckDialogClose (click)="$event.preventDefault()">Cancel</button>
       </dialog>
-    </ng-template>
-  </ng-container>`,
+    </ng-template>`,
 })
 class VetoHost {
   readonly details: (DialogChangeDetails & { value: boolean })[] = [];
@@ -106,10 +105,8 @@ describe('Dialog', () => {
     it('has no aria-labelledby or aria-describedby without a Title and a Description', async () => {
       const user = userEvent.setup();
       await render(
-        `<ng-container cckDialog>
-          <button cckDialogTrigger>Open</button>
-          <ng-template cckDialogPortal><dialog cckDialogContent aria-label="Plain">Text</dialog></ng-template>
-        </ng-container>`,
+        `<button [cckDialogTriggerFor]="dialog">Open</button>
+        <ng-template #dialog><dialog cckDialogContent aria-label="Plain">Text</dialog></ng-template>`,
         { imports },
       );
       await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -250,14 +247,12 @@ describe('Dialog', () => {
     it('is not closed by a prevented click on Close', async () => {
       const user = userEvent.setup();
       await render(
-        `<ng-container cckDialog [open]="true" >
-          <button cckDialogTrigger>Delete</button>
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent aria-label="Delete project">
-              <button cckDialogClose (click)="$event.preventDefault()">Cancel</button>
-            </dialog>
-          </ng-template>
-        </ng-container>`,
+        `<button [cckDialogTriggerFor]="dialog" [open]="true">Delete</button>
+        <ng-template #dialog>
+          <dialog cckDialogContent aria-label="Delete project">
+            <button cckDialogClose (click)="$event.preventDefault()">Cancel</button>
+          </dialog>
+        </ng-template>`,
         { imports },
       );
       await screen.findByRole('dialog');
@@ -382,10 +377,8 @@ describe('Dialog', () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
       const user = userEvent.setup();
       await render(
-        `<ng-container cckDialog>
-          <button cckDialogTrigger>Open</button>
-          <ng-template cckDialogPortal><dialog cckDialogContent>Unnamed</dialog></ng-template>
-        </ng-container>`,
+        `<button [cckDialogTriggerFor]="dialog">Open</button>
+        <ng-template #dialog><dialog cckDialogContent>Unnamed</dialog></ng-template>`,
         { imports },
       );
       await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -407,37 +400,31 @@ describe('Dialog', () => {
     });
 
     it('throws a clear error for a part outside the root', async () => {
-      await expect(render(`<button cckDialogTrigger>Orphan</button>`, { imports })).rejects.toThrow(
-        /cckDialogTrigger must be placed inside an element with cckDialog/,
+      await expect(render(`<button cckDialogClose>Orphan</button>`, { imports })).rejects.toThrow(
+        /cckDialogClose must be placed inside the template of a cckDialogTriggerFor/,
       );
     });
   });
 });
 
 const NESTED_DIALOGS = `
-  <ng-container cckDialog>
-    <button cckDialogTrigger>Outer</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent aria-label="Outer dialog">
-        <ng-container cckDialog>
-          <button cckDialogTrigger>Inner</button>
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent aria-label="Inner dialog"><button cckDialogClose>Done</button></dialog>
-          </ng-template>
-        </ng-container>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog">Outer</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent aria-label="Outer dialog">
+      <button [cckDialogTriggerFor]="dialog2">Inner</button>
+      <ng-template #dialog2>
+        <dialog cckDialogContent aria-label="Inner dialog"><button cckDialogClose>Done</button></dialog>
+      </ng-template>
+    </dialog>
+  </ng-template>`;
 
 const POPOVER_IN_DIALOG = `
-  <ng-container cckDialog>
-    <button cckDialogTrigger>Delete</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent aria-label="Delete project">
-        <button [cckPopoverTriggerFor]="popover">More</button>
-        <ng-template #popover>
-          <cck-popover-content aria-label="More options"><button>Inside popover</button></cck-popover-content>
-        </ng-template>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog">Delete</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent aria-label="Delete project">
+      <button [cckPopoverTriggerFor]="popover">More</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="More options"><button>Inside popover</button></cck-popover-content>
+      </ng-template>
+    </dialog>
+  </ng-template>`;

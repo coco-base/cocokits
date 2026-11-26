@@ -80,20 +80,18 @@ describe('Menu layers', () => {
     const user = userEvent.setup();
     const log: string[] = [];
     await render(
-      `<ng-container cckDialog>
-        <button cckDialogTrigger>Edit profile</button>
-        <ng-template cckDialogPortal>
-          <dialog cckDialogContent aria-label="Profile">
-            <button [cckMenuTriggerFor]="menu">Actions</button>
-            <ng-template #menu>
-              <cck-menu-content>
-                <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
-              </cck-menu-content>
-            </ng-template>
-            <button cckDialogClose>Cancel</button>
-          </dialog>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog">Edit profile</button>
+      <ng-template #dialog>
+        <dialog cckDialogContent aria-label="Profile">
+          <button [cckMenuTriggerFor]="menu">Actions</button>
+          <ng-template #menu>
+            <cck-menu-content>
+              <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
+            </cck-menu-content>
+          </ng-template>
+          <button cckDialogClose>Cancel</button>
+        </dialog>
+      </ng-template>`,
       { imports, componentProperties: { log } },
     );
     await user.click(screen.getByRole('button', { name: 'Edit profile' }));
