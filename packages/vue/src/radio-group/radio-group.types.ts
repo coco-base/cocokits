@@ -14,8 +14,12 @@ export type { RadioGroupOrientation };
  * The items are `Radio` components, each known by its `value`. Inside a group, the own `v-model` and `name` of a
  * Radio are ignored, and it emits nothing.
  *
- * Name the group with `aria-labelledby` for a visible caption, or with `aria-label`. They fall through to the root,
- * as every native attribute does.
+ * Name the group. Inside a `FormField`, the `Label` of the field names it through `aria-labelledby`, and the `Hint`
+ * and `FieldError` describe it. Alone, name it with `aria-labelledby` for a visible caption, or with `aria-label`.
+ * They fall through to the root, as every native attribute does.
+ *
+ * A `required` group with no value shows the invalid state once it is `touched` or a submit was blocked. A form
+ * reset clears the blocked submit.
  *
  * @example
  * <span id="plan-label">Plan</span>
