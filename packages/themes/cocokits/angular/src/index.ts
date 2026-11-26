@@ -56,6 +56,8 @@ export { CckDialogContentTheme, CckDialogTheme } from './dialog-theme';
 export type { CckDialogSize } from './dialog-theme';
 export { CckTooltipContentTheme, CckTooltipTheme } from './tooltip-theme';
 export type { CckTooltipSize } from './tooltip-theme';
+export { CckTagTheme } from './tag-theme';
+export type { CckTagColor, CckTagDot, CckTagSize, CckTagVariant } from './tag-theme';
 
 /** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
 export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';
