@@ -193,6 +193,7 @@ describe('emitted modules keep their "use client"', () => {
       'tabs/tabs-list.js',
       'tabs/tabs-root.js',
       'tabs/tabs-trigger.js',
+      'tag/tag.js',
       'textarea/textarea.js',
       'tooltip/tooltip-arrow.js',
       'tooltip/tooltip-content.js',
