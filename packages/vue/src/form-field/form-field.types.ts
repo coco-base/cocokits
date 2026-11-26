@@ -25,6 +25,10 @@ import type { AsTag } from '@cocokits/vue-core';
  * `disabled`, `readonly`, `required` and `invalid` reach the control. The facts of the control are `data-*`
  * attributes on the root: those four and `touched`, `dirty`, `submitted`, `focused`, `filled` and `pending`.
  *
+ * A CocoKits control inside the `leading`, `trailing`, `prefix` or `suffix` slot is not the control of the field. It
+ * still takes the state of the field, but the Label, the ids and the description stay with the control in the box.
+ * Name it with its own `aria-label`.
+ *
  * Another control gets none of this. Give it an `id`, give the Label the same `for`, and add the hint ids to its
  * `aria-describedby`. Native attributes fall through to the root.
  *

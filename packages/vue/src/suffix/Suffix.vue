@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useTemplateRef, type ComponentPublicInstance } from 'vue';
+import { provide, useTemplateRef, type ComponentPublicInstance } from 'vue';
 import { getSuffixProps, suffixAnatomy } from '@cocokits/machines/suffix';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { rootElementOf } from '../internal/root-element';
+import { FIELD_ZONE_KEY } from '../internal/use-field-control';
 import type { SuffixProps } from './suffix.types';
 
 defineOptions({ name: 'CckSuffix' });
@@ -21,6 +22,8 @@ defineSlots<{
 
 const themeAttrs = useThemeAttrs(suffixAnatomy);
 const parts = getSuffixProps();
+// A control in the Suffix is not the field's control.
+provide(FIELD_ZONE_KEY, true);
 
 const root = useTemplateRef<ComponentPublicInstance>('root');
 
