@@ -100,7 +100,8 @@ const touchedState = ref(false);
 const dirtyState = ref(false);
 // `reset()` clears the submitted fact until the form is submitted again.
 const submittedCleared = ref(false);
-// The hidden inputs' `invalid` event: the list shows the invalid fact until the value changes.
+// The hidden inputs' `invalid` event (a blocked submit): the list counts as invalid and submitted until the value
+// changes, so the text box shows `aria-invalid` and the field shows its error.
 const rejected = ref(false);
 // A new key makes the hidden inputs again, so the browser's reset (which clears them) cannot leave one empty.
 const inputsKey = ref(0);
@@ -146,7 +147,7 @@ const parts = computed(() =>
       pending: props.pending,
       touched: props.touched ?? touchedState.value,
       dirty: props.dirty ?? dirtyState.value,
-      submitted: props.submitted ?? (participation.submitted.value && !submittedCleared.value),
+      submitted: (props.submitted ?? (participation.submitted.value && !submittedCleared.value)) || rejected.value,
       focused: focused.value,
       hidden: props.hidden,
     },
@@ -278,7 +279,10 @@ function onFocusout(event: FocusEvent): void {
   touchedState.value = true;
 }
 
-/** A blocked submit: the list shows the invalid fact and the text box takes the focus; the event is not canceled. */
+/**
+ * A blocked submit: the list shows the invalid and submitted facts and the text box takes the focus; the event is not
+ * canceled.
+ */
 function onInvalid(): void {
   rejected.value = true;
   // The browser focuses the invalid input right after the event, so the text box takes the focus back after it.
