@@ -174,7 +174,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
 
   /**
    * Whether the user has left the group. Signal Forms sets this member. When not set, the group becomes touched after the focus left it once.
-   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched.
+   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched or a submit of its form was blocked. A form reset clears the blocked submit.
    * @cckSemantic radio-group.touched
    * @cckGroup forms
    * @defaultValue false
@@ -204,6 +204,8 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   );
 
   private readonly touchedState = linkedSignal(() => this.touched());
+  /** Set when a radio blocked a submit of the owner form; a form reset clears it. */
+  private readonly submitted = signal(false);
   private readonly generatedName = inject(IdGenerator).getId(radioGroupAnatomy.classes.root);
   private readonly direction = inject(CckDirection);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -243,6 +245,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     required: this.required(),
     form: this.form(),
     touched: this.touchedState(),
+    submitted: this.submitted(),
     orientation: this.orientation(),
     loop: this.loop(),
     dir: this.direction.dir(),
@@ -318,9 +321,19 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   _formReset(event: Event): void {
     if (this.lastReset === event) return;
     this.lastReset = event;
+    this.submitted.set(false);
     if (this.value() === this.mountValue) return;
     this.value.set(this.mountValue);
     this.valueChangeDetails.emit({ value: this.mountValue, reason: 'form-reset', event });
+  }
+
+  /**
+   * A radio blocked a submit of the owner form: the invalid state shows.
+   *
+   * @internal
+   */
+  _submitBlocked(): void {
+    this.submitted.set(true);
   }
 
   protected onKeyDown(event: KeyboardEvent): void {

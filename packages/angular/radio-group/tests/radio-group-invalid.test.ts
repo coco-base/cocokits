@@ -49,4 +49,20 @@ describe('Radio group invalid state', () => {
     expect(root.hasAttribute('data-invalid')).toBe(false);
     expect(root.hasAttribute('aria-invalid')).toBe(false);
   });
+
+  it('shows the invalid state of a required empty group after a blocked submit, and a reset clears it', async () => {
+    const { fixture } = await render(`<form>${group('required')}</form>`, { imports });
+    const root = screen.getByRole('radiogroup');
+    const form = root.closest('form');
+    if (!form) throw new Error('No form rendered.');
+    expect(form.checkValidity()).toBe(false);
+    fixture.detectChanges();
+    expect(root.getAttribute('aria-invalid')).toBe('true');
+    expect(root.hasAttribute('data-invalid')).toBe(true);
+    form.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    fixture.detectChanges();
+    expect(root.hasAttribute('aria-invalid')).toBe(false);
+    expect(root.hasAttribute('data-invalid')).toBe(false);
+  });
 });
