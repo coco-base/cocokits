@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen, waitFor } from '@testing-library/vue';
-import { h, nextTick } from 'vue';
+import { h, nextTick, ref } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { selectAnatomy } from '@cocokits/machines/select';
 import { FormField } from '../../form-field';
@@ -342,5 +342,35 @@ describe('Select in a FormField', () => {
     await waitFor(() => {
       expect(list.style.getPropertyValue('--anchor-width')).toBe('180px');
     });
+  });
+});
+
+describe('Select touched, dirty and submitted from the owner', () => {
+  const owned = (facts: Record<string, boolean | undefined>) => {
+    const state = ref(facts);
+    mountView(() => selectRoot({ required: true, invalid: true, ...state.value }, { items: options }));
+    return state;
+  };
+
+  it('shows the invalid state while a passed touched or submitted is true, and clears it when the owner resets', async () => {
+    const state = owned({ touched: true });
+    expect(trigger().getAttribute('aria-invalid')).toBe('true');
+    state.value = { touched: false };
+    await nextTick();
+    expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+    state.value = { submitted: true };
+    await nextTick();
+    expect(trigger().getAttribute('aria-invalid')).toBe('true');
+    state.value = { submitted: false };
+    await nextTick();
+    expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+  });
+
+  it('lets a passed touched win over the blur of the trigger', async () => {
+    const user = userEvent.setup();
+    owned({ touched: false });
+    trigger().focus();
+    await user.tab();
+    expect(trigger().hasAttribute('aria-invalid')).toBe(false);
   });
 });

@@ -3,7 +3,6 @@ import {
   computed,
   h,
   onBeforeUnmount,
-  onMounted,
   ref,
   shallowRef,
   useAttrs,
@@ -28,20 +27,14 @@ import {
   type SelectState,
   type SelectTransition,
 } from '@cocokits/machines/select';
-import { hasAccessibleName, visuallyHiddenStyle } from '@cocokits/utils';
-import {
-  isDevelopment,
-  Primitive,
-  provideDirection,
-  useDirection,
-  useFormParticipation,
-  useThemeAttrs,
-} from '@cocokits/vue-core';
+import { visuallyHiddenStyle } from '@cocokits/utils';
+import { Primitive, provideDirection, useDirection, useFormParticipation, useThemeAttrs } from '@cocokits/vue-core';
 import { useFormFieldContext } from '../internal/form-field-context';
 import { formHiddenEntries, formHiddenInputs } from '../internal/form-hidden-inputs';
 import { liveElementRef } from '../internal/live-element';
 import { omit } from '../internal/record';
 import { useFieldControl } from '../internal/use-field-control';
+import { useUnnamedWarning } from '../internal/use-unnamed-warning';
 import {
   provideSelect,
   type SelectItemRegistration,
@@ -73,6 +66,9 @@ const props = withDefaults(defineProps<SelectRootProps<T, M>>(), {
   readonly: undefined,
   required: undefined,
   invalid: undefined,
+  touched: undefined,
+  dirty: undefined,
+  submitted: undefined,
   name: undefined,
   form: undefined,
   dir: undefined,
@@ -203,9 +199,9 @@ const baseState = computed<SelectState<T>>(() => ({
   required: props.required,
   invalid: props.invalid,
   blockedSubmit: rejected.value,
-  touched: touched.value,
-  dirty: dirty.value,
-  submitted: participation.submitted.value,
+  touched: props.touched ?? touched.value,
+  dirty: props.dirty ?? dirty.value,
+  submitted: props.submitted ?? participation.submitted.value,
   focused: focused.value,
 }));
 const { highlighted, reveal, begin } = useSelectHighlight<T>({ isOpen, registry, state: () => baseState.value });
@@ -277,20 +273,8 @@ watch(
   },
   { flush: 'post' },
 );
-onMounted(() => {
-  if (isDevelopment() && typeof requestAnimationFrame === 'function') {
-    // After the Label's `for` has committed.
-    const frame = requestAnimationFrame(() => {
-      if (triggerElement.value && !hasAccessibleName(triggerElement.value)) {
-        console.warn(
-          `CocoKits: a Select ${field ? 'in a FormField ' : ''}has no accessible name. Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the SelectTrigger.`,
-        );
-      }
-    });
-    onBeforeUnmount(() => {
-      cancelAnimationFrame(frame);
-    });
-  }
+useUnnamedWarning(field ? 'Select in a FormField' : 'Select', triggerElement, {
+  fix: 'Add a Label with text to its FormField, or an aria-label, or an aria-labelledby that points to an element with text, to the SelectTrigger.',
 });
 
 /** A printable key without Ctrl, Meta or Alt; a space opens the list instead. */
