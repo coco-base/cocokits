@@ -32,6 +32,13 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
     vertical-align: top;
   }
 
+  // A label before the track: the root is block-level and fills its row, in block content and in a stretched flex
+  // column alike, so the label text fills the row and the track sits at the end edge. Before the `[hidden]` rule,
+  // which has the same specificity and wins by source order.
+  .cck-switch[data-label-position='before'] {
+    display: flex;
+  }
+
   // The root sets `display`, so the theme restates the native `hidden`.
   .cck-switch[hidden] {
     display: none;
@@ -58,8 +65,15 @@ $thumb-end: calc(100% - var(--cck-switch-thumb-size) - var(--cck-switch-thumb-of
   }
 
   // Reverses the row with the writing direction, so RTL needs no counterpart.
+  // The label fills the root. Its text has no part of its own, so the auto margin of the track takes the free
+  // space and pushes the track to the end edge.
   .cck-switch[data-label-position='before'] #{$label} {
     flex-direction: row-reverse;
+    flex: 1;
+  }
+
+  .cck-switch[data-label-position='before'] #{$track} {
+    margin-inline-start: auto;
   }
 
   // A stacking context, so the input (z-index 1) stays over the thumb and under the page above it. The radius

@@ -94,6 +94,14 @@ describe.each(BLOCKS)('%s output', (block) => {
     expect(css).toMatch(/\[data-label-position=before\] > [^{]+\{\s*flex-direction: row-reverse/);
   });
 
+  // Block content (an Accordion panel, a Dialog body) and a stretched flex column both fill a block-level root.
+  it('makes the root block-level for labelPosition before, and [hidden] still wins', () => {
+    const before = `${root}[data-label-position=before] {`;
+    expect(declarationsOf(css, `${root}[data-label-position=before]`)).toContain('display: flex');
+    expect(css.indexOf(before)).toBeGreaterThan(-1);
+    expect(css.indexOf(before)).toBeLessThan(css.indexOf(`${root}[hidden] {`));
+  });
+
   it('transitions only named properties and only inside no-preference', () => {
     expect(withoutMotion(css)).not.toContain('transition');
     expect(css).toContain('@media (prefers-reduced-motion: no-preference)');
@@ -374,5 +382,29 @@ describe('switch look', () => {
     const forced = forcedOf(css);
     expect(forced).toContain('background-color: HighlightText');
     expect(forced).toContain('background-color: CanvasText');
+  });
+});
+
+describe('labelPosition before puts the control at the end edge', () => {
+  const before = (block: string): string => `.cck-${block}[data-label-position=before]`;
+
+  it.each(['checkbox', 'radio'])('the %s wrapper fills the root and the label takes the free space', (block) => {
+    const css = cssOf(block);
+    expect(declarationsOf(css, `${before(block)} > .cck-${block}__wrapper`)).toMatch(
+      /flex-direction: row-reverse;\s*flex: 1/,
+    );
+    expect(declarationsOf(css, `${before(block)} > .cck-${block}__wrapper > .cck-${block}__label`)).toContain(
+      'flex: 1',
+    );
+  });
+
+  it('the switch label fills the root and the track takes the free space before it, in logical properties', () => {
+    const css = cssOf('switch');
+    expect(declarationsOf(css, `${before('switch')} > .cck-switch__label`)).toMatch(
+      /flex-direction: row-reverse;\s*flex: 1/,
+    );
+    expect(declarationsOf(css, `${before('switch')} > .cck-switch__label > .cck-switch__track`)).toContain(
+      'margin-inline-start: auto',
+    );
   });
 });
