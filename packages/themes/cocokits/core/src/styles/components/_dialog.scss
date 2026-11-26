@@ -5,8 +5,8 @@
 // the theme only sizes it, so it sets no `position`, `inset` or `transform`. The page behind is the `::backdrop`, which
 // inherits the tokens of the content. The content takes `display: flex` only while `[open]`, so a closed dialog stays
 // hidden by the user agent. Motion keys off `data-state` and runs only with `prefers-reduced-motion: no-preference`;
-// the end state is right without it. A plain Close part (not a Button) is a small quiet icon button; the trigger is
-// the author's (usually a Button).
+// the end state is right without it. A plain Close part (not a Button or an IconButton) is a small quiet icon button;
+// the trigger is the author's (usually a Button).
 @mixin rules {
   .cck-dialog__content {
     box-sizing: border-box;
@@ -127,14 +127,14 @@
     padding-block-end: var(--cck-dialog-description-gap);
   }
 
-  .cck-dialog__close:not(.cck-button):focus-visible {
+  .cck-dialog__close:not(.cck-button, .cck-icon-button):focus-visible {
     outline: var(--cck-dialog-focus-width) solid var(--cck-dialog-focus-color);
     outline-offset: var(--cck-dialog-focus-offset);
   }
 
   // Muted at rest; hover gives it the highlight fill and the main text colour, a press the stronger fill. A text
   // label in it is a medium control label.
-  .cck-dialog__close:not(.cck-button) {
+  .cck-dialog__close:not(.cck-button, .cck-icon-button) {
     box-sizing: border-box;
     flex: none;
     display: inline-flex;
@@ -206,7 +206,7 @@
     }
 
     .cck-dialog__content:focus-visible,
-    .cck-dialog__close:not(.cck-button):focus-visible {
+    .cck-dialog__close:not(.cck-button, .cck-icon-button):focus-visible {
       outline-color: Highlight;
     }
   }

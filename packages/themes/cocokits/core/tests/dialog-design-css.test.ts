@@ -3,7 +3,7 @@ import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf } from './css-
 
 const css = read('dist', 'components', 'dialog.css');
 const ROOT = '.cck-dialog__content';
-const CLOSE = '.cck-dialog__close:not(.cck-button)';
+const CLOSE = '.cck-dialog__close:not(.cck-button, .cck-icon-button)';
 const own = (name: string): string | undefined => structureTokenOf(ROOT, `dialog-${name}`);
 
 /** The tokens of a token file whose value in some mode is not an alias, as `<collection>#<token>`. */

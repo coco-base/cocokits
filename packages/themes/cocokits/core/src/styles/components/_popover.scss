@@ -7,7 +7,7 @@
 // variable a theme sets; an offset set on the content overrides it. Motion keys off `data-state` and `data-side` (logical sides, so RTL needs a counterpart
 // only for the inline slide) and runs only with `prefers-reduced-motion: no-preference`; the end state is right
 // without it. The Title and Description are plain text in the content; the Anchor has no rule (it is the author's element).
-// A plain Close part (not a Button) is a small quiet button; the trigger is the author's (usually a Button).
+// A plain Close part (not a Button or an IconButton) is a small quiet button; the trigger is the author's (usually a Button).
 @mixin rules {
   .cck-popover__content {
     --side-offset: var(--cck-popover-side-offset);
@@ -104,14 +104,14 @@
     }
   }
 
-  .cck-popover__close:not(.cck-button):focus-visible {
+  .cck-popover__close:not(.cck-button, .cck-icon-button):focus-visible {
     outline: var(--cck-popover-focus-width) solid var(--cck-popover-focus-color);
     outline-offset: var(--cck-popover-focus-offset);
   }
 
   // Muted at rest; hover gives it the highlight fill and the main text colour, a press the stronger fill. A text
   // label in it is a medium control label.
-  .cck-popover__close:not(.cck-button) {
+  .cck-popover__close:not(.cck-button, .cck-icon-button) {
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -209,12 +209,12 @@
       stroke: CanvasText;
     }
 
-    .cck-popover__close:not(.cck-button) {
+    .cck-popover__close:not(.cck-button, .cck-icon-button) {
       border: 1px solid ButtonText;
     }
 
     .cck-popover__content:focus-visible,
-    .cck-popover__close:not(.cck-button):focus-visible {
+    .cck-popover__close:not(.cck-button, .cck-icon-button):focus-visible {
       outline-color: Highlight;
     }
   }

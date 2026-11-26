@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { declarationsOf, outsideReducedMotion, read, reducedMotionBlocks, tokensCss } from './css-test-helpers';
 
 const css = read('dist', 'components', 'dialog.css');
+/** The plain Close: a Button or an IconButton used as Close keeps its own look. */
+const CLOSE = '.cck-dialog__close:not(.cck-button, .cck-icon-button)';
 
 describe('dialog output', () => {
   it('puts the rules inside @layer cocokits and into the whole theme', () => {
@@ -62,12 +64,12 @@ describe('dialog output', () => {
     expect(css).not.toContain('.cck-dialog__trigger');
   });
 
-  it('styles only a plain Close, so a Button used as Close keeps its own padding, border and font', () => {
-    const rule = declarationsOf(css, '.cck-dialog__close:not(.cck-button)') ?? '';
+  it('styles only a plain Close, so a Button or an IconButton used as Close keeps its own padding, border and font', () => {
+    const rule = declarationsOf(css, CLOSE) ?? '';
     expect(rule).toContain('padding:');
     expect(rule).toContain('border:');
     expect(rule).toContain('font: inherit');
-    expect(css).not.toMatch(/__close(?!:not\(\.cck-button\))/);
+    expect(css).not.toMatch(/__close(?!:not\(\.cck-button, \.cck-icon-button\))/);
   });
 
   it('restates [hidden] on the content, after its open layout, and on the parts that set a display', () => {
@@ -80,10 +82,8 @@ describe('dialog output', () => {
   });
 
   it('lays the plain Close out as an inline flex box and restates [hidden] after it', () => {
-    expect(declarationsOf(css, '.cck-dialog__close:not(.cck-button)')).toContain('display: inline-flex');
-    expect(css).toMatch(/\.cck-dialog__close:not\(\.cck-button\)\[hidden\]\s*\{\s*display: none/);
-    expect(css.indexOf('.cck-dialog__close:not(.cck-button)[hidden]')).toBeGreaterThan(
-      css.indexOf('.cck-dialog__close:not(.cck-button) {'),
-    );
+    expect(declarationsOf(css, CLOSE)).toContain('display: inline-flex');
+    expect(css).toMatch(/\.cck-dialog__close:not\(\.cck-button, \.cck-icon-button\)\[hidden\]\s*\{\s*display: none/);
+    expect(css.indexOf(`${CLOSE}[hidden]`)).toBeGreaterThan(css.indexOf(`${CLOSE} {`));
   });
 });
