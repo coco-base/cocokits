@@ -263,6 +263,23 @@ export interface SelectRootProps<T = string, M extends boolean = false> extends 
    */
   readonly invalid?: boolean | undefined;
   /**
+   * Whether the user has left the Select. A value you pass wins. When not set, the Select sets it after the first
+   * blur.
+   */
+  readonly touched?: boolean | undefined;
+  /**
+   * Whether the user has chosen a value. A value you pass wins. When not set, the Select sets it after the first
+   * change.
+   */
+  readonly dirty?: boolean | undefined;
+  /**
+   * Whether the user has tried to submit the form. A value you pass wins, so you can bind the submit state of a
+   * form library.
+   *
+   * When not set, a `submit` event of the form sets it, also a canceled one, and a form reset clears it.
+   */
+  readonly submitted?: boolean | undefined;
+  /**
    * The `name` that `FormData` sends. Without a name and without `required`, no hidden input is made. When not set, the Select has no name.
    *
    * @example

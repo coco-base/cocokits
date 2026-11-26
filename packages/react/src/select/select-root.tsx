@@ -139,6 +139,9 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     readOnly,
     required,
     invalid,
+    touched,
+    dirty,
+    submitted,
     name,
     form,
     dir,
@@ -160,8 +163,8 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
   const [trigger, setTrigger] = useState<HTMLButtonElement | null>(null);
   const [triggerAria, setTriggerAriaState] = useState<SelectTriggerAria>(NO_ARIA);
   const [focused, setFocused] = useState(false);
-  const [touched, setTouched] = useState(false);
-  const [dirty, setDirty] = useState(false);
+  const [touchedState, setTouched] = useState(false);
+  const [dirtyState, setDirty] = useState(false);
   // The text of the search input; the list clears it when it closes.
   const [query, setQuery] = useState('');
   // An outside press is being decided, and whether the list's dismiss layer answers Escape.
@@ -221,9 +224,9 @@ function SelectRootImpl<T = string, M extends boolean = false>(props: SelectRoot
     readOnly,
     required,
     invalid,
-    touched,
-    dirty,
-    submitted: participation.submitted,
+    touched: touched ?? touchedState,
+    dirty: dirty ?? dirtyState,
+    submitted: submitted ?? participation.submitted,
     blockedSubmit: blockedMessage !== null,
     focused,
     filter,

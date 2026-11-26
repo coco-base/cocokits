@@ -86,3 +86,31 @@ describe('Select invalid state after a blocked submit', () => {
     expect(trigger().getAttribute('aria-describedby')).toBe('hint');
   });
 });
+
+describe('Select touched, dirty and submitted from the owner', () => {
+  const Owned = (facts: { touched?: boolean; dirty?: boolean; submitted?: boolean }): React.ReactElement => (
+    <Dishes required invalid {...facts}>
+      <Opt value="Cake">Cake</Opt>
+    </Dishes>
+  );
+
+  it('shows the invalid state while a passed touched or submitted is true, and clears it when the owner resets', () => {
+    const { rerender } = render(<Owned touched />);
+    expect(trigger().getAttribute('aria-invalid')).toBe('true');
+    expect(rootOf()?.hasAttribute('data-invalid')).toBe(true);
+    rerender(<Owned touched={false} />);
+    expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+    rerender(<Owned submitted />);
+    expect(trigger().getAttribute('aria-invalid')).toBe('true');
+    rerender(<Owned submitted={false} />);
+    expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+  });
+
+  it('lets a passed touched win over the blur of the trigger', async () => {
+    const user = userEvent.setup();
+    render(<Owned touched={false} />);
+    trigger().focus();
+    await user.tab();
+    expect(trigger().hasAttribute('aria-invalid')).toBe(false);
+  });
+});
