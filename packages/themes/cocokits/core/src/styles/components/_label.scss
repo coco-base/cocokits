@@ -17,6 +17,16 @@
     }
   }
 
+  // An icon before the text and a Badge after it stand `gap` apart from the text. The label is a flex row, so a typed
+  // space next to them is trimmed.
+  .cck-label > .cck-svg-icon {
+    margin-inline-end: var(--cck-label-gap);
+  }
+
+  .cck-label > .cck-badge {
+    margin-inline-start: var(--cck-label-gap);
+  }
+
   // A glyph, not colour alone, so it needs no rule for forced colors.
   .cck-label__required-marker {
     box-sizing: border-box;

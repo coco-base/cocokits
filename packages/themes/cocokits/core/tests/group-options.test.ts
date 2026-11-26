@@ -93,6 +93,9 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'inset-inline-end',
     'translate',
   ],
+  // A Label spaces an icon before its text and a Badge after it with its own gap.
+  'label svg-icon': ['margin-inline-end'],
+  'label badge': ['margin-inline-start'],
   // The Divider in a Menu runs from edge to edge of the list: its inline margin undoes the padding of the list.
   'menu divider': ['margin-block', 'margin-inline'],
   // A parent that renders its children passes its size to them through CSS, from its own size tokens.
@@ -176,6 +179,7 @@ describe('no theme CSS rule sets an option of a child from a parent selector', (
       if (rule.last === 'svg-icon') {
         const wanted = (property: string): boolean =>
           property === 'flex' ||
+          PLACEMENT[`${rule.first} svg-icon`]?.includes(property) === true ||
           (property === 'font-size' && rule.item.includes('.cck-svg-icon:not([data-size])')) ||
           (property === 'color' && rule.item.includes('.cck-svg-icon:not([data-cck-color])'));
         return rule.properties
