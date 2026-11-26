@@ -19,7 +19,7 @@ export type { RadioGroupOrientation };
  * They fall through to the root, as every native attribute does.
  *
  * A `required` group with no value shows the invalid state once it is `touched` or a submit was blocked. A form
- * reset clears the blocked submit.
+ * reset clears what the group tracked.
  *
  * @example
  * <span id="plan-label">Plan</span>
@@ -90,7 +90,7 @@ export interface RadioGroupProps {
   readonly required?: boolean | undefined;
   /**
    * Whether the user has left the group. A required group with no value shows the invalid state once it is touched.
-   * The group never sets it itself.
+   * When not set, the group becomes touched after the focus left it once, and a form reset clears that.
    *
    * @remarks The invalid state is `aria-invalid` and `data-invalid` on the root. Set `touched` to show it before the
    * user has moved, for example when the form was submitted.

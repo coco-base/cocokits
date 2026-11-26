@@ -76,6 +76,8 @@ const mountValue = model.value ?? null;
 const field = useFormFieldContext();
 const root = useTemplateRef<ComponentPublicInstance>('root');
 const element = computed(() => rootElementOf(root.value) as HTMLElement | null);
+// Set when the focus leaves the group; a `touched` you pass wins. A form reset clears it.
+const touchedState = shallowRef(false);
 // Set when a radio blocked a submit of the owner form; a form reset clears it.
 const submitted = shallowRef(false);
 const stringOf = (attr: unknown): string | undefined => (typeof attr === 'string' ? attr : undefined);
@@ -92,7 +94,7 @@ const state = computed<RadioGroupState>(() => ({
   items: items.value,
   disabled: props.disabled,
   required: props.required,
-  touched: props.touched,
+  touched: props.touched ?? touchedState.value,
   submitted: submitted.value,
   form: props.form,
   orientation: props.orientation,
@@ -179,6 +181,7 @@ function formReset(event: Event): void {
   // Every radio of the group reports the same reset.
   if (event === lastReset) return;
   lastReset = event;
+  touchedState.value = false;
   submitted.value = false;
   if ((model.value ?? null) === mountValue) syncAll();
   else setValue(mountValue);
@@ -229,11 +232,16 @@ function onKeydown(event: KeyboardEvent): void {
 function onInvalidCapture(): void {
   submitted.value = true;
 }
+function onFocusout(event: FocusEvent): void {
+  if (event.relatedTarget instanceof Node && element.value?.contains(event.relatedTarget)) return;
+  touchedState.value = true;
+}
 // The element renders the author's `dir` only; the resolved direction drives the keys, not the markup.
 const bound = computed(() =>
   mergeProps(themeAttrs.value.root, attrs, { dir: props.dir }, omit(toVueListeners(parts.value.root), 'onKeydown'), {
     onKeydown,
     onInvalidCapture,
+    onFocusout,
   }),
 );
 const priorityAttrs = [

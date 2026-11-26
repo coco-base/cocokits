@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { cleanup } from '@testing-library/vue';
-import { createSSRApp } from 'vue';
+import userEvent from '@testing-library/user-event';
+import { createSSRApp, h, nextTick, type VNode } from 'vue';
 import { renderToString } from 'vue/server-renderer';
 import { afterEach, describe, expect, it } from 'vitest';
 import { groupView, mountView, type GroupViewOptions } from './fixtures';
@@ -46,5 +47,36 @@ describe('RadioGroup touched (radio-10)', () => {
     const tag = /<div\b[^>]*role="radiogroup"[^>]*>/.exec(html)?.[0] ?? '';
     expect(tag.includes('aria-invalid="true"')).toBe(invalid);
     expect(/\sdata-invalid(?=[\s>=])/.test(tag)).toBe(invalid);
+  });
+});
+
+describe('RadioGroup touched by the user', () => {
+  const group = groupView({ group: { required: true } });
+  const view = (): VNode => h('form', null, group());
+
+  it('becomes touched when the focus leaves the group, not while the focus is in it', async () => {
+    const user = userEvent.setup();
+    mountView(view);
+    await user.tab();
+    await user.tab();
+    expect(root().contains(document.activeElement)).toBe(true);
+    expect(root().hasAttribute('data-invalid')).toBe(false);
+    await user.tab();
+    expect(document.activeElement?.textContent).toBe('after');
+    expect(root().getAttribute('aria-invalid')).toBe('true');
+    expect(root().hasAttribute('data-invalid')).toBe(true);
+  });
+
+  it('clears touched on a form reset', async () => {
+    const user = userEvent.setup();
+    mountView(view);
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    expect(root().hasAttribute('data-invalid')).toBe(true);
+    document.querySelector('form')?.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await nextTick();
+    expect(root().hasAttribute('data-invalid')).toBe(false);
   });
 });
