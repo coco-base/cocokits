@@ -3,9 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { bootstrapOnClient, renderOnServer } from './fixtures';
 import { stubOverlayApis } from './overlay-stubs';
 
-/** Markup without the hydration and event-replay bookkeeping Angular adds. */
+/** Markup without the hydration and event-replay bookkeeping Angular adds, and the value the server writes on an input. */
 function normalized(root: Element): string {
-  return root.innerHTML.replace(/\s+(?:ngh|jsaction)="[^"]*"/g, '').replace(/<!--[^>]*-->/g, '');
+  return root.innerHTML.replace(/\s+(?:ngh|jsaction|value)="[^"]*"/g, '').replace(/<!--[^>]*-->/g, '');
 }
 
 function must<T>(value: T | null | undefined): T {
@@ -54,5 +54,7 @@ describe('Popover hydration', () => {
     const dialog = must(document.querySelector('[role="dialog"]'));
     expect(dialog.closest('app-root')).toBeNull();
     expect(dialog.closest('[popover="manual"]')).not.toBeNull();
+    // The trigger in the suffix of a form field still lines up with the anchor around the field.
+    expect(document.querySelector('[data-testid="field-anchor"]')?.className).toBe('cck-popover__anchor');
   });
 });

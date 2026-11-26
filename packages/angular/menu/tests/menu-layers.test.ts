@@ -18,17 +18,15 @@ describe('Menu layers', () => {
   it('Escape in a menu inside a Popover closes only the menu, then the next Escape closes the Popover', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckPopover>
-        <button cckPopoverTrigger>Panel</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Panel">
-            <button [cckMenuTriggerFor]="menu">Actions</button>
-            <ng-template #menu>
-              <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-            </ng-template>
-          </cck-popover-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover">Panel</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Panel">
+          <button [cckMenuTriggerFor]="menu">Actions</button>
+          <ng-template #menu>
+            <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+          </ng-template>
+        </cck-popover-content>
+      </ng-template>`,
       { imports },
     );
     await user.click(screen.getByRole('button', { name: 'Panel' }));
@@ -55,18 +53,16 @@ describe('Menu layers', () => {
   it('a press inside the Popover that holds the trigger closes the menu and leaves the Popover open', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckPopover [open]="true">
-        <button cckPopoverTrigger>Panel</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Panel">
-            <p>Text</p>
-            <button [cckMenuTriggerFor]="menu">Actions</button>
-            <ng-template #menu>
-              <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-            </ng-template>
-          </cck-popover-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover" [open]="true">Panel</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Panel">
+          <p>Text</p>
+          <button [cckMenuTriggerFor]="menu">Actions</button>
+          <ng-template #menu>
+            <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+          </ng-template>
+        </cck-popover-content>
+      </ng-template>`,
       { imports },
     );
     await screen.findByRole('dialog', { name: 'Panel' });

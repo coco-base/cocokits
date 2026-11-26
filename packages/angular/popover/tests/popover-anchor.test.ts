@@ -20,20 +20,48 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
 @Component({
   imports: [...CckPopoverImports],
   template: `
-    <ng-container cckPopover [(open)]="open">
-      @if (anchored()) {
-        <div cckPopoverAnchor data-testid="anchor"><span>row</span></div>
-      }
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share"><button cckPopoverClose>Close</button></cck-popover-content>
-      </ng-template>
-    </ng-container>
+    @if (anchored()) {
+      <div cckPopoverAnchor data-testid="anchor">
+        <span>row</span>
+        <button [cckPopoverTriggerFor]="popover" [(open)]="open">Share</button>
+      </div>
+    } @else {
+      <button [cckPopoverTriggerFor]="popover" [(open)]="open">Share</button>
+    }
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share"><button cckPopoverClose>Close</button></cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {
   readonly anchored = signal(true);
   readonly open = signal(true);
+}
+
+/** An outer anchored popover whose content holds an inner trigger in its own anchor, and one without. */
+@Component({
+  imports: [...CckPopoverImports],
+  template: `
+    <div cckPopoverAnchor data-testid="outer-anchor">
+      <div cckPopoverAnchor data-testid="near-anchor">
+        <button [cckPopoverTriggerFor]="outer" [open]="true">Outer</button>
+      </div>
+    </div>
+    <ng-template #outer>
+      <cck-popover-content aria-label="Outer panel">
+        <div cckPopoverAnchor data-testid="inner-anchor">
+          <button [cckPopoverTriggerFor]="inner" [(open)]="innerOpen">Inner</button>
+        </div>
+        <button [cckPopoverTriggerFor]="bare" [(open)]="bareOpen">Bare</button>
+        <ng-template #inner><cck-popover-content aria-label="Inner panel">Inner</cck-popover-content></ng-template>
+        <ng-template #bare><cck-popover-content aria-label="Bare panel">Bare</cck-popover-content></ng-template>
+      </cck-popover-content>
+    </ng-template>
+  `,
+})
+class Nested {
+  readonly innerOpen = signal(false);
+  readonly bareOpen = signal(false);
 }
 
 describe('Popover anchor', () => {
@@ -94,5 +122,34 @@ describe('Popover anchor', () => {
     await vi.waitFor(() => {
       expect(document.activeElement).toBe(trigger);
     });
+  });
+
+  it('lines up with the nearest anchor around the trigger', async () => {
+    const { fixture } = await render(Nested);
+    await fixture.whenStable();
+    await screen.findByRole('dialog', { name: 'Outer panel' });
+    expect(lastAnchor()).toBe(screen.getByTestId('near-anchor'));
+    expect(screen.getByTestId('outer-anchor').hasAttribute('class')).toBe(false);
+  });
+
+  it('keeps both anchors for a popover in the content of an anchored popover, and gives a bare inner trigger none', async () => {
+    const { fixture } = await render(Nested);
+    await fixture.whenStable();
+    fixture.componentInstance.innerOpen.set(true);
+    await screen.findByRole('dialog', { name: 'Inner panel' });
+    expect(lastAnchor()).toBe(screen.getByTestId('inner-anchor'));
+    expect(screen.getByTestId('near-anchor').className).toBe('cck-popover__anchor');
+    expect(screen.getByTestId('inner-anchor').className).toBe('cck-popover__anchor');
+
+    fixture.componentInstance.innerOpen.set(false);
+    fixture.componentInstance.bareOpen.set(true);
+    await screen.findByRole('dialog', { name: 'Bare panel' });
+    expect(lastAnchor()).toBe(screen.getByRole('button', { name: 'Bare' }));
+  });
+
+  it('warns in development when the anchor holds no trigger', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    await render(`<div cckPopoverAnchor>Row</div>`, { imports: [...CckPopoverImports] });
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('cckPopoverAnchor holds no cckPopoverTriggerFor'));
   });
 });

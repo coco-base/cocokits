@@ -1,29 +1,42 @@
 import { Component, destroyPlatform, provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
+import { CckFormField } from '@cocokits/angular/form-field';
+import { CckInput } from '@cocokits/angular/input';
+import { CckLabel } from '@cocokits/angular/label';
+import { CckSuffix } from '@cocokits/angular/suffix';
 import { CckPopoverImports } from '../index';
 
-/** The app both the server and the client render: one Popover that starts open, one that starts closed. */
+/**
+ * The app both the server and the client render: one Popover that starts open, one that starts closed, and one whose
+ * trigger sits in the suffix of a form field that the anchor holds.
+ */
 @Component({
   selector: 'app-root',
-  imports: [CckPopoverImports],
+  imports: [CckPopoverImports, CckFormField, CckLabel, CckInput, CckSuffix],
   template: `
-    <ng-container cckPopover [open]="startOpen">
-      <div cckPopoverAnchor><button cckPopoverTrigger>Share</button></div>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content>
-          <cck-popover-arrow></cck-popover-arrow>
-          <h2 cckPopoverTitle>Share this page</h2>
-          <button cckPopoverClose>Close</button>
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
-    <ng-container cckPopover>
-      <button cckPopoverTrigger>Info</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Info">Text</cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <div cckPopoverAnchor><button [cckPopoverTriggerFor]="popover" [open]="startOpen">Share</button></div>
+    <ng-template #popover>
+      <cck-popover-content>
+        <cck-popover-arrow></cck-popover-arrow>
+        <h2 cckPopoverTitle>Share this page</h2>
+        <button cckPopoverClose>Close</button>
+      </cck-popover-content>
+    </ng-template>
+    <button [cckPopoverTriggerFor]="popover2">Info</button>
+    <ng-template #popover2>
+      <cck-popover-content aria-label="Info">Text</cck-popover-content>
+    </ng-template>
+    <div cckPopoverAnchor data-testid="field-anchor">
+      <cck-form-field>
+        <label cckLabel>Tax number</label>
+        <div cckSuffix><button [cckPopoverTriggerFor]="help" aria-label="What is a tax number?">?</button></div>
+        <input cckInput />
+      </cck-form-field>
+    </div>
+    <ng-template #help>
+      <cck-popover-content aria-label="Tax number">The 11-digit number on your tax letter.</cck-popover-content>
+    </ng-template>
   `,
 })
 export class Root {

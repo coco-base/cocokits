@@ -11,8 +11,8 @@ import { frame, trigger } from './queries';
   template: `
     <button id="after">After</button>
     <p id="empty">Empty space</p>
-    <ng-container
-      cckPopover
+    <button
+      [cckPopoverTriggerFor]="popover"
       [(open)]="open"
       [disableClose]="disableClose()"
       [restoreFocus]="restoreFocus()"
@@ -20,14 +20,14 @@ import { frame, trigger } from './queries';
       (opened)="log.push('opened:' + $event.reason)"
       (closed)="log.push('closed:' + $event.reason)"
     >
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share this page">
-          <a href="#x">First</a>
-          <button cckPopoverClose>Close</button>
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
+      Share
+    </button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share this page">
+        <a href="#x">First</a>
+        <button cckPopoverClose>Close</button>
+      </cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -146,14 +146,5 @@ describe('Popover refusal and notification', () => {
     await frame();
     await frame();
     expect(document.activeElement).not.toBe(trigger());
-  });
-
-  it('warns in development when the portal has no trigger', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(
-      `<ng-container cckPopover><ng-template cckPopoverPortal><cck-popover-content aria-label="x">x</cck-popover-content></ng-template></ng-container>`,
-      { imports: [...CckPopoverImports] },
-    );
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('CocoKits: a PopoverPortal has no PopoverTrigger'));
   });
 });

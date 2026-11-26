@@ -434,12 +434,10 @@ const POPOVER_IN_DIALOG = `
     <button cckDialogTrigger>Delete</button>
     <ng-template cckDialogPortal>
       <dialog cckDialogContent aria-label="Delete project">
-        <ng-container cckPopover>
-          <button cckPopoverTrigger>More</button>
-          <ng-template cckPopoverPortal>
-            <cck-popover-content aria-label="More options"><button>Inside popover</button></cck-popover-content>
-          </ng-template>
-        </ng-container>
+        <button [cckPopoverTriggerFor]="popover">More</button>
+        <ng-template #popover>
+          <cck-popover-content aria-label="More options"><button>Inside popover</button></cck-popover-content>
+        </ng-template>
       </dialog>
     </ng-template>
   </ng-container>`;

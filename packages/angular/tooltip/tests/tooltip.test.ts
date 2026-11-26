@@ -347,17 +347,15 @@ describe('Tooltip', () => {
 
   describe('inside a Popover', () => {
     const nested = `
-      <ng-container cckPopover>
-        <button cckPopoverTrigger>Share</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Share panel">
-            <ng-container cckTooltip>
-              <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-              <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
-            </ng-container>
-          </cck-popover-content>
-        </ng-template>
-      </ng-container>`;
+      <button [cckPopoverTriggerFor]="popover">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share panel">
+          <ng-container cckTooltip>
+            <button cckTooltipTrigger aria-label="Copy link">Copy</button>
+            <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
+          </ng-container>
+        </cck-popover-content>
+      </ng-template>`;
     const imports = [...CckPopoverImports, ...CckTooltipImports];
 
     it('shows above the popover, hides on the first Escape and leaves the popover to the second', async () => {

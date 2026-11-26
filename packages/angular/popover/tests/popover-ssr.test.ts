@@ -9,8 +9,8 @@ describe('Popover on the server', () => {
 
   it('renders the triggers, and an open popover renders no content and no aria-controls', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
-    const triggers = [...html.matchAll(/<button\b[^>]*cckpopovertrigger[^>]*>/gi)].map((match) => match[0]);
-    expect(triggers).toHaveLength(2);
+    const triggers = [...html.matchAll(/<button\b[^>]*cck-popover__trigger[^>]*>/gi)].map((match) => match[0]);
+    expect(triggers).toHaveLength(3);
     expect(triggers[0]).toContain('class="cck-popover__trigger"');
     expect(triggers[0]).toContain('aria-haspopup="dialog"');
     expect(triggers[0]).toContain('aria-expanded="true"');
@@ -27,6 +27,12 @@ describe('Popover on the server', () => {
   it('renders the anchor on the server with its class, around the trigger', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
     expect(html).toMatch(/<div[^>]*cckpopoveranchor[^>]*class="cck-popover__anchor"/i);
-    expect(html).toMatch(/cck-popover__anchor"[^>]*>\s*<button[^>]*cckpopovertrigger/i);
+    expect(html).toMatch(/cck-popover__anchor"[^>]*>\s*<button[^>]*cck-popover__trigger/i);
+  });
+
+  it('renders the anchor class on an anchor whose trigger is in the suffix of a form field', async () => {
+    const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
+    const anchor = /<div[^>]*data-testid="field-anchor"[^>]*>/.exec(html)?.[0];
+    expect(anchor).toContain('class="cck-popover__anchor"');
   });
 });

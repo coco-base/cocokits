@@ -8,10 +8,8 @@ const imports = [...CckPopoverImports];
 const TEXT =
   'CocoKits: a PopoverContent has no accessible name. Add a cckPopoverTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.';
 const popover = (content: string): string => `
-  <ng-container cckPopover>
-    <button cckPopoverTrigger>Open</button>
-    <ng-template cckPopoverPortal>${content}</ng-template>
-  </ng-container>`;
+  <button [cckPopoverTriggerFor]="popover">Open</button>
+  <ng-template #popover>${content}</ng-template>`;
 
 describe('the accessible name warning of a PopoverContent', () => {
   beforeEach(stubOverlayApis);

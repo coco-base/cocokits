@@ -16,12 +16,10 @@ describe('Popover accessibility', () => {
   it('has no axe violations closed or open, checked on the whole document', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckPopover>
-        <button cckPopoverTrigger>Share</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Share this page"><p>Copy the link.</p><button cckPopoverClose>Close</button></cck-popover-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share this page"><p>Copy the link.</p><button cckPopoverClose>Close</button></cck-popover-content>
+      </ng-template>`,
       { imports },
     );
     expect((await axe(document.body)).violations).toEqual([]);
@@ -33,12 +31,10 @@ describe('Popover accessibility', () => {
   it('is named by aria-labelledby when the author points it at a heading', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckPopover>
-        <button cckPopoverTrigger>Open</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-labelledby="t"><h2 id="t">Settings</h2><button cckPopoverClose>Done</button></cck-popover-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover">Open</button>
+      <ng-template #popover>
+        <cck-popover-content aria-labelledby="t"><h2 id="t">Settings</h2><button cckPopoverClose>Done</button></cck-popover-content>
+      </ng-template>`,
       { imports },
     );
     await user.click(screen.getByRole('button', { name: 'Open' }));

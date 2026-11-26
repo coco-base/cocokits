@@ -32,20 +32,18 @@ import { CckSelectImports } from '../select';
         <dialog cckDialogContent aria-label="Vetoed">Text</dialog>
       </ng-template>
     </ng-container>
-    <ng-container cckPopover>
-      <button id="popover-open" cckPopoverTrigger>Open popover</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share"
-          ><button id="popover-close" cckPopoverClose>Close</button></cck-popover-content
-        >
-      </ng-template>
-    </ng-container>
-    <ng-container cckPopover>
-      <button id="popover-veto" cckPopoverTrigger (click)="$event.preventDefault()">Vetoed popover</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Vetoed">Text</cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button id="popover-open" [cckPopoverTriggerFor]="popover">Open popover</button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share"
+        ><button id="popover-close" cckPopoverClose>Close</button></cck-popover-content
+      >
+    </ng-template>
+    <button id="popover-veto" [cckPopoverTriggerFor]="popover2" (click)="$event.preventDefault()">
+      Vetoed popover
+    </button>
+    <ng-template #popover2>
+      <cck-popover-content aria-label="Vetoed">Text</cck-popover-content>
+    </ng-template>
     <cck-select aria-label="Dish">
       <cck-select-option value="Cake">Cake</cck-select-option>
       <cck-select-option value="Pizza">Pizza</cck-select-option>

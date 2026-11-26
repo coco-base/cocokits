@@ -163,10 +163,8 @@ describe('Menu with an overlay in its content', () => {
       <ng-template #menu>
         <cck-menu-content>
           <cck-menu-item>Edit</cck-menu-item>
-          <ng-container cckPopover>
-            <button cckPopoverTrigger>Details</button>
-            <ng-template cckPopoverPortal><cck-popover-content aria-label="Details">Text</cck-popover-content></ng-template>
-          </ng-container>
+          <button [cckPopoverTriggerFor]="popover">Details</button>
+          <ng-template #popover><cck-popover-content aria-label="Details">Text</cck-popover-content></ng-template>
         </cck-menu-content>
       </ng-template>`,
       { imports: [...CckMenuImports, ...CckPopoverImports] },

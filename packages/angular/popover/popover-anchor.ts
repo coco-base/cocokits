@@ -1,38 +1,55 @@
-import { DestroyRef, Directive, ElementRef, computed, inject } from '@angular/core';
+import { Directive, ElementRef, afterNextRender, computed, inject, signal, type Signal } from '@angular/core';
 import { bindAttrs } from '@cocokits/angular-core';
-import { injectCckPopover } from './popover';
+import type { PopoverParts } from '@cocokits/machines/popover';
+import type { ThemeAttrs } from '@cocokits/shared';
+
+/** What an anchor reads from the root of the trigger it holds. @internal */
+export interface PopoverAnchorLink {
+  /** The props of the anchor part. */
+  readonly props: Signal<PopoverParts['anchor']>;
+  /** The theme attributes of the anchor part. */
+  readonly theme: Signal<ThemeAttrs>;
+}
 
 /**
- * An element that the content lines up with, in place of the trigger. Put the attribute on any element inside the root. It only changes where the content shows.
+ * An element that the content lines up with, in place of the trigger. Put the attribute on an element that holds the trigger, at any depth. It only changes where the content shows.
  *
  * The anchor has no role and no ARIA attributes. The trigger keeps `aria-expanded` and gets the focus back. A press on the anchor still counts as a press outside.
  *
  * @example
- * <ng-container cckPopover>
- *   <div cckPopoverAnchor>
- *     <button cckPopoverTrigger type="button">Share</button>
- *   </div>
- * </ng-container>
+ * <div cckPopoverAnchor>
+ *   <button type="button" [cckPopoverTriggerFor]="share">Share</button>
+ * </div>
+ * <ng-template #share>
+ *   <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+ * </ng-template>
  * @cckPart anchor
- * @cckSlot default - Any content. When not set, the anchor is empty.
- * @remarks With more than one anchor, the content lines up with the last one.
+ * @cckAround trigger
+ * @cckSlot default - The trigger and any other content. When not set, the anchor holds no trigger, so nothing lines up with it.
+ * @remarks The trigger lines up with the nearest anchor around it. A trigger in the content of a popover never takes the anchor of that popover.
  * @cckParity Places the content against an element only; there is no virtual anchor.
  */
 @Directive({
   selector: '[cckPopoverAnchor]',
   exportAs: 'cckPopoverAnchor',
-  host: { '[class]': 'props().class' },
+  host: { '[class]': 'props()?.class ?? null' },
 })
 export class CckPopoverAnchor {
-  private readonly root = injectCckPopover('Anchor');
-  protected readonly props = computed(() => this.root._parts().anchor);
+  /** The element of the anchor; the trigger gives it to its root. @internal */
+  readonly _element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  /** The link to the root of the trigger inside; the trigger sets it. @internal */
+  readonly _link = signal<PopoverAnchorLink | null>(null);
+  protected readonly props = computed(() => this._link()?.props());
 
   constructor() {
-    const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-    this.root._anchor.set(element);
-    inject(DestroyRef).onDestroy(() => {
-      this.root._anchor.update((current) => (current === element ? null : current));
+    bindAttrs(this._element, () => this._link()?.theme() ?? {});
+    afterNextRender(() => {
+      if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
+      if (!this._link()) {
+        console.warn(
+          'CocoKits: a cckPopoverAnchor holds no cckPopoverTriggerFor, so no content lines up with it. Put the trigger inside the anchor.',
+        );
+      }
     });
-    bindAttrs(element, () => this.root._theme().anchor);
   }
 }

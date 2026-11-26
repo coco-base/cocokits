@@ -21,12 +21,10 @@ import { CckTooltip, CckTooltipImports } from '../tooltip';
         <dialog cckDialogContent aria-label="Dialog">Text {{ label() }}</dialog>
       </ng-template>
     </ng-container>
-    <ng-container cckPopover [(open)]="popover" (closed)="events.push('popover')">
-      <button cckPopoverTrigger>Popover</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button [cckPopoverTriggerFor]="panel" [(open)]="popover" (closed)="events.push('popover')">Popover</button>
+    <ng-template #panel>
+      <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>
+    </ng-template>
     <ng-container cckTooltip [cckTooltipShowDelay]="delay()">
       <button cckTooltipTrigger aria-label="Tooltip trigger">Tooltip</button>
       <ng-template cckTooltipPortal>

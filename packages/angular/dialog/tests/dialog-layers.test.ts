@@ -225,12 +225,10 @@ describe('A close the browser forced after a refused cancel', () => {
       <button cckDialogTrigger>Delete</button>
       <ng-template cckDialogPortal>
         <dialog cckDialogContent aria-label="d">
-          <ng-container cckPopover>
-            <button cckPopoverTrigger>More</button>
-            <ng-template cckPopoverPortal>
-              <cck-popover-content aria-label="more"><button>Inside</button></cck-popover-content>
-            </ng-template>
-          </ng-container>
+          <button [cckPopoverTriggerFor]="popover">More</button>
+          <ng-template #popover>
+            <cck-popover-content aria-label="more"><button>Inside</button></cck-popover-content>
+          </ng-template>
           <button>After popover</button>
         </dialog>
       </ng-template>

@@ -11,11 +11,12 @@ import { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
  * The content opens on the preferred side of the trigger, and moves to the other side when there is no room. On open, the focus moves to its first focusable element, or to the content.
  *
  * @example
- * <ng-template cckPopoverPortal>
+ * <button type="button" [cckPopoverTriggerFor]="share">Share</button>
+ * <ng-template #share>
  *   <cck-popover-content side="top" aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
  * </ng-template>
  * @cckPart content
- * @cckTemplate ng-template[cckPopoverPortal]
+ * @cckTemplate input trigger cckPopoverTriggerFor
  * @cckSlot default - The content of the panel. When not set, the panel is empty.
  */
 @Directive({

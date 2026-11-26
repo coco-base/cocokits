@@ -33,12 +33,10 @@ const rootThemeConfig = defineThemeConfig({
 });
 
 const template = `
-  <ng-container cckPopover>
-    <div cckPopoverAnchor><button cckPopoverTrigger>Open</button></div>
-    <ng-template cckPopoverPortal>
-      <cck-popover-content><h2 cckPopoverTitle>Panel</h2><cck-popover-description>Text</cck-popover-description><button cckPopoverClose>Close</button></cck-popover-content>
-    </ng-template>
-  </ng-container>`;
+  <div cckPopoverAnchor><button [cckPopoverTriggerFor]="popover">Open</button></div>
+  <ng-template #popover>
+    <cck-popover-content><h2 cckPopoverTitle>Panel</h2><cck-popover-description>Text</cck-popover-description><button cckPopoverClose>Close</button></cck-popover-content>
+  </ng-template>`;
 
 describe('Popover theme', () => {
   beforeEach(stubOverlayApis);

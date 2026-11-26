@@ -304,17 +304,15 @@ describe('Select features', () => {
     it('inside a Popover: Escape closes the listbox only, and a press in the listbox keeps the Popover open', async () => {
       const user = userEvent.setup();
       await render(
-        `<ng-container cckPopover>
-          <button cckPopoverTrigger>Settings</button>
-          <ng-template cckPopoverPortal>
-            <cck-popover-content aria-label="Settings panel">
-              <cck-select aria-label="Dish">
-                <cck-select-option value="Cake">Cake</cck-select-option>
-                <cck-select-option value="Pizza">Pizza</cck-select-option>
-              </cck-select>
-            </cck-popover-content>
-          </ng-template>
-        </ng-container>`,
+        `<button [cckPopoverTriggerFor]="popover">Settings</button>
+        <ng-template #popover>
+          <cck-popover-content aria-label="Settings panel">
+            <cck-select aria-label="Dish">
+              <cck-select-option value="Cake">Cake</cck-select-option>
+              <cck-select-option value="Pizza">Pizza</cck-select-option>
+            </cck-select>
+          </cck-popover-content>
+        </ng-template>`,
         { imports },
       );
       await user.click(screen.getByRole('button', { name: 'Settings' }));
