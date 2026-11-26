@@ -28,9 +28,26 @@ function triggerActiveId<T>(state: SelectState<T>): string | undefined {
   return state.open && state.filter !== true && active ? selectItemId(state.id, active) : undefined;
 }
 
-/** A blur of the open trigger dismisses, except when the window lost focus or a search takes the focus on purpose. */
+/**
+ * A blur of the open trigger dismisses, except when the window lost focus, a search takes the focus on purpose or
+ * the focus moves into the list (a control of its header or its footer).
+ */
 function shouldDismissOnBlur<T>(state: SelectState<T>, event: FocusEvent): boolean {
-  return state.open && state.filter !== true && !windowLostFocus(event);
+  return (
+    state.open &&
+    state.filter !== true &&
+    !windowLostFocus(event) &&
+    !focusMovesInto(selectIds(state.id).content, event)
+  );
+}
+
+/** Whether the element that takes the focus is the element with the id or inside it. */
+function focusMovesInto(id: string, event: FocusEvent): boolean {
+  type Node = { readonly id?: string; readonly parentElement?: Node | null } | null | undefined;
+  for (let node = event.relatedTarget as Node; node; node = node.parentElement) {
+    if (node.id === id) return true;
+  }
+  return false;
 }
 
 /** The group is hidden while a query shows none of its options (`shown` is `undefined` without a filter). */

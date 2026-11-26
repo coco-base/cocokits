@@ -26,14 +26,16 @@ const triggerOf = (): HTMLElement => screen.getByRole('combobox', { name: 'Dish'
 function Searchable({
   onOpenChange,
   withGroup = false,
+  filter = true,
 }: {
   readonly onOpenChange?: (open: boolean) => void;
   readonly withGroup?: boolean;
+  readonly filter?: boolean;
 }): ReactElement {
   return (
     <StrictMode>
       <button>before</button>
-      <Select.Root filter onOpenChange={onOpenChange}>
+      <Select.Root filter={filter} onOpenChange={onOpenChange}>
         <Select.Trigger aria-label="Dish">
           <Select.Value placeholder="Choose a dish" />
           <Select.Icon />
@@ -232,6 +234,15 @@ describe('Select search', () => {
 
   it('does not close the list when a footer button is pressed, and the button takes the focus', async () => {
     render(<Searchable />);
+    await open();
+    const button = screen.getByRole('button', { name: 'Add a dish' });
+    await userEvent.click(button);
+    expect(screen.queryByRole('listbox')).not.toBeNull();
+    expect(document.activeElement).toBe(button);
+  });
+
+  it('keeps the list open without a search when a footer button takes the focus', async () => {
+    render(<Searchable filter={false} />);
     await open();
     const button = screen.getByRole('button', { name: 'Add a dish' });
     await userEvent.click(button);

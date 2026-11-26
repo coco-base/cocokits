@@ -160,6 +160,19 @@ describe('Select filter (select-07)', () => {
     await gone();
   });
 
+  it('keeps the list open without a search when a footer button takes the focus', async () => {
+    const user = userEvent.setup();
+    mountView(selectView({}, { items: searchItems }));
+    await user.click(trigger());
+    await screen.findByRole('listbox');
+    await settle();
+    const button = screen.getByRole('button', { name: 'Add a dish' });
+    await user.click(button);
+    expect(onAdd).toHaveBeenCalledOnce();
+    expect(screen.getByRole('listbox')).toBeTruthy();
+    expect(document.activeElement).toBe(button);
+  });
+
   it('chooses nothing when a press outside closes the list', async () => {
     const recorded = record();
     const user = await openWithFilter(recorded.props);

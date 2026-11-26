@@ -42,6 +42,20 @@ describe('handlers', () => {
     expect(send).toHaveBeenCalledTimes(1);
   });
 
+  it('keep the list open when the focus moves into it, such as to a button of the footer', () => {
+    const send = vi.fn();
+    const list = { id: selectIds(opened().id).content, parentElement: null };
+    const button = { id: '', parentElement: { id: 'footer', parentElement: list } };
+    const into = Object.defineProperty(new Event('blur'), 'relatedTarget', { value: button });
+    getSelectProps(opened(), send).trigger.onBlur(into as FocusEvent);
+    expect(send).not.toHaveBeenCalled();
+    const away = Object.defineProperty(new Event('blur'), 'relatedTarget', {
+      value: { id: 'after', parentElement: null },
+    });
+    getSelectProps(opened(), send).trigger.onBlur(away as FocusEvent);
+    expect(send).toHaveBeenCalledTimes(1);
+  });
+
   it('send a dismissal with reason blur when the open trigger loses focus, and nothing when closed', () => {
     const send = vi.fn();
     const blur = new Event('blur');
