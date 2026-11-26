@@ -6,10 +6,11 @@ import {
   ViewContainerRef,
   booleanAttribute,
   computed,
+  forwardRef,
   inject,
   input,
 } from '@angular/core';
-import { bindAttrs, themeAttrs } from '@cocokits/angular-core';
+import { CCK_OVERLAY_TRIGGER, bindAttrs, themeAttrs } from '@cocokits/angular-core';
 import { getMenuSubTriggerProps, menuAnatomy, type MenuEvent, type MenuItemEntry } from '@cocokits/machines/menu';
 import { CckMenuSub } from './menu-sub';
 
@@ -27,6 +28,8 @@ import { CckMenuSub } from './menu-sub';
 @Directive({
   selector: 'cck-menu-sub-trigger',
   exportAs: 'cckMenuSubTrigger',
+  // The sub-trigger owns the element's id and data-state, so a tooltip on it leaves them alone.
+  providers: [{ provide: CCK_OVERLAY_TRIGGER, useExisting: forwardRef(() => CckMenuSubTrigger) }],
   hostDirectives: [{ directive: CckMenuSub, inputs: ['open'], outputs: ['openChange'] }],
   host: {
     '[class]': 'props().class',

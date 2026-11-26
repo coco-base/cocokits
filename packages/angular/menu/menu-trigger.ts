@@ -5,10 +5,11 @@ import {
   TemplateRef,
   ViewContainerRef,
   computed,
+  forwardRef,
   inject,
   input,
 } from '@angular/core';
-import { afterReplay, bindAttrs, listenLast } from '@cocokits/angular-core';
+import { CCK_OVERLAY_TRIGGER, afterReplay, bindAttrs, listenLast } from '@cocokits/angular-core';
 import { CckMenu } from './menu';
 
 /**
@@ -27,6 +28,8 @@ import { CckMenu } from './menu';
 @Directive({
   selector: 'button[cckMenuTriggerFor]',
   exportAs: 'cckMenuTrigger',
+  // The trigger owns the element's id and data-state, so a tooltip on the same button leaves them alone.
+  providers: [{ provide: CCK_OVERLAY_TRIGGER, useExisting: forwardRef(() => CckMenuTrigger) }],
   hostDirectives: [
     {
       directive: CckMenu,

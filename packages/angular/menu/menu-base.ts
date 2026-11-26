@@ -1,7 +1,6 @@
 import {
   DestroyRef,
   Directive,
-  Injector,
   Renderer2,
   afterRenderEffect,
   computed,
@@ -13,9 +12,8 @@ import {
 } from '@angular/core';
 import {
   CckDirection,
-  CckOverlayLayer,
-  CckPortal,
   IdGenerator,
+  createOverlayOutlet,
   domOrderedList,
   injectZoneBoundary,
   themeAttrs,
@@ -99,22 +97,15 @@ export abstract class CckMenuBase {
   /** The id of the menu; the ids of its trigger and content derive from it. @internal */
   readonly _id = inject(IdGenerator).getId(menuAnatomy.classes.root);
   /**
-   * The portal of the content. The menu owns it and its layer, so another overlay on the trigger keeps its own; the
-   * trigger gives it its view container. @internal
+   * The portal, the layer and the content injector. The menu owns them, so another overlay on the trigger keeps its
+   * own; the parts in the content find this menu and its layer.
    */
-  readonly _portal = new CckPortal();
+  private readonly outlet = createOverlayOutlet(CckMenuBase, this);
+  /** The portal of the content; the trigger gives it its view container. @internal */
+  readonly _portal = this.outlet.portal;
   private readonly direction = inject(CckDirection);
   private readonly renderer = inject(Renderer2);
   protected readonly zone = injectZoneBoundary();
-  private readonly layer = new CckOverlayLayer();
-  private readonly parentLayer = inject(CckOverlayLayer, { optional: true, skipSelf: true });
-  /** What the parts in the content find: this menu and its layer. Every other token resolves at the declaration. */
-  private readonly contentInjector = Injector.create({
-    providers: [
-      { provide: CckMenuBase, useValue: this },
-      { provide: CckOverlayLayer, useValue: this.layer },
-    ],
-  });
   private dismissLayer: DismissLayer | null = null;
   private readonly presence = createPresence({
     getElement: () => this._content()?.element ?? null,
@@ -181,7 +172,7 @@ export abstract class CckMenuBase {
         const [mounted, template, trigger] = [this._mounted(), this._template(), this._trigger()];
         untracked(() => {
           if (mounted && template && trigger)
-            this._portal.attach(template, undefined, trigger, { injector: this.contentInjector });
+            this._portal.attach(template, undefined, trigger, { injector: this.outlet.injector });
           else this._portal.detach();
         });
       },
@@ -431,11 +422,11 @@ export abstract class CckMenuBase {
           });
         },
         dismissOn: this.dismissOn(),
-        getParent: () => this.parentLayer?.current ?? null,
+        getParent: () => this.outlet.parentLayer?.current ?? null,
       }),
     );
     this.dismissLayer = layer;
-    this.layer.current = layer;
+    this.outlet.layer.current = layer;
   }
 
   /** Removes the dismiss layer; safe to call when there is none. */
@@ -443,7 +434,7 @@ export abstract class CckMenuBase {
     const layer = this.dismissLayer;
     if (!layer) return;
     layer.destroy();
-    if (this.layer.current === layer) this.layer.current = null;
+    if (this.outlet.layer.current === layer) this.outlet.layer.current = null;
     this.dismissLayer = null;
   }
 
