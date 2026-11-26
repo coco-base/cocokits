@@ -24,7 +24,7 @@ describe('theme Tag', () => {
     const el = mountTag();
     expect(el.tagName).toBe('SPAN');
     expect(el.getAttribute('data-variant')).toBe('soft');
-    expect(el.getAttribute('data-cck-color')).toBe('brand');
+    expect(el.getAttribute('data-cck-color')).toBe('neutral');
     expect(el.getAttribute('data-size')).toBe('md');
     expect(el.hasAttribute('data-dot')).toBe(false);
     expect(el.classList.contains('cck-tag')).toBe(true);

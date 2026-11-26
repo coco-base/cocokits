@@ -45,7 +45,7 @@ const attrs = (): Record<string, string | null> => ({
 describe('CckTagTheme', () => {
   it('renders the config defaults, the class and the text', async () => {
     await render(Host, themed);
-    expect(attrs()).toEqual({ variant: 'soft', color: 'brand', size: 'md', dot: null });
+    expect(attrs()).toEqual({ variant: 'soft', color: 'neutral', size: 'md', dot: null });
     expect(tag().className).toBe('cck-tag');
     expect(tag().textContent).toBe('Paid');
   });
@@ -95,7 +95,7 @@ describe('CckTagTheme', () => {
     const { fixture } = await render(Host, {
       providers: [provideCckTheme(cocokitsThemeConfig, { tag: { size: 'lg', variant: 'outline' } })],
     });
-    expect(attrs()).toEqual({ variant: 'outline', color: 'brand', size: 'lg', dot: null });
+    expect(attrs()).toEqual({ variant: 'outline', color: 'neutral', size: 'lg', dot: null });
     fixture.componentInstance.size.set('sm');
     await fixture.whenStable();
     expect(tag().getAttribute('data-size')).toBe('sm');

@@ -20,7 +20,7 @@ describe('theme Tag', () => {
     render(themed(<Tag data-testid="tag">Paid</Tag>));
     expect(tag().tagName).toBe('SPAN');
     expect(tag().getAttribute('data-variant')).toBe('soft');
-    expect(tag().getAttribute('data-cck-color')).toBe('brand');
+    expect(tag().getAttribute('data-cck-color')).toBe('neutral');
     expect(tag().getAttribute('data-size')).toBe('md');
     expect(tag().hasAttribute('data-dot')).toBe(false);
     expect(tag().className).toBe('cck-tag');

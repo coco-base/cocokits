@@ -17,8 +17,8 @@ describe('cocokitsThemeConfig tag', () => {
     expectTypeOf(tag.variant.values).toEqualTypeOf<readonly ['soft', 'solid', 'outline']>();
   });
 
-  it('takes the colours from the Active Color modes', () => {
-    expect(tag.color).toMatchObject({ attrName: 'cck-color', default: 'brand', partNames: ['root'] });
+  it('takes the colours from the Active Color modes, neutral by default', () => {
+    expect(tag.color).toMatchObject({ attrName: 'cck-color', default: 'neutral', partNames: ['root'] });
     expect(tag.color.values).toBe(themeActiveColorModes);
   });
 
@@ -38,7 +38,7 @@ describe('cocokitsThemeConfig tag', () => {
   it('resolves the defaults to data attributes on the root, without the dot', () => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomy).root).toEqual({
       'data-variant': 'soft',
-      'data-cck-color': 'brand',
+      'data-cck-color': 'neutral',
       'data-size': 'md',
     });
   });

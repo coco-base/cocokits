@@ -1,9 +1,4 @@
-import {
-  themeActiveColorDefaultMode,
-  themeActiveColorModes,
-  tagSizeDefaultMode,
-  tagSizeModes,
-} from './generated/token-modes';
+import { themeActiveColorModes, tagSizeDefaultMode, tagSizeModes } from './generated/token-modes';
 import { rootSize } from './option-helpers';
 import { BOOLEAN_VALUES, type RootOption } from './option-types';
 
@@ -33,7 +28,7 @@ export const tagOptions: TagOptions = {
   color: {
     attrName: 'cck-color',
     values: themeActiveColorModes,
-    default: themeActiveColorDefaultMode,
+    default: 'neutral',
     partNames: ['root'],
     description: 'Colour family of the label, for a status or a category.',
   },
