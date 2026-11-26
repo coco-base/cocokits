@@ -14,6 +14,7 @@ import { CckSelectImports } from '@cocokits/angular/select';
 import { CckSvgIconImports } from '@cocokits/angular/svg-icon';
 import { CckSwitchImports } from '@cocokits/angular/switch';
 import { CckTabsImports } from '@cocokits/angular/tabs';
+import { CckTagImports } from '@cocokits/angular/tag';
 import { CckTextareaImports } from '@cocokits/angular/textarea';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -140,6 +141,12 @@ const rows = [
     imports: CckTabsImports,
     markup: '<cck-tabs aria-label="x"><cck-tab label="a" disabled>a</cck-tab></cck-tabs>',
     check: ['label', 'disabled'],
+  },
+  {
+    host: 'cck-tag',
+    imports: CckTagImports,
+    markup: '<cck-tag role="status">Saved</cck-tag>',
+    check: [],
   },
   {
     host: 'textarea',
