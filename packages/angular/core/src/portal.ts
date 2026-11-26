@@ -33,8 +33,8 @@ export interface AttachComponentOptions {
 
 /**
  * Renders an `ng-template` or a component into the top-layer portal host of an overlay. List it in the `providers`
- * of the overlay root, or create it with `new CckPortal()` in the root's constructor when another overlay can sit
- * on the same element, so each overlay has its own. The embedded view is created from the template at its
+ * of the overlay root, or, when a trigger applies the root and another overlay can sit on the same element, take it
+ * from `createOverlayOutlet` in the root, so each overlay has its own. The embedded view is created from the template at its
  * declaration site, so DI and context follow the declaration. It is created in the view container given to
  * `useContainer`, so it is checked with the declaration's change-detection tree (it is not a root view of the application), and its
  * nodes are moved into the host. Call
