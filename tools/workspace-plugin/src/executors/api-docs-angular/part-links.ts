@@ -80,6 +80,7 @@ function exposureProblems(host: ApiPartJson, applied: ApiPartJson, directive: Ho
  *
  * @param parts - The parts of one entry point.
  * @param classOf - The class of a part, by class name.
+ * @param problems - Gets one message per fact that does not hold.
  */
 export function linkParts(
   parts: readonly ApiPartJson[],
