@@ -4,6 +4,7 @@ import { type MenuOptions, menuOptions } from './menu-config';
 import { BOOLEAN_VALUES, type OptionalOption, type Option, type RootOption } from './option-types';
 import { inheritable, rootSize } from './option-helpers';
 import { type TabsOptions, tabsOptions } from './tabs-config';
+import { type TagOptions, tagOptions } from './tag-config';
 import type { ThemeIconName } from './theme-icons';
 import {
   accordionSizeDefaultMode,
@@ -173,6 +174,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly tabs: TabsOptions;
     /** Link tabs: the Tabs options, the same look. */
     readonly 'tab-nav': TabsOptions;
+    readonly tag: TagOptions;
     readonly textarea: {
       readonly size: RootOption<typeof textareaSizeModes>;
       readonly resize: RootOption<typeof TEXTAREA_RESIZES>;
@@ -444,6 +446,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     },
     tabs: tabsOptions,
     'tab-nav': tabsOptions,
+    tag: tagOptions,
     textarea: {
       size: rootSize(
         textareaSizeModes,

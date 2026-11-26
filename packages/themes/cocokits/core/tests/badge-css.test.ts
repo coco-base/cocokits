@@ -134,7 +134,12 @@ describe('badge dot and hidden', () => {
   });
 
   it('has no rule or comment that names data-dot, data-hidden or data-custom-offset', () => {
-    for (const text of [scss, stylesCss, read('dist', 'components', 'badge.css')]) {
+    // The whole sheet holds other components (a Tag has a dot), so only the badge entries are read.
+    for (const text of [
+      scss,
+      read('dist', 'components', 'badge.css'),
+      read('dist', 'components', 'badge-container.css'),
+    ]) {
       expect(text).not.toMatch(/data-dot|data-hidden|data-custom-offset/);
     }
   });

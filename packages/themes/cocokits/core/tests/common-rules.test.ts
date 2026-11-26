@@ -221,6 +221,7 @@ describe('typography (C6)', () => {
     'Badge / Size#font-size': { sm: 'text-2xs', md: 'text-xs', lg: 'text-xs', xl: 'text-sm' },
     'Chip / Size#font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
     'Chip List / Size#chip-font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
+    'Tag / Size#font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
     'Tooltip__content / Size#font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
     'Tooltip__content / Structure#description-font-size': 'text-xs',
     'Dialog__content / Structure#title-font-size': 'text-lg',
