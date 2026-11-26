@@ -139,7 +139,7 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
   checkNameWhenAttached(
     () => o.trigger()?.nativeElement,
     (trigger) => {
-      if ((typeof ngDevMode === 'undefined' || ngDevMode) && !hasAccessibleName(trigger)) {
+      if (!hasAccessibleName(trigger)) {
         console.warn(
           'CocoKits: a Select has no accessible name. Add a <label cckLabel> with text to its FormField, ' +
             'or an aria-label, or an aria-labelledby that points to an element with text, to the <cck-select>.',
