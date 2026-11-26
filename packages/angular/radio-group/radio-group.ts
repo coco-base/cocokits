@@ -174,7 +174,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
 
   /**
    * Whether the user has left the group. Signal Forms sets this member. When not set, the group becomes touched after the focus left it once.
-   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched or a submit of its form was blocked. A form reset clears the blocked submit.
+   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched. A blocked submit of its form shows them too, and a form reset clears that.
    * @cckSemantic radio-group.touched
    * @cckGroup forms
    * @defaultValue false
