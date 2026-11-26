@@ -54,6 +54,14 @@ export interface FormControlParts {
  */
 export const CCK_CONTROL_GROUP = new InjectionToken<true>('CCK_CONTROL_GROUP');
 
+/**
+ * Marks the content of a zone of a FormField (Leading, Trailing, Prefix, Suffix). A control inside it still reads the
+ * field's state, but it does not register with the field: the Label, the ids and the description stay with the
+ * field's own control.
+ * @internal
+ */
+export const CCK_FIELD_ZONE = new InjectionToken<true>('CCK_FIELD_ZONE');
+
 /** The facts every form control tracks and gives its machine: everything but the id and the model. */
 export type FormControlFacts = Omit<FormFieldControlProps, 'id' | 'filled'>;
 
@@ -96,7 +104,9 @@ export abstract class CckFormControlBase {
   protected readonly field = inject(CCK_CONTROL_GROUP, { skipSelf: true, optional: true })
     ? null
     : inject(CckFormField, { optional: true });
-  private readonly control = this.field?._register(() => this.controlElement());
+  private readonly control = inject(CCK_FIELD_ZONE, { optional: true })
+    ? undefined
+    : this.field?._register(() => this.controlElement());
   private watched: AbstractControl | undefined;
   private resetWatch: Subscription | undefined;
 

@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
+import { CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
 import { getPrefixProps, prefixAnatomy } from '@cocokits/machines/prefix';
 
 /**
@@ -19,6 +20,7 @@ import { getPrefixProps, prefixAnatomy } from '@cocokits/machines/prefix';
 @Directive({
   selector: '[cckPrefix]',
   exportAs: 'cckPrefix',
+  providers: [{ provide: CCK_FIELD_ZONE, useValue: true }],
   host: {
     '[class]': 'parts.root.class',
   },
