@@ -18,10 +18,8 @@ describe('Tooltip accessibility', () => {
   it('has no axe violations closed or open, and describes the trigger by the tooltip', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckTooltip>
-        <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-        <ng-template cckTooltipPortal><cck-tooltip-content>Copies the link to the clipboard</cck-tooltip-content></ng-template>
-      </ng-container>`,
+      `<button [cckTooltipTriggerFor]="richTip" aria-label="Copy link">Copy</button>
+      <ng-template #richTip><cck-tooltip-content>Copies the link to the clipboard</cck-tooltip-content></ng-template>`,
       { imports: [...CckTooltipImports] },
     );
     expect((await axe(document.body, noPageLandmarks)).violations).toEqual([]);

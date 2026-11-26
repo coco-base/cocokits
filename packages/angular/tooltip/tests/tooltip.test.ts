@@ -13,17 +13,18 @@ const { classes } = tooltipAnatomy;
   imports: [...CckTooltipImports],
   template: `
     <button id="before">Before</button>
-    <ng-container
-      cckTooltip
+    <button
+      [cckTooltipTriggerFor]="richTip"
       [cckTooltipShowDelay]="delay()"
       [cckTooltipHideDelay]="closeDelay()"
       [cckTooltipDisabled]="disabled()"
+      aria-label="Copy link"
     >
-      <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content [side]="side()" [align]="align()">Copy the link</cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+      Copy
+    </button>
+    <ng-template #richTip>
+      <cck-tooltip-content [side]="side()" [align]="align()">Copy the link</cck-tooltip-content>
+    </ng-template>
     <p id="empty">Empty space</p>
   `,
 })
@@ -85,10 +86,8 @@ describe('Tooltip', () => {
     it('adds its id to the description the author wrote', async () => {
       const user = setup();
       await render(
-        `<ng-container cckTooltip>
-          <button cckTooltipTrigger aria-label="Copy" aria-describedby="mine">x</button>
-          <ng-template cckTooltipPortal><cck-tooltip-content>Tip</cck-tooltip-content></ng-template>
-        </ng-container>`,
+        `<button [cckTooltipTriggerFor]="richTip" aria-label="Copy" aria-describedby="mine">x</button>
+         <ng-template #richTip><cck-tooltip-content>Tip</cck-tooltip-content></ng-template>`,
         { imports: [...CckTooltipImports] },
       );
       await user.tab();
@@ -329,10 +328,10 @@ describe('Tooltip', () => {
   });
 
   describe('diagnostics and cleanup', () => {
-    it('throws a clear error for a part outside the root', async () => {
+    it('throws a clear error for a part outside the template of a trigger', async () => {
       await expect(
-        render(`<button cckTooltipTrigger>Orphan</button>`, { imports: [...CckTooltipImports] }),
-      ).rejects.toThrow(/cckTooltipTrigger must be placed inside an element with cckTooltip/);
+        render(`<cck-tooltip-content>Orphan</cck-tooltip-content>`, { imports: [...CckTooltipImports] }),
+      ).rejects.toThrow(/cckTooltipContent must be placed inside the template of a cckTooltipTriggerFor/);
     });
 
     it('removes the overlay when the Tooltip is destroyed while open', async () => {
@@ -350,10 +349,8 @@ describe('Tooltip', () => {
       <button [cckPopoverTriggerFor]="popover">Share</button>
       <ng-template #popover>
         <cck-popover-content aria-label="Share panel">
-          <ng-container cckTooltip>
-            <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-            <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
-          </ng-container>
+          <button [cckTooltipTriggerFor]="richTip" aria-label="Copy link">Copy</button>
+          <ng-template #richTip><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
         </cck-popover-content>
       </ng-template>`;
     const imports = [...CckPopoverImports, ...CckTooltipImports];

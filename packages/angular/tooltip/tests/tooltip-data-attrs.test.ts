@@ -14,10 +14,8 @@ describe('Tooltip data attributes', () => {
   it('only emits data-* declared in the meta, on every part', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckTooltip>
-        <button cckTooltipTrigger>Copy</button>
-        <ng-template cckTooltipPortal><cck-tooltip-content>Copies</cck-tooltip-content></ng-template>
-      </ng-container>`,
+      `<button [cckTooltipTriggerFor]="richTip">Copy</button>
+      <ng-template #richTip><cck-tooltip-content>Copies</cck-tooltip-content></ng-template>`,
       { imports: [...CckTooltipImports] },
     );
     await user.tab();

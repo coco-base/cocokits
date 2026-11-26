@@ -61,5 +61,13 @@ describe('Tooltip hydration', () => {
     expect(description.textContent).toBe('Information');
     expect(info.getAttribute('aria-describedby')).toBe(`note ${description.id}`);
     expect(document.querySelectorAll('[role="tooltip"][hidden]')).toHaveLength(2);
+    // The rich trigger is described by the title of its template while closed.
+    const rich = must(document.querySelector<HTMLElement>('[aria-label="Copy link"]'));
+    const richDescription = must(
+      [...document.querySelectorAll('[role="tooltip"][hidden]')].find(
+        (element) => element.textContent === 'Copy the link',
+      ),
+    );
+    expect(rich.getAttribute('aria-describedby')).toBe(richDescription.id);
   });
 });

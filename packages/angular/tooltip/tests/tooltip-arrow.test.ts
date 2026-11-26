@@ -22,17 +22,15 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
 @Component({
   imports: [...CckTooltipImports],
   template: `
-    <ng-container cckTooltip>
-      <button cckTooltipTrigger>Copy</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content>
-          @if (arrow()) {
-            <cck-tooltip-arrow data-testid="arrow"></cck-tooltip-arrow>
-          }
-          Text
-        </cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip">Copy</button>
+    <ng-template #richTip>
+      <cck-tooltip-content>
+        @if (arrow()) {
+          <cck-tooltip-arrow data-testid="arrow"></cck-tooltip-arrow>
+        }
+        Text
+      </cck-tooltip-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -43,14 +41,12 @@ class Host {
 @Component({
   imports: [...CckTooltipImports],
   template: `
-    <ng-container cckTooltip>
-      <button cckTooltipTrigger>Copy</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content>
-          <cck-tooltip-arrow class="mine" data-testid="arrow"><circle r="1" /></cck-tooltip-arrow>
-        </cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip">Copy</button>
+    <ng-template #richTip>
+      <cck-tooltip-content>
+        <cck-tooltip-arrow class="mine" data-testid="arrow"><circle r="1" /></cck-tooltip-arrow>
+      </cck-tooltip-content>
+    </ng-template>
   `,
 })
 class Custom {

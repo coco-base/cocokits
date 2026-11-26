@@ -65,10 +65,8 @@ class DialogHost {
 @Component({
   imports: [...CckTooltipImports, CckTooltipTheme, CckTooltipContentTheme],
   template: `
-    <ng-container cckTooltip [tooltipSize]="$any(size())">
-      <button cckTooltipTrigger type="button">Copy</button>
-      <ng-template cckTooltipPortal><cck-tooltip-content>Copies the link</cck-tooltip-content></ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" [tooltipSize]="$any(size())" type="button">Copy</button>
+    <ng-template #richTip><cck-tooltip-content>Copies the link</cck-tooltip-content></ng-template>
   `,
 })
 class TooltipHost {
@@ -212,15 +210,14 @@ describe.each(overlays)('the $name size of the Angular theme (D28, D35, A10)', (
   template: `
     <button
       cckButton
-      cckTooltip
-      cckTooltipTrigger
+      [cckTooltipTriggerFor]="saved"
       [size]="$any(button())"
       [tooltipSize]="$any(tooltip())"
       type="button"
     >
       Save
-      <ng-template cckTooltipPortal><cck-tooltip-content>Saved</cck-tooltip-content></ng-template>
     </button>
+    <ng-template #saved><cck-tooltip-content>Saved</cck-tooltip-content></ng-template>
   `,
 })
 class SameElement {
@@ -261,6 +258,7 @@ describe('a Button theme and a Tooltip theme on one Angular element', () => {
     );
     const trigger = screen.getByRole('button', { name: 'Save' });
     expect(trigger.getAttribute('data-size')).toBe('xl');
+    expect(trigger.hasAttribute('tooltipsize')).toBe(false);
     await userEvent.setup().hover(trigger);
     // The simple bubble is aria-hidden (a hidden copy of the text describes the trigger): find it by its class.
     await waitFor(() => {

@@ -11,12 +11,10 @@ import { CckTooltipHarness } from '../index';
   imports: [CckTooltipImports],
   template: `
     <button cckTooltip="Copy the link" cckTooltipShowDelay="30" cckTooltipHideDelay="30">Copy</button>
-    <ng-container cckTooltip cckTooltipShowDelay="0" cckTooltipHideDelay="0">
-      <button cckTooltipTrigger>{{ info }}</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content><strong>Rich</strong> help</cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" cckTooltipShowDelay="0" cckTooltipHideDelay="0">{{ info }}</button>
+    <ng-template #richTip>
+      <cck-tooltip-content><strong>Rich</strong> help</cck-tooltip-content>
+    </ng-template>
     <button cckTooltip="Never" cckTooltipDisabled>Off</button>
   `,
 })

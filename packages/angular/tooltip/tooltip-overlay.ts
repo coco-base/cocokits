@@ -1,5 +1,5 @@
 import { Injector, afterRenderEffect, signal, untracked, type Signal, type TemplateRef } from '@angular/core';
-import type { CckDirection, CckOverlayLayer, CckPortal, ZoneBoundary } from '@cocokits/angular-core';
+import type { CckDirection, OverlayOutlet, ZoneBoundary } from '@cocokits/angular-core';
 import { createDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { startOverlayPosition, type OverlayVirtualAnchor } from '@cocokits/cdk/positioning';
 import { createPresence } from '@cocokits/cdk/presence';
@@ -33,8 +33,8 @@ export interface TooltipOverlayOptions {
   readonly hasContent: Signal<boolean>;
   /** The trigger element. */
   readonly trigger: Signal<HTMLElement | null>;
-  /** The compound form's portal template. */
-  readonly template: Signal<TemplateRef<void> | null>;
+  /** The template of the rich form. */
+  readonly template: Signal<TemplateRef<unknown> | null>;
   /** Whether the host renders the one-attribute bubble. */
   readonly hasBubble: Signal<boolean>;
   /** What the one-attribute bubble renders. */
@@ -49,12 +49,12 @@ export interface TooltipOverlayOptions {
   readonly disableClose: Signal<boolean>;
   /** Sends an event to the machine. */
   readonly send: (event: TooltipEvent) => void;
+  /** The injector of the root; the parent of the one-attribute bubble. */
   readonly injector: Injector;
-  readonly portal: CckPortal;
+  /** The portal, the layer and the content injector of the template. */
+  readonly outlet: OverlayOutlet;
   readonly zone: ZoneBoundary;
   readonly direction: CckDirection;
-  readonly layer: CckOverlayLayer;
-  readonly parentLayer: CckOverlayLayer | null;
 }
 
 /** What {@link createTooltipOverlay} gives back. @internal */
@@ -108,18 +108,18 @@ export function createTooltipOverlay(o: TooltipOverlayOptions): TooltipOverlay {
             else o.send({ type: 'CONTENT.DISMISS', reason, event });
           });
         },
-        getParent: () => o.parentLayer?.current ?? null,
+        getParent: () => o.outlet.parentLayer?.current ?? null,
       }),
     );
     dismissLayer = layer;
-    o.layer.current = layer;
+    o.outlet.layer.current = layer;
   };
 
   const stopDismissLayer = (): void => {
     const layer = dismissLayer;
     if (!layer) return;
     layer.destroy();
-    if (o.layer.current === layer) o.layer.current = null;
+    if (o.outlet.layer.current === layer) o.outlet.layer.current = null;
     dismissLayer = null;
   };
 
@@ -137,14 +137,15 @@ export function createTooltipOverlay(o: TooltipOverlayOptions): TooltipOverlay {
     write: () => {
       const [isMounted, template, trigger, bubble] = [mounted(), o.template(), o.trigger(), o.hasBubble()];
       untracked(() => {
-        if (isMounted && trigger && template) o.portal.attach(template, undefined, trigger);
+        if (isMounted && trigger && template)
+          o.outlet.portal.attach(template, undefined, trigger, { injector: o.outlet.injector });
         else if (isMounted && trigger && bubble) {
           const injector = Injector.create({
             providers: [{ provide: TOOLTIP_BUBBLE_CONTEXT, useValue: o.bubbleContext }],
             parent: o.injector,
           });
-          o.portal.attachComponent(CckTooltipBubble, trigger, { injector });
-        } else o.portal.detach();
+          o.outlet.portal.attachComponent(CckTooltipBubble, trigger, { injector });
+        } else o.outlet.portal.detach();
       });
     },
   });

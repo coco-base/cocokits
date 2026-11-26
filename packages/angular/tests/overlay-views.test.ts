@@ -25,12 +25,12 @@ import { CckTooltip, CckTooltipImports } from '../tooltip';
     <ng-template #panel>
       <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>
     </ng-template>
-    <ng-container cckTooltip [cckTooltipShowDelay]="delay()">
-      <button cckTooltipTrigger aria-label="Tooltip trigger">Tooltip</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content>Text {{ label() }}</cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" [cckTooltipShowDelay]="delay()" aria-label="Tooltip trigger">
+      Tooltip
+    </button>
+    <ng-template #richTip>
+      <cck-tooltip-content>Text {{ label() }}</cck-tooltip-content>
+    </ng-template>
     <cck-select aria-label="Select">
       <cck-select-option value="a">A {{ label() }}</cck-select-option>
     </cck-select>

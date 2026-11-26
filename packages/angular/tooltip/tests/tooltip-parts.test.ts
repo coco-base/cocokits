@@ -32,15 +32,13 @@ const openContent = (): Promise<HTMLElement> =>
 @Component({
   imports: [...CckTooltipImports],
   template: `
-    <ng-container cckTooltip>
-      <button cckTooltipTrigger>Save</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content>
-          <cck-tooltip-title>Autosave</cck-tooltip-title>
-          <cck-tooltip-description>Changes are saved as you type.</cck-tooltip-description>
-        </cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip">Save</button>
+    <ng-template #richTip>
+      <cck-tooltip-content>
+        <cck-tooltip-title>Autosave</cck-tooltip-title>
+        <cck-tooltip-description>Changes are saved as you type.</cck-tooltip-description>
+      </cck-tooltip-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -93,18 +91,14 @@ describe('Tooltip title and description', () => {
 
   it('does not describe the closed trigger when the content holds another element', async () => {
     const { fixture } = await render(
-      `<ng-container cckTooltip>
-        <button cckTooltipTrigger>Undo</button>
-        <ng-template cckTooltipPortal>
-          <cck-tooltip-content><cck-tooltip-title>Undo the last change</cck-tooltip-title></cck-tooltip-content>
-        </ng-template>
-      </ng-container>
-      <ng-container cckTooltip>
-        <button cckTooltipTrigger>Save</button>
-        <ng-template cckTooltipPortal>
-          <cck-tooltip-content><cck-tooltip-title>Autosave</cck-tooltip-title><b>On</b></cck-tooltip-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckTooltipTriggerFor]="richTip">Undo</button>
+      <ng-template #richTip>
+        <cck-tooltip-content><cck-tooltip-title>Undo the last change</cck-tooltip-title></cck-tooltip-content>
+      </ng-template>
+      <button [cckTooltipTriggerFor]="richTip2">Save</button>
+      <ng-template #richTip2>
+        <cck-tooltip-content><cck-tooltip-title>Autosave</cck-tooltip-title><b>On</b></cck-tooltip-content>
+      </ng-template>`,
       { imports: [...CckTooltipImports] },
     );
     // The control proves the shared description pass ran.
@@ -117,14 +111,12 @@ describe('Tooltip title and description', () => {
 
   it('describes the closed trigger by the parts only, not by text written beside them', async () => {
     await render(
-      `<ng-container cckTooltip>
-        <button cckTooltipTrigger>Save</button>
-        <ng-template cckTooltipPortal>
-          <cck-tooltip-content>
-            <cck-tooltip-title>Autosave</cck-tooltip-title>note<cck-tooltip-description>Changes are saved as you type.</cck-tooltip-description>
-          </cck-tooltip-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckTooltipTriggerFor]="richTip">Save</button>
+      <ng-template #richTip>
+        <cck-tooltip-content>
+          <cck-tooltip-title>Autosave</cck-tooltip-title>note<cck-tooltip-description>Changes are saved as you type.</cck-tooltip-description>
+        </cck-tooltip-content>
+      </ng-template>`,
       { imports: [...CckTooltipImports] },
     );
     const button = screen.getByRole('button', { name: 'Save' });

@@ -30,10 +30,8 @@ afterEach(() => {
     <ng-template #popover>
       <cck-popover-content aria-label="Share link">
         <p>Anyone with the link can view.</p>
-        <ng-container cckTooltip>
-          <button cckTooltipTrigger>Copy</button>
-          <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
-        </ng-container>
+        <button [cckTooltipTriggerFor]="richTip">Copy</button>
+        <ng-template #richTip><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
       </cck-popover-content>
     </ng-template>
   `,

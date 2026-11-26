@@ -1,4 +1,4 @@
-import { afterRenderEffect, signal, untracked, type Signal, type TemplateRef } from '@angular/core';
+import { afterRenderEffect, signal, untracked, type Injector, type Signal, type TemplateRef } from '@angular/core';
 import { tooltipAnatomy } from '@cocokits/machines/tooltip';
 
 const { title, description } = tooltipAnatomy.classes;
@@ -8,11 +8,16 @@ const { title, description } = tooltipAnatomy.classes;
  * shown: the title, then the description, one space apart. Text written beside the parts does not count. A content with any other element, or with no part, gives `''`. The template is rendered off the document, read and destroyed each time the tooltip closes, so it
  * must have no side effects. Nothing runs on the server.
  *
- * @param template - The `cckTooltipPortal` template, when there is one.
+ * @param template - The template of the rich form, when there is one.
  * @param shown - Whether the tooltip shows its own content, which is read as it is then.
+ * @param injector - The content injector of the outlet, so the parts find the root.
  * @internal
  */
-export function templateText(template: Signal<TemplateRef<void> | null>, shown: Signal<boolean>): Signal<string> {
+export function templateText(
+  template: Signal<TemplateRef<unknown> | null>,
+  shown: Signal<boolean>,
+  injector: Injector,
+): Signal<string> {
   const text = signal('');
   afterRenderEffect({
     write: () => {
@@ -20,7 +25,7 @@ export function templateText(template: Signal<TemplateRef<void> | null>, shown: 
       if (shown()) return;
       text.set(
         untracked(() => {
-          const view = current?.createEmbeddedView();
+          const view = current?.createEmbeddedView(undefined, injector);
           if (!view) return '';
           view.detectChanges();
           const parts = Array.from((view.rootNodes[0] as Element | undefined)?.children ?? []);

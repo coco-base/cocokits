@@ -9,11 +9,11 @@ describe('Tooltip on the server', () => {
 
   it('renders the triggers with the author ids only, and no content and no description', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
-    const compound = /<button[^>]*ccktooltiptrigger[^>]*>/i.exec(html)?.[0] ?? '';
-    expect(compound).toContain('class="cck-tooltip__trigger"');
-    expect(compound).toMatch(/id="cck-tooltip-[\w-]+-trigger"/);
-    expect(compound).toContain('data-state="closed"');
-    expect(compound).not.toContain('aria-describedby');
+    const rich = /<button[^>]*aria-label="Copy link"[^>]*>/.exec(html)?.[0] ?? '';
+    expect(rich).toContain('class="cck-tooltip__trigger"');
+    expect(rich).toMatch(/id="cck-tooltip-[\w-]+-trigger"/);
+    expect(rich).toContain('data-state="closed"');
+    expect(rich).not.toContain('aria-describedby');
     const [info, save] = [...html.matchAll(/<button[^>]*ccktooltip=[^>]*>/gi)].map((match) => match[0]);
     expect(info).toContain('class="cck-tooltip__trigger"');
     expect(info).toContain('id="mine"');
