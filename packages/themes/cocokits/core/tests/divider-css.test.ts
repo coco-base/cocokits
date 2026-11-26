@@ -54,10 +54,11 @@ describe('divider line', () => {
     expect(stylesCss).not.toMatch(/\.cck-divider[^}]*currentColor/i);
   });
 
-  it('draws the horizontal line on the block-start side', () => {
-    expect(rule('.cck-divider[data-orientation=horizontal]')).toContain(
-      'border-block-start-width: var(--cck-divider-thickness)',
-    );
+  it('draws the horizontal line on the block-start side and stretches it in a column', () => {
+    const horizontal = rule('.cck-divider[data-orientation=horizontal]');
+    expect(horizontal).toContain('border-block-start-width: var(--cck-divider-thickness)');
+    // A column that aligns its items to the start (the content of a Popover) would shrink the line to nothing.
+    expect(horizontal).toContain('align-self: stretch');
   });
 
   it('draws the vertical line on the inline-start side and stretches it in a row', () => {
