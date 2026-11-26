@@ -236,7 +236,7 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
     for (const [index, entry] of classes.entries()) {
       const whole = wholeClasses[index];
       if (whole === undefined) continue;
-      // A portal directive (`ng-template[cckPopoverPortal]`) renders no anatomy part, so it is no part.
+      // A template directive (`ng-template[cckSelectTrigger]`) renders no anatomy part, so it is no part.
       if (portals.has((entry as unknown as DocDirective).selector.trim())) continue;
       const cls = classNamed(tsProgram, entry);
       if (!cls) {
