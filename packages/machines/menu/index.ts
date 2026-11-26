@@ -8,6 +8,7 @@ export {
   getMenuSubPlacement,
   getMenuSubTriggerProps,
   menuSubIds,
+  resolveMenuFocusContent,
   transitionMenuSub,
 } from './menu-sub';
 export {

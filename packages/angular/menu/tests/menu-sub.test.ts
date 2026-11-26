@@ -6,7 +6,7 @@ import { menuAnatomy } from '@cocokits/machines/menu';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { CckMenuImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
-import { trigger } from './queries';
+import { frame, trigger } from './queries';
 
 const { classes } = menuAnatomy;
 
@@ -167,6 +167,40 @@ describe('Menu submenu', () => {
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  it('returns the focus to the trigger when an item of the submenu is clicked', async () => {
+    await render(Host);
+    const user = await openRoot();
+    await user.click(subTrigger());
+    await screen.findByRole('menu', { name: 'Share' });
+    // Both menus play an exit animation, so they are still in the document when the focus returns.
+    let finish: () => void = () => undefined;
+    const finished = new Promise<void>((resolve) => {
+      finish = resolve;
+    });
+    for (const menu of screen.getAllByRole('menu'))
+      menu.getAnimations = () => [
+        {
+          finished,
+          animationName: 'exit',
+          playState: 'running',
+          effect: { getComputedTiming: () => ({ endTime: 300 }) },
+        } as unknown as Animation,
+      ];
+    await user.click(screen.getByRole('menuitem', { name: 'Email' }));
+    await waitFor(() => {
+      expect(trigger().getAttribute('aria-expanded')).toBe('false');
+    });
+    await frame();
+    await frame();
+    finish();
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).toBeNull();
+    });
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger());
+    });
   });
 
   it('closes the whole menu when an item of the submenu runs', async () => {

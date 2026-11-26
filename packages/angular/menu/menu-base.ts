@@ -27,6 +27,7 @@ import {
   getMenuItemChange,
   getMenuProps,
   menuAnatomy,
+  resolveMenuFocusContent,
   transitionMenu,
   type MenuAlign,
   type MenuEvent,
@@ -370,7 +371,8 @@ export abstract class CckMenuBase {
       : null;
     const focusReturn = captureFocusReturn({
       getTrigger: () => this._trigger(),
-      getContent: () => this._content()?.element ?? null,
+      // Focus in a submenu that is still in the document belongs to the menu too.
+      getContent: () => resolveMenuFocusContent(this._content()?.element ?? null),
     });
     const cancelFocus = scheduleFocus(trigger.ownerDocument, () => {
       if (this.open()) this.focusInitial();

@@ -1,4 +1,5 @@
-import { dataAttr } from '@cocokits/utils';
+import { deepActiveElement } from '@cocokits/cdk/focus';
+import { containsDeep, dataAttr } from '@cocokits/utils';
 import { menuIds } from './menu-ids';
 import { createMenuSubTriggerKeyDown, resolveMenuActiveKey } from './menu-keyboard';
 import { menuAnatomy } from './menu.anatomy';
@@ -35,6 +36,31 @@ export function menuSubIds(id: string, triggerId?: string): { readonly trigger: 
  */
 export function getMenuSubPlacement(anchorWidth: number): MenuSubPlacement {
   return { side: 'bottom', align: 'start', alignOffset: anchorWidth, fallbackSides: ['start', 'top'] };
+}
+
+/** Whether the element is in the content or in a submenu opened from it, found through its sub-trigger. */
+function holds(content: Element, element: Element): boolean {
+  if (containsDeep(content, element)) return true;
+  const subTriggers = content.querySelectorAll(`.${menuAnatomy.classes.subTrigger}[aria-controls]`);
+  return [...subTriggers].some((subTrigger) => {
+    const sub = content.ownerDocument.getElementById(subTrigger.getAttribute('aria-controls') ?? '');
+    return sub !== null && holds(sub, element);
+  });
+}
+
+/**
+ * What the focus return of a menu takes as its content: the focused element when the content or a submenu opened
+ * from it holds it, else the content. A submenu that plays its exit animation is still in the document with the item
+ * a click focused, and that focus still belongs to the menu, so it returns to the trigger. A submenu is found through
+ * the `aria-controls` of its sub-trigger. Call it after mount.
+ *
+ * @param content - The content of the menu, or `null` when it is not rendered.
+ * @returns The element focus counts as inside of.
+ */
+export function resolveMenuFocusContent(content: Element | null): Element | null {
+  if (!content) return null;
+  const active = deepActiveElement(content.ownerDocument);
+  return active && holds(content, active) ? active : content;
 }
 
 const canOpen = (state: MenuSubTransitionState): boolean => !state.open && state.disabled !== true;
