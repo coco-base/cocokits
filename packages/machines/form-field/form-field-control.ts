@@ -19,6 +19,23 @@ export function invalidShown(state: Pick<FormFieldState, 'invalid' | 'touched' |
 }
 
 /**
+ * The `aria-labelledby` of a group control (a set of checkboxes or radios) that its field's Label names. The
+ * author's `aria-labelledby` wins; otherwise the Label of the field names the group only while the author gave no
+ * `aria-label` and the field holds a Label.
+ *
+ * @param naming - The author's `ariaLabel` and `ariaLabelledBy`.
+ * @param field - What the enclosing FormField gives the group; leave it out outside a field.
+ * @returns The ids for `aria-labelledby`, or `undefined` when nothing names the group this way.
+ */
+export function groupLabelledBy(
+  naming: { readonly ariaLabel?: string | undefined; readonly ariaLabelledBy?: string | undefined },
+  field?: FormFieldControlContext,
+): string | undefined {
+  if (naming.ariaLabelledBy !== undefined && naming.ariaLabelledBy !== '') return naming.ariaLabelledBy;
+  return naming.ariaLabel === undefined && field?.hasLabel === true ? field.ids?.label : undefined;
+}
+
+/**
  * Whether a text value counts as filled: not `null`, `undefined` or `''`.
  *
  * @param value - The model value of a text control.

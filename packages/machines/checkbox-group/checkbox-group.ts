@@ -1,5 +1,5 @@
 import { dataAttr } from '@cocokits/utils';
-import { getFormFieldControlProps, type FormFieldControlContext } from '../form-field';
+import { getFormFieldControlProps, groupLabelledBy, type FormFieldControlContext } from '../form-field';
 import { checkboxGroupAnatomy } from './checkbox-group.anatomy';
 import type { CheckboxGroupParts, CheckboxGroupProps } from './checkbox-group.types';
 
@@ -21,12 +21,6 @@ export function toggleCheckboxGroupValue(value: readonly string[], item: string,
   return checked ? [...value, item] : value.filter((candidate) => candidate !== item);
 }
 
-/** The Label of the field names the group only while the author gave no `aria-label` and the field holds a Label. */
-function labelledBy(state: CheckboxGroupProps, field?: FormFieldControlContext): string | undefined {
-  if (state.ariaLabelledBy !== undefined && state.ariaLabelledBy !== '') return state.ariaLabelledBy;
-  return state.ariaLabel === undefined && field?.hasLabel === true ? field.ids?.label : undefined;
-}
-
 /**
  * Computes the props of the group and what it gives each checkbox, and the state it reports to its field. Pure:
  * no DOM, same result on the server and the client. The group is the labelled element of its field: it reports
@@ -39,7 +33,7 @@ function labelledBy(state: CheckboxGroupProps, field?: FormFieldControlContext):
 export function getCheckboxGroupProps(state: CheckboxGroupProps, field?: FormFieldControlContext): CheckboxGroupParts {
   const filled = (state.value ?? []).length > 0;
   const { root, control } = getFormFieldControlProps({ ...state, filled }, field);
-  const ariaLabelledBy = labelledBy(state, field);
+  const ariaLabelledBy = groupLabelledBy(state, field);
   const ariaLabel = state.ariaLabel === '' ? undefined : state.ariaLabel;
   return {
     root: {

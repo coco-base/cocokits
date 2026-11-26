@@ -1,6 +1,6 @@
 import { resolveNextIndex, resolveTabStop } from '@cocokits/cdk/roving-focus';
 import { dataAttr } from '@cocokits/utils';
-import { getFormFieldControlProps, type FormFieldControlContext } from '../form-field';
+import { getFormFieldControlProps, groupLabelledBy, type FormFieldControlContext } from '../form-field';
 import { radioGroupAnatomy } from './radio-group.anatomy';
 import type {
   RadioGroupEvent,
@@ -112,12 +112,6 @@ export function isRadioGroupInvalidShown(state: RadioGroupState): boolean {
   return isInvalid(state) && (state.touched === true || state.submitted === true);
 }
 
-/** The Label of the field names the group only while the author gave no `aria-label` and the field holds a Label. */
-function labelledBy(state: RadioGroupState, field?: FormFieldControlContext): string | undefined {
-  if (state.ariaLabelledBy !== undefined && state.ariaLabelledBy !== '') return state.ariaLabelledBy;
-  return state.ariaLabel === undefined && field?.hasLabel === true ? field.ids?.label : undefined;
-}
-
 function rootProps(
   state: RadioGroupState,
   send: (event: RadioGroupEvent) => void,
@@ -129,7 +123,7 @@ function rootProps(
     role: 'radiogroup',
     id: control.id,
     'aria-label': state.ariaLabel === '' ? undefined : state.ariaLabel,
-    'aria-labelledby': labelledBy(state, field),
+    'aria-labelledby': groupLabelledBy(state, field),
     'aria-describedby': control['aria-describedby'],
     'aria-required': state.required === true ? 'true' : undefined,
     'aria-disabled': state.disabled === true ? 'true' : undefined,
