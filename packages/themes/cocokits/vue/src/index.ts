@@ -193,6 +193,8 @@ export type {
   TooltipTriggerProps,
 } from '@cocokits/vue/tooltip';
 export type { TooltipContentEmits, TooltipContentProps, TooltipRootProps, TooltipSize } from './tooltip.types';
+export { default as Tag } from './Tag.vue';
+export type { TagProps, TagVariant, TagColor, TagSize, TagDot } from './tag.types';
 
 /** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
 export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';
