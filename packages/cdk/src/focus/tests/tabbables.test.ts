@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { focusFirst, getTabbables } from '../index';
 import { mount } from './helpers';
 
@@ -56,6 +56,21 @@ describe('focusFirst', () => {
     const { byId } = mount('<div id="c" tabindex="-1"><p>text</p></div>');
     focusFirst(byId('c'));
     expect(document.activeElement).toBe(byId('c'));
+  });
+
+  it('does not scroll the page to the element it focuses', () => {
+    const { byId } = mount('<div id="c" tabindex="-1"><button id="a">a</button></div>');
+    const focus = vi.spyOn(byId('a'), 'focus');
+    focusFirst(byId('c'));
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+  });
+
+  it('focuses the checked radio of a group, not the first one', () => {
+    const { byId } = mount(
+      '<div id="c" tabindex="-1"><input id="r1" type="radio" name="g"><input id="r2" type="radio" name="g" checked></div>',
+    );
+    focusFirst(byId('c'));
+    expect(document.activeElement).toBe(byId('r2'));
   });
 });
 

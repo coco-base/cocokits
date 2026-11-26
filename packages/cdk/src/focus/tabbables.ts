@@ -128,6 +128,10 @@ function findAutofocus(container: HTMLElement): HTMLElement | undefined {
  * @remarks
  * Give the container `tabindex="-1"` so it can take focus when it holds nothing tabbable.
  *
+ * A radio group is one stop, so a checked radio gets the focus before the other radios of its group. The page does not
+ * scroll to the focused element: an overlay that opens with the page, away from the visible part of the page, leaves
+ * the scroll position where it is.
+ *
  * @param container - The overlay content.
  * @example
  * const dialog = document.querySelector<HTMLElement>('#dialog')!;
@@ -136,5 +140,5 @@ function findAutofocus(container: HTMLElement): HTMLElement | undefined {
  */
 export function focusFirst(container: HTMLElement): void {
   const [first] = getTabbables(container);
-  (findAutofocus(container) ?? first ?? container).focus();
+  (findAutofocus(container) ?? first ?? container).focus({ preventScroll: true });
 }
