@@ -16,6 +16,9 @@ import {
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
 import { CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
+import { CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
+import { CckFormField } from '@cocokits/angular/form-field';
+import type { FormFieldControlContext } from '@cocokits/machines/form-field';
 import {
   getRadioGroupProps,
   radioGroupAnatomy,
@@ -55,7 +58,9 @@ export interface CckRadioGroupRegistration {
 /**
  * A group of radios with one value. You write `cck-radio` elements inside it. The group is the `radiogroup` element.
  *
- * Each radio is checked while its `submitValue` equals the `value` of the group. Each radio takes the `name`, `disabled` and `required` of the group. Name the group with `aria-labelledby` or `aria-label`.
+ * Each radio is checked while its `submitValue` equals the `value` of the group. Each radio takes the `name`, `disabled` and `required` of the group. The group works alone and inside a `cck-form-field`.
+ *
+ * Name the group. Inside a form field with a label, the label names it, and the hints and errors describe it. Alone, write `aria-labelledby` or `aria-label` on it as plain attributes.
  *
  * The group is one tab stop. Tab moves the focus to the checked radio, or to the first enabled radio. The arrow keys move the focus and the check to the next enabled radio.
  *
@@ -79,6 +84,10 @@ export interface CckRadioGroupRegistration {
     ngNoCva: '',
     '[class]': '_parts().root.class',
     '[attr.role]': '_parts().root.role',
+    '[attr.id]': '_parts().root.id ?? null',
+    '[attr.aria-label]': '_parts().root["aria-label"] ?? null',
+    '[attr.aria-labelledby]': '_parts().root["aria-labelledby"] ?? null',
+    '[attr.aria-describedby]': '_parts().root["aria-describedby"] ?? null',
     '[attr.name]': 'null',
     '[attr.form]': 'null',
     '[attr.value]': 'null',
@@ -198,6 +207,25 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   private readonly generatedName = inject(IdGenerator).getId(radioGroupAnatomy.classes.root);
   private readonly direction = inject(CckDirection);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly field = inject(CckFormField, { optional: true });
+  private readonly control = inject(CCK_FIELD_ZONE, { optional: true }) ? undefined : this.field?._register(() => null);
+  /** The attributes the author wrote on the element; they name and describe the group. */
+  private readonly written = {
+    id: this.host.getAttribute('id') ?? undefined,
+    ariaLabel: this.host.getAttribute('aria-label') ?? undefined,
+    ariaLabelledBy: this.host.getAttribute('aria-labelledby') ?? undefined,
+    ariaDescribedBy: this.host.getAttribute('aria-describedby') ?? undefined,
+  };
+  private readonly fieldContext = computed<FormFieldControlContext | undefined>(() => {
+    const field = this.field;
+    return field
+      ? {
+          ids: this.control?.primary ? field._ids() : undefined,
+          state: field._fieldInput(),
+          hasLabel: field._hasLabel(),
+        }
+      : undefined;
+  });
   private readonly mounted = signal(false);
   private mountValue: string | null = null;
   private lastReset: Event | undefined;
@@ -219,16 +247,22 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     loop: this.loop(),
     dir: this.direction.dir(),
     mounted: this.mounted(),
+    ...this.written,
   }));
 
-  /** The root props and, per radio, what the group gives it. @internal */
+  /** The root props, per radio what the group gives it, and the report for the field. @internal */
   readonly _parts: Signal<RadioGroupParts> = computed(() =>
-    getRadioGroupProps(this.state(), (event) => {
-      this.send(event);
-    }),
+    getRadioGroupProps(
+      this.state(),
+      (event) => {
+        this.send(event);
+      },
+      this.fieldContext(),
+    ),
   );
 
   constructor() {
+    this.control?.report(computed(() => this._parts().control));
     // A keyed reorder changes no signal the group tracks: read the DOM order after every render.
     afterEveryRender({
       read: () => {
