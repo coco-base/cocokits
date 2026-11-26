@@ -3,6 +3,7 @@
 import {
   isValidElement,
   useCallback,
+  useEffect,
   useId,
   useMemo,
   useRef,
@@ -20,9 +21,11 @@ import {
   type RadioGroupItem,
   type RadioGroupState as MachineState,
 } from '@cocokits/machines/radio-group';
+import type { FormFieldControlContext } from '@cocokits/machines/form-field';
 import { DirectionProvider, toReactProps, useDirection, useThemeAttrs } from '@cocokits/react-core';
 import { sortByDomOrder } from '@cocokits/utils';
 import { composeEventHandlers } from '../internal/compose-event-handlers';
+import { FormFieldContext, useFormFieldContext } from '../internal/form-field-context';
 import { mergeProps } from '../internal/merge-props';
 import {
   RadioGroupContext,
@@ -30,6 +33,7 @@ import {
   type RadioGroupRegistration,
 } from '../internal/radio-group-context';
 import { renderElement } from '../internal/render-element';
+import { useControlClaim, useControlReport } from '../internal/use-field-control';
 import { useControllableState } from '../internal/use-controllable-state';
 import { useIsomorphicLayoutEffect } from '../internal/use-isomorphic-layout-effect';
 import { useMergedRef } from '../internal/use-merged-ref';
@@ -69,12 +73,18 @@ function RadioGroupImpl({
   orientation,
   loop = true,
   dir: dirProp,
+  id: idProp,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+  'aria-describedby': ariaDescribedBy,
   render,
   ref,
   children,
   ...rest
 }: RadioGroupProps): ReactElement {
   const id = useId();
+  const field = useFormFieldContext();
+  const elementRef = useRef<HTMLElement | null>(null);
   const inherited = useDirection();
   const dir = dirProp ?? inherited;
   const themeAttrs = useThemeAttrs(radioGroupAnatomy).root;
@@ -91,11 +101,23 @@ function RadioGroupImpl({
   });
   // Set when the focus leaves the group; a `touched` you pass wins.
   const [touchedState, setTouchedState] = useState(false);
+  // Set when a radio blocked a submit of the owner form; a form reset clears it.
+  const [submitted, setSubmitted] = useState(false);
   const [items, setItems] = useState<readonly RadioGroupItem[]>([]);
   const [mounted, setMounted] = useState(false);
   // A mutable set the radios fill in their layout effects; state, not a ref, so the key handler can read it.
   const [registry] = useState(() => new Set<() => RadioGroupRegistration>());
   const lastReset = useRef<Event | null>(null);
+
+  const primary = useControlClaim(
+    field,
+    elementRef,
+    'This group gets no generated id and no description from the field, and its state does not reach the field.',
+  );
+  const fieldContext = useMemo<FormFieldControlContext | undefined>(
+    () => (field ? { ids: primary ? field.ids : undefined, state: field.own, hasLabel: field.hasLabel } : undefined),
+    [field, primary],
+  );
 
   const current = value ?? null;
   const machineState = useMemo<MachineState>(
@@ -106,13 +128,36 @@ function RadioGroupImpl({
       disabled,
       required,
       touched: touched ?? touchedState,
+      submitted,
       form,
       orientation,
       loop,
       dir,
       mounted,
+      id: idProp === '' ? undefined : idProp,
+      ariaLabel,
+      ariaLabelledBy,
+      ariaDescribedBy,
     }),
-    [current, name, items, disabled, required, touched, touchedState, form, orientation, loop, dir, mounted],
+    [
+      current,
+      name,
+      items,
+      disabled,
+      required,
+      touched,
+      touchedState,
+      submitted,
+      form,
+      orientation,
+      loop,
+      dir,
+      mounted,
+      idProp,
+      ariaLabel,
+      ariaLabelledBy,
+      ariaDescribedBy,
+    ],
   );
 
   const getRegistration = (match: (entry: RadioGroupRegistration) => boolean): RadioGroupRegistration | undefined => {
@@ -158,6 +203,19 @@ function RadioGroupImpl({
     setMounted(true);
   });
 
+  // `invalid` does not bubble: the group listens in the capture phase for a submit its radios blocked.
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return undefined;
+    const onInvalid = (): void => {
+      setSubmitted(true);
+    };
+    element.addEventListener('invalid', onInvalid, true);
+    return () => {
+      element.removeEventListener('invalid', onInvalid, true);
+    };
+  }, []);
+
   // The click runs the native check and `change`, the same path as a pointer.
   const dispatch = (event: RadioGroupEvent): void => {
     const result = transitionRadioGroup(machineState, event);
@@ -173,17 +231,19 @@ function RadioGroupImpl({
       if (event !== null && lastReset.current === event) return;
       lastReset.current = event;
       setTouchedState(false);
+      setSubmitted(false);
       setValue(mountValue, { reason: 'form-reset', event });
     },
     [setValue, mountValue],
   );
 
   // The rendered props send nothing; the key handler sends through `dispatch`.
-  const parts = getRadioGroupProps(machineState, ignore);
+  const parts = getRadioGroupProps(machineState, ignore, fieldContext);
+  useControlReport(field, elementRef, primary, parts.control);
   const context = useMemo<RadioGroupContextValue>(
     () => ({
       value: current,
-      facts: (item) => getRadioGroupProps(machineState, ignore).radio(item),
+      facts: (item) => getRadioGroupProps(machineState, ignore, fieldContext).radio(item),
       setValue: (next, details) => {
         setValue(next, details);
       },
@@ -191,17 +251,17 @@ function RadioGroupImpl({
       register,
       refresh,
     }),
-    [machineState, current, setValue, reset, register, refresh],
+    [machineState, fieldContext, current, setValue, reset, register, refresh],
   );
 
   const onKeyDown = (event: KeyboardEvent<HTMLElement>): void => {
     const target = event.target;
     const focused = getRegistration((entry) => entry.element === target);
-    getRadioGroupProps(machineState, dispatch).root.onKeyDown(event.nativeEvent, focused?.value);
+    getRadioGroupProps(machineState, dispatch, fieldContext).root.onKeyDown(event.nativeEvent, focused?.value);
   };
 
-  const elementRef = isValidElement<ElementProps>(render) ? render.props.ref : undefined;
-  const mergedRef = useMergedRef<HTMLElement>(ref, elementRef, undefined);
+  const elementProp = isValidElement<ElementProps>(render) ? render.props.ref : undefined;
+  const mergedRef = useMergedRef<HTMLElement>(ref, elementProp, elementRef);
   const ours = { ...themeAttrs, ...toReactProps(parts.root), ref: mergedRef };
   // Only the author's own `dir` is rendered; keys and nested radios use the resolved one.
   const props = mergeProps(ours, {
@@ -213,12 +273,20 @@ function RadioGroupImpl({
     dir: dirProp,
     children,
   }) as unknown as RadioGroupRenderProps;
-  const state: RadioGroupState = { value: current, disabled, required, orientation };
+  const state: RadioGroupState = {
+    value: current,
+    disabled: parts.control.disabled === true,
+    required: parts.control.required === true,
+    orientation,
+  };
   return (
     <DirectionProvider dir={dir}>
-      <RadioGroupContext.Provider value={context}>
-        {renderElement<RadioGroupRenderProps, RadioGroupState>(render, 'div', props, state)}
-      </RadioGroupContext.Provider>
+      {/* Only the group is the control of the field, not a control inside it. */}
+      <FormFieldContext.Provider value={null}>
+        <RadioGroupContext.Provider value={context}>
+          {renderElement<RadioGroupRenderProps, RadioGroupState>(render, 'div', props, state)}
+        </RadioGroupContext.Provider>
+      </FormFieldContext.Provider>
     </DirectionProvider>
   );
 }
@@ -230,8 +298,10 @@ interface RadioGroupComponent {
 }
 
 /**
- * A set of radios with one value. It renders a `<div role="radiogroup">` around the `Radio` elements. Name it with
- * `aria-labelledby` or `aria-label`.
+ * A set of radios with one value. It renders a `<div role="radiogroup">` around the `Radio` elements.
+ *
+ * Name the group. Inside a `FormField`, the `Label` of the field names it through `aria-labelledby`, and the `Hint`
+ * and `FieldError` describe it. Alone, give it `aria-labelledby` or `aria-label`.
  *
  * The group is one tab stop: the checked radio, or else the first enabled radio. The arrow keys move the focus and
  * the check to the next or previous enabled radio.
@@ -246,7 +316,7 @@ interface RadioGroupComponent {
  * a Radio by its `value`.
  *
  * A `required` group with no value gets `aria-invalid="true"` and `data-invalid`, but only after the user has left
- * it or `touched` is `true`. A form reset clears what the group tracked.
+ * it, `touched` is `true` or a submit was blocked. A form reset clears what the group tracked.
  *
  * The radios are native inputs, so `FormData` holds the value of the checked radio. A form reset restores the
  * value that the group had at mount.
