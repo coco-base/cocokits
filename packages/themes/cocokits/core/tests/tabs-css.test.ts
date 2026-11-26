@@ -185,6 +185,7 @@ describe('tabs design match', () => {
     ['trigger-gap', 'spacing-4'],
     ['label-font-weight', 'font-weight-medium'],
     ['label-color', 'text-3'],
+    ['fill-label-color', 'text-2'],
     ['hover-label-color', 'text-1'],
     ['selected-label-color', 'text-1'],
     ['indicator-bg', 'container'],
@@ -201,7 +202,7 @@ describe('tabs design match', () => {
     expect(own(name)).toBe(ref(value));
   });
 
-  it.each(['panel-padding', 'list-border-radius', 'fill-label-color', 'disabled-bg', 'disabled-label-color'])(
+  it.each(['panel-padding', 'list-border-radius', 'disabled-bg', 'disabled-label-color'])(
     'has no token %s any more',
     (name) => {
       expect(own(name)).toBeUndefined();
@@ -264,6 +265,19 @@ describe('tabs design match', () => {
     expect(css.indexOf(`${triggers}:hover:not([data-disabled], :disabled) {`)).toBeLessThan(
       css.indexOf(`${triggers}[data-selected] {`),
     );
+  });
+
+  it.each([
+    ['tabs', 'trigger', 'data-selected', css],
+    ['tab-nav', 'link', 'data-active', navCss],
+  ])('colours the %s %s of a fill list before the hover and %s rules, so both win', (block, part, selected, sheet) => {
+    const trigger = `.cck-${block} > .cck-${block}__list > .cck-${block}__${part}`;
+    const fill = `.cck-${block}[data-variant=fill] > .cck-${block}__list > .cck-${block}__${part}`;
+    expect(declarationsOf(sheet, fill)).toContain('color: var(--cck-tabs-fill-label-color)');
+    expect(sheet.indexOf(`${fill} {`)).toBeLessThan(
+      sheet.indexOf(`${trigger}:hover:not([data-disabled], :disabled) {`),
+    );
+    expect(sheet.indexOf(`${fill} {`)).toBeLessThan(sheet.indexOf(`${trigger}[${selected}] {`));
   });
 
   it.each([
