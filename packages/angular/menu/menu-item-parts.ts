@@ -1,30 +1,38 @@
-import { DestroyRef, Directive, computed, inject } from '@angular/core';
+import { Component, DestroyRef, Directive, ViewEncapsulation, computed, inject } from '@angular/core';
+import { injectPartIconName } from '@cocokits/angular-core';
+import { CckSvgIcon } from '@cocokits/angular/svg-icon';
+import { menuAnatomy } from '@cocokits/machines/menu';
 import { injectCckMenu } from './menu-inject';
 import { CckMenuItemBase } from './menu-item-base';
 
 /**
- * The mark of a checkbox item or a radio item. It is decorative, so it has `aria-hidden`. Put your own icon or text in it.
+ * The mark of a checkbox item or a radio item. It is decorative, so it has `aria-hidden`. Leave it empty to draw the icon the theme names for it, or put your own icon or text in it.
  *
  * @remarks It has `data-state` of `checked` or `unchecked`, and the theme shows it only while the item is checked.
  *
  * @example
- * <cck-menu-checkbox-item [(checked)]="on"><cck-menu-item-indicator><cck-svg-icon iconName="check" /></cck-menu-item-indicator>Show</cck-menu-checkbox-item>
+ * <cck-menu-checkbox-item [(checked)]="on"><cck-menu-item-indicator />Show</cck-menu-checkbox-item>
  * @cckPart itemIndicator
- * @cckSlot default - The mark. When not set, the indicator is empty.
+ * @cckSlot default - The mark. When not set, the indicator draws the icon the theme names for it, else `check`.
  */
-@Directive({
+@Component({
   selector: 'cck-menu-item-indicator',
   exportAs: 'cckMenuItemIndicator',
+  encapsulation: ViewEncapsulation.None,
+  imports: [CckSvgIcon],
   host: {
     '[class]': 'props().class',
     '[attr.aria-hidden]': 'props()["aria-hidden"]',
     '[attr.data-state]': 'props()["data-state"]',
   },
+  template: `<ng-content><cck-svg-icon [iconName]="iconName()" /></ng-content>`,
 })
 export class CckMenuItemIndicator {
   private readonly item = inject(CckMenuItemBase);
   private readonly root = injectCckMenu('ItemIndicator');
   protected readonly props = computed(() => this.root._parts().itemIndicator({ checked: this.item._checked() }));
+  /** The theme's icon when registered, else the default; drawn when you give no content. */
+  protected readonly iconName = injectPartIconName(menuAnatomy.block, 'itemIndicator');
 }
 
 /**
