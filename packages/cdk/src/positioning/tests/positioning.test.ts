@@ -268,8 +268,16 @@ describe('positioning options', () => {
   it('writes --available-width with --available-height', () => {
     start();
     floating.apply?.({ availableWidth: 410.6, availableHeight: 300.4, rects: { reference: { width: 120.2 } } });
-    expect(content.style.getPropertyValue('--available-width')).toBe('411px');
+    expect(content.style.getPropertyValue('--available-width')).toBe('410px');
     expect(content.style.getPropertyValue('--available-height')).toBe('300px');
+  });
+
+  it('rounds the available room down, so content sized by it never passes the edge', () => {
+    start();
+    floating.apply?.({ availableWidth: 300.6, availableHeight: 300.6, rects: { reference: { width: 120.6 } } });
+    expect(content.style.getPropertyValue('--available-width')).toBe('300px');
+    expect(content.style.getPropertyValue('--available-height')).toBe('300px');
+    expect(content.style.getPropertyValue('--anchor-width')).toBe('121px');
   });
 });
 
