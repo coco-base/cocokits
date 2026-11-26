@@ -4,6 +4,7 @@ import {
   Directive,
   ElementRef,
   InjectionToken,
+  Injector,
   TemplateRef,
   ViewContainerRef,
   afterRenderEffect,
@@ -19,15 +20,23 @@ import type { ThemeConfig } from '@cocokits/shared';
 import { CckDir, CckPortal, provideCckTheme } from '../src/index';
 
 const DECLARED = new InjectionToken<string>('DECLARED');
+const GIVEN = new InjectionToken<string>('GIVEN');
 
-@Directive({ selector: '[declaredProvider]', providers: [{ provide: DECLARED, useValue: 'declaration-site' }] })
+@Directive({
+  selector: '[declaredProvider]',
+  providers: [
+    { provide: DECLARED, useValue: 'declaration-site' },
+    { provide: GIVEN, useValue: 'declaration-site' },
+  ],
+})
 class DeclaredProvider {
   readonly marker = true;
 }
 
-@Component({ selector: 'portal-probe', template: '<i>{{ token }}</i>' })
+@Component({ selector: 'portal-probe', template: '<i>{{ token }}</i><b>{{ given }}</b>' })
 class PortalProbe {
   readonly token = inject(DECLARED, { optional: true });
+  readonly given = inject(GIVEN, { optional: true });
 }
 
 @Component({
@@ -50,6 +59,7 @@ class PortalRoot {
   private readonly portal = inject(CckPortal);
   private readonly trigger = viewChild.required<ElementRef<HTMLElement>>('trigger');
   private readonly template = viewChild('content', { read: TemplateRef });
+  private readonly injector = Injector.create({ providers: [{ provide: GIVEN, useValue: 'given' }] });
 
   constructor() {
     this.portal.useContainer(inject(ViewContainerRef));
@@ -57,7 +67,8 @@ class PortalRoot {
       write: () => {
         const [template, open] = [this.template(), this.open()];
         untracked(() => {
-          if (open && template) this.portal.attach(template, undefined, this.trigger().nativeElement);
+          if (open && template)
+            this.portal.attach(template, undefined, this.trigger().nativeElement, { injector: this.injector });
           else this.portal.detach();
         });
       },
@@ -139,6 +150,12 @@ describe('CckPortal', () => {
     const { fixture } = await render();
     await open(fixture);
     expect(hosts()[0]?.querySelector('i')?.textContent).toBe('declaration-site');
+  });
+
+  it('asks the given injector first, before the declaration site', async () => {
+    const { fixture } = await render();
+    await open(fixture);
+    expect(hosts()[0]?.querySelector('b')?.textContent).toBe('given');
   });
 
   it('puts the host inside an open modal dialog that contains the trigger', async () => {
