@@ -21,7 +21,7 @@ import { CckSelectOptionGroup } from './select-option-group';
 /**
  * One choice in the list of a Select. Its `value` is the value that the Select holds when the user chooses it. You write the text of the option inside it.
  *
- * The content must not be interactive. A mark that shows the choice is made for you: a check, or a box with `multiple`. The trigger and type-to-find use the text of the option as its label.
+ * The content must not be interactive. A mark that shows the choice is made for you: a check, or a box with `multiple`. A `cck-select-option-leading` goes before the text and a `cck-select-option-description` after it, wherever you write them in the option. The trigger and type-to-find use the text of the option as its label, without the leading part and the description.
  *
  * In a single Select, an option with the value `null` or `undefined` clears the value, unless `canSelectNullableOptions` is set. An option with the value `''` clears it and shows the placeholder.
  *
@@ -63,7 +63,9 @@ import { CckSelectOptionGroup } from './select-option-group';
         <cck-svg-icon [iconName]="indicatorIconName()" />
       }
     </span>
+    <ng-content select="cck-select-option-leading" />
     <span [class]="parts().optionContent.class" [cckAttrs]="_root._theme().optionContent"><ng-content /></span>
+    <ng-content select="cck-select-option-description" />
   `,
 })
 export class CckSelectOption<T = string> implements OnInit {
