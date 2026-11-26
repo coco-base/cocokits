@@ -67,6 +67,21 @@ const NON_TEXT_FLOOR: Partial<Record<string, number>> = {
 
 const activeColor = base.collections.find((c) => c.name === 'Theme / Active Color');
 
+/** `color-mix(in srgb, fill, ink amount%)`, the hover fill of a solid control, rounded to whole channels. */
+function mix(fill: string, ink: string, amount: number): string {
+  const channel = (hex: string, i: number): number => parseInt(hex.slice(i, i + 2), 16);
+  const mixed = [1, 3, 5].map((i) =>
+    Math.round(channel(fill, i) * (1 - amount / 100) + channel(ink, i) * (amount / 100)),
+  );
+  return `#${mixed.map((c) => c.toString(16).padStart(2, '0')).join('')}`;
+}
+
+const buttonStructure = readTokens('button.tokens.json').collections.find((c) => c.name === 'Button / Structure');
+const buttonToken = (name: string): string =>
+  String(buttonStructure?.tokens.find((t) => t.name === name)?.valuesByMode.Default);
+/** The share of the ink a hovered Button mixes into its fill, followed to its number. */
+const HOVER_MIX = Number(index.get(/^\{(.+)\}$/.exec(buttonToken('hover-mix'))?.[1] ?? '')?.valuesByMode.Default);
+
 /**
  * Asserts one pair at its level, softly so every pair of a test reports; the message carries the measured ratio to two
  * decimals. Where a level is below WCAG, the palette is below it for that pair and the level is the measured floor.
@@ -100,6 +115,17 @@ describe.each(BRANDS)('%s brand', (brand) => {
       pair(
         `solid label: ${family} ${mode}`,
         contrast(active('color', family, mode), active('on-color', family, mode)),
+        4.5,
+      );
+    });
+  });
+
+  describe('hovered solid label (WCAG AA 4.5:1)', () => {
+    it.each(families)('%s in %s mode', (family, mode) => {
+      const ink = active('on-color', family, mode);
+      pair(
+        `hovered solid label: ${family} ${mode}`,
+        contrast(mix(active('color', family, mode), ink, HOVER_MIX), ink),
         4.5,
       );
     });
@@ -352,6 +378,12 @@ describe('the pointers the pairs above measure', () => {
     expect(value('solid-bg')).toBe('{Theme / Active Color#color}');
     expect(value('solid-text-color')).toBe('{Theme / Active Color#on-color}');
     expect(value('outline-text-color')).toBe('{Theme / Active Color#on-container}');
+  });
+
+  it('points the solid Button fill and label at the Active Color pair the hovered label measures', () => {
+    expect(buttonToken('solid-bg')).toBe('{Theme / Active Color#color}');
+    expect(buttonToken('solid-label-color')).toBe('{Theme / Active Color#on-color}');
+    expect(HOVER_MIX).toBe(10);
   });
 
   it('points the label of a fill Tabs list at text/2 and the list at surface/2', () => {
