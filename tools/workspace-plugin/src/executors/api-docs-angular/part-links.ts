@@ -53,18 +53,24 @@ function hostDirectivesOf(cls: ts.ClassDeclaration): HostDirective[] {
 /** The anatomy part of a part, from its semantic id (`menu.trigger` gives `trigger`). */
 const partNameOf = (part: ApiPartJson): string => part.semanticId.slice(part.semanticId.indexOf('.') + 1);
 
-/** A problem for each member of the applied part that the host does not expose under the member's own name. */
+/**
+ * A problem for each member of the applied part that the host does not expose under the member's own name. A member
+ * of the short form (`shortForm`) is read only when the part sits on an element of its own, so the host need not
+ * expose it.
+ */
 function exposureProblems(host: ApiPartJson, applied: ApiPartJson, directive: HostDirective): string[] {
+  const shortForm = new Set(
+    [...applied.props, ...applied.events].filter((member) => member.shortForm).map((member) => member.name),
+  );
   const wanted = [
     ...applied.props.map((member) => ({ name: member.name, list: 'inputs', names: directive.inputs })),
-    ...(applied.bindings ?? []).map((binding) => ({
-      name: `${binding.value}Change`,
-      list: 'outputs',
-      names: directive.outputs,
-    })),
+    ...(applied.bindings ?? [])
+      .filter((binding) => !shortForm.has(binding.value))
+      .map((binding) => ({ name: `${binding.value}Change`, list: 'outputs', names: directive.outputs })),
     ...applied.events.map((member) => ({ name: member.name, list: 'outputs', names: directive.outputs })),
   ];
   return wanted
+    .filter((item) => !shortForm.has(item.name))
     .filter((item) => item.names.get(item.name) !== item.name)
     .map(
       (item) =>
@@ -72,11 +78,44 @@ function exposureProblems(host: ApiPartJson, applied: ApiPartJson, directive: Ho
     );
 }
 
+/** A problem for a part whose `templateInput` names no part with that input. */
+function templateInputProblems(part: ApiPartJson, parts: readonly ApiPartJson[]): string[] {
+  if (part.templateInput === undefined) return [];
+  const { partName, inputName } = part.templateInput;
+  const targets = parts.filter((candidate) => partNameOf(candidate) === partName);
+  return targets.some((target) => target.props.some((prop) => prop.name === inputName))
+    ? []
+    : [
+        `${part.name}: "@cckTemplate input ${partName} ${inputName}" names no part "${partName}" with the input "${inputName}"`,
+      ];
+}
+
+/** A problem for a part whose `around` names no part of the entry point. */
+const aroundProblems = (part: ApiPartJson, parts: readonly ApiPartJson[]): string[] =>
+  part.around === undefined || parts.some((candidate) => partNameOf(candidate) === part.around)
+    ? []
+    : [`${part.name}: "@cckAround ${part.around}" names no part "${part.around}" of the entry point`];
+
+/**
+ * A problem for each short-form member of a part that has no short form: the part must sit on an element of its own
+ * (a selector) and also be applied by a host directive (`appliedBy`), else every member is read.
+ */
+const shortFormProblems = (part: ApiPartJson): string[] =>
+  part.selector !== undefined && part.selector !== '' && part.appliedBy !== undefined
+    ? []
+    : [...part.props, ...part.events]
+        .filter((member) => member.shortForm)
+        .map(
+          (member) =>
+            `${part.name}.${member.name}: "@cckShortForm" needs a part with a selector of its own that another part also applies as a host directive`,
+        );
+
 /**
  * Writes the facts that link one part of an entry point to another, and adds a problem for each that does not hold:
  * `appliedBy` on a part whose class another part lists in its `hostDirectives` (that part must expose every input,
- * model and output of it under the same name), and the check of each `templateInput` (the part it names exists and has
- * that input). The parts are changed in place.
+ * model and output of it under the same name, except the short-form members), the check of each `templateInput` (the
+ * part it names exists and has that input), of each `around` (the part it names exists) and of each `shortForm` member
+ * (its part has a selector and `appliedBy`). The parts are changed in place.
  *
  * @param parts - The parts of one entry point.
  * @param classOf - The class of a part, by class name.
@@ -98,13 +137,6 @@ export function linkParts(
     }
   }
   for (const part of parts) {
-    if (part.templateInput === undefined) continue;
-    const { partName, inputName } = part.templateInput;
-    const targets = parts.filter((candidate) => partNameOf(candidate) === partName);
-    if (!targets.some((target) => target.props.some((prop) => prop.name === inputName))) {
-      problems.push(
-        `${part.name}: "@cckTemplate input ${partName} ${inputName}" names no part "${partName}" with the input "${inputName}"`,
-      );
-    }
+    problems.push(...templateInputProblems(part, parts), ...aroundProblems(part, parts), ...shortFormProblems(part));
   }
 }

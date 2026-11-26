@@ -17,6 +17,11 @@ export interface ApiMemberJson {
   shared?: boolean;
   /** One entry per `@cckValue <literal> - <meaning>` tag: what each literal of the union means. */
   values?: ApiValueJson[];
+  /**
+   * Angular only: `true` for a member of a root that is read only when the root sits on an element of its own
+   * (`@cckShortForm`); a host that applies the root through `hostDirectives` does not expose it.
+   */
+  shortForm?: true;
   /** Theme docs only: whether the file of the declaration is in the theme package (`theme`) or in the base (`base`). */
   declaredIn?: 'theme' | 'base';
 }
@@ -60,6 +65,8 @@ export interface ApiPartJson {
    * are written on the element of that part. Read from `hostDirectives`.
    */
   appliedBy?: string;
+  /** Angular only: the anatomy part this part must hold, at any depth (`@cckAround <part>`). */
+  around?: string;
   /** `true` for a part that exists in some frameworks only by design (`@cckSemantic none` on the part). */
   frameworkOnly?: true;
   description: string;

@@ -1,8 +1,10 @@
 import { memberOf } from '../api-docs-common/member';
 import { readType } from '../api-docs-common/read-type';
 import {
+  aroundOf,
   checkPartDoc,
   frameworkOnlyOf,
+  isShortForm,
   paragraphsOf,
   partDocFields,
   parseSlotTag,
@@ -63,7 +65,7 @@ function angularMemberOf(
   problems: string[],
 ): ApiMemberJson | undefined {
   const type = typeOf(info, doc, expand);
-  return memberOf(
+  const member = memberOf(
     componentName,
     {
       name: info.publicName,
@@ -76,6 +78,7 @@ function angularMemberOf(
     owner,
     problems,
   );
+  return member && isShortForm(doc.jsdocTags) ? { ...member, shortForm: true } : member;
 }
 
 /** The slots of a class, from its `@cckSlot` tags. A malformed tag is added to `problems`. */
@@ -126,6 +129,13 @@ function templateFieldsOf(
   return input ? { templateInput: input } : {};
 }
 
+/** The `around` field a `@cckAround <part>` tag gives a part. A tag without one part is added to `problems`. */
+function aroundFieldOf(entry: DocDirective, problems: string[]): Pick<ApiPartJson, 'around'> {
+  const around = aroundOf(entry.jsdocTags);
+  if (around === '') problems.push(`${entry.name}: "@cckAround" needs the shape "@cckAround <part>"`);
+  return around ? { around } : {};
+}
+
 /**
  * `ApiPart` of a public directive or component. `members` are the public members of the class and of every class it
  * extends; `ownerPart` is the anatomy part of the base part a theme directive owns. Every problem is added to `problems` (a missing `@cckPart`, a missing TSDoc), so one run reports all.
@@ -156,6 +166,7 @@ export function partOf(
     ...(renders.length > 0 ? { renders } : {}),
     ...(section ? { section } : {}),
     ...templateFieldsOf(entry, problems),
+    ...aroundFieldOf(entry, problems),
     ...frameworkOnlyOf(entry.name, entry.jsdocTags, problems),
     description: paragraphsOf(entry.description)[0] ?? '',
     ...partDocFields(entry.description, entry.jsdocTags),

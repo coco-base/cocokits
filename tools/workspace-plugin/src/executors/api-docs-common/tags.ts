@@ -100,6 +100,21 @@ export const paramRemarksOf = (tags: readonly TagEntry[], tag = 'param'): string
         ];
   });
 
+/**
+ * Whether the tags hold `@cckShortForm`: the member is read only when the root sits on an element of its own (the short
+ * form), so a host that applies the root through `hostDirectives` does not expose it.
+ */
+export const isShortForm = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'cckShortForm');
+
+/**
+ * The part a `@cckAround <part>` class tag names: the part must hold that part. Undefined without the tag, `''` for the
+ * tag without a part or with more than one word (the caller reports it).
+ */
+export function aroundOf(tags: readonly TagEntry[]): string | undefined {
+  const [text] = tagsOf(tags, 'cckAround');
+  return text === undefined || /^\S+$/.test(text) ? text : '';
+}
+
 /** Whether the tags hold `@internal`. */
 export const isInternal = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'internal');
 
