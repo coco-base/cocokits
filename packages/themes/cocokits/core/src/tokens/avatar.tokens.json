@@ -23,6 +23,7 @@
       "modes": ["Default"],
       "tokens": [
         { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-full}" } },
+        { "name": "square-radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
         { "name": "fallback-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
         { "name": "fallback-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } },
         { "name": "fallback-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } }

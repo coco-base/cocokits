@@ -54,6 +54,7 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar')).root).toEqual({
       'data-size': 'md',
       'data-cck-color': 'neutral',
+      'data-shape': 'circle',
     });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-group')).root).toEqual({ 'data-size': 'md' });
     expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar-label')).root).toEqual({
@@ -71,12 +72,28 @@ describe('cocokitsThemeConfig avatar, avatar group and avatar label', () => {
     expect(avatar.color).toMatchObject({ attrName: 'cck-color', default: 'neutral', partNames: ['root'] });
     expect(avatar.color.values).toBe(themeActiveColorModes);
     expect(avatar.color.values).toEqual(['brand', 'neutral', 'info', 'success', 'warning', 'danger', 'contrast']);
-    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: 'danger', size: null }).root).toEqual({
-      'data-cck-color': 'danger',
-    });
-    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: null }).root).toEqual({
+    expect(
+      resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: 'danger', size: null, shape: null }).root,
+    ).toEqual({ 'data-cck-color': 'danger' });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { color: null, shape: null }).root).toEqual({
       'data-size': 'md',
     });
+  });
+
+  it('gives the avatar a shape option on the root, a circle by default', () => {
+    expect(avatar.shape).toMatchObject({
+      attrName: 'shape',
+      values: ['circle', 'square'],
+      default: 'circle',
+      partNames: ['root'],
+    });
+    expectTypeOf(avatar.shape.values).toEqualTypeOf<readonly ['circle', 'square']>();
+    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { shape: 'square' }).root).toMatchObject({
+      'data-shape': 'square',
+    });
+    expect(resolveThemeAttrs(cocokitsThemeConfig, anatomyOf('avatar'), { shape: null }).root).not.toHaveProperty(
+      'data-shape',
+    );
   });
 
   it('lets an own option win and null remove', () => {
