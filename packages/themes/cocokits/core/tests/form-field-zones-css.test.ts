@@ -57,7 +57,7 @@ describe('the zones', () => {
   });
 
   it('fades the affix text of a disabled field with the box it sits in, with no colour of its own', () => {
-    expect(declarationsOf(stylesCss, `${DISABLED} > .cck-form-field__wrapper > ${BOX}`)).toContain(
+    expect(declarationsInList(stylesCss, `${DISABLED} > .cck-form-field__wrapper > ${BOX}`)).toContain(
       'opacity: var(--cck-form-field-disabled-opacity)',
     );
     const normal = stylesCss.split('@media (forced-colors: active)')[0] ?? '';
@@ -74,6 +74,77 @@ describe('the zones', () => {
 
   it('uses no physical property for the zones', () => {
     expect(scss).not.toMatch(/(^|[\s{;])(margin-left|margin-right|padding-left|padding-right|left|right)\s*:/);
+  });
+});
+
+describe('a Button, an IconButton or a Select in a Leading or Trailing is the zone', () => {
+  const ATTACHED = ':is(.cck-button, .cck-icon-button, .cck-select)';
+  const ZONE = `.cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> ${ATTACHED})`;
+  const side = (zone: 'leading' | 'trailing'): string => `.cck-form-field__wrapper > .cck-${zone}:has(> ${ATTACHED})`;
+  const corners = (zone: 'leading' | 'trailing'): string =>
+    `${side(zone)} > :is(.cck-button, .cck-icon-button),\n  ${side(zone)} > .cck-select > .cck-select__trigger`;
+
+  it('drops the border of the zone, and the control is as high as the field box', () => {
+    const zone = declarationsOf(stylesCss, ZONE) ?? '';
+    for (const line of ['padding-inline: 0', 'border: 0', 'box-shadow: none']) {
+      expect(zone).toContain(line);
+    }
+    expect(zone).not.toContain('background-color');
+    expect(declarationsOf(stylesCss, `${ZONE} > .cck-button`)).toContain('align-self: stretch');
+    // The size token of an IconButton sets its height; the stretched zone is a definite height to reach.
+    expect(declarationsOf(stylesCss, `${ZONE} > .cck-icon-button`)).toContain('min-block-size: 100%');
+  });
+
+  it('drops the fill of a zone that holds a Button or an IconButton, which draw their own', () => {
+    const selector =
+      '.cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> :is(.cck-button, .cck-icon-button))';
+    expect(declarationsOf(stylesCss, selector)).toContain('background-color: transparent');
+  });
+
+  it('makes a Select as wide as its value, its trigger clear over the fill of the zone', () => {
+    const select = declarationsOf(stylesCss, `${ZONE} > .cck-select`) ?? '';
+    expect(select).toContain('flex: 0 0 content');
+    expect(select).toContain('min-inline-size: 0');
+    expect(select).not.toMatch(/(^|[\s;])inline-size:/);
+    expect(declarationsOf(stylesCss, `${ZONE} > .cck-select > .cck-select__trigger`)).toContain(
+      'background-color: transparent',
+    );
+    expect(scss).not.toContain('--cck-select-');
+  });
+
+  it('fades a zone with a Select as a whole when the field is disabled, and the trigger does not fade again', () => {
+    const trigger = `${DISABLED} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing) > .cck-select > .cck-select__trigger`;
+    expect(declarationsInList(stylesCss, trigger)).toContain('opacity: 1');
+    const faded = `${DISABLED} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):not(:has(> :is(.cck-button, .cck-icon-button)))`;
+    expect(declarationsInList(stylesCss, faded)).toContain('opacity: var(--cck-form-field-disabled-opacity)');
+  });
+
+  it('keeps the zone of an open Select above the box, as the focus does', () => {
+    const open = declarationsOf(
+      stylesCss,
+      '.cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> .cck-select[data-state=open])',
+    );
+    expect(open).toContain('position: relative');
+    expect(open).toContain('z-index: 1');
+  });
+
+  it('attaches the control over the box border, square on the side that touches the box, in logical terms', () => {
+    expect(declarationsOf(stylesCss, side('leading'))).toContain(
+      'margin-inline-end: calc(-1 * var(--cck-form-field-border-width))',
+    );
+    expect(declarationsOf(stylesCss, side('trailing'))).toContain(
+      'margin-inline-start: calc(-1 * var(--cck-form-field-border-width))',
+    );
+    const leading = declarationsOf(stylesCss, corners('leading')) ?? '';
+    expect(leading).toContain('border-start-start-radius: var(--_radius)');
+    expect(leading).toContain('border-end-start-radius: var(--_radius)');
+    expect(leading).toContain('border-start-end-radius: 0');
+    expect(leading).toContain('border-end-end-radius: 0');
+    const trailing = declarationsOf(stylesCss, corners('trailing')) ?? '';
+    expect(trailing).toContain('border-start-start-radius: 0');
+    expect(trailing).toContain('border-end-start-radius: 0');
+    expect(trailing).toContain('border-start-end-radius: var(--_radius)');
+    expect(trailing).toContain('border-end-end-radius: var(--_radius)');
   });
 });
 

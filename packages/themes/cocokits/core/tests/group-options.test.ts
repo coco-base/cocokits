@@ -121,6 +121,8 @@ const RESETS: Readonly<Record<string, readonly string[] | undefined>> = {
   'form-field input': ['opacity', 'align-self'],
   'form-field textarea': ['opacity', 'contain', 'max-block-size', 'padding-inline-end'],
   'form-field chip-list': ['opacity'],
+  // A Select trigger in a faded zone, or in the box it shares with a Prefix or Suffix, resets its own fade.
+  'form-field select': ['opacity'],
   // A Button in a Leading or Trailing zone stretches to the height of the box.
   'form-field button': ['align-self'],
   // The ring that cuts the badge from the host it overlaps belongs to the container that places the badge.

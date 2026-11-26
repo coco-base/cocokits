@@ -41,7 +41,10 @@ describe('form field rows', () => {
     expect(declarationsOf(field, '.cck-form-field')).toContain('inline-size: 100%');
     expect(declarationsOf(read('dist', 'components', 'label.css'), '.cck-label')).toContain('align-items: center');
     expect(
-      declarationsOf(styles, '.cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> .cck-button)'),
+      declarationsOf(
+        styles,
+        '.cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> :is(.cck-button, .cck-icon-button, .cck-select))',
+      ),
     ).toContain('padding-inline: 0');
   });
 });

@@ -3,8 +3,10 @@
 // FormField rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
 // Layout, the four zones, and the box of an input wrapper that holds an Input or a Textarea
 // (`:has(> .cck-input, > .cck-textarea, > .cck-chip-list)`): a native control of another kind keeps its own box, and
-// a Select draws its own box. The size of the field reaches an Input, a Textarea, a Chip list and a Select through the
-// theme layer (each takes its own `size` from the field), never through this sheet. The
+// a Select draws its own box, unless a Prefix or Suffix is beside it: then the wrapper draws one box around them. A
+// Button, an IconButton or a Select in a Leading or Trailing is the zone. The size of the field reaches an Input, a
+// Textarea, a Chip list and a Select through the theme layer (each takes its own `size` from the field), never
+// through this sheet. The
 // look follows the facts the root renders, reached through child combinators only. The balance
 // indent is padding on the Label, not a margin on a component root; the feedback wrapper is an
 // internal part, so it may take a margin. A zone sets `display`, so it restates its `[hidden]`.
@@ -23,6 +25,44 @@ $focused: ':has(> :is(.cck-input, .cck-textarea):focus-visible,' +
 $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-textarea):disabled,' +
   ' #{$wrapper} > .cck-chip-list > .cck-chip-list__input:disabled,' +
   ' #{$wrapper} > .cck-select > .cck-select__trigger:disabled))';
+// A control in a Leading or Trailing that is the zone: it draws the border of the zone and its own states.
+$attached: ':is(.cck-button, .cck-icon-button, .cck-select)';
+// A Select that is the control, with a Prefix or a Suffix beside it: the input wrapper draws one box around them.
+$select-affix: ':has(> .cck-select):has(> :is(.cck-prefix, .cck-suffix):not([hidden]))';
+$select-box: '.cck-form-field__input-wrapper#{$select-affix}';
+// That Select has the focus, or its list is open.
+$select-focused: ":has(> .cck-select > .cck-select__trigger:focus-visible, > .cck-select[data-state='open'])";
+
+// The look of the box, for a text control and for a Select with a Prefix or Suffix.
+@mixin box-look($padding-inline: var(--cck-form-field-padding-inline)) {
+  --_focus: var(--cck-form-field-focus-color);
+
+  min-block-size: var(--cck-form-field-height);
+  padding-inline: $padding-inline;
+  font-family: var(--cck-form-field-font-family);
+  font-size: var(--cck-form-field-font-size);
+  line-height: var(--cck-form-field-line-height);
+  letter-spacing: var(--cck-form-field-letter-spacing);
+  border: var(--cck-form-field-border-width) solid var(--cck-form-field-border-color);
+  border-radius: var(--_radius);
+  background-color: var(--cck-form-field-bg);
+  box-shadow: var(--cck-form-field-shadow);
+
+  @include state.transition(background-color, border-color, box-shadow);
+
+  &:where(:hover) {
+    border-color: var(--cck-form-field-hover-border-color);
+  }
+}
+
+// The border and the halo of the box while its control has the focus, above the zones next to it.
+@mixin box-focus {
+  position: relative;
+  z-index: 1;
+  border-color: var(--_focus);
+  box-shadow: 0 0 0 var(--cck-form-field-focus-ring-width)
+    state.tint(var(--_focus), var(--cck-form-field-focus-ring-mix));
+}
 
 @mixin rules {
   .cck-form-field {
@@ -71,6 +111,7 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
   }
 
   .cck-form-field__input-wrapper {
+    box-sizing: border-box;
     display: flex;
     flex: 1;
     min-inline-size: 0;
@@ -163,23 +204,49 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
     border-end-end-radius: var(--_radius);
   }
 
-  // A Button in a zone is the zone: it draws no box of its own and the Button is attached to the box, as high as it,
-  // over its border and square on the side that touches it.
-  .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> .cck-button) {
+  // A Button, an IconButton or a Select in a zone is the zone: the zone draws no border of its own and the control
+  // is attached to the box, as high as it, over its border and square on the side that touches it. The zone keeps
+  // its fill behind a Select, whose trigger draws only its border and its states.
+  .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> #{$attached}) {
     padding-inline: 0;
     border: 0;
-    background-color: transparent;
     box-shadow: none;
 
     > .cck-button {
       align-self: stretch;
     }
+
+    // A stretched zone has a definite height, so the IconButton reaches the height of the box.
+    > .cck-icon-button {
+      min-block-size: 100%;
+    }
+
+    // As wide as its value, not the fixed width of a standalone Select.
+    > .cck-select {
+      flex: 0 0 content;
+      min-inline-size: 0;
+
+      > .cck-select__trigger {
+        background-color: transparent;
+      }
+    }
   }
 
-  .cck-form-field__wrapper > .cck-leading:has(> .cck-button) {
+  .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> :is(.cck-button, .cck-icon-button)) {
+    background-color: transparent;
+  }
+
+  // The open list keeps the active edge of the trigger above the box, as the focus does.
+  .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):has(> .cck-select[data-state='open']) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cck-form-field__wrapper > .cck-leading:has(> #{$attached}) {
     margin-inline-end: calc(-1 * var(--cck-form-field-border-width));
 
-    > .cck-button {
+    > :is(.cck-button, .cck-icon-button),
+    > .cck-select > .cck-select__trigger {
       border-start-start-radius: var(--_radius);
       border-end-start-radius: var(--_radius);
       border-start-end-radius: 0;
@@ -187,10 +254,11 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
     }
   }
 
-  .cck-form-field__wrapper > .cck-trailing:has(> .cck-button) {
+  .cck-form-field__wrapper > .cck-trailing:has(> #{$attached}) {
     margin-inline-start: calc(-1 * var(--cck-form-field-border-width));
 
-    > .cck-button {
+    > :is(.cck-button, .cck-icon-button),
+    > .cck-select > .cck-select__trigger {
       border-start-start-radius: 0;
       border-end-start-radius: 0;
       border-start-end-radius: var(--_radius);
@@ -227,21 +295,7 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
 
   // The box. Tokens come from the root: its `data-size` mode, inherited by the wrapper.
   #{$box} {
-    --_focus: var(--cck-form-field-focus-color);
-
-    box-sizing: border-box;
-    min-block-size: var(--cck-form-field-height);
-    padding-inline: var(--cck-form-field-padding-inline);
-    font-family: var(--cck-form-field-font-family);
-    font-size: var(--cck-form-field-font-size);
-    line-height: var(--cck-form-field-line-height);
-    letter-spacing: var(--cck-form-field-letter-spacing);
-    border: var(--cck-form-field-border-width) solid var(--cck-form-field-border-color);
-    border-radius: var(--_radius);
-    background-color: var(--cck-form-field-bg);
-    box-shadow: var(--cck-form-field-shadow);
-
-    @include state.transition(background-color, border-color, box-shadow);
+    @include box-look;
 
     // A Textarea at the end of the box holds the end padding itself, so its resize handle and its scrollbar sit in
     // the corner of the box.
@@ -249,23 +303,17 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
       padding-inline-end: 0;
     }
 
-    &:where(:hover) {
-      border-color: var(--cck-form-field-hover-border-color);
-    }
-
-    // The border and the halo are on the box, not on the borderless control, and stay above the zones next to it.
+    // The border and the halo are on the box, not on the borderless control.
     &#{$focused} {
-      position: relative;
-      z-index: 1;
-      border-color: var(--_focus);
-      box-shadow: 0 0 0 var(--cck-form-field-focus-ring-width)
-        state.tint(var(--_focus), var(--cck-form-field-focus-ring-mix));
+      @include box-focus;
     }
   }
 
-  // The corners that touch a Leading or Trailing are square, on the box and on a Select trigger in it.
+  // The corners that touch a Leading or Trailing are square, on the box, on a Select trigger in it and on the box of a
+  // Select with a Prefix or Suffix.
   .cck-form-field__wrapper:has(> .cck-leading:not([hidden])) > .cck-form-field__input-wrapper {
     &:has(#{$controls}),
+    &#{$select-affix},
     > .cck-select > .cck-select__trigger {
       border-start-start-radius: 0;
       border-end-start-radius: 0;
@@ -274,6 +322,7 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
 
   .cck-form-field__wrapper:has(> .cck-trailing:not([hidden])) > .cck-form-field__input-wrapper {
     &:has(#{$controls}),
+    &#{$select-affix},
     > .cck-select > .cck-select__trigger {
       border-start-end-radius: 0;
       border-end-end-radius: 0;
@@ -287,28 +336,74 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
     min-inline-size: 0;
   }
 
-  // The states come from the facts of the field root. Later rules win, so disabled is last.
-  .cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > #{$box} {
-    --_focus: var(--cck-form-field-invalid-border-color);
+  // A Select that is the control and a Prefix or Suffix beside it are in one box: the input wrapper draws the field
+  // box and the trigger draws none. The trigger keeps its own height, the height of the box: the box is as high as
+  // it and the trigger runs under its border, where it draws nothing. The Prefix and the Suffix hold the padding of
+  // the box, the trigger holds its own. A press on a Prefix goes to the trigger through the field.
+  #{$select-box} {
+    block-size: var(--cck-form-field-height);
+    gap: 0;
 
-    border-color: var(--cck-form-field-invalid-border-color);
+    @include box-look($padding-inline: 0);
+
+    > .cck-prefix {
+      padding-inline-start: var(--cck-form-field-padding-inline);
+    }
+
+    > .cck-suffix {
+      padding-inline-end: var(--cck-form-field-padding-inline);
+    }
+
+    > .cck-select > .cck-select__trigger {
+      border: 0;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    &#{$select-focused} {
+      @include box-focus;
+    }
   }
 
-  .cck-form-field:where([data-readonly]) > .cck-form-field__wrapper > #{$box} {
-    background-color: var(--cck-form-field-readonly-bg);
+  // The states come from the facts of the field root. Later rules win, so disabled is last.
+  .cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper {
+    > #{$box},
+    > #{$select-box} {
+      --_focus: var(--cck-form-field-invalid-border-color);
+
+      border-color: var(--cck-form-field-invalid-border-color);
+    }
+  }
+
+  .cck-form-field:where([data-readonly]) > .cck-form-field__wrapper {
+    > #{$box},
+    > #{$select-box} {
+      background-color: var(--cck-form-field-readonly-bg);
+    }
   }
 
   // A disabled field keeps its look and fades: the Label, the zones, the box and the Hint. A control that draws its
-  // own box (a Select) fades itself, and a Button in a zone keeps its own state.
-  .cck-form-field#{$disabled} > .cck-form-field__wrapper > #{$box} {
-    border-color: var(--cck-form-field-border-color);
-    opacity: var(--cck-form-field-disabled-opacity);
-    cursor: not-allowed;
+  // own box (a Select) fades itself, and a Button or an IconButton in a zone keeps its own state. A Select trigger in
+  // a faded zone or box does not fade a second time.
+  .cck-form-field#{$disabled} > .cck-form-field__wrapper {
+    > #{$box},
+    > #{$select-box} {
+      border-color: var(--cck-form-field-border-color);
+      opacity: var(--cck-form-field-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    > :is(.cck-leading, .cck-trailing) > .cck-select > .cck-select__trigger,
+    > #{$select-box} > .cck-select > .cck-select__trigger {
+      opacity: 1;
+    }
   }
 
   .cck-form-field#{$disabled} > .cck-label,
   .cck-form-field#{$disabled} > .cck-form-field__feedback-wrapper > .cck-hint,
-  .cck-form-field#{$disabled} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):not(:has(> .cck-button)) {
+  .cck-form-field#{$disabled}
+    > .cck-form-field__wrapper
+    > :is(.cck-leading, .cck-trailing):not(:has(> :is(.cck-button, .cck-icon-button))) {
     opacity: var(--cck-form-field-disabled-opacity);
   }
 
@@ -323,21 +418,43 @@ $disabled: ':where([data-disabled], :has(#{$wrapper} > :is(.cck-input, .cck-text
       }
     }
 
+    #{$select-box} {
+      border-color: CanvasText;
+
+      // The trigger shows no outline of its own: the box has it.
+      > .cck-select > .cck-select__trigger {
+        outline: none;
+      }
+
+      &#{$select-focused} {
+        border-color: Highlight;
+        outline: var(--cck-form-field-focus-ring-width) solid Highlight;
+      }
+    }
+
     // The fill is dropped, so a dashed border tells a read-only box from an editable one.
-    .cck-form-field:where([data-readonly]) > .cck-form-field__wrapper > #{$box} {
-      border-style: dashed;
+    .cck-form-field:where([data-readonly]) > .cck-form-field__wrapper {
+      > #{$box},
+      > #{$select-box} {
+        border-style: dashed;
+      }
     }
 
     // Disabled wins over read-only: a solid border.
-    .cck-form-field#{$disabled} > .cck-form-field__wrapper > #{$box} {
-      border-style: solid;
-      border-color: GrayText;
-      opacity: 1;
+    .cck-form-field#{$disabled} > .cck-form-field__wrapper {
+      > #{$box},
+      > #{$select-box} {
+        border-style: solid;
+        border-color: GrayText;
+        opacity: 1;
+      }
     }
 
     .cck-form-field#{$disabled} > .cck-label,
     .cck-form-field#{$disabled} > .cck-form-field__feedback-wrapper > .cck-hint,
-    .cck-form-field#{$disabled} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):not(:has(> .cck-button)),
+    .cck-form-field#{$disabled}
+      > .cck-form-field__wrapper
+      > :is(.cck-leading, .cck-trailing):not(:has(> :is(.cck-button, .cck-icon-button))),
     .cck-form-field#{$disabled}
       > .cck-form-field__wrapper
       > .cck-form-field__input-wrapper
