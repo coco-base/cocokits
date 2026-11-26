@@ -1,4 +1,13 @@
-import { afterRenderEffect, untracked, type ElementRef, type Signal, type TemplateRef } from '@angular/core';
+import {
+  afterNextRender,
+  afterRenderEffect,
+  inject,
+  Injector,
+  untracked,
+  type ElementRef,
+  type Signal,
+  type TemplateRef,
+} from '@angular/core';
 import type { CckDirection, CckOverlayLayer, CckPortal, ZoneBoundary } from '@cocokits/angular-core';
 import { createTriggerDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { startOverlayPosition, type OverlayAlign, type OverlaySide } from '@cocokits/cdk/positioning';
@@ -62,6 +71,7 @@ export interface SelectOverlay {
 export function createSelectOverlay(o: SelectOverlayOptions): SelectOverlay {
   let dismissal: { readonly layer: DismissLayer; readonly stop: () => void } | null = null;
   let focusOutHeld = false;
+  const injector = inject(Injector);
 
   const presence = createPresence({
     getElement: () => o.content(),
@@ -127,24 +137,33 @@ export function createSelectOverlay(o: SelectOverlayOptions): SelectOverlay {
       const [mounted, trigger, content] = [o.mounted(), o.trigger()?.nativeElement, o.content()];
       if (!mounted || !trigger || !content) return;
       const [side, align] = [o.side(), o.align()];
-      const stop = untracked(() =>
-        o.zone.outside(() =>
-          startOverlayPosition({
-            getAnchor: () => o.fieldAnchor() ?? trigger,
-            getContent: () => content,
-            side,
-            align,
-            getDirection: () => o.direction.dir(),
-            onPlacementChange: (placement) => {
-              o.zone.inside(() => {
-                o.setPlacement(placement);
-              });
-            },
-          }),
+      let stop: (() => void) | undefined;
+      // The list is registered before its host bindings ran. The module reads the `--side-offset` of the theme
+      // class once, so it starts after the list rendered.
+      const start = untracked(() =>
+        afterNextRender(
+          () => {
+            stop = o.zone.outside(() =>
+              startOverlayPosition({
+                getAnchor: () => o.fieldAnchor() ?? trigger,
+                getContent: () => content,
+                side,
+                align,
+                getDirection: () => o.direction.dir(),
+                onPlacementChange: (placement) => {
+                  o.zone.inside(() => {
+                    o.setPlacement(placement);
+                  });
+                },
+              }),
+            );
+          },
+          { injector },
         ),
       );
       onCleanup(() => {
-        stop();
+        start.destroy();
+        stop?.();
         o.setPlacement(null);
       });
     },
