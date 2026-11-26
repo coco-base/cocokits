@@ -1,0 +1,37 @@
+import { Directive, TemplateRef, booleanAttribute, input, model, output } from '@angular/core';
+
+/**
+ * The root of a menu: its trigger applies it, so it renders no element.
+ * @cckPart root
+ * @cckNoElement
+ */
+@Directive({})
+export class Menu {
+  /** Whether the menu is open. */
+  readonly open = model(false);
+  /** Whether the menu stays open on a click outside it. */
+  readonly disableClose = input(false, { transform: booleanAttribute });
+  /** Emits when the menu has closed. */
+  readonly closed = output<void>();
+}
+
+/**
+ * The button that opens the menu.
+ * @cckPart trigger
+ */
+@Directive({
+  selector: 'button[menuTriggerFor]',
+  hostDirectives: [{ directive: Menu, inputs: ['open', 'disableClose'], outputs: ['openChange', 'closed'] }],
+})
+export class MenuTrigger {
+  /** The template of the content. */
+  readonly menuTriggerFor = input.required<TemplateRef<unknown>>();
+}
+
+/**
+ * The content of the menu.
+ * @cckPart content
+ * @cckTemplate input trigger menuTriggerFor
+ */
+@Directive({ selector: 'menu-content' })
+export class MenuContent {}

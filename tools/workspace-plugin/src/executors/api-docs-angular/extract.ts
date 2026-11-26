@@ -14,6 +14,7 @@ import { typeParameterDefaults, withDefaultArguments } from '../api-docs-common/
 import { contextGuardType, scopeOfType } from '../api-docs-common/scope';
 import { partOf, type DocDirective, type ExpandedType } from './convert';
 import { baseClassOf, publicMembersOf } from './members';
+import { linkParts } from './part-links';
 import { symbolsOf } from './symbols';
 
 /** The part of `@angular/compiler-cli` this executor uses. */
@@ -255,6 +256,14 @@ export function extractAngularApiDocs(root: string, projectRoot: string, tsConfi
       const part = partOf(name, doc, publicMembersOf(checker, cls), problems, expand);
       parts.push(placeAt(withScopes(part, wholeClasses, tsProgram, entry, problems), cls));
     }
+    linkParts(
+      parts,
+      (className) => {
+        const entry = classes.find((candidate) => candidate.name === className);
+        return entry === undefined ? undefined : classNamed(tsProgram, entry);
+      },
+      problems,
+    );
     const sourceFile = tsProgram.getSourceFile(file);
     const partNames = new Set(classes.map((entry) => entry.name));
     const symbols = sourceFile === undefined ? [] : symbolsOf(checker, sourceFile, name, partNames, problems);

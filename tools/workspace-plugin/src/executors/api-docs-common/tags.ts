@@ -192,10 +192,25 @@ export function partsOf(tags: readonly TagEntry[]): string[] {
   return tagsOf(tags, 'cckPart').filter((part) => part !== '');
 }
 
-/** The `ng-template` selector a `@cckTemplate` tag names, or undefined. */
+/** The word that starts the reference form of `@cckTemplate` ({@link templateInputOf}). */
+const TEMPLATE_INPUT = /^input(?:\s|$)/;
+
+/** The `ng-template` selector a `@cckTemplate <selector>` tag names, or undefined (also for the reference form). */
 export function templateOf(tags: readonly TagEntry[]): string | undefined {
   const [selector] = tagsOf(tags, 'cckTemplate');
-  return selector === undefined || selector === '' ? undefined : selector;
+  return selector === undefined || selector === '' || TEMPLATE_INPUT.test(selector) ? undefined : selector;
+}
+
+/**
+ * The `@cckTemplate input <part> <input>` tag: the part is declared inside a plain `ng-template` that is given by
+ * reference to the input `<input>` of the part `<part>`. Undefined when the tag is absent or has the selector form; a
+ * malformed one is `null`.
+ */
+export function templateInputOf(tags: readonly TagEntry[]): { partName: string; inputName: string } | null | undefined {
+  const [text] = tagsOf(tags, 'cckTemplate');
+  if (text === undefined || !TEMPLATE_INPUT.test(text)) return undefined;
+  const [, part, input, ...rest] = text.split(/\s+/);
+  return part && input && rest.length === 0 ? { partName: part, inputName: input } : null;
 }
 
 /** The `@cckSection <part> <slot> <input>` tag, or undefined when it is absent; a malformed one is `null`. */
