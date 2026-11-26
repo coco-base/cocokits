@@ -10,18 +10,16 @@ import { frame, item, trigger } from './queries';
   imports: [...CckMenuImports],
   template: `
     <button>Before</button>
-    <ng-container cckMenu [(open)]="open">
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content>
-          @for (name of names(); track name) {
-            <cck-menu-item [disabled]="name === 'Move'" (triggered)="prevent() && $event.preventDefault()">
-              {{ name }}
-            </cck-menu-item>
-          }
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu" [(open)]="open">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        @for (name of names(); track name) {
+          <cck-menu-item [disabled]="name === 'Move'" (triggered)="prevent() && $event.preventDefault()">
+            {{ name }}
+          </cck-menu-item>
+        }
+      </cck-menu-content>
+    </ng-template>
     <button>After</button>
     <p>Empty space</p>
   `,

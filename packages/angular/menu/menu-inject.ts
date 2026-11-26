@@ -10,6 +10,6 @@ import { CckMenuBase } from './menu-base';
  */
 export function injectCckMenu(part: string): CckMenuBase {
   const root = inject(CckMenuBase, { optional: true });
-  if (!root) throw new Error(`CocoKits: cckMenu${part} must be placed inside an element with cckMenu.`);
+  if (!root) throw new Error(`CocoKits: cckMenu${part} must be placed inside the template of a cckMenuTriggerFor.`);
   return root;
 }

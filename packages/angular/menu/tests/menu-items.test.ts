@@ -12,39 +12,37 @@ const { classes } = menuAnatomy;
 @Component({
   imports: [...CckMenuImports],
   template: `
-    <ng-container cckMenu (closed)="log.push('closed:' + $event.reason)">
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content>
-          <cck-menu-checkbox-item
-            [(checked)]="hidden"
-            (checkedChangeDetails)="log.push('hidden:' + String($event.value) + ':' + $event.reason)"
+    <button [cckMenuTriggerFor]="menu" (closed)="log.push('closed:' + $event.reason)">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        <cck-menu-checkbox-item
+          [(checked)]="hidden"
+          (checkedChangeDetails)="log.push('hidden:' + String($event.value) + ':' + $event.reason)"
+        >
+          <cck-menu-item-indicator>x</cck-menu-item-indicator>
+          Show hidden
+        </cck-menu-checkbox-item>
+        <cck-menu-radio-group [(value)]="sort" (valueChangeDetails)="log.push('sort:' + $event.value)">
+          <cck-menu-group-label>Sort by</cck-menu-group-label>
+          <cck-menu-radio-item value="name"
+            ><cck-menu-item-indicator>x</cck-menu-item-indicator>Name</cck-menu-radio-item
           >
-            <cck-menu-item-indicator>x</cck-menu-item-indicator>
-            Show hidden
-          </cck-menu-checkbox-item>
-          <cck-menu-radio-group [(value)]="sort" (valueChangeDetails)="log.push('sort:' + $event.value)">
-            <cck-menu-group-label>Sort by</cck-menu-group-label>
-            <cck-menu-radio-item value="name"
-              ><cck-menu-item-indicator>x</cck-menu-item-indicator>Name</cck-menu-radio-item
-            >
-            <cck-menu-radio-item value="date"
-              ><cck-menu-item-indicator>x</cck-menu-item-indicator>Date</cck-menu-radio-item
-            >
-          </cck-menu-radio-group>
-          <cck-menu-group>
-            <cck-menu-group-label>Edit</cck-menu-group-label>
-            <cck-menu-item>
-              <cck-menu-item-leading>L</cck-menu-item-leading>
-              Rename
-              <cck-menu-item-supporting-text>Changes the name</cck-menu-item-supporting-text>
-              <cck-menu-item-shortcut>F2</cck-menu-item-shortcut>
-              <cck-menu-item-trailing>T</cck-menu-item-trailing>
-            </cck-menu-item>
-          </cck-menu-group>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+          <cck-menu-radio-item value="date"
+            ><cck-menu-item-indicator>x</cck-menu-item-indicator>Date</cck-menu-radio-item
+          >
+        </cck-menu-radio-group>
+        <cck-menu-group>
+          <cck-menu-group-label>Edit</cck-menu-group-label>
+          <cck-menu-item>
+            <cck-menu-item-leading>L</cck-menu-item-leading>
+            Rename
+            <cck-menu-item-supporting-text>Changes the name</cck-menu-item-supporting-text>
+            <cck-menu-item-shortcut>F2</cck-menu-item-shortcut>
+            <cck-menu-item-trailing>T</cck-menu-item-trailing>
+          </cck-menu-item>
+        </cck-menu-group>
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Host {

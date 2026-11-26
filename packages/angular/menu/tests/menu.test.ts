@@ -12,18 +12,16 @@ const { classes } = menuAnatomy;
 @Component({
   imports: [...CckMenuImports],
   template: `
-    <ng-container cckMenu>
-      <button cckMenuTrigger data-testid="trigger" title="Actions" class="own">Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content class="mine" data-extra="x">
-          <cck-menu-item>Rename</cck-menu-item>
-          <hr />
-          @for (name of names(); track name) {
-            <cck-menu-item [disabled]="name === 'Move'" data-own="y">{{ name }}</cck-menu-item>
-          }
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu" data-testid="trigger" title="Actions" class="own">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content class="mine" data-extra="x">
+        <cck-menu-item>Rename</cck-menu-item>
+        <hr />
+        @for (name of names(); track name) {
+          <cck-menu-item [disabled]="name === 'Move'" data-own="y">{{ name }}</cck-menu-item>
+        }
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -62,7 +60,7 @@ describe('Menu anatomy', () => {
     expect(button.getAttribute('aria-controls')).toBeNull();
     expect(button.getAttribute('data-state')).toBe('closed');
     expect(button.getAttribute('title')).toBe('Actions');
-    expect(container.querySelectorAll('[cckmenu]')).toHaveLength(0);
+    expect([...container.children].map((element) => element.tagName)).toEqual(['BUTTON']);
     expect(screen.queryByRole('menu')).toBeNull();
     expect(document.querySelector('[popover]')).toBeNull();
   });

@@ -8,13 +8,14 @@ import { CckMenuContentBase } from './menu-content';
  * It opens at the bottom end corner of the sub-trigger. When there is no room, it opens on the start side, and then above. On open by the keyboard, the focus moves to the first item.
  *
  * @example
- * <ng-template cckMenuPortal>
+ * <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
+ * <ng-template #share>
  *   <cck-menu-sub-content>
  *     <cck-menu-item>Email</cck-menu-item>
  *   </cck-menu-sub-content>
  * </ng-template>
  * @cckPart subContent
- * @cckTemplate ng-template[cckMenuPortal]
+ * @cckTemplate input subTrigger cckMenuTriggerFor
  * @cckSlot default - The items and the dividers. When not set, the panel is empty.
  */
 @Directive({

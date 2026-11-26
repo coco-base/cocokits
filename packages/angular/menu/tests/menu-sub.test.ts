@@ -14,24 +14,20 @@ const { classes } = menuAnatomy;
   imports: [...CckMenuImports, CckDir],
   template: `
     <div cckDir [dir]="dir()">
-      <ng-container cckMenu (closed)="log.push('closed:' + $event.reason)">
-        <button cckMenuTrigger>Actions</button>
-        <ng-template cckMenuPortal>
-          <cck-menu-content>
-            <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
-            <ng-container cckMenuSub>
-              <cck-menu-sub-trigger>Share</cck-menu-sub-trigger>
-              <ng-template cckMenuPortal>
-                <cck-menu-sub-content>
-                  <cck-menu-item (triggered)="log.push('Email')">Email</cck-menu-item>
-                  <cck-menu-item>Link</cck-menu-item>
-                </cck-menu-sub-content>
-              </ng-template>
-            </ng-container>
-            <cck-menu-item>Delete</cck-menu-item>
-          </cck-menu-content>
-        </ng-template>
-      </ng-container>
+      <button [cckMenuTriggerFor]="menu" (closed)="log.push('closed:' + $event.reason)">Actions</button>
+      <ng-template #menu>
+        <cck-menu-content>
+          <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
+          <cck-menu-sub-trigger [cckMenuTriggerFor]="sub">Share</cck-menu-sub-trigger>
+          <ng-template #sub>
+            <cck-menu-sub-content>
+              <cck-menu-item (triggered)="log.push('Email')">Email</cck-menu-item>
+              <cck-menu-item>Link</cck-menu-item>
+            </cck-menu-sub-content>
+          </ng-template>
+          <cck-menu-item>Delete</cck-menu-item>
+        </cck-menu-content>
+      </ng-template>
     </div>
   `,
 })

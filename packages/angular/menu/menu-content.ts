@@ -100,13 +100,14 @@ export abstract class CckMenuContentBase {
  * The content opens on the preferred side of the trigger, and moves to the other side when there is no room. On open, the focus moves to the first item, or to the content when it has none.
  *
  * @example
- * <ng-template cckMenuPortal>
+ * <button [cckMenuTriggerFor]="menu">Actions</button>
+ * <ng-template #menu>
  *   <cck-menu-content side="bottom" align="start">
  *     <cck-menu-item>Rename</cck-menu-item>
  *   </cck-menu-content>
  * </ng-template>
  * @cckPart content
- * @cckTemplate ng-template[cckMenuPortal]
+ * @cckTemplate input trigger cckMenuTriggerFor
  * @cckSlot default - The items and the dividers. When not set, the panel is empty.
  */
 @Directive({
