@@ -17,7 +17,7 @@ const own = css.slice(0, css.indexOf('.cck-svg-icon'));
 const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
 const ROOT = '.cck-icon-button';
 const HOVER = `${ROOT}:hover:not([data-disabled], :disabled)`;
-const OPEN = `${ROOT}[data-state=open]:not([data-variant=primary], [data-disabled], :disabled)`;
+const OPEN = `${ROOT}[data-state=open]:not(.cck-tooltip__trigger, [data-variant=primary], [data-disabled], :disabled)`;
 const ACTIVE = `${ROOT}:active:not([data-disabled], :disabled)`;
 const MODES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 const DENSITIES = ['normal', 'compact', 'comfortable'] as const;
@@ -100,6 +100,11 @@ describe('icon-button output', () => {
     expect(rule?.[1]).toContain('cursor: not-allowed');
     expect(rule?.[1]).not.toMatch(/background-color|(^|[\s;])color:/);
     expect(rule?.index).toBeGreaterThan(css.indexOf(`${ROOT}[data-variant=outline]`));
+  });
+
+  it('keeps the resting look of a Tooltip trigger while its tooltip is open: only an opened overlay rests on the hover fill', () => {
+    expect(declarationsOf(css, `${HOVER}, ${OPEN}`)).toContain('background-color:');
+    expect(own).not.toMatch(/\[data-state=open\](?!:not\(\.cck-tooltip__trigger,)/);
   });
 
   it('rings the focus with :focus-visible', () => {

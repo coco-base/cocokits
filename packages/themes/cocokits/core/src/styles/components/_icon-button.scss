@@ -55,9 +55,10 @@
     }
 
     // After the variant rules. Disabled is excluded, so it keeps its resting fill. The trigger of an open overlay
-    // (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill.
+    // (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill. A Tooltip trigger
+    // keeps its resting look: a tooltip only describes the button, it opens nothing the button controls.
     &:hover:not([data-disabled], :disabled),
-    &[data-state='open']:not([data-variant='primary'], [data-disabled], :disabled) {
+    &[data-state='open']:not(.cck-tooltip__trigger, [data-variant='primary'], [data-disabled], :disabled) {
       background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-hover-mix));
     }
 
