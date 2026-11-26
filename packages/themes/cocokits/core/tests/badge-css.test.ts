@@ -157,6 +157,13 @@ describe('badge position properties and RTL', () => {
     expect(structureTokenOf('.cck-badge-container', 'badge-container-host-radius')).toBe(ref('radius-md'));
   });
 
+  it('makes the host radius 50% when the direct child is a circle avatar, and keeps the token for a square one', () => {
+    const round = '.cck-badge-container:has(> .cck-avatar:not([data-shape=square]))';
+    expect(declarationsOf(rulesCss, round)?.trim()).toBe('--cck-badge-container-host-radius: 50%;');
+    const rules = [...rulesCss.matchAll(/([^{}]+)\{[^}]*--cck-badge-container-host-radius\s*:/g)];
+    expect(rules.map((match) => match[1].trim())).toEqual([round]);
+  });
+
   it('never defines the documented properties, in the theme CSS or in the tokens', () => {
     for (const name of ['--cck-badge-container-radius', '--cck-badge-offset-x', '--cck-badge-offset-y']) {
       expect(stylesCss).not.toMatch(new RegExp(`${name}\\s*:`));
