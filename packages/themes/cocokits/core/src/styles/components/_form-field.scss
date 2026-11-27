@@ -221,9 +221,10 @@ $select-focused: ":has(> .cck-select > .cck-select__trigger:focus-visible, > .cc
       min-block-size: 100%;
     }
 
-    // As wide as its value, not the fixed width of a standalone Select.
+    // As wide as its value, not the fixed width of a standalone Select, so the zone is no wider than the value.
     > .cck-select {
       flex: 0 0 content;
+      inline-size: auto;
       min-inline-size: 0;
 
       > .cck-select__trigger {

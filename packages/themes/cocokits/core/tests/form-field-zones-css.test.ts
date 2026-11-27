@@ -105,7 +105,8 @@ describe('a Button, an IconButton or a Select in a Leading or Trailing is the zo
     const select = declarationsOf(stylesCss, `${ZONE} > .cck-select`) ?? '';
     expect(select).toContain('flex: 0 0 content');
     expect(select).toContain('min-inline-size: 0');
-    expect(select).not.toMatch(/(^|[\s;])inline-size:/);
+    // The zone is as wide as the Select in it: the fixed width of a standalone Select would widen the zone.
+    expect(select).toContain('inline-size: auto');
     expect(declarationsOf(stylesCss, `${ZONE} > .cck-select > .cck-select__trigger`)).toContain(
       'background-color: transparent',
     );
