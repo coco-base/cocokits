@@ -59,8 +59,9 @@ $toggle: '> .cck-chip__content-wrapper[type="button"]';
       --_remove: var(--cck-chip-selected-text-color);
     }
 
-    // A leading Avatar or SvgIcon sits closer to the start edge than text. In `:where()`, so the checked check, which
-    // comes first when it is drawn, keeps its own padding.
+    // An Avatar or SvgIcon in the content sits closer to the start edge than text; the design puts it first. A rule
+    // cannot see text before it, so a trailing one takes the same start padding. In `:where()`, so the checked
+    // check, which comes first when it is drawn, keeps its own padding.
     &:where(:has(> .cck-chip__content-wrapper > .cck-svg-icon)) {
       padding-inline-start: var(--cck-chip-icon-padding-inline-start);
     }
