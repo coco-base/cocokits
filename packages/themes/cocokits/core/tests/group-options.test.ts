@@ -15,7 +15,7 @@ const pairs = Object.entries(optionParents).flatMap(([child, options]) =>
   Object.entries(options).flatMap(([option, parents]) => parents.map((parent) => [child, option, parent] as const)),
 );
 
-describe('optionParents (D29)', () => {
+describe('optionParents', () => {
   it('lists the active pairs of the spec, nearest parent first', () => {
     expect(pairs.map((pair) => pair.join(' '))).toEqual([
       'select size form-field',

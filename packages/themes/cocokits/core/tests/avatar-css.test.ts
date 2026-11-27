@@ -151,14 +151,14 @@ describe('avatar group', () => {
     expect(direct).toContain('box-shadow: 0 0 0 var(--cck-avatar-group-ring-width) var(--cck-avatar-group-ring-color)');
   });
 
-  it('leaves the size and the fallback text of its direct avatars to the avatar itself (AG5)', () => {
+  it('leaves the size and the fallback text of its direct avatars to the avatar itself', () => {
     const direct = declarationsOf(stylesCss, '.cck-avatar-group > .cck-avatar') ?? '';
     expect(direct).not.toMatch(/inline-size|block-size|font-/);
   });
 });
 
 describe('avatar label', () => {
-  it('leaves the size of its direct avatar to the avatar itself (AL9)', () => {
+  it('leaves the size of its direct avatar to the avatar itself', () => {
     expect(stylesCss).not.toContain('.cck-avatar-label > .cck-avatar');
   });
 

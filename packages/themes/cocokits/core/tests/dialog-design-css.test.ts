@@ -57,7 +57,7 @@ describe('dialog design match', () => {
     ['md', 576, 'spacing-7', 'spacing-6'],
     ['lg', 768, 'spacing-7', 'spacing-6'],
     ['xl', 1152, 'spacing-8', 'spacing-6'],
-  ])('size %s: %ipx wide at most, padding %s and gap %s (D8r)', (mode, width, padding, gap) => {
+  ])('size %s: %ipx wide at most, padding %s and gap %s', (mode, width, padding, gap) => {
     const size = (name: string): string | undefined => sizeTokenOf(ROOT, mode, `dialog-${name}`);
     expect(size('max-inline-size')).toBe(`${String(width)}px`);
     expect(size('padding')).toBe(ref(padding));

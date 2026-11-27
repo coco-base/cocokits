@@ -213,12 +213,12 @@ describe('select separator', () => {
 describe('select inside a form field', () => {
   const fieldCss = read('dist', 'components', 'form-field.css');
 
-  it('fills the input wrapper and keeps its own size, which the theme layer takes from the field (F23)', () => {
+  it('fills the input wrapper and keeps its own size, which the theme layer takes from the field', () => {
     expect(fieldCss).toMatch(/\.cck-form-field__input-wrapper > \.cck-select\s*\{[^}]*flex: 1/);
     expect(fieldCss).not.toMatch(/\.cck-select__trigger\s*\{[^}]*(min-block-size|padding|font|letter-spacing)/);
   });
 
-  it('draws the indicator option: a box before the text, the check after it, or nothing (SE21)', () => {
+  it('draws the indicator option: a box before the text, the check after it, or nothing', () => {
     const box = '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox])';
     expect(declarationsOf(css, `${box} .cck-select__option-indicator`)).toContain('order: 0');
     expect(declarationsOf(css, `${box} .cck-select__option[data-selected] .cck-select__option-indicator`)).toContain(

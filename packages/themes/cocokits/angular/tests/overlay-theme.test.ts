@@ -112,7 +112,7 @@ const override = (
   providers: [...providers.slice(1), provideCckTheme(cocokitsThemeConfig, { [name]: { [option]: value } })],
 });
 
-describe.each(overlays)('the $name size of the Angular theme (D28, D35, A10)', (overlay) => {
+describe.each(overlays)('the $name size of the Angular theme', (overlay) => {
   beforeEach(stubOverlayApis);
   afterEach(() => {
     vi.restoreAllMocks();

@@ -156,7 +156,7 @@ describe('the box of a Textarea', () => {
     );
   });
 
-  it('keeps the padding-block of the textarea in the box, and its bounds leave out the border (F24)', () => {
+  it('keeps the padding-block of the textarea in the box, and its bounds leave out the border', () => {
     const selector = '.cck-form-field__input-wrapper > .cck-textarea';
     const rule = declarationsOf(stylesCss, selector) ?? '';
     expect(rule).not.toMatch(/padding-block|min-block-size|max-block-size|font|letter-spacing/);
