@@ -182,10 +182,10 @@ const entries = [
   { name: '@cocokits/react/checkbox-group', path: 'packages/react/dist/checkbox-group/index.js', limit: '2 kB' },
   { name: '@cocokits/angular/checkbox-group', path: 'dist/packages/angular/fesm2022/cocokits-angular-checkbox-group.mjs', limit: '2 kB' },
   { name: '@cocokits/vue/checkbox-group', path: 'packages/vue/dist/checkbox-group/index.js', limit: '1710 B' },
-  { name: '@cocokits/machines/tag', path: 'packages/machines/dist/tag/index.js', limit: '2 kB' },
-  { name: '@cocokits/angular/tag', path: 'dist/packages/angular/fesm2022/cocokits-angular-tag.mjs', limit: '2 kB' },
-  { name: '@cocokits/react/tag', path: 'packages/react/dist/tag/index.js', limit: '2 kB' },
-  { name: '@cocokits/vue/tag', path: 'packages/vue/dist/tag/index.js', limit: '2 kB' },
+  { name: '@cocokits/machines/tag', path: 'packages/machines/dist/tag/index.js', limit: '370 B' },
+  { name: '@cocokits/angular/tag', path: 'dist/packages/angular/fesm2022/cocokits-angular-tag.mjs', limit: '740 B' },
+  { name: '@cocokits/react/tag', path: 'packages/react/dist/tag/index.js', limit: '750 B' },
+  { name: '@cocokits/vue/tag', path: 'packages/vue/dist/tag/index.js', limit: '640 B' },
 ];
 
 export default entries.map((entry) => ({ ...entry, modifyEsbuildConfig: external }));
