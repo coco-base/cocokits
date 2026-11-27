@@ -40,6 +40,23 @@ describe('Radio group invalid state', () => {
     expect(root.hasAttribute('data-invalid')).toBe(true);
   });
 
+  it('clears touched on a form reset', async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(`<form><button type="button">before</button>${group('required')}</form>`, {
+      imports,
+    });
+    const root = screen.getByRole('radiogroup');
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    expect(root.hasAttribute('data-invalid')).toBe(true);
+    root.closest('form')?.reset();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    fixture.detectChanges();
+    expect(root.hasAttribute('aria-invalid')).toBe(false);
+    expect(root.hasAttribute('data-invalid')).toBe(false);
+  });
+
   it('clears the invalid state once a radio is checked', async () => {
     const user = userEvent.setup();
     await render(group('required [touched]="true"'), { imports });

@@ -322,6 +322,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     if (this.lastReset === event) return;
     this.lastReset = event;
     this.submitted.set(false);
+    this.touchedState.set(false);
     if (this.value() === this.mountValue) return;
     this.value.set(this.mountValue);
     this.valueChangeDetails.emit({ value: this.mountValue, reason: 'form-reset', event });
