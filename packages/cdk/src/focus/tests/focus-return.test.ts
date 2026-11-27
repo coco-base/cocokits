@@ -137,3 +137,71 @@ describe("captureFocusReturn with restoreTo: 'opener'", () => {
     expect(document.activeElement).toBe(byId('other'));
   });
 });
+
+describe('captureFocusReturn when an overlay opened another one', () => {
+  /** A menu whose item opens a dialog with no trigger, then closes and takes the item away. */
+  function menuOpensDialog(): { menuTrigger: HTMLElement; dialogBack: ReturnType<typeof captureFocusReturn> } {
+    const { byId } = mount(
+      '<button id="t">t</button><div id="menu"><button id="item">item</button></div><div id="dialog"><button id="close">close</button></div>',
+    );
+    const menuTrigger = byId('t');
+    const menu = byId('menu');
+    const dialog = byId('dialog');
+    const menuBack = captureFocusReturn({ getTrigger: () => menuTrigger, getContent: () => menu });
+    byId('item').focus();
+    const dialogBack = captureFocusReturn({ getTrigger: () => null, getContent: () => dialog, restoreTo: 'opener' });
+    byId('close').focus();
+    menu.remove();
+    // The focus is in the dialog, so the menu leaves it there.
+    menuBack.restore();
+    expect(document.activeElement).toBe(byId('close'));
+    return { menuTrigger, dialogBack };
+  }
+
+  it('returns to the trigger of the menu whose item opened the dialog, when the item is gone', () => {
+    const { menuTrigger, dialogBack } = menuOpensDialog();
+    dialogBack.restore();
+    expect(document.activeElement).toBe(menuTrigger);
+  });
+
+  it('falls back to the body when the trigger of the menu is gone too', () => {
+    const { menuTrigger, dialogBack } = menuOpensDialog();
+    menuTrigger.remove();
+    dialogBack.restore();
+    expect(document.activeElement).toBe(document.body);
+  });
+
+  it('returns to the menu trigger also when the focus was already on the body when the dialog opened', () => {
+    const { byId } = mount(
+      '<button id="t">t</button><div id="menu"></div><div id="dialog"><button id="close">x</button></div>',
+    );
+    const menuBack = captureFocusReturn({ getTrigger: () => byId('t'), getContent: () => byId('menu') });
+    const dialogBack = captureFocusReturn({
+      getTrigger: () => null,
+      getContent: () => byId('dialog'),
+      restoreTo: 'opener',
+    });
+    byId('close').focus();
+    menuBack.restore();
+    dialogBack.restore();
+    expect(document.activeElement).toBe(byId('t'));
+  });
+
+  it('gives no trigger to an overlay that was open before it', () => {
+    const { byId } = mount(
+      '<button id="opener">o</button><div id="dialog"><button id="in">in</button></div><button id="t">t</button><div id="pop"></div>',
+    );
+    byId('opener').focus();
+    const dialogBack = captureFocusReturn({
+      getTrigger: () => null,
+      getContent: () => byId('dialog'),
+      restoreTo: 'opener',
+    });
+    const popoverBack = captureFocusReturn({ getTrigger: () => byId('t'), getContent: () => byId('pop') });
+    byId('in').focus();
+    popoverBack.restore();
+    byId('opener').remove();
+    dialogBack.restore();
+    expect(document.activeElement).toBe(document.body);
+  });
+});

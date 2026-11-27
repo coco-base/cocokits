@@ -31,12 +31,47 @@ export interface FocusReturnOptions {
 /** Returns focus to the trigger when an overlay closes. */
 export interface FocusReturn {
   /**
-   * Focuses the trigger or the opener. When it is gone, focus goes to the body of its document.
+   * Focuses the trigger or the opener. When it is gone, focus goes to the element that stands for it: the trigger of
+   * the overlay that had focus when this one opened, such as the menu whose item opened a dialog. When there is none,
+   * focus goes to the body of its document.
    * It does nothing when the user already moved focus to another element outside the overlay, such as a button they clicked.
    */
   restore(): void;
   /** Stops the return. After this, `restore()` does nothing. */
   destroy(): void;
+}
+
+/** A focus return whose overlay is open or closing: it has not restored focus yet. */
+interface Pending {
+  /** The order of the capture; an overlay opened from this one has a higher one. */
+  readonly order: number;
+  readonly getContent: () => Element | null;
+  /** Gives it the element that stands for its own target when that is gone. */
+  readonly standIn: (target: () => HTMLElement | null) => void;
+}
+
+const pendingReturns = new WeakMap<Document, Set<Pending>>();
+let captures = 0;
+
+function pendingIn(doc: Document): Set<Pending> {
+  let set = pendingReturns.get(doc);
+  if (!set) pendingReturns.set(doc, (set = new Set()));
+  return set;
+}
+
+/**
+ * The overlay that has focus now and was opened while this one was open, such as a dialog that an item of this menu
+ * opened. Pending returns whose content left the document are dropped: they can never hold focus again.
+ */
+function openedFrom(self: Pending, doc: Document, active: Element): Pending | undefined {
+  const set = pendingIn(doc);
+  let found: Pending | undefined;
+  for (const other of set) {
+    const content = other.getContent();
+    if (content && !content.isConnected) set.delete(other);
+    else if (other.order > self.order && content && containsDeep(content, active)) found = other;
+  }
+  return found;
 }
 
 /** Whether the user moved focus to a focusable element outside the overlay content. */
@@ -74,15 +109,37 @@ export function captureFocusReturn(options: FocusReturnOptions): FocusReturn {
   const remembered = options.document ?? first?.ownerDocument ?? options.getContent?.()?.ownerDocument ?? null;
   const opener = options.restoreTo === 'opener' ? captureOpener(remembered) : null;
   let destroyed = false;
+  let standIn: () => HTMLElement | null = () => null;
+  /** The target when it is still in the document, else the element that stands for it. */
+  const resolve = (): HTMLElement | null => {
+    const target = opener ?? options.getTrigger();
+    return target?.isConnected ? target : standIn();
+  };
+  const self: Pending = {
+    order: (captures += 1),
+    getContent: () => options.getContent?.() ?? null,
+    standIn: (target) => {
+      standIn = target;
+    },
+  };
+  if (remembered) pendingIn(remembered).add(self);
+  const settle = (): void => {
+    if (remembered) pendingIn(remembered).delete(self);
+  };
   return {
     restore() {
       if (destroyed) return;
-      const target = opener ?? options.getTrigger();
-      const doc = target?.ownerDocument ?? remembered;
+      settle();
+      const doc = (opener ?? options.getTrigger())?.ownerDocument ?? remembered;
       if (!doc) return;
       const active = deepActiveElement(doc);
-      if (movedAway(doc, active, options.getContent?.() ?? null)) return;
-      if (target?.isConnected) target.focus();
+      if (movedAway(doc, active, self.getContent())) {
+        // The focus is in an overlay opened from this one: when its own target goes, this target stands for it.
+        if (active) openedFrom(self, doc, active)?.standIn(resolve);
+        return;
+      }
+      const target = resolve();
+      if (target) target.focus();
       else {
         // The body is not focusable by itself: blur what still has focus so the document falls back to it.
         (active as HTMLElement | null)?.blur();
@@ -91,6 +148,7 @@ export function captureFocusReturn(options: FocusReturnOptions): FocusReturn {
     },
     destroy() {
       destroyed = true;
+      settle();
     },
   };
 }

@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { CckMenuImports } from '../../menu';
 import { CckDialogImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
 import { frame } from './queries';
@@ -48,11 +49,42 @@ class Stacked {
   readonly inner = signal(false);
 }
 
+@Component({
+  imports: [...CckDialogImports, ...CckMenuImports],
+  template: ` <button type="button" [cckMenuTriggerFor]="actions">Project actions</button>
+    <ng-template #actions>
+      <cck-menu-content><cck-menu-item (triggered)="open.set(true)">Rename</cck-menu-item></cck-menu-content>
+    </ng-template>
+    ${DIALOG}`,
+})
+class FromMenu {
+  readonly open = signal(false);
+}
+
 describe('Dialog without a trigger', () => {
   beforeEach(stubOverlayApis);
   afterEach(() => {
     vi.restoreAllMocks();
     Reflect.deleteProperty(document, 'fullscreenElement');
+  });
+
+  it('returns focus to the Menu trigger when a Menu item opened it and the item is gone', async () => {
+    const user = userEvent.setup();
+    await render(FromMenu);
+    const menuTrigger = screen.getByRole('button', { name: 'Project actions' });
+    await user.click(menuTrigger);
+    await user.click(await screen.findByRole('menuitem', { name: 'Rename' }));
+    await screen.findByRole('dialog', { name: 'Notice' });
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).toBeNull();
+    });
+    await user.click(screen.getByRole('button', { name: 'Close' }));
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).toBeNull();
+    });
+    await waitFor(() => {
+      expect(document.activeElement).toBe(menuTrigger);
+    });
   });
 
   it('opens from open, renders in the body and returns focus to its opener', async () => {
