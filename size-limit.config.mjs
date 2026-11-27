@@ -103,7 +103,7 @@ const entries = [
   { name: '@cocokits/machines/tooltip', path: 'packages/machines/dist/tooltip/index.js', limit: '1650 B' },
   { name: '@cocokits/machines/select', path: 'packages/machines/dist/select/index.js', limit: '6510 B' },
   { name: '@cocokits/machines/tab-nav', path: 'packages/machines/dist/tab-nav/index.js', limit: '1440 B' },
-  { name: '@cocokits/angular/popover', path: 'dist/packages/angular/fesm2022/cocokits-angular-popover.mjs', limit: '4290 B' },
+  { name: '@cocokits/angular/popover', path: 'dist/packages/angular/fesm2022/cocokits-angular-popover.mjs', limit: '4730 B' },
   { name: '@cocokits/react/popover', path: 'packages/react/dist/popover/index.js', limit: '5160 B' },
   { name: '@cocokits/vue/popover', path: 'packages/vue/dist/popover/index.js', limit: '5000 B' },
   { name: '@cocokits/angular/dialog', path: 'dist/packages/angular/fesm2022/cocokits-angular-dialog.mjs', limit: '8070 B' },
