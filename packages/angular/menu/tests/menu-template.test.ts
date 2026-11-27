@@ -192,7 +192,7 @@ describe('Menu trigger root inputs', () => {
 
   it('leaves no root input written as a static attribute on the trigger or the sub trigger', async () => {
     await render(
-      `<button [cckMenuTriggerFor]="menu" disableClose open="">Actions</button>
+      `<button [cckMenuTriggerFor]="menu" disableClose open="" closePredicate="">Actions</button>
       <ng-template #menu>
         <cck-menu-content>
           <cck-menu-sub-trigger [cckMenuTriggerFor]="sub" open="">Share</cck-menu-sub-trigger>
@@ -203,6 +203,7 @@ describe('Menu trigger root inputs', () => {
     );
     expect(trigger().hasAttribute('disableclose')).toBe(false);
     expect(trigger().hasAttribute('open')).toBe(false);
+    expect(trigger().hasAttribute('closepredicate')).toBe(false);
     await userEvent.setup().click(trigger());
     const sub = await screen.findByRole('menuitem', { name: 'Share' });
     expect(sub.hasAttribute('open')).toBe(false);
