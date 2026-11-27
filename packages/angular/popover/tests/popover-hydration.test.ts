@@ -3,9 +3,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { bootstrapOnClient, renderOnServer } from './fixtures';
 import { stubOverlayApis } from './overlay-stubs';
 
-/** Markup without the hydration and event-replay bookkeeping Angular adds, and the value the server writes on an input. */
+/** Markup without the hydration and event-replay bookkeeping Angular adds, and the value the server writes on the Input. */
 function normalized(root: Element): string {
-  return root.innerHTML.replace(/\s+(?:ngh|jsaction|value)="[^"]*"/g, '').replace(/<!--[^>]*-->/g, '');
+  return root.innerHTML
+    .replace(/\s+(?:ngh|jsaction)="[^"]*"/g, '')
+    .replace(/<input\b[^>]*>/g, (tag) => (tag.includes('cck-input') ? tag.replace(/\s+value="[^"]*"/, '') : tag))
+    .replace(/<!--[^>]*-->/g, '');
 }
 
 function must<T>(value: T | null | undefined): T {
