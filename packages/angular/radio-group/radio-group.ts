@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
 import { CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
-import { CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
+import { CCK_CONTROL_GROUP, CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
 import { CckFormField } from '@cocokits/angular/form-field';
 import type { FormFieldControlContext } from '@cocokits/machines/form-field';
 import {
@@ -80,6 +80,8 @@ export interface CckRadioGroupRegistration {
 @Directive({
   selector: 'cck-radio-group',
   exportAs: 'cckRadioGroup',
+  // The group is the field's control: a control inside it leaves the field alone.
+  providers: [{ provide: CCK_CONTROL_GROUP, useValue: true }],
   host: {
     ngNoCva: '',
     '[class]': '_parts().root.class',

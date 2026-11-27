@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { CckFieldErrorImports } from '@cocokits/angular/field-error';
 import { CckFormFieldImports } from '@cocokits/angular/form-field';
 import { CckHintImports } from '@cocokits/angular/hint';
+import { CckInputImports } from '@cocokits/angular/input';
 import { CckLabelImports } from '@cocokits/angular/label';
 import { CckLeadingImports } from '@cocokits/angular/leading';
 import { CckRadioImports } from '@cocokits/angular/radio';
@@ -17,6 +18,7 @@ const imports = [
   ...CckHintImports,
   ...CckFieldErrorImports,
   ...CckLeadingImports,
+  ...CckInputImports,
 ];
 
 const radios = '<cck-radio submitValue="free">Free</cck-radio><cck-radio submitValue="pro">Pro</cck-radio>';
@@ -90,6 +92,18 @@ describe('Radio group in a FormField', () => {
     );
     expect(group(container).id).toBe('');
     expect(group(container).hasAttribute('aria-labelledby')).toBe(false);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it('keeps the field for the group when a control sits inside it', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { container } = await render(
+      `<cck-form-field id="f"><label cckLabel>Plan</label><cck-radio-group>${radios}<input cckInput aria-label="Other" /></cck-radio-group></cck-form-field>`,
+      { imports },
+    );
+    expect(group(container).id).toBe('f-control');
+    expect(screen.getByRole('textbox', { name: 'Other' }).id).not.toBe('f-control');
+    expect(screen.getByRole('radiogroup', { name: 'Plan' })).toBe(group(container));
     expect(warn).not.toHaveBeenCalled();
   });
 });
