@@ -5,6 +5,7 @@ import { useState, type ReactElement } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Checkbox } from '../../checkbox';
 import { FormField } from '../../form-field';
+import { Input } from '../../input';
 import { Label } from '../../label';
 import { CheckboxGroup, type CheckboxGroupChangeDetails, type CheckboxGroupProps } from '../index';
 
@@ -173,6 +174,23 @@ describe('CheckboxGroup in a FormField', () => {
       </FormField>,
     );
     await frame();
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it('keeps the field for the group when a control sits inside it', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    render(
+      <FormField label={<Label>Toppings</Label>}>
+        <CheckboxGroup>
+          <Checkbox value="cheese">Cheese</Checkbox>
+          <Input aria-label="Other" />
+        </CheckboxGroup>
+      </FormField>,
+    );
+    await frame();
+    expect(group().id).toMatch(/-control$/);
+    expect(screen.getByRole('textbox', { name: 'Other' }).id).not.toMatch(/-control$/);
+    expect(screen.getByRole('group', { name: 'Toppings' })).toBe(group());
     expect(warn).not.toHaveBeenCalled();
   });
 

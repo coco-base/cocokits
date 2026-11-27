@@ -3,12 +3,19 @@ import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { CckCheckboxImports } from '@cocokits/angular/checkbox';
 import { CckFormFieldImports } from '@cocokits/angular/form-field';
+import { CckInputImports } from '@cocokits/angular/input';
 import { CckLabelImports } from '@cocokits/angular/label';
 import { CHECKBOX_GROUP_NAME_WARNING, checkboxGroupAnatomy } from '@cocokits/machines/checkbox-group';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { CckCheckboxGroupImports, type CheckboxGroupChangeDetails } from '../index';
 
-const imports = [...CckCheckboxGroupImports, ...CckCheckboxImports, ...CckFormFieldImports, ...CckLabelImports];
+const imports = [
+  ...CckCheckboxGroupImports,
+  ...CckCheckboxImports,
+  ...CckFormFieldImports,
+  ...CckLabelImports,
+  ...CckInputImports,
+];
 
 @Component({
   imports,
@@ -131,6 +138,19 @@ describe('Checkbox group in a FormField', () => {
     await render(field(), { imports });
     expect(warn).not.toHaveBeenCalled();
     expect(box('Ham').id).not.toBe('f-control');
+  });
+
+  it('keeps the field for the group when a control sits inside it', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const { container } = await render(
+      field().replace('</cck-checkbox-group>', '<input cckInput aria-label="Other" /></cck-checkbox-group>'),
+      { imports },
+    );
+    const group = container.querySelector('cck-checkbox-group');
+    expect(group?.id).toBe('f-control');
+    expect(screen.getByRole('textbox', { name: 'Other' }).id).not.toBe('f-control');
+    expect(screen.getByRole('group', { name: 'Toppings' })).toBe(group);
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it('shows the field disabled and invalid on the group', async () => {
