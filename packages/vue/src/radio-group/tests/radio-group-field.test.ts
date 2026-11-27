@@ -96,6 +96,26 @@ describe('RadioGroup in a FormField', () => {
     expect(group().hasAttribute('aria-labelledby')).toBe(false);
     expect(warn).not.toHaveBeenCalled();
   });
+
+  it('keeps the field for the group when a control sits inside it', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(() =>
+      h(
+        FormField,
+        { id: 'f' },
+        {
+          label: () => h(Label, null, () => 'Plan'),
+          default: () =>
+            h(RadioGroup, null, () => [h(Radio, { value: 'free' }, () => 'Free'), h(Input, { 'aria-label': 'Other' })]),
+        },
+      ),
+    );
+    await nextTick();
+    expect(group().id).toBe('f-control');
+    expect(screen.getByRole('textbox', { name: 'Other' }).id).not.toBe('f-control');
+    expect(screen.getByRole('radiogroup', { name: 'Plan' })).toBe(group());
+    expect(warn).not.toHaveBeenCalled();
+  });
 });
 
 describe('RadioGroup and a blocked submit', () => {

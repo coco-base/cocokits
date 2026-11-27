@@ -22,7 +22,7 @@ import {
 } from '@cocokits/machines/radio-group';
 import { sortByDomOrder } from '@cocokits/utils';
 import { Primitive, provideDirection, useDirection, useThemeAttrs } from '@cocokits/vue-core';
-import { nonEmpty, useFormFieldContext } from '../internal/form-field-context';
+import { FORM_FIELD_KEY, nonEmpty, useFormFieldContext } from '../internal/form-field-context';
 import { toVueListeners } from '../internal/listeners';
 import { RADIO_GROUP_KEY, type RadioGroupRegistration } from '../internal/radio-group-context';
 import { omit } from '../internal/record';
@@ -216,6 +216,8 @@ onMounted(() => {
 });
 onUpdated(refresh);
 
+// The group is the field's control: a control inside it leaves the field alone.
+provide(FORM_FIELD_KEY, undefined);
 provide(RADIO_GROUP_KEY, {
   facts: (item) => parts.value.radio(item),
   register,
