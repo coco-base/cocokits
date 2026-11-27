@@ -8,7 +8,7 @@ import { CckTooltip } from './tooltip';
  *
  * A trigger with only an icon needs `aria-label` or `aria-labelledby`. Its name must not come from the tooltip.
  *
- * The trigger is described by the title and the description of the content, also while the tooltip is closed. A disabled button cannot get the focus, so it never shows a tooltip. Put the trigger on a focusable element around it.
+ * The title and the description of the content describe the trigger, also while the tooltip is closed. A content with any other element, such as an arrow, or with neither part describes the trigger only while it is shown. A disabled button cannot get the focus, so it never shows a tooltip. Put the trigger on a focusable element around it.
  *
  * @example
  * <button type="button" aria-label="Copy" [cckTooltipTriggerFor]="copy"><cck-svg-icon iconName="copy" /></button>
