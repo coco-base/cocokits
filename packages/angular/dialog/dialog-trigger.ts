@@ -17,6 +17,8 @@ import { CckDialogRoot } from './dialog-root';
  *
  * It applies the root: write the root's inputs and outputs, like `[(open)]`, `role` or `width`, on the same button. They set the dialog, never the button. To use it with another component, put both attributes on one element, like `<button cckButton [cckDialogTriggerFor]="deleteProject">`.
  *
+ * @remarks `autoFocus` is a root input, so the button drops a native `autofocus` attribute. To focus the button when the page opens, call its `focus()` in `afterNextRender`.
+ *
  * @example
  * <button type="button" [cckDialogTriggerFor]="deleteProject">Delete project</button>
  * <ng-template #deleteProject>
