@@ -6,6 +6,8 @@ import {
   Injector,
   PLATFORM_ID,
   Renderer2,
+  TemplateRef,
+  ViewContainerRef,
   afterRenderEffect,
   computed,
   effect,
@@ -15,13 +17,11 @@ import {
   signal,
   untracked,
   type Signal,
-  type TemplateRef,
 } from '@angular/core';
-import { CckOverlayLayer, CckPortal, IdGenerator, injectZoneBoundary, themeAttrs } from '@cocokits/angular-core';
+import { IdGenerator, createOverlayOutlet, injectZoneBoundary, themeAttrs } from '@cocokits/angular-core';
 import { createDismissLayer, type DismissIntent, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { captureFocusReturn, scheduleFocus, type FocusReturn } from '@cocokits/cdk/focus';
 import { createPresence } from '@cocokits/cdk/presence';
-import { lockScroll } from '@cocokits/cdk/scroll-lock';
 import {
   dialogAnatomy,
   getDialogProps,
@@ -33,6 +33,7 @@ import {
 } from '@cocokits/machines/dialog';
 import { containsDeep } from '@cocokits/utils';
 import { applyAutoFocus, deepActiveOrBody, restoreTarget } from './dialog-focus';
+import { DialogModal } from './dialog-modal';
 import { CckDialogOptions } from './dialog-options';
 import { watchNavigation } from './dialog-navigation';
 import type { DialogChangeDetails } from './dialog-types';
@@ -68,9 +69,9 @@ export interface DialogServiceAttrs {
 }
 
 /**
- * A window over the page. Put the root on an `ng-container`; it makes no element. It holds the open state and links the trigger, the content, the title, the description and the close button.
+ * A window over the page. It makes no element: write its inputs and outputs on the `cckDialogTriggerFor` button, or on the `ng-template cckDialog` of a dialog without one. It holds the open state and links the trigger, the content, the title, the description and the close button.
  *
- * You write the content as a native `<dialog>` in a `cckDialogPortal` template. It shows in the overlay container. It is modal unless you set `[modal]="false"`: `modal` adds the backdrop, makes the rest of the page inert and stops the page from scrolling. A dialog that is not modal has no backdrop, and the page stays usable. It closes on Escape, on a press outside and when the focus moves outside it, and its trigger opens and closes it.
+ * You write the content as a native `<dialog>` in an `ng-template` and give it to the trigger by reference. It shows in the overlay container. It is modal unless you set `[modal]="false"`: `modal` adds the backdrop, makes the rest of the page inert and stops the page from scrolling. A dialog that is not modal has no backdrop, and the page stays usable. It closes on Escape, on a press outside and when the focus moves outside it, and its trigger opens and closes it.
  *
  * The dialog closes on the close button, Escape, a press on the backdrop and the submit of a `<form method="dialog">` inside it. Then the focus goes back to the element that had it, which is usually the trigger. It also closes when the user goes back or forward in the history, unless you set `[closeOnNavigation]="false"`.
  *
@@ -78,30 +79,24 @@ export interface DialogServiceAttrs {
  *
  * @remarks The focus starts on an element with `autofocus`, or else on the first focusable element. The browser decides what Tab reaches after the last control. Escape closes only the top dialog.
  *
- * The trigger is optional. A dialog without one opens from `open`, and shows next to the element that had the focus.
+ * The trigger is optional. A dialog without one sits on its own template, `<ng-template cckDialog [(open)]="renaming">`, with the `<dialog cckDialogContent>` inside. It opens from `open` and shows next to the element that had the focus. When it closes, the focus goes back to that element.
  *
  * To open a dialog from code, use the `CckDialog` service.
  *
  * @example
- * <ng-container cckDialog [(open)]="deleting">
- *   <button cckDialogTrigger type="button">Delete project</button>
- *   <ng-template cckDialogPortal>
- *     <dialog cckDialogContent>
- *       <cck-dialog-header><h2 cckDialogTitle>Delete project</h2></cck-dialog-header>
- *       <cck-dialog-body><cck-dialog-description>This cannot be undone.</cck-dialog-description></cck-dialog-body>
- *       <cck-dialog-footer><button cckDialogClose type="button">Cancel</button></cck-dialog-footer>
- *     </dialog>
- *   </ng-template>
- * </ng-container>
+ * <button type="button" [cckDialogTriggerFor]="deleteProject" [(open)]="deleting">Delete project</button>
+ * <ng-template #deleteProject>
+ *   <dialog cckDialogContent>
+ *     <cck-dialog-header><h2 cckDialogTitle>Delete project</h2></cck-dialog-header>
+ *     <cck-dialog-body><cck-dialog-description>This cannot be undone.</cck-dialog-description></cck-dialog-body>
+ *     <cck-dialog-footer><button cckDialogClose type="button">Cancel</button></cck-dialog-footer>
+ *   </dialog>
+ * </ng-template>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The trigger and the `cckDialogPortal` template. When not set, there is nothing to open.
+ * @cckSlot default - The `ng-template` you give to `cckDialogTriggerFor`, or the `ng-template cckDialog` itself, with the `<dialog cckDialogContent>` inside. When not set, no dialog shows.
  */
-@Directive({
-  selector: '[cckDialog]',
-  exportAs: 'cckDialog',
-  providers: [CckPortal, CckOverlayLayer],
-})
+@Directive({ selector: 'ng-template[cckDialog]', exportAs: 'cckDialog' })
 export class CckDialogRoot extends CckDialogOptions {
   /**
    * Whether the dialog is open. Use `[(open)]` to read and change it.
@@ -114,12 +109,10 @@ export class CckDialogRoot extends CckDialogOptions {
    * Emits after the user opens the dialog with the trigger. It sends the `reason` and the `event`.
    * @remarks It never emits when the parent changes `open`.
    * @example
-   * <ng-container cckDialog (opened)="onOpen($event)">
-   *   <button cckDialogTrigger type="button">Edit</button>
-   *   <ng-template cckDialogPortal>
-   *     <dialog cckDialogContent aria-label="Edit">…</dialog>
-   *   </ng-template>
-   * </ng-container>
+   * <button type="button" [cckDialogTriggerFor]="edit" (opened)="onOpen($event)">Edit</button>
+   * <ng-template #edit>
+   *   <dialog cckDialogContent aria-label="Edit"><button cckDialogClose type="button">Close</button></dialog>
+   * </ng-template>
    * <!-- In the class: onOpen(details: DialogChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -130,12 +123,10 @@ export class CckDialogRoot extends CckDialogOptions {
    * Emits after the dialog closes itself. It sends the `reason` and the `event`.
    * @remarks The close button, a `<form method="dialog">`, Escape and a press on the backdrop close it. It never emits when the parent changes `open`.
    * @example
-   * <ng-container cckDialog (closed)="onClose($event)">
-   *   <button cckDialogTrigger type="button">Edit</button>
-   *   <ng-template cckDialogPortal>
-   *     <dialog cckDialogContent aria-label="Edit">…</dialog>
-   *   </ng-template>
-   * </ng-container>
+   * <button type="button" [cckDialogTriggerFor]="edit" (closed)="onClose($event)">Edit</button>
+   * <ng-template #edit>
+   *   <dialog cckDialogContent aria-label="Edit"><button cckDialogClose type="button">Close</button></dialog>
+   * </ng-template>
    * <!-- In the class: onClose(details: DialogChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -153,8 +144,10 @@ export class CckDialogRoot extends CckDialogOptions {
   private readonly anchor = computed(() => this._trigger() ?? this.opener());
   /** @internal */
   readonly _content = signal<HTMLDialogElement | null>(null);
-  /** @internal */
-  readonly _template = signal<TemplateRef<void> | null>(null);
+  /** The template of the content: the root's own template, else the trigger gives its input. @internal */
+  _template: Signal<TemplateRef<unknown> | undefined> = signal(
+    inject(TemplateRef, { optional: true, self: true }) ?? undefined,
+  );
   /** The `id` input of each mounted Title; the content is labelled by the first while there is one. @internal */
   readonly _titles = signal<readonly Signal<string | undefined>[]>([]);
   /** Set by the dialog service; a declarative Dialog has none. @internal */
@@ -175,16 +168,20 @@ export class CckDialogRoot extends CckDialogOptions {
   /** Whether the open dialog is modal: the `modal` input as it was when the dialog opened. @internal */
   readonly _modalNow = signal(true);
   private readonly id = inject(IdGenerator).getId(dialogAnatomy.classes.root);
-  private readonly portal = inject(CckPortal);
+  /** The portal, the layer and the content injector. The dialog owns them, so another overlay on the trigger keeps its own. */
+  private readonly outlet = createOverlayOutlet(CckDialogRoot, this);
+  /** The portal of the content; the part that holds the template gives it its view container. @internal */
+  readonly _portal = this.outlet.portal;
   /** @internal */
-  readonly _layer = inject(CckOverlayLayer);
+  readonly _layer = this.outlet.layer;
   private readonly zone = injectZoneBoundary();
-  private readonly parentLayer = inject(CckOverlayLayer, { optional: true, skipSelf: true });
-  private dismissLayer: DismissLayer | null = null;
-  /** The layer has exited: it raises no intent, but stays a barrier until the modal has left the document. */
-  private dismissExited = false;
-  /** The scroll lock, held until the closed modal has left the document. */
-  private unlock: (() => void) | null = null;
+  /** The dismiss layer, the scroll lock and the focus return, held until the closed modal has left the document. */
+  private readonly modalState = new DialogModal({
+    layer: this._layer,
+    createLayer: () => this.createDismissLayer(),
+    isOpen: () => this.open(),
+    returned: () => this._hooks?.returned(),
+  });
   /** Where focus goes back to: the element that had focus before the dialog attached. */
   private openerReturn: FocusReturn | null = null;
   private readonly presence = createPresence({
@@ -192,16 +189,13 @@ export class CckDialogRoot extends CckDialogOptions {
     onStateChange: (state) => {
       this._mounted.set(state !== 'unmounted');
       if (state === 'unmounted') {
-        this.releaseModal();
+        this.modalState.release();
         this.flushFocusReturn();
       }
     },
   });
-  private returnScheduled = false;
   /** Set by an open the Trigger made; the next capture reads it: such a dialog returns focus to the Trigger. */
   private openedByTrigger = false;
-  /** Focus goes back to the trigger once the closed dialog has left the document (it is inert until then). */
-  private pendingReturn: { readonly doc: Document; readonly focusReturn: FocusReturn } | null = null;
 
   private readonly state = computed<DialogState>(() => ({
     id: this.id,
@@ -231,9 +225,12 @@ export class CckDialogRoot extends CckDialogOptions {
 
   constructor() {
     super();
+    // A root on its own template creates the content at the template's anchor, so it is checked with the declaring view.
+    if (this._template()) this._portal.useContainer(inject(ViewContainerRef));
     inject(DestroyRef).onDestroy(() => {
       this.presence.destroy();
-      this.releaseModal();
+      this.modalState.release();
+      this.openerReturn?.destroy();
     });
 
     // A declarative dialog follows the location while it is open; the service watches the dialogs it opens.
@@ -276,7 +273,7 @@ export class CckDialogRoot extends CckDialogOptions {
     // Opening mounts at once; closing waits for the exit animation (read after the closed state rendered).
     afterRenderEffect({
       write: () => {
-        const show = this.open() && this._template() !== null && this.anchor() !== null;
+        const show = this.open() && this._template() !== undefined && this.anchor() !== null;
         untracked(() => {
           this.presence.setOpen(show);
         });
@@ -287,8 +284,9 @@ export class CckDialogRoot extends CckDialogOptions {
       write: () => {
         const [mounted, template, anchor] = [this._mounted(), this._template(), this.anchor()];
         untracked(() => {
-          if (mounted && template && anchor) this.portal.attach(template, undefined, anchor);
-          else this.portal.detach();
+          if (mounted && template && anchor)
+            this._portal.attach(template, undefined, anchor, { injector: this.outlet.injector });
+          else this._portal.detach();
         });
       },
     });
@@ -314,8 +312,8 @@ export class CckDialogRoot extends CckDialogOptions {
         // A layer started before the content rendered must not outlive a close made by the parent.
         if (!open)
           untracked(() => {
-            this.exitDismissLayer();
-            if (!this._mounted()) this.releaseModal();
+            this.modalState.exitLayer();
+            if (!this._mounted()) this.modalState.release();
           });
         if (!open || !anchor || !dialog) return;
         untracked(() => {
@@ -333,30 +331,27 @@ export class CckDialogRoot extends CckDialogOptions {
    * @returns The cleanup.
    */
   private engage(doc: Document): () => void {
-    this.startDismissLayer();
-    if (this._modalNow()) this.unlock ??= lockScroll(doc);
+    this.modalState.startLayer();
+    if (this._modalNow()) this.modalState.lock(doc);
     return () => {
-      this.exitDismissLayer();
+      this.modalState.exitLayer();
       // A cleanup caused by closing returns focus; one caused by the Dialog being destroyed does not.
       if (untracked(this.open)) return;
-      const focusReturn = this.openerReturn;
+      this.modalState.queueReturn(doc, this.openerReturn);
       this.openerReturn = null;
-      if (focusReturn) this.pendingReturn = { doc, focusReturn };
       if (!untracked(this._mounted)) {
-        this.releaseModal();
+        this.modalState.release();
         this.flushFocusReturn();
       }
     };
   }
 
   /**
-   * Registers the dismiss layer if it is not registered yet. The trigger starts it as soon as the user opens the
-   * Dialog, so an Escape that comes before the content has rendered still closes it.
+   * The dismiss layer of this open period. The trigger starts it as soon as the user opens the Dialog, so an Escape
+   * that comes before the content has rendered still closes it.
    */
-  private startDismissLayer(): void {
-    if (this.dismissLayer && !this.dismissExited) return;
-    this.stopDismissLayer();
-    const layer = this.zone.outside(() =>
+  private createDismissLayer(): DismissLayer {
+    return this.zone.outside(() =>
       createDismissLayer({
         // Before the content has rendered the anchor stands in for it: the layer needs an element to find the document.
         // A dialog that is not modal is a layer like a non-modal popover: its trigger is inside it.
@@ -368,11 +363,9 @@ export class CckDialogRoot extends CckDialogOptions {
           });
         },
         ...(this._modalNow() ? {} : { dismissOn: ['escape', 'outside-press', 'focus-out'] as const }),
-        getParent: () => this.parentLayer?.current ?? null,
+        getParent: () => this.outlet.parentLayer?.current ?? null,
       }),
     );
-    this.dismissLayer = layer;
-    this._layer.current = layer;
   }
 
   /** Decides an intent of the dismiss layer: a press on the backdrop, Escape, or a close the browser made. */
@@ -404,44 +397,9 @@ export class CckDialogRoot extends CckDialogOptions {
     });
   }
 
-  /** Stops the layer's intents; it stays registered as a barrier until {@link releaseModal}. */
-  private exitDismissLayer(): void {
-    this.dismissLayer?.exit();
-    this.dismissExited = true;
-  }
-
-  /** Removes the dismiss layer; safe to call when there is none. */
-  private stopDismissLayer(): void {
-    const layer = this.dismissLayer;
-    if (!layer) return;
-    layer.destroy();
-    if (this._layer.current === layer) this._layer.current = null;
-    this.dismissLayer = null;
-    this.dismissExited = false;
-  }
-
-  /** The closed modal has left the document (or there was none): the layer and the scroll lock end. */
-  private releaseModal(): void {
-    this.stopDismissLayer();
-    this.unlock?.();
-    this.unlock = null;
-  }
-
+  /** Returns focus; with a return still to be captured (the layer has not seen the close yet) the flush comes again. */
   private flushFocusReturn(): void {
-    const pending = this.pendingReturn;
-    this.pendingReturn = null;
-    if (!pending) {
-      // With a return still to be captured (the close has not been seen by the layer yet) the flush comes again.
-      if (!this.openerReturn && !this.returnScheduled) this._hooks?.returned();
-      return;
-    }
-    // A frame later, so the removal of the dialog and the blur of a press have settled.
-    this.returnScheduled = true;
-    scheduleFocus(pending.doc, () => {
-      this.returnScheduled = false;
-      if (!this.open()) pending.focusReturn.restore();
-      this._hooks?.returned();
-    });
+    this.modalState.flushReturn(this.openerReturn !== null);
   }
 
   /** Notes how an open starts: whether the trigger made it, and the `modal` of this open period. */
@@ -476,8 +434,8 @@ export class CckDialogRoot extends CckDialogOptions {
     }
     this.beginOpen(next.open, next.reason);
     this.open.set(next.open);
-    if (next.open) this.startDismissLayer();
-    else this.exitDismissLayer();
+    if (next.open) this.modalState.startLayer();
+    else this.modalState.exitLayer();
     (next.open ? this.opened : this.closed).emit(details);
     return true;
   }
@@ -492,6 +450,9 @@ export class CckDialogRoot extends CckDialogOptions {
  */
 export function injectCckDialogRoot(part: string): CckDialogRoot {
   const root = inject(CckDialogRoot, { optional: true });
-  if (!root) throw new Error(`CocoKits: cckDialog${part} must be placed inside an element with cckDialog.`);
+  if (!root)
+    throw new Error(
+      `CocoKits: cckDialog${part} must be placed inside an ng-template cckDialog or the template of a cckDialogTriggerFor.`,
+    );
   return root;
 }

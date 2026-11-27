@@ -14,12 +14,10 @@ describe('Popover data attributes', () => {
   it('only emits data-* declared in the meta, on every part', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckPopover>
-        <button cckPopoverTrigger>Share</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Share"><button cckPopoverClose>Close</button></cck-popover-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share"><button cckPopoverClose>Close</button></cck-popover-content>
+      </ng-template>`,
       { imports: [...CckPopoverImports] },
     );
     await user.click(screen.getByRole('button', { name: 'Share' }));

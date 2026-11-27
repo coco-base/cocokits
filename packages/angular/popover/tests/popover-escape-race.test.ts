@@ -7,17 +7,17 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckPopoverImports],
   template: `
-    <ng-container
-      cckPopover
+    <button
+      [cckPopoverTriggerFor]="popover"
       [(open)]="open"
       (opened)="details.push({ ...$event, value: true })"
       (closed)="details.push({ ...$event, value: false })"
     >
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share this page">Text</cck-popover-content>
-      </ng-template>
-    </ng-container>
+      Share
+    </button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share this page">Text</cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {

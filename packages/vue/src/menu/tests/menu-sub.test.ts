@@ -145,6 +145,32 @@ describe('Menu sub-trigger and sub-content (menu-07)', () => {
     expect(document.activeElement).toBe(trigger());
   });
 
+  it('returns focus to the trigger after a click on an item of the submenu while both menus play an exit', async () => {
+    mountView(menuView({ items: submenuItems() }));
+    await toSubTrigger();
+    await press('{ArrowRight}');
+    let finish: () => void = () => undefined;
+    const finished = new Promise<void>((resolve) => {
+      finish = resolve;
+    });
+    for (const content of menus())
+      content.getAnimations = () => [
+        {
+          finished,
+          animationName: 'exit',
+          playState: 'running',
+          effect: { getComputedTiming: () => ({ endTime: 300 }) },
+        } as unknown as Animation,
+      ];
+    await userEvent.click(item('Email'));
+    await settle();
+    expect(trigger().getAttribute('aria-expanded')).toBe('false');
+    finish();
+    await settle();
+    expect(menus()).toHaveLength(0);
+    expect(document.activeElement).toBe(trigger());
+  });
+
   it('opens when the pointer rests on the sub-trigger and closes when it moves to another item', async () => {
     mountView(menuView({ items: submenuItems() }));
     await open();

@@ -22,12 +22,13 @@ import {
 } from '@cocokits/machines/radio-group';
 import { sortByDomOrder } from '@cocokits/utils';
 import { Primitive, provideDirection, useDirection, useThemeAttrs } from '@cocokits/vue-core';
-import { nonEmpty } from '../internal/form-field-context';
+import { FORM_FIELD_KEY, nonEmpty, useFormFieldContext } from '../internal/form-field-context';
 import { toVueListeners } from '../internal/listeners';
 import { RADIO_GROUP_KEY, type RadioGroupRegistration } from '../internal/radio-group-context';
 import { omit } from '../internal/record';
 import { rootElementOf } from '../internal/root-element';
 import { useDefaultModel } from '../internal/use-default-model';
+import { useFieldControl } from '../internal/use-field-control';
 import type { RadioGroupEmits, RadioGroupProps } from './radio-group.types';
 
 defineOptions({ name: 'CckRadioGroup', inheritAttrs: false });
@@ -72,6 +73,15 @@ const model = useDefaultModel(props, 'modelValue', props.defaultValue);
 // The value the group starts with: a form reset returns to it.
 const mountValue = model.value ?? null;
 
+const field = useFormFieldContext();
+const root = useTemplateRef<ComponentPublicInstance>('root');
+const element = computed(() => rootElementOf(root.value) as HTMLElement | null);
+// Set when the focus leaves the group; a `touched` you pass wins. A form reset clears it.
+const touchedState = shallowRef(false);
+// Set when a radio blocked a submit of the owner form; a form reset clears it.
+const submitted = shallowRef(false);
+const stringOf = (attr: unknown): string | undefined => (typeof attr === 'string' ? attr : undefined);
+
 const registry = new Set<RadioGroupRegistration>();
 // The registered radios in document order. Empty on the server and in the first client render, so the markup matches.
 const items = shallowRef<readonly RadioGroupItem[]>([]);
@@ -84,12 +94,17 @@ const state = computed<RadioGroupState>(() => ({
   items: items.value,
   disabled: props.disabled,
   required: props.required,
-  touched: props.touched,
+  touched: props.touched ?? touchedState.value,
+  submitted: submitted.value,
   form: props.form,
   orientation: props.orientation,
   loop: props.loop,
   dir: direction.value,
   mounted: mounted.value,
+  id: nonEmpty(stringOf(attrs.id)),
+  ariaLabel: stringOf(attrs['aria-label']),
+  ariaLabelledBy: stringOf(attrs['aria-labelledby']),
+  ariaDescribedBy: stringOf(attrs['aria-describedby']),
 }));
 
 const sameItems = (a: readonly RadioGroupItem[], b: readonly RadioGroupItem[]): boolean =>
@@ -166,6 +181,8 @@ function formReset(event: Event): void {
   // Every radio of the group reports the same reset.
   if (event === lastReset) return;
   lastReset = event;
+  touchedState.value = false;
+  submitted.value = false;
   if ((model.value ?? null) === mountValue) syncAll();
   else setValue(mountValue);
 }
@@ -176,7 +193,22 @@ function dispatch(event: RadioGroupEvent): void {
   if (result.activate !== undefined) inputOf(result.activate)?.click();
 }
 
-const parts = computed(() => getRadioGroupProps(state.value, dispatch));
+const primary = useFieldControl(
+  field,
+  element,
+  () => parts.value.control,
+  'gets no generated id and no description from the field, and its state does not reach the field',
+);
+
+const parts = computed(() =>
+  getRadioGroupProps(
+    state.value,
+    dispatch,
+    field
+      ? { ids: primary.value ? field.ids.value : undefined, state: field.own.value, hasLabel: field.hasLabel.value }
+      : undefined,
+  ),
+);
 
 onMounted(() => {
   mounted.value = true;
@@ -184,6 +216,8 @@ onMounted(() => {
 });
 onUpdated(refresh);
 
+// The group is the field's control: a control inside it leaves the field alone.
+provide(FORM_FIELD_KEY, undefined);
 provide(RADIO_GROUP_KEY, {
   facts: (item) => parts.value.radio(item),
   register,
@@ -196,14 +230,28 @@ provide(RADIO_GROUP_KEY, {
 function onKeydown(event: KeyboardEvent): void {
   parts.value.root.onKeyDown(event, currentOf(event));
 }
+// `invalid` does not bubble: the group listens in the capture phase for a submit its radios blocked.
+function onInvalidCapture(): void {
+  submitted.value = true;
+}
+function onFocusout(event: FocusEvent): void {
+  if (event.relatedTarget instanceof Node && element.value?.contains(event.relatedTarget)) return;
+  touchedState.value = true;
+}
 // The element renders the author's `dir` only; the resolved direction drives the keys, not the markup.
 const bound = computed(() =>
   mergeProps(themeAttrs.value.root, attrs, { dir: props.dir }, omit(toVueListeners(parts.value.root), 'onKeydown'), {
     onKeydown,
+    onInvalidCapture,
+    onFocusout,
   }),
 );
 const priorityAttrs = [
   'role',
+  'id',
+  'aria-label',
+  'aria-labelledby',
+  'aria-describedby',
   'aria-required',
   'aria-disabled',
   'aria-invalid',
@@ -213,8 +261,6 @@ const priorityAttrs = [
   'data-invalid',
   'data-orientation',
 ];
-
-const root = useTemplateRef<ComponentPublicInstance>('root');
 
 defineExpose({
   /**

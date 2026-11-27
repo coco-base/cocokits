@@ -17,6 +17,7 @@ import { CckSvgIconImports } from '@cocokits/angular/svg-icon';
 import { CckSwitchImports } from '@cocokits/angular/switch';
 import { CckTabNavImports } from '@cocokits/angular/tab-nav';
 import { CckTabsImports } from '@cocokits/angular/tabs';
+import { CckTagImports } from '@cocokits/angular/tag';
 import { CckTextareaImports } from '@cocokits/angular/textarea';
 import { describe, expect, it, vi } from 'vitest';
 import {
@@ -38,6 +39,7 @@ import {
   CckSwitchTheme,
   CckTabNavTheme,
   CckTabsTheme,
+  CckTagTheme,
   CckTextareaTheme,
 } from '../src/index';
 import { providers } from './helpers';
@@ -58,8 +60,8 @@ const rows = [
   {
     host: 'cck-avatar',
     imports: [...CckAvatarImports, CckAvatarTheme],
-    markup: '<cck-avatar size="lg" color="info"></cck-avatar>',
-    check: ['size', 'color'],
+    markup: '<cck-avatar size="lg" color="info" shape="square"></cck-avatar>',
+    check: ['size', 'color', 'shape'],
   },
   {
     host: 'cck-avatar-group',
@@ -162,6 +164,12 @@ const rows = [
     imports: [...CckTabsImports, CckTabsTheme],
     markup: '<cck-tabs aria-label="x" variant="line" color="info" size="lg" headerAlign="center"></cck-tabs>',
     check: ['variant', 'color', 'size', 'headeralign'],
+  },
+  {
+    host: 'cck-tag',
+    imports: [...CckTagImports, CckTagTheme],
+    markup: '<cck-tag variant="solid" color="info" size="lg" dot>Paid</cck-tag>',
+    check: ['variant', 'color', 'size', 'dot'],
   },
   {
     host: 'textarea',

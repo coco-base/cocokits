@@ -56,6 +56,22 @@ describe('Menu checkbox item (menu-05)', () => {
     expect(item.querySelector('.cck-menu__item-indicator')?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  it('draws the check icon in an empty indicator, and the content you give instead of it', async () => {
+    mountView(
+      menuView({
+        items: () => [
+          h(MenuCheckboxItem, { modelValue: true }, () => [h(MenuItemIndicator), 'Grid']),
+          h(MenuCheckboxItem, null, () => [h(MenuItemIndicator, null, () => 'x'), 'Rulers']),
+        ],
+      }),
+    );
+    await open();
+    const indicatorOf = (name: string): Element | null => checkbox(name).querySelector('.cck-menu__item-indicator');
+    expect(indicatorOf('Grid')?.querySelector('[data-icon]')?.getAttribute('data-icon')).toBe('check');
+    expect(indicatorOf('Rulers')?.querySelector('[data-icon]')).toBeNull();
+    expect(indicatorOf('Rulers')?.textContent).toBe('x');
+  });
+
   it('toggles with a click and closes the menu', async () => {
     const shown = ref(false);
     mountView(view(shown));

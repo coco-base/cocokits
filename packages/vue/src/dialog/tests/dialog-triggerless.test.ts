@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
-import { cleanup, render } from '@testing-library/vue';
+import userEvent from '@testing-library/user-event';
+import { cleanup, render, screen } from '@testing-library/vue';
 import { h, ref, type VNode } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from '../../menu/index';
 import { DialogClose, DialogContent, DialogRoot } from '../index';
 import { settle, stubOverlayBrowser, view } from './fixtures';
 
@@ -46,6 +48,32 @@ function renderInShadow(fn: () => VNode[]): ShadowRoot {
 }
 
 describe('Dialog without a Trigger', () => {
+  it('returns focus to the Menu trigger when a Menu item opened it and the item is gone', async () => {
+    const open = ref(false);
+    render(
+      view(() => [
+        h(MenuRoot, null, () => [
+          h(MenuTrigger, null, () => 'Project actions'),
+          h(MenuContent, null, () => h(MenuItem, { onSelect: () => (open.value = true) }, () => 'Rename')),
+        ]),
+        h(DialogRoot, { open: open.value, 'onUpdate:open': (value: boolean) => (open.value = value) }, () =>
+          h(DialogContent, { 'aria-label': 'Rename project' }, () => h(DialogClose, null, () => 'Cancel')),
+        ),
+      ]),
+    );
+    const menuTrigger = screen.getByRole('button', { name: 'Project actions' });
+    await userEvent.click(menuTrigger);
+    await settle();
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Rename' }));
+    await settle();
+    expect(document.querySelector('dialog')?.open).toBe(true);
+    expect(screen.queryByRole('menu')).toBeNull();
+    screen.getByRole('button', { name: 'Cancel' }).click();
+    await settle();
+    expect(document.querySelector('dialog')).toBeNull();
+    expect(document.activeElement).toBe(menuTrigger);
+  });
+
   it('opens from v-model, puts the content in the body and returns focus to the opener', async () => {
     render(view(triggerless()));
     const opener = byId(document.body, 'opener');

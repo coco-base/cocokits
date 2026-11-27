@@ -7,12 +7,10 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckDialogImports],
   template: `
-    <ng-container cckDialog [open]="startOpen">
-      <button cckDialogTrigger id="mine">Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Delete project">Text</dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [open]="startOpen" id="mine">Delete</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="Delete project">Text</dialog>
+    </ng-template>
   `,
 })
 class Host {
@@ -41,12 +39,10 @@ describe('Dialog trigger id', () => {
 @Component({
   imports: [...CckDialogImports],
   template: `
-    <ng-container cckDialog>
-      <button cckDialogTrigger [id]="id()">Bound</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Bound">Text</dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [id]="id()">Bound</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="Bound">Text</dialog>
+    </ng-template>
   `,
 })
 class BoundHost {

@@ -8,10 +8,8 @@ const provided = [{ provide: CCK_POPOVER_DEFAULT_OPTIONS, useValue: { side: 'top
 
 function template(attrs: string): string {
   return `
-    <ng-container cckPopover [open]="true">
-      <button cckPopoverTrigger>Open</button>
-      <ng-template cckPopoverPortal><cck-popover-content aria-label="Panel" ${attrs}>Text</cck-popover-content></ng-template>
-    </ng-container>`;
+    <button [cckPopoverTriggerFor]="popover" [open]="true">Open</button>
+    <ng-template #popover><cck-popover-content aria-label="Panel" ${attrs}>Text</cck-popover-content></ng-template>`;
 }
 
 describe('CCK_POPOVER_DEFAULT_OPTIONS', () => {

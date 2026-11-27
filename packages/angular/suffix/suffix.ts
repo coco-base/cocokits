@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { themeAttrs } from '@cocokits/angular-core';
+import { CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
 import { getSuffixProps, suffixAnatomy } from '@cocokits/machines/suffix';
 
 /**
@@ -19,6 +20,7 @@ import { getSuffixProps, suffixAnatomy } from '@cocokits/machines/suffix';
 @Directive({
   selector: '[cckSuffix]',
   exportAs: 'cckSuffix',
+  providers: [{ provide: CCK_FIELD_ZONE, useValue: true }],
   host: {
     '[class]': 'parts.root.class',
   },

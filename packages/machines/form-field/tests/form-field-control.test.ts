@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formFieldIds, getFormFieldControlProps, invalidShown, isFilledText } from '../index';
+import { formFieldIds, getFormFieldControlProps, groupLabelledBy, invalidShown, isFilledText } from '../index';
 
 const ids = formFieldIds('f');
 
@@ -11,6 +11,18 @@ describe('invalidShown', () => {
     expect(invalidShown({ ...base, touched: true, submitted: true })).toBe(false);
     expect(invalidShown({ ...base, invalid: true, touched: true })).toBe(true);
     expect(invalidShown({ ...base, invalid: true, submitted: true })).toBe(true);
+  });
+});
+
+describe('groupLabelledBy', () => {
+  it('takes the author id first, then the field Label only with no aria-label', () => {
+    const field = { ids, hasLabel: true };
+    expect(groupLabelledBy({ ariaLabelledBy: 'own' }, field)).toBe('own');
+    expect(groupLabelledBy({ ariaLabelledBy: '' }, field)).toBe(ids.label);
+    expect(groupLabelledBy({}, field)).toBe(ids.label);
+    expect(groupLabelledBy({ ariaLabel: 'Plan' }, field)).toBeUndefined();
+    expect(groupLabelledBy({}, { ids, hasLabel: false })).toBeUndefined();
+    expect(groupLabelledBy({})).toBeUndefined();
   });
 });
 

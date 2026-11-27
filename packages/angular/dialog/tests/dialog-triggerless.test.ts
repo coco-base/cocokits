@@ -2,16 +2,15 @@ import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { CckMenuImports } from '../../menu';
 import { CckDialogImports } from '../index';
 import { stubOverlayApis } from './overlay-stubs';
 import { frame } from './queries';
 
 const DIALOG = `
-  <ng-container cckDialog [(open)]="open">
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent><h2 cckDialogTitle>Notice</h2><button cckDialogClose>Close</button></dialog>
-    </ng-template>
-  </ng-container>`;
+  <ng-template cckDialog [(open)]="open">
+    <dialog cckDialogContent><h2 cckDialogTitle>Notice</h2><button cckDialogClose>Close</button></dialog>
+  </ng-template>`;
 
 @Component({
   imports: [...CckDialogImports],
@@ -34,19 +33,15 @@ class ShadowPage {
 @Component({
   imports: [...CckDialogImports],
   template: `
-    <ng-container cckDialog [(open)]="outer">
-      <button cckDialogTrigger>Outer</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="outer">
-          <button (click)="inner.set(true)">Inner</button>
-          <ng-container cckDialog [(open)]="inner">
-            <ng-template cckDialogPortal>
-              <dialog cckDialogContent aria-label="inner"><button cckDialogClose>Close inner</button></dialog>
-            </ng-template>
-          </ng-container>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="outerDialog" [(open)]="outer">Outer</button>
+    <ng-template #outerDialog>
+      <dialog cckDialogContent aria-label="outer">
+        <button (click)="inner.set(true)">Inner</button>
+        <ng-template cckDialog [(open)]="inner">
+          <dialog cckDialogContent aria-label="inner"><button cckDialogClose>Close inner</button></dialog>
+        </ng-template>
+      </dialog>
+    </ng-template>
   `,
 })
 class Stacked {
@@ -54,11 +49,42 @@ class Stacked {
   readonly inner = signal(false);
 }
 
-describe('Dialog without a trigger (XF-1)', () => {
+@Component({
+  imports: [...CckDialogImports, ...CckMenuImports],
+  template: ` <button type="button" [cckMenuTriggerFor]="actions">Project actions</button>
+    <ng-template #actions>
+      <cck-menu-content><cck-menu-item (triggered)="open.set(true)">Rename</cck-menu-item></cck-menu-content>
+    </ng-template>
+    ${DIALOG}`,
+})
+class FromMenu {
+  readonly open = signal(false);
+}
+
+describe('Dialog without a trigger', () => {
   beforeEach(stubOverlayApis);
   afterEach(() => {
     vi.restoreAllMocks();
     Reflect.deleteProperty(document, 'fullscreenElement');
+  });
+
+  it('returns focus to the Menu trigger when a Menu item opened it and the item is gone', async () => {
+    const user = userEvent.setup();
+    await render(FromMenu);
+    const menuTrigger = screen.getByRole('button', { name: 'Project actions' });
+    await user.click(menuTrigger);
+    await user.click(await screen.findByRole('menuitem', { name: 'Rename' }));
+    await screen.findByRole('dialog', { name: 'Notice' });
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).toBeNull();
+    });
+    await user.click(screen.getByRole('button', { name: 'Close' }));
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).toBeNull();
+    });
+    await waitFor(() => {
+      expect(document.activeElement).toBe(menuTrigger);
+    });
   });
 
   it('opens from open, renders in the body and returns focus to its opener', async () => {

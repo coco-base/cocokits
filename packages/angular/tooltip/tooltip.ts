@@ -5,7 +5,6 @@ import {
   Injector,
   Renderer2,
   ViewContainerRef,
-  afterNextRender,
   afterRenderEffect,
   booleanAttribute,
   computed,
@@ -17,14 +16,7 @@ import {
   type Signal,
   type TemplateRef,
 } from '@angular/core';
-import {
-  CckDirection,
-  CckOverlayLayer,
-  CckPortal,
-  IdGenerator,
-  injectZoneBoundary,
-  themeAttrs,
-} from '@cocokits/angular-core';
+import { CckDirection, IdGenerator, createOverlayOutlet, injectZoneBoundary, themeAttrs } from '@cocokits/angular-core';
 import { trackFocusVisible, type FocusVisibleTracker } from '@cocokits/cdk/focus';
 import {
   getTooltipProps,
@@ -48,7 +40,11 @@ import { createTooltipOverlay, type TooltipOverlay, type TooltipOrigin } from '.
 
 export type { TooltipContentRegistration } from './tooltip-bubble';
 
-const ELEMENT_NODE = 1;
+/** The `id` and `aria-describedby` the author gave the trigger. @internal */
+export interface TooltipAuthorIds {
+  readonly id: Signal<string | null | undefined>;
+  readonly describedBy: Signal<string | null | undefined>;
+}
 
 const toText = (value: string | number | null | undefined): string => (value == null ? '' : String(value));
 const toDelay = (value: unknown): number | undefined => (value == null ? undefined : numberAttribute(value));
@@ -58,7 +54,7 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
  *
  * An element with `cckTooltip` that has only an icon needs `aria-label` or `aria-labelledby`.
  *
- * For rich content, put the root on an `ng-container`. Inside it, write a `cckTooltipTrigger`, and a `cckTooltipPortal` template with a `cck-tooltip-content`. The text of `cckTooltip` then only describes the trigger.
+ * For rich content, put `[cckTooltipTriggerFor]` on the focusable element and give it an `ng-template` with a `cck-tooltip-content`. That trigger applies this root, so write the root's inputs, like `cckTooltipShowDelay`, on the same element. The rich form has no text of its own: the title and the description of the content describe the trigger.
  *
  * The tooltip opens after `cckTooltipShowDelay` on a mouse or pen hover, and at once on keyboard focus. A touch never opens it. It closes after `cckTooltipHideDelay` when the pointer leaves, and at once on blur, Escape, a press on the trigger or a scroll.
  *
@@ -67,34 +63,35 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
  * @example
  * <button cckTooltip="Copy link" type="button">Copy</button>
  * @example
- * <ng-container cckTooltip="Copy link">
- *   <button cckTooltipTrigger type="button">Copy</button>
- *   <ng-template cckTooltipPortal>
- *     <cck-tooltip-content side="bottom">
- *       <cck-tooltip-arrow></cck-tooltip-arrow>
- *       <b>Copy</b> the link
- *     </cck-tooltip-content>
- *   </ng-template>
- * </ng-container>
+ * <button type="button" [cckTooltipTriggerFor]="copy">Copy</button>
+ * <ng-template #copy>
+ *   <cck-tooltip-content side="bottom">
+ *     <cck-tooltip-arrow></cck-tooltip-arrow>
+ *     <b>Copy</b> the link
+ *   </cck-tooltip-content>
+ * </ng-template>
  * @example
- * <cck-tooltip-content>
- *   <cck-tooltip-title>Copy link</cck-tooltip-title>
- *   <cck-tooltip-description>Copies the address to the clipboard.</cck-tooltip-description>
- * </cck-tooltip-content>
+ * <button type="button" [cckTooltipTriggerFor]="copyLink">Copy</button>
+ * <ng-template #copyLink>
+ *   <cck-tooltip-content>
+ *     <cck-tooltip-title>Copy link</cck-tooltip-title>
+ *     <cck-tooltip-description>Copies the address to the clipboard.</cck-tooltip-description>
+ *   </cck-tooltip-content>
+ * </ng-template>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The trigger and the `cckTooltipPortal` template of the rich form. When not set, the element with `cckTooltip` is the trigger.
+ * @cckSlot default - The `ng-template` you give to `cckTooltipTriggerFor` in the rich form, with a `cck-tooltip-content` inside. When not set, the tooltip shows the text of `cckTooltip`.
  */
 @Directive({
   selector: '[cckTooltip]',
   exportAs: 'cckTooltip',
-  providers: [CckPortal, CckOverlayLayer],
 })
 export class CckTooltip {
   /**
    * The text of the tooltip. Spaces at the start and the end are removed. When not set, the tooltip shows nothing and describes nothing.
-   * @remarks In the rich form, the text only describes the trigger, and the template shows.
+   * @remarks Only the one-attribute form has it; in the rich form the title and the description of the content describe the trigger.
    * @cckSemantic tooltip.content.aria-label
+   * @cckShortForm
    */
   readonly message = input('', { alias: 'cckTooltip', transform: toText });
 
@@ -134,6 +131,7 @@ export class CckTooltip {
    * @remarks In the rich form, set `side` on the `cck-tooltip-content`.
    * @cckSemantic none
    * @cckParity Only the one-attribute form has it.
+   * @cckShortForm
    */
   readonly side = input<TooltipSide | undefined>(undefined, { alias: 'cckTooltipSide' });
 
@@ -143,6 +141,7 @@ export class CckTooltip {
    * @remarks In the rich form, set `align` on the `cck-tooltip-content`.
    * @cckSemantic none
    * @cckParity Only the one-attribute form has it.
+   * @cckShortForm
    */
   readonly align = input<TooltipAlign | undefined>(undefined, { alias: 'cckTooltipAlign' });
 
@@ -160,54 +159,49 @@ export class CckTooltip {
 
   /**
    * Whether Escape and a press outside keep the tooltip open. The pointer leaving, a blur, a press on the trigger and a scroll still close it.
-   * @remarks Without Escape, a keyboard user cannot hide the tooltip. That fails WCAG 1.4.13, unless the user can hide it another way.
+   * @remarks Without Escape, a keyboard user cannot hide the tooltip. That fails WCAG 1.4.13, unless the user can hide it another way. The name has the `cckTooltip` prefix, so the `disableClose` of a menu, popover or dialog trigger on the same element never sets it.
    * @defaultValue false
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
-  readonly disableClose = input(false, { transform: booleanAttribute });
+  readonly disableClose = input(false, { alias: 'cckTooltipDisableClose', transform: booleanAttribute });
 
   /**
    * The `id` of the trigger. When not set, the trigger gets a generated id.
-   * @remarks In the rich form, it does nothing; set `id` on the `cckTooltipTrigger`.
+   * @remarks In the rich form, set `id` on the `cckTooltipTriggerFor`. A menu, popover or dialog trigger on the same element owns the `id`, so the tooltip then leaves it alone.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
+   * @cckShortForm
    */
   readonly id = input<string | null | undefined>(null);
 
   /**
    * The ids of the elements that describe the trigger. The tooltip adds its own id after them. When not set, only the tooltip describes the trigger.
-   * @remarks In the rich form, it does nothing; set it on the `cckTooltipTrigger`.
+   * @remarks In the rich form, set it on the `cckTooltipTriggerFor`.
    * @cckParity Declared as an input; the directive forwards it to the element.
    * @cckSemantic none
+   * @cckShortForm
    */
   readonly ariaDescribedby = input<string | null | undefined>(null, { alias: 'aria-describedby' });
 
   /** The theme attributes of every part; the parts apply their own record. @internal */
   readonly _theme = themeAttrs(tooltipAnatomy);
 
-  /** The trigger element a `cckTooltipTrigger` part registered. @internal */
-  readonly _triggerPart = signal<HTMLElement | null>(null);
   /** @internal */
   readonly _content = signal<TooltipContentRegistration | null>(null);
-  /** @internal */
-  readonly _template = signal<TemplateRef<void> | null>(null);
+  /** The template of the rich form; the trigger gives its input. @internal */
+  _template: Signal<TemplateRef<unknown> | null> = signal(null);
+  /** The `id` and `aria-describedby` the author gave the trigger; the rich trigger gives its own inputs. @internal */
+  _authorIds: TooltipAuthorIds = { id: this.id, describedBy: this.ariaDescribedby };
   /** The arrow element a `cck-tooltip-arrow` registered; the content positions it. @internal */
   readonly _arrow = signal<HTMLElement | null>(null);
 
-  private readonly host = inject<ElementRef<Node>>(ElementRef).nativeElement;
-  /** The host when it is an element (the one-attribute form); a comment for an `ng-container`. */
-  private readonly hostElement = this.host.nodeType === ELEMENT_NODE ? (this.host as HTMLElement) : null;
-  /** Whether the host is the trigger: it is an element and no compound part registered a template. */
-  private readonly hostIsTrigger = computed(() => this.hostElement !== null && this._template() === null);
-  /** The trigger of the tooltip. @internal */
-  readonly _trigger = computed(() => this._triggerPart() ?? (this.hostIsTrigger() ? this.hostElement : null));
+  /** The element the root sits on: the trigger, in both forms. */
+  private readonly trigger = signal(inject<ElementRef<HTMLElement>>(ElementRef).nativeElement).asReadonly();
 
   private readonly text = computed(() => this.message().trim());
-  /** Whether there is something to show: a template, or a message on the host trigger. */
-  private readonly hasContent = computed(
-    () => this._template() !== null || (this.hostIsTrigger() && this.text() !== ''),
-  );
+  /** Whether there is something to show: a template, or a message. */
+  private readonly hasContent = computed(() => this._template() !== null || this.text() !== '');
   private readonly isOpen = signal(false);
   /** The point the open tooltip was opened at, when it was opened with one. */
   private readonly origin = signal<TooltipOrigin | null>(null);
@@ -218,10 +212,10 @@ export class CckTooltip {
   private readonly options = inject(CCK_TOOLTIP_DEFAULT_OPTIONS);
   private readonly injector = inject(Injector);
   private readonly renderer = inject(Renderer2);
-  private readonly portal = inject(CckPortal);
+  /** The portal, the layer and the content injector. The tooltip owns them, so another overlay on the trigger keeps its own. */
+  private readonly outlet = createOverlayOutlet(CckTooltip, this);
   private readonly direction = inject(CckDirection);
   private readonly zone = injectZoneBoundary();
-  private readonly parentLayer = inject(CckOverlayLayer, { optional: true, skipSelf: true });
   private readonly shown = computed(() => this.isOpen() && !this.disabled());
   /** The point the content is placed against: only with `positionAtOrigin` and an origin. */
   private readonly anchorPoint = computed(() =>
@@ -284,46 +278,26 @@ export class CckTooltip {
       this.cancel();
       this.overlay.destroy();
     });
-    if (this.hostElement) {
-      // The host is the anchor of the bubble; an `ng-container` root must not inject a container (hydration).
-      this.portal.useContainer(inject(ViewContainerRef));
-      bindTooltipHost({
-        host: this.hostElement,
-        active: this.hostIsTrigger,
-        parts: this._parts,
-        theme: computed(() => this._theme().trigger),
-        id: this.id,
-        describedBy: this.ariaDescribedby,
-      });
-    }
+    // The content is created next to the trigger, so it is checked with the trigger's view.
+    this.outlet.portal.useContainer(inject(ViewContainerRef));
+    bindTooltipHost({
+      host: this.trigger(),
+      parts: this._parts,
+      theme: computed(() => this._theme().trigger),
+      id: computed(() => this._authorIds.id()),
+      describedBy: computed(() => this._authorIds.describedBy()),
+    });
 
     // Nothing is tracked on the server, where nothing can be focused anyway. The document is the trigger's own.
     afterRenderEffect({
       write: (onCleanup) => {
-        const trigger = this._trigger();
-        if (!trigger) return;
-        const tracker = this.zone.outside(() => trackFocusVisible(trigger.ownerDocument));
+        const tracker = this.zone.outside(() => trackFocusVisible(this.trigger().ownerDocument));
         this.focusVisible = tracker;
         onCleanup(() => {
           tracker.destroy();
           if (this.focusVisible === tracker) this.focusVisible = null;
         });
       },
-    });
-
-    afterNextRender(() => {
-      if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
-      // The content renders only once there is a trigger to anchor it, so a missing trigger needs a message.
-      if (this._template() && !this._triggerPart()) {
-        console.warn(
-          'CocoKits: a TooltipPortal has no TooltipTrigger, so its content never opens. Add a cckTooltipTrigger inside the same cckTooltip.',
-        );
-      }
-      if (!this.hostElement && !this._template() && this.text() !== '') {
-        console.warn(
-          'CocoKits: cckTooltip with a message needs an element to show it: put it on the focusable element, or add a cckTooltipTrigger and a cckTooltipPortal inside the ng-container.',
-        );
-      }
     });
 
     // A disabled tooltip drops its pending change and hides at once.
@@ -336,12 +310,12 @@ export class CckTooltip {
       }
     });
 
-    const hasBubble = computed(() => this.hostIsTrigger() && this.text() !== '');
+    const hasBubble = computed(() => this._template() === null && this.text() !== '');
     this.overlay = createTooltipOverlay({
       shown: this.shown,
       hasContent: this.hasContent,
-      trigger: this._trigger,
-      template: this._template,
+      trigger: this.trigger,
+      template: computed(() => this._template()),
       hasBubble,
       bubbleContext: this.bubbleContext,
       content: this._content,
@@ -352,24 +326,26 @@ export class CckTooltip {
         this.send(event);
       },
       injector: this.injector,
-      portal: this.portal,
+      outlet: this.outlet,
       zone: this.zone,
       direction: this.direction,
-      layer: inject(CckOverlayLayer),
-      parentLayer: this.parentLayer,
     });
 
     closeOnAncestorScroll({
       active: this.shown,
-      trigger: this._trigger,
+      trigger: this.trigger,
       onScroll: (event) => {
         this.send({ type: 'ANCESTOR.SCROLL', event });
       },
     });
 
-    const templateText = templateTextOf(this._template, this.shown);
+    const templateText = templateTextOf(
+      computed(() => this._template()),
+      this.shown,
+      this.outlet.injector,
+    );
     describeTrigger({
-      trigger: this._trigger,
+      trigger: this.trigger,
       // The message, else the text of the title and the description in the content template.
       text: computed(() => this.text() || templateText()),
       disabled: this.disabled,
@@ -466,6 +442,7 @@ export class CckTooltip {
  */
 export function injectCckTooltip(part: string): CckTooltip {
   const root = inject(CckTooltip, { optional: true });
-  if (!root) throw new Error(`CocoKits: cckTooltip${part} must be placed inside an element with cckTooltip.`);
+  if (!root)
+    throw new Error(`CocoKits: cckTooltip${part} must be placed inside the template of a cckTooltipTriggerFor.`);
   return root;
 }

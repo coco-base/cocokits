@@ -50,12 +50,10 @@ const { dialog: dialogConfig, tooltip: tooltipConfig } = cocokitsThemeConfig.com
 @Component({
   imports: [...CckDialogImports, CckDialogTheme, CckDialogContentTheme],
   template: `
-    <ng-container cckDialog [dialogSize]="$any(size())">
-      <button cckDialogTrigger type="button">Open</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent><h2 cckDialogTitle>Panel</h2></dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [dialogSize]="$any(size())" type="button">Open</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent><h2 cckDialogTitle>Panel</h2></dialog>
+    </ng-template>
   `,
 })
 class DialogHost {
@@ -65,10 +63,8 @@ class DialogHost {
 @Component({
   imports: [...CckTooltipImports, CckTooltipTheme, CckTooltipContentTheme],
   template: `
-    <ng-container cckTooltip [tooltipSize]="$any(size())">
-      <button cckTooltipTrigger type="button">Copy</button>
-      <ng-template cckTooltipPortal><cck-tooltip-content>Copies the link</cck-tooltip-content></ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" [tooltipSize]="$any(size())" type="button">Copy</button>
+    <ng-template #richTip><cck-tooltip-content>Copies the link</cck-tooltip-content></ng-template>
   `,
 })
 class TooltipHost {
@@ -116,7 +112,7 @@ const override = (
   providers: [...providers.slice(1), provideCckTheme(cocokitsThemeConfig, { [name]: { [option]: value } })],
 });
 
-describe.each(overlays)('the $name size of the Angular theme (D28, D35, A10)', (overlay) => {
+describe.each(overlays)('the $name size of the Angular theme', (overlay) => {
   beforeEach(stubOverlayApis);
   afterEach(() => {
     vi.restoreAllMocks();
@@ -212,15 +208,14 @@ describe.each(overlays)('the $name size of the Angular theme (D28, D35, A10)', (
   template: `
     <button
       cckButton
-      cckTooltip
-      cckTooltipTrigger
+      [cckTooltipTriggerFor]="saved"
       [size]="$any(button())"
       [tooltipSize]="$any(tooltip())"
       type="button"
     >
       Save
-      <ng-template cckTooltipPortal><cck-tooltip-content>Saved</cck-tooltip-content></ng-template>
     </button>
+    <ng-template #saved><cck-tooltip-content>Saved</cck-tooltip-content></ng-template>
   `,
 })
 class SameElement {
@@ -261,6 +256,7 @@ describe('a Button theme and a Tooltip theme on one Angular element', () => {
     );
     const trigger = screen.getByRole('button', { name: 'Save' });
     expect(trigger.getAttribute('data-size')).toBe('xl');
+    expect(trigger.hasAttribute('tooltipsize')).toBe(false);
     await userEvent.setup().hover(trigger);
     // The simple bubble is aria-hidden (a hidden copy of the text describes the trigger): find it by its class.
     await waitFor(() => {
@@ -298,6 +294,27 @@ describe('a Dialog opened by the dialog service', () => {
     await render(ServiceOpener, { providers: p, routes: [{ path: '**', children: [] }] });
     await userEvent.setup().click(screen.getByRole('button', { name: 'Open' }));
     expect((await screen.findByRole('dialog')).getAttribute('data-size')).toBe(expected);
+  });
+});
+
+describe('a Button theme and a Dialog theme on one Angular trigger', () => {
+  beforeEach(stubOverlayApis);
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.documentElement.removeAttribute('style');
+  });
+
+  it('keeps the Button size, leaves no dialogsize attribute and sizes the content', async () => {
+    await render(
+      `<button cckButton [cckDialogTriggerFor]="panel" size="xl" dialogSize="sm" type="button">Open</button>
+      <ng-template #panel><dialog cckDialogContent aria-label="Panel">Text</dialog></ng-template>`,
+      { imports: [CckButton, CckButtonTheme, ...CckDialogImports, CckDialogTheme, CckDialogContentTheme], providers },
+    );
+    const trigger = screen.getByRole('button', { name: 'Open' });
+    expect(trigger.getAttribute('data-size')).toBe('xl');
+    expect(trigger.hasAttribute('dialogsize')).toBe(false);
+    await userEvent.setup().click(trigger);
+    expect((await screen.findByRole('dialog', { name: 'Panel' })).getAttribute('data-size')).toBe('sm');
   });
 });
 

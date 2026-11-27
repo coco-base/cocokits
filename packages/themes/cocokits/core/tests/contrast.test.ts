@@ -67,6 +67,21 @@ const NON_TEXT_FLOOR: Partial<Record<string, number>> = {
 
 const activeColor = base.collections.find((c) => c.name === 'Theme / Active Color');
 
+/** `color-mix(in srgb, fill, ink amount%)`, the hover fill of a solid control, rounded to whole channels. */
+function mix(fill: string, ink: string, amount: number): string {
+  const channel = (hex: string, i: number): number => parseInt(hex.slice(i, i + 2), 16);
+  const mixed = [1, 3, 5].map((i) =>
+    Math.round(channel(fill, i) * (1 - amount / 100) + channel(ink, i) * (amount / 100)),
+  );
+  return `#${mixed.map((c) => c.toString(16).padStart(2, '0')).join('')}`;
+}
+
+const buttonStructure = readTokens('button.tokens.json').collections.find((c) => c.name === 'Button / Structure');
+const buttonToken = (name: string): string =>
+  String(buttonStructure?.tokens.find((t) => t.name === name)?.valuesByMode.Default);
+/** The share of the ink a hovered Button mixes into its fill, followed to its number. */
+const HOVER_MIX = Number(index.get(/^\{(.+)\}$/.exec(buttonToken('hover-mix'))?.[1] ?? '')?.valuesByMode.Default);
+
 /**
  * Asserts one pair at its level, softly so every pair of a test reports; the message carries the measured ratio to two
  * decimals. Where a level is below WCAG, the palette is below it for that pair and the level is the measured floor.
@@ -100,8 +115,18 @@ describe.each(BRANDS)('%s brand', (brand) => {
       pair(
         `solid label: ${family} ${mode}`,
         contrast(active('color', family, mode), active('on-color', family, mode)),
-        // White on the info, success and Green brand fills is 3.77 to 4.10, below the 4.5 of WCAG 1.4.3.
-        3.7,
+        4.5,
+      );
+    });
+  });
+
+  describe('hovered solid label (WCAG AA 4.5:1)', () => {
+    it.each(families)('%s in %s mode', (family, mode) => {
+      const ink = active('on-color', family, mode);
+      pair(
+        `hovered solid label: ${family} ${mode}`,
+        contrast(mix(active('color', family, mode), ink, HOVER_MIX), ink),
+        4.5,
       );
     });
   });
@@ -198,6 +223,20 @@ describe.each(BRANDS)('%s brand', (brand) => {
     it.each(MODES)('the remove icon and the chip border on the surface in %s mode', (mode) => {
       pair(`chip remove icon: text/3 ${mode}`, ratio('text/3', 'surface/1', mode), 3);
       pair(`chip border: border/2 ${mode}`, ratio('border/2', 'surface/1', mode), 1.2);
+    });
+  });
+
+  describe('tag label in each variant (WCAG 1.4.3, 4.5:1)', () => {
+    it.each(families)('the soft, solid and outline label of %s in %s mode', (family, mode) => {
+      const label = (name: string, background: string): number =>
+        contrast(active(name, family, mode), active(background, family, mode));
+      pair(`tag soft: ${family} ${mode}`, label('on-container', 'container'), 4.5);
+      pair(`tag solid: ${family} ${mode}`, label('on-color', 'color'), 4.5);
+      pair(
+        `tag outline: ${family} on surface/1 ${mode}`,
+        contrast(active('on-container', family, mode), color('surface/1', mode)),
+        4.5,
+      );
     });
   });
 
@@ -328,6 +367,31 @@ describe('the pointers the pairs above measure', () => {
     const iconToken = readTokens('svg-icon.tokens.json').collections.find((c) => c.name === 'Svg Icon / Structure')
       ?.tokens[0];
     expect(iconToken?.valuesByMode.Default).toBe('{Theme / Active Color#on-container}');
+  });
+
+  it('points the tag labels and fills at the Active Color pairs measured above', () => {
+    const structure = readTokens('tag.tokens.json').collections.find((c) => c.name === 'Tag / Structure');
+    const value = (name: string): string | number | undefined =>
+      structure?.tokens.find((t) => t.name === name)?.valuesByMode.Default;
+    expect(value('soft-bg')).toBe('{Theme / Active Color#container}');
+    expect(value('soft-text-color')).toBe('{Theme / Active Color#on-container}');
+    expect(value('solid-bg')).toBe('{Theme / Active Color#color}');
+    expect(value('solid-text-color')).toBe('{Theme / Active Color#on-color}');
+    expect(value('outline-text-color')).toBe('{Theme / Active Color#on-container}');
+  });
+
+  it('points the solid Button fill and label at the Active Color pair the hovered label measures', () => {
+    expect(buttonToken('solid-bg')).toBe('{Theme / Active Color#color}');
+    expect(buttonToken('solid-label-color')).toBe('{Theme / Active Color#on-color}');
+    expect(HOVER_MIX).toBe(10);
+  });
+
+  it('points the label of a fill Tabs list at text/2 and the list at surface/2', () => {
+    const structure = readTokens('tabs.tokens.json').collections.find((c) => c.name === 'Tabs / Structure');
+    const value = (name: string): string | number | undefined =>
+      structure?.tokens.find((t) => t.name === name)?.valuesByMode.Default;
+    expect(value('fill-label-color')).toBe('{Theme / Color#text/2}');
+    expect(value('list-bg')).toBe('{Theme / Color#surface/2}');
   });
 
   it('points the chip remove icon at text/3 and the text at text/1', () => {

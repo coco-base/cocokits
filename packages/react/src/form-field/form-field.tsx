@@ -231,6 +231,10 @@ interface FormFieldComponent {
  * `disabled`, `readOnly`, `required` and `invalid` reach the control. The root has the state of the control as
  * `data-*` attributes, also `touched`, `dirty`, `submitted`, `focused`, `filled` and `pending`.
  *
+ * A CocoKits control inside `leading`, `trailing`, `prefix` or `suffix` is not the control of the field. It still
+ * takes the state of the field, but the `Label`, the ids and the description stay with the control in the box. Name
+ * it with its own `aria-label`.
+ *
  * A control that is not a CocoKits control gets none of this. Give it an `id` and the `Label` the same `htmlFor`,
  * and add the ids of the hints to its `aria-describedby`.
  *

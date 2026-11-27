@@ -37,7 +37,7 @@ export type {
 export { CckDividerTheme } from './divider-theme';
 export type { CckDividerColor, CckDividerSize } from './divider-theme';
 export { CckAvatarTheme } from './avatar-theme';
-export type { CckAvatarColor, CckAvatarSize } from './avatar-theme';
+export type { CckAvatarColor, CckAvatarShape, CckAvatarSize } from './avatar-theme';
 export { CckAvatarGroupTheme } from './avatar-group-theme';
 export type { CckAvatarGroupSize } from './avatar-group-theme';
 export { CckAvatarLabelTheme } from './avatar-label-theme';
@@ -56,6 +56,8 @@ export { CckDialogContentTheme, CckDialogTheme } from './dialog-theme';
 export type { CckDialogSize } from './dialog-theme';
 export { CckTooltipContentTheme, CckTooltipTheme } from './tooltip-theme';
 export type { CckTooltipSize } from './tooltip-theme';
+export { CckTagTheme } from './tag-theme';
+export type { CckTagColor, CckTagDot, CckTagSize, CckTagVariant } from './tag-theme';
 
 /** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
 export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

@@ -29,6 +29,7 @@
 @use 'components/_avatar-label' as avatar-label;
 @use 'components/_chip' as chip;
 @use 'components/_chip-list' as chip-list;
+@use 'components/_tag' as tag;
 @use 'components/_side-offset' as side-offset;
 
 @include side-offset.register;
@@ -64,4 +65,5 @@
   @include avatar.rules;
   @include avatar-group.rules;
   @include avatar-label.rules;
+  @include tag.rules;
 }

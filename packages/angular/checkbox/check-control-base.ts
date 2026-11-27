@@ -11,7 +11,7 @@ import {
   type Signal,
 } from '@angular/core';
 import type { FormCheckboxControl } from '@angular/forms/signals';
-import { IdGenerator, injectFormParticipation } from '@cocokits/angular-core';
+import { IdGenerator, checkNameWhenAttached, injectFormParticipation } from '@cocokits/angular-core';
 import { CckFormControlBase, type FormControlParts } from '@cocokits/angular/form-control';
 import type { CheckboxParts, CheckboxProps } from '@cocokits/machines/checkbox';
 import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
@@ -151,8 +151,13 @@ export abstract class CckCheckControlBase extends CckFormControlBase implements 
     super();
     afterNextRender(() => {
       this.mountValue = this.parts().input.checked;
-      this.warnWithoutName();
     });
+    checkNameWhenAttached(
+      () => this.inputRef()?.nativeElement,
+      () => {
+        this.warnWithoutName();
+      },
+    );
   }
 
   /** Whether the control shows the mixed state; only the Checkbox does. The prop owns it. */

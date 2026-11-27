@@ -14,16 +14,14 @@ describe('Dialog data attributes', () => {
   it('only emits data-* declared in the meta, on every part', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckDialog>
-        <button cckDialogTrigger>Open</button>
-        <ng-template cckDialogPortal>
-          <dialog cckDialogContent>
-            <h2 cckDialogTitle>Title</h2>
-            <cck-dialog-description>Text</cck-dialog-description>
-            <button cckDialogClose>Close</button>
-          </dialog>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog">Open</button>
+      <ng-template #dialog>
+        <dialog cckDialogContent>
+          <h2 cckDialogTitle>Title</h2>
+          <cck-dialog-description>Text</cck-dialog-description>
+          <button cckDialogClose>Close</button>
+        </dialog>
+      </ng-template>`,
       { imports: [...CckDialogImports] },
     );
     await user.click(screen.getByRole('button', { name: 'Open' }));

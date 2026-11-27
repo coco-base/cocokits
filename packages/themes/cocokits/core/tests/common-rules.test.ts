@@ -43,7 +43,7 @@ const withoutForced = (css: string): string =>
     .map((part, index) => (index === 0 ? part : part.slice(part.indexOf('\n  }\n') + 5)))
     .join('');
 
-describe('focus (C3)', () => {
+describe('focus', () => {
   it.each(allTokens.filter((t) => t.name.endsWith('focus-color')))(
     '$collection#$name is Theme / Color#focus/2',
     ({ valuesByMode }) => {
@@ -122,7 +122,7 @@ describe('focus (C3)', () => {
   });
 });
 
-describe('invalid (C4): only the colour of the existing 1px border changes', () => {
+describe('invalid: only the colour of the existing 1px border changes', () => {
   const rules = [...styles.matchAll(/(?<=^|[{}])\s*([^{}@]+?)\s*\{([^{}]*)\}/g)].filter((match) =>
     match[1].includes('[data-invalid]'),
   );
@@ -149,7 +149,7 @@ describe('invalid (C4): only the colour of the existing 1px border changes', () 
   });
 });
 
-describe('typography (C6)', () => {
+describe('typography', () => {
   const typography = collection('Theme / Typography').tokens;
   const lineHeights = typography.filter((t) => t.name.endsWith('/line-height'));
   const letterSpacings = typography.filter((t) => t.name.endsWith('/letter-spacing'));
@@ -221,6 +221,7 @@ describe('typography (C6)', () => {
     'Badge / Size#font-size': { sm: 'text-2xs', md: 'text-xs', lg: 'text-xs', xl: 'text-sm' },
     'Chip / Size#font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
     'Chip List / Size#chip-font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
+    'Tag / Size#font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
     'Tooltip__content / Size#font-size': { sm: 'text-xs', md: 'text-xs', lg: 'text-sm' },
     'Tooltip__content / Structure#description-font-size': 'text-xs',
     'Dialog__content / Structure#title-font-size': 'text-lg',
@@ -251,7 +252,7 @@ describe('typography (C6)', () => {
   });
 });
 
-describe('container and hover (C7)', () => {
+describe('container and hover', () => {
   const color = collection('Theme / Color');
   const at = (name: string): Record<string, string | number> | undefined =>
     color.tokens.find((t) => t.name === name)?.valuesByMode;
@@ -335,7 +336,7 @@ describe('container and hover (C7)', () => {
   });
 });
 
-describe('disabled (C8)', () => {
+describe('disabled', () => {
   const opacities = allTokens.filter((t) => t.name.endsWith('disabled-opacity'));
 
   it('finds a disabled opacity per component', () => {
@@ -356,7 +357,7 @@ describe('disabled (C8)', () => {
   });
 });
 
-describe('hover of the choice controls, the Chip and the Tabs (C9)', () => {
+describe('hover of the choice controls, the Chip and the Tabs', () => {
   it.each(['checkbox', 'radio'])('the %s box tints its border at rest and mixes its checked fill', (block) => {
     const sheet = read('dist', 'components', `${block}.css`);
     expect(sheet).toContain(`border-color: var(--cck-${block}-box-hover-border-color)`);
@@ -418,7 +419,7 @@ describe('hover of the choice controls, the Chip and the Tabs (C9)', () => {
   );
 });
 
-describe('icon size (C13): the parent sets the size of its icon, per size mode, from Core / Size', () => {
+describe('icon size: the parent sets the size of its icon, per size mode, from Core / Size', () => {
   const SIZE_MODES = {
     'Button / Size': { token: 'icon-size', modes: ['xs', 'sm', 'md', 'lg', 'xl'] },
     'Icon Button / Size': { token: 'icon-size', modes: ['xs', 'sm', 'md', 'lg', 'xl'] },

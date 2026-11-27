@@ -4,7 +4,11 @@ import { cleanup, screen } from '@testing-library/vue';
 import { h, nextTick } from 'vue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { mountView, pick } from '../../internal/tests/mount-helpers';
+import { FieldError } from '../../field-error';
+import { FormField } from '../../form-field';
 import { Hint } from '../../hint';
+import { Label } from '../../label';
+import { ChipList } from '../index';
 import { bound, box, chipTexts, field, list, listRoot, nextTask, removeButtons } from './fixtures';
 
 afterEach(() => {
@@ -141,6 +145,34 @@ describe('ChipList in a native form', () => {
     expect(onSubmit).not.toHaveBeenCalled();
     expect(document.activeElement).toBe(box());
     expect(listRoot().hasAttribute('data-invalid')).toBe(true);
+  });
+
+  it('marks the list submitted and invalid on a blocked submit, so the field shows its error', async () => {
+    const onSubmit = submitHandler();
+    mountView(() =>
+      h('form', { onSubmit }, [
+        h(
+          FormField,
+          { id: 'f' },
+          {
+            label: () => h(Label, null, () => 'Toppings'),
+            default: () => h(ChipList, { name: 'toppings', required: true }),
+            error: () => h(FieldError, null, () => 'Add one.'),
+          },
+        ),
+        h('button', { type: 'submit' }, 'Go'),
+      ]),
+    );
+    await nextTick();
+    expect(screen.queryByText('Add one.')).toBeNull();
+    await userEvent.click(screen.getByText('Go'));
+    await nextTask();
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(listRoot().hasAttribute('data-submitted')).toBe(true);
+    expect(box().getAttribute('aria-invalid')).toBe('true');
+    expect(screen.getByText('Add one.')).toBeTruthy();
+    await userEvent.type(box(), 'Salad{Enter}');
+    expect(listRoot().hasAttribute('data-invalid')).toBe(false);
   });
 
   it('restores the default value on reset, emits it, clears the draft and the submitted fact', async () => {

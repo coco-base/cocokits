@@ -5,8 +5,8 @@
 // the theme only sizes it, so it sets no `position`, `inset` or `transform`. The page behind is the `::backdrop`, which
 // inherits the tokens of the content. The content takes `display: flex` only while `[open]`, so a closed dialog stays
 // hidden by the user agent. Motion keys off `data-state` and runs only with `prefers-reduced-motion: no-preference`;
-// the end state is right without it. A plain Close part (not a Button) is a small quiet icon button; the trigger is
-// the author's (usually a Button).
+// the end state is right without it. A plain Close part (not a Button or an IconButton) is a small quiet icon button;
+// the trigger is the author's (usually a Button).
 @mixin rules {
   .cck-dialog__content {
     box-sizing: border-box;
@@ -79,10 +79,33 @@
     gap: var(--cck-dialog-header-gap);
   }
 
+  // The body scrolls when the content reaches its maximum height, so the header and the footer stay in view. Its
+  // scroll box reaches into the padding of the content by the room of a focus ring, and the padding gives the room
+  // back, so the text keeps its place and the box does not cut the ring of a control at its edge.
   .cck-dialog__body {
+    --_room: calc(var(--cck-dialog-focus-width) + var(--cck-dialog-focus-offset));
+
     display: block;
     flex: 1 1 auto;
     min-block-size: 0;
+    overflow: auto;
+    margin: calc(-1 * var(--_room));
+    padding: var(--_room);
+  }
+
+  // A wrapper of the author (a form around the body and the footer) stretches as the sections do and is a column that
+  // can shrink, so the body in it scrolls too. It has no gap: the footer in it keeps its own space (below).
+  .cck-dialog__content > :has(> .cck-dialog__body, > .cck-dialog__footer) {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    flex: 1 1 auto;
+    min-block-size: 0;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
   }
 
   .cck-dialog__footer {
@@ -127,14 +150,14 @@
     padding-block-end: var(--cck-dialog-description-gap);
   }
 
-  .cck-dialog__close:not(.cck-button):focus-visible {
+  .cck-dialog__close:not(.cck-button, .cck-icon-button):focus-visible {
     outline: var(--cck-dialog-focus-width) solid var(--cck-dialog-focus-color);
     outline-offset: var(--cck-dialog-focus-offset);
   }
 
   // Muted at rest; hover gives it the highlight fill and the main text colour, a press the stronger fill. A text
   // label in it is a medium control label.
-  .cck-dialog__close:not(.cck-button) {
+  .cck-dialog__close:not(.cck-button, .cck-icon-button) {
     box-sizing: border-box;
     flex: none;
     display: inline-flex;
@@ -206,7 +229,7 @@
     }
 
     .cck-dialog__content:focus-visible,
-    .cck-dialog__close:not(.cck-button):focus-visible {
+    .cck-dialog__close:not(.cck-button, .cck-icon-button):focus-visible {
       outline-color: Highlight;
     }
   }

@@ -104,6 +104,14 @@ describe('avatar shape', () => {
     }
   });
 
+  it('rounds the square shape with its own radius, a radius-md, and keeps the circle radius-full', () => {
+    expect(structureTokenOf('.cck-avatar', 'avatar-radius')).toBe(ref('radius-full'));
+    expect(structureTokenOf('.cck-avatar', 'avatar-square-radius')).toBe(ref('radius-md'));
+    expect(declarationsOf(stylesCss, '.cck-avatar[data-shape=square]')).toContain(
+      'border-radius: var(--cck-avatar-square-radius)',
+    );
+  });
+
   it('fills the root with a covering image and a centred, coloured fallback', () => {
     const image = declarationsOf(stylesCss, '.cck-avatar__image') ?? '';
     expect(image).toContain('display: block');
@@ -143,14 +151,14 @@ describe('avatar group', () => {
     expect(direct).toContain('box-shadow: 0 0 0 var(--cck-avatar-group-ring-width) var(--cck-avatar-group-ring-color)');
   });
 
-  it('leaves the size and the fallback text of its direct avatars to the avatar itself (AG5)', () => {
+  it('leaves the size and the fallback text of its direct avatars to the avatar itself', () => {
     const direct = declarationsOf(stylesCss, '.cck-avatar-group > .cck-avatar') ?? '';
     expect(direct).not.toMatch(/inline-size|block-size|font-/);
   });
 });
 
 describe('avatar label', () => {
-  it('leaves the size of its direct avatar to the avatar itself (AL9)', () => {
+  it('leaves the size of its direct avatar to the avatar itself', () => {
     expect(stylesCss).not.toContain('.cck-avatar-label > .cck-avatar');
   });
 

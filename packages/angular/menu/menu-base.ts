@@ -27,6 +27,7 @@ import {
   getMenuItemChange,
   getMenuProps,
   menuAnatomy,
+  resolveMenuFocusContent,
   transitionMenu,
   type MenuAlign,
   type MenuEvent,
@@ -153,6 +154,8 @@ export abstract class CckMenuBase {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => {
+      // A trigger removed after it opened, before the content rendered, has only its layer to take down.
+      this.stopDismissLayer();
       this.presence.destroy();
       this.typeahead.reset();
     });
@@ -370,7 +373,8 @@ export abstract class CckMenuBase {
       : null;
     const focusReturn = captureFocusReturn({
       getTrigger: () => this._trigger(),
-      getContent: () => this._content()?.element ?? null,
+      // Focus in a submenu that is still in the document belongs to the menu too.
+      getContent: () => resolveMenuFocusContent(this._content()?.element ?? null),
     });
     const cancelFocus = scheduleFocus(trigger.ownerDocument, () => {
       if (this.open()) this.focusInitial();
@@ -391,9 +395,12 @@ export abstract class CckMenuBase {
         if (back) {
           scheduleFocus(trigger.ownerDocument, () => {
             if (!this.open()) focusReturn.restore();
+            focusReturn.destroy();
           });
+          return;
         }
       }
+      focusReturn.destroy();
     };
   }
 

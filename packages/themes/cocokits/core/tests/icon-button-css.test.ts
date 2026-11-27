@@ -1,6 +1,8 @@
+// @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import {
   declarationsOf,
+  OVERLAY_TRIGGERS,
   read,
   ref,
   selectorsOf,
@@ -17,7 +19,7 @@ const own = css.slice(0, css.indexOf('.cck-svg-icon'));
 const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
 const ROOT = '.cck-icon-button';
 const HOVER = `${ROOT}:hover:not([data-disabled], :disabled)`;
-const OPEN = `${ROOT}[data-state=open]:not([data-variant=primary], [data-disabled], :disabled)`;
+const OPEN = `${ROOT}[data-state=open]:is(${OVERLAY_TRIGGERS}):not([data-variant=primary], [data-disabled], :disabled)`;
 const ACTIVE = `${ROOT}:active:not([data-disabled], :disabled)`;
 const MODES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 const DENSITIES = ['normal', 'compact', 'comfortable'] as const;
@@ -100,6 +102,21 @@ describe('icon-button output', () => {
     expect(rule?.[1]).toContain('cursor: not-allowed');
     expect(rule?.[1]).not.toMatch(/background-color|(^|[\s;])color:/);
     expect(rule?.index).toBeGreaterThan(css.indexOf(`${ROOT}[data-variant=outline]`));
+  });
+
+  it('keeps the resting look of a Tooltip trigger while its tooltip is open: only an opened overlay rests on the hover fill', () => {
+    expect(declarationsOf(css, `${HOVER}, ${OPEN}`)).toContain('background-color:');
+    const button = (classes: string): HTMLElement => {
+      const element = document.createElement('button');
+      element.className = `cck-icon-button ${classes}`;
+      element.setAttribute('data-state', 'open');
+      return element;
+    };
+    expect(button('cck-tooltip__trigger').matches(OPEN)).toBe(false);
+    for (const trigger of OVERLAY_TRIGGERS.split(', '))
+      expect(button(trigger.slice(1)).matches(OPEN), trigger).toBe(true);
+    // A Menu trigger that also has a Tooltip shows the open Menu.
+    expect(button('cck-tooltip__trigger cck-menu__trigger').matches(OPEN)).toBe(true);
   });
 
   it('rings the focus with :focus-visible', () => {

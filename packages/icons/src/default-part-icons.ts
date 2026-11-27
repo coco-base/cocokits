@@ -7,9 +7,11 @@ export const defaultPartIcons: {
   readonly accordion: { readonly indicator: 'chevron-down' };
   readonly checkbox: { readonly background: 'check' };
   readonly chip: { readonly remove: 'close'; readonly check: 'check' };
+  readonly menu: { readonly itemIndicator: 'check' };
 } = {
   select: { dropdownIcon: 'chevron-down', optionIndicator: 'check' },
   accordion: { indicator: 'chevron-down' },
   checkbox: { background: 'check' },
   chip: { remove: 'close', check: 'check' },
+  menu: { itemIndicator: 'check' },
 };

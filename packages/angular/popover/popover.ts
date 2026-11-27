@@ -2,7 +2,6 @@ import {
   DestroyRef,
   Directive,
   Renderer2,
-  afterNextRender,
   afterRenderEffect,
   booleanAttribute,
   computed,
@@ -15,14 +14,7 @@ import {
   type Signal,
   type TemplateRef,
 } from '@angular/core';
-import {
-  CckDirection,
-  CckOverlayLayer,
-  CckPortal,
-  IdGenerator,
-  injectZoneBoundary,
-  themeAttrs,
-} from '@cocokits/angular-core';
+import { CckDirection, IdGenerator, createOverlayOutlet, injectZoneBoundary, themeAttrs } from '@cocokits/angular-core';
 import { createDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { captureFocusReturn, connectFocusGuards, focusFirst, scheduleFocus } from '@cocokits/cdk/focus';
 import { startOverlayPosition } from '@cocokits/cdk/positioning';
@@ -40,6 +32,7 @@ import {
 } from '@cocokits/machines/popover';
 import type { ChangeDetails } from '@cocokits/shared';
 import { visuallyHiddenStyle } from '@cocokits/utils';
+import { CckPopoverAnchor } from './popover-anchor';
 
 /** What the content part tells the root about itself. @internal */
 export interface PopoverContentRegistration {
@@ -64,35 +57,29 @@ export type PopoverOpenChangeReason = PopoverChangeReason;
 export type PopoverChangeDetails = ChangeDetails<PopoverOpenChangeReason>;
 
 /**
- * A panel that opens next to a button and does not block the page. Put the root on an `ng-container`; it makes no element. It holds the open state and links the trigger, the content and the close button.
+ * A panel that opens next to a button and does not block the page. The trigger applies the root, so it makes no element: write its inputs and outputs on the `cckPopoverTriggerFor` button. It holds the open state and links the trigger, the content and the close button.
  *
- * You write the content in a `cckPopoverPortal` template. It shows in the overlay container, not next to the trigger.
+ * You write the content in an `ng-template` and give it to the trigger by reference. It shows in the overlay container, not next to the trigger.
  *
  * On open, the focus moves into the content. Escape, the close button and a press outside close it, and the focus goes back to the trigger. Tab past the first or last element also closes it.
  *
  * @example
- * <ng-container cckPopover [(open)]="shared">
- *   <div cckPopoverAnchor>
- *     <button cckPopoverTrigger type="button">Share</button>
- *   </div>
- *   <ng-template cckPopoverPortal>
- *     <cck-popover-content side="top">
- *       <cck-popover-arrow></cck-popover-arrow>
- *       <h2 cckPopoverTitle>Share this page</h2>
- *       <cck-popover-description>Anyone with the link can view it.</cck-popover-description>
- *       <button cckPopoverClose type="button">Close</button>
- *     </cck-popover-content>
- *   </ng-template>
- * </ng-container>
+ * <div cckPopoverAnchor>
+ *   <button type="button" [cckPopoverTriggerFor]="share" [(open)]="shared">Share</button>
+ * </div>
+ * <ng-template #share>
+ *   <cck-popover-content side="top">
+ *     <cck-popover-arrow></cck-popover-arrow>
+ *     <h2 cckPopoverTitle>Share this page</h2>
+ *     <cck-popover-description>Anyone with the link can view it.</cck-popover-description>
+ *     <button cckPopoverClose type="button">Close</button>
+ *   </cck-popover-content>
+ * </ng-template>
  * @cckPart root
  * @cckNoElement
- * @cckSlot default - The trigger and the `cckPopoverPortal` template. When not set, there is nothing to open.
+ * @cckSlot default - The `ng-template` you give to `cckPopoverTriggerFor`, with the `cck-popover-content` inside. When not set, the build fails, because the input is required.
  */
-@Directive({
-  selector: '[cckPopover]',
-  exportAs: 'cckPopover',
-  providers: [CckPortal, CckOverlayLayer],
-})
+@Directive()
 export class CckPopover {
   /**
    * Whether the content is open. Use `[(open)]` to read and change it.
@@ -114,12 +101,10 @@ export class CckPopover {
    * A function that decides whether a close that the popover starts happens. Return `false` to keep it open. When not set, every close happens.
    * @remarks It runs for the close button, the trigger, Escape, a press outside and a focus leave, after `disableClose`. It does not run when the parent changes `open`.
    * @example
-   * <ng-container cckPopover [closePredicate]="canClose">
-   *   <button cckPopoverTrigger type="button">Share</button>
-   *   <ng-template cckPopoverPortal>
-   *     <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
-   *   </ng-template>
-   * </ng-container>
+   * <button type="button" [cckPopoverTriggerFor]="share" [closePredicate]="canClose">Share</button>
+   * <ng-template #share>
+   *   <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   * </ng-template>
    * <!-- In the class: canClose = (details: PopoverChangeDetails) => details.reason !== 'outside-press'; -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -138,12 +123,10 @@ export class CckPopover {
    * Emits after the user opens the popover with the trigger. It sends the `reason` and the `event`.
    * @remarks It never emits when the parent changes `open`.
    * @example
-   * <ng-container cckPopover (opened)="onOpen($event)">
-   *   <button cckPopoverTrigger type="button">Share</button>
-   *   <ng-template cckPopoverPortal>
-   *     <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
-   *   </ng-template>
-   * </ng-container>
+   * <button type="button" [cckPopoverTriggerFor]="share" (opened)="onOpen($event)">Share</button>
+   * <ng-template #share>
+   *   <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   * </ng-template>
    * <!-- In the class: onOpen(details: PopoverChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -154,12 +137,10 @@ export class CckPopover {
    * Emits after the popover closes itself. It sends the `reason` and the `event`.
    * @remarks The close button, the trigger, Escape, a press outside and a focus leave close it. It never emits when the parent changes `open`.
    * @example
-   * <ng-container cckPopover (closed)="onClose($event)">
-   *   <button cckPopoverTrigger type="button">Share</button>
-   *   <ng-template cckPopoverPortal>
-   *     <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
-   *   </ng-template>
-   * </ng-container>
+   * <button type="button" [cckPopoverTriggerFor]="share" (closed)="onClose($event)">Share</button>
+   * <ng-template #share>
+   *   <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   * </ng-template>
    * <!-- In the class: onClose(details: PopoverChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -171,12 +152,12 @@ export class CckPopover {
 
   /** @internal */
   readonly _trigger = signal<HTMLElement | null>(null);
-  /** The element the content is placed against instead of the trigger; the last anchor mounted wins. @internal */
+  /** The element the content is placed against instead of the trigger: the nearest anchor around the trigger. @internal */
   readonly _anchor = signal<HTMLElement | null>(null);
   /** @internal */
   readonly _content = signal<PopoverContentRegistration | null>(null);
-  /** @internal */
-  readonly _template = signal<TemplateRef<void> | null>(null);
+  /** The template of the content; the trigger gives its input. @internal */
+  _template: Signal<TemplateRef<unknown> | null> = signal(null);
   /** The arrow element a `cck-popover-arrow` registered; the content positions it. @internal */
   readonly _arrow = signal<HTMLElement | null>(null);
   /** How many titles are mounted. @internal */
@@ -190,12 +171,16 @@ export class CckPopover {
   /** Whether the positioning module reported that the arrow cannot point at the anchor. */
   private readonly arrowHidden = signal(false);
   private readonly id = inject(IdGenerator).getId(popoverAnatomy.classes.root);
-  private readonly portal = inject(CckPortal);
+  /**
+   * The portal, the layer and the content injector. The popover owns them, so another overlay on the trigger keeps
+   * its own. The content finds no anchor of an outer popover, so a trigger in the content lines up with itself.
+   */
+  private readonly outlet = createOverlayOutlet(CckPopover, this, [{ provide: CckPopoverAnchor, useValue: null }]);
+  /** The portal of the content; the trigger gives it its view container. @internal */
+  readonly _portal = this.outlet.portal;
   private readonly direction = inject(CckDirection);
   private readonly renderer = inject(Renderer2);
   private readonly zone = injectZoneBoundary();
-  private readonly layer = inject(CckOverlayLayer);
-  private readonly parentLayer = inject(CckOverlayLayer, { optional: true, skipSelf: true });
   private dismissLayer: DismissLayer | null = null;
   private readonly presence = createPresence({
     getElement: () => this._content()?.element ?? null,
@@ -224,17 +209,9 @@ export class CckPopover {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => {
+      // A trigger removed after it opened, before the content rendered, has only its layer to take down.
+      this.stopDismissLayer();
       this.presence.destroy();
-    });
-
-    // The content renders only once there is a trigger to anchor it, so a missing trigger needs a message.
-    afterNextRender(() => {
-      if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
-      if (this._template() && !this._trigger()) {
-        console.warn(
-          'CocoKits: a PopoverPortal has no PopoverTrigger, so its content never opens. Add a cckPopoverTrigger inside the same cckPopover.',
-        );
-      }
     });
 
     // Opening mounts at once; closing waits for the exit animation (read after the closed state rendered).
@@ -251,8 +228,9 @@ export class CckPopover {
       write: () => {
         const [mounted, template, trigger] = [this.mounted(), this._template(), this._trigger()];
         untracked(() => {
-          if (mounted && template && trigger) this.portal.attach(template, undefined, trigger);
-          else this.portal.detach();
+          if (mounted && template && trigger)
+            this._portal.attach(template, undefined, trigger, { injector: this.outlet.injector });
+          else this._portal.detach();
         });
       },
     });
@@ -360,8 +338,9 @@ export class CckPopover {
       if (!untracked(this.open)) {
         scheduleFocus(trigger.ownerDocument, () => {
           if (!this.open() && this.restoreFocus()) focusReturn.restore();
+          focusReturn.destroy();
         });
-      }
+      } else focusReturn.destroy();
     };
   }
 
@@ -382,11 +361,11 @@ export class CckPopover {
           });
         },
         dismissOn: ['escape', 'outside-press', 'focus-out'],
-        getParent: () => this.parentLayer?.current ?? null,
+        getParent: () => this.outlet.parentLayer?.current ?? null,
       }),
     );
     this.dismissLayer = layer;
-    this.layer.current = layer;
+    this.outlet.layer.current = layer;
   }
 
   /** Removes the dismiss layer; safe to call when there is none. */
@@ -394,7 +373,7 @@ export class CckPopover {
     const layer = this.dismissLayer;
     if (!layer) return;
     layer.destroy();
-    if (this.layer.current === layer) this.layer.current = null;
+    if (this.outlet.layer.current === layer) this.outlet.layer.current = null;
     this.dismissLayer = null;
   }
 
@@ -436,6 +415,7 @@ export class CckPopover {
  */
 export function injectCckPopover(part: string): CckPopover {
   const root = inject(CckPopover, { optional: true });
-  if (!root) throw new Error(`CocoKits: cckPopover${part} must be placed inside an element with cckPopover.`);
+  if (!root)
+    throw new Error(`CocoKits: cckPopover${part} must be placed inside the template of a cckPopoverTriggerFor.`);
   return root;
 }

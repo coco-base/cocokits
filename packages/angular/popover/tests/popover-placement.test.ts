@@ -20,12 +20,10 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
 @Component({
   imports: [...CckPopoverImports],
   template: `
-    <ng-container cckPopover [open]="true">
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share" [side]="side()" [align]="align()">Text</cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button [cckPopoverTriggerFor]="popover" [open]="true">Share</button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share" [side]="side()" [align]="align()">Text</cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -77,7 +75,7 @@ describe('Popover content sideOffset and alignOffset', () => {
     'passes $name to the positioning module and leaves no attribute',
     async ({ attributes, expected, absent }) => {
       const { container } = await render(
-        `<ng-container cckPopover [open]="true"><button cckPopoverTrigger>Share</button><ng-template cckPopoverPortal><cck-popover-content aria-label="Share" ${attributes}>Text</cck-popover-content></ng-template></ng-container>`,
+        `<button [cckPopoverTriggerFor]="popover" [open]="true">Share</button><ng-template #popover><cck-popover-content aria-label="Share" ${attributes}>Text</cck-popover-content></ng-template>`,
         { imports: [...CckPopoverImports] },
       );
       await vi.waitFor(() => {

@@ -94,6 +94,20 @@
       opacity: 1;
     }
 
+    // The clear button of the search: a cross of two lines in the colour of the header icon, in place of the
+    // browser's own button.
+    &::-webkit-search-cancel-button {
+      appearance: none;
+      inline-size: var(--cck-select-header-icon-size);
+      block-size: var(--cck-select-header-icon-size);
+      margin: 0;
+      background-image:
+        linear-gradient(45deg, transparent 45%, currentcolor 45% 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, currentcolor 45% 55%, transparent 55%);
+      color: var(--cck-select-header-icon-color);
+      cursor: pointer;
+    }
+
     // An author rule beats the user-agent [hidden] rule, so the theme restates it.
     &[hidden] {
       display: none;

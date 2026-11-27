@@ -18,16 +18,14 @@ describe('Dialog accessibility', () => {
   it('has no axe violations closed or open, checked on the whole document', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckDialog>
-        <button cckDialogTrigger>Delete</button>
-        <ng-template cckDialogPortal>
-          <dialog cckDialogContent>
-            <h2 cckDialogTitle>Delete project</h2>
-            <cck-dialog-description>This cannot be undone.</cck-dialog-description>
-            <button cckDialogClose>Cancel</button>
-          </dialog>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog">Delete</button>
+      <ng-template #dialog>
+        <dialog cckDialogContent>
+          <h2 cckDialogTitle>Delete project</h2>
+          <cck-dialog-description>This cannot be undone.</cck-dialog-description>
+          <button cckDialogClose>Cancel</button>
+        </dialog>
+      </ng-template>`,
       { imports },
     );
     expect((await axe(document.body)).violations).toEqual([]);
@@ -39,12 +37,10 @@ describe('Dialog accessibility', () => {
   it('is a native dialog named by its Title and described by its Description (APG modal dialog)', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckDialog>
-        <button cckDialogTrigger>Open</button>
-        <ng-template cckDialogPortal>
-          <dialog cckDialogContent><h2 cckDialogTitle>Settings</h2><cck-dialog-description>Change things.</cck-dialog-description></dialog>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog">Open</button>
+      <ng-template #dialog>
+        <dialog cckDialogContent><h2 cckDialogTitle>Settings</h2><cck-dialog-description>Change things.</cck-dialog-description></dialog>
+      </ng-template>`,
       { imports },
     );
     await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -57,10 +53,8 @@ describe('Dialog accessibility', () => {
   it('is named by aria-label when it has no Title', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckDialog>
-        <button cckDialogTrigger>Open</button>
-        <ng-template cckDialogPortal><dialog cckDialogContent aria-label="Quick note">Text</dialog></ng-template>
-      </ng-container>`,
+      `<button [cckDialogTriggerFor]="dialog">Open</button>
+      <ng-template #dialog><dialog cckDialogContent aria-label="Quick note">Text</dialog></ng-template>`,
       { imports },
     );
     await user.click(screen.getByRole('button', { name: 'Open' }));

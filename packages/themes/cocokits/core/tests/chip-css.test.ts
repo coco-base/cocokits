@@ -21,7 +21,7 @@ const INVALID = ':where([data-invalid]):where([data-touched], [data-submitted])'
 const DISABLED = ':where([data-disabled], :has(> .cck-chip-list__input:disabled))';
 const MODES = ['sm', 'md', 'lg'] as const;
 /** The rules of the Chip itself: the entry sheets also hold the SvgIcon rules (svg-icon-css.test.ts). */
-const own = (css: string): string => css.slice(0, css.indexOf('.cck-svg-icon'));
+const own = (css: string): string => css.slice(0, css.indexOf('.cck-svg-icon {'));
 const forced = (css: string, from = '@media (forced-colors: active)'): string => css.slice(css.indexOf(from));
 /** The forced-colors block of the Chip list (the list entry also holds the Chip rules, with their own block). */
 const LIST_FORCED = '@media (forced-colors: active) {\n    .cck-chip-list {';
@@ -291,7 +291,7 @@ describe('chip list', () => {
     expect(rule).toContain('cursor: inherit');
   });
 
-  it('sets the chip size from the list in one rule, not per size mode (C14)', () => {
+  it('sets the chip size from the list in one rule, not per size mode', () => {
     expect(listCss).not.toContain('.cck-chip-list[data-size] > .cck-chip');
     expect(stylesCss).not.toMatch(/\.cck-chip-list\[data-size[^{]*>\s*\.cck-chip\s*\{/);
   });
@@ -341,7 +341,7 @@ describe('chip list in a form field', () => {
     ).toContain('--_radius: min(var(--cck-form-field-radius), calc(var(--cck-form-field-height) / 2))');
   });
 
-  it('does not set the chip height or the text of the list from the field (C15, F25)', () => {
+  it('does not set the chip height or the text of the list from the field', () => {
     expect(fieldCss).not.toContain('--cck-chip-list-');
     expect(fieldCss).not.toMatch(/\.cck-form-field__input-wrapper > \.cck-chip-list(\s*>\s*\.cck-chip)?\s*\{/);
     expect(declarationsOf(listCss, IN_FIELD)).not.toMatch(/font|letter-spacing/);

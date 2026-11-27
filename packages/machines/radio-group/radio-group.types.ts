@@ -1,4 +1,5 @@
 import type { Direction } from '@cocokits/shared';
+import type { FormFieldControlState } from '../form-field';
 
 /**
  * Which arrow keys move through the radios. When not set, all four arrow keys do.
@@ -59,6 +60,14 @@ export interface RadioGroupState {
   readonly dir?: Direction | undefined;
   /** `true` once the radios registered; before that no radio renders a `tabindex`. @defaultValue false */
   readonly mounted?: boolean | undefined;
+  /** The author's `id`. It wins over the control id of the field. */
+  readonly id?: string | undefined;
+  /** The author's `aria-label`. It names the group when no Label does. */
+  readonly ariaLabel?: string | undefined;
+  /** The id (or ids) of the element that names the group. It wins over the Label of the field. */
+  readonly ariaLabelledBy?: string | undefined;
+  /** The author's `aria-describedby`. Inside a field the ids of its hints, then of its errors, are added after it. */
+  readonly ariaDescribedBy?: string | undefined;
 }
 
 /** The event the root key handler sends. */
@@ -93,9 +102,17 @@ export interface RadioGroupRootProps {
   readonly class: string;
   /** Always `'radiogroup'`. */
   readonly role: 'radiogroup';
-  /** `'true'` while required. */
+  /** The author's id, or the control id inside a field. */
+  readonly id?: string | undefined;
+  /** The author's label. */
+  readonly 'aria-label'?: string | undefined;
+  /** The author's ids, else the id of the Label of the field. */
+  readonly 'aria-labelledby'?: string | undefined;
+  /** The author's ids first, then the hint ids, then the error ids. */
+  readonly 'aria-describedby'?: string | undefined;
+  /** `'true'` while required, by the group or by its field. */
   readonly 'aria-required'?: 'true' | undefined;
-  /** `'true'` while disabled. */
+  /** `'true'` while disabled, by the group or by its field. */
   readonly 'aria-disabled'?: 'true' | undefined;
   /** `'true'` only while invalid and (touched or submitted). Never `'false'`. */
   readonly 'aria-invalid'?: 'true' | undefined;
@@ -141,4 +158,10 @@ export interface RadioGroupParts {
   readonly root: RadioGroupRootProps;
   /** The facts for one registered radio. */
   readonly radio: (item: RadioGroupItem) => RadioGroupRadioFacts;
+  /**
+   * What the group reports to its FormField: the effective id and facts, `filled` = a radio is checked, `invalid` =
+   * the `invalid` fact or required with no value, and `group`, so the Label names the group through
+   * `aria-labelledby` and renders no `for`.
+   */
+  readonly control: FormFieldControlState;
 }

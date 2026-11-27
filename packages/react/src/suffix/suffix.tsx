@@ -5,6 +5,7 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { getSuffixProps, suffixAnatomy } from '@cocokits/machines/suffix';
 import { mergeProps } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
+import { FieldZoneContext } from '../internal/use-field-control';
 import { useMergedRef } from '../internal/use-merged-ref';
 import type { SuffixProps, SuffixRenderProps, SuffixState } from './suffix.types';
 
@@ -25,7 +26,12 @@ function SuffixImpl({ render, ref, children, ...rest }: SuffixProps): ReactEleme
   const element = isValidElement<{ children?: undefined }>(render)
     ? cloneElement(render, { children: undefined })
     : render;
-  return renderElement<SuffixRenderProps, SuffixState>(element, 'div', props, {});
+  // A control in the Suffix is not the field's control.
+  return (
+    <FieldZoneContext.Provider value>
+      {renderElement<SuffixRenderProps, SuffixState>(element, 'div', props, {})}
+    </FieldZoneContext.Provider>
+  );
 }
 
 /** The {@link Suffix} component and its `displayName`. */

@@ -14,6 +14,8 @@ const FOCUSED = `${BOX}:has(> :is(.cck-input, .cck-textarea):focus-visible, > .c
 const DISABLED = `.cck-form-field:where([data-disabled], :has(${WRAPPER} > :is(.cck-input, .cck-textarea):disabled, ${WRAPPER} > .cck-chip-list > .cck-chip-list__input:disabled, ${WRAPPER} > .cck-select > .cck-select__trigger:disabled))`;
 const INVALID = `.cck-form-field:where([data-invalid]):where([data-touched], [data-submitted]) > .cck-form-field__wrapper > ${BOX}`;
 const READONLY = `.cck-form-field:where([data-readonly]) > .cck-form-field__wrapper > ${BOX}`;
+/** A control in a Leading or Trailing that draws its own state, so the zone does not fade with the field. */
+const OWN_STATE = ':is(.cck-button, .cck-icon-button)';
 const forced = (css: string): string => css.split('@media (forced-colors: active)')[1] ?? '';
 
 /** Splits a selector list at the commas outside parentheses. */
@@ -190,7 +192,7 @@ describe('form-field, label and hint selectors and units', () => {
   it('gives the box of the input wrapper a forced-colors border, and the label marker none', () => {
     const sheet = forced(read('dist', 'components', 'form-field.css'));
     expect(declarationsOf(sheet, BOX)).toContain('border-color: CanvasText');
-    expect(declarationsOf(sheet, `${DISABLED} > .cck-form-field__wrapper > ${BOX}`)).toContain(
+    expect(declarationsInList(sheet, `${DISABLED} > .cck-form-field__wrapper > ${BOX}`)).toContain(
       'border-color: GrayText',
     );
     const focus = declarationsOf(sheet, FOCUSED) ?? '';
@@ -239,30 +241,32 @@ describe('the box of the input wrapper', () => {
   });
 
   it('shows the invalid border only when invalid and (touched or submitted)', () => {
-    expect(declarationsOf(stylesCss, INVALID)).toContain('border-color: var(--cck-form-field-invalid-border-color)');
+    expect(declarationsInList(stylesCss, INVALID)).toContain(
+      'border-color: var(--cck-form-field-invalid-border-color)',
+    );
     expect(scss).not.toMatch(/(^|\n)\s*\[data-/);
   });
 
   it('shows invalid by the border colour and focus colour only, and read-only by a fill', () => {
-    const invalid = declarationsOf(stylesCss, INVALID) ?? '';
+    const invalid = declarationsInList(stylesCss, INVALID) ?? '';
     expect(invalid).toContain('--_focus: var(--cck-form-field-invalid-border-color)');
     expect(invalid).not.toMatch(/box-shadow|outline|border-width|border-style/);
-    const readonly = declarationsOf(stylesCss, READONLY) ?? '';
+    const readonly = declarationsInList(stylesCss, READONLY) ?? '';
     expect(readonly).toContain('background-color: var(--cck-form-field-readonly-bg)');
     expect(readonly).not.toContain('border-style');
-    expect(declarationsOf(forced(sheet), READONLY)).toContain('border-style: dashed');
+    expect(declarationsInList(forced(sheet), READONLY)).toContain('border-style: dashed');
   });
 
   it('lets disabled win over hover, invalid and read-only: the resting border, faded, solid in forced colors', () => {
     const selector = `${DISABLED} > .cck-form-field__wrapper > ${BOX}`;
-    const disabled = declarationsOf(stylesCss, selector) ?? '';
+    const disabled = declarationsInList(stylesCss, selector) ?? '';
     expect(disabled).toContain('border-color: var(--cck-form-field-border-color)');
     expect(disabled).toContain('opacity: var(--cck-form-field-disabled-opacity)');
     expect(disabled).toContain('cursor: not-allowed');
     for (const earlier of [`${BOX}:where(:hover)`, INVALID, READONLY]) {
-      expect(sheet.indexOf(`${selector} {`)).toBeGreaterThan(sheet.indexOf(`${earlier} {`));
+      expect(sheet.indexOf(selector)).toBeGreaterThan(sheet.indexOf(earlier));
     }
-    const forcedDisabled = declarationsOf(forced(sheet), selector) ?? '';
+    const forcedDisabled = declarationsInList(forced(sheet), selector) ?? '';
     expect(forcedDisabled).toContain('border-style: solid');
     expect(forcedDisabled).toContain('opacity: 1');
   });
@@ -272,14 +276,15 @@ describe('the box of the input wrapper', () => {
     expect(forced(stylesCss)).toContain('border-color: GrayText');
   });
 
-  it('fades the Label, the Hint and a zone without a Button from the facts of the root', () => {
+  it('fades the Label, the Hint and a zone without a Button or an IconButton from the facts of the root', () => {
     const rule = declarationsInList(sheet, `${DISABLED} > .cck-label`) ?? '';
     expect(rule).toContain('opacity: var(--cck-form-field-disabled-opacity)');
     for (const part of [
       `${DISABLED} > .cck-form-field__feedback-wrapper > .cck-hint`,
-      `${DISABLED} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):not(:has(> .cck-button))`,
+      `${DISABLED} > .cck-form-field__wrapper > :is(.cck-leading, .cck-trailing):not(:has(> ${OWN_STATE}))`,
     ]) {
       expect(declarationsInList(sheet, part)).toBe(rule);
+      expect(declarationsInList(forced(sheet), part)).toContain('color: GrayText');
     }
     expect(sheet).not.toMatch(/\.cck-field-error[^{]*\{[^}]*opacity/);
   });
@@ -304,6 +309,97 @@ describe('the box of the input wrapper', () => {
         ),
       );
     }
+  });
+});
+
+describe('a Select that is the control, with a Prefix or Suffix beside it', () => {
+  const sheet = read('dist', 'components', 'form-field.css');
+  const SELECT_BOX =
+    '.cck-form-field__input-wrapper:has(> .cck-select):has(> :is(.cck-prefix, .cck-suffix):not([hidden]))';
+  const TRIGGER = `${SELECT_BOX} > .cck-select > .cck-select__trigger`;
+  const SELECT_FOCUSED = `${SELECT_BOX}:has(> .cck-select > .cck-select__trigger:focus-visible, > .cck-select[data-state=open])`;
+  const IN_FIELD = (root: string): string => `${root} > .cck-form-field__wrapper > ${SELECT_BOX}`;
+
+  it('draws one field box around them on the input wrapper, as high as the box of an Input', () => {
+    const box = declarationsOf(stylesCss, SELECT_BOX) ?? '';
+    for (const line of [
+      'block-size: var(--cck-form-field-height)',
+      'min-block-size: var(--cck-form-field-height)',
+      'gap: 0',
+      'padding-inline: 0',
+      'border: var(--cck-form-field-border-width) solid var(--cck-form-field-border-color)',
+      'border-radius: var(--_radius)',
+      'background-color: var(--cck-form-field-bg)',
+      'box-shadow: var(--cck-form-field-shadow)',
+    ]) {
+      expect(box).toContain(line);
+    }
+    expect(box).not.toContain('--cck-select-');
+    expect(declarationsOf(stylesCss, `${SELECT_BOX} > .cck-prefix`)).toContain(
+      'padding-inline-start: var(--cck-form-field-padding-inline)',
+    );
+    expect(declarationsOf(stylesCss, `${SELECT_BOX} > .cck-suffix`)).toContain(
+      'padding-inline-end: var(--cck-form-field-padding-inline)',
+    );
+  });
+
+  it('clears the box of the trigger and keeps its size, padding and text', () => {
+    const trigger = declarationsOf(stylesCss, TRIGGER) ?? '';
+    for (const line of ['border: 0', 'background-color: transparent', 'box-shadow: none']) {
+      expect(trigger).toContain(line);
+    }
+    expect(trigger).not.toMatch(/min-block-size|padding|font|letter-spacing/);
+  });
+
+  it('shows hover, focus and the open list on the box, the focus last', () => {
+    expect(declarationsOf(stylesCss, `${SELECT_BOX}:where(:hover)`)).toContain(
+      'border-color: var(--cck-form-field-hover-border-color)',
+    );
+    const focus = declarationsOf(stylesCss, SELECT_FOCUSED) ?? '';
+    expect(focus).toContain('border-color: var(--_focus)');
+    expect(focus).toContain('z-index: 1');
+    expect(focus).toContain(
+      'box-shadow: 0 0 0 var(--cck-form-field-focus-ring-width) color-mix(in srgb, var(--_focus) var(--cck-form-field-focus-ring-mix), transparent)',
+    );
+    expect(declarationsOf(stylesCss, SELECT_BOX)).toContain('--_focus: var(--cck-form-field-focus-color)');
+    expect(sheet.indexOf(`${SELECT_FOCUSED} {`)).toBeGreaterThan(sheet.indexOf(`${SELECT_BOX}:where(:hover)`));
+  });
+
+  it('takes invalid, read-only and disabled from the facts of the field root, as the box of an Input does', () => {
+    for (const [root, box] of [
+      [INVALID.split(' > ')[0], `${INVALID.split(' > ')[0]} > .cck-form-field__wrapper > ${BOX}`],
+      [READONLY.split(' > ')[0], READONLY],
+      [DISABLED, `${DISABLED} > .cck-form-field__wrapper > ${BOX}`],
+    ] as const) {
+      expect(declarationsInList(sheet, IN_FIELD(root)), root).toBe(declarationsInList(sheet, box));
+    }
+    // The box fades as a whole, so the trigger in it does not fade a second time.
+    expect(declarationsInList(sheet, `${IN_FIELD(DISABLED)} > .cck-select > .cck-select__trigger`)).toContain(
+      'opacity: 1',
+    );
+  });
+
+  it('squares the corners of that box that touch a Leading or Trailing', () => {
+    for (const zone of ['leading', 'trailing']) {
+      const selector = `.cck-form-field__wrapper:has(> .cck-${zone}:not([hidden])) > ${SELECT_BOX}`;
+      expect(declarationsInList(stylesCss, selector)).toContain(
+        zone === 'leading' ? 'border-start-start-radius: 0' : 'border-start-end-radius: 0',
+      );
+    }
+  });
+
+  it('keeps the box in forced colors: CanvasText, dashed when read-only, GrayText when disabled, an outline on focus', () => {
+    expect(declarationsOf(forced(sheet), SELECT_BOX)).toContain('border-color: CanvasText');
+    expect(declarationsOf(forced(sheet), TRIGGER)).toContain('outline: none');
+    expect(declarationsInList(forced(sheet), IN_FIELD(READONLY.split(' > ')[0]))).toContain('border-style: dashed');
+    expect(declarationsInList(forced(sheet), IN_FIELD(DISABLED))).toContain('border-color: GrayText');
+    expect(declarationsOf(forced(sheet), SELECT_FOCUSED)).toContain(
+      'outline: var(--cck-form-field-focus-ring-width) solid Highlight',
+    );
+  });
+
+  it('leaves a Select with no Prefix or Suffix its own box', () => {
+    expect(declarationsOf(stylesCss, '.cck-form-field__input-wrapper > .cck-select')).not.toContain('border');
   });
 });
 

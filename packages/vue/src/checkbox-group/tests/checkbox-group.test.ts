@@ -7,6 +7,7 @@ import { axe } from 'vitest-axe';
 import { CHECKBOX_GROUP_NAME_WARNING, checkboxGroupMeta } from '@cocokits/machines/checkbox-group';
 import { Checkbox } from '../../checkbox';
 import { FormField } from '../../form-field';
+import { Input } from '../../input';
 import { Label } from '../../label';
 import { must, nextFrame } from '../../internal/tests/choice-helpers';
 import { mountView } from '../../internal/tests/mount-helpers';
@@ -192,5 +193,28 @@ describe('CheckboxGroup in a FormField', () => {
     expect(group().hasAttribute('data-disabled')).toBe(true);
     expect(boxes().every((box) => box.disabled)).toBe(true);
     expect(warn.mock.calls.some(([message]) => String(message).includes('holds one control'))).toBe(false);
+  });
+
+  it('keeps the field for the group when a control sits inside it', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    mountView(() =>
+      h(
+        FormField,
+        { id: 'f' },
+        {
+          label: () => h(Label, null, () => 'Toppings'),
+          default: () =>
+            h(CheckboxGroup, null, () => [
+              h(Checkbox, { value: 'cheese' }, () => 'Cheese'),
+              h(Input, { 'aria-label': 'Other' }),
+            ]),
+        },
+      ),
+    );
+    await nextTick();
+    expect(group().id).toBe('f-control');
+    expect(screen.getByRole('textbox', { name: 'Other' }).id).not.toBe('f-control');
+    expect(screen.getByRole('group', { name: 'Toppings' })).toBe(group());
+    expect(warn).not.toHaveBeenCalled();
   });
 });

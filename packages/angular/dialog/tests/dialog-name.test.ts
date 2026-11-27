@@ -8,10 +8,8 @@ const imports = [...CckDialogImports];
 const TEXT =
   'CocoKits: a DialogContent has no accessible name. Add a cckDialogTitle with text, or an aria-label, or an aria-labelledby that points to an element with text.';
 const dialog = (content: string): string => `
-  <ng-container cckDialog>
-    <button cckDialogTrigger>Open</button>
-    <ng-template cckDialogPortal>${content}</ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog">Open</button>
+  <ng-template #dialog>${content}</ng-template>`;
 
 describe('the accessible name warning of a DialogContent', () => {
   beforeEach(stubOverlayApis);

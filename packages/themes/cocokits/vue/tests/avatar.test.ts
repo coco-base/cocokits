@@ -26,6 +26,7 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
     expect(el('group').classList.contains('cck-avatar-group')).toBe(true);
     expect(el('label').classList.contains('cck-avatar-label')).toBe(true);
     expect(attr('avatar', 'data-size')).toBe('md');
+    expect(attr('avatar', 'data-shape')).toBe('circle');
     expect(attr('group', 'data-size')).toBe('md');
     expect(attr('label', 'data-size')).toBe('md');
     expect(attr('label', 'data-avatar-position')).toBe('left');
@@ -34,6 +35,7 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
 
   it.each([
     ['avatar', 'size', 'data-size', avatar.size.values],
+    ['avatar', 'shape', 'data-shape', avatar.shape.values],
     ['group', 'size', 'data-size', group.size.values],
     ['label', 'size', 'data-size', label.size.values],
     ['label', 'avatarPosition', 'data-avatar-position', label.avatarPosition.values],
@@ -49,13 +51,14 @@ describe('theme AvatarRoot, AvatarGroup and AvatarLabel', () => {
   it('remove the attributes with null', () => {
     render(
       themed(() => [
-        make('avatar', { size: null }),
+        make('avatar', { size: null, shape: null }),
         make('group', { size: null }),
         make('label', { size: null, avatarPosition: null, labelAlignment: null }),
       ]),
     );
     for (const [id, name] of [
       ['avatar', 'data-size'],
+      ['avatar', 'data-shape'],
       ['group', 'data-size'],
       ['label', 'data-size'],
       ['label', 'data-avatar-position'],

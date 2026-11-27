@@ -14,7 +14,7 @@ function MenuItemIndicatorImpl({ render, ref, children, ...rest }: MenuSpanProps
   const context = useMenuContext('Menu.ItemIndicator');
   const { checked } = useMenuItemContext('Menu.ItemIndicator');
   const machine = getMenuProps({ id: context.id, open: context.open }, context.dispatch).itemIndicator({ checked });
-  // Content you give wins; else the icon the theme names in `components.menu.icons.itemIndicator`, if any.
+  // Content you give wins; else the icon the theme names in `components.menu.icons.itemIndicator`, else `check`.
   const iconName = usePartIcon(menuAnatomy, 'itemIndicator', children);
   return useMenuPartElement('itemIndicator', 'span', machine, context.open, {
     render,
@@ -27,7 +27,7 @@ function MenuItemIndicatorImpl({ render, ref, children, ...rest }: MenuSpanProps
  * The mark of a checkbox item or a radio item. It renders a decorative `<span aria-hidden="true">` with
  * `data-state` set to `checked` or `unchecked`, so the theme shows it only while the item is checked.
  *
- * Put an icon inside it, or leave it empty to draw the icon that the theme names for the part.
+ * Put an icon inside it, or leave it empty to draw the icon that the theme names for the part, else `check`.
  *
  * @example
  * <Menu.CheckboxItem>

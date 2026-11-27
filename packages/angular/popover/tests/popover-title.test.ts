@@ -7,19 +7,17 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckPopoverImports],
   template: `
-    <ng-container cckPopover [open]="true">
-      <button cckPopoverTrigger>Open</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content>
-          @if (titled()) {
-            <h2 cckPopoverTitle>Settings</h2>
-          }
-          @if (described()) {
-            <cck-popover-description>Change how it looks.</cck-popover-description>
-          }
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button [cckPopoverTriggerFor]="popover" [open]="true">Open</button>
+    <ng-template #popover>
+      <cck-popover-content>
+        @if (titled()) {
+          <h2 cckPopoverTitle>Settings</h2>
+        }
+        @if (described()) {
+          <cck-popover-description>Change how it looks.</cck-popover-description>
+        }
+      </cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -59,10 +57,8 @@ describe('Popover title and description', () => {
   it('warns once, naming the title, for an unnamed content', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     await render(
-      `<ng-container cckPopover [open]="true">
-        <button cckPopoverTrigger>Open</button>
-        <ng-template cckPopoverPortal><cck-popover-content>Unnamed</cck-popover-content></ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover" [open]="true">Open</button>
+      <ng-template #popover><cck-popover-content>Unnamed</cck-popover-content></ng-template>`,
       { imports: [...CckPopoverImports] },
     );
     await waitFor(() => {

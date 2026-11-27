@@ -9,7 +9,8 @@ const SETTLE_STEP = 20;
 
 /**
  * Harness for the Trigger of a Tooltip, in the one-attribute form (`cckTooltip` on the trigger) and in the
- * compound form. The bubble renders in the overlay container, so the harness reads it from the document root.
+ * rich form (`[cckTooltipTriggerFor]` with a template). The bubble renders in the overlay container, so the harness
+ * reads it from the document root.
  */
 export class CckTooltipHarness extends ComponentHarness {
   /** The selector of the Tooltip trigger. */

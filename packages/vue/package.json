@@ -138,6 +138,10 @@
       "types": "./dist/tabs/index.d.ts",
       "default": "./dist/tabs/index.js"
     },
+    "./tag": {
+      "types": "./dist/tag/index.d.ts",
+      "default": "./dist/tag/index.js"
+    },
     "./textarea": {
       "types": "./dist/textarea/index.d.ts",
       "default": "./dist/textarea/index.js"

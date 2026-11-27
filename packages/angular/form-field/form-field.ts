@@ -44,6 +44,8 @@ const elementOf = (part: FieldPart): HTMLElement => part.element;
  *
  * The `disabled`, `readonly`, `required` and `invalid` inputs of the field reach the control. The state of the control shows on the field as `data-*` attributes.
  *
+ * A CocoKits control inside the leading, trailing, prefix or suffix content is not the control of the field. It still takes the state of the field, but the label, the ids and the description stay with the control in the box. Name it with its own `aria-label`.
+ *
  * A native or third-party control gets none of this. Give it an `id`, give the label a matching `for`, and give the control its own `aria-describedby`.
  *
  * @example
@@ -265,7 +267,7 @@ export class CckFormField {
   /**
    * Registers the control that is being created. Call it in the control's injection context. The first
    * control is the field's control for as long as it exists; a further one is not, and no one takes over
-   * when the first is destroyed.
+   * when the first is destroyed. A control in a zone of the field (`CCK_FIELD_ZONE`) does not register.
    *
    * @param element - A function that returns the native control, or nothing while it does not exist yet (an input
    *   inside the control's own template); a click on the input wrapper focuses it.

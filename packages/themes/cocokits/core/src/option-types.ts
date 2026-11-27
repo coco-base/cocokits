@@ -1,3 +1,6 @@
+/** A two-state option: its `data-*` is present when true and absent when false. */
+export const BOOLEAN_VALUES = [true, false] as const;
+
 /** One theme option: the `data-*` it renders, its values, default and the parts that carry it. */
 export interface Option<V extends readonly (string | boolean)[], P extends readonly string[]> {
   readonly attrName: string;

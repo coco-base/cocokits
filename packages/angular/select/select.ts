@@ -258,34 +258,6 @@ export class CckSelect<V = string> extends CckSelectInputs<V> implements FormVal
   readonly ariaLabelledBy = input<string | undefined>(undefined, { alias: 'aria-labelledby' });
 
   /**
-   * Whether the user has left the control. Signal Forms sets this member. When not set, the control becomes touched after the first blur.
-   * @cckGroup forms
-   * @cckSemantic none
-   * @cckParity Signal Forms bind this input.
-   * @defaultValue false
-   */
-  override readonly touched = input(false, { transform: booleanAttribute });
-
-  /**
-   * Whether the user has changed the control. Signal Forms sets this member. When not set, the control becomes dirty after the first change.
-   * @cckGroup forms
-   * @cckSemantic none
-   * @cckParity Signal Forms bind this input.
-   * @defaultValue false
-   */
-  override readonly dirty = input(false, { transform: booleanAttribute });
-
-  /**
-   * Whether the user tried to submit the form that holds the control. When not set, a `submit` event of the form sets it and a form reset clears it.
-   * @remarks A value you give always wins, `false` too.
-   * @cckSemantic none
-   * @cckParity Signal Forms bind this input.
-   */
-  override readonly submitted = input<boolean | undefined, unknown>(undefined, {
-    transform: (value) => (value === undefined ? undefined : booleanAttribute(value)),
-  });
-
-  /**
    * Whether a check of the value is still running. Signal Forms sets this member while an asynchronous validator runs.
    * @cckGroup forms
    * @cckSemantic none

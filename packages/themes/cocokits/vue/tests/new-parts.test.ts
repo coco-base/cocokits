@@ -208,7 +208,11 @@ describe('theme menu items: color', () => {
   });
 
   it('gives the submenu content the size of the menu that holds its sub-trigger', async () => {
-    await openMenu(themed(() => menuWith({}, 'lg')));
+    const content = await openMenu(themed(() => menuWith({}, 'lg')));
+    // The open moves the focus into the menu in the next frame; a focus set before that frame is taken back.
+    await waitFor(() => {
+      expect(content.contains(document.activeElement)).toBe(true);
+    });
     screen.getByRole('menuitem', { name: 'Share' }).focus();
     await userEvent.setup().keyboard('{ArrowRight}');
     expect(document.querySelector('.cck-menu__sub-content')?.getAttribute('data-size')).toBe('lg');

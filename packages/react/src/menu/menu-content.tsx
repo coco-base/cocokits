@@ -8,6 +8,7 @@ import {
   getMenuProps,
   getMenuSubPlacement,
   menuAnatomy,
+  resolveMenuFocusContent,
   type MenuAlign,
   type MenuEvent,
   type MenuSide,
@@ -86,8 +87,14 @@ function MenuContentLayer({
     if (!open || !content || !trigger) return undefined;
     const doc = content.ownerDocument;
     // A submenu returns the focus by itself: a key that closes it focuses its sub-trigger, a pointer leaves it.
+    // Focus in a submenu that is still in the document belongs to the menu too.
     const focusReturn =
-      sub === null ? captureFocusReturn({ getTrigger: () => trigger, getContent: () => contentRef.current }) : null;
+      sub === null
+        ? captureFocusReturn({
+            getTrigger: () => trigger,
+            getContent: () => resolveMenuFocusContent(contentRef.current),
+          })
+        : null;
     // The guards listen first: a focus on a guard closes the menu (it is outside), and the close removes the guard in
     // the same event, so a listener that ran after the layer's would find no guard to forward the focus from. Tab in
     // a submenu leaves for the element after the trigger of the root menu, and closes the whole menu.
@@ -137,8 +144,8 @@ function MenuContentLayer({
       // After the click that closed it has moved focus, so a press on another control keeps it there.
       scheduleFocus(doc, () => {
         // Not when it opened again meanwhile (StrictMode runs this cleanup on a mounted menu).
-        if (openNow.current) return;
-        focusReturn?.restore();
+        if (!openNow.current) focusReturn?.restore();
+        focusReturn?.destroy();
       });
     };
   }, [open, trigger, sub, dispatch, parentLayer, contentRef, typeahead, getEntries, getItem, takeInitialFocus]);

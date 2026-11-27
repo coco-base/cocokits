@@ -1,9 +1,10 @@
 import { defineThemeConfig, type ThemeConfig } from '@cocokits/shared';
 import { type AvatarComponentsConfig, avatarComponents } from './avatar-config';
 import { type MenuOptions, menuOptions } from './menu-config';
-import type { OptionalOption, Option, RootOption } from './option-types';
+import { BOOLEAN_VALUES, type OptionalOption, type Option, type RootOption } from './option-types';
 import { inheritable, rootSize } from './option-helpers';
 import { type TabsOptions, tabsOptions } from './tabs-config';
+import { type TagOptions, tagOptions } from './tag-config';
 import type { ThemeIconName } from './theme-icons';
 import {
   accordionSizeDefaultMode,
@@ -62,8 +63,6 @@ const SELECT_INDICATORS = ['checkmark', 'checkbox', 'none'] as const;
 const LABEL_POSITIONS = ['after', 'before'] as const;
 /** The strength of the line is a border colour, not an Active Color family, so no token collection holds it. */
 const DIVIDER_COLORS = ['light', 'default', 'dark'] as const;
-/** A two-state option: its `data-*` is present when true and absent when false. */
-const BOOLEAN_VALUES = [true, false] as const;
 /** The grip of the Textarea: `true` and `vertical` resize the height, then the width or both; `false` shows none. */
 const TEXTAREA_RESIZES = [true, false, 'vertical', 'horizontal', 'both'] as const;
 /** An option on the content part only. */
@@ -175,6 +174,7 @@ export interface CocokitsThemeConfig extends ThemeConfig {
     readonly tabs: TabsOptions;
     /** Link tabs: the Tabs options, the same look. */
     readonly 'tab-nav': TabsOptions;
+    readonly tag: TagOptions;
     readonly textarea: {
       readonly size: RootOption<typeof textareaSizeModes>;
       readonly resize: RootOption<typeof TEXTAREA_RESIZES>;
@@ -446,6 +446,7 @@ export const cocokitsThemeConfig: CocokitsThemeConfig = defineThemeConfig({
     },
     tabs: tabsOptions,
     'tab-nav': tabsOptions,
+    tag: tagOptions,
     textarea: {
       size: rootSize(
         textareaSizeModes,

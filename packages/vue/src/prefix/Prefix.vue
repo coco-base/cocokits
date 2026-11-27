@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useTemplateRef, type ComponentPublicInstance } from 'vue';
+import { provide, useTemplateRef, type ComponentPublicInstance } from 'vue';
 import { getPrefixProps, prefixAnatomy } from '@cocokits/machines/prefix';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { rootElementOf } from '../internal/root-element';
+import { FIELD_ZONE_KEY } from '../internal/use-field-control';
 import type { PrefixProps } from './prefix.types';
 
 defineOptions({ name: 'CckPrefix' });
@@ -21,6 +22,8 @@ defineSlots<{
 
 const themeAttrs = useThemeAttrs(prefixAnatomy);
 const parts = getPrefixProps();
+// A control in the Prefix is not the field's control.
+provide(FIELD_ZONE_KEY, true);
 
 const root = useTemplateRef<ComponentPublicInstance>('root');
 

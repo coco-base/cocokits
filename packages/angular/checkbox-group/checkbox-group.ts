@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
 import { themeAttrs } from '@cocokits/angular-core';
-import { CCK_CONTROL_GROUP } from '@cocokits/angular/form-control';
+import { CCK_CONTROL_GROUP, CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
 import { CckFormField } from '@cocokits/angular/form-field';
 import {
   CHECKBOX_GROUP_NAME_WARNING,
@@ -135,7 +135,7 @@ export class CckCheckboxGroup implements FormValueControl<readonly string[]> {
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly field = inject(CckFormField, { optional: true });
-  private readonly control = this.field?._register(() => null);
+  private readonly control = inject(CCK_FIELD_ZONE, { optional: true }) ? undefined : this.field?._register(() => null);
   /** The attributes the author wrote on the element; they name and describe the group. */
   private readonly written = {
     id: this.host.getAttribute('id') ?? undefined,

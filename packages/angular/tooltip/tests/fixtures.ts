@@ -3,19 +3,17 @@ import { bootstrapApplication, provideClientHydration } from '@angular/platform-
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
 import { CckTooltipImports } from '../index';
 
-/** The app both the server and the client render: a compound tooltip and three one-attribute tooltips. */
+/** The app both the server and the client render: a rich tooltip and two one-attribute tooltips. */
 @Component({
   selector: 'app-root',
   imports: [CckTooltipImports],
   template: `
-    <ng-container cckTooltip="Copy the link">
-      <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-      <ng-template cckTooltipPortal
-        ><cck-tooltip-content
-          ><cck-tooltip-arrow></cck-tooltip-arrow>Copy <b>the</b> link</cck-tooltip-content
-        ></ng-template
-      >
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" aria-label="Copy link">Copy</button>
+    <ng-template #richTip
+      ><cck-tooltip-content
+        ><cck-tooltip-title>Copy <b>the</b> link</cck-tooltip-title></cck-tooltip-content
+      ></ng-template
+    >
     <button cckTooltip="Information" id="mine" aria-describedby="note">Info</button>
     <button cckTooltip="Save" aria-label="Save">S</button>
     <span id="note">Note</span>

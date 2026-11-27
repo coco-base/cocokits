@@ -18,7 +18,7 @@ import {
 } from '@cocokits/machines/checkbox-group';
 import { isDevelopment, Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { CHECKBOX_GROUP_KEY } from '../internal/checkbox-group-context';
-import { nonEmpty, useFormFieldContext } from '../internal/form-field-context';
+import { FORM_FIELD_KEY, nonEmpty, useFormFieldContext } from '../internal/form-field-context';
 import { omit } from '../internal/record';
 import { rootElementOf } from '../internal/root-element';
 import { useDefaultModel } from '../internal/use-default-model';
@@ -93,6 +93,8 @@ const parts = computed(() =>
   ),
 );
 
+// The group is the field's control: a control inside it leaves the field alone.
+provide(FORM_FIELD_KEY, undefined);
 provide(CHECKBOX_GROUP_KEY, {
   value,
   name: computed(() => parts.value.checkbox.name),

@@ -5,7 +5,6 @@ import { CckDialogContent } from './dialog-content';
 import { CckDialogDescription } from './dialog-description';
 import { CckDialogFooter } from './dialog-footer';
 import { CckDialogHeader } from './dialog-header';
-import { CckDialogPortal } from './dialog-portal';
 import { CckDialogTitle } from './dialog-title';
 import { CckDialogTrigger } from './dialog-trigger';
 
@@ -20,7 +19,6 @@ export { CckDialogContent } from './dialog-content';
 export { CckDialogDescription } from './dialog-description';
 export { CckDialogFooter } from './dialog-footer';
 export { CckDialogHeader } from './dialog-header';
-export { CckDialogPortal } from './dialog-portal';
 export { CCK_DIALOG_DATA, CckDialogRef } from './dialog-ref';
 export type { CckDialogState } from './dialog-ref';
 export { CckDialogTitle } from './dialog-title';
@@ -34,7 +32,6 @@ export { CckDialogTrigger } from './dialog-trigger';
 export const CckDialogImports = [
   CckDialogRoot,
   CckDialogTrigger,
-  CckDialogPortal,
   CckDialogContent,
   CckDialogTitle,
   CckDialogDescription,

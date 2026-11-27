@@ -189,22 +189,17 @@ describe('Tooltip one-attribute form', () => {
     });
   });
 
-  it('closes on Escape and an outside press, and disableClose keeps it', async () => {
+  it('closes on Escape and an outside press, and cckTooltipDisableClose keeps it', async () => {
     const user = setup();
-    const { fixture } = await render(`<button cckTooltip="Copy" [disableClose]="true">x</button><p>Empty space</p>`, {
-      imports: [...CckTooltipImports],
-    });
+    const { fixture } = await render(
+      `<button cckTooltip="Copy" [cckTooltipDisableClose]="true">x</button><p>Empty space</p>`,
+      { imports: [...CckTooltipImports] },
+    );
     fixture.debugElement.children[0]?.injector.get(CckTooltip).show(0);
     await opened();
     await user.keyboard('{Escape}');
     await user.click(screen.getByText('Empty space'));
     expect(bubble()).not.toBeNull();
-  });
-
-  it('warns for a message on an ng-container without parts', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(`<ng-container cckTooltip="Hello"></ng-container>`, { imports: [...CckTooltipImports] });
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('cckTooltip with a message needs an element'));
   });
 
   describe('defaults token', () => {

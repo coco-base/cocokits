@@ -42,6 +42,7 @@
         { "name": "trigger-gap", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Spacing#spacing-4}" } },
         { "name": "label-font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } },
         { "name": "label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/3}" } },
+        { "name": "fill-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/2}" } },
         { "name": "hover-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
         { "name": "selected-label-color", "type": "color", "valuesByMode": { "Default": "{Theme / Color#text/1}" } },
         { "name": "indicator-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },

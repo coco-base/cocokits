@@ -10,22 +10,18 @@ import { CckPopoverHarness } from '../index';
 @Component({
   imports: [CckPopoverImports],
   template: `
-    <ng-container cckPopover>
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content>
-          <h2 cckPopoverTitle>Share this page</h2>
-          <cck-popover-description>Anyone with the link can read it.</cck-popover-description>
-          <button cckPopoverClose>Done</button>
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
-    <ng-container cckPopover>
-      <button cckPopoverTrigger disabled>{{ invite }}</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Invite">Invite someone</cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button [cckPopoverTriggerFor]="popover">Share</button>
+    <ng-template #popover>
+      <cck-popover-content>
+        <h2 cckPopoverTitle>Share this page</h2>
+        <cck-popover-description>Anyone with the link can read it.</cck-popover-description>
+        <button cckPopoverClose>Done</button>
+      </cck-popover-content>
+    </ng-template>
+    <button [cckPopoverTriggerFor]="popover2" disabled>{{ invite }}</button>
+    <ng-template #popover2>
+      <cck-popover-content aria-label="Invite">Invite someone</cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {

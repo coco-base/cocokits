@@ -150,6 +150,12 @@ $boxed: ':is([data-variant="border"], [data-variant="fill"])';
     border-radius: var(--cck-tabs-basic-trigger-radius);
   }
 
+  // On the grey list of `fill` the muted label is under 4.5:1 (WCAG 1.4.3), so a tab at rest there takes a darker
+  // text colour. Before the hover and selected rules, so both still win.
+  #{$root}[data-variant='fill'] > .cck-#{$block}__list > .cck-#{$block}__#{$item} {
+    color: var(--cck-tabs-fill-label-color);
+  }
+
   // Disabled is excluded, so it keeps its resting colour.
   #{$trigger}:hover:not([data-disabled], :disabled) {
     color: var(--cck-tabs-hover-label-color);

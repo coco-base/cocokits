@@ -9,12 +9,6 @@ import { stubOverlayApis } from './overlay-stubs';
   imports: [...CckTooltipImports],
   template: `
     <button [cckTooltip]="message()" [cckTooltipDisabled]="disabled()" [attr.aria-label]="label()">Copy</button>
-    <ng-container [cckTooltip]="compoundMessage()">
-      <button cckTooltipTrigger id="rich">Rich</button>
-      <ng-template cckTooltipPortal
-        ><cck-tooltip-content><b>Rich</b> text</cck-tooltip-content></ng-template
-      >
-    </ng-container>
   `,
 })
 class Host {
@@ -22,13 +16,26 @@ class Host {
   readonly message = signal('Copy link');
   readonly label = signal<string | null>(null);
   readonly disabled = signal(false);
-  readonly compoundMessage = signal('');
 }
 
-const buttons = (): { plain: HTMLElement; rich: HTMLElement } => ({
-  plain: screen.getByText('Copy'),
-  rich: screen.getByText('Rich'),
-});
+@Component({
+  imports: [...CckTooltipImports],
+  template: `
+    <button [cckTooltipTriggerFor]="rich" [cckTooltipDisabled]="disabled()">Rich</button>
+    <ng-template #rich>
+      <cck-tooltip-content>
+        <cck-tooltip-title>{{ title() }}</cck-tooltip-title>
+        <cck-tooltip-description>Copies the address.</cck-tooltip-description>
+      </cck-tooltip-content>
+    </ng-template>
+  `,
+})
+class RichHost {
+  readonly title = signal('Copy link');
+  readonly disabled = signal(false);
+}
+
+const buttons = (): { plain: HTMLElement } => ({ plain: screen.getByText('Copy') });
 const descriptions = (): HTMLElement[] => [...document.querySelectorAll<HTMLElement>('[role="tooltip"][hidden]')];
 
 describe('Tooltip description', () => {
@@ -108,14 +115,18 @@ describe('Tooltip description', () => {
     expect(descriptions()).toHaveLength(0);
   });
 
-  it('describes a compound trigger by the message once it has one', async () => {
-    const { fixture } = await render(Host);
+  it('describes a rich trigger by the title and the description of its template while closed', async () => {
+    const { fixture } = await render(RichHost);
     await fixture.whenStable();
-    expect(buttons().rich.hasAttribute('aria-describedby')).toBe(false);
-    fixture.componentInstance.compoundMessage.set('Rich text');
+    const rich = screen.getByText('Rich');
+    const [description] = descriptions() as [HTMLElement];
+    expect(descriptions()).toHaveLength(1);
+    expect(description.textContent).toBe('Copy link Copies the address.');
+    expect(rich.getAttribute('aria-describedby')).toBe(description.id);
+    expect(document.querySelector(`.${tooltipAnatomy.classes.content}`)).toBeNull();
+    fixture.componentInstance.disabled.set(true);
     await fixture.whenStable();
-    const rich = descriptions().find((element) => element.textContent === 'Rich text');
-    expect(rich).toBeDefined();
-    expect(buttons().rich.getAttribute('aria-describedby')).toBe(rich?.id);
+    expect(descriptions()).toHaveLength(0);
+    expect(rich.hasAttribute('aria-describedby')).toBe(false);
   });
 });

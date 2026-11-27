@@ -1,3 +1,4 @@
+import { focusFirst } from '@cocokits/cdk/focus';
 import type { DialogAutoFocus, DialogCloseOnNavigation } from './dialog.types';
 
 /** Focuses an element that may not be focusable: it gets `tabindex="-1"` until it loses focus. */
@@ -17,15 +18,21 @@ function forceFocus(element: HTMLElement): void {
 
 /**
  * Places focus in a dialog that `showModal()` has just opened. The browser's focusing steps have already run: they
- * start on an `autofocus` element, else the first focusable one. `'first-tabbable'`, `true` and a missing value need
- * nothing more; `'dialog'` and `false` are written as `autofocus` on the `<dialog>` (see `focusesDialog`).
+ * start on an `autofocus` element, else the first focusable one in tree order. For `'first-tabbable'`, `true` and a
+ * missing value the focus moves on to the first Tab stop, so a checked radio wins over the first radio of its group,
+ * and the page does not scroll to it. `'dialog'` and `false` are written as `autofocus` on the `<dialog>` (see
+ * `focusesDialog`).
  *
  * @internal
  * @param dialog - The opened `<dialog>`.
  * @param autoFocus - The `autoFocus` prop of the root.
  */
 export function applyAutoFocus(dialog: HTMLDialogElement, autoFocus: DialogAutoFocus | undefined): void {
-  if (typeof autoFocus !== 'string' || autoFocus === 'first-tabbable' || autoFocus === 'dialog') return;
+  if (focusesDialog(autoFocus)) return;
+  if (typeof autoFocus !== 'string' || autoFocus === 'first-tabbable') {
+    focusFirst(dialog);
+    return;
+  }
   const selector = autoFocus === 'first-heading' ? 'h1, h2, h3, h4, h5, h6, [role="heading"]' : autoFocus;
   const target = dialog.querySelector<HTMLElement>(selector);
   if (target) forceFocus(target);

@@ -56,8 +56,10 @@ $inner-radius: calc(var(--cck-accordion-radius) - var(--cck-accordion-border-wid
     }
   }
 
-  .cck-accordion[data-orientation='horizontal'] > .cck-accordion__item {
-    flex: 1;
+  // Side by side, a closed item keeps the initial flex: as wide as its trigger, never narrower than its longest word.
+  // An open item takes the free width and its content wraps in it; two open items share it by their content width.
+  .cck-accordion[data-orientation='horizontal'] > .cck-accordion__item[data-state='open'] {
+    flex: 1 1 auto;
     min-inline-size: 0;
   }
 

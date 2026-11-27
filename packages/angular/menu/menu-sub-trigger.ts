@@ -20,8 +20,16 @@ import { CckMenuSub } from './menu-sub';
  * @remarks It applies the submenu: write its `[(open)]` on the sub-trigger. A disabled sub-trigger stays in the menu and can have focus, but it opens nothing.
  *
  * @example
- * <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
- * <ng-template #share>...</ng-template>
+ * <button type="button" [cckMenuTriggerFor]="menu">Actions</button>
+ * <ng-template #menu>
+ *   <cck-menu-content>
+ *     <cck-menu-item>Rename</cck-menu-item>
+ *     <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
+ *     <ng-template #share>
+ *       <cck-menu-sub-content><cck-menu-item>Email</cck-menu-item></cck-menu-sub-content>
+ *     </ng-template>
+ *   </cck-menu-content>
+ * </ng-template>
  * @cckPart subTrigger
  * @cckSlot default - The label of the item. When not set, the item is empty, so name it with `aria-label`.
  */
@@ -71,8 +79,16 @@ export class CckMenuSubTrigger {
   /**
    * The template of the submenu: an `ng-template` with the `cck-menu-sub-content` inside.
    * @example
-   * <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
-   * <ng-template #share><cck-menu-sub-content><cck-menu-item>Email</cck-menu-item></cck-menu-sub-content></ng-template>
+   * <button type="button" [cckMenuTriggerFor]="menu">Actions</button>
+   * <ng-template #menu>
+   *   <cck-menu-content>
+   *     <cck-menu-item>Rename</cck-menu-item>
+   *     <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
+   *     <ng-template #share>
+   *       <cck-menu-sub-content><cck-menu-item>Email</cck-menu-item></cck-menu-sub-content>
+   *     </ng-template>
+   *   </cck-menu-content>
+   * </ng-template>
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */

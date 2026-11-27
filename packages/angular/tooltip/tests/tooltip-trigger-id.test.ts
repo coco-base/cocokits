@@ -8,10 +8,10 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckTooltipImports],
   template: `
-    <ng-container cckTooltip>
-      <button cckTooltipTrigger [id]="triggerId()" [aria-describedby]="ids()" aria-label="Copy link">Copy</button>
-      <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" [id]="triggerId()" [aria-describedby]="ids()" aria-label="Copy link">
+      Copy
+    </button>
+    <ng-template #richTip><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
     <button cckTooltip="Save" [id]="saveId()" [aria-describedby]="ids()" aria-label="Store">Save</button>
     <i id="a">a</i><i id="b">b</i>
   `,

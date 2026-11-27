@@ -52,6 +52,22 @@ class Host {
   protected readonly String = String;
 }
 
+@Component({
+  imports: [...CckMenuImports],
+  template: `
+    <button [cckMenuTriggerFor]="menu">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        <cck-menu-checkbox-item [checked]="grid"><cck-menu-item-indicator />Grid</cck-menu-checkbox-item>
+        <cck-menu-checkbox-item><cck-menu-item-indicator>x</cck-menu-item-indicator>Rulers</cck-menu-checkbox-item>
+      </cck-menu-content>
+    </ng-template>
+  `,
+})
+class Indicators {
+  readonly grid = true;
+}
+
 const openMenu = async (user = userEvent.setup()): Promise<ReturnType<typeof userEvent.setup>> => {
   await user.click(trigger());
   const menu = await screen.findByRole('menu');
@@ -81,6 +97,16 @@ describe('Menu checkbox and radio items', () => {
     expect(checkbox.querySelector(`.${classes.itemIndicator}`)?.getAttribute('aria-hidden')).toBe('true');
     expect(checkbox.querySelector(`.${classes.itemIndicator}`)?.getAttribute('data-state')).toBe('unchecked');
     expect(checkbox.hasAttribute('checked')).toBe(false);
+  });
+
+  it('draws the check icon in an empty indicator, and the content you give instead of it', async () => {
+    await render(Indicators);
+    await openMenu();
+    const indicatorOf = (name: string): Element | null =>
+      screen.getByRole('menuitemcheckbox', { name }).querySelector(`.${classes.itemIndicator}`);
+    expect(indicatorOf('Grid')?.querySelector('[data-icon]')?.getAttribute('data-icon')).toBe('check');
+    expect(indicatorOf('Rulers')?.querySelector('[data-icon]')).toBeNull();
+    expect(indicatorOf('Rulers')?.textContent).toBe('x');
   });
 
   const presses = [

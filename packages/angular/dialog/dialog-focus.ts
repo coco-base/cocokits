@@ -1,5 +1,5 @@
 import type { Renderer2 } from '@angular/core';
-import { deepActiveElement, focusFirst } from '@cocokits/cdk/focus';
+import { deepActiveElement, focusFirst, scheduleFocus } from '@cocokits/cdk/focus';
 import type { CckDialogAutoFocus, CckDialogRestoreFocus } from './dialog-config';
 
 /** The focused element of the document, looking through open shadow roots, else its body. */
@@ -29,6 +29,8 @@ function forceFocus(element: HTMLElement, renderer: Renderer2): void {
  * Places focus in a dialog that `showModal()` has just opened. The
  * native focusing steps have already run. `'dialog'` and `false` need nothing here: the `<dialog>` is rendered
  * with `autofocus`, so the native steps focus it. `undefined` leaves focus where the native steps put it.
+ * `'first-tabbable'` and `true` move it on to the first Tab stop, and look again in the next frame, once the controls
+ * have their state, so a checked radio wins over the first radio of its group. The page does not scroll to it.
  *
  * @param dialog - The opened `<dialog>`.
  * @param autoFocus - The config value.
@@ -42,6 +44,12 @@ export function applyAutoFocus(
   if (autoFocus === undefined || autoFocus === false || autoFocus === 'dialog') return;
   if (autoFocus === true || autoFocus === 'first-tabbable') {
     focusFirst(dialog);
+    // The controls of the content may not have their state yet (a radio its group's value): look again a frame
+    // later, while the focus is still where it was put now.
+    const placed = deepActiveElement(dialog.ownerDocument);
+    scheduleFocus(dialog.ownerDocument, () => {
+      if (dialog.open && deepActiveElement(dialog.ownerDocument) === placed) focusFirst(dialog);
+    });
     return;
   }
   const selector = autoFocus === 'first-heading' ? 'h1, h2, h3, h4, h5, h6, [role="heading"]' : autoFocus;

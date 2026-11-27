@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import userEvent from '@testing-library/user-event';
 import { useState, type ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Menu } from '../../menu';
 import { Dialog } from '../index';
 import { button, closed, Example, stubTopLayer, trigger } from './fixtures';
 
@@ -64,6 +65,46 @@ describe('Dialog focus return to the trigger', () => {
     await closed();
     await waitFor(() => {
       expect(document.activeElement).toBe(button('Open from code'));
+    });
+  });
+
+  it('returns to the Menu trigger when a Menu item opened the dialog and the item is gone', async () => {
+    const user = userEvent.setup();
+    function FromMenu(): ReactElement {
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <Menu.Root>
+            <Menu.Trigger>Project actions</Menu.Trigger>
+            <Menu.Content>
+              <Menu.Item
+                onSelect={() => {
+                  setOpen(true);
+                }}
+              >
+                Rename
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Root>
+          <Dialog.Root open={open} onOpenChange={setOpen}>
+            <Dialog.Content aria-label="Rename project">
+              <Dialog.Close>Cancel</Dialog.Close>
+            </Dialog.Content>
+          </Dialog.Root>
+        </>
+      );
+    }
+    render(<FromMenu />);
+    await user.click(button('Project actions'));
+    await user.click(await screen.findByRole('menuitem', { name: 'Rename' }));
+    await screen.findByRole('dialog');
+    await waitFor(() => {
+      expect(screen.queryByRole('menu')).toBeNull();
+    });
+    await user.click(button('Cancel'));
+    await closed();
+    await waitFor(() => {
+      expect(document.activeElement).toBe(button('Project actions'));
     });
   });
 });

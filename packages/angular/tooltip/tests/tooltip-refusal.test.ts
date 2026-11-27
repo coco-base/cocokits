@@ -9,10 +9,10 @@ import { stubOverlayApis } from './overlay-stubs';
   imports: [...CckTooltipImports],
   template: `
     <p>Empty space</p>
-    <ng-container cckTooltip [disableClose]="disableClose()">
-      <button cckTooltipTrigger aria-label="Copy link">Copy</button>
-      <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
-    </ng-container>
+    <button [cckTooltipTriggerFor]="richTip" [cckTooltipDisableClose]="disableClose()" aria-label="Copy link">
+      Copy
+    </button>
+    <ng-template #richTip><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
   `,
 })
 class Host {
@@ -26,7 +26,7 @@ class Host {
   }
 }
 
-describe('Tooltip disableClose', () => {
+describe('Tooltip cckTooltipDisableClose', () => {
   beforeEach(stubOverlayApis);
   afterEach(() => {
     vi.restoreAllMocks();
@@ -46,14 +46,5 @@ describe('Tooltip disableClose', () => {
     await waitFor(() => {
       expect(screen.queryByRole('tooltip')).toBeNull();
     });
-  });
-
-  it('warns in development when the portal has no trigger', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(
-      `<ng-container cckTooltip><ng-template cckTooltipPortal><cck-tooltip-content>x</cck-tooltip-content></ng-template></ng-container>`,
-      { imports: [...CckTooltipImports] },
-    );
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('CocoKits: a TooltipPortal has no TooltipTrigger'));
   });
 });

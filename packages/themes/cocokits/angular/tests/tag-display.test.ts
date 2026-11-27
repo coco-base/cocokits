@@ -29,6 +29,7 @@ const PARTS = [
   { tag: 'cck-select-option-group', cls: 'cck-select__option-group', element: 'div' },
   { tag: 'cck-select-separator', cls: 'cck-select__separator', element: 'div' },
   { tag: 'cck-switch', cls: 'cck-switch', element: 'div' },
+  { tag: 'cck-tag', cls: 'cck-tag', element: 'span' },
   { tag: 'cck-tab-nav-panel', cls: 'cck-tab-nav__panel', element: 'div' },
   { tag: 'cck-tabs', cls: 'cck-tabs', element: 'div' },
   { tag: 'cck-tab', cls: 'cck-tabs__panel', element: 'div' },

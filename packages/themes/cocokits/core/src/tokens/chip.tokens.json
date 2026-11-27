@@ -17,7 +17,9 @@
         { "name": "letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "sm": "{Theme / Typography#text-xs/letter-spacing}", "md": "{Theme / Typography#text-xs/letter-spacing}", "lg": "{Theme / Typography#text-sm/letter-spacing}" } },
         { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-14}", "md": "{Core / Size#size-14}", "lg": "{Core / Size#size-16}" } },
         { "name": "check-icon-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-14}", "md": "{Core / Size#size-14}", "lg": "{Core / Size#size-16}" } },
-        { "name": "check-padding-inline-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-3}", "lg": "{Theme / Spacing#spacing-4}" } }
+        { "name": "check-padding-inline-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-3}", "lg": "{Theme / Spacing#spacing-4}" } },
+        { "name": "icon-padding-inline-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-3}", "lg": "{Theme / Spacing#spacing-4}" } },
+        { "name": "avatar-padding-inline-start", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-1}", "md": "{Theme / Spacing#spacing-1}", "lg": "{Theme / Spacing#spacing-2}" } }
       ]
     },
     {

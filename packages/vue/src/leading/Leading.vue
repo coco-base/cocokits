@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useTemplateRef, type ComponentPublicInstance } from 'vue';
+import { provide, useTemplateRef, type ComponentPublicInstance } from 'vue';
 import { getLeadingProps, leadingAnatomy } from '@cocokits/machines/leading';
 import { Primitive, useThemeAttrs } from '@cocokits/vue-core';
 import { rootElementOf } from '../internal/root-element';
+import { FIELD_ZONE_KEY } from '../internal/use-field-control';
 import type { LeadingProps } from './leading.types';
 
 defineOptions({ name: 'CckLeading' });
@@ -21,6 +22,8 @@ defineSlots<{
 
 const themeAttrs = useThemeAttrs(leadingAnatomy);
 const parts = getLeadingProps();
+// A control in the Leading is not the field's control.
+provide(FIELD_ZONE_KEY, true);
 
 const root = useTemplateRef<ComponentPublicInstance>('root');
 

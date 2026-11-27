@@ -16,6 +16,9 @@ import {
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
 import { CckDirection, IdGenerator, sortByDomOrderOf, themeAttrs } from '@cocokits/angular-core';
+import { CCK_CONTROL_GROUP, CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
+import { CckFormField } from '@cocokits/angular/form-field';
+import type { FormFieldControlContext } from '@cocokits/machines/form-field';
 import {
   getRadioGroupProps,
   radioGroupAnatomy,
@@ -55,7 +58,9 @@ export interface CckRadioGroupRegistration {
 /**
  * A group of radios with one value. You write `cck-radio` elements inside it. The group is the `radiogroup` element.
  *
- * Each radio is checked while its `submitValue` equals the `value` of the group. Each radio takes the `name`, `disabled` and `required` of the group. Name the group with `aria-labelledby` or `aria-label`.
+ * Each radio is checked while its `submitValue` equals the `value` of the group. Each radio takes the `name`, `disabled` and `required` of the group. The group works alone and inside a `cck-form-field`.
+ *
+ * Name the group. Inside a form field with a label, the label names it, and the hints and errors describe it. Alone, write `aria-labelledby` or `aria-label` on it as plain attributes.
  *
  * The group is one tab stop. Tab moves the focus to the checked radio, or to the first enabled radio. The arrow keys move the focus and the check to the next enabled radio.
  *
@@ -75,10 +80,16 @@ export interface CckRadioGroupRegistration {
 @Directive({
   selector: 'cck-radio-group',
   exportAs: 'cckRadioGroup',
+  // The group is the field's control: a control inside it leaves the field alone.
+  providers: [{ provide: CCK_CONTROL_GROUP, useValue: true }],
   host: {
     ngNoCva: '',
     '[class]': '_parts().root.class',
     '[attr.role]': '_parts().root.role',
+    '[attr.id]': '_parts().root.id ?? null',
+    '[attr.aria-label]': '_parts().root["aria-label"] ?? null',
+    '[attr.aria-labelledby]': '_parts().root["aria-labelledby"] ?? null',
+    '[attr.aria-describedby]': '_parts().root["aria-describedby"] ?? null',
     '[attr.name]': 'null',
     '[attr.form]': 'null',
     '[attr.value]': 'null',
@@ -165,7 +176,7 @@ export class CckRadioGroup implements FormValueControl<string | null> {
 
   /**
    * Whether the user has left the group. Signal Forms sets this member. When not set, the group becomes touched after the focus left it once.
-   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched.
+   * @remarks A required group with no value, or an invalid one, shows `aria-invalid` and `data-invalid` only once it is touched. A blocked submit of its form shows them too, and a form reset clears that.
    * @cckSemantic radio-group.touched
    * @cckGroup forms
    * @defaultValue false
@@ -195,9 +206,30 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   );
 
   private readonly touchedState = linkedSignal(() => this.touched());
+  /** Set when a radio blocked a submit of the owner form; a form reset clears it. */
+  private readonly submitted = signal(false);
   private readonly generatedName = inject(IdGenerator).getId(radioGroupAnatomy.classes.root);
   private readonly direction = inject(CckDirection);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly field = inject(CckFormField, { optional: true });
+  private readonly control = inject(CCK_FIELD_ZONE, { optional: true }) ? undefined : this.field?._register(() => null);
+  /** The attributes the author wrote on the element; they name and describe the group. */
+  private readonly written = {
+    id: this.host.getAttribute('id') ?? undefined,
+    ariaLabel: this.host.getAttribute('aria-label') ?? undefined,
+    ariaLabelledBy: this.host.getAttribute('aria-labelledby') ?? undefined,
+    ariaDescribedBy: this.host.getAttribute('aria-describedby') ?? undefined,
+  };
+  private readonly fieldContext = computed<FormFieldControlContext | undefined>(() => {
+    const field = this.field;
+    return field
+      ? {
+          ids: this.control?.primary ? field._ids() : undefined,
+          state: field._fieldInput(),
+          hasLabel: field._hasLabel(),
+        }
+      : undefined;
+  });
   private readonly mounted = signal(false);
   private mountValue: string | null = null;
   private lastReset: Event | undefined;
@@ -215,20 +247,27 @@ export class CckRadioGroup implements FormValueControl<string | null> {
     required: this.required(),
     form: this.form(),
     touched: this.touchedState(),
+    submitted: this.submitted(),
     orientation: this.orientation(),
     loop: this.loop(),
     dir: this.direction.dir(),
     mounted: this.mounted(),
+    ...this.written,
   }));
 
-  /** The root props and, per radio, what the group gives it. @internal */
+  /** The root props, per radio what the group gives it, and the report for the field. @internal */
   readonly _parts: Signal<RadioGroupParts> = computed(() =>
-    getRadioGroupProps(this.state(), (event) => {
-      this.send(event);
-    }),
+    getRadioGroupProps(
+      this.state(),
+      (event) => {
+        this.send(event);
+      },
+      this.fieldContext(),
+    ),
   );
 
   constructor() {
+    this.control?.report(computed(() => this._parts().control));
     // A keyed reorder changes no signal the group tracks: read the DOM order after every render.
     afterEveryRender({
       read: () => {
@@ -284,9 +323,20 @@ export class CckRadioGroup implements FormValueControl<string | null> {
   _formReset(event: Event): void {
     if (this.lastReset === event) return;
     this.lastReset = event;
+    this.submitted.set(false);
+    this.touchedState.set(false);
     if (this.value() === this.mountValue) return;
     this.value.set(this.mountValue);
     this.valueChangeDetails.emit({ value: this.mountValue, reason: 'form-reset', event });
+  }
+
+  /**
+   * A radio blocked a submit of the owner form: the invalid state shows.
+   *
+   * @internal
+   */
+  _submitBlocked(): void {
+    this.submitted.set(true);
   }
 
   protected onKeyDown(event: KeyboardEvent): void {

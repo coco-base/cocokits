@@ -54,8 +54,11 @@ export interface FormFieldLabelContextValue {
   readonly authorId: ShallowRef<string | undefined>;
 }
 
-/** Injection key of the control context. Not exported from any entry point. */
-export const FORM_FIELD_KEY: InjectionKey<FormFieldContextValue> = Symbol('cck-form-field');
+/**
+ * Injection key of the control context. A group that is the field's control provides `undefined`, so a control
+ * inside it leaves the field alone. Not exported from any entry point.
+ */
+export const FORM_FIELD_KEY: InjectionKey<FormFieldContextValue | undefined> = Symbol('cck-form-field');
 
 /**
  * Injection key of the field's resolved state, for the parts that read the field's facts (the FieldError).

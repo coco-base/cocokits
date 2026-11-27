@@ -7,17 +7,17 @@ import { stubOverlayApis } from './overlay-stubs';
 @Component({
   imports: [...CckDialogImports],
   template: `
-    <ng-container
-      cckDialog
+    <button
+      [cckDialogTriggerFor]="dialog"
       [(open)]="open"
       (opened)="details.push({ ...$event, value: true })"
       (closed)="details.push({ ...$event, value: false })"
     >
-      <button cckDialogTrigger>Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Delete project">Text</dialog>
-      </ng-template>
-    </ng-container>
+      Delete
+    </button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="Delete project">Text</dialog>
+    </ng-template>
   `,
 })
 class Host {

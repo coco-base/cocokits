@@ -39,7 +39,7 @@ export type {
 export { Divider } from './divider';
 export type { DividerColor, DividerProps, DividerSize } from './divider';
 export { Avatar } from './avatar';
-export type { AvatarColor, AvatarRootProps, AvatarSize } from './avatar-root';
+export type { AvatarColor, AvatarRootProps, AvatarShape, AvatarSize } from './avatar-root';
 export { AvatarGroup } from './avatar-group';
 export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group';
 export { AvatarLabel } from './avatar-label';
@@ -70,6 +70,8 @@ export { Dialog } from './dialog';
 export type { DialogRootProps, DialogSize } from './dialog-root';
 export { Tooltip } from './tooltip';
 export type { TooltipRootProps, TooltipSize } from './tooltip-root';
+export { Tag } from './tag';
+export type { TagColor, TagDot, TagProps, TagSize, TagVariant } from './tag';
 
 /** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
 export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

@@ -13,15 +13,13 @@ const { classes } = popoverAnatomy;
 
 const SHARE = `
   <button id="before">Before</button>
-  <ng-container cckPopover [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">
-    <button cckPopoverTrigger>Share</button>
-    <ng-template cckPopoverPortal>
-      <cck-popover-content aria-label="Share this page" [side]="side()" [align]="align()">
-        <a href="#x">First</a>
-        <button cckPopoverClose>Close</button>
-      </cck-popover-content>
-    </ng-template>
-  </ng-container>
+  <button [cckPopoverTriggerFor]="popover" [(open)]="open" (opened)="details.push({ ...$event, value: true })" (closed)="details.push({ ...$event, value: false })">Share</button>
+  <ng-template #popover>
+    <cck-popover-content aria-label="Share this page" [side]="side()" [align]="align()">
+      <a href="#x">First</a>
+      <button cckPopoverClose>Close</button>
+    </cck-popover-content>
+  </ng-template>
   <button id="after">After</button>
   <p id="empty">Empty space</p>`;
 
@@ -58,18 +56,19 @@ class VetoClick {
 
 @Component({
   imports: [...CckPopoverImports, VetoClick],
-  template: ` <ng-container
-    cckPopover
-    (opened)="details.push({ ...$event, value: true })"
-    (closed)="details.push({ ...$event, value: false })"
-  >
-    <button cckPopoverTrigger vetoClick>Share</button>
-    <ng-template cckPopoverPortal>
+  template: ` <button
+      [cckPopoverTriggerFor]="popover"
+      (opened)="details.push({ ...$event, value: true })"
+      (closed)="details.push({ ...$event, value: false })"
+      vetoClick
+    >
+      Share
+    </button>
+    <ng-template #popover>
       <cck-popover-content aria-label="Share this page">
         <button cckPopoverClose vetoClick>Close</button>
       </cck-popover-content>
-    </ng-template>
-  </ng-container>`,
+    </ng-template>`,
 })
 class VetoHost {
   readonly details: (PopoverChangeDetails & { value: boolean })[] = [];
@@ -77,19 +76,20 @@ class VetoHost {
 
 @Component({
   imports: [...CckPopoverImports],
-  template: ` <ng-container
-    cckPopover
-    [(open)]="open"
-    (opened)="details.push({ ...$event, value: true })"
-    (closed)="details.push({ ...$event, value: false })"
-  >
-    <button cckPopoverTrigger (click)="$event.preventDefault()">Share</button>
-    <ng-template cckPopoverPortal>
+  template: ` <button
+      [cckPopoverTriggerFor]="popover"
+      [(open)]="open"
+      (opened)="details.push({ ...$event, value: true })"
+      (closed)="details.push({ ...$event, value: false })"
+      (click)="$event.preventDefault()"
+    >
+      Share
+    </button>
+    <ng-template #popover>
       <cck-popover-content aria-label="Share this page">
         <button cckPopoverClose (click)="$event.preventDefault()">Close</button>
       </cck-popover-content>
-    </ng-template>
-  </ng-container>`,
+    </ng-template>`,
 })
 class TemplateVetoHost {
   readonly open = signal(false);
@@ -225,10 +225,8 @@ describe('Popover', () => {
     it('moves to the content itself when it holds nothing focusable', async () => {
       const user = userEvent.setup();
       await render(
-        `<ng-container cckPopover>
-          <button cckPopoverTrigger>Open</button>
-          <ng-template cckPopoverPortal><cck-popover-content aria-label="Plain">Text</cck-popover-content></ng-template>
-        </ng-container>`,
+        `<button [cckPopoverTriggerFor]="popover">Open</button>
+        <ng-template #popover><cck-popover-content aria-label="Plain">Text</cck-popover-content></ng-template>`,
         { imports },
       );
       await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -365,19 +363,15 @@ describe('Popover', () => {
 
   describe('nested popovers', () => {
     const nested = `
-      <ng-container cckPopover>
-        <button cckPopoverTrigger>Outer</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Outer panel">
-            <ng-container cckPopover>
-              <button cckPopoverTrigger>Inner</button>
-              <ng-template cckPopoverPortal>
-                <cck-popover-content aria-label="Inner panel"><button>Deep</button></cck-popover-content>
-              </ng-template>
-            </ng-container>
-          </cck-popover-content>
-        </ng-template>
-      </ng-container>`;
+      <button [cckPopoverTriggerFor]="popover">Outer</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Outer panel">
+          <button [cckPopoverTriggerFor]="inner">Inner</button>
+          <ng-template #inner>
+            <cck-popover-content aria-label="Inner panel"><button>Deep</button></cck-popover-content>
+          </ng-template>
+        </cck-popover-content>
+      </ng-template>`;
 
     it('treats a press inside the child as inside the parent and closes the child first on Escape', async () => {
       const user = userEvent.setup();
@@ -402,10 +396,8 @@ describe('Popover', () => {
       const user = userEvent.setup();
       await render(
         `<div cckDir dir="rtl">
-          <ng-container cckPopover>
-            <button cckPopoverTrigger>Open</button>
-            <ng-template cckPopoverPortal><cck-popover-content aria-label="L" side="start"><button>x</button></cck-popover-content></ng-template>
-          </ng-container>
+          <button [cckPopoverTriggerFor]="popover">Open</button>
+          <ng-template #popover><cck-popover-content aria-label="L" side="start"><button>x</button></cck-popover-content></ng-template>
         </div>`,
         { imports },
       );
@@ -421,10 +413,8 @@ describe('Popover', () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
       const user = userEvent.setup();
       await render(
-        `<ng-container cckPopover>
-          <button cckPopoverTrigger>Open</button>
-          <ng-template cckPopoverPortal><cck-popover-content>Unnamed</cck-popover-content></ng-template>
-        </ng-container>`,
+        `<button [cckPopoverTriggerFor]="popover">Open</button>
+        <ng-template #popover><cck-popover-content>Unnamed</cck-popover-content></ng-template>`,
         { imports },
       );
       await user.click(screen.getByRole('button', { name: 'Open' }));
@@ -435,9 +425,9 @@ describe('Popover', () => {
       expect(String(warn.mock.calls[0]?.[0])).toContain('PopoverContent');
     });
 
-    it('throws a clear error for a part outside the root', async () => {
-      await expect(render(`<button cckPopoverTrigger>Orphan</button>`, { imports })).rejects.toThrow(
-        /cckPopoverTrigger must be placed inside an element with cckPopover/,
+    it('throws a clear error for a part outside the template of a trigger', async () => {
+      await expect(render(`<button cckPopoverClose>Orphan</button>`, { imports })).rejects.toThrow(
+        /cckPopoverClose must be placed inside the template of a cckPopoverTriggerFor/,
       );
     });
   });

@@ -59,6 +59,17 @@ $toggle: '> .cck-chip__content-wrapper[type="button"]';
       --_remove: var(--cck-chip-selected-text-color);
     }
 
+    // An Avatar or SvgIcon in the content sits closer to the start edge than text; the design puts it first. A rule
+    // cannot see text before it, so a trailing one takes the same start padding. In `:where()`, so the checked
+    // check, which comes first when it is drawn, keeps its own padding.
+    &:where(:has(> .cck-chip__content-wrapper > .cck-svg-icon)) {
+      padding-inline-start: var(--cck-chip-icon-padding-inline-start);
+    }
+
+    &:where(:has(> .cck-chip__content-wrapper > .cck-avatar)) {
+      padding-inline-start: var(--cck-chip-avatar-padding-inline-start);
+    }
+
     &:has(> .cck-chip__check[data-state='checked']) {
       padding-inline-start: var(--cck-chip-check-padding-inline-start);
     }
@@ -113,6 +124,14 @@ $toggle: '> .cck-chip__content-wrapper[type="button"]';
     text-align: inherit;
     text-overflow: ellipsis;
 
+    // An Avatar, an SvgIcon or a Badge in the content sits in a row with the text, `gap` apart and centred on it; the
+    // row trims a typed space next to them. A plain label stays a block, so only it ends in an ellipsis.
+    &:where(:has(> .cck-avatar, > .cck-svg-icon, > .cck-badge)) {
+      display: flex;
+      align-items: center;
+      gap: var(--cck-chip-gap);
+    }
+
     &[type='button'] {
       cursor: pointer;
     }
@@ -137,6 +156,11 @@ $toggle: '> .cck-chip__content-wrapper[type="button"]';
     &[hidden] {
       display: none;
     }
+  }
+
+  // An SvgIcon without its own `size` is as large as the other icons of the chip.
+  .cck-chip__content-wrapper > .cck-svg-icon:not([data-size]) {
+    font-size: var(--cck-chip-icon-size);
   }
 
   // A round button as large as its icon plus a padding on every side; hover and press tint it with the ink of the pill.

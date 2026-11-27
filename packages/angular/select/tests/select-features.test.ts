@@ -304,17 +304,15 @@ describe('Select features', () => {
     it('inside a Popover: Escape closes the listbox only, and a press in the listbox keeps the Popover open', async () => {
       const user = userEvent.setup();
       await render(
-        `<ng-container cckPopover>
-          <button cckPopoverTrigger>Settings</button>
-          <ng-template cckPopoverPortal>
-            <cck-popover-content aria-label="Settings panel">
-              <cck-select aria-label="Dish">
-                <cck-select-option value="Cake">Cake</cck-select-option>
-                <cck-select-option value="Pizza">Pizza</cck-select-option>
-              </cck-select>
-            </cck-popover-content>
-          </ng-template>
-        </ng-container>`,
+        `<button [cckPopoverTriggerFor]="popover">Settings</button>
+        <ng-template #popover>
+          <cck-popover-content aria-label="Settings panel">
+            <cck-select aria-label="Dish">
+              <cck-select-option value="Cake">Cake</cck-select-option>
+              <cck-select-option value="Pizza">Pizza</cck-select-option>
+            </cck-select>
+          </cck-popover-content>
+        </ng-template>`,
         { imports },
       );
       await user.click(screen.getByRole('button', { name: 'Settings' }));
@@ -338,18 +336,16 @@ describe('Select features', () => {
       const user = userEvent.setup();
       const value = signal<string | undefined>(undefined);
       await render(
-        `<ng-container cckDialog>
-          <button cckDialogTrigger>Order</button>
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent aria-label="Order">
-              <cck-select aria-label="Dish" [(value)]="value">
-                <cck-select-option value="Cake">Cake</cck-select-option>
-                <cck-select-option value="Pizza">Pizza</cck-select-option>
-              </cck-select>
-              <button cckDialogClose>Cancel</button>
-            </dialog>
-          </ng-template>
-        </ng-container>`,
+        `<button [cckDialogTriggerFor]="dialog">Order</button>
+        <ng-template #dialog>
+          <dialog cckDialogContent aria-label="Order">
+            <cck-select aria-label="Dish" [(value)]="value">
+              <cck-select-option value="Cake">Cake</cck-select-option>
+              <cck-select-option value="Pizza">Pizza</cck-select-option>
+            </cck-select>
+            <button cckDialogClose>Cancel</button>
+          </dialog>
+        </ng-template>`,
         { imports, componentProperties: { value } },
       );
       await user.click(screen.getByRole('button', { name: 'Order' }));

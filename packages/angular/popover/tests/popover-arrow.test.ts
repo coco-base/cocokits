@@ -22,17 +22,15 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
 @Component({
   imports: [...CckPopoverImports],
   template: `
-    <ng-container cckPopover [open]="true">
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share">
-          @if (arrow()) {
-            <cck-popover-arrow data-testid="arrow"></cck-popover-arrow>
-          }
-          Text
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button [cckPopoverTriggerFor]="popover" [open]="true">Share</button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share">
+        @if (arrow()) {
+          <cck-popover-arrow data-testid="arrow"></cck-popover-arrow>
+        }
+        Text
+      </cck-popover-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -42,14 +40,12 @@ class Host {
 @Component({
   imports: [...CckPopoverImports],
   template: `
-    <ng-container cckPopover [open]="true">
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share">
-          <cck-popover-arrow class="mine" data-testid="arrow"><circle r="1" /></cck-popover-arrow>
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
+    <button [cckPopoverTriggerFor]="popover" [open]="true">Share</button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share">
+        <cck-popover-arrow class="mine" data-testid="arrow"><circle r="1" /></cck-popover-arrow>
+      </cck-popover-content>
+    </ng-template>
   `,
 })
 class Custom {

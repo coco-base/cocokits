@@ -16,7 +16,7 @@ import { createDismissLayer, type DismissLayer } from '@cocokits/cdk/dismissal';
 import { captureFocusReturn, connectFocusGuards, scheduleFocus } from '@cocokits/cdk/focus';
 import { startOverlayPosition, type OverlayAlign, type OverlaySide } from '@cocokits/cdk/positioning';
 import { createPresence } from '@cocokits/cdk/presence';
-import { getMenuProps, menuAnatomy } from '@cocokits/machines/menu';
+import { getMenuProps, menuAnatomy, resolveMenuFocusContent } from '@cocokits/machines/menu';
 import { visuallyHiddenStyle } from '@cocokits/utils';
 import {
   Portal,
@@ -154,7 +154,8 @@ watch(
     const doc = element.ownerDocument;
     const focusReturn = captureFocusReturn({
       getTrigger: () => ctx.triggerElement.value,
-      getContent: () => ctx.contentElement.value,
+      // Focus in a submenu that is still in the document belongs to the menu too.
+      getContent: () => resolveMenuFocusContent(ctx.contentElement.value),
     });
     // The guards listen first: a focus on a guard closes the menu (it is outside), and the close removes the
     // guard in the same event, so a listener that ran after the layer's would find no guard to forward the focus

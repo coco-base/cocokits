@@ -80,6 +80,22 @@ describe('select output', () => {
     expect(css).toMatch(/\.cck-select__header\[hidden\],\s*\.cck-select__footer\[hidden\]\s*\{\s*display: none/);
   });
 
+  it('draws the clear button of the search as a cross in the header icon tokens, not the browser button', () => {
+    const clear = declarationsOf(css, '.cck-select__search::-webkit-search-cancel-button') ?? '';
+    for (const line of [
+      'appearance: none',
+      'inline-size: var(--cck-select-header-icon-size)',
+      'block-size: var(--cck-select-header-icon-size)',
+      'color: var(--cck-select-header-icon-color)',
+      'cursor: pointer',
+    ]) {
+      expect(clear).toContain(line);
+    }
+    expect(clear).toMatch(
+      /background-image: linear-gradient\(45deg, [^;]*currentcolor[^;]*\), linear-gradient\(-45deg/i,
+    );
+  });
+
   it('draws the multiple box with CSS and the chevron and the check as theme icons: no image, no pseudo-element', () => {
     expect(css).not.toMatch(/url\(/);
     expect(css).not.toContain('.cck-select__option-indicator::after');
@@ -126,7 +142,10 @@ describe('select output', () => {
 
   it('shows invalid by the border colour, read-only with a fill, disabled over invalid with opacity', () => {
     const own = css.slice(0, css.indexOf('@media (forced-colors: active)'));
-    const invalid = declarationsOf(css, '.cck-select:where([data-invalid]) > .cck-select__trigger') ?? '';
+    // The trigger gets `aria-invalid` only after a blur or a submit, so a required Select shows nothing at load.
+    expect(declarationsOf(css, '.cck-select:where([data-invalid]) > .cck-select__trigger')).toBeUndefined();
+    const invalid =
+      declarationsOf(css, '.cck-select:where([data-invalid]) > .cck-select__trigger:where([aria-invalid=true])') ?? '';
     expect(invalid).toContain('border-color: var(--cck-select-invalid-border-color)');
     // The focus border and halo of an invalid trigger take the invalid colour.
     expect(invalid).toContain('--_focus: var(--cck-select-invalid-border-color)');
@@ -194,12 +213,12 @@ describe('select separator', () => {
 describe('select inside a form field', () => {
   const fieldCss = read('dist', 'components', 'form-field.css');
 
-  it('fills the input wrapper and keeps its own size, which the theme layer takes from the field (F23)', () => {
+  it('fills the input wrapper and keeps its own size, which the theme layer takes from the field', () => {
     expect(fieldCss).toMatch(/\.cck-form-field__input-wrapper > \.cck-select\s*\{[^}]*flex: 1/);
     expect(fieldCss).not.toMatch(/\.cck-select__trigger\s*\{[^}]*(min-block-size|padding|font|letter-spacing)/);
   });
 
-  it('draws the indicator option: a box before the text, the check after it, or nothing (SE21)', () => {
+  it('draws the indicator option: a box before the text, the check after it, or nothing', () => {
     const box = '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox])';
     expect(declarationsOf(css, `${box} .cck-select__option-indicator`)).toContain('order: 0');
     expect(declarationsOf(css, `${box} .cck-select__option[data-selected] .cck-select__option-indicator`)).toContain(

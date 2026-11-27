@@ -9,6 +9,11 @@
     flex-direction: row;
     align-items: center;
     gap: var(--cck-avatar-label-gap);
+    // Inside a host that centres its text (a Tabs trigger, a button) the lines still start at the avatar.
+    text-align: start;
+    // In a line of text (a Radio or Checkbox label) the label sits in the middle, so a photo and initials give the
+    // same line height.
+    vertical-align: middle;
 
     &[hidden] {
       display: none;

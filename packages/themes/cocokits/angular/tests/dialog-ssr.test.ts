@@ -10,17 +10,31 @@ import { renderThemedApp } from './ssr-helpers';
   selector: 'app-root',
   imports: [CckDialogImports, CckDialogTheme, CckDialogContentTheme],
   template: `
-    <ng-container cckDialog [open]="true" dialogSize="lg">
-      <button cckDialogTrigger type="button">Open</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent>
-          <h2 cckDialogTitle>{{ title }}</h2>
-        </dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [open]="true" dialogSize="lg" type="button">Open</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>{{ title }}</h2>
+      </dialog>
+    </ng-template>
   `,
 })
 class Root {
+  protected readonly title = 'Delete project';
+}
+
+@Component({
+  selector: 'app-root',
+  imports: [CckDialogImports, CckDialogTheme, CckDialogContentTheme],
+  template: `
+    <p>Page</p>
+    <ng-template cckDialog [open]="true" dialogSize="lg">
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>{{ title }}</h2>
+      </dialog>
+    </ng-template>
+  `,
+})
+class TemplateRoot {
   protected readonly title = 'Delete project';
 }
 
@@ -32,6 +46,15 @@ describe('theme dialog on the server', () => {
     const html = await renderThemedApp(Root, true);
     expect(html).toContain('aria-expanded="true"');
     expect(html).not.toContain('<dialog');
+    expect(html).not.toContain('data-size');
+  });
+
+  it('renders nothing of a dialog without a trigger that is open at start', async () => {
+    const html = await renderThemedApp(TemplateRoot, true);
+    expect(html).toContain('<p>Page</p>');
+    expect(html).not.toContain('<dialog');
+    expect(html).not.toContain('dialogsize');
+    expect(html).not.toContain('Delete project');
     expect(html).not.toContain('data-size');
   });
 });

@@ -1,4 +1,4 @@
-import type { FocusReturn } from '@cocokits/cdk/focus';
+import { focusFirst, type FocusReturn } from '@cocokits/cdk/focus';
 import type { DialogAutoFocus, DialogRestoreFocus } from './dialog.types';
 
 const HEADING = 'h1, h2, h3, h4, h5, h6, [role="heading"]';
@@ -20,14 +20,18 @@ function forceFocus(element: HTMLElement): void {
 
 /**
  * Places the focus in a dialog that `showModal()` has just opened. The native focusing steps have run: they focus
- * the first element with `autofocus`, else the first control, else the dialog, which is what `'first-tabbable'`
- * means, so that value and `undefined` need nothing here.
+ * the first element with `autofocus`, else the first control in tree order, else the dialog. For `'first-tabbable'`,
+ * `true` and `undefined` the focus moves on to the first Tab stop, so a checked radio wins over the first radio of
+ * its group, and the page does not scroll to it.
  *
  * @param dialog - The opened `<dialog>`.
  * @param autoFocus - The `autoFocus` prop.
  */
 export function applyAutoFocus(dialog: HTMLDialogElement, autoFocus: DialogAutoFocus | undefined): void {
-  if (autoFocus === undefined || autoFocus === true || autoFocus === 'first-tabbable') return;
+  if (autoFocus === undefined || autoFocus === true || autoFocus === 'first-tabbable') {
+    focusFirst(dialog);
+    return;
+  }
   if (autoFocus === false || autoFocus === 'dialog') {
     forceFocus(dialog);
     return;

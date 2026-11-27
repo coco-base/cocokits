@@ -1,4 +1,4 @@
-import { Component, destroyPlatform, provideZonelessChangeDetection } from '@angular/core';
+import { Component, destroyPlatform, provideZonelessChangeDetection, type Type } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { provideServerRendering, renderApplication } from '@angular/platform-server';
 import { CckDialogImports } from '../index';
@@ -8,21 +8,17 @@ import { CckDialogImports } from '../index';
   selector: 'app-root',
   imports: [CckDialogImports],
   template: `
-    <ng-container cckDialog [open]="startOpen">
-      <button cckDialogTrigger>Delete</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent>
-          <h2 cckDialogTitle>Delete project</h2>
-          <button cckDialogClose>Cancel</button>
-        </dialog>
-      </ng-template>
-    </ng-container>
-    <ng-container cckDialog>
-      <button cckDialogTrigger>Info</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Info">Text</dialog>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [open]="startOpen">Delete</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent>
+        <h2 cckDialogTitle>Delete project</h2>
+        <button cckDialogClose>Cancel</button>
+      </dialog>
+    </ng-template>
+    <button [cckDialogTriggerFor]="dialog2">Info</button>
+    <ng-template #dialog2>
+      <dialog cckDialogContent aria-label="Info">Text</dialog>
+    </ng-template>
   `,
 })
 export class Root {
@@ -32,10 +28,10 @@ export class Root {
 const document = '<html><head></head><body><app-root></app-root></body></html>';
 
 /**
- * Renders `Root` on the server and returns the full HTML. The dev-mode renderer reads `document`, so
+ * Renders `app` (by default `Root`) on the server and returns the full HTML. The dev-mode renderer reads `document`, so
  * `ngDevMode` is off during the render, and the DOM globals the server platform overwrites are restored.
  */
-export async function renderOnServer(): Promise<string> {
+export async function renderOnServer(app: Type<unknown> = Root): Promise<string> {
   destroyPlatform();
   const flags = globalThis as { ngDevMode?: unknown };
   const devMode = flags.ngDevMode;
@@ -45,7 +41,7 @@ export async function renderOnServer(): Promise<string> {
     return await renderApplication(
       (context) =>
         bootstrapApplication(
-          Root,
+          app,
           { providers: [provideZonelessChangeDetection(), provideClientHydration(), provideServerRendering()] },
           context,
         ),
@@ -61,10 +57,13 @@ export async function renderOnServer(): Promise<string> {
   }
 }
 
-/** Bootstraps `Root` on the client over the current document; `hydrate` reuses server markup. */
-export function bootstrapOnClient(hydrate: boolean): ReturnType<typeof bootstrapApplication> {
+/** Bootstraps `app` (by default `Root`) on the client over the current document; `hydrate` reuses server markup. */
+export function bootstrapOnClient(
+  hydrate: boolean,
+  app: Type<unknown> = Root,
+): ReturnType<typeof bootstrapApplication> {
   destroyPlatform();
-  return bootstrapApplication(Root, {
+  return bootstrapApplication(app, {
     providers: [provideZonelessChangeDetection(), ...(hydrate ? [provideClientHydration()] : [])],
   });
 }

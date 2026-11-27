@@ -109,8 +109,9 @@
     rotate: 180deg;
   }
 
-  // The states come from the facts the root renders. Later rules win, so disabled is last.
-  .cck-select:where([data-invalid]) > .cck-select__trigger {
+  // The states come from the facts the root renders. Later rules win, so disabled is last. The trigger gets
+  // `aria-invalid` only after a blur or a submit, so an invalid Select shows nothing at load, as the Input does.
+  .cck-select:where([data-invalid]) > .cck-select__trigger:where([aria-invalid='true']) {
     --_focus: var(--cck-select-invalid-border-color);
 
     border-color: var(--cck-select-invalid-border-color);

@@ -134,7 +134,12 @@ describe('badge dot and hidden', () => {
   });
 
   it('has no rule or comment that names data-dot, data-hidden or data-custom-offset', () => {
-    for (const text of [scss, stylesCss, read('dist', 'components', 'badge.css')]) {
+    // The whole sheet holds other components (a Tag has a dot), so only the badge entries are read.
+    for (const text of [
+      scss,
+      read('dist', 'components', 'badge.css'),
+      read('dist', 'components', 'badge-container.css'),
+    ]) {
       expect(text).not.toMatch(/data-dot|data-hidden|data-custom-offset/);
     }
   });
@@ -155,6 +160,13 @@ describe('badge position properties and RTL', () => {
 
   it('takes the host radius from radius-md, the radius of a control, so it follows the radius mode', () => {
     expect(structureTokenOf('.cck-badge-container', 'badge-container-host-radius')).toBe(ref('radius-md'));
+  });
+
+  it('makes the host radius 50% when the direct child is a circle avatar, and keeps the token for a square one', () => {
+    const round = '.cck-badge-container:has(> .cck-avatar:not([data-shape=square]))';
+    expect(declarationsOf(rulesCss, round)?.trim()).toBe('--cck-badge-container-host-radius: 50%;');
+    const rules = [...rulesCss.matchAll(/([^{}]+)\{[^}]*--cck-badge-container-host-radius\s*:/g)];
+    expect(rules.map((match) => match[1].trim())).toEqual([round]);
   });
 
   it('never defines the documented properties, in the theme CSS or in the tokens', () => {

@@ -5,6 +5,7 @@ import { toReactProps, useThemeAttrs } from '@cocokits/react-core';
 import { getPrefixProps, prefixAnatomy } from '@cocokits/machines/prefix';
 import { mergeProps } from '../internal/merge-props';
 import { renderElement } from '../internal/render-element';
+import { FieldZoneContext } from '../internal/use-field-control';
 import { useMergedRef } from '../internal/use-merged-ref';
 import type { PrefixProps, PrefixRenderProps, PrefixState } from './prefix.types';
 
@@ -25,7 +26,12 @@ function PrefixImpl({ render, ref, children, ...rest }: PrefixProps): ReactEleme
   const element = isValidElement<{ children?: undefined }>(render)
     ? cloneElement(render, { children: undefined })
     : render;
-  return renderElement<PrefixRenderProps, PrefixState>(element, 'div', props, {});
+  // A control in the Prefix is not the field's control.
+  return (
+    <FieldZoneContext.Provider value>
+      {renderElement<PrefixRenderProps, PrefixState>(element, 'div', props, {})}
+    </FieldZoneContext.Provider>
+  );
 }
 
 /** The {@link Prefix} component and its `displayName`. */

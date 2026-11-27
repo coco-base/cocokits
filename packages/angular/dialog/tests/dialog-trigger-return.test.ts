@@ -8,20 +8,16 @@ const imports = [...CckDialogImports];
 
 /** The inner Trigger is pressed by a script `click()`, which (as in Safari) does not focus it. */
 const NESTED = `
-  <ng-container cckDialog>
-    <button cckDialogTrigger>Outer</button>
-    <ng-template cckDialogPortal>
-      <dialog cckDialogContent aria-label="Outer dialog">
-        <input aria-label="Name" />
-        <ng-container cckDialog>
-          <button cckDialogTrigger>Inner</button>
-          <ng-template cckDialogPortal>
-            <dialog cckDialogContent aria-label="Inner dialog"><button cckDialogClose>Done</button></dialog>
-          </ng-template>
-        </ng-container>
-      </dialog>
-    </ng-template>
-  </ng-container>`;
+  <button [cckDialogTriggerFor]="dialog">Outer</button>
+  <ng-template #dialog>
+    <dialog cckDialogContent aria-label="Outer dialog">
+      <input aria-label="Name" />
+      <button [cckDialogTriggerFor]="dialog2">Inner</button>
+      <ng-template #dialog2>
+        <dialog cckDialogContent aria-label="Inner dialog"><button cckDialogClose>Done</button></dialog>
+      </ng-template>
+    </dialog>
+  </ng-template>`;
 
 const gone = (name: string): Promise<void> =>
   waitFor(() => {

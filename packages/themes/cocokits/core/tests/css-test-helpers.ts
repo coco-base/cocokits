@@ -12,6 +12,10 @@ export function declarationsOf(css: string, selector: string): string | undefine
   return new RegExp(`(?:^|[{}])\\s*${escaped}\\s*\\{([^}]*)\\}`).exec(css)?.[1];
 }
 
+/** The trigger classes of the overlays whose open state a Button or an IconButton shows. A Tooltip trigger is not one. */
+export const OVERLAY_TRIGGERS =
+  '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
+
 /** The compiled token stylesheet. */
 export const tokensCss: string = read('dist', 'tokens.css');
 

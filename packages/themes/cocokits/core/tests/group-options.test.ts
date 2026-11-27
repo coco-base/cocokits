@@ -15,7 +15,7 @@ const pairs = Object.entries(optionParents).flatMap(([child, options]) =>
   Object.entries(options).flatMap(([option, parents]) => parents.map((parent) => [child, option, parent] as const)),
 );
 
-describe('optionParents (D29)', () => {
+describe('optionParents', () => {
   it('lists the active pairs of the spec, nearest parent first', () => {
     expect(pairs.map((pair) => pair.join(' '))).toEqual([
       'select size form-field',
@@ -93,6 +93,10 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'inset-inline-end',
     'translate',
   ],
+  // A Label spaces an icon before its text and a Badge or Tag after it with its own gap.
+  'label svg-icon': ['margin-inline-end'],
+  'label badge': ['margin-inline-start'],
+  'label tag': ['margin-inline-start'],
   // The Divider in a Menu runs from edge to edge of the list: its inline margin undoes the padding of the list.
   'menu divider': ['margin-block', 'margin-inline'],
   // A parent that renders its children passes its size to them through CSS, from its own size tokens.
@@ -121,6 +125,10 @@ const RESETS: Readonly<Record<string, readonly string[] | undefined>> = {
   'form-field input': ['opacity', 'align-self'],
   'form-field textarea': ['opacity', 'contain', 'max-block-size', 'padding-inline-end'],
   'form-field chip-list': ['opacity'],
+  // A Select trigger in a faded zone, or in the box it shares with a Prefix or Suffix, resets its own fade. A
+  // Select in a zone drops the fixed width of a standalone Select (`inline-size: auto`), so the zone is as wide as
+  // the value.
+  'form-field select': ['opacity', 'inline-size'],
   // A Button in a Leading or Trailing zone stretches to the height of the box.
   'form-field button': ['align-self'],
   // The ring that cuts the badge from the host it overlaps belongs to the container that places the badge.
@@ -172,6 +180,7 @@ describe('no theme CSS rule sets an option of a child from a parent selector', (
       if (rule.last === 'svg-icon') {
         const wanted = (property: string): boolean =>
           property === 'flex' ||
+          PLACEMENT[`${rule.first} svg-icon`]?.includes(property) === true ||
           (property === 'font-size' && rule.item.includes('.cck-svg-icon:not([data-size])')) ||
           (property === 'color' && rule.item.includes('.cck-svg-icon:not([data-cck-color])'));
         return rule.properties
@@ -203,14 +212,16 @@ describe('no theme CSS rule sets an option of a child from a parent selector', (
     expect(bad).toEqual([]);
   });
 
-  it('sets no size or text of a Select, Input, Textarea, Chip list, Avatar or Chip from its parent', () => {
+  it('sets no size or text of a Select, Input, Textarea, Chip list, Avatar or Chip from its parent, only a listed reset to auto', () => {
     const sized = ['select', 'input', 'textarea', 'chip-list', 'avatar', 'chip'];
     const bad = crossRules.filter(
       (rule) =>
         sized.includes(rule.last) &&
         !PLACEMENT[`${rule.first} ${rule.last}`] &&
-        rule.properties.some((property) =>
-          /^(block-size|inline-size|font|font-[a-z]+|line-height|letter-spacing)$/.test(property),
+        rule.properties.some(
+          (property) =>
+            /^(block-size|inline-size|font|font-[a-z]+|line-height|letter-spacing)$/.test(property) &&
+            !(RESETS[`${rule.first} ${rule.last}`]?.includes(property) && rule.body.includes(`${property}: auto`)),
         ),
     );
     expect(bad.map((rule) => rule.item)).toEqual([]);

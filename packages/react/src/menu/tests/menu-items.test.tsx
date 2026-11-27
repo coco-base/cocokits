@@ -143,6 +143,29 @@ describe('Menu checkbox item', () => {
     expect(indicator?.getAttribute('aria-hidden')).toBe('true');
     expect(indicator?.getAttribute('data-state')).toBe('checked');
   });
+
+  it('draws the check icon in an empty indicator, and the content you give instead of it', async () => {
+    render(
+      <Menu.Root>
+        <Menu.Trigger>Actions</Menu.Trigger>
+        <Menu.Content>
+          <Menu.CheckboxItem defaultChecked>
+            <Menu.ItemIndicator />
+            Grid
+          </Menu.CheckboxItem>
+          <Menu.CheckboxItem>
+            <Menu.ItemIndicator>x</Menu.ItemIndicator>
+            Rulers
+          </Menu.CheckboxItem>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+    await open();
+    const indicatorOf = (name: string): Element | null => checkbox(name).querySelector('.cck-menu__item-indicator');
+    expect(indicatorOf('Grid')?.querySelector('[data-icon]')?.getAttribute('data-icon')).toBe('check');
+    expect(indicatorOf('Rulers')?.querySelector('[data-icon]')).toBeNull();
+    expect(indicatorOf('Rulers')?.textContent).toBe('x');
+  });
 });
 
 function Radios({

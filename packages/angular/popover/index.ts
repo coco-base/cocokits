@@ -1,10 +1,8 @@
-import { CckPopover } from './popover';
 import { CckPopoverAnchor } from './popover-anchor';
 import { CckPopoverArrow } from './popover-arrow';
 import { CckPopoverClose } from './popover-close';
 import { CckPopoverContent } from './popover-content';
 import { CckPopoverDescription } from './popover-description';
-import { CckPopoverPortal } from './popover-portal';
 import { CckPopoverTitle } from './popover-title';
 import { CckPopoverTrigger } from './popover-trigger';
 
@@ -17,7 +15,6 @@ export { CckPopoverContent } from './popover-content';
 export { CckPopoverDescription } from './popover-description';
 export { CCK_POPOVER_DEFAULT_OPTIONS } from './popover-default-options';
 export type { CckPopoverDefaultOptions } from './popover-default-options';
-export { CckPopoverPortal } from './popover-portal';
 export { CckPopoverTitle } from './popover-title';
 export { CckPopoverTrigger } from './popover-trigger';
 
@@ -27,10 +24,8 @@ export { CckPopoverTrigger } from './popover-trigger';
  * imports: [CckPopoverImports]
  */
 export const CckPopoverImports = [
-  CckPopover,
   CckPopoverTrigger,
   CckPopoverAnchor,
-  CckPopoverPortal,
   CckPopoverContent,
   CckPopoverArrow,
   CckPopoverTitle,

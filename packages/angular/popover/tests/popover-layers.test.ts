@@ -19,23 +19,21 @@ afterEach(() => {
   imports,
   template: `
     <button>after</button>
-    <ng-container
-      cckPopover
+    <button
+      [cckPopoverTriggerFor]="popover"
       [(open)]="popoverOpen"
       (opened)="log.push('popover:' + $event.reason)"
       (closed)="log.push('popover:' + $event.reason)"
     >
-      <button cckPopoverTrigger>Share</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Share link">
-          <p>Anyone with the link can view.</p>
-          <ng-container cckTooltip>
-            <button cckTooltipTrigger>Copy</button>
-            <ng-template cckTooltipPortal><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
-          </ng-container>
-        </cck-popover-content>
-      </ng-template>
-    </ng-container>
+      Share
+    </button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share link">
+        <p>Anyone with the link can view.</p>
+        <button [cckTooltipTriggerFor]="richTip">Copy</button>
+        <ng-template #richTip><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
+      </cck-popover-content>
+    </ng-template>
   `,
 })
 class Stack {
@@ -81,14 +79,12 @@ describe('Tooltip over a Popover', () => {
   imports,
   template: `
     <div cckDir [dir]="dir()">
-      <ng-container cckPopover [open]="true">
-        <button cckPopoverTrigger>Share</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Share link" side="start">
-            <button (click)="dir.set('rtl')">flip</button>
-          </cck-popover-content>
-        </ng-template>
-      </ng-container>
+      <button [cckPopoverTriggerFor]="popover" [open]="true">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share link" side="start">
+          <button (click)="dir.set('rtl')">flip</button>
+        </cck-popover-content>
+      </ng-template>
     </div>
   `,
 })
@@ -116,17 +112,43 @@ describe('Popover initial focus', () => {
   it('prefers a later [autofocus] element over the first tabbable', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckPopover>
-        <button cckPopoverTrigger>Share</button>
-        <ng-template cckPopoverPortal>
-          <cck-popover-content aria-label="Share link"><button>first</button><button autofocus>second</button></cck-popover-content>
-        </ng-template>
-      </ng-container>`,
+      `<button [cckPopoverTriggerFor]="popover">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share link"><button>first</button><button autofocus>second</button></cck-popover-content>
+      </ng-template>`,
       { imports },
     );
     await user.click(screen.getByRole('button', { name: 'Share' }));
     await waitFor(() => {
       expect(document.activeElement).toBe(screen.getByRole('button', { name: 'second' }));
+    });
+  });
+});
+
+describe('A Popover trigger that removes itself as it opens', () => {
+  it('leaves no layer behind: Escape still closes the outer Popover', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<button [cckPopoverTriggerFor]="outer">Panel</button>
+      <ng-template #outer>
+        <cck-popover-content aria-label="Panel">
+          @if (shown()) {
+            <button [cckPopoverTriggerFor]="inner" (click)="shown.set(false)">More</button>
+          }
+          <ng-template #inner><cck-popover-content aria-label="More">Text</cck-popover-content></ng-template>
+        </cck-popover-content>
+      </ng-template>`,
+      { imports, componentProperties: { shown: signal(true) } },
+    );
+    await user.click(screen.getByRole('button', { name: 'Panel' }));
+    await screen.findByRole('dialog', { name: 'Panel' });
+    await user.click(screen.getByRole('button', { name: 'More' }));
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'More' })).toBeNull();
+    });
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: 'Panel' })).toBeNull();
     });
   });
 });

@@ -11,8 +11,10 @@
     border: 0 solid var(--cck-divider-color-default);
     background: none;
 
+    // In a column that aligns its items to the start (the content of a Popover), the line still spans the column.
     &[data-orientation='horizontal'] {
       display: block;
+      align-self: stretch;
       inline-size: auto;
       block-size: 0;
       border-block-start-width: var(--cck-divider-thickness);

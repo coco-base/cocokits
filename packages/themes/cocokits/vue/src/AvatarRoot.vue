@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<AvatarRootProps>(), {
   asChild: undefined,
   size: undefined,
   color: undefined,
+  shape: undefined,
 });
 
 defineSlots<{
@@ -40,6 +41,7 @@ const group = inject(avatarGroupThemeKey, null);
 provideThemeOptions('avatar', () => ({
   size: resolveInheritedValue(props.size, label?.().size, group?.().size),
   color: props.color,
+  shape: props.shape,
 }));
 </script>
 

@@ -10,7 +10,7 @@ import {
   type Signal,
 } from '@angular/core';
 import type { FormValueControl } from '@angular/forms/signals';
-import { injectFormParticipation } from '@cocokits/angular-core';
+import { checkNameWhenAttached, injectFormParticipation } from '@cocokits/angular-core';
 import { CckFormControlBase, type FormControlParts } from '@cocokits/angular/form-control';
 import type { FormFieldControlParts } from '@cocokits/machines/form-field';
 import type { InputProps } from '@cocokits/machines/input';
@@ -107,8 +107,13 @@ export abstract class CckTextControlBase<R extends Reason = Reason>
     super();
     afterNextRender(() => {
       this.mountValue = this.text();
-      this.warnWithoutName();
     });
+    checkNameWhenAttached(
+      () => this.element,
+      () => {
+        this.warnWithoutName();
+      },
+    );
   }
 
   /**

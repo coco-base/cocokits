@@ -15,24 +15,20 @@ import { CckTooltip, CckTooltipImports } from '../tooltip';
   selector: 'overlays-host',
   imports: [CckDialogImports, CckPopoverImports, CckTooltipImports, CckSelectImports],
   template: `
-    <ng-container cckDialog [(open)]="dialog" (closed)="events.push('dialog')">
-      <button cckDialogTrigger>Dialog</button>
-      <ng-template cckDialogPortal>
-        <dialog cckDialogContent aria-label="Dialog">Text {{ label() }}</dialog>
-      </ng-template>
-    </ng-container>
-    <ng-container cckPopover [(open)]="popover" (closed)="events.push('popover')">
-      <button cckPopoverTrigger>Popover</button>
-      <ng-template cckPopoverPortal>
-        <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>
-      </ng-template>
-    </ng-container>
-    <ng-container cckTooltip [cckTooltipShowDelay]="delay()">
-      <button cckTooltipTrigger aria-label="Tooltip trigger">Tooltip</button>
-      <ng-template cckTooltipPortal>
-        <cck-tooltip-content>Text {{ label() }}</cck-tooltip-content>
-      </ng-template>
-    </ng-container>
+    <button [cckDialogTriggerFor]="dialog" [(open)]="dialog" (closed)="events.push('dialog')">Dialog</button>
+    <ng-template #dialog>
+      <dialog cckDialogContent aria-label="Dialog">Text {{ label() }}</dialog>
+    </ng-template>
+    <button [cckPopoverTriggerFor]="panel" [(open)]="popover" (closed)="events.push('popover')">Popover</button>
+    <ng-template #panel>
+      <cck-popover-content aria-label="Popover">Text {{ label() }}</cck-popover-content>
+    </ng-template>
+    <button [cckTooltipTriggerFor]="richTip" [cckTooltipShowDelay]="delay()" aria-label="Tooltip trigger">
+      Tooltip
+    </button>
+    <ng-template #richTip>
+      <cck-tooltip-content>Text {{ label() }}</cck-tooltip-content>
+    </ng-template>
     <cck-select aria-label="Select">
       <cck-select-option value="a">A {{ label() }}</cck-select-option>
     </cck-select>

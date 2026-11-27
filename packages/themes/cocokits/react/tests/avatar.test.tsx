@@ -36,6 +36,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
     expect(el('group').className).toBe('cck-avatar-group');
     expect(el('label').className).toBe('cck-avatar-label');
     expect(attr('avatar', 'data-size')).toBe('md');
+    expect(attr('avatar', 'data-shape')).toBe('circle');
     expect(attr('group', 'data-size')).toBe('md');
     expect(attr('label', 'data-size')).toBe('md');
     expect(attr('label', 'data-avatar-position')).toBe('left');
@@ -44,6 +45,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
 
   it.each([
     ['avatar', 'size', 'data-size', avatar.size.values],
+    ['avatar', 'shape', 'data-shape', avatar.shape.values],
     ['group', 'size', 'data-size', group.size.values],
     ['label', 'size', 'data-size', label.size.values],
     ['label', 'avatarPosition', 'data-avatar-position', label.avatarPosition.values],
@@ -60,7 +62,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
     render(
       themed(
         <>
-          {make('avatar', { size: null })}
+          {make('avatar', { size: null, shape: null })}
           {make('group', { size: null })}
           {make('label', { size: null, avatarPosition: null, labelAlignment: null })}
         </>,
@@ -68,6 +70,7 @@ describe('theme Avatar, AvatarGroup and AvatarLabel', () => {
     );
     for (const [id, name] of [
       ['avatar', 'data-size'],
+      ['avatar', 'data-shape'],
       ['group', 'data-size'],
       ['label', 'data-size'],
       ['label', 'data-avatar-position'],

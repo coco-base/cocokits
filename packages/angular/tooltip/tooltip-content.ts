@@ -9,11 +9,12 @@ import { injectCckTooltip } from './tooltip';
  * The content opens on the preferred side, and moves to the other side when there is no room. It stays open while the pointer is over it. Do not put interactive content in it.
  *
  * @example
- * <ng-template cckTooltipPortal>
+ * <button type="button" [cckTooltipTriggerFor]="copy">Copy</button>
+ * <ng-template #copy>
  *   <cck-tooltip-content side="bottom"><b>Copy</b> the link</cck-tooltip-content>
  * </ng-template>
  * @cckPart content
- * @cckTemplate ng-template[cckTooltipPortal]
+ * @cckTemplate input trigger cckTooltipTriggerFor
  * @cckSlot default - The content of the tooltip. When not set, the tooltip is empty.
  */
 @Directive({

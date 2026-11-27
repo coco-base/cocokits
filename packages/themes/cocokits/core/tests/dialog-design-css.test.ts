@@ -3,7 +3,7 @@ import { declarationsOf, read, ref, sizeTokenOf, structureTokenOf } from './css-
 
 const css = read('dist', 'components', 'dialog.css');
 const ROOT = '.cck-dialog__content';
-const CLOSE = '.cck-dialog__close:not(.cck-button)';
+const CLOSE = '.cck-dialog__close:not(.cck-button, .cck-icon-button)';
 const own = (name: string): string | undefined => structureTokenOf(ROOT, `dialog-${name}`);
 
 /** The tokens of a token file whose value in some mode is not an alias, as `<collection>#<token>`. */
@@ -57,7 +57,7 @@ describe('dialog design match', () => {
     ['md', 576, 'spacing-7', 'spacing-6'],
     ['lg', 768, 'spacing-7', 'spacing-6'],
     ['xl', 1152, 'spacing-8', 'spacing-6'],
-  ])('size %s: %ipx wide at most, padding %s and gap %s (D8r)', (mode, width, padding, gap) => {
+  ])('size %s: %ipx wide at most, padding %s and gap %s', (mode, width, padding, gap) => {
     const size = (name: string): string | undefined => sizeTokenOf(ROOT, mode, `dialog-${name}`);
     expect(size('max-inline-size')).toBe(`${String(width)}px`);
     expect(size('padding')).toBe(ref(padding));

@@ -260,8 +260,9 @@ function buildMiddleware(
       ...detect,
       apply({ availableWidth, availableHeight, rects }) {
         content.style.setProperty('--anchor-width', `${String(Math.round(rects.reference.width))}px`);
-        content.style.setProperty('--available-width', `${String(Math.max(0, Math.round(availableWidth)))}px`);
-        content.style.setProperty('--available-height', `${String(Math.max(0, Math.round(availableHeight)))}px`);
+        // Rounded down: content sized to the room never passes the edge by a part of a pixel.
+        content.style.setProperty('--available-width', `${String(Math.max(0, Math.floor(availableWidth)))}px`);
+        content.style.setProperty('--available-height', `${String(Math.max(0, Math.floor(availableHeight)))}px`);
       },
     }),
     ...(arrowSize ? [arrowMiddleware(arrowSize, options.arrowPadding ?? 0, options.hideShiftedArrow ?? true)] : []),
@@ -280,8 +281,9 @@ function buildMiddleware(
  * sets `top` and `left`.
  *
  * It also writes the custom properties `--anchor-width`, `--available-width` and `--available-height`, which hold the
- * measured geometry. Your CSS can use them to size the content. It writes `--transform-origin` too, which is the
- * point where the content meets its anchor, or the tip of the arrow when there is an arrow.
+ * measured geometry in whole px; the two available values are rounded down. Your CSS can use them to size the
+ * content. It writes `--transform-origin` too, which is the point where the content meets its anchor, or the tip of
+ * the arrow when there is an arrow.
  *
  * The gap between anchor and content is `sideOffset` when you set it. Otherwise it is the computed
  * `--side-offset` of the content, read once when the position starts. Your theme can set `--side-offset` as a length

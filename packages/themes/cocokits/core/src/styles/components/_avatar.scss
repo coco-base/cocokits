@@ -18,6 +18,10 @@
     letter-spacing: var(--cck-avatar-fallback-letter-spacing);
     font-weight: var(--cck-avatar-fallback-font-weight);
 
+    &[data-shape='square'] {
+      border-radius: var(--cck-avatar-square-radius);
+    }
+
     // An author rule beats the user-agent [hidden] rule, so the theme restates it on every part with a display.
     &[hidden] {
       display: none;
@@ -43,7 +47,7 @@
     justify-content: center;
     inline-size: 100%;
     block-size: 100%;
-    // The forced-colors border follows the root's round edge.
+    // The forced-colors border follows the root's edge, round or square.
     border-radius: inherit;
     background-color: var(--cck-avatar-fallback-bg);
     color: var(--cck-avatar-fallback-text-color);

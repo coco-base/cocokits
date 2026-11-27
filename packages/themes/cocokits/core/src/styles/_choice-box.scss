@@ -39,6 +39,13 @@
     vertical-align: top;
   }
 
+  // A label before the box: the root is block-level and fills its row, in block content and in a stretched flex
+  // column alike, so the label fills the row and the box sits at the end edge. Before the `[hidden]` rule, which
+  // has the same specificity and wins by source order.
+  #{$root}[data-label-position='before'] {
+    display: flex;
+  }
+
   // The root sets `display`, so the theme restates the native `hidden`.
   #{$root}[hidden] {
     display: none;
@@ -58,8 +65,14 @@
   }
 
   // Reverses the row with the writing direction, so RTL needs no counterpart.
+  // The wrapper fills the root and the label takes the free space, so the box sits at the end edge.
   #{$root}[data-label-position='before'] #{wrapper($block)} {
     flex-direction: row-reverse;
+    flex: 1;
+  }
+
+  #{$root}[data-label-position='before'] #{label($block)} {
+    flex: 1;
   }
 
   // The row of the box: as wide as the box, so the box lines up with the content around it, and as high as the hit

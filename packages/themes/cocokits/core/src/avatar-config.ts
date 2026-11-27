@@ -10,6 +10,8 @@ import {
 } from './generated/token-modes';
 import type { RootOption } from './option-types';
 
+/** A circle, or a square with rounded corners; no token collection holds it. */
+const AVATAR_SHAPES = ['circle', 'square'] as const;
 /** Which side of the text the avatar sits on, physical (left stays left in a right-to-left page); no token collection holds it. */
 const AVATAR_POSITIONS = ['left', 'top', 'right', 'bottom'] as const;
 /** Name and description on two lines (vertical) or side by side (horizontal); no token collection holds it. */
@@ -25,6 +27,7 @@ export type AvatarComponentsConfig = Readonly<{
   readonly avatar: {
     readonly size: RootOption<typeof avatarSizeModes>;
     readonly color: RootOption<typeof themeActiveColorModes>;
+    readonly shape: RootOption<typeof AVATAR_SHAPES>;
   };
   readonly 'avatar-group': { readonly size: RootOption<typeof avatarGroupSizeModes> };
   readonly 'avatar-label': {
@@ -41,7 +44,7 @@ export const avatarComponents: AvatarComponentsConfig = {
       values: avatarSizeModes,
       default: avatarSizeDefaultMode,
       partNames: ['root'],
-      description: 'Side of the circle and size of the fallback text.',
+      description: 'Side of the avatar and size of the fallback text.',
     },
     color: {
       attrName: 'cck-color',
@@ -49,6 +52,13 @@ export const avatarComponents: AvatarComponentsConfig = {
       default: AVATAR_DEFAULT_COLOR,
       partNames: ['root'],
       description: 'Colour of the fallback; the default is neutral.',
+    },
+    shape: {
+      attrName: 'shape',
+      values: AVATAR_SHAPES,
+      default: 'circle',
+      partNames: ['root'],
+      description: 'A circle, or a square with rounded corners.',
     },
   },
   'avatar-group': {

@@ -15,6 +15,7 @@ import {
   CckDirection,
   CckOverlayLayer,
   CckPortal,
+  checkNameWhenAttached,
   injectPartIconName,
   injectZoneBoundary,
 } from '@cocokits/angular-core';
@@ -133,13 +134,19 @@ export function createSelectController<V>(o: SelectControllerOptions<V>): Select
     mountValue = o.value();
     const trigger = o.trigger()?.nativeElement;
     if (trigger) labelActivation = trackLabelActivation(trigger);
-    if (trigger && (typeof ngDevMode === 'undefined' || ngDevMode) && !hasAccessibleName(trigger)) {
-      console.warn(
-        'CocoKits: a Select has no accessible name. Add a <label cckLabel> with text to its FormField, ' +
-          'or an aria-label, or an aria-labelledby that points to an element with text, to the <cck-select>.',
-      );
-    }
   });
+
+  checkNameWhenAttached(
+    () => o.trigger()?.nativeElement,
+    (trigger) => {
+      if (!hasAccessibleName(trigger)) {
+        console.warn(
+          'CocoKits: a Select has no accessible name. Add a <label cckLabel> with text to its FormField, ' +
+            'or an aria-label, or an aria-labelledby that points to an element with text, to the <cck-select>.',
+        );
+      }
+    },
+  );
 
   // The browser's autofill makes the `value` of a hidden input its own: the attribute no longer shows it.
   afterRenderEffect({

@@ -93,7 +93,7 @@ export { default as Divider } from './Divider.vue';
 export type { DividerProps, DividerSize, DividerColor } from './divider.types';
 export { default as AvatarRoot } from './AvatarRoot.vue';
 export { AvatarFallback, AvatarImage } from '@cocokits/vue/avatar';
-export type { AvatarColor, AvatarRootProps, AvatarSize } from './avatar.types';
+export type { AvatarColor, AvatarRootProps, AvatarShape, AvatarSize } from './avatar.types';
 export { default as AvatarGroup } from './AvatarGroup.vue';
 export type { AvatarGroupProps, AvatarGroupSize } from './avatar-group.types';
 export { default as AvatarLabel } from './AvatarLabel.vue';
@@ -193,6 +193,8 @@ export type {
   TooltipTriggerProps,
 } from '@cocokits/vue/tooltip';
 export type { TooltipContentEmits, TooltipContentProps, TooltipRootProps, TooltipSize } from './tooltip.types';
+export { default as Tag } from './Tag.vue';
+export type { TagProps, TagVariant, TagColor, TagSize, TagDot } from './tag.types';
 
 /** The icons the cocokits theme names in `components.<name>.icons`; register them as the `icons` of the icon registry. */
 export { cocokitsThemeIcons } from '@cocokits/theme-cocokits';

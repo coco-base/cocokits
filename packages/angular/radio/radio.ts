@@ -12,7 +12,13 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { CckAttrs, IdGenerator, injectFormParticipation, themeAttrs } from '@cocokits/angular-core';
+import {
+  CckAttrs,
+  IdGenerator,
+  checkNameWhenAttached,
+  injectFormParticipation,
+  themeAttrs,
+} from '@cocokits/angular-core';
 import { CckRadioGroup } from '@cocokits/angular/radio-group';
 import { getRadioProps, radioAnatomy } from '@cocokits/machines/radio';
 import type { ChangeDetails, ValueChangeDetails } from '@cocokits/shared';
@@ -95,6 +101,7 @@ export type RadioChangeDetails = ChangeDetails<RadioChangeReason>;
           [attr.aria-label]="ariaLabel() ?? null"
           [attr.aria-labelledby]="ariaLabelledBy() ?? null"
           (change)="onChange($event)"
+          (invalid)="onInvalid()"
         />
         <span
           [class]="parts().backdrop.class"
@@ -259,8 +266,13 @@ export class CckRadio {
         });
         this.destroyRef.onDestroy(unregister);
       }
-      this.warnWithoutName();
     });
+    checkNameWhenAttached(
+      () => this.inputRef()?.nativeElement,
+      () => {
+        this.warnWithoutName();
+      },
+    );
   }
 
   /**
@@ -283,6 +295,11 @@ export class CckRadio {
     const checked = (event.target as HTMLInputElement).checked;
     this.checked.set(checked);
     this.checkedChangeDetails.emit({ value: checked, reason: 'user', event });
+  }
+
+  /** The input blocked a submit of the owner form; inside a group, the group shows the invalid state. */
+  protected onInvalid(): void {
+    this.group?._submitBlocked();
   }
 
   /** Inside a group the group owns the value: this radio reports its check and fires no event of its own. */

@@ -155,6 +155,41 @@ describe('Menu submenu keyboard', () => {
     expect(subMenu()).toBeNull();
   });
 
+  it('returns the focus to the trigger when an item of the submenu is clicked', async () => {
+    render(<Nested />);
+    await openMenu();
+    await userEvent.click(subTrigger());
+    await waitFor(() => {
+      expect(subMenu()).not.toBeNull();
+    });
+    // Both menus play an exit animation, so they are still in the document when the focus returns.
+    let finish: () => void = () => undefined;
+    const finished = new Promise<void>((resolve) => {
+      finish = resolve;
+    });
+    for (const content of screen.getAllByRole('menu'))
+      content.getAnimations = () => [
+        {
+          finished,
+          animationName: 'exit',
+          playState: 'running',
+          effect: { getComputedTiming: () => ({ endTime: 300 }) },
+        } as unknown as Animation,
+      ];
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Email' }));
+    await waitFor(() => {
+      expect(trigger().getAttribute('aria-expanded')).toBe('false');
+    });
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    act(() => {
+      finish();
+    });
+    await waitFor(() => {
+      expect(mainMenu()).toBeNull();
+    });
+    await expectFocus(trigger());
+  });
+
   it.each(['{ArrowRight}', '{Enter}'])(
     'never opens a disabled sub-trigger with %s, which stays focusable',
     async (key) => {
