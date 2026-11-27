@@ -1,0 +1,266 @@
+@use '../state';
+
+// Chip rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-chip-* tokens: the size mode on the root, the rest from the structure. The remove
+// button's SvgIcon is 1em, so the button's `font-size` is the icon size (the IconButton precedent); the check is the
+// same, from `check-icon-size`. The DOM order is the visual order: check, content, remove. A selectable chip has a
+// toggle `button` as its content; the selected look is on the pill, found from the content's `data-selected`. The
+// pill holds a fill and an ink; hover and press of the toggle mix the ink into the fill (`state.layer`). The toggle
+// answers the pointer over the whole pill, and the remove button lies on top of it with a hit area of
+// `remove-hit-size`, which is larger than the button it draws. Focus shows where it is: a ring
+// around the pill for the toggle, a ring on the remove button for the remove button. The label stays on one line and
+// ends in an ellipsis when the chip is as wide as its container. The chip sets `display`, so it restates its
+// `[hidden]`. A Chip list may set the height of the chips it renders (_chip-list.scss).
+$toggle: '> .cck-chip__content-wrapper[type="button"]';
+
+@mixin rules {
+  .cck-chip {
+    --_fill: var(--cck-chip-bg);
+    --_ink: var(--cck-chip-text-color);
+    --_remove: var(--cck-chip-remove-color);
+
+    box-sizing: border-box;
+    // Holds the hit area of the toggle.
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: var(--cck-chip-gap);
+    // The chip is never wider than its container; the content gives way and the remove button stays in the pill.
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--cck-chip-height);
+    padding-block: 0;
+    padding-inline: var(--cck-chip-padding-inline);
+    // The border is transparent: it is the edge of the pill in forced colors.
+    border: var(--cck-chip-border-width) solid transparent;
+    border-radius: var(--cck-chip-radius);
+    background-color: var(--_fill);
+    color: var(--_ink);
+    font-family: var(--cck-chip-font-family);
+    font-size: var(--cck-chip-font-size);
+    font-weight: var(--cck-chip-font-weight);
+    line-height: var(--cck-chip-line-height);
+    letter-spacing: var(--cck-chip-letter-spacing);
+    white-space: nowrap;
+
+    @include state.transition(background-color, border-color, color, box-shadow);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // The state is in `:where()`, so the rules below win over it by source order. On the selected fill the remove
+    // button takes the ink of the pill.
+    &:where(:has(> .cck-chip__content-wrapper[data-selected])) {
+      --_fill: var(--cck-chip-selected-bg);
+      --_ink: var(--cck-chip-selected-text-color);
+      --_remove: var(--cck-chip-selected-text-color);
+    }
+
+    // An Avatar or SvgIcon in the content sits closer to the start edge than text; the design puts it first. A rule
+    // cannot see text before it, so a trailing one takes the same start padding. In `:where()`, so the checked
+    // check, which comes first when it is drawn, keeps its own padding.
+    &:where(:has(> .cck-chip__content-wrapper > .cck-svg-icon)) {
+      padding-inline-start: var(--cck-chip-icon-padding-inline-start);
+    }
+
+    &:where(:has(> .cck-chip__content-wrapper > .cck-avatar)) {
+      padding-inline-start: var(--cck-chip-avatar-padding-inline-start);
+    }
+
+    &:has(> .cck-chip__check[data-state='checked']) {
+      padding-inline-start: var(--cck-chip-check-padding-inline-start);
+    }
+
+    // Only a chip with a toggle answers the pointer; a disabled toggle keeps the resting fill. In `:where()` like the
+    // selected state, so the forced-colors rules below win by source order.
+    &:where(:has(#{$toggle}:hover:not(:disabled))) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-chip-hover-mix));
+    }
+
+    &:where(:has(#{$toggle}:active:not(:disabled))) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-chip-active-mix));
+    }
+
+    // The chip keeps its look and fades.
+    &[data-disabled] {
+      opacity: var(--cck-chip-disabled-opacity);
+      cursor: not-allowed;
+    }
+  }
+
+  // The mark of a selected chip: a box whose font size is the icon size, so the theme icon (1em) follows it. It is
+  // there in every selectable chip and drawn only while the chip is selected.
+  .cck-chip__check {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--cck-chip-check-icon-size);
+
+    &:not([data-state='checked']),
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The content is a `span`, or a toggle `button` in a selectable chip: the reset leaves both the look of the pill.
+  // It is a block that may shrink, so a label wider than the chip is cut with an ellipsis.
+  .cck-chip__content-wrapper {
+    box-sizing: border-box;
+    display: block;
+    min-inline-size: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: inherit;
+    text-overflow: ellipsis;
+
+    // An Avatar, an SvgIcon or a Badge in the content sits in a row with the text, `gap` apart and centred on it; the
+    // row trims a typed space next to them. A plain label stays a block, so only it ends in an ellipsis.
+    &:where(:has(> .cck-avatar, > .cck-svg-icon, > .cck-badge)) {
+      display: flex;
+      align-items: center;
+      gap: var(--cck-chip-gap);
+    }
+
+    &[type='button'] {
+      cursor: pointer;
+    }
+
+    // The hit area of the toggle is the whole pill, border included: the pill is its containing block.
+    &[type='button']::before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      inset: calc(-1 * var(--cck-chip-border-width));
+      border-radius: var(--cck-chip-radius);
+    }
+
+    &[type='button']:disabled {
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // An SvgIcon without its own `size` is as large as the other icons of the chip.
+  .cck-chip__content-wrapper > .cck-svg-icon:not([data-size]) {
+    font-size: var(--cck-chip-icon-size);
+  }
+
+  // A round button as large as its icon plus a padding on every side; hover and press tint it with the ink of the pill.
+  // It is positioned, so it and its own hit area lie on top of the hit area of the toggle.
+  .cck-chip__remove {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: calc(1em + 2 * var(--cck-chip-remove-padding));
+    block-size: calc(1em + 2 * var(--cck-chip-remove-padding));
+    // Leaves the end of the chip a small inset instead of the full padding: the button sits close to the edge.
+    margin-inline-end: calc(var(--cck-chip-remove-end-inset) - var(--cck-chip-padding-inline));
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--_remove);
+    font-size: var(--cck-chip-icon-size);
+    cursor: pointer;
+
+    @include state.transition(background-color, color);
+
+    &[hidden] {
+      display: none;
+    }
+
+    // The hit area: a round area of `remove-hit-size`, centred on the button, which is its containing block. The
+    // button is smaller than the area, so the inset is negative and the area overflows the button evenly.
+    &::before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      inset: calc((100% - var(--cck-chip-remove-hit-size)) / 2);
+      border-radius: 50%;
+    }
+
+    &:hover {
+      background-color: state.tint(var(--_ink), var(--cck-chip-hover-mix));
+      color: var(--_ink);
+    }
+
+    &:active {
+      background-color: state.tint(var(--_ink), var(--cck-chip-active-mix));
+      color: var(--_ink);
+    }
+
+    // `:disabled` covers `<fieldset disabled>`. After hover and press, so a disabled button keeps the resting look.
+    &[data-disabled],
+    &:disabled {
+      background-color: transparent;
+      color: var(--_remove);
+      cursor: not-allowed;
+    }
+
+    // The ring is on the button and in the ink of the pill, which stands out from the resting and the selected fill.
+    &:focus-visible {
+      outline: var(--cck-chip-focus-width) solid var(--_ink);
+      outline-offset: 0;
+      color: var(--_ink);
+    }
+  }
+
+  // The toggle fills the pill, so the pill shows its focus.
+  .cck-chip:has(> .cck-chip__content-wrapper:focus-visible) {
+    outline: var(--cck-chip-focus-width) solid var(--cck-chip-focus-color);
+    outline-offset: var(--cck-chip-focus-offset);
+  }
+
+  @media (forced-colors: active) {
+    .cck-chip {
+      border-color: CanvasText;
+
+      &:where(:has(> .cck-chip__content-wrapper[data-selected])) {
+        background-color: Highlight;
+        color: HighlightText;
+      }
+
+      // System colors tell the disabled state, so the chip does not fade.
+      &[data-disabled] {
+        border-color: GrayText;
+        color: GrayText;
+        opacity: 1;
+      }
+    }
+
+    .cck-chip__remove {
+      color: ButtonText;
+
+      &[data-disabled],
+      &:disabled {
+        color: GrayText;
+      }
+    }
+
+    .cck-chip:has(> .cck-chip__content-wrapper:focus-visible),
+    .cck-chip__remove:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}

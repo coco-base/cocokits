@@ -1,0 +1,33 @@
+// State helpers shared by the component styles.
+//
+// A state layer mixes the ink of a control (its text or icon colour) into its fill. One rule then gives hover and
+// press to every colour family and both colour modes, and the amount is a token (`Theme / Opacity`), so no colour
+// token per state is needed.
+
+/// A fill with `$amount` of `$ink` mixed in: the hover or pressed fill of a solid or tinted control.
+@function layer($fill, $ink, $amount) {
+  @return color-mix(in srgb, #{$fill}, #{$ink} #{$amount});
+}
+
+/// `$amount` of `$ink` on nothing: the hover or pressed fill of a control without a fill of its own.
+@function tint($ink, $amount) {
+  @return color-mix(in srgb, #{$ink} #{$amount}, transparent);
+}
+
+/// The trigger classes of the overlays a button opens: an open one (`data-state` from the overlay) shows on the
+/// button. A Tooltip opens nothing the button controls, so its trigger class is not one of them.
+$overlay-triggers: '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
+
+/// How long a colour, border or shadow takes to follow a state change.
+$duration: 150ms;
+$easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+/// Eases the given properties between states, only for a user who has not asked for reduced motion; the end state
+/// is the same without it.
+@mixin transition($properties...) {
+  @media (prefers-reduced-motion: no-preference) {
+    transition-property: $properties;
+    transition-duration: $duration;
+    transition-timing-function: $easing;
+  }
+}

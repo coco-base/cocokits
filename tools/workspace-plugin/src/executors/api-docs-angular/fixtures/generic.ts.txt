@@ -1,0 +1,13 @@
+import { Directive, input } from '@angular/core';
+
+/**
+ * A generic thing.
+ * @cckPart root
+ */
+@Directive({ selector: 'div[thing]' })
+export class Thing<T = string> {
+  /** The chosen value. */
+  readonly value = input<T | undefined>(undefined);
+  /** The values to choose from. */
+  readonly options = input<readonly T[]>([]);
+}

@@ -1,0 +1,364 @@
+// Menu rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The content and the submenu content are portaled into a host in the top layer, so each is styled by its own class
+// and never through the trigger. They set no `position`, `inset` or `transform`: the positioning module writes
+// `position: fixed`, the coordinates and `--available-height`. The gap to the trigger is `--side-offset`, the one
+// unprefixed variable a theme sets. The size tokens sit on the content (`data-size`), so every item reads its height
+// from its container; the submenu content has its own `data-size` and the same tokens. The content takes focus only
+// when it holds no item, so it has no outline rule. Motion keys off `data-state` and `data-side` and runs only with
+// `prefers-reduced-motion: no-preference`. The content and item tags a framework renders for these parts are laid
+// out by these class rules.
+//
+// The four kinds of item (item, checkbox item, radio item, sub-trigger) share one look. The highlight fill marks the
+// item under the pointer and the focused one, so an item has no focus ring; the fill has no transition. An item that
+// holds a leading part, supporting text, a shortcut or a trailing part lays them out in a wrapping row: the
+// supporting text is one line under the text, indented by the leading part, and the shortcut and the trailing part
+// go to the end. A sub-trigger without a trailing part draws a chevron there.
+$items: '.cck-menu__item, .cck-menu__checkbox-item, .cck-menu__radio-item, .cck-menu__sub-trigger';
+// The same list as one compound, for a rule that adds a state or a child to it (a list cannot take a suffix).
+$item: ':is(#{$items})';
+$secondary: '.cck-menu__item-supporting-text, .cck-menu__item-shortcut';
+
+@mixin rules {
+  .cck-menu__content,
+  .cck-menu__sub-content {
+    --side-offset: var(--cck-menu-side-offset);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-inline-size: var(--cck-menu-min-inline-size);
+    max-block-size: var(--available-height, none);
+    overflow: auto;
+    padding: var(--cck-menu-padding);
+    border: var(--cck-menu-border-width) solid var(--cck-menu-border-color);
+    border-radius: var(--cck-menu-radius);
+    background-color: var(--cck-menu-bg);
+    box-shadow: var(--cck-menu-shadow);
+    color: var(--cck-menu-text-color);
+    font-family: var(--cck-menu-font-family);
+    font-size: var(--cck-menu-font-size);
+    line-height: var(--cck-menu-line-height);
+    letter-spacing: var(--cck-menu-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // A separator runs from edge to edge of the panel, through its padding.
+    > .cck-divider {
+      margin-block: var(--cck-menu-separator-margin-block);
+      margin-inline: calc(-1 * var(--cck-menu-padding));
+
+      // A separator with the default strength takes the colour of the panel border; `light` and `dark` keep theirs.
+      &:not([data-color='light'], [data-color='dark']) {
+        border-color: var(--cck-menu-separator-color);
+      }
+    }
+  }
+
+  #{$items} {
+    box-sizing: border-box;
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 var(--cck-menu-item-gap);
+    // The height is a minimum, so a long label wraps instead of overflowing.
+    min-block-size: var(--cck-menu-item-height);
+    padding-block: var(--cck-menu-item-padding-block);
+    padding-inline: var(--cck-menu-item-padding-inline);
+    border-radius: var(--cck-menu-item-radius);
+    outline: none;
+    cursor: pointer;
+    font-weight: var(--cck-menu-item-font-weight);
+    user-select: none;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // An open sub-trigger keeps the highlight while its submenu is open.
+    &:hover:not([data-disabled]),
+    &:focus-visible,
+    &[data-state='open'] {
+      background-color: var(--cck-menu-item-highlight-bg);
+    }
+
+    &[data-color='danger'] {
+      color: var(--cck-menu-item-danger-color);
+
+      &:hover:not([data-disabled]),
+      &:focus-visible,
+      &[data-state='open'] {
+        background-color: var(--cck-menu-item-danger-highlight-bg);
+      }
+    }
+
+    // The item keeps its look and fades.
+    &[data-disabled] {
+      opacity: var(--cck-menu-item-disabled-opacity);
+      cursor: not-allowed;
+    }
+
+    // An icon in the item takes the icon size and colour unless it has its own `size` or `color`.
+    > .cck-svg-icon {
+      flex: none;
+
+      &:not([data-size]) {
+        font-size: var(--cck-menu-item-icon-size);
+      }
+
+      &:not([data-cck-color]) {
+        color: var(--cck-menu-item-icon-color);
+      }
+    }
+
+    &[data-color='danger'] > .cck-svg-icon:not([data-cck-color]) {
+      color: var(--cck-menu-item-danger-color);
+    }
+  }
+
+  // The parts that hold an icon are boxes whose font size is the icon size, so the icon (1em) follows it.
+  .cck-menu__item-leading,
+  .cck-menu__item-trailing,
+  .cck-menu__item-indicator {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--cck-menu-item-icon-size);
+    color: var(--cck-menu-item-icon-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The check mark is the one sign of a checked item. The indicator keeps its box while the item is not checked, so
+  // the text lines up either way.
+  .cck-menu__item-indicator {
+    color: var(--cck-menu-item-indicator-color);
+
+    &:not([data-state='checked']) {
+      visibility: hidden;
+    }
+  }
+
+  #{$item}[data-color='danger'] > :is(.cck-menu__item-leading, .cck-menu__item-trailing) {
+    color: var(--cck-menu-item-danger-color);
+  }
+
+  // The shortcut and the trailing part go to the end; with both, the shortcut takes the free space.
+  .cck-menu__item-shortcut,
+  .cck-menu__item-trailing {
+    margin-inline-start: auto;
+  }
+
+  .cck-menu__item-shortcut ~ .cck-menu__item-trailing {
+    margin-inline-start: 0;
+  }
+
+  // The sign of a submenu: a chevron at the end that points to the inline end. It is the block-start and inline-end
+  // borders of a square turned by 45 degrees, so it needs no markup; a trailing part of the author takes its place.
+  .cck-menu__sub-trigger:not(:has(> .cck-menu__item-trailing))::after {
+    content: '';
+  }
+
+  .cck-menu__sub-trigger::after {
+    box-sizing: border-box;
+    flex: none;
+    inline-size: var(--cck-menu-item-chevron-size);
+    block-size: var(--cck-menu-item-chevron-size);
+    margin-inline-start: auto;
+    border: 0 solid var(--cck-menu-item-secondary-color);
+    border-block-start-width: var(--cck-menu-item-chevron-border-width);
+    border-inline-end-width: var(--cck-menu-item-chevron-border-width);
+    rotate: 45deg;
+  }
+
+  .cck-menu__sub-trigger:dir(rtl)::after {
+    rotate: -45deg;
+  }
+
+  .cck-menu__sub-trigger:has(> .cck-menu__item-shortcut)::after {
+    margin-inline-start: 0;
+  }
+
+  #{$secondary} {
+    box-sizing: border-box;
+    color: var(--cck-menu-item-secondary-color);
+    font-family: var(--cck-menu-item-secondary-font-family);
+    font-size: var(--cck-menu-item-secondary-font-size);
+    font-weight: var(--cck-menu-item-secondary-font-weight);
+    line-height: var(--cck-menu-item-secondary-line-height);
+    letter-spacing: var(--cck-menu-item-secondary-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-menu__item-shortcut {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  // A second line under the text, as wide as the row. It is indented by the leading part when there is one. The
+  // containment keeps its text out of the width of the panel, so a long text wraps instead of widening the menu.
+  .cck-menu__item-supporting-text {
+    display: block;
+    flex: 1 0 100%;
+    order: 1;
+    contain: inline-size;
+  }
+
+  #{$item}:has(> .cck-menu__item-leading) > .cck-menu__item-supporting-text,
+  #{$item}:has(> .cck-menu__item-indicator) > .cck-menu__item-supporting-text {
+    padding-inline-start: calc(var(--cck-menu-item-icon-size) + var(--cck-menu-item-gap));
+  }
+
+  .cck-menu__group,
+  .cck-menu__radio-group {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The label of a group is not an item: the item's inline padding, the small muted text style and no fill.
+  .cck-menu__group-label {
+    box-sizing: border-box;
+    display: block;
+    padding-block: var(--cck-menu-group-label-padding-block);
+    padding-inline: var(--cck-menu-item-padding-inline);
+    color: var(--cck-menu-item-secondary-color);
+    font-family: var(--cck-menu-item-secondary-font-family);
+    font-size: var(--cck-menu-item-secondary-font-size);
+    font-weight: var(--cck-menu-group-label-font-weight);
+    line-height: var(--cck-menu-item-secondary-line-height);
+    letter-spacing: var(--cck-menu-item-secondary-letter-spacing);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :is(.cck-menu__content, .cck-menu__sub-content)[data-state='open'] {
+      animation: cck-menu-in var(--cck-menu-motion-duration) ease-out;
+    }
+
+    :is(.cck-menu__content, .cck-menu__sub-content)[data-state='closed'] {
+      animation: cck-menu-out var(--cck-menu-motion-duration) ease-in forwards;
+    }
+
+    :is(.cck-menu__content, .cck-menu__sub-content)[data-side='top'] {
+      --_slide-x: 0px;
+      --_slide-y: var(--cck-menu-motion-distance);
+    }
+
+    :is(.cck-menu__content, .cck-menu__sub-content)[data-side='bottom'] {
+      --_slide-x: 0px;
+      --_slide-y: calc(-1 * var(--cck-menu-motion-distance));
+    }
+
+    :is(.cck-menu__content, .cck-menu__sub-content)[data-side='start'] {
+      --_slide-x: var(--cck-menu-motion-distance);
+      --_slide-y: 0px;
+
+      &:dir(rtl) {
+        --_slide-x: calc(-1 * var(--cck-menu-motion-distance));
+      }
+    }
+
+    :is(.cck-menu__content, .cck-menu__sub-content)[data-side='end'] {
+      --_slide-x: calc(-1 * var(--cck-menu-motion-distance));
+      --_slide-y: 0px;
+
+      &:dir(rtl) {
+        --_slide-x: var(--cck-menu-motion-distance);
+      }
+    }
+
+    // A submenu on the bottom or the top side still sits past the inline end of its sub-trigger, so it slides in
+    // from there.
+    .cck-menu__sub-content:is([data-side='top'], [data-side='bottom']) {
+      --_slide-x: calc(-1 * var(--cck-menu-motion-distance));
+      --_slide-y: 0px;
+
+      &:dir(rtl) {
+        --_slide-x: var(--cck-menu-motion-distance);
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-menu__content,
+    .cck-menu__sub-content {
+      border-color: CanvasText;
+      box-shadow: none;
+
+      > .cck-divider:not([data-color='light'], [data-color='dark']) {
+        border-color: CanvasText;
+      }
+    }
+
+    #{$items} {
+      // The fill is dropped in forced colors; an open sub-trigger and the focused item get an outline.
+      &[data-state='open'] {
+        outline: 1px solid CanvasText;
+        outline-offset: -1px;
+      }
+
+      &:focus-visible {
+        outline: var(--cck-menu-item-focus-width) solid Highlight;
+        outline-offset: calc(-1 * var(--cck-menu-item-focus-width));
+      }
+
+      &[data-disabled],
+      &[data-disabled] > .cck-svg-icon {
+        color: GrayText;
+        opacity: 1;
+      }
+    }
+
+    #{$item}[data-disabled] > :is(.cck-menu__item-leading, .cck-menu__item-trailing, .cck-menu__item-indicator) {
+      color: GrayText;
+    }
+
+    #{$item}[data-disabled] > :is(#{$secondary}) {
+      color: GrayText;
+    }
+
+    .cck-menu__sub-trigger::after {
+      border-color: CanvasText;
+    }
+
+    .cck-menu__sub-trigger[data-disabled]::after {
+      border-color: GrayText;
+    }
+  }
+
+  @keyframes cck-menu-in {
+    from {
+      opacity: 0;
+      translate: var(--_slide-x, 0px) var(--_slide-y, 0px);
+    }
+  }
+
+  @keyframes cck-menu-out {
+    to {
+      opacity: 0;
+      translate: var(--_slide-x, 0px) var(--_slide-y, 0px);
+    }
+  }
+}

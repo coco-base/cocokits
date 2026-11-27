@@ -1,18 +1,37 @@
 {
-  "name": "@cocokits/workspace-plugin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "tools/workspace-plugin/src",
+  "name": "workspace",
   "projectType": "library",
-  "tags": ["workspace"],
+  "sourceRoot": "tools/workspace-plugin/src",
+  "tags": ["type:tool", "scope:shared"],
   "targets": {
     "test": {
-      "executor": "@nx/vite:test",
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/tools/scripts/package-manifest.mjs",
+        "{workspaceRoot}/tools/eslint/**/*"
+      ]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
       "options": {
-        "config": "tools/workspace-plugin/vite.config.ts"
+        "commands": ["tsc --noEmit -p tsconfig.lib.json", "tsc --noEmit -p tsconfig.spec.json"],
+        "cwd": "{projectRoot}",
+        "parallel": false
       }
     },
-    "quick-fix-eslint": {
-      "executor": "@nx/eslint:lint"
+    "api-parity": {
+      "executor": "@cocokits/workspace:api-parity",
+      "dependsOn": ["angular:api-docs", "react:api-docs", "vue:api-docs"],
+      "cache": true,
+      "inputs": [
+        "executors",
+        {
+          "dependentTasksOutputFiles": "**/*.json",
+          "transitive": false
+        }
+      ]
     }
   }
 }

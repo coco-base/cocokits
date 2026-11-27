@@ -1,0 +1,25 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Divider / Size",
+      "tier": 3,
+      "prefix": "divider",
+      "defaultMode": "md",
+      "modes": ["md", "lg"],
+      "tokens": [{ "name": "thickness", "type": "number", "unit": "px", "valuesByMode": { "md": "{Theme / Border Width#border-width-1}", "lg": "{Theme / Border Width#border-width-2}" } }]
+    },
+    {
+      "name": "Divider / Structure",
+      "tier": 3,
+      "prefix": "divider",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "color-light", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/1}" } },
+        { "name": "color-default", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/2}" } },
+        { "name": "color-dark", "type": "color", "valuesByMode": { "Default": "{Theme / Color#border/3}" } }
+      ]
+    }
+  ]
+}

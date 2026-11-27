@@ -1,0 +1,5 @@
+@use '_tabs' as tabs;
+
+@layer cocokits {
+  @include tabs.rules;
+}

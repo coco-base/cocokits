@@ -1,0 +1,9 @@
+@use '_chip' as chip;
+@use '_chip-list' as chip-list;
+@use '_svg-icon' as svg-icon;
+
+@layer cocokits {
+  @include chip.rules;
+  @include chip-list.rules;
+  @include svg-icon.rules;
+}

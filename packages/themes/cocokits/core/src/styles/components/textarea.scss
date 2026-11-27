@@ -1,0 +1,5 @@
+@use '_textarea' as textarea;
+
+@layer cocokits {
+  @include textarea.rules;
+}

@@ -1,1 +1,1 @@
-pnpm lint-staged --relative
+pnpm exec lint-staged

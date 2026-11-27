@@ -1,0 +1,2 @@
+export { Thing, Secret, useThing } from './thing';
+export type { ThingProps } from './thing';

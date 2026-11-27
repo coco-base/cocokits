@@ -1,9 +1,0 @@
-{
-  "extends": "../../../tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "../../../dist/out-tsc",
-    "types": []
-  },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx", "../../angular/utils/src/**/*.ts", "../../common/utils/src/**/*.ts"],
-  "exclude": ["../../angular/utils/src/**/*.spec.ts", "../../common/utils/src/**/*.spec.ts"]
-}

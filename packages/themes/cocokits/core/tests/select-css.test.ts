@@ -1,0 +1,268 @@
+import { describe, expect, it } from 'vitest';
+import { declarationsOf, outsideReducedMotion, read, reducedMotionBlocks, tokensCss } from './css-test-helpers';
+
+const css = read('dist', 'components', 'select.css');
+
+describe('select output', () => {
+  it('puts the rules inside @layer cocokits and into the whole theme', () => {
+    expect(css.replace(/^@property --side-offset \{[^}]*\}\n/, '').startsWith('@layer cocokits {')).toBe(true);
+    expect(read('dist', 'styles.css')).toContain('.cck-select__content {');
+  });
+
+  it('emits the size modes on the root, the content tokens on the content class and nothing on :root', () => {
+    expect(tokensCss).toContain('.cck-select[data-size=sm] {');
+    expect(tokensCss).toContain('.cck-select, .cck-select[data-size=md] {');
+    expect(tokensCss).toContain('.cck-select[data-size=lg] {');
+    expect(tokensCss).toContain('.cck-select__content {');
+    const blocks = tokensCss.split('  }').filter((block) => block.includes(':root'));
+    expect(blocks.join('')).not.toContain('--cck-select-');
+  });
+
+  it('draws the trigger box from the size tokens', () => {
+    const rule = declarationsOf(css, '.cck-select__trigger') ?? '';
+    for (const line of [
+      'min-block-size: var(--cck-select-height)',
+      'padding-inline: var(--cck-select-padding-inline)',
+      'font-size: var(--cck-select-font-size)',
+      'border-radius: var(--cck-select-radius)',
+    ]) {
+      expect(rule).toContain(line);
+    }
+  });
+
+  it('reads the surface, the offset and the anchor width from tokens and the positioning module', () => {
+    const rule = declarationsOf(css, '.cck-select__content') ?? '';
+    for (const line of [
+      '--side-offset: var(--cck-select-content-side-offset)',
+      'min-inline-size: var(--anchor-width)',
+      'background-color: var(--cck-select-content-bg)',
+      'box-shadow: var(--cck-select-content-shadow)',
+    ]) {
+      expect(rule).toContain(line);
+    }
+  });
+
+  it('caps the height of the list with the documented custom property, 220px by default, and the available height', () => {
+    const rule = declarationsOf(css, '.cck-select__content') ?? '';
+    expect(rule).toContain(
+      'max-block-size: min(var(--cck-select-content-max-height, 220px), var(--available-height, 100vh))',
+    );
+    expect(tokensCss).not.toContain('--cck-select-content-max-height:');
+  });
+
+  it('leaves the placement to the positioning module', () => {
+    const rule = declarationsOf(css, '.cck-select__content') ?? '';
+    expect(rule).not.toMatch(/(^|[\s;])(position|inset|top|left|right|bottom|transform)\s*:/);
+  });
+
+  it('restates [hidden] on the boxes it sets to display', () => {
+    expect(css).toMatch(/\.cck-select\[hidden\]\s*\{\s*display: none/);
+    expect(css).toMatch(/\.cck-select__content\[hidden\]\s*\{\s*display: none/);
+    // The search hides an option that does not match, so a visible option would show every one.
+    expect(css).toMatch(/\.cck-select__option\[hidden\]\s*\{\s*display: none/);
+    expect(css).toMatch(/\.cck-select__option-group\[hidden\]\s*\{\s*display: none/);
+  });
+
+  it.each([
+    'trigger',
+    'option-group-label',
+    'separator',
+    'count',
+    'option-leading',
+    'option-description',
+    'search',
+    'empty',
+  ])('restates [hidden] on the %s, which sets a display', (part) => {
+    expect(css).toMatch(new RegExp(`\\.cck-select__${part}\\[hidden\\]\\s*\\{\\s*display: none`));
+  });
+
+  it('restates [hidden] on the header and the footer', () => {
+    expect(css).toMatch(/\.cck-select__header\[hidden\],\s*\.cck-select__footer\[hidden\]\s*\{\s*display: none/);
+  });
+
+  it('draws the clear button of the search as a cross in the header icon tokens, not the browser button', () => {
+    const clear = declarationsOf(css, '.cck-select__search::-webkit-search-cancel-button') ?? '';
+    for (const line of [
+      'appearance: none',
+      'inline-size: var(--cck-select-header-icon-size)',
+      'block-size: var(--cck-select-header-icon-size)',
+      'color: var(--cck-select-header-icon-color)',
+      'cursor: pointer',
+    ]) {
+      expect(clear).toContain(line);
+    }
+    expect(clear).toMatch(
+      /background-image: linear-gradient\(45deg, [^;]*currentcolor[^;]*\), linear-gradient\(-45deg/i,
+    );
+  });
+
+  it('draws the multiple box with CSS and the chevron and the check as theme icons: no image, no pseudo-element', () => {
+    expect(css).not.toMatch(/url\(/);
+    expect(css).not.toContain('.cck-select__option-indicator::after');
+    expect(css).not.toContain('.cck-select__dropdown-icon:dir(rtl)');
+    expect(css).toContain(
+      '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox]) .cck-select__option-indicator',
+    );
+    const chevron = declarationsOf(css, '.cck-select__dropdown-icon') ?? '';
+    expect(chevron).toContain('font-size: var(--cck-select-icon-size)');
+    expect(chevron).toContain('color: var(--cck-select-icon-color)');
+    expect(chevron).not.toMatch(/border(?!-box)/);
+    const open = declarationsOf(
+      css,
+      '.cck-select[data-state=open] > .cck-select__trigger > .cck-select__dropdown-icon',
+    );
+    expect(open).toContain('rotate: 180deg');
+    const check = declarationsOf(css, '.cck-select__option-indicator') ?? '';
+    expect(check).toContain('font-size: var(--cck-select-indicator-size)');
+    expect(check).toContain('color: var(--cck-select-indicator-color)');
+  });
+
+  it('draws the focus of the trigger as a border and a halo, not an outline, and has a hover border', () => {
+    expect(declarationsOf(css, '.cck-select__trigger')).toContain('--_focus: var(--cck-select-focus-color)');
+    expect(declarationsOf(css, '.cck-select__trigger:focus-visible')).toContain('outline: none');
+    const focus =
+      declarationsOf(
+        css,
+        '.cck-select > .cck-select__trigger:focus-visible,\n  .cck-select[data-state=open] > .cck-select__trigger',
+      ) ?? '';
+    expect(focus).toContain('border-color: var(--_focus)');
+    expect(focus).toContain(
+      'box-shadow: 0 0 0 var(--cck-select-focus-ring-width) color-mix(in srgb, var(--_focus) var(--cck-select-focus-ring-mix), transparent)',
+    );
+    expect(focus).not.toContain('outline');
+    expect(declarationsOf(css, '.cck-select__trigger:where(:hover)')).toContain(
+      'border-color: var(--cck-select-hover-border-color)',
+    );
+    // The halo is a shadow, which forced colors drop: the focus is an outline there.
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(
+      /\.cck-select\[data-state=open\] > \.cck-select__trigger \{\s*border-color: Highlight;\s*outline: var\(--cck-select-focus-ring-width\) solid Highlight;/,
+    );
+  });
+
+  it('shows invalid by the border colour, read-only with a fill, disabled over invalid with opacity', () => {
+    const own = css.slice(0, css.indexOf('@media (forced-colors: active)'));
+    // The trigger gets `aria-invalid` only after a blur or a submit, so a required Select shows nothing at load.
+    expect(declarationsOf(css, '.cck-select:where([data-invalid]) > .cck-select__trigger')).toBeUndefined();
+    const invalid =
+      declarationsOf(css, '.cck-select:where([data-invalid]) > .cck-select__trigger:where([aria-invalid=true])') ?? '';
+    expect(invalid).toContain('border-color: var(--cck-select-invalid-border-color)');
+    // The focus border and halo of an invalid trigger take the invalid colour.
+    expect(invalid).toContain('--_focus: var(--cck-select-invalid-border-color)');
+    expect(invalid).not.toMatch(/box-shadow|outline|border-width|border-style/);
+    expect(css).not.toContain('box-shadow: inset');
+    expect(css).not.toContain('invalid-border-width');
+    const readonly = declarationsOf(css, '.cck-select:where([data-readonly]) > .cck-select__trigger') ?? '';
+    expect(readonly).toContain('background-color: var(--cck-select-readonly-bg)');
+    expect(readonly).toContain('cursor: default');
+    expect(own).not.toContain('dashed');
+    const disabled =
+      declarationsOf(
+        css,
+        '.cck-select:where([data-disabled]) > .cck-select__trigger,\n  .cck-select__trigger:disabled',
+      ) ?? '';
+    expect(disabled).toContain('border-color: var(--cck-select-border-color)');
+    expect(disabled).toContain('opacity: var(--cck-select-disabled-opacity)');
+    expect(disabled).toContain('cursor: not-allowed');
+    expect(own.indexOf('[data-disabled]')).toBeGreaterThan(own.indexOf('[data-invalid]'));
+    expect(own.indexOf('[data-disabled]')).toBeGreaterThan(own.indexOf('[data-readonly]'));
+    // The fill is dropped in forced colors, so read-only has a dashed border there.
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(/\.cck-select:where\(\[data-readonly\]\) > \.cck-select__trigger \{\s*border-style: dashed/);
+  });
+
+  it('runs its motion only without a reduced-motion preference, keyed on data-state', () => {
+    // `state.transition` emits a reduced-motion block per include, so the motion is in one of many blocks.
+    const motion = reducedMotionBlocks(css).join('\n');
+    expect(motion).toContain('.cck-select__content[data-state=open]');
+    expect(motion).toContain('.cck-select__content[data-state=closed]');
+    expect(outsideReducedMotion(css)).not.toMatch(/animation:|transition/);
+  });
+
+  it('mirrors the inline slide in right-to-left on the part itself', () => {
+    expect(css).toContain('[data-side=start]:dir(rtl)');
+    expect(css).toContain('[data-side=end]:dir(rtl)');
+  });
+
+  it('uses system colors in forced colors', () => {
+    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+    for (const color of ['CanvasText', 'GrayText', 'Highlight', 'HighlightText']) {
+      expect(forced).toContain(color);
+    }
+  });
+});
+
+describe('select separator', () => {
+  it('draws a line in the list border tokens from edge to edge, spaced by the list padding', () => {
+    const rule = declarationsOf(css, '.cck-select__separator') ?? '';
+    expect(rule).toContain('margin-block: var(--cck-select-content-padding)');
+    expect(rule).toContain('margin-inline: calc(-1 * var(--cck-select-content-padding))');
+    expect(rule).toContain(
+      'border-block-start: var(--cck-select-content-border-width) solid var(--cck-select-content-border-color)',
+    );
+    expect(rule).not.toContain('option-padding-block');
+    expect(rule).not.toContain('background');
+  });
+
+  it('keeps the line in forced colors with a system colour', () => {
+    const forced = css.split('@media (forced-colors: active)')[1] ?? '';
+    expect(forced).toMatch(/\.cck-select__separator\s*\{[^}]*border-block-start-color: CanvasText/);
+  });
+});
+
+describe('select inside a form field', () => {
+  const fieldCss = read('dist', 'components', 'form-field.css');
+
+  it('fills the input wrapper and keeps its own size, which the theme layer takes from the field', () => {
+    expect(fieldCss).toMatch(/\.cck-form-field__input-wrapper > \.cck-select\s*\{[^}]*flex: 1/);
+    expect(fieldCss).not.toMatch(/\.cck-select__trigger\s*\{[^}]*(min-block-size|padding|font|letter-spacing)/);
+  });
+
+  it('draws the indicator option: a box before the text, the check after it, or nothing', () => {
+    const box = '.cck-select__content:is([data-multiple]:not([data-indicator]), [data-indicator=checkbox])';
+    expect(declarationsOf(css, `${box} .cck-select__option-indicator`)).toContain('order: 0');
+    expect(declarationsOf(css, `${box} .cck-select__option[data-selected] .cck-select__option-indicator`)).toContain(
+      'background-color: var(--cck-select-indicator-box-checked-bg)',
+    );
+    expect(declarationsOf(css, '.cck-select__content[data-indicator=none] .cck-select__option-indicator')).toContain(
+      'display: none',
+    );
+    // `checkmark` has no rule of its own: it is the single list look, so it also undoes the box of a multiple list.
+    expect(css).not.toContain('data-indicator=checkmark');
+  });
+});
+
+describe('select list tokens', () => {
+  it('reads in the list only the tokens that are emitted on the list class', () => {
+    // The list is portaled out of the root, so a token of the root (the Size and Structure collections) is not there.
+    const list = tokensCss.slice(tokensCss.indexOf('.cck-select__content {'));
+    const emitted = new Set([...list.slice(0, list.indexOf('}')).matchAll(/(--cck-select-[\w-]+):/g)].map((m) => m[1]));
+    const listRules = css
+      .split('}')
+      .filter((rule) =>
+        /\.cck-select__(content|option|option-indicator|option-group|option-group-label|option-content|separator)\b/.test(
+          rule,
+        ),
+      )
+      .join('}');
+    const read = [...listRules.matchAll(/var\((--cck-select-[\w-]+)/g)].map((m) => m[1]);
+    const missing = read.filter(
+      (name) =>
+        !emitted.has(name) &&
+        !['--cck-select-content-max-height', '--cck-select-slide-x', '--cck-select-slide-y'].includes(name),
+    );
+    expect(missing).toEqual([]);
+  });
+
+  it('restates [hidden] on the icon boxes it sets to display', () => {
+    expect(css).toMatch(/\.cck-select__dropdown-icon\[hidden\]\s*\{\s*display: none/);
+    expect(css).toMatch(/\.cck-select__option-indicator\[hidden\]\s*\{\s*display: none/);
+  });
+
+  it('gives the indicator of a highlighted option HighlightText in forced colors', () => {
+    const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
+    expect(forced).toMatch(
+      /\.cck-select__option\[data-highlighted\] \.cck-select__option-indicator\s*\{[^}]*color: HighlightText/,
+    );
+  });
+});

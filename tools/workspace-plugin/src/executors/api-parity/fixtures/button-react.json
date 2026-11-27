@@ -1,0 +1,47 @@
+{
+  "component": "button",
+  "framework": "react",
+  "parts": [
+    {
+      "name": "Button",
+      "semanticId": "button.root",
+      "anatomyPart": "root",
+      "props": [
+        {
+          "name": "render",
+          "semanticId": "none",
+          "type": "ReactElement | ((props: ButtonRenderProp",
+          "required": false,
+          "description": "Fixture text."
+        },
+        {
+          "name": "nativeButton",
+          "semanticId": "none",
+          "type": "boolean",
+          "default": "true",
+          "required": false,
+          "description": "Fixture text."
+        },
+        {
+          "name": "disabled",
+          "semanticId": "button.disabled",
+          "type": "boolean",
+          "default": "false",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "events": [],
+      "slots": [
+        {
+          "name": "default",
+          "semanticId": "button.default",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Fixture text."
+        }
+      ],
+      "methods": []
+    }
+  ]
+}

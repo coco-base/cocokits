@@ -1,0 +1,5 @@
+@use '_checkbox-group' as checkbox-group;
+
+@layer cocokits {
+  @include checkbox-group.rules;
+}

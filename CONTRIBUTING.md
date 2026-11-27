@@ -1,111 +1,71 @@
-# Contributing to coco-kit
+# Contributing to CocoKits
 
-We would love for you to contribute to Angular and help make it even better than it is today! As a contributor, here are the guidelines we would like you to follow:
+Thank you for helping. CocoKits is a set of unstyled components for Angular, React (including Next.js) and Vue. This guide covers how to set up the repository, what a good change looks like, how to get it merged and how to report an issue. [`AGENTS.md`](AGENTS.md) is the short version for people and coding agents.
 
-- [Commit Message Guidelines](#Commit-Message-Guidelines)
+## Set up
 
+You need Node in the range of `engines` in `package.json` (`.nvmrc` has the version used in CI) and pnpm, which Corepack installs at the `packageManager` version. Use pnpm only, never npm or yarn.
 
-## Commit Message Guidelines
+```bash
+corepack enable
+pnpm install
+```
 
-This specification is inspired by and supersedes the [Angular Commit Message](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
+`pnpm install` also installs the git hooks (husky): ESLint and Prettier run on the staged files before a commit, and commitlint checks the commit message.
 
-We have very precise rules over how our Git commit messages must be formatted. This format leads to easier to read commit history.
+## Find your way
 
-Each commit message consists of a header, a body, and a footer.
+| Folder | Holds |
+|---|---|
+| `packages/` | The published packages: `utils`, `shared`, `cdk`, `machines`, the framework packages `angular`, `react`, `vue` with their `core` adapters, and `themes/<name>` |
+| `tools/` | The workspace plugin (generator and extractor executors), shared ESLint configs and scripts |
+
+A layer imports only from layers to its left: `utils, shared ← cdk ← machines ← <fw>-core ← <fw> components ← themes`. Every project has Nx targets (`lint`, `typecheck`, `test`, `build`); run one with `pnpm nx run <project>:<target>`.
+
+## Make a change
+
+1. Open or pick an issue. For a new component or a public API change, describe the API and the reference library it follows in its framework before you write code. The maintainers agree on the API first.
+2. Search the repository for an existing solution before you add code, and keep the change as small as the requirement allows.
+3. Create packages and entry points with the generator, never by hand: `pnpm nx g @cocokits/workspace:library <name> ...` (`--help` lists the options).
+4. Write tests with the change and TSDoc on every public symbol.
+5. Run the checks (below) and open the pull request.
+
+## Run the checks
+
+```bash
+pnpm nx affected -t lint typecheck test build   # while you work
+pnpm nx format                                  # fix formatting
+pnpm ci:local --title "<PR title>"              # everything CI runs, before you open the pull request
+```
+
+`pnpm ci:local` runs format, lint, typecheck, test and build, then publint, Are the Types Wrong and size-limit, then commitlint. Pass `--base` with the branch your pull request targets. Do not silence a lint or boundary error; fix its cause, or ask when a rule seems wrong for your case.
+
+## Commit messages and pull requests
+
+Commit messages and pull request titles follow [Conventional Commits](https://www.conventionalcommits.org). commitlint enforces the format:
 
 ```
-<header>
-<BLANK LINE>
+<type>(<scope>): <summary>
+
 <body>
-<BLANK LINE>
-<footer>
 ```
 
-The `header` is mandatory and must conform to the [Commit Message Header](#Commit-Message-Header) format.
+- `type` is one of `feat`, `fix`, `docs`, `perf`, `refactor`, `test` or `chore`.
+- `scope` is the project the change is for, without the package prefix (`machines`, `angular/button`, `theme-cocokits`). It is required for every type except `chore`, which has none.
+- The summary is imperative, present tense, not capitalised, with no full stop. Every commit has a body (subject + body); body lines are at most 100 characters.
+- No `Co-Authored-By` trailer and no tool attribution line.
+- Mark a breaking change with a `BREAKING CHANGE:` footer that explains how to migrate.
 
-The `body` is mandatory for all commits except for those of type "docs".
-When the body is present it must be at least 20 characters long and must conform to the [Commit Message Body](#Commit-Message-Body) format.
+A pull request changes at most 50 files and does one thing; split larger work. The description says what changed and why, and lists the commands you ran with their results. Do not add changesets while 2.0.0 is unreleased; versions are set at the release.
 
-The `footer` is optional. The [Commit Message Footer](#Commit-Message-Footer) format describes what the footer is used for and the structure it must have.
+## Report an issue
 
+Open an issue on GitHub with the package and version, what you did, what you expected, what happened and a minimal reproduction. Search the open issues first.
 
-#### Commit Message Header
+## Security
 
-```
-<type>(<scope>): <short summary>
-  │       │             │
-  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
-  │       │
-  │       └─⫸ Commit Scope: animations|bazel|benchpress|common|compiler|compiler-cli|core|
-  │                          elements|forms|http|language-service|localize|platform-browser|
-  │                          platform-browser-dynamic|platform-server|router|service-worker|
-  │                          upgrade|zone.js|packaging|changelog|docs-infra|migrations|
-  │                          devtools
-  │
-  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
-```
+Report vulnerabilities as described in [SECURITY.md](SECURITY.md), not in a public issue.
 
-The `<type>` and `<summary>` fields are mandatory, the `(<scope>)` field is optional.
+## License
 
-##### Type
-
-Must be one of the following:
-
-* **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-* **ci**: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)
-* **docs**: Documentation only changes
-* **feat**: A new feature
-* **fix**: A bug fix
-* **perf**: A code change that improves performance
-* **refactor**: A code change that neither fixes a bug nor adds a feature
-* **test**: Adding missing tests or correcting existing tests
-
-
-##### Scope
-The scope should be the name of the npm package affected (as perceived by the person reading the changelog generated from commit messages).
-
-##### Summary
-
-Use the summary field to provide a succinct description of the change:
-
-* use the imperative, present tense: "change" not "changed" nor "changes"
-* don't capitalize the first letter
-* no dot (.) at the end
-
-
-#### Commit Message Body
-
-Just as in the summary, use the imperative, present tense: "fix" not "fixed" nor "fixes".
-
-Explain the motivation for the change in the commit message body. This commit message should explain _why_ you are making the change.
-You can include a comparison of the previous behavior with the new behavior in order to illustrate the impact of the change.
-
-
-#### Commit Message Footer
-
-The footer can contain information about breaking changes and deprecations and is also the place to reference GitHub issues, Jira tickets, and other PRs that this commit closes or is related to.
-For example:
-
-```
-BREAKING CHANGE: <breaking change summary>
-<BLANK LINE>
-<breaking change description + migration instructions>
-<BLANK LINE>
-<BLANK LINE>
-Fixes #<issue number>
-```
-
-or
-
-```
-DEPRECATED: <what is deprecated>
-<BLANK LINE>
-<deprecation description + recommended update path>
-<BLANK LINE>
-<BLANK LINE>
-Closes #<pr number>
-```
-
-Breaking Change section should start with the phrase "BREAKING CHANGE: " followed by a summary of the breaking change, a blank line, and a detailed description of the breaking change that also includes migration instructions.
-
-Similarly, a Deprecation section should start with "DEPRECATED: " followed by a short description of what is deprecated, a blank line, and a detailed description of the deprecation that also mentions the recommended update path.
+By contributing you agree that your contribution is licensed under the [Apache License 2.0](LICENSE).

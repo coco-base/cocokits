@@ -1,0 +1,75 @@
+// AvatarLabel rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The label owns the layout; its direct avatar sizes itself (the theme layer gives it the label's `size` when it has
+// none). `right` and `bottom` reverse the visual order only;
+// the DOM order stays the avatar first.
+@mixin rules {
+  .cck-avatar-label {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--cck-avatar-label-gap);
+    // Inside a host that centres its text (a Tabs trigger, a button) the lines still start at the avatar.
+    text-align: start;
+    // In a line of text (a Radio or Checkbox label) the label sits in the middle, so a photo and initials give the
+    // same line height.
+    vertical-align: middle;
+
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-avatar-position='right'] {
+      flex-direction: row-reverse;
+      text-align: end;
+    }
+
+    &[data-avatar-position='top'] {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    &[data-avatar-position='bottom'] {
+      flex-direction: column-reverse;
+      text-align: center;
+    }
+  }
+
+  .cck-avatar-label__text {
+    box-sizing: border-box;
+    display: flex;
+    // Vertical: the name above the description; the leading of the two lines is the only space between them.
+    flex-direction: column;
+    min-inline-size: 0;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-avatar-label[data-label-alignment='horizontal'] > .cck-avatar-label__text {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--cck-avatar-label-text-inline-gap);
+  }
+
+  .cck-avatar-label__name {
+    box-sizing: border-box;
+    color: var(--cck-avatar-label-name-color);
+    font-family: var(--cck-avatar-label-name-font-family);
+    font-size: var(--cck-avatar-label-name-font-size);
+    line-height: var(--cck-avatar-label-name-line-height);
+    letter-spacing: var(--cck-avatar-label-name-letter-spacing);
+    font-weight: var(--cck-avatar-label-name-font-weight);
+  }
+
+  .cck-avatar-label__description {
+    box-sizing: border-box;
+    color: var(--cck-avatar-label-description-color);
+    font-family: var(--cck-avatar-label-description-font-family);
+    font-size: var(--cck-avatar-label-description-font-size);
+    line-height: var(--cck-avatar-label-description-line-height);
+    letter-spacing: var(--cck-avatar-label-description-letter-spacing);
+    font-weight: var(--cck-avatar-label-description-font-weight);
+  }
+}

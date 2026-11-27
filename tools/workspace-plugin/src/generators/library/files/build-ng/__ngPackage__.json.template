@@ -1,0 +1,6 @@
+{
+  "$schema": "<%= offset %>node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "<%= offset %>dist/packages/<%= projectName %>",
+  "allowedNonPeerDependencies": ["^@cocokits/"],
+  "lib": { "entryFile": "src/index.ts" }
+}

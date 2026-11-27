@@ -1,0 +1,41 @@
+{
+  "$meta": { "globalPrefix": "cck" },
+  "collections": [
+    {
+      "name": "Tag / Size",
+      "tier": 3,
+      "prefix": "tag",
+      "defaultMode": "md",
+      "modes": ["sm", "md", "lg"],
+      "tokens": [
+        { "name": "height", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-20}", "md": "{Core / Size#size-24}", "lg": "{Core / Size#size-28}" } },
+        { "name": "padding-inline", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-3}", "md": "{Theme / Spacing#spacing-4}", "lg": "{Theme / Spacing#spacing-4}" } },
+        { "name": "gap", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Spacing#spacing-2}", "md": "{Theme / Spacing#spacing-2}", "lg": "{Theme / Spacing#spacing-3}" } },
+        { "name": "font-family", "type": "string", "valuesByMode": { "sm": "{Theme / Typography#text-xs/font-family}", "md": "{Theme / Typography#text-xs/font-family}", "lg": "{Theme / Typography#text-sm/font-family}" } },
+        { "name": "font-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Theme / Typography#text-xs/font-size}", "md": "{Theme / Typography#text-xs/font-size}", "lg": "{Theme / Typography#text-sm/font-size}" } },
+        { "name": "line-height", "type": "number", "unit": "unitless", "valuesByMode": { "sm": "{Theme / Typography#text-xs/line-height}", "md": "{Theme / Typography#text-xs/line-height}", "lg": "{Theme / Typography#text-sm/line-height}" } },
+        { "name": "letter-spacing", "type": "number", "unit": "em", "valuesByMode": { "sm": "{Theme / Typography#text-xs/letter-spacing}", "md": "{Theme / Typography#text-xs/letter-spacing}", "lg": "{Theme / Typography#text-sm/letter-spacing}" } },
+        { "name": "icon-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-12}", "md": "{Core / Size#size-14}", "lg": "{Core / Size#size-16}" } },
+        { "name": "dot-size", "type": "number", "unit": "px", "valuesByMode": { "sm": "{Core / Size#size-6}", "md": "{Core / Size#size-6}", "lg": "{Core / Size#size-8}" } }
+      ]
+    },
+    {
+      "name": "Tag / Structure",
+      "tier": 3,
+      "prefix": "tag",
+      "defaultMode": "Default",
+      "modes": ["Default"],
+      "tokens": [
+        { "name": "radius", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Radius#radius-md}" } },
+        { "name": "font-weight", "type": "number", "unit": "unitless", "valuesByMode": { "Default": "{Core / Typography#font-weight/medium}" } },
+        { "name": "border-width", "type": "number", "unit": "px", "valuesByMode": { "Default": "{Theme / Border Width#border-width-1}" } },
+        { "name": "soft-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#container}" } },
+        { "name": "soft-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } },
+        { "name": "solid-bg", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#color}" } },
+        { "name": "solid-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-color}" } },
+        { "name": "outline-border-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#edge}" } },
+        { "name": "outline-text-color", "type": "color", "valuesByMode": { "Default": "{Theme / Active Color#on-container}" } }
+      ]
+    }
+  ]
+}

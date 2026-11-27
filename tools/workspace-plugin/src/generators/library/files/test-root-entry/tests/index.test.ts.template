@@ -1,0 +1,8 @@
+import { describe, expect, it } from 'vitest';
+import * as entry from '../src/index';
+
+describe('<%= packageName %>', () => {
+  it('loads its root entry', () => {
+    expect(entry).toBeDefined();
+  });
+});

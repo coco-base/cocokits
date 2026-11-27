@@ -1,13 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../../dist/out-tsc",
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
+    "outDir": "dist",
     "types": [],
-    "moduleResolution": "bundler"
+    "paths": {}
   },
-  "exclude": ["src/**/*.spec.ts", "jest.config.ts", "src/**/*.test.ts", "**/*.stories.ts", "**/*.stories.js"],
-  "include": ["src/**/*.ts", "stories/**/*.component.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["dist", "node_modules", "**/tests/**", "**/*.test.ts", "**/*.test.tsx"],
+  "angularCompilerOptions": {
+    "compilationMode": "partial",
+    "strictInjectionParameters": true,
+    "strictTemplates": true
+  }
 }

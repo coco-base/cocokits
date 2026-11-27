@@ -1,0 +1,154 @@
+import { Component, afterNextRender, signal, viewChild } from '@angular/core';
+import { render, screen, waitFor } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+import { CckDir } from '@cocokits/angular-core';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { CckTooltip, CckTooltipImports } from '@cocokits/angular/tooltip';
+import { CckPopoverImports, type PopoverChangeDetails } from '../index';
+import { stubOverlayApis } from './overlay-stubs';
+
+const imports = [...CckPopoverImports, ...CckTooltipImports, CckDir];
+
+beforeEach(stubOverlayApis);
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+/** An open Tooltip on a button inside an open Popover, both written by the page. */
+@Component({
+  imports,
+  template: `
+    <button>after</button>
+    <button
+      [cckPopoverTriggerFor]="popover"
+      [(open)]="popoverOpen"
+      (opened)="log.push('popover:' + $event.reason)"
+      (closed)="log.push('popover:' + $event.reason)"
+    >
+      Share
+    </button>
+    <ng-template #popover>
+      <cck-popover-content aria-label="Share link">
+        <p>Anyone with the link can view.</p>
+        <button [cckTooltipTriggerFor]="richTip">Copy</button>
+        <ng-template #richTip><cck-tooltip-content>Copy the link</cck-tooltip-content></ng-template>
+      </cck-popover-content>
+    </ng-template>
+  `,
+})
+class Stack {
+  readonly popoverOpen = signal(true);
+  readonly tooltip = viewChild.required(CckTooltip);
+  readonly log: string[] = [];
+
+  constructor() {
+    afterNextRender(() => {
+      this.tooltip().show(0);
+    });
+  }
+}
+
+describe('Tooltip over a Popover', () => {
+  it('closes both on a press outside, the tooltip first', async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(Stack);
+    await screen.findByRole('tooltip');
+    await user.click(screen.getByRole('button', { name: 'after' }));
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).toBeNull();
+    });
+    expect(screen.queryByRole('tooltip')).toBeNull();
+    expect(fixture.componentInstance.log).toEqual(['popover:outside-press']);
+  });
+
+  it('closes only the tooltip on a press inside the popover', async () => {
+    const user = userEvent.setup();
+    const { fixture } = await render(Stack);
+    await screen.findByRole('tooltip');
+    await user.click(screen.getByText('Anyone with the link can view.'));
+    await waitFor(() => {
+      expect(screen.queryByRole('tooltip')).toBeNull();
+    });
+    expect(screen.getByRole('dialog', { name: 'Share link' }).isConnected).toBe(true);
+    expect(fixture.componentInstance.popoverOpen()).toBe(true);
+    expect(fixture.componentInstance.log).toEqual([]);
+  });
+});
+
+@Component({
+  imports,
+  template: `
+    <div cckDir [dir]="dir()">
+      <button [cckPopoverTriggerFor]="popover" [open]="true">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share link" side="start">
+          <button (click)="dir.set('rtl')">flip</button>
+        </cck-popover-content>
+      </ng-template>
+    </div>
+  `,
+})
+class Flip {
+  readonly dir = signal<'ltr' | 'rtl'>('ltr');
+  readonly details: (PopoverChangeDetails & { value: boolean })[] = [];
+}
+
+describe('Popover direction', () => {
+  it('follows a dir change on the page while open', async () => {
+    const user = userEvent.setup();
+    await render(Flip);
+    const content = await screen.findByRole('dialog', { name: 'Share link' });
+    const host = content.closest('[popover="manual"]');
+    expect(host?.getAttribute('dir')).toBe('ltr');
+    await user.click(screen.getByRole('button', { name: 'flip' }));
+    await waitFor(() => {
+      expect(host?.getAttribute('dir')).toBe('rtl');
+    });
+    expect(content.getAttribute('data-side')).toBe('start');
+  });
+});
+
+describe('Popover initial focus', () => {
+  it('prefers a later [autofocus] element over the first tabbable', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<button [cckPopoverTriggerFor]="popover">Share</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Share link"><button>first</button><button autofocus>second</button></cck-popover-content>
+      </ng-template>`,
+      { imports },
+    );
+    await user.click(screen.getByRole('button', { name: 'Share' }));
+    await waitFor(() => {
+      expect(document.activeElement).toBe(screen.getByRole('button', { name: 'second' }));
+    });
+  });
+});
+
+describe('A Popover trigger that removes itself as it opens', () => {
+  it('leaves no layer behind: Escape still closes the outer Popover', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<button [cckPopoverTriggerFor]="outer">Panel</button>
+      <ng-template #outer>
+        <cck-popover-content aria-label="Panel">
+          @if (shown()) {
+            <button [cckPopoverTriggerFor]="inner" (click)="shown.set(false)">More</button>
+          }
+          <ng-template #inner><cck-popover-content aria-label="More">Text</cck-popover-content></ng-template>
+        </cck-popover-content>
+      </ng-template>`,
+      { imports, componentProperties: { shown: signal(true) } },
+    );
+    await user.click(screen.getByRole('button', { name: 'Panel' }));
+    await screen.findByRole('dialog', { name: 'Panel' });
+    await user.click(screen.getByRole('button', { name: 'More' }));
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'More' })).toBeNull();
+    });
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: 'Panel' })).toBeNull();
+    });
+  });
+});

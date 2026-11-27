@@ -1,0 +1,219 @@
+import {
+  Directive,
+  ElementRef,
+  afterNextRender,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+  model,
+  output,
+  untracked,
+  type Signal,
+} from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
+import { themeAttrs } from '@cocokits/angular-core';
+import { CCK_CONTROL_GROUP, CCK_FIELD_ZONE } from '@cocokits/angular/form-control';
+import { CckFormField } from '@cocokits/angular/form-field';
+import {
+  CHECKBOX_GROUP_NAME_WARNING,
+  checkboxGroupAnatomy,
+  getCheckboxGroupProps,
+  toggleCheckboxGroupValue,
+  type CheckboxGroupChangeReason as MachineChangeReason,
+  type CheckboxGroupOrientation as MachineOrientation,
+  type CheckboxGroupParts,
+} from '@cocokits/machines/checkbox-group';
+import type { FormFieldControlContext } from '@cocokits/machines/form-field';
+import type { ValueChangeDetails } from '@cocokits/shared';
+
+/** Why the value of a Checkbox group changed. */
+export type CheckboxGroupChangeReason = MachineChangeReason;
+
+/** How the theme lays the checkboxes of a group out. */
+export type CheckboxGroupOrientation = MachineOrientation;
+
+/** What `valueChangeDetails` sends: the new `value`, the `reason` and the `event`. */
+export type CheckboxGroupChangeDetails = ValueChangeDetails<readonly string[], CheckboxGroupChangeReason>;
+
+/**
+ * A group of checkboxes with one list of checked values. You write `cck-checkbox` elements inside it, each with a
+ * `submitValue`. The group has `role="group"`.
+ *
+ * A checkbox inside the group is checked while its `submitValue` is in the `value` of the group. It takes the `name` and `disabled` of the group. The group works alone and inside a `cck-form-field`.
+ *
+ * @remarks Name the group. Inside a form field with a label, the label names it. Alone, write `aria-label` or `aria-labelledby` on it as plain attributes. In development the group warns while nothing names it.
+ *
+ * The value is a model. Use `[(value)]` to read and change it. The group works with Signal Forms. The checkboxes are native inputs, so `FormData`, `form` and form reset work. A form reset sets the value back to the value at the first render.
+ *
+ * @example
+ * <cck-checkbox-group aria-label="Toppings" [(value)]="toppings">
+ *   <cck-checkbox submitValue="ham">Ham</cck-checkbox>
+ *   <cck-checkbox submitValue="olives">Olives</cck-checkbox>
+ * </cck-checkbox-group>
+ * @cckPart root
+ * @cckSlot default - The `cck-checkbox` elements. When not set, the group is empty.
+ */
+@Directive({
+  selector: 'cck-checkbox-group',
+  exportAs: 'cckCheckboxGroup',
+  providers: [{ provide: CCK_CONTROL_GROUP, useValue: true }],
+  host: {
+    ngNoCva: '',
+    '(focusout)': 'onFocusOut($event)',
+    '[class]': '_parts().root.class',
+    '[attr.role]': '_parts().root.role',
+    '[attr.id]': '_parts().root.id ?? null',
+    '[attr.aria-label]': '_parts().root["aria-label"] ?? null',
+    '[attr.aria-labelledby]': '_parts().root["aria-labelledby"] ?? null',
+    '[attr.aria-describedby]': '_parts().root["aria-describedby"] ?? null',
+    '[attr.data-disabled]': '_parts().root["data-disabled"] ?? null',
+    '[attr.data-orientation]': '_parts().root["data-orientation"]',
+    '[attr.name]': 'null',
+    '[attr.disabled]': 'null',
+    '[attr.orientation]': 'null',
+    '[attr.value]': 'null',
+  },
+})
+export class CckCheckboxGroup implements FormValueControl<readonly string[]> {
+  /**
+   * The `submitValue` of every checked checkbox, in the order they were checked.
+   * @remarks A value that matches no checkbox is kept. Changing the value from code never emits `valueChangeDetails`.
+   * @cckSemantic checkbox-group.value
+   * @defaultValue []
+   */
+  readonly value = model<readonly string[]>([]);
+
+  /**
+   * Emits after the user checks or unchecks a checkbox, and after a form reset that changes the value. It sends the new `value`, the `reason` and the `event`.
+   * @remarks It never emits when the parent or a forms library changes the value.
+   * @example
+   * <cck-checkbox-group aria-label="Toppings" (valueChangeDetails)="onChange($event)">
+   *   <cck-checkbox submitValue="ham">Ham</cck-checkbox>
+   * </cck-checkbox-group>
+   * <!-- In the class: onChange(details: CheckboxGroupChangeDetails) { console.log(details.value, details.reason); } -->
+   * @cckSemantic checkbox-group.valueChange
+   */
+  readonly valueChangeDetails = output<CheckboxGroupChangeDetails>();
+
+  /**
+   * Whether the user cannot use any checkbox of the group. A form field that is disabled disables the group too.
+   * @cckSemantic checkbox-group.disabled
+   * @defaultValue false
+   */
+  readonly disabled = input(false, { transform: booleanAttribute });
+
+  /**
+   * The `name` that every checkbox of the group shares. `FormData` sends it with each checked value. When not set, the checkboxes have no shared name.
+   * @cckSemantic checkbox-group.name
+   * @defaultValue ''
+   */
+  readonly name = input('');
+
+  /**
+   * How the theme lays the checkboxes out. It sets no arrow-key navigation.
+   *
+   * @remarks
+   * The group renders it as `data-orientation`.
+   *
+   * @cckSemantic checkbox-group.orientation
+   * @defaultValue 'vertical'
+   */
+  readonly orientation = input<CheckboxGroupOrientation>('vertical');
+
+  /**
+   * Emits when the focus leaves the group. Signal Forms listens to it to mark the field as touched.
+   * @remarks It does not emit when the focus moves between the checkboxes.
+   * @cckGroup forms
+   * @cckSemantic none
+   * @cckParity Signal Forms bind this output.
+   */
+  readonly touch = output();
+
+  /** The theme attributes of every part; the root's are applied to the host. @internal */
+  readonly _theme = themeAttrs(checkboxGroupAnatomy);
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly field = inject(CckFormField, { optional: true });
+  private readonly control = inject(CCK_FIELD_ZONE, { optional: true }) ? undefined : this.field?._register(() => null);
+  /** The attributes the author wrote on the element; they name and describe the group. */
+  private readonly written = {
+    id: this.host.getAttribute('id') ?? undefined,
+    ariaLabel: this.host.getAttribute('aria-label') ?? undefined,
+    ariaLabelledBy: this.host.getAttribute('aria-labelledby') ?? undefined,
+    ariaDescribedBy: this.host.getAttribute('aria-describedby') ?? undefined,
+  };
+  private readonly fieldContext = computed<FormFieldControlContext | undefined>(() => {
+    const field = this.field;
+    return field
+      ? {
+          ids: this.control?.primary ? field._ids() : undefined,
+          state: field._fieldInput(),
+          hasLabel: field._hasLabel(),
+        }
+      : undefined;
+  });
+  private mountValue: readonly string[] = [];
+  private lastReset: Event | undefined;
+
+  /** The root props, what the group gives each checkbox, and the report for the field. @internal */
+  readonly _parts: Signal<CheckboxGroupParts> = computed(() =>
+    getCheckboxGroupProps(
+      {
+        id: this.written.id,
+        name: this.name() || undefined,
+        disabled: this.disabled(),
+        value: this.value(),
+        orientation: this.orientation(),
+        ariaLabel: this.written.ariaLabel,
+        ariaLabelledBy: this.written.ariaLabelledBy,
+        ariaDescribedBy: this.written.ariaDescribedBy,
+      },
+      this.fieldContext(),
+    ),
+  );
+
+  constructor() {
+    this.control?.report(computed(() => this._parts().control));
+    afterNextRender(() => {
+      this.mountValue = untracked(this.value);
+      if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
+      if (!untracked(this._parts).named) console.warn(CHECKBOX_GROUP_NAME_WARNING);
+    });
+  }
+
+  /**
+   * A checkbox was checked or unchecked by the user: updates the value and emits once.
+   *
+   * @param item - The `submitValue` of the checkbox.
+   * @param checked - Whether the checkbox is now checked.
+   * @param event - The native `change` event.
+   * @internal
+   */
+  _userChanged(item: string, checked: boolean, event: Event): void {
+    const next = toggleCheckboxGroupValue(this.value(), item, checked);
+    if (next === this.value()) return;
+    this.value.set(next);
+    this.valueChangeDetails.emit({ value: next, reason: 'user', event });
+  }
+
+  /**
+   * The owner form was reset: restores the value the group had at mount and emits once when it changes. Every
+   * checkbox reports the same reset, so the event is remembered.
+   *
+   * @param event - The `reset` event.
+   * @internal
+   */
+  _formReset(event: Event): void {
+    if (this.lastReset === event) return;
+    this.lastReset = event;
+    if (this.value() === this.mountValue) return;
+    this.value.set(this.mountValue);
+    this.valueChangeDetails.emit({ value: this.mountValue, reason: 'form-reset', event });
+  }
+
+  protected onFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget;
+    if (!(next instanceof Node && this.host.contains(next))) this.touch.emit();
+  }
+}

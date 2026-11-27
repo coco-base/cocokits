@@ -1,8 +1,7 @@
 {
-  "singleQuote": true,
+  "endOfLine": "lf",
   "printWidth": 120,
-  "trailingComma": "es5",
-  "tabWidth": 2,
-  "bracketSameLine": true,
-  "endOfLine": "crlf"
+  "singleQuote": true,
+  "trailingComma": "all",
+  "overrides": [{ "files": "*.tokens.json", "options": { "printWidth": 400 } }]
 }

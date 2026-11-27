@@ -1,0 +1,66 @@
+import { DestroyRef, Directive, ElementRef, afterNextRender, computed, inject, input, signal } from '@angular/core';
+import { bindAttrs } from '@cocokits/angular-core';
+import type { OverlayAlign, OverlaySide } from '@cocokits/cdk/positioning';
+import { injectCckTooltip } from './tooltip';
+
+/**
+ * The rich content of the tooltip. It has the `tooltip` role and never takes the focus. It shows in the overlay container, not next to the trigger.
+ *
+ * The content opens on the preferred side, and moves to the other side when there is no room. It stays open while the pointer is over it. Do not put interactive content in it.
+ *
+ * @example
+ * <button type="button" [cckTooltipTriggerFor]="copy">Copy</button>
+ * <ng-template #copy>
+ *   <cck-tooltip-content side="bottom"><b>Copy</b> the link</cck-tooltip-content>
+ * </ng-template>
+ * @cckPart content
+ * @cckTemplate input trigger cckTooltipTriggerFor
+ * @cckSlot default - The content of the tooltip. When not set, the tooltip is empty.
+ */
+@Directive({
+  selector: 'cck-tooltip-content',
+  exportAs: 'cckTooltipContent',
+  host: {
+    '[class]': 'props().class',
+    '[id]': 'props().id',
+    '[attr.role]': 'props().role',
+    '[attr.aria-hidden]': 'props()["aria-hidden"]',
+    '[attr.data-state]': 'props()["data-state"]',
+    '[attr.data-side]': 'props()["data-side"]',
+    '[attr.data-align]': 'props()["data-align"]',
+    '(pointerenter)': 'props().onPointerEnter($event)',
+    '(pointerleave)': 'props().onPointerLeave($event)',
+    '[attr.side]': 'null',
+    '[attr.align]': 'null',
+  },
+})
+export class CckTooltipContent {
+  /**
+   * The side of the trigger where the content prefers to open. `start` and `end` follow the text direction. The content opens on the other side when there is no room.
+   * @defaultValue 'top'
+   */
+  readonly side = input<OverlaySide>('top');
+
+  /**
+   * How the content lines up with the edge of the trigger.
+   * @defaultValue 'center'
+   */
+  readonly align = input<OverlayAlign>('center');
+
+  private readonly root = injectCckTooltip('Content');
+  protected readonly props = computed(() => this.root._parts().content);
+
+  constructor() {
+    const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    const ready = signal(false);
+    const registration = { element, side: this.side, align: this.align, ready };
+    this.root._content.set(registration);
+    afterNextRender(() => {
+      ready.set(true);
+    });
+    inject(DestroyRef).onDestroy(() => {
+      this.root._content.update((current) => (current === registration ? null : current));
+    });
+    bindAttrs(element, () => this.root._theme().content);
+  }
+}

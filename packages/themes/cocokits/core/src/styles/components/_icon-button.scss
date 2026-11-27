@@ -1,0 +1,100 @@
+@use '../state';
+
+// IconButton rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-icon-button-* tokens. The box is a square; its `font-size` is the icon size, which a
+// SvgIcon without `size` (1em) inherits, so no rule reaches into the icon. The variants and their states are the
+// Button's: a fill and an ink, and the ink mixed into the fill on hover and press.
+@mixin rules {
+  .cck-icon-button {
+    --_fill: transparent;
+    --_ink: var(--cck-icon-button-icon-color);
+
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--cck-icon-button-size);
+    block-size: var(--cck-icon-button-size);
+    padding: 0;
+    border: var(--cck-icon-button-border-width) solid transparent;
+    border-radius: var(--cck-icon-button-radius);
+    background-color: var(--_fill);
+    color: var(--_ink);
+    font-size: var(--cck-icon-button-icon-size);
+    text-decoration: none;
+    cursor: pointer;
+
+    @include state.transition(background-color, border-color, color, box-shadow);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-rounded] {
+      border-radius: var(--cck-icon-button-radius-rounded);
+    }
+
+    &[data-variant='primary'] {
+      --_fill: var(--cck-icon-button-solid-bg);
+      --_ink: var(--cck-icon-button-solid-icon-color);
+
+      box-shadow: var(--cck-icon-button-shadow);
+    }
+
+    &[data-variant='soft'] {
+      --_fill: var(--cck-icon-button-soft-bg);
+    }
+
+    &[data-variant='outline'] {
+      --_fill: var(--cck-icon-button-outline-bg);
+
+      border-color: var(--cck-icon-button-border-color);
+      box-shadow: var(--cck-icon-button-shadow);
+    }
+
+    // After the variant rules. Disabled is excluded, so it keeps its resting fill. The trigger of an open Menu,
+    // Popover or Dialog (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill.
+    // A Tooltip opens nothing the button controls, so its open state alone keeps the resting look, also on a
+    // Menu trigger that has a Tooltip too.
+    &:hover:not([data-disabled], :disabled),
+    &[data-state='open']:is(#{state.$overlay-triggers}):not([data-variant='primary'], [data-disabled], :disabled) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-hover-mix));
+    }
+
+    &:active:not([data-disabled], :disabled) {
+      background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-active-mix));
+    }
+
+    // `:disabled` covers `<fieldset disabled>`. The button keeps its look and fades.
+    &[data-disabled],
+    &:disabled {
+      opacity: var(--cck-icon-button-disabled-opacity);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: var(--cck-icon-button-focus-width) solid var(--cck-icon-button-focus-color);
+      outline-offset: var(--cck-icon-button-focus-offset);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-icon-button[data-variant] {
+      border-color: ButtonText;
+
+      &[data-disabled],
+      &:disabled {
+        border-color: GrayText;
+        color: GrayText;
+        opacity: 1;
+      }
+
+      &:focus-visible {
+        outline-color: Highlight;
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+/** The props that the Thing takes from its base. */
+interface ThingBase {
+  /** The first text. Use @click to listen. */
+  readonly baseCut?: string;
+  /** The second text. */
+  readonly overrideCut?: string;
+  /**
+   * The third text.
+   * @example
+   * <Thing />
+   */
+  readonly keepsExample?: string;
+}
+
+/**
+ * Props of the Thing. Use @click to listen.
+ *
+ * @example
+ * <Thing @click="save">Save</Thing>
+ *
+ * @cckPart root
+ */
+export interface ThingProps extends ThingBase {
+  /**
+   * The side the thing opens on. Use @click to listen.
+   *
+   * @example
+   * <Thing @click="save">Save</Thing>
+   */
+  readonly side?: string;
+  /**
+   * @example
+   * <Thing />
+   */
+  readonly baseCut?: string;
+  /**
+   * @example
+   * <Thing @click="save" />
+   */
+  readonly overrideCut?: string;
+  /** Use @click to listen. */
+  readonly keepsExample?: string;
+}
+
+/** The events that the Thing takes from its base. */
+interface ThingEmitsBase {
+  /** The base event. Use @click to listen. */
+  baseEvent: [value: string];
+  /** The redeclared event. Use @click to listen. */
+  redeclaredEvent: [value: string];
+}
+
+/** Emits of the Thing. */
+export interface ThingEmits extends ThingEmitsBase {
+  /**
+   * Emitted with the new value. Use @click to listen.
+   *
+   * @example
+   * <Thing @click="save">Save</Thing>
+   */
+  'update:modelValue': [value: string];
+  redeclaredEvent: [value: string];
+}

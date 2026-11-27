@@ -1,0 +1,5 @@
+@use '_hint' as hint;
+
+@layer cocokits {
+  @include hint.rules;
+}

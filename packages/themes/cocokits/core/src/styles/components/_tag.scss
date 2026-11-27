@@ -1,0 +1,70 @@
+// Tag rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// Reads only its own --cck-tag-* tokens. A static label: each variant sets a fill, a border and a text colour from the
+// colour family of its `color` option; it has no hover, focus or pressed look and no pointer cursor.
+@mixin rules {
+  .cck-tag {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cck-tag-gap);
+    block-size: var(--cck-tag-height);
+    padding-inline: var(--cck-tag-padding-inline);
+    padding-block: 0;
+    border: var(--cck-tag-border-width) solid transparent;
+    border-radius: var(--cck-tag-radius);
+    font-family: var(--cck-tag-font-family);
+    font-size: var(--cck-tag-font-size);
+    line-height: var(--cck-tag-line-height);
+    letter-spacing: var(--cck-tag-letter-spacing);
+    font-weight: var(--cck-tag-font-weight);
+    white-space: nowrap;
+    vertical-align: middle;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-variant='soft'] {
+      background-color: var(--cck-tag-soft-bg);
+      color: var(--cck-tag-soft-text-color);
+    }
+
+    &[data-variant='solid'] {
+      background-color: var(--cck-tag-solid-bg);
+      color: var(--cck-tag-solid-text-color);
+    }
+
+    &[data-variant='outline'] {
+      border-color: var(--cck-tag-outline-border-color);
+      color: var(--cck-tag-outline-text-color);
+    }
+
+    // The dot is drawn by the theme, so the base renders no extra element; it takes the text colour.
+    &[data-dot]::before {
+      content: '';
+      box-sizing: border-box;
+      flex-shrink: 0;
+      inline-size: var(--cck-tag-dot-size);
+      block-size: var(--cck-tag-dot-size);
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+
+    // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+    > .cck-svg-icon:not([data-size]) {
+      font-size: var(--cck-tag-icon-size);
+    }
+  }
+
+  // Forced colors remove the fills, so a border keeps the label shape and a system colour keeps the dot.
+  @media (forced-colors: active) {
+    .cck-tag {
+      border-color: CanvasText;
+
+      &[data-dot]::before {
+        background-color: CanvasText;
+      }
+    }
+  }
+}

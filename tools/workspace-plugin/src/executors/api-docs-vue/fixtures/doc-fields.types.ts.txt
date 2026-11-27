@@ -1,0 +1,49 @@
+/**
+ * How large the thing is.
+ * @cckValue small - A small thing.
+ * @cckValue large - A large thing.
+ */
+export type ThingSize = 'small' | 'large';
+
+/** What a change of the thing sends. */
+export interface ThingChange {
+  /** The new value. */
+  readonly value: string;
+}
+
+/**
+ * Props of the Thing.
+ *
+ * Put it where the thing shows.
+ * @cckPart root
+ * @example
+ * <Thing v-model="value" size="small" />
+ */
+export interface ThingProps {
+  /**
+   * The tag to render.
+   * @cckShared
+   * @defaultValue 'button'
+   */
+  readonly as?: string;
+  /**
+   * The side the thing opens on.
+   * @cckValue start - Before the trigger.
+   * @cckValue end - After the trigger.
+   * @cckGroup forms
+   */
+  readonly side?: 'start' | 'end';
+  /** The value, for `v-model`. */
+  readonly modelValue?: string;
+  /**
+   * The modifiers of `v-model`.
+   * @internal
+   */
+  readonly modelModifiers?: Record<string, boolean>;
+}
+
+/** Emits of the Thing. */
+export type ThingEmits = {
+  /** Emitted with the new value for `v-model`. */
+  'update:modelValue': [value: string];
+};

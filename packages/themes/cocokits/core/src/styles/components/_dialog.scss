@@ -1,0 +1,262 @@
+@use '../state';
+
+// Dialog rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The content is a native modal `dialog` in the top layer: the user agent centres it (`margin: auto`, `inset: 0`) and
+// the theme only sizes it, so it sets no `position`, `inset` or `transform`. The page behind is the `::backdrop`, which
+// inherits the tokens of the content. The content takes `display: flex` only while `[open]`, so a closed dialog stays
+// hidden by the user agent. Motion keys off `data-state` and runs only with `prefers-reduced-motion: no-preference`;
+// the end state is right without it. A plain Close part (not a Button or an IconButton) is a small quiet icon button;
+// the trigger is the author's (usually a Button).
+@mixin rules {
+  .cck-dialog__content {
+    box-sizing: border-box;
+    inline-size: calc(100% - 2 * var(--cck-dialog-viewport-margin));
+    max-inline-size: var(--cck-dialog-max-inline-size);
+    max-block-size: calc(100% - 2 * var(--cck-dialog-viewport-margin));
+    overflow: auto;
+    padding: var(--cck-dialog-padding);
+    border: var(--cck-dialog-border-width) solid var(--cck-dialog-border-color);
+    border-radius: var(--cck-dialog-radius);
+    background-color: var(--cck-dialog-bg);
+    box-shadow: var(--cck-dialog-shadow);
+    color: var(--cck-dialog-text-color);
+    font-family: var(--cck-dialog-font-family);
+    font-size: var(--cck-dialog-font-size);
+    line-height: var(--cck-dialog-line-height);
+    letter-spacing: var(--cck-dialog-letter-spacing);
+
+    &[open] {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--cck-dialog-gap);
+    }
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // Focus lands on the content when it holds nothing focusable.
+    &:focus-visible {
+      outline: var(--cck-dialog-focus-width) solid var(--cck-dialog-focus-color);
+      outline-offset: calc(-1 * var(--cck-dialog-focus-width));
+    }
+
+    &::backdrop {
+      background-color: var(--cck-dialog-backdrop-bg);
+    }
+  }
+
+  // A dialog opened non-modal (`modal` off) is not in the top layer and the user agent does not centre it, so the
+  // theme does: fixed, `inset: 0` with auto margins, the size rules above. No backdrop.
+  .cck-dialog__content[open]:not(:modal) {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    block-size: fit-content;
+  }
+
+  // The three sections fill the content's width. The header is a row with the title and the Close part at its end
+  // (at the top when the title wraps), the body takes the free height, the footer is a row of actions at the end.
+  // The gap of the content alone separates them.
+  .cck-dialog__header,
+  .cck-dialog__body,
+  .cck-dialog__footer {
+    box-sizing: border-box;
+    align-self: stretch;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-dialog__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--cck-dialog-header-gap);
+  }
+
+  // The body scrolls when the content reaches its maximum height, so the header and the footer stay in view. Its
+  // scroll box reaches into the padding of the content by the room of a focus ring, and the padding gives the room
+  // back, so the text keeps its place and the box does not cut the ring of a control at its edge.
+  .cck-dialog__body {
+    --_room: calc(var(--cck-dialog-focus-width) + var(--cck-dialog-focus-offset));
+
+    display: block;
+    flex: 1 1 auto;
+    min-block-size: 0;
+    overflow: auto;
+    margin: calc(-1 * var(--_room));
+    padding: var(--_room);
+  }
+
+  // A wrapper of the author (a form around the body and the footer) stretches as the sections do and is a column that
+  // can shrink, so the body in it scrolls too. It has no gap: the footer in it keeps its own space (below).
+  .cck-dialog__content > :has(> .cck-dialog__body, > .cck-dialog__footer) {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    flex: 1 1 auto;
+    min-block-size: 0;
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .cck-dialog__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--cck-dialog-footer-gap);
+  }
+
+  // A footer inside a wrapper of the author (a form around the body and the footer) is outside the gap of the
+  // content, so it keeps the same space above itself.
+  .cck-dialog__footer:not(.cck-dialog__content > *) {
+    padding-block-start: var(--cck-dialog-gap);
+  }
+
+  .cck-dialog__title {
+    box-sizing: border-box;
+    margin: 0;
+    color: var(--cck-dialog-title-color);
+    font-family: var(--cck-dialog-title-font-family);
+    font-size: var(--cck-dialog-title-font-size);
+    font-weight: var(--cck-dialog-title-font-weight);
+    line-height: var(--cck-dialog-title-line-height);
+    letter-spacing: var(--cck-dialog-title-letter-spacing);
+  }
+
+  .cck-dialog__description {
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    color: var(--cck-dialog-description-color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Content after a description inside a section (a field, a control in the body) keeps off it. Padding, because a
+  // part takes no margin. A description that is a child of the content has the gap of the content after it.
+  .cck-dialog__description:not(.cck-dialog__content > *):not(:last-child) {
+    padding-block-end: var(--cck-dialog-description-gap);
+  }
+
+  .cck-dialog__close:not(.cck-button, .cck-icon-button):focus-visible {
+    outline: var(--cck-dialog-focus-width) solid var(--cck-dialog-focus-color);
+    outline-offset: var(--cck-dialog-focus-offset);
+  }
+
+  // Muted at rest; hover gives it the highlight fill and the main text colour, a press the stronger fill. A text
+  // label in it is a medium control label.
+  .cck-dialog__close:not(.cck-button, .cck-icon-button) {
+    box-sizing: border-box;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--cck-dialog-close-size);
+    min-inline-size: var(--cck-dialog-close-size);
+    padding: 0 var(--cck-dialog-close-padding-inline);
+    border: 0;
+    border-radius: var(--cck-dialog-close-radius);
+    background-color: transparent;
+    color: var(--cck-dialog-close-color);
+    cursor: pointer;
+    font: inherit;
+    font-weight: var(--cck-dialog-close-font-weight);
+
+    @include state.transition(background-color, color);
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    // A Close with no element child holds only a text label and takes the inline padding of a small button, so its
+    // hover box and its focus ring keep off the text. A Close with an element child (an icon of any kind: SvgIcon,
+    // `svg`, `img`, an icon font) keeps the icon padding and stays square; so does a label wrapped in an element.
+    &:not(:has(> *)) {
+      padding-inline: var(--cck-dialog-close-label-padding-inline);
+    }
+
+    &:hover {
+      background-color: var(--cck-dialog-close-hover-bg);
+      color: var(--cck-dialog-close-hover-color);
+    }
+
+    &:active {
+      background-color: var(--cck-dialog-close-active-bg);
+      color: var(--cck-dialog-close-hover-color);
+    }
+
+    // A direct SvgIcon child without its own `size` takes the icon size; an icon of another kind keeps its own.
+    > .cck-svg-icon:not([data-size]) {
+      font-size: var(--cck-dialog-close-icon-size);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cck-dialog__content[data-state='open'] {
+      animation: cck-dialog-in var(--cck-dialog-motion-duration) ease-out;
+
+      &::backdrop {
+        animation: cck-dialog-backdrop-in var(--cck-dialog-motion-duration) ease-out;
+      }
+    }
+
+    .cck-dialog__content[data-state='closed'] {
+      animation: cck-dialog-out var(--cck-dialog-motion-duration) ease-in forwards;
+
+      &::backdrop {
+        animation: cck-dialog-backdrop-out var(--cck-dialog-motion-duration) ease-in forwards;
+      }
+    }
+  }
+
+  @media (forced-colors: active) {
+    .cck-dialog__content {
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .cck-dialog__content:focus-visible,
+    .cck-dialog__close:not(.cck-button, .cck-icon-button):focus-visible {
+      outline-color: Highlight;
+    }
+  }
+
+  @keyframes cck-dialog-in {
+    from {
+      opacity: 0;
+      translate: 0 var(--cck-dialog-motion-distance);
+    }
+  }
+
+  @keyframes cck-dialog-out {
+    to {
+      opacity: 0;
+      translate: 0 var(--cck-dialog-motion-distance);
+    }
+  }
+
+  @keyframes cck-dialog-backdrop-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes cck-dialog-backdrop-out {
+    to {
+      opacity: 0;
+    }
+  }
+}

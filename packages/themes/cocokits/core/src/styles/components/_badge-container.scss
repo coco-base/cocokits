@@ -1,0 +1,82 @@
+// BadgeContainer rules. Wrapped in `@layer cocokits` by the entries that include this mixin.
+// The container owns the position: it places its direct child `.cck-badge` on a corner (the anatomy
+// the selectors rely on). --cck-badge-container-radius, --cck-badge-offset-x and --cck-badge-offset-y
+// are documented custom properties: the author sets them and no token defines them. The offset has a
+// 0px fallback and adds to the corner; the inline offset is mirrored in RTL like the corner.
+//
+// The badge centre sits on the arc of the host's corner: 0.2929 (1 - cos 45deg) of the corner radius
+// inward from the corner of the box. The radius is the author's --cck-badge-container-radius, or the
+// --cck-badge-container-host-radius token (the radius of a control, which follows the radius mode).
+// A host whose direct child is a circle avatar (any `.cck-avatar` but `[data-shape='square']`) is
+// round, so the rules set the host radius to 50% there; a square avatar keeps the token, which is
+// the radius of a square avatar. The author's property still wins over both.
+// The radius is clamped to 50%, as a border radius is: half of the host's block size in the block
+// insets and half of its inline size in the inline insets. That is exact for a square or round host;
+// on a pill host that is wider than tall the inline inset is larger than the corner needs.
+$radius: var(--cck-badge-container-radius, var(--cck-badge-container-host-radius));
+$radius-inset: calc(0.2929 * min(#{$radius}, 50%));
+$offset-x: var(--cck-badge-offset-x, 0px);
+$offset-y: var(--cck-badge-offset-y, 0px);
+
+@mixin rules {
+  .cck-badge-container {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:has(> .cck-avatar:not([data-shape='square'])) {
+      --cck-badge-container-host-radius: 50%;
+    }
+
+    // An author rule beats the user-agent [hidden] rule, so the theme restates it.
+    &[hidden] {
+      display: none;
+    }
+
+    &[data-position] > .cck-badge {
+      position: absolute;
+    }
+
+    &[data-position='top-left'] > .cck-badge {
+      inset-block-start: $radius-inset;
+      inset-inline-start: $radius-inset;
+      translate: calc(-50% + #{$offset-x}) calc(-50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(50% - #{$offset-x}) calc(-50% + #{$offset-y});
+      }
+    }
+
+    &[data-position='top-right'] > .cck-badge {
+      inset-block-start: $radius-inset;
+      inset-inline-end: $radius-inset;
+      translate: calc(50% + #{$offset-x}) calc(-50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(-50% - #{$offset-x}) calc(-50% + #{$offset-y});
+      }
+    }
+
+    &[data-position='bottom-left'] > .cck-badge {
+      inset-block-end: $radius-inset;
+      inset-inline-start: $radius-inset;
+      translate: calc(-50% + #{$offset-x}) calc(50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(50% - #{$offset-x}) calc(50% + #{$offset-y});
+      }
+    }
+
+    &[data-position='bottom-right'] > .cck-badge {
+      inset-block-end: $radius-inset;
+      inset-inline-end: $radius-inset;
+      translate: calc(50% + #{$offset-x}) calc(50% + #{$offset-y});
+
+      &:dir(rtl) {
+        translate: calc(-50% - #{$offset-x}) calc(50% + #{$offset-y});
+      }
+    }
+  }
+}

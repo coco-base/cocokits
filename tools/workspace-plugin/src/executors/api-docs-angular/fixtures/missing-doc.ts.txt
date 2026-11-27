@@ -1,0 +1,17 @@
+import { Directive, input } from '@angular/core';
+
+@Directive()
+abstract class Base {
+  readonly undocumented = input('x');
+  /** Documented. */
+  readonly documented = input('y');
+}
+
+/**
+ * The thing.
+ * @cckPart root
+ */
+@Directive({ selector: 'div[thing]' })
+export class Thing extends Base {
+  readonly own = input('z');
+}
