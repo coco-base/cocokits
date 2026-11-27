@@ -91,6 +91,7 @@ export class DialogModal {
     scheduleFocus(pending.doc, () => {
       this.returnScheduled = false;
       if (!this.options.isOpen()) pending.focusReturn.restore();
+      pending.focusReturn.destroy();
       this.options.returned();
     });
   }

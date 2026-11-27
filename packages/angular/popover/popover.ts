@@ -338,8 +338,9 @@ export class CckPopover {
       if (!untracked(this.open)) {
         scheduleFocus(trigger.ownerDocument, () => {
           if (!this.open() && this.restoreFocus()) focusReturn.restore();
+          focusReturn.destroy();
         });
-      }
+      } else focusReturn.destroy();
     };
   }
 

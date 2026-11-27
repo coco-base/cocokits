@@ -185,8 +185,9 @@ function PopoverContentLayer({
       // After the click that closed it has moved focus, so a press on another control keeps it there.
       scheduleFocus(doc, () => {
         // Not when it opened again meanwhile (StrictMode runs this cleanup on a mounted popover).
-        if (openNow.current) return;
-        if (allowsAutoFocus('focus-close', handlers.current.onCloseAutoFocus)) focusReturn.restore();
+        if (!openNow.current && allowsAutoFocus('focus-close', handlers.current.onCloseAutoFocus))
+          focusReturn.restore();
+        focusReturn.destroy();
       });
     };
   }, [open, trigger, dispatch, parentLayer, contentRef, modal]);

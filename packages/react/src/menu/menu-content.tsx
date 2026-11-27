@@ -144,8 +144,8 @@ function MenuContentLayer({
       // After the click that closed it has moved focus, so a press on another control keeps it there.
       scheduleFocus(doc, () => {
         // Not when it opened again meanwhile (StrictMode runs this cleanup on a mounted menu).
-        if (openNow.current) return;
-        focusReturn?.restore();
+        if (!openNow.current) focusReturn?.restore();
+        focusReturn?.destroy();
       });
     };
   }, [open, trigger, sub, dispatch, parentLayer, contentRef, typeahead, getEntries, getItem, takeInitialFocus]);

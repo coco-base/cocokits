@@ -395,9 +395,12 @@ export abstract class CckMenuBase {
         if (back) {
           scheduleFocus(trigger.ownerDocument, () => {
             if (!this.open()) focusReturn.restore();
+            focusReturn.destroy();
           });
+          return;
         }
       }
+      focusReturn.destroy();
     };
   }
 

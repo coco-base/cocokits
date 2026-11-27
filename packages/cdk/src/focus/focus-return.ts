@@ -39,7 +39,13 @@ export interface FocusReturn {
    * It does nothing when the user already moved focus to another element outside the overlay, such as a button they clicked.
    */
   restore(): void;
-  /** Stops the return. After this, `restore()` does nothing. */
+  /**
+   * Stops the return. After this, `restore()` does nothing.
+   *
+   * @remarks
+   * The document keeps the return until `restore()` or `destroy()` runs. Call it when the overlay closes without
+   * returning focus.
+   */
   destroy(): void;
 }
 

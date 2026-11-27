@@ -230,6 +230,7 @@ export class CckDialogRoot extends CckDialogOptions {
     inject(DestroyRef).onDestroy(() => {
       this.presence.destroy();
       this.modalState.release();
+      this.openerReturn?.destroy();
     });
 
     // A declarative dialog follows the location while it is open; the service watches the dialogs it opens.

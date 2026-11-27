@@ -118,6 +118,7 @@ function DialogContentLayer({
         if (allowsAutoFocus('focus-close', handlers.current.onCloseAutoFocus)) {
           restoreFocusTo(doc, handlers.current.restoreFocus, focusReturn.current);
         }
+        focusReturn.current?.destroy();
         focusReturn.current = null;
       });
     };

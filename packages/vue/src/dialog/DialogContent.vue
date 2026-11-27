@@ -216,14 +216,17 @@ function flushFocusReturn(): void {
   pendingReturn = null;
   // A frame later, so the removal of the dialog and the blur of a press have settled.
   scheduleFocus(pending.doc, () => {
-    if (ctx.open.value) return;
-    const event = new Event('focusScope.autoFocusOnUnmount', { cancelable: true });
-    emit('closeAutoFocus', event);
-    if (event.defaultPrevented || leftOutside) return;
-    const restore = ctx.restoreFocus.value;
-    if (restore === undefined || restore === true) pending.focusReturn.restore();
-    else if (restore !== false) restoreTarget(restore, pending.doc)?.focus();
+    if (!ctx.open.value) returnFocus(pending);
+    pending.focusReturn.destroy();
   });
+}
+function returnFocus(pending: { readonly doc: Document; readonly focusReturn: FocusReturn }): void {
+  const event = new Event('focusScope.autoFocusOnUnmount', { cancelable: true });
+  emit('closeAutoFocus', event);
+  if (event.defaultPrevented || leftOutside) return;
+  const restore = ctx.restoreFocus.value;
+  if (restore === undefined || restore === true) pending.focusReturn.restore();
+  else if (restore !== false) restoreTarget(restore, pending.doc)?.focus();
 }
 
 const presence = createPresence({
@@ -251,6 +254,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   presence.destroy();
   releaseModal();
+  // A return that was never flushed: the dialog was removed while open or before its exit ended.
+  openerReturn?.destroy();
+  pendingReturn?.focusReturn.destroy();
 });
 
 /** Opens the native dialog the way the root asks: modal, else next to the page. */

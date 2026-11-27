@@ -204,4 +204,26 @@ describe('captureFocusReturn when an overlay opened another one', () => {
     dialogBack.restore();
     expect(document.activeElement).toBe(document.body);
   });
+
+  it('keeps a destroyed return out: it gets no stand-in and its content is not read again', () => {
+    const { byId } = mount(
+      '<button id="t">t</button><div id="menu"></div><div id="dialog"><button id="close">x</button></div>',
+    );
+    const menuBack = captureFocusReturn({ getTrigger: () => byId('t'), getContent: () => byId('menu') });
+    let reads = 0;
+    const dialogBack = captureFocusReturn({
+      getTrigger: () => null,
+      getContent: () => {
+        reads += 1;
+        return byId('dialog');
+      },
+      restoreTo: 'opener',
+    });
+    byId('close').focus();
+    dialogBack.destroy();
+    reads = 0;
+    menuBack.restore();
+    expect(reads).toBe(0);
+    expect(document.activeElement).toBe(byId('close'));
+  });
 });
