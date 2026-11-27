@@ -23,5 +23,7 @@ export { domOrderedList, sortByDomOrderOf } from './dom-order';
 export type { DomOrderedList } from './dom-order';
 export { afterReplay, listenFirst, listenLast } from './listen-last';
 export { CckOverlayLayer } from './overlay-layer';
+export { CCK_OVERLAY_HOST, CCK_OVERLAY_TRIGGER, createOverlayOutlet, injectOverlayHost } from './overlay-outlet';
+export type { OverlayOutlet } from './overlay-outlet';
 export { injectZoneBoundary } from './zone-boundary';
 export type { ZoneBoundary } from './zone-boundary';

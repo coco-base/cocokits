@@ -1,4 +1,3 @@
-import { CckMenu } from './menu';
 import { CckMenuCheckboxItem } from './menu-checkbox-item';
 import { CckMenuContent } from './menu-content';
 import { CckMenuGroup, CckMenuGroupLabel, CckMenuRadioGroup } from './menu-group';
@@ -10,9 +9,7 @@ import {
   CckMenuItemSupportingText,
   CckMenuItemTrailing,
 } from './menu-item-parts';
-import { CckMenuPortal } from './menu-portal';
 import { CckMenuRadioItem } from './menu-radio-item';
-import { CckMenuSub } from './menu-sub';
 import { CckMenuSubContent } from './menu-sub-content';
 import { CckMenuSubTrigger } from './menu-sub-trigger';
 import { CckMenuTrigger } from './menu-trigger';
@@ -32,7 +29,6 @@ export {
   CckMenuItemSupportingText,
   CckMenuItemTrailing,
 } from './menu-item-parts';
-export { CckMenuPortal } from './menu-portal';
 export { CckMenuRadioItem } from './menu-radio-item';
 export { CckMenuSub } from './menu-sub';
 export { CckMenuSubContent } from './menu-sub-content';
@@ -45,9 +41,7 @@ export { CckMenuTrigger } from './menu-trigger';
  * imports: [CckMenuImports]
  */
 export const CckMenuImports = [
-  CckMenu,
   CckMenuTrigger,
-  CckMenuPortal,
   CckMenuContent,
   CckMenuItem,
   CckMenuCheckboxItem,
@@ -60,7 +54,6 @@ export const CckMenuImports = [
   CckMenuItemShortcut,
   CckMenuGroup,
   CckMenuGroupLabel,
-  CckMenuSub,
   CckMenuSubTrigger,
   CckMenuSubContent,
 ] as const;

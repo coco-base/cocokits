@@ -2,7 +2,6 @@ import {
   DestroyRef,
   Directive,
   Renderer2,
-  afterNextRender,
   afterRenderEffect,
   computed,
   inject,
@@ -13,9 +12,8 @@ import {
 } from '@angular/core';
 import {
   CckDirection,
-  CckOverlayLayer,
-  CckPortal,
   IdGenerator,
+  createOverlayOutlet,
   domOrderedList,
   injectZoneBoundary,
   themeAttrs,
@@ -40,7 +38,7 @@ import {
   type MenuSubEvent,
   type MenuTransition,
 } from '@cocokits/machines/menu';
-import { createMenuGuard } from './menu-guard';
+import { insertMenuGuards } from './menu-guard';
 import type { MenuChangeDetails, MenuContentRegistration, MenuItemRegistration, MenuSubHandle } from './menu-types';
 
 export type {
@@ -74,8 +72,8 @@ export abstract class CckMenuBase {
   readonly _triggerId = signal<Signal<string | undefined> | null>(null);
   /** @internal */
   readonly _content = signal<MenuContentRegistration | null>(null);
-  /** @internal */
-  readonly _template = signal<TemplateRef<void> | null>(null);
+  /** The template of the content; the trigger gives its input. @internal */
+  _template: Signal<TemplateRef<unknown> | null> = signal(null);
   /** The mounted items in document order. @internal */
   readonly _items = domOrderedList<MenuItemRegistration>((item) => item.element);
   /** The submenus of this menu. @internal */
@@ -98,12 +96,16 @@ export abstract class CckMenuBase {
   private readonly typeahead = createTypeahead();
   /** The id of the menu; the ids of its trigger and content derive from it. @internal */
   readonly _id = inject(IdGenerator).getId(menuAnatomy.classes.root);
-  private readonly portal = inject(CckPortal);
+  /**
+   * The portal, the layer and the content injector. The menu owns them, so another overlay on the trigger keeps its
+   * own; the parts in the content find this menu and its layer.
+   */
+  private readonly outlet = createOverlayOutlet(CckMenuBase, this);
+  /** The portal of the content; the trigger gives it its view container. @internal */
+  readonly _portal = this.outlet.portal;
   private readonly direction = inject(CckDirection);
   private readonly renderer = inject(Renderer2);
   protected readonly zone = injectZoneBoundary();
-  private readonly layer = inject(CckOverlayLayer);
-  private readonly parentLayer = inject(CckOverlayLayer, { optional: true, skipSelf: true });
   private dismissLayer: DismissLayer | null = null;
   private readonly presence = createPresence({
     getElement: () => this._content()?.element ?? null,
@@ -155,16 +157,6 @@ export abstract class CckMenuBase {
       this.typeahead.reset();
     });
 
-    // The content renders only once there is a trigger to anchor it, so a missing trigger needs a message.
-    afterNextRender(() => {
-      if (typeof ngDevMode !== 'undefined' && !ngDevMode) return;
-      if (this._template() && !this._trigger()) {
-        console.warn(
-          'CocoKits: a MenuPortal has no MenuTrigger, so its content never opens. Add a cckMenuTrigger inside the same cckMenu.',
-        );
-      }
-    });
-
     // Opening mounts at once; closing waits for the exit animation (read after the closed state rendered).
     afterRenderEffect({
       write: () => {
@@ -179,8 +171,9 @@ export abstract class CckMenuBase {
       write: () => {
         const [mounted, template, trigger] = [this._mounted(), this._template(), this._trigger()];
         untracked(() => {
-          if (mounted && template && trigger) this.portal.attach(template, undefined, trigger);
-          else this.portal.detach();
+          if (mounted && template && trigger)
+            this._portal.attach(template, undefined, trigger, { injector: this.outlet.injector });
+          else this._portal.detach();
         });
       },
     });
@@ -366,20 +359,13 @@ export abstract class CckMenuBase {
    * @returns The cleanup.
    */
   private engage(trigger: HTMLElement, content: HTMLElement): () => void {
-    const host = content.parentElement;
-    const guards: readonly [HTMLElement, HTMLElement] | null = this.guarded
-      ? [createMenuGuard(this.renderer), createMenuGuard(this.renderer)]
-      : null;
-    if (host && guards) {
-      this.renderer.insertBefore(host, guards[0], content);
-      this.renderer.appendChild(host, guards[1]);
-    }
+    const inserted = this.guarded ? insertMenuGuards(this.renderer, content) : null;
     this.startDismissLayer();
-    const connected = guards
+    const connected = inserted
       ? connectFocusGuards({
           getContent: () => this._content()?.element ?? null,
           getTrigger: () => this._trigger(),
-          getGuards: () => guards,
+          getGuards: () => inserted.guards,
         })
       : null;
     const focusReturn = captureFocusReturn({
@@ -393,7 +379,7 @@ export abstract class CckMenuBase {
       cancelFocus();
       this.stopDismissLayer();
       connected?.destroy();
-      for (const guard of guards ?? []) this.renderer.removeChild(guard.parentNode, guard);
+      inserted?.remove();
       this.typeahead.reset();
       // A cleanup caused by closing returns focus; one caused by the menu being destroyed does not. It waits
       // a frame, so a press on empty space (which blurs to the body after the layer saw it) cannot undo it.
@@ -436,11 +422,11 @@ export abstract class CckMenuBase {
           });
         },
         dismissOn: this.dismissOn(),
-        getParent: () => this.parentLayer?.current ?? null,
+        getParent: () => this.outlet.parentLayer?.current ?? null,
       }),
     );
     this.dismissLayer = layer;
-    this.layer.current = layer;
+    this.outlet.layer.current = layer;
   }
 
   /** Removes the dismiss layer; safe to call when there is none. */
@@ -448,7 +434,7 @@ export abstract class CckMenuBase {
     const layer = this.dismissLayer;
     if (!layer) return;
     layer.destroy();
-    if (this.layer.current === layer) this.layer.current = null;
+    if (this.outlet.layer.current === layer) this.outlet.layer.current = null;
     this.dismissLayer = null;
   }
 

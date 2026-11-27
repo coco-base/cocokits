@@ -1,14 +1,17 @@
 import { memberOf } from '../api-docs-common/member';
 import { readType } from '../api-docs-common/read-type';
 import {
+  aroundOf,
   checkPartDoc,
   frameworkOnlyOf,
+  isShortForm,
   paragraphsOf,
   partDocFields,
   parseSlotTag,
   partsOf,
   sectionOf,
   tagsOf,
+  templateInputOf,
   templateOf,
 } from '../api-docs-common/tags';
 import type { ApiMemberJson, ApiPartJson, ApiSlotJson, ApiValueJson, TagEntry } from '../api-docs-common/types';
@@ -62,7 +65,7 @@ function angularMemberOf(
   problems: string[],
 ): ApiMemberJson | undefined {
   const type = typeOf(info, doc, expand);
-  return memberOf(
+  const member = memberOf(
     componentName,
     {
       name: info.publicName,
@@ -75,6 +78,7 @@ function angularMemberOf(
     owner,
     problems,
   );
+  return member && isShortForm(doc.jsdocTags) ? { ...member, shortForm: true } : member;
 }
 
 /** The slots of a class, from its `@cckSlot` tags. A malformed tag is added to `problems`. */
@@ -111,6 +115,27 @@ function anatomyPartOf(entry: DocDirective, ownerPart: string | undefined, probl
   return ownerPart ?? checkPartDoc(entry.name, entry.jsdocTags, entry.description, problems);
 }
 
+/** The `templateSelector` or `templateInput` a `@cckTemplate` tag gives a part. A malformed tag is added to `problems`. */
+function templateFieldsOf(
+  entry: DocDirective,
+  problems: string[],
+): Pick<ApiPartJson, 'templateSelector' | 'templateInput'> {
+  const selector = templateOf(entry.jsdocTags);
+  if (selector !== undefined) return { templateSelector: selector };
+  const input = templateInputOf(entry.jsdocTags);
+  if (input === null) {
+    problems.push(`${entry.name}: "@cckTemplate input" needs the shape "@cckTemplate input <part> <input>"`);
+  }
+  return input ? { templateInput: input } : {};
+}
+
+/** The `around` field a `@cckAround <part>` tag gives a part. A tag without one part is added to `problems`. */
+function aroundFieldOf(entry: DocDirective, problems: string[]): Pick<ApiPartJson, 'around'> {
+  const around = aroundOf(entry.jsdocTags);
+  if (around === '') problems.push(`${entry.name}: "@cckAround" needs the shape "@cckAround <part>"`);
+  return around ? { around } : {};
+}
+
 /**
  * `ApiPart` of a public directive or component. `members` are the public members of the class and of every class it
  * extends; `ownerPart` is the anatomy part of the base part a theme directive owns. Every problem is added to `problems` (a missing `@cckPart`, a missing TSDoc), so one run reports all.
@@ -131,7 +156,6 @@ export function partOf(
   if (section === null) {
     problems.push(`${entry.name}: "@cckSection" needs the shape "@cckSection <part> <slot> <input>"`);
   }
-  const template = templateOf(entry.jsdocTags);
   // The members of a part other than the root carry the part in their semantic id (`tabs.trigger.disabled`).
   const idScope = part === 'root' || part === '' ? componentName : `${componentName}.${part}`;
   const result: ApiPartJson = {
@@ -141,7 +165,8 @@ export function partOf(
     ...(noElement ? {} : { anatomyPart: part }),
     ...(renders.length > 0 ? { renders } : {}),
     ...(section ? { section } : {}),
-    ...(template === undefined ? {} : { templateSelector: template }),
+    ...templateFieldsOf(entry, problems),
+    ...aroundFieldOf(entry, problems),
     ...frameworkOnlyOf(entry.name, entry.jsdocTags, problems),
     description: paragraphsOf(entry.description)[0] ?? '',
     ...partDocFields(entry.description, entry.jsdocTags),

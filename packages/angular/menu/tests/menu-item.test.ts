@@ -9,16 +9,14 @@ import { item, trigger } from './queries';
 @Component({
   imports: [...CckMenuImports],
   template: `
-    <ng-container cckMenu [(open)]="open">
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content>
-          <cck-menu-item (triggered)="run('Edit', $event)">Edit</cck-menu-item>
-          <cck-menu-item [disabled]="true" (triggered)="run('Move', $event)">Move</cck-menu-item>
-          <cck-menu-item (click)="$event.preventDefault()" (triggered)="run('Vetoed', $event)">Vetoed</cck-menu-item>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu" [(open)]="open">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        <cck-menu-item (triggered)="run('Edit', $event)">Edit</cck-menu-item>
+        <cck-menu-item [disabled]="true" (triggered)="run('Move', $event)">Move</cck-menu-item>
+        <cck-menu-item (click)="$event.preventDefault()" (triggered)="run('Vetoed', $event)">Vetoed</cck-menu-item>
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Host {

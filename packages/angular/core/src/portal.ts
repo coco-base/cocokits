@@ -21,15 +21,20 @@ interface Attached {
   readonly destroy: () => void;
 }
 
-/** What `attachComponent` accepts. */
+/** What `attach` and `attachComponent` accept. */
 export interface AttachComponentOptions {
-  /** The injector of the component; defaults to the injector of the view container. */
+  /**
+   * The injector of the view or the component. For a template it is asked first and must have no parent: the
+   * parts in the template find its tokens, and every other token still resolves at the declaration. For a
+   * component it defaults to the injector of the view container.
+   */
   readonly injector?: Injector;
 }
 
 /**
  * Renders an `ng-template` or a component into the top-layer portal host of an overlay. List it in the `providers`
- * of the overlay root, so each overlay has its own. The embedded view is created from the template at its
+ * of the overlay root, or, when a trigger applies the root and another overlay can sit on the same element, take it
+ * from `createOverlayOutlet` in the root, so each overlay has its own. The embedded view is created from the template at its
  * declaration site, so DI and context follow the declaration. It is created in the view container given to
  * `useContainer`, so it is checked with the declaration's change-detection tree (it is not a root view of the application), and its
  * nodes are moved into the host. Call
@@ -83,11 +88,16 @@ export class CckPortal {
    * @param template - The overlay content, declared inside the overlay root.
    * @param context - The template context.
    * @param trigger - The trigger element; its ancestors give the container, the modes and the direction.
+   * @param options - The injector the parts in the template find first.
    */
-  attach<C>(template: TemplateRef<C>, context: C, trigger: Element): void {
+  attach<C>(template: TemplateRef<C>, context: C, trigger: Element, options: AttachComponentOptions = {}): void {
     if (this.attached?.source === template && this.attached.trigger === trigger) return;
     const { host, viewContainer } = this.prepare(trigger);
-    const view = viewContainer.createEmbeddedView(template, context);
+    const view = viewContainer.createEmbeddedView(
+      template,
+      context,
+      options.injector ? { injector: options.injector } : {},
+    );
     host.element.append(...(view.rootNodes as Node[]));
     this.attached = {
       source: template,

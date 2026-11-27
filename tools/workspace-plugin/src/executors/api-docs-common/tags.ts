@@ -100,6 +100,21 @@ export const paramRemarksOf = (tags: readonly TagEntry[], tag = 'param'): string
         ];
   });
 
+/**
+ * Whether the tags hold `@cckShortForm`: the member is read only when the root sits on an element of its own (the short
+ * form), so a host that applies the root through `hostDirectives` does not expose it.
+ */
+export const isShortForm = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'cckShortForm');
+
+/**
+ * The part a `@cckAround <part>` class tag names: the part must hold that part. Undefined without the tag, `''` for the
+ * tag without a part or with more than one word (the caller reports it).
+ */
+export function aroundOf(tags: readonly TagEntry[]): string | undefined {
+  const [text] = tagsOf(tags, 'cckAround');
+  return text === undefined || /^\S+$/.test(text) ? text : '';
+}
+
 /** Whether the tags hold `@internal`. */
 export const isInternal = (tags: readonly TagEntry[]): boolean => tags.some((tag) => tag.name === 'internal');
 
@@ -192,10 +207,25 @@ export function partsOf(tags: readonly TagEntry[]): string[] {
   return tagsOf(tags, 'cckPart').filter((part) => part !== '');
 }
 
-/** The `ng-template` selector a `@cckTemplate` tag names, or undefined. */
+/** The word that starts the reference form of `@cckTemplate` ({@link templateInputOf}). */
+const TEMPLATE_INPUT = /^input(?:\s|$)/;
+
+/** The `ng-template` selector a `@cckTemplate <selector>` tag names, or undefined (also for the reference form). */
 export function templateOf(tags: readonly TagEntry[]): string | undefined {
   const [selector] = tagsOf(tags, 'cckTemplate');
-  return selector === undefined || selector === '' ? undefined : selector;
+  return selector === undefined || selector === '' || TEMPLATE_INPUT.test(selector) ? undefined : selector;
+}
+
+/**
+ * The `@cckTemplate input <part> <input>` tag: the part is declared inside a plain `ng-template` that is given by
+ * reference to the input `<input>` of the part `<part>`. Undefined when the tag is absent or has the selector form; a
+ * malformed one is `null`.
+ */
+export function templateInputOf(tags: readonly TagEntry[]): { partName: string; inputName: string } | null | undefined {
+  const [text] = tagsOf(tags, 'cckTemplate');
+  if (text === undefined || !TEMPLATE_INPUT.test(text)) return undefined;
+  const [, part, input, ...rest] = text.split(/\s+/);
+  return part && input && rest.length === 0 ? { partName: part, inputName: input } : null;
 }
 
 /** The `@cckSection <part> <slot> <input>` tag, or undefined when it is absent; a malformed one is `null`. */

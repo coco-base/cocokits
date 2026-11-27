@@ -1,0 +1,48 @@
+import { Directive, TemplateRef, input, model } from '@angular/core';
+
+/**
+ * The root of a tip: on an element of its own in the short form, applied by its trigger in the rich form.
+ * @cckPart root
+ * @cckNoElement
+ */
+@Directive({ selector: '[tip]', exportAs: 'tip' })
+export class Tip {
+  /**
+   * The text of the short form.
+   * @cckShortForm
+   */
+  readonly message = input('', { alias: 'tip' });
+  /** Whether the tip is open. */
+  readonly open = model(false);
+  /** The wait before the tip opens, in milliseconds. */
+  readonly showDelay = input(0);
+}
+
+/**
+ * The element that opens the rich tip.
+ * @cckPart trigger
+ */
+@Directive({
+  selector: '[tipTriggerFor]',
+  hostDirectives: [{ directive: Tip, inputs: ['open', 'showDelay'], outputs: ['openChange'] }],
+})
+export class TipTrigger {
+  /** The template of the content. */
+  readonly tipTriggerFor = input.required<TemplateRef<unknown>>();
+}
+
+/**
+ * The element the tip is placed against.
+ * @cckPart anchor
+ * @cckAround trigger
+ */
+@Directive({ selector: '[tipAnchor]' })
+export class TipAnchor {}
+
+/**
+ * The content of the rich tip.
+ * @cckPart content
+ * @cckTemplate input trigger tipTriggerFor
+ */
+@Directive({ selector: 'tip-content' })
+export class TipContent {}

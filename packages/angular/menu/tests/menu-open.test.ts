@@ -10,17 +10,17 @@ import { item, trigger } from './queries';
   imports: [...CckMenuImports],
   template: `
     <button>Outside</button>
-    <ng-container
-      cckMenu
+    <button
+      [cckMenuTriggerFor]="menu"
       [(open)]="open"
       (opened)="log.push('opened:' + $event.reason)"
       (closed)="log.push('closed:' + $event.reason); details.push($event)"
     >
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-      </ng-template>
-    </ng-container>
+      Actions
+    </button>
+    <ng-template #menu>
+      <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+    </ng-template>
   `,
 })
 class Controlled {
@@ -32,12 +32,10 @@ class Controlled {
 @Component({
   imports: [...CckMenuImports],
   template: `
-    <ng-container cckMenu (opened)="log.push('opened:' + $event.reason)">
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu" (opened)="log.push('opened:' + $event.reason)">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+    </ng-template>
   `,
 })
 class Uncontrolled {
@@ -79,7 +77,7 @@ describe('Menu open state', () => {
 
   it('shows a menu that is open at the first render', async () => {
     await render(
-      `<ng-container cckMenu [open]="true"><button cckMenuTrigger>Actions</button><ng-template cckMenuPortal><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template></ng-container>`,
+      `<button [cckMenuTriggerFor]="menu" [open]="true">Actions</button><ng-template #menu><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
       {
         imports: [...CckMenuImports],
       },

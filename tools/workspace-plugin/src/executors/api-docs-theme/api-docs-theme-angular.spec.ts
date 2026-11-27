@@ -115,10 +115,10 @@ export class CckButtonTheme {
 }
 `;
 
-function extract(name: string, source: string): ApiDocJson[] {
+function extract(name: string, source: string, base: readonly FixturePart[] = BASE): ApiDocJson[] {
   const { project, tsConfig } = area.create(
     name,
-    { 'src/index.ts': source, ...baseDocFiles(BASE) },
+    { 'src/index.ts': source, ...baseDocFiles(base) },
     {
       compilerOptions: { experimentalDecorators: true, strict: true, types: [], noEmit: true, paths: {} },
       angularCompilerOptions: { strictTemplates: true },
@@ -208,6 +208,28 @@ describe('extractThemeApiDocs, Angular', () => {
     const parts = docOf(extract('button', SOURCE), 'button').parts;
     expect(parts).toHaveLength(1);
     expect(parts[0]).toMatchObject({ semanticId: 'button.root', selector: 'button[cckButton], a[cckButton]' });
+  });
+
+  it('gives a theme option on the trigger and the root to the root the trigger applies', () => {
+    const base: FixturePart[] = [
+      { id: 'dialog.root', selector: 'ng-template[cckDialog]', appliedBy: 'trigger' },
+      { id: 'dialog.trigger', selector: 'button[cckDialogTriggerFor]' },
+      { id: 'dialog.content', selector: 'dialog[cckDialogContent]' },
+      { id: 'tooltip.root', selector: '[cckTooltip]', appliedBy: 'trigger' },
+      { id: 'tooltip.trigger', selector: '[cckTooltipTriggerFor]' },
+    ];
+    // Only the Dialog and Tooltip directives: the base of this case has no other component.
+    const source = SOURCE.slice(0, SOURCE.indexOf('/**\n * The theme options of the Select root.'))
+      .replace("'[cckDialog]'", "'button[cckDialogTriggerFor], ng-template[cckDialog]'")
+      .replace("'[cckTooltip]'", "'[cckTooltip], [cckTooltipTriggerFor]'");
+    const docs = extract('applied', source, base);
+    expect(docOf(docs, 'dialog').parts.map((part) => [part.name, part.semanticId])).toEqual([
+      ['CckDialogContentTheme', 'dialog.content'],
+      ['CckDialogTheme', 'dialog.root'],
+    ]);
+    expect(docOf(docs, 'tooltip').parts.map((part) => [part.name, part.semanticId])).toEqual([
+      ['CckTooltipTheme', 'tooltip.root'],
+    ]);
   });
 
   it.each([

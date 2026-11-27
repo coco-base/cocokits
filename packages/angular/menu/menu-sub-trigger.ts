@@ -1,24 +1,36 @@
-import { DestroyRef, Directive, ElementRef, booleanAttribute, computed, inject, input } from '@angular/core';
-import { bindAttrs, themeAttrs } from '@cocokits/angular-core';
+import {
+  DestroyRef,
+  Directive,
+  ElementRef,
+  TemplateRef,
+  ViewContainerRef,
+  booleanAttribute,
+  computed,
+  forwardRef,
+  inject,
+  input,
+} from '@angular/core';
+import { CCK_OVERLAY_TRIGGER, bindAttrs, themeAttrs } from '@cocokits/angular-core';
 import { getMenuSubTriggerProps, menuAnatomy, type MenuEvent, type MenuItemEntry } from '@cocokits/machines/menu';
-import { injectCckMenuSub } from './menu-sub';
+import { CckMenuSub } from './menu-sub';
 
 /**
  * The item of a menu that opens a submenu. It has `role="menuitem"`, `aria-haspopup="menu"` and `aria-expanded`. Its content is yours: text, and an icon if you like.
  *
- * @remarks Put it first in a `cckMenuSub`. A disabled sub-trigger stays in the menu and can have focus, but it opens nothing.
+ * @remarks It applies the submenu: write its `[(open)]` on the sub-trigger. A disabled sub-trigger stays in the menu and can have focus, but it opens nothing.
  *
  * @example
- * <ng-container cckMenuSub>
- *   <cck-menu-sub-trigger>Share</cck-menu-sub-trigger>
- *   <ng-template cckMenuPortal>...</ng-template>
- * </ng-container>
+ * <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
+ * <ng-template #share>...</ng-template>
  * @cckPart subTrigger
  * @cckSlot default - The label of the item. When not set, the item is empty, so name it with `aria-label`.
  */
 @Directive({
   selector: 'cck-menu-sub-trigger',
   exportAs: 'cckMenuSubTrigger',
+  // The sub-trigger owns the element's id and data-state, so a tooltip on it leaves them alone.
+  providers: [{ provide: CCK_OVERLAY_TRIGGER, useExisting: forwardRef(() => CckMenuSubTrigger) }],
+  hostDirectives: [{ directive: CckMenuSub, inputs: ['open'], outputs: ['openChange'] }],
   host: {
     '[class]': 'props().class',
     '[id]': 'props().id',
@@ -32,6 +44,8 @@ import { injectCckMenuSub } from './menu-sub';
     '[attr.data-disabled]': 'props()["data-disabled"] ?? null',
     '[attr.data-highlighted]': 'props()["data-highlighted"] ?? null',
     '[attr.disabled]': 'null',
+    // The root input `open` written as a static attribute would also stay on the item.
+    '[attr.open]': 'null',
     '(click)': 'props().onClick($event)',
     '(pointermove)': 'props().onPointerMove($event)',
     '(focus)': 'props().onFocus($event)',
@@ -54,7 +68,17 @@ export class CckMenuSubTrigger {
    */
   readonly id = input<string | undefined>(undefined);
 
-  private readonly sub = injectCckMenuSub('SubTrigger');
+  /**
+   * The template of the submenu: an `ng-template` with the `cck-menu-sub-content` inside.
+   * @example
+   * <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
+   * <ng-template #share><cck-menu-sub-content><cck-menu-item>Email</cck-menu-item></cck-menu-sub-content></ng-template>
+   * @cckParity Only this framework has this member.
+   * @cckSemantic none
+   */
+  readonly cckMenuTriggerFor = input.required<TemplateRef<unknown>>();
+
+  private readonly sub = inject(CckMenuSub);
   private readonly parent = this.sub._parent;
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly registration = this.parent._addItem({
@@ -88,6 +112,9 @@ export class CckMenuSubTrigger {
     const sub = this.sub;
     sub._trigger.set(this.element);
     sub._triggerId.set(this.id);
+    sub._template = this.cckMenuTriggerFor;
+    // The sub-content is created next to the sub-trigger, so it is checked with the sub-trigger's view.
+    sub._portal.useContainer(inject(ViewContainerRef));
     inject(DestroyRef).onDestroy(() => {
       sub._triggerId.update((current) => (current === this.id ? null : current));
       sub._trigger.update((current) => (current === this.element ? null : current));
@@ -102,7 +129,13 @@ export class CckMenuSubTrigger {
 
   /** The submenu answers its own events; the parent menu answers the rest. */
   private send(event: MenuEvent): void {
-    if (event.type.startsWith('SUB.')) this.sub._send(event);
-    else this.parent._send(event);
+    if (!event.type.startsWith('SUB.')) {
+      this.parent._send(event);
+      return;
+    }
+    // The pointer on this sub-trigger closes the other submenus of the parent menu, as on any other item.
+    if (event.type === 'SUB.TRIGGER.POINTER_MOVE')
+      for (const sub of this.parent._subs()) if (sub !== this.sub) sub._pointerLeft(event.event);
+    this.sub._send(event);
   }
 }

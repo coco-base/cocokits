@@ -11,19 +11,19 @@ import { frame, item, trigger } from './queries';
   template: `
     <button>Outside</button>
     <p>Empty space</p>
-    <ng-container
-      cckMenu
+    <button
+      [cckMenuTriggerFor]="menu"
       [(open)]="open"
       [disableClose]="disableClose()"
       [closePredicate]="predicate"
       (opened)="log.push('opened:' + $event.reason)"
       (closed)="log.push('closed:' + $event.reason)"
     >
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-      </ng-template>
-    </ng-container>
+      Actions
+    </button>
+    <ng-template #menu>
+      <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+    </ng-template>
   `,
 })
 class Host {

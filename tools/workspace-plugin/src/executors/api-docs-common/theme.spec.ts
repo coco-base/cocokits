@@ -49,6 +49,34 @@ describe('ownersOfSelector (Decision 2)', () => {
     expect(owners(selector)).toEqual({ semanticIds: expected, problems: [] });
   });
 
+  describe('a part that applies the root through hostDirectives', () => {
+    /** Base parts of the trigger-plus-template overlays: the root is applied by the trigger (`appliedBy`). */
+    const APPLIED: BasePart[] = [
+      { ...part('dialog', 'root', 'ng-template[cckDialog]'), appliedBy: 'trigger' },
+      part('dialog', 'trigger', 'button[cckDialogTriggerFor]'),
+      { ...part('tooltip', 'root', '[cckTooltip]'), appliedBy: 'trigger' },
+      part('tooltip', 'trigger', '[cckTooltipTriggerFor]'),
+      { ...part('menu', 'root', ''), appliedBy: 'trigger' },
+      part('menu', 'trigger', 'button[cckMenuTriggerFor]'),
+      { ...part('menu', 'sub', ''), appliedBy: 'subTrigger' },
+      part('menu', 'subTrigger', 'cck-menu-sub-trigger'),
+    ];
+    const appliedOwners = (selector: string): { semanticIds: string[]; problems: string[] } => {
+      const problems: string[] = [];
+      const found = ownersOfSelector(selector, APPLIED, 'Theme', problems);
+      return { semanticIds: found.map((p) => p.semanticId), problems };
+    };
+
+    it.each([
+      ['the Dialog trigger and the template', 'button[cckDialogTriggerFor], ng-template[cckDialog]', ['dialog.root']],
+      ['the Tooltip short form and the rich trigger', '[cckTooltip], [cckTooltipTriggerFor]', ['tooltip.root']],
+      ['the trigger alone', 'button[cckMenuTriggerFor]', ['menu.root']],
+      ['a part that applies a part other than the root', 'cck-menu-sub-trigger', ['menu.subTrigger']],
+    ])('%s', (_name, selector, expected) => {
+      expect(appliedOwners(selector)).toEqual({ semanticIds: expected, problems: [] });
+    });
+  });
+
   it('reports an alternative that names no base part, with its name', () => {
     expect(owners('[cckDialog], [cckNothing]').problems).toEqual([
       'Theme: the selector "[cckNothing]" names no base part',

@@ -8,21 +8,17 @@ import { CckMenuImports } from '../index';
   selector: 'app-root',
   imports: [CckMenuImports],
   template: `
-    <ng-container cckMenu [open]="startOpen">
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content>
-          <cck-menu-item>Rename</cck-menu-item>
-          <cck-menu-item [disabled]="true">Move</cck-menu-item>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
-    <ng-container cckMenu>
-      <button cckMenuTrigger>More</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content aria-label="More"><cck-menu-item>Copy</cck-menu-item></cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu" [open]="startOpen">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        <cck-menu-item>Rename</cck-menu-item>
+        <cck-menu-item [disabled]="true">Move</cck-menu-item>
+      </cck-menu-content>
+    </ng-template>
+    <button [cckMenuTriggerFor]="more">More</button>
+    <ng-template #more>
+      <cck-menu-content aria-label="More"><cck-menu-item>Copy</cck-menu-item></cck-menu-content>
+    </ng-template>
   `,
 })
 export class Root {

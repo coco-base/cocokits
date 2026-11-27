@@ -13,17 +13,15 @@ const WITHOUT_REGION = { rules: { region: { enabled: false } } };
 const imports = [...CckMenuImports, ...CckDividerImports];
 
 const MENU = `
-  <ng-container cckMenu>
-    <button cckMenuTrigger [attr.aria-label]="label">Actions</button>
-    <ng-template cckMenuPortal>
-      <cck-menu-content>
-        <cck-menu-item>Rename</cck-menu-item>
-        <hr cckDivider />
-        <cck-menu-item [disabled]="true">Move</cck-menu-item>
-        <cck-menu-item>Delete</cck-menu-item>
-      </cck-menu-content>
-    </ng-template>
-  </ng-container>`;
+  <button [cckMenuTriggerFor]="menu" [attr.aria-label]="label">Actions</button>
+  <ng-template #menu>
+    <cck-menu-content>
+      <cck-menu-item>Rename</cck-menu-item>
+      <hr cckDivider />
+      <cck-menu-item [disabled]="true">Move</cck-menu-item>
+      <cck-menu-item>Delete</cck-menu-item>
+    </cck-menu-content>
+  </ng-template>`;
 
 describe('Menu accessibility', () => {
   beforeEach(stubOverlayApis);
@@ -44,10 +42,8 @@ describe('Menu accessibility', () => {
   it('names the menu by the trigger text, and an aria-label on the content wins', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckMenu>
-        <button cckMenuTrigger>Actions</button>
-        <ng-template cckMenuPortal><cck-menu-content aria-label="Row actions"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
-      </ng-container>`,
+      `<button [cckMenuTriggerFor]="menu">Actions</button>
+      <ng-template #menu><cck-menu-content aria-label="Row actions"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
       { imports },
     );
     await user.click(trigger());
@@ -58,10 +54,8 @@ describe('Menu accessibility', () => {
   it('names the menu by the id of an author id on the trigger', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckMenu>
-        <button cckMenuTrigger id="mine">Actions</button>
-        <ng-template cckMenuPortal><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
-      </ng-container>`,
+      `<button [cckMenuTriggerFor]="menu" id="mine">Actions</button>
+      <ng-template #menu><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
       { imports },
     );
     await user.click(trigger());
@@ -74,10 +68,8 @@ describe('Menu accessibility', () => {
     const user = userEvent.setup();
     await render(
       `<span id="label">Row menu</span>
-      <ng-container cckMenu>
-        <button cckMenuTrigger>Actions</button>
-        <ng-template cckMenuPortal><cck-menu-content aria-labelledby="label"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
-      </ng-container>`,
+      <button [cckMenuTriggerFor]="menu">Actions</button>
+      <ng-template #menu><cck-menu-content aria-labelledby="label"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
       { imports },
     );
     await user.click(trigger());
@@ -88,10 +80,8 @@ describe('Menu accessibility', () => {
   it('a bound aria-label names the menu and no aria-labelledby is rendered', async () => {
     const user = userEvent.setup();
     await render(
-      `<ng-container cckMenu>
-        <button cckMenuTrigger>Actions</button>
-        <ng-template cckMenuPortal><cck-menu-content [attr.aria-label]="name"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
-      </ng-container>`,
+      `<button [cckMenuTriggerFor]="menu">Actions</button>
+      <ng-template #menu><cck-menu-content [attr.aria-label]="name"><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
       { imports, componentProperties: { name: 'Bound name' } },
     );
     await user.click(trigger());
@@ -105,10 +95,8 @@ describe('Menu accessibility', () => {
     const user = userEvent.setup();
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     await render(
-      `<ng-container cckMenu>
-        <button cckMenuTrigger></button>
-        <ng-template cckMenuPortal><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>
-      </ng-container>`,
+      `<button [cckMenuTriggerFor]="menu"></button>
+      <ng-template #menu><cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
       { imports },
     );
     await user.click(screen.getByRole('button'));
@@ -117,14 +105,5 @@ describe('Menu accessibility', () => {
       String(message).includes('MenuContent has no accessible name'),
     );
     expect(warnings).toHaveLength(1);
-  });
-
-  it('warns in development when the portal has no trigger', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    await render(
-      `<ng-container cckMenu><ng-template cckMenuPortal><cck-menu-content aria-label="x">x</cck-menu-content></ng-template></ng-container>`,
-      { imports },
-    );
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('CocoKits: a MenuPortal has no MenuTrigger'));
   });
 });

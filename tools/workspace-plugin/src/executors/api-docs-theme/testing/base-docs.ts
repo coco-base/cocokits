@@ -2,6 +2,8 @@
 export interface FixturePart {
   readonly id: string;
   readonly selector?: string;
+  /** The anatomy part that applies this part as a host directive. */
+  readonly appliedBy?: string;
 }
 
 /**
@@ -24,6 +26,7 @@ export function baseDocFiles(parts: readonly FixturePart[]): Record<string, stri
           name: part.id,
           semanticId: part.id,
           ...(part.selector === undefined ? {} : { selector: part.selector }),
+          ...(part.appliedBy === undefined ? {} : { appliedBy: part.appliedBy }),
           description: 'x',
           props: [],
           events: [],

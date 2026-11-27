@@ -13,20 +13,18 @@ import { item, trigger } from './queries';
   imports: [...CckMenuImports, CckDir],
   template: `
     <div cckDir [dir]="dir()">
-      <ng-container cckMenu (closed)="log.push('closed:' + $event.reason)">
-        <button cckMenuTrigger>Actions</button>
-        <ng-template cckMenuPortal>
-          <cck-menu-content>
-            <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
-            <cck-menu-item (triggered)="log.push('Duplicate')">Duplicate</cck-menu-item>
-            <hr />
-            <cck-menu-item [disabled]="true" (triggered)="log.push('Move')">Move</cck-menu-item>
-            <cck-menu-item (triggered)="log.push('Delete')">Delete</cck-menu-item>
-            <cck-menu-item (triggered)="log.push('Éclair')">Éclair</cck-menu-item>
-            <cck-menu-item (triggered)="log.push('Dup')">Dup two</cck-menu-item>
-          </cck-menu-content>
-        </ng-template>
-      </ng-container>
+      <button [cckMenuTriggerFor]="menu" (closed)="log.push('closed:' + $event.reason)">Actions</button>
+      <ng-template #menu>
+        <cck-menu-content>
+          <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
+          <cck-menu-item (triggered)="log.push('Duplicate')">Duplicate</cck-menu-item>
+          <hr />
+          <cck-menu-item [disabled]="true" (triggered)="log.push('Move')">Move</cck-menu-item>
+          <cck-menu-item (triggered)="log.push('Delete')">Delete</cck-menu-item>
+          <cck-menu-item (triggered)="log.push('Éclair')">Éclair</cck-menu-item>
+          <cck-menu-item (triggered)="log.push('Dup')">Dup two</cck-menu-item>
+        </cck-menu-content>
+      </ng-template>
     </div>
     <button>After</button>
   `,
@@ -39,17 +37,15 @@ class Host {
 @Component({
   imports: [...CckMenuImports],
   template: `
-    <ng-container cckMenu>
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content>
-          @if (show()) {
-            <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
-          }
-          <cck-menu-item [disabled]="true">Move</cck-menu-item>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        @if (show()) {
+          <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
+        }
+        <cck-menu-item [disabled]="true">Move</cck-menu-item>
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Removable {

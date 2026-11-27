@@ -22,12 +22,10 @@ describe('Menu layers', () => {
         <button cckPopoverTrigger>Panel</button>
         <ng-template cckPopoverPortal>
           <cck-popover-content aria-label="Panel">
-            <ng-container cckMenu>
-              <button cckMenuTrigger>Actions</button>
-              <ng-template cckMenuPortal>
-                <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-              </ng-template>
-            </ng-container>
+            <button [cckMenuTriggerFor]="menu">Actions</button>
+            <ng-template #menu>
+              <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+            </ng-template>
           </cck-popover-content>
         </ng-template>
       </ng-container>`,
@@ -62,12 +60,10 @@ describe('Menu layers', () => {
         <ng-template cckPopoverPortal>
           <cck-popover-content aria-label="Panel">
             <p>Text</p>
-            <ng-container cckMenu>
-              <button cckMenuTrigger>Actions</button>
-              <ng-template cckMenuPortal>
-                <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-              </ng-template>
-            </ng-container>
+            <button [cckMenuTriggerFor]="menu">Actions</button>
+            <ng-template #menu>
+              <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+            </ng-template>
           </cck-popover-content>
         </ng-template>
       </ng-container>`,
@@ -91,14 +87,12 @@ describe('Menu layers', () => {
         <button cckDialogTrigger>Edit profile</button>
         <ng-template cckDialogPortal>
           <dialog cckDialogContent aria-label="Profile">
-            <ng-container cckMenu>
-              <button cckMenuTrigger>Actions</button>
-              <ng-template cckMenuPortal>
-                <cck-menu-content>
-                  <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
-                </cck-menu-content>
-              </ng-template>
-            </ng-container>
+            <button [cckMenuTriggerFor]="menu">Actions</button>
+            <ng-template #menu>
+              <cck-menu-content>
+                <cck-menu-item (triggered)="log.push('Edit')">Edit</cck-menu-item>
+              </cck-menu-content>
+            </ng-template>
             <button cckDialogClose>Cancel</button>
           </dialog>
         </ng-template>

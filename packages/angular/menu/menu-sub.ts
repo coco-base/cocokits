@@ -1,15 +1,4 @@
-import {
-  DestroyRef,
-  Directive,
-  effect,
-  forwardRef,
-  inject,
-  model,
-  signal,
-  untracked,
-  type Signal,
-} from '@angular/core';
-import { CckOverlayLayer, CckPortal } from '@cocokits/angular-core';
+import { DestroyRef, Directive, effect, inject, model, signal, untracked, type Signal } from '@angular/core';
 import type { OverlayPositionOptions } from '@cocokits/cdk/positioning';
 import {
   getMenuSubPlacement,
@@ -21,33 +10,27 @@ import {
 import { CckMenuBase, type MenuChangeDetails, type MenuContentRegistration, type MenuSubHandle } from './menu-base';
 
 /**
- * A submenu: an item of a menu that opens another menu. Put it on an `ng-container`; it makes no element. It holds the open state of the submenu and links the sub-trigger, the sub-content and the items.
+ * A submenu: an item of a menu that opens another menu. The sub-trigger applies it, so it makes no element: write `[(open)]` on the `cck-menu-sub-trigger`. It holds the open state of the submenu and links the sub-trigger, the sub-content and the items.
  *
- * Write the sub-trigger, then a `cckMenuPortal` template with the sub-content, inside the submenu. The sub-content opens at the bottom end corner of the sub-trigger, a gap away. When there is no room, it opens on the start side, and then above.
+ * Write the sub-content in an `ng-template` and give it to the sub-trigger by reference. The sub-content opens at the bottom end corner of the sub-trigger, a gap away. When there is no room, it opens on the start side, and then above.
  *
  * The submenu opens when the pointer rests on the sub-trigger. It also opens with Enter, Space, a click or the arrow key that points toward the content (Right Arrow, Left Arrow in right-to-left text). It closes when the pointer moves to another item of the parent menu. It also closes with Escape or the arrow key that points back. A press on an item of the submenu closes the whole menu.
  *
  * @example
  * <cck-menu-content>
  *   <cck-menu-item>Rename</cck-menu-item>
- *   <ng-container cckMenuSub>
- *     <cck-menu-sub-trigger>Share</cck-menu-sub-trigger>
- *     <ng-template cckMenuPortal>
- *       <cck-menu-sub-content>
- *         <cck-menu-item>Email</cck-menu-item>
- *       </cck-menu-sub-content>
- *     </ng-template>
- *   </ng-container>
+ *   <cck-menu-sub-trigger [cckMenuTriggerFor]="share">Share</cck-menu-sub-trigger>
+ *   <ng-template #share>
+ *     <cck-menu-sub-content>
+ *       <cck-menu-item>Email</cck-menu-item>
+ *     </cck-menu-sub-content>
+ *   </ng-template>
  * </cck-menu-content>
  * @cckPart sub
  * @cckNoElement
- * @cckSlot default - The `cck-menu-sub-trigger` and the `cckMenuPortal` template. When not set, there is nothing to open.
+ * @cckSlot default - The `ng-template` you give to `cckMenuTriggerFor` of the sub-trigger, with the `cck-menu-sub-content` inside. When not set, the build fails, because the input is required.
  */
-@Directive({
-  selector: '[cckMenuSub]',
-  exportAs: 'cckMenuSub',
-  providers: [CckPortal, CckOverlayLayer, { provide: CckMenuBase, useExisting: forwardRef(() => CckMenuSub) }],
-})
+@Directive()
 export class CckMenuSub extends CckMenuBase implements MenuSubHandle {
   /**
    * Whether the submenu is open. Use `[(open)]` to read and change it.
@@ -167,11 +150,4 @@ export class CckMenuSub extends CckMenuBase implements MenuSubHandle {
     clearTimeout(this.timer);
     this.timer = null;
   }
-}
-
-/** Finds the submenu above a sub-trigger. @internal */
-export function injectCckMenuSub(part: string): CckMenuSub {
-  const sub = inject(CckMenuSub, { optional: true });
-  if (!sub) throw new Error(`CocoKits: cckMenu${part} must be placed inside an element with cckMenuSub.`);
-  return sub;
 }

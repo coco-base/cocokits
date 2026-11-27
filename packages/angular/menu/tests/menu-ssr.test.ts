@@ -9,7 +9,7 @@ describe('Menu on the server', () => {
 
   it('renders the triggers, and an open menu renders no content and no aria-controls', async () => {
     const html = (await renderOnServer()).replace(/<!--[^>]*-->/g, '');
-    const triggers = [...html.matchAll(/<button\b[^>]*cckmenutrigger[^>]*>/gi)].map((match) => match[0]);
+    const triggers = [...html.matchAll(/<button\b[^>]*cck-menu__trigger[^>]*>/gi)].map((match) => match[0]);
     expect(triggers).toHaveLength(2);
     expect(triggers[0]).toContain('class="cck-menu__trigger"');
     expect(triggers[0]).toContain('aria-haspopup="menu"');

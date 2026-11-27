@@ -29,12 +29,10 @@ vi.mock('@cocokits/cdk/positioning', async (importOriginal) => {
   imports: [...CckMenuImports, CckDir],
   template: `
     <div cckDir [dir]="dir()">
-      <ng-container cckMenu [open]="true">
-        <button cckMenuTrigger>Actions</button>
-        <ng-template cckMenuPortal>
-          <cck-menu-content [side]="side()" [align]="align()"><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
-        </ng-template>
-      </ng-container>
+      <button [cckMenuTriggerFor]="menu" [open]="true">Actions</button>
+      <ng-template #menu>
+        <cck-menu-content [side]="side()" [align]="align()"><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+      </ng-template>
     </div>
   `,
 })
@@ -129,7 +127,7 @@ describe('Menu content sideOffset and alignOffset', () => {
     'passes $name to the positioning module and leaves no attribute',
     async ({ attributes, expected, absent }) => {
       await render(
-        `<ng-container cckMenu [open]="true"><button cckMenuTrigger>Actions</button><ng-template cckMenuPortal><cck-menu-content ${attributes}><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template></ng-container>`,
+        `<button [cckMenuTriggerFor]="menu" [open]="true">Actions</button><ng-template #menu><cck-menu-content ${attributes}><cck-menu-item>Edit</cck-menu-item></cck-menu-content></ng-template>`,
         { imports: [...CckMenuImports] },
       );
       const menu = await screen.findByRole('menu');

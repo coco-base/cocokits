@@ -11,15 +11,13 @@ import { providers } from './helpers';
 @Component({
   imports: [CckMenuImports, CckMenuTheme],
   template: `
-    <ng-container cckMenu>
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content [size]="size()">
-          <cck-menu-item>Rename</cck-menu-item>
-          <cck-menu-item [disabled]="true">Move</cck-menu-item>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content [size]="size()">
+        <cck-menu-item>Rename</cck-menu-item>
+        <cck-menu-item [disabled]="true">Move</cck-menu-item>
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Host {
@@ -29,14 +27,12 @@ class Host {
 @Component({
   imports: [CckMenuImports, CckMenuTheme],
   template: `
-    <ng-container cckMenu>
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content size="sm"
-          ><cck-menu-item>{{ label }}</cck-menu-item></cck-menu-content
-        >
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content size="sm"
+        ><cck-menu-item>{{ label }}</cck-menu-item></cck-menu-content
+      >
+    </ng-template>
   `,
 })
 class Fixed {
@@ -117,27 +113,23 @@ describe('theme directive on the menu content', () => {
 @Component({
   imports: [CckMenuImports, CckMenuTheme, CckMenuItemTheme],
   template: `
-    <ng-container cckMenu>
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content size="lg">
-          <cck-menu-item [color]="color()">Rename</cck-menu-item>
-          <cck-menu-checkbox-item [color]="color()">Hidden</cck-menu-checkbox-item>
-          <cck-menu-radio-group>
-            <cck-menu-radio-item value="a" [color]="color()">A</cck-menu-radio-item>
-          </cck-menu-radio-group>
-          <ng-container cckMenuSub>
-            <cck-menu-sub-trigger [color]="color()">Share</cck-menu-sub-trigger>
-            <ng-template cckMenuPortal>
-              <cck-menu-sub-content>
-                <cck-menu-item>Email</cck-menu-item>
-              </cck-menu-sub-content>
-            </ng-template>
-          </ng-container>
-          <cck-menu-item color="danger">Static</cck-menu-item>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content size="lg">
+        <cck-menu-item [color]="color()">Rename</cck-menu-item>
+        <cck-menu-checkbox-item [color]="color()">Hidden</cck-menu-checkbox-item>
+        <cck-menu-radio-group>
+          <cck-menu-radio-item value="a" [color]="color()">A</cck-menu-radio-item>
+        </cck-menu-radio-group>
+        <cck-menu-sub-trigger [cckMenuTriggerFor]="sub" [color]="color()">Share</cck-menu-sub-trigger>
+        <ng-template #sub>
+          <cck-menu-sub-content>
+            <cck-menu-item>Email</cck-menu-item>
+          </cck-menu-sub-content>
+        </ng-template>
+        <cck-menu-item color="danger">Static</cck-menu-item>
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Items {
@@ -219,15 +211,13 @@ describe('theme directive on the menu items: color', () => {
 @Component({
   imports: [CckMenuImports, CckMenuTheme],
   template: `
-    <ng-container cckMenu>
-      <button cckMenuTrigger>Actions</button>
-      <ng-template cckMenuPortal>
-        <cck-menu-content>
-          <cck-menu-checkbox-item [checked]="grid"><cck-menu-item-indicator />Grid</cck-menu-checkbox-item>
-          <cck-menu-checkbox-item><cck-menu-item-indicator />Rulers</cck-menu-checkbox-item>
-        </cck-menu-content>
-      </ng-template>
-    </ng-container>
+    <button [cckMenuTriggerFor]="menu">Actions</button>
+    <ng-template #menu>
+      <cck-menu-content>
+        <cck-menu-checkbox-item [checked]="grid"><cck-menu-item-indicator />Grid</cck-menu-checkbox-item>
+        <cck-menu-checkbox-item><cck-menu-item-indicator />Rulers</cck-menu-checkbox-item>
+      </cck-menu-content>
+    </ng-template>
   `,
 })
 class Indicators {
