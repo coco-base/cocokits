@@ -71,10 +71,13 @@ const toDelay = (value: unknown): number | undefined => (value == null ? undefin
  *   </cck-tooltip-content>
  * </ng-template>
  * @example
- * <cck-tooltip-content>
- *   <cck-tooltip-title>Copy link</cck-tooltip-title>
- *   <cck-tooltip-description>Copies the address to the clipboard.</cck-tooltip-description>
- * </cck-tooltip-content>
+ * <button type="button" [cckTooltipTriggerFor]="copyLink">Copy</button>
+ * <ng-template #copyLink>
+ *   <cck-tooltip-content>
+ *     <cck-tooltip-title>Copy link</cck-tooltip-title>
+ *     <cck-tooltip-description>Copies the address to the clipboard.</cck-tooltip-description>
+ *   </cck-tooltip-content>
+ * </ng-template>
  * @cckPart root
  * @cckNoElement
  * @cckSlot default - The `ng-template` you give to `cckTooltipTriggerFor` in the rich form, with a `cck-tooltip-content` inside. When not set, the tooltip shows the text of `cckTooltip`.

@@ -110,7 +110,9 @@ export class CckDialogRoot extends CckDialogOptions {
    * @remarks It never emits when the parent changes `open`.
    * @example
    * <button type="button" [cckDialogTriggerFor]="edit" (opened)="onOpen($event)">Edit</button>
-   * <ng-template #edit><dialog cckDialogContent aria-label="Edit">…</dialog></ng-template>
+   * <ng-template #edit>
+   *   <dialog cckDialogContent aria-label="Edit"><button cckDialogClose type="button">Close</button></dialog>
+   * </ng-template>
    * <!-- In the class: onOpen(details: DialogChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none
@@ -122,7 +124,9 @@ export class CckDialogRoot extends CckDialogOptions {
    * @remarks The close button, a `<form method="dialog">`, Escape and a press on the backdrop close it. It never emits when the parent changes `open`.
    * @example
    * <button type="button" [cckDialogTriggerFor]="edit" (closed)="onClose($event)">Edit</button>
-   * <ng-template #edit><dialog cckDialogContent aria-label="Edit">…</dialog></ng-template>
+   * <ng-template #edit>
+   *   <dialog cckDialogContent aria-label="Edit"><button cckDialogClose type="button">Close</button></dialog>
+   * </ng-template>
    * <!-- In the class: onClose(details: DialogChangeDetails) { console.log(details.reason); } -->
    * @cckParity Only this framework has this member.
    * @cckSemantic none

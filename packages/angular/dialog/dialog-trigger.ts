@@ -20,7 +20,10 @@ import { CckDialogRoot } from './dialog-root';
  * @example
  * <button type="button" [cckDialogTriggerFor]="deleteProject">Delete project</button>
  * <ng-template #deleteProject>
- *   <dialog cckDialogContent><h2 cckDialogTitle>Delete project</h2></dialog>
+ *   <dialog cckDialogContent>
+ *     <h2 cckDialogTitle>Delete project</h2>
+ *     <button cckDialogClose type="button">Cancel</button>
+ *   </dialog>
  * </ng-template>
  * @cckPart trigger
  * @cckSlot default - The label of the button. When not set, the button is empty, so name it with `aria-label`.
@@ -86,7 +89,9 @@ export class CckDialogTrigger {
    * The template of the dialog: an `ng-template` with the `<dialog cckDialogContent>` inside.
    * @example
    * <button type="button" [cckDialogTriggerFor]="deleteProject">Delete project</button>
-   * <ng-template #deleteProject><dialog cckDialogContent aria-label="Delete project">Text</dialog></ng-template>
+   * <ng-template #deleteProject>
+   *   <dialog cckDialogContent aria-label="Delete project"><button cckDialogClose type="button">Cancel</button></dialog>
+   * </ng-template>
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */

@@ -62,7 +62,9 @@ export class CckPopoverTrigger {
    * The template of the popover: an `ng-template` with the `cck-popover-content` inside.
    * @example
    * <button type="button" [cckPopoverTriggerFor]="share">Share</button>
-   * <ng-template #share><cck-popover-content aria-label="Share this page">Text</cck-popover-content></ng-template>
+   * <ng-template #share>
+   *   <cck-popover-content aria-label="Share this page">Anyone with the link can view it.</cck-popover-content>
+   * </ng-template>
    * @cckParity Only this framework has this member.
    * @cckSemantic none
    */
