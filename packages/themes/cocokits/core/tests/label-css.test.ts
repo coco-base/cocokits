@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { declarationsOf, read, ref, structureTokenOf } from './css-test-helpers';
+import { declarationsInList, declarationsOf, read, ref, structureTokenOf } from './css-test-helpers';
 
 const css = read('dist', 'components', 'label.css');
 
@@ -9,8 +9,10 @@ describe('label children', () => {
     expect(structureTokenOf('.cck-label', 'label-required-marker-gap')).toBe(ref('spacing-2'));
   });
 
-  it('puts the gap before a trailing Badge', () => {
-    expect(declarationsOf(css, '.cck-label > .cck-badge')).toContain('margin-inline-start: var(--cck-label-gap)');
+  it.each(['badge', 'tag'])('puts the gap before a trailing %s', (block) => {
+    expect(declarationsInList(css, `.cck-label > .cck-${block}`)).toContain(
+      'margin-inline-start: var(--cck-label-gap)',
+    );
   });
 
   it('puts the gap after a leading SvgIcon', () => {

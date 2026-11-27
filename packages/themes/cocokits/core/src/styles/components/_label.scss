@@ -17,13 +17,14 @@
     }
   }
 
-  // An icon before the text and a Badge after it stand `gap` apart from the text. The label is a flex row, so a typed
-  // space next to them is trimmed.
+  // An icon before the text and a Badge or Tag after it stand `gap` apart from the text. The label is a flex row, so a
+  // typed space next to them is trimmed.
   .cck-label > .cck-svg-icon {
     margin-inline-end: var(--cck-label-gap);
   }
 
-  .cck-label > .cck-badge {
+  .cck-label > .cck-badge,
+  .cck-label > .cck-tag {
     margin-inline-start: var(--cck-label-gap);
   }
 

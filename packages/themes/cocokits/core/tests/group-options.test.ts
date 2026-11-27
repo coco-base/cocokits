@@ -93,9 +93,10 @@ const PLACEMENT: Readonly<Record<string, readonly string[] | undefined>> = {
     'inset-inline-end',
     'translate',
   ],
-  // A Label spaces an icon before its text and a Badge after it with its own gap.
+  // A Label spaces an icon before its text and a Badge or Tag after it with its own gap.
   'label svg-icon': ['margin-inline-end'],
   'label badge': ['margin-inline-start'],
+  'label tag': ['margin-inline-start'],
   // The Divider in a Menu runs from edge to edge of the list: its inline margin undoes the padding of the list.
   'menu divider': ['margin-block', 'margin-inline'],
   // A parent that renders its children passes its size to them through CSS, from its own size tokens.
