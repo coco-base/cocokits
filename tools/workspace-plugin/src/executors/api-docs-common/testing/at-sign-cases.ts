@@ -266,9 +266,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckPart', 'param', 'returns'],
   },
   {
-    name: 'react/leading/leading.tsx:47',
+    name: 'react/leading/leading.tsx:53',
     file: 'packages/react/src/leading/leading.tsx',
-    line: 47,
+    line: 53,
     comment:
       '/**\n * An icon or a short text before the box of a field, outside it.\n * It renders a `<div>`. Native `div` props pass through, and `ref` reaches the element.\n *\n * Pass it to the `leading` prop of a `FormField`, which puts it in its place. It also works outside a `FormField`.\n *\n * It adds no ARIA and links to nothing. Its text is not part of the name or the description of the control. An SVG\n * icon is hidden from screen readers by default; give your own `<svg>` `aria-hidden="true"`, and give a button its\n * own accessible name.\n *\n * @example\n * <FormField label={<Label>Search</Label>} leading={<Leading aria-hidden="true">@</Leading>}>\n *   <Input type="search" />\n * </FormField>\n * @cckPart root\n * @param props - The Leading props.\n * @returns The rendered div.\n */',
     example:
