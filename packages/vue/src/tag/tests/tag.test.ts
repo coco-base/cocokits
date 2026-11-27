@@ -61,15 +61,24 @@ describe('Tag (rendered contract)', () => {
       .getAttributeNames()
       .filter((name) => name.startsWith('data-'))
       .sort();
-    expect(dataNames).toEqual(['data-cck-color', 'data-dot', 'data-size', 'data-variant']);
+    expect(dataNames).toEqual(['data-cck-color', 'data-size', 'data-variant']);
     expect(root.getAttribute('data-variant')).toBe('soft');
     expect(root.getAttribute('data-cck-color')).toBe('neutral');
     expect(root.getAttribute('data-size')).toBe('md');
-    expect(root.getAttribute('data-dot')).toBe('false');
+    expect(root.hasAttribute('data-dot')).toBe(false);
     expect(tagMeta.dataAttrs.root).toEqual([]);
     expect(error).not.toHaveBeenCalled();
     expect(warn).not.toHaveBeenCalled();
     vi.restoreAllMocks();
+  });
+
+  it('renders a true dot as an empty data-dot', () => {
+    const config = defineThemeConfig({
+      name: 'test',
+      components: { tag: { dot: { attrName: 'dot', values: [true, false], default: true } } },
+    });
+    const { container } = mountView(() => h(ThemeProvider, { themeConfig: config }, () => h(Tag, null, () => 'Paid')));
+    expect(pick(container, '.cck-tag').getAttribute('data-dot')).toBe('');
   });
 });
 

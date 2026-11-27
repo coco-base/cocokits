@@ -27,7 +27,7 @@ describe('Tag on the server', () => {
     expect(html).toContain('data-variant="soft"');
     expect(html).toContain('data-cck-color="neutral"');
     expect(html).toContain('data-size="md"');
-    expect(html).toContain('data-dot="false"');
+    expect(html).not.toContain('data-dot');
     expect(html).not.toContain('style=');
   });
 });

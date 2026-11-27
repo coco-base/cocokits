@@ -8,7 +8,7 @@ export const testThemeConfig: ThemeConfig = defineThemeConfig({
       variant: { attrName: 'variant', values: ['soft', 'solid', 'outline'], default: 'soft' },
       color: { attrName: 'cck-color', values: ['neutral', 'brand'], default: 'neutral' },
       size: { attrName: 'size', values: ['md', 'sm', 'lg'], default: 'md' },
-      dot: { attrName: 'dot', values: ['false', 'true'], default: 'false' },
+      dot: { attrName: 'dot', values: [true, false], default: false },
     },
   },
 });
