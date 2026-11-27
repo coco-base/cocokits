@@ -31,9 +31,11 @@ export interface FocusReturnOptions {
 /** Returns focus to the trigger when an overlay closes. */
 export interface FocusReturn {
   /**
-   * Focuses the trigger or the opener. When it is gone, focus goes to the element that stands for it: the trigger of
-   * the overlay that had focus when this one opened, such as the menu whose item opened a dialog. When there is none,
-   * focus goes to the body of its document.
+   * Focuses the trigger or the opener. When it is gone, focus goes to the trigger of the overlay that had focus when
+   * this one opened.
+   *
+   * @remarks
+   * Such an overlay is the menu whose item opened a dialog. When there is none, focus goes to the body of its document.
    * It does nothing when the user already moved focus to another element outside the overlay, such as a button they clicked.
    */
   restore(): void;
