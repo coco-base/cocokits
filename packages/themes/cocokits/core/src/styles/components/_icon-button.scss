@@ -58,10 +58,8 @@
     // Popover or Dialog (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill.
     // A Tooltip opens nothing the button controls, so its open state alone keeps the resting look, also on a
     // Menu trigger that has a Tooltip too.
-    $overlay-triggers: '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
-
     &:hover:not([data-disabled], :disabled),
-    &[data-state='open']:is(#{$overlay-triggers}):not([data-variant='primary'], [data-disabled], :disabled) {
+    &[data-state='open']:is(#{state.$overlay-triggers}):not([data-variant='primary'], [data-disabled], :disabled) {
       background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-hover-mix));
     }
 

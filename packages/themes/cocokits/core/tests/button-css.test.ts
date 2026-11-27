@@ -1,8 +1,10 @@
+// @vitest-environment jsdom
 import { readdirSync, readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   declarationsOf,
+  OVERLAY_TRIGGERS,
   outsideReducedMotion,
   read as readThemeFile,
   reducedMotionBlocks,
@@ -196,7 +198,7 @@ describe('button design match', () => {
   const css = readThemeFile('dist', 'components', 'button.css');
   const own = css.slice(0, css.indexOf('@media (forced-colors'));
   const HOVER = '.cck-button:hover:not([data-disabled], :disabled)';
-  const OPEN = '.cck-button[data-state=open]:not([data-variant=primary], [data-disabled], :disabled)';
+  const OPEN = `.cck-button[data-state=open]:is(${OVERLAY_TRIGGERS}):not([data-variant=primary], [data-disabled], :disabled)`;
   const ACTIVE = '.cck-button:active:not([data-disabled], :disabled)';
   const sizes = [
     ['xs', 'control-xs', 'spacing-4', 'spacing-3', 'text-xs', 'size-14'],
@@ -274,6 +276,20 @@ describe('button design match', () => {
   it('rests the trigger of an open overlay on the hover fill, except the primary variant', () => {
     expect(css).toContain(`${HOVER}, ${OPEN} {`);
     expect(own.match(/data-state/g)).toHaveLength(1);
+  });
+
+  it('keeps the resting look of a Tooltip trigger while its tooltip is open: only an opened overlay rests on the hover fill', () => {
+    const button = (classes: string): HTMLElement => {
+      const element = document.createElement('button');
+      element.className = `cck-button ${classes}`;
+      element.setAttribute('data-state', 'open');
+      return element;
+    };
+    expect(button('cck-tooltip__trigger').matches(OPEN)).toBe(false);
+    for (const trigger of OVERLAY_TRIGGERS.split(', '))
+      expect(button(trigger.slice(1)).matches(OPEN), trigger).toBe(true);
+    // A Menu trigger that also has a Tooltip shows the open Menu.
+    expect(button('cck-tooltip__trigger cck-menu__trigger').matches(OPEN)).toBe(true);
   });
 
   it('puts the hover, open and pressed rules after the variants and before the disabled rule, with no forced-colors rule of their own', () => {

@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   declarationsOf,
+  OVERLAY_TRIGGERS,
   read,
   ref,
   selectorsOf,
@@ -17,8 +18,6 @@ const css = read('dist', 'components', 'icon-button.css');
 const own = css.slice(0, css.indexOf('.cck-svg-icon'));
 const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
 const ROOT = '.cck-icon-button';
-/** The trigger classes of the overlays whose open state the button shows. A Tooltip trigger is not one. */
-const OVERLAY_TRIGGERS = '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
 const HOVER = `${ROOT}:hover:not([data-disabled], :disabled)`;
 const OPEN = `${ROOT}[data-state=open]:is(${OVERLAY_TRIGGERS}):not([data-variant=primary], [data-disabled], :disabled)`;
 const ACTIVE = `${ROOT}:active:not([data-disabled], :disabled)`;

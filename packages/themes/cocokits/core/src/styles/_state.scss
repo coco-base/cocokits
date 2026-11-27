@@ -14,6 +14,10 @@
   @return color-mix(in srgb, #{$ink} #{$amount}, transparent);
 }
 
+/// The trigger classes of the overlays a button opens: an open one (`data-state` from the overlay) shows on the
+/// button. A Tooltip opens nothing the button controls, so its trigger class is not one of them.
+$overlay-triggers: '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
+
 /// How long a colour, border or shadow takes to follow a state change.
 $duration: 150ms;
 $easing: cubic-bezier(0.4, 0, 0.2, 1);
