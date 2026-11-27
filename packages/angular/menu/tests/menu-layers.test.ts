@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { render, screen, waitFor } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { CckDialogImports } from '@cocokits/angular/dialog';
@@ -121,5 +122,34 @@ describe('Menu layers', () => {
     await frame();
     expect(log).toEqual(['Edit']);
     expect(document.querySelector('dialog[open]')).toBe(dialog);
+  });
+
+  it('a trigger that removes itself as it opens leaves no layer behind: Escape still closes the Popover', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<button [cckPopoverTriggerFor]="popover">Panel</button>
+      <ng-template #popover>
+        <cck-popover-content aria-label="Panel">
+          @if (shown()) {
+            <button [cckMenuTriggerFor]="menu" (click)="shown.set(false)">Actions</button>
+          }
+          <ng-template #menu>
+            <cck-menu-content><cck-menu-item>Edit</cck-menu-item></cck-menu-content>
+          </ng-template>
+        </cck-popover-content>
+      </ng-template>`,
+      { imports, componentProperties: { shown: signal(true) } },
+    );
+    await user.click(screen.getByRole('button', { name: 'Panel' }));
+    await screen.findByRole('dialog', { name: 'Panel' });
+    await user.click(trigger());
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'Actions' })).toBeNull();
+    });
+    await frame();
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: 'Panel' })).toBeNull();
+    });
   });
 });

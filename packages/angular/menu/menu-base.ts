@@ -154,6 +154,8 @@ export abstract class CckMenuBase {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => {
+      // A trigger removed after it opened, before the content rendered, has only its layer to take down.
+      this.stopDismissLayer();
       this.presence.destroy();
       this.typeahead.reset();
     });

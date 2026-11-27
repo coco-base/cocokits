@@ -126,3 +126,31 @@ describe('Popover initial focus', () => {
     });
   });
 });
+
+describe('A Popover trigger that removes itself as it opens', () => {
+  it('leaves no layer behind: Escape still closes the outer Popover', async () => {
+    const user = userEvent.setup();
+    await render(
+      `<button [cckPopoverTriggerFor]="outer">Panel</button>
+      <ng-template #outer>
+        <cck-popover-content aria-label="Panel">
+          @if (shown()) {
+            <button [cckPopoverTriggerFor]="inner" (click)="shown.set(false)">More</button>
+          }
+          <ng-template #inner><cck-popover-content aria-label="More">Text</cck-popover-content></ng-template>
+        </cck-popover-content>
+      </ng-template>`,
+      { imports, componentProperties: { shown: signal(true) } },
+    );
+    await user.click(screen.getByRole('button', { name: 'Panel' }));
+    await screen.findByRole('dialog', { name: 'Panel' });
+    await user.click(screen.getByRole('button', { name: 'More' }));
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'More' })).toBeNull();
+    });
+    await user.keyboard('{Escape}');
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog', { name: 'Panel' })).toBeNull();
+    });
+  });
+});
