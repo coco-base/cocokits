@@ -198,9 +198,9 @@ export const SOURCE_ROWS: readonly PackageRow[] = [
     others: ['cckSemantic', 'cckParity'],
   },
   {
-    name: 'vue/select/select.types.ts:298',
+    name: 'vue/select/select.types.ts:307',
     file: 'packages/vue/src/select/select.types.ts',
-    line: 298,
+    line: 307,
     comment:
       '/**\n * Emits with the new value after the Select accepts a change. `v-model` listens to it. The value is one value or `null`, or a list with `multiple`.\n *\n * It carries the new value only, and no reason.\n *\n * @example\n * <SelectRoot :model-value="dish" @update:model-value="(value) => console.log(value)">\n *   ...\n * </SelectRoot>\n * @cckSemantic select.valueChange\n * @cckParity The `update:modelValue` event is the only change event; it carries no reason.\n */',
     example:
