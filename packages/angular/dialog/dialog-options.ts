@@ -25,7 +25,7 @@ export abstract class CckDialogOptions {
    * @remarks It runs for the close button, the trigger, a `<form method="dialog">`, Escape and a press on the backdrop, after `disableClose`. It does not run when the parent changes `open`. A refused `<form method="dialog">` shows the dialog again.
    * @example
    * <button type="button" [cckDialogTriggerFor]="edit" [closePredicate]="canClose">Edit</button>
-   * <ng-template #edit><dialog cckDialogContent aria-label="Edit">…</dialog></ng-template>
+   * <ng-template #edit><dialog cckDialogContent aria-label="Edit"><cck-dialog-body>Your changes are not saved.</cck-dialog-body></dialog></ng-template>
    * <!-- In the class: canClose = (details: DialogChangeDetails) => details.reason !== 'escape'; -->
    * @cckSemantic dialog.closePredicate
    */

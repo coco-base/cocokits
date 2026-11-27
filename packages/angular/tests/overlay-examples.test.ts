@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-/** The roots and the triggers of the overlays whose content is an `ng-template` that a trigger names. */
+/** The roots, the Dialog options and the triggers of the overlays whose content is an `ng-template` that a trigger names. */
 const FILES = [
   'menu/menu.ts',
   'menu/menu-trigger.ts',
@@ -13,6 +13,7 @@ const FILES = [
   'tooltip/tooltip-trigger.ts',
   'dialog/dialog-root.ts',
   'dialog/dialog-trigger.ts',
+  'dialog/dialog-options.ts',
 ];
 
 /** The content parts: each one is written in a template. */
@@ -42,6 +43,10 @@ describe.each(FILES)('the examples of %s', (file) => {
     expect(examples.length).toBeGreaterThan(0);
   });
 
+  it('leaves no placeholder for the content of an element', () => {
+    for (const example of examples) expect(example, example).not.toMatch(/\.\.\.|…/);
+  });
+
   it('writes each content in an ng-template that a trigger in the example names', () => {
     for (const example of examples.filter((text) => CONTENT.test(text) || text.includes('<ng-template'))) {
       const templates = [...example.matchAll(/<ng-template #(\w+)>/g)].map(([, name]) => name);
@@ -51,7 +56,6 @@ describe.each(FILES)('the examples of %s', (file) => {
       const firstTemplate = example.indexOf('<ng-template');
       expect(example.search(CONTENT), example).toBeGreaterThan(firstTemplate);
       expect(firstTemplate, example).toBeGreaterThan(-1);
-      expect(example, example).not.toContain('...');
     }
   });
 });

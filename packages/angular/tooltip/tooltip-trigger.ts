@@ -11,7 +11,7 @@ import { CckTooltip } from './tooltip';
  * The trigger is described by the title and the description of the content, also while the tooltip is closed. A disabled button cannot get the focus, so it never shows a tooltip. Put the trigger on a focusable element around it.
  *
  * @example
- * <button type="button" aria-label="Copy" [cckTooltipTriggerFor]="copy">…</button>
+ * <button type="button" aria-label="Copy" [cckTooltipTriggerFor]="copy"><cck-svg-icon iconName="copy" /></button>
  * <ng-template #copy>
  *   <cck-tooltip-content><cck-tooltip-title>Copy the link</cck-tooltip-title></cck-tooltip-content>
  * </ng-template>
