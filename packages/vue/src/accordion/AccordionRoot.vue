@@ -79,7 +79,7 @@ const type = computed(() => props.type ?? (Array.isArray(model.value) ? 'multipl
 const keys = computed<readonly string[]>(() => {
   const value = model.value;
   if (value === undefined || (emptied.value && !isPropWritten(instance, 'modelValue'))) return [];
-  const list = Array.isArray(value) ? value : [value];
+  const list = typeof value === 'string' ? [value] : value;
   return type.value === 'multiple' ? list : list.slice(0, 1);
 });
 

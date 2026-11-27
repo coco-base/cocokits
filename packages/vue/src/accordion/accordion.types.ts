@@ -33,7 +33,7 @@ export interface AccordionRootProps {
    * @defaultValue []
    * @cckParity Bound with `v-model`.
    */
-  readonly modelValue?: string | string[] | undefined;
+  readonly modelValue?: string | readonly string[] | undefined;
   /**
    * The modifiers of `v-model`, as in `v-model.trim`. The framework fills it. The component declares it so the
    * modifiers do not reach the DOM.
@@ -52,7 +52,7 @@ export interface AccordionRootProps {
    * @cckSemantic none
    * @cckParity The value the component starts with.
    */
-  readonly defaultValue?: string | string[] | undefined;
+  readonly defaultValue?: string | readonly string[] | undefined;
   /**
    * How many items can be open at the same time. When not set, the type follows the value: a list means
    * `multiple`, and anything else means `single`.

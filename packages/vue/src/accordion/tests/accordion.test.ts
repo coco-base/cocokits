@@ -2,8 +2,15 @@
 import userEvent from '@testing-library/user-event';
 import { cleanup, screen } from '@testing-library/vue';
 import { h, nextTick, ref } from 'vue';
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from '../index';
+import { afterEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
+import {
+  AccordionContent,
+  AccordionHeader,
+  AccordionItem,
+  AccordionRoot,
+  AccordionTrigger,
+  type AccordionRootProps,
+} from '../index';
 import { accordionView, mountView, sectionView } from './fixtures';
 
 afterEach(() => {
@@ -396,5 +403,12 @@ describe('Accordion animation', () => {
       expect(region.hidden).toBe(true);
     });
     expect(region.children).toHaveLength(0);
+  });
+});
+
+describe('Accordion value types', () => {
+  it('accepts a read-only list as the bound and the start value', () => {
+    expectTypeOf<readonly string[]>().toExtend<AccordionRootProps['modelValue']>();
+    expectTypeOf<readonly string[]>().toExtend<AccordionRootProps['defaultValue']>();
   });
 });
