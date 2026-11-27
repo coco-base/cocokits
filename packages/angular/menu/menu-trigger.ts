@@ -47,6 +47,10 @@ import { CckMenu } from './menu';
     '[attr.aria-expanded]': 'props()["aria-expanded"]',
     '[attr.aria-controls]': 'props()["aria-controls"] ?? null',
     '[attr.data-state]': 'props()["data-state"]',
+    // A root input written as a static attribute (`disableClose`) would also stay on the button.
+    '[attr.open]': 'null',
+    '[attr.disableclose]': 'null',
+    '[attr.closepredicate]': 'null',
   },
 })
 export class CckMenuTrigger {

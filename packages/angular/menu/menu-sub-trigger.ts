@@ -44,6 +44,8 @@ import { CckMenuSub } from './menu-sub';
     '[attr.data-disabled]': 'props()["data-disabled"] ?? null',
     '[attr.data-highlighted]': 'props()["data-highlighted"] ?? null',
     '[attr.disabled]': 'null',
+    // The root input `open` written as a static attribute would also stay on the item.
+    '[attr.open]': 'null',
     '(click)': 'props().onClick($event)',
     '(pointermove)': 'props().onPointerMove($event)',
     '(focus)': 'props().onFocus($event)',

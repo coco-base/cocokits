@@ -183,3 +183,28 @@ describe('Menu with an overlay in its content', () => {
     expect(screen.queryByRole('menu')).not.toBeNull();
   });
 });
+
+describe('Menu trigger root inputs', () => {
+  beforeEach(stubOverlayApis);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('leaves no root input written as a static attribute on the trigger or the sub trigger', async () => {
+    await render(
+      `<button [cckMenuTriggerFor]="menu" disableClose open="">Actions</button>
+      <ng-template #menu>
+        <cck-menu-content>
+          <cck-menu-sub-trigger [cckMenuTriggerFor]="sub" open="">Share</cck-menu-sub-trigger>
+          <ng-template #sub><cck-menu-sub-content><cck-menu-item>Email</cck-menu-item></cck-menu-sub-content></ng-template>
+        </cck-menu-content>
+      </ng-template>`,
+      { imports: [...CckMenuImports] },
+    );
+    expect(trigger().hasAttribute('disableclose')).toBe(false);
+    expect(trigger().hasAttribute('open')).toBe(false);
+    await userEvent.setup().click(trigger());
+    const sub = await screen.findByRole('menuitem', { name: 'Share' });
+    expect(sub.hasAttribute('open')).toBe(false);
+  });
+});
