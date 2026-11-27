@@ -54,11 +54,14 @@
       box-shadow: var(--cck-icon-button-shadow);
     }
 
-    // After the variant rules. Disabled is excluded, so it keeps its resting fill. The trigger of an open overlay
-    // (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill. A Tooltip trigger
-    // keeps its resting look: a tooltip only describes the button, it opens nothing the button controls.
+    // After the variant rules. Disabled is excluded, so it keeps its resting fill. The trigger of an open Menu,
+    // Popover or Dialog (`data-state` from the overlay) rests on the hover fill; `primary` keeps its solid fill.
+    // A Tooltip opens nothing the button controls, so its open state alone keeps the resting look, also on a
+    // Menu trigger that has a Tooltip too.
+    $overlay-triggers: '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
+
     &:hover:not([data-disabled], :disabled),
-    &[data-state='open']:not(.cck-tooltip__trigger, [data-variant='primary'], [data-disabled], :disabled) {
+    &[data-state='open']:is(#{$overlay-triggers}):not([data-variant='primary'], [data-disabled], :disabled) {
       background-color: state.layer(var(--_fill), var(--_ink), var(--cck-icon-button-hover-mix));
     }
 

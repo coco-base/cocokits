@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import {
   declarationsOf,
@@ -16,8 +17,10 @@ const css = read('dist', 'components', 'icon-button.css');
 const own = css.slice(0, css.indexOf('.cck-svg-icon'));
 const forced = css.slice(css.indexOf('@media (forced-colors: active)'));
 const ROOT = '.cck-icon-button';
+/** The trigger classes of the overlays whose open state the button shows. A Tooltip trigger is not one. */
+const OVERLAY_TRIGGERS = '.cck-menu__trigger, .cck-menu__sub-trigger, .cck-popover__trigger, .cck-dialog__trigger';
 const HOVER = `${ROOT}:hover:not([data-disabled], :disabled)`;
-const OPEN = `${ROOT}[data-state=open]:not(.cck-tooltip__trigger, [data-variant=primary], [data-disabled], :disabled)`;
+const OPEN = `${ROOT}[data-state=open]:is(${OVERLAY_TRIGGERS}):not([data-variant=primary], [data-disabled], :disabled)`;
 const ACTIVE = `${ROOT}:active:not([data-disabled], :disabled)`;
 const MODES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 const DENSITIES = ['normal', 'compact', 'comfortable'] as const;
@@ -104,7 +107,17 @@ describe('icon-button output', () => {
 
   it('keeps the resting look of a Tooltip trigger while its tooltip is open: only an opened overlay rests on the hover fill', () => {
     expect(declarationsOf(css, `${HOVER}, ${OPEN}`)).toContain('background-color:');
-    expect(own).not.toMatch(/\[data-state=open\](?!:not\(\.cck-tooltip__trigger,)/);
+    const button = (classes: string): HTMLElement => {
+      const element = document.createElement('button');
+      element.className = `cck-icon-button ${classes}`;
+      element.setAttribute('data-state', 'open');
+      return element;
+    };
+    expect(button('cck-tooltip__trigger').matches(OPEN)).toBe(false);
+    for (const trigger of OVERLAY_TRIGGERS.split(', '))
+      expect(button(trigger.slice(1)).matches(OPEN), trigger).toBe(true);
+    // A Menu trigger that also has a Tooltip shows the open Menu.
+    expect(button('cck-tooltip__trigger cck-menu__trigger').matches(OPEN)).toBe(true);
   });
 
   it('rings the focus with :focus-visible', () => {
